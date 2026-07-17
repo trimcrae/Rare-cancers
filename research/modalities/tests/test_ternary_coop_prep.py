@@ -53,12 +53,13 @@ def test_nrv04_endpoints_identified_calib_resolved_or_pending():
     nrv04 = a["nrv04_active_to_epimer__binary_vhl"]["morph"]
     assert nrv04["endpoint_a"].startswith("NRV04") and nrv04["endpoint_b"].startswith("NRV04")
     calib = a["calib_hi_to_lo__binary_vhl"]["morph"]
-    # The reviewer-approved PROTAC 2 -> cis-PROTAC 2 pair is frozen in ternary-calib-epimer-frozen.json; when it
-    # is present the calib endpoints resolve to real (local, non-fabricated) SMILES, else they stay pending.
+    # The reviewer-approved Wurz cmpd1 -> cmpd4 constitutional edge is frozen in wurz-calib-frozen.json; when it
+    # is present the calib endpoints resolve to real (local, non-fabricated) SMILES, else they stay pending. (The
+    # retired PROTAC 2 -> cis-PROTAC 2 epimer JSON is kept only as an endpoint-builder / null-map fixture.)
     if pp._load_calib_frozen() is not None:
-        assert calib["status"] == "resolved_calib_epimer"
+        assert calib["status"] == "resolved_calib_wurz"
         assert calib["smiles_a"] and calib["smiles_b"]
-        assert calib["smiles_a"] != calib["smiles_b"]           # active vs cis epimer (stereo differs)
+        assert calib["smiles_a"] != calib["smiles_b"]           # cmpd1 vs cmpd4 (pyridine->benzene; constitutional)
     else:
         assert calib["status"] == "pending_calib_pair_freeze"
         assert calib["smiles_a"] is None and calib["smiles_b"] is None

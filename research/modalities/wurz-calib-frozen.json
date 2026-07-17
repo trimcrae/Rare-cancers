@@ -1,0 +1,110 @@
+{
+  "_status": "FROZEN",
+  "_provenance": "compound 1 SMILES from RCSB 8G1Q; compound 4 = defined linker ring N->CH (pyridine->benzene) of compound 1; alpha values are same-paper SPR (reviewer-supplied).",
+  "reviewer_approval": "valB_mini per reviewer 2026-07-17 Option-1 conditional GO (Wurz 1->4 replaces the retired PROTAC 2->cis epimer edge).",
+  "citation_8g1q": {
+    "title": "Affinity and cooperativity modulate ternary complex formation to drive targeted protein degradation.",
+    "authors": [
+      "Wurz, R.P.",
+      "Rui, H.",
+      "Dellamaggiore, K.",
+      "Ghimire-Rijal, S.",
+      "Choi, K.",
+      "Smither, K.",
+      "Amegadzie, A.",
+      "Chen, N.",
+      "Li, X.",
+      "Banerjee, A.",
+      "Chen, Q.",
+      "Mohl, D.",
+      "Vaish, A."
+    ],
+    "doi": null,
+    "pmid": null,
+    "journal": "Nat Commun",
+    "year": 2023
+  },
+  "calib_hi": {
+    "role": "calib_hi",
+    "name": "Wurz_cmpd1",
+    "state": "productive_ternary_high_coop",
+    "pdb": "8G1Q",
+    "ccd": "YHB",
+    "smiles": "Cc1c(scn1)c2ccc(cc2)[C@H](C)NC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)c4ccnc(c4)N5CCN(CC5)c6cc(nnc6N)c7ccccc7O)O",
+    "mw": 818.986,
+    "alpha_SPR": 12.8,
+    "source": "RCSB 8G1Q / Wurz et al. (SPR)"
+  },
+  "calib_lo": {
+    "role": "calib_lo",
+    "name": "Wurz_cmpd4",
+    "state": "productive_ternary_low_coop",
+    "modeled_from": "8G1Q",
+    "smiles": "Cc1ncsc1-c1ccc([C@H](C)NC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)c2cccc(N3CCN(c4cc(-c5ccccc5O)nnc4N)CC3)c2)C(C)(C)C)cc1",
+    "alpha_SPR": 2.6,
+    "derivation": {
+      "transform": "linker pyridine N -> CH (pyridine -> benzene)",
+      "chosen_ring_N_idx": 35,
+      "ring_atom_idx": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        32
+      ],
+      "auto_selected_unique_pyridine": true,
+      "n_pyridine_rings_in_cmpd1": 1
+    },
+    "note": "DERIVED (no separate crystal); the 5-part smoke gate re-checks built-vs-frozen identity and that this is a genuine N->CH element edge, not identity/stereo-only."
+  },
+  "morph": "Wurz_cmpd1 -> Wurz_cmpd4 (pyridine linker -> benzene linker; ring N -> CH)",
+  "target_bromodomain": {
+    "uniprot": "P51531",
+    "domain": "bromodomain",
+    "note": "8G1Q resolves SMARCA4 BD; the SMARCA2 model is built by sequence substitution + relaxation."
+  },
+  "starting_model": {
+    "template_pdb": "8G1Q",
+    "is_smarca2_crystal": false,
+    "construct_note": "8G1Q is a 3.73 A SMARCA4-compound1-VHL structure. Build the SMARCA2 model by substituting the SMARCA4 BD sequence with the experimental SMARCA2 BD (P51531) and relaxing; the original investigators did the same (SMARCA2 crystallization failed).",
+    "require_two_relaxed_models": true,
+    "divergence_rule": "Keep >=2 independently relaxed starting models; if they yield materially different binding modes BEFORE production, STOP - the benchmark is not diagnostically clean.",
+    "limitation": "SMARCA4-derived SMARCA2 starting model (homology substitution + relaxation), 3.73 A parent resolution - recorded as an explicit valB_mini limitation."
+  },
+  "preregistered_target": {
+    "ddG_coop_exp_kcal_per_mol": 0.944,
+    "temperature_K": 298.15,
+    "formula": "ddG_coop_exp = -RT ln(alpha_4/alpha_1) = -RT ln(2.6/12.8)",
+    "alpha_1": 12.8,
+    "alpha_4": 2.6,
+    "assay": "alpha_SPR (same-paper SPR; NOT TR-FRET)"
+  },
+  "decision_rule_valB_mini": {
+    "PASS_requires_ALL": [
+      "correct POSITIVE sign",
+      "combined uncertainty EXCLUDES zero",
+      "no unresolved forward/reverse disagreement",
+      "no collapse / ligand escape / restraint-dominated result",
+      "broad consistency with +0.94 kcal/mol"
+    ],
+    "INDETERMINATE_not_a_pass": [
+      "noisy positive point estimate alone (separation < 1 kcal/mol)",
+      "CI includes zero",
+      "unresolved hysteresis"
+    ],
+    "retired_rule": "The former +-1.0 kcal/mol acceptance band is REMOVED - it could accept zero or the wrong physical result given the <1 kcal/mol experimental separation."
+  },
+  "validation": {
+    "ok": true,
+    "differ_ignoring_stereo": true,
+    "is_identity": false,
+    "delta_N": -1,
+    "delta_C": 1,
+    "heavy_1": 59,
+    "heavy_4": 59,
+    "single_N_to_C_swap": true,
+    "genuine_constitutional_edge": true,
+    "note": "a genuine ring N->CH edge is NOT the epimer null-map failure mode: differ_ignoring_stereo=True and one N is replaced by one C, so the hybrid topology carries a real element perturbation."
+  }
+}

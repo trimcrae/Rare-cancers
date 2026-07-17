@@ -209,12 +209,135 @@ def _chemical_systems(openfe, ligA, ligB, protein, env):
     return A, B
 
 
+def assert_constitutional_edge(smiles_a, smiles_b):
+    """NULL-MAP GUARD (reviewer 2026-07-17 Option-4). Forbid a morph whose two endpoints share the SAME 2D
+    constitution — i.e. they differ ONLY by stereochemistry, or are identical. Such an edge is a NULL alchemical
+    transformation under a complete single-topology map: the endpoints have identical force-field parameters and
+    every atom maps 1:1, so the hybrid Hamiltonian is unchanged and no real ddG can be recovered. This is the
+    VERIFIED PROTAC 2 -> cis-PROTAC 2 failure mode. The production RBFE/ternary morph MUST be a genuine
+    CONSTITUTIONAL change (e.g. Wurz cmpd1->cmpd4, a linker pyridine N->CH). Stereo-only transformations require a
+    bespoke partial/dummy map (future methods-development work), NEVER this production protocol. Raises SystemExit
+    if the edge is stereo-only/identity; returns a small dict of evidence otherwise. Pure RDKit — unit-testable."""
+    from rdkit import Chem
+    ma, mb = Chem.MolFromSmiles(smiles_a), Chem.MolFromSmiles(smiles_b)
+    if ma is None or mb is None:
+        raise SystemExit("  ABORT (null-map guard): an endpoint SMILES did not parse.")
+    flat_a = Chem.MolToSmiles(ma, isomericSmiles=False)
+    flat_b = Chem.MolToSmiles(mb, isomericSmiles=False)
+    if flat_a == flat_b:
+        raise SystemExit(
+            "  ABORT (null-map guard): endpoints A and B share the SAME 2D constitution (differ only by "
+            "stereochemistry, or identical). A complete-map single-topology RBFE of such an edge is a NULL "
+            "transformation (identical FF parameters, every atom mapped) and cannot recover a real ddG — the "
+            "verified PROTAC 2->cis-PROTAC 2 failure mode. valB requires a GENUINE constitutional edge "
+            "(e.g. Wurz cmpd1->cmpd4). Stereo-only edges need a bespoke partial/dummy map, not this protocol.")
+    return {"constitutional_edge": True, "flat_a": flat_a, "flat_b": flat_b}
+
+
+def _five_part_gate(Chem, leg, env, ligA, ligB, mapping, protein, endpoints, built, endpoints_ok):
+    """Record the reviewer's 5-part $0 pre-spend gate (2026-07-17 Option-1) into the smoke artifact so GPU
+    execution is authorized only when every item is satisfiable. Items 1/2/5 are fully in-leg; items 3/4 record
+    the per-leg evidence (atom-map + E3-construct signature; staging-model manifest) that the reducer/staging
+    verify for cross-leg equality. Returns {item_N: {...}, all_pass: bool}."""
+    import hashlib
+
+    a, b, sa, sb = endpoints
+    built_a, built_b, want_a, want_b = built
+    rmA, rmB = ligA.to_rdkit(), ligB.to_rdkit()
+    a2b = dict(mapping.componentA_to_componentB)
+
+    def _flat(s):
+        m = Chem.MolFromSmiles(s) if s else None
+        return Chem.MolToSmiles(m, isomericSmiles=False) if m is not None else None
+
+    # ---- item 1: chemical identity -------------------------------------------------------------------------
+    flat_a, flat_b = _flat(built_a), _flat(built_b)
+    not_graph_identical = bool(flat_a and flat_b and flat_a != flat_b)
+    item1 = {"built_A_matches_published": built_a == want_a, "built_B_matches_published": built_b == want_b,
+             "A_and_B_not_graph_identical_after_stereo_removal": not_graph_identical,
+             "pass": bool(endpoints_ok and not_graph_identical)}
+
+    # ---- item 2: non-null map (real element/parameter perturbation; no unintended stereocenter change) ------
+    elem_changes = sorted({"%s->%s" % (rmA.GetAtomWithIdx(ia).GetSymbol(), rmB.GetAtomWithIdx(ib).GetSymbol())
+                           for ia, ib in a2b.items()
+                           if rmA.GetAtomWithIdx(ia).GetSymbol() != rmB.GetAtomWithIdx(ib).GetSymbol()})
+    n_unmapped_a = rmA.GetNumAtoms() - len(a2b)
+    n_unmapped_b = rmB.GetNumAtoms() - len(set(a2b.values()))
+    has_real_perturbation = bool(elem_changes) or n_unmapped_a > 0 or n_unmapped_b > 0
+
+    def _nsc(m):
+        return len(Chem.FindMolChiralCenters(m, useLegacyImplementation=False, includeUnassigned=True))
+    sc_a, sc_b = _nsc(rmA), _nsc(rmB)
+    stereocenters_preserved = sc_a == sc_b            # a linker N->CH must NOT add/remove a stereocenter
+    n2c = any(set(ec.split("->")) == {"N", "C"} for ec in elem_changes)
+    item2 = {"element_changes_in_map": elem_changes, "linker_N_to_C_present": n2c,
+             "n_unmapped_A": n_unmapped_a, "n_unmapped_B": n_unmapped_b,
+             "has_real_element_or_dummy_perturbation": has_real_perturbation,
+             "n_stereocenters_A": sc_a, "n_stereocenters_B": sc_b,
+             "no_unintended_stereocenter_change": stereocenters_preserved,
+             "pass": bool(has_real_perturbation and stereocenters_preserved)}
+
+    # ---- item 3: environment consistency (same atom map + shared E3/PROTAC construct across binary & ternary)
+    map_sig = {"n_mapped": len(a2b), "n_unmapped_A": n_unmapped_a, "n_unmapped_B": n_unmapped_b,
+               "element_changes": elem_changes,
+               "pairs_hash": hashlib.sha256(repr(sorted(a2b.items())).encode()).hexdigest()[:16]}
+    e3 = [c for c in prep._e3_components(with_vbc=True)]
+    construct_sig = {"e3_components": e3, "environment": env,
+                     "has_target": protein is not None and env == "ternary"}
+    item3 = {"atom_map_signature": map_sig, "e3_construct_signature": construct_sig,
+             "note": "The reducer MUST verify the atom_map_signature (pairs_hash) and e3_construct_signature are "
+                     "IDENTICAL across the binary and ternary legs (reviewer item 3). Recorded per-leg here.",
+             "pass": True}   # in-leg record; cross-leg equality enforced at reduce (ternary_fep_reduce)
+
+    # ---- item 4: starting-model declaration (8G1Q -> SMARCA2 substitution + relax; >=2 models; divergence) --
+    manifest = None
+    for cand in (os.path.join(IN, LEG_ID, "staging_manifest.json"),
+                 os.path.join(IN, "staging_manifest.json")):
+        if os.path.exists(cand):
+            try:
+                manifest = json.load(open(cand))
+            except Exception:  # noqa: BLE001
+                manifest = None
+            break
+    if env == "ternary":
+        n_models = (manifest or {}).get("n_relaxed_models")
+        div_ok = (manifest or {}).get("divergence_ok")
+        item4 = {"template_pdb": (manifest or {}).get("template_pdb"),
+                 "is_smarca2_crystal": (manifest or {}).get("is_smarca2_crystal"),
+                 "n_relaxed_models": n_models, "divergence_ok": div_ok,
+                 "smarca4_to_smarca2_substituted": (manifest or {}).get("smarca4_to_smarca2_substituted"),
+                 "limitation_recorded": bool((manifest or {}).get("limitation")),
+                 "pass": bool(manifest and n_models and n_models >= 2 and div_ok
+                              and (manifest or {}).get("smarca4_to_smarca2_substituted"))}
+    else:
+        item4 = {"pass": True, "note": "binary leg — no SMARCA2 target model (item 4 applies to the ternary leg)."}
+
+    # ---- item 5: preregistration correction (alpha_SPR label; +0.94 target; SMARCA2-model limitation) -------
+    frozen = prep._load_calib_frozen() or {}
+    pt = frozen.get("preregistered_target", {})
+    sm = frozen.get("starting_model", {})
+    assay_is_spr = "SPR" in (pt.get("assay") or "").upper()
+    target_ok = abs((pt.get("ddG_coop_exp_kcal_per_mol") or 0) - 0.94) < 0.05
+    item5 = {"assay_label": pt.get("assay"), "assay_is_SPR_not_TRFRET": assay_is_spr,
+             "target_kcal": pt.get("ddG_coop_exp_kcal_per_mol"), "target_is_plus_0p94": target_ok,
+             "smarca2_model_limitation_recorded": bool(sm.get("limitation")),
+             "pass": bool(assay_is_spr and target_ok and sm.get("limitation"))}
+
+    items = {"item1_chemical_identity": item1, "item2_non_null_map": item2,
+             "item3_environment_consistency": item3, "item4_starting_model": item4,
+             "item5_preregistration": item5}
+    items["all_pass"] = all(v["pass"] for v in items.values())   # only item* dicts carry "pass"
+    return items
+
+
 def run_leg():
     os.makedirs(CKPT, exist_ok=True)
     import openfe
     from rdkit import Chem
     leg, env = leg_spec(LEG_ID)
     a, b, sa, sb = _morph_endpoints(leg)
+    # NULL-MAP GUARD before any build/spend: fail closed on a stereo-only/identity edge (the retired epimer mode).
+    assert_constitutional_edge(sa, sb)
     print("[tfep] LEG=%s env=%s morph=%s->%s dir=%s seed=%d" % (LEG_ID, env, a, b, DIRECTION, SEED), flush=True)
     ligA, ligB, protein = _build_components(openfe, Chem, leg, env, (a, b, sa, sb))
     mapping = rbfe._mapping(openfe, ligA, ligB)
@@ -236,16 +359,19 @@ def run_leg():
         proto = _protocol(openfe)
         A, B = _chemical_systems(openfe, ligA, ligB, protein, env)
         dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+        gate = _five_part_gate(Chem, leg, env, ligA, ligB, mapping, protein,
+                               (a, b, sa, sb), (built_a, built_b, want_a, want_b), endpoints_ok)
         json.dump({"smoke": "ok", "leg": LEG_ID, "environment": env, "n_mapped_atoms": n_mapped,
                    "has_protein": protein is not None,
                    "endpoint_a": a, "endpoint_b": b,
                    "built_smiles_a": built_a, "built_smiles_b": built_b,
                    "requested_smiles_a": want_a, "requested_smiles_b": want_b,
                    "endpoints_match_requested": endpoints_ok,
-                   "n_protocol_units": len(getattr(dag, "protocol_units", []) or [])},
+                   "n_protocol_units": len(getattr(dag, "protocol_units", []) or []),
+                   "gate": gate, "gate_all_pass": gate["all_pass"]},
                   open(os.path.join(CKPT, "smoke.json"), "w"), indent=2)
         print("  [tfep] SMOKE ok — env solves, %s assembly + mapping + hybrid topology build "
-              "(endpoints_match=%s)." % (env, endpoints_ok), flush=True)
+              "(endpoints_match=%s, gate_all_pass=%s)." % (env, endpoints_ok, gate["all_pass"]), flush=True)
         return
 
     proto = _protocol(openfe)

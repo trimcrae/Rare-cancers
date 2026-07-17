@@ -35,9 +35,12 @@ NR4A_LBD = _nv.TARGETS   # {'NR4A1':{acc,lo,hi,...}, 'NR4A2':..., 'NR4A3':...}
 # Target of the SMARCA2-VHL calibration series (bromodomain). Sequence/definition frozen at curation time with
 # the calib pair; recorded here as the target identity only.
 CALIB_TARGET = {"name": "SMARCA2", "acc": "P51531", "domain": "bromodomain",
-                "template_pdb": "6HAX",
-                "note": "SMARCA2 bromodomain; the exact construct = the SMARCA2 chain of the 6HAX ternary "
-                        "(PROTAC 2 / VHL-EloB-EloC-SMARCA2), which the staging extracts directly."}
+                "template_pdb": "8G1Q",
+                "is_template_smarca2_crystal": False,
+                "note": "SMARCA2 bromodomain. Template = Wurz 8G1Q, a 3.73 A SMARCA4-compound1-VHL ternary (NOT a "
+                        "SMARCA2 crystal); the SMARCA2 construct is built by substituting the SMARCA4 BD sequence "
+                        "with the experimental SMARCA2 BD (P51531) and relaxing >=2 independent models. Recorded "
+                        "as an explicit valB_mini limitation (reviewer 2026-07-17 Option-1)."}
 
 
 def _e3_components(with_vbc=True):
@@ -60,16 +63,22 @@ def _target_component(leg):
     if tgt == "SMARCA2":
         return {"role": "target", "name": "SMARCA2", "domain": CALIB_TARGET["domain"],
                 "acc": CALIB_TARGET["acc"], "template_pdb": CALIB_TARGET["template_pdb"],
-                "note": "SMARCA2 bromodomain from the 6HAX ternary crystal (staged directly)"}
+                "is_template_smarca2_crystal": CALIB_TARGET["is_template_smarca2_crystal"],
+                "note": "SMARCA2 bromodomain MODELED from the 8G1Q SMARCA4 BD (sequence substitution + relax; "
+                        "8G1Q is not a SMARCA2 crystal) — explicit valB_mini limitation."}
     return {"role": "target", "name": tgt, "note": "unresolved target"}
 
 
-CALIB_FROZEN_JSON = os.path.join(HERE, "ternary-calib-epimer-frozen.json")
+# valB_mini calib edge = the reviewer-approved Wurz cmpd1 -> cmpd4 CONSTITUTIONAL edge (pyridine->benzene linker;
+# 8G1Q; ddG_coop_exp=+0.94 kcal/mol, alpha_SPR). The retired PROTAC 2->cis EPIMER file is kept ONLY as an
+# endpoint-builder / null-map regression fixture (reviewer 2026-07-17 Option-1), never as the active calib edge.
+CALIB_FROZEN_JSON = os.path.join(HERE, "wurz-calib-frozen.json")
+CALIB_FROZEN_EPIMER_RETIRED = os.path.join(HERE, "ternary-calib-epimer-frozen.json")
 
 
 def _load_calib_frozen(path=CALIB_FROZEN_JSON):
-    """The reviewer-approved frozen calib edge (PROTAC 2 -> cis-PROTAC 2, 6HAX). Returns None if absent (keeps
-    the harness importable before the freeze CI has run). SMILES are local (no network) — pure + testable."""
+    """The reviewer-approved frozen calib edge (Wurz cmpd1 -> cmpd4, 8G1Q). Returns None if absent (keeps the
+    harness importable before the freeze CI has run). SMILES are local (no network) — pure + testable."""
     if not os.path.exists(path):
         return None
     try:
@@ -100,12 +109,12 @@ def _morph_endpoints(leg, resolve_smiles=False):
                 status = "smiles_unresolved (network)"
         else:
             status = "nrv04_endpoints_available_lazy"
-    else:  # calibration hi/lo — resolve from the frozen reviewer-approved epimer pair (no fabrication)
+    else:  # calibration hi/lo — resolve from the frozen reviewer-approved Wurz cmpd1->cmpd4 edge (no fabrication)
         frozen = _load_calib_frozen()
         if frozen:
             by_role = {"calib_hi": frozen["calib_hi"]["smiles"], "calib_lo": frozen["calib_lo"]["smiles"]}
             smiles_a, smiles_b = by_role.get(a), by_role.get(b)
-            status = "resolved_calib_epimer" if (smiles_a and smiles_b) else "calib_role_unmatched"
+            status = "resolved_calib_wurz" if (smiles_a and smiles_b) else "calib_role_unmatched"
         else:
             status = "pending_calib_pair_freeze"
     return {"endpoint_a": a, "endpoint_b": b, "smiles_a": smiles_a, "smiles_b": smiles_b, "status": status}
