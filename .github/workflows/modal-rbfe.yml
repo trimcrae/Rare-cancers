@@ -19,6 +19,7 @@ on:
       mode:      { description: "tiny (free shakeout) | real (paid leg) | reduce | tail (S3 checkpoint census, no GPU)", default: "tiny", required: true }
       leg:       { description: "complex | solvent (mode=real)", default: "complex", required: false }
       n_windows: { description: "λ-windows over the A→B morph", default: "12", required: false }
+      gpu:       { description: "Modal GPU: L4 | A10G | A100 | A100-80GB | L40S | H100", default: "L4", required: false }
       git_ref:   { description: "repo ref the Modal job clones + runs", default: "claude/rung-2-parallel-7asnpk", required: false }
   push:
     branches: [claude/rung-2-parallel-7asnpk]
@@ -53,6 +54,7 @@ jobs:
           MODE: ${{ github.event.inputs.mode || 'tiny' }}
           LEG: ${{ github.event.inputs.leg || 'complex' }}
           NW: ${{ github.event.inputs.n_windows || '12' }}
+          MODAL_GPU: ${{ github.event.inputs.gpu || 'L4' }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::AWS creds missing — the RBFE checkpoint store is on S3."; exit 1
