@@ -24,6 +24,7 @@ on:
       - research/modalities/ternary_calib_search.py
       - research/modalities/ternary_calib_alpha_fetch.py
       - research/modalities/ternary_calib_epimer_freeze.py
+      - research/modalities/wurz_calib_freeze.py
 
 permissions:
   contents: write
@@ -52,6 +53,12 @@ jobs:
         if: always()
         working-directory: research/modalities
         run: python ternary_calib_epimer_freeze.py
+      - name: Freeze the reviewer-approved Wurz cmpd1->cmpd4 edge (8G1Q; diagnostic + freeze)
+        if: always()
+        working-directory: research/modalities
+        env:
+          WURZ_LINKER_N_IDX: ${{ vars.WURZ_LINKER_N_IDX }}   # unset on first pass => diagnostic-only enumeration
+        run: python wurz_calib_freeze.py || true             # exit 2 (INCOMPLETE, linker not yet chosen) is expected first pass
       - name: Search RCSB for a congeneric VHL-PROTAC cooperativity pair (slow; opt-in)
         if: ${{ github.event.inputs.run_search == 'true' }}
         working-directory: research/modalities
@@ -71,6 +78,8 @@ jobs:
           cp research/modalities/ternary-calib-congeneric-search.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/ternary-calib-alpha-evidence.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/ternary-calib-epimer-frozen.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/wurz-calib-frozen.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/wurz-calib-diagnostic.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           ls "$RUNNER_TEMP/res/" | grep -q json || { echo "no json produced"; exit 0; }
           git fetch origin modalities-cache || true
           git reset --hard
@@ -83,6 +92,6 @@ jobs:
           fi
           mkdir -p research/modalities
           cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
-          git add research/modalities/ternary-calib-pair-frozen.json research/modalities/ternary-calib-congeneric-search.json research/modalities/ternary-calib-alpha-evidence.json research/modalities/ternary-calib-epimer-frozen.json 2>/dev/null || true
+          git add research/modalities/ternary-calib-pair-frozen.json research/modalities/ternary-calib-congeneric-search.json research/modalities/ternary-calib-alpha-evidence.json research/modalities/ternary-calib-epimer-frozen.json research/modalities/wurz-calib-frozen.json research/modalities/wurz-calib-diagnostic.json 2>/dev/null || true
           git commit -m "Ternary calib: freeze panel_sweep + congeneric VHL-PROTAC search (RCSB+RDKit) [skip ci]" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
