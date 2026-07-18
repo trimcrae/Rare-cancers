@@ -98,6 +98,19 @@ jobs:
           fi
           echo "=== smoke.json (endpoint-verification: built vs requested SMILES) ==="
           gcloud storage cat "$RESULTS/smoke_${LEG_ID}.json" 2>/dev/null || echo "(no smoke.json for $LEG_ID)"
+          echo "=== post-mortem logs (a self-deleted VM uploads /tmp/tfep_run.log here on NORESULT) ==="
+          PM=$(gcloud storage ls "gs://$BUCKET/valB-6hax/postmortem/" 2>/dev/null || true)
+          if [ -n "$PM" ]; then
+            printf '%s\n' "$PM" | tail -6
+            NEWEST=$(printf '%s\n' "$PM" | grep -aE "${LEG_ID}_seed${SEED}" | sort | tail -1)
+            [ -z "$NEWEST" ] && NEWEST=$(printf '%s\n' "$PM" | sort | tail -1)
+            if [ -n "$NEWEST" ]; then
+              echo "--- newest post-mortem: $NEWEST (last 60 lines, stripped) ---"
+              gcloud storage cat "$NEWEST" 2>/dev/null | sed -e "s/\x1b\[[0-9;]*m//g" | tail -60 || echo "(cat failed)"
+            fi
+          else
+            echo "  (no post-mortem logs — VM either still alive, spot-preempted (abrupt DELETE, no upload), or never provisioned)"
+          fi
           VM_IN="${{ github.event.inputs.leg_id }}"   # reuse leg_id slot to pass an explicit VM name for tail
           case "$VM_IN" in gcp-ternary-*) TVM="$VM_IN" ;; *) TVM=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null | head -1) ;; esac
           if [ -n "$TVM" ]; then
