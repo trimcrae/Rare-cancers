@@ -196,8 +196,21 @@ jobs:
             for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} (idempotent-skip) ###END###"; sleep 3; done
             exit 0
           fi
-          echo "--- stage $LEG_ID from $TEMPLATE_PDB ---"
-          ( cd \$WORK && \$PY ternary_pdb_stage.py --leg-id "$LEG_ID" --template-pdb "$TEMPLATE_PDB" --out \$IN 2>&1 | tail -25 )
+          # STAGE CACHE (2026-07-18): staging (RCSB fetch + SMARCA4->SMARCA2 model + assembly) is ~15 min of CPU and
+          # runs on every GPU VM before the engine — the last big un-skipped step in the preemption window. It is
+          # deterministic per (leg, template, seed) [seed picks the SMARCA2 model: model_idx = seed % n_models], so
+          # cache the staged tree to GCS and RESTORE it here. A CPU pre-bake (ternary-setup-prime-cpu.yml) or the
+          # first GPU run populates it; every later run downloads it in seconds. Bump v1 if staging code changes.
+          mkdir -p \$IN
+          STAGE_CACHE="gs://$BUCKET/valB-6hax/stagecache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v1.tar"
+          if gcloud storage cp "$STAGE_CACHE" /tmp/stage.tar 2>/dev/null && tar -C \$IN -xf /tmp/stage.tar 2>/dev/null; then
+            rm -f /tmp/stage.tar
+            echo "--- stage-cache HIT: restored \$(find \$IN -type f | wc -l) files (skipped ~15min RCSB+SMARCA2-model staging) ---"
+          else
+            echo "--- stage $LEG_ID from $TEMPLATE_PDB (stage-cache miss) ---"
+            ( cd \$WORK && \$PY ternary_pdb_stage.py --leg-id "$LEG_ID" --template-pdb "$TEMPLATE_PDB" --out \$IN 2>&1 | tail -25 )
+            ( cd \$IN && tar -cf - . | gcloud storage cp - "$STAGE_CACHE" 2>&1 | tail -1 ) || echo "(stage-cache upload failed; non-fatal)"
+          fi
           echo "staged tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null
           TMODE=smoke; [ "$MODE" = run ] && TMODE=run
           # SPOT-SAFE commit store (mode=run only): the MultiState sampling commits per-interval to this versioned

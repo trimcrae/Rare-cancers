@@ -68,14 +68,22 @@ jobs:
           echo "PY=$PY" >> "$GITHUB_ENV"
           echo "BUCKET=$BUCKET" >> "$GITHUB_ENV"
 
-      - name: Stage the leg (RCSB fetch + SMARCA4->SMARCA2 model + assembly) — CPU
+      - name: Stage the leg (RCSB fetch + SMARCA4->SMARCA2 model + assembly) — CPU + cache to GCS
         working-directory: research/modalities
+        env:
+          SEED: ${{ github.event.inputs.seed || '0' }}       # staging picks the SMARCA2 model by seed (model_idx = seed % n)
+          LEG_ID: ${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}
+          TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
         run: |
           set -eo pipefail
           mkdir -p /tmp/ternary_in
-          $PY ternary_pdb_stage.py --leg-id "${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}" \
-            --template-pdb "${{ github.event.inputs.template_pdb || '8G1Q' }}" --out /tmp/ternary_in 2>&1 | tail -25
+          $PY ternary_pdb_stage.py --leg-id "$LEG_ID" --template-pdb "$TEMPLATE_PDB" --out /tmp/ternary_in 2>&1 | tail -25
           find /tmp/ternary_in -type f -printf '  %s B  %p\n' 2>/dev/null | tail -10
+          # cache the staged tree so a GPU run restores it in seconds (skips the ~15min staging). Seed-keyed, same
+          # key the GPU startup (gpu-ternary-fep-gcp.yml) uses.
+          STAGE_CACHE="gs://$BUCKET/valB-6hax/stagecache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v1.tar"
+          ( cd /tmp/ternary_in && tar -cf - . | gcloud storage cp - "$STAGE_CACHE" 2>&1 | tail -1 ) \
+            && echo "stage-cache written: $STAGE_CACHE" || echo "::warning::stage-cache upload failed"
 
       - name: PRE-BAKE setup -> GCS cache (RBFE_PRIME_ONLY=1, exits before MD)
         working-directory: research/modalities
