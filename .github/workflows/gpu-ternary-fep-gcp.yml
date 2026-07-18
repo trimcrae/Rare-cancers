@@ -105,6 +105,25 @@ jobs:
             echo "=== serial tail: $TVM ($TZONE) ==="
             gcloud compute instances get-serial-port-output "$TVM" --zone="$TZONE" 2>/dev/null \
               | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet|SETUP|SOLVATED|particles|spot-safe|commit store|barrier|committed" | tail -70 || echo "(no serial yet)"
+            # LIVE WINDOW INTO THE RUNNING MD (SSH; non-destructive): the openmmtools MD logger writes per-iteration
+            # progress to /tmp/tfep_run.log on the VM, NOT the serial console — so a slow/stuck MD is invisible from
+            # serial. SSH in, dump nvidia-smi (is the GPU actually busy? rules out a CPU-fallback bug), the tail of
+            # the run log (where is it: minimizing? equilibrating? which iteration?), and any iteration/replica lines.
+            if [ "${{ github.event.inputs.mode }}" = "tail" ]; then
+              echo "=== SSH live window: nvidia-smi + /tmp/tfep_run.log (where is the MD?) ==="
+              timeout 90 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command '
+                echo "--- nvidia-smi (GPU util / mem / power = is MD actually on the GPU?) ---";
+                nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,memory.total,power.draw --format=csv 2>/dev/null || echo "(nvidia-smi failed)";
+                echo "--- compute processes on GPU ---";
+                nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv 2>/dev/null || true;
+                echo "--- last 50 lines /tmp/tfep_run.log ---";
+                tail -50 /tmp/tfep_run.log 2>/dev/null || echo "(no run log)";
+                echo "--- MD progress lines (Iteration / minimiz / equilibr / replica / Propagat) ---";
+                grep -aiE "iteration|minimiz|equilibr|replica|propagat|nan|Warning|Error|energy" /tmp/tfep_run.log 2>/dev/null | tail -25 || echo "(none yet)";
+                echo "--- run-log size + mtime (is it still growing?) ---";
+                ls -l --time-style=+%H:%M:%S /tmp/tfep_run.log 2>/dev/null || true;
+              ' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$" | tail -90 || echo "(ssh window failed — VM may block 22 or key not yet propagated)"
+            fi
             if [ "${{ github.event.inputs.detach }}" = 1 ]; then
               echo "deleting $TVM (requested via detach=1 on a tail call)"
               gcloud compute instances delete "$TVM" --zone="$TZONE" --quiet || true
