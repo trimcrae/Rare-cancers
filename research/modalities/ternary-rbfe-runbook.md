@@ -106,5 +106,10 @@ driver) → `rbfe_spot_driver.run_spot_safe` (MultiState warmup/production) → 
 | Warmup ckpt 20→8 + `[timing]` | Shipped. |
 | CPU pre-bake (`RBFE_PRIME_ONLY`) | **Validated** — on a CPU runner: env restored + imported, leg staged, CPU platform forced, GCS auth, cache restored. Dispatch once per `(leg, charge)`; bump `SETUP_CACHE_VERSION` to force a fresh CPU build. |
 
-### Next optimization (not yet done)
-- **Staging is now the slow un-cached step (~15 min):** the startup-script `ternary_pdb_stage.py` (RCSB fetch + 2 SMARCA2 relaxed models + assembly) runs on every GPU VM before the engine, and the setup-cache only skips the OpenFE setup unit downstream of it. Fold staging into the CPU pre-bake (stage → upload `complex.pdb`/`ligands.sdf` to GCS → GPU startup restores them) to remove it from GPU/spot exposure too.
+### Stage cache (done 2026-07-18)
+- **The ~15 min staging (RCSB + SMARCA2 model + assembly) is now cached too.** The staged tree is tarred to
+  `gs://…/valB-6hax/stagecache/<leg>__<template>__seed<seed>__v1.tar` (seed-keyed — `model_idx = seed % n_models`).
+  The GPU startup restores it in seconds; the CPU pre-bake (or the first GPU run) populates it. Bump the `v1`
+  suffix in **both** `gpu-ternary-fep-gcp.yml` and `ternary-setup-prime-cpu.yml` if staging code changes.
+- **Net effect:** with stage + setup both cached, a GPU VM does boot → restore stage (s) → restore setup (s) →
+  minimize + MD. The only un-checkpointed GPU window left is minimize + warmup-to-first-checkpoint (~minutes).
