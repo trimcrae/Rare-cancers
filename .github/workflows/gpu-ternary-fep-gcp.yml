@@ -90,7 +90,9 @@ jobs:
           echo "=== valB-6hax results in GCS ==="
           gcloud storage ls "$RESULTS/" 2>/dev/null || echo "(no results yet)"
           echo "=== per-interval commit census (liveness of the running leg $LEG_ID seed $SEED) ==="
-          CB="gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
+          # leg-level prefix so we find the commits regardless of the seed_dt<X>fs suffix (commit store is now
+          # keyed by timestep, and a tail call doesn't know the running leg's dt).
+          CB="gs://$BUCKET/valB-6hax/commits/$LEG_ID"
           CALL=$(gcloud storage ls --recursive "$CB/" 2>/dev/null || true)
           if [ -n "$CALL" ]; then
             for PH in warmup production; do
@@ -237,10 +239,14 @@ jobs:
           TMODE=smoke; [ "$MODE" = run ] && TMODE=run
           # SPOT-SAFE commit store (mode=run only): the MultiState sampling commits per-interval to this versioned
           # GCS prefix so a re-dispatch on a fresh VM RESUMES from the last committed iteration instead of from
-          # zero. Keyed by leg+seed so replicas/legs never collide. Smoke skips it (no MD to checkpoint).
+          # zero. Keyed by leg+seed+TIMESTEP: MD checkpoints are timestep-specific (OpenFE refuses to resume a
+          # checkpoint whose protocol timestep differs — "Sampler in checkpoint does not match Protocol settings"),
+          # so a dt change must use a FRESH prefix. This makes changing the timestep automatically start clean
+          # (no wipe needed — the runner's gpu-runner@ SA can't delete GCS anyway), the old-dt commits just sit
+          # unused. (The setup-cache is NOT dt-keyed: the built System is identical across timesteps.)
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
             echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
