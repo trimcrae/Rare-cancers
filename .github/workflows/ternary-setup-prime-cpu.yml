@@ -82,8 +82,14 @@ jobs:
           # cache the staged tree so a GPU run restores it in seconds (skips the ~15min staging). Seed-keyed, same
           # key the GPU startup (gpu-ternary-fep-gcp.yml) uses.
           STAGE_CACHE="gs://$BUCKET/valB-6hax/stagecache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v1.tar"
-          ( cd /tmp/ternary_in && tar -cf - . | gcloud storage cp - "$STAGE_CACHE" 2>&1 | tail -1 ) \
-            && echo "stage-cache written: $STAGE_CACHE" || echo "::warning::stage-cache upload failed"
+          # FILE-based upload + verify (not 'tar | gcloud cp -' stdin-stream, which broke with a partial-write when
+          # gcloud died on the old IAM denial). Now that gpu-runner@ has objectAdmin, this actually creates the object.
+          if ( cd /tmp/ternary_in && tar -cf /tmp/stage.tar . ) && gcloud storage cp /tmp/stage.tar "$STAGE_CACHE" && gcloud storage ls "$STAGE_CACHE" >/dev/null 2>&1; then
+            echo "stage-cache written + verified: $STAGE_CACHE"
+          else
+            echo "::warning::stage-cache upload/verify failed"
+          fi
+          rm -f /tmp/stage.tar
 
       - name: PRE-BAKE setup -> GCS cache (RBFE_PRIME_ONLY=1, exits before MD)
         working-directory: research/modalities
