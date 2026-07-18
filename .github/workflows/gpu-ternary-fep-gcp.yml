@@ -123,7 +123,7 @@ jobs:
             TZONE=$(gcloud compute instances list --filter="name=$TVM" --format="value(zone.basename())" 2>/dev/null | head -1)
             echo "=== serial tail: $TVM ($TZONE) ==="
             gcloud compute instances get-serial-port-output "$TVM" --zone="$TZONE" 2>/dev/null \
-              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet|SETUP|SOLVATED|particles|spot-safe|commit store|barrier|committed|clash-diag|nan-diag|minimize" | tail -80 || echo "(no serial yet)"
+              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet|SETUP|SOLVATED|particles|spot-safe|commit store|barrier|committed|clash-diag|nan-diag|minimize|timing" | tail -90 || echo "(no serial yet)"
             # LIVE WINDOW INTO THE RUNNING MD (SSH; non-destructive): the openmmtools MD logger writes per-iteration
             # progress to /tmp/tfep_run.log on the VM, NOT the serial console — so a slow/stuck MD is invisible from
             # serial. SSH in, dump nvidia-smi (is the GPU actually busy? rules out a CPU-fallback bug), the tail of

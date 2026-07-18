@@ -36,6 +36,7 @@ import json
 import os
 import shutil
 import tempfile
+import time
 import uuid
 from pathlib import Path
 
@@ -345,8 +346,16 @@ def run_to_target(sampler, reporter, target_iteration: int, checkpoint_interval:
     while _sampler_iteration(sampler) < target_iteration:
         cur = _sampler_iteration(sampler)
         nxt = min(((cur // checkpoint_interval) + 1) * checkpoint_interval, target_iteration)
+        _t0 = time.time()
         sampler.run(n_iterations=nxt - cur)
         now = _sampler_iteration(sampler)
+        # PER-ITERATION WALL TIME (the compute-feasibility number): this chunk advanced (now-cur) sampler
+        # iterations across all λ-windows on this GPU. Logged every chunk so a live SSH tail reads the real
+        # throughput directly, without waiting for a full run or inferring from checkpoint timestamps.
+        _dn = max(now - cur, 1)
+        _dt = time.time() - _t0
+        log("[timing] %d iters in %.0fs = %.1fs/iter (%.2f iters/min) at iteration %d/%d"
+            % (now - cur, _dt, _dt / _dn, 60.0 * _dn / _dt if _dt else 0.0, now, target_iteration))
         if now == cur:
             if getattr(sampler, "is_completed", False):
                 break
