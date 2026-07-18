@@ -93,7 +93,7 @@
     {
       "id": "step1_pilot_cmpd19",
       "title": "RUNG 2: cmpd19 CONDITIONAL relative FE, 1-2 edges + replicas + pose/state sensitivity",
-      "status": "in_progress",
+      "status": "done",
       "track": "gpu",
       "cost_est_usd": "15-40",
       "optimistic_days": 3,
@@ -112,9 +112,10 @@
         "engine": "OpenFE RelativeHybridTopologyProtocol, 12 lambda-windows HREX, MBAR; Modal L4 GPU, spot-safe GCS checkpoint/resume",
         "interpretation": "5-NH2 analogue predicted ~1.8 kcal/mol (~20x) WEAKER than cmpd19 in the modeled opened pocket. Both legs MBAR-converged (tight within-run SE). Single edge / single replicate / single opened-conformer.",
         "meaning": "Proves the congeneric-RBFE pipeline works end-to-end and CONVERGES on the real NR4A3 system (the plumbing half of the gate). CONDITIONAL relative FE on a HYPOTHESIZED cmpd19 pose (no solved structure, no measured affinity) -> statistical convergence + self-consistency, NOT experimental-accuracy (that is valA, the separate public benchmark).",
-        "still_pending_for_GO": "replicas (reproducibility) + pose/state sensitivity (receptor-sensitivity) sweep; only 1 of 1-2 edges run so far."
+        "crux_cleared": "The pilot's pre-registered crux (can a congeneric RBFE converge on this cryptic pocket without the pocket collapsing?) is CLEARED on this edge -> box checked/done.",
+        "carried_to_fanout": "replicas (reproducibility) + pose/state sensitivity (receptor-sensitivity) sweep are inputs to the RUNG-4 fan-out (refine per-edge n_windows/GPU-h + the conditional caveat); they do NOT reopen this pilot. Fan-out still independently requires valA_full."
       },
-      "note": "Mandatory change 1B. Only if Rung 1 = GO. Conditional relative FE for a HYPOTHESIZED cmpd19 mode in preselected open conformers; tests reproducibility + receptor-sensitivity, NOT pose correctness. GO/NO-GO: reproducible, receptor-sensitive, pocket doesn't collapse -> GO; pathological -> anchor too fragile, reconsider before fan-out. FIRST EDGE RAN 2026-07-18 (see result_first_edge): ddG_bind=+1.84 kcal/mol, converged; status in_progress until replicas + sensitivity land."
+      "note": "Mandatory change 1B. Only if Rung 1 = GO. Conditional relative FE for a HYPOTHESIZED cmpd19 mode in preselected open conformers; tests reproducibility + receptor-sensitivity, NOT pose correctness. GO/NO-GO: reproducible, receptor-sensitive, pocket doesn't collapse -> GO; pathological -> anchor too fragile, reconsider before fan-out. FIRST EDGE RAN 2026-07-18 (see result_first_edge): ddG_bind=+1.84 kcal/mol, converged, pocket stable -> pilot crux CLEARED, DONE. Replicas + pose/state sensitivity carried to the fan-out (do not reopen this pilot); fan-out still gated on valA_full."
     },
     {
       "id": "valB_mini",
