@@ -247,7 +247,7 @@ jobs:
           ZONES="us-central1-a us-central1-b us-central1-c us-central1-f"
           provision() {
             local round M Z
-            for round in $(seq 1 8); do
+            for round in $(seq 1 22); do   # ~55 min of capacity-probing per dispatch (us-central1 L4 spot can be tight midday) — wait it out, never switch region/on-demand
               for M in $MACHINES; do
                 for Z in $ZONES; do
                   if gcloud compute instances create "$VM" \
