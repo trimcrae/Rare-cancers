@@ -125,3 +125,34 @@ Wurz edge frozen (`wurz-calib-frozen.json`, RCSB 8G1Q, validated genuine N→CH)
 5-part `_five_part_gate` recorded in the smoke; `smarca2_model.py` (SMARCA4→SMARCA2 substitution + ≥2 relaxed
 models + divergence) + full `stage_leg` assembly built, iterating green on the CPU lane (`smarca2-model-validate.yml`).
 **No GPU spent** — the gate self-blocks it. Next: CPU lane green → GPU smoke (gate_all_pass) → real mini (mode=run) → reduce vs +0.94.
+
+### Launch + first-leg root-cause (2026-07-17 evening)
+GPU 5-part gate passed green on a real L4 (`gate_all_pass=true`); serial GCP launch approved with the reviewer's
+three required corrections. First real leg (ternary seed 0) **failed at setup**, not preemption. Root cause
+(evidence: VM serial log 23:56 UTC) — OpenFE `HybridTopologySetupUnit` → OpenMM `ForceField.createSystem` raised
+`No template found for residue 0 (MET) … missing 9 H atoms`. Mechanism: `_write_complex_pdb`/`_write_e3_pdb`
+strip hydrogens (`gemmi remove_hydrogens`) and the E3 chains come straight from the raw 8G1Q crystal, so the
+assembled protein reached the engine with **zero hydrogens**; OpenMM does not auto-add them. Step1/valA never hit
+this (their NR4A3 receptor prep hydrogenates); this ternary-staging path had never carried a real production leg
+(the epimer edge died earlier at endpoint verification).
+**Fix:** `ternary_pdb_stage._hydrogenate_pdb()` runs the assembled complex through PDBFixer
+(`replaceNonstandardResidues` + `addMissingAtoms` + `addMissingHydrogens` pH 7) for **both** binary and ternary
+envs. **Gate-gap closed:** the smoke's `proto.create()` only built the DAG lazily and never executed a unit, so the
+$0 gate never reached `createSystem`; the smoke now **executes `HybridTopologySetupUnit`** (CPU, no MD) and records
+`item6_openmm_system_built` — a parameterization failure now fails the gate.
+
+### Three reviewer-required corrections — BUILT (2026-07-17 evening)
+1. **Convergence analysis** (`ternary_fep_convergence.py`, `MODE=converge`): $0 CPU on the committed
+   `simulation.nc` — MBAR ΔG+error, overlap matrix+scalar, cumulative forward/reverse ΔG series, replica
+   mixing (transition eigenvalue + round trips), N_eff/statistical-inefficiency equilibration, best-effort ligand
+   RMSD; per-leg `technical_failure` feeds the reducer gate. **Runs on seed 0 before seed 1.**
+2. **Elongin B accession** P62258→**Q15370** (`nrv04_ternary.py`; `e3-provenance-correction.json` preserves the
+   erroneous value + correction; valB staging already resolved Q15370 via the role resolver, so no physical rerun).
+3. **Protocol freeze** (`nr4a3_ternary_fep.protocol_signature()`): sha256 over the physics knobs identical across
+   every coop-cycle leg (seed excluded); recorded per leg + smoke; reducer asserts one hash
+   (`protocol_hash_consistency`). Ternary seed *s* uses the *s % n*-th independently relaxed SMARCA2 model
+   (seed 1 → 2nd model); `starting_model` recorded per replicate.
+**Reducer:** `ternary_fep_reduce` now forms ΔΔG_coop with a **Welch–Satterthwaite** SE from between-replicate
+variance and emits **PASS / NO-GO / INDETERMINATE** vs **+0.944** under the frozen `decision_rule_valB_mini`
+(zero-exclusion + correct positive sign + hysteresis + target-in-CI); INDETERMINATE → adaptive extend to 5
+replicates/env. All four decision branches unit-tested.
