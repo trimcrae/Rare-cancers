@@ -111,18 +111,25 @@ jobs:
             # the run log (where is it: minimizing? equilibrating? which iteration?), and any iteration/replica lines.
             if [ "${{ github.event.inputs.mode }}" = "tail" ]; then
               echo "=== SSH live window: nvidia-smi + /tmp/tfep_run.log (where is the MD?) ==="
-              timeout 90 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command '
-                echo "--- nvidia-smi (GPU util / mem / power = is MD actually on the GPU?) ---";
-                nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.used,memory.total,power.draw --format=csv 2>/dev/null || echo "(nvidia-smi failed)";
-                echo "--- compute processes on GPU ---";
-                nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv 2>/dev/null || true;
-                echo "--- last 50 lines /tmp/tfep_run.log ---";
-                tail -50 /tmp/tfep_run.log 2>/dev/null || echo "(no run log)";
-                echo "--- MD progress lines (Iteration / minimiz / equilibr / replica / Propagat) ---";
-                grep -aiE "iteration|minimiz|equilibr|replica|propagat|nan|Warning|Error|energy" /tmp/tfep_run.log 2>/dev/null | tail -25 || echo "(none yet)";
-                echo "--- run-log size + mtime (is it still growing?) ---";
-                ls -l --time-style=+%H:%M:%S /tmp/tfep_run.log 2>/dev/null || true;
-              ' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$" | tail -90 || echo "(ssh window failed — VM may block 22 or key not yet propagated)"
+              timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command '
+                echo "--- nvidia-smi ---"; nvidia-smi --query-gpu=utilization.gpu,memory.used,power.draw --format=csv,noheader 2>/dev/null || true;
+                echo "--- FULL /tmp/tfep_run.log ---"; sed -e "s/\x1b\[[0-9;]*m//g" /tmp/tfep_run.log 2>/dev/null || echo "(no run log)";
+                echo "=== nan-error-logs dir ==="; SD=$(ls -d /tmp/tout/*_sim_shared 2>/dev/null | head -1); ls -la "$SD/nan-error-logs" 2>/dev/null || echo "(no nan dir)";
+                echo "=== minimized/complex energy probe (openmm single-point on the mounted complex+ligand) ===";
+                /tmp/mf/envs/rbfe/bin/python - <<"PY" 2>&1 | tail -40 || echo "(energy probe failed)"
+import glob,os
+try:
+    from openmm import app, unit, XmlSerializer
+    nd=sorted(glob.glob("/tmp/tout/*_sim_shared/nan-error-logs/*"))
+    print("nan-error files:", [os.path.basename(x) for x in nd][:8])
+    # try to load a serialized State to read positions/forces if present
+    for f in nd:
+        if f.endswith(".xml"):
+            print("xml:", os.path.basename(f), os.path.getsize(f), "bytes")
+except Exception as e:
+    print("probe err:", type(e).__name__, e)
+PY
+              ' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$" | tail -120 || echo "(ssh window failed)"
             fi
             if [ "${{ github.event.inputs.detach }}" = 1 ]; then
               echo "deleting $TVM (requested via detach=1 on a tail call)"
