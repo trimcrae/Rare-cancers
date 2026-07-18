@@ -245,12 +245,16 @@ def _protocol(openfe):
         s.simulation_settings.production_length = PRODUCTION_NS * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN MD lengths (%s); using defaults" % e, flush=True)
-    # STARTING-STRUCTURE ROBUSTNESS (2026-07-18): the freshly-assembled ternary complex (homology SMARCA2 model +
-    # crystal E3 + PROTAC posed for the SMARCA4 pocket) has residual clashes that OpenFE's default 5000-step
-    # minimization can't fully relax → the default 4 fs HMR timestep then blows up to a NaN on MD iteration 1
-    # (verified: 'Particle coordinate is NaN', iteration1-replica0-state1). Fix: minimize much harder and take a
-    # gentler 2 fs step so the pocket sidechains relax into dynamics instead of exploding. Env-overridable so a
-    # future run can tune. (2 fs + HMR ~2x slower than 4 fs but stability-first for a calibration.)
+    # STARTING-STRUCTURE / TIMESTEP ROBUSTNESS (2026-07-18). The warmup NaN is NOT a starting-structure clash —
+    # a CPU clash census of the assembled complex (ternary_stage_validate._clash_check) proved it clean (worst
+    # protein-protein non-bonded = a 1.33 A peptide bond; worst protein<->ligand = 1.59 A H-bond). The NaN is
+    # state-1-specific (first alchemical window), survives 25000 minimization steps, and reproduces at 2 fs — the
+    # signature of an UNCONSTRAINED alchemical C-H. The cmpd1->cmpd4 edge is an N->CH change, so the growing C-H
+    # bond exists in state B but not A; a bond whose constraint CHANGES between endpoints is left UNCONSTRAINED by
+    # OpenFE's hybrid factory, and an unconstrained C-H (period ~10 fs) is unstable at 2 fs once the softcore turns
+    # on at state 1. Fix: a 1 fs step (RBFE_TIMESTEP_FS=1.0) is safe for the unconstrained C-H. minimization_steps
+    # kept high (cheap insurance). Both env-overridable. (rbfe_spot_driver instruments the NaN: on catch it loads
+    # openmmtools' saved nan-error-logs state and names the offending atoms.)
     try:
         s.simulation_settings.minimization_steps = int(os.environ.get("RBFE_MIN_STEPS", "25000"))
     except Exception as e:  # noqa: BLE001
