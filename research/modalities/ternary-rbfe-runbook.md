@@ -102,6 +102,9 @@ driver) → `rbfe_spot_driver.run_spot_safe` (MultiState warmup/production) → 
 |---|---|
 | 1 fs timestep (NaN) | **Validated** — VMs get past state 1 with no `nan-error-logs` dir (2 fs produced one). |
 | Machine pin ≥8 vCPU | **Validated** — re-dispatch landed g2-standard-8 (serial: "Total of 8 processors activated"). |
-| GCS setup-cache | Shipped; first successful setup writes it, then restores on re-dispatch. |
+| GCS setup-cache save+restore | **Validated** — a run built+wrote the cache; a re-dispatch logged `SETUP RESTORED … skipped the ~460s`, loaded the 146925-particle system, and minimized on GPU (1 fs). Restore reconstructs file outputs as `pathlib.Path` (openfe `deserialize` calls `.parent`), not `str`. |
 | Warmup ckpt 20→8 + `[timing]` | Shipped. |
-| CPU pre-bake (`RBFE_PRIME_ONLY`) | Built; dispatchable once on `main` (gotcha 6). |
+| CPU pre-bake (`RBFE_PRIME_ONLY`) | **Validated** — on a CPU runner: env restored + imported, leg staged, CPU platform forced, GCS auth, cache restored. Dispatch once per `(leg, charge)`; bump `SETUP_CACHE_VERSION` to force a fresh CPU build. |
+
+### Next optimization (not yet done)
+- **Staging is now the slow un-cached step (~15 min):** the startup-script `ternary_pdb_stage.py` (RCSB fetch + 2 SMARCA2 relaxed models + assembly) runs on every GPU VM before the engine, and the setup-cache only skips the OpenFE setup unit downstream of it. Fold staging into the CPU pre-bake (stage → upload `complex.pdb`/`ligands.sdf` to GCS → GPU startup restores them) to remove it from GPU/spot exposure too.
