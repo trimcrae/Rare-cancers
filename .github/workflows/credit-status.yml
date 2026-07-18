@@ -1,0 +1,114 @@
+name: credit-status — refresh free-credit burn board (GCP + Modal)
+
+# Refreshes research/compute/credit-status.json with current spend so the
+# free-credit board is always up to date. No provider exposes "credit remaining"
+# as an API, so this tracks remaining = cap - spent:
+#   * Modal  -> `modal billing report` (this month's spend) if the CLI works on
+#              the current plan; else the Modal number stays manual.
+#   * GCP    -> summed from the BigQuery billing export IF enabled (set repo
+#              variable GCP_BILLING_BQ_TABLE to `project.dataset.table`); else
+#              the GCP spend stays whatever was last set manually.
+# Countdowns (trial expiry, monthly reset) are recomputed every run regardless.
+# Commits the updated JSON back to the triggering branch (CI-commit-back pattern).
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 12 * * *"   # 08:00 ET daily; keeps the committed number <=1 day stale
+
+permissions:
+  contents: write
+  id-token: write          # for GCP keyless WIF auth
+
+concurrency:
+  group: credit-status-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # --- Modal: this month's spend (best-effort; Starter plan may not expose it) ---
+      - name: Modal spend (best-effort)
+        continue-on-error: true
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+        run: |
+          set -x
+          pip install --quiet modal || exit 0
+          # Print the raw report so we can harden the parser to the real format.
+          modal billing report --for "this month" || { echo "MODAL_CLI_UNAVAILABLE"; exit 0; }
+          modal billing report --for "this month" 2>/dev/null > modal_report.txt || true
+
+      - name: Parse Modal report -> spent_this_month
+        continue-on-error: true
+        run: |
+          python3 - <<'PY'
+          import re, subprocess, sys
+          try:
+              txt = open("modal_report.txt").read()
+          except FileNotFoundError:
+              sys.exit(0)
+          # Grab the largest dollar figure as the month total (hardened after first real run).
+          amts = [float(x) for x in re.findall(r"\$?\s*([0-9]+\.[0-9]{2})", txt)]
+          if amts:
+              total = max(amts)
+              subprocess.run([sys.executable,
+                              "research/compute/credit_status.py",
+                              "--set-modal-spent", f"{total:.2f}"], check=True)
+          PY
+
+      # --- GCP: sum spend from the BigQuery billing export, only if configured ---
+      - name: Authenticate to GCP (keyless WIF)
+        if: ${{ vars.GCP_BILLING_BQ_TABLE != '' }}
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+
+      - name: GCP spend from BigQuery billing export
+        if: ${{ vars.GCP_BILLING_BQ_TABLE != '' }}
+        continue-on-error: true
+        uses: google-github-actions/setup-gcloud@v2
+      - name: Query BQ + set gcp spent
+        if: ${{ vars.GCP_BILLING_BQ_TABLE != '' }}
+        continue-on-error: true
+        env:
+          BQ_TABLE: ${{ vars.GCP_BILLING_BQ_TABLE }}
+        run: |
+          # Net spend after credits = sum(cost) + sum(credit amounts, which are negative).
+          Q="SELECT ROUND(SUM(cost) + SUM(IFNULL((SELECT SUM(c.amount) FROM UNNEST(credits) c),0)),2) AS net
+             FROM \`${BQ_TABLE}\`"
+          NET=$(bq --format=csv query --use_legacy_sql=false "$Q" | tail -1)
+          echo "GCP net spend so far: $NET"
+          if [ -n "$NET" ]; then
+            python3 research/compute/credit_status.py --set-gcp-spent "$NET"
+          fi
+
+      # --- recompute countdowns + commit ---
+      - name: Stamp month + render board
+        run: |
+          MONTH=$(date -u +%Y-%m)
+          python3 research/compute/credit_status.py --set-modal-month "$MONTH"
+          python3 research/compute/credit_status.py
+
+      - name: Commit refreshed board
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet research/compute/credit-status.json; then
+            git add research/compute/credit-status.json
+            git commit -m "credit-status: refresh free-credit burn board"
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "no change"
+          fi
