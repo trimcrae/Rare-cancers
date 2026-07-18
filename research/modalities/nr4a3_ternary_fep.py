@@ -245,8 +245,34 @@ def _protocol(openfe):
         s.simulation_settings.production_length = PRODUCTION_NS * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN MD lengths (%s); using defaults" % e, flush=True)
+    # STARTING-STRUCTURE / TIMESTEP ROBUSTNESS (2026-07-18). The warmup NaN is NOT a starting-structure clash —
+    # a CPU clash census of the assembled complex (ternary_stage_validate._clash_check) proved it clean (worst
+    # protein-protein non-bonded = a 1.33 A peptide bond; worst protein<->ligand = 1.59 A H-bond). The NaN is
+    # state-1-specific (first alchemical window), survives 25000 minimization steps, and reproduces at 2 fs — the
+    # signature of an UNCONSTRAINED alchemical C-H. The cmpd1->cmpd4 edge is an N->CH change, so the growing C-H
+    # bond exists in state B but not A; a bond whose constraint CHANGES between endpoints is left UNCONSTRAINED by
+    # OpenFE's hybrid factory, and an unconstrained C-H (period ~10 fs) is unstable at 2 fs once the softcore turns
+    # on at state 1. Fix: a 1 fs step (RBFE_TIMESTEP_FS=1.0) is safe for the unconstrained C-H. minimization_steps
+    # kept high (cheap insurance). Both env-overridable. (rbfe_spot_driver instruments the NaN: on catch it loads
+    # openmmtools' saved nan-error-logs state and names the offending atoms.)
     try:
-        s.engine_settings.compute_platform = rbfe._working_platform_name("CUDA")
+        s.simulation_settings.minimization_steps = int(os.environ.get("RBFE_MIN_STEPS", "25000"))
+    except Exception as e:  # noqa: BLE001
+        print("  [tfep] WARN minimization_steps (%s)" % e, flush=True)
+    try:
+        from openff.units import unit as _ou2
+        _dt_fs = float(os.environ.get("RBFE_TIMESTEP_FS", "2.0"))
+        s.integrator_settings.timestep = _dt_fs * _ou2.femtosecond
+        print("  [tfep] timestep=%.1f fs, minimization_steps=%s (NaN-robust start)"
+              % (_dt_fs, s.simulation_settings.minimization_steps), flush=True)
+    except Exception as e:  # noqa: BLE001
+        print("  [tfep] WARN timestep (%s); using default" % e, flush=True)
+    try:
+        # PRIME (CPU pre-bake) runs on a GPU-less CI runner and never reaches MD — force CPU so the CUDA probe
+        # (which would try to create a CUDA context) can't fail. The serialized System is platform-agnostic, so
+        # the cache this produces is identical to a GPU-built one and valid for the GPU run.
+        _plat = "CPU" if os.environ.get("RBFE_PRIME_ONLY") == "1" else "CUDA"
+        s.engine_settings.compute_platform = rbfe._working_platform_name(_plat)
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN compute_platform (%s)" % e, flush=True)
     # Charges MUST match the binary RBFE engine (am1bcc via AmberTools, now that ambertools>=23 is in the env):
@@ -286,6 +312,8 @@ def protocol_signature():
         "n_windows": N_WINDOWS, "n_replicas": N_WINDOWS, "protocol_repeats": 1,
         "equilibration_ns": EQUILIBRATION_NS, "production_ns": PRODUCTION_NS,
         "charge_method": os.environ.get("CHARGE_METHOD", "am1bcc"),
+        "minimization_steps": int(os.environ.get("RBFE_MIN_STEPS", "25000")),
+        "timestep_fs": float(os.environ.get("RBFE_TIMESTEP_FS", "2.0")),
         "mapping": "lomap_prefer_element_change",
     }
     h = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
@@ -526,6 +554,16 @@ def run_leg():
     except Exception:  # noqa: BLE001
         starting_model = None
     dg_kcal, unc_kcal, _ana_keys = rbfe.execute_hybrid_dag_spot_safe(proto, dag, CKPT, tag)
+    if isinstance(_ana_keys, dict) and _ana_keys.get("primed"):
+        # PRIME (CPU pre-bake): setup was built + cached to GCS and we exited before MD. Write a small marker so the
+        # CPU workflow can report success; a GPU run will restore the cache and run the actual leg.
+        json.dump({"primed": True, "leg_id": LEG_ID, "environment": env, "direction": DIRECTION, "seed": SEED,
+                   "cache_dir": _ana_keys.get("cache_dir"), "n_particles": _ana_keys.get("n_particles"),
+                   "protocol_hash": proto_hash},
+                  open(os.path.join(CKPT, "prime_%s_%s_r%d.json" % (LEG_ID, DIRECTION, SEED)), "w"), indent=2)
+        print("  [tfep] PRIME DONE %s: setup cached to %s (%s particles) — GPU run will skip setup." % (
+            LEG_ID, _ana_keys.get("cache_dir"), _ana_keys.get("n_particles")), flush=True)
+        return
     out = {"leg_id": LEG_ID, "environment": env, "morph": "%s->%s" % (a, b), "direction": DIRECTION,
            "seed": SEED, "dg_morph_kcal": float(dg_kcal) if dg_kcal is not None else None,
            "mbar_se_kcal": float(unc_kcal) if unc_kcal is not None else None, "n_mapped_atoms": n_mapped,

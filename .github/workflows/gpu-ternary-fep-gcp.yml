@@ -28,12 +28,12 @@ on:
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
-  push:
-    branches: [claude/rung-2-parallel-7asnpk]
-    paths:
-      # NOT the .yml itself (smoke already passed; workflow edits shouldn't re-burn GPU) — only science changes.
-      - research/modalities/ternary_pdb_stage.py
-      - research/modalities/nr4a3_ternary_fep.py
+      charge_method: { description: "am1bcc (field standard, SLOW/stalls on big PROTACs via AmberTools sqm) | nagl (openff-nagl ML charges, fast). MUST match across all valB legs.", default: "am1bcc", required: false }
+      timestep_fs: { description: "MD timestep (fs). 1.0 for an UNCONSTRAINED alchemical C-H (the N->CH edge leaves that bond unconstrained → 2 fs explodes at state 1); 2.0 default.", default: "2.0", required: false }
+  # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
+  # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
+  # the mode=run launcher got 'quota exceeded' for 25 min). The CPU validator (smarca2-model-validate.yml) covers
+  # these files for $0; a GPU smoke is dispatched by hand (workflow_dispatch) only when actually wanted.
 
 permissions:
   id-token: write
@@ -56,6 +56,8 @@ jobs:
       TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
       SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
       DETACH: ${{ github.event.inputs.detach || '0' }}
+      CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'am1bcc' }}
+      TIMESTEP_FS: ${{ github.event.inputs.timestep_fs || '2.0' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -84,15 +86,52 @@ jobs:
             --format="table(name,zone.basename(),status,creationTimestamp)" 2>/dev/null || echo "(none)"
           echo "=== valB-6hax results in GCS ==="
           gcloud storage ls "$RESULTS/" 2>/dev/null || echo "(no results yet)"
+          echo "=== per-interval commit census (liveness of the running leg $LEG_ID seed $SEED) ==="
+          CB="gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
+          CALL=$(gcloud storage ls --recursive "$CB/" 2>/dev/null || true)
+          if [ -n "$CALL" ]; then
+            for PH in warmup production; do
+              MAX=$(printf '%s\n' "$CALL" | grep -aoE "$PH/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
+              [ -n "$MAX" ] && echo "  $PH: furthest committed iteration = $MAX"
+            done
+            printf '%s\n' "$CALL" | grep -aE "COMMITTED.json" | tail -3
+          else
+            echo "  (no commits yet — VM still in env-solve/stage/setup, or not provisioned)"
+          fi
           echo "=== smoke.json (endpoint-verification: built vs requested SMILES) ==="
           gcloud storage cat "$RESULTS/smoke_${LEG_ID}.json" 2>/dev/null || echo "(no smoke.json for $LEG_ID)"
+          echo "=== post-mortem logs (a self-deleted VM uploads /tmp/tfep_run.log here on NORESULT) ==="
+          PM=$(gcloud storage ls "gs://$BUCKET/valB-6hax/postmortem/" 2>/dev/null || true)
+          if [ -n "$PM" ]; then
+            printf '%s\n' "$PM" | tail -6
+            NEWEST=$(printf '%s\n' "$PM" | grep -aE "${LEG_ID}_seed${SEED}" | sort | tail -1)
+            [ -z "$NEWEST" ] && NEWEST=$(printf '%s\n' "$PM" | sort | tail -1)
+            if [ -n "$NEWEST" ]; then
+              echo "--- newest post-mortem: $NEWEST ---"
+              PMLOG=$(gcloud storage cat "$NEWEST" 2>/dev/null | sed -e "s/\x1b\[[0-9;]*m//g")
+              echo "--- clash/nan diagnostic lines ---"
+              printf '%s\n' "$PMLOG" | grep -aE "clash-diag|nan-diag|minimize|SOLVATED|particles|atoms=|non-bonded|pair \(|coords>|nonfinite|artifacts" | tail -50 || echo "(no diag lines)"
+              echo "--- last 20 lines (traceback tail) ---"
+              printf '%s\n' "$PMLOG" | tail -20 || echo "(cat failed)"
+            fi
+          else
+            echo "  (no post-mortem logs — VM either still alive, spot-preempted (abrupt DELETE, no upload), or never provisioned)"
+          fi
           VM_IN="${{ github.event.inputs.leg_id }}"   # reuse leg_id slot to pass an explicit VM name for tail
           case "$VM_IN" in gcp-ternary-*) TVM="$VM_IN" ;; *) TVM=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null | head -1) ;; esac
           if [ -n "$TVM" ]; then
             TZONE=$(gcloud compute instances list --filter="name=$TVM" --format="value(zone.basename())" 2>/dev/null | head -1)
             echo "=== serial tail: $TVM ($TZONE) ==="
             gcloud compute instances get-serial-port-output "$TVM" --zone="$TZONE" 2>/dev/null \
-              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet" | tail -70 || echo "(no serial yet)"
+              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet|SETUP|SOLVATED|particles|spot-safe|commit store|barrier|committed|clash-diag|nan-diag|minimize|timing" | tail -90 || echo "(no serial yet)"
+            # LIVE WINDOW INTO THE RUNNING MD (SSH; non-destructive): the openmmtools MD logger writes per-iteration
+            # progress to /tmp/tfep_run.log on the VM, NOT the serial console — so a slow/stuck MD is invisible from
+            # serial. SSH in, dump nvidia-smi (is the GPU actually busy? rules out a CPU-fallback bug), the tail of
+            # the run log (where is it: minimizing? equilibrating? which iteration?), and any iteration/replica lines.
+            if [ "${{ github.event.inputs.mode }}" = "tail" ]; then
+              echo "=== SSH live window: nvidia-smi + /tmp/tfep_run.log (where is the MD?) ==="
+              timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command 'echo "--- nvidia-smi ---"; nvidia-smi --query-gpu=utilization.gpu,memory.used,power.draw --format=csv,noheader 2>/dev/null || true; echo "--- FULL run log ---"; sed -e "s/\x1b\[[0-9;]*m//g" /tmp/tfep_run.log 2>/dev/null || echo "(no run log)"; echo "=== nan-error-logs dir ==="; SD=$(ls -d /tmp/tout/*_sim_shared 2>/dev/null | head -1); ls -la "$SD/nan-error-logs" 2>/dev/null || echo "(no nan dir)"; echo "=== minimize/energy/nan lines ==="; grep -aiE "minimi|energ|nan|reinitial|restart|Warning|CRITICAL|Potential" /tmp/tfep_run.log 2>/dev/null || true' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$" | tail -140 || echo "(ssh window failed)"
+            fi
             if [ "${{ github.event.inputs.detach }}" = 1 ]; then
               echo "deleting $TVM (requested via detach=1 on a tail call)"
               gcloud compute instances delete "$TVM" --zone="$TZONE" --quiet || true
@@ -166,11 +205,12 @@ jobs:
           # zero. Keyed by leg+seed so replicas/legs never collide. Smoke skips it (no MD to checkpoint).
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED RBFE_WARMUP_CKPT_ITERS=20 RBFE_PROD_CKPT_ITERS=40"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
             echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
+              CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS \
               OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \$COMMIT_ENV \
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist
@@ -203,11 +243,15 @@ jobs:
           gcloud compute instances delete "\$NAME" --zone="\$SZ" --quiet || echo "self-delete no-op"
           SS
 
-          MACHINES="g2-standard-8 g2-standard-4"
+          # SETUP (openff interchange parameterizing the 146k-atom ternary) is CPU+RAM-bound. g2-standard-4
+          # (4 vCPU / 16 GB) ran it ~4x slower (~30 min vs ~8 min) than g2-standard-8 (8 vCPU / 32 GB) — 16 GB
+          # is marginal for this system and swaps — and that long setup window is what spot kept preempting.
+          # Pin to >=8 vCPU / 32 GB (all still exactly 1x L4, same GPU cost); list a few sizes for spot capacity.
+          MACHINES="g2-standard-8 g2-standard-12 g2-standard-16"
           ZONES="us-central1-a us-central1-b us-central1-c us-central1-f"
           provision() {
             local round M Z
-            for round in $(seq 1 8); do
+            for round in $(seq 1 22); do   # ~55 min of capacity-probing per dispatch (us-central1 L4 spot can be tight midday) — wait it out, never switch region/on-demand
               for M in $MACHINES; do
                 for Z in $ZONES; do
                   if gcloud compute instances create "$VM" \

@@ -35,6 +35,87 @@ def _forcefield_check(complex_pdb):
         return False, "%s: %s" % (type(e).__name__, str(e)[:200])
 
 
+def _protein_atoms(complex_pdb):
+    """[(label, x, y, z)] for every atom in the assembled protein, label = 'CHAIN:RESNAME RESSEQ:ATOM'."""
+    from openmm import app
+    pdb = app.PDBFile(complex_pdb)
+    pos = pdb.positions.value_in_unit(__import__("openmm").unit.angstrom)
+    out = []
+    for at in pdb.topology.atoms():
+        r = at.residue
+        lbl = f"{r.chain.id}:{r.name}{r.id}:{at.name}"
+        p = pos[at.index]
+        out.append((lbl, float(p[0]), float(p[1]), float(p[2]), at.residue.chain.id, int(at.residue.index)))
+    return out
+
+
+def _ligand_atoms(ligands_sdf):
+    """[(label, x, y, z)] for the first ligand conformer (angstrom), label = 'LIG:ELEM idx'."""
+    from rdkit import Chem
+    supp = Chem.SDMolSupplier(ligands_sdf, removeHs=False, sanitize=False)
+    mol = next((m for m in supp if m is not None), None)
+    if mol is None or mol.GetNumConformers() == 0:
+        return []
+    conf = mol.GetConformer()
+    out = []
+    for a in mol.GetAtoms():
+        p = conf.GetAtomPosition(a.GetIdx())
+        out.append((f"LIG:{a.GetSymbol()}{a.GetIdx()}", float(p.x), float(p.y), float(p.z)))
+    return out
+
+
+def _clash_check(complex_pdb, ligands_sdf):
+    """Report the closest NON-bonded atom pairs in the assembled starting structure — a near-coincident
+    pair (<~0.5 A) is the classic cause of a warmup state-1 SimulationNaNError that survives minimization.
+    Checks protein-internal (different residues) AND protein<->ligand. CPU-only; non-fatal on any error."""
+    import numpy as np
+    prot = _protein_atoms(complex_pdb)
+    lig = _ligand_atoms(ligands_sdf)
+    print(f"  [clash] protein atoms={len(prot)} ligand atoms={len(lig)}", flush=True)
+    P = np.array([(x, y, z) for _, x, y, z, _c, _ri in prot], dtype=float)
+    res_idx = np.array([ri for *_r, ri in prot])
+    worst_pp = None
+    try:
+        from scipy.spatial import cKDTree
+        tree = cKDTree(P)
+        d, nn = tree.query(P, k=2)
+        best = []
+        for i in range(len(P)):
+            j = int(nn[i, 1]); dist = float(d[i, 1])
+            if res_idx[i] == res_idx[j]:      # skip intra-residue (legit bonds)
+                continue
+            best.append((dist, i, j))
+        best.sort()
+        print(f"  [clash] closest protein-protein (inter-residue) non-bonded pairs:", flush=True)
+        seen = set()
+        shown = 0
+        for dist, i, j in best:
+            key = (min(i, j), max(i, j))
+            if key in seen:
+                continue
+            seen.add(key)
+            print(f"    d={dist:.3f} A  {prot[i][0]}  <->  {prot[j][0]}", flush=True)
+            shown += 1
+            if shown >= 8:
+                break
+        worst_pp = best[0][0] if best else None
+    except Exception as e:  # noqa: BLE001
+        print(f"  [clash] protein-protein KDTree skipped: {type(e).__name__}: {e}", flush=True)
+    worst_pl = None
+    if lig:
+        L = np.array([(x, y, z) for _, x, y, z in lig], dtype=float)
+        # full cross distance (small: |lig| ~110 x |prot| ~7000)
+        dmat = np.sqrt(((L[:, None, :] - P[None, :, :]) ** 2).sum(-1))
+        flat = np.argsort(dmat, axis=None)[:8]
+        print(f"  [clash] closest protein<->ligand pairs:", flush=True)
+        for f in flat:
+            li, pi = np.unravel_index(f, dmat.shape)
+            print(f"    d={dmat[li, pi]:.3f} A  {lig[li][0]}  <->  {prot[pi][0]}", flush=True)
+        worst_pl = float(dmat.min())
+    print(f"  [clash] SUMMARY worst_protein_protein={worst_pp} A  worst_protein_ligand={worst_pl} A", flush=True)
+    return worst_pp, worst_pl
+
+
 def main() -> int:
     ok = True
     for leg in LEGS:
@@ -79,6 +160,13 @@ def main() -> int:
             ff_ok, ff_msg = _forcefield_check(os.path.join(d, "complex.pdb"))
             print(f"  [ternary] ForceField.createSystem on hydrogenated complex: ok={ff_ok} ({ff_msg})", flush=True)
             ok = ok and ff_ok
+            # CLASH CHECK ($0, CPU): a warmup state-1 SimulationNaNError that survives 25000 min steps + 2fs +
+            # 20 integration retries is a near-coincident atom pair in the STARTING structure, not a compute
+            # problem (valB seed-0, 2026-07-18). Name the offending residues so the fix targets the real defect.
+            try:
+                wpp, wpl = _clash_check(os.path.join(d, "complex.pdb"), os.path.join(d, "ligands.sdf"))
+            except Exception as e:  # noqa: BLE001
+                print(f"  [ternary] clash check errored (non-fatal): {type(e).__name__}: {e}", flush=True)
     print(f"\n[stage-validate] {'PASS' if ok else 'FAIL'}", flush=True)
     return 0 if ok else 2
 
