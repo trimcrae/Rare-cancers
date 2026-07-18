@@ -102,7 +102,7 @@ jobs:
             TZONE=$(gcloud compute instances list --filter="name=$TVM" --format="value(zone.basename())" 2>/dev/null | head -1)
             echo "=== serial tail: $TVM ($TZONE) ==="
             gcloud compute instances get-serial-port-output "$TVM" --zone="$TZONE" 2>/dev/null \
-              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet" | tail -70 || echo "(no serial yet)"
+              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet|SETUP|SOLVATED|particles|spot-safe|commit store|barrier|committed" | tail -70 || echo "(no serial yet)"
             if [ "${{ github.event.inputs.detach }}" = 1 ]; then
               echo "deleting $TVM (requested via detach=1 on a tail call)"
               gcloud compute instances delete "$TVM" --zone="$TZONE" --quiet || true
