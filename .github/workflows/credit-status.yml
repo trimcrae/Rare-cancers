@@ -58,10 +58,13 @@ jobs:
               txt = open("modal_report.txt").read()
           except FileNotFoundError:
               sys.exit(0)
-          # Grab the largest dollar figure as the month total (hardened after first real run).
-          amts = [float(x) for x in re.findall(r"\$?\s*([0-9]+\.[0-9]{2})", txt)]
+          # `modal billing report` prints ONE ROW PER APP with a high-precision cost;
+          # the month total is their SUM (not the max). Dates in the table have no
+          # decimal point, so 3+decimal numbers uniquely pick out the Cost column.
+          # (Verified against run 29624259172: 12 rows summed to $14.74.)
+          amts = [float(x) for x in re.findall(r"\b[0-9]+\.[0-9]{3,}\b", txt)]
           if amts:
-              total = max(amts)
+              total = sum(amts)
               subprocess.run([sys.executable,
                               "research/compute/credit_status.py",
                               "--set-modal-spent", f"{total:.2f}"], check=True)
