@@ -19,6 +19,22 @@ TEMPLATE = os.environ.get("VALIDATE_PDB", "8G1Q")
 LEGS = ["calib_hi_to_lo__ternary_vhl", "calib_hi_to_lo__binary_vhl", "calib_hi_to_lo__solvent"]
 
 
+def _forcefield_check(complex_pdb):
+    """Parameterize the hydrogenated protein complex with amber14 (OpenFE's protein FF) — the exact
+    ForceField.createSystem template match that failed with missing hydrogens. Returns (ok, message)."""
+    if not os.path.exists(complex_pdb):
+        return False, "complex.pdb missing"
+    try:
+        from openmm import app
+        pdb = app.PDBFile(complex_pdb)
+        ff = app.ForceField("amber14-all.xml")
+        ff.createSystem(pdb.topology)     # no solvent needed — this is the protein template-match that failed
+        n_h = sum(1 for a in pdb.topology.atoms() if a.element is not None and a.element.symbol == "H")
+        return True, "system built; %d H atoms, %d total" % (n_h, pdb.topology.getNumAtoms())
+    except Exception as e:  # noqa: BLE001
+        return False, "%s: %s" % (type(e).__name__, str(e)[:200])
+
+
 def main() -> int:
     ok = True
     for leg in LEGS:
@@ -56,6 +72,13 @@ def main() -> int:
             mB = eng._canon_smiles(molB, Chem) == eng._canon_smiles(sb, Chem)
             print(f"  [ternary] endpoint build: A(cmpd1) match={mA}  B(cmpd4) match={mB}", flush=True)
             ok = ok and mA and mB
+            # DECISIVE H-FIX CHECK ($0, CPU): parameterize the assembled complex.pdb with the SAME amber14 protein
+            # forcefield OpenFE's HybridTopologySetupUnit uses. This is the exact operation that raised
+            # 'No template found for residue 0 (MET) ... missing 9 H atoms' on the GPU seed-0 leg. If createSystem
+            # builds here, the hydrogenation fix is PROVEN without spending the scarce single GCP GPU on a smoke.
+            ff_ok, ff_msg = _forcefield_check(os.path.join(d, "complex.pdb"))
+            print(f"  [ternary] ForceField.createSystem on hydrogenated complex: ok={ff_ok} ({ff_msg})", flush=True)
+            ok = ok and ff_ok
     print(f"\n[stage-validate] {'PASS' if ok else 'FAIL'}", flush=True)
     return 0 if ok else 2
 
