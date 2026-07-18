@@ -38,7 +38,7 @@ jobs:
         with:
           environment-name: smarca2
           create-args: >-
-            python=3.11 openmm pdbfixer biopython gemmi rdkit numpy
+            python=3.11 openmm pdbfixer biopython gemmi rdkit numpy scipy
           condarc: |
             channels:
               - conda-forge
