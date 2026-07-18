@@ -213,14 +213,25 @@ jobs:
           # cache the staged tree to GCS and RESTORE it here. A CPU pre-bake (ternary-setup-prime-cpu.yml) or the
           # first GPU run populates it; every later run downloads it in seconds. Bump v1 if staging code changes.
           mkdir -p \$IN
+          # NOTE the backslash escapes: \$STAGE_CACHE must be evaluated ON THE VM. Unescaped ($STAGE_CACHE) the
+          # startup heredoc expanded it to EMPTY on the runner, so every restore/upload hit an empty path and the
+          # cache silently never worked (every VM re-staged ~9 min with the GPU idle — a pure spot-cost leak).
           STAGE_CACHE="gs://$BUCKET/valB-6hax/stagecache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v1.tar"
-          if gcloud storage cp "$STAGE_CACHE" /tmp/stage.tar 2>/dev/null && tar -C \$IN -xf /tmp/stage.tar 2>/dev/null; then
+          if gcloud storage cp "\$STAGE_CACHE" /tmp/stage.tar 2>/dev/null && tar -C \$IN -xf /tmp/stage.tar 2>/dev/null; then
             rm -f /tmp/stage.tar
             echo "--- stage-cache HIT: restored \$(find \$IN -type f | wc -l) files (skipped ~15min RCSB+SMARCA2-model staging) ---"
           else
             echo "--- stage $LEG_ID from $TEMPLATE_PDB (stage-cache miss) ---"
             ( cd \$WORK && \$PY ternary_pdb_stage.py --leg-id "$LEG_ID" --template-pdb "$TEMPLATE_PDB" --out \$IN 2>&1 | tail -25 )
-            ( cd \$IN && tar -cf - . | gcloud storage cp - "$STAGE_CACHE" 2>&1 | tail -1 ) || echo "(stage-cache upload failed; non-fatal)"
+            # FILE-based upload + verify (the old 'tar -cf - . | gcloud storage cp -' stdin-stream broke with a
+            # partial-write/broken-pipe and never created the object; setup-cache uses file uploads and works). The
+            # VM's default compute SA can write the bucket, so this self-populates; later VMs then HIT and skip staging.
+            if ( cd \$IN && tar -cf /tmp/stage.tar . ) && gcloud storage cp /tmp/stage.tar "\$STAGE_CACHE" && gcloud storage ls "\$STAGE_CACHE" >/dev/null 2>&1; then
+              echo "--- stage-cache WRITTEN + verified: \$STAGE_CACHE ---"
+            else
+              echo "::warning::stage-cache upload/verify FAILED — next VM will re-stage"
+            fi
+            rm -f /tmp/stage.tar
           fi
           echo "staged tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null
           TMODE=smoke; [ "$MODE" = run ] && TMODE=run
