@@ -544,6 +544,9 @@ def main():
     if mode == "reduce":
         import ternary_fep_reduce
         ternary_fep_reduce.reduce_all()
+    elif mode == "converge":     # reviewer #1: $0 CPU convergence analysis of committed .nc (before seed1)
+        import ternary_fep_convergence
+        ternary_fep_convergence.analyze_all()
     else:                       # smoke or run both go through run_leg (smoke short-circuits inside)
         run_leg()
 
