@@ -107,6 +107,99 @@ def _pos_vel_intervals(output_settings, sim_settings):
     return pos, vel
 
 
+# --------------------------------------------------------------------------------------------
+# NaN / clash diagnostics — a state-1 SimulationNaNError that survives 25k minimization steps is
+# almost always a coincident-atom clash the minimizer can't escape (degenerate gradient), i.e. a
+# bad *starting structure* rather than a compute problem. These helpers name the offending atoms
+# in the (uploaded) run log so the fix targets the real defect instead of guessing.
+# --------------------------------------------------------------------------------------------
+def _bonded_pairs(system):
+    """Atom pairs joined by a bond or constraint — excluded from the clash search (bonds are
+    legitimately ~1.0–1.5 A; H–X constraints ~1.0 A)."""
+    import openmm
+    pairs = set()
+    for f in system.getForces():
+        if isinstance(f, openmm.HarmonicBondForce):
+            for k in range(f.getNumBonds()):
+                p = f.getBondParameters(k)
+                i, j = int(p[0]), int(p[1])
+                pairs.add((min(i, j), max(i, j)))
+    for k in range(system.getNumConstraints()):
+        i, j, _ = system.getConstraintParameters(k)
+        pairs.add((min(int(i), int(j)), max(int(i), int(j))))
+    return pairs
+
+
+def _clash_report(positions, system, log, tag, thresh_nm=0.09):
+    """Log the closest NON-bonded atom pairs + any blown-up coordinates. Non-fatal."""
+    try:
+        import numpy as np
+        from openmm import unit as ommunit
+        if hasattr(positions, "value_in_unit"):
+            xyz = np.asarray(positions.value_in_unit(ommunit.nanometer), dtype=float)
+        else:
+            xyz = np.asarray(positions, dtype=float)
+        xyz = xyz.reshape(-1, 3)
+        n = xyz.shape[0]
+        finite_mask = np.isfinite(xyz).all(axis=1)
+        nonfinite = int((~finite_mask).sum())
+        big = int((np.abs(xyz) > 1e3).any(axis=1).sum())
+        log(f"[clash-diag:{tag}] atoms={n} nonfinite_atoms={nonfinite} coords>1000nm_atoms={big}")
+        if finite_mask.sum() < 2:
+            return
+        try:
+            from scipy.spatial import cKDTree
+        except Exception as e:                       # pragma: no cover
+            log(f"[clash-diag:{tag}] scipy unavailable ({e}); skipping KDTree")
+            return
+        idx = np.where(finite_mask)[0]
+        tree = cKDTree(xyz[idx])
+        d, nn = tree.query(xyz[idx], k=2)            # col 0 is self
+        bonded = _bonded_pairs(system)
+        seen, cand = set(), []
+        for a_local in range(len(idx)):
+            ga, gb = int(idx[a_local]), int(idx[nn[a_local, 1]])
+            key = (min(ga, gb), max(ga, gb))
+            if key in bonded or key in seen:
+                continue
+            seen.add(key)
+            cand.append((float(d[a_local, 1]), ga, gb))
+        cand.sort()
+        nclash = sum(1 for dd, _, _ in cand if dd < thresh_nm)
+        log(f"[clash-diag:{tag}] non-bonded pairs < {thresh_nm*10:.2f} A: {nclash} "
+            f"(closest non-bonded = {cand[0][0]*10:.3f} A)" if cand else
+            f"[clash-diag:{tag}] no non-bonded pairs found")
+        for dist, ga, gb in cand[:8]:
+            log(f"[clash-diag:{tag}]   non-bonded pair ({ga},{gb}) d={dist*10:.3f} A")
+    except Exception as e:                           # pragma: no cover
+        log(f"[clash-diag:{tag}] failed: {type(e).__name__}: {e}")
+
+
+def _diagnose_nan_dir(shared, system, log):
+    """openmmtools saved the pre-error State to a nan-error-logs dir; load it and clash-report so
+    the post-mortem names the offending atoms."""
+    import glob
+    import openmm
+    from pathlib import Path
+    hits = sorted(glob.glob(str(Path(shared) / "**" / "nan-error-logs" / "*"), recursive=True))
+    log(f"[nan-diag] nan-error-logs artifacts ({len(hits)}): {[Path(h).name for h in hits]}")
+    for f in hits:
+        if not f.endswith(".xml"):
+            continue
+        try:
+            obj = openmm.XmlSerializer.deserialize(open(f).read())
+        except Exception as e:
+            log(f"[nan-diag] {Path(f).name}: not deserializable ({e})")
+            continue
+        if hasattr(obj, "getPositions"):
+            try:
+                pos = obj.getPositions(asNumpy=True)
+                log(f"[nan-diag] analyzing saved State from {Path(f).name}")
+                _clash_report(pos, system, log, "nan_state")
+            except Exception as e:
+                log(f"[nan-diag] {Path(f).name}: no positions ({e})")
+
+
 def run_spot_safe(*, unit, protocol, system, positions, selection_indices, shared_basepath,
                   scratch_basepath, commit_store,
                   warmup_checkpoint_iters=10, production_checkpoint_iters=20, log=print):
@@ -143,6 +236,9 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
 
     integrator = unit._get_integrator(integrator_settings=integ_s, simulation_settings=sim_s,
                                       system=system)
+    # STRUCTURE-SANITY (always-on, ~free): a coincident-atom clash in the *starting* structure is
+    # the classic cause of a state-1 warmup NaN that survives minimization. Log it before any MD.
+    _clash_report(positions, system, log, "initial")
     # iteration targets from settings; env overrides (RBFE_WARMUP_ITERS/RBFE_PROD_ITERS) let a
     # GPU SMOKE run a handful of iters to validate the machinery without the full ~15 h science.
     warmup_iters = int(os.environ.get("RBFE_WARMUP_ITERS", "0")) or \
@@ -208,8 +304,14 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         log("[spot-driver] warmup minimize")
         warmup.minimize(max_iterations=sim_s.minimization_steps)
     log(f"[spot-driver] WARMUP from iter {spot._sampler_iteration(warmup)} -> {warmup_target}")
-    spot.run_to_target(warmup, wrep, warmup_target, warmup_checkpoint_iters,
-                       _commit(WARMUP, WARMUP_NC, WARMUP_CHK, warmup_checkpoint_iters), log=log)
+    try:
+        spot.run_to_target(warmup, wrep, warmup_target, warmup_checkpoint_iters,
+                           _commit(WARMUP, WARMUP_NC, WARMUP_CHK, warmup_checkpoint_iters), log=log)
+    except Exception as e:
+        if type(e).__name__ == "SimulationNaNError":
+            log(f"[nan-diag] caught {type(e).__name__} during WARMUP: {e}")
+            _diagnose_nan_dir(shared, system, log)
+        raise
 
     # snapshot final warmup state for the transition, then release the warmup sampler
     import copy
