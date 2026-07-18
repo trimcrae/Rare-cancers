@@ -948,6 +948,33 @@ matrices, effective sample sizes, forward/reverse convergence traces, and the pe
 decomposition are in **SI §S7**; the lead-optimization ABFE cross-check (`lo_m0_NCCO`, an FEP tie not an
 advance) is in **SI §S5**.
 
+### 2.9 A congeneric relative-FE pilot on the Zaienne cmpd19 anchor converges end-to-end
+
+The ABFE above is an *absolute* test on a de-novo species. The complementary quantitative tool for a real,
+literature-anchored ligand is **relative binding free-energy perturbation (RBFE)** on a congeneric pair — the
+lower-variance, field-standard mode, and the engine that underpins the forthcoming ternary/degrader work. As a
+first end-to-end pilot we ran one congeneric edge on the **Zaienne cmpd19** anchor (methyl 5-bromoindole-3-
+carboxylate, a *functional* NR4A3 ligand; IC₅₀ ≈ 8–47 µM, no solved co-crystal pose) → its **5-NH₂** analogue,
+docked into the same metadynamics-derived **opened** NR4A3 conformer used throughout §2, with OpenFE's
+`RelativeHybridTopologyProtocol` (12 λ-window Hamiltonian replica exchange, MBAR reduction; `nr4a3_rbfe.py`,
+protocol in §3), on a Modal L4 GPU with per-iteration GCS checkpoint/resume.
+
+**Result (single edge, single replicate, single conformer).** Both alchemical legs MBAR-converged with tight
+within-run standard error: complex-leg ΔG_morph = **−29.68 ± 0.24**, solvent-leg = **−31.52 ± 0.26** kcal/mol,
+giving **ΔΔG_bind = +1.84 kcal/mol** (± 0.36, leg SEs in quadrature) — the 5-NH₂ analogue is predicted
+**≈ 1.8 kcal/mol (≈ 20×) weaker** than cmpd19 in the modeled pocket.
+
+**Honest weight.** This is a **pipeline-validation and convergence** result, not an affinity claim. (i) It is a
+**conditional** relative free energy for a **hypothesized** cmpd19 binding mode in a preselected open conformer —
+cmpd19 has **no solved pose and no measured affinity for this pair**, so read the sign and the convergence, not a
+Kd. (ii) "Converged" here means **statistical** convergence and self-consistency (both legs, tight MBAR SE),
+**not** experimental accuracy; accuracy is established separately against a **public measured-ΔΔG benchmark**
+(the valA track), which this is not. (iii) It is a **single edge / single replicate / single conformer**; the
+reproducibility (independent replicas) and receptor-sensitivity (pose/state sweep) needed to clear the pilot's
+pre-registered GO/NO-GO are still outstanding. What it does establish is that the congeneric-RBFE machinery runs
+end-to-end and converges on the real NR4A3 system — the quantitative-method foundation on which the paralogue-
+selectivity and ternary-cooperativity calculations are built.
+
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
 `gpu-*-aws.yml`). Structure: AlphaFold2 (AFDB) + fpocket (file→pocket mapping derived from data,

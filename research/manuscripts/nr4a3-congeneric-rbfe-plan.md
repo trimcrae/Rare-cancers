@@ -1,8 +1,11 @@
 # NR4A3 congeneric-warhead RBFE perturbation map — design spec
 
-**Status: DESIGN ONLY (2026-07-11).** No MD/FEP/GPU/AWS/network was run. No affinity, ΔΔG, GPU-hour, or
-convergence is asserted here — every energetic and cost quantity is a placeholder marked *TBD — calibrate from
-the pilot*, and the abort thresholds are **pre-registered** design parameters (decided a priori), not results.
+**Status: DESIGN ONLY (2026-07-11); PILOT EDGE NOW RUN (2026-07-18) — see "PILOT RESULT" below.** The design
+spec, abort thresholds, and cost/energetic placeholders here were all **pre-registered** (decided a priori,
+before any run) — that record stands unchanged. The pilot edge has since been executed once (forward direction,
+one conformer): **ΔΔG_bind = +1.84 kcal/mol, MBAR-converged, pocket did not collapse** — the convergence/pocket
+crux is cleared for that edge, but the **full pre-registered ABORT gate is not yet passed** (hysteresis, cycle
+closure, overlap extraction, pocket-survival scoring outstanding). Details in the **PILOT RESULT** section.
 
 - **Generator:** [`research/modalities/rbfe_map.py`](../modalities/rbfe_map.py) (pure stdlib) → emits
   [`research/modalities/congeneric-rbfe-map.json`](../modalities/congeneric-rbfe-map.json). Tests:
@@ -90,6 +93,32 @@ fleet edge is scheduled):
 on this cryptic pocket — halt, do **not** fan out the fleet, and escalate as a strategy fork. On success,
 calibrate per-edge `n_windows` / GPU-h from the pilot (they are `null`/TBD in the JSON until then) and schedule
 the fleet.
+
+### PILOT RESULT — first run (2026-07-18)
+
+The pilot edge `e_zaienne_cmpd19__cw_ev_5nh2` (5-Br → 5-NH₂) **ran end-to-end** on a Modal L4 GPU (OpenFE
+`RelativeHybridTopologyProtocol`, 12 λ-window HREX, MBAR; spot-safe GCS checkpoint/resume), on one opened
+`nr4a3_design` frame:
+
+- complex-leg ΔG_morph = **−29.68 ± 0.24**, solvent-leg = **−31.52 ± 0.26** kcal/mol → **ΔΔG_bind = +1.84
+  kcal/mol** (reducer 1.839; ±0.36 from leg MBAR SEs in quadrature). Both legs **MBAR-converged** with tight
+  within-run SE, and the pocket did not collapse during the alchemical MD (the leg completed to full production).
+- **Meaning:** the crux question — *can a congeneric RBFE converge on this dynamic cryptic pocket without the
+  pocket collapsing?* — is answered **yes** for this single forward edge. The 5-NH₂ analogue is predicted ~1.8
+  kcal/mol (~20×) weaker than cmpd19 *in the modeled pocket* (conditional relative FE; cmpd19 has no solved pose /
+  measured affinity — read the sign + convergence, not a Kd).
+
+**ABORT criteria — status against the pre-registered gate (NOT all cleared yet):**
+- **Hysteresis** (|ΔG_fwd − ΔG_rev| ≤ 0.5): **UNTESTED** — only the forward direction was run; reverse pending.
+- **Overlap** (min adjacent-λ ≥ 0.03): **TBD** — extract from the committed `.nc` (convergence analysis wired).
+- **Cycle closure** (|Σ ΔΔG| ≤ 1.0): **UNTESTED** — needs ≥3 edges forming a loop; only 1 edge run.
+- **Pocket survival** (Pocket-5 in ≥50% of windows): **not yet scored** via `pocket_tracking.py` on the windows.
+
+So the pilot has cleared the **convergence + pocket-stability** crux on one edge, but the **full pre-registered
+ABORT gate is not yet passed** — reverse leg (hysteresis), a second/third edge (cycle closure), the overlap
+extraction, and pocket-survival scoring remain before the fleet is scheduled. Per-edge `n_windows`/GPU-h can now
+begin to be calibrated from this run. (Recorded in STRATEGY.md RUNG 2, the schedule JSON `step1_pilot_cmpd19`,
+and manuscript §2.9.)
 
 ## Design decisions I was unsure about
 - **Folding `microstate_variant` compounds into the two stars by perturbation SITE** (5-NHAc → 5-position star;

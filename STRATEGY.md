@@ -233,11 +233,22 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 
 ### RUNG 2 — cheap precision + cheap probes *(only if Rung 1 = GO)*
 
-- **`[ ]` Step 1 pilot — cmpd19 conditional RBFE, 1–2 edges** *(step1_pilot_cmpd19 · GPU · ∥)* — **Price: ~$15–40 · Cum. ~$50**
+- **`[~]` Step 1 pilot — cmpd19 conditional RBFE, 1–2 edges** *(step1_pilot_cmpd19 · GPU · ∥)* — **Price: ~$15–40 · Cum. ~$50**
   Conditional relative FE for a hypothesized cmpd19 mode in preselected open conformers; replicas + pose/state
   sensitivity. Tests reproducibility + receptor-sensitivity, NOT pose correctness.
   **GO/NO-GO:** reproducible, receptor-sensitive, pocket doesn't collapse → GO. Pathological/irreproducible → the
   cmpd19 anchor is too fragile to build on; reconsider before any fan-out.
+  **FIRST EDGE RUN (2026-07-18):** `zaienne_cmpd19 → cw_ev_5nh2` (5-Br → 5-NH₂ indole) ran end-to-end and
+  **converged** on Modal L4 (spot-safe checkpoint/resume): complex ΔG_morph = **−29.68 ± 0.24**, solvent
+  = **−31.52 ± 0.26** → **ΔΔG_bind = +1.84 kcal/mol** (reducer 1.839; ±0.36 quadrature of leg MBAR SEs), i.e. the
+  5-NH₂ analogue is predicted ~1.8 kcal/mol (~20×) **weaker** than cmpd19 *in the modeled opened pocket*. This
+  proves the congeneric-RBFE **pipeline works end-to-end and converges** on the real NR4A3 system (both legs MBAR-
+  converged, tight within-run SE), the plumbing half of the gate. **NOT YET DONE for the GO decision:** the
+  result is a **single edge / single replicate / single opened-conformer**, so the reproducibility (replicas) and
+  receptor-sensitivity (pose/state sweep) the GO/NO-GO requires are still pending. **Honest weight:** a
+  *conditional* relative FE on a *hypothesized* cmpd19 pose (no solved structure, no measured affinity) —
+  statistical convergence + self-consistency, **not** an experimental-accuracy claim (that is valA, the separate
+  public benchmark). Status stays `[~]` until replicas + sensitivity land.
 - **`[~]` Validation B-mini — PROTAC 2 → cis-PROTAC 2 known-answer ternary edge** *(valB_mini · GPU · ∥)* — **Price: ~$40–80 · Cum. ~$110**
   **REDESIGNED 2026-07-17 (reviewer verdict — full record: [research/manuscripts/valB-reviewer-decision-2026-07-17.md](./research/manuscripts/valB-reviewer-decision-2026-07-17.md)).**
   The original hi→lo SMARCA2–VHL panel edge is **not congeneric** (P1↔P5 = 32 perturbed heavy atoms; the whole
