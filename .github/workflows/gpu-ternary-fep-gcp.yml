@@ -28,12 +28,10 @@ on:
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
-  push:
-    branches: [claude/rung-2-parallel-7asnpk]
-    paths:
-      # NOT the .yml itself (smoke already passed; workflow edits shouldn't re-burn GPU) — only science changes.
-      - research/modalities/ternary_pdb_stage.py
-      - research/modalities/nr4a3_ternary_fep.py
+  # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
+  # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
+  # the mode=run launcher got 'quota exceeded' for 25 min). The CPU validator (smarca2-model-validate.yml) covers
+  # these files for $0; a GPU smoke is dispatched by hand (workflow_dispatch) only when actually wanted.
 
 permissions:
   id-token: write
