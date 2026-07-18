@@ -29,7 +29,8 @@ on:
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
       charge_method: { description: "am1bcc (field standard, SLOW/stalls on big PROTACs via AmberTools sqm) | nagl (openff-nagl ML charges, fast). MUST match across all valB legs.", default: "am1bcc", required: false }
-      timestep_fs: { description: "MD timestep (fs). 1.0 for an UNCONSTRAINED alchemical C-H (the N->CH edge leaves that bond unconstrained → 2 fs explodes at state 1); 2.0 default.", default: "2.0", required: false }
+      timestep_fs: { description: "MD timestep (fs). 1.0 for an UNCONSTRAINED alchemical C-H (the N->CH edge leaves that bond unconstrained → 2 fs explodes at state 1); 2.0 default. 4.0 = field standard (HMR) — try it first.", default: "2.0", required: false }
+      reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
   # the mode=run launcher got 'quota exceeded' for 25 min). The CPU validator (smarca2-model-validate.yml) covers
@@ -137,6 +138,14 @@ jobs:
               gcloud compute instances delete "$TVM" --zone="$TZONE" --quiet || true
             fi
           fi
+      - name: Reset committed checkpoints (fresh start on timestep change)
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
+        run: |
+          set -eo pipefail
+          BUCKET="${PROJECT}-rbfe-ckpt"
+          CB="gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
+          echo "reset_commits=1 -> wiping $CB (a new-timestep run must not resume a stale-dt trajectory)"
+          gcloud storage rm --recursive "$CB/" 2>/dev/null && echo "commits wiped" || echo "(no commits to wipe)"
       - name: Provision Spot L4 VM + run ternary-FEP
         if: ${{ github.event.inputs.mode != 'tail' }}
         run: |

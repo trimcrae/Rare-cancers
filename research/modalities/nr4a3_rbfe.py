@@ -1076,8 +1076,14 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
         _is_h = lambda m: m < 5.0            # H (1.008) or HMR-repartitioned H (3-4); heavy atoms >= 12
         _xh_total = _xh_unconstrained = 0
         _unc = []
-        for _f in system.getForces():
-            if isinstance(_f, _mm.HarmonicBondForce):
+        # scan BOTH the standard HarmonicBondForce AND CustomBondForce — OpenFE's hybrid factory puts the
+        # alchemically-varying (appearing/disappearing) bonds in a CustomBondForce, so an unconstrained alchemical
+        # X-H lives there, NOT in the HarmonicBondForce. The first pass only checked HarmonicBondForce and thus
+        # could not see the exact bond the 1 fs hypothesis is about; include custom bonds to make this conclusive.
+        _bondforces = [_f for _f in system.getForces()
+                       if isinstance(_f, (_mm.HarmonicBondForce, _mm.CustomBondForce))]
+        for _f in _bondforces:
+            if True:
                 for _b in range(_f.getNumBonds()):
                     _p = _f.getBondParameters(_b)
                     _i, _j = int(_p[0]), int(_p[1])
