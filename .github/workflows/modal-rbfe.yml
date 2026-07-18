@@ -77,6 +77,15 @@ jobs:
           if [ -z "$MODAL_TOKEN_ID" ]; then
             echo "::error::MODAL_TOKEN_ID/SECRET missing — add them in repo Settings → Secrets → Actions."; exit 1
           fi
+          if [ "$MODE" = "list" ]; then
+            # LIST-ONLY (no stop): shows currently-running Modal apps so we can tell whether a leg's function is
+            # still executing (billing) or has stopped. Answers "were we paying for idle GPU?" without killing
+            # anything. Each `modal run` invocation is an ephemeral app (ap-...); a stopped/crashed function
+            # disappears from this list (Modal bills per-second of EXECUTION, so a vanished app = not billing).
+            echo "--- currently RUNNING Modal apps (nr4a3-rbfe = our step1 leg functions) ---"
+            modal app list 2>&1 || true
+            exit 0
+          fi
           if [ "$MODE" = "stop" ]; then
             # Ephemeral `modal run` apps are addressed by App ID (ap-...), NOT by name — parse the list + stop each
             # nr4a3-rbfe app by ID so no stale invocation keeps writing the S3 checkpoint prefix.
