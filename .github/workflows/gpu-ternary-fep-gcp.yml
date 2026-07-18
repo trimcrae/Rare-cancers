@@ -82,6 +82,18 @@ jobs:
             --format="table(name,zone.basename(),status,creationTimestamp)" 2>/dev/null || echo "(none)"
           echo "=== valB-6hax results in GCS ==="
           gcloud storage ls "$RESULTS/" 2>/dev/null || echo "(no results yet)"
+          echo "=== per-interval commit census (liveness of the running leg $LEG_ID seed $SEED) ==="
+          CB="gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
+          CALL=$(gcloud storage ls --recursive "$CB/" 2>/dev/null || true)
+          if [ -n "$CALL" ]; then
+            for PH in warmup production; do
+              MAX=$(printf '%s\n' "$CALL" | grep -aoE "$PH/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
+              [ -n "$MAX" ] && echo "  $PH: furthest committed iteration = $MAX"
+            done
+            printf '%s\n' "$CALL" | grep -aE "COMMITTED.json" | tail -3
+          else
+            echo "  (no commits yet — VM still in env-solve/stage/setup, or not provisioned)"
+          fi
           echo "=== smoke.json (endpoint-verification: built vs requested SMILES) ==="
           gcloud storage cat "$RESULTS/smoke_${LEG_ID}.json" 2>/dev/null || echo "(no smoke.json for $LEG_ID)"
           VM_IN="${{ github.event.inputs.leg_id }}"   # reuse leg_id slot to pass an explicit VM name for tail
