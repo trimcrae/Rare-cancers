@@ -105,8 +105,12 @@ jobs:
             NEWEST=$(printf '%s\n' "$PM" | grep -aE "${LEG_ID}_seed${SEED}" | sort | tail -1)
             [ -z "$NEWEST" ] && NEWEST=$(printf '%s\n' "$PM" | sort | tail -1)
             if [ -n "$NEWEST" ]; then
-              echo "--- newest post-mortem: $NEWEST (last 60 lines, stripped) ---"
-              gcloud storage cat "$NEWEST" 2>/dev/null | sed -e "s/\x1b\[[0-9;]*m//g" | tail -60 || echo "(cat failed)"
+              echo "--- newest post-mortem: $NEWEST ---"
+              PMLOG=$(gcloud storage cat "$NEWEST" 2>/dev/null | sed -e "s/\x1b\[[0-9;]*m//g")
+              echo "--- clash/nan diagnostic lines ---"
+              printf '%s\n' "$PMLOG" | grep -aE "clash-diag|nan-diag|minimize|SOLVATED|particles|atoms=|non-bonded|pair \(|coords>|nonfinite|artifacts" | tail -50 || echo "(no diag lines)"
+              echo "--- last 20 lines (traceback tail) ---"
+              printf '%s\n' "$PMLOG" | tail -20 || echo "(cat failed)"
             fi
           else
             echo "  (no post-mortem logs — VM either still alive, spot-preempted (abrupt DELETE, no upload), or never provisioned)"
