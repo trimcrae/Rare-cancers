@@ -963,25 +963,102 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
             raise SystemExit("  ABORT: no %s in DAG (units=%s); openfe>=1.12?" % (key, list(byname)))
         return us[0]
 
-    # SETUP (build/serialize the hybrid system; redone cheaply on a fresh VM after a preemption).
-    # Serial-visible markers (the openmmtools MD logger writes to a file, NOT the console — so without these the
-    # leg is opaque between 'mapped' and the first GCS commit; that opacity hid whether the ternary MD was slow,
-    # hung, or preempted). These explicit prints DO reach the serial via the startup-script tee.
-    print("  [spot-safe] SETUP begin (solvate + parameterize the hybrid system)…", flush=True)
-    _t_setup0 = time.time()
-    setup_outputs = _unit("HybridTopologySetupUnit").execute(context=_ctx("setup"), raise_error=True).outputs
-    print("  [spot-safe] SETUP done in %.0fs" % (time.time() - _t_setup0), flush=True)
     # SIMULATE — spot-safe: drive the MultiState unit via rbfe_spot_driver with a durable CommitStore
     sim_unit = _unit("HybridTopologyMultiStateSimulationUnit")
     umod = _sys.modules[type(sim_unit).__module__]
     sctx = _ctx("sim")
+
+    # SETUP with a GCS SETUP CACHE (2026-07-18). The solvate+parameterize step ('SETUP', ~460s for the 146k-atom
+    # ternary) is NOT sampling and was rebuilt from scratch on every fresh VM — so on volatile GCP L4 Spot (30s
+    # preemption warning, no min-runtime, GPU capacity contended at peak) a preemption during the uncheckpointed
+    # setup+minimize window lost ALL of it and the run never reached the first warmup checkpoint. Fix: the setup
+    # unit's outputs are deterministic per (leg, charges), so cache the WHOLE setup_outputs dict to GCS right after
+    # the build (files copied + a manifest; non-file values pickled), preserving every field the ANALYZE unit reads.
+    # A re-dispatch RESTORES it in seconds and skips the rebuild — the setup is now checkpointed too, not just the
+    # sampling. Generic so the shared binary-RBFE path benefits identically. Keyed by tag+charge+SETUP_CACHE_VERSION
+    # (bump the version if staging/forcefield changes so a stale system is never restored).
+    import json as _json
+    import pickle as _pickle
+    import subprocess as _sub
+
+    def _gsh(*args):
+        return _sub.run(["gcloud", "storage", *args], capture_output=True, text=True)
+
+    _cache_root = os.environ.get("RBFE_SETUP_CACHE_GCS")
+    _cache_ver = os.environ.get("SETUP_CACHE_VERSION", "v1")
+    _charge = os.environ.get("CHARGE_METHOD", "am1bcc")
+    cache_dir = ("%s/%s__%s__%s" % (_cache_root.rstrip("/"), tag, _charge, _cache_ver)) if _cache_root else None
+    loc = Path(ckpt) / ("setupcache_%s" % tag)
+    setup_outputs = None
+
+    if cache_dir and _gsh("ls", cache_dir + "/manifest.json").returncode == 0:
+        try:
+            loc.mkdir(parents=True, exist_ok=True)
+            for meta in ("manifest.json", "objs.pkl"):
+                r = _gsh("cp", cache_dir + "/" + meta, str(loc / meta))
+                if r.returncode:
+                    raise RuntimeError("cp %s: %s" % (meta, (r.stderr or "")[-200:]))
+            manifest = _json.loads((loc / "manifest.json").read_text())
+            objs = _pickle.loads((loc / "objs.pkl").read_bytes())
+            setup_outputs = {}
+            for k, mv in manifest.items():
+                if mv[0] == "file":
+                    r = _gsh("cp", cache_dir + "/" + mv[1], str(loc / mv[1]))
+                    if r.returncode:
+                        raise RuntimeError("cp %s: %s" % (mv[1], (r.stderr or "")[-200:]))
+                    setup_outputs[k] = str(loc / mv[1])
+                else:
+                    setup_outputs[k] = objs[k]
+            print("  [spot-safe] SETUP RESTORED from cache %s — skipped the ~460s solvate+parameterize "
+                  "(the window that kept dying to spot preemption)" % cache_dir, flush=True)
+        except Exception as e:  # noqa: BLE001
+            print("  [spot-safe] setup-cache restore failed (%s); rebuilding from scratch" % e, flush=True)
+            setup_outputs = None
+
+    if setup_outputs is None:
+        print("  [spot-safe] SETUP begin (solvate + parameterize the hybrid system)…", flush=True)
+        _t_setup0 = time.time()
+        setup_outputs = _unit("HybridTopologySetupUnit").execute(context=_ctx("setup"), raise_error=True).outputs
+        print("  [spot-safe] SETUP done in %.0fs" % (time.time() - _t_setup0), flush=True)
+        if cache_dir:
+            try:
+                import shutil as _shutil
+                loc.mkdir(parents=True, exist_ok=True)
+                manifest, objs, upload = {}, {}, []
+                for k, v in dict(setup_outputs).items():
+                    fp = None
+                    try:
+                        if v is not None and os.path.isfile(str(v)):
+                            fp = str(v)
+                    except (ValueError, OSError):
+                        fp = None
+                    if fp:
+                        bn = "f_%d_%s" % (len(manifest), os.path.basename(fp))
+                        _shutil.copyfile(fp, str(loc / bn))
+                        manifest[k] = ["file", bn]
+                        upload.append(bn)
+                    else:
+                        manifest[k] = ["obj", None]
+                        objs[k] = v
+                (loc / "objs.pkl").write_bytes(_pickle.dumps(objs))
+                (loc / "manifest.json").write_text(_json.dumps(manifest))
+                for f in upload + ["objs.pkl", "manifest.json"]:
+                    r = _gsh("cp", str(loc / f), cache_dir + "/" + f)
+                    if r.returncode:
+                        raise RuntimeError("cp %s: %s" % (f, (r.stderr or "")[-200:]))
+                print("  [spot-safe] SETUP cached to %s (a re-dispatch after preemption now skips the rebuild)"
+                      % cache_dir, flush=True)
+            except Exception as e:  # noqa: BLE001
+                print("  [spot-safe] setup-cache save failed (%s); non-fatal" % e, flush=True)
+
     system = umod.deserialize(setup_outputs["system"])
+    positions = umod.to_openmm(umod.np.load(setup_outputs["positions"]) * umod.offunit.nm)
+    selection_indices = setup_outputs["selection_indices"]
     try:
         print("  [spot-safe] SOLVATED SYSTEM: %d particles, %d λ-windows (feasibility signal on this GPU)"
               % (system.getNumParticles(), int(os.environ.get("N_WINDOWS", "12"))), flush=True)
     except Exception:  # noqa: BLE001
         pass
-    positions = umod.to_openmm(umod.np.load(setup_outputs["positions"]) * umod.offunit.nm)
     commit_gcs = os.environ.get(commit_gcs_env)
     commit_s3 = os.environ.get(commit_s3_env)
     if commit_gcs:
@@ -999,7 +1076,7 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
     pci = int(os.environ.get(prod_env, "20"))
     sim_outputs = drv.run_spot_safe(
         unit=sim_unit, protocol=proto, system=system, positions=positions,
-        selection_indices=setup_outputs["selection_indices"], shared_basepath=sctx.shared,
+        selection_indices=selection_indices, shared_basepath=sctx.shared,
         scratch_basepath=sctx.scratch, commit_store=store,
         warmup_checkpoint_iters=wci, production_checkpoint_iters=pci)
     # ANALYZE — MBAR over the trajectory
