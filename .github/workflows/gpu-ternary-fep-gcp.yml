@@ -186,16 +186,21 @@ jobs:
           fi
           for k in \$(seq 1 6); do echo "###TFEPRESULT### \$LINE ###END###"; sleep 3; done
           echo "=== TFEP-DONE \$LINE ==="
-          # SELF-DELETE on success (result already in GCS) so a detached VM never idle-bills to the 7h backstop.
-          # On NO-result keep the VM for post-mortem via gpu-rbfe-gcp-tail (still bounded by max-run).
+          # SELF-DELETE on BOTH success AND failure so a detached VM never idle-bills to the 7h backstop and,
+          # critically, never blocks the single GPUS_ALL_REGIONS=1 quota that every future GCP GPU job needs.
+          # On NORESULT we UPLOAD the run log to GCS first (post-mortem is preserved off-VM), then delete — the
+          # 2026-07-17 seed-0 setup failure left a VM up ~5h, idle-billing AND blocking the next smoke, because
+          # the old logic kept failed VMs "for post-mortem". The serial is already streamed to the GH poller.
+          NAME=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+          SZ=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | awk -F/ '{print \$NF}')
           case "\$LINE" in
             *status=OK*)
-              NAME=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
-              SZ=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | awk -F/ '{print \$NF}')
-              echo "self-deleting \$NAME in \$SZ (result in GCS; avoid idle billing)"
-              gcloud compute instances delete "\$NAME" --zone="\$SZ" --quiet || echo "self-delete no-op" ;;
-            *) echo "no OK result — leaving VM for post-mortem (max-run backstop)" ;;
+              echo "self-deleting \$NAME in \$SZ (result in GCS; avoid idle billing)" ;;
+            *)
+              echo "NORESULT: uploading post-mortem log to GCS, then self-deleting \$NAME to free the single-GPU quota"
+              gcloud storage cp /tmp/tfep_run.log "gs://$BUCKET/valB-6hax/postmortem/${LEG_ID}_seed${SEED}_\$(date +%s).log" 2>/dev/null || echo "log upload no-op" ;;
           esac
+          gcloud compute instances delete "\$NAME" --zone="\$SZ" --quiet || echo "self-delete no-op"
           SS
 
           MACHINES="g2-standard-8 g2-standard-4"
