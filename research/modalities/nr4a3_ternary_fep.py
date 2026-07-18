@@ -433,8 +433,43 @@ def run_leg():
         proto = _protocol(openfe)
         A, B = _chemical_systems(openfe, ligA, ligB, protein, env)
         dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+        # EXECUTE the HybridTopologySetupUnit (no MD) so smoke actually reaches OpenMM ForceField.createSystem —
+        # the step that failed on valB seed-0 (missing protein H). proto.create() only BUILDS the DAG lazily and
+        # never runs a unit, which is why the $0 gate missed it. Running setup here (CPU, cheap) makes the gate
+        # validate that the assembled+hydrogenated complex parameterizes before any paid sampling. Fail-loud.
+        setup_ok = None
+        setup_err = None
+        if protein is not None:
+            try:
+                from pathlib import Path as _P
+
+                from gufe import Context as _Context
+                _byname = {}
+                for _u in dag.protocol_units:
+                    _byname.setdefault(type(_u).__name__, []).append(_u)
+                _sh = _P(CKPT) / "smoke_setup_shared"; _sc = _P(CKPT) / "smoke_setup_scratch"
+                _sh.mkdir(parents=True, exist_ok=True); _sc.mkdir(parents=True, exist_ok=True)
+                try:
+                    _ctx = _Context(shared=_sh, scratch=_sc)
+                except TypeError:
+                    _ctx = _Context(shared=_sh, scratch=_sc, permanent=_sh)
+                _su = (_byname.get("HybridTopologySetupUnit") or [None])[0]
+                if _su is None:
+                    raise SystemExit("no HybridTopologySetupUnit in DAG (openfe>=1.12?)")
+                _su.execute(context=_ctx, raise_error=True)
+                setup_ok = True
+                print("  [tfep] SMOKE setup-unit OK — OpenMM system parameterized (protein hydrogens present).",
+                      flush=True)
+            except Exception as _e:  # noqa: BLE001
+                setup_ok = False
+                setup_err = ("%s: %s" % (type(_e).__name__, _e))[:400]
+                print("  [tfep] SMOKE setup-unit FAILED — %s" % setup_err, flush=True)
         gate = _five_part_gate(Chem, leg, env, ligA, ligB, mapping, protein,
                                (a, b, sa, sb), (built_a, built_b, want_a, want_b), endpoints_ok)
+        gate["item6_openmm_system_built"] = {"ran_setup_unit": protein is not None,
+                                             "system_parameterized": setup_ok, "error": setup_err}
+        if setup_ok is False:
+            gate["all_pass"] = False
         json.dump({"smoke": "ok", "leg": LEG_ID, "environment": env, "n_mapped_atoms": n_mapped,
                    "has_protein": protein is not None,
                    "endpoint_a": a, "endpoint_b": b,
@@ -442,6 +477,7 @@ def run_leg():
                    "requested_smiles_a": want_a, "requested_smiles_b": want_b,
                    "endpoints_match_requested": endpoints_ok,
                    "n_protocol_units": len(getattr(dag, "protocol_units", []) or []),
+                   "setup_unit_system_built": setup_ok,
                    "gate": gate, "gate_all_pass": gate["all_pass"]},
                   open(os.path.join(CKPT, "smoke.json"), "w"), indent=2)
         print("  [tfep] SMOKE ok — env solves, %s assembly + mapping + hybrid topology build "

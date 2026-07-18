@@ -175,6 +175,35 @@ def _write_e3_pdb(cif_text: str, e3_chains: list, out_pdb: str):
     return st
 
 
+def _hydrogenate_pdb(pdb_path: str) -> dict:
+    """Add missing hydrogens (+ any missing heavy/terminal atoms) to the ASSEMBLED complex.pdb at pH 7, in place.
+
+    ROOT CAUSE this fixes (2026-07-17, valB seed-0): both _write_complex_pdb and _write_e3_pdb strip hydrogens
+    (gemmi remove_hydrogens) and the E3 chains come straight from the raw 8G1Q crystal — so the assembled protein
+    reaches OpenFE with ZERO hydrogens. OpenFE's HybridTopologySetupUnit calls OpenMM ForceField.createSystem,
+    which does NOT auto-add protein H — it fails template-matching with
+    'No template found for residue 0 (MET) ... missing 9 H atoms'. Step1/valA never hit this because their NR4A3
+    receptor prep hydrogenates; this ternary-staging path had never carried a real production leg before. Fix:
+    run the final complex through PDBFixer (the same tool smarca2_model.py uses) so the engine gets a prepared,
+    fully-hydrogenated protein. Applied to BOTH binary and ternary complex.pdb so binary0 doesn't hit the same wall.
+    """
+    from pdbfixer import PDBFixer
+    from openmm.app import PDBFile
+
+    fixer = PDBFixer(filename=pdb_path)
+    fixer.findMissingResidues()
+    fixer.missingResidues = {}          # do NOT model in gaps between resolved segments — keep the crystal atoms only
+    fixer.findNonstandardResidues()
+    fixer.findMissingAtoms()            # heavy atoms + terminal OXT that OpenMM templates require
+    fixer.addMissingAtoms()
+    fixer.addMissingHydrogens(7.0)
+    n_h = sum(1 for a in fixer.topology.atoms() if a.element is not None and a.element.symbol == "H")
+    with open(pdb_path, "w") as fh:
+        PDBFile.writeFile(fixer.topology, fixer.positions, fh, keepIds=True)
+    return {"hydrogenated": True, "n_hydrogens": n_h,
+            "n_atoms": fixer.topology.getNumAtoms(), "ph": 7.0}
+
+
 def _append_model_chain(e3_pdb: str, model_pdb: str, out_pdb: str):
     """Merge the relaxed SMARCA2 model chain into the E3 complex (both in the 8G1Q frame) -> the assembled
     complex.pdb the engine mounts. Text-level ATOM merge with a fresh chain id, robust across gemmi/openmm PDB."""
@@ -250,6 +279,9 @@ def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
             chains_used = e3_chains
             centroid = _write_complex_pdb(cif, chains_used, complex_pdb)
         made_pdb = True
+        # Hydrogenate the assembled complex so OpenFE's ForceField.createSystem can template-match it (see
+        # _hydrogenate_pdb docstring — the missing-H template error that killed valB seed-0). BOTH envs.
+        h_manifest = _hydrogenate_pdb(complex_pdb)
 
     n_lig = _write_ligands_sdf(template_pdb, ccd, endpoint_names, os.path.join(leg_dir, "ligands.sdf"),
                                protein_centroid=centroid)
@@ -257,6 +289,8 @@ def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
     # staging_manifest.json — the 5-part smoke gate item 4 reads n_relaxed_models / divergence_ok / substitution.
     sm_manifest = {"template_pdb": template_pdb, "is_smarca2_crystal": False if template_pdb == "8G1Q" else None,
                    "environment": env}
+    if made_pdb:
+        sm_manifest["hydrogenation"] = h_manifest
     if model_manifest:
         sm_manifest.update({
             "smarca4_to_smarca2_substituted": model_manifest.get("smarca4_to_smarca2_substituted"),
