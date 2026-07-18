@@ -1,6 +1,6 @@
 {
   "_note": "Free-credit tracker state. Neither GCP nor Modal exposes 'credit remaining' as an API, so each provider is tracked as remaining = cap - spent, plus a countdown to the window's expiry. 'spent' is filled by the credit-status CI job (or set manually). Fields marked CONFIRM must be read once from the provider console and pasted in (no API exposes them).",
-  "updated_utc": "2026-07-18T00:37:34Z",
+  "updated_utc": "2026-07-18T00:39:00Z",
   "providers": {
     "gcp": {
       "label": "GCP free trial",
@@ -8,9 +8,9 @@
       "cap": 300.0,
       "spent": null,
       "spent_source": "unset (bq_export | manual)",
-      "window_start": "CONFIRM (billing console: account creation date)",
+      "window_start": "2026-07-12",
       "window_days": 90,
-      "expiry": "CONFIRM (billing console: 'Free trial - N days remaining')",
+      "expiry": "2026-10-10",
       "notes": "No API returns trial-credit-remaining. Automatic spend needs BigQuery billing export enabled; else paste console spend. Expiry always read once from console."
     },
     "modal": {
