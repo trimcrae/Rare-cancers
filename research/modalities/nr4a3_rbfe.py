@@ -22,6 +22,7 @@ import glob
 import json
 import os
 import sys
+import time
 
 import rbfe_edges as rb
 
@@ -962,13 +963,24 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
             raise SystemExit("  ABORT: no %s in DAG (units=%s); openfe>=1.12?" % (key, list(byname)))
         return us[0]
 
-    # SETUP (build/serialize the hybrid system; redone cheaply on a fresh VM after a preemption)
+    # SETUP (build/serialize the hybrid system; redone cheaply on a fresh VM after a preemption).
+    # Serial-visible markers (the openmmtools MD logger writes to a file, NOT the console — so without these the
+    # leg is opaque between 'mapped' and the first GCS commit; that opacity hid whether the ternary MD was slow,
+    # hung, or preempted). These explicit prints DO reach the serial via the startup-script tee.
+    print("  [spot-safe] SETUP begin (solvate + parameterize the hybrid system)…", flush=True)
+    _t_setup0 = time.time()
     setup_outputs = _unit("HybridTopologySetupUnit").execute(context=_ctx("setup"), raise_error=True).outputs
+    print("  [spot-safe] SETUP done in %.0fs" % (time.time() - _t_setup0), flush=True)
     # SIMULATE — spot-safe: drive the MultiState unit via rbfe_spot_driver with a durable CommitStore
     sim_unit = _unit("HybridTopologyMultiStateSimulationUnit")
     umod = _sys.modules[type(sim_unit).__module__]
     sctx = _ctx("sim")
     system = umod.deserialize(setup_outputs["system"])
+    try:
+        print("  [spot-safe] SOLVATED SYSTEM: %d particles, %d λ-windows (feasibility signal on this GPU)"
+              % (system.getNumParticles(), int(os.environ.get("N_WINDOWS", "12"))), flush=True)
+    except Exception:  # noqa: BLE001
+        pass
     positions = umod.to_openmm(umod.np.load(setup_outputs["positions"]) * umod.offunit.nm)
     commit_gcs = os.environ.get(commit_gcs_env)
     commit_s3 = os.environ.get(commit_s3_env)
