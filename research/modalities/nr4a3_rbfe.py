@@ -1006,7 +1006,7 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                     r = _gsh("cp", cache_dir + "/" + mv[1], str(loc / mv[1]))
                     if r.returncode:
                         raise RuntimeError("cp %s: %s" % (mv[1], (r.stderr or "")[-200:]))
-                    setup_outputs[k] = str(loc / mv[1])
+                    setup_outputs[k] = loc / mv[1]   # pathlib.Path — openfe deserialize() calls .parent (not a str)
                 else:
                     setup_outputs[k] = objs[k]
             print("  [spot-safe] SETUP RESTORED from cache %s — skipped the ~460s solvate+parameterize "
