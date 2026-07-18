@@ -130,8 +130,32 @@ def _bonded_pairs(system):
     return pairs
 
 
+def _nonbonded_exceptions(system):
+    """Map atom pair -> (chargeProd_e2, epsilon_kJ/mol) for every NonbondedForce exception.
+
+    In an OpenFE hybrid topology the *old* and *new* copies of a mapped atom sit ~0.4 A apart but
+    are given a zeroed exception (chargeProd=0, epsilon=0) so they never see each other — that pair
+    is a HARMLESS artifact of the alchemical construction, NOT a real clash. A close pair that is
+    absent from the exceptions (or present with non-zero epsilon/chargeProd) IS force-bearing and a
+    genuine bad contact. This lets the clash report tell the two apart definitively."""
+    import openmm
+    exc = {}
+    for f in system.getForces():
+        if isinstance(f, openmm.NonbondedForce):
+            for k in range(f.getNumExceptions()):
+                p = f.getExceptionParameters(k)
+                i, j = int(p[0]), int(p[1])
+                cp = p[2].value_in_unit(openmm.unit.elementary_charge ** 2)
+                eps = p[4].value_in_unit(openmm.unit.kilojoule_per_mole)
+                exc[(min(i, j), max(i, j))] = (float(cp), float(eps))
+    return exc
+
+
 def _clash_report(positions, system, log, tag, thresh_nm=0.09):
-    """Log the closest NON-bonded atom pairs + any blown-up coordinates. Non-fatal."""
+    """Log the closest NON-bonded atom pairs + any blown-up coordinates. Non-fatal.
+
+    For each flagged close pair we also report whether it is a zeroed NonbondedForce exception (an
+    excluded hybrid old/new pair = red herring) or a force-bearing contact (a real clash)."""
     try:
         import numpy as np
         from openmm import unit as ommunit
@@ -165,12 +189,35 @@ def _clash_report(positions, system, log, tag, thresh_nm=0.09):
             seen.add(key)
             cand.append((float(d[a_local, 1]), ga, gb))
         cand.sort()
-        nclash = sum(1 for dd, _, _ in cand if dd < thresh_nm)
-        log(f"[clash-diag:{tag}] non-bonded pairs < {thresh_nm*10:.2f} A: {nclash} "
-            f"(closest non-bonded = {cand[0][0]*10:.3f} A)" if cand else
-            f"[clash-diag:{tag}] no non-bonded pairs found")
+        try:
+            exc = _nonbonded_exceptions(system)
+        except Exception as e:                        # pragma: no cover
+            log(f"[clash-diag:{tag}] could not read NB exceptions ({e})")
+            exc = {}
+        # A real clash = a close pair that is NOT a zeroed exception. Count only those.
+        def _forcebearing(ga, gb):
+            key = (min(ga, gb), max(ga, gb))
+            if key not in exc:
+                return True                            # sees full nonbonded -> real contact
+            cp, eps = exc[key]
+            return abs(cp) > 1e-6 or abs(eps) > 1e-6   # non-zero exception -> still force-bearing
+        nclash = sum(1 for dd, ga, gb in cand if dd < thresh_nm and _forcebearing(ga, gb))
+        nexcl = sum(1 for dd, ga, gb in cand if dd < thresh_nm and not _forcebearing(ga, gb))
+        if cand:
+            log(f"[clash-diag:{tag}] non-bonded pairs < {thresh_nm*10:.2f} A: "
+                f"{nclash} force-bearing (REAL) + {nexcl} zeroed-exception (hybrid A/B, benign); "
+                f"closest non-bonded = {cand[0][0]*10:.3f} A")
+        else:
+            log(f"[clash-diag:{tag}] no non-bonded pairs found")
         for dist, ga, gb in cand[:8]:
-            log(f"[clash-diag:{tag}]   non-bonded pair ({ga},{gb}) d={dist*10:.3f} A")
+            key = (min(ga, gb), max(ga, gb))
+            if key in exc:
+                cp, eps = exc[key]
+                kind = ("EXCLUDED-hybrid(benign)" if abs(cp) <= 1e-6 and abs(eps) <= 1e-6
+                        else f"exception(cp={cp:.3g} eps={eps:.3g})")
+            else:
+                kind = "FORCE-BEARING(real clash)"
+            log(f"[clash-diag:{tag}]   non-bonded pair ({ga},{gb}) d={dist*10:.3f} A  [{kind}]")
     except Exception as e:                           # pragma: no cover
         log(f"[clash-diag:{tag}] failed: {type(e).__name__}: {e}")
 
