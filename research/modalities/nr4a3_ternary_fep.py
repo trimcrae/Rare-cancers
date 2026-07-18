@@ -245,6 +245,24 @@ def _protocol(openfe):
         s.simulation_settings.production_length = PRODUCTION_NS * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN MD lengths (%s); using defaults" % e, flush=True)
+    # STARTING-STRUCTURE ROBUSTNESS (2026-07-18): the freshly-assembled ternary complex (homology SMARCA2 model +
+    # crystal E3 + PROTAC posed for the SMARCA4 pocket) has residual clashes that OpenFE's default 5000-step
+    # minimization can't fully relax → the default 4 fs HMR timestep then blows up to a NaN on MD iteration 1
+    # (verified: 'Particle coordinate is NaN', iteration1-replica0-state1). Fix: minimize much harder and take a
+    # gentler 2 fs step so the pocket sidechains relax into dynamics instead of exploding. Env-overridable so a
+    # future run can tune. (2 fs + HMR ~2x slower than 4 fs but stability-first for a calibration.)
+    try:
+        s.simulation_settings.minimization_steps = int(os.environ.get("RBFE_MIN_STEPS", "25000"))
+    except Exception as e:  # noqa: BLE001
+        print("  [tfep] WARN minimization_steps (%s)" % e, flush=True)
+    try:
+        from openff.units import unit as _ou2
+        _dt_fs = float(os.environ.get("RBFE_TIMESTEP_FS", "2.0"))
+        s.integrator_settings.timestep = _dt_fs * _ou2.femtosecond
+        print("  [tfep] timestep=%.1f fs, minimization_steps=%s (NaN-robust start)"
+              % (_dt_fs, s.simulation_settings.minimization_steps), flush=True)
+    except Exception as e:  # noqa: BLE001
+        print("  [tfep] WARN timestep (%s); using default" % e, flush=True)
     try:
         s.engine_settings.compute_platform = rbfe._working_platform_name("CUDA")
     except Exception as e:  # noqa: BLE001
@@ -286,6 +304,8 @@ def protocol_signature():
         "n_windows": N_WINDOWS, "n_replicas": N_WINDOWS, "protocol_repeats": 1,
         "equilibration_ns": EQUILIBRATION_NS, "production_ns": PRODUCTION_NS,
         "charge_method": os.environ.get("CHARGE_METHOD", "am1bcc"),
+        "minimization_steps": int(os.environ.get("RBFE_MIN_STEPS", "25000")),
+        "timestep_fs": float(os.environ.get("RBFE_TIMESTEP_FS", "2.0")),
         "mapping": "lomap_prefer_element_change",
     }
     h = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
