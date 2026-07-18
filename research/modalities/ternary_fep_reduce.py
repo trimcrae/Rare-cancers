@@ -92,6 +92,78 @@ def aggregate_leg(leg_id):
             "ci95_half_width_kcal": ci, "hysteresis_kcal": hysteresis, "dg_values": fwd}
 
 
+def _welch_satterthwaite(mean_t, sd_t, n_t, mean_b, sd_b, n_b):
+    """ΔΔG_coop = mean(ternary morph) − mean(binary morph) with a WELCH–SATTERTHWAITE 95% CI (reviewer required
+    change, 2026-07-17). The shared solvent morph cancels EXACTLY in the difference of means, so ΔΔG_coop is a
+    difference of two independent replicate-mean estimators and its SE is the between-replicate
+
+        SE = sqrt( s_T²/n_T + s_B²/n_B )                       (NOT a sum of per-window MBAR SEs)
+
+    with the Welch effective dof
+
+        dof = (s_T²/n_T + s_B²/n_B)² / [ (s_T²/n_T)²/(n_T−1) + (s_B²/n_B)²/(n_B−1) ]
+
+    and CI half-width t(.975, floor(dof))·SE. Returns None when either environment has <2 replicas (no spread)."""
+    if None in (mean_t, mean_b) or n_t < 2 or n_b < 2 or sd_t is None or sd_b is None:
+        return None
+    vt, vb = sd_t ** 2 / n_t, sd_b ** 2 / n_b
+    se = math.sqrt(vt + vb)
+    ddg = mean_t - mean_b
+    denom = (vt ** 2 / (n_t - 1)) + (vb ** 2 / (n_b - 1))
+    dof = ((vt + vb) ** 2 / denom) if denom > 0 else (n_t + n_b - 2)
+    ci = _tcrit(int(math.floor(dof))) * se
+    return {"ddg_coop_kcal": ddg, "se_kcal": se, "welch_dof": dof,
+            "ci95_half_width_kcal": ci, "ci95_low": ddg - ci, "ci95_high": ddg + ci,
+            "n_ternary": n_t, "n_binary": n_b}
+
+
+def calibration_decision(ternary_agg, binary_agg, target_kcal, restraint_dominated=None):
+    """Apply the FROZEN valB_mini decision rule (wurz-calib-frozen.json decision_rule_valB_mini) to the
+    Welch–Satterthwaite ΔΔG_coop vs the experimental calibration target (+0.944 kcal/mol). Returns
+    PASS / NO-GO / INDETERMINATE with the exact criterion that fired. The retired ±1.0 acceptance band is NOT
+    used — the sub-1-kcal experimental separation means we require zero-EXCLUSION, not a tolerance window."""
+    if ternary_agg is None or binary_agg is None:
+        return {"decision": "INDETERMINATE", "reason": "missing a required environment leg (ternary/binary)."}
+    ws = _welch_satterthwaite(ternary_agg["mean_dg_morph_kcal"], ternary_agg["replicate_sd_kcal"],
+                              ternary_agg["n_replicas"], binary_agg["mean_dg_morph_kcal"],
+                              binary_agg["replicate_sd_kcal"], binary_agg["n_replicas"])
+    if ws is None:
+        return {"decision": "INDETERMINATE",
+                "reason": "insufficient replicates for a between-replicate SE (need n>=2 per environment).",
+                "n_ternary": ternary_agg["n_replicas"], "n_binary": binary_agg["n_replicas"]}
+    lo, hi, ddg = ws["ci95_low"], ws["ci95_high"], ws["ddg_coop_kcal"]
+    hys = [h for h in (ternary_agg.get("hysteresis_kcal"), binary_agg.get("hysteresis_kcal")) if h is not None]
+    hysteresis_ok = all(h <= 1.0 for h in hys) if hys else True
+    excludes_zero = lo > 0.0                       # resolved POSITIVE cooperativity change (correct sign)
+    ci_includes_zero = lo <= 0.0 <= hi
+    target_in_ci = lo <= target_kcal <= hi
+    checks = {"correct_positive_sign": ddg > 0, "ci_excludes_zero": excludes_zero,
+              "hysteresis_resolved": hysteresis_ok, "consistent_with_target": target_in_ci,
+              "not_restraint_dominated": (restraint_dominated is not True)}
+    if hi < 0.0:
+        decision, reason = "NO-GO", ("CI is entirely NEGATIVE (%.2f..%.2f) — method resolves the WRONG sign "
+                                     "of cooperativity vs the known +%.3f." % (lo, hi, target_kcal))
+    elif ci_includes_zero:
+        decision, reason = "INDETERMINATE", ("95%% CI includes zero (%.2f..%.2f) — cannot resolve a nonzero "
+                                             "cooperativity change (noisy positive point estimate alone)." % (lo, hi))
+    elif not hysteresis_ok:
+        decision, reason = "INDETERMINATE", "unresolved forward/reverse hysteresis (>1.0 kcal/mol)."
+    elif restraint_dominated is True:
+        decision, reason = "INDETERMINATE", "restraint-dominated / collapse / ligand-escape flagged by convergence QC."
+    elif not target_in_ci:
+        decision, reason = "INDETERMINATE", ("sign resolved positive & zero excluded, but +%.3f lies OUTSIDE the "
+                                             "95%% CI (%.2f..%.2f) — magnitude not broadly consistent." % (target_kcal, lo, hi))
+    elif all(checks.values()):
+        decision, reason = "PASS", ("ΔΔG_coop=%.2f (95%% CI %.2f..%.2f) excludes zero with the correct positive "
+                                    "sign and is broadly consistent with +%.3f." % (ddg, lo, hi, target_kcal))
+    else:
+        decision, reason = "INDETERMINATE", "one or more PASS criteria unmet; see checks."
+    return {"decision": decision, "reason": reason, "target_kcal": target_kcal,
+            "welch_satterthwaite": ws, "checks": checks,
+            "adaptive_action": ("extend to 5 replicates/environment and re-reduce"
+                                if decision == "INDETERMINATE" else None)}
+
+
 def _diff(mean_a, ci_a, mean_b, ci_b):
     """(mean_a − mean_b) with quadrature-combined CI half-width (independent replicate errors)."""
     if mean_a is None or mean_b is None:
@@ -158,6 +230,24 @@ def leg_output_record(leg_agg, morph_summary):
     return rec
 
 
+def _protocol_hash_consistency():
+    """Reviewer #3: every leg of the coop cycle must run under the SAME frozen protocol. Collect the protocol_hash
+    each leg JSON recorded and confirm they are identical (the per-replica seed is excluded from the hash, so
+    replicas of a leg share it too). >1 distinct hash = a leg ran under different physics -> the cycle is invalid."""
+    hashes = {}
+    for base in (CKPT, IN):
+        for f in glob.glob(os.path.join(base, "**", "leg_*_r*.json"), recursive=True):
+            try:
+                d = json.load(open(f))
+            except Exception:  # noqa: BLE001
+                continue
+            h = d.get("protocol_hash")
+            if h:
+                hashes.setdefault(h, []).append(os.path.basename(f))
+    return {"consistent": len(hashes) <= 1, "n_distinct_hashes": len(hashes),
+            "hashes": {h: sorted(v) for h, v in hashes.items()}}
+
+
 def reduce_all():
     os.makedirs(CKPT, exist_ok=True)
     morphs = sorted({eng._morph_key(lid) for lid in eng.expand_pilot_legs()})
@@ -181,6 +271,21 @@ def reduce_all():
             "bar": {"binary_min_kcal": 3.0, "effective_ternary_min_kcal": 2.0,
                     "note": "prereg nrv04_affinity_control; POSITIVE margin = active favored over epimer."},
         }
+    # valB_mini CALIBRATION DECISION — Welch–Satterthwaite ΔΔG_coop vs the frozen +0.944 kcal/mol target, under
+    # the frozen decision_rule_valB_mini (PASS / NO-GO / INDETERMINATE). Target + rule come from the frozen JSON.
+    calib_decision = None
+    try:
+        cf = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wurz-calib-frozen.json")
+        target = json.load(open(cf))["preregistered_target"]["ddG_coop_exp_kcal_per_mol"]
+        calib = next((s for s in summaries if s["morph"].startswith("calib") and s.get("available")), None)
+        if calib:
+            legs = calib["legs"]
+            tern = next((v for v in legs.values() if v["environment"] == "ternary"), None)
+            bina = next((v for v in legs.values() if v["environment"] == "binary"), None)
+            calib_decision = calibration_decision(tern, bina, target)
+            calib_decision["morph"] = calib["morph"]
+    except Exception as e:  # noqa: BLE001
+        calib_decision = {"decision": "INDETERMINATE", "reason": "calibration decision not computed: %s" % e}
     report = {
         "_what": "ternary-cooperativity pilot reduction (binary-vs-ternary cycle, replicate-SD errors)",
         "_honesty": "no measured alpha/dG asserted; values appear only when real GPU legs have checkpointed. "
@@ -188,6 +293,8 @@ def reduce_all():
         "morph_summaries": summaries,
         "leg_output_records": leg_records,
         "nrv04_affinity_controls": nrv04_controls,
+        "valB_calibration_decision": calib_decision,
+        "protocol_hash_consistency": _protocol_hash_consistency(),
         "n_available_morphs": sum(1 for s in summaries if s.get("available")),
     }
     out = os.path.join(CKPT, "ternary_coop_reduction.json")

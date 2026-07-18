@@ -241,8 +241,8 @@ def _protocol(openfe):
         print("  [tfep] WARN windows→%d (%s); using default" % (N_WINDOWS, e), flush=True)
     try:
         from openff.units import unit as _ou
-        s.simulation_settings.equilibration_length = 1.0 * _ou.nanosecond
-        s.simulation_settings.production_length = 5.0 * _ou.nanosecond
+        s.simulation_settings.equilibration_length = EQUILIBRATION_NS * _ou.nanosecond
+        s.simulation_settings.production_length = PRODUCTION_NS * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN MD lengths (%s); using defaults" % e, flush=True)
     try:
@@ -268,6 +268,28 @@ def _protocol(openfe):
         except Exception:  # noqa: BLE001
             pass
     return RelativeHybridTopologyProtocol(s)
+
+
+EQUILIBRATION_NS = 1.0
+PRODUCTION_NS = 5.0
+
+
+def protocol_signature():
+    """FROZEN protocol signature (reviewer required change #3, 2026-07-17). A sha256 over the PHYSICS knobs that
+    must be IDENTICAL across every leg of the coop cycle (binary/ternary/solvent) so ΔΔG_coop's cancellation is
+    exact. The per-replica random SEED is DELIBERATELY EXCLUDED — replicas are meant to differ by seed ONLY, so
+    the seed is not part of protocol equality. run_leg records this hash on every leg JSON; the reducer asserts
+    all legs share one hash (a mismatch = a leg ran under different physics → the cycle is invalid)."""
+    import hashlib
+    payload = {
+        "engine": "RelativeHybridTopologyProtocol",
+        "n_windows": N_WINDOWS, "n_replicas": N_WINDOWS, "protocol_repeats": 1,
+        "equilibration_ns": EQUILIBRATION_NS, "production_ns": PRODUCTION_NS,
+        "charge_method": os.environ.get("CHARGE_METHOD", "am1bcc"),
+        "mapping": "lomap_prefer_element_change",
+    }
+    h = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
+    return h, payload
 
 
 def _chemical_systems(openfe, ligA, ligB, protein, env):
@@ -478,6 +500,7 @@ def run_leg():
                    "endpoints_match_requested": endpoints_ok,
                    "n_protocol_units": len(getattr(dag, "protocol_units", []) or []),
                    "setup_unit_system_built": setup_ok,
+                   "protocol_hash": protocol_signature()[0],
                    "gate": gate, "gate_all_pass": gate["all_pass"]},
                   open(os.path.join(CKPT, "smoke.json"), "w"), indent=2)
         print("  [tfep] SMOKE ok — env solves, %s assembly + mapping + hybrid topology build "
@@ -493,11 +516,22 @@ def run_leg():
     # MultiState sampling per interval to a versioned GCS/S3 CommitStore and RESUMES from the last committed
     # iteration on re-dispatch. Same battle-tested path valA survived 9 preemptions on.
     tag = "%s_%s_r%d" % (LEG_ID, DIRECTION, SEED)
+    proto_hash, proto_payload = protocol_signature()
+    # starting-model provenance per ternary replicate (reviewer #3): read the model index the stager chose for
+    # THIS seed from the leg's staging_manifest.json (ternary_pdb_stage records starting_model_index = SEED % n).
+    starting_model = None
+    try:
+        _man = json.load(open(os.path.join(IN, leg["id"], "staging_manifest.json")))
+        starting_model = _man.get("starting_model")
+    except Exception:  # noqa: BLE001
+        starting_model = None
     dg_kcal, unc_kcal, _ana_keys = rbfe.execute_hybrid_dag_spot_safe(proto, dag, CKPT, tag)
     out = {"leg_id": LEG_ID, "environment": env, "morph": "%s->%s" % (a, b), "direction": DIRECTION,
            "seed": SEED, "dg_morph_kcal": float(dg_kcal) if dg_kcal is not None else None,
            "mbar_se_kcal": float(unc_kcal) if unc_kcal is not None else None, "n_mapped_atoms": n_mapped,
-           "n_windows": N_WINDOWS, "spot_safe": True}
+           "n_windows": N_WINDOWS, "spot_safe": True,
+           "protocol_hash": proto_hash, "protocol_settings": proto_payload,
+           "starting_model": starting_model}
     json.dump(out, open(os.path.join(CKPT, "leg_%s_%s_r%d.json" % (LEG_ID, DIRECTION, SEED)), "w"), indent=2)
     _dg = out["dg_morph_kcal"]; _se = out["mbar_se_kcal"]
     print("  [tfep] LEG DONE %s: ΔG_morph=%s ± %s (MBAR SE) [spot-safe]" % (

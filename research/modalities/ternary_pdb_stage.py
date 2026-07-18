@@ -244,6 +244,7 @@ def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
     chains_used: list = []
     centroid = None
     model_manifest = None
+    _starting_model = None
     if env in ("binary", "ternary"):
         roles = ROLE_CHAINS_FOR_ENV[env]
         r2c = role_to_chains(template_pdb)
@@ -270,8 +271,17 @@ def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
                     raise SystemExit(f"[stage] SMARCA2 model build failed: {model_manifest.get('reason')}")
                 e3_pdb = os.path.join(leg_dir, "_e3.pdb")
                 _write_e3_pdb(cif, e3_chains, e3_pdb)
-                centroid, model_chain = _append_model_chain(e3_pdb, model_manifest["model_pdbs"][0], complex_pdb)
+                # reviewer #3: each ternary REPLICATE uses an INDEPENDENTLY relaxed SMARCA2 model, so a coop
+                # result is not an artifact of one homology pose. seed s -> model (s % n_models): seed 0 -> model 0,
+                # seed 1 -> the 2nd relaxed model, etc. Record which model this replicate used (starting_model).
+                seed = int(os.environ.get("SEED", "0"))
+                model_pdbs = model_manifest["model_pdbs"]
+                model_idx = seed % len(model_pdbs)
+                centroid, model_chain = _append_model_chain(e3_pdb, model_pdbs[model_idx], complex_pdb)
                 chains_used = e3_chains + [model_chain]
+                _starting_model = {"seed": seed, "starting_model_index": model_idx,
+                                   "n_models_available": len(model_pdbs),
+                                   "model_pdb": os.path.basename(model_pdbs[model_idx])}
             else:                          # already SMARCA2 (a real SMARCA2 crystal): use the chain directly
                 chains_used = e3_chains + [target_chain]
                 centroid = _write_complex_pdb(cif, chains_used, complex_pdb)
@@ -291,6 +301,8 @@ def stage_leg(leg_id: str, template_pdb: str, out_root: str) -> dict:
                    "environment": env}
     if made_pdb:
         sm_manifest["hydrogenation"] = h_manifest
+    if _starting_model is not None:
+        sm_manifest["starting_model"] = _starting_model
     if model_manifest:
         sm_manifest.update({
             "smarca4_to_smarca2_substituted": model_manifest.get("smarca4_to_smarca2_substituted"),
