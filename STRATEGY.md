@@ -181,7 +181,7 @@ Two of the reviewer's mandated validations look similar ("benchmark the method o
 
 ## THE ORDERED PLAN (spend-gated) — this is "what's next", always read top-to-bottom
 
-Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable. **Price = est. spot $ for THAT step.**
+Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not needed; rationale inline). `∥` = parallelizable. **Price = est. spot $ for THAT step.**
 "Cum." = cumulative spend if we've said GO at every gate up to and including this step (mid-range).
 
 ### RUNG 0 — free / already-running (do regardless; ~$0 new)
@@ -276,25 +276,30 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 
 ### RUNG 3 — expand the benchmarks *(only if Rung 2 probes look promising)*
 
-- **`[ ]` Validation A-full — expand to 10–20 edges** *(valA_full · GPU · CONDITIONAL — often skippable)* — **Price: ~$50–140 · Cum. ~$205**
-  **Only run if valA_mini shows NAGL introduces error worth characterizing.** If valA_mini reproduces known ΔΔG
-  cleanly, this is largely **redundant with OpenFE's published benchmark** — in that case **skip it**, cite
-  OpenFE's ~1.7 kcal/mol for the reference protocol, and present valA_mini as confirming the NAGL substitution
-  doesn't break accuracy (saves ~$50–140). Run the full set only to *characterize/repair* a charge-model
-  discrepancy the mini surfaces. **GO/NO-GO (if run):** RMSE in a defensible band (~≤2 kcal/mol) → GO.
-- **`[ ]` Validation B-full — full noncovalent ternary benchmark** *(valB_full · GPU)* — **Price: ~$80–200 · Cum. ~$345**
+- **`[–]` Validation A-full — expand to 10–20 edges** *(valA_full · GPU · **SKIPPED 2026-07-18**)* — **Price: ~$50–140 (NOT spent) · saves ~$50–140**
+  **SKIPPED — the skip condition was met.** valA_mini reproduced the known TYK2 ΔΔG cleanly (abs err 0.61 kcal/mol
+  ≪ 2.0) on the **standard am1bcc** method (post RUNG-0 charge fix), NOT the NAGL surrogate. The original purpose
+  of valA_full was to *characterize/repair a NAGL-introduced discrepancy* — that discrepancy no longer exists, so
+  a full 10–20 edge re-derivation is **redundant with OpenFE's published ~1.7 kcal/mol benchmark** for this exact
+  reference protocol. **Accuracy framing (must hold in the paper):** cite OpenFE's published benchmark for the
+  am1bcc RelativeHybridTopology protocol; present valA_mini as a single-edge **build-consistency confirmation**
+  (our container reproduces a known ΔΔG), NOT as a standalone accuracy benchmark. **Re-open ONLY if** am1bcc
+  charging is later forced onto NAGL for some ligand (`CHARGE_METHOD=nagl`), in which case Val A reverts to the
+  paid NAGL-validation benchmark. *(Prior GO/NO-GO if it had run: RMSE ≤ ~2 kcal/mol → GO.)*
+- **`[ ]` Validation B-full — full noncovalent ternary benchmark** *(valB_full · GPU)* — **Price: ~$80–200 · Cum. ~$255**
   Complete VHL–BRD4/SMARCA2 series; **fixes the preregistered ternary scoring rules.** **GATE:** the prospective
   matrix never runs unless this passes. **GO/NO-GO:** recovers known ternary cooperativity ranking → GO.
-- **`[ ]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU)* — **Price: ~$40–100 · Cum. ~$410**
+- **`[ ]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU)* — **Price: ~$40–100 · Cum. ~$320**
   Covalent celastrol–NR4A1 (C551) adduct + noncov/cov sensitivity + C551A + warhead/recruiter controls.
   **GO/NO-GO:** covalency doesn't swamp the signal and the reduced panel behaves → GO to the full NR-V04.
 
 ### RUNG 4 — the real science spends *(only after all benchmarks are green)*
 
-- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** *(step1_fanout_cmpd19 · GPU)* — **Price: ~$60–150 · Cum. ~$515**
+- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** *(step1_fanout_cmpd19 · GPU)* — **Price: ~$60–150 · Cum. ~$425**
   Full congeneric map across conformer panels + matched paralogues + microstates, as conditional hypotheses with
-  sensitivity ranges. **Gate:** Val A-full passed AND Step 1 pilot behaved.
-- **`[ ]` NR-V04 retrospective — preregistered holdout** *(nrv04_retrospective · GPU)* — **Price: ~$80–200 · Cum. ~$655**
+  sensitivity ranges. **Gate:** Val A accuracy satisfied (**valA_full SKIPPED — valA_mini clean on am1bcc → cite
+  OpenFE**) AND Step 1 pilot behaved.
+- **`[ ]` NR-V04 retrospective — preregistered holdout** *(nrv04_retrospective · GPU)* — **Price: ~$80–200 · Cum. ~$565**
   Full NR4A1/2/3 ensembles through the pipeline, NO tuning, epimer control. Report **directional concordance**,
   never "recovered degradation." **Gate:** Val B-full + NR-V04 feasibility + Step 1 fan-out.
   **GO/NO-GO:** at least directionally concordant with the known NR4A1-degraded / NR4A2·3-spared outcome → GO to
@@ -302,7 +307,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 
 ### RUNG 5 — the flagship spend *(the single biggest spend; only after the go/no-go gate)*
 
-- **`[ ]` Prospective matrix — hypothesis prioritization** *(ternary_prospective_matrix · GPU)* — **Price: ~$150–400 · Cum. ~$930**
+- **`[ ]` Prospective matrix — hypothesis prioritization** *(ternary_prospective_matrix · GPU)* — **Price: ~$150–400 · Cum. ~$840**
   {2–3 warheads}×{2 exit vectors}×{VHL,CRBN}×{3 linkers} = **24–36** → preregistered cheap-screen downselect to
   ~6–12. Staged gates → Pareto front; EWSR1::NR4A3 fusion context; lysines beyond the LBD; full CRL/E2~Ub
   ensembles. Deliverable = predicted selective **candidates**, degradation experimentally unvalidated.
@@ -331,15 +336,15 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done. `∥` = parallelizable
 |---|---|---|
 | After Rung 1 (Val A smoke) | Does our am1bcc build reproduce a known ΔΔG? (charge-model fixed → cite OpenFE) | **~$15** |
 | After Rung 2 (pilot + Val B-mini) | Is cmpd19 stable to build on? Does ternary move right? | **~$110** |
-| After Rung 3 (full benchmarks) | Are both benchmarks publishable-defensible? | **~$345** |
-| After Rung 4 (fan-out + NR-V04) | Real selectivity picture + NR-V04 concordance | **~$655** |
-| After Rung 5 (matrix) | The flagship candidate matrix | **~$930** |
+| After Rung 3 (full benchmarks) | Are both benchmarks publishable-defensible? (valA_full SKIPPED — valA_mini clean → cite OpenFE, saves ~$50–140) | **~$255** |
+| After Rung 4 (fan-out + NR-V04) | Real selectivity picture + NR-V04 concordance | **~$565** |
+| After Rung 5 (matrix) | The flagship candidate matrix | **~$840** |
 | Optional ΔG_open / ABFE | unconditional affinity / pose-plausibility | +$200–500 |
 
 **The whole point:** we can kill a non-viable paper for **~$25**, and we never reach the ~$150–400 flagship
 matrix spend until four cheaper gates (Val A-mini → pilot/Val B-mini → full benchmarks → NR-V04) have each said
-"this is working." Full-program GPU is ~$0.9–1.5k *only if every gate says GO*. Every launch still waits for an
-explicit go — nothing is pre-authorized.
+"this is working." Full-program GPU is ~$0.8–1.4k *only if every gate says GO* (valA_full SKIPPED after a clean
+valA_mini saves ~$50–140). Every launch still waits for an explicit go — nothing is pre-authorized.
 
 ## Dependency spine (compact)
 
@@ -350,7 +355,7 @@ RUNG1  valA_mini  ──[GO?]──►                                   (cheap 
           │
 RUNG2  step1_pilot ∥ valB_mini  ──[GO?]──►                     (~$110)
           │
-RUNG3  valA_full + valB_full + nrv04_feasibility  ──[GO?]──►   (~$345)
+RUNG3  valB_full + nrv04_feasibility  ──[GO?]──►               (~$255; valA_full SKIPPED — cite OpenFE)
           │
 RUNG4  step1_fanout ──► nrv04_retrospective  ──[concordant?]──► (~$655)
           │
