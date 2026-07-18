@@ -194,6 +194,7 @@ def _hydrogenate_pdb(pdb_path: str) -> dict:
     fixer.findMissingResidues()
     fixer.missingResidues = {}          # do NOT model in gaps between resolved segments — keep the crystal atoms only
     fixer.findNonstandardResidues()
+    fixer.replaceNonstandardResidues()  # map any modified residues back to standard so templates match (robustness)
     fixer.findMissingAtoms()            # heavy atoms + terminal OXT that OpenMM templates require
     fixer.addMissingAtoms()
     fixer.addMissingHydrogens(7.0)
