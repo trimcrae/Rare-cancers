@@ -79,7 +79,9 @@ jobs:
       - name: Tail / monitor detached ternary VMs (mode=tail)
         if: ${{ github.event.inputs.mode == 'tail' }}
         run: |
-          set -eo pipefail
+          set +e   # DIAGNOSTIC step: never exit on a grep-no-match. A warmup-only leg (no production commits yet)
+                   # made the production-iter grep return 1, which under `set -e` killed the step BEFORE the serial
+                   # tail + SSH run-log window — hiding exactly the MD state we tail for. Read-only, so +e is correct.
           PROJECT=project-a7ebde30-e2ed-4b8d-9a9
           BUCKET="${PROJECT}-rbfe-ckpt"; RESULTS="gs://$BUCKET/valB-6hax/results"
           echo "=== live gcp-ternary VMs ==="
