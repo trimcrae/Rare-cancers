@@ -1059,6 +1059,18 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
               % (system.getNumParticles(), int(os.environ.get("N_WINDOWS", "12"))), flush=True)
     except Exception:  # noqa: BLE001
         pass
+    # PRE-BAKE / PRIME (2026-07-18): setup (solvate+parameterize) is 100% CPU — no GPU touched until the MD below.
+    # So a free, NON-PREEMPTIBLE CPU runner can build it and write the GCS cache, then a GPU VM RESTORES it and goes
+    # straight to minimize+MD — removing the entire (preemption-prone) setup window from GPU/spot exposure. The
+    # serialized OpenMM System is platform-agnostic, so a CPU-built cache is valid for the GPU run. RBFE_PRIME_ONLY=1
+    # exits here (cache already written above); requires RBFE_SETUP_CACHE_GCS so there IS a cache to leave behind.
+    if os.environ.get("RBFE_PRIME_ONLY") == "1":
+        if not cache_dir:
+            print("  [spot-safe] PRIME_ONLY set but RBFE_SETUP_CACHE_GCS unset — nothing cached; abort", flush=True)
+            raise SystemExit("PRIME_ONLY requires RBFE_SETUP_CACHE_GCS")
+        print("  [spot-safe] PRIME_ONLY: setup built + cached to %s; exiting before MD "
+              "(a GPU run will restore it and skip setup)." % cache_dir, flush=True)
+        return None, None, {"primed": True, "cache_dir": cache_dir, "n_particles": system.getNumParticles()}
     commit_gcs = os.environ.get(commit_gcs_env)
     commit_s3 = os.environ.get(commit_s3_env)
     if commit_gcs:

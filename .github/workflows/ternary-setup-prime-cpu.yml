@@ -1,0 +1,106 @@
+name: Ternary SETUP pre-bake (CPU, free, non-preemptible)
+
+# Setup (solvate + parameterize the 146k-atom hybrid system) is 100% CPU — no GPU is touched until the MD. On
+# volatile GCP L4 Spot that ~8-min (30-min on a small box) uncheckpointed setup window is exactly what kept getting
+# preempted before the first checkpoint. Fix: PRE-BAKE the setup here on a FREE, NON-PREEMPTIBLE GitHub CPU runner
+# and write it to the GCS setup-cache; a GPU run then RESTORES it (nr4a3_rbfe.execute_hybrid_dag_spot_safe) and goes
+# straight to minimize+MD — so the GPU only ever does the checkpointed sampling and a preemption costs <= minutes.
+# The serialized OpenMM System is platform-agnostic, so a CPU-built cache is identical to a GPU-built one. To keep
+# the coop cycle's cancellation exact, this restores the SAME cached openfe env tarball the GPU VMs use (identical
+# package versions), so every leg is parameterized by the same toolchain regardless of where setup ran.
+
+on:
+  workflow_dispatch:
+    inputs:
+      leg_id:        { description: "leg to pre-bake", default: "calib_hi_to_lo__ternary_vhl", required: false }
+      seed:          { description: "replica seed (starting-model index = seed % n_models)", default: "0", required: false }
+      charge_method: { description: "am1bcc | nagl — MUST match the GPU run's charge_method (cache key includes it)", default: "nagl", required: false }
+      template_pdb:  { description: "crystal template", default: "8G1Q", required: false }
+      n_windows:     { description: "lambda windows (system build is independent of this, but kept for parity)", default: "12", required: false }
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: ternary-prime-${{ github.event.inputs.leg_id || 'na' }}-${{ github.event.inputs.seed || '0' }}
+  cancel-in-progress: false
+
+jobs:
+  prime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120       # non-preemptible; slow CPU setup (~30 min) + env restore is fine, it runs ONCE
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP (keyless, WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Restore the SAME cached openfe env the GPU lane uses (identical toolchain -> valid cache)
+        run: |
+          set -eo pipefail
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          gcloud config set project "$PROJECT" 2>/dev/null || true
+          BUCKET="${PROJECT}-rbfe-ckpt"
+          # Same image-family -> ENV_KEY derivation as the GPU startup script (gpu-ternary-fep-gcp.yml), so the
+          # tarball key matches. The env is conda-forge (self-contained) + ubuntu-2404 on both hosts -> portable.
+          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
+          [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
+          ENV_KEY=$(echo "$IMG_FAMILY|openfe1.12-am1bcc-gemmi-pdbfixer-biopython-cu126-v2" | sha256sum | cut -c1-16)
+          ENV_CACHE="gs://$BUCKET/env-cache/ternary-$ENV_KEY.tar"
+          echo "IMG_FAMILY=$IMG_FAMILY  ENV_CACHE=$ENV_CACHE"
+          mkdir -p /tmp/mf/envs
+          if gcloud storage cp "$ENV_CACHE" /tmp/env.tar 2>/dev/null; then
+            tar -C /tmp/mf/envs -xf /tmp/env.tar && rm -f /tmp/env.tar && echo "--- env-cache HIT (restored GPU env) ---"
+          else
+            echo "::error::env tarball $ENV_CACHE not found — a GPU run must build+cache the env first"; exit 1
+          fi
+          PY=/tmp/mf/envs/rbfe/bin/python
+          "$PY" -c "import openfe,openmm,gemmi,rdkit,pdbfixer,Bio;print('env OK openfe',openfe.__version__)" \
+            || { echo "::error::restored env fails to import on the CPU runner"; exit 1; }
+          echo "PY=$PY" >> "$GITHUB_ENV"
+          echo "BUCKET=$BUCKET" >> "$GITHUB_ENV"
+
+      - name: Stage the leg (RCSB fetch + SMARCA4->SMARCA2 model + assembly) — CPU
+        working-directory: research/modalities
+        run: |
+          set -eo pipefail
+          mkdir -p /tmp/ternary_in
+          $PY ternary_pdb_stage.py --leg-id "${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}" \
+            --template-pdb "${{ github.event.inputs.template_pdb || '8G1Q' }}" --out /tmp/ternary_in 2>&1 | tail -25
+          find /tmp/ternary_in -type f -printf '  %s B  %p\n' 2>/dev/null | tail -10
+
+      - name: PRE-BAKE setup -> GCS cache (RBFE_PRIME_ONLY=1, exits before MD)
+        working-directory: research/modalities
+        env:
+          MODE: run
+          LEG_ID: ${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}
+          SEED: ${{ github.event.inputs.seed || '0' }}
+          DIRECTION: fwd
+          N_WINDOWS: ${{ github.event.inputs.n_windows || '12' }}
+          CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'nagl' }}
+          RBFE_PRIME_ONLY: "1"
+          INPUT_DIR: /tmp/ternary_in
+          OUTPUT_DIR: /tmp/tout
+          CKPT_DIR: /tmp/tout
+        run: |
+          set -eo pipefail
+          mkdir -p /tmp/tout
+          export RBFE_SETUP_CACHE_GCS="gs://$BUCKET/valB-6hax/setupcache"
+          echo "--- PRIME leg=$LEG_ID seed=$SEED charge=$CHARGE_METHOD -> $RBFE_SETUP_CACHE_GCS ---"
+          $PY nr4a3_ternary_fep.py 2>&1 | tail -60
+          PM=$(ls /tmp/tout/prime_*.json 2>/dev/null | head -1 || true)
+          if [ -n "$PM" ]; then
+            echo "=== PRIME MARKER ==="; cat "$PM"
+            echo "=== setup-cache now in GCS ==="
+            gcloud storage ls "$RBFE_SETUP_CACHE_GCS/" 2>/dev/null || true
+          else
+            echo "::error::no prime marker — setup did not complete/cache"; exit 1
+          fi
