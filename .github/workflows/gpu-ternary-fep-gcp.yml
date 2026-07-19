@@ -35,6 +35,7 @@ on:
       warmup_iters: { description: "override warmup iteration count (RBFE_WARMUP_ITERS). Empty = derive from equilibration_length. Use a small value (e.g. 100) with a reduced warmup_timestep_fs so the reduced-dt relax is short, or for a fast timestep-feasibility test.", default: "", required: false }
       prod_iters: { description: "override production iteration count (RBFE_PROD_ITERS). Empty = full science length. Use a small value (e.g. 120) for a fast timestep-feasibility test (does production survive at timestep_fs).", default: "", required: false }
       provisioning: { description: "spot (default; ~60-90% cheaper, standing rule: wait out capacity) | standard (on-demand; skips the spot-capacity wait). Use 'standard' ONLY when explicitly authorized for a time-sensitive one-off, e.g. confirming a single valB leg.", default: "spot", required: false }
+      commit_salt: { description: "Optional suffix appended to the spot commit-store prefix, forcing a FRESH run that does NOT resume prior checkpoints. Use when a code change alters warmup/production behavior but the (dt,clig,wu) prefix would otherwise collide with poisoned checkpoints (e.g. a broken earlier warmup-override attempt wrote to the same wu-keyed prefix). Empty = normal resume.", default: "", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
@@ -68,6 +69,7 @@ jobs:
       WARMUP_TS: ${{ github.event.inputs.warmup_timestep_fs || '' }}
       WARMUP_ITERS: ${{ github.event.inputs.warmup_iters || '' }}
       PROD_ITERS: ${{ github.event.inputs.prod_iters || '' }}
+      SALT: ${{ github.event.inputs.commit_salt || '' }}
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
       GITREF: ${{ github.ref_name }}
     steps:
@@ -286,7 +288,7 @@ jobs:
           # unused. (The setup-cache is NOT dt-keyed: the built System is identical across timesteps.)
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
             echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
