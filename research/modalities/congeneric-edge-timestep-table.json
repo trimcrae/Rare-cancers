@@ -1,7 +1,7 @@
 {
   "_schema": "congeneric_edge_timestep_ceiling_scan",
   "_method": "real OpenFE solvent-leg hybrid build (constraints=HBonds, HMR default) per edge; count of unconstrained alchemical X-H bonds = timestep ceiling (>=1 -> ~2 fs, 0 -> 4 fs). No MD/GPU.",
-  "charge_method": "am1bcc",
+  "charge_method": "nagl",
   "results": [
     {
       "edge_id": "ANCHOR_pilot_5Br_to_5NH2",
@@ -10,170 +10,49 @@
       "perturbation": "5-Br -> 5-NH2 (== step1 pilot; RAN CLEAN at 4 fs -> expect 0 unconstrained)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5nh2",
-      "xh_total": 14,
-      "xh_unconstrained": 14,
+      "xh_total": 0,
+      "xh_unconstrained": 0,
       "total_constraints": 1771,
       "constraints_setting": "hbonds",
       "hydrogen_mass_setting": "3.0",
-      "constrain_diag": {
-        "harmonic_xh": 0,
-        "custombond_forces": [
-          {
-            "n_bonds": 11,
-            "pnames": [
-              "length1",
-              "K1",
-              "length2",
-              "K2"
-            ],
-            "length_cols": [
-              0,
-              2
-            ],
-            "n_xh": 0,
-            "n_xh_nonalch": 0,
-            "sample_xh": []
-          },
-          {
-            "n_bonds": 30,
-            "pnames": [
-              "chargeProd",
-              "sigmaA",
-              "epsilonA",
-              "sigmaB",
-              "epsilonB",
-              "unique_old",
-              "unique_new"
-            ],
-            "length_cols": [],
-            "n_xh": 14,
-            "n_xh_nonalch": 0,
-            "sample_xh": [
-              [
-                2,
-                14,
-                [
-                  0.02810659097796144,
-                  0.30319362988921306,
-                  0.07898855856726843,
-                  0.30319362988921306,
-                  0.0,
-                  1.0,
-                  0.0
-                ]
-              ],
-              [
-                2,
-                15,
-                [
-                  0.02810659097796144,
-                  0.30319362988921306,
-                  0.07898855856726843,
-                  0.30319362988921306,
-                  0.0,
-                  1.0,
-                  0.0
-                ]
-              ],
-              [
-                2,
-                16,
-                [
-                  0.02810659097796144,
-                  0.30319362988921306,
-                  0.07898855856726843,
-                  0.30319362988921306,
-                  0.0,
-                  1.0,
-                  0.0
-                ]
-              ],
-              [
-                11,
-                20,
-                [
-                  -0.010665205234159779,
-                  0.30411889372308987,
-                  0.14830007973985937,
-                  0.30411889372308987,
-                  0.0,
-                  1.0,
-                  0.0
-                ]
-              ]
-            ]
-          }
-        ]
-      },
-      "unconstrained_atoms": [
-        [
-          14,
-          3.0
-        ],
-        [
-          15,
-          3.0
-        ],
-        [
-          16,
-          3.0
-        ],
-        [
-          20,
-          3.0
-        ],
-        [
-          21,
-          3.0
-        ],
-        [
-          1788,
-          3.0
-        ],
-        [
-          1789,
-          3.0
-        ],
-        [
-          1790,
-          3.0
-        ],
-        [
-          20,
-          3.0
-        ],
-        [
-          1791,
-          3.0
-        ],
-        [
-          1791,
-          3.0
-        ],
-        [
-          1792,
-          3.0
-        ],
-        [
-          1792,
-          3.0
-        ],
-        [
-          21,
-          3.0
-        ]
-      ],
+      "constrain_diag": null,
+      "unconstrained_atoms": [],
       "n_mapped_atoms": 15,
-      "max_stable_timestep_fs": 2.0,
-      "verdict": "2fs",
+      "max_stable_timestep_fs": 4.0,
+      "verdict": "4fs",
       "expect": "4fs",
+      "error": null
+    },
+    {
+      "edge_id": "ANCHOR_calib_wurz_N_to_CH",
+      "src": "anchor",
+      "kind": "anchor",
+      "perturbation": "Wurz_cmpd1 -> Wurz_cmpd4 (pyridine linker -> benzene linker; ring N -> CH) (NaN'd at 4 fs -> expect >=1 unconstrained)",
+      "node_a": "Wurz_cmpd1",
+      "node_b": "Wurz_cmpd4",
+      "xh_total": 0,
+      "xh_unconstrained": 0,
+      "total_constraints": 4997,
+      "constraints_setting": "hbonds",
+      "hydrogen_mass_setting": "3.0",
+      "constrain_diag": null,
+      "unconstrained_atoms": [],
+      "n_mapped_atoms": 47,
+      "max_stable_timestep_fs": 4.0,
+      "verdict": "4fs",
+      "expect": "2fs",
       "error": null
     }
   ],
   "anchor_check": {
     "ANCHOR_pilot_5Br_to_5NH2": {
       "expect": "4fs",
-      "got": "2fs",
+      "got": "4fs",
+      "ok": true
+    },
+    "ANCHOR_calib_wurz_N_to_CH": {
+      "expect": "2fs",
+      "got": "4fs",
       "ok": false
     }
   },
