@@ -30,7 +30,10 @@ on:
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
       charge_method: { description: "am1bcc (field standard, SLOW/stalls on big PROTACs via AmberTools sqm) | nagl (openff-nagl ML charges, fast). MUST match across all valB legs.", default: "am1bcc", required: false }
       timestep_fs: { description: "MD timestep (fs). CORRECTED 2026-07-19: OpenFE leaves the WHOLE alchemical ligand's C-H unconstrained (not just morphing bonds), so the ceiling is a LANE property, not edge chemistry: large ternary assemblies NaN at 4.0 (calib) and run at 2.0; binary warhead RBFE runs at 4.0. With constrain_ligand_ch=1 a larger dt (try 3.0/4.0) may become stable. See ternary-rbfe-runbook.md 1b.", default: "2.0", required: false }
-      constrain_ligand_ch: { description: "1 = constrain the NON-alchemical ligand C-H bonds OpenFE leaves flexible (nr4a3_rbfe.constrain_nonalchemical_xh) to enable a larger stable timestep for the ternary lane. MUST match across ALL legs of a calculation to keep ΔΔG valid. Keyed into the commit prefix so a constrained run never resumes an unconstrained trajectory.", default: "0", required: false }
+      constrain_ligand_ch: { description: "1 = constrain the NON-alchemical ligand C-H bonds OpenFE leaves flexible (nr4a3_rbfe.constrain_nonalchemical_xh) to enable a larger stable timestep for the ternary lane. NB (2026-07-19): the ligand C-H are ALREADY constrained, so this is a no-op — kept only as a guard. MUST match across ALL legs of a calculation. Keyed into the commit prefix.", default: "0", required: false }
+      warmup_timestep_fs: { description: "MD timestep (fs) for the DISCARDED equilibration/warmup only; production runs at timestep_fs. Set smaller than timestep_fs (e.g. 1.5) to survive a rough ternary warmup while producing at the larger dt — equilibration never enters ΔG, so this does not affect the result. Empty = warmup uses the production dt. Keyed into the commit prefix.", default: "", required: false }
+      warmup_iters: { description: "override warmup iteration count (RBFE_WARMUP_ITERS). Empty = derive from equilibration_length. Use a small value (e.g. 100) with a reduced warmup_timestep_fs so the reduced-dt relax is short, or for a fast timestep-feasibility test.", default: "", required: false }
+      prod_iters: { description: "override production iteration count (RBFE_PROD_ITERS). Empty = full science length. Use a small value (e.g. 120) for a fast timestep-feasibility test (does production survive at timestep_fs).", default: "", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
@@ -61,6 +64,9 @@ jobs:
       CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'am1bcc' }}
       TIMESTEP_FS: ${{ github.event.inputs.timestep_fs || '2.0' }}
       CONSTRAIN_LIG: ${{ github.event.inputs.constrain_ligand_ch || '0' }}
+      WARMUP_TS: ${{ github.event.inputs.warmup_timestep_fs || '' }}
+      WARMUP_ITERS: ${{ github.event.inputs.warmup_iters || '' }}
+      PROD_ITERS: ${{ github.event.inputs.prod_iters || '' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -248,12 +254,13 @@ jobs:
           # unused. (The setup-cache is NOT dt-keyed: the built System is identical across timesteps.)
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
             echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
-              CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG \
+              CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG RBFE_WARMUP_TIMESTEP_FS=$WARMUP_TS \
+              RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS \
               OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \$COMMIT_ENV \
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist

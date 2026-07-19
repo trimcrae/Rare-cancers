@@ -283,14 +283,37 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
 
     integrator = unit._get_integrator(integrator_settings=integ_s, simulation_settings=sim_s,
                                       system=system)
+    # REDUCED-TIMESTEP WARMUP (2026-07-19). A large, rough (homology-built) ternary assembly can NaN during the
+    # alchemical WARMUP at the production dt (e.g. 4 fs) — a softcore-state integration blow-up on the rough start —
+    # while PRODUCTION at that dt from a CLEAN equilibrated structure is fine. Equilibration is DISCARDED (it never
+    # enters the MBAR free-energy estimate), so we may run WARMUP at a smaller dt and hand the equilibrated
+    # sampler states to a full-dt production. RBFE_WARMUP_TIMESTEP_FS sets the warmup dt (unset -> same as
+    # production). This is the standard "equilibrate small-dt, produce large-dt" trick and does NOT affect ΔG.
+    warmup_integrator = integrator
+    _wdt = os.environ.get("RBFE_WARMUP_TIMESTEP_FS")
+    if _wdt:
+        try:
+            from openff.units import unit as _ou_w
+            _saved_dt = integ_s.timestep
+            integ_s.timestep = float(_wdt) * _ou_w.femtosecond
+            warmup_integrator = unit._get_integrator(integrator_settings=integ_s, simulation_settings=sim_s,
+                                                     system=system)
+            integ_s.timestep = _saved_dt
+            log(f"[spot-driver] WARMUP timestep overridden to {_wdt} fs (production dt unchanged); "
+                f"equilibration is discarded so this does NOT affect ΔG")
+        except Exception as _we:  # noqa: BLE001
+            warmup_integrator = integrator
+            log(f"[spot-driver] WARN could not build reduced-dt warmup integrator ({_we}); warmup uses production dt")
     # STRUCTURE-SANITY (always-on, ~free): a coincident-atom clash in the *starting* structure is
     # the classic cause of a state-1 warmup NaN that survives minimization. Log it before any MD.
     _clash_report(positions, system, log, "initial")
     # iteration targets from settings; env overrides (RBFE_WARMUP_ITERS/RBFE_PROD_ITERS) let a
     # GPU SMOKE run a handful of iters to validate the machinery without the full ~15 h science.
-    warmup_iters = int(os.environ.get("RBFE_WARMUP_ITERS", "0")) or \
-        _iters_from_time(sim_s, integrator, sim_s.equilibration_length)
-    prod_iters = int(os.environ.get("RBFE_PROD_ITERS", "0")) or \
+    # warmup_iters uses the WARMUP integrator's dt so it covers the intended equilibration_length (more iters at a
+    # smaller dt); prod_iters uses the production integrator.
+    warmup_iters = int(os.environ.get("RBFE_WARMUP_ITERS") or "0") or \
+        _iters_from_time(sim_s, warmup_integrator, sim_s.equilibration_length)
+    prod_iters = int(os.environ.get("RBFE_PROD_ITERS") or "0") or \
         _iters_from_time(sim_s, integrator, sim_s.production_length)
     # round targets down to a checkpoint multiple so run_to_target lands exactly on a boundary.
     warmup_target = (warmup_iters // warmup_checkpoint_iters) * warmup_checkpoint_iters or \
@@ -360,7 +383,7 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     warmup_restart = restored_phase == WARMUP and (shared / WARMUP_NC).is_file()
     try:
         warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
-                                   integrator=integrator, reporter=wrep, simulation_settings=sim_s,
+                                   integrator=warmup_integrator, reporter=wrep, simulation_settings=sim_s,
                                    thermo_settings=thermo_s, alchem_settings=alchem_s,
                                    platform=platform, restart=warmup_restart, dry=False)
     except ValueError as e:
@@ -379,7 +402,7 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         wrep = _build_reporter(shared, WARMUP_NC, WARMUP_CHK, selection_indices,
                                warmup_checkpoint_iters, pos_iv, vel_iv)
         warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
-                                   integrator=integrator, reporter=wrep, simulation_settings=sim_s,
+                                   integrator=warmup_integrator, reporter=wrep, simulation_settings=sim_s,
                                    thermo_settings=thermo_s, alchem_settings=alchem_s,
                                    platform=platform, restart=False, dry=False)
     _set_caches(warmup, platform)
