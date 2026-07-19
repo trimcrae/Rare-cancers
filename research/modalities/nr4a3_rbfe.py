@@ -432,6 +432,24 @@ def _protocol(openfe):
     except Exception as e:  # noqa: BLE001
         print(f"  [rbfe] WARN could not set partial_charge_method={_charge} ({e}); using default", flush=True)
     print(f"  [rbfe] partial_charge_method = {_charge} (am1bcc via AmberTools sqm; set CHARGE_METHOD=nagl to fall back)", flush=True)
+    # CONSTRAINTS diagnostic + optional override (2026-07-19). The unconstrained-alchemical-X-H timestep analysis
+    # ASSUMES constraints=HBonds (so the ONLY unconstrained X-H bonds are the alchemical ones). Print the effective
+    # setting so a run's log proves what it used, and honor RBFE_FORCE_CONSTRAINTS (e.g. "hbonds") so the free
+    # per-edge timestep scan can guarantee the HBonds premise regardless of the openfe default. Guarded: the attr
+    # name/type varies by openfe version; never let it block the build.
+    try:
+        _ff = getattr(s, "forcefield_settings", None)
+        _force = _os.environ.get("RBFE_FORCE_CONSTRAINTS")
+        if _ff is not None and _force:
+            try:
+                _ff.constraints = _force
+            except Exception as _ce:  # noqa: BLE001
+                print(f"  [rbfe] WARN could not force constraints={_force} ({_ce})", flush=True)
+        _cons_eff = getattr(_ff, "constraints", "N/A") if _ff is not None else "N/A"
+        _hmass_eff = getattr(_ff, "hydrogen_mass", "N/A") if _ff is not None else "N/A"
+        print(f"  [rbfe] forcefield_settings.constraints = {_cons_eff} | hydrogen_mass = {_hmass_eff}", flush=True)
+    except Exception as _e:  # noqa: BLE001
+        print(f"  [rbfe] WARN constraints diagnostic failed ({_e})", flush=True)
     return RelativeHybridTopologyProtocol(s)
 
 

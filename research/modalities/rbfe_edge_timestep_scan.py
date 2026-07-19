@@ -42,6 +42,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # Charges do not affect the constraint verdict (it depends only on topology/HMR/constraints), so use the env's
 # guaranteed am1bcc. Requires the env's bin on PATH so the OpenFF AmberTools wrapper finds sqm (workflow exports it).
 os.environ.setdefault("CHARGE_METHOD", "am1bcc")
+# The verdict ASSUMES constraints=HBonds (so only the ALCHEMICAL X-H is unconstrained). The openfe build here did
+# NOT constrain ligand X-H by default (run-1 diag: xh_total==xh_unconstrained for every edge, incl. the pilot that
+# ran clean at 4 fs), which voided the premise. Force HBonds so the system matches the production system step1 ran
+# stably at 4 fs. _protocol honors this and prints the effective setting.
+os.environ.setdefault("RBFE_FORCE_CONSTRAINTS", "hbonds")
 
 import openfe  # noqa: E402
 from rdkit import Chem  # noqa: E402
@@ -121,23 +126,17 @@ def main():
          "name_a": "Wurz_cmpd1", "name_b": "Wurz_cmpd4", "prefer_ec": True, "expect": "2fs"},
     ]
 
-    rows = []
-    for a in anchors:
-        rows.append({"scan": a, "src": "anchor"})
-    for e in edges:
-        rows.append({"scan": {
-            "edge_id": e["edge_id"], "kind": e["class"],
-            "perturbation": e["perturbation"],
-            "smi_a": smiles[e["node_a"]], "smi_b": smiles[e["node_b"]],
-            "name_a": e["node_a"], "name_b": e["node_b"],
-            # a ring/element change wants prefer_element_change; harmless elsewhere. Trigger on the known
-            # element-change-ish classes so a degenerate strict map doesn't hide an edge's true topology.
-            "prefer_ec": e["class"] in ("bioisostere", "microstate_variant"),
-            "expect": None}, "src": "designed"})
+    designed_rows = [{
+        "edge_id": e["edge_id"], "kind": e["class"], "perturbation": e["perturbation"],
+        "smi_a": smiles[e["node_a"]], "smi_b": smiles[e["node_b"]],
+        "name_a": e["node_a"], "name_b": e["node_b"],
+        # a ring/element change wants prefer_element_change; harmless elsewhere. Trigger on the known
+        # element-change-ish classes so a degenerate strict map doesn't hide an edge's true topology.
+        "prefer_ec": e["class"] in ("bioisostere", "microstate_variant"), "expect": None} for e in edges]
 
     results = []
-    for r in rows:
-        s = r["scan"]
+
+    def _run(s, src):
         print("\n" + "=" * 100, flush=True)
         print("[scan] %-32s %s" % (s["edge_id"], s["perturbation"]), flush=True)
         try:
@@ -148,7 +147,7 @@ def main():
             info = {"error": "%s: %s" % (type(ex).__name__, ex)}
         v, nu = _verdict(info)
         results.append({
-            "edge_id": s["edge_id"], "src": r["src"], "kind": s["kind"], "perturbation": s["perturbation"],
+            "edge_id": s["edge_id"], "src": src, "kind": s["kind"], "perturbation": s["perturbation"],
             "node_a": s["name_a"], "node_b": s["name_b"],
             "xh_total": info.get("xh_total"), "xh_unconstrained": info.get("xh_unconstrained"),
             "unconstrained_atoms": info.get("unconstrained"), "n_mapped_atoms": info.get("n_mapped_atoms"),
@@ -156,6 +155,18 @@ def main():
             "verdict": v, "expect": s.get("expect"), "error": info.get("error"),
         })
         print("[scan] -> verdict %s (unconstrained X-H = %s)" % (v, nu), flush=True)
+
+    # ANCHORS FIRST as a GATE: the two known-answer edges validate the whole method. Only spend on the 19 designed
+    # edges if the anchors come out as expected (pilot->4fs, calib->2fs); otherwise the harness is still wrong and
+    # running 19 more would just produce 19 more meaningless rows.
+    for a in anchors:
+        _run(a, "anchor")
+    anchors_ok = all(r["verdict"] == r["expect"] for r in results if r["src"] == "anchor")
+    print("\n[scan] ANCHOR GATE: %s" % ("PASS — proceeding to the 19 designed edges" if anchors_ok else
+          "FAIL — NOT running the designed edges (harness still wrong; fix before trusting any verdict)"), flush=True)
+    if anchors_ok:
+        for s in designed_rows:
+            _run(s, "designed")
 
     out = {
         "_schema": "congeneric_edge_timestep_ceiling_scan",
