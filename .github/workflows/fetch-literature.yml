@@ -1,24 +1,32 @@
 name: Fetch literature
 
-# TEMPORARILY REPURPOSED on branch claude/add-skill-my44c1 to fetch the official
-# OpenExO ExO 3.0 / building-an-exo Claude Skill from a runner (unrestricted
-# internet; the dev sandbox egress proxy 403s openexo.com). This edit lives ONLY
-# on the feature branch and is reverted after the download; main is untouched.
-# Dispatch with ref=claude/add-skill-my44c1 so GitHub runs this branch's version.
+# Pulls open-access research papers from the GitHub-hosted runner (which has
+# full internet access - no sandbox egress allowlist needed) using the Europe
+# PMC API via scripts/fetch-paper.mjs. The fetched corpus is published to the
+# `literature-cache` branch, which Pages never serves (pages.yml only copies
+# index.html, 404.html, assets/, data/, cancers/). A Claude session then does
+# `git fetch origin literature-cache` and extracts cited data into data/cancers/.
+#
+# Raw full text is a working cache, not site content. Record each paper's
+# licence when promoting facts into a cancer page; cite every clinical value.
 
 on:
   workflow_dispatch:
     inputs:
       query:
-        description: "unused (repurposed for skill fetch)"
+        description: "Europe PMC search query"
+        required: true
+        default: '"extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma" OR "chordoid sarcoma" OR (NR4A3 AND chondrosarcoma)'
+      slug:
+        description: "Output folder under literature/ (defaults to a slug derived from the query)"
         required: false
-        default: ""
+        default: "extraskeletal-myxoid-chondrosarcoma"
 
 permissions:
   contents: write
 
 concurrency:
-  group: fetch-exo-skill
+  group: fetch-literature
   cancel-in-progress: false
 
 jobs:
@@ -32,6 +40,9 @@ jobs:
         with:
           node-version: 22
 
+      # TEMPORARY (branch claude/add-skill-my44c1 only): fetch the official
+      # OpenExO ExO 3.0 / building-an-exo Claude Skill. The dev sandbox egress
+      # proxy 403s openexo.com; this runner has open internet. Reverted after.
       - name: Discover + download the official ExO 3.0 skill
         run: node scripts/fetch-exo-skill.mjs
 
@@ -53,23 +64,16 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           dest=".claude/skills/building-an-exo"
           mkdir -p "$dest"
-          # Prefer the extracted tree (real SKILL.md etc.); always keep the raw .skill too.
           if [ -d out/extracted ] && [ -n "$(find out/extracted -name SKILL.md -print -quit)" ]; then
-            # Copy the directory that actually contains SKILL.md (handles a wrapper folder).
             skdir=$(dirname "$(find out/extracted -name SKILL.md -print -quit)")
             cp -r "$skdir"/. "$dest"/
           else
             echo "WARNING: no SKILL.md found in archive; keeping raw file only."
           fi
           cp out/building-an-exo.skill "$dest/building-an-exo.skill"
-
           git add -A "$dest"
-          git commit -m "Add official OpenExO ExO 3.0 (building-an-exo) Claude Skill
-
-Downloaded from the OpenExO Resource Hub via a CI runner (sandbox egress proxy
-blocks openexo.com). Raw .skill archive kept alongside the extracted SKILL.md." \
+          git commit -m "Add official OpenExO ExO 3.0 (building-an-exo) Claude Skill" \
             || { echo "No changes to commit"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}
