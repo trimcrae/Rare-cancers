@@ -151,7 +151,10 @@ jobs:
             # the run log (where is it: minimizing? equilibrating? which iteration?), and any iteration/replica lines.
             if [ "${{ github.event.inputs.mode }}" = "tail" ]; then
               echo "=== SSH live window: nvidia-smi + /tmp/tfep_run.log (where is the MD?) ==="
-              timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command 'echo "--- nvidia-smi ---"; nvidia-smi --query-gpu=utilization.gpu,memory.used,power.draw --format=csv,noheader 2>/dev/null || true; echo "--- FULL run log ---"; sed -e "s/\x1b\[[0-9;]*m//g" /tmp/tfep_run.log 2>/dev/null || echo "(no run log)"; echo "=== nan-error-logs dir ==="; SD=$(ls -d /tmp/tout/*_sim_shared 2>/dev/null | head -1); ls -la "$SD/nan-error-logs" 2>/dev/null || echo "(no nan dir)"; echo "=== minimize/energy/nan lines ==="; grep -aiE "minimi|energ|nan|reinitial|restart|Warning|CRITICAL|Potential" /tmp/tfep_run.log 2>/dev/null || true' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$" | tail -140 || echo "(ssh window failed)"
+              # capture into SSHLOG so the summary fields below read the LIVE VM's own run log (freshest source),
+              # not the stale leg-wide postmortem.
+              SSHLOG=$(timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command 'echo "--- nvidia-smi ---"; nvidia-smi --query-gpu=utilization.gpu,memory.used,power.draw --format=csv,noheader 2>/dev/null || true; echo "--- FULL run log ---"; sed -e "s/\x1b\[[0-9;]*m//g" /tmp/tfep_run.log 2>/dev/null || echo "(no run log)"; echo "=== nan-error-logs dir ==="; SD=$(ls -d /tmp/tout/*_sim_shared 2>/dev/null | head -1); ls -la "$SD/nan-error-logs" 2>/dev/null || echo "(no nan dir)"; echo "=== minimize/energy/nan lines ==="; grep -aiE "minimi|energ|nan|reinitial|restart|Warning|CRITICAL|Potential" /tmp/tfep_run.log 2>/dev/null || true' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$")
+              printf '%s\n' "$SSHLOG" | tail -140 || echo "(ssh window failed)"
             fi
             if [ "${{ github.event.inputs.detach }}" = 1 ]; then
               echo "deleting $TVM (requested via detach=1 on a tail call)"
@@ -162,14 +165,19 @@ jobs:
           # two verdicts at a glance: furthest committed warmup/production iteration + whether a NaN was seen.
           WMAX=$(printf '%s\n' "$CALL" | grep -aoE "warmup/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
           PMAX=$(printf '%s\n' "$CALL" | grep -aoE "production/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
-          NAN=no; printf '%s\n' "${SER:-}${PMLOG:-}" | grep -qaiE "SimulationNaNError|resulted in a NaN|nan-diag" && NAN=YES
-          CHG=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "partial_charge_method = [a-z0-9]+" | tail -1 | awk '{print $NF}')
-          WUD=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
-          NANST=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
-          RDTW=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "could not build reduced-dt warmup integrator[^\"]{0,90}" | tail -1)
+          # SOURCE for the verdict fields: when a live VM is running its OWN serial+SSH run log are the truth;
+          # the leg-wide postmortem (PMLOG) is a DIFFERENT (dead) run's log and must NOT override a live leg's
+          # state (that mixed a stale v2 'setStepSize' NaN into fresh v3 tails). Use PMLOG only when nothing is live.
+          LIVE=$(printf '%s\n%s\n' "${SER:-}" "${SSHLOG:-}")
+          if printf '%s' "$LIVE" | grep -qaE '[^[:space:]]'; then SRC="$LIVE"; SRCKIND=live; else SRC="${PMLOG:-}"; SRCKIND=postmortem; fi
+          NAN=no; printf '%s\n' "$SRC" | grep -qaiE "SimulationNaNError|resulted in a NaN|nan-diag" && NAN=YES
+          CHG=$(printf '%s\n' "$SRC" | grep -aoE "partial_charge_method = [a-z0-9]+" | tail -1 | awk '{print $NF}')
+          WUD=$(printf '%s\n' "$SRC" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
+          NANST=$(printf '%s\n' "$SRC" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
+          RDTW=$(printf '%s\n' "$SRC" | grep -aoE "could not build reduced-dt warmup integrator[^\"]{0,90}" | tail -1)
           VMCOUNT=$(printf '%s\n' "$VMLIST" | grep -c . 2>/dev/null || echo 0)
           VMS1=$(printf '%s\n' "$VMLIST" | tr '\n' ';' | cut -c1-200)
-          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\""
+          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED src=$SRCKIND live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\" (committed-iters are leg-wide across salts; verdict fields are from src)"
       - name: Reset committed checkpoints (fresh start on timestep change)
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
         run: |
