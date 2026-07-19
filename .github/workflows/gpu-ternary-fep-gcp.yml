@@ -371,14 +371,14 @@ jobs:
           echo "TFEP RESULT: $RES"
 
       - name: Teardown (skip for detached — the VM must keep running)
-        if: always()
+        if: ${{ always() && github.event.inputs.mode != 'tail' }}
         run: |
           if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (7h max-run backstop; tail deletes when done)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
       - name: Result summary
-        if: always()
+        if: ${{ always() && github.event.inputs.mode != 'tail' }}
         run: |
           echo "mode=$MODE leg=$LEG_ID"
           if [ "${DETACHED:-0}" = 1 ]; then echo "🚀 DETACHED: $VM running the leg independently -> GCS; monitor via gpu-rbfe-gcp-tail vm=$VM"; exit 0; fi
