@@ -20,7 +20,7 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce | tail | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1)", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | tail | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
       preequil_smoke: { description: "1 = PREEQUIL_SMOKE (system-build + 200-step relax sanity, no full ns) for mode=preequil", default: "0", required: false }
       preequil_ns: { description: "production ns after restrained relaxation for mode=preequil", default: "0.5", required: false }
       use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
@@ -323,9 +323,9 @@ jobs:
             exit 0    # EXIT trap self-deletes the VM
           fi
 
-          # ===== use_preequil: overlay the relaxed complex.pdb/ligands.sdf over the raw staged tree (mode=run) =====
+          # ===== use_preequil: overlay the relaxed complex.pdb/ligands.sdf over the raw staged tree (mode=run/endpoint_smoke) =====
           SETUP_VER=v1
-          if [ "$USE_PE" = 1 ] && [ "$MODE" = run ]; then
+          if [ "$USE_PE" = 1 ] && { [ "$MODE" = run ] || [ "$MODE" = endpoint_smoke ]; }; then
             RAW=\$(dirname \$(find \$IN -name complex.pdb | head -1) 2>/dev/null)
             if [ -n "\$RAW" ] && gcloud storage cp "\$PE_CACHE" /tmp/pe.tar 2>/dev/null && tar -C "\$RAW" -xf /tmp/pe.tar 2>/dev/null; then
               SETUP_VER=v1pe
@@ -333,6 +333,26 @@ jobs:
             else
               echo "::error::use_preequil=1 but no preequilcache at \$PE_CACHE (run mode=preequil first)"; exit 1
             fi
+          fi
+
+          # ===== mode=endpoint_smoke: EXACT-Hamiltonian physical-endpoint stability test (reviewer condition 2/3, step 3) =====
+          if [ "$MODE" = endpoint_smoke ]; then
+            echo "--- ENDPOINT-SMOKE leg=$LEG_ID charge=$CHARGE_METHOD (use_preequil=$USE_PE, setup_ver=\$SETUP_VER) ---"
+            ( cd \$WORK && env MODE=endpoint_smoke LEG_ID=$LEG_ID SEED=$SEED CHARGE_METHOD=$CHARGE_METHOD \
+                OPENMM_PLATFORM=CUDA OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \
+                ENDPOINT_SMOKE_STEPS=\${ENDPOINT_SMOKE_STEPS:-25000} \
+                \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
+            ESJ=\$OUT/endpoint_stability_${LEG_ID}.json
+            if [ -f \$ESJ ]; then
+              LINE=\$(\$PY -c "import json;d=json.load(open('\$ESJ'));print('TFEP_RESULT status=OK endpoint_smoke leg=%s all_stable=%s eps=%s'%(d.get('leg_id'),d.get('all_endpoints_stable'),list(d.get('endpoints',{}).keys())))")
+              gcloud storage cp \$ESJ $RESULTS/ 2>&1 | tail -1 || true
+            else
+              LINE="TFEP_RESULT status=NORESULT endpoint_smoke leg=$LEG_ID tail=\$(grep -iE 'error|abort|Traceback|ABORT|NaN' /tmp/tfep_run.log | tail -1 | cut -c1-140)"
+              gcloud storage cp /tmp/tfep_run.log "gs://$BUCKET/valB-6hax/postmortem/endpoint_${LEG_ID}_\$(date +%s).log" 2>/dev/null || true
+            fi
+            for k in \$(seq 1 6); do echo "###TFEPRESULT### \$LINE ###END###"; sleep 3; done
+            echo "=== ENDPOINT-SMOKE-DONE \$LINE ==="
+            exit 0    # EXIT trap self-deletes the VM
           fi
 
           TMODE=smoke; [ "$MODE" = run ] && TMODE=run
