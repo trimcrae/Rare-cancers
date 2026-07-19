@@ -891,6 +891,22 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 CPU-PRIME THE TERNARY SETUP CACHE BEFORE ANY GPU RUN — a cold cache burns ~8–40 min of GPU-idle
+  re-parameterization; this is now ENFORCED in code (learned the hard way 2026-07-19).** Setup (solvate +
+  parameterize the 146k-atom hybrid system) is 100% CPU. Running it on the GPU VM pays for an idle L4 the whole
+  time. The process is: **`ternary-setup-prime-cpu.yml` (free CPU, non-preemptible) → then the GPU run RESTORES the
+  cache and goes straight to MD.** Two ways it silently regressed before and how each is now closed:
+  (1) **Wrong charge default.** The setup cache is keyed by `(leg, charge, version)` — `setupcache/<leg>_fwd_r<seed>__<charge>__v1`.
+  `charge_method` used to default to **am1bcc**, which has NO primed cache (only **nagl** was primed), so a bare
+  dispatch re-parameterized on the GPU (am1bcc via AmberTools sqm is also slow on big PROTACs). **Fix:
+  `charge_method` now DEFAULTS to `nagl`** (fast, deterministic, reproduces am1bcc, and `openff-nagl` +
+  `openff-nagl-models` are baked into the env-cache image so nagl is always available). Only use am1bcc for a
+  deliberate reviewer/rigor concordance check — and CPU-prime am1bcc first (its cache is separate).
+  (2) **No enforcement.** A cold-cache GPU run used to silently build. **Fix: `nr4a3_rbfe.py` now RAISES
+  `SETUP CACHE MISSING …` (env `RBFE_REQUIRE_PRIMED_SETUP=1`, default) when a cache-configured real GPU run finds no
+  cache, pointing back to the CPU prime.** Exempt: the CPU prime itself (`RBFE_PRIME_ONLY=1`), lanes with no cache
+  configured (smoke, binary-RBFE), and the `allow_gpu_setup_build=1` escape hatch (first-ever prime of a new
+  leg/charge). Full process in **ternary-rbfe-runbook.md → Quick start**.
 - **🛑 OPENFE/openmmtools RBFE ON SAGEMAKER SPOT RE-EQUILIBRATES FOREVER — the real cause is NON-RESUMABLE
   EQUILIBRATION, and the fix is a WARMUP-AS-run() + validated-snapshot COMMIT/RESTORE layer (root-caused +
   CPU-validated 2026-07-15; supersedes the earlier "uploader sidecar fixes it" note, which was WRONG).**

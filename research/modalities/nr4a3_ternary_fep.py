@@ -239,6 +239,16 @@ def _protocol(openfe):
         s.simulation_settings.n_replicas = N_WINDOWS      # OpenFE requires n_replicas == n λ-windows
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN windows→%d (%s); using default" % (N_WINDOWS, e), flush=True)
+    # EXACT-HAMILTONIAN EQUILIBRATION LADDER (reviewer condition 2, 2026-07-19). The plain-MD pre-equilibration
+    # (ternary_preequil) is only a COORDINATE CONDITIONER — a different (relaxation) force field, no alchemy — so
+    # it does NOT sample the RBFE target ensemble and its output is NEVER used as production data. Under THIS
+    # exact Hamiltonian, OpenFE's RelativeHybridTopologyProtocol per-window pipeline is: minimize
+    # (minimization_steps) -> equilibrate for equilibration_length -> collect production_length for MBAR, with the
+    # equilibration frames DISCARDED from MBAR by construction (only production frames enter the estimator). So
+    # equilibration_length>0 is the reviewer-required "discarded unrestrained equilibration before MBAR". The
+    # pre-equil conditioner is NOT part of protocol_signature equality (it is a starting-coordinate choice, like
+    # the per-replica seed) — the physical-endpoint stability of the conditioned coords under this exact FF is
+    # verified separately by ternary_endpoint_stability (MODE=endpoint_smoke).
     try:
         from openff.units import unit as _ou
         s.simulation_settings.equilibration_length = EQUILIBRATION_NS * _ou.nanosecond
@@ -585,8 +595,64 @@ def main():
     elif mode == "converge":     # reviewer #1: $0 CPU convergence analysis of committed .nc (before seed1)
         import ternary_fep_convergence
         ternary_fep_convergence.analyze_all()
+    elif mode == "endpoint_smoke":   # reviewer condition 2/3 (2026-07-19): one short EXACT-Hamiltonian stability
+        endpoint_smoke()             # test per physical endpoint (ligA λ=0, ligB λ=1) — the first gated GPU step
     else:                       # smoke or run both go through run_leg (smoke short-circuits inside)
         run_leg()
+
+
+def endpoint_smoke():
+    """Reviewer condition 2/3 (2026-07-19), execution-order step 3: build each PHYSICAL endpoint (ligand A at
+    λ=0, ligand B at λ=1) of THIS leg under the EXACT RBFE force field, from the (pre-equilibrated) staged
+    complex, and run a short unrestrained stability test — recording the FF-switch minimization drop, any NaN,
+    ligand RMSD, and energy drift. A physical endpoint that NaNs or drifts here is caught BEFORE the 3-replicate
+    fan-out. Reads the SAME staged complex.pdb + relaxed ligands.sdf the run leg consumes. Cheap (short MD)."""
+    import glob as _glob
+    import ternary_endpoint_stability as es
+    from rdkit import Chem
+    leg, env = leg_spec(LEG_ID)
+    charge = os.environ.get("CHARGE_METHOD", "nagl")
+    n_steps = int(os.environ.get("ENDPOINT_SMOKE_STEPS", "25000"))
+    dt_fs = float(os.environ.get("ENDPOINT_SMOKE_DT_FS", "2.0"))
+    platform = "CPU" if os.environ.get("RBFE_PRIME_ONLY") == "1" else os.environ.get("OPENMM_PLATFORM", "CUDA")
+
+    def _find(name):
+        p = os.path.join(IN, LEG_ID, name)
+        if os.path.isfile(p):
+            return p
+        hits = _glob.glob(os.path.join(IN, "**", name), recursive=True)
+        if not hits:
+            raise SystemExit("[endpoint_smoke] ABORT: missing staged %s under %s" % (name, IN))
+        return hits[0]
+
+    protein_pdb = _find("complex.pdb")
+    mols = [m for m in Chem.SDMolSupplier(_find("ligands.sdf"), removeHs=False) if m is not None]
+    if not mols:
+        raise SystemExit("[endpoint_smoke] ABORT: no ligands in staged ligands.sdf")
+    endpoints = [("ligA_lambda0", mols[0])]
+    if len(mols) > 1:
+        endpoints.append(("ligB_lambda1", mols[1]))
+    print("[endpoint_smoke] LEG=%s env=%s charge=%s steps=%d dt=%.1f platform=%s — testing %d physical endpoint(s)"
+          % (LEG_ID, env, charge, n_steps, dt_fs, platform, len(endpoints)), flush=True)
+    results = {}
+    for name, mol in endpoints:
+        print("[endpoint_smoke] building EXACT-FF physical complex for %s (%d atoms)…"
+              % (name, mol.GetNumAtoms()), flush=True)
+        system, topo, pos, lig_idx = es.build_physical_complex(protein_pdb, mol, charge_method=charge,
+                                                               platform_name=platform)
+        r = es.run_endpoint_stability(system, topo, pos, lig_idx, n_steps=n_steps, dt_fs=dt_fs,
+                                      platform_name=platform)
+        results[name] = r
+        print("[endpoint_smoke] %s: stable=%s ff_switch_ok=%s max_rmsd=%.2fÅ drift=%s"
+              % (name, r["stable"], r["ff_switch"].get("conditioner_ok"), r.get("max_ligand_rmsd_a") or -1,
+                 r["energy_drift"].get("drift_kcal_per_ns")), flush=True)
+    all_stable = all(v["stable"] for v in results.values())
+    out = {"leg_id": LEG_ID, "environment": env, "charge_method": charge, "all_endpoints_stable": all_stable,
+           "endpoints": results}
+    os.makedirs(CKPT, exist_ok=True)
+    json.dump(out, open(os.path.join(CKPT, "endpoint_stability_%s.json" % LEG_ID), "w"), indent=2, default=str)
+    print("[endpoint_smoke] DONE leg=%s all_endpoints_stable=%s -> endpoint_stability_%s.json"
+          % (LEG_ID, all_stable, LEG_ID), flush=True)
 
 
 if __name__ == "__main__":

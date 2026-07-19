@@ -33,9 +33,15 @@ IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
 
 # health thresholds (field-standard-ish; each is decision-relevant, not cosmetic)
 OVERLAP_SCALAR_MIN = 0.03      # adjacent-state overlap below this = insufficient phase-space overlap
+OVERLAP_BOTTLENECK_MIN = 0.03  # reviewer condition 4: the WEAKEST adjacent-state link (bottleneck) must clear
+                               # this — a connected λ-path requires EVERY neighbor pair to overlap, not just a
+                               # good scalar average. (We do NOT impose a single universal cutoff on the scalar
+                               # alone; connectivity of the whole chain is the real requirement.)
 MIX_SUBDOMINANT_MAX = 0.90     # 2nd-largest transition eigenvalue above this = pathologically slow replica mixing
 EQUIL_FRACTION_MAX = 0.50      # >50% of iterations spent equilibrating = too little production left
 FWD_REV_GAP_MAX_KCAL = 1.0     # |forward - reverse| final ΔG gap above this (kcal) = unconverged
+PLATEAU_FULL_HALF_MAX_KCAL = 0.5   # reviewer condition 4: |ΔG(full) - ΔG(final half)| must be <=0.5 (plateau)
+QUARTER_BLOCK_MAX_KCAL = 0.5       # reviewer condition 4: |ΔG(3rd quarter) - ΔG(4th quarter)| must be <=0.5
 LIG_RMSD_MAX_A = 4.0           # ligand heavy-atom RMSD vs start above this = escape / pose collapse
 KT_KCAL = 0.593                # RT at 298 K in kcal/mol (reporting only; MBAR works in kT)
 
@@ -69,9 +75,34 @@ def _overlap(analyzer):
         scalar = float(scalar) if scalar is not None else (1.0 - eigs[1] if len(eigs) > 1 else None)
     except Exception:  # noqa: BLE001
         eigs = None
+    bottleneck = overlap_matrix_bottleneck(matrix)
     return {"status": "ok", "overlap_scalar": scalar,
             "eigenvalues_top": (eigs[:5] if eigs else None),
-            "matrix_shape": (list(getattr(matrix, "shape", [])) or None)}
+            "matrix_shape": (list(getattr(matrix, "shape", [])) or None),
+            "min_adjacent_overlap": bottleneck.get("min_adjacent_overlap"),
+            "bottleneck_pair": bottleneck.get("bottleneck_pair"),
+            "connected": bottleneck.get("connected")}
+
+
+def overlap_matrix_bottleneck(matrix):
+    """Reviewer condition 4 — the overlap MATRIX bottleneck, not just the scalar. Return the WEAKEST adjacent
+    (i, i+1) overlap and whether every adjacent link clears OVERLAP_BOTTLENECK_MIN (a connected λ-path). A single
+    near-zero neighbor pair disconnects the thermodynamic path even when the scalar/average looks acceptable, so
+    this — not a universal cutoff on the scalar — is the real connectivity requirement. Pure; unit-tested."""
+    try:
+        import numpy as np
+        M = np.asarray(matrix, dtype=float)
+        if M.ndim != 2 or M.shape[0] != M.shape[1] or M.shape[0] < 2:
+            return {"min_adjacent_overlap": None, "bottleneck_pair": None, "connected": None}
+        K = M.shape[0]
+        # each adjacent link's overlap = min of the two directional overlaps O[i,i+1], O[i+1,i]
+        links = [(i, min(float(M[i, i + 1]), float(M[i + 1, i]))) for i in range(K - 1)]
+        i_min, v_min = min(links, key=lambda t: t[1])
+        return {"min_adjacent_overlap": v_min, "bottleneck_pair": [i_min, i_min + 1],
+                "connected": bool(v_min >= OVERLAP_BOTTLENECK_MIN)}
+    except Exception as e:  # noqa: BLE001
+        return {"min_adjacent_overlap": None, "bottleneck_pair": None, "connected": None,
+                "status": "bottleneck calc failed: %s" % e}
 
 
 def _forward_reverse(analyzer, n_points=8):
@@ -116,6 +147,62 @@ def _forward_reverse(analyzer, n_points=8):
                 "final_forward_reverse_gap_kcal": gap}
     except Exception as e:  # noqa: BLE001
         return {"status": "forward/reverse failed: %s: %s" % (type(e).__name__, e)}
+
+
+def block_plateau_flags(dg_full, dg_final_half, dg_q3, dg_q4):
+    """Pure: reviewer condition 4 dG(t) plateau checks. full-vs-final-half and 3rd-vs-4th-quarter block ΔG must
+    each agree within threshold (a flat tail = the estimate has plateaued). None where a block is unavailable."""
+    plateau = (None if (dg_full is None or dg_final_half is None)
+               else abs(dg_full - dg_final_half) <= PLATEAU_FULL_HALF_MAX_KCAL)
+    quarters = (None if (dg_q3 is None or dg_q4 is None)
+                else abs(dg_q3 - dg_q4) <= QUARTER_BLOCK_MAX_KCAL)
+    return {"full_vs_final_half_delta_kcal": (None if (dg_full is None or dg_final_half is None)
+                                              else abs(dg_full - dg_final_half)),
+            "q3_vs_q4_delta_kcal": (None if (dg_q3 is None or dg_q4 is None) else abs(dg_q3 - dg_q4)),
+            "plateau_full_vs_half_ok": plateau, "quarter_block_ok": quarters}
+
+
+def _mbar_dg_on_slice(u_ln, N_l, lo_frac, hi_frac):
+    """MBAR ΔG (kcal/mol) over the [lo_frac, hi_frac) portion of EACH state's decorrelated samples. Used for the
+    block-plateau tail analysis (reviewer condition 4)."""
+    import numpy as np
+    from pymbar import MBAR
+    N_l = np.asarray(N_l, dtype=int)
+    K = len(N_l)
+    cols, offset, Nsub = [], 0, []
+    for k in range(K):
+        n = int(N_l[k])
+        a = offset + int(n * lo_frac)
+        b = offset + int(n * hi_frac)
+        b = max(b, a + 1)
+        cols.append(np.arange(a, min(b, offset + n)))
+        Nsub.append(len(cols[-1]))
+        offset += n
+    sel = np.concatenate(cols)
+    m = MBAR(u_ln[:, sel], np.asarray(Nsub, dtype=int))
+    df = (m.compute_free_energy_differences()["Delta_f"] if hasattr(m, "compute_free_energy_differences")
+          else m.getFreeEnergyDifferences()[0])
+    return float(df[0, -1]) * KT_KCAL
+
+
+def _block_plateau(analyzer):
+    """dG(t) plateau via block estimates: full production, final half, 3rd quarter, 4th quarter (reviewer
+    condition 4). Degrades to a status string if the analyzer's decorrelated energy cache isn't exposed."""
+    try:
+        u_ln = getattr(analyzer, "_unbiased_decorrelated_u_ln", None)
+        N_l = getattr(analyzer, "_unbiased_decorrelated_N_l", None)
+        if u_ln is None or N_l is None:
+            return {"status": "block plateau needs analyzer u_ln cache (not exposed in this version)"}
+        dg_full = _mbar_dg_on_slice(u_ln, N_l, 0.0, 1.0)
+        dg_half = _mbar_dg_on_slice(u_ln, N_l, 0.5, 1.0)
+        dg_q3 = _mbar_dg_on_slice(u_ln, N_l, 0.5, 0.75)
+        dg_q4 = _mbar_dg_on_slice(u_ln, N_l, 0.75, 1.0)
+        out = {"status": "ok", "dg_full_kcal": dg_full, "dg_final_half_kcal": dg_half,
+               "dg_q3_kcal": dg_q3, "dg_q4_kcal": dg_q4}
+        out.update(block_plateau_flags(dg_full, dg_half, dg_q3, dg_q4))
+        return out
+    except Exception as e:  # noqa: BLE001
+        return {"status": "block plateau failed: %s: %s" % (type(e).__name__, e)}
 
 
 def _mixing(analyzer, reporter):
@@ -214,20 +301,25 @@ def analyze_leg(nc_path, tag):
     rec["equilibration"] = _equilibration(analyzer)
     rec["mixing"] = _mixing(analyzer, reporter)
     rec["forward_reverse"] = _forward_reverse(analyzer)
+    rec["block_plateau"] = _block_plateau(analyzer)
     rec["restraints"] = {"status": "RBFE binding legs carry no orientational restraints; none to diagnose"}
     rec["structural"] = _structural(reporter, nc_path)
 
     # ---- health flags (each None if the metric wasn't computable) ----
     ov = rec["overlap"].get("overlap_scalar")
+    connected = rec["overlap"].get("connected")
     eq = rec["equilibration"].get("equilibration_fraction")
     sub = rec["mixing"].get("subdominant_eigenvalue")
     gap = rec["forward_reverse"].get("final_forward_reverse_gap_kcal")
     lig = rec["structural"].get("ligand_rmsd_A")
     flags = {
         "overlap_ok": (None if ov is None else ov >= OVERLAP_SCALAR_MIN),
+        "overlap_connected_ok": connected,        # reviewer condition 4: no adjacent-state bottleneck
         "equilibrated_ok": (None if eq is None else eq <= EQUIL_FRACTION_MAX),
         "mixing_ok": (None if sub is None else sub <= MIX_SUBDOMINANT_MAX),
         "forward_reverse_ok": (None if gap is None else gap <= FWD_REV_GAP_MAX_KCAL),
+        "plateau_full_vs_half_ok": rec["block_plateau"].get("plateau_full_vs_half_ok"),
+        "quarter_block_ok": rec["block_plateau"].get("quarter_block_ok"),
         "ligand_stable_ok": (None if lig is None else lig <= LIG_RMSD_MAX_A),
     }
     rec["health_flags"] = flags
@@ -270,9 +362,11 @@ def analyze_all():
     report = {
         "_what": "OpenFE/openmmtools convergence analysis on committed MultiState .nc (reviewer change #1)",
         "_gate": "run on seed-0 BEFORE ternary seed-1; technical_failure feeds the reducer PASS/NO-GO/INDETERMINATE",
-        "thresholds": {"overlap_scalar_min": OVERLAP_SCALAR_MIN, "mix_subdominant_max": MIX_SUBDOMINANT_MAX,
-                       "equil_fraction_max": EQUIL_FRACTION_MAX, "fwd_rev_gap_max_kcal": FWD_REV_GAP_MAX_KCAL,
-                       "lig_rmsd_max_A": LIG_RMSD_MAX_A},
+        "thresholds": {"overlap_scalar_min": OVERLAP_SCALAR_MIN, "overlap_bottleneck_min": OVERLAP_BOTTLENECK_MIN,
+                       "mix_subdominant_max": MIX_SUBDOMINANT_MAX, "equil_fraction_max": EQUIL_FRACTION_MAX,
+                       "fwd_rev_gap_max_kcal": FWD_REV_GAP_MAX_KCAL,
+                       "plateau_full_half_max_kcal": PLATEAU_FULL_HALF_MAX_KCAL,
+                       "quarter_block_max_kcal": QUARTER_BLOCK_MAX_KCAL, "lig_rmsd_max_A": LIG_RMSD_MAX_A},
         "n_legs_analyzed": len(legs), "n_technical_failures": n_fail, "legs": legs,
     }
     out = os.path.join(CKPT, "ternary_convergence.json")

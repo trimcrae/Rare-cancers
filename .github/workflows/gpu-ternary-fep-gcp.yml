@@ -20,7 +20,10 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce | tail", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | tail | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
+      preequil_smoke: { description: "1 = PREEQUIL_SMOKE (system-build + 200-step relax sanity, no full ns) for mode=preequil", default: "0", required: false }
+      preequil_ns: { description: "production ns after restrained relaxation for mode=preequil", default: "0.5", required: false }
+      use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
       leg_id:      { description: "leg to run", default: "calib_hi_to_lo__ternary_vhl", required: false }
       seed:        { description: "replica seed (run: 0/1/2)", default: "0", required: false }
       n_windows:   { description: "lambda windows", default: "12", required: false }
@@ -28,13 +31,17 @@ on:
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
-      charge_method: { description: "am1bcc (field standard, SLOW/stalls on big PROTACs via AmberTools sqm) | nagl (openff-nagl ML charges, fast). MUST match across all valB legs.", default: "am1bcc", required: false }
+      charge_method: { description: "nagl (openff-nagl ML charges, fast; has a warm CPU-primed setup cache — DEFAULT, matches all existing valB legs) | am1bcc (field standard but SLOW on big PROTACs via AmberTools sqm AND has no primed cache -> ~40 min GPU-idle setup; if you need am1bcc, run ternary-setup-prime-cpu.yml charge_method=am1bcc FIRST so the GPU restores the cache instead of re-parameterizing). MUST match across all valB legs.", default: "nagl", required: false }
       timestep_fs: { description: "MD timestep (fs). CORRECTED 2026-07-19: OpenFE leaves the WHOLE alchemical ligand's C-H unconstrained (not just morphing bonds), so the ceiling is a LANE property, not edge chemistry: large ternary assemblies NaN at 4.0 (calib) and run at 2.0; binary warhead RBFE runs at 4.0. With constrain_ligand_ch=1 a larger dt (try 3.0/4.0) may become stable. See ternary-rbfe-runbook.md 1b.", default: "2.0", required: false }
       constrain_ligand_ch: { description: "1 = constrain the NON-alchemical ligand C-H bonds OpenFE leaves flexible (nr4a3_rbfe.constrain_nonalchemical_xh) to enable a larger stable timestep for the ternary lane. NB (2026-07-19): the ligand C-H are ALREADY constrained, so this is a no-op — kept only as a guard. MUST match across ALL legs of a calculation. Keyed into the commit prefix.", default: "0", required: false }
       warmup_timestep_fs: { description: "MD timestep (fs) for the DISCARDED equilibration/warmup only; production runs at timestep_fs. Set smaller than timestep_fs (e.g. 1.5) to survive a rough ternary warmup while producing at the larger dt — equilibration never enters ΔG, so this does not affect the result. Empty = warmup uses the production dt. Keyed into the commit prefix.", default: "", required: false }
       warmup_iters: { description: "override warmup iteration count (RBFE_WARMUP_ITERS). Empty = derive from equilibration_length. Use a small value (e.g. 100) with a reduced warmup_timestep_fs so the reduced-dt relax is short, or for a fast timestep-feasibility test.", default: "", required: false }
       prod_iters: { description: "override production iteration count (RBFE_PROD_ITERS). Empty = full science length. Use a small value (e.g. 120) for a fast timestep-feasibility test (does production survive at timestep_fs).", default: "", required: false }
       provisioning: { description: "spot (default; ~60-90% cheaper, standing rule: wait out capacity) | standard (on-demand; skips the spot-capacity wait). Use 'standard' ONLY when explicitly authorized for a time-sensitive one-off, e.g. confirming a single valB leg.", default: "spot", required: false }
+      commit_salt: { description: "Optional suffix appended to the spot commit-store prefix, forcing a FRESH run that does NOT resume prior checkpoints. Use when a code change alters warmup/production behavior but the (dt,clig,wu) prefix would otherwise collide with poisoned checkpoints (e.g. a broken earlier warmup-override attempt wrote to the same wu-keyed prefix). Empty = normal resume.", default: "", required: false }
+      refuse_if_vm_live: { description: "FAILOVER GUARD (default 0). When 1, the launcher REFUSES to provision if any gcp-ternary-* VM is already alive, and exits 0 as a no-op. Used to poll an on-demand RESUME safely: while a spot VM holds the single GPU the resume is a fast no-op; the moment spot is killed (GPU freed) the next dispatch provisions and resumes the same-salt checkpoint. Prevents two VMs ever writing one commit prefix, independent of the GPU quota.", default: "0", required: false }
+      allow_gpu_setup_build: { description: "Escape hatch (default 0). By default a GPU run FAILS FAST if the setup cache for its (leg,charge) is missing, forcing you to CPU-prime it first (ternary-setup-prime-cpu.yml) instead of burning ~8-40 min of GPU-idle re-parameterization. Set 1 only for a deliberate GPU-side build (the very first prime of a brand-new leg/charge). Sets RBFE_REQUIRE_PRIMED_SETUP=0.", default: "0", required: false }
+      min_steps: { description: "L-BFGS minimization steps per replica before warmup (RBFE_MIN_STEPS). Default 5000 (OpenFE standard). Was 25000 which minimizes 12 replicas of the 146k-atom system for ~20-60 min at ~0% GPU for NO NaN benefit (the code comment confirms the NaN survives 25000 steps; the 1 fs warmup is what fixes NaNs). Only raise if a specific system genuinely needs it.", default: "5000", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
@@ -62,12 +69,19 @@ jobs:
       TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
       SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
       DETACH: ${{ github.event.inputs.detach || '0' }}
-      CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'am1bcc' }}
+      CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'nagl' }}
       TIMESTEP_FS: ${{ github.event.inputs.timestep_fs || '2.0' }}
       CONSTRAIN_LIG: ${{ github.event.inputs.constrain_ligand_ch || '0' }}
       WARMUP_TS: ${{ github.event.inputs.warmup_timestep_fs || '' }}
       WARMUP_ITERS: ${{ github.event.inputs.warmup_iters || '' }}
       PROD_ITERS: ${{ github.event.inputs.prod_iters || '' }}
+      SALT: ${{ github.event.inputs.commit_salt || '' }}
+      REFUSE_IF_LIVE: ${{ github.event.inputs.refuse_if_vm_live || '0' }}
+      REQUIRE_PRIMED: ${{ github.event.inputs.allow_gpu_setup_build == '1' && '0' || '1' }}
+      MIN_STEPS: ${{ github.event.inputs.min_steps || '5000' }}
+      PE_SMOKE: ${{ github.event.inputs.preequil_smoke || '0' }}
+      PE_NS: ${{ github.event.inputs.preequil_ns || '0.5' }}
+      USE_PE: ${{ github.event.inputs.use_preequil || '0' }}
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
       GITREF: ${{ github.ref_name }}
     steps:
@@ -149,7 +163,10 @@ jobs:
             # the run log (where is it: minimizing? equilibrating? which iteration?), and any iteration/replica lines.
             if [ "${{ github.event.inputs.mode }}" = "tail" ]; then
               echo "=== SSH live window: nvidia-smi + /tmp/tfep_run.log (where is the MD?) ==="
-              timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command 'echo "--- nvidia-smi ---"; nvidia-smi --query-gpu=utilization.gpu,memory.used,power.draw --format=csv,noheader 2>/dev/null || true; echo "--- FULL run log ---"; sed -e "s/\x1b\[[0-9;]*m//g" /tmp/tfep_run.log 2>/dev/null || echo "(no run log)"; echo "=== nan-error-logs dir ==="; SD=$(ls -d /tmp/tout/*_sim_shared 2>/dev/null | head -1); ls -la "$SD/nan-error-logs" 2>/dev/null || echo "(no nan dir)"; echo "=== minimize/energy/nan lines ==="; grep -aiE "minimi|energ|nan|reinitial|restart|Warning|CRITICAL|Potential" /tmp/tfep_run.log 2>/dev/null || true' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$" | tail -140 || echo "(ssh window failed)"
+              # capture into SSHLOG so the summary fields below read the LIVE VM's own run log (freshest source),
+              # not the stale leg-wide postmortem.
+              SSHLOG=$(timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command 'echo "--- nvidia-smi ---"; nvidia-smi --query-gpu=utilization.gpu,memory.used,power.draw --format=csv,noheader 2>/dev/null || true; echo "--- FULL run log ---"; sed -e "s/\x1b\[[0-9;]*m//g" /tmp/tfep_run.log 2>/dev/null || echo "(no run log)"; echo "=== nan-error-logs dir ==="; SD=$(ls -d /tmp/tout/*_sim_shared 2>/dev/null | head -1); ls -la "$SD/nan-error-logs" 2>/dev/null || echo "(no nan dir)"; echo "=== minimize/energy/nan lines ==="; grep -aiE "minimi|energ|nan|reinitial|restart|Warning|CRITICAL|Potential" /tmp/tfep_run.log 2>/dev/null || true' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$")
+              printf '%s\n' "$SSHLOG" | tail -140 || echo "(ssh window failed)"
             fi
             if [ "${{ github.event.inputs.detach }}" = 1 ]; then
               echo "deleting $TVM (requested via detach=1 on a tail call)"
@@ -160,14 +177,19 @@ jobs:
           # two verdicts at a glance: furthest committed warmup/production iteration + whether a NaN was seen.
           WMAX=$(printf '%s\n' "$CALL" | grep -aoE "warmup/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
           PMAX=$(printf '%s\n' "$CALL" | grep -aoE "production/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
-          NAN=no; printf '%s\n' "${SER:-}${PMLOG:-}" | grep -qaiE "SimulationNaNError|resulted in a NaN|nan-diag" && NAN=YES
-          CHG=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "partial_charge_method = [a-z0-9]+" | tail -1 | awk '{print $NF}')
-          WUD=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
-          NANST=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
-          RDTW=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "could not build reduced-dt warmup integrator[^\"]{0,90}" | tail -1)
+          # SOURCE for the verdict fields: when a live VM is running its OWN serial+SSH run log are the truth;
+          # the leg-wide postmortem (PMLOG) is a DIFFERENT (dead) run's log and must NOT override a live leg's
+          # state (that mixed a stale v2 'setStepSize' NaN into fresh v3 tails). Use PMLOG only when nothing is live.
+          LIVE=$(printf '%s\n%s\n' "${SER:-}" "${SSHLOG:-}")
+          if printf '%s' "$LIVE" | grep -qaE '[^[:space:]]'; then SRC="$LIVE"; SRCKIND=live; else SRC="${PMLOG:-}"; SRCKIND=postmortem; fi
+          NAN=no; printf '%s\n' "$SRC" | grep -qaiE "SimulationNaNError|resulted in a NaN|nan-diag" && NAN=YES
+          CHG=$(printf '%s\n' "$SRC" | grep -aoE "partial_charge_method = [a-z0-9]+" | tail -1 | awk '{print $NF}')
+          WUD=$(printf '%s\n' "$SRC" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
+          NANST=$(printf '%s\n' "$SRC" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
+          RDTW=$(printf '%s\n' "$SRC" | grep -aoE "could not build reduced-dt warmup integrator[^\"]{0,90}" | tail -1)
           VMCOUNT=$(printf '%s\n' "$VMLIST" | grep -c . 2>/dev/null || echo 0)
           VMS1=$(printf '%s\n' "$VMLIST" | tr '\n' ';' | cut -c1-200)
-          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\""
+          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED src=$SRCKIND live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\" (committed-iters are leg-wide across salts; verdict fields are from src)"
       - name: Reset committed checkpoints (fresh start on timestep change)
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
         run: |
@@ -193,6 +215,20 @@ jobs:
           #!/bin/bash
           exec > >(tee /var/log/tfep.log) 2>&1
           set +e
+          # BULLETPROOF SELF-DELETE: a trap on EXIT deletes this VM on EVERY exit path — clean finish, NaN, a
+          # set-e/pipefail bail, an idempotent-skip exit, or an env-build failure. The startup script runs the leg
+          # SYNCHRONOUSLY in the foreground, so EXIT fires only once the leg is truly done — the trap can never kill
+          # a still-running leg. This replaces the old "delete only on the happy path at the end" logic (a hard bail
+          # before that line left the VM up, idle-billing + blocking the single-GPU quota until the 7h max-run). The
+          # max-run-duration + the reap workflow (gcp-reap-vms.yml) are the remaining backstops if even this fails.
+          _self_delete() {
+            local _N _Z
+            _N=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+            _Z=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | awk -F/ '{print \$NF}')
+            echo "=== SELF-DELETE (trap on EXIT): deleting \$_N in \$_Z ==="
+            gcloud compute instances delete "\$_N" --zone="\$_Z" --quiet || echo "self-delete no-op (already gone / no perm)"
+          }
+          trap _self_delete EXIT
           echo "=== TFEP boot \$(date -u) mode=$MODE leg=$LEG_ID seed=$SEED ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           export DEBIAN_FRONTEND=noninteractive
@@ -262,6 +298,67 @@ jobs:
             rm -f /tmp/stage.tar
           fi
           echo "staged tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null
+          # v2 (2026-07-19): pre-equil output changed under reviewer conditions 1/2/3 — core-transplant endpoint
+          # alignment, exact-FF conditioning, and per-seed independent snapshots. v1 caches (O3A overlay,
+          # generator-default charges, shared snapshot) are STALE and must NOT be reused; the version bump
+          # forces a clean regenerate per seed.
+          PE_CACHE="gs://$BUCKET/valB-6hax/preequilcache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v2.tar"
+
+          # ===== mode=preequil: plain-MD relax the physical complex -> preequilcache (fixes the softcore warmup NaN) =====
+          if [ "$MODE" = preequil ]; then
+            echo "--- PRE-EQUIL leg=$LEG_ID charge=$CHARGE_METHOD ns=$PE_NS smoke=$PE_SMOKE seed=$SEED (exact-FF, seeded per replicate) ---"
+            ( cd \$WORK && env LEG_ID=$LEG_ID SEED=$SEED CHARGE_METHOD=$CHARGE_METHOD PREEQUIL_NS=$PE_NS PREEQUIL_SMOKE=$PE_SMOKE \
+                PREEQUIL_EXACT_FF=1 OPENMM_PLATFORM=CUDA INPUT_DIR=\$IN OUTPUT_DIR=\$OUT \
+                \$PY ternary_preequil.py 2>&1 ) | tee /tmp/tfep_run.log
+            if [ -f \$OUT/$LEG_ID/preequil_marker.json ]; then
+              if [ "$PE_SMOKE" = 1 ]; then
+                LINE="TFEP_RESULT status=OK preequil-smoke leg=$LEG_ID (system built + parameterized + relaxed OK; not cached)"
+              elif ( cd \$OUT/$LEG_ID && tar -cf /tmp/pe.tar complex.pdb ligands.sdf preequil_marker.json ) \
+                   && gcloud storage cp /tmp/pe.tar "\$PE_CACHE" && gcloud storage ls "\$PE_CACHE" >/dev/null 2>&1; then
+                LINE="TFEP_RESULT status=OK preequil leg=$LEG_ID cached -> \$PE_CACHE"
+              else
+                LINE="TFEP_RESULT status=NORESULT preequil leg=$LEG_ID (relaxed but cache upload failed)"
+              fi
+            else
+              LINE="TFEP_RESULT status=NORESULT preequil leg=$LEG_ID tail=\$(grep -iE 'error|abort|Traceback|ABORT' /tmp/tfep_run.log | tail -1 | cut -c1-140)"
+            fi
+            for k in \$(seq 1 6); do echo "###TFEPRESULT### \$LINE ###END###"; sleep 3; done
+            echo "=== PREEQUIL-DONE \$LINE ==="
+            exit 0    # EXIT trap self-deletes the VM
+          fi
+
+          # ===== use_preequil: overlay the relaxed complex.pdb/ligands.sdf over the raw staged tree (mode=run/endpoint_smoke) =====
+          SETUP_VER=v1
+          if [ "$USE_PE" = 1 ] && { [ "$MODE" = run ] || [ "$MODE" = endpoint_smoke ]; }; then
+            RAW=\$(dirname \$(find \$IN -name complex.pdb | head -1) 2>/dev/null)
+            if [ -n "\$RAW" ] && gcloud storage cp "\$PE_CACHE" /tmp/pe.tar 2>/dev/null && tar -C "\$RAW" -xf /tmp/pe.tar 2>/dev/null; then
+              SETUP_VER=v2pe   # v2pe: setup built from the v2 (transplant + exact-FF + seeded) pre-equil; v1pe is stale
+              echo "--- USE_PREEQUIL: overlaid relaxed complex.pdb/ligands.sdf from \$PE_CACHE into \$RAW; setup cache ver -> \$SETUP_VER ---"
+            else
+              echo "::error::use_preequil=1 but no preequilcache at \$PE_CACHE (run mode=preequil first)"; exit 1
+            fi
+          fi
+
+          # ===== mode=endpoint_smoke: EXACT-Hamiltonian physical-endpoint stability test (reviewer condition 2/3, step 3) =====
+          if [ "$MODE" = endpoint_smoke ]; then
+            echo "--- ENDPOINT-SMOKE leg=$LEG_ID charge=$CHARGE_METHOD (use_preequil=$USE_PE, setup_ver=\$SETUP_VER) ---"
+            ( cd \$WORK && env MODE=endpoint_smoke LEG_ID=$LEG_ID SEED=$SEED CHARGE_METHOD=$CHARGE_METHOD \
+                OPENMM_PLATFORM=CUDA OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \
+                ENDPOINT_SMOKE_STEPS=\${ENDPOINT_SMOKE_STEPS:-25000} \
+                \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
+            ESJ=\$OUT/endpoint_stability_${LEG_ID}.json
+            if [ -f \$ESJ ]; then
+              LINE=\$(\$PY -c "import json;d=json.load(open('\$ESJ'));print('TFEP_RESULT status=OK endpoint_smoke leg=%s all_stable=%s eps=%s'%(d.get('leg_id'),d.get('all_endpoints_stable'),list(d.get('endpoints',{}).keys())))")
+              gcloud storage cp \$ESJ $RESULTS/ 2>&1 | tail -1 || true
+            else
+              LINE="TFEP_RESULT status=NORESULT endpoint_smoke leg=$LEG_ID tail=\$(grep -iE 'error|abort|Traceback|ABORT|NaN' /tmp/tfep_run.log | tail -1 | cut -c1-140)"
+              gcloud storage cp /tmp/tfep_run.log "gs://$BUCKET/valB-6hax/postmortem/endpoint_${LEG_ID}_\$(date +%s).log" 2>/dev/null || true
+            fi
+            for k in \$(seq 1 6); do echo "###TFEPRESULT### \$LINE ###END###"; sleep 3; done
+            echo "=== ENDPOINT-SMOKE-DONE \$LINE ==="
+            exit 0    # EXIT trap self-deletes the VM
+          fi
+
           TMODE=smoke; [ "$MODE" = run ] && TMODE=run
           # SPOT-SAFE commit store (mode=run only): the MultiState sampling commits per-interval to this versioned
           # GCS prefix so a re-dispatch on a fresh VM RESUMES from the last committed iteration instead of from
@@ -272,13 +369,13 @@ jobs:
           # unused. (The setup-cache is NOT dt-keyed: the built System is identical across timesteps.)
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
             echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
               CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG RBFE_WARMUP_TIMESTEP_FS=$WARMUP_TS \
-              RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS \
+              RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS RBFE_REQUIRE_PRIMED_SETUP=$REQUIRE_PRIMED RBFE_MIN_STEPS=$MIN_STEPS SETUP_CACHE_VERSION=\$SETUP_VER \
               OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \$COMMIT_ENV \
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist
@@ -294,21 +391,15 @@ jobs:
           fi
           for k in \$(seq 1 6); do echo "###TFEPRESULT### \$LINE ###END###"; sleep 3; done
           echo "=== TFEP-DONE \$LINE ==="
-          # SELF-DELETE on BOTH success AND failure so a detached VM never idle-bills to the 7h backstop and,
-          # critically, never blocks the single GPUS_ALL_REGIONS=1 quota that every future GCP GPU job needs.
-          # On NORESULT we UPLOAD the run log to GCS first (post-mortem is preserved off-VM), then delete — the
-          # 2026-07-17 seed-0 setup failure left a VM up ~5h, idle-billing AND blocking the next smoke, because
-          # the old logic kept failed VMs "for post-mortem". The serial is already streamed to the GH poller.
-          NAME=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
-          SZ=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | awk -F/ '{print \$NF}')
+          # On NORESULT, preserve the post-mortem log off-VM (GCS) BEFORE the EXIT trap deletes the instance — the
+          # serial is already streamed to the GH poller, but the full run log is only on the VM. The actual VM
+          # deletion is now owned by the _self_delete EXIT trap installed at the top, so it happens on EVERY exit
+          # path (including a bail before this point), not just here.
           case "\$LINE" in
-            *status=OK*)
-              echo "self-deleting \$NAME in \$SZ (result in GCS; avoid idle billing)" ;;
-            *)
-              echo "NORESULT: uploading post-mortem log to GCS, then self-deleting \$NAME to free the single-GPU quota"
-              gcloud storage cp /tmp/tfep_run.log "gs://$BUCKET/valB-6hax/postmortem/${LEG_ID}_seed${SEED}_\$(date +%s).log" 2>/dev/null || echo "log upload no-op" ;;
+            *status=OK*) echo "result in GCS; EXIT trap will delete the VM (avoid idle billing)" ;;
+            *) echo "NORESULT: uploading post-mortem log to GCS before the EXIT trap deletes the VM"
+               gcloud storage cp /tmp/tfep_run.log "gs://$BUCKET/valB-6hax/postmortem/${LEG_ID}_seed${SEED}_\$(date +%s).log" 2>/dev/null || echo "log upload no-op" ;;
           esac
-          gcloud compute instances delete "\$NAME" --zone="\$SZ" --quiet || echo "self-delete no-op"
           SS
 
           # SETUP (openff interchange parameterizing the 146k-atom ternary) is CPU+RAM-bound. g2-standard-4
@@ -357,6 +448,17 @@ jobs:
           # resume (idempotent GCS skip above). Teardown is skipped so the VM keeps running.
           DO_DETACH="$DETACH"; [ "$MODE" = run ] && DO_DETACH=1
           if [ "$DO_DETACH" = 1 ]; then
+            # FAILOVER GUARD: refuse to provision while another ternary VM is alive, so an on-demand RESUME poll can
+            # never double-write the commit prefix a live spot VM owns. Only provisions once the GPU is genuinely
+            # free (spot killed). Independent of the GPU quota — a belt to the quota's suspenders.
+            if [ "${REFUSE_IF_LIVE:-0}" = 1 ]; then
+              LIVE=$(gcloud compute instances list --filter="name~'^gcp-ternary-' AND (status=RUNNING OR status=PROVISIONING OR status=STAGING OR status=REPAIRING)" --format="value(name)" 2>/dev/null | head -3 | tr '\n' ' ')
+              if [ -n "$LIVE" ]; then
+                echo "refuse_if_vm_live=1 and a ternary VM is already alive ($LIVE) — no-op (the running leg still owns the checkpoint; will resume only once it's gone)"
+                exit 0
+              fi
+              echo "refuse_if_vm_live=1: no live ternary VM -> safe to provision an on-demand resume of the same-salt checkpoint"
+            fi
             provision || { echo "::error::no L4 Spot capacity — re-dispatch later (idempotent GCS skip)"; exit 1; }
             echo "DETACHED=1" >> "$GITHUB_ENV"
             echo "DETACHED: $VM launched in $ZONE (7h backstop). Result -> $RESULTS/. Monitor: gpu-rbfe-gcp-tail vm=$VM. This job EXITS now."

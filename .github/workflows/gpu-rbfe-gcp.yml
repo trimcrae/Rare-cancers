@@ -82,6 +82,19 @@ jobs:
           #!/bin/bash
           exec > >(tee /var/log/rbfe.log) 2>&1
           set +e
+          # BULLETPROOF SELF-DELETE (trap on EXIT): deletes this VM on EVERY exit path — clean finish, NaN, an
+          # ENVFAIL 'exit 0', a set-e bail, or a detached leg completing after this job has long exited. The leg
+          # runs SYNCHRONOUSLY in the foreground, so EXIT fires only once it is truly done — never mid-run. Closes
+          # the detached-VM orphan gap (previously a finished detached VM idle-billed + blocked the single-L4 quota
+          # until the 7h max-run backstop). max-run-duration + gcp-reap-vms.yml remain as further backstops.
+          _self_delete() {
+            local _N _Z
+            _N=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+            _Z=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | awk -F/ '{print \$NF}')
+            echo "=== SELF-DELETE (trap on EXIT): deleting \$_N in \$_Z ==="
+            gcloud compute instances delete "\$_N" --zone="\$_Z" --quiet || echo "self-delete no-op (already gone / no perm)"
+          }
+          trap _self_delete EXIT
           echo "=== RBFE boot \$(date -u) mode=$MODE leg=$LEG ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true

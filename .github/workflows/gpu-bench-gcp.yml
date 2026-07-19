@@ -74,6 +74,16 @@ jobs:
           #!/bin/bash
           exec > >(tee /var/log/bench.log) 2>&1
           set +e
+          # BULLETPROOF SELF-DELETE (trap on EXIT): the VM removes itself on EVERY exit path (finish, error, bail),
+          # not just via the runner-side teardown / 7h max-run. Leg runs synchronously so EXIT == leg done.
+          _self_delete() {
+            local _N _Z
+            _N=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+            _Z=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | awk -F/ '{print \$NF}')
+            echo "=== SELF-DELETE (trap on EXIT): deleting \$_N in \$_Z ==="
+            gcloud compute instances delete "\$_N" --zone="\$_Z" --quiet || echo "self-delete no-op (already gone / no perm)"
+          }
+          trap _self_delete EXIT
           echo "=== BENCH boot \$(date -u) ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
           nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true

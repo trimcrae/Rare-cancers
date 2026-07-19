@@ -47,11 +47,57 @@ def alpha_from_dg_coop(dg_coop, T=DEFAULT_T):
 def ddg_coop(ddg_alch_ternary, ddg_alch_binary):
     """The binary-vs-ternary thermodynamic cycle (prereg §1): for an A->B analogue morph,
         ddG_coop(A->B) = ddG_alch,ternary(A->B) - ddG_alch,binary(A->B).
-    A NEGATIVE ddG_coop means B is MORE cooperative than A (ternary favours the morph beyond the binary)."""
+    A NEGATIVE ddG_coop means B is MORE cooperative than A (ternary favours the morph beyond the binary).
+
+    SIGN CONVENTION — EXACTLY WHICH QUANTITY THIS RETURNS (reviewer condition 5, 2026-07-19; unit-tested in
+    tests/test_ternary_coop_sign.py against synthetic K_D pairs). With the alchemical morph oriented A->B and
+    each ddg_alch measured as a RELATIVE binding free energy of B minus A in that environment
+    (ddg_alch,env(A->B) = ΔG_bind,env(B) - ΔG_bind,env(A) = RT ln(KD_env(B)/KD_env(A))):
+
+        ddG_coop(A->B) = ddG_alch,ternary - ddG_alch,binary
+                       = [ΔG_bind,tern(B) - ΔG_bind,bin(B)] - [ΔG_bind,tern(A) - ΔG_bind,bin(A)]
+                       = dG_coop(B) - dG_coop(A)          where dG_coop(x) = -RT ln(alpha_x)
+                       = RT ln(alpha_A / alpha_B)
+                       = -RT ln(alpha_B / alpha_A)        with alpha = KD_binary / KD_ternary.
+
+    So this is the SAME quantity the frozen calibration target is defined as (wurz-calib-frozen.json:
+    ddG_coop_exp = -RT ln(alpha_4/alpha_1), morph cmpd1(hi,alpha=12.8)->cmpd4(lo,alpha=2.6) => +0.944). It is
+    the PER-MORPH RELATIVE coop change (a DIFFERENCE of two compounds' cooperativities), NOT a single
+    compound's dG_coop=-RT ln(alpha): for the hi->lo calibration (cooperativity DECREASES A->B) it is POSITIVE
+    (+0.944), even though each compound's own dG_coop is negative. The reducer's PASS check requires this
+    POSITIVE sign to match the +0.944 target."""
     for x in (ddg_alch_ternary, ddg_alch_binary):
         if x is None or not math.isfinite(x):
             return None
     return ddg_alch_ternary - ddg_alch_binary
+
+
+def ddg_coop_from_kd_pairs(kd_binary_A, kd_ternary_A, kd_binary_B, kd_ternary_B, T=DEFAULT_T):
+    """REFERENCE recompute of ddG_coop(A->B) straight from the four dissociation constants (reviewer condition
+    5's "independently recompute the final cycle with a second small script"). Builds the alchemical morph
+    quantities the FEP reducer forms, from first principles, and returns the same ddG_coop the cycle above
+    yields — used to prove the reducer's sign convention against synthetic K_D data. Units of KD are arbitrary
+    but must be CONSISTENT (they cancel inside every ratio). alpha_x = KD_binary(x)/KD_ternary(x).
+
+        ddg_alch,binary(A->B)  = RT ln(KD_binary(B)  / KD_binary(A))
+        ddg_alch,ternary(A->B) = RT ln(KD_ternary(B) / KD_ternary(A))
+        ddG_coop               = ddg_alch,ternary - ddg_alch,binary = -RT ln(alpha_B/alpha_A)
+
+    Returns a dict with the two morph legs, ddG_coop by the cycle, and ddG_coop by the closed-form alpha route,
+    which MUST agree to floating precision (the invariant the sign test asserts)."""
+    for x in (kd_binary_A, kd_ternary_A, kd_binary_B, kd_ternary_B):
+        if x is None or not math.isfinite(x) or x <= 0:
+            return None
+    RT = R_KCAL * T
+    ddg_alch_binary = RT * math.log(kd_binary_B / kd_binary_A)
+    ddg_alch_ternary = RT * math.log(kd_ternary_B / kd_ternary_A)
+    ddg_by_cycle = ddg_coop(ddg_alch_ternary, ddg_alch_binary)
+    alpha_A = kd_binary_A / kd_ternary_A
+    alpha_B = kd_binary_B / kd_ternary_B
+    ddg_by_alpha = -RT * math.log(alpha_B / alpha_A)
+    return {"ddg_alch_binary_kcal": ddg_alch_binary, "ddg_alch_ternary_kcal": ddg_alch_ternary,
+            "ddg_coop_by_cycle_kcal": ddg_by_cycle, "ddg_coop_by_alpha_kcal": ddg_by_alpha,
+            "alpha_A": alpha_A, "alpha_B": alpha_B, "T_kelvin": T}
 
 
 def delta_alpha_ratio(ddg_coop_value, T=DEFAULT_T):

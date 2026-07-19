@@ -12,14 +12,30 @@ driver) → `rbfe_spot_driver.run_spot_safe` (MultiState warmup/production) → 
 
 ## Quick start (the correct way to run one leg)
 
-1. **(recommended) Pre-bake setup on CPU first** — `ternary-setup-prime-cpu.yml` (free, non-preemptible) builds the
-   solvated/parameterized system and writes it to the GCS setup-cache. Dispatch it once per `(leg, charge_method)`.
-   *(Requires the workflow to be on `main` — see gotcha 6.)*
-2. **Then dispatch the GPU leg** — `gpu-ternary-fep-gcp.yml` `mode=run leg_id=<leg> seed=<0/1/2>
-   charge_method=nagl timestep_fs=1.0`. It **restores** the setup cache (skips the ~460 s build) and does only the
-   checkpointed MD, so a spot preemption costs ≤ one checkpoint interval.
+**★ THE PROCESS IS CPU-PRIME → GPU, AND IT IS ENFORCED IN CODE. NEVER let a GPU VM build setup.**
+Setup (solvate + parameterize the 146k-atom hybrid system) is 100% CPU and takes ~8–40 min. Doing it on the GPU VM
+means paying for an idle L4 the whole time — the exact anti-pattern the CPU pre-bake exists to kill. So the GPU run
+now **FAILS FAST** (`RBFE_REQUIRE_PRIMED_SETUP=1`, the default) if the setup cache for its `(leg, charge)` is missing,
+pointing you back here. There is no "recommended" — priming is mandatory.
+
+1. **CPU-prime the setup cache FIRST (REQUIRED)** — `ternary-setup-prime-cpu.yml` (free, non-preemptible, ~30 min)
+   builds the solvated/parameterized system on a CPU runner and writes it to the GCS setup-cache. Dispatch it once per
+   `(leg, charge_method)`. *(Workflow must be on `main` — gotcha 6.)* The **nagl** cache for the frozen valB legs is
+   already primed, so in practice you only prime a **new** leg or a **different charge**.
+2. **Then dispatch the GPU leg** — `gpu-ternary-fep-gcp.yml` `mode=run leg_id=<leg> seed=<0/1/2>`. It **restores** the
+   setup cache in seconds and does only the checkpointed MD, so a spot preemption costs ≤ one checkpoint interval.
+   - **Charge: `nagl` is the DEFAULT and what every valB leg uses** (openff-nagl ML charges — fast, deterministic,
+     reproduces am1bcc; the `openff-nagl` + `openff-nagl-models` packages are baked into the env-cache image, so nagl
+     is always available on every VM). Only pass `charge_method=am1bcc` for a deliberate reviewer/rigor concordance
+     check — and CPU-prime am1bcc first (its cache is separate; a bare am1bcc dispatch is what caused the 40-min
+     GPU-idle stall on 2026-07-19).
+   - **Timestep:** production `timestep_fs=4.0` with `warmup_timestep_fs=1.0` (reduced-dt warmup relaxes the rough
+     ternary start; equilibration is discarded so it does not affect ΔG). See §1b.
+   - Escape hatch: `allow_gpu_setup_build=1` lets the GPU build setup anyway (only for the very first prime of a
+     brand-new leg/charge when no CPU prime has run).
 3. **Monitor** — `mode=tail leg_id=<leg>` (SSHes the VM: nvidia-smi + `/tmp/tfep_run.log` + GCS commit census +
-   post-mortem grep). Re-dispatch `mode=run` after a preemption (idempotent GCS skip + cache restore = fast resume).
+   post-mortem grep; the summary's verdict fields read the LIVE VM, `src=live`). Re-dispatch `mode=run` after a
+   preemption (idempotent GCS skip + cache restore = fast resume).
 4. **Reduce** — when all legs' `leg_*.json` land, `mode=reduce` → ΔΔG_coop vs the frozen target.
 
 ---
@@ -65,6 +81,27 @@ driver) → `rbfe_spot_driver.run_spot_safe` (MultiState warmup/production) → 
   4 fs). If a larger ternary timestep is wanted, the real levers are a **gentler restrained equilibration / softcore
   schedule**, not C–H constraints. Whatever timestep the ternary survives, run **validation and production at the
   same one** (they must match).
+
+#### 1c. RESOLVED (2026-07-19) — **plain-MD PRE-EQUILIBRATION is the fix; a reduced-dt warmup is NOT.** ★
+- **The decisive experiment.** A 1 fs reduced-dt warmup (`warmup_timestep_fs=1.0`) — fed straight from the raw
+  assembled complex — **fires correctly but does NOT prevent the NaN**: two runs blew up on **warmup iteration 1**
+  (v3nagl → state 4, v3fast → state 0), both with **0 real clashes** (the only close contacts were hybrid/alchemical
+  dummy pairs at ~0.6 Å), independent of timestep AND of minimization depth (25000 steps didn't help). This is the
+  softcore/endpoint instability of a **rough SMARCA4→SMARCA2 homology model** fed into the alchemical λ-states — the
+  documented OpenFE failure mode. **A smaller production OR warmup dt cannot fix it.**
+- **The fix that WORKS: relax the fully-interacting physical complex with plain MD BEFORE the alchemical RBFE.**
+  `ternary_preequil.py` (workflow `mode=preequil`) builds protein+ligA+solvent, runs minimize → restrained NVT heat
+  (1 fs) → restrained NPT (100 ps) → release → short 4 fs production, and writes a **relaxed `complex.pdb` +
+  `ligands.sdf`** cached to `preequilcache/`. The RBFE then runs with **`use_preequil=1`** (overlays the relaxed tree;
+  keys the setup cache to `…__nagl__v1pe`).
+- **VALIDATED end-to-end (2026-07-19).** With the relaxed structure the calib ternary leg ran clean:
+  **warmup 48/48 (1 fs) → production 40/40 (4 fs), ZERO NaN, ΔG_morph = 47.28 ± 0.53 kcal/mol** — where every prior
+  run died at warmup iteration 1. **This is THE ternary fix; do not chase the reduced-dt warmup.**
+- **Process now:** `mode=preequil` (once per leg, cached) → `mode=run use_preequil=1` (first run needs
+  `allow_gpu_setup_build=1` to build the `v1pe` setup cache). Keep the 1 fs warmup as cheap belt-and-suspenders.
+- **Known minor follow-up:** the pre-equil writes ligB via O3A-align to the relaxed ligA; ~3 ligand atoms show
+  OpenFE "mapping … deviates by more than 1.0" warnings. They were **benign** here (leg converged), but tightening
+  the ligB alignment (or using a consistent conformer for the near-identical calib endpoints) removes the warning.
 
 ### 2. Setup time varied 8 min ↔ 30 min "on the same machine" — **it was two different machines**
 - **Symptom:** identical code/leg, setup (`SETUP done in Ns`) sometimes ~461 s, sometimes 30+ min → the long ones

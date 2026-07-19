@@ -499,6 +499,23 @@ read it before making changes.
   first time reality diverges from your estimate, investigate, don't wait for the second data point. This
   composes with (does not override) the spot-capacity rule below: **investigate first to DIAGNOSE**; if the
   diagnosis is a known-benign spot capacity-wait, *then* wait it out — but you only know that by looking.
+- **★★ TIGHT, CONTINUOUS MONITORING OF AN UNPROVEN PIPELINE — short cadence + a real PROGRESS check each time,
+  until it reaches its terminal success state at least ONCE (trimcrae standing rule, 2026-07-19, after tight
+  monitoring caught three separate silent failures on the ternary lane in one session: an am1bcc cold-cache
+  ~40-min GPU-idle stall, a 25000-step-minimize ~15-min stall, and the warmup-iteration-1 softcore NaN).** A
+  pipeline is **UNPROVEN** when it is new, was just changed, or has failed/stalled recently — and it stays
+  unproven until you have watched it run **all the way to its real success terminus** (not "no error yet", not
+  "it provisioned"). While a run is unproven, do **NOT** check it at wide intervals (10–15 min) and re-assert
+  "on track": monitor **tightly (~3–6 min)** and make every check a **progress check**, not a liveness ping —
+  pull the live log / SSH window and verify the thing is **ADVANCING**: GPU actually busy (not 0% for minutes),
+  the phase moved (setup→minimize→warmup→production), the iteration/committed-count went **up** vs the previous
+  check. A frozen phase + idle GPU across two consecutive checks is a **stall** → diagnose + fix the root cause
+  (per the rule above), don't wait. Keep the cadence tight through the WHOLE unproven stretch — every new stage
+  is its own first-time risk (the state-4 NaN only showed at warmup iter 1, long after "it's running"). Once a
+  pipeline has **proven** it reaches success end-to-end, relax to a light heartbeat. This composes with
+  UNEXPECTED-SLOWNESS (that's the *investigate* trigger; this is the *cadence* that surfaces it early) and with
+  ROOT-CAUSE-WITH-EVIDENCE (each progress check IS evidence, not a guess). "Constant monitoring until we KNOW
+  it works," in trimcrae's words.
 - **ALWAYS WAIT OUT SPOT CAPACITY — never switch to on-demand because a job is stuck "Starting / Insufficient
   capacity" (trimcrae standing rule, 2026-07-05).** A spot job that can't get an EC2 instance is *not* a
   problem — it is exactly what spot + per-iteration checkpointing was designed for: it waits, and when capacity
