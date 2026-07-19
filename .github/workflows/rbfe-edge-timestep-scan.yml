@@ -1,0 +1,92 @@
+name: RBFE edge timestep-ceiling scan (CPU, free)
+
+# Per-edge PROOF of "can the designed warhead matrix run at OpenFE's 4 fs default, or does it need 2 fs?".
+# For every congeneric edge (+ two known-answer anchors) it builds the REAL OpenFE solvent-leg hybrid on a free CPU
+# runner and counts UNCONSTRAINED alchemical X-H bonds (rbfe_edge_timestep_scan.py). >=1 => ~2 fs ceiling; 0 => the
+# 4 fs default is stable. No MD, no GPU (RBFE_HMRDIAG_ONLY=1 exits after the constraint verdict). The verdict is
+# pose/environment-independent, so the binary solvent-leg answer is also the ternary-edge answer. Dispatch with
+# ref=<feature-branch> to run that branch's script (the file must be on main to be dispatchable).
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write
+  contents: write     # commit the per-edge table back to the triggering branch
+
+concurrency:
+  group: rbfe-edge-timestep-scan-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Authenticate to GCP (keyless, WIF) — only to restore the shared openfe env tarball
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Restore the SAME cached openfe env the GPU lane uses (identical toolchain)
+        run: |
+          set -eo pipefail
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          gcloud config set project "$PROJECT" 2>/dev/null || true
+          BUCKET="${PROJECT}-rbfe-ckpt"
+          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
+          [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
+          ENV_KEY=$(echo "$IMG_FAMILY|openfe1.12-am1bcc-gemmi-pdbfixer-biopython-cu126-v2" | sha256sum | cut -c1-16)
+          ENV_CACHE="gs://$BUCKET/env-cache/ternary-$ENV_KEY.tar"
+          echo "IMG_FAMILY=$IMG_FAMILY  ENV_CACHE=$ENV_CACHE"
+          mkdir -p /tmp/mf/envs
+          if gcloud storage cp "$ENV_CACHE" /tmp/env.tar 2>/dev/null; then
+            tar -C /tmp/mf/envs -xf /tmp/env.tar && rm -f /tmp/env.tar && echo "--- env-cache HIT ---"
+          else
+            echo "::error::env tarball $ENV_CACHE not found — a GPU run must build+cache the env first"; exit 1
+          fi
+          PY=/tmp/mf/envs/rbfe/bin/python
+          "$PY" -c "import openfe,openmm,rdkit;print('env OK openfe',openfe.__version__)" \
+            || { echo "::error::restored env fails to import"; exit 1; }
+          echo "PY=$PY" >> "$GITHUB_ENV"
+
+      - name: Run the per-edge timestep-ceiling scan
+        working-directory: research/modalities
+        run: |
+          set -eo pipefail
+          $PY rbfe_edge_timestep_scan.py 2>&1 | tee /tmp/scan.log
+          echo "================ FULL TABLE ================"
+          cat congeneric-edge-timestep-table.json
+
+      - name: Upload the table as an artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: congeneric-edge-timestep-table
+          path: research/modalities/congeneric-edge-timestep-table.json
+          if-no-files-found: warn
+
+      - name: Commit the table back to the branch
+        if: always()
+        run: |
+          set -eo pipefail
+          F=research/modalities/congeneric-edge-timestep-table.json
+          [ -f "$F" ] || { echo "no table to commit"; exit 0; }
+          git config user.name  "Claude"
+          git config user.email "noreply@anthropic.com"
+          git add "$F"
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "rbfe: per-edge timestep-ceiling scan table (which designed edges need 2 fs vs 4 fs)"
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" 2>/dev/null || true
+            git push origin "HEAD:${GITHUB_REF_NAME}" && break || sleep $((2**i))
+          done

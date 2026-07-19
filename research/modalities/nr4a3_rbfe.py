@@ -926,6 +926,42 @@ def run_analyze():
     print(f"  [rbfe][analyze] DONE {RECEPTOR}/{LEG}: ΔG_morph={dg:.2f} ± {out['unc_kcal']:.2f}", flush=True)
 
 
+def count_unconstrained_alchemical_xh(system):
+    """Return (n_xh_total, n_unconstrained, unconstrained_list, hmasses_seen) for an OpenMM System built with
+    constraints=HBonds. In such a system EVERY X-H bond is constrained EXCEPT the alchemical ones whose constraint
+    status changes between the λ endpoints (OpenFE's hybrid factory cannot constrain a bond to two lengths / a
+    present-vs-absent constraint, so it leaves it flexible). An unconstrained X-H has a ~10 fs period (~18 fs after
+    HMR to 3 amu), so it caps the stable timestep at ~2 fs (dt ≲ period/10); zero unconstrained X-H => the default
+    4 fs is safe. This is the SINGLE source of truth for the timestep ceiling and is pose/environment-independent
+    (the alchemical bonds are intramolecular to the ligand), so a binary solvent-leg build gives the SAME verdict a
+    complex or ternary build would. `unconstrained_list` is [(h_atom_idx, h_mass_amu), ...]."""
+    import openmm as _mm
+    cons = set()
+    for k in range(system.getNumConstraints()):
+        i, j, _d = system.getConstraintParameters(k)
+        cons.add((min(int(i), int(j)), max(int(i), int(j))))
+    mass = [system.getParticleMass(p).value_in_unit(_mm.unit.dalton) for p in range(system.getNumParticles())]
+    is_h = lambda m: m < 5.0            # H (1.008) or HMR-repartitioned H (3-4); heavy atoms >= 12
+    xh_total = xh_unconstrained = 0
+    unc = []
+    # scan BOTH HarmonicBondForce AND CustomBondForce — OpenFE's hybrid factory puts the alchemically-varying
+    # (appearing/disappearing) bonds in a CustomBondForce, so an unconstrained alchemical X-H lives there.
+    for f in system.getForces():
+        if not isinstance(f, (_mm.HarmonicBondForce, _mm.CustomBondForce)):
+            continue
+        for b in range(f.getNumBonds()):
+            p = f.getBondParameters(b)
+            i, j = int(p[0]), int(p[1])
+            if is_h(mass[i]) ^ is_h(mass[j]):            # X-H bond = exactly one light partner
+                xh_total += 1
+                hidx = i if is_h(mass[i]) else j
+                if (min(i, j), max(i, j)) not in cons:
+                    xh_unconstrained += 1
+                    unc.append((hidx, round(mass[hidx], 3)))
+    hmasses = sorted({round(m, 2) for m in mass if is_h(m)})
+    return xh_total, xh_unconstrained, unc, hmasses
+
+
 def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                                  warmup_env="RBFE_WARMUP_CKPT_ITERS", prod_env="RBFE_PROD_CKPT_ITERS",
                                  commit_s3_env="RBFE_SPOT_COMMIT_S3", commit_gcs_env="RBFE_SPOT_COMMIT_GCS"):
@@ -1066,36 +1102,7 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
     # them and reports whether HMR reached their H mass (repartitioned ≈3-4 amu = stable at 2-4 fs; ≈1 amu = the
     # fix: extend HMR to the alchemical H and reclaim the 2-4x we lose by forcing 1 fs). Free, CPU, non-fatal.
     try:
-        import openmm as _mm
-        _cons = set()
-        for _k in range(system.getNumConstraints()):
-            _i, _j, _d = system.getConstraintParameters(_k)
-            _cons.add((min(int(_i), int(_j)), max(int(_i), int(_j))))
-        _mass = [system.getParticleMass(_p).value_in_unit(_mm.unit.dalton)
-                 for _p in range(system.getNumParticles())]
-        _is_h = lambda m: m < 5.0            # H (1.008) or HMR-repartitioned H (3-4); heavy atoms >= 12
-        _xh_total = _xh_unconstrained = 0
-        _unc = []
-        # scan BOTH the standard HarmonicBondForce AND CustomBondForce — OpenFE's hybrid factory puts the
-        # alchemically-varying (appearing/disappearing) bonds in a CustomBondForce, so an unconstrained alchemical
-        # X-H lives there, NOT in the HarmonicBondForce. The first pass only checked HarmonicBondForce and thus
-        # could not see the exact bond the 1 fs hypothesis is about; include custom bonds to make this conclusive.
-        _bondforces = [_f for _f in system.getForces()
-                       if isinstance(_f, (_mm.HarmonicBondForce, _mm.CustomBondForce))]
-        for _f in _bondforces:
-            if True:
-                for _b in range(_f.getNumBonds()):
-                    _p = _f.getBondParameters(_b)
-                    _i, _j = int(_p[0]), int(_p[1])
-                    _mi, _mj = _mass[_i], _mass[_j]
-                    # X-H bond = exactly one light partner
-                    if _is_h(_mi) ^ _is_h(_mj):
-                        _xh_total += 1
-                        _hidx = _i if _is_h(_mi) else _j
-                        if (min(_i, _j), max(_i, _j)) not in _cons:
-                            _xh_unconstrained += 1
-                            _unc.append((_hidx, round(_mass[_hidx], 3)))
-        _hmasses = sorted({round(m, 2) for m in _mass if _is_h(m)})
+        _xh_total, _xh_unconstrained, _unc, _hmasses = count_unconstrained_alchemical_xh(system)
         print("  [hmr-diag] X-H bonds=%d constrained=%d UNCONSTRAINED=%d | H-mass values seen=%s"
               % (_xh_total, _xh_total - _xh_unconstrained, _xh_unconstrained, _hmasses), flush=True)
         if _unc:
@@ -1105,11 +1112,22 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
             print("  [hmr-diag] of %d unconstrained-H, %d are HMR-repartitioned (mass>=1.5) and %d are at ~1 amu "
                   "(NOT repartitioned -> these are what force 1 fs; extending HMR here should restore 2-4 fs)"
                   % (len(_unc), len(_reps), len(_unc) - len(_reps)), flush=True)
+            print("  [hmr-diag] VERDICT: this edge has an unconstrained alchemical X-H -> max stable dt ~2 fs "
+                  "(do NOT use 4 fs)", flush=True)
         else:
-            print("  [hmr-diag] NO unconstrained X-H bonds found -> 1 fs may NOT be needed for this edge "
-                  "(the NaN, if any, is not an unconstrained-C-H; re-test 2 fs)", flush=True)
+            print("  [hmr-diag] NO unconstrained X-H bonds found -> 4 fs (OpenFE default) is safe for this edge "
+                  "(terminal/dummy-block morph; no H-count change on a mapped atom)", flush=True)
+        # RBFE_HMRDIAG_ONLY=1 (2026-07-19): the constraint verdict above is the ENTIRE timestep-ceiling answer and
+        # needs NO MD — so a per-edge timestep scan (rbfe_edge_timestep_scan.py) sets this to build the hybrid on a
+        # free CPU runner, read the verdict, and exit before any GPU/warmup. Returns the counts so a caller can log.
+        if os.environ.get("RBFE_HMRDIAG_ONLY") == "1":
+            print("  [hmr-diag] RBFE_HMRDIAG_ONLY=1 -> exiting after the constraint verdict (no MD).", flush=True)
+            return None, None, {"hmrdiag_only": True, "xh_total": _xh_total,
+                                "xh_unconstrained": _xh_unconstrained, "unconstrained": _unc, "hmasses": _hmasses}
     except Exception as _e:  # noqa: BLE001
         print("  [hmr-diag] failed: %s: %s" % (type(_e).__name__, _e), flush=True)
+        if os.environ.get("RBFE_HMRDIAG_ONLY") == "1":
+            return None, None, {"hmrdiag_only": True, "error": "%s: %s" % (type(_e).__name__, _e)}
     # PRE-BAKE / PRIME (2026-07-18): setup (solvate+parameterize) is 100% CPU — no GPU touched until the MD below.
     # So a free, NON-PREEMPTIBLE CPU runner can build it and write the GCS cache, then a GPU VM RESTORES it and goes
     # straight to minimize+MD — removing the entire (preemption-prone) setup window from GPU/spot exposure. The
