@@ -1,0 +1,58 @@
+name: GCP quota check (L4 / G2, us-central1)
+
+# Read-only: prints the project's L4-GPU + G2-CPU quotas (limit vs usage) for us-central1 so we know exactly what
+# on-demand vs spot capacity we're allowed, and whether billing is enabled. Touches nothing.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  quota:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Auth to GCP (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Print L4/G2 quotas + billing
+        run: |
+          set +e
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          gcloud config set project "$PROJECT" 2>/dev/null
+          echo "=== project display name ==="
+          gcloud projects describe "$PROJECT" --format="value(name,projectId)" 2>/dev/null || echo "(no projects.get perm)"
+          echo "=== billing enabled? ==="
+          gcloud beta billing projects describe "$PROJECT" --format="value(billingEnabled,billingAccountName)" 2>/dev/null || echo "(no billing perm — check console)"
+          gcloud compute regions describe us-central1 --format="json(quotas)" > /tmp/q.json 2>/tmp/qerr
+          [ -s /tmp/q.json ] || { echo "regions describe failed:"; cat /tmp/qerr; }
+          python3 - <<'PY'
+import json
+try:
+    q = json.load(open("/tmp/q.json")).get("quotas", [])
+except Exception as e:
+    print("could not parse quotas:", e); q = []
+d = {x["metric"]: x for x in q}
+def fmt(m):
+    x = d.get(m)
+    return ("NOT PRESENT (metric doesn't exist for this project/region)" if x is None
+            else "limit=%s usage=%s" % (x.get("limit"), x.get("usage", 0)))
+metrics = ["NVIDIA_L4_GPUS", "PREEMPTIBLE_NVIDIA_L4_GPUS", "COMMITTED_NVIDIA_L4_GPUS",
+           "G2_CPUS", "PREEMPTIBLE_G2_CPUS", "GPUS_ALL_REGIONS"]
+print("\n[QUOTA-SUMMARY] us-central1:")
+for m in metrics:
+    print("  %-28s %s" % (m + ":", fmt(m)))
+# also dump any other metric that mentions L4/G2/GPU we didn't list
+extra = [x for x in q if any(t in x["metric"] for t in ("L4", "G2", "GPU")) and x["metric"] not in metrics]
+if extra:
+    print("  --- other GPU/G2 metrics present ---")
+    for x in extra:
+        print("  %-28s limit=%s usage=%s" % (x["metric"] + ":", x.get("limit"), x.get("usage", 0)))
+PY
