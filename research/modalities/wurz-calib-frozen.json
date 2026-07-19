@@ -81,19 +81,28 @@
     "assay": "alpha_SPR (same-paper SPR; NOT TR-FRET)"
   },
   "decision_rule_valB_mini": {
+    "_governing": "Reviewer condition 6, 2026-07-19 (conditional-approval revisions). SUPERSEDES the earlier zero-exclusion-only rule; implemented as ternary_fep_reduce.calibration_gate (three-tier). Uses the BETWEEN-REPLICATE cycle SD (condition 3), NOT the MBAR SE.",
+    "quantity": "ddG_coop = ddG_alch,ternary - ddG_alch,binary = -RT ln(alpha_4/alpha_1); target +0.944 kcal/mol (POSITIVE for the hi->lo morph).",
     "PASS_requires_ALL": [
+      "all convergence diagnostics pass (overlap CONNECTED/no bottleneck, dG(t) plateau, replica mixing, fwd/rev agree <=1.0, stable ligand/interface RMSD)",
       "correct POSITIVE sign",
-      "combined uncertainty EXCLUDES zero",
-      "no unresolved forward/reverse disagreement",
-      "no collapse / ligand escape / restraint-dominated result",
-      "broad consistency with +0.94 kcal/mol"
+      "|mean ddG_calc - target| <= 1.0 kcal/mol (FIXED accuracy margin, not 'within replicate SD')",
+      "between-replicate cycle SD <= 0.75 kcal/mol"
     ],
-    "INDETERMINATE_not_a_pass": [
-      "noisy positive point estimate alone (separation < 1 kcal/mol)",
-      "CI includes zero",
-      "unresolved hysteresis"
+    "BORDERLINE_extend_to_5": [
+      "abs error in (1.0, 2.0] kcal/mol",
+      "cycle SD in (0.75, 1.0] kcal/mol",
+      "a would-be PASS within 0.5 kcal/mol of a pass/fail boundary, one replicate separated, or different interface states (condition 3)"
     ],
-    "retired_rule": "The former +-1.0 kcal/mol acceptance band is REMOVED - it could accept zero or the wrong physical result given the <1 kcal/mol experimental separation."
+    "FAIL": [
+      "wrong sign",
+      "abs error > 2.0 kcal/mol",
+      "cycle SD > 1.0 kcal/mol AFTER extension to >=5 replicates",
+      "persistent overlap / drift / structural convergence failure"
+    ],
+    "replicate_design": "condition 3: >=3 independent complete-cycle replicates (different seeds AND velocities, preferably decorrelated PE snapshots); report mean + sample SD + t/bootstrap CI; do NOT substitute the single-run MBAR SE for between-replicate uncertainty; extend to 5 on the BORDERLINE triggers.",
+    "interpretation_scope": "condition 7: a PASS validates plumbing / endpoint-stability / cycle-algebra / uncertainty / ONE known-answer only; it authorizes the NR-V04 retrospective ONLY. The prospective matrix stays blocked until NR-V04's own preregistered criteria pass.",
+    "retired_rule": "The former +-1.0-band-ALONE rule and the interim zero-exclusion-only rule are both superseded by condition 6: a fixed +-1.0 margin is now COMBINED with correct sign + cycle SD <= 0.75 + all diagnostics, so it cannot accept zero or a diverging replicate set."
   },
   "validation": {
     "ok": true,
