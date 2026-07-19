@@ -327,24 +327,61 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     # ================= PRODUCTION already underway: resume it and finish ======================
     if restored_phase == PRODUCTION:
         rep = MultiStateReporter(str(shared / prod_nc), open_mode="r+", checkpoint_storage=prod_chk)
-        sampler = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
-                                    integrator=integrator, reporter=rep, simulation_settings=sim_s,
-                                    thermo_settings=thermo_s, alchem_settings=alchem_s,
-                                    platform=platform, restart=True, dry=False)
-        _set_caches(sampler, platform)
-        log(f"[spot-driver] resume PRODUCTION at iter {spot._sampler_iteration(sampler)}")
-        spot.run_to_target(sampler, rep, prod_target, production_checkpoint_iters,
-                           _commit(PRODUCTION, prod_nc, prod_chk, production_checkpoint_iters), log=log)
-        return {"nc": shared / prod_nc, "checkpoint": shared / prod_chk}
+        try:
+            sampler = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
+                                        integrator=integrator, reporter=rep, simulation_settings=sim_s,
+                                        thermo_settings=thermo_s, alchem_settings=alchem_s,
+                                        platform=platform, restart=True, dry=False)
+        except ValueError as e:
+            # An UNRESUMABLE committed checkpoint (OpenFE: "Sampler in checkpoint does not match Protocol
+            # settings, cannot resume") must NOT be fatal. It happens when the frozen protocol hash shifts
+            # between spot attempts (e.g. code changed on the branch the VM re-clones). Discard the stale
+            # production checkpoint and fall back to a FRESH warmup — spot-safe resilience, not a crash.
+            if "does not match Protocol settings" not in str(e):
+                raise
+            log(f"[spot-driver] PRODUCTION checkpoint UNRESUMABLE ({e}); discarding it + restarting from warmup "
+                f"(spot-safe fallback, not a crash)")
+            for _f in (prod_nc, prod_chk):
+                try:
+                    (shared / _f).unlink()
+                except FileNotFoundError:
+                    pass
+            restored_phase = None   # fall through to the warmup path below, fresh
+        else:
+            _set_caches(sampler, platform)
+            log(f"[spot-driver] resume PRODUCTION at iter {spot._sampler_iteration(sampler)}")
+            spot.run_to_target(sampler, rep, prod_target, production_checkpoint_iters,
+                               _commit(PRODUCTION, prod_nc, prod_chk, production_checkpoint_iters), log=log)
+            return {"nc": shared / prod_nc, "checkpoint": shared / prod_chk}
 
     # ================= WARMUP (fresh, or resume a partial warmup) =============================
     wrep = _build_reporter(shared, WARMUP_NC, WARMUP_CHK, selection_indices,
                            warmup_checkpoint_iters, pos_iv, vel_iv)
     warmup_restart = restored_phase == WARMUP and (shared / WARMUP_NC).is_file()
-    warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
-                               integrator=integrator, reporter=wrep, simulation_settings=sim_s,
-                               thermo_settings=thermo_s, alchem_settings=alchem_s,
-                               platform=platform, restart=warmup_restart, dry=False)
+    try:
+        warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
+                                   integrator=integrator, reporter=wrep, simulation_settings=sim_s,
+                                   thermo_settings=thermo_s, alchem_settings=alchem_s,
+                                   platform=platform, restart=warmup_restart, dry=False)
+    except ValueError as e:
+        # Same spot-safe fallback as production: an unresumable warmup checkpoint (protocol-hash shift across
+        # attempts) is discarded and warmup restarts FRESH, rather than crashing the leg.
+        if not (warmup_restart and "does not match Protocol settings" in str(e)):
+            raise
+        log(f"[spot-driver] WARMUP checkpoint UNRESUMABLE ({e}); discarding it + starting warmup FRESH "
+            f"(spot-safe fallback, not a crash)")
+        for _f in (WARMUP_NC, WARMUP_CHK):
+            try:
+                (shared / _f).unlink()
+            except FileNotFoundError:
+                pass
+        warmup_restart = False
+        wrep = _build_reporter(shared, WARMUP_NC, WARMUP_CHK, selection_indices,
+                               warmup_checkpoint_iters, pos_iv, vel_iv)
+        warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
+                                   integrator=integrator, reporter=wrep, simulation_settings=sim_s,
+                                   thermo_settings=thermo_s, alchem_settings=alchem_s,
+                                   platform=platform, restart=False, dry=False)
     _set_caches(warmup, platform)
     if not warmup_restart and spot._sampler_iteration(warmup) == 0:
         # the big minimization (setup() already did a tiny 100-step one); still fast/non-resumable.
