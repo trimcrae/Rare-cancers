@@ -1,0 +1,125 @@
+name: GCP reap VMs (kill orphan gpu VMs, project-wide)
+
+# ROBUST, UNIVERSAL VM KILLER. One dispatch deletes every orphaned GCP GPU VM in the project — no need to know
+# VM names or zones. This is the belt-and-braces backstop behind the in-VM self-delete trap + the max-run-duration
+# on each GPU job: however a VM orphans (self-delete trap failed, max-run misconfigured, a half-provisioned VM, a
+# STOPPING spot instance that never got cleaned), a single `mode=reap` run mops it up.
+#
+# SAFE BY DEFAULT: mode=dry_run just LISTS what would be deleted (deletes nothing). Flip to mode=reap to act.
+# A live leg is protected two ways: (1) RUNNING VMs younger than `max_age_min` are always spared (a just-launched
+# leg is never killed), and (2) `exclude` names are never touched. DEAD VMs (STOPPING/STOPPED/TERMINATED/
+# SUSPENDED) are always reaped — they hold quota + the deterministic VM name and can never resume useful work.
+#
+# Covers ALL gpu lanes (gcp-ternary-*, gcp-rbfe-*, gcp-bench-*, gcp-smoke-*) via the `prefix` filter (default gcp-).
+# Read-only auth is the same WIF path as gcp-quota-check.yml.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry_run = list only (default, safe); reap = actually delete"
+        type: choice
+        options: [dry_run, reap]
+        default: dry_run
+      max_age_min:
+        description: "Spare RUNNING VMs younger than this many minutes (protects a just-launched leg). Dead VMs are reaped regardless."
+        default: "20"
+      exclude:
+        description: "VM names to NEVER delete (space/comma separated) — protect a live leg, e.g. gcp-ternary-29693980740"
+        default: ""
+      prefix:
+        description: "Only consider VMs whose name starts with this prefix"
+        default: "gcp-"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  reap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Auth to GCP (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Reap orphan VMs
+        env:
+          MODE: ${{ github.event.inputs.mode }}
+          MAX_AGE_MIN: ${{ github.event.inputs.max_age_min }}
+          EXCLUDE: ${{ github.event.inputs.exclude }}
+          PREFIX: ${{ github.event.inputs.prefix }}
+        run: |
+          set -uo pipefail
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          gcloud config set project "$PROJECT" 2>/dev/null
+          MODE="${MODE:-dry_run}"; MAX_AGE_MIN="${MAX_AGE_MIN:-20}"; PREFIX="${PREFIX:-gcp-}"
+          # normalize exclude to a space-padded lookup string
+          EXCL=" $(printf '%s' "${EXCLUDE:-}" | tr ',' ' ' | tr -s ' ') "
+          NOW=$(date -u +%s)
+          echo "=== reap: mode=$MODE max_age_min=$MAX_AGE_MIN prefix='$PREFIX' exclude='${EXCLUDE:-<none>}' now=$(date -u) ==="
+
+          # name,zone,status,creationTimestamp for every instance (zone is already the short name here).
+          LIST=$(gcloud compute instances list \
+                   --format="csv[no-heading](name,zone,status,creationTimestamp)" 2>/tmp/lerr) \
+                || { echo "::error::instances list failed:"; cat /tmp/lerr; exit 1; }
+
+          if [ -z "$LIST" ]; then echo "no instances in project — nothing to reap"; fi
+
+          CONSIDERED=0; DELETED=0; SPARED=0; FAILED=0
+          DEADRE='STOPPING|STOPPED|TERMINATED|SUSPENDED|SUSPENDING'
+          # iterate line by line
+          while IFS=, read -r NAME ZONE STATUS CTS; do
+            [ -z "$NAME" ] && continue
+            case "$NAME" in
+              ${PREFIX}*) : ;;                       # matches prefix -> consider
+              *) continue ;;                          # not ours -> ignore silently
+            esac
+            CONSIDERED=$((CONSIDERED+1))
+            # age in minutes from creationTimestamp (RFC3339 -> epoch; GNU date on the runner)
+            CEPOCH=$(date -u -d "$CTS" +%s 2>/dev/null || echo 0)
+            AGE_MIN=$(( (NOW - CEPOCH) / 60 ))
+            EXPLAIN="$NAME [$ZONE] status=$STATUS age=${AGE_MIN}m"
+
+            # excluded names are always spared
+            case "$EXCL" in *" $NAME "*) echo "  SPARE  $EXPLAIN (excluded)"; SPARED=$((SPARED+1)); continue ;; esac
+
+            REAP=0; REASON=""
+            if printf '%s' "$STATUS" | grep -qE "$DEADRE"; then
+              REAP=1; REASON="dead (holds quota+name, cannot resume)"
+            elif [ "$AGE_MIN" -ge "$MAX_AGE_MIN" ]; then
+              REAP=1; REASON="orphan (age ${AGE_MIN}m >= ${MAX_AGE_MIN}m)"
+            else
+              echo "  SPARE  $EXPLAIN (younger than ${MAX_AGE_MIN}m — likely a live leg)"; SPARED=$((SPARED+1)); continue
+            fi
+
+            if [ "$MODE" = reap ]; then
+              echo "  DELETE $EXPLAIN — $REASON"
+              if gcloud compute instances delete "$NAME" --zone="$ZONE" --quiet 2>/tmp/derr; then
+                DELETED=$((DELETED+1))
+              else
+                echo "    ::warning::delete failed: $(tail -1 /tmp/derr)"; FAILED=$((FAILED+1))
+              fi
+            else
+              echo "  WOULD-DELETE $EXPLAIN — $REASON"
+              DELETED=$((DELETED+1))   # in dry_run, DELETED counts the would-delete set
+            fi
+          done <<< "$LIST"
+
+          echo "=== remaining ${PREFIX}* VMs after reap ==="
+          gcloud compute instances list --filter="name~^${PREFIX}" \
+            --format="table(name,zone,status,creationTimestamp)" 2>/dev/null || echo "  (none / list failed)"
+
+          echo "=== L4 quota usage now (should drop after a reap) ==="
+          Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
+                --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
+          for M in NVIDIA_L4_GPUS PREEMPTIBLE_NVIDIA_L4_GPUS; do
+            L=$(printf '%s\n' "$Q" | awk -v m="$M" '$1==m {print "limit="$2" usage="$3}')
+            echo "  ${M}: ${L:-NOT PRESENT}"
+          done
+
+          VERB="would-delete"; [ "$MODE" = reap ] && VERB="deleted"
+          echo "[REAP-SUMMARY] mode=$MODE considered=$CONSIDERED $VERB=$DELETED spared=$SPARED failed=$FAILED"
