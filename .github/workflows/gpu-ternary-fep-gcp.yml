@@ -310,8 +310,8 @@ jobs:
               if [ "$PE_SMOKE" = 1 ]; then
                 LINE="TFEP_RESULT status=OK preequil-smoke leg=$LEG_ID (system built + parameterized + relaxed OK; not cached)"
               elif ( cd \$OUT/$LEG_ID && tar -cf /tmp/pe.tar complex.pdb ligands.sdf preequil_marker.json ) \
-                   && gcloud storage cp /tmp/pe.tar "$PE_CACHE" && gcloud storage ls "$PE_CACHE" >/dev/null 2>&1; then
-                LINE="TFEP_RESULT status=OK preequil leg=$LEG_ID cached -> $PE_CACHE"
+                   && gcloud storage cp /tmp/pe.tar "\$PE_CACHE" && gcloud storage ls "\$PE_CACHE" >/dev/null 2>&1; then
+                LINE="TFEP_RESULT status=OK preequil leg=$LEG_ID cached -> \$PE_CACHE"
               else
                 LINE="TFEP_RESULT status=NORESULT preequil leg=$LEG_ID (relaxed but cache upload failed)"
               fi
@@ -327,11 +327,11 @@ jobs:
           SETUP_VER=v1
           if [ "$USE_PE" = 1 ] && [ "$MODE" = run ]; then
             RAW=\$(dirname \$(find \$IN -name complex.pdb | head -1) 2>/dev/null)
-            if [ -n "\$RAW" ] && gcloud storage cp "$PE_CACHE" /tmp/pe.tar 2>/dev/null && tar -C "\$RAW" -xf /tmp/pe.tar 2>/dev/null; then
+            if [ -n "\$RAW" ] && gcloud storage cp "\$PE_CACHE" /tmp/pe.tar 2>/dev/null && tar -C "\$RAW" -xf /tmp/pe.tar 2>/dev/null; then
               SETUP_VER=v1pe
-              echo "--- USE_PREEQUIL: overlaid relaxed complex.pdb/ligands.sdf from $PE_CACHE into \$RAW; setup cache ver -> $SETUP_VER ---"
+              echo "--- USE_PREEQUIL: overlaid relaxed complex.pdb/ligands.sdf from \$PE_CACHE into \$RAW; setup cache ver -> \$SETUP_VER ---"
             else
-              echo "::error::use_preequil=1 but no preequilcache at $PE_CACHE (run mode=preequil first)"; exit 1
+              echo "::error::use_preequil=1 but no preequilcache at \$PE_CACHE (run mode=preequil first)"; exit 1
             fi
           fi
 

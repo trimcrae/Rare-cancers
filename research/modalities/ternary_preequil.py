@@ -170,10 +170,11 @@ def _relax(system, topology, positions, n_prot, n_lig):
         integrator.setTemperature(T * unit.kelvin)
         sim.step(max(1, n_heat // 4))
 
-    # add a barostat, NPT restrained (200 ps), then RELEASE restraints while ramping dt to 4 fs
+    # add a barostat, NPT restrained (100 ps — enough to settle box+solvent around the restrained solute), then
+    # RELEASE restraints while ramping dt to 4 fs
     system.addForce(openmm.MonteCarloBarostat(1 * unit.bar, 300 * unit.kelvin))
     sim.context.reinitialize(preserveState=True)
-    n_npt = 200 if SMOKE else 200 * steps_ps
+    n_npt = 200 if SMOKE else 100 * steps_ps
     log(f"  [preequil] NPT equilibrate (restrained) {n_npt} steps…")
     sim.step(n_npt)
 
