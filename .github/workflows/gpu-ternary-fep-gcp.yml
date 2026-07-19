@@ -43,6 +43,8 @@ on:
       allow_gpu_setup_build: { description: "Escape hatch (default 0). By default a GPU run FAILS FAST if the setup cache for its (leg,charge) is missing, forcing you to CPU-prime it first (ternary-setup-prime-cpu.yml) instead of burning ~8-40 min of GPU-idle re-parameterization. Set 1 only for a deliberate GPU-side build (the very first prime of a brand-new leg/charge). Sets RBFE_REQUIRE_PRIMED_SETUP=0.", default: "0", required: false }
       min_steps: { description: "L-BFGS minimization steps per replica before warmup (RBFE_MIN_STEPS). Default 5000 (OpenFE standard). Was 25000 which minimizes 12 replicas of the 146k-atom system for ~20-60 min at ~0% GPU for NO NaN benefit (the code comment confirms the NaN survives 25000 steps; the 1 fs warmup is what fixes NaNs). Only raise if a specific system genuinely needs it.", default: "5000", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
+      autostop_convergence: { description: "1 = STOP production early once the committed trajectory converges (connected MBAR overlap + dG(t) plateau, reviewer condition 4), capped at the 5 ns production_length. Default 0 (run the full cap). Conservative: only checks after autostop_min_frac of the cap and never stops without real evidence.", default: "0", required: false }
+      autostop_min_frac: { description: "fraction of the production cap before the auto-stop convergence check is allowed to fire (RBFE_AUTOSTOP_MIN_FRAC). Default 0.4.", default: "0.4", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
   # the mode=run launcher got 'quota exceeded' for 25 min). The CPU validator (smarca2-model-validate.yml) covers
@@ -83,6 +85,8 @@ jobs:
       PE_NS: ${{ github.event.inputs.preequil_ns || '0.5' }}
       USE_PE: ${{ github.event.inputs.use_preequil || '0' }}
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
+      AUTOSTOP: ${{ github.event.inputs.autostop_convergence || '0' }}
+      AUTOSTOP_MIN_FRAC: ${{ github.event.inputs.autostop_min_frac || '0.4' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -376,6 +380,7 @@ jobs:
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
               CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG RBFE_WARMUP_TIMESTEP_FS=$WARMUP_TS \
               RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS RBFE_REQUIRE_PRIMED_SETUP=$REQUIRE_PRIMED RBFE_MIN_STEPS=$MIN_STEPS SETUP_CACHE_VERSION=\$SETUP_VER \
+              RBFE_AUTOSTOP_CONVERGENCE=$AUTOSTOP RBFE_AUTOSTOP_MIN_FRAC=$AUTOSTOP_MIN_FRAC \
               OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \$COMMIT_ENV \
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist

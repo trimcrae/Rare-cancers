@@ -37,6 +37,53 @@ PRODUCTION = "production"
 WARMUP_NC, WARMUP_CHK = "equilibration.nc", "equilibration.chk"
 
 
+class _ConvergedEarly(Exception):
+    """Raised from a production checkpoint boundary when the committed trajectory has met the convergence
+    criteria (RBFE_AUTOSTOP_CONVERGENCE=1) — caught by the driver to end production early and save GPU."""
+
+    def __init__(self, iteration):
+        self.iteration = iteration
+        super().__init__("production converged early at iter %d" % iteration)
+
+
+def _autostop_enabled():
+    return os.environ.get("RBFE_AUTOSTOP_CONVERGENCE") == "1"
+
+
+def _live_converged(reporter, iteration, prod_target, ci, log):
+    """Convergence subset for an early-STOP decision (opt-in, RBFE_AUTOSTOP_CONVERGENCE=1): from the LIVE
+    (quiescent, just-synced) production reporter, require a CONNECTED MBAR overlap matrix (no adjacent-state
+    bottleneck) AND a plateaued dG(t) (|full − final-half| ≤ 0.5 AND |Q3 − Q4| ≤ 0.5) — the reviewer's
+    condition-4 convergence signals. Conservative: only checked after a minimum fraction of the production cap,
+    and ANY un-computable metric or error ⇒ NOT converged (keep sampling). Never stops before real evidence, so
+    the worst case is running the full 5 ns cap (identical to autostop-off)."""
+    try:
+        min_frac = float(os.environ.get("RBFE_AUTOSTOP_MIN_FRAC", "0.4"))
+    except ValueError:
+        min_frac = 0.4
+    if iteration < max(2 * ci, int(prod_target * min_frac)):
+        return False
+    try:
+        import ternary_fep_convergence as cv
+        from openmmtools.multistate import MultiStateSamplerAnalyzer
+        analyzer = MultiStateSamplerAnalyzer(reporter)
+        ov = cv._overlap(analyzer)
+        if not ov.get("connected"):
+            log("[autostop] iter %d: overlap NOT connected (min_adj=%s) -> keep sampling"
+                % (iteration, ov.get("min_adjacent_overlap")))
+            return False
+        bp = cv._block_plateau(analyzer)
+        ok = bool(bp.get("plateau_full_vs_half_ok") and bp.get("quarter_block_ok"))
+        log("[autostop] iter %d: overlap_connected=%s plateau_full_half=%s q3q4=%s -> %s"
+            % (iteration, ov.get("connected"), bp.get("plateau_full_vs_half_ok"),
+               bp.get("quarter_block_ok"), "CONVERGED" if ok else "keep sampling"))
+        return ok
+    except Exception as e:  # noqa: BLE001
+        log("[autostop] convergence check failed @ %d (%s: %s); continue sampling"
+            % (iteration, type(e).__name__, e))
+        return False
+
+
 def _iters_from_time(sim_settings, integrator, sim_length):
     """iterations = get_simsteps(sim_length)/steps_per_iteration, mirroring OpenFE."""
     from openfe.protocols.openmm_utils import settings_validation
@@ -351,6 +398,18 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
                 os._exit(137)
         return _cb
 
+    def _prod_commit(reporter, nc_name, chk_name, ci):
+        """Production boundary callback: commit as usual, then (if RBFE_AUTOSTOP_CONVERGENCE=1) check the live
+        trajectory for convergence and raise _ConvergedEarly to stop before the 5 ns cap. The reporter is
+        quiescent + synced here, so building an analyzer on it is safe."""
+        base = _commit(PRODUCTION, nc_name, chk_name, ci)
+
+        def _cb(it):
+            base(it)
+            if _autostop_enabled() and _live_converged(reporter, it, prod_target, ci, log):
+                raise _ConvergedEarly(it)
+        return _cb
+
     # ================= PRODUCTION already underway: resume it and finish ======================
     if restored_phase == PRODUCTION:
         rep = MultiStateReporter(str(shared / prod_nc), open_mode="r+", checkpoint_storage=prod_chk)
@@ -377,8 +436,12 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         else:
             _set_caches(sampler, platform)
             log(f"[spot-driver] resume PRODUCTION at iter {spot._sampler_iteration(sampler)}")
-            spot.run_to_target(sampler, rep, prod_target, production_checkpoint_iters,
-                               _commit(PRODUCTION, prod_nc, prod_chk, production_checkpoint_iters), log=log)
+            try:
+                spot.run_to_target(sampler, rep, prod_target, production_checkpoint_iters,
+                                   _prod_commit(rep, prod_nc, prod_chk, production_checkpoint_iters), log=log)
+            except _ConvergedEarly as ce:
+                log(f"[spot-driver] AUTOSTOP: production converged at iter {ce.iteration} "
+                    f"(< target {prod_target}); stopping early (saves GPU)")
             return {"nc": shared / prod_nc, "checkpoint": shared / prod_chk}
 
     # ================= WARMUP (fresh, or resume a partial warmup) =============================
@@ -452,7 +515,12 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         metadata=final["metadata"] or None,
     )
     _set_caches(prod, platform)
-    log(f"[spot-driver] PRODUCTION created from warmup; run -> {prod_target}")
-    spot.run_to_target(prod, prep, prod_target, production_checkpoint_iters,
-                       _commit(PRODUCTION, prod_nc, prod_chk, production_checkpoint_iters), log=log)
+    log(f"[spot-driver] PRODUCTION created from warmup; run -> {prod_target}"
+        f"{' (autostop-on-convergence enabled)' if _autostop_enabled() else ''}")
+    try:
+        spot.run_to_target(prod, prep, prod_target, production_checkpoint_iters,
+                           _prod_commit(prep, prod_nc, prod_chk, production_checkpoint_iters), log=log)
+    except _ConvergedEarly as ce:
+        log(f"[spot-driver] AUTOSTOP: production converged at iter {ce.iteration} "
+            f"(< target {prod_target}); stopping early (saves GPU)")
     return {"nc": shared / prod_nc, "checkpoint": shared / prod_chk}
