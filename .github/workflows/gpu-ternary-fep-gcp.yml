@@ -95,8 +95,9 @@ jobs:
           PROJECT=project-a7ebde30-e2ed-4b8d-9a9
           BUCKET="${PROJECT}-rbfe-ckpt"; RESULTS="gs://$BUCKET/valB-6hax/results"
           echo "=== live gcp-ternary VMs ==="
-          gcloud compute instances list --filter="name~'^gcp-ternary-'" \
-            --format="table(name,zone.basename(),status,creationTimestamp)" 2>/dev/null || echo "(none)"
+          VMLIST=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" \
+            --format="value(name,zone.basename(),status,creationTimestamp)" 2>/dev/null)
+          printf '%s\n' "${VMLIST:-(none)}"
           echo "=== valB-6hax results in GCS ==="
           gcloud storage ls "$RESULTS/" 2>/dev/null || echo "(no results yet)"
           echo "=== per-interval commit census (liveness of the running leg $LEG_ID seed $SEED) ==="
@@ -164,7 +165,9 @@ jobs:
           WUD=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
           NANST=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
           RDTW=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "could not build reduced-dt warmup integrator[^\"]{0,90}" | tail -1)
-          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\""
+          VMCOUNT=$(printf '%s\n' "$VMLIST" | grep -c . 2>/dev/null || echo 0)
+          VMS1=$(printf '%s\n' "$VMLIST" | tr '\n' ';' | cut -c1-200)
+          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\""
       - name: Reset committed checkpoints (fresh start on timestep change)
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
         run: |
