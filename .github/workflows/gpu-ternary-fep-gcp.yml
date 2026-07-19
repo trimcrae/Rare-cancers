@@ -34,6 +34,7 @@ on:
       warmup_timestep_fs: { description: "MD timestep (fs) for the DISCARDED equilibration/warmup only; production runs at timestep_fs. Set smaller than timestep_fs (e.g. 1.5) to survive a rough ternary warmup while producing at the larger dt — equilibration never enters ΔG, so this does not affect the result. Empty = warmup uses the production dt. Keyed into the commit prefix.", default: "", required: false }
       warmup_iters: { description: "override warmup iteration count (RBFE_WARMUP_ITERS). Empty = derive from equilibration_length. Use a small value (e.g. 100) with a reduced warmup_timestep_fs so the reduced-dt relax is short, or for a fast timestep-feasibility test.", default: "", required: false }
       prod_iters: { description: "override production iteration count (RBFE_PROD_ITERS). Empty = full science length. Use a small value (e.g. 120) for a fast timestep-feasibility test (does production survive at timestep_fs).", default: "", required: false }
+      provisioning: { description: "spot (default; ~60-90% cheaper, standing rule: wait out capacity) | standard (on-demand; skips the spot-capacity wait). Use 'standard' ONLY when explicitly authorized for a time-sensitive one-off, e.g. confirming a single valB leg.", default: "spot", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
@@ -67,6 +68,7 @@ jobs:
       WARMUP_TS: ${{ github.event.inputs.warmup_timestep_fs || '' }}
       WARMUP_ITERS: ${{ github.event.inputs.warmup_iters || '' }}
       PROD_ITERS: ${{ github.event.inputs.prod_iters || '' }}
+      PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -312,14 +314,23 @@ jobs:
           # Pin to >=8 vCPU / 32 GB (all still exactly 1x L4, same GPU cost); list a few sizes for spot capacity.
           MACHINES="g2-standard-8 g2-standard-12 g2-standard-16"
           ZONES="us-central1-a us-central1-b us-central1-c us-central1-f"
+          # Provisioning model: SPOT by default (standing rule: wait out capacity). 'standard' = on-demand, used
+          # ONLY when explicitly authorized for a time-sensitive one-off (skips the spot-capacity wait). On-demand
+          # cannot use --instance-termination-action (spot-only), and needs no long capacity-wait, so fewer rounds.
+          if [ "$PROVISIONING" = standard ]; then
+            PROV_FLAGS="--provisioning-model=STANDARD"; PROV_ROUNDS=4
+            echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; skips spot-capacity wait)"
+          else
+            PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22
+          fi
           provision() {
             local round M Z
-            for round in $(seq 1 22); do   # ~55 min of capacity-probing per dispatch (us-central1 L4 spot can be tight midday) — wait it out, never switch region/on-demand
+            for round in $(seq 1 $PROV_ROUNDS); do   # spot: ~55 min capacity-probe (wait it out); on-demand: fail fast on quota
               for M in $MACHINES; do
                 for Z in $ZONES; do
                   if gcloud compute instances create "$VM" \
                       --zone="$Z" --machine-type="$M" \
-                      --provisioning-model=SPOT --instance-termination-action=DELETE \
+                      $PROV_FLAGS \
                       --max-run-duration=25200s --maintenance-policy=TERMINATE --no-restart-on-failure \
                       --scopes=cloud-platform --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
                       --boot-disk-size=100GB --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
