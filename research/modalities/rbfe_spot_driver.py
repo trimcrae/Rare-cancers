@@ -294,15 +294,16 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     if _wdt:
         try:
             import openmm as _mm_w
-            # Build a SEPARATE integrator for warmup and change ITS step size via the OpenMM API. Do NOT mutate
-            # integ_s.timestep — OpenFE settings are frozen once attached to a Protocol ("Settings are immutable
-            # once attached to a Protocol"), which silently failed before and left warmup at the production dt.
-            # _iters_from_time reads integrator.timestep, so warmup_iters tracks the reduced dt automatically.
+            # `unit._get_integrator` returns an openmmtools MCMC MOVE (LangevinDynamicsMove), NOT a raw OpenMM
+            # Integrator (so no setStepSize) and NOT a frozen OpenFE Settings (so integ_s mutation is out). The move
+            # stores its own `.timestep` attribute — the SAME one `_iters_from_time` reads via `integrator.timestep`,
+            # so it provably exists and is settable, and the move rebuilds its integrator with it when applied. Build
+            # a SEPARATE move for warmup and set its timestep; production keeps its own move at the protocol dt.
             warmup_integrator = unit._get_integrator(integrator_settings=integ_s, simulation_settings=sim_s,
                                                      system=system)
-            warmup_integrator.setStepSize(float(_wdt) * _mm_w.unit.femtoseconds)
-            log(f"[spot-driver] WARMUP timestep overridden to {_wdt} fs via setStepSize "
-                f"(getStepSize now {warmup_integrator.getStepSize()}); production dt unchanged; "
+            warmup_integrator.timestep = float(_wdt) * _mm_w.unit.femtoseconds
+            log(f"[spot-driver] WARMUP timestep overridden to {_wdt} fs "
+                f"(move.timestep now {warmup_integrator.timestep}); production dt unchanged; "
                 f"equilibration is discarded so this does NOT affect ΔG")
         except Exception as _we:  # noqa: BLE001
             warmup_integrator = integrator
