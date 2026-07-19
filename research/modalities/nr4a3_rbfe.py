@@ -981,6 +981,48 @@ def count_unconstrained_alchemical_xh(system):
     return xh_total, xh_unconstrained, unc, hmasses
 
 
+def constrain_nonalchemical_xh(system):
+    """Add HBonds-style constraints to the NON-alchemical X-H bonds that OpenFE leaves unconstrained.
+
+    WHY: OpenFE's `constraints=hbonds` reaches only the Amber-built water/protein, NOT the OpenFF-parameterized
+    LIGAND (measured 2026-07-19: pilot solvent leg had total_constraints=water-only, all 14 ligand X-H flexible).
+    An unconstrained C-H (HMR'd to ~18 fs period) caps the stable timestep at ~2 fs; for a large assembly (the
+    ternary lane) the many flexible ligand/complex C-H are what force 2 fs and NaN 4 fs. Constraining the
+    NON-alchemical C-H (those in the standard HarmonicBondForce — environment/core bonds that do NOT morph between
+    the λ endpoints) removes those fast DOF so a larger timestep is stable, WITHOUT touching the alchemical bonds
+    (which live in the CustomBondForce and MUST stay flexible — their length differs between endpoints).
+
+    VALIDITY: constraining C-H is the standard rigid-bond approximation and is exactly what `constraints=hbonds`
+    INTENDS but fails to deliver to the ligand. For a RELATIVE free energy the constraint contribution CANCELS when
+    applied identically to every leg of the cycle — so this MUST be enabled (RBFE_CONSTRAIN_LIGAND_CH=1) for ALL
+    legs of a calculation, or not at all. Only non-alchemical bonds are constrained, so the alchemical transformation
+    is unchanged. Returns the number of constraints added. Idempotent (skips already-constrained pairs).
+    """
+    import openmm as _mm
+    cons = set()
+    for k in range(system.getNumConstraints()):
+        i, j, _d = system.getConstraintParameters(k)
+        cons.add((min(int(i), int(j)), max(int(i), int(j))))
+    mass = [system.getParticleMass(p).value_in_unit(_mm.unit.dalton) for p in range(system.getNumParticles())]
+    is_h = lambda m: m < 5.0
+    added = 0
+    # ONLY the standard HarmonicBondForce: those are the non-alchemical (environment/core) bonds. The alchemical
+    # (appearing/disappearing/parameter-changing) bonds are in the CustomBondForce and are deliberately NOT touched.
+    for f in system.getForces():
+        if not isinstance(f, _mm.HarmonicBondForce):
+            continue
+        for b in range(f.getNumBonds()):
+            i, j, length, k = f.getBondParameters(b)
+            i, j = int(i), int(j)
+            if is_h(mass[i]) ^ is_h(mass[j]):            # X-H (exactly one light partner)
+                key = (min(i, j), max(i, j))
+                if key not in cons:
+                    system.addConstraint(i, j, length)   # constrain at the harmonic equilibrium length
+                    cons.add(key)
+                    added += 1
+    return added
+
+
 def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                                  warmup_env="RBFE_WARMUP_CKPT_ITERS", prod_env="RBFE_PROD_CKPT_ITERS",
                                  commit_s3_env="RBFE_SPOT_COMMIT_S3", commit_gcs_env="RBFE_SPOT_COMMIT_GCS"):
@@ -1114,6 +1156,21 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
               % (system.getNumParticles(), int(os.environ.get("N_WINDOWS", "12"))), flush=True)
     except Exception:  # noqa: BLE001
         pass
+    # LIGAND-C-H CONSTRAINT LEVER (2026-07-19, opt-in RBFE_CONSTRAIN_LIGAND_CH=1). OpenFE leaves the alchemical
+    # ligand's C-H unconstrained, which caps the timestep at ~2 fs for large assemblies (the ternary lane). Adding
+    # constraints to the NON-alchemical C-H (only) lets a larger dt be stable. Applied to the deserialized `system`
+    # BEFORE the sampler builds its contexts, so the MD uses the constrained system. MUST be set for every leg of a
+    # calculation to keep ΔΔG valid (the constraint cancels in the cycle). No-op unless the env is 1.
+    if os.environ.get("RBFE_CONSTRAIN_LIGAND_CH") == "1":
+        try:
+            _n0 = system.getNumConstraints()
+            _added = constrain_nonalchemical_xh(system)
+            print("  [constrain-lig] RBFE_CONSTRAIN_LIGAND_CH=1 -> added %d non-alchemical X-H constraints "
+                  "(%d -> %d total); enables a larger stable timestep. MUST be on for ALL legs."
+                  % (_added, _n0, system.getNumConstraints()), flush=True)
+        except Exception as _ce:  # noqa: BLE001
+            print("  [constrain-lig] WARN failed to add ligand C-H constraints (%s); running unconstrained"
+                  % _ce, flush=True)
     # HMR / UNCONSTRAINED-BOND DIAGNOSTIC (2026-07-18): the ternary warmup NaN at 2 fs is the signature of an
     # UNCONSTRAINED X-H bond (OpenFE cannot constrain a bond whose constraint status changes along λ, so an
     # alchemically-appearing/disappearing C-H is left flexible → ~10 fs period → unstable > ~1 fs). In a system
