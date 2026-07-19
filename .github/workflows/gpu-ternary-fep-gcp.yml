@@ -20,7 +20,10 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce | tail", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | tail | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1)", default: "smoke", required: true }
+      preequil_smoke: { description: "1 = PREEQUIL_SMOKE (system-build + 200-step relax sanity, no full ns) for mode=preequil", default: "0", required: false }
+      preequil_ns: { description: "production ns after restrained relaxation for mode=preequil", default: "0.5", required: false }
+      use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
       leg_id:      { description: "leg to run", default: "calib_hi_to_lo__ternary_vhl", required: false }
       seed:        { description: "replica seed (run: 0/1/2)", default: "0", required: false }
       n_windows:   { description: "lambda windows", default: "12", required: false }
@@ -76,6 +79,9 @@ jobs:
       REFUSE_IF_LIVE: ${{ github.event.inputs.refuse_if_vm_live || '0' }}
       REQUIRE_PRIMED: ${{ github.event.inputs.allow_gpu_setup_build == '1' && '0' || '1' }}
       MIN_STEPS: ${{ github.event.inputs.min_steps || '5000' }}
+      PE_SMOKE: ${{ github.event.inputs.preequil_smoke || '0' }}
+      PE_NS: ${{ github.event.inputs.preequil_ns || '0.5' }}
+      USE_PE: ${{ github.event.inputs.use_preequil || '0' }}
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
       GITREF: ${{ github.ref_name }}
     steps:
@@ -292,6 +298,43 @@ jobs:
             rm -f /tmp/stage.tar
           fi
           echo "staged tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null
+          PE_CACHE="gs://$BUCKET/valB-6hax/preequilcache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v1.tar"
+
+          # ===== mode=preequil: plain-MD relax the physical complex -> preequilcache (fixes the softcore warmup NaN) =====
+          if [ "$MODE" = preequil ]; then
+            echo "--- PRE-EQUIL leg=$LEG_ID charge=$CHARGE_METHOD ns=$PE_NS smoke=$PE_SMOKE ---"
+            ( cd \$WORK && env LEG_ID=$LEG_ID CHARGE_METHOD=$CHARGE_METHOD PREEQUIL_NS=$PE_NS PREEQUIL_SMOKE=$PE_SMOKE \
+                OPENMM_PLATFORM=CUDA INPUT_DIR=\$IN OUTPUT_DIR=\$OUT \
+                \$PY ternary_preequil.py 2>&1 ) | tee /tmp/tfep_run.log
+            if [ -f \$OUT/$LEG_ID/preequil_marker.json ]; then
+              if [ "$PE_SMOKE" = 1 ]; then
+                LINE="TFEP_RESULT status=OK preequil-smoke leg=$LEG_ID (system built + parameterized + relaxed OK; not cached)"
+              elif ( cd \$OUT/$LEG_ID && tar -cf /tmp/pe.tar complex.pdb ligands.sdf preequil_marker.json ) \
+                   && gcloud storage cp /tmp/pe.tar "$PE_CACHE" && gcloud storage ls "$PE_CACHE" >/dev/null 2>&1; then
+                LINE="TFEP_RESULT status=OK preequil leg=$LEG_ID cached -> $PE_CACHE"
+              else
+                LINE="TFEP_RESULT status=NORESULT preequil leg=$LEG_ID (relaxed but cache upload failed)"
+              fi
+            else
+              LINE="TFEP_RESULT status=NORESULT preequil leg=$LEG_ID tail=\$(grep -iE 'error|abort|Traceback|ABORT' /tmp/tfep_run.log | tail -1 | cut -c1-140)"
+            fi
+            for k in \$(seq 1 6); do echo "###TFEPRESULT### \$LINE ###END###"; sleep 3; done
+            echo "=== PREEQUIL-DONE \$LINE ==="
+            exit 0    # EXIT trap self-deletes the VM
+          fi
+
+          # ===== use_preequil: overlay the relaxed complex.pdb/ligands.sdf over the raw staged tree (mode=run) =====
+          SETUP_VER=v1
+          if [ "$USE_PE" = 1 ] && [ "$MODE" = run ]; then
+            RAW=\$(dirname \$(find \$IN -name complex.pdb | head -1) 2>/dev/null)
+            if [ -n "\$RAW" ] && gcloud storage cp "$PE_CACHE" /tmp/pe.tar 2>/dev/null && tar -C "\$RAW" -xf /tmp/pe.tar 2>/dev/null; then
+              SETUP_VER=v1pe
+              echo "--- USE_PREEQUIL: overlaid relaxed complex.pdb/ligands.sdf from $PE_CACHE into \$RAW; setup cache ver -> $SETUP_VER ---"
+            else
+              echo "::error::use_preequil=1 but no preequilcache at $PE_CACHE (run mode=preequil first)"; exit 1
+            fi
+          fi
+
           TMODE=smoke; [ "$MODE" = run ] && TMODE=run
           # SPOT-SAFE commit store (mode=run only): the MultiState sampling commits per-interval to this versioned
           # GCS prefix so a re-dispatch on a fresh VM RESUMES from the last committed iteration instead of from
@@ -308,7 +351,7 @@ jobs:
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
               CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG RBFE_WARMUP_TIMESTEP_FS=$WARMUP_TS \
-              RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS RBFE_REQUIRE_PRIMED_SETUP=$REQUIRE_PRIMED RBFE_MIN_STEPS=$MIN_STEPS \
+              RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS RBFE_REQUIRE_PRIMED_SETUP=$REQUIRE_PRIMED RBFE_MIN_STEPS=$MIN_STEPS SETUP_CACHE_VERSION=\$SETUP_VER \
               OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \$COMMIT_ENV \
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist
