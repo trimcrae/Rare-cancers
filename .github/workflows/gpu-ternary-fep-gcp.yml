@@ -161,7 +161,8 @@ jobs:
           CHG=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "partial_charge_method = [a-z0-9]+" | tail -1 | awk '{print $NF}')
           WUD=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
           NANST=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
-          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" nan_at=\"${NANST:-}\""
+          RDTW=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "could not build reduced-dt warmup integrator[^\"]{0,90}" | tail -1)
+          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\""
       - name: Reset committed checkpoints (fresh start on timestep change)
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
         run: |
