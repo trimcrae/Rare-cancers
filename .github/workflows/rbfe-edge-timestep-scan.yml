@@ -69,6 +69,10 @@ jobs:
           export PATH="$ENVROOT/bin:$PATH"
           export CONDA_PREFIX="$ENVROOT"
           echo "ENVROOT=$ENVROOT ; sqm at: $(command -v sqm || echo MISSING) ; antechamber at: $(command -v antechamber || echo MISSING)"
+          # SCAN_ANCHORS: 'pilot' = fast constraint diagnostic (small mol, ~2 min); 'both' = full anchor gate + 19 edges.
+          # TEMP: pilot-only while root-causing why the solvent-leg build lacks HBonds constraints. Flip to 'both'
+          # once the pilot anchor reads 4 fs (constraints applied) to get the full 19-edge table.
+          export SCAN_ANCHORS="pilot"
           $PY rbfe_edge_timestep_scan.py 2>&1 | tee /tmp/scan.log
           echo "================ FULL TABLE ================"
           cat congeneric-edge-timestep-table.json

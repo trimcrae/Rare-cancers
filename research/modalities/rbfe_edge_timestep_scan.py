@@ -150,6 +150,9 @@ def main():
             "edge_id": s["edge_id"], "src": src, "kind": s["kind"], "perturbation": s["perturbation"],
             "node_a": s["name_a"], "node_b": s["name_b"],
             "xh_total": info.get("xh_total"), "xh_unconstrained": info.get("xh_unconstrained"),
+            "total_constraints": info.get("total_constraints"),
+            "constraints_setting": info.get("constraints_setting"),
+            "hydrogen_mass_setting": info.get("hydrogen_mass_setting"),
             "unconstrained_atoms": info.get("unconstrained"), "n_mapped_atoms": info.get("n_mapped_atoms"),
             "max_stable_timestep_fs": {"4fs": 4.0, "2fs": 2.0, "ERROR": None}[v],
             "verdict": v, "expect": s.get("expect"), "error": info.get("error"),
@@ -159,12 +162,25 @@ def main():
     # ANCHORS FIRST as a GATE: the two known-answer edges validate the whole method. Only spend on the 19 designed
     # edges if the anchors come out as expected (pilot->4fs, calib->2fs); otherwise the harness is still wrong and
     # running 19 more would just produce 19 more meaningless rows.
-    for a in anchors:
+    # SCAN_ANCHORS=pilot runs ONLY the small fast pilot (fast constraint diagnostic; calib am1bcc is ~14 min).
+    _which = os.environ.get("SCAN_ANCHORS", "both").lower()
+    run_anchors = [a for a in anchors if _which == "both"
+                   or (_which == "pilot" and "pilot" in a["edge_id"].lower())
+                   or (_which == "calib" and "calib" in a["edge_id"].lower())]
+    for a in run_anchors:
         _run(a, "anchor")
     anchors_ok = all(r["verdict"] == r["expect"] for r in results if r["src"] == "anchor")
-    print("\n[scan] ANCHOR GATE: %s" % ("PASS — proceeding to the 19 designed edges" if anchors_ok else
-          "FAIL — NOT running the designed edges (harness still wrong; fix before trusting any verdict)"), flush=True)
-    if anchors_ok:
+    for r in results:
+        if r["src"] == "anchor":
+            print("[scan] anchor %s: total_constraints=%s constraints_setting=%s hmass=%s xh_total=%s xh_unc=%s"
+                  % (r["edge_id"], r.get("total_constraints"), r.get("constraints_setting"),
+                     r.get("hydrogen_mass_setting"), r.get("xh_total"), r.get("xh_unconstrained")), flush=True)
+    proceed = anchors_ok and _which == "both"
+    print("\n[scan] ANCHOR GATE: %s" % (
+        "PASS — proceeding to the 19 designed edges" if proceed else
+        ("PASS (diagnostic %s-only run — not running designed edges)" % _which if anchors_ok else
+         "FAIL — NOT running the designed edges (harness still wrong; fix before trusting any verdict)")), flush=True)
+    if proceed:
         for s in designed_rows:
             _run(s, "designed")
 

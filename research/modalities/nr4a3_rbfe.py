@@ -1139,9 +1139,23 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
         # needs NO MD — so a per-edge timestep scan (rbfe_edge_timestep_scan.py) sets this to build the hybrid on a
         # free CPU runner, read the verdict, and exit before any GPU/warmup. Returns the counts so a caller can log.
         if os.environ.get("RBFE_HMRDIAG_ONLY") == "1":
+            # extra structured diagnostics so a caller can tell APPLIED-constraints from a broken build without the
+            # (truncated) CI log: total system constraints + the effective forcefield constraints/HMR setting.
+            try:
+                _tot_cons = int(system.getNumConstraints())
+            except Exception:  # noqa: BLE001
+                _tot_cons = None
+            _pset = getattr(proto, "settings", None)
+            _ff = getattr(_pset, "forcefield_settings", None) if _pset is not None else None
+            _cons_set = getattr(_ff, "constraints", None) if _ff is not None else None
+            _hmass_set = getattr(_ff, "hydrogen_mass", None) if _ff is not None else None
+            print("  [hmr-diag] system.getNumConstraints()=%s | forcefield constraints=%s hydrogen_mass=%s"
+                  % (_tot_cons, _cons_set, _hmass_set), flush=True)
             print("  [hmr-diag] RBFE_HMRDIAG_ONLY=1 -> exiting after the constraint verdict (no MD).", flush=True)
             return None, None, {"hmrdiag_only": True, "xh_total": _xh_total,
-                                "xh_unconstrained": _xh_unconstrained, "unconstrained": _unc, "hmasses": _hmasses}
+                                "xh_unconstrained": _xh_unconstrained, "unconstrained": _unc, "hmasses": _hmasses,
+                                "total_constraints": _tot_cons, "constraints_setting": str(_cons_set),
+                                "hydrogen_mass_setting": str(_hmass_set)}
     except Exception as _e:  # noqa: BLE001
         print("  [hmr-diag] failed: %s: %s" % (type(_e).__name__, _e), flush=True)
         if os.environ.get("RBFE_HMRDIAG_ONLY") == "1":
