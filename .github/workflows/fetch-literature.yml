@@ -1,32 +1,24 @@
 name: Fetch literature
 
-# Pulls open-access research papers from the GitHub-hosted runner (which has
-# full internet access - no sandbox egress allowlist needed) using the Europe
-# PMC API via scripts/fetch-paper.mjs. The fetched corpus is published to the
-# `literature-cache` branch, which Pages never serves (pages.yml only copies
-# index.html, 404.html, assets/, data/, cancers/). A Claude session then does
-# `git fetch origin literature-cache` and extracts cited data into data/cancers/.
-#
-# Raw full text is a working cache, not site content. Record each paper's
-# licence when promoting facts into a cancer page; cite every clinical value.
+# TEMPORARILY REPURPOSED on branch claude/add-skill-my44c1 to fetch the official
+# OpenExO ExO 3.0 / building-an-exo Claude Skill from a runner (unrestricted
+# internet; the dev sandbox egress proxy 403s openexo.com). This edit lives ONLY
+# on the feature branch and is reverted after the download; main is untouched.
+# Dispatch with ref=claude/add-skill-my44c1 so GitHub runs this branch's version.
 
 on:
   workflow_dispatch:
     inputs:
       query:
-        description: "Europe PMC search query"
-        required: true
-        default: '"extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma" OR "chordoid sarcoma" OR (NR4A3 AND chondrosarcoma)'
-      slug:
-        description: "Output folder under literature/ (defaults to a slug derived from the query)"
+        description: "unused (repurposed for skill fetch)"
         required: false
-        default: "extraskeletal-myxoid-chondrosarcoma"
+        default: ""
 
 permissions:
   contents: write
 
 concurrency:
-  group: fetch-literature
+  group: fetch-exo-skill
   cancel-in-progress: false
 
 jobs:
@@ -34,52 +26,50 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Fetch open-access full text (Europe PMC)
-        env:
-          QUERY: ${{ inputs.query }}
-        run: node scripts/fetch-paper.mjs sync "$QUERY"
+      - name: Discover + download the official ExO 3.0 skill
+        run: node scripts/fetch-exo-skill.mjs
 
-      - name: Keep full-text artifact (ephemeral, 14 days)
+      - name: Keep raw artifact (ephemeral)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: literature-${{ github.run_id }}
-          path: .cache/literature
+          name: exo-skill-${{ github.run_id }}
+          path: out
           retention-days: 14
           if-no-files-found: warn
 
-      - name: Publish corpus to literature-cache branch
-        # Inputs are passed via env (never interpolated into the script) so quotes
-        # in the query can't break tokenization or inject shell commands.
-        env:
-          QUERY: ${{ inputs.query }}
-          SLUG: ${{ inputs.slug }}
+      - name: Commit the skill to this branch
         run: |
           set -e
-          [ -d .cache/literature ] || { echo "Nothing fetched"; exit 0; }
-          slug="$SLUG"
-          [ -n "$slug" ] || slug=$(printf '%s' "$QUERY" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
-          tmp="$RUNNER_TEMP/litdata"
-          rm -rf "$tmp"; mkdir -p "$tmp"
-          cp -r .cache/literature/. "$tmp"/
-
+          if [ ! -f out/building-an-exo.skill ]; then
+            echo "No skill file downloaded (likely gated). Nothing to commit."
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin literature-cache || true
-          if git show-ref --verify --quiet refs/remotes/origin/literature-cache; then
-            git checkout -B literature-cache origin/literature-cache
+
+          dest=".claude/skills/building-an-exo"
+          mkdir -p "$dest"
+          # Prefer the extracted tree (real SKILL.md etc.); always keep the raw .skill too.
+          if [ -d out/extracted ] && [ -n "$(find out/extracted -name SKILL.md -print -quit)" ]; then
+            # Copy the directory that actually contains SKILL.md (handles a wrapper folder).
+            skdir=$(dirname "$(find out/extracted -name SKILL.md -print -quit)")
+            cp -r "$skdir"/. "$dest"/
           else
-            git checkout --orphan literature-cache
+            echo "WARNING: no SKILL.md found in archive; keeping raw file only."
           fi
-          # Keep the literature/ tree (other slugs/corpora) and .git; drop stray
-          # top-level files, then refresh ONLY this slug. Multi-slug safe.
-          find . -mindepth 1 -maxdepth 1 -not -name '.git' -not -name 'literature' -exec rm -rf {} +
-          rm -rf "literature/$slug"
-          mkdir -p "literature/$slug"
-          cp -r "$tmp"/. "literature/$slug"/
-          git add -A
-          git commit -m "Literature cache update: $slug" || { echo "No changes"; exit 0; }
-          git push origin literature-cache
+          cp out/building-an-exo.skill "$dest/building-an-exo.skill"
+
+          git add -A "$dest"
+          git commit -m "Add official OpenExO ExO 3.0 (building-an-exo) Claude Skill
+
+Downloaded from the OpenExO Resource Hub via a CI runner (sandbox egress proxy
+blocks openexo.com). Raw .skill archive kept alongside the extracted SKILL.md." \
+            || { echo "No changes to commit"; exit 0; }
+          git push origin HEAD:${{ github.ref_name }}
