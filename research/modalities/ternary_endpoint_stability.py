@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+"""Exact-Hamiltonian endpoint conditioning + stability diagnostics (reviewer condition 2, 2026-07-19).
+
+THE REVIEWER'S POINT: the plain-MD pre-equilibration is only a COORDINATE CONDITIONER — it does NOT sample from
+the RBFE target ensemble (different force field / no alchemy). So before MBAR data is collected, the RBFE must,
+UNDER ITS OWN EXACT HAMILTONIAN:
+  (a) minimize, then restrained T/P equilibration, then restraint release, then a DISCARDED unrestrained
+      equilibration (this is what OpenFE's RelativeHybridTopologyProtocol equilibration phase does — we FREEZE
+      non-zero equilibration + confirm those frames are excluded from MBAR; see protocol_settings below),
+  (b) RECORD the potential-energy relaxation right after the force-field switch (conditioner FF -> exact RBFE
+      FF): a large discontinuity or a large minimization drop = the conditioner handed over a bad geometry,
+  (c) run a short PHYSICAL-ENDPOINT stability test for ligand A (λ=0) and ligand B (λ=1): no NaN, bounded ligand
+      RMSD, bounded energy drift.
+
+This module is split like the rest of the lane: a PURE, unit-tested core (the discontinuity thresholding, RMSD
+and drift verdicts, the combined stability decision — no OpenMM/OpenFE) + a thin GPU wrapper (run on the box)
+that builds the exact endpoint system and produces the numbers the core judges. The pure core is what the
+protocol freeze and the tests lock; the wrapper is validated on GPU (dev sandbox has no MD stack).
+"""
+from __future__ import annotations
+
+import json
+import math
+import os
+
+# ---- thresholds (frozen; each decision-relevant) ------------------------------------------------------------
+# The FF switch (conditioner -> exact RBFE FF) should not require a huge relaxation. Normalize the minimization
+# energy DROP per solute heavy atom so system size doesn't dominate; a large per-atom drop = bad conditioner.
+FF_SWITCH_DROP_PER_ATOM_MAX_KCAL = 25.0    # kcal/mol per solute heavy atom of min-energy drop after FF switch
+FF_SWITCH_ABS_DROP_MAX_KCAL = 5.0e4        # absolute floor guard (very large systems)
+ENDPOINT_RMSD_MAX_A = 3.0                  # ligand heavy-atom RMSD vs conditioned start over the short test
+ENDPOINT_DRIFT_MAX_KCAL_PER_NS = 500.0     # |PE drift slope| over the short unrestrained test
+
+
+def ff_switch_report(pe_initial_kcal, pe_minimized_kcal, n_solute_heavy):
+    """Record the potential-energy relaxation after the FF switch (reviewer condition 2b). Returns the absolute
+    and per-solute-heavy-atom minimization drop and a `conditioner_ok` flag (a small drop = the conditioner
+    handed over a geometry already near the exact FF's basin)."""
+    if pe_initial_kcal is None or pe_minimized_kcal is None:
+        return {"status": "missing PE", "conditioner_ok": None}
+    drop = pe_initial_kcal - pe_minimized_kcal            # >0: minimization lowered the energy
+    per_atom = (drop / n_solute_heavy) if n_solute_heavy else None
+    ok = True
+    if per_atom is not None and per_atom > FF_SWITCH_DROP_PER_ATOM_MAX_KCAL:
+        ok = False
+    if drop > FF_SWITCH_ABS_DROP_MAX_KCAL:
+        ok = False
+    return {"status": "ok", "pe_initial_kcal": pe_initial_kcal, "pe_minimized_kcal": pe_minimized_kcal,
+            "min_energy_drop_kcal": drop, "drop_per_solute_heavy_atom_kcal": per_atom,
+            "n_solute_heavy": n_solute_heavy, "conditioner_ok": bool(ok)}
+
+
+def _linfit_slope(xs, ys):
+    """Least-squares slope of ys vs xs (both length n>=2); None otherwise."""
+    n = len(xs)
+    if n < 2 or len(ys) != n:
+        return None
+    mx = sum(xs) / n
+    my = sum(ys) / n
+    sxx = sum((x - mx) ** 2 for x in xs)
+    if sxx == 0:
+        return None
+    return sum((xs[i] - mx) * (ys[i] - my) for i in range(n)) / sxx
+
+
+def energy_drift(times_ns, energies_kcal):
+    """PE drift slope (kcal/mol/ns) over the short endpoint test + an `ok` flag. A large sustained drift means
+    the endpoint is NOT stable under the exact Hamiltonian even if it never NaN'd."""
+    if any(e is None or not math.isfinite(e) for e in energies_kcal):
+        return {"status": "non-finite energy present", "drift_kcal_per_ns": None, "ok": False}
+    slope = _linfit_slope(list(times_ns), list(energies_kcal))
+    if slope is None:
+        return {"status": "insufficient points", "drift_kcal_per_ns": None, "ok": None}
+    return {"status": "ok", "drift_kcal_per_ns": slope,
+            "ok": bool(abs(slope) <= ENDPOINT_DRIFT_MAX_KCAL_PER_NS)}
+
+
+def endpoint_stability_verdict(had_nan, max_ligand_rmsd_a, drift_result, ff_switch):
+    """Combine the physical-endpoint checks into one `stable` bool (reviewer condition 2c). An endpoint is stable
+    iff: no NaN, ligand RMSD bounded, energy drift bounded, and the FF-switch conditioner check passed."""
+    rmsd_ok = (None if max_ligand_rmsd_a is None else max_ligand_rmsd_a <= ENDPOINT_RMSD_MAX_A)
+    drift_ok = drift_result.get("ok") if isinstance(drift_result, dict) else None
+    cond_ok = ff_switch.get("conditioner_ok") if isinstance(ff_switch, dict) else None
+    checks = {"no_nan": (None if had_nan is None else not had_nan),
+              "ligand_rmsd_ok": rmsd_ok, "energy_drift_ok": drift_ok, "ff_switch_conditioner_ok": cond_ok}
+    # stable requires every COMPUTABLE check to be True; a None (uncomputed) does not by itself fail it, but a
+    # NaN or an explicit False does.
+    hard_fail = any(v is False for v in checks.values())
+    computed = [v for v in checks.values() if v is not None]
+    stable = bool(computed) and not hard_fail
+    return {"stable": stable, "checks": checks, "max_ligand_rmsd_a": max_ligand_rmsd_a}
+
+
+# =============================================================================================================
+# GPU wrapper — build the EXACT-Hamiltonian physical endpoint + run the short stability test. Runs on the box
+# (OpenMM present); never imported by the pure tests.
+# =============================================================================================================
+def run_endpoint_stability(system, topology, positions, ligand_atom_indices, *, n_steps=25000, dt_fs=2.0,
+                           report_every=500, platform_name="CUDA", conditioner_pe_kcal=None):
+    """Under the EXACT RBFE force field (the `system` passed in): record the FF-switch relaxation (min-energy
+    drop vs the conditioner PE), then run a short UNRESTRAINED test collecting PE + ligand heavy-atom RMSD, and
+    return the combined stability verdict. `conditioner_pe_kcal` is the PE of these positions under the pre-equil
+    (conditioner) force field, if available, so the discontinuity across the switch can also be reported."""
+    import numpy as np
+    import openmm
+    from openmm import app, unit
+
+    KCAL = unit.kilocalorie_per_mole
+    try:
+        platform = openmm.Platform.getPlatformByName(platform_name)
+    except Exception:  # noqa: BLE001
+        platform = openmm.Platform.getPlatformByName("CPU")
+    integ = openmm.LangevinMiddleIntegrator(298.15 * unit.kelvin, 1.0 / unit.picosecond, dt_fs * unit.femtosecond)
+    sim = app.Simulation(topology, system, integ, platform)
+    sim.context.setPositions(positions)
+
+    pe_initial = sim.context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(KCAL)
+    sim.minimizeEnergy(maxIterations=5000)
+    pe_min = sim.context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(KCAL)
+    n_heavy = len(ligand_atom_indices) if ligand_atom_indices is not None else topology.getNumAtoms()
+    ff_switch = ff_switch_report(pe_initial, pe_min, n_heavy)
+    if conditioner_pe_kcal is not None:
+        ff_switch["conditioner_pe_kcal"] = conditioner_pe_kcal
+        ff_switch["ff_switch_discontinuity_kcal"] = pe_initial - conditioner_pe_kcal
+
+    p0 = np.asarray(sim.context.getState(getPositions=True).getPositions().value_in_unit(unit.angstrom))
+    lig = list(ligand_atom_indices) if ligand_atom_indices is not None else list(range(topology.getNumAtoms()))
+    sim.context.setVelocitiesToTemperature(298.15 * unit.kelvin)
+    times, energies, rmsds, had_nan = [], [], [], False
+    done = 0
+    while done < n_steps:
+        step = min(report_every, n_steps - done)
+        sim.step(step)
+        done += step
+        st = sim.context.getState(getEnergy=True, getPositions=True)
+        e = st.getPotentialEnergy().value_in_unit(KCAL)
+        if not math.isfinite(e):
+            had_nan = True
+            break
+        pos = np.asarray(st.getPositions().value_in_unit(unit.angstrom))
+        d = float(np.sqrt(((pos[lig] - p0[lig]) ** 2).sum(axis=1).mean()))
+        times.append(done * dt_fs / 1e6)        # ns
+        energies.append(e)
+        rmsds.append(d)
+    drift = energy_drift(times, energies)
+    verdict = endpoint_stability_verdict(had_nan, (max(rmsds) if rmsds else None), drift, ff_switch)
+    return {"ff_switch": ff_switch, "energy_drift": drift, "rmsd_series_a": rmsds,
+            "energy_series_kcal": energies, "times_ns": times, **verdict}
+
+
+def main():
+    """Standalone entry used by the ternary lane's MODE=endpoint_smoke. Reads a prepared exact-endpoint system
+    from OUTPUT_DIR (written by the FEP setup) if present; otherwise prints an honest 'nothing to test'."""
+    out = os.environ.get("OUTPUT_DIR", "/opt/ml/checkpoints")
+    os.makedirs(out, exist_ok=True)
+    print("[endpoint-stability] pure diagnostics module; the GPU wrapper is invoked by nr4a3_ternary_fep "
+          "MODE=endpoint_smoke with a built exact-Hamiltonian endpoint system.", flush=True)
+    json.dump({"_what": "endpoint stability harness present; run via MODE=endpoint_smoke on GPU"},
+              open(os.path.join(out, "endpoint_stability_placeholder.json"), "w"))
+
+
+if __name__ == "__main__":
+    main()

@@ -239,6 +239,16 @@ def _protocol(openfe):
         s.simulation_settings.n_replicas = N_WINDOWS      # OpenFE requires n_replicas == n λ-windows
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN windows→%d (%s); using default" % (N_WINDOWS, e), flush=True)
+    # EXACT-HAMILTONIAN EQUILIBRATION LADDER (reviewer condition 2, 2026-07-19). The plain-MD pre-equilibration
+    # (ternary_preequil) is only a COORDINATE CONDITIONER — a different (relaxation) force field, no alchemy — so
+    # it does NOT sample the RBFE target ensemble and its output is NEVER used as production data. Under THIS
+    # exact Hamiltonian, OpenFE's RelativeHybridTopologyProtocol per-window pipeline is: minimize
+    # (minimization_steps) -> equilibrate for equilibration_length -> collect production_length for MBAR, with the
+    # equilibration frames DISCARDED from MBAR by construction (only production frames enter the estimator). So
+    # equilibration_length>0 is the reviewer-required "discarded unrestrained equilibration before MBAR". The
+    # pre-equil conditioner is NOT part of protocol_signature equality (it is a starting-coordinate choice, like
+    # the per-replica seed) — the physical-endpoint stability of the conditioned coords under this exact FF is
+    # verified separately by ternary_endpoint_stability (MODE=endpoint_smoke).
     try:
         from openff.units import unit as _ou
         s.simulation_settings.equilibration_length = EQUILIBRATION_NS * _ou.nanosecond
