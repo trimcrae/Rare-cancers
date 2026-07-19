@@ -135,8 +135,9 @@ jobs:
           if [ -n "$TVM" ]; then
             TZONE=$(gcloud compute instances list --filter="name=$TVM" --format="value(zone.basename())" 2>/dev/null | head -1)
             echo "=== serial tail: $TVM ($TZONE) ==="
-            gcloud compute instances get-serial-port-output "$TVM" --zone="$TZONE" 2>/dev/null \
-              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet|SETUP|SOLVATED|particles|spot-safe|commit store|barrier|committed|clash-diag|nan-diag|minimize|timing" | tail -90 || echo "(no serial yet)"
+            SER=$(gcloud compute instances get-serial-port-output "$TVM" --zone="$TZONE" 2>/dev/null)
+            printf '%s\n' "$SER" \
+              | grep -aE "boot|nvidia-smi|import:|stage|staged|SMOKE|mapped|assembly|hybrid|equilibr|iteration|Analyzing|LEG DONE|TFEP|error|Error|Traceback|ABORT|missing|self-delet|SETUP|SOLVATED|particles|spot-safe|commit store|barrier|committed|clash-diag|nan-diag|minimize|timing|WARMUP timestep|WARMUP from|PRODUCTION created|PRODUCTION from" | tail -90 || echo "(no serial yet)"
             # LIVE WINDOW INTO THE RUNNING MD (SSH; non-destructive): the openmmtools MD logger writes per-iteration
             # progress to /tmp/tfep_run.log on the VM, NOT the serial console — so a slow/stuck MD is invisible from
             # serial. SSH in, dump nvidia-smi (is the GPU actually busy? rules out a CPU-fallback bug), the tail of
@@ -150,6 +151,13 @@ jobs:
               gcloud compute instances delete "$TVM" --zone="$TZONE" --quiet || true
             fi
           fi
+          # COMPACT FINAL SUMMARY — the LAST lines of the step, so it survives log-retrieval truncation. Gives the
+          # two verdicts at a glance: furthest committed warmup/production iteration + whether a NaN was seen.
+          WMAX=$(printf '%s\n' "$CALL" | grep -aoE "warmup/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
+          PMAX=$(printf '%s\n' "$CALL" | grep -aoE "production/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
+          NAN=no; printf '%s\n' "${SER:-}" | grep -qaiE "SimulationNaNError|resulted in a NaN|nan-diag" && NAN=YES
+          LASTLOG=$(printf '%s\n' "${SER:-}" | grep -aE "WARMUP timestep|WARMUP from|PRODUCTION created|PRODUCTION from|timing|iteration|minimize|SETUP RESTORED|SOLVATED" | tail -1 | cut -c1-150)
+          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN last=\"$LASTLOG\""
       - name: Reset committed checkpoints (fresh start on timestep change)
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
         run: |
