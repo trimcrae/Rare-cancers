@@ -34,53 +34,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # TEMPORARY (branch claude/add-skill-my44c1 only): fetch the official
-      # OpenExO ExO 3.0 / building-an-exo Claude Skill. The dev sandbox egress
-      # proxy 403s openexo.com; this runner has open internet. Reverted after.
-      # The Resource Hub is a JS SPA, so render it with a real browser.
-      - name: Install Playwright Chromium
-        run: |
-          npm init -y >/dev/null 2>&1 || true
-          npm i playwright@1.48.0
-          npx playwright install --with-deps chromium
+      - name: Fetch open-access full text (Europe PMC)
+        env:
+          QUERY: ${{ inputs.query }}
+        run: node scripts/fetch-paper.mjs sync "$QUERY"
 
-      - name: Discover + download the official ExO 3.0 skill (headless browser)
-        run: node scripts/fetch-exo-skill-browser.mjs
-
-      - name: Keep raw artifact (ephemeral)
-        if: always()
+      - name: Keep full-text artifact (ephemeral, 14 days)
         uses: actions/upload-artifact@v4
         with:
-          name: exo-skill-${{ github.run_id }}
-          path: out
+          name: literature-${{ github.run_id }}
+          path: .cache/literature
           retention-days: 14
           if-no-files-found: warn
 
-      - name: Commit the skill to this branch
+      - name: Publish corpus to literature-cache branch
+        # Inputs are passed via env (never interpolated into the script) so quotes
+        # in the query can't break tokenization or inject shell commands.
+        env:
+          QUERY: ${{ inputs.query }}
+          SLUG: ${{ inputs.slug }}
         run: |
           set -e
-          if [ ! -f out/building-an-exo.skill ]; then
-            echo "No skill file downloaded (likely gated). Nothing to commit."
-            exit 0
-          fi
+          [ -d .cache/literature ] || { echo "Nothing fetched"; exit 0; }
+          slug="$SLUG"
+          [ -n "$slug" ] || slug=$(printf '%s' "$QUERY" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
+          tmp="$RUNNER_TEMP/litdata"
+          rm -rf "$tmp"; mkdir -p "$tmp"
+          cp -r .cache/literature/. "$tmp"/
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          dest=".claude/skills/building-an-exo"
-          mkdir -p "$dest"
-          if [ -d out/extracted ] && [ -n "$(find out/extracted -name SKILL.md -print -quit)" ]; then
-            skdir=$(dirname "$(find out/extracted -name SKILL.md -print -quit)")
-            cp -r "$skdir"/. "$dest"/
+          git fetch origin literature-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/literature-cache; then
+            git checkout -B literature-cache origin/literature-cache
           else
-            echo "WARNING: no SKILL.md found in archive; keeping raw file only."
+            git checkout --orphan literature-cache
           fi
-          cp out/building-an-exo.skill "$dest/building-an-exo.skill"
-          git add -A "$dest"
-          git commit -m "Add official OpenExO ExO 3.0 (building-an-exo) Claude Skill" \
-            || { echo "No changes to commit"; exit 0; }
-          git push origin HEAD:${{ github.ref_name }}
+          # Keep the literature/ tree (other slugs/corpora) and .git; drop stray
+          # top-level files, then refresh ONLY this slug. Multi-slug safe.
+          find . -mindepth 1 -maxdepth 1 -not -name '.git' -not -name 'literature' -exec rm -rf {} +
+          rm -rf "literature/$slug"
+          mkdir -p "literature/$slug"
+          cp -r "$tmp"/. "literature/$slug"/
+          git add -A
+          git commit -m "Literature cache update: $slug" || { echo "No changes"; exit 0; }
+          git push origin literature-cache
