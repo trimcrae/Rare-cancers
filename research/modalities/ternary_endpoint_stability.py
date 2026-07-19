@@ -148,6 +148,36 @@ def run_endpoint_stability(system, topology, positions, ligand_atom_indices, *, 
             "energy_series_kcal": energies, "times_ns": times, **verdict}
 
 
+def assign_rbfe_charges(off_lig, charge_method):
+    """Assign the RBFE charge method to an openff Molecule so the conditioner/endpoint FF matches production
+    (reviewer condition 2). NAGL is NOT a bare method string — it needs the NAGL toolkit wrapper + a model file;
+    am1bcc goes through AmberTools sqm. Returns the label actually used, or None if it fell back to the
+    SystemGenerator default (caller logs). Any real FF-switch discontinuity this leaves is MEASURED by
+    run_endpoint_stability's ff_switch report, so a silent mismatch cannot pass unnoticed."""
+    cm = (charge_method or "").lower()
+    try:
+        if cm == "nagl":
+            from openff.toolkit.utils.nagl_wrapper import NAGLToolkitWrapper
+            model = None
+            try:
+                from openff.nagl_models import list_available_nagl_models
+                cands = [str(p) for p in list_available_nagl_models() if "am1bcc" in str(p).lower()]
+                model = cands[-1] if cands else None
+            except Exception:  # noqa: BLE001
+                model = None
+            if model is None:
+                model = "openff-gnn-am1bcc-0.1.0-rc.3.pt"   # last-resort well-known model name
+            off_lig.assign_partial_charges(model, toolkit_registry=NAGLToolkitWrapper())
+            return "nagl:%s" % os.path.basename(model)
+        if cm in ("am1bcc", "am1-bcc", "am1bccelf10"):
+            off_lig.assign_partial_charges("am1bcc" if cm != "am1bccelf10" else "am1bccelf10")
+            return cm
+        off_lig.assign_partial_charges(cm)
+        return cm
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def build_physical_complex(protein_pdb, mol_rdkit, charge_method="nagl", small_ff="openff-2.1.0",
                            padding_nm=1.2, platform_name="CUDA"):
     """Build a solvated PHYSICAL protein+ligand complex under the EXACT RBFE force field (openff small-molecule
@@ -166,11 +196,11 @@ def build_physical_complex(protein_pdb, mol_rdkit, charge_method="nagl", small_f
     off_lig = Molecule.from_rdkit(mol_rdkit, allow_undefined_stereo=True)
     if not off_lig.conformers:
         off_lig.generate_conformers(n_conformers=1)
-    try:
-        off_lig.assign_partial_charges(charge_method)     # exact RBFE charges (nagl / am1bcc)
-    except Exception as e:  # noqa: BLE001
-        print("  [endpoint] WARN assign_partial_charges(%s) failed (%s); generator default" % (charge_method, e),
-              flush=True)
+    used = assign_rbfe_charges(off_lig, charge_method)     # exact RBFE charges (nagl model / am1bcc)
+    if used is None:
+        print("  [endpoint] WARN could not assign %s charges; SystemGenerator default" % charge_method, flush=True)
+    else:
+        print("  [endpoint] exact-FF charges: %s" % used, flush=True)
     ff_kwargs = {"constraints": app.HBonds, "rigidWater": True, "removeCMMotion": True,
                  "hydrogenMass": 3.0 * unit.amu}
     def _sysgen(sm_ff):

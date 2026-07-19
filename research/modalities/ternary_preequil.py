@@ -106,11 +106,13 @@ def _build_physical_system(protein_pdb, molA):
     # EXACT-FF conditioning (reviewer condition 2 preference): assign the SAME charge method the RBFE uses, so the
     # conditioner Hamiltonian matches the production physical-endpoint Hamiltonian and there is no FF switch.
     if USE_EXACT_FF:
-        try:
-            off_lig.assign_partial_charges(CHARGE_METHOD)
-            log(f"  [preequil] exact-FF conditioning: assigned {CHARGE_METHOD} charges (matches RBFE endpoint FF)")
-        except Exception as e:  # noqa: BLE001
-            log(f"  [preequil] WARN assign_partial_charges({CHARGE_METHOD}) failed ({e}); generator default charges")
+        import ternary_endpoint_stability as _es
+        used = _es.assign_rbfe_charges(off_lig, CHARGE_METHOD)
+        if used is None:
+            log(f"  [preequil] WARN could not assign {CHARGE_METHOD} charges; generator default (FF-switch will be "
+                f"measured by endpoint_smoke)")
+        else:
+            log(f"  [preequil] exact-FF conditioning: {used} charges (matches RBFE endpoint FF)")
     small_ff = "openff-2.1.0"
     forcefield_kwargs = {"constraints": app.HBonds, "rigidWater": True,
                          "removeCMMotion": True, "hydrogenMass": 3.0 * unit.amu}
