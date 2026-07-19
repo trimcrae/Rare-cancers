@@ -293,13 +293,16 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     _wdt = os.environ.get("RBFE_WARMUP_TIMESTEP_FS")
     if _wdt:
         try:
-            from openff.units import unit as _ou_w
-            _saved_dt = integ_s.timestep
-            integ_s.timestep = float(_wdt) * _ou_w.femtosecond
+            import openmm as _mm_w
+            # Build a SEPARATE integrator for warmup and change ITS step size via the OpenMM API. Do NOT mutate
+            # integ_s.timestep — OpenFE settings are frozen once attached to a Protocol ("Settings are immutable
+            # once attached to a Protocol"), which silently failed before and left warmup at the production dt.
+            # _iters_from_time reads integrator.timestep, so warmup_iters tracks the reduced dt automatically.
             warmup_integrator = unit._get_integrator(integrator_settings=integ_s, simulation_settings=sim_s,
                                                      system=system)
-            integ_s.timestep = _saved_dt
-            log(f"[spot-driver] WARMUP timestep overridden to {_wdt} fs (production dt unchanged); "
+            warmup_integrator.setStepSize(float(_wdt) * _mm_w.unit.femtoseconds)
+            log(f"[spot-driver] WARMUP timestep overridden to {_wdt} fs via setStepSize "
+                f"(getStepSize now {warmup_integrator.getStepSize()}); production dt unchanged; "
                 f"equilibration is discarded so this does NOT affect ΔG")
         except Exception as _we:  # noqa: BLE001
             warmup_integrator = integrator
