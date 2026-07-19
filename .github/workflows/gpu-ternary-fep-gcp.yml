@@ -29,7 +29,7 @@ on:
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
       charge_method: { description: "am1bcc (field standard, SLOW/stalls on big PROTACs via AmberTools sqm) | nagl (openff-nagl ML charges, fast). MUST match across all valB legs.", default: "am1bcc", required: false }
-      timestep_fs: { description: "MD timestep (fs). 1.0 for an UNCONSTRAINED alchemical C-H (the N->CH edge leaves that bond unconstrained → 2 fs explodes at state 1); 2.0 default. 4.0 = field standard (HMR) — try it first.", default: "2.0", required: false }
+      timestep_fs: { description: "MD timestep (fs). For an UNCONSTRAINED alchemical C-H edge: ~2.0 is the CEILING (4.0 NaNs in warmup — HMR only lifts the unconstrained-stretch period to ~18 fs = stable to ~2 fs, verified 2026-07-19); 2.0 is borderline (verify warmup) and 1.0 is the safe fallback. Binary RBFE (no boundary C-H change) is fine at 4.0. See ternary-rbfe-runbook.md 1b.", default: "2.0", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while

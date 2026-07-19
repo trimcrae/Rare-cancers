@@ -40,6 +40,21 @@ driver) → `rbfe_spot_driver.run_spot_safe` (MultiState warmup/production) → 
 - **Instrumentation left in place:** `rbfe_spot_driver` catches the NaN, loads openmmtools' saved `nan-error-logs`
   state, and prints a `[clash-diag]/[nan-diag]` report naming the offending atoms.
 
+#### 1b. Timestep ceiling — **HMR reaches the alchemical H, but 4 fs still NaNs; ~2 fs is the max (2026-07-19)**
+- **HMR *is* applied to the unconstrained alchemical C–H.** The `[hmr-diag]` dump (added to
+  `nr4a3_rbfe.execute_hybrid_dag_spot_safe`) on the `calib_hi_to_lo` edge showed **3 unconstrained X–H bonds, all
+  HMR-repartitioned to 3.0 amu** (none at 1.0). So the earlier hope that "HMR isn't reaching the alchemical H →
+  extend it → 4 fs" was **wrong**: HMR already reaches it.
+- **4 fs NaNs anyway** — an empirical `calib_hi_to_lo` run (2026-07-19, VM ran ~7 h, 6 crashes) NaN'd in **warmup
+  at replica 0 / state 5 (~iter 65)**, `nonfinite_atoms=0`, flagged close pair correctly labeled
+  `EXCLUDED-hybrid(benign)` (so NOT a clash — a real integration blow-up). Reason: HMR only slows an
+  **unconstrained** stretch by ~√(3/0.92) ≈ 1.8×, lifting the C–H period ~10 fs → ~18 fs, which is stable to
+  **~2 fs, not 4 fs** (dt ≲ period/10). Heavier HMR can't reach 4 fs either (needs ~6–8 amu H, which distorts
+  dynamics). **So the physical timestep ceiling for an unconstrained-C–H ternary edge is ~2 fs.**
+- **Guidance:** try **`timestep_fs=2.0`** (2× cheaper than 1 fs) for edges with an unconstrained alchemical C–H;
+  it's borderline (dt/period ≈ 0.11) so verify warmup survives, and fall back to **1 fs** if it NaNs. **Do NOT use
+  4 fs** on such edges. Binary RBFE (no boundary C–H change) stays fine at 4 fs.
+
 ### 2. Setup time varied 8 min ↔ 30 min "on the same machine" — **it was two different machines**
 - **Symptom:** identical code/leg, setup (`SETUP done in Ns`) sometimes ~461 s, sometimes 30+ min → the long ones
   got preempted mid-setup before any checkpoint.
