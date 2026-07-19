@@ -28,7 +28,7 @@ on:
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
       spot_safe:   { description: "1 = re-dispatch resume", default: "0", required: false }
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
-      charge_method: { description: "am1bcc (field standard, SLOW/stalls on big PROTACs via AmberTools sqm) | nagl (openff-nagl ML charges, fast). MUST match across all valB legs.", default: "am1bcc", required: false }
+      charge_method: { description: "nagl (openff-nagl ML charges, fast; has a warm CPU-primed setup cache — DEFAULT, matches all existing valB legs) | am1bcc (field standard but SLOW on big PROTACs via AmberTools sqm AND has no primed cache -> ~40 min GPU-idle setup; if you need am1bcc, run ternary-setup-prime-cpu.yml charge_method=am1bcc FIRST so the GPU restores the cache instead of re-parameterizing). MUST match across all valB legs.", default: "nagl", required: false }
       timestep_fs: { description: "MD timestep (fs). CORRECTED 2026-07-19: OpenFE leaves the WHOLE alchemical ligand's C-H unconstrained (not just morphing bonds), so the ceiling is a LANE property, not edge chemistry: large ternary assemblies NaN at 4.0 (calib) and run at 2.0; binary warhead RBFE runs at 4.0. With constrain_ligand_ch=1 a larger dt (try 3.0/4.0) may become stable. See ternary-rbfe-runbook.md 1b.", default: "2.0", required: false }
       constrain_ligand_ch: { description: "1 = constrain the NON-alchemical ligand C-H bonds OpenFE leaves flexible (nr4a3_rbfe.constrain_nonalchemical_xh) to enable a larger stable timestep for the ternary lane. NB (2026-07-19): the ligand C-H are ALREADY constrained, so this is a no-op — kept only as a guard. MUST match across ALL legs of a calculation. Keyed into the commit prefix.", default: "0", required: false }
       warmup_timestep_fs: { description: "MD timestep (fs) for the DISCARDED equilibration/warmup only; production runs at timestep_fs. Set smaller than timestep_fs (e.g. 1.5) to survive a rough ternary warmup while producing at the larger dt — equilibration never enters ΔG, so this does not affect the result. Empty = warmup uses the production dt. Keyed into the commit prefix.", default: "", required: false }
@@ -64,7 +64,7 @@ jobs:
       TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
       SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
       DETACH: ${{ github.event.inputs.detach || '0' }}
-      CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'am1bcc' }}
+      CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'nagl' }}
       TIMESTEP_FS: ${{ github.event.inputs.timestep_fs || '2.0' }}
       CONSTRAIN_LIG: ${{ github.event.inputs.constrain_ligand_ch || '0' }}
       WARMUP_TS: ${{ github.event.inputs.warmup_timestep_fs || '' }}
