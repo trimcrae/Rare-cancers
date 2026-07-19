@@ -1,7 +1,7 @@
 {
   "_schema": "congeneric_edge_timestep_ceiling_scan",
   "_method": "real OpenFE solvent-leg hybrid build (constraints=HBonds, HMR default) per edge; count of unconstrained alchemical X-H bonds = timestep ceiling (>=1 -> ~2 fs, 0 -> 4 fs). No MD/GPU.",
-  "charge_method": "nagl",
+  "charge_method": "am1bcc",
   "results": [
     {
       "edge_id": "ANCHOR_pilot_5Br_to_5NH2",
@@ -10,14 +10,71 @@
       "perturbation": "5-Br -> 5-NH2 (== step1 pilot; RAN CLEAN at 4 fs -> expect 0 unconstrained)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5nh2",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 14,
+      "xh_unconstrained": 14,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 15,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": "4fs",
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "ANCHOR_calib_wurz_N_to_CH",
@@ -26,14 +83,731 @@
       "perturbation": "Wurz_cmpd1 -> Wurz_cmpd4 (pyridine linker -> benzene linker; ring N -> CH) (NaN'd at 4 fs -> expect >=1 unconstrained)",
       "node_a": "Wurz_cmpd1",
       "node_b": "Wurz_cmpd4",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 179,
+      "xh_unconstrained": 179,
+      "unconstrained_atoms": [
+        [
+          78,
+          3.0
+        ],
+        [
+          78,
+          3.0
+        ],
+        [
+          78,
+          3.0
+        ],
+        [
+          78,
+          3.0
+        ],
+        [
+          79,
+          3.0
+        ],
+        [
+          79,
+          3.0
+        ],
+        [
+          79,
+          3.0
+        ],
+        [
+          80,
+          3.0
+        ],
+        [
+          80,
+          3.0
+        ],
+        [
+          80,
+          3.0
+        ],
+        [
+          81,
+          3.0
+        ],
+        [
+          81,
+          3.0
+        ],
+        [
+          81,
+          3.0
+        ],
+        [
+          82,
+          3.0
+        ],
+        [
+          82,
+          3.0
+        ],
+        [
+          82,
+          3.0
+        ],
+        [
+          83,
+          3.0
+        ],
+        [
+          83,
+          3.0
+        ],
+        [
+          83,
+          3.0
+        ],
+        [
+          84,
+          3.0
+        ],
+        [
+          84,
+          3.0
+        ],
+        [
+          84,
+          3.0
+        ],
+        [
+          85,
+          3.0
+        ],
+        [
+          85,
+          3.0
+        ],
+        [
+          85,
+          3.0
+        ],
+        [
+          86,
+          3.0
+        ],
+        [
+          86,
+          3.0
+        ],
+        [
+          86,
+          3.0
+        ],
+        [
+          87,
+          3.0
+        ],
+        [
+          87,
+          3.0
+        ],
+        [
+          87,
+          3.0
+        ],
+        [
+          88,
+          3.0
+        ],
+        [
+          88,
+          3.0
+        ],
+        [
+          88,
+          3.0
+        ],
+        [
+          88,
+          3.0
+        ],
+        [
+          89,
+          3.0
+        ],
+        [
+          89,
+          3.0
+        ],
+        [
+          89,
+          3.0
+        ],
+        [
+          90,
+          3.0
+        ],
+        [
+          90,
+          3.0
+        ],
+        [
+          91,
+          3.0
+        ],
+        [
+          91,
+          3.0
+        ],
+        [
+          91,
+          3.0
+        ],
+        [
+          91,
+          3.0
+        ],
+        [
+          92,
+          3.0
+        ],
+        [
+          92,
+          3.0
+        ],
+        [
+          92,
+          3.0
+        ],
+        [
+          93,
+          3.0
+        ],
+        [
+          93,
+          3.0
+        ],
+        [
+          93,
+          3.0
+        ],
+        [
+          94,
+          3.0
+        ],
+        [
+          94,
+          3.0
+        ],
+        [
+          94,
+          3.0
+        ],
+        [
+          95,
+          3.0
+        ],
+        [
+          95,
+          3.0
+        ],
+        [
+          95,
+          3.0
+        ],
+        [
+          96,
+          3.0
+        ],
+        [
+          96,
+          3.0
+        ],
+        [
+          96,
+          3.0
+        ],
+        [
+          97,
+          3.0
+        ],
+        [
+          97,
+          3.0
+        ],
+        [
+          97,
+          3.0
+        ],
+        [
+          98,
+          3.0
+        ],
+        [
+          98,
+          3.0
+        ],
+        [
+          98,
+          3.0
+        ],
+        [
+          99,
+          3.0
+        ],
+        [
+          99,
+          3.0
+        ],
+        [
+          99,
+          3.0
+        ],
+        [
+          100,
+          3.0
+        ],
+        [
+          100,
+          3.0
+        ],
+        [
+          100,
+          3.0
+        ],
+        [
+          100,
+          3.0
+        ],
+        [
+          101,
+          3.0
+        ],
+        [
+          101,
+          3.0
+        ],
+        [
+          102,
+          3.0
+        ],
+        [
+          102,
+          3.0
+        ],
+        [
+          103,
+          3.0
+        ],
+        [
+          103,
+          3.0
+        ],
+        [
+          103,
+          3.0
+        ],
+        [
+          104,
+          3.0
+        ],
+        [
+          104,
+          3.0
+        ],
+        [
+          105,
+          3.0
+        ],
+        [
+          105,
+          3.0
+        ],
+        [
+          106,
+          3.0
+        ],
+        [
+          106,
+          3.0
+        ],
+        [
+          106,
+          3.0
+        ],
+        [
+          107,
+          3.0
+        ],
+        [
+          107,
+          3.0
+        ],
+        [
+          78,
+          3.0
+        ],
+        [
+          78,
+          3.0
+        ],
+        [
+          78,
+          3.0
+        ],
+        [
+          78,
+          3.0
+        ],
+        [
+          5067,
+          3.0
+        ],
+        [
+          5067,
+          3.0
+        ],
+        [
+          5067,
+          3.0
+        ],
+        [
+          5067,
+          3.0
+        ],
+        [
+          5068,
+          3.0
+        ],
+        [
+          5068,
+          3.0
+        ],
+        [
+          5068,
+          3.0
+        ],
+        [
+          5069,
+          3.0
+        ],
+        [
+          5069,
+          3.0
+        ],
+        [
+          5070,
+          3.0
+        ],
+        [
+          5070,
+          3.0
+        ],
+        [
+          5070,
+          3.0
+        ],
+        [
+          5071,
+          3.0
+        ],
+        [
+          5071,
+          3.0
+        ],
+        [
+          5071,
+          3.0
+        ],
+        [
+          5072,
+          3.0
+        ],
+        [
+          5072,
+          3.0
+        ],
+        [
+          5072,
+          3.0
+        ],
+        [
+          5073,
+          3.0
+        ],
+        [
+          5073,
+          3.0
+        ],
+        [
+          5073,
+          3.0
+        ],
+        [
+          5074,
+          3.0
+        ],
+        [
+          5074,
+          3.0
+        ],
+        [
+          5074,
+          3.0
+        ],
+        [
+          5075,
+          3.0
+        ],
+        [
+          5075,
+          3.0
+        ],
+        [
+          5075,
+          3.0
+        ],
+        [
+          5075,
+          3.0
+        ],
+        [
+          5076,
+          3.0
+        ],
+        [
+          5076,
+          3.0
+        ],
+        [
+          5076,
+          3.0
+        ],
+        [
+          5077,
+          3.0
+        ],
+        [
+          5077,
+          3.0
+        ],
+        [
+          5078,
+          3.0
+        ],
+        [
+          5078,
+          3.0
+        ],
+        [
+          5079,
+          3.0
+        ],
+        [
+          5079,
+          3.0
+        ],
+        [
+          5079,
+          3.0
+        ],
+        [
+          5080,
+          3.0
+        ],
+        [
+          5080,
+          3.0
+        ],
+        [
+          5081,
+          3.0
+        ],
+        [
+          5081,
+          3.0
+        ],
+        [
+          5082,
+          3.0
+        ],
+        [
+          5082,
+          3.0
+        ],
+        [
+          5083,
+          3.0
+        ],
+        [
+          5083,
+          3.0
+        ],
+        [
+          5083,
+          3.0
+        ],
+        [
+          5084,
+          3.0
+        ],
+        [
+          5084,
+          3.0
+        ],
+        [
+          5084,
+          3.0
+        ],
+        [
+          5085,
+          3.0
+        ],
+        [
+          5085,
+          3.0
+        ],
+        [
+          5085,
+          3.0
+        ],
+        [
+          5086,
+          3.0
+        ],
+        [
+          5086,
+          3.0
+        ],
+        [
+          5086,
+          3.0
+        ],
+        [
+          5087,
+          3.0
+        ],
+        [
+          5087,
+          3.0
+        ],
+        [
+          5087,
+          3.0
+        ],
+        [
+          5087,
+          3.0
+        ],
+        [
+          5088,
+          3.0
+        ],
+        [
+          5088,
+          3.0
+        ],
+        [
+          5088,
+          3.0
+        ],
+        [
+          5089,
+          3.0
+        ],
+        [
+          5089,
+          3.0
+        ],
+        [
+          5089,
+          3.0
+        ],
+        [
+          5090,
+          3.0
+        ],
+        [
+          5090,
+          3.0
+        ],
+        [
+          5090,
+          3.0
+        ],
+        [
+          5091,
+          3.0
+        ],
+        [
+          5091,
+          3.0
+        ],
+        [
+          5091,
+          3.0
+        ],
+        [
+          5092,
+          3.0
+        ],
+        [
+          5092,
+          3.0
+        ],
+        [
+          5092,
+          3.0
+        ],
+        [
+          5093,
+          3.0
+        ],
+        [
+          5093,
+          3.0
+        ],
+        [
+          5093,
+          3.0
+        ],
+        [
+          5094,
+          3.0
+        ],
+        [
+          5094,
+          3.0
+        ],
+        [
+          5094,
+          3.0
+        ],
+        [
+          5095,
+          3.0
+        ],
+        [
+          5095,
+          3.0
+        ],
+        [
+          5095,
+          3.0
+        ],
+        [
+          5096,
+          3.0
+        ],
+        [
+          5096,
+          3.0
+        ],
+        [
+          5096,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 47,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": "2fs",
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ev_5nh2",
@@ -42,14 +816,71 @@
       "perturbation": "5-Br -> 5-NH2 (neutral aryl amine; amide/urea vector)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5nh2",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 14,
+      "xh_unconstrained": 14,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 15,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ev_5oh",
@@ -58,14 +889,63 @@
       "perturbation": "5-Br -> 5-OH (neutral phenol; ether/carbamate vector)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5oh",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 12,
+      "xh_unconstrained": 12,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 15,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ev_5cooh",
@@ -74,14 +954,63 @@
       "perturbation": "5-Br -> 5-COOH (amide-coupling vector; ionizable)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5cooh",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 12,
+      "xh_unconstrained": 12,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          1793,
+          3.0
+        ],
+        [
+          1793,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 15,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ev_5alkyne",
@@ -90,14 +1019,35 @@
       "perturbation": "5-Br -> 5-C#CH (neutral terminal alkyne; click handle)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5alkyne",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 5,
+      "xh_unconstrained": 5,
+      "unconstrained_atoms": [
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 21,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2",
@@ -106,14 +1056,55 @@
       "perturbation": "5-Br -> 5-CH2NH2 (benzylic amine; basic/ionizable)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5ch2nh2",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 10,
+      "xh_unconstrained": 10,
+      "unconstrained_atoms": [
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 21,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ev_5opropargyl",
@@ -122,14 +1113,75 @@
       "perturbation": "5-Br -> 5-O-CH2-C#CH (neutral propargyl ether)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5opropargyl",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 15,
+      "xh_unconstrained": 15,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          1793,
+          3.0
+        ],
+        [
+          1793,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          1794,
+          3.0
+        ],
+        [
+          1795,
+          3.0
+        ],
+        [
+          1796,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 15,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ev_5piperazine",
@@ -138,14 +1190,119 @@
       "perturbation": "5-Br -> 5-piperazin-1-yl (linker node; basic/ionizable)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5piperazine",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 26,
+      "xh_unconstrained": 26,
+      "unconstrained_atoms": [
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1791,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          1792,
+          3.0
+        ],
+        [
+          1793,
+          3.0
+        ],
+        [
+          1793,
+          3.0
+        ],
+        [
+          1794,
+          3.0
+        ],
+        [
+          1794,
+          3.0
+        ],
+        [
+          1795,
+          3.0
+        ],
+        [
+          1795,
+          3.0
+        ],
+        [
+          1796,
+          3.0
+        ],
+        [
+          1796,
+          3.0
+        ],
+        [
+          1797,
+          3.0
+        ],
+        [
+          1797,
+          3.0
+        ],
+        [
+          1797,
+          3.0
+        ],
+        [
+          1798,
+          3.0
+        ],
+        [
+          1798,
+          3.0
+        ],
+        [
+          1798,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 21,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ev_5pegamine",
@@ -154,14 +1311,119 @@
       "perturbation": "5-Br -> 5-O-PEG2-NH2 (PEG-amine stub; basic/ionizable)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ev_5pegamine",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 26,
+      "xh_unconstrained": 26,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1794,
+          3.0
+        ],
+        [
+          1795,
+          3.0
+        ],
+        [
+          1796,
+          3.0
+        ],
+        [
+          20,
+          3.0
+        ],
+        [
+          1797,
+          3.0
+        ],
+        [
+          1797,
+          3.0
+        ],
+        [
+          1798,
+          3.0
+        ],
+        [
+          1798,
+          3.0
+        ],
+        [
+          1799,
+          3.0
+        ],
+        [
+          1799,
+          3.0
+        ],
+        [
+          1800,
+          3.0
+        ],
+        [
+          1800,
+          3.0
+        ],
+        [
+          1801,
+          3.0
+        ],
+        [
+          1801,
+          3.0
+        ],
+        [
+          1802,
+          3.0
+        ],
+        [
+          1802,
+          3.0
+        ],
+        [
+          1803,
+          3.0
+        ],
+        [
+          1804,
+          3.0
+        ],
+        [
+          1805,
+          3.0
+        ],
+        [
+          1806,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 15,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
@@ -170,14 +1432,43 @@
       "perturbation": "3-CO2Me -> 3-C(=O)NH2 (primary carboxamide)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_bio_primary_amide",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 7,
+      "xh_unconstrained": 7,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          1785,
+          3.0
+        ],
+        [
+          1785,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 17,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_bio_nmethyl_amide",
@@ -186,14 +1477,23 @@
       "perturbation": "3-CO2Me -> 3-C(=O)NHMe (N-methyl carboxamide)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_bio_nmethyl_amide",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 2,
+      "xh_unconstrained": 2,
+      "unconstrained_atoms": [
+        [
+          1784,
+          3.0
+        ],
+        [
+          1784,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 22,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_bio_tetrazole",
@@ -202,14 +1502,43 @@
       "perturbation": "3-CO2Me -> 3-(1H-tetrazol-5-yl) (anionic isostere)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_bio_tetrazole",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 7,
+      "xh_unconstrained": 7,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          17,
+          3.0
+        ],
+        [
+          17,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 15,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_bio_acylsulfonamide",
@@ -218,14 +1547,83 @@
       "perturbation": "3-CO2Me -> 3-C(=O)NHSO2Me (anionic acylsulfonamide)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_bio_acylsulfonamide",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 17,
+      "xh_unconstrained": 17,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 22,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_bio_hydroxamic",
@@ -234,14 +1632,39 @@
       "perturbation": "3-CO2Me -> 3-C(=O)NHOH (hydroxamic acid)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_bio_hydroxamic",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 6,
+      "xh_unconstrained": 6,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 17,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ms_free_acid",
@@ -250,14 +1673,35 @@
       "perturbation": "3-CO2Me -> 3-CO2H (free acid; ionizable microstate pair)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ms_free_acid",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 5,
+      "xh_unconstrained": 5,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          1784,
+          3.0
+        ],
+        [
+          1784,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 18,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ms_carbinol",
@@ -266,14 +1710,47 @@
       "perturbation": "3-CO2Me -> 3-CH2OH (carbinol; drops the 3-carbonyl SAR)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ms_carbinol",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 8,
+      "xh_unconstrained": 8,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          1785,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ],
+        [
+          1786,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 18,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester",
@@ -282,14 +1759,55 @@
       "perturbation": "5-Br -> 5-NHAc (neutral capped amide exit vector)",
       "node_a": "zaienne_cmpd19",
       "node_b": "cw_ms_5acetamido_ester",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 10,
+      "xh_unconstrained": 10,
+      "unconstrained_atoms": [
+        [
+          1787,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1787,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1788,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1789,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ],
+        [
+          1790,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 22,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester",
@@ -298,14 +1816,79 @@
       "perturbation": "5-NH2 -> 5-NHAc (acetylation; single-site)",
       "node_a": "cw_ev_5nh2",
       "node_b": "cw_ms_5acetamido_ester",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 16,
+      "xh_unconstrained": 16,
+      "unconstrained_atoms": [
+        [
+          14,
+          3.0
+        ],
+        [
+          15,
+          3.0
+        ],
+        [
+          16,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1798,
+          3.0
+        ],
+        [
+          1799,
+          3.0
+        ],
+        [
+          1800,
+          3.0
+        ],
+        [
+          22,
+          3.0
+        ],
+        [
+          22,
+          3.0
+        ],
+        [
+          1801,
+          3.0
+        ],
+        [
+          1801,
+          3.0
+        ],
+        [
+          1802,
+          3.0
+        ],
+        [
+          1802,
+          3.0
+        ],
+        [
+          1803,
+          3.0
+        ],
+        [
+          1803,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 17,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_cw_ev_5oh__cw_ev_5opropargyl",
@@ -314,14 +1897,43 @@
       "perturbation": "5-OH -> 5-O-CH2-C#CH (O-propargylation; single-site)",
       "node_a": "cw_ev_5oh",
       "node_b": "cw_ev_5opropargyl",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 7,
+      "xh_unconstrained": 7,
+      "unconstrained_atoms": [
+        [
+          21,
+          3.0
+        ],
+        [
+          21,
+          3.0
+        ],
+        [
+          1797,
+          3.0
+        ],
+        [
+          1798,
+          3.0
+        ],
+        [
+          1798,
+          3.0
+        ],
+        [
+          1799,
+          3.0
+        ],
+        [
+          1799,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 22,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     },
     {
       "edge_id": "e_cw_ms_free_acid__cw_bio_primary_amide",
@@ -330,34 +1942,79 @@
       "perturbation": "3-CO2H -> 3-C(=O)NH2 (acid->amide; single-site)",
       "node_a": "cw_ms_free_acid",
       "node_b": "cw_bio_primary_amide",
-      "xh_total": null,
-      "xh_unconstrained": null,
-      "unconstrained_atoms": null,
-      "n_mapped_atoms": null,
-      "max_stable_timestep_fs": null,
-      "verdict": "ERROR",
+      "xh_total": 6,
+      "xh_unconstrained": 6,
+      "unconstrained_atoms": [
+        [
+          13,
+          3.0
+        ],
+        [
+          13,
+          3.0
+        ],
+        [
+          1780,
+          3.0
+        ],
+        [
+          1780,
+          3.0
+        ],
+        [
+          1781,
+          3.0
+        ],
+        [
+          1781,
+          3.0
+        ]
+      ],
+      "n_mapped_atoms": 16,
+      "max_stable_timestep_fs": 2.0,
+      "verdict": "2fs",
       "expect": null,
-      "error": "ToolkitUnavailableException: The required toolkit AmberTools is not available. The AmberTools toolkit (free and open source) can be found at https://anaconda.org/conda-forge/ambertools"
+      "error": null
     }
   ],
   "anchor_check": {
     "ANCHOR_pilot_5Br_to_5NH2": {
       "expect": "4fs",
-      "got": "ERROR",
+      "got": "2fs",
       "ok": false
     },
     "ANCHOR_calib_wurz_N_to_CH": {
       "expect": "2fs",
-      "got": "ERROR",
-      "ok": false
+      "got": "2fs",
+      "ok": true
     }
   },
   "anchor_check_passed": false,
   "summary": {
     "n_designed_edges": 19,
     "n_designed_4fs": 0,
-    "n_designed_2fs": 0,
-    "n_designed_error": 19,
-    "designed_2fs_edges": []
+    "n_designed_2fs": 19,
+    "n_designed_error": 0,
+    "designed_2fs_edges": [
+      "e_zaienne_cmpd19__cw_ev_5nh2",
+      "e_zaienne_cmpd19__cw_ev_5oh",
+      "e_zaienne_cmpd19__cw_ev_5cooh",
+      "e_zaienne_cmpd19__cw_ev_5alkyne",
+      "e_zaienne_cmpd19__cw_ev_5ch2nh2",
+      "e_zaienne_cmpd19__cw_ev_5opropargyl",
+      "e_zaienne_cmpd19__cw_ev_5piperazine",
+      "e_zaienne_cmpd19__cw_ev_5pegamine",
+      "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "e_zaienne_cmpd19__cw_bio_nmethyl_amide",
+      "e_zaienne_cmpd19__cw_bio_tetrazole",
+      "e_zaienne_cmpd19__cw_bio_acylsulfonamide",
+      "e_zaienne_cmpd19__cw_bio_hydroxamic",
+      "e_zaienne_cmpd19__cw_ms_free_acid",
+      "e_zaienne_cmpd19__cw_ms_carbinol",
+      "e_zaienne_cmpd19__cw_ms_5acetamido_ester",
+      "e_cw_ev_5nh2__cw_ms_5acetamido_ester",
+      "e_cw_ev_5oh__cw_ev_5opropargyl",
+      "e_cw_ms_free_acid__cw_bio_primary_amide"
+    ]
   }
 }
