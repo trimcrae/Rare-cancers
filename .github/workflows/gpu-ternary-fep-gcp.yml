@@ -36,6 +36,7 @@ on:
       prod_iters: { description: "override production iteration count (RBFE_PROD_ITERS). Empty = full science length. Use a small value (e.g. 120) for a fast timestep-feasibility test (does production survive at timestep_fs).", default: "", required: false }
       provisioning: { description: "spot (default; ~60-90% cheaper, standing rule: wait out capacity) | standard (on-demand; skips the spot-capacity wait). Use 'standard' ONLY when explicitly authorized for a time-sensitive one-off, e.g. confirming a single valB leg.", default: "spot", required: false }
       commit_salt: { description: "Optional suffix appended to the spot commit-store prefix, forcing a FRESH run that does NOT resume prior checkpoints. Use when a code change alters warmup/production behavior but the (dt,clig,wu) prefix would otherwise collide with poisoned checkpoints (e.g. a broken earlier warmup-override attempt wrote to the same wu-keyed prefix). Empty = normal resume.", default: "", required: false }
+      refuse_if_vm_live: { description: "FAILOVER GUARD (default 0). When 1, the launcher REFUSES to provision if any gcp-ternary-* VM is already alive, and exits 0 as a no-op. Used to poll an on-demand RESUME safely: while a spot VM holds the single GPU the resume is a fast no-op; the moment spot is killed (GPU freed) the next dispatch provisions and resumes the same-salt checkpoint. Prevents two VMs ever writing one commit prefix, independent of the GPU quota.", default: "0", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
@@ -70,6 +71,7 @@ jobs:
       WARMUP_ITERS: ${{ github.event.inputs.warmup_iters || '' }}
       PROD_ITERS: ${{ github.event.inputs.prod_iters || '' }}
       SALT: ${{ github.event.inputs.commit_salt || '' }}
+      REFUSE_IF_LIVE: ${{ github.event.inputs.refuse_if_vm_live || '0' }}
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
       GITREF: ${{ github.ref_name }}
     steps:
@@ -375,6 +377,17 @@ jobs:
           # resume (idempotent GCS skip above). Teardown is skipped so the VM keeps running.
           DO_DETACH="$DETACH"; [ "$MODE" = run ] && DO_DETACH=1
           if [ "$DO_DETACH" = 1 ]; then
+            # FAILOVER GUARD: refuse to provision while another ternary VM is alive, so an on-demand RESUME poll can
+            # never double-write the commit prefix a live spot VM owns. Only provisions once the GPU is genuinely
+            # free (spot killed). Independent of the GPU quota — a belt to the quota's suspenders.
+            if [ "${REFUSE_IF_LIVE:-0}" = 1 ]; then
+              LIVE=$(gcloud compute instances list --filter="name~'^gcp-ternary-' AND (status=RUNNING OR status=PROVISIONING OR status=STAGING OR status=REPAIRING)" --format="value(name)" 2>/dev/null | head -3 | tr '\n' ' ')
+              if [ -n "$LIVE" ]; then
+                echo "refuse_if_vm_live=1 and a ternary VM is already alive ($LIVE) — no-op (the running leg still owns the checkpoint; will resume only once it's gone)"
+                exit 0
+              fi
+              echo "refuse_if_vm_live=1: no live ternary VM -> safe to provision an on-demand resume of the same-salt checkpoint"
+            fi
             provision || { echo "::error::no L4 Spot capacity — re-dispatch later (idempotent GCS skip)"; exit 1; }
             echo "DETACHED=1" >> "$GITHUB_ENV"
             echo "DETACHED: $VM launched in $ZONE (7h backstop). Result -> $RESULTS/. Monitor: gpu-rbfe-gcp-tail vm=$VM. This job EXITS now."
