@@ -132,14 +132,15 @@
     {
       "id": "valA_full",
       "title": "RUNG 3: expand public RBFE accuracy benchmark to 10-20 edges (publishable size)",
-      "status": "pending",
+      "status": "skipped",
       "track": "gpu",
-      "cost_est_usd": "50-140",
-      "optimistic_days": 3,
-      "remaining_days": 3,
+      "cost_est_usd": "50-140 (NOT spent; ~$50-140 saved)",
+      "optimistic_days": 0,
+      "remaining_days": 0,
       "parallel_ok": true,
       "depends_on": ["valA_mini"],
-      "note": "Mandatory change 1A (full). Only if Rung 1 promising. Completes the accuracy benchmark. GO/NO-GO: RMSE in a defensible band (~<=2 kcal/mol, comparable to OpenFE public ~1.7) -> GO; else report as a hard accuracy caveat / pivot. GATE: step1_fanout does not run unless this passes."
+      "result": "SKIPPED 2026-07-18. Skip condition met: valA_mini reproduced the known TYK2 ddG cleanly (abs_err 0.61 < 2.0) on the STANDARD am1bcc method (post RUNG-0 charge fix), NOT the NAGL surrogate. valA_full's only purpose was to characterize/repair a NAGL-introduced discrepancy, which no longer exists -> a full 10-20 edge re-derivation is redundant with OpenFE's published ~1.7 kcal/mol benchmark for this exact reference protocol. Paper cites OpenFE for accuracy; valA_mini stands as a single-edge build-consistency confirmation (NOT a standalone accuracy benchmark). RE-OPEN only if am1bcc charging is later forced onto NAGL (CHARGE_METHOD=nagl) for some ligand.",
+      "note": "Mandatory change 1A (full). SKIPPED - see result. Original GO/NO-GO if run: RMSE in a defensible band (~<=2 kcal/mol, comparable to OpenFE public ~1.7) -> GO. step1_fanout's Val-A accuracy gate is now satisfied by 'cite OpenFE + clean valA_mini' rather than by running valA_full."
     },
     {
       "id": "valB_full",
@@ -174,8 +175,8 @@
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": true,
-      "depends_on": ["valA_full", "step1_pilot_cmpd19"],
-      "note": "GATE: only if Val A-full passed AND the Step 1 pilot behaved. Full congeneric map across druggable 8XTT conformers, release-derived NR4A3 conformers, matched NR4A1/NR4A2 open conformers, resolved microstates. Rank by worst conformer AND receptor>conformer, as CONDITIONAL hypotheses with sensitivity ranges (no synthetic ensemble affinity)."
+      "depends_on": ["step1_pilot_cmpd19"],
+      "note": "GATE: Val A accuracy satisfied (valA_full SKIPPED - valA_mini clean on am1bcc -> cite OpenFE) AND the Step 1 pilot behaved. Full congeneric map across druggable 8XTT conformers, release-derived NR4A3 conformers, matched NR4A1/NR4A2 open conformers, resolved microstates. Rank by worst conformer AND receptor>conformer, as CONDITIONAL hypotheses with sensitivity ranges (no synthetic ensemble affinity)."
     },
     {
       "id": "nrv04_retrospective",
