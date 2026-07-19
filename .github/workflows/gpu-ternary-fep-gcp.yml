@@ -37,6 +37,7 @@ on:
       provisioning: { description: "spot (default; ~60-90% cheaper, standing rule: wait out capacity) | standard (on-demand; skips the spot-capacity wait). Use 'standard' ONLY when explicitly authorized for a time-sensitive one-off, e.g. confirming a single valB leg.", default: "spot", required: false }
       commit_salt: { description: "Optional suffix appended to the spot commit-store prefix, forcing a FRESH run that does NOT resume prior checkpoints. Use when a code change alters warmup/production behavior but the (dt,clig,wu) prefix would otherwise collide with poisoned checkpoints (e.g. a broken earlier warmup-override attempt wrote to the same wu-keyed prefix). Empty = normal resume.", default: "", required: false }
       refuse_if_vm_live: { description: "FAILOVER GUARD (default 0). When 1, the launcher REFUSES to provision if any gcp-ternary-* VM is already alive, and exits 0 as a no-op. Used to poll an on-demand RESUME safely: while a spot VM holds the single GPU the resume is a fast no-op; the moment spot is killed (GPU freed) the next dispatch provisions and resumes the same-salt checkpoint. Prevents two VMs ever writing one commit prefix, independent of the GPU quota.", default: "0", required: false }
+      allow_gpu_setup_build: { description: "Escape hatch (default 0). By default a GPU run FAILS FAST if the setup cache for its (leg,charge) is missing, forcing you to CPU-prime it first (ternary-setup-prime-cpu.yml) instead of burning ~8-40 min of GPU-idle re-parameterization. Set 1 only for a deliberate GPU-side build (the very first prime of a brand-new leg/charge). Sets RBFE_REQUIRE_PRIMED_SETUP=0.", default: "0", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
@@ -72,6 +73,7 @@ jobs:
       PROD_ITERS: ${{ github.event.inputs.prod_iters || '' }}
       SALT: ${{ github.event.inputs.commit_salt || '' }}
       REFUSE_IF_LIVE: ${{ github.event.inputs.refuse_if_vm_live || '0' }}
+      REQUIRE_PRIMED: ${{ github.event.inputs.allow_gpu_setup_build == '1' && '0' || '1' }}
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
       GITREF: ${{ github.ref_name }}
     steps:
@@ -304,7 +306,7 @@ jobs:
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
               CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG RBFE_WARMUP_TIMESTEP_FS=$WARMUP_TS \
-              RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS \
+              RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS RBFE_REQUIRE_PRIMED_SETUP=$REQUIRE_PRIMED \
               OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \$COMMIT_ENV \
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist

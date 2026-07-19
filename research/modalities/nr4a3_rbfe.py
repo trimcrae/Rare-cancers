@@ -1175,6 +1175,23 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
             setup_outputs = None
 
     if setup_outputs is None:
+        # ENFORCE THE CPU-PRIME -> GPU PROCESS. A cache-configured REAL run must NOT solvate+parameterize the
+        # 146k-atom hybrid system on the (idle) GPU — that ~8-40 min of GPU-idle re-parameterization is the exact
+        # anti-pattern ternary-setup-prime-cpu.yml exists to eliminate. If the setup cache is MISSING for this
+        # (leg, charge), FAIL FAST and point at the CPU pre-bake instead of silently building on the GPU.
+        # Exemptions: the CPU pre-bake itself (RBFE_PRIME_ONLY=1) must build; a lane with no cache configured
+        # (cache_dir is None — smoke runs, the binary-RBFE lane) never triggers this; and an explicit
+        # RBFE_REQUIRE_PRIMED_SETUP=0 allows an intentional GPU build (e.g. the very first prime of a new leg).
+        _prime_only = os.environ.get("RBFE_PRIME_ONLY") == "1"
+        if cache_dir and not _prime_only and os.environ.get("RBFE_REQUIRE_PRIMED_SETUP", "1") != "0":
+            raise SystemExit(
+                "[spot-safe] SETUP CACHE MISSING at %s — refusing to solvate+parameterize on the (idle) GPU. "
+                "Pre-bake it on CPU FIRST: dispatch ternary-setup-prime-cpu.yml with charge_method=%s (free, "
+                "non-preemptible; it writes THIS exact cache), then re-dispatch the GPU run so it restores the "
+                "cache and goes straight to MD. This enforces the CPU-prime->GPU process; a cold cache otherwise "
+                "burns ~8-40 min of GPU time. Override with RBFE_REQUIRE_PRIMED_SETUP=0 only for a deliberate "
+                "GPU-side build (the very first prime of a brand-new leg/charge)." % (cache_dir, _charge)
+            )
         print("  [spot-safe] SETUP begin (solvate + parameterize the hybrid system)…", flush=True)
         _t_setup0 = time.time()
         setup_outputs = _unit("HybridTopologySetupUnit").execute(context=_ctx("setup"), raise_error=True).outputs
