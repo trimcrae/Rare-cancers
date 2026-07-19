@@ -353,6 +353,25 @@ over-claims), escalating to a hard gate on the three irreversible acts.
 6. **Reserve the three irreversible acts** (preprint post, grant submit, client send) behind the Human
    Review Queue + red-team + explicit sign-off.
 
+### Execution status (built this session — no spend, non-outward-facing)
+
+The self-doable Rung-A/B and governance items are now built and committed to the branch:
+
+- **GOVERN/ASSURE over-claim eval (§5, build item #1)** — `scripts/govern-overclaim-lint.mjs` +
+  [govern-assure-eval.md](./govern-assure-eval.md). Runnable, sentence-aware, encodes the STRATEGY.md
+  language-discipline rules. First run flagged one real ERROR (an over-claim term in the SI) + one WARN
+  for human sign-off; grant draft and outreach lint clean. Lifts the Trusted-Evals pillar ≥ 3.
+- **MTP three-layer protocol (§3.1)** — [degrader-mtp-protocol.md](./degrader-mtp-protocol.md)
+  (Constraint / Decision / Identity + disqualifiers + three litmus tests).
+- **Value Moat substrate (Rung B, §6)** — `scripts/decision-trace.mjs` + append-only
+  `research/degrader/decision-traces.jsonl` (backfilled with the real step0/valA/step1/valB decisions) +
+  [degrader-moat-decision-traces.md](./degrader-moat-decision-traces.md) (open-core boundary).
+- **Grant #1 draft (Rung C)** — [degrader-grant-draft.md](./degrader-grant-draft.md), milestone-mapped to
+  the science rungs, lints clean, with `[VERIFY]`/`[FUNDER-SPECIFIC]` placeholders to resolve pre-submit.
+
+**Still gated (not self-doable):** the outward acts (preprint post, grant *submit*, client send) need
+sign-off; the science ladder past Val B-full needs an explicit GPU-spend go. These are intentionally not done.
+
 **The core reframe:** stop thinking "publish a paper." Start operating a **one-person, agent-run,
 integrity-first computational-degrader-selectivity firm** whose first product proof is this paper, whose
 moat is the validated pipeline + benchmark/trace library, and whose economics are GPU-$ COGS against
