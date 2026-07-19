@@ -251,9 +251,10 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   public benchmark). **CHECKED OFF:** the pilot's pre-registered crux — *can a congeneric RBFE converge on this
   dynamic cryptic pocket without the pocket collapsing?* — is **cleared** on the first edge. The reproducibility
   replicas + pose/state sensitivity sweep are carried forward as **inputs to the fan-out** (they refine per-edge
-  `n_windows`/GPU-h and the conditional caveat; they do **not** reopen this box). Fan-out (RUNG 4) still
-  independently requires **valA_full** (public accuracy benchmark) before it runs — checking this box does **not**
-  by itself unlock the fleet.
+  `n_windows`/GPU-h and the conditional caveat; they do **not** reopen this box). The **valA accuracy gate** is
+  independently satisfied (valA_mini clean on am1bcc → cite OpenFE; **valA_full skipped**), so that side of the
+  fan-out gate is met — but RUNG 4 still requires the replicas + pose/state sensitivity above; checking this box
+  does **not** by itself unlock the fleet.
 - **`[~]` Validation B-mini — PROTAC 2 → cis-PROTAC 2 known-answer ternary edge** *(valB_mini · GPU · ∥)* — **Price: ~$40–80 · Cum. ~$110**
   **REDESIGNED 2026-07-17 (reviewer verdict — full record: [research/manuscripts/valB-reviewer-decision-2026-07-17.md](./research/manuscripts/valB-reviewer-decision-2026-07-17.md)).**
   The original hi→lo SMARCA2–VHL panel edge is **not congeneric** (P1↔P5 = 32 perturbed heavy atoms; the whole
