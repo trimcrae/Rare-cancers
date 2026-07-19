@@ -122,8 +122,10 @@ jobs:
             if [ -n "$NEWEST" ]; then
               echo "--- newest post-mortem: $NEWEST ---"
               PMLOG=$(gcloud storage cat "$NEWEST" 2>/dev/null | sed -e "s/\x1b\[[0-9;]*m//g")
+              echo "--- config confirm (charge + warmup-dt override) ---"
+              printf '%s\n' "$PMLOG" | grep -aE "partial_charge_method|WARMUP timestep|WARMUP from|warmup_target|reduced-dt|overridden|RBFE_CONSTRAIN|forcefield constraints|hydrogen_mass" | tail -20 || echo "(no config lines)"
               echo "--- clash/nan diagnostic lines ---"
-              printf '%s\n' "$PMLOG" | grep -aE "clash-diag|nan-diag|minimize|SOLVATED|particles|atoms=|non-bonded|pair \(|coords>|nonfinite|artifacts" | tail -50 || echo "(no diag lines)"
+              printf '%s\n' "$PMLOG" | grep -aE "clash-diag|nan-diag|minimize|SOLVATED|particles|atoms=|non-bonded|pair \(|coords>|nonfinite|artifacts" | tail -40 || echo "(no diag lines)"
               echo "--- last 20 lines (traceback tail) ---"
               printf '%s\n' "$PMLOG" | tail -20 || echo "(cat failed)"
             fi
@@ -155,9 +157,11 @@ jobs:
           # two verdicts at a glance: furthest committed warmup/production iteration + whether a NaN was seen.
           WMAX=$(printf '%s\n' "$CALL" | grep -aoE "warmup/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
           PMAX=$(printf '%s\n' "$CALL" | grep -aoE "production/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
-          NAN=no; printf '%s\n' "${SER:-}" | grep -qaiE "SimulationNaNError|resulted in a NaN|nan-diag" && NAN=YES
-          LASTLOG=$(printf '%s\n' "${SER:-}" | grep -aE "WARMUP timestep|WARMUP from|PRODUCTION created|PRODUCTION from|timing|iteration|minimize|SETUP RESTORED|SOLVATED" | tail -1 | cut -c1-150)
-          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN last=\"$LASTLOG\""
+          NAN=no; printf '%s\n' "${SER:-}${PMLOG:-}" | grep -qaiE "SimulationNaNError|resulted in a NaN|nan-diag" && NAN=YES
+          CHG=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "partial_charge_method = [a-z0-9]+" | tail -1 | awk '{print $NF}')
+          WUD=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
+          NANST=$(printf '%s\n' "${SER:-}${PMLOG:-}" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
+          echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" nan_at=\"${NANST:-}\""
       - name: Reset committed checkpoints (fresh start on timestep change)
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
         run: |
