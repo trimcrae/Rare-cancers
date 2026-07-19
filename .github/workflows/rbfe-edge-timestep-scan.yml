@@ -63,6 +63,12 @@ jobs:
         working-directory: research/modalities
         run: |
           set -eo pipefail
+          # Put the conda env's bin on PATH so the OpenFF AmberTools wrapper finds sqm/antechamber. Running the env
+          # python directly (unactivated) is why the first attempt hit "AmberTools is not available".
+          ENVROOT="$(dirname "$(dirname "$PY")")"
+          export PATH="$ENVROOT/bin:$PATH"
+          export CONDA_PREFIX="$ENVROOT"
+          echo "ENVROOT=$ENVROOT ; sqm at: $(command -v sqm || echo MISSING) ; antechamber at: $(command -v antechamber || echo MISSING)"
           $PY rbfe_edge_timestep_scan.py 2>&1 | tee /tmp/scan.log
           echo "================ FULL TABLE ================"
           cat congeneric-edge-timestep-table.json

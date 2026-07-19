@@ -17,8 +17,11 @@ pose/environment-independent (the alchemical bonds are intramolecular to the lig
 build gives the SAME answer the binary-complex OR ternary build would -- i.e. it also tells us the ceiling for the
 ternary cooperativity edge that reuses the same warhead morph.
 
-Charges: forced to NAGL (fast ML) -- the constraint/HMR assignment does NOT depend on partial-charge VALUES, only
-on topology, so this changes nothing in the verdict and avoids paying am1bcc/sqm per ligand.
+Charges: am1bcc (the env's guaranteed method; env tarball is named ...am1bcc...). The constraint/HMR assignment
+does NOT depend on partial-charge VALUES, only on topology, so the charge method is irrelevant to the verdict --
+am1bcc is chosen only because it is definitely present. NB: the runner must put the conda env's bin on PATH so the
+OpenFF AmberTools wrapper finds sqm/antechamber (the workflow exports PATH); running the env python directly
+without activation is what triggered ToolkitUnavailableException: AmberTools is not available.
 
 ANCHORS (validate the check against known ground truth):
   * pilot  5-Br -> 5-NH2  (e_zaienne_cmpd19__cw_ev_5nh2): step1 RAN CLEAN at 4 fs  -> MUST report 0 unconstrained.
@@ -36,9 +39,9 @@ import traceback
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# Charges do not affect the constraint verdict; NAGL is ~seconds vs am1bcc's minutes. Set BEFORE importing the
-# engine so _protocol picks it up (it reads CHARGE_METHOD at call time, but be explicit and early).
-os.environ.setdefault("CHARGE_METHOD", "nagl")
+# Charges do not affect the constraint verdict (it depends only on topology/HMR/constraints), so use the env's
+# guaranteed am1bcc. Requires the env's bin on PATH so the OpenFF AmberTools wrapper finds sqm (workflow exports it).
+os.environ.setdefault("CHARGE_METHOD", "am1bcc")
 
 import openfe  # noqa: E402
 from rdkit import Chem  # noqa: E402
