@@ -1007,6 +1007,7 @@ def constrain_nonalchemical_xh(system):
     is_h = lambda m: m < 5.0
     added = 0
     LTOL = 1e-4   # nm; a bond is non-alchemical when its two endpoint lengths match to within this
+    diag = {"harmonic_xh": 0, "custombond_forces": []}
 
     # (1) Standard HarmonicBondForce — non-alchemical environment/core bonds (protein etc.). Constrain X-H at r0.
     for f in system.getForces():
@@ -1016,6 +1017,7 @@ def constrain_nonalchemical_xh(system):
             i, j, length, k = f.getBondParameters(b)
             i, j = int(i), int(j)
             if (is_h(mass[i]) ^ is_h(mass[j])):
+                diag["harmonic_xh"] += 1
                 key = (min(i, j), max(i, j))
                 if key not in cons:
                     system.addConstraint(i, j, length)
@@ -1032,34 +1034,40 @@ def constrain_nonalchemical_xh(system):
             continue
         try:
             pnames = [f.getPerBondParameterName(p) for p in range(f.getNumPerBondParameters())]
-        except Exception:  # noqa: BLE001
+        except Exception as _pe:  # noqa: BLE001
+            diag["custombond_forces"].append({"error": "getPerBondParameterName: %s" % _pe})
             continue
-        # indices of the two endpoint-length parameters (name contains 'length' or is r1/r2/r0-style)
         lidx = [p for p, nm in enumerate(pnames) if "length" in nm.lower()]
         if len(lidx) < 2:
             lidx = [p for p, nm in enumerate(pnames) if nm.lower().startswith(("r1", "r2", "r_", "len"))]
-        print("  [constrain-lig] CustomBondForce params=%s length-cols=%s" % (pnames, lidx), flush=True)
-        if len(lidx) < 2:
-            continue
-        la, lb = lidx[0], lidx[1]
+        # sample a couple of X-H bonds' raw params so we can SEE the layout if the heuristic misses
+        fdiag = {"n_bonds": f.getNumBonds(), "pnames": pnames, "length_cols": lidx, "n_xh": 0,
+                 "n_xh_nonalch": 0, "sample_xh": []}
         for b in range(f.getNumBonds()):
             prm = f.getBondParameters(b)
             i, j = int(prm[0]), int(prm[1])
-            vals = prm[2]
+            vals = list(prm[2])
             if not (is_h(mass[i]) ^ is_h(mass[j])):
                 continue
+            fdiag["n_xh"] += 1
+            if len(fdiag["sample_xh"]) < 4:
+                fdiag["sample_xh"].append([i, j, [float(v) for v in vals]])
+            if len(lidx) < 2:
+                continue
             try:
-                l_old, l_new = float(vals[la]), float(vals[lb])
+                l_old, l_new = float(vals[lidx[0]]), float(vals[lidx[1]])
             except Exception:  # noqa: BLE001
                 continue
-            key = (min(i, j), max(i, j))
-            if key in cons:
-                continue
-            if abs(l_old - l_new) <= LTOL:               # non-alchemical X-H -> safe to constrain
-                system.addConstraint(i, j, 0.5 * (l_old + l_new))
-                cons.add(key)
-                added += 1
-    return added
+            if abs(l_old - l_new) <= LTOL:
+                fdiag["n_xh_nonalch"] += 1
+                key = (min(i, j), max(i, j))
+                if key not in cons:
+                    system.addConstraint(i, j, 0.5 * (l_old + l_new))
+                    cons.add(key)
+                    added += 1
+        diag["custombond_forces"].append(fdiag)
+    print("  [constrain-lig] added=%d diag=%s" % (added, diag), flush=True)
+    return added, diag
 
 
 def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
@@ -1200,14 +1208,17 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
     # constraints to the NON-alchemical C-H (only) lets a larger dt be stable. Applied to the deserialized `system`
     # BEFORE the sampler builds its contexts, so the MD uses the constrained system. MUST be set for every leg of a
     # calculation to keep ΔΔG valid (the constraint cancels in the cycle). No-op unless the env is 1.
+    _constrain_diag = None
     if os.environ.get("RBFE_CONSTRAIN_LIGAND_CH") == "1":
         try:
             _n0 = system.getNumConstraints()
-            _added = constrain_nonalchemical_xh(system)
+            _added, _constrain_diag = constrain_nonalchemical_xh(system)
             print("  [constrain-lig] RBFE_CONSTRAIN_LIGAND_CH=1 -> added %d non-alchemical X-H constraints "
                   "(%d -> %d total); enables a larger stable timestep. MUST be on for ALL legs."
                   % (_added, _n0, system.getNumConstraints()), flush=True)
         except Exception as _ce:  # noqa: BLE001
+            import traceback as _tb
+            _constrain_diag = {"error": "%s: %s" % (type(_ce).__name__, _ce), "tb": _tb.format_exc()[-400:]}
             print("  [constrain-lig] WARN failed to add ligand C-H constraints (%s); running unconstrained"
                   % _ce, flush=True)
     # HMR / UNCONSTRAINED-BOND DIAGNOSTIC (2026-07-18): the ternary warmup NaN at 2 fs is the signature of an
@@ -1252,7 +1263,7 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
             return None, None, {"hmrdiag_only": True, "xh_total": _xh_total,
                                 "xh_unconstrained": _xh_unconstrained, "unconstrained": _unc, "hmasses": _hmasses,
                                 "total_constraints": _tot_cons, "constraints_setting": str(_cons_set),
-                                "hydrogen_mass_setting": str(_hmass_set)}
+                                "hydrogen_mass_setting": str(_hmass_set), "constrain_diag": _constrain_diag}
     except Exception as _e:  # noqa: BLE001
         print("  [hmr-diag] failed: %s: %s" % (type(_e).__name__, _e), flush=True)
         if os.environ.get("RBFE_HMRDIAG_ONLY") == "1":
