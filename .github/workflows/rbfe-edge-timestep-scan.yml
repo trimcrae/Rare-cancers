@@ -74,13 +74,13 @@ jobs:
           # per-edge unconstrained-count cannot discriminate edges (the anchor gate correctly never passes). The 2 fs
           # vs 4 fs choice is lane/system-size-based (binary warhead RBFE=4 fs, ternary=2 fs) — see
           # ternary-rbfe-runbook.md section 1b. Kept for the constraint-state check only.
-          export SCAN_ANCHORS="${SCAN_ANCHORS:-pilot}"
-          # VERIFY the ligand-C-H constraint lever for free: with =1, execute_hybrid_dag_spot_safe constrains the
-          # non-alchemical C-H before the hmr-diag count, so xh_unconstrained should DROP from ~14 (unconstrained)
-          # to only the few genuinely-alchemical bonds. If it stays ~14, perses put the ligand bonds in a custom
-          # force and the HarmonicBondForce approach missed them (needs a different constraint path).
-          export RBFE_CONSTRAIN_LIGAND_CH="${RBFE_CONSTRAIN_LIGAND_CH:-1}"
-          echo "RBFE_CONSTRAIN_LIGAND_CH=$RBFE_CONSTRAIN_LIGAND_CH"
+          export SCAN_ANCHORS="${SCAN_ANCHORS:-both}"
+          # Constraint lever is moot: the ligand C-H are ALREADY constrained (measured — they appear in NO bond
+          # force, so they are constraints). Keep it OFF. Counter now counts only genuine valence stretch bonds
+          # (skips the perses nonbonded-exception CustomBondForce), so the pilot should read 0 unconstrained -> 4 fs.
+          export RBFE_CONSTRAIN_LIGAND_CH="${RBFE_CONSTRAIN_LIGAND_CH:-0}"
+          export CHARGE_METHOD="${CHARGE_METHOD:-nagl}"    # fast; big calib PROTAC stalls am1bcc sqm. Charges don't affect the constraint count.
+          echo "SCAN_ANCHORS=$SCAN_ANCHORS CHARGE_METHOD=$CHARGE_METHOD"
           $PY rbfe_edge_timestep_scan.py 2>&1 | tee /tmp/scan.log
           echo "================ FULL TABLE ================"
           cat congeneric-edge-timestep-table.json

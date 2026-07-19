@@ -945,15 +945,21 @@ def run_analyze():
 
 
 def count_unconstrained_alchemical_xh(system):
-    """Return (n_xh_total, n_unconstrained, unconstrained_list, hmasses_seen) for an OpenMM System — i.e. how many
-    X-H bonds present in the bonded forces are NOT in the constraint set. NB (measured 2026-07-19): OpenFE's
-    HybridTopologyFactory leaves the ENTIRE alchemical ligand's X-H bonds UNCONSTRAINED — `constraints=hbonds`
-    rigidifies only water/protein, so on the pilot edge total_constraints=1771 was water-only and all 14 ligand X-H
-    were unconstrained. So this count does NOT discriminate edges (every edge has ~all ligand X-H unconstrained);
-    the 2 fs vs 4 fs ceiling is a LANE/system-size property (binary warhead RBFE survives 4 fs; large ternary
-    assemblies NaN at 4 fs), NOT a per-edge unconstrained-count. Use this as a diagnostic of the constraint STATE
-    (all-ligand-unconstrained is expected), not as a per-edge timestep oracle. `unconstrained_list` is
-    [(h_atom_idx, h_mass_amu), ...]."""
+    """Return (n_xh_total, n_unconstrained, unconstrained_list, hmasses_seen) counting ONLY genuine bond-STRETCH
+    terms that are NOT in the constraint set.
+
+    CRITICAL (measured 2026-07-19 via the perses force dump): a CustomBondForce is used by perses for TWO different
+    things — (A) alchemical VALENCE bonds (per-bond params length1/K1/length2/K2) and (B) alchemical NONBONDED
+    EXCEPTIONS (params chargeProd/sigma/epsilon). Only (A) is a real bond; (B) entries are 1-2/1-3/1-4 exception
+    PAIRS, not stretch bonds. An earlier version of this counter scanned every CustomBondForce and so counted the
+    (B) exception pairs as "unconstrained X-H bonds" — e.g. it reported the pilot's 14 exception pairs as 14
+    unconstrained bonds when the ligand's real C-H are CONSTRAINED (they appear in NO bond force -> they are
+    constraints, inside total_constraints). That miscount made the pilot read 2 fs and produced the false "OpenFE
+    leaves the whole ligand unconstrained" conclusion. This version counts a CustomBondForce ONLY when its per-bond
+    parameter names look like a valence bond ('length' present, 'chargeprod'/'sigma'/'epsilon' absent). Result: the
+    only unconstrained X-H are the genuinely ALCHEMICAL stretch bonds (a morphing C-H/N-H whose constraint status
+    changes between endpoints, so it cannot be constrained) — which IS a per-edge property and the real timestep
+    driver. `unconstrained_list` is [(h_atom_idx, h_mass_amu), ...]."""
     import openmm as _mm
     cons = set()
     for k in range(system.getNumConstraints()):
@@ -963,15 +969,24 @@ def count_unconstrained_alchemical_xh(system):
     is_h = lambda m: m < 5.0            # H (1.008) or HMR-repartitioned H (3-4); heavy atoms >= 12
     xh_total = xh_unconstrained = 0
     unc = []
-    # scan BOTH HarmonicBondForce AND CustomBondForce — OpenFE's hybrid factory puts the alchemically-varying
-    # (appearing/disappearing) bonds in a CustomBondForce, so an unconstrained alchemical X-H lives there.
     for f in system.getForces():
-        if not isinstance(f, (_mm.HarmonicBondForce, _mm.CustomBondForce)):
+        if isinstance(f, _mm.HarmonicBondForce):
+            pass                                          # standard valence bonds — always real stretch terms
+        elif isinstance(f, _mm.CustomBondForce):
+            try:
+                names = " ".join(f.getPerBondParameterName(p)
+                                 for p in range(f.getNumPerBondParameters())).lower()
+            except Exception:  # noqa: BLE001
+                names = ""
+            # keep only the VALENCE bond force; skip the nonbonded-exception CustomBondForce (chargeProd/sigma/eps)
+            if ("length" not in names) or any(t in names for t in ("chargeprod", "sigma", "epsilon")):
+                continue
+        else:
             continue
         for b in range(f.getNumBonds()):
             p = f.getBondParameters(b)
             i, j = int(p[0]), int(p[1])
-            if is_h(mass[i]) ^ is_h(mass[j]):            # X-H bond = exactly one light partner
+            if is_h(mass[i]) ^ is_h(mass[j]):            # X-H stretch bond = exactly one light partner
                 xh_total += 1
                 hidx = i if is_h(mass[i]) else j
                 if (min(i, j), max(i, j)) not in cons:
