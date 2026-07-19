@@ -40,20 +40,33 @@ driver) → `rbfe_spot_driver.run_spot_safe` (MultiState warmup/production) → 
 - **Instrumentation left in place:** `rbfe_spot_driver` catches the NaN, loads openmmtools' saved `nan-error-logs`
   state, and prints a `[clash-diag]/[nan-diag]` report naming the offending atoms.
 
-#### 1b. Timestep ceiling — **HMR reaches the alchemical H, but 4 fs still NaNs; ~2 fs is the max (2026-07-19)**
-- **HMR *is* applied to the unconstrained alchemical C–H.** The `[hmr-diag]` dump (added to
-  `nr4a3_rbfe.execute_hybrid_dag_spot_safe`) on the `calib_hi_to_lo` edge showed **3 unconstrained X–H bonds, all
-  HMR-repartitioned to 3.0 amu** (none at 1.0). So the earlier hope that "HMR isn't reaching the alchemical H →
-  extend it → 4 fs" was **wrong**: HMR already reaches it.
-- **4 fs NaNs anyway** — an empirical `calib_hi_to_lo` run (2026-07-19, VM ran ~7 h, 6 crashes) NaN'd in **warmup
-  at replica 0 / state 5 (~iter 65)**, `nonfinite_atoms=0`, flagged close pair correctly labeled
-  `EXCLUDED-hybrid(benign)` (so NOT a clash — a real integration blow-up). Reason: HMR only slows an
-  **unconstrained** stretch by ~√(3/0.92) ≈ 1.8×, lifting the C–H period ~10 fs → ~18 fs, which is stable to
-  **~2 fs, not 4 fs** (dt ≲ period/10). Heavier HMR can't reach 4 fs either (needs ~6–8 amu H, which distorts
-  dynamics). **So the physical timestep ceiling for an unconstrained-C–H ternary edge is ~2 fs.**
-- **Guidance:** try **`timestep_fs=2.0`** (2× cheaper than 1 fs) for edges with an unconstrained alchemical C–H;
-  it's borderline (dt/period ≈ 0.11) so verify warmup survives, and fall back to **1 fs** if it NaNs. **Do NOT use
-  4 fs** on such edges. Binary RBFE (no boundary C–H change) stays fine at 4 fs.
+#### 1b. Timestep ceiling — **the WHOLE alchemical ligand is unconstrained, so 2 fs is a LANE property, not an edge property (CORRECTED 2026-07-19)**
+- **CORRECTION of an earlier wrong mechanism.** An earlier version of this section claimed the 2 fs ceiling was
+  *edge-chemistry-specific* — that only morphs which change the H-count on a mapped atom (ring N→CH, sp²→sp³) grow
+  an "unconstrained alchemical C–H", and that terminal-group swaps stay 4 fs-safe. **That was wrong.** It rested
+  on the first `[hmr-diag]` counter, which scanned only the `HarmonicBondForce` and so saw ~3 X–H bonds when the
+  alchemical bonds actually live in a separate `CustomBondForce`. A free per-edge scan
+  (`rbfe_edge_timestep_scan.py`, 2026-07-19) that builds the REAL OpenFE solvent-leg hybrid and reads
+  `system.getNumConstraints()` proved the truth: on the pilot 5-Br→5-NH₂ edge, `constraints='hbonds'`,
+  `hydrogen_mass=3.0`, `total_constraints=1771` — but that is **water only** (~590 waters × 3 SETTLE); **all 14 of
+  the ligand's X–H bonds are UNCONSTRAINED.** So OpenFE's HybridTopologyFactory leaves the **entire alchemical
+  ligand's C–H flexible** (HMR'd to 3 amu, period ~18 fs); `constraints=hbonds` rigidifies only water/protein.
+- **Consequence — the 2 fs ceiling is uniform, not edge-specific.** Every edge (warhead swap, N→CH, terminal) has
+  ~all of its ligand C–H unconstrained, so a static "unconstrained-X–H count" **cannot** discriminate edges (the
+  scan's anchor self-check correctly caught this: it could not reproduce pilot→4 fs). Whether 4 fs actually
+  survives is driven by **system size + starting-structure roughness**, not by which bond morphs:
+  - **Binary congeneric warhead RBFE** (small, clean, drug-like ligand; step1 lane): **4 fs runs** — this is
+    OpenFE's benchmarked default and step1's pilot edge converged at 4 fs with no NaN. dt/period ≈ 0.22 is
+    marginal-but-OK for a small clean system.
+  - **Ternary cooperativity FEP** (large assembled PROTAC complex, homology-modeled/relaxed start; valB lane):
+    **4 fs NaNs** — the empirical `calib_hi_to_lo` run (2026-07-19, ~7 h, 6 crashes) blew up in **warmup at
+    replica 0 / state 5**, `nonfinite_atoms=0`, close pair `EXCLUDED-hybrid(benign)` (a real integration blow-up,
+    not a clash). The many extra unconstrained DOF + a rough ternary start push dt/period past what 4 fs tolerates.
+- **Guidance (lane-based, not edge-based):** run the **binary warhead RBFE at 4 fs** (OpenFE default; step1-proven).
+  Run the **ternary cooperativity FEP at 2 fs** (`timestep_fs=2.0`; calib NaN'd at 4 fs — the large assembly needs
+  it), falling back to 1 fs only if a specific ternary leg still NaNs. Within each lane the timestep is uniform, so
+  validation and production always match (no "validate at one frequency, run science at another"). The root cause
+  is the unconstrained alchemical ligand, NOT the morph chemistry.
 
 ### 2. Setup time varied 8 min ↔ 30 min "on the same machine" — **it was two different machines**
 - **Symptom:** identical code/leg, setup (`SETUP done in Ns`) sometimes ~461 s, sometimes 30+ min → the long ones

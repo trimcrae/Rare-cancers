@@ -945,14 +945,15 @@ def run_analyze():
 
 
 def count_unconstrained_alchemical_xh(system):
-    """Return (n_xh_total, n_unconstrained, unconstrained_list, hmasses_seen) for an OpenMM System built with
-    constraints=HBonds. In such a system EVERY X-H bond is constrained EXCEPT the alchemical ones whose constraint
-    status changes between the λ endpoints (OpenFE's hybrid factory cannot constrain a bond to two lengths / a
-    present-vs-absent constraint, so it leaves it flexible). An unconstrained X-H has a ~10 fs period (~18 fs after
-    HMR to 3 amu), so it caps the stable timestep at ~2 fs (dt ≲ period/10); zero unconstrained X-H => the default
-    4 fs is safe. This is the SINGLE source of truth for the timestep ceiling and is pose/environment-independent
-    (the alchemical bonds are intramolecular to the ligand), so a binary solvent-leg build gives the SAME verdict a
-    complex or ternary build would. `unconstrained_list` is [(h_atom_idx, h_mass_amu), ...]."""
+    """Return (n_xh_total, n_unconstrained, unconstrained_list, hmasses_seen) for an OpenMM System — i.e. how many
+    X-H bonds present in the bonded forces are NOT in the constraint set. NB (measured 2026-07-19): OpenFE's
+    HybridTopologyFactory leaves the ENTIRE alchemical ligand's X-H bonds UNCONSTRAINED — `constraints=hbonds`
+    rigidifies only water/protein, so on the pilot edge total_constraints=1771 was water-only and all 14 ligand X-H
+    were unconstrained. So this count does NOT discriminate edges (every edge has ~all ligand X-H unconstrained);
+    the 2 fs vs 4 fs ceiling is a LANE/system-size property (binary warhead RBFE survives 4 fs; large ternary
+    assemblies NaN at 4 fs), NOT a per-edge unconstrained-count. Use this as a diagnostic of the constraint STATE
+    (all-ligand-unconstrained is expected), not as a per-edge timestep oracle. `unconstrained_list` is
+    [(h_atom_idx, h_mass_amu), ...]."""
     import openmm as _mm
     cons = set()
     for k in range(system.getNumConstraints()):
