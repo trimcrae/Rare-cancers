@@ -298,13 +298,17 @@ jobs:
             rm -f /tmp/stage.tar
           fi
           echo "staged tree:"; find \$IN -type f -printf '  %s B  %p\n' 2>/dev/null
-          PE_CACHE="gs://$BUCKET/valB-6hax/preequilcache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v1.tar"
+          # v2 (2026-07-19): pre-equil output changed under reviewer conditions 1/2/3 — core-transplant endpoint
+          # alignment, exact-FF conditioning, and per-seed independent snapshots. v1 caches (O3A overlay,
+          # generator-default charges, shared snapshot) are STALE and must NOT be reused; the version bump
+          # forces a clean regenerate per seed.
+          PE_CACHE="gs://$BUCKET/valB-6hax/preequilcache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v2.tar"
 
           # ===== mode=preequil: plain-MD relax the physical complex -> preequilcache (fixes the softcore warmup NaN) =====
           if [ "$MODE" = preequil ]; then
-            echo "--- PRE-EQUIL leg=$LEG_ID charge=$CHARGE_METHOD ns=$PE_NS smoke=$PE_SMOKE ---"
-            ( cd \$WORK && env LEG_ID=$LEG_ID CHARGE_METHOD=$CHARGE_METHOD PREEQUIL_NS=$PE_NS PREEQUIL_SMOKE=$PE_SMOKE \
-                OPENMM_PLATFORM=CUDA INPUT_DIR=\$IN OUTPUT_DIR=\$OUT \
+            echo "--- PRE-EQUIL leg=$LEG_ID charge=$CHARGE_METHOD ns=$PE_NS smoke=$PE_SMOKE seed=$SEED (exact-FF, seeded per replicate) ---"
+            ( cd \$WORK && env LEG_ID=$LEG_ID SEED=$SEED CHARGE_METHOD=$CHARGE_METHOD PREEQUIL_NS=$PE_NS PREEQUIL_SMOKE=$PE_SMOKE \
+                PREEQUIL_EXACT_FF=1 OPENMM_PLATFORM=CUDA INPUT_DIR=\$IN OUTPUT_DIR=\$OUT \
                 \$PY ternary_preequil.py 2>&1 ) | tee /tmp/tfep_run.log
             if [ -f \$OUT/$LEG_ID/preequil_marker.json ]; then
               if [ "$PE_SMOKE" = 1 ]; then
@@ -328,7 +332,7 @@ jobs:
           if [ "$USE_PE" = 1 ] && { [ "$MODE" = run ] || [ "$MODE" = endpoint_smoke ]; }; then
             RAW=\$(dirname \$(find \$IN -name complex.pdb | head -1) 2>/dev/null)
             if [ -n "\$RAW" ] && gcloud storage cp "\$PE_CACHE" /tmp/pe.tar 2>/dev/null && tar -C "\$RAW" -xf /tmp/pe.tar 2>/dev/null; then
-              SETUP_VER=v1pe
+              SETUP_VER=v2pe   # v2pe: setup built from the v2 (transplant + exact-FF + seeded) pre-equil; v1pe is stale
               echo "--- USE_PREEQUIL: overlaid relaxed complex.pdb/ligands.sdf from \$PE_CACHE into \$RAW; setup cache ver -> \$SETUP_VER ---"
             else
               echo "::error::use_preequil=1 but no preequilcache at \$PE_CACHE (run mode=preequil first)"; exit 1

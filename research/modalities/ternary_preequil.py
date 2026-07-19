@@ -43,6 +43,17 @@ PREEQUIL_NS = float(os.environ.get("PREEQUIL_NS", "0.5"))
 PADDING_NM = float(os.environ.get("PREEQUIL_PADDING_NM", "1.2"))
 SMOKE = os.environ.get("PREEQUIL_SMOKE") == "1"
 PLATFORM = os.environ.get("OPENMM_PLATFORM", "CUDA")
+# SEED (reviewer condition 3, 2026-07-19): each replicate must start from an INDEPENDENT decorrelated
+# pre-equilibration snapshot, not one shared cached snapshot. SEED deterministically seeds the conditioner's
+# velocities + integrator so mode=preequil run per seed (0/1/2) yields three genuinely independent relaxed
+# conformers (the preequilcache key is already seed-scoped). Combined with the stager's per-seed SMARCA2 model
+# (model_idx = seed % n_models), the replicates differ in both starting structure and stochastic history.
+SEED = int(os.environ.get("SEED", "0"))
+# EXACT-FF conditioning (reviewer condition 2 PREFERENCE, 2026-07-19): condition under the SAME force field the
+# RBFE uses at its physical endpoints (openff small-molecule FF + the RBFE charge method), so there is NO
+# force-field switch between the conditioner and the production Hamiltonian — removing the avoidable
+# methodological ambiguity the reviewer named. USE_EXACT_FF=0 falls back to the generator-default charges.
+USE_EXACT_FF = os.environ.get("PREEQUIL_EXACT_FF", "1") == "1"
 
 
 def log(m):
@@ -90,7 +101,16 @@ def _build_physical_system(protein_pdb, molA):
     n_prot = pdb.topology.getNumAtoms()
 
     off_lig = Molecule.from_rdkit(molA, allow_undefined_stereo=True)
-    # deterministic charges: try openff/nagl-style via the toolkit's default; the SystemGenerator assigns them.
+    if not off_lig.conformers:
+        off_lig.generate_conformers(n_conformers=1)
+    # EXACT-FF conditioning (reviewer condition 2 preference): assign the SAME charge method the RBFE uses, so the
+    # conditioner Hamiltonian matches the production physical-endpoint Hamiltonian and there is no FF switch.
+    if USE_EXACT_FF:
+        try:
+            off_lig.assign_partial_charges(CHARGE_METHOD)
+            log(f"  [preequil] exact-FF conditioning: assigned {CHARGE_METHOD} charges (matches RBFE endpoint FF)")
+        except Exception as e:  # noqa: BLE001
+            log(f"  [preequil] WARN assign_partial_charges({CHARGE_METHOD}) failed ({e}); generator default charges")
     small_ff = "openff-2.1.0"
     forcefield_kwargs = {"constraints": app.HBonds, "rigidWater": True,
                          "removeCMMotion": True, "hydrogenMass": 3.0 * unit.amu}
@@ -149,6 +169,7 @@ def _relax(system, topology, positions, n_prot, n_lig):
     log(f"  [preequil] restrained {heavy} protein+ligand heavy atoms (k=5 kcal/mol/A^2, released after equilibration)")
 
     integrator = openmm.LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 1.0 * unit.femtosecond)
+    integrator.setRandomNumberSeed(SEED + 1)      # per-replicate independence (reviewer condition 3)
     try:
         platform = openmm.Platform.getPlatformByName(PLATFORM)
     except Exception:  # noqa: BLE001
@@ -166,13 +187,15 @@ def _relax(system, topology, positions, n_prot, n_lig):
     n_heat = 100 if SMOKE else 50 * steps_ps  # 50 ps
     log(f"  [preequil] NVT heat (restrained, 1 fs) {n_heat} steps…")
     for T in (50, 150, 250, 300):
-        sim.context.setVelocitiesToTemperature(T * unit.kelvin)
+        sim.context.setVelocitiesToTemperature(T * unit.kelvin, SEED + 1)   # seeded per replicate (condition 3)
         integrator.setTemperature(T * unit.kelvin)
         sim.step(max(1, n_heat // 4))
 
     # add a barostat, NPT restrained (100 ps — enough to settle box+solvent around the restrained solute), then
     # RELEASE restraints while ramping dt to 4 fs
-    system.addForce(openmm.MonteCarloBarostat(1 * unit.bar, 300 * unit.kelvin))
+    barostat = openmm.MonteCarloBarostat(1 * unit.bar, 300 * unit.kelvin)
+    barostat.setRandomNumberSeed(SEED + 1)
+    system.addForce(barostat)
     sim.context.reinitialize(preserveState=True)
     n_npt = 200 if SMOKE else 100 * steps_ps
     log(f"  [preequil] NPT equilibrate (restrained) {n_npt} steps…")
