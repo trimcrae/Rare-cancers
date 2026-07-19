@@ -196,15 +196,38 @@ def _relax(system, topology, positions, n_prot, n_lig):
     return final
 
 
+def _endpoint_map_a2b(molA_r, molB_r):
+    """A->B atom map {iA: iB} for the transplant. Prefer the FEP's own LOMAP element-change map (so the map the
+    transplant uses is IDENTICAL to the one the RBFE re-derives from the written SDF); fall back to a pure-RDKit
+    MCS map only if OpenFE is unavailable. Returns (a2b, source)."""
+    import ternary_endpoint_align as align
+    try:
+        import openfe  # noqa: F401
+        from openfe import SmallMoleculeComponent
+        import nr4a3_rbfe as rbfe
+        cA = SmallMoleculeComponent.from_rdkit(molA_r, name="ligA")
+        cB = SmallMoleculeComponent.from_rdkit(molB_r, name="ligB")
+        mapping = rbfe._mapping(openfe, cA, cB, prefer_element_change=True)
+        return dict(mapping.componentA_to_componentB), "lomap_element_change"
+    except Exception as e:  # noqa: BLE001
+        log(f"  [preequil] LOMAP map unavailable ({type(e).__name__}: {e}); using rdFMCS fallback map")
+        return align.mcs_mapping(molA_r, molB_r), "rdfmcs_fallback"
+
+
 def _write_relaxed(topology, positions, n_prot, n_lig, off_ligA, molB, protein_out, sdf_out):
-    """Write relaxed protein PDB (first n_prot atoms) + relaxed ligands.sdf. ligA is off_ligA.to_rdkit() (SAME atoms
-    + order as the system ligand topology) with the relaxed coordinates; ligB is off(molB).to_rdkit() O3A-aligned to
-    the relaxed ligA so the hybrid atom-map stays consistent. Solvent dropped (the RBFE re-solvates)."""
+    """Write relaxed protein PDB (first n_prot atoms) + relaxed ligands.sdf. BOTH calib endpoints come from the
+    SAME relaxed conformer (reviewer condition 1, 2026-07-19): ligA carries the relaxed MD coordinates; ligB's
+    MAPPED core atoms are TRANSPLANTED exactly onto ligA's relaxed coords (via the FEP's own atom map) and only
+    its dummy atoms are relaxed with the core pinned. verify_endpoints then asserts zero mapped-atom
+    displacement + preserved stereo/charge/bonds + sane dummy geometry BEFORE writing — the old whole-molecule
+    O3A overlay (which left mapped atoms displaced and produced the FEP's mapped-atom warnings) is removed.
+    Solvent dropped (the RBFE re-solvates)."""
+    import json as _json
     import numpy as np
     from openff.toolkit import Molecule
     from openmm import app, unit
     from rdkit import Chem
-    from rdkit.Chem import rdMolAlign
+    import ternary_endpoint_align as align
 
     pos_nm = np.array(positions.value_in_unit(unit.nanometer))
 
@@ -228,24 +251,39 @@ def _write_relaxed(topology, positions, n_prot, n_lig, off_ligA, molB, protein_o
     molA_r.RemoveAllConformers()
     molA_r.AddConformer(confA, assignId=True)
 
-    # ---- ligB (all-atom via openff too) rigid-aligned to the relaxed ligA ----
+    # ---- ligB: openff-normalize (all-atom, same toolkit as ligA), seed a conformer, then CORE-TRANSPLANT ----
     try:
-        molB_r = Molecule.from_rdkit(molB, allow_undefined_stereo=True).to_rdkit()
+        offB = Molecule.from_rdkit(molB, allow_undefined_stereo=True)
+        if not offB.conformers:
+            offB.generate_conformers(n_conformers=1)
+        molB_r = offB.to_rdkit()
     except Exception as e:  # noqa: BLE001
         log(f"  [preequil] WARN could not openff-normalize ligB ({e}); using raw ligB")
         molB_r = Chem.Mol(molB)
-    try:
-        rdMolAlign.GetO3A(molB_r, molA_r).Align()
-        log("  [preequil] ligB aligned to relaxed ligA via Open3DAlign")
-    except Exception as e:  # noqa: BLE001
-        log(f"  [preequil] WARN ligB O3A align failed ({e}); writing ligB unaligned (calib endpoints ~identical)")
+    if molB_r.GetNumConformers() == 0:
+        from rdkit.Chem import AllChem
+        AllChem.EmbedMolecule(Chem.AddHs(molB_r), randomSeed=1)
+
+    a2b, map_src = _endpoint_map_a2b(molA_r, molB_r)
+    log(f"  [preequil] endpoint map ({map_src}): {len(a2b)} mapped atoms A->B "
+        f"(ligA {molA_r.GetNumAtoms()}, ligB {molB_r.GetNumAtoms()})")
+    molB_out, checks = align.transplant_and_verify(molA_r, molB_r, a2b)
+    log("  [preequil] endpoint verification: " + _json.dumps(
+        {k: checks[k] for k in ("mapped_max_displacement_ang", "graph_identical", "chirality_not_inverted",
+                                "net_charge_conserved", "n_mapped", "n_dummy_B", "dummy_bond_lengths_ok",
+                                "min_pair_distance_ang", "no_clash", "ok")}))
+    if not checks["ok"]:
+        raise SystemExit("  [preequil] ABORT: endpoint verification FAILED (reviewer condition 1) — %s" % _json.dumps(checks))
 
     w = Chem.SDWriter(sdf_out)
-    for m in (molA_r, molB_r):
+    for m in (molA_r, molB_out):
         w.write(m)
     w.close()
-    log(f"  [preequil] wrote relaxed ligands.sdf -> {sdf_out} "
-        f"(ligA {molA_r.GetNumAtoms()} atoms relaxed, ligB {molB_r.GetNumAtoms()} atoms aligned)")
+    log(f"  [preequil] wrote relaxed ligands.sdf -> {sdf_out} (ligA {molA_r.GetNumAtoms()} relaxed, "
+        f"ligB {molB_out.GetNumAtoms()} core-transplanted; max mapped disp {checks['mapped_max_displacement_ang']:.2e} Å)")
+    # persist the verification alongside the marker so the reducer/audit can confirm the endpoint conditioning
+    with open(os.path.join(os.path.dirname(sdf_out), "endpoint_align_check.json"), "w") as fh:
+        _json.dump({"map_source": map_src, **checks}, fh, indent=2)
 
 
 def main():

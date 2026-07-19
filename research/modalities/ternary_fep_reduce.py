@@ -94,7 +94,16 @@ def aggregate_leg(leg_id):
 
 def _welch_satterthwaite(mean_t, sd_t, n_t, mean_b, sd_b, n_b):
     """ΔΔG_coop = mean(ternary morph) − mean(binary morph) with a WELCH–SATTERTHWAITE 95% CI (reviewer required
-    change, 2026-07-17). The shared solvent morph cancels EXACTLY in the difference of means, so ΔΔG_coop is a
+    change, 2026-07-17).
+
+    QUANTITY RETURNED (reviewer condition 5, 2026-07-19; sign convention unit-tested in
+    tests/test_ternary_coop_sign.py): ddg_coop_kcal is ternary_coop.ddg_coop's per-morph relative cooperativity
+    change = ddG_alch,ternary(A->B) − ddG_alch,binary(A->B) = −RT ln(alpha_B/alpha_A), the SAME quantity the
+    frozen target ddG_coop_exp = −RT ln(alpha_4/alpha_1) = +0.944 defines (morph A=cmpd1/hi -> B=cmpd4/lo). It
+    is NOT a single compound's dG_coop=−RT ln(alpha). For the hi->lo calibration this is POSITIVE (+0.944) and
+    calibration_decision requires that positive sign; see ternary_coop.ddg_coop / ddg_coop_from_kd_pairs.
+
+    The shared solvent morph cancels EXACTLY in the difference of means, so ΔΔG_coop is a
     difference of two independent replicate-mean estimators and its SE is the between-replicate
 
         SE = sqrt( s_T²/n_T + s_B²/n_B )                       (NOT a sum of per-window MBAR SEs)
