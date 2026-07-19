@@ -121,7 +121,9 @@ def _build_physical_system(protein_pdb, molA):
     n_total = modeller.topology.getNumAtoms()
     log(f"  [preequil] solvated system: {n_total} atoms (protein {n_prot} + ligand {n_lig} + "
         f"solvent {n_total - n_prot - n_lig})")
-    return system, modeller.topology, modeller.positions, n_prot, n_lig
+    # Return the openff molecule too: its .to_rdkit() has EXACTLY the system ligand's atoms + order (from_rdkit may
+    # add explicit Hs, e.g. 59 heavy -> 109 all-atom), so write-back maps cleanly. The raw SDF mol does NOT.
+    return system, modeller.topology, modeller.positions, n_prot, n_lig, off_lig
 
 
 def _relax(system, topology, positions, n_prot, n_lig):
@@ -193,50 +195,56 @@ def _relax(system, topology, positions, n_prot, n_lig):
     return final
 
 
-def _write_relaxed(topology, positions, n_prot, n_lig, molA, molB, protein_out, sdf_out):
-    """Write relaxed protein PDB (first n_prot atoms) + relaxed ligands.sdf (ligA = next n_lig atoms; ligB rigid-
-    aligned to the relaxed ligA by MCS so the hybrid atom-map stays consistent). Solvent dropped."""
+def _write_relaxed(topology, positions, n_prot, n_lig, off_ligA, molB, protein_out, sdf_out):
+    """Write relaxed protein PDB (first n_prot atoms) + relaxed ligands.sdf. ligA is off_ligA.to_rdkit() (SAME atoms
+    + order as the system ligand topology) with the relaxed coordinates; ligB is off(molB).to_rdkit() O3A-aligned to
+    the relaxed ligA so the hybrid atom-map stays consistent. Solvent dropped (the RBFE re-solvates)."""
     import numpy as np
+    from openff.toolkit import Molecule
     from openmm import app, unit
     from rdkit import Chem
-    from rdkit.Chem import AllChem, rdMolAlign
+    from rdkit.Chem import rdMolAlign
 
     pos_nm = np.array(positions.value_in_unit(unit.nanometer))
 
     # ---- relaxed protein PDB: keep only protein atoms (first n_prot) ----
     prot_atoms = [a for a in topology.atoms() if a.index < n_prot]
     modeller = app.Modeller(topology, positions)
-    to_delete = [a for a in topology.atoms() if a.index >= n_prot]
-    modeller.delete(to_delete)
+    modeller.delete([a for a in topology.atoms() if a.index >= n_prot])
     os.makedirs(os.path.dirname(protein_out), exist_ok=True)
     with open(protein_out, "w") as fh:
         app.PDBFile.writeFile(modeller.topology, modeller.positions, fh, keepIds=True)
     log(f"  [preequil] wrote relaxed protein -> {protein_out} ({len(prot_atoms)} atoms)")
 
-    # ---- relaxed ligA conformer (atoms n_prot .. n_prot+n_lig), in Angstrom ----
-    lig_xyz_A = pos_nm[n_prot:n_prot + n_lig] * 10.0
-    molA_r = Chem.Mol(molA)
-    confA = molA_r.GetConformer()
+    # ---- relaxed ligA conformer: off_ligA.to_rdkit() has the system ligand's atoms+order (n_lig of them) ----
+    molA_r = off_ligA.to_rdkit()
     if molA_r.GetNumAtoms() != n_lig:
-        raise SystemExit(f"  [preequil] ABORT: ligA atom count {molA_r.GetNumAtoms()} != system ligand {n_lig} "
-                         f"(atom-order mismatch; openff/openmm reordering)")
+        raise SystemExit(f"  [preequil] ABORT: off_ligA rdkit atoms {molA_r.GetNumAtoms()} != system ligand {n_lig}")
+    lig_xyz_A = pos_nm[n_prot:n_prot + n_lig] * 10.0                 # nm -> Angstrom
+    confA = Chem.Conformer(n_lig)
     for i in range(n_lig):
         confA.SetAtomPosition(i, tuple(float(v) for v in lig_xyz_A[i]))
+    molA_r.RemoveAllConformers()
+    molA_r.AddConformer(confA, assignId=True)
 
-    # ---- ligB: rigid-align to the relaxed ligA by MCS (keeps ligB internal geometry, moves it to the relaxed pose) ----
-    molB_r = Chem.Mol(molB)
+    # ---- ligB (all-atom via openff too) rigid-aligned to the relaxed ligA ----
     try:
-        o3a = rdMolAlign.GetO3A(molB_r, molA_r)
-        o3a.Align()
+        molB_r = Molecule.from_rdkit(molB, allow_undefined_stereo=True).to_rdkit()
+    except Exception as e:  # noqa: BLE001
+        log(f"  [preequil] WARN could not openff-normalize ligB ({e}); using raw ligB")
+        molB_r = Chem.Mol(molB)
+    try:
+        rdMolAlign.GetO3A(molB_r, molA_r).Align()
         log("  [preequil] ligB aligned to relaxed ligA via Open3DAlign")
     except Exception as e:  # noqa: BLE001
-        log(f"  [preequil] WARN ligB O3A align failed ({e}); writing ligB unchanged (calib endpoints ~identical)")
+        log(f"  [preequil] WARN ligB O3A align failed ({e}); writing ligB unaligned (calib endpoints ~identical)")
 
     w = Chem.SDWriter(sdf_out)
     for m in (molA_r, molB_r):
         w.write(m)
     w.close()
-    log(f"  [preequil] wrote relaxed ligands.sdf -> {sdf_out} (ligA relaxed, ligB aligned)")
+    log(f"  [preequil] wrote relaxed ligands.sdf -> {sdf_out} "
+        f"(ligA {molA_r.GetNumAtoms()} atoms relaxed, ligB {molB_r.GetNumAtoms()} atoms aligned)")
 
 
 def main():
@@ -244,12 +252,12 @@ def main():
     log(f"=== ternary_preequil leg={LEG_ID} charge={CHARGE_METHOD} ns={PREEQUIL_NS} smoke={SMOKE} ===")
     protein_pdb = _find_input("complex.pdb")
     molA, molB = _load_ligands()
-    system, topology, positions, n_prot, n_lig = _build_physical_system(protein_pdb, molA)
+    system, topology, positions, n_prot, n_lig, off_ligA = _build_physical_system(protein_pdb, molA)
     if SMOKE:
-        log("  [preequil] SMOKE: system built + parameterized OK; running a 200-step relax sanity then exiting")
+        log("  [preequil] SMOKE: system built + parameterized OK; running a short relax sanity then write-back")
     final = _relax(system, topology, positions, n_prot, n_lig)
     out_dir = os.path.join(OUT, LEG_ID)
-    _write_relaxed(topology, final, n_prot, n_lig, molA, molB,
+    _write_relaxed(topology, final, n_prot, n_lig, off_ligA, molB,
                    os.path.join(out_dir, "complex.pdb"), os.path.join(out_dir, "ligands.sdf"))
     # marker so the caller/cache knows the pre-equil completed
     import json
