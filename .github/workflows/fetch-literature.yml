@@ -43,8 +43,15 @@ jobs:
       # TEMPORARY (branch claude/add-skill-my44c1 only): fetch the official
       # OpenExO ExO 3.0 / building-an-exo Claude Skill. The dev sandbox egress
       # proxy 403s openexo.com; this runner has open internet. Reverted after.
-      - name: Discover + download the official ExO 3.0 skill
-        run: node scripts/fetch-exo-skill.mjs
+      # The Resource Hub is a JS SPA, so render it with a real browser.
+      - name: Install Playwright Chromium
+        run: |
+          npm init -y >/dev/null 2>&1 || true
+          npm i playwright@1.48.0
+          npx playwright install --with-deps chromium
+
+      - name: Discover + download the official ExO 3.0 skill (headless browser)
+        run: node scripts/fetch-exo-skill-browser.mjs
 
       - name: Keep raw artifact (ephemeral)
         if: always()
