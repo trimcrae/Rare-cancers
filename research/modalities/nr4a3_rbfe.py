@@ -1006,20 +1006,59 @@ def constrain_nonalchemical_xh(system):
     mass = [system.getParticleMass(p).value_in_unit(_mm.unit.dalton) for p in range(system.getNumParticles())]
     is_h = lambda m: m < 5.0
     added = 0
-    # ONLY the standard HarmonicBondForce: those are the non-alchemical (environment/core) bonds. The alchemical
-    # (appearing/disappearing/parameter-changing) bonds are in the CustomBondForce and are deliberately NOT touched.
+    LTOL = 1e-4   # nm; a bond is non-alchemical when its two endpoint lengths match to within this
+
+    # (1) Standard HarmonicBondForce — non-alchemical environment/core bonds (protein etc.). Constrain X-H at r0.
     for f in system.getForces():
         if not isinstance(f, _mm.HarmonicBondForce):
             continue
         for b in range(f.getNumBonds()):
             i, j, length, k = f.getBondParameters(b)
             i, j = int(i), int(j)
-            if is_h(mass[i]) ^ is_h(mass[j]):            # X-H (exactly one light partner)
+            if (is_h(mass[i]) ^ is_h(mass[j])):
                 key = (min(i, j), max(i, j))
                 if key not in cons:
-                    system.addConstraint(i, j, length)   # constrain at the harmonic equilibrium length
+                    system.addConstraint(i, j, length)
                     cons.add(key)
                     added += 1
+
+    # (2) CustomBondForce — perses puts ALL the hybrid LIGAND's valence bonds here (verified 2026-07-19: the pilot's
+    # 14 ligand X-H were ALL in the CustomBondForce, none in HarmonicBondForce). Its per-bond params carry BOTH
+    # endpoint lengths (e.g. length_old/length_new or length1/length2). A bond is NON-alchemical iff the two lengths
+    # match -> constrain it at that length. Alchemical bonds (lengths differ) are left flexible. We introspect the
+    # per-bond parameter names to find the two length columns, so this is robust to perses' naming.
+    for f in system.getForces():
+        if not isinstance(f, _mm.CustomBondForce):
+            continue
+        try:
+            pnames = [f.getPerBondParameterName(p) for p in range(f.getNumPerBondParameters())]
+        except Exception:  # noqa: BLE001
+            continue
+        # indices of the two endpoint-length parameters (name contains 'length' or is r1/r2/r0-style)
+        lidx = [p for p, nm in enumerate(pnames) if "length" in nm.lower()]
+        if len(lidx) < 2:
+            lidx = [p for p, nm in enumerate(pnames) if nm.lower().startswith(("r1", "r2", "r_", "len"))]
+        print("  [constrain-lig] CustomBondForce params=%s length-cols=%s" % (pnames, lidx), flush=True)
+        if len(lidx) < 2:
+            continue
+        la, lb = lidx[0], lidx[1]
+        for b in range(f.getNumBonds()):
+            prm = f.getBondParameters(b)
+            i, j = int(prm[0]), int(prm[1])
+            vals = prm[2]
+            if not (is_h(mass[i]) ^ is_h(mass[j])):
+                continue
+            try:
+                l_old, l_new = float(vals[la]), float(vals[lb])
+            except Exception:  # noqa: BLE001
+                continue
+            key = (min(i, j), max(i, j))
+            if key in cons:
+                continue
+            if abs(l_old - l_new) <= LTOL:               # non-alchemical X-H -> safe to constrain
+                system.addConstraint(i, j, 0.5 * (l_old + l_new))
+                cons.add(key)
+                added += 1
     return added
 
 
