@@ -82,6 +82,27 @@ pointing you back here. There is no "recommended" — priming is mandatory.
   schedule**, not C–H constraints. Whatever timestep the ternary survives, run **validation and production at the
   same one** (they must match).
 
+#### 1c. RESOLVED (2026-07-19) — **plain-MD PRE-EQUILIBRATION is the fix; a reduced-dt warmup is NOT.** ★
+- **The decisive experiment.** A 1 fs reduced-dt warmup (`warmup_timestep_fs=1.0`) — fed straight from the raw
+  assembled complex — **fires correctly but does NOT prevent the NaN**: two runs blew up on **warmup iteration 1**
+  (v3nagl → state 4, v3fast → state 0), both with **0 real clashes** (the only close contacts were hybrid/alchemical
+  dummy pairs at ~0.6 Å), independent of timestep AND of minimization depth (25000 steps didn't help). This is the
+  softcore/endpoint instability of a **rough SMARCA4→SMARCA2 homology model** fed into the alchemical λ-states — the
+  documented OpenFE failure mode. **A smaller production OR warmup dt cannot fix it.**
+- **The fix that WORKS: relax the fully-interacting physical complex with plain MD BEFORE the alchemical RBFE.**
+  `ternary_preequil.py` (workflow `mode=preequil`) builds protein+ligA+solvent, runs minimize → restrained NVT heat
+  (1 fs) → restrained NPT (100 ps) → release → short 4 fs production, and writes a **relaxed `complex.pdb` +
+  `ligands.sdf`** cached to `preequilcache/`. The RBFE then runs with **`use_preequil=1`** (overlays the relaxed tree;
+  keys the setup cache to `…__nagl__v1pe`).
+- **VALIDATED end-to-end (2026-07-19).** With the relaxed structure the calib ternary leg ran clean:
+  **warmup 48/48 (1 fs) → production 40/40 (4 fs), ZERO NaN, ΔG_morph = 47.28 ± 0.53 kcal/mol** — where every prior
+  run died at warmup iteration 1. **This is THE ternary fix; do not chase the reduced-dt warmup.**
+- **Process now:** `mode=preequil` (once per leg, cached) → `mode=run use_preequil=1` (first run needs
+  `allow_gpu_setup_build=1` to build the `v1pe` setup cache). Keep the 1 fs warmup as cheap belt-and-suspenders.
+- **Known minor follow-up:** the pre-equil writes ligB via O3A-align to the relaxed ligA; ~3 ligand atoms show
+  OpenFE "mapping … deviates by more than 1.0" warnings. They were **benign** here (leg converged), but tightening
+  the ligB alignment (or using a consistent conformer for the near-identical calib endpoints) removes the warning.
+
 ### 2. Setup time varied 8 min ↔ 30 min "on the same machine" — **it was two different machines**
 - **Symptom:** identical code/leg, setup (`SETUP done in Ns`) sometimes ~461 s, sometimes 30+ min → the long ones
   got preempted mid-setup before any checkpoint.
