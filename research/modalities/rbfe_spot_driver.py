@@ -381,9 +381,18 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         f"prod_target={prod_target} (ci={production_checkpoint_iters})")
 
     # ---- RESTORE newest valid committed snapshot (production first, else warmup) ------------
-    restored = commit_store.restore_latest([PRODUCTION, WARMUP], shared, production_checkpoint_iters)
+    # Validate EACH phase with ITS OWN checkpoint interval. Production snapshots commit every
+    # production_checkpoint_iters; warmup every (finer) warmup_checkpoint_iters. A single combined
+    # restore_latest([PRODUCTION, WARMUP], ..., production_checkpoint_iters) wrongly validates WARMUP
+    # snapshots against the PRODUCTION interval, so any warmup checkpoint that is not a multiple of
+    # the production interval (e.g. warmup iter 48/56 vs prod interval 40) is REJECTED — discarding
+    # the newest warmup progress and forcing a resume from a staler warmup boundary (iter 40). On a
+    # long, preemption-heavy warmup that redoes up to (prod_ci - warmup_ci) extra iters every spot
+    # kill. Split the call so warmup is validated at warmup_checkpoint_iters and the newest warmup
+    # snapshot is accepted. Semantics preserved: production first (resume production if any), else
+    # warmup. The committed .nc/.chk data is unchanged — only which snapshot restore accepts widens.
+    restored = commit_store.restore_latest([PRODUCTION], shared, production_checkpoint_iters)
     if restored is None:
-        # try a warmup-only restore with the warmup checkpoint interval (validate uses its CI)
         restored = commit_store.restore_latest([WARMUP], shared, warmup_checkpoint_iters)
     restored_phase = restored[0] if restored else None
     log(f"[spot-driver] restore -> {('%s@iter %d' % (restored[0], restored[1])) if restored else 'none (fresh)'}")
