@@ -85,6 +85,13 @@ structural chemistry (the NR4A3 degrader program) is sequenced independently and
 pay for — the credits instead make that GPU spend *more efficient* via W2. This avoids any mismatch between the
 award type (Claude credits) and the spend.
 
+**Requested amount / honest burn (see deep-dive burn table):** the *focused science program* (W1/W3/W4/W6 +
+orchestration) realistically uses **~$20–30k** of Opus over 6 months — the token cost is dominated by
+full-text reading, and that lane doesn't reach $50k without padding. The **full $50k** is only honest if the
+grant also funds the **rare-cancer long-tail public resource** (hundreds of deeply-researched,
+full-text-verified natural-history pages — a genuine public good matching example project #2). We would rather
+request the amount we will fully and honestly deploy than pad to the ceiling.
+
 *Integrity guardrails carried from the underlying research (medical-integrity rule):* EMC's active systemic
 therapies are antiangiogenic TKIs (pazopanib/sunitinib, prospective phase-2 evidence) — we do **not** overstate
 a novel clinical angle; expression-only hooks (RET/KIT/NTRK) are labeled as such, not as validated targets; no

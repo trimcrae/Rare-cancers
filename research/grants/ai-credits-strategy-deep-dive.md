@@ -130,12 +130,39 @@ literature/mechanism/natural-history synthesis; the rare-cancer long tail); use 
 the degrader program (free, already how we work); and keep every quantitative degrader claim on the **physics**,
 never on the LLM.
 
-**Guardrail (binding):** the grant is **"up to" $50k**, and this repo's ethos forbids spending-to-spend /
-manufacturing work. The right move is **not** to pad the plan to the number. It is to (a) propose the ambition
-level that genuinely *needs* the throughput (the three sinks above scale to it if we choose to run them), and
-(b) be honest that a disciplined solo burn may land at **$20–40k** — still a strong, fundable ask. A plan that
-needs $25k and delivers beats a padded $50k. **Decision for trimcrae:** pick the ambition tier (lean ~$20k /
-mid ~$35k / full ~$50k via the three sinks) — this is a genuine choice, not a self-doable default.
+### Concrete burn table (do the arithmetic, don't hand-wave)
+
+Assumptions: Opus ≈ $15/M input, $75/M output; caching cuts repeated input ~10×; agent work blended
+≈ **$15/M**. **The token cost is dominated by reading full-text papers (~40k tokens each), not by reasoning.**
+A deep multi-agent research pass that actually reads 10–30 full-text sources ≈ 0.5–2M tokens ≈ **$8–30**.
+(The passes behind *this* doc were far cheaper only because the proxy forced snippet-level reading, not
+full text.)
+
+| Workstream (honest, non-padded scope) | What eats tokens | Est. tokens | Est. $ |
+|---|---|---|---|
+| W1 — EMC/NR4A mechanism + CMap + subtype + evidence-grading | full-text of the EMC/NR4A literature, multi-lens | 100–300M | $2–6k |
+| W3 — verification: whole corpus once, full-text per claim, + incremental | re-reading source papers per claim × N voters | 300–800M | $5–15k |
+| W4 — natural-history meta-analysis, EMC + 2–3 adjacent sarcomas | full-text cohort extraction/reconciliation | 100–250M | $2–5k |
+| W6 — rare-disease eval, build + run across models/samples | items × models × repeats × grading | 100–400M | $2–8k |
+| W2 — degrader **orchestration** (not design) | pipeline-driving; cheap | 30–100M | <$2k |
+| W5 — hub, EMC + a handful | ~10 deep pages | 30–80M | <$2k |
+| **Subtotal — focused science program** | | | **~$13–38k** |
+| W5+ — hub scaled to the **rare-cancer long tail** (200–500 deep, full-text-verified pages) | hundreds of deep-research passes | 2–10B | **$30–100k+** |
+
+**Honest conclusion (this is the answer to "nowhere near $50k"):** correct — the *focused science program*
+realistically burns **~$15–30k**, not $50k. The **only** lane that genuinely scales to and past $50k is the
+**rare-cancer long-tail public resource** (hundreds of deeply-researched, full-text-verified pages) — and that
+is a **mission/scope decision** (are we also building a public-health information resource?), not a
+token-accounting trick. Everything else is padding if pushed to hit $50k.
+
+**Guardrail (binding):** the grant is **"up to" $50k**; this repo's ethos forbids spending-to-spend. So:
+- **Option A — focused ask (~$20–30k):** the science lanes (W1/W3/W4/W6 + orchestration), fully deployed. A
+  tight ask you'll actually use beats a padded $50k. **Recommended if the goal is the EMC/degrader science.**
+- **Option B — full $50k:** only honest if we *commit to the rare-cancer long-tail resource* as a real
+  deliverable (genuine public good, fits grant example #2), on top of the science lanes.
+- **Blunt bottom line:** these credits are a useful boost to the **LLM-native lanes** and to orchestration —
+  they do **not** unblock the flagship (that is GPU $). Worth doing; not transformative for the degrader
+  science. **Decision for trimcrae: Option A or B** — a genuine scope choice, not a self-doable default.
 
 ## 4. The repurposing thesis (W1) — empirical grounding
 
