@@ -80,23 +80,55 @@ doing high-volume production inference**, not one person doing careful curation 
 multi-agent research passes behind this document cost on the order of a few dollars each. You do not reach $50k
 with "normal" research tasks in 6 months.
 
-So the design question is not "what tasks" but **"what work has its scale set by LLM throughput itself?"** Three
-genuine large-token sinks that are *value, not padding*:
+So the design question is not "what tasks" but **"what work has its scale set by LLM throughput itself?"** The
+honest large-token sinks are LLM-*native* (reasoning over text) — and, per §3c, **degrader *design* is NOT one
+of them.** Re-ranked by defensibility:
 
-1. **Massively-parallel degrader design-space triage (elevate W2).** The flagship's whole problem is that each
-   GPU run (FEP / ternary / ABFE) is expensive. Using LLM to *exhaustively enumerate and adversarially
-   pre-filter the combinatorial design space* — warheads × linkers × E3 ligases × paralogue-selectivity ×
-   ternary geometries, thousands-to-millions of combinations, each reasoned over by independent panels — is
-   genuinely huge **and** directly buys back GPU dollars. Highest-value sink: it converts cheap LLM throughput
-   into fewer wasted expensive runs.
-2. **Verification-everywhere at the repo's real adversarial standard (elevate W3).** Not a single red-team pass
+1. **Verification-everywhere at the repo's real adversarial standard (elevate W3).** Not a single red-team pass
    — the repo's actual method is N-voter adversarial panels + loop-until-dry. Applying that to *every claim in
    every manuscript + every new claim, continuously for 6 months* multiplies throughput 10–100× and is exactly
-   where tokens *should* go (the guardrail against volume × hallucination).
-3. **The rare-cancer long tail, not just EMC (elevate W4/W5).** Scaling from "EMC + 1–2 sarcomas" to a
-   continuously-updated, cited natural-history + treatment-landscape resource across **hundreds** of rare
-   cancers — each a multi-agent deep-research run, re-verified as literature appears — scales to consume large
-   throughput as pure public good.
+   where tokens *should* go (the guardrail against volume × hallucination). **Strongest, most defensible sink.**
+2. **The rare-cancer long tail + whole-field mechanism synthesis (elevate W1/W4/W5).** Scaling from "EMC + 1–2
+   sarcomas" to a continuously-updated, cited natural-history + treatment-landscape resource across
+   **hundreds** of rare cancers — each a multi-agent deep-research run, re-verified as literature appears.
+   LLM-native, scales cleanly, pure public good.
+3. **Degrader design-space work — real program value, but NOT "LLM design" and a POOR token sink (see §3c).**
+   The LLM's role is *orchestration* (writing/running the real cheminformatics + physics pipelines — cheap in
+   tokens) plus *unproven* literature triage — not designing molecules or predicting affinity. Listed for
+   completeness and deliberately demoted; the quantitative work it feeds is GPU physics the credits don't pay
+   for.
+
+## 3c. Can an LLM design a degrader? (honest scope — the answer is no)
+
+**Short answer: no, not in any meaningful sense, and we must never imply it can.**
+
+**What an LLM genuinely does for the degrader program (real, but bounded):**
+- **Orchestration ("engineering is free"):** drive the real tools as an agent — enumerate warhead × linker × E3
+  combinations with RDKit, set up docking / co-fold / OpenFE-RBFE / ternary-ensemble calculations, parse and
+  checkpoint results. This is how the repo already operates. But it is **cheap in tokens** — the expensive part
+  is the physics (GPU), which these credits do not pay for.
+- **Literature-grounded reasoning:** which warheads/linkers/E3s are precedented, known SAR, likely-labile
+  groups, paralogue-conserved contacts to avoid. A **prior, not a prediction.**
+- **Adversarial design critique:** propose designs and argue against them; flag likely-failure modes.
+
+**What an LLM CANNOT do (this is the actual science):**
+- **Predict binding affinity / ΔΔG, ternary cooperativity, or degradation efficiency.** That is physics (FEP /
+  MD / ternary ensembles) and ultimately wet-lab. An LLM emitting these numbers is hallucinating.
+- **Generate reliable, synthesizable, selective molecules.** LLM-generated SMILES are frequently invalid or
+  non-synthesizable — which is why the repo **anchors the warhead on a known literature molecule (Zaienne
+  cmpd19) and SHELVED the de-novo generation track.**
+
+**Cautionary evidence (root-caused, not hand-waved):** the repo already ran **TxGNN — a purpose-built graph
+*foundation model* for drug prediction — zero-shot on EMC, and it failed**, ranking EMC's actually-active drugs
+(pazopanib, sunitinib, imatinib) in the *bottom quartile* of ~7,957 (`research/hypotheses/txgnn-emc-findings.md`).
+If a model built for this task ranks chemistry that badly, an LLM doing chemistry triage is **at least as
+suspect** and must be **validated against the physics before it is trusted** — otherwise "triage" just moves the
+guesswork upstream. That is why sink #1 above was demoted.
+
+**Consequence for the credit spend:** lean the $50k on the LLM-*native* sinks (verification;
+literature/mechanism/natural-history synthesis; the rare-cancer long tail); use the LLM as *orchestrator* for
+the degrader program (free, already how we work); and keep every quantitative degrader claim on the **physics**,
+never on the LLM.
 
 **Guardrail (binding):** the grant is **"up to" $50k**, and this repo's ethos forbids spending-to-spend /
 manufacturing work. The right move is **not** to pad the plan to the number. It is to (a) propose the ambition
@@ -188,8 +220,11 @@ Each item: what it is · why it was bandwidth-gated · deliverable · how it cou
 - **Bandwidth-gated because:** doing this *well* means many independent reasoning passes per candidate — we
   currently eyeball it.
 - **Deliverable:** a triage rubric + per-candidate go/no-go memos that gate the spend ladder in `STRATEGY.md`.
-- **GPU coupling:** *this is the buy-back* — fewer wasted runs ⇒ the real (GPU) budget stretches further.
-- **Grant fit:** indirect, but it's what makes the whole program efficient.
+- **GPU coupling:** *potential* buy-back — fewer wasted runs ⇒ the real (GPU) budget stretches further —
+  **but conditional (see §3c):** the triage is a reasoning *prior*, not a prediction, and per the repo's TxGNN
+  failure it must be **validated to correlate with the physics** before it's trusted; unvalidated, it just
+  moves guesswork upstream. Safe part is *orchestration* (running the pipelines), not chemistry ranking.
+- **Grant fit:** indirect; efficiency aid, not a headline deliverable.
 
 ### W3 — Continuous adversarial-verification engine
 - **What:** every claim in every manuscript continuously attacked by independent agent panels; citation flags

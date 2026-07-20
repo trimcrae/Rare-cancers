@@ -66,8 +66,11 @@ parallel, adversarially-verified reasoning. Six workstreams:
    PPARG agonist-vs-antagonist direction**, and **verify every druggable hook's evidence class** (promoter-
    level fusion target vs mere overexpression). Output: a cited, subtype-stratified, evidence-graded EMC
    target map. *(Example project #1.)*
-2. **W2 — GPU-triage reasoning layer.** Adversarial pre-scoring of which structural/chemistry runs deserve
-   scarce GPU — makes our real compute budget go further.
+2. **W2 — GPU-triage / orchestration layer.** The LLM does **not** design degraders or predict affinity (that
+   is physics + wet-lab); it *orchestrates* the real cheminformatics + physics pipelines and pre-scores which
+   runs deserve scarce GPU. The pre-scoring is a reasoning *prior* to be validated against the physics before
+   it is trusted (our own TxGNN run — a purpose-built model that mis-ranked EMC's active drugs — is the
+   cautionary evidence). Efficiency aid, not a headline claim.
 3. **W3 — Continuous adversarial-verification engine.** Scales our red-team + "zero unresolved claims" rule to
    the whole manuscript corpus; nothing clinical enters public material without surviving it. *(Supports #3.)*
 4. **W4 — Definitive EMC natural-history meta-analysis.** Exhaustively find/extract/reconcile/pool published
