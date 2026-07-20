@@ -147,22 +147,28 @@ full text.)
 | W2 — degrader **orchestration** (not design) | pipeline-driving; cheap | 30–100M | <$2k |
 | W5 — hub, EMC + a handful | ~10 deep pages | 30–80M | <$2k |
 | **Subtotal — focused science program** | | | **~$13–38k** |
-| W5+ — hub scaled to the **rare-cancer long tail** (200–500 deep, full-text-verified pages) | hundreds of deep-research passes | 2–10B | **$30–100k+** |
+| W5+ — hub scaled to the **rare-cancer long tail** (300–500 deep, full-text-verified pages @ ~2–5M tokens ≈ $30–75/page) | reading ~20–40 papers/page + multi-agent overhead | 0.6–2.5B | **$15–40k** |
 
-**Honest conclusion (this is the answer to "nowhere near $50k"):** correct — the *focused science program*
-realistically burns **~$15–30k**, not $50k. The **only** lane that genuinely scales to and past $50k is the
-**rare-cancer long-tail public resource** (hundreds of deeply-researched, full-text-verified pages) — and that
-is a **mission/scope decision** (are we also building a public-health information resource?), not a
-token-accounting trick. Everything else is padding if pushed to hit $50k.
+**Honest conclusion (corrected after an arithmetic error — an earlier draft absurdly priced the long tail at
+$30–100k+ by implying ~20M tokens *per page*; reading is cheap — 500 full-text papers once ≈ 20M tokens total
+≈ ~$300):** **essentially nothing on this project honestly consumes $50k in 6 months.**
+- Focused science program (W1/W3/W4/W6 + orchestration): **~$15–30k.**
+- + the *entire* rare-cancer long-tail public resource (300–500 deep pages): **+$15–40k.**
+- Realistic ceiling for genuine, non-padded work: **~$30–45k.** A true $50k burn would require padding, which
+  this repo's ethos forbids.
 
-**Guardrail (binding):** the grant is **"up to" $50k**; this repo's ethos forbids spending-to-spend. So:
-- **Option A — focused ask (~$20–30k):** the science lanes (W1/W3/W4/W6 + orchestration), fully deployed. A
-  tight ask you'll actually use beats a padded $50k. **Recommended if the goal is the EMC/degrader science.**
-- **Option B — full $50k:** only honest if we *commit to the rare-cancer long-tail resource* as a real
-  deliverable (genuine public good, fits grant example #2), on top of the science lanes.
+At blended $15/M, $50k = ~3.3B tokens = ~18M tokens/**day** for 6 months — the equivalent of dozens of deep
+full-text research passes *every day*. A solo researcher on a finite disease literature cannot honestly hit
+that without repeating or manufacturing work.
+
+**Guardrail (binding):** the grant is **"up to" $50k**; request what you will actually deploy.
+- **Option A — focused ask (~$20–30k):** the science lanes, fully used. **Recommended if the goal is the
+  EMC/degrader science.**
+- **Option B — ~$35–45k:** the science lanes **plus** the rare-cancer long-tail public resource (genuine
+  public good, fits grant example #2). This is the realistic maximum of honest work.
 - **Blunt bottom line:** these credits are a useful boost to the **LLM-native lanes** and to orchestration —
-  they do **not** unblock the flagship (that is GPU $). Worth doing; not transformative for the degrader
-  science. **Decision for trimcrae: Option A or B** — a genuine scope choice, not a self-doable default.
+  they do **not** unblock the flagship (that is GPU $), and the project cannot honestly absorb the full $50k.
+  Worth doing; not transformative. **Decision for trimcrae: Option A or B.**
 
 ## 4. The repurposing thesis (W1) — empirical grounding
 
