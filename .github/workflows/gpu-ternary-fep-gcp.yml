@@ -44,8 +44,7 @@ on:
       min_steps: { description: "L-BFGS minimization steps per replica before warmup (RBFE_MIN_STEPS). Default 5000 (OpenFE standard). Was 25000 which minimizes 12 replicas of the 146k-atom system for ~20-60 min at ~0% GPU for NO NaN benefit (the code comment confirms the NaN survives 25000 steps; the 1 fs warmup is what fixes NaNs). Only raise if a specific system genuinely needs it.", default: "5000", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
       force_rerun: { description: "1 = bypass the idempotent-skip even if a completed leg result JSON already exists in GCS (the run overwrites it). Use when the pipeline changed (e.g. new pre-equil version) and the old result is stale. Pair with a fresh commit_salt so it does not resume stale checkpoints.", default: "0", required: false }
-      autostop_convergence: { description: "1 = STOP production early once the committed trajectory converges (connected MBAR overlap + dG(t) plateau, reviewer condition 4), capped at the 5 ns production_length. Default 0 (run the full cap). Conservative: only checks after autostop_min_frac of the cap and never stops without real evidence.", default: "0", required: false }
-      autostop_min_frac: { description: "fraction of the production cap before the auto-stop convergence check is allowed to fire (RBFE_AUTOSTOP_MIN_FRAC). Default 0.4.", default: "0.4", required: false }
+      autostop_convergence: { description: "1 = STOP production early once the committed trajectory converges (connected MBAR overlap + dG(t) plateau, reviewer condition 4), capped at the 5 ns production_length. Default 0 (run the full cap). Conservative: only checks after RBFE_AUTOSTOP_MIN_FRAC (0.4) of the cap and never stops without real evidence.", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
   # the mode=run launcher got 'quota exceeded' for 25 min). The CPU validator (smarca2-model-validate.yml) covers
@@ -87,7 +86,7 @@ jobs:
       USE_PE: ${{ github.event.inputs.use_preequil || '0' }}
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
       AUTOSTOP: ${{ github.event.inputs.autostop_convergence || '0' }}
-      AUTOSTOP_MIN_FRAC: ${{ github.event.inputs.autostop_min_frac || '0.4' }}
+      AUTOSTOP_MIN_FRAC: '0.4'
       FORCE_RERUN: ${{ github.event.inputs.force_rerun || '0' }}
       GITREF: ${{ github.ref_name }}
     steps:
