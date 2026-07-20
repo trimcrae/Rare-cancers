@@ -138,37 +138,46 @@ A deep multi-agent research pass that actually reads 10–30 full-text sources �
 (The passes behind *this* doc were far cheaper only because the proxy forced snippet-level reading, not
 full text.)
 
-| Workstream (honest, non-padded scope) | What eats tokens | Est. tokens | Est. $ |
-|---|---|---|---|
-| W1 — EMC/NR4A mechanism + CMap + subtype + evidence-grading | full-text of the EMC/NR4A literature, multi-lens | 100–300M | $2–6k |
-| W3 — verification: whole corpus once, full-text per claim, + incremental | re-reading source papers per claim × N voters | 300–800M | $5–15k |
-| W4 — natural-history meta-analysis, EMC + 2–3 adjacent sarcomas | full-text cohort extraction/reconciliation | 100–250M | $2–5k |
-| W6 — rare-disease eval, build + run across models/samples | items × models × repeats × grading | 100–400M | $2–8k |
-| W2 — degrader **orchestration** (not design) | pipeline-driving; cheap | 30–100M | <$2k |
-| W5 — hub, EMC + a handful | ~10 deep pages | 30–80M | <$2k |
-| **Subtotal — focused science program** | | | **~$13–38k** |
-| W5+ — hub scaled to the **rare-cancer long tail** (300–500 deep, full-text-verified pages @ ~2–5M tokens ≈ $30–75/page) | reading ~20–40 papers/page + multi-agent overhead | 0.6–2.5B | **$15–40k** |
+**The correction that matters: the useful information is tiny.** EMC's entire literature is a few hundred
+papers (~50–150 substantive); NR4A/related biology adds a bounded slice. You read that corpus *once* for a few
+hundred dollars of tokens; reasoning over it is nearly free. Any figure above ~$1–2k for the focused science
+comes from **redundant re-reading** (uncached agents + N-voter panels re-ingesting the same finite set) — waste
+dressed as throughput, not value.
 
-**Honest conclusion (corrected after an arithmetic error — an earlier draft absurdly priced the long tail at
-$30–100k+ by implying ~20M tokens *per page*; reading is cheap — 500 full-text papers once ≈ 20M tokens total
-≈ ~$300):** **essentially nothing on this project honestly consumes $50k in 6 months.**
-- Focused science program (W1/W3/W4/W6 + orchestration): **~$15–30k.**
-- + the *entire* rare-cancer long-tail public resource (300–500 deep pages): **+$15–40k.**
-- Realistic ceiling for genuine, non-padded work: **~$30–45k.** A true $50k burn would require padding, which
-  this repo's ethos forbids.
+| Workstream | Real information content | Honest $ |
+|---|---|---|
+| W1 — EMC/NR4A mechanism + CMap + subtype + grading | read ~150 papers a few times + reason | ~$0.3–1k |
+| W3 — verification of the ~50-manuscript corpus | re-check claims vs a few hundred *cached* sources | ~$0.3–1k |
+| W4 — natural-history meta-analysis (EMC + a few sarcomas) | extract from ~20–40 cohort papers | <$0.2k |
+| W6 — rare-disease eval, **run broadly (agentic, many models×samples)** | many model calls — the one genuine sink | ~$0.5–5k |
+| W2 — degrader orchestration | pipeline-driving | <$0.3k |
+| W5 — hub, EMC + a handful | ~10 pages | <$0.3k |
+| **Focused program — honest total** | | **~$1–7k** (eval-dominated) |
+| Rare-cancer long tail (300–500 pages, mostly *breadth* reading @ ~$15–30/page) | many rare cancers have <20 papers total | **~$5–15k** |
 
-At blended $15/M, $50k = ~3.3B tokens = ~18M tokens/**day** for 6 months — the equivalent of dozens of deep
-full-text research passes *every day*. A solo researcher on a finite disease literature cannot honestly hit
-that without repeating or manufacturing work.
+**Honest conclusion (this estimate was inflated twice before landing here — the earlier $15–30k and $30–45k
+figures were both wrong):** the focused EMC/degrader science honestly costs **low single-thousands** of dollars
+of tokens; even the *entire* rare-cancer long-tail public resource tops out around **~$10–15k**. To reach $50k
+you would have to re-read the same finite literature dozens of times over — pure waste. **This project cannot
+honestly use even a third of the $50k ceiling.** For scale: $50k ≈ 3.3B tokens ≈ ~18M tokens *every day* for 6
+months; a solo researcher on a finite rare-disease literature cannot hit that without manufacturing work.
 
-**Guardrail (binding):** the grant is **"up to" $50k**; request what you will actually deploy.
-- **Option A — focused ask (~$20–30k):** the science lanes, fully used. **Recommended if the goal is the
-  EMC/degrader science.**
-- **Option B — ~$35–45k:** the science lanes **plus** the rare-cancer long-tail public resource (genuine
-  public good, fits grant example #2). This is the realistic maximum of honest work.
-- **Blunt bottom line:** these credits are a useful boost to the **LLM-native lanes** and to orchestration —
-  they do **not** unblock the flagship (that is GPU $), and the project cannot honestly absorb the full $50k.
-  Worth doing; not transformative. **Decision for trimcrae: Option A or B.**
+### So the credit *amount* is the wrong reason to apply
+
+If the honest token need is a few thousand dollars, the **$50k ceiling is essentially irrelevant to us** — it
+is sized for startups doing production inference, not a solo researcher on a small literature. That flips the
+decision:
+- **The credits themselves are NOT a compelling reason** — we would leave the vast majority unspent, and
+  padding to spend them violates the no-manufactured-work rule.
+- **Apply only if the *non-credit* benefits are worth it:** access to **Claude Science / models approved for
+  biology** we cannot otherwise use; the researcher **community**; and **visibility/credibility** for exactly
+  the collaborator/foundation outreach the program is designed to seed. *(Confirm what the program grants
+  beyond credits before deciding — that, not the dollar figure, is the real question.)*
+- **The flagship is still GPU $, which this grant does not provide.**
+
+**Decision for trimcrae:** apply only if the non-credit access/community/visibility is worth the effort; the
+credit amount is not the draw. A modest honest ask (a few $k of genuine use) is the truthful framing if we do
+apply.
 
 ## 4. The repurposing thesis (W1) — empirical grounding
 
