@@ -29,7 +29,9 @@ import os
 FF_SWITCH_DROP_PER_ATOM_MAX_KCAL = 25.0    # kcal/mol per solute heavy atom of min-energy drop after FF switch
 FF_SWITCH_ABS_DROP_MAX_KCAL = 5.0e4        # absolute floor guard (very large systems)
 ENDPOINT_RMSD_MAX_A = 3.0                  # ligand heavy-atom RMSD vs conditioned start over the short test
-ENDPOINT_DRIFT_MAX_KCAL_PER_NS = 500.0     # |PE drift slope| over the short unrestrained test
+ENDPOINT_DRIFT_SIGMA = 4.0                 # PE stationarity: flag drift only when the first/second-half block
+                                           # means differ by > this many SE of the block-mean difference (scales
+                                           # with the system's thermal fluctuation, unlike an absolute slope cut)
 
 
 def ff_switch_report(pe_initial_kcal, pe_minimized_kcal, n_solute_heavy):
@@ -63,16 +65,45 @@ def _linfit_slope(xs, ys):
     return sum((xs[i] - mx) * (ys[i] - my) for i in range(n)) / sxx
 
 
+def _mean(xs):
+    return sum(xs) / len(xs) if xs else None
+
+
+def _sample_sd(xs):
+    n = len(xs)
+    if n < 2:
+        return 0.0
+    m = _mean(xs)
+    return (sum((x - m) ** 2 for x in xs) / (n - 1)) ** 0.5
+
+
 def energy_drift(times_ns, energies_kcal):
-    """PE drift slope (kcal/mol/ns) over the short endpoint test + an `ok` flag. A large sustained drift means
-    the endpoint is NOT stable under the exact Hamiltonian even if it never NaN'd."""
+    """STATIONARITY test for the endpoint potential energy. A stable (equilibrated) endpoint has a STATIONARY
+    PE — it fluctuates thermally around a constant mean with no systematic trend. We split the measured window
+    into first/second halves and compare their BLOCK MEANS against the within-block fluctuation:
+
+        z = |mean(2nd half) − mean(1st half)| / sqrt(sd1²/n1 + sd2²/n2)
+
+    and flag drift only when z > ENDPOINT_DRIFT_SIGMA. This scales with the system's thermal-fluctuation
+    amplitude (a 147k-atom solvated box fluctuates by hundreds of kcal/mol), unlike a fixed kcal/mol/ns slope
+    cut — an absolute LSQ slope over a short window is dominated by that thermal noise and mis-flags a
+    fluctuating-but-stable endpoint. The LSQ slope is still reported for context. A genuinely heating/exploding
+    endpoint moves the block mean by many SE and is caught."""
     if any(e is None or not math.isfinite(e) for e in energies_kcal):
-        return {"status": "non-finite energy present", "drift_kcal_per_ns": None, "ok": False}
+        return {"status": "non-finite energy present", "drift_z": None, "ok": False}
+    n = len(energies_kcal)
+    if n < 4:
+        return {"status": "insufficient points (<4)", "drift_z": None, "ok": None}
+    half = n // 2
+    b1, b2 = list(energies_kcal[:half]), list(energies_kcal[half:])
+    delta = abs(_mean(b2) - _mean(b1))
+    sd1, sd2 = _sample_sd(b1), _sample_sd(b2)
+    se = (sd1 ** 2 / len(b1) + sd2 ** 2 / len(b2)) ** 0.5
     slope = _linfit_slope(list(times_ns), list(energies_kcal))
-    if slope is None:
-        return {"status": "insufficient points", "drift_kcal_per_ns": None, "ok": None}
-    return {"status": "ok", "drift_kcal_per_ns": slope,
-            "ok": bool(abs(slope) <= ENDPOINT_DRIFT_MAX_KCAL_PER_NS)}
+    z = (delta / se) if se > 0 else (0.0 if delta == 0 else float("inf"))
+    return {"status": "ok", "block_mean_delta_kcal": delta, "block_mean_se_kcal": se,
+            "within_block_sd_kcal": max(sd1, sd2), "drift_z": z, "lsq_slope_kcal_per_ns": slope,
+            "sigma_threshold": ENDPOINT_DRIFT_SIGMA, "ok": bool(z <= ENDPOINT_DRIFT_SIGMA)}
 
 
 def endpoint_stability_verdict(had_nan, max_ligand_rmsd_a, drift_result, ff_switch):
