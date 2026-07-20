@@ -75,9 +75,21 @@ def test_ligand_escape_is_unstable():
     assert v["checks"]["ligand_rmsd_ok"] is False
 
 
-def test_bad_conditioner_makes_endpoint_unstable():
+def test_bad_conditioner_is_advisory_not_a_hard_fail():
+    # a large FF-switch minimization drop is ADVISORY (fresh-solvent relaxation dominates it for a re-solvated
+    # endpoint) — it is recorded but does NOT by itself mark the physical endpoint unstable.
     ff = es.ff_switch_report(0.0, -60 * 100.0, 60)     # huge drop -> conditioner_ok False
     drift = es.energy_drift([0.0, 0.01], [-1000.0, -1000.1])
     v = es.endpoint_stability_verdict(had_nan=False, max_ligand_rmsd_a=1.0, drift_result=drift, ff_switch=ff)
+    assert v["stable"] is True                                   # advisory does not gate
+    assert v["checks"]["ff_switch_conditioner_ok"] is False      # but it is still reported
+    assert v["advisory_checks"]["ff_switch_conditioner_ok"] is False
+
+
+def test_hard_gates_still_fail_on_real_instability():
+    # the HARD gates (NaN / RMSD / post-equilibration drift) still mark an endpoint unstable
+    ff = es.ff_switch_report(-1000.0, -1010.0, 60)              # good conditioner
+    steep = es.energy_drift([0.0, 0.01, 0.02], [-1000.0, -990.0, -980.0])   # +1000 kcal/mol/ns
+    v = es.endpoint_stability_verdict(had_nan=False, max_ligand_rmsd_a=1.0, drift_result=steep, ff_switch=ff)
     assert v["stable"] is False
-    assert v["checks"]["ff_switch_conditioner_ok"] is False
+    assert v["checks"]["energy_drift_ok"] is False

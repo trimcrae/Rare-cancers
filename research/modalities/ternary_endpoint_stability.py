@@ -76,36 +76,64 @@ def energy_drift(times_ns, energies_kcal):
 
 
 def endpoint_stability_verdict(had_nan, max_ligand_rmsd_a, drift_result, ff_switch):
-    """Combine the physical-endpoint checks into one `stable` bool (reviewer condition 2c). An endpoint is stable
-    iff: no NaN, ligand RMSD bounded, energy drift bounded, and the FF-switch conditioner check passed."""
+    """Combine the physical-endpoint checks into one `stable` bool (reviewer condition 2c). The HARD gates for a
+    PHYSICAL instability are: no NaN, bounded ligand RMSD, and bounded PE drift MEASURED ON THE EQUILIBRATED
+    system (run_endpoint_stability discards the restrained-equil + a settling window first, so the drift here is
+    post-equilibration, not the initial re-solvation transient). The FF-switch minimization relaxation is
+    ADVISORY only (reviewer condition 2b — recorded), NOT a hard gate: for a freshly RE-SOLVATED endpoint the
+    minimization drop is dominated by fresh-water relaxation, so it does not by itself mean the physical endpoint
+    is unstable."""
     rmsd_ok = (None if max_ligand_rmsd_a is None else max_ligand_rmsd_a <= ENDPOINT_RMSD_MAX_A)
     drift_ok = drift_result.get("ok") if isinstance(drift_result, dict) else None
     cond_ok = ff_switch.get("conditioner_ok") if isinstance(ff_switch, dict) else None
-    checks = {"no_nan": (None if had_nan is None else not had_nan),
-              "ligand_rmsd_ok": rmsd_ok, "energy_drift_ok": drift_ok, "ff_switch_conditioner_ok": cond_ok}
-    # stable requires every COMPUTABLE check to be True; a None (uncomputed) does not by itself fail it, but a
-    # NaN or an explicit False does.
-    hard_fail = any(v is False for v in checks.values())
-    computed = [v for v in checks.values() if v is not None]
+    hard = {"no_nan": (None if had_nan is None else not had_nan),
+            "ligand_rmsd_ok": rmsd_ok, "energy_drift_ok": drift_ok}
+    advisory = {"ff_switch_conditioner_ok": cond_ok}     # recorded, does NOT gate `stable`
+    # stable requires every COMPUTABLE HARD check to be True; a None (uncomputed) does not by itself fail it, but
+    # a NaN or an explicit False does.
+    hard_fail = any(v is False for v in hard.values())
+    computed = [v for v in hard.values() if v is not None]
     stable = bool(computed) and not hard_fail
-    return {"stable": stable, "checks": checks, "max_ligand_rmsd_a": max_ligand_rmsd_a}
+    return {"stable": stable, "checks": {**hard, **advisory}, "advisory_checks": advisory,
+            "max_ligand_rmsd_a": max_ligand_rmsd_a}
 
 
 # =============================================================================================================
 # GPU wrapper — build the EXACT-Hamiltonian physical endpoint + run the short stability test. Runs on the box
 # (OpenMM present); never imported by the pure tests.
 # =============================================================================================================
-def run_endpoint_stability(system, topology, positions, ligand_atom_indices, *, n_steps=25000, dt_fs=2.0,
-                           report_every=500, platform_name="CUDA", conditioner_pe_kcal=None):
-    """Under the EXACT RBFE force field (the `system` passed in): record the FF-switch relaxation (min-energy
-    drop vs the conditioner PE), then run a short UNRESTRAINED test collecting PE + ligand heavy-atom RMSD, and
-    return the combined stability verdict. `conditioner_pe_kcal` is the PE of these positions under the pre-equil
-    (conditioner) force field, if available, so the discontinuity across the switch can also be reported."""
+def run_endpoint_stability(system, topology, positions, ligand_atom_indices, *, n_steps=15000, dt_fs=2.0,
+                           restrained_steps=15000, discard_steps=10000, report_every=500, platform_name="CUDA",
+                           conditioner_pe_kcal=None):
+    """Physical-endpoint stability under the EXACT RBFE force field, implementing the reviewer's condition-2
+    ladder: minimize -> RESTRAINED T/P equilibration (protein+ligand heavy atoms restrained) -> restraint
+    RELEASE -> a DISCARDED unrestrained equilibration -> then the MEASURED production window (PE drift + ligand
+    heavy-atom RMSD vs the post-equilibration reference). Measuring drift/RMSD only AFTER equilibration is what
+    separates a real instability from the initial re-solvation settling transient. The FF-switch minimization
+    relaxation is recorded (advisory; normalized by TOTAL atoms since fresh-solvent relaxation dominates it for a
+    re-solvated endpoint). Mirrors ternary_preequil._relax's proven restraint/heat/NPT/release sequence."""
     import numpy as np
     import openmm
     from openmm import app, unit
 
     KCAL = unit.kilocalorie_per_mole
+    n_total = topology.getNumAtoms()
+    lig = list(ligand_atom_indices) if ligand_atom_indices is not None else list(range(n_total))
+
+    # positional restraint on protein+ligand heavy atoms (released after equilibration); water/H relax freely
+    restraint = openmm.CustomExternalForce("0.5*k*periodicdistance(x,y,z,x0,y0,z0)^2")
+    restraint.addGlobalParameter("k", 5.0 * unit.kilocalories_per_mole / unit.angstrom**2)
+    for p in ("x0", "y0", "z0"):
+        restraint.addPerParticleParameter(p)
+    for atom in topology.atoms():
+        el = atom.element
+        is_water = atom.residue.name in ("HOH", "WAT", "TIP3", "T3P", "SOL")
+        if el is not None and el.symbol != "H" and not is_water:
+            x, y, z = positions[atom.index].value_in_unit(unit.nanometer)
+            restraint.addParticle(atom.index, [x, y, z])
+    system.addForce(restraint)
+    system.addForce(openmm.MonteCarloBarostat(1 * unit.bar, 298.15 * unit.kelvin))
+
     try:
         platform = openmm.Platform.getPlatformByName(platform_name)
     except Exception:  # noqa: BLE001
@@ -114,35 +142,60 @@ def run_endpoint_stability(system, topology, positions, ligand_atom_indices, *, 
     sim = app.Simulation(topology, system, integ, platform)
     sim.context.setPositions(positions)
 
+    # (a) minimize + record the FF-switch relaxation (advisory, per TOTAL atom)
     pe_initial = sim.context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(KCAL)
     sim.minimizeEnergy(maxIterations=5000)
     pe_min = sim.context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(KCAL)
-    n_heavy = len(ligand_atom_indices) if ligand_atom_indices is not None else topology.getNumAtoms()
-    ff_switch = ff_switch_report(pe_initial, pe_min, n_heavy)
+    ff_switch = ff_switch_report(pe_initial, pe_min, n_total)
     if conditioner_pe_kcal is not None:
         ff_switch["conditioner_pe_kcal"] = conditioner_pe_kcal
         ff_switch["ff_switch_discontinuity_kcal"] = pe_initial - conditioner_pe_kcal
 
-    p0 = np.asarray(sim.context.getState(getPositions=True).getPositions().value_in_unit(unit.angstrom))
-    lig = list(ligand_atom_indices) if ligand_atom_indices is not None else list(range(topology.getNumAtoms()))
-    sim.context.setVelocitiesToTemperature(298.15 * unit.kelvin)
-    times, energies, rmsds, had_nan = [], [], [], False
-    done = 0
-    while done < n_steps:
-        step = min(report_every, n_steps - done)
-        sim.step(step)
-        done += step
-        st = sim.context.getState(getEnergy=True, getPositions=True)
-        e = st.getPotentialEnergy().value_in_unit(KCAL)
-        if not math.isfinite(e):
+    had_nan = False
+
+    def _finite_now():
+        e = sim.context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(KCAL)
+        return math.isfinite(e)
+
+    # (b) restrained heat + NPT equilibration
+    for T in (100, 200, 298.15):
+        sim.context.setVelocitiesToTemperature(T * unit.kelvin)
+        integ.setTemperature(T * unit.kelvin)
+        sim.step(max(1, restrained_steps // 3))
+        if not _finite_now():
             had_nan = True
             break
-        pos = np.asarray(st.getPositions().value_in_unit(unit.angstrom))
-        d = float(np.sqrt(((pos[lig] - p0[lig]) ** 2).sum(axis=1).mean()))
-        times.append(done * dt_fs / 1e6)        # ns
-        energies.append(e)
-        rmsds.append(d)
-    drift = energy_drift(times, energies)
+    # (c) release restraints gradually
+    if not had_nan:
+        for k in (2.0, 0.5, 0.0):
+            sim.context.setParameter("k", k * unit.kilocalories_per_mole / unit.angstrom**2)
+            sim.step(max(1, restrained_steps // 6))
+        # (d) DISCARDED unrestrained equilibration (not measured)
+        sim.step(discard_steps)
+        if not _finite_now():
+            had_nan = True
+
+    # (e) MEASURED production window: PE drift + ligand RMSD vs the post-equilibration reference
+    times, energies, rmsds = [], [], []
+    if not had_nan:
+        p0 = np.asarray(sim.context.getState(getPositions=True).getPositions().value_in_unit(unit.angstrom))
+        done = 0
+        while done < n_steps:
+            step = min(report_every, n_steps - done)
+            sim.step(step)
+            done += step
+            st = sim.context.getState(getEnergy=True, getPositions=True)
+            e = st.getPotentialEnergy().value_in_unit(KCAL)
+            if not math.isfinite(e):
+                had_nan = True
+                break
+            pos = np.asarray(st.getPositions().value_in_unit(unit.angstrom))
+            d = float(np.sqrt(((pos[lig] - p0[lig]) ** 2).sum(axis=1).mean()))
+            times.append(done * dt_fs / 1e6)        # ns
+            energies.append(e)
+            rmsds.append(d)
+    drift = energy_drift(times, energies) if energies else {"status": "no production samples (equil NaN)",
+                                                            "drift_kcal_per_ns": None, "ok": False if had_nan else None}
     verdict = endpoint_stability_verdict(had_nan, (max(rmsds) if rmsds else None), drift, ff_switch)
     return {"ff_switch": ff_switch, "energy_drift": drift, "rmsd_series_a": rmsds,
             "energy_series_kcal": energies, "times_ns": times, **verdict}
