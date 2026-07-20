@@ -134,6 +134,8 @@ jobs:
           fi
           echo "=== smoke.json (endpoint-verification: built vs requested SMILES) ==="
           gcloud storage cat "$RESULTS/smoke_${LEG_ID}.json" 2>/dev/null || echo "(no smoke.json for $LEG_ID)"
+          echo "=== endpoint_stability_${LEG_ID}.json (exact-Hamiltonian per-endpoint stability: ff_switch/rmsd/drift) ==="
+          gcloud storage cat "$RESULTS/endpoint_stability_${LEG_ID}.json" 2>/dev/null || echo "(no endpoint_stability json for $LEG_ID)"
           echo "=== post-mortem logs (a self-deleted VM uploads /tmp/tfep_run.log here on NORESULT) ==="
           PM=$(gcloud storage ls "gs://$BUCKET/valB-6hax/postmortem/" 2>/dev/null || true)
           if [ -n "$PM" ]; then
