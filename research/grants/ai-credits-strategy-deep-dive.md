@@ -72,6 +72,39 @@ Order-of-magnitude, hedged (Opus-tier pricing ≈ $15/M input, $75/M output; pro
 The exact number matters less than the regime change: LLM work stops being something we do sparingly and
 becomes something we do **exhaustively and in parallel**. That is the whole ballgame.
 
+## 3b. Does the plan actually consume $50k? (honest burn reconciliation)
+
+**Fair challenge — as scoped, W1–W6 do NOT obviously spend $50k.** A disciplined solo researcher could execute
+all six for perhaps **$10–25k** of Opus and have credits left over. $50k of Opus is sized for a **team/startup
+doing high-volume production inference**, not one person doing careful curation — even the substantial
+multi-agent research passes behind this document cost on the order of a few dollars each. You do not reach $50k
+with "normal" research tasks in 6 months.
+
+So the design question is not "what tasks" but **"what work has its scale set by LLM throughput itself?"** Three
+genuine large-token sinks that are *value, not padding*:
+
+1. **Massively-parallel degrader design-space triage (elevate W2).** The flagship's whole problem is that each
+   GPU run (FEP / ternary / ABFE) is expensive. Using LLM to *exhaustively enumerate and adversarially
+   pre-filter the combinatorial design space* — warheads × linkers × E3 ligases × paralogue-selectivity ×
+   ternary geometries, thousands-to-millions of combinations, each reasoned over by independent panels — is
+   genuinely huge **and** directly buys back GPU dollars. Highest-value sink: it converts cheap LLM throughput
+   into fewer wasted expensive runs.
+2. **Verification-everywhere at the repo's real adversarial standard (elevate W3).** Not a single red-team pass
+   — the repo's actual method is N-voter adversarial panels + loop-until-dry. Applying that to *every claim in
+   every manuscript + every new claim, continuously for 6 months* multiplies throughput 10–100× and is exactly
+   where tokens *should* go (the guardrail against volume × hallucination).
+3. **The rare-cancer long tail, not just EMC (elevate W4/W5).** Scaling from "EMC + 1–2 sarcomas" to a
+   continuously-updated, cited natural-history + treatment-landscape resource across **hundreds** of rare
+   cancers — each a multi-agent deep-research run, re-verified as literature appears — scales to consume large
+   throughput as pure public good.
+
+**Guardrail (binding):** the grant is **"up to" $50k**, and this repo's ethos forbids spending-to-spend /
+manufacturing work. The right move is **not** to pad the plan to the number. It is to (a) propose the ambition
+level that genuinely *needs* the throughput (the three sinks above scale to it if we choose to run them), and
+(b) be honest that a disciplined solo burn may land at **$20–40k** — still a strong, fundable ask. A plan that
+needs $25k and delivers beats a padded $50k. **Decision for trimcrae:** pick the ambition tier (lean ~$20k /
+mid ~$35k / full ~$50k via the three sinks) — this is a genuine choice, not a self-doable default.
+
 ## 4. The repurposing thesis (W1) — empirical grounding
 
 *(All external citations below are snippet-verified from a literature pass; the egress proxy blocked full-text
