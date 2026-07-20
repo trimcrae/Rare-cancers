@@ -41,6 +41,10 @@ medical-integrity rules (every clinical claim cited; synthetic data banner-flagg
   anti-target liabilities, and an assay roadmap for future collaborators.
 - A **registry-pooling methodology** with a structured citation map (primary vs secondary sources; fixed
   meta-analytic method) — the natural-history backbone.
+- An existing, honestly-graded **repurposing / mechanism track** (scored candidate menu, DepMap dependency
+  analyses, a graph-foundation-model run, a docking screen) — from which we've *already* identified the
+  specific novel, self-executable gaps the credits would fill (a never-published CMap/LINCS analysis;
+  fusion-subtype stratification; evidence-class verification of weak expression-only hooks).
 - A **computational NR4A3-degrader / method-development program** (structural modeling, RBFE/FEP,
   ternary-complex ensemble modeling, paralogue counter-screening) — the translational driver the above biology
   supports.
@@ -51,19 +55,38 @@ medical-integrity rules (every clinical claim cited; synthetic data banner-flagg
 
 ## 4. How the credits would be used (6-month plan)
 
-1. **Months 1–2 — Mechanistic-link map.** Large-scale Claude-driven literature synthesis to enumerate and
-   rank NR4A3/NR4A cross-disease mechanistic hypotheses, each with primary-source citations and an explicit
-   confidence grade.
-2. **Months 2–4 — Natural-history curation.** Agentic curation + pooling of registry / patient-org cohorts
-   into an updated, fully-cited EMC natural-history resource; extend the method to 1–2 adjacent rare sarcomas.
-3. **Months 3–6 — Rare-disease eval.** Build and release an open eval measuring model performance on the
-   rare-disease tasks above, with a leaderboard-style report.
-4. **Throughout — Public outputs.** Preprint(s) + open data + open eval; outreach to NR4A/nuclear-receptor
-   labs, sarcoma/EMC foundations, and patient organizations.
+Full reasoning + empirical grounding: [ai-credits-strategy-deep-dive.md](./ai-credits-strategy-deep-dive.md).
+The credits fund the **LLM-bound layer** our existing work demands but cannot scale by hand — exhaustive,
+parallel, adversarially-verified reasoning. Six workstreams:
 
-*Why credits (not GPU) are the right fit:* the workstreams above are Claude-native (synthesis, curation,
-reasoning, eval construction). Our separate GPU-bound structural chemistry is funded/sequenced independently
-and is **not** what these credits would pay for — avoiding any mismatch between the award type and the spend.
+1. **W1 — Complete + re-grade the mechanism/target map (adds novel axes).** We already have a repurposing
+   track; rather than re-pitch it, the credits *finish and harden* it: add the **never-published CMap/LINCS
+   signature-reversal analysis** for EMC (input transcriptomic datasets already exist), **stratify by fusion
+   subtype** (EWSR1 vs TAF15 — a documented biological switch no repurposing effort has used), **resolve the
+   PPARG agonist-vs-antagonist direction**, and **verify every druggable hook's evidence class** (promoter-
+   level fusion target vs mere overexpression). Output: a cited, subtype-stratified, evidence-graded EMC
+   target map. *(Example project #1.)*
+2. **W2 — GPU-triage reasoning layer.** Adversarial pre-scoring of which structural/chemistry runs deserve
+   scarce GPU — makes our real compute budget go further.
+3. **W3 — Continuous adversarial-verification engine.** Scales our red-team + "zero unresolved claims" rule to
+   the whole manuscript corpus; nothing clinical enters public material without surviving it. *(Supports #3.)*
+4. **W4 — Definitive EMC natural-history meta-analysis.** Exhaustively find/extract/reconcile/pool published
+   cohorts (fixed method: denominator-weighted proportions + Wilson 95% CIs, non-overlapping cohorts only);
+   extend to 1–2 adjacent rare sarcomas. *(Example project #2.)*
+5. **W5 — Patient-hub scale-out.** Extend the cited rare-cancer info hub from EMC to more rare cancers.
+6. **W6 — Rare-disease reasoning eval.** Open eval of model performance on mechanism recall, citation-grounded
+   synthesis, natural-history estimation, and refusal-of-fabrication. *(Example project #3.)*
+
+*Why credits (not GPU) are the right fit:* every workstream above is Claude-native. Our separate GPU-bound
+structural chemistry (the NR4A3 degrader program) is sequenced independently and is **not** what these credits
+pay for — the credits instead make that GPU spend *more efficient* via W2. This avoids any mismatch between the
+award type (Claude credits) and the spend.
+
+*Integrity guardrails carried from the underlying research (medical-integrity rule):* EMC's active systemic
+therapies are antiangiogenic TKIs (pazopanib/sunitinib, prospective phase-2 evidence) — we do **not** overstate
+a novel clinical angle; expression-only hooks (RET/KIT/NTRK) are labeled as such, not as validated targets; no
+IGF1R / integrated-stress-response involvement is asserted (no primary EMC evidence); all snippet-level
+citations are re-verified against full text before any outward-facing use.
 
 ## 5. Integrity & scope guardrails (stated up front)
 
