@@ -43,6 +43,7 @@ on:
       allow_gpu_setup_build: { description: "Escape hatch (default 0). By default a GPU run FAILS FAST if the setup cache for its (leg,charge) is missing, forcing you to CPU-prime it first (ternary-setup-prime-cpu.yml) instead of burning ~8-40 min of GPU-idle re-parameterization. Set 1 only for a deliberate GPU-side build (the very first prime of a brand-new leg/charge). Sets RBFE_REQUIRE_PRIMED_SETUP=0.", default: "0", required: false }
       min_steps: { description: "L-BFGS minimization steps per replica before warmup (RBFE_MIN_STEPS). Default 5000 (OpenFE standard). Was 25000 which minimizes 12 replicas of the 146k-atom system for ~20-60 min at ~0% GPU for NO NaN benefit (the code comment confirms the NaN survives 25000 steps; the 1 fs warmup is what fixes NaNs). Only raise if a specific system genuinely needs it.", default: "5000", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
+      force_rerun: { description: "1 = bypass the idempotent-skip even if a completed leg result JSON already exists in GCS (the run overwrites it). Use when the pipeline changed (e.g. new pre-equil version) and the old result is stale. Pair with a fresh commit_salt so it does not resume stale checkpoints.", default: "0", required: false }
       autostop_convergence: { description: "1 = STOP production early once the committed trajectory converges (connected MBAR overlap + dG(t) plateau, reviewer condition 4), capped at the 5 ns production_length. Default 0 (run the full cap). Conservative: only checks after autostop_min_frac of the cap and never stops without real evidence.", default: "0", required: false }
       autostop_min_frac: { description: "fraction of the production cap before the auto-stop convergence check is allowed to fire (RBFE_AUTOSTOP_MIN_FRAC). Default 0.4.", default: "0.4", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
@@ -87,6 +88,7 @@ jobs:
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
       AUTOSTOP: ${{ github.event.inputs.autostop_convergence || '0' }}
       AUTOSTOP_MIN_FRAC: ${{ github.event.inputs.autostop_min_frac || '0.4' }}
+      FORCE_RERUN: ${{ github.event.inputs.force_rerun || '0' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -272,11 +274,12 @@ jobs:
           # engine is now SPOT-SAFE (execute_hybrid_dag_spot_safe commits MD per-interval to the GCS CommitStore
           # below), so a preempted leg RESUMES from its last committed iteration on re-dispatch — a finished leg
           # is still kept via this skip.
-          if [ "$MODE" = run ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_fwd_r${SEED}.json >/dev/null 2>&1; then
+          if [ "$MODE" = run ] && [ "$FORCE_RERUN" != 1 ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_fwd_r${SEED}.json >/dev/null 2>&1; then
             echo "leg ${LEG_ID} seed $SEED already in GCS — idempotent skip"
             for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} (idempotent-skip) ###END###"; sleep 3; done
             exit 0
           fi
+          [ "$MODE" = run ] && [ "$FORCE_RERUN" = 1 ] && echo "force_rerun=1: bypassing idempotent-skip; a stale leg result (if any) will be overwritten"
           # STAGE CACHE (2026-07-18): staging (RCSB fetch + SMARCA4->SMARCA2 model + assembly) is ~15 min of CPU and
           # runs on every GPU VM before the engine — the last big un-skipped step in the preemption window. It is
           # deterministic per (leg, template, seed) [seed picks the SMARCA2 model: model_idx = seed % n_models], so
