@@ -186,6 +186,86 @@ def main():
     has_phantom = any(g == "deadbeef" * 4 for _, g, _ in listed)
     check(not has_phantom, "generation without COMMITTED.json is NOT listed (ignored)")
 
+    # ---- T5: interval-mismatch regression (2026-07-21 root cause) --------------------------------
+    # A production pair CREATED at checkpoint_interval=4 keeps FULL .chk frames only on the 4-grid. A
+    # resume VM whose ENV interval is 2 (RBFE_PROD_CKPT_ITERS unset/differing) drove run_to_target +
+    # commit off ci=2 while the reporter still wrote the .chk every 4 -> at an off-grid boundary (10 on
+    # a 4-grid) the .chk lagged the .nc by one interval and validate_reporter_pair raised
+    # `resume iteration 8 != expected 10`, permanently blocking the leg. The fix derives the ONE true
+    # interval from the committed FILE and uses it for the reporter, run_to_target AND commit.
+    print("\n=== T5 interval-mismatch on resume (bug reproduction + fix) ===", flush=True)
+    FILE_CI = 4          # the interval the production .nc was CREATED at
+    ENV_CI = 2           # a resume VM's (wrong) env interval — the bug trigger
+    store5 = spot.LocalCommitStore(work / "commits5")
+    t5nc, t5chk = work / "prod5.nc", work / "prod5.chk"
+    thermo5, sstate5, move5 = _mk_env()
+    p5 = ReplicaExchangeSampler(mcmc_moves=move5, number_of_iterations=64)
+    p5.create(thermodynamic_states=thermo5, sampler_states=sstate5,
+              storage=_reporter(t5nc, FILE_CI, t5chk.name))
+    p5.minimize(max_iterations=5)
+    rep5 = p5._reporter
+
+    def commit5(it):
+        store5.commit("production", it, t5nc, t5chk, FILE_CI)
+    spot.run_to_target(p5, rep5, 8, FILE_CI, commit5)   # commit gens at 4 and 8, on the 4-grid
+    check(spot._sampler_iteration(p5) == 8, "T5 production created+advanced to 8 on the FILE 4-grid")
+    del p5, rep5   # crash / spot kill
+
+    # derive-from-file helper returns the baked interval (the crux of the fix)
+    got_ci = spot.read_checkpoint_interval(t5nc, t5chk)
+    check(got_ci == FILE_CI, f"read_checkpoint_interval derived {FILE_CI} from the committed file (got {got_ci})")
+
+    # the newest committed manifest now RECORDS the interval (so restore needn't reopen the file)
+    gens5 = store5.list_committed("production")
+    check(bool(gens5) and gens5[0][2].get("checkpoint_interval") == FILE_CI,
+          f"manifest records checkpoint_interval={FILE_CI} (got {gens5 and gens5[0][2].get('checkpoint_interval')})")
+
+    # restore with the WRONG env interval must still accept the 4-grid generation (validated against the
+    # file's own interval via effective_interval, not the env 2).
+    ws5 = work / "resume5"
+    ws5.mkdir()
+    got5 = store5.restore_latest(["production"], ws5, ENV_CI)
+    check(got5 is not None and got5[1] == 8,
+          f"restore_latest accepts the 4-grid gen@8 despite env ci={ENV_CI} (got {got5 and got5[1]})")
+    _, _, r5nc, r5chk = got5
+
+    # BUG REPRODUCTION: resume + drive commit off the WRONG env interval (2) -> the pair tears at iter 10.
+    rep5b = MultiStateReporter(str(r5nc), open_mode="r+", checkpoint_storage=r5chk.name)
+    smp5b = ReplicaExchangeSampler.from_storage(rep5b)
+    check(spot._sampler_iteration(smp5b) == 8, "T5 resumed at iter 8 (not 0)")
+
+    def commit5_wrong(it):
+        store5.commit("production", it, r5nc, r5chk, ENV_CI)
+    raised = False
+    try:
+        spot.run_to_target(smp5b, rep5b, 12, ENV_CI, commit5_wrong)   # boundary at 10 on a 4-grid file
+    except RuntimeError as e:
+        raised = "resume" in str(e) and "checkpoint" in str(e)
+    check(raised, "BUG reproduced: env-interval=2 commit on a 4-grid file raises the resume-mismatch RuntimeError")
+    del smp5b, rep5b
+
+    # THE FIX: derive the interval from the file and drive run_to_target + commit off THAT -> no crash.
+    ws5b = work / "resume5b"
+    ws5b.mkdir()
+    got5b = store5.restore_latest(["production"], ws5b, ENV_CI)
+    _, _, f5nc, f5chk = got5b
+    eff_ci = spot.effective_interval(gens5[0][2], f5nc, f5chk, fallback=ENV_CI)
+    check(eff_ci == FILE_CI, f"effective_interval resolves to the file interval {FILE_CI} (got {eff_ci})")
+    rep5c = MultiStateReporter(str(f5nc), open_mode="r+", checkpoint_storage=f5chk.name,
+                               checkpoint_interval=eff_ci)
+    smp5c = ReplicaExchangeSampler.from_storage(rep5c)
+
+    def commit5_fixed(it):
+        store5.commit("production", it, f5nc, f5chk, eff_ci)
+    crashed = False
+    try:
+        spot.run_to_target(smp5c, rep5c, 12, eff_ci, commit5_fixed)   # boundary at 12 on the 4-grid -> OK
+    except Exception as e:  # noqa: BLE001
+        crashed = True
+        print(f"  [T5] FIX path unexpectedly raised: {e!r}", flush=True)
+    check(not crashed and spot._sampler_iteration(smp5c) == 12,
+          "FIX: driving off the file-derived interval (4) resumes and commits iter 12 with NO crash")
+
     print(f"\n[spottest] tmp: {work}", flush=True)
 
 

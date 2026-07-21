@@ -20,7 +20,7 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce | tail | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | tail | forensic (CPU/runner-only: open the newest committed (.nc,.chk) production generations with openmmtools + print checkpoint_interval / analysis-vs-checkpoint last iteration / torn-pair flag — confirms the interval-mismatch root cause, $0, no VM) | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
       preequil_smoke: { description: "1 = PREEQUIL_SMOKE (system-build + 200-step relax sanity, no full ns) for mode=preequil", default: "0", required: false }
       preequil_ns: { description: "production ns after restrained relaxation for mode=preequil", default: "0.5", required: false }
       use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
@@ -197,8 +197,52 @@ jobs:
           VMCOUNT=$(printf '%s\n' "$VMLIST" | grep -c . 2>/dev/null || echo 0)
           VMS1=$(printf '%s\n' "$VMLIST" | tr '\n' ';' | cut -c1-200)
           echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED src=$SRCKIND live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\" (committed-iters are leg-wide across salts; verdict fields are from src)"
+      - name: Set up openmmtools for forensic ckpt probe (mode=forensic)
+        if: ${{ github.event.inputs.mode == 'forensic' }}
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: omm
+          create-args: >-
+            python=3.11 openmmtools netcdf4 numpy -c conda-forge
+          init-shell: bash
+      - name: Forensic checkpoint probe (mode=forensic — CPU/runner-only, no GPU/VM)
+        if: ${{ github.event.inputs.mode == 'forensic' }}
+        shell: bash -el {0}
+        run: |
+          set -eo pipefail
+          # CONFIRM the 2026-07-21 interval-mismatch root cause on the REAL committed artifacts: for the newest
+          # few PRODUCTION generations of this leg, open each (.nc,.chk) with the real openmmtools MultiStateReporter
+          # and print reporter.checkpoint_interval + read_last_iteration(analysis vs checkpoint) + manifest iter, so
+          # we see which generations are on a 20- vs 40-grid and whether any committed pair is itself torn. $0 (free
+          # runner), no GPU, no VM. Scans ALL (dt,clig,wu,salt) prefixes under commits/$LEG_ID.
+          BUCKET="${PROJECT}-rbfe-ckpt"
+          CB="gs://$BUCKET/valB-6hax/commits/$LEG_ID"
+          NEWEST="${{ github.event.inputs.n_windows }}"; case "$NEWEST" in ''|*[!0-9]*) NEWEST=8 ;; esac
+          echo "=== enumerating PRODUCTION committed generations under $CB ==="
+          ALL=$(gcloud storage ls --recursive "$CB/" 2>/dev/null | grep -aE "/production/iter-[0-9]+/[0-9a-f]+/COMMITTED.json$" || true)
+          if [ -z "$ALL" ]; then echo "(no production COMMITTED.json found under $CB — leg may be warmup-only)"; exit 0; fi
+          # newest N distinct generation dirs by iteration
+          SEL=$(printf '%s\n' "$ALL" | sort -t/ -k1 | awk -F'/production/iter-' '{print $2}' \
+                | sed -E 's#/COMMITTED.json$##' | sort -t/ -k1 -rn | head -n "$NEWEST")
+          mkdir -p /tmp/forensic
+          i=0
+          while IFS= read -r rel; do
+            [ -z "$rel" ] && continue
+            ITER=$(printf '%s' "$rel" | cut -d/ -f1)
+            GEN=$(printf '%s' "$rel" | cut -d/ -f2)
+            # find the full prefix (which dt/salt subdir this gen lives under)
+            SRC=$(printf '%s\n' "$ALL" | grep -aE "/production/iter-$ITER/$GEN/COMMITTED.json$" | head -1 | sed -E 's#/COMMITTED.json$##')
+            [ -z "$SRC" ] && continue
+            DST="/tmp/forensic/gen_$(printf '%03d' "$i")_iter${ITER}"
+            mkdir -p "$DST"
+            echo "--- downloading $SRC -> $DST ---"
+            gcloud storage cp --recursive "$SRC/*" "$DST/" 2>&1 | tail -3 || echo "(download failed)"
+            i=$((i+1))
+          done <<< "$SEL"
+          echo "=== running forensic inspector ==="
+          micromamba run -n omm python research/modalities/rbfe_ckpt_forensic.py /tmp/forensic --newest "$NEWEST"
       - name: Reset committed checkpoints (fresh start on timestep change)
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.reset_commits == '1' }}
         run: |
           set -eo pipefail
           BUCKET="${PROJECT}-rbfe-ckpt"
@@ -206,7 +250,7 @@ jobs:
           echo "reset_commits=1 -> wiping $CB (a new-timestep run must not resume a stale-dt trajectory)"
           gcloud storage rm --recursive "$CB/" 2>/dev/null && echo "commits wiped" || echo "(no commits to wipe)"
       - name: Provision Spot L4 VM + run ternary-FEP
-        if: ${{ github.event.inputs.mode != 'tail' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
         run: |
           set -eo pipefail
           VM="gcp-ternary-${GITHUB_RUN_ID}"
@@ -501,14 +545,14 @@ jobs:
           echo "TFEP RESULT: $RES"
 
       - name: Teardown (skip for detached — the VM must keep running)
-        if: ${{ always() && github.event.inputs.mode != 'tail' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
         run: |
           if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (7h max-run backstop; tail deletes when done)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
       - name: Result summary
-        if: ${{ always() && github.event.inputs.mode != 'tail' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
         run: |
           echo "mode=$MODE leg=$LEG_ID"
           if [ "${DETACHED:-0}" = 1 ]; then echo "🚀 DETACHED: $VM running the leg independently -> GCS; monitor via gpu-rbfe-gcp-tail vm=$VM"; exit 0; fi
