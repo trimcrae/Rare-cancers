@@ -34,7 +34,14 @@ def _mk_env():
     from openmmtools.mcmc import LangevinDynamicsMove
     import openmm
     from openmm import unit
-    cache.global_context_cache.platform = openmm.Platform.getPlatformByName("CPU")
+    # Set the global ContextCache platform to CPU ONCE. openmmtools raises
+    # "Cannot change platform of a non-empty ContextCache" if you re-assign it after a sampler has
+    # populated the cache (T1-T4 run before T5 calls _mk_env again), so tolerate the second call —
+    # the platform is already CPU from the first, which is all we need.
+    try:
+        cache.global_context_cache.platform = openmm.Platform.getPlatformByName("CPU")
+    except Exception as e:  # noqa: BLE001
+        print(f"  [spottest] global ContextCache platform already set ({e}); reusing CPU", flush=True)
     ts = testsystems.AlanineDipeptideImplicit()
     thermo = [states.ThermodynamicState(ts.system, temperature=T * unit.kelvin)
               for T in (300.0, 330.0, 360.0)]
