@@ -1,6 +1,6 @@
 {
   "_note": "Free-credit tracker state. Neither GCP nor Modal exposes 'credit remaining' as an API, so each provider is tracked as remaining = cap - spent, plus a countdown to the window's expiry. 'spent' is filled by the credit-status CI job (or set manually). Fields marked CONFIRM must be read once from the provider console and pasted in (no API exposes them).",
-  "updated_utc": "2026-07-20T14:11:19Z",
+  "updated_utc": "2026-07-21T13:58:00Z",
   "providers": {
     "gcp": {
       "label": "GCP free trial",
