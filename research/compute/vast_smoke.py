@@ -28,7 +28,12 @@ from gpu_backend import (  # noqa: E402
 
 
 def phase1_readonly(key: str, res: ResourceSpec) -> dict:
+    import hashlib
     print("== PHASE 1: read-only (auth + offer search, $0) ==", flush=True)
+    # Safe fingerprint (NOT the key): proves whether the secret value actually changed between runs, so a
+    # repeat 401 tells us "old key still in the secret" vs "new key lacks the permission".
+    fp = hashlib.sha256(key.strip().encode()).hexdigest()[:8]
+    print(f"[key] len={len(key)} sha256_8={fp} (fingerprint only — not the key)", flush=True)
 
     inst = _vast_request("GET", "/instances/", key, params={"owner": "me"})
     running = inst.get("instances", [])
