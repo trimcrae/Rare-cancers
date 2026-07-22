@@ -172,8 +172,9 @@ def collect(bucket, autostop=None):
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
     print(f"[collect] Vast instances up: {len(insts)}", flush=True)
     for i in insts:
+        msg = (i.get("status_msg") or "").strip().replace("\n", " ")[-90:]
         print(f"[collect]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
-              f"dph=${i.get('dph_total')}/hr", flush=True)
+              f"dph=${i.get('dph_total')}/hr :: {msg}", flush=True)
     s3 = boto3.client("s3")
     phases = {}
     for pk in _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix="phase.txt"):
