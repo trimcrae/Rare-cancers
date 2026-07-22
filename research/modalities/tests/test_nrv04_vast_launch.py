@@ -21,7 +21,16 @@ def test_jobspec_targets_ternary_host_and_carries_leg_env():
     assert e["LEG_ID"] == "cov_nr4a1" and e["COVALENT"] == "1" and e["COV_RESNUM"] == "551"
     assert e["GIT_BRANCH"] == "mybranch"
     assert e["COFOLD_PREFIX_S3"].endswith("/nr4a1/")             # cov_nr4a1 uses the NR-V04 (nr4a1) co-fold system
-    assert spec.command[0] == "bash" and "git clone" in spec.command[2]
+    assert spec.command[0] == "bash"
+    assert "$ENV_TARBALL_URL" in spec.command[2]                 # pre-packed conda env extract (the boot-time fix)
+    assert "archive/refs/heads" in spec.command[2]               # repo code via public codeload tarball (no git)
+
+
+def test_env_tarball_url_injected_only_when_given():
+    base = build_jobspec(leg_by_id("cov_nr4a1"), 0, "run", "b", _BUCKET)
+    assert "ENV_TARBALL_URL" not in base.env                     # pure path (unit tests) omits it
+    withurl = build_jobspec(leg_by_id("cov_nr4a1"), 0, "run", "b", _BUCKET, env_tarball_url="https://x/y")
+    assert withurl.env["ENV_TARBALL_URL"] == "https://x/y"
 
 
 def test_cofold_prefix_maps_ligand_to_system():

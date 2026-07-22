@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_vast_launch]
+        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_env, nrv04_vast_launch]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -116,6 +116,43 @@ jobs:
       - name: NR-V04 MD-env + celastrol-param + restraint mechanics smoke (vacuum, CPU)
         working-directory: research/modalities
         run: python nrv04_md_env_smoke.py
+
+  nrv04_build_env:
+    # Build the MD conda env ONCE, conda-pack it, cache in S3 (mdenv/nrv04md.tar.gz). Vast instances then
+    # extract this in ~1-2 min instead of each solving the ~25-min conda create (the diagnosed boot bottleneck).
+    if: ${{ github.event.inputs.task == 'nrv04_build_env' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash -el {0}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the MD env (same stack as the Vast job + the CPU smoke)
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-name: nrv04md
+          create-args: >-
+            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli
+          condarc: |
+            channels:
+              - conda-forge
+      - name: conda-pack the env and upload to S3
+        run: |
+          set -eo pipefail
+          python -m pip install -q conda-pack awscli
+          ENV_PREFIX="$MAMBA_ROOT_PREFIX/envs/nrv04md"
+          [ -d "$ENV_PREFIX" ] || ENV_PREFIX=$(micromamba env list | awk '/nrv04md/{print $NF; exit}')
+          echo "packing $ENV_PREFIX"
+          conda-pack -p "$ENV_PREFIX" -o nrv04md.tar.gz --format tar.gz --n-threads -1 --ignore-missing-files
+          ls -lh nrv04md.tar.gz
+          aws s3 cp nrv04md.tar.gz "s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz"
+          echo "uploaded s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz"
 
   nrv04_vast_launch:
     if: ${{ github.event.inputs.task == 'nrv04_vast_launch' }}

@@ -38,41 +38,50 @@ _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastro
 # 4090 (~$0.10-0.15/hr spot). reliability filter kept (a crash, unlike preemption, we don't tolerate).
 TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=40, interruptible=True)
 
-# The onstart pipeline. $VARS are exported by _vast_onstart (leg env + forwarded AWS creds + CHECKPOINT_URI).
+# The onstart pipeline. $VARS are exported by _vast_onstart (leg env + forwarded AWS creds + CHECKPOINT_URI +
+# ENV_TARBALL_URL). THE BOTTLENECK FIX: instead of a ~25-min `micromamba create` MD solve PER instance (the
+# diagnosed stall), each instance extracts a PRE-PACKED conda env (built once on CI via conda-pack, cached in
+# S3) from a presigned URL in ~1-2 min. Repo code comes from the public codeload tarball (no git in the base
+# image). Everything after that (aws, python) runs out of the extracted env. Phase markers land in S3 for
+# `collect`/`diag`.
 _PIPELINE = r"""
 set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -q && apt-get install -y -q git curl bzip2 ca-certificates awscli
-mark() { echo "$1 $(date -u +%FT%TZ)" | aws s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
-mark booted
-git clone --depth 1 --branch "$GIT_BRANCH" {repo} /work
-cd /work/research/modalities
+apt-get update -q && apt-get install -y -q --no-install-recommends curl ca-certificates
+# --- pre-packed MD conda env (built once on CI; ~1-2 min extract vs ~25-min per-host solve) ---
+mkdir -p /opt/mamba/envs/md
+curl -Ls "$ENV_TARBALL_URL" | tar xz -C /opt/mamba/envs/md
+/opt/mamba/envs/md/bin/conda-unpack || true
+export PATH=/opt/mamba/envs/md/bin:$PATH
+PY=/opt/mamba/envs/md/bin/python
+AWS=/opt/mamba/envs/md/bin/aws
+mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
+mark env-ready
+# --- repo code (public codeload tarball; the base image has no git) ---
+curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
+cd Rare-cancers-*/research/modalities
 mark cloned
-curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba
-export MAMBA_ROOT_PREFIX=/opt/mamba
-mark env-building
-./bin/micromamba create -y -p /opt/mamba/envs/md -c conda-forge \
-    python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli
-RUN="./bin/micromamba run -p /opt/mamba/envs/md"
-mark env-built
 mkdir -p /tmp/in /tmp/out /tmp/cofold
 export INPUT_DIR=/tmp/in OUTPUT_DIR=/tmp/out CKPT_DIR=/tmp/out
-# stage this leg from its co-fold system in S3 -> INPUT_DIR/<LEG_ID>/{complex.pdb,ligand.sdf}
-$RUN aws s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
+# --- stage this leg from its co-fold system in S3 -> INPUT_DIR/<LEG_ID>/{complex.pdb,ligand.sdf} ---
+$AWS s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
 export COFOLD_CIF=$(find /tmp/cofold -name '*_model_0.cif' | sort | head -1)
 test -n "$COFOLD_CIF" || { echo "no co-fold CIF found under $COFOLD_PREFIX_S3"; exit 3; }
-$RUN python -c "import os; from nrv04_covalent_panel import leg_by_id; from nrv04_ligands import LIGANDS; \
+$PY -c "import os; from nrv04_covalent_panel import leg_by_id; from nrv04_ligands import LIGANDS; \
 from nrv04_covalent_assemble import assemble_leg; lg=leg_by_id(os.environ['LEG_ID']); \
 assemble_leg(os.environ['COFOLD_CIF'], lg, LIGANDS[lg.ligand], os.environ['INPUT_DIR'])"
 mark staged
-# run the endpoint-MD driver, teardown-guarded
+# --- endpoint-MD driver, teardown-guarded + per-unit checkpointed ---
 mark md-running
-$RUN python autoteardown.py $RUN python nrv04_covalent_md.py
+$PY autoteardown.py $PY nrv04_covalent_md.py
 mark md-done
-# publish the leg readout JSON
-$RUN aws s3 cp /tmp/out/ "$RESULT_S3/" --recursive --exclude '*' --include 'leg_*.json'
+# --- publish the leg readout JSON ---
+$AWS s3 cp /tmp/out/ "$RESULT_S3/" --recursive --exclude '*' --include 'leg_*.json'
 mark uploaded
 """
+
+# The pre-packed conda MD env, built once by the build_env CI job and cached here (conda-pack tar.gz).
+MDENV_KEY = os.environ.get("MDENV_KEY", "mdenv/nrv04md.tar.gz")
 
 
 def cofold_prefix_s3(leg, bucket):
@@ -192,8 +201,9 @@ def stop_all():
     print("[stop] done", flush=True)
 
 
-def build_jobspec(leg, seed, mode, branch, bucket):
-    """PURE: the JobSpec for one (leg, seed) unit. No I/O -> unit-tested."""
+def build_jobspec(leg, seed, mode, branch, bucket, env_tarball_url=None):
+    """PURE: the JobSpec for one (leg, seed) unit. No I/O -> unit-tested. `env_tarball_url` (a presigned S3 GET
+    for the pre-packed conda env) is injected when submitting; the pure unit tests omit it."""
     name = unit_name(leg, seed)
     env = leg_env(leg, seed, mode=mode)
     env.update({
@@ -201,6 +211,8 @@ def build_jobspec(leg, seed, mode, branch, bucket):
         "COFOLD_PREFIX_S3": cofold_prefix_s3(leg, bucket),
         "RESULT_S3": f"s3://{bucket}/{RESULT_PREFIX}/{name}",
     })
+    if env_tarball_url:
+        env["ENV_TARBALL_URL"] = env_tarball_url
     pipeline = _PIPELINE.replace("{repo}", REPO)      # not .format(): the bash has literal {a,b} brace-expansion
     return JobSpec(
         name=name,
@@ -212,6 +224,24 @@ def build_jobspec(leg, seed, mode, branch, bucket):
         max_runtime_s=int(os.environ.get("MAX_RUNTIME_S", "43200")),
         env=env,
     )
+
+
+def presign_env_tarball(bucket, expires_s=None):
+    """Return a presigned S3 GET URL for the pre-packed conda MD env (so instances curl it without awscli, which
+    lives inside the env). Fails loudly if the env hasn't been built yet (run the build_env CI job first)."""
+    import boto3
+    from botocore.exceptions import ClientError
+    s3 = boto3.client("s3")
+    try:
+        head = s3.head_object(Bucket=bucket, Key=MDENV_KEY)
+    except ClientError as e:
+        raise SystemExit(f"[launch] pre-packed MD env s3://{bucket}/{MDENV_KEY} not found ({e}); "
+                         f"run the build_env task first (task=nrv04_vast_launch, mode not needed — see workflow).")
+    size_mb = head["ContentLength"] / 1e6
+    ttl = expires_s or (int(os.environ.get("MAX_RUNTIME_S", "43200")) + 3600)
+    url = s3.generate_presigned_url("get_object", Params={"Bucket": bucket, "Key": MDENV_KEY}, ExpiresIn=ttl)
+    print(f"[launch] pre-packed MD env: s3://{bucket}/{MDENV_KEY} ({size_mb:.0f} MB), presigned {ttl}s", flush=True)
+    return url
 
 
 def units_to_run():
@@ -284,10 +314,12 @@ def main():
 
     be = get_backend("vast")
     units = units_to_run()
+    # presign the pre-packed env once (all instances share it); skipped on dry runs (no live submit).
+    env_url = None if dry else presign_env_tarball(bucket)
     print(f"[nrv04-launch] {len(units)} unit(s), mode={mode}, dry_run={dry}", flush=True)
     handles = []
     for leg, seed in units:
-        spec = build_jobspec(leg, seed, mode, branch, bucket)
+        spec = build_jobspec(leg, seed, mode, branch, bucket, env_tarball_url=env_url)
         if dry:
             print(f"[dry] {spec.name}: gpu={spec.resources.gpu} ram>={spec.resources.ram_gb}GB "
                   f"ckpt={spec.checkpoint_uri} cofold={spec.env['COFOLD_PREFIX_S3']}", flush=True)
