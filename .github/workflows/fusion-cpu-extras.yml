@@ -247,6 +247,15 @@ jobs:
           python3 -m pip install -q awscli >/dev/null 2>&1 || true
           aws s3 cp "s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz" research/compute/nrv04md.tar.gz
           ls -lh research/compute/nrv04md.tar.gz
+      - name: Verify the env tarball actually contains pdbfixer (the whole point of the rebuild)
+        run: |
+          set -eo pipefail
+          if tar tzf research/compute/nrv04md.tar.gz | grep -qi 'site-packages/pdbfixer/'; then
+            echo "pdbfixer PRESENT in the tarball — baking."
+          else
+            echo "::error::pdbfixer MISSING from nrv04md.tar.gz — re-run nrv04_build_env (bump the env cache) before baking."
+            exit 1
+          fi
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
       - name: Build + push the Vast boot image
