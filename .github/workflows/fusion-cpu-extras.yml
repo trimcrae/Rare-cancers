@@ -152,9 +152,10 @@ jobs:
           set -eo pipefail
           # The env step restored a 77s cache once that predated pdbfixer -> the packed tarball lacked it and the
           # baked image crashed every leg. Verify the import; install into the env if the cache was stale.
-          micromamba run -n nrv04md python -c "import pdbfixer; print('pdbfixer', pdbfixer.__version__)" \
+          # NB: pdbfixer exposes no __version__ — probe the actual import the driver uses (from pdbfixer import PDBFixer).
+          micromamba run -n nrv04md python -c "from pdbfixer import PDBFixer" \
             || micromamba install -n nrv04md -y -c conda-forge pdbfixer
-          micromamba run -n nrv04md python -c "import pdbfixer; print('pdbfixer OK', pdbfixer.__version__)"
+          micromamba run -n nrv04md python -c "from pdbfixer import PDBFixer; print('pdbfixer import OK')"
       - name: conda-pack the env and upload to S3
         run: |
           set -eo pipefail
