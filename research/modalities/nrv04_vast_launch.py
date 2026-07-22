@@ -99,6 +99,30 @@ def stage_test(bucket):
     print("STAGE-TEST PASS — assembler handles the real co-fold CIF.", flush=True)
 
 
+def collect(bucket):
+    """Monitor the panel run: list MY Vast instances (confirm running / torn down — no idle bleed) and the leg
+    JSONs already in the result prefix. Prints a status board so we can watch the pilot + fan-out from CI."""
+    import boto3
+    key = os.environ.get("VAST_API_KEY")
+    insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
+    print(f"[collect] Vast instances up: {len(insts)}", flush=True)
+    for i in insts:
+        print(f"[collect]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
+              f"dph=${i.get('dph_total')}/hr", flush=True)
+    s3 = boto3.client("s3")
+    keys = _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix=".json")
+    print(f"[collect] result JSONs: {len(keys)}", flush=True)
+    for k in keys:
+        body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode()
+        try:
+            d = json.loads(body)
+            print(f"[collect]   {k} -> leg={d.get('leg_id')} seed={d.get('seed')} mode={d.get('mode')} "
+                  f"recruited={d.get('R2_recruitment', {}).get('recruited')} "
+                  f"stable={d.get('R1_interface', {}).get('stable')} frames={d.get('n_frames')}", flush=True)
+        except Exception:  # noqa: BLE001
+            print(f"[collect]   {k} ({len(body)} bytes)", flush=True)
+
+
 def build_jobspec(leg, seed, mode, branch, bucket):
     """PURE: the JobSpec for one (leg, seed) unit. No I/O -> unit-tested."""
     name = unit_name(leg, seed)
@@ -175,6 +199,9 @@ def main():
         return 0
     if os.environ.get("STAGE_TEST") == "1":
         stage_test(bucket)
+        return 0
+    if os.environ.get("COLLECT") == "1":
+        collect(bucket)
         return 0
     branch = os.environ.get("GIT_BRANCH", "claude/alternative-gpu-providers-wx4r2c")
     mode = os.environ.get("MODE", "run")
