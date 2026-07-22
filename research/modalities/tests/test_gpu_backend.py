@@ -14,7 +14,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from autoteardown import make_subprocess_terminator, run_with_teardown  # noqa: E402
 from gpu_backend import (  # noqa: E402
     JobSpec, MockBackend, ModalBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend,
-    SlurmBackend, VastBackend, _select_cheapest_offer, _vast_onstart, _vast_status, get_backend, pick_cheapest,
+    SlurmBackend, VastBackend, _select_cheapest_offer, _vast_offer_query, _vast_onstart, _vast_status,
+    get_backend, pick_cheapest,
 )
 from object_store import checkpoint_key, completed_units, parse_uri  # noqa: E402
 
@@ -160,6 +161,16 @@ def test_vast_selects_cheapest_capable_verified_offer():
     res = ResourceSpec(gpu="rtx4090", min_vram_gb=24)
     chosen = _select_cheapest_offer(offers, res)
     assert chosen["id"] == 2                                       # cheapest that meets VRAM + single-GPU + rentable
+
+
+def test_vast_offer_query_shape():
+    q = _vast_offer_query(ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True))
+    assert q["gpu_name"] == {"eq": "RTX_4090"}
+    assert q["num_gpus"] == {"eq": 1} and q["gpu_ram"] == {"gte": 24 * 1024}
+    assert q["type"] == "bid"                                      # interruptible -> cheaper bid tier
+    # any-GPU + on-demand: no gpu_name constraint, on-demand type
+    q2 = _vast_offer_query(ResourceSpec(gpu="any", min_vram_gb=16, interruptible=False))
+    assert "gpu_name" not in q2 and q2["type"] == "on-demand"
 
 
 def test_vast_offer_selection_respects_price_ceiling_and_none():

@@ -202,6 +202,25 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None):
         raise RuntimeError(f"vast API {method} {path} -> {e.code}: {e.read().decode()[:400]}") from e
 
 
+def _vast_offer_query(res: ResourceSpec) -> dict:
+    """PURE: the Vast `/bundles/` search query for a single-GPU leg meeting `res` (shared by submit + the smoke,
+    so they can't drift). Verified + rentable hosts only; interruptible => cheaper 'bid' tier (our per-unit
+    checkpointing tolerates preemption)."""
+    q = {
+        "verified": {"eq": True},
+        "rentable": {"eq": True},
+        "num_gpus": {"eq": 1},
+        "gpu_ram": {"gte": res.min_vram_gb * 1024},                # Vast reports gpu_ram in MB
+        "disk_space": {"gte": 40},
+        "order": [["dph_total", "asc"]],
+        "type": "bid" if res.interruptible else "on-demand",
+    }
+    gpu_name = _VAST_GPU_NAMES.get(res.gpu)                         # None => any GPU meeting the VRAM floor
+    if gpu_name:
+        q["gpu_name"] = {"eq": gpu_name}
+    return q
+
+
 def _vast_gpu_ram_gb(offer: dict) -> float:
     """Vast reports per-GPU RAM in MB; be tolerant of an already-GB value on older payloads."""
     ram = float(offer.get("gpu_ram", 0) or 0)
@@ -285,18 +304,7 @@ class VastBackend(Backend):
         if not key:
             raise RuntimeError("vast backend needs VAST_API_KEY (create a Vast.ai account first).")
         res = spec.resources
-        gpu_name = _VAST_GPU_NAMES.get(res.gpu)                     # None => any GPU meeting the VRAM floor
-        q = {
-            "verified": {"eq": True},                              # only vetted hosts (avoid flaky community nodes)
-            "rentable": {"eq": True},
-            "num_gpus": {"eq": 1},                                 # one GPU per MD/FEP leg
-            "gpu_ram": {"gte": res.min_vram_gb * 1024},            # Vast reports gpu_ram in MB
-            "disk_space": {"gte": 40},
-            "order": [["dph_total", "asc"]],
-            "type": "bid" if res.interruptible else "on-demand",   # interruptible (cheaper) — our ckpt tolerates it
-        }
-        if gpu_name:
-            q["gpu_name"] = {"eq": gpu_name}
+        q = _vast_offer_query(res)
         offers = _vast_request("GET", "/bundles/", key,
                                params={"q": json.dumps(q)}).get("offers", [])
         max_hr = self.hourly_usd(res)                              # cap at our routing estimate + headroom

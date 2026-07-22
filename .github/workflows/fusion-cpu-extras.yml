@@ -10,6 +10,16 @@ name: Fusion CPU extras (IDR/LLPS features + junction siRNA)
 
 on:
   workflow_dispatch:
+    inputs:
+      task:
+        description: "which task to run"
+        type: choice
+        options: [fusion, vast_smoke]
+        default: fusion
+      vast_launch:
+        description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -19,7 +29,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  vast_smoke:
+    if: ${{ github.event.inputs.task == 'vast_smoke' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      VAST_SMOKE_LAUNCH: ${{ github.event.inputs.vast_launch == 'true' && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Vast.ai adapter smoke (auth + offer search; opt-in rent+destroy)
+        run: python research/compute/vast_smoke.py
+
   run:
+    if: ${{ github.event.inputs.task != 'vast_smoke' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
