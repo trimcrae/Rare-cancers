@@ -470,8 +470,10 @@ jobs:
           # ONLY when explicitly authorized for a time-sensitive one-off (skips the spot-capacity wait). On-demand
           # cannot use --instance-termination-action (spot-only), and needs no long capacity-wait, so fewer rounds.
           if [ "$PROVISIONING" = standard ]; then
-            PROV_FLAGS="--provisioning-model=STANDARD"; PROV_ROUNDS=4
-            echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; skips spot-capacity wait)"
+            # On-demand L4 can ALSO stock out in us-central1 at peak (our only L4 region), so wait it out like spot
+            # rather than failing fast — grabs an on-demand slot the moment one frees (2026-07-22).
+            PROV_FLAGS="--provisioning-model=STANDARD"; PROV_ROUNDS=22
+            echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; waits out on-demand-capacity like spot)"
           else
             PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22
           fi
@@ -491,7 +493,7 @@ jobs:
                   grep -iqE "quota|exceeded" /tmp/cerr && { echo "::error::QUOTA for $M in $Z:"; grep -iE "quota|exceeded" /tmp/cerr | head -1; }
                 done
               done
-              echo "round $round: L4 Spot stocked out; waiting 120s…"; sleep 120
+              echo "round $round: L4 ${PROVISIONING:-spot} stocked out; waiting 120s…"; sleep 120
             done
             return 1
           }
