@@ -84,14 +84,23 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     _require(os.path.exists(complex_pdb), f"missing complex.pdb: {complex_pdb}")
     _require(os.path.exists(ligand_sdf), f"missing ligands.sdf: {ligand_sdf}")
 
-    # optional C551A mutation applied at the text level before load (nrv04_covalent_stage)
+    # Identify the reactive cysteine by GEOMETRY (nearest Sγ to the warhead electrophile in the co-fold pose) —
+    # NOT by the hardcoded resnum 551, which does not exist in the co-fold's renumbered chains. This resolves the
+    # target chain + the residue used by BOTH the C551A mutation and the covalent restraint, so they stay
+    # consistent and are immune to renumbering.
     pdb_text = open(complex_pdb).read()
     cov_pair = None
-    if mutation == "C551A":
+    react_chain, react_resid, react_dist = _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom)
+    print(f"[nrv04-md] reactive Cys = chain {react_chain} resid {react_resid} "
+          f"(Sγ {react_dist:.2f} Å from the warhead electrophile; cov_resnum={cov_resnum} is co-fold-renumbered)",
+          flush=True)
+    if react_dist > 8.0:
+        print(f"[nrv04-md] WARN reactive Sγ is {react_dist:.1f} Å from the electrophile (>8 Å) — the co-fold may "
+              f"not have posed the warhead in the pocket; the covalent restraint tether may be geometrically strained",
+              flush=True)
+    if mutation == "C551A":                                    # the panel's 'C551A' = knock out the reactive Cys
         from nrv04_covalent_stage import mutate_cys_to_ala
-        # target chain is resolved from the pair finder BEFORE mutation; here we mutate on the resolved chain
-        chain = _target_chain_for_resnum(pdb_text, cov_resnum)
-        pdb_text = mutate_cys_to_ala(pdb_text, chain, cov_resnum)
+        pdb_text = mutate_cys_to_ala(pdb_text, react_chain, react_resid)
     tmp_pdb = complex_pdb + ".staged.pdb"
     open(tmp_pdb, "w").write(pdb_text)
 
@@ -154,9 +163,10 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     system = sysgen.create_system(modeller.topology)
 
     meta = {"n_atoms": modeller.topology.getNumAtoms(),
-            "protein_heavy_atoms": n_before, "after_addH": n_after_h, "charge_method": charge_used}
+            "protein_heavy_atoms": n_before, "after_addH": n_after_h, "charge_method": charge_used,
+            "reactive_cys": {"chain": react_chain, "resid": react_resid, "sg_electrophile_dist_A": round(react_dist, 2)}}
     if covalent:
-        cov_pair = _covalent_indices(modeller.topology, ligand_sdf, cov_lig_atom, cov_resnum)
+        cov_pair = _covalent_indices(modeller.topology, ligand_sdf, cov_lig_atom, react_resid, react_chain)
         _add_covalent_restraint(system, cov_pair)
         meta["covalent_pair"] = {k: v for k, v in cov_pair.items() if k.endswith("_idx")}
 
@@ -199,16 +209,18 @@ def _target_chain_for_resnum(pdb_text, resnum):
     raise SystemExit(f"[nrv04-md] no CYS at resnum {resnum} to anchor the covalent bond / mutation")
 
 
-def _covalent_indices(topology, ligand_sdf, cov_lig_atom, cov_resnum):
+def _covalent_indices(topology, ligand_sdf, cov_lig_atom, cov_resnum, cov_chain=None):
     """Map the restraint atoms to OpenMM particle indices: Cys Sγ, Cys CB, ligand C6, and C6's ligand
-    neighbour (for the second angle). Reads C6's neighbour from the SDF via rdkit."""
+    neighbour (for the second angle). The Cys is identified by (cov_chain, cov_resnum) as resolved by geometry in
+    build_system (robust to the co-fold's renumbering); cov_chain=None falls back to resid-only matching."""
     sg_idx = cb_idx = ligc_idx = lign_idx = None
     cys_inventory = {}                                          # (chain,resid) -> set of atom names, for diagnostics
     for atom in topology.atoms():
         res = atom.residue
         if res.name == "CYS":
             cys_inventory.setdefault((getattr(res.chain, "id", "?"), res.id), set()).add(atom.name)
-        if res.name == "CYS" and _resid(res) == cov_resnum:
+        chain_ok = cov_chain is None or getattr(res.chain, "id", None) == cov_chain
+        if res.name == "CYS" and _resid(res) == cov_resnum and chain_ok:
             if atom.name == "SG":
                 sg_idx = atom.index
             elif atom.name == "CB":
@@ -244,6 +256,37 @@ def _resid(res):
         return int(res.id)
     except (ValueError, TypeError):
         return None
+
+
+def _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom):
+    """Identify the reactive cysteine as the CYS whose Sγ is NEAREST the ligand's electrophilic carbon in the
+    co-fold pose. Robust to the co-fold's residue renumbering (Boltz numbers from 1, so the UniProt 'Cys551'
+    label does NOT appear — confirmed 2026-07-22: the target chain's cysteines were 121/131/161/190/207/222).
+    Because the co-fold placed the celastrol warhead in the NR4A1 pocket, the nearest Sγ IS the modeled covalent
+    partner, and this auto-selects the target chain (the warhead end of the PROTAC sits on NR4A1, not the E3).
+    Returns (chain_id, resid_int, distance_angstrom). Raises if there are no cysteines."""
+    from rdkit import Chem
+    mol = Chem.SDMolSupplier(ligand_sdf, removeHs=False)[0]
+    c6_idx, _ = _electrophile_and_neighbour(mol, cov_lig_atom)
+    conf = mol.GetConformer()
+    ep = conf.GetAtomPosition(c6_idx)                          # electrophile xyz (Å, same frame as complex.pdb)
+    best = None                                                # (dist2, chain, resid)
+    for line in pdb_text.splitlines():
+        if line[:6].strip() not in ("ATOM", "HETATM"):
+            continue
+        if line[17:20].strip() != "CYS" or line[12:16].strip() != "SG":
+            continue
+        try:
+            x, y, z = float(line[30:38]), float(line[38:46]), float(line[46:54])
+            resid = int(line[22:26])
+        except ValueError:
+            continue
+        d2 = (x - ep.x) ** 2 + (y - ep.y) ** 2 + (z - ep.z) ** 2
+        if best is None or d2 < best[0]:
+            best = (d2, line[21], resid)
+    if best is None:
+        raise SystemExit("[nrv04-md] no CYS Sγ found in the complex — cannot anchor the covalent warhead")
+    return best[1], best[2], best[0] ** 0.5
 
 
 # ---- orchestration --------------------------------------------------------------------------------------
