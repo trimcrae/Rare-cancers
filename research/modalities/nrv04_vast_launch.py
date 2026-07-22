@@ -47,7 +47,9 @@ TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=4, ram_gb=16, di
 _PIPELINE = r"""
 set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -q && apt-get install -y -q --no-install-recommends curl ca-certificates
+# curl is already present on the Vast base image (its ssh provisioning installs it) -> only apt if it's genuinely
+# missing, and never let a flaky ubuntu mirror abort the boot (diag saw archive.ubuntu.com time out on one host).
+command -v curl >/dev/null 2>&1 || { apt-get update -q || true; apt-get install -y -q --no-install-recommends curl ca-certificates || true; }
 # --- pre-packed MD conda env (built once on CI; ~1-2 min extract vs ~25-min per-host solve) ---
 mkdir -p /opt/mamba/envs/md
 curl -Ls "$ENV_TARBALL_URL" | tar xz -C /opt/mamba/envs/md
