@@ -13,8 +13,26 @@ The current pilot run finishes on AWS untouched; **nothing new kicks off until t
 the auto-teardown guarantee so no provider ever idles a GPU on the meter (`autoteardown.py`), an S3-compatible
 checkpoint bridge so compute is stateless and swappable (`object_store.py`), a portable job container
 (`research/compute/Dockerfile.mdjob`), and the ACCESS free-allocation draft (`access-allocation-request.md`).
-16 unit tests pass. **Only the real per-provider `submit()` calls remain — those need live accounts, which is
+21 unit tests pass. **Only the real per-provider `submit()` calls remain — those need live accounts, which is
 what this doc is for.**
+
+> **★★ VAST.AI ADAPTER WIRED 2026-07-22 (trimcrae picked Vast as the paid wide-parallel workhorse).** The
+> **wall-clock problem is diagnosed, not GCP-fixable:** GCP GPU is pinned to **us-central1 only** (our standing
+> region rule — no L4/G2 quota elsewhere), so the whole fleet competes for **one region's shallow Spot L4 pool
+> (~4–6 concurrent)** — a *shared-pool* ceiling that more GCP quota can't lift. The fix is **horizontal spread
+> across a marketplace where each leg is its OWN independent rented machine**: N legs = N instances, genuinely
+> N-wide, no shared-quota wall. **Modal (the one free-AND-instantly-parallel option) is exhausted this month**
+> (monthly grant spent; resets next month), which is why the paid marketplace is now the wide-parallel play.
+> **`VastBackend.submit()/status()/stop()` are now fully implemented** in `gpu_backend.py` (verified-offer
+> search → cheapest single-GPU RTX-4090-class pick → instance-create with a **guaranteed self-destroy onstart**
+> so no idle-GPU bleed). The load-bearing logic — `_select_cheapest_offer` + `_vast_onstart` + `_vast_status` —
+> is factored into **pure, unit-tested** helpers; the thin `_vast_request` urllib client is isolated. **REMAINING
+> (needs trimcrae):** create/fund a Vast.ai account, set **`VAST_API_KEY`** as a CI/job secret (+ a small
+> balance — first out-of-pocket dollar). Then a **one-instance smoke** confirms the REST endpoint shapes (the
+> only thing not exercisable in-repo, since the Vast API schema drifts between versions) before any fan-out.
+> Azure ($200) + Oracle ($300) trials were considered but **deferred** (trimcrae chose Vast only): they're free
+> $, but each is a *single quota-gated VM cloud like GCP* (GPU quota 0 on trial, Oracle GPU-capacity-starved),
+> so they fix **cost** but not **parallelism** unless summed across accounts — revisit if we want $0 added width.
 
 > **⚠ SPOT/PREEMPTIBLE CHECKPOINT DURABILITY (must-read before any spot MD run).** SageMaker managed-spot does
 > NOT sync files a process holds **open and appends** (the openmmtools `.nc`/`.chk`) to S3 mid-run — only at

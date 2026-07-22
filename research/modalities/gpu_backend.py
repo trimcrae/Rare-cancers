@@ -19,7 +19,12 @@ off-provider rather than silently.
 """
 from __future__ import annotations
 
+import json
 import os
+import shlex
+import urllib.error
+import urllib.parse
+import urllib.request
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
@@ -169,7 +174,106 @@ class RunPodBackend(Backend):
         raise NotImplementedError
 
 
+# ---- Vast.ai marketplace helpers (pure logic + a thin urllib client) --------------------------------------
+_VAST_API = "https://console.vast.ai/api/v0"
+
+# our logical GPU class -> Vast's gpu_name filter token (underscored, as Vast returns them). None => don't
+# constrain the model, just the VRAM floor.
+_VAST_GPU_NAMES = {
+    "rtx4090": "RTX_4090", "rtx3090": "RTX_3090", "rtx4080": "RTX_4080",
+    "a10g": "A10", "a100": "A100", "l40s": "L40S", "l4": "L4",
+}
+
+
+def _vast_request(method: str, path: str, api_key: str, params=None, body=None):
+    """Thin JSON client for the Vast REST API. Isolated so tests monkeypatch it; the callers' logic is pure."""
+    url = _VAST_API + path
+    if params:
+        url += "?" + urllib.parse.urlencode(params)
+    data = json.dumps(body).encode() if body is not None else None
+    req = urllib.request.Request(
+        url, data=data, method=method,
+        headers={"Authorization": f"Bearer {api_key}", "Accept": "application/json",
+                 "Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read().decode() or "{}")
+    except urllib.error.HTTPError as e:                            # surface the provider's error body, not a bare 4xx
+        raise RuntimeError(f"vast API {method} {path} -> {e.code}: {e.read().decode()[:400]}") from e
+
+
+def _vast_gpu_ram_gb(offer: dict) -> float:
+    """Vast reports per-GPU RAM in MB; be tolerant of an already-GB value on older payloads."""
+    ram = float(offer.get("gpu_ram", 0) or 0)
+    return ram / 1024.0 if ram > 1000 else ram
+
+
+def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
+    """PURE: cheapest single-GPU, rentable offer meeting the VRAM (and optional price) constraint. Sorted by
+    total $/hr (dph_total). Returns the chosen offer dict, or None if nothing qualifies."""
+    best, best_price = None, None
+    for o in offers:
+        try:
+            price = float(o.get("dph_total", o.get("dph_base", 1e9)))
+            ngpu = int(o.get("num_gpus", 1) or 1)
+        except (TypeError, ValueError):
+            continue
+        if o.get("rentable") is False:
+            continue
+        if ngpu != 1:                                             # one GPU per leg (multi-GPU costs more, no gain)
+            continue
+        if _vast_gpu_ram_gb(o) + 0.5 < res.min_vram_gb:          # 0.5 GB slack for reporting rounding
+            continue
+        if max_hourly_usd is not None and price > max_hourly_usd:
+            continue
+        if best is None or price < best_price:
+            best, best_price = o, price
+    return best
+
+
+def _vast_status(actual: str, cur_state: str = None) -> str:
+    """Map Vast's instance status to our vocabulary: queued | running | completed | failed | stopped."""
+    a = (actual or cur_state or "").lower()
+    if a in ("running",):
+        return "running"
+    if a in ("loading", "created", "scheduling", "starting"):
+        return "queued"
+    if a in ("exited", "finished", "success"):
+        return "completed"
+    if a in ("error", "failed"):
+        return "failed"
+    return "stopped"                                             # offline/stopped/destroyed
+
+
+def _vast_onstart(spec: JobSpec, self_terminate_argv) -> str:
+    """Build the instance onstart script: export the resume/checkpoint context, run the job command, then
+    GUARANTEE the instance self-destroys so the rented GPU never idles on the meter (the #1 gotcha). The driver
+    itself wraps in autoteardown (finally + watchdog); the trailing destroy is a belt-and-braces backstop in
+    case the container's python never reaches that finally-block. PURE (no I/O) -> unit-tested."""
+    cmd = " ".join(shlex.quote(a) for a in spec.command)
+    destroy = " ".join(shlex.quote(a) for a in self_terminate_argv)
+    lines = ["#!/bin/bash", "set -o pipefail",
+             f"export CHECKPOINT_URI={shlex.quote(spec.checkpoint_uri)}",
+             f"export RESUME={'1' if spec.resume else '0'}"]
+    lines += [f"export {k}={shlex.quote(str(v))}" for k, v in spec.env.items()]
+    lines += [cmd, destroy]
+    return "\n".join(lines)
+
+
 class VastBackend(Backend):
+    """Vast.ai — a MARKETPLACE of independent, individually-rentable GPU hosts (each rental is its OWN machine),
+    which is exactly why it breaks the single-shared-pool wall-clock ceiling that a single-region cloud (GCP
+    us-central1 Spot L4 pool) hits: N legs = N independent instances, genuinely N-wide with no shared-quota
+    bottleneck. On our MD/FEP workload (memory-bandwidth-bound PME) the marketplace's RTX 4090s (1008 GB/s) are
+    the a-priori cheapest $/ns. The catch is the PROVIDER not the card: community hosts are interruptible and can
+    vanish, and — the #1 gotcha — a finished job that leaves its instance UP bleeds money on an idle GPU, so the
+    instance MUST self-destroy. Two guards: (1) autoteardown's finally+watchdog runs `self_terminate_cmd()` on
+    success/failure/timeout; (2) the onstart script appends the same destroy as a belt-and-braces backstop.
+
+    NOTE (must smoke before a fleet): the exact Vast REST endpoints/query schema drift between API versions; the
+    LOAD-BEARING logic — cheapest-verified-offer selection and the guaranteed-self-destroy onstart — is factored
+    into pure, unit-tested helpers (`_select_cheapest_offer`, `_vast_onstart`), so a one-instance smoke only has
+    to confirm the HTTP shapes, not the science."""
     name = "vast"
 
     def self_terminate_cmd(self):
@@ -177,12 +281,59 @@ class VastBackend(Backend):
         return ["vastai", "destroy", "instance", os.environ.get("VAST_INSTANCE_ID", "$VAST_INSTANCE_ID")]
 
     def submit(self, spec: JobSpec) -> Handle:
-        if not os.environ.get("VAST_API_KEY"):
+        key = os.environ.get("VAST_API_KEY")
+        if not key:
             raise RuntimeError("vast backend needs VAST_API_KEY (create a Vast.ai account first).")
-        raise NotImplementedError("vastai create instance ... at integration time")
+        res = spec.resources
+        gpu_name = _VAST_GPU_NAMES.get(res.gpu)                     # None => any GPU meeting the VRAM floor
+        q = {
+            "verified": {"eq": True},                              # only vetted hosts (avoid flaky community nodes)
+            "rentable": {"eq": True},
+            "num_gpus": {"eq": 1},                                 # one GPU per MD/FEP leg
+            "gpu_ram": {"gte": res.min_vram_gb * 1024},            # Vast reports gpu_ram in MB
+            "disk_space": {"gte": 40},
+            "order": [["dph_total", "asc"]],
+            "type": "bid" if res.interruptible else "on-demand",   # interruptible (cheaper) — our ckpt tolerates it
+        }
+        if gpu_name:
+            q["gpu_name"] = {"eq": gpu_name}
+        offers = _vast_request("GET", "/bundles/", key,
+                               params={"q": json.dumps(q)}).get("offers", [])
+        max_hr = self.hourly_usd(res)                              # cap at our routing estimate + headroom
+        offer = _select_cheapest_offer(offers, res,
+                                       max_hourly_usd=(max_hr * 2.0 if max_hr else None))
+        if offer is None:
+            raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} bundles)")
+        onstart = _vast_onstart(spec, self.self_terminate_cmd())
+        created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body={
+            "client_id": "me",
+            "image": spec.image or "pytorch/pytorch:latest",
+            "disk": 40,
+            "onstart": onstart,
+            "runtype": "ssh",
+            "label": spec.name,
+        })
+        inst_id = created.get("new_contract") or created.get("id")
+        if inst_id is None:
+            raise RuntimeError(f"vast: instance create returned no id: {created}")
+        return Handle(backend=self.name, job_id=str(inst_id),
+                      extra={"offer": offer["id"], "dph": offer.get("dph_total"), "resume": spec.resume})
 
-    def status(self, handle):
-        raise NotImplementedError
+    def status(self, handle: Handle) -> str:
+        key = os.environ.get("VAST_API_KEY")
+        if not key:
+            raise RuntimeError("vast backend needs VAST_API_KEY.")
+        resp = _vast_request("GET", "/instances/", key, params={"owner": "me"})
+        for inst in resp.get("instances", []):
+            if str(inst.get("id")) == str(handle.job_id):
+                return _vast_status(inst.get("actual_status"), inst.get("cur_state"))
+        return "stopped"                                           # gone from the list => destroyed/terminated
+
+    def stop(self, handle: Handle) -> None:
+        key = os.environ.get("VAST_API_KEY")
+        if not key:
+            raise RuntimeError("vast backend needs VAST_API_KEY.")
+        _vast_request("DELETE", f"/instances/{handle.job_id}/", key)
 
 
 class SaladBackend(Backend):

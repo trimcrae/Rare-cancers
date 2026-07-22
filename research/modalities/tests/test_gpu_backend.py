@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from autoteardown import make_subprocess_terminator, run_with_teardown  # noqa: E402
 from gpu_backend import (  # noqa: E402
     JobSpec, MockBackend, ModalBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend,
-    SlurmBackend, VastBackend, get_backend, pick_cheapest,
+    SlurmBackend, VastBackend, _select_cheapest_offer, _vast_onstart, _vast_status, get_backend, pick_cheapest,
 )
 from object_store import checkpoint_key, completed_units, parse_uri  # noqa: E402
 
@@ -145,6 +145,56 @@ def test_completed_units_drives_resume():
     prefix = "run/ckpt"
     keys = [checkpoint_key(prefix, "w0"), checkpoint_key(prefix, "w1"), "run/ckpt/other.log"]
     assert completed_units(keys, prefix) == {"w0", "w1"}          # resume skips these; ignores non-unit objects
+
+
+# ---- Vast marketplace: cheapest-offer selection + guaranteed self-destroy onstart -------------------------
+
+def test_vast_selects_cheapest_capable_verified_offer():
+    offers = [
+        {"id": 1, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.45, "rentable": True},   # 24 GB, pricier
+        {"id": 2, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.28, "rentable": True},   # 24 GB, CHEAPEST ok
+        {"id": 3, "num_gpus": 1, "gpu_ram": 16384, "dph_total": 0.10, "rentable": True},   # too little VRAM
+        {"id": 4, "num_gpus": 2, "gpu_ram": 49152, "dph_total": 0.20, "rentable": True},   # multi-GPU excluded
+        {"id": 5, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.05, "rentable": False},  # not rentable
+    ]
+    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24)
+    chosen = _select_cheapest_offer(offers, res)
+    assert chosen["id"] == 2                                       # cheapest that meets VRAM + single-GPU + rentable
+
+
+def test_vast_offer_selection_respects_price_ceiling_and_none():
+    offers = [{"id": 9, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.90, "rentable": True}]
+    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24)
+    assert _select_cheapest_offer(offers, res, max_hourly_usd=0.50) is None   # only offer is over the cap
+    assert _select_cheapest_offer([], res) is None                           # empty marketplace
+
+
+def test_vast_onstart_always_self_destroys():
+    spec = JobSpec(name="edgeA", command=["python", "rbfe.py", "--edge", "A"],
+                   checkpoint_uri="r2://ckpt/edgeA", resume=True, env={"MODE": "real"})
+    script = _vast_onstart(spec, VastBackend().self_terminate_cmd())
+    assert "python rbfe.py --edge A" in script
+    assert "export RESUME=1" in script and "r2://ckpt/edgeA" in script
+    assert "export MODE=real" in script
+    # the anti-idle guard: the LAST line destroys the instance so the GPU can't idle on the meter
+    assert script.strip().splitlines()[-1].startswith("vastai destroy instance")
+
+
+def test_vast_status_mapping():
+    assert _vast_status("running") == "running"
+    assert _vast_status("loading") == "queued"
+    assert _vast_status("exited") == "completed"
+    assert _vast_status("error") == "failed"
+    assert _vast_status(None) == "stopped"
+
+
+def test_vast_submit_needs_key(monkeypatch):
+    monkeypatch.delenv("VAST_API_KEY", raising=False)
+    try:
+        VastBackend().submit(JobSpec(name="x", command=["true"]))
+        assert False
+    except RuntimeError as e:
+        assert "VAST_API_KEY" in str(e)
 
 
 def test_get_backend_unknown_raises():
