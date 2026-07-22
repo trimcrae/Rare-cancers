@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke]
+        options: [fusion, vast_smoke, nrv04_cys]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -45,8 +45,42 @@ jobs:
       - name: Vast.ai adapter smoke (auth + offer search; opt-in rent+destroy)
         run: python research/compute/vast_smoke.py
 
+  nrv04_cys:
+    if: ${{ github.event.inputs.task == 'nrv04_cys' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: NR-V04 covalent Leg 0 — celastrol-Cys551 conservation across NR4A1/2/3 (UniProt)
+        working-directory: research/modalities
+        run: python nrv04_cys_conservation.py
+      - name: Publish result to modalities-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp research/modalities/nrv04-cys-conservation.json "$RUNNER_TEMP/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          rm -f research/modalities/*.json research/modalities/*.png
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache; git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP/nrv04-cys-conservation.json" research/modalities/ 2>/dev/null || true
+          git add research/modalities/nrv04-cys-conservation.json 2>/dev/null || true
+          git commit -m "NR-V04 Leg 0: celastrol-Cys551 conservation across NR4A1/2/3" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache
+
   run:
-    if: ${{ github.event.inputs.task != 'vast_smoke' }}
+    if: ${{ github.event.inputs.task == 'fusion' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
