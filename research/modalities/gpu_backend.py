@@ -417,16 +417,31 @@ class VastBackend(Backend):
         inst_id = created.get("new_contract") or created.get("id")
         if inst_id is None:
             raise RuntimeError(f"vast: instance create returned no id: {created}")
-        # EXPLICIT START: creating the ask does NOT reliably launch the container — a created instance can sit at
-        # intended_status="stopped" (diag confirmed: cur_state/intended_status both "stopped", cpu 0%, no capacity
-        # msg, on a 939 Mbps host — so it was never told to run, not a slow pull). PUT the running state so Vast
-        # actually schedules + boots it. Best-effort: some API versions auto-start, in which case this is a no-op.
-        try:
-            _vast_request("PUT", f"/instances/{inst_id}/", key, body={"state": "running"})
-        except Exception as e:  # noqa: BLE001 — surface but don't fail the submit if already running
-            print(f"[vast] explicit start of {inst_id} returned: {e}", flush=True)
+        # ROBUST EXPLICIT START: creating the ask does NOT reliably launch the container — diag showed 3/4 created
+        # instances stuck at intended_status="stopped" (cpu 0%, no capacity msg) while a 4th ran, SAME code: the
+        # start PUT races Vast finishing the create, so on some hosts it's lost and the box sits stopped forever.
+        # Poll and re-issue the start until Vast reports it running (intended_status flips), bounded.
+        self._ensure_running(inst_id, key)
         return Handle(backend=self.name, job_id=str(inst_id),
                       extra={"offer": offer["id"], "dph": offer.get("dph_total"), "resume": spec.resume})
+
+    def _ensure_running(self, inst_id, key, attempts=8, delay_s=6):
+        """Re-issue PUT state=running until the instance's intended_status/actual_status is 'running' (fixes the
+        create/start race that leaves bid instances stuck 'stopped'). Bounded; logs the final state."""
+        import time
+        for i in range(attempts):
+            try:
+                _vast_request("PUT", f"/instances/{inst_id}/", key, body={"state": "running"})
+            except Exception as e:  # noqa: BLE001 — a transient error shouldn't abort the retry loop
+                print(f"[vast] start {inst_id} attempt {i + 1}: {e}", flush=True)
+            inst = next((x for x in _vast_request("GET", "/instances/", key, params={"owner": "me"})
+                         .get("instances", []) if str(x.get("id")) == str(inst_id)), None)
+            intended, actual = (inst or {}).get("intended_status"), (inst or {}).get("actual_status")
+            print(f"[vast] start {inst_id} attempt {i + 1}: intended={intended} actual={actual}", flush=True)
+            if intended == "running" or actual == "running":
+                return
+            time.sleep(delay_s)
+        print(f"[vast] WARN {inst_id} did not reach intended=running after {attempts} attempts", flush=True)
 
     def status(self, handle: Handle) -> str:
         key = os.environ.get("VAST_API_KEY")
