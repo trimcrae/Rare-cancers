@@ -259,10 +259,16 @@ jobs:
       - name: Verify the env tarball actually contains pdbfixer (the whole point of the rebuild)
         run: |
           set -eo pipefail
-          if tar tzf research/compute/nrv04md.tar.gz | grep -qi 'site-packages/pdbfixer/'; then
+          LIST=$(tar tzf research/compute/nrv04md.tar.gz)
+          echo "--- pdbfixer-matching paths in the tarball (diagnostic) ---"
+          echo "$LIST" | grep -i pdbfixer | head -20 || echo "(none)"
+          echo "----------------------------------------------------------"
+          # Authoritative presence markers: the package dir OR its conda-meta record. Match anywhere (path layout
+          # varies: lib/pythonX/site-packages/pdbfixer/... and conda-meta/pdbfixer-*.json).
+          if echo "$LIST" | grep -qiE '/pdbfixer/|conda-meta/pdbfixer-'; then
             echo "pdbfixer PRESENT in the tarball — baking."
           else
-            echo "::error::pdbfixer MISSING from nrv04md.tar.gz — re-run nrv04_build_env (bump the env cache) before baking."
+            echo "::error::pdbfixer MISSING from nrv04md.tar.gz — re-run nrv04_build_env before baking."
             exit 1
           fi
       - name: Log in to Docker Hub
