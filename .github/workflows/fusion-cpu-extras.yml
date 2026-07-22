@@ -36,6 +36,9 @@ on:
         type: choice
         options: [smoke, run]
         default: smoke
+      vast_image:
+        description: "nrv04_vast_launch: override the Vast boot image (blank = launcher default = baked image)"
+        default: ""
 
 permissions:
   contents: write
@@ -196,6 +199,7 @@ jobs:
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
       GIT_BRANCH: ${{ github.ref_name }}
       MODE: ${{ github.event.inputs.md_mode }}
+      VAST_IMAGE: ${{ github.event.inputs.vast_image }}
       PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'full' && '0' || '1' }}
       DRY_RUN: ${{ github.event.inputs.vast_launch_mode == 'dry' && '1' || '0' }}
       DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}

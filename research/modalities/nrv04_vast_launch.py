@@ -44,7 +44,7 @@ TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=4, ram_gb=16, di
 # the provisioning tooling already baked, and commonly cached on Vast hosts) makes that a no-op. Overridable via
 # $VAST_IMAGE for A/B testing. The packed conda MD env is still curled from S3 into /opt/mamba/envs/md — we do
 # NOT use the image's python, so the image only has to boot fast.
-VAST_IMAGE = os.environ.get("VAST_IMAGE", "docker.io/triskit23/nrv04vast:latest")
+VAST_IMAGE = os.environ.get("VAST_IMAGE") or "docker.io/triskit23/nrv04vast:latest"
 
 # The onstart pipeline. $VARS are exported by _vast_onstart (leg env + forwarded AWS creds + CHECKPOINT_URI +
 # ENV_TARBALL_URL). THE BOTTLENECK FIX: instead of a ~25-min `micromamba create` MD solve PER instance (the
