@@ -101,10 +101,39 @@ def units_to_run():
     return enumerate_units()
 
 
+def discover_cofold(bucket, base=None):
+    """List the reused co-fold prefix and report, per panel system, the *_model_0.cif keys already in S3 (so we
+    reuse ValB's existing structures instead of regenerating). Prints a per-system found/missing summary."""
+    import boto3
+    base = base or os.environ.get("NRV04_COFOLD_PREFIX", COFOLD_PREFIX)
+    s3 = boto3.client("s3")
+    found = {}
+    for lig, system in _LIGAND_TO_SYSTEM.items():
+        prefix = f"{base}/{system}/"
+        keys, tok = [], None
+        while True:
+            kw = {"Bucket": bucket, "Prefix": prefix}
+            if tok:
+                kw["ContinuationToken"] = tok
+            r = s3.list_objects_v2(**kw)
+            keys += [o["Key"] for o in r.get("Contents", []) if o["Key"].endswith("_model_0.cif")]
+            if not r.get("IsTruncated"):
+                break
+            tok = r["NextContinuationToken"]
+        found[system] = sorted(keys)
+        print(f"[discover] {system:14} ({lig:12}) -> {len(keys)} cif(s)"
+              + (f"  e.g. {keys[0]}" if keys else "  MISSING"), flush=True)
+    json.dump(found, open("nrv04-cofold-discovery.json", "w"), indent=2)
+    return found
+
+
 def main():
     bucket = os.environ.get("VAST_CKPT_BUCKET")
     if not bucket:
         raise SystemExit("[nrv04-launch] set VAST_CKPT_BUCKET (the reused S3 bucket)")
+    if os.environ.get("DISCOVER") == "1":
+        discover_cofold(bucket)
+        return 0
     branch = os.environ.get("GIT_BRANCH", "claude/alternative-gpu-providers-wx4r2c")
     mode = os.environ.get("MODE", "run")
     dry = os.environ.get("DRY_RUN", "0") == "1"

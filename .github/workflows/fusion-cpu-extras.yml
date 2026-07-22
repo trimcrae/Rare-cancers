@@ -21,13 +21,16 @@ on:
         type: boolean
         default: false
       vast_launch_mode:
-        description: "nrv04_vast_launch: dry (validate JobSpecs, no rent) | pilot (1 leg) | full (18 units)"
+        description: "nrv04_vast_launch: discover (list reusable co-fold CIFs) | dry | pilot (1 leg) | full (18)"
         type: choice
-        options: [dry, pilot, full]
-        default: dry
+        options: [discover, dry, pilot, full]
+        default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
         default: "sagemaker-us-east-2-646605541856"
+      cofold_prefix:
+        description: "nrv04_vast_launch: S3 prefix of the EXISTING NR-V04 co-fold to reuse (ValB output)"
+        default: "nrv04-descriptive-v3"
 
 permissions:
   contents: write
@@ -119,18 +122,22 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
       GIT_BRANCH: ${{ github.ref_name }}
       MODE: run
       PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'full' && '0' || '1' }}
       DRY_RUN: ${{ github.event.inputs.vast_launch_mode == 'dry' && '1' || '0' }}
+      DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Launch NR-V04 covalent panel on Vast (dry/pilot/full)
+      - name: Launch NR-V04 covalent panel on Vast (discover/dry/pilot/full)
         working-directory: research/modalities
-        run: python nrv04_vast_launch.py
+        run: |
+          pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
+          python nrv04_vast_launch.py
       - name: Upload Vast handles
         if: always()
         uses: actions/upload-artifact@v4
