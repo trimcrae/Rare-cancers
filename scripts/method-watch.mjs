@@ -148,20 +148,25 @@ const REPOS = [
 // compute funding. Triage only: a hit is a prompt to READ the solicitation, not a decision, and
 // eligibility on the detail page is authoritative over the coarse filter here.
 const GRANTS_API = "https://api.grants.gov/v1/api/search2";
+// NOTE on precision: grants.gov OR-tokenizes bare keywords ("artificial" OR "intelligence"),
+// which floods results with State-Dept/agriculture/NASA grants that merely contain "intelligence".
+// Two levers fix it, applied together: (1) EXACT-PHRASE the keyword with embedded double quotes;
+// (2) restrict to fundingCategories "ST" = Science & Technology / R&D (drops diplomacy/health-services
+// noise). Eligibility 25 = Individuals, 99 = Unrestricted. Validated on a CI runner 2026-07-22.
 const FUNDING = [
   {
     key: "AI research — open to INDIVIDUALS / unrestricted (the actionable set)",
-    body: { keyword: "artificial intelligence", oppStatuses: "posted", eligibilities: "25|99", rows: 10, sortBy: "openDate|desc" },
+    body: { keyword: '"artificial intelligence"', oppStatuses: "posted", fundingCategories: "ST", eligibilities: "25|99", rows: 12, sortBy: "openDate|desc" },
     note: "a solo unaffiliated researcher could apply directly — the OSTP 'individual scientists' path; the one to act on",
   },
   {
     key: "compute / GPU / HPC — open to INDIVIDUALS / unrestricted",
-    body: { keyword: "high performance computing", oppStatuses: "posted", eligibilities: "25|99", rows: 10, sortBy: "openDate|desc" },
+    body: { keyword: '"high performance computing"', oppStatuses: "posted", fundingCategories: "ST", eligibilities: "25|99", rows: 12, sortBy: "openDate|desc" },
     note: "directly funds the GPU/compute bottleneck AND is individual-eligible",
   },
   {
-    key: "AI research — ALL eligibilities (firehose / early-warning)",
-    body: { keyword: "artificial intelligence research", oppStatuses: "posted", rows: 10, sortBy: "openDate|desc" },
+    key: "AI research (Science & Tech) — ALL eligibilities (firehose / early-warning)",
+    body: { keyword: '"artificial intelligence"', oppStatuses: "posted", fundingCategories: "ST", rows: 12, sortBy: "openDate|desc" },
     note: "early warning of the OSTP-directed wave even where eligibility isn't (yet) individual — watch for individual-open successors",
   },
 ];
