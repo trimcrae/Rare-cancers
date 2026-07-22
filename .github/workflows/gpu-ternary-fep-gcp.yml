@@ -156,6 +156,11 @@ jobs:
           else
             echo "  (no post-mortem logs — VM either still alive, spot-preempted (abrupt DELETE, no upload), or never provisioned)"
           fi
+          echo "=== recent GCE preemption operations (DEFINITIVE preempt-vs-crash: a VM name here = GCE preempted it, not a crash/zombie) ==="
+          gcloud compute operations list \
+            --filter="operationType=compute.instances.preempted AND targetLink~gcp-ternary-" \
+            --format="table(targetLink.basename(),operationType,insertTime,statusMessage)" \
+            --sort-by=~insertTime --limit=10 2>/dev/null || echo "  (preemption-operations query failed)"
           VM_IN="${{ github.event.inputs.leg_id }}"   # reuse leg_id slot to pass an explicit VM name for tail
           case "$VM_IN" in gcp-ternary-*) TVM="$VM_IN" ;; *) TVM=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null | head -1) ;; esac
           if [ -n "$TVM" ]; then
