@@ -141,7 +141,7 @@ jobs:
         with:
           environment-name: nrv04md
           create-args: >-
-            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli
+            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli pdbfixer
           condarc: |
             channels:
               - conda-forge
@@ -180,7 +180,7 @@ jobs:
         with:
           environment-name: nrv04md
           create-args: >-
-            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3
+            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 pdbfixer
           condarc: |
             channels:
               - conda-forge

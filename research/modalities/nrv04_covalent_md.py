@@ -68,6 +68,10 @@ def _require(cond, msg):
         raise SystemExit(f"[nrv04-md] {msg}")
 
 
+def pdb_text_atom_count(pdb_text):
+    return sum(1 for ln in pdb_text.splitlines() if ln[:6].strip() in ("ATOM", "HETATM"))
+
+
 def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mutation):
     """Build a solvated OpenMM system for one leg. Returns (simulation, meta). CI/Vast only."""
     import numpy as np  # noqa: F401
@@ -90,7 +94,22 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
         pdb_text = mutate_cys_to_ala(pdb_text, chain, cov_resnum)
     tmp_pdb = complex_pdb + ".staged.pdb"
     open(tmp_pdb, "w").write(pdb_text)
-    pdb = app.PDBFile(tmp_pdb)
+
+    # PREP THE PREDICTED PROTEIN WITH PDBFIXER — the co-fold complex.pdb is heavy-atoms-only AND a multi-chain
+    # predicted assembly (VHL/EloB/EloC/target) with uncapped chain termini, so a bare addHydrogens/createSystem
+    # fails ("No template found ... missing terminal capping group / missing H"). PDBFixer is the standard prep:
+    # add missing heavy atoms, cap termini, add hydrogens. We DON'T let it build long missing loops
+    # (missingResidues={}) — the co-fold is sequence-complete; we only fix atoms/termini/H on existing residues.
+    from pdbfixer import PDBFixer
+    fixer = PDBFixer(filename=tmp_pdb)
+    fixer.findMissingResidues(); fixer.missingResidues = {}
+    fixer.findNonstandardResidues(); fixer.replaceNonstandardResidues()
+    fixer.removeHeterogens(keepWater=False)
+    fixer.findMissingAtoms(); fixer.addMissingAtoms()
+    fixer.addMissingHydrogens(7.0)
+    n_before = pdb_text_atom_count(pdb_text)
+    fixed_topology, fixed_positions = fixer.topology, fixer.positions
+    n_after_h = fixed_topology.getNumAtoms()
 
     lig = Molecule.from_file(ligand_sdf)
     if isinstance(lig, list):
@@ -106,14 +125,7 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
         forcefield_kwargs=MD.systemgenerator_forcefield_kwargs(),
     )
 
-    modeller = app.Modeller(pdb.topology, pdb.positions)
-    # The co-fold complex.pdb carries HEAVY ATOMS ONLY (Boltz outputs no hydrogens), so the protein residues have
-    # no H and createSystem/addSolvent fails with "No template found ... missing N H atoms". Add protein H from
-    # the force field BEFORE the ligand goes in (the ligand.sdf already has explicit H). This is standard OpenMM
-    # prep and is what was missing — every leg was crashing here before the MD ever started.
-    n_before = modeller.topology.getNumAtoms()
-    modeller.addHydrogens(sysgen.forcefield)
-    n_after_h = modeller.topology.getNumAtoms()
+    modeller = app.Modeller(fixed_topology, fixed_positions)   # PDBFixer already added protein H + capped termini
     lig_top = lig.to_topology().to_openmm()
     lig_pos = lig.conformers[0].to_openmm()
     modeller.add(lig_top, lig_pos)
