@@ -16,6 +16,10 @@ on:
         description: "send (generate digest + email) | dry_run (generate + publish digest, no email — used by the summary-writer Routine)"
         default: "send"
         required: false
+      probe_grants:
+        description: "One-off diagnostic: space-separated grants.gov opportunity IDs to print applicant-eligibility detail for (prints to the job log; the digest still runs)"
+        default: ""
+        required: false
   schedule:
     - cron: "0 11 * * 5"   # 11:00 UTC Fridays = 7:00 AM ET (weekly newsletter; UTC-based, no DST tracking)
 
@@ -37,6 +41,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: Grants eligibility probe (one-off diagnostic)
+        if: ${{ inputs.probe_grants != '' }}
+        env:
+          PROBE_GRANTS: ${{ inputs.probe_grants }}
+        run: node scripts/fetch-grants-eligibility.mjs $PROBE_GRANTS
 
       - name: Generate method-watch digest
         env:
