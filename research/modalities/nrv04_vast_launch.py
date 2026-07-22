@@ -111,6 +111,37 @@ def stage_test(bucket):
     print("STAGE-TEST PASS — assembler handles the real co-fold CIF.", flush=True)
 
 
+def _vast_instance_logs(key, iid, tail=400):
+    """Fetch a running instance's onstart/container stdout via Vast's request-logs flow (PUT triggers collection
+    to a URL, then we poll that URL). Returns the log text or a status note."""
+    import time
+    import urllib.request
+    r = _vast_request("PUT", f"/instances/request_logs/{iid}/", key, body={"tail": str(tail)})
+    url = r.get("result_url")
+    if not url:
+        return f"(no result_url: {r})"
+    for _ in range(12):
+        try:
+            with urllib.request.urlopen(url, timeout=30) as resp:
+                txt = resp.read().decode(errors="replace")
+            if txt.strip():
+                return txt[-6000:]
+        except Exception:  # noqa: BLE001 — log not written yet
+            pass
+        time.sleep(4)
+    return "(logs not ready after polling)"
+
+
+def diag():
+    """Print the onstart log of each running instance — the diagnostic for a stuck/slow Vast run."""
+    key = os.environ.get("VAST_API_KEY")
+    insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    print(f"[diag] {len(insts)} instance(s)", flush=True)
+    for i in insts:
+        print(f"\n===== instance {i.get('id')} ({i.get('label')}) status={i.get('actual_status')} =====", flush=True)
+        print(_vast_instance_logs(key, i.get("id")), flush=True)
+
+
 def collect(bucket):
     """Monitor the panel run: list MY Vast instances (confirm running / torn down — no idle bleed) and the leg
     JSONs already in the result prefix. Prints a status board so we can watch the pilot + fan-out from CI."""
@@ -243,6 +274,9 @@ def main():
         return 0
     if os.environ.get("STOP_ALL") == "1":
         stop_all()
+        return 0
+    if os.environ.get("DIAG") == "1":
+        diag()
         return 0
     branch = os.environ.get("GIT_BRANCH", "claude/alternative-gpu-providers-wx4r2c")
     mode = os.environ.get("MODE", "run")
