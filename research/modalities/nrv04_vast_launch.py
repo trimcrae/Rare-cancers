@@ -142,12 +142,19 @@ def _vast_instance_logs(key, iid, tail=400):
 
 
 def diag():
-    """Print the onstart log of each running instance — the diagnostic for a stuck/slow Vast run."""
+    """Print the onstart log + the FULL status record of each running instance — the diagnostic for a stuck/slow
+    Vast run. The status fields (status_msg, cur_state, intended_status, inet_down, image pull state) reveal
+    whether a long 'loading' is an image pull on a slow host, a scheduler wait, or an error."""
     key = os.environ.get("VAST_API_KEY")
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
     print(f"[diag] {len(insts)} instance(s)", flush=True)
+    # keys most informative about why an instance is stuck in 'loading'
+    status_keys = ["id", "label", "actual_status", "cur_state", "intended_status", "status_msg", "gpu_name",
+                   "inet_down", "inet_up", "reliability2", "start_date", "image_uuid", "image_runtype",
+                   "cur_gpu_util", "cpu_util", "disk_util", "dlperf"]
     for i in insts:
         print(f"\n===== instance {i.get('id')} ({i.get('label')}) status={i.get('actual_status')} =====", flush=True)
+        print("[diag] status: " + json.dumps({k: i.get(k) for k in status_keys}), flush=True)
         print(_vast_instance_logs(key, i.get("id")), flush=True)
 
 
