@@ -135,42 +135,45 @@ solicitation — the detail page's eligibility is authoritative over this coarse
 
 ### AI research — open to INDIVIDUALS / unrestricted (the actionable set)
 *Why it matters:* a solo unaffiliated researcher could apply directly — the OSTP 'individual scientists' path; the one to act on
-- 🆕 **07/21/2026** — Young Trilateral Leaders (YTL) Summit (DOS-KOR, PD-SEOUL-FY26-04, closes 08/05/2026) — https://www.grants.gov/search-results-detail/363267
 - 🆕 **07/21/2026** — Unlocking Dataset Value for AI-Enabled Scientific Discovery (NSF, 26-512, closes 11/04/2026) — https://www.grants.gov/search-results-detail/363268
-- 🆕 **07/20/2026** — CyberNext: Advance Cybersecurity and AI Readiness (DOS-ALB, AMERICANSPACESCYBERNEXT-2026, closes 08/20/2026) — https://www.grants.gov/search-results-detail/363249
-- 🆕 **07/20/2026** — Egypt Annual Program Statement (DOS-NEA, DFOP0018819, closes 08/31/2026) — https://www.grants.gov/search-results-detail/363252
-- 🆕 **07/16/2026** — Global Documentation for Accountability Initiative (DOS-DRL, DFOP0019396, closes 08/17/2026) — https://www.grants.gov/search-results-detail/363211
-- 🆕 **07/16/2026** — Kenya: Crowd Control and Less-Than-Lethal Riot Response Training (DOS-INL, OFOP0003355, closes 09/10/2026) — https://www.grants.gov/search-results-detail/363208
-- 🆕 **07/16/2026** — Global Coalition Against Transnational Repression (DOS-DRL, DFOP0019327, closes 08/12/2026) — https://www.grants.gov/search-results-detail/363213
-- 🆕 **07/16/2026** — Countering Transnational Repression Through Evidence-based Research (DOS-DRL, DFOP0019331, closes 08/10/2026) — https://www.grants.gov/search-results-detail/363209
-- 🆕 **07/15/2026** — Global Digital Threat Lab (DOS-DRL, DFOP0019364, closes 08/13/2026) — https://www.grants.gov/search-results-detail/363201
 - 🆕 **07/14/2026** — Public Wireless Supply Chain Innovation Fund Grant Program &ndash; Solutions for AI-Native RAN (DOC-NTIA, NTIA-PWSCIF-26-01, closes 09/09/2026) — https://www.grants.gov/search-results-detail/363179
+- 🆕 **07/09/2026** — EducationUSA AI/STEM and Sports Diplomacy Grant (DOS-GEO, PDS-DOS-GEO-FY26-004, closes 08/10/2026) — https://www.grants.gov/search-results-detail/363123
+- 🆕 **07/06/2026** — Disability and Rehabilitation Research Projects (DRRP) Program: Community Living and Participation (Research) (HHS-ACL, HHS-2026-ACL-NIDILRR-DPCP-0221, closes 08/05/2026) — https://www.grants.gov/search-results-detail/362015
+- 🆕 **07/06/2026** — Disability and Rehabilitation Research Projects (DRRP) Program: Community Living and Participation (Development) (HHS-ACL, HHS-2026-ACL-NIDILRR-DPCP-0222, closes 08/05/2026) — https://www.grants.gov/search-results-detail/362016
+- 🆕 **06/30/2026** — Tribal Transportation Safety Strategy Pilot Program (DOT-RITA, TRIBALSAFETY-OSTR24, closes 08/28/2026) — https://www.grants.gov/search-results-detail/362956
+- 🆕 **06/30/2026** — Interdisciplinary Transportation Law and Policy Technology Training Development (DOT-RITA, LAWPOLICY-OSTR24, closes 08/28/2026) — https://www.grants.gov/search-results-detail/362960
+- 🆕 **06/24/2026** — Cooperative Agreement for affiliated Partner with the Chesapeake Watershed Cooperative Ecosystem Studies Unit (DOI-USGS1, G26AS00149, closes 07/24/2026) — https://www.grants.gov/search-results-detail/362941
+- 🆕 **06/22/2026** — Information Processing Techniques Office Office-Wide (DOD-DARPA-IPTO, HR001126S0011, closes 06/22/2027) — https://www.grants.gov/search-results-detail/362905
+- 🆕 **06/22/2026** — Disability and Rehabilitation Research Projects (DRRP) Program: Americans with Disabilities Act (ADA) National Network (HHS-ACL, HHS-2026-ACL-NIDILRR-DPAD-0219, closes 07/23/2026) — https://www.grants.gov/search-results-detail/362017
+- 🆕 **06/18/2026** — Fiscal Year (FY) 2027 Department of the Navy (DoN) Historically Black Colleges and Universities/Minority Institutions (HBCU/MI) Program (DOD-ONR, N0001426SF001, closes 12/11/2026) — https://www.grants.gov/search-results-detail/362871
+- 🆕 **06/17/2026** — DoW Rare Cancers Idea Development Award (DOD-AMRAA, HT942526RCRPIDA, closes 11/18/2026) — https://www.grants.gov/search-results-detail/362849
 
 ### compute / GPU / HPC — open to INDIVIDUALS / unrestricted
 *Why it matters:* directly funds the GPU/compute bottleneck AND is individual-eligible
-- 🆕 **07/21/2026** — Access Alumni Outreach and Engagement and English Access Scholarship Program (DOS-KAZ, DOS-KAZ-ALM-PDS-26-001, closes 08/21/2026) — https://www.grants.gov/search-results-detail/363256
-- 🆕 **07/21/2026** — ROSES25: C.4 Planetary Science Enabling Facilities (NASA-HQ, NNH25ZDA001N-PSEF, closes 11/10/2026) — https://www.grants.gov/search-results-detail/363258
-- 🆕 **07/21/2026** — National Communication System for Runaway and Homeless Youth Program (HHS-ACF-FYSB, HHS-2026-ACF-ACYF-CY-0160, closes 08/19/2026) — https://www.grants.gov/search-results-detail/362072
-- 🆕 **07/21/2026** — Advancing Civilian Nuclear Power in T&uuml;rkiye (DOS-ACN, DFOP0018810, closes 07/23/2026) — https://www.grants.gov/search-results-detail/363262
-- 🆕 **07/21/2026** — Leveraging Academic Institutions and Judicial Professional Bodies to Document TNR (DOS-DRL, DFOP0019426, closes 08/20/2026) — https://www.grants.gov/search-results-detail/363259
-- 🆕 **07/21/2026** — Farm and Ranch Stress Assistance Network (USDA-NIFA, USDA-NIFA-OP-012079, closes 08/10/2026) — https://www.grants.gov/search-results-detail/363264
-- 🆕 **07/21/2026** — Young Trilateral Leaders (YTL) Summit (DOS-KOR, PD-SEOUL-FY26-04, closes 08/05/2026) — https://www.grants.gov/search-results-detail/363267
-- 🆕 **07/20/2026** — Education and Outreach to Tribal Producers through the Tribal Food Safety Alliance (HHS-FDA, RFA-FD-26-009, closes 08/20/2026) — https://www.grants.gov/search-results-detail/363239
-- 🆕 **07/20/2026** — ROSES25: A.15 Biosphere (NASA-HQ, NNH25ZDA001N-BIOS, closes 11/06/2026) — https://www.grants.gov/search-results-detail/363241
-- 🆕 **07/20/2026** — ROSES25: A.14 Atmosphere (NASA-HQ, NNH25ZDA001N-ATMOS, closes 10/20/2026) — https://www.grants.gov/search-results-detail/363240
+- 🆕 **06/18/2026** — Fiscal Year (FY) 2027 Department of the Navy (DoN) Historically Black Colleges and Universities/Minority Institutions (HBCU/MI) Program (DOD-ONR, N0001426SF001, closes 12/11/2026) — https://www.grants.gov/search-results-detail/362871
+- 🆕 **06/04/2026** — Research Interests of the Air Force Office of Scientific Research (DOD-AFOSR, FA955026S0001) — https://www.grants.gov/search-results-detail/362681
+- **09/30/2025** — FY 2026 Continuation of Solicitation for the Office of Science Financial Assistance Program (PAMS-SC, DE-FOA-0003600, closes 09/30/2026) — https://www.grants.gov/search-results-detail/360678
+- **10/01/2024** — FY25 Long Range Broad Agency Announcement (BAA) for Navy and Marine Corps Science and Technology (DOD-ONR, N0001425SB001, closes 09/30/2026) — https://www.grants.gov/search-results-detail/356605
+- **03/01/2024** — NRL Long Range Broad Agency Announcement (BAA) for Basic and Applied Research (DOD-ONR-NRL, N00173-24-S-BA01, closes 09/30/2026) — https://www.grants.gov/search-results-detail/352741
+- **02/08/2024** — Long Range Broad Agency Announcement (BAA) for NSWC Crane (DOD-ONR-SEA-CRANE, N0016424SNB35) — https://www.grants.gov/search-results-detail/352238
+- **12/02/2020** — Research Interests of the United States Air Force Academy (formerly USAFA-BAA-2021) (DOD-USAFA, FA7000-21-S-0001) — https://www.grants.gov/search-results-detail/330175
+- **04/01/2020** — UNITED STATES MILITARY ACADEMY Broad Agency Announcement (DOD-AMC, W911NF-20-S-0008, closes 03/31/2027) — https://www.grants.gov/search-results-detail/325932
+- **07/06/2011** — Climate Program Office for FY 2012 (DOC, NOAA-OAR-CPO-2012-2003041) — https://www.grants.gov/search-results-detail/103313
 
-### AI research — ALL eligibilities (firehose / early-warning)
+### AI research (Science & Tech) — ALL eligibilities (firehose / early-warning)
 *Why it matters:* early warning of the OSTP-directed wave even where eligibility isn't (yet) individual — watch for individual-open successors
-- 🆕 **07/22/2026** — Qissati ma3 America (DOS-JOR, PAS-JOR-FY26-003, closes 08/31/2026) — https://www.grants.gov/search-results-detail/363270
-- 🆕 **07/22/2026** — Reel American: The Road to the Olympic Rings (DOS-JOR, PAS-JOR-FY26-004, closes 08/31/2026) — https://www.grants.gov/search-results-detail/363271
-- 🆕 **07/21/2026** — Access Alumni Outreach and Engagement and English Access Scholarship Program (DOS-KAZ, DOS-KAZ-ALM-PDS-26-001, closes 08/21/2026) — https://www.grants.gov/search-results-detail/363256
-- 🆕 **07/21/2026** — ROSES25: C.4 Planetary Science Enabling Facilities (NASA-HQ, NNH25ZDA001N-PSEF, closes 11/10/2026) — https://www.grants.gov/search-results-detail/363258
-- 🆕 **07/21/2026** — National Communication System for Runaway and Homeless Youth Program (HHS-ACF-FYSB, HHS-2026-ACF-ACYF-CY-0160, closes 08/19/2026) — https://www.grants.gov/search-results-detail/362072
-- 🆕 **07/21/2026** — Advancing Civilian Nuclear Power in T&uuml;rkiye (DOS-ACN, DFOP0018810, closes 07/23/2026) — https://www.grants.gov/search-results-detail/363262
-- 🆕 **07/21/2026** — Leveraging Academic Institutions and Judicial Professional Bodies to Document TNR (DOS-DRL, DFOP0019426, closes 08/20/2026) — https://www.grants.gov/search-results-detail/363259
-- 🆕 **07/21/2026** — Farm and Ranch Stress Assistance Network (USDA-NIFA, USDA-NIFA-OP-012079, closes 08/10/2026) — https://www.grants.gov/search-results-detail/363264
-- 🆕 **07/21/2026** — Young Trilateral Leaders (YTL) Summit (DOS-KOR, PD-SEOUL-FY26-04, closes 08/05/2026) — https://www.grants.gov/search-results-detail/363267
 - 🆕 **07/21/2026** — Unlocking Dataset Value for AI-Enabled Scientific Discovery (NSF, 26-512, closes 11/04/2026) — https://www.grants.gov/search-results-detail/363268
+- 🆕 **07/14/2026** — Public Wireless Supply Chain Innovation Fund Grant Program &ndash; Solutions for AI-Native RAN (DOC-NTIA, NTIA-PWSCIF-26-01, closes 09/09/2026) — https://www.grants.gov/search-results-detail/363179
+- 🆕 **07/09/2026** — EducationUSA AI/STEM and Sports Diplomacy Grant (DOS-GEO, PDS-DOS-GEO-FY26-004, closes 08/10/2026) — https://www.grants.gov/search-results-detail/363123
+- 🆕 **07/09/2026** — Freedom250 Advancing U.S. Artificial Intelligence Leadership in Algeria (DOS-DZA, PAS-ALG-FY26-02, closes 08/10/2026) — https://www.grants.gov/search-results-detail/363121
+- 🆕 **07/06/2026** — Disability and Rehabilitation Research Projects (DRRP) Program: Community Living and Participation (Research) (HHS-ACL, HHS-2026-ACL-NIDILRR-DPCP-0221, closes 08/05/2026) — https://www.grants.gov/search-results-detail/362015
+- 🆕 **07/06/2026** — Disability and Rehabilitation Research Projects (DRRP) Program: Community Living and Participation (Development) (HHS-ACL, HHS-2026-ACL-NIDILRR-DPCP-0222, closes 08/05/2026) — https://www.grants.gov/search-results-detail/362016
+- 🆕 **06/30/2026** — Tribal Transportation Safety Strategy Pilot Program (DOT-RITA, TRIBALSAFETY-OSTR24, closes 08/28/2026) — https://www.grants.gov/search-results-detail/362956
+- 🆕 **06/30/2026** — Interdisciplinary Transportation Law and Policy Technology Training Development (DOT-RITA, LAWPOLICY-OSTR24, closes 08/28/2026) — https://www.grants.gov/search-results-detail/362960
+- 🆕 **06/24/2026** — Cooperative Agreement for affiliated Partner with the Chesapeake Watershed Cooperative Ecosystem Studies Unit (DOI-USGS1, G26AS00149, closes 07/24/2026) — https://www.grants.gov/search-results-detail/362941
+- 🆕 **06/22/2026** — Prosperity through Partnership: Catalyzing U.S.-Algerian Collaboration in Innovation, Commerce and English Language (DOS-DZA, OFOP0002813, closes 08/08/2026) — https://www.grants.gov/search-results-detail/362903
+- 🆕 **06/22/2026** — Information Processing Techniques Office Office-Wide (DOD-DARPA-IPTO, HR001126S0011, closes 06/22/2027) — https://www.grants.gov/search-results-detail/362905
+- 🆕 **06/22/2026** — Disability and Rehabilitation Research Projects (DRRP) Program: Americans with Disabilities Act (ADA) National Network (HHS-ACL, HHS-2026-ACL-NIDILRR-DPAD-0219, closes 07/23/2026) — https://www.grants.gov/search-results-detail/362017
 
 ---
 _Next: if any 🆕 line crosses its trigger, act per research/method-watch.md and open the
