@@ -31,6 +31,11 @@ on:
       cofold_prefix:
         description: "nrv04_vast_launch: S3 prefix of the EXISTING NR-V04 co-fold to reuse (ValB output)"
         default: "nrv04-descriptive-v3"
+      md_mode:
+        description: "nrv04_vast_launch pilot/full: smoke (minimize+500 steps, cents) | run (5ns, priced)"
+        type: choice
+        options: [smoke, run]
+        default: smoke
 
 permissions:
   contents: write
@@ -124,7 +129,7 @@ jobs:
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
       GIT_BRANCH: ${{ github.ref_name }}
-      MODE: run
+      MODE: ${{ github.event.inputs.md_mode }}
       PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'full' && '0' || '1' }}
       DRY_RUN: ${{ github.event.inputs.vast_launch_mode == 'dry' && '1' || '0' }}
       DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}
