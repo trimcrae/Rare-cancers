@@ -261,12 +261,14 @@ jobs:
           set -eo pipefail
           LIST=$(tar tzf research/compute/nrv04md.tar.gz)
           echo "--- pdbfixer-matching paths in the tarball (diagnostic) ---"
-          echo "$LIST" | grep -i pdbfixer | head -20 || echo "(none)"
+          printf '%s\n' "$LIST" | grep -im 20 pdbfixer || echo "(none)"
           echo "----------------------------------------------------------"
-          # Authoritative presence markers: the package dir OR its conda-meta record. Match anywhere (path layout
-          # varies: lib/pythonX/site-packages/pdbfixer/... and conda-meta/pdbfixer-*.json).
-          if echo "$LIST" | grep -qiE '/pdbfixer/|conda-meta/pdbfixer-'; then
-            echo "pdbfixer PRESENT in the tarball — baking."
+          # COUNT (grep -c reads all input -> no early-exit SIGPIPE that would false-fail under `pipefail`; the
+          # `grep -q` form did exactly that and reported MISSING even though pdbfixer was present). Match the
+          # package dir OR its dist-info/conda-meta record (path layout varies).
+          CNT=$(printf '%s\n' "$LIST" | grep -icE '/pdbfixer/|pdbfixer-[0-9].*(dist-info|\.json)' || true)
+          if [ "${CNT:-0}" -gt 0 ]; then
+            echo "pdbfixer PRESENT in the tarball ($CNT paths) — baking."
           else
             echo "::error::pdbfixer MISSING from nrv04md.tar.gz — re-run nrv04_build_env before baking."
             exit 1
