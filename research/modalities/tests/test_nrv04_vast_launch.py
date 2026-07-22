@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from nrv04_covalent_panel import leg_by_id  # noqa: E402
-from nrv04_vast_launch import build_jobspec, cofold_cif_s3, units_to_run  # noqa: E402
+from nrv04_vast_launch import build_jobspec, cofold_prefix_s3, units_to_run  # noqa: E402
 
 _BUCKET = "sagemaker-us-east-2-123"
 
@@ -20,13 +20,14 @@ def test_jobspec_targets_ternary_host_and_carries_leg_env():
     e = spec.env
     assert e["LEG_ID"] == "cov_nr4a1" and e["COVALENT"] == "1" and e["COV_RESNUM"] == "551"
     assert e["GIT_BRANCH"] == "mybranch"
-    assert e["COFOLD_CIF_S3"].endswith("/nrv04/model_0.cif")     # cov_nr4a1 uses the NR-V04 co-fold
+    assert e["COFOLD_PREFIX_S3"].endswith("/nr4a1/")             # cov_nr4a1 uses the NR-V04 (nr4a1) co-fold system
     assert spec.command[0] == "bash" and "git clone" in spec.command[2]
 
 
-def test_cofold_cif_maps_ligand_to_system():
-    assert cofold_cif_s3(leg_by_id("warhead_only"), _BUCKET).endswith("/celastrol/model_0.cif")
-    assert cofold_cif_s3(leg_by_id("recruiter_epimer"), _BUCKET).endswith("/nrv04_epimer/model_0.cif")
+def test_cofold_prefix_maps_ligand_to_system():
+    assert cofold_prefix_s3(leg_by_id("warhead_only"), _BUCKET).endswith("/neg_celastrol/")   # free celastrol
+    assert cofold_prefix_s3(leg_by_id("recruiter_epimer"), _BUCKET).endswith("/neg_inactive/")  # epimer
+    assert cofold_prefix_s3(leg_by_id("cov_nr4a1"), _BUCKET).endswith("/nr4a1/")
 
 
 def test_pilot_only_selects_one_high_abort_unit(monkeypatch):
