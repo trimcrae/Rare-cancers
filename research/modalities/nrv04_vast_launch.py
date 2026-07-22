@@ -39,14 +39,19 @@ TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, di
 _PIPELINE = r"""
 set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -q && apt-get install -y -q git curl bzip2 ca-certificates
+apt-get update -q && apt-get install -y -q git curl bzip2 ca-certificates awscli
+mark() { echo "$1 $(date -u +%FT%TZ)" | aws s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
+mark booted
 git clone --depth 1 --branch "$GIT_BRANCH" {repo} /work
 cd /work/research/modalities
+mark cloned
 curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba
 export MAMBA_ROOT_PREFIX=/opt/mamba
+mark env-building
 ./bin/micromamba create -y -p /opt/mamba/envs/md -c conda-forge \
     python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli
 RUN="./bin/micromamba run -p /opt/mamba/envs/md"
+mark env-built
 mkdir -p /tmp/in /tmp/out /tmp/cofold
 export INPUT_DIR=/tmp/in OUTPUT_DIR=/tmp/out CKPT_DIR=/tmp/out
 # stage this leg from its co-fold system in S3 -> INPUT_DIR/<LEG_ID>/{complex.pdb,ligand.sdf}
@@ -56,10 +61,14 @@ test -n "$COFOLD_CIF" || { echo "no co-fold CIF found under $COFOLD_PREFIX_S3"; 
 $RUN python -c "import os; from nrv04_covalent_panel import leg_by_id; from nrv04_ligands import LIGANDS; \
 from nrv04_covalent_assemble import assemble_leg; lg=leg_by_id(os.environ['LEG_ID']); \
 assemble_leg(os.environ['COFOLD_CIF'], lg, LIGANDS[lg.ligand], os.environ['INPUT_DIR'])"
+mark staged
 # run the endpoint-MD driver, teardown-guarded
+mark md-running
 $RUN python autoteardown.py $RUN python nrv04_covalent_md.py
+mark md-done
 # publish the leg readout JSON
 $RUN aws s3 cp /tmp/out/ "$RESULT_S3/" --recursive --exclude '*' --include 'leg_*.json'
+mark uploaded
 """
 
 
@@ -110,6 +119,10 @@ def collect(bucket):
         print(f"[collect]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
               f"dph=${i.get('dph_total')}/hr", flush=True)
     s3 = boto3.client("s3")
+    phases = {}
+    for pk in _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix="phase.txt"):
+        unit = pk.split("/")[-2]
+        phases[unit] = s3.get_object(Bucket=bucket, Key=pk)["Body"].read().decode().strip()
     keys = _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix=".json")
     results = []
     for k in keys:
@@ -124,6 +137,7 @@ def collect(bucket):
                             "dph_base": i.get("dph_base"), "min_bid": i.get("min_bid"),
                             "gpu_name": i.get("gpu_name"), "start_date": i.get("start_date"),
                             "duration": i.get("duration")} for i in insts],
+        "phases": phases,
         "n_results": len(keys), "results": results,
     }
     json.dump(status, open("nrv04-collect-status.json", "w"), indent=2)

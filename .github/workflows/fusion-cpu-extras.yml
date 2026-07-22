@@ -150,26 +150,15 @@ jobs:
             pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed"
           fi
           python nrv04_vast_launch.py 2>&1 | tee /tmp/launch.log
-      - name: Publish discovery/collect status to modalities-cache
-        continue-on-error: true
+      - name: Upload discovery/collect status artifact
         if: ${{ always() && (github.event.inputs.vast_launch_mode == 'discover' || github.event.inputs.vast_launch_mode == 'collect') }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p "$RUNNER_TEMP/pub"
-          cp research/modalities/nrv04-cofold-discovery.json "$RUNNER_TEMP/pub/" 2>/dev/null || true
-          cp research/modalities/nrv04-collect-status.json "$RUNNER_TEMP/pub/" 2>/dev/null || true
-          for attempt in 1 2 3 4; do
-            git fetch origin modalities-cache || true
-            git checkout -B modalities-cache origin/modalities-cache 2>/dev/null || git checkout --orphan modalities-cache
-            mkdir -p research/modalities
-            cp "$RUNNER_TEMP"/pub/*.json research/modalities/ 2>/dev/null || true
-            git add research/modalities/nrv04-cofold-discovery.json research/modalities/nrv04-collect-status.json 2>/dev/null || true
-            git commit -m "nrv04 discovery/collect status" || { echo "no changes"; exit 0; }
-            git push origin modalities-cache && { echo "pushed"; exit 0; }
-            echo "push attempt $attempt failed (race); retrying"; sleep 3
-          done
-          echo "publish gave up after retries (non-fatal)"
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrv04-status
+          path: |
+            research/modalities/nrv04-cofold-discovery.json
+            research/modalities/nrv04-collect-status.json
+          if-no-files-found: ignore
       - name: Upload Vast handles
         if: always()
         uses: actions/upload-artifact@v4
