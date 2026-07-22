@@ -171,13 +171,48 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
         meta["covalent_pair"] = {k: v for k, v in cov_pair.items() if k.endswith("_idx")}
 
     integrator = MD.openmm_integrator()                        # canonical LangevinMiddle (4 fs, matches ValB/OpenFE)
-    try:
-        platform = Platform.getPlatformByName("CUDA")
-    except Exception:                                        # noqa: BLE001 — smoke on CPU CI runners
-        platform = Platform.getPlatformByName("CPU")
+    platform = _select_platform(Platform)
     sim = app.Simulation(modeller.topology, system, integrator, platform)
     sim.context.setPositions(modeller.positions)
     return sim, modeller.topology, meta
+
+
+def _select_platform(Platform):
+    """Pick CUDA (GPU legs) else CPU (CI smoke). A conda-pack'd env can carry a STALE compiled OpenMM plugin dir
+    so NO platform auto-loads — not even the built-in CPU (verified 2026-07-22 on Vast: 'no registered Platform
+    called CPU' from the baked env). So if no platforms are present, explicitly load plugins from this env's
+    lib/plugins first. OPENMM_REQUIRE_CUDA=1 (set for GPU legs) forbids the silent CPU fallback, which on a
+    466k-atom system would be catastrophically slow instead of failing fast."""
+    import glob
+    have = lambda: [Platform.getPlatform(i).getName() for i in range(Platform.getNumPlatforms())]
+    names = have()
+    if "CUDA" not in names and "CPU" not in names:            # plugins didn't auto-load -> load them explicitly
+        cands = []
+        pref = os.environ.get("CONDA_PREFIX") or os.environ.get("OPENMM_PREFIX") or "/opt/mamba/envs/md"
+        cands.append(os.path.join(pref, "lib", "plugins"))
+        try:
+            cands.append(Platform.getDefaultPluginsDirectory())
+        except Exception:  # noqa: BLE001
+            pass
+        cands += glob.glob("/opt/mamba/envs/*/lib/plugins") + glob.glob(os.path.join(pref, "lib*", "plugins"))
+        loaded = []
+        for d in cands:
+            if d and os.path.isdir(d):
+                try:
+                    Platform.loadPluginsFromDirectory(d); loaded.append(d)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[nrv04-md] plugin load {d} failed: {e}", flush=True)
+        names = have()
+        print(f"[nrv04-md] reloaded OpenMM plugins from {loaded}; platforms now: {names}", flush=True)
+    require_cuda = os.environ.get("OPENMM_REQUIRE_CUDA") == "1"
+    if "CUDA" in names:
+        return Platform.getPlatformByName("CUDA")
+    if require_cuda:
+        raise SystemExit(f"[nrv04-md] CUDA platform unavailable (platforms: {names}); OPENMM_REQUIRE_CUDA=1 "
+                         f"forbids the slow CPU fallback — check the GPU/driver + OpenMM plugin load on this host")
+    if "CPU" in names:
+        return Platform.getPlatformByName("CPU")
+    raise SystemExit(f"[nrv04-md] no usable OpenMM platform even after plugin reload (platforms: {names})")
 
 
 def _add_covalent_restraint(system, cov):
