@@ -132,6 +132,16 @@ experiment is actually run.
   services) with cell-based assay scope (transfection/knockdown, immunostaining, qPCR/RNA-seq) — the
   one watch that could flip the "no wet lab" constraint and unlock the whole wet-lab-gated sector
 - NR4A3 / EWSR1::NR4A3 direct EMC advances
+- **Funding watch (grants.gov, added 2026-07-22)** — currently-open federal **AI / compute**
+  solicitations, flagging the subset open to **individuals** (grants.gov eligibility 25) or
+  **unrestricted** (99) that a solo unaffiliated researcher could apply to for **GPU/compute**
+  funding. Context: the OSTP **"Science: A New Golden Age"** directive (2026-07-21) redirects
+  federal R&D toward AI and toward *individual scientists*, but shipped as a directive with **no
+  applyable program** — the money surfaces later as ordinary NSF/DOE/NIH/DARPA/ARPA-H
+  solicitations, which this watch catches as they post. Not a capability-unlock trigger; a
+  funding-availability watch. **Integrity guardrail:** a grants.gov hit is a prompt to *read the
+  solicitation* — the detail page's eligibility is authoritative over the coarse keyword+eligibility
+  filter; never assert an opportunity is applicable without reading it.
 
 > **ASO-paper coverage.** The last three rows above (plus the delivery row) are the
 > fusion-junction ASO paper's specific next-step gates, mirroring how the degrader paper's
@@ -144,6 +154,21 @@ model swaps in cheaply.*
 
 ## Open follow-ups from digests (triage log)
 Hits that crossed (or are warming) a trigger. A new session should action or clear these.
+
+- **[2026-07-22] Funding watch added to the weekly newsletter (trimcrae ask — "build this into our
+  weekly newsletter").** Prompted by the WSJ/OSTP **"Science: A New Golden Age"** directive
+  (2026-07-21), which redirects federal R&D toward AI and toward *individual scientists* but is a
+  directive with **nothing to apply to yet** — applyable funding will surface later as ordinary
+  agency solicitations. Rather than a separate cron, folded the watch into the existing mechanical
+  digest: `scripts/method-watch.mjs` now polls the **grants.gov Search2 API** for currently-open
+  AI/compute opportunities (three queries: AI + individuals/unrestricted, HPC/compute +
+  individuals/unrestricted, AI firehose/early-warning), rendered as a **"Funding watch"** section in
+  the digest and surfaced in the emailed TL;DR (`email_digest.py` SYSTEM prompt updated). This rides
+  the weekly Method-watch email — no new schedule. Eligibility codes: 25 = Individuals, 99 =
+  Unrestricted. Status: **live** (validated on a runner; grants.gov is proxy-blocked from the dev
+  sandbox, so it degrades to a "query failed" line there and runs for real in CI). Next: when a 🆕
+  individual/unrestricted AI/compute opportunity appears, read its detail page and, if applicable,
+  decide whether to apply for GPU funding.
 
 - **[2026-07-05] PocketMiner was watched as a *style*, never RUN as an orthogonal cross-check — closing that gap
   (trimcrae catch).** We built our cryptic-pocket case with our OWN metadynamics + fpocket ("PocketMiner-*style*"
