@@ -116,8 +116,11 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
         lig = lig[0]
 
     # ALL integration/FF/solvation hyperparameters come from md_settings (canonical). Do NOT hardcode here — a
-    # per-driver value is exactly how the 2 fs-vs-4 fs drift crept in. The endpoint-MD + ValB/RBFE lanes share
-    # these so their MD is directly comparable.
+    # per-driver value is exactly how the 2 fs-vs-4 fs drift crept in. Sharing md_settings with the RBFE lane is
+    # ENGINE HYGIENE (same integrator/FF, no unexplained knobs) — NOT validation transfer: ValB validates the
+    # free-energy method for the NR4A RBFE matrix, not this endpoint-MD panel. This panel reports geometric
+    # readouts and is validated by its own biological control (NR-V04 selectivity), so 4 fs here is just the
+    # shared-engine default. See md_settings.py "SCOPE OF WHAT SHARING THESE BUYS".
     # FORCE-FIELD CHARGE CACHE (NRV04_FFCACHE): openmmforcefields keys the AM1-BCC-charged GAFF template by the
     # ligand's connectivity-only isomeric SMILES, so a cache pre-computed ONCE on free CPU (nrv04_charge_cache.py)
     # is reused by every leg — no GPU box ever pays the ~40-min single-core sqm charge of the 166-atom recruiter.

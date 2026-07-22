@@ -8,9 +8,19 @@ only surfaced by manual inspection and would have made the two lanes' MD non-com
 hyperparameters MUST be defined ONCE and imported everywhere, so every test uses the same integration +
 force-field settings and drift between lanes is structurally impossible.
 
-These values match OpenFE's production defaults (what the RBFE lane runs) so the endpoint-MD and alchemical
-lanes are directly comparable. **Changing a value here changes ALL lanes that import it, at once — that is the
-point.** Any lane that needs to deviate must do so EXPLICITLY and say why in its own code, next to the override.
+These values match OpenFE's production defaults (what the RBFE lane runs). **Changing a value here changes ALL
+lanes that import it, at once — that is the point.** Any lane that needs to deviate must do so EXPLICITLY and say
+why in its own code, next to the override.
+
+SCOPE OF WHAT SHARING THESE BUYS (be precise — do NOT overclaim a validation link):
+  - This is ENGINE HYGIENE, not validation transfer. Sharing the integrator/FF means the MD lanes use the same
+    simulation engine so nothing is *gratuitously* incomparable and there are no unexplained knobs to defend.
+  - It does NOT mean the covalent endpoint-MD lane "inherits" ValB's validation. ValB (the known-answer ternary
+    RBFE edge) validates ONE thing — the *free-energy / cooperativity* method — and its only hard dependent that
+    MUST be physics-identical is the NR4A prospective RBFE matrix (calibration -> application). The covalent
+    endpoint-MD panel computes NO free energies (it reports geometric interface readouts R1-R4), so ValB does not
+    validate it; its validity rests on its OWN biological known-answer control (NR-V04 degrades NR4A1, spares
+    NR4A2/3). The covalent panel keeps 4 fs purely as the shared-engine default, not as evidence borrowed from ValB.
 
 Consumers (import from here, do NOT re-specify):
   - nrv04_covalent_md.py            (covalent/noncovalent endpoint MD)  — MIGRATED
