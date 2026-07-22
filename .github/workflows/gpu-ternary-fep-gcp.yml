@@ -161,6 +161,10 @@ jobs:
             --filter="operationType=compute.instances.preempted AND targetLink~gcp-ternary-" \
             --format="table(targetLink.basename(),operationType,insertTime,statusMessage)" \
             --sort-by=~insertTime --limit=10 2>/dev/null || echo "  (preemption-operations query failed)"
+          echo "=== live gcp-ternary VMs + L4 quota usage (ZOMBIE-vs-capacity: usage>0 with no progress = zombie holding a GPU; usage=0 + no VM + provision failing = real GCE capacity stockout, NOT a zombie) ==="
+          gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="table(name,zone.basename(),status,creationTimestamp)" 2>/dev/null || echo "  (no ternary VMs)"
+          Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
+          for M in NVIDIA_L4_GPUS PREEMPTIBLE_NVIDIA_L4_GPUS; do echo "$Q" | awk -v m="$M" '$1==m{printf "  %s: limit=%s usage=%s\n", $1,$2,$3}'; done
           VM_IN="${{ github.event.inputs.leg_id }}"   # reuse leg_id slot to pass an explicit VM name for tail
           case "$VM_IN" in gcp-ternary-*) TVM="$VM_IN" ;; *) TVM=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null | head -1) ;; esac
           if [ -n "$TVM" ]; then
