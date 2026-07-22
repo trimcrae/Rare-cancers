@@ -184,10 +184,12 @@ def _vast_url(path: str) -> str:
     deprecation redirects) is used verbatim; a bare '/instances/' defaults to the v0 prefix."""
     return _VAST_HOST + (path if path.startswith("/api/") else "/api/v0" + path)
 
-# our logical GPU class -> Vast's gpu_name filter token (underscored, as Vast returns them). None => don't
-# constrain the model, just the VRAM floor.
-_VAST_GPU_NAMES = {
-    "rtx4090": "RTX_4090", "rtx3090": "RTX_3090", "rtx4080": "RTX_4080",
+# our logical GPU class -> a substring matched CLIENT-SIDE against the offer's gpu_name (spaces stripped,
+# upper-cased). We do NOT filter the model server-side: Vast's `gpu_name` eq-token format is version-specific
+# and a wrong token silently returns zero offers (confirmed by the smoke bisect: gpu_name=RTX_4090 -> 0 while
+# the same query without it -> 55). Client-side substring match is robust and falls back to any capable card.
+_VAST_GPU_SUBSTR = {
+    "rtx4090": "4090", "rtx3090": "3090", "rtx4080": "4080",
     "a10g": "A10", "a100": "A100", "l40s": "L40S", "l4": "L4",
 }
 
@@ -221,19 +223,17 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
     """PURE: the Vast `/bundles/` search query for a single-GPU leg meeting `res` (shared by submit + the smoke,
     so they can't drift). Verified + rentable hosts only; interruptible => cheaper 'bid' tier (our per-unit
     checkpointing tolerates preemption)."""
-    q = {
+    # NB: no server-side gpu_name filter (see _VAST_GPU_SUBSTR) — the model is chosen client-side. VRAM floor is
+    # relaxed by ~1 GB because cards report just under the round number (a 4090 shows ~24564 MB, not 24576).
+    return {
         "verified": {"eq": True},
         "rentable": {"eq": True},
         "num_gpus": {"eq": 1},
-        "gpu_ram": {"gte": res.min_vram_gb * 1024},                # Vast reports gpu_ram in MB
+        "gpu_ram": {"gte": max(0, (res.min_vram_gb - 1)) * 1024},   # Vast reports gpu_ram in MB
         "disk_space": {"gte": 40},
         "order": [["dph_total", "asc"]],
         "type": "bid" if res.interruptible else "on-demand",
     }
-    gpu_name = _VAST_GPU_NAMES.get(res.gpu)                         # None => any GPU meeting the VRAM floor
-    if gpu_name:
-        q["gpu_name"] = {"eq": gpu_name}
-    return q
 
 
 def _vast_gpu_ram_gb(offer: dict) -> float:
@@ -243,9 +243,10 @@ def _vast_gpu_ram_gb(offer: dict) -> float:
 
 
 def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
-    """PURE: cheapest single-GPU, rentable offer meeting the VRAM (and optional price) constraint. Sorted by
-    total $/hr (dph_total). Returns the chosen offer dict, or None if nothing qualifies."""
-    best, best_price = None, None
+    """PURE: cheapest single-GPU, rentable offer meeting the VRAM (and optional price) constraint, preferring the
+    requested GPU model (client-side substring) but FALLING BACK to any capable card if that model isn't offered.
+    Sorted by total $/hr (dph_total). Returns the chosen offer dict, or None if nothing qualifies."""
+    capable = []
     for o in offers:
         try:
             price = float(o.get("dph_total", o.get("dph_base", 1e9)))
@@ -260,9 +261,15 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
             continue
         if max_hourly_usd is not None and price > max_hourly_usd:
             continue
-        if best is None or price < best_price:
-            best, best_price = o, price
-    return best
+        capable.append((price, o))
+    if not capable:
+        return None
+    substr = _VAST_GPU_SUBSTR.get(res.gpu)                        # prefer the requested model, else any capable
+    if substr:
+        preferred = [(p, o) for p, o in capable
+                     if substr in str(o.get("gpu_name", "")).replace(" ", "").upper()]
+        capable = preferred or capable
+    return min(capable, key=lambda po: po[0])[1]
 
 
 def _vast_status(actual: str, cur_state: str = None) -> str:
@@ -320,7 +327,7 @@ class VastBackend(Backend):
             raise RuntimeError("vast backend needs VAST_API_KEY (create a Vast.ai account first).")
         res = spec.resources
         q = _vast_offer_query(res)
-        offers = _vast_request("GET", "/offers/", key,
+        offers = _vast_request("GET", "/search/asks/", key,
                                params={"q": json.dumps(q)}).get("offers", [])
         max_hr = self.hourly_usd(res)                              # cap at our routing estimate + headroom
         offer = _select_cheapest_offer(offers, res,

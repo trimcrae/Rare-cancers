@@ -39,37 +39,18 @@ def phase1_readonly(key: str, res: ResourceSpec) -> dict:
     running = inst.get("instances", [])
     print(f"[auth OK] account reachable; {len(running)} instance(s) currently up", flush=True)
 
+    # CONFIRMED via bisect: endpoint is GET /search/asks/?q=<json>; the model is filtered CLIENT-SIDE (a
+    # server-side gpu_name token silently returned 0). _vast_offer_query no longer sends gpu_name.
     q = _vast_offer_query(res)
     print(f"[query] {q}", flush=True)
-
-    # CONFIRMED endpoint: GET /search/asks/?q=<json> returns {"offers":[...]} (the other paths 404). The full
-    # query returned n=0, so bisect the filters to find which one is zeroing it out (all $0, one run).
-    def _search(query):
-        return _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(query)}).get("offers", [])
-
-    def _drop(d, *keys):
-        return {k: v for k, v in d.items() if k not in keys}
-
-    variants = {
-        "full":         q,
-        "no_gpu_name":  _drop(q, "gpu_name"),
-        "no_type":      _drop(q, "type"),
-        "no_verified":  _drop(q, "verified"),
-        "vram_20g":     {**q, "gpu_ram": {"gte": 20000}},
-        "minimal":      {"rentable": {"eq": True}, "num_gpus": {"eq": 1}, "order": [["dph_total", "asc"]]},
-    }
-    counts = {}
-    for label, query in variants.items():
-        try:
-            n = len(_search(query))
-        except Exception as e:  # noqa: BLE001
-            n = f"ERR {str(e).split(' -> ', 1)[-1][:80]}"
-        counts[label] = n
-        print(f"[bisect] {label:12} -> {n}", flush=True)
-
-    offers = _search(q)
+    offers = _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}).get("offers", [])
+    print(f"[search] {len(offers)} offer(s) via GET /search/asks/", flush=True)
     if not offers:
-        raise SystemExit(f"FAIL: full query still 0 offers; bisect={counts} — relax the offending filter above")
+        raise SystemExit("FAIL: 0 offers — check the /search/asks/ query or marketplace availability")
+
+    from collections import Counter
+    hist = Counter(str(o.get("gpu_name", "?")) for o in offers)
+    print(f"[models] {dict(hist.most_common(8))}", flush=True)
 
     chosen = _select_cheapest_offer(offers, res)
     if chosen is None:
@@ -77,7 +58,7 @@ def phase1_readonly(key: str, res: ResourceSpec) -> dict:
     print(f"[pick] id={chosen['id']} gpu={chosen.get('gpu_name')} "
           f"vram={chosen.get('gpu_ram')}MB dph_total=${chosen.get('dph_total')}/hr "
           f"host={chosen.get('geolocation','?')}", flush=True)
-    print("PHASE 1 OK — key valid, marketplace has a rentable RTX-4090-class offer.\n", flush=True)
+    print("PHASE 1 OK — key valid, marketplace has a rentable capable offer.\n", flush=True)
     return chosen
 
 

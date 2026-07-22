@@ -165,12 +165,22 @@ def test_vast_selects_cheapest_capable_verified_offer():
 
 def test_vast_offer_query_shape():
     q = _vast_offer_query(ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True))
-    assert q["gpu_name"] == {"eq": "RTX_4090"}
-    assert q["num_gpus"] == {"eq": 1} and q["gpu_ram"] == {"gte": 24 * 1024}
+    # model is NOT filtered server-side (brittle token -> silent 0 results); chosen client-side instead
+    assert "gpu_name" not in q
+    assert q["num_gpus"] == {"eq": 1}
+    assert q["gpu_ram"] == {"gte": 23 * 1024}                      # 1 GB slack: cards report just under 24*1024
     assert q["type"] == "bid"                                      # interruptible -> cheaper bid tier
-    # any-GPU + on-demand: no gpu_name constraint, on-demand type
     q2 = _vast_offer_query(ResourceSpec(gpu="any", min_vram_gb=16, interruptible=False))
-    assert "gpu_name" not in q2 and q2["type"] == "on-demand"
+    assert q2["type"] == "on-demand" and q2["gpu_ram"] == {"gte": 15 * 1024}
+
+
+def test_vast_selection_prefers_requested_model_with_fallback():
+    o4090 = {"id": 1, "num_gpus": 1, "gpu_ram": 24564, "dph_total": 0.40, "gpu_name": "RTX 4090"}
+    o3090 = {"id": 2, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.20, "gpu_name": "RTX 3090"}
+    # cheaper 3090 exists, but a 4090 was requested -> pick the 4090 (soft preference)
+    assert _select_cheapest_offer([o4090, o3090], ResourceSpec(gpu="rtx4090", min_vram_gb=24))["id"] == 1
+    # no 4090 in the pool -> fall back to the cheapest capable card (the 3090)
+    assert _select_cheapest_offer([o3090], ResourceSpec(gpu="rtx4090", min_vram_gb=24))["id"] == 2
 
 
 def test_vast_offer_selection_respects_price_ceiling_and_none():
