@@ -31,6 +31,25 @@ what this doc is for.**
 > fan-out (each leg = an independent rented host → true N-wide, no shared-pool wall). Remaining before a real
 > campaign: point `JobSpec` at the MD/RBFE container image (the job already checkpoints per-unit, so
 > interruptible community hosts are safe). 28 unit tests pass.
+
+> **★★★ DOCKER HUB PUSH ACCESS IS NOW AVAILABLE (trimcrae, 2026-07-22) — BAKE IMAGES, DON'T PROVISION AT BOOT.**
+> A **Docker Hub** account is wired into CI: repo secret **`DOCKERHUB_TOKEN`** (Read/Write/Delete scope) + user
+> **`triskit23`**. Any workflow can now `docker login -u triskit23 -p $DOCKERHUB_TOKEN` and push a **public**
+> image (Docker Hub free repos are public by default → `is_private:false`, so **any** GPU provider — Vast,
+> RunPod, Salad — pulls it **unauthenticated**, no per-host registry creds, no secret on the untrusted host).
+> **WHY THIS MATTERS (diag-proven 2026-07-22):** Vast's cheap RTX-4090 marketplace hosts have catastrophic
+> routing to `archive.ubuntu.com`, and Vast's own container provisioning apt-installs python3/openssh/systemd at
+> boot — **~10–40 min per host** (confirmed across 5+ hosts; it is Vast's init, NOT our onstart, so no
+> onstart-level fix removes it). **The fix is a pre-provisioned baked image:** bake everything Vast would
+> apt-install (openssh/python3/git/systemd/tools) **plus** the packed MD conda env, so provisioning is a no-op
+> and the box boots in a Docker-Hub image pull (host bandwidth, not ubuntu mirrors) — **~2–4 min instead of
+> ~40**. **Exemplar to copy:** `research/compute/Dockerfile.nrv04vast` (built + pushed by the
+> `fusion-cpu-extras.yml` **`nrv04_bake`** job to `docker.io/triskit23/nrv04vast:latest`; the env tarball is
+> pulled from S3 into the build context, `ADD`-extracted, `conda-unpack`-relocated). The Vast launcher points
+> `VAST_IMAGE` at that image and its onstart **skips the S3 env download** when the env is already baked in.
+> **General pattern for any future GPU work:** build a provider-agnostic image ONCE (extend `Dockerfile.mdjob`
+> or `Dockerfile.nrv04vast`), push public to `triskit23/<name>`, and point every provider's `JobSpec.image` at
+> it — this eliminates the per-instance env-build/provisioning cost that otherwise dominates short jobs.
 >
 > **CHECKPOINTS = REUSE S3 (trimcrae, 2026-07-22).** No R2 bucket; Vast legs checkpoint to the **existing
 > SageMaker bucket** (`sagemaker-us-east-2-<acct>`, the one the AWS jobs use). Wiring done in `gpu_backend.py`:
