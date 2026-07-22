@@ -14,8 +14,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from autoteardown import make_subprocess_terminator, run_with_teardown  # noqa: E402
 from gpu_backend import (  # noqa: E402
     JobSpec, MockBackend, ModalBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend,
-    SlurmBackend, VastBackend, _select_cheapest_offer, _vast_offer_query, _vast_onstart, _vast_status,
-    get_backend, pick_cheapest,
+    SlurmBackend, VastBackend, _object_store_env, _select_cheapest_offer, _vast_offer_query, _vast_onstart,
+    _vast_status, get_backend, pick_cheapest, s3_checkpoint_uri,
 )
 from object_store import checkpoint_key, completed_units, parse_uri  # noqa: E402
 
@@ -199,6 +199,46 @@ def test_vast_onstart_always_self_destroys():
     assert "export MODE=real" in script
     # the anti-idle guard: the LAST line destroys the instance so the GPU can't idle on the meter
     assert script.strip().splitlines()[-1].startswith("vastai destroy instance")
+
+
+def test_object_store_env_forwards_only_present_keys():
+    src = {"AWS_ACCESS_KEY_ID": "AKIA", "AWS_SECRET_ACCESS_KEY": "sek", "AWS_DEFAULT_REGION": "us-east-2",
+           "IRRELEVANT": "x"}
+    fwd = _object_store_env(src)
+    assert fwd == {"AWS_ACCESS_KEY_ID": "AKIA", "AWS_SECRET_ACCESS_KEY": "sek", "AWS_DEFAULT_REGION": "us-east-2"}
+    assert _object_store_env({}) == {}                             # nothing to forward -> empty (no crash)
+
+
+def test_vast_onstart_forwards_s3_creds_for_reuse():
+    spec = JobSpec(name="edgeB", command=["python", "rbfe.py"], checkpoint_uri="s3://bkt/vast/edgeB/ckpt",
+                   env={"MODE": "real"})
+    creds = {"AWS_ACCESS_KEY_ID": "AKIA", "AWS_SECRET_ACCESS_KEY": "sek", "AWS_DEFAULT_REGION": "us-east-2"}
+    script = _vast_onstart(spec, VastBackend().self_terminate_cmd(), extra_env=creds)
+    assert "export AWS_ACCESS_KEY_ID=AKIA" in script               # the rented host can now reach the S3 bucket
+    assert "export AWS_SECRET_ACCESS_KEY=sek" in script
+    assert "export CHECKPOINT_URI=s3://bkt/vast/edgeB/ckpt" in script
+    assert "export MODE=real" in script
+    assert script.strip().splitlines()[-1].startswith("vastai destroy instance")   # still self-destroys last
+
+
+def test_vast_onstart_spec_env_overrides_forwarded():
+    spec = JobSpec(name="e", command=["true"], env={"AWS_DEFAULT_REGION": "us-west-2"})
+    script = _vast_onstart(spec, [], extra_env={"AWS_DEFAULT_REGION": "us-east-2"})
+    assert "export AWS_DEFAULT_REGION=us-west-2" in script         # spec.env wins over the forwarded default
+    assert "export AWS_DEFAULT_REGION=us-east-2" not in script
+
+
+def test_s3_checkpoint_uri_builds_prefix(monkeypatch):
+    assert s3_checkpoint_uri("valA", bucket="sagemaker-us-east-2-123") == \
+        "s3://sagemaker-us-east-2-123/vast/valA/ckpt"
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "sagemaker-us-east-2-123")
+    assert s3_checkpoint_uri("nrv04").startswith("s3://sagemaker-us-east-2-123/vast/nrv04/")
+    monkeypatch.delenv("VAST_CKPT_BUCKET", raising=False)
+    try:
+        s3_checkpoint_uri("x")
+        assert False
+    except ValueError:
+        pass
 
 
 def test_vast_status_mapping():

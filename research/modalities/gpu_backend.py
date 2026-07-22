@@ -286,17 +286,47 @@ def _vast_status(actual: str, cur_state: str = None) -> str:
     return "stopped"                                             # offline/stopped/destroyed
 
 
-def _vast_onstart(spec: JobSpec, self_terminate_argv) -> str:
-    """Build the instance onstart script: export the resume/checkpoint context, run the job command, then
-    GUARANTEE the instance self-destroys so the rented GPU never idles on the meter (the #1 gotcha). The driver
-    itself wraps in autoteardown (finally + watchdog); the trailing destroy is a belt-and-braces backstop in
-    case the container's python never reaches that finally-block. PURE (no I/O) -> unit-tested."""
+# Env forwarded into a rented instance so its job container can read/write the checkpoint bucket. For "reuse
+# S3" this carries the AWS keys + region; if OBJECT_STORE_ENDPOINT is set (R2/B2) it rides along too, so the
+# same code path serves any S3-compatible store. SECURITY: a rented community host is UNTRUSTED — set these
+# from a **bucket-scoped IAM key** (s3:GetObject/PutObject/ListBucket on just the checkpoint prefix), never a
+# broad/admin AWS key. See cheap-gpu-plan.md.
+_OBJECT_STORE_ENV_KEYS = (
+    "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN", "AWS_DEFAULT_REGION",
+    "OBJECT_STORE_ENDPOINT", "OBJECT_STORE_REGION",
+)
+
+
+def _object_store_env(source_env=None) -> dict:
+    """Collect the checkpoint-store credentials/config present in the environment, to forward into the instance
+    so its job container can reach the bucket (reuse-S3 = the AWS keys). PURE (reads a dict) -> unit-tested."""
+    env = source_env if source_env is not None else os.environ
+    return {k: env[k] for k in _OBJECT_STORE_ENV_KEYS if env.get(k)}
+
+
+def s3_checkpoint_uri(job_name: str, bucket: str = None, prefix: str = "vast") -> str:
+    """Build a per-job checkpoint prefix on the REUSED S3 bucket (the one the AWS jobs already use). `bucket`
+    defaults to $VAST_CKPT_BUCKET (e.g. the SageMaker default bucket, sagemaker-us-east-2-<acct>). A campaign
+    launcher sets JobSpec.checkpoint_uri to this so each leg checkpoints per-unit and resumes after preemption."""
+    bucket = bucket or os.environ.get("VAST_CKPT_BUCKET")
+    if not bucket:
+        raise ValueError("s3_checkpoint_uri needs a bucket (arg or $VAST_CKPT_BUCKET)")
+    return f"s3://{bucket}/{prefix}/{job_name}/ckpt"
+
+
+def _vast_onstart(spec: JobSpec, self_terminate_argv, extra_env=None) -> str:
+    """Build the instance onstart script: export the resume/checkpoint context (+ any forwarded object-store
+    creds), run the job command, then GUARANTEE the instance self-destroys so the rented GPU never idles on the
+    meter (the #1 gotcha). The driver itself wraps in autoteardown (finally + watchdog); the trailing destroy is
+    a belt-and-braces backstop in case the container's python never reaches that finally-block. `extra_env` is
+    merged UNDER spec.env (spec.env wins). PURE (no I/O) -> unit-tested."""
     cmd = " ".join(shlex.quote(a) for a in spec.command)
     destroy = " ".join(shlex.quote(a) for a in self_terminate_argv)
+    env = {**(extra_env or {}), **spec.env}
     lines = ["#!/bin/bash", "set -o pipefail",
              f"export CHECKPOINT_URI={shlex.quote(spec.checkpoint_uri)}",
              f"export RESUME={'1' if spec.resume else '0'}"]
-    lines += [f"export {k}={shlex.quote(str(v))}" for k, v in spec.env.items()]
+    lines += [f"export {k}={shlex.quote(str(v))}" for k, v in env.items()]
     lines += [cmd, destroy]
     return "\n".join(lines)
 
@@ -334,7 +364,9 @@ class VastBackend(Backend):
                                        max_hourly_usd=(max_hr * 2.0 if max_hr else None))
         if offer is None:
             raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} offers)")
-        onstart = _vast_onstart(spec, self.self_terminate_cmd())
+        # Forward the checkpoint-store creds (reuse-S3 = the AWS keys) into the rented host so its job container
+        # can read/write the same bucket a spot kill would otherwise lose (per-unit checkpoint/resume contract).
+        onstart = _vast_onstart(spec, self.self_terminate_cmd(), extra_env=_object_store_env())
         # Rent the chosen ask: PUT /asks/{id}/ is Vast's canonical create-instance endpoint (POST /instances/
         # 404s). On success the body carries new_contract = the instance id.
         created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body={

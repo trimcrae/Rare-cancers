@@ -29,8 +29,20 @@ what this doc is for.**
 > gpu_name filter silently returns 0** — the model is now chosen client-side (substring + fallback) and the VRAM
 > floor is relaxed ~1 GB (a 4090 reports 24564 MB). **STATUS: Vast is production-ready** for the wide-parallel
 > fan-out (each leg = an independent rented host → true N-wide, no shared-pool wall). Remaining before a real
-> campaign: point `JobSpec` at the MD/RBFE container image + wire `object_store` checkpoints to R2/S3 (the job
-> already checkpoints per-unit, so interruptible community hosts are safe). 24 unit tests pass.
+> campaign: point `JobSpec` at the MD/RBFE container image (the job already checkpoints per-unit, so
+> interruptible community hosts are safe). 28 unit tests pass.
+>
+> **CHECKPOINTS = REUSE S3 (trimcrae, 2026-07-22).** No R2 bucket; Vast legs checkpoint to the **existing
+> SageMaker bucket** (`sagemaker-us-east-2-<acct>`, the one the AWS jobs use). Wiring done in `gpu_backend.py`:
+> `VastBackend.submit()` auto-**forwards the AWS keys** (`_object_store_env` → the onstart) into the rented host
+> so its container reads/writes the bucket via the existing `object_store` boto3 path (endpoint unset ⇒ AWS S3);
+> `s3_checkpoint_uri(job, bucket=$VAST_CKPT_BUCKET)` builds `s3://<bucket>/vast/<job>/ckpt`. Because campaigns
+> launch from CI, the creds come from the CI `AWS_*` secrets already present — **no new secret required** for the
+> CI-launched path; optionally set **`VAST_CKPT_BUCKET`** to pin the bucket. **⚠ SECURITY (recommended before a
+> real fan-out):** a rented community host is UNTRUSTED and the onstart hands it the S3 creds, so use a
+> **bucket-scoped IAM key** (s3:Get/Put/ListBucket on just the `vast/*` prefix), NOT the broad SageMaker key.
+> Trade-off accepted: S3 egress (~$0.09/GB) when trajectories move to/from Vast; revisit R2 (free egress) only
+> if that adds up.
 
 > **★★ VAST.AI ADAPTER WIRED 2026-07-22 (trimcrae picked Vast as the paid wide-parallel workhorse).** The
 > **wall-clock problem is diagnosed, not GCP-fixable:** GCP GPU is pinned to **us-central1 only** (our standing
