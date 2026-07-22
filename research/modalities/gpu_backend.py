@@ -243,26 +243,29 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
     }
 
 
-# Bid to HOLD, not just to win once. Diag proved a below-base bid (midpoint of min_bid..dph_base) gets the box
-# but then Vast PREEMPTS it mid-boot on contested cheap hosts (cur_state oscillated running->stopped before the
-# ~5-10 min provisioning even finished, so no checkpoint was written and it never made progress). A preemption
-# destroys the box and re-pays the whole boot, so a rock-bottom bid is a false economy. Bid this MULTIPLE of the
-# on-demand base (dph_base) so the instance reliably holds through boot+run; still an interruptible bid, still
-# cheaper than most on-demand 4090s, and for a short feasibility panel reliability dominates the few cents.
-_VAST_BID_HOLD_MULT = 1.25
+# INTERRUPTIBLE BID = a small margin above the market FLOOR (min_bid), never above on-demand. On Vast you pay
+# your bid, so bidding 1.25x the on-demand base (the old rule) meant paying MORE than on-demand — defeating the
+# whole point of interruptible. That was an over-correction to mid-boot preemptions back when boot was the ~25-min
+# conda solve; now the env is BAKED (~3-min boot) and every unit checkpoints, so a preemption costs only a short
+# re-boot we absorb via re-dispatch/resume (the "spot preemptions are routine" rule). So bid low and, if a host
+# preempts us, wait it out / re-dispatch — do NOT bid up toward on-demand. Tunable via env for a contested run.
+_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.15"))   # hold margin above min_bid
+_VAST_BID_OD_CAP = float(os.environ.get("VAST_BID_OD_CAP", "0.9"))            # never exceed this fraction of on-demand
 
 
 def _vast_bid_price(offer: dict):
-    """Interruptible bid $/hr for this offer: a margin ABOVE the on-demand base so the box holds (below-base bids
-    get preempted mid-boot, diag-confirmed). Floored at 1.1x min_bid. None if the offer lacks pricing. PURE."""
+    """Interruptible bid $/hr for this offer: a small margin above the market floor (min_bid), HARD-capped below
+    on-demand (dph_base) so an interruptible bid is always cheaper than on-demand. None if unpriced. PURE."""
     try:
         floor = float(offer.get("min_bid") or 0.0)
-        base = float(offer.get("dph_base") or offer.get("dph_total") or floor)
+        base = float(offer.get("dph_base") or offer.get("dph_total") or 0.0)
     except (TypeError, ValueError):
         return None
-    if base <= 0:
+    if floor <= 0 and base <= 0:
         return None
-    bid = max(base * _VAST_BID_HOLD_MULT, floor * 1.1)
+    bid = floor * _VAST_BID_FLOOR_MULT if floor > 0 else base * _VAST_BID_OD_CAP
+    if base > 0:
+        bid = min(bid, base * _VAST_BID_OD_CAP)                  # stay strictly under on-demand
     return round(max(bid, 0.001), 4)
 
 
