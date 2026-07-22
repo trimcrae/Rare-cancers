@@ -130,6 +130,20 @@ def collect(bucket):
     print("[collect] " + json.dumps(status, indent=2), flush=True)
 
 
+def stop_all():
+    """Destroy every one of MY Vast instances (stop the bleed). Prints each id it tears down."""
+    key = os.environ.get("VAST_API_KEY")
+    if not key:
+        raise SystemExit("[stop] VAST_API_KEY not set")
+    insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    print(f"[stop] {len(insts)} instance(s) to destroy", flush=True)
+    for i in insts:
+        iid = i.get("id")
+        _vast_request("DELETE", f"/instances/{iid}/", key)
+        print(f"[stop] destroyed {iid} ({i.get('label')})", flush=True)
+    print("[stop] done", flush=True)
+
+
 def build_jobspec(leg, seed, mode, branch, bucket):
     """PURE: the JobSpec for one (leg, seed) unit. No I/O -> unit-tested."""
     name = unit_name(leg, seed)
@@ -209,6 +223,9 @@ def main():
         return 0
     if os.environ.get("COLLECT") == "1":
         collect(bucket)
+        return 0
+    if os.environ.get("STOP_ALL") == "1":
+        stop_all()
         return 0
     branch = os.environ.get("GIT_BRANCH", "claude/alternative-gpu-providers-wx4r2c")
     mode = os.environ.get("MODE", "run")

@@ -21,9 +21,9 @@ on:
         type: boolean
         default: false
       vast_launch_mode:
-        description: "nrv04_vast_launch: discover | stage_test | collect (monitor) | dry | pilot | full"
+        description: "nrv04_vast_launch: discover | stage_test | collect | stop_all | dry | pilot | full"
         type: choice
-        options: [discover, stage_test, collect, dry, pilot, full]
+        options: [discover, stage_test, collect, stop_all, dry, pilot, full]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -135,6 +135,7 @@ jobs:
       DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}
       STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'stage_test' && '1' || '0' }}
       COLLECT: ${{ github.event.inputs.vast_launch_mode == 'collect' && '1' || '0' }}
+      STOP_ALL: ${{ github.event.inputs.vast_launch_mode == 'stop_all' && '1' || '0' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
