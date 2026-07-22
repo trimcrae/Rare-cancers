@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys]
+        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -78,6 +78,28 @@ jobs:
           git add research/modalities/nrv04-cys-conservation.json 2>/dev/null || true
           git commit -m "NR-V04 Leg 0: celastrol-Cys551 conservation across NR4A1/2/3" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
+
+  nrv04_md_smoke:
+    if: ${{ github.event.inputs.task == 'nrv04_md_smoke' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up MD env (openmm + openff + openmmforcefields + rdkit + gemmi)
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-name: nrv04md
+          create-args: >-
+            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy
+          condarc: |
+            channels:
+              - conda-forge
+      - name: NR-V04 MD-env + celastrol-param + restraint mechanics smoke (vacuum, CPU)
+        working-directory: research/modalities
+        run: python nrv04_md_env_smoke.py
 
   run:
     if: ${{ github.event.inputs.task == 'fusion' }}
