@@ -16,6 +16,22 @@ checkpoint bridge so compute is stateless and swappable (`object_store.py`), a p
 21 unit tests pass. **Only the real per-provider `submit()` calls remain — those need live accounts, which is
 what this doc is for.**
 
+> **★★★ VAST.AI BACKEND VALIDATED END-TO-END 2026-07-22 (`fusion-cpu-extras.yml` task=vast_smoke).** The full
+> lifecycle now runs live against the Vast REST API from CI: **auth → search (GET /search/asks/, 63 verified
+> single-GPU offers; pool = RTX 4090 ×8 / 5090 / PRO 6000 / 3090 / A100 SXM4 / H200) → client-side model pick
+> (RTX 4090, 24564 MB, ~$0.20/hr) → create (PUT /asks/{id}/) → status=running → destroy (DELETE
+> /instances/{id}/) → 0 instances left up** (anti-idle guarantee confirmed). Total smoke spend: fractions of a
+> cent. **Three live-API gotchas the smoke caught + fixed** (all in `gpu_backend.py`): (1) per-key **2FA-required
+> toggle** must be OFF or every call 401s "requires Two Factor Authentication" (account-side, not a scope);
+> (2) endpoints drifted — list is `/api/v1/instances/` (the client now **auto-follows** Vast's own
+> `410 deprecated_endpoint` "Use … instead" redirect), search is `GET /api/v0/search/asks/?q=<json>` (NOT
+> /bundles/ or /offers/), create is `PUT /api/v0/asks/{id}/` (NOT POST /instances/); (3) a **server-side
+> gpu_name filter silently returns 0** — the model is now chosen client-side (substring + fallback) and the VRAM
+> floor is relaxed ~1 GB (a 4090 reports 24564 MB). **STATUS: Vast is production-ready** for the wide-parallel
+> fan-out (each leg = an independent rented host → true N-wide, no shared-pool wall). Remaining before a real
+> campaign: point `JobSpec` at the MD/RBFE container image + wire `object_store` checkpoints to R2/S3 (the job
+> already checkpoints per-unit, so interruptible community hosts are safe). 24 unit tests pass.
+
 > **★★ VAST.AI ADAPTER WIRED 2026-07-22 (trimcrae picked Vast as the paid wide-parallel workhorse).** The
 > **wall-clock problem is diagnosed, not GCP-fixable:** GCP GPU is pinned to **us-central1 only** (our standing
 > region rule — no L4/G2 quota elsewhere), so the whole fleet competes for **one region's shallow Spot L4 pool
