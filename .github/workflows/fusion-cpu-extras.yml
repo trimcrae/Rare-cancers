@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_bake, nrv04_vast_launch]
+        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_bake, nrv04_vast_launch]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -43,8 +43,10 @@ on:
 permissions:
   contents: write
 
+# Per-TASK concurrency so independent tasks (e.g. nrv04_build_env + nrv04_charge_cache) run in PARALLEL instead
+# of cancelling each other — a plain `fusion-cpu-extras` group would serialize every dispatch of this workflow.
 concurrency:
-  group: fusion-cpu-extras
+  group: fusion-cpu-extras-${{ github.event.inputs.task }}
   cancel-in-progress: true
 
 jobs:
@@ -157,10 +159,42 @@ jobs:
           aws s3 cp nrv04md.tar.gz "s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz"
           echo "uploaded s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz"
 
+  nrv04_charge_cache:
+    # Pre-compute AM1-BCC charges for the 3 distinct panel ligands ONCE (free CPU) and upload the shared
+    # openmmforcefields cache to s3://.../nrv04-ffcache/ffcache.json, so no GPU leg pays the ~40-min single-core
+    # sqm charge of the 166-atom recruiter (root-caused from build_smoke #2). Generous timeout: ~40 min each for
+    # nrv04 + nrv04_epimer, plus a few for celastrol; the cache checkpoints to S3 after each ligand (resumable).
+    if: ${{ github.event.inputs.task == 'nrv04_charge_cache' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 210
+    defaults:
+      run:
+        shell: bash -el {0}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up MD env (openmm + openff + openmmforcefields + ambertools + rdkit + boto3)
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-name: nrv04md
+          create-args: >-
+            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 pdbfixer
+          condarc: |
+            channels:
+              - conda-forge
+      - name: Charge the distinct panel ligands once and cache to S3 (CPU, no GPU)
+        working-directory: research/modalities
+        run: python nrv04_charge_cache.py
+
   nrv04_build_smoke:
-    # FREE CPU validation: build the full solvated OpenMM system from the REAL co-fold (addHydrogens ->
-    # addSolvent -> createSystem -> covalent restraint). Catches the missing-hydrogens class of bug that crashed
-    # every leg, before any GPU spend. No Vast.
+    # FREE CPU validation: build the full solvated OpenMM system from the REAL co-fold (PDBFixer prep ->
+    # addSolvent -> createSystem -> covalent restraint). Catches the missing-hydrogens/capping class of bug that
+    # crashed every leg, before any GPU spend. Loads the pre-computed FF charge cache from S3 so it also VALIDATES
+    # that the cache eliminates the ~40-min sqm charge (build now finishes in ~1-2 min). No Vast.
     if: ${{ github.event.inputs.task == 'nrv04_build_smoke' }}
     runs-on: ubuntu-latest
     timeout-minutes: 40
@@ -173,6 +207,7 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+      NRV04_FFCACHE: /tmp/nrv04_ffcache.json
     steps:
       - uses: actions/checkout@v4
       - name: Set up MD env (openmm + openff + openmmforcefields + rdkit + gemmi + boto3)
@@ -184,6 +219,11 @@ jobs:
           condarc: |
             channels:
               - conda-forge
+      - name: Fetch the pre-computed FF charge cache (skip if absent — build will just charge in-process)
+        run: |
+          python3 -m pip install -q awscli >/dev/null 2>&1 || pip install -q awscli >/dev/null 2>&1 || true
+          aws s3 cp "s3://${VAST_CKPT_BUCKET}/nrv04-ffcache/ffcache.json" "$NRV04_FFCACHE" \
+            || echo "no ffcache yet — build_smoke will charge in-process (slow; may hit the 40-min timeout)"
       - name: Build the full solvated system from the real co-fold (CPU, no MD)
         working-directory: research/modalities
         run: python nrv04_build_smoke.py

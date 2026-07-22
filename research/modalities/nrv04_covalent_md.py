@@ -118,11 +118,18 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     # ALL integration/FF/solvation hyperparameters come from md_settings (canonical). Do NOT hardcode here — a
     # per-driver value is exactly how the 2 fs-vs-4 fs drift crept in. The endpoint-MD + ValB/RBFE lanes share
     # these so their MD is directly comparable.
+    # FORCE-FIELD CHARGE CACHE (NRV04_FFCACHE): openmmforcefields keys the AM1-BCC-charged GAFF template by the
+    # ligand's connectivity-only isomeric SMILES, so a cache pre-computed ONCE on free CPU (nrv04_charge_cache.py)
+    # is reused by every leg — no GPU box ever pays the ~40-min single-core sqm charge of the 166-atom recruiter.
+    # None (unset) => current behaviour (charge in-process). The same md_settings FF strings that populated the
+    # cache are used here, so the keys match (baked-image env == cache-build env == this env).
+    ffcache = os.environ.get("NRV04_FFCACHE") or None
     sysgen = SystemGenerator(
         forcefields=list(MD.PROTEIN_FORCEFIELDS),
         small_molecule_forcefield=MD.SMALL_MOLECULE_FORCEFIELD,
         molecules=[lig],
         forcefield_kwargs=MD.systemgenerator_forcefield_kwargs(),
+        cache=ffcache,
     )
 
     modeller = app.Modeller(fixed_topology, fixed_positions)   # PDBFixer already added protein H + capped termini
