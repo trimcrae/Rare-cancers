@@ -36,7 +36,13 @@ _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastro
 # it does NOT need the FEP's beefy host — over-specifying RAM/vCPU/disk excludes the cheap 4090s and leaves only
 # high-demand hosts where the spot floor (min_bid) ~= on-demand. Modest requirements let the bid find a cheap
 # 4090 (~$0.10-0.15/hr spot). reliability filter kept (a crash, unlike preemption, we don't tolerate).
-TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=60, interruptible=True)
+# RTX 3090 (24 GB Ampere) is the price/perf sweet spot for these endpoint-MD legs: probe_offers (2026-07-22)
+# showed 3090s bidding ~$0.07-0.09/hr vs the cheapest 4090 at $0.144 and the host we first landed at $0.264.
+# A 466k-atom system needs <4 GB VRAM so 24 GB is ample, and Ampere/cuda-13 hosts have no PTX-version issue.
+# We're not racing (endpoint-MD, checkpointed, parallel), so the 3090's ~0.6x-4090 throughput is fine and it's
+# ~70% cheaper than the first host + under GCP L4 spot. _select_cheapest_offer still falls back to any capable
+# 24 GB card if 3090s are scarce, always ranked by the true interruptible cost (min_bid).
+TERNARY_RES = ResourceSpec(gpu="rtx3090", min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=60, interruptible=True)
 
 # Boot image. Vast's cheap 4090 hosts have catastrophically slow BOOT-TIME PROVISIONING (Vast apt-installs
 # python3/openssh/systemd from archive.ubuntu.com at container start — ~40 min on these hosts, diag-confirmed
