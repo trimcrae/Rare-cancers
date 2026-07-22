@@ -138,6 +138,8 @@ jobs:
         run: |
           pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
           python nrv04_vast_launch.py
+          echo "===DISCOVERY_JSON==="; cat nrv04-cofold-discovery.json 2>/dev/null || echo "(none)"
+          echo "===HANDLES_JSON==="; cat nrv04-vast-handles.json 2>/dev/null || echo "(none)"
       - name: Upload Vast handles
         if: always()
         uses: actions/upload-artifact@v4
