@@ -32,8 +32,11 @@ RESULT_PREFIX = os.environ.get("NRV04_RESULT_PREFIX", "nrv04-covalent-results")
 # panel ligand -> the co-fold SYSTEM subdir it comes from (nrv04_ternary.py naming).
 _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastrol": "neg_celastrol"}
 
-# ternary hosts: 4090-class 24 GB (fits 146k atoms), >=32 GB host RAM (setup is RAM-bound), 8 vCPU, 80 GB disk.
-TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80, interruptible=True)
+# Endpoint-MD host: 4090 24 GB. The solvated complex here is ~50-70k atoms (NOT the 146k-atom FEP hybrid), so
+# it does NOT need the FEP's beefy host — over-specifying RAM/vCPU/disk excludes the cheap 4090s and leaves only
+# high-demand hosts where the spot floor (min_bid) ~= on-demand. Modest requirements let the bid find a cheap
+# 4090 (~$0.10-0.15/hr spot). reliability filter kept (a crash, unlike preemption, we don't tolerate).
+TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=40, interruptible=True)
 
 # The onstart pipeline. $VARS are exported by _vast_onstart (leg env + forwarded AWS creds + CHECKPOINT_URI).
 _PIPELINE = r"""
