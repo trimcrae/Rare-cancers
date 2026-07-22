@@ -14,8 +14,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from autoteardown import make_subprocess_terminator, run_with_teardown  # noqa: E402
 from gpu_backend import (  # noqa: E402
     JobSpec, MockBackend, ModalBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend,
-    SlurmBackend, VastBackend, _object_store_env, _select_cheapest_offer, _vast_offer_query, _vast_onstart,
-    _vast_status, get_backend, pick_cheapest, s3_checkpoint_uri,
+    SlurmBackend, VastBackend, _object_store_env, _select_cheapest_offer, _vast_bid_price, _vast_offer_query,
+    _vast_onstart, _vast_status, get_backend, pick_cheapest, s3_checkpoint_uri,
 )
 from object_store import checkpoint_key, completed_units, parse_uri  # noqa: E402
 
@@ -163,6 +163,25 @@ def test_vast_selects_cheapest_capable_verified_offer():
     assert chosen["id"] == 2                                       # cheapest that meets VRAM + single-GPU + rentable
 
 
+def test_vast_bid_price_is_midpoint_and_bounded():
+    # bid sits between the market floor (min_bid) and on-demand base -> cheap but stable
+    offer = {"min_bid": 0.10, "dph_base": 0.30, "dph_total": 0.33}
+    assert _vast_bid_price(offer) == 0.20                          # 0.10 + 0.5*(0.30-0.10)
+    # degenerate: floor == base -> at least a hair above floor, never below
+    assert _vast_bid_price({"min_bid": 0.12, "dph_base": 0.12}) >= 0.12
+    assert _vast_bid_price({}) is None                            # no pricing -> no bid
+
+
+def test_vast_selection_ranks_by_min_bid_when_interruptible():
+    # A has lower on-demand but higher bid floor; B has higher on-demand but the cheaper bid we'd actually pay
+    a = {"id": 1, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.20, "min_bid": 0.18, "gpu_name": "RTX 4090"}
+    b = {"id": 2, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.30, "min_bid": 0.09, "gpu_name": "RTX 4090"}
+    res_bid = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True)
+    assert _select_cheapest_offer([a, b], res_bid)["id"] == 2      # ranks by min_bid -> B is cheaper to run
+    res_od = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=False)
+    assert _select_cheapest_offer([a, b], res_od)["id"] == 1       # on-demand -> ranks by dph_total -> A
+
+
 def test_vast_offer_query_shape():
     q = _vast_offer_query(ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True))
     # model is NOT filtered server-side (brittle token -> silent 0 results); chosen client-side instead
@@ -170,6 +189,12 @@ def test_vast_offer_query_shape():
     assert q["num_gpus"] == {"eq": 1}
     assert q["gpu_ram"] == {"gte": 23 * 1024}                      # 1 GB slack: cards report just under 24*1024
     assert q["type"] == "bid"                                      # interruptible -> cheaper bid tier
+    # host constraints (ternary setup is RAM-bound; flaky hosts crash): default ram_gb=16, vcpus=4, disk=40, rel .90
+    assert q["cpu_ram"] == {"gte": 16 * 1024} and q["cpu_cores"] == {"gte": 4}
+    assert q["disk_space"] == {"gte": 40} and q["reliability2"] == {"gte": 0.90}
+    # a ternary-sized spec raises the RAM/disk floors
+    qt = _vast_offer_query(ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80))
+    assert qt["cpu_ram"] == {"gte": 32 * 1024} and qt["disk_space"] == {"gte": 80}
     q2 = _vast_offer_query(ResourceSpec(gpu="any", min_vram_gb=16, interruptible=False))
     assert q2["type"] == "on-demand" and q2["gpu_ram"] == {"gte": 15 * 1024}
 

@@ -37,8 +37,10 @@ class ResourceSpec:
     gpu: str = "any"              # logical class: rtx4090 | rtx3090 | a10g | l4 | l40s | a100 | any
     min_vram_gb: int = 16         # MD complex legs fit comfortably in 16-24 GB (single-GPU)
     vcpus: int = 4
-    ram_gb: int = 16
-    interruptible: bool = True    # our per-unit checkpointing tolerates interruption -> take the cheap tier
+    ram_gb: int = 16              # host RAM floor (ternary setup/staging is RAM-bound: needs >=32 GB)
+    disk_gb: int = 40             # host disk floor (container + trajectories/checkpoints)
+    min_reliability: float = 0.90  # skip flaky hosts (Vast reliability2 in [0,1]); preemption we tolerate, crashes we don't
+    interruptible: bool = True    # our per-unit checkpointing tolerates interruption -> take the cheap (bid) tier
 
 
 @dataclass
@@ -225,15 +227,40 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
     checkpointing tolerates preemption)."""
     # NB: no server-side gpu_name filter (see _VAST_GPU_SUBSTR) — the model is chosen client-side. VRAM floor is
     # relaxed by ~1 GB because cards report just under the round number (a 4090 shows ~24564 MB, not 24576).
+    # Host RAM/cores/disk/reliability ARE filtered (ternary setup is RAM-bound; flaky hosts crash, which — unlike
+    # preemption — we do not tolerate). gpu_ram/cpu_ram are MB.
     return {
         "verified": {"eq": True},
         "rentable": {"eq": True},
         "num_gpus": {"eq": 1},
-        "gpu_ram": {"gte": max(0, (res.min_vram_gb - 1)) * 1024},   # Vast reports gpu_ram in MB
-        "disk_space": {"gte": 40},
+        "gpu_ram": {"gte": max(0, (res.min_vram_gb - 1)) * 1024},
+        "cpu_ram": {"gte": res.ram_gb * 1024},
+        "cpu_cores": {"gte": res.vcpus},
+        "disk_space": {"gte": res.disk_gb},
+        "reliability2": {"gte": res.min_reliability},
         "order": [["dph_total", "asc"]],
         "type": "bid" if res.interruptible else "on-demand",
     }
+
+
+# Bid the interruptible price this fraction of the way from the market floor (min_bid) up to the on-demand base
+# (dph_base). A Vast preemption DESTROYS the box, so a re-submit re-pays the ~8-13 min env build + input stage —
+# rock-bottom bids are a false economy. The midpoint buys stability while still paying well under on-demand.
+_VAST_BID_FRACTION = 0.5
+
+
+def _vast_bid_price(offer: dict):
+    """Interruptible bid $/hr for this offer: partway (default midpoint) from min_bid to the on-demand base, so
+    we're cheap but rarely outbid. Returns None if the offer lacks pricing. PURE -> unit-tested."""
+    try:
+        floor = float(offer.get("min_bid") or 0.0)
+        base = float(offer.get("dph_base") or offer.get("dph_total") or floor)
+    except (TypeError, ValueError):
+        return None
+    if base <= 0:
+        return None
+    bid = floor + _VAST_BID_FRACTION * max(0.0, base - floor)
+    return round(max(bid, floor * 1.05, 0.001), 4)
 
 
 def _vast_gpu_ram_gb(offer: dict) -> float:
@@ -245,11 +272,15 @@ def _vast_gpu_ram_gb(offer: dict) -> float:
 def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
     """PURE: cheapest single-GPU, rentable offer meeting the VRAM (and optional price) constraint, preferring the
     requested GPU model (client-side substring) but FALLING BACK to any capable card if that model isn't offered.
-    Sorted by total $/hr (dph_total). Returns the chosen offer dict, or None if nothing qualifies."""
+    Ranked by the price we'd actually PAY: the interruptible bid floor (min_bid) when res.interruptible, else the
+    on-demand total. Returns the chosen offer dict, or None if nothing qualifies."""
     capable = []
     for o in offers:
         try:
-            price = float(o.get("dph_total", o.get("dph_base", 1e9)))
+            if res.interruptible and o.get("min_bid") is not None:
+                price = float(o.get("min_bid"))                    # rank bid offers by their true interruptible cost
+            else:
+                price = float(o.get("dph_total", o.get("dph_base", 1e9)))
             ngpu = int(o.get("num_gpus", 1) or 1)
         except (TypeError, ValueError):
             continue
@@ -369,15 +400,20 @@ class VastBackend(Backend):
         onstart = _vast_onstart(spec, self.self_terminate_cmd(), extra_env=_object_store_env())
         # Rent the chosen ask: PUT /asks/{id}/ is Vast's canonical create-instance endpoint (POST /instances/
         # 404s). On success the body carries new_contract = the instance id.
-        created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body={
+        body = {
             "client_id": "me",
             "image": spec.image or "nvidia/cuda:12.4.1-base-ubuntu22.04",
-            "disk": 40,
+            "disk": max(40, res.disk_gb),
             "onstart": onstart,
             "runtype": "ssh",
             "label": spec.name,
             "target_state": "running",
-        })
+        }
+        if res.interruptible:                                     # interruptible => set an optimized bid $/hr
+            bid = _vast_bid_price(offer)
+            if bid is not None:
+                body["price"] = bid
+        created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body=body)
         inst_id = created.get("new_contract") or created.get("id")
         if inst_id is None:
             raise RuntimeError(f"vast: instance create returned no id: {created}")
