@@ -182,23 +182,11 @@ def _covalent_indices(topology, ligand_sdf, cov_lig_atom, cov_resnum):
 
 
 def _electrophile_and_neighbour(mol, cov_lig_atom):
-    """The Michael-acceptor carbon in celastrol and its first heavy neighbour, as 0-based SDF atom indices.
-    Heuristic: the enone β-carbon (a carbon double-bonded within a ring, conjugated to a carbonyl). Falls back
-    to atom-name match if the SDF carries PDB atom names."""
-    from rdkit import Chem
-    # name match first (if the SDF preserved 'C6')
-    for atom in mol.GetAtoms():
-        if atom.GetPropsAsDict().get("_TriposAtomName", atom.GetSymbol()) == cov_lig_atom:
-            nb = [n.GetIdx() for n in atom.GetNeighbors() if n.GetAtomicNum() > 1]
-            return atom.GetIdx(), (nb[0] if nb else None)
-    # else: β-carbon of an α,β-unsaturated ketone (enone) — C=C-C=O
-    patt = Chem.MolFromSmarts("[C;!$(C=O)]=[C]-[C]=O")
-    hit = mol.GetSubstructMatch(patt)
-    if hit:
-        beta = hit[0]
-        nb = [n.GetIdx() for n in mol.GetAtomWithIdx(beta).GetNeighbors() if n.GetAtomicNum() > 1 and n.GetIdx() != hit[1]]
-        return beta, (nb[0] if nb else hit[1])
-    raise SystemExit("[nrv04-md] could not identify celastrol electrophilic carbon (no name match, no enone SMARTS hit)")
+    """The celastrol Michael-acceptor carbon + a heavy neighbour, as 0-based SDF atom indices. Delegates to the
+    single frozen definition in nrv04_ligands so the restraint site can't drift between the ligand builder and
+    the MD driver. `cov_lig_atom` is kept for interface compatibility (the choice is structural, not name-based)."""
+    from nrv04_ligands import electrophile_atom_index
+    return electrophile_atom_index(mol)
 
 
 def _resid(res):
