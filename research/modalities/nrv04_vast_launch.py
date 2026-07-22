@@ -20,7 +20,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from gpu_backend import JobSpec, ResourceSpec, get_backend, s3_checkpoint_uri  # noqa: E402
+from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend, s3_checkpoint_uri  # noqa: E402
 from nrv04_covalent_panel import PANEL, enumerate_units, leg_env, unit_name  # noqa: E402
 from nrv04_ligands import LIGANDS  # noqa: E402
 
