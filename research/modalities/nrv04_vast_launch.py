@@ -120,7 +120,10 @@ def collect(bucket):
             results.append({"key": k, "bytes": len(body)})
     status = {
         "vast_instances": [{"id": i.get("id"), "status": i.get("actual_status"), "label": i.get("label"),
-                            "dph": i.get("dph_total")} for i in insts],
+                            "is_bid": i.get("is_bid"), "dph_total": i.get("dph_total"),
+                            "dph_base": i.get("dph_base"), "min_bid": i.get("min_bid"),
+                            "gpu_name": i.get("gpu_name"), "start_date": i.get("start_date"),
+                            "duration": i.get("duration")} for i in insts],
         "n_results": len(keys), "results": results,
     }
     json.dump(status, open("nrv04-collect-status.json", "w"), indent=2)
