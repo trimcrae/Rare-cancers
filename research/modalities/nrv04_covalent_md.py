@@ -98,7 +98,11 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
         forcefields=["amber14-all.xml", "amber14/tip3p.xml"],
         small_molecule_forcefield="gaff-2.11",
         molecules=[lig],
-        forcefield_kwargs={"constraints": app.HBonds, "rigidWater": True, "nonbondedCutoff": 0.9 * unit.nanometer},
+        # Match the ValB/RBFE (OpenFE) production integration EXACTLY: HBonds constraints + H-mass repartition to
+        # 3.0 amu enable a stable 4 fs timestep. Non-alchemical endpoint MD has ALL X-H constrained (no alchemical
+        # bond), so 4 fs is stable a fortiori. Keeping the two lanes on the same dt/HMR keeps the methods consistent.
+        forcefield_kwargs={"constraints": app.HBonds, "rigidWater": True,
+                           "hydrogenMass": 3.0 * unit.amu, "nonbondedCutoff": 0.9 * unit.nanometer},
     )
 
     modeller = app.Modeller(pdb.topology, pdb.positions)
@@ -115,7 +119,7 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
         _add_covalent_restraint(system, cov_pair)
         meta["covalent_pair"] = {k: v for k, v in cov_pair.items() if k.endswith("_idx")}
 
-    integrator = LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 0.002 * unit.picoseconds)
+    integrator = LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 0.004 * unit.picoseconds)  # 4 fs, matches ValB/OpenFE
     try:
         platform = Platform.getPlatformByName("CUDA")
     except Exception:                                        # noqa: BLE001 — smoke on CPU CI runners
@@ -217,11 +221,12 @@ def run_leg(env):
     sim.minimizeEnergy()
 
     prod_ns = float(env.get("PROD_NS", "5.0")); equil_ns = float(env.get("EQUIL_NS", "1.0"))
-    dt_ns = 0.002 / 1000.0
+    dt_ns = 0.004 / 1000.0                                     # 4 fs, matches ValB/OpenFE production
     if mode == "smoke":
         equil_steps, prod_steps, stride = 0, 500, 100          # ~cents; proves the pipeline
     else:
-        equil_steps = int(equil_ns / dt_ns); prod_steps = int(prod_ns / dt_ns); stride = 5000  # ~10 ps
+        equil_steps = int(equil_ns / dt_ns); prod_steps = int(prod_ns / dt_ns)
+        stride = max(1, int(0.010 / dt_ns))                    # ~10 ps frame cadence (timestep-independent)
     if equil_steps:
         sim.step(equil_steps)
 
