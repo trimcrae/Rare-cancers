@@ -71,9 +71,11 @@ def _require(cond, msg):
 def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mutation):
     """Build a solvated OpenMM system for one leg. Returns (simulation, meta). CI/Vast only."""
     import numpy as np  # noqa: F401
-    from openmm import app, unit, HarmonicBondForce, HarmonicAngleForce, LangevinMiddleIntegrator, Platform
+    from openmm import app, unit, HarmonicBondForce, HarmonicAngleForce, Platform
     from openff.toolkit import Molecule
     from openmmforcefields.generators import SystemGenerator
+
+    import md_settings as MD                                   # canonical hyperparameters (single source of truth)
 
     _require(os.path.exists(complex_pdb), f"missing complex.pdb: {complex_pdb}")
     _require(os.path.exists(ligand_sdf), f"missing ligands.sdf: {ligand_sdf}")
@@ -94,22 +96,23 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     if isinstance(lig, list):
         lig = lig[0]
 
+    # ALL integration/FF/solvation hyperparameters come from md_settings (canonical). Do NOT hardcode here — a
+    # per-driver value is exactly how the 2 fs-vs-4 fs drift crept in. The endpoint-MD + ValB/RBFE lanes share
+    # these so their MD is directly comparable.
     sysgen = SystemGenerator(
-        forcefields=["amber14-all.xml", "amber14/tip3p.xml"],
-        small_molecule_forcefield="gaff-2.11",
+        forcefields=list(MD.PROTEIN_FORCEFIELDS),
+        small_molecule_forcefield=MD.SMALL_MOLECULE_FORCEFIELD,
         molecules=[lig],
-        # Match the ValB/RBFE (OpenFE) production integration EXACTLY: HBonds constraints + H-mass repartition to
-        # 3.0 amu enable a stable 4 fs timestep. Non-alchemical endpoint MD has ALL X-H constrained (no alchemical
-        # bond), so 4 fs is stable a fortiori. Keeping the two lanes on the same dt/HMR keeps the methods consistent.
-        forcefield_kwargs={"constraints": app.HBonds, "rigidWater": True,
-                           "hydrogenMass": 3.0 * unit.amu, "nonbondedCutoff": 0.9 * unit.nanometer},
+        forcefield_kwargs=MD.systemgenerator_forcefield_kwargs(),
     )
 
     modeller = app.Modeller(pdb.topology, pdb.positions)
     lig_top = lig.to_topology().to_openmm()
     lig_pos = lig.conformers[0].to_openmm()
     modeller.add(lig_top, lig_pos)
-    modeller.addSolvent(sysgen.forcefield, model="tip3p", padding=1.0 * unit.nanometer, ionicStrength=0.15 * unit.molar)
+    modeller.addSolvent(sysgen.forcefield, model=MD.WATER_MODEL,
+                        padding=MD.SOLVENT_PADDING_NM * unit.nanometer,
+                        ionicStrength=MD.IONIC_STRENGTH_M * unit.molar)
 
     system = sysgen.create_system(modeller.topology)
 
@@ -119,7 +122,7 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
         _add_covalent_restraint(system, cov_pair)
         meta["covalent_pair"] = {k: v for k, v in cov_pair.items() if k.endswith("_idx")}
 
-    integrator = LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 0.004 * unit.picoseconds)  # 4 fs, matches ValB/OpenFE
+    integrator = MD.openmm_integrator()                        # canonical LangevinMiddle (4 fs, matches ValB/OpenFE)
     try:
         platform = Platform.getPlatformByName("CUDA")
     except Exception:                                        # noqa: BLE001 — smoke on CPU CI runners
@@ -207,6 +210,8 @@ def run_leg(env):
     """Execute one leg from an env dict (see nrv04_covalent_panel.leg_env). Writes <OUTPUT_DIR>/leg_<id>_s<seed>.json."""
     from openmm import unit, app
 
+    import md_settings as MD                                   # canonical hyperparameters (single source of truth)
+
     leg_id = env["LEG_ID"]; seed = int(env["SEED"]); mode = env.get("MODE", "smoke")
     covalent = env.get("COVALENT") == "1"
     in_dir = os.path.join(env.get("INPUT_DIR", "/opt/ml/input/data"), leg_id)
@@ -217,16 +222,17 @@ def run_leg(env):
         os.path.join(in_dir, "complex.pdb"), os.path.join(in_dir, "ligand.sdf"),
         covalent, env.get("COV_LIG_ATOM", "C6"), int(env.get("COV_RESNUM", "551")), env.get("MUTATION", ""))
 
-    sim.context.setVelocitiesToTemperature(300 * unit.kelvin, seed + 1)
+    sim.context.setVelocitiesToTemperature(MD.TEMPERATURE_K * unit.kelvin, seed + 1)
     sim.minimizeEnergy()
 
-    prod_ns = float(env.get("PROD_NS", "5.0")); equil_ns = float(env.get("EQUIL_NS", "1.0"))
-    dt_ns = 0.004 / 1000.0                                     # 4 fs, matches ValB/OpenFE production
+    # sampling lengths canonical (env may override for a shakeout, else the md_settings defaults)
+    prod_ns = float(env.get("PROD_NS", MD.PROD_NS)); equil_ns = float(env.get("EQUIL_NS", MD.EQUIL_NS))
+    dt_ns = MD.TIMESTEP_NS
     if mode == "smoke":
         equil_steps, prod_steps, stride = 0, 500, 100          # ~cents; proves the pipeline
     else:
         equil_steps = int(equil_ns / dt_ns); prod_steps = int(prod_ns / dt_ns)
-        stride = max(1, int(0.010 / dt_ns))                    # ~10 ps frame cadence (timestep-independent)
+        stride = MD.frame_stride_steps()                       # ~10 ps frame cadence (timestep-independent)
     if equil_steps:
         sim.step(equil_steps)
 
@@ -260,6 +266,8 @@ def run_leg(env):
 
     result = {"panel": "nrv04_covalent_feasibility", "leg_id": leg_id, "seed": seed, "mode": mode,
               "covalent": covalent, "mutation": env.get("MUTATION", ""), "meta": meta,
+              "md_settings": MD.summary(),                     # RECORD the exact canonical hyperparameters used
+              "prod_ns": prod_ns, "equil_ns": equil_ns,
               "n_frames": len(per_frame_contacts), "R1_interface": r1, "R2_recruitment": r2, "R3_lys": r3}
     out = os.path.join(out_dir, f"leg_{leg_id}_s{seed}.json")
     json.dump(result, open(out, "w"), indent=2)
