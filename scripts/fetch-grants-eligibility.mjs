@@ -62,6 +62,21 @@ async function main() {
           console.log(`  [${k}]: ${v.replace(/\s+/g, " ").trim().slice(0, 1200)}`);
         }
       }
+      // Attachment / full-announcement PDF links (the authoritative eligibility lives here for
+      // agencies like CDMRP that don't populate the structured eligibility field). Walk the
+      // opportunity object for anything that looks like a downloadable document link.
+      const links = new Set();
+      const walk = (o) => {
+        if (!o || typeof o !== "object") return;
+        for (const [k, v] of Object.entries(o)) {
+          if (typeof v === "string" && /(https?:\/\/|\/)[^ ]+\.(pdf|docx?|zip)$/i.test(v)) links.add(v);
+          else if (typeof v === "string" && /link|url|href/i.test(k) && /^https?:\/\//.test(v)) links.add(v);
+          else if (v && typeof v === "object") walk(v);
+        }
+      };
+      walk(d);
+      if (links.size) { console.log("  Document links:"); for (const l of links) console.log("    - " + l); }
+      else console.log("  Document links: (none found in API — check the grants.gov detail page Related Documents)");
     } catch (e) {
       console.log(`fetch failed: ${e.message}`);
     }
