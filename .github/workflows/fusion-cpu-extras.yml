@@ -21,9 +21,9 @@ on:
         type: boolean
         default: false
       vast_launch_mode:
-        description: "nrv04_vast_launch: discover | stage_test | collect | diag | stop_all | dry | pilot | full"
+        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full"
         type: choice
-        options: [discover, stage_test, collect, diag, stop_all, dry, pilot, full]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -157,7 +157,7 @@ jobs:
   nrv04_vast_launch:
     if: ${{ github.event.inputs.task == 'nrv04_vast_launch' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     env:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -172,6 +172,7 @@ jobs:
       DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}
       STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'stage_test' && '1' || '0' }}
       COLLECT: ${{ github.event.inputs.vast_launch_mode == 'collect' && '1' || '0' }}
+      MONITOR: ${{ github.event.inputs.vast_launch_mode == 'monitor' && '1' || '0' }}
       STOP_ALL: ${{ github.event.inputs.vast_launch_mode == 'stop_all' && '1' || '0' }}
       DIAG: ${{ github.event.inputs.vast_launch_mode == 'diag' && '1' || '0' }}
     steps:

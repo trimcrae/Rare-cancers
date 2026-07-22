@@ -151,10 +151,14 @@ def diag():
         print(_vast_instance_logs(key, i.get("id")), flush=True)
 
 
-def collect(bucket):
+def collect(bucket, autostop=None):
     """Monitor the panel run: list MY Vast instances (confirm running / torn down — no idle bleed) and the leg
-    JSONs already in the result prefix. Prints a status board so we can watch the pilot + fan-out from CI."""
+    JSONs already in the result prefix. Prints a status board so we can watch the pilot + fan-out from CI.
+    AUTO-STOP (default on, AUTOSTOP=0 disables): destroys any instance whose unit already has a leg_*.json in S3
+    — the CI-side anti-idle-GPU teardown, so the API key stays on the trusted CI runner, never on the untrusted
+    community hosts. Returns (n_up, n_results) so a monitor loop can decide when the fleet has drained."""
     import boto3
+    autostop = (os.environ.get("AUTOSTOP", "1") == "1") if autostop is None else autostop
     key = os.environ.get("VAST_API_KEY")
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
     print(f"[collect] Vast instances up: {len(insts)}", flush=True)
@@ -167,6 +171,7 @@ def collect(bucket):
         unit = pk.split("/")[-2]
         phases[unit] = s3.get_object(Bucket=bucket, Key=pk)["Body"].read().decode().strip()
     keys = _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix=".json")
+    done_units = {k.split("/")[-2] for k in keys if k.rsplit("/", 1)[-1].startswith("leg_")}
     results = []
     for k in keys:
         body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode()
@@ -174,17 +179,49 @@ def collect(bucket):
             results.append(json.loads(body))
         except Exception:  # noqa: BLE001
             results.append({"key": k, "bytes": len(body)})
+    stopped = []
+    if autostop and key:                                       # tear down any instance whose leg JSON is in
+        for i in insts:                                        # S3 already -> no idle GPU, key stays CI-side
+            if i.get("label") in done_units:
+                try:
+                    _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+                    stopped.append(i.get("id"))
+                    print(f"[collect] auto-stopped {i.get('id')} ({i.get('label')}) — result already in S3", flush=True)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[collect] WARN auto-stop {i.get('id')} failed: {e}", flush=True)
     status = {
         "vast_instances": [{"id": i.get("id"), "status": i.get("actual_status"), "label": i.get("label"),
                             "is_bid": i.get("is_bid"), "dph_total": i.get("dph_total"),
                             "dph_base": i.get("dph_base"), "min_bid": i.get("min_bid"),
                             "gpu_name": i.get("gpu_name"), "start_date": i.get("start_date"),
                             "duration": i.get("duration")} for i in insts],
-        "phases": phases,
-        "n_results": len(keys), "results": results,
+        "phases": phases, "auto_stopped": stopped,
+        "n_results": len(done_units), "results": results,
     }
     json.dump(status, open("nrv04-collect-status.json", "w"), indent=2)
     print("[collect] " + json.dumps(status, indent=2), flush=True)
+    return len(insts), len(done_units)
+
+
+def monitor(bucket):
+    """One CI job babysits the whole fan-out: loop collect()+auto-stop every MONITOR_EVERY_S until every unit has
+    a result (and its instance is torn down) or MONITOR_MAX_S elapses. Bounded so it can never run forever; the
+    stop-hook's own timeout is the outer guard. Pure-ish (sleeps + collect)."""
+    import time
+    n_units = len(units_to_run())
+    every = int(os.environ.get("MONITOR_EVERY_S", "60"))
+    max_s = int(os.environ.get("MONITOR_MAX_S", "3000"))       # < the job's timeout-minutes
+    waited = 0
+    while True:
+        n_up, n_done = collect(bucket)
+        print(f"[monitor] {n_done}/{n_units} results, {n_up} instance(s) up, {waited}s elapsed", flush=True)
+        if n_done >= n_units and n_up == 0:
+            print("[monitor] fleet drained — all results in, no instances up.", flush=True)
+            return
+        if waited >= max_s:
+            print(f"[monitor] max wait {max_s}s reached ({n_done}/{n_units} done, {n_up} up) — exiting; re-dispatch to continue.", flush=True)
+            return
+        time.sleep(every); waited += every
 
 
 def stop_all():
@@ -301,6 +338,9 @@ def main():
         return 0
     if os.environ.get("COLLECT") == "1":
         collect(bucket)
+        return 0
+    if os.environ.get("MONITOR") == "1":
+        monitor(bucket)
         return 0
     if os.environ.get("STOP_ALL") == "1":
         stop_all()
