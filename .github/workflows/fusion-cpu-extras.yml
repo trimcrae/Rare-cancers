@@ -36,6 +36,7 @@ jobs:
     env:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       VAST_SMOKE_LAUNCH: ${{ github.event.inputs.vast_launch == 'true' && '1' || '0' }}
+      VAST_SMOKE_DUMP: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

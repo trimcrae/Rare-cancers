@@ -52,6 +52,16 @@ def phase1_readonly(key: str, res: ResourceSpec) -> dict:
     hist = Counter(str(o.get("gpu_name", "?")) for o in offers)
     print(f"[models] {dict(hist.most_common(8))}", flush=True)
 
+    # One-off field dump so we can see the real bid/price fields (min_bid, dph_base, cpu_ram, disk_space, …)
+    # for optimizing the spot bid + host targeting. $0.
+    if os.environ.get("VAST_SMOKE_DUMP") == "1":
+        sample = offers[0]
+        fields = {k: sample.get(k) for k in (
+            "id", "gpu_name", "num_gpus", "gpu_ram", "dph_total", "dph_base", "min_bid",
+            "cpu_cores", "cpu_ram", "disk_space", "inet_down", "reliability2", "geolocation")}
+        print(f"[offer-fields] {json.dumps(fields)}", flush=True)
+        print(f"[offer-allkeys] {sorted(sample.keys())}", flush=True)
+
     chosen = _select_cheapest_offer(offers, res)
     if chosen is None:
         raise SystemExit(f"FAIL: {len(offers)} offers but none met {res} (single-GPU, >= {res.min_vram_gb} GB)")
