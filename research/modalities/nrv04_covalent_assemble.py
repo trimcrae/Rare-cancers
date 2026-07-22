@@ -82,9 +82,11 @@ def extract_ligand_from_cif(cif_path, template_smiles, out_sdf):
     elements, coords = [], []
     for chain in st[0]:
         for res in chain:
-            if res.is_amino_acid() or res.is_nucleic_acid() or res.name in ("HOH", "WAT"):
+            info = gemmi.find_tabulated_residue(res.name)
+            is_polymer = bool(info) and (info.is_amino_acid() or info.is_nucleic_acid())
+            if is_polymer or res.name in ("HOH", "WAT"):
                 continue
-            for atom in res:                              # ligand heavy atoms only
+            for atom in res:                              # ligand (non-polymer) heavy atoms only
                 if atom.element.name != "H":
                     elements.append(atom.element.name)
                     coords.append((atom.pos.x, atom.pos.y, atom.pos.z))

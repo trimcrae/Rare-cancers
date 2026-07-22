@@ -137,6 +137,7 @@ jobs:
       - name: Launch NR-V04 covalent panel on Vast (discover/stage_test/dry/pilot/full)
         working-directory: research/modalities
         run: |
+          set -o pipefail
           pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
           if [ "${{ github.event.inputs.vast_launch_mode }}" = "stage_test" ]; then
             pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed"
