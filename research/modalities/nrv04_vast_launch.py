@@ -412,6 +412,51 @@ def discover_cofold(bucket, base=None):
     return out
 
 
+def probe_offers():
+    """Evidence for 'can we get cheaper?': list the cheapest eligible Vast offers under several filter variants so
+    we can see the true interruptible price floor and which constraint (reliability / cuda_max_good / GPU model) is
+    binding. Read-only — no rent. Ranks by min_bid (the interruptible cost) and shows what our bid would be."""
+    import copy
+    from gpu_backend import (_vast_request, _vast_offer_query, _vast_bid_price, _vast_gpu_ram_gb)
+    key = os.environ.get("VAST_API_KEY")
+    res = TERNARY_RES
+
+    def _mb(o):
+        try:
+            return float(o.get("min_bid") if o.get("min_bid") is not None else 1e9)
+        except (TypeError, ValueError):
+            return 1e9
+
+    def run(q, label, topn=8, only_4090=False):
+        offers = _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}).get("offers", [])
+        offers = [o for o in offers if int(o.get("num_gpus", 1) or 1) == 1]
+        if only_4090:
+            offers = [o for o in offers if "4090" in str(o.get("gpu_name", ""))]
+        offers.sort(key=_mb)
+        print(f"\n=== {label}: {len(offers)} single-GPU offers ===", flush=True)
+        for o in offers[:topn]:
+            try:
+                rel = float(o.get("reliability2") or 0)
+            except (TypeError, ValueError):
+                rel = 0.0
+            print(f"  {str(o.get('gpu_name'))[:16]:16} min_bid=${_mb(o):.3f} base=${float(o.get('dph_base') or 0):.3f} "
+                  f"OURBID=${_vast_bid_price(o)} cuda_max={o.get('cuda_max_good')} rel={rel:.2f} "
+                  f"vram={_vast_gpu_ram_gb(o):.0f}GB dc={o.get('geolocation')}", flush=True)
+        if offers:
+            ch = offers[0]
+            print(f"  -> cheapest here: {ch.get('gpu_name')} OURBID=${_vast_bid_price(ch)}/hr", flush=True)
+
+    full = _vast_offer_query(res)
+    run(full, "FULL query (verified, rel>=%.2f, cuda>=%.1f, vram>=%dGB)" % (res.min_reliability, res.min_cuda, res.min_vram_gb - 1))
+    run(full, "FULL query, RTX 4090 only", only_4090=True)
+    no_rel = copy.deepcopy(full); no_rel.pop("reliability2", None)
+    run(no_rel, "drop reliability filter (see if cheap hosts are low-reliability)")
+    no_cuda = copy.deepcopy(full); no_cuda.pop("cuda_max_good", None)
+    run(no_cuda, "drop cuda_max_good filter (see the PTX-risky cheap hosts we exclude)")
+    relaxed = copy.deepcopy(full); relaxed.pop("reliability2", None); relaxed.pop("cuda_max_good", None)
+    run(relaxed, "drop BOTH reliability + cuda (absolute floor for 24GB single-GPU)")
+
+
 def main():
     bucket = os.environ.get("VAST_CKPT_BUCKET")
     if not bucket:
@@ -433,6 +478,9 @@ def main():
         return 0
     if os.environ.get("DIAG") == "1":
         diag()
+        return 0
+    if os.environ.get("PROBE_OFFERS") == "1":
+        probe_offers()
         return 0
     branch = os.environ.get("GIT_BRANCH", "claude/alternative-gpu-providers-wx4r2c")
     mode = os.environ.get("MODE", "run")

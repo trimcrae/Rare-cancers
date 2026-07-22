@@ -23,7 +23,7 @@ on:
       vast_launch_mode:
         description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -323,6 +323,7 @@ jobs:
       MONITOR: ${{ github.event.inputs.vast_launch_mode == 'monitor' && '1' || '0' }}
       STOP_ALL: ${{ github.event.inputs.vast_launch_mode == 'stop_all' && '1' || '0' }}
       DIAG: ${{ github.event.inputs.vast_launch_mode == 'diag' && '1' || '0' }}
+      PROBE_OFFERS: ${{ github.event.inputs.vast_launch_mode == 'probe_offers' && '1' || '0' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
