@@ -471,12 +471,13 @@ jobs:
           MACHINES="g2-standard-8 g2-standard-12 g2-standard-16"
           ZONES="us-central1-a us-central1-b us-central1-c us-central1-f"
           # Provisioning model: SPOT by default (standing rule: wait out capacity). 'standard' = on-demand, used
-          # ONLY when explicitly authorized for a time-sensitive one-off (skips the spot-capacity wait). On-demand
-          # cannot use --instance-termination-action (spot-only), and needs no long capacity-wait, so fewer rounds.
+          # ONLY when explicitly authorized for a time-sensitive one-off. BOTH models set --max-run-duration below,
+          # and GCP REQUIRES --instance-termination-action whenever --max-run-duration is set — so BOTH branches must
+          # include it (STANDARD supports it too; the old "spot-only" claim was wrong and silently broke on-demand:
+          # every on-demand create failed validation and got mislabeled "stocked out"). Fixed 2026-07-22.
           if [ "$PROVISIONING" = standard ]; then
-            # On-demand L4 can ALSO stock out in us-central1 at peak (our only L4 region), so wait it out like spot
-            # rather than failing fast — grabs an on-demand slot the moment one frees (2026-07-22).
-            PROV_FLAGS="--provisioning-model=STANDARD"; PROV_ROUNDS=22
+            # On-demand L4 can ALSO stock out in us-central1 at peak (our only L4 region), so wait it out like spot.
+            PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"; PROV_ROUNDS=22
             echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; waits out on-demand-capacity like spot)"
           else
             PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22
@@ -494,6 +495,9 @@ jobs:
                       --boot-disk-size=100GB --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
                     ZONE="$Z"; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z (round $round)"; return 0
                   fi
+                  # Surface the REAL gcloud error (not a blanket 'stocked out'): distinguishes a genuine capacity
+                  # stockout (ZONE_RESOURCE_POOL_EXHAUSTED) from quota vs a MALFORMED-request bug (invalid flags).
+                  echo "  create failed [$M/$Z]: $(grep -iE 'ERROR|exhausted|quota|exceeded|Invalid|required|termination|not found' /tmp/cerr | head -1 | sed 's/^ *//')"
                   grep -iqE "quota|exceeded" /tmp/cerr && { echo "::error::QUOTA for $M in $Z:"; grep -iE "quota|exceeded" /tmp/cerr | head -1; }
                 done
               done
