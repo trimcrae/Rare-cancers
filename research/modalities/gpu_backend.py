@@ -41,6 +41,9 @@ class ResourceSpec:
     disk_gb: int = 40             # host disk floor (container + trajectories/checkpoints)
     min_reliability: float = 0.90  # skip flaky hosts (Vast reliability2 in [0,1]); preemption we tolerate, crashes we don't
     interruptible: bool = True    # our per-unit checkpointing tolerates interruption -> take the cheap (bid) tier
+    min_cuda: float = 12.4        # host DRIVER must support >= this CUDA (Vast cuda_max_good). Our conda OpenMM CUDA
+                                  # plugin's PTX needs a new-enough driver — an old host raised
+                                  # CUDA_ERROR_UNSUPPORTED_PTX_VERSION (verified 2026-07-22). Matches the 12.4 image.
 
 
 @dataclass
@@ -238,6 +241,7 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
         "cpu_cores": {"gte": res.vcpus},
         "disk_space": {"gte": res.disk_gb},
         "reliability2": {"gte": res.min_reliability},
+        "cuda_max_good": {"gte": res.min_cuda},   # host driver must support our OpenMM CUDA plugin's PTX (else PTX-version error)
         "order": [["dph_total", "asc"]],
         "type": "bid" if res.interruptible else "on-demand",
     }
@@ -295,6 +299,12 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
         if ngpu != 1:                                             # one GPU per leg (multi-GPU costs more, no gain)
             continue
         if _vast_gpu_ram_gb(o) + 0.5 < res.min_vram_gb:          # 0.5 GB slack for reporting rounding
+            continue
+        try:                                                     # host driver must run our OpenMM CUDA plugin's PTX
+            cmg = float(o.get("cuda_max_good") or 0.0)
+        except (TypeError, ValueError):
+            cmg = 0.0
+        if cmg and cmg + 1e-6 < res.min_cuda:                    # 0 = field absent -> don't over-filter, trust server query
             continue
         if max_hourly_usd is not None and price > max_hourly_usd:
             continue
