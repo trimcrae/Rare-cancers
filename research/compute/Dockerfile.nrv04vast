@@ -1,0 +1,27 @@
+# Pre-provisioned Vast boot image for the NR-V04 covalent panel.
+#
+# WHY: Vast's cheap RTX-4090 marketplace hosts have terrible routing to archive.ubuntu.com, and Vast's own
+# container provisioning apt-installs python3/openssh/systemd/git at boot — ~10-40 min on those hosts
+# (diag-confirmed across 5+ hosts; it is Vast's init, not our onstart). Baking every package Vast would install
+# makes provisioning a no-op (apt finds everything already newest -> no mirror fetch), so the box boots in the
+# time it takes to pull this image from GHCR (host bandwidth, not ubuntu mirrors) — ~2-4 min instead of ~40.
+#
+# The pre-packed MD conda env (built by the nrv04_build_env CI job, conda-pack tar.gz) is baked in too, so the
+# onstart doesn't even download it. The onstart then only: pulls the repo tarball (small), stages the leg from
+# the co-fold CIF in S3, runs the endpoint-MD driver, uploads the readout JSON. GPU CUDA runtime comes from the
+# conda env; the driver is mounted by nvidia-container-toolkit on the host.
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+# Everything Vast's boot provisioning would otherwise fetch from the slow ubuntu mirrors, baked at build time.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        openssh-server openssh-client openssh-sftp-server \
+        python3 python3-pip git curl wget ca-certificates bzip2 tar gzip \
+        systemd systemd-sysv dbus locales sudo less tmux \
+    && rm -rf /var/lib/apt/lists/*
+
+# The pre-packed MD conda env (conda-pack tar.gz fetched from S3 into the build context by the CI job). ADD
+# auto-extracts a local .tar.gz; conda-unpack rewrites the embedded prefix to the in-image location.
+ADD nrv04md.tar.gz /opt/mamba/envs/md/
+RUN /opt/mamba/envs/md/bin/conda-unpack || true
+ENV PATH=/opt/mamba/envs/md/bin:$PATH

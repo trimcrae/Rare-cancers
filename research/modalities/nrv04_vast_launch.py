@@ -44,7 +44,7 @@ TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=4, ram_gb=16, di
 # the provisioning tooling already baked, and commonly cached on Vast hosts) makes that a no-op. Overridable via
 # $VAST_IMAGE for A/B testing. The packed conda MD env is still curled from S3 into /opt/mamba/envs/md — we do
 # NOT use the image's python, so the image only has to boot fast.
-VAST_IMAGE = os.environ.get("VAST_IMAGE", "vastai/base-image:cuda-12.4.1-auto")
+VAST_IMAGE = os.environ.get("VAST_IMAGE", "ghcr.io/trimcrae/rare-cancers/nrv04vast:latest")
 
 # The onstart pipeline. $VARS are exported by _vast_onstart (leg env + forwarded AWS creds + CHECKPOINT_URI +
 # ENV_TARBALL_URL). THE BOTTLENECK FIX: instead of a ~25-min `micromamba create` MD solve PER instance (the
@@ -58,10 +58,12 @@ export DEBIAN_FRONTEND=noninteractive
 # curl is already present on the Vast base image (its ssh provisioning installs it) -> only apt if it's genuinely
 # missing, and never let a flaky ubuntu mirror abort the boot (diag saw archive.ubuntu.com time out on one host).
 command -v curl >/dev/null 2>&1 || { apt-get update -q || true; apt-get install -y -q --no-install-recommends curl ca-certificates || true; }
-# --- pre-packed MD conda env (built once on CI; ~1-2 min extract vs ~25-min per-host solve) ---
-mkdir -p /opt/mamba/envs/md
-curl -Ls "$ENV_TARBALL_URL" | tar xz -C /opt/mamba/envs/md
-/opt/mamba/envs/md/bin/conda-unpack || true
+# --- MD conda env: BAKED into the pre-provisioned image (skip); else fall back to the S3-packed tarball ---
+if [ ! -x /opt/mamba/envs/md/bin/python ]; then
+  mkdir -p /opt/mamba/envs/md
+  curl -Ls "$ENV_TARBALL_URL" | tar xz -C /opt/mamba/envs/md
+  /opt/mamba/envs/md/bin/conda-unpack || true
+fi
 export PATH=/opt/mamba/envs/md/bin:$PATH
 PY=/opt/mamba/envs/md/bin/python
 AWS=/opt/mamba/envs/md/bin/aws
