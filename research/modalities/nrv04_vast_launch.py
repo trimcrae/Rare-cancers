@@ -160,6 +160,55 @@ def _vast_instance_logs(key, iid, tail=400):
     return "(logs not ready after polling)"
 
 
+def leg_cost_usd(uptime_s, dph_total):
+    """PURE (unit-tested): measured $ a leg cost = wall-clock hours on the rented instance x the ACTUAL bid rate
+    paid (dph_total, the interruptible bid we won — NOT dph_base on-demand). Returns None if inputs are missing."""
+    try:
+        return round((float(uptime_s) / 3600.0) * float(dph_total), 4)
+    except (TypeError, ValueError):
+        return None
+
+
+def _update_price_ledger(insts, done_units, path="nrv04-price-ledger.json"):
+    """Maintain a per-leg measured-cost ledger across collect() polls (the deliverable = a MEASURED price). For
+    each instance we see, record uptime x dph_total; once its leg has a result in S3 we FINALIZE that cost (an
+    instance is torn down right after, so the last live observation is the billed wall-clock to within one poll).
+    Returns a summary: finalized per-leg costs, measured mean $/leg, and the projected full-panel (18-unit) total."""
+    import time
+    try:
+        ledger = json.load(open(path))
+    except Exception:  # noqa: BLE001 — first poll
+        ledger = {}
+    now = time.time()
+    for i in insts:
+        label = i.get("label")
+        if not label:
+            continue
+        try:
+            up_s = now - float(i.get("start_date") or now)
+        except (TypeError, ValueError):
+            up_s = 0
+        cost = leg_cost_usd(up_s, i.get("dph_total"))
+        prev = ledger.get(label, {})
+        if prev.get("final"):
+            continue                                            # already finalized; don't overwrite
+        ledger[label] = {"uptime_s": round(up_s), "dph_total": i.get("dph_total"),
+                         "cost_usd": cost, "final": label in done_units}
+    finals = {k: v["cost_usd"] for k, v in ledger.items() if v.get("final") and v.get("cost_usd") is not None}
+    n_units = len(units_to_run())
+    mean = round(sum(finals.values()) / len(finals), 4) if finals else None
+    summary = {
+        "measured_legs": len(finals),
+        "per_leg_usd": finals,
+        "measured_mean_usd_per_leg": mean,
+        "measured_total_so_far_usd": round(sum(finals.values()), 4) if finals else 0.0,
+        "projected_panel_total_usd": round(mean * n_units, 2) if mean is not None else None,
+        "panel_units": n_units,
+    }
+    json.dump({"ledger": ledger, "summary": summary}, open(path, "w"), indent=2)
+    return summary
+
+
 def diag():
     """Print the onstart log + the FULL status record of each running instance — the diagnostic for a stuck/slow
     Vast run. The status fields (status_msg, cur_state, intended_status, inet_down, image pull state) reveal
@@ -227,6 +276,7 @@ def collect(bucket, autostop=None):
                     print(f"[collect] auto-stopped {i.get('id')} ({label}) — {why}", flush=True)
                 except Exception as e:  # noqa: BLE001
                     print(f"[collect] WARN auto-stop {i.get('id')} failed: {e}", flush=True)
+    price = _update_price_ledger(insts, done_units)            # MEASURED per-leg $ ledger (the deliverable)
     status = {
         "vast_instances": [{"id": i.get("id"), "status": i.get("actual_status"), "label": i.get("label"),
                             "is_bid": i.get("is_bid"), "dph_total": i.get("dph_total"),
@@ -234,10 +284,13 @@ def collect(bucket, autostop=None):
                             "gpu_name": i.get("gpu_name"), "start_date": i.get("start_date"),
                             "duration": i.get("duration")} for i in insts],
         "phases": phases, "auto_stopped": stopped,
-        "n_results": len(done_units), "results": results,
+        "n_results": len(done_units), "results": results, "price": price,
     }
     json.dump(status, open("nrv04-collect-status.json", "w"), indent=2)
     print("[collect] " + json.dumps(status, indent=2), flush=True)
+    if price.get("measured_mean_usd_per_leg") is not None:
+        print(f"[price] MEASURED ${price['measured_mean_usd_per_leg']}/leg over {price['measured_legs']} leg(s) "
+              f"-> projected panel ({price['panel_units']} units) ≈ ${price['projected_panel_total_usd']}", flush=True)
     return len(insts), len(done_units)
 
 

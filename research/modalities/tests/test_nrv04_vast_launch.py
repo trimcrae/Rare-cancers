@@ -6,9 +6,17 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from nrv04_covalent_panel import leg_by_id  # noqa: E402
-from nrv04_vast_launch import build_jobspec, cofold_prefix_s3, units_to_run  # noqa: E402
+from nrv04_vast_launch import build_jobspec, cofold_prefix_s3, leg_cost_usd, units_to_run  # noqa: E402
 
 _BUCKET = "sagemaker-us-east-2-123"
+
+
+def test_leg_cost_measured_from_uptime_and_bid():
+    # 45 min on a $0.24/hr interruptible bid = 0.75 h x 0.24 = $0.18
+    assert leg_cost_usd(45 * 60, 0.24) == 0.18
+    assert leg_cost_usd(3600, 0.30) == 0.30
+    assert leg_cost_usd(None, 0.24) is None          # missing uptime -> no fabricated price
+    assert leg_cost_usd(3600, None) is None          # missing rate -> no fabricated price
 
 
 def test_jobspec_targets_ternary_host_and_carries_leg_env():
