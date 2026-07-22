@@ -53,7 +53,15 @@ async function main() {
       // The prose eligibility field is the authoritative one — print in full (unwrapped).
       const elig = (s.applicantEligibilityDesc || "").replace(/\s+/g, " ").trim();
       if (elig) console.log("Eligibility (verbatim): " + elig);
-      else console.log("Eligibility (verbatim): (none provided — read the detail page / full announcement)");
+      else console.log("Eligibility (verbatim): (applicantEligibilityDesc empty — see other fields below)");
+      // Fallback: the eligibility clarification may live in another field. Print every scalar
+      // synopsis field that looks eligibility/info-bearing, plus any additional-info URL.
+      for (const [k, v] of Object.entries(s)) {
+        if (typeof v !== "string" || !v.trim()) continue;
+        if (/eligib|additionalInformation|fundingActivityCategoryDesc|synopsisDesc/i.test(k)) {
+          console.log(`  [${k}]: ${v.replace(/\s+/g, " ").trim().slice(0, 1200)}`);
+        }
+      }
     } catch (e) {
       console.log(`fetch failed: ${e.message}`);
     }
