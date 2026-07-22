@@ -101,30 +101,40 @@ def units_to_run():
     return enumerate_units()
 
 
+def _s3_list(s3, bucket, prefix, suffix=None, limit=None):
+    keys, tok = [], None
+    while True:
+        kw = {"Bucket": bucket, "Prefix": prefix}
+        if tok:
+            kw["ContinuationToken"] = tok
+        r = s3.list_objects_v2(**kw)
+        for o in r.get("Contents", []):
+            if suffix is None or o["Key"].endswith(suffix):
+                keys.append(o["Key"])
+        if limit and len(keys) >= limit:
+            return keys[:limit]
+        if not r.get("IsTruncated"):
+            return keys
+        tok = r["NextContinuationToken"]
+
+
 def discover_cofold(bucket, base=None):
-    """List the reused co-fold prefix and report, per panel system, the *_model_0.cif keys already in S3 (so we
-    reuse ValB's existing structures instead of regenerating). Prints a per-system found/missing summary."""
+    """List the reused co-fold prefix and report which *_model_0.cif exist (reuse ValB's structures, no regen).
+    Also dumps the RAW prefix layout so we can see the actual subdir names if they differ from expected."""
     import boto3
-    base = base or os.environ.get("NRV04_COFOLD_PREFIX", COFOLD_PREFIX)
+    base = (base or os.environ.get("NRV04_COFOLD_PREFIX", COFOLD_PREFIX)).rstrip("/")
     s3 = boto3.client("s3")
+    all_cifs = _s3_list(s3, bucket, base + "/", suffix="_model_0.cif")
+    sample = _s3_list(s3, bucket, base + "/", limit=25)
     found = {}
     for lig, system in _LIGAND_TO_SYSTEM.items():
-        prefix = f"{base}/{system}/"
-        keys, tok = [], None
-        while True:
-            kw = {"Bucket": bucket, "Prefix": prefix}
-            if tok:
-                kw["ContinuationToken"] = tok
-            r = s3.list_objects_v2(**kw)
-            keys += [o["Key"] for o in r.get("Contents", []) if o["Key"].endswith("_model_0.cif")]
-            if not r.get("IsTruncated"):
-                break
-            tok = r["NextContinuationToken"]
+        keys = [k for k in all_cifs if f"/{system}/" in k]
         found[system] = sorted(keys)
-        print(f"[discover] {system:14} ({lig:12}) -> {len(keys)} cif(s)"
-              + (f"  e.g. {keys[0]}" if keys else "  MISSING"), flush=True)
-    json.dump(found, open("nrv04-cofold-discovery.json", "w"), indent=2)
-    return found
+    out = {"bucket": bucket, "base": base, "total_model0_cifs": len(all_cifs),
+           "per_system": found, "raw_sample_keys": sample, "all_cif_keys": all_cifs[:40]}
+    json.dump(out, open("nrv04-cofold-discovery.json", "w"), indent=2)
+    print("[discover] " + json.dumps(out, indent=2), flush=True)
+    return out
 
 
 def main():

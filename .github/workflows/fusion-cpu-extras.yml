@@ -137,9 +137,21 @@ jobs:
         working-directory: research/modalities
         run: |
           pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
-          python nrv04_vast_launch.py
-          echo "===DISCOVERY_JSON==="; cat nrv04-cofold-discovery.json 2>/dev/null || echo "(none)"
-          echo "===HANDLES_JSON==="; cat nrv04-vast-handles.json 2>/dev/null || echo "(none)"
+          python nrv04_vast_launch.py 2>&1 | tee /tmp/launch.log
+      - name: Publish discovery to modalities-cache
+        if: ${{ always() && github.event.inputs.vast_launch_mode == 'discover' }}
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp research/modalities/nrv04-cofold-discovery.json "$RUNNER_TEMP/" 2>/dev/null || true
+          git fetch origin modalities-cache || true
+          git checkout -B modalities-cache origin/modalities-cache 2>/dev/null || git checkout --orphan modalities-cache
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP/nrv04-cofold-discovery.json" research/modalities/ 2>/dev/null || true
+          git add research/modalities/nrv04-cofold-discovery.json 2>/dev/null || true
+          git commit -m "nrv04 co-fold discovery" || { echo "no changes"; exit 0; }
+          git push origin modalities-cache
       - name: Upload Vast handles
         if: always()
         uses: actions/upload-artifact@v4
