@@ -41,7 +41,7 @@ def phase1_readonly(key: str, res: ResourceSpec) -> dict:
 
     q = _vast_offer_query(res)
     print(f"[query] {q}", flush=True)
-    offers = _vast_request("GET", "/bundles/", key, params={"q": json.dumps(q)}).get("offers", [])
+    offers = _vast_request("GET", "/offers/", key, params={"q": json.dumps(q)}).get("offers", [])
     print(f"[search] {len(offers)} bundle(s) returned", flush=True)
     if not offers:
         raise SystemExit("FAIL: no offers returned — check the /bundles/ query shape or marketplace availability")

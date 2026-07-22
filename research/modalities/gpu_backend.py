@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
 import urllib.error
 import urllib.parse
@@ -175,7 +176,13 @@ class RunPodBackend(Backend):
 
 
 # ---- Vast.ai marketplace helpers (pure logic + a thin urllib client) --------------------------------------
-_VAST_API = "https://console.vast.ai/api/v0"
+_VAST_HOST = "https://console.vast.ai"                             # version prefix added per-request (see below)
+
+
+def _vast_url(path: str) -> str:
+    """Resolve a request path against the host. An absolute '/api/vN/...' path (as returned in Vast's own
+    deprecation redirects) is used verbatim; a bare '/instances/' defaults to the v0 prefix."""
+    return _VAST_HOST + (path if path.startswith("/api/") else "/api/v0" + path)
 
 # our logical GPU class -> Vast's gpu_name filter token (underscored, as Vast returns them). None => don't
 # constrain the model, just the VRAM floor.
@@ -185,9 +192,12 @@ _VAST_GPU_NAMES = {
 }
 
 
-def _vast_request(method: str, path: str, api_key: str, params=None, body=None):
-    """Thin JSON client for the Vast REST API. Isolated so tests monkeypatch it; the callers' logic is pure."""
-    url = _VAST_API + path
+def _vast_request(method: str, path: str, api_key: str, params=None, body=None, _hops: int = 0):
+    """Thin JSON client for the Vast REST API. Isolated so tests monkeypatch it; the callers' logic is pure.
+    SELF-HEALING against Vast's v0->v1 migration: on a 410 `deprecated_endpoint` the body names the replacement
+    ("Use /api/v1/instances/ instead"), so we follow it once instead of hard-failing (keeps the adapter working
+    as endpoints move without hardcoding a version per route)."""
+    url = _vast_url(path)
     if params:
         url += "?" + urllib.parse.urlencode(params)
     data = json.dumps(body).encode() if body is not None else None
@@ -199,7 +209,12 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None):
         with urllib.request.urlopen(req, timeout=60) as r:
             return json.loads(r.read().decode() or "{}")
     except urllib.error.HTTPError as e:                            # surface the provider's error body, not a bare 4xx
-        raise RuntimeError(f"vast API {method} {path} -> {e.code}: {e.read().decode()[:400]}") from e
+        detail = e.read().decode()
+        if e.code == 410 and _hops < 3:                           # follow the server's own "Use <path> instead"
+            m = re.search(r"Use\s+(/api/\S+?)\s+instead", detail)
+            if m:
+                return _vast_request(method, m.group(1), api_key, params=params, body=body, _hops=_hops + 1)
+        raise RuntimeError(f"vast API {method} {path} -> {e.code}: {detail[:400]}") from e
 
 
 def _vast_offer_query(res: ResourceSpec) -> dict:
@@ -305,17 +320,18 @@ class VastBackend(Backend):
             raise RuntimeError("vast backend needs VAST_API_KEY (create a Vast.ai account first).")
         res = spec.resources
         q = _vast_offer_query(res)
-        offers = _vast_request("GET", "/bundles/", key,
+        offers = _vast_request("GET", "/offers/", key,
                                params={"q": json.dumps(q)}).get("offers", [])
         max_hr = self.hourly_usd(res)                              # cap at our routing estimate + headroom
         offer = _select_cheapest_offer(offers, res,
                                        max_hourly_usd=(max_hr * 2.0 if max_hr else None))
         if offer is None:
-            raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} bundles)")
+            raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} offers)")
         onstart = _vast_onstart(spec, self.self_terminate_cmd())
-        created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body={
+        created = _vast_request("POST", "/instances/", key, body={   # rent from the chosen ask id
             "client_id": "me",
-            "image": spec.image or "pytorch/pytorch:latest",
+            "instance_type_id": offer["id"],
+            "image": spec.image or "nvidia/cuda:12.4.1-base-ubuntu22.04",
             "disk": 40,
             "onstart": onstart,
             "runtype": "ssh",

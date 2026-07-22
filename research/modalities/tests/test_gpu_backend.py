@@ -199,6 +199,34 @@ def test_vast_status_mapping():
     assert _vast_status(None) == "stopped"
 
 
+def test_vast_request_follows_deprecation_redirect(monkeypatch):
+    import io
+    import urllib.error
+    import gpu_backend as gb
+    calls = []
+
+    class _Resp(io.BytesIO):
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def fake_urlopen(req, timeout=60):
+        calls.append(req.full_url)
+        if "/api/v0/instances/" in req.full_url:                   # server says v0 is gone -> names the v1 path
+            raise urllib.error.HTTPError(
+                req.full_url, 410, "gone", {},
+                io.BytesIO(b'{"error":"deprecated_endpoint",'
+                           b'"msg":"/api/v0/instances/ is deprecated. Use /api/v1/instances/ instead."}'))
+        return _Resp(b'{"instances":[]}')
+
+    monkeypatch.setattr(gb.urllib.request, "urlopen", fake_urlopen)
+    out = gb._vast_request("GET", "/instances/", "k", params={"owner": "me"})
+    assert out == {"instances": []}                                # transparently succeeded after the follow
+    assert any("/api/v1/instances/" in u for u in calls)           # it actually retried the v1 path
+
+
 def test_vast_submit_needs_key(monkeypatch):
     monkeypatch.delenv("VAST_API_KEY", raising=False)
     try:
