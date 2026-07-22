@@ -83,11 +83,8 @@ $PY -c "import os; from nrv04_covalent_panel import leg_by_id; from nrv04_ligand
 from nrv04_covalent_assemble import assemble_leg; lg=leg_by_id(os.environ['LEG_ID']); \
 assemble_leg(os.environ['COFOLD_CIF'], lg, LIGANDS[lg.ligand], os.environ['INPUT_DIR'])"
 mark staged
-# --- FF charge cache: pre-computed AM1-BCC GAFF templates (nrv04_charge_cache) so this leg SKIPS the ~40-min
-# single-core sqm charge of the 166-atom recruiter (that would otherwise be GPU-idle billing). Absent => the
-# driver charges in-process (slower but correct). openmmforcefields keys by connectivity, so one cache serves all. ---
-export NRV04_FFCACHE=/tmp/nrv04_ffcache.json
-$AWS s3 cp "$FFCACHE_S3" "$NRV04_FFCACHE" 2>/dev/null || { echo "no ffcache at $FFCACHE_S3 — charging in-process"; unset NRV04_FFCACHE; }
+# Ligand charging is NAGL (md_settings.CHARGE_METHOD) — deterministic + ~seconds even on the 166-atom recruiter,
+# assigned in-process by the driver. No charge cache is needed (am1bcc/sqm — the ~40-min bottleneck — is not used).
 # --- endpoint-MD driver, teardown-guarded + per-unit checkpointed ---
 mark md-running
 $PY autoteardown.py $PY nrv04_covalent_md.py
@@ -99,8 +96,6 @@ mark uploaded
 
 # The pre-packed conda MD env, built once by the build_env CI job and cached here (conda-pack tar.gz).
 MDENV_KEY = os.environ.get("MDENV_KEY", "mdenv/nrv04md.tar.gz")
-# The shared FF charge cache (AM1-BCC GAFF templates), built once by nrv04_charge_cache and reused by every leg.
-FFCACHE_KEY = os.environ.get("NRV04_FFCACHE_S3", "nrv04-ffcache/ffcache.json")
 
 
 def cofold_prefix_s3(leg, bucket):
@@ -338,7 +333,6 @@ def build_jobspec(leg, seed, mode, branch, bucket, env_tarball_url=None):
         "GIT_BRANCH": branch,
         "COFOLD_PREFIX_S3": cofold_prefix_s3(leg, bucket),
         "RESULT_S3": f"s3://{bucket}/{RESULT_PREFIX}/{name}",
-        "FFCACHE_S3": f"s3://{bucket}/{FFCACHE_KEY}",
     })
     if env_tarball_url:
         env["ENV_TARBALL_URL"] = env_tarball_url

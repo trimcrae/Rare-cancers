@@ -29,11 +29,10 @@ def test_jobspec_targets_ternary_host_and_carries_leg_env():
     assert e["LEG_ID"] == "cov_nr4a1" and e["COVALENT"] == "1" and e["COV_RESNUM"] == "551"
     assert e["GIT_BRANCH"] == "mybranch"
     assert e["COFOLD_PREFIX_S3"].endswith("/nr4a1/")             # cov_nr4a1 uses the NR-V04 (nr4a1) co-fold system
-    assert e["FFCACHE_S3"] == f"s3://{_BUCKET}/nrv04-ffcache/ffcache.json"   # shared AM1-BCC charge cache
     assert spec.command[0] == "bash"
     assert "$ENV_TARBALL_URL" in spec.command[2]                 # pre-packed conda env extract (the boot-time fix)
     assert "archive/refs/heads" in spec.command[2]               # repo code via public codeload tarball (no git)
-    assert "NRV04_FFCACHE" in spec.command[2] and "$FFCACHE_S3" in spec.command[2]  # leg downloads+uses the cache
+    assert "nrv04_covalent_md.py" in spec.command[2]             # runs the endpoint-MD driver (NAGL charges in-process)
 
 
 def test_env_tarball_url_injected_only_when_given():

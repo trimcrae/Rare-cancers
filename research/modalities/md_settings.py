@@ -50,6 +50,15 @@ PROTEIN_FORCEFIELDS = ("amber14-all.xml", "amber14/tip3p.xml")
 SMALL_MOLECULE_FORCEFIELD = "gaff-2.11"
 WATER_MODEL = "tip3p"
 
+# ---- ligand partial charges -------------------------------------------------------------------------------
+# NAGL (openff-nagl ML surrogate for AM1-BCC) — deterministic, ~seconds even on the 166-atom PROTAC recruiter,
+# and the DEFAULT every ternary lane in this repo uses (ternary_preequil / ternary_fep / endpoint_stability).
+# WHY not raw am1bcc here: AM1-BCC via AmberTools sqm is INTRACTABLE on PROTAC-sized ligands on CPU — measured
+# 2026-07-22, sqm ran >85 min on the nrv04 recruiter without converging (build_smoke #2 + the charge-cache run).
+# NAGL reproduces am1bcc and is what the ternary peer lanes use, so the NR-V04 endpoint panel matches them.
+# (The BINARY RBFE lane keeps am1bcc to stay on OpenFE's published benchmark — a different, smaller-ligand case.)
+CHARGE_METHOD = "nagl"
+
 # ---- solvation --------------------------------------------------------------------------------------------
 SOLVENT_PADDING_NM = 1.0
 IONIC_STRENGTH_M = 0.15
@@ -95,7 +104,8 @@ def summary():
         "timestep_fs": TIMESTEP_FS, "hydrogen_mass_amu": HYDROGEN_MASS_AMU, "constraints": CONSTRAINTS,
         "rigid_water": RIGID_WATER, "temperature_K": TEMPERATURE_K, "friction_per_ps": FRICTION_PER_PS,
         "nonbonded_cutoff_nm": NONBONDED_CUTOFF_NM, "protein_forcefields": list(PROTEIN_FORCEFIELDS),
-        "small_molecule_forcefield": SMALL_MOLECULE_FORCEFIELD, "water_model": WATER_MODEL,
+        "small_molecule_forcefield": SMALL_MOLECULE_FORCEFIELD, "charge_method": CHARGE_METHOD,
+        "water_model": WATER_MODEL,
         "solvent_padding_nm": SOLVENT_PADDING_NM, "ionic_strength_M": IONIC_STRENGTH_M,
         "equil_ns": EQUIL_NS, "prod_ns": PROD_NS, "frame_stride_ps": FRAME_STRIDE_PS,
         "_source": "md_settings.py (canonical single source of truth)",

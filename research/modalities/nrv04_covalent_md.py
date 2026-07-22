@@ -115,24 +115,32 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     if isinstance(lig, list):
         lig = lig[0]
 
+    # LIGAND CHARGES: assign md_settings.CHARGE_METHOD (NAGL) to the molecule BEFORE the SystemGenerator, using the
+    # SAME shared helper every ternary lane uses (ternary_endpoint_stability.assign_rbfe_charges). This is THE fix
+    # for the sqm intractability — AM1-BCC via AmberTools sqm ran >85 min on the 166-atom nrv04 recruiter without
+    # converging (measured 2026-07-22), whereas NAGL (a deterministic ML AM1-BCC surrogate) charges it in seconds.
+    # openmmforcefields then uses the molecule's pre-assigned charges instead of calling sqm. Because charging is
+    # now instant + deterministic, there is NO charge cache (cache=None): a stale/partial am1bcc cache could
+    # otherwise contaminate one leg's charges and silently break cross-leg consistency.
+    if not lig.conformers:
+        lig.generate_conformers(n_conformers=1)
+    from ternary_endpoint_stability import assign_rbfe_charges
+    charge_used = assign_rbfe_charges(lig, MD.CHARGE_METHOD)
+    _require(charge_used is not None,
+             f"could not assign {MD.CHARGE_METHOD} charges to the ligand (openff-nagl missing from the env?)")
+
     # ALL integration/FF/solvation hyperparameters come from md_settings (canonical). Do NOT hardcode here — a
     # per-driver value is exactly how the 2 fs-vs-4 fs drift crept in. Sharing md_settings with the RBFE lane is
     # ENGINE HYGIENE (same integrator/FF, no unexplained knobs) — NOT validation transfer: ValB validates the
     # free-energy method for the NR4A RBFE matrix, not this endpoint-MD panel. This panel reports geometric
-    # readouts and is validated by its own biological control (NR-V04 selectivity), so 4 fs here is just the
-    # shared-engine default. See md_settings.py "SCOPE OF WHAT SHARING THESE BUYS".
-    # FORCE-FIELD CHARGE CACHE (NRV04_FFCACHE): openmmforcefields keys the AM1-BCC-charged GAFF template by the
-    # ligand's connectivity-only isomeric SMILES, so a cache pre-computed ONCE on free CPU (nrv04_charge_cache.py)
-    # is reused by every leg — no GPU box ever pays the ~40-min single-core sqm charge of the 166-atom recruiter.
-    # None (unset) => current behaviour (charge in-process). The same md_settings FF strings that populated the
-    # cache are used here, so the keys match (baked-image env == cache-build env == this env).
-    ffcache = os.environ.get("NRV04_FFCACHE") or None
+    # readouts and is validated by its own biological control (NR-V04 selectivity). See md_settings.py
+    # "SCOPE OF WHAT SHARING THESE BUYS".
     sysgen = SystemGenerator(
         forcefields=list(MD.PROTEIN_FORCEFIELDS),
         small_molecule_forcefield=MD.SMALL_MOLECULE_FORCEFIELD,
         molecules=[lig],
         forcefield_kwargs=MD.systemgenerator_forcefield_kwargs(),
-        cache=ffcache,
+        cache=None,
     )
 
     modeller = app.Modeller(fixed_topology, fixed_positions)   # PDBFixer already added protein H + capped termini
@@ -146,7 +154,7 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     system = sysgen.create_system(modeller.topology)
 
     meta = {"n_atoms": modeller.topology.getNumAtoms(),
-            "protein_heavy_atoms": n_before, "after_addH": n_after_h}
+            "protein_heavy_atoms": n_before, "after_addH": n_after_h, "charge_method": charge_used}
     if covalent:
         cov_pair = _covalent_indices(modeller.topology, ligand_sdf, cov_lig_atom, cov_resnum)
         _add_covalent_restraint(system, cov_pair)

@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """
+DEPRECATED (2026-07-22) — superseded by in-process NAGL charging (md_settings.CHARGE_METHOD="nagl").
+This script existed to amortize the ~40-min AM1-BCC/sqm charge of the 166-atom recruiter across legs. But sqm
+on that molecule turned out to be intractable (>85 min, never converged), so the panel switched to NAGL — a
+deterministic ML AM1-BCC surrogate that charges it in seconds, in-process, with no cache. Kept only for
+reference / a future am1bcc revisit; NOT on the critical path. See md_settings.py "ligand partial charges".
+
 Pre-compute AM1-BCC charges for every UNIQUE panel ligand ONCE (free CPU/CI) and cache the resulting GAFF
 templates to S3, so NO GPU leg ever pays for sqm.
 
