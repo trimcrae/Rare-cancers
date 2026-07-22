@@ -254,7 +254,11 @@ def build_jobspec(leg, seed, mode, branch, bucket, env_tarball_url=None):
     return JobSpec(
         name=name,
         command=["bash", "-lc", pipeline],
-        image="nvidia/cuda:12.4.1-runtime-ubuntu22.04",
+        # BASE (~200 MB), NOT runtime (~2.5 GB): diag proved the boot time was Vast pulling the base image before
+        # the container even started. The pre-packed conda env already bundles the CUDA runtime libs (libcudart
+        # etc.); the host supplies the driver via nvidia-container-toolkit — so -base is all we need and it slashes
+        # the image pull ~10x.
+        image="nvidia/cuda:12.4.1-base-ubuntu22.04",
         checkpoint_uri=s3_checkpoint_uri(name, bucket=bucket),
         resume=True,
         resources=TERNARY_RES,
