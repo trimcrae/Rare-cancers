@@ -50,7 +50,7 @@ RUN="./bin/micromamba run -p /opt/mamba/envs/md"
 mkdir -p /tmp/in /tmp/out /tmp/cofold
 export INPUT_DIR=/tmp/in OUTPUT_DIR=/tmp/out CKPT_DIR=/tmp/out
 # stage this leg from its co-fold system in S3 -> INPUT_DIR/<LEG_ID>/{complex.pdb,ligand.sdf}
-$RUN aws s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive
+$RUN aws s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
 export COFOLD_CIF=$(find /tmp/cofold -name '*_model_0.cif' | sort | head -1)
 test -n "$COFOLD_CIF" || { echo "no co-fold CIF found under $COFOLD_PREFIX_S3"; exit 3; }
 $RUN python -c "import os; from nrv04_covalent_panel import leg_by_id; from nrv04_ligands import LIGANDS; \
@@ -68,6 +68,35 @@ def cofold_prefix_s3(leg, bucket):
     Boltz's nested predictions/ layout). nrv04->nr4a1, celastrol->neg_celastrol, epimer->neg_inactive."""
     system = _LIGAND_TO_SYSTEM[leg.ligand]
     return f"s3://{bucket}/{COFOLD_PREFIX}/{system}/"
+
+
+def stage_test(bucket):
+    """De-risk the staging on REAL Boltz output (free CI, no Vast): pull the cov_nr4a1 co-fold CIF from S3 and
+    run assemble_leg, verifying complex.pdb + a bond-order-correct ligand.sdf are produced. Proves the assembler
+    handles a real multi-chain co-fold CIF before we rent a GPU."""
+    import boto3
+    from nrv04_covalent_assemble import assemble_leg
+    from nrv04_covalent_panel import leg_by_id
+    base = os.environ.get("NRV04_COFOLD_PREFIX", COFOLD_PREFIX).rstrip("/")
+    s3 = boto3.client("s3")
+    leg = leg_by_id("cov_nr4a1")
+    system = _LIGAND_TO_SYSTEM[leg.ligand]
+    cifs = _s3_list(s3, bucket, f"{base}/{system}/", suffix="_model_0.cif")
+    if not cifs:
+        raise SystemExit(f"[stage-test] no co-fold CIF under {base}/{system}/")
+    key = sorted(cifs)[0]
+    os.makedirs("/tmp/cofold", exist_ok=True)
+    s3.download_file(bucket, key, "/tmp/cofold/model_0.cif")
+    print(f"[stage-test] pulled {key}", flush=True)
+    res = assemble_leg("/tmp/cofold/model_0.cif", leg, LIGANDS[leg.ligand], "/tmp/staged")
+    import os.path as _p
+    cpdb = _p.join(res["out"], "complex.pdb"); lsdf = _p.join(res["out"], "ligand.sdf")
+    n_atom = sum(1 for line in open(cpdb) if line.startswith(("ATOM", "HETATM")))
+    print(f"[stage-test] OK: {res['ligand_atoms']} ligand atoms, complex.pdb {n_atom} atoms, "
+          f"sdf {_p.getsize(lsdf)} bytes", flush=True)
+    if n_atom < 500:
+        raise SystemExit(f"[stage-test] complex.pdb too small ({n_atom} atoms) — chain surgery failed")
+    print("STAGE-TEST PASS — assembler handles the real co-fold CIF.", flush=True)
 
 
 def build_jobspec(leg, seed, mode, branch, bucket):
@@ -143,6 +172,9 @@ def main():
         raise SystemExit("[nrv04-launch] set VAST_CKPT_BUCKET (the reused S3 bucket)")
     if os.environ.get("DISCOVER") == "1":
         discover_cofold(bucket)
+        return 0
+    if os.environ.get("STAGE_TEST") == "1":
+        stage_test(bucket)
         return 0
     branch = os.environ.get("GIT_BRANCH", "claude/alternative-gpu-providers-wx4r2c")
     mode = os.environ.get("MODE", "run")

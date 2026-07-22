@@ -21,9 +21,9 @@ on:
         type: boolean
         default: false
       vast_launch_mode:
-        description: "nrv04_vast_launch: discover (list reusable co-fold CIFs) | dry | pilot (1 leg) | full (18)"
+        description: "nrv04_vast_launch: discover | stage_test (assemble a real CIF, free) | dry | pilot | full"
         type: choice
-        options: [discover, dry, pilot, full]
+        options: [discover, stage_test, dry, pilot, full]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -128,15 +128,19 @@ jobs:
       PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'full' && '0' || '1' }}
       DRY_RUN: ${{ github.event.inputs.vast_launch_mode == 'dry' && '1' || '0' }}
       DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}
+      STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'stage_test' && '1' || '0' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Launch NR-V04 covalent panel on Vast (discover/dry/pilot/full)
+      - name: Launch NR-V04 covalent panel on Vast (discover/stage_test/dry/pilot/full)
         working-directory: research/modalities
         run: |
           pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
+          if [ "${{ github.event.inputs.vast_launch_mode }}" = "stage_test" ]; then
+            pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed"
+          fi
           python nrv04_vast_launch.py 2>&1 | tee /tmp/launch.log
       - name: Publish discovery to modalities-cache
         if: ${{ always() && github.event.inputs.vast_launch_mode == 'discover' }}
