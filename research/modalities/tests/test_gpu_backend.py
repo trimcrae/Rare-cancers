@@ -163,12 +163,12 @@ def test_vast_selects_cheapest_capable_verified_offer():
     assert chosen["id"] == 2                                       # cheapest that meets VRAM + single-GPU + rentable
 
 
-def test_vast_bid_price_is_midpoint_and_bounded():
-    # bid sits between the market floor (min_bid) and on-demand base -> cheap but stable
+def test_vast_bid_price_holds_above_base():
+    # bid a margin ABOVE the on-demand base so the box isn't preempted mid-boot (diag-confirmed failure)
     offer = {"min_bid": 0.10, "dph_base": 0.30, "dph_total": 0.33}
-    assert _vast_bid_price(offer) == 0.20                          # 0.10 + 0.5*(0.30-0.10)
-    # degenerate: floor == base -> at least a hair above floor, never below
-    assert _vast_bid_price({"min_bid": 0.12, "dph_base": 0.12}) >= 0.12
+    assert _vast_bid_price(offer) == 0.375                         # 0.30 * 1.25 hold-multiple
+    # low base but high floor -> floored at 1.1x min_bid, never below
+    assert _vast_bid_price({"min_bid": 0.40, "dph_base": 0.10}) == 0.44   # max(0.10*1.25, 0.40*1.1)
     assert _vast_bid_price({}) is None                            # no pricing -> no bid
 
 

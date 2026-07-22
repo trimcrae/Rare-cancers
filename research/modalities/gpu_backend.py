@@ -243,15 +243,18 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
     }
 
 
-# Bid the interruptible price this fraction of the way from the market floor (min_bid) up to the on-demand base
-# (dph_base). A Vast preemption DESTROYS the box, so a re-submit re-pays the ~8-13 min env build + input stage —
-# rock-bottom bids are a false economy. The midpoint buys stability while still paying well under on-demand.
-_VAST_BID_FRACTION = 0.5
+# Bid to HOLD, not just to win once. Diag proved a below-base bid (midpoint of min_bid..dph_base) gets the box
+# but then Vast PREEMPTS it mid-boot on contested cheap hosts (cur_state oscillated running->stopped before the
+# ~5-10 min provisioning even finished, so no checkpoint was written and it never made progress). A preemption
+# destroys the box and re-pays the whole boot, so a rock-bottom bid is a false economy. Bid this MULTIPLE of the
+# on-demand base (dph_base) so the instance reliably holds through boot+run; still an interruptible bid, still
+# cheaper than most on-demand 4090s, and for a short feasibility panel reliability dominates the few cents.
+_VAST_BID_HOLD_MULT = 1.25
 
 
 def _vast_bid_price(offer: dict):
-    """Interruptible bid $/hr for this offer: partway (default midpoint) from min_bid to the on-demand base, so
-    we're cheap but rarely outbid. Returns None if the offer lacks pricing. PURE -> unit-tested."""
+    """Interruptible bid $/hr for this offer: a margin ABOVE the on-demand base so the box holds (below-base bids
+    get preempted mid-boot, diag-confirmed). Floored at 1.1x min_bid. None if the offer lacks pricing. PURE."""
     try:
         floor = float(offer.get("min_bid") or 0.0)
         base = float(offer.get("dph_base") or offer.get("dph_total") or floor)
@@ -259,8 +262,8 @@ def _vast_bid_price(offer: dict):
         return None
     if base <= 0:
         return None
-    bid = floor + _VAST_BID_FRACTION * max(0.0, base - floor)
-    return round(max(bid, floor * 1.05, 0.001), 4)
+    bid = max(base * _VAST_BID_HOLD_MULT, floor * 1.1)
+    return round(max(bid, 0.001), 4)
 
 
 def _vast_gpu_ram_gb(offer: dict) -> float:
