@@ -203,8 +203,11 @@ def _covalent_indices(topology, ligand_sdf, cov_lig_atom, cov_resnum):
     """Map the restraint atoms to OpenMM particle indices: Cys Sγ, Cys CB, ligand C6, and C6's ligand
     neighbour (for the second angle). Reads C6's neighbour from the SDF via rdkit."""
     sg_idx = cb_idx = ligc_idx = lign_idx = None
+    cys_inventory = {}                                          # (chain,resid) -> set of atom names, for diagnostics
     for atom in topology.atoms():
         res = atom.residue
+        if res.name == "CYS":
+            cys_inventory.setdefault((getattr(res.chain, "id", "?"), res.id), set()).add(atom.name)
         if res.name == "CYS" and _resid(res) == cov_resnum:
             if atom.name == "SG":
                 sg_idx = atom.index
@@ -221,8 +224,10 @@ def _covalent_indices(topology, ligand_sdf, cov_lig_atom, cov_resnum):
             ligc_idx = lig_atoms[c6_sdf_idx].index
         if neigh_sdf_idx is not None and neigh_sdf_idx < len(lig_atoms):
             lign_idx = lig_atoms[neigh_sdf_idx].index
-    _require(sg_idx is not None and ligc_idx is not None,
-             f"could not locate covalent atoms (sg={sg_idx}, ligc={ligc_idx})")
+    if sg_idx is None or ligc_idx is None:
+        inv = ", ".join(f"{c}:{r}{'(+SG)' if 'SG' in a else ''}" for (c, r), a in sorted(cys_inventory.items()))
+        raise SystemExit(f"[nrv04-md] could not locate covalent atoms (sg={sg_idx}, ligc={ligc_idx}) for "
+                         f"cov_resnum={cov_resnum}. CYS residues present (chain:resid): [{inv}]")
     return {"sg_idx": sg_idx, "cb_idx": cb_idx, "ligc_idx": ligc_idx, "lign_idx": lign_idx}
 
 
