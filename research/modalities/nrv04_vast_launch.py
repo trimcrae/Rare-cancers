@@ -111,16 +111,20 @@ def collect(bucket):
               f"dph=${i.get('dph_total')}/hr", flush=True)
     s3 = boto3.client("s3")
     keys = _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix=".json")
-    print(f"[collect] result JSONs: {len(keys)}", flush=True)
+    results = []
     for k in keys:
         body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode()
         try:
-            d = json.loads(body)
-            print(f"[collect]   {k} -> leg={d.get('leg_id')} seed={d.get('seed')} mode={d.get('mode')} "
-                  f"recruited={d.get('R2_recruitment', {}).get('recruited')} "
-                  f"stable={d.get('R1_interface', {}).get('stable')} frames={d.get('n_frames')}", flush=True)
+            results.append(json.loads(body))
         except Exception:  # noqa: BLE001
-            print(f"[collect]   {k} ({len(body)} bytes)", flush=True)
+            results.append({"key": k, "bytes": len(body)})
+    status = {
+        "vast_instances": [{"id": i.get("id"), "status": i.get("actual_status"), "label": i.get("label"),
+                            "dph": i.get("dph_total")} for i in insts],
+        "n_results": len(keys), "results": results,
+    }
+    json.dump(status, open("nrv04-collect-status.json", "w"), indent=2)
+    print("[collect] " + json.dumps(status, indent=2), flush=True)
 
 
 def build_jobspec(leg, seed, mode, branch, bucket):
