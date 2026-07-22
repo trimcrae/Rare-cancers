@@ -147,15 +147,18 @@ jobs:
           condarc: |
             channels:
               - conda-forge
-      - name: Ensure pdbfixer is really in the env (setup-micromamba can restore a stale pre-pdbfixer cache)
+      - name: Ensure pdbfixer + openff-nagl are really in the env (setup-micromamba can restore a stale cache)
         run: |
           set -eo pipefail
-          # The env step restored a 77s cache once that predated pdbfixer -> the packed tarball lacked it and the
-          # baked image crashed every leg. Verify the import; install into the env if the cache was stale.
-          # NB: pdbfixer exposes no __version__ — probe the actual import the driver uses (from pdbfixer import PDBFixer).
+          # The env step has restored stale caches (77s) that predated new packages -> the packed tarball lacked
+          # them and the baked image crashed every leg. Verify the imports the driver uses; install if stale.
+          # NB: pdbfixer exposes no __version__ — probe the real import (from pdbfixer import PDBFixer).
           micromamba run -n nrv04md python -c "from pdbfixer import PDBFixer" \
             || micromamba install -n nrv04md -y -c conda-forge pdbfixer
-          micromamba run -n nrv04md python -c "from pdbfixer import PDBFixer; print('pdbfixer import OK')"
+          # NAGL (ligand charges) — the driver imports the toolkit wrapper; the model package must be present too.
+          micromamba run -n nrv04md python -c "from openff.toolkit.utils.nagl_wrapper import NAGLToolkitWrapper; import openff.nagl_models" \
+            || micromamba install -n nrv04md -y -c conda-forge openff-nagl openff-nagl-models
+          micromamba run -n nrv04md python -c "from pdbfixer import PDBFixer; from openff.toolkit.utils.nagl_wrapper import NAGLToolkitWrapper; import openff.nagl_models; print('pdbfixer + nagl import OK')"
       - name: conda-pack the env and upload to S3
         run: |
           set -eo pipefail
@@ -271,23 +274,23 @@ jobs:
           python3 -m pip install -q awscli >/dev/null 2>&1 || true
           aws s3 cp "s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz" research/compute/nrv04md.tar.gz
           ls -lh research/compute/nrv04md.tar.gz
-      - name: Verify the env tarball actually contains pdbfixer (the whole point of the rebuild)
+      - name: Verify the env tarball contains pdbfixer AND openff-nagl (the point of the rebuild)
         run: |
           set -eo pipefail
           LIST=$(tar tzf research/compute/nrv04md.tar.gz)
-          echo "--- pdbfixer-matching paths in the tarball (diagnostic) ---"
-          printf '%s\n' "$LIST" | grep -im 20 pdbfixer || echo "(none)"
-          echo "----------------------------------------------------------"
-          # COUNT (grep -c reads all input -> no early-exit SIGPIPE that would false-fail under `pipefail`; the
-          # `grep -q` form did exactly that and reported MISSING even though pdbfixer was present). Match the
-          # package dir OR its dist-info/conda-meta record (path layout varies).
-          CNT=$(printf '%s\n' "$LIST" | grep -icE '/pdbfixer/|pdbfixer-[0-9].*(dist-info|\.json)' || true)
-          if [ "${CNT:-0}" -gt 0 ]; then
-            echo "pdbfixer PRESENT in the tarball ($CNT paths) — baking."
-          else
-            echo "::error::pdbfixer MISSING from nrv04md.tar.gz — re-run nrv04_build_env before baking."
-            exit 1
-          fi
+          # grep -c reads all input -> no early-exit SIGPIPE that would false-fail under `pipefail` (the `grep -q`
+          # form did exactly that and reported MISSING even though the package was present). Match a package dir
+          # OR its dist-info/conda-meta record (path layout varies).
+          check() {
+            local name="$1" pat="$2"
+            echo "--- $name paths (diagnostic) ---"; printf '%s\n' "$LIST" | grep -im 8 -E "$pat" || echo "(none)"
+            local cnt; cnt=$(printf '%s\n' "$LIST" | grep -icE "$pat" || true)
+            if [ "${cnt:-0}" -gt 0 ]; then echo "$name PRESENT ($cnt paths)"; else
+              echo "::error::$name MISSING from nrv04md.tar.gz — re-run nrv04_build_env before baking."; exit 1; fi
+          }
+          check pdbfixer '/pdbfixer/|pdbfixer-[0-9].*(dist-info|\.json)'
+          check openff-nagl '/openff/nagl/|openff.?nagl-[0-9].*(dist-info|\.json)|nagl_models'
+          echo "tarball verified — baking."
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
       - name: Build + push the Vast boot image
