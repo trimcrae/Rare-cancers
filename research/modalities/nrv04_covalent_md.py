@@ -107,6 +107,13 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     )
 
     modeller = app.Modeller(pdb.topology, pdb.positions)
+    # The co-fold complex.pdb carries HEAVY ATOMS ONLY (Boltz outputs no hydrogens), so the protein residues have
+    # no H and createSystem/addSolvent fails with "No template found ... missing N H atoms". Add protein H from
+    # the force field BEFORE the ligand goes in (the ligand.sdf already has explicit H). This is standard OpenMM
+    # prep and is what was missing — every leg was crashing here before the MD ever started.
+    n_before = modeller.topology.getNumAtoms()
+    modeller.addHydrogens(sysgen.forcefield)
+    n_after_h = modeller.topology.getNumAtoms()
     lig_top = lig.to_topology().to_openmm()
     lig_pos = lig.conformers[0].to_openmm()
     modeller.add(lig_top, lig_pos)
@@ -116,7 +123,8 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
 
     system = sysgen.create_system(modeller.topology)
 
-    meta = {"n_atoms": modeller.topology.getNumAtoms()}
+    meta = {"n_atoms": modeller.topology.getNumAtoms(),
+            "protein_heavy_atoms": n_before, "after_addH": n_after_h}
     if covalent:
         cov_pair = _covalent_indices(modeller.topology, ligand_sdf, cov_lig_atom, cov_resnum)
         _add_covalent_restraint(system, cov_pair)

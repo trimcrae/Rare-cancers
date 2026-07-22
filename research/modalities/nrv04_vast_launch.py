@@ -200,13 +200,24 @@ def collect(bucket, autostop=None):
         except Exception:  # noqa: BLE001
             results.append({"key": k, "bytes": len(body)})
     stopped = []
-    if autostop and key:                                       # tear down any instance whose leg JSON is in
-        for i in insts:                                        # S3 already -> no idle GPU, key stays CI-side
-            if i.get("label") in done_units:
+    if autostop and key:                                       # CI-side anti-idle teardown (key stays on CI)
+        import time
+        now = time.time()
+        max_leg_s = int(os.environ.get("MAX_LEG_MIN", "100")) * 60   # backstop: a real leg finishes well under this;
+        for i in insts:                                             # a crashed/idle instance (driver failed at build,
+            label = i.get("label")                                  # teardown fell through) would otherwise bleed
+            try:
+                up_s = now - float(i.get("start_date") or now)
+            except (TypeError, ValueError):
+                up_s = 0
+            done = label in done_units
+            over_age = up_s > max_leg_s
+            if done or over_age:
                 try:
                     _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
                     stopped.append(i.get("id"))
-                    print(f"[collect] auto-stopped {i.get('id')} ({i.get('label')}) — result already in S3", flush=True)
+                    why = "result-in-S3" if done else f"exceeded {max_leg_s // 60}min (idle/crashed backstop)"
+                    print(f"[collect] auto-stopped {i.get('id')} ({label}) — {why}", flush=True)
                 except Exception as e:  # noqa: BLE001
                     print(f"[collect] WARN auto-stop {i.get('id')} failed: {e}", flush=True)
     status = {

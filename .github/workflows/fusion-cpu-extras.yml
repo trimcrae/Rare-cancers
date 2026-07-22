@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_env, nrv04_bake, nrv04_vast_launch]
+        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_bake, nrv04_vast_launch]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -156,6 +156,37 @@ jobs:
           ls -lh nrv04md.tar.gz
           aws s3 cp nrv04md.tar.gz "s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz"
           echo "uploaded s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz"
+
+  nrv04_build_smoke:
+    # FREE CPU validation: build the full solvated OpenMM system from the REAL co-fold (addHydrogens ->
+    # addSolvent -> createSystem -> covalent restraint). Catches the missing-hydrogens class of bug that crashed
+    # every leg, before any GPU spend. No Vast.
+    if: ${{ github.event.inputs.task == 'nrv04_build_smoke' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: bash -el {0}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up MD env (openmm + openff + openmmforcefields + rdkit + gemmi + boto3)
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-name: nrv04md
+          create-args: >-
+            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3
+          condarc: |
+            channels:
+              - conda-forge
+      - name: Build the full solvated system from the real co-fold (CPU, no MD)
+        working-directory: research/modalities
+        run: python nrv04_build_smoke.py
 
   nrv04_bake:
     # Build the pre-provisioned Vast boot image (ssh/python/git/systemd + the MD conda env all baked, so Vast's
