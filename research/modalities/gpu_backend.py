@@ -348,20 +348,37 @@ def s3_checkpoint_uri(job_name: str, bucket: str = None, prefix: str = "vast") -
     return f"s3://{bucket}/{prefix}/{job_name}/ckpt"
 
 
+# Self-destroy on ANY exit: a bash EXIT trap that finds THIS instance by its unique label via the Vast REST API
+# (key forwarded in $VAST_API_KEY) and DELETEs it. The trap fires on success, on a crash, AND on a `set -e`
+# abort — so a job that FAILS or STOPS kills its own GPU immediately instead of idling on the meter (the earlier
+# `vastai destroy`/mock path silently no-op'd, leaving crashed VMs bleeding). Uses curl + python3, both present
+# on the baked image. SECURITY: forwarding VAST_API_KEY to a community host is a real exposure (it can spend the
+# account's credit) — accepted here for guaranteed teardown; rotate the key after a campaign. The CI-side
+# collect backstop (key stays on CI) is the second layer.
+_VAST_SELFDESTROY = (
+    'ct_selfdestroy(){ rc=$?; [ -n "$VAST_API_KEY" ] || return $rc; '
+    'mid=$(curl -s -H "Authorization: Bearer $VAST_API_KEY" "https://console.vast.ai/api/v0/instances/?owner=me" '
+    "| python3 -c 'import sys,json,os"
+    "\nd=json.load(sys.stdin)"
+    "\nprint(next((str(i[\"id\"]) for i in d.get(\"instances\",[]) if i.get(\"label\")==os.environ.get(\"SELF_LABEL\")),\"\"))' 2>/dev/null); "
+    '[ -n "$mid" ] && curl -s -X DELETE -H "Authorization: Bearer $VAST_API_KEY" '
+    '"https://console.vast.ai/api/v0/instances/$mid/" >/dev/null 2>&1; return $rc; }'
+)
+
+
 def _vast_onstart(spec: JobSpec, self_terminate_argv, extra_env=None) -> str:
-    """Build the instance onstart script: export the resume/checkpoint context (+ any forwarded object-store
-    creds), run the job command, then GUARANTEE the instance self-destroys so the rented GPU never idles on the
-    meter (the #1 gotcha). The driver itself wraps in autoteardown (finally + watchdog); the trailing destroy is
-    a belt-and-braces backstop in case the container's python never reaches that finally-block. `extra_env` is
-    merged UNDER spec.env (spec.env wins). PURE (no I/O) -> unit-tested."""
+    """Build the instance onstart script: export the resume/checkpoint context (+ forwarded object-store creds +
+    VAST_API_KEY), arm a self-destroy EXIT trap so the instance is torn down on completion/crash/stop (never
+    idles on the meter — the #1 gotcha), then run the job command. `extra_env` is merged UNDER spec.env (spec.env
+    wins). PURE (no I/O) -> unit-tested."""
     cmd = " ".join(shlex.quote(a) for a in spec.command)
-    destroy = " ".join(shlex.quote(a) for a in self_terminate_argv)
     env = {**(extra_env or {}), **spec.env}
     lines = ["#!/bin/bash", "set -o pipefail",
              f"export CHECKPOINT_URI={shlex.quote(spec.checkpoint_uri)}",
-             f"export RESUME={'1' if spec.resume else '0'}"]
+             f"export RESUME={'1' if spec.resume else '0'}",
+             f"export SELF_LABEL={shlex.quote(spec.name)}"]      # the trap finds this instance by its label
     lines += [f"export {k}={shlex.quote(str(v))}" for k, v in env.items()]
-    lines += [cmd, destroy]
+    lines += [_VAST_SELFDESTROY, "trap ct_selfdestroy EXIT", cmd]
     return "\n".join(lines)
 
 
@@ -398,9 +415,11 @@ class VastBackend(Backend):
                                        max_hourly_usd=(max_hr * 2.0 if max_hr else None))
         if offer is None:
             raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} offers)")
-        # Forward the checkpoint-store creds (reuse-S3 = the AWS keys) into the rented host so its job container
-        # can read/write the same bucket a spot kill would otherwise lose (per-unit checkpoint/resume contract).
-        onstart = _vast_onstart(spec, self.self_terminate_cmd(), extra_env=_object_store_env())
+        # Forward the checkpoint-store creds (reuse-S3 = the AWS keys) AND VAST_API_KEY (so the self-destroy EXIT
+        # trap can DELETE this instance on completion/crash/stop) into the rented host.
+        extra = dict(_object_store_env())
+        extra["VAST_API_KEY"] = key
+        onstart = _vast_onstart(spec, self.self_terminate_cmd(), extra_env=extra)
         # Rent the chosen ask: PUT /asks/{id}/ is Vast's canonical create-instance endpoint (POST /instances/
         # 404s). On success the body carries new_contract = the instance id.
         body = {

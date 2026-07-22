@@ -222,8 +222,11 @@ def test_vast_onstart_always_self_destroys():
     assert "python rbfe.py --edge A" in script
     assert "export RESUME=1" in script and "r2://ckpt/edgeA" in script
     assert "export MODE=real" in script
-    # the anti-idle guard: the LAST line destroys the instance so the GPU can't idle on the meter
-    assert script.strip().splitlines()[-1].startswith("vastai destroy instance")
+    # the anti-idle guard: an EXIT trap self-destroys the instance on completion/crash/stop (not just a trailing
+    # line that a `set -e` abort would skip). It finds THIS instance by its label and DELETEs it via the API.
+    assert "trap ct_selfdestroy EXIT" in script
+    assert "ct_selfdestroy()" in script and "DELETE" in script and "/api/v0/instances/" in script
+    assert "export SELF_LABEL=edgeA" in script
 
 
 def test_object_store_env_forwards_only_present_keys():
@@ -243,7 +246,7 @@ def test_vast_onstart_forwards_s3_creds_for_reuse():
     assert "export AWS_SECRET_ACCESS_KEY=sek" in script
     assert "export CHECKPOINT_URI=s3://bkt/vast/edgeB/ckpt" in script
     assert "export MODE=real" in script
-    assert script.strip().splitlines()[-1].startswith("vastai destroy instance")   # still self-destroys last
+    assert "trap ct_selfdestroy EXIT" in script                    # still self-destroys, now on ANY exit
 
 
 def test_vast_onstart_spec_env_overrides_forwarded():
