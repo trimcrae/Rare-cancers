@@ -335,14 +335,16 @@ class VastBackend(Backend):
         if offer is None:
             raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} offers)")
         onstart = _vast_onstart(spec, self.self_terminate_cmd())
-        created = _vast_request("POST", "/instances/", key, body={   # rent from the chosen ask id
+        # Rent the chosen ask: PUT /asks/{id}/ is Vast's canonical create-instance endpoint (POST /instances/
+        # 404s). On success the body carries new_contract = the instance id.
+        created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body={
             "client_id": "me",
-            "instance_type_id": offer["id"],
             "image": spec.image or "nvidia/cuda:12.4.1-base-ubuntu22.04",
             "disk": 40,
             "onstart": onstart,
             "runtype": "ssh",
             "label": spec.name,
+            "target_state": "running",
         })
         inst_id = created.get("new_contract") or created.get("id")
         if inst_id is None:
