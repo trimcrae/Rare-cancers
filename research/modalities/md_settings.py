@@ -14,7 +14,9 @@ point.** Any lane that needs to deviate must do so EXPLICITLY and say why in its
 
 Consumers (import from here, do NOT re-specify):
   - nrv04_covalent_md.py            (covalent/noncovalent endpoint MD)  — MIGRATED
-  - nr4a3_md.py / nr4a3_md_release.py (unbiased/pocket MD)              — TODO: migrate or document the deviation
+  - nr4a3_md.py / nr4a3_md_release.py (unbiased/pocket + metad release) — DOCUMENTED DEVIATION (distinct apo
+        cryptic-pocket experiment at 310 K / 2 fs / no HMR; NOT in the comparison chain — see the explicit
+        deviation note next to each integrator). Parked/complete; a re-run would adopt these canonical values.
   - nr4a3_rbfe.py / rbfe_spot_driver.py (OpenFE alchemical)            — sets OpenFE Settings objects, not raw
         OpenMM; it cannot import openmm_integrator(), but its timestep/H-mass/FF MUST equal the constants below
         (asserted by tests/test_md_settings.py::test_rbfe_matches_canonical).

@@ -141,6 +141,10 @@ def main():
         print("  all replicas resume from checkpoint — skipping seed minimization", file=sys.stderr, flush=True)
         rg_min = rg_seed
     else:
+        # DOCUMENTED DEVIATION FROM md_settings.py (canonical SSOT): this is the metadynamics cryptic-pocket
+        # RELEASE lane (2 fs / no HMR, temp from M.METAD), a distinct biased experiment — NOT part of the
+        # endpoint-MD <-> ValB <-> OpenFE comparison chain — so it intentionally does not import md_settings'
+        # 4 fs + HMR integration. Parked/complete; a future re-run would adopt the canonical values and re-baseline.
         _mi = mm.LangevinMiddleIntegrator(M.METAD["temp"] * unit.kelvin, 1.0 / unit.picosecond,
                                           2.0 * unit.femtosecond)
         _ms = app.Simulation(topology, system, _mi, cuda, {"Precision": "mixed"})

@@ -96,6 +96,12 @@ def main():
     modeller.addSolvent(ff, model="tip3p", padding=1.0 * unit.nanometer,
                         ionicStrength=0.15 * unit.molar, neutralize=True)
 
+    # DOCUMENTED DEVIATION FROM md_settings.py (the canonical SSOT for the endpoint-MD <-> ValB <-> OpenFE
+    # comparison chain). This lane is a DIFFERENT experiment — unbiased APO cryptic-pocket breathing at
+    # physiological 310 K, 2 fs / no HMR / 1.0 nm cutoff — not part of the ternary-interface comparison, so it does
+    # NOT import md_settings' 300 K / 4 fs / 0.9 nm values. It is parked/complete; adopting the canonical values
+    # would re-run and invalidate the reported druggability result for no comparability gain (distinct observable).
+    # A future re-run should switch to md_settings (300 K, 4 fs + HMR) and re-baseline.
     system = ff.createSystem(modeller.topology, nonbondedMethod=app.PME,
                              nonbondedCutoff=1.0 * unit.nanometer, constraints=app.HBonds)
     integrator = mm.LangevinMiddleIntegrator(310 * unit.kelvin, 1.0 / unit.picosecond,
