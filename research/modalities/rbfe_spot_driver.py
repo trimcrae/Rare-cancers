@@ -37,6 +37,53 @@ PRODUCTION = "production"
 WARMUP_NC, WARMUP_CHK = "equilibration.nc", "equilibration.chk"
 
 
+class _ConvergedEarly(Exception):
+    """Raised from a production checkpoint boundary when the committed trajectory has met the convergence
+    criteria (RBFE_AUTOSTOP_CONVERGENCE=1) — caught by the driver to end production early and save GPU."""
+
+    def __init__(self, iteration):
+        self.iteration = iteration
+        super().__init__("production converged early at iter %d" % iteration)
+
+
+def _autostop_enabled():
+    return os.environ.get("RBFE_AUTOSTOP_CONVERGENCE") == "1"
+
+
+def _live_converged(reporter, iteration, prod_target, ci, log):
+    """Convergence subset for an early-STOP decision (opt-in, RBFE_AUTOSTOP_CONVERGENCE=1): from the LIVE
+    (quiescent, just-synced) production reporter, require a CONNECTED MBAR overlap matrix (no adjacent-state
+    bottleneck) AND a plateaued dG(t) (|full − final-half| ≤ 0.5 AND |Q3 − Q4| ≤ 0.5) — the reviewer's
+    condition-4 convergence signals. Conservative: only checked after a minimum fraction of the production cap,
+    and ANY un-computable metric or error ⇒ NOT converged (keep sampling). Never stops before real evidence, so
+    the worst case is running the full 5 ns cap (identical to autostop-off)."""
+    try:
+        min_frac = float(os.environ.get("RBFE_AUTOSTOP_MIN_FRAC", "0.4"))
+    except ValueError:
+        min_frac = 0.4
+    if iteration < max(2 * ci, int(prod_target * min_frac)):
+        return False
+    try:
+        import ternary_fep_convergence as cv
+        from openmmtools.multistate import MultiStateSamplerAnalyzer
+        analyzer = MultiStateSamplerAnalyzer(reporter)
+        ov = cv._overlap(analyzer)
+        if not ov.get("connected"):
+            log("[autostop] iter %d: overlap NOT connected (min_adj=%s) -> keep sampling"
+                % (iteration, ov.get("min_adjacent_overlap")))
+            return False
+        bp = cv._block_plateau(analyzer)
+        ok = bool(bp.get("plateau_full_vs_half_ok") and bp.get("quarter_block_ok"))
+        log("[autostop] iter %d: overlap_connected=%s plateau_full_half=%s q3q4=%s -> %s"
+            % (iteration, ov.get("connected"), bp.get("plateau_full_vs_half_ok"),
+               bp.get("quarter_block_ok"), "CONVERGED" if ok else "keep sampling"))
+        return ok
+    except Exception as e:  # noqa: BLE001
+        log("[autostop] convergence check failed @ %d (%s: %s); continue sampling"
+            % (iteration, type(e).__name__, e))
+        return False
+
+
 def _iters_from_time(sim_settings, integrator, sim_length):
     """iterations = get_simsteps(sim_length)/steps_per_iteration, mirroring OpenFE."""
     from openfe.protocols.openmm_utils import settings_validation
@@ -334,9 +381,18 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         f"prod_target={prod_target} (ci={production_checkpoint_iters})")
 
     # ---- RESTORE newest valid committed snapshot (production first, else warmup) ------------
-    restored = commit_store.restore_latest([PRODUCTION, WARMUP], shared, production_checkpoint_iters)
+    # Validate EACH phase with ITS OWN checkpoint interval. Production snapshots commit every
+    # production_checkpoint_iters; warmup every (finer) warmup_checkpoint_iters. A single combined
+    # restore_latest([PRODUCTION, WARMUP], ..., production_checkpoint_iters) wrongly validates WARMUP
+    # snapshots against the PRODUCTION interval, so any warmup checkpoint that is not a multiple of
+    # the production interval (e.g. warmup iter 48/56 vs prod interval 40) is REJECTED — discarding
+    # the newest warmup progress and forcing a resume from a staler warmup boundary (iter 40). On a
+    # long, preemption-heavy warmup that redoes up to (prod_ci - warmup_ci) extra iters every spot
+    # kill. Split the call so warmup is validated at warmup_checkpoint_iters and the newest warmup
+    # snapshot is accepted. Semantics preserved: production first (resume production if any), else
+    # warmup. The committed .nc/.chk data is unchanged — only which snapshot restore accepts widens.
+    restored = commit_store.restore_latest([PRODUCTION], shared, production_checkpoint_iters)
     if restored is None:
-        # try a warmup-only restore with the warmup checkpoint interval (validate uses its CI)
         restored = commit_store.restore_latest([WARMUP], shared, warmup_checkpoint_iters)
     restored_phase = restored[0] if restored else None
     log(f"[spot-driver] restore -> {('%s@iter %d' % (restored[0], restored[1])) if restored else 'none (fresh)'}")
@@ -351,9 +407,45 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
                 os._exit(137)
         return _cb
 
+    def _prod_commit(reporter, nc_name, chk_name, ci):
+        """Production boundary callback: commit as usual, then (if RBFE_AUTOSTOP_CONVERGENCE=1) check the live
+        trajectory for convergence and raise _ConvergedEarly to stop before the 5 ns cap. The reporter is
+        quiescent + synced here, so building an analyzer on it is safe."""
+        base = _commit(PRODUCTION, nc_name, chk_name, ci)
+
+        def _cb(it):
+            base(it)
+            if _autostop_enabled() and _live_converged(reporter, it, prod_target, ci, log):
+                raise _ConvergedEarly(it)
+        return _cb
+
     # ================= PRODUCTION already underway: resume it and finish ======================
     if restored_phase == PRODUCTION:
-        rep = MultiStateReporter(str(shared / prod_nc), open_mode="r+", checkpoint_storage=prod_chk)
+        # SINGLE-INTERVAL INVARIANT (2026-07-21 root-cause fix). The .chk holds full checkpoint frames
+        # ONLY on the interval baked into the .nc when it was CREATED (by whichever VM first ran
+        # production). Driving run_to_target/commit off `production_checkpoint_iters` (the env value,
+        # which can differ across VMs — RBFE_PROD_CKPT_ITERS unset on a VM => default 20 while the file
+        # was made at 40) stops on off-grid boundaries where the .chk lags the .nc, and
+        # validate_reporter_pair raises `resume iteration N-int != expected N`, permanently blocking
+        # re-dispatch. Derive the ONE true interval from the committed file and use it for the resume
+        # reporter, run_to_target AND commit; the file wins for an existing production, the env only
+        # seeds a FRESH one.
+        _file_pci = spot.read_checkpoint_interval(shared / prod_nc, shared / prod_chk)
+        eff_pci = _file_pci or production_checkpoint_iters
+        if _file_pci and _file_pci != production_checkpoint_iters:
+            log(f"[spot-driver] RESUME production: committed-file checkpoint_interval={_file_pci} OVERRIDES "
+                f"env production_checkpoint_iters={production_checkpoint_iters} (single-interval invariant)")
+        elif not _file_pci:
+            log(f"[spot-driver] RESUME production: could NOT read file checkpoint_interval; "
+                f"falling back to env {production_checkpoint_iters} (reporter inherits file's own)")
+        eff_prod_target = (prod_iters // eff_pci) * eff_pci or eff_pci
+        # Pass checkpoint_interval EXPLICITLY only when we read it FROM the file (so it provably matches the
+        # baked value and the reporter never silently inherits). If it couldn't be read, omit it and let
+        # openmmtools inherit the file's own — passing a possibly-wrong env value would make openmmtools
+        # raise a checkpoint-interval mismatch on an existing store.
+        _rep_kw = {"checkpoint_interval": _file_pci} if _file_pci else {}
+        rep = MultiStateReporter(str(shared / prod_nc), open_mode="r+", checkpoint_storage=prod_chk,
+                                 **_rep_kw)
         try:
             sampler = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
                                         integrator=integrator, reporter=rep, simulation_settings=sim_s,
@@ -376,15 +468,31 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
             restored_phase = None   # fall through to the warmup path below, fresh
         else:
             _set_caches(sampler, platform)
-            log(f"[spot-driver] resume PRODUCTION at iter {spot._sampler_iteration(sampler)}")
-            spot.run_to_target(sampler, rep, prod_target, production_checkpoint_iters,
-                               _commit(PRODUCTION, prod_nc, prod_chk, production_checkpoint_iters), log=log)
+            log(f"[spot-driver] resume PRODUCTION at iter {spot._sampler_iteration(sampler)} "
+                f"(interval={eff_pci}, target={eff_prod_target})")
+            try:
+                spot.run_to_target(sampler, rep, eff_prod_target, eff_pci,
+                                   _prod_commit(rep, prod_nc, prod_chk, eff_pci), log=log)
+            except _ConvergedEarly as ce:
+                log(f"[spot-driver] AUTOSTOP: production converged at iter {ce.iteration} "
+                    f"(< target {eff_prod_target}); stopping early (saves GPU)")
             return {"nc": shared / prod_nc, "checkpoint": shared / prod_chk}
 
     # ================= WARMUP (fresh, or resume a partial warmup) =============================
-    wrep = _build_reporter(shared, WARMUP_NC, WARMUP_CHK, selection_indices,
-                           warmup_checkpoint_iters, pos_iv, vel_iv)
     warmup_restart = restored_phase == WARMUP and (shared / WARMUP_NC).is_file()
+    # Same single-interval invariant as production: on a RESUME the .chk frames live on the interval
+    # baked into the existing warmup .nc (e.g. 8, set by RBFE_WARMUP_CKPT_ITERS), not necessarily the
+    # env of THIS VM (default 10 when unset). Derive it from the file so the reporter/run/commit agree;
+    # a FRESH warmup uses the env/default interval.
+    eff_wci = warmup_checkpoint_iters
+    if warmup_restart:
+        eff_wci = spot.read_checkpoint_interval(shared / WARMUP_NC, shared / WARMUP_CHK) or warmup_checkpoint_iters
+        if eff_wci != warmup_checkpoint_iters:
+            log(f"[spot-driver] RESUME warmup: committed-file checkpoint_interval={eff_wci} OVERRIDES "
+                f"env warmup_checkpoint_iters={warmup_checkpoint_iters} (single-interval invariant)")
+    eff_warmup_target = (warmup_iters // eff_wci) * eff_wci or eff_wci
+    wrep = _build_reporter(shared, WARMUP_NC, WARMUP_CHK, selection_indices,
+                           eff_wci, pos_iv, vel_iv)
     try:
         warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
                                    integrator=warmup_integrator, reporter=wrep, simulation_settings=sim_s,
@@ -403,8 +511,11 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
             except FileNotFoundError:
                 pass
         warmup_restart = False
+        # discarded the stale checkpoint -> genuinely fresh: revert to the env/default interval.
+        eff_wci = warmup_checkpoint_iters
+        eff_warmup_target = (warmup_iters // eff_wci) * eff_wci or eff_wci
         wrep = _build_reporter(shared, WARMUP_NC, WARMUP_CHK, selection_indices,
-                               warmup_checkpoint_iters, pos_iv, vel_iv)
+                               eff_wci, pos_iv, vel_iv)
         warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
                                    integrator=warmup_integrator, reporter=wrep, simulation_settings=sim_s,
                                    thermo_settings=thermo_s, alchem_settings=alchem_s,
@@ -414,10 +525,11 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         # the big minimization (setup() already did a tiny 100-step one); still fast/non-resumable.
         log("[spot-driver] warmup minimize")
         warmup.minimize(max_iterations=sim_s.minimization_steps)
-    log(f"[spot-driver] WARMUP from iter {spot._sampler_iteration(warmup)} -> {warmup_target}")
+    log(f"[spot-driver] WARMUP from iter {spot._sampler_iteration(warmup)} -> {eff_warmup_target} "
+        f"(interval={eff_wci})")
     try:
-        spot.run_to_target(warmup, wrep, warmup_target, warmup_checkpoint_iters,
-                           _commit(WARMUP, WARMUP_NC, WARMUP_CHK, warmup_checkpoint_iters), log=log)
+        spot.run_to_target(warmup, wrep, eff_warmup_target, eff_wci,
+                           _commit(WARMUP, WARMUP_NC, WARMUP_CHK, eff_wci), log=log)
     except Exception as e:
         if type(e).__name__ == "SimulationNaNError":
             log(f"[nan-diag] caught {type(e).__name__} during WARMUP: {e}")
@@ -452,7 +564,12 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         metadata=final["metadata"] or None,
     )
     _set_caches(prod, platform)
-    log(f"[spot-driver] PRODUCTION created from warmup; run -> {prod_target}")
-    spot.run_to_target(prod, prep, prod_target, production_checkpoint_iters,
-                       _commit(PRODUCTION, prod_nc, prod_chk, production_checkpoint_iters), log=log)
+    log(f"[spot-driver] PRODUCTION created from warmup; run -> {prod_target}"
+        f"{' (autostop-on-convergence enabled)' if _autostop_enabled() else ''}")
+    try:
+        spot.run_to_target(prod, prep, prod_target, production_checkpoint_iters,
+                           _prod_commit(prep, prod_nc, prod_chk, production_checkpoint_iters), log=log)
+    except _ConvergedEarly as ce:
+        log(f"[spot-driver] AUTOSTOP: production converged at iter {ce.iteration} "
+            f"(< target {prod_target}); stopping early (saves GPU)")
     return {"nc": shared / prod_nc, "checkpoint": shared / prod_chk}

@@ -20,7 +20,7 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce | tail | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | tail | forensic (CPU/runner-only: open the newest committed (.nc,.chk) production generations with openmmtools + print checkpoint_interval / analysis-vs-checkpoint last iteration / torn-pair flag — confirms the interval-mismatch root cause, $0, no VM) | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
       preequil_smoke: { description: "1 = PREEQUIL_SMOKE (system-build + 200-step relax sanity, no full ns) for mode=preequil", default: "0", required: false }
       preequil_ns: { description: "production ns after restrained relaxation for mode=preequil", default: "0.5", required: false }
       use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
@@ -43,6 +43,8 @@ on:
       allow_gpu_setup_build: { description: "Escape hatch (default 0). By default a GPU run FAILS FAST if the setup cache for its (leg,charge) is missing, forcing you to CPU-prime it first (ternary-setup-prime-cpu.yml) instead of burning ~8-40 min of GPU-idle re-parameterization. Set 1 only for a deliberate GPU-side build (the very first prime of a brand-new leg/charge). Sets RBFE_REQUIRE_PRIMED_SETUP=0.", default: "0", required: false }
       min_steps: { description: "L-BFGS minimization steps per replica before warmup (RBFE_MIN_STEPS). Default 5000 (OpenFE standard). Was 25000 which minimizes 12 replicas of the 146k-atom system for ~20-60 min at ~0% GPU for NO NaN benefit (the code comment confirms the NaN survives 25000 steps; the 1 fs warmup is what fixes NaNs). Only raise if a specific system genuinely needs it.", default: "5000", required: false }
       reset_commits: { description: "1 = wipe this leg/seed's committed checkpoints before running (fresh start — use when changing timestep so a new-dt run does not resume a stale-dt trajectory).", default: "0", required: false }
+      force_rerun: { description: "1 = bypass the idempotent-skip even if a completed leg result JSON already exists in GCS (the run overwrites it). Use when the pipeline changed (e.g. new pre-equil version) and the old result is stale. Pair with a fresh commit_salt so it does not resume stale checkpoints.", default: "0", required: false }
+      autostop_convergence: { description: "1 = STOP production early once the committed trajectory converges (connected MBAR overlap + dG(t) plateau, reviewer condition 4), capped at the 5 ns production_length. Default 0 (run the full cap). Conservative: only checks after RBFE_AUTOSTOP_MIN_FRAC (0.4) of the cap and never stops without real evidence.", default: "0", required: false }
   # NO push trigger: with GPUS_ALL_REGIONS=1 an auto-smoke on every ternary-file edit STEALS the single GPU from
   # the real serial leg (that is exactly what blocked seed-0 on 2026-07-17 — a push-smoke VM held the quota while
   # the mode=run launcher got 'quota exceeded' for 25 min). The CPU validator (smarca2-model-validate.yml) covers
@@ -83,6 +85,9 @@ jobs:
       PE_NS: ${{ github.event.inputs.preequil_ns || '0.5' }}
       USE_PE: ${{ github.event.inputs.use_preequil || '0' }}
       PROVISIONING: ${{ github.event.inputs.provisioning || 'spot' }}
+      AUTOSTOP: ${{ github.event.inputs.autostop_convergence || '0' }}
+      AUTOSTOP_MIN_FRAC: '0.4'
+      FORCE_RERUN: ${{ github.event.inputs.force_rerun || '0' }}
       GITREF: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
@@ -130,6 +135,8 @@ jobs:
           fi
           echo "=== smoke.json (endpoint-verification: built vs requested SMILES) ==="
           gcloud storage cat "$RESULTS/smoke_${LEG_ID}.json" 2>/dev/null || echo "(no smoke.json for $LEG_ID)"
+          echo "=== endpoint_stability_${LEG_ID}.json (exact-Hamiltonian per-endpoint stability: ff_switch/rmsd/drift) ==="
+          gcloud storage cat "$RESULTS/endpoint_stability_${LEG_ID}.json" 2>/dev/null || echo "(no endpoint_stability json for $LEG_ID)"
           echo "=== post-mortem logs (a self-deleted VM uploads /tmp/tfep_run.log here on NORESULT) ==="
           PM=$(gcloud storage ls "gs://$BUCKET/valB-6hax/postmortem/" 2>/dev/null || true)
           if [ -n "$PM" ]; then
@@ -165,7 +172,7 @@ jobs:
               echo "=== SSH live window: nvidia-smi + /tmp/tfep_run.log (where is the MD?) ==="
               # capture into SSHLOG so the summary fields below read the LIVE VM's own run log (freshest source),
               # not the stale leg-wide postmortem.
-              SSHLOG=$(timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command 'echo "--- nvidia-smi ---"; nvidia-smi --query-gpu=utilization.gpu,memory.used,power.draw --format=csv,noheader 2>/dev/null || true; echo "--- FULL run log ---"; sed -e "s/\x1b\[[0-9;]*m//g" /tmp/tfep_run.log 2>/dev/null || echo "(no run log)"; echo "=== nan-error-logs dir ==="; SD=$(ls -d /tmp/tout/*_sim_shared 2>/dev/null | head -1); ls -la "$SD/nan-error-logs" 2>/dev/null || echo "(no nan dir)"; echo "=== minimize/energy/nan lines ==="; grep -aiE "minimi|energ|nan|reinitial|restart|Warning|CRITICAL|Potential" /tmp/tfep_run.log 2>/dev/null || true' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$")
+              SSHLOG=$(timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet --command 'echo "--- nvidia-smi ---"; nvidia-smi --query-gpu=utilization.gpu,memory.used,power.draw --format=csv,noheader 2>/dev/null || true; echo "--- dmon 6s (util/mem/pwr time-series: bursty=working, all-0=idle/stall) ---"; timeout 9 nvidia-smi dmon -c 6 -s um 2>/dev/null || true; echo "--- top CPU procs (python high-%CPU=CPU-bound setup; none=hung) ---"; ps -eo pid,etimes,pcpu,pmem,stat,comm --sort=-pcpu 2>/dev/null | head -8 || true; echo "--- startup-script log (where setup died/hung if no run log yet) ---"; (sudo journalctl -u google-startup-scripts.service --no-pager 2>/dev/null | tail -60 || true); echo "--- setup log files ---"; ls -la /tmp/*.log /var/log/tfep* 2>/dev/null | tail -12 || true; for f in /tmp/tfep_setup.log /tmp/startup.log /var/log/tfep_startup.log; do [ -f "$f" ] && { echo "== $f (tail) =="; tail -30 "$f"; }; done; echo "--- FULL run log ---"; sed -e "s/\x1b\[[0-9;]*m//g" /tmp/tfep_run.log 2>/dev/null || echo "(no run log)"; echo "=== nan-error-logs dir ==="; SD=$(ls -d /tmp/tout/*_sim_shared 2>/dev/null | head -1); ls -la "$SD/nan-error-logs" 2>/dev/null || echo "(no nan dir)"; echo "=== minimize/energy/nan lines ==="; grep -aiE "minimi|energ|nan|reinitial|restart|Warning|CRITICAL|Potential" /tmp/tfep_run.log 2>/dev/null || true; echo "=== autostop/convergence verdicts (which criterion gates the early-stop) ==="; grep -aE "\[autostop\]|AUTOSTOP|CONVERGED|overlap|plateau" /tmp/tfep_run.log 2>/dev/null | tail -12 || true' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$")
               printf '%s\n' "$SSHLOG" | tail -140 || echo "(ssh window failed)"
             fi
             if [ "${{ github.event.inputs.detach }}" = 1 ]; then
@@ -190,8 +197,52 @@ jobs:
           VMCOUNT=$(printf '%s\n' "$VMLIST" | grep -c . 2>/dev/null || echo 0)
           VMS1=$(printf '%s\n' "$VMLIST" | tr '\n' ';' | cut -c1-200)
           echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED src=$SRCKIND live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\" (committed-iters are leg-wide across salts; verdict fields are from src)"
+      - name: Set up openmmtools for forensic ckpt probe (mode=forensic)
+        if: ${{ github.event.inputs.mode == 'forensic' }}
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: omm
+          create-args: >-
+            python=3.11 openmmtools netcdf4 numpy -c conda-forge
+          init-shell: bash
+      - name: Forensic checkpoint probe (mode=forensic — CPU/runner-only, no GPU/VM)
+        if: ${{ github.event.inputs.mode == 'forensic' }}
+        shell: bash -el {0}
+        run: |
+          set -eo pipefail
+          # CONFIRM the 2026-07-21 interval-mismatch root cause on the REAL committed artifacts: for the newest
+          # few PRODUCTION generations of this leg, open each (.nc,.chk) with the real openmmtools MultiStateReporter
+          # and print reporter.checkpoint_interval + read_last_iteration(analysis vs checkpoint) + manifest iter, so
+          # we see which generations are on a 20- vs 40-grid and whether any committed pair is itself torn. $0 (free
+          # runner), no GPU, no VM. Scans ALL (dt,clig,wu,salt) prefixes under commits/$LEG_ID.
+          BUCKET="${PROJECT}-rbfe-ckpt"
+          CB="gs://$BUCKET/valB-6hax/commits/$LEG_ID"
+          NEWEST="${{ github.event.inputs.n_windows }}"; case "$NEWEST" in ''|*[!0-9]*) NEWEST=8 ;; esac
+          echo "=== enumerating PRODUCTION committed generations under $CB ==="
+          ALL=$(gcloud storage ls --recursive "$CB/" 2>/dev/null | grep -aE "/production/iter-[0-9]+/[0-9a-f]+/COMMITTED.json$" || true)
+          if [ -z "$ALL" ]; then echo "(no production COMMITTED.json found under $CB — leg may be warmup-only)"; exit 0; fi
+          # newest N distinct generation dirs by iteration
+          SEL=$(printf '%s\n' "$ALL" | sort -t/ -k1 | awk -F'/production/iter-' '{print $2}' \
+                | sed -E 's#/COMMITTED.json$##' | sort -t/ -k1 -rn | head -n "$NEWEST")
+          mkdir -p /tmp/forensic
+          i=0
+          while IFS= read -r rel; do
+            [ -z "$rel" ] && continue
+            ITER=$(printf '%s' "$rel" | cut -d/ -f1)
+            GEN=$(printf '%s' "$rel" | cut -d/ -f2)
+            # find the full prefix (which dt/salt subdir this gen lives under)
+            SRC=$(printf '%s\n' "$ALL" | grep -aE "/production/iter-$ITER/$GEN/COMMITTED.json$" | head -1 | sed -E 's#/COMMITTED.json$##')
+            [ -z "$SRC" ] && continue
+            DST="/tmp/forensic/gen_$(printf '%03d' "$i")_iter${ITER}"
+            mkdir -p "$DST"
+            echo "--- downloading $SRC -> $DST ---"
+            gcloud storage cp --recursive "$SRC/*" "$DST/" 2>&1 | tail -3 || echo "(download failed)"
+            i=$((i+1))
+          done <<< "$SEL"
+          echo "=== running forensic inspector ==="
+          micromamba run -n omm python research/modalities/rbfe_ckpt_forensic.py /tmp/forensic --newest "$NEWEST"
       - name: Reset committed checkpoints (fresh start on timestep change)
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.reset_commits == '1' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.reset_commits == '1' }}
         run: |
           set -eo pipefail
           BUCKET="${PROJECT}-rbfe-ckpt"
@@ -199,7 +250,7 @@ jobs:
           echo "reset_commits=1 -> wiping $CB (a new-timestep run must not resume a stale-dt trajectory)"
           gcloud storage rm --recursive "$CB/" 2>/dev/null && echo "commits wiped" || echo "(no commits to wipe)"
       - name: Provision Spot L4 VM + run ternary-FEP
-        if: ${{ github.event.inputs.mode != 'tail' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
         run: |
           set -eo pipefail
           VM="gcp-ternary-${GITHUB_RUN_ID}"
@@ -266,11 +317,12 @@ jobs:
           # engine is now SPOT-SAFE (execute_hybrid_dag_spot_safe commits MD per-interval to the GCS CommitStore
           # below), so a preempted leg RESUMES from its last committed iteration on re-dispatch — a finished leg
           # is still kept via this skip.
-          if [ "$MODE" = run ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_fwd_r${SEED}.json >/dev/null 2>&1; then
+          if [ "$MODE" = run ] && [ "$FORCE_RERUN" != 1 ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_fwd_r${SEED}.json >/dev/null 2>&1; then
             echo "leg ${LEG_ID} seed $SEED already in GCS — idempotent skip"
             for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} (idempotent-skip) ###END###"; sleep 3; done
             exit 0
           fi
+          [ "$MODE" = run ] && [ "$FORCE_RERUN" = 1 ] && echo "force_rerun=1: bypassing idempotent-skip; a stale leg result (if any) will be overwritten"
           # STAGE CACHE (2026-07-18): staging (RCSB fetch + SMARCA4->SMARCA2 model + assembly) is ~15 min of CPU and
           # runs on every GPU VM before the engine — the last big un-skipped step in the preemption window. It is
           # deterministic per (leg, template, seed) [seed picks the SMARCA2 model: model_idx = seed % n_models], so
@@ -376,6 +428,7 @@ jobs:
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
               CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG RBFE_WARMUP_TIMESTEP_FS=$WARMUP_TS \
               RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS RBFE_REQUIRE_PRIMED_SETUP=$REQUIRE_PRIMED RBFE_MIN_STEPS=$MIN_STEPS SETUP_CACHE_VERSION=\$SETUP_VER \
+              RBFE_AUTOSTOP_CONVERGENCE=$AUTOSTOP RBFE_AUTOSTOP_MIN_FRAC=$AUTOSTOP_MIN_FRAC \
               OPENMM_REQUIRE_CUDA=1 INPUT_DIR=\$IN OUTPUT_DIR=\$OUT CKPT_DIR=\$OUT \$COMMIT_ENV \
               \$PY nr4a3_ternary_fep.py 2>&1 ) | tee /tmp/tfep_run.log
           # scrape a result + persist
@@ -492,21 +545,23 @@ jobs:
           echo "TFEP RESULT: $RES"
 
       - name: Teardown (skip for detached — the VM must keep running)
-        if: ${{ always() && github.event.inputs.mode != 'tail' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
         run: |
           if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (7h max-run backstop; tail deletes when done)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
       - name: Result summary
-        if: ${{ always() && github.event.inputs.mode != 'tail' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
         run: |
           echo "mode=$MODE leg=$LEG_ID"
           if [ "${DETACHED:-0}" = 1 ]; then echo "🚀 DETACHED: $VM running the leg independently -> GCS; monitor via gpu-rbfe-gcp-tail vm=$VM"; exit 0; fi
           echo "RESULT: ${RESULT_LINE:-<none>}"
           case "${RESULT_LINE:-}" in
-            *status=OK*smoke*) echo "✅ ternary assembly+map+hybrid-topology built on GCP L4 — valB_mini plumbing PROVEN" ;;
-            *status=OK*run*)   echo "✅ ternary FEP leg ran end-to-end on GCP L4" ;;
-            *ENVFAIL*)         echo "❌ openfe/gemmi env build failed on the VM" ;;
+            *status=OK*smoke*)          echo "✅ ternary assembly+map+hybrid-topology built on GCP L4 — valB_mini plumbing PROVEN" ;;
+            *status=OK*preequil*)       echo "✅ pre-equilibration (exact-FF conditioner + core-transplant endpoints) relaxed + cached" ;;
+            *status=OK*endpoint_smoke*) echo "✅ exact-Hamiltonian physical-endpoint stability test ran (see all_stable in the result line)" ;;
+            *status=OK*run*)            echo "✅ ternary FEP leg ran end-to-end on GCP L4" ;;
+            *ENVFAIL*)                  echo "❌ openfe/gemmi env build failed on the VM" ;;
             *) echo "⚠️ no clean OK result — see serial tail above" ;;
           esac
