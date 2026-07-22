@@ -156,19 +156,16 @@ jobs:
 
   nrv04_bake:
     # Build the pre-provisioned Vast boot image (ssh/python/git/systemd + the MD conda env all baked, so Vast's
-    # slow boot-time apt is a no-op) and push it to GHCR. Pushing uses the built-in GITHUB_TOKEN (no new secret).
-    # After the first push, make the GHCR package PUBLIC once (Settings -> Packages) so Vast can pull it.
+    # slow boot-time apt is a no-op) and push it to Docker Hub (public repo -> Vast pulls unauthenticated).
     if: ${{ github.event.inputs.task == 'nrv04_bake' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    permissions:
-      contents: read
-      packages: write
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      DOCKERHUB_USER: triskit23
     steps:
       - uses: actions/checkout@v4
       - name: Fetch the pre-packed MD env from S3 into the build context
@@ -176,16 +173,15 @@ jobs:
           python3 -m pip install -q awscli >/dev/null 2>&1 || true
           aws s3 cp "s3://${VAST_CKPT_BUCKET}/mdenv/nrv04md.tar.gz" research/compute/nrv04md.tar.gz
           ls -lh research/compute/nrv04md.tar.gz
-      - name: Log in to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
       - name: Build + push the Vast boot image
         run: |
           set -eo pipefail
-          IMG=$(echo "ghcr.io/${{ github.repository }}/nrv04vast:latest" | tr '[:upper:]' '[:lower:]')
+          IMG="docker.io/${DOCKERHUB_USER}/nrv04vast:latest"
           docker build -f research/compute/Dockerfile.nrv04vast -t "$IMG" research/compute/
           docker push "$IMG"
-          echo "PUSHED $IMG"
-          echo "NOTE: make this GHCR package PUBLIC once so Vast (unauthenticated) can pull it."
+          echo "PUSHED $IMG (ensure the Docker Hub repo is PUBLIC so Vast can pull it unauthenticated)"
 
   nrv04_vast_launch:
     if: ${{ github.event.inputs.task == 'nrv04_vast_launch' }}
