@@ -36,7 +36,15 @@ _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastro
 # it does NOT need the FEP's beefy host — over-specifying RAM/vCPU/disk excludes the cheap 4090s and leaves only
 # high-demand hosts where the spot floor (min_bid) ~= on-demand. Modest requirements let the bid find a cheap
 # 4090 (~$0.10-0.15/hr spot). reliability filter kept (a crash, unlike preemption, we don't tolerate).
-TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=40, interruptible=True)
+TERNARY_RES = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=60, interruptible=True)
+
+# Boot image. Vast's cheap 4090 hosts have catastrophically slow BOOT-TIME PROVISIONING (Vast apt-installs
+# python3/openssh/systemd from archive.ubuntu.com at container start — ~40 min on these hosts, diag-confirmed
+# across 4+ hosts; it's Vast's own container init, not our onstart). A Vast-READY base image (ssh + python +
+# the provisioning tooling already baked, and commonly cached on Vast hosts) makes that a no-op. Overridable via
+# $VAST_IMAGE for A/B testing. The packed conda MD env is still curled from S3 into /opt/mamba/envs/md — we do
+# NOT use the image's python, so the image only has to boot fast.
+VAST_IMAGE = os.environ.get("VAST_IMAGE", "vastai/base-image:cuda-12.4.1-auto")
 
 # The onstart pipeline. $VARS are exported by _vast_onstart (leg env + forwarded AWS creds + CHECKPOINT_URI +
 # ENV_TARBALL_URL). THE BOTTLENECK FIX: instead of a ~25-min `micromamba create` MD solve PER instance (the
@@ -264,11 +272,7 @@ def build_jobspec(leg, seed, mode, branch, bucket, env_tarball_url=None):
     return JobSpec(
         name=name,
         command=["bash", "-lc", pipeline],
-        # BASE (~200 MB), NOT runtime (~2.5 GB): diag proved the boot time was Vast pulling the base image before
-        # the container even started. The pre-packed conda env already bundles the CUDA runtime libs (libcudart
-        # etc.); the host supplies the driver via nvidia-container-toolkit — so -base is all we need and it slashes
-        # the image pull ~10x.
-        image="nvidia/cuda:12.4.1-base-ubuntu22.04",
+        image=VAST_IMAGE,
         checkpoint_uri=s3_checkpoint_uri(name, bucket=bucket),
         resume=True,
         resources=TERNARY_RES,
