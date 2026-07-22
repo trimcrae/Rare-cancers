@@ -46,6 +46,17 @@ current code:
   systems assemble, MD is stable, covalency does not qualitatively flip the ternary readout, and the negative
   controls behave. Spending converged-FEP money before that gate is exactly what the reviewer warned against.
 
+**How the covalent bond is modeled (frozen): a RESTRAINED-covalent approximation.** Celastrol is parameterized
+as a normal OpenFF small molecule and the protein with its standard force field; the adduct is enforced by a
+**stiff harmonic bond restraint** between celastrol's electrophilic C6 and Cys551-Sγ at the C–S covalent length
+(~1.81 Å), plus the two flanking angle restraints, holding the Michael-adduct geometry throughout MD. This is the
+standard *feasibility-level* covalent treatment: it captures the geometric/entropic consequence of the tether
+(the warhead is locked at the site) for the interface-stability and recruitment-geometry readouts (R1–R3),
+**without** re-deriving bespoke QM junction parameters. Honest limit: it does **not** reproduce the electronic
+reorganization of the true covalent junction and therefore makes **no** affinity/ΔG claim — which is exactly why
+this is a feasibility gate, not the quantitative retrospective. The `noncov_nr4a1` leg is identical minus the
+restraint, so R4 isolates the effect of the tether itself.
+
 **Honest limits stated up front:** endpoint MD + interface geometry is a *qualitative/semi-quantitative*
 readout. It cannot rank affinities. Language throughout is **"directionally concordant / discordant with the
 reported NR-V04 paralogue outcome"** — never "recovered degradation." One positive + two spared receptors is too
@@ -143,6 +154,24 @@ Before any paid GPU run, a **free-CI smoke** must prove the whole panel is runna
 Only when that CI smoke is green do we wire the Vast launcher and run the real legs.
 
 ---
+
+## Results (append-only)
+
+### Leg 0 — cysteine conservation (2026-07-22, `nrv04-cys-conservation.json`, CI run 29923279236)
+- **NR4A1 residue 551 = Cys** (confirms the assumed covalent site is a cysteine).
+- **NR4A2** aligned position 551 = **Tyr** (`LNRPN[Y]LSKLL`); **NR4A3** aligned position 579 = **Thr**
+  (`QALEP[T]ESKVL`). Neither paralogue has a cysteine at the aligned position, and — hardening against
+  global-alignment slop — **neither ±5 window contains any cysteine**.
+- **Verdict (frozen §5-4):** the reactive Cys is **unique to NR4A1**. Celastrol cannot form the covalent adduct
+  on NR4A2/NR4A3, so NR-V04's paralogue selectivity is **at least partly a warhead-reactivity effect** the
+  noncovalent free-energy machinery cannot represent. **Consequences for the panel:** (i) this is now a
+  *confirmed* confound, not a hypothetical — the covalent vs C551A vs warhead-only legs are the way we
+  disentangle it; (ii) it reinforces STRATEGY.md's demotion of NR-V04 to a biological holdout, not a noncovalent
+  method calibrator; (iii) the optional `cov_nr4a2/cov_nr4a3` legs are **not** run in the minimal panel (celastrol
+  can't bond there — there is nothing covalent to model).
+- *Caveat:* global NW alignment of the full LBDs; the local ±5 windows (no nearby Cys in either paralogue) make
+  the "unique to NR4A1" call robust to a few-residue misregistration. A structure-based recheck is a cheap future
+  hardening if ever contested.
 
 ## Provenance / honesty
 - Ligand chemistry is an **NR-V04-inspired representative reconstruction**, not an exact structural match
