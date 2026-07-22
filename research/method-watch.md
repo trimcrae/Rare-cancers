@@ -168,7 +168,12 @@ Hits that crossed (or are warming) a trigger. A new session should action or cle
   Unrestricted. Status: **live** (validated on a runner; grants.gov is proxy-blocked from the dev
   sandbox, so it degrades to a "query failed" line there and runs for real in CI). Next: when a 🆕
   individual/unrestricted AI/compute opportunity appears, read its detail page and, if applicable,
-  decide whether to apply for GPU funding.
+  decide whether to apply for GPU funding. **Eligibility finding:** the open opportunities require an
+  eligible *organization* (a bare individual can't submit); a **single-member US LLC** is an eligible
+  applicant type on both NSF 26-512 and the DoD Rare Cancers IDA — documented as a parked future path
+  in [compute/cheap-gpu-plan.md](compute/cheap-gpu-plan.md#possible-future-path--form-a-us-llc-to-become-grant-eligible-funds-real-gpu--not-just-free-credits).
+  Reusable eligibility check: `method-watch.yml` with `probe_grants=<oppId>`
+  (`scripts/fetch-grants-eligibility.mjs`).
 
 - **[2026-07-05] PocketMiner was watched as a *style*, never RUN as an orthogonal cross-check — closing that gap
   (trimcrae catch).** We built our cryptic-pocket case with our OWN metadynamics + fpocket ("PocketMiner-*style*"
