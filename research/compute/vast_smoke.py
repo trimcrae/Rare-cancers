@@ -41,10 +41,34 @@ def phase1_readonly(key: str, res: ResourceSpec) -> dict:
 
     q = _vast_offer_query(res)
     print(f"[query] {q}", flush=True)
-    offers = _vast_request("GET", "/offers/", key, params={"q": json.dumps(q)}).get("offers", [])
-    print(f"[search] {len(offers)} bundle(s) returned", flush=True)
-    if not offers:
-        raise SystemExit("FAIL: no offers returned — check the /bundles/ query shape or marketplace availability")
+
+    # Endpoint DISCOVERY: Vast's search path/verb has drifted across API versions and the CLI-source summary
+    # was unreliable (/offers/ 404s). Probe the plausible candidates in ONE run and report which returns offers,
+    # so we wire the adapter to the confirmed one instead of redispatching per guess.
+    candidates = [
+        ("GET",  "/bundles/",     {"q": json.dumps(q)}, None),
+        ("GET",  "/bundles",      {"q": json.dumps(q)}, None),
+        ("PUT",  "/bundles/",     None,                 q),
+        ("PUT",  "/search/asks/", None,                 q),
+        ("POST", "/search/asks/", None,                 q),
+        ("GET",  "/search/asks/", {"q": json.dumps(q)}, None),
+        ("POST", "/offers/",      None,                 q),
+    ]
+    offers, winner = [], None
+    for verb, path, params, body in candidates:
+        try:
+            resp = _vast_request(verb, path, key, params=params, body=body)
+            keys = list(resp.keys()) if isinstance(resp, dict) else type(resp).__name__
+            got = resp.get("offers") or resp.get("asks") or resp.get("bundles") or []
+            print(f"[probe] {verb:4} {path:16} -> OK keys={keys} n={len(got)}", flush=True)
+            if got and winner is None:
+                offers, winner = got, (verb, path, "params" if params else "body")
+        except Exception as e:  # noqa: BLE001
+            msg = str(e).split(" -> ", 1)[-1][:120]
+            print(f"[probe] {verb:4} {path:16} -> {msg}", flush=True)
+    if winner is None:
+        raise SystemExit("FAIL: no search endpoint returned offers — see [probe] lines above")
+    print(f"[search] WINNER {winner} -> {len(offers)} offer(s)", flush=True)
 
     chosen = _select_cheapest_offer(offers, res)
     if chosen is None:
