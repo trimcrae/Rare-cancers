@@ -417,6 +417,14 @@ class VastBackend(Backend):
         inst_id = created.get("new_contract") or created.get("id")
         if inst_id is None:
             raise RuntimeError(f"vast: instance create returned no id: {created}")
+        # EXPLICIT START: creating the ask does NOT reliably launch the container — a created instance can sit at
+        # intended_status="stopped" (diag confirmed: cur_state/intended_status both "stopped", cpu 0%, no capacity
+        # msg, on a 939 Mbps host — so it was never told to run, not a slow pull). PUT the running state so Vast
+        # actually schedules + boots it. Best-effort: some API versions auto-start, in which case this is a no-op.
+        try:
+            _vast_request("PUT", f"/instances/{inst_id}/", key, body={"state": "running"})
+        except Exception as e:  # noqa: BLE001 — surface but don't fail the submit if already running
+            print(f"[vast] explicit start of {inst_id} returned: {e}", flush=True)
         return Handle(backend=self.name, job_id=str(inst_id),
                       extra={"offer": offer["id"], "dph": offer.get("dph_total"), "resume": spec.resume})
 
