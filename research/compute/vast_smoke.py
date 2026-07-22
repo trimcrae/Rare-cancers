@@ -42,33 +42,34 @@ def phase1_readonly(key: str, res: ResourceSpec) -> dict:
     q = _vast_offer_query(res)
     print(f"[query] {q}", flush=True)
 
-    # Endpoint DISCOVERY: Vast's search path/verb has drifted across API versions and the CLI-source summary
-    # was unreliable (/offers/ 404s). Probe the plausible candidates in ONE run and report which returns offers,
-    # so we wire the adapter to the confirmed one instead of redispatching per guess.
-    candidates = [
-        ("GET",  "/bundles/",     {"q": json.dumps(q)}, None),
-        ("GET",  "/bundles",      {"q": json.dumps(q)}, None),
-        ("PUT",  "/bundles/",     None,                 q),
-        ("PUT",  "/search/asks/", None,                 q),
-        ("POST", "/search/asks/", None,                 q),
-        ("GET",  "/search/asks/", {"q": json.dumps(q)}, None),
-        ("POST", "/offers/",      None,                 q),
-    ]
-    offers, winner = [], None
-    for verb, path, params, body in candidates:
+    # CONFIRMED endpoint: GET /search/asks/?q=<json> returns {"offers":[...]} (the other paths 404). The full
+    # query returned n=0, so bisect the filters to find which one is zeroing it out (all $0, one run).
+    def _search(query):
+        return _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(query)}).get("offers", [])
+
+    def _drop(d, *keys):
+        return {k: v for k, v in d.items() if k not in keys}
+
+    variants = {
+        "full":         q,
+        "no_gpu_name":  _drop(q, "gpu_name"),
+        "no_type":      _drop(q, "type"),
+        "no_verified":  _drop(q, "verified"),
+        "vram_20g":     {**q, "gpu_ram": {"gte": 20000}},
+        "minimal":      {"rentable": {"eq": True}, "num_gpus": {"eq": 1}, "order": [["dph_total", "asc"]]},
+    }
+    counts = {}
+    for label, query in variants.items():
         try:
-            resp = _vast_request(verb, path, key, params=params, body=body)
-            keys = list(resp.keys()) if isinstance(resp, dict) else type(resp).__name__
-            got = resp.get("offers") or resp.get("asks") or resp.get("bundles") or []
-            print(f"[probe] {verb:4} {path:16} -> OK keys={keys} n={len(got)}", flush=True)
-            if got and winner is None:
-                offers, winner = got, (verb, path, "params" if params else "body")
+            n = len(_search(query))
         except Exception as e:  # noqa: BLE001
-            msg = str(e).split(" -> ", 1)[-1][:120]
-            print(f"[probe] {verb:4} {path:16} -> {msg}", flush=True)
-    if winner is None:
-        raise SystemExit("FAIL: no search endpoint returned offers — see [probe] lines above")
-    print(f"[search] WINNER {winner} -> {len(offers)} offer(s)", flush=True)
+            n = f"ERR {str(e).split(' -> ', 1)[-1][:80]}"
+        counts[label] = n
+        print(f"[bisect] {label:12} -> {n}", flush=True)
+
+    offers = _search(q)
+    if not offers:
+        raise SystemExit(f"FAIL: full query still 0 offers; bisect={counts} — relax the offending filter above")
 
     chosen = _select_cheapest_offer(offers, res)
     if chosen is None:
