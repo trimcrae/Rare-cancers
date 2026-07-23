@@ -660,18 +660,27 @@ def bench_collect(bucket):
               f"ns_per_day={d.get('ns_per_day')} status={d.get('status')}", flush=True)
         if d.get("status") != "OK":                    # root-cause: the full BENCH_RESULT line (incl err=...)
             print(f"    raw: {d.get('_raw')}", flush=True)
-    # TARGETED anti-idle teardown: destroy bench-* instances that are terminal OR already produced a result
-    # (a bench is seconds of compute; a lingering one bleeds $). Scoped to the bench-* label namespace, so the
-    # covalent panel's instances are NEVER touched (no stop_all).
+    # TARGETED anti-idle teardown, scoped to the bench-* label namespace (covalent panel NEVER touched, no
+    # stop_all). Destroy ONLY: (a) terminal instances (a finished bench self-exits -> exited/stopped), or (b) an
+    # over-age instance (stuck/crashed backstop). Do NOT key off "has a bench.json" — a STALE result from a prior
+    # run of the same tag would otherwise kill a freshly-LOADING re-dispatch mid-boot (observed 2026-07-23).
     if os.environ.get("BENCH_NO_STOP") != "1" and key:
+        import time
+        now = time.time()
+        max_age = int(os.environ.get("BENCH_MAX_AGE_MIN", "40")) * 60
         _terminal = ("exited", "offline", "stopped")
         for i in bench_up:
             lab = i.get("label") or ""
-            if (i.get("actual_status") or "") in _terminal or lab in done_tags:
+            try:
+                age = now - float(i.get("start_date") or now)
+            except (TypeError, ValueError):
+                age = 0
+            terminal = (i.get("actual_status") or "") in _terminal
+            if terminal or age > max_age:
                 try:
                     _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
                     print(f"[bench-collect] destroyed {i.get('id')} ({lab}) — "
-                          f"{'terminal' if lab not in done_tags else 'result-in-S3'}", flush=True)
+                          f"{'terminal' if terminal else f'over-age {int(age//60)}min'}", flush=True)
                 except Exception as e:  # noqa: BLE001
                     print(f"[bench-collect] WARN destroy {i.get('id')} failed: {e}", flush=True)
     return 0
