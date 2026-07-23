@@ -110,6 +110,12 @@ def validate_reporter_pair(nc_path: Path, chk_path: Path, expected_iteration: in
         "analysis_last_iteration": int(ana_it),
         "reporter_uuid": a_uuid,
         "checkpoint_frames": int(chk_frames),
+        # RECORD the checkpoint cadence the pair was committed at (2026-07-21). The .chk only holds FULL
+        # checkpoint frames on THIS grid, so a later resume MUST advance/commit on the SAME interval or it
+        # tears the pair (analysis .nc one interval ahead of the .chk). Persisting it lets restore/resume
+        # derive the single authoritative interval from the committed file instead of an env var that can
+        # differ across VMs. Additive field — validate's equality semantics are unchanged.
+        "checkpoint_interval": int(checkpoint_interval) if checkpoint_interval else 0,
         "analysis_size": int(nc_path.stat().st_size),
         "checkpoint_size": int(chk_path.stat().st_size),
         "analysis_sha256": sha256_file(nc_path),
@@ -117,6 +123,75 @@ def validate_reporter_pair(nc_path: Path, chk_path: Path, expected_iteration: in
         "analysis_name": nc_path.name,
         "checkpoint_name": chk_path.name,
     }
+
+
+def read_checkpoint_interval(nc_path, chk_path=None):
+    """Return the checkpoint cadence BAKED INTO an existing openmmtools reporter pair (the single
+    physical truth for where full .chk frames live), or None if it can't be read.
+
+    WHY THIS EXISTS (2026-07-21 root cause). openmmtools writes a full checkpoint frame to the .chk
+    only every `checkpoint_interval` iterations, and that interval is fixed when the .nc is CREATED.
+    Our resume path opened the reporter WITHOUT an explicit interval (so it silently inherited the
+    file's, e.g. 40) but drove `run_to_target`/`commit` off the ENV interval (e.g. 20, the default
+    when RBFE_PROD_CKPT_ITERS wasn't applied on a given VM). At an off-grid boundary (…540 on a
+    40-grid file) the .chk's last full frame lagged the .nc by one interval → validate_reporter_pair
+    raised `resume iteration 520 != expected 540`, permanently blocking re-dispatch. The fix derives
+    THE interval from the committed file and uses it for the reporter, run_to_target, AND commit.
+
+    Primary source is the openmmtools reporter property (exactly what a resume actually uses); the raw
+    netCDF attribute is a version-robust fallback."""
+    from pathlib import Path as _P
+    nc_path = _P(nc_path)
+    chk_path = _P(chk_path) if chk_path is not None else None
+    # 1) authoritative: the openmmtools reporter itself (reads the persisted interval on open)
+    try:
+        from openmmtools import multistate
+        kw = {}
+        if chk_path is not None:
+            kw["checkpoint_storage"] = chk_path.name
+        rep = multistate.MultiStateReporter(str(nc_path), open_mode="r", **kw)
+        try:
+            ci = getattr(rep, "checkpoint_interval", None)
+            if ci:
+                return int(ci)
+        finally:
+            rep.close()
+    except Exception:  # noqa: BLE001
+        pass
+    # 2) fallback: the raw netCDF attribute (openmmtools stores it on both files as a global attr)
+    try:
+        import netCDF4
+        for p in (chk_path, nc_path):
+            if p is None:
+                continue
+            with netCDF4.Dataset(str(p), "r") as ds:
+                for attr in ("checkpoint_interval", "CheckpointInterval"):
+                    if hasattr(ds, attr):
+                        v = int(getattr(ds, attr))
+                        if v:
+                            return v
+                for g in ds.groups.values():
+                    if hasattr(g, "checkpoint_interval"):
+                        v = int(g.checkpoint_interval)
+                        if v:
+                            return v
+    except Exception:  # noqa: BLE001
+        pass
+    return None
+
+
+def effective_interval(manifest, nc_path=None, chk_path=None, fallback=None):
+    """The single authoritative checkpoint interval for a committed generation: the value recorded in
+    its manifest if present, else derived from the file, else `fallback`. Used by restore + resume so
+    the reporter, run_to_target and commit all agree on ONE interval per committed leg."""
+    if manifest:
+        mi = manifest.get("checkpoint_interval")
+        if mi:
+            return int(mi)
+    got = read_checkpoint_interval(nc_path, chk_path) if nc_path is not None else None
+    if got:
+        return int(got)
+    return fallback
 
 
 # --------------------------------------------------------------------------------------------
@@ -163,14 +238,21 @@ class _BaseCommitStore:
         """Try phases in order; for each, newest generation first, validate the fetched pair,
         and on success move it into `workspace` (named per the manifest). Returns
         (phase, iteration, nc_path, chk_path) or None. Never trusts a generation without a
-        manifest; falls back through generations on any validation failure."""
+        manifest; falls back through generations on any validation failure.
+
+        The pair is validated against ITS OWN committed interval (manifest, else the file), not the
+        passed `checkpoint_interval` — that arg is only a last-resort fallback for pre-2026-07-21
+        generations that recorded no interval and predate the attribute being readable. This keeps a
+        VM whose env interval differs from the committed file's from spuriously rejecting (or
+        mis-accepting) a valid generation at an off-env-grid boundary."""
         for phase in phases:
             for iteration, generation, man in self.list_committed(phase):
                 with tempfile.TemporaryDirectory(dir=str(workspace)) as td:
                     td = Path(td)
                     try:
                         nc_p, chk_p = self.fetch(phase, iteration, generation, td)
-                        validate_reporter_pair(nc_p, chk_p, iteration, checkpoint_interval)
+                        ci = effective_interval(man, nc_p, chk_p, fallback=checkpoint_interval)
+                        validate_reporter_pair(nc_p, chk_p, iteration, ci)
                     except Exception as e:  # noqa: BLE001
                         print(f"[restore] {phase} iter {iteration} gen {generation[:8]} "
                               f"REJECTED: {e!r}", flush=True)
@@ -179,7 +261,7 @@ class _BaseCommitStore:
                     dst_chk = workspace / man["checkpoint_name"]
                     shutil.copy2(nc_p, dst_nc)
                     shutil.copy2(chk_p, dst_chk)
-                    print(f"[restore] {phase} iter {iteration} gen {generation[:8]} OK -> "
+                    print(f"[restore] {phase} iter {iteration} gen {generation[:8]} OK (interval={ci}) -> "
                           f"{dst_nc.name}, {dst_chk.name}", flush=True)
                     return phase, iteration, dst_nc, dst_chk
         return None

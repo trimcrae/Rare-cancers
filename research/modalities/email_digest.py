@@ -33,7 +33,9 @@ SYSTEM = (
     "Markdown digest about the in-silico methods and NR4A3/degrader advances he is tracking. Turn it into "
     "something he can read at a glance on his phone. Rules: under ~180 words; NO tables; a one-line headline, "
     "then a few short bullets grouping only what MATTERS (new capability that changes what he can do, a "
-    "watched method that shipped, a relevant NR4A3 advance). Bold the item names sparingly. If nothing "
+    "watched method that shipped, a relevant NR4A3 advance, a newly-opened funding opportunity he could "
+    "apply to — especially AI/compute grants open to individuals/unrestricted, which fund his GPU time). "
+    "Bold the item names sparingly. If nothing "
     "materially changed, say that plainly instead of padding. Do not invent anything not in the digest. End "
     "with one line pointing to the full digest below."
 )

@@ -350,3 +350,40 @@ bleed on any provider**, guaranteed by the teardown wrapper.
 - **NVIDIA Inception / Academic Hardware Grants** — free cloud credits/hardware **if** you qualify (startup /
   academic).
 - **Colab / Kaggle** — free T4/L4 sessions, time-limited; smoke tests only.
+
+## Possible FUTURE path — form a US LLC to become grant-eligible (funds real GPU $, not just free credits)
+
+**Status: OPTION, not a committed step — parked for trimcrae's decision.** Everything above is *free/cheap
+compute*. This is a different lever: **federal research grants that would pay for GPU time (and the wider
+program) in real dollars.** Surfaced 2026-07-22 while researching the White House OSTP "Science: A New Golden
+Age" directive (2026-07-21), which redirects federal R&D toward AI and toward *individual scientists*.
+
+**The blocker and the unlock.** The directive itself is not applyable — it's a directive, not a solicitation;
+the money surfaces later as ordinary NSF/DOE/NIH/DARPA/ARPA-H calls (now watched automatically — see the
+grants.gov "Funding watch" in `../method-watch.md`). But the real solicitations it spawns, and the relevant
+ones already open, **require an eligible *organization* to be the applicant — a bare unaffiliated individual on
+an @gmail address cannot submit.** The lightweight unlock is a **single-member US LLC** (a for-profit "small
+business"): it is an *eligible applicant type* on these programs and gives a non-@gmail institutional identity.
+No collaborator, no university, no wet lab required to form one.
+
+**Verified against two currently-open opportunities (grants.gov, checked 2026-07-22):**
+- **NSF 26-512 "Unlocking Dataset Value for AI-Enabled Scientific Discovery"** (closes 2026-11-04) — eligibility
+  pulled verbatim from the API: for-profit orgs **incl. small businesses**, non-profit non-academic research
+  labs, FFRDCs, state/local govts, IHEs, Tribal Nations. **A single-member LLC qualifies; a bare individual
+  does not.**
+- **DoD/DoW Rare Cancers Research Program — Idea Development Award** (HT942526RCRPIDA, closes 2026-11-18; 15
+  awards) — grants.gov applicant type "Unrestricted (any entity)"; funds high-impact rare-cancer ideas needing
+  disease-relevant preliminary data (**EMC qualifies — this funds the actual research program, not just GPU**).
+  CDMRP applies *through* an eligible organization (for-profit + non-profit both qualify; no bare-individual
+  route) → the LLC is again the vehicle. *Honest limit:* this org-eligibility detail is standing CDMRP program
+  policy, **not** verified against the FY26 RCRP Program Announcement PDF (the grants.gov API does not expose
+  it); confirm in the PA before relying on it.
+
+**Why it's parked, not actioned (be honest):** forming an LLC is a real-world administrative + (small) cost +
+tax step and an outward-facing decision that is **trimcrae's to make** — not self-doable engineering. It is
+also not needed for the free-credit compute path above, which remains the default for near-term MD/FEP runs.
+The LLC only matters if/when we decide to pursue a *grant* (which would fund GPU at a scale free credits can't,
+and could fund the whole program). **Integrity guardrail:** eligibility on any specific solicitation is
+authoritative only on its own detail page / full announcement — a grants.gov applicant-type tag is a prompt to
+read, not a guarantee. Reusable check: dispatch `method-watch.yml` with `probe_grants=<oppId>` to pull a given
+opportunity's authoritative eligibility (`scripts/fetch-grants-eligibility.mjs`).

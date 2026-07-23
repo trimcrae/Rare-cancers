@@ -293,6 +293,21 @@ def _protocol(openfe):
         s.partial_charge_settings.partial_charge_method = _charge
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN charges=%s (%s); using default" % (_charge, e), flush=True)
+    # NAGL must NOT drag in the AmberTools backend. OpenFE's charge_generation constructs a ToolkitRegistry for
+    # the configured off_toolkit_backend REGARDLESS of method; the default 'ambertools' raises
+    # ToolkitUnavailableException when AmberTools isn't in the env (confirmed on the CPU prime + the GPU setup
+    # deaths). For nagl the charges come from the GNN model and only a conformer is needed, so point the backend
+    # at RDKit (always present). am1bcc is genuinely computed via AmberTools sqm, so leave it on 'ambertools'.
+    if _charge == "nagl":
+        for _fld in ("off_toolkit_backend", "toolkit_backend", "nagl_toolkit_backend"):
+            try:
+                if hasattr(s.partial_charge_settings, _fld):
+                    setattr(s.partial_charge_settings, _fld, "rdkit")
+                    print("  [tfep] nagl: set partial_charge_settings.%s = rdkit (avoid AmberTools dependency)" % _fld,
+                          flush=True)
+                    break
+            except Exception as e:  # noqa: BLE001
+                print("  [tfep] WARN could not set %s=rdkit (%s)" % (_fld, e), flush=True)
     print("  [tfep] partial_charge_method = %s (must match binary RBFE)" % _charge, flush=True)
     # seed the sampler per replica where the attribute exists, so SEED=0/1/2 are genuinely independent
     for path in ("simulation_settings", "integrator_settings"):

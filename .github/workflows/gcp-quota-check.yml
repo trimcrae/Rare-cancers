@@ -31,6 +31,10 @@ jobs:
           gcloud projects describe "$PROJECT" --format="value(name,projectId)" 2>/dev/null || echo "(no projects.get perm)"
           echo "=== billing (enabled | account) ==="
           gcloud beta billing projects describe "$PROJECT" --format="value(billingEnabled,billingAccountName)" 2>/dev/null || echo "(no billing perm — check console)"
+          echo "=== GLOBAL project GPU quotas (project-info; GPUS_ALL_REGIONS = the TOTAL concurrent-GPU cap across ALL regions/types — the binding limit that can sit BELOW a per-type regional quota) ==="
+          gcloud compute project-info describe --project="$PROJECT" --flatten="quotas[]" \
+            --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/tmp/gerr \
+            | grep -iE "GPU" | sort || { echo "project-info failed:"; cat /tmp/gerr; }
           echo "=== full us-central1 GPU/G2 quota rows (metric limit usage) ==="
           gcloud compute regions describe us-central1 --flatten="quotas[]" \
             --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/tmp/qerr \

@@ -17,6 +17,7 @@ on:
       charge_method: { description: "am1bcc | nagl — MUST match the GPU run's charge_method (cache key includes it)", default: "nagl", required: false }
       template_pdb:  { description: "crystal template", default: "8G1Q", required: false }
       n_windows:     { description: "lambda windows (system build is independent of this, but kept for parity)", default: "12", required: false }
+      use_preequil:  { description: "1 = prime the PRE-EQUILIBRATED (v2pe) setup: overlay the v2 preequilcache (transplant + exact-FF relaxed complex.pdb/ligands.sdf) over the staged tree before parameterizing, and key the cache to v2pe. Requires a prior mode=preequil run (gpu-ternary-fep-gcp.yml). Default 0 = raw v1 setup.", default: "0", required: false }
 
 permissions:
   id-token: write
@@ -100,6 +101,8 @@ jobs:
           DIRECTION: fwd
           N_WINDOWS: ${{ github.event.inputs.n_windows || '12' }}
           CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'nagl' }}
+          TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
+          USE_PE: ${{ github.event.inputs.use_preequil || '0' }}
           RBFE_PRIME_ONLY: "1"
           INPUT_DIR: /tmp/ternary_in
           OUTPUT_DIR: /tmp/tout
@@ -108,7 +111,22 @@ jobs:
           set -eo pipefail
           mkdir -p /tmp/tout
           export RBFE_SETUP_CACHE_GCS="gs://$BUCKET/valB-6hax/setupcache"
-          echo "--- PRIME leg=$LEG_ID seed=$SEED charge=$CHARGE_METHOD -> $RBFE_SETUP_CACHE_GCS ---"
+          # use_preequil: overlay the v2 pre-equilibrated complex.pdb/ligands.sdf over the staged tree and key the
+          # setup cache to v2pe — so a GPU run with use_preequil=1 (SETUP_CACHE_VERSION=v2pe) restores THIS cache
+          # instead of re-parameterizing on the idle GPU. Mirrors gpu-ternary-fep-gcp.yml's use_preequil overlay.
+          SETUP_VER=v1
+          if [ "$USE_PE" = 1 ]; then
+            PE_CACHE="gs://$BUCKET/valB-6hax/preequilcache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v2.tar"
+            RAW=$(dirname "$(find /tmp/ternary_in -name complex.pdb | head -1)" 2>/dev/null)
+            if [ -n "$RAW" ] && gcloud storage cp "$PE_CACHE" /tmp/pe.tar 2>/dev/null && tar -C "$RAW" -xf /tmp/pe.tar 2>/dev/null; then
+              SETUP_VER=v2pe
+              echo "--- USE_PREEQUIL: overlaid relaxed tree from $PE_CACHE into $RAW; setup cache ver -> $SETUP_VER ---"
+            else
+              echo "::error::use_preequil=1 but no preequilcache at $PE_CACHE (run mode=preequil first)"; exit 1
+            fi
+          fi
+          export SETUP_CACHE_VERSION="$SETUP_VER"
+          echo "--- PRIME leg=$LEG_ID seed=$SEED charge=$CHARGE_METHOD ver=$SETUP_VER -> $RBFE_SETUP_CACHE_GCS ---"
           $PY nr4a3_ternary_fep.py 2>&1 | tail -60
           PM=$(ls /tmp/tout/prime_*.json 2>/dev/null | head -1 || true)
           if [ -n "$PM" ]; then

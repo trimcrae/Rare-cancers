@@ -545,6 +545,21 @@ read it before making changes.
   resume from checkpoint on GCE, which DELETEs the VM on preemption), never dodged by leaving the region.
   Enforced in `gpu-rbfe-gcp.yml` provision() ZONES (central-only); `gpu-bench-gcp.yml` / `gcp-smoke.yml` already
   central-only — keep them that way.
+- **★★ GCP GPU HARD FACTS — READ [research/compute/gcp-gpu-facts.md](./research/compute/gcp-gpu-facts.md) BEFORE
+  DIAGNOSING ANY GCP GPU PROVISIONING/QUOTA PROBLEM (verified 2026-07-22, each cost real debugging).** The
+  critical few, so they're always on hand: **(1) We have a 1-GPU TOTAL quota** — `GPUS_ALL_REGIONS = 1` is the
+  BINDING cap (at most **1** GPU concurrent, any region/type). The per-type regional quotas (spot L4 shows **3**,
+  on-demand L4 **1**) are REAL but **non-binding** — the global 1 caps below them. So **NEVER** assume >1 GPU can
+  run at once; replicate seeds / edges run **sequentially**, never in parallel. Check with `gcp-quota-check.yml`
+  (prints global `GPUS_ALL_REGIONS` + regional rows). **(2) Quota ≠ capacity, and quota usage is the zombie test:**
+  a zombie holding a GPU shows quota **usage ≥ 1**; **usage = 0 + no `gcp-ternary-*` VM listed = NO zombie** →
+  a provision failure is real capacity or a bad request, not a zombie. **(3) On-demand (`provisioning=standard`)
+  create MUST pass `--instance-termination-action` whenever `--max-run-duration` is set** (true for standard too,
+  not spot-only) — omitting it silently broke on-demand for months (mislabeled "stocked out"). **(4) "L4 stocked
+  out" ≠ proof of capacity** — the launcher now echoes the real gcloud error; and **spot working while on-demand
+  fails is backwards → a broken command, not capacity.** **(5) VMs self-delete on exit now** (IAM granted to the
+  default compute SA) → a dead leg shows `live_vms=0`; `gcp-reap-vms.yml` is the backstop. Full detail + command
+  reference in the doc.
 - **★ EVERY SUBSTANTIAL GPU RUN NAMES A PREFERRED CLOUD PROVIDER, CONFIRMED WITH trimcrae IN ADVANCE (trimcrae
   standing rule, 2026-07-12).** Before kicking off any big/fleet GPU run, state the **recommended provider** and
   confirm it with trimcrae *before* launch — do NOT silently default to AWS. The repo is now provider-agnostic

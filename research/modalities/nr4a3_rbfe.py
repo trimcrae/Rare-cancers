@@ -1218,10 +1218,22 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                         objs[k] = v
                 (loc / "objs.pkl").write_bytes(_pickle.dumps(objs))
                 (loc / "manifest.json").write_text(_json.dumps(manifest))
+                # RETRY each upload — a transient GcsApiError('') on the big hybrid_system.xml.bz2 previously
+                # aborted the whole save (manifest.json uploads LAST, so a mid-list failure left NO manifest and
+                # the leg saw the cache as MISSING -> fail-fast). manifest.json is still written last, so it only
+                # appears once every object is safely uploaded (an all-or-nothing cache).
                 for f in upload + ["objs.pkl", "manifest.json"]:
-                    r = _gsh("cp", str(loc / f), cache_dir + "/" + f)
-                    if r.returncode:
-                        raise RuntimeError("cp %s: %s" % (f, (r.stderr or "")[-200:]))
+                    _last = None
+                    for _attempt in range(5):
+                        r = _gsh("cp", str(loc / f), cache_dir + "/" + f)
+                        if r.returncode == 0:
+                            break
+                        _last = (r.stderr or "")[-200:]
+                        print("  [spot-safe] cache upload %s attempt %d failed (%s); retrying"
+                              % (f, _attempt + 1, _last), flush=True)
+                        time.sleep(3 * (_attempt + 1))
+                    else:
+                        raise RuntimeError("cp %s after 5 retries: %s" % (f, _last))
                 print("  [spot-safe] SETUP cached to %s (a re-dispatch after preemption now skips the rebuild)"
                       % cache_dir, flush=True)
             except Exception as e:  # noqa: BLE001
@@ -1309,7 +1321,14 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
         if not cache_dir:
             print("  [spot-safe] PRIME_ONLY set but RBFE_SETUP_CACHE_GCS unset — nothing cached; abort", flush=True)
             raise SystemExit("PRIME_ONLY requires RBFE_SETUP_CACHE_GCS")
-        print("  [spot-safe] PRIME_ONLY: setup built + cached to %s; exiting before MD "
+        # VERIFY the cache actually persisted (manifest.json is uploaded LAST, so its presence means the whole
+        # cache is complete). A silent 'setup-cache save failed ... non-fatal' would otherwise let the prime
+        # falsely report primed=true while the GPU leg fail-fasts on the missing cache. Fail the prime instead.
+        if _gsh("ls", cache_dir + "/manifest.json").returncode != 0:
+            raise SystemExit("[spot-safe] PRIME_ONLY: cache did NOT persist (no manifest.json at %s) — the "
+                             "upload failed (see 'setup-cache save failed' above). Failing the prime so it is "
+                             "visible; re-run it (uploads now retry transient GcsApiErrors)." % cache_dir)
+        print("  [spot-safe] PRIME_ONLY: setup built + cached to %s (manifest verified in GCS); exiting before MD "
               "(a GPU run will restore it and skip setup)." % cache_dir, flush=True)
         return None, None, {"primed": True, "cache_dir": cache_dir, "n_particles": system.getNumParticles()}
     commit_gcs = os.environ.get(commit_gcs_env)
