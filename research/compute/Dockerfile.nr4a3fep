@@ -1,0 +1,26 @@
+# Pre-provisioned Vast boot image for the OpenFE RBFE + ternary-cooperativity FEP lanes.
+#
+# WHY: same rationale as Dockerfile.nrv04vast — Vast's cheap marketplace hosts have slow routing to
+# archive.ubuntu.com and Vast's container init apt-installs python/ssh/systemd/git at boot (~10-40 min on those
+# hosts). Baking every package Vast would install makes provisioning a no-op, so the box boots in image-pull
+# time (host bandwidth), not ubuntu-mirror time.
+#
+# DIFFERENCE FROM nrv04vast: that image bakes the covalent MD env (OpenMM only, no OpenFE). THIS image bakes the
+# OpenFE "rbfe" conda env — openfe (RelativeHybridTopologyProtocol), ambertools (am1bcc), lomap2/kartograf atom
+# mapping, openmm (CUDA 12.6 PTX -> runs on any >=12.6 host driver) — so nr4a3_rbfe.py (step1 RBFE) AND
+# nr4a3_ternary_fep.py (valB / retrospective / matrix cooperativity) both run on Vast without a ~25-min solve.
+#
+# The rbfe.tar.gz conda-pack tarball is produced into research/compute/ by the fep_bake CI job; ADD auto-extracts
+# a local .tar.gz; conda-unpack rewrites the embedded prefix to the in-image location.
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        openssh-server openssh-client openssh-sftp-server \
+        python3 python3-pip git curl wget ca-certificates bzip2 tar gzip \
+        systemd systemd-sysv dbus locales sudo less tmux \
+    && rm -rf /var/lib/apt/lists/*
+
+ADD rbfe.tar.gz /opt/mamba/envs/rbfe/
+RUN /opt/mamba/envs/rbfe/bin/conda-unpack || true
+ENV PATH=/opt/mamba/envs/rbfe/bin:$PATH
