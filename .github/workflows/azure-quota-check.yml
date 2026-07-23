@@ -1,0 +1,61 @@
+name: Azure quota check (NVadsA10 v5 / Spot vCPUs)
+
+# Read-only: prints the subscription's NVIDIA A10 GPU-VM quota (NVadsA10 v5 family) + regional Spot vCPU quota
+# for the chosen region, so we know exactly what on-demand vs spot A10 capacity we're allowed and whether the
+# subscription is a live pay-as-you-go one (GPU quota is 0 on a fresh free trial). Touches nothing.
+#
+# ★ There is NO NVIDIA L4 SKU on Azure — its 24 GB inference GPU is the A10 (NVadsA10 v5 series). This checks A10.
+#
+# PREREQ (one-time, owner — see research/compute/cheap-gpu-plan.md → "Azure A10"):
+#   1. Create an Entra app registration / service principal.
+#   2. Add a **federated credential** (OIDC) scoped to this repo so no client secret is stored, e.g. subject
+#      `repo:trimcrae/Rare-cancers:ref:refs/heads/claude/azure-l4s-setup-y856cz` (and/or the default branch).
+#   3. Grant the SP at least Reader on the subscription.
+#   4. Set repo secrets: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID.
+# Until those exist the azure/login step fails — that's expected; it does not block anything else.
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: "Azure region to check A10 quota in (NVadsA10v5 must be available there)"
+        required: false
+        default: eastus
+
+permissions:
+  id-token: write        # OIDC token for azure/login (no stored client secret)
+  contents: read
+
+jobs:
+  quota:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Auth to Azure (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Print A10 / Spot quotas + subscription state
+        env:
+          REGION: ${{ github.event.inputs.region }}
+        run: |
+          set +e
+          REGION="${REGION:-eastus}"
+          echo "=== subscription (name | id | state) ==="
+          az account show --query "[name,id,state]" -o tsv 2>/dev/null || echo "(az account show failed — check login/secrets)"
+          echo "=== is this still a FREE TRIAL? (trial => GPU quota is 0 until you upgrade to pay-as-you-go) ==="
+          az account show --query "{name:name, quotaId:subscriptionPolicies.quotaId}" -o tsv 2>/dev/null || true
+          echo "(a quotaId containing 'FreeTrial' means GPU quota will be 0 — upgrade to pay-as-you-go first)"
+          echo "=== full GPU/NV/Spot vCPU usage rows in ${REGION} (localName currentValue/limit) ==="
+          az vm list-usage --location "$REGION" -o table 2>/tmp/uerr \
+            | grep -iE "NVADSA10|NV.*A10|NCADS|ND[A-Z]|Spot|GPU" || { echo "list-usage failed:"; cat /tmp/uerr; }
+          echo "=== [QUOTA-SUMMARY] the ones that matter for an A10 Spot MD leg (need >= 36 for a full NV36ads_A10_v5) ==="
+          echo "  (name.value: standardNVADSA10v5Family = A10 family | lowPriorityCores = Total Regional Spot vCPUs | cores = Total Regional vCPUs)"
+          az vm list-usage --location "$REGION" \
+            --query "[?name.value=='standardNVADSA10v5Family' || name.value=='lowPriorityCores' || name.value=='cores'].{quota:name.localizedValue, limit:limit, usage:currentValue}" \
+            -o table 2>/dev/null || echo "  (query failed — see the full rows above)"
+          echo "=== is NVadsA10 v5 even offered in ${REGION}? (empty => pick another region) ==="
+          az vm list-skus --location "$REGION" --size Standard_NV --query "[?contains(name,'A10_v5')].name" -o tsv 2>/dev/null | sort -u || echo "(list-skus failed)"

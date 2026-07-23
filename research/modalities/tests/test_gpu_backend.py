@@ -13,8 +13,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from autoteardown import make_subprocess_terminator, run_with_teardown  # noqa: E402
 from gpu_backend import (  # noqa: E402
-    JobSpec, MockBackend, ModalBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend,
-    SlurmBackend, VastBackend, get_backend, pick_cheapest,
+    AzureBackend, JobSpec, MockBackend, ModalBackend, ResourceSpec, RunPodBackend, SageMakerBackend,
+    SaladBackend, SlurmBackend, VastBackend, get_backend, pick_cheapest,
 )
 from object_store import checkpoint_key, completed_units, parse_uri  # noqa: E402
 
@@ -125,6 +125,24 @@ def test_mock_backend_lifecycle_and_resume_flag():
     assert be.status(h) == "running" and h.extra["resume"] is True
     be.complete(h, ok=True)
     assert be.status(h) == "completed"
+
+
+def test_azure_is_raw_vm_must_self_terminate_and_guards_on_creds():
+    # Azure (like GCP) is a raw VM that bills until deleted -> must self-terminate via `az vm delete`.
+    az = AzureBackend()
+    assert az.self_terminate_cmd()[:3] == ["az", "vm", "delete"]
+    assert az.supports(ResourceSpec(gpu="a10g", min_vram_gb=24))   # A10 = the 24 GB class (no L4 on Azure)
+    # submit fails loudly without a subscription + service principal
+    saved = {k: os.environ.pop(k, None) for k in ("AZURE_SUBSCRIPTION_ID", "AZURE_CREDENTIALS")}
+    try:
+        get_backend("azure").submit(JobSpec(name="leg1", command=["python", "rbfe.py"]))
+        assert False, "should require creds"
+    except RuntimeError:
+        pass
+    finally:
+        for k, v in saved.items():
+            if v is not None:
+                os.environ[k] = v
 
 
 def test_modal_is_managed_no_idle_by_design():

@@ -154,6 +154,45 @@ what this doc is for.**
   **Step 0 gotcha:** GPU quota is denied on a pure trial account — must upgrade to full billing first ($300
   credit still applies). The `gcp` backend defaults should target `us-central1` + L4 Spot to match this.
 
+## Azure A10 — a SECOND parallel free-credit avenue (added 2026-07-23; NO L4 on Azure)
+
+**Why Azure at all:** GCP is hard-capped at **1 concurrent GPU** (`GPUS_ALL_REGIONS=1` — see gcp-gpu-facts.md).
+Azure is a **separate ~$200 / 30-day credit AND a separate quota**, so it buys a genuinely-parallel second GPU
+for a second leg while GCP's one GPU is busy. That parallelism is the value — **not** a lower price.
+
+**★ THE KEY FACT: there is NO NVIDIA L4 SKU on Azure.** The L4 is a GCP-G2 / AWS-G6 card. Azure's 24 GB
+inference GPU is the **NVIDIA A10**, sold ONLY via the **NVadsA10 v5** series (a GRID/visualization line with
+fractional-GPU sizes; the FULL A10 = `Standard_NV36ads_A10_v5`, 24 GB). CUDA MD/FEP runs fine on it. For our
+**bandwidth-bound** OpenMM PME MD the A10 (~600 GB/s) is ~1.5–2× an L4 (~300 GB/s) → **faster per ns** — but the
+NVadsA10v5 per-hour price carries a GRID-license premium above GCP L4 Spot, so **Azure A10 costs MORE per finished
+job than GCP L4.** Use it to widen concurrency on the free credit, not to save money. (If a true cheaper-than-L4
+card is the goal, that's an RTX 4090 on Vast/Salad, not Azure — see the cross-GPU table above.)
+
+**What you (trimcrae) must do — the account side (I can't; needs a browser + card + portal):**
+1. **Create the Azure free account** at [azure.microsoft.com/free](https://azure.microsoft.com/en-us/free/) →
+   ~$200 credit for 30 days. Needs a phone + a card for identity (not charged during the trial).
+2. **Upgrade to pay-as-you-go.** Like GCP, a *free-trial* subscription has **GPU quota = 0** and Microsoft will
+   **not** approve a GPU quota increase while it's a trial. Convert to pay-as-you-go (Cost Management → upgrade);
+   the **$200 credit still applies** for the 30 days, and a spending limit / budget alert keeps it from
+   overrunning.
+3. **Request GPU quota.** Portal → *Quotas* → *Compute* → pick a region where NVadsA10v5 is offered (e.g.
+   `eastus` / `westus3` / `westeurope` — the quota-check workflow's last line lists it per region) → request an
+   increase for **`Standard NVADSA10v5 Family vCPUs`** (≥ 36 for a full `NV36ads_A10_v5`) and, for the Spot path,
+   **`Total Regional Spot vCPUs`** (≥ 36). Small requests often auto-approve in minutes; larger ones take hours.
+4. **Create a service principal with an OIDC federated credential** (so no client secret is ever stored):
+   Entra ID → App registrations → new app → *Certificates & secrets* → *Federated credentials* → add a **GitHub
+   Actions** credential scoped to `repo:trimcrae/Rare-cancers` (this branch and/or the default branch). Grant the
+   SP **Contributor** on the subscription (Reader is enough for the quota check; Contributor is needed to create
+   VMs later).
+5. **Set three repo secrets** (github.com → repo → Settings → Secrets and variables → Actions):
+   `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`. No secret *value* ever needs to appear in chat.
+
+**Then I run `azure-quota-check.yml`** (already committed, mirrors `gcp-quota-check.yml`) to confirm the A10 +
+Spot quota is live, and wire the `azure` adapter's `az vm create --priority Spot` launch + self-delete teardown
+into an `gpu-*-azure.yml` workflow — the same shape as the GCP provisioning workflows. The `azure` backend is
+already registered + unit-tested in `gpu_backend.py` (raw VM → MUST self-terminate via `az vm delete`, guarded on
+missing creds); only the account-side steps above and the real `az vm create` workflow remain.
+
 ## ★★ COST WATERFALL — burn every free credit before paying a cent (POLICY — trimcrae, 2026-07-12)
 
 **Spend order is FREE-FIRST. Never pay a "cheap" provider (Vast/RunPod) while a free credit sits unused —
@@ -277,7 +316,8 @@ bleed on any provider**, guaranteed by the teardown wrapper.
 - **Modal** — ~$30/month free credits, recurring. Best zero-idle starting point.
 - **Google Cloud** — $300 / 90-day trial (GPU quota may need a request).
 - **Oracle Cloud** — $300 / 30-day trial + an Always-Free tier (GPU not in always-free).
-- **Azure** — ~$200 / 30-day trial; Azure-for-Students $100 if eligible.
+- **Azure** — ~$200 / 30-day trial; Azure-for-Students $100 if eligible. **No L4 SKU on Azure** — its 24 GB GPU
+  is the A10 (NVadsA10 v5); GPU quota is 0 on a trial (upgrade to pay-as-you-go first). See "Azure A10" above.
 - **Cloudflare R2** — 10 GB free + **free egress** (use it for the state bucket).
 - **Backblaze B2** — 10 GB free, free egress to Cloudflare (R2 alternative).
 - **SaladCloud / RunPod / Vast** — intermittent signup credits; check the current promo.

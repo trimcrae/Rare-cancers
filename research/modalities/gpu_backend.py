@@ -69,6 +69,8 @@ _CAPS = {  # backend -> {gpu -> (vram_gb, approx_usd_per_hr)}   (usd = interrupt
                  #                                                              to zero (no idle) + free monthly credits
     "gcp":       {"t4": (16, 0.11), "l4": (24, 0.20), "a100": (40, 1.10)},   # Compute Engine SPOT VMs; $300 trial
                  #                                                            credit funds these (see catch below)
+    "azure":     {"a10g": (24, 0.45), "a100": (80, 1.30)},   # NVadsA10v5 SPOT (no L4 on Azure; A10=24GB via the
+                 #     GRID series, ~$/hr premium so pricier/ns than GCP L4 — value is a 2nd parallel free-credit GPU
     "access":    {"a100": (40, 0.0), "a10g": (24, 0.0), "l40s": (48, 0.0)},     # NSF allocation -> $0
     "slurm":     {"a100": (40, 0.0), "any": (24, 0.0)},                          # self-hosted / institutional
     "mock":      {"any": (24, 0.0)},
@@ -245,6 +247,52 @@ class GCPBackend(Backend):
         raise NotImplementedError
 
 
+class AzureBackend(Backend):
+    """Microsoft Azure GPU VMs — a SECOND free-credit avenue (~$200 / 30-day trial), independent of GCP's credit
+    AND of GCP's hard 1-concurrent-GPU cap, so it buys a genuinely-parallel GPU for a second leg.
+
+    ★ NO L4 ON AZURE. Azure does not sell an NVIDIA L4 SKU (that card is a GCP-G2 / AWS-G6 thing). Azure's
+    inference-class 24 GB GPU is the NVIDIA **A10**, available ONLY via the **NVadsA10 v5** series (a GRID /
+    visualization line with fractional-GPU sizes; the FULL A10 = `Standard_NV36ads_A10_v5`, 24 GB). CUDA MD/FEP
+    runs fine on it. For our bandwidth-bound OpenMM PME MD the A10 (~600 GB/s) is ~1.5-2x an L4 (~300 GB/s) →
+    *faster per ns*; but the NVadsA10v5 per-hour price carries a GRID-license premium above GCP L4 Spot, so
+    **Azure A10 is NOT cheaper per finished job than GCP L4** — its value is the extra PARALLEL GPU + the separate
+    $200 credit, not a lower $/ns. Pick it to widen concurrency, not to save money.
+
+    Like GCP (and unlike serverless Modal), a raw Azure VM **bills every second it is allocated**, so it MUST
+    self-terminate or it idles on the meter. The guard is a VM that deletes ITSELF at job end
+    (`az vm delete --name <n> --resource-group <rg> --yes`); name+RG come from the instance metadata service
+    (IMDS), which a startup script exports as AZURE_VM_NAME / AZURE_RESOURCE_GROUP. The VM's managed identity
+    needs `Microsoft.Compute/virtualMachines/delete` on its own resource group for the self-delete to succeed.
+
+    Auth (CI): an Entra service principal via an **OIDC federated credential** (`azure/login@v2`, no long-lived
+    secret) — or an `AZURE_CREDENTIALS` JSON blob. Two real catches, same shape as GCP (see cheap-gpu-plan.md →
+    'Azure A10'): (1) new/free subscriptions start with GPU-family quota = 0 and Microsoft will NOT grant a GPU
+    quota increase while on the free trial — you must upgrade to pay-as-you-go (the $200 credit still applies for
+    the 30 days) THEN request quota for the `standardNVADSA10v5Family` vCPUs (and `Total Regional Spot vCPUs` for
+    the Spot path); (2) use **Spot** VMs (`--priority Spot --eviction-policy Delete --max-price -1`) for the price
+    in _CAPS — our per-unit checkpointing makes eviction safe."""
+    name = "azure"
+
+    def self_terminate_cmd(self):
+        # delete THIS VM from inside it; startup script exports name/RG from IMDS.
+        return ["az", "vm", "delete", "--yes",
+                "--name", os.environ.get("AZURE_VM_NAME", "$AZURE_VM_NAME"),
+                "--resource-group", os.environ.get("AZURE_RESOURCE_GROUP", "$AZURE_RESOURCE_GROUP")]
+
+    def submit(self, spec: JobSpec) -> Handle:
+        if not (os.environ.get("AZURE_SUBSCRIPTION_ID") or os.environ.get("AZURE_CREDENTIALS")):
+            raise RuntimeError("azure backend needs a subscription + service principal "
+                               "(AZURE_SUBSCRIPTION_ID / AZURE_CLIENT_ID / AZURE_TENANT_ID or AZURE_CREDENTIALS) "
+                               "and NVadsA10v5 GPU quota (0 on a fresh trial — upgrade + request first).")
+        raise NotImplementedError(
+            "create a Spot NVadsA10_v5 VM (accelerator + startup script running the command, then "
+            "self_terminate_cmd) via `az vm create --priority Spot` at integration time")
+
+    def status(self, handle):
+        raise NotImplementedError
+
+
 class ModalBackend(Backend):
     """Modal — SERVERLESS GPU (Python-native: decorate a function, .map() it over the work units). Per-second
     billing and it **auto-scales to zero the instant a call returns**, so there is NO idle-GPU risk by design —
@@ -293,7 +341,7 @@ class MockBackend(Backend):
 
 
 _REGISTRY = {b.name: b for b in [SageMakerBackend(), SlurmBackend(), RunPodBackend(), VastBackend(),
-                                 SaladBackend(), ModalBackend(), GCPBackend()]}
+                                 SaladBackend(), ModalBackend(), GCPBackend(), AzureBackend()]}
 
 
 def get_backend(name: str) -> Backend:
