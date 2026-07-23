@@ -282,7 +282,10 @@ def collect(bucket, autostop=None):
     if autostop and key:                                       # CI-side anti-idle teardown (key stays on CI)
         import time
         now = time.time()
-        max_leg_s = int(os.environ.get("MAX_LEG_MIN", "100")) * 60   # backstop: a real leg finishes well under this;
+        max_leg_s = int(os.environ.get("MAX_LEG_MIN", "240")) * 60   # backstop: a real leg finishes well under this;
+        # (240 min: a 6 ns leg at the MEASURED ~44-61 ns/day = ~2.3-2.6 h + ~20 min load ~= 155 min, so 240 leaves
+        #  margin for a spot-wait; the earlier 100 was PREMATURELY killing healthy legs — checkpoints made them
+        #  recoverable but a re-dispatch was needed. Do NOT drop this below ~180.)
         for i in insts:                                             # a crashed/idle instance (driver failed at build,
             label = i.get("label")                                  # teardown fell through) would otherwise bleed
             try:
@@ -520,11 +523,35 @@ def main():
 
     be = get_backend("vast")
     units = units_to_run()
+    # IDEMPOTENT launch: skip units that already have a result in S3 (done) or a live Vast instance (running).
+    # So re-dispatching 'full' safely RESUMES only the killed/preempted legs (from their S3 checkpoints) without
+    # duplicating the ones still running — no two instances ever share a leg's checkpoint (which would race).
+    skip_done, skip_live = set(), set()
+    if not dry:
+        vk = os.environ.get("VAST_API_KEY")
+        try:
+            live = _vast_request("GET", "/instances/", vk, params={"owner": "me"}).get("instances", [])
+            skip_live = {i.get("label") for i in live if i.get("label")}
+        except Exception as e:  # noqa: BLE001
+            print(f"[nrv04-launch] WARN could not list live instances ({e}); not skipping any", flush=True)
+        try:
+            import boto3
+            s3 = boto3.client("s3")
+            dk = _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix=".json")
+            skip_done = {k.split("/")[-2] for k in dk if k.rsplit("/", 1)[-1].startswith("leg_")}
+        except Exception as e:  # noqa: BLE001
+            print(f"[nrv04-launch] WARN could not list S3 results ({e}); not skipping any", flush=True)
     # presign the pre-packed env once (all instances share it); skipped on dry runs (no live submit).
     env_url = None if dry else presign_env_tarball(bucket)
-    print(f"[nrv04-launch] {len(units)} unit(s), mode={mode}, dry_run={dry}", flush=True)
+    print(f"[nrv04-launch] {len(units)} unit(s), mode={mode}, dry_run={dry}, "
+          f"skip_done={len(skip_done)}, skip_live={len(skip_live)}", flush=True)
     handles = []
     for leg, seed in units:
+        name = unit_name(leg, seed)
+        if not dry and name in skip_done:
+            print(f"[skip] {name} — result already in S3", flush=True); continue
+        if not dry and name in skip_live:
+            print(f"[skip] {name} — live instance already running", flush=True); continue
         spec = build_jobspec(leg, seed, mode, branch, bucket, env_tarball_url=env_url)
         if dry:
             print(f"[dry] {spec.name}: gpu={spec.resources.gpu} ram>={spec.resources.ram_gb}GB "
