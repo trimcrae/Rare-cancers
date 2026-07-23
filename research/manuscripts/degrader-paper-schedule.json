@@ -56,14 +56,15 @@
     {
       "id": "emc_e3_expression",
       "title": "RUNG 0 (free): public EMC VHL/CRBN expression analysis (informs ligase choice)",
-      "status": "in_progress",
+      "status": "done",
+      "result": "DONE 2026-07-23 (HPA via CI run 30038257256, nr4a-e3-expression.json). All 10 components of BOTH arms 'Detected in all' tissues -> both CRL2^VHL (VHL/ELOB/ELOC/CUL2/RBX1) and CRL4^CRBN (CRBN/DDB1/CUL4A/B/RBX1) broadly expressed => VHL-vs-CRBN choice NOT constrained by machinery availability; decide on ternary/geometry/selectivity grounds. Honest limit: no EMC line in HPA -> general soft-tissue/mesenchymal availability, not EMC-specific.",
       "track": "cpu",
       "cost_est_usd": "0",
       "optimistic_days": 1,
       "remaining_days": 0,
       "parallel_ok": true,
       "depends_on": [],
-      "note": "Mandatory-change-5 support. 2026-07-23: extended nr4a3_e3_expression.py from CRBN-only to BOTH recruiter arms (CRL2^VHL: VHL+ELOB+ELOC+CUL2+RBX1; CRL4^CRBN: CRBN+DDB1+CUL4A/B+RBX1) so it actually informs the VHL-vs-CRBN choice; emits a per-arm broad-expression verdict. Running via CI (depmap-dependency.yml, HPA egress-blocked from sandbox) -> nr4a-e3-expression.json. Honest limit: no EMC line in HPA, so this is machinery-availability across general soft-tissue/mesenchymal tissue, not EMC-specific. Free CPU, done without a nod."
+      "note": "Mandatory-change-5 support. 2026-07-23: extended nr4a3_e3_expression.py from CRBN-only to BOTH recruiter arms (CRL2^VHL: VHL+ELOB+ELOC+CUL2+RBX1; CRL4^CRBN: CRBN+DDB1+CUL4A/B+RBX1) so it actually informs the VHL-vs-CRBN choice; emits a per-arm broad-expression verdict. Ran via CI (depmap-dependency.yml, HPA egress-blocked from sandbox) -> nr4a-e3-expression.json. Honest limit: no EMC line in HPA, so this is machinery-availability across general soft-tissue/mesenchymal tissue, not EMC-specific. Free CPU, done without a nod."
     },
     {
       "id": "pocket_reanalysis",

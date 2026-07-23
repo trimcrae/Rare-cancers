@@ -251,8 +251,13 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   legacy welded `mode=run` path is NOT resume-safe (no uploader) — switched to the split; also a self-inflicted
   stop/setup name-substring race (`only_legs=solvent` matched `…-solvent-setup-…`) → re-run on a fresh `…-v2` tag.
   **GO/NO-GO:** one edge finished clean → **GO** to Rung 1.
-- **`[ ]` EMC E3-ligase expression analysis** *(emc_e3_expression · CPU/CI)* — **Price: ~$0**
-  Public VHL/CRBN expression in EMC samples; informs VHL-vs-CRBN choice. Free — just do it (route fetch via CI).
+- **`[x]` EMC E3-ligase expression analysis** *(emc_e3_expression · CPU/CI)* — **DONE 2026-07-23 · ~$0**
+  Extended the script from CRBN-only to **both** recruiter arms and ran it against HPA via CI
+  (`nr4a-e3-expression.json`). **Result:** all 10 components of both CRL2^VHL (VHL/ELOB/ELOC/CUL2/RBX1) and
+  CRL4^CRBN (CRBN/DDB1/CUL4A/B/RBX1) are "Detected in all" tissues → **both arms broadly expressed**, so the
+  VHL-vs-CRBN choice is **NOT constrained by machinery availability** and should be made on
+  ternary/geometry/selectivity grounds. Honest limit: no EMC line is in HPA → general soft-tissue/mesenchymal
+  availability, not EMC-specific.
 - **`[x]` Pocket-tracking re-analysis** *(pocket_reanalysis · CPU)* — **DONE 2026-07-23 · ~$0**
   Harmonized consolidated detection (`nr4a3-pocket-reharmonize-summary.json`, the pinned-fpocket + score-
   independent matcher rerun) folded into the paper's Gate-2 wording (§2.1): 8XTT **19/20 detected, 3 ≥ D\*=0.53**
