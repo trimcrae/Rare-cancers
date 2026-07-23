@@ -23,7 +23,7 @@ on:
       vast_launch_mode:
         description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -53,6 +53,12 @@ on:
         default: "4000"
       bench_grid:
         description: "bench mode: comma-sep gpu:edge_nm pairs to launch in ONE dispatch (e.g. rtx4090:9.5,rtx3090:9.5). Blank = single leg from vast_gpu+bench_edge_nm"
+        default: ""
+      firm_kind:
+        description: "firm mode: which real alchemical edge(s) to run on the nr4a3fep 4090 image — rbfe | ternary | rbfe,ternary"
+        default: "rbfe,ternary"
+      firm_n_iter:
+        description: "firm mode: MBAR iterations per window (short = fast throughput read; blank = per-kind default 150/120)"
         default: ""
 
 permissions:
@@ -408,6 +414,10 @@ jobs:
       BENCH_EDGE_NM: ${{ github.event.inputs.bench_edge_nm }}
       BENCH_STEPS: ${{ github.event.inputs.bench_steps }}
       BENCH_GRID: ${{ github.event.inputs.bench_grid }}
+      FIRM: ${{ github.event.inputs.vast_launch_mode == 'firm' && '1' || '0' }}
+      FIRM_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'firm_collect' && '1' || '0' }}
+      FIRM_KIND: ${{ github.event.inputs.firm_kind }}
+      N_ITER: ${{ github.event.inputs.firm_n_iter }}
       VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
       PILOT_SEED: ${{ github.event.inputs.pilot_seed }}
     steps:

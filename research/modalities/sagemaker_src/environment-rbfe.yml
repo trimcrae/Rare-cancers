@@ -34,3 +34,7 @@ dependencies:
   - numpy
   - scipy
   - mdtraj
+  - pdbfixer               # receptor prep — needed by ternary_pdb_stage.py (8G1Q stage + SMARCA4->SMARCA2 relax)
+  - gemmi                  # CIF/PDB parsing — needed by ternary_pdb_stage.py
+  - awscli                 # result upload from the Vast nr4a3fep image (rbfe env is the only env baked there)
+  - boto3                  # S3 client for the same

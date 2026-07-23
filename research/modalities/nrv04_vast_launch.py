@@ -704,6 +704,170 @@ def bench_collect(bucket):
     return 0
 
 
+# ---- FIRM mode: run ONE real RBFE edge + ONE real ternary edge on the Vast RTX 4090 (OpenFE nr4a3fep image) to
+# replace the ~1.7x alchemical-overhead ASSUMPTION with a MEASURED per-edge ns/day + confirm the pipelines launch
+# on Vast. Both self-stage (RBFE: valA_bench_stage.py public TYK2 edge; ternary: ternary_pdb_stage.py from 8G1Q),
+# so no S3 input dependency. The image bakes the rbfe env (openfe+ambertools+lomap/kartograf+gemmi+pdbfixer+awscli).
+FEP_IMAGE = os.environ.get("FEP_IMAGE") or "docker.io/triskit23/nr4a3fep:latest"
+_FIRM_PREFIX = os.environ.get("VAST_FIRM_PREFIX", "vast-firm-results")
+
+_FIRM_PREAMBLE = r"""
+set -eo pipefail
+export DEBIAN_FRONTEND=noninteractive
+command -v curl >/dev/null 2>&1 || { apt-get update -q||true; apt-get install -y -q --no-install-recommends curl ca-certificates||true; }
+export PATH=/opt/mamba/envs/rbfe/bin:$PATH
+PY=/opt/mamba/envs/rbfe/bin/python
+AWS=/opt/mamba/envs/rbfe/bin/aws
+command -v "$AWS" >/dev/null 2>&1 || AWS="$PY -m awscli"
+$PY -c "import openfe,openmm;print('[firm] openfe',openfe.__version__,'plats',[openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" || true
+curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
+cd Rare-cancers-*/research/modalities
+export IN=/tmp/fin OUT=/tmp/fout; mkdir -p "$IN" "$OUT"
+"""
+
+_FIRM_RBFE_BODY = r"""
+mkdir -p "$IN/ligand" "$IN/receptor"
+echo "[firm] staging public TYK2 edge (valA_bench_stage.py)"
+VALA_NO_UPLOAD=1 VALA_WORKDIR=/tmp/valA $PY valA_bench_stage.py 2>&1 | tail -12 || true
+cp /tmp/valA/staged/docked_nr4a3.sdf "$IN/ligand/" 2>/dev/null || echo "[firm] no docked sdf"
+cp /tmp/valA/staged/nr4a3-opened.pdb "$IN/receptor/" 2>/dev/null || echo "[firm] no receptor pdb"
+cp /tmp/valA/staged/valA_manifest.json "$IN/" 2>/dev/null || true
+export T0=$(date +%s)
+env MODE=splittest RBFE_TINY=0 N_WINDOWS="${N_WINDOWS:-12}" N_ITER="${N_ITER:-150}" OPENMM_REQUIRE_CUDA=1 \
+    RECEPTOR=nr4a3 LEG=complex LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
+    INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_rbfe.py 2>&1 | tee /tmp/firm.log || true
+export T1=$(date +%s)
+"""
+
+_FIRM_TERNARY_BODY = r"""
+export T0=$(date +%s)
+echo "[firm] staging ternary leg from 8G1Q (ternary_pdb_stage.py)"
+$PY ternary_pdb_stage.py --leg-id "${LEG_ID:-calib_hi_to_lo__ternary_vhl}" --template-pdb 8G1Q --out "$IN" 2>&1 | tail -20 || true
+env MODE=run LEG_ID="${LEG_ID:-calib_hi_to_lo__ternary_vhl}" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-16}" \
+    CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_CONSTRAIN_LIGAND_CH=0 N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
+    INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_ternary_fep.py 2>&1 | tee /tmp/firm.log || true
+export T1=$(date +%s)
+"""
+
+_FIRM_SUMMARY = r"""
+export FIRM_KIND N_WINDOWS N_ITER
+$PY - <<'PYEOF'
+import json, os, glob
+out = os.environ["OUT"]; kind = os.environ.get("FIRM_KIND", "?")
+js = sorted(glob.glob(os.path.join(out, "**", "*.json"), recursive=True))
+nsd = dg = leg = src = None
+for p in js:
+    try:
+        d = json.load(open(p))
+    except Exception:
+        continue
+    if not isinstance(d, dict):
+        continue
+    td = d.get("timing_diagnostics") or {}
+    cand = td.get("ns_per_day") or d.get("ns_per_day")
+    if cand:
+        nsd, src, leg = cand, os.path.basename(p), d.get("leg")
+        dg = d.get("dg_morph_kcal") or d.get("ddg_coop_kcal") or d.get("dg_kcal")
+try:
+    wall = int(os.environ.get("T1", "0")) - int(os.environ.get("T0", "0"))
+except ValueError:
+    wall = None
+r = {"kind": kind, "ns_per_day": nsd, "leg": leg, "dg": dg, "result_json": src,
+     "n_windows": os.environ.get("N_WINDOWS"), "n_iter": os.environ.get("N_ITER"),
+     "wall_s": wall, "n_json": len(js), "status": "OK" if nsd is not None else "NORESULT"}
+json.dump(r, open("/tmp/firm.json", "w"), indent=2)
+print("FIRM_RESULT", json.dumps(r))
+PYEOF
+$AWS s3 cp /tmp/firm.json "$RESULT_S3/firm.json" || true
+$AWS s3 cp /tmp/firm.log "$RESULT_S3/firm.log" || true
+"""
+
+
+def build_firm_jobspec(kind, branch, bucket):
+    """JobSpec for one real firming leg on the OpenFE nr4a3fep image (RTX 4090). kind = rbfe | ternary."""
+    body = _FIRM_RBFE_BODY if kind == "rbfe" else _FIRM_TERNARY_BODY
+    pipeline = (_FIRM_PREAMBLE + body + _FIRM_SUMMARY).replace("{repo}", REPO)
+    tag = f"firm-{kind}-rtx4090"
+    env = {
+        "GIT_BRANCH": branch,
+        "RESULT_S3": f"s3://{bucket}/{_FIRM_PREFIX}/{tag}",
+        "FIRM_KIND": kind,
+        "N_WINDOWS": os.environ.get("N_WINDOWS") or ("12" if kind == "rbfe" else "16"),
+        "N_ITER": os.environ.get("N_ITER") or ("150" if kind == "rbfe" else "120"),
+        "LEG_ID": os.environ.get("LEG_ID", "calib_hi_to_lo__ternary_vhl"),
+    }
+    return JobSpec(
+        name=tag,
+        command=["bash", "-lc", pipeline],
+        image=FEP_IMAGE,
+        checkpoint_uri=f"s3://{bucket}/{_FIRM_PREFIX}/{tag}/ckpt",
+        resume=False,
+        resources=ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=60, interruptible=True),
+        max_runtime_s=int(os.environ.get("FIRM_MAX_RUNTIME_S", "5400")),
+        env=env,
+    )
+
+
+def firm(bucket):
+    """Launch one or more real firming legs (FIRM_KIND = rbfe | ternary | 'rbfe,ternary') on Vast RTX 4090."""
+    branch = os.environ.get("GIT_BRANCH", "claude/next-expansion-priorities-t64njy")
+    kinds = [k.strip() for k in (os.environ.get("FIRM_KIND") or "rbfe").split(",") if k.strip()]
+    dry = os.environ.get("DRY_RUN", "0") == "1"
+    be = get_backend("vast")
+    handles = []
+    for k in kinds:
+        spec = build_firm_jobspec(k, branch, bucket)
+        if dry:
+            print(f"[firm-dry] {spec.name}: image={spec.image} gpu={spec.resources.gpu} "
+                  f"N_WINDOWS={spec.env['N_WINDOWS']} N_ITER={spec.env['N_ITER']} -> {spec.env['RESULT_S3']}", flush=True)
+            continue
+        h = be.submit(spec)
+        print(f"[firm-submit] {spec.name} -> instance {h.job_id} gpu=rtx4090 dph≈${h.extra.get('dph')}/hr", flush=True)
+        handles.append({"unit": spec.name, "kind": k, "instance": h.job_id, "dph": h.extra.get("dph")})
+    if handles:
+        json.dump(handles, open("nrv04-vast-firm-handles.json", "w"), indent=2)
+    return 0
+
+
+def firm_collect(bucket):
+    """Read vast-firm-results/*/firm.json (measured ns_per_day per real edge) + reap terminal/over-age firm-*
+    instances (scoped to firm-* labels; covalent panel untouched)."""
+    import boto3
+    s3 = boto3.client("s3")
+    key = os.environ.get("VAST_API_KEY")
+    insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
+    firm_up = [i for i in insts if (i.get("label") or "").startswith("firm-")]
+    print(f"[firm-collect] live firm-* instances: {len(firm_up)}", flush=True)
+    for i in firm_up:
+        print(f"[firm-collect]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
+              f"dph=${i.get('dph_total')}/hr", flush=True)
+    for k in _s3_list(s3, bucket, f"{_FIRM_PREFIX}/", suffix="firm.json"):
+        try:
+            d = json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode())
+        except Exception:  # noqa: BLE001
+            continue
+        print(f"  kind={d.get('kind')} ns_per_day={d.get('ns_per_day')} n_windows={d.get('n_windows')} "
+              f"n_iter={d.get('n_iter')} wall_s={d.get('wall_s')} dg={d.get('dg')} status={d.get('status')} "
+              f"(from {d.get('result_json')}, {d.get('n_json')} json)", flush=True)
+    if os.environ.get("BENCH_NO_STOP") != "1" and key:
+        import time
+        now = time.time()
+        max_age = int(os.environ.get("FIRM_MAX_AGE_MIN", "100")) * 60
+        _terminal = ("exited", "offline", "stopped")
+        for i in firm_up:
+            try:
+                age = now - float(i.get("start_date") or now)
+            except (TypeError, ValueError):
+                age = 0
+            if (i.get("actual_status") or "") in _terminal or age > max_age:
+                try:
+                    _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+                    print(f"[firm-collect] destroyed {i.get('id')} ({i.get('label')})", flush=True)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[firm-collect] WARN destroy {i.get('id')} failed: {e}", flush=True)
+    return 0
+
+
 def main():
     bucket = os.environ.get("VAST_CKPT_BUCKET")
     if not bucket:
@@ -712,6 +876,10 @@ def main():
         return bench(bucket)
     if os.environ.get("BENCH_COLLECT") == "1":
         return bench_collect(bucket)
+    if os.environ.get("FIRM") == "1":
+        return firm(bucket)
+    if os.environ.get("FIRM_COLLECT") == "1":
+        return firm_collect(bucket)
     if os.environ.get("DISCOVER") == "1":
         discover_cofold(bucket)
         return 0
