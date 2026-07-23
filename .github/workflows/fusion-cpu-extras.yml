@@ -142,6 +142,10 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      # Target CUDA 12.6 so the solver picks CUDA-12 openmm/pytorch builds (PTX runs on all >=12.6 host drivers).
+      # The unpinned/CUDA-13 openmm PTX-crashed on every Vast host. This virtual-package override is the reliable
+      # mechanism (a `cuda-version=…` spec did not resolve in micromamba).
+      CONDA_OVERRIDE_CUDA: "12.6"
     steps:
       - uses: actions/checkout@v4
       - name: Build the MD env (same stack as the Vast job + the CPU smoke)
@@ -149,7 +153,7 @@ jobs:
         with:
           environment-name: nrv04md
           create-args: >-
-            python=3.11 'cuda-version>=12,<13' openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli pdbfixer openff-nagl openff-nagl-models
+            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli pdbfixer openff-nagl openff-nagl-models
           condarc: |
             channels:
               - conda-forge
@@ -225,6 +229,7 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+      CONDA_OVERRIDE_CUDA: "12.6"   # match build_env: CUDA-12 builds so this CPU validation mirrors the Vast env
     steps:
       - uses: actions/checkout@v4
       - name: Set up MD env (openmm + openff + openmmforcefields + rdkit + gemmi + boto3 + nagl)
@@ -232,7 +237,7 @@ jobs:
         with:
           environment-name: nrv04md
           create-args: >-
-            python=3.11 'cuda-version>=12,<13' openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 pdbfixer openff-nagl openff-nagl-models
+            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 pdbfixer openff-nagl openff-nagl-models
           condarc: |
             channels:
               - conda-forge
