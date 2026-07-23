@@ -185,10 +185,22 @@ Provider and GPU are **independent** choices, and the right GPU depends on the *
 OpenFE/RBFE runs on GCP *or* Vast, and so does endpoint MD. Always pick by **cost per nanosecond**
 (`$/ns = ($/hr) ÷ (ns_per_day ÷ 24)`), never by headline $/hr and never by "biggest card."
 
+**★ MEASURED 2026-07-23 (gpu_md_bench on Vast, `bench` mode) — the a-priori "bandwidth-bound → 3090" rule below
+is REFUTED for our systems; on Vast the 4090 wins $/ns at EVERY size, including the 466k covalent panel.**
+Measured plain-MD throughput (ns/day, CUDA, one host each): 4090 = 1549 @35k / 669 @85k / **175.6 @444k**;
+3090 = **72.5 @444k** → the 4090 is **2.42× the 3090 even at 466k atoms**, while costing only ~9% more/hr
+(probe floor: 4090 $0.145/hr vs 3090 $0.133/hr). So the 4090's $/ns is ~2.2× CHEAPER at 444k ($0.020 vs
+$0.044 per ns) and its lead only GROWS at smaller (more compute-bound) sizes. **Conclusion: default EVERYTHING
+on Vast to the RTX 4090, including endpoint MD** — even the covalent panel is ~35–40% cheaper on a 4090
+(~$0.36/leg vs the measured ~$0.6/leg on 3090). Root cause the old rule missed: at ≤466k atoms OpenMM PME is
+still compute-bound on these cards, so the 4090's ~2× compute swamps the ~8% bandwidth gap. (The rule below is
+retained for context / for genuinely bandwidth-bound >>500k systems, but does not apply to our current panel.)
+
 **The one decision rule — where does the run sit on the memory-bandwidth ↔ compute axis:**
 - **Bandwidth-bound** — LARGE systems (≳200k atoms) running PLAIN endpoint MD: throughput tracks memory
   bandwidth, so a cheap ex-flagship (RTX 3090, 936 GB/s) nearly matches a 4090 (1008 GB/s) at ~60% of the price
-  → **3090 wins $/ns.** (This is the NR-V04 covalent panel: ~466k atoms.)
+  → **3090 wins $/ns.** (This is the NR-V04 covalent panel: ~466k atoms. **⚠ SUPERSEDED by the measured result
+  above — at 466k the 4090 actually wins 2.4×; this bucket only applies to much larger systems.**)
 - **Compute-bound** — SMALLER systems (≲100k atoms) and/or ALCHEMICAL RBFE/FEP (HREX + softcore + λ-derivatives
   add per-step FLOPs): the higher-FLOP card pulls ahead → **4090 wins $/ns** (on GCP: L4, or L40S/L4 by quota).
   (This is cmpd19 binary RBFE and the ternary FEP — do NOT assume the panel's 3090 pick here.)
@@ -199,8 +211,8 @@ OpenFE/RBFE runs on GCP *or* Vast, and so does endpoint MD. Always pick by **cos
 
 | Workload | Vast | GCP |
 |---|---|---|
-| **Large endpoint MD** (NR-V04 covalent panel, ~466k atoms; bandwidth-bound) | **RTX 3090** — bid `min_bid×1.5` (~$0.08–0.11/hr GPU; was ×1.1 → $0.079 but preemption-churned), ~70% under a 4090 & under GCP L4 spot | L4 (quota'd) |
-| **OpenFE RBFE / ternary FEP** (alchemical; smaller/compute-bound) | **RTX 4090** — compute matters here; cheapest eligible ~$0.144/hr (probe 2026-07-22) | **L4** (valA/valB ran here); L40S if available |
+| **Large endpoint MD** (NR-V04 covalent panel, ~466k atoms) | **RTX 4090** (MEASURED 2026-07-23: 175.6 vs 72.5 ns/day → 2.4× the 3090 at 466k, ~2.2× cheaper $/ns; ~$0.36/leg). ~~RTX 3090~~ superseded — the old bandwidth-bound pick is wrong for this size. | L4 (quota'd) |
+| **OpenFE RBFE / ternary FEP** (alchemical; smaller/compute-bound) | **RTX 4090** — measured 1549 @35k / 669 @85k ns/day; cheapest eligible ~$0.145/hr (probe 2026-07-23) | **L4** (valA/valB ran here); L40S if available |
 | Prep / co-fold assembly / analysis (CPU-bound) | run on **CI** (free), not a GPU | run on CI (free) |
 
 **Vast bid + host policy** (`research/modalities/gpu_backend.py`; env-tunable via `VAST_BID_FLOOR_MULT`):
