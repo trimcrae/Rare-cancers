@@ -41,13 +41,15 @@ class ResourceSpec:
     disk_gb: int = 40             # host disk floor (container + trajectories/checkpoints)
     min_reliability: float = 0.90  # skip flaky hosts (Vast reliability2 in [0,1]); preemption we tolerate, crashes we don't
     interruptible: bool = True    # our per-unit checkpointing tolerates interruption -> take the cheap (bid) tier
-    min_cuda: float = 12.6        # host DRIVER's cuda_max_good must be >= this. We PIN the conda env to
-                                  # cuda-version=12.6 (fusion-cpu-extras build_env) so OpenMM's CUDA-plugin PTX is
-                                  # 12.6 — backward-compatible with essentially every modern Vast host driver.
-                                  # (Filtering for bleeding-edge drivers failed: even cuda_max_good>=13.0 hosts
-                                  # PTX-crashed because the *unpinned* env pulled a too-new CUDA-13+ OpenMM, verified
-                                  # 2026-07-23. Controlling OUR build is the robust fix; this floor just excludes the
-                                  # rare <12.6 host.)
+    min_cuda: float = 13.0        # host DRIVER's cuda_max_good must be >= this so OpenMM's CUDA-plugin PTX can JIT.
+                                  # RAISED 12.6 -> 13.0 on 2026-07-23: DIAG PROOF that the `cuda-version=12.6` env
+                                  # pin did NOT actually take — the baked env's PTX is CUDA-13-class, so legs that
+                                  # landed on driver 560.35.03 (CUDA 12.6) / 565.57.01 (12.7) hosts crashed at
+                                  # build_system with CUDA_ERROR_UNSUPPORTED_PTX_VERSION (and the mock teardown left
+                                  # them idle-billing as "running"). The legs that completed all ran on newer-driver
+                                  # hosts. Empirical fix: only take hosts whose cuda_max_good >= 13.0 (driver ~>=580),
+                                  # which can JIT this env's PTX. Fewer hosts, but they don't crash. (The robust fix is
+                                  # to genuinely rebuild the env at a lower CUDA; the pin has failed twice, so filter.)
 
 
 @dataclass
