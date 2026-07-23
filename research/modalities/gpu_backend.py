@@ -228,6 +228,10 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None, 
             m = re.search(r"Use\s+(/api/\S+?)\s+instead", detail)
             if m:
                 return _vast_request(method, m.group(1), api_key, params=params, body=body, _hops=_hops + 1)
+        if e.code == 429 and _hops < 6:                           # rate limit (Vast DELETE threshold ~3 req/s): a
+            import time                                           # burst teardown/collect 429s partway -> back off
+            time.sleep(1.5 * (_hops + 1))                         # (1.5,3,4.5,...s) and retry so we drain the loop
+            return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1)
         raise RuntimeError(f"vast API {method} {path} -> {e.code}: {detail[:400]}") from e
 
 
