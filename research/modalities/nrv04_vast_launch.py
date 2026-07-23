@@ -170,16 +170,34 @@ def leg_cost_usd(uptime_s, dph_total):
         return None
 
 
-def _update_price_ledger(insts, done_units, path="nrv04-price-ledger.json"):
-    """Maintain a per-leg measured-cost ledger across collect() polls (the deliverable = a MEASURED price). For
+_PRICE_LEDGER_KEY_SUFFIX = "_price_ledger.json"
+
+
+def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledger.json"):
+    """Maintain a per-leg measured-cost ledger ACROSS collect() polls (the deliverable = a MEASURED price). For
     each instance we see, record uptime x dph_total; once its leg has a result in S3 we FINALIZE that cost (an
     instance is torn down right after, so the last live observation is the billed wall-clock to within one poll).
+    The ledger is PERSISTED IN S3 (each collect runs on a fresh ephemeral runner, so a local file would reset every
+    poll and only ever see one leg) -> finalized legs accumulate into the true 18-leg panel mean + total.
     Returns a summary: finalized per-leg costs, measured mean $/leg, and the projected full-panel (18-unit) total."""
     import time
-    try:
-        ledger = json.load(open(path))
-    except Exception:  # noqa: BLE001 — first poll
-        ledger = {}
+    ledger = {}
+    ledger_key = f"{RESULT_PREFIX}/{_PRICE_LEDGER_KEY_SUFFIX}"
+    s3c = None
+    def _unwrap(obj):                                          # the persisted doc is {"ledger":..., "summary":...}
+        return obj.get("ledger", obj) if isinstance(obj, dict) else {}
+    if bucket:
+        try:
+            import boto3
+            s3c = boto3.client("s3")
+            ledger = _unwrap(json.loads(s3c.get_object(Bucket=bucket, Key=ledger_key)["Body"].read().decode()))
+        except Exception:  # noqa: BLE001 — first poll (no ledger yet) or transient
+            ledger = {}
+    if not ledger:                                             # fall back to a local file if S3 unavailable
+        try:
+            ledger = _unwrap(json.load(open(path)))
+        except Exception:  # noqa: BLE001
+            ledger = {}
     now = time.time()
     for i in insts:
         label = i.get("label")
@@ -206,7 +224,13 @@ def _update_price_ledger(insts, done_units, path="nrv04-price-ledger.json"):
         "projected_panel_total_usd": round(mean * n_units, 2) if mean is not None else None,
         "panel_units": n_units,
     }
-    json.dump({"ledger": ledger, "summary": summary}, open(path, "w"), indent=2)
+    doc = {"ledger": ledger, "summary": summary}
+    json.dump(doc, open(path, "w"), indent=2)
+    if s3c is not None:                                        # persist so the next poll accumulates, not resets
+        try:
+            s3c.put_object(Bucket=bucket, Key=ledger_key, Body=json.dumps(doc).encode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[price] WARN could not persist ledger to S3: {e}", flush=True)
     return summary
 
 
@@ -302,7 +326,7 @@ def collect(bucket, autostop=None):
                     print(f"[collect] auto-stopped {i.get('id')} ({label}) — {why}", flush=True)
                 except Exception as e:  # noqa: BLE001
                     print(f"[collect] WARN auto-stop {i.get('id')} failed: {e}", flush=True)
-    price = _update_price_ledger(insts, done_units)            # MEASURED per-leg $ ledger (the deliverable)
+    price = _update_price_ledger(insts, done_units, bucket=bucket)   # MEASURED per-leg $ ledger (S3-persisted)
     status = {
         "vast_instances": [{"id": i.get("id"), "status": i.get("actual_status"), "label": i.get("label"),
                             "is_bid": i.get("is_bid"), "dph_total": i.get("dph_total"),
