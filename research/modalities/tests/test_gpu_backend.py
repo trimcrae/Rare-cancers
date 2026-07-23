@@ -163,14 +163,14 @@ def test_vast_selects_cheapest_capable_verified_offer():
     assert chosen["id"] == 2                                       # cheapest that meets VRAM + single-GPU + rentable
 
 
-def test_vast_bid_price_is_interruptible_cheap_and_under_on_demand():
-    # bid a small margin above the FLOOR (min_bid), cheap interruptible pricing
-    offer = {"min_bid": 0.10, "dph_base": 0.30, "dph_total": 0.33}
-    assert _vast_bid_price(offer) == 0.115                        # 0.10 * 1.15 floor-margin (well under 0.30 on-demand)
-    # high floor near on-demand -> HARD-capped at 0.9x on-demand so an interruptible bid never exceeds on-demand
-    assert _vast_bid_price({"min_bid": 0.40, "dph_base": 0.30}) == 0.27   # min(0.40*1.15, 0.30*0.9)
-    # the real pilot host (floor 0.24, base 0.293) -> 0.264, cheaper than the 0.293 on-demand base
-    assert _vast_bid_price({"min_bid": 0.24, "dph_base": 0.2933}) == 0.264
+def test_vast_bid_price_is_small_margin_above_floor():
+    # bid a small margin ABOVE the floor (min_bid) — cheap, and always runnable
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.30}) == 0.11   # 0.10 * 1.1
+    # cheap 3090 host where min_bid == dph_base (no interruptible discount): bid must stay ABOVE min_bid, NOT be
+    # capped below it (the below-floor cap left the box created-but-stopped, verified 2026-07-23)
+    assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}) == 0.088  # 0.08 * 1.1 >= floor, runnable
+    assert _vast_bid_price({"min_bid": 0.24, "dph_base": 0.2933}) == 0.264  # 0.24 * 1.1
+    assert _vast_bid_price({"min_bid": 0, "dph_base": 0.30}) == 0.33      # no floor -> fall back to base*1.1
     assert _vast_bid_price({}) is None                            # no pricing -> no bid
 
 

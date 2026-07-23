@@ -253,24 +253,24 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
 # conda solve; now the env is BAKED (~3-min boot) and every unit checkpoints, so a preemption costs only a short
 # re-boot we absorb via re-dispatch/resume (the "spot preemptions are routine" rule). So bid low and, if a host
 # preempts us, wait it out / re-dispatch — do NOT bid up toward on-demand. Tunable via env for a contested run.
-_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.15"))   # hold margin above min_bid
-_VAST_BID_OD_CAP = float(os.environ.get("VAST_BID_OD_CAP", "0.9"))            # never exceed this fraction of on-demand
+_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.1"))   # small margin above min_bid to win+hold
 
 
 def _vast_bid_price(offer: dict):
-    """Interruptible bid $/hr for this offer: a small margin above the market floor (min_bid), HARD-capped below
-    on-demand (dph_base) so an interruptible bid is always cheaper than on-demand. None if unpriced. PURE."""
+    """Interruptible bid $/hr = a small margin ABOVE the market floor (min_bid) so the box reliably wins a slot and
+    holds. It MUST stay >= min_bid: a below-floor bid leaves the instance created-but-stopped (verified 2026-07-23
+    — an 'always under on-demand' cap fell BELOW min_bid on cheap 3090 hosts where min_bid==dph_base, so the box
+    never started). On Vast you pay your bid and min_bid IS the interruptible market price, so floor*1.1 is both
+    cheap and reliable. (Selection already ranks by min_bid, so we never land on an expensive-floor host.) PURE."""
     try:
         floor = float(offer.get("min_bid") or 0.0)
         base = float(offer.get("dph_base") or offer.get("dph_total") or 0.0)
     except (TypeError, ValueError):
         return None
-    if floor <= 0 and base <= 0:
+    ref = floor if floor > 0 else base
+    if ref <= 0:
         return None
-    bid = floor * _VAST_BID_FLOOR_MULT if floor > 0 else base * _VAST_BID_OD_CAP
-    if base > 0:
-        bid = min(bid, base * _VAST_BID_OD_CAP)                  # stay strictly under on-demand
-    return round(max(bid, 0.001), 4)
+    return round(max(ref * _VAST_BID_FLOOR_MULT, 0.001), 4)
 
 
 def _vast_gpu_ram_gb(offer: dict) -> float:
