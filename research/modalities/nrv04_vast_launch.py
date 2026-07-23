@@ -655,6 +655,8 @@ def bench_collect(bucket):
         print(f"  gpu={d.get('gpu')} edge={d.get('edge_nm')}nm atoms={d.get('atoms')} "
               f"device={d.get('device')} platform={d.get('platform')} "
               f"ns_per_day={d.get('ns_per_day')} status={d.get('status')}", flush=True)
+        if d.get("status") != "OK":                    # root-cause: the full BENCH_RESULT line (incl err=...)
+            print(f"    raw: {d.get('_raw')}", flush=True)
     return 0
 
 
