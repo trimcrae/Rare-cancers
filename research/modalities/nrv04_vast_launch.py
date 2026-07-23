@@ -645,11 +645,14 @@ def bench_collect(bucket):
         print(f"[bench-collect]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
               f"dph=${i.get('dph_total')}/hr", flush=True)
     rows = []
+    done_tags = set()
     for k in _s3_list(s3, bucket, f"{_BENCH_PREFIX}/", suffix="bench.json"):
         try:
-            rows.append(json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode()))
+            d = json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode())
         except Exception:  # noqa: BLE001
             continue
+        rows.append(d)
+        done_tags.add(d.get("tag") or k.split("/")[-2])
     print(f"[bench-collect] {len(rows)} bench result(s):", flush=True)
     for d in sorted(rows, key=lambda r: (str(r.get("gpu")), str(r.get("edge_nm")))):
         print(f"  gpu={d.get('gpu')} edge={d.get('edge_nm')}nm atoms={d.get('atoms')} "
@@ -657,6 +660,20 @@ def bench_collect(bucket):
               f"ns_per_day={d.get('ns_per_day')} status={d.get('status')}", flush=True)
         if d.get("status") != "OK":                    # root-cause: the full BENCH_RESULT line (incl err=...)
             print(f"    raw: {d.get('_raw')}", flush=True)
+    # TARGETED anti-idle teardown: destroy bench-* instances that are terminal OR already produced a result
+    # (a bench is seconds of compute; a lingering one bleeds $). Scoped to the bench-* label namespace, so the
+    # covalent panel's instances are NEVER touched (no stop_all).
+    if os.environ.get("BENCH_NO_STOP") != "1" and key:
+        _terminal = ("exited", "offline", "stopped")
+        for i in bench_up:
+            lab = i.get("label") or ""
+            if (i.get("actual_status") or "") in _terminal or lab in done_tags:
+                try:
+                    _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+                    print(f"[bench-collect] destroyed {i.get('id')} ({lab}) — "
+                          f"{'terminal' if lab not in done_tags else 'result-in-S3'}", flush=True)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[bench-collect] WARN destroy {i.get('id')} failed: {e}", flush=True)
     return 0
 
 
