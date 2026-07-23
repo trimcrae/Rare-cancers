@@ -272,6 +272,63 @@ auto-route within a tier.
 
 ---
 
+## Oracle Cloud (OCI) — step-by-step + honest capacity caveats (verified 2026-07-23)
+
+**One-line verdict (unchanged): tier-3, low-confidence "bonus if a GPU actually launches" — NOT a planned
+tier.** The $300 is real, but three walls sit between signup and a running GPU: (a) **no GPU exists in the
+free/always-free tier at all** — every GPU shape requires converting to **pay-as-you-go** (the $300 credit
+still applies during the 30-day window, so you don't pay out of pocket, but you must add a card and upgrade);
+(b) **GPU service limit starts at 0** → you must file a limit-increase request (Oracle quotes **1–3 business
+days**); (c) **capacity** — trial/new-tenancy regions frequently return `Out of host capacity` for GPU shapes,
+worst for A100/H100, **best for the entry A10 shape**. Because it's a single quota-gated VM cloud (like GCP),
+it fixes *cost* but **not parallelism** — one, maybe a few, concurrent GPUs, not a wide fan-out.
+
+**Economics if it does launch:** entry shape **`VM.GPU.A10.1`** = 1× NVIDIA A10 (24 GB, ~600 GB/s — a genuinely
+decent MD card by our bandwidth-bound $/ns physics), **~$1.27/hr** pay-as-you-go (region-dependent; verify on
+the live price list). $300 ÷ $1.27 ≈ **~230 A10-GPU-hours free**. That's real throughput for the triage tier —
+**but only during the 30-day window**, and A10 on-demand (~$1.27/hr, no cheap GPU Spot on OCI) is **not
+cost-competitive after the credit burns** (Vast RTX-4090 ~$0.20–0.35/hr wins ~4–6×). So: **burn the $300 on A10
+during the window, then stop** — do not keep Oracle as a paid workhorse.
+
+**Signup → GPU, exact steps (phone-browser friendly; all deploy work is done via CI, never a terminal):**
+1. **Sign up** at [oracle.com/cloud/free](https://www.oracle.com/cloud/free/). Needs a **mobile number** (SMS
+   verify) + a **credit/debit card** (identity hold only — not charged unless you upgrade). Pick a **home
+   region** that actually stocks A10 (US Ashburn / Phoenix are the usual safe bets) — **home region is
+   permanent**, so choose deliberately. You land on the $300 / 30-day trial.
+2. **Upgrade to Pay As You Go** *before* touching GPU: Console → your profile/banner → **Upgrade to Paid** (or
+   Billing → Upgrade and Manage Payment). The $300 credit + 30-day window **carry over**; you're not charged
+   while credits remain. This is mandatory — GPU shapes are invisible until the account is paid.
+3. **Request a GPU service-limit increase** (starts at 0): Console → **Governance & Administration → Tenancy
+   Management → Limits, Quotas and Usage** → filter service **Compute**, find the GPU shape (e.g.
+   `GPU-A10-count` / "GPU.A10.1"), click **Request a limit increase** → ask for **1** (or 2) in your home
+   region. Justification: *independent computational-chemistry research; MD/FEP on a single checkpointed GPU
+   VM.* Approval is **1–3 business days** (plan for it — we are not in a race).
+4. **Create an API signing key** so CI can drive it headlessly: Console → your **Profile → My profile → API
+   keys → Add API key → Generate key pair → Download private key**. Copy the shown **config snippet**
+   (`user` OCID, `fingerprint`, `tenancy` OCID, `region`). Give me those as CI secrets:
+   `OCI_USER_OCID`, `OCI_TENANCY_OCID`, `OCI_FINGERPRINT`, `OCI_REGION`, `OCI_KEY_PEM` (the private key body),
+   plus your target compartment `OCI_COMPARTMENT_OCID` (root compartment OCID is fine to start). **Key values go
+   straight into GitHub → repo → Settings → Secrets → Actions — never pasted in chat.**
+5. **Launch one A10 to confirm capacity** *before* counting on it (the load-bearing unknown): Console →
+   **Compute → Instances → Create instance** → Image: **Oracle Linux 8 GPU** (or Ubuntu + install CUDA) →
+   Shape: **Specialty & GPU → VM.GPU.A10.1** → create. If it returns **`Out of host capacity`**, try another
+   **availability domain** in-region, or a **Capacity Reservation**, or another A10-stocked region — do **not**
+   assume A100/H100 will be easier (they're scarcer). A single successful A10 boot = green light.
+6. **Then it's a config, not a rewrite.** OCI becomes an `oci` backend in the provider-agnostic harness
+   (`research/modalities/gpu_backend.py`); I wire `submit()/status()/stop()` to the OCI SDK (create instance →
+   run the baked MD image → **self-terminate on exit** via the `autoteardown.py` guarantee so no idle-GPU
+   bleed), checkpointing per-unit to the existing S3 bucket via `object_store.py`. The A10 image is the same
+   public Docker Hub image (`triskit23/...`) every other provider pulls. **I can write that adapter now** (it's
+   free engineering); it just can't be *exercised* until the account + `OCI_*` secrets exist and step 5 proves
+   capacity.
+
+**Gotchas that specifically bite Oracle:** trial GPU capacity is genuinely thin (validate one launch, don't
+scale-plan on faith); the **30-day** clock starts at signup, so don't upgrade until you're ready to burn it;
+OCI has **no cheap GPU Spot** for A10 (its "preemptible" is limited), so after credits it's full on-demand
+price — a reason to treat it as a one-window burn, not a standing provider.
+
+---
+
 ## The exact accounts to create (in priority order)
 
 | # | Account | URL | Why | Free credit (verify) |
