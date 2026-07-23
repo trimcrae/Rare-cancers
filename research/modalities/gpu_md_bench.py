@@ -37,6 +37,29 @@ def _bench(edge_nm, steps, warmup, dt_fs):
                              hydrogenMass=4.0 * u.amu)   # HMR -> 4 fs, our production setting
     integrator = mm.LangevinMiddleIntegrator(300 * u.kelvin, 1.0 / u.picosecond, dt_fs * u.femtoseconds)
 
+    # A conda-pack'd / baked env can carry a STALE compiled OpenMM plugin dir so NOTHING auto-loads (only the
+    # built-in 'Reference' shows, failures=[] because no plugin was even attempted — verified 2026-07-23 on Vast).
+    # Mirror nrv04_covalent_md._select_platform: if neither CUDA nor CPU is present, load plugins explicitly from
+    # this env's lib/plugins (glob covers /opt/mamba/envs/{md,rbfe}/lib/plugins).
+    _names = [mm.Platform.getPlatform(i).getName() for i in range(mm.Platform.getNumPlatforms())]
+    if "CUDA" not in _names and "CPU" not in _names:
+        import glob
+        pref = os.environ.get("CONDA_PREFIX") or os.environ.get("OPENMM_PREFIX") or ""
+        cands = [os.path.join(pref, "lib", "plugins")] if pref else []
+        try:
+            cands.append(mm.Platform.getDefaultPluginsDirectory())
+        except Exception:  # noqa: BLE001
+            pass
+        cands += glob.glob("/opt/mamba/envs/*/lib/plugins") + (glob.glob(os.path.join(pref, "lib*", "plugins")) if pref else [])
+        loaded = []
+        for d in cands:
+            if d and os.path.isdir(d):
+                try:
+                    mm.Platform.loadPluginsFromDirectory(d); loaded.append(d)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[bench] plugin load {d} failed: {e}", flush=True)
+        print(f"[bench] plugins didn't auto-load; reloaded from {loaded}", flush=True)
+
     # pick the platform + report it. CUDA is ~1.5-2x faster than OpenCL on NVIDIA; the CUDA plugin only loads if
     # OpenMM's CUDA build matches the driver — getPluginLoadFailures() says exactly why it didn't if so.
     plats = [mm.Platform.getPlatform(i).getName() for i in range(mm.Platform.getNumPlatforms())]
