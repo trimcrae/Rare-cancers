@@ -10,7 +10,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 pytest.importorskip("numpy")
 
-from nrv04_covalent_md import _aligned_iface_rmsd, interface_atom_indices, kabsch_rmsd  # noqa: E402
+from nrv04_covalent_md import (  # noqa: E402
+    _aligned_iface_rmsd,
+    _ckpt_paths,
+    _load_resume,
+    interface_atom_indices,
+    kabsch_rmsd,
+)
 
 _REF = [(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)]
 
@@ -42,6 +48,38 @@ def test_aligned_iface_rmsd_returns_nan_on_nonfinite():
     assert math.isnan(_aligned_iface_rmsd(ca, nan_ca, ca, nan_ca))
     # finite input still yields a real number (0 for identical frames)
     assert abs(_aligned_iface_rmsd(ca, ca, ca, ca)) < 1e-6
+
+
+def test_ckpt_resume_roundtrip_and_validation(tmp_path):
+    """The resume gate must accept a VALID in-progress production checkpoint and reject stale/mismatched/finished
+    ones — so a spot-preempted leg resumes, but a completed or wrong-leg checkpoint never spuriously resumes."""
+    import json
+
+    d = str(tmp_path)
+    state_path, cj_path = _ckpt_paths(d, "cov_nr4a1", 0)
+    assert state_path.endswith("ckpt_cov_nr4a1_s0.state.xml")
+    assert cj_path.endswith("ckpt_cov_nr4a1_s0.ckpt.json")
+
+    # nothing on disk (and no S3) -> no resume
+    assert _load_resume(state_path, cj_path, None, "cov_nr4a1", 0) is None
+
+    def _write(done, frames, leg="cov_nr4a1", seed=0, phase="production"):
+        open(state_path, "w").write("<State/>")               # loadState content is irrelevant to the gate
+        json.dump({"leg_id": leg, "seed": seed, "phase": phase, "done_frames": done, "frames": frames},
+                  open(cj_path, "w"))
+
+    _write(30, 100)                                            # valid mid-production checkpoint
+    got = _load_resume(state_path, cj_path, None, "cov_nr4a1", 0)
+    assert got is not None and got["done_frames"] == 30
+
+    _write(100, 100)                                           # finished (done == frames) -> do NOT resume
+    assert _load_resume(state_path, cj_path, None, "cov_nr4a1", 0) is None
+
+    _write(30, 100, seed=1)                                    # wrong seed -> do NOT resume
+    assert _load_resume(state_path, cj_path, None, "cov_nr4a1", 0) is None
+
+    _write(30, 100, phase="equil")                            # not yet in production -> do NOT resume
+    assert _load_resume(state_path, cj_path, None, "cov_nr4a1", 0) is None
 
 
 def test_interface_selection_respects_cutoff():
