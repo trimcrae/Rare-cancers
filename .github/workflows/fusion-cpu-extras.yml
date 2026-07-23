@@ -149,7 +149,7 @@ jobs:
         with:
           environment-name: nrv04md
           create-args: >-
-            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli pdbfixer openff-nagl openff-nagl-models
+            python=3.11 'cuda-version=12.6' openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 awscli pdbfixer openff-nagl openff-nagl-models
           condarc: |
             channels:
               - conda-forge
@@ -232,7 +232,7 @@ jobs:
         with:
           environment-name: nrv04md
           create-args: >-
-            python=3.11 openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 pdbfixer openff-nagl openff-nagl-models
+            python=3.11 'cuda-version=12.6' openmm openff-toolkit openmmforcefields ambertools rdkit gemmi numpy boto3 pdbfixer openff-nagl openff-nagl-models
           condarc: |
             channels:
               - conda-forge
