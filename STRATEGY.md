@@ -253,8 +253,11 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   **GO/NO-GO:** one edge finished clean → **GO** to Rung 1.
 - **`[ ]` EMC E3-ligase expression analysis** *(emc_e3_expression · CPU/CI)* — **Price: ~$0**
   Public VHL/CRBN expression in EMC samples; informs VHL-vs-CRBN choice. Free — just do it (route fetch via CI).
-- **`[ ]` Pocket-tracking re-analysis** *(pocket_reanalysis · CPU)* — **Price: ~$0**
-  Finalize the paper's Gate-2 druggability wording. Free — just do it.
+- **`[x]` Pocket-tracking re-analysis** *(pocket_reanalysis · CPU)* — **DONE 2026-07-23 · ~$0**
+  Harmonized consolidated detection (`nr4a3-pocket-reharmonize-summary.json`, the pinned-fpocket + score-
+  independent matcher rerun) folded into the paper's Gate-2 wording (§2.1): 8XTT **19/20 detected, 3 ≥ D\*=0.53**
+  (was 4/20 pre-harmonized); release bias-free continuations druggable in **56/40/80 %** of frames per replica,
+  **44/75 = 59 % pooled**. Replaced the two "await harmonized" placeholders with the actual both-denominator numbers.
 
 ### RUNG 1 — cheap reference-reproduction smoke *(now mostly a citation, not a paid benchmark)*
 

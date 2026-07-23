@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 """
-Is the CRBN E3-ligase machinery available where EMC arises? (degrader-completeness, ledger E6). CPU/DB only.
+Are the VHL and CRBN E3-ligase machineries available where EMC arises? (degrader-completeness, ledger E6;
+informs the VHL-vs-CRBN recruiter choice — reviewer mandatory-change 5). CPU/DB only.
 
-WHY. A CRBN-recruiting degrader can only work in a cell that expresses the CRL4^CRBN machinery — CRBN itself
-plus the scaffold it assembles on (DDB1, CUL4A/CUL4B, RBX1). If any were tissue-restricted or absent from
-soft-tissue/mesenchymal contexts, the degrader would be dead on arrival regardless of a good ternary. This
-checks the machinery's tissue-expression breadth (Human Protein Atlas), so the degrader premise is grounded,
-not assumed. Runs in CI (internet). Output: nr4a-e3-expression.json.
+WHY. A degrader can only work in a cell that expresses the full CRL machinery it recruits. Our matrix keeps
+BOTH ligase arms in scope (VHL and CRBN), so we check BOTH:
+  - CRL2^VHL  : VHL (substrate receptor) + Elongin B (ELOB) + Elongin C (ELOC) + CUL2 + RBX1
+  - CRL4^CRBN : CRBN (substrate receptor) + DDB1 + CUL4A/CUL4B + RBX1
+If any component of an arm were tissue-restricted or absent from soft-tissue/mesenchymal contexts, a degrader
+built on that arm would be dead on arrival regardless of a good ternary. This checks each machinery's
+tissue-expression breadth (Human Protein Atlas) so the degrader premise is grounded, not assumed, AND so the
+VHL-vs-CRBN choice is informed by where each arm's machinery is actually available. Runs in CI (internet;
+proteinatlas.org is egress-blocked from the dev sandbox). Output: nr4a-e3-expression.json.
+
+HONEST LIMITS. No EMC cell line is in HPA, so this is machinery-availability across general tissue (incl.
+soft-tissue/mesenchymal), NOT EMC-specific proof. These are housekeeping-class ligase components; a tissue
+restriction would be the surprise to catch. RNA tissue distribution ("detected in all/many") is a breadth
+proxy, not an abundance or activity measurement.
 """
 
 import json
@@ -18,13 +28,29 @@ import urllib.request
 HERE = os.path.dirname(__file__)
 OUT = os.path.join(HERE, "nr4a-e3-expression.json")
 
-# CRL4^CRBN machinery: the substrate receptor + the ligase scaffold it needs to ubiquitinate the target.
-E3_MACHINERY = {
-    "CRBN": "ENSG00000113851",     # substrate receptor the PROTAC recruits
-    "DDB1": "ENSG00000167986",     # adaptor
-    "CUL4A": "ENSG00000139842",    # cullin scaffold
-    "CUL4B": "ENSG00000158290",    # cullin scaffold (paralogue)
-    "RBX1": "ENSG00000100387",     # RING box (E2 recruitment)
+# The two CRL arms our degrader matrix keeps in scope. Each = substrate receptor + the scaffold it assembles
+# on to ubiquitinate the target. RBX1 (the RING box that recruits the E2) is shared by both cullin arms.
+MACHINERIES = {
+    "CRL2_VHL": {
+        "_label": "CRL2^VHL (VHL recruiter arm)",
+        "genes": {
+            "VHL": "ENSG00000134086",     # substrate receptor the PROTAC recruits
+            "ELOB": "ENSG00000103363",    # Elongin B (TCEB2) — adaptor
+            "ELOC": "ENSG00000154582",    # Elongin C (TCEB1) — adaptor
+            "CUL2": "ENSG00000108094",    # cullin scaffold
+            "RBX1": "ENSG00000100387",    # RING box (E2 recruitment; shared with CRL4)
+        },
+    },
+    "CRL4_CRBN": {
+        "_label": "CRL4^CRBN (CRBN recruiter arm)",
+        "genes": {
+            "CRBN": "ENSG00000113851",    # substrate receptor the PROTAC recruits
+            "DDB1": "ENSG00000167986",    # adaptor
+            "CUL4A": "ENSG00000139842",   # cullin scaffold
+            "CUL4B": "ENSG00000158290",   # cullin scaffold (paralogue)
+            "RBX1": "ENSG00000100387",    # RING box (E2 recruitment; shared with CRL2)
+        },
+    },
 }
 
 
@@ -55,27 +81,57 @@ def hpa_expression(gene, ensg):
             "rna_tissue_distribution": dist, "broadly_expressed": broadly}
 
 
+def score_machinery(genes):
+    rows = {g: hpa_expression(g, e) for g, e in genes.items()}
+    have = [r for r in rows.values() if "rna_tissue_distribution" in r]
+    all_broad = bool(have) and all(r.get("broadly_expressed") for r in have)
+    complete = len(have) == len(genes)
+    not_broad = [r["gene"] for r in have if not r.get("broadly_expressed")]
+    return rows, {"all_broadly_expressed": all_broad, "record_complete": complete,
+                  "components_not_broadly_expressed": not_broad}
+
+
 def main():
-    rows = {g: hpa_expression(g, e) for g, e in E3_MACHINERY.items()}
-    all_broad = all(r.get("broadly_expressed") for r in rows.values())
+    arms = {}
+    for key, spec in MACHINERIES.items():
+        rows, summary = score_machinery(spec["genes"])
+        arms[key] = {"_label": spec["_label"], "components": rows, **summary}
+
+    vhl_ok = arms["CRL2_VHL"]["all_broadly_expressed"]
+    crbn_ok = arms["CRL4_CRBN"]["all_broadly_expressed"]
+    if vhl_ok and crbn_ok:
+        verdict = ("Both CRL2^VHL and CRL4^CRBN machineries broadly expressed — both recruiter arms are "
+                   "grounded; the VHL-vs-CRBN choice is NOT constrained by machinery availability and should "
+                   "be made on ternary/geometry/selectivity grounds.")
+    elif vhl_ok or crbn_ok:
+        avail, missing = ("VHL", "CRBN") if vhl_ok else ("CRBN", "VHL")
+        verdict = (f"Only the {avail} arm's machinery is broadly expressed; the {missing} arm has "
+                   f"components flagged not-broadly-expressed — prefer the {avail} recruiter, and re-check "
+                   f"the flagged {missing} component(s) before committing to that arm.")
+    else:
+        verdict = ("Neither arm is cleanly broadly-expressed on this proxy — inspect the flagged components; "
+                   "do not read machinery availability as settled either way.")
+
     result = {
-        "_title": "CRL4^CRBN E3-machinery tissue expression (degrader-completeness, ledger E6)",
-        "_note": "A CRBN PROTAC needs CRBN + DDB1 + CUL4A/B + RBX1 co-expressed in the target cell. All "
-                 "broadly ('detected in all/many') => the machinery is available in soft-tissue/mesenchymal "
-                 "contexts and the degrader premise is grounded. These are housekeeping-class ligase "
-                 "components; a tissue restriction would be the surprise to catch. No EMC line is in HPA, so "
-                 "this is machinery-availability in general tissue, not EMC-specific proof.",
+        "_title": "CRL2^VHL vs CRL4^CRBN E3-machinery tissue expression (degrader-completeness E6; ligase-choice input)",
+        "_note": "A degrader needs its full CRL arm (substrate receptor + adaptor(s) + cullin + RBX1) "
+                 "co-expressed in the target cell. Both arms broadly expressed => machinery is available in "
+                 "soft-tissue/mesenchymal contexts and neither arm is dead-on-arrival on availability grounds. "
+                 "No EMC line is in HPA, so this is machinery-availability in general tissue, not EMC-specific "
+                 "proof; RNA tissue distribution is a breadth proxy, not abundance/activity.",
         "source": "Human Protein Atlas (proteinatlas.org)",
-        "machinery": rows,
-        "all_broadly_expressed": all_broad,
-        "verdict": ("CRBN machinery broadly expressed — degrader premise grounded" if all_broad
-                    else "check components flagged not-broadly-expressed"),
+        "arms": arms,
+        "both_arms_broadly_expressed": bool(vhl_ok and crbn_ok),
+        "verdict": verdict,
     }
     json.dump(result, open(OUT, "w"), indent=2)
     print("wrote", OUT, file=sys.stderr)
-    print(json.dumps({g: {"dist": r.get("rna_tissue_distribution"),
-                          "broad": r.get("broadly_expressed")} for g, r in rows.items()}, indent=2))
-    print("all broadly expressed:", all_broad)
+    for key, arm in arms.items():
+        print(f"\n{arm['_label']}  all_broad={arm['all_broadly_expressed']} "
+              f"complete={arm['record_complete']} not_broad={arm['components_not_broadly_expressed']}")
+        for g, r in arm["components"].items():
+            print(f"  {g:6s} dist={r.get('rna_tissue_distribution')!r} broad={r.get('broadly_expressed')}")
+    print("\nverdict:", verdict)
 
 
 if __name__ == "__main__":

@@ -56,26 +56,26 @@
     {
       "id": "emc_e3_expression",
       "title": "RUNG 0 (free): public EMC VHL/CRBN expression analysis (informs ligase choice)",
-      "status": "pending",
+      "status": "in_progress",
       "track": "cpu",
       "cost_est_usd": "0",
       "optimistic_days": 1,
-      "remaining_days": 1,
+      "remaining_days": 0,
       "parallel_ok": true,
       "depends_on": [],
-      "note": "Mandatory-change-5 support. Public-data VHL + CRBN expression in EMC samples. Free CPU (route networked fetch via a CI runner, egress-proxy rule) - the only work done without a nod."
+      "note": "Mandatory-change-5 support. 2026-07-23: extended nr4a3_e3_expression.py from CRBN-only to BOTH recruiter arms (CRL2^VHL: VHL+ELOB+ELOC+CUL2+RBX1; CRL4^CRBN: CRBN+DDB1+CUL4A/B+RBX1) so it actually informs the VHL-vs-CRBN choice; emits a per-arm broad-expression verdict. Running via CI (depmap-dependency.yml, HPA egress-blocked from sandbox) -> nr4a-e3-expression.json. Honest limit: no EMC line in HPA, so this is machinery-availability across general soft-tissue/mesenchymal tissue, not EMC-specific. Free CPU, done without a nod."
     },
     {
       "id": "pocket_reanalysis",
       "title": "RUNG 0 (free): harmonized pocket-tracking re-analysis (finalize Gate 2 druggability wording)",
-      "status": "pending",
+      "status": "done",
       "track": "cpu",
       "cost_est_usd": "0",
       "optimistic_days": 2,
-      "remaining_days": 2,
+      "remaining_days": 0,
       "parallel_ok": true,
       "depends_on": [],
-      "note": "Cheap CPU; finalizes the paper's Gate-2 druggability wording. Free - done without a nod."
+      "note": "DONE 2026-07-23. Harmonized consolidated detection (nr4a3-pocket-reharmonize-summary.json; pinned fpocket + score-independent matcher rerun, jobs 2026-07-10) folded into the paper Gate-2 wording (Sec 2.1). Both 'await harmonized' placeholders replaced with actual both-denominator numbers: 8XTT 19/20 detected, 3 >= D*=0.53 (was 4/20 pre-harmonized -> 3/19 among detected, 3/20 across all deposited); release bias-free continuations druggable in 56/40/80% of frames per replica, 44/75=59% pooled. Cheap CPU; done without a nod."
     },
     {
       "id": "valA_mini",

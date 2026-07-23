@@ -33,8 +33,10 @@ solution-NMR ensemble (PDB 8XTT, 2025). fpocket analysis of the 20 deposited low
 exceeding an empirical drug-bound reference boundary (these are low-energy structural models, **not**
 equilibrium-population samples) — and a three-independent-seed metadynamics workflow on an AlphaFold2 working
 model explores cavity-bearing "open-like" geometries; short bias-free continuations from a selected geometry
-show **geometric persistence in 3/3 replicas** (final pocket-druggability fractions await harmonized site
-tracking), while the replicas do **not** yet agree on a **common quantitative free-energy profile**. A falsification-heavy, pocket-conditioned generative campaign (chemical triage, an empirical decoy
+show **geometric persistence in 3/3 replicas** (harmonized pocket-tracking: the orthosteric pocket is detected
+in every propagated frame of all three replicas and is druggable at ≥ D\*=0.53 in **56 %/40 %/80 %** of frames
+per replica — **44/75 = 59 % pooled**), while the replicas do **not** yet agree on a **common quantitative
+free-energy profile**. A falsification-heavy, pocket-conditioned generative campaign (chemical triage, an empirical decoy
 null, multi-snapshot rescoring, independent-seed replication, and molecular-species resolution) leaves a
 single candidate, **denovo_401**, whose NR4A3-favoured preference is probed by **initial three-replicate
 absolute-binding free-energy calculations conditional on selected opened conformers** (favouring NR4A3 over
@@ -141,13 +143,17 @@ not an AF2-independent site *discovery*). Mapping our pocket-5 residues onto 8XT
 across all structures is part of the harmonized rerun, so we do not yet claim a byte-identical pipeline)
 ([`../modalities/nr4a3-8xtt-benchmark-findings.md`](../modalities/nr4a3-8xtt-benchmark-findings.md);
 `nr4a3_8xtt_benchmark.py`) shows **substantial conformational heterogeneity at the same mapped site**: most
-conformers are strongly occluded (median druggability 0.012), while **4 of the 20 deposited conformers were
-assigned orthosteric-site fpocket scores above the empirical reference boundary D\*=0.53**. An orthosteric-site
-score was obtained for **all 20** conformers under the original implementation (range 0.000–0.925), so this is
-**4/20 on both the detected-pocket and total-deposited denominators**; the harmonized rerun (pinned fpocket +
-score-independent matcher) will report both denominators explicitly. Because these are
-low-energy structural models rather than equilibrium samples, **4/20 is a structural-heterogeneity
-observation, not an estimate of a 20 % open-state population** (and both the experimental median and the static
+conformers are strongly occluded (median druggability 0.012), while a few conformers were assigned
+orthosteric-site fpocket scores above the empirical reference boundary D\*=0.53. The original implementation
+obtained an orthosteric-site score for **all 20** conformers (range 0.000–0.925) and placed **4/20** above
+D\*. The **harmonized rerun** (pinned fpocket build + score-independent matcher;
+[`../modalities/nr4a3-pocket-reharmonize-summary.json`](../modalities/nr4a3-pocket-reharmonize-summary.json))
+now reports both denominators explicitly: the orthosteric pocket is **matched in 19/20** conformers, of which
+**3** score ≥ D\* — i.e. **3/19 (16 %) among detected pockets and 3/20 (15 %) across all deposited
+conformers** (one fewer than the original 4/20, as expected from the pinned build and the stricter
+score-independent matcher). Because these are
+low-energy structural models rather than equilibrium samples, **3/20 is a structural-heterogeneity
+observation, not an estimate of a 15 % open-state population** (and both the experimental median and the static
 AF2 0.495 fall below D\*, though the experimental conformers are typically *substantially more occluded* than
 the AF2 model — AF2 may over-open the site relative to the typical 8XTT conformer). The point is qualitative
 and strong: an experimental ligand-free ensemble contains both occluded and cavity-bearing geometries at the
