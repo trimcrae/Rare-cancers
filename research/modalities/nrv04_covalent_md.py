@@ -343,8 +343,28 @@ def run_leg(env):
         os.path.join(in_dir, "complex.pdb"), os.path.join(in_dir, "ligand.sdf"),
         covalent, env.get("COV_LIG_ATOM", "C6"), int(env.get("COV_RESNUM", "551")), env.get("MUTATION", ""))
 
-    sim.context.setVelocitiesToTemperature(MD.TEMPERATURE_K * unit.kelvin, seed + 1)
+    import numpy as _np
+
+    def _pe_kj(_sim):
+        return _sim.context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(
+            unit.kilojoule_per_mole)
+
+    def _finite(_sim):
+        p = _sim.context.getState(getPositions=True).getPositions(asNumpy=True)._value
+        return bool(_np.isfinite(p).all())
+
+    # The covalent restraint imposes a stiff bond (k=3e5, eq 0.181 nm) across the co-fold's *non-bonded* Sγ···C6
+    # gap (often several Å) -> a large initial strain (~0.5·k·Δ² can reach tens of thousands of kJ/mol). Minimize
+    # then equilibration must dissipate it; if they can't, the 4 fs HMR integrator blows up (NaN coords) and the
+    # downstream Kabsch SVD fails. Record energies + a finite-coordinate guard so a blow-up is a REPORTED
+    # 'blew_up' outcome (with the phase it happened in) instead of an opaque LinAlgError crash.
+    e_pre = _pe_kj(sim)
     sim.minimizeEnergy()
+    e_min = _pe_kj(sim)
+    _pull_A = (meta.get("reactive_cys") or {}).get("sg_electrophile_dist_A")
+    print(f"[nrv04-md] covalent={covalent} pull={_pull_A} Å  PE pre-min={e_pre:.4g} post-min={e_min:.4g} kJ/mol",
+          flush=True)
+    sim.context.setVelocitiesToTemperature(MD.TEMPERATURE_K * unit.kelvin, seed + 1)
 
     # sampling lengths canonical (env may override for a shakeout, else the md_settings defaults)
     prod_ns = float(env.get("PROD_NS", MD.PROD_NS)); equil_ns = float(env.get("EQUIL_NS", MD.EQUIL_NS))
@@ -354,8 +374,20 @@ def run_leg(env):
     else:
         equil_steps = int(equil_ns / dt_ns); prod_steps = int(prod_ns / dt_ns)
         stride = MD.frame_stride_steps()                       # ~10 ps frame cadence (timestep-independent)
-    if equil_steps:
-        sim.step(equil_steps)
+
+    blew_up = False; blow_phase = None
+    if equil_steps:                                            # equilibrate in chunks with a finite guard so a
+        n_chunks = max(1, min(20, equil_steps // 500))        # blow-up is caught (and pinpointed) here, not later
+        per = max(1, equil_steps // n_chunks); done = 0
+        for _c in range(n_chunks):
+            n = per if _c < n_chunks - 1 else (equil_steps - done)
+            if n <= 0:
+                break
+            sim.step(n); done += n
+            if not _finite(sim):
+                blew_up = True; blow_phase = f"equil@{done}steps/{equil_steps}"
+                print(f"[nrv04-md] BLOW-UP in {blow_phase}: PE={_pe_kj(sim):.4g} kJ/mol", flush=True)
+                break
 
     # collect interface + Lys frames on the fly (NVT internal metrics need no alignment; R1 uses Kabsch)
     chain_ids, e3_chains, target_chains, lys_nz = _topology_indices(topology)
@@ -368,35 +400,51 @@ def run_leg(env):
     import time
     per_frame_contacts, iface_rmsds, lys_frames = [], [], []
     frames = max(1, prod_steps // stride)
-    sim.step(stride)                                            # one warmup stride (kernel compile/JIT) before timing
+    _done_frames = 0
+    if not blew_up:
+        sim.step(stride)                                       # one warmup stride (kernel compile/JIT) before timing
     _t_prod0 = time.time()
-    for _ in range(frames):
+    for _k in range(frames):
+        if blew_up:
+            break
         sim.step(stride)
         pos = _positions_nm(sim)
+        if not _np.isfinite(_np.asarray(pos)).all():           # integrator diverged -> stop, record honestly
+            blew_up = True; blow_phase = f"prod@frame{_k}/{frames}"
+            print(f"[nrv04-md] BLOW-UP in {blow_phase}: PE={_pe_kj(sim):.4g} kJ/mol", flush=True)
+            break
         per_frame_contacts.append(_contacts(pos, e3_side, tg_side))
         cur_e3ca = [pos[i] for i in _ca_indices(topology, e3_chains)]
         cur_iface = [pos[i] for i in iface]
         iface_rmsds.append(_aligned_iface_rmsd(cur_e3ca, ref_e3ca, cur_iface, ref_iface))
         lys_frames.append([pos[i] for i in lys_nz])
+        _done_frames += 1
 
     _prod_wall_s = max(1e-6, time.time() - _t_prod0)           # production-only wall time (warmup stride excluded)
-    _timed_ns = frames * stride * dt_ns                        # ns actually simulated in the timed window
-    ns_per_day = round(_timed_ns / (_prod_wall_s / 86400.0), 2)  # GPU throughput -> feeds $/ns (cost = $/hr / (ns_day/24))
-    print(f"[nrv04-md] production throughput: {ns_per_day} ns/day ({_timed_ns:.4f} ns in {_prod_wall_s:.1f}s)", flush=True)
+    _timed_ns = _done_frames * stride * dt_ns                  # ns actually simulated in the timed window
+    ns_per_day = round(_timed_ns / (_prod_wall_s / 86400.0), 2) if _done_frames else 0.0  # GPU throughput -> $/ns
+    print(f"[nrv04-md] production throughput: {ns_per_day} ns/day ({_timed_ns:.4f} ns in {_prod_wall_s:.1f}s, "
+          f"{_done_frames}/{frames} frames, blew_up={blew_up})", flush=True)
 
-    # readouts
+    # readouts (guarded: a blow-up may leave zero/partial frames -> report None, not a divide-by-zero crash)
     import nrv04_readouts as R
-    r2 = R.recruitment(per_frame_contacts)
-    r1 = {"rmsd_series_mean": round(sum(iface_rmsds) / len(iface_rmsds), 3),
-          "plateau_A": round(sum(iface_rmsds[len(iface_rmsds) // 2:]) / max(1, len(iface_rmsds) - len(iface_rmsds) // 2), 3)}
-    r1["stable"] = r1["plateau_A"] < R.INTERFACE_RMSD_STABLE_A
+    r2 = R.recruitment(per_frame_contacts) if per_frame_contacts else {"recruited": None, "note": "no frames"}
+    if iface_rmsds:
+        _tail = iface_rmsds[len(iface_rmsds) // 2:]
+        r1 = {"rmsd_series_mean": round(sum(iface_rmsds) / len(iface_rmsds), 3),
+              "plateau_A": round(sum(_tail) / max(1, len(_tail)), 3)}
+        r1["stable"] = r1["plateau_A"] < R.INTERFACE_RMSD_STABLE_A
+    else:
+        r1 = {"rmsd_series_mean": None, "plateau_A": None, "stable": False, "note": "no frames (blew up)"}
     proxy = _catalytic_proxy(ref_positions, chain_ids, e3_chains)
-    r3 = R.lys_presentation(lys_frames, proxy) if lys_nz else {"min_A": None, "note": "no target Lys"}
+    r3 = R.lys_presentation(lys_frames, proxy) if (lys_nz and lys_frames) else {"min_A": None, "note": "no target Lys/frames"}
 
     result = {"panel": "nrv04_covalent_feasibility", "leg_id": leg_id, "seed": seed, "mode": mode,
               "covalent": covalent, "mutation": env.get("MUTATION", ""), "meta": meta,
               "md_settings": MD.summary(),                     # RECORD the exact canonical hyperparameters used
               "prod_ns": prod_ns, "equil_ns": equil_ns,
+              "blew_up": blew_up, "blow_phase": blow_phase,    # numerical-stability outcome (covalent-pull strain)
+              "pe_pre_min_kj": round(e_pre, 1), "pe_post_min_kj": round(e_min, 1),
               "ns_per_day": ns_per_day, "timed_ns": round(_timed_ns, 5), "prod_wall_s": round(_prod_wall_s, 1),
               "n_frames": len(per_frame_contacts), "R1_interface": r1, "R2_recruitment": r2, "R3_lys": r3}
     out = os.path.join(out_dir, f"leg_{leg_id}_s{seed}.json")
@@ -410,8 +458,13 @@ def _aligned_iface_rmsd(cur_e3ca, ref_e3ca, cur_iface, ref_iface):
     RMSD in Å. Uses the E3 CA superposition so the metric captures target motion relative to E3."""
     import numpy as np
     P = np.asarray(cur_e3ca); Q = np.asarray(ref_e3ca)
+    if not (np.isfinite(P).all() and np.isfinite(Q).all()):    # non-finite coords -> caller's finite guard handles it
+        return float("nan")
     Pc = P - P.mean(0); Qc = Q - Q.mean(0)
-    V, _, Wt = np.linalg.svd(Pc.T @ Qc)
+    try:
+        V, _, Wt = np.linalg.svd(Pc.T @ Qc)
+    except np.linalg.LinAlgError:                              # ill-conditioned covariance -> skip this frame's R1
+        return float("nan")
     d = np.sign(np.linalg.det(V @ Wt))
     U = V @ np.diag([1, 1, d]) @ Wt
     ci = (np.asarray(cur_iface) - P.mean(0)) @ U
