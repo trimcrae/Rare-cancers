@@ -1224,16 +1224,22 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                 # appears once every object is safely uploaded (an all-or-nothing cache).
                 for f in upload + ["objs.pkl", "manifest.json"]:
                     _last = None
-                    for _attempt in range(5):
-                        r = _gsh("cp", str(loc / f), cache_dir + "/" + f)
+                    for _attempt in range(8):
+                        # Force a fixed content-type so gcloud does NOT sniff the extension (.bz2/.npy/.xml) and
+                        # negotiate a Content-Encoding/transcoding that has repeatedly surfaced as an opaque
+                        # GcsApiError('') on hybrid_system.xml.bz2; --no-clobber off (default). Longer exponential
+                        # backoff covers a transient 429/503 window. On give-up, print the FULL stderr (not the
+                        # 200-char tail) so a persistent cause is actually diagnosable.
+                        r = _gsh("cp", "--content-type=application/octet-stream", str(loc / f), cache_dir + "/" + f)
                         if r.returncode == 0:
                             break
-                        _last = (r.stderr or "")[-200:]
+                        _last = (r.stderr or "")
                         print("  [spot-safe] cache upload %s attempt %d failed (%s); retrying"
-                              % (f, _attempt + 1, _last), flush=True)
-                        time.sleep(3 * (_attempt + 1))
+                              % (f, _attempt + 1, _last[-200:]), flush=True)
+                        time.sleep(min(60, 5 * (2 ** _attempt)))
                     else:
-                        raise RuntimeError("cp %s after 5 retries: %s" % (f, _last))
+                        print("  [spot-safe] cache upload %s FULL stderr:\n%s" % (f, _last), flush=True)
+                        raise RuntimeError("cp %s after 8 retries: %s" % (f, _last[-200:]))
                 print("  [spot-safe] SETUP cached to %s (a re-dispatch after preemption now skips the rebuild)"
                       % cache_dir, flush=True)
             except Exception as e:  # noqa: BLE001
