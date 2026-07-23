@@ -378,7 +378,7 @@ def units_to_run():
     ternary model + the R4 sensitivity numerator). Else the full 18-unit fan-out."""
     if os.environ.get("PILOT_ONLY", "1") == "1":
         pilot = next(lg for lg in PANEL if lg.leg_id == "cov_nr4a1")
-        return [(pilot, 0)]
+        return [(pilot, int(os.environ.get("PILOT_SEED", "0")))]   # PILOT_SEED distinguishes parallel bench runs
     return enumerate_units()
 
 
@@ -491,6 +491,10 @@ def main():
     branch = os.environ.get("GIT_BRANCH", "claude/alternative-gpu-providers-wx4r2c")
     mode = os.environ.get("MODE", "run")
     dry = os.environ.get("DRY_RUN", "0") == "1"
+    gpu_override = os.environ.get("VAST_GPU_MODEL")               # e.g. rtx8000 for the $/ns bench (default: rtx3090)
+    if gpu_override:
+        TERNARY_RES.gpu = gpu_override
+        print(f"[nrv04-launch] GPU override -> {gpu_override}", flush=True)
 
     be = get_backend("vast")
     units = units_to_run()

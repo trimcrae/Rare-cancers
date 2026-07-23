@@ -39,6 +39,12 @@ on:
       vast_image:
         description: "nrv04_vast_launch: override the Vast boot image (blank = launcher default = baked image)"
         default: ""
+      vast_gpu:
+        description: "nrv04_vast_launch pilot: GPU model override (blank=rtx3090; e.g. rtx8000/rtx4090 for a $/ns bench)"
+        default: ""
+      pilot_seed:
+        description: "nrv04_vast_launch pilot: which seed of cov_nr4a1 to run (distinguishes parallel bench runs)"
+        default: "0"
 
 permissions:
   contents: write
@@ -324,6 +330,8 @@ jobs:
       STOP_ALL: ${{ github.event.inputs.vast_launch_mode == 'stop_all' && '1' || '0' }}
       DIAG: ${{ github.event.inputs.vast_launch_mode == 'diag' && '1' || '0' }}
       PROBE_OFFERS: ${{ github.event.inputs.vast_launch_mode == 'probe_offers' && '1' || '0' }}
+      VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
+      PILOT_SEED: ${{ github.event.inputs.pilot_seed }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

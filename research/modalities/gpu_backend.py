@@ -196,6 +196,7 @@ def _vast_url(path: str) -> str:
 _VAST_GPU_SUBSTR = {
     "rtx4090": "4090", "rtx3090": "3090", "rtx4080": "4080",
     "a10g": "A10", "a100": "A100", "l40s": "L40S", "l4": "L4",
+    "rtx8000": "8000", "a6000": "A6000", "a5000": "A5000",   # 24-48GB alternates for the $/ns bench
 }
 
 

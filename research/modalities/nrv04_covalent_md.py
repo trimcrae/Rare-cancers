@@ -365,8 +365,11 @@ def run_leg(env):
     ref_iface = [ref_positions[i] for i in iface]
     ref_e3ca = [ref_positions[i] for i in _ca_indices(topology, e3_chains)]
 
+    import time
     per_frame_contacts, iface_rmsds, lys_frames = [], [], []
     frames = max(1, prod_steps // stride)
+    sim.step(stride)                                            # one warmup stride (kernel compile/JIT) before timing
+    _t_prod0 = time.time()
     for _ in range(frames):
         sim.step(stride)
         pos = _positions_nm(sim)
@@ -375,6 +378,11 @@ def run_leg(env):
         cur_iface = [pos[i] for i in iface]
         iface_rmsds.append(_aligned_iface_rmsd(cur_e3ca, ref_e3ca, cur_iface, ref_iface))
         lys_frames.append([pos[i] for i in lys_nz])
+
+    _prod_wall_s = max(1e-6, time.time() - _t_prod0)           # production-only wall time (warmup stride excluded)
+    _timed_ns = frames * stride * dt_ns                        # ns actually simulated in the timed window
+    ns_per_day = round(_timed_ns / (_prod_wall_s / 86400.0), 2)  # GPU throughput -> feeds $/ns (cost = $/hr / (ns_day/24))
+    print(f"[nrv04-md] production throughput: {ns_per_day} ns/day ({_timed_ns:.4f} ns in {_prod_wall_s:.1f}s)", flush=True)
 
     # readouts
     import nrv04_readouts as R
@@ -389,6 +397,7 @@ def run_leg(env):
               "covalent": covalent, "mutation": env.get("MUTATION", ""), "meta": meta,
               "md_settings": MD.summary(),                     # RECORD the exact canonical hyperparameters used
               "prod_ns": prod_ns, "equil_ns": equil_ns,
+              "ns_per_day": ns_per_day, "timed_ns": round(_timed_ns, 5), "prod_wall_s": round(_prod_wall_s, 1),
               "n_frames": len(per_frame_contacts), "R1_interface": r1, "R2_recruitment": r2, "R3_lys": r3}
     out = os.path.join(out_dir, f"leg_{leg_id}_s{seed}.json")
     json.dump(result, open(out, "w"), indent=2)
