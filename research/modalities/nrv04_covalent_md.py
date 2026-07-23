@@ -396,10 +396,69 @@ def _rm_ckpt(state_path, cj_path, result_s3):
                 pass
 
 
+def _built_paths(out_dir, leg_id, seed):
+    # The EXACT solvated system that produced a checkpoint (System XML + solvated topology as mmCIF + meta).
+    # A resume MUST reload THIS rather than re-solvating: addSolvent/PDBFixer on a different host do NOT
+    # reproduce a bit-identical atom count, so a rebuilt Context has the wrong particle count and
+    # sim.loadState() throws "wrong number of positions". mmCIF (not PDB) carries the ~466k-atom topology
+    # without the PDB 99999-atom-serial limit.
+    b = os.path.join(out_dir, f"built_{leg_id}_s{seed}")
+    return {"system": b + ".system.xml", "cif": b + ".solv.cif", "meta": b + ".built.json"}
+
+
+def _save_built_system(bp, sim, topology, meta, result_s3):
+    """Persist the solvated System (portable XML) + topology (mmCIF) + meta once at fresh build, so a later
+    resume on a DIFFERENT host reloads this exact system and its atom count matches the checkpoint. S3 mirror
+    is best-effort; a failed upload just means that preemption falls back to a clean restart."""
+    from openmm import XmlSerializer, app
+    tmp = bp["system"] + ".tmp"
+    with open(tmp, "w") as f:
+        f.write(XmlSerializer.serialize(sim.system))
+    os.replace(tmp, bp["system"])
+    pos = sim.context.getState(getPositions=True).getPositions()
+    tmpc = bp["cif"] + ".tmp"
+    with open(tmpc, "w") as f:
+        app.PDBxFile.writeFile(topology, pos, f, keepIds=True)
+    os.replace(tmpc, bp["cif"])
+    json.dump(meta, open(bp["meta"], "w"))
+    if result_s3:
+        for p in bp.values():
+            _s3_cp(p, f"{result_s3}/{os.path.basename(p)}")
+
+
+def _load_built_system(bp, result_s3):
+    """Reconstruct the Simulation from a persisted built-system snapshot (System XML + solvated mmCIF), so a
+    resumed leg's Context matches the checkpoint's atom count exactly. Returns (sim, topology, meta) or None
+    if the snapshot is unavailable/unreadable (-> caller does a clean fresh start). The existence check runs
+    BEFORE any heavy import so the 'no snapshot' fallback needs neither OpenMM nor md_settings."""
+    if result_s3:
+        for p in bp.values():
+            if not os.path.exists(p):
+                _s3_cp(f"{result_s3}/{os.path.basename(p)}", p)
+    if not all(os.path.exists(p) for p in bp.values()):
+        return None
+    import md_settings as MD
+    from openmm import XmlSerializer, Platform, app
+    try:
+        cif = app.PDBxFile(bp["cif"])
+        with open(bp["system"]) as f:
+            system = XmlSerializer.deserialize(f.read())
+        meta = json.load(open(bp["meta"]))
+    except Exception:  # noqa: BLE001
+        return None
+    integrator = MD.openmm_integrator()
+    platform = _select_platform(Platform)
+    sim = app.Simulation(cif.topology, system, integrator, platform)
+    sim.context.setPositions(cif.positions)                   # placeholder; loadState overwrites with the checkpoint
+    return sim, cif.topology, meta
+
+
 def run_leg(env):
     """Execute one leg from an env dict (see nrv04_covalent_panel.leg_env). Writes <OUTPUT_DIR>/leg_<id>_s<seed>.json.
     Checkpoint/resume: production is saved (portable OpenMM state + readout JSON) every CKPT_EVERY_FRAMES frames and
-    mirrored to RESULT_S3, so a spot-preempted + re-dispatched leg RESUMES from the last saved frame."""
+    mirrored to RESULT_S3, so a spot-preempted + re-dispatched leg RESUMES from the last saved frame. Resume reloads
+    the EXACT persisted solvated system (built-system snapshot), never re-solvates, so the Context matches the
+    checkpoint atom count (a rebuild would not -> loadState 'wrong number of positions')."""
     from openmm import unit, app
 
     import md_settings as MD                                   # canonical hyperparameters (single source of truth)
@@ -409,10 +468,6 @@ def run_leg(env):
     in_dir = os.path.join(env.get("INPUT_DIR", "/opt/ml/input/data"), leg_id)
     out_dir = env.get("OUTPUT_DIR", env.get("CKPT_DIR", "."))
     os.makedirs(out_dir, exist_ok=True)
-
-    sim, topology, meta = build_system(
-        os.path.join(in_dir, "complex.pdb"), os.path.join(in_dir, "ligand.sdf"),
-        covalent, env.get("COV_LIG_ATOM", "C6"), int(env.get("COV_RESNUM", "551")), env.get("MUTATION", ""))
 
     import numpy as _np
     import time
@@ -434,14 +489,31 @@ def run_leg(env):
         equil_steps = int(equil_ns / dt_ns); prod_steps = int(prod_ns / dt_ns)
         stride = MD.frame_stride_steps()                       # ~10 ps frame cadence (timestep-independent)
     frames = max(1, prod_steps // stride)
-    chain_ids, e3_chains, target_chains, lys_nz = _topology_indices(topology)
 
     # --- checkpoint/resume: production is the multi-hour cost, so a spot preemption must not throw it away.
-    # A re-dispatched leg pulls the last saved state + readouts back from S3 and RESUMES the frame loop. ---
+    # A resume needs BOTH a valid production checkpoint AND the built-system snapshot that produced it (reloaded
+    # verbatim, never re-solvated). A checkpoint with no matching snapshot (a pre-fix leg) is un-resumable -> we
+    # drop it and restart the leg cleanly (and persist a snapshot this time so future preemptions resume). ---
     result_s3 = env.get("RESULT_S3")
     ckpt_every = max(1, int(env.get("CKPT_EVERY_FRAMES", "50")))
     state_path, cj_path = _ckpt_paths(out_dir, leg_id, seed)
+    built_paths = _built_paths(out_dir, leg_id, seed)
     resume = _load_resume(state_path, cj_path, result_s3, leg_id, seed)
+    reloaded = _load_built_system(built_paths, result_s3) if resume is not None else None
+    if resume is not None and reloaded is None:
+        print("[nrv04-md] checkpoint present but no matching built-system snapshot -> restarting leg from frame 0",
+              flush=True)
+        _rm_ckpt(state_path, cj_path, result_s3)
+        resume = None
+
+    if resume is not None:
+        sim, topology, meta = reloaded                         # exact persisted solvated system (atom count matches)
+    else:
+        sim, topology, meta = build_system(
+            os.path.join(in_dir, "complex.pdb"), os.path.join(in_dir, "ligand.sdf"),
+            covalent, env.get("COV_LIG_ATOM", "C6"), int(env.get("COV_RESNUM", "551")), env.get("MUTATION", ""))
+        _save_built_system(built_paths, sim, topology, meta, result_s3)   # persist so future preemptions can resume
+    chain_ids, e3_chains, target_chains, lys_nz = _topology_indices(topology)
 
     blew_up = False; blow_phase = None
     _timed_accum = 0.0; _wall_accum = 0.0

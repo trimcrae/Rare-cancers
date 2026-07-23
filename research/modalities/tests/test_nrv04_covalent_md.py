@@ -12,7 +12,9 @@ pytest.importorskip("numpy")
 
 from nrv04_covalent_md import (  # noqa: E402
     _aligned_iface_rmsd,
+    _built_paths,
     _ckpt_paths,
+    _load_built_system,
     _load_resume,
     interface_atom_indices,
     kabsch_rmsd,
@@ -80,6 +82,24 @@ def test_ckpt_resume_roundtrip_and_validation(tmp_path):
 
     _write(30, 100, phase="equil")                            # not yet in production -> do NOT resume
     assert _load_resume(state_path, cj_path, None, "cov_nr4a1", 0) is None
+
+
+def test_built_paths_names():
+    bp = _built_paths("/x", "cov_nr4a1", 2)
+    assert bp["system"].endswith("built_cov_nr4a1_s2.system.xml")
+    assert bp["cif"].endswith("built_cov_nr4a1_s2.solv.cif")
+    assert bp["meta"].endswith("built_cov_nr4a1_s2.built.json")
+
+
+def test_load_built_system_returns_none_without_snapshot(tmp_path):
+    """The poisoned-leg fallback: a checkpoint with NO matching built-system snapshot must return None so the
+    driver restarts the leg cleanly instead of resuming into a re-solvated (wrong atom count) system. This path
+    runs BEFORE any OpenMM import, so it works in the CI-lite env with no MD stack installed."""
+    bp = _built_paths(str(tmp_path), "cov_nr4a1", 0)
+    assert _load_built_system(bp, None) is None               # nothing on disk, no S3
+    # a partial snapshot (system XML present, cif/meta missing) is still un-resumable -> None
+    open(bp["system"], "w").write("<System/>")
+    assert _load_built_system(bp, None) is None
 
 
 def test_interface_selection_respects_cutoff():
