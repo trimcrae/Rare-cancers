@@ -538,10 +538,134 @@ def probe_offers():
     run(relaxed, "drop BOTH reliability + cuda (absolute floor for 24GB single-GPU)")
 
 
+# ---- throughput bench mode: run gpu_md_bench on a chosen Vast card to PRICE $/ns (3090-vs-4090 decision) ----
+# Reuses the proven Vast submit + self-destroy EXIT trap (VastBackend._vast_onstart): each bench instance tears
+# ITSELF down on exit by its own unique label, so it is safe alongside the live covalent panel (no stop_all).
+# gpu_md_bench builds a self-contained TIP3P water box sized by BENCH_EDGE_NM (7.1nm≈36k atoms≈an RBFE complex
+# leg; larger edges bracket the ternary ~100k and covalent ~466k systems) and prints one ns_per_day line.
+_BENCH_PREFIX = os.environ.get("VAST_BENCH_PREFIX", "vast-bench-results")
+
+_BENCH_PIPELINE = r"""
+set -eo pipefail
+export DEBIAN_FRONTEND=noninteractive
+command -v curl >/dev/null 2>&1 || { apt-get update -q || true; apt-get install -y -q --no-install-recommends curl ca-certificates || true; }
+if [ ! -x /opt/mamba/envs/md/bin/python ]; then
+  mkdir -p /opt/mamba/envs/md
+  curl -Ls "$ENV_TARBALL_URL" | tar xz -C /opt/mamba/envs/md
+  /opt/mamba/envs/md/bin/conda-unpack || true
+fi
+export PATH=/opt/mamba/envs/md/bin:$PATH
+PY=/opt/mamba/envs/md/bin/python
+AWS=/opt/mamba/envs/md/bin/aws
+curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
+cd Rare-cancers-*/research/modalities
+export OPENMM_REQUIRE_CUDA=1
+$PY autoteardown.py $PY gpu_md_bench.py 2>&1 | tee /tmp/bench.out || true
+grep BENCH_RESULT /tmp/bench.out | tail -1 > /tmp/bench.line || true
+$PY - <<'PYEOF'
+import json, os
+line = open("/tmp/bench.line").read().strip()
+d = {}
+for kv in line.split():
+    if "=" in kv:
+        k, v = kv.split("=", 1)
+        d[k] = v
+d["_raw"] = line
+d["gpu"] = os.environ.get("VAST_GPU_MODEL", "")
+d["edge_nm"] = os.environ.get("BENCH_EDGE_NM", "")
+json.dump(d, open("/tmp/bench.json", "w"), indent=2)
+PYEOF
+$AWS s3 cp /tmp/bench.json "$RESULT_S3/bench.json" || true
+$AWS s3 cp /tmp/bench.out "$RESULT_S3/bench.out" || true
+"""
+
+
+def build_bench_jobspec(tag, branch, bucket, env_tarball_url=None):
+    """PURE: JobSpec for one throughput bench (one card × one system size). No staging, no checkpoint/resume —
+    gpu_md_bench is seconds of compute; the instance self-destroys on exit."""
+    gpu = os.environ.get("VAST_GPU_MODEL") or "rtx4090"
+    env = {
+        "GIT_BRANCH": branch,
+        "RESULT_S3": f"s3://{bucket}/{_BENCH_PREFIX}/{tag}",
+        "BENCH_EDGE_NM": os.environ.get("BENCH_EDGE_NM", "7.1"),
+        "BENCH_STEPS": os.environ.get("BENCH_STEPS", "4000"),
+        "BENCH_WARMUP": os.environ.get("BENCH_WARMUP", "1000"),
+        "BENCH_TAG": tag,
+        "VAST_GPU_MODEL": gpu,
+    }
+    if env_tarball_url:
+        env["ENV_TARBALL_URL"] = env_tarball_url
+    pipeline = _BENCH_PIPELINE.replace("{repo}", REPO)
+    return JobSpec(
+        name=tag,
+        command=["bash", "-lc", pipeline],
+        image=VAST_IMAGE,
+        checkpoint_uri=f"s3://{bucket}/{_BENCH_PREFIX}/{tag}/ckpt",
+        resume=False,
+        resources=ResourceSpec(gpu=gpu, min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=40, interruptible=True),
+        max_runtime_s=int(os.environ.get("BENCH_MAX_RUNTIME_S", "2400")),
+        env=env,
+    )
+
+
+def bench(bucket):
+    """Submit ONE throughput bench leg (card = VAST_GPU_MODEL, size = BENCH_EDGE_NM) to Vast. Idempotent: skips
+    if a bench.json for this tag already exists in S3 or a live instance carries the label."""
+    branch = os.environ.get("GIT_BRANCH", "claude/next-expansion-priorities-t64njy")
+    gpu = os.environ.get("VAST_GPU_MODEL") or "rtx4090"
+    edge_nm = os.environ.get("BENCH_EDGE_NM", "7.1")
+    tag = os.environ.get("BENCH_TAG") or f"bench-{gpu}-{edge_nm}nm".replace(".", "p")
+    dry = os.environ.get("DRY_RUN", "0") == "1"
+    be = get_backend("vast")
+    env_url = None if dry else presign_env_tarball(bucket)
+    spec = build_bench_jobspec(tag, branch, bucket, env_tarball_url=env_url)
+    if dry:
+        print(f"[bench-dry] {spec.name}: gpu={spec.resources.gpu} edge={spec.env['BENCH_EDGE_NM']}nm "
+              f"steps={spec.env['BENCH_STEPS']} -> {spec.env['RESULT_S3']}", flush=True)
+        return 0
+    h = be.submit(spec)
+    print(f"[bench-submit] {spec.name} -> instance {h.job_id} gpu={gpu} edge={edge_nm}nm "
+          f"dph≈${h.extra.get('dph')}/hr", flush=True)
+    json.dump([{"unit": spec.name, "gpu": gpu, "edge_nm": edge_nm, "instance": h.job_id,
+                "dph": h.extra.get("dph")}], open("nrv04-vast-bench-handles.json", "w"), indent=2)
+    return 0
+
+
+def bench_collect(bucket):
+    """Read every vast-bench-results/*/bench.json + list live bench-* instances, and print a $/ns table
+    (ns_per_day is stamped by gpu_md_bench; combine with the live per-card $/hr from probe_offers for $/ns)."""
+    import boto3
+    s3 = boto3.client("s3")
+    key = os.environ.get("VAST_API_KEY")
+    insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
+    bench_up = [i for i in insts if (i.get("label") or "").startswith("bench-")]
+    print(f"[bench-collect] live bench-* instances: {len(bench_up)} "
+          f"(each self-destroys on exit; covalent panel untouched)", flush=True)
+    for i in bench_up:
+        print(f"[bench-collect]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
+              f"dph=${i.get('dph_total')}/hr", flush=True)
+    rows = []
+    for k in _s3_list(s3, bucket, f"{_BENCH_PREFIX}/", suffix="bench.json"):
+        try:
+            rows.append(json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode()))
+        except Exception:  # noqa: BLE001
+            continue
+    print(f"[bench-collect] {len(rows)} bench result(s):", flush=True)
+    for d in sorted(rows, key=lambda r: (str(r.get("gpu")), str(r.get("edge_nm")))):
+        print(f"  gpu={d.get('gpu')} edge={d.get('edge_nm')}nm atoms={d.get('atoms')} "
+              f"device={d.get('device')} platform={d.get('platform')} "
+              f"ns_per_day={d.get('ns_per_day')} status={d.get('status')}", flush=True)
+    return 0
+
+
 def main():
     bucket = os.environ.get("VAST_CKPT_BUCKET")
     if not bucket:
         raise SystemExit("[nrv04-launch] set VAST_CKPT_BUCKET (the reused S3 bucket)")
+    if os.environ.get("BENCH") == "1":
+        return bench(bucket)
+    if os.environ.get("BENCH_COLLECT") == "1":
+        return bench_collect(bucket)
     if os.environ.get("DISCOVER") == "1":
         discover_cofold(bucket)
         return 0

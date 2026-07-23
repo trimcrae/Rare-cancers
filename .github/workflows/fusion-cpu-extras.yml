@@ -21,9 +21,9 @@ on:
         type: boolean
         default: false
       vast_launch_mode:
-        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full"
+        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -45,6 +45,12 @@ on:
       pilot_seed:
         description: "nrv04_vast_launch pilot: which seed of cov_nr4a1 to run (distinguishes parallel bench runs)"
         default: "0"
+      bench_edge_nm:
+        description: "bench mode: TIP3P box edge (nm). 7.1≈36k atoms (RBFE leg); 9.5≈86k (ternary); 16.5≈460k (covalent)"
+        default: "7.1"
+      bench_steps:
+        description: "bench mode: timed production steps (4000≈16ps @4fs; enough for a stable ns/day)"
+        default: "4000"
 
 permissions:
   contents: write
@@ -335,6 +341,10 @@ jobs:
       STOP_ALL: ${{ github.event.inputs.vast_launch_mode == 'stop_all' && '1' || '0' }}
       DIAG: ${{ github.event.inputs.vast_launch_mode == 'diag' && '1' || '0' }}
       PROBE_OFFERS: ${{ github.event.inputs.vast_launch_mode == 'probe_offers' && '1' || '0' }}
+      BENCH: ${{ github.event.inputs.vast_launch_mode == 'bench' && '1' || '0' }}
+      BENCH_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'bench_collect' && '1' || '0' }}
+      BENCH_EDGE_NM: ${{ github.event.inputs.bench_edge_nm }}
+      BENCH_STEPS: ${{ github.event.inputs.bench_steps }}
       VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
       PILOT_SEED: ${{ github.event.inputs.pilot_seed }}
     steps:
