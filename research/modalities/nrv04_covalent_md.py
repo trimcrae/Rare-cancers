@@ -423,9 +423,23 @@ def _save_built_system(bp, sim, topology, meta, result_s3):
     json.dump(meta, open(bp["meta"], "w"))
     s3_ok = None
     if result_s3:
-        s3_ok = all(_s3_cp(p, f"{result_s3}/{os.path.basename(p)}") for p in bp.values())
-    # Observability: the S3 mirror is what a resume on a DIFFERENT host reads. If it fails, the leg would
-    # restart-from-0 on every preemption (never resume), so REPORT the mirror result explicitly.
+        # The snapshot S3 mirror is the ONE upload a resume on a different host depends on; a single transient
+        # failure (verified 2026-07-23: a 648k-atom snapshot returned ok=False on one host while an equal-size
+        # one succeeded on another) permanently blocks that leg from ever resuming -> it rebuilds from scratch
+        # every preemption. So RETRY each file a few times before giving up (a checkpoint upload can be lossy;
+        # this one must not be).
+        import time as _t
+        s3_ok = True
+        for p in bp.values():
+            dst = f"{result_s3}/{os.path.basename(p)}"
+            ok = False
+            for _a in range(3):
+                if _s3_cp(p, dst, timeout=900):
+                    ok = True
+                    break
+                _t.sleep(2 * (_a + 1))
+            s3_ok = s3_ok and ok
+    # Observability: if the mirror fails, the leg would restart-from-0 on every preemption (never resume).
     print(f"[nrv04-md] persisted built-system snapshot ({meta.get('n_atoms')} atoms) -> S3 ok={s3_ok}", flush=True)
 
 
