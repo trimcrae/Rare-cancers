@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 pytest.importorskip("numpy")
 
-from nrv04_covalent_md import interface_atom_indices, kabsch_rmsd  # noqa: E402
+from nrv04_covalent_md import _aligned_iface_rmsd, interface_atom_indices, kabsch_rmsd  # noqa: E402
 
 _REF = [(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)]
 
@@ -30,6 +30,18 @@ def test_kabsch_rejects_bad_shapes():
     for bad in ([], [(0, 0, 0)]):
         with pytest.raises(ValueError):
             kabsch_rmsd(bad, _REF)
+
+
+def test_aligned_iface_rmsd_returns_nan_on_nonfinite():
+    """A covalent-pull blow-up produces NaN coordinates; the R1 helper must return NaN (so the caller's
+    finite guard records a 'blew_up' outcome) instead of raising LinAlgError and crashing the whole leg."""
+    import math
+    ca = [(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)]
+    nan_ca = [(float("nan"), 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)]
+    assert math.isnan(_aligned_iface_rmsd(nan_ca, ca, nan_ca, ca))
+    assert math.isnan(_aligned_iface_rmsd(ca, nan_ca, ca, nan_ca))
+    # finite input still yields a real number (0 for identical frames)
+    assert abs(_aligned_iface_rmsd(ca, ca, ca, ca)) < 1e-6
 
 
 def test_interface_selection_respects_cutoff():
