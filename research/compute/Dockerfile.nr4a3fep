@@ -24,3 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ADD rbfe.tar.gz /opt/mamba/envs/rbfe/
 RUN /opt/mamba/envs/rbfe/bin/conda-unpack || true
 ENV PATH=/opt/mamba/envs/rbfe/bin:$PATH
+# conda-pack relocates the env, breaking OpenMM's compiled-in plugin dir so OpenFE's getPlatformByName("CUDA")
+# fails. Pin the plugin dir to this env so CUDA auto-loads for both our driver and OpenFE's internal calls.
+ENV OPENMM_PLUGIN_DIR=/opt/mamba/envs/rbfe/lib/plugins

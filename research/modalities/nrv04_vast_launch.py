@@ -716,6 +716,10 @@ set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
 command -v curl >/dev/null 2>&1 || { apt-get update -q||true; apt-get install -y -q --no-install-recommends curl ca-certificates||true; }
 export PATH=/opt/mamba/envs/rbfe/bin:$PATH
+# conda-pack relocation breaks OpenMM's compiled-in plugin dir -> OpenFE's internal getPlatformByName("CUDA")
+# fails ("no registered Platform called CUDA"). Point OPENMM_PLUGIN_DIR at this env's plugins so auto-load works
+# for BOTH our driver AND OpenFE's internal calls (verified root cause on the first firm run, 2026-07-23).
+export OPENMM_PLUGIN_DIR=/opt/mamba/envs/rbfe/lib/plugins
 PY=/opt/mamba/envs/rbfe/bin/python
 AWS=/opt/mamba/envs/rbfe/bin/aws
 command -v "$AWS" >/dev/null 2>&1 || AWS="$PY -m awscli"
@@ -853,7 +857,7 @@ def firm_collect(bucket):
             logkey = k.rsplit("/", 1)[0] + "/firm.log"
             try:
                 log = s3.get_object(Bucket=bucket, Key=logkey)["Body"].read().decode(errors="replace")
-                tail = "\n".join(log.splitlines()[-25:])
+                tail = "\n".join(log.splitlines()[-60:])
                 print(f"    --- firm.log tail ({logkey}) ---\n{tail}\n    --- end ---", flush=True)
             except Exception as e:  # noqa: BLE001
                 print(f"    (no firm.log: {e})", flush=True)
@@ -862,15 +866,27 @@ def firm_collect(bucket):
         now = time.time()
         max_age = int(os.environ.get("FIRM_MAX_AGE_MIN", "100")) * 60
         _terminal = ("exited", "offline", "stopped")
+        # keep the NEWEST instance per label; older same-label instances are stale duplicates (an errored run that
+        # lingered while a fresh re-dispatch started) -> reap. Also reap terminal + over-age. FIRM_STOP=1 reaps ALL
+        # firm-* (explicit cleanup). Never touches non-firm labels.
+        force_all = os.environ.get("FIRM_STOP") == "1"
+        newest = {}
+        for i in firm_up:
+            lab = i.get("label")
+            if lab not in newest or (i.get("start_date") or 0) > (newest[lab].get("start_date") or 0):
+                newest[lab] = i
+        keep = {id(v) for v in newest.values()} if not force_all else set()
         for i in firm_up:
             try:
                 age = now - float(i.get("start_date") or now)
             except (TypeError, ValueError):
                 age = 0
-            if (i.get("actual_status") or "") in _terminal or age > max_age:
+            dup = id(i) not in keep
+            if force_all or dup or (i.get("actual_status") or "") in _terminal or age > max_age:
                 try:
                     _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
-                    print(f"[firm-collect] destroyed {i.get('id')} ({i.get('label')})", flush=True)
+                    why = "force" if force_all else ("duplicate" if dup else "terminal/over-age")
+                    print(f"[firm-collect] destroyed {i.get('id')} ({i.get('label')}) — {why}", flush=True)
                 except Exception as e:  # noqa: BLE001
                     print(f"[firm-collect] WARN destroy {i.get('id')} failed: {e}", flush=True)
     return 0
