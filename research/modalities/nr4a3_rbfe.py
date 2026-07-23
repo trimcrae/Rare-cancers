@@ -1143,6 +1143,21 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
     def _gsh(*args):
         return _sub.run(["gcloud", "storage", *args], capture_output=True, text=True)
 
+    def _gcs_upload(local_path, gs_uri):
+        """Upload one file via the google-cloud-storage PYTHON client (clean single resumable upload). The gcloud
+        CLI's `storage cp` uses a parallel-composite path for the large hybrid_system.xml.bz2 that fails opaquely
+        with GcsApiError('') (empty message, non-retryable) — the python client does a plain upload and sidesteps
+        it. Auth is ADC (WIF on the runner / SA on the VM). Returns (ok, err_repr)."""
+        try:
+            from google.cloud import storage as _gcs
+            if not gs_uri.startswith("gs://"):
+                return False, "not a gs:// uri: %s" % gs_uri
+            bkt, _, key = gs_uri[5:].partition("/")
+            _gcs.Client().bucket(bkt).blob(key).upload_from_filename(local_path)
+            return True, ""
+        except Exception as e:  # noqa: BLE001
+            return False, repr(e)
+
     _cache_root = os.environ.get("RBFE_SETUP_CACHE_GCS")
     _cache_ver = os.environ.get("SETUP_CACHE_VERSION", "v1")
     _charge = os.environ.get("CHARGE_METHOD", "am1bcc")
@@ -1225,20 +1240,21 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                 for f in upload + ["objs.pkl", "manifest.json"]:
                     _last = None
                     for _attempt in range(8):
-                        # Force a fixed content-type so gcloud does NOT sniff the extension (.bz2/.npy/.xml) and
-                        # negotiate a Content-Encoding/transcoding that has repeatedly surfaced as an opaque
-                        # GcsApiError('') on hybrid_system.xml.bz2; --no-clobber off (default). Longer exponential
-                        # backoff covers a transient 429/503 window. On give-up, print the FULL stderr (not the
-                        # 200-char tail) so a persistent cause is actually diagnosable.
+                        # PRIMARY: python GCS client (plain upload, avoids the gcloud parallel-composite path that
+                        # fails opaquely with GcsApiError('') on the large hybrid_system.xml.bz2). FALLBACK: gcloud
+                        # CLI cp with a fixed content-type. Longer exponential backoff covers a transient 429/503.
+                        ok, _perr = _gcs_upload(str(loc / f), cache_dir + "/" + f)
+                        if ok:
+                            break
                         r = _gsh("cp", "--content-type=application/octet-stream", str(loc / f), cache_dir + "/" + f)
                         if r.returncode == 0:
                             break
-                        _last = (r.stderr or "")
+                        _last = "pyclient=%s | gcloud=%s" % (_perr, (r.stderr or ""))
                         print("  [spot-safe] cache upload %s attempt %d failed (%s); retrying"
-                              % (f, _attempt + 1, _last[-200:]), flush=True)
+                              % (f, _attempt + 1, _last[-240:]), flush=True)
                         time.sleep(min(60, 5 * (2 ** _attempt)))
                     else:
-                        print("  [spot-safe] cache upload %s FULL stderr:\n%s" % (f, _last), flush=True)
+                        print("  [spot-safe] cache upload %s FULL error:\n%s" % (f, _last), flush=True)
                         raise RuntimeError("cp %s after 8 retries: %s" % (f, _last[-200:]))
                 print("  [spot-safe] SETUP cached to %s (a re-dispatch after preemption now skips the rebuild)"
                       % cache_dir, flush=True)
