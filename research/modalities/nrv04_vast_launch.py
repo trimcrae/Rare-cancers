@@ -370,13 +370,21 @@ def stop_all():
     key = os.environ.get("VAST_API_KEY")
     if not key:
         raise SystemExit("[stop] VAST_API_KEY not set")
+    import time
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
     print(f"[stop] {len(insts)} instance(s) to destroy", flush=True)
-    for i in insts:
+    failed = []
+    for n, i in enumerate(insts):
         iid = i.get("id")
-        _vast_request("DELETE", f"/instances/{iid}/", key)
-        print(f"[stop] destroyed {iid} ({i.get('label')})", flush=True)
-    print("[stop] done", flush=True)
+        if n:
+            time.sleep(0.5)                                    # stay under Vast's ~3 req/s DELETE limit (the 429
+        try:                                                   # retry in _vast_request is the backstop for this)
+            _vast_request("DELETE", f"/instances/{iid}/", key)
+            print(f"[stop] destroyed {iid} ({i.get('label')})", flush=True)
+        except Exception as e:  # noqa: BLE001 — don't let one failed DELETE abort the whole sweep
+            failed.append(iid); print(f"[stop] WARN destroy {iid} failed: {e}", flush=True)
+    print(f"[stop] done ({len(insts) - len(failed)}/{len(insts)} destroyed"
+          + (f", {len(failed)} FAILED: {failed}" if failed else "") + ")", flush=True)
 
 
 def build_jobspec(leg, seed, mode, branch, bucket, env_tarball_url=None):
