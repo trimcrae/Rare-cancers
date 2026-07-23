@@ -349,15 +349,15 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
 - **`[ ]` Validation B-full — full noncovalent ternary benchmark** *(valB_full · GPU)* — **Price: ~$80–200 · Cum. ~$255**
   Complete VHL–BRD4/SMARCA2 series; **fixes the preregistered ternary scoring rules.** **GATE:** the prospective
   matrix never runs unless this passes. **GO/NO-GO:** recovers known ternary cooperativity ranking → GO.
-- **`[~]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU · Vast)* — **Price: MEASURED ~$0.41/leg → ~$7.3 for the 18-leg panel (was estimated $40–100 — ~10–13× too high; superseded) · Cum. ~$255**
+- **`[~]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU · Vast)* — **Price: MEASURED ~$0.4–0.65/leg (mean ~$0.5) → ~$9 for the 18-leg panel (was estimated $40–100 — ~an order of magnitude too high; superseded) · Cum. ~$255**
   Covalent celastrol–NR4A1 (C551) adduct + noncov/cov sensitivity + C551A + warhead/recruiter controls.
   18 legs (6 systems × 3 seeds), 6 ns each (1 ns equil + 5 ns prod), ~466k atoms.
-  **MEASURED cost (2026-07-23, first completed leg `noncov_nr4a1-s0`):** RTX 3090 on Vast, interruptible
-  **bid $0.0789/hr** (`min_bid`×1.1); billed on `dph_total` ≈ $0.10–0.16/hr (bid + host storage/inet). One full
-  6 ns leg = **~2 h production (60.8 ns/day) + ~load/equil → $0.4072/leg measured → ~$7.3 for 18 legs.** (Bid, GPU,
-  throughput, and per-leg $ are all MEASURED now; the panel mean refines as the remaining legs complete.) The old
-  $40–100 assumed a pricier GPU-hour; on the bandwidth-bound 3090 at spot the panel is ~an order of magnitude
-  cheaper. **Downstream Cum. figures shift down ~$60 accordingly.**
+  **MEASURED cost (2026-07-23, 4 completed legs so far):** RTX 3090 on Vast, interruptible **bid $0.0789/hr**
+  (`min_bid`×1.1); billed on `dph_total` ≈ **$0.10–0.16/hr** (bid + each host's storage/inet — this spread, not the
+  bid, drives per-leg cost). A full 6 ns leg = ~2 h production (~45–61 ns/day) + load/equil; realized per-leg costs
+  span **$0.37–0.64 (mean ~$0.5)** → **~$9 for the 18-leg panel** (the S3-persisted ledger firms the mean as legs
+  finish). The old $40–100 assumed a pricier GPU-hour; on the bandwidth-bound 3090 at spot the panel is ~an order
+  of magnitude cheaper. **Downstream Cum. figures shift down ~$55 accordingly.**
   **Pipeline PROVEN end-to-end** (first clean leg: no blow-up, R1 stable + R2 recruited), with checkpoint/resume
   (portable OpenMM state → S3 every 50 frames) + idempotent re-dispatch so a spot preemption resumes, not restarts.
   Covalent-pull blow-up (the stiff C6→Sγ restraint across the co-fold's ~7.4 Å gap) is handled by minimize +
