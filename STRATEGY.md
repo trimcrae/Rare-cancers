@@ -208,8 +208,10 @@ OpenFE/RBFE runs on GCP *or* Vast, and so does endpoint MD. Always pick by **cos
   below-floor bid leaves the box *created-but-stopped* (measured 2026-07-23, a cheap 3090 sat "loading" 13 min).
   On Vast you pay your bid and `min_bid` IS the interruptible price, so floor×1.1 is both cheapest and reliably
   runnable. Preemptions are routine → absorbed by per-unit checkpoint + re-dispatch (baked image ⇒ ~3-min reboot).
-- **Filter `cuda_max_good ≥ 12.4`** — the host **driver** must JIT our conda OpenMM CUDA plugin's PTX, else
-  `CUDA_ERROR_UNSUPPORTED_PTX_VERSION` (measured). Also filter `reliability2 ≥ 0.90`, require ≥24 GB VRAM, **rank
+- **Filter `cuda_max_good ≥ 13.0`** — our conda OpenMM is a CUDA-13 build, so its plugin PTX FAILS TO JIT on
+  <13.0-driver hosts with `CUDA_ERROR_UNSUPPORTED_PTX_VERSION` (measured 2026-07-23: even an Ampere 3090 on a
+  12.x-driver host crashed). Cheap 3090s exist at cuda_max 13.0-13.2, so the floor stays cheap. Also filter
+  `reliability2 ≥ 0.90`, require ≥24 GB VRAM, **rank
   offers by `min_bid`** (the true interruptible cost). `ResourceSpec.gpu` is per-run (override: `VAST_GPU_MODEL`)
   and falls back to any capable card if the preferred model is scarce.
 

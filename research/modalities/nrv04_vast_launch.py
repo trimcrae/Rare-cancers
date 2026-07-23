@@ -219,8 +219,8 @@ def diag():
     print(f"[diag] {len(insts)} instance(s)", flush=True)
     # keys most informative about why an instance is stuck in 'loading'
     status_keys = ["id", "label", "actual_status", "cur_state", "intended_status", "status_msg", "gpu_name",
-                   "inet_down", "inet_up", "reliability2", "start_date", "image_uuid", "image_runtype",
-                   "cur_gpu_util", "cpu_util", "disk_util", "dlperf"]
+                   "cuda_max_good", "cuda_version", "driver_version", "inet_down", "reliability2", "start_date",
+                   "image_uuid", "image_runtype", "cur_gpu_util", "cpu_util", "disk_util", "dlperf"]
     for i in insts:
         print(f"\n===== instance {i.get('id')} ({i.get('label')}) status={i.get('actual_status')} =====", flush=True)
         print("[diag] status: " + json.dumps({k: i.get(k) for k in status_keys}), flush=True)

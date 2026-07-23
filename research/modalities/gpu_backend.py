@@ -41,9 +41,12 @@ class ResourceSpec:
     disk_gb: int = 40             # host disk floor (container + trajectories/checkpoints)
     min_reliability: float = 0.90  # skip flaky hosts (Vast reliability2 in [0,1]); preemption we tolerate, crashes we don't
     interruptible: bool = True    # our per-unit checkpointing tolerates interruption -> take the cheap (bid) tier
-    min_cuda: float = 12.4        # host DRIVER must support >= this CUDA (Vast cuda_max_good). Our conda OpenMM CUDA
-                                  # plugin's PTX needs a new-enough driver — an old host raised
-                                  # CUDA_ERROR_UNSUPPORTED_PTX_VERSION (verified 2026-07-22). Matches the 12.4 image.
+    min_cuda: float = 13.0        # host DRIVER's cuda_max_good must be >= this. Our conda OpenMM is a CUDA-13 build,
+                                  # so its CUDA-plugin PTX FAILS TO JIT on 12.x drivers with
+                                  # CUDA_ERROR_UNSUPPORTED_PTX_VERSION — verified 2026-07-23 that even an Ampere 3090
+                                  # on a <13.0 host crashed. Probe shows cheap 3090s at cuda_max 13.0-13.2, so this
+                                  # keeps the price low while guaranteeing the PTX loads. (Raise if a 13.0 host still
+                                  # fails, i.e. OpenMM is >13.0.)
 
 
 @dataclass
