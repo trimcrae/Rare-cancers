@@ -609,25 +609,43 @@ def build_bench_jobspec(tag, branch, bucket, env_tarball_url=None):
 
 
 def bench(bucket):
-    """Submit ONE throughput bench leg (card = VAST_GPU_MODEL, size = BENCH_EDGE_NM) to Vast. Idempotent: skips
-    if a bench.json for this tag already exists in S3 or a live instance carries the label."""
+    """Submit throughput bench leg(s) to Vast. BENCH_GRID (comma-sep 'gpu:edge_nm' pairs, e.g.
+    'rtx4090:9.5,rtx3090:9.5,rtx4090:16.5') submits the whole grid in ONE dispatch (avoids the workflow's
+    concurrency group cancelling rapid single dispatches). Else a single (VAST_GPU_MODEL, BENCH_EDGE_NM) leg.
+    Each leg self-destroys on exit; idempotent enough for a bench (a stale same-tag bench.json is overwritten)."""
     branch = os.environ.get("GIT_BRANCH", "claude/next-expansion-priorities-t64njy")
-    gpu = os.environ.get("VAST_GPU_MODEL") or "rtx4090"
-    edge_nm = os.environ.get("BENCH_EDGE_NM", "7.1")
-    tag = os.environ.get("BENCH_TAG") or f"bench-{gpu}-{edge_nm}nm".replace(".", "p")
     dry = os.environ.get("DRY_RUN", "0") == "1"
+    grid_env = (os.environ.get("BENCH_GRID") or "").strip()
+    if grid_env:
+        grid = []
+        for pair in grid_env.split(","):
+            pair = pair.strip()
+            if not pair:
+                continue
+            gpu, _, edge = pair.partition(":")
+            grid.append((gpu.strip() or "rtx4090", edge.strip() or "7.1"))
+    else:
+        grid = [(os.environ.get("VAST_GPU_MODEL") or "rtx4090", os.environ.get("BENCH_EDGE_NM", "7.1"))]
     be = get_backend("vast")
     env_url = None if dry else presign_env_tarball(bucket)
-    spec = build_bench_jobspec(tag, branch, bucket, env_tarball_url=env_url)
-    if dry:
-        print(f"[bench-dry] {spec.name}: gpu={spec.resources.gpu} edge={spec.env['BENCH_EDGE_NM']}nm "
-              f"steps={spec.env['BENCH_STEPS']} -> {spec.env['RESULT_S3']}", flush=True)
-        return 0
-    h = be.submit(spec)
-    print(f"[bench-submit] {spec.name} -> instance {h.job_id} gpu={gpu} edge={edge_nm}nm "
-          f"dph≈${h.extra.get('dph')}/hr", flush=True)
-    json.dump([{"unit": spec.name, "gpu": gpu, "edge_nm": edge_nm, "instance": h.job_id,
-                "dph": h.extra.get("dph")}], open("nrv04-vast-bench-handles.json", "w"), indent=2)
+    handles = []
+    for gpu, edge_nm in grid:
+        tag = f"bench-{gpu}-{edge_nm}nm".replace(".", "p")
+        # per-leg overrides consumed by build_bench_jobspec via env
+        os.environ["VAST_GPU_MODEL"] = gpu
+        os.environ["BENCH_EDGE_NM"] = edge_nm
+        spec = build_bench_jobspec(tag, branch, bucket, env_tarball_url=env_url)
+        if dry:
+            print(f"[bench-dry] {spec.name}: gpu={gpu} edge={edge_nm}nm steps={spec.env['BENCH_STEPS']} "
+                  f"-> {spec.env['RESULT_S3']}", flush=True)
+            continue
+        h = be.submit(spec)
+        print(f"[bench-submit] {spec.name} -> instance {h.job_id} gpu={gpu} edge={edge_nm}nm "
+              f"dph≈${h.extra.get('dph')}/hr", flush=True)
+        handles.append({"unit": spec.name, "gpu": gpu, "edge_nm": edge_nm, "instance": h.job_id,
+                        "dph": h.extra.get("dph")})
+    if handles:
+        json.dump(handles, open("nrv04-vast-bench-handles.json", "w"), indent=2)
     return 0
 
 

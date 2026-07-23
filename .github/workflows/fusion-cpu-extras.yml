@@ -51,6 +51,9 @@ on:
       bench_steps:
         description: "bench mode: timed production steps (4000≈16ps @4fs; enough for a stable ns/day)"
         default: "4000"
+      bench_grid:
+        description: "bench mode: comma-sep gpu:edge_nm pairs to launch in ONE dispatch (e.g. rtx4090:9.5,rtx3090:9.5). Blank = single leg from vast_gpu+bench_edge_nm"
+        default: ""
 
 permissions:
   contents: write
@@ -401,6 +404,7 @@ jobs:
       BENCH_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'bench_collect' && '1' || '0' }}
       BENCH_EDGE_NM: ${{ github.event.inputs.bench_edge_nm }}
       BENCH_STEPS: ${{ github.event.inputs.bench_steps }}
+      BENCH_GRID: ${{ github.event.inputs.bench_grid }}
       VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
       PILOT_SEED: ${{ github.event.inputs.pilot_seed }}
     steps:
