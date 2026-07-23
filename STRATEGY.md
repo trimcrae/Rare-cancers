@@ -199,15 +199,18 @@ OpenFE/RBFE runs on GCP *or* Vast, and so does endpoint MD. Always pick by **cos
 
 | Workload | Vast | GCP |
 |---|---|---|
-| **Large endpoint MD** (NR-V04 covalent panel, ~466k atoms; bandwidth-bound) | **RTX 3090** — measured **~$0.079/hr** (min_bid×1.1), ~70% under a 4090 & under GCP L4 spot | L4 (quota'd) |
+| **Large endpoint MD** (NR-V04 covalent panel, ~466k atoms; bandwidth-bound) | **RTX 3090** — bid `min_bid×1.5` (~$0.08–0.11/hr GPU; was ×1.1 → $0.079 but preemption-churned), ~70% under a 4090 & under GCP L4 spot | L4 (quota'd) |
 | **OpenFE RBFE / ternary FEP** (alchemical; smaller/compute-bound) | **RTX 4090** — compute matters here; cheapest eligible ~$0.144/hr (probe 2026-07-22) | **L4** (valA/valB ran here); L40S if available |
 | Prep / co-fold assembly / analysis (CPU-bound) | run on **CI** (free), not a GPU | run on CI (free) |
 
-**Vast bid + host policy** (`research/modalities/gpu_backend.py`; env-tunable):
-- **Bid = `min_bid × 1.1`** — a small margin *above* the market floor. **Never cap the bid below `min_bid`** — a
-  below-floor bid leaves the box *created-but-stopped* (measured 2026-07-23, a cheap 3090 sat "loading" 13 min).
-  On Vast you pay your bid and `min_bid` IS the interruptible price, so floor×1.1 is both cheapest and reliably
-  runnable. Preemptions are routine → absorbed by per-unit checkpoint + re-dispatch (baked image ⇒ ~3-min reboot).
+**Vast bid + host policy** (`research/modalities/gpu_backend.py`; env-tunable via `VAST_BID_FLOOR_MULT`):
+- **Bid = `min_bid × 1.5`** — a margin *above* the market floor so the box wins AND **holds** its slot. **Never cap
+  the bid below `min_bid`** — a below-floor bid leaves the box *created-but-stopped* (measured 2026-07-23, a cheap
+  3090 sat "loading" 13 min). On Vast you PAY YOUR BID; the multiplier trades a little $/hr for far fewer
+  preemptions. **Raised 1.1→1.5 on 2026-07-23:** at `×1.1` the preemption-prone legs churned (a covalent leg sat at
+  frame 100 for ~3 h, repeatedly re-bought + reloading), because the baked image is ~6 GiB and reloads in **~20 min**
+  (not the "~3-min" once assumed) — so each preemption is expensive and a floor-hugging bid is *false economy*.
+  Preemptions that still happen are absorbed by per-unit checkpoint + idempotent re-dispatch (resume, not restart).
 - **PIN the env to `cuda-version=12.6` + filter `cuda_max_good ≥ 12.6`** — the *unpinned* env pulled a too-new
   CUDA-13+ OpenMM whose plugin PTX won't JIT on ANY host driver (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION`; measured
   2026-07-23, even `cuda_max_good ≥ 13.0` hosts crashed). Chasing bleeding-edge-driver hosts is the wrong fix —

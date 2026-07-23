@@ -163,14 +163,15 @@ def test_vast_selects_cheapest_capable_verified_offer():
     assert chosen["id"] == 2                                       # cheapest that meets VRAM + single-GPU + rentable
 
 
-def test_vast_bid_price_is_small_margin_above_floor():
-    # bid a small margin ABOVE the floor (min_bid) — cheap, and always runnable
-    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.30}) == 0.11   # 0.10 * 1.1
+def test_vast_bid_price_is_margin_above_floor():
+    # bid a margin ABOVE the floor (min_bid) so the box wins AND HOLDS its slot (fewer preemptions -> fewer
+    # ~20-min fat-image reloads); still cheap and always runnable. Default multiplier is 1.5 (see gpu_backend).
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.30}) == 0.15   # 0.10 * 1.5
     # cheap 3090 host where min_bid == dph_base (no interruptible discount): bid must stay ABOVE min_bid, NOT be
     # capped below it (the below-floor cap left the box created-but-stopped, verified 2026-07-23)
-    assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}) == 0.088  # 0.08 * 1.1 >= floor, runnable
-    assert _vast_bid_price({"min_bid": 0.24, "dph_base": 0.2933}) == 0.264  # 0.24 * 1.1
-    assert _vast_bid_price({"min_bid": 0, "dph_base": 0.30}) == 0.33      # no floor -> fall back to base*1.1
+    assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}) == 0.12   # 0.08 * 1.5 >= floor, runnable
+    assert _vast_bid_price({"min_bid": 0.24, "dph_base": 0.2933}) == 0.36  # 0.24 * 1.5
+    assert _vast_bid_price({"min_bid": 0, "dph_base": 0.30}) == 0.45      # no floor -> fall back to base*1.5
     assert _vast_bid_price({}) is None                            # no pricing -> no bid
 
 

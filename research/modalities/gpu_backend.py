@@ -255,18 +255,23 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
 # INTERRUPTIBLE BID = a small margin above the market FLOOR (min_bid), never above on-demand. On Vast you pay
 # your bid, so bidding 1.25x the on-demand base (the old rule) meant paying MORE than on-demand — defeating the
 # whole point of interruptible. That was an over-correction to mid-boot preemptions back when boot was the ~25-min
-# conda solve; now the env is BAKED (~3-min boot) and every unit checkpoints, so a preemption costs only a short
-# re-boot we absorb via re-dispatch/resume (the "spot preemptions are routine" rule). So bid low and, if a host
-# preempts us, wait it out / re-dispatch — do NOT bid up toward on-demand. Tunable via env for a contested run.
-_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.1"))   # small margin above min_bid to win+hold
+# Bid a modest margin ABOVE the market floor (min_bid). Earlier reasoning assumed a "~3-min boot" made preemptions
+# cheap, so it bid barely above floor (x1.1) — but MEASURED reality (2026-07-23 NR-V04 panel) is the baked CUDA-12
+# image is ~6 GiB and reloads in ~20 min, so each preemption is EXPENSIVE, and a floor-hugging bid churned the
+# preemption-prone legs (a covalent leg sat at frame 100 for ~3 h, re-bought+reloading repeatedly). On Vast you PAY
+# YOUR BID, so a higher multiple costs a little more $/hr but is preempted far less -> for a fat-image job it's
+# cheaper OVERALL (each avoided ~20-min reload > the small rate bump). x1.5 sits comfortably above the floor without
+# approaching on-demand. Still checkpoint + re-dispatch/resume on the preemptions that do happen. Tunable via env.
+_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.5"))   # margin above min_bid to win+HOLD
 
 
 def _vast_bid_price(offer: dict):
     """Interruptible bid $/hr = a small margin ABOVE the market floor (min_bid) so the box reliably wins a slot and
     holds. It MUST stay >= min_bid: a below-floor bid leaves the instance created-but-stopped (verified 2026-07-23
     — an 'always under on-demand' cap fell BELOW min_bid on cheap 3090 hosts where min_bid==dph_base, so the box
-    never started). On Vast you pay your bid and min_bid IS the interruptible market price, so floor*1.1 is both
-    cheap and reliable. (Selection already ranks by min_bid, so we never land on an expensive-floor host.) PURE."""
+    never started). On Vast you pay your bid and min_bid IS the interruptible market price; floor*1.5 stays cheap
+    while holding the slot far better than floor-hugging (see _VAST_BID_FLOOR_MULT — the ~20-min fat-image reload
+    makes preemptions expensive). (Selection already ranks by min_bid, so we never land on an expensive-floor host.) PURE."""
     try:
         floor = float(offer.get("min_bid") or 0.0)
         base = float(offer.get("dph_base") or offer.get("dph_total") or 0.0)
