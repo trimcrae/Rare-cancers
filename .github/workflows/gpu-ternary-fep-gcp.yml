@@ -250,8 +250,26 @@ jobs:
           done <<< "$SEL"
           echo "=== running forensic inspector ==="
           micromamba run -n omm python research/modalities/rbfe_ckpt_forensic.py /tmp/forensic --newest "$NEWEST"
+      - name: Reduce coop cycle (mode=reduce — CPU/runner-only, NO GPU/VM)
+        # The reducer (ternary_fep_reduce.py) is pure-Python: it globs the per-leg result JSONs, forms
+        # ddG_coop = (ternary−solvent)−(binary−solvent) with replicate-SD errors, and emits the valB calibration
+        # gate. It needs NO GPU and NO conda env, so it runs directly on the runner. (Before this, mode=reduce
+        # silently fell through to TMODE=smoke in the provision step and spun a pointless GPU VM — fixed 2026-07-23.)
+        if: ${{ github.event.inputs.mode == 'reduce' }}
+        run: |
+          set -eo pipefail
+          BUCKET="${PROJECT}-rbfe-ckpt"; RESULTS="gs://$BUCKET/valB-6hax/results"
+          mkdir -p /tmp/legs
+          echo "=== pulling leg result JSONs from $RESULTS ==="
+          gcloud storage cp "$RESULTS/leg_*.json" /tmp/legs/ 2>/tmp/cperr || { echo "no leg JSONs found (honest empty reduce):"; cat /tmp/cperr; }
+          echo "=== leg JSONs present ==="; ls -1 /tmp/legs/ 2>/dev/null || echo "(none)"
+          echo "=== running reducer (CPU) ==="
+          ( cd research/modalities && CKPT_DIR=/tmp/legs INPUT_DIR=/tmp/legs python3 ternary_fep_reduce.py )
+          echo "=== [REDUCE-RESULT] ternary_coop_reduction.json ==="
+          python3 -c "import json;d=json.load(open('/tmp/legs/ternary_coop_reduction.json'));print(json.dumps({k:d[k] for k in ('valB_calibration_gate','valB_calibration_decision','n_available_morphs') if k in d}, indent=2))" 2>/dev/null || cat /tmp/legs/ternary_coop_reduction.json
+          gcloud storage cp /tmp/legs/ternary_coop_reduction.json "$RESULTS/ternary_coop_reduction.json" 2>/dev/null && echo "[reduce] uploaded reduction to $RESULTS/" || true
       - name: Reset committed checkpoints (fresh start on timestep change)
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.reset_commits == '1' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.reset_commits == '1' }}
         run: |
           set -eo pipefail
           BUCKET="${PROJECT}-rbfe-ckpt"
@@ -259,7 +277,7 @@ jobs:
           echo "reset_commits=1 -> wiping $CB (a new-timestep run must not resume a stale-dt trajectory)"
           gcloud storage rm --recursive "$CB/" 2>/dev/null && echo "commits wiped" || echo "(no commits to wipe)"
       - name: Provision Spot L4 VM + run ternary-FEP
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' }}
         run: |
           set -eo pipefail
           VM="gcp-ternary-${GITHUB_RUN_ID}"
@@ -420,6 +438,9 @@ jobs:
             exit 0    # EXIT trap self-deletes the VM
           fi
 
+          # Guard: only these modes legitimately run MD on the VM. Any other mode reaching here is a mis-route
+          # (e.g. the old mode=reduce silent-smoke bug) — FAIL LOUDLY rather than burn a GPU on a pointless smoke.
+          case "$MODE" in smoke|run|preequil|endpoint_smoke) ;; *) echo "::error::mode=$MODE is not a VM/MD mode — refusing to provision a GPU (did you mean the CPU reduce/tail/forensic path?)"; exit 1;; esac
           TMODE=smoke; [ "$MODE" = run ] && TMODE=run
           # SPOT-SAFE commit store (mode=run only): the MultiState sampling commits per-interval to this versioned
           # GCS prefix so a re-dispatch on a fresh VM RESUMES from the last committed iteration instead of from
@@ -564,14 +585,14 @@ jobs:
           echo "TFEP RESULT: $RES"
 
       - name: Teardown (skip for detached — the VM must keep running)
-        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' }}
         run: |
           if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (7h max-run backstop; tail deletes when done)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
       - name: Result summary
-        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' }}
         run: |
           echo "mode=$MODE leg=$LEG_ID"
           if [ "${DETACHED:-0}" = 1 ]; then echo "🚀 DETACHED: $VM running the leg independently -> GCS; monitor via gpu-rbfe-gcp-tail vm=$VM"; exit 0; fi
