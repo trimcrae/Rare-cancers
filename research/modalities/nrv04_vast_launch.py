@@ -563,7 +563,10 @@ def main():
         vk = os.environ.get("VAST_API_KEY")
         try:
             live = _vast_request("GET", "/instances/", vk, params={"owner": "me"}).get("instances", [])
-            skip_live = {i.get("label") for i in live if i.get("label")}
+            # only skip ACTIVELY-alive instances; an 'exited'/'stopped' one isn't doing the work (the mock
+            # teardown leaves crashed/preempted containers lingering as 'exited'), so it SHOULD be relaunched
+            _alive = ("running", "loading", "created", "scheduling", "starting")
+            skip_live = {i.get("label") for i in live if i.get("label") and (i.get("actual_status") or "") in _alive}
         except Exception as e:  # noqa: BLE001
             print(f"[nrv04-launch] WARN could not list live instances ({e}); not skipping any", flush=True)
         try:
