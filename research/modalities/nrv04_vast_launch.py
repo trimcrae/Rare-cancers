@@ -310,6 +310,18 @@ def collect(bucket, autostop=None):
         # (240 min: a 6 ns leg at the MEASURED ~44-61 ns/day = ~2.3-2.6 h + ~20 min load ~= 155 min, so 240 leaves
         #  margin for a spot-wait; the earlier 100 was PREMATURELY killing healthy legs — checkpoints made them
         #  recoverable but a re-dispatch was needed. Do NOT drop this below ~180.)
+        # A label with >1 live instance is a DUPLICATE (relaunching a leg whose 'exited' container lingered under
+        # the mock teardown, then Vast re-scheduled the old one) -> two instances double-compute the same leg and
+        # clobber its S3 checkpoint. Keep ONE per label (a 'running' one, else the newest) and reap the rest.
+        _by_label = {}
+        for i in insts:
+            _by_label.setdefault(i.get("label"), []).append(i)
+        _keep_ids = set()
+        for _lab, _grp in _by_label.items():
+            _best = sorted(_grp, key=lambda x: ((x.get("actual_status") != "running"), -(x.get("start_date") or 0)))[0]
+            _keep_ids.add(id(_best))
+        _terminal = ("exited", "offline", "stopped")           # dead containers (mock teardown never destroyed them)
+        _stop_throttle = 0
         for i in insts:                                             # a crashed/idle instance (driver failed at build,
             label = i.get("label")                                  # teardown fell through) would otherwise bleed
             try:
@@ -318,11 +330,17 @@ def collect(bucket, autostop=None):
                 up_s = 0
             done = label in done_units
             over_age = up_s > max_leg_s
-            if done or over_age:
+            terminal = (i.get("actual_status") or "") in _terminal
+            extra = id(i) not in _keep_ids                         # a duplicate (not the kept instance for its label)
+            if done or over_age or terminal or extra:
+                if _stop_throttle:
+                    time.sleep(0.5)                                # stay under Vast's ~3 req/s DELETE limit
+                _stop_throttle += 1
                 try:
                     _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
                     stopped.append(i.get("id"))
-                    why = "result-in-S3" if done else f"exceeded {max_leg_s // 60}min (idle/crashed backstop)"
+                    why = ("result-in-S3" if done else "terminal-state" if terminal else "duplicate-instance"
+                           if extra else f"exceeded {max_leg_s // 60}min (idle/crashed backstop)")
                     print(f"[collect] auto-stopped {i.get('id')} ({label}) — {why}", flush=True)
                 except Exception as e:  # noqa: BLE001
                     print(f"[collect] WARN auto-stop {i.get('id')} failed: {e}", flush=True)
