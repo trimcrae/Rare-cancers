@@ -250,12 +250,34 @@ def collect(bucket, autostop=None):
     keys = _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix=".json")
     done_units = {k.split("/")[-2] for k in keys if k.rsplit("/", 1)[-1].startswith("leg_")}
     results = []
-    for k in keys:
+    for k in keys:                                             # ONLY the completed leg_*.json are 'results';
+        if not k.rsplit("/", 1)[-1].startswith("leg_"):        # skip in-progress ckpt_*.ckpt.json (huge per-frame
+            continue                                           # arrays) so the collect output stays compact
         body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode()
         try:
             results.append(json.loads(body))
         except Exception:  # noqa: BLE001
             results.append({"key": k, "bytes": len(body)})
+    # compact in-progress checkpoint summary (proves checkpointing + shows per-leg production progress + the
+    # covalent-pull energies, WITHOUT dumping the giant per-frame arrays the checkpoint JSON carries)
+    ckpt_progress = {}
+    for ck in keys:
+        if not ck.rsplit("/", 1)[-1].endswith(".ckpt.json"):
+            continue
+        unit = ck.split("/")[-2]
+        if unit in done_units:                                 # leg already finished -> checkpoint is stale
+            continue
+        try:
+            cj = json.loads(s3.get_object(Bucket=bucket, Key=ck)["Body"].read().decode())
+        except Exception:  # noqa: BLE001
+            continue
+        dfr, frm = cj.get("done_frames"), cj.get("frames")
+        wall, tns = cj.get("wall_accum"), cj.get("timed_ns_accum")
+        nsday = round(tns / (wall / 86400.0), 1) if (wall and tns) else None
+        ckpt_progress[unit] = {"done_frames": dfr, "frames": frm,
+                               "pct": round(100.0 * dfr / frm, 1) if (dfr and frm) else None,
+                               "ns_per_day": nsday, "pe_pre_min_kj": cj.get("e_pre"),
+                               "pe_post_min_kj": cj.get("e_min")}
     stopped = []
     if autostop and key:                                       # CI-side anti-idle teardown (key stays on CI)
         import time
@@ -284,7 +306,7 @@ def collect(bucket, autostop=None):
                             "dph_base": i.get("dph_base"), "min_bid": i.get("min_bid"),
                             "gpu_name": i.get("gpu_name"), "start_date": i.get("start_date"),
                             "duration": i.get("duration")} for i in insts],
-        "phases": phases, "auto_stopped": stopped,
+        "phases": phases, "auto_stopped": stopped, "ckpt_progress": ckpt_progress,
         "n_results": len(done_units), "results": results, "price": price,
     }
     json.dump(status, open("nrv04-collect-status.json", "w"), indent=2)
