@@ -19,8 +19,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Micromamba + the ternary RBFE stack. Exact pins mirror the GCP ternary lane's `mamba create ... -p .../rbfe`.
 # boto3/awscli/google-cloud-storage let the driver pull inputs + prior checkpoints and push per-unit checkpoints
 # to whichever object store the provider uses (S3 / R2 / B2 / GCS).
-RUN wget -qO /usr/local/bin/micromamba https://micro.mamba.pm/api/micromamba/linux-64/latest && \
-    chmod +x /usr/local/bin/micromamba
+# The micromamba /latest endpoint serves a bzip2 TARBALL (bin/micromamba inside), NOT a raw binary — writing it
+# straight to a file + chmod yields an "Exec format error". Extract the binary member instead.
+RUN wget -qO /tmp/mm.tar.bz2 https://micro.mamba.pm/api/micromamba/linux-64/latest && \
+    tar -xjf /tmp/mm.tar.bz2 -C /usr/local bin/micromamba && \
+    rm /tmp/mm.tar.bz2 && \
+    /usr/local/bin/micromamba --version
 ENV MAMBA_ROOT_PREFIX=/opt/mamba
 RUN micromamba create -y -p /opt/mamba/envs/rbfe -c conda-forge \
         python=3.11 "openfe>=1.12" "pydantic>=2" importlib_resources openff-toolkit \
