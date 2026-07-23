@@ -61,7 +61,10 @@ permissions:
 # Per-TASK concurrency so independent tasks (e.g. nrv04_build_env + nrv04_charge_cache) run in PARALLEL instead
 # of cancelling each other — a plain `fusion-cpu-extras` group would serialize every dispatch of this workflow.
 concurrency:
-  group: fusion-cpu-extras-${{ github.event.inputs.task }}
+  # Include vast_launch_mode so a bench / bench_collect dispatch is NOT cancelled by a (possibly cross-session)
+  # covalent collect/monitor/full dispatch of the same task — they share task=nrv04_vast_launch and, with a
+  # task-only group + cancel-in-progress, kept killing each other. Mode-scoped groups keep same-mode dedupe.
+  group: fusion-cpu-extras-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}
   cancel-in-progress: true
 
 jobs:
