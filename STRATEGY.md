@@ -179,6 +179,46 @@ Two of the reviewer's mandated validations look similar ("benchmark the method o
 
 ---
 
+## GPU / PROVIDER SELECTION (which card, which cloud, for which run)
+
+Provider and GPU are **independent** choices, and the right GPU depends on the **workload**, not the provider —
+OpenFE/RBFE runs on GCP *or* Vast, and so does endpoint MD. Always pick by **cost per nanosecond**
+(`$/ns = ($/hr) ÷ (ns_per_day ÷ 24)`), never by headline $/hr and never by "biggest card."
+
+**The one decision rule — where does the run sit on the memory-bandwidth ↔ compute axis:**
+- **Bandwidth-bound** — LARGE systems (≳200k atoms) running PLAIN endpoint MD: throughput tracks memory
+  bandwidth, so a cheap ex-flagship (RTX 3090, 936 GB/s) nearly matches a 4090 (1008 GB/s) at ~60% of the price
+  → **3090 wins $/ns.** (This is the NR-V04 covalent panel: ~466k atoms.)
+- **Compute-bound** — SMALLER systems (≲100k atoms) and/or ALCHEMICAL RBFE/FEP (HREX + softcore + λ-derivatives
+  add per-step FLOPs): the higher-FLOP card pulls ahead → **4090 wins $/ns** (on GCP: L4, or L40S/L4 by quota).
+  (This is cmpd19 binary RBFE and the ternary FEP — do NOT assume the panel's 3090 pick here.)
+- **VRAM is almost never the constraint** — even a 466k-atom system needs <4 GB — so do NOT pay up for
+  big-memory cards; choose on $/ns and just require ≥24 GB as a safe floor.
+
+**Default recommendation by (workload × provider)** — a starting point, not a law; re-validate per new system:
+
+| Workload | Vast | GCP |
+|---|---|---|
+| **Large endpoint MD** (NR-V04 covalent panel, ~466k atoms; bandwidth-bound) | **RTX 3090** — measured **~$0.079/hr** (min_bid×1.1), ~70% under a 4090 & under GCP L4 spot | L4 (quota'd) |
+| **OpenFE RBFE / ternary FEP** (alchemical; smaller/compute-bound) | **RTX 4090** — compute matters here; cheapest eligible ~$0.144/hr (probe 2026-07-22) | **L4** (valA/valB ran here); L40S if available |
+| Prep / co-fold assembly / analysis (CPU-bound) | run on **CI** (free), not a GPU | run on CI (free) |
+
+**Vast bid + host policy** (`research/modalities/gpu_backend.py`; env-tunable):
+- **Bid = `min_bid × 1.1`** — a small margin *above* the market floor. **Never cap the bid below `min_bid`** — a
+  below-floor bid leaves the box *created-but-stopped* (measured 2026-07-23, a cheap 3090 sat "loading" 13 min).
+  On Vast you pay your bid and `min_bid` IS the interruptible price, so floor×1.1 is both cheapest and reliably
+  runnable. Preemptions are routine → absorbed by per-unit checkpoint + re-dispatch (baked image ⇒ ~3-min reboot).
+- **Filter `cuda_max_good ≥ 12.4`** — the host **driver** must JIT our conda OpenMM CUDA plugin's PTX, else
+  `CUDA_ERROR_UNSUPPORTED_PTX_VERSION` (measured). Also filter `reliability2 ≥ 0.90`, require ≥24 GB VRAM, **rank
+  offers by `min_bid`** (the true interruptible cost). `ResourceSpec.gpu` is per-run (override: `VAST_GPU_MODEL`)
+  and falls back to any capable card if the preferred model is scarce.
+
+**When a new workload/system appears, VALIDATE — don't assume.** Tooling: `nrv04_vast_launch` mode `probe_offers`
+dumps the live per-card $/hr landscape; the endpoint-MD driver stamps `ns_per_day` into every result JSON. One
+cheap smoke on two candidate cards ⇒ a real $/ns comparison. Re-pick per workload.
+
+---
+
 ## THE ORDERED PLAN (spend-gated) — this is "what's next", always read top-to-bottom
 
 Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not needed; rationale inline). `∥` = parallelizable. **Price = est. spot $ for THAT step.**
