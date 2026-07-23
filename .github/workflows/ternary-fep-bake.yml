@@ -1,0 +1,57 @@
+name: Ternary FEP image bake (DockerHub)
+
+# Build the portable ternary-RBFE / OpenFE FEP image (research/compute/Dockerfile.ternaryfep) and push it to
+# Docker Hub as triskit23/ternary-fep. WHY: (1) reproducibility artifact for the manuscript — one immutable image
+# carrying the EXACT frozen conda env the GCP ternary lane builds on the fly; (2) portability — the same image
+# runs the ternary cooperativity FEP on Vast / RunPod / Salad / Modal, so the leg is no longer bottlenecked by the
+# 1-GPU GCP quota. Public repo -> any provider pulls it unauthenticated.
+#
+# Run: Actions -> "Ternary FEP image bake (DockerHub)" -> Run workflow (pick a branch via ref). ~15-25 min
+# (the micromamba solve of the openfe/ambertools stack dominates). Touches no GPU, no live leg.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "image tag to push (in addition to the git-sha tag)"
+        default: "latest"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  bake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DOCKERHUB_USER: triskit23
+      IMAGE: triskit23/ternary-fep
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free up runner disk (the CUDA base + conda solve are large)
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
+          df -h / | tail -1
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
+
+      - name: Build the ternary FEP image
+        run: |
+          set -euo pipefail
+          SHA_TAG="${GITHUB_SHA::12}"
+          docker build \
+            -f research/compute/Dockerfile.ternaryfep \
+            -t "docker.io/${IMAGE}:${{ github.event.inputs.tag }}" \
+            -t "docker.io/${IMAGE}:${SHA_TAG}" \
+            .
+
+      - name: Push
+        run: |
+          set -euo pipefail
+          SHA_TAG="${GITHUB_SHA::12}"
+          docker push "docker.io/${IMAGE}:${{ github.event.inputs.tag }}"
+          docker push "docker.io/${IMAGE}:${SHA_TAG}"
+          echo "[baked] docker.io/${IMAGE}:${{ github.event.inputs.tag }}  (also :${SHA_TAG})"
