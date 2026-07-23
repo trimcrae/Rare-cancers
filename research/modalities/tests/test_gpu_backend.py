@@ -13,9 +13,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from autoteardown import make_subprocess_terminator, run_with_teardown  # noqa: E402
 from gpu_backend import (  # noqa: E402
-    JobSpec, MockBackend, ModalBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend,
-    SlurmBackend, VastBackend, _object_store_env, _select_cheapest_offer, _vast_bid_price, _vast_offer_query,
-    _vast_onstart, _vast_status, get_backend, pick_cheapest, s3_checkpoint_uri,
+    JobSpec, MockBackend, ModalBackend, OCIBackend, ResourceSpec, RunPodBackend, SageMakerBackend, SaladBackend,
+    SlurmBackend, VastBackend, _object_store_env, _oci_config_from_env, _oci_launch_ctx_from_env,
+    _oci_launch_details, _oci_shape_for, _oci_status, _oci_user_data, _select_cheapest_offer, _vast_bid_price,
+    _vast_offer_query, _vast_onstart, _vast_status, get_backend, pick_cheapest, s3_checkpoint_uri,
 )
 from object_store import checkpoint_key, completed_units, parse_uri  # noqa: E402
 
@@ -322,6 +323,120 @@ def test_get_backend_unknown_raises():
         assert False
     except KeyError:
         pass
+
+
+# ---- Oracle Cloud (OCI): $300 credit-burn A10, guaranteed self-destroy -----------------------------------
+
+def test_oci_shape_defaults_to_a10():
+    assert _oci_shape_for(ResourceSpec(gpu="a10")) == "VM.GPU.A10.1"
+    assert _oci_shape_for(ResourceSpec(gpu="a10g")) == "VM.GPU.A10.1"      # AWS-A10G class maps to OCI's A10
+    assert _oci_shape_for(ResourceSpec(gpu="any")) == "VM.GPU.A10.1"       # unknown/any -> entry single-GPU shape
+    assert _oci_shape_for(ResourceSpec(gpu="l40s")) == "BM.GPU.L40S.4"
+
+
+def test_oci_backend_supports_and_priced_but_not_auto_routed():
+    be = OCIBackend()
+    assert be.supports(ResourceSpec(gpu="a10", min_vram_gb=24))
+    assert be.hourly_usd(ResourceSpec(gpu="a10", min_vram_gb=24)) == 1.27  # A10 on-demand estimate
+    # OCI is a MANUAL credit-burn: deliberately absent from the pick_cheapest default routing list, so it's never
+    # auto-selected (it's pricier + capacity-flaky) — you pick it explicitly to spend the trial credit.
+    assert pick_cheapest(ResourceSpec(gpu="any", min_vram_gb=24)) != "oci"
+
+
+def test_oci_config_from_env_requires_creds():
+    try:
+        _oci_config_from_env({})                                            # nothing set
+        assert False
+    except RuntimeError as e:
+        assert "OCI_USER_OCID" in str(e) and "OCI_KEY_PEM|OCI_KEY_FILE" in str(e)
+
+
+def test_oci_config_from_env_inline_pem_vs_file():
+    base = {"OCI_USER_OCID": "ocid1.user.x", "OCI_TENANCY_OCID": "ocid1.tenancy.y",
+            "OCI_FINGERPRINT": "aa:bb", "OCI_REGION": "us-ashburn-1"}
+    cfg = _oci_config_from_env({**base, "OCI_KEY_PEM": "-----BEGIN...-----"})
+    assert cfg["user"] == "ocid1.user.x" and cfg["region"] == "us-ashburn-1"
+    assert cfg["key_content"] == "-----BEGIN...-----" and "key_file" not in cfg   # inline PEM = the CI-secret path
+    cfg2 = _oci_config_from_env({**base, "OCI_KEY_FILE": "/run/secrets/oci.pem"})
+    assert cfg2["key_file"] == "/run/secrets/oci.pem" and "key_content" not in cfg2
+
+
+def test_oci_launch_ctx_defaults_compartment_to_tenancy():
+    ctx = _oci_launch_ctx_from_env({"OCI_TENANCY_OCID": "ocid1.tenancy.y", "OCI_AD": "AD-1",
+                                    "OCI_SUBNET_OCID": "ocid1.subnet.s", "OCI_IMAGE_OCID": "ocid1.image.i"})
+    assert ctx["compartment_id"] == "ocid1.tenancy.y"                       # no compartment set -> root (tenancy)
+    ctx2 = _oci_launch_ctx_from_env({"OCI_TENANCY_OCID": "t", "OCI_COMPARTMENT_OCID": "ocid1.compartment.c"})
+    assert ctx2["compartment_id"] == "ocid1.compartment.c"
+
+
+def test_oci_launch_details_validates_placement_ocids():
+    ctx = {"compartment_id": "c", "availability_domain": "AD-1"}            # missing subnet + image
+    try:
+        _oci_launch_details(JobSpec(name="x", command=["true"]), ctx, "dXNlcg==")
+        assert False
+    except RuntimeError as e:
+        assert "OCI_SUBNET_ID" in str(e) and "OCI_IMAGE_ID" in str(e)
+
+
+def test_oci_launch_details_shape_and_userdata():
+    ctx = {"compartment_id": "c", "availability_domain": "AD-1", "subnet_id": "sn", "image_id": "img",
+           "shape": "VM.GPU.A10.1"}
+    d = _oci_launch_details(JobSpec(name="valA", command=["true"]), ctx, "BASE64UD")
+    assert d["shape"] == "VM.GPU.A10.1" and d["display_name"] == "valA"
+    assert d["create_vnic_details"] == {"subnet_id": "sn", "assign_public_ip": True}
+    assert d["source_details"] == {"source_type": "image", "image_id": "img"}
+    assert d["metadata"] == {"user_data": "BASE64UD"}                       # base64 cloud-init carried in metadata
+
+
+def test_oci_user_data_always_self_destroys():
+    spec = JobSpec(name="edgeA", command=["python", "rbfe.py", "--edge", "A"],
+                   checkpoint_uri="s3://bkt/oci/edgeA/ckpt", resume=True, env={"MODE": "real"})
+    ud = _oci_user_data(spec)
+    assert "python rbfe.py --edge A" in ud
+    assert "export RESUME=1" in ud and "s3://bkt/oci/edgeA/ckpt" in ud
+    assert "export MODE=real" in ud and "export SELF_LABEL=edgeA" in ud
+    # the anti-idle guard: an EXIT trap self-destroys the VM on completion/crash/stop, keyless via instance
+    # principals, finding THIS instance's OCID from the metadata service.
+    assert "trap oci_selfdestroy EXIT" in ud
+    assert "oci_selfdestroy()" in ud
+    assert "instance terminate" in ud and "--auth instance_principal" in ud
+    assert "169.254.169.254/opc/v2/instance/id" in ud
+
+
+def test_oci_user_data_forwards_s3_creds_spec_env_wins():
+    spec = JobSpec(name="e", command=["true"], env={"AWS_DEFAULT_REGION": "us-west-2"})
+    ud = _oci_user_data(spec, extra_env={"AWS_ACCESS_KEY_ID": "AKIA", "AWS_DEFAULT_REGION": "us-east-2"})
+    assert "export AWS_ACCESS_KEY_ID=AKIA" in ud                            # rented VM can reach the S3 bucket
+    assert "export AWS_DEFAULT_REGION=us-west-2" in ud                      # spec.env overrides the forwarded default
+    assert "export AWS_DEFAULT_REGION=us-east-2" not in ud
+
+
+def test_oci_self_terminate_cmd_is_keyless_instance_principal():
+    cmd = OCIBackend().self_terminate_cmd()
+    assert cmd[:2] == ["bash", "-lc"]
+    joined = cmd[2]
+    assert "instance terminate" in joined and "--auth instance_principal" in joined
+    assert "OCI_INSTANCE_ID" in joined                                      # exported by cloud-init, IMDS fallback
+
+
+def test_oci_status_mapping():
+    assert _oci_status("RUNNING") == "running"
+    assert _oci_status("PROVISIONING") == "queued"
+    assert _oci_status("STARTING") == "queued"
+    assert _oci_status("TERMINATED") == "completed"                         # self-destroyed at job end
+    assert _oci_status("STOPPED") == "stopped"
+    assert _oci_status(None) == "stopped"
+
+
+def test_oci_submit_needs_sdk_or_creds(monkeypatch):
+    for k in ("OCI_USER_OCID", "OCI_TENANCY_OCID", "OCI_FINGERPRINT", "OCI_REGION", "OCI_KEY_PEM", "OCI_KEY_FILE"):
+        monkeypatch.delenv(k, raising=False)
+    # off-OCI with no creds: submit must fail loudly (either missing SDK or missing OCI_* env), never silently.
+    try:
+        OCIBackend().submit(JobSpec(name="x", command=["true"]))
+        assert False
+    except RuntimeError as e:
+        assert "oci" in str(e).lower()
 
 
 if __name__ == "__main__":

@@ -314,13 +314,26 @@ during the window, then stop** — do not keep Oracle as a paid workhorse.
    Shape: **Specialty & GPU → VM.GPU.A10.1** → create. If it returns **`Out of host capacity`**, try another
    **availability domain** in-region, or a **Capacity Reservation**, or another A10-stocked region — do **not**
    assume A100/H100 will be easier (they're scarcer). A single successful A10 boot = green light.
-6. **Then it's a config, not a rewrite.** OCI becomes an `oci` backend in the provider-agnostic harness
-   (`research/modalities/gpu_backend.py`); I wire `submit()/status()/stop()` to the OCI SDK (create instance →
-   run the baked MD image → **self-terminate on exit** via the `autoteardown.py` guarantee so no idle-GPU
-   bleed), checkpointing per-unit to the existing S3 bucket via `object_store.py`. The A10 image is the same
-   public Docker Hub image (`triskit23/...`) every other provider pulls. **I can write that adapter now** (it's
-   free engineering); it just can't be *exercised* until the account + `OCI_*` secrets exist and step 5 proves
-   capacity.
+6. **The `oci` adapter is WIRED (2026-07-23) — it's now a config, not a rewrite.** `OCIBackend` is implemented
+   in `research/modalities/gpu_backend.py`: `submit()` launches a `VM.GPU.A10.1` (or `OCI_SHAPE`) via the OCI
+   SDK with a base64 cloud-init that resumes/checkpoints per-unit to the existing S3 bucket (`object_store.py`,
+   AWS keys forwarded in) and **self-terminates on ANY exit** — keyless via **instance principals** (the EXIT
+   trap + `autoteardown.py`'s finally/watchdog), so no idle-GPU bleed. `status()` maps OCI lifecycle states;
+   `stop()` terminates. The load-bearing logic is factored into pure, unit-tested helpers (`_oci_config_from_env`,
+   `_oci_launch_ctx_from_env`, `_oci_user_data`, `_oci_launch_details`, `_oci_status`) — **12 new tests, 42/42
+   pass.** It's deliberately **absent from `pick_cheapest()` auto-routing** (manual credit-burn selection, since
+   it's pricier + capacity-flaky). The A10 boot image is the same public Docker Hub image (`triskit23/...`)
+   every other provider pulls. **REMAINING (needs you):** the `OCI_*` secrets from step 4, a boot-image OCID +
+   subnet/AD (step 5), plus a **one-time tenancy setup** so the VM may terminate itself keylessly — a Dynamic
+   Group matching the instance + a policy `allow dynamic-group <dg> to manage instance-family in compartment
+   <c>` (Identity → Domains → Dynamic Groups, then Policies). Then a one-A10 smoke confirms the SDK shapes +
+   capacity before any fan-out.
+
+   **Exact `OCI_*` secrets the adapter reads** (GitHub → repo → Settings → Secrets → Actions):
+   `OCI_USER_OCID`, `OCI_TENANCY_OCID`, `OCI_FINGERPRINT`, `OCI_REGION`, `OCI_KEY_PEM` (inline private-key body;
+   or `OCI_KEY_FILE` path), `OCI_COMPARTMENT_OCID` (root/tenancy OCID is fine to start), `OCI_AD` (availability
+   domain), `OCI_SUBNET_OCID`, `OCI_IMAGE_OCID` (a GPU-driver boot image). `OCI_SHAPE` optional (defaults
+   `VM.GPU.A10.1`).
 
 **Gotchas that specifically bite Oracle:** trial GPU capacity is genuinely thin (validate one launch, don't
 scale-plan on faith); the **30-day** clock starts at signup, so don't upgrade until you're ready to burn it;

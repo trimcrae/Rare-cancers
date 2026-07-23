@@ -84,6 +84,8 @@ _CAPS = {  # backend -> {gpu -> (vram_gb, approx_usd_per_hr)}   (usd = interrupt
                  #                                                              to zero (no idle) + free monthly credits
     "gcp":       {"t4": (16, 0.11), "l4": (24, 0.20), "a100": (40, 1.10)},   # Compute Engine SPOT VMs; $300 trial
                  #                                                            credit funds these (see catch below)
+    "oci":       {"a10": (24, 1.27), "a10g": (24, 1.27), "a100": (40, 4.00), "l40s": (48, 3.50)},  # $300 30-day
+                 #   trial credit; A10 on-demand (no cheap GPU spot) -> a ONE-WINDOW burn, not a standing tier
     "access":    {"a100": (40, 0.0), "a10g": (24, 0.0), "l40s": (48, 0.0)},     # NSF allocation -> $0
     "slurm":     {"a100": (40, 0.0), "any": (24, 0.0)},                          # self-hosted / institutional
     "mock":      {"any": (24, 0.0)},
@@ -560,6 +562,202 @@ class GCPBackend(Backend):
         raise NotImplementedError
 
 
+# ---- Oracle Cloud (OCI) GPU VMs — $300 credit-burn, MUST self-terminate ----------------------------------
+# OCI has NO cheap GPU spot for the entry A10 shape, so this is a ONE-WINDOW burn of the 30-day $300 trial, not
+# a standing provider (cheap-gpu-plan.md § Oracle). Like a raw GCE VM, an OCI compute instance bills every second
+# it is up, so it MUST self-destroy on job exit or it idles on the meter. The LOAD-BEARING logic (config from env,
+# cloud-init user_data with a guaranteed self-destroy EXIT trap, launch-details shape, lifecycle-state mapping) is
+# factored into PURE, unit-tested helpers; the thin SDK calls in submit/status/stop are guarded so they fail
+# loudly off-OCI. Self-termination is KEYLESS via INSTANCE PRINCIPALS (no signing key on the VM) — this needs a
+# one-time tenancy setup: a Dynamic Group matching the instance + a policy
+#   `allow dynamic-group <dg> to manage instance-family in compartment <c>`
+# so the running VM may `oci --auth instance_principal compute instance terminate` ITSELF. autoteardown's
+# finally+watchdog runs self_terminate_cmd() (belt); the cloud-init EXIT trap is the braces backstop.
+
+_OCI_SHAPE = {                                                # logical gpu class -> OCI shape (single-GPU MD = A10.1)
+    "a10": "VM.GPU.A10.1", "a10g": "VM.GPU.A10.1", "any": "VM.GPU.A10.1",
+    "a10x2": "VM.GPU.A10.2",
+    "a100": "BM.GPU.A100-v2.8", "l40s": "BM.GPU.L40S.4", "h100": "BM.GPU.H100.8",
+}
+
+
+def _oci_shape_for(res: ResourceSpec) -> str:
+    """PURE: OCI shape name for a logical GPU class. Defaults to the entry VM.GPU.A10.1 (1× A10, 24 GB) — the
+    only OCI GPU shape that's both single-GPU and usually launch-able on a trial tenancy."""
+    return _OCI_SHAPE.get(res.gpu, "VM.GPU.A10.1")
+
+
+def _oci_config_from_env(src=None) -> dict:
+    """PURE: assemble the `oci` SDK config dict from OCI_* env. Key material comes from OCI_KEY_PEM (the inline PEM
+    body — the CI-secret path) or OCI_KEY_FILE (a path). Raises a loud, itemised error if a required field is
+    missing so an off-OCI/mis-secreted run fails at the door, not deep in the SDK."""
+    env = src if src is not None else os.environ
+    missing = [k for k in ("OCI_USER_OCID", "OCI_TENANCY_OCID", "OCI_FINGERPRINT", "OCI_REGION") if not env.get(k)]
+    if not (env.get("OCI_KEY_PEM") or env.get("OCI_KEY_FILE")):
+        missing.append("OCI_KEY_PEM|OCI_KEY_FILE")
+    if missing:
+        raise RuntimeError("oci backend needs " + ", ".join(missing) + " (create an OCI API signing key: "
+                           "Console -> Profile -> API keys -> Add API key).")
+    cfg = {"user": env["OCI_USER_OCID"], "tenancy": env["OCI_TENANCY_OCID"],
+           "fingerprint": env["OCI_FINGERPRINT"], "region": env["OCI_REGION"]}
+    if env.get("OCI_KEY_FILE"):
+        cfg["key_file"] = env["OCI_KEY_FILE"]
+    else:
+        cfg["key_content"] = env["OCI_KEY_PEM"]                # oci SDK accepts an inline PEM body here
+    return cfg
+
+
+def _oci_launch_ctx_from_env(src=None) -> dict:
+    """PURE: the placement OCIDs OCI requires to put a VM somewhere — compartment, availability domain, subnet,
+    and boot image (a GPU-driver image, e.g. an Oracle-Linux-GPU or your baked image OCID). Read from OCI_* env."""
+    env = src if src is not None else os.environ
+    return {
+        "compartment_id": env.get("OCI_COMPARTMENT_OCID") or env.get("OCI_TENANCY_OCID", ""),  # root compartment ok
+        "availability_domain": env.get("OCI_AD", ""),
+        "subnet_id": env.get("OCI_SUBNET_OCID", ""),
+        "image_id": env.get("OCI_IMAGE_OCID", ""),
+        "shape": env.get("OCI_SHAPE", ""),
+    }
+
+
+# Self-destroy on ANY exit via INSTANCE PRINCIPALS (keyless): find THIS instance's OCID from the OCI metadata
+# service (169.254.169.254, the Bearer-Oracle IMDS) and terminate it. Fires on success, crash, AND `set -e`
+# abort, so a failed/stopped job kills its own GPU immediately instead of idling on the meter. Needs the one-time
+# dynamic-group + policy (see class docstring) so instance-principal auth is allowed to terminate self.
+_OCI_SELFDESTROY = (
+    'oci_selfdestroy(){ rc=$?; '
+    'iid="${OCI_INSTANCE_ID:-$(curl -s -H \'Authorization: Bearer Oracle\' '
+    'http://169.254.169.254/opc/v2/instance/id 2>/dev/null)}"; '
+    '[ -n "$iid" ] && oci --auth instance_principal compute instance terminate '
+    '--instance-id "$iid" --force >/dev/null 2>&1 || true; return $rc; }'
+)
+
+
+def _oci_user_data(spec: JobSpec, extra_env=None) -> str:
+    """PURE: the cloud-init `user_data` bash — export the resume/checkpoint context (+ forwarded object-store
+    creds), resolve this instance's OCID from IMDS, arm a self-destroy EXIT trap so the VM is torn down on
+    completion/crash/stop (never idles — the #1 gotcha), then run the job command. `extra_env` merges UNDER
+    spec.env (spec.env wins). Mirrors _vast_onstart so both providers share the same anti-idle contract."""
+    cmd = " ".join(shlex.quote(a) for a in spec.command)
+    env = {**(extra_env or {}), **spec.env}
+    lines = ["#!/bin/bash", "set -o pipefail",
+             'export OCI_INSTANCE_ID=$(curl -s -H "Authorization: Bearer Oracle" '
+             'http://169.254.169.254/opc/v2/instance/id 2>/dev/null)',
+             f"export CHECKPOINT_URI={shlex.quote(spec.checkpoint_uri)}",
+             f"export RESUME={'1' if spec.resume else '0'}",
+             f"export SELF_LABEL={shlex.quote(spec.name)}"]
+    lines += [f"export {k}={shlex.quote(str(v))}" for k, v in env.items()]
+    lines += [_OCI_SELFDESTROY, "trap oci_selfdestroy EXIT", cmd]
+    return "\n".join(lines)
+
+
+def _oci_launch_details(spec: JobSpec, ctx: dict, user_data_b64: str) -> dict:
+    """PURE: a LaunchInstanceDetails-shaped dict (submit maps it onto SDK model objects). Validates that the
+    placement OCIDs OCI demands are present, so a missing OCI_SUBNET_OCID/OCI_IMAGE_OCID fails clearly here."""
+    need = [k for k in ("compartment_id", "availability_domain", "subnet_id", "image_id") if not ctx.get(k)]
+    if need:
+        raise RuntimeError("oci launch needs " + ", ".join("OCI_" + k.upper() for k in need)
+                           + " (Console -> the resource's Details page has each OCID).")
+    return {
+        "compartment_id": ctx["compartment_id"],
+        "availability_domain": ctx["availability_domain"],
+        "shape": ctx.get("shape") or "VM.GPU.A10.1",
+        "display_name": spec.name,
+        "create_vnic_details": {"subnet_id": ctx["subnet_id"], "assign_public_ip": True},
+        "source_details": {"source_type": "image", "image_id": ctx["image_id"]},
+        "metadata": {"user_data": user_data_b64},             # base64 cloud-init (OCI decodes + runs it at boot)
+    }
+
+
+def _oci_status(lifecycle_state: str) -> str:
+    """PURE: map an OCI instance lifecycle_state to our vocabulary. Because the VM self-terminates at job end,
+    TERMINATING/TERMINATED reads as 'completed' (the job's real pass/fail lives in the checkpoint/reduce, same as
+    every other backend); STOPPING/STOPPED is an externally halted box."""
+    s = (lifecycle_state or "").upper()
+    if s == "RUNNING":
+        return "running"
+    if s in ("PROVISIONING", "STARTING", "CREATING_IMAGE", "MOVING"):
+        return "queued"
+    if s in ("TERMINATING", "TERMINATED"):
+        return "completed"                                    # self-destroyed on job exit
+    return "stopped"                                          # STOPPING/STOPPED/unknown -> externally halted
+
+
+class OCIBackend(Backend):
+    """Oracle Cloud Infrastructure GPU VM — funded by the $300 / 30-day free-trial credit. NOT serverless and NO
+    cheap GPU spot for the A10, so it is a ONE-WINDOW credit burn (cheap-gpu-plan.md § Oracle), not a standing
+    provider. Like the GCE backend it MUST self-terminate or it idles on the meter; the guard is KEYLESS via
+    instance principals (see module note above) + autoteardown's finally/watchdog. Best fit: burn the ~230 free
+    A10-GPU-hours on triage-tier legs during the window, then stop. The load-bearing logic is pure + unit-tested;
+    submit/status/stop guard on the `oci` SDK + OCI_* env so they fail loudly off-OCI."""
+    name = "oci"
+
+    def self_terminate_cmd(self):
+        # KEYLESS self-destroy via instance principals; OCI_INSTANCE_ID is exported by the cloud-init from IMDS,
+        # with an inline IMDS fallback so this argv resolves even if the export was skipped.
+        return ["bash", "-lc",
+                'oci --auth instance_principal compute instance terminate --instance-id '
+                '"${OCI_INSTANCE_ID:-$(curl -s -H \'Authorization: Bearer Oracle\' '
+                'http://169.254.169.254/opc/v2/instance/id)}" --force']
+
+    def submit(self, spec: JobSpec) -> Handle:
+        try:
+            import oci                                          # noqa: F401
+        except ImportError:
+            raise RuntimeError("oci backend needs the oci SDK (`pip install oci`) + OCI_* API-key env.")
+        import base64
+        cfg = _oci_config_from_env()                           # raises if creds missing
+        ctx = _oci_launch_ctx_from_env()
+        if not ctx.get("shape"):
+            ctx["shape"] = _oci_shape_for(spec.resources)
+        # forward the checkpoint-store creds (reuse-S3 = the AWS keys) so the VM can read/write the bucket
+        ud = _oci_user_data(spec, extra_env=dict(_object_store_env()))
+        ud_b64 = base64.b64encode(ud.encode()).decode()
+        details = _oci_launch_details(spec, ctx, ud_b64)       # validates placement OCIDs
+        models = oci.core.models
+        launch = models.LaunchInstanceDetails(
+            compartment_id=details["compartment_id"],
+            availability_domain=details["availability_domain"],
+            shape=details["shape"],
+            display_name=details["display_name"],
+            create_vnic_details=models.CreateVnicDetails(
+                subnet_id=details["create_vnic_details"]["subnet_id"], assign_public_ip=True),
+            source_details=models.InstanceSourceViaImageDetails(image_id=details["source_details"]["image_id"]),
+            metadata=details["metadata"],
+        )
+        client = oci.core.ComputeClient(cfg)
+        try:
+            resp = client.launch_instance(launch)
+        except Exception as e:                                 # noqa: BLE001 — classify the common trial failure
+            msg = str(e)
+            if "capacity" in msg.lower() or "out of host" in msg.lower():
+                raise RuntimeError(
+                    f"oci: Out of host capacity for {ctx['shape']} — try another OCI_AD in-region, another "
+                    f"A10-stocked region, or a Capacity Reservation (trial GPU capacity is thin). ({msg})")
+            raise
+        return Handle(backend=self.name, job_id=resp.data.id, extra={"shape": ctx["shape"]})
+
+    def status(self, handle: Handle) -> str:
+        try:
+            import oci                                          # noqa: F401
+        except ImportError:
+            raise RuntimeError("oci backend needs the oci SDK (`pip install oci`).")
+        client = oci.core.ComputeClient(_oci_config_from_env())
+        try:
+            inst = client.get_instance(handle.job_id).data
+        except Exception:                                      # noqa: BLE001 — gone/terminated -> off the meter
+            return "stopped"
+        return _oci_status(getattr(inst, "lifecycle_state", None))
+
+    def stop(self, handle: Handle) -> None:
+        try:
+            import oci                                          # noqa: F401
+        except ImportError:
+            raise RuntimeError("oci backend needs the oci SDK (`pip install oci`).")
+        client = oci.core.ComputeClient(_oci_config_from_env())
+        client.terminate_instance(handle.job_id, preserve_boot_volume=False)
+
+
 class ModalBackend(Backend):
     """Modal — SERVERLESS GPU (Python-native: decorate a function, .map() it over the work units). Per-second
     billing and it **auto-scales to zero the instant a call returns**, so there is NO idle-GPU risk by design —
@@ -608,7 +806,7 @@ class MockBackend(Backend):
 
 
 _REGISTRY = {b.name: b for b in [SageMakerBackend(), SlurmBackend(), RunPodBackend(), VastBackend(),
-                                 SaladBackend(), ModalBackend(), GCPBackend()]}
+                                 SaladBackend(), ModalBackend(), GCPBackend(), OCIBackend()]}
 
 
 def get_backend(name: str) -> Backend:
