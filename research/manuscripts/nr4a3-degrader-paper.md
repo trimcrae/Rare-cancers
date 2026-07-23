@@ -89,6 +89,42 @@ Degradation recruits the retained, ordered NR4A3 LBD to an E3 ligase and removes
 (it degrades NR4A3 whether wild-type or in the EMC fusion), which is why the program is framed around
 NR4A3 rather than EMC specifically.
 
+**Clinical precedent for the degrader modality.** Targeted protein degradation is no longer speculative in
+oncology — it is both an approved therapeutic strategy and, as of 2026, an approved *PROTAC* strategy, so a
+degrader rationale rests on precedent rather than on hope. Two strands apply. First, *molecular-glue* degraders
+that redirect the CRL4^CRBN E3 ligase — the immunomodulatory imide drugs (IMiDs) thalidomide, lenalidomide and
+pomalidomide, whose mechanism is CRBN-dependent degradation of the IKZF1/IKZF3 transcription factors and, in
+del(5q) myelodysplastic syndrome, of CK1α (Krönke 2014, 2015; Lu 2014; Gandhi 2014) — have been standard-of-care
+for multiple myeloma, del(5q) MDS and mantle-cell lymphoma since 2005–2006. Molecular glues are monovalent and
+mechanistically distinct from the bivalent PROTAC architecture invoked here, but they establish that eliminating
+an oncoprotein through the ubiquitin–proteasome system is a safe, durable and approvable strategy. Second, and
+more directly, the heterobifunctional PROTAC class reached its first regulatory approval in May 2026:
+vepdegestrant (ARV-471), an oral cereblon-recruiting **estrogen-receptor** degrader, was approved by the FDA for
+ESR1-mutated ER+/HER2− advanced breast cancer (FDA 2026), on the strength of the phase-3 VERITAC-2 trial in which
+— in the ESR1-mutant population — median progression-free survival was 5.0 vs 2.1 months versus fulvestrant
+(HR 0.57; objective response 19% vs 4%; Hurvitz 2025). The benefit was confined to the ESR1-mutant subgroup and
+was not significant in the intention-to-treat population, with the label restricted accordingly — a reminder that
+degrader efficacy, like any modality's, is context-dependent and not guaranteed by target removal alone. Several
+other oncology PROTACs show substantial single-agent activity short of approval: the BTK degraders BGB-16673 and
+bexobrutideg (NX-5948) reached objective response rates of ~78–94% and ~80% in relapsed/refractory CLL/SLL
+(ASH 2024–2025), and the androgen-receptor degraders bavdegalutamide (ARV-110) and luxdegalutamide (ARV-766)
+produced PSA50 responses of ~46–50% in biomarker-selected metastatic castration-resistant prostate cancer.
+
+This precedent is unusually close to the present target. The two most clinically advanced PROTACs both degrade
+**nuclear receptors** — the estrogen and androgen receptors, the same superfamily as NR4A3 — and nuclear
+receptors have proven a favourable degrader class precisely because their ligand-binding domain offers a defined
+pocket with decades of prior medicinal chemistry, and because removing the receptor circumvents resistance that
+defeats competitive antagonists (ESR1 activating mutations; AR amplification, LBD mutations and splice variants).
+An NR4A3 degrader therefore sits within the validated PROTAC target class and shares the receptor superfamily of
+the first-approved and most-advanced agents. What has **not** been attempted is any degrader against NR4A3 or
+against EMC: the only reported NR4A-family degrader remains the preclinical NR4A1-selective PROTAC NR-V04
+(Wang 2024), and degrader campaigns in fusion-driven sarcomas (e.g. BRD9 degraders in synovial sarcoma) have
+reached only early-phase trials and target partner proteins rather than the fusion driver itself. We accordingly
+frame this work as a first-in-concept computational design resting on strong *class* precedent rather than direct
+precedent — a distinction maintained throughout, and one that NR4A3's atypical, largely collapsed orphan-receptor
+pocket (§2.1, §2.3) makes especially important not to overstate: strong precedent for the *modality* is not
+precedent for the *pocket*.
+
 The same cryptic-pocket framework can be formulated with distinct **NR4A3-favoured and pan-NR4A design objectives**: re-ranked on the conserved core it targets a *pan-NR4A* binder for **ex-vivo CAR-T de-exhaustion** rather than an NR4A3-selective one. The full indication landscape (EMC, acinic cell carcinoma, the pan-NR4A/CAR-T pole, and the NR4A1+NR4A3 anti-target the method must design *away* from) is in **SI §S4**.
 
 ## 2. Results
@@ -1496,6 +1532,31 @@ ERα LBD + estradiol (1ERE; Brzozowski et al., Nature 389:753, 1997); NR4A holo 
     (BLOSUM62 alignment: Henikoff & Henikoff, PNAS 89:10915, 1992.)
 52. RDKit: Open-source cheminformatics. https://www.rdkit.org (software; version recorded in the
     reproducibility archive).
+
+**Clinical precedent for targeted protein degradation (§1).**
+53. Krönke J, Udeshi ND, Narla A, et al. *Lenalidomide causes selective degradation of IKZF1 and IKZF3 in
+    multiple myeloma cells.* Science 343(6168):301–305 (2014). PMID 24292625; doi 10.1126/science.1244851.
+    [Molecular-glue mechanism of the IMiDs; primary.]
+54. Lu G, Middleton RE, Sun H, et al. *The myeloma drug lenalidomide promotes the cereblon-dependent
+    destruction of Ikaros proteins.* Science 343(6168):305–309 (2014). PMID 24292623; doi 10.1126/science.1244917.
+55. Krönke J, Fink EC, Hollenbach PW, et al. *Lenalidomide induces ubiquitination and degradation of CK1α in
+    del(5q) MDS.* Nature 523(7559):183–188 (2015). PMID 26131937; doi 10.1038/nature14610.
+    [Neosubstrate basis of the del(5q) therapeutic window.]
+56. Gandhi AK, Kang J, Havens CG, et al. *Immunomodulatory agents lenalidomide and pomalidomide co-stimulate
+    T cells by inducing degradation of T cell repressors Ikaros and Aiolos (IKZF1 and IKZF3) via modulation of
+    the E3 ubiquitin ligase complex CRL4^CRBN.* Br J Haematol 164(6):811–821 (2014). PMID 24328678;
+    doi 10.1111/bjh.12708.
+57. Hurvitz SA, et al. *Vepdegestrant, a PROTAC Estrogen Receptor Degrader, in Advanced Breast Cancer.*
+    N Engl J Med (2025). PMID 40454645; doi 10.1056/NEJMoa2505725. [VERITAC-2 phase 3; PFS benefit confined to
+    the ESR1-mutant subgroup, not significant in ITT.]
+58. U.S. Food and Drug Administration. *FDA approves vepdegestrant for ER-positive, HER2-negative, ESR1-mutated
+    advanced or metastatic breast cancer.* 2026-05-01. https://www.fda.gov/drugs/resources-information-approved-drugs/fda-approves-vepdegestrant-er-positive-her2-negative-esr1-mutated-advanced-or-metastatic-breast
+    [First FDA-approved heterobifunctional PROTAC.]
+59. Investigational oncology PROTACs (activity short of approval): BTK degrader **BGB-16673** (CaDAnCe-101),
+    Blood 144(Suppl 1):885 (2024) and Blood 146(Suppl 1):85 (2025), ASH; BTK degrader **bexobrutideg (NX-5948)**,
+    Blood 146(Suppl 1):86 (2025), ASH; AR degrader **luxdegalutamide (ARV-766)**, J Clin Oncol 42(16 suppl):5011
+    (2024), ASCO; AR degrader **bavdegalutamide (ARV-110)**, ASCO GU 2022 (ARDENT). [Conference/early-access
+    sources; response figures as reported at the cited data cut-offs.]
 
 ## Data and software availability
 All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the
