@@ -349,14 +349,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
 - **`[ ]` Validation B-full — full noncovalent ternary benchmark** *(valB_full · GPU)* — **Price: ~$80–200 · Cum. ~$255**
   Complete VHL–BRD4/SMARCA2 series; **fixes the preregistered ternary scoring rules.** **GATE:** the prospective
   matrix never runs unless this passes. **GO/NO-GO:** recovers known ternary cooperativity ranking → GO.
-- **`[~]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU · Vast)* — **Price: ~$6–10 (was $40–100 — the ~$40–100 was ~5–10× too high; superseded) · Cum. ~$260**
+- **`[~]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU · Vast)* — **Price: MEASURED ~$0.41/leg → ~$7.3 for the 18-leg panel (was estimated $40–100 — ~10–13× too high; superseded) · Cum. ~$255**
   Covalent celastrol–NR4A1 (C551) adduct + noncov/cov sensitivity + C551A + warhead/recruiter controls.
   18 legs (6 systems × 3 seeds), 6 ns each (1 ns equil + 5 ns prod), ~466k atoms.
-  **Measured cost (2026-07-22/23):** RTX 3090 on Vast, interruptible **bid $0.0789/hr** (`min_bid`×1.1 — ~70%
-  under on-demand and under GCP L4 spot); at ~4–6 h wall/leg that is **~$0.3–0.5/leg → ~$6–10 for the panel**.
-  (Bid + GPU are MEASURED; the exact $/leg and $/ns finalize when the first leg completes — the ns/day throughput
-  is stamped into each leg's result JSON.) The old $40–100 assumed a pricier GPU-hour; on the bandwidth-bound
-  3090 at spot the panel is an order of magnitude cheaper. **Downstream Cum. figures shift down ~$60 accordingly.**
+  **MEASURED cost (2026-07-23, first completed leg `noncov_nr4a1-s0`):** RTX 3090 on Vast, interruptible
+  **bid $0.0789/hr** (`min_bid`×1.1); billed on `dph_total` ≈ $0.10–0.16/hr (bid + host storage/inet). One full
+  6 ns leg = **~2 h production (60.8 ns/day) + ~load/equil → $0.4072/leg measured → ~$7.3 for 18 legs.** (Bid, GPU,
+  throughput, and per-leg $ are all MEASURED now; the panel mean refines as the remaining legs complete.) The old
+  $40–100 assumed a pricier GPU-hour; on the bandwidth-bound 3090 at spot the panel is ~an order of magnitude
+  cheaper. **Downstream Cum. figures shift down ~$60 accordingly.**
+  **Pipeline PROVEN end-to-end** (first clean leg: no blow-up, R1 stable + R2 recruited), with checkpoint/resume
+  (portable OpenMM state → S3 every 50 frames) + idempotent re-dispatch so a spot preemption resumes, not restarts.
+  Covalent-pull blow-up (the stiff C6→Sγ restraint across the co-fold's ~7.4 Å gap) is handled by minimize +
+  chunked-equil finite guards — `cov_nr4a1` reached production without diverging.
   **GO/NO-GO:** covalency doesn't swamp the signal and the reduced panel behaves → GO to the full NR-V04.
 
 ### RUNG 4 — the real science spends *(only after all benchmarks are green)*
