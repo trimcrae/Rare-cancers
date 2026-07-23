@@ -1,44 +1,95 @@
 {
-  "_title": "CRL4^CRBN E3-machinery tissue expression (degrader-completeness, ledger E6)",
-  "_note": "A CRBN PROTAC needs CRBN + DDB1 + CUL4A/B + RBX1 co-expressed in the target cell. All broadly ('detected in all/many') => the machinery is available in soft-tissue/mesenchymal contexts and the degrader premise is grounded. These are housekeeping-class ligase components; a tissue restriction would be the surprise to catch. No EMC line is in HPA, so this is machinery-availability in general tissue, not EMC-specific proof.",
+  "_title": "CRL2^VHL vs CRL4^CRBN E3-machinery tissue expression (degrader-completeness E6; ligase-choice input)",
+  "_note": "A degrader needs its full CRL arm (substrate receptor + adaptor(s) + cullin + RBX1) co-expressed in the target cell. Both arms broadly expressed => machinery is available in soft-tissue/mesenchymal contexts and neither arm is dead-on-arrival on availability grounds. No EMC line is in HPA, so this is machinery-availability in general tissue, not EMC-specific proof; RNA tissue distribution is a breadth proxy, not abundance/activity.",
   "source": "Human Protein Atlas (proteinatlas.org)",
-  "machinery": {
-    "CRBN": {
-      "gene": "CRBN",
-      "ensembl": "ENSG00000113851",
-      "rna_tissue_specificity": "Low tissue specificity",
-      "rna_tissue_distribution": "Detected in all",
-      "broadly_expressed": true
+  "arms": {
+    "CRL2_VHL": {
+      "_label": "CRL2^VHL (VHL recruiter arm)",
+      "components": {
+        "VHL": {
+          "gene": "VHL",
+          "ensembl": "ENSG00000134086",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        },
+        "ELOB": {
+          "gene": "ELOB",
+          "ensembl": "ENSG00000103363",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        },
+        "ELOC": {
+          "gene": "ELOC",
+          "ensembl": "ENSG00000154582",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        },
+        "CUL2": {
+          "gene": "CUL2",
+          "ensembl": "ENSG00000108094",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        },
+        "RBX1": {
+          "gene": "RBX1",
+          "ensembl": "ENSG00000100387",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        }
+      },
+      "all_broadly_expressed": true,
+      "record_complete": true,
+      "components_not_broadly_expressed": []
     },
-    "DDB1": {
-      "gene": "DDB1",
-      "ensembl": "ENSG00000167986",
-      "rna_tissue_specificity": "Low tissue specificity",
-      "rna_tissue_distribution": "Detected in all",
-      "broadly_expressed": true
-    },
-    "CUL4A": {
-      "gene": "CUL4A",
-      "ensembl": "ENSG00000139842",
-      "rna_tissue_specificity": "Tissue enhanced",
-      "rna_tissue_distribution": "Detected in all",
-      "broadly_expressed": true
-    },
-    "CUL4B": {
-      "gene": "CUL4B",
-      "ensembl": "ENSG00000158290",
-      "rna_tissue_specificity": "Low tissue specificity",
-      "rna_tissue_distribution": "Detected in all",
-      "broadly_expressed": true
-    },
-    "RBX1": {
-      "gene": "RBX1",
-      "ensembl": "ENSG00000100387",
-      "rna_tissue_specificity": "Low tissue specificity",
-      "rna_tissue_distribution": "Detected in all",
-      "broadly_expressed": true
+    "CRL4_CRBN": {
+      "_label": "CRL4^CRBN (CRBN recruiter arm)",
+      "components": {
+        "CRBN": {
+          "gene": "CRBN",
+          "ensembl": "ENSG00000113851",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        },
+        "DDB1": {
+          "gene": "DDB1",
+          "ensembl": "ENSG00000167986",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        },
+        "CUL4A": {
+          "gene": "CUL4A",
+          "ensembl": "ENSG00000139842",
+          "rna_tissue_specificity": "Tissue enhanced",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        },
+        "CUL4B": {
+          "gene": "CUL4B",
+          "ensembl": "ENSG00000158290",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        },
+        "RBX1": {
+          "gene": "RBX1",
+          "ensembl": "ENSG00000100387",
+          "rna_tissue_specificity": "Low tissue specificity",
+          "rna_tissue_distribution": "Detected in all",
+          "broadly_expressed": true
+        }
+      },
+      "all_broadly_expressed": true,
+      "record_complete": true,
+      "components_not_broadly_expressed": []
     }
   },
-  "all_broadly_expressed": true,
-  "verdict": "CRBN machinery broadly expressed \u2014 degrader premise grounded"
+  "both_arms_broadly_expressed": true,
+  "verdict": "Both CRL2^VHL and CRL4^CRBN machineries broadly expressed \u2014 both recruiter arms are grounded; the VHL-vs-CRBN choice is NOT constrained by machinery availability and should be made on ternary/geometry/selectivity grounds."
 }
