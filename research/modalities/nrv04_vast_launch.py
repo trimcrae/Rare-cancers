@@ -849,6 +849,14 @@ def firm_collect(bucket):
         print(f"  kind={d.get('kind')} ns_per_day={d.get('ns_per_day')} n_windows={d.get('n_windows')} "
               f"n_iter={d.get('n_iter')} wall_s={d.get('wall_s')} dg={d.get('dg')} status={d.get('status')} "
               f"(from {d.get('result_json')}, {d.get('n_json')} json)", flush=True)
+        if d.get("status") != "OK":                          # root-cause: dump the run log tail from S3
+            logkey = k.rsplit("/", 1)[0] + "/firm.log"
+            try:
+                log = s3.get_object(Bucket=bucket, Key=logkey)["Body"].read().decode(errors="replace")
+                tail = "\n".join(log.splitlines()[-25:])
+                print(f"    --- firm.log tail ({logkey}) ---\n{tail}\n    --- end ---", flush=True)
+            except Exception as e:  # noqa: BLE001
+                print(f"    (no firm.log: {e})", flush=True)
     if os.environ.get("BENCH_NO_STOP") != "1" and key:
         import time
         now = time.time()
