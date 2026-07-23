@@ -215,6 +215,34 @@ retained for context / for genuinely bandwidth-bound >>500k systems, but does no
 | **OpenFE RBFE / ternary FEP** (alchemical; smaller/compute-bound) | **RTX 4090** — measured 1549 @35k / 669 @85k ns/day; cheapest eligible ~$0.145/hr (probe 2026-07-23) | **L4** (valA/valB ran here); L40S if available |
 | Prep / co-fold assembly / analysis (CPU-bound) | run on **CI** (free), not a GPU | run on CI (free) |
 
+**★ MEASURED PROGRAM ECONOMICS ON VAST 4090 (2026-07-23) — the AWS/GCP-based `cost_est_usd` numbers in the
+schedule + ladder are ~5–10× too high for the Vast 4090 lane.** Combining the measured throughput above with each
+stage's sampling budget (RBFE 12 windows × 2 legs; ternary 16 windows × 3 replicas × 2 morphs) and the ~$0.145/hr
+4090 floor, the **whole remaining GPU program is ≈ $80–200 on Vast 4090, vs the old ~$840 schedule**:
+`step1_fanout` (19 edges) ~$8–20 · `valB_mini` ~$4 · `valB_full` ~$8–15 · `nrv04_retrospective` ~$25–50 ·
+`ternary_matrix` (6–12 constructs) ~$25–100 · `nrv04 covalent` (18 legs) ~$6.5 on 4090 (was ~$11 on 3090).
+Caveat: the alchemical stages fold in a **~1.7× HREX/softcore overhead assumption** on top of the measured
+*plain-MD* throughput — the one number not yet directly measured; it firms from one real RBFE + one real ternary
+edge on the 4090 (see tooling below). These are the honest planning figures; each rung still waits for its go.
+
+**★ TOOLING BUILT THIS SESSION (so a future session doesn't rebuild it):**
+- **Vast throughput bench** — `nrv04_vast_launch.py` modes `bench` / `bench_collect`, driven by
+  `fusion-cpu-extras.yml` (`task=nrv04_vast_launch`, `vast_launch_mode=bench`, inputs `vast_gpu`,
+  `bench_edge_nm`, `bench_steps`, or `bench_grid="gpu:edge,gpu:edge,…"` to launch a whole card×size matrix in one
+  dispatch). Runs the self-contained `gpu_md_bench.py` (TIP3P box sized by edge_nm) → stamps `ns_per_day` to
+  `s3://…/vast-bench-results/<tag>/bench.json`; reuses the per-instance self-destruct + a targeted
+  terminal/over-age reap (never `stop_all`, so the covalent panel is safe). Concurrency is **mode-scoped** so a
+  bench isn't cancelled by a covalent collect/monitor of the same task.
+- **OpenFE Vast image** — `triskit23/nr4a3fep:latest` (PUBLIC), built by the `fep_bake` task from
+  `Dockerfile.nr4a3fep` + `environment-rbfe.yml` (openfe + ambertools/am1bcc + lomap/kartograf + openmm CUDA
+  12.6). This is the enabler for running `nr4a3_rbfe.py` + `nr4a3_ternary_fep.py` on Vast (the `nrv04vast` image
+  has the covalent MD env only — OpenMM, no OpenFE).
+- **Known gotcha fixed** — a conda-pack'd env can carry a stale OpenMM plugin dir (`platforms=['Reference']`);
+  `gpu_md_bench` now does the explicit `loadPluginsFromDirectory` reload (mirrors `nrv04_covalent_md`).
+- **Remaining gap to "RBFE/ternary run on Vast"** — the OpenFE *image* exists, but `nr4a3_rbfe.py` /
+  `nr4a3_ternary_fep.py` still need to be wired into the Vast launcher (like the covalent leg is). One real edge of
+  each on the 4090 (~$1–2) then replaces the 1.7× overhead assumption with a measured per-edge cost.
+
 **Vast bid + host policy** (`research/modalities/gpu_backend.py`; env-tunable via `VAST_BID_FLOOR_MULT`):
 - **Bid = `min_bid × 1.5`** — a margin *above* the market floor so the box wins AND **holds** its slot. **Never cap
   the bid below `min_bid`** — a below-floor bid leaves the box *created-but-stopped* (measured 2026-07-23, a cheap

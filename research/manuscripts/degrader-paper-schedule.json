@@ -32,7 +32,17 @@
     "  (5) prospective matrix = staged gates + PARETO (not a tunable scalar); model EWSR1::NR4A3 fusion context +",
     "      lysines beyond the LBD + full CRL/E2~Ub ensembles; 24-36 before controls -> preregistered downselect.",
     "  LANGUAGE: 'predicted selective candidate'; never imply efficacy/safety/therapeutic-window/clinical-readiness;",
-    "  cmpd19 MYC induction is a LIABILITY, not benefit."
+    "  cmpd19 MYC induction is a LIABILITY, not benefit.",
+    "",
+    "2026-07-23 (MEASURED Vast 4090 economics): the cost_est_usd fields below are AWS/GCP-era and ~5-10x too high",
+    "  for the Vast RTX 4090 lane. Measured gpu_md_bench throughput (4090 = 1549/669/175.6 ns/day at 35k/85k/444k",
+    "  atoms; 3090 = 72.5 @444k) shows the 4090 wins $/ns at EVERY size incl the 466k covalent panel (2.4x the",
+    "  3090, ~9% more/hr). Revised whole-program GPU on Vast 4090 ~= $80-200 (vs the ~$840 ladder): step1_fanout",
+    "  ~$8-20, valB_mini ~$4, valB_full ~$8-15, nrv04_retrospective ~$25-50, ternary_matrix ~$25-100, nrv04",
+    "  covalent 18 legs ~$6.5. Alchemical figures fold a ~1.7x HREX overhead assumption on the plain-MD bench;",
+    "  firm it with one real RBFE + one real ternary edge on the 4090. Authoritative detail + tooling (bench mode,",
+    "  OpenFE image triskit23/nr4a3fep) in STRATEGY.md -> GPU/PROVIDER SELECTION. Cost fields here left as-is",
+    "  (AWS/GCP range) pending a direct alchemical-on-Vast measurement; read the STRATEGY.md note for the 4090 lane."
   ],
   "paper": "research/manuscripts/nr4a3-degrader-paper.md",
   "master_plan": "STRATEGY.md",
