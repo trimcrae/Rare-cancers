@@ -1,0 +1,47 @@
+# Portable ternary-RBFE / OpenFE FEP job image — the SAME container runs on Vast / RunPod / Salad / Modal / a
+# Slurm node, so the ternary cooperativity FEP is no longer pinned to the 1-GPU GCP quota. It also serves as the
+# reproducibility artifact for the manuscript: a single immutable image that carries the EXACT conda env the GCP
+# ternary lane builds on the fly (env key `openfe1.12-am1bcc-gemmi-pdbfixer-biopython-cu126-v2`).
+#
+# PARITY IS THE POINT: the mamba spec below is byte-for-byte the one in
+# .github/workflows/gpu-ternary-fep-gcp.yml (the create in the "build/restore env" step). If you change one, change
+# the other — the frozen simulation protocol (Reviewer #3) assumes the same openfe/openmm/ambertools versions on
+# every provider. cuda-version=12.6 is pinned so OpenMM's CUDA PTX loads against a >=12.6 host driver (the same
+# pin the GCP lane uses; the actual driver is mounted by nvidia-container-toolkit from the host, so the base-image
+# CUDA tag only needs to be <= the host driver).
+FROM nvidia/cuda:12.6.3-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git wget curl ca-certificates bzip2 tar gzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Micromamba + the ternary RBFE stack. Exact pins mirror the GCP ternary lane's `mamba create ... -p .../rbfe`.
+# boto3/awscli/google-cloud-storage let the driver pull inputs + prior checkpoints and push per-unit checkpoints
+# to whichever object store the provider uses (S3 / R2 / B2 / GCS).
+RUN wget -qO /usr/local/bin/micromamba https://micro.mamba.pm/api/micromamba/linux-64/latest && \
+    chmod +x /usr/local/bin/micromamba
+ENV MAMBA_ROOT_PREFIX=/opt/mamba
+RUN micromamba create -y -p /opt/mamba/envs/rbfe -c conda-forge \
+        python=3.11 "openfe>=1.12" "pydantic>=2" importlib_resources openff-toolkit \
+        "ambertools>=23" openmmforcefields openff-nagl openff-nagl-models ocl-icd-system \
+        cuda-version=12.6 rdkit lomap2 kartograf gemmi pdbfixer biopython numpy scipy pyyaml \
+        netcdf4 netcdf-fortran openmmtools boto3 awscli google-cloud-storage && \
+    micromamba clean -a -y
+ENV PATH=/opt/mamba/envs/rbfe/bin:$PATH
+
+# Fail the build (not a leg at $/hr) if the frozen stack can't import.
+RUN python -c "import openfe, openmm, gemmi, rdkit, pdbfixer, Bio, openmmtools; \
+print('openfe', openfe.__version__); print('openmm', openmm.__version__)"
+
+WORKDIR /work
+COPY research/modalities/ /work/research/modalities/
+
+# BACKEND selects teardown behavior; autoteardown wraps the real driver argv and guarantees the GPU is released on
+# completion / failure / timeout (no idle billing) regardless of provider. Object-store creds + endpoint come from
+# env (OBJECT_STORE_ENDPOINT for R2/B2; AWS_* for S3; GOOGLE_APPLICATION_CREDENTIALS / bucket for GCS).
+ENV BACKEND=vast MAX_RUNTIME_S=72000
+ENTRYPOINT ["python", "/work/research/modalities/autoteardown.py"]
+# The wrapped command is the FEP driver; override CMD per leg. e.g.
+#   docker run ... triskit23/ternary-fep:latest python /work/research/modalities/rbfe_spot_driver.py <args>
+CMD ["python", "/work/research/modalities/rbfe_spot_driver.py", "--help"]
