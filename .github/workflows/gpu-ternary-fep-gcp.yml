@@ -471,16 +471,20 @@ jobs:
           MACHINES="g2-standard-8 g2-standard-12 g2-standard-16"
           ZONES="us-central1-a us-central1-b us-central1-c us-central1-f"
           # Provisioning model: SPOT by default (standing rule: wait out capacity). 'standard' = on-demand, used
-          # ONLY when explicitly authorized for a time-sensitive one-off. BOTH models set --max-run-duration below,
-          # and GCP REQUIRES --instance-termination-action whenever --max-run-duration is set — so BOTH branches must
-          # include it (STANDARD supports it too; the old "spot-only" claim was wrong and silently broke on-demand:
-          # every on-demand create failed validation and got mislabeled "stocked out"). Fixed 2026-07-22.
+          # ONLY when explicitly authorized for a time-sensitive one-off. GCP REQUIRES --instance-termination-action
+          # whenever --max-run-duration is set, so BOTH branches include it (STANDARD supports it too; the old
+          # "spot-only" claim was wrong and silently broke on-demand — every on-demand create failed validation and
+          # got mislabeled "stocked out"; fixed 2026-07-22). MAXRUN caps VM wall-clock: on-demand gets 20h so it
+          # spans the WHOLE run uninterrupted — a 7h cap SILENTLY TERMINATED the ternary calib leg mid-run at iter
+          # ~1560 (GCE killed the on-demand VM at exactly --max-run-duration=25200s; NOT a preemption). Spot keeps
+          # 7h: it resumes from the per-block checkpoint on any kill, so a short cap only bounds waste on a wedged
+          # VM. On-demand L4 can ALSO stock out in us-central1 (our only L4 region), so it waits out capacity like
+          # spot (PROV_ROUNDS=22). 20h is still a cost backstop (EXIT-trap + reaper are the primary teardown).
           if [ "$PROVISIONING" = standard ]; then
-            # On-demand L4 can ALSO stock out in us-central1 at peak (our only L4 region), so wait it out like spot.
-            PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"; PROV_ROUNDS=22
-            echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; waits out on-demand-capacity like spot)"
+            PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=72000s
+            echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; waits out on-demand-capacity like spot; 20h max-run cap)"
           else
-            PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22
+            PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=25200s
           fi
           provision() {
             local round M Z
@@ -490,7 +494,7 @@ jobs:
                   if gcloud compute instances create "$VM" \
                       --zone="$Z" --machine-type="$M" \
                       $PROV_FLAGS \
-                      --max-run-duration=25200s --maintenance-policy=TERMINATE --no-restart-on-failure \
+                      --max-run-duration=${MAXRUN} --maintenance-policy=TERMINATE --no-restart-on-failure \
                       --scopes=cloud-platform --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
                       --boot-disk-size=100GB --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
                     ZONE="$Z"; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z (round $round)"; return 0
