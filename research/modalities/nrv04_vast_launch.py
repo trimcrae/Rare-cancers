@@ -745,11 +745,17 @@ export T1=$(date +%s)
 
 _FIRM_TERNARY_BODY = r"""
 export T0=$(date +%s)
-echo "[firm] staging ternary leg from 8G1Q (ternary_pdb_stage.py)"
-$PY ternary_pdb_stage.py --leg-id "${LEG_ID:-calib_hi_to_lo__ternary_vhl}" --template-pdb 8G1Q --out "$IN" 2>&1 | tail -20 || true
-env MODE=run LEG_ID="${LEG_ID:-calib_hi_to_lo__ternary_vhl}" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-16}" \
-    CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_CONSTRAIN_LIGAND_CH=0 N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
-    INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_ternary_fep.py 2>&1 | tee /tmp/firm.log || true
+{
+  echo "[firm] staging ternary leg from 8G1Q (ternary_pdb_stage.py)"
+  $PY ternary_pdb_stage.py --leg-id "${LEG_ID:-calib_hi_to_lo__ternary_vhl}" --template-pdb 8G1Q --out "$IN" 2>&1 \
+    || echo "[firm] STAGING FAILED rc=$?"
+  echo "[firm] staged tree (name + bytes):"
+  find "$IN" -type f \( -name '*.sdf' -o -name '*.pdb' -o -name '*.json' \) -printf '  %s B  %p\n' 2>/dev/null || true
+  echo "[firm] --- ternary MD ---"
+  env MODE=run LEG_ID="${LEG_ID:-calib_hi_to_lo__ternary_vhl}" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-16}" \
+      CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_CONSTRAIN_LIGAND_CH=0 N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
+      INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_ternary_fep.py 2>&1 || true
+} | tee /tmp/firm.log
 export T1=$(date +%s)
 """
 
