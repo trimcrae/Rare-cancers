@@ -720,6 +720,11 @@ export PATH=/opt/mamba/envs/rbfe/bin:$PATH
 # fails ("no registered Platform called CUDA"). Point OPENMM_PLUGIN_DIR at this env's plugins so auto-load works
 # for BOTH our driver AND OpenFE's internal calls (verified root cause on the first firm run, 2026-07-23).
 export OPENMM_PLUGIN_DIR=/opt/mamba/envs/rbfe/lib/plugins
+# The rbfe conda env has no CA bundle for Python SSL, so ternary_pdb_stage.py's RCSB fetch fails with
+# CERTIFICATE_VERIFY_FAILED -> empty ligands.sdf (root-caused on the first firm run, 2026-07-23). Point SSL at
+# the system CA bundle the Dockerfile's apt `ca-certificates` installs.
+export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 PY=/opt/mamba/envs/rbfe/bin/python
 AWS=/opt/mamba/envs/rbfe/bin/aws
 command -v "$AWS" >/dev/null 2>&1 || AWS="$PY -m awscli"

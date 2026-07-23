@@ -38,3 +38,5 @@ dependencies:
   - gemmi                  # CIF/PDB parsing — needed by ternary_pdb_stage.py
   - awscli                 # result upload from the Vast nr4a3fep image (rbfe env is the only env baked there)
   - boto3                  # S3 client for the same
+  - ca-certificates        # CA bundle for Python SSL — else ternary_pdb_stage.py's RCSB fetch CERTIFICATE_VERIFY_FAILs
+  - certifi                # certifi bundle (belt-and-braces with the system CA path set in the launcher)
