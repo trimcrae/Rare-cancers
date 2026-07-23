@@ -421,9 +421,12 @@ def _save_built_system(bp, sim, topology, meta, result_s3):
         app.PDBxFile.writeFile(topology, pos, f, keepIds=True)
     os.replace(tmpc, bp["cif"])
     json.dump(meta, open(bp["meta"], "w"))
+    s3_ok = None
     if result_s3:
-        for p in bp.values():
-            _s3_cp(p, f"{result_s3}/{os.path.basename(p)}")
+        s3_ok = all(_s3_cp(p, f"{result_s3}/{os.path.basename(p)}") for p in bp.values())
+    # Observability: the S3 mirror is what a resume on a DIFFERENT host reads. If it fails, the leg would
+    # restart-from-0 on every preemption (never resume), so REPORT the mirror result explicitly.
+    print(f"[nrv04-md] persisted built-system snapshot ({meta.get('n_atoms')} atoms) -> S3 ok={s3_ok}", flush=True)
 
 
 def _load_built_system(bp, result_s3):
