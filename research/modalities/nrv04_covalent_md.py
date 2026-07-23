@@ -327,8 +327,79 @@ def _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom):
 # ---- orchestration --------------------------------------------------------------------------------------
 
 
+def _aws_bin():
+    import shutil
+    return shutil.which("aws") or "/opt/mamba/envs/md/bin/aws"
+
+
+def _s3_cp(src, dst, timeout=600):
+    """Best-effort aws s3 cp (the aws CLI lives in the md env). Returns True on success, never raises."""
+    import subprocess
+    try:
+        r = subprocess.run([_aws_bin(), "s3", "cp", src, dst], capture_output=True, text=True, timeout=timeout)
+        return r.returncode == 0
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _ckpt_paths(out_dir, leg_id, seed):
+    # OpenMM SERIALIZED STATE (XML) not saveCheckpoint(): the state is PORTABLE across hosts/GPUs, so a spot
+    # preemption that re-lands the leg on a *different* box can still resume (saveCheckpoint is hardware-locked).
+    return (os.path.join(out_dir, f"ckpt_{leg_id}_s{seed}.state.xml"),
+            os.path.join(out_dir, f"ckpt_{leg_id}_s{seed}.ckpt.json"))
+
+
+def _save_ckpt(sim, state_path, cj_path, state, result_s3):
+    """Persist the simulation state (portable XML) + accumulated-readout JSON, then mirror both to S3 so a
+    re-dispatched (preempted) leg can resume. Atomic local writes; S3 mirror is best-effort."""
+    tmp = state_path + ".tmp"
+    sim.saveState(tmp); os.replace(tmp, state_path)
+    tmpj = cj_path + ".tmp"
+    json.dump(state, open(tmpj, "w")); os.replace(tmpj, cj_path)
+    if result_s3:
+        _s3_cp(state_path, f"{result_s3}/{os.path.basename(state_path)}")
+        _s3_cp(cj_path, f"{result_s3}/{os.path.basename(cj_path)}")
+
+
+def _load_resume(state_path, cj_path, result_s3, leg_id, seed):
+    """Return the accumulated-readout dict if a VALID in-progress production checkpoint exists (pull from S3 if
+    not already local), else None. The caller then does sim.loadState(state_path)."""
+    if result_s3 and not (os.path.exists(state_path) and os.path.exists(cj_path)):
+        _s3_cp(f"{result_s3}/{os.path.basename(state_path)}", state_path)
+        _s3_cp(f"{result_s3}/{os.path.basename(cj_path)}", cj_path)
+    if not (os.path.exists(state_path) and os.path.exists(cj_path)):
+        return None
+    try:
+        st = json.load(open(cj_path))
+    except Exception:  # noqa: BLE001
+        return None
+    if (st.get("leg_id") == leg_id and st.get("seed") == seed and st.get("phase") == "production"
+            and 0 < int(st.get("done_frames", 0)) < int(st.get("frames", 0))):
+        return st
+    return None
+
+
+def _rm_ckpt(state_path, cj_path, result_s3):
+    """Delete the checkpoint (local + S3) once the leg has finished, so a later re-dispatch re-runs cleanly
+    instead of resuming a completed/terminated leg."""
+    import subprocess
+    for p in (state_path, cj_path):
+        try:
+            os.remove(p)
+        except OSError:
+            pass
+    if result_s3:
+        for name in (os.path.basename(state_path), os.path.basename(cj_path)):
+            try:
+                subprocess.run([_aws_bin(), "s3", "rm", f"{result_s3}/{name}"], capture_output=True, timeout=120)
+            except Exception:  # noqa: BLE001
+                pass
+
+
 def run_leg(env):
-    """Execute one leg from an env dict (see nrv04_covalent_panel.leg_env). Writes <OUTPUT_DIR>/leg_<id>_s<seed>.json."""
+    """Execute one leg from an env dict (see nrv04_covalent_panel.leg_env). Writes <OUTPUT_DIR>/leg_<id>_s<seed>.json.
+    Checkpoint/resume: production is saved (portable OpenMM state + readout JSON) every CKPT_EVERY_FRAMES frames and
+    mirrored to RESULT_S3, so a spot-preempted + re-dispatched leg RESUMES from the last saved frame."""
     from openmm import unit, app
 
     import md_settings as MD                                   # canonical hyperparameters (single source of truth)
@@ -344,6 +415,7 @@ def run_leg(env):
         covalent, env.get("COV_LIG_ATOM", "C6"), int(env.get("COV_RESNUM", "551")), env.get("MUTATION", ""))
 
     import numpy as _np
+    import time
 
     def _pe_kj(_sim):
         return _sim.context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(
@@ -353,19 +425,6 @@ def run_leg(env):
         p = _sim.context.getState(getPositions=True).getPositions(asNumpy=True)._value
         return bool(_np.isfinite(p).all())
 
-    # The covalent restraint imposes a stiff bond (k=3e5, eq 0.181 nm) across the co-fold's *non-bonded* Sγ···C6
-    # gap (often several Å) -> a large initial strain (~0.5·k·Δ² can reach tens of thousands of kJ/mol). Minimize
-    # then equilibration must dissipate it; if they can't, the 4 fs HMR integrator blows up (NaN coords) and the
-    # downstream Kabsch SVD fails. Record energies + a finite-coordinate guard so a blow-up is a REPORTED
-    # 'blew_up' outcome (with the phase it happened in) instead of an opaque LinAlgError crash.
-    e_pre = _pe_kj(sim)
-    sim.minimizeEnergy()
-    e_min = _pe_kj(sim)
-    _pull_A = (meta.get("reactive_cys") or {}).get("sg_electrophile_dist_A")
-    print(f"[nrv04-md] covalent={covalent} pull={_pull_A} Å  PE pre-min={e_pre:.4g} post-min={e_min:.4g} kJ/mol",
-          flush=True)
-    sim.context.setVelocitiesToTemperature(MD.TEMPERATURE_K * unit.kelvin, seed + 1)
-
     # sampling lengths canonical (env may override for a shakeout, else the md_settings defaults)
     prod_ns = float(env.get("PROD_NS", MD.PROD_NS)); equil_ns = float(env.get("EQUIL_NS", MD.EQUIL_NS))
     dt_ns = MD.TIMESTEP_NS
@@ -374,37 +433,73 @@ def run_leg(env):
     else:
         equil_steps = int(equil_ns / dt_ns); prod_steps = int(prod_ns / dt_ns)
         stride = MD.frame_stride_steps()                       # ~10 ps frame cadence (timestep-independent)
+    frames = max(1, prod_steps // stride)
+    chain_ids, e3_chains, target_chains, lys_nz = _topology_indices(topology)
+
+    # --- checkpoint/resume: production is the multi-hour cost, so a spot preemption must not throw it away.
+    # A re-dispatched leg pulls the last saved state + readouts back from S3 and RESUMES the frame loop. ---
+    result_s3 = env.get("RESULT_S3")
+    ckpt_every = max(1, int(env.get("CKPT_EVERY_FRAMES", "50")))
+    state_path, cj_path = _ckpt_paths(out_dir, leg_id, seed)
+    resume = _load_resume(state_path, cj_path, result_s3, leg_id, seed)
 
     blew_up = False; blow_phase = None
-    if equil_steps:                                            # equilibrate in chunks with a finite guard so a
-        n_chunks = max(1, min(20, equil_steps // 500))        # blow-up is caught (and pinpointed) here, not later
-        per = max(1, equil_steps // n_chunks); done = 0
-        for _c in range(n_chunks):
-            n = per if _c < n_chunks - 1 else (equil_steps - done)
-            if n <= 0:
-                break
-            sim.step(n); done += n
-            if not _finite(sim):
-                blew_up = True; blow_phase = f"equil@{done}steps/{equil_steps}"
-                print(f"[nrv04-md] BLOW-UP in {blow_phase}: PE={_pe_kj(sim):.4g} kJ/mol", flush=True)
-                break
+    _timed_accum = 0.0; _wall_accum = 0.0
+    if resume is not None:
+        sim.loadState(state_path)                              # portable state -> resumes on ANY host/GPU
+        e_pre = resume["e_pre"]; e_min = resume["e_min"]
+        e3_side = resume["e3_side"]; tg_side = resume["tg_side"]; iface = resume["iface"]
+        ref_iface = resume["ref_iface"]; ref_e3ca = resume["ref_e3ca"]; proxy = tuple(resume["proxy"])
+        per_frame_contacts = resume["per_frame_contacts"]; iface_rmsds = resume["iface_rmsds"]
+        lys_frames = resume["lys_frames"]; _done_frames = int(resume["done_frames"])
+        _timed_accum = float(resume.get("timed_ns_accum", 0.0)); _wall_accum = float(resume.get("wall_accum", 0.0))
+        print(f"[nrv04-md] RESUMED from checkpoint at frame {_done_frames}/{frames} (spot-preemption safe)", flush=True)
+    else:
+        # The covalent restraint imposes a stiff bond (k=3e5, eq 0.181 nm) across the co-fold's *non-bonded*
+        # Sγ···C6 gap -> a large initial strain (~0.5·k·Δ² can reach tens of thousands of kJ/mol). Minimize then
+        # equilibration must dissipate it; if they can't, the 4 fs HMR integrator blows up (NaN coords) and the
+        # Kabsch SVD fails. Record energies + a finite guard so a blow-up is a REPORTED 'blew_up' outcome.
+        e_pre = _pe_kj(sim)
+        sim.minimizeEnergy()
+        e_min = _pe_kj(sim)
+        _pull_A = (meta.get("reactive_cys") or {}).get("sg_electrophile_dist_A")
+        print(f"[nrv04-md] covalent={covalent} pull={_pull_A} Å  PE pre-min={e_pre:.4g} post-min={e_min:.4g} kJ/mol",
+              flush=True)
+        sim.context.setVelocitiesToTemperature(MD.TEMPERATURE_K * unit.kelvin, seed + 1)
+        if equil_steps:                                        # equilibrate in chunks with a finite guard so a
+            n_chunks = max(1, min(20, equil_steps // 500))     # blow-up is caught (and pinpointed) here, not later
+            per = max(1, equil_steps // n_chunks); done = 0
+            for _c in range(n_chunks):
+                n = per if _c < n_chunks - 1 else (equil_steps - done)
+                if n <= 0:
+                    break
+                sim.step(n); done += n
+                if not _finite(sim):
+                    blew_up = True; blow_phase = f"equil@{done}steps/{equil_steps}"
+                    print(f"[nrv04-md] BLOW-UP in {blow_phase}: PE={_pe_kj(sim):.4g} kJ/mol", flush=True)
+                    break
+        # reference frame for R1 alignment (post-equil); indices are from this reference geometry
+        ref_positions = _positions_nm(sim)
+        e3_side, tg_side = interface_atom_indices(ref_positions, chain_ids, e3_chains, target_chains)
+        iface = e3_side + tg_side
+        ref_iface = [ref_positions[i] for i in iface]
+        ref_e3ca = [ref_positions[i] for i in _ca_indices(topology, e3_chains)]
+        proxy = _catalytic_proxy(ref_positions, chain_ids, e3_chains)
+        per_frame_contacts, iface_rmsds, lys_frames = [], [], []
+        _done_frames = 0
+        if not blew_up:
+            sim.step(stride)                                   # one warmup stride (kernel compile/JIT) before timing
 
-    # collect interface + Lys frames on the fly (NVT internal metrics need no alignment; R1 uses Kabsch)
-    chain_ids, e3_chains, target_chains, lys_nz = _topology_indices(topology)
-    ref_positions = _positions_nm(sim)
-    e3_side, tg_side = interface_atom_indices(ref_positions, chain_ids, e3_chains, target_chains)
-    iface = e3_side + tg_side
-    ref_iface = [ref_positions[i] for i in iface]
-    ref_e3ca = [ref_positions[i] for i in _ca_indices(topology, e3_chains)]
+    def _ckpt_state():
+        return {"leg_id": leg_id, "seed": seed, "phase": "production", "frames": frames,
+                "done_frames": _done_frames, "e_pre": e_pre, "e_min": e_min,
+                "e3_side": e3_side, "tg_side": tg_side, "iface": iface,
+                "ref_iface": ref_iface, "ref_e3ca": ref_e3ca, "proxy": list(proxy),
+                "per_frame_contacts": per_frame_contacts, "iface_rmsds": iface_rmsds, "lys_frames": lys_frames,
+                "timed_ns_accum": _done_frames * stride * dt_ns, "wall_accum": _wall_accum + (time.time() - _t0)}
 
-    import time
-    per_frame_contacts, iface_rmsds, lys_frames = [], [], []
-    frames = max(1, prod_steps // stride)
-    _done_frames = 0
-    if not blew_up:
-        sim.step(stride)                                       # one warmup stride (kernel compile/JIT) before timing
-    _t_prod0 = time.time()
-    for _k in range(frames):
+    _t0 = time.time(); _resumed_from = _done_frames
+    for _k in range(_done_frames, frames):
         if blew_up:
             break
         sim.step(stride)
@@ -419,12 +514,16 @@ def run_leg(env):
         iface_rmsds.append(_aligned_iface_rmsd(cur_e3ca, ref_e3ca, cur_iface, ref_iface))
         lys_frames.append([pos[i] for i in lys_nz])
         _done_frames += 1
+        if _done_frames % ckpt_every == 0 and _done_frames < frames:     # continuous checkpoint -> S3
+            _save_ckpt(sim, state_path, cj_path, _ckpt_state(), result_s3)
+            print(f"[nrv04-md] checkpoint @ frame {_done_frames}/{frames} -> S3", flush=True)
 
-    _prod_wall_s = max(1e-6, time.time() - _t_prod0)           # production-only wall time (warmup stride excluded)
-    _timed_ns = _done_frames * stride * dt_ns                  # ns actually simulated in the timed window
-    ns_per_day = round(_timed_ns / (_prod_wall_s / 86400.0), 2) if _done_frames else 0.0  # GPU throughput -> $/ns
-    print(f"[nrv04-md] production throughput: {ns_per_day} ns/day ({_timed_ns:.4f} ns in {_prod_wall_s:.1f}s, "
-          f"{_done_frames}/{frames} frames, blew_up={blew_up})", flush=True)
+    _wall_accum += max(1e-6, time.time() - _t0)                # active-compute wall (excludes idle/preemption gaps)
+    _timed_ns = _done_frames * stride * dt_ns
+    _prod_wall_s = max(1e-6, _wall_accum)
+    ns_per_day = round(_timed_ns / (_prod_wall_s / 86400.0), 2) if _done_frames else 0.0  # throughput -> $/ns
+    print(f"[nrv04-md] production throughput: {ns_per_day} ns/day ({_timed_ns:.4f} ns in {_prod_wall_s:.1f}s active, "
+          f"{_done_frames}/{frames} frames, resumed_from={_resumed_from}, blew_up={blew_up})", flush=True)
 
     # readouts (guarded: a blow-up may leave zero/partial frames -> report None, not a divide-by-zero crash)
     import nrv04_readouts as R
@@ -436,7 +535,6 @@ def run_leg(env):
         r1["stable"] = r1["plateau_A"] < R.INTERFACE_RMSD_STABLE_A
     else:
         r1 = {"rmsd_series_mean": None, "plateau_A": None, "stable": False, "note": "no frames (blew up)"}
-    proxy = _catalytic_proxy(ref_positions, chain_ids, e3_chains)
     r3 = R.lys_presentation(lys_frames, proxy) if (lys_nz and lys_frames) else {"min_A": None, "note": "no target Lys/frames"}
 
     result = {"panel": "nrv04_covalent_feasibility", "leg_id": leg_id, "seed": seed, "mode": mode,
@@ -450,7 +548,8 @@ def run_leg(env):
     out = os.path.join(out_dir, f"leg_{leg_id}_s{seed}.json")
     json.dump(result, open(out, "w"), indent=2)
     print(f"[nrv04-md] wrote {out}: recruited={r2['recruited']} stable={r1['stable']}", flush=True)
-    return result
+    _rm_ckpt(state_path, cj_path, result_s3)                   # leg finished -> drop the checkpoint (a re-dispatch
+    return result                                             # should re-run cleanly, not resume a completed leg)
 
 
 def _aligned_iface_rmsd(cur_e3ca, ref_e3ca, cur_iface, ref_iface):

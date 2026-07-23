@@ -157,14 +157,17 @@
     {
       "id": "nrv04_feasibility_covalent",
       "title": "RUNG 3: NR-V04 covalent (C551) feasibility + reduced control panel",
-      "status": "pending",
+      "status": "running",
       "track": "gpu",
-      "cost_est_usd": "40-100",
+      "cost_est_usd": "6-10 (MEASURED bid; was 40-100 -> ~5-10x overestimate)",
+      "cost_measured": "RTX 3090 on Vast, interruptible bid $0.0789/hr (min_bid x1.1). 18 legs (6 systems x 3 seeds) x 6 ns (1 ns equil + 5 ns prod), ~466k atoms, ~4-6 h wall/leg -> ~$0.3-0.5/leg -> ~$6-10/panel. Bid+GPU measured; exact $/leg and $/ns finalize on first completed leg (ns/day stamped in each leg JSON).",
+      "provider": "vast",
+      "gpu": "rtx3090",
       "optimistic_days": 3,
       "remaining_days": 3,
       "parallel_ok": true,
       "depends_on": ["valB_mini"],
-      "note": "Mandatory change 4. Covalent celastrol-NR4A1 (C551) adduct + noncov/cov sensitivity + C551A control + warhead-only/recruiter controls. GO/NO-GO: covalency doesn't swamp the signal and the reduced panel behaves -> GO to the full NR-V04 retrospective."
+      "note": "Mandatory change 4. Covalent celastrol-NR4A1 (C551) adduct + noncov/cov sensitivity + C551A control + warhead-only/recruiter controls. GO/NO-GO: covalency doesn't swamp the signal and the reduced panel behaves -> GO to the full NR-V04 retrospective. LAUNCHED 2026-07-23 on Vast with the SVD/blow-up finite-guard fix (covalent-pull strain -> NaN was crashing every prior attempt)."
     },
     {
       "id": "step1_fanout_cmpd19",
