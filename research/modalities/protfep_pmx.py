@@ -295,10 +295,19 @@ def build_system(structure_path, mutation_spec, work_dir):
     _log(f"pmx mutate: {m['wt']}{m['resid']}->{m['mutant']} (chain {m['chain']}) -> {mutant}")
 
     # pdb2gmx pass 2, on the MUTANT: this is the one that produces the topology gentop promotes.
-    # -ignh again because the hybrid residue's hydrogens come from the force field, not from pmx's
-    # coordinate copy.
+    #
+    # NO -ignh HERE, and that asymmetry with pass 1 is the whole point. pmx writes the hybrid residue
+    # (Y2A for TYR->ALA) with its dummy/vanishing atoms already placed; -ignh would strip them and
+    # force pdb2gmx to rebuild them from the hydrogen database, which does not carry every hybrid
+    # hydrogen. Observed exactly that on the free build-test:
+    #     atom HH is missing in residue Y2A 29 ... add atom HH to the hydrogen database of
+    #     building block Y2A in the file mutres.hdb
+    #     -> There were 12 missing atoms in molecule Protein_chain_D
+    # HV1/HV2/HV3 are the vanishing hydrogens pmx had just placed. Pass 1 strips hydrogens to
+    # normalise protonation on the WILD-TYPE structure; pass 2 must preserve what pmx built.
+    # `-missing` would "fix" this by building an INCOMPLETE topology — the wrong kind of green.
     run([GMX, "pdb2gmx", "-f", "mutant.pdb", "-o", "conf.pdb", "-p", "topol.top",
-         "-ff", ff_name, "-water", WATER_MODEL, "-ignh"], cwd=work_dir)
+         "-ff", ff_name, "-water", WATER_MODEL], cwd=work_dir)
 
     # gentop promotes the plain topology to an A->B alchemical one.
     from pmx.alchemy import gen_hybrid_top
