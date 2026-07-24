@@ -259,7 +259,6 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
-      NRV04_RESULT_PREFIX: ${{ github.event.inputs.nrv04_result_prefix }}
       CONDA_OVERRIDE_CUDA: "12.6"   # match build_env: CUDA-12 builds so this CPU validation mirrors the Vast env
     steps:
       - uses: actions/checkout@v4
@@ -410,6 +409,7 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+      NRV04_RESULT_PREFIX: ${{ github.event.inputs.nrv04_result_prefix }}
       GIT_BRANCH: ${{ github.ref_name }}
       MODE: ${{ github.event.inputs.md_mode }}
       VAST_IMAGE: ${{ github.event.inputs.vast_image }}
