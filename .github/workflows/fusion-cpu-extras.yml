@@ -610,8 +610,13 @@ jobs:
           set -eo pipefail
           python3 -m pip install -q awscli >/dev/null 2>&1 || true
           B="${BUCKET:-sagemaker-us-east-2-646605541856}"
+          # Smoke lands under .../nr4a3-bioemu-smoke, the real run under .../nr4a3-bioemu-crosscheck. Print both.
+          for NAME in nr4a3-bioemu-smoke nr4a3-bioemu-crosscheck; do
+            SP="s3://${B}/nr4a3-bioemu-crosscheck/${NAME}"
+            echo "=== ${NAME} phase.txt ==="; aws s3 cp "$SP/phase.txt" - 2>/dev/null || echo "(none yet)"
+            aws s3 cp "$SP/bioemu-crosscheck.json" - 2>/dev/null | python3 -c "import sys,json;d=json.load(sys.stdin);print('  detection:',d.get('harmonized_detection'))" 2>/dev/null || true
+          done
           PREFIX="s3://${B}/nr4a3-bioemu-crosscheck/nr4a3-bioemu-crosscheck"
-          echo "=== phase.txt ==="; aws s3 cp "$PREFIX/phase.txt" - 2>/dev/null || echo "(no phase.txt yet)"
           if aws s3 cp "$PREFIX/bioemu-crosscheck.json" research/modalities/nr4a3-bioemu-crosscheck.json 2>/dev/null; then
             echo "=== result ==="; cat research/modalities/nr4a3-bioemu-crosscheck.json
             git config user.name "Claude"; git config user.email "noreply@anthropic.com"
