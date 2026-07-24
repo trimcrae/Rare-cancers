@@ -21,11 +21,13 @@ does not make any analogue's pose "correct". It propagates ONE hypothesis consis
 makes the resulting ddG values conditional-on-that-hypothesis and mutually comparable.
 
 QC, and what a failure means. Each staged pose is checked for (a) a large enough shared core, (b) core
-coordinates that really did land on the anchor's, and (c) no hard steric clash with the receptor. A pose that
-fails (a) or (b) is a BROKEN morph -> the unit is refused. A pose that fails (c) is reported as
-`needs_pose_revalidation` rather than silently accepted: a clashing substituent means the analogue cannot
-occupy the anchor's mode without receptor relaxation, which is a real (and interesting) result about the
-5-position exit-vector hypothesis, not a staging bug to paper over.
+coordinates that really did land on the anchor's, and (c) steric fit against the rigid receptor. A pose that
+fails (a) or (b) is a BROKEN morph -> the unit is refused, because its ddG would not mean what the map says it
+means. (c) is reported, never blocking, and at two cutoffs: a contact between 1.6 and 2.0 A is a SOFT overlap
+the alchemical MD's own minimisation relieves in its first steps, while a contact under 1.6 A cannot be
+relieved locally and marks the analogue as `needs_pose_revalidation` — a real result about the 5-position
+exit-vector hypothesis (that substituent does not fit the anchor mode in this conformer), not a staging bug to
+paper over. Those edges still run; their ddG carries the caveat.
 
 Runs free on a CI runner (`pip install rdkit`) and uploads the staged tree to S3 for the Vast fan-out.
 Usage:  python congeneric_pose_stage.py            # stage + QC (+ upload if S3_BUCKET/OUT_PREFIX set)
@@ -53,6 +55,7 @@ BUCKET = os.environ.get("S3_BUCKET", os.environ.get("VAST_CKPT_BUCKET", ""))
 MIN_CORE_ATOMS = int(os.environ.get("STAGE_MIN_CORE_ATOMS", "8"))
 MAX_CORE_RMSD_A = float(os.environ.get("STAGE_MAX_CORE_RMSD", "0.35"))
 CLASH_CUTOFF_A = float(os.environ.get("STAGE_CLASH_CUTOFF", "2.0"))
+SEVERE_CLASH_A = float(os.environ.get("STAGE_SEVERE_CLASH", "1.6"))
 
 
 def _rdkit():
@@ -85,74 +88,107 @@ def read_anchor_pose(sdf_path, smiles):
     return fixed
 
 
-def core_match(mol, anchor, rdFMCS, Chem):
-    """Map the analogue's shared-core atoms onto the anchor's, as (anchor_idx, mol_idx) pairs.
+def core_matches(mol, anchor, rdFMCS, Chem, max_a=4, max_m=8):
+    """ALL plausible mappings of the analogue's shared-core atoms onto the anchor's, as candidate lists of
+    (anchor_idx, mol_idx) pairs.
 
     Deliberately NOT RDKit's ConstrainedEmbed-with-a-fragment idiom: carving an RWMol core out of the anchor
     produces a fragment whose perceived valences/aromaticity often fail to substructure-match the analogue,
     which fails silently as "no core". Matching the MCS SMARTS against BOTH molecules and driving the embed
     from an explicit coordinate map is robust to that. Ring-complete/ring-only MCS keeps the indole intact
-    instead of letting the match wander into a partial ring."""
+    instead of letting the match wander into a partial ring.
+
+    WHY CANDIDATES, NOT ONE MATCH (root-caused 2026-07-24 from the first staging run). A single
+    `GetSubstructMatch` returns ONE arbitrary match, and the indole MCS pattern is symmetric enough to admit
+    several. Picking arbitrarily on each side independently can pair the analogue's core atoms with the
+    anchor's *symmetry-equivalent partners* rather than their true counterparts, which superimposes the
+    scaffold in a flipped orientation. That is exactly what the first run showed: cw_ev_5oh, cw_ev_5alkyne and
+    cw_ev_5ch2nh2 all landed at core RMSD 1.12 A — three different molecules at an IDENTICAL value, which is
+    the signature of a shared geometric alternative, not of per-molecule embedding noise. So we enumerate the
+    matches (uniquify=False keeps the symmetry-equivalent orderings) and let `build_pose` keep the pairing that
+    actually superimposes the scaffold, reporting how many it had to choose between."""
     a_heavy = Chem.RemoveHs(Chem.Mol(anchor))
     m_heavy = Chem.RemoveHs(Chem.Mol(mol))
     mcs = rdFMCS.FindMCS([a_heavy, m_heavy], completeRingsOnly=True, ringMatchesRingOnly=True, timeout=60)
     if mcs.numAtoms < MIN_CORE_ATOMS:
-        return None, mcs.numAtoms
+        return [], mcs.numAtoms
     patt = Chem.MolFromSmarts(mcs.smartsString)
     if patt is None:
-        return None, mcs.numAtoms
-    a_match, m_match = anchor.GetSubstructMatch(patt), mol.GetSubstructMatch(patt)
-    if not a_match or not m_match or len(a_match) != len(m_match):
-        return None, mcs.numAtoms
-    return list(zip(a_match, m_match)), mcs.numAtoms
+        return [], mcs.numAtoms
+    a_all = anchor.GetSubstructMatches(patt, uniquify=False, maxMatches=max_a)
+    m_all = mol.GetSubstructMatches(patt, uniquify=False, maxMatches=max_m)
+    cands = [list(zip(a, m)) for a in a_all for m in m_all if len(a) == len(m)]
+    return cands, mcs.numAtoms
 
 
-def build_pose(node_id, smiles, anchor, seed=0xC19):
-    """Build one analogue's pose: embed it with the shared core PINNED to the anchor's coordinates, MMFF-relax
-    only the grown substituent, then snap the core exactly onto the anchor. Returns (mol, qc)."""
-    Chem, AllChem, rdFMCS, rdMolAlign = _rdkit()
-    mol = Chem.MolFromSmiles(smiles)
-    if mol is None:
-        raise SystemExit(f"[stage] unparseable SMILES for {node_id}: {smiles!r}")
-    mol = Chem.AddHs(mol)
-    pairs, n_mcs = core_match(mol, anchor, rdFMCS, Chem)
-    if pairs is None:
-        return None, {"node": node_id, "status": "NO_CORE", "mcs_atoms": n_mcs,
-                      "reason": f"MCS with the anchor is {n_mcs} atoms (< {MIN_CORE_ATOMS}) or did not match "
-                                f"both molecules; the common-mode assumption does not hold for this analogue"}
+def _embed_on_core(mol_proto, anchor, pairs, seed, Chem, AllChem, rdMolAlign):
+    """Embed ONE candidate core mapping: pin the mapped atoms to the anchor's coordinates, MMFF-relax the rest
+    with the core restrained, rigid-snap onto the anchor. Returns (mol, core_rmsd) or (None, None)."""
+    mol = Chem.Mol(mol_proto)
     aconf = anchor.GetConformer()
     coord_map = {mi: aconf.GetAtomPosition(ai) for ai, mi in pairs}
     cid = -1
-    for attempt, kwargs in enumerate(({}, {"useRandomCoords": True}, {"useRandomCoords": True, "maxAttempts": 200})):
+    for attempt, kwargs in enumerate(({}, {"useRandomCoords": True},
+                                      {"useRandomCoords": True, "maxAttempts": 200})):
         cid = AllChem.EmbedMolecule(mol, coordMap=coord_map, randomSeed=seed + attempt,
                                     useBasicKnowledge=True, **kwargs)
         if cid >= 0:
             break
     if cid < 0:
-        return None, {"node": node_id, "status": "EMBED_FAILED", "mcs_atoms": n_mcs,
-                      "reason": "RDKit could not embed a 3D conformer with the core pinned to the anchor"}
-
-    m_core = [mi for _ai, mi in pairs]
+        return None, None
     try:
         ff = AllChem.MMFFGetMoleculeForceField(mol, AllChem.MMFFGetMoleculeProperties(mol))
         if ff is not None:
-            for idx in m_core:
-                ff.MMFFAddPositionConstraint(idx, 0.0, 1.0e3)
+            for _ai, mi in pairs:
+                ff.MMFFAddPositionConstraint(mi, 0.0, 1.0e3)
             ff.Minimize(maxIts=500)
-    except Exception as e:  # noqa: BLE001 — relaxation is a nicety; the pinned embed is load-bearing
-        print(f"[stage] {node_id}: MMFF relax skipped ({e})", flush=True)
-
-    # rigid-body snap: removes any residual core drift the embed/relax left, without touching internal geometry
+    except Exception:  # noqa: BLE001 — relaxation is a nicety; the pinned embed is load-bearing
+        pass
+    # rigid-body snap: removes residual core drift the embed/relax left, without touching internal geometry
     rdMolAlign.AlignMol(mol, anchor, atomMap=[(mi, ai) for ai, mi in pairs])
-    core_rmsd = _core_rmsd(mol, anchor, pairs)
-    mol.SetProp("_Name", node_id)
+    return mol, _core_rmsd(mol, anchor, pairs)
+
+
+def build_pose(node_id, smiles, anchor, seed=0xC19):
+    """Build one analogue's pose on the anchor's core.
+
+    Every plausible core mapping is embedded and the one that actually superimposes the scaffold is kept (see
+    `core_matches` for why a single arbitrary match is not safe). The QC records how many mappings were in
+    play and the spread between best and worst, so a future run can see whether the choice mattered."""
+    Chem, AllChem, rdFMCS, rdMolAlign = _rdkit()
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        raise SystemExit(f"[stage] unparseable SMILES for {node_id}: {smiles!r}")
+    mol = Chem.AddHs(mol)
+    cands, n_mcs = core_matches(mol, anchor, rdFMCS, Chem)
+    if not cands:
+        return None, {"node": node_id, "status": "NO_CORE", "mcs_atoms": n_mcs,
+                      "reason": f"MCS with the anchor is {n_mcs} atoms (< {MIN_CORE_ATOMS}) or did not match "
+                                f"both molecules; the common-mode assumption does not hold for this analogue"}
+
+    scored = []
+    for i, pairs in enumerate(cands):
+        m, rmsd = _embed_on_core(mol, anchor, pairs, seed + 17 * i, Chem, AllChem, rdMolAlign)
+        if m is not None:
+            scored.append((rmsd, i, m, pairs))
+    if not scored:
+        return None, {"node": node_id, "status": "EMBED_FAILED", "mcs_atoms": n_mcs,
+                      "n_core_candidates": len(cands),
+                      "reason": "RDKit could not embed a 3D conformer with the core pinned to the anchor, on "
+                                "any candidate core mapping"}
+    scored.sort(key=lambda t: t[0])
+    core_rmsd, _i, best, pairs = scored[0]
+    best.SetProp("_Name", node_id)
     qc = {"node": node_id, "status": "ok", "mcs_atoms": n_mcs, "core_atoms": len(pairs),
-          "core_rmsd_A": round(core_rmsd, 3), "n_heavy": Chem.RemoveHs(mol).GetNumAtoms()}
+          "core_rmsd_A": round(core_rmsd, 3), "n_heavy": Chem.RemoveHs(best).GetNumAtoms(),
+          "n_core_candidates": len(cands), "n_core_candidates_embedded": len(scored),
+          "core_rmsd_worst_candidate_A": round(scored[-1][0], 3)}
     if core_rmsd > MAX_CORE_RMSD_A:
         qc["status"] = "CORE_DRIFT"
-        qc["reason"] = (f"core RMSD {core_rmsd:.2f} A > {MAX_CORE_RMSD_A} A — the shared scaffold did not land "
-                        "on the anchor's, so the morph would not be common-mode")
-    return mol, qc
+        qc["reason"] = (f"core RMSD {core_rmsd:.2f} A > {MAX_CORE_RMSD_A} A on the BEST of {len(scored)} core "
+                        "mappings — the shared scaffold cannot be superimposed on the anchor's, so the morph "
+                        "would not be common-mode")
+    return best, qc
 
 
 def _core_rmsd(mol, anchor, pairs):
@@ -183,14 +219,19 @@ def receptor_heavy_coords(pdb_path):
     return xyz
 
 
-def clash_count(mol, rec_xyz, cutoff=CLASH_CUTOFF_A):
-    """Number of ligand-heavy / receptor-heavy pairs closer than `cutoff`, and the closest contact."""
+def clash_count(mol, rec_xyz, cutoff=CLASH_CUTOFF_A, severe=SEVERE_CLASH_A):
+    """Ligand-heavy / receptor-heavy contacts against the RIGID receptor: (soft, severe, closest_A).
+
+    Two cutoffs on purpose. A contact just under `cutoff` (~1.8-2.0 A) is a SOFT overlap that the alchemical
+    MD's own minimisation relieves in the first few steps — worth recording, not worth acting on. A contact
+    under `severe` cannot be relieved by local relaxation and means the substituent genuinely does not fit the
+    anchor mode in this rigid conformer."""
     from rdkit import Chem
     heavy = Chem.RemoveHs(Chem.Mol(mol))
     conf = heavy.GetConformer()
     lig = [(conf.GetAtomPosition(i).x, conf.GetAtomPosition(i).y, conf.GetAtomPosition(i).z)
            for i in range(heavy.GetNumAtoms())]
-    c2, n, closest = cutoff * cutoff, 0, 1e9
+    c2, s2, n, ns, closest = cutoff * cutoff, severe * severe, 0, 0, 1e9
     for lx, ly, lz in lig:
         for rx, ry, rz in rec_xyz:
             d2 = (lx - rx) ** 2 + (ly - ry) ** 2 + (lz - rz) ** 2
@@ -198,7 +239,9 @@ def clash_count(mol, rec_xyz, cutoff=CLASH_CUTOFF_A):
                 closest = d2
             if d2 < c2:
                 n += 1
-    return n, round(closest ** 0.5, 2)
+                if d2 < s2:
+                    ns += 1
+    return n, ns, round(closest ** 0.5, 2)
 
 
 def stage(anchor_sdf, receptor_pdb, out_dir, receptor=PRIMARY_RECEPTOR):
@@ -225,20 +268,28 @@ def stage(anchor_sdf, receptor_pdb, out_dir, receptor=PRIMARY_RECEPTOR):
         else:
             mol, qc = build_pose(node, smiles[node], anchor)
         if mol is not None:
-            nclash, closest = clash_count(mol, rec)
-            qc["receptor_clashes_lt_%.1fA" % CLASH_CUTOFF_A] = nclash
+            soft, sev, closest = clash_count(mol, rec)
+            qc["soft_contacts_lt_%.1fA" % CLASH_CUTOFF_A] = soft
+            qc["severe_clashes_lt_%.1fA" % SEVERE_CLASH_A] = sev
             qc["closest_receptor_contact_A"] = closest
-            if nclash:
+            if sev:
                 qc["needs_pose_revalidation"] = True
-                qc["revalidation_reason"] = (f"{nclash} heavy-atom contacts < {CLASH_CUTOFF_A} A with the rigid "
-                                             "receptor: this substituent cannot occupy the anchor mode without "
-                                             "receptor relaxation — a finding about the exit-vector hypothesis, "
-                                             "reported, not hidden")
+                qc["revalidation_reason"] = (
+                    f"{sev} heavy-atom contacts < {SEVERE_CLASH_A} A with the RIGID receptor (closest "
+                    f"{closest} A): local relaxation cannot relieve this, so the substituent does not fit the "
+                    "anchor mode in this conformer — a finding about the exit-vector hypothesis, reported, "
+                    "not hidden. The edge still runs; its ddG carries this caveat.")
+            elif soft:
+                qc["soft_contact_note"] = (f"{soft} contact(s) between {SEVERE_CLASH_A} and {CLASH_CUTOFF_A} A "
+                                           f"(closest {closest} A) — relieved by the alchemical MD's own "
+                                           "minimisation; recorded, not a flag")
             poses[node] = mol
         report.append(qc)
         print(f"[stage] {node:28s} {qc['status']:12s} core={qc.get('core_atoms')} "
-              f"rmsd={qc.get('core_rmsd_A')} clashes={qc.get('receptor_clashes_lt_%.1fA' % CLASH_CUTOFF_A)}",
-              flush=True)
+              f"rmsd={qc.get('core_rmsd_A')} cands={qc.get('n_core_candidates')} "
+              f"worst={qc.get('core_rmsd_worst_candidate_A')} "
+              f"soft={qc.get('soft_contacts_lt_%.1fA' % CLASH_CUTOFF_A)} "
+              f"severe={qc.get('severe_clashes_lt_%.1fA' % SEVERE_CLASH_A)}", flush=True)
 
     w = Chem.SDWriter(sdf_path)
     for node in needed:
@@ -263,7 +314,7 @@ def stage(anchor_sdf, receptor_pdb, out_dir, receptor=PRIMARY_RECEPTOR):
         "receptor": receptor, "n_requested": len(needed), "n_staged": len(names),
         "missing": missing, "sdf": os.path.basename(sdf_path), "qc": report,
         "thresholds": {"min_core_atoms": MIN_CORE_ATOMS, "max_core_rmsd_A": MAX_CORE_RMSD_A,
-                       "clash_cutoff_A": CLASH_CUTOFF_A},
+                       "soft_contact_A": CLASH_CUTOFF_A, "severe_clash_A": SEVERE_CLASH_A},
     }
     with open(os.path.join(out_dir, "stage_qc.json"), "w") as f:
         json.dump(summary, f, indent=2)
