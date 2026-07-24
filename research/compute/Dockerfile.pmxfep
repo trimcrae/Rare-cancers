@@ -50,8 +50,21 @@ ENV PATH=/opt/mamba/envs/pmxfep/bin:$PATH
 
 # pmx from the develop branch (see gotcha 2). Installed after the conda solve so pip cannot drag the
 # conda-provided numpy/scipy out from under GROMACS' python bindings.
-RUN pip install --no-cache-dir "git+https://github.com/deGrootLab/pmx.git@develop" \
-    && pip cache purge || true
+#
+# ⚠ NO TRAILING `|| true` ON THIS LAYER. The first version read
+#     RUN pip install ... && pip cache purge || true
+# and the `|| true` applied to the WHOLE chain, so a FAILED pip install produced a successful layer
+# and the build sailed on to fail three layers later with a bare "No module named 'pmx'". A tolerant
+# exit belongs on cache cleanup (which is what it was meant for, below) and never on the step that
+# installs the engine. `set -eux` plus an explicit import check makes this layer a real gate.
+#
+# pmx builds C extensions (_pmx, _xdrio), so it needs its build dependencies present. If pip's build
+# isolation cannot see the conda numpy, the retry drops isolation rather than silently giving up.
+RUN set -eux; \
+    pip install --no-cache-dir setuptools wheel cython; \
+    pip install --no-cache-dir "git+https://github.com/deGrootLab/pmx.git@develop" \
+      || pip install --no-cache-dir --no-build-isolation "git+https://github.com/deGrootLab/pmx.git@develop"; \
+    python -c "import pmx; print('pmx imported from', pmx.__file__)"
 
 # Cache cleanup in its OWN tolerant layer. Chaining `micromamba clean -a -y` onto a create with &&
 # failed the perses image build on a libmamba filesystem bug AFTER the solve had already succeeded;

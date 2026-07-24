@@ -82,7 +82,8 @@ jobs:
           set -eo pipefail
           python -m pip install -q pytest
           python -m pytest research/modalities/tests/test_protein_fep.py \
-                           research/modalities/tests/test_protfep_bench.py -q
+                           research/modalities/tests/test_protfep_bench.py \
+                           research/modalities/tests/test_dockerfile_hygiene.py -q
       - name: Stage every benchmark leg from RCSB (chain surgery + mutation-site verification)
         # CI runners have unrestricted internet (the dev sandbox's egress proxy 403s RCSB). PDBFixer
         # is absent here so preparation is skipped and reported — but the chain cut and the site
