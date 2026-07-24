@@ -42,8 +42,11 @@
     "  alchemical HREX is ~tens x slower per ns than plain MD (12 coupled windows/1 GPU + softcore + multistate",
     "  evals). The firm RBFE run (reduced leg ran ~2h without finishing) CONFIRMS the pilot-billing anchor ~55 GPU-h",
     "  /RBFE complex leg. Price alchemical stages on PILOT BILLING, never the bench $/ns: RBFE edge ~$12-20, ternary",
-    "  3-replica edge ~$65-110 (146,509-particle system, firm-run confirmed); step1_fanout(19) ~$230-380; whole",
-    "  program ~$500-1500+ (Vast 4090 ~2-3x cheaper/GPU-h than AWS g5, so under the ~$840 AWS ladder but NOT ~$200).",
+    "  3-replica edge ~$65-110 (146,509-particle system, firm-run confirmed); step1_fanout(19) ~$230-380. DO NOT",
+    "  quote a single whole-program total (neither the retracted ~$200 nor a naive $840/2-3x): the provider is ~2-3x",
+    "  cheaper/GPU-h (down) BUT the real per-edge GPU-h is ~5-15x what the $840 schedule assumed (up, so $840 was",
+    "  itself an underestimate) - they roughly cancel to an unknown dominated by the unpinned ternary matrix count.",
+    "  Price bottom-up per edge; gate each rung individually.",
     "  Authoritative detail in STRATEGY.md -> GPU/PROVIDER SELECTION economics block. cost_est_usd fields below left",
     "  as-is (AWS/GCP range) pending a real alchemical-on-Vast per-edge measurement."
   ],

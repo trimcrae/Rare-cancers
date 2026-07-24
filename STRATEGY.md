@@ -233,9 +233,15 @@ for the CARD decision only):
   **4090 is ~2.2× cheaper $/ns even at 466k.** This *refutes* the a-priori "bandwidth-bound → 3090" pick (the
   3090's ~8% bandwidth edge is swamped by the 4090's ~2× compute). Caveat: single-host-per-point — confirm with a
   repeat before repricing/moving a large panel, but default endpoint MD to the 4090 going forward.
-- **Whole remaining program ≈ ~$500–1500+** (the original ~$840 AWS schedule was roughly the right order of
-  magnitude; the Vast 4090 lane is ~2–3× cheaper per GPU-h than AWS g5, so somewhat under it — but the alchemical
-  GPU-h counts are large). Each rung still waits for its go.
+- **No single reliable whole-program total — do NOT quote one (incl. the retracted ~$80–200 AND a naive "$840 ÷
+  2–3×").** Two corrections push OPPOSITE ways and roughly cancel to an unknown: (a) Vast 4090 is ~2–3× cheaper
+  per GPU-h than AWS g5 → pulls the total DOWN; (b) the pilot-billing per-edge GPU-h (~55/complex leg) is ~5–15×
+  what the ~$840 AWS schedule IMPLICITLY assumed (it priced step1_fanout at $60–150 = ~5–15 GPU-h/edge; the real
+  is ~55–75) → pulls UP, i.e. **the $840 was itself an underestimate**, so you can't get the Vast total by
+  discounting it. **Price bottom-up from the per-edge anchors instead**; the only well-bounded stage is
+  `step1_fanout` (19 RBFE edges × ~$12–20) ≈ **~$230–380 on Vast 4090**. The dominant cost is the ternary
+  **retrospective + prospective matrix**, whose edge/replica COUNTS are not pinned, so the program stays
+  **unpriced-in-total until those counts are fixed** — each rung is gated and priced individually at its gate.
 
 **★ TOOLING BUILT THIS SESSION (so a future session doesn't rebuild it):**
 - **Vast throughput bench** — `nrv04_vast_launch.py` modes `bench` / `bench_collect`, driven by
