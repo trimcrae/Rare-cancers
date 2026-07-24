@@ -38,6 +38,16 @@ below one-for-one. When work lands, update BOTH this file's stage status line an
 - **Verdict headline:** *conditional approval with five mandatory changes.* Proceed NOW with Step 0, the
   compact public accuracy benchmark, and the Step 1 pilot. **HOLD** full ABFE (Step 9) and all prospective
   ternary spend (Step 8) until the validation architecture below is in place.
+- **★ PROSPECTIVE STAGE RESTRUCTURED (2026-07-24, trimcrae decision).** The reviewer verdict and the five
+  mandatory changes below are UNCHANGED and still govern validation. What changed is the *prospective stage
+  itself*: the fixed molecule-first {warhead×exit×ligase×linker} matrix (old RUNG 5) is **replaced by an
+  orientation-first inverse-design ladder with a hard causal kill-switch** — see the dedicated section
+  **"★ PROSPECTIVE-STAGE RESTRUCTURING (2026-07-24)"** after the five mandatory changes, and the rewritten
+  RUNG 4–5 in the ordered plan. Rationale: the matrix *verified* selectivity if it happened to be present but
+  never *designed* for it; the new ladder searches for an NR4A3-discriminating ternary interface, proves it
+  causally with reciprocal mutation cycles, and STOPS before the flagship spend if no robust wedge exists. This
+  raises rigor/honesty and makes failure detectable; it does not (and no in-silico method can) make success more
+  likely — it is a computational hypothesis-prioritization program, not a claim of degradation.
 
 ---
 
@@ -120,6 +130,109 @@ below one-for-one. When work lands, update BOTH this file's stage status line an
 - **Fix the matrix arithmetic:** {2–3 warheads} × {2 exit vectors} × {VHL, CRBN} × {3 linkers} = **24–36**
   primary combinations *before* inactive stereoisomers and controls — NOT 6–12. The 6–12 deliverable requires a
   **preregistered cheap-screen downselection** that preserves warhead / exit-vector / ligase / linker diversity.
+  *(2026-07-24: this molecule-first matrix is SUPERSEDED as the WORKFLOW by the orientation-first ladder in the
+  next section. The 24–36 figure now bounds the VIRTUAL linker set produced by inverse design against a confirmed
+  orientation basin, not a hand-built starting grid. The language rules above still apply verbatim.)*
+
+---
+
+## ★ PROSPECTIVE-STAGE RESTRUCTURING (2026-07-24) — orientation-first inverse design, not molecule-first screening
+
+**What changed, and why.** Mandatory Change 5 fixed *how candidates are scored* (staged gates + Pareto, not a
+tunable scalar) but left the workflow **molecule-first**: enumerate a fixed {warhead×exit×ligase×linker} matrix,
+model each ternary, score it, and hope the Pareto front happens to contain a selective degrader. That is a
+well-controlled lottery — it *verifies* selectivity if it is already present, but it never asks the actual design
+question: *what relative target–E3 orientation would create an NR4A3-specific neo-interface that also positions
+E2~Ub productively, and what linker chemistry can realize that orientation?* The prospective stage is therefore
+reorganized **orientation-first**:
+
+```
+paralogue surface differences → selective interface BASINS → productive CRL geometry
+    → linker requirements → candidate molecules
+```
+
+This single reordering removes blind linker guessing. It **preserves everything MC5 mandated** (Pareto/uncertainty,
+EWSR1::NR4A3 fusion context, lysines beyond the LBD, full CRL/E2~Ub ensembles) and **strengthens** it with a causal
+test and a hard kill-switch. Precedent grounding (deep literature scan, 2026-07-24): close-paralogue degrader
+selectivity is created at the induced PPI surface + differential lysine geometry (BRD4-vs-BRD2/3 charge zipper;
+CDK6-vs-CDK4; p38 isoforms flipped by linker/orientation alone), **not** at the conserved warhead pocket — and in
+every landmark case it was *discovered then rationalized by a solved ternary structure*, never predicted blind.
+There is no validated prospective selectivity predictor in the field, and AKT1/2/3 is the cautionary null (isoforms
+too homologous → only pan-degraders). So this ladder is designed to *find and causally justify* a wedge if one
+exists, and to *honestly report its absence* if one does not.
+
+**The five load-bearing additions**
+
+1. **A paralogue-differential surface atlas (free, CPU).** Model NR4A1/2/3 in a **MATCHED** ensemble — homologous
+   starting frames, identical warhead-pose hypotheses, identical protonation/microstates, identical target–E3
+   starting transforms, identical sampling, matched fusion-context scenarios — never three independently-built
+   models that could accidentally hand NR4A3 a more favorable start. Map, per receptor state: nonconserved
+   solvent-exposed residues; conservative substitutions with altered electrostatics/sterics; E3-reachable regions;
+   residues stable across the open-pocket ensemble; lysines on LBD / hinge / DBD / fusion-partner **separately**;
+   surfaces sensitive to plausible EWSR1::NR4A3 domain arrangements. Output = a discrimination **map**, not three
+   receptor models. Do not assign fabricated equilibrium populations — treat states as explicit scenarios unless
+   populations are defensibly estimable.
+
+2. **Orientation-space search before real linkers (cheap → then confirmed).** For each ligase, place VHL/CRBN
+   around the warhead-bound target with a flexible linker-reach restraint and sample many relative transforms.
+   Ask only: *does any geometrically bridgeable E3 orientation form an interface that is favorable on NR4A3 and
+   systematically weaker / frustrated on NR4A1 and NR4A2?* Evaluate every transform against all three paralogues
+   with matched protocol. Filters: no severe target–E3 clashes; exit-vector separation chemically bridgeable;
+   interface survives restrained relaxation; interface contacts paralogue-differential residues; compatible with
+   ≥ part of the CRL/E2~Ub ensemble; an accessible lysine repeatedly enters a productive transfer region; not
+   uniquely dependent on one receptor frame. Cluster survivors into **~3–8 orientation basins per ligase**, not
+   hundreds of nominal poses.
+
+3. **Selectivity "wedges" proven by reciprocal mutation cycles — the primary causal test.** A basin counts only
+   if it has an interpretable structural reason to prefer NR4A3. For a target-surface mutation *m*:
+   `ΔΔG_neo-interface^m = ΔG_mut^ternary − ΔG_mut^binary` (the binary leg subtracts mutation effects arising from
+   the target–warhead complex itself, isolating the recruited-interface effect). A strong wedge shows: favorable
+   NR4A3 interface; **loss** of stability when NR4A3 residues are mutated to NR4A1/2 identities; **partial gain**
+   on the reciprocal NR4A1/2→NR4A3 mutations; persistence across receptor/ligase frames; a recognizable steric /
+   electrostatic / H-bond mechanism. This is causal computational evidence — far stronger than merely observing
+   ΔG_ternary,3 < ΔG_ternary,1.
+
+4. **Separate basin ACCESSIBILITY from basin STABILITY.** Never collapse a construct to one pose + one
+   cooperativity number. Estimate `P(B_k | d, s)` (can the linker reach and hold basin *k* under scenario *s*?)
+   **separately** from `ΔG_coop(d, B_k, s)` (is that orientation thermodynamically plausible?). A very favorable
+   basin the linker almost never accesses is irrelevant — do not assume the lowest-energy modeled pose is occupied.
+
+5. **Robust constraint-satisfaction selection, not Pareto-membership alone.** A candidate advances only if it
+   satisfies preregistered constraints across a required fraction of scenarios: binary-pose non-destabilization;
+   basin populated in replicated MD; NR4A3 interface advantage over **both** paralogues positive under
+   receptor / pose / force-field perturbation; ≥1 NR4A3-specific contact survives counterfactual mutation; a
+   meaningful fraction of full-CRL conformations place ubiquitin near an accessible NR4A3 lysine; linker not
+   persistently strained + credible chemistry. Rank by `P_d = P(all constraints hold)`, robust to dropping any one
+   favorable scenario — this kills the one-favorable-frame artifact that a raw Pareto set still admits (the
+   best-of-N winner's-curse risk flagged repeatedly in this program).
+
+**★ THE HARD KILL-SWITCH (the most valuable single addition).** **No causally-confirmed NR4A3 selectivity wedge
+⇒ STOP. No linker matrix, no ensemble refinement, no flagship spend.** If NR4A1/2/3 interfaces are too similar to
+support a wedge (the AKT1/2/3 outcome), the workflow *correctly returns "no wedge"* and we publish the honest
+negative — *"we mapped orientation space and no robust NR4A3-discriminating, ubiquitination-compatible basin
+survives causal testing."* That is a real, defensible, novel result, and it is reached **before** the expensive
+stages, not after.
+
+**Kill-switch trust anchor (resolved fork, 2026-07-24).** Wedge *nomination* in the orientation search uses CHEAP
+counterfactual scoring — fast, but poor signal-to-noise for small paralogue differences (exactly the regime where
+interface scoring is least reliable: ternary docking scores correlate ~0 with pose quality, structure recovery is
+~97 % within 10 Å but only ~50 % within 4 Å). The go/no-go therefore does **NOT** fire on cheap scores. Cheap
+scoring only *nominates*; the kill-switch is **anchored to a promoted alchemical mutation-cycle confirmation** of
+≥1 nominated wedge before any linker matrix is funded. This front-loads one small alchemical fleet exactly where it
+decides the largest downstream commitment. *(Rejected alternative: gate on cheap Rung-C scoring — faster, but can
+false-pass onto noise or false-kill a real small wedge.)*
+
+**Honest scope (must hold in the paper).** Everything remains **conditional on the hypothesized cmpd19 binary pose
+× receptor frame** — a *double* conditionality; a wedge surviving only one poorly-supported pose is penalized or
+dropped. GPU cost is **reallocated, not reduced**: the atlas / basin-search / inverse-linker steps are mostly free
+CPU, but the mutation-cycle confirmation and the ensemble refinement are flagship-scale spends that keep the same
+per-gate sign-off. The deliverable is a computationally prioritized, structure-defined, retrosynthetically
+annotated candidate set with an *identified causal selectivity mechanism* — degradation experimentally unvalidated.
+
+**Paper thesis (upgraded).** From *"a validated workflow ranked an NR4A degrader matrix"* to *"paralogue
+selectivity, where achievable, is directed by steering the recruited ligase toward an NR4A3-distinctive
+neo-interface; reciprocal target-surface mutation cycles, orientation-basin robustness, and full-CRL
+ubiquitination geometry identify the causal mechanism — or honestly establish that no robust wedge exists."*
 
 ---
 
@@ -174,8 +287,21 @@ Two of the reviewer's mandated validations look similar ("benchmark the method o
    looks promising.** We never pay for an expensive stage on a hypothesis a cheap stage could have falsified.
 3. **GO/NO-GO after every priced rung.** Each rung below ends with an explicit GO / NO-GO test. NO-GO = stop or
    pivot; do not spend the next rung.
-4. **Every step is priced** (spot $, honest range). Anchors: g5.xlarge spot ≈ $0.40–0.60/GPU-h; repo 3-receptor
-   RBFE ≈ $18–60 spot; ABFE ≈ $80–200 spot. Ranges are wide until the Step-0 edge gives us a realized GPU-h/edge.
+4. **Every step is priced** (honest range), on the CURRENT provider anchors (updated 2026-07-24 from live billing):
+   - **MEASURED — Vast RTX 3090, endpoint MD, large assemblies (~150–470k atoms):** billed **~$0.10–0.16/hr**
+     (`dph_total`; host storage/inet spread, not the bid, drives it), **~40–61 ns/day → ~$0.4–0.7 per 6 ns leg**
+     (NR-V04 covalent panel, 6 completed legs 2026-07-23, firming toward the higher end). That realized panel is
+     **~$10–11**, ~**10× under** its old $40–100 estimate — so every MD-bound line below is priced on this leg.
+   - **MEASURED — alchemical RBFE complex leg ≈ 55 GPU-h** (~4.5 GPU-h/window × 12; pilot billing 2026-07-13) →
+     **~$11 GCP-L4 / ~$18 AWS / ~$8–14 Vast-4090** per complex leg; a full binary edge (complex + solvent) ≈
+     **~$12–20 on Vast 4090**.
+   - **ESTIMATED — Vast RTX 4090, alchemical, ~$0.144/hr cheapest-eligible (probe 2026-07-22), ~$0.15–0.25/hr
+     realized with the ×1.5 bid:** a full **3-replica ternary cooperativity edge ≈ ~$65–110** (vs ~$288 on AWS
+     g5 — the same ~435 GPU-h at a ~2–3× cheaper rate). **NOT yet measured on Vast → PIN from the first ternary
+     alchemical edge run there;** ternary/mutation-cycle lines below keep wide ranges until then.
+   - **Pricing rule for a step:** endpoint MD → price on the measured 3090 leg; alchemical RBFE/FEP → price on the
+     4090 edge. (Legacy anchors retired: g5.xlarge spot ≈ $0.40–0.60/GPU-h; the old "$18–60 RBFE / $80–200 ABFE"
+     were AWS-priced and ~2–3× the Vast numbers now in use.)
 
 ---
 
@@ -309,7 +435,16 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   independently satisfied (valA_mini clean on am1bcc → cite OpenFE; **valA_full skipped**), so that side of the
   fan-out gate is met — but RUNG 4 still requires the replicas + pose/state sensitivity above; checking this box
   does **not** by itself unlock the fleet.
-- **`[~]` Validation B-mini — PROTAC 2 → cis-PROTAC 2 known-answer ternary edge** *(valB_mini · GPU · ∥)* — **Price: ~$40–80 · Cum. ~$110**
+- **`[~]` Validation B-mini — all-binding graded cooperativity edge (Wurz cmpd 1→4)** *(valB_mini · GPU · Vast 4090 / GCP-L4 · ∥)* — **Price: ~$40–80 · Cum. ~$85**
+  **★ RECONCILED 2026-07-24 (all-binding-graded-first rule + schedule sync).** The mini is the **Wurz et al.
+  SMARCA2–VHL cmpd 1→4 all-binding graded edge** (α 12.8→2.6 ≈ **+0.94 kcal/mol**; both endpoints are *productive
+  binders*), which the schedule already carries as in-progress — this is the cleanest first quantitative
+  calibration because neither endpoint is a deliberately-broken pose. The **PROTAC 2 → cis-PROTAC 2 epimer edge
+  described below is DEMOTED to the negative-endpoint STRESS module of the Val B-full cube** (the cis epimer
+  deliberately challenges VHL engagement, so it tests whether the pipeline correctly becomes *uncertain / rejects*
+  an unstable, restraint-dependent endpoint — it is NOT the primary numerical calibrator; a pass forced by
+  artificially holding the active pose is not a pass). The reviewer-decision record and epimer mechanics below
+  remain valid **for that stress module**.
   **REDESIGNED 2026-07-17 (reviewer verdict — full record: [research/manuscripts/valB-reviewer-decision-2026-07-17.md](./research/manuscripts/valB-reviewer-decision-2026-07-17.md)).**
   The original hi→lo SMARCA2–VHL panel edge is **not congeneric** (P1↔P5 = 32 perturbed heavy atoms; the whole
   same-assay panel 32–47), and a wide RCSB search found **no clean same-assay congeneric both-α edge** in the
@@ -357,9 +492,23 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   (our container reproduces a known ΔΔG), NOT as a standalone accuracy benchmark. **Re-open ONLY if** am1bcc
   charging is later forced onto NAGL for some ligand (`CHARGE_METHOD=nagl`), in which case Val A reverts to the
   paid NAGL-validation benchmark. *(Prior GO/NO-GO if it had run: RMSE ≤ ~2 kcal/mol → GO.)*
-- **`[ ]` Validation B-full — full noncovalent ternary benchmark** *(valB_full · GPU)* — **Price: ~$80–200 · Cum. ~$255**
-  Complete VHL–BRD4/SMARCA2 series; **fixes the preregistered ternary scoring rules.** **GATE:** the prospective
-  matrix never runs unless this passes. **GO/NO-GO:** recovers known ternary cooperativity ranking → GO.
+- **`[ ]` Validation B-full — component-calibration cube (module-specific, no single "validated" verdict)** *(valB_full · GPU · Vast 4090 + 3090)* — **Price: ~$120–350 · Cum. ~$285**
+  Replaces the monolithic "full series" with **four separately-calibrated modules**, each with its own uncertainty
+  model + pass/fail; a failed module becomes **qualitative-only** and there is **no** blanket "the ternary pipeline
+  is validated." Modules:
+  1. **All-binding graded cooperativity** — *(already run as valB-mini: Wurz cmpd 1→4)*; Val B-full ADDS ≥1 more
+     graded edge for coverage. *(4090 alchemical, ~$65–110/edge)*
+  2. **Ternary pose recovery** — does the generator include the known orientation in its top-k, with calibrated
+     confidence? *(co-fold, CI/cheap ~$0)*
+  3. **Paralogue discrimination** — same degrader across closely related paralogues on a public system with a
+     known differential (the direct analogue of the NR4A ask). *(4090 alchemical, ~$65–110)*
+  4. **Productive-vs-unproductive ubiquitination geometry** — a full-CRL model separates ternary occupancy from
+     Ub-transfer competence on a public system with mapped lysines. *(3090 MD, ~$10–40)*
+  Plus the **cis-epimer negative-endpoint STRESS module** (demoted from valB-mini). **GATE:** the prospective
+  ladder never runs unless the **cooperativity + paralogue-discrimination** modules pass (calibrated intervals,
+  correct direction on held-out observations). *(Priced on Vast: the two alchemical edges dominate; MD/co-fold
+  modules are cheap. Was ~$80–200 as a single AWS-priced series; the cube is broader but each module is real-card
+  priced.)*
 - **`[~]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU · Vast)* — **Price: MEASURED ~$0.37–0.71/leg (mean ~$0.6) → ~$10–11 for the 18-leg panel (was estimated $40–100 — ~an order of magnitude too high; superseded) · Cum. ~$256**
   Covalent celastrol–NR4A1 (C551) adduct + noncov/cov sensitivity + C551A + warhead/recruiter controls.
   18 legs (6 systems × 3 seeds), 6 ns each (1 ns equil + 5 ns prod), ~466k atoms.
@@ -379,24 +528,69 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   chunked-equil finite guards — `cov_nr4a1` reached production without diverging.
   **GO/NO-GO:** covalency doesn't swamp the signal and the reduced panel behaves → GO to the full NR-V04.
 
-### RUNG 4 — the real science spends *(only after all benchmarks are green)*
+### RUNG 4 — warhead map, differential atlas, and the retrospective gate *(the science inputs to the prospective ladder)*
 
-- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** *(step1_fanout_cmpd19 · GPU)* — **Price: ~$60–150 · Cum. ~$425**
+- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** *(step1_fanout_cmpd19 · GPU · Vast 4090)* — **Price: ~$50–140 · Cum. ~$390**
   Full congeneric map across conformer panels + matched paralogues + microstates, as conditional hypotheses with
-  sensitivity ranges. **Gate:** Val A accuracy satisfied (**valA_full SKIPPED — valA_mini clean on am1bcc → cite
-  OpenFE**) AND Step 1 pilot behaved.
-- **`[ ]` NR-V04 retrospective — preregistered holdout** *(nrv04_retrospective · GPU)* — **Price: ~$80–200 · Cum. ~$565**
+  sensitivity ranges — this produces the **warhead + exit-vector inputs** the inverse-design stage (5b) consumes.
+  **Gate:** Val A accuracy satisfied (**valA_full SKIPPED — valA_mini clean on am1bcc → cite OpenFE**) AND the
+  Step 1 pilot behaved. *(Priced on Vast 4090 alchemical RBFE, ~$12–20/edge; pin from the pilot's realized GPU-h.)*
+- **`[ ]` NR4A differential surface atlas** *(nr4a_differential_atlas · CPU/CI + opt. Vast 3090 · ∥)* — **Price: ~$0–40 · Cum. ~$410**
+  Matched NR4A1/2/3 receptor ensembles (identical frames / microstates / transforms / sampling) → paralogue-
+  differential surface + electrostatic/H-bond map; fusion-context scenarios; **separate** LBD / hinge / DBD /
+  fusion lysine-accessibility map; warhead-pose sensitivity. The mapping/analysis is **$0 CPU**; only fresh matched
+  NR4A1/2 LBD MD (if needed) costs **~$10–40 on Vast 3090** (~$0.4–0.7 per 6 ns leg, measured). **I will build +
+  run this free/near-free work without a spend nod** (it is also a cheap early NO-GO). **Gate:** ≥1 exposed
+  paralogue difference reachable by a recruited VHL/CRBN — if the differential surface offers no E3-reachable
+  handle, the wedge search is unlikely to succeed and we say so.
+- **`[ ]` NR-V04 retrospective — preregistered holdout** *(nrv04_retrospective · GPU · Vast 3090 MD + 4090 FEP)* — **Price: ~$60–150 · Cum. ~$500**
   Full NR4A1/2/3 ensembles through the pipeline, NO tuning, epimer control. Report **directional concordance**,
-  never "recovered degradation." **Gate:** Val B-full + NR-V04 feasibility + Step 1 fan-out.
-  **GO/NO-GO:** at least directionally concordant with the known NR4A1-degraded / NR4A2·3-spared outcome → GO to
-  the prospective matrix. Discordant → **the prospective matrix is not justified;** publish the honest negative.
+  never "recovered degradation." **Gate:** Val B-full + NR-V04 feasibility + Step 1 fan-out. **GO/NO-GO:** at least
+  directionally concordant with the known NR4A1-degraded / NR4A2·3-spared outcome → GO to the prospective ladder.
+  Discordant → **the ladder is not justified;** publish the honest negative. *(Revised down from ~$80–200: the MD
+  bulk runs on Vast 3090 at the measured ~$0.4–0.7/leg — the NR-V04 covalent feasibility panel realized ~$0.6/leg,
+  ~10× under its old estimate — with only a few alchemical/ubiquitination-geometry legs on 4090.)*
 
-### RUNG 5 — the flagship spend *(the single biggest spend; only after the go/no-go gate)*
+### RUNG 5 — orientation-first prospective ladder *(replaces the fixed 24–36 matrix; the flagship, now gated mid-ladder by the causal kill-switch)*
 
-- **`[ ]` Prospective matrix — hypothesis prioritization** *(ternary_prospective_matrix · GPU)* — **Price: ~$150–400 · Cum. ~$840**
-  {2–3 warheads}×{2 exit vectors}×{VHL,CRBN}×{3 linkers} = **24–36** → preregistered cheap-screen downselect to
-  ~6–12. Staged gates → Pareto front; EWSR1::NR4A3 fusion context; lysines beyond the LBD; full CRL/E2~Ub
-  ensembles. Deliverable = predicted selective **candidates**, degradation experimentally unvalidated.
+> Workflow: paralogue surface differences → selective interface **basins** → productive CRL geometry → linker
+> requirements → molecules. Full detail + rationale: **"★ PROSPECTIVE-STAGE RESTRUCTURING (2026-07-24)"** above.
+
+- **`[ ]` 5a · Orientation-basin search** *(orientation_basin_search · CPU + opt. Vast 3090 rescore · ∥)* — **Price: ~$0–50 · Cum. ~$525**
+  Broad VHL/CRBN transform sampling (flexible linker-reach restraint); matched 3-paralogue interface scoring;
+  cluster into **~3–8 basins/ligase**; cheap counterfactual residue screen to **nominate** wedges. Rigid-body
+  sampling + coarse scoring + clustering is **$0 CPU**; optional MM-GBSA rescore of basin representatives ×
+  paralogue on Vast 3090 ~$30–50.
+- **`[ ]` 5a-KS · Selectivity-wedge confirmation — ★ THE KILL-SWITCH** *(selectivity_wedge_confirm · GPU · Vast 4090 alchemical)* — **Price: ~$100–350 (est.) · Cum. ~$725**
+  Reciprocal alchemical **mutation cycles** on ≥1 nominated wedge: `ΔΔG_neo-interface = ΔG_mut^ternary −
+  ΔG_mut^binary`, run 3→1/2 (expect *loss*) and reciprocal 1/2→3 (expect *partial gain*). Each cycle (ternary +
+  binary legs, ~2 replicas) ≈ **$40–90 on Vast 4090**; kill-switch scope = 1–2 residues × ≥2 directions.
+  **★ HARD GO/NO-GO:** ≥1 basin has a **causally-confirmed** NR4A3 wedge (loss on 3→1/2, partial gain on
+  reciprocal, survives frames) → **GO** to the linker matrix. **No confirmed wedge → STOP: publish the honest
+  causal negative, run NO linker matrix, ensemble refinement, or local FEP** (saves the **~$500** downstream tail).
+  *(ESTIMATED — ported from the ternary bundle at the Vast 4090 rate; this is the one gate whose cost is not yet
+  measured on our card → PIN it with the first Vast ternary alchemical edge. It is the highest-value dollar in the
+  new ladder: the calc that decides the entire flagship tail.)*
+- **`[ ]` 5b · Inverse linker design** *(inverse_linker_design · CPU · ∥)* — **Price: ~$0–20 · Cum. ~$735**
+  For each confirmed basin, derive linker requirements (endpoint-distance dist, exit-vector dihedral, attachment
+  angles, flexibility, extension range, solvent path, surface avoidance, strain, motion tolerance); enumerate a
+  large virtual linker library; filter by **basin fidelity** `F_{d,k}` (conformer closure + strain); keep linkers
+  that realize **distinct** basins (orientation control, not atom count); annotate exact structures + synthetic
+  feasibility → **~12–20 virtual constructs** (this is where the "24–36" arithmetic now lives — an upper bound on
+  virtual constructs, not a hand-built grid). Mostly **$0 CPU**.
+- **`[ ]` 5c · Explicit ternary-ensemble refinement** *(ternary_ensemble_refine · GPU · Vast 3090 endpoint MD)* — **Price: ~$100–250 · Cum. ~$910**
+  ~12–20 → replicated ternary + full CRL/E2~Ub MD across target states, initial linker conformers and in-basin
+  poses; matched NR4A1/2/3; interface-contact persistence; linker-strain distributions; basin retention; **separate
+  accessibility from stability**; robust constraint-satisfaction filtering → **~4–8 constructs** nondominated under
+  scenario + model uncertainty. *(Endpoint MD → Vast 3090 at the measured ~$0.4–0.7/leg; dozens-to-~200 legs.)*
+- **`[ ]` 5d · Local ternary FEP** *(local_ternary_fep · GPU · Vast 4090 alchemical · ∥)* — **Price: ~$150–500 (est.) · Cum. ~$1,235**
+  Alchemy **only** within a retained basin (both endpoints plausibly bound, modest congeneric linker change,
+  acceptable hybrid topology, endpoint stability not restraint-created). Refines the matched final series; **NOT**
+  used to compare unrelated linkers, ligases, or basins. ~3–6 cooperativity edges × ~$65–110 (3-replica, Vast
+  4090). **Final set ~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL and CRBN only where both
+  survive, explicit negative controls, robust to reciprocal-mutation tests.
+  **Deliverable** = a computationally prioritized, structure-defined, retrosynthetically annotated candidate set
+  **with an identified causal selectivity mechanism** — degradation experimentally unvalidated.
 
 ### OPTIONAL / HELD — only if a specific claim needs them AND a budget nod is given
 
@@ -418,41 +612,60 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
 
 ## Spend summary
 
-| Checkpoint | What we've learned by here | Cumulative spot $ (mid) |
+| Checkpoint | What we've learned by here | Cumulative $ (mid, Vast-priced) |
 |---|---|---|
-| After Rung 1 (Val A smoke) | Does our am1bcc build reproduce a known ΔΔG? (charge-model fixed → cite OpenFE) | **~$15** |
-| After Rung 2 (pilot + Val B-mini) | Is cmpd19 stable to build on? Does ternary move right? | **~$110** |
-| After Rung 3 (full benchmarks) | Are both benchmarks publishable-defensible? (valA_full SKIPPED — valA_mini clean → cite OpenFE, saves ~$50–140) | **~$255** |
-| After Rung 4 (fan-out + NR-V04) | Real selectivity picture + NR-V04 concordance | **~$565** |
-| After Rung 5 (matrix) | The flagship candidate matrix | **~$840** |
+| After Rung 1 (Val A smoke) | Does our am1bcc build reproduce a known ΔΔG? (charge-model fixed → cite OpenFE) | **~$12** |
+| After Rung 2 (pilot + Val B-mini) | Is cmpd19 stable to build on? Does the all-binding graded ternary edge rank right? | **~$85** |
+| After Rung 3 (Val B cube + NR-V04 feasibility) | Do the ternary modules calibrate? (valA_full SKIPPED — cite OpenFE) | **~$300** |
+| After Rung 4 (fan-out + atlas + NR-V04 retro) | Warhead map + differential-surface atlas + NR-V04 concordance | **~$500** |
+| **★ Rung 5a-KS — the causal KILL-SWITCH** | **Is there a causally-confirmed NR4A3 wedge? NO ⇒ STOP + publish honest negative** | **~$725** |
+| After Rung 5 full (basin→confirm→linker→refine→FEP) | The flagship candidate set + its causal mechanism | **~$1,235** |
 | Optional ΔG_open / ABFE | unconditional affinity / pose-plausibility | +$200–500 |
 
-**The whole point:** we can kill a non-viable paper for **~$25**, and we never reach the ~$150–400 flagship
-matrix spend until four cheaper gates (Val A-mini → pilot/Val B-mini → full benchmarks → NR-V04) have each said
-"this is working." Full-program GPU is ~$0.8–1.4k *only if every gate says GO* (valA_full SKIPPED after a clean
-valA_mini saves ~$50–140). Every launch still waits for an explicit go — nothing is pre-authorized.
+**What the restructuring does to the price (honest):**
+- **Full-go ceiling rises modestly — ~$1.2k mid (range ~$0.8–1.9k), vs the old ~$0.9k** — because the flagship now
+  does genuinely more *physics* (causal reciprocal mutation cycles + ensemble MD + local FEP) instead of
+  co-fold-and-score on a fixed matrix.
+- **The live Vast pricing keeps that increase small.** On the old AWS anchors the restructured ladder would be
+  ~$2–3k; the **measured** Vast 3090 endpoint-MD (~$0.4–0.7/leg, ~10× under the old MD estimates) plus the
+  ~2–3×-cheaper Vast-4090 alchemical rate hold it near ~$1.2k. Every MD-bound line (atlas, NR-V04, ensemble
+  refine) is now cheap; only the alchemical 4090 work (wedge cycles, local FEP, the Val B cube edges) carries real
+  cost.
+- **The kill-switch caps the *likely* spend.** If no robust wedge (the real risk on homologous paralogues), we
+  **stop at ~$725 with a publishable causal negative** — saving the ~$500 downstream tail (5c + 5d) instead of
+  spending it on a lottery.
+- **Biggest single new cost = the wedge-confirmation kill-switch (~$100–350, est.)** — the one Vast price not yet
+  measured on our card; the first Vast ternary alchemical edge pins it. It is well-spent: it gates the ~$500 tail.
+- **Net:** we can still kill a non-viable paper for **~$25** (Val A) and get an honest *causal* negative for
+  **~$725** (kill-switch); full program is **~$1.2k only if every gate — through the wedge confirmation — says GO.**
+  Every launch still waits for an explicit go; nothing is pre-authorized.
 
 ## Dependency spine (compact)
 
 ```
-RUNG0  step0 (running) + emc_e3 (CPU $0) + pocket_reanalysis (CPU $0)
+RUNG0  step0 [x] + emc_e3 [x] + pocket_reanalysis [x]                     (CPU/$0, done)
           │
-RUNG1  valA_mini  ──[GO?]──►                                   (cheap kill-switch, ~$25)
+RUNG1  valA_mini [x] ──[GO]──►                                            (cheap kill-switch, ~$12)
           │
-RUNG2  step1_pilot ∥ valB_mini  ──[GO?]──►                     (~$110)
+RUNG2  step1_pilot [x] ∥ valB_mini [~]  ──[GO?]──►                        (~$85; all-binding graded edge)
           │
-RUNG3  valB_full + nrv04_feasibility  ──[GO?]──►               (~$255; valA_full SKIPPED — cite OpenFE)
+RUNG3  valB_full cube + nrv04_feasibility [~]  ──[GO?]──►                 (~$300; valA_full SKIPPED — cite OpenFE)
           │
-RUNG4  step1_fanout ──► nrv04_retrospective  ──[concordant?]──► (~$655)
+RUNG4  step1_fanout ∥ nr4a_differential_atlas($0) ──► nrv04_retrospective ──[concordant?]──►   (~$500)
           │
-RUNG5  ternary_prospective_matrix                              (~$930; biggest single spend)
+RUNG5  orientation_basin_search ──► selectivity_wedge_confirm ──[★ WEDGE CONFIRMED?]──►        (~$725)
+          │        └── NO ⇒ STOP: publish honest causal negative (no linker matrix, no tail)
           │
-RUNG6  fold ──► redteam ──► post/submit                        ($0)
+       inverse_linker_design($0) ──► ternary_ensemble_refine ──► local_ternary_fep            (~$1,235; flagship tail)
+          │
+RUNG6  fold ──► redteam ──► post/submit                                   ($0)
 
 OPTIONAL/HELD (only with an explicit nod): dg_open_paralogue, abfe_conditional
 ```
 
-**Right now:** Step 0 is running (~$0 new). The only $0 work I'll do without asking is the two CPU supports
-(EMC E3 expression, pocket re-analysis). **Nothing else launches without an explicit go** — when Step 0 finishes
-clean I'll bring you Rung 1 (Val A-mini, ~$15–40) with a pinned cost from the Step-0 edge's realized GPU-h, and
-we decide GO/NO-GO from its result before any further spend.
+**Right now (2026-07-24):** Rungs 0–1 are done; Rung 2–3 are the live front — **valB_mini** (Wurz all-binding
+graded edge) and the **NR-V04 covalent feasibility panel** are running on Vast (that panel is the source of the
+measured 3090 pricing above). The next **$0 CPU work I'll build without asking is the NR4A differential surface
+atlas** (RUNG 4) — free, warranted, and itself a cheap early NO-GO. **Nothing with a GPU price launches without an
+explicit go.** The key upcoming decision is the **★ 5a-KS causal kill-switch (~$100–350 est.)**: a confirmed NR4A3
+wedge unlocks the ~$500 flagship tail; no wedge ⇒ we stop and publish the honest causal negative.
