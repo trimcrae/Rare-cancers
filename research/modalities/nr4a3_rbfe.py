@@ -1325,11 +1325,42 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
             _hmass_set = getattr(_ff, "hydrogen_mass", None) if _ff is not None else None
             print("  [hmr-diag] system.getNumConstraints()=%s | forcefield constraints=%s hydrogen_mass=%s"
                   % (_tot_cons, _cons_set, _hmass_set), flush=True)
+            # FORCE CENSUS (2026-07-24). `xh_total == 0` is AMBIGUOUS on its own: it means either (i) every X-H
+            # is a CONSTRAINT (so 4 fs is genuinely safe), or (ii) the alchemical valence bonds live in a
+            # CustomBondForce this counter's filter did not recognise, and were skipped. The filter keeps a
+            # CustomBondForce only when its per-bond parameter names contain 'length' and lack
+            # chargeprod/sigma/epsilon — a naming assumption that silently becomes wrong if OpenFE renames its
+            # hybrid parameters (r1/K1, length_old/length_new, ...). Both anchors of the timestep scan reported
+            # xh_total=0, which trips its known-answer gate, so the census below records the ACTUAL force
+            # inventory to tell (i) from (ii) instead of assuming.
+            _census = []
+            for _f in system.getForces():
+                _row = {"class": type(_f).__name__}
+                for _attr, _key in (("getNumBonds", "n_bonds"), ("getNumParticles", "n_particles"),
+                                    ("getNumAngles", "n_angles")):
+                    if hasattr(_f, _attr):
+                        try:
+                            _row[_key] = int(getattr(_f, _attr)())
+                        except Exception:  # noqa: BLE001
+                            pass
+                if hasattr(_f, "getPerBondParameterName"):
+                    try:
+                        _row["per_bond_params"] = [_f.getPerBondParameterName(_p)
+                                                   for _p in range(_f.getNumPerBondParameters())]
+                        _row["counted_as_valence"] = bool(
+                            "length" in " ".join(_row["per_bond_params"]).lower()
+                            and not any(_t in " ".join(_row["per_bond_params"]).lower()
+                                        for _t in ("chargeprod", "sigma", "epsilon")))
+                    except Exception:  # noqa: BLE001
+                        pass
+                _census.append(_row)
+            print("  [hmr-diag] FORCE CENSUS: %s" % json.dumps(_census), flush=True)
             print("  [hmr-diag] RBFE_HMRDIAG_ONLY=1 -> exiting after the constraint verdict (no MD).", flush=True)
             return None, None, {"hmrdiag_only": True, "xh_total": _xh_total,
                                 "xh_unconstrained": _xh_unconstrained, "unconstrained": _unc, "hmasses": _hmasses,
                                 "total_constraints": _tot_cons, "constraints_setting": str(_cons_set),
-                                "hydrogen_mass_setting": str(_hmass_set), "constrain_diag": _constrain_diag}
+                                "hydrogen_mass_setting": str(_hmass_set), "constrain_diag": _constrain_diag,
+                                "force_census": _census}
     except Exception as _e:  # noqa: BLE001
         print("  [hmr-diag] failed: %s: %s" % (type(_e).__name__, _e), flush=True)
         if os.environ.get("RBFE_HMRDIAG_ONLY") == "1":

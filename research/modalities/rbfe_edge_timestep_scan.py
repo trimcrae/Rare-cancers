@@ -154,6 +154,7 @@ def main():
             "constraints_setting": info.get("constraints_setting"),
             "hydrogen_mass_setting": info.get("hydrogen_mass_setting"),
             "constrain_diag": info.get("constrain_diag"),
+            "force_census": info.get("force_census"),
             "unconstrained_atoms": info.get("unconstrained"), "n_mapped_atoms": info.get("n_mapped_atoms"),
             "max_stable_timestep_fs": {"4fs": 4.0, "2fs": 2.0, "ERROR": None}[v],
             "verdict": v, "expect": s.get("expect"), "error": info.get("error"),
