@@ -89,6 +89,22 @@ stronger leg of the evidence.)*
 5. **Log every launch** (`LaunchRecord`: bid, floor, market prices, hours observed, censored) so `λ_ref` becomes a
    measurement. Until then it is a prior and every output says so.
 
+## 4b. ⚠ Why the fix is NOT a one-line cap on the bid
+
+Defect 1 invites an obvious patch: `bid = max(min(min_bid × 1.9, dph_base), min_bid)`. **On today's market that
+patch is wrong**, and the reason matters.
+
+Since `dph_base == min_bid`, the capped bid collapses to **exactly `min_bid`** — and bidding at the floor is the
+regime the incumbent comment explicitly warns about: the earlier "always under on-demand" cap was removed because
+it drove the bid to/below the floor and left instances **created-but-stopped** (verified 2026-07-23). So the cap
+would trade an overpay for a launch failure.
+
+The correct action when `dph_base ≈ min_bid` is not a cheaper *bid* — it is **not using interruptible at all**:
+launch `ResourceSpec(interruptible=False)` and pay on-demand, which on this market costs ~the floor and cannot be
+preempted. That is a **provisioning-mode** change at launch time, not a change to the bid formula, which is why
+`_vast_bid_price` is left alone. Keep the ×1.9 multiple for the regime it was tuned for — a floor genuinely below
+on-demand — and switch modes when the floor converges on it.
+
 ## 5. What has NOT been changed, and why
 
 `gpu_backend._vast_bid_price` is **untouched**. The optimiser is advisory until (a) the `λ_ref` prior is replaced
@@ -97,5 +113,5 @@ snapshot of one afternoon's market. Changing the launch path on one read-only sa
 error that produced the ~2.6× RBFE mispricing: generalising from a single measurement without checking it
 transfers.
 
-**Immediate, no-calibration-needed action:** for the next launch, take **on-demand** and record the realized
-`dph_total`. That is both the cheaper choice on today's market and the cleanest way to start the ledger.
+**Immediate, no-calibration-needed action:** for the next launch, set `interruptible=False` and take
+**on-demand** (a mode flag, not a bid change — see §4b), and record the realized `dph_total`. That is both the cheaper choice on today's market and the cleanest way to start the ledger.
