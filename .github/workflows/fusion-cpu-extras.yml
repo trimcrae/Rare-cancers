@@ -625,8 +625,10 @@ jobs:
             echo "=== result ==="; cat research/modalities/nr4a3-bioemu-crosscheck.json
             echo "1" > /tmp/have_result
             git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-            if ! git diff --quiet -- research/modalities/nr4a3-bioemu-crosscheck.json; then
-              git add research/modalities/nr4a3-bioemu-crosscheck.json
+            # git add FIRST, then check the STAGED diff — `git diff --quiet <path>` ignores untracked (new) files,
+            # so a brand-new result would read as "no change" and never commit (the bug that dropped the first run).
+            git add research/modalities/nr4a3-bioemu-crosscheck.json
+            if ! git diff --cached --quiet -- research/modalities/nr4a3-bioemu-crosscheck.json; then
               git commit -m "bioemu: capture NR4A3 cryptic-pocket cross-check result from Vast run"
               git push origin HEAD:${{ github.ref_name }}
             else
