@@ -10,6 +10,56 @@
 
 ---
 
+## 0. The strategy in plain terms
+
+**We are not choosing a bid. We are choosing a price we are willing to pay, and letting the market come to us.**
+On Vast an interruptible bid is a standing **limit order**: it acquires the machine whenever the clearing price
+falls to our number and releases it when the price rises above. With per-unit checkpointing, being released is
+not a loss — the job parks and resumes. So the only real decision is **what number to stand at.**
+
+Three quantities set it. Each is a concrete number with a concrete source, and the answer is the middle one
+clamped by the other two.
+
+| | what it is | where it comes from |
+|---|---|---|
+| **CEILING** | the on-demand price | We can always buy at on-demand with **zero** preemption risk, so any bid above it is strictly worse. This is the constraint the old policy violated on 7/7 offers. |
+| **TARGET** | the **duty-cycle quantile** of the price distribution | To finish `W` GPU-hours in `T` hours on `c` machines we must be running `ρ = W/(T·c)` of the time — so accept the cheapest `ρ`-fraction of prices. Need the GPU 12 % of the time → stand at the 12th percentile. **Derived from the deadline, not tuned.** |
+| **FLOOR** | the **churn price** | A preemption costs `R` hours (image reload + work since the last checkpoint). Bid so low that `λ(P)·R > 0.2` and most of the money buys reloads, not science. This — and only this — is what the old ×1.9 was actually reaching for. |
+
+```
+P*  =  clamp( duty-cycle quantile,  ≥ churn floor,  ≤ on-demand )
+```
+
+**Behaviour that falls out of it, with no extra rules:** lots of slack ⇒ `ρ` small ⇒ stand low and wait.
+Deadline approaching ⇒ `ρ` rises ⇒ the price rises automatically. `ρ ≥ 1` (must run continuously) ⇒ take
+on-demand. Tighter checkpointing ⇒ smaller `R` ⇒ lower churn floor ⇒ we can afford to stand lower. **Knowing
+nothing at all** ⇒ stand at `√(floor × ceiling)`, the geometric mean, which is worst-case optimal for bounded
+search with no distribution.
+
+### What the real data does to this
+
+Honest punchline: **on the measured Vast market, most of the machinery does not bite.** The daily floor is flat —
+`vast/any` sat at its trough on 17 of 20 days (§3d) — so the empirical quantile is ≈ the floor whatever `ρ` is.
+In practice the rule reduces to:
+
+> **Stand at the recent floor. Never above on-demand. Never below the churn price.**
+
+The elaborate version earns its keep in exactly two places: when the market is *not* flat (which we can now
+detect rather than assume), and the churn floor, which is real, job-specific, and was previously expressed as a
+market multiple that had nothing to do with it.
+
+### Where the money actually is — ranked
+
+Bid tuning is the **third**-order effect. In descending order of size:
+
+1. **Card choice — up to ~3.6×.** The L4 we defaulted to is ~3.6× worse `$/ns` than the 4090 (§3e). This dwarfs
+   everything else and is settled by a bench costing cents, not by any bidding rule.
+2. **Not overpaying versus on-demand — ~38 %.** Stop bidding 1.9× a floor that currently *equals* on-demand.
+3. **Standing at the low end rather than the moment's price — ~22 %**, and only ~partially available because the
+   floor is flat.
+
+If you only ever do one thing from this document, do **1**.
+
 ## 1. What the incumbent policy is, and its four defects
 
 `gpu_backend._vast_bid_price` returns `min_bid × 1.9` — one global multiple of the market floor, for every job on
