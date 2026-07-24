@@ -883,11 +883,20 @@ def firm_collect(bucket):
         print(f"  kind={d.get('kind')} ns_per_day={d.get('ns_per_day')} n_windows={d.get('n_windows')} "
               f"n_iter={d.get('n_iter')} wall_s={d.get('wall_s')} dg={d.get('dg')} status={d.get('status')} "
               f"(from {d.get('result_json')}, {d.get('n_json')} json)", flush=True)
-        if d.get("status") != "OK":                          # root-cause: dump the run log tail from S3
+        if d.get("status") != "OK":                          # root-cause: dump the run log from S3
             logkey = k.rsplit("/", 1)[0] + "/firm.log"
             try:
                 log = s3.get_object(Bucket=bucket, Key=logkey)["Body"].read().decode(errors="replace")
-                tail = "\n".join(log.splitlines()[-60:])
+                lines = log.splitlines()
+                # surface the NaN/clash diagnostic lines specifically (they may be far above the tail), then a
+                # longer tail — a warmup-λ-window NaN's offending-atom dump lives in these, not the last 60 lines.
+                diag = [ln for ln in lines if any(t in ln.lower() for t in
+                        ("nan", "clash", "offending", "state ", "diverg", "warmup iter", "equilibration iter",
+                         "min pair", "force-bearing", "restrain"))]
+                if diag:
+                    print("    --- firm.log NaN/clash diagnostic lines ---\n"
+                          + "\n".join(diag[-80:]) + "\n    --- end diag ---", flush=True)
+                tail = "\n".join(lines[-120:])
                 print(f"    --- firm.log tail ({logkey}) ---\n{tail}\n    --- end ---", flush=True)
             except Exception as e:  # noqa: BLE001
                 print(f"    (no firm.log: {e})", flush=True)
