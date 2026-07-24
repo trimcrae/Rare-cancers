@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
-"""GPU driver for ONE alchemical protein point-mutation leg (the 5a-KS wedge engine's execution layer).
+"""SUPERSEDED — GPU driver for ONE alchemical protein point-mutation leg (perses/OpenMM route).
+
+⚠ THIS LANE CANNOT RUN. Retained for the record and because its guards, shim and diagnostics
+document a real dead end rather than a hypothetical one. The live engine is `protfep_pmx.py`
+(pmx + GROMACS); see `protfep-pmx-plan.md`.
+
+perses 0.10.3 builds the old->new residue ATOM MAP — which *is* the alchemical transformation —
+by round-tripping each residue template through an OpenEye OEMol
+(PolymerProposalEngine.generate_oemol_from_pdb_template -> createOEMolFromSDF -> oechem), and
+OpenEye is commercial and licence-gated. Established 2026-07-24 by running it: the import shim
+below satisfies perses' unconditional `from openeye import oechem` and then correctly REFUSES
+the real call rather than fabricating a map. Free-CI probes confirmed there is no conditional
+and no RDKit alternative on that path.
+
 
 `nr4a3_protein_fep.py` is the engine's PURE layer — mutation parsing, the charge-consistency and
 net-charge guards, wedge arithmetic, and the benchmark plan. It deliberately runs no MD, so its

@@ -486,6 +486,23 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
     free route exists but means a second MD stack. **This is a trimcrae fork** (licence vs second MD
     stack vs descope) and is recorded as open.
 
+  - **✅ ENGINE DECIDED — pmx + GROMACS (trimcrae, 2026-07-24).** Rather than buy an OpenEye licence,
+    descope the wedge, or fall back to the MM-GBSA proxy, the lane switches to **pmx** (Gapsys & de
+    Groot) — the published, field-standard *free* engine for protein-mutation FEP, arguably better
+    validated for this quantity than perses. The price is a second MD stack (GROMACS rather than
+    OpenMM), which is engineering, and engineering is free here; a licence is not. Route confirmed on
+    free CI before any build: **CUDA GROMACS solves** from conda-forge (165 packages) and **pmx
+    `develop` installs on Python 3.11** with `alchemy`/`estimators`/`forcefield`/`gmx`/`mutdb`
+    present. Built: [`Dockerfile.pmxfep`](research/compute/Dockerfile.pmxfep),
+    [`protfep_pmx.py`](research/modalities/protfep_pmx.py), and the full ladder in
+    `gpu-protfep-vast.yml`. Plan + the two probe gotchas that produced false negatives:
+    [protfep-pmx-plan.md](research/modalities/protfep-pmx-plan.md).
+    **Everything around the engine was unchanged** — staging with its mutation-site refusal, the
+    SKEMPI-verified references, scoring, the verdict, the price reduction and the Vast lane are all
+    engine-agnostic. **Most of the ladder is now $0:** stage-test, refcheck, bake, and a build-test
+    that runs the ENTIRE hybrid construction on a CPU runner, because only the alchemical sampling
+    needs a GPU. A host is rented only once a hybrid demonstrably builds.
+
   - **⛔ NOT YET CLEARED — validation.** No leg has run. The engine must recover the known-answer
     protein-mutation benchmarks (barnase–barstar Y29A/Y29F; both charge-conserving so engine error is not
     confounded with the charge artifact) **within ~1.5 kcal/mol AND in the right order** before
