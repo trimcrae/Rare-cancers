@@ -499,6 +499,27 @@ jobs:
       - name: Step 1 fan-out — ${{ github.event.inputs.fanout_mode }}
         working-directory: research/modalities
         run: python congeneric_fanout_vast.py
+      # A job log is only readable from its tail, and the tail is always runner boilerplate — so the readout
+      # that matters is committed back to the branch instead. Also leaves a timestamped trail of the fleet.
+      - name: Commit the progress / map readout back to the branch
+        if: ${{ always() && (github.event.inputs.fanout_mode == 'monitor' || github.event.inputs.fanout_mode == 'collect') }}
+        run: |
+          set -e
+          cd research/modalities
+          ls step1-fanout-progress.json step1-fanout-map.json 2>/dev/null || true
+          cd "$GITHUB_WORKSPACE"
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          git add -f research/modalities/step1-fanout-progress.json \
+                      research/modalities/step1-fanout-map.json 2>/dev/null || true
+          git diff --cached --quiet && { echo "no readout change"; exit 0; }
+          git commit -m "step1 fan-out ${{ github.event.inputs.fanout_mode }} readout ($(date -u +%FT%TZ))"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${{ github.ref_name }}" && \
+            git push origin HEAD:"${{ github.ref_name }}" && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the readout"
       - name: Upload fan-out artifacts
         if: ${{ always() }}
         uses: actions/upload-artifact@v4

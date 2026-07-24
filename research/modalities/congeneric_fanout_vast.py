@@ -360,6 +360,29 @@ def mode_monitor():
           + ("  <-- all idle; if unchanged next check, that is a STALL, not slowness"
              if utils and not any(utils) else ""))
 
+    # Written to disk (and committed back to the branch by CI) because a GitHub job log is only readable from
+    # its tail, and the tail is always the runner's own post-job boilerplate. A committed progress file is the
+    # readout that survives, and it doubles as a timestamped trail of how the fleet advanced.
+    snapshot = {
+        "n_units": len(units), "n_complete": n_done,
+        "live_instances": len(live), "instance_states": states,
+        "gpu_util": utils, "phases": phases,
+        "instances": [{"id": i.get("id"), "label": i.get("label"), "status": i.get("actual_status"),
+                       "gpu": i.get("gpu_name"), "gpu_util": i.get("gpu_util"),
+                       "dph": i.get("dph_total"), "age_min": round((i.get("duration") or 0) / 60)}
+                      for i in live],
+        "units": [{"unit_id": u["unit_id"],
+                   "phase": ("done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX))
+                             else _get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")
+                             or "not-started"),
+                   "ddg_bind_kcal": (_get_json(s3, bucket, result_key(u, RESULT_PREFIX)) or {})
+                   .get("ddg_bind_kcal")}
+                  for u in units],
+    }
+    with open("step1-fanout-progress.json", "w") as f:
+        json.dump(snapshot, f, indent=2)
+    print("[s1f] wrote step1-fanout-progress.json")
+
 
 def mode_collect():
     """Assemble the map result from finished units, run the internal-consistency checks, reap dead hosts."""
