@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -98,6 +98,41 @@ jobs:
           python-version: "3.11"
       - name: Vast.ai adapter smoke (auth + offer search; opt-in rent+destroy)
         run: python research/compute/vast_smoke.py
+
+  # NR4A3 paralogue-UNIQUE reactive residues (cysteines -> covalent-capture axis; lysines -> ubiquitination-site
+  # axis). Needs UniProt, which the dev sandbox's egress proxy 403s -> runs here. Results are pushed back to the
+  # TRIGGERING branch (not modalities-cache) because they are a design input the strategy docs cite directly.
+  nr4a_unique_residues:
+    if: ${{ github.event.inputs.task == 'nr4a_unique_residues' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests (pure logic, offline)
+        working-directory: research/modalities
+        run: python -m unittest tests.test_nr4a_paralogue_unique_residues -v
+      - name: Map NR4A3 paralogue-unique cysteines + lysines (UniProt full-length + matched model geometry)
+        working-directory: research/modalities
+        run: python nr4a_paralogue_unique_residues.py
+      - name: Commit results back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/nr4a-paralogue-unique-residues.json \
+                     research/modalities/nr4a-paralogue-unique-residues.md \
+                     research/modalities/nr4a-sequences-cache.json
+          git commit -m "NR4A3 paralogue-unique reactive-residue map (UniProt full-length, CI)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
 
   nrv04_cys:
     if: ${{ github.event.inputs.task == 'nrv04_cys' }}
