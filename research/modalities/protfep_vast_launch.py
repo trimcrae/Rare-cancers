@@ -38,6 +38,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -189,6 +190,26 @@ def label_matches_leg(label, leg_id):
     label = str(label).strip().lower()
     encoded = f"{LABEL_PREFIX}-{str(leg_id)}".replace("_", "-").lower()[:60]
     return label == encoded
+
+
+def _record_is_newer_than_instance(doc, instance):
+    """Was this leg record written by the CURRENTLY running instance? Pure (given the inputs).
+
+    Compares the record's `updated_utc` against the instance's start time. Returns False when either
+    timestamp is missing or unparseable — the conservative direction, since the cost of not reaping
+    is a host that self-destroys or hits the runtime backstop, while the cost of reaping wrongly is
+    killing a leg that was about to do real work.
+    """
+    import calendar
+    stamp = doc.get("updated_utc") or doc.get("started_utc")
+    started = instance.get("start_date")
+    if not stamp or started is None:
+        return False
+    try:
+        rec_epoch = calendar.timegm(time.strptime(str(stamp), "%Y-%m-%dT%H:%M:%SZ"))
+        return rec_epoch > float(started)
+    except (ValueError, TypeError):
+        return False
 
 
 def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefix=None):
@@ -353,8 +374,14 @@ def collect(bucket=None, prefix=None, autostop=True):
             # halts billing on its own, but "normally" is doing real work in that sentence — a host
             # that keeps the container alive after a crash would otherwise bill until the runtime
             # backstop hours later, and a failed leg has nothing left to produce.
-            crashed = any(label_matches_leg(label, k) for k, d in partial.items()
-                          if d.get("status") == "failed")
+            # A `failed` record only justifies reaping if it belongs to THIS instance. A stale
+            # failure from a previous attempt sits in S3 until the new leg overwrites it, which does
+            # not happen until after the image pull and repo clone — so reaping on the record alone
+            # destroys a freshly launched host that has not started yet. That is exactly what
+            # happened to the complex leg: killed 25 minutes into its image pull, on the strength of
+            # a failure from an attempt 90 minutes earlier.
+            crashed = any(label_matches_leg(label, k) and _record_is_newer_than_instance(d, i)
+                          for k, d in partial.items() if d.get("status") == "failed")
             if autostop and (finished or crashed or up_h > MAX_INSTANCE_HOURS):
                 why = ("leg done" if finished else
                        "leg FAILED — nothing left to produce" if crashed else "runtime backstop")

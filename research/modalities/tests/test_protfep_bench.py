@@ -15,6 +15,7 @@ What is being protected here, in order of how badly it would bite:
 import json
 import os
 import sys
+import time
 
 import pytest
 
@@ -930,3 +931,41 @@ def test_build_system_does_not_short_circuit_on_a_partial_restore(tmp_path, monk
     # No npt.gro -> must NOT short-circuit; it proceeds and fails on the missing input instead.
     with pytest.raises(Exception):
         ppmx.build_system("/nonexistent/input.pdb", "D:Y29A", str(work))
+
+
+# ---------------------------------------------------------------- cost integrity across resumes
+def test_reap_ignores_a_stale_failure_record():
+    """A failure from a PREVIOUS attempt must not kill a freshly launched host.
+
+    The complex leg was destroyed 25 minutes into its image pull because a `failed` leg JSON from an
+    attempt 90 minutes earlier was still in S3 — the new leg had not yet overwritten it, which does
+    not happen until after the pull and clone.
+    """
+    instance = {"start_date": 2000.0}
+    stale = {"status": "failed", "updated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(1000.0))}
+    fresh = {"status": "failed", "updated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(3000.0))}
+    assert pv._record_is_newer_than_instance(stale, instance) is False
+    assert pv._record_is_newer_than_instance(fresh, instance) is True
+
+
+def test_reap_guard_is_conservative_on_missing_timestamps():
+    """Not reaping costs a self-destruct or the runtime backstop; reaping wrongly kills real work."""
+    assert pv._record_is_newer_than_instance({}, {"start_date": 1.0}) is False
+    assert pv._record_is_newer_than_instance({"updated_utc": "nonsense"}, {"start_date": 1.0}) is False
+    assert pv._record_is_newer_than_instance({"updated_utc": "2026-07-24T00:00:00Z"}, {}) is False
+
+
+def test_price_uses_cumulative_gpu_hours_not_the_final_segment():
+    """A preempted leg reports only its last segment unless the field accumulates.
+
+    The apo pilot leg finished in 0.073 GPU-h after being preempted at 14/16 windows, and the reducer
+    published usd_per_benchmark_leg=0.015 — ~20x low, because ~1.3 GPU-h had gone with the host. A
+    cost basis that silently omits preempted work is worse than none.
+    """
+    resumed = _leg("x__complex_r0", "x", "complex", -5.0, gpu_h=1.4)
+    resumed["gpu_hours_this_run"] = 0.073
+    resumed["gpu_hours_prior_attempts"] = 1.33
+    priced = pr.price_from_legs([resumed], hourly_usd=0.20)
+    # gpu_hours is the cumulative figure, so the price reflects the whole leg
+    assert priced["gpu_hours_per_leg"]["mean"] == pytest.approx(1.4)
+    assert priced["usd_per_benchmark_leg"] == pytest.approx(0.28, abs=0.01)

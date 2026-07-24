@@ -681,6 +681,26 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, work_dir=None, n_sta
         with open(result_path, "w") as fh:
             json.dump(record, fh, indent=2)
 
+    # GPU-HOURS MUST ACCUMULATE ACROSS RESUMES.
+    # A preempted leg reports only its FINAL segment otherwise, and protfep_reduce prices the rung
+    # from exactly this field. The apo pilot leg was preempted at 14/16 windows and finished in 0.073
+    # GPU-h; the reducer duly published usd_per_benchmark_leg=0.015 and a ~$0.59 wedge projection,
+    # roughly 20x low, because the ~1.3 GPU-h before the preemption had vanished with the host. A
+    # cost basis that silently omits preempted work is worse than no cost basis.
+    prior_gpu_h = 0.0
+    if os.path.exists(result_path):
+        try:
+            with open(result_path) as fh:
+                prior = json.load(fh)
+            prior_gpu_h = float(prior.get("gpu_hours_cumulative")
+                                or prior.get("gpu_hours")
+                                or prior.get("gpu_hours_so_far") or 0.0)
+            if prior_gpu_h:
+                _log(f"carrying {prior_gpu_h:.3f} GPU-h forward from a previous attempt")
+        except Exception as e:  # noqa: BLE001 — a corrupt prior record must not block the rerun
+            _log(f"could not read prior GPU-hours ({type(e).__name__}: {e}); counting this run only")
+    record["gpu_hours_prior_attempts"] = round(prior_gpu_h, 3)
+
     _commit()
     t0 = time.time()
     try:
@@ -701,10 +721,14 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, work_dir=None, n_sta
         run_windows(work_dir, npt_gro, n_states, on_window=_on_window)
         _commit(status="analyzing")
         dg, err, diagnostics = analyse(work_dir, n_states)
-        gpu_h = round((time.time() - t0) / 3600.0, 3)
+        this_run_h = (time.time() - t0) / 3600.0
+        gpu_h = round(prior_gpu_h + this_run_h, 3)
         _commit(status="done", dg_kcal=dg, dg_mbar_se_kcal=err, analysis=diagnostics,
-                gpu_hours=gpu_h,
-                s_per_iter=round((time.time() - t0) / max(1, n_states), 1))
+                gpu_hours=gpu_h, gpu_hours_cumulative=gpu_h,
+                gpu_hours_this_run=round(this_run_h, 3),
+                # s_per_iter is per WINDOW and only meaningful for windows this run actually ran;
+                # across a resume it would otherwise average in windows that were merely restored.
+                s_per_iter=round(this_run_h * 3600.0 / max(1, n_states), 1))
         _log(f"LEG DONE {leg_id}: dG = {dg:.3f} +/- {err:.3f} kcal/mol ({gpu_h:.2f} GPU-h)")
     except Exception as e:  # noqa: BLE001 — the partial record IS the deliverable on failure
         salvage = {}
@@ -717,7 +741,7 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, work_dir=None, n_sta
             salvage = {"dg_partial_error": f"{type(e2).__name__}: {e2}"}
         _commit(status="failed", error=f"{type(e).__name__}: {e}",
                 traceback=traceback.format_exc()[-4000:],
-                gpu_hours=round((time.time() - t0) / 3600.0, 3), **salvage)
+                gpu_hours=round(prior_gpu_h + (time.time() - t0) / 3600.0, 3), **salvage)
         _log(f"LEG FAILED {leg_id}: {type(e).__name__}: {e}")
         raise
     finally:
