@@ -1,0 +1,215 @@
+name: 5a-KS protein-mutation FEP — known-answer benchmark (Vast)
+
+# Qualifies the 5a-KS wedge engine (nr4a3_protein_fep.py + protfep_run.py) against measured
+# protein-protein interface ddG values, on Vast RTX 4090. STRATEGY.md carries 5a-KS as the program's
+# causal kill-switch AND the paper's primary causal result, and as UNPRICED/UNVALIDATED: the engine
+# was built 2026-07-24 and has never run. This workflow is the gate that changes that — it produces
+# both the qualification verdict and the engine's first measured per-leg rate.
+#
+# Runs in a lane completely disjoint from valB_mini (OpenFE ligand RBFE on GCP L4): different engine,
+# different provider, different rung — no shared quota, no shared code path.
+#
+# Tasks:
+#   bake        -> build+push the triskit23/protfep Vast boot image. Run ONCE (and on dep bumps).
+#   stage-test  -> FREE CI dry-run of structure staging (RCSB fetch, chain surgery, mutation-site
+#                  check). Proves the cheap half of the pipeline before any GPU is rented.
+#   smoke       -> 1 tiny leg (3 windows x 20 iters) to prove image+perses+sampler+MBAR+S3 (~$0.10).
+#   pilot       -> both legs of barstar Y29A, 1 replicate. THE ABORT GATE: no recovery of the
+#                  canonical hot spot => the wedge is not deliverable and the set is not worth paying for.
+#   launch      -> the full set (both mutations x both legs x n replicates), fanned out N-wide.
+#   collect     -> read leg JSONs from S3, reduce to verdict + price, commit into the branch, reap
+#                  any instance whose leg is finished (anti-idle).
+#   stop        -> destroy every protfep-bench instance (backstop).
+#
+# Run a feature branch's version by dispatching with ref=<branch> (image + code come from that branch).
+
+on:
+  # A workflow_dispatch workflow cannot be dispatched until its file exists on the DEFAULT branch, so
+  # until this lands on main the GPU tasks are dispatched through the bridge inputs on the on-main
+  # gpu-bioemu-vast.yml (dispatched with ref=<this branch>, which runs this branch's code). The
+  # push trigger below needs no such thing — a push-triggered workflow runs from the pushed branch —
+  # so the FREE validation half of this lane works on a feature branch immediately.
+  push:
+    branches: [claude/parallel-test-vast-cs5ugw]
+    paths:
+      - research/modalities/protfep_*.py
+      - research/modalities/nr4a3_protein_fep.py
+      - .github/workflows/gpu-protfep-vast.yml
+  workflow_dispatch:
+    inputs:
+      task:
+        description: bake | stage-test | smoke | pilot | launch | collect | stop
+        type: choice
+        options: [bake, stage-test, smoke, pilot, launch, collect, stop]
+        default: stage-test
+      n_replicas:
+        description: "replicates per environment (launch only; default 3)"
+        type: string
+        default: "3"
+      vast_image:
+        description: "override the Vast image (blank = docker.io/triskit23/protfep:latest)"
+        type: string
+        default: ""
+      vast_ckpt_bucket:
+        description: "S3 bucket for results (blank = sagemaker-us-east-2-646605541856)"
+        type: string
+        default: ""
+      hourly_usd:
+        description: "assumed $/hr for the price reduction (blank = 0.20, the observed 4090 spot band)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  bake:
+    if: ${{ github.event.inputs.task == 'bake' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      DOCKERHUB_USER: triskit23
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reclaim runner disk (the CUDA + perses image is multi-GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
+      - name: Build + push the protfep Vast image
+        run: |
+          set -eo pipefail
+          IMG="docker.io/${DOCKERHUB_USER}/protfep:latest"
+          docker build -f research/compute/Dockerfile.protfep -t "$IMG" research/compute/
+          docker push "$IMG"
+          echo "PUSHED $IMG — ensure the Docker Hub repo is PUBLIC so Vast pulls it unauthenticated."
+
+  stage-test:
+    # A push runs ONLY this job: it is free, it rents nothing, and it is the half of the pipeline
+    # that can be verified without a GPU. No GPU task is ever push-triggered — the spend-gated
+    # ladder's first rule is that nothing auto-fires.
+    if: ${{ github.event_name == 'push' || github.event.inputs.task == 'stage-test' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests for the engine + benchmark layer
+        run: |
+          set -eo pipefail
+          python -m pip install -q pytest
+          python -m pytest research/modalities/tests/test_protein_fep.py \
+                           research/modalities/tests/test_protfep_bench.py -q
+      - name: Stage every benchmark leg from RCSB (chain surgery + mutation-site verification)
+        # FREE. CI runners have unrestricted internet (the dev sandbox's egress proxy 403s RCSB), so
+        # this proves the structure half of the pipeline at $0 before a GPU is rented. PDBFixer is
+        # absent here, so preparation is skipped and reported — the chain cut and the site check,
+        # which are the parts that could silently mutate the WRONG residue, still run.
+        run: |
+          set -eo pipefail
+          cd research/modalities
+          python - <<'PY'
+          import json, protfep_bench as b
+          ok = True
+          for name in b.BENCHMARKS:
+              for env in ("complex", "apo"):
+                  spec = b.leg_spec(name, env, 0)
+                  try:
+                      out = b.stage_leg(spec, "/tmp/protfep_in")
+                      r = out["report"]
+                      print(f"OK  {spec['leg_id']}: chains={r['chains']} "
+                            f"atoms={r['atoms_per_chain']} residues={r['residues_per_chain']} "
+                            f"site={r['mutation_site_observed']} (expected {r['mutation_site_expected']})")
+                  except Exception as e:
+                      ok = False
+                      print(f"FAIL {spec['leg_id']}: {type(e).__name__}: {e}")
+          print(json.dumps(b.verify_status(), indent=2))
+          raise SystemExit(0 if ok else 1)
+          PY
+
+  run:
+    if: ${{ github.event.inputs.task == 'smoke' || github.event.inputs.task == 'pilot' || github.event.inputs.task == 'launch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+      VAST_IMAGE: ${{ github.event.inputs.vast_image }}
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Submit the Vast instance(s)
+        run: |
+          set -eo pipefail
+          MODE="${{ github.event.inputs.task }}"
+          [ "$MODE" = "launch" ] && MODE="full"
+          echo "launching protfep_vast_launch.py --mode $MODE"
+          python research/modalities/protfep_vast_launch.py \
+            --mode "$MODE" --n-replicas "${{ github.event.inputs.n_replicas }}"
+          echo "Submitted. Poll with task=collect (reads S3 leg JSONs, reduces, reaps finished hosts)."
+
+  collect:
+    if: ${{ github.event.inputs.task == 'collect' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Status board + anti-idle reap
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          python research/modalities/protfep_vast_launch.py --collect
+      - name: Reduce to verdict + measured price
+        run: |
+          set -eo pipefail
+          B="${BUCKET:-sagemaker-us-east-2-646605541856}"
+          ARGS=""
+          [ -n "${{ github.event.inputs.hourly_usd }}" ] && ARGS="--hourly-usd ${{ github.event.inputs.hourly_usd }}"
+          python research/modalities/protfep_reduce.py \
+            --source "s3://${B}/protfep-benchmark" \
+            --out research/modalities/protfep-benchmark-result.json $ARGS
+      - name: Commit the reduction into the branch
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          if ! git diff --quiet -- research/modalities/protfep-benchmark-result.json; then
+            git add research/modalities/protfep-benchmark-result.json
+            git commit -m "5a-KS: capture protein-mutation FEP benchmark reduction from Vast legs"
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "no change to commit"
+          fi
+
+  stop:
+    if: ${{ github.event.inputs.task == 'stop' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Destroy every protfep-bench Vast instance (anti-idle backstop)
+        run: python research/modalities/protfep_vast_launch.py --stop

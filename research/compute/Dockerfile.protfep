@@ -1,0 +1,63 @@
+# Vast boot image for the 5a-KS PROTEIN point-mutation FEP engine (nr4a3_protein_fep / protfep_run).
+#
+# WHY A BAKED IMAGE (same lesson as Dockerfile.bioemu / Dockerfile.nrv04vast): Vast's cheap
+# marketplace hosts have terrible routing to archive.ubuntu.com, and Vast apt-installs
+# ssh/python/systemd at container start — measured ~10-40 min of paid boot on those hosts. Baking
+# everything Vast would otherwise fetch makes provisioning a no-op, so the box boots in image-pull
+# time. We also bake the whole perses/openmmtools stack, because a `micromamba create` solve of
+# perses on a rented GPU is a ~25-min diagnosed stall, on the meter, per instance.
+#
+# WHY perses AND NOT OpenFE: OpenFE's RelativeHybridTopologyProtocol — the engine behind this repo's
+# binary RBFE and ternary cooperativity lanes — builds its hybrid topology from a LIGAND-to-ligand
+# atom mapping. It maps small-molecule atoms and cannot express a protein residue mutation at all.
+# That gap is the entire reason the 5a-KS rung had no engine; perses' PointMutationExecutor is the
+# published, benchmarked path that closes it. Kept in its OWN image (and its own conda env) so a
+# perses solve can never disturb the proven OpenFE lanes.
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+# Everything Vast's boot provisioning would otherwise fetch from the slow ubuntu mirrors, baked in.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        openssh-server openssh-client openssh-sftp-server \
+        git curl wget ca-certificates bzip2 tar gzip build-essential \
+        systemd systemd-sysv dbus locales sudo less tmux \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
+      | tar -xj -C /usr/local/bin --strip-components=1 bin/micromamba
+ENV MAMBA_ROOT_PREFIX=/opt/mamba
+
+# The env mirrors research/modalities/sagemaker_src/environment-protfep.yml. It is spelled out here
+# rather than COPYd so the image build is self-contained and a bake failure is readable in the CI log
+# next to the package that caused it. Keep the two in sync — the yml is the documented spec, this is
+# the baked instance of it.
+#
+# openff-nagl + ambertools are BOTH present on purpose: the wedge is a cross-lane subtraction, and
+# nr4a3_protein_fep.assert_charge_consistency hard-fails legs whose charge models disagree, so this
+# env must be able to produce WHICHEVER method gets pinned rather than only one of them. (For the
+# protein-only known-answer benchmarks there is no small molecule at all, so neither is exercised —
+# they are here for the production wedge that follows.)
+RUN micromamba create -y -n protfep -c conda-forge \
+        python=3.11 \
+        "perses>=0.10" \
+        "openmm>=8.1" \
+        openmmtools \
+        openmmforcefields \
+        "ambertools>=23" \
+        openff-toolkit openff-nagl openff-nagl-models \
+        "pymbar>=4" \
+        rdkit pdbfixer mdtraj numpy scipy \
+        awscli boto3 certifi ca-certificates \
+    && micromamba clean -a -y
+ENV PATH=/opt/mamba/envs/protfep/bin:$PATH
+
+# Sanity: fail the BAKE (free CI) rather than a $-costing Vast host if a load-bearing import is
+# missing. These are exactly the imports protfep_run.py makes lazily at leg start — the point is to
+# discover a broken solve here, not forty minutes into a rental.
+RUN python -c "import openmm, openmmtools, pymbar; print('openmm', openmm.version.version)" \
+    && python -c "from perses.app.relative_point_mutation_setup import PointMutationExecutor; print('perses PointMutationExecutor OK')" \
+    && python -c "from perses.samplers.multistate import HybridRepexSampler; print('perses HybridRepexSampler OK')" \
+    && python -c "from perses.annihilation.lambda_protocol import LambdaProtocol; print('perses LambdaProtocol OK')" \
+    && python -c "from openmmtools.multistate import MultiStateReporter, MultiStateSamplerAnalyzer; print('openmmtools multistate OK')" \
+    && python -c "from pdbfixer import PDBFixer; print('pdbfixer OK')" \
+    && which aws

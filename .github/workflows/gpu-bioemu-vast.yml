@@ -35,6 +35,17 @@ on:
         description: "S3 bucket for results (blank = sagemaker-us-east-2-646605541856)"
         type: string
         default: ""
+      protfep_task:
+        # BRIDGE (temporary, 2026-07-24). The 5a-KS protein-mutation FEP lane has its own workflow,
+        # .github/workflows/gpu-protfep-vast.yml, but a workflow_dispatch workflow cannot be
+        # dispatched until its file is on the DEFAULT branch. This input is the documented
+        # run-a-feature-branch's-CI escape hatch: dispatch THIS on-main workflow with
+        # ref=<feature-branch> and protfep_task=<task>, and GitHub runs that branch's file + code.
+        # Leave blank for a normal BioEmu run — a blank value changes nothing. Delete this input and
+        # its job once gpu-protfep-vast.yml is merged to main.
+        description: "5a-KS protein-FEP bridge: bake | stage-test | smoke | pilot | launch | collect | stop (blank = off)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -160,3 +171,96 @@ jobs:
                       print(f"  destroy {iid} failed: {e}")
           print("done")
           PY
+
+  # ----------------------------------------------------------------------------------------------
+  # BRIDGE JOB (temporary) — runs the 5a-KS protein-mutation FEP lane off a feature branch.
+  # See the `protfep_task` input above for why this lives here instead of in gpu-protfep-vast.yml.
+  # Remove together with that input once gpu-protfep-vast.yml is on main.
+  # ----------------------------------------------------------------------------------------------
+  protfep:
+    if: ${{ github.event.inputs.protfep_task != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+      VAST_IMAGE: ${{ github.event.inputs.vast_image }}
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      TASK: ${{ github.event.inputs.protfep_task }}
+      DOCKERHUB_USER: triskit23
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Bake the protfep Vast image
+        if: ${{ github.event.inputs.protfep_task == 'bake' }}
+        run: |
+          set -eo pipefail
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android "$AGENT_TOOLSDIRECTORY" || true
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
+          IMG="docker.io/${DOCKERHUB_USER}/protfep:latest"
+          docker build -f research/compute/Dockerfile.protfep -t "$IMG" research/compute/
+          docker push "$IMG"
+          echo "PUSHED $IMG — the Docker Hub repo must be PUBLIC so Vast pulls it unauthenticated."
+
+      - name: Stage-test (free — RCSB fetch, chain surgery, mutation-site verification)
+        if: ${{ github.event.inputs.protfep_task == 'stage-test' }}
+        run: |
+          set -eo pipefail
+          python -m pip install -q pytest
+          python -m pytest research/modalities/tests/test_protein_fep.py \
+                           research/modalities/tests/test_protfep_bench.py -q
+          cd research/modalities
+          python - <<'PY'
+          import json, protfep_bench as b
+          ok = True
+          for name in b.BENCHMARKS:
+              for env in ("complex", "apo"):
+                  spec = b.leg_spec(name, env, 0)
+                  try:
+                      r = b.stage_leg(spec, "/tmp/protfep_in")["report"]
+                      print(f"OK  {spec['leg_id']}: chains={r['chains']} atoms={r['atoms_per_chain']} "
+                            f"residues={r['residues_per_chain']} site={r['mutation_site_observed']} "
+                            f"(expected {r['mutation_site_expected']})")
+                  except Exception as e:
+                      ok = False
+                      print(f"FAIL {spec['leg_id']}: {type(e).__name__}: {e}")
+          print(json.dumps(b.verify_status(), indent=2))
+          raise SystemExit(0 if ok else 1)
+          PY
+
+      - name: Submit Vast leg(s)
+        if: ${{ contains(fromJSON('["smoke","pilot","launch"]'), github.event.inputs.protfep_task) }}
+        run: |
+          set -eo pipefail
+          MODE="$TASK"; [ "$MODE" = "launch" ] && MODE="full"
+          # Replicate count stays at the launcher's default (3). BioEmu's num_samples input means
+          # something entirely different, so it is deliberately NOT reused here.
+          python research/modalities/protfep_vast_launch.py --mode "$MODE"
+
+      - name: Collect — status board, anti-idle reap, reduce to verdict + price
+        if: ${{ github.event.inputs.protfep_task == 'collect' }}
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          python research/modalities/protfep_vast_launch.py --collect
+          B="${VAST_CKPT_BUCKET:-sagemaker-us-east-2-646605541856}"
+          python research/modalities/protfep_reduce.py --source "s3://${B}/protfep-benchmark" \
+            --out research/modalities/protfep-benchmark-result.json
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          if ! git diff --quiet -- research/modalities/protfep-benchmark-result.json; then
+            git add research/modalities/protfep-benchmark-result.json
+            git commit -m "5a-KS: capture protein-mutation FEP benchmark reduction from Vast legs"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+
+      - name: Stop — destroy every protfep-bench instance
+        if: ${{ github.event.inputs.protfep_task == 'stop' }}
+        run: python research/modalities/protfep_vast_launch.py --stop

@@ -354,16 +354,21 @@ def _interpret(ddg, sd):
 # Protein-protein interface mutations with measured ddG, chosen because each is charge-conserving
 # (so the first benchmark does not confound engine error with the charge-artifact problem) and sits
 # at a genuine PPI hot spot. The engine is qualified when it recovers these within ~1.5 kcal/mol.
-KNOWN_ANSWER_BENCHMARKS = [
-    {"system": "barnase-barstar", "mutation": "A:Y29A",
-     "why": "The canonical, most-measured PPI hot spot in the literature; charge-conserving; large "
-            "experimental effect, so an engine that cannot see it cannot see our wedge either."},
-    {"system": "barnase-barstar", "mutation": "A:Y29F",
-     "why": "Conservative OH->H swap at the same site. Pairs with Y29A as a graded control: a working engine "
-            "must rank Y29A as the larger effect, which tests ordering, not just magnitude."},
-    {"system": "hGH-hGHR", "mutation": "A:W104A",
-     "why": "Second independent hot spot in a different fold, so a pass is not barnase-specific."},
-]
+#
+# DERIVED, NOT DUPLICATED. `protfep_bench` is the single source of truth for the benchmark systems:
+# it holds the structures, chains, measured values and their provenance, and it is what the launcher
+# and the reducer read. An earlier hand-written copy of this list here already carried a WRONG chain
+# id (it named barstar's Y29 on chain A; in 1BRS barstar is chain D and chain A is barnase), which
+# would have staged the mutation on the wrong protein. Deriving removes the class of error.
+def known_answer_benchmarks():
+    """The qualification set, read from protfep_bench (the SSOT). Lazy import keeps this module's
+    pure guard layer importable even if the benchmark layer is absent."""
+    import protfep_bench
+    return [{"system": b["system"], "mutation": b["mutation"], "why": b["why"]}
+            for b in protfep_bench.BENCHMARKS.values()]
+
+
+KNOWN_ANSWER_BENCHMARKS = known_answer_benchmarks()
 
 
 def benchmark_plan(n_replicas=3, charge_method=None):
