@@ -303,8 +303,11 @@ def build_system(structure_path, mutation_spec, work_dir):
     # entry that put barstar's Y29 on chain A, which is barnase. `mut_chain` is passed when the
     # installed pmx accepts it, and the outcome is VERIFIED against the written file either way, so
     # a silently chain-blind pmx cannot go unnoticed.
-    # Resolve where the target actually IS after pdb2gmx — the label may not have survived.
-    target_chain, target_resid = resolve_target_after_prep(prepped, structure_path, m)
+    # Resolve against PMX'S OWN Model, not against the file. prepped.pdb contained `D:29` and the
+    # text-based resolver returned exactly that, yet pmx still raised `resid 29 not found in chain
+    # "D"` — because pmx's Model does not necessarily expose the file's chain letters. The mutation
+    # is addressed to the Model, so the Model is what resolution must consult.
+    target_chain, target_resid = resolve_target_in_model(model, structure_path, m)
     kwargs = {"m": model, "mut_resid": target_resid, "mut_resname": m["mutant"], "ff": ff_name}
     import inspect as _inspect
     sig = _inspect.signature(pmx_mutate)
@@ -390,34 +393,52 @@ def chain_residue_lists(pdb_path):
     return chains
 
 
-def resolve_target_after_prep(prepped_pdb, original_pdb, mutation):
-    """Find where the mutation target ended up after pdb2gmx. Returns (chain, resid).
+def model_residue_lists(model):
+    """{chain_id: [(resid, resname), ...]} as PMX ITSELF sees the structure. Pure (given the model).
 
-    WHY THIS IS NECESSARY. pdb2gmx does not preserve author chain identity across a multi-chain
-    system, so the complex leg failed with
+    THIS is the representation the mutation is addressed against, so it is the one resolution must
+    use. Resolving against the FILE was the bug: prepped.pdb plainly contained `D:29`, the text-based
+    resolver duly returned ("D", 29), and pmx then raised `resid 29 not found in chain "D"` — because
+    pmx's Model does not necessarily expose the file's chain letters. Two different representations
+    of the same structure, and the mutation was aimed using the wrong one.
 
-        ValueError: resid 29 not found in chain "D"   (pmx/model.py:835)
+    pmx's chain id attribute has moved across versions, so it is read defensively; a chain whose id
+    cannot be determined is keyed by its index, which still lets sequence matching find it.
+    """
+    out = {}
+    for idx, chain in enumerate(getattr(model, "chains", []) or []):
+        cid = getattr(chain, "id", None)
+        if cid is None:
+            cid = getattr(chain, "chain_id", None)
+        if cid is None:
+            cid = str(idx)
+        residues = []
+        for res in getattr(chain, "residues", []) or []:
+            rid = getattr(res, "id", None)
+            if rid is None:
+                rid = getattr(res, "resnr", None)
+            rname = (getattr(res, "resname", None) or getattr(res, "name", "") or "").strip().upper()
+            if rid is not None and rname:
+                residues.append((int(rid), rname))
+        out[cid] = residues
+    return out
 
-    even though barstar's Y29 was plainly there — under a different chain letter and/or number. Note
-    what did NOT happen: nothing silently mutated whatever residue 29 of some other chain happened to
-    be. That is the guard working.
 
-    The target is located by SEQUENCE, not by label: find the prepped chain whose ordered residue
-    sequence matches the original target chain, then take the residue at the same position within it.
-    Labels are what pdb2gmx is free to change; the sequence is not. The wild-type identity at the
-    resolved position is checked before returning, so a wrong match fails here rather than becoming a
-    confident wrong ddG.
+def _match_target_chain(orig_chains, candidate_chains, mutation):
+    """Shared resolution logic: find the candidate chain matching the staged target. Pure.
+
+    Returns (chain_id, resid). Raises with a diagnostic naming what was actually present, because
+    "not found" without the alternatives costs a round trip to answer "well, what IS there?".
     """
     m = mutation
-    orig = chain_residue_lists(original_pdb)
-    prepped = chain_residue_lists(prepped_pdb)
-    if m["chain"] not in orig:
-        raise RuntimeError(f"chain {m['chain']} absent from the staged structure {original_pdb}")
-    target_chain = orig[m["chain"]]
-    names = [rn for _rid, rn in target_chain]
-    index = next((i for i, (rid, _rn) in enumerate(target_chain) if rid == m["resid"]), None)
+    if m["chain"] not in orig_chains:
+        raise RuntimeError(f"chain {m['chain']} absent from the staged structure "
+                           f"(present: {sorted(orig_chains)})")
+    target = orig_chains[m["chain"]]
+    names = [rn for _rid, rn in target]
+    index = next((i for i, (rid, _rn) in enumerate(target) if rid == m["resid"]), None)
     if index is None:
-        raise RuntimeError(f"residue {m['resid']} absent from chain {m['chain']} of {original_pdb}")
+        raise RuntimeError(f"residue {m['resid']} absent from staged chain {m['chain']}")
 
     def _similarity(other):
         n = min(len(names), len(other))
@@ -425,31 +446,55 @@ def resolve_target_after_prep(prepped_pdb, original_pdb, mutation):
             return 0.0
         return sum(1 for a, b in zip(names[:n], other[:n]) if a == b) / max(len(names), len(other))
 
-    scored = sorted(((_similarity([rn for _r, rn in res]), cid) for cid, res in prepped.items()),
-                    reverse=True)
+    scored = sorted(((_similarity([rn for _r, rn in res]), cid)
+                     for cid, res in candidate_chains.items()), reverse=True)
+    if not scored:
+        raise RuntimeError("the prepared structure exposes no chains at all")
     best_score, best_chain = scored[0]
+    present = {c: len(r) for c, r in candidate_chains.items()}
     if best_score < 0.9:
-        raise RuntimeError(
-            f"could not identify the target chain after pdb2gmx: best sequence match was chain "
-            f"{best_chain!r} at {best_score:.0%}. Chains present: "
-            f"{ {c: len(r) for c, r in prepped.items()} }. Refusing to guess which chain to mutate.")
+        raise RuntimeError(f"could not identify the target chain: best match {best_chain!r} at "
+                           f"{best_score:.0%}. Chains present: {present}. Refusing to guess.")
     if len(scored) > 1 and scored[1][0] > best_score - 0.05:
-        raise RuntimeError(
-            f"target chain is AMBIGUOUS after pdb2gmx: {best_chain!r} at {best_score:.0%} vs "
-            f"{scored[1][1]!r} at {scored[1][0]:.0%}. Two chains this similar means the mutation "
-            f"could land on either; refusing to pick.")
-    resolved = prepped[best_chain]
+        raise RuntimeError(f"target chain is AMBIGUOUS: {best_chain!r} at {best_score:.0%} vs "
+                           f"{scored[1][1]!r} at {scored[1][0]:.0%}. Refusing to pick.")
+    resolved = candidate_chains[best_chain]
     if index >= len(resolved):
-        raise RuntimeError(f"chain {best_chain!r} is shorter than the target position {index}")
+        raise RuntimeError(f"chain {best_chain!r} ({len(resolved)} residues) is shorter than the "
+                           f"target position {index}")
     resid, resname = resolved[index]
     if resname != m["wt"]:
-        raise RuntimeError(
-            f"resolved {best_chain}:{resid} is {resname}, not the expected {m['wt']}. The sequence "
-            f"match put the target in the wrong place; refusing to mutate it.")
-    if (best_chain, resid) != (m["chain"], m["resid"]):
-        _log(f"pdb2gmx relabelled the target: {m['chain']}:{m['resid']} -> {best_chain}:{resid} "
-             f"(matched by sequence at {best_score:.0%}, wild-type {resname} confirmed)")
+        raise RuntimeError(f"resolved {best_chain}:{resid} is {resname}, not the expected {m['wt']}")
     return best_chain, resid
+
+
+def resolve_target_in_model(model, original_pdb, mutation):
+    """Resolve the mutation target against PMX'S OWN view of the structure. Returns (chain, resid).
+
+    Logs pmx's chain inventory unconditionally: when this goes wrong the useful question is always
+    "what does pmx think is in there?", and on a rented host that answer costs another leg.
+    """
+    orig = chain_residue_lists(original_pdb)
+    pmx_chains = model_residue_lists(model)
+    _log("pmx Model inventory: " + ", ".join(
+        f"{cid!r}:{len(res)}res[{res[0][0]}..{res[-1][0]}]" if res else f"{cid!r}:empty"
+        for cid, res in sorted(pmx_chains.items(), key=lambda kv: str(kv[0]))))
+    chain, resid = _match_target_chain(orig, pmx_chains, mutation)
+    if (chain, resid) != (mutation["chain"], mutation["resid"]):
+        _log(f"target resolved against pmx's Model: {mutation['chain']}:{mutation['resid']} "
+             f"-> {chain}:{resid}")
+    return chain, resid
+
+
+def resolve_target_after_prep(prepped_pdb, original_pdb, mutation):
+    """File-based resolution. Retained for tests and for diagnostics that only have the PDB.
+
+    NOTE: build_system does NOT use this — it resolves against pmx's Model, because that is the
+    representation the mutation is addressed to and the two can disagree (they did). Both share
+    `_match_target_chain`, so there is one matching rule rather than two that can drift.
+    """
+    return _match_target_chain(chain_residue_lists(original_pdb),
+                               chain_residue_lists(prepped_pdb), mutation)
 
 
 def discover_forcefields():

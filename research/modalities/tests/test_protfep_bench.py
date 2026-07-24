@@ -969,3 +969,68 @@ def test_price_uses_cumulative_gpu_hours_not_the_final_segment():
     # gpu_hours is the cumulative figure, so the price reflects the whole leg
     assert priced["gpu_hours_per_leg"]["mean"] == pytest.approx(1.4)
     assert priced["usd_per_benchmark_leg"] == pytest.approx(0.28, abs=0.01)
+
+
+# ---------------------------------------------------------------- resolution against pmx's Model
+class _FakeRes:
+    def __init__(self, rid, name):
+        self.id, self.resname = rid, name
+
+
+class _FakeChain:
+    def __init__(self, cid, residues):
+        self.id = cid
+        self.residues = [_FakeRes(r, n) for r, n in residues]
+
+
+class _FakeModel:
+    def __init__(self, chains):
+        self.chains = [_FakeChain(c, r) for c, r in chains]
+
+
+def test_model_inventory_reads_pmx_s_own_chains():
+    model = _FakeModel([("A", [(1, "LEU"), (2, "SER")]), ("B", [(1, "GLY")])])
+    assert ppmx.model_residue_lists(model) == {"A": [(1, "LEU"), (2, "SER")], "B": [(1, "GLY")]}
+
+
+def test_model_inventory_falls_back_to_an_index_when_a_chain_has_no_id():
+    class _NoId:
+        def __init__(self):
+            self.residues = [_FakeRes(1, "ALA")]
+    model = type("M", (), {"chains": [_NoId()]})()
+    assert ppmx.model_residue_lists(model) == {"0": [(1, "ALA")]}
+
+
+def test_resolution_uses_the_model_not_the_file(tmp_path):
+    """The bug: prepped.pdb said D:29, the file-based resolver returned D:29, and pmx still raised
+    `resid 29 not found in chain "D"` — pmx's Model exposes different chain labels than the file.
+    Resolution must consult the representation the mutation is actually addressed to.
+    """
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    barstar = [("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR"), ("D", 30, "GLY")]
+    orig.write_text(_pdb([("A", i, "LEU") for i in range(1, 11)] + barstar))
+    # pmx's Model labels the same chains 0 and 1, with its own numbering
+    model = _FakeModel([
+        ("0", [(i, "LEU") for i in range(1, 11)]),
+        ("1", [(i, "SER") for i in range(1, 29)] + [(29, "TYR"), (30, "GLY")]),
+    ])
+    m = pf.classify_mutation("D:Y29A")
+    assert ppmx.resolve_target_in_model(model, str(orig), m) == ("1", 29)
+
+
+def test_model_resolution_refuses_a_wrong_wild_type(tmp_path):
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    orig.write_text(_pdb([("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR"), ("D", 30, "GLY")]))
+    model = _FakeModel([("0", [(i, "SER") for i in range(1, 29)] + [(29, "PHE"), (30, "GLY")])])
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="not the expected TYR"):
+        ppmx.resolve_target_in_model(model, str(orig), m)
+
+
+def test_both_resolvers_share_one_matching_rule():
+    """File-based and Model-based resolution must not drift — one rule, two front doors."""
+    import inspect
+    assert "_match_target_chain" in inspect.getsource(ppmx.resolve_target_after_prep)
+    assert "_match_target_chain" in inspect.getsource(ppmx.resolve_target_in_model)
