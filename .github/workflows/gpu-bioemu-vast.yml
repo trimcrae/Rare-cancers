@@ -1,0 +1,162 @@
+name: BioEmu cryptic-pocket cross-check (Vast)
+
+# NR4A3 LBD BioEmu ensemble -> harmonized Pocket-5 detection, as an ORTHOGONAL cross-check on the metadynamics
+# cryptic-pocket result (method-watch trigger, BioEmu v1.4.0, 2026-07-20). Provider: Vast.ai (the repo's paid
+# wide-parallel workhorse since 2026-07-22). Tasks:
+#   bake    -> build+push the triskit23/bioemu Vast boot image (Dockerfile.bioemu). Run ONCE (and on dep bumps).
+#   smoke   -> rent one cheap host, run the WHOLE chain on chignolin (10 aa) to prove image+plumbing (~$0.10).
+#   launch  -> rent one host, run the real 254-residue NR4A3 LBD cross-check; result JSON -> S3.
+#   collect -> pull the result JSON (+ phase log) from S3 and commit it into the branch.
+#   stop    -> destroy any lingering nr4a3-bioemu instances (anti-idle backstop).
+#
+# Run a feature branch's version by dispatching with ref=<branch> (the image + code come from that branch).
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: bake | smoke | launch | collect | stop
+        type: choice
+        options: [bake, smoke, launch, collect, stop]
+        default: launch
+      num_samples:
+        description: "number of BioEmu samples (launch/smoke; blank = default 200 real / 5 smoke)"
+        type: string
+        default: ""
+      batch_size_100:
+        description: "BioEmu batch_size_100 (lower if 24GB OOMs; blank = default 10 real / 5 smoke)"
+        type: string
+        default: ""
+      vast_image:
+        description: "override the Vast image (blank = docker.io/triskit23/bioemu:latest)"
+        type: string
+        default: ""
+      vast_ckpt_bucket:
+        description: "S3 bucket for results (blank = sagemaker-us-east-2-646605541856)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  bake:
+    if: ${{ github.event.inputs.task == 'bake' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DOCKERHUB_USER: triskit23
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reclaim runner disk (the CUDA + torch image is multi-GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
+      - name: Build + push the BioEmu Vast image
+        run: |
+          set -eo pipefail
+          IMG="docker.io/${DOCKERHUB_USER}/bioemu:latest"
+          docker build -f research/compute/Dockerfile.bioemu -t "$IMG" research/compute/
+          docker push "$IMG"
+          echo "PUSHED $IMG — ensure the Docker Hub repo is PUBLIC so Vast pulls it unauthenticated."
+
+  run:
+    if: ${{ github.event.inputs.task == 'smoke' || github.event.inputs.task == 'launch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+      VAST_IMAGE: ${{ github.event.inputs.vast_image }}
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      BIOEMU_MODE: ${{ github.event.inputs.task == 'smoke' && 'smoke' || 'real' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Submit the Vast instance
+        run: |
+          set -eo pipefail
+          python -m pip install -q awscli || true
+          ARGS="--mode $BIOEMU_MODE"
+          [ -n "${{ github.event.inputs.num_samples }}" ] && ARGS="$ARGS --num-samples ${{ github.event.inputs.num_samples }}"
+          [ -n "${{ github.event.inputs.batch_size_100 }}" ] && ARGS="$ARGS --batch-size-100 ${{ github.event.inputs.batch_size_100 }}"
+          echo "launching: nr4a3_bioemu_vast_launch.py $ARGS"
+          python research/modalities/nr4a3_bioemu_vast_launch.py $ARGS
+          echo "Instance submitted. Poll progress via task=collect (reads S3 phase.txt + result JSON)."
+
+  collect:
+    if: ${{ github.event.inputs.task == 'collect' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Pull the result JSON (+ phase log) from S3
+        run: |
+          set -eo pipefail
+          python3 -m pip install -q awscli >/dev/null 2>&1 || true
+          B="${BUCKET:-sagemaker-us-east-2-646605541856}"
+          PREFIX="s3://${B}/nr4a3-bioemu-crosscheck/nr4a3-bioemu-crosscheck"
+          echo "=== phase.txt ==="; aws s3 cp "$PREFIX/phase.txt" - 2>/dev/null || echo "(no phase.txt yet)"
+          mkdir -p research/modalities
+          if aws s3 cp "$PREFIX/bioemu-crosscheck.json" research/modalities/nr4a3-bioemu-crosscheck.json 2>/dev/null; then
+            echo "=== result ==="; cat research/modalities/nr4a3-bioemu-crosscheck.json
+          else
+            echo "::warning::no result JSON yet — the run may still be sampling. Re-run collect later."; exit 0
+          fi
+      - name: Commit the result into the branch
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          if ! git diff --quiet -- research/modalities/nr4a3-bioemu-crosscheck.json; then
+            git add research/modalities/nr4a3-bioemu-crosscheck.json
+            git commit -m "bioemu: capture NR4A3 cryptic-pocket cross-check result from Vast run"
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "no change to commit"
+          fi
+
+  stop:
+    if: ${{ github.event.inputs.task == 'stop' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Destroy any lingering nr4a3-bioemu Vast instances (anti-idle backstop)
+        run: |
+          set -eo pipefail
+          python - <<'PY'
+          import os, sys
+          sys.path.insert(0, "research/modalities")
+          from gpu_backend import _vast_request
+          key = os.environ["VAST_API_KEY"]
+          insts = _vast_request("GET", "/instances/", key).get("instances", [])
+          for it in insts:
+              label = (it.get("label") or "")
+              if label.startswith("nr4a3-bioemu"):
+                  iid = it.get("id")
+                  print(f"destroying {iid} ({label})")
+                  try:
+                      _vast_request("DELETE", f"/instances/{iid}/", key)
+                  except Exception as e:  # noqa: BLE001
+                      print(f"  destroy {iid} failed: {e}")
+          print("done")
+          PY
