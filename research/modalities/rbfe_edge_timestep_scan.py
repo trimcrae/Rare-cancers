@@ -25,8 +25,16 @@ without activation is what triggered ToolkitUnavailableException: AmberTools is 
 
 ANCHORS (validate the check against known ground truth):
   * pilot  5-Br -> 5-NH2  (e_zaienne_cmpd19__cw_ev_5nh2): step1 RAN CLEAN at 4 fs  -> MUST report 0 unconstrained.
-  * calib  Wurz cmpd1 -> cmpd4 (ring N -> CH):            NaN'd at 4 fs             -> MUST report >=1 unconstrained.
+  * calib  Wurz cmpd1 -> cmpd4 (ring N -> CH):            expect 0 (see below)      -> MUST report 4 fs.
 If both anchors come out as expected, the per-edge verdicts on the rest of the matrix are trustworthy.
+
+RESOLVED 2026-07-24 — AND THE SCAN IS LARGELY MOOT UNDER THIS BUILD. Measuring the EFFECTIVE settings rather
+than assuming them showed `forcefield_settings.constraints == "hbonds"` with `hydrogen_mass == 3.0` is OpenFE's
+DEFAULT. So (a) the `RBFE_FORCE_CONSTRAINTS=hbonds` line this module used to set was always a NO-OP, and (b) the
+production lanes, which set nothing, build the same constrained system. Under it EVERY X-H is a constraint
+(xh_total=0 on both anchors) and no X-H appears in the alchemical valence force, so there is nothing to cap the
+timestep and **every edge is 4 fs by construction**. A per-edge scan cannot discriminate what the build makes
+uniform — the remaining value here is the force census + effective-settings record, not a per-edge verdict.
 
 Runs free on a CPU runner (openfe env). Writes congeneric-edge-timestep-table.json next to this file.
 """
@@ -135,7 +143,13 @@ def main():
         {"edge_id": "ANCHOR_calib_wurz_N_to_CH", "kind": "anchor",
          "perturbation": wurz["morph"] + " (NaN'd at 4 fs -> expect >=1 unconstrained)",
          "smi_a": wurz["calib_hi"]["smiles"], "smi_b": wurz["calib_lo"]["smiles"],
-         "name_a": "Wurz_cmpd1", "name_b": "Wurz_cmpd4", "prefer_ec": True, "expect": "2fs"},
+         # EXPECTATION CORRECTED 2026-07-24, with evidence. This was "2fs", inferred from the Wurz ternary leg
+         # NaN-ing at 4 fs. That inference is unsupported twice over: (1) research/compute/pricing.md attributes
+         # that NaN to the softcore instability of the rough SMARCA4->SMARCA2 homology model, not to a timestep
+         # ceiling; (2) the build itself has NO unconstrained X-H to cap the timestep — measured on the real
+         # hybrid, xh_total=0 with 4997 constraints, and the alchemical valence force holds 28 bonds none of
+         # which is an X-H. An expectation no build can satisfy is not a known answer, it is a bug in the gate.
+         "name_a": "Wurz_cmpd1", "name_b": "Wurz_cmpd4", "prefer_ec": True, "expect": "4fs"},
     ]
 
     designed_rows = [{
