@@ -50,15 +50,33 @@ market multiple that had nothing to do with it.
 
 ### Where the money actually is — ranked
 
-Bid tuning is the **third**-order effect. In descending order of size:
+**⚠ CORRECTED (trimcrae, 2026-07-24). The previous version of this list was wrong in a way that matters.** It
+ranked "card choice — up to ~3.6×" first, computed as though the L4 were a *paid* choice we had defaulted into.
+It was not. **We have never paid a cent for L4** — every L4 hour ran on free GCP trial credit or Modal's free
+tier. And on **Vast**, the only place we spend cash, we have always been on a 4090 or a 3090 depending on the
+job. So there is no card mistake to fix on the paying lane, and **a 3.6× "saving" on a lane that costs $0 is not
+a saving at all — you cannot save money you never spent.** Worse, "switch off L4" would *increase* cash spend,
+from zero to something.
 
-1. **Card choice — up to ~3.6×.** The L4 we defaulted to is ~3.6× worse `$/ns` than the 4090 (§3e). This dwarfs
-   everything else and is settled by a bench costing cents, not by any bidding rule.
-2. **Not overpaying versus on-demand — ~38 %.** Stop bidding 1.9× a floor that currently *equals* on-demand.
-3. **Standing at the low end rather than the moment's price — ~22 %**, and only ~partially available because the
-   floor is flat.
+The correct decision rule for a free lane is not `$/ns`. It is **"use it before it expires, on whatever fits."**
+`$0` beats any positive price at any throughput.
 
-If you only ever do one thing from this document, do **1**.
+Ranked properly, for **cash**:
+
+1. **Spend the expiring free credit — up to ~$292, but bounded, and it dies 2026-10-10.**
+   `credit-status.json`: GCP trial cap $300, $8 spent → **~$292 left, ~11 weeks**. Bounded harder than it looks:
+   a ternary edge runs ~$94 as-run on GCP L4 on-demand versus ~$13 on Vast 4090, so the credit buys **~3 ternary
+   edges, not the ladder** (~7× less science per dollar). Still strictly better than paying for those 3. This is
+   a **scheduling** decision, not a card or bid decision, and it is the largest single lever.
+2. **Not overpaying versus on-demand on Vast — ~38 %**, on every cash rent. Measured; stands.
+3. **Card choice *within Vast*** — 4090 vs 3090 is already settled by measurement (4090 wins `$/ns` at every
+   size). Whether the **4080** (~16 % better on a proxy) or the **A10** (which bid at $0.016/hr) beats it is the
+   genuinely open question, and is what the bench answers.
+4. **Bid level — ~22 %**, and only partly available because the floor is flat.
+
+**The Vast L4 bench leg is calibration, not a purchase option.** We would never rent an L4 for cash while free
+ones exist on GCP; its value is as the **conversion factor** for translating GCP-L4-run results into
+Vast-priced projections (the `L4→4090 ≈ 2.06×` ratio pricing.md depends on).
 
 ## 1. What the incumbent policy is, and its four defects
 
@@ -295,12 +313,13 @@ on the market. A price analysis scoped to one card inherits that gap, and mine d
 | **L4** | 3 | 0.1600 | 109.3 | **0.03514** | ⚠ proxy |
 | RTX A6000 | 1 | 0.5600 | 235.3 | 0.05712 | ⚠ proxy |
 
-**Two conclusions, opposite in sign to the assumption:**
+**Two conclusions — the first CORRECTED 2026-07-24 after trimcrae pointed out the error:**
 
-1. **RTX is not the expensive choice — it is the cheap one.** The L4 we have been defaulting to is **~3.6×
-   worse $/ns than the 4090**, despite a lower $/hr. Cheap per hour, expensive per unit of science. The reason we
-   used it anyway — free GCP/Modal credit — is legitimate, but it makes "cheaper without RTX" true only while
-   the credit lasts and **false on cash**.
+1. **On the paying lane there was never a card mistake.** Vast rents have always been 4090 or 3090 depending on
+   the job; the L4 hours were **free** (GCP trial / Modal), so the `$/ns` gap is a throughput fact about a $0
+   lane, **not a realizable saving**. The earlier claim that this "dwarfs everything else" was wrong: switching
+   off free L4 would raise cash spend, not lower it. What the table *is* good for is choosing among the cards we
+   actually pay for, and as the L4→4090 conversion factor.
 2. **A candidate may beat the 4090 by ~16 %:** the RTX 4080 at $0.081/hr. **This is not a decision** — its
    throughput is a `dlperf` proxy, a generic DL score and a weak stand-in for MD. It is a candidate to **bench**,
    which costs cents via `bench_grid`. Note its 16 GB VRAM clears our `min_vram_gb=16` floor but may not hold the

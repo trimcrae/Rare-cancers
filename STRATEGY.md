@@ -951,6 +951,15 @@ economic threshold = √(m̂·d)                  if n < 12    cold start, distr
 R = reload + ½·ckpt_interval·sec_per_iter
 ```
 
+**⚠ Where the money is, corrected 2026-07-24 (trimcrae).** An earlier version of this section ranked "card
+choice, up to ~3.6×" first, computed as if the L4 were a paid default. **It never was** — every L4 hour ran on
+free GCP trial credit or Modal's free tier, and on Vast (the only cash lane) we have always used a 4090 or 3090
+per job. A 3.6× gap on a $0 lane is **not a saving**; switching off it would *raise* cash spend. Ranked properly:
+**(1) spend the expiring free credit** — ~$292 left, dies **2026-10-10**, but bounded (~$94/ternary edge as-run
+on GCP L4 vs ~$13 on Vast 4090, so ≈**3 ternary edges**, not the ladder); **(2) stop overpaying vs on-demand on
+Vast, ~38 %**; **(3) card choice *within Vast*** — 4090-vs-3090 already settled, 4080/A10 open pending the
+bench; **(4) bid level, ~22 %** and partly unavailable on a flat floor.
+
 **It needs no price history to start.** Backtested from a cold start on a seeded synthetic market
 (`vast_bid_backtest.py`): **1.11× a clairvoyant policy that knows the whole price path**, versus 1.32× for the
 best *fixed* threshold that knows the true distribution, and **3.51× for both `min_bid × 1.9` and
