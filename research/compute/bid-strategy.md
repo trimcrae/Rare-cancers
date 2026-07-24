@@ -53,6 +53,36 @@ P* = $0.30/hr (4090), capped at that machine's real on-demand dph_base, never be
 Shipped: gpu_backend._vast_bid_price(offer, ondemand_base) + _vast_ondemand_base_by_machine.
 ```
 
+### ★ Bench result (2026-07-24, 23:08 UTC) — the card decision moves, with one caveat to close first
+
+Measured at the **ternary size (84,534 atoms)**, `ns/day` from the Vast bench legs, `$/hr` = what each leg
+actually won:
+
+| card | ns/day | ×4090 | $/hr | **$/ns** | basis |
+|---|---|---|---|---|---|
+| RTX 4090 | 669.27 | 1.000 | 0.1333 | 0.00478 | cheapest live floor |
+| RTX 4090 | 669.27 | 1.000 | 0.3000 | 0.01076 | policy price `P*` |
+| **A10** | **335.99** | 0.502 | **0.0377** | **0.00269** | won by the bench leg |
+| L4 | 309.37 | 0.462 | 0.2607 | 0.02022 | won by the bench leg |
+
+**The A10 leg is 1.77× cheaper per ns than a 4090 at its cheapest floor, and 4.0× cheaper than a 4090 at `P*`.**
+Half the throughput at a *seventh* of the price. This is the "selection dominates" thesis paying out on the card
+axis: the win comes from a $0.038/hr host existing, not from the silicon.
+
+**⚠ Do not act on this yet — the A10 leg's CUDA device string starts with `Quadro`.** An A10 reports as
+`NVIDIA A10`, so either Vast's `gpu_name` is mislabelled on that host or we benched a Quadro-family card. Until
+the full device string is read back, "a10" names an *offer*, not a verified GPU. The `$/ns` above is real —
+that host really did 335.99 ns/day for $0.0377/hr — but its **reproducibility depends on whether cheap hosts of
+that kind are a standing feature of the market or a one-off**, which is the same thin-cheap-tail question that
+makes a fixed multiple unsafe (§0).
+
+**L4 is confirmed as a calibration-only lane, not a purchase option:** at $0.26/hr for 0.46× a 4090 it is the
+worst `$/ns` on the board, 4× the 4090 and 7.5× the A10. We would never rent one for cash while free GCP ones
+exist — its value is the `L4→4090` conversion factor.
+
+**RTX 4080: no result.** The leg was still `status=created` at collect time (never started). Its $0.081/hr floor
+remains the cheapest 24 GB-class offer seen, so it is still worth a re-run.
+
 ## 1. The strategy in plain terms
 
 **We are not choosing a bid. We are choosing a price we are willing to pay, and letting the market come to us.**
