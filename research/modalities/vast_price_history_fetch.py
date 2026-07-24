@@ -38,16 +38,28 @@ import urllib.parse
 import urllib.request
 
 BASE = "https://console.vast.ai/api/v0/metrics/gpu"
+
+# Sources, in preference order. Vast's own metrics are the most relevant (it IS our market) but are gated to a
+# logged-in console session — the API key is refused with `auth_error: This action requires login`, established
+# by running it (CI run 30130107337). gpuwatch is a documented public tracker with 400-day retention, free
+# during beta. IMPORTANT CAVEAT for any third-party source: it prices the PLATFORM-WIDE market, whereas we rent
+# a narrower filtered subset (verified, rentable, CUDA-capable, RAM/disk floors). Treat an external series as a
+# good prior for the SHAPE and DYNAMICS of the distribution, and calibrate its LEVEL against our own offer
+# observations before letting it set an absolute reservation price.
+GPUWATCH_HISTORY = "https://gpu.watchworks.dev/api/history"
+GPUWATCH_PRICES = "https://gpu.watchworks.dev/api/prices"
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 # Field spellings we will accept for the price series, cheapest-first ordering preserved.
 PRICE_KEYS = ("p10", "P10", "price_p10", "dph_p10", "percentile_10", "q10",
-              "median", "p50", "price_median", "dph_median")
+              "min_price", "minPrice", "low", "min",
+              "median", "p50", "price_median", "dph_median",
+              "avg_price", "avgPrice", "price", "usd_per_hour", "price_per_hour")
 TIME_KEYS = ("ts", "time", "timestamp", "t", "date", "bucket", "period")
 
 
-def _get(path, params=None, api_key=None, timeout=60):
-    url = BASE + path
+def _get(path, params=None, api_key=None, timeout=60, base=None):
+    url = (base if base is not None else BASE) + path
     if params:
         url += "?" + urllib.parse.urlencode(params)
     headers = {"Accept": "application/json", "User-Agent": "rare-cancers/1.0"}
@@ -87,6 +99,9 @@ def _first(d, keys):
     return None
 
 
+SOURCE_TAG = ["external_price_tracker"]
+
+
 def parse_series(payload):
     """-> (records, diagnostic). Each record matches the sampler's JSONL schema so both sources can be pooled."""
     path, series = _walk_for_series(payload)
@@ -103,7 +118,7 @@ def parse_series(payload):
             continue
         if price <= 0:
             continue
-        out.append({"ts": ts, "source": "vast_market_metrics", "n_offers": None,
+        out.append({"ts": ts, "source": SOURCE_TAG[0], "n_offers": None,
                     "min_floor": price, "median_floor": _num(_first(row, ("median", "p50"))),
                     "floors": []})
     return out, {"found": True, "series_path": path, "n_rows": len(series), "n_parsed": len(out),
@@ -127,22 +142,30 @@ def main(argv=None):
     args = ap.parse_args(argv)
     key = os.environ.get("VAST_API_KEY") or None
 
+    # (base, path, params, auth_mode) — auth_mode: "bearer" | "query" | "none"
     attempts = [
-        ("/history/", {"gpu_name": args.gpu, "days": args.days, "step": args.step}),
-        ("/history/", {"gpu_name": args.gpu, "range": f"{args.days}d", "step": args.step}),
-        ("/history/", {"gpu_name": args.gpu}),
-        ("/current/", {"gpu_name": args.gpu}),
+        (BASE, "/history/", {"gpu_name": args.gpu, "days": args.days, "step": args.step}, "bearer"),
+        (BASE, "/history/", {"gpu_name": args.gpu, "days": args.days, "step": args.step}, "query"),
+        (BASE, "/current/", {"gpu_name": args.gpu}, "query"),
+        ("", GPUWATCH_HISTORY, {"gpu": args.gpu, "days": args.days}, "none"),
+        ("", GPUWATCH_HISTORY, {"gpu": args.gpu.replace(" ", "+"), "days": args.days}, "none"),
+        ("", GPUWATCH_PRICES, {"gpu": args.gpu}, "none"),
     ]
     payload, used, errors = None, None, []
-    for path, params in attempts:
-        for k in (key, None):                      # try authenticated, then anonymous
-            data, err = _get(path, params, k)
-            if data:
-                payload, used = data, {"path": path, "params": params, "auth": bool(k)}
-                break
-            errors.append({"path": path, "params": params, "auth": bool(k), "error": err})
-        if payload:
+    for base, path, params, mode in attempts:
+        p = dict(params)
+        k = None
+        if mode == "bearer":
+            k = key
+        elif mode == "query" and key:
+            p["api_key"] = key
+        data, err = _get(path, p, k, base=base)
+        if data:
+            payload = data
+            used = {"base": base or "(absolute)", "path": path,
+                    "params": {kk: vv for kk, vv in p.items() if kk != "api_key"}, "auth_mode": mode}
             break
+        errors.append({"path": (base or "") + path, "auth_mode": mode, "error": err})
 
     if payload is None:
         print(json.dumps({"ok": False, "errors": errors[:8],
@@ -150,8 +173,10 @@ def main(argv=None):
                                   "reconsider before assuming the data does not exist"}, indent=1))
         return 1
 
+    SOURCE_TAG[0] = ("vast_market_metrics" if "vast.ai" in (used.get("base", "") + used.get("path", ""))
+                     else "gpuwatch_tracker")
     with open(args.raw, "w") as f:
-        json.dump(payload, f, indent=1)
+        json.dump({"_source": used, "payload": payload}, f, indent=1)
     records, diag = parse_series(payload)
     if records:
         with open(args.out, "a") as f:
