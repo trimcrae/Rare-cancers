@@ -925,21 +925,27 @@ the confirmatory line on exactly that benchmark. What changes is downstream: the
 benchmark fails, because the ligand-side double difference carries the causal claim. Nothing with a GPU price
 launches without an explicit go.
 
-### ★ Bid policy — treat it as an optimisation, and right now that means ON-DEMAND (2026-07-24)
+### ★ Bid policy — treat it as an optimisation; the interruptible discount is REAL (2026-07-24)
 
-Measured, read-only, on the live 4090 market: **`min_bid == dph_base` on 7/7 offers**, and on the one machine
-visible in both a bid-type and an on-demand query, on-demand `dph_total` is **1.17× the interruptible floor**. The
-incumbent `min_bid × 1.9` therefore pays **~38 % more per hour than on-demand for a box that can still be
-preempted** — strictly dominated, and true without any hazard model. Full derivation, the four defects of a fixed
-multiple, and the optimiser (`vast_bid_optimizer.py`, 28 tests) are in
-[research/compute/bid-strategy.md](research/compute/bid-strategy.md).
+**⚠ A "there is no interruptible discount" claim was posted here earlier the same day and is RETRACTED.** It
+rested on `min_bid == dph_base` across 7 card classes, which is a **tautology of the query type**: `_live_offers`
+defaults to `interruptible=True`, so the search runs `"type": "bid"`, and in a bid-type search Vast reports
+`dph_base` as your rate *at the floor*. Measured properly — a genuine on-demand query matched on `machine_id` —
+machine 26385 prices on-demand compute at **$0.4533/hr against a $0.3733/hr floor, an 18 % discount**, with an
+identical $0.003/hr surcharge on both sides. Bidding therefore has real upside and the limit-order policy below
+stands.
+
+What is measured without dispute: the incumbent `min_bid × 1.9` = **$0.709/hr against on-demand $0.456/hr — a
+55 % premium for a box that can still be preempted.** Strictly dominated, no hazard model needed. Full
+derivation, the four defects of a fixed multiple, and the optimiser (`vast_bid_optimizer.py`, 78 tests) are in
+[research/compute/bid-strategy.md](research/compute/bid-strategy.md). The discount *distribution* across card
+classes (n = 1 machine so far — far too thin) is being measured now; a policy number waits on it.
 
 **Policy (corrected same day — the snapshot answer optimised the wrong variable):** stand a **limit order at an
 absolute reservation price `P*` and wait.** On Vast an interruptible bid **is** a limit order: it acquires when
 the clearing price falls to `P*` and is preempted when it rises, so with per-unit checkpointing the job advances
 during cheap periods, parks during expensive ones, and cost per unit of **work** is bounded by `P*`. Since this
-program is never a race, waiting is close to free — and `min_bid == dph_base` means the market is momentarily at
-its *ceiling*, i.e. the worst moment to buy, not a reason to pay on-demand.
+program is never a race, waiting is close to free.
 
 ```
 P* = clamp( max( no-churn floor(R),  economic threshold ),  ≤ on-demand )
@@ -956,9 +962,10 @@ choice, up to ~3.6×" first, computed as if the L4 were a paid default. **It nev
 free GCP trial credit or Modal's free tier, and on Vast (the only cash lane) we have always used a 4090 or 3090
 per job. A 3.6× gap on a $0 lane is **not a saving**; switching off it would *raise* cash spend. Ranked properly:
 **(1) spend the expiring free credit** — ~$292 left, dies **2026-10-10**, but bounded (~$94/ternary edge as-run
-on GCP L4 vs ~$13 on Vast 4090, so ≈**3 ternary edges**, not the ladder); **(2) stop overpaying vs on-demand on
-Vast, ~38 %**; **(3) card choice *within Vast*** — 4090-vs-3090 already settled, 4080/A10 open pending the
-bench; **(4) bid level, ~22 %** and partly unavailable on a flat floor.
+on GCP L4 vs ~$13 on Vast 4090, so ≈**3 ternary edges**, not the ladder); **(2) stop bidding above on-demand on
+Vast** — `×1.9` pays a 55 % premium over simply buying the same box; **(3) card choice *within Vast*** —
+4090-vs-3090 already settled, 4080/A10 open pending the bench; **(4) bid level** — a real ~18 % interruptible
+discount exists to capture, sized properly once the distribution lands.
 
 **It needs no price history to start.** Backtested from a cold start on a seeded synthetic market
 (`vast_bid_backtest.py`): **1.11× a clairvoyant policy that knows the whole price path**, versus 1.32× for the

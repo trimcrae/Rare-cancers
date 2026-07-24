@@ -1,10 +1,10 @@
 # Vast bidding as an optimisation problem — findings and policy (2026-07-24)
 
-> **Headline, model-free:** on today's RTX-4090 market, **on-demand is ~1.17× the interruptible floor**, while the
-> incumbent policy bids **1.9× the floor**. So the current policy pays **~38 % more per hour than on-demand for a
-> box that can still be preempted.** That is strictly dominated, and it needs no hazard model to see.
+> **Headline, model-free:** the incumbent policy bids **1.9× the interruptible floor**. On the one machine
+> measured like-for-like that is **$0.709/hr against an on-demand price of $0.456/hr** — a **55 % premium for a
+> box that can still be preempted.** Strictly dominated, and it needs no hazard model to see.
 >
-> Engine: [`vast_bid_optimizer.py`](../modalities/vast_bid_optimizer.py) (28 unit tests). Live evidence:
+> Engine: [`vast_bid_optimizer.py`](../modalities/vast_bid_optimizer.py) (78 unit tests). Live evidence:
 > `vast-bid-advice-ternary.json`, `vast-bid-advice-rbfe.json`, `vast-bid-ondemand-crosscheck.json`
 > (read-only offer search — no rent, no instance, no spend).
 
@@ -12,35 +12,34 @@
 
 ## 0. THE NUMBER
 
-**$0.147/hr for an RTX 4090 — and take it as on-demand, not as a bid.**
-
-Computed against the real 20-day price series and today's live filtered offers, for both job profiles
-(ternary 10.7 GPU-h, RBFE 13.7 GPU-h) and every deadline from 2 weeks to 12 hours. **It came out the same in all
-eight cases**, and that constancy *is* the finding:
-
-| | value | why |
-|---|---|---|
-| cheapest rentable floor today | **$0.1467/hr** | live, filtered, verified, CUDA-capable offers |
-| on-demand for the same machine | **$0.1467/hr** | `min_bid == dph_base` on 7/7 offers |
-| churn floor (bid needed to hold a box) | **$0.40–0.53/hr** | ~3× the price of just *buying* it |
-
-**Bidding is dominated, and you don't need the hazard model to see it.** The cheapest possible bid *is* the floor,
-$0.1467 — exactly the on-demand price — so a bid can never be cheaper and can only add preemption risk.
-On-demand wins for any hazard greater than zero. The model only sharpens the picture: to hold a box long enough
-to make net progress you'd have to bid **$0.40–0.53**, roughly **3× the cost of owning it outright** for the run.
-
-**The standing target across days is ~$0.136/hr** — the platform-wide `vast/any` low, available on **17 of 20**
-days. Today's cheapest *filtered* offer is $0.1467, so that ~8 % gap is the only thing left worth chasing, by
-picking the machine rather than by bidding.
-
-```
-Today:    buy on-demand at $0.147/hr (4090).      Never bid above it — bidding buys nothing.
-Target:   ~$0.136/hr when a cheaper box is there.
-Revisit:  only if min_bid drops materially below dph_base — then bidding starts to mean something again.
-```
-
-*(Contingent on the running bench: the RTX 4080 floor is **$0.081/hr**. If its measured throughput holds up, the
-number becomes $0.081 and everything above re-runs on that card.)*
+> ### ⚠ RETRACTED 2026-07-24 — the previous answer here ("$0.147/hr, taken on-demand") rested on a measurement artifact.
+>
+> It claimed `min_bid == dph_base` on 7/7 card classes, i.e. **no interruptible discount exists**, so bidding
+> could never beat buying. **That is false.** `_live_offers` builds its query from `ResourceSpec()`, whose
+> default is `interruptible=True`, so `_vast_offer_query` sets `"type": "bid"` — and **in a bid-type search Vast
+> reports `dph_base` as your rate *at the floor*.** `min_bid == dph_base` is therefore a tautology of the query
+> type, not a market observation. The seven-card table was one identity printed seven times. Exact equality to
+> six decimals across seven independently-owned hosts should have read as a definition, not a finding — and the
+> economic objection is decisive on its own: no marketplace sells a strictly-worse product at the same price.
+>
+> Measured properly, by issuing a genuine on-demand query and matching on `machine_id`:
+>
+> | machine 26385 (RTX 4090) | $/hr |
+> |---|---|
+> | interruptible floor (`min_bid`) | **0.3733** |
+> | on-demand compute (`dph_base`) | **0.4533** |
+> | surcharge, **identical** on both sides | 0.0030 |
+> | **discount** | **18 %** (`od_base_over_floor` = 1.214) |
+>
+> So the interruptible route has real upside, and the optimal-stopping machinery in §1–§4 below is back in play.
+> **n = 1 machine is far too thin to set a policy number from**, because the two query types return disjoint
+> offer pages under the API's default limit. The crosscheck now requests 512 offers per type across eight card
+> classes and reports the discount *distribution* (min / p25 / p75 / max, fraction of hosts with no discount,
+> per-card medians). **THE NUMBER goes back in here once that lands** — with a spread, not a point estimate,
+> since a discount that varies by host means *which machine you select* matters more than what you bid.
+>
+> What survives the retraction, unchanged: **never bid above the on-demand price for the same machine.** That
+> comparison never depended on the artifact, and it is exactly what `min_bid × 1.9` violates.
 
 ## 1. The strategy in plain terms
 
@@ -54,7 +53,7 @@ clamped by the other two.
 
 | | what it is | where it comes from |
 |---|---|---|
-| **CEILING** | the on-demand price | We can always buy at on-demand with **zero** preemption risk, so any bid above it is strictly worse. This is the constraint the old policy violated on 7/7 offers. |
+| **CEILING** | the on-demand price | We can always buy at on-demand with **zero** preemption risk, so any bid above it is strictly worse. This is the constraint `×1.9` violates: $0.709/hr bid vs $0.456/hr on-demand. |
 | **TARGET** | the **duty-cycle quantile** of the price distribution | To finish `W` GPU-hours in `T` hours on `c` machines we must be running `ρ = W/(T·c)` of the time — so accept the cheapest `ρ`-fraction of prices. Need the GPU 12 % of the time → stand at the 12th percentile. **Derived from the deadline, not tuned.** |
 | **FLOOR** | the **churn price** | A preemption costs `R` hours (image reload + work since the last checkpoint). Bid so low that `λ(P)·R > 0.2` and most of the money buys reloads, not science. This — and only this — is what the old ×1.9 was actually reaching for. |
 
@@ -100,11 +99,13 @@ Ranked properly, for **cash**:
    a ternary edge runs ~$94 as-run on GCP L4 on-demand versus ~$13 on Vast 4090, so the credit buys **~3 ternary
    edges, not the ladder** (~7× less science per dollar). Still strictly better than paying for those 3. This is
    a **scheduling** decision, not a card or bid decision, and it is the largest single lever.
-2. **Not overpaying versus on-demand on Vast — ~38 %**, on every cash rent. Measured; stands.
+2. **Not bidding above on-demand on Vast** — `×1.9` is $0.709/hr against $0.456/hr on-demand for the same
+   machine, a **55 % premium** on every cash rent. Measured; stands.
 3. **Card choice *within Vast*** — 4090 vs 3090 is already settled by measurement (4090 wins `$/ns` at every
    size). Whether the **4080** (~16 % better on a proxy) or the **A10** (which bid at $0.016/hr) beats it is the
    genuinely open question, and is what the bench answers.
-4. **Bid level — ~22 %**, and only partly available because the floor is flat.
+4. **Bid level** — a **real ~18 % interruptible discount** exists to capture (measured, §3), sized properly
+   once the cross-class distribution lands.
 
 **The Vast L4 bench leg is calibration, not a purchase option.** We would never rent an L4 for cash while free
 ones exist on GCP; its value is as the **conversion factor** for translating GCP-L4-run results into
@@ -162,18 +163,23 @@ multiple assumes they are independent.
 | live 4090 offers | 7 | 7 |
 | offers where **×1.9 exceeds on-demand** | **7 / 7** | **7 / 7** |
 | incumbent bid on the best offer | $0.329/hr | $0.279/hr |
-| optimiser recommendation | $0.173/hr (= floor; on-demand wins) | $0.147/hr (= floor; on-demand wins) |
+| optimiser recommendation | $0.173/hr (= floor) | $0.147/hr (= floor) |
 
-**`min_bid == dph_base` on every offer returned by the bid query.** That equality is the load-bearing claim, so it
-was cross-checked against a separate **on-demand** query matched by `machine_id`: on the one machine visible in
-both, on-demand `dph_total` = **1.17 ×** the interruptible floor. *(Honest limit: only **one** machine appeared in
-both result sets, so the 1.17 is a single observation. The `min_bid == dph_base` equality across 6–7 offers is the
-stronger leg of the evidence.)*
+**⚠ `min_bid == dph_base` is NOT evidence of anything — it is a tautology of the bid-type query**, in which Vast
+reports `dph_base` as your rate *at the floor*. An earlier version of this section called that equality "the
+load-bearing claim" and "the stronger leg of the evidence." It was neither; it was a definition, and the
+"no interruptible discount" conclusion built on it is retracted (see §0).
+
+The valid instrument is the separate **on-demand** query matched by `machine_id`. On machine 26385: floor
+**$0.3733/hr**, on-demand compute **$0.4533/hr**, identical $0.003/hr surcharge on both sides — a **real 18 %
+interruptible discount**. *(Honest limit: n = 1 machine, because the two query types return disjoint offer pages
+at the API default limit. The crosscheck now pulls 512 offers per type across eight card classes and reports the
+distribution; until that lands, treat 18 % as one observation, not a rate.)*
 
 **Decomposing the saving — what is measured vs what is modelled:**
 
-- **Model-free (~38 %):** on-demand at ~1.17× floor versus the incumbent's 1.9× floor, per hour, *and* with zero
-  preemption risk. No hazard model involved.
+- **Model-free:** the incumbent's `1.9 × floor` = $0.709/hr versus $0.456/hr on-demand for the *same machine* — a
+  **55 % premium** for a box that can still be preempted. No hazard model involved.
 - **Model-dependent (the rest of the ~62 % the tool reports):** the remainder comes from the hazard model
   inflating the incumbent's expected wall clock at `λ_ref = 1.0/hr`, which is a **prior, not a measurement**.
   Do not quote the 62 % as measured.
@@ -198,9 +204,9 @@ With per-unit checkpointing that is not churn to be avoided — it *is* the stra
 advances during cheap periods, parks during expensive ones, and the cost per unit of **work** is bounded by `P*`
 regardless of what the market does. Wall clock stretches; we do not care.
 
-**This also inverts my regime-A reading.** `min_bid == dph_base` does not mean "take on-demand" — it means the
-interruptible market is momentarily *at its ceiling*, which is precisely when waiting is most valuable and paying
-is least. I had that backwards.
+**This also disposes of my regime-A reading.** That reading rested on `min_bid == dph_base` meaning the market
+sat at its ceiling. The equality was a query artifact, so it never carried that information either way — and
+with a genuine ~18 % discount available below on-demand, the limit-order argument stands on its own.
 
 **The one thing that stops you bidding arbitrarily low.** Bid too far down and you acquire, spend `R` hours
 reloading, run briefly, and lose the box — buying reloads instead of science. The useful fraction of paid time is
@@ -312,7 +318,7 @@ reachable **85 %** of the time. That is real but modest, and because it is reach
 "wait for a dip" than "stop overpaying for the spot price."
 
 **Ordering the effects, largest first:**
-1. **~38 %** — stop bidding 1.9× a floor that currently *equals* on-demand (measured, §3).
+1. **~55 %** — stop bidding 1.9× the floor when on-demand for the same machine is far below that (measured, §3).
 2. **~22 %** — target the low end of the distribution rather than the moment's price (measured here).
 3. **Unknown** — intraday variation. The tracker reports **daily lows only**, so it cannot see it, and this is
    where any remaining waiting value would live. Our own hourly sampler is what settles it.
