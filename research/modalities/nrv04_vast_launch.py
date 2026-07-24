@@ -474,20 +474,35 @@ def _s3_list(s3, bucket, prefix, suffix=None, limit=None):
         tok = r["NextContinuationToken"]
 
 
+# Every co-fold prefix that could supply a ternary starting structure. The covalent panel only ever needed
+# NR4A1 (+ its two controls), but the RETROSPECTIVE holdout needs the PARALOGUE co-folds too, and those were
+# written by the earlier descriptive/shakeout benchmark runs under their own prefixes. discover scans all of
+# them so the retrospective's input inventory is read off S3, never assumed.
+COFOLD_BASES = [b for b in (os.environ.get("NRV04_COFOLD_BASES") or
+                            "nrv04-covalent-cofold,nrv04-descriptive-v3,nrv04-ternary,nrv04-shakeout").split(",") if b]
+
+
 def discover_cofold(bucket, base=None):
-    """List the reused co-fold prefix and report which *_model_0.cif exist (reuse ValB's structures, no regen).
-    Also dumps the RAW prefix layout so we can see the actual subdir names if they differ from expected."""
+    """List every candidate co-fold prefix and report which *_model_0.cif exist (reuse existing structures, no
+    regen). Also dumps the RAW prefix layout so we can see the actual subdir names if they differ from expected.
+
+    `base` (or $NRV04_COFOLD_PREFIX) restricts the scan to one prefix; the default scans COFOLD_BASES so the
+    retrospective's paralogue inputs (nr4a2/nr4a3), which live outside the covalent panel's prefix, are found."""
     import boto3
-    base = (base or os.environ.get("NRV04_COFOLD_PREFIX", COFOLD_PREFIX)).rstrip("/")
+    bases = [base.rstrip("/")] if base else [b.rstrip("/") for b in COFOLD_BASES]
     s3 = boto3.client("s3")
-    all_cifs = _s3_list(s3, bucket, base + "/", suffix="_model_0.cif")
-    sample = _s3_list(s3, bucket, base + "/", limit=25)
-    found = {}
-    for lig, system in _LIGAND_TO_SYSTEM.items():
-        keys = [k for k in all_cifs if f"/{system}/" in k]
-        found[system] = sorted(keys)
-    out = {"bucket": bucket, "base": base, "total_model0_cifs": len(all_cifs),
-           "per_system": found, "raw_sample_keys": sample, "all_cif_keys": all_cifs[:40]}
+    per_base, systems = {}, {}
+    for b in bases:
+        cifs = _s3_list(s3, bucket, b + "/", suffix="_model_0.cif")
+        per_base[b] = {"total_model0_cifs": len(cifs),
+                       "subdirs": sorted({k[len(b) + 1:].split("/")[0] for k in cifs}),
+                       "raw_sample_keys": _s3_list(s3, bucket, b + "/", limit=15),
+                       "cif_keys": cifs[:60]}
+        for k in cifs:                                  # <base>/<system>/.../*_model_0.cif
+            systems.setdefault(k[len(b) + 1:].split("/")[0], []).append(k)
+    out = {"bucket": bucket, "bases": bases, "per_base": per_base,
+           "per_system": {k: sorted(v) for k, v in sorted(systems.items())},
+           "total_model0_cifs": sum(v["total_model0_cifs"] for v in per_base.values())}
     json.dump(out, open("nrv04-cofold-discovery.json", "w"), indent=2)
     print("[discover] " + json.dumps(out, indent=2), flush=True)
     return out
