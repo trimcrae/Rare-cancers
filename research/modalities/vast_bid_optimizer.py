@@ -332,9 +332,14 @@ def _cli(argv=None):
                          "no rent, no spend) instead of --offers-json")
     ap.add_argument("--gpu", default="rtx4090", help="--live: gpu_name substring filter")
     ap.add_argument("--out", default=None, help="also write the full result JSON here")
+    ap.add_argument("--crosscheck-ondemand", action="store_true",
+                    help="run the same query as on-demand and compare per machine (read-only)")
     args = ap.parse_args(argv)
 
     R = restart_overhead_h(checkpoint_interval_iters=args.ckpt_iters, sec_per_iter=args.sec_per_iter)
+    if args.crosscheck_ondemand:
+        print(json.dumps(ondemand_crosscheck(args.gpu), indent=1))
+        return 0
     if args.live:
         offers = _live_offers(args.gpu)
     elif args.offers_json:
@@ -374,6 +379,54 @@ def _live_offers(gpu_substr="rtx4090"):
         g = gpu_substr.lower().replace(" ", "")
         offers = [o for o in offers if g in str(o.get("gpu_name", "")).lower().replace(" ", "")]
     return offers
+
+
+def ondemand_crosscheck(gpu_substr="rtx4090"):
+    """DECISIVE CHECK on the premise behind 'x1.9 bids above on-demand'.
+
+    In a bid-type search Vast returned `min_bid == dph_base` on every offer, which would mean the interruptible
+    floor equals the on-demand price and the incumbent x1.9 is paying ~1.9x on-demand for a preemptible box.
+    That is a big claim resting on `dph_base` being a genuine on-demand price rather than the API echoing the
+    bid floor back for this query type. So: run the SAME query as ON-DEMAND, match by machine_id, and compare.
+    If on-demand prices come back materially higher, the premise is FALSE and the claim must be withdrawn."""
+    from gpu_backend import ResourceSpec, _vast_offer_query, _vast_request
+    key = os.environ.get("VAST_API_KEY", "")
+    if not key:
+        raise SystemExit("VAST_API_KEY not set")
+    out = {}
+    for label, interruptible in (("bid", True), ("on_demand", False)):
+        res = ResourceSpec(interruptible=interruptible)
+        q = _vast_offer_query(res)
+        data = _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}) or {}
+        offers = data.get("offers", [])
+        g = (gpu_substr or "").lower().replace(" ", "")
+        if g:
+            offers = [o for o in offers if g in str(o.get("gpu_name", "")).lower().replace(" ", "")]
+        out[label] = {str(o.get("machine_id")): {
+            "offer_id": o.get("id"), "min_bid": o.get("min_bid"), "dph_base": o.get("dph_base"),
+            "dph_total": o.get("dph_total"), "gpu": o.get("gpu_name")} for o in offers}
+    common = sorted(set(out["bid"]) & set(out["on_demand"]))
+    rows = []
+    for mid in common:
+        b, d = out["bid"][mid], out["on_demand"][mid]
+        try:
+            ratio = float(d["dph_total"]) / float(b["min_bid"]) if b["min_bid"] else None
+        except (TypeError, ValueError, ZeroDivisionError):
+            ratio = None
+        rows.append({"machine_id": mid, "gpu": b["gpu"], "bid_min_bid": b["min_bid"],
+                     "bid_dph_base": b["dph_base"], "ondemand_dph_total": d["dph_total"],
+                     "ondemand_over_floor": None if ratio is None else round(ratio, 3)})
+    ratios = [r["ondemand_over_floor"] for r in rows if r["ondemand_over_floor"]]
+    verdict = ("no machines common to both queries — inconclusive, re-run" if not ratios else
+               ("PREMISE HOLDS: on-demand is at/near the interruptible floor (median ratio %.2f), so a x1.9 bid "
+                "really does exceed on-demand" % sorted(ratios)[len(ratios)//2] if sorted(ratios)[len(ratios)//2] < 1.5
+                else "PREMISE FALSE: on-demand is %.2fx the interruptible floor, so dph_base in the bid query is "
+                     "NOT the on-demand price and the 'bids above on-demand' claim must be withdrawn"
+                     % sorted(ratios)[len(ratios)//2]))
+    return {"n_bid_offers": len(out["bid"]), "n_ondemand_offers": len(out["on_demand"]),
+            "n_common_machines": len(common), "rows": rows,
+            "median_ondemand_over_floor": (sorted(ratios)[len(ratios)//2] if ratios else None),
+            "verdict": verdict}
 
 
 def _saving_summary(ranked):

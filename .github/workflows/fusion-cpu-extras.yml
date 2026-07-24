@@ -183,6 +183,9 @@ jobs:
       - name: Unit tests (pure logic, offline)
         working-directory: research/modalities
         run: python -m unittest tests.test_vast_bid_optimizer -v
+      - name: CROSS-CHECK the on-demand premise (same query as on-demand, matched by machine_id)
+        working-directory: research/modalities
+        run: python vast_bid_optimizer.py --live --crosscheck-ondemand --gpu rtx4090 --work-gpu-h 1 | tee ../../ondemand-crosscheck.txt
       - name: Advise — ternary edge profile (10.7 GPU-h/leg, 146k particles, ckpt 40 @ ~16 s/iter)
         working-directory: research/modalities
         run: |
