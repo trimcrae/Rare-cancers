@@ -90,8 +90,15 @@ if aws s3 ls "$RESULT_S3/leg_$LEG_ID.json" >/dev/null 2>&1; then
   fi
 fi
 mkdir -p /tmp/protfep_in /tmp/protfep_out
-# RESUME: pull any prior checkpoint for this leg (spot preemption or a re-dispatch of the same unit).
-aws s3 cp "$RESULT_S3/" /tmp/protfep_out/ --recursive --exclude '*' --include "leg_$LEG_ID.json" 2>/dev/null || true
+# RESUME: pull back EVERYTHING the sync loop uploads, not just the leg JSON.
+# A finished lambda window is recorded by its .xvg inside work_<leg>/, and run_windows skips any
+# window whose .xvg is present — but only if the file is actually restored. Pulling only the JSON
+# meant a preempted leg silently re-ran every completed window: the apo pilot leg was preempted at
+# 14/16 windows, ~1 GPU-h that would have been paid for twice with nothing in the log to say why.
+# hybrid.top + npt.gro come back too so build_system can skip the whole setup phase.
+aws s3 cp "$RESULT_S3/" /tmp/protfep_out/ --recursive --exclude '*' \
+    --include "leg_$LEG_ID.json" --include "work_$LEG_ID/*" 2>/dev/null || true
+echo "[protfep] restored $(ls /tmp/protfep_out/work_$LEG_ID/*.xvg 2>/dev/null | wc -l) finished window(s)"
 ls -la /tmp/protfep_out || true
 # --- repo code (public codeload tarball) ---
 cd /root
@@ -101,7 +108,8 @@ mark cloned
 # --- continuous checkpoint upload (every 3 min) so a preemption never loses the leg ---
 ( while true; do sleep 180; \
     aws s3 cp /tmp/protfep_out/ "$RESULT_S3/" --recursive --exclude '*' \
-        --include "leg_$LEG_ID.json" --include "*.xvg" >/dev/null 2>&1 || true; \
+        --include "leg_$LEG_ID.json" --include "work_$LEG_ID/*.xvg" \
+        --include "work_$LEG_ID/hybrid.top" --include "work_$LEG_ID/npt.gro" >/dev/null 2>&1 || true; \
     aws s3 cp /tmp/run.log "$RESULT_S3/run.log" >/dev/null 2>&1 || true; \
   done ) &
 SYNC_PID=$!
@@ -114,7 +122,8 @@ kill $SYNC_PID 2>/dev/null || true
 mark md-done
 # --- final upload: the leg JSON (the deliverable) + the trajectory checkpoint + the log ---
 aws s3 cp /tmp/protfep_out/ "$RESULT_S3/" --recursive --exclude '*' \
-    --include "leg_$LEG_ID.json" --include "*.xvg" || echo "result upload failed"
+    --include "leg_$LEG_ID.json" --include "work_$LEG_ID/*.xvg" \
+    --include "work_$LEG_ID/hybrid.top" --include "work_$LEG_ID/npt.gro" || echo "result upload failed"
 mark done
 echo "[protfep] $(date -u +%FT%TZ) EXIT rc=$RC"
 exit $RC

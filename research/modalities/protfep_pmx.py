@@ -252,6 +252,20 @@ def build_system(structure_path, mutation_spec, work_dir):
     if not m["buildable"]:
         raise pf.MutationError(m["risk"])
 
+    # RESUMPTION SHORT-CIRCUIT. Setup (pdb2gmx x2, mutate, gentop, solvate, ions, minimise, NVT, NPT)
+    # is deterministic and takes minutes; if a previous attempt's outputs were restored from S3 there
+    # is nothing to gain by redoing it, and on a preempted leg the whole point is to resume where it
+    # stopped. Both files are required: hybrid.top without npt.gro (or vice versa) is a partial
+    # restore, and continuing from half a system is worse than rebuilding it.
+    existing_gro = os.path.join(work_dir, "npt.gro")
+    existing_top = os.path.join(work_dir, "hybrid.top")
+    if os.path.exists(existing_gro) and os.path.exists(existing_top):
+        n_atoms = _count_atoms(existing_gro)
+        ff_name, ff_root = resolve_forcefield(FORCEFIELD)
+        os.environ["GMXLIB"] = ff_root + (":" + os.environ["GMXLIB"] if os.environ.get("GMXLIB") else "")
+        _log(f"RESUMING from a restored system: {n_atoms} atoms, skipping setup entirely")
+        return existing_gro, existing_top, n_atoms, ff_name
+
     ff_name, ff_root = resolve_forcefield(FORCEFIELD)
     # GROMACS finds a force field via GMXLIB; pmx's hybrid residue definitions live in ITS data tree,
     # so both pdb2gmx and pmx must be pointed at the same place or they will disagree about what a

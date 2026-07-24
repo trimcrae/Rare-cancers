@@ -891,3 +891,42 @@ def test_progress_board_uses_the_engine_s_own_unit():
     # The selection logic mirrors collect(); assert the field choice rather than capturing stdout.
     assert (pmx_leg.get("windows_done") is not None or pmx_leg.get("n_states"))
     assert not (omm_leg.get("windows_done") is not None or omm_leg.get("n_states"))
+
+
+def test_resume_pulls_back_everything_the_sync_uploads():
+    """Upload and resume must be SYMMETRIC, or a preempted leg silently redoes finished work.
+
+    The apo pilot leg was preempted at 14/16 windows. The sync loop had been uploading each finished
+    window's .xvg, but the resume pulled only the leg JSON — so a re-dispatch would have re-run all
+    14 windows, ~1 GPU-h paid twice, with nothing in the log to say why.
+    """
+    pipeline = pv._PIPELINE
+    resume_block = pipeline.split("RESUME:")[1].split("repo code")[0]
+    for needed in ('--include "leg_$LEG_ID.json"', '--include "work_$LEG_ID/*"'):
+        assert needed in resume_block, f"resume does not restore {needed}"
+    # everything the uploads write under work_<leg>/ must be restorable by that wildcard
+    for uploaded in ("work_$LEG_ID/*.xvg", "work_$LEG_ID/hybrid.top", "work_$LEG_ID/npt.gro"):
+        assert uploaded in pipeline, f"{uploaded} is never uploaded, so it can never be resumed"
+
+
+def test_build_system_short_circuits_on_a_restored_system(tmp_path, monkeypatch):
+    """A restored system must skip setup entirely — that is the point of resuming."""
+    monkeypatch.setattr(ppmx, "resolve_forcefield", lambda req: ("ff-mut", "/ffroot"))
+    work = tmp_path / "work"
+    work.mkdir()
+    (work / "hybrid.top").write_text("; topology\n")
+    (work / "npt.gro").write_text("system\n 13392\n")
+    gro, top, n_atoms, ff = ppmx.build_system("/nonexistent/input.pdb", "D:Y29A", str(work))
+    assert n_atoms == 13392 and ff == "ff-mut"
+    assert gro.endswith("npt.gro") and top.endswith("hybrid.top")
+
+
+def test_build_system_does_not_short_circuit_on_a_partial_restore(tmp_path, monkeypatch):
+    """hybrid.top without npt.gro is half a system; continuing from it is worse than rebuilding."""
+    monkeypatch.setattr(ppmx, "resolve_forcefield", lambda req: ("ff-mut", "/ffroot"))
+    work = tmp_path / "work"
+    work.mkdir()
+    (work / "hybrid.top").write_text("; topology\n")
+    # No npt.gro -> must NOT short-circuit; it proceeds and fails on the missing input instead.
+    with pytest.raises(Exception):
+        ppmx.build_system("/nonexistent/input.pdb", "D:Y29A", str(work))
