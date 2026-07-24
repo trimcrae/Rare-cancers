@@ -46,6 +46,9 @@ on:
       seeds:
         description: "cofold mode: comma-sep diffusion seeds = the ternary ensemble per system"
         default: "1,2,3"
+      diag_filter:
+        description: "diag mode: instance id or label substring to dump (blank = every instance on the account, which buries the one you want)"
+        default: ""
       md_mode:
         description: "nrv04_vast_launch pilot/full: smoke (minimize+500 steps, cents) | run (5ns, priced)"
         type: choice
@@ -458,6 +461,7 @@ jobs:
       TERNARY_SCRIPT: ${{ github.event.inputs.ternary_script }}
       TERNARY_EXTRA_ARGS: ${{ github.event.inputs.ternary_extra_args }}
       SEEDS: ${{ github.event.inputs.seeds }}
+      DIAG_FILTER: ${{ github.event.inputs.diag_filter }}
       RETRO_STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'retro_stage_test' && '1' || '0' }}
       RETRO: ${{ (github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') && '1' || '0' }}
       RETRO_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'retro_collect' && '1' || '0' }}

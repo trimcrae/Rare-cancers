@@ -242,6 +242,14 @@ def diag():
     whether a long 'loading' is an image pull on a slow host, a scheduler wait, or an error."""
     key = os.environ.get("VAST_API_KEY")
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    # $DIAG_FILTER = an instance id or a label substring. Without it, diag dumps EVERY instance on the account
+    # — including sibling sessions' — and the one you care about gets buried under output you cannot page
+    # through (this is exactly what happened chasing the silent retro pilot on 2026-07-24).
+    filt = (os.environ.get("DIAG_FILTER") or "").strip()
+    if filt:
+        insts = [i for i in insts
+                 if filt == str(i.get("id")) or filt.lower() in (i.get("label") or "").lower()]
+        print(f"[diag] filter={filt!r} -> {len(insts)} matching instance(s)", flush=True)
     print(f"[diag] {len(insts)} instance(s)", flush=True)
     # keys most informative about why an instance is stuck in 'loading'
     status_keys = ["id", "label", "actual_status", "cur_state", "intended_status", "status_msg", "gpu_name",
