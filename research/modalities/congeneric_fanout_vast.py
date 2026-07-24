@@ -340,7 +340,25 @@ def mode_monitor():
         legs = [L for L in ("complex", "solvent")
                 if _exists(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/leg_{u['receptor']}_{L}.json")]
         print(f"[s1f]   {u['unit_id']:56s} {phase or 'not-started':28s} legs_done={legs}")
-    print(f"[s1f] progress: {n_done}/{len(units)} units complete")
+    # Summary LAST: a CI log is read from its tail, and the per-instance detail above scrolls out of view.
+    # This block is the tight-cadence progress check — instance states, GPU utilisation and the phase
+    # histogram in one place, so "is it ADVANCING?" is answerable without paging back through the log.
+    states, utils = {}, []
+    for i in live:
+        states[i.get("actual_status") or "?"] = states.get(i.get("actual_status") or "?", 0) + 1
+        if i.get("gpu_util") is not None:
+            utils.append(i.get("gpu_util"))
+    phases = {}
+    for u in units:
+        p = "done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX)) else \
+            (_get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt") or "not-started").split()[0]
+        phases[p] = phases.get(p, 0) + 1
+    print("[s1f] ---------------- SUMMARY ----------------")
+    print(f"[s1f] units {n_done}/{len(units)} complete | live instances {len(live)} {states or '{}'}")
+    print(f"[s1f] phases {phases}")
+    print(f"[s1f] gpu_util across live instances: {utils or 'n/a'}"
+          + ("  <-- all idle; if unchanged next check, that is a STALL, not slowness"
+             if utils and not any(utils) else ""))
 
 
 def mode_collect():
