@@ -488,7 +488,7 @@ def mode_diag():
 
     Output is ALSO written to step1-fanout-diag.txt and committed back to the branch: a job log is only
     readable from its tail, and a diagnostic dump is long enough that the part that matters never survives
-    there. DIAG_UNIT selects a unit by substring (default: every unit with no ddg.json)."""
+    there. DIAG_UNIT selects a unit by substring (default: every LAUNCHED unit that has not finished)."""
     bucket, s3 = _require_bucket(), _s3()
     out_lines = []
 
@@ -498,10 +498,25 @@ def mode_diag():
 
     key = os.environ.get("VAST_API_KEY")
     want = (os.environ.get("DIAG_UNIT") or "").strip()
-    units = [u for u in default_units()
-             if (want in u["unit_id"] if want else not _exists(s3, bucket, result_key(u, RESULT_PREFIX)))]
+    # Default scope is units that have actually BEEN launched (a phase marker in S3, or a live instance) and
+    # are not finished. Without that, diag also reports every unit of the not-yet-launched later waves as
+    # "gone", which buries the one unit that actually needs diagnosing.
+    all_units = default_units()
+    idx_all = {u["unit_id"]: i for i, u in enumerate(all_units)}
+
+    def _launched(u):
+        lbl = f"{LABEL_PREFIX}{idx_all[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
+        return bool(_get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")) or lbl in _labels_live
+
+    _labels_live = {(i.get("label") or "") for i in (_live_instances(key) if key else [])}
+    units = [u for u in all_units
+             if (want in u["unit_id"] if want
+                 else (_launched(u) and not _exists(s3, bucket, result_key(u, RESULT_PREFIX))))]
+    if not units:
+        emit("[s1f-diag] nothing to diagnose: no launched-and-unfinished unit "
+             + ("matching DIAG_UNIT=" + want if want else "(later waves are not launched yet)"))
     live = {(i.get("label") or ""): i for i in (_live_instances(key) if key else [])}
-    idx_of = {u["unit_id"]: i for i, u in enumerate(default_units())}
+    idx_of = idx_all
 
     for u in units:
         uid = u["unit_id"]
