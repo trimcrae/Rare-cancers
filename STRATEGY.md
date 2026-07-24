@@ -925,6 +925,22 @@ the confirmatory line on exactly that benchmark. What changes is downstream: the
 benchmark fails, because the ligand-side double difference carries the causal claim. Nothing with a GPU price
 launches without an explicit go.
 
+### ★ Bid policy — treat it as an optimisation, and right now that means ON-DEMAND (2026-07-24)
+
+Measured, read-only, on the live 4090 market: **`min_bid == dph_base` on 7/7 offers**, and on the one machine
+visible in both a bid-type and an on-demand query, on-demand `dph_total` is **1.17× the interruptible floor**. The
+incumbent `min_bid × 1.9` therefore pays **~38 % more per hour than on-demand for a box that can still be
+preempted** — strictly dominated, and true without any hazard model. Full derivation, the four defects of a fixed
+multiple, and the optimiser (`vast_bid_optimizer.py`, 28 tests) are in
+[research/compute/bid-strategy.md](research/compute/bid-strategy.md).
+
+**Policy:** default to **on-demand while `min_bid ≈ dph_base`**; never bid above on-demand (cap at `dph_base`,
+clamped to ≥ `min_bid`); rank offers by expected **$ per completed unit**, not by the floor; set the margin from
+the restart overhead `R = reload + ½·ckpt_interval·sec_per_iter` rather than a constant — tight checkpointing
+earns a cheaper bid. `gpu_backend` is deliberately **not** changed yet: the hazard prior `λ_ref` is unfitted and
+the `min_bid ≈ dph_base` condition is one afternoon's snapshot, and generalising from a single measurement is
+exactly what produced the 2.6× RBFE mispricing. Next launch takes on-demand and starts the survival ledger.
+
 **Decision status (2026-07-24)** — detail + evidence in the [revision
 doc](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md) §8:
 
@@ -935,8 +951,18 @@ doc](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24
    difference is the paper's headline causal evidence and runs on the lane Val B already has an accuracy control
    for. The mutation cycle is kept, not deleted: if its known-answer benchmark passes, the paper gets two
    independent causal lines.
-3. **`[ ]` OPEN — adopt 4 fs for the ternary lane?** The only item still needing a go, and the question was
-   sharpened by checking the live lane instead of the doc: **production really is at 2 fs** (1 fs warmup), so the
-   ~2× lever is live rather than already banked. One ~$5–8 matched re-calibration edge settles it and also
-   supplies the matched-timestep calibration plus a reproducibility replicate; ≥6 downstream ternary legs, so it
-   repays several times over. *Recommended.* Nothing launches without an explicit go.
+3. **`[x]` DECIDED (trimcrae delegated judgement, 2026-07-24) — adopt 4 fs, but TWO-STAGE.** Production really
+   is at 2 fs (1 fs warmup), verified on the live lane, so the ~2× lever is live. Rather than buy the full
+   matched calibration up front, apply cheapest-decisive-first *within* the rung: **stage 1 — a ~$1–2 survival
+   probe** (`prod_iters≈200`, `use_preequil=1`, `timestep_fs=4.0`, `warmup_timestep_fs=1.0`, `reset_commits=1`)
+   asking only "does 4 fs survive well past the 40 iterations the runbook demonstrated?"; **stage 2 — the full
+   matched re-calibration edge**, only on a passing probe. A NO at stage 1 costs ~$1–2 instead of a full edge.
+   **Sequenced after valB_mini's 2 fs result lands** — both because the calibration needs something to compare
+   against, and because dispatching into that lane now risks cancelling another session's run.
+4. **`[x]` DECIDED — HOLD the step1 fan-out; do NOT resume the 19-edge tranche at ~$91–101.** Nothing is lost by
+   re-scoping: **0/19 units produced a ΔΔG**. And under mechanism-first the fan-out's *selection criterion* has
+   changed — the exit vector must now be able to carry a linker toward **C397** (10.9 Å) and orient the E3 so the
+   transfer zone covers **K572/K518/K592**, which is not the same as ranking substituents by affinity. Resuming
+   the old edge list would spend ~$91–101 optimising the wrong objective. **Order: run 5a's $0 basin search
+   first** (it tells us which exit vectors matter), **then** a re-scoped, smaller fan-out — with a cycle-closure
+   edge moved early, per that session's own note that all three cycles currently close only in the last wave.
