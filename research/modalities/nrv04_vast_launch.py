@@ -751,40 +751,13 @@ export T1=$(date +%s)
 _FIRM_TERNARY_BODY = r"""
 export T0=$(date +%s)
 LEG="${LEG_ID:-calib_hi_to_lo__ternary_vhl}"
+# Do NOT re-implement the ternary recipe here — call the SHARED single-source-of-truth runner so the Vast lane
+# and the GCP lane stay identical. RBFE_PROD_ITERS is short for a fast timing/cost probe (the NaN, if any, is in
+# warmup, so a short production still exercises the full stability path).
 {
-  echo "[firm] staging ternary leg from 8G1Q (ternary_pdb_stage.py)"
-  $PY ternary_pdb_stage.py --leg-id "$LEG" --template-pdb 8G1Q --out "$IN" 2>&1 \
-    || echo "[firm] STAGING FAILED rc=$?"
-  echo "[firm] staged tree (name + bytes):"
-  find "$IN" -type f \( -name '*.sdf' -o -name '*.pdb' -o -name '*.json' \) -printf '  %s B  %p\n' 2>/dev/null || true
-  # PRE-EQUILIBRATION (2026-07-24): the ternary alchemy NaNs on warmup iter 1 if the raw assembled complex is fed
-  # straight into softcore λ-states (documented OpenFE failure mode; ternary-rbfe-runbook.md §1c). The fix is a
-  # plain-MD relax of the physical complex FIRST (ternary_preequil.py), then overlay the relaxed complex.pdb +
-  # ligands.sdf over the staged tree before the RBFE — exactly what the proven GCP valB_mini lane does. Without
-  # this the Vast ternary lane cannot run a real leg (verified: firm-ternary NaN'd at replica-0 state-0).
-  echo "[firm] --- ternary PRE-EQUILIBRATION (plain-MD relax; fixes the softcore warmup NaN) ---"
-  env LEG_ID="$LEG" SEED=0 CHARGE_METHOD=nagl PREEQUIL_NS="${PREEQUIL_NS:-0.5}" PREEQUIL_EXACT_FF=1 \
-      OPENMM_PLATFORM=CUDA OPENMM_REQUIRE_CUDA=1 INPUT_DIR="$IN" OUTPUT_DIR="$OUT" \
-      $PY ternary_preequil.py 2>&1 || echo "[firm] PREEQUIL FAILED rc=$?"
-  if [ -f "$OUT/$LEG/complex.pdb" ] && [ -f "$OUT/$LEG/ligands.sdf" ]; then
-    cp "$OUT/$LEG/complex.pdb" "$OUT/$LEG/ligands.sdf" "$IN/$LEG/" \
-      && echo "[firm] overlaid relaxed complex.pdb + ligands.sdf into staged tree ($IN/$LEG)"
-  else
-    echo "[firm] WARN no relaxed structure at $OUT/$LEG — RBFE will run on the raw complex and may NaN"
-  fi
-  echo "[firm] --- ternary MD ---"
-  # N_WINDOWS 12 — MATCH the proven GCP valB lane, which ran this exact calib ternary leg clean to a converged
-  # ΔG_morph = 47.28 ± 0.53. Root cause of the earlier firm NaN, now pinned by elimination: the firm jobspec
-  # defaulted the ternary to 16 windows (valB uses 12). Everything else is identical — code is byte-identical
-  # across branches, and ternary_preequil.py is DETERMINISTIC (seeds velocities+integrator with SEED+1), so my
-  # fresh preequil == valB's cached structure for seed 0. So the ONLY difference was the window count: the
-  # 16-window λ-schedule lands a window on an unstable softcore point (replica-0 NaN at window 5), which valB's
-  # coarser 12-window schedule steps over. More windows is NOT more stable here — matching valB's 12 is the fix.
-  env MODE=run LEG_ID="$LEG" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-12}" \
-      CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_WARMUP_TIMESTEP_FS=1.0 RBFE_CONSTRAIN_LIGAND_CH=0 \
-      RBFE_MIN_STEPS="${RBFE_MIN_STEPS:-5000}" N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
-      INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_ternary_fep.py 2>&1 || true
-} | tee /tmp/firm.log
+  echo "[firm] running ternary leg via run_ternary_leg.sh (shared recipe — single source of truth)"
+  IN="$IN" OUT="$OUT" LEG_ID="$LEG" SEED=0 PY="$PY" RBFE_PROD_ITERS="${N_ITER:-60}" bash run_ternary_leg.sh
+} 2>&1 | tee /tmp/firm.log || true
 export T1=$(date +%s)
 """
 
