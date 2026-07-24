@@ -628,6 +628,10 @@ def _cli(argv=None):
                     help="pull LIVE offers via gpu_backend's existing read-only query (needs VAST_API_KEY; "
                          "no rent, no spend) instead of --offers-json")
     ap.add_argument("--gpu", default="rtx4090", help="--live: gpu_name substring filter")
+    ap.add_argument("--gpu-sweep", default=None,
+                    help="comma-separated gpu_name substrings to compare on $/ns (e.g. "
+                         "'rtx4090,rtx3090,l4,a10,rtx4080,rtx3080,a4000'). Answers 'which card class should we "
+                         "even be renting?', which a single --gpu query cannot.")
     ap.add_argument("--out", default=None, help="also write the full result JSON here")
     ap.add_argument("--sample-out", default=None,
                     help="append a market SNAPSHOT (one line of JSON) to this JSONL — the price time series "
@@ -641,6 +645,10 @@ def _cli(argv=None):
     args = ap.parse_args(argv)
 
     R = restart_overhead_h(checkpoint_interval_iters=args.ckpt_iters, sec_per_iter=args.sec_per_iter)
+    if args.gpu_sweep:
+        print(json.dumps(gpu_class_sweep([g.strip() for g in args.gpu_sweep.split(",") if g.strip()],
+                                         args.atoms, R), indent=1))
+        return 0
     if args.crosscheck_ondemand:
         print(json.dumps(ondemand_crosscheck(args.gpu), indent=1))
         return 0
@@ -779,6 +787,54 @@ def ondemand_crosscheck(gpu_substr="rtx4090"):
             "n_common_machines": len(common), "rows": rows,
             "median_ondemand_over_floor": (sorted(ratios)[len(ratios)//2] if ratios else None),
             "verdict": verdict}
+
+
+def gpu_class_sweep(gpu_substrings, atoms, restart_h):
+    """Rank CARD CLASSES by $/ns — the question a single-card query cannot ask.
+
+    The repo's card decision ("the 4090 wins $/ns at every size") rests on a bench that compared exactly TWO
+    cards, 4090 vs 3090. L4 — which is what every completed science run has actually used — was never in the
+    grid, and neither was anything else on the market. So the decision is under-determined, and a price analysis
+    scoped to one card inherits that.
+
+    Throughput is MEASURED where the bench covers the card and a clearly-labelled proxy otherwise, so the output
+    is a list of candidates worth benching, NOT a verdict. Benching a new class costs cents via `bench_grid`."""
+    out = []
+    for g in gpu_substrings:
+        try:
+            offers = _live_offers(g)
+        except SystemExit:
+            raise
+        except Exception as e:  # noqa: BLE001
+            out.append({"gpu": g, "error": str(e)[:200]})
+            continue
+        floors = sorted(float(o["min_bid"]) for o in offers if o.get("min_bid"))
+        if not offers or not floors:
+            out.append({"gpu": g, "n_offers": len(offers), "note": "no rentable offers matched"})
+            continue
+        rep = min(offers, key=lambda o: float(o.get("min_bid") or 1e9))
+        scale, basis = throughput_scale(rep, atoms)
+        ref_ns = _interp(MEASURED_NS_PER_DAY["rtx4090"], atoms)
+        ns_day = (ref_ns or 0) * scale
+        cheapest = floors[0]
+        out.append({
+            "gpu": g, "n_offers": len(offers),
+            "cheapest_floor_usd_h": round(cheapest, 4),
+            "median_floor_usd_h": round(floors[len(floors) // 2], 4),
+            "on_demand_usd_h": _num(rep.get("dph_base")),
+            "throughput_scale_vs_4090": round(scale, 3), "throughput_basis": basis,
+            "est_ns_per_day": round(ns_day, 1) if ns_day else None,
+            "usd_per_ns": (round(cheapest / (ns_day / 24.0), 5) if ns_day else None),
+        })
+    ok = [r for r in out if r.get("usd_per_ns")]
+    ok.sort(key=lambda r: r["usd_per_ns"])
+    return {"atoms": atoms, "restart_overhead_h": round(restart_h, 3),
+            "ranked_by_usd_per_ns": ok,
+            "unusable": [r for r in out if not r.get("usd_per_ns")],
+            "caveat": ("$/ns is the objective; $/hr is not. Throughput for any card marked "
+                       "dlperf_proxy_WEAK or assumed_equal_UNKNOWN is NOT measured — treat those rows as "
+                       "candidates to BENCH (cents via bench_grid), never as a decision."),
+            "measured_cards": sorted(MEASURED_NS_PER_DAY)}
 
 
 def _saving_summary(ranked):
