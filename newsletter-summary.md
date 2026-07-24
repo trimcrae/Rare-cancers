@@ -1,10 +1,10 @@
-# NR4A3 method-watch — week of July 17
+# NR4A3 method-watch — week of July 24
 
-**Quiet week — nothing that changes the plan.**
+**One tool release worth a look; otherwise quiet.**
 
-- **DruGUI 2.0** (Jul 1) shipped — a probe-based-MD protein druggability mapper. Possibly worth a quick look against the NR4A3 cryptic-pocket re-grade queue as a cross-check, but not urgent — no indication yet it beats the existing metadynamics workflow.
-- The already-watched tools (AlphaFold3, BioEmu, Protenix, RFdiffusion, Boltz) show no new capability-relevant releases this week — just old/known versions still sitting in the tracker.
-- No new EWSR1::NR4A3 or EMC-specific chemical/biological matter turned up.
-- Everything else in this week's digest is noise: a wave of "ASO Author Reflections" hits are *Annals of Surgical Oncology* papers (unrelated to antisense oligos), plus generic PROTAC/degrader papers on other targets (AURKB, SETDB1, ATR, RET), unrelated case reports, and generic ML/generative-design surveys — none actionable.
+- **BioEmu v1.4.0** (Microsoft, released Jul 20) — the cheap generative conformational-ensemble tool got a fresh version bump. Per the standing trigger, this is worth a near-zero-cost cross-check of the NR4A3 LBD cryptic-pocket ensemble against the existing metadynamics result — cheap CPU/GPU work, no spend decision needed.
+- **Protenix v2.0.0** — another open AF3-class folding tool also bumped versions; noted, nothing actionable beyond that.
+- No new EWSR1::NR4A3 or EMC-specific chemical/biological matter this week — this week's "NR4A3" hits are all unrelated (ITGB1 binding, bovine PBMC transcriptomics, an unrelated fusion-partner case report).
+- Everything else is noise: the usual wave of "ASO Author Reflections" hits are *Annals of Surgical Oncology* papers (not antisense oligos), plus generic PROTAC/degrader papers on other targets (AURKB, SETDB1, ATR, RET), unrelated delivery-system and case-report papers, and grants.gov hits that don't hold up as genuinely individual-eligible AI/compute funding despite the keyword match.
 
-Nothing here crosses a trigger. No action needed; will re-check next cycle.
+Nothing here crosses a hard trigger yet. Will flag if BioEmu's cross-check changes the cryptic-pocket read.
