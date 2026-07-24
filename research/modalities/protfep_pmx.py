@@ -249,12 +249,28 @@ def build_system(structure_path, mutation_spec, work_dir):
     os.environ["GMXLIB"] = ff_root + (":" + os.environ["GMXLIB"] if os.environ.get("GMXLIB") else "")
     _log(f"GMXLIB -> {ff_root}; force field: {ff_name}")
 
+    # PDB2GMX RUNS *BEFORE* THE MUTATION, NOT AFTER — this order is load-bearing.
+    # pmx builds the hybrid residue by copying coordinates from the old residue BY ATOM NAME
+    # (alchemy._set_conformation: `atom.x = old_res[atom.name].x`). If the structure's atom naming is
+    # not already the force field's, that lookup misses and pmx dies with a bare
+    # `IndexError: list index out of range` from deep inside molecule.__getitem__ — which says
+    # nothing about naming at all. Running pdb2gmx first normalises names and protonation to the
+    # force field, so the mutation operates on exactly what the force field expects. `-ignh` drops
+    # PDBFixer's hydrogens and lets pdb2gmx add its own: two protonation schemes disagreeing is the
+    # same class of failure.
+    prepped = os.path.join(work_dir, "prepped.pdb")
+    if not os.path.exists(prepped):
+        shutil.copy(structure_path, os.path.join(work_dir, "input.pdb"))
+        run([GMX, "pdb2gmx", "-f", "input.pdb", "-o", "prepped.pdb", "-p", "prep.top",
+             "-ff", ff_name, "-water", WATER_MODEL, "-ignh"], cwd=work_dir)
+    _log("pdb2gmx pass 1: atom names + protonation normalised to the force field")
+
     mutant = os.path.join(work_dir, "mutant.pdb")
     # pmx's Python API is used rather than the CLI so the mutation is specified programmatically —
     # the CLI is interactive and would need a fragile stdin script.
     from pmx import Model
     from pmx.alchemy import mutate as pmx_mutate
-    model = Model(structure_path, rename_atoms=True)
+    model = Model(prepped, rename_atoms=True)
 
     # THE CHAIN MUST BE PASSED, AND THE RESULT MUST BE CHECKED.
     # In the COMPLEX leg both chains carry a residue 29 (barnase 1-110, barstar 1-89), so a
@@ -275,10 +291,12 @@ def build_system(structure_path, mutation_spec, work_dir):
              f"relying on the post-mutation verification below")
     mutated = pmx_mutate(**kwargs)
     mutated.write(mutant)
-    _verify_mutation_site(mutant, m, structure_path)
+    _verify_mutation_site(mutant, m, prepped)
     _log(f"pmx mutate: {m['wt']}{m['resid']}->{m['mutant']} (chain {m['chain']}) -> {mutant}")
 
-    # pdb2gmx with the pmx mutation force field, which carries the hybrid residue definitions.
+    # pdb2gmx pass 2, on the MUTANT: this is the one that produces the topology gentop promotes.
+    # -ignh again because the hybrid residue's hydrogens come from the force field, not from pmx's
+    # coordinate copy.
     run([GMX, "pdb2gmx", "-f", "mutant.pdb", "-o", "conf.pdb", "-p", "topol.top",
          "-ff", ff_name, "-water", WATER_MODEL, "-ignh"], cwd=work_dir)
 
