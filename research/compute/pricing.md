@@ -123,5 +123,35 @@ Price and gate each rung individually at its gate; the kill-switch stops most NO
 
 ---
 
+## E. Operational Vast setup (bid, image, gotchas)
+
+The go-forward lane is Vast (4090 default / 3090 fallback). The operational settings below are the hard-won
+defaults; the code of record is `research/modalities/gpu_backend.py` (`VAST_BID_FLOOR_MULT`) +
+`nrv04_vast_launch.py` (launch modes) + `research/compute/Dockerfile.nr4a3fep`.
+
+- **Bid = `min_bid × 1.5`.** A margin above the market floor so the box wins AND holds its slot. **Never bid below
+  `min_bid`** — a below-floor bid leaves the box created-but-stopped. On Vast you pay your bid; the multiplier
+  trades a little $/hr for far fewer preemptions, which matters because the ~6 GiB image reloads in **~20 min**, so
+  each preemption is expensive (a floor-hugging bid is false economy). Preemptions that still happen are absorbed
+  by per-unit checkpoint + idempotent re-dispatch (resume, not restart).
+- **Pin OpenMM to CUDA 12.6** + filter `cuda_max_good ≥ 12.6`. An unpinned env pulls a too-new CUDA-13+ OpenMM
+  whose PTX won't JIT on any host driver (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION`). Control our build, don't chase
+  bleeding-edge hosts. Also filter `reliability2 ≥ 0.90`, require ≥24 GB VRAM, rank offers by `min_bid`.
+- **OpenFE image** `triskit23/nr4a3fep:latest` (public) — openfe ≥1.12 + ambertools/am1bcc + lomap/kartograf +
+  OpenMM CUDA 12.6; the enabler for `nr4a3_rbfe.py` + `nr4a3_ternary_fep.py` on Vast (the covalent-MD `nrv04vast`
+  image has OpenMM only). Built by the `fep_bake` task.
+- **Alchemical-lane env vars the firm/fanout pipelines set** (in `nrv04_vast_launch.py` firm preamble +
+  Dockerfile): `OPENMM_PLUGIN_DIR=/opt/mamba/envs/rbfe/lib/plugins` (conda-pack relocation breaks OpenMM plugin
+  auto-load → OpenFE's internal `getPlatformByName("CUDA")` fails without it); `SSL_CERT_FILE=/etc/ssl/certs/
+  ca-certificates.crt` (else RCSB fetches `CERTIFICATE_VERIFY_FAILED`); a runtime ceiling ≥4 h (a real HREX leg
+  runs ~3 h on one 4090 — don't reap mid-run).
+- **Spot-restart safety:** a fresh-vs-restore guard in `rbfe_spot_driver.py` clears any stale `equilibration.nc` /
+  `simulation.nc` that `restore()` rejected, preventing the `Storage file … already exists` crash on resume.
+- **Tooling:** `nrv04_vast_launch.py` modes — `probe_offers` (live per-card $/hr), `bench`/`bench_grid`
+  (throughput → `$/ns`), `firm`/`firm_collect` (real RBFE/ternary edge timing). All driven by
+  `fusion-cpu-extras.yml` (`task=nrv04_vast_launch`).
+
+---
+
 *Maintenance: when a `firm`/`bench` run completes, update the matching row here (MEASURING → MEASURED, with the
-run id + the realized number) and reconcile the STRATEGY.md economics block to it.*
+run id + the realized number) and reconcile the STRATEGY.md economics summary to it.*
