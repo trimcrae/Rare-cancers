@@ -458,6 +458,41 @@ def units_to_run():
     return enumerate_units()
 
 
+# A bench number is only usable if it survives all of these. Encoded as a function so the collector REJECTS bad
+# legs instead of printing them next to good ones and leaving the reader to notice (2026-07-24: a 2-second
+# window and a fallback-to-Quadro leg were both tabulated as if they ranked cards).
+_BENCH_MIN_WALL_S = 30.0     # below this you measure clock ramp + launch overhead, not throughput
+_BENCH_MAX_CV = 0.10         # block-to-block scatter above this means a contended/throttled host
+
+
+def _bench_flags(d):
+    """Reasons this bench row must NOT enter a card ranking. Empty list = usable. PURE."""
+    flags = []
+    if str(d.get("status")) not in ("OK", "SUSPECT"):
+        return ["errored"]
+    if str(d.get("healthy", "True")).lower() == "false":
+        flags.append("unphysical")
+    req = str(d.get("gpu_requested") or d.get("gpu") or "").lower().replace(" ", "")
+    dev = _raw_device(d).lower().replace(" ", "")
+    if req and dev and dev != "unknown" and req not in dev:
+        flags.append(f"wrong_card(got_{_raw_device(d).replace(' ', '_')})")
+    try:
+        if float(d.get("wall_s") or 0) < _BENCH_MIN_WALL_S:
+            flags.append("window_too_short")
+    except (TypeError, ValueError):
+        flags.append("no_wall_s")
+    cv = d.get("cv")
+    if cv is None:
+        flags.append("no_replicate_spread")     # pre-2026-07-24 single-shot legs cannot show stability
+    else:
+        try:
+            if float(cv) > _BENCH_MAX_CV:
+                flags.append("unstable_cv")
+        except (TypeError, ValueError):
+            flags.append("bad_cv")
+    return flags
+
+
 def _raw_device(d):
     """Full CUDA device name, recovered from the stored raw BENCH_RESULT line.
 
@@ -697,9 +732,11 @@ def bench_collect(bucket):
         done_tags.add(d.get("tag") or k.split("/")[-2])
     print(f"[bench-collect] {len(rows)} bench result(s):", flush=True)
     for d in sorted(rows, key=lambda r: (str(r.get("gpu")), str(r.get("edge_nm")))):
+        flags = _bench_flags(d)
         print(f"  requested={d.get('gpu_requested') or d.get('gpu')} edge={d.get('edge_nm')}nm "
               f"atoms={d.get('atoms')} ACTUAL_DEVICE={_raw_device(d)} platform={d.get('platform')} "
-              f"ns_per_day={d.get('ns_per_day')} status={d.get('status')}", flush=True)
+              f"ns_per_day={d.get('ns_per_day')} cv={d.get('cv')} status={d.get('status')} "
+              f"{'USABLE' if not flags else 'REJECT:' + ','.join(flags)}", flush=True)
         # ALWAYS print the raw line, not just on failure. A leg that returns status=OK on the WRONG CARD is the
         # dangerous case — it produces a plausible ns/day that gets attributed to the card we asked for.
         print(f"    raw: {d.get('_raw')}", flush=True)

@@ -20,6 +20,34 @@ import sys
 import time
 
 
+
+def block_stats(block_ns_day):
+    """PURE. Mean / SD / CV over independent timed blocks.
+
+    The CV is the point: a single timed window cannot tell a steady 700 ns/day card from a contended host
+    averaging 700 with blocks at 400 and 1000. Callers reject on CV rather than trusting a bare mean."""
+    if not block_ns_day:
+        return 0.0, 0.0, 0.0
+    mean = sum(block_ns_day) / len(block_ns_day)
+    if len(block_ns_day) > 1:
+        sd = (sum((x - mean) ** 2 for x in block_ns_day) / (len(block_ns_day) - 1)) ** 0.5
+    else:
+        sd = 0.0
+    return mean, sd, (sd / mean if mean else 0.0)
+
+
+_KB_KJ = 0.00831446261815324   # kJ/mol/K
+
+
+def health_check(pe, ke, n_atoms, n_constraints):
+    """PURE. (final temperature, is-this-valid-MD). A diverged system integrates FAST and reports a large,
+    entirely fake ns/day, so a throughput number is only meaningful alongside this."""
+    dof = max(1, 3 * n_atoms - n_constraints)
+    temp_k = 2 * ke / (dof * _KB_KJ)
+    finite = (pe == pe) and (ke == ke) and abs(pe) < 1e12 and abs(ke) < 1e12   # NaN-safe: NaN != NaN
+    return temp_k, bool(finite and 150.0 < temp_k < 450.0)
+
+
 def _bench(edge_nm, steps, warmup, dt_fs):
     import openmm as mm
     import openmm.app as app
@@ -83,34 +111,58 @@ def _bench(edge_nm, steps, warmup, dt_fs):
 
     sim.step(warmup)                      # exclude JIT + equilibration transient
 
-    # TIME-TARGETED, NOT STEP-TARGETED. A fixed BENCH_STEPS produced production windows of 0.9-4.5 s
-    # (2026-07-24), which cannot rank cards: an RTX 4080 SUPER "beat" a 4090 by 4% over a 2.0 s vs 2.1 s
-    # measurement, when its 736 GB/s vs 1008 GB/s bandwidth says the 4090 should lead a PME-bound run by ~35%.
-    # At that duration you measure boost-clock ramp, kernel-launch overhead and residual JIT, not steady-state
-    # throughput. So: probe briefly, then size the timed run to BENCH_TARGET_S of real work.
+    # TIME-TARGETED AND REPLICATED, NOT A SINGLE SHORT SHOT. A fixed BENCH_STEPS produced production windows of
+    # 0.9-4.5 s (2026-07-24), which cannot rank cards: an RTX 4080 SUPER "beat" a 4090 by 4% over a 2.0 s vs
+    # 2.1 s measurement, when its 736 GB/s vs 1008 GB/s bandwidth says the 4090 should lead a PME-bound run by
+    # ~35%. At that duration you measure boost-clock ramp, kernel-launch overhead and residual JIT, not
+    # steady-state throughput.
+    #
+    # So the bench must carry its OWN evidence that the number is trustworthy, rather than being asserted to be:
+    #   * probe first, then size each timed block to real work (BENCH_TARGET_S total, default 60 s);
+    #   * run BENCH_BLOCKS independent timed blocks and report EVERY block plus their spread. A throttled,
+    #     shared or contended host shows up as block-to-block scatter, which a single window hides completely;
+    #   * report the coefficient of variation so a caller can reject an unstable measurement instead of
+    #     averaging it into a ranking;
+    #   * check the physics: a run that has blown up returns a fast, meaningless ns/day.
     target_s = float(os.environ.get("BENCH_TARGET_S", "60"))
+    blocks = max(1, int(os.environ.get("BENCH_BLOCKS", "3")))
     probe = max(200, steps // 10)
     t0 = time.time()
     sim.step(probe)
     sim.context.getState(getEnergy=True)
     probe_s = max(1e-6, time.time() - t0)
-    steps = max(steps, int(probe * target_s / probe_s))
+    per_block = max(steps, int(probe * (target_s / blocks) / probe_s))
 
-    t0 = time.time()
-    sim.step(steps)
-    sim.context.getState(getEnergy=True)  # force sync so timing includes the last kernel
-    wall_s = time.time() - t0
+    block_ns_day, wall_s, total_steps = [], 0.0, 0
+    for b in range(blocks):
+        t0 = time.time()
+        sim.step(per_block)
+        sim.context.getState(getEnergy=True)   # force sync so timing includes the last kernel
+        dt = max(1e-9, time.time() - t0)
+        wall_s += dt
+        total_steps += per_block
+        block_ns_day.append((per_block * dt_fs * 1e-6) / (dt / 86400.0))
+        print(f"[bench] block {b + 1}/{blocks}: {per_block} steps in {dt:.1f}s "
+              f"-> {block_ns_day[-1]:.2f} ns/day", flush=True)
 
-    ns = steps * dt_fs * 1e-6             # simulated ns
-    ns_per_day = ns / (wall_s / 86400.0)
-    print(f"[bench] probe {probe} steps in {probe_s:.2f}s -> timed {steps} steps in {wall_s:.1f}s "
-          f"(target {target_s:.0f}s)", flush=True)
+    ns_per_day, sd, cv = block_stats(block_ns_day)
+
+    # PHYSICS SANITY. See health_check: a blown-up system is fast and meaningless.
+    st = sim.context.getState(getEnergy=True)
+    pe = st.getPotentialEnergy().value_in_unit(u.kilojoule_per_mole)
+    ke = st.getKineticEnergy().value_in_unit(u.kilojoule_per_mole)
+    temp_k, healthy = health_check(pe, ke, n_atoms, system.getNumConstraints())
+    print(f"[bench] mean {ns_per_day:.2f} ns/day  sd {sd:.2f}  cv {cv * 100:.1f}%  "
+          f"final_T {temp_k:.1f}K  PE {pe:.3e} kJ/mol  healthy={healthy}", flush=True)
+
     dev = ""
     try:
-        dev = props and platform.getPropertyValue(sim.context, "DeviceName") or ""
+        dev = (props and platform.getPropertyValue(sim.context, "DeviceName")) or ""
     except Exception:  # noqa: BLE001
         pass
-    return n_atoms, plat_name, dev, wall_s, ns_per_day, steps
+    return dict(atoms=n_atoms, platform=plat_name, device=dev, wall_s=wall_s,
+                ns_per_day=ns_per_day, steps=total_steps, blocks=blocks,
+                block_ns_day=block_ns_day, sd=sd, cv=cv, temp_k=temp_k, pe=pe, healthy=healthy)
 
 
 def main():
@@ -120,7 +172,7 @@ def main():
     dt_fs = float(os.environ.get("BENCH_DT_FS", "4.0"))
     tag = os.environ.get("BENCH_TAG", "bench")
     try:
-        n_atoms, plat, dev, wall_s, ns_day, steps = _bench(edge_nm, steps, warmup, dt_fs)
+        r = _bench(edge_nm, steps, warmup, dt_fs)
     except Exception as e:  # noqa: BLE001
         print(f"BENCH_RESULT tag={tag} status=ERROR err={type(e).__name__}:{e}", flush=True)
         sys.exit(1)
@@ -128,9 +180,14 @@ def main():
     # `line.split()` then `kv.split("=", 1)`, so ANY VALUE CONTAINING A SPACE IS SILENTLY TRUNCATED at the first
     # space — `device='Quadro RTX 8000'` arrived as `device='Quadro`, which is how a bench leg's true card went
     # unidentified (2026-07-24). Underscore the device name so it survives the split intact.
-    print(f"BENCH_RESULT tag={tag} status=OK atoms={n_atoms} platform={plat} "
-          f"device={str(dev).replace(' ', '_')} "
-          f"steps={steps} dt_fs={dt_fs} wall_s={wall_s:.1f} ns_per_day={ns_day:.2f}", flush=True)
+    # `healthy` and `cv` travel WITH the number so a consumer can reject it, instead of the number arriving bare
+    # and its trustworthiness being asserted separately.
+    print(f"BENCH_RESULT tag={tag} status={'OK' if r['healthy'] else 'SUSPECT'} atoms={r['atoms']} "
+          f"platform={r['platform']} device={str(r['device']).replace(' ', '_')} "
+          f"steps={r['steps']} dt_fs={dt_fs} wall_s={r['wall_s']:.1f} "
+          f"ns_per_day={r['ns_per_day']:.2f} sd={r['sd']:.2f} cv={r['cv']:.4f} blocks={r['blocks']} "
+          f"blocks_ns_day={','.join('%.2f' % x for x in r['block_ns_day'])} "
+          f"final_temp_k={r['temp_k']:.1f} healthy={r['healthy']}", flush=True)
 
 
 if __name__ == "__main__":
