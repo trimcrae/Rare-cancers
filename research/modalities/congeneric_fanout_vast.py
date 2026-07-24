@@ -551,9 +551,10 @@ def mode_diag():
         uid = u["unit_id"]
         label = f"{LABEL_PREFIX}{idx_of[uid]:02d}-{u['ligand_b']}"[:64]
         phase = _get_text(s3, bucket, f"{RESULT_PREFIX}/{uid}/phase.txt")
-        if not (phase and "FAIL" in phase.upper()) and want == "" and label in live \
-                and live[label].get("actual_status") not in ("exited", "offline", "error"):
-            continue                                  # healthy and still going — nothing to diagnose
+        # Every launched unit is dumped, not only the terminal ones. The container stdout carries the
+        # per-iteration sampling RATE, which is the number the whole cost model rests on — and reading it off
+        # ONE preempted host cannot distinguish a slow host from a systematically slow system. Bounded by the
+        # launched set (<= FANOUT_WIDTH), so this stays cheap.
         emit(f"\n[s1f-diag] ===== {uid} (label {label}) phase={phase} "
              f"vast_status={live.get(label, {}).get('actual_status', 'gone')} =====")
         for leg in ("complex", "solvent"):
