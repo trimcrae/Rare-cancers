@@ -1199,11 +1199,25 @@ def retro_collect(bucket):
         }
         legs.append(rec)
 
+    # PROGRESS, not liveness. A retro leg writes a phase marker (env-ready -> cloned -> staged -> md-running ->
+    # md-done -> uploaded) as it goes. This lane has never run an MD leg end-to-end, so "is it advancing?" has
+    # to be answerable between checks — a frozen phase across two consecutive collects is a stall, and without
+    # this the only signal would be a result appearing hours later or never.
+    phases = {}
+    for pk in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix="phase.txt"):
+        unit = pk.split("/")[-2]
+        try:
+            phases[unit] = s3.get_object(Bucket=bucket, Key=pk)["Body"].read().decode().strip()
+        except Exception as e:  # noqa: BLE001
+            phases[unit] = "unreadable: %s" % e
+
     expected = {retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()}
     have = {f"nrv04retro-{l['arm_id']}-m{l['cofold_model_seed']}-r{l['replica']}" for l in legs}
     missing = sorted(expected - have)
     out = {"n_legs": len(legs), "expected_units": len(expected), "missing_units": missing,
-           "panel_complete": not missing, "legs": legs, "raw_keys": raw}
+           "panel_complete": not missing, "phases": phases, "legs": legs, "raw_keys": raw}
+    for unit, ph in sorted(phases.items()):
+        print(f"[retro-phase] {unit}: {ph}", flush=True)
     if missing:
         out["verdict"] = None
         out["note"] = ("panel INCOMPLETE (%d/%d units) — prereg §4f forbids computing the paralogue contrast "
@@ -1214,7 +1228,8 @@ def retro_collect(bucket):
         out["verdict"] = gate.verdict(legs)
         print("[retro-collect] panel complete — frozen gate applied", flush=True)
     json.dump(out, open("nrv04-retro-collect.json", "w"), indent=2)
-    print(json.dumps({k: v for k, v in out.items() if k not in ("legs", "raw_keys")}, indent=2), flush=True)
+    print(json.dumps({k: v for k, v in out.items() if k not in ("legs", "raw_keys", "phases")}, indent=2),
+          flush=True)
     return 0
 
 
