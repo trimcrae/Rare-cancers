@@ -373,6 +373,30 @@ def mode_monitor():
         legs = [L for L in ("complex", "solvent")
                 if _exists(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/leg_{u['receptor']}_{L}.json")]
         print(f"[s1f]   {u['unit_id']:56s} {phase or 'not-started':28s} legs_done={legs}")
+    # SELF-HEAL the create/start race before summarising. Creating a Vast ask does not reliably launch the
+    # container: the start PUT can be lost while Vast is still finishing the create, leaving the box at
+    # cur_state="stopped" forever, burning nothing but never running either (gpu_backend._ensure_running
+    # documents the same race and retries only ~48 s at submit time, which is not always long enough).
+    # Signature, seen on s1f-01: cur_state "stopped" AND an EMPTY status_msg — as opposed to the three
+    # instances that were also "loading" but whose status_msg showed an image pull in progress.
+    # Re-issuing the start is idempotent, so this runs on every progress check. A unit whose ddg.json is
+    # already in S3 is never restarted — that box is finished, not stalled.
+    if key:
+        idx = {u["unit_id"]: i for i, u in enumerate(units)}
+        label_to_unit = {f"{LABEL_PREFIX}{idx[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in units}
+        for i in live:
+            u = label_to_unit.get(i.get("label") or "")
+            if not u or i.get("cur_state") != "stopped":
+                continue
+            if _exists(s3, bucket, result_key(u, RESULT_PREFIX)):
+                continue                       # finished, not stalled
+            try:
+                _vast_request("PUT", f"/instances/{i.get('id')}/", key, body={"state": "running"})
+                print(f"[s1f] NUDGED {i.get('id')} ({i.get('label')}) — cur_state=stopped, no result yet; "
+                      f"re-issued start (msg={(i.get('status_msg') or '')[:60]!r})")
+            except Exception as e:  # noqa: BLE001
+                print(f"[s1f] nudge {i.get('id')} failed: {e}")
+
     # Summary LAST: a CI log is read from its tail, and the per-instance detail above scrolls out of view.
     # This block is the tight-cadence progress check — instance states, GPU utilisation and the phase
     # histogram in one place, so "is it ADVANCING?" is answerable without paging back through the log.
