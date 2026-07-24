@@ -23,7 +23,7 @@ on:
       vast_launch_mode:
         description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -415,7 +415,9 @@ jobs:
       BENCH_STEPS: ${{ github.event.inputs.bench_steps }}
       BENCH_GRID: ${{ github.event.inputs.bench_grid }}
       FIRM: ${{ github.event.inputs.vast_launch_mode == 'firm' && '1' || '0' }}
-      FIRM_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'firm_collect' && '1' || '0' }}
+      FIRM_COLLECT: ${{ (github.event.inputs.vast_launch_mode == 'firm_collect' || github.event.inputs.vast_launch_mode == 'firm_stop') && '1' || '0' }}
+      FIRM_STOP: ${{ github.event.inputs.vast_launch_mode == 'firm_stop' && '1' || '0' }}
+      FIRM_STOP_KIND: ${{ github.event.inputs.firm_kind }}
       FIRM_KIND: ${{ github.event.inputs.firm_kind }}
       N_ITER: ${{ github.event.inputs.firm_n_iter }}
       VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}

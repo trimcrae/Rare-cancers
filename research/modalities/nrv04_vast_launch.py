@@ -882,24 +882,29 @@ def firm_collect(bucket):
         # keep the NEWEST instance per label; older same-label instances are stale duplicates (an errored run that
         # lingered while a fresh re-dispatch started) -> reap. Also reap terminal + over-age. FIRM_STOP=1 reaps ALL
         # firm-* (explicit cleanup). Never touches non-firm labels.
+        # FIRM_STOP=1 force-reaps firm-*; FIRM_STOP_KIND scopes it to one kind (e.g. 'ternary' -> firm-ternary-*
+        # only, leaving firm-rbfe-* running). Never touches non-firm labels.
         force_all = os.environ.get("FIRM_STOP") == "1"
+        stop_kind = (os.environ.get("FIRM_STOP_KIND") or "").strip()
         newest = {}
         for i in firm_up:
             lab = i.get("label")
             if lab not in newest or (i.get("start_date") or 0) > (newest[lab].get("start_date") or 0):
                 newest[lab] = i
-        keep = {id(v) for v in newest.values()} if not force_all else set()
+        keep = {id(v) for v in newest.values()}
         for i in firm_up:
+            lab = i.get("label") or ""
             try:
                 age = now - float(i.get("start_date") or now)
             except (TypeError, ValueError):
                 age = 0
+            forced = force_all and (not stop_kind or lab.startswith(f"firm-{stop_kind}-"))
             dup = id(i) not in keep
-            if force_all or dup or (i.get("actual_status") or "") in _terminal or age > max_age:
+            if forced or dup or (i.get("actual_status") or "") in _terminal or age > max_age:
                 try:
                     _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
-                    why = "force" if force_all else ("duplicate" if dup else "terminal/over-age")
-                    print(f"[firm-collect] destroyed {i.get('id')} ({i.get('label')}) — {why}", flush=True)
+                    why = "force" if forced else ("duplicate" if dup else "terminal/over-age")
+                    print(f"[firm-collect] destroyed {i.get('id')} ({lab}) — {why}", flush=True)
                 except Exception as e:  # noqa: BLE001
                     print(f"[firm-collect] WARN destroy {i.get('id')} failed: {e}", flush=True)
     return 0
