@@ -240,6 +240,26 @@ def mdp_lambda_window(state_index, n_states, ps, collect_data):
 # ------------------------------------------------------------------------------------------------
 # System construction
 # ------------------------------------------------------------------------------------------------
+def _split_topology_guard(work_dir):
+    """Refuse to continue if pdb2gmx still split the topology into per-chain .itp files.
+
+    pmx's gen_hybrid_top converts the topology it is handed. If the molecule definitions live in
+    included per-chain files instead, it converts a file of #includes, the mutated chain keeps its
+    plain-force-field parameters, and grompp fails later with a wall of "No default Angle types"
+    that names the .itp rather than the real cause. `-merge all` prevents the split; this asserts it
+    actually did, because a silent split costs a full leg to rediscover.
+    """
+    import glob as _glob
+    split = sorted(_glob.glob(os.path.join(work_dir, "topol_*.itp")))
+    if split:
+        raise RuntimeError(
+            f"pdb2gmx split the topology into {[os.path.basename(p) for p in split]} despite "
+            f"`-merge all`. pmx's gentop would convert only the top-level file and the mutated "
+            f"chain would keep plain force-field parameters — grompp then fails with 'No default "
+            f"Angle types' against the .itp, which points at the symptom and not the cause.")
+    _log("topology is inline (no per-chain .itp split) — gentop will see the real molecule")
+
+
 def build_system(structure_path, mutation_spec, work_dir):
     """pmx mutate -> pdb2gmx -> pmx gentop -> box/solvate/ions -> minimise -> NVT -> NPT.
 
@@ -335,8 +355,21 @@ def build_system(structure_path, mutation_spec, work_dir):
     # HV1/HV2/HV3 are the vanishing hydrogens pmx had just placed. Pass 1 strips hydrogens to
     # normalise protonation on the WILD-TYPE structure; pass 2 must preserve what pmx built.
     # `-missing` would "fix" this by building an INCOMPLETE topology — the wrong kind of green.
+    # `-merge all` IS LOAD-BEARING FOR ANY MULTI-CHAIN LEG.
+    # With more than one chain, pdb2gmx splits the topology into per-chain topol_Protein_chain_X.itp
+    # files and leaves topol.top as little more than #includes. pmx's gen_hybrid_top then converts
+    # the top-level file — which no longer contains the molecule definitions — so the hybrid
+    # residue's B-state parameters never reach the chain that was actually mutated. grompp then
+    # rejects the result with a wall of "No default Angle types" / "No default Per. Imp. Dih. types"
+    # against topol_Protein_chain_D.itp: 19 of them on the complex leg.
+    #
+    # This is precisely why the apo leg has worked from the start and the complex leg never could —
+    # single-chain systems get everything inline, so gentop sees the real topology. Merging into one
+    # [moleculetype] keeps it inline for the complex too. The chains are not covalently joined and
+    # nothing about the physics changes; only the topology's file layout does.
     run([GMX, "pdb2gmx", "-f", "mutant.pdb", "-o", "conf.pdb", "-p", "topol.top",
-         "-ff", ff_name, "-water", WATER_MODEL], cwd=work_dir)
+         "-ff", ff_name, "-water", WATER_MODEL, "-merge", "all"], cwd=work_dir)
+    _split_topology_guard(work_dir)
 
     # gentop promotes the plain topology to an A->B alchemical one.
     from pmx.alchemy import gen_hybrid_top

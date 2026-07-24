@@ -1034,3 +1034,25 @@ def test_both_resolvers_share_one_matching_rule():
     import inspect
     assert "_match_target_chain" in inspect.getsource(ppmx.resolve_target_after_prep)
     assert "_match_target_chain" in inspect.getsource(ppmx.resolve_target_in_model)
+
+
+def test_split_topology_guard_refuses_per_chain_itp_files(tmp_path):
+    """A split topology means gentop converts a file of #includes and the mutated chain keeps plain
+    parameters. grompp then fails with 'No default Angle types' naming the .itp — the symptom, not
+    the cause — which cost the complex leg a full diagnostic cycle to trace."""
+    (tmp_path / "topol_Protein_chain_D.itp").write_text("; chain D\n")
+    with pytest.raises(RuntimeError, match="split the topology"):
+        ppmx._split_topology_guard(str(tmp_path))
+
+
+def test_split_topology_guard_passes_on_an_inline_topology(tmp_path):
+    (tmp_path / "topol.top").write_text("; everything inline\n")
+    ppmx._split_topology_guard(str(tmp_path))  # must not raise
+
+
+def test_mutant_pdb2gmx_merges_chains():
+    """Without -merge all, any multi-chain leg silently produces an unconvertible topology."""
+    import inspect
+    src = inspect.getsource(ppmx.build_system)
+    mutant_call = src.split('"-f", "mutant.pdb"')[1].split("cwd=work_dir")[0]
+    assert '"-merge", "all"' in mutant_call
