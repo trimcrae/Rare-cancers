@@ -215,15 +215,27 @@ retained for context / for genuinely bandwidth-bound >>500k systems, but does no
 | **OpenFE RBFE / ternary FEP** (alchemical; smaller/compute-bound) | **RTX 4090** — measured 1549 @35k / 669 @85k ns/day; cheapest eligible ~$0.145/hr (probe 2026-07-23) | **L4** (valA/valB ran here); L40S if available |
 | Prep / co-fold assembly / analysis (CPU-bound) | run on **CI** (free), not a GPU | run on CI (free) |
 
-**★ MEASURED PROGRAM ECONOMICS ON VAST 4090 (2026-07-23) — the AWS/GCP-based `cost_est_usd` numbers in the
-schedule + ladder are ~5–10× too high for the Vast 4090 lane.** Combining the measured throughput above with each
-stage's sampling budget (RBFE 12 windows × 2 legs; ternary 16 windows × 3 replicas × 2 morphs) and the ~$0.145/hr
-4090 floor, the **whole remaining GPU program is ≈ $80–200 on Vast 4090, vs the old ~$840 schedule**:
-`step1_fanout` (19 edges) ~$8–20 · `valB_mini` ~$4 · `valB_full` ~$8–15 · `nrv04_retrospective` ~$25–50 ·
-`ternary_matrix` (6–12 constructs) ~$25–100 · `nrv04 covalent` (18 legs) ~$6.5 on 4090 (was ~$11 on 3090).
-Caveat: the alchemical stages fold in a **~1.7× HREX/softcore overhead assumption** on top of the measured
-*plain-MD* throughput — the one number not yet directly measured; it firms from one real RBFE + one real ternary
-edge on the 4090 (see tooling below). These are the honest planning figures; each rung still waits for its go.
+**★ MEASURED PROGRAM ECONOMICS — Vast 4090 (2026-07-24, CORRECTED; reconciled with the parallel ternary-design
+session's live-billing anchors).** ⚠ **RETRACTION:** an earlier version of this block put the "whole program at
+~$80–200 on Vast 4090" by scaling the *plain-MD* bench throughput by a ~1.7× overhead. **That was wrong.**
+Alchemical HREX — 12 coupled λ-windows time-sharing ONE GPU + softcore + multistate energy evaluations every
+iteration — is **~tens× slower per ns than plain MD, not ~1.7×.** My firm RBFE run confirms it: a *reduced*
+(N_ITER 150) complex leg ran **~2h without finishing**, consistent with the **pilot-billing anchor of ~55 GPU-h
+per RBFE complex leg**. So **price alchemical stages on the pilot billing, never on the bench $/ns** (bench $/ns is
+for the CARD decision only):
+- **RBFE binary edge (complex+solvent) ≈ ~$12–20 on Vast 4090** (~55 GPU-h/complex-leg pilot billing → ~$8–14/leg
+  at $0.15–0.25/hr). ⇒ `step1_fanout` (19 edges) ≈ **~$230–380**, NOT the ~$8–20 I mis-stated.
+- **Ternary 3-replica cooperativity edge ≈ ~$65–110 on Vast 4090** (~435 GPU-h; still ESTIMATED — PIN from the
+  first real ternary edge). The firm run **confirmed the ternary is a 146,509-particle, 16-window system**, which
+  supports the high end. ⇒ valB_mini ~$65–110; `nrv04_retrospective` + `ternary_matrix` are the big spends.
+- **Endpoint MD (covalent) — MY MEASURED CARD FINDING, which UPDATES the "→ 3090" rule/table below:** bench
+  head-to-head at 444k atoms gave 4090 **175.6** vs 3090 **72.5** ns/day (**2.42×**) for only ~9% more $/hr → the
+  **4090 is ~2.2× cheaper $/ns even at 466k.** This *refutes* the a-priori "bandwidth-bound → 3090" pick (the
+  3090's ~8% bandwidth edge is swamped by the 4090's ~2× compute). Caveat: single-host-per-point — confirm with a
+  repeat before repricing/moving a large panel, but default endpoint MD to the 4090 going forward.
+- **Whole remaining program ≈ ~$500–1500+** (the original ~$840 AWS schedule was roughly the right order of
+  magnitude; the Vast 4090 lane is ~2–3× cheaper per GPU-h than AWS g5, so somewhat under it — but the alchemical
+  GPU-h counts are large). Each rung still waits for its go.
 
 **★ TOOLING BUILT THIS SESSION (so a future session doesn't rebuild it):**
 - **Vast throughput bench** — `nrv04_vast_launch.py` modes `bench` / `bench_collect`, driven by
@@ -245,14 +257,13 @@ edge on the 4090 (see tooling below). These are the honest planning figures; eac
   system → reaches multistate MD; **ternary builds the FULL solvated ternary — 146,509 particles, 16 λ-windows,
   clash-diagnostics clean — and reaches the sampler.** So "can we run RBFE/ternary on Vast" = **YES, demonstrated.**
 - **Confirmed system sizes (refines the cost model):** RBFE complex ≈ **35k atoms** (matches the bench); the real
-  **ternary ≈ 146k particles** — BIGGER than the earlier 85k guess, so ternary stages cost ~1.3× the first table
-  (whole program still **~$90–220 on Vast 4090** vs the old ~$840). Interpolating the bench grid to 146k ⇒ ~450
-  ns/day plain on the 4090.
+  **ternary ≈ 146,509 particles, 16 λ-windows** — BIGGER than the earlier 85k guess. Cost basis for alchemical
+  stages = the pilot-billing anchors in the economics block above (~$12–20/RBFE edge, ~$65–110/ternary edge), NOT
+  a bench-throughput extrapolation.
 - **DECISION (trimcrae, 2026-07-23): LOCK IN THE ESTIMATE — do NOT grind for the exact ns/day.** The pipelines are
-  proven to launch and costs are firm to ±the ~1.7× HREX overhead (the one unmeasured factor); a size-confirmed
-  bench estimate is good enough to plan spend. The exact per-edge ns/day is deferred to whenever a real fanout
-  runs. (Also: self-wake timers were unreliable this session — container restarts killed them — making 2h
-  monitor-dependent cycles impractical to babysit.)
+  proven to launch; the alchemical cost basis is the measured pilot billing (the exact per-edge ns/day on Vast is
+  deferred to whenever a real fanout runs). (Also: self-wake timers were unreliable this session — container
+  restarts killed them — making 2h monitor-dependent cycles impractical to babysit.)
 - **GOTCHAS a future real-fanout run MUST set on the Vast OpenFE lane** (all fixed in `nrv04_vast_launch.py` firm
   preamble + `Dockerfile.nr4a3fep` + `environment-rbfe.yml`, but note them): (1) `OPENMM_PLUGIN_DIR=
   /opt/mamba/envs/rbfe/lib/plugins` — conda-pack relocation breaks OpenMM plugin auto-load so OpenFE's internal
