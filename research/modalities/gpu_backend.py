@@ -266,9 +266,14 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
 # image is ~6 GiB and reloads in ~20 min, so each preemption is EXPENSIVE, and a floor-hugging bid churned the
 # preemption-prone legs (a covalent leg sat at frame 100 for ~3 h, re-bought+reloading repeatedly). On Vast you PAY
 # YOUR BID, so a higher multiple costs a little more $/hr but is preempted far less -> for a fat-image job it's
-# cheaper OVERALL (each avoided ~20-min reload > the small rate bump). x1.5 sits comfortably above the floor without
-# approaching on-demand. Still checkpoint + re-dispatch/resume on the preemptions that do happen. Tunable via env.
-_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.5"))   # margin above min_bid to win+HOLD
+# cheaper OVERALL (each avoided ~20-min reload > the small rate bump). Still checkpoint + re-dispatch/resume on the
+# preemptions that do happen. Tunable via env.
+# RAISED 1.5 -> 1.9 (2026-07-23, evidence-based): with x1.5 the NR-V04 covalent tail churned — the slow-host legs
+# (~19 ns/day) need a CONTINUOUS ~4 h run to reach frame 500, but preemptions kept resetting them to their last
+# checkpoint, so 4/5 tail legs made ZERO net frame progress across a ~40-min cycle (n_results flat 4 cycles). A
+# slow leg's only path to finishing is holding one host long enough; x1.9 wins+holds far better at trivial extra
+# $/hr on a ~$0.52/leg panel. Still well under on-demand.
+_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.9"))   # margin above min_bid to win+HOLD
 
 
 def _vast_bid_price(offer: dict):
