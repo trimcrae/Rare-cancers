@@ -4,12 +4,13 @@
   "live_instances": 8,
   "instance_states": {
     "loading": 4,
-    "running": 4
+    "running": 3,
+    "exited": 1
   },
   "gpu_util": [
     99.999908,
     0.0,
-    95.999908
+    0.0
   ],
   "phases": {
     "not-started": 15,
@@ -26,7 +27,7 @@
       "gpu_util": null,
       "inet_down": 281.7,
       "dph": 0.3496296296296295,
-      "age_min": 31
+      "age_min": 33
     },
     {
       "id": 45738995,
@@ -38,7 +39,7 @@
       "gpu_util": null,
       "inet_down": 281.7,
       "dph": 0.3496296296296295,
-      "age_min": 31
+      "age_min": 33
     },
     {
       "id": 45739102,
@@ -50,19 +51,19 @@
       "gpu_util": 99.999908,
       "inet_down": 2335.5,
       "dph": 0.3881481481481482,
-      "age_min": 30
+      "age_min": 32
     },
     {
       "id": 45739107,
       "label": "s1f-03-cw_ev_5alkyne",
-      "status": "running",
-      "cur_state": "running",
+      "status": "exited",
+      "cur_state": "stopped",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 4090",
       "gpu_util": 0.0,
       "inet_down": 1546.7,
       "dph": 0.37259259259259264,
-      "age_min": 30
+      "age_min": 32
     },
     {
       "id": 45739111,
@@ -74,7 +75,7 @@
       "gpu_util": null,
       "inet_down": 829.6,
       "dph": 0.3555555555555555,
-      "age_min": 30
+      "age_min": 32
     },
     {
       "id": 45739117,
@@ -86,7 +87,7 @@
       "gpu_util": null,
       "inet_down": 281.7,
       "dph": 0.3496296296296295,
-      "age_min": 30
+      "age_min": 32
     },
     {
       "id": 45739144,
@@ -98,7 +99,7 @@
       "gpu_util": null,
       "inet_down": 281.7,
       "dph": 0.3496296296296295,
-      "age_min": 29
+      "age_min": 31
     },
     {
       "id": 45739147,
@@ -107,10 +108,10 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 4090",
-      "gpu_util": 95.999908,
+      "gpu_util": 0.0,
       "inet_down": 5046.4,
       "dph": 0.38222222222222224,
-      "age_min": 29
+      "age_min": 31
     }
   ],
   "units": [
