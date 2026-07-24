@@ -80,17 +80,33 @@ def test_qualify_passes_on_accurate_and_correctly_ordered_results():
 
 
 def test_qualify_fails_when_ordering_is_wrong_even_if_magnitudes_pass():
-    """Both inside 1.5 kcal/mol of their references, but ranked backwards -> FAIL.
+    """Ranked backwards while both magnitudes are inside tolerance -> FAIL.
 
-    A wedge is read as a ranking, so ordering is the load-bearing property.
+    A wedge is read as a ranking, so ordering is the load-bearing property. The scores are built by
+    hand here because, with the corrected references (3.4 vs -0.13), the two tolerance windows no
+    longer overlap and such a pair cannot arise from score_benchmark — see the test below, which
+    pins that separation. The ordering branch still has to work: it is what protects a future
+    benchmark pair whose windows DO overlap.
     """
-    res = {"barnase_barstar_Y29A": _score("barnase_barstar_Y29A", 1.95),
-           "barnase_barstar_Y29F": _score("barnase_barstar_Y29F", 1.99)}
-    assert res["barnase_barstar_Y29A"]["within_tolerance"]
-    assert res["barnase_barstar_Y29F"]["within_tolerance"]
+    res = {"barnase_barstar_Y29A": dict(_score("barnase_barstar_Y29A", 3.4),
+                                        calc_ddg_bind_kcal=0.5, within_tolerance=True),
+           "barnase_barstar_Y29F": dict(_score("barnase_barstar_Y29F", -0.13),
+                                        calc_ddg_bind_kcal=0.9, within_tolerance=True)}
     v = pb.qualify(res)
     assert v["qualified"] is False
     assert "ORDERING WRONG" in v["reason"]
+
+
+def test_corrected_references_are_separated_by_more_than_the_tolerance():
+    """The Y29A/Y29F references (3.4 vs -0.13) are 3.5 kcal/mol apart, > 2 x the 1.5 tolerance.
+
+    Consequence worth stating: for THIS pair, passing both magnitudes now implies the ordering is
+    right. That is a property of these two references, not a general guarantee, which is why the
+    ordering check stays.
+    """
+    a = pb.BENCHMARKS["barnase_barstar_Y29A"]["ref_ddg_bind_kcal"]
+    f = pb.BENCHMARKS["barnase_barstar_Y29F"]["ref_ddg_bind_kcal"]
+    assert a - f > 2 * pb.PASS_ABS_ERR_KCAL
 
 
 def test_qualify_fails_on_a_partial_set():
@@ -110,12 +126,17 @@ def test_qualify_fails_outside_tolerance():
 
 def test_qualify_surfaces_unverified_references():
     """A PASS scored against unchecked literature values must say so, not read as fully verified."""
-    res = {"barnase_barstar_Y29A": _score("barnase_barstar_Y29A", 3.4),
-           "barnase_barstar_Y29F": _score("barnase_barstar_Y29F", 0.5)}
-    v = pb.qualify(res)
-    assert v["qualified"] is True
-    assert v["unverified_references"], "references are flagged unverified in BENCHMARKS"
-    assert "PROVISIONAL" in v["caveat"]
+    saved = pb.BENCHMARKS["barnase_barstar_Y29F"]["ref_verified"]
+    pb.BENCHMARKS["barnase_barstar_Y29F"]["ref_verified"] = False
+    try:
+        res = {"barnase_barstar_Y29A": _score("barnase_barstar_Y29A", 3.4),
+               "barnase_barstar_Y29F": _score("barnase_barstar_Y29F", 0.0)}
+        v = pb.qualify(res)
+        assert v["qualified"] is True
+        assert v["unverified_references"] == ["barnase_barstar_Y29F"]
+        assert "PROVISIONAL" in v["caveat"]
+    finally:
+        pb.BENCHMARKS["barnase_barstar_Y29F"]["ref_verified"] = saved
 
 
 def test_qualify_with_no_results():
@@ -312,11 +333,13 @@ def test_labels_are_vast_safe_and_reapable():
 # ---------------------------------------------------------------- reference verification (SKEMPI)
 import protfep_refcheck as rc  # noqa: E402
 
+# Mirrors the REAL SKEMPI rows for 1BRS_A_D (verified in CI 2026-07-24), plus two rows that must be
+# rejected: a double mutant and a different complex.
 _SKEMPI = ("#Pdb;Mutation(s)_PDB;Affinity_mut (M);Affinity_wt (M);Temperature;Reference\n"
-           "1BRS_A_D;YD29A;1.2E-11;1.0E-13;298;Schreiber 1995\n"
-           "1BRS_A_D;YD29F;3.0E-13;1.0E-13;298(assumed);Schreiber 1995\n"
-           "1BRS_A_D;YD29A,DD39A;5.0E-9;1.0E-13;298;double mutant\n"
-           "2ABC_A_B;YD29A;1.0E-9;1.0E-13;298;different complex\n")
+           "1BRS_A_D;YD29A;3.5E-12;1.0E-14;298;7739054\n"
+           "1BRS_A_D;YD29F;8.0E-15;1.0E-14;298(assumed);7739054\n"
+           "1BRS_A_D;YD29A,DD39A;5.0E-9;1.0E-14;298;double mutant\n"
+           "2ABC_A_B;YD29A;1.0E-9;1.0E-14;298;different complex\n")
 
 
 def test_ddg_from_kd_arithmetic():
@@ -349,7 +372,7 @@ def test_records_for_filters_by_complex_and_mutation():
     hits, skipped, errors = rc.records_for(_SKEMPI, "1BRS", "D", 29, "Y", "A")
     assert errors == []
     assert len(hits) == 1, "the double mutant and the different complex must be excluded"
-    assert hits[0]["ddg_kcal"] == pytest.approx(2.835, abs=0.01)
+    assert hits[0]["ddg_kcal"] == pytest.approx(3.469, abs=0.01)
 
 
 def test_check_confirms_a_stored_reference_within_tolerance():
@@ -359,7 +382,7 @@ def test_check_confirms_a_stored_reference_within_tolerance():
 
 
 def test_check_flags_a_disagreeing_reference():
-    bad = _SKEMPI.replace("1.2E-11;1.0E-13;298;Schreiber", "1.0E-8;1.0E-13;298;Schreiber")
+    bad = _SKEMPI.replace("3.5E-12;1.0E-14;298;7739054", "1.0E-8;1.0E-14;298;7739054")
     rep = rc.check(csv_text=bad)
     e = rep["benchmarks"]["barnase_barstar_Y29A"]
     assert e["agrees"] is False
@@ -379,3 +402,47 @@ def test_check_does_not_upgrade_verification_on_a_null_result():
 def test_check_reports_a_missing_column_rather_than_silently_finding_nothing():
     hits, skipped, errors = rc.records_for("wrong;header;entirely\na;b;c\n", "1BRS", "D", 29, "Y", "A")
     assert errors and "columns not found" in errors[0]
+
+
+def test_a_sign_disagreement_is_never_reported_as_agreement():
+    """The real bug this catches: stored +0.5 vs measured -0.13 sat inside the magnitude window.
+
+    A reference with the wrong sign would score a correct engine answer as wrong, so magnitude
+    agreement alone must not be enough.
+    """
+    csv = ("#Pdb;Mutation(s)_PDB;Affinity_mut (M);Affinity_wt (M);Temperature;Reference\n"
+           "1BRS_A_D;YD29A;3.5E-12;1.0E-14;298;7739054\n"
+           "1BRS_A_D;YD29F;8.0E-15;1.0E-14;298;7739054\n")
+    rep = rc.check(csv_text=csv)
+    a = rep["benchmarks"]["barnase_barstar_Y29A"]
+    f = rep["benchmarks"]["barnase_barstar_Y29F"]
+    # Y29A: SKEMPI 3.47 vs the stored 3.4 -> confirmed.
+    assert a["agrees"] is True and a["skempi_median_ddg_kcal"] == pytest.approx(3.469, abs=0.01)
+    # Y29F: the stored constant is now the SKEMPI-derived -0.13, so it agrees.
+    assert f["agrees"] is True and f["skempi_median_ddg_kcal"] == pytest.approx(-0.132, abs=0.01)
+    assert rep["all_confirmed"] is True
+
+
+def test_sign_flip_is_caught_even_within_tolerance():
+    """A hypothetical +0.5 stored value against a -0.13 measurement must FAIL, not squeak through."""
+    saved = pb.BENCHMARKS["barnase_barstar_Y29F"]["ref_ddg_bind_kcal"]
+    pb.BENCHMARKS["barnase_barstar_Y29F"]["ref_ddg_bind_kcal"] = 0.5
+    try:
+        csv = ("#Pdb;Mutation(s)_PDB;Affinity_mut (M);Affinity_wt (M);Temperature;Reference\n"
+               "1BRS_A_D;YD29F;8.0E-15;1.0E-14;298;7739054\n")
+        e = rc.check(csv_text=csv)["benchmarks"]["barnase_barstar_Y29F"]
+        assert abs(e["delta_vs_stored"]) < 0.75, "the gap IS inside the magnitude window"
+        assert e["sign_agrees"] is False
+        assert e["agrees"] is False
+        assert "SIGN DISAGREEMENT" in e["verdict"]
+    finally:
+        pb.BENCHMARKS["barnase_barstar_Y29F"]["ref_ddg_bind_kcal"] = saved
+
+
+def test_references_are_now_marked_verified_so_the_verdict_is_not_provisional():
+    res = {"barnase_barstar_Y29A": _score("barnase_barstar_Y29A", 3.4),
+           "barnase_barstar_Y29F": _score("barnase_barstar_Y29F", 0.0)}
+    v = pb.qualify(res)
+    assert v["qualified"] is True
+    assert v["unverified_references"] == []
+    assert v["caveat"] is None

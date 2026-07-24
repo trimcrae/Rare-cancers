@@ -76,10 +76,13 @@ BENCHMARKS = {
         "receptor_chains": ["A"],      # barnase
         "mutation": "D:Y29A",
         "ref_ddg_bind_kcal": 3.4,
-        "ref_source": ("Schreiber & Fersht, J Mol Biol 248:478-486 (1995), "
-                       "'Energetics of protein-protein interactions: analysis of the barnase-barstar "
-                       "interface by single mutations and double mutant cycles'"),
-        "ref_verified": False,
+        "ref_source": ("SKEMPI 2.0 record for 1BRS_A_D YD29A (Kd_mut 3.5E-12 M / Kd_wt 1E-14 M at 298 K "
+                       "-> 3.47 kcal/mol), cited to PMID 7739054 = Schreiber & Fersht, J Mol Biol "
+                       "248:478-486 (1995), 'Energetics of protein-protein interactions: analysis of the "
+                       "barnase-barstar interface by single mutations and double mutant cycles'"),
+        # VERIFIED 2026-07-24: protfep_refcheck recomputed 3.469 from SKEMPI's deposited affinities,
+        # 0.07 kcal/mol from the stored 3.4.
+        "ref_verified": True,
         "why": ("The canonical, most-measured PPI hot spot in the literature. Charge-conserving, and a "
                 "large experimental effect — an engine that cannot see this cannot see our wedge either."),
     },
@@ -89,12 +92,23 @@ BENCHMARKS = {
         "partner_chain": "D",
         "receptor_chains": ["A"],
         "mutation": "D:Y29F",
-        "ref_ddg_bind_kcal": 0.5,
-        "ref_source": ("Schreiber & Fersht, J Mol Biol 248:478-486 (1995), same table as Y29A"),
-        "ref_verified": False,
-        "why": ("Conservative OH->H swap at the SAME site. Pairs with Y29A as a graded control: a working "
-                "engine must rank Y29A as the larger effect. This tests ORDERING, not just magnitude — a "
-                "magnitude pass with the ordering wrong is a fail, because a wedge is read as a ranking."),
+        # CORRECTED 2026-07-24 from +0.5 (entered from memory of the paper's table) to -0.13,
+        # RECOMPUTED by protfep_refcheck from SKEMPI 2.0's deposited affinities for 1BRS_A_D YD29F
+        # (Kd_mut 8E-15 vs Kd_wt 1E-14 at 298 K, record cited to PMID 7739054 = Schreiber & Fersht
+        # 1995). The stored value had the WRONG SIGN: Y29F very slightly STRENGTHENS binding, it does
+        # not weaken it. The old value survived the +/-0.75 agreement window purely because the
+        # discrepancy was 0.63 — which is exactly why the checker now fails on a sign disagreement
+        # regardless of magnitude.
+        "ref_ddg_bind_kcal": -0.13,
+        "ref_source": ("SKEMPI 2.0 record for 1BRS_A_D YD29F (Kd_mut 8E-15 M / Kd_wt 1E-14 M at 298 K), "
+                       "cited to PMID 7739054 = Schreiber & Fersht, J Mol Biol 248:478-486 (1995)"),
+        "ref_verified": True,
+        "why": ("Conservative OH->H swap at the SAME site, and a near-NULL reference (~0 kcal/mol). It pairs "
+                "with Y29A as a graded control in two ways: a working engine must rank Y29A as much the "
+                "larger effect (ORDERING — a magnitude pass with the ordering wrong is a fail, because a "
+                "wedge is read as a ranking), and it must NOT invent a large effect where the experiment "
+                "sees none. Note the honest limitation: because the reference sits near zero, the +/-1.5 "
+                "tolerance is weak here, so the ordering test carries most of this benchmark's weight."),
     },
 }
 

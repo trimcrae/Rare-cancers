@@ -47,14 +47,37 @@ RUN micromamba create -y -n protfep -c conda-forge \
         openff-toolkit openff-nagl openff-nagl-models \
         "pymbar>=4" \
         rdkit pdbfixer mdtraj numpy scipy \
-        awscli boto3 certifi ca-certificates \
-    && micromamba clean -a -y
+        awscli boto3 certifi ca-certificates
 ENV PATH=/opt/mamba/envs/protfep/bin:$PATH
+
+# Cache cleanup is a SEPARATE, TOLERANT layer. `micromamba clean -a -y` chained onto the create with
+# && failed the whole build on 2026-07-24 with
+#   critical libmamba filesystem error: cannot get file size: No such file or directory
+#   [/opt/mamba/pkgs/.../ambertools-26.0-.../bin/amber.conda]
+# AFTER the solve had already printed "Transaction finished" with perses 0.10.3, openmmtools 0.26.0,
+# ambertools 26.0 and openff-toolkit 0.18.0 all linked. That is a libmamba cache-cleanup bug on the
+# ambertools package entry, not an environment problem — so it must not be able to fail the build.
+# Deleting the pkgs cache is safe with hardlinked envs: the env keeps its own link to the data.
+RUN micromamba clean --tarballs --index-cache --yes || true; \
+    rm -rf /opt/mamba/pkgs/* || true; \
+    du -sh /opt/mamba/envs/protfep
 
 # Sanity: fail the BAKE (free CI) rather than a $-costing Vast host if a load-bearing import is
 # missing. These are exactly the imports protfep_run.py makes lazily at leg start — the point is to
 # discover a broken solve here, not forty minutes into a rental.
+#
+# The CUDA-plugin check is not decoration. conda-forge ships CPU-only-capable openmm builds, and a
+# leg that silently falls back to the CPU platform would still produce a dG — it would just cost
+# ~50x the rental to get there, and nothing in the result JSON would say why. The GPU host cannot be
+# reached from the build, so the build asserts the PLUGIN SHIP; protfep_run asserts the RUNNING
+# platform at leg start and refuses to proceed on CPU unless explicitly allowed.
 RUN python -c "import openmm, openmmtools, pymbar; print('openmm', openmm.version.version)" \
+    && python -c "
+import glob, openmm, os
+plugin_dir = os.path.join(os.path.dirname(openmm.version.__file__), 'lib', 'plugins')
+found = glob.glob(os.path.join(plugin_dir, '*CUDA*')) or glob.glob('/opt/mamba/envs/protfep/lib/plugins/*CUDA*')
+assert found, 'no OpenMM CUDA plugin in this env — a leg would silently run on CPU'
+print('openmm CUDA plugin:', found[0])" \
     && python -c "from perses.app.relative_point_mutation_setup import PointMutationExecutor; print('perses PointMutationExecutor OK')" \
     && python -c "from perses.samplers.multistate import HybridRepexSampler; print('perses HybridRepexSampler OK')" \
     && python -c "from perses.annihilation.lambda_protocol import LambdaProtocol; print('perses LambdaProtocol OK')" \

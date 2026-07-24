@@ -74,6 +74,35 @@ def _log(msg):
     print(f"[protfep] {time.strftime('%H:%M:%S')} {msg}", flush=True)
 
 
+def require_cuda_platform():
+    """Pin sampling to the CUDA platform and REFUSE to run on CPU unless explicitly allowed.
+
+    A CPU fallback is the expensive silent failure on a rented GPU: the leg still produces a dG, it
+    just costs ~50x the rental to get there and nothing in the result says why. conda-forge openmm
+    builds can resolve without a usable CUDA runtime, and this repo has already lost hosts to a
+    PTX-version mismatch that manifested as a crash rather than a fallback — so the platform is
+    asserted at leg start, in the same spirit as OPENMM_REQUIRE_CUDA elsewhere in the repo.
+
+    Returns the platform name actually pinned, which is stamped into the leg JSON.
+    """
+    from openmm import Platform
+    from openmmtools import cache
+    names = [Platform.getPlatform(i).getName() for i in range(Platform.getNumPlatforms())]
+    if "CUDA" not in names:
+        msg = (f"CUDA platform unavailable (OpenMM sees {names}). Refusing to run a rented-GPU leg on "
+               f"the CPU platform — it would produce a dG at ~50x the cost with nothing in the result "
+               f"to show for it. Set PROTFEP_ALLOW_CPU=1 only for a deliberate CPU test.")
+        if os.environ.get("PROTFEP_ALLOW_CPU") != "1":
+            raise RuntimeError(msg)
+        _log(f"WARNING {msg} — proceeding because PROTFEP_ALLOW_CPU=1")
+        return names[-1] if names else "unknown"
+    platform = Platform.getPlatformByName("CUDA")
+    platform.setPropertyDefaultValue("Precision", os.environ.get("PROTFEP_PRECISION", "mixed"))
+    cache.global_context_cache.platform = platform
+    _log(f"platform pinned: CUDA (precision {os.environ.get('PROTFEP_PRECISION', 'mixed')})")
+    return "CUDA"
+
+
 def _call_filtered(fn, *args, **kwargs):
     """Call `fn` passing only the kwargs its signature actually accepts; log what was dropped.
 
@@ -267,6 +296,8 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, n_states=None, prod_
     _commit()
     t0 = time.time()
     try:
+        record["platform"] = require_cuda_platform()
+        _commit()
         htf, build_meta = build_htf(structure_path, mutation_spec, charge_method=charge_method)
         record["charge_method"] = build_meta["charge_method"]
         record["n_particles"] = build_meta["n_particles"]

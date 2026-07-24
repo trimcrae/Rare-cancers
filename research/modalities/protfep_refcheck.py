@@ -178,12 +178,29 @@ def check(csv_text=None, tolerance_kcal=0.75):
                                                               + vals[len(vals) // 2]) / 2
             entry["skempi_median_ddg_kcal"] = round(mid, 3)
             entry["skempi_range_kcal"] = [vals[0], vals[-1]]
-            entry["delta_vs_stored"] = round(mid - float(b["ref_ddg_bind_kcal"]), 3)
-            entry["agrees"] = abs(entry["delta_vs_stored"]) <= tolerance_kcal
-            entry["verdict"] = ("stored reference CONFIRMED by SKEMPI" if entry["agrees"] else
-                                "stored reference DISAGREES with SKEMPI — reconcile before the "
-                                "benchmark verdict is trusted; the pass criterion is computed "
-                                "against this number")
+            stored = float(b["ref_ddg_bind_kcal"])
+            entry["delta_vs_stored"] = round(mid - stored, 3)
+            # A SIGN disagreement is never agreement, however small the gap. This is not pedantry:
+            # the stored Y29F value was +0.5 while SKEMPI gives -0.13 — the mutation slightly
+            # STRENGTHENS binding rather than weakening it — and a magnitude-only check waved that
+            # through on a 0.63 gap inside a 0.75 window. A benchmark whose reference points the
+            # wrong way would score an engine's correct answer as wrong (and vice versa).
+            # `near_zero` exempts references indistinguishable from zero, where sign is not meaningful.
+            near_zero = abs(mid) < 0.25 and abs(stored) < 0.25
+            sign_ok = near_zero or (mid >= 0) == (stored >= 0)
+            entry["sign_agrees"] = sign_ok
+            entry["agrees"] = bool(abs(entry["delta_vs_stored"]) <= tolerance_kcal and sign_ok)
+            if entry["agrees"]:
+                entry["verdict"] = "stored reference CONFIRMED by SKEMPI"
+            elif not sign_ok:
+                entry["verdict"] = (f"SIGN DISAGREEMENT — stored {stored:+.2f} vs SKEMPI {mid:+.2f} "
+                                    f"kcal/mol. The stored reference has the mutation pointing the WRONG "
+                                    f"WAY, so it would score a correct engine answer as wrong. Reconcile "
+                                    f"the constant before any verdict is trusted.")
+            else:
+                entry["verdict"] = ("stored reference DISAGREES with SKEMPI — reconcile before the "
+                                    "benchmark verdict is trusted; the pass criterion is computed "
+                                    "against this number")
         else:
             entry["agrees"] = None
             entry["verdict"] = ("NOT FOUND in SKEMPI for this pdb/chain/mutation — the stored value "
