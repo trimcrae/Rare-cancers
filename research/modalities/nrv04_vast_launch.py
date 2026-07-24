@@ -750,15 +750,32 @@ export T1=$(date +%s)
 
 _FIRM_TERNARY_BODY = r"""
 export T0=$(date +%s)
+LEG="${LEG_ID:-calib_hi_to_lo__ternary_vhl}"
 {
   echo "[firm] staging ternary leg from 8G1Q (ternary_pdb_stage.py)"
-  $PY ternary_pdb_stage.py --leg-id "${LEG_ID:-calib_hi_to_lo__ternary_vhl}" --template-pdb 8G1Q --out "$IN" 2>&1 \
+  $PY ternary_pdb_stage.py --leg-id "$LEG" --template-pdb 8G1Q --out "$IN" 2>&1 \
     || echo "[firm] STAGING FAILED rc=$?"
   echo "[firm] staged tree (name + bytes):"
   find "$IN" -type f \( -name '*.sdf' -o -name '*.pdb' -o -name '*.json' \) -printf '  %s B  %p\n' 2>/dev/null || true
+  # PRE-EQUILIBRATION (2026-07-24): the ternary alchemy NaNs on warmup iter 1 if the raw assembled complex is fed
+  # straight into softcore λ-states (documented OpenFE failure mode; ternary-rbfe-runbook.md §1c). The fix is a
+  # plain-MD relax of the physical complex FIRST (ternary_preequil.py), then overlay the relaxed complex.pdb +
+  # ligands.sdf over the staged tree before the RBFE — exactly what the proven GCP valB_mini lane does. Without
+  # this the Vast ternary lane cannot run a real leg (verified: firm-ternary NaN'd at replica-0 state-0).
+  echo "[firm] --- ternary PRE-EQUILIBRATION (plain-MD relax; fixes the softcore warmup NaN) ---"
+  env LEG_ID="$LEG" SEED=0 CHARGE_METHOD=nagl PREEQUIL_NS="${PREEQUIL_NS:-0.5}" PREEQUIL_EXACT_FF=1 \
+      OPENMM_PLATFORM=CUDA OPENMM_REQUIRE_CUDA=1 INPUT_DIR="$IN" OUTPUT_DIR="$OUT" \
+      $PY ternary_preequil.py 2>&1 || echo "[firm] PREEQUIL FAILED rc=$?"
+  if [ -f "$OUT/$LEG/complex.pdb" ] && [ -f "$OUT/$LEG/ligands.sdf" ]; then
+    cp "$OUT/$LEG/complex.pdb" "$OUT/$LEG/ligands.sdf" "$IN/$LEG/" \
+      && echo "[firm] overlaid relaxed complex.pdb + ligands.sdf into staged tree ($IN/$LEG)"
+  else
+    echo "[firm] WARN no relaxed structure at $OUT/$LEG — RBFE will run on the raw complex and may NaN"
+  fi
   echo "[firm] --- ternary MD ---"
-  env MODE=run LEG_ID="${LEG_ID:-calib_hi_to_lo__ternary_vhl}" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-16}" \
-      CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_CONSTRAIN_LIGAND_CH=0 N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
+  env MODE=run LEG_ID="$LEG" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-16}" \
+      CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_WARMUP_TIMESTEP_FS=1.0 RBFE_CONSTRAIN_LIGAND_CH=0 \
+      N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
       INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_ternary_fep.py 2>&1 || true
 } | tee /tmp/firm.log
 export T1=$(date +%s)
