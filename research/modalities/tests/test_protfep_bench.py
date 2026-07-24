@@ -743,3 +743,26 @@ def test_mutation_site_verification_catches_a_vanished_residue(tmp_path):
     m = pf.classify_mutation("D:Y29A")
     with pytest.raises(RuntimeError, match="absent"):
         ppmx._verify_mutation_site(str(gone), m, str(orig))
+
+
+def test_forcefield_resolution_prefers_the_requested_field(monkeypatch):
+    monkeypatch.setattr(ppmx, "discover_forcefields",
+                        lambda: {"amber99sb-star-ildn-mut": "/d", "charmm36m-mut": "/d"})
+    assert ppmx.resolve_forcefield("amber99sb-star-ildn-mut") == ("amber99sb-star-ildn-mut", "/d")
+
+
+def test_forcefield_resolution_falls_back_within_the_benchmarked_family(monkeypatch):
+    """pmx's data layout moves between releases, and get_ff_path raises a bare 'not found' naming
+    neither where it looked nor what exists. A fallback must stay in the amber99sb*-mut family, which
+    is what pmx's protein-mutation benchmarks were built on — and must be logged, never silent."""
+    monkeypatch.setattr(ppmx, "discover_forcefields",
+                        lambda: {"amber99sb-star-ildn-mut_alt": "/x", "charmm36m-mut": "/y"})
+    name, root = ppmx.resolve_forcefield("amber99sb-star-ildn-mut")
+    assert name == "amber99sb-star-ildn-mut_alt" and root == "/x"
+
+
+def test_forcefield_resolution_refuses_when_pmx_ships_none(monkeypatch):
+    """A stock GROMACS force field cannot express an A->B hybrid residue, so there is no fallback."""
+    monkeypatch.setattr(ppmx, "discover_forcefields", lambda: {})
+    with pytest.raises(RuntimeError, match="no \\*.ff mutation force fields"):
+        ppmx.resolve_forcefield("anything")

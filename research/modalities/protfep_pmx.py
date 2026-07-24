@@ -242,15 +242,12 @@ def build_system(structure_path, mutation_spec, work_dir):
     if not m["buildable"]:
         raise pf.MutationError(m["risk"])
 
-    env = dict(os.environ)
-    # pmx's hybrid residue library lives inside the package; GROMACS finds a force field by GMXLIB.
-    import pmx
-    pmx_data = os.path.join(os.path.dirname(pmx.__file__), "data", "mutff")
-    if os.path.isdir(pmx_data):
-        env["GMXLIB"] = pmx_data + (":" + env["GMXLIB"] if env.get("GMXLIB") else "")
-        _log(f"GMXLIB -> {pmx_data}")
-    else:
-        _log(f"NOTE pmx mutation force fields not at {pmx_data}; relying on the default GMXLIB")
+    ff_name, ff_root = resolve_forcefield(FORCEFIELD)
+    # GROMACS finds a force field via GMXLIB; pmx's hybrid residue definitions live in ITS data tree,
+    # so both pdb2gmx and pmx must be pointed at the same place or they will disagree about what a
+    # hybrid residue is. Set it in the process environment so the gmx subprocesses inherit it.
+    os.environ["GMXLIB"] = ff_root + (":" + os.environ["GMXLIB"] if os.environ.get("GMXLIB") else "")
+    _log(f"GMXLIB -> {ff_root}; force field: {ff_name}")
 
     mutant = os.path.join(work_dir, "mutant.pdb")
     # pmx's Python API is used rather than the CLI so the mutation is specified programmatically —
@@ -266,7 +263,7 @@ def build_system(structure_path, mutation_spec, work_dir):
     # entry that put barstar's Y29 on chain A, which is barnase. `mut_chain` is passed when the
     # installed pmx accepts it, and the outcome is VERIFIED against the written file either way, so
     # a silently chain-blind pmx cannot go unnoticed.
-    kwargs = {"m": model, "mut_resid": m["resid"], "mut_resname": m["mutant"], "ff": FORCEFIELD}
+    kwargs = {"m": model, "mut_resid": m["resid"], "mut_resname": m["mutant"], "ff": ff_name}
     import inspect as _inspect
     sig = _inspect.signature(pmx_mutate)
     chain_param = next((p for p in ("mut_chain", "chain", "mut_chain_id") if p in sig.parameters), None)
@@ -283,12 +280,12 @@ def build_system(structure_path, mutation_spec, work_dir):
 
     # pdb2gmx with the pmx mutation force field, which carries the hybrid residue definitions.
     run([GMX, "pdb2gmx", "-f", "mutant.pdb", "-o", "conf.pdb", "-p", "topol.top",
-         "-ff", FORCEFIELD, "-water", WATER_MODEL, "-ignh"], cwd=work_dir)
+         "-ff", ff_name, "-water", WATER_MODEL, "-ignh"], cwd=work_dir)
 
     # gentop promotes the plain topology to an A->B alchemical one.
     from pmx.alchemy import gen_hybrid_top
     from pmx.forcefield import Topology
-    top = Topology(os.path.join(work_dir, "topol.top"), ff=FORCEFIELD)
+    top = Topology(os.path.join(work_dir, "topol.top"), ff=ff_name)
     hybrid, _staples = gen_hybrid_top(top)
     hybrid_top = os.path.join(work_dir, "hybrid.top")
     hybrid.write(hybrid_top, scale_mass=True)
@@ -312,8 +309,48 @@ def build_system(structure_path, mutation_spec, work_dir):
     _mdrun_stage(work_dir, "npt", mdp_equil(NPT_PS, pressure=True), "nvt.gro")
 
     n_atoms = _count_atoms(os.path.join(work_dir, "npt.gro"))
-    _log(f"system built and equilibrated: {n_atoms} atoms")
-    return os.path.join(work_dir, "npt.gro"), hybrid_top, n_atoms
+    _log(f"system built and equilibrated: {n_atoms} atoms (force field {ff_name})")
+    return os.path.join(work_dir, "npt.gro"), hybrid_top, n_atoms, ff_name
+
+
+def discover_forcefields():
+    """Every mutation force field pmx actually ships, as {name: containing_directory}.
+
+    pmx's data layout has moved between releases, and `get_ff_path` raises a bare
+    `forcefield path "X" not found` that names neither where it looked nor what exists. Rather than
+    guess the directory again, walk pmx's data tree for `*.ff` directories — the answer then comes
+    from the installation instead of from a remembered layout.
+    """
+    import pmx
+    root = os.path.join(os.path.dirname(pmx.__file__), "data")
+    found = {}
+    for dirpath, dirnames, _files in os.walk(root):
+        for d in dirnames:
+            if d.endswith(".ff"):
+                found.setdefault(d[:-3], dirpath)
+    return found
+
+
+def resolve_forcefield(requested):
+    """Resolve the mutation force field to (name, containing_dir), or raise with what IS available.
+
+    A missing force field must fail with the list of real options, not with a bare "not found" — the
+    latter costs a round trip to answer "well, what IS there?". If the requested name is absent, an
+    amber99sb*-mut field is preferred as the closest equivalent, since that is the family pmx's
+    protein-mutation benchmarks were built on; the substitution is logged and recorded, never silent.
+    """
+    available = discover_forcefields()
+    if not available:
+        raise RuntimeError(
+            "pmx ships no *.ff mutation force fields in its data tree. A stock GROMACS force field "
+            "cannot express an A->B hybrid residue at all, so there is nothing to fall back to.")
+    if requested in available:
+        return requested, available[requested]
+    preferred = sorted(n for n in available if n.startswith("amber99sb") and "mut" in n)
+    chosen = preferred[0] if preferred else sorted(available)[0]
+    _log(f"NOTE requested force field {requested!r} is not in this pmx install. "
+         f"Available: {sorted(available)}. Falling back to {chosen!r}.")
+    return chosen, available[chosen]
 
 
 def _verify_mutation_site(mutant_pdb, mutation, original_pdb):
@@ -510,8 +547,8 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, work_dir=None, n_sta
     try:
         record["platform"] = assert_gpu_gromacs()
         _commit(status="building")
-        npt_gro, _hybrid_top, n_atoms = build_system(structure_path, mutation_spec, work_dir)
-        _commit(status="sampling", n_particles=n_atoms)
+        npt_gro, _hybrid_top, n_atoms, ff_used = build_system(structure_path, mutation_spec, work_dir)
+        _commit(status="sampling", n_particles=n_atoms, forcefield=ff_used)
 
         done = {"n": 0}
 
@@ -592,8 +629,9 @@ def main(argv=None):
 
     if args.build_only:
         work = os.path.join(args.out_dir, f"work_{leg_id}")
-        _gro, _top, n_atoms = build_system(structure, mutation, work)
-        print(f"BUILD-ONLY PASS: {n_atoms} atoms in the equilibrated hybrid system")
+        _gro, _top, n_atoms, ff_used = build_system(structure, mutation, work)
+        print(f"BUILD-ONLY PASS: {n_atoms} atoms in the equilibrated hybrid system "
+              f"(force field {ff_used})")
         return 0
 
     run_leg(leg_id, structure, mutation, args.out_dir, n_states=args.n_states, meta=meta)
