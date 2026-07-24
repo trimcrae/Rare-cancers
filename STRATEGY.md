@@ -210,12 +210,15 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
   (≥24 GB floor is ample).
 - **Measured per-edge bases (Vast 4090):**
   - **RBFE binary edge** (complex+solvent, ~35k atoms) ≈ ~5–6 GPU-h ≈ **~$0.6–1.4**.
-  - **Ternary cooperativity edge** (3-replica, ~146,509 particles, 16 windows) ≈ **~$3–6** (from the parallel
-    real `valB_mini` on L4 ÷ a ~2.3× card ratio; the L4-on-demand lane it ran on bills ~10× higher, ~$37, which
-    is *not* a go-forward cost). A direct Vast-4090 firm-ternary measurement was attempted but NaN's at warmup
-    (softcore conditioning of the rough homology model — pre-equilibration got it from λ-state 0 to state 5 but
-    not clean); the proven `valB_mini` lane remains the ternary source of record until that conditioning is
-    ported to the Vast lane.
+  - **Ternary cooperativity edge** (3-replica, ~146k particles, 12 windows) ≈ **~$4–7** (~24–30 4090-GPU-h at a
+    realized ~$0.15–0.25/hr host; ~$10–12 on a pricier ~$0.40/hr reliable host). **Directly measured on Vast 4090
+    (2026-07-24)** via the reusable `run_ternary_leg.sh` at 12 windows: warmup cleared clean (no NaN) and
+    production ran steady at **~14–18 s/iter (median ~16)**, ~2× faster than L4 — so a full leg ≈ ~920 iters ×
+    ~16 s ≈ ~4–5 GPU-h, which **confirms** the earlier L4÷2.3 card-ratio projection rather than overturning it.
+    (The clean end-to-end ΔG was lost to a late spot preemption before the firm path's summary+upload — firm is
+    `LOCAL`/`resume=False` — but ΔG is not the cost basis; the ΔG value comes from the GCP valB production lane,
+    ΔG_morph 47.28. The earlier "NaN at warmup" was a **pre-fix 16-window fallback**, now cleared by the
+    12-window lane.)
   - **Endpoint-MD leg** (~466k atoms) ≈ **~$0.45**.
 - **Whole gated ladder ≈ ~$270 mid-range (~$150–450), GO at every gate** (optional/HELD ΔG_open + ABFE excluded,
   ~$200–500 more if invoked). The only real swing is the **ensemble-MD leg count** (5c + retrospective), not
@@ -263,14 +266,15 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   cleared. Reproducibility replicas + pose/state sensitivity are carried forward as **fan-out inputs** (they
   refine per-edge `n_windows` and the conditional caveat, and gate the fleet). This is statistical convergence on
   a *hypothesized* pose, **not** an accuracy claim.
-- **`[~]` Validation B-mini — all-binding graded cooperativity edge** — **~$3–6 · Cum. ~$9.** The Wurz SMARCA2–VHL
+- **`[~]` Validation B-mini — all-binding graded cooperativity edge** — **~$4–7 · Cum. ~$9.** The Wurz SMARCA2–VHL
   **cmpd 1→4** all-binding graded edge (α 12.8→2.6 ≈ +0.94 kcal/mol; both endpoints are productive binders — the
   cleanest first calibration). Exercises the bespoke `ΔΔG_coop = ternary − binary` cycle that cannot be cited
   away. **GO/NO-GO:** correct sign, CI excludes 0, within ~1.0 of the measured Δα, repeats + fwd/rev agree → GO to
   Val B-full. valB_mini gates valB_full only — it does **not** authorize the NR4A matrix; until valB_full passes,
-  NR4A ternary scores are **exploratory**. *(In progress on GCP L4; a direct Vast-4090 timing run is hardening
-  the per-edge cost. The cis-epimer PROTAC-2 edge is demoted to the negative-endpoint stress module of the cube
-  below — a pass forced by holding an unstable pose is not a pass.)*
+  NR4A ternary scores are **exploratory**. *(ΔG produced on the GCP valB production lane, ΔG_morph 47.28; the
+  per-edge cost is now directly measured on Vast 4090 — ~14–18 s/iter, ~$4–7/edge. The cis-epimer PROTAC-2 edge
+  is demoted to the negative-endpoint stress module of the cube below — a pass forced by holding an unstable
+  pose is not a pass.)*
 
 ### RUNG 3 — expand the benchmarks *(only if Rung 2 probes look promising)*
 
