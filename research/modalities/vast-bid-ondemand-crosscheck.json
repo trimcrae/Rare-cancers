@@ -1,33 +1,22 @@
 {
- "n_bid_offers": 6,
- "n_ondemand_offers": 5,
- "n_common_machines": 3,
+ "n_common_machines": 1,
  "rows": [
   {
-   "machine_id": "19205",
+   "machine_id": "26385",
    "gpu": "RTX 4090",
-   "bid_min_bid": 0.26666666666666666,
-   "bid_dph_base": 0.26666666666666666,
-   "ondemand_dph_total": 0.3822222222222222,
-   "ondemand_over_floor": 1.433
-  },
-  {
-   "machine_id": "55559",
-   "gpu": "RTX 4090",
-   "bid_min_bid": 0.17333333333333334,
-   "bid_dph_base": 0.17333333333333334,
-   "ondemand_dph_total": 0.3755555555555556,
-   "ondemand_over_floor": 2.167
-  },
-  {
-   "machine_id": "57250",
-   "gpu": "RTX 4090",
-   "bid_min_bid": 0.5333333333333333,
-   "bid_dph_base": 0.5333333333333333,
-   "ondemand_dph_total": 0.6074074074074074,
-   "ondemand_over_floor": 1.139
+   "bid_min_bid": 0.37333333333333335,
+   "bid_dph_base": 0.37333333333333335,
+   "ondemand_dph_base": 0.45333333333333337,
+   "ondemand_dph_total": 0.4562962962962963,
+   "od_base_over_floor": 1.214,
+   "surcharge_bid_usd_h": 0.003,
+   "surcharge_ondemand_usd_h": 0.003,
+   "surcharge_matches": true
   }
  ],
- "median_ondemand_over_floor": 1.433,
- "verdict": "PREMISE HOLDS: on-demand is at/near the interruptible floor (median ratio 1.43), so a x1.9 bid really does exceed on-demand"
+ "median_od_base_over_floor": 1.214,
+ "surcharge_identical_across_rental_types": true,
+ "verdict": "REAL SPOT DISCOUNT of 18%: on-demand compute is 1.21x the interruptible floor, so bidding CAN be cheaper and the interruption-cost trade-off must be re-solved (the on-demand-always conclusion is withdrawn).",
+ "n_bid_offers": 6,
+ "n_ondemand_offers": 5
 }
