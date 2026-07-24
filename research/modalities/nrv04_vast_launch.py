@@ -361,6 +361,18 @@ def collect(bucket, autostop=None):
     if price.get("measured_mean_usd_per_leg") is not None:
         print(f"[price] MEASURED ${price['measured_mean_usd_per_leg']}/leg over {price['measured_legs']} leg(s) "
               f"-> projected panel ({price['panel_units']} units) ≈ ${price['projected_panel_total_usd']}", flush=True)
+    # The chain split each leg's readouts were computed against — printed LAST, as a one-liner, because the
+    # 2026-07-24 finding was that the panel described the Elongin C interface and its own output could not say
+    # so. A number whose meaning depends on a chain assignment must show that assignment where it is read.
+    for r in results:
+        cs = r.get("chain_split")
+        if cs is None:
+            print(f"[chain-split] {r.get('leg_id')} s{r.get('seed')}: NOT RECORDED — leg predates the fix; its "
+                  f"readouts cannot be confirmed to describe the intended interface", flush=True)
+        else:
+            print(f"[chain-split] {r.get('leg_id')} s{r.get('seed')}: target={cs.get('target')} "
+                  f"e3={cs.get('e3')} explicit={cs.get('explicit')} target_lys_nz={cs.get('target_lys_nz')}",
+                  flush=True)
     return len(insts), len(done_units)
 
 
