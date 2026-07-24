@@ -935,11 +935,25 @@ machine 26385 prices on-demand compute at **$0.4533/hr against a $0.3733/hr floo
 identical $0.003/hr surcharge on both sides. Bidding therefore has real upside and the limit-order policy below
 stands.
 
-What is measured without dispute: the incumbent `min_bid × 1.9` = **$0.709/hr against on-demand $0.456/hr — a
-55 % premium for a box that can still be preempted.** Strictly dominated, no hazard model needed. Full
-derivation, the four defects of a fixed multiple, and the optimiser (`vast_bid_optimizer.py`, 78 tests) are in
-[research/compute/bid-strategy.md](research/compute/bid-strategy.md). The discount *distribution* across card
-classes (n = 1 machine so far — far too thin) is being measured now; a policy number waits on it.
+**Now measured properly across 63 machines / 12 card classes:** the interruptible discount is **universal** —
+median on-demand = **1.25× the floor**, IQR 1.14–1.68, and **zero hosts at parity**.
+
+**THE NUMBER: stand at $0.30/hr for an RTX 4090**, as an interruptible bid, **hard-capped at the chosen host's
+on-demand price**. Derived, not tuned: a ~64 GPU-h ternary edge over two weeks on one machine needs a duty cycle
+`ρ = 0.19`, and the 19th percentile of live 4090 floors is $0.293.
+
+**A second correction, on the incumbent.** An earlier line here called `×1.9` a 38 % (then 55 %) overpayment
+versus on-demand. Both were computed on a host the selector would never pick. `_select_cheapest_offer` ranks by
+`min_bid`, so `×1.9` lands on the cheapest floor ($0.1333) and bids **$0.2533 against $0.3600 on-demand — it is
+NOT overpaying today.** Its real defect is that it is **unbounded**: `1.9 × floor` exceeds that host's own
+on-demand price on **20 of 23** 4090s, so the policy is safe only while a thin cheap tail exists. Remove the two
+hosts under $0.20 and it bids **$0.5067 against $0.3200 — 58 % over.** Shipped the fix: an on-demand cap in
+`gpu_backend._vast_bid_price`, which needs a separate `type: "on-demand"` query (`_vast_ondemand_base_by_machine`)
+because a bid-type query's `dph_base` *is* the floor.
+
+**Selection dominates bidding**: cheapest 4090 floor $0.1333 vs median $0.3550 is a 2.7× host-to-host spread,
+far larger than the ~1.20× discount available within a host. Full derivation in
+[research/compute/bid-strategy.md](research/compute/bid-strategy.md).
 
 **Policy (corrected same day — the snapshot answer optimised the wrong variable):** stand a **limit order at an
 absolute reservation price `P*` and wait.** On Vast an interruptible bid **is** a limit order: it acquires when
@@ -962,8 +976,9 @@ choice, up to ~3.6×" first, computed as if the L4 were a paid default. **It nev
 free GCP trial credit or Modal's free tier, and on Vast (the only cash lane) we have always used a 4090 or 3090
 per job. A 3.6× gap on a $0 lane is **not a saving**; switching off it would *raise* cash spend. Ranked properly:
 **(1) spend the expiring free credit** — ~$292 left, dies **2026-10-10**, but bounded (~$94/ternary edge as-run
-on GCP L4 vs ~$13 on Vast 4090, so ≈**3 ternary edges**, not the ladder); **(2) stop bidding above on-demand on
-Vast** — `×1.9` pays a 55 % premium over simply buying the same box; **(3) card choice *within Vast*** —
+on GCP L4 vs ~$13 on Vast 4090, so ≈**3 ternary edges**, not the ladder); **(2) bound the bid on
+Vast** — `×1.9` is fine today but exceeds on-demand on 20/23 hosts and is unbounded as the floor drifts;
+**(3) card choice *within Vast*** —
 4090-vs-3090 already settled, 4080/A10 open pending the bench; **(4) bid level** — a real ~18 % interruptible
 discount exists to capture, sized properly once the distribution lands.
 

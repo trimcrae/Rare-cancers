@@ -180,6 +180,28 @@ def test_vast_bid_price_is_margin_above_floor():
     assert _vast_bid_price({}) is None                            # no pricing -> no bid
 
 
+def test_vast_bid_price_is_capped_at_the_machines_real_on_demand_price():
+    """A fixed multiple has no bound. Measured 2026-07-24: `1.9 x floor` exceeded that host's on-demand price on
+    20 of 23 RTX 4090s; selection saved us only because the cheapest floor happened to sit far below its own
+    on-demand. The cap is what makes the policy safe when the cheap tail thins."""
+    # uncapped (no on-demand price known) -> unchanged behaviour
+    assert _vast_bid_price({"min_bid": 0.2667, "dph_base": 0.2667}) == 0.5067
+    # capped: 1.9 x 0.2667 = 0.5067 would be 58% ABOVE the $0.32 on-demand price for the same box
+    assert _vast_bid_price({"min_bid": 0.2667, "dph_base": 0.2667}, ondemand_base=0.32) == 0.32
+    # cap that does NOT bind leaves the multiple alone
+    assert _vast_bid_price({"min_bid": 0.1333, "dph_base": 0.1333}, ondemand_base=0.36) == 0.2533
+
+
+def test_vast_bid_cap_never_drops_the_bid_below_the_floor():
+    """THE regression the cap must not reintroduce: an 'always under on-demand' rule once bid BELOW min_bid and
+    left the instance created-but-stopped (verified 2026-07-23). Floor wins over the cap, always."""
+    assert _vast_bid_price({"min_bid": 0.30, "dph_base": 0.30}, ondemand_base=0.20) == 0.30
+    assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}, ondemand_base=0.05) == 0.08
+    # a garbage cap is ignored rather than crashing the launch
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base=None) == 0.19
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base="oops") == 0.19
+
+
 def test_vast_selection_ranks_by_min_bid_when_interruptible():
     # A has lower on-demand but higher bid floor; B has higher on-demand but the cheaper bid we'd actually pay
     a = {"id": 1, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.20, "min_bid": 0.18, "gpu_name": "RTX 4090"}
