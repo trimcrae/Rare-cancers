@@ -103,11 +103,28 @@ def require_cuda_platform():
     return "CUDA"
 
 
-def _call_filtered(fn, *args, **kwargs):
-    """Call `fn` passing only the kwargs its signature actually accepts; log what was dropped.
+# Known spelling drift across perses/openmmtools releases. A kwarg that is not accepted under its
+# primary name is retried under these aliases BEFORE being dropped — because silently dropping a
+# REQUIRED argument turns a rename into a TypeError forty minutes into a rental, which is the
+# expensive version of this failure.
+_KWARG_ALIASES = {
+    "storage_file": ("storage", "reporter", "storage_path"),
+    "storage": ("storage_file", "storage_path"),
+    "mcmc_moves": ("mcmc_move",),
+    "hybrid_factory": ("factory", "htf", "hybrid_topology_factory"),
+    "minimisation_steps": ("minimization_steps", "n_minimization_steps"),
+    "n_states": ("n_replicas", "number_of_states"),
+    "checkpoint_interval": ("checkpoint_storage_interval",),
+    "collision_rate": ("friction",),
+}
 
-    A version skew in perses/openmmtools should surface as a named, logged omission — not as a
-    TypeError discovered after the GPU has been billing for an hour.
+
+def _call_filtered(fn, *args, **kwargs):
+    """Call `fn` with only the kwargs its signature accepts, retrying known aliases first.
+
+    A version skew in perses/openmmtools should surface as a named, logged rename or omission — not
+    as a TypeError discovered after the GPU has been billing for an hour. Anything genuinely dropped
+    is logged by name so the leg log says what this version did not understand.
     """
     try:
         sig = inspect.signature(fn)
@@ -116,10 +133,22 @@ def _call_filtered(fn, *args, **kwargs):
     if any(p.kind is inspect.Parameter.VAR_KEYWORD for p in sig.parameters.values()):
         return fn(*args, **kwargs)
     accepted = set(sig.parameters)
-    kept = {k: v for k, v in kwargs.items() if k in accepted}
-    dropped = sorted(set(kwargs) - set(kept))
+    kept, renamed, dropped = {}, [], []
+    for k, v in kwargs.items():
+        if k in accepted:
+            kept[k] = v
+            continue
+        alias = next((a for a in _KWARG_ALIASES.get(k, ()) if a in accepted and a not in kwargs), None)
+        if alias:
+            kept[alias] = v
+            renamed.append(f"{k}->{alias}")
+        else:
+            dropped.append(k)
+    name = getattr(fn, "__name__", str(fn))
+    if renamed:
+        _log(f"NOTE {name}: kwarg rename in this version — {', '.join(renamed)}")
     if dropped:
-        _log(f"NOTE {getattr(fn, '__name__', fn)} does not accept {dropped} in this version — dropped")
+        _log(f"NOTE {name} does not accept {sorted(dropped)} in this version — dropped")
     return fn(*args, **kept)
 
 

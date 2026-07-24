@@ -446,3 +446,42 @@ def test_references_are_now_marked_verified_so_the_verdict_is_not_provisional():
     assert v["qualified"] is True
     assert v["unverified_references"] == []
     assert v["caveat"] is None
+
+
+# ---------------------------------------------------------------- version-skew shim
+import protfep_run as prun  # noqa: E402
+
+
+def test_call_filtered_passes_primary_names_through():
+    def f(storage_file=None, n_states=None):
+        return (storage_file, n_states)
+    assert prun._call_filtered(f, storage_file="s.nc", n_states=11) == ("s.nc", 11)
+
+
+def test_call_filtered_retries_a_known_alias_before_dropping():
+    """A rename must not become a missing REQUIRED argument forty minutes into a rental."""
+    def f(storage, number_of_states):
+        return (storage, number_of_states)
+    assert prun._call_filtered(f, storage_file="s.nc", n_states=11) == ("s.nc", 11)
+
+
+def test_call_filtered_never_clobbers_an_explicitly_passed_kwarg():
+    def f(storage=None, storage_file=None):
+        return (storage, storage_file)
+    assert prun._call_filtered(f, storage="A", storage_file="B") == ("A", "B")
+
+
+def test_call_filtered_passes_everything_to_a_varkw_signature():
+    def f(**kw):
+        return kw
+    assert prun._call_filtered(f, anything=1) == {"anything": 1}
+
+
+def test_iteration_count_is_timestep_independent():
+    """An iteration is defined by its MD time, so changing the timestep changes cost, not sampling.
+
+    The ternary lane's cost base was wrong for months because a partial iteration count was mistaken
+    for a whole leg; keeping this conversion explicit is what makes a leg length auditable.
+    """
+    assert prun.iters_for(5.0) == 2000
+    assert prun.steps_per_iteration(2.0) == 2 * prun.steps_per_iteration(4.0)
