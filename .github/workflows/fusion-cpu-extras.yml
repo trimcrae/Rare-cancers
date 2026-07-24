@@ -66,6 +66,9 @@ on:
       bioemu_batch:
         description: "bioemu_run: BioEmu batch_size_100 (lower if the 24GB 4090 OOMs; blank = default)"
         default: ""
+      bioemu_kill:
+        description: "bioemu_stop: 'all' nr4a3-bioemu*, a label substring (e.g. smoke), or an explicit instance id"
+        default: "all"
 
 permissions:
   contents: write
@@ -601,6 +604,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: us-east-2
       BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -619,6 +623,7 @@ jobs:
           PREFIX="s3://${B}/nr4a3-bioemu-crosscheck/nr4a3-bioemu-crosscheck"
           if aws s3 cp "$PREFIX/bioemu-crosscheck.json" research/modalities/nr4a3-bioemu-crosscheck.json 2>/dev/null; then
             echo "=== result ==="; cat research/modalities/nr4a3-bioemu-crosscheck.json
+            echo "1" > /tmp/have_result
             git config user.name "Claude"; git config user.email "noreply@anthropic.com"
             if ! git diff --quiet -- research/modalities/nr4a3-bioemu-crosscheck.json; then
               git add research/modalities/nr4a3-bioemu-crosscheck.json
@@ -630,6 +635,30 @@ jobs:
           else
             echo "::warning::no result JSON yet — the run may still be sampling. Re-run bioemu_collect later."
           fi
+      - name: Reap the crosscheck Vast instance once its result is captured (control-plane teardown)
+        if: ${{ always() }}
+        run: |
+          set -eo pipefail
+          [ -f /tmp/have_result ] || { echo "no result captured yet -> leave the instance running"; exit 0; }
+          python - <<'PY'
+          import os, sys
+          sys.path.insert(0, "research/modalities")
+          from gpu_backend import _vast_request
+          key = os.environ.get("VAST_API_KEY")
+          if not key:
+              print("no VAST_API_KEY -> cannot reap; run task=bioemu_stop bioemu_kill=crosscheck"); sys.exit(0)
+          insts = _vast_request("GET", "/instances/", key).get("instances", [])
+          for it in insts:
+              if (it.get("label") or "") == "nr4a3-bioemu-crosscheck":
+                  iid = it.get("id")
+                  print(f"reaping crosscheck instance {iid} (result captured; the host-self-stop only kills PID1, "
+                        f"so Vast would restart it into a re-sample loop without this control-plane DELETE)")
+                  try:
+                      _vast_request("DELETE", f"/instances/{iid}/", key); print(f"  DESTROYED {iid}")
+                  except Exception as e:  # noqa: BLE001
+                      print(f"  destroy failed: {e}")
+          print("reap done")
+          PY
 
   # bioemu_status: LIST nr4a3-bioemu* Vast instances (id/label/status/uptime/cost) — diagnosis only, NO destroy.
   # bioemu_stop  : DESTROY nr4a3-bioemu* instances (anti-idle backstop; only run once the real result is in S3).
@@ -640,6 +669,7 @@ jobs:
     env:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       DESTROY: ${{ github.event.inputs.task == 'bioemu_stop' && '1' || '0' }}
+      KILL: ${{ github.event.inputs.bioemu_kill }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -654,18 +684,24 @@ jobs:
           from gpu_backend import _vast_request
           key = os.environ["VAST_API_KEY"]
           destroy = os.environ.get("DESTROY") == "1"
+          kill = (os.environ.get("KILL") or "all").strip()
           insts = _vast_request("GET", "/instances/", key).get("instances", [])
           mine = [it for it in insts if (it.get("label") or "").startswith("nr4a3-bioemu")]
-          print(f"{len(mine)} nr4a3-bioemu instance(s):")
+          print(f"{len(mine)} nr4a3-bioemu instance(s) (destroy={destroy}, kill_selector={kill!r}):")
           for it in mine:
-              print(f"  id={it.get('id')} label={it.get('label')} actual={it.get('actual_status')} "
-                    f"intended={it.get('intended_status')} uptime_s={it.get('duration')} dph={it.get('dph_total')} "
+              label, iid = (it.get("label") or ""), str(it.get("id"))
+              print(f"  id={iid} label={label} actual={it.get('actual_status')} "
+                    f"intended={it.get('intended_status')} dph={it.get('dph_total')} "
                     f"gpu={it.get('gpu_name')} status_msg={(it.get('status_msg') or '')[:60]!r}")
-              if destroy:
+              # target = all, OR label contains the selector substring, OR exact instance id
+              targeted = kill == "all" or kill in label or kill == iid
+              if destroy and targeted:
                   try:
-                      _vast_request("DELETE", f"/instances/{it.get('id')}/", key)
-                      print(f"    -> destroyed {it.get('id')}")
+                      _vast_request("DELETE", f"/instances/{iid}/", key)
+                      print(f"    -> DESTROYED {iid}")
                   except Exception as e:  # noqa: BLE001
                       print(f"    -> destroy failed: {e}")
+              elif destroy:
+                  print(f"    -> skipped (selector {kill!r} does not match)")
           print("done")
           PY
