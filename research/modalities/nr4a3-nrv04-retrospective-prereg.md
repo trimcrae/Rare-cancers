@@ -67,12 +67,21 @@ correspondingly smaller, and §6 states exactly how small.
 
 ## 2. Frozen panel (Arm E)
 
-### 2a. Starting structures — reused, never regenerated
-Every retrospective leg starts from an **existing** Boltz-2 co-fold in
-`s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v3/`, inventoried on 2026-07-24 (CI run 30121409280,
-`nrv04-cofold-discovery.json`). Using **one** co-fold prefix for all three paralogues is what makes the arms
-protocol-matched; the `nrv04-covalent-cofold/` and `nrv04-shakeout/` NR4A1 structures are deliberately **not**
-mixed in.
+### 2a. Starting structures — one source, verified before use
+Every retrospective leg starts from a Boltz-2 co-fold in
+`s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/`, inventoried on 2026-07-24 (CI run 30121409280,
+`nrv04-cofold-discovery.json`; E3 identity audited in CI run 30122648680). Using **one** co-fold prefix for all
+three paralogues is what makes the arms protocol-matched; the `nrv04-covalent-cofold/` and `nrv04-shakeout/`
+NR4A1 structures are deliberately **not** mixed in.
+
+> **⚠ SOURCE CHANGED 2026-07-24, BEFORE ANY LEG RAN.** The original plan was to reuse `nrv04-descriptive-v3`.
+> The E3 identity audit (CI run 30122648680) measured its chain F at **255 residues = UniProt P62258, 14-3-3
+> protein epsilon** — where Elongin B (Q15370, 118 residues) belongs. `nrv04_ternary.py` fetches the
+> `ELONGIN_B` constant's sequence directly, and that constant was P62258 until the 2026-07-17 correction; those
+> co-folds are dated 2026-07-11. They are not the VHL/EloB/EloC machinery and cannot support a ternary-
+> recruitment readout, so the panel's source is the **regenerated `nrv04-descriptive-v4`**. The staging
+> assembler independently rejects a 255-residue chain, so the contaminated source cannot be used by accident.
+> Full record: [`nrv04-cofold-chain-forensics-2026-07-24.md`](./nrv04-cofold-chain-forensics-2026-07-24.md).
 
 | system | co-fold models available | used here |
 |---|---|---|

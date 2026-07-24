@@ -26,10 +26,19 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 # ---- frozen structural provenance (prereg 2a) --------------------------------------------------------------
-# Every leg starts from an EXISTING Boltz-2 co-fold under this ONE prefix. Using a single prefix for all three
-# paralogues is what makes the arms protocol-matched; the nrv04-covalent-cofold / nrv04-shakeout NR4A1
-# structures are deliberately NOT mixed in. Inventory: CI run 30121409280 -> nrv04-cofold-discovery.json.
-COFOLD_PREFIX = "nrv04-descriptive-v3"
+# Every leg starts from a Boltz-2 co-fold under this ONE prefix. Using a single prefix for all three paralogues
+# is what makes the arms protocol-matched; the nrv04-covalent-cofold / nrv04-shakeout NR4A1 structures are
+# deliberately NOT mixed in. Inventory: CI run 30121409280 -> nrv04-cofold-discovery.json.
+#
+# ⚠ WHY v4 AND NOT v3. The original intent was to reuse nrv04-descriptive-v3 (built 2026-07-11). The 2026-07-24
+# audit (CI run 30122648680) identified its chain F as 255 residues = UniProt P62258, **14-3-3 protein epsilon**,
+# not the 118-residue Elongin B it was supposed to be: nrv04_ternary.py fetches the ELONGIN_B constant's
+# sequence directly, and that constant was P62258 until the 2026-07-17 correction. Those assemblies are not the
+# VHL/EloB/EloC machinery, so they cannot support a ternary-recruitment readout and are NOT reused. v4 is the
+# regeneration with the corrected accession. Full record: nrv04-cofold-chain-forensics-2026-07-24.md.
+# The staging assembler independently REJECTS a 255-residue chain (nrv04_covalent_assemble.identify_chains), so
+# a v3 path cannot be taken by accident even if this constant were pointed back at it.
+COFOLD_PREFIX = "nrv04-descriptive-v4"
 COFOLD_MODEL_SEEDS = (1, 2, 3)          # the co-fold model seeds available for nr4a1/nr4a2/nr4a3 alike
 MD_REPLICAS = (0, 1)                    # velocity seeds within a co-fold model (prereg 2b)
 

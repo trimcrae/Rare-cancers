@@ -35,6 +35,14 @@ def test_unit_count_is_3_models_x_2_replicas_x_4_arms():
     assert len({panel.unit_name(*u) for u in units}) == 24, "unit names must be unique (S3 prefixes collide otherwise)"
 
 
+def test_the_contaminated_cofold_prefix_is_not_used():
+    """nrv04-descriptive-v3 carries 14-3-3 epsilon where Elongin B belongs (2026-07-24 audit, CI run
+    30122648680). Those assemblies cannot support a ternary-recruitment readout and must never be the panel's
+    source, whatever else changes."""
+    assert panel.COFOLD_PREFIX != "nrv04-descriptive-v3"
+    assert panel.COFOLD_PREFIX not in ("nrv04-shakeout",)
+
+
 def test_no_covalent_paralogue_leg_exists():
     """Leg 0 measured that Cys551 is unique to NR4A1 — a covalent NR4A2/NR4A3 leg would be fabricated chemistry."""
     for arm in panel.ARMS:
@@ -52,9 +60,8 @@ def test_paralogue_arms_are_protocol_matched():
 
 
 def test_all_r1_arms_draw_from_one_cofold_prefix():
-    assert panel.COFOLD_PREFIX == "nrv04-descriptive-v3"
     got = {panel.cofold_prefix_s3(a, "bkt", 1) for a in panel.ARMS if a.stage == "R1"}
-    assert all(g.startswith("s3://bkt/nrv04-descriptive-v3/") for g in got)
+    assert all(g.startswith(f"s3://bkt/{panel.COFOLD_PREFIX}/") for g in got)
     assert all(g.endswith("/seed_1/") for g in got), "the co-fold MODEL seed must be pinned (prereg §4a)"
 
 

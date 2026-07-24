@@ -25,7 +25,7 @@ def _spec(arm_id="retro_noncov_nr4a2", model=2, replica=1):
 
 def test_cofold_prefix_is_pinned_to_the_units_model_seed():
     spec = _spec(model=3)
-    assert spec.env["COFOLD_PREFIX_S3"] == f"s3://{BUCKET}/nrv04-descriptive-v3/nr4a2/seed_3/"
+    assert spec.env["COFOLD_PREFIX_S3"] == f"s3://{BUCKET}/{retro.COFOLD_PREFIX}/nr4a2/seed_3/"
     assert spec.env["COFOLD_MODEL_SEED"] == "3"
     assert "-m3-" in spec.name, "the unit name must agree with the model prefix it stages from"
 
