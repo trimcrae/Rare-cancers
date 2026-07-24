@@ -270,17 +270,21 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
     - **Rate — directly MEASURED on Vast 4090** (the firm ternary leg via `run_ternary_leg.sh`, 12 windows,
       self-staged 8G1Q, 146,284 particles): warmup cleared with no NaN and production held steady at **~14–18
       s/iter (median ~16)**. This replaces the spec-based card-ratio guess and is a real improvement.
-    - **Leg length — CORRECTED.** Both prior estimates treated **~920 iterations as a full leg**. It is ~38 % of
-      one: the protocol hardcodes 1 ns equilibration + 5 ns production at 2.5 ps/iteration = **400 + 2000 = 2400
+    - **Leg length — CONFIRMED from the committed trajectory (forensic, GH run 30117943561).** Both prior
+      estimates treated **~920 iterations as a full leg**. It is neither a leg nor 38 % of one — **920 = 23 x 40 is a
+      CHECKPOINT BOUNDARY** at the interval-40 cadence, and the line it came from (`binary_vhl leg at iter 913/920`)
+      was the **binary** arm. The forensic read of `calib_hi_to_lo__ternary_vhl` seed 0 reports
+      `checkpoint_interval 40`, `analysis_last_iteration 1560`, `checkpoint_last_iteration 1560`, `TORN false`,
+      12 generations — i.e. the ternary production target is **2000 iterations**, currently **1560 committed (~78 %)**.
+      Consistent with the protocol constants: the protocol hardcodes 1 ns equilibration + 5 ns production at 2.5 ps/iteration = **400 + 2000 = 2400
       iterations** (`nr4a3_ternary_fep.py:343-344`, `nr4a3_rbfe.py:364-365`; the openmmtools `.chk` history
       `iters 0,20,…,2000` confirms the production count). Using 920 makes any leg cost **~2.6× low**.
 
     Arithmetic: 2400 × ~16 s ≈ **~10.7 4090-GPU-h/leg** → ×2 legs ×3 replicas ≈ **~64 GPU-h/edge** ≈ **~$10–16**.
     **What the 4090 run DID settle:** the **L4→4090 card ratio is validated at ~2.06×** (33 → 16 s/iter). A ratio
     of rates is independent of the iteration count, so that conclusion survives the leg-length correction fully
-    intact — the old "spec-based, never benchmarked" soft spot is now closed. **What is still unsettled:** no
-    ternary leg has ever run to completion, so the leg *length* rests on the protocol constants rather than on a
-    finished run; the first completed leg replaces this with an end-to-end measurement. ΔG is not the cost basis
+    intact — the old "spec-based, never benchmarked" soft spot is now closed. **What is still unsettled:** the ternary leg stands at 1560/2000 production
+    iterations, so no end-to-end DG has been produced on this lane yet; the leg LENGTH is no longer a projection. ΔG is not the cost basis
     (throughput is); the ΔG comes from the GCP valB production lane (ΔG_morph 47.28). The earlier warmup NaN was a
     **pre-fix 16-window fallback**, cleared by the 12-window lane. **Its cause has itself been corrected:** it is
     *not* an unconstrained alchemical C–H (that story and its first correction were both artifacts of a diagnostic
