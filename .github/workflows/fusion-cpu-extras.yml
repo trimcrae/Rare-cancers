@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, bioemu_bake, bioemu_run, bioemu_collect]
+        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -630,3 +630,42 @@ jobs:
           else
             echo "::warning::no result JSON yet — the run may still be sampling. Re-run bioemu_collect later."
           fi
+
+  # bioemu_status: LIST nr4a3-bioemu* Vast instances (id/label/status/uptime/cost) — diagnosis only, NO destroy.
+  # bioemu_stop  : DESTROY nr4a3-bioemu* instances (anti-idle backstop; only run once the real result is in S3).
+  bioemu_status:
+    if: ${{ github.event.inputs.task == 'bioemu_status' || github.event.inputs.task == 'bioemu_stop' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      DESTROY: ${{ github.event.inputs.task == 'bioemu_stop' && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: List (and optionally destroy) nr4a3-bioemu Vast instances
+        run: |
+          set -eo pipefail
+          python - <<'PY'
+          import os, sys
+          sys.path.insert(0, "research/modalities")
+          from gpu_backend import _vast_request
+          key = os.environ["VAST_API_KEY"]
+          destroy = os.environ.get("DESTROY") == "1"
+          insts = _vast_request("GET", "/instances/", key).get("instances", [])
+          mine = [it for it in insts if (it.get("label") or "").startswith("nr4a3-bioemu")]
+          print(f"{len(mine)} nr4a3-bioemu instance(s):")
+          for it in mine:
+              print(f"  id={it.get('id')} label={it.get('label')} actual={it.get('actual_status')} "
+                    f"intended={it.get('intended_status')} uptime_s={it.get('duration')} dph={it.get('dph_total')} "
+                    f"gpu={it.get('gpu_name')} status_msg={(it.get('status_msg') or '')[:60]!r}")
+              if destroy:
+                  try:
+                      _vast_request("DELETE", f"/instances/{it.get('id')}/", key)
+                      print(f"    -> destroyed {it.get('id')}")
+                  except Exception as e:  # noqa: BLE001
+                      print(f"    -> destroy failed: {e}")
+          print("done")
+          PY
