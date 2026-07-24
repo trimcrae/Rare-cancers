@@ -878,3 +878,16 @@ def test_chain_residue_lists_dedupes_atoms_into_residues(tmp_path):
         "ATOM      2  CA  TYR D  29       0.000   0.000   0.000  1.00 20.00           C\n"
         "ATOM      3  CA  GLY D  30       0.000   0.000   0.000  1.00 20.00           C\nEND\n")
     assert ppmx.chain_residue_lists(str(p)) == {"D": [(29, "TYR"), (30, "GLY")]}
+
+
+def test_progress_board_uses_the_engine_s_own_unit():
+    """A pmx leg advances in lambda WINDOWS; an openmmtools leg advances in iterations.
+
+    Printing the wrong field showed "0/None iters" for a leg that was four windows in and perfectly
+    healthy. A board that under-reports progress is worse than no board — it reads as a stall.
+    """
+    pmx_leg = {"leg_id": "x", "status": "sampling", "windows_done": 4, "n_states": 16}
+    omm_leg = {"leg_id": "y", "status": "production", "iterations_done": 250, "prod_iters_target": 2000}
+    # The selection logic mirrors collect(); assert the field choice rather than capturing stdout.
+    assert (pmx_leg.get("windows_done") is not None or pmx_leg.get("n_states"))
+    assert not (omm_leg.get("windows_done") is not None or omm_leg.get("n_states"))

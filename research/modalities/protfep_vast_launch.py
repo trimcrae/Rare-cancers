@@ -302,8 +302,15 @@ def collect(bucket=None, prefix=None, autostop=True):
         print(f"  DONE  {lid}: dG = {doc.get('dg_kcal'):.3f} +/- {doc.get('dg_mbar_se_kcal'):.3f} kcal/mol "
               f"({doc.get('gpu_hours')} GPU-h, {doc.get('n_particles')} particles)")
     for lid, doc in sorted(partial.items()):
-        print(f"  ....  {lid}: {doc.get('status')} {doc.get('iterations_done', 0)}/"
-              f"{doc.get('prod_iters_target')} iters"
+        # Progress is reported in whatever unit the ENGINE advances in: openmmtools legs count
+        # replica-exchange iterations, pmx/GROMACS legs count lambda windows. Printing the wrong
+        # one showed "0/None iters" for a leg that was in fact four windows in and healthy — a
+        # progress board that under-reports progress is worse than none, because it reads as a stall.
+        if doc.get("windows_done") is not None or doc.get("n_states"):
+            done_n, total_n, unit = doc.get("windows_done", 0), doc.get("n_states"), "windows"
+        else:
+            done_n, total_n, unit = doc.get("iterations_done", 0), doc.get("prod_iters_target"), "iters"
+        print(f"  ....  {lid}: {doc.get('status')} {done_n}/{total_n} {unit}"
               + (f" — {doc.get('error')}" if doc.get("status") == "failed" else ""))
         if doc.get("status") == "failed":
             # Print the FULL traceback, not just the exception line. A one-line summary tells you
