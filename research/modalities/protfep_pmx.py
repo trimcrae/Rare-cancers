@@ -258,8 +258,27 @@ def build_system(structure_path, mutation_spec, work_dir):
     from pmx import Model
     from pmx.alchemy import mutate as pmx_mutate
     model = Model(structure_path, rename_atoms=True)
-    mutated = pmx_mutate(m=model, mut_resid=m["resid"], mut_resname=m["mutant"], ff=FORCEFIELD)
+
+    # THE CHAIN MUST BE PASSED, AND THE RESULT MUST BE CHECKED.
+    # In the COMPLEX leg both chains carry a residue 29 (barnase 1-110, barstar 1-89), so a
+    # chain-blind mutate could perturb the wrong protein and return a perfectly converged, completely
+    # wrong ddG. This repo has already had one chain mix-up in this exact benchmark — a hand-written
+    # entry that put barstar's Y29 on chain A, which is barnase. `mut_chain` is passed when the
+    # installed pmx accepts it, and the outcome is VERIFIED against the written file either way, so
+    # a silently chain-blind pmx cannot go unnoticed.
+    kwargs = {"m": model, "mut_resid": m["resid"], "mut_resname": m["mutant"], "ff": FORCEFIELD}
+    import inspect as _inspect
+    sig = _inspect.signature(pmx_mutate)
+    chain_param = next((p for p in ("mut_chain", "chain", "mut_chain_id") if p in sig.parameters), None)
+    if chain_param:
+        kwargs[chain_param] = m["chain"]
+        _log(f"pmx mutate: targeting chain {m['chain']} via `{chain_param}`")
+    else:
+        _log(f"NOTE this pmx's mutate() exposes no chain argument ({sorted(sig.parameters)}); "
+             f"relying on the post-mutation verification below")
+    mutated = pmx_mutate(**kwargs)
     mutated.write(mutant)
+    _verify_mutation_site(mutant, m, structure_path)
     _log(f"pmx mutate: {m['wt']}{m['resid']}->{m['mutant']} (chain {m['chain']}) -> {mutant}")
 
     # pdb2gmx with the pmx mutation force field, which carries the hybrid residue definitions.
@@ -295,6 +314,45 @@ def build_system(structure_path, mutation_spec, work_dir):
     n_atoms = _count_atoms(os.path.join(work_dir, "npt.gro"))
     _log(f"system built and equilibrated: {n_atoms} atoms")
     return os.path.join(work_dir, "npt.gro"), hybrid_top, n_atoms
+
+
+def _verify_mutation_site(mutant_pdb, mutation, original_pdb):
+    """Confirm pmx mutated the residue we asked for, on the CHAIN we asked for. Raises if not.
+
+    A chain-blind mutation in the complex leg would perturb barnase instead of barstar and return a
+    converged, confidently wrong ddG — the failure mode with no symptom. So rather than trust the
+    call, read the written file back: the target chain/resid must NO LONGER be the wild-type residue,
+    and every OTHER chain's residue at the same number must be UNCHANGED.
+
+    pmx names a hybrid residue for the transformation (e.g. Y2A), so "no longer TYR" is the check
+    that works without hard-coding pmx's naming scheme.
+    """
+    chain, resid, wt = mutation["chain"], mutation["resid"], mutation["wt"]
+    after = bench.observed_residue(mutant_pdb, chain, resid)
+    if after is None:
+        raise RuntimeError(f"after pmx mutate, chain {chain} residue {resid} is absent from "
+                           f"{mutant_pdb} — the mutation did not land where it was aimed")
+    if after == wt:
+        raise RuntimeError(
+            f"after pmx mutate, chain {chain} residue {resid} is still {wt}. The mutation did not "
+            f"apply to the intended chain. In the complex leg every chain has a residue {resid}, so "
+            f"this would otherwise produce a converged ddG for the WRONG protein.")
+    # Nothing else should have moved. Check the same residue number on every other chain.
+    others = {}
+    with open(original_pdb) as fh:
+        for line in fh:
+            if line[:6] == "ATOM  " and line[22:27].strip() == str(resid) and line[21] != chain:
+                others.setdefault(line[21], line[17:20].strip().upper())
+    for other_chain, before in others.items():
+        now = bench.observed_residue(mutant_pdb, other_chain, resid)
+        if now != before:
+            raise RuntimeError(
+                f"pmx mutate also changed chain {other_chain} residue {resid} ({before} -> {now}). "
+                f"Only chain {chain} was meant to change; a second mutation makes the leg "
+                f"uninterpretable.")
+    _log(f"mutation-site verified: chain {chain} {resid} {wt} -> {after}"
+         + (f"; {len(others)} other chain(s) at {resid} unchanged" if others else ""))
+    return after
 
 
 def _write(path, text):

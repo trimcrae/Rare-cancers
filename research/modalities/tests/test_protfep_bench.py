@@ -682,3 +682,64 @@ def test_mdp_step_count_follows_from_the_timestep():
     mdp = ppmx.mdp_equil(100, pressure=False)
     nsteps = int([ln for ln in mdp.splitlines() if ln.startswith("nsteps")][0].split("=")[1])
     assert nsteps == int(100 / (ppmx.TIMESTEP_FS / 1000.0))
+
+
+def test_mutation_site_verification_accepts_a_correct_mutation(tmp_path):
+    """The check must pass when the intended chain changed and no other chain did."""
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    orig.write_text(
+        "ATOM      1  CA  TYR D  29      10.000  10.000  10.000  1.00 20.00           C\n"
+        "ATOM      2  CA  LEU A  29      20.000  20.000  20.000  1.00 20.00           C\nEND\n")
+    mut = tmp_path / "mut.pdb"
+    mut.write_text(
+        "ATOM      1  CA  Y2A D  29      10.000  10.000  10.000  1.00 20.00           C\n"
+        "ATOM      2  CA  LEU A  29      20.000  20.000  20.000  1.00 20.00           C\nEND\n")
+    m = pf.classify_mutation("D:Y29A")
+    assert ppmx._verify_mutation_site(str(mut), m, str(orig)) == "Y2A"
+
+
+def test_mutation_site_verification_catches_a_chain_blind_mutation(tmp_path):
+    """The real risk: in the complex leg BOTH chains have a residue 29.
+
+    A chain-blind pmx would perturb barnase instead of barstar and return a converged, confidently
+    wrong ddG — a failure with no symptom unless it is checked for.
+    """
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    orig.write_text(
+        "ATOM      1  CA  TYR D  29      10.000  10.000  10.000  1.00 20.00           C\n"
+        "ATOM      2  CA  LEU A  29      20.000  20.000  20.000  1.00 20.00           C\nEND\n")
+    wrong = tmp_path / "wrong.pdb"
+    wrong.write_text(
+        "ATOM      1  CA  TYR D  29      10.000  10.000  10.000  1.00 20.00           C\n"
+        "ATOM      2  CA  L2A A  29      20.000  20.000  20.000  1.00 20.00           C\nEND\n")
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="still TYR"):
+        ppmx._verify_mutation_site(str(wrong), m, str(orig))
+
+
+def test_mutation_site_verification_catches_a_second_unintended_mutation(tmp_path):
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    orig.write_text(
+        "ATOM      1  CA  TYR D  29      10.000  10.000  10.000  1.00 20.00           C\n"
+        "ATOM      2  CA  LEU A  29      20.000  20.000  20.000  1.00 20.00           C\nEND\n")
+    both = tmp_path / "both.pdb"
+    both.write_text(
+        "ATOM      1  CA  Y2A D  29      10.000  10.000  10.000  1.00 20.00           C\n"
+        "ATOM      2  CA  L2A A  29      20.000  20.000  20.000  1.00 20.00           C\nEND\n")
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="also changed chain A"):
+        ppmx._verify_mutation_site(str(both), m, str(orig))
+
+
+def test_mutation_site_verification_catches_a_vanished_residue(tmp_path):
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    orig.write_text("ATOM      1  CA  TYR D  29      10.000  10.000  10.000  1.00 20.00           C\nEND\n")
+    gone = tmp_path / "gone.pdb"
+    gone.write_text("ATOM      1  CA  TYR D  30      10.000  10.000  10.000  1.00 20.00           C\nEND\n")
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="absent"):
+        ppmx._verify_mutation_site(str(gone), m, str(orig))
