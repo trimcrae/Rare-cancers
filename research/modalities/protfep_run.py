@@ -197,6 +197,17 @@ class _PoisonedOpenEye:
         # the shim fail on the very statement it exists to satisfy.
         if attr.startswith("__") and attr.endswith("__"):
             raise AttributeError(attr)
+        # LICENCE PROBES MUST ANSWER, NOT RAISE — and the honest answer is False.
+        #
+        # openff-toolkit builds its GLOBAL_TOOLKIT_REGISTRY at import time and asks
+        # OpenEyeToolkitWrapper.is_available(), which calls oechem.OEChemIsLicensed(). With OpenEye
+        # genuinely absent the import fails and openff cleanly skips the wrapper. A shim that raises
+        # here is WORSE than no shim: it makes OpenEye look present-but-broken, and openff's import
+        # dies (observed on the free build-test, 2026-07-24 — which is exactly what that $0 step is
+        # for). Returning False puts the stack in the configuration it already supports and that is
+        # actually true of us: OpenEye importable, not licensed, so use the RDKit/AmberTools path.
+        if attr.endswith("IsLicensed"):
+            return lambda *a, **k: False
         raise RuntimeError(
             f"perses tried to USE OpenEye ({self._name}.{attr}), not merely import it. The shim in "
             f"protfep_run only satisfies the unconditional `from openeye import oechem` in "
