@@ -91,3 +91,17 @@ def test_arms_differ_only_in_target_and_covalency(monkeypatch):
     assert differing <= {"LEG_ID", "TARGET", "ENV_ASSEMBLY", "COFOLD_PREFIX_S3", "RESULT_S3"}
     for shared in ("PROD_NS", "EQUIL_NS", "LIGAND", "COVALENT", "MODE"):
         assert a[shared] == b[shared]
+
+
+def test_empty_prefix_env_falls_back_instead_of_writing_to_the_bucket_root(monkeypatch):
+    """A workflow input that is present-but-empty used to set the prefix to "" via os.environ.get(k, DEFAULT),
+    which would send every staged read and every result to the bucket ROOT. `or DEFAULT` is the fix."""
+    import importlib
+    for var, attr, default in (("NRV04_COFOLD_PREFIX", "COFOLD_PREFIX", "nrv04-covalent-cofold"),
+                               ("NRV04_RESULT_PREFIX", "RESULT_PREFIX", "nrv04-covalent-results"),
+                               ("NRV04_RETRO_RESULT_PREFIX", "RETRO_RESULT_PREFIX", "nrv04-retro-results")):
+        monkeypatch.setenv(var, "")
+        mod = importlib.reload(launch)
+        assert getattr(mod, attr) == default, f"{var}='' must fall back, not blank the prefix"
+        monkeypatch.delenv(var, raising=False)
+    importlib.reload(launch)

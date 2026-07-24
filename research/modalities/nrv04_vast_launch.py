@@ -26,8 +26,10 @@ from nrv04_ligands import LIGANDS  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
 # co-fold outputs in the reused S3 bucket (nrv04_ternary.py --run --negatives writes one subdir per system).
-COFOLD_PREFIX = os.environ.get("NRV04_COFOLD_PREFIX", "nrv04-covalent-cofold")
-RESULT_PREFIX = os.environ.get("NRV04_RESULT_PREFIX", "nrv04-covalent-results")
+# `or DEFAULT` not `get(k, DEFAULT)`: a workflow input that is present-but-EMPTY would otherwise set the prefix
+# to "", silently sending every staged read and every result to the bucket ROOT.
+COFOLD_PREFIX = os.environ.get("NRV04_COFOLD_PREFIX") or "nrv04-covalent-cofold"
+RESULT_PREFIX = os.environ.get("NRV04_RESULT_PREFIX") or "nrv04-covalent-results"
 
 # panel ligand -> the co-fold SYSTEM subdir it comes from (nrv04_ternary.py naming).
 _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastrol": "neg_celastrol"}
@@ -941,7 +943,7 @@ def firm_collect(bucket):
 # the frozen statistics (prereg §4a), so a leg that silently picked a different model would corrupt the
 # model-level means the verdict is computed from.
 # =============================================================================================================
-RETRO_RESULT_PREFIX = os.environ.get("NRV04_RETRO_RESULT_PREFIX", "nrv04-retro-results")
+RETRO_RESULT_PREFIX = os.environ.get("NRV04_RETRO_RESULT_PREFIX") or "nrv04-retro-results"
 
 _RETRO_PIPELINE = _PIPELINE.replace(
     """$AWS s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
