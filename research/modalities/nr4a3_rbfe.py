@@ -996,6 +996,71 @@ def count_unconstrained_alchemical_xh(system):
     return xh_total, xh_unconstrained, unc, hmasses
 
 
+def count_morphing_xh(system, tol_nm=1e-4):
+    """Count X-H bonds that are ALCHEMICALLY MORPHING — the quantity that actually caps the timestep.
+
+    WHY A SECOND COUNTER (2026-07-24). `count_unconstrained_alchemical_xh` counts X-H bonds absent from the
+    constraint set. That number is dominated by the global constraint SETTING, not by the edge:
+
+      * with `constraints=hbonds` FORCED, OpenFE constrains every X-H — including the alchemical ones. Measured
+        on both known-answer anchors: the alchemical valence CustomBondForce (params length1/K1/length2/K2)
+        holds 11 and 28 bonds respectively and NOT ONE is an X-H, so the count is structurally 0 and every edge
+        verdicts "4fs".
+      * with OpenFE's default, the ligand's X-H are left unconstrained wholesale, so every edge verdicts "2fs".
+
+    Either way the answer is a property of the setting, not of the perturbation — so it cannot discriminate
+    edges, and a gate expecting one anchor to differ from the other can never pass. That is exactly why the
+    per-edge scan has never run a designed edge.
+
+    The discriminating quantity is narrower: an X-H bond whose EXISTENCE OR GEOMETRY CHANGES between the two
+    alchemical endpoints. Such a bond cannot be given a single constraint length, so it stays flexible whatever
+    the setting, and its ~10 fs period is what caps the stable timestep. In OpenFE's hybrid valence
+    CustomBondForce (`length1, K1, length2, K2`) that is a bond with K1==0 xor K2==0 (appearing/disappearing) or
+    length1 != length2 (re-hybridising) — on a bond with exactly one light partner.
+
+    Must be evaluated on the system the PRODUCTION run builds; forcing constraints first hides the very bonds
+    this is trying to find. Returns (n_morphing_xh, details)."""
+    import openmm as _mm
+    cons = set()
+    for k in range(system.getNumConstraints()):
+        i, j, _d = system.getConstraintParameters(k)
+        cons.add((min(int(i), int(j)), max(int(i), int(j))))
+    mass = [system.getParticleMass(p).value_in_unit(_mm.unit.dalton) for p in range(system.getNumParticles())]
+    is_h = lambda m: m < 5.0                                     # noqa: E731  (H, or HMR-repartitioned H)
+    found = []
+    for f in system.getForces():
+        if not isinstance(f, _mm.CustomBondForce):
+            continue
+        try:
+            names = [f.getPerBondParameterName(p) for p in range(f.getNumPerBondParameters())]
+        except Exception:  # noqa: BLE001
+            continue
+        low = " ".join(names).lower()
+        if "length" not in low or any(t in low for t in ("chargeprod", "sigma", "epsilon")):
+            continue                                             # nonbonded-exception force, not valence
+        try:
+            i_l1, i_k1 = names.index("length1"), names.index("K1")
+            i_l2, i_k2 = names.index("length2"), names.index("K2")
+        except ValueError:
+            continue                                             # unexpected naming -> report nothing, loudly below
+        for b in range(f.getNumBonds()):
+            p = f.getBondParameters(b)
+            i, j = int(p[0]), int(p[1])
+            if not (is_h(mass[i]) ^ is_h(mass[j])):
+                continue
+            prm = p[2]
+            l1, k1, l2, k2 = float(prm[i_l1]), float(prm[i_k1]), float(prm[i_l2]), float(prm[i_k2])
+            appearing = (k1 == 0.0) != (k2 == 0.0)
+            reshaped = abs(l1 - l2) > tol_nm
+            if appearing or reshaped:
+                found.append({"h_atom": i if is_h(mass[i]) else j,
+                              "h_mass": round(mass[i] if is_h(mass[i]) else mass[j], 3),
+                              "length1": l1, "K1": k1, "length2": l2, "K2": k2,
+                              "appearing_or_vanishing": appearing, "re_hybridising": reshaped,
+                              "constrained": (min(i, j), max(i, j)) in cons})
+    return len(found), found
+
+
 def constrain_nonalchemical_xh(system):
     """Add HBonds-style constraints to the NON-alchemical X-H bonds that OpenFE leaves unconstrained.
 
@@ -1325,11 +1390,52 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
             _hmass_set = getattr(_ff, "hydrogen_mass", None) if _ff is not None else None
             print("  [hmr-diag] system.getNumConstraints()=%s | forcefield constraints=%s hydrogen_mass=%s"
                   % (_tot_cons, _cons_set, _hmass_set), flush=True)
+            # FORCE CENSUS (2026-07-24). `xh_total == 0` is AMBIGUOUS on its own: it means either (i) every X-H
+            # is a CONSTRAINT (so 4 fs is genuinely safe), or (ii) the alchemical valence bonds live in a
+            # CustomBondForce this counter's filter did not recognise, and were skipped. The filter keeps a
+            # CustomBondForce only when its per-bond parameter names contain 'length' and lack
+            # chargeprod/sigma/epsilon — a naming assumption that silently becomes wrong if OpenFE renames its
+            # hybrid parameters (r1/K1, length_old/length_new, ...). Both anchors of the timestep scan reported
+            # xh_total=0, which trips its known-answer gate, so the census below records the ACTUAL force
+            # inventory to tell (i) from (ii) instead of assuming.
+            _census = []
+            for _f in system.getForces():
+                _row = {"class": type(_f).__name__}
+                for _attr, _key in (("getNumBonds", "n_bonds"), ("getNumParticles", "n_particles"),
+                                    ("getNumAngles", "n_angles")):
+                    if hasattr(_f, _attr):
+                        try:
+                            _row[_key] = int(getattr(_f, _attr)())
+                        except Exception:  # noqa: BLE001
+                            pass
+                if hasattr(_f, "getPerBondParameterName"):
+                    try:
+                        _row["per_bond_params"] = [_f.getPerBondParameterName(_p)
+                                                   for _p in range(_f.getNumPerBondParameters())]
+                        _row["counted_as_valence"] = bool(
+                            "length" in " ".join(_row["per_bond_params"]).lower()
+                            and not any(_t in " ".join(_row["per_bond_params"]).lower()
+                                        for _t in ("chargeprod", "sigma", "epsilon")))
+                    except Exception:  # noqa: BLE001
+                        pass
+                _census.append(_row)
+            print("  [hmr-diag] FORCE CENSUS: %s" % json.dumps(_census), flush=True)
+            # The EDGE-DISCRIMINATING count (see count_morphing_xh): X-H bonds whose existence or geometry
+            # changes between the alchemical endpoints. Unlike xh_unconstrained this is a property of the
+            # PERTURBATION, not of the global constraint setting — but it is only visible when the ligand X-H
+            # have not been constrained away, i.e. on the system production actually builds.
+            try:
+                _n_morph, _morph = count_morphing_xh(system)
+            except Exception as _me:  # noqa: BLE001
+                _n_morph, _morph = None, [{"error": "%s: %s" % (type(_me).__name__, _me)}]
+            print("  [hmr-diag] MORPHING X-H (edge-discriminating) = %s | %s"
+                  % (_n_morph, json.dumps(_morph[:6])), flush=True)
             print("  [hmr-diag] RBFE_HMRDIAG_ONLY=1 -> exiting after the constraint verdict (no MD).", flush=True)
             return None, None, {"hmrdiag_only": True, "xh_total": _xh_total,
                                 "xh_unconstrained": _xh_unconstrained, "unconstrained": _unc, "hmasses": _hmasses,
                                 "total_constraints": _tot_cons, "constraints_setting": str(_cons_set),
-                                "hydrogen_mass_setting": str(_hmass_set), "constrain_diag": _constrain_diag}
+                                "hydrogen_mass_setting": str(_hmass_set), "constrain_diag": _constrain_diag,
+                                "force_census": _census, "n_morphing_xh": _n_morph, "morphing_xh": _morph}
     except Exception as _e:  # noqa: BLE001
         print("  [hmr-diag] failed: %s: %s" % (type(_e).__name__, _e), flush=True)
         if os.environ.get("RBFE_HMRDIAG_ONLY") == "1":

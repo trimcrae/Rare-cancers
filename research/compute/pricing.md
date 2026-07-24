@@ -47,8 +47,15 @@ $/hr). Use the 3090 only when 4090 capacity is short.
 > 2.6× is NOT established** — an earlier revision of this note asserted the NR4A3 complex is "simply a heavier
 > system", which was a plausible story, not a measurement. The two candidate drivers are **particle count** (no
 > NR4A3 binary-RBFE particle count is recorded anywhere in this repo — the ternary's 146,509 is, the binary's is
-> not) and **timestep ceiling** (4 fs vs 2 fs is a clean 2×, and is a documented PER-EDGE property here). Both
-> are unmeasured for these edges. What IS established is the rate itself, and that a TYK2 rate must not be used
+> not) and **timestep ceiling** (4 fs vs 2 fs is a clean 2×, and is a documented PER-EDGE property here).
+> **TIMESTEP IS NOW EXCLUDED (measured 2026-07-24, free CPU).** Reading the EFFECTIVE protocol settings off a
+> real hybrid build instead of assuming them: `forcefield_settings.constraints == "hbonds"`,
+> `hydrogen_mass == 3.0` — that is **OpenFE's default**, so the production lanes (which set nothing) build a
+> system where **every X-H is a constraint**. Measured on both known-answer anchors: `xh_total = 0` against
+> 1771 / 4997 total constraints, and the alchemical valence CustomBondForce (11 / 28 bonds) contains **no X-H
+> at all**. Nothing is left flexible to cap the timestep, so **the fan-out ran at 4 fs and there is no 2×
+> timestep lever** — the ~$91–101 stands on that axis. That leaves **particle count as the sole remaining
+> candidate** for the 2.6×, and it is still unrecorded for the NR4A3 binary complex. What IS established is the rate itself, and that a TYK2 rate must not be used
 > to price NR4A3 work.
 > Recomputed on the repo's own hardcoded leg length (400 equil + 2000 production = 2400 iters,
 > `nr4a3_rbfe.py:364-365`): complex leg **~9.1 GPU-h** (not 3.6), solvent ~4.1, **unit ≈ 13.7 GPU-h**.

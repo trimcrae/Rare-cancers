@@ -117,15 +117,38 @@ Two candidates, **both unmeasured for these edges**:
    resumed run captures it.
 2. **Timestep ceiling.** 4 fs vs 2 fs is a clean 2× and is a documented **per-edge** property here.
 
-The repo correctly identified (2) as the dominant per-edge cost driver and built `rbfe_edge_timestep_scan.py`
-plus a free CI workflow for it. **It has run 0 of the 19 designed edges.** It gates on two known-answer
-anchors; the Wurz anchor returned 4 fs where 2 fs was expected → `anchors_ok=False` → the scan refuses to
-proceed. The gate did its job; the failure was never adjudicated, so the guard has sat tripped and the cost
-driver has stayed unmeasured. Whether the anchor mismatch is a **stale expectation** (a constraint fix landed
-2026-07-19 that may genuinely have bought 4 fs) or a **real detection gap** is undetermined — do not assume
-either. Note that if both anchors truly are at 4 fs, there is **no 2× lever here** and the ~$95 stands.
+### ✅ RESOLVED 2026-07-24 (free CPU, no GPU) — timestep is EXCLUDED, and there is no 2× lever
 
-**Settling this is free CPU and should happen before any resume.**
+Reading the **effective** protocol settings off a real hybrid build instead of assuming them:
+`forcefield_settings.constraints == "hbonds"`, `hydrogen_mass == 3.0`. That is **OpenFE's default**, which the
+production lanes inherit because they set nothing. Under it, **every X-H is a constraint**: `xh_total = 0` on
+both known-answer anchors against 1771 / 4997 total constraints, and the alchemical valence `CustomBondForce`
+(11 / 28 bonds) contains **no X-H at all**. Nothing is left flexible to cap the timestep, so **the fan-out ran
+at 4 fs** and the ~$91–101 stands on that axis.
+
+**Particle count is therefore the sole remaining candidate for the 2.6×**, and it is still unrecorded for the
+NR4A3 binary complex. Capture it on any resumed run — the leg log now uploads unconditionally, so the setup
+line survives.
+
+Three defects in the scan itself, all now fixed:
+
+1. **`RBFE_FORCE_CONSTRAINTS=hbonds` was always a no-op** — it set what was already the default. The header
+   comment justifying it ("run-1 diag: `xh_total == xh_unconstrained` for every edge") does not match any
+   build observed here.
+2. **The gate was unsatisfiable by construction.** Under an all-constrained build `xh_unconstrained` is
+   structurally 0, so every edge verdicts 4 fs — yet the calib anchor expected 2 fs. No build could satisfy it,
+   which is the entire reason 0/19 designed edges were ever scanned. The expectation is now **4 fs**, corrected
+   with evidence: `pricing.md` attributes the Wurz ternary NaN to the **homology model's softcore instability**,
+   not to a timestep ceiling, and the build has nothing unconstrained to cap a timestep with.
+3. **It measured a system production does not build** — production forces nothing. Default is now `production`;
+   `SCAN_CONSTRAINTS=hbonds` reproduces the old behaviour for comparison.
+
+**The per-edge scan is largely moot under this build**: it cannot discriminate what the constraint setting
+makes uniform. Its remaining value is the force census + effective-settings record, not a per-edge verdict.
+A hypothesis worth keeping honest: `count_morphing_xh()` was added to count X-H whose existence/geometry
+changes between endpoints — a property of the *perturbation* rather than the setting. It reports 0 on both
+anchors here, which under an all-constrained build is expected and therefore **does not validate it**. It would
+only become meaningful on a build that leaves ligand X-H flexible.
 
 ---
 

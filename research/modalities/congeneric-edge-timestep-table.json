@@ -16,6 +16,65 @@
       "constraints_setting": "hbonds",
       "hydrogen_mass_setting": "3.0",
       "constrain_diag": null,
+      "force_census": [
+        {
+          "class": "MonteCarloBarostat"
+        },
+        {
+          "class": "CustomBondForce",
+          "n_bonds": 11,
+          "per_bond_params": [
+            "length1",
+            "K1",
+            "length2",
+            "K2"
+          ],
+          "counted_as_valence": true
+        },
+        {
+          "class": "HarmonicBondForce",
+          "n_bonds": 8
+        },
+        {
+          "class": "CustomAngleForce",
+          "n_angles": 25
+        },
+        {
+          "class": "HarmonicAngleForce",
+          "n_angles": 27
+        },
+        {
+          "class": "CustomTorsionForce"
+        },
+        {
+          "class": "PeriodicTorsionForce"
+        },
+        {
+          "class": "NonbondedForce",
+          "n_particles": 1793
+        },
+        {
+          "class": "CustomNonbondedForce",
+          "n_particles": 1793
+        },
+        {
+          "class": "CustomBondForce",
+          "n_bonds": 30,
+          "per_bond_params": [
+            "chargeProd",
+            "sigmaA",
+            "epsilonA",
+            "sigmaB",
+            "epsilonB",
+            "unique_old",
+            "unique_new"
+          ],
+          "counted_as_valence": false
+        }
+      ],
+      "n_morphing_xh": 0,
+      "morphing_xh": [],
+      "scan_constraints": "production",
       "unconstrained_atoms": [],
       "n_mapped_atoms": 15,
       "max_stable_timestep_fs": 4.0,
@@ -36,6 +95,65 @@
       "constraints_setting": "hbonds",
       "hydrogen_mass_setting": "3.0",
       "constrain_diag": null,
+      "force_census": [
+        {
+          "class": "MonteCarloBarostat"
+        },
+        {
+          "class": "CustomBondForce",
+          "n_bonds": 28,
+          "per_bond_params": [
+            "length1",
+            "K1",
+            "length2",
+            "K2"
+          ],
+          "counted_as_valence": true
+        },
+        {
+          "class": "HarmonicBondForce",
+          "n_bonds": 74
+        },
+        {
+          "class": "CustomAngleForce",
+          "n_angles": 85
+        },
+        {
+          "class": "HarmonicAngleForce",
+          "n_angles": 236
+        },
+        {
+          "class": "CustomTorsionForce"
+        },
+        {
+          "class": "PeriodicTorsionForce"
+        },
+        {
+          "class": "NonbondedForce",
+          "n_particles": 5097
+        },
+        {
+          "class": "CustomNonbondedForce",
+          "n_particles": 5097
+        },
+        {
+          "class": "CustomBondForce",
+          "n_bonds": 330,
+          "per_bond_params": [
+            "chargeProd",
+            "sigmaA",
+            "epsilonA",
+            "sigmaB",
+            "epsilonB",
+            "unique_old",
+            "unique_new"
+          ],
+          "counted_as_valence": false
+        }
+      ],
+      "n_morphing_xh": 0,
+      "morphing_xh": [],
+      "scan_constraints": "production",
       "unconstrained_atoms": [],
       "n_mapped_atoms": 47,
       "max_stable_timestep_fs": 4.0,
