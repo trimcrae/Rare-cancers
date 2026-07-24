@@ -350,5 +350,59 @@ class TestAdaptivePolicy(unittest.TestCase):
                                        "churn_floor", "on_demand_cap", "deadline_binding"))
 
 
+class TestDrift(unittest.TestCase):
+    """A price distribution is not stationary. Stale observations must fade, and a stale SERIES must be
+    refused rather than allowed to set today's threshold."""
+
+    OBS = [0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.24, 0.30, 0.40, 0.55, 0.11, 0.13, 0.17, 0.22]
+    OD = 0.60
+
+    def test_weights_decay_with_age(self):
+        w = vbo.recency_weights([0.0, 168.0, 336.0], half_life_h=168.0)
+        self.assertAlmostEqual(w[0], 1.0, places=6)
+        self.assertAlmostEqual(w[1], 0.5, places=6)
+        self.assertAlmostEqual(w[2], 0.25, places=6)
+
+    def test_effective_n_penalises_a_downweighted_sample(self):
+        fresh = vbo.effective_n([1.0] * 10)
+        stale = vbo.effective_n([0.01] * 9 + [1.0])
+        self.assertAlmostEqual(fresh, 10.0, places=6)
+        self.assertLess(stale, 2.0)
+
+    def test_many_stale_samples_cannot_fake_a_large_fresh_sample(self):
+        """The exact failure the Kish effective-n exists to stop."""
+        ages = [1000.0] * 50
+        out = vbo.adaptive_reservation_price(self.OBS * 4, self.OD, 10.0, 200.0,
+                                             ages_h=ages[:len(self.OBS) * 4])
+        self.assertIn("cold_start", out["phase"])
+
+    def test_stale_series_is_refused_outright(self):
+        ages = [500.0] * len(self.OBS)
+        out = vbo.adaptive_reservation_price(self.OBS, self.OD, 10.0, 200.0, ages_h=ages)
+        self.assertTrue(out["history_stale"])
+        self.assertEqual(out["phase"], "cold_start_STALE_HISTORY")
+
+    def test_fresh_series_engages_the_weighted_empirical_phase(self):
+        ages = [float(i) for i in range(len(self.OBS))]
+        out = vbo.adaptive_reservation_price(self.OBS, self.OD, 10.0, 200.0, ages_h=ages)
+        self.assertFalse(out["history_stale"])
+        self.assertEqual(out["phase"], "empirical_ucb_quantile_recency_weighted")
+        self.assertGreater(out["n_effective"], 0)
+
+    def test_weighted_quantile_tracks_a_drifting_market(self):
+        """Old cheap prices, new expensive ones: the weighted quantile must follow the NEW regime."""
+        old_cheap, new_dear = [0.10] * 20, [0.40] * 20
+        vals = old_cheap + new_dear
+        ages = [1000.0] * 20 + [1.0] * 20
+        w = vbo.recency_weights(ages, half_life_h=168.0)
+        self.assertGreater(vbo.weighted_quantile(vals, w, 0.5), 0.2)
+
+    def test_omitting_ages_preserves_the_old_behaviour(self):
+        a = vbo.adaptive_reservation_price(self.OBS, self.OD, 10.0, 200.0)
+        b = vbo.adaptive_reservation_price(self.OBS, self.OD, 10.0, 200.0, ages_h=None)
+        self.assertEqual(a["reservation_price"], b["reservation_price"])
+        self.assertEqual(a["phase"], b["phase"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

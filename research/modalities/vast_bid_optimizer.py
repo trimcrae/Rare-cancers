@@ -73,6 +73,43 @@ DEFAULT_LAMBDA_REF = 1.0
 DEFAULT_IMAGE_RELOAD_H = 20.0 / 60.0
 
 
+# --- drift: a price distribution is NOT stationary, and stale data is worse than none ------------------------
+DEFAULT_HALF_LIFE_H = 168.0          # 7 days: a month-old price should barely influence today's threshold
+DEFAULT_STALENESS_LIMIT_H = 72.0     # beyond this the series is not describing the current market
+
+
+def recency_weights(ages_h, half_life_h=DEFAULT_HALF_LIFE_H):
+    """Exponential decay by sample age. The empirical-quantile machinery assumed an iid stationary market;
+    real GPU spot prices drift, so old observations must fade rather than vote forever."""
+    return [0.5 ** (max(0.0, a) / half_life_h) for a in ages_h]
+
+
+def weighted_quantile(values, weights, q):
+    """Weighted empirical quantile — the recency-aware replacement for a plain order statistic."""
+    pairs = sorted((v, w) for v, w in zip(values, weights) if v and v > 0 and w > 0)
+    if not pairs:
+        return None
+    total = sum(w for _, w in pairs)
+    acc = 0.0
+    for v, w in pairs:
+        acc += w
+        if acc >= q * total:
+            return v
+    return pairs[-1][0]
+
+
+def effective_n(weights):
+    """Kish effective sample size: sum(w)^2 / sum(w^2). Downweighted-but-numerous stale samples must NOT be
+    allowed to masquerade as a large fresh sample when deciding whether to leave the cold-start phase."""
+    sw = sum(weights)
+    sw2 = sum(w * w for w in weights)
+    return (sw * sw / sw2) if sw2 > 0 else 0.0
+
+
+def staleness_h(ages_h):
+    return min(ages_h) if ages_h else None
+
+
 # =============================================================================================================
 # hazard
 # =============================================================================================================
@@ -456,18 +493,43 @@ def adaptive_reservation_price(observations, on_demand, work_remaining_gpu_h, ti
                                restart_h=0.0, market_prices=None, floor=None, capacity=1,
                                lambda_ref=DEFAULT_LAMBDA_REF,
                                max_churn_fraction=DEFAULT_MAX_CHURN_FRACTION,
-                               min_obs=MIN_OBS_FOR_EMPIRICAL):
+                               min_obs=MIN_OBS_FOR_EMPIRICAL,
+                               ages_h=None, half_life_h=DEFAULT_HALF_LIFE_H,
+                               staleness_limit_h=DEFAULT_STALENESS_LIMIT_H):
     """The full policy: a standing limit price that works from zero knowledge and adapts as the market is seen.
+
+    `ages_h` (hours since each observation) enables DRIFT HANDLING: observations decay with `half_life_h`, the
+    empirical phase engages on the EFFECTIVE sample size rather than the raw count, and a series whose freshest
+    point is older than `staleness_limit_h` is refused outright — falling back to the cold start rather than
+    setting today's threshold from a market that no longer exists. Without `ages_h` the behaviour is unchanged,
+    so existing callers keep working.
 
     Returns the price plus every intermediate quantity, because a bare number here is unauditable."""
     rho = duty_cycle(work_remaining_gpu_h, time_remaining_h, capacity)
-    n = len([p for p in (observations or []) if p and p > 0])
-    m_hat = min([p for p in (observations or []) if p and p > 0], default=None)
+    obs = [p for p in (observations or []) if p and p > 0]
+    n = len(obs)
+    m_hat = min(obs, default=None)
+
+    weights, n_eff, stale, stale_h = None, float(n), False, None
+    if ages_h and len(ages_h) == len(observations or []):
+        pairs = [(p, a) for p, a in zip(observations, ages_h) if p and p > 0]
+        if pairs:
+            weights = recency_weights([a for _, a in pairs], half_life_h)
+            n_eff = effective_n(weights)
+            stale_h = staleness_h([a for _, a in pairs])
+            stale = stale_h is not None and stale_h > staleness_limit_h
 
     if rho >= 1.0:
         econ, phase = (float(on_demand) if on_demand else None), "deadline_binding"
-    elif n < min_obs:
+    elif stale:
+        econ, phase = cold_start_price(m_hat, on_demand), "cold_start_STALE_HISTORY"
+    elif n_eff < min_obs:
         econ, phase = cold_start_price(m_hat, on_demand), "cold_start_geometric_mean"
+    elif weights:
+        pairs = [(p, w) for p, w in zip(obs, weights)]
+        pad = DEFAULT_QUANTILE_CONF_Z * math.sqrt(max(rho * (1.0 - rho), 1e-9) / max(n_eff, 1.0))
+        econ = weighted_quantile([v for v, _ in pairs], [w for _, w in pairs], min(1.0, rho + pad))
+        phase = "empirical_ucb_quantile_recency_weighted"
     else:
         econ, phase = ucb_quantile(observations, rho), "empirical_ucb_quantile"
 
@@ -486,6 +548,9 @@ def adaptive_reservation_price(observations, on_demand, work_remaining_gpu_h, ti
         "phase": phase,
         "duty_cycle_rho": round(rho, 4),
         "n_observations": n,
+        "n_effective": round(n_eff, 2),
+        "freshest_sample_age_h": (None if stale_h is None else round(stale_h, 2)),
+        "history_stale": stale,
         "economic_price": econ,
         "churn_floor": churn,
         "binding": ("on_demand_cap" if capped else
@@ -608,14 +673,22 @@ def _append_sample(path, offers):
     """One line of JSON per market observation. Deliberately append-only and schema-light: the thing we need is
     a LONG series of cheapest-floor observations over time, and anything that makes sampling fragile defeats it."""
     floors = sorted(float(o["min_bid"]) for o in offers if o.get("min_bid"))
-    rec = {"n_offers": len(offers), "min_floor": (floors[0] if floors else None),
+    rec = {"ts": _now_iso(), "source": os.environ.get("VBO_SAMPLE_SOURCE", "systematic"),
+           "n_offers": len(offers), "min_floor": (floors[0] if floors else None),
            "median_floor": (floors[len(floors) // 2] if floors else None),
            "floors": floors[:20]}
     with open(path, "a") as f:
         f.write(json.dumps(rec) + "\n")
 
 
-def _load_history(path):
+def _now_iso():
+    """UTC timestamp. Wall-clock is read at SAMPLE time only, never inside a decision function, so every
+    threshold computation stays deterministic and unit-testable."""
+    import datetime
+    return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+
+
+def _load_history(path, with_meta=False):
     """Cheapest floor from each past snapshot — the distribution a reservation price is set against."""
     out = []
     if not os.path.exists(path):
@@ -630,8 +703,10 @@ def _load_history(path):
             except ValueError:
                 continue
             if r.get("min_floor"):
-                out.append(float(r["min_floor"]))
+                out.append((float(r["min_floor"]), r.get("ts"), r.get("source", "unknown"))
+                           if with_meta else float(r["min_floor"]))
     return out
+
 
 
 def _live_offers(gpu_substr="rtx4090"):
