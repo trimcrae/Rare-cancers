@@ -517,3 +517,50 @@ def test_replicate_labels_are_all_distinct():
     """Two legs sharing a label would make the reap destroy the wrong instance."""
     labels = [pv.unit_label(u, "full") for u in pv.units_for("full", n_replicas=3)]
     assert len(set(labels)) == len(labels)
+
+
+# ---------------------------------------------------------------- blank-CI-input handling
+def test_blank_bucket_env_does_not_produce_a_bucketless_uri(monkeypatch):
+    """A blank CI input is an EMPTY STRING, not unset — os.environ.get's default never fires.
+
+    This rented a real 4090 whose results would have gone to 's3:///protfep-benchmark/...' and
+    vanished behind `|| true`. Both halves are pinned: the module falls back with `or`, and
+    build_jobspec refuses outright rather than emitting a malformed URI.
+    """
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "")
+    import importlib
+    mod = importlib.reload(pv)
+    try:
+        assert mod.DEFAULT_BUCKET, "an empty env var must fall back to the default bucket"
+        spec = pb.leg_spec("barnase_barstar_Y29A", "complex", 0)
+        js = mod.build_jobspec(spec, mode="pilot")
+        assert js.env["RESULT_S3"].startswith("s3://sagemaker-")
+        assert "s3:///" not in js.env["RESULT_S3"]
+    finally:
+        monkeypatch.delenv("VAST_CKPT_BUCKET", raising=False)
+        importlib.reload(pv)
+
+
+def test_an_explicit_empty_bucket_falls_back_rather_than_failing():
+    """Empty means unset, at every layer — that is the whole lesson of the bucket-less URI."""
+    spec = pb.leg_spec("barnase_barstar_Y29A", "complex", 0)
+    js = pv.build_jobspec(spec, mode="pilot", bucket="", result_prefix="")
+    assert js.env["RESULT_S3"].startswith("s3://sagemaker-")
+    assert "s3:///" not in js.env["RESULT_S3"]
+
+
+def test_build_jobspec_refuses_when_there_is_nothing_to_fall_back_to(monkeypatch):
+    """Last-resort guard: if even the default is blank, refuse rather than emit 's3:///...'."""
+    monkeypatch.setattr(pv, "DEFAULT_BUCKET", "")
+    spec = pb.leg_spec("barnase_barstar_Y29A", "complex", 0)
+    with pytest.raises(ValueError, match="incomplete result location"):
+        pv.build_jobspec(spec, mode="pilot", bucket="")
+
+
+def test_bioemu_launcher_has_the_same_fix():
+    """The identical hole existed in the sibling Vast lane; pin it so it is not reintroduced."""
+    import pathlib
+    src = pathlib.Path(__file__).resolve().parents[1] / "nr4a3_bioemu_vast_launch.py"
+    text = src.read_text()
+    assert "os.environ.get('VAST_CKPT_BUCKET', " not in text
+    assert 'os.environ.get("VAST_CKPT_BUCKET") or' in text

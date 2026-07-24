@@ -45,14 +45,20 @@ import protfep_bench as bench  # noqa: E402
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
+# NOTE THE `or`, NOT `os.environ.get(key, default)`. CI passes optional workflow inputs as EMPTY
+# STRINGS, and an empty string is a SET variable, so .get()'s default never fires. That is not
+# hypothetical: the first smoke launch (2026-07-24, instance 45735820) rented a real 4090 and
+# resolved its result prefix to `s3:///protfep-benchmark/...` — a bucket-less URI — so every upload
+# would have failed silently behind `|| true` and the leg would have produced nothing retrievable.
+# `or` treats empty-as-unset, which is what a blank CI input means.
 VAST_IMAGE = os.environ.get("VAST_IMAGE") or "docker.io/triskit23/protfep:latest"
-RESULT_PREFIX = os.environ.get("PROTFEP_RESULT_PREFIX", "protfep-benchmark")
-DEFAULT_BUCKET = os.environ.get("VAST_CKPT_BUCKET", "sagemaker-us-east-2-646605541856")
+RESULT_PREFIX = os.environ.get("PROTFEP_RESULT_PREFIX") or "protfep-benchmark"
+DEFAULT_BUCKET = os.environ.get("VAST_CKPT_BUCKET") or "sagemaker-us-east-2-646605541856"
 LABEL_PREFIX = "protfep-bench"
 # Runtime backstop for the reap: an instance up longer than this is destroyed even if no
 # result appeared, so a hung or crashed leg cannot bill indefinitely. It is a BACKSTOP, not
 # the normal path — the normal path is "leg result in S3 -> destroy".
-MAX_INSTANCE_HOURS = float(os.environ.get("PROTFEP_MAX_INSTANCE_HOURS", "10"))
+MAX_INSTANCE_HOURS = float(os.environ.get("PROTFEP_MAX_INSTANCE_HOURS") or "10")
 
 # A solvated barnase-barstar complex is ~30-35k atoms and the apo barstar leg ~15-20k — small
 # systems by this repo's standards (the ternary hybrid is 146k). The 4090 is the measured $/ns
@@ -60,8 +66,8 @@ MAX_INSTANCE_HOURS = float(os.environ.get("PROTFEP_MAX_INSTANCE_HOURS", "10"))
 # modest host spec keeps the cheap 4090 offers in play instead of filtering down to the expensive
 # high-demand hosts. min_cuda 13.0 is the repo's settled host filter: a newer driver runs older PTX
 # fine, whereas an older driver hit CUDA_ERROR_UNSUPPORTED_PTX_VERSION on this stack twice before.
-RES = ResourceSpec(gpu=os.environ.get("PROTFEP_GPU", "rtx4090"),
-                   min_vram_gb=int(os.environ.get("PROTFEP_VRAM", "24")),
+RES = ResourceSpec(gpu=os.environ.get("PROTFEP_GPU") or "rtx4090",
+                   min_vram_gb=int(os.environ.get("PROTFEP_VRAM") or "24"),
                    vcpus=4, ram_gb=16, disk_gb=40, min_cuda=13.0, interruptible=True)
 
 # The onstart pipeline. VastBackend._vast_onstart exports forwarded S3 creds + arms the key-free
@@ -172,6 +178,12 @@ def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefi
     b = bucket or DEFAULT_BUCKET
     prefix = result_prefix or RESULT_PREFIX
     leg_id = spec["leg_id"] if mode != "smoke" else f"{spec['leg_id']}_smoke"
+    if not b or not prefix:
+        raise ValueError(
+            f"refusing to launch with an incomplete result location (bucket={b!r}, prefix={prefix!r}). "
+            f"A blank CI input arrives as an EMPTY STRING, not as unset, so os.environ.get's default "
+            f"does not fire — this exact hole rented a 4090 that would have uploaded to 's3:///...' "
+            f"and produced nothing retrievable.")
     result_s3 = f"s3://{b}/{prefix}/{leg_id}"
     env = {
         "MODE": mode,
@@ -196,7 +208,7 @@ def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefi
         checkpoint_uri=result_s3,
         resume=True,                      # per-leg .nc resume: a preempted leg continues, not restarts
         resources=RES,
-        max_runtime_s=int(os.environ.get("PROTFEP_MAX_RUNTIME_S", str(sizing["max_runtime_s"]))),
+        max_runtime_s=int(os.environ.get("PROTFEP_MAX_RUNTIME_S") or sizing["max_runtime_s"]),
         env=env,
     )
 

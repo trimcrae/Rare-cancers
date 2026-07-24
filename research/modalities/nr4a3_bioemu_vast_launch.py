@@ -123,7 +123,13 @@ def build_jobspec(mode="real", num_samples=None, batch_size_100=None, git_branch
     branch = git_branch or os.environ.get("GIT_BRANCH") or "claude/nr4a3-lbd-bioemu-validation-w421nb"
     name = f"nr4a3-bioemu-{'smoke' if smoke else 'crosscheck'}"
     prefix = result_prefix or RESULT_PREFIX
-    result_s3 = f"s3://{os.environ.get('VAST_CKPT_BUCKET', 'sagemaker-us-east-2-646605541856')}/{prefix}/{name}"
+    # `or`, NOT .get(key, default): CI passes a blank optional workflow input as an EMPTY STRING, and
+    # an empty string is a SET variable, so the .get default never fires and the URI comes out as
+    # "s3:///<prefix>/..." with no bucket — every upload then fails silently behind `|| true`. Caught
+    # 2026-07-24 when the identical line in protfep_vast_launch.py rented a real 4090 that would have
+    # uploaded nowhere; fixed here at the same time because it is the same hole, not a similar one.
+    bucket = os.environ.get("VAST_CKPT_BUCKET") or "sagemaker-us-east-2-646605541856"
+    result_s3 = f"s3://{bucket}/{prefix}/{name}"
     command = ["bash", "-lc", _PIPELINE.replace("{repo}", REPO)]
     env = {
         "MODE": mode,
