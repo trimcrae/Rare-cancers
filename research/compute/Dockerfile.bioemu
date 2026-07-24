@@ -41,4 +41,4 @@ RUN pip install --no-cache-dir "bioemu[md]" awscli mdtraj \
 # Sanity: fail the BAKE (not a $-costing Vast host) if any load-bearing entrypoint is missing.
 RUN python -c "import bioemu, torch; print('bioemu', bioemu.__version__ if hasattr(bioemu,'__version__') else '?', 'torch', torch.__version__)" \
     && python -c "import bioemu.sample; import bioemu.sidechain_relax" \
-    && which fpocket && which aws && python -c "import mdtraj; print('mdtraj', mdtraj.version.version)"
+    && which fpocket && which aws && python -c "import mdtraj; print('mdtraj', mdtraj.__version__)"

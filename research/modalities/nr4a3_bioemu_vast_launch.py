@@ -47,8 +47,10 @@ CHIGNOLIN_SEQ = "GYDPETGTWG"  # BioEmu README smoke sequence
 # 24 GB Ada 4090 (BioEmu README benchmarked A100 80 GB, but v1.4.0's min-batch-1 lets 254 aa fit at small batch;
 # fall back to a100 via GPU=a100 if a real run OOMs). We are not racing (one-shot cross-check), interruptible is
 # fine — a preemption just re-runs from scratch (cheap, minutes) since a single ensemble isn't per-unit resumable.
+# min_cuda 13.0: the baked image's torch is cu130 (2.13.0+cu130), so the host DRIVER must support CUDA 13
+# (cuda_max_good >= 13.0, driver ~>=580) — same host filter the repo's FEP lane already settled on.
 RES = ResourceSpec(gpu=os.environ.get("BIOEMU_GPU", "rtx4090"), min_vram_gb=int(os.environ.get("BIOEMU_VRAM", "24")),
-                   vcpus=4, ram_gb=24, disk_gb=60, min_cuda=12.4, interruptible=True)
+                   vcpus=4, ram_gb=24, disk_gb=60, min_cuda=13.0, interruptible=True)
 
 # The onstart pipeline. VastBackend._vast_onstart exports the forwarded AWS creds (S3) + arms the self-destroy
 # EXIT trap; this command does the science and uploads. $VARS come from spec.env. Note: no `set -e` on the whole
