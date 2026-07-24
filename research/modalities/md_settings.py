@@ -31,16 +31,26 @@ Consumers (import from here, do NOT re-specify):
         OpenMM; it cannot import openmm_integrator(), but its timestep/H-mass/FF MUST equal the constants below
         (asserted by tests/test_md_settings.py::test_rbfe_matches_canonical).
   - nr4a3_ternary_fep.py (OpenFE ternary cooperativity)                — DOCUMENTED DEVIATION, registered
-        2026-07-24 (it was running an undeclared deviation, which is exactly what this file exists to prevent):
-        **2 fs, not the canonical 4 fs** (`RBFE_TIMESTEP_FS`, default "2.0"). REASON, not drift: an alchemical
-        X-H bond whose constraint CHANGES between endpoints is left UNCONSTRAINED by OpenFE's hybrid topology
-        factory; an unconstrained C-H has a ~10 fs period and goes unstable at 4 fs once the softcore turns on at
-        the first alchemical window (the warmup NaN, root-caused 2026-07-18 — see nr4a3_ternary_fep.py:258-279).
-        Scope of the deviation: timestep/HMR change only MASSES, so configurational free energies are unaffected
-        in principle — this is a SAMPLING/precision difference, NOT a bias in dG. Charges, however, ARE a
-        Hamiltonian difference: this lane runs NAGL (below), the binary RBFE lane runs am1bcc, and any quantity
-        that SUBTRACTS a binary-lane leg from a ternary-lane leg (the 5a-KS wedge cycle) MUST pin one
-        CHARGE_METHOD across both legs. Within a single lane the charge model cancels and dG_coop is safe.
+        2026-07-24 (it was running an undeclared deviation, which is exactly what this file exists to prevent).
+        TWO deviations, of very different severity:
+        (a) TIMESTEP — the lane's workflow default is **2 fs, not the canonical 4 fs** (`RBFE_TIMESTEP_FS`;
+            `gpu-ternary-fep-gcp.yml:35,75`), and the runbook's post-fix quick-start pairs production 4 fs with a
+            1 fs warmup. **The ternary timestep is EMPIRICAL — there is no static predictor.** Do NOT repeat the
+            two mechanisms this repo previously believed and then REFUTED: it is neither "an alchemical X-H whose
+            constraint changes between endpoints" (2026-07-18) nor "the whole ligand's C-H are unconstrained"
+            (its first correction). A perses force-layout dump on 2026-07-19 showed both stories were artifacts
+            of a counter that mistook alchemical *nonbonded-exception pairs* for X-H bonds; the ligand C-H
+            **are** constrained (0 unconstrained valence X-H on both the pilot and calib edges) — yet calib still
+            NaN'd at 4 fs. The real cause is the **softcore alchemical region in a large, rough homology-built
+            assembly**, and the fix that actually worked is **plain-MD pre-equilibration of the fully-interacting
+            complex before the alchemy** (`ternary_preequil.py`, `use_preequil=1`), NOT a smaller timestep.
+            Authority for this lane's timestep is `ternary-rbfe-runbook.md` §1b/§1c, not this file.
+            Scope: timestep/HMR change only MASSES, so configurational free energies are unaffected in principle
+            — a SAMPLING/precision difference, NOT a bias in dG.
+        (b) CHARGES — a genuine Hamiltonian difference. This lane runs NAGL (below); the binary RBFE lane runs
+            am1bcc. Within a single lane the charge model cancels and dG_coop is safe. But any quantity that
+            SUBTRACTS a binary-lane leg from a ternary-lane leg (the 5a-KS wedge cycle) MUST pin one
+            CHARGE_METHOD across both legs and record it in both result JSONs.
 
 Pure-constant module: the constants have no dependencies; the OpenMM builder helpers import openmm lazily so a
 CPU/CI context can read the constants without the MD stack installed.

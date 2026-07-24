@@ -42,7 +42,13 @@ pointing you back here. There is no "recommended" — priming is mandatory.
 
 ## The failure chain and its fixes (2026-07-18)
 
-### 1. Warmup NaN at "replica 0 / state 1" — **unconstrained alchemical C–H, not a clash**
+### 1. Warmup NaN at "replica 0 / state 1" — ⚠ **ROOT CAUSE BELOW IS SUPERSEDED — READ §1b/§1c FIRST**
+
+> **⚠ Superseded 2026-07-19.** The "unconstrained alchemical C–H" root cause and the "run at 1 fs" fix stated in
+> this section were both **refuted** — the ligand C–H are in fact constrained, and a reduced timestep does not
+> prevent the NaN. The settled account is **§1b** (why the C–H story was a counter artifact) and **§1c** (plain-MD
+> pre-equilibration is the actual fix). §1 is retained only as the record of what was ruled out — the clash census
+> below is still valid evidence; the mechanism and the fix are not.
 - **Symptom:** `SimulationNaNError: Propagating replica 0 at state 1 resulted in a NaN`, on warmup iteration 1,
   reproducible, surviving 25000 minimization steps + 20 integration retries.
 - **NOT a starting-structure clash:** a CPU clash census (`ternary_stage_validate._clash_check`) proved the

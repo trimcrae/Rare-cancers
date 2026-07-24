@@ -255,16 +255,29 @@ def _protocol(openfe):
         s.simulation_settings.production_length = PRODUCTION_NS * _ou.nanosecond
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN MD lengths (%s); using defaults" % e, flush=True)
-    # STARTING-STRUCTURE / TIMESTEP ROBUSTNESS (2026-07-18). The warmup NaN is NOT a starting-structure clash —
-    # a CPU clash census of the assembled complex (ternary_stage_validate._clash_check) proved it clean (worst
-    # protein-protein non-bonded = a 1.33 A peptide bond; worst protein<->ligand = 1.59 A H-bond). The NaN is
-    # state-1-specific (first alchemical window), survives 25000 minimization steps, and reproduces at 2 fs — the
-    # signature of an UNCONSTRAINED alchemical C-H. The cmpd1->cmpd4 edge is an N->CH change, so the growing C-H
-    # bond exists in state B but not A; a bond whose constraint CHANGES between endpoints is left UNCONSTRAINED by
-    # OpenFE's hybrid factory, and an unconstrained C-H (period ~10 fs) is unstable at 2 fs once the softcore turns
-    # on at state 1. Fix: a 1 fs step (RBFE_TIMESTEP_FS=1.0) is safe for the unconstrained C-H. minimization_steps
-    # kept high (cheap insurance). Both env-overridable. (rbfe_spot_driver instruments the NaN: on catch it loads
-    # openmmtools' saved nan-error-logs state and names the offending atoms.)
+    # STARTING-STRUCTURE / TIMESTEP ROBUSTNESS. ** SETTLED 2026-07-19 — this comment previously carried a REFUTED
+    # root cause; see ternary-rbfe-runbook.md 1b/1c for the authoritative account. **
+    # What is confirmed: the warmup NaN is NOT a starting-structure clash. A CPU clash census of the assembled
+    # complex (ternary_stage_validate._clash_check) proved it clean (worst protein-protein non-bonded = a 1.33 A
+    # peptide bond; worst protein<->ligand = 1.59 A H-bond). The NaN hits at a softcore lambda-state on warmup
+    # iteration 1 and survives 25000 minimization steps.
+    # What was REFUTED (do not reinstate either story): (i) "the cmpd1->cmpd4 N->CH change grows a C-H whose
+    # constraint changes between endpoints, so OpenFE leaves it unconstrained" (2026-07-18), and (ii) its own
+    # correction, "the whole alchemical ligand's C-H are unconstrained". A perses force-layout dump
+    # (rbfe_edge_timestep_scan.py -> constrain_diag, 2026-07-19) showed the hybrid carries TWO CustomBondForces --
+    # an alchemical valence-bond force and an alchemical nonbonded-EXCEPTION force -- and the [hmr-diag] counter
+    # was counting the exception PAIRS as "unconstrained X-H bonds". Counting only genuine valence stretch terms
+    # gives 0 unconstrained on BOTH the pilot and calib edges, i.e. the ligand C-H ARE constrained -- yet calib
+    # still NaN'd at 4 fs while the pilot runs fine at 4 fs. So the instability is the softcore alchemical
+    # (dis)appearing region in a large, rough homology-built assembly, and there is NO static predictor of the
+    # ternary timestep. constrain_nonalchemical_xh() is confirmed a no-op (it adds 0).
+    # The fix that WORKS is NOT a smaller timestep: relax the fully-interacting physical complex with plain MD
+    # BEFORE the alchemy (ternary_preequil.py, use_preequil=1). With the relaxed structure the calib leg ran
+    # warmup 48/48 at 1 fs -> production 40/40 at 4 fs with zero NaN, where every prior run died at warmup iter 1.
+    # So: determine the ternary timestep EMPIRICALLY by a warmup-survival test (2 fs is the known-safe fallback),
+    # and run validation and production at the SAME one. minimization_steps kept high (cheap insurance). Both
+    # env-overridable. (rbfe_spot_driver instruments the NaN: on catch it loads openmmtools' saved nan-error-logs
+    # state and names the offending atoms.)
     try:
         s.simulation_settings.minimization_steps = int(os.environ.get("RBFE_MIN_STEPS", "25000"))
     except Exception as e:  # noqa: BLE001
@@ -285,9 +298,15 @@ def _protocol(openfe):
         s.engine_settings.compute_platform = rbfe._working_platform_name(_plat)
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN compute_platform (%s)" % e, flush=True)
-    # Charges MUST match the binary RBFE engine (am1bcc via AmberTools, now that ambertools>=23 is in the env):
-    # ddG_coop subtracts the binary and ternary morphs, so a charge-model mismatch between them would break the
-    # cycle's cancellation. Same CHARGE_METHOD override as nr4a3_rbfe (set CHARGE_METHOD=nagl to fall back).
+    # CHARGES — read this before trusting the default below. ddG_coop subtracts this lane's own binary and ternary
+    # morphs, so WITHIN this lane the charge model cancels and any consistent choice is safe. The default here is
+    # am1bcc, but **every real dispatch overrides it to nagl** (gpu-ternary-fep-gcp.yml:34,74 default `nagl`;
+    # md_settings.CHARGE_METHOD = "nagl"), because AM1-BCC via AmberTools sqm is intractable on PROTAC-sized
+    # ligands on CPU (>85 min without converging, measured 2026-07-22) and nagl has the warm primed setup cache.
+    # So in practice THIS LANE RUNS NAGL and the binary RBFE lane runs am1bcc -- they are a documented LANE SPLIT,
+    # not a match. That is fine for ddG_coop; it is NOT fine for any quantity that subtracts a binary-lane leg
+    # from a ternary-lane leg (the 5a-KS wedge cycle), which MUST pin one CHARGE_METHOD across both legs and
+    # record it in both result JSONs. See md_settings.py and STRATEGY.md RUNG 5.
     _charge = os.environ.get("CHARGE_METHOD", "am1bcc")
     try:
         s.partial_charge_settings.partial_charge_method = _charge
