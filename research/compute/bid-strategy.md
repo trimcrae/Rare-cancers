@@ -14,44 +14,37 @@
 
 ## 0. THE NUMBER
 
-**Stand at $0.30/hr for an RTX 4090, as an interruptible bid, hard-capped at the chosen host's on-demand price.**
+**Bid the cheapest qualifying host's own floor × a small margin, capped at that host's on-demand price.**
+Not an absolute dollar figure — and the earlier "$0.30/hr reservation price" here is **retracted**.
 
-Derived, not tuned. A ternary edge is ~64 GPU-h; allowing two weeks on one machine gives a required duty cycle
-`ρ = 64/336 = 0.19`, so we accept the cheapest 19 % of the market. The measured 19th percentile of live RTX 4090
-floors is **$0.293**. Round to **$0.30**.
+**Why $0.30 was the wrong shape of answer.** It was derived as a duty-cycle quantile: stand at a price, let the
+market come to you. That is the right model for **one** price process. Vast is not one price process — it is
+~23 independently-priced RTX 4090 hosts visible simultaneously, and you do not wait for a price, **you pick a
+host.** A $0.30 ceiling never binds (5 of 23 hosts sit under it right now; all 23 would have to price above
+$0.30 at once for it to do anything), so it changes nothing and buys nothing. Passing up a $0.15 host to
+"target" $0.30 would be strictly worse — and is not what the code does: `_select_cheapest_offer` ranks by $/ns
+and takes the $0.1333 host today.
 
-| RTX 4090, live (n = 23 machines) | $/hr |
-|---|---|
-| cheapest floor | 0.1333 |
-| **19th pct of floors — the target** | **0.293** |
-| p25 / median / p75 of floors | 0.333 / 0.355 / 0.600 |
-| cheapest **on-demand** anywhere | 0.3200 |
-| incumbent `1.9 × cheapest floor`, today | 0.2533 |
+**Where the money actually is: the multiple, not the threshold.** On Vast you pay *your bid*, so landing on the
+cheapest host and then bidding `1.9 × floor` discards most of the advantage of having found it:
 
-Three things follow that a single price cannot show:
+| bid on the $0.1333 host | $/hr | vs bidding at the floor |
+|---|---|---|
+| floor × 1.00 | 0.1333 | — |
+| floor × 1.15 | 0.1533 | +15 % |
+| floor × 1.50 | 0.2000 | +50 % |
+| **floor × 1.90 (incumbent)** | **0.2533** | **+90 %** |
 
-**The discount is real and universal.** Across 63 machines matched between a bid-type and an on-demand query,
-**every single host** was cheaper interruptible — median 1.25×, IQR 1.14–1.68, max 5.0, and
-`frac_hosts_with_no_discount = 0.0`. So bidding genuinely beats buying, and $0.30 sits below the cheapest
-on-demand 4090 on the market ($0.32).
+`×1.15` versus `×1.90` on the same box is **39 %**. That is the whole remaining lever, and it is larger than
+anything the reservation-price machinery was ever going to deliver.
 
-**Selection dominates bidding.** The cheapest 4090 floor is $0.1333 against a median of $0.3550 — a **2.7× spread
-between hosts**, far larger than the ~1.20× median discount available *within* a host. Which machine you land on
-matters more than what you bid. `_select_cheapest_offer` already ranks by `min_bid`, which is the single most
-valuable thing the current code does.
-
-**The incumbent's real defect is that it is unbounded.** `1.9 × floor` is $0.2533 today and *below* the $0.3600
-on-demand price of the host it selects — it is not overpaying right now. But it exceeds on-demand on **20 of 23**
-hosts, so it survives on the existence of a thin cheap tail (two hosts under $0.20). Remove those two and the
-cheapest floor becomes $0.2667, the policy bids **$0.5067 against $0.3200 on-demand — 58 % over**, for a box that
-can still be preempted. A multiple of a floating floor has no stable relationship to what a GPU-hour is worth.
-
-```
-P* = $0.30/hr (4090), capped at that machine's real on-demand dph_base, never below its min_bid.
-     The cap needs a separate `type: "on-demand"` query joined by machine_id — a bid-type query's
-     dph_base IS the floor, so it cannot bound anything.
-Shipped: gpu_backend._vast_bid_price(offer, ondemand_base) + _vast_ondemand_base_by_machine.
-```
+**The one thing that stops us just bidding the floor.** The floor *is* the current clearing price, so a
+floor-hugging bid is displaced by the next bidder, and each displacement costs a ~20-minute image reload
+(measured 2026-07-23). `×1.9` was a real, evidence-driven response to that: at `×1.5` the NR-V04 covalent tail
+churned so badly that 4 of 5 slow legs made **zero net frame progress** across a ~40-min cycle. So the multiple
+is a genuine trade, not an obvious overpayment — **but the ~$0.10/hr it costs on a cheap host has never been
+weighed against a measured preemption rate.** That measurement, not another threshold model, is what sets the
+number.
 
 ### ★ Bench result — VALIDATED RE-RUN (2026-07-24, 23:36 UTC). Supersedes the 23:08 grid entirely.
 

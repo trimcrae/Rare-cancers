@@ -938,9 +938,13 @@ stands.
 **Now measured properly across 63 machines / 12 card classes:** the interruptible discount is **universal** —
 median on-demand = **1.25× the floor**, IQR 1.14–1.68, and **zero hosts at parity**.
 
-**THE NUMBER: stand at $0.30/hr for an RTX 4090**, as an interruptible bid, **hard-capped at the chosen host's
-on-demand price**. Derived, not tuned: a ~64 GPU-h ternary edge over two weeks on one machine needs a duty cycle
-`ρ = 0.19`, and the 19th percentile of live 4090 floors is $0.293.
+**THE NUMBER — corrected.** The earlier "$0.30/hr reservation price" is **retracted**: it was a duty-cycle
+quantile, which is the right model for ONE price process, and Vast is ~23 independently-priced 4090 hosts you
+can see at once. You do not wait for a price there, you pick a host — and a $0.30 ceiling never binds (5 of 23
+sit under it), so it buys nothing and would only ever pass up a cheaper box. The policy is: **take the cheapest
+host by measured $/ns, bid its own floor × a small margin, capped at that host's on-demand price.** The open
+quantity is the margin: `×1.15` vs the incumbent `×1.9` is **39 %** on the same box ($0.1533 vs $0.2533), traded
+against a ~20-min reload per preemption — a trade never yet weighed against a measured preemption rate.
 
 **A second correction, on the incumbent.** An earlier line here called `×1.9` a 38 % (then 55 %) overpayment
 versus on-demand. Both were computed on a host the selector would never pick. `_select_cheapest_offer` ranks by
