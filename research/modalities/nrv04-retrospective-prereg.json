@@ -1,0 +1,282 @@
+{
+  "_title": "NR-V04 retrospective biological holdout \u2014 machine-readable PREREGISTRATION freeze",
+  "_doc": "nr4a3-nrv04-retrospective-prereg.md (authoritative prose; this file is the machine mirror \u2014 keep in sync)",
+  "_frozen": "2026-07-24, before any retrospective leg ran",
+  "_enforced_by": [
+    "nrv04_retro_panel.py (panel + units + leg env)",
+    "nrv04_retro_gate.py (endpoint, statistics, verdict tiers)",
+    "nrv04_retro_blind.py (arm-label blinding + key commitment)",
+    "tests/test_nrv04_retro.py (all of the above, offline)"
+  ],
+  "_scope": "Arm E (ensemble endpoint MD) ONLY. Arm F (alchemical ddG_coop) is BLOCKED on the valB calibration PASS per nr4a3-ternary-calib-prereg-addendum-2026-07-19.md condition 7 and is not authorized by this document.",
+  "known_answer": {
+    "source": "Wang 2024 (nrv04-ternary-benchmark.json -> ground_truth)",
+    "NR4A1": "degraded",
+    "NR4A2": "spared",
+    "NR4A3": "spared",
+    "what_is_absent": "no solved NR-V04 ternary structure; no paralogue-resolved K_d, alpha or dG_coop",
+    "therefore": "the holdout can test DIRECTIONAL CONCORDANCE with a functional ordering only \u2014 never recovery of a measured quantity"
+  },
+  "measured_confound": {
+    "finding": "NR4A1 Cys551 is NOT conserved: NR4A2 aligned position = Tyr, NR4A3 = Thr, no Cys within +/-5 in either",
+    "source": "nrv04-cys-conservation.json, CI run 29923279236 (feasibility prereg Leg 0)",
+    "consequence": "celastrol cannot form the covalent adduct on NR4A2/NR4A3 at all, so NR-V04 paralogue selectivity is at least partly warhead reactivity",
+    "design_response": "the panel DECOMPOSES rather than reproduces: R1 holds covalency OFF across all three paralogues; R2 isolates the covalency component on NR4A1",
+    "forbidden": "no covalent NR4A2/NR4A3 leg may ever be added \u2014 there is no cysteine to bond to"
+  },
+  "structures": {
+    "cofold_prefix": "nrv04-descriptive-v3",
+    "bucket": "sagemaker-us-east-2-646605541856",
+    "inventoried": "2026-07-24, CI run 30121409280 -> nrv04-cofold-discovery.json",
+    "model_seeds_available": {
+      "nr4a1": [
+        1,
+        2,
+        3
+      ],
+      "nr4a2": [
+        1,
+        2,
+        3
+      ],
+      "nr4a3": [
+        1,
+        2,
+        3
+      ],
+      "neg_inactive": [
+        1,
+        2,
+        3
+      ]
+    },
+    "neg_inactive_limitation": "epimer co-folds exist for NR4A1 ONLY; NR4A2/NR4A3 epimer co-folds must be generated before R3 can run",
+    "single_prefix_rule": "all arms draw from ONE co-fold prefix; the nrv04-covalent-cofold and nrv04-shakeout NR4A1 structures are deliberately not mixed in, so the arms stay protocol-matched",
+    "regeneration": "none \u2014 every leg reuses an existing co-fold"
+  },
+  "panel": {
+    "unit": "(arm x cofold_model_seed x md_replica)",
+    "cofold_model_seeds": [
+      1,
+      2,
+      3
+    ],
+    "md_replicas": [
+      0,
+      1
+    ],
+    "legs_per_arm": 6,
+    "authorized_stages": [
+      "R1",
+      "R2"
+    ],
+    "arms": [
+      {
+        "arm_id": "retro_noncov_nr4a1",
+        "stage": "R1",
+        "ligand": "nrv04",
+        "target": "NR4A1",
+        "covalent": false,
+        "cofold_system": "nr4a1"
+      },
+      {
+        "arm_id": "retro_noncov_nr4a2",
+        "stage": "R1",
+        "ligand": "nrv04",
+        "target": "NR4A2",
+        "covalent": false,
+        "cofold_system": "nr4a2"
+      },
+      {
+        "arm_id": "retro_noncov_nr4a3",
+        "stage": "R1",
+        "ligand": "nrv04",
+        "target": "NR4A3",
+        "covalent": false,
+        "cofold_system": "nr4a3"
+      },
+      {
+        "arm_id": "retro_cov_nr4a1",
+        "stage": "R2",
+        "ligand": "nrv04",
+        "target": "NR4A1",
+        "covalent": true,
+        "cofold_system": "nr4a1"
+      },
+      {
+        "arm_id": "retro_epi_nr4a1",
+        "stage": "R3",
+        "ligand": "nrv04_epimer",
+        "target": "NR4A1",
+        "covalent": false,
+        "cofold_system": "neg_inactive"
+      },
+      {
+        "arm_id": "retro_epi_nr4a2",
+        "stage": "R3",
+        "ligand": "nrv04_epimer",
+        "target": "NR4A2",
+        "covalent": false,
+        "cofold_system": "neg_inactive_nr4a2"
+      },
+      {
+        "arm_id": "retro_epi_nr4a3",
+        "stage": "R3",
+        "ligand": "nrv04_epimer",
+        "target": "NR4A3",
+        "covalent": false,
+        "cofold_system": "neg_inactive_nr4a3"
+      }
+    ],
+    "n_units_authorized": 24
+  },
+  "protocol": {
+    "source_of_truth": "md_settings.py (canonical) \u2014 identical to the covalent feasibility panel, so its legs remain a cross-check",
+    "timestep_fs": 4.0,
+    "hydrogen_mass_amu": 3.0,
+    "constraints": "HBonds",
+    "temperature_K": 300.0,
+    "friction_per_ps": 1.0,
+    "nonbonded_cutoff_nm": 0.9,
+    "protein_forcefields": [
+      "amber14-all.xml",
+      "amber14/tip3p.xml"
+    ],
+    "small_molecule_forcefield": "gaff-2.11",
+    "water_model": "tip3p",
+    "charge_method": "nagl",
+    "equil_ns": 1.0,
+    "prod_ns": 5.0,
+    "checkpoint_every_frames": 50,
+    "identical_across_arms": true,
+    "deviation_rule": "any deviation on any single leg VOIDS THAT LEG, never the threshold"
+  },
+  "endpoints": {
+    "E1_PRIMARY": {
+      "quantity": "interface-RMSD plateau (A) \u2014 mean interface heavy-atom RMSD over the final 50% of production frames vs the starting interface",
+      "kernel": "nrv04_readouts.interface_rmsd_stable().plateau_A",
+      "direction": "lower = more stable",
+      "role": "the ONLY endpoint the verdict turns on"
+    },
+    "E2": {
+      "quantity": "stable fraction (plateau < 4.0 A)",
+      "kernel": "nrv04_readouts.interface_rmsd_stable().stable",
+      "role": "secondary; the readout that discriminated in the feasibility panel"
+    },
+    "E3": {
+      "quantity": "mean interface contacts",
+      "kernel": "nrv04_readouts.recruitment().mean_contacts",
+      "role": "secondary; KNOWN weak discriminator \u2014 reported, never gating"
+    },
+    "E4": {
+      "quantity": "Lys-Nzeta presentation distances",
+      "kernel": "nrv04_readouts.lys_presentation()",
+      "role": "DESCRIPTIVE ONLY, never a gate"
+    },
+    "reporting_rule": "E2-E4 are reported alongside E1 in every result, including when they disagree with it"
+  },
+  "statistics": {
+    "unit_of_independence": "the CO-FOLD MODEL (2 MD replicas of one model are not independent) -> model-level means, n = 3 per arm",
+    "primary_test": {
+      "statistic": "mean(E1 | retro_noncov_nr4a1) - mean(E1 | retro_noncov_nr4a2 U retro_noncov_nr4a3)",
+      "method": "exact one-sided permutation, exhaustive enumeration of C(9,3) = 84 arrangements",
+      "predicted_sign": "negative (NR4A1 more stable) \u2014 REGISTERED BEFORE DATA",
+      "alpha": 0.05,
+      "min_attainable_p": 0.0119,
+      "observed_arrangement_counted": true
+    },
+    "secondary_tests": {
+      "pairwise": "NR4A1 vs each paralogue, exact permutation over C(6,3) = 20",
+      "pairwise_limitation": "minimum attainable one-sided p is 0.05, reachable only under perfect separation \u2014 descriptive support, never the verdict",
+      "leave_one_model_out": "sign of the primary statistic recomputed with each of the 9 models dropped; 'survives' = sign unchanged in all 9 refits",
+      "covalency_decomposition": "mean(E1 | retro_cov_nr4a1) - mean(E1 | retro_noncov_nr4a1); reported with no significance claim at n=3 vs 3"
+    },
+    "extension_rule": {
+      "trigger": "predicted sign AND p in (0.012, 0.05]",
+      "action": "generate 3 additional co-fold models per paralogue, re-run R1 at n = 6 models/arm (C(18,6) = 18564)",
+      "restriction": "the ONLY pre-authorized extension; may NOT be invoked on a wrong-sign result"
+    },
+    "technical_failure": {
+      "rerun": "a NaN/blow-up leg is re-run ONCE from a fresh velocity seed",
+      "second_failure": "marked technical_failure and excluded",
+      "arm_threshold": "more than 1 failed leg in an arm -> that arm is underpowered -> verdict INDETERMINATE"
+    },
+    "no_interim_analysis": "the paralogue contrast is computed ONCE, after all R1+R2 legs land. Per-leg liveness/convergence monitoring is required; looking at the arm ordering before the panel completes is not permitted."
+  },
+  "verdict_tiers": {
+    "CONCORDANT": "d < 0 AND p <= 0.05 AND NR4A1 mean below BOTH paralogue means AND sign survives leave-one-model-out AND no arm underpowered",
+    "WEAKLY_CONCORDANT": "d < 0 and NR4A1 below both, but p > 0.05 or the sign fails leave-one-model-out",
+    "DISCORDANT": "d >= 0, or a paralogue is below NR4A1 with p <= 0.05 in the reverse direction",
+    "INDETERMINATE": "any arm underpowered, or a protocol deviation voided legs",
+    "go_condition_for_rung5": "CONCORDANT"
+  },
+  "honest_failure_semantics": {
+    "discordance_does_not_falsify": "NR-V04 selectivity may arise from the covalent warhead chemistry alone (Leg 0 shows this is SUFFICIENT, since the paralogues lack the cysteine entirely) or downstream at ubiquitination",
+    "discordance_does_mean": "the ensemble ternary workflow has NOT demonstrated NR4A paralogue discrimination on this holdout and may not be cited as authority for a prospective selectivity claim; that authority then rests solely on valB's public paralogue-discrimination module, and the manuscript must say so",
+    "the_expected_null": "a null R1 with a strong R2 covalency effect is a coherent, publishable answer that localises NR-V04 selectivity to warhead reactivity \u2014 registered in advance so it cannot later be re-narrated as a method failure or quietly dropped"
+  },
+  "claim_ceiling": {
+    "permitted": "Run identically across NR4A1/2/3 without tuning, the ensemble ternary workflow was directionally concordant/discordant with the reported NR-V04 outcome.",
+    "forbidden": [
+      "a \"recovery of degradation\" framing",
+      "reproduced NR-V04 selectivity",
+      "validated",
+      "any ddG / alpha / cooperativity / affinity claim (Arm E computes no free energy)",
+      "any quantitative degradation prediction",
+      "efficacy / safety / therapeutic-window / clinical-readiness language",
+      "promoting any compound to lead"
+    ],
+    "standing_caveat": "the NR-V04 chemistry in-repo is an NR-V04-inspired representative reconstruction, not a verified exact structural match (nrv04-ternary-benchmark.json chemical_identity.blocker)"
+  },
+  "budget": {
+    "per_leg_usd": 0.45,
+    "per_leg_basis": "MEASURED \u2014 the 18-leg covalent feasibility panel on Vast spot",
+    "provider": "Vast (RTX 3090 preferred, 4090 fallback)",
+    "stages": [
+      {
+        "id": "R1",
+        "legs": 18,
+        "usd": "~8",
+        "status": "decisive contrast \u2014 runs first"
+      },
+      {
+        "id": "R2",
+        "legs": 6,
+        "usd": "~3",
+        "status": "runs with R1 in the same fan-out"
+      },
+      {
+        "id": "R3",
+        "legs": 18,
+        "usd": "~8 + co-folds",
+        "status": "CONDITIONAL on a CONCORDANT/WEAKLY_CONCORDANT R1"
+      },
+      {
+        "id": "R1_extension",
+        "legs": 18,
+        "usd": "~8 + co-folds",
+        "status": "CONDITIONAL on the extension p-window"
+      },
+      {
+        "id": "ArmF",
+        "legs": "3-4 ternary edges + shared binary/solvent",
+        "usd": "~45-110",
+        "status": "BLOCKED on the valB calibration PASS"
+      }
+    ],
+    "authorized_now_usd": "~11 (R1 + R2), inside the standing <=$50 autonomy threshold",
+    "sequencing": "pilot ONE leg to completion first (the assembler has never read an NR4A2/NR4A3 co-fold), then fan the remaining 23 out fully parallel \u2014 no short-circuit value remains once the lane is proven"
+  },
+  "blinding": {
+    "mechanism": "leg results carry opaque HMAC tokens (nrv04_retro_blind.py); the key file's SHA-256 is committed at launch so a post-hoc swap is detectable",
+    "scoring": "mechanical \u2014 nrv04_retro_gate.verdict() emits the tier with no analyst discretion, committed with tests before any leg runs",
+    "stated_limit": "single-operator study: blinding is PROCEDURAL, not adversarial. The real guarantee is the git-frozen criteria, not the blinding. The manuscript must not describe this as a blinded trial."
+  },
+  "dependency_honesty": {
+    "strategy_gate": "STRATEGY.md RUNG 4 lists nrv04_retrospective as gated on valB_full + feasibility + step1_fanout",
+    "calibration_gate": "calib addendum condition 7: the NR-V04 retrospective runs only after the calibration PASSes",
+    "state_2026_07_24": "only the feasibility panel is complete; valB is the live front; step1_fanout has not run",
+    "resolution": "this prereg NARROWS rather than jumps the gate \u2014 the arm those gates govern (Arm F, the free-energy arm) is not run; the arm that runs now (Arm E) asserts no free energy, so the calibration is not what would license it, and its authority is bounded accordingly",
+    "if_insufficient": "the correct remedy is to HOLD Arm E until valB passes \u2014 not to run it and describe it as more than it is"
+  }
+}

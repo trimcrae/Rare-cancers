@@ -1,0 +1,181 @@
+#!/usr/bin/env python3
+"""
+NR-V04 RETROSPECTIVE holdout — the FROZEN panel + per-unit run spec (prereg §2).
+
+Single source of truth for "what runs" in the retrospective, mirroring nrv04_covalent_panel.py for the
+feasibility panel. Both the endpoint-MD driver (nrv04_covalent_md.py, reused unchanged — it is target-agnostic)
+and the Vast launcher consume this, so the panel cannot drift between them. Pure data + pure builders, so it is
+unit-tested offline.
+
+THE DESIGN POINT (prereg §0): NR4A1 Cys551 is NOT conserved in NR4A2/NR4A3 (Leg 0, nrv04-cys-conservation.json
+- Tyr and Thr respectively, no Cys within +/-5). Celastrol cannot form the covalent adduct on the paralogues at
+all. So the panel does NOT run "three paralogues, same treatment" and call a NR4A1 win a recovery of NR-V04
+selectivity. It DECOMPOSES:
+
+  R1 (PRIMARY) : NR4A1 vs NR4A2 vs NR4A3, all NON-COVALENT  -> does the ternary workflow discriminate paralogues
+                 with the warhead-reactivity confound held OFF? (the contrast a prospective, non-covalent NR4A3
+                 degrader campaign actually depends on)
+  R2           : NR4A1 covalent vs NR4A1 non-covalent        -> how much of the phenotype is warhead chemistry
+  R3           : epimer arms                                 -> CONDITIONAL (prereg 5d); needs new co-folds
+
+There is deliberately NO covalent NR4A2/NR4A3 leg and none may be added - there is no cysteine to bond to, so
+modelling one would be fabricating chemistry.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+# ---- frozen structural provenance (prereg 2a) --------------------------------------------------------------
+# Every leg starts from an EXISTING Boltz-2 co-fold under this ONE prefix. Using a single prefix for all three
+# paralogues is what makes the arms protocol-matched; the nrv04-covalent-cofold / nrv04-shakeout NR4A1
+# structures are deliberately NOT mixed in. Inventory: CI run 30121409280 -> nrv04-cofold-discovery.json.
+COFOLD_PREFIX = "nrv04-descriptive-v3"
+COFOLD_MODEL_SEEDS = (1, 2, 3)          # the co-fold model seeds available for nr4a1/nr4a2/nr4a3 alike
+MD_REPLICAS = (0, 1)                    # velocity seeds within a co-fold model (prereg 2b)
+
+# celastrol electrophile / NR4A1 reactive cysteine - identical to the feasibility panel (prereg 2c).
+CELASTROL_ELECTROPHILE_ATOM = "C6"
+TARGET_COV_RESNUM = 551
+
+# sampling: the canonical md_settings lengths the feasibility panel ran (1 ns equil + 5 ns production).
+PROD_NS = 5.0
+EQUIL_NS = 1.0
+
+
+@dataclass(frozen=True)
+class RetroArm:
+    arm_id: str
+    ligand: str                # "nrv04" | "nrv04_epimer"
+    target: str                # "NR4A1" | "NR4A2" | "NR4A3"
+    covalent: bool
+    cofold_system: str         # co-fold subdir under COFOLD_PREFIX
+    stage: str                 # "R1" | "R2" | "R3"
+    role: str = ""
+    controls_for: tuple = field(default_factory=tuple)
+
+
+# Frozen arms (prereg 2b table). Order is fixed. R3 is present but NOT authorized until prereg 5d fires.
+ARMS = (
+    RetroArm("retro_noncov_nr4a1", "nrv04", "NR4A1", False, "nr4a1", "R1",
+             role="primary matched non-covalent arm - the degraded paralogue", controls_for=("E1",)),
+    RetroArm("retro_noncov_nr4a2", "nrv04", "NR4A2", False, "nr4a2", "R1",
+             role="primary matched non-covalent arm - spared paralogue", controls_for=("E1",)),
+    RetroArm("retro_noncov_nr4a3", "nrv04", "NR4A3", False, "nr4a3", "R1",
+             role="primary matched non-covalent arm - spared paralogue (the design target)", controls_for=("E1",)),
+    RetroArm("retro_cov_nr4a1", "nrv04", "NR4A1", True, "nr4a1", "R2",
+             role="covalency decomposition: the ONLY paralogue with the reactive Cys551", controls_for=("R2",)),
+    # --- R3, conditional (prereg 5d): the epimer co-folds exist for NR4A1 only; nr4a2/nr4a3 need generating.
+    RetroArm("retro_epi_nr4a1", "nrv04_epimer", "NR4A1", False, "neg_inactive", "R3",
+             role="VHL-inactive epimer specificity control", controls_for=("R3",)),
+    RetroArm("retro_epi_nr4a2", "nrv04_epimer", "NR4A2", False, "neg_inactive_nr4a2", "R3",
+             role="epimer control - REQUIRES a new co-fold", controls_for=("R3",)),
+    RetroArm("retro_epi_nr4a3", "nrv04_epimer", "NR4A3", False, "neg_inactive_nr4a3", "R3",
+             role="epimer control - REQUIRES a new co-fold", controls_for=("R3",)),
+)
+
+AUTHORIZED_STAGES = ("R1", "R2")        # prereg 7: R3 and Arm F are conditional / blocked
+PRIMARY_ARM = "retro_noncov_nr4a1"
+PARALOGUE_ARMS = ("retro_noncov_nr4a2", "retro_noncov_nr4a3")
+
+
+def arm_by_id(arm_id: str) -> RetroArm:
+    for a in ARMS:
+        if a.arm_id == arm_id:
+            return a
+    raise KeyError(f"unknown retrospective arm {arm_id!r}; known: {[a.arm_id for a in ARMS]}")
+
+
+def arms_for_stages(stages=AUTHORIZED_STAGES):
+    return [a for a in ARMS if a.stage in stages]
+
+
+def enumerate_units(stages=AUTHORIZED_STAGES, model_seeds=COFOLD_MODEL_SEEDS, replicas=MD_REPLICAS):
+    """Every independent GPU unit = (arm, cofold_model_seed, md_replica). One Vast instance each, its own
+    checkpoint prefix. 3 models x 2 replicas x len(arms) legs."""
+    return [(a, m, r) for a in arms_for_stages(stages) for m in model_seeds for r in replicas]
+
+
+def unit_name(arm: RetroArm, model_seed: int, replica: int) -> str:
+    """Stable per-unit name (Vast label + S3 checkpoint prefix, so units never collide)."""
+    return f"nrv04retro-{arm.arm_id}-m{model_seed}-r{replica}"
+
+
+def cofold_prefix_s3(arm: RetroArm, bucket: str, model_seed: int) -> str:
+    """The S3 PREFIX of the specific co-fold MODEL this leg starts from. Unlike the feasibility panel (which
+    globbed one system dir), the retrospective pins the model seed, because the co-fold model is the unit of
+    independence in the statistics (prereg 4a)."""
+    return f"s3://{bucket}/{COFOLD_PREFIX}/{arm.cofold_system}/seed_{model_seed}/"
+
+
+def leg_env(arm: RetroArm, model_seed: int, replica: int, mode: str = "run",
+            prod_ns: float = PROD_NS, equil_ns: float = EQUIL_NS) -> dict:
+    """The engine env for one unit - consumed by nrv04_covalent_md.py unchanged (it derives E3-vs-target chains
+    from the topology, so it is paralogue-agnostic). Deterministic, no I/O.
+
+    LEG_ID carries the model seed so a leg's inputs, checkpoint and result JSON all agree; SEED is the MD
+    velocity replica (what the driver seeds the thermostat with)."""
+    env = {
+        "PANEL": "nrv04_retrospective",
+        "LEG_ID": f"{arm.arm_id}__m{model_seed}",
+        "SEED": str(replica),
+        "MODE": mode,
+        "LIGAND": arm.ligand,
+        "TARGET": arm.target,
+        "ENV_ASSEMBLY": f"ternary_{arm.target.lower()}",
+        "COVALENT": "1" if arm.covalent else "0",
+        "MUTATION": "",
+        "PROD_NS": str(prod_ns),
+        "EQUIL_NS": str(equil_ns),
+        "COFOLD_MODEL_SEED": str(model_seed),
+        "OPENMM_REQUIRE_CUDA": "1",
+    }
+    if arm.covalent:
+        env["COV_LIG_ATOM"] = CELASTROL_ELECTROPHILE_ATOM
+        env["COV_RESNUM"] = str(TARGET_COV_RESNUM)
+    return env
+
+
+def panel_manifest(stages=AUTHORIZED_STAGES) -> dict:
+    """Self-describing manifest of exactly what would run (no I/O, no spend) - the thing to eyeball before a
+    fan-out and to attach to the result."""
+    units = enumerate_units(stages)
+    per_arm = {}
+    for a, m, r in units:
+        per_arm.setdefault(a.arm_id, []).append(unit_name(a, m, r))
+    return {
+        "panel": "nrv04_retrospective",
+        "prereg": "nr4a3-nrv04-retrospective-prereg.md",
+        "stages": list(stages),
+        "cofold_prefix": COFOLD_PREFIX,
+        "cofold_model_seeds": list(COFOLD_MODEL_SEEDS),
+        "md_replicas": list(MD_REPLICAS),
+        "n_units": len(units),
+        "units_per_arm": per_arm,
+        "primary_contrast": {"arm": PRIMARY_ARM, "vs_pooled": list(PARALOGUE_ARMS),
+                             "endpoint": "E1 interface-RMSD plateau (A), lower = more stable",
+                             "predicted_sign": "negative (NR4A1 more stable)"},
+        "sampling_ns": {"equil": EQUIL_NS, "prod": PROD_NS},
+        "honesty": "Arm E (ensemble endpoint MD) only - NO free energy is computed here. The alchemical "
+                   "ddG_coop arm (Arm F) is BLOCKED on the valB calibration PASS (calib addendum condition 7).",
+    }
+
+
+def _cli(argv=None):
+    import argparse
+    import json
+    ap = argparse.ArgumentParser(description="NR-V04 retrospective frozen panel (pure; no spend).")
+    ap.add_argument("--stages", default=",".join(AUTHORIZED_STAGES))
+    ap.add_argument("--units", action="store_true", help="print every unit name and exit")
+    args = ap.parse_args(argv)
+    stages = tuple(s.strip() for s in args.stages.split(",") if s.strip())
+    if args.units:
+        for a, m, r in enumerate_units(stages):
+            print(unit_name(a, m, r))
+        return 0
+    print(json.dumps(panel_manifest(stages), indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(_cli())
