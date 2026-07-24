@@ -289,20 +289,22 @@ def build_system(structure_path, mutation_spec, work_dir):
     # entry that put barstar's Y29 on chain A, which is barnase. `mut_chain` is passed when the
     # installed pmx accepts it, and the outcome is VERIFIED against the written file either way, so
     # a silently chain-blind pmx cannot go unnoticed.
-    kwargs = {"m": model, "mut_resid": m["resid"], "mut_resname": m["mutant"], "ff": ff_name}
+    # Resolve where the target actually IS after pdb2gmx — the label may not have survived.
+    target_chain, target_resid = resolve_target_after_prep(prepped, structure_path, m)
+    kwargs = {"m": model, "mut_resid": target_resid, "mut_resname": m["mutant"], "ff": ff_name}
     import inspect as _inspect
     sig = _inspect.signature(pmx_mutate)
     chain_param = next((p for p in ("mut_chain", "chain", "mut_chain_id") if p in sig.parameters), None)
     if chain_param:
-        kwargs[chain_param] = m["chain"]
-        _log(f"pmx mutate: targeting chain {m['chain']} via `{chain_param}`")
+        kwargs[chain_param] = target_chain
+        _log(f"pmx mutate: targeting {target_chain}:{target_resid} via `{chain_param}`")
     else:
         _log(f"NOTE this pmx's mutate() exposes no chain argument ({sorted(sig.parameters)}); "
              f"relying on the post-mutation verification below")
     mutated = pmx_mutate(**kwargs)
     mutated.write(mutant)
-    _verify_mutation_site(mutant, m, prepped)
-    _log(f"pmx mutate: {m['wt']}{m['resid']}->{m['mutant']} (chain {m['chain']}) -> {mutant}")
+    _verify_mutation_site(mutant, dict(m, chain=target_chain, resid=target_resid), prepped)
+    _log(f"pmx mutate: {m['wt']}{m['resid']}->{m['mutant']} (staged {m['chain']}:{m['resid']}, built {target_chain}:{target_resid}) -> {mutant}")
 
     # pdb2gmx pass 2, on the MUTANT: this is the one that produces the topology gentop promotes.
     #
@@ -348,6 +350,92 @@ def build_system(structure_path, mutation_spec, work_dir):
     n_atoms = _count_atoms(os.path.join(work_dir, "npt.gro"))
     _log(f"system built and equilibrated: {n_atoms} atoms (force field {ff_name})")
     return os.path.join(work_dir, "npt.gro"), hybrid_top, n_atoms, ff_name
+
+
+def chain_residue_lists(pdb_path):
+    """{chain_id: [(resid, resname), ...]} in file order. Pure.
+
+    Deliberately plain text parsing: this has to work on both the author-numbered RCSB structure and
+    whatever pdb2gmx emits, without either a structure library's opinions or ours.
+    """
+    chains, seen = {}, set()
+    with open(pdb_path) as fh:
+        for line in fh:
+            if line[:6] not in ("ATOM  ", "HETATM"):
+                continue
+            chain = line[21]
+            key = (chain, line[22:27])
+            if key in seen:
+                continue
+            seen.add(key)
+            try:
+                resid = int(line[22:26])
+            except ValueError:
+                continue
+            chains.setdefault(chain, []).append((resid, line[17:20].strip().upper()))
+    return chains
+
+
+def resolve_target_after_prep(prepped_pdb, original_pdb, mutation):
+    """Find where the mutation target ended up after pdb2gmx. Returns (chain, resid).
+
+    WHY THIS IS NECESSARY. pdb2gmx does not preserve author chain identity across a multi-chain
+    system, so the complex leg failed with
+
+        ValueError: resid 29 not found in chain "D"   (pmx/model.py:835)
+
+    even though barstar's Y29 was plainly there — under a different chain letter and/or number. Note
+    what did NOT happen: nothing silently mutated whatever residue 29 of some other chain happened to
+    be. That is the guard working.
+
+    The target is located by SEQUENCE, not by label: find the prepped chain whose ordered residue
+    sequence matches the original target chain, then take the residue at the same position within it.
+    Labels are what pdb2gmx is free to change; the sequence is not. The wild-type identity at the
+    resolved position is checked before returning, so a wrong match fails here rather than becoming a
+    confident wrong ddG.
+    """
+    m = mutation
+    orig = chain_residue_lists(original_pdb)
+    prepped = chain_residue_lists(prepped_pdb)
+    if m["chain"] not in orig:
+        raise RuntimeError(f"chain {m['chain']} absent from the staged structure {original_pdb}")
+    target_chain = orig[m["chain"]]
+    names = [rn for _rid, rn in target_chain]
+    index = next((i for i, (rid, _rn) in enumerate(target_chain) if rid == m["resid"]), None)
+    if index is None:
+        raise RuntimeError(f"residue {m['resid']} absent from chain {m['chain']} of {original_pdb}")
+
+    def _similarity(other):
+        n = min(len(names), len(other))
+        if n == 0:
+            return 0.0
+        return sum(1 for a, b in zip(names[:n], other[:n]) if a == b) / max(len(names), len(other))
+
+    scored = sorted(((_similarity([rn for _r, rn in res]), cid) for cid, res in prepped.items()),
+                    reverse=True)
+    best_score, best_chain = scored[0]
+    if best_score < 0.9:
+        raise RuntimeError(
+            f"could not identify the target chain after pdb2gmx: best sequence match was chain "
+            f"{best_chain!r} at {best_score:.0%}. Chains present: "
+            f"{ {c: len(r) for c, r in prepped.items()} }. Refusing to guess which chain to mutate.")
+    if len(scored) > 1 and scored[1][0] > best_score - 0.05:
+        raise RuntimeError(
+            f"target chain is AMBIGUOUS after pdb2gmx: {best_chain!r} at {best_score:.0%} vs "
+            f"{scored[1][1]!r} at {scored[1][0]:.0%}. Two chains this similar means the mutation "
+            f"could land on either; refusing to pick.")
+    resolved = prepped[best_chain]
+    if index >= len(resolved):
+        raise RuntimeError(f"chain {best_chain!r} is shorter than the target position {index}")
+    resid, resname = resolved[index]
+    if resname != m["wt"]:
+        raise RuntimeError(
+            f"resolved {best_chain}:{resid} is {resname}, not the expected {m['wt']}. The sequence "
+            f"match put the target in the wrong place; refusing to mutate it.")
+    if (best_chain, resid) != (m["chain"], m["resid"]):
+        _log(f"pdb2gmx relabelled the target: {m['chain']}:{m['resid']} -> {best_chain}:{resid} "
+             f"(matched by sequence at {best_score:.0%}, wild-type {resname} confirmed)")
+    return best_chain, resid
 
 
 def discover_forcefields():

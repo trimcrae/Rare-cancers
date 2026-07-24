@@ -795,3 +795,86 @@ def test_reduce_reports_the_engine_from_the_legs_not_a_hardcoded_string():
         out = pr.reduce_all(td)
     assert out["engines"] == ["pmx + GROMACS"]
     assert out["protocols"] == ["equilibrium lambda windows"]
+
+
+# ---------------------------------------------------------------- target resolution after pdb2gmx
+def _pdb(rows):
+    return "".join(
+        f"ATOM  {i+1:5d}  CA  {rn:>3s} {ch}{rid:4d}      0.000   0.000   0.000  1.00 20.00           C\n"
+        for i, (ch, rid, rn) in enumerate(rows)) + "END\n"
+
+
+def test_target_is_found_after_pdb2gmx_relabels_the_chain(tmp_path):
+    """pdb2gmx does not preserve author chain identity across a multi-chain system.
+
+    The complex leg failed with `resid 29 not found in chain "D"` even though barstar's Y29 was
+    plainly present — under a different label. Resolution goes by SEQUENCE, which pdb2gmx does not
+    change, not by the label, which it does.
+    """
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    prepped = tmp_path / "prepped.pdb"
+    barnase = [("A", i, "LEU") for i in range(1, 11)]
+    barstar = [("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR")] + [("D", 30, "GLY")]
+    orig.write_text(_pdb(barnase + barstar))
+    # pdb2gmx renames D -> B and renumbers it continuously after chain A
+    relabelled = [("A", i, "LEU") for i in range(1, 11)] + \
+                 [("B", 10 + i, "SER") for i in range(1, 29)] + \
+                 [("B", 39, "TYR"), ("B", 40, "GLY")]
+    prepped.write_text(_pdb(relabelled))
+    m = pf.classify_mutation("D:Y29A")
+    chain, resid = ppmx.resolve_target_after_prep(str(prepped), str(orig), m)
+    assert (chain, resid) == ("B", 39)
+
+
+def test_target_resolution_refuses_when_the_wild_type_does_not_match(tmp_path):
+    """Belt and braces: the chain matches well overall, but the resolved position is not the WT.
+
+    A high-similarity match landing on the wrong residue is exactly the case that would otherwise
+    become a confident wrong ddG, so the identity is re-checked after resolution.
+    """
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "o.pdb"; prepped = tmp_path / "p.pdb"
+    seq = [("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR"), ("D", 30, "GLY")]
+    orig.write_text(_pdb(seq))
+    # Same chain, but the target position already carries PHE — ~97% similar, so it clears the
+    # sequence gate and must be caught by the wild-type check instead.
+    altered = [("B", i, "SER") for i in range(1, 29)] + [("B", 29, "PHE"), ("B", 30, "GLY")]
+    prepped.write_text(_pdb(altered))
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="not the expected TYR"):
+        ppmx.resolve_target_after_prep(str(prepped), str(orig), m)
+
+
+def test_target_resolution_refuses_a_poor_sequence_match(tmp_path):
+    """No chain resembling the target means we do not know where to mutate — refuse, do not guess."""
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "o.pdb"; prepped = tmp_path / "p.pdb"
+    orig.write_text(_pdb([("D", 1, "SER"), ("D", 29, "TYR")]))
+    prepped.write_text(_pdb([("B", 1, "LEU"), ("B", 2, "ALA")]))
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="could not identify the target chain"):
+        ppmx.resolve_target_after_prep(str(prepped), str(orig), m)
+
+
+def test_target_resolution_refuses_two_equally_similar_chains(tmp_path):
+    """Two near-identical chains means the mutation could land on either — refuse, do not pick."""
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "o.pdb"; prepped = tmp_path / "p.pdb"
+    seq = [("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR")]
+    orig.write_text(_pdb(seq))
+    dup = [("A", i, "SER") for i in range(1, 29)] + [("A", 29, "TYR")] + \
+          [("B", i, "SER") for i in range(1, 29)] + [("B", 29, "TYR")]
+    prepped.write_text(_pdb(dup))
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="AMBIGUOUS"):
+        ppmx.resolve_target_after_prep(str(prepped), str(orig), m)
+
+
+def test_chain_residue_lists_dedupes_atoms_into_residues(tmp_path):
+    p = tmp_path / "x.pdb"
+    p.write_text(
+        "ATOM      1  N   TYR D  29       0.000   0.000   0.000  1.00 20.00           N\n"
+        "ATOM      2  CA  TYR D  29       0.000   0.000   0.000  1.00 20.00           C\n"
+        "ATOM      3  CA  GLY D  30       0.000   0.000   0.000  1.00 20.00           C\nEND\n")
+    assert ppmx.chain_residue_lists(str(p)) == {"D": [(29, "TYR"), (30, "GLY")]}
