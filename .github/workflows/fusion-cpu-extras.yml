@@ -503,7 +503,7 @@ jobs:
       # A job log is only readable from its tail, and the tail is always runner boilerplate — so the readout
       # that matters is committed back to the branch instead. Also leaves a timestamped trail of the fleet.
       - name: Commit the progress / map readout back to the branch
-        if: ${{ always() && (github.event.inputs.fanout_mode == 'monitor' || github.event.inputs.fanout_mode == 'collect') }}
+        if: ${{ always() && (github.event.inputs.fanout_mode == 'monitor' || github.event.inputs.fanout_mode == 'collect' || github.event.inputs.fanout_mode == 'diag') }}
         run: |
           set -e
           cd "$GITHUB_WORKSPACE"
@@ -513,7 +513,7 @@ jobs:
           # a monitor run (which writes progress.json but not map.json) staged nothing at all and reported
           # "no readout change" while silently swallowing the error.
           staged=0
-          for f in step1-fanout-progress.json step1-fanout-map.json; do
+          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt; do
             if [ -f "research/modalities/$f" ]; then
               git add -f "research/modalities/$f"; staged=1; echo "staged $f"
             else

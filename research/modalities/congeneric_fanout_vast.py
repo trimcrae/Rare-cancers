@@ -486,8 +486,16 @@ def mode_diag():
     """Root-cause a failed/exited unit: its S3 leg log if one was shipped, plus the container stdout pulled
     straight off the Vast instance (which survives even when the pipeline died before uploading anything).
 
-    DIAG_UNIT selects a unit by substring (default: every unit with no ddg.json)."""
+    Output is ALSO written to step1-fanout-diag.txt and committed back to the branch: a job log is only
+    readable from its tail, and a diagnostic dump is long enough that the part that matters never survives
+    there. DIAG_UNIT selects a unit by substring (default: every unit with no ddg.json)."""
     bucket, s3 = _require_bucket(), _s3()
+    out_lines = []
+
+    def emit(msg):
+        print(msg, flush=True)
+        out_lines.append(str(msg))
+
     key = os.environ.get("VAST_API_KEY")
     want = (os.environ.get("DIAG_UNIT") or "").strip()
     units = [u for u in default_units()
@@ -502,20 +510,24 @@ def mode_diag():
         if not (phase and "FAIL" in phase.upper()) and want == "" and label in live \
                 and live[label].get("actual_status") not in ("exited", "offline", "error"):
             continue                                  # healthy and still going — nothing to diagnose
-        print(f"\n[s1f-diag] ===== {uid} (label {label}) phase={phase} "
-              f"vast_status={live.get(label, {}).get('actual_status', 'gone')} =====")
+        emit(f"\n[s1f-diag] ===== {uid} (label {label}) phase={phase} "
+             f"vast_status={live.get(label, {}).get('actual_status', 'gone')} =====")
         for leg in ("complex", "solvent"):
             txt = _get_text(s3, bucket, f"{RESULT_PREFIX}/{uid}/{leg}.log")
             if txt:
-                print(f"[s1f-diag] --- S3 {leg}.log (tail) ---\n{txt[-4000:]}")
+                emit(f"[s1f-diag] --- S3 {leg}.log (tail) ---\n{txt[-4000:]}")
         inst = live.get(label)
         if inst and key:
             from nrv04_vast_launch import _vast_instance_logs
-            print(f"[s1f-diag] --- Vast container stdout for instance {inst.get('id')} ---")
-            print(_vast_instance_logs(key, inst.get("id")))
+            emit(f"[s1f-diag] --- Vast container stdout for instance {inst.get('id')} ---")
+            emit(_vast_instance_logs(key, inst.get("id")))
         elif not inst:
-            print("[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log "
-                  "above is the only record (this is why the leg now uploads its log even on failure)")
+            emit("[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log "
+                 "above is the only record (this is why the leg now uploads its log even on failure)")
+
+    with open("step1-fanout-diag.txt", "w") as f:
+        f.write("\n".join(out_lines) + "\n")
+    print(f"[s1f-diag] wrote step1-fanout-diag.txt ({len(out_lines)} blocks)")
 
 
 def mode_stop():
