@@ -297,21 +297,20 @@ Two of the reviewer's mandated validations look similar ("benchmark the method o
    looks promising.** We never pay for an expensive stage on a hypothesis a cheap stage could have falsified.
 3. **GO/NO-GO after every priced rung.** Each rung below ends with an explicit GO / NO-GO test. NO-GO = stop or
    pivot; do not spend the next rung.
-4. **Every step is priced** (honest range), on the CURRENT provider anchors (updated 2026-07-24 from live billing):
-   - **MEASURED — Vast RTX 3090, endpoint MD, large assemblies (~150–470k atoms):** billed **~$0.10–0.16/hr**
-     (`dph_total`; host storage/inet spread, not the bid, drives it), **~40–61 ns/day → ~$0.4–0.7 per 6 ns leg**
-     (NR-V04 covalent panel, 6 completed legs 2026-07-23, firming toward the higher end). That realized panel is
-     **~$10–11**, ~**10× under** its old $40–100 estimate — so every MD-bound line below is priced on this leg.
-   - **MEASURED — alchemical RBFE complex leg ≈ 55 GPU-h** (~4.5 GPU-h/window × 12; pilot billing 2026-07-13) →
-     **~$11 GCP-L4 / ~$18 AWS / ~$8–14 Vast-4090** per complex leg; a full binary edge (complex + solvent) ≈
-     **~$12–20 on Vast 4090**.
-   - **ESTIMATED — Vast RTX 4090, alchemical, ~$0.144/hr cheapest-eligible (probe 2026-07-22), ~$0.15–0.25/hr
-     realized with the ×1.5 bid:** a full **3-replica ternary cooperativity edge ≈ ~$65–110** (vs ~$288 on AWS
-     g5 — the same ~435 GPU-h at a ~2–3× cheaper rate). **NOT yet measured on Vast → PIN from the first ternary
-     alchemical edge run there;** ternary/mutation-cycle lines below keep wide ranges until then.
-   - **Pricing rule for a step:** endpoint MD → price on the measured 3090 leg; alchemical RBFE/FEP → price on the
-     4090 edge. (Legacy anchors retired: g5.xlarge spot ≈ $0.40–0.60/GPU-h; the old "$18–60 RBFE / $80–200 ABFE"
-     were AWS-priced and ~2–3× the Vast numbers now in use.)
+4. **Every step is priced** (honest range) bottom-up per edge — see the authoritative **GPU/PROVIDER SELECTION →
+   MEASURED PROGRAM ECONOMICS** block below (reconciled 2026-07-24 with the parallel firm-run session). Anchors:
+   - **CARD (measured, `gpu_md_bench`):** on Vast the **RTX 4090 wins $/ns at EVERY size**, including the 466k
+     covalent panel (4090 175.6 vs 3090 72.5 ns/day = 2.42×, only ~9 % more/hr) — the a-priori "bandwidth-bound →
+     3090" pick is **refuted**. **Default everything on Vast to the 4090**, endpoint MD included (~$0.36/leg for the
+     466k panel vs ~$0.6 on 3090; smaller systems cheaper).
+   - **ALCHEMICAL (pilot billing — NOT the bench $/ns):** HREX is ~tens× slower per ns than plain MD, so price
+     alchemical on the ~55 GPU-h/RBFE-complex-leg anchor: **RBFE binary edge ≈ ~$12–20 on Vast 4090**; **ternary
+     3-replica cooperativity edge ≈ ~$65–110** (146,509-particle, 16-window system; still ESTIMATED — PIN from the
+     first real ternary edge).
+   - **⚠ DO NOT quote a single whole-program total.** Per the economics block, the provider is ~2–3× cheaper/GPU-h
+     (down) but the real per-edge GPU-h is ~5–15× what the old $840 schedule assumed (up) — they roughly cancel to
+     an unknown dominated by the unpinned ternary-matrix count. Price bottom-up per edge; gate each rung. (The
+     per-step `Cum.` markers below are indicative running sums only, NOT a committed program total.)
 
 ---
 
@@ -521,7 +520,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   independently satisfied (valA_mini clean on am1bcc → cite OpenFE; **valA_full skipped**), so that side of the
   fan-out gate is met — but RUNG 4 still requires the replicas + pose/state sensitivity above; checking this box
   does **not** by itself unlock the fleet.
-- **`[~]` Validation B-mini — all-binding graded cooperativity edge (Wurz cmpd 1→4)** *(valB_mini · GPU · Vast 4090 / GCP-L4 · ∥)* — **Price: ~$40–80 · Cum. ~$85**
+- **`[~]` Validation B-mini — all-binding graded cooperativity edge (Wurz cmpd 1→4)** *(valB_mini · GPU · Vast 4090 / GCP-L4 · ∥)* — **Price: ~$65–110 (one Vast-4090 ternary cooperativity edge; corrected from ~$40–80) · Cum. indicative**
   **★ RECONCILED 2026-07-24 (all-binding-graded-first rule + schedule sync).** The mini is the **Wurz et al.
   SMARCA2–VHL cmpd 1→4 all-binding graded edge** (α 12.8→2.6 ≈ **+0.94 kcal/mol**; both endpoints are *productive
   binders*), which the schedule already carries as in-progress — this is the cleanest first quantitative
@@ -616,7 +615,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
 
 ### RUNG 4 — warhead map, differential atlas, and the retrospective gate *(the science inputs to the prospective ladder)*
 
-- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** *(step1_fanout_cmpd19 · GPU · Vast 4090)* — **Price: ~$50–140 · Cum. ~$390**
+- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** *(step1_fanout_cmpd19 · GPU · Vast 4090)* — **Price: ~$230–380 (≈19 RBFE edges × ~$12–20; corrected per firm-run economics) · Cum. indicative**
   Full congeneric map across conformer panels + matched paralogues + microstates, as conditional hypotheses with
   sensitivity ranges — this produces the **warhead + exit-vector inputs** the inverse-design stage (5b) consumes.
   **Gate:** Val A accuracy satisfied (**valA_full SKIPPED — valA_mini clean on am1bcc → cite OpenFE**) AND the
@@ -633,26 +632,26 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   L→(G/N), U574 Q→(V/G), U412 R→(A/T, charge-lost vs both), U424 Q→(L/Y), U413 D→(K/S, charge-reversed).
   **★ GATE: PASS / GO** — a differential surface exists to steer an E3 against (distinct from the ~70 % pocket
   hotspot), so the RUNG-5a orientation-basin search is warranted. *(Optional add-on still open: matched NR4A1/2 MD
-  ensembles, ~$10–40 Vast 3090, to test which handles survive dynamics — a handle is a hypothesis until the RUNG
+  ensembles, ~$10–40 Vast 4090, to test which handles survive dynamics — a handle is a hypothesis until the RUNG
   5a-KS reciprocal mutation cycle tests it causally.)*
-- **`[ ]` NR-V04 retrospective — preregistered holdout** *(nrv04_retrospective · GPU · Vast 3090 MD + 4090 FEP)* — **Price: ~$60–150 · Cum. ~$500**
+- **`[ ]` NR-V04 retrospective — preregistered holdout** *(nrv04_retrospective · GPU · Vast 4090)* — **Price: ~$60–150 · Cum. indicative**
   Full NR4A1/2/3 ensembles through the pipeline, NO tuning, epimer control. Report **directional concordance**,
   never "recovered degradation." **Gate:** Val B-full + NR-V04 feasibility + Step 1 fan-out. **GO/NO-GO:** at least
   directionally concordant with the known NR4A1-degraded / NR4A2·3-spared outcome → GO to the prospective ladder.
-  Discordant → **the ladder is not justified;** publish the honest negative. *(Revised down from ~$80–200: the MD
-  bulk runs on Vast 3090 at the measured ~$0.4–0.7/leg — the NR-V04 covalent feasibility panel realized ~$0.6/leg,
-  ~10× under its old estimate — with only a few alchemical/ubiquitination-geometry legs on 4090.)*
+  Discordant → **the ladder is not justified;** publish the honest negative. *(MD bulk on Vast 4090 — the measured
+  card-winner at every size, ~$0.36/leg at 466k and less for the smaller LBD/ternary systems — plus a few
+  alchemical/ubiquitination-geometry edges.)*
 
 ### RUNG 5 — orientation-first prospective ladder *(replaces the fixed 24–36 matrix; the flagship, now gated mid-ladder by the causal kill-switch)*
 
 > Workflow: paralogue surface differences → selective interface **basins** → productive CRL geometry → linker
 > requirements → molecules. Full detail + rationale: **"★ PROSPECTIVE-STAGE RESTRUCTURING (2026-07-24)"** above.
 
-- **`[ ]` 5a · Orientation-basin search** *(orientation_basin_search · CPU + opt. Vast 3090 rescore · ∥)* — **Price: ~$0–50 · Cum. ~$525**
+- **`[ ]` 5a · Orientation-basin search** *(orientation_basin_search · CPU + opt. Vast 4090 rescore · ∥)* — **Price: ~$0–50 · Cum. indicative**
   Broad VHL/CRBN transform sampling (flexible linker-reach restraint); matched 3-paralogue interface scoring;
   cluster into **~3–8 basins/ligase**; cheap counterfactual residue screen to **nominate** wedges. Rigid-body
   sampling + coarse scoring + clustering is **$0 CPU**; optional MM-GBSA rescore of basin representatives ×
-  paralogue on Vast 3090 ~$30–50.
+  paralogue on Vast 4090 ~$30–50.
 - **`[ ]` 5a-KS · Wedge confirmation — ★ pilot-first KILL-SWITCH (cheap gate) + causal RESULT** *(selectivity_wedge_confirm · GPU · Vast 4090 alchemical)* — **Decision: ~$40–90 · full result if GO: ~$100–350 (est.) · Cum. to decision ~$590**
   **Pilot ONE direction first** (repo pilot-one-leg rule): the single most-decisive leg **3→1**
   (`ΔΔG_neo-interface = ΔG_mut^ternary − ΔG_mut^binary`), ~**$40–90** on Vast 4090.
@@ -670,12 +669,12 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   that realize **distinct** basins (orientation control, not atom count); annotate exact structures + synthetic
   feasibility → **~12–20 virtual constructs** (this is where the "24–36" arithmetic now lives — an upper bound on
   virtual constructs, not a hand-built grid). Mostly **$0 CPU**.
-- **`[ ]` 5c · Explicit ternary-ensemble refinement** *(ternary_ensemble_refine · GPU · Vast 3090 endpoint MD)* — **Price: ~$100–250 · Cum. ~$910**
+- **`[ ]` 5c · Explicit ternary-ensemble refinement** *(ternary_ensemble_refine · GPU · Vast 4090 endpoint MD)* — **Price: ~$100–250 · Cum. indicative**
   ~12–20 → replicated ternary + full CRL/E2~Ub MD across target states, initial linker conformers and in-basin
   poses; matched NR4A1/2/3; interface-contact persistence; linker-strain distributions; basin retention; **separate
   accessibility from stability**; robust constraint-satisfaction filtering → **~4–8 constructs** nondominated under
-  scenario + model uncertainty. *(Endpoint MD → Vast 3090 at the measured ~$0.4–0.7/leg; dozens-to-~200 legs.)*
-- **`[ ]` 5d · Local ternary FEP** *(local_ternary_fep · GPU · Vast 4090 alchemical · ∥)* — **Price: ~$150–500 (est.) · Cum. ~$1,235**
+  scenario + model uncertainty. *(Endpoint MD → Vast 4090, the measured card-winner at every size; dozens-to-~200 legs.)*
+- **`[ ]` 5d · Local ternary FEP** *(local_ternary_fep · GPU · Vast 4090 alchemical · ∥)* — **Price: ~$150–500 (est.) · Cum. indicative**
   Alchemy **only** within a retained basin (both endpoints plausibly bound, modest congeneric linker change,
   acceptable hybrid topology, endpoint stability not restraint-created). Refines the matched final series; **NOT**
   used to compare unrelated linkers, ligases, or basins. ~3–6 cooperativity edges × ~$65–110 (3-replica, Vast
@@ -702,37 +701,34 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
 
 ---
 
-## Spend summary
+## Spend summary — bottom-up per rung (NO single program total)
 
-| Checkpoint | What we've learned by here | Cumulative $ (mid, Vast-priced) |
+Per the **MEASURED PROGRAM ECONOMICS** decision above, we **do not quote a whole-program total**: the provider is
+~2–3× cheaper/GPU-h (down) but the real per-edge GPU-h is ~5–15× what the old $840 schedule assumed (up) — they
+cancel to an unknown dominated by the **unpinned ternary-matrix count**. Price bottom-up per rung; gate each one.
+
+| Rung | GPU work | Bottom-up spot $ (Vast 4090) |
 |---|---|---|
-| After Rung 1 (Val A smoke) | Does our am1bcc build reproduce a known ΔΔG? (charge-model fixed → cite OpenFE) | **~$12** |
-| After Rung 2 (pilot + Val B-mini) | Is cmpd19 stable to build on? Does the all-binding graded ternary edge rank right? | **~$85** |
-| After Rung 3 (Val B cube + NR-V04 feasibility) | Do the ternary modules calibrate? (valA_full SKIPPED — cite OpenFE) | **~$300** |
-| After Rung 4 (fan-out + atlas + NR-V04 retro) | Warhead map + differential-surface atlas + NR-V04 concordance | **~$500** |
-| **★ Rung 5a-KS — pilot-first wedge gate** | **Pilot ONE mutation direction; no interface loss ⇒ STOP + publish causal negative (marginal decision ≈ $40–140)** | **~$590 (decision)** |
-| After Rung 5 full (basin→confirm→linker→refine→FEP) | The flagship candidate set + its causal mechanism | **~$1,235** |
-| Optional ΔG_open / ABFE | unconditional affinity / pose-plausibility | +$200–500 |
+| 1 · Val A smoke | 1 public RBFE edge | **~$0–15** |
+| 2 · pilot + Val B-mini | cmpd19 RBFE edge + 1 ternary cooperativity edge | **~$15–40 + ~$65–110** |
+| 3 · Val B cube + NR-V04 feasibility | 2–3 ternary/RBFE edges + MD module; covalent panel (MEASURED) | **~$120–350 + ~$10–11** |
+| 4 · fan-out + atlas + NR-V04 retro | ≈19 RBFE edges (~$12–20 ea) + $0 atlas (DONE) + NR4A1/2/3 ensembles | **~$230–380 + $0 + ~$60–150** |
+| **★ 5a-KS · pilot wedge leg (KILL-SWITCH)** | atlas($0) + basin($0–50) + **one** mutation direction | **decision ≈ $40–140** |
+| 5 (only if GO) · full cycle + linker($0) + ensemble + local FEP | reciprocal cycle + ternary/CRL MD + within-basin FEP | **~$100–350 + ~$100–250 + ~$150–500** |
+| Optional ΔG_open / ABFE | — | +$200–500 |
 
-**What the restructuring does to the price (honest):**
-- **Full-go ceiling rises modestly — ~$1.2k mid (range ~$0.8–1.9k), vs the old ~$0.9k** — because the flagship now
-  does genuinely more *physics* (causal reciprocal mutation cycles + ensemble MD + local FEP) instead of
-  co-fold-and-score on a fixed matrix.
-- **The live Vast pricing keeps that increase small.** On the old AWS anchors the restructured ladder would be
-  ~$2–3k; the **measured** Vast 3090 endpoint-MD (~$0.4–0.7/leg, ~10× under the old MD estimates) plus the
-  ~2–3×-cheaper Vast-4090 alchemical rate hold it near ~$1.2k. Every MD-bound line (atlas, NR-V04, ensemble
-  refine) is now cheap; only the alchemical 4090 work (wedge cycles, local FEP, the Val B cube edges) carries real
-  cost.
-- **The kill-switch caps the *likely* spend — cheaply.** If no robust wedge (the real risk on homologous
-  paralogues), the pilot mutation direction fails and we **stop at ~$590** — a **~$40–140 marginal decision** (free
-  atlas + basin nomination + one pilot alchemical leg) on top of RUNG 4 — with a publishable causal negative, and
-  saving the ~$250–750 refinement tail. This is **not** a $350 gate on a $500 tail.
-- **The full reciprocal mutation cycle (~$100–350, est.)** — the one Vast price not yet measured on our card (pin
-  it with the first Vast ternary edge) — is the paper's **primary causal RESULT**, completed only on a passing
-  pilot. It is the deliverable, not gate overhead; treating it as "spend to decide to spend" was the earlier error.
-- **Net:** we can still kill a non-viable paper for **~$25** (Val A) and get an honest *causal* negative for
-  **~$725** (kill-switch); full program is **~$1.2k only if every gate — through the wedge confirmation — says GO.**
-  Every launch still waits for an explicit go; nothing is pre-authorized.
+**The economics of the restructuring, honestly:**
+- **It buys causal evidence, not a cheaper flagship.** The prospective stage now runs reciprocal mutation cycles +
+  ensemble MD + local FEP (real physics) instead of co-fold-and-score — higher information per dollar, not lower $.
+- **The kill-switch is genuinely cheap.** The *decision* to commit the flagship is **~$40–140** (atlas + basin +
+  one pilot mutation leg) — not a $350 gate; if no wedge we stop there with a publishable causal negative and skip
+  the ~$250–750 refinement tail.
+- **A non-viable paper still dies for ~$25** at Val A; the differential-surface atlas ($0, **DONE**) is an even
+  earlier free NO-GO, and it passed (a surface exists).
+- **Card finding (measured):** default everything on Vast to the **RTX 4090** — it wins $/ns at every size,
+  endpoint MD included. **Do not** infer a program total by summing the rung ranges: the ternary-matrix count is
+  unpinned and dominates, and the alchemical per-edge GPU-h is pinned only after the first real Vast ternary edge.
+- Every launch still waits for an explicit go; nothing is pre-authorized.
 
 ## Dependency spine (compact)
 
@@ -751,7 +747,7 @@ RUNG5  orientation_basin_search($0-50) ──► wedge PILOT leg($40-90) ──[
           │        └── NO loss on pilot ⇒ STOP: publish honest causal negative (no full cycle, no tail)
           │        └── loss ⇒ complete full reciprocal cycle ($100-350, the causal RESULT) + tail
           │
-       inverse_linker_design($0) ──► ternary_ensemble_refine ──► local_ternary_fep            (~$1,235; flagship tail)
+       inverse_linker_design($0) ──► ternary_ensemble_refine ──► local_ternary_fep            (~$350-1100 flagship tail if GO; no grand total — price per edge)
           │
 RUNG6  fold ──► redteam ──► post/submit                                   ($0)
 
