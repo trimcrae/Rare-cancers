@@ -1049,6 +1049,7 @@ def retro_stage_test(bucket):
     on a free runner before renting any GPU."""
     import boto3
     import nrv04_retro_panel as retro
+    import nrv04_covalent_assemble as asm_mod
     from nrv04_covalent_assemble import assemble_unit
     s3 = boto3.client("s3")
     results = []
@@ -1067,7 +1068,7 @@ def retro_stage_test(bucket):
             raise SystemExit(f"[retro-stage-test] {arm_id}: complex.pdb too small ({n_atom}) — chain surgery failed")
         roles = _chain_role_census(cpdb)
         results.append({"arm": arm_id, "key": cifs[0], "ligand_atoms": res["ligand_atoms"],
-                        "complex_atoms": n_atom, "chains": roles})
+                        "complex_atoms": n_atom, "chains": roles, "identified": res["chains"]})
         print(f"[retro-stage-test] {arm_id}: {res['ligand_atoms']} ligand atoms, {n_atom} complex atoms, "
               f"chains {roles}", flush=True)
     # the three arms must assemble to comparable systems — a paralogue that lost a chain would silently become a
@@ -1079,28 +1080,39 @@ def retro_stage_test(bucket):
     if len(ligs) != 1:
         raise SystemExit(f"[retro-stage-test] ligand atom counts differ across arms {ligs} — same ligand expected")
 
-    # THE CHAIN-SPLIT CHECK. The driver treats the LAST sorted protein chain as the target; the NR4A LBD is
-    # ~254 residues while VHL/EloB/EloC are ~213/~118/~112, so "is the biggest chain the one the driver would
-    # pick?" is a decisive, sequence-free test of whether the two conventions agree.
+    # THE CHAIN-SPLIT CHECK. What must hold is that the IDENTIFIED split (nrv04_covalent_assemble.identify_chains,
+    # written to chains.json and consumed by the driver) resolves the NR4A LBD as the degradation target.
+    #
+    # It must NOT be "does the legacy positional rule agree?" — that was this check's first form, and it is
+    # exactly backwards: the positional rule ("target = last sorted protein chain") picks Elongin C in these
+    # co-folds, which is the defect the identifier exists to replace. Requiring the two to agree would block
+    # every correct assembly forever. The positional answer is still computed and REPORTED, because seeing what
+    # the old rule would have said is how the historical readouts stay interpretable.
     split = []
     for r in results:
         chains = r["chains"]
-        picked = sorted(chains, key=lambda c: c["chain"])[-1]        # what _topology_indices would call target
-        largest = max(chains, key=lambda c: c["residues"])           # the NR4A LBD (longest chain by far)
-        split.append({"arm": r["arm"], "driver_would_pick": picked["chain"], "picked_residues": picked["residues"],
-                      "largest_chain": largest["chain"], "largest_residues": largest["residues"],
-                      "agrees": picked["chain"] == largest["chain"]})
-        print(f"[retro-stage-test] {r['arm']}: driver would call chain {picked['chain']} "
-              f"({picked['residues']} res) the target; largest chain is {largest['chain']} "
-              f"({largest['residues']} res) -> {'AGREE' if split[-1]['agrees'] else 'MISMATCH'}", flush=True)
+        identified = r["identified"]
+        positional = sorted(chains, key=lambda c: c["chain"])[-1]     # what _topology_indices WOULD have picked
+        target_res = next(c["residues"] for c in chains if c["chain"] == identified["target_chain"])
+        ok = target_res == asm_mod.NR4A_LBD_RESIDUES
+        split.append({"arm": r["arm"], "identified_target": identified["target_chain"],
+                      "identified_target_residues": target_res, "e3_roles": identified["e3_roles"],
+                      "legacy_positional_would_pick": positional["chain"],
+                      "legacy_was_wrong": positional["chain"] != identified["target_chain"], "ok": ok})
+        print(f"[retro-stage-test] {r['arm']}: identified target={identified['target_chain']} "
+              f"({target_res} res, expected {asm_mod.NR4A_LBD_RESIDUES}) e3={identified['e3_roles']}; "
+              f"legacy positional rule would have picked {positional['chain']} -> {'OK' if ok else 'BAD'}",
+              flush=True)
     json.dump({"results": results, "protocol_matched": True, "chain_split": split},
               open("nrv04-retro-stage-test.json", "w"), indent=2)
-    if not all(s["agrees"] for s in split):
-        raise SystemExit("[retro-stage-test] CHAIN-SPLIT MISMATCH — the driver's positional target convention "
-                         "does not select the NR4A LBD in these co-folds. Every interface readout would be "
-                         "computed against the wrong chain pair. Refusing to launch.")
+    if not all(s["ok"] for s in split):
+        raise SystemExit("[retro-stage-test] the identified target chain is not the frozen NR4A LBD construct. "
+                         "Refusing to launch.")
+    if len({s["identified_target"] for s in split}) != 1:
+        raise SystemExit("[retro-stage-test] arms resolved DIFFERENT target chains — not protocol-matched. "
+                         "Refusing to launch.")
     print("RETRO-STAGE-TEST PASS — the assembler handles NR4A1/NR4A2/NR4A3 co-folds, the arms are matched, and "
-          "the driver's chain split selects the NR4A LBD.", flush=True)
+          "the identified chain split resolves the NR4A LBD as the degradation target.", flush=True)
     return 0
 
 
