@@ -108,8 +108,12 @@ def main():
     except Exception as e:  # noqa: BLE001
         print(f"BENCH_RESULT tag={tag} status=ERROR err={type(e).__name__}:{e}", flush=True)
         sys.exit(1)
-    # single parsable line the launcher scrapes from the serial console
-    print(f"BENCH_RESULT tag={tag} status=OK atoms={n_atoms} platform={plat} device='{dev}' "
+    # Single parsable line the launcher scrapes from the serial console. The launcher parses it by
+    # `line.split()` then `kv.split("=", 1)`, so ANY VALUE CONTAINING A SPACE IS SILENTLY TRUNCATED at the first
+    # space — `device='Quadro RTX 8000'` arrived as `device='Quadro`, which is how a bench leg's true card went
+    # unidentified (2026-07-24). Underscore the device name so it survives the split intact.
+    print(f"BENCH_RESULT tag={tag} status=OK atoms={n_atoms} platform={plat} "
+          f"device={str(dev).replace(' ', '_')} "
           f"steps={steps} dt_fs={dt_fs} wall_s={wall_s:.1f} ns_per_day={ns_day:.2f}", flush=True)
 
 

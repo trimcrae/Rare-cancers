@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -457,6 +458,21 @@ def units_to_run():
     return enumerate_units()
 
 
+def _raw_device(d):
+    """Full CUDA device name, recovered from the stored raw BENCH_RESULT line.
+
+    The launcher's kv parser splits on whitespace, so `device='Quadro RTX 8000'` was stored as `device='Quadro`.
+    That truncation is why a leg that fell back to a Quadro was reported under the card we had REQUESTED. Parse
+    the quoted value out of `_raw` so historical results are readable too; newer legs underscore the name at the
+    source (`gpu_md_bench.py`) and need no repair."""
+    dev = str(d.get("device") or "")
+    raw = str(d.get("_raw") or "")
+    m = re.search(r"device='([^']*)'", raw) or re.search(r"device=(\S+)", raw)
+    if m:
+        return m.group(1).replace("_", " ")
+    return dev.strip("'") or "UNKNOWN"
+
+
 def _s3_list(s3, bucket, prefix, suffix=None, limit=None):
     keys, tok = [], None
     while True:
@@ -571,7 +587,11 @@ for kv in line.split():
         k, v = kv.split("=", 1)
         d[k] = v
 d["_raw"] = line
-d["gpu"] = os.environ.get("VAST_GPU_MODEL", "")
+# The card we ASKED for. _select_cheapest_offer falls back to any capable card when the requested model is
+# not offered, so this is NOT the card that ran — read `device` for that. Recording it as "gpu" made a
+# fallback-to-Quadro leg get reported as an A10 (2026-07-24).
+d["gpu_requested"] = os.environ.get("VAST_GPU_MODEL", "")
+d["gpu"] = d["gpu_requested"]  # back-compat for already-written bench.json files
 d["edge_nm"] = os.environ.get("BENCH_EDGE_NM", "")
 json.dump(d, open("/tmp/bench.json", "w"), indent=2)
 PYEOF
@@ -677,11 +697,12 @@ def bench_collect(bucket):
         done_tags.add(d.get("tag") or k.split("/")[-2])
     print(f"[bench-collect] {len(rows)} bench result(s):", flush=True)
     for d in sorted(rows, key=lambda r: (str(r.get("gpu")), str(r.get("edge_nm")))):
-        print(f"  gpu={d.get('gpu')} edge={d.get('edge_nm')}nm atoms={d.get('atoms')} "
-              f"device={d.get('device')} platform={d.get('platform')} "
+        print(f"  requested={d.get('gpu_requested') or d.get('gpu')} edge={d.get('edge_nm')}nm "
+              f"atoms={d.get('atoms')} ACTUAL_DEVICE={_raw_device(d)} platform={d.get('platform')} "
               f"ns_per_day={d.get('ns_per_day')} status={d.get('status')}", flush=True)
-        if d.get("status") != "OK":                    # root-cause: the full BENCH_RESULT line (incl err=...)
-            print(f"    raw: {d.get('_raw')}", flush=True)
+        # ALWAYS print the raw line, not just on failure. A leg that returns status=OK on the WRONG CARD is the
+        # dangerous case — it produces a plausible ns/day that gets attributed to the card we asked for.
+        print(f"    raw: {d.get('_raw')}", flush=True)
     # TARGETED anti-idle teardown, scoped to the bench-* label namespace (covalent panel NEVER touched, no
     # stop_all). Destroy ONLY: (a) terminal instances (a finished bench self-exits -> exited/stopped), or (b) an
     # over-age instance (stuck/crashed backstop). Do NOT key off "has a bench.json" — a STALE result from a prior
