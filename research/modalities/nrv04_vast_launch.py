@@ -493,7 +493,7 @@ def _s3_list(s3, bucket, prefix, suffix=None, limit=None):
 # written by the earlier descriptive/shakeout benchmark runs under their own prefixes. discover scans all of
 # them so the retrospective's input inventory is read off S3, never assumed.
 COFOLD_BASES = [b for b in (os.environ.get("NRV04_COFOLD_BASES") or
-                            "nrv04-covalent-cofold,nrv04-descriptive-v3,nrv04-ternary,nrv04-shakeout").split(",") if b]
+                            "nrv04-descriptive-v4,nrv04-covalent-cofold,nrv04-descriptive-v3,nrv04-ternary,nrv04-shakeout").split(",") if b]
 
 
 def discover_cofold(bucket, base=None):
