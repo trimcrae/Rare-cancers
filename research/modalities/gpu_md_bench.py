@@ -82,6 +82,20 @@ def _bench(edge_nm, steps, warmup, dt_fs):
     sim.context.setVelocitiesToTemperature(300 * u.kelvin)
 
     sim.step(warmup)                      # exclude JIT + equilibration transient
+
+    # TIME-TARGETED, NOT STEP-TARGETED. A fixed BENCH_STEPS produced production windows of 0.9-4.5 s
+    # (2026-07-24), which cannot rank cards: an RTX 4080 SUPER "beat" a 4090 by 4% over a 2.0 s vs 2.1 s
+    # measurement, when its 736 GB/s vs 1008 GB/s bandwidth says the 4090 should lead a PME-bound run by ~35%.
+    # At that duration you measure boost-clock ramp, kernel-launch overhead and residual JIT, not steady-state
+    # throughput. So: probe briefly, then size the timed run to BENCH_TARGET_S of real work.
+    target_s = float(os.environ.get("BENCH_TARGET_S", "60"))
+    probe = max(200, steps // 10)
+    t0 = time.time()
+    sim.step(probe)
+    sim.context.getState(getEnergy=True)
+    probe_s = max(1e-6, time.time() - t0)
+    steps = max(steps, int(probe * target_s / probe_s))
+
     t0 = time.time()
     sim.step(steps)
     sim.context.getState(getEnergy=True)  # force sync so timing includes the last kernel
@@ -89,12 +103,14 @@ def _bench(edge_nm, steps, warmup, dt_fs):
 
     ns = steps * dt_fs * 1e-6             # simulated ns
     ns_per_day = ns / (wall_s / 86400.0)
+    print(f"[bench] probe {probe} steps in {probe_s:.2f}s -> timed {steps} steps in {wall_s:.1f}s "
+          f"(target {target_s:.0f}s)", flush=True)
     dev = ""
     try:
         dev = props and platform.getPropertyValue(sim.context, "DeviceName") or ""
     except Exception:  # noqa: BLE001
         pass
-    return n_atoms, plat_name, dev, wall_s, ns_per_day
+    return n_atoms, plat_name, dev, wall_s, ns_per_day, steps
 
 
 def main():
@@ -104,7 +120,7 @@ def main():
     dt_fs = float(os.environ.get("BENCH_DT_FS", "4.0"))
     tag = os.environ.get("BENCH_TAG", "bench")
     try:
-        n_atoms, plat, dev, wall_s, ns_day = _bench(edge_nm, steps, warmup, dt_fs)
+        n_atoms, plat, dev, wall_s, ns_day, steps = _bench(edge_nm, steps, warmup, dt_fs)
     except Exception as e:  # noqa: BLE001
         print(f"BENCH_RESULT tag={tag} status=ERROR err={type(e).__name__}:{e}", flush=True)
         sys.exit(1)
