@@ -294,6 +294,15 @@ def collect(bucket=None, prefix=None, autostop=True):
         print(f"  ....  {lid}: {doc.get('status')} {doc.get('iterations_done', 0)}/"
               f"{doc.get('prod_iters_target')} iters"
               + (f" — {doc.get('error')}" if doc.get("status") == "failed" else ""))
+        if doc.get("status") == "failed":
+            # Print the FULL traceback, not just the exception line. A one-line summary tells you
+            # WHAT failed; only the traceback tells you WHERE, and on a rented host the difference
+            # is another paid round trip. (This is what turned "No module named openeye" from a
+            # guess about which import pulls it into a locatable frame.)
+            print(f"      platform={doc.get('platform')} charge_method={doc.get('charge_method')} "
+                  f"n_particles={doc.get('n_particles')}")
+            for ln in str(doc.get("traceback", "(no traceback recorded)")).splitlines():
+                print(f"      T| {ln[:200]}")
 
     key = os.environ.get("VAST_API_KEY")
     n_up = 0
@@ -313,8 +322,16 @@ def collect(bucket=None, prefix=None, autostop=True):
             print(f"  vast {iid} ({label}) {i.get('actual_status')} up={up_h:.2f}h "
                   f"dph={i.get('dph_total')} spent~${cost:.2f}")
             finished = any(label_matches_leg(label, k) for k in done)
-            if autostop and (finished or up_h > MAX_INSTANCE_HOURS):
-                print(f"    -> destroying {iid} ({'leg done' if finished else 'runtime backstop'})")
+            # Reap a FAILED leg's host too. The container normally exits and the key-free EXIT trap
+            # halts billing on its own, but "normally" is doing real work in that sentence — a host
+            # that keeps the container alive after a crash would otherwise bill until the runtime
+            # backstop hours later, and a failed leg has nothing left to produce.
+            crashed = any(label_matches_leg(label, k) for k, d in partial.items()
+                          if d.get("status") == "failed")
+            if autostop and (finished or crashed or up_h > MAX_INSTANCE_HOURS):
+                why = ("leg done" if finished else
+                       "leg FAILED — nothing left to produce" if crashed else "runtime backstop")
+                print(f"    -> destroying {iid} ({why})")
                 try:
                     _vast_request("DELETE", f"/instances/{iid}/", key)
                 except Exception as e:  # noqa: BLE001
