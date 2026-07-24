@@ -751,33 +751,13 @@ export T1=$(date +%s)
 _FIRM_TERNARY_BODY = r"""
 export T0=$(date +%s)
 LEG="${LEG_ID:-calib_hi_to_lo__ternary_vhl}"
+# Do NOT re-implement the ternary recipe here — call the SHARED single-source-of-truth runner so the Vast lane
+# and the GCP lane stay identical. RBFE_PROD_ITERS is short for a fast timing/cost probe (the NaN, if any, is in
+# warmup, so a short production still exercises the full stability path).
 {
-  echo "[firm] staging ternary leg from 8G1Q (ternary_pdb_stage.py)"
-  $PY ternary_pdb_stage.py --leg-id "$LEG" --template-pdb 8G1Q --out "$IN" 2>&1 \
-    || echo "[firm] STAGING FAILED rc=$?"
-  echo "[firm] staged tree (name + bytes):"
-  find "$IN" -type f \( -name '*.sdf' -o -name '*.pdb' -o -name '*.json' \) -printf '  %s B  %p\n' 2>/dev/null || true
-  # PRE-EQUILIBRATION (2026-07-24): the ternary alchemy NaNs on warmup iter 1 if the raw assembled complex is fed
-  # straight into softcore λ-states (documented OpenFE failure mode; ternary-rbfe-runbook.md §1c). The fix is a
-  # plain-MD relax of the physical complex FIRST (ternary_preequil.py), then overlay the relaxed complex.pdb +
-  # ligands.sdf over the staged tree before the RBFE — exactly what the proven GCP valB_mini lane does. Without
-  # this the Vast ternary lane cannot run a real leg (verified: firm-ternary NaN'd at replica-0 state-0).
-  echo "[firm] --- ternary PRE-EQUILIBRATION (plain-MD relax; fixes the softcore warmup NaN) ---"
-  env LEG_ID="$LEG" SEED=0 CHARGE_METHOD=nagl PREEQUIL_NS="${PREEQUIL_NS:-0.5}" PREEQUIL_EXACT_FF=1 \
-      OPENMM_PLATFORM=CUDA OPENMM_REQUIRE_CUDA=1 INPUT_DIR="$IN" OUTPUT_DIR="$OUT" \
-      $PY ternary_preequil.py 2>&1 || echo "[firm] PREEQUIL FAILED rc=$?"
-  if [ -f "$OUT/$LEG/complex.pdb" ] && [ -f "$OUT/$LEG/ligands.sdf" ]; then
-    cp "$OUT/$LEG/complex.pdb" "$OUT/$LEG/ligands.sdf" "$IN/$LEG/" \
-      && echo "[firm] overlaid relaxed complex.pdb + ligands.sdf into staged tree ($IN/$LEG)"
-  else
-    echo "[firm] WARN no relaxed structure at $OUT/$LEG — RBFE will run on the raw complex and may NaN"
-  fi
-  echo "[firm] --- ternary MD ---"
-  env MODE=run LEG_ID="$LEG" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-16}" \
-      CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_WARMUP_TIMESTEP_FS=1.0 RBFE_CONSTRAIN_LIGAND_CH=0 \
-      N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
-      INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_ternary_fep.py 2>&1 || true
-} | tee /tmp/firm.log
+  echo "[firm] running ternary leg via run_ternary_leg.sh (shared recipe — single source of truth)"
+  IN="$IN" OUT="$OUT" LEG_ID="$LEG" SEED=0 PY="$PY" RBFE_PROD_ITERS="${N_ITER:-60}" bash run_ternary_leg.sh
+} 2>&1 | tee /tmp/firm.log || true
 export T1=$(date +%s)
 """
 
@@ -824,7 +804,7 @@ def build_firm_jobspec(kind, branch, bucket):
         "GIT_BRANCH": branch,
         "RESULT_S3": f"s3://{bucket}/{_FIRM_PREFIX}/{tag}",
         "FIRM_KIND": kind,
-        "N_WINDOWS": os.environ.get("N_WINDOWS") or ("12" if kind == "rbfe" else "16"),
+        "N_WINDOWS": os.environ.get("N_WINDOWS") or "12",  # 12 for both: the proven GCP valB ternary default (16 NaN'd at window 5)
         # short production is enough for a stable ns/day (throughput is length-independent) and finishes fast.
         "N_ITER": os.environ.get("N_ITER") or ("60" if kind == "rbfe" else "60"),
         "LEG_ID": os.environ.get("LEG_ID", "calib_hi_to_lo__ternary_vhl"),
@@ -883,11 +863,20 @@ def firm_collect(bucket):
         print(f"  kind={d.get('kind')} ns_per_day={d.get('ns_per_day')} n_windows={d.get('n_windows')} "
               f"n_iter={d.get('n_iter')} wall_s={d.get('wall_s')} dg={d.get('dg')} status={d.get('status')} "
               f"(from {d.get('result_json')}, {d.get('n_json')} json)", flush=True)
-        if d.get("status") != "OK":                          # root-cause: dump the run log tail from S3
+        if d.get("status") != "OK":                          # root-cause: dump the run log from S3
             logkey = k.rsplit("/", 1)[0] + "/firm.log"
             try:
                 log = s3.get_object(Bucket=bucket, Key=logkey)["Body"].read().decode(errors="replace")
-                tail = "\n".join(log.splitlines()[-60:])
+                lines = log.splitlines()
+                # surface the NaN/clash diagnostic lines specifically (they may be far above the tail), then a
+                # longer tail — a warmup-λ-window NaN's offending-atom dump lives in these, not the last 60 lines.
+                diag = [ln for ln in lines if any(t in ln.lower() for t in
+                        ("nan", "clash", "offending", "state ", "diverg", "warmup iter", "equilibration iter",
+                         "min pair", "force-bearing", "restrain"))]
+                if diag:
+                    print("    --- firm.log NaN/clash diagnostic lines ---\n"
+                          + "\n".join(diag[-80:]) + "\n    --- end diag ---", flush=True)
+                tail = "\n".join(lines[-120:])
                 print(f"    --- firm.log tail ({logkey}) ---\n{tail}\n    --- end ---", flush=True)
             except Exception as e:  # noqa: BLE001
                 print(f"    (no firm.log: {e})", flush=True)

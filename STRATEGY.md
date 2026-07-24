@@ -259,29 +259,34 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
   4090's ~2× compute swamps the ~8% bandwidth gap). A compute-bound alchemical edge on the 3090 costs roughly
   **~1.5–2× the 4090 $/edge**; use the 3090 only when 4090 capacity is short. VRAM is never the constraint
   (≥24 GB floor is ample).
-- **Per-edge bases (Vast 4090) — one extrapolated, one projected, one converted; NONE is a completed run on a 4090:**
+- **Per-edge bases (Vast 4090) — one extrapolated, one rate-measured, one converted; NONE is a completed edge on a 4090:**
   - **RBFE binary edge** (complex+solvent, ~35k atoms) ≈ ~5–6 GPU-h ≈ **~$0.6–1.4**. *(Basis: a live-diagnosed
     per-iteration rate, ~5.2 s/iter × 2000 iters. A clean end-to-end ΔG was **not** captured on the timing run —
     both spot instances were preempted — so this is an extrapolated rate, not a completed-edge measurement.)*
-  - **Ternary cooperativity edge** (3-replica, ~146,509 particles, **12** windows) ≈ **~$7–15**, **the softest
-    number in the ladder — and it is a PROJECTION, not a measured base.** **⚠ CORRECTED 2026-07-24: the previous
-    ~$3–6 was built on a PARTIAL leg and was ~2.6× low.** What was measured on the `valB_mini` L4 run is a
-    **per-iteration rate** (~33 s/iter at `total wall clock 8:40:29` ≈ 920 iterations). **920 iterations is not a
-    finished leg:** the protocol hardcodes 1 ns equilibration + 5 ns production at 2.5 ps/iteration = **400 + 2000
-    = 2400 iterations** (`nr4a3_rbfe.py:364-365`; the openmmtools `.chk` history `iters 0,20,…,2000` confirms the
-    production count), so 920 ≈ **38 %** of a leg. Corrected chain: ~2400 × 33 s ≈ **~22 L4-GPU-h/leg** → ×2 legs
-    ×3 replicas ≈ **~132 L4-GPU-h** → ÷ a **spec-based** (not benchmarked) ~2.3× L4→4090 ratio ≈ ~57 4090-GPU-h ≈
-    **~$7–15**. Three caveats that must travel with the number: (a) **no ternary leg has ever run to completion**,
-    so even the leg *length* is unverified — the first completed leg replaces this projection with a measurement;
-    (b) the L4→4090 card ratio is spec-based, never benchmarked on this system; (c) window count is **12**, not
-    the 16 an earlier pricing note carried (`gpu-ternary-fep-gcp.yml:29,70`; `git log -L 29,29` shows the default
-    was always 12 — the code's own `N_WINDOWS` default of 16 is never used). A direct Vast-4090 ternary
-    measurement still does not exist; that attempt NaN'd at warmup. **Note the NaN's cause has itself been
-    corrected:** it is *not* an unconstrained alchemical C–H (that story, and its first correction, were both
-    artifacts of a diagnostic counter that mistook alchemical nonbonded-exception pairs for X–H bonds) — the
-    ligand C–H *are* constrained, and the real cause is the softcore region in a rough homology-built assembly.
-    The fix that works is **plain-MD pre-equilibration** (`ternary_preequil.py`), not a smaller timestep; see
-    `ternary-rbfe-runbook.md` §1b/§1c.
+  - **Ternary cooperativity edge** (3-replica, ~146k particles, **12** windows) ≈ **~$10–16** (~56–72 4090-GPU-h
+    at a realized ~$0.15–0.25/hr host; ~$26 at ~$0.40/hr). **⚠ RECONCILED 2026-07-24 — supersedes BOTH the ~$3–6
+    and the ~$4–7 that preceded it, and each was low for the SAME reason.** The number now combines two things
+    that were previously mixed up with each other:
+    - **Rate — directly MEASURED on Vast 4090** (the firm ternary leg via `run_ternary_leg.sh`, 12 windows,
+      self-staged 8G1Q, 146,284 particles): warmup cleared with no NaN and production held steady at **~14–18
+      s/iter (median ~16)**. This replaces the spec-based card-ratio guess and is a real improvement.
+    - **Leg length — CORRECTED.** Both prior estimates treated **~920 iterations as a full leg**. It is ~38 % of
+      one: the protocol hardcodes 1 ns equilibration + 5 ns production at 2.5 ps/iteration = **400 + 2000 = 2400
+      iterations** (`nr4a3_ternary_fep.py:343-344`, `nr4a3_rbfe.py:364-365`; the openmmtools `.chk` history
+      `iters 0,20,…,2000` confirms the production count). Using 920 makes any leg cost **~2.6× low**.
+
+    Arithmetic: 2400 × ~16 s ≈ **~10.7 4090-GPU-h/leg** → ×2 legs ×3 replicas ≈ **~64 GPU-h/edge** ≈ **~$10–16**.
+    **What the 4090 run DID settle:** the **L4→4090 card ratio is validated at ~2.06×** (33 → 16 s/iter). A ratio
+    of rates is independent of the iteration count, so that conclusion survives the leg-length correction fully
+    intact — the old "spec-based, never benchmarked" soft spot is now closed. **What is still unsettled:** no
+    ternary leg has ever run to completion, so the leg *length* rests on the protocol constants rather than on a
+    finished run; the first completed leg replaces this with an end-to-end measurement. ΔG is not the cost basis
+    (throughput is); the ΔG comes from the GCP valB production lane (ΔG_morph 47.28). The earlier warmup NaN was a
+    **pre-fix 16-window fallback**, cleared by the 12-window lane. **Its cause has itself been corrected:** it is
+    *not* an unconstrained alchemical C–H (that story and its first correction were both artifacts of a diagnostic
+    counter that mistook alchemical nonbonded-exception pairs for X–H bonds) — the ligand C–H *are* constrained,
+    and the real cause is the softcore region in a rough homology-built assembly. The fix that works is **plain-MD
+    pre-equilibration** (`ternary_preequil.py`), not a smaller timestep; see `ternary-rbfe-runbook.md` §1b/§1c.
   - **Endpoint-MD leg** (~466k atoms) ≈ **~$0.45** *(measured on a 3090 at ~$0.6, converted to 4090 by the same
     card ratio — inferred, not directly measured)*.
   - **Provider reality check (2026-07-24):** the ladder is *priced* in Vast-4090 dollars, but `valB_mini` is
@@ -292,11 +297,13 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
     `credit-status.json` records GCP `spent: 8.0` from a **manual** source that has not been reconciled against
     today's ~8 dispatched L4 legs. Keep the Vast basis as the *planning* number, track GCP burn separately, and do
     not let "we spent ~$2 so far" imply the L4 lane was free.
-- **Whole gated ladder ≈ ~$360 mid-range (~$150–575) for the PRICEABLE stages, GO at every gate.** Excludes
-  (a) the **UNPRICED** 5a-KS wedge + reciprocal cycle (no engine — could be $0 if descoped, or a new campaign if
-  built) and (b) optional/HELD ΔG_open + ABFE (~$200–500 more if invoked). *(Was "~$270 (~$150–450)" before the
-  2026-07-24 ternary-base and wedge corrections.)* Swings, in order: the unpriced wedge, the L4→4090 conversion,
-  then the **ensemble-MD leg count** (5c + retrospective); card choice is the lever on GPU-h-heavy stages.
+- **Whole gated ladder ≈ ~$390 mid-range (~$170–610) for the PRICEABLE stages, GO at every gate.** Excludes
+  (a) the **UNPRICED** 5a-KS wedge + reciprocal cycle (engine BUILT 2026-07-24 but never run — an engine is not a
+  rate) and (b) optional/HELD ΔG_open + ABFE (~$200–500 more if invoked). *(Was "~$270 (~$150–450)" before the
+  2026-07-24 ternary-base and wedge corrections, then ~$370 on the interim projected ternary base.)* Swings, in
+  order: the unpriced wedge, the **ensemble-MD leg count** (5c + retrospective), then the unverified ternary leg
+  length; card choice is the lever on GPU-h-heavy stages.
+
 
 *Operational Vast setup (bid = `min_bid × 1.5` to hold the slot; pin OpenMM to CUDA 12.6; the OpenFE image
 `triskit23/nr4a3fep:latest`; the `bench` / `firm` tooling in `nrv04_vast_launch.py`) is documented in
@@ -346,8 +353,9 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   cleared. Reproducibility replicas + pose/state sensitivity are carried forward as **fan-out inputs** (they
   refine per-edge `n_windows` and the conditional caveat, and gate the fleet). This is statistical convergence on
   a *hypothesized* pose, **not** an accuracy claim.
-- **`[~]` Validation B-mini — all-binding graded cooperativity edge** — **~$7–15 (corrected 2026-07-24; was
-  ~$3–6, extrapolated from a 38 %-complete leg) · Cum. ~$15.** The Wurz SMARCA2–VHL
+- **`[~]` Validation B-mini — all-binding graded cooperativity edge** — **~$10–16 (reconciled 2026-07-24 from a
+  MEASURED 4090 rate × the corrected 2400-iteration leg; was ~$3–6, then ~$4–7, both off a 38 %-complete leg)
+  · Cum. ~$16.** The Wurz SMARCA2–VHL
   **cmpd 1→4** all-binding graded edge (α 12.8→2.6 ≈ +0.94 kcal/mol; both endpoints are productive binders — the
   cleanest first calibration). Exercises the bespoke `ΔΔG_coop = ternary − binary` cycle that cannot be cited
   away. **GO/NO-GO (verbatim from the prereg in `degrader-paper-schedule.json`; the ±1.0 kcal/mol band was
@@ -373,6 +381,10 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   §1b/§1c. **Both this lane's deviations — (a) timestep, (b) NAGL charges vs the binary lane's AM1-BCC — are now
   registered in `md_settings.py`'s docstring** (done 2026-07-24; the lane had been deviating undeclared in the
   file whose entire purpose is to make undeclared deviations impossible).
+  **Direct 4090 throughput (2026-07-24):** the firm ternary leg held **~14–18 s/iter (median ~16)**, ~2× the L4
+  rate — which **validates the L4→4090 card ratio at ~2.06×** (count-independent) even though it does not change
+  the leg length. ΔG_morph 47.28 comes from the GCP valB production lane; no Vast leg has completed end-to-end.
+
 
 ### RUNG 3 — expand the benchmarks *(only if Rung 2 probes look promising)*
 
@@ -520,7 +532,7 @@ only established today and moved the total by more than the first.
    alchemical. **There is no implementing engine for the wedge in this repo.** It is therefore excluded from the
    totals below rather than carried at a fake price. See the 🛑 blocks at Tier 3 and RUNG 5a.
 
-**Whole gated ladder, GO at every gate, PRICEABLE stages only: ~$370 mid-range (~$150–595).** Excludes (a) the
+**Whole gated ladder, GO at every gate, PRICEABLE stages only: ~$390 mid-range (~$170–610).** Excludes (a) the
 5a-KS wedge + reciprocal cycle — UNPRICED/BLOCKED, and (b) Optional/HELD ΔG_open + ABFE (~$200–500 more).
 Dominant uncertainties, in order: the unpriced wedge, the L4→4090 conversion, then the **ensemble-MD leg count**
 (5c + retrospective). This table and `pricing.md` §C carry the same chain and must agree.
