@@ -406,12 +406,26 @@ def monitor(bucket):
 
 
 def stop_all():
-    """Destroy every one of MY Vast instances (stop the bleed). Prints each id it tears down."""
+    """Destroy MY Vast instances (stop the bleed). Prints each id it tears down.
+
+    ⚠ $VAST_KILL (an instance id or a label substring) NARROWS this to matching instances, and you almost
+    always want it: this account is shared across concurrent sessions, so an unfiltered sweep destroys OTHER
+    sessions' live work — on 2026-07-24 a sibling session was mid-run on the protein-mutation FEP benchmark
+    while this one needed to kill a single stuck retro leg. Unfiltered remains available for a genuine
+    stop-everything, but it is the exception."""
     key = os.environ.get("VAST_API_KEY")
     if not key:
         raise SystemExit("[stop] VAST_API_KEY not set")
     import time
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    sel = (os.environ.get("VAST_KILL") or "").strip()
+    if sel:
+        insts = [i for i in insts
+                 if sel == str(i.get("id")) or sel.lower() in (i.get("label") or "").lower()]
+        print(f"[stop] selector={sel!r} -> {len(insts)} matching instance(s)", flush=True)
+    else:
+        print("[stop] NO SELECTOR — destroying EVERY instance on this account, including other sessions'. "
+              "Set VAST_KILL to narrow.", flush=True)
     print(f"[stop] {len(insts)} instance(s) to destroy", flush=True)
     failed = []
     for n, i in enumerate(insts):

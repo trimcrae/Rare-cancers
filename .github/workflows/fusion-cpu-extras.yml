@@ -46,6 +46,9 @@ on:
       seeds:
         description: "cofold mode: comma-sep diffusion seeds = the ternary ensemble per system"
         default: "1,2,3"
+      vast_kill:
+        description: "stop_all mode: instance id or label substring to destroy. BLANK DESTROYS EVERY INSTANCE ON THE ACCOUNT, including other sessions' live work."
+        default: ""
       diag_filter:
         description: "diag mode: instance id or label substring to dump (blank = every instance on the account, which buries the one you want)"
         default: ""
@@ -462,6 +465,7 @@ jobs:
       TERNARY_EXTRA_ARGS: ${{ github.event.inputs.ternary_extra_args }}
       SEEDS: ${{ github.event.inputs.seeds }}
       DIAG_FILTER: ${{ github.event.inputs.diag_filter }}
+      VAST_KILL: ${{ github.event.inputs.vast_kill }}
       RETRO_STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'retro_stage_test' && '1' || '0' }}
       RETRO: ${{ (github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') && '1' || '0' }}
       RETRO_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'retro_collect' && '1' || '0' }}
