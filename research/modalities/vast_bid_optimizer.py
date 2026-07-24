@@ -366,7 +366,9 @@ def _live_offers(gpu_substr="rtx4090"):
         raise SystemExit("VAST_API_KEY not set — --live needs it (read-only offer search, no spend).")
     res = ResourceSpec()
     q = _vast_offer_query(res)
-    data = _vast_request("PUT", "/bundles/", key, body=q) or {}
+    # EXACTLY the call nrv04_vast_launch.probe_offers makes (GET /search/asks/ with the query as a param).
+    # An earlier version guessed `PUT /bundles/` and 4xx'd in CI — copy the known-working call, do not invent one.
+    data = _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}) or {}
     offers = data.get("offers", data if isinstance(data, list) else [])
     if gpu_substr:
         g = gpu_substr.lower().replace(" ", "")
