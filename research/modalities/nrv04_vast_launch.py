@@ -602,7 +602,11 @@ def build_bench_jobspec(tag, branch, bucket, env_tarball_url=None):
         image=VAST_IMAGE,
         checkpoint_uri=f"s3://{bucket}/{_BENCH_PREFIX}/{tag}/ckpt",
         resume=False,
-        resources=ResourceSpec(gpu=gpu, min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=40, interruptible=True),
+        # VRAM floor is overridable so a 16 GB card can be BENCHED. Default unchanged at 24. Without this the
+        # RTX 4080 (16 GB) — currently the only live candidate that might beat the 4090 on $/ns — is silently
+        # filtered out of its own benchmark, which is how a card decision gets made on a proxy forever.
+        resources=ResourceSpec(gpu=gpu, min_vram_gb=int(os.environ.get("BENCH_MIN_VRAM_GB", "24")),
+                               vcpus=4, ram_gb=16, disk_gb=40, interruptible=True),
         max_runtime_s=int(os.environ.get("BENCH_MAX_RUNTIME_S", "2400")),
         env=env,
     )
