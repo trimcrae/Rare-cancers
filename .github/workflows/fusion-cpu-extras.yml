@@ -21,9 +21,9 @@ on:
         type: boolean
         default: false
       vast_launch_mode:
-        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect"
+        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect | retro_* (NR-V04 retrospective holdout)"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -410,7 +410,7 @@ jobs:
       MODE: ${{ github.event.inputs.md_mode }}
       VAST_IMAGE: ${{ github.event.inputs.vast_image }}
       PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'full' && '0' || '1' }}
-      DRY_RUN: ${{ github.event.inputs.vast_launch_mode == 'dry' && '1' || '0' }}
+      DRY_RUN: ${{ (github.event.inputs.vast_launch_mode == 'dry' || github.event.inputs.vast_launch_mode == 'retro_dry') && '1' || '0' }}
       DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}
       STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'stage_test' && '1' || '0' }}
       COLLECT: ${{ github.event.inputs.vast_launch_mode == 'collect' && '1' || '0' }}
@@ -431,6 +431,14 @@ jobs:
       N_ITER: ${{ github.event.inputs.firm_n_iter }}
       VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
       PILOT_SEED: ${{ github.event.inputs.pilot_seed }}
+      # --- NR-V04 RETROSPECTIVE holdout (prereg: nr4a3-nrv04-retrospective-prereg.md) ---
+      # retro_stage_test: free CI proof the assembler handles NR4A2/NR4A3 co-folds; retro_dry: print the fan-out;
+      # retro_pilot: ONE paralogue leg (the only untested staging path); retro_full: the 24-unit panel;
+      # retro_collect: gather leg JSONs and apply the frozen gate (refuses a verdict on an incomplete panel).
+      RETRO_STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'retro_stage_test' && '1' || '0' }}
+      RETRO: ${{ (github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') && '1' || '0' }}
+      RETRO_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'retro_collect' && '1' || '0' }}
+      RETRO_PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'retro_full' && '0' || '1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -441,12 +449,13 @@ jobs:
         run: |
           set -o pipefail
           pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
-          if [ "${{ github.event.inputs.vast_launch_mode }}" = "stage_test" ]; then
-            pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed"
-          fi
+          case "${{ github.event.inputs.vast_launch_mode }}" in
+            stage_test|retro_stage_test)
+              pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed" ;;
+          esac
           python nrv04_vast_launch.py
       - name: Upload Vast handles
-        if: ${{ always() && (github.event.inputs.vast_launch_mode == 'pilot' || github.event.inputs.vast_launch_mode == 'full') }}
+        if: ${{ always() && (github.event.inputs.vast_launch_mode == 'pilot' || github.event.inputs.vast_launch_mode == 'full' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') }}
         uses: actions/upload-artifact@v4
         with:
           name: nrv04-vast-handles

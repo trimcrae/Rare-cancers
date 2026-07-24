@@ -931,6 +931,223 @@ def firm_collect(bucket):
     return 0
 
 
+# =============================================================================================================
+# RETROSPECTIVE holdout lane (prereg: nr4a3-nrv04-retrospective-prereg.md)
+#
+# Same proven endpoint-MD machinery as the covalent feasibility panel — same image, same pre-packed conda env,
+# same driver (nrv04_covalent_md.py is target-agnostic: it splits E3 from target by topology, so NR4A2/NR4A3
+# need no engine change) — with exactly ONE difference that matters: the co-fold MODEL SEED is PINNED per leg
+# instead of globbing a system directory. That is not a detail. The co-fold model is the unit of independence in
+# the frozen statistics (prereg §4a), so a leg that silently picked a different model would corrupt the
+# model-level means the verdict is computed from.
+# =============================================================================================================
+RETRO_RESULT_PREFIX = os.environ.get("NRV04_RETRO_RESULT_PREFIX", "nrv04-retro-results")
+
+_RETRO_PIPELINE = _PIPELINE.replace(
+    """$AWS s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
+export COFOLD_CIF=$(find /tmp/cofold -name '*_model_0.cif' | sort | head -1)
+test -n "$COFOLD_CIF" || { echo "no co-fold CIF found under $COFOLD_PREFIX_S3"; exit 3; }
+$PY -c "import os; from nrv04_covalent_panel import leg_by_id; from nrv04_ligands import LIGANDS; \\
+from nrv04_covalent_assemble import assemble_leg; lg=leg_by_id(os.environ['LEG_ID']); \\
+assemble_leg(os.environ['COFOLD_CIF'], lg, LIGANDS[lg.ligand], os.environ['INPUT_DIR'])\"""",
+    """$AWS s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
+export COFOLD_CIF=$(find /tmp/cofold -name '*_model_0.cif' | sort | head -1)
+test -n "$COFOLD_CIF" || { echo "no co-fold CIF found under $COFOLD_PREFIX_S3"; exit 3; }
+# exactly ONE CIF must be under the pinned model prefix — two would mean the seed pin failed and the leg would
+# silently start from an unknown model, corrupting the model-level statistics (prereg 4a). Fail, never guess.
+test "$(find /tmp/cofold -name '*_model_0.cif' | wc -l)" = 1 || { echo "expected exactly 1 co-fold CIF under the pinned model prefix $COFOLD_PREFIX_S3"; exit 3; }
+$PY -c "import os; from nrv04_ligands import LIGANDS; \\
+from nrv04_covalent_assemble import assemble_unit; \\
+assemble_unit(os.environ['COFOLD_CIF'], os.environ['LEG_ID'], LIGANDS[os.environ['LIGAND']], os.environ['INPUT_DIR'])\"""",
+)
+
+# A str.replace that stops matching is a SILENT no-op: the retrospective would fall back to the feasibility
+# panel's leg_by_id staging, every retro leg would die on an unknown LEG_ID (or worse, glob an unpinned model),
+# and nothing would say so. Fail at import instead — this is exactly the class of drift the shared-recipe rule
+# exists to prevent.
+if _RETRO_PIPELINE == _PIPELINE or "assemble_unit" not in _RETRO_PIPELINE:
+    raise RuntimeError("nrv04_vast_launch: the retrospective staging patch no longer matches _PIPELINE — "
+                       "re-sync _RETRO_PIPELINE with the covalent staging block before launching any leg")
+
+
+def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=None):
+    """PURE: the JobSpec for one retrospective unit (arm, co-fold model, MD replica). No I/O -> unit-tested."""
+    import nrv04_retro_panel as retro
+    name = retro.unit_name(arm, model_seed, replica)
+    env = retro.leg_env(arm, model_seed, replica, mode=mode)
+    env.update({
+        "GIT_BRANCH": branch,
+        "COFOLD_PREFIX_S3": retro.cofold_prefix_s3(arm, bucket, model_seed),
+        "RESULT_S3": f"s3://{bucket}/{RETRO_RESULT_PREFIX}/{name}",
+    })
+    if env_tarball_url:
+        env["ENV_TARBALL_URL"] = env_tarball_url
+    pipeline = _RETRO_PIPELINE.replace("{repo}", REPO)
+    return JobSpec(
+        name=name,
+        command=["bash", "-lc", pipeline],
+        image=VAST_IMAGE,
+        checkpoint_uri=s3_checkpoint_uri(name, bucket=bucket),
+        resume=True,
+        resources=TERNARY_RES,
+        max_runtime_s=int(os.environ.get("MAX_RUNTIME_S", "43200")),
+        env=env,
+    )
+
+
+def retro_units_to_run():
+    """Pilot-one-leg-first (prereg §7). The pilot is `retro_noncov_nr4a2` m1 r0 — NOT an NR4A1 leg. The abort
+    information here is not biological, it is structural: the assembler has read NR4A1 co-folds many times but
+    has NEVER read an NR4A2/NR4A3 one, so a paralogue leg is the one that can actually fail. Picking NR4A1
+    would prove nothing new and leave the real risk unexercised."""
+    import nrv04_retro_panel as retro
+    if os.environ.get("RETRO_PILOT_ONLY", "1") == "1":
+        arm = retro.arm_by_id(os.environ.get("RETRO_PILOT_ARM", "retro_noncov_nr4a2"))
+        return [(arm, int(os.environ.get("RETRO_PILOT_MODEL", "1")), int(os.environ.get("RETRO_PILOT_REPLICA", "0")))]
+    return retro.enumerate_units()
+
+
+def retro_stage_test(bucket):
+    """FREE CI de-risking: assemble a leg from a REAL NR4A2 and NR4A3 co-fold CIF and verify a complex.pdb +
+    bond-order-correct ligand.sdf come out. The paralogue co-folds have only ever been read by the co-fold
+    REPORTER, never by the MD assembler, so this is the one staging risk the retrospective carries. Proves it
+    on a free runner before renting any GPU."""
+    import boto3
+    import nrv04_retro_panel as retro
+    from nrv04_covalent_assemble import assemble_unit
+    s3 = boto3.client("s3")
+    results = []
+    for arm_id in ("retro_noncov_nr4a2", "retro_noncov_nr4a3", "retro_noncov_nr4a1"):
+        arm = retro.arm_by_id(arm_id)
+        prefix = retro.cofold_prefix_s3(arm, bucket, retro.COFOLD_MODEL_SEEDS[0]).replace(f"s3://{bucket}/", "")
+        cifs = _s3_list(s3, bucket, prefix, suffix="_model_0.cif")
+        if len(cifs) != 1:
+            raise SystemExit(f"[retro-stage-test] expected exactly 1 co-fold CIF under {prefix}, found {len(cifs)}")
+        local = f"/tmp/retro_cofold_{arm_id}.cif"
+        s3.download_file(bucket, cifs[0], local)
+        res = assemble_unit(local, arm_id, LIGANDS[arm.ligand], "/tmp/retro_staged")
+        cpdb = os.path.join(res["out"], "complex.pdb")
+        n_atom = sum(1 for line in open(cpdb) if line.startswith(("ATOM", "HETATM")))
+        if n_atom < 500:
+            raise SystemExit(f"[retro-stage-test] {arm_id}: complex.pdb too small ({n_atom}) — chain surgery failed")
+        results.append({"arm": arm_id, "key": cifs[0], "ligand_atoms": res["ligand_atoms"], "complex_atoms": n_atom})
+        print(f"[retro-stage-test] {arm_id}: {res['ligand_atoms']} ligand atoms, {n_atom} complex atoms", flush=True)
+    # the three arms must assemble to comparable systems — a paralogue that lost a chain would silently become a
+    # different experiment, and the identical-protocol requirement (prereg 2c) would be violated invisibly.
+    sizes = [r["complex_atoms"] for r in results]
+    if max(sizes) > 1.25 * min(sizes):
+        raise SystemExit(f"[retro-stage-test] arms differ in size by >25% {sizes} — not protocol-matched")
+    ligs = {r["ligand_atoms"] for r in results}
+    if len(ligs) != 1:
+        raise SystemExit(f"[retro-stage-test] ligand atom counts differ across arms {ligs} — same ligand expected")
+    json.dump({"results": results, "protocol_matched": True}, open("nrv04-retro-stage-test.json", "w"), indent=2)
+    print("RETRO-STAGE-TEST PASS — the assembler handles NR4A1/NR4A2/NR4A3 co-folds and the arms are matched.",
+          flush=True)
+    return 0
+
+
+def retro_launch(bucket):
+    """Launch retrospective units on Vast. Idempotent: skips units with a result already in S3 or a live
+    instance, so a re-dispatch RESUMES the killed/preempted ones without ever racing a checkpoint."""
+    import nrv04_retro_panel as retro
+    branch = os.environ.get("GIT_BRANCH", "claude/nr-v04-retrospective-testing-6ywxye")
+    mode = os.environ.get("MODE", "run")
+    dry = os.environ.get("DRY_RUN", "0") == "1"
+    units = retro_units_to_run()
+
+    skip_done, skip_live = set(), set()
+    if not dry:
+        vk = os.environ.get("VAST_API_KEY")
+        try:
+            live = _vast_request("GET", "/instances/", vk, params={"owner": "me"}).get("instances", [])
+            _alive = ("running", "loading", "created", "scheduling", "starting")
+            skip_live = {i.get("label") for i in live if i.get("label") and (i.get("actual_status") or "") in _alive}
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro] WARN could not list live instances ({e}); not skipping any", flush=True)
+        try:
+            import boto3
+            s3 = boto3.client("s3")
+            dk = _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
+            skip_done = {k.split("/")[-2] for k in dk if k.rsplit("/", 1)[-1].startswith("leg_")}
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro] WARN could not list S3 results ({e}); not skipping any", flush=True)
+
+    env_url = None if dry else presign_env_tarball(bucket)
+    be = None if dry else get_backend("vast")
+    print(f"[retro] {len(units)} unit(s), mode={mode}, dry_run={dry}, pilot_only="
+          f"{os.environ.get('RETRO_PILOT_ONLY', '1')}, skip_done={len(skip_done)}, skip_live={len(skip_live)}",
+          flush=True)
+    handles = []
+    for arm, model_seed, replica in units:
+        name = retro.unit_name(arm, model_seed, replica)
+        if not dry and name in skip_done:
+            print(f"[skip] {name} — result already in S3", flush=True); continue
+        if not dry and name in skip_live:
+            print(f"[skip] {name} — live instance already running", flush=True); continue
+        spec = build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=env_url)
+        if dry:
+            print(f"[retro-dry] {spec.name}: gpu={spec.resources.gpu} cofold={spec.env['COFOLD_PREFIX_S3']} "
+                  f"covalent={spec.env['COVALENT']} -> {spec.env['RESULT_S3']}", flush=True)
+            continue
+        h = be.submit(spec)
+        print(f"[retro-submit] {spec.name} -> instance {h.job_id} dph≈${h.extra.get('dph')}/hr", flush=True)
+        handles.append({"unit": spec.name, "arm": arm.arm_id, "model": model_seed, "replica": replica,
+                        "instance": h.job_id})
+    if handles:
+        json.dump(handles, open("nrv04-retro-handles.json", "w"), indent=2)
+    return 0
+
+
+def retro_collect(bucket):
+    """Pull every landed retrospective leg JSON, map it onto the frozen leg-record schema, and — only when the
+    panel is COMPLETE — apply the frozen gate. Prereg §4f forbids an interim look at the arm ordering, so an
+    incomplete panel reports coverage ONLY and refuses to compute the contrast."""
+    import boto3
+    import nrv04_retro_panel as retro
+    import nrv04_retro_gate as gate
+    s3 = boto3.client("s3")
+    keys = [k for k in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
+            if k.rsplit("/", 1)[-1].startswith("leg_")]
+    legs, raw = [], []
+    for k in keys:
+        try:
+            d = json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro-collect] WARN unreadable {k}: {e}", flush=True); continue
+        raw.append({"key": k, "leg": d.get("leg_id"), "seed": d.get("seed")})
+        leg_id = d.get("leg_id") or ""
+        arm_id, _, mtag = leg_id.partition("__m")
+        rec = {
+            "arm_id": arm_id,
+            "cofold_model_seed": int(mtag) if mtag.isdigit() else None,
+            "replica": d.get("seed"),
+            "e1_plateau_A": ((d.get("R1") or {}).get("plateau_A")),
+            "e2_stable": ((d.get("R1") or {}).get("stable")),
+            "e3_mean_contacts": ((d.get("R2") or {}).get("mean_contacts")),
+            "technical_failure": bool(d.get("blew_up")) or ((d.get("R1") or {}).get("plateau_A") is None),
+            "source_key": k,
+        }
+        legs.append(rec)
+
+    expected = {retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()}
+    have = {f"nrv04retro-{l['arm_id']}-m{l['cofold_model_seed']}-r{l['replica']}" for l in legs}
+    missing = sorted(expected - have)
+    out = {"n_legs": len(legs), "expected_units": len(expected), "missing_units": missing,
+           "panel_complete": not missing, "legs": legs, "raw_keys": raw}
+    if missing:
+        out["verdict"] = None
+        out["note"] = ("panel INCOMPLETE (%d/%d units) — prereg §4f forbids computing the paralogue contrast "
+                       "before every leg has landed. Coverage only." % (len(have), len(expected)))
+        print(f"[retro-collect] {len(have)}/{len(expected)} units landed; contrast NOT computed (prereg §4f)",
+              flush=True)
+    else:
+        out["verdict"] = gate.verdict(legs)
+        print("[retro-collect] panel complete — frozen gate applied", flush=True)
+    json.dump(out, open("nrv04-retro-collect.json", "w"), indent=2)
+    print(json.dumps({k: v for k, v in out.items() if k not in ("legs", "raw_keys")}, indent=2), flush=True)
+    return 0
+
+
 def main():
     bucket = os.environ.get("VAST_CKPT_BUCKET")
     if not bucket:
@@ -943,6 +1160,12 @@ def main():
         return firm(bucket)
     if os.environ.get("FIRM_COLLECT") == "1":
         return firm_collect(bucket)
+    if os.environ.get("RETRO_STAGE_TEST") == "1":
+        return retro_stage_test(bucket)
+    if os.environ.get("RETRO") == "1":
+        return retro_launch(bucket)
+    if os.environ.get("RETRO_COLLECT") == "1":
+        return retro_collect(bucket)
     if os.environ.get("DISCOVER") == "1":
         discover_cofold(bucket)
         return 0

@@ -113,12 +113,20 @@ def write_complex_pdb(cif_path, keep_chains, out_pdb):
     st.write_pdb(out_pdb)
 
 
-def assemble_leg(cif_path, leg, template_smiles, out_dir, keep_chains=None):
-    """Produce <out_dir>/<leg.leg_id>/{complex.pdb, ligand.sdf} for one panel leg. `leg` is a
-    nrv04_covalent_panel.Leg; binary legs drop the target chain via keep_chains."""
+def assemble_unit(cif_path, leg_id, template_smiles, out_dir, keep_chains=None):
+    """Produce <out_dir>/<leg_id>/{complex.pdb, ligand.sdf} from one co-fold CIF. Takes a plain leg_id so BOTH
+    panels use it: the covalent feasibility panel (via assemble_leg below) and the retrospective holdout, whose
+    units are (arm, co-fold model, replica) and carry no nrv04_covalent_panel.Leg. One assembler, so the two
+    panels' inputs cannot be built differently."""
     import os
-    leg_out = os.path.join(out_dir, leg.leg_id)
+    leg_out = os.path.join(out_dir, leg_id)
     os.makedirs(leg_out, exist_ok=True)
     n = extract_ligand_from_cif(cif_path, template_smiles, os.path.join(leg_out, "ligand.sdf"))
     write_complex_pdb(cif_path, keep_chains, os.path.join(leg_out, "complex.pdb"))
-    return {"leg": leg.leg_id, "ligand_atoms": n, "out": leg_out}
+    return {"leg": leg_id, "ligand_atoms": n, "out": leg_out}
+
+
+def assemble_leg(cif_path, leg, template_smiles, out_dir, keep_chains=None):
+    """Produce <out_dir>/<leg.leg_id>/{complex.pdb, ligand.sdf} for one panel leg. `leg` is a
+    nrv04_covalent_panel.Leg; binary legs drop the target chain via keep_chains."""
+    return assemble_unit(cif_path, leg.leg_id, template_smiles, out_dir, keep_chains)

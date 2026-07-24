@@ -89,26 +89,21 @@ def overlap_matrix_bottleneck(matrix):
     (i, i+1) overlap and whether every adjacent link clears OVERLAP_BOTTLENECK_MIN (a connected λ-path). A single
     near-zero neighbor pair disconnects the thermodynamic path even when the scalar/average looks acceptable, so
     this — not a universal cutoff on the scalar — is the real connectivity requirement. Pure; unit-tested."""
+    # Deliberately PURE PYTHON: this is a min over K-1 pairs, and it used to go through numpy, which meant a
+    # worker without numpy silently DISABLED the gate (the ImportError branch returned connected=None). A
+    # convergence gate that can be switched off by a missing dependency is a gate you cannot rely on, and this
+    # arithmetic never needed numpy — so the dependency, and the failure mode with it, is gone.
     try:
-        import numpy as np
-        M = np.asarray(matrix, dtype=float)
-        if M.ndim != 2 or M.shape[0] != M.shape[1] or M.shape[0] < 2:
-            return {"min_adjacent_overlap": None, "bottleneck_pair": None, "connected": None}
-        K = M.shape[0]
+        rows = [list(r) for r in matrix]
+        K = len(rows)
+        if K < 2 or any(len(r) != K for r in rows):
+            return {"min_adjacent_overlap": None, "bottleneck_pair": None, "connected": None,
+                    "status": "overlap matrix must be square with K >= 2"}
         # each adjacent link's overlap = min of the two directional overlaps O[i,i+1], O[i+1,i]
-        links = [(i, min(float(M[i, i + 1]), float(M[i + 1, i]))) for i in range(K - 1)]
+        links = [(i, min(float(rows[i][i + 1]), float(rows[i + 1][i]))) for i in range(K - 1)]
         i_min, v_min = min(links, key=lambda t: t[1])
         return {"min_adjacent_overlap": v_min, "bottleneck_pair": [i_min, i_min + 1],
                 "connected": bool(v_min >= OVERLAP_BOTTLENECK_MIN)}
-    except ImportError as e:
-        # A MISSING DEPENDENCY is not "we could not tell from this matrix" — it means the convergence
-        # gate is silently disabled for the whole run. Same None-returning contract (no caller
-        # breaks), but flagged distinctly so a job cannot report an unevaluated bottleneck as merely
-        # inconclusive. This lane has already produced three silent failures; an unrunnable gate must
-        # look different from an unconvincing one.
-        return {"min_adjacent_overlap": None, "bottleneck_pair": None, "connected": None,
-                "environment_error": True,
-                "status": "bottleneck calc COULD NOT RUN (missing dependency, gate disabled): %s" % e}
     except Exception as e:  # noqa: BLE001
         return {"min_adjacent_overlap": None, "bottleneck_pair": None, "connected": None,
                 "status": "bottleneck calc failed: %s" % e}
