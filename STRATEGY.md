@@ -239,9 +239,28 @@ edge on the 4090 (see tooling below). These are the honest planning figures; eac
   has the covalent MD env only — OpenMM, no OpenFE).
 - **Known gotcha fixed** — a conda-pack'd env can carry a stale OpenMM plugin dir (`platforms=['Reference']`);
   `gpu_md_bench` now does the explicit `loadPluginsFromDirectory` reload (mirrors `nrv04_covalent_md`).
-- **Remaining gap to "RBFE/ternary run on Vast"** — the OpenFE *image* exists, but `nr4a3_rbfe.py` /
-  `nr4a3_ternary_fep.py` still need to be wired into the Vast launcher (like the covalent leg is). One real edge of
-  each on the 4090 (~$1–2) then replaces the 1.7× overhead assumption with a measured per-edge cost.
+- **RBFE + ternary ARE wired to Vast + PROVEN to launch (`firm`/`firm_collect` modes, 2026-07-23).** Both run on
+  the OpenFE 4090 image, self-staging (RBFE: public TYK2 valA edge via `valA_bench_stage.py`; ternary: 8G1Q via
+  `ternary_pdb_stage.py`). **Verified on real 4090 hardware:** RBFE charges (am1bcc) → maps → builds the hybrid
+  system → reaches multistate MD; **ternary builds the FULL solvated ternary — 146,509 particles, 16 λ-windows,
+  clash-diagnostics clean — and reaches the sampler.** So "can we run RBFE/ternary on Vast" = **YES, demonstrated.**
+- **Confirmed system sizes (refines the cost model):** RBFE complex ≈ **35k atoms** (matches the bench); the real
+  **ternary ≈ 146k particles** — BIGGER than the earlier 85k guess, so ternary stages cost ~1.3× the first table
+  (whole program still **~$90–220 on Vast 4090** vs the old ~$840). Interpolating the bench grid to 146k ⇒ ~450
+  ns/day plain on the 4090.
+- **DECISION (trimcrae, 2026-07-23): LOCK IN THE ESTIMATE — do NOT grind for the exact ns/day.** The pipelines are
+  proven to launch and costs are firm to ±the ~1.7× HREX overhead (the one unmeasured factor); a size-confirmed
+  bench estimate is good enough to plan spend. The exact per-edge ns/day is deferred to whenever a real fanout
+  runs. (Also: self-wake timers were unreliable this session — container restarts killed them — making 2h
+  monitor-dependent cycles impractical to babysit.)
+- **GOTCHAS a future real-fanout run MUST set on the Vast OpenFE lane** (all fixed in `nrv04_vast_launch.py` firm
+  preamble + `Dockerfile.nr4a3fep` + `environment-rbfe.yml`, but note them): (1) `OPENMM_PLUGIN_DIR=
+  /opt/mamba/envs/rbfe/lib/plugins` — conda-pack relocation breaks OpenMM plugin auto-load so OpenFE's internal
+  `getPlatformByName("CUDA")` fails without it; (2) `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt` — else
+  `ternary_pdb_stage.py`'s RCSB fetch `CERTIFICATE_VERIFY_FAILED`s → empty ligand SDF; (3) **`openfe>=1.12`** (the
+  image was bumped from `>=1.1`) — the older openfe's spot-driver tripped `equilibration.nc already exists` on the
+  local-commit path; (4) a real HREX leg runs **~2h+** on one 4090 — set the runtime ceiling ≥4h (the firm
+  default `max_runtime_s=14400`), don't reap mid-run.
 
 **Vast bid + host policy** (`research/modalities/gpu_backend.py`; env-tunable via `VAST_BID_FLOOR_MULT`):
 - **Bid = `min_bid × 1.5`** — a margin *above* the market floor so the box wins AND **holds** its slot. **Never cap
