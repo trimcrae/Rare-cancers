@@ -1140,6 +1140,17 @@ pre-registered GO/NO-GO are still outstanding. What it does establish is that th
 end-to-end and converges on the real NR4A3 system — the quantitative-method foundation on which the paralogue-
 selectivity and ternary-cooperativity calculations are built.
 
+**The full congeneric map is designed and staged, but NOT computed.** A 19-edge perturbation map around the
+cmpd19 anchor is frozen (`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue
+inheriting the anchor's core coordinates atom-for-atom, so the edges are mutually comparable), and the execution
+lane is implemented and was demonstrated to sample the real system at scale. It was then **stopped before any
+edge produced a ΔΔG**, on cost. **No ΔΔG beyond the single pilot edge above exists, and none is claimed here** —
+this paper reports one edge, not a map. Two scope limits would apply even when the map is computed: it covers
+only the **charge-conserving** microstate of each edge (the charge-changing species need a co-alchemical or
+analytical charge correction that is not implemented), and only the **primary** receptor conformer — so it would
+be a single-conformer *conditional* map, not a paralogue-selectivity readout and not a sensitivity range. Record:
+`research/modalities/step1-fanout-lane.md`.
+
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
 `gpu-*-aws.yml`). Structure: AlphaFold2 (AFDB) + fpocket (file→pocket mapping derived from data,
@@ -1286,6 +1297,16 @@ touch NR4A and makes no NR4A3 claim), but it establishes two operationally relie
 reproduces a known ΔΔG — i.e. the *relative*-FEP tooling is sound, in explicit contrast to the un-calibrated
 *absolute* scale above — and the **spot-safe GCS checkpoint/resume infrastructure** carries a multi-hour FEP
 through repeated real spot preemptions with zero lost work (relevant to any future large FEP fan-out).
+
+**Measured throughput on the NR4A3 system itself (2026-07-24).** The TYK2 validation above is a *build*
+check, and its timings do not transfer: on the real cmpd19/NR4A3 congeneric complex, three independent RTX-4090
+hosts sampled at **12.76 / 13.70 / 14.42 s per Hamiltonian-replica-exchange iteration** (16 samples each;
+12 λ-windows, 2.5 ps/iteration), i.e. **≈190 ns/day aggregate versus ≈498 ns/day for the public TYK2 edge on the
+same card class** — the NR4A3 hybrid is ~2.6× more expensive per unit of sampling. Effective protocol settings,
+read off the built system rather than assumed, are OpenFE's defaults `constraints=hbonds` with
+`hydrogen_mass = 3.0`, under which every X–H is constrained and the integrator runs at 4 fs. These figures are
+reported so that anyone costing a comparable campaign prices it on the *target* system: a per-iteration rate
+measured on a benchmark system underestimated this one ~4-fold.
 **Artifact status:** the run is GitHub Actions run **29566859637** (2026-07-17) and its outcome is recorded in the
 committed run ledger `../manuscripts/degrader-paper-schedule.json` (record `valA_mini`: `ddg_bind=+0.366`,
 `ddg_exp=-0.24`, `abs_err=0.606`, solvent-leg ΔΔG 13.703 ± 0.079). The raw result object lives in a **private
