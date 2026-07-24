@@ -75,8 +75,10 @@ python -m bioemu.sample --sequence "$SEQUENCE" --num_samples "$NUM_SAMPLES" \
 mark sampled
 ls -la /tmp/be || true
 # --- 2) side-chain reconstruction (HPacker) -> all-atom topology + trajectory (fpocket needs all-atom) ---
-python -m bioemu.sidechain_relax --pdb-path /tmp/be/topology.pdb --xtc-path /tmp/be/samples.xtc \
-       --outpath /tmp/be || { echo "sidechain_relax failed"; exit 5; }
+# --no-md-equil = HPacker packing only (enough all-atom side chains for fpocket; skips the slower openmm equil).
+# Outputs samples_sidechain_rec.{pdb,xtc} into the CWD, so run it inside /tmp/be (subshell keeps our CWD).
+( cd /tmp/be && python -m bioemu.sidechain_relax --pdb-path topology.pdb --xtc-path samples.xtc --no-md-equil ) \
+       || { echo "sidechain_relax failed"; exit 5; }
 mark sidechains
 ls -la /tmp/be || true
 # resolve the reconstructed topology+trajectory (prefer HPacker rec; naming is samples_sidechain_rec.{pdb,xtc})
