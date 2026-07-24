@@ -820,7 +820,7 @@ def build_firm_jobspec(kind, branch, bucket):
         resume=False,
         resources=ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=60, interruptible=True),
         # a real 12-window HREX leg runs ~2h+ on one GPU; the old 90-min watchdog reaped it mid-run. 4h ceiling.
-        max_runtime_s=int(os.environ.get("FIRM_MAX_RUNTIME_S", "14400")),
+        max_runtime_s=int(os.environ.get("FIRM_MAX_RUNTIME_S", "86400")),
         env=env,
     )
 
