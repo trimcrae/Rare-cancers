@@ -216,6 +216,16 @@ def mdp_lambda_window(state_index, n_states, ps, collect_data):
         "sc-alpha": "0.3",
         "sc-power": "1",
         "sc-sigma": "0.25",
+        # sc-coul MUST be on whenever a single lambda vector drives coulomb and vdW together.
+        # GROMACS 2026 refuses the combination outright:
+        #   For state 1, vdw-lambdas (0.5) is changing with vdw softcore, while coul-lambdas (0.5)
+        #   is nonzero without coulomb softcore: this will lead to crashes, and is not supported.
+        # The usual ligand answer — decharge first on a separate coul schedule, then decouple vdW —
+        # does not transfer to a RESIDUE MUTATION, where charges and vdW change on the same atoms
+        # simultaneously and cannot be cleanly separated. Softcore on both is what pmx's own
+        # published protein-mutation protocols do, so this keeps the lane on the engine's convention
+        # rather than inventing a schedule for it.
+        "sc-coul": "yes",
         "couple-intramol": "no",
         "nstdhdl": "100" if collect_data else "0",
         "dhdl-print-energy": "total",

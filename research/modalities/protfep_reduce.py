@@ -197,8 +197,11 @@ def reduce_all(source, hourly_usd=None):
         "scores": scores,
         "verdict": verdict,
         "price": price_from_legs(docs, hourly_usd=hourly_usd),
-        "engine": "perses.PointMutationExecutor + perses.HybridRepexSampler + MBAR "
-                  "(nr4a3_protein_fep.py / protfep_run.py)",
+        # Read from the legs themselves rather than hardcoded: the reducer is engine-agnostic on
+        # purpose (it survived the perses -> pmx switch untouched), so it must not assert an engine
+        # the legs did not use. That string was stale within hours of being written.
+        "engines": sorted({d.get("engine") for d in docs if d.get("engine")}) or ["(no legs yet)"],
+        "protocols": sorted({d.get("protocol") for d in docs if d.get("protocol")}),
     }
 
 

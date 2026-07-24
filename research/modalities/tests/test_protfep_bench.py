@@ -766,3 +766,32 @@ def test_forcefield_resolution_refuses_when_pmx_ships_none(monkeypatch):
     monkeypatch.setattr(ppmx, "discover_forcefields", lambda: {})
     with pytest.raises(RuntimeError, match="no \\*.ff mutation force fields"):
         ppmx.resolve_forcefield("anything")
+
+
+def test_window_mdp_enables_coulomb_softcore_with_a_shared_lambda_vector():
+    """GROMACS refuses vdW softcore alongside a nonzero coul-lambda without coulomb softcore.
+
+    A residue mutation changes charges and vdW on the SAME atoms, so the ligand answer (decharge on
+    a separate schedule, then decouple vdW) does not transfer — softcore on both is what pmx's own
+    protein-mutation protocols do.
+    """
+    mdp = ppmx.mdp_lambda_window(1, 4, 100, collect_data=True)
+    assert "sc-coul = yes" in mdp
+    assert "sc-alpha = 0.3" in mdp
+    assert "fep-lambdas" in mdp, "one vector drives all components for a residue mutation"
+
+
+def test_reduce_reports_the_engine_from_the_legs_not_a_hardcoded_string():
+    """The reducer is engine-agnostic — it survived the perses -> pmx switch untouched — so it must
+    not assert an engine the legs did not use."""
+    docs = [_leg("x__complex_r0", "x", "complex", -5.0), _leg("x__apo_r0", "x", "apo", -8.4)]
+    for d in docs:
+        d["engine"] = "pmx + GROMACS"
+        d["protocol"] = "equilibrium lambda windows"
+    import json as _json, pathlib, tempfile
+    with tempfile.TemporaryDirectory() as td:
+        for d in docs:
+            pathlib.Path(td, f"leg_{d['leg_id']}.json").write_text(_json.dumps(d))
+        out = pr.reduce_all(td)
+    assert out["engines"] == ["pmx + GROMACS"]
+    assert out["protocols"] == ["equilibrium lambda windows"]
