@@ -243,8 +243,16 @@ def mode_precheck():
                 f"{STAGE_PREFIX}/receptor/{PRIMARY_RECEPTOR}-opened.pdb"):
         if not _exists(s3, bucket, key):
             raise SystemExit(f"[s1f] staged input missing: s3://{bucket}/{key}")
-    print(f"[s1f] staged nodes OK: {len(staged)}/{len(needed)}")
-    print(f"[s1f] flagged needs_pose_revalidation (reported, not blocking): {reval or 'none'}")
+    print(f"[s1f] staged nodes OK: {len(staged)}/{len(needed)}  (method: {qc.get('_method', '?')[:80]}...)")
+    print(f"[s1f] {'node':28s} {'status':10s} core rmsd    strain  soft severe  closest")
+    for q in sorted(qc.get("qc", []), key=lambda x: x["node"]):
+        print(f"[s1f] {q['node']:28s} {q['status']:10s} {str(q.get('core_atoms')):4s} "
+              f"{str(q.get('core_rmsd_A')):8s} {str(q.get('core_geometry_strain_A')):7s} "
+              f"{str(q.get('soft_contacts_lt_2.0A')):4s} {str(q.get('severe_clashes_lt_1.6A')):6s} "
+              f"{q.get('closest_receptor_contact_A')}")
+    strained = [q["node"] for q in qc.get("qc", []) if q.get("high_core_strain")]
+    print(f"[s1f] high core strain (caveat on the edge, not blocking): {strained or 'none'}")
+    print(f"[s1f] severe clash -> needs_pose_revalidation (caveat, not blocking): {reval or 'none'}")
     if missing:
         raise SystemExit(f"[s1f] PRECHECK FAIL — units reference unstaged nodes: {missing}")
     print("[s1f] PRECHECK OK — every unit's endpoints are staged from the common anchor pose")
