@@ -14,7 +14,10 @@
 > [research/compute/pricing.md](research/compute/pricing.md) — ★ PRICING single source of truth, every cost line
 > linked to its justifying test · [reviewer verdict](research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md)
 > (verbatim) · [ternary-first strategy note](research/manuscripts/nr4a3-degrader-strategy-ternary-first.md)
-> (biological/chemotype rationale) · [the manuscript](research/manuscripts/nr4a3-degrader-paper.md) itself.
+> (biological/chemotype rationale) · [**ternary-selectivity strategy revision
+> 2026-07-24**](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md) (the evidence and
+> full reasoning behind the mechanism-first search and the six cost levers folded in below) ·
+> [the manuscript](research/manuscripts/nr4a3-degrader-paper.md) itself.
 
 ---
 
@@ -36,12 +39,39 @@ case it was *discovered then rationalized by a solved ternary structure* — nev
 validated prospective selectivity predictor in the field, and AKT1/2/3 is the cautionary null (isoforms too
 homologous → only pan-degraders).
 
-The program is therefore **orientation-first**: search for a relative target–E3 orientation that forms an
-NR4A3-distinctive neo-interface *and* positions E2~Ub productively, prove it causally with reciprocal
-target-surface mutation cycles, and **STOP before the flagship spend if no robust wedge survives** — publishing
-the honest negative, itself a defensible novel result. The final deliverable is a **computationally prioritized,
-structure-defined, retrosynthetically annotated candidate set with an identified causal selectivity mechanism —
-degradation experimentally unvalidated.**
+**★ MECHANISM-FIRST (revised 2026-07-24 — supersedes "orientation-first" as the SEARCH ORDER; the thesis above
+is unchanged).** Selectivity mechanisms are not interchangeable, and the program was pursuing the hardest one
+exclusively. Two classes:
+
+- **MARGINAL** — the paralogue is thermodynamically disfavoured. This is the induced-interface wedge. A useful
+  degradation window needs **~2.0 kcal/mol** of true margin (median over 27 potency scenarios, range 1.75–2.25;
+  [`selectivity_margin_model.py`](research/modalities/selectivity_margin_model.py)), against a best-case
+  **resolvable** difference of **1.12 kcal/mol** (replicate SD 0.7, n = 3) and a method accuracy of ~1.7 kcal/mol
+  RMSE — which does not even cover the NAGL ternary lane. Replicates shrink precision, not accuracy. **This axis
+  is a confirmation tool operating near its limit, not a discovery tool.**
+- **CATEGORICAL** — the paralogue is structurally *incapable*. NR4A3 carries reactive residues that BOTH
+  paralogues lack, verified from full-length UniProt with two independent aligners
+  ([`nr4a_paralogue_unique_residues.py`](research/modalities/nr4a_paralogue_unique_residues.py)):
+  **C397** (NR4A1 N363 / NR4A2 S363; RSA 0.395, 10.9 Å from the cryptic pocket — exit-vector reach), C420, C559;
+  and exposed unique lysines **K572** (RSA 0.879), **K518**, **K592**, all 11–16 Å from the pocket, the same band
+  as the conserved ones — so an E3 can be steered onto a unique lysine instead of a shared one. At **zero**
+  thermodynamic margin these give 0.82 (unique lysine) and 0.92 (covalent capture, time-integrating form) on the
+  window metric where the interface-only null gives 0.185. **Precedent: the field's one demonstrated case of
+  NR4A-family-selective degradation, NR-V04, is most parsimoniously explained by a paralogue-unique cysteine —
+  NR4A1 Cys551, which NR4A3 lacks (T579).** That covalency remains a genuine confound for the retrospective
+  (below); it is *also* the reciprocal handle this program should use.
+
+The program is therefore **mechanism-first, then orientation**: rank basins by whether they place an electrophile
+at an NR4A3-unique cysteine and whether their E2~Ub transfer zone covers a unique lysine rather than a conserved
+one; use interface thermodynamics to **rank within** the surviving set, never to create selectivity on its own;
+test causality with a matched-pair cycle; and **STOP before the flagship spend if no mechanism survives** —
+publishing the honest negative, now stronger because it rules out three mechanisms instead of one. The final
+deliverable is a **computationally prioritized, structure-defined, retrosynthetically annotated candidate set
+with an identified causal selectivity mechanism — degradation experimentally unvalidated.**
+
+*Checked and reported weak, not quietly dropped:* the EWSR1 moiety of the fusion contributes only **1 lysine**
+(residues 1–264) or 2 (1–349) — the low-complexity domain is Lys-poor — so fusion-lysine-directed ubiquitination
+is a thin handle and is **not** a design axis. It stays a modelling scenario only.
 
 ## Honest scope and language discipline (apply everywhere, including the manuscript)
 
@@ -161,19 +191,49 @@ allowed to claim.
 
 ---
 
-## The prospective stage: orientation-first inverse design
+## The prospective stage: mechanism-first, then orientation-first inverse design
 
 The molecule-first approach — enumerate a fixed {warhead×exit×ligase×linker} matrix, model each ternary, score,
 and hope the Pareto front contains a selective degrader — is a well-controlled lottery: it *verifies* selectivity
-if already present but never asks the design question. The stage is reorganized **orientation-first**:
+if already present but never asks the design question. Orientation-first fixed that. Applying the same logic once
+more (2026-07-24) puts the **mechanism** above the orientation, because the mechanism decides what the
+orientation search is optimising:
 
 ```
-paralogue surface differences → selective interface BASINS → productive CRL geometry
+paralogue-unique CHEMISTRY (nucleophile) + paralogue-unique GEOMETRY (lysine)
+    → basins that exploit ONE of them → productive CRL geometry
+    → interface thermodynamics used to RANK within the survivors
     → linker requirements → candidate molecules
 ```
 
 This removes blind linker guessing and preserves everything requirement 5 mandates (Pareto/uncertainty,
-EWSR1::NR4A3 fusion context, lysines beyond the LBD, full CRL/E2~Ub ensembles). Five load-bearing pieces:
+EWSR1::NR4A3 fusion context, lysines beyond the LBD, full CRL/E2~Ub ensembles). Three additions to the basin
+search, all **$0 CPU** (rationale and evidence: the [2026-07-24
+revision](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md)):
+
+- **(a) Electrophile-reach term** — does the basin's linker path pass within tethering distance of C397 / C420 /
+  C559 at a geometry a mild electrophile could adopt? None of the three sits *inside* the pocket, so this is an
+  electrophile on the **exit vector or the linker**, which in a degrader is architecturally free — the linker
+  already leaves the pocket and travels 10–20 Å. **Prefer a REVERSIBLE-covalent handle** (cyanoacrylamide-type):
+  an irreversible adduct makes the degrader stoichiometric and forfeits catalytic turnover, the property that
+  makes PROTACs attractive. Electrophile promiscuity is an unresolved liability with no wet lab to check it, and
+  must be reported alongside the parent warhead's MYC induction, not buried.
+- **(b) Transfer-zone lysine-identity term** — which lysine does the modelled E2~Ub transfer zone cover? Score
+  *unique-only* highest, *unique + conserved* next, *conserved-only* lowest. This is set membership, not energy.
+  Honest limit: real degraders often ubiquitinate several lysines and lysine-less substrates can still be
+  degraded (N-terminal / Ser / Thr / Cys ubiquitination), so this **raises the odds; it does not guarantee** the
+  paralogue is spared.
+- **(c) E3 breadth, free at the search stage** — widen beyond VHL/CRBN to the ligandable set with public
+  ligand-bound structures (cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114). Since basin search is CPU
+  this costs ~nothing and multiplies the chance that *some* E3 surface complements NR4A3's differential surface.
+  Extend the free `nr4a3_e3_expression.py` HPA analysis to the new candidates. **Downselect to ≤2 recruiters
+  before any GPU leg, and log what was dropped** — a silent top-N reads as "we covered everything".
+- **(d) Pose-marginalisation, free** — run the basin search over the warhead-**pose ensemble** and carry only
+  basins that persist, reporting the surviving fraction. Sequence-level uniqueness of C397/K572 is
+  pose-independent; only the *reach* estimate is conditional, which is a far smaller conditional surface than the
+  stage currently carries.
+
+Five load-bearing pieces:
 
 1. **A paralogue-differential surface atlas (free, CPU).** NR4A1/2/3 in a **matched** ensemble — homologous
    frames, identical pose hypotheses, protonation, target–E3 transforms, and sampling — mapping E3-reachable,
@@ -184,12 +244,23 @@ EWSR1::NR4A3 fusion context, lysines beyond the LBD, full CRL/E2~Ub ensembles). 
    VHL/CRBN around the warhead-bound target under a flexible linker-reach restraint; keep only interfaces that are
    favorable on NR4A3 and systematically weaker/frustrated on NR4A1/2, bridgeable, clash-free, ensemble-compatible,
    and place an accessible lysine in a productive transfer region. Cluster into **~3–8 basins per ligase**.
-3. **Wedges proven by reciprocal mutation cycles — the primary causal test.** For a target-surface mutation *m*,
+3. **Wedges proven by a matched-pair causal cycle — the primary causal test.**
+   **★ PRIMARY (revised 2026-07-24): the LIGAND-side double difference, on the lane Val B calibrates.** For a
+   candidate *d* and a matched control *d₀* differing only in the element that engages the wedge,
+   `S = ΔΔG_coop(d₀→d | NR4A3) − ΔΔG_coop(d₀→d | NR4A1)`. Each term is an ordinary relative alchemical quantity
+   *inside one protein*; the difference asks the **design** question — does this structural element create
+   paralogue discrimination? It needs **no protein-mutation engine**, makes **no cross-lane subtraction**, and by
+   the cancellation identity below needs **only ternary legs**. This is far stronger than observing
+   ΔG_ternary,3 < ΔG_ternary,1.
+   **CONFIRMATORY (was primary): the reciprocal PROTEIN-mutation cycle.** For a target-surface mutation *m*,
    `ΔΔG_neo-interface^m = ΔG_mut^ternary − ΔG_mut^binary` (the binary leg subtracts mutation effects from the
    target–warhead complex, isolating the recruited-interface effect). A strong wedge shows a favorable NR4A3
    interface, **loss** on NR4A3→NR4A1/2 mutations, **partial gain** on reciprocal NR4A1/2→NR4A3 mutations,
-   persistence across frames, and a recognizable steric/electrostatic/H-bond mechanism. This is far stronger than
-   observing ΔG_ternary,3 < ΔG_ternary,1.
+   persistence across frames, and a recognizable steric/electrostatic/H-bond mechanism. It stays on the plan and
+   gives a second, independent causal line **if** its known-answer benchmark passes — but the paper's headline
+   causal result is no longer hostage to an engine that has never run, an unpriced campaign, and an unresolved
+   cross-lane charge mismatch. *(Demotion is PROPOSED — it is program-shaping, so it waits for a trimcrae go;
+   recommended.)*
 4. **Separate ACCESSIBILITY from STABILITY.** Estimate `P(B_k | d, s)` (can the linker reach and hold basin *k*?)
    separately from `ΔG_coop(d, B_k, s)` (is the orientation plausible?). A favorable basin the linker rarely
    accesses is irrelevant.
@@ -205,13 +276,21 @@ linker matrix, no ensemble refinement, no flagship spend; publish *"we mapped or
 NR4A3-discriminating, ubiquitination-compatible basin survives causal testing."* The *decision* to commit the
 flagship is cheap, not a gate on the whole tail:
 
-- **Tier 1 — atlas ($0 CPU):** no E3-reachable divergent surface ⇒ STOP for free.
-- **Tier 2 — basin nomination ($0–50):** no basin even nominally discriminates NR4A3 ⇒ STOP cheaply. Cheap
-  scoring has poor S/N for *small* differences, so it *nominates* — a gross absence of signal is an informative
-  NO-GO, but it is not trusted to kill a real small wedge.
-- **Tier 3 — pilot ONE alchemical mutation direction (~~$5–10~~ **UNPRICED — engine now built, see below**):** the single
-  most-decisive leg first (3→1). No effect ⇒ STOP. The full reciprocal cycle (~~$15–30~~ also unpriced) runs only
-  on a passing pilot and is the paper's **primary causal RESULT**, not gate overhead.
+- **Tier 0 — categorical-axis screen ($0 CPU) — ★ NEW 2026-07-24, and it PASSED.** No paralogue-unique
+  nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the
+  marginal axis alone, which §Thesis shows sits at the method's resolution limit ⇒ say so explicitly and expect
+  a negative. **Result: GO on both axes** (C397 at 10.9 Å, exit-vector reach; K572/K518/K592 exposed) —
+  `nr4a-paralogue-unique-residues.json`.
+- **Tier 1 — atlas ($0 CPU):** no E3-reachable divergent surface ⇒ STOP for free. **PASSED** (46 handles).
+- **Tier 2 — basin nomination ($0–50):** no basin exploits a categorical handle *and* none even nominally
+  discriminates NR4A3 ⇒ STOP cheaply. Cheap scoring has poor S/N for *small* differences, so it *nominates* — a
+  gross absence of signal is an informative NO-GO, but it is not trusted to kill a real small wedge. Note the
+  asymmetry the new terms buy: "does this basin place an electrophile at C397 / cover K572?" is a **geometric**
+  question cheap scoring answers reliably, unlike a ~1 kcal/mol energy difference.
+- **Tier 3 — pilot ONE causal direction.** ★ Now the **ligand-side double difference** (`S` above): one matched
+  pair, ternary legs in NR4A3 and NR4A1, **~$5–25** on the priced ternary base with the cancellation identity
+  applied. No discrimination ⇒ STOP. *(The protein-mutation pilot remains available as the confirmatory second
+  line: engine built 2026-07-24, never run, still **UNPRICED** — see RUNG 5a-KS.)*
 
 > **⚠ Tier 3 HAD NO IMPLEMENTING ENGINE IN THIS REPO (established 2026-07-24; an engine was built the same day — see the RUNG 5a-KS entry).** Every price this
 > plan has ever carried for the mutation legs (~$40–90 pilot, then ~$5–10 pilot / ~$15–30 cycle) rests on the
@@ -309,6 +388,33 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
   length; card choice is the lever on GPU-h-heavy stages.
 
 
+### ★ Cost levers adopted 2026-07-24 (evidence in the [revision doc](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md))
+
+1. **4 fs ternary production ≈ 2× cheaper per leg — PROPOSED, one paid step settles it.** `ternary-rbfe-runbook.md`
+   §1c records that after plain-MD pre-equilibration the calib ternary leg ran **warmup 48/48 @1 fs → production
+   40/40 @4 fs, zero NaN, ΔG_morph = 47.28 ± 0.53**, where every prior attempt died at warmup iteration 1. The
+   live valB lane still runs `TIMESTEP_FS=2.0`. Iterations are **timestep-independent** (2.5 ps/iter), so 4 fs is
+   exactly half the force evaluations → **~$10–16/edge → ~$5–8/edge**. ⚠ The runbook requires validation and
+   production at the **same** timestep and the 4 fs evidence is 40 production iterations, not 2000 — so the
+   settling step is to **re-run the valB_mini calibration edge at 4 fs** (~$5–8), which simultaneously exercises
+   the timestep over a full leg, supplies the matched-timestep calibration, and adds a reproducibility replicate.
+2. **★ The binary and solvent legs cancel EXACTLY in any paralogue comparison — up to 2×.** `nr4a3_ternary_fep.py`
+   defines `binary_<e3>` as **E3 machinery + PROTAC with NO target**, and solvent as ligand-in-water. Both are
+   **paralogue-independent**, so for any morph:
+   `ΔΔG_coop(P) − ΔΔG_coop(P′) = ΔG_ternary,P − ΔG_ternary,P′` **exactly.**
+   A 3-paralogue comparison therefore needs **3 ternary legs + 1 shared binary + 1 shared solvent — NOT 3 edges.**
+   `nrv04_retrospective` and valB_full module 3 were priced as "3–6 ternary *edges*", i.e. paying for the shared
+   legs 3–6× over (18 legs vs 12, −33 %; 9 legs if only the selectivity contrast is needed, −50 %). **Never price
+   a paralogue panel as N edges again.**
+3. **Sequential (anytime-valid) stopping instead of a fixed 3 replicas — ~20–25 %.** `adaptive_certify.py`
+   (anytime-valid bounds, honest under repeated looks and data-dependent stopping) and `adaptive_allocator.py`
+   are already built and unit-tested in this repo and are **not wired into the ternary ladder**. Run 2 replicas;
+   add the 3rd only where the decision is not yet determined at the preregistered margin.
+4. **Free gates lead.** `selectivity_wedge_confirm` depended on `valB_full` + `nrv04_retrospective` (~$80–215)
+   even though its validation needs are matched-pair, not cooperativity-cube. Decoupled — see the plan below.
+5. **Ligand-side double difference replaces an unpriced protein-mutation campaign** as the primary causal test.
+6. **E3 breadth is free at search, capped before GPU** (≤2 recruiters, dropped set logged).
+
 *Operational Vast setup (bid = `min_bid × 1.5` to hold the slot; pin OpenMM to CUDA 12.6; the OpenFE image
 `triskit23/nr4a3fep:latest`; the `bench` / `firm` tooling in `nrv04_vast_launch.py`) is documented in
 [pricing.md](research/compute/pricing.md) and `research/modalities/gpu_backend.py` — not repeated here.*
@@ -390,14 +496,32 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   the leg length. ΔG_morph 47.28 comes from the GCP valB production lane; no Vast leg has completed end-to-end.
 
 
+- **`[ ]` ★ NEW 2026-07-24 · Rung 2b — 4 fs adoption + matched re-calibration** — **~$5–8 · PROPOSED, needs a go.**
+  Re-run the valB_mini Wurz edge at `TIMESTEP_FS=4.0` with `use_preequil=1`. One edge, three jobs: (a) exercises
+  4 fs over a **full** 2000-iteration production leg (the existing evidence is 40 iterations); (b) supplies the
+  **matched-timestep** calibration the runbook requires before any 4 fs production result may be quoted;
+  (c) is an independent reproducibility replicate of the 2 fs ΔΔG_coop. **GO/NO-GO:** no NaN across the full leg
+  AND ΔΔG_coop consistent with the 2 fs run within replicate SD → adopt 4 fs for every downstream ternary leg
+  (≈2× cheaper, and the ladder has ≥6 of them, so it repays several times over). NaN or a shifted ΔΔG → stay at
+  2 fs and carry the 2 fs cost base unchanged. *(Cheapest possible ordering: run it only once valB_mini's 2 fs
+  result is in hand, so there is something to compare against.)*
+
 ### RUNG 3 — expand the benchmarks *(only if Rung 2 probes look promising)*
 
 - **`[–]` Validation A-full (10–20 edges) — SKIPPED · saves ~$50–140.** valA_mini reproduced the known ΔΔG cleanly
   on the standard am1bcc method, so a full re-derivation is redundant with OpenFE's published benchmark. Framing
   that must hold: cite OpenFE for accuracy; present valA_mini as a single-edge build-consistency confirmation, not
   a standalone benchmark. Re-open only if am1bcc is forced onto NAGL.
-- **`[ ]` Validation B-full — component-calibration cube** — **~$35–100 (2–3 ternary edges at the corrected
-  ~$7–15 base + the CRL-MD module; was ~$20–60 on the partial-leg base) · Cum. ~$83.** Four separately-calibrated
+- **`[ ]` Validation B-full — component-calibration cube** — **~$20–65 (revised 2026-07-24 from ~$35–100 by cost
+  levers 1+2; 2–3 ternary edges + the CRL-MD module) · Cum. ~$50.** ★ **Module 3 (paralogue discrimination) now
+  runs on SMARCA2-vs-SMARCA4, not NR-V04** *(PROPOSED, free to decide)*: a close paralogue pair with
+  degrader-level selectivity, solved structures, a **non-covalent** mechanism, and — decisively — **already
+  staged in this repo** (8G1Q, `smarca2_model.py`, the frozen Wurz calibration), so it is a marginal add-on to
+  the lane valB_mini already runs rather than a new campaign. NR-V04's selectivity is, by the repo's own UniProt
+  result, most plausibly **covalent target-engagement**, which makes it a weak calibrator for a noncovalent
+  ternary pipeline — exactly why the reviewer demoted it to a biological holdout. It stays the holdout.
+  Apply lever 2: the paralogue module needs **N ternary legs + 1 shared binary + 1 shared solvent**, not N edges.
+  Four separately-calibrated
   modules, each with its own pass/fail (a failed module → qualitative-only; no blanket "validated"): (1) a second
   all-binding graded cooperativity edge; (2) ternary pose recovery (co-fold, ~$0); (3) paralogue discrimination on
   a public system (the direct analogue of the NR4A ask); (4) productive-vs-unproductive ubiquitination geometry
@@ -417,27 +541,56 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   Full congeneric map across conformer panels + matched paralogues + microstates, as conditional hypotheses with
   sensitivity ranges → the warhead + exit-vector inputs the inverse-design stage consumes. **Gate:** Val A
   satisfied (cite OpenFE) AND the Step 1 pilot behaved (with its replicas + pose/state sensitivity).
+- **`[x]` ★ NR4A paralogue-UNIQUE reactive-residue map — DONE 2026-07-24 · $0 · TIER-0 GATE PASS/GO.** Full-length
+  UniProt (P22736/P43354/Q92570/Q01844) + dual-aligner agreement + matched-model geometry
+  (`nr4a_paralogue_unique_residues.py`, 15 unit tests, run on CI because the sandbox proxy blocks UniProt).
+  **4 NR4A3-unique cysteines** (2 exposed): **C397** — NR4A1 N363 / NR4A2 S363, RSA 0.395, **10.9 Å** from the
+  cryptic pocket (exit-vector reach) — plus C420 (18.3 Å), C559 (12.8 Å, RSA 0.095 in this conformer), C166
+  (outside the LBD). **4 NR4A3-unique lysines** (3 exposed in the LBD): **K572** (RSA 0.879, 11.5 Å), **K518**
+  (0.413, 13.4 Å), **K592** (0.506, 16.2 Å), K178 (outside). Reciprocal check reproduces the NR-V04 Leg-0 exactly
+  (NR4A1 C551 → NR4A3 T579) and completes it: NR4A1 has 5 cysteines NR4A3 lacks. K85/K194 excluded on aligner
+  disagreement. EWSR1 fusion moiety contributes only 1–2 lysines → **fusion-lysine axis is thin, not a design
+  axis**. This is now the FIRST gate in the ladder — it costs nothing and it decides what 5a optimises.
+  *(Open, cheap: the matched NR4A1/2 MD-ensemble add-on should report the **distribution** of C397 exposure, not
+  one frame's 0.395.)*
 - **`[x]` NR4A differential surface atlas — DONE · $0 · GATE PASS/GO.** Matched Shrake–Rupley SASA + BLOSUM62
   alignment over NR4A{3,1,2} opened models → **46 differential-surface handles** (exposed × divergent ×
   character-changing), 15/15 LBD lysines exposed; per-residue identities reproduce the canonical map 148/148. A
   differential surface exists to steer an E3 against (distinct from the ~70% pocket hotspot), so the 5a
   orientation-basin search is warranted. *(Optional add-on: matched NR4A1/2 MD ensembles ~$10–40 to test which
   handles survive dynamics.)*
-- **`[ ]` NR-V04 retrospective — preregistered holdout** — **~$45–115 (NR4A1/2/3 ternary ensembles at the
-  corrected ternary base; swing item, scales with ensemble-MD leg count) · Cum. ~$190.** Full ensembles through the pipeline, no tuning, epimer
+- **`[ ]` NR-V04 retrospective — preregistered holdout** — **~$15–40 (revised 2026-07-24 from ~$45–115 by cost
+  levers 1+2: a 3-paralogue panel is **3 ternary legs + 1 shared binary + 1 shared solvent**, not 3 edges, and
+  4 fs halves each leg) · Cum. ~$115.** Full ensembles through the pipeline, no tuning, epimer
   control; report directional concordance only. **Gate:** Val B-full + NR-V04 feasibility + Step 1 fan-out.
+  **★ It no longer gates the causal kill-switch** (lever 4): the wedge's validation need is a matched-pair
+  control, not a cooperativity cube, so 5a-KS is decoupled and can fire before this is bought.
   **GO/NO-GO:** at least directionally concordant with the NR4A1-degraded / NR4A2·3-spared outcome → GO to the
-  prospective ladder; discordant → the ladder is not justified, publish the honest negative.
+  prospective ladder; discordant → the ladder is not justified, publish the honest negative. **Interpret with the
+  covalent confound explicit:** NR4A1 Cys551 is unique to NR4A1 (NR4A3 T579), so a concordant result may be
+  recovering *target engagement*, not ternary cooperativity — which is why this is a biological holdout and
+  SMARCA2/4 is the method calibrator.
 
 ### RUNG 5 — orientation-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*
 
-- **`[ ]` 5a · Orientation-basin search** — **~$0–50 (CPU $0 + optional MM-GBSA rescore) · Cum. ~$215.** Broad
-  VHL/CRBN transform sampling; matched 3-paralogue scoring; cluster into ~3–8 basins/ligase; cheap counterfactual
-  screen to nominate wedges.
-- **`[ ]` 5a-KS · Wedge confirmation — ★ pilot-first KILL-SWITCH + causal RESULT** — **⚠ ENGINE BUILT, UNVALIDATED · STILL UNPRICED**
-  *(was "Decision ~$5–10 · full cycle if GO ~$15–30 · Cum. to decision ~$148").* Pilot ONE direction first
-  (3→1). **No interface loss ⇒ STOP** — publish the honest causal negative, skip the refinement tail. Loss ⇒
-  complete the full reciprocal cycle (add 3→2 + reciprocal 1/2→3) — the paper's primary causal RESULT.
+- **`[ ]` 5a · Orientation-basin search — ★ now MECHANISM-FIRST** — **~$0–50 (CPU $0 + optional MM-GBSA rescore)
+  · Cum. ~$140.** Broad transform sampling across the **widened ligandable E3 set** (VHL, CRBN, cIAP1/BIRC2,
+  DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114 — free at CPU, **downselect to ≤2 before any GPU leg and log the
+  dropped set**); matched 3-paralogue scoring **over the warhead-pose ensemble**; cluster into ~3–8 basins/ligase;
+  score with the two new **categorical** terms — (a) does the linker path reach C397/C420/C559 at an
+  electrophile-compatible geometry, (b) does the E2~Ub transfer zone cover a **unique** lysine (K572/K518/K592)
+  rather than a conserved one — then the cheap counterfactual screen to nominate marginal wedges. The categorical
+  terms are **geometric set-membership questions**, which cheap scoring answers far more reliably than a
+  ~1 kcal/mol energy difference.
+- **`[ ]` 5a-KS · Wedge confirmation — ★ pilot-first KILL-SWITCH + causal RESULT** — **~$5–25 (PRIMARY: the
+  ligand-side double difference) · Cum. ~$155.** Pilot ONE matched pair first: `S = ΔΔG_coop(d₀→d | NR4A3) −
+  ΔΔG_coop(d₀→d | NR4A1)`, ternary legs only (lever 2), on the lane Val B calibrates. **No discrimination ⇒
+  STOP** — publish the honest causal negative, skip the refinement tail. Discrimination ⇒ extend to NR4A2 and to
+  a second design element.
+  **CONFIRMATORY second line — the reciprocal PROTEIN-mutation cycle — ⚠ ENGINE BUILT, UNVALIDATED · STILL
+  UNPRICED** *(was "Decision ~$5–10 · full cycle if GO ~$15–30").* Pilot ONE direction (3→1); loss ⇒ complete
+  the reciprocal cycle (3→2 + reciprocal 1/2→3). Kept because two independent causal lines are worth more than
+  one — but it is no longer the result the paper depends on.
 
   **This rung had TWO independent blockers. Both are now addressed in code — but "addressed" is not
   "validated", and the rung stays UNPRICED until a known-answer benchmark says the engine works.**
@@ -483,15 +636,20 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   explicit, identical `CHARGE_METHOD` (NAGL is the only choice that can charge both a small mutation edge and a
   PROTAC-scale assembly), stamp it into both result JSONs, and add a test that refuses to compute a wedge from two
   legs whose recorded `charge_method` differ. Cost: $0 — it is a config pin plus an assertion.
-- **`[ ]` 5b · Inverse linker design** — **~$0–20 (mostly $0 CPU) · Cum. ~$225.** For each confirmed basin, derive
+- **`[ ]` 5b · Inverse linker design** — **~$0–20 (mostly $0 CPU) · Cum. ~$165.** For each confirmed basin, derive
   linker requirements (endpoint distance, exit-vector dihedral, strain, reach), enumerate a virtual library,
   filter by basin fidelity, annotate exact structures + synthetic feasibility → **~12–20 virtual constructs** (the
-  "24–36" now bounds this virtual set, not a hand-built grid).
-- **`[ ]` 5c · Explicit ternary-ensemble refinement** — **~$20–150 (endpoint MD, dozens–~200 legs; the largest
-  single GPU spend and a swing item) · Cum. ~$310.** Replicated ternary + full CRL/E2~Ub MD across target states,
+  "24–36" now bounds this virtual set, not a hand-built grid). ★ For basins carrying the covalent handle, the
+  library enumerates the **electrophile position on the linker** as a design variable, and **prefers
+  reversible-covalent** chemistry (an irreversible adduct forfeits catalytic turnover).
+- **`[ ]` 5c · Explicit ternary-ensemble refinement** — **~$15–100 (revised: endpoint MD, dozens–~200 legs; still
+  the largest single GPU spend and the biggest swing item — fewer survivors reach it now that the categorical
+  terms prune at 5a) · Cum. ~$222.** Replicated ternary + full CRL/E2~Ub MD across target states,
   linker conformers, and in-basin poses; matched NR4A1/2/3; separate accessibility from stability; robust
   constraint-satisfaction filtering → **~4–8 constructs** nondominated under scenario + model uncertainty.
-- **`[ ]` 5d · Local ternary FEP** — **~$21–90 (3–6 ternary edges at the corrected ~$7–15 base) · Cum. ~$365.** Alchemy **only** within a
+  ★ Add a constraint: **which lysine the ubiquitin actually reaches**, reported per construct as a distribution
+  over unique-vs-conserved sites, not just "a lysine is near".
+- **`[ ]` 5d · Local ternary FEP** — **~$10–45 (revised by levers 1+2 from ~$21–90; 3–6 ternary comparisons) · Cum. ~$240.** Alchemy **only** within a
   retained basin (both endpoints plausibly bound, modest congeneric change). Refines the matched final series →
   **~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL/CRBN only where both survive, explicit
   negative controls. **Deliverable** = the prioritized, structure-defined, retrosynthetically annotated candidate
@@ -536,70 +694,87 @@ only established today and moved the total by more than the first.
    alchemical. **There is no implementing engine for the wedge in this repo.** It is therefore excluded from the
    totals below rather than carried at a fake price. See the 🛑 blocks at Tier 3 and RUNG 5a.
 
-**Whole gated ladder, GO at every gate, PRICEABLE stages only: ~$390 mid-range (~$170–610).** Excludes (a) the
-5a-KS wedge + reciprocal cycle — UNPRICED/BLOCKED, and (b) Optional/HELD ΔG_open + ABFE (~$200–500 more).
-Dominant uncertainties, in order: the unpriced wedge, the L4→4090 conversion, then the **ensemble-MD leg count**
-(5c + retrospective). This table and `pricing.md` §C carry the same chain and must agree.
+4. **★ REVISED DOWNWARD 2026-07-24 by the six cost levers** (§GPU economics). The two that move the totals are
+   the **exact cancellation of the binary/solvent legs in any paralogue comparison** (a paralogue panel is N
+   ternary legs + one shared pair, not N edges) and **4 fs ternary production** (2× per leg, PROPOSED, settled by
+   one ~$5–8 matched re-calibration edge). Neither adds or removes science; both were mis-priced.
+
+**Whole gated ladder, GO at every gate, PRICEABLE stages only: ~$240 mid-range (~$90–390)** — down from ~$390
+(~$170–610). Excludes (a) the *confirmatory* protein-mutation cycle — UNPRICED, engine never run, and no longer
+the primary causal result — and (b) Optional/HELD ΔG_open + ABFE (~$200–500 more). Dominant uncertainties, in
+order: the **ensemble-MD leg count** (5c + retrospective), whether 4 fs holds over a full leg, and the number of
+recruiters that survive the 5a downselect. This table and `pricing.md` §C carry the same chain and must agree.
 
 | Rung | GPU work | Step $ (low–high) | Cum. (mid) |
 |---|---|---|---|
 | 0 · infra + free CPU (DONE) | step0 + emc_e3 + pocket | ~$1–2 | ~$2 |
 | 1 · Val A smoke (DONE, realized ~$0 on GCP credit) | 1 public RBFE edge | ~$0–15 | ~$2 |
-| 2 · pilot (DONE) + Val B-mini | 1–2 RBFE edges + 1 ternary edge | ~$1–3 + ~$7–15 | ~$15 |
-| 3 · Val B cube + NR-V04 feasibility (feas. DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$35–100 + ~$8 | ~$91 |
-| 4 · fan-out + atlas(DONE, $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary ensembles | ~$12–26 + ~$45–115 | ~$190 |
-| 5a · basin search + **KILL-SWITCH** | basin ($0–50) + wedge → **engine built, unvalidated** | ~$0–50 + **UNPRICED** | ~$215 |
-| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker($0–20) + ensemble MD ($20–150) + within-basin FEP ($21–90) | ~$41–260 | ~$365 |
+| 2 · pilot (DONE) + Val B-mini (in flight, 2 fs) | 1–2 RBFE edges + 1 ternary edge | ~$1–3 + ~$7–15 | ~$15 |
+| **2b · NEW: 4 fs adoption + matched re-calibration** | 1 ternary edge @4 fs | **~$5–8** | ~$21 |
+| 3 · Val B cube (SMARCA2/4 module) + NR-V04 feas. (DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$20–65 + ~$8 | ~$71 |
+| 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | ~$12–26 + ~$15–40 | ~$117 |
+| 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference | ~$0–50 + ~$5–25 | ~$157 |
+| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker($0–20) + ensemble MD ($15–100) + within-basin FEP ($10–45) | ~$25–165 | ~$252 |
+| Confirmatory protein-mutation cycle (optional) | — | **UNPRICED** | *(excl.)* |
 | Optional ΔG_open / ABFE (HELD) | — | +$200–500 | *(excl.)* |
 
-Notes: the restructuring buys **causal evidence** (mutation cycles + ensemble MD + local FEP) over
+Notes: the restructuring buys **causal evidence** (matched-pair cycles + ensemble MD + local FEP) over
 co-fold-and-score — higher information per dollar, not lower. A non-viable paper still dies for ~$2 at Val A, or
-free at the atlas (which passed) — those cheap early gates are unaffected by the corrections above. **What the
-corrections DID cost is the ladder's cheapest-looking decisive gate:** the kill-switch can no longer be treated as
-a ~$5–60 decision that stops most NO-GO paths under ~$150, because it cannot be run at all until an engine for it
-is scoped. Until then the ladder's real early-abort gates are Val A ($2), Val B-mini (~$7–15) and the NR-V04
-retrospective (~$45–115) — all of which come *before* any wedge spend, which is the one piece of good news here.
+**free** at the Tier-0 unique-residue map and the atlas (both passed) — and the ladder's cheapest decisive gate is
+restored: the kill-switch is a **~$5–25 ligand-side double difference** on the lane Val B calibrates, no longer a
+gate blocked behind an unbuilt engine and ~$80–215 of prerequisite ternary work. The *expected* cost is lower
+than the totals suggest, because the leading gates are now $0.
 
 ## Dependency spine
 
 ```
+TIER-0 unique_residue_map [x]($0) + atlas [x]($0)  ──[BOTH PASS]──►    ★ leads everything priced
+          │        (C397 exit-vector reach; K572/K518/K592 exposed; EWSR1-lysine axis thin)
+          │
 RUNG0  step0 [x] + emc_e3 [x] + pocket [x]                              (CPU/$0, done)
           │
 RUNG1  valA_mini [x] ──[GO]──►                                         (cite OpenFE; Cum ~$2)
           │
-RUNG2  step1_pilot [x] ∥ valB_mini [~]  ──[GO?]──►                     (Cum ~$15)
+RUNG2  step1_pilot [x] ∥ valB_mini [~ 2 fs]  ──[GO?]──►                (Cum ~$15)
           │
-RUNG3  valB_full cube + nrv04_feasibility [x]  ──[GO?]──►              (valA_full SKIPPED; Cum ~$88)
+RUNG2b 4 fs adoption + MATCHED re-calibration (~$5–8) ──[no NaN & ΔΔG consistent?]──►
+          │      └── YES ⇒ every downstream ternary leg ≈2× cheaper
+          │      └── NO  ⇒ stay at 2 fs, carry the 2 fs base
           │
-RUNG4  step1_fanout ∥ atlas [x]($0) ──► nrv04_retrospective ──[concordant?]──►   (Cum ~$187)
+RUNG3  valB_full cube (module 3 = SMARCA2-vs-SMARCA4) + nrv04_feasibility [x] ──[GO?]──►   (Cum ~$71)
           │
-RUNG5  basin_search($0–50) ──► ⚠ wedge PILOT leg — ENGINE BUILT, UNVALIDATED, still UNPRICED
-          │         (engine: nr4a3_protein_fep.py, perses PointMutationExecutor — built
-          │          2026-07-24 on trimcrae's build-don't-descope decision. Gated on a
-          │          known-answer benchmark; charge model pinned by a hard guard)
-          │      └── benchmark FAILS ⇒ the wedge is not deliverable; fall back to the
-          │          labelled MM-GBSA proxy or descope, and say so in the paper
-          │      └── benchmark passes & no loss ⇒ STOP: publish honest causal negative
-          │      └── benchmark passes & loss    ⇒ full reciprocal cycle + tail
+RUNG4  step1_fanout ∥ nrv04_retrospective ──[concordant?]──►           (Cum ~$117)
+          │      (holdout, NOT the calibrator; read WITH the Cys551 covalent confound)
           │
-       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep   (Cum ~$342)
+RUNG5  basin_search($0–50, multi-E3, pose-marginalised, CATEGORICAL terms)
+          │        ──► ★ KILL-SWITCH = ligand-side double difference (~$5–25)
+          │      └── no discrimination ⇒ STOP: publish honest causal negative
+          │      └── discrimination    ⇒ extend + tail
+          │      └── (optional 2nd line: protein-mutation cycle — engine built,
+          │           never run, UNPRICED, gated on its own known-answer benchmark)
+          │
+       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep   (Cum ~$252)
           │
 RUNG6  fold ──► redteam ──► post/submit                                ($0)
 
 OPTIONAL/HELD (explicit nod only): dg_open_paralogue, abfe_conditional
 ```
 
-**Current front:** Rungs 0–1 done; the NR-V04 covalent feasibility panel and the NR4A differential surface atlas
-are done; **valB_mini** is the live front (a direct Vast-4090 ternary timing run is hardening its per-edge cost,
-which the 920-of-2,400-iteration correction above shows is still the least-pinned base in the ladder). Nothing
-with a GPU price launches without an explicit go.
+**Current front:** Rungs 0–1 done; the NR-V04 covalent feasibility panel, the NR4A differential surface atlas and
+the **Tier-0 paralogue-unique reactive-residue map** are done ($0); **valB_mini** is the live front. Nothing with
+a GPU price launches without an explicit go.
 
-**The next decision is no longer the 5a-KS spend — it is whether to scope an engine for it at all.** The wedge is
-the paper's designated primary *causal* result, and it currently has no implementation. Three honest options, in
-increasing cost: (i) **descope** — ship the selectivity claim as correlative (ensemble + local FEP evidence)
-and state plainly that the causal mutation cycle was not computed; (ii) **substitute** — use the existing
-non-alchemical `nr4a3_resistance_ddg.py` MM-GBSA endpoint path as an explicitly weaker, clearly-labelled
-proxy wedge; (iii) **build** — scope a real protein-mutation alchemical path (e.g. a perses/FEP+ style
-protein-residue protocol), which is new engineering plus an unpriced GPU campaign and must be estimated before
-it can be gated. That choice is trimcrae's, and it should be made *before* RUNG 4 money is committed, since
-RUNG 4's value depends on which of the three the paper is heading for.
+**Three decisions now in front of trimcrae** (detail + evidence: the [2026-07-24
+revision](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md) §8):
+
+1. **Adopt 4 fs for the ternary lane?** Settled by one ~$5–8 matched re-calibration edge (RUNG 2b) that also
+   supplies the matched-timestep calibration and a reproducibility replicate. ≥6 downstream ternary legs, so it
+   repays several times. *Recommended.*
+2. **Swap the method calibrator from NR-V04 to SMARCA2-vs-SMARCA4?** Free to decide; NR-V04 stays the biological
+   holdout either way. *Recommended* — NR-V04's selectivity is most plausibly covalent target engagement, and
+   SMARCA2/4 is already staged.
+3. **Demote the protein-mutation wedge from primary to confirmatory?** The one genuinely program-shaping call: it
+   changes what the paper's headline causal evidence is. *Recommended* — the ligand-side double difference runs
+   on the lane Val B already has an accuracy control for, while the protein-FEP lane has an unexercised engine,
+   an unpriced campaign and a cross-lane charge mismatch to resolve first. The mutation cycle is kept, not
+   deleted: if its benchmark passes, the paper gets two independent causal lines.

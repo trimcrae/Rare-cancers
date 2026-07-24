@@ -40,6 +40,25 @@ $/hr). Use the 3090 only when 4090 capacity is short.
 | **Alchemical ternary cooperativity edge** (3-replica, ~146k particles, **12** windows) | **~$10–16 on Vast 4090** for the full 3-replica edge (~$3–5/replicate) at a realized ~$0.15–0.25/hr host; ~$26 on a pricier ~$0.40/hr reliable host. **~56–72 4090-GPU-h/edge.** | **RATE measured directly on Vast 4090; LEG LENGTH CONFIRMED from the committed ternary trajectory (1560/2000 production iters, untorn).** | **⚠ RECONCILED 2026-07-24 — combines a direct 4090 rate measurement with the corrected leg length; supersedes BOTH the ~$3–6 and the ~$4–7 that preceded it.** **LEG LENGTH NOW CONFIRMED FROM THE COMMITTED TRAJECTORY (forensic read, GH run 30117943561, 2026-07-24).** `mode=forensic` on `calib_hi_to_lo__ternary_vhl` seed 0 opened the committed generations and reports `reporter_checkpoint_interval: 40`, `analysis_last_iteration: 1560`, `checkpoint_last_iteration: 1560`, `TORN: false`, 12 generations all at interval 40. So the ternary leg's production target is **2000 iterations** and it is **1560 committed (~78 %)**, untorn. **This also root-causes the ~920 figure both prior estimates were built on: 920 = 23 x 40 and 1560 = 39 x 40 are CHECKPOINT BOUNDARIES, not leg lengths** — the sampler line `binary_vhl leg at iter 913/920` meant "at 913, next checkpoint 920", and it was the BINARY arm, not the ternary one. Leg = 400 warmup + 2000 production = **2400 iterations** at 2.5 ps/iter. *Rate (theirs, better than a card-ratio guess):* the firm ternary leg on the Vast rtx4090 nr4a3fep image (`run_ternary_leg.sh`, 12 windows, self-staged 8G1Q, 146,284 particles) cleared warmup with no NaN and held production steady at **~14–18 s/iter (median ~16)**. *Leg length (corrected):* the protocol hardcodes **1 ns equilibration + 5 ns production** (`nr4a3_ternary_fep.py:343-344`, `nr4a3_rbfe.py:364-365`) and iterations = sim_length / 2.5 ps, so a leg is **2400 iterations (400 equil + 2000 production)** — confirmed by the openmmtools `.chk` history `iters 0,20,…,2000`. **The ~920-iteration figure that both prior estimates used as 'a full leg' is ~38 % of one**, which is why ~$3–6 and ~$4–7 are each ~2.6× low. Arithmetic: 2400 × ~16 s ≈ **~10.7 4090-GPU-h/leg**; edge = binary+ternary × 3 replicas = 6 legs ≈ **~64 GPU-h** ≈ **~$10–16**. *What the 4090 measurement DID settle:* the **L4→4090 card ratio is validated at ~2.06×** (33 → 16 s/iter) — a ratio of rates is independent of the iteration count, so that conclusion survives the leg-length correction intact and the old spec-based ~2.3× 'soft spot' is closed. ΔG is not the cost basis (throughput is); the ΔG comes from the GCP valB production lane (ΔG_morph 47.28). No clean end-to-end ΔG has been captured on Vast — the firm path is `commit store: LOCAL`, `resume=False`, and the instance was spot-preempted late in production. Old ~$65–110 (off the refuted 55-GPU-h anchor) superseded; **L4-on-demand ~$94 as-run is NOT a go-forward cost — Vast only.** |
 | **Co-fold / docking** (basin nomination) | **~$0–50, cheap** (CPU docking + short Boltz/AF3 co-fold inference) | **ESTIMATED** (known-cheap class) | prior smina/Vina warhead screen + NR-V04 Boltz co-folds; CPU or short GPU. Weak/biased predictor — used to *nominate*, never to kill a small wedge |
 
+### ★ B.0 — TWO PRICING IDENTITIES ADOPTED 2026-07-24 (they change stage costs without changing any basis)
+
+Both come from the [ternary-selectivity strategy revision](../manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md);
+neither adds or removes science, and both were previously mis-priced.
+
+1. **A PARALOGUE PANEL IS N TERNARY *LEGS* + ONE SHARED BINARY + ONE SHARED SOLVENT — NOT N EDGES.**
+   `nr4a3_ternary_fep.py` defines `binary_<e3>` as **E3 machinery + PROTAC with NO target**, and `solvent` as
+   ligand-in-water. Both are **paralogue-independent**, so for any morph
+   `ΔΔG_coop(P) − ΔΔG_coop(P′) = ΔG_ternary,P − ΔG_ternary,P′` **exactly**. Pricing a 3-paralogue comparison as
+   "3 ternary edges" pays for the shared legs three times over: 18 legs where 12 suffice (−33 %), or 9 if only
+   the selectivity *contrast* is needed (−50 %). Affected rows below: `valB_full` module 3,
+   `nrv04_retrospective`, `local within-basin FEP`, and the new 5a-KS primary test.
+2. **4 fs TERNARY PRODUCTION HALVES EVERY TERNARY LEG — PROPOSED, not yet adopted.** Iterations are
+   timestep-independent (2.5 ps/iter), so 4 fs is exactly half the force evaluations of 2 fs. `ternary-rbfe-runbook.md`
+   §1c records production **40/40 at 4 fs with zero NaN** after plain-MD pre-equilibration, but the runbook also
+   requires validation and production at the **same** timestep and 40 iterations is not 2000. **Until the ~$5–8
+   matched re-calibration edge (schedule `ternary_4fs_recalibration`) runs, keep quoting the 2 fs base**; the
+   4 fs figures below are marked as the post-adoption value.
+
 **What reduces to a basis — and the one thing that does NOT:**
 1. **LIGAND-alchemy stages (binary RBFE, ternary cooperativity, local within-basin FEP) reduce to the RBFE-edge
    and ternary-edge bases** — they are the same OpenFE `RelativeHybridTopologyProtocol` machinery differing only
@@ -86,18 +105,21 @@ basis at all** pending engine scoping.
 | `step1_pilot` cmpd19 | 1–2 RBFE edges | **~$1–3** (Vast 4090; ran Modal L4) | MEASURED-derived |
 | `step1_fanout` cmpd19 map | **19 RBFE edges** (~5–6 GPU-h ea) | **~$12–26** | **MEASURED-derived** (from the ~3.6-GPU-h complex leg) |
 | `valB_mini` ternary | 1 ternary edge | **~$10–16 Vast 4090** (~56–72 GPU-h @ ~$0.15–0.25/hr; **~$94 as-run on L4 on-demand**) | **MEASURED rate × corrected leg length** |
-| `valB_full` ternary cube | 2–3 ternary edges + CRL-MD module | **~$40–110 Vast 4090** | derived (same reconciled ternary base) |
-| `nrv04_feasibility_covalent` | 18 endpoint-MD legs | **~$8** | MEASURED |
-| `nrv04_retrospective` | NR4A1/2/3 ternary ensembles: ~3–6 ternary edges + endpoint-MD ensembles | **~$45–115** (swing: ensemble-MD leg count) | **PROJECTED** (ternary component; endpoint component MEASURED). *Was ~$25–55 on the corrected-away partial-leg base.* |
-| `5a` orientation-basin search | CPU $0 + optional MM-GBSA rescore | **~$0–50** | MEASURED-derived |
-| **5a-KS kill-switch decision** (atlas + basin + 1 mutation direction) | $0 + $0–50 + **1 protein-mutation direction — engine BUILT 2026-07-24, UNVALIDATED** | **UNPRICED** (was "~$5–60") | **⚠ STILL NOT DERIVABLE, but no longer for lack of an engine.** `nr4a3_protein_fep.py` (perses `PointMutationExecutor` + openmmtools MultiState + MBAR) now implements the protein-mutation leg that OpenFE's ligand-only RHTP could not. It has **never run**, so there is no per-leg rate to price from — and a mutation hybrid in a large assembly is exactly where the ternary lane hit softcore NaNs, so its cost is not safely inferable from the ligand lane's. **Priced only after the known-answer benchmark leg gives a real per-leg rate.** |
+| `valB_full` ternary cube | 2–3 ternary edges + CRL-MD module | **~$20–65** (revised 2026-07-24 by B.0-1 + B.0-2; was ~$40–110) | derived from the same reconciled base. |
+| `nrv04_feasibility_covalent` | 18 endpoint-MD legs | **~$8 total for the 18-leg panel** | MEASURED (endpoint MD; not a per-edge alchemical base) |
+| `nrv04_retrospective` | NR4A1/2/3: **3 ternary LEGS + 1 shared binary + 1 shared solvent** (B.0-1), + endpoint-MD ensembles | **~$15–40** (revised 2026-07-24; was ~$45–115 when priced as 3–6 *edges*) | **PROJECTED** (ternary component; endpoint component MEASURED) |
+| `5a` orientation-basin search (now multi-E3, pose-marginalised, + 2 categorical terms) | CPU $0 + optional MM-GBSA rescore | **~$0–50** | MEASURED-derived |
+| **TIER-0 `nr4a_unique_residues`** (paralogue-unique Cys/Lys map) | CI CPU, no GPU | **$0** | DONE 2026-07-24, CI run 30123828812 (nothing to measure) |
+| **`ternary_4fs_recalibration`** (NEW, cost lever 1) | 1 ternary edge @4 fs | **~$5–8** | derived; settles B.0-2 |
+| **5a-KS kill-switch — PRIMARY (ligand-side double difference)** | Tier-0 map ($0) + basin ($0–50) + **ternary legs only** for one matched pair (B.0-1) | **~$5–25** | derived from the ternary-leg base; no protein-mutation engine involved |
+| 5a-KS **CONFIRMATORY** (protein-mutation direction) | **1 protein-mutation direction — engine BUILT 2026-07-24, UNVALIDATED** | **UNPRICED** (was "~$5–60") | **⚠ STILL NOT DERIVABLE, but no longer for lack of an engine.** `nr4a3_protein_fep.py` (perses `PointMutationExecutor` + openmmtools MultiState + MBAR) now implements the protein-mutation leg that OpenFE's ligand-only RHTP could not. It has **never run**, so there is no per-leg rate to price from — and a mutation hybrid in a large assembly is exactly where the ternary lane hit softcore NaNs, so its cost is not safely inferable from the ligand lane's. **Priced only after the known-answer benchmark leg gives a real per-leg rate.** |
 | full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 protein-mutation directions | **UNPRICED** (was "~$15–30") | **⚠ NOT DERIVABLE** — same engine, same reason: no completed leg to extrapolate from |
 | `5b` inverse linker design | mostly CPU $0 + occasional rescore | **~$0–20** | MEASURED-derived |
-| ensemble refinement / CRL MD | endpoint MD, dozens–~200 legs | **~$20–150** | MEASURED-derived (swing item) |
-| local within-basin FEP | 3–6 ternary edges | **~$21–90** | PROJECTED (ternary base ×3–6) |
+| ensemble refinement / CRL MD | endpoint MD, dozens–~200 legs | **~$15–100** (revised: fewer survivors reach it once the 5a categorical terms prune) | MEASURED-derived (swing item) |
+| local within-basin FEP | 3–6 ternary **comparisons** (ternary legs only, B.0-1) | **~$10–45** (revised 2026-07-24; was ~$21–90) | PROJECTED |
 | `ternary_prospective_matrix` (now 5a–5d ladder) | ~4–12 constructs via 5c/5d | **folded into 5c+5d above** | MEASURED-derived |
 
-**★ Whole gated ladder ≈ ~$390 mid-range (~$170–610) for the PRICEABLE stages, Vast 4090, GO at every gate**
+**★ Whole gated ladder ≈ ~$240 mid-range (~$90–390) for the PRICEABLE stages, Vast 4090, GO at every gate** — revised down from ~$390 (~$170–610) on 2026-07-24 by the two identities in B.0, plus the 5a-KS row becoming priceable now that the primary causal test is the ligand-side double difference
 (optional/HELD ΔG_open + ABFE excluded, ~$200–500 more; **the 5a-KS wedge and the reciprocal mutation cycle are
 NOT in this total — they are UNPRICED pending a benchmark leg on the newly built engine, see B.3**). Arithmetic: the low/high columns of the
 priceable rows above sum to **$150 / $595**; `STRATEGY.md`'s spend table carries the same chain rung-by-rung and
