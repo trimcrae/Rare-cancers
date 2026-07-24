@@ -1,5 +1,46 @@
 # NR4A3 degrader — post-RBFE-pilot execution sequence (2026-07-13)
 
+> **⚠️ SUPERSEDED / HISTORICAL (banner added 2026-07-24) — read [`/STRATEGY.md`](../../STRATEGY.md) for the live
+> plan and [`../compute/pricing.md`](../compute/pricing.md) for live costs.** This 2026-07-13 sequence is retained
+> **only** as the historical record of the AWS-era cost pathology it diagnosed. **Do not execute anything below.**
+> Four independent things in it are now wrong:
+>
+> 1. **★ Its central cost anchor is REFUTED, not merely stale.** § "REAL COST BASELINE" asserts *"an alchemical
+>    RBFE **complex leg ≈ ~55 GPU-h** (~4.5 GPU-h/window)"* and prices legs at *"~$11 GCP-L4-spot / ~$18 AWS-spot
+>    / ~$44 Modal."* That number came from the 2026-07-13 AWS **A10G** leg which this same file diagnoses (§
+>    "DIAGNOSED") as **~65 % GPU-IDLE** — CPU-bottlenecked by OpenFE re-running am1bcc charging + hybrid-system
+>    build once **per λ-window**. It was measuring the bug, not the physics. The measured Vast-4090 complex leg is
+>    **~3.6 GPU-h (~$0.44)**, edge ~5–6 GPU-h ≈ **~$0.6–1.4** — **~15× fewer GPU-h**
+>    ([pricing.md § B](../compute/pricing.md), row "Alchemical RBFE edge": *"The old ~55 GPU-h AWS anchor is
+>    REFUTED for Vast, not just de-anchored"*). Every forecast, budget cap and routing decision below inherits
+>    the 55-GPU-h error and is therefore **~15× too expensive**. The "~$200-cap" on the B3 fleet and the
+>    "a full complex leg does NOT fit Modal's $30 cap" conclusion are both artifacts of it.
+> 2. **Its provider policy is reversed.** § "PROVIDER POLICY" makes **GCP spot L4 the "PRIMARY workhorse"**, gates
+>    everything on a `GPUS_ALL_REGIONS` quota that was *"**0** and Google **DENIED** the increase"*, and reserves
+>    Modal for smokes. STRATEGY.md § "GPU economics": **"All production runs go on Vast — RTX 4090 (default) or
+>    RTX 3090 (fallback). GCP L4 / SageMaker / Modal are not the go-forward basis."** The GCP quota question is
+>    also settled and different now — see [`../compute/gcp-gpu-facts.md`](../compute/gcp-gpu-facts.md).
+> 3. **Its ordering and endpoint are superseded.** "Step C" builds a molecule-first
+>    *"**warhead × linker × E3 matrix**"* → *"**synthesis-ready ~6–12-compound matrix** (the deliverable)."*
+>    STRATEGY.md § "The prospective stage" rejects exactly this: *"enumerate a fixed
+>    {warhead×exit×ligase×linker} matrix, model each ternary, score, and hope the Pareto front contains a
+>    selective degrader — is a well-controlled lottery."* The live stage is **orientation-first inverse design**
+>    (RUNG 5: surface atlas → orientation basins → **5a-KS reciprocal-mutation causal kill-switch** → linker
+>    requirements → molecules), and the phrase **"synthesis-ready"** is explicitly banned by STRATEGY.md's
+>    language discipline in favour of *"computationally prioritized, structure-defined, retrosynthetically
+>    annotated candidate set."*
+> 4. **Its two ternary gates target the wrong systems and claim too much.** "B2" freezes the calibration pair as
+>    *"**P1 α≈93 vs P5 α≈0.6**, crystallographic 9HYN/9HYP"*; the live `valB_mini` is the **Wurz SMARCA2–VHL
+>    cmpd 1→4 all-binding graded edge (α 12.8→2.6)** (STRATEGY.md RUNG 2). "B3" makes NR-V04 the method gate —
+>    *"Recover NR-V04 selectivity → method trusted"* — but STRATEGY.md validation requirement 1(C) demotes
+>    **NR-V04 to a biological-selectivity holdout, not the method calibrator**, and requirement 4 permits only
+>    **"directional concordance"**, never "recovered". NR-V04's warhead (celastrol) is **covalent (C551)**, so it
+>    does not exercise the noncovalent machinery the ternary method needs calibrating on.
+>
+> **What is still worth reading here:** the § "DIAGNOSED" GPU-idle forensics (the `sm_gpu_util.py` CloudWatch
+> probe, the per-window re-charging mechanism, and the charge-once fix) — that diagnosis is *why* the 55-GPU-h
+> anchor fell, and [pricing.md § D](../compute/pricing.md) cites this file for exactly that.
+
 Ordered plan for what fires once the binary RBFE convergence pilot (`nr4a3-congeneric-rbfe`,
 `zaienne_cmpd19` 5-Br → `cw_ev_5nh2` 5-NH₂, NR4A3, single design frame) lands its `reduce`. Two tracks run
 in **parallel**: **A (binary warhead)** needs our compounds; **B (ternary method validation)** uses *known*
