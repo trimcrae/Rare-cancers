@@ -23,7 +23,7 @@ on:
       vast_launch_mode:
         description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect | retro_* (NR-V04 retrospective holdout)"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect, cofold_audit]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect, cofold_audit, cofold_dry, cofold]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -34,6 +34,18 @@ on:
       nrv04_result_prefix:
         description: "nrv04_vast_launch: S3 results prefix. Set a FRESH one to re-run legs that already have results (the launcher skips a unit whose result exists). Never overwrite the original - a corrected re-run belongs beside the evidence it corrects, not on top of it."
         default: ""
+      cofold_output_prefix:
+        description: "cofold mode: FRESH S3 prefix for the co-fold outputs (never reuse - co-folds are a preregistered panel's inputs)"
+        default: ""
+      ternary_script:
+        description: "cofold mode: science entry point (nrv04_ternary.py = NR-V04/VHL; nr4a3_ternary.py = CRBN)"
+        default: "nrv04_ternary.py"
+      ternary_extra_args:
+        description: "cofold mode: extra args, e.g. '--skip-control --targets NR4A1,NR4A2,NR4A3'"
+        default: ""
+      seeds:
+        description: "cofold mode: comma-sep diffusion seeds = the ternary ensemble per system"
+        default: "1,2,3"
       md_mode:
         description: "nrv04_vast_launch pilot/full: smoke (minimize+500 steps, cents) | run (5ns, priced)"
         type: choice
@@ -414,7 +426,7 @@ jobs:
       MODE: ${{ github.event.inputs.md_mode }}
       VAST_IMAGE: ${{ github.event.inputs.vast_image }}
       PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'full' && '0' || '1' }}
-      DRY_RUN: ${{ (github.event.inputs.vast_launch_mode == 'dry' || github.event.inputs.vast_launch_mode == 'retro_dry') && '1' || '0' }}
+      DRY_RUN: ${{ (github.event.inputs.vast_launch_mode == 'dry' || github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'cofold_dry') && '1' || '0' }}
       DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}
       STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'stage_test' && '1' || '0' }}
       COLLECT: ${{ github.event.inputs.vast_launch_mode == 'collect' && '1' || '0' }}
@@ -439,6 +451,13 @@ jobs:
       # retro_stage_test: free CI proof the assembler handles NR4A2/NR4A3 co-folds; retro_dry: print the fan-out;
       # retro_pilot: ONE paralogue leg (the only untested staging path); retro_full: the 24-unit panel;
       # retro_collect: gather leg JSONs and apply the frozen gate (refuses a verdict on an incomplete panel).
+      # Boltz co-folding ON VAST — the lane that removes the SageMaker-by-default path (see
+      # research/compute/provider-deviation-2026-07-24.md). COFOLD_OUTPUT_PREFIX must be FRESH.
+      COFOLD: ${{ (github.event.inputs.vast_launch_mode == 'cofold' || github.event.inputs.vast_launch_mode == 'cofold_dry') && '1' || '0' }}
+      COFOLD_OUTPUT_PREFIX: ${{ github.event.inputs.cofold_output_prefix }}
+      TERNARY_SCRIPT: ${{ github.event.inputs.ternary_script }}
+      TERNARY_EXTRA_ARGS: ${{ github.event.inputs.ternary_extra_args }}
+      SEEDS: ${{ github.event.inputs.seeds }}
       RETRO_STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'retro_stage_test' && '1' || '0' }}
       RETRO: ${{ (github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') && '1' || '0' }}
       RETRO_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'retro_collect' && '1' || '0' }}

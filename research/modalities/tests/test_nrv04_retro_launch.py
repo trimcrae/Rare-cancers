@@ -105,3 +105,48 @@ def test_empty_prefix_env_falls_back_instead_of_writing_to_the_bucket_root(monke
         assert getattr(mod, attr) == default, f"{var}='' must fall back, not blank the prefix"
         monkeypatch.delenv(var, raising=False)
     importlib.reload(launch)
+
+
+# ---------------------------------------------------------------- Vast co-fold lane (provider correctness)
+def test_cofold_lane_runs_the_same_science_entry_point_as_sagemaker():
+    """The Vast and SageMaker co-fold lanes must predict the same thing: same script, same env contract. If
+    they drifted, two providers would silently produce different structures for the same panel."""
+    spec = launch.build_cofold_jobspec("br", BUCKET, "nrv04-descriptive-v5",
+                                       script="nrv04_ternary.py",
+                                       extra_args="--skip-control --targets NR4A1,NR4A2,NR4A3", seeds="1,2,3")
+    assert spec.env["TERNARY_SCRIPT"] == "nrv04_ternary.py"
+    assert spec.env["SEEDS"] == "1,2,3"
+    assert "--targets NR4A1,NR4A2,NR4A3" in spec.env["TERNARY_EXTRA_ARGS"]
+    assert "nrv04_ternary.py" not in launch._COFOLD_PIPELINE, "the script must come from env, never hardcoded"
+    assert '"$TERNARY_SCRIPT" --run' in launch._COFOLD_PIPELINE
+
+
+def test_cofold_boltz_version_is_pinned():
+    """An unpinned Boltz would make a rerun silently a different model — the SageMaker lane pins it and so
+    must this one, at the same version."""
+    assert launch.BOLTZ_SPEC.startswith("boltz==")
+    assert launch.build_cofold_jobspec("br", BUCKET, "p").env["BOLTZ_SPEC"] == launch.BOLTZ_SPEC
+
+
+def test_cofold_uploads_continuously_and_is_spot_safe():
+    """Standing rule: a preemption or timeout after prediction N must still leave 1..N in S3."""
+    spec = launch.build_cofold_jobspec("br", BUCKET, "p")
+    assert spec.resources.interruptible is True
+    assert "s3 sync" in launch._COFOLD_PIPELINE and "sleep 60" in launch._COFOLD_PIPELINE
+    assert "SYNC_PID" in launch._COFOLD_PIPELINE
+
+
+def test_cofold_runs_on_vast_gpu_not_a_cloud_default():
+    spec = launch.build_cofold_jobspec("br", BUCKET, "p")
+    assert spec.resources.gpu == "rtx4090" and spec.resources.min_vram_gb >= 24
+
+
+def test_cofold_propagates_the_prediction_exit_code():
+    """A Boltz crash must fail the run, not report false-green — the SageMaker lane learned this the hard way."""
+    assert "exit $RC" in launch._COFOLD_PIPELINE
+
+
+def test_cofold_requires_a_fresh_output_prefix(monkeypatch):
+    monkeypatch.delenv("COFOLD_OUTPUT_PREFIX", raising=False)
+    with pytest.raises(SystemExit, match="FRESH"):
+        launch.cofold(BUCKET)

@@ -946,6 +946,126 @@ def firm_collect(bucket):
 
 
 # =============================================================================================================
+# CO-FOLD lane on VAST — replaces the SageMaker gpu-ternary-aws path for Boltz-2 ternary predictions.
+#
+# WHY IT EXISTS. gpu-ternary-aws.yml was the repo's ONLY Boltz co-folding lane, so a co-fold need routed to
+# SageMaker by default — which is how the 2026-07-24 v4 regeneration went to a provider nobody chose
+# (research/compute/provider-deviation-2026-07-24.md). STRATEGY's GPU economics put production on Vast, so the
+# capability has to exist there or the deviation just repeats the next time a co-fold is needed.
+#
+# It runs the SAME science entry point as the SageMaker lane — `nrv04_ternary.py --run` with the same env
+# contract (TERNARY_SCRIPT / TERNARY_EXTRA_ARGS / SEEDS / OUTPUT_DIR) — so the two lanes cannot drift into
+# predicting different things. What differs is only the provisioning: a torch base image + pip install instead
+# of a SageMaker container, and an explicit background S3 sync instead of SageMaker's Continuous upload mode.
+# =============================================================================================================
+COFOLD_IMAGE = os.environ.get("COFOLD_IMAGE") or "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime"
+BOLTZ_SPEC = os.environ.get("BOLTZ_SPEC") or "boltz==2.2.1"      # PINNED, same as the SageMaker lane
+
+_COFOLD_PIPELINE = r"""
+set -eo pipefail
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -q >/dev/null 2>&1 || true
+apt-get install -y -q --no-install-recommends git curl ca-certificates >/dev/null 2>&1 || true
+pip install --quiet awscli $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu12 || \
+  { echo "[cofold] pip install FAILED"; exit 3; }
+AWS=$(command -v aws || echo /opt/conda/bin/aws)
+mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
+mark deps-ready
+nvidia-smi || true
+git clone -q https://github.com/trimcrae/Rare-cancers /tmp/repo
+git -C /tmp/repo checkout -q "$GIT_BRANCH" || true
+RESOLVED=$(git -C /tmp/repo rev-parse HEAD)
+mark cloned
+export OUTPUT_DIR=/tmp/cofold_out
+mkdir -p "$OUTPUT_DIR"
+# Provenance stamp mirroring the SageMaker lane, so predictions from either provider are equally auditable.
+python - <<PYEOF
+import json, os
+json.dump({"provider": "vast", "git_branch": os.environ.get("GIT_BRANCH"),
+           "resolved_commit": os.environ.get("RESOLVED") or "$RESOLVED",
+           "boltz_spec": os.environ.get("BOLTZ_SPEC"), "output_prefix": os.environ.get("OUTPUT_PREFIX"),
+           "ternary_script": os.environ.get("TERNARY_SCRIPT"),
+           "extra_args": os.environ.get("TERNARY_EXTRA_ARGS"), "seeds": os.environ.get("SEEDS")},
+          open(os.path.join(os.environ["OUTPUT_DIR"], "run_provenance.json"), "w"), indent=2)
+PYEOF
+# CONTINUOUS UPLOAD (standing rule): sync every 60 s in the background, so a preemption or timeout after
+# prediction N still leaves predictions 1..N in S3 rather than losing the whole run.
+( while true; do $AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --only-show-errors || true; sleep 60; done ) &
+SYNC_PID=$!
+mark predicting
+cd /tmp/repo/research/modalities
+set +e
+python "$TERNARY_SCRIPT" --run $TERNARY_EXTRA_ARGS 2>&1 | tail -400
+RC=$?
+set -e
+kill $SYNC_PID 2>/dev/null || true
+$AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --only-show-errors || true
+mark "done rc=$RC"
+exit $RC
+"""
+
+
+def build_cofold_jobspec(branch, bucket, output_prefix, script="nrv04_ternary.py", extra_args="",
+                         seeds="1,2,3"):
+    """PURE: the JobSpec for one Vast co-fold run. No I/O -> unit-tested."""
+    tag = f"cofold-{output_prefix}"
+    env = {
+        "GIT_BRANCH": branch,
+        "RESULT_S3": f"s3://{bucket}/{output_prefix}",
+        "OUTPUT_PREFIX": output_prefix,
+        "TERNARY_SCRIPT": script,
+        "TERNARY_EXTRA_ARGS": extra_args,
+        "SEEDS": seeds,
+        "BOLTZ_SPEC": BOLTZ_SPEC,
+    }
+    return JobSpec(
+        name=tag,
+        command=["bash", "-lc", _COFOLD_PIPELINE],
+        image=COFOLD_IMAGE,
+        checkpoint_uri=f"s3://{bucket}/{output_prefix}",
+        # resume=False: Boltz predictions are idempotent per (system, seed) but the script does not skip
+        # completed ones, so a restart re-predicts. The continuous sync is what makes a preemption cheap.
+        resume=False,
+        resources=ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80,
+                               interruptible=True),
+        max_runtime_s=int(os.environ.get("COFOLD_MAX_RUNTIME_S", "21600")),
+        env=env,
+    )
+
+
+def cofold(bucket):
+    """Launch a Boltz co-fold run on Vast. OUTPUT_PREFIX must be a FRESH prefix — co-fold outputs are inputs to
+    a preregistered panel, so overwriting one in place would silently change a panel's structures."""
+    branch = os.environ.get("GIT_BRANCH", "claude/nr-v04-retrospective-testing-6ywxye")
+    output_prefix = os.environ.get("COFOLD_OUTPUT_PREFIX", "")
+    if not output_prefix:
+        raise SystemExit("[cofold] set COFOLD_OUTPUT_PREFIX (a FRESH S3 prefix; never overwrite an existing "
+                         "co-fold set — it is a preregistered panel's input)")
+    spec = build_cofold_jobspec(branch, bucket,
+                                output_prefix,
+                                script=os.environ.get("TERNARY_SCRIPT", "nrv04_ternary.py"),
+                                extra_args=os.environ.get("TERNARY_EXTRA_ARGS", ""),
+                                seeds=os.environ.get("SEEDS", "1,2,3"))
+    if os.environ.get("DRY_RUN", "0") == "1":
+        print(f"[cofold-dry] {spec.name}: image={spec.image} gpu={spec.resources.gpu} "
+              f"script={spec.env['TERNARY_SCRIPT']} args={spec.env['TERNARY_EXTRA_ARGS']!r} "
+              f"seeds={spec.env['SEEDS']} -> {spec.env['RESULT_S3']}", flush=True)
+        return 0
+    import boto3
+    s3 = boto3.client("s3")
+    if _s3_list(s3, bucket, output_prefix.rstrip("/") + "/", limit=1):
+        raise SystemExit(f"[cofold] {output_prefix} already has objects — refusing to write into an existing "
+                         f"co-fold prefix. Use a fresh one.")
+    be = get_backend("vast")
+    h = be.submit(spec)
+    print(f"[cofold-submit] {spec.name} -> instance {h.job_id} dph≈${h.extra.get('dph')}/hr "
+          f"-> {spec.env['RESULT_S3']}", flush=True)
+    json.dump([{"unit": spec.name, "instance": h.job_id, "prefix": output_prefix}],
+              open("nrv04-cofold-handles.json", "w"), indent=2)
+    return 0
+
+
+# =============================================================================================================
 # RETROSPECTIVE holdout lane (prereg: nr4a3-nrv04-retrospective-prereg.md)
 #
 # Same proven endpoint-MD machinery as the covalent feasibility panel — same image, same pre-packed conda env,
@@ -1245,6 +1365,8 @@ def main():
         return firm(bucket)
     if os.environ.get("FIRM_COLLECT") == "1":
         return firm_collect(bucket)
+    if os.environ.get("COFOLD") == "1":
+        return cofold(bucket)
     if os.environ.get("RETRO_STAGE_TEST") == "1":
         return retro_stage_test(bucket)
     if os.environ.get("RETRO") == "1":
