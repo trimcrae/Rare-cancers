@@ -43,7 +43,7 @@ on:
         # ref=<feature-branch> and protfep_task=<task>, and GitHub runs that branch's file + code.
         # Leave blank for a normal BioEmu run — a blank value changes nothing. Delete this input and
         # its job once gpu-protfep-vast.yml is merged to main.
-        description: "5a-KS protein-FEP bridge: bake | stage-test | refcheck | introspect | build-test | smoke | pilot | launch | collect | stop (blank = off)"
+        description: "5a-KS protein-FEP bridge: bake | stage-test | refcheck | introspect | build-test | alt-probe | smoke | pilot | launch | collect | stop (blank = off)"
         type: string
         default: ""
 
@@ -319,6 +319,27 @@ jobs:
           assert meta["n_particles"] > 5000, "solvated apo barstar should be >5k particles"
           print("BUILD-TEST PASS")
           PY'
+
+      - name: Probe alternatives to perses' OpenEye dependency (FREE)
+        if: ${{ github.event.inputs.protfep_task == 'alt-probe' }}
+        # The build-test proved perses' PROTEIN mutation path itself needs OpenEye
+        # (PolymerProposalEngine.generate_oemol_from_pdb_template -> createOEMolFromSDF ->
+        # oechem.oemolistream), not just its ligand branch. Before that becomes a decision, price the
+        # options with evidence: is there a non-OpenEye map path in this perses, and does pmx — the
+        # free, published, GROMACS-based protein-mutation FEP engine — actually install?
+        run: |
+          set -eo pipefail
+          IMG="docker.io/triskit23/protfep:latest"
+          docker pull "$IMG"
+          P=/opt/mamba/envs/protfep/lib/python3.11/site-packages/perses
+          echo "=== is the OpenEye map path optional anywhere in the polymer engine? ==="
+          docker run --rm "$IMG" bash -lc "grep -n 'generate_oemol_from_pdb_template\|createOEMolFromSDF\|def _construct_atom_map\|rdkit' $P/rjmc/topology_proposal.py | head -30"
+          echo "=== does perses offer an RDKit-backed alternative at all? ==="
+          docker run --rm "$IMG" bash -lc "grep -rln 'rdkit' $P --include=*.py | head -20; echo '--- perses version ---'; python -c 'import perses; print(perses.__version__)'"
+          echo "=== is pmx installable from conda-forge? (the free GROMACS-based alternative) ==="
+          docker run --rm "$IMG" bash -lc "micromamba create -y -n pmxprobe -c conda-forge pmx gromacs --dry-run 2>&1 | tail -30" || echo "pmx dry-run FAILED (see above)"
+          echo "=== what does conda-forge actually offer for protein mutation FEP? ==="
+          docker run --rm "$IMG" bash -lc "micromamba search -c conda-forge pmx 2>&1 | tail -12; echo '--- gromacs ---'; micromamba search -c conda-forge gromacs 2>&1 | tail -6"
 
       - name: Submit Vast leg(s)
         if: ${{ contains(fromJSON('["smoke","pilot","launch"]'), github.event.inputs.protfep_task) }}
