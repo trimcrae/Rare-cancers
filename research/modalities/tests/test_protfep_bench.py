@@ -576,3 +576,51 @@ def test_bioemu_launcher_has_the_same_fix():
     text = src.read_text()
     assert "os.environ.get('VAST_CKPT_BUCKET', " not in text
     assert 'os.environ.get("VAST_CKPT_BUCKET") or' in text
+
+
+# ---------------------------------------------------------------- OpenEye import shim
+def test_openeye_shim_satisfies_the_import_perses_actually_makes():
+    """perses' PointMutationExecutor.__init__ runs `from openeye import oechem` unconditionally.
+
+    OpenEye is commercial and license-gated, and perses only USES it for small-molecule handling
+    (inside `if ligand_input:`). Our legs are protein-only, so the statement is dead code that
+    happens to sit above the branch. The shim satisfies it and nothing else.
+    """
+    import sys as _sys
+    for key in [k for k in _sys.modules if k == "openeye" or k.startswith("openeye.")]:
+        del _sys.modules[key]
+    assert prun._install_openeye_shim() is True
+    from openeye import oechem
+    assert oechem.__name__ == "openeye.oechem"
+    import openeye.oechem  # noqa: F401 — the dotted form must work too
+
+
+def test_openeye_shim_raises_on_any_real_use():
+    """A shim that quietly returned something plausible would be far worse than the import error."""
+    import sys as _sys
+    for key in [k for k in _sys.modules if k == "openeye" or k.startswith("openeye.")]:
+        del _sys.modules[key]
+    prun._install_openeye_shim()
+    from openeye import oechem
+    with pytest.raises(RuntimeError, match="tried to USE OpenEye"):
+        oechem.OEGraphMol
+
+
+def test_openeye_shim_leaves_dunders_alone():
+    """Python's import machinery probes __file__/__path__; poisoning those breaks the import."""
+    poison = prun._PoisonedOpenEye("openeye.oechem")
+    with pytest.raises(AttributeError):
+        poison.__getattr__("__file__")
+    with pytest.raises(RuntimeError):
+        poison.__getattr__("OEMol")
+
+
+def test_openeye_shim_defers_to_a_real_install(monkeypatch):
+    """If a licensed OpenEye is ever present it must win — the shim never shadows it."""
+    import sys as _sys
+    import types as _types
+    real = _types.ModuleType("openeye")
+    real.oechem = _types.ModuleType("openeye.oechem")
+    monkeypatch.setitem(_sys.modules, "openeye", real)
+    assert prun._install_openeye_shim() is False
+    assert _sys.modules["openeye"] is real

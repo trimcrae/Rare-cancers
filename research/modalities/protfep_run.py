@@ -179,6 +179,68 @@ def steps_per_iteration(timestep_fs=None):
 # ------------------------------------------------------------------------------------------------
 # Hybrid topology
 # ------------------------------------------------------------------------------------------------
+class _PoisonedOpenEye:
+    """Stand-in for an OpenEye submodule that raises loudly on ANY use.
+
+    It satisfies an import and nothing else. If perses ever actually touches OpenEye on our code
+    path, this raises immediately with a clear message rather than returning something plausible —
+    the failure mode we cannot accept is a number produced by a silently degraded path.
+    """
+
+    def __init__(self, name):
+        self._name = name
+
+    def __getattr__(self, attr):
+        # Dunders are Python's own machinery probing the module (__file__, __path__, __all__,
+        # __repr__ during import and introspection), not perses using the toolkit. Those must behave
+        # like a normal absent attribute or the import itself blows up — poisoning them would make
+        # the shim fail on the very statement it exists to satisfy.
+        if attr.startswith("__") and attr.endswith("__"):
+            raise AttributeError(attr)
+        raise RuntimeError(
+            f"perses tried to USE OpenEye ({self._name}.{attr}), not merely import it. The shim in "
+            f"protfep_run only satisfies the unconditional `from openeye import oechem` in "
+            f"PointMutationExecutor.__init__, which is dead code for a protein-only leg (OpenEye is "
+            f"reached under `if ligand_input:`). A real call means this leg is NOT protein-only, or "
+            f"perses changed — either way, stop and re-scope rather than trusting the result.")
+
+
+def _install_openeye_shim():
+    """Satisfy perses' unconditional OpenEye import for protein-only legs. Returns True if installed.
+
+    WHY THIS IS NOT A HACK AROUND A LICENCE. OpenEye is commercial and license-gated, and perses uses
+    it for SMALL-MOLECULE handling: `createOEMolFromSDF`, `Molecule.from_openeye`, topology generation
+    from an OEMol — all inside `if ligand_input:` in PointMutationExecutor.__init__. Our benchmark
+    legs are protein-only (barnase-barstar; no small molecule anywhere), so that branch is never
+    taken. The only thing standing between us and the hybrid topology is that the `from openeye
+    import oechem` statement sits ABOVE the branch and runs unconditionally — verified 2026-07-24
+    from the installed source and from a live traceback at relative_point_mutation_setup.py:236.
+
+    So this makes an import succeed for code that is never executed. It does NOT emulate OpenEye:
+    every attribute access raises. If perses genuinely needs the toolkit on this path we find out at
+    once, with a message saying so.
+
+    Naturally inert once a real OpenEye is installed — if the module imports, the shim is skipped.
+    """
+    import types
+    try:
+        import openeye  # noqa: F401 — a real install wins; never shadow it
+        _log("OpenEye is genuinely installed — shim not needed")
+        return False
+    except ImportError:
+        pass
+    shim = types.ModuleType("openeye")
+    submodules = ("oechem", "oeomega", "oequacpac", "oegraphsim", "oeshape", "oespruce", "oedepict")
+    for name in submodules:
+        sub = types.ModuleType(f"openeye.{name}")
+        sub.__getattr__ = _PoisonedOpenEye(f"openeye.{name}").__getattr__
+        setattr(shim, name, sub)
+        sys.modules[f"openeye.{name}"] = sub
+    sys.modules["openeye"] = shim
+    _log("installed OpenEye import shim (protein-only leg; any real USE of the toolkit will raise)")
+    return True
+
+
 def build_htf(structure_path, mutation_spec, charge_method=None, ionic_strength_M=None):
     """Build the perses hybrid topology for one protein point mutation in one environment.
 
@@ -188,9 +250,13 @@ def build_htf(structure_path, mutation_spec, charge_method=None, ionic_strength_
     PDB contains, which is `protfep_bench.stage_leg`'s job.
     """
     from openmm import app, unit
-    from perses.app.relative_point_mutation_setup import PointMutationExecutor
 
     m = pf.classify_mutation(mutation_spec)
+    # Install the shim BEFORE perses is imported: the offending statement runs at __init__ time, but
+    # keeping the order explicit means a future module-level import is covered too.
+    shimmed = _install_openeye_shim()
+    from perses.app.relative_point_mutation_setup import PointMutationExecutor
+
     if not m["buildable"]:
         raise pf.MutationError(m["risk"])
     cm = (charge_method or md_settings.CHARGE_METHOD).strip().lower()
@@ -216,7 +282,7 @@ def build_htf(structure_path, mutation_spec, charge_method=None, ionic_strength_
     n_atoms = htf.hybrid_system.getNumParticles()
     _log(f"hybrid built: {n_atoms} particles")
     return htf, {"charge_method": cm, "mutation": m, "n_particles": int(n_atoms),
-                 "ionic_strength_M": ionic}
+                 "ionic_strength_M": ionic, "openeye_shim": shimmed}
 
 
 # ------------------------------------------------------------------------------------------------

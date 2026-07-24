@@ -43,7 +43,7 @@ on:
         # ref=<feature-branch> and protfep_task=<task>, and GitHub runs that branch's file + code.
         # Leave blank for a normal BioEmu run — a blank value changes nothing. Delete this input and
         # its job once gpu-protfep-vast.yml is merged to main.
-        description: "5a-KS protein-FEP bridge: bake | stage-test | refcheck | introspect | smoke | pilot | launch | collect | stop (blank = off)"
+        description: "5a-KS protein-FEP bridge: bake | stage-test | refcheck | introspect | build-test | smoke | pilot | launch | collect | stop (blank = off)"
         type: string
         default: ""
 
@@ -289,6 +289,36 @@ jobs:
           docker run --rm "$IMG" bash -lc "sed -n '210,265p' $P/app/relative_point_mutation_setup.py"
           echo "=== which entry points import WITHOUT openeye? ==="
           docker run --rm -v /tmp/probe.py:/tmp/probe.py "$IMG" python /tmp/probe.py
+
+      - name: Build-test the hybrid topology (FREE — full perses build on a CPU CI runner)
+        if: ${{ github.event.inputs.protfep_task == 'build-test' }}
+        # THE POINT: building the hybrid topology is CPU work. Only the SAMPLING needs a GPU. So the
+        # entire risky half — RCSB staging, PDBFixer prep, perses' PointMutationExecutor, solvation,
+        # system generation, the OpenEye shim — can be proven here for $0, and a GPU gets rented only
+        # once we know a hybrid actually builds. The first smoke rented a 4090 to discover an import
+        # error; this step is how that stops happening.
+        run: |
+          set -eo pipefail
+          IMG="docker.io/triskit23/protfep:latest"
+          docker pull "$IMG"
+          docker run --rm -e GIT_BRANCH="$GIT_BRANCH" -e PROTFEP_ALLOW_CPU=1 "$IMG" bash -lc '
+            set -eo pipefail
+            export PATH=/opt/mamba/envs/protfep/bin:$PATH
+            cd /root
+            curl -Ls "https://github.com/trimcrae/Rare-cancers/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
+            cd Rare-cancers-*/research/modalities
+            python - <<"PY"
+          import protfep_bench as pb, protfep_run as pr
+          spec = pb.leg_spec(pb.PILOT_BENCHMARK, "apo", 0)
+          staged = pb.stage_leg(spec, "/tmp/in")
+          pdb = staged["report"]["prepared"]
+          print("staged:", pdb, staged["report"]["atoms_per_chain"],
+                "site:", staged["report"]["mutation_site_observed"])
+          htf, meta = pr.build_htf(pdb, spec["mutation"])
+          print("HYBRID BUILT: %d particles, shim=%s" % (meta["n_particles"], meta["openeye_shim"]))
+          assert meta["n_particles"] > 5000, "solvated apo barstar should be >5k particles"
+          print("BUILD-TEST PASS")
+          PY'
 
       - name: Submit Vast leg(s)
         if: ${{ contains(fromJSON('["smoke","pilot","launch"]'), github.event.inputs.protfep_task) }}
