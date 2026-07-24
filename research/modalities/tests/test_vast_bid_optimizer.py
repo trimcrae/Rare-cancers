@@ -410,5 +410,46 @@ class TestDrift(unittest.TestCase):
         self.assertEqual(a["phase"], b["phase"])
 
 
+class TestGpuClassSweep(unittest.TestCase):
+    """Exercised offline with a stubbed offer source. The first CI run of this function died on a NameError
+    (`_num` was never defined in this module) — a pure-logic bug that no amount of live testing should have been
+    needed to find."""
+
+    FAKE = {
+        "rtx4090": [{"id": 1, "gpu_name": "RTX 4090", "min_bid": 0.17, "dph_base": 0.17}],
+        "rtx3090": [{"id": 2, "gpu_name": "RTX 3090", "min_bid": 0.10, "dph_base": 0.12}],
+        "l4": [{"id": 3, "gpu_name": "L4", "min_bid": 0.14, "dph_base": 0.20}],
+        "nothing": [],
+    }
+
+    def setUp(self):
+        self._orig = vbo._live_offers
+        vbo._live_offers = lambda g: self.FAKE.get(g, [])
+
+    def tearDown(self):
+        vbo._live_offers = self._orig
+
+    def test_runs_end_to_end_and_ranks(self):
+        out = vbo.gpu_class_sweep(["rtx4090", "rtx3090", "l4"], 444_000, 0.4)
+        self.assertTrue(out["ranked_by_usd_per_ns"])
+        costs = [r["usd_per_ns"] for r in out["ranked_by_usd_per_ns"]]
+        self.assertEqual(costs, sorted(costs))
+
+    def test_ranks_on_usd_per_ns_not_usd_per_hour(self):
+        """The 3090 has the cheapest floor; at 444k it is 2.42x slower, so it must not win on $/ns."""
+        out = vbo.gpu_class_sweep(["rtx4090", "rtx3090"], 444_000, 0.4)
+        self.assertEqual(out["ranked_by_usd_per_ns"][0]["gpu"], "rtx4090")
+
+    def test_a_class_with_no_offers_is_reported_not_dropped(self):
+        out = vbo.gpu_class_sweep(["rtx4090", "nothing"], 444_000, 0.4)
+        self.assertTrue(any(u["gpu"] == "nothing" for u in out["unusable"]))
+
+    def test_unmeasured_cards_are_labelled_as_such(self):
+        out = vbo.gpu_class_sweep(["l4"], 444_000, 0.4)
+        row = out["ranked_by_usd_per_ns"][0]
+        self.assertNotEqual(row["throughput_basis"], "measured_bench")
+        self.assertIn("BENCH", out["caveat"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

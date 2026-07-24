@@ -789,6 +789,15 @@ def ondemand_crosscheck(gpu_substr="rtx4090"):
             "verdict": verdict}
 
 
+def _num(v):
+    """Tolerant float. Defined here because `gpu_class_sweep` used it before it existed in this module — a
+    NameError that only surfaced in CI, which is exactly why the sweep now has an offline test."""
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
 def gpu_class_sweep(gpu_substrings, atoms, restart_h):
     """Rank CARD CLASSES by $/ns — the question a single-card query cannot ask.
 
