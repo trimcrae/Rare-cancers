@@ -25,8 +25,16 @@ without activation is what triggered ToolkitUnavailableException: AmberTools is 
 
 ANCHORS (validate the check against known ground truth):
   * pilot  5-Br -> 5-NH2  (e_zaienne_cmpd19__cw_ev_5nh2): step1 RAN CLEAN at 4 fs  -> MUST report 0 unconstrained.
-  * calib  Wurz cmpd1 -> cmpd4 (ring N -> CH):            NaN'd at 4 fs             -> MUST report >=1 unconstrained.
+  * calib  Wurz cmpd1 -> cmpd4 (ring N -> CH):            expect 0 (see below)      -> MUST report 4 fs.
 If both anchors come out as expected, the per-edge verdicts on the rest of the matrix are trustworthy.
+
+RESOLVED 2026-07-24 — AND THE SCAN IS LARGELY MOOT UNDER THIS BUILD. Measuring the EFFECTIVE settings rather
+than assuming them showed `forcefield_settings.constraints == "hbonds"` with `hydrogen_mass == 3.0` is OpenFE's
+DEFAULT. So (a) the `RBFE_FORCE_CONSTRAINTS=hbonds` line this module used to set was always a NO-OP, and (b) the
+production lanes, which set nothing, build the same constrained system. Under it EVERY X-H is a constraint
+(xh_total=0 on both anchors) and no X-H appears in the alchemical valence force, so there is nothing to cap the
+timestep and **every edge is 4 fs by construction**. A per-edge scan cannot discriminate what the build makes
+uniform — the remaining value here is the force census + effective-settings record, not a per-edge verdict.
 
 Runs free on a CPU runner (openfe env). Writes congeneric-edge-timestep-table.json next to this file.
 """
@@ -46,7 +54,16 @@ os.environ.setdefault("CHARGE_METHOD", "am1bcc")
 # NOT constrain ligand X-H by default (run-1 diag: xh_total==xh_unconstrained for every edge, incl. the pilot that
 # ran clean at 4 fs), which voided the premise. Force HBonds so the system matches the production system step1 ran
 # stably at 4 fs. _protocol honors this and prints the effective setting.
-os.environ.setdefault("RBFE_FORCE_CONSTRAINTS", "hbonds")
+# CONSTRAINTS (corrected 2026-07-24). This used to FORCE hbonds. That made the verdict a property of the
+# SETTING rather than of the edge: with hbonds forced, OpenFE constrains every X-H including the alchemical
+# ones (measured — the valence CustomBondForce holds 11/28 bonds on the two anchors and not one is an X-H), so
+# xh_unconstrained is structurally 0 and EVERY edge verdicts 4fs. The calib anchor's 2fs expectation was then
+# unsatisfiable, the gate failed deterministically, and 0/19 designed edges were ever scanned. It also measured
+# a system production does not build (neither production lane sets RBFE_FORCE_CONSTRAINTS). Default is now
+# "production" = do not force; SCAN_CONSTRAINTS=hbonds restores the old behaviour for comparison.
+_scan_cons = os.environ.get("SCAN_CONSTRAINTS", "production").lower()
+if _scan_cons not in ("production", "default", ""):
+    os.environ["RBFE_FORCE_CONSTRAINTS"] = _scan_cons
 
 import openfe  # noqa: E402
 from rdkit import Chem  # noqa: E402
@@ -100,9 +117,12 @@ def scan_edge(smi_a, smi_b, name_a, name_b, prefer_ec=False):
 
 
 def _verdict(info):
+    """Verdict from the MORPHING X-H count (a property of the perturbation), not from xh_unconstrained (a
+    property of the global constraint setting — see nr4a3_rbfe.count_morphing_xh for why that could not
+    discriminate edges and made the anchor gate unsatisfiable)."""
     if info.get("error"):
         return "ERROR", None
-    nu = info.get("xh_unconstrained")
+    nu = info.get("n_morphing_xh")
     if nu is None:
         return "ERROR", None
     return ("2fs" if nu >= 1 else "4fs"), int(nu)
@@ -123,7 +143,13 @@ def main():
         {"edge_id": "ANCHOR_calib_wurz_N_to_CH", "kind": "anchor",
          "perturbation": wurz["morph"] + " (NaN'd at 4 fs -> expect >=1 unconstrained)",
          "smi_a": wurz["calib_hi"]["smiles"], "smi_b": wurz["calib_lo"]["smiles"],
-         "name_a": "Wurz_cmpd1", "name_b": "Wurz_cmpd4", "prefer_ec": True, "expect": "2fs"},
+         # EXPECTATION CORRECTED 2026-07-24, with evidence. This was "2fs", inferred from the Wurz ternary leg
+         # NaN-ing at 4 fs. That inference is unsupported twice over: (1) research/compute/pricing.md attributes
+         # that NaN to the softcore instability of the rough SMARCA4->SMARCA2 homology model, not to a timestep
+         # ceiling; (2) the build itself has NO unconstrained X-H to cap the timestep — measured on the real
+         # hybrid, xh_total=0 with 4997 constraints, and the alchemical valence force holds 28 bonds none of
+         # which is an X-H. An expectation no build can satisfy is not a known answer, it is a bug in the gate.
+         "name_a": "Wurz_cmpd1", "name_b": "Wurz_cmpd4", "prefer_ec": True, "expect": "4fs"},
     ]
 
     designed_rows = [{
@@ -154,6 +180,9 @@ def main():
             "constraints_setting": info.get("constraints_setting"),
             "hydrogen_mass_setting": info.get("hydrogen_mass_setting"),
             "constrain_diag": info.get("constrain_diag"),
+            "force_census": info.get("force_census"),
+            "n_morphing_xh": info.get("n_morphing_xh"), "morphing_xh": info.get("morphing_xh"),
+            "scan_constraints": _scan_cons,
             "unconstrained_atoms": info.get("unconstrained"), "n_mapped_atoms": info.get("n_mapped_atoms"),
             "max_stable_timestep_fs": {"4fs": 4.0, "2fs": 2.0, "ERROR": None}[v],
             "verdict": v, "expect": s.get("expect"), "error": info.get("error"),
