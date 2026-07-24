@@ -454,7 +454,7 @@ jobs:
               pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed" ;;
           esac
           if [ "${{ github.event.inputs.vast_launch_mode }}" = "cofold_audit" ]; then
-            python nrv04_cofold_audit.py --bucket "$VAST_CKPT_BUCKET"
+            python nrv04_cofold_audit.py --bucket "$VAST_CKPT_BUCKET" --completed-panel
           else
             python nrv04_vast_launch.py
           fi

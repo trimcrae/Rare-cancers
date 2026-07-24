@@ -142,15 +142,66 @@ def audit(bucket, prefixes=tuple(COFOLD_PREFIXES)):
     return out
 
 
+def completed_panel_chain_split(bucket, prefix="nrv04-covalent-results"):
+    """SECOND, independent question: did the COMPLETED feasibility panel measure the interface it meant to?
+
+    nrv04_covalent_md._topology_indices splits E3 from target POSITIONALLY — `target = the LAST sorted protein
+    chain`. The co-folds are chain A = NR4A LBD, E = VHL, F = ElonginB, G = ElonginC, so sorted-last is G,
+    ElonginC. The same driver ALSO resolves the reactive cysteine by GEOMETRY (nearest Sγ to the warhead), and
+    records that chain in each leg's `meta.reactive_cys`. The reactive Cys is on the NR4A1 LBD by construction.
+
+    So a completed leg whose recorded reactive-Cys chain is NOT the chain the positional rule would have picked
+    is direct, artifact-based proof — from the panel's own committed output — that the interface readouts were
+    computed against the wrong chain pair. No re-run, no inference."""
+    import boto3
+    s3 = boto3.client("s3")
+    tok, keys = None, []
+    while True:
+        kw = {"Bucket": bucket, "Prefix": prefix.rstrip("/") + "/"}
+        if tok:
+            kw["ContinuationToken"] = tok
+        r = s3.list_objects_v2(**kw)
+        keys += [o["Key"] for o in r.get("Contents", []) if o["Key"].rsplit("/", 1)[-1].startswith("leg_")]
+        if not r.get("IsTruncated"):
+            break
+        tok = r["NextContinuationToken"]
+    legs = []
+    for k in sorted(keys):
+        try:
+            d = json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode())
+        except Exception as e:  # noqa: BLE001
+            legs.append({"key": k, "error": str(e)}); continue
+        meta = d.get("meta") or {}
+        rc = meta.get("reactive_cys") or {}
+        legs.append({"key": k, "leg_id": d.get("leg_id"), "seed": d.get("seed"),
+                     "reactive_cys_chain": rc.get("chain"), "reactive_cys_resid": rc.get("resid"),
+                     "sg_electrophile_dist_A": rc.get("sg_electrophile_dist_A"),
+                     "R1_stable": (d.get("R1_interface") or {}).get("stable"),
+                     "R1_plateau_A": (d.get("R1_interface") or {}).get("plateau_A"),
+                     "R2_recruited": (d.get("R2_recruitment") or {}).get("recruited"),
+                     "R3_min_A": (d.get("R3_lys") or {}).get("min_A")})
+    chains = sorted({l.get("reactive_cys_chain") for l in legs if l.get("reactive_cys_chain")})
+    return {"prefix": prefix, "n_legs": len(legs), "reactive_cys_chains_seen": chains, "legs": legs,
+            "how_to_read": "the reactive Cys sits on the NR4A1 LBD. If that chain is not the last chain in "
+                           "sorted order, the positional target rule selected a different chain and the R1-R3 "
+                           "readouts describe a different interface than intended."}
+
+
 def _cli(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Audit which E3 proteins are actually in the NR-V04 co-folds.")
+    ap.add_argument("--completed-panel", action="store_true",
+                    help="also audit the completed feasibility panel's leg JSONs for the chain-split question")
     ap.add_argument("--bucket", default=os.environ.get("VAST_CKPT_BUCKET", ""))
     ap.add_argument("--prefixes", default=",".join(COFOLD_PREFIXES))
     args = ap.parse_args(argv)
     if not args.bucket:
         raise SystemExit("set --bucket or $VAST_CKPT_BUCKET")
     audit(args.bucket, tuple(p for p in args.prefixes.split(",") if p))
+    if args.completed_panel:
+        res = completed_panel_chain_split(args.bucket)
+        json.dump(res, open("nrv04-completed-panel-chain-split.json", "w"), indent=2)
+        print(json.dumps(res, indent=2, default=str), flush=True)
     return 0
 
 
