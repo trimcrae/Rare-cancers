@@ -23,8 +23,10 @@ both paralogues lack**, now verified from full-length UniProt sequences with two
 thermodynamic margin those axes deliver 0.82–0.92 on the same window metric where the interface-only null gives
 0.185. The revision is therefore: **search the categorical axes first, use the ternary machinery to do what it
 is actually good at (confirming geometry and ubiquitination competence), and stop asking it to win a contest at
-the edge of its own resolution.** Six cost levers, each evidence-backed, take the priceable ladder from ~$390
-mid to **~$240 mid**, with far lower *expected* cost because the new leading gates are free.
+the edge of its own resolution.** Six cost levers, each evidence-backed, cut the priceable ladder substantially and make the leading gates free.
+**⚠ The headline total this review originally carried is WITHDRAWN** — a same-afternoon measurement on the
+real system showed the per-edge bases under it were ~3× low; see the boxed correction in §5. The levers are ratios and survive; the
+absolute number does not.
 
 ---
 
@@ -319,6 +321,31 @@ Cost known and small (2 ternary legs × replicas, and lever 2 applies); cost of 
 **Lever 6 — E3 breadth is free at the search stage and must stay free.**
 Widen at 5a (CPU), downselect to ≤2 recruiters before any GPU leg. Explicitly log what was dropped — a silent
 top-N is exactly the "no silent caps" failure mode.
+
+### ⚠⚠ The revised total is WITHDRAWN (2026-07-24 ~5:15 PM ET)
+
+A parallel session measured the real system while this was being written and **halted `step1_fanout` on the
+result** (branch `claude/step1-fanout-cmpd19-congeneric-jfwg0j`). Two errors compounded, and they hit every GPU
+line here, not only theirs:
+
+1. **System transferability** — the RBFE edge was priced on a **TYK2** rate (~5.2 s/iter); the real
+   cmpd19/NR4A3 cryptic-pocket complex samples at **~13.6 s/iter** (three independent hosts, 16 samples each) —
+   a **~2.6× heavier system**.
+2. **Bid basis** — $0.122/hr assumed vs **$0.35–0.39/hr** realized on the current 4090 market.
+
+`step1_fanout` is therefore **~$91–101, not ~$12–26**; ~$2 was realized before the halt and **0/19 units produced
+a ΔΔG**. The bid error applies to my ternary lines too (**~$20–28/edge, not ~$10–16**), and the transferability
+error is **live and unmeasured** there — the ~16 s/iter ternary rate came from **SMARCA2/VHL 8G1Q** and is being
+used to price **NR4A** ternaries, which is exactly the move that just cost 2.6×.
+
+**The six levers survive; the total does not.** Every lever is a *ratio* (halved force evaluations, an exact
+cancellation, sequential stopping), so none depends on $/hr or system size. The absolute figure was built on
+bases now measured low, so the honest first-order re-derivation at 2 fs is **~$400–450 mid**, not ~$240 —
+higher than the ~$390 this review started from. **That strengthens the argument rather than weakening it:** if
+GPU work costs ~3× the assumption, buying an axis that needs ~2.0 kcal/mol when the method resolves 1.12 is a
+worse trade than ever, and the $0 categorical screens are worth correspondingly more.
+
+*(The table below is pre-correction and is retained to show what each lever contributes, not as a total.)*
 
 ### Revised ladder cost
 

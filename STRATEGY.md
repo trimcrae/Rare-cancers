@@ -800,8 +800,50 @@ only established today and moved the total by more than the first.
    ternary legs + one shared pair, not N edges) and **4 fs ternary production** (2× per leg, PROPOSED, settled by
    one ~$5–8 matched re-calibration edge). Neither adds or removes science; both were mis-priced.
 
-**Whole gated ladder, GO at every gate, PRICEABLE stages only: ~$240 mid-range (~$90–390)** — down from ~$390
-(~$170–610). Excludes (a) the *confirmatory* protein-mutation cycle — UNPRICED, engine never run, and no longer
+**⚠⚠ THE ~$240 TOTAL IS WITHDRAWN (2026-07-24 ~5:15 PM ET) — the per-edge BASES under it were measured and
+found ~3× low.** The `step1_fanout` session measured the real system on three independent Vast 4090 hosts and
+halted the tranche on the result (branch `claude/step1-fanout-cmpd19-congeneric-jfwg0j`, commits 71b0f951 /
+c26eb5a7). **Two errors compounded, and both hit every GPU line in this file, not just theirs:**
+
+1. **System transferability.** The RBFE edge was priced on a rate measured on the **public TYK2** system
+   (~5.2 s/iter). The **real cmpd19/NR4A3 cryptic-pocket complex samples at ~13.6 s/iter** (14.42 / 12.76 /
+   13.70 on three hosts, 16 samples each — a tight enough spread to rule out host variance): a **~2.6× heavier
+   system**. Complex leg ~9.1 GPU-h, not 3.6; unit ≈ 13.7 GPU-h.
+2. **Bid basis.** The $/hr came from a **$0.122/hr** instance; the realized current 4090 market at
+   `min_bid × 1.5` is **$0.35–0.39/hr** — ~3×.
+
+Net for their rung: `step1_fanout` is **~$91–101, not ~$12–26** — measured, and past the >$50 gate, which is why
+trimcrae halted it (~$2 realized, fleet torn down, `live_instances=0`, **0/19 units produced a ΔΔG**, partial
+checkpoints in S3 so a re-dispatch resumes rather than restarts).
+
+*Housekeeping:* `lint_claims.py`'s R5 rule ("no per-edge alchemical dollar figure is a completed run on the
+card quoted") had its premise **falsified for the binary lane** by this measurement — the NR4A3 rate was taken
+on the real system, on the quoted card, across three hosts. The rule should be re-scoped when the step1 branch
+merges; it is left alone here rather than raced.
+
+**★ THE SAME TWO ERRORS ARE LIVE IN THE TERNARY BASE, AND ONE OF THEM IS STILL UNMEASURED.**
+- *Bid basis — measurable now, and it bites:* every ternary figure in this file used **$0.15–0.25/hr**. At the
+  realized **$0.35–0.39/hr**, the same 56–72 GPU-h edge is **~$20–28, not ~$10–16.**
+- *System transferability — UNMEASURED, and it is exactly the error above:* the ~16 s/iter ternary rate was
+  measured on the **SMARCA2/VHL 8G1Q** assembly. It is being used to price **NR4A** ternaries. That is the same
+  move that just cost 2.6× on the binary lane. **Do not treat the ternary base as transferable until an NR4A
+  ternary leg has been timed** — and expect it to be heavier, not lighter.
+- *Card choice is NOT the lever:* at current rates a 4090 and a 3090 cost the same per iteration and the 3090
+  takes 2.4× the wall-clock. Do not "save money" by downgrading.
+
+**What survives, and what does not.** The six cost levers are **ratios** — 4 fs halving force evaluations, the
+exact binary/solvent cancellation, sequential stopping — so they are independent of $/hr and of system
+heaviness and all still hold. What does not survive is the **absolute total**: it was built on bases that have
+now been measured low, so the ladder is **more expensive than either ~$390 or ~$240**. First-order, on the
+measured bases and at 2 fs, GO at every gate: **~$400–450 mid** — flagged as a re-derivation, not a pinned
+number, because the ternary base still carries the unmeasured transferability risk above. The definitive
+re-derivation belongs in `pricing.md` once the step1 branch merges. **This makes the mechanism-first case
+stronger, not weaker:** if GPU work costs ~3× what the plan assumed, spending it on an axis that needs
+~2.0 kcal/mol when the method resolves 1.12 is a worse trade than ever, and the $0 categorical screens are
+worth correspondingly more.
+
+*(Superseded, retained for the record: "~$240 mid-range (~$90–390)" — down from ~$390
+(~$170–610).)* Excludes (a) the *confirmatory* protein-mutation cycle — UNPRICED, engine never run, and no longer
 the primary causal result — and (b) Optional/HELD ΔG_open + ABFE (~$200–500 more). Dominant uncertainties, in
 order: the **ensemble-MD leg count** (5c + retrospective), whether 4 fs holds over a full leg, and the number of
 recruiters that survive the 5a downselect. This table and `pricing.md` §C carry the same chain and must agree.
@@ -813,7 +855,7 @@ recruiters that survive the 5a downselect. This table and `pricing.md` §C carry
 | 2 · pilot (DONE) + Val B-mini (in flight, 2 fs) | 1–2 RBFE edges + 1 ternary edge | ~$1–3 + ~$7–15 | ~$15 |
 | **2b · NEW: 4 fs adoption + matched re-calibration** | 1 ternary edge @4 fs | **~$5–8** | ~$21 |
 | 3 · Val B cube (SMARCA2/4 module) + NR-V04 feas. (DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$20–65 + ~$8 | ~$71 |
-| 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | ~$12–26 + ~$15–40 | ~$117 |
+| 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | **~$91–101** — see the ⚠⚠ block (3-host rate on the real system) + ~$50–75 | *(table below the withdrawal note is pre-correction — see the ⚠⚠ block above)* |
 | 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference | ~$0–50 + ~$5–25 | ~$157 |
 | 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker($0–20) + ensemble MD ($15–100) + within-basin FEP ($10–45) | ~$25–165 | ~$252 |
 | Confirmatory protein-mutation cycle (optional) | — | **UNPRICED** | *(excl.)* |
