@@ -344,38 +344,38 @@ jobs:
       - name: Probe the pmx + GROMACS stack before baking it (FREE)
         if: ${{ github.event.inputs.protfep_task == 'pmx-probe' }}
         # trimcrae chose pmx + GROMACS over a commercial OpenEye licence (2026-07-24). Two facts
-        # decide the image, and both are answerable for $0:
-        #   1. Does conda-forge ship a CUDA-ENABLED GROMACS? If every build is CPU-only, renting a
-        #      4090 is pointless and the whole cost model changes — this is the load-bearing one.
-        #   2. Does pmx install? It is NOT on conda-forge (probed 2026-07-24), so it comes from
-        #      pip/GitHub, and its import surface needs checking before it is baked into an image.
+        # decide the image, and both are free to establish. Round 1 answered both in the negative for
+        # the WRONG reasons, which is why the corrections are spelled out here:
+        #   1. `gromacs=*=*cuda*` failed to solve with "__cuda is missing on the system" — that is the
+        #      GPU-LESS CI RUNNER lacking the virtual package, NOT an absence of CUDA builds. The fix
+        #      is CONDA_OVERRIDE_CUDA, which is also required at BAKE time since the builder has no GPU.
+        #   2. pip install from the pmx default branch refused Python 3.11 ("requires <3,>=2.7") — that
+        #      branch is the legacy PYTHON 2 codebase. The Python-3 line lives on `develop`.
         run: |
           set -eo pipefail
-          echo "=== CUDA-enabled GROMACS builds on conda-forge? ==="
-          docker run --rm mambaorg/micromamba:latest bash -lc "
-            micromamba search -c conda-forge 'gromacs' --json 2>/dev/null | python -c \"
-          import json,sys
-          d = json.load(sys.stdin)
-          pkgs = d.get('result',{}).get('pkgs', d.get('pkgs', []))
-          cuda = sorted({(p.get('version'), p.get('build')) for p in pkgs if 'cuda' in str(p.get('build','')).lower()})
-          print('total builds:', len(pkgs))
-          print('CUDA builds :', len(cuda))
-          for v,b in cuda[-15:]: print('   ', v, b)
-          \"" || echo "json search unavailable — falling back below"
-          echo "=== fallback: plain search + a dry-run solve for a cuda build ==="
-          docker run --rm mambaorg/micromamba:latest bash -lc "micromamba search -c conda-forge gromacs 2>&1 | tail -25"
-          docker run --rm mambaorg/micromamba:latest bash -lc "micromamba create -y -n g -c conda-forge 'gromacs=*=*cuda*' --dry-run 2>&1 | tail -25" || echo "NO CUDA GROMACS BUILD SOLVES"
-          echo "=== does pmx install from GitHub, and what is its API surface? ==="
+          echo "=== do CUDA GROMACS builds exist on conda-forge? (override the missing __cuda) ==="
+          docker run --rm -e CONDA_OVERRIDE_CUDA=12.4 mambaorg/micromamba:latest bash -lc "
+            micromamba create -y -n g -c conda-forge 'gromacs=*=*cuda*' --dry-run 2>&1 | tail -25"
+          echo "=== which gromacs build would we actually get? ==="
+          docker run --rm -e CONDA_OVERRIDE_CUDA=12.4 mambaorg/micromamba:latest bash -lc "
+            micromamba search -c conda-forge gromacs 2>&1 | grep -i cuda | tail -15 || echo '(no cuda in the short listing; the dry-run above is authoritative)'"
+          echo "=== pmx from the develop branch (Python 3) ==="
           docker run --rm python:3.11-slim bash -lc "
             apt-get update -q >/dev/null 2>&1 && apt-get install -y -q git build-essential >/dev/null 2>&1
             pip install -q numpy 'scipy<2' matplotlib 2>&1 | tail -2
-            pip install -q git+https://github.com/deGrootLab/pmx.git 2>&1 | tail -15
+            pip install -q 'git+https://github.com/deGrootLab/pmx.git@develop' 2>&1 | tail -20
             python -c \"
-          import pmx, inspect
+          import pmx, pkgutil
           print('pmx from', pmx.__file__)
-          import pkgutil
-          print('submodules:', sorted(m.name for m in pkgutil.iter_modules(pmx.__path__))[:30])
-          \"" || echo "PMX INSTALL FAILED (see above) — try the develop branch or a release tag"
+          print('submodules:', sorted(m.name for m in pkgutil.iter_modules(pmx.__path__)))
+          from pmx import Model
+          print('pmx.Model OK')
+          try:
+              from pmx.scripts.workflows import *
+              print('workflows importable')
+          except Exception as e:
+              print('workflows import:', type(e).__name__, e)
+          \"" || echo "PMX DEVELOP INSTALL FAILED — see above"
 
       - name: Submit Vast leg(s)
         if: ${{ contains(fromJSON('["smoke","pilot","launch"]'), github.event.inputs.protfep_task) }}
