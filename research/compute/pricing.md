@@ -86,16 +86,23 @@ basis at all** pending engine scoping.
 | `valB_mini` ternary | 1 ternary edge | **~$7–15 Vast 4090** (**~$94 as-run on L4 on-demand**) | **PROJECTED** from a measured rate (~132 L4-GPU-h; no leg has completed) |
 | `valB_full` ternary cube | 2–3 ternary edges + CRL-MD module | **~$35–100 Vast 4090** | PROJECTED (same ternary base) |
 | `nrv04_feasibility_covalent` | 18 endpoint-MD legs | **~$8** | MEASURED |
-| `nrv04_retrospective` | NR4A1/2/3 ternary ensembles | **~$25–55** (swing: ensemble-MD leg count) | MEASURED-derived |
+| `nrv04_retrospective` | NR4A1/2/3 ternary ensembles: ~3–6 ternary edges + endpoint-MD ensembles | **~$45–115** (swing: ensemble-MD leg count) | **PROJECTED** (ternary component; endpoint component MEASURED). *Was ~$25–55 on the corrected-away partial-leg base.* |
+| `5a` orientation-basin search | CPU $0 + optional MM-GBSA rescore | **~$0–50** | MEASURED-derived |
 | **5a-KS kill-switch decision** (atlas + basin + 1 mutation direction) | $0 + $0–50 + **1 protein-mutation direction — NO ENGINE EXISTS** | **UNPRICED** (was "~$5–60") | **⚠ NOT DERIVABLE** — see B.3: OpenFE RHTP is ligand-only; the repo's sole protein-mutation path is MM-GBSA endpoint scoring. Needs engine scoping before any price |
 | full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 protein-mutation directions | **UNPRICED** (was "~$15–30") | **⚠ NOT DERIVABLE** — same missing engine as above |
+| `5b` inverse linker design | mostly CPU $0 + occasional rescore | **~$0–20** | MEASURED-derived |
 | ensemble refinement / CRL MD | endpoint MD, dozens–~200 legs | **~$20–150** | MEASURED-derived (swing item) |
 | local within-basin FEP | 3–6 ternary edges | **~$21–90** | PROJECTED (ternary base ×3–6) |
 | `ternary_prospective_matrix` (now 5a–5d ladder) | ~4–12 constructs via 5c/5d | **folded into 5c+5d above** | MEASURED-derived |
 
-**★ Whole gated ladder ≈ ~$320 mid-range (~$190–520) for the PRICEABLE stages, Vast 4090, GO at every gate**
+**★ Whole gated ladder ≈ ~$370 mid-range (~$150–595) for the PRICEABLE stages, Vast 4090, GO at every gate**
 (optional/HELD ΔG_open + ABFE excluded, ~$200–500 more; **the 5a-KS wedge and the reciprocal mutation cycle are
-NOT in this total — they are UNPRICED pending engine scoping, see B.3**).
+NOT in this total — they are UNPRICED pending engine scoping, see B.3**). Arithmetic: the low/high columns of the
+priceable rows above sum to **$150 / $595**; `STRATEGY.md`'s spend table carries the same chain rung-by-rung and
+must agree with this line. *(Was "~$320 (~$190–520)" for a few hours on 2026-07-24, before `nrv04_retrospective`
+was re-derived off the corrected ternary base and the 5a-basin / 5b-linker rows were pulled out of the unpriced
+5a-KS row. The move from ~$270 → ~$370 is ~2/3 the ternary-base correction and ~1/3 rows that were previously
+bundled into an unpriced line; **no new work was added to the ladder.**)*
 
 **⚠ CORRECTED 2026-07-24 — the previous line here read "Now that every base is measured, the ladder totals
 cleanly." It does not, on two counts:**
