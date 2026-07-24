@@ -55,7 +55,7 @@ PRICE_KEYS = ("p10", "P10", "price_p10", "dph_p10", "percentile_10", "q10",
               "min_price", "minPrice", "low", "min",
               "median", "p50", "price_median", "dph_median",
               "avg_price", "avgPrice", "price", "usd_per_hour", "price_per_hour")
-TIME_KEYS = ("ts", "time", "timestamp", "t", "date", "bucket", "period")
+TIME_KEYS = ("day", "ts", "time", "timestamp", "t", "date", "bucket", "period")
 
 
 def _get(path, params=None, api_key=None, timeout=60, base=None):
@@ -101,28 +101,64 @@ def _first(d, keys):
 
 SOURCE_TAG = ["external_price_tracker"]
 
+# gpuwatch's /api/history returns a PANEL, not a series: one row per (day, provider, kind). Pooling all of it
+# produces a cross-provider spread masquerading as a price history — which is exactly what the first version of
+# this parser did (runpod-secure at $0.69 sat in the same "distribution" as vast-any at $0.14). Filter to the
+# provider, and keep `kind` as a separate series rather than mixing them.
+PROVIDER = "vast"
 
-def parse_series(payload):
-    """-> (records, diagnostic). Each record matches the sampler's JSONL schema so both sources can be pooled."""
-    path, series = _walk_for_series(payload)
+
+def parse_series(payload, provider=PROVIDER, kind=None):
+    """-> (records, diagnostic). One record per (day, kind), matching the sampler's JSONL schema.
+
+    `kind` selects gpuwatch's slice: 'verified' is the closest analogue of our own offer filter
+    (`verified: {eq: True}`), 'any' is the whole platform. They are NOT pooled."""
+    series = None
+    if isinstance(payload, dict):
+        for k in ("series", "history", "data", "rows"):
+            if isinstance(payload.get(k), list):
+                series = payload[k]
+                break
+    if series is None:
+        path, series = _walk_for_series(payload)
     if not series:
-        return [], {"found": False, "top_level_keys": list(payload)[:20] if isinstance(payload, dict) else None,
-                    "note": "no price-shaped list-of-dicts found; inspect vast-price-history-raw.json"}
+        return [], {"found": False,
+                    "top_level_keys": list(payload)[:20] if isinstance(payload, dict) else None,
+                    "note": "no series found; inspect vast-price-history-raw.json"}
+
+    kinds = sorted({str(r.get("kind")) for r in series if _matches(r, provider)})
+    rows = [r for r in series if _matches(r, provider) and (kind is None or str(r.get("kind")) == kind)]
     out = []
-    for row in series:
-        price = _first(row, PRICE_KEYS)
-        ts = _first(row, TIME_KEYS)
-        try:
-            price = float(price)
-        except (TypeError, ValueError):
+    for r in rows:
+        price = _num(_first(r, PRICE_KEYS))
+        if not price or price <= 0:
             continue
-        if price <= 0:
-            continue
-        out.append({"ts": ts, "source": SOURCE_TAG[0], "n_offers": None,
-                    "min_floor": price, "median_floor": _num(_first(row, ("median", "p50"))),
-                    "floors": []})
-    return out, {"found": True, "series_path": path, "n_rows": len(series), "n_parsed": len(out),
+        out.append({"ts": _epoch_to_iso(_first(r, TIME_KEYS)), "source": SOURCE_TAG[0],
+                    "provider": r.get("provider"), "kind": r.get("kind"),
+                    "n_offers": None, "min_floor": price, "median_floor": None, "floors": []})
+    out.sort(key=lambda r: (r["ts"] or "", r.get("kind") or ""))
+    return out, {"found": True, "n_rows_total": len(series), "n_rows_provider": len(rows),
+                 "n_parsed": len(out), "provider": provider, "kind_filter": kind,
+                 "kinds_available": kinds,
+                 "granularity_warning": ("DAILY lows, not hourly — intraday variation, where much of the "
+                                         "waiting value lives, is NOT captured by this source"),
                  "sample_row_keys": sorted(series[0].keys())[:25]}
+
+
+def _matches(row, provider):
+    return provider is None or provider.lower() in str(row.get("provider", "")).lower()
+
+
+def _epoch_to_iso(v):
+    """gpuwatch reports `day` as epoch MILLISECONDS."""
+    try:
+        n = float(v)
+    except (TypeError, ValueError):
+        return v if isinstance(v, str) else None
+    if n > 1e11:
+        n /= 1000.0
+    import datetime
+    return datetime.datetime.fromtimestamp(n, datetime.timezone.utc).isoformat(timespec="seconds")
 
 
 def _num(v):
@@ -139,6 +175,9 @@ def main(argv=None):
     ap.add_argument("--step", default="hour")
     ap.add_argument("--out", default=os.path.join(HERE, "vast-price-history.jsonl"))
     ap.add_argument("--raw", default=os.path.join(HERE, "vast-price-history-raw.json"))
+    ap.add_argument("--provider", default=PROVIDER)
+    ap.add_argument("--kind", default=None,
+                    help="gpuwatch slice: verified (closest to our offer filter) | any. NOT pooled.")
     args = ap.parse_args(argv)
     key = os.environ.get("VAST_API_KEY") or None
 
@@ -177,7 +216,7 @@ def main(argv=None):
                      else "gpuwatch_tracker")
     with open(args.raw, "w") as f:
         json.dump({"_source": used, "payload": payload}, f, indent=1)
-    records, diag = parse_series(payload)
+    records, diag = parse_series(payload, args.provider, args.kind)
     if records:
         with open(args.out, "a") as f:
             for r in records:

@@ -116,7 +116,7 @@ If the churn floor binds, the message is *"tighten checkpointing"*, not *"pay mo
 
 **The gap this closes:** §3c's cold start means the absence of a price history is **no longer blocking** — the policy runs from day one and improves as the sampler fills in. What follows applies to the *static* form only.
 
-**No price history yet.** Every observation ever taken was at the instant we wanted to
+**Our own hourly series is still worth having** (see §3d — the external source is daily-only). Every observation ever taken was at the instant we wanted to
 launch, which is exactly the biased sample you must not set `P*` from. `reservation_price()` therefore **refuses
 to return a number without one** rather than inventing a target. `.github/workflows/vast-price-sample.yml`
 samples the market hourly (read-only, $0) and begins once it reaches main.
@@ -180,6 +180,47 @@ ceiling as slack runs out — exactly the urgency behaviour the derivation predi
 
 **The price process is invented.** Re-run against `vast-price-history.jsonl` once the sampler has built a real
 series; the table above is not a forecast of savings.
+
+## 3d. ★★ REAL PRICE HISTORY OBTAINED — and it deflates my own waiting thesis
+
+I claimed no price history existed and that we'd have to accumulate one hour-by-hour. **I never checked, and it
+was wrong.** Vast publishes market metrics directly
+(`console.vast.ai/api/v0/metrics/gpu/{current,history,locations}/`, hourly, P10/median/P90) — though those are
+gated to a logged-in console session and refuse our API key (`auth_error: This action requires login`,
+established by running it). A documented public tracker, [gpuwatch](https://gpu.watchworks.dev/), serves the
+same market free during beta with **400-day retention**.
+
+**First parse was wrong and the raw dump caught it.** `/api/history` returns a **panel** — one row per
+`(day, provider, kind)` — and my parser pooled the lot, putting runpod-secure at $0.69 into the same
+"distribution" as vast-any at $0.14. That is a cross-provider spread, not a price history. Fixed: filter to
+`provider=vast`, keep `kind` as separate series, `day` is epoch-ms.
+
+**Vast RTX 4090, 20 daily observations (2026-07-05 → 07-24):**
+
+| slice | floor range | peak-to-trough | days at/near the trough |
+|---|---|---|---|
+| `vast/any` | $0.1356 – $0.1689 | 19.7 % | **17 / 20** |
+| `vast/verified` | $0.2422 – $0.2896 | 16.4 % | 1 / 20 |
+
+**The floor is flat.** The cheap price *is* the normal price — `vast/any` sat at its trough on 17 of 20 days. So
+at daily granularity there is very little to wait *for*, and the synthetic backtest in §3c — whose diurnal
+amplitude I invented — **overstates the value of waiting by a wide margin**. The algorithm is validated by that
+backtest; the magnitude is not, and must not be quoted.
+
+**What waiting is actually worth:** target $0.1356 against today's observed $0.1733 = **21.8 %**, with the target
+reachable **85 %** of the time. That is real but modest, and because it is reachable almost always it is less
+"wait for a dip" than "stop overpaying for the spot price."
+
+**Ordering the effects, largest first:**
+1. **~38 %** — stop bidding 1.9× a floor that currently *equals* on-demand (measured, §3).
+2. **~22 %** — target the low end of the distribution rather than the moment's price (measured here).
+3. **Unknown** — intraday variation. The tracker reports **daily lows only**, so it cannot see it, and this is
+   where any remaining waiting value would live. Our own hourly sampler is what settles it.
+
+**Level mismatch, flagged not smoothed over.** Our filtered query found $0.147 today, *below* the tracker's
+`verified` low ($0.242–0.290) and near its `any` low ($0.136). So the tracker's `verified` slice is **not** our
+rentable subset. Use the external series for the **shape and dynamics** of the distribution; calibrate the
+**level** against our own observations before letting it set an absolute reservation price.
 
 ## 4. Policy
 
