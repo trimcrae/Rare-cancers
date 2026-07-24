@@ -459,6 +459,33 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
     energy by a system-size-dependent amount that does not cancel between the differently-sized ternary and
     binary boxes). `plan_wedge` refuses a charge-changing mutation unless an explicit correction strategy is
     chosen. **Prefer a charge-conserving handle (L406/T410/I484/I531/L534) for the FIRST causal test.**
+  - **⛔ BLOCKED ON A COMMERCIAL LICENCE — perses is not usable here (established 2026-07-24 PM, by
+    running it).** The benchmark lane was built and launched, and the first real leg failed in
+    perses' *core protein-mutation path*, not its ligand branch:
+
+    ```
+    PointMutationEngine.propose
+      -> _construct_atom_map                  (topology_proposal.py:634)
+      -> PolymerProposalEngine.generate_oemol_from_pdb_template  (:1179, :1180)
+      -> createOEMolFromSDF                   (:487)
+      -> oechem.oemolistream()                (perses/utils/openeye.py:346)
+    ```
+
+    perses 0.10.3 builds the **old→new residue atom map** — which *is* the alchemical transformation
+    — by round-tripping each residue template through an OpenEye OEMol. **OpenEye is commercial and
+    licence-gated.** Probed on free CI: `generate_oemol_from_pdb_template` has no conditional and no
+    RDKit alternative (perses' only RDKit-backed mapper, `rjmc/atom_mapping.py`, is the *ligand*
+    mapper and is not on this path). An import shim satisfies the import but correctly REFUSES the
+    call rather than fabricating a map.
+    **Cost of learning this: ~$0.05 of Vast time** — the smoke plus two free CI probes.
+    **Everything except the perses-specific `build_htf` is engine-agnostic and stands:** staging with
+    a mutation-site check, the SKEMPI-verified references, scoring, the qualification verdict, the
+    price reduction, the Vast lane, the reap.
+    **Alternatives, priced on free CI:** `pmx` (the published GROMACS-based protein-mutation FEP
+    engine) is **not on conda-forge** — pip/GitHub install — while **GROMACS is** (2025.4). So the
+    free route exists but means a second MD stack. **This is a trimcrae fork** (licence vs second MD
+    stack vs descope) and is recorded as open.
+
   - **⛔ NOT YET CLEARED — validation.** No leg has run. The engine must recover the known-answer
     protein-mutation benchmarks (barnase–barstar Y29A/Y29F; both charge-conserving so engine error is not
     confounded with the charge artifact) **within ~1.5 kcal/mol AND in the right order** before
