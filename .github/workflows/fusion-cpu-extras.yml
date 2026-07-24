@@ -467,7 +467,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nrv04-vast-handles
-          path: research/modalities/nrv04-vast-handles.json
+          path: |
+            research/modalities/nrv04-vast-handles.json
+            research/modalities/nrv04-retro-handles.json
           if-no-files-found: ignore
 
   run:
