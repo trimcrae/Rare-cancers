@@ -460,10 +460,38 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
     binary boxes). `plan_wedge` refuses a charge-changing mutation unless an explicit correction strategy is
     chosen. **Prefer a charge-conserving handle (L406/T410/I484/I531/L534) for the FIRST causal test.**
   - **⛔ NOT YET CLEARED — validation.** No leg has run. The engine must recover the known-answer
-    protein-mutation benchmarks (barnase–barstar Y29A/Y29F, hGH–hGHR W104A; all charge-conserving so engine
-    error is not confounded with the charge artifact) **within ~1.5 kcal/mol AND in the right order** before
+    protein-mutation benchmarks (barnase–barstar Y29A/Y29F; both charge-conserving so engine error is not
+    confounded with the charge artifact) **within ~1.5 kcal/mol AND in the right order** before
     5a-KS contributes any number to the manuscript. That benchmark is what prices this rung; until it runs,
     UNPRICED remains the honest label.
+
+  **EXECUTION LAYER BUILT + BENCHMARK LANE LAUNCHED (2026-07-24 PM, this branch).** "Engine built" that
+  morning covered only the *planning* layer — guards, wedge arithmetic, a `PointMutationExecutor`
+  constructor. Nothing could run a leg, which is precisely why there was no rate to price from. Now built
+  and pushed:
+  [`protfep_run.py`](research/modalities/protfep_run.py) (perses hybrid → replica-exchange sampling →
+  MBAR, per-chunk checkpoint/resume, partial leg JSON as the deliverable on a timeout),
+  [`protfep_bench.py`](research/modalities/protfep_bench.py) (benchmark systems, RCSB staging with a
+  mutation-site check that **refuses** to stage if the residue at the site is not the one named, scoring +
+  the qualification verdict), [`protfep_reduce.py`](research/modalities/protfep_reduce.py) (legs → ΔΔG →
+  verdict **and** the first measured per-leg rate), [`protfep_refcheck.py`](research/modalities/protfep_refcheck.py)
+  (recomputes the reference ΔΔG from SKEMPI 2.0's deposited Kd values, because the pass criterion is
+  computed against those numbers), plus the Vast image + launcher + workflow.
+  - **Latent error caught in the build:** the engine's hand-written benchmark list put barstar's Y29 on
+    **chain A**, which in 1BRS is *barnase*. The list is now derived from `protfep_bench` rather than
+    duplicated, and CI verifies the staged site against the deposited structure (confirmed 2026-07-24:
+    chain D = barstar, 87 residues, **TYR at 29**; chain A = barnase, 108 residues).
+  - **Ladder position unchanged.** The engine is still **UNVALIDATED** and the rung still **UNPRICED**. A
+    built execution layer is not a passed benchmark. `plan_wedge` continues to stamp `validated: false`
+    into every plan, and the reducer's verdict cannot go green on a partial set or a wrong ordering.
+  - **Sequence, cheapest-decisive-first:** smoke (~$0.10, proves image+perses+sampler+MBAR+S3) → pilot
+    (both legs of Y29A, ~$1–3 — **the abort gate**: no recovery of the canonical hot spot ⇒ the wedge is
+    not deliverable and the set is not worth paying for) → full set (~$5–10) only if the pilot sees it.
+  - **Declared physics deviation:** 2 fs with a 1 fs warmup, not the canonical 4 fs+HMR. Softcore regions
+    are where the ternary lane NaN'd, the timestep is empirical with no static predictor, and on a
+    brand-new engine's first leg a NaN costs the whole rental while 2 fs costs ~2× the iterations of a
+    sub-dollar leg. Escalate only after this lane survives a full leg — and record it; do not assume it
+    transfers from another lane.
 
   **⚠ BLOCKER 1 — NO PROTEIN-MUTATION FEP ENGINE EXISTS IN THIS REPO (added 2026-07-24).** The old price
   ("3→1 = one binary RBFE + one ternary edge") assumed a paralogue swap runs on the same machinery as a ligand
@@ -573,8 +601,8 @@ RUNG3  valB_full cube + nrv04_feasibility [x]  ──[GO?]──►             
           │
 RUNG4  step1_fanout ∥ atlas [x]($0) ──► nrv04_retrospective ──[concordant?]──►   (Cum ~$187)
           │
-RUNG5  basin_search($0–50) ──► ⚠ wedge PILOT leg — ENGINE BUILT, UNVALIDATED, still UNPRICED
-          │         (engine: nr4a3_protein_fep.py, perses PointMutationExecutor — built
+RUNG5  basin_search($0–50) ──► ⚠ wedge PILOT leg — ENGINE + EXECUTION LAYER BUILT, UNVALIDATED, still UNPRICED
+          │         (engine: nr4a3_protein_fep.py + protfep_run.py, perses PointMutationExecutor — built
           │          2026-07-24 on trimcrae's build-don't-descope decision. Gated on a
           │          known-answer benchmark; charge model pinned by a hard guard)
           │      └── benchmark FAILS ⇒ the wedge is not deliverable; fall back to the
@@ -590,7 +618,10 @@ OPTIONAL/HELD (explicit nod only): dg_open_paralogue, abfe_conditional
 ```
 
 **Current front:** Rungs 0–1 done; the NR-V04 covalent feasibility panel and the NR4A differential surface atlas
-are done; **valB_mini** is the live front (a direct Vast-4090 ternary timing run is hardening its per-edge cost,
+are done. **TWO lanes are live in parallel** (2026-07-24 PM): **valB_mini** on GCP L4 (free trial credit), and the
+**5a-KS known-answer benchmark** on Vast 4090 — disjoint engines (OpenFE ligand RBFE vs perses protein mutation),
+disjoint providers, disjoint rungs, so neither can block the other. The 5a-KS lane is the one that can move the
+ladder's only *unscoped* rung from UNPRICED to priced. valB_mini (a direct Vast-4090 ternary timing run is hardening its per-edge cost,
 which the 920-of-2,400-iteration correction above shows is still the least-pinned base in the ladder). Nothing
 with a GPU price launches without an explicit go.
 

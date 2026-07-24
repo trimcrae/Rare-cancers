@@ -307,3 +307,75 @@ def test_labels_are_vast_safe_and_reapable():
             assert label.startswith(pv.LABEL_PREFIX), "the reap finds instances by this prefix"
             assert len(label) <= 60
             assert "_" not in label
+
+
+# ---------------------------------------------------------------- reference verification (SKEMPI)
+import protfep_refcheck as rc  # noqa: E402
+
+_SKEMPI = ("#Pdb;Mutation(s)_PDB;Affinity_mut (M);Affinity_wt (M);Temperature;Reference\n"
+           "1BRS_A_D;YD29A;1.2E-11;1.0E-13;298;Schreiber 1995\n"
+           "1BRS_A_D;YD29F;3.0E-13;1.0E-13;298(assumed);Schreiber 1995\n"
+           "1BRS_A_D;YD29A,DD39A;5.0E-9;1.0E-13;298;double mutant\n"
+           "2ABC_A_B;YD29A;1.0E-9;1.0E-13;298;different complex\n")
+
+
+def test_ddg_from_kd_arithmetic():
+    """A 100-fold weaker Kd at 298 K is RT*ln(100) = 2.73 kcal/mol, positive = binds worse."""
+    assert rc.ddg_from_kd(1e-11, 1e-13, 298) == pytest.approx(2.728, abs=0.01)
+    assert rc.ddg_from_kd(1e-13, 1e-13, 298) == pytest.approx(0.0, abs=1e-9)
+
+
+def test_ddg_from_kd_rejects_nonpositive():
+    with pytest.raises(ValueError):
+        rc.ddg_from_kd(0, 1e-13, 298)
+
+
+def test_multi_mutant_records_are_rejected():
+    """A double-mutant ddG is not the single-mutation quantity the alchemical leg computes."""
+    assert rc.mutation_matches("YD29A", "D", 29, "Y", "A") is True
+    assert rc.mutation_matches("YD29A,DD39A", "D", 29, "Y", "A") is False
+    assert rc.mutation_matches("YA29A", "D", 29, "Y", "A") is False, "wrong chain must not match"
+    assert rc.mutation_matches("", "D", 29, "Y", "A") is False
+
+
+def test_temperature_annotations_are_parsed_and_assumptions_flagged():
+    assert rc.parse_temperature("298(assumed)") == (298.0, False)
+    assert rc.parse_temperature("") == (298.15, True)
+    assert rc.parse_temperature("garbage") == (298.15, True)
+    assert rc.parse_temperature("9999")[1] is True, "out-of-range temperature falls back and flags"
+
+
+def test_records_for_filters_by_complex_and_mutation():
+    hits, skipped, errors = rc.records_for(_SKEMPI, "1BRS", "D", 29, "Y", "A")
+    assert errors == []
+    assert len(hits) == 1, "the double mutant and the different complex must be excluded"
+    assert hits[0]["ddg_kcal"] == pytest.approx(2.835, abs=0.01)
+
+
+def test_check_confirms_a_stored_reference_within_tolerance():
+    rep = rc.check(csv_text=_SKEMPI)
+    assert rep["benchmarks"]["barnase_barstar_Y29A"]["agrees"] is True
+    assert rep["benchmarks"]["barnase_barstar_Y29F"]["agrees"] is True
+
+
+def test_check_flags_a_disagreeing_reference():
+    bad = _SKEMPI.replace("1.2E-11;1.0E-13;298;Schreiber", "1.0E-8;1.0E-13;298;Schreiber")
+    rep = rc.check(csv_text=bad)
+    e = rep["benchmarks"]["barnase_barstar_Y29A"]
+    assert e["agrees"] is False
+    assert "DISAGREES" in e["verdict"]
+    assert rep["all_confirmed"] is False
+
+
+def test_check_does_not_upgrade_verification_on_a_null_result():
+    """No record found is NOT confirmation — it must stay unverified, not silently pass."""
+    rep = rc.check(csv_text="#Pdb;Mutation(s)_PDB;Affinity_mut (M);Affinity_wt (M);Temperature\n")
+    for e in rep["benchmarks"].values():
+        assert e["agrees"] is None
+        assert "NOT FOUND" in e["verdict"]
+    assert rep["all_confirmed"] is False
+
+
+def test_check_reports_a_missing_column_rather_than_silently_finding_nothing():
+    hits, skipped, errors = rc.records_for("wrong;header;entirely\na;b;c\n", "1BRS", "D", 29, "Y", "A")
+    assert errors and "columns not found" in errors[0]

@@ -130,7 +130,9 @@
       "optimistic_days": 1,
       "remaining_days": 0,
       "parallel_ok": true,
-      "depends_on": ["step0_rbfe_mechanics"],
+      "depends_on": [
+        "step0_rbfe_mechanics"
+      ],
       "note": "Mandatory change 1A, REDUCED. The RUNG-0 charge-model fix (added ambertools>=23 to environment-rbfe.yml; partial_charge_method='am1bcc') put us on the STANDARD documented method, so am1bcc is what OpenFE's published ~1.7 kcal/mol benchmark rests on - we CITE that and only run a minimal 1-2 public known-answer edge to confirm OUR container build reproduces a known ddG (charging verify is CPU/$0; confirming MD edge ~$5-15). Does NOT touch NR4A - build-consistency check. GO/NO-GO: 1-2 edges land near known ddG -> build sound, GO. Off -> real container bug, fix before spending. FALLBACK: if am1bcc charging ever fails on a specific ligand, set CHARGE_METHOD=nagl and Val A reverts to the paid ~$25 NAGL-validation benchmark. NOT pre-authorized - presented with a pinned cost after step 0."
     },
     {
@@ -142,7 +144,9 @@
       "optimistic_days": 3,
       "remaining_days": 0,
       "parallel_ok": true,
-      "depends_on": ["valA_mini"],
+      "depends_on": [
+        "valA_mini"
+      ],
       "result_first_edge": {
         "date": "2026-07-18",
         "edge": "zaienne_cmpd19 -> cw_ev_5nh2 (5-Br -> 5-NH2 indole)",
@@ -169,7 +173,9 @@
       "optimistic_days": 3,
       "remaining_days": 3,
       "parallel_ok": true,
-      "depends_on": ["valA_mini"],
+      "depends_on": [
+        "valA_mini"
+      ],
       "note": "Mandatory change 1C. REDESIGNED TWICE on 2026-07-17 (research/manuscripts/valB-reviewer-decision-2026-07-17.md). (a) The original hi->lo panel edge (P1->P5) is NOT congeneric; a wide RCSB search found no clean same-assay congeneric both-alpha edge. (b) The first substitute PROTAC 2 -> cis-PROTAC 2 (epimer) was RETIRED by the reviewer (Option-1 GO): a pure single-stereocenter inversion is a NULL alchemical transformation under the production complete single-topology map (identical FF params, 124/124 atoms mapped -> ddG ~ 0 by construction; verified by an endpoint-verification smoke) and needs a bespoke partial/dummy map that is NOT the production protocol. APPROVED replacement = Wurz et al. (Nat Commun 2023) SMARCA2-VHL compound 1 -> compound 4: same-paper SPR alpha 12.8 -> 2.6, a GENUINE constitutional edge (minimal linker pyridine->benzene = ring N->CH), preregistered ddG_coop_exp = -RT ln(2.6/12.8) = +0.94 kcal/mol. Staged from PDB 8G1Q (3.73 A SMARCA4-cmpd1-VHL; NOT a SMARCA2 crystal) with a mandated SMARCA4->SMARCA2 BD substitution + >=2 relaxed models + divergence check. Built + CPU-validated: wurz-calib-frozen.json, wurz_calib_freeze.py, resolver (resolved_calib_wurz), smarca2_model.py (SMARCA4->SMARCA2), ternary_pdb_stage.py assembly, 5-part $0 smoke gate (nr4a3_ternary_fep._five_part_gate), null-map guard + regression test (tests/test_null_map_guard.py). $0 PRE-SPEND GATE (GPU only when the smoke records all 5): (1) chemical identity built==published + not graph-identical after stereo removal; (2) non-null map (linker N->C, no unintended stereocenter change); (3) same atom map + E3 construct in binary & ternary; (4) 8G1Q SMARCA4->SMARCA2 relax >=2 models divergence_ok; (5) alpha_SPR label + +0.94 + SMARCA2-model limitation. DECISION RULE (the +-1.0 kcal/mol band is REMOVED; separation<1 kcal/mol makes a noisy positive point estimate INDETERMINATE): PASS requires positive sign + CI excludes zero + no fwd/rev disagreement + no collapse/escape/restraint-dominated + broad consistency with +0.94. valB_mini GATES valB_full only; NR4A ternary scores stay EXPLORATORY until valB_full passes."
     },
     {
@@ -181,7 +187,9 @@
       "optimistic_days": 0,
       "remaining_days": 0,
       "parallel_ok": true,
-      "depends_on": ["valA_mini"],
+      "depends_on": [
+        "valA_mini"
+      ],
       "result": "SKIPPED 2026-07-18. Skip condition met: valA_mini reproduced the known TYK2 ddG cleanly (abs_err 0.61 < 2.0) on the STANDARD am1bcc method (post RUNG-0 charge fix), NOT the NAGL surrogate. valA_full's only purpose was to characterize/repair a NAGL-introduced discrepancy, which no longer exists -> a full 10-20 edge re-derivation is redundant with OpenFE's published ~1.7 kcal/mol benchmark for this exact reference protocol. Paper cites OpenFE for accuracy; valA_mini stands as a single-edge build-consistency confirmation (NOT a standalone accuracy benchmark). RE-OPEN only if am1bcc charging is later forced onto NAGL (CHARGE_METHOD=nagl) for some ligand.",
       "note": "Mandatory change 1A (full). SKIPPED - see result. Original GO/NO-GO if run: RMSE in a defensible band (~<=2 kcal/mol, comparable to OpenFE public ~1.7) -> GO. step1_fanout's Val-A accuracy gate is now satisfied by 'cite OpenFE + clean valA_mini' rather than by running valA_full."
     },
@@ -194,7 +202,9 @@
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": true,
-      "depends_on": ["valB_mini"],
+      "depends_on": [
+        "valB_mini"
+      ],
       "note": "Mandatory change 1C + 2026-07-24 restructuring. Only if valB_mini = GO. Four separately-calibrated MODULES, each with its own uncertainty model + pass/fail (a failed module -> qualitative-only; NO blanket 'ternary pipeline validated'): (1) all-binding graded cooperativity [already run as valB-mini Wurz 1->4; add >=1 more graded edge for coverage; Vast 4090 ~$65-110/edge]; (2) ternary pose recovery [generator includes the known orientation in top-k with calibrated confidence; co-fold/CI ~$0]; (3) paralogue discrimination [same degrader across close paralogues on a public system with a known differential - the direct analogue of the NR4A ask; 4090 ~$65-110]; (4) productive-vs-unproductive ubiquitination geometry [full-CRL model separates ternary occupancy from Ub-transfer competence on a public system with mapped lysines; 4090 MD ~$10-40]. Plus the cis-epimer negative-endpoint STRESS module (demoted from valB-mini; a pass forced by artificially holding the active pose is not a pass). GATE: the prospective ladder never runs unless the cooperativity + paralogue-discrimination modules pass (calibrated intervals, correct direction on held-out observations)."
     },
     {
@@ -209,7 +219,9 @@
       "optimistic_days": 3,
       "remaining_days": 0,
       "parallel_ok": true,
-      "depends_on": ["valB_mini"],
+      "depends_on": [
+        "valB_mini"
+      ],
       "note": "Mandatory change 4. Covalent celastrol-NR4A1 (C551) adduct + noncov/cov sensitivity + C551A control + warhead-only/recruiter controls. GO/NO-GO OUTCOME (2026-07-24): GO. Covalency did not swamp the signal (no blow-ups; cov_nr4a1 majority-stable), the panel behaved, and the endpoint-stability readout even recovered an active-vs-epimer discrimination the static co-fold could not. Written into nr4a3-degrader-paper.md 2026-07-24 as the covalent-adduct endpoint-MD feasibility subsection in the NR-V04/co-fold section, feasibility-framed. LAUNCHED 2026-07-23 with the SVD/blow-up finite-guard fix; COMPLETED 2026-07-24 (17/18) after the checkpoint-resume + snapshot-retry + bid-hold + host-filter infra fixes."
     },
     {
@@ -221,7 +233,9 @@
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": true,
-      "depends_on": ["step1_pilot_cmpd19"],
+      "depends_on": [
+        "step1_pilot_cmpd19"
+      ],
       "note": "GATE: Val A accuracy satisfied (valA_full SKIPPED - valA_mini clean on am1bcc -> cite OpenFE) AND the Step 1 pilot behaved. Full congeneric map across druggable 8XTT conformers, release-derived NR4A3 conformers, matched NR4A1/NR4A2 open conformers, resolved microstates. Rank by worst conformer AND receptor>conformer, as CONDITIONAL hypotheses with sensitivity ranges (no synthetic ensemble affinity)."
     },
     {
@@ -233,7 +247,11 @@
       "optimistic_days": 5,
       "remaining_days": 5,
       "parallel_ok": false,
-      "depends_on": ["valB_full", "nrv04_feasibility_covalent", "step1_fanout_cmpd19"],
+      "depends_on": [
+        "valB_full",
+        "nrv04_feasibility_covalent",
+        "step1_fanout_cmpd19"
+      ],
       "note": "Full NR4A1/2/3 ensembles through the physics + ubiquitination pipeline, NO tuning, preregistered scoring (fixed on Val B-full), VHL-inactive epimer negative control. Report DIRECTIONAL CONCORDANCE/DISCORDANCE - NEVER 'recovered degradation'. GO/NO-GO: at least directionally concordant with NR4A1-degraded / NR4A2.NR4A3-spared -> GO to the matrix. Discordant -> matrix NOT justified; publish the honest negative."
     },
     {
@@ -258,21 +276,32 @@
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": true,
-      "depends_on": ["nr4a_differential_atlas", "step1_fanout_cmpd19"],
+      "depends_on": [
+        "nr4a_differential_atlas",
+        "step1_fanout_cmpd19"
+      ],
       "note": "2026-07-24 restructuring. Broad VHL/CRBN transform sampling (flexible linker-reach restraint); matched 3-paralogue interface scoring; cluster into ~3-8 basins/ligase; cheap counterfactual residue screen to NOMINATE wedges. Cheap scoring NOMINATES only; the go/no-go is the alchemical mutation-cycle confirm (selectivity_wedge_confirm), NOT these coarse scores (poor S/N for small paralogue differences)."
     },
     {
       "id": "selectivity_wedge_confirm",
       "title": "RUNG 5a-KS: pilot-first wedge KILL-SWITCH (cheap gate) + reciprocal mutation cycle (causal result)",
-      "status": "pending",
+      "status": "in_progress",
       "track": "gpu",
-      "cost_est_usd": "UNPRICED - engine BUILT 2026-07-24 but NEVER RUN, so still not priceable (an engine is not a rate). The prior '~$5-10 pilot / ~$15-30 full cycle' assumed a paralogue swap (NR4A3->NR4A1) is priced as a binary RBFE edge + a ternary edge. It is not: a 3->1 swap is a PROTEIN-RESIDUE mutation, and OpenFE's RelativeHybridTopologyProtocol - the only alchemical engine in this repo - builds its hybrid topology from a LIGAND-to-ligand atom mapping (every 'mutation' in nr4a3_rbfe.py:221 / rbfe_map.py:30,464 is a ligand substituent). The repo's ONLY protein-mutation path is nr4a3_resistance_ddg.py:53 (PDBFixer applyMutations) scored by MM-GBSA endpoint dG, which is NOT alchemical. An engine now EXISTS (research/modalities/nr4a3_protein_fep.py: perses PointMutationExecutor + openmmtools MultiState + MBAR, built 2026-07-24 on trimcrae's build-don't-descope decision), but it has never run, so there is no per-leg rate to price from; it is priced only after its known-answer benchmark leg. NOTE: a parallel session re-proposed '~$5-10 pilot' off 'measured Vast-4090 bases' on 2026-07-24 - that is the refuted claim, since a 4090 LIGAND-edge rate says nothing about a protein-mutation leg. See research/compute/pricing.md section B.3.",
+      "cost_est_usd": "UNPRICED - engine + EXECUTION LAYER built 2026-07-24 (nr4a3_protein_fep.py planning/guards + protfep_run.py perses/MBAR driver + protfep_bench/reduce/refcheck + Vast lane), but NO LEG HAS RUN. A built execution layer is not a passed benchmark. Priced only once the barnase-barstar Y29A/Y29F known-answer set returns a real per-leg rate AND clears ~1.5 kcal/mol with correct ordering. Sequence: smoke ~$0.10 -> pilot (both Y29A legs, ~$1-3, THE ABORT GATE) -> full set ~$5-10.",
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": false,
-      "depends_on": ["orientation_basin_search", "valB_full", "nrv04_retrospective"],
-      "blocked_by": ["NO PROTEIN-MUTATION FEP ENGINE IN REPO - must be scoped and costed before this milestone can be planned or priced (see cost_est_usd)", "CROSS-LANE CHARGE MISMATCH - the wedge subtracts a binary-lane leg (am1bcc) from a ternary-lane leg (nagl); one CHARGE_METHOD must be pinned across both legs and stamped into both result JSONs before any wedge is computed (STRATEGY.md RUNG 5)"],
-      "note": "**BLOCKED - see blocked_by; the two prerequisites below are unscoped, so the days/costs here are NOT plannable yet.** 2026-07-24 restructuring, PILOT-FIRST (corrects an earlier framing that mislabeled the full ~$100-350 cycle as 'the kill-switch' - a $350 gate on a $500 tail is poor economics). TIERED cheap-decisive-first gate: Tier1 atlas ($0) -> Tier2 basin nomination ($0-50) -> Tier3 pilot ONE alchemical mutation leg 3->1 (UNPRICED - no engine; the earlier ~$40-90 and the later ~$5-10 both assumed an alchemical protein-mutation capability the repo does not have). ddG_neo-interface = dG_mut^ternary - dG_mut^binary. CHEAP GO/NO-GO: no interface loss on the pilot -> STOP (whole decision ~$40-140 marginal); publish honest causal negative; run NO linker design/ensemble/local-FEP (saves ~$250-750 tail). Loss on pilot -> complete the FULL reciprocal cycle (add 3->2 + reciprocal 1/2->3, ~$100-350) = the paper's PRIMARY CAUSAL RESULT (deliverable, not gate overhead), which also aborts the tail if it disconfirms."
+      "depends_on": [
+        "orientation_basin_search",
+        "valB_full",
+        "nrv04_retrospective"
+      ],
+      "blocked_by": [
+        "NO PROTEIN-MUTATION FEP ENGINE IN REPO - must be scoped and costed before this milestone can be planned or priced (see cost_est_usd)",
+        "CROSS-LANE CHARGE MISMATCH - the wedge subtracts a binary-lane leg (am1bcc) from a ternary-lane leg (nagl); one CHARGE_METHOD must be pinned across both legs and stamped into both result JSONs before any wedge is computed (STRATEGY.md RUNG 5)"
+      ],
+      "note": "**BLOCKED - see blocked_by; the two prerequisites below are unscoped, so the days/costs here are NOT plannable yet.** 2026-07-24 restructuring, PILOT-FIRST (corrects an earlier framing that mislabeled the full ~$100-350 cycle as 'the kill-switch' - a $350 gate on a $500 tail is poor economics). TIERED cheap-decisive-first gate: Tier1 atlas ($0) -> Tier2 basin nomination ($0-50) -> Tier3 pilot ONE alchemical mutation leg 3->1 (UNPRICED - no engine; the earlier ~$40-90 and the later ~$5-10 both assumed an alchemical protein-mutation capability the repo does not have). ddG_neo-interface = dG_mut^ternary - dG_mut^binary. CHEAP GO/NO-GO: no interface loss on the pilot -> STOP (whole decision ~$40-140 marginal); publish honest causal negative; run NO linker design/ensemble/local-FEP (saves ~$250-750 tail). Loss on pilot -> complete the FULL reciprocal cycle (add 3->2 + reciprocal 1/2->3, ~$100-350) = the paper's PRIMARY CAUSAL RESULT (deliverable, not gate overhead), which also aborts the tail if it disconfirms.",
+      "notes": "2026-07-24 PM: benchmark lane built and launched on Vast (branch claude/parallel-test-vast-cs5ugw). CI-verified staging against the deposited 1BRS structure: chain D = barstar (87 res, TYR29), chain A = barnase - correcting a hand-written benchmark entry that had put Y29 on chain A. Engine remains UNVALIDATED; plan_wedge still stamps validated:false."
     },
     {
       "id": "inverse_linker_design",
@@ -283,7 +312,9 @@
       "optimistic_days": 3,
       "remaining_days": 3,
       "parallel_ok": true,
-      "depends_on": ["selectivity_wedge_confirm"],
+      "depends_on": [
+        "selectivity_wedge_confirm"
+      ],
       "note": "2026-07-24 restructuring. Derive per-basin linker requirements (endpoint distance, exit-vector dihedral, attachment angles, flexibility, extension, solvent path, surface avoidance, strain, motion tolerance); enumerate a large virtual library; filter by basin fidelity F_{d,k} (conformer closure + strain); keep linkers realizing DISTINCT basins (orientation control, not atom count); annotate exact structures + synthetic feasibility -> ~12-20 virtual constructs (this is where the '24-36' arithmetic now lives - virtual, not a hand-built grid)."
     },
     {
@@ -295,7 +326,9 @@
       "optimistic_days": 5,
       "remaining_days": 5,
       "parallel_ok": false,
-      "depends_on": ["inverse_linker_design"],
+      "depends_on": [
+        "inverse_linker_design"
+      ],
       "note": "2026-07-24 restructuring. ~12-20 -> replicated ternary + full CRL/E2~Ub MD across target states/linker conformers/in-basin poses; matched NR4A1/2/3; interface-contact persistence; linker strain; basin retention; SEPARATE accessibility P(B_k|d,s) from stability dG_coop; robust constraint-satisfaction (P_d = P(all constraints hold across scenarios), NOT Pareto-membership alone) -> ~4-8 constructs. EWSR1::NR4A3 fusion context; lysines beyond the LBD."
     },
     {
@@ -307,7 +340,9 @@
       "optimistic_days": 5,
       "remaining_days": 5,
       "parallel_ok": true,
-      "depends_on": ["ternary_ensemble_refine"],
+      "depends_on": [
+        "ternary_ensemble_refine"
+      ],
       "note": "2026-07-24 restructuring (replaces ternary_prospective_matrix). Alchemy ONLY within a retained basin (both endpoints plausibly bound, modest congeneric change, acceptable hybrid topology, endpoint stability not restraint-created). NOT for comparing unrelated linkers/ligases/basins. Final set ~6-12 with >=2 mechanistic wedges, >=2 linker architectures, VHL+CRBN only where both survive, explicit negative controls, robust to reciprocal-mutation tests. Deliverable = computationally prioritized, structure-defined, retrosynthetically annotated candidate set WITH an identified causal selectivity mechanism; degradation experimentally UNVALIDATED. LANGUAGE: 'predicted selective candidate'; never imply efficacy/safety/window/clinical-readiness."
     },
     {
@@ -319,7 +354,9 @@
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": true,
-      "depends_on": ["step0_rbfe_mechanics"],
+      "depends_on": [
+        "step0_rbfe_mechanics"
+      ],
       "note": "Mandatory change 2 (preferred path). Converged pocket-opening free energy per paralogue so observable affinity = dG_open + dG_bind|open and per-paralogue penalties enter SELECTIVITY. HELD - only with an explicit nod. If NOT run, report everything conditional on the open state (fully defensible, $0)."
     },
     {
@@ -331,7 +368,10 @@
       "optimistic_days": 5,
       "remaining_days": 5,
       "parallel_ok": true,
-      "depends_on": ["valA_mini", "step1_pilot_cmpd19"],
+      "depends_on": [
+        "valA_mini",
+        "step1_pilot_cmpd19"
+      ],
       "note": "Mandatory change 3. HELD - as framed, not worth running (interpretability). Launch only with an explicit nod if the pose-plausibility question is worth it. Report RAW ABFE as POSE-PLAUSIBILITY (is the hypothesized pose thermodynamically plausible), T4L discrepancy SEPARATELY. Does NOT prove 'binds at all'. Free-cmpd19 ABFE != each degrader's binary affinity."
     },
     {
@@ -343,7 +383,17 @@
       "optimistic_days": 3,
       "remaining_days": 3,
       "parallel_ok": false,
-      "depends_on": ["step1_fanout_cmpd19", "nrv04_retrospective", "local_ternary_fep", "ternary_ensemble_refine", "selectivity_wedge_confirm", "nr4a_differential_atlas", "valB_full", "pocket_reanalysis", "emc_e3_expression"],
+      "depends_on": [
+        "step1_fanout_cmpd19",
+        "nrv04_retrospective",
+        "local_ternary_fep",
+        "ternary_ensemble_refine",
+        "selectivity_wedge_confirm",
+        "nr4a_differential_atlas",
+        "valB_full",
+        "pocket_reanalysis",
+        "emc_e3_expression"
+      ],
       "note": "Single source of truth = nr4a3-degrader-paper.md (+ SI). Apply ALL reviewer language discipline (predicted candidate / conditional bound state / directional concordance; no efficacy/safety/window/clinical claims; cmpd19 MYC induction as liability). Add QM/torsion validation at degrader linker junctions + physicochemical + retrosynthetic assessment of the final matrix. Re-render figures. Fold conditional ABFE (if run) as pose-plausibility only."
     },
     {
@@ -355,7 +405,9 @@
       "optimistic_days": 2,
       "remaining_days": 2,
       "parallel_ok": false,
-      "depends_on": ["fold_results"],
+      "depends_on": [
+        "fold_results"
+      ],
       "note": "Reviewer-AI block before the outward-facing post/submit step."
     },
     {
@@ -367,7 +419,9 @@
       "optimistic_days": 1,
       "remaining_days": 1,
       "parallel_ok": false,
-      "depends_on": ["final_redteam"],
+      "depends_on": [
+        "final_redteam"
+      ],
       "note": "OUTWARD-FACING / irreversible - needs trimcrae sign-off (not auto). This is the finish line."
     }
   ],

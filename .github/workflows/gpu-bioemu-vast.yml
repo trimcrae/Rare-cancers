@@ -43,7 +43,7 @@ on:
         # ref=<feature-branch> and protfep_task=<task>, and GitHub runs that branch's file + code.
         # Leave blank for a normal BioEmu run — a blank value changes nothing. Delete this input and
         # its job once gpu-protfep-vast.yml is merged to main.
-        description: "5a-KS protein-FEP bridge: bake | stage-test | smoke | pilot | launch | collect | stop (blank = off)"
+        description: "5a-KS protein-FEP bridge: bake | stage-test | refcheck | smoke | pilot | launch | collect | stop (blank = off)"
         type: string
         default: ""
 
@@ -235,6 +235,19 @@ jobs:
           print(json.dumps(b.verify_status(), indent=2))
           raise SystemExit(0 if ok else 1)
           PY
+
+      - name: Verify benchmark reference ddG values against SKEMPI 2.0
+        if: ${{ github.event.inputs.protfep_task == 'refcheck' || github.event.inputs.protfep_task == 'stage-test' }}
+        run: |
+          set -eo pipefail
+          python research/modalities/protfep_refcheck.py \
+            --out research/modalities/protfep-reference-check.json
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          if ! git diff --quiet -- research/modalities/protfep-reference-check.json; then
+            git add research/modalities/protfep-reference-check.json
+            git commit -m "5a-KS: verify benchmark reference ddG values against SKEMPI 2.0"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
 
       - name: Submit Vast leg(s)
         if: ${{ contains(fromJSON('["smoke","pilot","launch"]'), github.event.inputs.protfep_task) }}

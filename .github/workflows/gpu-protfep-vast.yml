@@ -38,9 +38,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: bake | stage-test | smoke | pilot | launch | collect | stop
+        description: bake | stage-test | refcheck | smoke | pilot | launch | collect | stop
         type: choice
-        options: [bake, stage-test, smoke, pilot, launch, collect, stop]
+        options: [bake, stage-test, refcheck, smoke, pilot, launch, collect, stop]
         default: stage-test
       n_replicas:
         description: "replicates per environment (launch only; default 3)"
@@ -89,7 +89,7 @@ jobs:
     # A push runs ONLY this job: it is free, it rents nothing, and it is the half of the pipeline
     # that can be verified without a GPU. No GPU task is ever push-triggered — the spend-gated
     # ladder's first rule is that nothing auto-fires.
-    if: ${{ github.event_name == 'push' || github.event.inputs.task == 'stage-test' }}
+    if: ${{ github.event_name == 'push' || github.event.inputs.task == 'stage-test' || github.event.inputs.task == 'refcheck' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -129,6 +129,26 @@ jobs:
           print(json.dumps(b.verify_status(), indent=2))
           raise SystemExit(0 if ok else 1)
           PY
+
+      - name: Verify the benchmark reference ddG values against SKEMPI 2.0
+        # The engine's PASS/FAIL is computed against these numbers, so an unchecked reference is an
+        # unchecked verdict. SKEMPI recomputes ddG from the deposited mutant/wild-type Kd values, so
+        # this checks the arithmetic and shows every independent record rather than trusting one
+        # remembered table cell. It reports; it never rewrites the constants.
+        run: |
+          set -eo pipefail
+          python research/modalities/protfep_refcheck.py \
+            --out research/modalities/protfep-reference-check.json
+      - name: Commit the reference check
+        if: ${{ github.event.inputs.task == 'refcheck' }}
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          if ! git diff --quiet -- research/modalities/protfep-reference-check.json; then
+            git add research/modalities/protfep-reference-check.json
+            git commit -m "5a-KS: verify benchmark reference ddG values against SKEMPI 2.0"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
 
   run:
     if: ${{ github.event.inputs.task == 'smoke' || github.event.inputs.task == 'pilot' || github.event.inputs.task == 'launch' }}
