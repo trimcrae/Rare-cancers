@@ -223,8 +223,16 @@ iteration — is **~tens× slower per ns than plain MD, not ~1.7×.** My firm RB
 (N_ITER 150) complex leg ran **~2h without finishing**, consistent with the **pilot-billing anchor of ~55 GPU-h
 per RBFE complex leg**. So **price alchemical stages on the pilot billing, never on the bench $/ns** (bench $/ns is
 for the CARD decision only):
-- **RBFE binary edge (complex+solvent) ≈ ~$12–20 on Vast 4090** (~55 GPU-h/complex-leg pilot billing → ~$8–14/leg
-  at $0.15–0.25/hr). ⇒ `step1_fanout` (19 edges) ≈ **~$230–380**, NOT the ~$8–20 I mis-stated.
+- **RBFE complex leg ≈ ~18–55 GPU-h (range, see provenance); binary edge (complex+solvent) ≈ ~$5–20 on Vast 4090.**
+  PROVENANCE (`research/modalities/nr4a3-post-pilot-sequence.md`, 2026-07-13): a real AWS pilot leg MEASURED
+  **30.0 GPU-h through ~6–7 of 12 windows** (billable ~$10) via a live CloudWatch probe, linear-extrapolated to
+  **~55 GPU-h/12-window leg** (~4.5 GPU-h/window). ⚠ **That run was ~65% GPU-IDLE — CPU-bottlenecked** (OpenFE
+  re-charges am1bcc + re-builds the hybrid system per window, 12× redundant), with a **documented charge-once fix
+  est. ~2–3× cheaper → ~18–27 GPU-h optimized.** The within-run fix does NOT appear applied (only a cross-job
+  setup-cache), so ~55 GPU-h is the un-optimized upper bound. ⇒ `step1_fanout` (19 edges) ≈ **~$100–380** across
+  that range; a real per-edge Vast measurement (the deferred firm run) would collapse it. **The canonical RBFE
+  map (`congeneric-rbfe-map.json`) still carries `est_gpu_h: null` and "forbids trusting stub GPU-hour numbers" —
+  so treat even the 55 as an extrapolation, not a certified per-edge cost.**
 - **Ternary 3-replica cooperativity edge ≈ ~$65–110 on Vast 4090** (~435 GPU-h; still ESTIMATED — PIN from the
   first real ternary edge). The firm run **confirmed the ternary is a 146,509-particle, 16-window system**, which
   supports the high end. ⇒ valB_mini ~$65–110; `nrv04_retrospective` + `ternary_matrix` are the big spends.
