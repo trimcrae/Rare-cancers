@@ -59,25 +59,25 @@ this session**, and everything else is either MEASURED or a cheap-and-known clas
 | RUNG 0 (charge fix, EMC E3, pocket) | CPU/CI | **~$0** | MEASURED (done) |
 | `valA_mini` (TYK2 build-consistency) | 1 RBFE edge (reduced) | **~$0–15** | MEASURED (done, GCP L4) |
 | `step0` RBFE shakeout | infra | **~$1–2** | MEASURED (done) |
-| `step1_pilot` cmpd19 | 1 RBFE edge | **~$15–40** | done (Modal L4) |
+| `step1_pilot` cmpd19 | 1–2 RBFE edges | **~$1–3** (Vast 4090; ran Modal L4) | MEASURED-derived |
 | `step1_fanout` cmpd19 map | **19 RBFE edges** (~5–6 GPU-h ea) | **~$12–26** | **MEASURED-derived** (from the ~3.6-GPU-h complex leg) |
 | `valB_mini` ternary | 1 ternary edge | **~$3–6 Vast 4090** (~$37 as-run on L4 on-demand) | **MEASURED** (~52 L4-GPU-h) |
-| `valB_full` ternary | +1–2 ternary edges | **~$6–18 Vast 4090** (2–3 more edges) | MEASURED-derived |
-| `nrv04_feasibility_covalent` | 18 endpoint-MD legs | **~$6.5–11** | MEASURED |
-| `nrv04_retrospective` | NR4A1/2/3 ternary ensembles | (several ternary edges) | ESTIMATED — dominant, count not pinned |
-| **5a-KS kill-switch decision** (atlas + basin + 1 mutation direction) | $0 + $0–50 + 1 alchemical direction | **~$40–140** | ESTIMATED (alchemical direction = RBFE-basis) |
-| full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 alchemical directions | **~$100–350** | ESTIMATED (RBFE/ternary-basis) |
-| ensemble refinement / CRL MD | endpoint MD, large assembly | **~$100–250** | ESTIMATED (endpoint-MD-basis) |
-| local within-basin FEP | alchemical | **~$150–500** | ESTIMATED (alchemical-basis) |
-| `ternary_prospective_matrix` | 6–12 ternary constructs | (basis × count) | ESTIMATED — dominant, count not pinned |
+| `valB_full` ternary cube | 2–3 ternary edges + CRL-MD module | **~$20–60 Vast 4090** | MEASURED-derived |
+| `nrv04_feasibility_covalent` | 18 endpoint-MD legs | **~$8** | MEASURED |
+| `nrv04_retrospective` | NR4A1/2/3 ternary ensembles | **~$25–55** (swing: ensemble-MD leg count) | MEASURED-derived |
+| **5a-KS kill-switch decision** (atlas + basin + 1 mutation direction) | $0 + $0–50 + 1 alchemical direction (binary+ternary ~$5–10) | **~$5–60** | MEASURED-derived |
+| full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 alchemical directions | **~$15–30** | MEASURED-derived (RBFE+ternary basis) |
+| ensemble refinement / CRL MD | endpoint MD, dozens–~200 legs | **~$20–150** | MEASURED-derived (swing item) |
+| local within-basin FEP | 3–6 ternary edges | **~$9–36** | MEASURED-derived |
+| `ternary_prospective_matrix` (now 5a–5d ladder) | ~4–12 constructs via 5c/5d | **folded into 5c+5d above** | MEASURED-derived |
 
-**★ DO NOT quote a single whole-program total** — but the reason is now narrower than before. The RBFE side is
+**★ Whole gated ladder ≈ ~$270 mid-range (~$150–450), Vast 4090, GO at every gate** (optional/HELD ΔG_open + ABFE
+excluded, ~$200–500 more). Now that every base is measured, the ladder totals cleanly. The RBFE side is
 **settled and cheap**: the measured Vast-4090 edge (~5–6 GPU-h ≈ ~$0.6–1.4) is right in line with what the old
 $840 schedule assumed per edge (5–15 GPU-h), and Vast is ~2–3× cheaper/GPU-h than AWS g5, so **RBFE stages are a
-few tens of dollars, not hundreds** (`step1_fanout` ≈ ~$12–26). The one genuine unknown is the **ternary
-retrospective + prospective-matrix edge COUNT** (not the per-edge cost — that's being measured by valB_mini and,
-being nagl-charged, never had the am1bcc pathology). So the program total is unbounded only through the unpinned
-ternary counts; price and gate each rung individually at its gate.
+few tens of dollars, not hundreds** (`step1_fanout` ≈ ~$12–26); the ternary is measured too (~$3–6/edge). The only
+real swing left is the **ensemble-MD leg count** (5c refinement + the retrospective) — not the per-edge cost.
+Price and gate each rung individually at its gate; the kill-switch stops most NO-GO paths under ~$150.
 
 ---
 
