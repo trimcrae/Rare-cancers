@@ -371,8 +371,11 @@ anchor is REFUTED for this hardware:**
   PROVENANCE (this session, 2026-07-24): the firm RBFE run was **live-diagnosed on instance 45654998** — the
   OpenFE HREX complex leg (TYK2 valA, 12 windows, hardcoded 5 ns production) ran at **~5.2 s/iter × 2000 production
   iters = ~2 h52 m sampler**, + ~43 min boot/setup → **~3.6 GPU-h billed** at the instance's **$0.122/hr** (~$0.44);
-  the solvent leg (smaller box) adds ~1.5–2 GPU-h. Instance **45658414** is re-running it to clean completion for
-  the ns/day + ΔG stamp. ⚠ **The prior "~2 h without finishing = consistent with 55 GPU-h" reading was WRONG:**
+  the solvent leg (smaller box) adds ~1.5–2 GPU-h. **The cost rests on the measured per-iteration RATE (two
+  independent working 4090 CUDA runs, ~5.1 s/iter, phases advancing) — a clean end-to-end ΔG was NOT captured:
+  both spot instances were preempted before the ~3 h `resume=False` leg finished, so the S3 `firm.json` is a stale
+  pre-fix CUDA-fail artifact. Completing one needs `resume=True` + the equilibration.nc-collision fix, a
+  step1_fanout-execution concern, not a pricing one.** ⚠ **The prior "~2 h without finishing = consistent with 55 GPU-h" reading was WRONG:**
   `N_ITER` does not truncate production (`nr4a3_rbfe.py:364-365` hardcodes 5 ns / 2000 iters), so that leg was
   simply on track to finish at ~2 h52 m — nobody waited. **The ~55-GPU-h number came from a 2026-07-13 AWS A10G
   leg that was ~65 % GPU-IDLE — CPU-bottlenecked by 12× per-window am1bcc re-charging** (`nr4a3-post-pilot-sequence.md`);
