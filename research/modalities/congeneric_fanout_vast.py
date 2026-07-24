@@ -18,6 +18,7 @@ Modes (env flags, set by the CI workflow):
   LAUNCH=1    top the fleet up to FANOUT_WIDTH with the next not-yet-finished units.
   COLLECT=1   pull finished ddg.json's -> map result + cycle closure + ranking; reap terminal/over-age hosts.
   MONITOR=1   one-line-per-instance liveness + per-unit phase, for the tight-cadence progress checks.
+  DIAG=1      root-cause a failed unit: its S3 leg log + the container stdout pulled off the Vast instance.
   STOP=1      destroy every s1f-* instance (explicit cleanup; never touches other labels).
 
 COST DISCIPLINE. `LAUNCH` refuses to submit unless FANOUT_CONFIRM=1 is set, prints the pinned cost band for
@@ -101,14 +102,28 @@ run_leg() {
     echo "[s1f] leg $L already in S3 — idempotent skip"; return 0
   fi
   mark "leg-$L-running"
+  # `set -e` + `pipefail` is DISARMED around the engine on purpose. Previously the leg ran as
+  # `... | tee log`, so a non-zero exit aborted the function immediately and the `s3 cp` of the log never
+  # ran — the diagnostic was discarded in exactly the case it was needed (observed on s1f-04, which exited
+  # 10 min into its complex leg leaving nothing behind). Capture the rc, ALWAYS ship the log, then fail.
+  set +e
   env MODE=splittest RBFE_TINY=0 OPENMM_REQUIRE_CUDA=1 \
       RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_S3="s3://$BUCKET/$CKPT_PREFIX/$L" \
       RBFE_WARMUP_CKPT_ITERS=20 RBFE_PROD_CKPT_ITERS=40 \
       RECEPTOR="$RECEPTOR" LEG="$L" LIGAND_A="$LIGAND_A" LIGAND_B="$LIGAND_B" N_WINDOWS="$N_WINDOWS" \
       INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" \
-      $PY nr4a3_rbfe.py 2>&1 | tee "/tmp/$L.log"
+      $PY nr4a3_rbfe.py > "/tmp/$L.log" 2>&1
+  rc=$?
+  set -e
+  tail -60 "/tmp/$L.log" || true
   $AWS s3 cp "/tmp/$L.log" "$RESULT_S3/$L.log" --only-show-errors || true
-  test -s "$OUT/leg_${RECEPTOR}_${L}.json" || { echo "[s1f] leg $L produced no result"; return 1; }
+  if [ "$rc" -ne 0 ]; then
+    echo "[s1f] leg $L FAILED rc=$rc (full log at $RESULT_S3/$L.log)"
+    mark "leg-$L-FAILED-rc$rc"
+    return 1
+  fi
+  test -s "$OUT/leg_${RECEPTOR}_${L}.json" || {
+    echo "[s1f] leg $L exited 0 but produced no result JSON"; mark "leg-$L-NORESULT"; return 1; }
   $AWS s3 cp "$OUT/leg_${RECEPTOR}_${L}.json" "$RESULT_S3/leg_${RECEPTOR}_${L}.json" --only-show-errors
   mark "leg-$L-done"
 }
@@ -467,6 +482,42 @@ def mode_collect():
             print(f"[s1f] reap {i.get('id')} failed: {e}")
 
 
+def mode_diag():
+    """Root-cause a failed/exited unit: its S3 leg log if one was shipped, plus the container stdout pulled
+    straight off the Vast instance (which survives even when the pipeline died before uploading anything).
+
+    DIAG_UNIT selects a unit by substring (default: every unit with no ddg.json)."""
+    bucket, s3 = _require_bucket(), _s3()
+    key = os.environ.get("VAST_API_KEY")
+    want = (os.environ.get("DIAG_UNIT") or "").strip()
+    units = [u for u in default_units()
+             if (want in u["unit_id"] if want else not _exists(s3, bucket, result_key(u, RESULT_PREFIX)))]
+    live = {(i.get("label") or ""): i for i in (_live_instances(key) if key else [])}
+    idx_of = {u["unit_id"]: i for i, u in enumerate(default_units())}
+
+    for u in units:
+        uid = u["unit_id"]
+        label = f"{LABEL_PREFIX}{idx_of[uid]:02d}-{u['ligand_b']}"[:64]
+        phase = _get_text(s3, bucket, f"{RESULT_PREFIX}/{uid}/phase.txt")
+        if not (phase and "FAIL" in phase.upper()) and want == "" and label in live \
+                and live[label].get("actual_status") not in ("exited", "offline", "error"):
+            continue                                  # healthy and still going — nothing to diagnose
+        print(f"\n[s1f-diag] ===== {uid} (label {label}) phase={phase} "
+              f"vast_status={live.get(label, {}).get('actual_status', 'gone')} =====")
+        for leg in ("complex", "solvent"):
+            txt = _get_text(s3, bucket, f"{RESULT_PREFIX}/{uid}/{leg}.log")
+            if txt:
+                print(f"[s1f-diag] --- S3 {leg}.log (tail) ---\n{txt[-4000:]}")
+        inst = live.get(label)
+        if inst and key:
+            from nrv04_vast_launch import _vast_instance_logs
+            print(f"[s1f-diag] --- Vast container stdout for instance {inst.get('id')} ---")
+            print(_vast_instance_logs(key, inst.get("id")))
+        elif not inst:
+            print("[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log "
+                  "above is the only record (this is why the leg now uploads its log even on failure)")
+
+
 def mode_stop():
     key = os.environ.get("VAST_API_KEY")
     if not key:
@@ -482,7 +533,7 @@ def mode_stop():
 
 
 _MODES = [("PLAN", mode_plan), ("STAGE", mode_stage), ("PRECHECK", mode_precheck), ("LAUNCH", mode_launch),
-          ("COLLECT", mode_collect), ("MONITOR", mode_monitor), ("STOP", mode_stop)]
+          ("COLLECT", mode_collect), ("MONITOR", mode_monitor), ("DIAG", mode_diag), ("STOP", mode_stop)]
 
 
 def main():
