@@ -205,6 +205,24 @@ def _live_instances(key):
     return [i for i in insts if (i.get("label") or "").startswith(LABEL_PREFIX)]
 
 
+def _age_min(inst):
+    """Minutes since WE rented this instance.
+
+    Uses `start_date` (epoch seconds, the rental start), NOT `duration` — on a Vast instance object `duration`
+    is the HOST MACHINE's uptime, which reads in the hundreds of thousands of minutes for a long-lived
+    community host. The collect reaper is age-based, so reading `duration` as our age would have destroyed
+    every instance in the fleet on the first collect. Caught on the first live monitor (age_min 209141 = 145
+    days on a box we had just rented)."""
+    import time
+    start = inst.get("start_date")
+    if not start:
+        return 0
+    try:
+        return max(0, round((time.time() - float(start)) / 60))
+    except (TypeError, ValueError):
+        return 0
+
+
 def _require_bucket():
     if not BUCKET:
         raise SystemExit("[s1f] VAST_CKPT_BUCKET is required")
@@ -327,7 +345,7 @@ def mode_monitor():
     for i in live:
         print(f"[s1f]   id={i.get('id')} label={i.get('label')} actual={i.get('actual_status')} "
               f"cur={i.get('cur_state')} dph=${i.get('dph_total')} gpu={i.get('gpu_name')} "
-              f"util={i.get('gpu_util')}% age_min={round((i.get('duration') or 0)/60)}")
+              f"util={i.get('gpu_util')}% age_min={_age_min(i)}")
     n_done = 0
     for u in units:
         ddg = _get_json(s3, bucket, result_key(u, RESULT_PREFIX))
@@ -369,7 +387,7 @@ def mode_monitor():
         "gpu_util": utils, "phases": phases,
         "instances": [{"id": i.get("id"), "label": i.get("label"), "status": i.get("actual_status"),
                        "gpu": i.get("gpu_name"), "gpu_util": i.get("gpu_util"),
-                       "dph": i.get("dph_total"), "age_min": round((i.get("duration") or 0) / 60)}
+                       "dph": i.get("dph_total"), "age_min": _age_min(i)}
                       for i in live],
         "units": [{"unit_id": u["unit_id"],
                    "phase": ("done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX))
@@ -432,7 +450,7 @@ def mode_collect():
     label_of = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u["unit_id"] for u in units}
     for i in _live_instances(key):
         lab, st = i.get("label"), (i.get("actual_status") or "")
-        age_min = round((i.get("duration") or 0) / 60)
+        age_min = _age_min(i)
         why = None
         if label_of.get(lab) in finished:
             why = "result in S3"
