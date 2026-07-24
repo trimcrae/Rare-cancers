@@ -1007,6 +1007,27 @@ def retro_units_to_run():
     return retro.enumerate_units()
 
 
+def _chain_role_census(pdb_path):
+    """Per-chain residue counts from an assembled complex.pdb, in FILE ORDER (not sorted).
+
+    This exists because the MD driver splits E3 from target POSITIONALLY — nrv04_covalent_md._topology_indices
+    calls the LAST sorted protein chain the target — while the co-fold YAML builder (nrv04_ternary.run) writes
+    `proteins = [("A", target_lbd)] + e3`, i.e. the target FIRST. If those two conventions disagree, every
+    interface readout in the panel is silently computed against the wrong chain pair and nothing errors. So the
+    census is measured from the real file rather than assumed."""
+    counts, order = {}, []
+    for line in open(pdb_path):
+        if not line.startswith(("ATOM", "HETATM")):
+            continue
+        ch, resseq = line[21], line[22:27]
+        key = (ch, resseq)
+        if ch not in counts:
+            counts[ch] = set()
+            order.append(ch)
+        counts[ch].add(key)
+    return [{"chain": c, "residues": len(counts[c])} for c in order]
+
+
 def retro_stage_test(bucket):
     """FREE CI de-risking: assemble a leg from a REAL NR4A2 and NR4A3 co-fold CIF and verify a complex.pdb +
     bond-order-correct ligand.sdf come out. The paralogue co-folds have only ever been read by the co-fold
@@ -1030,8 +1051,11 @@ def retro_stage_test(bucket):
         n_atom = sum(1 for line in open(cpdb) if line.startswith(("ATOM", "HETATM")))
         if n_atom < 500:
             raise SystemExit(f"[retro-stage-test] {arm_id}: complex.pdb too small ({n_atom}) — chain surgery failed")
-        results.append({"arm": arm_id, "key": cifs[0], "ligand_atoms": res["ligand_atoms"], "complex_atoms": n_atom})
-        print(f"[retro-stage-test] {arm_id}: {res['ligand_atoms']} ligand atoms, {n_atom} complex atoms", flush=True)
+        roles = _chain_role_census(cpdb)
+        results.append({"arm": arm_id, "key": cifs[0], "ligand_atoms": res["ligand_atoms"],
+                        "complex_atoms": n_atom, "chains": roles})
+        print(f"[retro-stage-test] {arm_id}: {res['ligand_atoms']} ligand atoms, {n_atom} complex atoms, "
+              f"chains {roles}", flush=True)
     # the three arms must assemble to comparable systems — a paralogue that lost a chain would silently become a
     # different experiment, and the identical-protocol requirement (prereg 2c) would be violated invisibly.
     sizes = [r["complex_atoms"] for r in results]
@@ -1040,9 +1064,29 @@ def retro_stage_test(bucket):
     ligs = {r["ligand_atoms"] for r in results}
     if len(ligs) != 1:
         raise SystemExit(f"[retro-stage-test] ligand atom counts differ across arms {ligs} — same ligand expected")
-    json.dump({"results": results, "protocol_matched": True}, open("nrv04-retro-stage-test.json", "w"), indent=2)
-    print("RETRO-STAGE-TEST PASS — the assembler handles NR4A1/NR4A2/NR4A3 co-folds and the arms are matched.",
-          flush=True)
+
+    # THE CHAIN-SPLIT CHECK. The driver treats the LAST sorted protein chain as the target; the NR4A LBD is
+    # ~254 residues while VHL/EloB/EloC are ~213/~118/~112, so "is the biggest chain the one the driver would
+    # pick?" is a decisive, sequence-free test of whether the two conventions agree.
+    split = []
+    for r in results:
+        chains = r["chains"]
+        picked = sorted(chains, key=lambda c: c["chain"])[-1]        # what _topology_indices would call target
+        largest = max(chains, key=lambda c: c["residues"])           # the NR4A LBD (longest chain by far)
+        split.append({"arm": r["arm"], "driver_would_pick": picked["chain"], "picked_residues": picked["residues"],
+                      "largest_chain": largest["chain"], "largest_residues": largest["residues"],
+                      "agrees": picked["chain"] == largest["chain"]})
+        print(f"[retro-stage-test] {r['arm']}: driver would call chain {picked['chain']} "
+              f"({picked['residues']} res) the target; largest chain is {largest['chain']} "
+              f"({largest['residues']} res) -> {'AGREE' if split[-1]['agrees'] else 'MISMATCH'}", flush=True)
+    json.dump({"results": results, "protocol_matched": True, "chain_split": split},
+              open("nrv04-retro-stage-test.json", "w"), indent=2)
+    if not all(s["agrees"] for s in split):
+        raise SystemExit("[retro-stage-test] CHAIN-SPLIT MISMATCH — the driver's positional target convention "
+                         "does not select the NR4A LBD in these co-folds. Every interface readout would be "
+                         "computed against the wrong chain pair. Refusing to launch.")
+    print("RETRO-STAGE-TEST PASS — the assembler handles NR4A1/NR4A2/NR4A3 co-folds, the arms are matched, and "
+          "the driver's chain split selects the NR4A LBD.", flush=True)
     return 0
 
 
