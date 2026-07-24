@@ -42,8 +42,14 @@ $/hr). Use the 3090 only when 4090 capacity is short.
 > **⚠ SUPERSEDED FOR THE NR4A3 SYSTEM (MEASURED 2026-07-24, step1_fanout wave 1).** The ~5.2 s/iter above was
 > measured on the **public TYK2 valA** system. The **real cmpd19/NR4A3 complex** samples at **~13.6 s/iter** —
 > measured on THREE independent Vast 4090 hosts in the same wave (14.42 / 12.76 / 13.70 s/iter, 16 iteration
-> samples each), a tight enough spread to rule out host variance. The NR4A3 cryptic-pocket complex is simply a
-> **~2.6× heavier system per iteration** than TYK2, so a TYK2 rate must not be used to price NR4A3 work.
+> samples each), a tight enough spread to rule out host variance. **Aggregate MD throughput on the same card
+> class: TYK2 ~498 ns/day vs NR4A3 ~190 ns/day** (12 windows x 2.5 ps per iteration). ⚠ **The MECHANISM of the
+> 2.6× is NOT established** — an earlier revision of this note asserted the NR4A3 complex is "simply a heavier
+> system", which was a plausible story, not a measurement. The two candidate drivers are **particle count** (no
+> NR4A3 binary-RBFE particle count is recorded anywhere in this repo — the ternary's 146,509 is, the binary's is
+> not) and **timestep ceiling** (4 fs vs 2 fs is a clean 2×, and is a documented PER-EDGE property here). Both
+> are unmeasured for these edges. What IS established is the rate itself, and that a TYK2 rate must not be used
+> to price NR4A3 work.
 > Recomputed on the repo's own hardcoded leg length (400 equil + 2000 production = 2400 iters,
 > `nr4a3_rbfe.py:364-365`): complex leg **~9.1 GPU-h** (not 3.6), solvent ~4.1, **unit ≈ 13.7 GPU-h**.
 > Realized bid on this wave was **$0.35–0.39/hr** (current 4090 market, `min_bid × 1.5`), not the $0.122/hr the
