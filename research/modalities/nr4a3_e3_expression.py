@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 """
-Are the VHL and CRBN E3-ligase machineries available where EMC arises? (degrader-completeness, ledger E6;
-informs the VHL-vs-CRBN recruiter choice — reviewer mandatory-change 5). CPU/DB only.
+Which E3-ligase machineries are available where EMC arises? (degrader-completeness, ledger E6; informs the
+recruiter choice — reviewer mandatory-change 5, and the 2026-07-24 widened-recruiter downselect). CPU/DB only.
 
 WHY. A degrader can only work in a cell that expresses the full CRL machinery it recruits. Our matrix keeps
 BOTH ligase arms in scope (VHL and CRBN), so we check BOTH:
   - CRL2^VHL  : VHL (substrate receptor) + Elongin B (ELOB) + Elongin C (ELOC) + CUL2 + RBX1
   - CRL4^CRBN : CRBN (substrate receptor) + DDB1 + CUL4A/CUL4B + RBX1
-If any component of an arm were tissue-restricted or absent from soft-tissue/mesenchymal contexts, a degrader
-built on that arm would be dead on arrival regardless of a good ternary. This checks each machinery's
+★ WIDENED 2026-07-24 (ternary-selectivity revision, cost lever 6) to the ligandable recruiter panel the
+orientation-basin search now covers: CRL4^DCAF1/DCAF15/DCAF16, CRL3^KEAP1, CRL2^FEM1B, and the monomeric RING
+E3s cIAP1/BIRC2, RNF114 and MDM2. Selectivity is created at the induced interface, so the E3's own surface is
+the biggest lever on whether a discriminating interface exists at all — and searching more recruiters is free
+at CPU. This is the free half of that widening; it feeds the MANDATORY downselect to <=2 recruiters before any
+GPU leg. If any component of an arm were tissue-restricted or absent from soft-tissue/mesenchymal contexts, a
+degrader built on that arm would be dead on arrival regardless of a good ternary. This checks each machinery's
 tissue-expression breadth (Human Protein Atlas) so the degrader premise is grounded, not assumed, AND so the
 VHL-vs-CRBN choice is informed by where each arm's machinery is actually available. Runs in CI (internet;
 proteinatlas.org is egress-blocked from the dev sandbox). Output: nr4a-e3-expression.json.
@@ -23,6 +28,7 @@ import json
 import os
 import sys
 import time
+import urllib.parse
 import urllib.request
 
 HERE = os.path.dirname(__file__)
@@ -54,6 +60,35 @@ MACHINERIES = {
 }
 
 
+# ★ WIDENED RECRUITER PANEL (2026-07-24 ternary-selectivity revision, cost lever 6). The prospective stage now
+# searches orientation space against more than VHL/CRBN, because basin search is CPU and selectivity is created
+# at the induced interface — so the E3's own surface is the biggest lever on whether a discriminating interface
+# EXISTS at all. This analysis is the free half of that: which of the widened set is even available in the
+# relevant tissue. It informs the mandatory downselect to <=2 recruiters BEFORE any GPU leg.
+#
+# Components are given by SYMBOL and resolved to Ensembl IDs through HPA's own search, NOT hardcoded from
+# memory: a mis-remembered ENSG would silently score the wrong gene, and the resolver refuses a record whose
+# returned symbol does not match exactly. The two original arms keep their verified hardcoded IDs.
+WIDENED_MACHINERIES = {
+    "CRL4_DCAF1": {"_label": "CRL4^DCAF1 (DCAF1/VPRBP recruiter arm)",
+                   "symbols": ["DCAF1", "DDB1", "CUL4A", "CUL4B", "RBX1"]},
+    "CRL4_DCAF15": {"_label": "CRL4^DCAF15 (DCAF15 recruiter arm)",
+                    "symbols": ["DCAF15", "DDB1", "CUL4A", "CUL4B", "RBX1"]},
+    "CRL4_DCAF16": {"_label": "CRL4^DCAF16 (DCAF16 recruiter arm)",
+                    "symbols": ["DCAF16", "DDB1", "CUL4A", "CUL4B", "RBX1"]},
+    "CRL3_KEAP1": {"_label": "CRL3^KEAP1 (KEAP1 recruiter arm)",
+                   "symbols": ["KEAP1", "CUL3", "RBX1"]},
+    "CRL2_FEM1B": {"_label": "CRL2^FEM1B (FEM1B recruiter arm)",
+                   "symbols": ["FEM1B", "ELOB", "ELOC", "CUL2", "RBX1"]},
+    "RING_BIRC2": {"_label": "cIAP1/BIRC2 (monomeric RING E3 — no cullin scaffold)",
+                   "symbols": ["BIRC2"]},
+    "RING_RNF114": {"_label": "RNF114 (monomeric RING E3 — no cullin scaffold)",
+                    "symbols": ["RNF114"]},
+    "RING_MDM2": {"_label": "MDM2 (monomeric RING E3 — nutlin-recruited)",
+                  "symbols": ["MDM2"]},
+}
+
+
 def _get_json(url, timeout=60):
     for i in range(4):
         try:
@@ -81,6 +116,26 @@ def hpa_expression(gene, ensg):
             "rna_tissue_distribution": dist, "broadly_expressed": broadly}
 
 
+def resolve_symbol(symbol):
+    """Resolve a gene SYMBOL to its Ensembl ID through HPA's own search.
+
+    Fails CLOSED: if the search returns nothing, or returns a record whose gene symbol is not an exact
+    case-insensitive match, this returns None rather than a plausible-looking wrong gene. Hardcoding an ENSG
+    from memory is precisely the kind of silent error this avoids — a wrong ID scores a different protein and
+    nothing downstream would notice."""
+    url = (f"https://www.proteinatlas.org/api/search_download.php?"
+           f"search={urllib.parse.quote(symbol)}&format=json&columns=g,gs,eg,rnats,rnatd&compress=no")
+    data = _get_json(url)
+    if not isinstance(data, list):
+        return None
+    for rec in data:
+        got = (rec.get("Gene") or rec.get("g") or "").strip()
+        ensg = (rec.get("Ensembl") or rec.get("eg") or "").strip()
+        if got.upper() == symbol.upper() and ensg.startswith("ENSG"):
+            return ensg
+    return None
+
+
 def score_machinery(genes):
     rows = {g: hpa_expression(g, e) for g, e in genes.items()}
     have = [r for r in rows.values() if "rna_tissue_distribution" in r]
@@ -91,11 +146,41 @@ def score_machinery(genes):
                   "components_not_broadly_expressed": not_broad}
 
 
+def score_widened_arm(spec):
+    """Score a symbol-specified arm, resolving every symbol through HPA search first. A symbol that will not
+    resolve is recorded as `_status: symbol resolution failed` and the arm is marked incomplete — it is NOT
+    quietly dropped, because 'we could not look it up' and 'it is not expressed' are different findings."""
+    genes, unresolved = {}, []
+    for sym in spec["symbols"]:
+        ensg = resolve_symbol(sym)
+        if ensg:
+            genes[sym] = ensg
+        else:
+            unresolved.append(sym)
+    rows, summary = score_machinery(genes) if genes else ({}, {
+        "all_broadly_expressed": False, "record_complete": False,
+        "components_not_broadly_expressed": []})
+    for sym in unresolved:
+        rows[sym] = {"gene": sym, "_status": "symbol resolution failed — not scored"}
+    if unresolved:
+        summary["record_complete"] = False
+    summary["unresolved_symbols"] = unresolved
+    return rows, summary
+
+
 def main():
     arms = {}
     for key, spec in MACHINERIES.items():
         rows, summary = score_machinery(spec["genes"])
         arms[key] = {"_label": spec["_label"], "components": rows, **summary}
+
+    # ★ 2026-07-24: the widened ligandable recruiter panel the orientation-basin search now covers.
+    widened = {}
+    for key, spec in WIDENED_MACHINERIES.items():
+        rows, summary = score_widened_arm(spec)
+        widened[key] = {"_label": spec["_label"], "components": rows, **summary}
+    available = sorted(k for k, v in widened.items() if v["all_broadly_expressed"] and v["record_complete"])
+    flagged = sorted(k for k in widened if k not in available)
 
     vhl_ok = arms["CRL2_VHL"]["all_broadly_expressed"]
     crbn_ok = arms["CRL4_CRBN"]["all_broadly_expressed"]
@@ -123,15 +208,35 @@ def main():
         "arms": arms,
         "both_arms_broadly_expressed": bool(vhl_ok and crbn_ok),
         "verdict": verdict,
+        "widened_recruiter_panel": {
+            "_why": ("2026-07-24 ternary-selectivity revision, cost lever 6: selectivity is created at the "
+                     "induced target-E3 interface, so the E3's own surface is the biggest lever on whether a "
+                     "discriminating interface EXISTS. Searching more recruiters is free at CPU. This is the "
+                     "availability half; it feeds the MANDATORY downselect to <=2 recruiters before any GPU "
+                     "leg, and the dropped set must be logged."),
+            "_limits": ("Availability is necessary, not sufficient — an arm that is broadly expressed may still "
+                        "have no ligandable pocket for a linker, no published ligand, or an interface "
+                        "geometrically unable to reach an NR4A3-unique lysine. Ligandability and geometry are "
+                        "decided by the basin search, not here. Symbols are resolved through HPA's own search "
+                        "and a non-matching record is refused, so an unresolved symbol means 'not looked up', "
+                        "NOT 'not expressed'."),
+            "arms": widened,
+            "broadly_expressed_and_complete": available,
+            "flagged_or_incomplete": flagged,
+        },
     }
     json.dump(result, open(OUT, "w"), indent=2)
     print("wrote", OUT, file=sys.stderr)
-    for key, arm in arms.items():
+    for key, arm in list(arms.items()) + list(widened.items()):
         print(f"\n{arm['_label']}  all_broad={arm['all_broadly_expressed']} "
-              f"complete={arm['record_complete']} not_broad={arm['components_not_broadly_expressed']}")
+              f"complete={arm['record_complete']} not_broad={arm['components_not_broadly_expressed']}"
+              f"{' unresolved=' + str(arm['unresolved_symbols']) if arm.get('unresolved_symbols') else ''}")
         for g, r in arm["components"].items():
-            print(f"  {g:6s} dist={r.get('rna_tissue_distribution')!r} broad={r.get('broadly_expressed')}")
+            print(f"  {g:8s} dist={r.get('rna_tissue_distribution')!r} broad={r.get('broadly_expressed')}"
+                  f"{'  ' + r['_status'] if r.get('_status') else ''}")
     print("\nverdict:", verdict)
+    print("widened panel — broadly expressed & complete:", available)
+    print("widened panel — flagged/incomplete:", flagged)
 
 
 if __name__ == "__main__":
