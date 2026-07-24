@@ -54,6 +54,9 @@ BUCKET = os.environ.get("S3_BUCKET", os.environ.get("VAST_CKPT_BUCKET", ""))
 # acylsulfonamide) legitimately replace the ester, so their shared core is the 5-substituted indole alone.
 MIN_CORE_ATOMS = int(os.environ.get("STAGE_MIN_CORE_ATOMS", "8"))
 MAX_CORE_RMSD_A = float(os.environ.get("STAGE_MAX_CORE_RMSD", "0.35"))
+# The core is copied atom-for-atom from the anchor, so its RMSD must be ~0; this tolerance only catches a
+# silent failure of that inheritance step, not ordinary geometric variation.
+CORE_INHERIT_TOL_A = float(os.environ.get("STAGE_CORE_INHERIT_TOL", "0.01"))
 CLASH_CUTOFF_A = float(os.environ.get("STAGE_CLASH_CUTOFF", "2.0"))
 SEVERE_CLASH_A = float(os.environ.get("STAGE_SEVERE_CLASH", "1.6"))
 
@@ -98,15 +101,15 @@ def core_matches(mol, anchor, rdFMCS, Chem, max_a=4, max_m=8):
     from an explicit coordinate map is robust to that. Ring-complete/ring-only MCS keeps the indole intact
     instead of letting the match wander into a partial ring.
 
-    WHY CANDIDATES, NOT ONE MATCH (root-caused 2026-07-24 from the first staging run). A single
-    `GetSubstructMatch` returns ONE arbitrary match, and the indole MCS pattern is symmetric enough to admit
-    several. Picking arbitrarily on each side independently can pair the analogue's core atoms with the
-    anchor's *symmetry-equivalent partners* rather than their true counterparts, which superimposes the
-    scaffold in a flipped orientation. That is exactly what the first run showed: cw_ev_5oh, cw_ev_5alkyne and
-    cw_ev_5ch2nh2 all landed at core RMSD 1.12 A — three different molecules at an IDENTICAL value, which is
-    the signature of a shared geometric alternative, not of per-molecule embedding noise. So we enumerate the
-    matches (uniquify=False keeps the symmetry-equivalent orderings) and let `build_pose` keep the pairing that
-    actually superimposes the scaffold, reporting how many it had to choose between."""
+    WHY CANDIDATES, NOT ONE MATCH — and what it turned out NOT to be. A single `GetSubstructMatch` returns ONE
+    arbitrary match; where the MCS pattern admits symmetry-equivalent orderings, choosing arbitrarily on each
+    side can pair an analogue's core atoms with the anchor's equivalent partners instead of their true
+    counterparts. That was the first hypothesis for the first staging run's four core-drift failures (three of
+    which sat at an all-but-identical 1.12 A). The instrumented re-run REFUTED it: every failing analogue
+    reported `n_core_candidates: 1`, so there was no alternative mapping to pick wrongly. The real cause was
+    the restraint used during relaxation (see `_embed_on_core`). This enumeration is kept because it is cheap
+    and it makes the ambiguity observable — `n_core_candidates` in the QC is what let that hypothesis be
+    killed with one run instead of argued about."""
     a_heavy = Chem.RemoveHs(Chem.Mol(anchor))
     m_heavy = Chem.RemoveHs(Chem.Mol(mol))
     mcs = rdFMCS.FindMCS([a_heavy, m_heavy], completeRingsOnly=True, ringMatchesRingOnly=True, timeout=60)
@@ -122,8 +125,27 @@ def core_matches(mol, anchor, rdFMCS, Chem, max_a=4, max_m=8):
 
 
 def _embed_on_core(mol_proto, anchor, pairs, seed, Chem, AllChem, rdMolAlign):
-    """Embed ONE candidate core mapping: pin the mapped atoms to the anchor's coordinates, MMFF-relax the rest
-    with the core restrained, rigid-snap onto the anchor. Returns (mol, core_rmsd) or (None, None)."""
+    """Embed ONE candidate core mapping onto the anchor's core. Returns (mol, strain_A) or (None, None).
+
+    The analogue INHERITS the anchor's core coordinates exactly — they are copied in, not approximated:
+
+      1. ETKDG embed with the core in `coordMap`, to get a chemically sensible starting 3D structure.
+      2. Rigid-align that structure onto the anchor over the core.
+      3. OVERWRITE each core atom's position with the anchor's. This is the step that makes the series
+         common-mode by construction.
+      4. MMFF-minimise with those core atoms held FIXED, so the substituent and hydrogens relax around the
+         inherited core instead of fighting it.
+
+    Step 3/4 replace an earlier `MMFFAddPositionConstraint(idx, 0.0, 1e3)` restraint, which was the cause of
+    the first staging run's failures: that call restrains an atom to WHERE IT ALREADY IS after the embed, so it
+    froze the embedding's error in place rather than correcting it toward the anchor. ETKDG only treats
+    `coordMap` as distance bounds, so a rotatable group — here the 3-methyl-ester, 3 heavy atoms of a 13-atom
+    core — could settle in the opposite rotamer to the docked anchor; 3 atoms displaced ~2.2 A over 13 is
+    ~1.1 A RMSD, which is exactly the 1.116/1.120/1.122 A the three failing 5-substituted analogues reported.
+
+    The returned `strain_A` is what core RMSD used to measure, and is now the informative quantity: the
+    best-fit deviation between the analogue's own relaxed core geometry and the anchor's docked core geometry,
+    i.e. how far the docked pose sits from this analogue's ideal internal geometry."""
     mol = Chem.Mol(mol_proto)
     aconf = anchor.GetConformer()
     coord_map = {mi: aconf.GetAtomPosition(ai) for ai, mi in pairs}
@@ -136,17 +158,23 @@ def _embed_on_core(mol_proto, anchor, pairs, seed, Chem, AllChem, rdMolAlign):
             break
     if cid < 0:
         return None, None
+
+    atom_map = [(mi, ai) for ai, mi in pairs]
+    rdMolAlign.AlignMol(mol, anchor, atomMap=atom_map)
+    strain = _core_rmsd(mol, anchor, pairs)      # measured BEFORE the snap — the honest geometric distance
+
+    conf = mol.GetConformer()
+    for ai, mi in pairs:
+        conf.SetAtomPosition(mi, aconf.GetAtomPosition(ai))
     try:
         ff = AllChem.MMFFGetMoleculeForceField(mol, AllChem.MMFFGetMoleculeProperties(mol))
         if ff is not None:
             for _ai, mi in pairs:
-                ff.MMFFAddPositionConstraint(mi, 0.0, 1.0e3)
-            ff.Minimize(maxIts=500)
-    except Exception:  # noqa: BLE001 — relaxation is a nicety; the pinned embed is load-bearing
+                ff.AddFixedPoint(mi)             # the inherited core is immovable; everything else relaxes to it
+            ff.Minimize(maxIts=1000)
+    except Exception:  # noqa: BLE001 — relaxation is a nicety; the inherited core is load-bearing
         pass
-    # rigid-body snap: removes residual core drift the embed/relax left, without touching internal geometry
-    rdMolAlign.AlignMol(mol, anchor, atomMap=[(mi, ai) for ai, mi in pairs])
-    return mol, _core_rmsd(mol, anchor, pairs)
+    return mol, strain
 
 
 def build_pose(node_id, smiles, anchor, seed=0xC19):
@@ -168,26 +196,35 @@ def build_pose(node_id, smiles, anchor, seed=0xC19):
 
     scored = []
     for i, pairs in enumerate(cands):
-        m, rmsd = _embed_on_core(mol, anchor, pairs, seed + 17 * i, Chem, AllChem, rdMolAlign)
+        m, strain = _embed_on_core(mol, anchor, pairs, seed + 17 * i, Chem, AllChem, rdMolAlign)
         if m is not None:
-            scored.append((rmsd, i, m, pairs))
+            scored.append((strain, i, m, pairs))
     if not scored:
         return None, {"node": node_id, "status": "EMBED_FAILED", "mcs_atoms": n_mcs,
                       "n_core_candidates": len(cands),
                       "reason": "RDKit could not embed a 3D conformer with the core pinned to the anchor, on "
                                 "any candidate core mapping"}
     scored.sort(key=lambda t: t[0])
-    core_rmsd, _i, best, pairs = scored[0]
+    strain, _i, best, pairs = scored[0]
     best.SetProp("_Name", node_id)
+    # The core was copied in atom-for-atom, so this must be ~0. It is verified rather than assumed: a non-zero
+    # value would mean the inheritance step silently failed and the series is no longer common-mode.
+    core_rmsd = _core_rmsd(best, anchor, pairs)
     qc = {"node": node_id, "status": "ok", "mcs_atoms": n_mcs, "core_atoms": len(pairs),
-          "core_rmsd_A": round(core_rmsd, 3), "n_heavy": Chem.RemoveHs(best).GetNumAtoms(),
-          "n_core_candidates": len(cands), "n_core_candidates_embedded": len(scored),
-          "core_rmsd_worst_candidate_A": round(scored[-1][0], 3)}
-    if core_rmsd > MAX_CORE_RMSD_A:
+          "core_rmsd_A": round(core_rmsd, 4), "core_geometry_strain_A": round(strain, 3),
+          "n_heavy": Chem.RemoveHs(best).GetNumAtoms(),
+          "n_core_candidates": len(cands), "n_core_candidates_embedded": len(scored)}
+    if core_rmsd > CORE_INHERIT_TOL_A:
         qc["status"] = "CORE_DRIFT"
-        qc["reason"] = (f"core RMSD {core_rmsd:.2f} A > {MAX_CORE_RMSD_A} A on the BEST of {len(scored)} core "
-                        "mappings — the shared scaffold cannot be superimposed on the anchor's, so the morph "
-                        "would not be common-mode")
+        qc["reason"] = (f"core RMSD {core_rmsd:.3f} A after inheriting the anchor's core coordinates — this "
+                        "should be ~0 by construction, so the inheritance step failed and the morph would not "
+                        "be common-mode")
+    elif strain > MAX_CORE_RMSD_A:
+        qc["high_core_strain"] = True
+        qc["strain_note"] = (f"the analogue's own relaxed core geometry sits {strain:.2f} A from the docked "
+                             f"anchor core (> {MAX_CORE_RMSD_A} A). The pose is still exactly common-mode — "
+                             "this records that the docked anchor geometry is a stretch for this analogue, "
+                             "which the alchemical MD relaxes and which belongs in the edge's caveat.")
     return best, qc
 
 
@@ -286,8 +323,8 @@ def stage(anchor_sdf, receptor_pdb, out_dir, receptor=PRIMARY_RECEPTOR):
             poses[node] = mol
         report.append(qc)
         print(f"[stage] {node:28s} {qc['status']:12s} core={qc.get('core_atoms')} "
-              f"rmsd={qc.get('core_rmsd_A')} cands={qc.get('n_core_candidates')} "
-              f"worst={qc.get('core_rmsd_worst_candidate_A')} "
+              f"rmsd={qc.get('core_rmsd_A')} strain={qc.get('core_geometry_strain_A')} "
+              f"cands={qc.get('n_core_candidates')} "
               f"soft={qc.get('soft_contacts_lt_%.1fA' % CLASH_CUTOFF_A)} "
               f"severe={qc.get('severe_clashes_lt_%.1fA' % SEVERE_CLASH_A)}", flush=True)
 
@@ -313,7 +350,8 @@ def stage(anchor_sdf, receptor_pdb, out_dir, receptor=PRIMARY_RECEPTOR):
                        "comparable; it does not make the pose right.",
         "receptor": receptor, "n_requested": len(needed), "n_staged": len(names),
         "missing": missing, "sdf": os.path.basename(sdf_path), "qc": report,
-        "thresholds": {"min_core_atoms": MIN_CORE_ATOMS, "max_core_rmsd_A": MAX_CORE_RMSD_A,
+        "thresholds": {"min_core_atoms": MIN_CORE_ATOMS, "core_inherit_tol_A": CORE_INHERIT_TOL_A,
+                       "high_core_strain_A": MAX_CORE_RMSD_A,
                        "soft_contact_A": CLASH_CUTOFF_A, "severe_clash_A": SEVERE_CLASH_A},
     }
     with open(os.path.join(out_dir, "stage_qc.json"), "w") as f:
