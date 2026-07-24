@@ -338,3 +338,39 @@ if __name__ == "__main__":
     calls, term = _recorder()
     run_with_teardown(lambda: 0, term, 100)
     print("teardown on success:", calls)
+
+
+def test_price_ceiling_governs_the_billed_rate_not_the_floor():
+    """The cost ceiling must be checked against what we are BILLED, not the floor we bid above.
+
+    On Vast you pay your bid, and the bid is min_bid * _VAST_BID_FLOOR_MULT (1.9). Comparing max_hourly_usd
+    to min_bid alone let the effective rate reach 1.9x the cap before any offer was rejected — with a $0.60
+    cap that is $1.14/hr, i.e. no effective ceiling. This is how the step1 fan-out ran at ~$0.37/hr against a
+    routing estimate of $0.30 without anything complaining.
+    """
+    from gpu_backend import ResourceSpec, _select_cheapest_offer, _VAST_BID_FLOOR_MULT
+
+    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True)
+    # floor 0.40 -> we would actually be billed 0.40 * 1.9 = 0.76, which BUSTS a 0.60 ceiling
+    pricey = {"id": 1, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.50, "min_bid": 0.40,
+              "gpu_name": "RTX 4090"}
+    assert _select_cheapest_offer([pricey], res, max_hourly_usd=0.60) is None
+
+    # floor 0.20 -> billed 0.38, comfortably under the same ceiling: still selectable
+    ok = {"id": 2, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.25, "min_bid": 0.20,
+          "gpu_name": "RTX 4090"}
+    assert _select_cheapest_offer([ok], res, max_hourly_usd=0.60)["id"] == 2
+
+    # the ceiling is exactly the billed rate, so the boundary sits at ceiling / mult
+    boundary = round(0.60 / _VAST_BID_FLOOR_MULT, 4)
+    just_under = {"id": 3, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.40,
+                  "min_bid": boundary - 0.001, "gpu_name": "RTX 4090"}
+    just_over = {"id": 4, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.40,
+                 "min_bid": boundary + 0.001, "gpu_name": "RTX 4090"}
+    assert _select_cheapest_offer([just_under], res, max_hourly_usd=0.60)["id"] == 3
+    assert _select_cheapest_offer([just_over], res, max_hourly_usd=0.60) is None
+
+    # on-demand offers are billed at dph_total, so their ceiling check is unchanged
+    od = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=False)
+    assert _select_cheapest_offer([{"id": 5, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.55,
+                                    "gpu_name": "RTX 4090"}], od, max_hourly_usd=0.60)["id"] == 5

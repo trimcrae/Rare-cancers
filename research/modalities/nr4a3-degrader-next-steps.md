@@ -891,6 +891,36 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 VAST: `duration` IS THE HOST'S UPTIME, NOT YOUR RENTAL AGE — an age-based reaper WILL destroy a healthy
+  fleet (2026-07-24, step1_fanout).** A Vast instance object's `duration` is the **host machine's** uptime; on a
+  long-lived community host it reads in the hundreds of thousands of minutes. Freshly-rented boxes reported
+  `age_min=209141` (145 days). Any reaper that kills on age must use **`start_date`** (epoch seconds, the rental
+  start) — as `nrv04_vast_launch.py` already does. Caught before the first `collect`, which would otherwise have
+  torn down all 8 running units mid-leg.
+- **🛑 VAST BID: YOU PAY YOUR BID, AND THE COST CEILING WAS CHECKING THE WRONG NUMBER (fixed 2026-07-24).**
+  `bid = min_bid × _VAST_BID_FLOOR_MULT` (**1.9** since `27bd327`, not the 1.5 the docstring long claimed) — a
+  90% premium over the market floor, **by policy**. `_select_cheapest_offer` compared its `max_hourly_usd`
+  ceiling to `min_bid` (the floor) rather than to the bid, so with a $0.60 cap it permitted an effective
+  **$1.14/hr**: no ceiling on the billed rate at all. Now the ceiling governs the effective bid for
+  interruptible offers. **The 1.9 was tuned for the covalent endpoint-MD panel** (preemption = ~20-min fat-image
+  reload); a per-iteration-checkpointed lane loses ~5–9 min to a preemption and should set a lower
+  `VAST_BID_FLOOR_MULT` per lane rather than inherit it. Full analysis: [step1-fanout-lane.md](./step1-fanout-lane.md) §6.
+- **🛑 NEVER PRICE ONE SYSTEM OFF ANOTHER SYSTEM'S PER-ITERATION RATE (2026-07-24, cost 4× on step1_fanout).**
+  The `step1_fanout` estimate ($12–26, realized ~$91–101) used a rate measured on the **public TYK2** edge as if
+  it were the NR4A3 rate. Same card, same windows, same ps/iteration — **498 ns/day vs 190 ns/day**. The caveat
+  was written in the same file three lines below the number and was propagated past anyway, because the bolded
+  **MEASURED** label conferred authority the caveat had already withdrawn. **If a rate was measured on a
+  different molecule, it is an ORDER-OF-MAGNITUDE ROUTING HINT, not a price.**
+- **🛑 A FAILING STEP MUST SHIP ITS LOG BEFORE IT DIES.** Under `set -e` + `pipefail`, `driver.py | tee log`
+  aborts the enclosing function on a non-zero exit — so the `s3 cp` of that log never runs and the diagnostic is
+  discarded in exactly the case it is needed. Disarm errexit around the driver, capture the rc, upload
+  unconditionally, then fail. Also keep a mode that pulls container stdout straight off the instance
+  (`_vast_instance_logs`), which survives when the pipeline died before uploading anything.
+- **🛑 A CI JOB LOG IS ONLY READABLE FROM ITS TAIL, AND THE TAIL IS ALWAYS RUNNER BOILERPLATE.** The
+  upload-artifact env dump plus post-job cleanup occupies the last ~50 lines of every job, so a monitor/diag
+  summary printed to stdout is unreadable. Write readouts to files and have CI **commit them back to the
+  branch** (the `atlas-data.yml` pattern); `git add A B` fails atomically if either pathspec matches nothing, so
+  stage each file separately or a mode that writes only one of them silently commits neither.
 - **🛑 CPU-PRIME THE TERNARY SETUP CACHE BEFORE ANY GPU RUN — a cold cache burns ~8–40 min of GPU-idle
   re-parameterization; this is now ENFORCED in code (learned the hard way 2026-07-19).** Setup (solvate +
   parameterize the 146k-atom hybrid system) is 100% CPU. Running it on the GPU VM pays for an idle L4 the whole
