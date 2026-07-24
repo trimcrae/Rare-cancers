@@ -100,6 +100,15 @@ def overlap_matrix_bottleneck(matrix):
         i_min, v_min = min(links, key=lambda t: t[1])
         return {"min_adjacent_overlap": v_min, "bottleneck_pair": [i_min, i_min + 1],
                 "connected": bool(v_min >= OVERLAP_BOTTLENECK_MIN)}
+    except ImportError as e:
+        # A MISSING DEPENDENCY is not "we could not tell from this matrix" — it means the convergence
+        # gate is silently disabled for the whole run. Same None-returning contract (no caller
+        # breaks), but flagged distinctly so a job cannot report an unevaluated bottleneck as merely
+        # inconclusive. This lane has already produced three silent failures; an unrunnable gate must
+        # look different from an unconvincing one.
+        return {"min_adjacent_overlap": None, "bottleneck_pair": None, "connected": None,
+                "environment_error": True,
+                "status": "bottleneck calc COULD NOT RUN (missing dependency, gate disabled): %s" % e}
     except Exception as e:  # noqa: BLE001
         return {"min_adjacent_overlap": None, "bottleneck_pair": None, "connected": None,
                 "status": "bottleneck calc failed: %s" % e}
