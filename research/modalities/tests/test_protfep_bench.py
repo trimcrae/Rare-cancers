@@ -624,3 +624,20 @@ def test_openeye_shim_defers_to_a_real_install(monkeypatch):
     monkeypatch.setitem(_sys.modules, "openeye", real)
     assert prun._install_openeye_shim() is False
     assert _sys.modules["openeye"] is real
+
+
+def test_openeye_shim_answers_licence_probes_with_false():
+    """openff-toolkit calls oechem.OEChemIsLicensed() at import to decide whether to register its
+    OpenEye wrapper. Raising there is WORSE than no shim — it makes OpenEye look present-but-broken
+    and kills openff's import (observed on the free build-test). False is both survivable and true:
+    we have no licence, so the stack uses its RDKit/AmberTools path.
+    """
+    import sys as _sys
+    for key in [k for k in _sys.modules if k == "openeye" or k.startswith("openeye.")]:
+        del _sys.modules[key]
+    prun._install_openeye_shim()
+    from openeye import oechem
+    assert oechem.OEChemIsLicensed() is False
+    assert oechem.OEBioIsLicensed() is False
+    with pytest.raises(RuntimeError, match="tried to USE OpenEye"):
+        oechem.OEGraphMol
