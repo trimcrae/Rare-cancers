@@ -68,16 +68,27 @@ read it before making changes.
     T4L offset, report raw, it does NOT prove "binds at all"; (4) **NR-V04 celastrol is covalent (C551)** →
     covalent adduct model + C551A + warhead/recruiter controls, report **directional concordance** not "recovered
     degradation"; (5) prospective matrix = **staged gates + Pareto** (not a tunable scalar), modeling
-    **EWSR1::NR4A3 in fusion context** + lysines beyond the LBD + full CRL/E2~Ub ensembles; matrix is **24–36
-    before controls** (downselect, not 6–12). **SPEND-GATED LADDER + NO PRE-AUTHORIZATION (trimcrae, 2026-07-15):
+    **EWSR1::NR4A3 in fusion context** + lysines beyond the LBD + full CRL/E2~Ub ensembles.
+    *(The reviewer's "24–36 before controls, downselect, not 6–12" has since been **re-scoped, not reversed**:
+    24–36 now bounds the **virtual** library at 5b (~12–20 enumerated constructs), 5c filters to ~4–8, and 5d's
+    final matched series is ~6–12. Nothing is hand-built at 6–12 without a downselect above it. STRATEGY.md is
+    authoritative on these counts.)*
+    **SPEND-GATED LADDER + NO PRE-AUTHORIZATION (trimcrae, 2026-07-15):
     NOTHING is pre-staged/auto-launched — every GPU run is presented at its gate with a pinned cost + the prior
     result and waits for an explicit go (only $0 CPU/CI work runs without a nod). Order is cheapest-decisive-first:
-    RUNG 0 (free — step0 running + emc_e3 + pocket_reanalysis) → RUNG 1 valA_mini (~$25, the KILL-SWITCH: if the
-    exact pipeline can't reproduce known ΔΔG, stop/pivot) → RUNG 2 step1_pilot + valB_mini (~$110) → RUNG 3 full
-    benchmarks + NR-V04 covalent feasibility (~$345) → RUNG 4 step1_fanout + NR-V04 retrospective (~$655) → RUNG 5
-    the ~$150–400 prospective matrix (biggest spend; only after 4 cheaper gates say GO) → RUNG 6 write/ship.
-    dg_open + ABFE are OPTIONAL/HELD. Each rung is priced in the schedule's `cost_est_usd`.** Language: "predicted
-    selective candidate", never imply efficacy/safety/therapeutic-window/clinical-readiness.
+    RUNG 0 (free) → RUNG 1 valA_mini → RUNG 2 step1_pilot + valB_mini → RUNG 3 valB_full + NR-V04 covalent
+    feasibility → RUNG 4 step1_fanout + NR-V04 retrospective → RUNG 5 orientation-first prospective ladder
+    (5a basin → 5a-KS wedge → 5b linker → 5c ensemble → 5d local FEP; biggest spend, only after the cheaper
+    gates say GO) → RUNG 6 write/ship. dg_open + ABFE are OPTIONAL/HELD.**
+    **⚠ DO NOT quote prices from this file — it has been stale twice.** The per-rung dollar figures that used to
+    sit here (`valA_mini ~$25 … cumulative ~$655 … RUNG 5 ~$150–400`) were **4–12× off** and named **valA_mini**
+    as "the KILL-SWITCH", which it is not: valA_mini is the *accuracy* gate, and the designated **causal
+    kill-switch is 5a-KS**, the reciprocal target-surface mutation wedge in RUNG 5. As of 2026-07-24 the whole
+    priceable ladder is **~$370 mid (~$150–595)**, and **5a-KS itself is UNPRICED/BLOCKED — the repo has no
+    protein-mutation free-energy engine** (OpenFE's RHTP maps ligand atoms only). Live prices live in
+    **[STRATEGY.md](./STRATEGY.md)** → Spend summary and
+    **[research/compute/pricing.md](./research/compute/pricing.md)**; the schedule's `cost_est_usd` mirrors them.
+    Language: "predicted selective candidate", never imply efficacy/safety/therapeutic-window/clinical-readiness.
   - **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15; ordering now per the reviewer-revised master plan
     above).** The de novo warhead track is **SHELVED** (parked, revisit-when-warranted — not deleted). The
     program is the **Track B ternary workflow**. The original **three-step spine** (superseded as ordering by the
@@ -103,8 +114,12 @@ read it before making changes.
   - **Track B — a PARALOGUE-DISCRIMINATING TERNARY workflow (the higher-value long-term contribution) — NOW THE PROGRAM.** Do
     **NOT** get trapped chasing perfect *binary* NR4A3 selectivity before addressing ternary — the real
     hypothesis is that selectivity emerges from the combined **warhead × linker × E3 × ternary-interface
-    geometry** even if binary selectivity is incomplete. **First benchmark is RETROSPECTIVE + blinded against
-    NR-V04**, the family-matched positive control: can an ensemble ternary workflow distinguish the
+    geometry** even if binary selectivity is incomplete. ⚠ **One line below is SUPERSEDED:** this block was
+    written when NR-V04 was the method's *first* benchmark. The 2026-07-15 reviewer verdict **demoted NR-V04 to a
+    biological holdout** — the method calibrator is now the known-answer **VHL–SMARCA2/BRD4** ternary control
+    (valB_mini/valB_full), which runs *first* and gates the NR-V04 retrospective, not the other way round. Read
+    the retrospective description below as *what NR-V04 tests*, not as *what runs first*. **The NR-V04 benchmark
+    is RETROSPECTIVE + blinded**, the family-matched positive control: can an ensemble ternary workflow distinguish the
     experimentally-selective NR4A1/VHL assembly from the (not-degraded) NR4A2 and NR4A3 assemblies? Compare
     **ensembles, not one docked pose** — accessible ternary populations, linker strain, PPI-interface
     stability, predicted cooperativity/relative ternary stability, persistence across starting models, Lys
@@ -114,7 +129,10 @@ read it before making changes.
     THEN prospective NR4A3 designs — only after the workflow passes the NR-V04 control).
   - **★ WARHEAD-STRATEGY SHARPENING (2026-07-11, external reviewer-AI redirection, ADOPTED; see
     [research/manuscripts/nr4a3-degrader-strategy-ternary-first.md](./research/manuscripts/nr4a3-degrader-strategy-ternary-first.md)).**
-    The flagship deliverable is now a **synthesis-ready degrader MATRIX (~6–12 compounds)** getting selectivity
+    The flagship deliverable is a degrader **MATRIX (~6–12 compounds)** getting selectivity
+    *(⚠ the original wording "**synthesis-ready** matrix" is BANNED by STRATEGY.md's language discipline — the
+    earned phrase is "a computationally prioritized, structure-defined, retrosynthetically annotated candidate
+    matrix for synthesis and experimental testing")*
     JOINTLY from a modest binary preference + ternary cooperativity + ubiquitination-compatible geometry — NOT a
     single de novo "selective warhead." Concretely: (1) warheads come from a **congeneric campaign anchored on
     Zaienne compound 19** (methyl 5-bromoindole-3-carboxylate, `zaienne_cmpd19`; functional target-engagement,
@@ -565,10 +583,15 @@ read it before making changes.
   confirm it with trimcrae *before* launch — do NOT silently default to AWS. The repo is now provider-agnostic
   (`research/modalities/gpu_backend.py` + `autoteardown.py` + `object_store.py`; full plan + accounts +
   free-credit offers in **[research/compute/cheap-gpu-plan.md](./research/compute/cheap-gpu-plan.md)**), so the
-  provider is a config, not a rewrite. Default mapping: **Modal** for free/validation first runs (free credits +
-  zero-idle-by-design, but PRICIER/hr — not the cheapest); **Salad** (cheapest) or Vast for bulk short-sampling
-  triage; **RunPod Secure** or **ACCESS** (free HPC) for long full-sampling terminal legs (a stable host so
-  preemption doesn't force costly MD-env reloads); **AWS SageMaker** only when specifically warranted. Compose
+  provider is a config, not a rewrite. **⚠ UPDATED 2026-07-24 — the 2026-07-12 default mapping below is
+  SUPERSEDED as the planning basis.** STRATEGY.md's GPU-economics section now says: **all production runs go on
+  Vast — RTX 4090 (default) or RTX 3090 (fallback)**, and the whole ladder is *priced* in Vast-4090 dollars;
+  GCP L4 / SageMaker / Modal are explicitly **not the go-forward basis**. The one standing exception is
+  **spending expiring free credit** (the GCP trial closes **2026-10-10**), which is why `valB_mini` actually ran
+  on GCP L4 — free credit beats cheap cash, but it means **realized spend and ladder spend are two different
+  ledgers** and must be tracked separately. Superseded mapping, retained for context: Modal for free/validation
+  first runs (pricier/hr); Salad (cheapest) or Vast for bulk short-sampling triage; RunPod Secure or ACCESS
+  (free HPC) for long terminal legs; AWS SageMaker only when specifically warranted. Compose
   this with the existing >$50 / expensive-spend confirmation — state the provider in the SAME advance
   confirmation. The auto-teardown wrapper guarantees no idle-GPU billing on any provider.
 - **DEFAULT EVERY GPU RUN TO MANAGED SPOT — reframe on-demand jobs to spot *Training* whenever possible
