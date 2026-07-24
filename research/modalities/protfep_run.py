@@ -66,6 +66,9 @@ PROD_ITERS = int(os.environ.get("PROTFEP_PROD_ITERS", "2000"))       # 5 ns at 2
 MIN_STEPS = int(os.environ.get("PROTFEP_MIN_STEPS", "5000"))
 CHUNK_ITERS = int(os.environ.get("PROTFEP_CHUNK_ITERS", "50"))       # commit/checkpoint cadence
 CHECKPOINT_INTERVAL = int(os.environ.get("PROTFEP_CHECKPOINT_INTERVAL", "50"))
+# Run an MBAR reduction every N chunks so a preempted leg leaves a readable partial dG and a
+# progress check can see the estimate settle. 0 disables.
+RUNNING_DG_EVERY = int(os.environ.get("PROTFEP_RUNNING_DG_EVERY", "4"))
 TEMPERATURE_K = float(os.environ.get("PROTFEP_TEMPERATURE_K", str(md_settings.TEMPERATURE_K)))
 KT_KCAL = 0.0019872041 * TEMPERATURE_K   # kB*T in kcal/mol; MBAR returns free energies in kT
 
@@ -338,15 +341,29 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, n_states=None, prod_
             _warmup(sampler, warmup_iters)
         _commit(status="production", iterations_done=done)
 
+        chunks = 0
         while done < prod_iters:
             chunk = min(CHUNK_ITERS, prod_iters - done)
             it0 = time.time()
             sampler.extend(chunk)
             done = int(getattr(sampler, "iteration", done + chunk))
+            chunks += 1
             rate = (time.time() - it0) / max(1, chunk)
             _log(f"iter {done}/{prod_iters} ({rate:.1f} s/iter, {(prod_iters-done)*rate/3600:.1f} h left)")
-            _commit(status="production", iterations_done=done, s_per_iter=round(rate, 2),
-                    gpu_hours_so_far=round((time.time() - t0) / 3600.0, 3))
+            update = {"status": "production", "iterations_done": done, "s_per_iter": round(rate, 2),
+                      "gpu_hours_so_far": round((time.time() - t0) / 3600.0, 3)}
+            # A RUNNING dG every RUNNING_DG_EVERY chunks. Two reasons, both from standing rules:
+            # a spot leg that gets preempted must leave a readable partial rather than only a .nc,
+            # and a progress check has to show the science ADVANCING, not merely that the process is
+            # alive — a dG that is not settling is the signal to look, and a liveness ping hides it.
+            if RUNNING_DG_EVERY and chunks % RUNNING_DG_EVERY == 0:
+                try:
+                    dg_r, ddg_r, _ = analyze(reporter)
+                    update.update(dg_running_kcal=round(dg_r, 3), dg_running_mbar_se_kcal=round(ddg_r, 3))
+                    _log(f"running dG = {dg_r:.3f} +/- {ddg_r:.3f} kcal/mol at iter {done}")
+                except Exception as e:  # noqa: BLE001 — a partial-analysis failure must not kill the leg
+                    update["dg_running_error"] = f"{type(e).__name__}: {e}"
+            _commit(**update)
 
         _commit(status="analyzing", iterations_done=done)
         dg, ddg, extra = analyze(reporter)
@@ -355,9 +372,23 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, n_states=None, prod_
         _log(f"LEG DONE {leg_id}: dG = {dg:.3f} +/- {ddg:.3f} kcal/mol "
              f"({record['gpu_hours']:.2f} GPU-h)")
     except Exception as e:  # noqa: BLE001 — the partial record IS the deliverable on failure
+        salvage = {}
+        # Try once to reduce whatever landed on disk. A crashed or preempted leg with 900 usable
+        # iterations is worth more than a bare traceback, and the standing rule is that the partial
+        # checkpoint is the deliverable. Guarded: if the failure WAS the sampling (a NaN), this
+        # reduction will fail too, and that failure is recorded rather than raised.
+        try:
+            reporter_local = locals().get("reporter")
+            if reporter_local is not None:
+                dg_p, ddg_p, _ = analyze(reporter_local)
+                salvage = {"dg_partial_kcal": round(dg_p, 3), "dg_partial_mbar_se_kcal": round(ddg_p, 3),
+                           "partial_note": ("reduced from the iterations completed before the failure — "
+                                            "NOT a converged leg result, and not usable in a wedge")}
+        except Exception as e2:  # noqa: BLE001
+            salvage = {"dg_partial_error": f"{type(e2).__name__}: {e2}"}
         _commit(status="failed", error=f"{type(e).__name__}: {e}",
                 traceback=traceback.format_exc()[-4000:],
-                gpu_hours=round((time.time() - t0) / 3600.0, 3))
+                gpu_hours=round((time.time() - t0) / 3600.0, 3), **salvage)
         _log(f"LEG FAILED {leg_id}: {type(e).__name__}: {e}")
         raise
     return record
