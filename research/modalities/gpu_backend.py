@@ -382,29 +382,27 @@ def s3_checkpoint_uri(job_name: str, bucket: str = None, prefix: str = "vast") -
     return f"s3://{bucket}/{prefix}/{job_name}/ckpt"
 
 
-# Self-destroy on ANY exit: a bash EXIT trap that finds THIS instance by its unique label via the Vast REST API
-# (key forwarded in $VAST_API_KEY) and DELETEs it. The trap fires on success, on a crash, AND on a `set -e`
-# abort — so a job that FAILS or STOPS kills its own GPU immediately instead of idling on the meter (the earlier
-# `vastai destroy`/mock path silently no-op'd, leaving crashed VMs bleeding). Uses curl + python3, both present
-# on the baked image. SECURITY: forwarding VAST_API_KEY to a community host is a real exposure (it can spend the
-# account's credit) — accepted here for guaranteed teardown; rotate the key after a campaign. The CI-side
-# collect backstop (key stays on CI) is the second layer.
+# Self-STOP on ANY exit, KEY-FREE (2026-07-24, trimcrae: never share VAST_API_KEY with community hosts): a bash
+# EXIT trap that halts THIS instance's GPU billing WITHOUT any API key on the host, by exiting its own container
+# — Vast bills the GPU only while the container runs, so powering the container off / killing its init (PID 1)
+# stops the GPU meter immediately on completion, crash, or `set -e` abort. We deliberately do NOT forward
+# VAST_API_KEY to the rented host (a real exposure: the key can spend the account's credit). Stopping billing is
+# not the same as DESTROYING the instance (an exited instance still holds cheap disk); the guaranteed DESTROY is
+# CONTROL-PLANE only — the CI-side collect reap (result-in-S3 / terminal-state / 240-min backstop) + stop_all,
+# where the key never leaves CI. So: host self-stops the GPU key-free, CI destroys the exited instance.
 _VAST_SELFDESTROY = (
-    'ct_selfdestroy(){ rc=$?; [ -n "$VAST_API_KEY" ] || return $rc; '
-    'mid=$(curl -s -H "Authorization: Bearer $VAST_API_KEY" "https://console.vast.ai/api/v0/instances/?owner=me" '
-    "| python3 -c 'import sys,json,os"
-    "\nd=json.load(sys.stdin)"
-    "\nprint(next((str(i[\"id\"]) for i in d.get(\"instances\",[]) if i.get(\"label\")==os.environ.get(\"SELF_LABEL\")),\"\"))' 2>/dev/null); "
-    '[ -n "$mid" ] && curl -s -X DELETE -H "Authorization: Bearer $VAST_API_KEY" '
-    '"https://console.vast.ai/api/v0/instances/$mid/" >/dev/null 2>&1; return $rc; }'
+    'ct_selfdestroy(){ rc=$?; '
+    'poweroff 2>/dev/null || shutdown -h now 2>/dev/null || kill -9 -1 2>/dev/null || kill -9 1 2>/dev/null || true; '
+    'return $rc; }'
 )
 
 
 def _vast_onstart(spec: JobSpec, self_terminate_argv, extra_env=None) -> str:
-    """Build the instance onstart script: export the resume/checkpoint context (+ forwarded object-store creds +
-    VAST_API_KEY), arm a self-destroy EXIT trap so the instance is torn down on completion/crash/stop (never
-    idles on the meter — the #1 gotcha), then run the job command. `extra_env` is merged UNDER spec.env (spec.env
-    wins). PURE (no I/O) -> unit-tested."""
+    """Build the instance onstart script: export the resume/checkpoint context (+ forwarded object-store creds;
+    NO VAST_API_KEY — never on a community host), arm a KEY-FREE self-stop EXIT trap so the instance halts its GPU
+    billing (exits its container) on completion/crash/stop (never idles on the meter — the #1 gotcha), then run
+    the job command. The guaranteed DESTROY is control-plane (CI reap). `extra_env` is merged UNDER spec.env
+    (spec.env wins). PURE (no I/O) -> unit-tested."""
     cmd = " ".join(shlex.quote(a) for a in spec.command)
     env = {**(extra_env or {}), **spec.env}
     lines = ["#!/bin/bash", "set -o pipefail",
@@ -423,18 +421,23 @@ class VastBackend(Backend):
     bottleneck. On our MD/FEP workload (memory-bandwidth-bound PME) the marketplace's RTX 4090s (1008 GB/s) are
     the a-priori cheapest $/ns. The catch is the PROVIDER not the card: community hosts are interruptible and can
     vanish, and — the #1 gotcha — a finished job that leaves its instance UP bleeds money on an idle GPU, so the
-    instance MUST self-destroy. Two guards: (1) autoteardown's finally+watchdog runs `self_terminate_cmd()` on
-    success/failure/timeout; (2) the onstart script appends the same destroy as a belt-and-braces backstop.
+    instance MUST stop billing. Teardown is KEY-FREE + two-layer (VAST_API_KEY is NEVER put on a community host):
+    (1) HOST self-STOP — autoteardown's finally+watchdog + the onstart EXIT trap exit the container (poweroff /
+    kill PID 1), halting the GPU meter with no API key; (2) CONTROL-PLANE DESTROY — the CI collect reap
+    (result-in-S3 / terminal / 240-min backstop) + stop_all fully remove the exited instance, key staying in CI.
+    The host can stop its own GPU billing but only CI (the key-holder) can destroy the instance.
 
     NOTE (must smoke before a fleet): the exact Vast REST endpoints/query schema drift between API versions; the
-    LOAD-BEARING logic — cheapest-verified-offer selection and the guaranteed-self-destroy onstart — is factored
+    LOAD-BEARING logic — cheapest-verified-offer selection and the key-free-self-stop onstart — is factored
     into pure, unit-tested helpers (`_select_cheapest_offer`, `_vast_onstart`), so a one-instance smoke only has
     to confirm the HTTP shapes, not the science."""
     name = "vast"
 
     def self_terminate_cmd(self):
-        # destroy this instance from inside it; the instance id is in the env Vast injects.
-        return ["vastai", "destroy", "instance", os.environ.get("VAST_INSTANCE_ID", "$VAST_INSTANCE_ID")]
+        # KEY-FREE self-stop: exit this container so Vast halts GPU billing, with NO API key on the host.
+        # The guaranteed DESTROY of the (now-exited) instance is control-plane — the CI collect reap + stop_all,
+        # where VAST_API_KEY never leaves CI. (Was `vastai destroy` — needed the key on the host; removed.)
+        return ["bash", "-c", "poweroff 2>/dev/null || shutdown -h now 2>/dev/null || kill -9 1 2>/dev/null || true"]
 
     def submit(self, spec: JobSpec) -> Handle:
         key = os.environ.get("VAST_API_KEY")
@@ -449,10 +452,10 @@ class VastBackend(Backend):
                                        max_hourly_usd=(max_hr * 2.0 if max_hr else None))
         if offer is None:
             raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} offers)")
-        # Forward the checkpoint-store creds (reuse-S3 = the AWS keys) AND VAST_API_KEY (so the self-destroy EXIT
-        # trap can DELETE this instance on completion/crash/stop) into the rented host.
+        # Forward ONLY the checkpoint-store creds (reuse-S3 = bucket-scoped AWS keys) into the rented host — the
+        # science needs S3, not Vast. VAST_API_KEY is deliberately NOT forwarded (never expose the account key to a
+        # community host); the host tears down key-free by exiting its container, and CI destroys it (2026-07-24).
         extra = dict(_object_store_env())
-        extra["VAST_API_KEY"] = key
         onstart = _vast_onstart(spec, self.self_terminate_cmd(), extra_env=extra)
         # Rent the chosen ask: PUT /asks/{id}/ is Vast's canonical create-instance endpoint (POST /instances/
         # 404s). On success the body carries new_contract = the instance id.
