@@ -78,10 +78,56 @@ stronger leg of the evidence.)*
   inflating the incumbent's expected wall clock at `λ_ref = 1.0/hr`, which is a **prior, not a measurement**.
   Do not quote the 62 % as measured.
 
+## 3b. ★ CORRECTION (same day, trimcrae): the above optimises the wrong variable
+
+Everything up to here answers *"given that I launch into THIS market snapshot, what should I pay?"* — and for
+work that is not deadline-bound, that is the wrong question. Two things follow, and both are right:
+
+**(a) The target should be an absolute PRICE, not any multiple.** What a GPU-hour is worth to us is an absolute
+quantity — it is what prices the ladder. A multiple of a floating floor has no stable relationship to it: at a
+$0.15 floor ×1.9 is $0.285, at a $0.55 floor it is $1.045, for identical work. The right object is a
+**reservation price** `P*`: "we pay at most $X/hr for a 4090-equivalent," held fixed while the market moves.
+
+**(b) We should wait for the market, not pay today's price.** The repo's own operating regime says this is never
+a race, so the cost of waiting is close to zero — which means an optimal-stopping policy is available and both
+the ×1.9 heuristic and my "take on-demand" answer ignored it.
+
+**And the waiting mechanism already exists, unused: ON VAST AN INTERRUPTIBLE BID IS A LIMIT ORDER.** A standing
+bid at `P*` acquires the machine whenever the clearing price falls to `P*`, and is preempted when it rises above.
+With per-unit checkpointing that is not churn to be avoided — it *is* the strategy executing itself: the job
+advances during cheap periods, parks during expensive ones, and the cost per unit of **work** is bounded by `P*`
+regardless of what the market does. Wall clock stretches; we do not care.
+
+**This also inverts my regime-A reading.** `min_bid == dph_base` does not mean "take on-demand" — it means the
+interruptible market is momentarily *at its ceiling*, which is precisely when waiting is most valuable and paying
+is least. I had that backwards.
+
+**The one thing that stops you bidding arbitrarily low.** Bid too far down and you acquire, spend `R` hours
+reloading, run briefly, and lose the box — buying reloads instead of science. The useful fraction of paid time is
+`(1 − λ·R)`, so `P*` must satisfy `λ(P*)·R ≤ max_churn` (default 0.2, i.e. ≥80 % of paid time is real work).
+**That constraint is the legitimate core of what ×1.9 was groping at** — it just expressed it as a market
+multiple instead of a job property.
+
+```
+P* = max( cheap-end quantile of the price history ,  no-churn floor λ(P*)·R ≤ 0.2 )
+```
+
+If the churn floor binds, the message is *"tighten checkpointing"*, not *"pay more"* — the two are substitutes.
+
+**The blocking gap: we have no price history.** Every observation ever taken was at the instant we wanted to
+launch, which is exactly the biased sample you must not set `P*` from. `reservation_price()` therefore **refuses
+to return a number without one** rather than inventing a target. `.github/workflows/vast-price-sample.yml`
+samples the market hourly (read-only, $0) and begins once it reaches main.
+
 ## 4. Policy
 
-1. **Default to on-demand while `min_bid ≈ dph_base`.** Interruptible only pays when the floor is materially below
-   on-demand. Right now it is not, so interruptible buys nothing and costs preemption risk.
+1. **Stand a limit order at `P*` and wait** — the default for all non-deadline work. `P*` is an absolute $/hr,
+   set from the price *history* (cheap-end quantile) and floored by the no-churn constraint. Do **not** pay
+   today's price merely because today is when we happened to look.
+   *(Superseded: "default to on-demand while `min_bid ≈ dph_base`." That was right about the arithmetic of one
+   snapshot and wrong about the decision — see §3b.)*
+1b. **Take on-demand only when waiting is genuinely unavailable:** a hard deadline, or a leg that cannot tolerate
+   preemption at all (the covalent tail's slow legs needed continuous ~4 h runs). Otherwise waiting is free.
 2. **Never bid above on-demand.** Cap at `dph_base`, clamped to `≥ min_bid`.
 3. **Rank offers by expected $ per completed unit**, not by `min_bid` — throughput and reliability belong in the
    ranking.

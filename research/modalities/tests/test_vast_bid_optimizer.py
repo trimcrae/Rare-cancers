@@ -181,5 +181,72 @@ class TestCalibration(unittest.TestCase):
         self.assertLess(b, a)
 
 
+class TestReservationPrice(unittest.TestCase):
+    """P* is the object the fixed multiple could not express: an absolute target price held while the market
+    moves, with a floor set by the job's own restart overhead."""
+
+    HISTORY = [0.10, 0.11, 0.12, 0.15, 0.18, 0.20, 0.25, 0.30, 0.40, 0.55]
+
+    def test_no_history_refuses_to_invent_a_target(self):
+        out = vbo.reservation_price([], restart_h=0.4)
+        self.assertIsNone(out["reservation_price"])
+        self.assertIn("over TIME", out["note"])
+
+    def test_targets_the_cheap_end_not_todays_price(self):
+        out = vbo.reservation_price(self.HISTORY, restart_h=0.0, target_quantile=0.25)
+        self.assertLessEqual(out["reservation_price"], 0.15)
+        self.assertEqual(out["binding"], "price_quantile")
+
+    def test_lower_quantile_gives_a_lower_target(self):
+        lo = vbo.reservation_price(self.HISTORY, 0.0, target_quantile=0.1)["reservation_price"]
+        hi = vbo.reservation_price(self.HISTORY, 0.0, target_quantile=0.5)["reservation_price"]
+        self.assertLess(lo, hi)
+
+    def test_churn_floor_can_bind_above_the_quantile(self):
+        """A fat-image job in a hot market cannot chase the cheap end — the restart overhead binds first."""
+        out = vbo.reservation_price(self.HISTORY, restart_h=0.9, market_prices=MARKET, floor=FLOOR,
+                                    target_quantile=0.1, lambda_ref=2.0)
+        self.assertEqual(out["binding"], "churn_floor")
+        self.assertGreaterEqual(out["reservation_price"], out["quantile_price"])
+
+    def test_reservation_never_below_either_component(self):
+        out = vbo.reservation_price(self.HISTORY, 0.5, market_prices=MARKET, floor=FLOOR)
+        self.assertGreaterEqual(out["reservation_price"], out["quantile_price"])
+        if out["churn_floor"]:
+            self.assertGreaterEqual(out["reservation_price"], out["churn_floor"])
+
+
+class TestChurnFloor(unittest.TestCase):
+    def test_zero_restart_overhead_allows_the_floor(self):
+        self.assertAlmostEqual(vbo.churn_floor_price(FLOOR, MARKET, restart_h=0.0), FLOOR, places=4)
+
+    def test_bigger_restart_overhead_raises_the_floor(self):
+        cheap = vbo.churn_floor_price(FLOOR, MARKET, 0.05, lambda_ref=2.0)
+        dear = vbo.churn_floor_price(FLOOR, MARKET, 0.45, lambda_ref=2.0)
+        self.assertGreaterEqual(dear, cheap)
+
+    def test_churn_floor_actually_satisfies_its_own_constraint(self):
+        b = vbo.churn_floor_price(FLOOR, MARKET, 0.4, lambda_ref=2.0)
+        self.assertIsNotNone(b)
+        self.assertLessEqual(vbo.hazard(b, FLOOR, MARKET, 2.0) * 0.4, vbo.DEFAULT_MAX_CHURN_FRACTION + 1e-9)
+
+
+class TestWaitingValue(unittest.TestCase):
+    HISTORY = [0.10, 0.12, 0.15, 0.20, 0.30, 0.40, 0.55, 0.60]
+
+    def test_quantifies_the_gap_to_the_cheap_end(self):
+        out = vbo.waiting_value(self.HISTORY, current_price=0.55, target_quantile=0.25)
+        self.assertGreater(out["saving_per_gpu_h"], 0)
+        self.assertGreater(out["saving_pct"], 0)
+
+    def test_reports_how_often_the_target_is_actually_reachable(self):
+        out = vbo.waiting_value(self.HISTORY, 0.55, target_quantile=0.25)
+        self.assertGreater(out["frac_of_samples_at_or_below_target"], 0.0)
+        self.assertLessEqual(out["frac_of_samples_at_or_below_target"], 1.0)
+
+    def test_no_history_returns_none_rather_than_a_guess(self):
+        self.assertIsNone(vbo.waiting_value([], 0.5))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

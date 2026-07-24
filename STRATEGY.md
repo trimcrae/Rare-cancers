@@ -934,12 +934,25 @@ preempted** — strictly dominated, and true without any hazard model. Full deri
 multiple, and the optimiser (`vast_bid_optimizer.py`, 28 tests) are in
 [research/compute/bid-strategy.md](research/compute/bid-strategy.md).
 
-**Policy:** default to **on-demand while `min_bid ≈ dph_base`**; never bid above on-demand (cap at `dph_base`,
-clamped to ≥ `min_bid`); rank offers by expected **$ per completed unit**, not by the floor; set the margin from
-the restart overhead `R = reload + ½·ckpt_interval·sec_per_iter` rather than a constant — tight checkpointing
-earns a cheaper bid. `gpu_backend` is deliberately **not** changed yet: the hazard prior `λ_ref` is unfitted and
-the `min_bid ≈ dph_base` condition is one afternoon's snapshot, and generalising from a single measurement is
-exactly what produced the 2.6× RBFE mispricing. Next launch takes on-demand and starts the survival ledger.
+**Policy (corrected same day — the snapshot answer optimised the wrong variable):** stand a **limit order at an
+absolute reservation price `P*` and wait.** On Vast an interruptible bid **is** a limit order: it acquires when
+the clearing price falls to `P*` and is preempted when it rises, so with per-unit checkpointing the job advances
+during cheap periods, parks during expensive ones, and cost per unit of **work** is bounded by `P*`. Since this
+program is never a race, waiting is close to free — and `min_bid == dph_base` means the market is momentarily at
+its *ceiling*, i.e. the worst moment to buy, not a reason to pay on-demand.
+
+```
+P* = max( cheap-end quantile of the price HISTORY ,  no-churn floor: λ(P*)·R ≤ 0.2 )
+     R = reload + ½·ckpt_interval·sec_per_iter
+```
+
+The churn floor is the legitimate core of the old ×1.9 — expressed as a job property instead of a market
+multiple. If it binds, **tighten checkpointing rather than pay more**; they are substitutes. Take on-demand only
+when waiting is genuinely unavailable (hard deadline, or a leg that cannot tolerate preemption at all). Rank
+offers by expected **$ per completed unit**, never by the floor. **Blocking gap: there is no price history** —
+every observation was taken at the instant we wanted to launch, the one sample you must not set `P*` from — so
+`reservation_price()` refuses to return a number until the new hourly sampler
+(`.github/workflows/vast-price-sample.yml`, read-only, $0) has run. `gpu_backend` stays unchanged meanwhile.
 
 **Decision status (2026-07-24)** — detail + evidence in the [revision
 doc](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md) §8:

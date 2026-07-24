@@ -274,6 +274,107 @@ def _compare_to_fixed_multiple(floor, market, work, restart_h, lambda_ref, offer
 
 
 # =============================================================================================================
+# RESERVATION PRICE — the decision we were missing: WHEN to launch, not just what to bid now
+# =============================================================================================================
+# The bid optimiser above answers "given that I launch into THIS market snapshot, what should I pay?" That is the
+# wrong question for work that is not deadline-bound, which is nearly all of ours (the operating regime states
+# outright that this is never a race). The right object is a RESERVATION PRICE: an absolute $/hr we are willing
+# to pay for a GPU-hour, held fixed while the market moves, launching only when the market comes to us.
+#
+# The mechanism is already there and we were not using it: ON VAST, AN INTERRUPTIBLE BID IS A LIMIT ORDER. A
+# standing bid at P* acquires the machine whenever the clearing price falls to P* and is preempted when it rises
+# above. With per-unit checkpointing, that is not churn to be avoided — it IS the "wait for cheap capacity"
+# strategy executing itself: the job advances during cheap periods and parks during expensive ones, and the cost
+# per unit of WORK is bounded by P* no matter what the market does.
+#
+# So a fixed multiple of a floating floor is doubly wrong: it has no stable relationship to what a GPU-hour is
+# worth to us, and it re-prices upward exactly when the market is most expensive — the moment we should be
+# waiting, not paying.
+#
+# THE ONE CONSTRAINT ON GOING LOW. Bid too far down and you acquire, spend R hours reloading, run briefly, and
+# lose the box — paying for reloads instead of science. From the model above the useful fraction of paid time is
+# (1 - lambda*R), so P* must satisfy lambda(P*)*R <= max_churn_fraction. That links the reservation price to the
+# JOB (via R) and is the legitimate core of what the x1.9 heuristic was groping at.
+
+DEFAULT_MAX_CHURN_FRACTION = 0.2          # >=80% of paid time must be real work, not reload
+
+
+def churn_floor_price(floor, market_prices, restart_h, lambda_ref=DEFAULT_LAMBDA_REF,
+                      max_churn_fraction=DEFAULT_MAX_CHURN_FRACTION, n_grid=400):
+    """Lowest bid at which the job still makes net progress: the smallest b with lambda(b)*R <= max_churn.
+
+    Below this you are buying image reloads, not compute. Returns None if no bid in range qualifies (the job's
+    restart overhead is too large for this market — tighten checkpointing or take on-demand)."""
+    if floor <= 0 or restart_h <= 0:
+        return floor
+    hi = max([p for p in market_prices if p] + [floor]) if market_prices else floor * 3.0
+    hi = max(hi, floor * 1.05)
+    for i in range(n_grid + 1):
+        b = floor + (hi - floor) * i / n_grid
+        if hazard(b, floor, market_prices, lambda_ref) * restart_h <= max_churn_fraction:
+            return round(b, 4)
+    return None
+
+
+def reservation_price(price_history, restart_h, target_quantile=0.25, market_prices=None,
+                      floor=None, lambda_ref=DEFAULT_LAMBDA_REF,
+                      max_churn_fraction=DEFAULT_MAX_CHURN_FRACTION):
+    """The absolute $/hr to stand a bid at.
+
+    Two forces, and P* is the larger of them:
+      * WAIT FOR CHEAP — the `target_quantile` of the OBSERVED price history. With a long horizon and no
+        deadline, aim at the cheap end of the distribution rather than at today's price.
+      * DON'T CHURN — `churn_floor_price`, below which preemptions eat the run.
+
+    `price_history` is a list of observed prices over TIME (many snapshots), not the offers in one snapshot —
+    that distinction is the whole point. Returns the binding reason so the number is never a bare figure."""
+    hist = sorted(p for p in (price_history or []) if p and p > 0)
+    if not hist:
+        return {"reservation_price": None, "binding": "no price history",
+                "note": ("P* cannot be set from a single market snapshot — it needs the price distribution over "
+                         "TIME. Start the sampler; until then there is no defensible target price.")}
+    idx = min(len(hist) - 1, max(0, int(round(target_quantile * (len(hist) - 1)))))
+    quantile_price = hist[idx]
+    churn = None
+    if market_prices and floor:
+        churn = churn_floor_price(floor, market_prices, restart_h, lambda_ref, max_churn_fraction)
+    if churn is None:
+        return {"reservation_price": round(quantile_price, 4), "binding": "price_quantile",
+                "quantile_price": round(quantile_price, 4), "churn_floor": None,
+                "n_history": len(hist),
+                "note": "No churn floor computed (no live snapshot supplied); quantile target only."}
+    P = max(quantile_price, churn)
+    return {"reservation_price": round(P, 4),
+            "binding": "churn_floor" if churn > quantile_price else "price_quantile",
+            "quantile_price": round(quantile_price, 4), "churn_floor": round(churn, 4),
+            "n_history": len(hist),
+            "note": ("P* is the larger of the cheap-end target and the no-churn floor. If the churn floor binds, "
+                     "the job's restart overhead — not the market — is what is costing you; tighten "
+                     "checkpointing before paying more.")}
+
+
+def waiting_value(price_history, current_price, target_quantile=0.25):
+    """What waiting is worth: the gap between today's price and the cheap end of the observed distribution,
+    plus how often the market has actually been at or below that target.
+
+    If `frac_at_or_below` is tiny, waiting is a long shot and the saving is not bankable; if it is a healthy
+    fraction of samples, waiting is close to free money for work with no deadline."""
+    hist = sorted(p for p in (price_history or []) if p and p > 0)
+    if not hist or not current_price:
+        return None
+    idx = min(len(hist) - 1, max(0, int(round(target_quantile * (len(hist) - 1)))))
+    target = hist[idx]
+    frac = sum(1 for p in hist if p <= target) / len(hist)
+    return {"current_price": round(current_price, 4), "target_price": round(target, 4),
+            "saving_per_gpu_h": round(current_price - target, 4),
+            "saving_pct": round(100.0 * (current_price - target) / current_price, 1) if current_price else None,
+            "frac_of_samples_at_or_below_target": round(frac, 3),
+            "n_history": len(hist),
+            "note": ("A standing bid at the target IS the waiting mechanism — on Vast an interruptible bid is a "
+                     "limit order. Waiting costs wall-clock, which for non-deadline work is close to free.")}
+
+
+# =============================================================================================================
 # calibration — the data we must start logging
 # =============================================================================================================
 @dataclass
@@ -332,6 +433,13 @@ def _cli(argv=None):
                          "no rent, no spend) instead of --offers-json")
     ap.add_argument("--gpu", default="rtx4090", help="--live: gpu_name substring filter")
     ap.add_argument("--out", default=None, help="also write the full result JSON here")
+    ap.add_argument("--sample-out", default=None,
+                    help="append a market SNAPSHOT (one line of JSON) to this JSONL — the price time series "
+                         "that a reservation price needs and that we have never collected")
+    ap.add_argument("--history", default=None,
+                    help="price-history JSONL from --sample-out; enables the reservation-price / waiting-value "
+                         "read-out")
+    ap.add_argument("--target-quantile", type=float, default=0.25)
     ap.add_argument("--crosscheck-ondemand", action="store_true",
                     help="run the same query as on-demand and compare per machine (read-only)")
     args = ap.parse_args(argv)
@@ -350,17 +458,55 @@ def _cli(argv=None):
         print(json.dumps({"restart_overhead_h": round(R, 3),
                           "note": "pass --offers-json (a probe dump) or --live to rank real offers"}, indent=1))
         return 0
+    floors = sorted(float(o["min_bid"]) for o in offers if o.get("min_bid"))
+    if args.sample_out:
+        _append_sample(args.sample_out, offers)
     ranked = rank_offers(offers, args.work_gpu_h, args.atoms, R, args.wall_max_h, args.lambda_ref)
     result = {"restart_overhead_h": round(R, 3), "n_offers": len(offers),
               "work_gpu_h_reference": args.work_gpu_h, "atoms": args.atoms,
               "lambda_ref": args.lambda_ref,
               "lambda_ref_is_prior": args.lambda_ref == DEFAULT_LAMBDA_REF,
               "ranked": ranked[:args.top], "saving_vs_current_policy": _saving_summary(ranked)}
+    hist = _load_history(args.history) if args.history else []
+    result["reservation_price"] = reservation_price(
+        hist, R, target_quantile=args.target_quantile, market_prices=floors,
+        floor=(floors[0] if floors else None), lambda_ref=args.lambda_ref)
+    result["waiting_value"] = waiting_value(hist, floors[0] if floors else None, args.target_quantile)
     print(json.dumps(result, indent=1))
     if args.out:
         with open(args.out, "w") as f:
             json.dump(result, f, indent=1)
     return 0
+
+
+def _append_sample(path, offers):
+    """One line of JSON per market observation. Deliberately append-only and schema-light: the thing we need is
+    a LONG series of cheapest-floor observations over time, and anything that makes sampling fragile defeats it."""
+    floors = sorted(float(o["min_bid"]) for o in offers if o.get("min_bid"))
+    rec = {"n_offers": len(offers), "min_floor": (floors[0] if floors else None),
+           "median_floor": (floors[len(floors) // 2] if floors else None),
+           "floors": floors[:20]}
+    with open(path, "a") as f:
+        f.write(json.dumps(rec) + "\n")
+
+
+def _load_history(path):
+    """Cheapest floor from each past snapshot — the distribution a reservation price is set against."""
+    out = []
+    if not os.path.exists(path):
+        return out
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            if r.get("min_floor"):
+                out.append(float(r["min_floor"]))
+    return out
 
 
 def _live_offers(gpu_substr="rtx4090"):
