@@ -160,7 +160,7 @@ RULES = [
         "ERROR",
         'say "predicted selective candidate", not "selective hit"',
         'STRATEGY.md "selective hit" -> "predicted selective candidate"',
-        clears_on=None,
+        clears_on="local_negation",
     ),
     Rule(
         "R1-synthesis-ready",
@@ -171,7 +171,7 @@ RULES = [
         'assessment exist; say "computationally prioritized, structure-defined, '
         'retrosynthetically annotated candidate matrix"',
         'STRATEGY.md "synthesis-ready matrix" -> earned phrase',
-        clears_on=None,
+        clears_on="local_negation",
     ),
     Rule(
         "R1-nr4a3-selective",
@@ -397,6 +397,26 @@ def _lineno_for(offsets, pos):
     return ln
 
 
+# A banned *phrase* needs a tighter test than sentence-level negation. Compare:
+#   "present it as a research hypothesis, NOT among synthesis-ready claims"  <- disclaims the phrase
+#   "a synthesis-ready matrix, not another in-silico lead"                   <- ASSERTS it; the "not"
+#                                                                              negates something else
+# Both contain "not", so DISCLAIMER_RE clears both and the second escapes. For earned-phrase rules we
+# therefore look only at the short span immediately BEFORE the match, where a negation that actually
+# scopes the phrase has to sit.
+LOCAL_NEGATION_WINDOW = 40
+LOCAL_NEGATION_RE = re.compile(
+    r"\b(?:not|never|no|nor|non|isn't|aren't|without|rather than|instead of|as opposed to)\b"
+    r"[\s\w,]{0,20}$",
+    re.IGNORECASE,
+)
+
+
+def _locally_negated(sent, match_start):
+    """True if a negation sits close enough before the match to scope it. Pure."""
+    return bool(LOCAL_NEGATION_RE.search(sent[max(0, match_start - LOCAL_NEGATION_WINDOW):match_start]))
+
+
 def lint_file(path):
     findings = []
     with open(path, "r", encoding="utf-8") as fh:
@@ -413,6 +433,8 @@ def lint_file(path):
                 if rule.clears_on == "disclaimer" and has_disclaimer:
                     continue
                 if rule.clears_on == "hedge" and has_hedge:
+                    continue
+                if rule.clears_on == "local_negation" and _locally_negated(sent, m.start()):
                     continue
                 if rule.context_re is not None and not rule.context_re.search(sent):
                     continue

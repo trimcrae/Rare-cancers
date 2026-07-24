@@ -132,3 +132,38 @@ def test_exit_code_is_driven_by_errors_not_warns(tmp_path):
 def test_shipped_manuscript_has_no_errors():
     """The real paper + SI must stay ERROR-clean. This is the gate that matters."""
     assert lint_claims.main([]) == 0, "manuscript/SI has language-discipline ERRORs"
+
+
+# --------------------------------------------------------- local-negation clearing (R1)
+def test_local_negation_clears_disclaimed_earned_phrase():
+    # "present it as a research hypothesis, NOT among synthesis-ready degrader claims"
+    # correctly disclaims the phrase and must pass.
+    assert lint_claims._locally_negated("present it as a hypothesis, NOT among synthesis-ready claims",
+                               "present it as a hypothesis, NOT among ".__len__())
+
+
+def test_local_negation_does_not_clear_an_assertion_that_merely_contains_not():
+    # "a synthesis-ready matrix, not another in-silico lead" ASSERTS the phrase; the "not"
+    # negates something else downstream. Sentence-level disclaimer detection cleared this
+    # one wrongly, which is why the earned-phrase rules use local negation instead.
+    sent = "Deliverable: a synthesis-ready matrix, not another in-silico lead"
+    assert not lint_claims._locally_negated(sent, sent.index("synthesis-ready"))
+
+
+def test_earned_phrase_rules_use_local_negation():
+    for rid in ("R1-synthesis-ready", "R1-selective-hit"):
+        rule = next(r for r in lint_claims.RULES if r.rid == rid)
+        assert rule.clears_on == "local_negation", rid
+
+
+def test_strategy_and_plan_docs_are_clean_of_banned_phrases():
+    import os
+    targets = ["research/manuscripts/nr4a3-congeneric-rbfe-plan.md",
+               "research/manuscripts/nr4a3-degrader-strategy-ternary-first.md",
+               "research/compute/access-allocation-request.md"]
+    errs = []
+    for t in targets:
+        p = os.path.join(lint_claims.REPO, t)
+        if os.path.exists(p):
+            errs += [f for f in lint_claims.lint_file(p) if f["severity"] == "ERROR"]
+    assert not errs, errs

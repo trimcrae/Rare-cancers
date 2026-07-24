@@ -14,7 +14,7 @@ closure, overlap extraction, pocket-survival scoring outstanding). Details in th
   `nr4a3-conformer-panel.json` (the frozen receptor-state AXIS).
 - **Strategy context:** `nr4a3-degrader-strategy-ternary-first.md` §2 — congeneric **relative** binding free
   energy is the primary quantitative tool; ABFE is demoted to secondary calibration; the deliverable is a
-  synthesis-ready matrix that feeds the existing ensemble scorer.
+  computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix that feeds the existing ensemble scorer.
 
 ## Why RBFE, and why a graph
 Within a congeneric series the affinity *difference* between two analogues that share a binding-mode-preserving

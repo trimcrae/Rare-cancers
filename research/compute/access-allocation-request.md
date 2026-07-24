@@ -70,7 +70,7 @@ The compute is dominated by **molecular dynamics free-energy calculations**: rel
 first **retrospectively reproduce a known result** — the family-selective NR-V04 degrader (degrades NR4A1, not
 NR4A2/NR4A3) — before any prospective prediction is trusted. All methods are standard, open-source
 (OpenMM/OpenFE), single-GPU, and checkpointed for resumability. Outputs are a preprint-quality computational
-characterization and a small set of synthesis-ready, computationally-qualified candidate degraders for
+characterization and a small set of computationally prioritized, structure-defined, retrosynthetically annotated candidate degraders for
 external wet-lab validation. No wet-lab resources are required for this allocation.
 
 ---

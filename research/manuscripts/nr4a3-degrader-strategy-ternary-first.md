@@ -21,7 +21,7 @@ not re-litigated. It **supersedes the binary-warhead-first de novo funnel** as t
 ## The one-sentence change
 
 Old flagship: *"a computationally selective NR4A3 warhead (denovo_401)."*
-New flagship: **"a synthesis-ready, experimentally-anchored degrader MATRIX (~6–12 sharply differentiated
+New flagship: **"a computationally prioritized, structure-defined, retrosynthetically annotated candidate, experimentally-anchored degrader MATRIX (~6–12 sharply differentiated
 compounds) that obtains selectivity JOINTLY from a modest binary NR4A3 preference, paralogue-specific ternary
 cooperativity, and ubiquitination-compatible geometry."**
 
@@ -94,7 +94,7 @@ selectivity. A moderately-selective warhead forming a cooperative, ubiquitinatio
 beat a nominally-selective warhead whose ternary geometry is pan-NR4A — the underused advantage of
 induced-proximity pharmacology.
 
-### 5. Deliverable: a synthesis-ready matrix, not another in-silico "lead"
+### 5. Deliverable: a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix, not another in-silico "lead"
 ~6–12 sharply differentiated compounds with built-in controls: active + inactive recruiter stereoisomers;
 linker-length-matched pairs; ≥2 exit vectors; VHL + CRBN representatives; one **pan-NR4A predicted control**;
 one **binary-favoured-but-ternary-unfavoured control**. Far more collaborator-actionable than a single generated
