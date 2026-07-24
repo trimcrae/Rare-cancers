@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch]
+        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -60,6 +60,15 @@ on:
       firm_n_iter:
         description: "firm mode: MBAR iterations per window (short = fast throughput read; blank = per-kind default 150/120)"
         default: ""
+      bioemu_num_samples:
+        description: "bioemu_run: number of BioEmu samples (blank = 200 real / 5 smoke). Uses md_mode: run=real NR4A3, smoke=chignolin plumbing"
+        default: ""
+      bioemu_batch:
+        description: "bioemu_run: BioEmu batch_size_100 (lower if the 24GB 4090 OOMs; blank = default)"
+        default: ""
+      bioemu_kill:
+        description: "bioemu_stop: 'all' nr4a3-bioemu*, a label substring (e.g. smoke), or an explicit instance id"
+        default: "all"
 
 permissions:
   contents: write
@@ -529,3 +538,172 @@ jobs:
           git add research/modalities/zaienne-selectivity-verify.json 2>/dev/null || true
           git commit -m "Fusion CPU extras: IDR/LLPS features + junction siRNA + EMC-line data probe + Layer-1 VHL dossier + Safe-2025 verify" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
+
+  # ---- NR4A3 BioEmu cryptic-pocket cross-check (method-watch trigger, BioEmu v1.4.0) --------------------------
+  # Folded here so it dispatches off a feature branch (ref=<branch>) without a new on-main workflow file. Bakes
+  # the bioemu Vast image, runs the sample->sidechain->renumber->fpocket chain on one Vast host, collects the
+  # result. See research/modalities/nr4a3_bioemu_vast_launch.py + Dockerfile.bioemu.
+  bioemu_bake:
+    if: ${{ github.event.inputs.task == 'bioemu_bake' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DOCKERHUB_USER: triskit23
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reclaim runner disk (the CUDA + torch image is multi-GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
+      - name: Build + push the BioEmu Vast image
+        run: |
+          set -eo pipefail
+          IMG="docker.io/${DOCKERHUB_USER}/bioemu:latest"
+          docker build -f research/compute/Dockerfile.bioemu -t "$IMG" research/compute/
+          docker push "$IMG"
+          echo "PUSHED $IMG — ensure the Docker Hub repo is PUBLIC so Vast pulls it unauthenticated."
+
+  bioemu_run:
+    if: ${{ github.event.inputs.task == 'bioemu_run' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+      VAST_IMAGE: ${{ github.event.inputs.vast_image }}
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      # md_mode: run => real 254-residue NR4A3 LBD; smoke => chignolin plumbing test
+      BIOEMU_MODE: ${{ github.event.inputs.md_mode == 'run' && 'real' || 'smoke' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Submit the Vast instance
+        run: |
+          set -eo pipefail
+          python -m pip install -q awscli || true
+          ARGS="--mode $BIOEMU_MODE"
+          [ -n "${{ github.event.inputs.bioemu_num_samples }}" ] && ARGS="$ARGS --num-samples ${{ github.event.inputs.bioemu_num_samples }}"
+          [ -n "${{ github.event.inputs.bioemu_batch }}" ] && ARGS="$ARGS --batch-size-100 ${{ github.event.inputs.bioemu_batch }}"
+          echo "launching: nr4a3_bioemu_vast_launch.py $ARGS"
+          python research/modalities/nr4a3_bioemu_vast_launch.py $ARGS
+          echo "Instance submitted. Poll via task=bioemu_collect (reads S3 phase.txt + result JSON)."
+
+  bioemu_collect:
+    if: ${{ github.event.inputs.task == 'bioemu_collect' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Pull the result JSON (+ phase log) from S3 and commit it to the branch
+        run: |
+          set -eo pipefail
+          python3 -m pip install -q awscli >/dev/null 2>&1 || true
+          B="${BUCKET:-sagemaker-us-east-2-646605541856}"
+          # Smoke lands under .../nr4a3-bioemu-smoke, the real run under .../nr4a3-bioemu-crosscheck. Print both.
+          for NAME in nr4a3-bioemu-smoke nr4a3-bioemu-crosscheck; do
+            SP="s3://${B}/nr4a3-bioemu-crosscheck/${NAME}"
+            echo "=== ${NAME} phase.txt ==="; aws s3 cp "$SP/phase.txt" - 2>/dev/null || echo "(none yet)"
+            aws s3 cp "$SP/bioemu-crosscheck.json" - 2>/dev/null | python3 -c "import sys,json;d=json.load(sys.stdin);print('  detection:',d.get('harmonized_detection'))" 2>/dev/null || true
+          done
+          PREFIX="s3://${B}/nr4a3-bioemu-crosscheck/nr4a3-bioemu-crosscheck"
+          if aws s3 cp "$PREFIX/bioemu-crosscheck.json" research/modalities/nr4a3-bioemu-crosscheck.json 2>/dev/null; then
+            echo "=== result ==="; cat research/modalities/nr4a3-bioemu-crosscheck.json
+            echo "1" > /tmp/have_result
+            git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+            # git add FIRST, then check the STAGED diff — `git diff --quiet <path>` ignores untracked (new) files,
+            # so a brand-new result would read as "no change" and never commit (the bug that dropped the first run).
+            git add research/modalities/nr4a3-bioemu-crosscheck.json
+            if ! git diff --cached --quiet -- research/modalities/nr4a3-bioemu-crosscheck.json; then
+              git commit -m "bioemu: capture NR4A3 cryptic-pocket cross-check result from Vast run"
+              git push origin HEAD:${{ github.ref_name }}
+            else
+              echo "no change to commit"
+            fi
+          else
+            echo "::warning::no result JSON yet — the run may still be sampling. Re-run bioemu_collect later."
+          fi
+      - name: Reap the crosscheck Vast instance once its result is captured (control-plane teardown)
+        if: ${{ always() }}
+        run: |
+          set -eo pipefail
+          [ -f /tmp/have_result ] || { echo "no result captured yet -> leave the instance running"; exit 0; }
+          python - <<'PY'
+          import os, sys
+          sys.path.insert(0, "research/modalities")
+          from gpu_backend import _vast_request
+          key = os.environ.get("VAST_API_KEY")
+          if not key:
+              print("no VAST_API_KEY -> cannot reap; run task=bioemu_stop bioemu_kill=crosscheck"); sys.exit(0)
+          insts = _vast_request("GET", "/instances/", key).get("instances", [])
+          for it in insts:
+              if (it.get("label") or "") == "nr4a3-bioemu-crosscheck":
+                  iid = it.get("id")
+                  print(f"reaping crosscheck instance {iid} (result captured; the host-self-stop only kills PID1, "
+                        f"so Vast would restart it into a re-sample loop without this control-plane DELETE)")
+                  try:
+                      _vast_request("DELETE", f"/instances/{iid}/", key); print(f"  DESTROYED {iid}")
+                  except Exception as e:  # noqa: BLE001
+                      print(f"  destroy failed: {e}")
+          print("reap done")
+          PY
+
+  # bioemu_status: LIST nr4a3-bioemu* Vast instances (id/label/status/uptime/cost) — diagnosis only, NO destroy.
+  # bioemu_stop  : DESTROY nr4a3-bioemu* instances (anti-idle backstop; only run once the real result is in S3).
+  bioemu_status:
+    if: ${{ github.event.inputs.task == 'bioemu_status' || github.event.inputs.task == 'bioemu_stop' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      DESTROY: ${{ github.event.inputs.task == 'bioemu_stop' && '1' || '0' }}
+      KILL: ${{ github.event.inputs.bioemu_kill }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: List (and optionally destroy) nr4a3-bioemu Vast instances
+        run: |
+          set -eo pipefail
+          python - <<'PY'
+          import os, sys
+          sys.path.insert(0, "research/modalities")
+          from gpu_backend import _vast_request
+          key = os.environ["VAST_API_KEY"]
+          destroy = os.environ.get("DESTROY") == "1"
+          kill = (os.environ.get("KILL") or "all").strip()
+          insts = _vast_request("GET", "/instances/", key).get("instances", [])
+          mine = [it for it in insts if (it.get("label") or "").startswith("nr4a3-bioemu")]
+          print(f"{len(mine)} nr4a3-bioemu instance(s) (destroy={destroy}, kill_selector={kill!r}):")
+          for it in mine:
+              label, iid = (it.get("label") or ""), str(it.get("id"))
+              print(f"  id={iid} label={label} actual={it.get('actual_status')} "
+                    f"intended={it.get('intended_status')} dph={it.get('dph_total')} "
+                    f"gpu={it.get('gpu_name')} status_msg={(it.get('status_msg') or '')[:60]!r}")
+              # target = all, OR label contains the selector substring, OR exact instance id
+              targeted = kill == "all" or kill in label or kill == iid
+              if destroy and targeted:
+                  try:
+                      _vast_request("DELETE", f"/instances/{iid}/", key)
+                      print(f"    -> DESTROYED {iid}")
+                  except Exception as e:  # noqa: BLE001
+                      print(f"    -> destroy failed: {e}")
+              elif destroy:
+                  print(f"    -> skipped (selector {kill!r} does not match)")
+          print("done")
+          PY

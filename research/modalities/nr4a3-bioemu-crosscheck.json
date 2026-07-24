@@ -1,0 +1,272 @@
+{
+  "_title": "NR4A3 LBD cryptic Pocket-5 detection over a BioEmu conformational ensemble (metadynamics cross-check)",
+  "_method": "BioEmu equilibrium-ensemble frames \u2192 fpocket \u2192 harmonized score-independent Pocket-5 match (fixed lining set 406,407,410,411,412,481,484,485,531,534; jaccard>=0.25, frac_recovered>=0.30, centroid<=8.0 A) \u2192 druggability vs D*=0.53. IDENTICAL scorers to the metad/release ensembles (pocket_tracking + nr4a3_structure).",
+  "_comparators": {
+    "metad_frames": {
+      "frac_ge_among_propagated": 0.68,
+      "n": "17/25"
+    },
+    "release_unbiased_pooled": {
+      "frac_ge_among_propagated": 0.5867,
+      "n": "44/75"
+    },
+    "8xtt_nmr": {
+      "frac_ge_among_propagated": 0.15,
+      "n": "3/20"
+    },
+    "af2_static": {
+      "frac_ge_among_propagated": 0.0,
+      "n": "0/1"
+    }
+  },
+  "_integrity": "Cross-check, NOT a replacement for the physics-based evidence. BioEmu is a learned equilibrium-ensemble emulator; whether it samples rare cryptic-opening at the correct frequency is a known open question \u2014 interpret concordance as corroboration of the SITE/EXISTENCE, and any under-sampling as a limitation of the emulator, not evidence against the pocket.",
+  "meta": {
+    "model": "bioemu",
+    "image": "docker.io/triskit23/bioemu:latest",
+    "mode": "real",
+    "num_samples": 64,
+    "batch_size_100": 10,
+    "git_branch": "claude/nr4a3-lbd-bioemu-validation-w421nb"
+  },
+  "fpocket_version": "4.0",
+  "match_params": {
+    "jaccard_min": 0.25,
+    "frac_recovered_min": 0.3,
+    "centroid_max_ang": 8.0
+  },
+  "harmonized_detection": {
+    "d_star": 0.53,
+    "n_propagated": 56,
+    "n_detected": 38,
+    "n_ge_dstar": 7,
+    "detection_fraction": 0.6785714285714286,
+    "frac_ge_among_detected": 0.18421052631578946,
+    "frac_ge_among_propagated": 0.125
+  },
+  "per_frame": [
+    {
+      "frame": "frame_00.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_01.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_02.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_03.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_04.pdb",
+      "druggability": 0.004
+    },
+    {
+      "frame": "frame_05.pdb",
+      "druggability": 0.463
+    },
+    {
+      "frame": "frame_06.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_07.pdb",
+      "druggability": 0.609
+    },
+    {
+      "frame": "frame_08.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_09.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_10.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_11.pdb",
+      "druggability": 0.001
+    },
+    {
+      "frame": "frame_12.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_13.pdb",
+      "druggability": 0.115
+    },
+    {
+      "frame": "frame_14.pdb",
+      "druggability": 0.001
+    },
+    {
+      "frame": "frame_15.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_16.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_17.pdb",
+      "druggability": 0.933
+    },
+    {
+      "frame": "frame_18.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_19.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_20.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_21.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_22.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_23.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_24.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_25.pdb",
+      "druggability": 0.014
+    },
+    {
+      "frame": "frame_26.pdb",
+      "druggability": 0.688
+    },
+    {
+      "frame": "frame_27.pdb",
+      "druggability": 0.022
+    },
+    {
+      "frame": "frame_28.pdb",
+      "druggability": 0.01
+    },
+    {
+      "frame": "frame_29.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_30.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_31.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_32.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_33.pdb",
+      "druggability": 0.027
+    },
+    {
+      "frame": "frame_34.pdb",
+      "druggability": 0.082
+    },
+    {
+      "frame": "frame_35.pdb",
+      "druggability": 0.766
+    },
+    {
+      "frame": "frame_36.pdb",
+      "druggability": 0.02
+    },
+    {
+      "frame": "frame_37.pdb",
+      "druggability": 0.441
+    },
+    {
+      "frame": "frame_38.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_39.pdb",
+      "druggability": 0.077
+    },
+    {
+      "frame": "frame_40.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_41.pdb",
+      "druggability": 0.63
+    },
+    {
+      "frame": "frame_42.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_43.pdb",
+      "druggability": 0.106
+    },
+    {
+      "frame": "frame_44.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_45.pdb",
+      "druggability": 0.003
+    },
+    {
+      "frame": "frame_46.pdb",
+      "druggability": null
+    },
+    {
+      "frame": "frame_47.pdb",
+      "druggability": 0.094
+    },
+    {
+      "frame": "frame_48.pdb",
+      "druggability": 0.91
+    },
+    {
+      "frame": "frame_49.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_50.pdb",
+      "druggability": 0.002
+    },
+    {
+      "frame": "frame_51.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_52.pdb",
+      "druggability": 0.571
+    },
+    {
+      "frame": "frame_53.pdb",
+      "druggability": 0.0
+    },
+    {
+      "frame": "frame_54.pdb",
+      "druggability": 0.302
+    },
+    {
+      "frame": "frame_55.pdb",
+      "druggability": 0.0
+    }
+  ]
+}

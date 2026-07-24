@@ -1,0 +1,44 @@
+# Vast boot image for the NR4A3 LBD BioEmu cryptic-pocket cross-check (method-watch trigger, BioEmu v1.4.0).
+#
+# WHY a baked image (same lesson as Dockerfile.nrv04vast): Vast's cheap marketplace hosts have terrible routing
+# to archive.ubuntu.com and Vast apt-installs ssh/python/systemd at boot (~10-40 min). Baking every package Vast
+# would fetch makes provisioning a no-op, so the box boots in image-pull time (~2-4 min) instead of ~40. We ALSO
+# bake the whole scientific stack (bioemu[md] + HPacker side-chain reconstruction + fpocket + mdtraj) so the
+# onstart only: pulls the repo tarball (small), samples the ensemble, reconstructs side chains, renumbers to
+# UniProt numbering, runs the harmonized Pocket-5 scorer, uploads the result JSON to S3, and self-destroys.
+#
+# BioEmu (Microsoft, Science 2025) generates equilibrium conformational ensembles from sequence on ONE GPU in
+# minutes; here it is an ORTHOGONAL (learned, non-physics) cross-check on the metadynamics cryptic-pocket result.
+# bioemu inlines ColabFold+AF2 (since v1.3.0), so no separate MSA install — the AF2 weights (~3.5 GB) download to
+# the cache on first run and the MSA is retrieved from the ColabFold MMseqs2 server (Vast hosts have internet).
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+# Everything Vast's boot provisioning would otherwise fetch from the slow ubuntu mirrors, baked at build time.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        openssh-server openssh-client openssh-sftp-server \
+        git curl wget ca-certificates bzip2 tar gzip build-essential \
+        systemd systemd-sysv dbus locales sudo less tmux \
+    && rm -rf /var/lib/apt/lists/*
+
+# micromamba → a conda env carrying fpocket (only reliable source is conda-forge) + a pinned Python. The rest of
+# the scientific stack (bioemu, torch-cuda, hpacker, openmm, mdtraj) is pip-installed into the SAME env so
+# `python`, `bioemu`, `fpocket`, and `aws` are all on PATH for the onstart pipeline.
+RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
+      | tar -xj -C /usr/local/bin --strip-components=1 bin/micromamba
+ENV MAMBA_ROOT_PREFIX=/opt/mamba
+RUN micromamba create -y -n bioemu -c conda-forge python=3.11 fpocket \
+    && micromamba clean -a -y
+ENV PATH=/opt/mamba/envs/bioemu/bin:$PATH
+
+# BioEmu with the [md] extra = sampling + HPacker side-chain reconstruction (bioemu.sidechain_relax). fpocket
+# needs ALL-ATOM cavities, and raw BioEmu frames are backbone-only, so side-chain reconstruction is mandatory.
+# awscli for the S3 result upload; mdtraj for the frame renumber/split (bioemu also uses it). Pin nothing beyond
+# what bioemu pins so its own resolver picks a coherent torch-cuda wheel.
+RUN pip install --no-cache-dir "bioemu[md]" awscli mdtraj \
+    && pip cache purge || true
+
+# Sanity: fail the BAKE (not a $-costing Vast host) if any load-bearing entrypoint is missing.
+RUN python -c "import bioemu, torch; print('bioemu', bioemu.__version__ if hasattr(bioemu,'__version__') else '?', 'torch', torch.__version__)" \
+    && python -c "import bioemu.sample; import bioemu.sidechain_relax" \
+    && which fpocket && which aws && python -c "import mdtraj; print('mdtraj', mdtraj.__version__)"

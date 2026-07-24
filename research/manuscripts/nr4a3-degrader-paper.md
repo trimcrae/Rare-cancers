@@ -192,6 +192,26 @@ the site's existence as a heterogeneous experimental feature and the transfer of
 *directions* are supported, while the atomic pose and the ensemble-weighted (ABFE-grade) selectivity remain
 unresolved. The automated apo-benchmark verdict is reported as **"partial"**.
 
+**An orthogonal, learned generative ensemble (BioEmu) independently recovers the cryptic site and gives an
+unbiased minority-open population.** Because the metadynamics is a *biased* enhanced-sampling readout and the
+8XTT transfers use *prespecified* conformers, we added the one thing missing above — an **unbiased ensemble
+test** from a method orthogonal to our MD. BioEmu (Lewis et al., *Science* 2025; v1.4.1), a diffusion emulator
+of protein equilibrium ensembles, generated an ensemble of the apo LBD **from sequence alone** (no MD, no
+metadynamics, no opened input structure), which we scored through the **identical** harmonized Pocket-5 detector
+(fpocket 4.0, score-independent lining-set match, D\*=0.53; [`../modalities/nr4a3-bioemu-crosscheck-findings.md`](../modalities/nr4a3-bioemu-crosscheck-findings.md)).
+Over 56 frames it **detects Pocket-5 in 68 %** and opens it to a druggable state (≥ D\*) in **12.5 % (7/56)** —
+**far below the biased metadynamics (0.68) and unbiased-release (0.587) fractions, but closely matching the
+experimental 8XTT NMR ensemble (0.15)**. Two readings follow, both stated straight: (i) an independent,
+learned method that never saw NR4A3 MD **re-finds and opens the same cryptic site**, corroborating its existence
+and openability on a *new* evidence axis; and (ii) the concordance of **two unbiased sources (BioEmu 0.125, NMR
+0.15)** on a *minority*-open population, against the biased metadynamics majority (0.68), indicates the
+enhanced-sampling fractions likely **over-represent** the open state — the honest open-state population is more
+plausibly a low-teens-percent minority. *Integrity limits:* apo cryptic-pocket recovery is BioEmu's weakest
+regime (~50 % in `bioemu-benchmarks`) and it is not calibrated on the absolute probability of rare pocket
+opening (JCTC 2026, 10.1021/acs.jctc.6c00135), so this is a **qualitative cross-check, not a population
+estimate**, and a druggability *claim* still rests on the fpocket/energetics gate — BioEmu does not, alone, show
+the pocket binds anything.
+
 ### 2.2 AlphaFold2 gives an imperfect working model: a borderline static pocket, contextualized against a reference panel
 fpocket assigns the NR4A3 orthosteric pocket (Pocket 5, residues 406–534, carrying all 7 selectivity
 handles) a druggability of **0.495**. To make that interpretable we ran the same pipeline on a
