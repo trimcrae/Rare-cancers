@@ -773,9 +773,15 @@ LEG="${LEG_ID:-calib_hi_to_lo__ternary_vhl}"
     echo "[firm] WARN no relaxed structure at $OUT/$LEG — RBFE will run on the raw complex and may NaN"
   fi
   echo "[firm] --- ternary MD ---"
-  env MODE=run LEG_ID="$LEG" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-16}" \
+  # N_WINDOWS 24 (was 16): the confirmed root cause of the warmup NaN is softcore/alchemical instability at an
+  # INTERMEDIATE λ-window (replica 0 NaN'd at window 5 of 16; the clash-diag showed the only close contacts were
+  # benign EXCLUDED-hybrid dummy pairs — NOT a structural clash). Finer λ-spacing shrinks the per-window softcore
+  # perturbation, the textbook remedy for a mid-λ softcore NaN. Pre-equilibration (above) fixes the STRUCTURE;
+  # more windows fixes the alchemical PATH — both are needed. RBFE_MIN_STEPS=5000 matches the proven GCP lane
+  # (25000 wastes ~20-60 min at ~0% GPU for no NaN benefit — the NaN is softcore, not a bad minimum).
+  env MODE=run LEG_ID="$LEG" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-24}" \
       CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_WARMUP_TIMESTEP_FS=1.0 RBFE_CONSTRAIN_LIGAND_CH=0 \
-      N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
+      RBFE_MIN_STEPS="${RBFE_MIN_STEPS:-5000}" N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
       INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_ternary_fep.py 2>&1 || true
 } | tee /tmp/firm.log
 export T1=$(date +%s)
