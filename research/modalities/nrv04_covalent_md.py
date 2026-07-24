@@ -530,7 +530,14 @@ def run_leg(env):
             os.path.join(in_dir, "complex.pdb"), os.path.join(in_dir, "ligand.sdf"),
             covalent, env.get("COV_LIG_ATOM", "C6"), int(env.get("COV_RESNUM", "551")), env.get("MUTATION", ""))
         _save_built_system(built_paths, sim, topology, meta, result_s3)   # persist so future preemptions can resume
-    chain_ids, e3_chains, target_chains, lys_nz = _topology_indices(topology)
+    # the assembler identifies the E3/target split and writes it next to the inputs; the driver must not
+    # re-derive it (see _topology_indices' history note).
+    chains_json = os.path.join(in_dir, "chains.json")
+    explicit_target = None
+    if os.path.exists(chains_json):
+        with open(chains_json) as _f:
+            explicit_target = json.load(_f).get("target_chain")
+    chain_ids, e3_chains, target_chains, lys_nz = _topology_indices(topology, target_chain=explicit_target)
 
     blew_up = False; blow_phase = None
     _timed_accum = 0.0; _wall_accum = 0.0
@@ -626,7 +633,12 @@ def run_leg(env):
         r1 = {"rmsd_series_mean": None, "plateau_A": None, "stable": False, "note": "no frames (blew up)"}
     r3 = R.lys_presentation(lys_frames, proxy) if (lys_nz and lys_frames) else {"min_A": None, "note": "no target Lys/frames"}
 
-    result = {"panel": "nrv04_covalent_feasibility", "leg_id": leg_id, "seed": seed, "mode": mode,
+    result = {"panel": env.get("PANEL", "nrv04_covalent_feasibility"), "leg_id": leg_id, "seed": seed, "mode": mode,
+              # RECORD the chain split the readouts were computed against. The panel that ran before this field
+              # existed could not be audited from its own output — the split had to be reconstructed from the
+              # co-fold CIFs — which is exactly why it is recorded now.
+              "chain_split": {"target": sorted(target_chains), "e3": sorted(e3_chains),
+                              "explicit": explicit_target is not None, "target_lys_nz": len(lys_nz)},
               "covalent": covalent, "mutation": env.get("MUTATION", ""), "meta": meta,
               "md_settings": MD.summary(),                     # RECORD the exact canonical hyperparameters used
               "prod_ns": prod_ns, "equil_ns": equil_ns,
@@ -676,15 +688,43 @@ def _positions_nm(sim):
     return [(v.x, v.y, v.z) for v in sim.context.getState(getPositions=True).getPositions().value_in_unit(unit.nanometer)]
 
 
-def _topology_indices(topology):
+def _topology_indices(topology, target_chain=None):
+    """Split the topology into E3 and degradation-target atoms.
+
+    ⚠ HISTORY — READ BEFORE CHANGING. This function used to derive the split POSITIONALLY: "E3 are the first
+    assembled chains, the target LBD is the LAST protein chain". That convention was never true of the co-folds
+    it was applied to. nrv04_ternary.py builds its YAML as `proteins = [("A", target_lbd)] + e3`, i.e. the
+    TARGET IS FIRST, so the positional rule selected the last chain — Elongin C, a 112-residue E3 subunit — as
+    "the target". Every R1/R2/R3 readout of the covalent feasibility panel therefore described the ElonginC↔rest
+    interface rather than the VHL↔NR4A one, and nothing errored: the numbers were simply about something else.
+    Proof from the panel's own committed artifacts (2026-07-24 audit): the reactive cysteine, which is resolved
+    independently BY GEOMETRY and sits on the NR4A1 LBD, is recorded on chain **A** in 12 of 14 legs, while the
+    positional rule pointed at chain G.
+
+    So the split is now EXPLICIT: `target_chain` comes from the assembler's chains.json, which identifies it by
+    matching every other chain to a known E3 component (nrv04_covalent_assemble.identify_chains). The positional
+    fallback is kept only for inputs that predate chains.json, and it SHOUTS, because a silent fallback to the
+    rule that caused this is the one outcome worth preventing."""
     chain_ids = [a.residue.chain.id for a in topology.atoms()]
     prot_chains = sorted({a.residue.chain.id for a in topology.atoms()
                           if a.residue.name not in ("HOH", "NA", "CL", "UNK", "LIG", "UNL")})
-    # convention: E3 (VHL/EloB/EloC) are the first assembled chains, target LBD is the last protein chain
-    e3_chains = set(prot_chains[:-1]) if len(prot_chains) > 1 else set(prot_chains)
-    target_chains = {prot_chains[-1]} if len(prot_chains) > 1 else set()
+    if target_chain and target_chain in prot_chains:
+        target_chains = {target_chain}
+        e3_chains = set(prot_chains) - target_chains
+    else:
+        if target_chain:
+            print(f"[nrv04-md] WARN chains.json named target chain {target_chain!r}, absent from the topology "
+                  f"{prot_chains} — falling back to the POSITIONAL rule", flush=True)
+        else:
+            print(f"[nrv04-md] WARN no explicit target chain supplied; falling back to the POSITIONAL rule "
+                  f"(last of {prot_chains}). This rule mis-selected Elongin C as the target in the covalent "
+                  f"feasibility panel — verify the readouts describe the interface you intend.", flush=True)
+        e3_chains = set(prot_chains[:-1]) if len(prot_chains) > 1 else set(prot_chains)
+        target_chains = {prot_chains[-1]} if len(prot_chains) > 1 else set()
     lys_nz = [a.index for a in topology.atoms()
               if a.residue.name == "LYS" and a.name == "NZ" and a.residue.chain.id in target_chains]
+    print(f"[nrv04-md] chain split: target={sorted(target_chains)} e3={sorted(e3_chains)} "
+          f"target_lys_nz={len(lys_nz)}", flush=True)
     return chain_ids, e3_chains, target_chains, lys_nz
 
 

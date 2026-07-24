@@ -113,17 +113,74 @@ def write_complex_pdb(cif_path, keep_chains, out_pdb):
     st.write_pdb(out_pdb)
 
 
+# Residue counts of the E3 machinery chains, used to IDENTIFY which chain is the degradation target rather than
+# guessing it positionally. Verified against UniProt on 2026-07-24 (nrv04_cofold_audit): VHL P40337 = 213,
+# Elongin B Q15370 = 118, Elongin C Q15369 = 112. 255 is 14-3-3 epsilon (P62258) — the erroneous ElonginB
+# accession used before the 2026-07-17 correction; it is listed so a contaminated co-fold is REJECTED rather
+# than mistaken for the ~254-residue NR4A LBD it nearly matches in size.
+E3_CHAIN_RESIDUES = {213: "VHL", 118: "ElonginB", 112: "ElonginC"}
+CONTAMINANT_CHAIN_RESIDUES = {255: "14-3-3 epsilon (P62258) — the pre-2026-07-17 ElonginB accession error"}
+NR4A_LBD_RESIDUES = 254          # the frozen construct: each paralogue's LBD = its C-terminal 254 residues
+
+
+def identify_chains(pdb_path):
+    """Identify the degradation-target chain EXPLICITLY, by matching every other chain to a known E3 component.
+
+    WHY THIS EXISTS. nrv04_covalent_md._topology_indices used to take the LAST sorted protein chain as the
+    target. The co-fold YAML builder writes the target FIRST (`proteins = [(A, lbd)] + e3`), so the positional
+    rule selected Elongin C — a 112-residue E3 subunit — as the degradation target, and every interface readout
+    described the ElonginC↔rest interface instead of the VHL↔NR4A one. Nothing errored; the numbers just meant
+    something else. So the split is now identified and VALIDATED, and it fails closed when it cannot be.
+
+    Returns {"target_chain": str, "e3_chains": [str], "census": [...]}. Raises on anything ambiguous:
+    a contaminant chain, no unambiguous target, or more than one leftover chain."""
+    counts, order = {}, []
+    for line in open(pdb_path):
+        if not line.startswith(("ATOM", "HETATM")):
+            continue
+        ch = line[21]
+        if ch not in counts:
+            counts[ch] = set()
+            order.append(ch)
+        counts[ch].add(line[22:27])
+    census = [{"chain": c, "residues": len(counts[c])} for c in order]
+
+    bad = [c for c in census if c["residues"] in CONTAMINANT_CHAIN_RESIDUES]
+    if bad:
+        raise ValueError("co-fold contains a contaminant chain %s: %s — this assembly is not the intended "
+                         "VHL/EloB/EloC machinery and must be regenerated"
+                         % (bad, CONTAMINANT_CHAIN_RESIDUES[bad[0]["residues"]]))
+    e3 = [c["chain"] for c in census if c["residues"] in E3_CHAIN_RESIDUES]
+    rest = [c for c in census if c["chain"] not in e3]
+    if len(rest) != 1:
+        raise ValueError("cannot identify a unique degradation-target chain; census=%s, E3-matched=%s, "
+                         "leftover=%s" % (census, e3, [c["chain"] for c in rest]))
+    target = rest[0]
+    if target["residues"] != NR4A_LBD_RESIDUES:
+        raise ValueError("target chain %s has %d residues, expected the frozen %d-residue NR4A LBD construct"
+                         % (target["chain"], target["residues"], NR4A_LBD_RESIDUES))
+    return {"target_chain": target["chain"], "e3_chains": sorted(e3), "census": census,
+            "e3_roles": {c["chain"]: E3_CHAIN_RESIDUES[c["residues"]] for c in census if c["chain"] in e3}}
+
+
 def assemble_unit(cif_path, leg_id, template_smiles, out_dir, keep_chains=None):
-    """Produce <out_dir>/<leg_id>/{complex.pdb, ligand.sdf} from one co-fold CIF. Takes a plain leg_id so BOTH
-    panels use it: the covalent feasibility panel (via assemble_leg below) and the retrospective holdout, whose
-    units are (arm, co-fold model, replica) and carry no nrv04_covalent_panel.Leg. One assembler, so the two
-    panels' inputs cannot be built differently."""
+    """Produce <out_dir>/<leg_id>/{complex.pdb, ligand.sdf, chains.json} from one co-fold CIF. Takes a plain
+    leg_id so BOTH panels use it: the covalent feasibility panel (via assemble_leg below) and the retrospective
+    holdout, whose units are (arm, co-fold model, replica) and carry no nrv04_covalent_panel.Leg. One assembler,
+    so the two panels' inputs cannot be built differently.
+
+    chains.json carries the IDENTIFIED E3/target split so the MD driver never has to guess it positionally."""
+    import json
     import os
     leg_out = os.path.join(out_dir, leg_id)
     os.makedirs(leg_out, exist_ok=True)
     n = extract_ligand_from_cif(cif_path, template_smiles, os.path.join(leg_out, "ligand.sdf"))
-    write_complex_pdb(cif_path, keep_chains, os.path.join(leg_out, "complex.pdb"))
-    return {"leg": leg_id, "ligand_atoms": n, "out": leg_out}
+    complex_pdb = os.path.join(leg_out, "complex.pdb")
+    write_complex_pdb(cif_path, keep_chains, complex_pdb)
+    chains = identify_chains(complex_pdb)
+    with open(os.path.join(leg_out, "chains.json"), "w") as f:
+        json.dump(chains, f, indent=2)
+    return {"leg": leg_id, "ligand_atoms": n, "out": leg_out, "chains": chains}
 
 
 def assemble_leg(cif_path, leg, template_smiles, out_dir, keep_chains=None):
