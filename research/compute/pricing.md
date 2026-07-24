@@ -63,8 +63,11 @@ $/hr). Use the 3090 only when 4090 capacity is short.
      **no implementing engine in this repo**, so its "~$5–10 for 1 alchemical direction" line below is unfounded.
      Pricing it requires an **engine-scoping step first** (adopt a protein-mutation FEP protocol — e.g. an
      OpenFE/perses-style residue transformation, or a non-OpenFE tool — then measure one direction). Until that
-     scoping is done, treat the 5a-KS row as **UNPRICED**, not cheap. *(Update 2026-07-24: the engine has since
-     been built — `nr4a3_protein_fep.py` — but it has never run, so the row stays UNPRICED. An engine that exists
+     scoping is done, treat the 5a-KS row as **UNPRICED**, not cheap. *(Update 2026-07-24 PM: the engine's **execution layer** has since been
+     built too — `protfep_run.py` (perses hybrid → replica-exchange → MBAR, checkpoint/resume),
+     `protfep_bench.py` (barnase–barstar Y29A/Y29F staging + verdict), `protfep_reduce.py` (legs → ΔΔG →
+     verdict **and** the first measured per-leg rate) — and the benchmark lane is launched on Vast. The row
+     **still stays UNPRICED**: no leg has completed, so there is still no rate. An engine that exists
      is not a rate; only a completed benchmark leg prices this rung.)*
    - This compounds the *other* known 5a-KS blocker recorded in `STRATEGY.md` (RUNG 5): the wedge is the repo's
      one **cross-lane subtraction**, and the two lanes currently run **different charge models** (binary =
@@ -90,7 +93,7 @@ basis at all** pending engine scoping.
 | `nrv04_feasibility_covalent` | 18 endpoint-MD legs | **~$8** | MEASURED |
 | `nrv04_retrospective` | NR4A1/2/3 ternary ensembles: ~3–6 ternary edges + endpoint-MD ensembles | **~$45–115** (swing: ensemble-MD leg count) | **PROJECTED** (ternary component; endpoint component MEASURED). *Was ~$25–55 on the corrected-away partial-leg base.* |
 | `5a` orientation-basin search | CPU $0 + optional MM-GBSA rescore | **~$0–50** | MEASURED-derived |
-| **5a-KS kill-switch decision** (atlas + basin + 1 mutation direction) | $0 + $0–50 + **1 protein-mutation direction — engine BUILT 2026-07-24, UNVALIDATED** | **UNPRICED** (was "~$5–60") | **⚠ STILL NOT DERIVABLE, but no longer for lack of an engine.** `nr4a3_protein_fep.py` (perses `PointMutationExecutor` + openmmtools MultiState + MBAR) now implements the protein-mutation leg that OpenFE's ligand-only RHTP could not. It has **never run**, so there is no per-leg rate to price from — and a mutation hybrid in a large assembly is exactly where the ternary lane hit softcore NaNs, so its cost is not safely inferable from the ligand lane's. **Priced only after the known-answer benchmark leg gives a real per-leg rate.** |
+| **5a-KS kill-switch decision** (atlas + basin + 1 mutation direction) | $0 + $0–50 + **1 protein-mutation direction — engine + execution layer BUILT 2026-07-24, benchmark lane LAUNCHED, UNVALIDATED** | **UNPRICED** (was "~$5–60") | **⚠ STILL NOT DERIVABLE, and still not for lack of code.** `nr4a3_protein_fep.py` (perses `PointMutationExecutor` + guards + wedge arithmetic) plus `protfep_run.py` (the sampling/MBAR driver), `protfep_bench.py`, `protfep_reduce.py` and the Vast lane now implement what OpenFE's ligand-only RHTP could not. **No leg has completed**, so there is no per-leg rate to price from — and a mutation hybrid is exactly where the ternary lane hit softcore NaNs, so its cost is not safely inferable from the ligand lane's. The known-answer benchmark (barnase–barstar Y29A/Y29F, both charge-conserving; references verified against SKEMPI 2.0) is what will produce that rate, via `protfep_reduce.price_from_legs` — which scales the benchmark's measured GPU-h to NR4A by particle count and labels the result a PROJECTION, not a measurement. Sequence: smoke ~$0.10 → pilot ~$1–3 (abort gate) → set ~$5–10. |
 | full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 protein-mutation directions | **UNPRICED** (was "~$15–30") | **⚠ NOT DERIVABLE** — same engine, same reason: no completed leg to extrapolate from |
 | `5b` inverse linker design | mostly CPU $0 + occasional rescore | **~$0–20** | MEASURED-derived |
 | ensemble refinement / CRL MD | endpoint MD, dozens–~200 legs | **~$20–150** | MEASURED-derived (swing item) |
