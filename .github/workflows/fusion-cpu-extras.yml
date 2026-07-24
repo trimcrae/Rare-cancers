@@ -23,7 +23,7 @@ on:
       vast_launch_mode:
         description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect | retro_* (NR-V04 retrospective holdout)"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect, cofold_audit]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -450,10 +450,14 @@ jobs:
           set -o pipefail
           pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
           case "${{ github.event.inputs.vast_launch_mode }}" in
-            stage_test|retro_stage_test)
+            stage_test|retro_stage_test|cofold_audit)
               pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed" ;;
           esac
-          python nrv04_vast_launch.py
+          if [ "${{ github.event.inputs.vast_launch_mode }}" = "cofold_audit" ]; then
+            python nrv04_cofold_audit.py --bucket "$VAST_CKPT_BUCKET"
+          else
+            python nrv04_vast_launch.py
+          fi
       - name: Upload Vast handles
         if: ${{ always() && (github.event.inputs.vast_launch_mode == 'pilot' || github.event.inputs.vast_launch_mode == 'full' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') }}
         uses: actions/upload-artifact@v4
