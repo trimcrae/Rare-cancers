@@ -360,3 +360,51 @@ if __name__ == "__main__":
     calls, term = _recorder()
     run_with_teardown(lambda: 0, term, 100)
     print("teardown on success:", calls)
+
+
+def test_offer_usd_per_ns_uses_measured_throughput_only():
+    """$/hr cannot rank hosts carrying different cards. Measured 2026-07-24: a $0.103/hr 3090 is 45% MORE
+    expensive per ns than a $0.149/hr 4090 (359 vs 755 ns/day)."""
+    from gpu_backend import measured_ns_per_day, offer_usd_per_ns
+    assert measured_ns_per_day("NVIDIA GeForce RTX 4090") == 755.36
+    assert measured_ns_per_day("NVIDIA GeForce RTX 4080 SUPER") == 703.51
+    # never benched -> no number is invented for it
+    assert measured_ns_per_day("NVIDIA L4") is None
+    assert measured_ns_per_day("Quadro RTX 8000") is None
+    assert offer_usd_per_ns("NVIDIA L4", 0.10) is None
+
+    a = offer_usd_per_ns("NVIDIA GeForce RTX 4090", 0.148889)
+    b = offer_usd_per_ns("NVIDIA GeForce RTX 3090", 0.102963)
+    assert round(a, 5) == 0.00473 and round(b, 5) == 0.00688
+    assert b > a                      # the cheaper $/hr host is the more expensive one per ns
+
+
+def test_selection_prefers_cheaper_per_ns_over_cheaper_per_hour():
+    from gpu_backend import ResourceSpec, _select_cheapest_offer
+    cheap_slow = {"id": 1, "num_gpus": 1, "gpu_ram": 24576, "min_bid": 0.103,
+                  "dph_total": 0.103, "gpu_name": "NVIDIA GeForce RTX 3090"}
+    dearer_fast = {"id": 2, "num_gpus": 1, "gpu_ram": 24576, "min_bid": 0.149,
+                   "dph_total": 0.149, "gpu_name": "NVIDIA GeForce RTX 4090"}
+    res = ResourceSpec(gpu="any", min_vram_gb=24, min_cuda=0.0)
+    assert _select_cheapest_offer([cheap_slow, dearer_fast], res)["id"] == 2
+
+
+def test_selection_still_captures_the_host_spread_within_one_card():
+    """The 2.7x spread across 4090 hosts is the biggest single lever; ranking by $/ns must not lose it."""
+    from gpu_backend import ResourceSpec, _select_cheapest_offer
+    offers = [{"id": i, "num_gpus": 1, "gpu_ram": 24576, "min_bid": mb, "dph_total": mb,
+               "gpu_name": "NVIDIA GeForce RTX 4090"}
+              for i, mb in enumerate([0.3550, 0.1333, 0.6000], start=1)]
+    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, min_cuda=0.0)
+    assert _select_cheapest_offer(offers, res)["min_bid"] == 0.1333
+
+
+def test_an_unbenched_card_is_taken_only_when_nothing_measured_qualifies():
+    from gpu_backend import ResourceSpec, _select_cheapest_offer
+    res = ResourceSpec(gpu="any", min_vram_gb=24, min_cuda=0.0)
+    l4 = {"id": 9, "num_gpus": 1, "gpu_ram": 24576, "min_bid": 0.01, "dph_total": 0.01, "gpu_name": "NVIDIA L4"}
+    m4090 = {"id": 8, "num_gpus": 1, "gpu_ram": 24576, "min_bid": 0.60, "dph_total": 0.60,
+             "gpu_name": "NVIDIA GeForce RTX 4090"}
+    # a measured card wins even at 60x the $/hr, because the L4 has no trustworthy throughput to rank on
+    assert _select_cheapest_offer([l4, m4090], res)["id"] == 8
+    assert _select_cheapest_offer([l4], res)["id"] == 9      # ...but it is still usable if it is all there is

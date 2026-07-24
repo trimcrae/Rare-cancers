@@ -346,6 +346,43 @@ def _vast_gpu_ram_gb(offer: dict) -> float:
     return ram / 1024.0 if ram > 1000 else ram
 
 
+# MEASURED ns/day at 84,534 particles (the ternary size), from the validated 2026-07-24 Vast grid: 3 x ~20 s
+# independent timed blocks per leg, physics-checked, CV < 1.4%. ONLY cards actually benched appear here — an
+# unmeasured card gets no entry and is ranked last rather than given a guessed number, because the whole reason
+# this table exists is that a proxy-throughput ranking produced two confident wrong answers on 2026-07-24.
+# Keys are matched longest-first against the offer's gpu_name (spaces stripped, upper-cased).
+_MEASURED_NS_PER_DAY_84K = {
+    "RTX4090": 755.36,   # CV 0.14%  blocks 756.55/754.56/754.98
+    "RTX4080": 703.51,   # CV 0.18%  blocks 702.93/704.93/702.66
+    "RTX3090": 359.36,   # CV 1.31%  blocks 364.02/359.45/354.62
+}
+
+
+def measured_ns_per_day(gpu_name):
+    """Benched throughput for this card at the ternary size, or None if we have never measured it. PURE."""
+    n = str(gpu_name or "").replace(" ", "").upper()
+    for k in sorted(_MEASURED_NS_PER_DAY_84K, key=len, reverse=True):
+        if k in n:
+            return _MEASURED_NS_PER_DAY_84K[k]
+    return None
+
+
+def offer_usd_per_ns(gpu_name, usd_per_hour):
+    """$ per ns of MD — the quantity that actually decides cost, unlike $/hr.
+
+    A $0.103/hr RTX 3090 looks cheaper than a $0.149/hr RTX 4090 and is not: 359 vs 755 ns/day makes it
+    $0.00688 vs $0.00473 per ns, 45% worse. Ranking offers by $/hr cannot see that. Returns None for an
+    unmeasured card so the caller can rank it last instead of inventing a throughput for it. PURE."""
+    ns = measured_ns_per_day(gpu_name)
+    try:
+        p = float(usd_per_hour)
+    except (TypeError, ValueError):
+        return None
+    if not ns or p <= 0:
+        return None
+    return p / (ns / 24.0)
+
+
 def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
     """PURE: cheapest single-GPU, rentable offer meeting the VRAM (and optional price) constraint, preferring the
     requested GPU model (client-side substring) but FALLING BACK to any capable card if that model isn't offered.
@@ -378,7 +415,19 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
         capable.append((price, o))
     if not capable:
         return None
-    substr = _VAST_GPU_SUBSTR.get(res.gpu)                        # prefer the requested model, else any capable
+    # RANK BY $/ns, NOT $/hr. The host-price spread across 4090 offers alone is ~2.7x ($0.1333 to $0.3550
+    # median), which dwarfs the ~7% throughput gap between a 4090 and a 4080 — so the money is in WHICH HOST,
+    # and the only way to compare hosts carrying different cards is cost per unit of finished work. Ranking by
+    # $/hr picks a $0.103/hr 3090 over a $0.149/hr 4090 and pays 45% more per ns for it.
+    #
+    # Cards we have never benched have no $/ns, so they sort AFTER every measured offer and are taken only when
+    # nothing measured qualifies. That is deliberate: substituting a spec-sheet proxy for a measurement is what
+    # produced the retracted 2026-07-24 rankings.
+    scored = [(offer_usd_per_ns(o.get("gpu_name"), p), p, o) for p, o in capable]
+    measured = [(upn, p, o) for upn, p, o in scored if upn is not None]
+    if measured:
+        return min(measured, key=lambda t: (t[0], t[1]))[2]
+    substr = _VAST_GPU_SUBSTR.get(res.gpu)                        # nothing benched -> prefer the requested model
     if substr:
         preferred = [(p, o) for p, o in capable
                      if substr in str(o.get("gpu_name", "")).replace(" ", "").upper()]
