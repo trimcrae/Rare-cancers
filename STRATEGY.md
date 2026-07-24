@@ -301,7 +301,7 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
     `credit-status.json` records GCP `spent: 8.0` from a **manual** source that has not been reconciled against
     today's ~8 dispatched L4 legs. Keep the Vast basis as the *planning* number, track GCP burn separately, and do
     not let "we spent ~$2 so far" imply the L4 lane was free.
-- **Whole gated ladder ≈ ~$390 mid-range (~$170–610) for the PRICEABLE stages, GO at every gate.** Excludes
+- **Whole gated ladder ≈ ~$467 mid-range (~$249–685) for the PRICEABLE stages, GO at every gate.** *(Was ~$390 (~$170–610); +$77 mid from the 2026-07-24 step1_fanout repricing — see RUNG 4.)* Excludes
   (a) the **UNPRICED** 5a-KS wedge + reciprocal cycle (engine BUILT 2026-07-24 but never run — an engine is not a
   rate) and (b) optional/HELD ΔG_open + ABFE (~$200–500 more if invoked). *(Was "~$270 (~$150–450)" before the
   2026-07-24 ternary-base and wedge corrections, then ~$370 on the interim projected ternary base.)* Swings, in
@@ -413,10 +413,23 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 
 ### RUNG 4 — warhead map, differential atlas, retrospective gate
 
-- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** — **~$12–26 (≈19 RBFE edges × ~$0.6–1.4) · Cum. ~$110.**
-  Full congeneric map across conformer panels + matched paralogues + microstates, as conditional hypotheses with
-  sensitivity ranges → the warhead + exit-vector inputs the inverse-design stage consumes. **Gate:** Val A
-  satisfied (cite OpenFE) AND the Step 1 pilot behaved (with its replicas + pose/state sensitivity).
+- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** — **~$91–101 (≈19 RBFE edges × ~$4.8–5.3 on a Vast
+  4090) · Cum. ~$187.** ⚠ **REPRICED 2026-07-24 from ~$12–26 — the old figure was ~4× low and must not be
+  requoted.** It compounded two errors: a per-iteration rate measured on the **public TYK2** edge used as if it
+  were the NR4A3 rate (measured: 498 vs **190 ns/day** aggregate, three independent hosts), on a **single**
+  unusually cheap host's $0.122/hr against a realized $0.35–0.39/hr. **Lane BUILT and proven to sample** (wave 1
+  reached 95–99 % GPU utilisation on the real system) but **HALTED at ~$2 with 0/19 ΔΔG** once the repricing
+  crossed the spend gate; everything is checkpointed, so a resume continues rather than restarts. Full record:
+  [research/modalities/step1-fanout-lane.md](research/modalities/step1-fanout-lane.md).
+  **Scope, if resumed:** the price covers **tranche 1 only** — the 19 edges at their charge-**conserving**
+  microstate leg on the **primary frame**. The 8 charge-changing legs are *blocked* (no charge correction
+  implemented) and the 6-frame conformer/paralogue axis is a **separate ~6× spend** — so tranche 1 yields a
+  single-conformer **conditional** map, **not** the selectivity readout or the sensitivity ranges.
+  **Gate:** Val A satisfied (cite OpenFE) AND the Step 1 pilot behaved (with its replicas + pose/state
+  sensitivity). **Timestep is NOT a lever** — measured free on CPU: the protocol runs at OpenFE's default
+  `constraints=hbonds` + HMR 3.0, every X-H is constrained, so all edges are 4 fs and no 2× saving exists. The
+  one remaining lever is the **bid multiplier** (`VAST_BID_FLOOR_MULT`, currently 1.9 = a 90 % premium over the
+  market floor; ~1.2 is defensible for a per-iteration-checkpointed lane and would give ~$57).
 - **`[x]` NR4A differential surface atlas — DONE · $0 · GATE PASS/GO.** Matched Shrake–Rupley SASA + BLOSUM62
   alignment over NR4A{3,1,2} opened models → **46 differential-surface handles** (exposed × divergent ×
   character-changing), 15/15 LBD lysines exposed; per-residue identities reproduce the canonical map 148/148. A
@@ -608,10 +621,12 @@ only established today and moved the total by more than the first.
    alchemical. **There is no implementing engine for the wedge in this repo.** It is therefore excluded from the
    totals below rather than carried at a fake price. See the 🛑 blocks at Tier 3 and RUNG 5a.
 
-**Whole gated ladder, GO at every gate, PRICEABLE stages only: ~$390 mid-range (~$170–610).** Excludes (a) the
+**Whole gated ladder, GO at every gate, PRICEABLE stages only: ~$467 mid-range (~$249–685).** *(Was ~$390 (~$170–610) before the step1_fanout repricing, which moved the fan-out from ~$12–26 to ~$91–101.)* Excludes (a) the
 5a-KS wedge + reciprocal cycle — UNPRICED/BLOCKED, and (b) Optional/HELD ΔG_open + ABFE (~$200–500 more).
 Dominant uncertainties, in order: the unpriced wedge, the L4→4090 conversion, then the **ensemble-MD leg count**
-(5c + retrospective). This table and `pricing.md` §C carry the same chain and must agree.
+(5c + retrospective). ⚠ **A rate measured on one molecular system is not a price for another** — the single
+largest correction to date (~4× on the fan-out) came from applying a public-TYK2 per-iteration rate to the
+NR4A3 complex, which is ~2.6× heavier in aggregate throughput. Treat any cross-system rate as a routing hint. This table and `pricing.md` §C carry the same chain and must agree.
 
 | Rung | GPU work | Step $ (low–high) | Cum. (mid) |
 |---|---|---|---|
@@ -619,9 +634,9 @@ Dominant uncertainties, in order: the unpriced wedge, the L4→4090 conversion, 
 | 1 · Val A smoke (DONE, realized ~$0 on GCP credit) | 1 public RBFE edge | ~$0–15 | ~$2 |
 | 2 · pilot (DONE) + Val B-mini | 1–2 RBFE edges + 1 ternary edge | ~$1–3 + ~$7–15 | ~$15 |
 | 3 · Val B cube + NR-V04 feasibility (feas. DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$35–100 + ~$8 | ~$91 |
-| 4 · fan-out + atlas(DONE, $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary ensembles | ~$12–26 + ~$45–115 | ~$190 |
-| 5a · basin search + **KILL-SWITCH** | basin ($0–50) + wedge → **engine built, unvalidated** | ~$0–50 + **UNPRICED** | ~$215 |
-| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker($0–20) + ensemble MD ($20–150) + within-basin FEP ($21–90) | ~$41–260 | ~$365 |
+| 4 · fan-out + atlas(DONE, $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary ensembles | **~$91–101** + ~$45–115 | ~$267 |
+| 5a · basin search + **KILL-SWITCH** | basin ($0–50) + wedge → **engine built, unvalidated** | ~$0–50 + **UNPRICED** | ~$292 |
+| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker($0–20) + ensemble MD ($20–150) + within-basin FEP ($21–90) | ~$41–260 | ~$442 |
 | Optional ΔG_open / ABFE (HELD) | — | +$200–500 | *(excl.)* |
 
 Notes: the restructuring buys **causal evidence** (mutation cycles + ensemble MD + local FEP) over
@@ -643,7 +658,7 @@ RUNG2  step1_pilot [x] ∥ valB_mini [~]  ──[GO?]──►                  
           │
 RUNG3  valB_full cube + nrv04_feasibility [x]  ──[GO?]──►              (valA_full SKIPPED; Cum ~$88)
           │
-RUNG4  step1_fanout ∥ atlas [x]($0) ──► nrv04_retrospective ──[concordant?]──►   (Cum ~$187)
+RUNG4  step1_fanout ∥ atlas [x]($0) ──► nrv04_retrospective ──[concordant?]──►   (Cum ~$264)
           │
 RUNG5  basin_search($0–50) ──► ⚠ wedge PILOT leg — ENGINE + EXECUTION LAYER BUILT, UNVALIDATED, still UNPRICED
           │         (engine: nr4a3_protein_fep.py + protfep_run.py, perses PointMutationExecutor — built
