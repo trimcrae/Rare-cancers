@@ -72,12 +72,7 @@ RUN micromamba clean --tarballs --index-cache --yes || true; \
 # reached from the build, so the build asserts the PLUGIN SHIP; protfep_run asserts the RUNNING
 # platform at leg start and refuses to proceed on CPU unless explicitly allowed.
 RUN python -c "import openmm, openmmtools, pymbar; print('openmm', openmm.version.version)" \
-    && python -c "
-import glob, openmm, os
-plugin_dir = os.path.join(os.path.dirname(openmm.version.__file__), 'lib', 'plugins')
-found = glob.glob(os.path.join(plugin_dir, '*CUDA*')) or glob.glob('/opt/mamba/envs/protfep/lib/plugins/*CUDA*')
-assert found, 'no OpenMM CUDA plugin in this env — a leg would silently run on CPU'
-print('openmm CUDA plugin:', found[0])" \
+    && python -c "import glob; f=glob.glob('/opt/mamba/envs/protfep/lib/plugins/*CUDA*'); assert f, 'no OpenMM CUDA plugin in this env - a leg would silently run on CPU'; print('openmm CUDA plugin:', f[0])" \
     && python -c "from perses.app.relative_point_mutation_setup import PointMutationExecutor; print('perses PointMutationExecutor OK')" \
     && python -c "from perses.samplers.multistate import HybridRepexSampler; print('perses HybridRepexSampler OK')" \
     && python -c "from perses.annihilation.lambda_protocol import LambdaProtocol; print('perses LambdaProtocol OK')" \
