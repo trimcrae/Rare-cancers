@@ -485,3 +485,35 @@ def test_iteration_count_is_timestep_independent():
     """
     assert prun.iters_for(5.0) == 2000
     assert prun.steps_per_iteration(2.0) == 2 * prun.steps_per_iteration(4.0)
+
+
+# ---------------------------------------------------------------- reap matching (real money)
+def test_label_matches_its_own_leg_for_every_unit():
+    """Every label the launcher creates must match back to its leg, or the reap misses it.
+
+    A missed match leaves a FINISHED leg's GPU billing until the runtime backstop hours later.
+    """
+    for mode in ("pilot", "full"):
+        for unit in pv.units_for(mode, n_replicas=3):
+            label = pv.unit_label(unit, mode)
+            assert pv.label_matches_leg(label, unit["leg_id"]), f"{label} !~ {unit['leg_id']}"
+
+
+def test_label_does_not_match_a_different_leg():
+    """Over-matching is the opposite failure: destroying an instance whose leg is still running."""
+    a = pb.leg_spec("barnase_barstar_Y29A", "complex", 0)
+    b = pb.leg_spec("barnase_barstar_Y29A", "complex", 1)
+    assert pv.label_matches_leg(pv.unit_label(a, "pilot"), b["leg_id"]) is False
+    assert pv.label_matches_leg(pv.unit_label(a, "pilot"), "barnase_barstar_Y29F__complex_r0") is False
+
+
+def test_label_match_is_robust_to_empty_input():
+    assert pv.label_matches_leg("", "x") is False
+    assert pv.label_matches_leg("protfep-bench-x", "") is False
+    assert pv.label_matches_leg(None, "x") is False
+
+
+def test_replicate_labels_are_all_distinct():
+    """Two legs sharing a label would make the reap destroy the wrong instance."""
+    labels = [pv.unit_label(u, "full") for u in pv.units_for("full", n_replicas=3)]
+    assert len(set(labels)) == len(labels)

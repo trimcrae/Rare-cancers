@@ -49,6 +49,10 @@ VAST_IMAGE = os.environ.get("VAST_IMAGE") or "docker.io/triskit23/protfep:latest
 RESULT_PREFIX = os.environ.get("PROTFEP_RESULT_PREFIX", "protfep-benchmark")
 DEFAULT_BUCKET = os.environ.get("VAST_CKPT_BUCKET", "sagemaker-us-east-2-646605541856")
 LABEL_PREFIX = "protfep-bench"
+# Runtime backstop for the reap: an instance up longer than this is destroyed even if no
+# result appeared, so a hung or crashed leg cannot bill indefinitely. It is a BACKSTOP, not
+# the normal path — the normal path is "leg result in S3 -> destroy".
+MAX_INSTANCE_HOURS = float(os.environ.get("PROTFEP_MAX_INSTANCE_HOURS", "10"))
 
 # A solvated barnase-barstar complex is ~30-35k atoms and the apo barstar leg ~15-20k — small
 # systems by this repo's standards (the ternary hybrid is 146k). The 4090 is the measured $/ns
@@ -141,6 +145,22 @@ def unit_label(spec, mode):
     """Vast instance label for one leg. Pure. Prefix lets the reap find every instance of this lane."""
     tag = "smoke" if mode == "smoke" else spec["leg_id"]
     return f"{LABEL_PREFIX}-{tag}".replace("_", "-").lower()[:60]
+
+
+def label_matches_leg(label, leg_id):
+    """Does this Vast instance label belong to this leg's result? Pure.
+
+    The label is a lossy encoding of the leg id (underscores flattened to dashes, lowercased, and
+    truncated to Vast's 60-char limit), so matching has to go leg_id -> label, never the reverse.
+    This is worth a named, tested function because a MISSED match is not a cosmetic bug: `collect`
+    reaps an instance when its leg is done, so a match that fails leaves a finished leg's GPU billing
+    until the runtime backstop fires hours later. Real money, silently.
+    """
+    if not label or not leg_id:
+        return False
+    label = str(label).strip().lower()
+    encoded = f"{LABEL_PREFIX}-{str(leg_id)}".replace("_", "-").lower()[:60]
+    return label == encoded
 
 
 def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefix=None):
@@ -255,10 +275,8 @@ def collect(bucket=None, prefix=None, autostop=True):
             cost = up_h * float(i.get("dph_total") or 0)
             print(f"  vast {iid} ({label}) {i.get('actual_status')} up={up_h:.2f}h "
                   f"dph={i.get('dph_total')} spent~${cost:.2f}")
-            leg = label.replace(f"{LABEL_PREFIX}-", "")
-            finished = any(leg == k.replace("_", "-").lower()[:60 - len(LABEL_PREFIX) - 1]
-                           or leg in k.replace("_", "-").lower() for k in done)
-            if autostop and (finished or up_h > 10):
+            finished = any(label_matches_leg(label, k) for k in done)
+            if autostop and (finished or up_h > MAX_INSTANCE_HOURS):
                 print(f"    -> destroying {iid} ({'leg done' if finished else 'runtime backstop'})")
                 try:
                     _vast_request("DELETE", f"/instances/{iid}/", key)
