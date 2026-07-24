@@ -57,7 +57,12 @@ import nr4a3_protein_fep as pf  # noqa: E402
 import protfep_bench as bench  # noqa: E402
 
 # ---- lane settings (env-overridable; these defaults ARE the recipe) ------------------------------
-N_STATES = int(os.environ.get("PROTFEP_N_STATES", "11"))
+# 16 lambda windows, not 11. Y->A deletes an entire phenol ring — a large transformation for a
+# modest window count — and a disconnected lambda path yields a converged-LOOKING dG that is
+# wrong. The marginal cost is real but small on a sub-dollar leg, and _overlap_diagnostic
+# reports the adjacent-overlap bottleneck so the adequacy of this number is MEASURED per leg
+# rather than assumed. Raise it if the bottleneck comes back disconnected.
+N_STATES = int(os.environ.get("PROTFEP_N_STATES", "16"))
 TIMESTEP_FS = float(os.environ.get("PROTFEP_TIMESTEP_FS", "2.0"))
 WARMUP_TIMESTEP_FS = float(os.environ.get("PROTFEP_WARMUP_TIMESTEP_FS", "1.0"))
 ITER_PS = float(os.environ.get("PROTFEP_ITER_PS", "2.5"))       # ps of MD per replica-exchange iteration
@@ -394,6 +399,47 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, n_states=None, prod_
     return record
 
 
+def _overlap_diagnostic(analyzer):
+    """Adjacent-lambda overlap bottleneck for this leg.
+
+    Delegates to `ternary_fep_convergence.overlap_matrix_bottleneck` — the SAME detector the ternary
+    lane already uses and tests — rather than writing a second one that can drift from it. The
+    connectivity requirement is the same physics in both lanes: one near-zero neighbour pair
+    disconnects the thermodynamic path even when the average overlap looks fine, so a converged-
+    looking dG across a broken path is exactly the failure this catches.
+
+    A poor bottleneck here has a known remedy: more lambda windows. Y->A deletes a whole phenol ring,
+    which is a large transformation for a modest window count, so this diagnostic is what tells us
+    whether the default N_STATES is adequate instead of us guessing at it.
+    """
+    try:
+        import ternary_fep_convergence as cv
+    except ImportError as e:
+        return {"status": f"overlap gate COULD NOT RUN (missing dependency): {e}"}
+    matrix = None
+    for accessor in ("mbar",):
+        obj = getattr(analyzer, accessor, None)
+        if obj is None:
+            continue
+        try:
+            ov = obj.compute_overlap()          # pymbar 4
+            matrix = ov["matrix"] if isinstance(ov, dict) else ov
+            break
+        except Exception:  # noqa: BLE001 — try the next shape
+            try:
+                matrix = obj.computeOverlap()["matrix"]   # pymbar 3 spelling
+                break
+            except Exception:  # noqa: BLE001
+                matrix = None
+    if matrix is None:
+        return {"status": "overlap matrix not exposed by this analyzer/pymbar version"}
+    out = cv.overlap_matrix_bottleneck(matrix)
+    out["threshold"] = getattr(cv, "OVERLAP_BOTTLENECK_MIN", None)
+    out["remedy_if_disconnected"] = ("raise PROTFEP_N_STATES — a disconnected lambda path is a window-"
+                                     "count problem, not a sampling-length problem")
+    return out
+
+
 def analyze(reporter):
     """MBAR reduction of a finished (or partial) leg -> (dG_kcal, MBAR_SE_kcal, diagnostics).
 
@@ -408,6 +454,7 @@ def analyze(reporter):
     dg = float(f_ij[0, -1]) * KT_KCAL
     ddg = float(df_ij[0, -1]) * KT_KCAL
     diagnostics = {"kT_kcal": KT_KCAL, "units": "kcal/mol"}
+    diagnostics["overlap"] = _overlap_diagnostic(analyzer)
     try:
         n_eff = analyzer.effective_length_of_trajectory if hasattr(
             analyzer, "effective_length_of_trajectory") else None
