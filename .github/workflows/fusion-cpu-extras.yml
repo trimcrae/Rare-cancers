@@ -14,16 +14,16 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, nrv04_vast_launch]
+        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch]
         default: fusion
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
         type: boolean
         default: false
       vast_launch_mode:
-        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full"
+        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -45,6 +45,21 @@ on:
       pilot_seed:
         description: "nrv04_vast_launch pilot: which seed of cov_nr4a1 to run (distinguishes parallel bench runs)"
         default: "0"
+      bench_edge_nm:
+        description: "bench mode: TIP3P box edge (nm). 7.1≈36k atoms (RBFE leg); 9.5≈86k (ternary); 16.5≈460k (covalent)"
+        default: "7.1"
+      bench_steps:
+        description: "bench mode: timed production steps (4000≈16ps @4fs; enough for a stable ns/day)"
+        default: "4000"
+      bench_grid:
+        description: "bench mode: comma-sep gpu:edge_nm pairs to launch in ONE dispatch (e.g. rtx4090:9.5,rtx3090:9.5). Blank = single leg from vast_gpu+bench_edge_nm"
+        default: ""
+      firm_kind:
+        description: "firm mode: which real alchemical edge(s) to run on the nr4a3fep 4090 image — rbfe | ternary | rbfe,ternary"
+        default: "rbfe,ternary"
+      firm_n_iter:
+        description: "firm mode: MBAR iterations per window (short = fast throughput read; blank = per-kind default 150/120)"
+        default: ""
 
 permissions:
   contents: write
@@ -52,7 +67,10 @@ permissions:
 # Per-TASK concurrency so independent tasks (e.g. nrv04_build_env + nrv04_charge_cache) run in PARALLEL instead
 # of cancelling each other — a plain `fusion-cpu-extras` group would serialize every dispatch of this workflow.
 concurrency:
-  group: fusion-cpu-extras-${{ github.event.inputs.task }}
+  # Include vast_launch_mode so a bench / bench_collect dispatch is NOT cancelled by a (possibly cross-session)
+  # covalent collect/monitor/full dispatch of the same task — they share task=nrv04_vast_launch and, with a
+  # task-only group + cancel-in-progress, kept killing each other. Mode-scoped groups keep same-mode dedupe.
+  group: fusion-cpu-extras-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}
   cancel-in-progress: true
 
 jobs:
@@ -266,6 +284,62 @@ jobs:
           aws s3api head-object --bucket "${VAST_CKPT_BUCKET}" --key nrv04-ffcache/ffcache.json \
             --query '{LastModified:LastModified,SizeBytes:ContentLength}' --output json || echo "(no ffcache.json yet)"
 
+  fep_bake:
+    # Prebake the OpenFE ("rbfe") env into a Vast boot image -> Docker Hub (triskit23/nr4a3fep:latest). This is
+    # the enabler for running nr4a3_rbfe.py (step1 RBFE) + nr4a3_ternary_fep.py (valB/retrospective/matrix) on
+    # Vast: the nrv04vast image has the covalent MD env only (OpenMM, no OpenFE). Build env -> conda-pack ->
+    # docker build (Dockerfile.nr4a3fep) -> push, in one job (no S3 round-trip). Make the Docker Hub repo PUBLIC.
+    if: ${{ github.event.inputs.task == 'fep_bake' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    defaults:
+      run:
+        shell: bash -el {0}
+    env:
+      DOCKERHUB_USER: triskit23
+      # Force CUDA-12 openmm builds (PTX runs on all >=12.6 host drivers) — mirrors nrv04_build_env; a CUDA-13
+      # openmm PTX-crashed on every Vast host.
+      CONDA_OVERRIDE_CUDA: "12.6"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reclaim runner disk (image + env are multi-GB)
+        shell: bash
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+      - name: Build the OpenFE (rbfe) conda env
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: research/modalities/sagemaker_src/environment-rbfe.yml
+          environment-name: rbfe
+      - name: Verify openfe + openmm + ambertools import (the point of the image)
+        run: |
+          set -eo pipefail
+          micromamba run -n rbfe python -c "import openfe; from openfe.protocols import openmm_rfe; print('openfe', openfe.__version__)"
+          micromamba run -n rbfe python -c "import openmm; print('openmm', openmm.version.version)"
+          micromamba run -n rbfe python -c "import openff.toolkit, rdkit, lomap, kartograf; print('mapping stack OK')"
+          micromamba run -n rbfe bash -lc "command -v antechamber >/dev/null && command -v sqm >/dev/null && echo 'ambertools (am1bcc) OK'"
+      - name: conda-pack the env into the Docker build context
+        run: |
+          set -eo pipefail
+          python -m pip install -q conda-pack
+          ENV_PREFIX="$MAMBA_ROOT_PREFIX/envs/rbfe"
+          [ -d "$ENV_PREFIX" ] || ENV_PREFIX=$(micromamba env list | awk '/rbfe/{print $NF; exit}')
+          echo "packing $ENV_PREFIX"
+          conda-pack -p "$ENV_PREFIX" -o research/compute/rbfe.tar.gz --format tar.gz --n-threads -1 --ignore-missing-files
+          ls -lh research/compute/rbfe.tar.gz
+      - name: Log in to Docker Hub
+        shell: bash
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
+      - name: Build + push the OpenFE Vast image
+        shell: bash
+        run: |
+          set -eo pipefail
+          IMG="docker.io/${DOCKERHUB_USER}/nr4a3fep:latest"
+          docker build -f research/compute/Dockerfile.nr4a3fep -t "$IMG" research/compute/
+          docker push "$IMG"
+          echo "PUSHED $IMG — ensure the Docker Hub repo is PUBLIC so Vast pulls it unauthenticated."
+
   nrv04_bake:
     # Build the pre-provisioned Vast boot image (ssh/python/git/systemd + the MD conda env all baked, so Vast's
     # slow boot-time apt is a no-op) and push it to Docker Hub (public repo -> Vast pulls unauthenticated).
@@ -335,6 +409,15 @@ jobs:
       STOP_ALL: ${{ github.event.inputs.vast_launch_mode == 'stop_all' && '1' || '0' }}
       DIAG: ${{ github.event.inputs.vast_launch_mode == 'diag' && '1' || '0' }}
       PROBE_OFFERS: ${{ github.event.inputs.vast_launch_mode == 'probe_offers' && '1' || '0' }}
+      BENCH: ${{ github.event.inputs.vast_launch_mode == 'bench' && '1' || '0' }}
+      BENCH_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'bench_collect' && '1' || '0' }}
+      BENCH_EDGE_NM: ${{ github.event.inputs.bench_edge_nm }}
+      BENCH_STEPS: ${{ github.event.inputs.bench_steps }}
+      BENCH_GRID: ${{ github.event.inputs.bench_grid }}
+      FIRM: ${{ github.event.inputs.vast_launch_mode == 'firm' && '1' || '0' }}
+      FIRM_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'firm_collect' && '1' || '0' }}
+      FIRM_KIND: ${{ github.event.inputs.firm_kind }}
+      N_ITER: ${{ github.event.inputs.firm_n_iter }}
       VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
       PILOT_SEED: ${{ github.event.inputs.pilot_seed }}
     steps:

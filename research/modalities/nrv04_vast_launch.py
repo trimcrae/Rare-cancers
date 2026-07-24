@@ -538,10 +538,385 @@ def probe_offers():
     run(relaxed, "drop BOTH reliability + cuda (absolute floor for 24GB single-GPU)")
 
 
+# ---- throughput bench mode: run gpu_md_bench on a chosen Vast card to PRICE $/ns (3090-vs-4090 decision) ----
+# Reuses the proven Vast submit + self-destroy EXIT trap (VastBackend._vast_onstart): each bench instance tears
+# ITSELF down on exit by its own unique label, so it is safe alongside the live covalent panel (no stop_all).
+# gpu_md_bench builds a self-contained TIP3P water box sized by BENCH_EDGE_NM (7.1nm≈36k atoms≈an RBFE complex
+# leg; larger edges bracket the ternary ~100k and covalent ~466k systems) and prints one ns_per_day line.
+_BENCH_PREFIX = os.environ.get("VAST_BENCH_PREFIX", "vast-bench-results")
+
+_BENCH_PIPELINE = r"""
+set -eo pipefail
+export DEBIAN_FRONTEND=noninteractive
+command -v curl >/dev/null 2>&1 || { apt-get update -q || true; apt-get install -y -q --no-install-recommends curl ca-certificates || true; }
+if [ ! -x /opt/mamba/envs/md/bin/python ]; then
+  mkdir -p /opt/mamba/envs/md
+  curl -Ls "$ENV_TARBALL_URL" | tar xz -C /opt/mamba/envs/md
+  /opt/mamba/envs/md/bin/conda-unpack || true
+fi
+export PATH=/opt/mamba/envs/md/bin:$PATH
+PY=/opt/mamba/envs/md/bin/python
+AWS=/opt/mamba/envs/md/bin/aws
+curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
+cd Rare-cancers-*/research/modalities
+export OPENMM_REQUIRE_CUDA=1
+$PY autoteardown.py $PY gpu_md_bench.py 2>&1 | tee /tmp/bench.out || true
+grep BENCH_RESULT /tmp/bench.out | tail -1 > /tmp/bench.line || true
+$PY - <<'PYEOF'
+import json, os
+line = open("/tmp/bench.line").read().strip()
+d = {}
+for kv in line.split():
+    if "=" in kv:
+        k, v = kv.split("=", 1)
+        d[k] = v
+d["_raw"] = line
+d["gpu"] = os.environ.get("VAST_GPU_MODEL", "")
+d["edge_nm"] = os.environ.get("BENCH_EDGE_NM", "")
+json.dump(d, open("/tmp/bench.json", "w"), indent=2)
+PYEOF
+$AWS s3 cp /tmp/bench.json "$RESULT_S3/bench.json" || true
+$AWS s3 cp /tmp/bench.out "$RESULT_S3/bench.out" || true
+"""
+
+
+def build_bench_jobspec(tag, branch, bucket, env_tarball_url=None):
+    """PURE: JobSpec for one throughput bench (one card × one system size). No staging, no checkpoint/resume —
+    gpu_md_bench is seconds of compute; the instance self-destroys on exit."""
+    gpu = os.environ.get("VAST_GPU_MODEL") or "rtx4090"
+    env = {
+        "GIT_BRANCH": branch,
+        "RESULT_S3": f"s3://{bucket}/{_BENCH_PREFIX}/{tag}",
+        "BENCH_EDGE_NM": os.environ.get("BENCH_EDGE_NM", "7.1"),
+        "BENCH_STEPS": os.environ.get("BENCH_STEPS", "4000"),
+        "BENCH_WARMUP": os.environ.get("BENCH_WARMUP", "1000"),
+        "BENCH_TAG": tag,
+        "VAST_GPU_MODEL": gpu,
+    }
+    if env_tarball_url:
+        env["ENV_TARBALL_URL"] = env_tarball_url
+    pipeline = _BENCH_PIPELINE.replace("{repo}", REPO)
+    return JobSpec(
+        name=tag,
+        command=["bash", "-lc", pipeline],
+        image=VAST_IMAGE,
+        checkpoint_uri=f"s3://{bucket}/{_BENCH_PREFIX}/{tag}/ckpt",
+        resume=False,
+        resources=ResourceSpec(gpu=gpu, min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=40, interruptible=True),
+        max_runtime_s=int(os.environ.get("BENCH_MAX_RUNTIME_S", "2400")),
+        env=env,
+    )
+
+
+def bench(bucket):
+    """Submit throughput bench leg(s) to Vast. BENCH_GRID (comma-sep 'gpu:edge_nm' pairs, e.g.
+    'rtx4090:9.5,rtx3090:9.5,rtx4090:16.5') submits the whole grid in ONE dispatch (avoids the workflow's
+    concurrency group cancelling rapid single dispatches). Else a single (VAST_GPU_MODEL, BENCH_EDGE_NM) leg.
+    Each leg self-destroys on exit; idempotent enough for a bench (a stale same-tag bench.json is overwritten)."""
+    branch = os.environ.get("GIT_BRANCH", "claude/next-expansion-priorities-t64njy")
+    dry = os.environ.get("DRY_RUN", "0") == "1"
+    grid_env = (os.environ.get("BENCH_GRID") or "").strip()
+    if grid_env:
+        grid = []
+        for pair in grid_env.split(","):
+            pair = pair.strip()
+            if not pair:
+                continue
+            gpu, _, edge = pair.partition(":")
+            grid.append((gpu.strip() or "rtx4090", edge.strip() or "7.1"))
+    else:
+        grid = [(os.environ.get("VAST_GPU_MODEL") or "rtx4090", os.environ.get("BENCH_EDGE_NM", "7.1"))]
+    be = get_backend("vast")
+    env_url = None if dry else presign_env_tarball(bucket)
+    handles = []
+    for gpu, edge_nm in grid:
+        tag = f"bench-{gpu}-{edge_nm}nm".replace(".", "p")
+        # per-leg overrides consumed by build_bench_jobspec via env
+        os.environ["VAST_GPU_MODEL"] = gpu
+        os.environ["BENCH_EDGE_NM"] = edge_nm
+        spec = build_bench_jobspec(tag, branch, bucket, env_tarball_url=env_url)
+        if dry:
+            print(f"[bench-dry] {spec.name}: gpu={gpu} edge={edge_nm}nm steps={spec.env['BENCH_STEPS']} "
+                  f"-> {spec.env['RESULT_S3']}", flush=True)
+            continue
+        h = be.submit(spec)
+        print(f"[bench-submit] {spec.name} -> instance {h.job_id} gpu={gpu} edge={edge_nm}nm "
+              f"dph≈${h.extra.get('dph')}/hr", flush=True)
+        handles.append({"unit": spec.name, "gpu": gpu, "edge_nm": edge_nm, "instance": h.job_id,
+                        "dph": h.extra.get("dph")})
+    if handles:
+        json.dump(handles, open("nrv04-vast-bench-handles.json", "w"), indent=2)
+    return 0
+
+
+def bench_collect(bucket):
+    """Read every vast-bench-results/*/bench.json + list live bench-* instances, and print a $/ns table
+    (ns_per_day is stamped by gpu_md_bench; combine with the live per-card $/hr from probe_offers for $/ns)."""
+    import boto3
+    s3 = boto3.client("s3")
+    key = os.environ.get("VAST_API_KEY")
+    insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
+    bench_up = [i for i in insts if (i.get("label") or "").startswith("bench-")]
+    print(f"[bench-collect] live bench-* instances: {len(bench_up)} "
+          f"(each self-destroys on exit; covalent panel untouched)", flush=True)
+    for i in bench_up:
+        print(f"[bench-collect]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
+              f"dph=${i.get('dph_total')}/hr", flush=True)
+    rows = []
+    done_tags = set()
+    for k in _s3_list(s3, bucket, f"{_BENCH_PREFIX}/", suffix="bench.json"):
+        try:
+            d = json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode())
+        except Exception:  # noqa: BLE001
+            continue
+        rows.append(d)
+        done_tags.add(d.get("tag") or k.split("/")[-2])
+    print(f"[bench-collect] {len(rows)} bench result(s):", flush=True)
+    for d in sorted(rows, key=lambda r: (str(r.get("gpu")), str(r.get("edge_nm")))):
+        print(f"  gpu={d.get('gpu')} edge={d.get('edge_nm')}nm atoms={d.get('atoms')} "
+              f"device={d.get('device')} platform={d.get('platform')} "
+              f"ns_per_day={d.get('ns_per_day')} status={d.get('status')}", flush=True)
+        if d.get("status") != "OK":                    # root-cause: the full BENCH_RESULT line (incl err=...)
+            print(f"    raw: {d.get('_raw')}", flush=True)
+    # TARGETED anti-idle teardown, scoped to the bench-* label namespace (covalent panel NEVER touched, no
+    # stop_all). Destroy ONLY: (a) terminal instances (a finished bench self-exits -> exited/stopped), or (b) an
+    # over-age instance (stuck/crashed backstop). Do NOT key off "has a bench.json" — a STALE result from a prior
+    # run of the same tag would otherwise kill a freshly-LOADING re-dispatch mid-boot (observed 2026-07-23).
+    if os.environ.get("BENCH_NO_STOP") != "1" and key:
+        import time
+        now = time.time()
+        max_age = int(os.environ.get("BENCH_MAX_AGE_MIN", "40")) * 60
+        _terminal = ("exited", "offline", "stopped")
+        for i in bench_up:
+            lab = i.get("label") or ""
+            try:
+                age = now - float(i.get("start_date") or now)
+            except (TypeError, ValueError):
+                age = 0
+            terminal = (i.get("actual_status") or "") in _terminal
+            if terminal or age > max_age:
+                try:
+                    _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+                    print(f"[bench-collect] destroyed {i.get('id')} ({lab}) — "
+                          f"{'terminal' if terminal else f'over-age {int(age//60)}min'}", flush=True)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[bench-collect] WARN destroy {i.get('id')} failed: {e}", flush=True)
+    return 0
+
+
+# ---- FIRM mode: run ONE real RBFE edge + ONE real ternary edge on the Vast RTX 4090 (OpenFE nr4a3fep image) to
+# replace the ~1.7x alchemical-overhead ASSUMPTION with a MEASURED per-edge ns/day + confirm the pipelines launch
+# on Vast. Both self-stage (RBFE: valA_bench_stage.py public TYK2 edge; ternary: ternary_pdb_stage.py from 8G1Q),
+# so no S3 input dependency. The image bakes the rbfe env (openfe+ambertools+lomap/kartograf+gemmi+pdbfixer+awscli).
+FEP_IMAGE = os.environ.get("FEP_IMAGE") or "docker.io/triskit23/nr4a3fep:latest"
+_FIRM_PREFIX = os.environ.get("VAST_FIRM_PREFIX", "vast-firm-results")
+
+_FIRM_PREAMBLE = r"""
+set -eo pipefail
+export DEBIAN_FRONTEND=noninteractive
+command -v curl >/dev/null 2>&1 || { apt-get update -q||true; apt-get install -y -q --no-install-recommends curl ca-certificates||true; }
+export PATH=/opt/mamba/envs/rbfe/bin:$PATH
+# conda-pack relocation breaks OpenMM's compiled-in plugin dir -> OpenFE's internal getPlatformByName("CUDA")
+# fails ("no registered Platform called CUDA"). Point OPENMM_PLUGIN_DIR at this env's plugins so auto-load works
+# for BOTH our driver AND OpenFE's internal calls (verified root cause on the first firm run, 2026-07-23).
+export OPENMM_PLUGIN_DIR=/opt/mamba/envs/rbfe/lib/plugins
+# The rbfe conda env has no CA bundle for Python SSL, so ternary_pdb_stage.py's RCSB fetch fails with
+# CERTIFICATE_VERIFY_FAILED -> empty ligands.sdf (root-caused on the first firm run, 2026-07-23). Point SSL at
+# the system CA bundle the Dockerfile's apt `ca-certificates` installs.
+export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+PY=/opt/mamba/envs/rbfe/bin/python
+AWS=/opt/mamba/envs/rbfe/bin/aws
+command -v "$AWS" >/dev/null 2>&1 || AWS="$PY -m awscli"
+$PY -c "import openfe,openmm;print('[firm] openfe',openfe.__version__,'plats',[openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" || true
+curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
+cd Rare-cancers-*/research/modalities
+export IN=/tmp/fin OUT=/tmp/fout; mkdir -p "$IN" "$OUT"
+"""
+
+_FIRM_RBFE_BODY = r"""
+mkdir -p "$IN/ligand" "$IN/receptor"
+echo "[firm] staging public TYK2 edge (valA_bench_stage.py)"
+VALA_NO_UPLOAD=1 VALA_WORKDIR=/tmp/valA $PY valA_bench_stage.py 2>&1 | tail -12 || true
+cp /tmp/valA/staged/docked_nr4a3.sdf "$IN/ligand/" 2>/dev/null || echo "[firm] no docked sdf"
+cp /tmp/valA/staged/nr4a3-opened.pdb "$IN/receptor/" 2>/dev/null || echo "[firm] no receptor pdb"
+cp /tmp/valA/staged/valA_manifest.json "$IN/" 2>/dev/null || true
+export T0=$(date +%s)
+env MODE=splittest RBFE_TINY=0 N_WINDOWS="${N_WINDOWS:-12}" N_ITER="${N_ITER:-150}" OPENMM_REQUIRE_CUDA=1 \
+    RECEPTOR=nr4a3 LEG=complex LIGAND_A=tyk2_ejm_31 LIGAND_B=tyk2_ejm_42 \
+    INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_rbfe.py 2>&1 | tee /tmp/firm.log || true
+export T1=$(date +%s)
+"""
+
+_FIRM_TERNARY_BODY = r"""
+export T0=$(date +%s)
+{
+  echo "[firm] staging ternary leg from 8G1Q (ternary_pdb_stage.py)"
+  $PY ternary_pdb_stage.py --leg-id "${LEG_ID:-calib_hi_to_lo__ternary_vhl}" --template-pdb 8G1Q --out "$IN" 2>&1 \
+    || echo "[firm] STAGING FAILED rc=$?"
+  echo "[firm] staged tree (name + bytes):"
+  find "$IN" -type f \( -name '*.sdf' -o -name '*.pdb' -o -name '*.json' \) -printf '  %s B  %p\n' 2>/dev/null || true
+  echo "[firm] --- ternary MD ---"
+  env MODE=run LEG_ID="${LEG_ID:-calib_hi_to_lo__ternary_vhl}" SEED=0 DIRECTION=fwd N_WINDOWS="${N_WINDOWS:-16}" \
+      CHARGE_METHOD=nagl RBFE_TIMESTEP_FS=2.0 RBFE_CONSTRAIN_LIGAND_CH=0 N_ITER="${N_ITER:-120}" OPENMM_REQUIRE_CUDA=1 \
+      INPUT_DIR="$IN" OUTPUT_DIR="$OUT" CKPT_DIR="$OUT" $PY nr4a3_ternary_fep.py 2>&1 || true
+} | tee /tmp/firm.log
+export T1=$(date +%s)
+"""
+
+_FIRM_SUMMARY = r"""
+export FIRM_KIND N_WINDOWS N_ITER
+$PY - <<'PYEOF'
+import json, os, glob
+out = os.environ["OUT"]; kind = os.environ.get("FIRM_KIND", "?")
+js = sorted(glob.glob(os.path.join(out, "**", "*.json"), recursive=True))
+nsd = dg = leg = src = None
+for p in js:
+    try:
+        d = json.load(open(p))
+    except Exception:
+        continue
+    if not isinstance(d, dict):
+        continue
+    td = d.get("timing_diagnostics") or {}
+    cand = td.get("ns_per_day") or d.get("ns_per_day")
+    if cand:
+        nsd, src, leg = cand, os.path.basename(p), d.get("leg")
+        dg = d.get("dg_morph_kcal") or d.get("ddg_coop_kcal") or d.get("dg_kcal")
+try:
+    wall = int(os.environ.get("T1", "0")) - int(os.environ.get("T0", "0"))
+except ValueError:
+    wall = None
+r = {"kind": kind, "ns_per_day": nsd, "leg": leg, "dg": dg, "result_json": src,
+     "n_windows": os.environ.get("N_WINDOWS"), "n_iter": os.environ.get("N_ITER"),
+     "wall_s": wall, "n_json": len(js), "status": "OK" if nsd is not None else "NORESULT"}
+json.dump(r, open("/tmp/firm.json", "w"), indent=2)
+print("FIRM_RESULT", json.dumps(r))
+PYEOF
+$AWS s3 cp /tmp/firm.json "$RESULT_S3/firm.json" || true
+$AWS s3 cp /tmp/firm.log "$RESULT_S3/firm.log" || true
+"""
+
+
+def build_firm_jobspec(kind, branch, bucket):
+    """JobSpec for one real firming leg on the OpenFE nr4a3fep image (RTX 4090). kind = rbfe | ternary."""
+    body = _FIRM_RBFE_BODY if kind == "rbfe" else _FIRM_TERNARY_BODY
+    pipeline = (_FIRM_PREAMBLE + body + _FIRM_SUMMARY).replace("{repo}", REPO)
+    tag = f"firm-{kind}-rtx4090"
+    env = {
+        "GIT_BRANCH": branch,
+        "RESULT_S3": f"s3://{bucket}/{_FIRM_PREFIX}/{tag}",
+        "FIRM_KIND": kind,
+        "N_WINDOWS": os.environ.get("N_WINDOWS") or ("12" if kind == "rbfe" else "16"),
+        # short production is enough for a stable ns/day (throughput is length-independent) and finishes fast.
+        "N_ITER": os.environ.get("N_ITER") or ("60" if kind == "rbfe" else "60"),
+        "LEG_ID": os.environ.get("LEG_ID", "calib_hi_to_lo__ternary_vhl"),
+    }
+    return JobSpec(
+        name=tag,
+        command=["bash", "-lc", pipeline],
+        image=FEP_IMAGE,
+        checkpoint_uri=f"s3://{bucket}/{_FIRM_PREFIX}/{tag}/ckpt",
+        resume=False,
+        resources=ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=60, interruptible=True),
+        # a real 12-window HREX leg runs ~2h+ on one GPU; the old 90-min watchdog reaped it mid-run. 4h ceiling.
+        max_runtime_s=int(os.environ.get("FIRM_MAX_RUNTIME_S", "14400")),
+        env=env,
+    )
+
+
+def firm(bucket):
+    """Launch one or more real firming legs (FIRM_KIND = rbfe | ternary | 'rbfe,ternary') on Vast RTX 4090."""
+    branch = os.environ.get("GIT_BRANCH", "claude/next-expansion-priorities-t64njy")
+    kinds = [k.strip() for k in (os.environ.get("FIRM_KIND") or "rbfe").split(",") if k.strip()]
+    dry = os.environ.get("DRY_RUN", "0") == "1"
+    be = get_backend("vast")
+    handles = []
+    for k in kinds:
+        spec = build_firm_jobspec(k, branch, bucket)
+        if dry:
+            print(f"[firm-dry] {spec.name}: image={spec.image} gpu={spec.resources.gpu} "
+                  f"N_WINDOWS={spec.env['N_WINDOWS']} N_ITER={spec.env['N_ITER']} -> {spec.env['RESULT_S3']}", flush=True)
+            continue
+        h = be.submit(spec)
+        print(f"[firm-submit] {spec.name} -> instance {h.job_id} gpu=rtx4090 dph≈${h.extra.get('dph')}/hr", flush=True)
+        handles.append({"unit": spec.name, "kind": k, "instance": h.job_id, "dph": h.extra.get("dph")})
+    if handles:
+        json.dump(handles, open("nrv04-vast-firm-handles.json", "w"), indent=2)
+    return 0
+
+
+def firm_collect(bucket):
+    """Read vast-firm-results/*/firm.json (measured ns_per_day per real edge) + reap terminal/over-age firm-*
+    instances (scoped to firm-* labels; covalent panel untouched)."""
+    import boto3
+    s3 = boto3.client("s3")
+    key = os.environ.get("VAST_API_KEY")
+    insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
+    firm_up = [i for i in insts if (i.get("label") or "").startswith("firm-")]
+    print(f"[firm-collect] live firm-* instances: {len(firm_up)}", flush=True)
+    for i in firm_up:
+        print(f"[firm-collect]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
+              f"dph=${i.get('dph_total')}/hr", flush=True)
+    for k in _s3_list(s3, bucket, f"{_FIRM_PREFIX}/", suffix="firm.json"):
+        try:
+            d = json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode())
+        except Exception:  # noqa: BLE001
+            continue
+        print(f"  kind={d.get('kind')} ns_per_day={d.get('ns_per_day')} n_windows={d.get('n_windows')} "
+              f"n_iter={d.get('n_iter')} wall_s={d.get('wall_s')} dg={d.get('dg')} status={d.get('status')} "
+              f"(from {d.get('result_json')}, {d.get('n_json')} json)", flush=True)
+        if d.get("status") != "OK":                          # root-cause: dump the run log tail from S3
+            logkey = k.rsplit("/", 1)[0] + "/firm.log"
+            try:
+                log = s3.get_object(Bucket=bucket, Key=logkey)["Body"].read().decode(errors="replace")
+                tail = "\n".join(log.splitlines()[-60:])
+                print(f"    --- firm.log tail ({logkey}) ---\n{tail}\n    --- end ---", flush=True)
+            except Exception as e:  # noqa: BLE001
+                print(f"    (no firm.log: {e})", flush=True)
+    if os.environ.get("BENCH_NO_STOP") != "1" and key:
+        import time
+        now = time.time()
+        max_age = int(os.environ.get("FIRM_MAX_AGE_MIN", "260")) * 60   # > a real ~2h HREX leg + boot; don't reap mid-run
+        _terminal = ("exited", "offline", "stopped")
+        # keep the NEWEST instance per label; older same-label instances are stale duplicates (an errored run that
+        # lingered while a fresh re-dispatch started) -> reap. Also reap terminal + over-age. FIRM_STOP=1 reaps ALL
+        # firm-* (explicit cleanup). Never touches non-firm labels.
+        force_all = os.environ.get("FIRM_STOP") == "1"
+        newest = {}
+        for i in firm_up:
+            lab = i.get("label")
+            if lab not in newest or (i.get("start_date") or 0) > (newest[lab].get("start_date") or 0):
+                newest[lab] = i
+        keep = {id(v) for v in newest.values()} if not force_all else set()
+        for i in firm_up:
+            try:
+                age = now - float(i.get("start_date") or now)
+            except (TypeError, ValueError):
+                age = 0
+            dup = id(i) not in keep
+            if force_all or dup or (i.get("actual_status") or "") in _terminal or age > max_age:
+                try:
+                    _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+                    why = "force" if force_all else ("duplicate" if dup else "terminal/over-age")
+                    print(f"[firm-collect] destroyed {i.get('id')} ({i.get('label')}) — {why}", flush=True)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[firm-collect] WARN destroy {i.get('id')} failed: {e}", flush=True)
+    return 0
+
+
 def main():
     bucket = os.environ.get("VAST_CKPT_BUCKET")
     if not bucket:
         raise SystemExit("[nrv04-launch] set VAST_CKPT_BUCKET (the reused S3 bucket)")
+    if os.environ.get("BENCH") == "1":
+        return bench(bucket)
+    if os.environ.get("BENCH_COLLECT") == "1":
+        return bench_collect(bucket)
+    if os.environ.get("FIRM") == "1":
+        return firm(bucket)
+    if os.environ.get("FIRM_COLLECT") == "1":
+        return firm_collect(bucket)
     if os.environ.get("DISCOVER") == "1":
         discover_cofold(bucket)
         return 0

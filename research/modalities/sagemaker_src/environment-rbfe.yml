@@ -7,7 +7,9 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11
-  - openfe>=1.1            # MODERN openfe (pydantic-v2 native, openfe.protocols.openmm_rfe); an unpinned
+  - openfe>=1.12           # MATCH the proven GCP RBFE/ternary lane (gpu-rbfe-gcp.yml pins openfe>=1.12); the
+                           # baked image on >=1.1 resolved older openfe whose spot-driver sampler create tripped
+                           # "equilibration.nc already exists" on the local-commit path (2026-07-23). MODERN openfe
                            # openfe let libmamba resolve an old 0.x that crashed on import under pydantic 2.11
   - pydantic>=2
   - importlib_resources    # openfe imports the backport explicitly; conda didn't pull it transitively
@@ -34,3 +36,9 @@ dependencies:
   - numpy
   - scipy
   - mdtraj
+  - pdbfixer               # receptor prep — needed by ternary_pdb_stage.py (8G1Q stage + SMARCA4->SMARCA2 relax)
+  - gemmi                  # CIF/PDB parsing — needed by ternary_pdb_stage.py
+  - awscli                 # result upload from the Vast nr4a3fep image (rbfe env is the only env baked there)
+  - boto3                  # S3 client for the same
+  - ca-certificates        # CA bundle for Python SSL — else ternary_pdb_stage.py's RCSB fetch CERTIFICATE_VERIFY_FAILs
+  - certifi                # certifi bundle (belt-and-braces with the system CA path set in the launcher)
