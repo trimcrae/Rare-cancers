@@ -60,9 +60,18 @@ _PIPELINE = r"""
 set -o pipefail
 export HOME=/root
 export PATH=/opt/mamba/envs/bioemu/bin:$PATH
+# Tee EVERYTHING to a logfile that we push to S3 on every phase mark — so a crash (sidechain/fpocket on real
+# data) is READABLE from S3 even after the host self-terminates. Diagnoses the restart-loop root cause.
+exec > >(tee /tmp/run.log) 2>&1
 echo "[bioemu] $(date -u +%FT%TZ) start mode=$MODE samples=$NUM_SAMPLES seq_len=${#SEQUENCE}"
-mark() { echo "$1 $(date -u +%FT%TZ)" | aws s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
+mark() { echo "$1 $(date -u +%FT%TZ)" | aws s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; \
+         aws s3 cp /tmp/run.log "$RESULT_S3/run.log" 2>/dev/null || true; }
 mark start
+# IDEMPOTENCY: Vast restarts the container after our host self-stop, re-running this onstart. If the result is
+# already in S3, do NOT re-sample — just exit (the loop becomes a cheap check->exit until the CI collect reap).
+if aws s3 ls "$RESULT_S3/bioemu-crosscheck.json" >/dev/null 2>&1; then
+  echo "[bioemu] result already in S3 -> nothing to do (awaiting CI reap)"; exit 0
+fi
 # --- repo code (public codeload tarball; scorer + prepare live in research/modalities) ---
 cd /root
 curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz || { echo "repo pull failed"; exit 3; }
