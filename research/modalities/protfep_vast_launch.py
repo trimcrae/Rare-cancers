@@ -261,6 +261,31 @@ def collect(bucket=None, prefix=None, autostop=True):
                 continue
             (done if doc.get("status") == "done" else partial)[doc.get("leg_id", key)] = doc
 
+    # Phase markers + the tail of each leg's log. A status board that shows only finished JSONs is a
+    # LIVENESS check ("the instance is up"), and this repo's rule for an unproven pipeline is that a
+    # check must show the science ADVANCING — which phase it reached, and when. The three silent
+    # failures on the ternary lane all looked alive.
+    print("[collect] phase markers:")
+    for page in paginator.paginate(Bucket=b, Prefix=f"{p}/"):
+        for obj in page.get("Contents", []):
+            if not obj["Key"].endswith("/phase.txt"):
+                continue
+            leg = obj["Key"].split("/")[-2]
+            try:
+                phase = s3.get_object(Bucket=b, Key=obj["Key"])["Body"].read().decode().strip()
+            except Exception as e:  # noqa: BLE001
+                phase = f"(unreadable: {e})"
+            age_min = (obj["LastModified"].timestamp() - obj["LastModified"].timestamp()) / 60
+            print(f"    {leg}: {phase}  (marker written {obj['LastModified']:%H:%M:%S} UTC)")
+            log_key = obj["Key"].replace("/phase.txt", "/run.log")
+            try:
+                tail = s3.get_object(Bucket=b, Key=log_key)["Body"].read().decode(errors="replace")
+                lines = [ln for ln in tail.strip().splitlines() if ln.strip()][-12:]
+                for ln in lines:
+                    print(f"      | {ln[:160]}")
+            except Exception:  # noqa: BLE001 — the log may not exist yet
+                print("      | (no run.log yet)")
+
     print(f"[collect] {len(done)} finished leg(s), {len(partial)} in progress")
     for lid, doc in sorted(done.items()):
         print(f"  DONE  {lid}: dG = {doc.get('dg_kcal'):.3f} +/- {doc.get('dg_mbar_se_kcal'):.3f} kcal/mol "
