@@ -511,7 +511,13 @@ def adaptive_reservation_price(observations, on_demand, work_remaining_gpu_h, ti
     m_hat = min(obs, default=None)
 
     weights, n_eff, stale, stale_h = None, float(n), False, None
-    if ages_h and len(ages_h) == len(observations or []):
+    if ages_h is not None and len(ages_h) != len(observations or []):
+        # Silently ignoring a mismatch would disable drift handling without a word — a safety feature that
+        # vanishes quietly is worse than no safety feature. Caught by a unit test that passed mismatched lengths.
+        raise ValueError(
+            "ages_h has %d entries but observations has %d — refusing to silently drop drift handling"
+            % (len(ages_h), len(observations or [])))
+    if ages_h:
         pairs = [(p, a) for p, a in zip(observations, ages_h) if p and p > 0]
         if pairs:
             weights = recency_weights([a for _, a in pairs], half_life_h)

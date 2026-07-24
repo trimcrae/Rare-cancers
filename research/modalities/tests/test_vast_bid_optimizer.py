@@ -370,11 +370,17 @@ class TestDrift(unittest.TestCase):
         self.assertLess(stale, 2.0)
 
     def test_many_stale_samples_cannot_fake_a_large_fresh_sample(self):
-        """The exact failure the Kish effective-n exists to stop."""
-        ages = [1000.0] * 50
-        out = vbo.adaptive_reservation_price(self.OBS * 4, self.OD, 10.0, 200.0,
-                                             ages_h=ages[:len(self.OBS) * 4])
+        """The exact failure the Kish effective-n exists to stop: 56 heavily-downweighted observations must not
+        pass for a large fresh sample."""
+        obs = self.OBS * 4
+        out = vbo.adaptive_reservation_price(obs, self.OD, 10.0, 200.0, ages_h=[1000.0] * len(obs))
         self.assertIn("cold_start", out["phase"])
+
+    def test_mismatched_ages_RAISES_instead_of_silently_disabling_drift(self):
+        """Found by an earlier version of the test above, which passed mismatched lengths by accident and got
+        the non-drift path without any warning."""
+        with self.assertRaises(ValueError):
+            vbo.adaptive_reservation_price(self.OBS, self.OD, 10.0, 200.0, ages_h=[1.0, 2.0])
 
     def test_stale_series_is_refused_outright(self):
         ages = [500.0] * len(self.OBS)
