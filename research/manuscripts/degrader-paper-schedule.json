@@ -228,15 +228,15 @@
     },
     {
       "id": "selectivity_wedge_confirm",
-      "title": "RUNG 5a-KS: causal KILL-SWITCH - reciprocal alchemical mutation cycles confirm >=1 NR4A3 wedge",
+      "title": "RUNG 5a-KS: pilot-first wedge KILL-SWITCH (cheap gate) + reciprocal mutation cycle (causal result)",
       "status": "pending",
       "track": "gpu",
-      "cost_est_usd": "100-350 (est., Vast 4090; each mutation cycle ternary+binary legs x2 replicas ~$40-90; 1-2 residues x >=2 directions). NOT yet measured on Vast -> PIN with the first Vast ternary alchemical edge.",
+      "cost_est_usd": "DECISION ~$40-90 (pilot ONE direction 3->1); full reciprocal cycle ~$100-350 (causal result, ONLY if pilot passes) - est. Vast 4090, PIN with first Vast ternary edge",
       "optimistic_days": 4,
       "remaining_days": 4,
       "parallel_ok": false,
       "depends_on": ["orientation_basin_search", "valB_full", "nrv04_retrospective"],
-      "note": "2026-07-24 restructuring. THE HARD KILL-SWITCH. Reciprocal mutation cycles ddG_neo-interface = dG_mut^ternary - dG_mut^binary: 3->1/2 (expect loss) + reciprocal 1/2->3 (expect partial gain). GO: >=1 basin has a causally-confirmed NR4A3 wedge (loss on 3->1/2, partial gain on reciprocal, survives frames) -> proceed to linker design. NO confirmed wedge -> STOP: publish honest causal negative; run NO linker matrix/ensemble/local-FEP (saves ~$500 downstream tail). Kill-switch anchored to the alchemical cycle (trustworthy error cancellation), NOT cheap basin scoring."
+      "note": "2026-07-24 restructuring, PILOT-FIRST (corrects an earlier framing that mislabeled the full ~$100-350 cycle as 'the kill-switch' - a $350 gate on a $500 tail is poor economics). TIERED cheap-decisive-first gate: Tier1 atlas ($0) -> Tier2 basin nomination ($0-50) -> Tier3 pilot ONE alchemical mutation leg 3->1 (~$40-90, repo pilot-one-leg rule). ddG_neo-interface = dG_mut^ternary - dG_mut^binary. CHEAP GO/NO-GO: no interface loss on the pilot -> STOP (whole decision ~$40-140 marginal); publish honest causal negative; run NO linker design/ensemble/local-FEP (saves ~$250-750 tail). Loss on pilot -> complete the FULL reciprocal cycle (add 3->2 + reciprocal 1/2->3, ~$100-350) = the paper's PRIMARY CAUSAL RESULT (deliverable, not gate overhead), which also aborts the tail if it disconfirms."
     },
     {
       "id": "inverse_linker_design",

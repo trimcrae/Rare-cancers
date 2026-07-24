@@ -213,14 +213,24 @@ negative — *"we mapped orientation space and no robust NR4A3-discriminating, u
 survives causal testing."* That is a real, defensible, novel result, and it is reached **before** the expensive
 stages, not after.
 
-**Kill-switch trust anchor (resolved fork, 2026-07-24).** Wedge *nomination* in the orientation search uses CHEAP
-counterfactual scoring — fast, but poor signal-to-noise for small paralogue differences (exactly the regime where
-interface scoring is least reliable: ternary docking scores correlate ~0 with pose quality, structure recovery is
-~97 % within 10 Å but only ~50 % within 4 Å). The go/no-go therefore does **NOT** fire on cheap scores. Cheap
-scoring only *nominates*; the kill-switch is **anchored to a promoted alchemical mutation-cycle confirmation** of
-≥1 nominated wedge before any linker matrix is funded. This front-loads one small alchemical fleet exactly where it
-decides the largest downstream commitment. *(Rejected alternative: gate on cheap Rung-C scoring — faster, but can
-false-pass onto noise or false-kill a real small wedge.)*
+**Kill-switch structure — TIERED, cheapest-decisive-first (resolved 2026-07-24).** The kill-switch is tiered so the
+*decision to commit the flagship* is cheap — **not** a $350 gate on a $500 tail (an earlier framing mislabeled the
+expensive full mutation cycle as "the kill-switch"; corrected here):
+- **Tier 1 — atlas ($0 CPU):** no E3-reachable paralogue-divergent surface ⇒ STOP for free.
+- **Tier 2 — basin nomination ($0–50):** no basin even nominally discriminates NR4A3 (cheap counterfactual
+  screen) ⇒ STOP cheaply. Cheap scoring has poor S/N for *small* differences (ternary docking scores correlate ~0
+  with pose quality; ~97 % structure recovery within 10 Å but only ~50 % within 4 Å) — so it is used to *nominate*,
+  and a *gross absence* of any nominal signal is still an informative NO-GO, but it is **not** trusted to kill a
+  real small wedge.
+- **Tier 3 — pilot ONE alchemical mutation direction (~$40–90):** the single most-decisive leg first (3→1, the
+  direction most likely to show interface loss), per the repo's pilot-one-leg-before-fan-out rule. No effect ⇒
+  STOP. This is the cheap *trustworthy* confirm — one alchemical data point, not the whole cycle.
+
+So the decision to enter the ~$350–1000 flagship costs **~$40–140**, not $350. The **full reciprocal mutation
+cycle** (add 3→2 + reciprocal 1/2→3; ~$100–350 total) is completed **only on a passing pilot**, and it is the
+paper's **primary causal RESULT** — run because it is the deliverable, not as gate overhead. It still aborts the
+~$250–750 refinement tail if the completed cycle disconfirms, but that is a bonus on top of the causal result, not
+the reason to run it.
 
 **Honest scope (must hold in the paper).** Everything remains **conditional on the hypothesized cmpd19 binary pose
 × receptor frame** — a *double* conditionality; a wedge surviving only one poorly-supported pose is penalized or
@@ -561,16 +571,16 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   cluster into **~3–8 basins/ligase**; cheap counterfactual residue screen to **nominate** wedges. Rigid-body
   sampling + coarse scoring + clustering is **$0 CPU**; optional MM-GBSA rescore of basin representatives ×
   paralogue on Vast 3090 ~$30–50.
-- **`[ ]` 5a-KS · Selectivity-wedge confirmation — ★ THE KILL-SWITCH** *(selectivity_wedge_confirm · GPU · Vast 4090 alchemical)* — **Price: ~$100–350 (est.) · Cum. ~$725**
-  Reciprocal alchemical **mutation cycles** on ≥1 nominated wedge: `ΔΔG_neo-interface = ΔG_mut^ternary −
-  ΔG_mut^binary`, run 3→1/2 (expect *loss*) and reciprocal 1/2→3 (expect *partial gain*). Each cycle (ternary +
-  binary legs, ~2 replicas) ≈ **$40–90 on Vast 4090**; kill-switch scope = 1–2 residues × ≥2 directions.
-  **★ HARD GO/NO-GO:** ≥1 basin has a **causally-confirmed** NR4A3 wedge (loss on 3→1/2, partial gain on
-  reciprocal, survives frames) → **GO** to the linker matrix. **No confirmed wedge → STOP: publish the honest
-  causal negative, run NO linker matrix, ensemble refinement, or local FEP** (saves the **~$500** downstream tail).
-  *(ESTIMATED — ported from the ternary bundle at the Vast 4090 rate; this is the one gate whose cost is not yet
-  measured on our card → PIN it with the first Vast ternary alchemical edge. It is the highest-value dollar in the
-  new ladder: the calc that decides the entire flagship tail.)*
+- **`[ ]` 5a-KS · Wedge confirmation — ★ pilot-first KILL-SWITCH (cheap gate) + causal RESULT** *(selectivity_wedge_confirm · GPU · Vast 4090 alchemical)* — **Decision: ~$40–90 · full result if GO: ~$100–350 (est.) · Cum. to decision ~$590**
+  **Pilot ONE direction first** (repo pilot-one-leg rule): the single most-decisive leg **3→1**
+  (`ΔΔG_neo-interface = ΔG_mut^ternary − ΔG_mut^binary`), ~**$40–90** on Vast 4090.
+  **★ CHEAP GO/NO-GO:** no interface loss on the pilot ⇒ **STOP** — with the free Tiers 1–2 (atlas + basin) the
+  whole *decision* to enter the flagship costs **~$40–140**; publish the honest causal negative, run NO linker
+  design / ensemble / local FEP (saves the ~$250–750 tail). Loss on the pilot ⇒ **complete the full reciprocal
+  cycle** (add 3→2 + reciprocal 1/2→3, ~$100–350 total) — the paper's **primary causal RESULT** (run because it is
+  the deliverable), which also aborts the tail if the completed cycle disconfirms.
+  *(ESTIMATED — PIN with the first Vast ternary alchemical edge. This is **not** a $350 gate on a $500 tail: the
+  *decision* is ~$40–140; the ~$100–350 full cycle is the causal deliverable, not gate overhead.)*
 - **`[ ]` 5b · Inverse linker design** *(inverse_linker_design · CPU · ∥)* — **Price: ~$0–20 · Cum. ~$735**
   For each confirmed basin, derive linker requirements (endpoint-distance dist, exit-vector dihedral, attachment
   angles, flexibility, extension range, solvent path, surface avoidance, strain, motion tolerance); enumerate a
@@ -618,7 +628,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
 | After Rung 2 (pilot + Val B-mini) | Is cmpd19 stable to build on? Does the all-binding graded ternary edge rank right? | **~$85** |
 | After Rung 3 (Val B cube + NR-V04 feasibility) | Do the ternary modules calibrate? (valA_full SKIPPED — cite OpenFE) | **~$300** |
 | After Rung 4 (fan-out + atlas + NR-V04 retro) | Warhead map + differential-surface atlas + NR-V04 concordance | **~$500** |
-| **★ Rung 5a-KS — the causal KILL-SWITCH** | **Is there a causally-confirmed NR4A3 wedge? NO ⇒ STOP + publish honest negative** | **~$725** |
+| **★ Rung 5a-KS — pilot-first wedge gate** | **Pilot ONE mutation direction; no interface loss ⇒ STOP + publish causal negative (marginal decision ≈ $40–140)** | **~$590 (decision)** |
 | After Rung 5 full (basin→confirm→linker→refine→FEP) | The flagship candidate set + its causal mechanism | **~$1,235** |
 | Optional ΔG_open / ABFE | unconditional affinity / pose-plausibility | +$200–500 |
 
@@ -631,11 +641,13 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   ~2–3×-cheaper Vast-4090 alchemical rate hold it near ~$1.2k. Every MD-bound line (atlas, NR-V04, ensemble
   refine) is now cheap; only the alchemical 4090 work (wedge cycles, local FEP, the Val B cube edges) carries real
   cost.
-- **The kill-switch caps the *likely* spend.** If no robust wedge (the real risk on homologous paralogues), we
-  **stop at ~$725 with a publishable causal negative** — saving the ~$500 downstream tail (5c + 5d) instead of
-  spending it on a lottery.
-- **Biggest single new cost = the wedge-confirmation kill-switch (~$100–350, est.)** — the one Vast price not yet
-  measured on our card; the first Vast ternary alchemical edge pins it. It is well-spent: it gates the ~$500 tail.
+- **The kill-switch caps the *likely* spend — cheaply.** If no robust wedge (the real risk on homologous
+  paralogues), the pilot mutation direction fails and we **stop at ~$590** — a **~$40–140 marginal decision** (free
+  atlas + basin nomination + one pilot alchemical leg) on top of RUNG 4 — with a publishable causal negative, and
+  saving the ~$250–750 refinement tail. This is **not** a $350 gate on a $500 tail.
+- **The full reciprocal mutation cycle (~$100–350, est.)** — the one Vast price not yet measured on our card (pin
+  it with the first Vast ternary edge) — is the paper's **primary causal RESULT**, completed only on a passing
+  pilot. It is the deliverable, not gate overhead; treating it as "spend to decide to spend" was the earlier error.
 - **Net:** we can still kill a non-viable paper for **~$25** (Val A) and get an honest *causal* negative for
   **~$725** (kill-switch); full program is **~$1.2k only if every gate — through the wedge confirmation — says GO.**
   Every launch still waits for an explicit go; nothing is pre-authorized.
@@ -653,8 +665,9 @@ RUNG3  valB_full cube + nrv04_feasibility [~]  ──[GO?]──►             
           │
 RUNG4  step1_fanout ∥ nr4a_differential_atlas($0) ──► nrv04_retrospective ──[concordant?]──►   (~$500)
           │
-RUNG5  orientation_basin_search ──► selectivity_wedge_confirm ──[★ WEDGE CONFIRMED?]──►        (~$725)
-          │        └── NO ⇒ STOP: publish honest causal negative (no linker matrix, no tail)
+RUNG5  orientation_basin_search($0-50) ──► wedge PILOT leg($40-90) ──[★ cheap gate: WEDGE?]──►  (decide for ~$40-140)
+          │        └── NO loss on pilot ⇒ STOP: publish honest causal negative (no full cycle, no tail)
+          │        └── loss ⇒ complete full reciprocal cycle ($100-350, the causal RESULT) + tail
           │
        inverse_linker_design($0) ──► ternary_ensemble_refine ──► local_ternary_fep            (~$1,235; flagship tail)
           │
