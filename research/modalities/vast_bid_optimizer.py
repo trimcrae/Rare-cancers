@@ -642,6 +642,10 @@ def _cli(argv=None):
     ap.add_argument("--target-quantile", type=float, default=0.25)
     ap.add_argument("--crosscheck-ondemand", action="store_true",
                     help="run the same query as on-demand and compare per machine (read-only)")
+    ap.add_argument("--crosscheck-limit", type=int, default=512,
+                    help="offers to request per query type in --crosscheck-ondemand. The two types return "
+                         "different pages, so the API default matched only ONE machine — far too thin to price "
+                         "the interruptible discount off.")
     args = ap.parse_args(argv)
 
     R = restart_overhead_h(checkpoint_interval_iters=args.ckpt_iters, sec_per_iter=args.sec_per_iter)
@@ -650,7 +654,7 @@ def _cli(argv=None):
                                          args.atoms, R), indent=1))
         return 0
     if args.crosscheck_ondemand:
-        print(json.dumps(ondemand_crosscheck(args.gpu), indent=1))
+        print(json.dumps(ondemand_crosscheck(args.gpu, limit=args.crosscheck_limit), indent=1))
         return 0
     if args.live:
         offers = _live_offers(args.gpu)
@@ -741,7 +745,7 @@ def _live_offers(gpu_substr="rtx4090"):
     return offers
 
 
-def ondemand_crosscheck(gpu_substr="rtx4090"):
+def ondemand_crosscheck(gpu_substr="rtx4090", limit=512):
     """DECISIVE CHECK on the premise behind 'x1.9 bids above on-demand'.
 
     In a bid-type search Vast returned `min_bid == dph_base` on every offer, which would mean the interruptible
@@ -749,6 +753,18 @@ def ondemand_crosscheck(gpu_substr="rtx4090"):
     That is a big claim resting on `dph_base` being a genuine on-demand price rather than the API echoing the
     bid floor back for this query type. So: run the SAME query as ON-DEMAND, match by machine_id, and compare.
     If on-demand prices come back materially higher, the premise is FALSE and the claim must be withdrawn.
+
+    IT WAS FALSE (measured 2026-07-24). `min_bid == dph_base` is a TAUTOLOGY OF THE QUERY TYPE, not a market
+    fact: in a `type: "bid"` search Vast reports `dph_base` as your rate AT the minimum bid. Machine 26385
+    priced on-demand compute at $0.4533/h against a $0.3733/h floor — an 18% interruptible discount — with an
+    identical $0.003/h surcharge on both sides. The seven-card "no discount anywhere" table this function was
+    written to test was seven restatements of the same identity; exact equality to six decimals across seven
+    independently-owned hosts was the giveaway, since markets do not produce that and definitions do. Anything
+    quoting `dph_base` from a bid-type query as an on-demand price is reporting the artifact.
+
+    `gpu_substr` may be a comma-separated list; `limit` is raised well above the API default because the two
+    query types return different offer pages, and the first run of the fixed comparison matched only ONE
+    machine — too thin to price off.
 
     APPLES-TO-APPLES (fixed 2026-07-24). The first version of this check divided the on-demand `dph_total` by the
     interruptible `min_bid`, which mixes two different quantities: `dph_total` = `dph_base` + storage + estimated
@@ -766,22 +782,25 @@ def ondemand_crosscheck(gpu_substr="rtx4090"):
     key = os.environ.get("VAST_API_KEY", "")
     if not key:
         raise SystemExit("VAST_API_KEY not set")
+    wanted = [s.strip().lower().replace(" ", "") for s in (gpu_substr or "").split(",") if s.strip()]
     out = {}
     for label, interruptible in (("bid", True), ("on_demand", False)):
-        res = ResourceSpec(interruptible=interruptible)
-        q = _vast_offer_query(res)
+        spec = ResourceSpec(interruptible=interruptible)
+        q = _vast_offer_query(spec)
+        q["limit"] = int(limit)
         data = _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}) or {}
         offers = data.get("offers", [])
-        g = (gpu_substr or "").lower().replace(" ", "")
-        if g:
-            offers = [o for o in offers if g in str(o.get("gpu_name", "")).lower().replace(" ", "")]
+        if wanted:
+            offers = [o for o in offers
+                      if any(w in str(o.get("gpu_name", "")).lower().replace(" ", "") for w in wanted)]
         out[label] = {str(o.get("machine_id")): {
             "offer_id": o.get("id"), "min_bid": o.get("min_bid"), "dph_base": o.get("dph_base"),
             "dph_total": o.get("dph_total"), "gpu": o.get("gpu_name"),
             "storage_cost": o.get("storage_cost"), "inet_up_cost": o.get("inet_up_cost"),
             "inet_down_cost": o.get("inet_down_cost")} for o in offers}
     res = _crosscheck_compare(out["bid"], out["on_demand"])
-    res.update({"n_bid_offers": len(out["bid"]), "n_ondemand_offers": len(out["on_demand"])})
+    res.update({"n_bid_offers": len(out["bid"]), "n_ondemand_offers": len(out["on_demand"]),
+                "limit": int(limit), "gpu_filter": wanted or None})
     return res
 
 
@@ -807,6 +826,22 @@ def _crosscheck_compare(bid_map, od_map):
     ratios = [r["od_base_over_floor"] for r in rows if r["od_base_over_floor"]]
     med = sorted(ratios)[len(ratios) // 2] if ratios else None
     sur_same = bool(rows) and all(r["surcharge_matches"] for r in rows)
+    # The bid policy needs the DISTRIBUTION, not a point estimate: a median 1.2x built from hosts spanning
+    # 1.0x-1.6x means the discount is a property of WHICH HOST you land on, and selection matters more than the
+    # bid does. Broken out per card class for the same reason.
+    per_gpu = {}
+    for r in rows:
+        if r["od_base_over_floor"]:
+            per_gpu.setdefault(str(r["gpu"]), []).append(r["od_base_over_floor"])
+    spread = {
+        "n": len(ratios),
+        "min": min(ratios) if ratios else None, "max": max(ratios) if ratios else None,
+        "p25": _quantile(ratios, 0.25), "p75": _quantile(ratios, 0.75),
+        "frac_hosts_with_no_discount": (round(sum(1 for x in ratios if x <= 1.02) / len(ratios), 3)
+                                        if ratios else None),
+        "per_gpu_median": {g: sorted(v)[len(v) // 2] for g, v in sorted(per_gpu.items())},
+        "per_gpu_n": {g: len(v) for g, v in sorted(per_gpu.items())},
+    }
     if not ratios:
         verdict = "no machines common to both queries — inconclusive, re-run"
     elif med <= 1.02:
@@ -819,8 +854,17 @@ def _crosscheck_compare(bid_map, od_map):
                    "CAN be cheaper and the interruption-cost trade-off must be re-solved (the on-demand-always "
                    "conclusion is withdrawn)." % (100.0 * (1 - 1 / med), med))
     return {"n_common_machines": len(common), "rows": rows,
-            "median_od_base_over_floor": med, "surcharge_identical_across_rental_types": sur_same,
-            "verdict": verdict}
+            "median_od_base_over_floor": med, "discount_spread": spread,
+            "surcharge_identical_across_rental_types": sur_same, "verdict": verdict}
+
+
+def _quantile(vals, q):
+    """Plain nearest-rank quantile on an unweighted sample. (`weighted_quantile` is the recency-weighted one used
+    for price history; this is for describing a spread where every observation counts the same.)"""
+    s = sorted(v for v in vals if v is not None)
+    if not s:
+        return None
+    return s[min(len(s) - 1, max(0, int(round(q * (len(s) - 1)))))]
 
 
 def _num(v):
@@ -864,7 +908,12 @@ def gpu_class_sweep(gpu_substrings, atoms, restart_h):
             "gpu": g, "n_offers": len(offers),
             "cheapest_floor_usd_h": round(cheapest, 4),
             "median_floor_usd_h": round(floors[len(floors) // 2], 4),
-            "on_demand_usd_h": _num(rep.get("dph_base")),
+            # NOT an on-demand price. `_live_offers` runs a `type: "bid"` query, in which Vast reports dph_base
+            # as your rate AT the floor — so it equals min_bid by definition. Reporting it as "on_demand_usd_h"
+            # is what produced the retracted "no spot discount on any card" claim. Only `ondemand_crosscheck`,
+            # which actually issues an on-demand query, can price that; the real gap is ~1.2x (18% off) on the
+            # one machine measured so far. Kept under an honest key so the artifact is visible, not silent.
+            "bid_query_dph_base_usd_h_ARTIFACT_equals_floor": _num(rep.get("dph_base")),
             "throughput_scale_vs_4090": round(scale, 3), "throughput_basis": basis,
             "est_ns_per_day": round(ns_day, 1) if ns_day else None,
             "usd_per_ns": (round(cheapest / (ns_day / 24.0), 5) if ns_day else None),

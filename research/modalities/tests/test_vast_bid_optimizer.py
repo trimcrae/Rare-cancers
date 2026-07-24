@@ -503,6 +503,21 @@ class TestOnDemandCrosscheck(unittest.TestCase):
         self.assertIsNone(out["median_od_base_over_floor"])
         self.assertIn("inconclusive", out["verdict"])
 
+    def test_spread_is_reported_because_a_median_alone_cannot_set_a_bid(self):
+        """If the discount varies by host, WHICH host you land on matters more than what you bid — so the
+        distribution has to reach the caller, not just a point estimate."""
+        bid, od = {}, {}
+        for mid, od_base in enumerate([0.10, 0.12, 0.16, 0.20]):
+            bid.update(self._o(mid, 0.10, 0.10, 0.30))
+            od.update(self._o(mid, None, od_base, od_base + 0.2))
+        out = vbo._crosscheck_compare(bid, od)
+        sp = out["discount_spread"]
+        self.assertEqual(sp["n"], 4)
+        self.assertEqual(sp["min"], 1.0)
+        self.assertEqual(sp["max"], 2.0)
+        self.assertEqual(sp["frac_hosts_with_no_discount"], 0.25)
+        self.assertEqual(sp["per_gpu_n"], {"RTX 4090": 4})
+
     def test_median_is_taken_over_machines(self):
         bid, od = {}, {}
         for mid, (f, b) in enumerate([(0.10, 0.10), (0.10, 0.10), (0.10, 0.40)]):

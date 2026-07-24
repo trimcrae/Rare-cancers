@@ -194,7 +194,14 @@ jobs:
             > vast-gpu-class-sweep.json && cat vast-gpu-class-sweep.json
       - name: CROSS-CHECK the on-demand premise (same query as on-demand, matched by machine_id)
         working-directory: research/modalities
-        run: python vast_bid_optimizer.py --live --crosscheck-ondemand --gpu rtx4090 --work-gpu-h 1 > vast-bid-ondemand-crosscheck.json && cat vast-bid-ondemand-crosscheck.json
+        run: |
+          # Measures the INTERRUPTIBLE DISCOUNT — the only number that decides bid-vs-buy. Must sweep every card
+          # class and request a deep page: scoped to rtx4090 at the API's default limit this matched exactly ONE
+          # machine. And it must issue a real on-demand query, because `dph_base` inside a `type: "bid"` search is
+          # the rate at the floor by definition (that identity produced a retracted "no discount" claim).
+          python vast_bid_optimizer.py --live --crosscheck-ondemand --crosscheck-limit 512 \
+            --gpu "rtx4090,rtx3090,rtx4080,l4,a10,a4000,rtx a5000,rtx a6000" \
+            --work-gpu-h 1 > vast-bid-ondemand-crosscheck.json && cat vast-bid-ondemand-crosscheck.json
       - name: Advise — ternary edge profile (10.7 GPU-h/leg, 146k particles, ckpt 40 @ ~16 s/iter)
         working-directory: research/modalities
         run: |
