@@ -75,7 +75,11 @@ def test_managed_backends_need_no_self_terminate():
 
 def test_marketplace_backends_must_self_terminate():
     assert RunPodBackend().self_terminate_cmd()[:2] == ["runpodctl", "remove"]
-    assert VastBackend().self_terminate_cmd()[:2] == ["vastai", "destroy"]
+    # Vast self-terminate is KEY-FREE (2026-07-24): it exits the container to halt GPU billing without any API
+    # key on the host (was `vastai destroy`, which needed the key on-host). CI reap does the actual destroy.
+    vt = VastBackend().self_terminate_cmd()
+    assert vt[:2] == ["bash", "-c"] and "poweroff" in vt[2]
+    assert "vastai" not in " ".join(vt) and "VAST_API_KEY" not in " ".join(vt)
 
 
 def test_managed_terminator_is_noop_marketplace_runs_cmd(capsys):
@@ -226,11 +230,15 @@ def test_vast_onstart_always_self_destroys():
     assert "python rbfe.py --edge A" in script
     assert "export RESUME=1" in script and "r2://ckpt/edgeA" in script
     assert "export MODE=real" in script
-    # the anti-idle guard: an EXIT trap self-destroys the instance on completion/crash/stop (not just a trailing
-    # line that a `set -e` abort would skip). It finds THIS instance by its label and DELETEs it via the API.
+    # the anti-idle guard: an EXIT trap self-STOPS the instance on completion/crash/stop (not just a trailing
+    # line that a `set -e` abort would skip), KEY-FREE — it exits the container (poweroff / kill PID 1) to halt
+    # the GPU meter, with NO API key on the host. The guaranteed destroy is control-plane (CI reap).
     assert "trap ct_selfdestroy EXIT" in script
-    assert "ct_selfdestroy()" in script and "DELETE" in script and "/api/v0/instances/" in script
-    assert "export SELF_LABEL=edgeA" in script
+    assert "ct_selfdestroy()" in script and "poweroff" in script
+    # SECURITY: the account API key must NEVER reach a community host (trimcrae, 2026-07-24). The onstart script
+    # must not carry VAST_API_KEY or call the Vast API to self-destroy.
+    assert "VAST_API_KEY" not in script
+    assert "DELETE" not in script and "/api/v0/instances/" not in script
 
 
 def test_object_store_env_forwards_only_present_keys():
