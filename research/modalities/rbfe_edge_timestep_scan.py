@@ -46,7 +46,16 @@ os.environ.setdefault("CHARGE_METHOD", "am1bcc")
 # NOT constrain ligand X-H by default (run-1 diag: xh_total==xh_unconstrained for every edge, incl. the pilot that
 # ran clean at 4 fs), which voided the premise. Force HBonds so the system matches the production system step1 ran
 # stably at 4 fs. _protocol honors this and prints the effective setting.
-os.environ.setdefault("RBFE_FORCE_CONSTRAINTS", "hbonds")
+# CONSTRAINTS (corrected 2026-07-24). This used to FORCE hbonds. That made the verdict a property of the
+# SETTING rather than of the edge: with hbonds forced, OpenFE constrains every X-H including the alchemical
+# ones (measured — the valence CustomBondForce holds 11/28 bonds on the two anchors and not one is an X-H), so
+# xh_unconstrained is structurally 0 and EVERY edge verdicts 4fs. The calib anchor's 2fs expectation was then
+# unsatisfiable, the gate failed deterministically, and 0/19 designed edges were ever scanned. It also measured
+# a system production does not build (neither production lane sets RBFE_FORCE_CONSTRAINTS). Default is now
+# "production" = do not force; SCAN_CONSTRAINTS=hbonds restores the old behaviour for comparison.
+_scan_cons = os.environ.get("SCAN_CONSTRAINTS", "production").lower()
+if _scan_cons not in ("production", "default", ""):
+    os.environ["RBFE_FORCE_CONSTRAINTS"] = _scan_cons
 
 import openfe  # noqa: E402
 from rdkit import Chem  # noqa: E402
@@ -100,9 +109,12 @@ def scan_edge(smi_a, smi_b, name_a, name_b, prefer_ec=False):
 
 
 def _verdict(info):
+    """Verdict from the MORPHING X-H count (a property of the perturbation), not from xh_unconstrained (a
+    property of the global constraint setting — see nr4a3_rbfe.count_morphing_xh for why that could not
+    discriminate edges and made the anchor gate unsatisfiable)."""
     if info.get("error"):
         return "ERROR", None
-    nu = info.get("xh_unconstrained")
+    nu = info.get("n_morphing_xh")
     if nu is None:
         return "ERROR", None
     return ("2fs" if nu >= 1 else "4fs"), int(nu)
@@ -155,6 +167,8 @@ def main():
             "hydrogen_mass_setting": info.get("hydrogen_mass_setting"),
             "constrain_diag": info.get("constrain_diag"),
             "force_census": info.get("force_census"),
+            "n_morphing_xh": info.get("n_morphing_xh"), "morphing_xh": info.get("morphing_xh"),
+            "scan_constraints": _scan_cons,
             "unconstrained_atoms": info.get("unconstrained"), "n_mapped_atoms": info.get("n_mapped_atoms"),
             "max_stable_timestep_fs": {"4fs": 4.0, "2fs": 2.0, "ERROR": None}[v],
             "verdict": v, "expect": s.get("expect"), "error": info.get("error"),
