@@ -625,6 +625,44 @@ paired active-vs-epimer comparison — are **committed**; the corrected descript
 seed-level architecture characterization only, pending a real-CIF forced-restart smoke, and confers **no**
 prospective affinity or degradation-selectivity ranking authority.)*
 
+**A covalent-adduct endpoint-MD feasibility panel closes two of those gaps and recovers an active-vs-epimer
+discrimination the static co-fold could not.** The co-fold retrospective above left celastrol's covalent
+Cys551 engagement unevaluated and its epimer control was affinity-blind (active and 4-hydroxyproline-epimer
+constructs gave the identical 0.75 bridge fraction). To probe both, we built the covalent celastrol–Cys
+adduct explicitly and ran an **18-leg endpoint-MD panel** — six arms × three velocity seeds — on the
+NR-V04-inspired VHL-recruiting assembly: **cov_nr4a1** (covalent adduct + active recruiter), **noncov_nr4a1**
+(non-covalent), **cov_c551a** (reactive Cys→Ala, covalent auto-disabled), **warhead_only** (covalent, no
+recruiter arm), **recruiter_active** (active recruiter), and **recruiter_epimer** (the VHL-inactive
+4-hydroxyproline epimer). Each leg is 1 ns equilibration + 5 ns production (500 frames) in explicit solvent
+(amber14 / GAFF-2.11 / TIP3P, OpenMM 4 fs hydrogen-mass-repartitioned LangevinMiddle), scored by an
+E3-CA-superposed **Kabsch-aligned interface-RMSD plateau** (R1; "stable" if the second-half plateau is below
+the frozen threshold), an E3–target contact fraction (R2, recruitment), and target-Lys presentation (R3).
+**17 of 18 legs completed** (warhead_only-s0 never cleared its host's container pull across repeated
+relaunches; the arm's finding stands on its two completed seeds); **no leg blew up.** Two readouts matter.
+**(i) Recruitment is uninformative here:** every completed leg is "recruited" with frac-frames-in-contact
+= 1.0 — the co-fold seeds the E3 in contact in *all* arms, including warhead_only (no recruiter) and the
+epimer — so contact-based recruitment is a **weak discriminator** and the interface-*stability* endpoint is
+the real readout. **(ii) Interface stability tracks the designed active/inactive contrast, modestly:** by
+per-seed stable fraction, **recruiter_active is stable in 3/3 seeds** whereas the **inactive recruiter_epimer
+is stable in only 1/3** — a directionally correct **active-vs-epimer separation that the static co-fold
+bridge-fraction classifier could not produce** (it scored the two identically), suggesting the *dynamic*
+interface-stability endpoint carries discrimination a single co-fold snapshot does not. The covalent arm is
+**feasible**: cov_nr4a1 is recruited in every seed and interface-stable in **2/3** — a majority-stable
+covalent NR4A1 ternary — with the reactive-Cys knockout **cov_c551a** less stable (**1/3**), weakly consistent
+with the covalent handle contributing. Crucially, though, the covalent arm is **not more stable than the
+non-covalent** one (noncov_nr4a1 is also 2/3), so on this metric covalency buys feasibility, not extra
+interface stability. **This is a geometric-feasibility and control-discrimination result, not a selectivity,
+cooperativity, or degradation claim:** 5 ns endpoint MD samples local interface stability, not binding
+thermodynamics, ternary cooperativity, or a DC50/Dmax window; only three seeds per arm (stability is
+seed-noisy, and the active/epimer separation is suggestive at n = 3, not established); the Cullin–RING/E2~Ub
+machinery is absent; and the NR-V04 reconstruction's exact recruiter connectivity remains
+primary-source-unverified. It makes **no efficacy, potency, or therapeutic claim.** The panel is notable also
+as an **infrastructure result**: it ran end-to-end on **Vast.ai community RTX 3090s** (interruptible bid tier)
+with portable per-frame checkpoint/resume across preempting hosts, at a **measured ~\$0.43 per leg (~\$8 for
+the full 18-leg panel)** — far below the going-in estimate — demonstrating that a rigorous multi-arm
+endpoint-MD control panel is achievable on commodity spot GPUs for single-digit dollars. Full per-leg
+readouts, the frozen scoring/prereg, and the driver: `nrv04_covalent_md.py` / `nrv04_covalent_panel.py`.
+
 **At marketed-library scale, no repurposing candidate survives the counter-screen** (the same funnel over the ~6,000-compound Broad Drug Repurposing Hub plus a 9-target anti-target panel: every paralogue-margin survivor receives a more favourable docking score at ≥1 counter-screen target than at NR4A3, whereas `denovo_401` does not). This is a screen-level result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** the de-novo route (§2.6). **Full screen and target panel: SI §S1.**
 
 ### 2.6 Generative design produces apparent hits but fails a single-snapshot specificity control

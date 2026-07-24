@@ -352,24 +352,34 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
 - **`[ ]` Validation B-full — full noncovalent ternary benchmark** *(valB_full · GPU)* — **Price: ~$80–200 · Cum. ~$255**
   Complete VHL–BRD4/SMARCA2 series; **fixes the preregistered ternary scoring rules.** **GATE:** the prospective
   matrix never runs unless this passes. **GO/NO-GO:** recovers known ternary cooperativity ranking → GO.
-- **`[~]` NR-V04 covalent feasibility panel** *(nrv04_feasibility_covalent · GPU · Vast)* — **Price: MEASURED ~$0.37–0.71/leg (mean ~$0.6) → ~$10–11 for the 18-leg panel (was estimated $40–100 — ~an order of magnitude too high; superseded) · Cum. ~$256**
+- **`[x]` NR-V04 covalent feasibility panel — DONE 2026-07-24 (17/18)** *(nrv04_feasibility_covalent · GPU · Vast)* — **Price: MEASURED ~$0.43/leg (final ledger) → ~$8 for the 18-leg panel (was estimated $40–100 — ~an order of magnitude too high; superseded) · Cum. ~$254**
   Covalent celastrol–NR4A1 (C551) adduct + noncov/cov sensitivity + C551A + warhead/recruiter controls.
-  18 legs (6 systems × 3 seeds), 6 ns each (1 ns equil + 5 ns prod), ~466k atoms.
-  **MEASURED cost (2026-07-23, 6 completed legs, firming):** RTX 3090 on Vast, interruptible **bid `min_bid`×1.5**
-  (raised from ×1.1 for preemption-hold); billed on `dph_total` ≈ **$0.10–0.16/hr** (bid + each host's storage/inet
-  — this spread, not the bid, drives per-leg cost). A full 6 ns leg = ~2 h production (~40–61 ns/day) + load/equil;
-  realized per-leg costs span **$0.37–0.71 (mean ~$0.6 over 6 legs, S3-persisted ledger firming toward the higher
-  end as pricier hosts finish)** → **~$10–11 for the 18-leg panel.** Even at the high end this is ~an order of
-  magnitude under the old $40–100. **Downstream Cum. figures shift down ~$55 accordingly.**
-  **Real Vast infra that had to be fixed to complete this (all merged, root-caused from instance logs):** PTX host
-  filter `cuda_max_good≥13.0` (the env's PTX is CUDA-13-class, so old-driver hosts crashed at build_system),
-  429-throttled teardown, S3-persisted price ledger, idempotent skip-only-alive re-dispatch, auto-stop reap of
-  terminal/duplicate instances, and the ×1.5 preemption-hold bid.
-  **Pipeline PROVEN end-to-end** (first clean leg: no blow-up, R1 stable + R2 recruited), with checkpoint/resume
-  (portable OpenMM state → S3 every 50 frames) + idempotent re-dispatch so a spot preemption resumes, not restarts.
-  Covalent-pull blow-up (the stiff C6→Sγ restraint across the co-fold's ~7.4 Å gap) is handled by minimize +
-  chunked-equil finite guards — `cov_nr4a1` reached production without diverging.
-  **GO/NO-GO:** covalency doesn't swamp the signal and the reduced panel behaves → GO to the full NR-V04.
+  18 legs (6 systems × 3 seeds), 6 ns each (1 ns equil + 5 ns prod, 500 frames), ~466k atoms (covalent arms ~650k).
+  **COMPLETED 17/18** — `warhead_only-s0` never cleared its host's container pull across repeated relaunches; that
+  arm's finding stands on its two completed seeds. **No blow-ups on any leg.**
+  **RESULT (feasibility + control-discrimination only — NO selectivity/cooperativity/efficacy claim):**
+  recruited = True (frac-frames-in-contact = 1.0) on **every** leg → recruitment is a **weak discriminator** (the
+  co-fold seeds the E3 in contact in all arms), so the **interface-stability** endpoint (Kabsch-aligned
+  interface-RMSD plateau) is the real readout. Per-seed stable fraction: **recruiter_active 3/3 vs the inactive
+  recruiter_epimer 1/3** — an **active-vs-epimer discrimination the static co-fold classifier could not produce**
+  (it scored them identically at 0.75 bridge fraction); **cov_nr4a1 (covalent) 2/3** — a majority-stable, feasible
+  covalent NR4A1 ternary — **= noncov_nr4a1 2/3** (covalency buys feasibility, not extra stability); `cov_c551a`
+  (Cys→Ala) 1/3; `warhead_only` 2/2. Written into `nr4a3-degrader-paper.md` (§2.5 covalent-adduct endpoint-MD
+  subsection).
+  **Final MEASURED cost:** RTX 3090 on Vast interruptible **bid**, billed on `dph_total` ≈ **$0.10–0.21/hr**; final
+  S3-ledger mean **~$0.43/leg → ~$8 for the panel** — ~an order of magnitude under the old $40–100. **Downstream
+  Cum. figures shift down ~$57 accordingly.**
+  **GPU finding:** RTX 4090 MEASURED **1.8× faster** (116 vs ~65 ns/day) but landed on pricier hosts → **faster,
+  not cheaper**; 3090 + a raised bid was the right call.
+  **Real Vast infra fixed to complete this (all merged, root-caused from instance logs):** **checkpoint-resume
+  FIXED** (persist + reload the exact solvated System XML + mmCIF snapshot, never re-solvate → cross-host
+  `loadState` atom-count match) **and PROVEN** (`warhead_only-s2` RESUMED from frame 50 on a *different* host);
+  **snapshot-upload retry** (a transient `ok=False` permanently blocked resume → rebuild loop); **bid
+  `min_bid`×1.5→×1.9** (churn fix — slow-host legs need a continuous ~4 h run); PTX host filter `cuda_max_good≥13.0`;
+  429-throttled teardown; S3-persisted price ledger; idempotent skip-only-alive re-dispatch; terminal/duplicate reap.
+  **⚠ ROTATE `VAST_API_KEY`** (it was forwarded to community hosts for guaranteed teardown).
+  **GO/NO-GO OUTCOME:** GO — covalency did not swamp the signal, the panel behaved, and the endpoint-stability
+  readout even recovered a discrimination the static co-fold could not.
 
 ### RUNG 4 — the real science spends *(only after all benchmarks are green)*
 
