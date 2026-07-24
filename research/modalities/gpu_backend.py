@@ -280,7 +280,8 @@ def _vast_bid_price(offer: dict):
     """Interruptible bid $/hr = a small margin ABOVE the market floor (min_bid) so the box reliably wins a slot and
     holds. It MUST stay >= min_bid: a below-floor bid leaves the instance created-but-stopped (verified 2026-07-23
     — an 'always under on-demand' cap fell BELOW min_bid on cheap 3090 hosts where min_bid==dph_base, so the box
-    never started). On Vast you pay your bid and min_bid IS the interruptible market price; floor*1.5 stays cheap
+    never started). On Vast you pay your bid and min_bid IS the interruptible market price; the floor
+    multiplier (currently 1.9, NOT the 1.5 this docstring claimed until 2026-07-24) stays cheap
     while holding the slot far better than floor-hugging (see _VAST_BID_FLOOR_MULT — the ~20-min fat-image reload
     makes preemptions expensive). (Selection already ranks by min_bid, so we never land on an expensive-floor host.) PURE."""
     try:
@@ -310,8 +311,15 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
         try:
             if res.interruptible and o.get("min_bid") is not None:
                 price = float(o.get("min_bid"))                    # rank bid offers by their true interruptible cost
+                # ...but the CEILING must be checked against what we will actually be BILLED. On Vast you pay
+                # your bid, and _vast_bid_price bids min_bid * _VAST_BID_FLOOR_MULT. Comparing the ceiling to
+                # min_bid alone let the effective rate reach mult x the cap before any offer was rejected —
+                # with mult=1.9 and a $0.60 cap that is $1.14/hr, i.e. no effective ceiling at all. Ranking
+                # still uses min_bid (a constant multiplier preserves the ordering).
+                effective = price * _VAST_BID_FLOOR_MULT
             else:
                 price = float(o.get("dph_total", o.get("dph_base", 1e9)))
+                effective = price
             ngpu = int(o.get("num_gpus", 1) or 1)
         except (TypeError, ValueError):
             continue
@@ -327,7 +335,7 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
             cmg = 0.0
         if cmg and cmg + 1e-6 < res.min_cuda:                    # 0 = field absent -> don't over-filter, trust server query
             continue
-        if max_hourly_usd is not None and price > max_hourly_usd:
+        if max_hourly_usd is not None and effective > max_hourly_usd:
             continue
         capable.append((price, o))
     if not capable:
@@ -482,7 +490,11 @@ class VastBackend(Backend):
         # Poll and re-issue the start until Vast reports it running (intended_status flips), bounded.
         self._ensure_running(inst_id, key)
         return Handle(backend=self.name, job_id=str(inst_id),
-                      extra={"offer": offer["id"], "dph": offer.get("dph_total"), "resume": spec.resume})
+                      # min_bid is carried so a launcher can report the market FLOOR alongside what we bid —
+                      # the premium is otherwise invisible and gets baked into the next cost estimate.
+                      extra={"offer": offer["id"], "dph": offer.get("dph_total"),
+                             "min_bid": offer.get("min_bid"), "bid": body.get("price"),
+                             "resume": spec.resume})
 
     def _ensure_running(self, inst_id, key, attempts=8, delay_s=6):
         """Re-issue PUT state=running until the instance's intended_status/actual_status is 'running' (fixes the
