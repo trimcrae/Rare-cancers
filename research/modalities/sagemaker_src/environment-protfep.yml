@@ -1,0 +1,47 @@
+# Conda env for the 5a-KS PROTEIN point-mutation FEP engine (nr4a3_protein_fep.py).
+#
+# WHY A SEPARATE ENV FROM `rbfe`. The rbfe env is built around OpenFE, whose
+# RelativeHybridTopologyProtocol maps LIGAND atoms only and therefore cannot express a protein
+# mutation at all — that gap is the whole reason this engine exists. The mutation hybrid topology
+# comes from `perses` (PointMutationExecutor), which is a heavier, differently-pinned dependency:
+# co-installing it into `rbfe` risks re-solving the openfe/pydantic/openmm pins that took several
+# rounds to stabilise there, and the rbfe lane is the one carrying the binary RBFE results. Keeping
+# the engines in separate envs means a perses solve can never break the proven lane.
+#
+# SHAKEOUT-PENDING. These pins are first-pass and UNVALIDATED — no leg has run. Validate the solve +
+# a CUDA OpenMM before any MD, exactly as the rbfe env was shaken out (mode=smoke first, then one
+# real benchmark leg, then the set).
+name: protfep
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - perses>=0.10          # PointMutationExecutor + the protein hybrid-topology factory. THE reason
+                          # for this env. Pulls openmmtools/openmm transitively; let it, rather than
+                          # pinning them here and fighting the solver.
+  - openmm>=8.1
+  - openmmtools           # MultiStateSampler (alchemical replica exchange) + the MBAR reduction path
+  - openmmforcefields     # ff14SB + gaff-2.11 — SAME force fields as every other lane in this repo,
+                          # so the wedge is sampled under the same Hamiltonian family (md_settings is
+                          # the single source of truth for the constants)
+  - ambertools>=23        # am1bcc charging via sqm. Present so this env CAN match the binary lane's
+                          # charge model — assert_charge_consistency() refuses to subtract legs that
+                          # disagree, so the engine must be able to produce either method on demand.
+  - openff-toolkit
+  - openff-nagl           # the ternary lane's charge model, for the same reason: the wedge has to be
+  - openff-nagl-models    # runnable under WHICHEVER method gets pinned, not just one of them.
+  - pymbar>=4             # MBAR estimator
+  - rdkit
+  - pdbfixer              # structure prep (missing atoms/loops) before the mutation is proposed
+  - mdtraj
+  - numpy
+  - scipy
+  - cuda-version=12.6     # pin CUDA <= the driver so OpenMM's CUDA PTX loads (see the rbfe env's note:
+                          # an unpinned solve pulled >12.8 and hit err 222). Keeps
+                          # OPENMM_REQUIRE_CUDA=1 safe — the job fails loudly instead of silently
+                          # dropping to the ~1.3-2x-slower OpenCL fallback.
+  - ocl-icd-system        # OpenCL fallback vendor ICD, only used if CUDA still cannot load
+  - awscli                # result upload
+  - boto3
+  - ca-certificates       # CA bundle for Python SSL (RCSB/benchmark-structure fetches)
+  - certifi

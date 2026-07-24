@@ -209,11 +209,11 @@ flagship is cheap, not a gate on the whole tail:
 - **Tier 2 — basin nomination ($0–50):** no basin even nominally discriminates NR4A3 ⇒ STOP cheaply. Cheap
   scoring has poor S/N for *small* differences, so it *nominates* — a gross absence of signal is an informative
   NO-GO, but it is not trusted to kill a real small wedge.
-- **Tier 3 — pilot ONE alchemical mutation direction (~~$5–10~~ **UNPRICED — BLOCKED, see below**):** the single
+- **Tier 3 — pilot ONE alchemical mutation direction (~~$5–10~~ **UNPRICED — engine now built, see below**):** the single
   most-decisive leg first (3→1). No effect ⇒ STOP. The full reciprocal cycle (~~$15–30~~ also unpriced) runs only
   on a passing pilot and is the paper's **primary causal RESULT**, not gate overhead.
 
-> **🛑 BLOCKING — Tier 3 HAS NO IMPLEMENTING ENGINE IN THIS REPO (established 2026-07-24).** Every price this
+> **⚠ Tier 3 HAD NO IMPLEMENTING ENGINE IN THIS REPO (established 2026-07-24; an engine was built the same day — see the RUNG 5a-KS entry).** Every price this
 > plan has ever carried for the mutation legs (~$40–90 pilot, then ~$5–10 pilot / ~$15–30 cycle) rests on the
 > assumption that a paralogue swap is priced as "a binary RBFE edge + a ternary edge, same OpenFE machinery."
 > **It is not.** A 3→1 swap is a **protein-residue** mutation, and OpenFE's `RelativeHybridTopologyProtocol` —
@@ -418,13 +418,36 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 - **`[ ]` 5a · Orientation-basin search** — **~$0–50 (CPU $0 + optional MM-GBSA rescore) · Cum. ~$215.** Broad
   VHL/CRBN transform sampling; matched 3-paralogue scoring; cluster into ~3–8 basins/ligase; cheap counterfactual
   screen to nominate wedges.
-- **`[ ]` 5a-KS · Wedge confirmation — ★ pilot-first KILL-SWITCH + causal RESULT** — **🛑 BLOCKED · UNPRICED**
+- **`[ ]` 5a-KS · Wedge confirmation — ★ pilot-first KILL-SWITCH + causal RESULT** — **⚠ ENGINE BUILT, UNVALIDATED · STILL UNPRICED**
   *(was "Decision ~$5–10 · full cycle if GO ~$15–30 · Cum. to decision ~$148").* Pilot ONE direction first
   (3→1). **No interface loss ⇒ STOP** — publish the honest causal negative, skip the refinement tail. Loss ⇒
   complete the full reciprocal cycle (add 3→2 + reciprocal 1/2→3) — the paper's primary causal RESULT.
 
-  **This rung has TWO independent blockers. Both are $0 to clear, and neither has been scoped. Until both are
-  cleared, RUNG 5a-KS cannot be planned, priced, or presented at a gate.**
+  **This rung had TWO independent blockers. Both are now addressed in code — but "addressed" is not
+  "validated", and the rung stays UNPRICED until a known-answer benchmark says the engine works.**
+
+  **Engine (built 2026-07-24, trimcrae decision: build rather than descope or substitute a proxy).**
+  [`research/modalities/nr4a3_protein_fep.py`](research/modalities/nr4a3_protein_fep.py) —
+  perses `PointMutationExecutor` for the protein hybrid topology, openmmtools `MultiStateSampler` for the
+  alchemical sampling, MBAR for the reduction; conda env
+  [`sagemaker_src/environment-protfep.yml`](research/modalities/sagemaker_src/environment-protfep.yml), kept
+  separate from `rbfe` so a perses solve can never break the proven binary lane. The wedge subtraction reuses
+  `ternary_coop.ddg_coop`, so there is one definition of the cycle in the repo, not two.
+  - **Blocker 1 (cross-lane charge mismatch) — CLEARED IN CODE.** `assert_charge_consistency` hard-fails any
+    wedge whose ternary and binary legs charge the ligand differently (the am1bcc-vs-NAGL split
+    `md_settings.py` registers as a DOCUMENTED DEVIATION), and both result JSONs record the pinned method. An
+    un-pinned wedge is not a thermodynamic cycle, so this is a refusal, not a warning.
+  - **Blocker 2 (net-charge-changing mutations) — CLEARED IN CODE, and it bites immediately.** **R412 is one
+    of our own seven selectivity handles, and R→A is charge-changing**, so the most obvious wedge to reach for
+    is exactly the one PME cannot do naively (the neutralising background plasma shifts the electrostatic free
+    energy by a system-size-dependent amount that does not cancel between the differently-sized ternary and
+    binary boxes). `plan_wedge` refuses a charge-changing mutation unless an explicit correction strategy is
+    chosen. **Prefer a charge-conserving handle (L406/T410/I484/I531/L534) for the FIRST causal test.**
+  - **⛔ NOT YET CLEARED — validation.** No leg has run. The engine must recover the known-answer
+    protein-mutation benchmarks (barnase–barstar Y29A/Y29F, hGH–hGHR W104A; all charge-conserving so engine
+    error is not confounded with the charge artifact) **within ~1.5 kcal/mol AND in the right order** before
+    5a-KS contributes any number to the manuscript. That benchmark is what prices this rung; until it runs,
+    UNPRICED remains the honest label.
 
   **⚠ BLOCKER 1 — NO PROTEIN-MUTATION FEP ENGINE EXISTS IN THIS REPO (added 2026-07-24).** The old price
   ("3→1 = one binary RBFE + one ternary edge") assumed a paralogue swap runs on the same machinery as a ligand
@@ -509,7 +532,7 @@ Dominant uncertainties, in order: the unpriced wedge, the L4→4090 conversion, 
 | 2 · pilot (DONE) + Val B-mini | 1–2 RBFE edges + 1 ternary edge | ~$1–3 + ~$7–15 | ~$15 |
 | 3 · Val B cube + NR-V04 feasibility (feas. DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$35–100 + ~$8 | ~$91 |
 | 4 · fan-out + atlas(DONE, $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary ensembles | ~$12–26 + ~$45–115 | ~$190 |
-| 5a · basin search + **KILL-SWITCH** | basin ($0–50) + wedge → **no engine exists** | ~$0–50 + **UNPRICED** | ~$215 |
+| 5a · basin search + **KILL-SWITCH** | basin ($0–50) + wedge → **engine built, unvalidated** | ~$0–50 + **UNPRICED** | ~$215 |
 | 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker($0–20) + ensemble MD ($20–150) + within-basin FEP ($21–90) | ~$41–260 | ~$365 |
 | Optional ΔG_open / ABFE (HELD) | — | +$200–500 | *(excl.)* |
 
@@ -534,11 +557,14 @@ RUNG3  valB_full cube + nrv04_feasibility [x]  ──[GO?]──►             
           │
 RUNG4  step1_fanout ∥ atlas [x]($0) ──► nrv04_retrospective ──[concordant?]──►   (Cum ~$187)
           │
-RUNG5  basin_search($0–50) ──► 🛑 wedge PILOT leg — BLOCKED, UNPRICED
-          │         (no protein-mutation FEP engine in-repo; + a cross-lane charge-model
-          │          mismatch to pin before any ternary−binary subtraction is meaningful)
-          │      └── if/when unblocked & no loss ⇒ STOP: publish honest causal negative
-          │      └── if/when unblocked & loss    ⇒ full reciprocal cycle (also UNPRICED) + tail
+RUNG5  basin_search($0–50) ──► ⚠ wedge PILOT leg — ENGINE BUILT, UNVALIDATED, still UNPRICED
+          │         (engine: nr4a3_protein_fep.py, perses PointMutationExecutor — built
+          │          2026-07-24 on trimcrae's build-don't-descope decision. Gated on a
+          │          known-answer benchmark; charge model pinned by a hard guard)
+          │      └── benchmark FAILS ⇒ the wedge is not deliverable; fall back to the
+          │          labelled MM-GBSA proxy or descope, and say so in the paper
+          │      └── benchmark passes & no loss ⇒ STOP: publish honest causal negative
+          │      └── benchmark passes & loss    ⇒ full reciprocal cycle + tail
           │
        inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep   (Cum ~$342)
           │

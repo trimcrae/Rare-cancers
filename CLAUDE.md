@@ -84,8 +84,11 @@ read it before making changes.
     sit here (`valA_mini ~$25 … cumulative ~$655 … RUNG 5 ~$150–400`) were **4–12× off** and named **valA_mini**
     as "the KILL-SWITCH", which it is not: valA_mini is the *accuracy* gate, and the designated **causal
     kill-switch is 5a-KS**, the reciprocal target-surface mutation wedge in RUNG 5. As of 2026-07-24 the whole
-    priceable ladder is **~$370 mid (~$150–595)**, and **5a-KS itself is UNPRICED/BLOCKED — the repo has no
-    protein-mutation free-energy engine** (OpenFE's RHTP maps ligand atoms only). Live prices live in
+    priceable ladder is **~$370 mid (~$150–595)**, and **5a-KS itself is UNPRICED — the engine was BUILT on 2026-07-24 but has never run**
+    (OpenFE's RHTP maps ligand atoms only, so it could not express a protein mutation at all; the new
+    `research/modalities/nr4a3_protein_fep.py` uses perses `PointMutationExecutor` instead). An engine that
+    exists is not a rate — the rung is priced only once a known-answer benchmark leg runs, and no number
+    from it may enter the manuscript until that benchmark passes. Live prices live in
     **[STRATEGY.md](./STRATEGY.md)** → Spend summary and
     **[research/compute/pricing.md](./research/compute/pricing.md)**; the schedule's `cost_est_usd` mirrors them.
     Language: "predicted selective candidate", never imply efficacy/safety/therapeutic-window/clinical-readiness.

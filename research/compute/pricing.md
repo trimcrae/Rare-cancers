@@ -63,7 +63,9 @@ $/hr). Use the 3090 only when 4090 capacity is short.
      **no implementing engine in this repo**, so its "~$5–10 for 1 alchemical direction" line below is unfounded.
      Pricing it requires an **engine-scoping step first** (adopt a protein-mutation FEP protocol — e.g. an
      OpenFE/perses-style residue transformation, or a non-OpenFE tool — then measure one direction). Until that
-     scoping is done, treat the 5a-KS row as **UNPRICED**, not cheap.
+     scoping is done, treat the 5a-KS row as **UNPRICED**, not cheap. *(Update 2026-07-24: the engine has since
+     been built — `nr4a3_protein_fep.py` — but it has never run, so the row stays UNPRICED. An engine that exists
+     is not a rate; only a completed benchmark leg prices this rung.)*
    - This compounds the *other* known 5a-KS blocker recorded in `STRATEGY.md` (RUNG 5): the wedge is the repo's
      one **cross-lane subtraction**, and the two lanes currently run **different charge models** (binary =
      am1bcc, ternary = NAGL), which must be pinned to a single `CHARGE_METHOD` before any wedge is computed.
@@ -88,8 +90,8 @@ basis at all** pending engine scoping.
 | `nrv04_feasibility_covalent` | 18 endpoint-MD legs | **~$8** | MEASURED |
 | `nrv04_retrospective` | NR4A1/2/3 ternary ensembles: ~3–6 ternary edges + endpoint-MD ensembles | **~$45–115** (swing: ensemble-MD leg count) | **PROJECTED** (ternary component; endpoint component MEASURED). *Was ~$25–55 on the corrected-away partial-leg base.* |
 | `5a` orientation-basin search | CPU $0 + optional MM-GBSA rescore | **~$0–50** | MEASURED-derived |
-| **5a-KS kill-switch decision** (atlas + basin + 1 mutation direction) | $0 + $0–50 + **1 protein-mutation direction — NO ENGINE EXISTS** | **UNPRICED** (was "~$5–60") | **⚠ NOT DERIVABLE** — see B.3: OpenFE RHTP is ligand-only; the repo's sole protein-mutation path is MM-GBSA endpoint scoring. Needs engine scoping before any price |
-| full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 protein-mutation directions | **UNPRICED** (was "~$15–30") | **⚠ NOT DERIVABLE** — same missing engine as above |
+| **5a-KS kill-switch decision** (atlas + basin + 1 mutation direction) | $0 + $0–50 + **1 protein-mutation direction — engine BUILT 2026-07-24, UNVALIDATED** | **UNPRICED** (was "~$5–60") | **⚠ STILL NOT DERIVABLE, but no longer for lack of an engine.** `nr4a3_protein_fep.py` (perses `PointMutationExecutor` + openmmtools MultiState + MBAR) now implements the protein-mutation leg that OpenFE's ligand-only RHTP could not. It has **never run**, so there is no per-leg rate to price from — and a mutation hybrid in a large assembly is exactly where the ternary lane hit softcore NaNs, so its cost is not safely inferable from the ligand lane's. **Priced only after the known-answer benchmark leg gives a real per-leg rate.** |
+| full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 protein-mutation directions | **UNPRICED** (was "~$15–30") | **⚠ NOT DERIVABLE** — same engine, same reason: no completed leg to extrapolate from |
 | `5b` inverse linker design | mostly CPU $0 + occasional rescore | **~$0–20** | MEASURED-derived |
 | ensemble refinement / CRL MD | endpoint MD, dozens–~200 legs | **~$20–150** | MEASURED-derived (swing item) |
 | local within-basin FEP | 3–6 ternary edges | **~$21–90** | PROJECTED (ternary base ×3–6) |
@@ -97,7 +99,7 @@ basis at all** pending engine scoping.
 
 **★ Whole gated ladder ≈ ~$370 mid-range (~$150–595) for the PRICEABLE stages, Vast 4090, GO at every gate**
 (optional/HELD ΔG_open + ABFE excluded, ~$200–500 more; **the 5a-KS wedge and the reciprocal mutation cycle are
-NOT in this total — they are UNPRICED pending engine scoping, see B.3**). Arithmetic: the low/high columns of the
+NOT in this total — they are UNPRICED pending a benchmark leg on the newly built engine, see B.3**). Arithmetic: the low/high columns of the
 priceable rows above sum to **$150 / $595**; `STRATEGY.md`'s spend table carries the same chain rung-by-rung and
 must agree with this line. *(Was "~$320 (~$190–520)" for a few hours on 2026-07-24, before `nrv04_retrospective`
 was re-derived off the corrected ternary base and the 5a-basin / 5b-linker rows were pulled out of the unpriced
