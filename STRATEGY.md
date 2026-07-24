@@ -210,9 +210,12 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
   (≥24 GB floor is ample).
 - **Measured per-edge bases (Vast 4090):**
   - **RBFE binary edge** (complex+solvent, ~35k atoms) ≈ ~5–6 GPU-h ≈ **~$0.6–1.4**.
-  - **Ternary cooperativity edge** (3-replica, ~146,509 particles, 16 windows) ≈ **~$3–6** (interim; a direct
-    4090 measurement is hardening the L4-derived number — the L4-on-demand lane it was measured on runs ~10×
-    higher, ~$37, and is *not* a go-forward cost).
+  - **Ternary cooperativity edge** (3-replica, ~146,509 particles, 16 windows) ≈ **~$3–6** (from the parallel
+    real `valB_mini` on L4 ÷ a ~2.3× card ratio; the L4-on-demand lane it ran on bills ~10× higher, ~$37, which
+    is *not* a go-forward cost). A direct Vast-4090 firm-ternary measurement was attempted but NaN's at warmup
+    (softcore conditioning of the rough homology model — pre-equilibration got it from λ-state 0 to state 5 but
+    not clean); the proven `valB_mini` lane remains the ternary source of record until that conditioning is
+    ported to the Vast lane.
   - **Endpoint-MD leg** (~466k atoms) ≈ **~$0.45**.
 - **Whole gated ladder ≈ ~$270 mid-range (~$150–450), GO at every gate** (optional/HELD ΔG_open + ABFE excluded,
   ~$200–500 more if invoked). The only real swing is the **ensemble-MD leg count** (5c + retrospective), not
