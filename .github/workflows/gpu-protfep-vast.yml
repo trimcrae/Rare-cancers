@@ -176,7 +176,14 @@ jobs:
             cd /root
             curl -Ls "https://github.com/trimcrae/Rare-cancers/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
             cd Rare-cancers-*/research/modalities
+            # BOTH environments. The apo leg is single-chain and has always built; every chain
+            # resolution failure has been in the COMPLEX leg, where two chains exist and pdb2gmx /
+            # pmx disagree about labels. Testing only apo proved the easy half and let the hard half
+            # fail three times on rented hosts instead.
             python protfep_pmx.py --benchmark barnase_barstar_Y29A --environment apo \
+                   --out-dir /tmp/out --in-dir /tmp/in --build-only
+            echo "=== apo built; now the two-chain COMPLEX leg ==="
+            python protfep_pmx.py --benchmark barnase_barstar_Y29A --environment complex \
                    --out-dir /tmp/out --in-dir /tmp/in --build-only'
 
   # ------------------------------------------------------------------ paid: the GPU ladder
