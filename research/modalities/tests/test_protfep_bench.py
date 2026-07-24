@@ -303,16 +303,19 @@ def test_build_jobspec_is_pure_and_carries_the_leg_context():
 def test_smoke_jobspec_is_sized_down_and_tagged_so_it_cannot_be_mistaken_for_a_real_leg():
     (unit,) = pv.units_for("smoke")
     js = pv.build_jobspec(unit, mode="smoke")
-    assert js.env["LEG_ID"].endswith("_smoke")
+    assert js.env["LEG_ID"].endswith("_smoke"), "protfep_reduce refuses to score a _smoke leg"
     assert "--n-states 3" in js.env["PROTFEP_N_STATES_ARG"]
-    assert "--prod-iters 20" in js.env["PROTFEP_PROD_ITERS_ARG"]
+    # Sampling lengths reach the driver as env, not CLI flags, so a mode cannot silently inherit
+    # production-length sampling and cost a real leg's money to prove plumbing.
+    assert int(js.env["PMX_PROD_PS"]) < 100
+    assert int(js.env["PMX_NPT_PS"]) < 20
 
 
 def test_real_jobspec_leaves_sizing_to_the_module_defaults():
     spec = pb.leg_spec("barnase_barstar_Y29A", "complex", 0)
     js = pv.build_jobspec(spec, mode="pilot")
     assert js.env["PROTFEP_N_STATES_ARG"] == ""
-    assert js.env["PROTFEP_PROD_ITERS_ARG"] == ""
+    assert "PMX_PROD_PS" not in js.env, "a real leg must not carry the smoke's shortened sampling"
 
 
 def test_build_jobspec_rejects_an_unknown_mode():
@@ -641,3 +644,41 @@ def test_openeye_shim_answers_licence_probes_with_false():
     assert oechem.OEBioIsLicensed() is False
     with pytest.raises(RuntimeError, match="tried to USE OpenEye"):
         oechem.OEGraphMol
+
+
+# ---------------------------------------------------------------- pmx driver (pure layer)
+import protfep_pmx as ppmx  # noqa: E402
+
+
+def test_lambda_vector_spans_the_full_range():
+    v = [float(x) for x in ppmx.lambda_vector(5).split()]
+    assert v[0] == 0.0 and v[-1] == 1.0 and len(v) == 5
+    assert all(b > a for a, b in zip(v, v[1:])), "lambda points must be monotonic"
+
+
+def test_lambda_vector_refuses_a_degenerate_schedule():
+    with pytest.raises(ValueError):
+        ppmx.lambda_vector(1)
+
+
+def test_window_mdp_selects_its_own_state_and_writes_dhdl_to_all_neighbours():
+    mdp = ppmx.mdp_lambda_window(3, 8, 100, collect_data=True)
+    assert "init-lambda-state = 3" in mdp
+    assert "free-energy = yes" in mdp
+    # -1 = write dH to EVERY other lambda, which is what BAR needs across the whole schedule.
+    assert "calc-lambda-neighbors = -1" in mdp
+    assert "couple-intramol = no" in mdp, "a mutated side chain is not decoupled from its own protein"
+
+
+def test_equilibration_mdp_generates_velocities_only_for_nvt():
+    nvt = ppmx.mdp_equil(50, pressure=False)
+    npt = ppmx.mdp_equil(50, pressure=True)
+    assert "gen-vel = yes" in nvt and "pcoupl = no" in nvt
+    assert "gen-vel = no" in npt and "pcoupl = C-rescale" in npt
+
+
+def test_mdp_step_count_follows_from_the_timestep():
+    """nsteps must be derived from a TIME, so changing the timestep changes cost, not sampling."""
+    mdp = ppmx.mdp_equil(100, pressure=False)
+    nsteps = int([ln for ln in mdp.splitlines() if ln.startswith("nsteps")][0].split("=")[1])
+    assert nsteps == int(100 / (ppmx.TIMESTEP_FS / 1000.0))

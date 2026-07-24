@@ -51,7 +51,7 @@ REPO = "https://github.com/trimcrae/Rare-cancers"
 # resolved its result prefix to `s3:///protfep-benchmark/...` — a bucket-less URI — so every upload
 # would have failed silently behind `|| true` and the leg would have produced nothing retrievable.
 # `or` treats empty-as-unset, which is what a blank CI input means.
-VAST_IMAGE = os.environ.get("VAST_IMAGE") or "docker.io/triskit23/protfep:latest"
+VAST_IMAGE = os.environ.get("VAST_IMAGE") or "docker.io/triskit23/pmxfep:latest"
 RESULT_PREFIX = os.environ.get("PROTFEP_RESULT_PREFIX") or "protfep-benchmark"
 DEFAULT_BUCKET = os.environ.get("VAST_CKPT_BUCKET") or "sagemaker-us-east-2-646605541856"
 LABEL_PREFIX = "protfep-bench"
@@ -77,7 +77,7 @@ RES = ResourceSpec(gpu=os.environ.get("PROTFEP_GPU") or "rtx4090",
 _PIPELINE = r"""
 set -o pipefail
 export HOME=/root
-export PATH=/opt/mamba/envs/protfep/bin:$PATH
+export PATH=/opt/mamba/envs/pmxfep/bin:$PATH
 exec > >(tee /tmp/run.log) 2>&1
 echo "[protfep] $(date -u +%FT%TZ) start leg=$LEG_ID benchmark=$PROTFEP_BENCHMARK env=$PROTFEP_ENVIRONMENT"
 mark() { echo "$1 $(date -u +%FT%TZ)" | aws s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; \
@@ -91,8 +91,7 @@ if aws s3 ls "$RESULT_S3/leg_$LEG_ID.json" >/dev/null 2>&1; then
 fi
 mkdir -p /tmp/protfep_in /tmp/protfep_out
 # RESUME: pull any prior checkpoint for this leg (spot preemption or a re-dispatch of the same unit).
-aws s3 cp "$RESULT_S3/" /tmp/protfep_out/ --recursive --exclude '*' --include "$LEG_ID.nc" \
-    --include "leg_$LEG_ID.json" 2>/dev/null || true
+aws s3 cp "$RESULT_S3/" /tmp/protfep_out/ --recursive --exclude '*' --include "leg_$LEG_ID.json" 2>/dev/null || true
 ls -la /tmp/protfep_out || true
 # --- repo code (public codeload tarball) ---
 cd /root
@@ -102,32 +101,35 @@ mark cloned
 # --- continuous checkpoint upload (every 3 min) so a preemption never loses the leg ---
 ( while true; do sleep 180; \
     aws s3 cp /tmp/protfep_out/ "$RESULT_S3/" --recursive --exclude '*' \
-        --include "$LEG_ID.nc" --include "leg_$LEG_ID.json" >/dev/null 2>&1 || true; \
+        --include "leg_$LEG_ID.json" --include "*.xvg" >/dev/null 2>&1 || true; \
     aws s3 cp /tmp/run.log "$RESULT_S3/run.log" >/dev/null 2>&1 || true; \
   done ) &
 SYNC_PID=$!
 mark md-running
 INPUT_DIR=/tmp/protfep_in OUTPUT_DIR=/tmp/protfep_out python autoteardown.py \
-    python protfep_run.py --benchmark "$PROTFEP_BENCHMARK" --environment "$PROTFEP_ENVIRONMENT" \
-        --replicate "$PROTFEP_REPLICATE" --leg-id "$LEG_ID" \
-        ${PROTFEP_N_STATES_ARG} ${PROTFEP_PROD_ITERS_ARG} ${PROTFEP_WARMUP_ITERS_ARG}
+    python protfep_pmx.py --benchmark "$PROTFEP_BENCHMARK" --environment "$PROTFEP_ENVIRONMENT" \
+        --replicate "$PROTFEP_REPLICATE" --leg-id "$LEG_ID" ${PROTFEP_N_STATES_ARG}
 RC=$?
 kill $SYNC_PID 2>/dev/null || true
 mark md-done
 # --- final upload: the leg JSON (the deliverable) + the trajectory checkpoint + the log ---
 aws s3 cp /tmp/protfep_out/ "$RESULT_S3/" --recursive --exclude '*' \
-    --include "leg_$LEG_ID.json" --include "$LEG_ID.nc" || echo "result upload failed"
+    --include "leg_$LEG_ID.json" --include "*.xvg" || echo "result upload failed"
 mark done
 echo "[protfep] $(date -u +%FT%TZ) EXIT rc=$RC"
 exit $RC
 """
 
 # Sampling sizes per mode. The smoke's numbers are deliberately too small to mean anything
-# scientifically — its ONLY job is to prove the chain runs before a real leg is paid for.
+# scientifically — its ONLY job is to prove the chain runs end to end before a real leg is paid for,
+# which is why its leg id carries a _smoke suffix that protfep_reduce refuses to score.
+# `env` entries are merged into the instance environment and read by protfep_pmx's module constants.
 MODES = {
-    "smoke": {"n_states": 3, "prod_iters": 20, "warmup_iters": 5, "max_runtime_s": 5400},
-    "pilot": {"n_states": None, "prod_iters": None, "warmup_iters": None, "max_runtime_s": 36000},
-    "full": {"n_states": None, "prod_iters": None, "warmup_iters": None, "max_runtime_s": 36000},
+    "smoke": {"n_states": 3, "max_runtime_s": 5400,
+              "env": {"PMX_EQUIL_PS": "5", "PMX_PROD_PS": "20", "PMX_MIN_STEPS": "500",
+                      "PMX_NVT_PS": "5", "PMX_NPT_PS": "5"}},
+    "pilot": {"n_states": None, "max_runtime_s": 36000, "env": {}},
+    "full": {"n_states": None, "max_runtime_s": 36000, "env": {}},
 }
 
 
@@ -208,10 +210,8 @@ def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefi
         # Passed as pre-rendered CLI fragments so the pipeline stays a single fixed command string and
         # an unset size simply expands to nothing (i.e. the module default applies).
         "PROTFEP_N_STATES_ARG": (f"--n-states {sizing['n_states']}" if sizing["n_states"] else ""),
-        "PROTFEP_PROD_ITERS_ARG": (f"--prod-iters {sizing['prod_iters']}" if sizing["prod_iters"] else ""),
-        "PROTFEP_WARMUP_ITERS_ARG": (f"--warmup-iters {sizing['warmup_iters']}"
-                                     if sizing["warmup_iters"] is not None else ""),
     }
+    env.update(sizing.get("env") or {})
     return JobSpec(
         name=unit_label(spec, mode),
         command=["bash", "-lc", _PIPELINE.replace("{repo}", REPO)],
