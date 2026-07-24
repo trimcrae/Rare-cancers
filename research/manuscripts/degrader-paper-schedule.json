@@ -205,11 +205,12 @@
     {
       "id": "nr4a_differential_atlas",
       "title": "RUNG 4 (mostly free): NR4A1/2/3 paralogue-differential surface atlas + lysine-accessibility map",
-      "status": "pending",
+      "status": "done",
+      "result": "DONE 2026-07-24, $0 in-sandbox CPU. nr4a_differential_atlas.py (pure-stdlib Shrake-Rupley SASA + affine-gap BLOSUM62 alignment + character-change typing) over matched results/nr4a3-matrix/nr4a{3,1,2}-opened.pdb -> nr4a3-differential-surface-atlas.json + .md + 6 passing unit tests. VALIDATED: reproduces canonical nr4a-selectivity.json on 148/148 known residues (0 mismatch). RESULT: 254 residues, 137 exposed, 109 divergent (42.9%), 46 differential-surface handles (exposed x divergent x character-changing; 33 vs both), 15/15 LBD lysines exposed. Top: U576 L->(G/N), U574 Q->(V/G), U412 R->(A/T charge-lost-both), U413 D->(K/S charge-reversed). GATE: PASS/GO - a differential surface exists to steer an E3 against; RUNG-5a orientation-basin search warranted. Optional add-on open: matched NR4A1/2 MD ensembles (~$10-40 Vast 3090) for dynamics robustness.",
       "track": "cpu",
-      "cost_est_usd": "0-40 (analysis $0 CPU; matched NR4A1/2 LBD MD if needed ~$10-40 on Vast 3090 @ ~$0.4-0.7/6ns leg)",
+      "cost_est_usd": "0-40 (analysis $0 CPU DONE; optional matched NR4A1/2 LBD MD ensembles ~$10-40 on Vast 3090 @ ~$0.4-0.7/6ns leg)",
       "optimistic_days": 3,
-      "remaining_days": 3,
+      "remaining_days": 0,
       "parallel_ok": true,
       "depends_on": [],
       "note": "2026-07-24 orientation-first restructuring. Matched NR4A1/2/3 receptor ensembles (identical frames/microstates/transforms/sampling) -> paralogue-differential surface + electrostatic/H-bond map; fusion-context scenarios; SEPARATE LBD/hinge/DBD/fusion lysine map; warhead-pose sensitivity. Output = a discrimination MAP, not three receptor models. FREE CPU analysis -> will build+run without a spend nod; itself a cheap early NO-GO. GATE: >=1 exposed paralogue difference reachable by a recruited VHL/CRBN, else the wedge search is unlikely to succeed."

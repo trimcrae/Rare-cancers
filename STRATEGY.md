@@ -545,14 +545,20 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   sensitivity ranges — this produces the **warhead + exit-vector inputs** the inverse-design stage (5b) consumes.
   **Gate:** Val A accuracy satisfied (**valA_full SKIPPED — valA_mini clean on am1bcc → cite OpenFE**) AND the
   Step 1 pilot behaved. *(Priced on Vast 4090 alchemical RBFE, ~$12–20/edge; pin from the pilot's realized GPU-h.)*
-- **`[ ]` NR4A differential surface atlas** *(nr4a_differential_atlas · CPU/CI + opt. Vast 3090 · ∥)* — **Price: ~$0–40 · Cum. ~$410**
-  Matched NR4A1/2/3 receptor ensembles (identical frames / microstates / transforms / sampling) → paralogue-
-  differential surface + electrostatic/H-bond map; fusion-context scenarios; **separate** LBD / hinge / DBD /
-  fusion lysine-accessibility map; warhead-pose sensitivity. The mapping/analysis is **$0 CPU**; only fresh matched
-  NR4A1/2 LBD MD (if needed) costs **~$10–40 on Vast 3090** (~$0.4–0.7 per 6 ns leg, measured). **I will build +
-  run this free/near-free work without a spend nod** (it is also a cheap early NO-GO). **Gate:** ≥1 exposed
-  paralogue difference reachable by a recruited VHL/CRBN — if the differential surface offers no E3-reachable
-  handle, the wedge search is unlikely to succeed and we say so.
+- **`[x]` NR4A differential surface atlas** *(nr4a_differential_atlas · CPU · ∥)* — **DONE 2026-07-24 · $0 (in-sandbox CPU)**
+  Built + ran the free analysis half: [`nr4a_differential_atlas.py`](research/modalities/nr4a_differential_atlas.py)
+  (pure-stdlib Shrake–Rupley SASA + affine-gap BLOSUM62 alignment + character-change typing) over the matched
+  `results/nr4a3-matrix/nr4a{3,1,2}-opened.pdb` models →
+  [`nr4a3-differential-surface-atlas.json`](research/modalities/nr4a3-differential-surface-atlas.json) +
+  [write-up](research/modalities/nr4a3-differential-surface-atlas.md) + 6 passing unit tests. **Validated:**
+  per-residue paralogue identities reproduce the canonical `nr4a-selectivity.json` on **148/148** known residues
+  (0 mismatch). **Result:** 254 residues, 137 exposed, 109 divergent (42.9 %), **46 differential-surface handles**
+  (exposed × divergent × character-changing; 33 vs both paralogues), 15/15 LBD lysines exposed. Top handles: U576
+  L→(G/N), U574 Q→(V/G), U412 R→(A/T, charge-lost vs both), U424 Q→(L/Y), U413 D→(K/S, charge-reversed).
+  **★ GATE: PASS / GO** — a differential surface exists to steer an E3 against (distinct from the ~70 % pocket
+  hotspot), so the RUNG-5a orientation-basin search is warranted. *(Optional add-on still open: matched NR4A1/2 MD
+  ensembles, ~$10–40 Vast 3090, to test which handles survive dynamics — a handle is a hypothesis until the RUNG
+  5a-KS reciprocal mutation cycle tests it causally.)*
 - **`[ ]` NR-V04 retrospective — preregistered holdout** *(nrv04_retrospective · GPU · Vast 3090 MD + 4090 FEP)* — **Price: ~$60–150 · Cum. ~$500**
   Full NR4A1/2/3 ensembles through the pipeline, NO tuning, epimer control. Report **directional concordance**,
   never "recovered degradation." **Gate:** Val B-full + NR-V04 feasibility + Step 1 fan-out. **GO/NO-GO:** at least
