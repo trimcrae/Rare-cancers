@@ -116,12 +116,42 @@ allowed to claim.
 
 ### Why Val A is nearly free but Val B is load-bearing
 
-- **Val A (binary RBFE accuracy) — a citation, not a paid benchmark.** We run OpenFE's *standard*
-  RelativeHybridTopology protocol, already benchmarked (~1.7 kcal/mol over 58 public systems). The only thing
-  that had made it non-citeable was a self-inflicted deviation — the RBFE env shipped without AmberTools, so
-  am1bcc charging failed and fell back to the NAGL surrogate. With AmberTools added and `am1bcc` restored (the
-  same fix propagated to the ternary engine, so binary/ternary legs share charges and the cooperativity cycle's
-  cancellation holds), we **cite OpenFE** and run only a ~$0–15 build-consistency smoke.
+- **Val A (binary RBFE accuracy) — a citation, not a paid benchmark, FOR THE BINARY LANE ONLY.** We run OpenFE's
+  *standard* RelativeHybridTopology protocol, already benchmarked (~1.7 kcal/mol over 58 public systems). The only
+  thing that had made it non-citeable was a self-inflicted deviation — the RBFE env shipped without AmberTools, so
+  am1bcc charging failed and fell back to the NAGL surrogate. With AmberTools added and `am1bcc` restored, the
+  **binary RBFE lane** is on the documented reference method → we **cite OpenFE** and run only a ~$0–15
+  build-consistency smoke (valA_mini, done).
+
+  **⚠ The charge model is NOT shared across lanes — do not state that it is (corrected 2026-07-24).** An earlier
+  version of this section claimed the am1bcc fix "propagated to the ternary engine, so binary/ternary legs share
+  charges." That is **false as run.** The lanes split:
+
+  | Lane | Charge model | Evidence |
+  |---|---|---|
+  | Binary RBFE (`nr4a3_rbfe.py`) | **am1bcc** | code default; valA_mini/step0/step1_pilot all ran am1bcc |
+  | Ternary FEP (`nr4a3_ternary_fep.py`) | **NAGL** | `gpu-ternary-fep-gcp.yml:34,74` default `nagl`; live valB leg log 2026-07-24 shows `CHARGE_METHOD: nagl` |
+  | Endpoint / covalent MD | **NAGL** | `md_settings.py:60` `CHARGE_METHOD = "nagl"` |
+
+  The split is **physically forced, not sloppiness**: AM1-BCC via AmberTools `sqm` is intractable on PROTAC-sized
+  ligands — measured 2026-07-22, `sqm` ran **>85 min on the 166-atom NR-V04 recruiter without converging**
+  (`md_settings.py:53–60`). NAGL is an ML surrogate *for* am1bcc, so this is a defensible substitution, but it is a
+  **different Hamiltonian** and must be handled explicitly:
+
+  1. **ΔΔG_coop is SAFE.** Both morphs of the cooperativity cycle (`ternary − binary-of-the-same-PROTAC`) run
+     inside the ternary lane at the same `CHARGE_METHOD`, so the charge model cancels. The cycle's cancellation
+     argument holds *within* a lane — which is all it ever needed.
+  2. **Any CROSS-LANE subtraction is NOT safe** — see the 5a-KS note in RUNG 5. A quantity built as
+     `(ternary-lane leg) − (binary-lane leg)` mixes NAGL against am1bcc, and a charge-model difference is a real
+     potential-energy-surface difference that does **not** cancel. Such cycles must pin one `CHARGE_METHOD` across
+     **both** legs. (Timestep differs across lanes too — 2 fs ternary vs 4 fs+HMR binary — but HMR changes only
+     masses, so that is a *sampling/precision* difference, not a bias in ΔG.)
+  3. **Val A's citation does not cover the NAGL lanes.** OpenFE's published ~1.7 kcal/mol accuracy was measured on
+     the am1bcc method; valA_mini reproduced a known ΔΔG on am1bcc. Neither transfers to a NAGL ternary lane. The
+     accuracy control for the NAGL lane is **Val B** (its own known-answer PROTAC), which is exactly why Val B is
+     load-bearing and why valA_full's "re-open if am1bcc is forced onto NAGL" trigger is satisfied *by Val B* and
+     not by a separate paid NAGL binary benchmark. Say this in the paper; do not let a reader infer the OpenFE
+     citation covers the ternary numbers.
 - **Val B (ternary cooperativity) — genuinely needed, for pipeline-validation.** The general approach is citeable
   (see prior art above), but you never certify your own container / force field / charge model / ternary wiring
   by pointing at someone else's engine's benchmark. NR-V04 cannot calibrate it (no solved ternary; celastrol is
@@ -209,14 +239,28 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
   **~1.5–2× the 4090 $/edge**; use the 3090 only when 4090 capacity is short. VRAM is never the constraint
   (≥24 GB floor is ample).
 - **Measured per-edge bases (Vast 4090):**
-  - **RBFE binary edge** (complex+solvent, ~35k atoms) ≈ ~5–6 GPU-h ≈ **~$0.6–1.4**.
-  - **Ternary cooperativity edge** (3-replica, ~146,509 particles, 16 windows) ≈ **~$3–6** (from the parallel
-    real `valB_mini` on L4 ÷ a ~2.3× card ratio; the L4-on-demand lane it ran on bills ~10× higher, ~$37, which
-    is *not* a go-forward cost). A direct Vast-4090 firm-ternary measurement was attempted but NaN's at warmup
-    (softcore conditioning of the rough homology model — pre-equilibration got it from λ-state 0 to state 5 but
-    not clean); the proven `valB_mini` lane remains the ternary source of record until that conditioning is
-    ported to the Vast lane.
-  - **Endpoint-MD leg** (~466k atoms) ≈ **~$0.45**.
+  - **RBFE binary edge** (complex+solvent, ~35k atoms) ≈ ~5–6 GPU-h ≈ **~$0.6–1.4**. *(Basis: a live-diagnosed
+    per-iteration rate, ~5.2 s/iter × 2000 iters. A clean end-to-end ΔG was **not** captured on the timing run —
+    both spot instances were preempted — so this is an extrapolated rate, not a completed-edge measurement.)*
+  - **Ternary cooperativity edge** (3-replica, ~146,509 particles) ≈ **~$3–6**, **the softest number in the
+    ladder.** Chain of inference: an L4 leg's live sampler wall clock (~8.7 L4-GPU-h) → ×2 legs ×3 replicas
+    (~52 L4-GPU-h) → ÷ a **spec-based** (not benchmarked) ~2.3× L4→4090 ratio. Two caveats that must travel with
+    the number: (a) the L4 measurement is labelled "16 windows" in pricing.md, but the lane **actually runs 12**
+    (`gpu-ternary-fep-gcp.yml` default, confirmed in the 2026-07-24 leg log) — reconcile before quoting; (b) no
+    direct Vast-4090 ternary measurement exists yet — the attempt NaN'd at warmup (unconstrained alchemical C–H;
+    the parallel session has since moved the firm lane to 12 windows and extracted `run_ternary_leg.sh` as the
+    single shared recipe). Until a 4090 edge completes, treat $3–6 as an **estimate with a card-ratio assumption
+    in it**, not a measured base.
+  - **Endpoint-MD leg** (~466k atoms) ≈ **~$0.45** *(measured on a 3090 at ~$0.6, converted to 4090 by the same
+    card ratio — inferred, not directly measured)*.
+  - **Provider reality check (2026-07-24):** the ladder is *priced* in Vast-4090 dollars, but `valB_mini` is
+    *actually running* on **GCP L4 on-demand** (`PROVISIONING: standard`), the lane this section calls not-go-forward
+    and pricing.md bills at ~$37/edge. That is a deliberate, defensible use of the **expiring $292 GCP free trial**
+    (window closes **2026-10-10**; Modal's $30/mo is already $27.54 spent and does not carry over) — free credit
+    beats cheap cash. But it means **realized spend and ladder spend are two different ledgers**, and
+    `credit-status.json` records GCP `spent: 8.0` from a **manual** source that has not been reconciled against
+    today's ~8 dispatched L4 legs. Keep the Vast basis as the *planning* number, track GCP burn separately, and do
+    not let "we spent ~$2 so far" imply the L4 lane was free.
 - **Whole gated ladder ≈ ~$270 mid-range (~$150–450), GO at every gate** (optional/HELD ΔG_open + ABFE excluded,
   ~$200–500 more if invoked). The only real swing is the **ensemble-MD leg count** (5c + retrospective), not
   per-edge cost; card choice is the lever on GPU-h-heavy stages.
@@ -234,9 +278,11 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 
 ### RUNG 0 — free / already done (~$0)
 
-- **`[x]` Charge-model fix — am1bcc on the standard path** — **$0.** Added `ambertools>=23` +
-  `partial_charge_method="am1bcc"` (NAGL retained as env-override fallback); propagated to the ternary engine so
-  binary/ternary legs share charges. Puts us on the documented reference method → cite OpenFE.
+- **`[x]` Charge-model fix — am1bcc on the BINARY path** — **$0.** Added `ambertools>=23` +
+  `partial_charge_method="am1bcc"`; the **binary RBFE lane** is on the documented reference method → cite OpenFE.
+  **The ternary and endpoint-MD lanes run NAGL** (am1bcc/sqm is intractable on PROTAC-sized ligands — >85 min
+  non-converging on the 166-atom NR-V04 recruiter, 2026-07-22). This is a *lane split*, not a shared charge model
+  — see "Why Val A is nearly free" above for what it does and does not permit.
 - **`[x]` Step 0 — RBFE infra shakeout** — **~$1–2 · PASSED.** One OpenFE edge ran end-to-end via the spot-safe
   split and returned a converged **ΔG_morph = −48.75 ± 0.57 kcal/mol** (MBAR); am1bcc charging and the
   warmup→production→commit/restore driver are GPU-validated. **GO.**
@@ -251,8 +297,12 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 - **`[x]` Validation A-mini — build-consistency smoke + cite OpenFE** — **~$0 · Cum. ~$2 · PASS/GO.** The public
   TYK2 `ejm31→ejm42` edge (both legs, 5 ns × 12 windows) gave **ΔΔG_bind = +0.366 vs exp −0.24 → abs err 0.61
   kcal/mol**, inside the 2.0 tolerance. Our container reproduces a known ΔΔG on the standard am1bcc method → cite
-  OpenFE's published ~1.7 kcal/mol accuracy. Does not touch NR4A. **GO to Rung 2.** *(If am1bcc is ever forced to
-  NAGL for a ligand, Val A reverts to a paid ~$25 NAGL benchmark.)*
+  OpenFE's published ~1.7 kcal/mol accuracy. Does not touch NR4A. **GO to Rung 2.**
+  *(**Scope, corrected 2026-07-24:** this covers the **am1bcc binary lane only**. The old rider "if am1bcc is ever
+  forced to NAGL, Val A reverts to a paid ~$25 NAGL benchmark" has in fact **already fired** — every ternary and
+  endpoint lane runs NAGL because sqm cannot charge PROTAC-sized ligands. Resolution: we do **not** buy a separate
+  NAGL binary benchmark; **Val B is the NAGL lane's known-answer accuracy control**, and it is already on the
+  ladder. What this costs us is the *citation*: OpenFE's accuracy number may not be quoted for any ternary result.)*
 
 ### RUNG 2 — cheap precision + cheap probes *(only if Rung 1 = GO)*
 
@@ -266,11 +316,22 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 - **`[~]` Validation B-mini — all-binding graded cooperativity edge** — **~$3–6 · Cum. ~$9.** The Wurz SMARCA2–VHL
   **cmpd 1→4** all-binding graded edge (α 12.8→2.6 ≈ +0.94 kcal/mol; both endpoints are productive binders — the
   cleanest first calibration). Exercises the bespoke `ΔΔG_coop = ternary − binary` cycle that cannot be cited
-  away. **GO/NO-GO:** correct sign, CI excludes 0, within ~1.0 of the measured Δα, repeats + fwd/rev agree → GO to
-  Val B-full. valB_mini gates valB_full only — it does **not** authorize the NR4A matrix; until valB_full passes,
-  NR4A ternary scores are **exploratory**. *(In progress on GCP L4; a direct Vast-4090 timing run is hardening
-  the per-edge cost. The cis-epimer PROTAC-2 edge is demoted to the negative-endpoint stress module of the cube
-  below — a pass forced by holding an unstable pose is not a pass.)*
+  away. **GO/NO-GO (verbatim from the prereg in `degrader-paper-schedule.json`; the ±1.0 kcal/mol band was
+  deliberately REMOVED on 2026-07-17 because a separation <1 kcal/mol makes a noisy positive point estimate
+  INDETERMINATE — do not re-introduce it):** PASS requires **positive sign + CI excludes zero + no fwd/rev
+  disagreement + no collapse/escape/restraint-dominated leg + broad consistency with the measured +0.94**.
+  valB_mini gates valB_full only — it does **not** authorize the NR4A matrix; until valB_full passes, NR4A ternary
+  scores are **exploratory**. *(In progress. The cis-epimer PROTAC-2 edge is demoted to the negative-endpoint
+  stress module of the cube below — a pass forced by holding an unstable pose is not a pass.)*
+
+  **As-run protocol (live leg log, run 30112102294, 2026-07-24 1:13 PM ET) — this is what the cost basis and the
+  paper must describe, not the older 16-window/4 fs assumption:** `NWIN=12` λ-windows · `CHARGE_METHOD=nagl` ·
+  `TIMESTEP_FS=2.0` (warmup 1.0 fs) · `TEMPLATE_PDB=8G1Q` · `PROVISIONING=standard` (GCP **L4 on-demand**).
+  The 2 fs step is a *documented physics deviation*, not drift: an alchemical C–H whose constraint changes between
+  endpoints is left unconstrained by OpenFE's hybrid factory and is unstable at 4 fs
+  (`nr4a3_ternary_fep.py:258–279`). It is legitimate — but `nr4a3_ternary_fep.py` is **not** listed as a consumer
+  in `md_settings.py`'s docstring, so this deviation is currently undeclared in the file whose entire purpose is to
+  make undeclared deviations impossible. Register it there.
 
 ### RUNG 3 — expand the benchmarks *(only if Rung 2 probes look promising)*
 
@@ -319,6 +380,16 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   cycle if GO ~$15–30 · Cum. to decision ~$148.** Pilot ONE direction first (3→1 = one binary RBFE + one ternary
   edge). **No interface loss ⇒ STOP** — publish the honest causal negative, skip the ~$30–190 refinement tail.
   Loss ⇒ complete the full reciprocal cycle (add 3→2 + reciprocal 1/2→3) — the paper's primary causal RESULT.
+
+  **⚠ BLOCKING PREREQUISITE — pin the charge model across both legs (added 2026-07-24).** The wedge quantity
+  `ΔΔG_neo-interface^m = ΔG_mut^ternary − ΔG_mut^binary` is the repo's one **cross-lane** subtraction, and as the
+  lanes are configured today it would mix a **NAGL** ternary leg against an **am1bcc** binary leg. Unlike the
+  timestep, the charge model changes the potential energy surface, so it does **not** cancel — the residual would
+  be indistinguishable from the very interface effect the kill-switch is built to detect, and it would
+  contaminate the paper's *primary causal result*. Before any 5a-KS leg launches: run **both** legs with an
+  explicit, identical `CHARGE_METHOD` (NAGL is the only choice that can charge both a small mutation edge and a
+  PROTAC-scale assembly), stamp it into both result JSONs, and add a test that refuses to compute a wedge from two
+  legs whose recorded `charge_method` differ. Cost: $0 — it is a config pin plus an assertion.
 - **`[ ]` 5b · Inverse linker design** — **~$0–20 (mostly $0 CPU) · Cum. ~$180.** For each confirmed basin, derive
   linker requirements (endpoint distance, exit-vector dihedral, strain, reach), enumerate a virtual library,
   filter by basin fidelity, annotate exact structures + synthetic feasibility → **~12–20 virtual constructs** (the
@@ -351,7 +422,13 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 
 ## Spend summary — running total (measured Vast-4090 bases)
 
-Every per-edge base is measured, so the ladder totals cleanly. **Whole gated ladder, GO at every gate, mid-range:
+**Honesty note on the bases (2026-07-24).** An earlier version of this line read "every per-edge base is measured,
+so the ladder totals cleanly." It does not. Of the three bases, **zero are a completed end-to-end run on the card
+they are quoted for**: the RBFE edge is an extrapolated per-iteration rate (timing run preempted before a clean
+ΔG), the ternary edge is an L4 wall-clock ÷ a spec-based card ratio, and the endpoint leg is a 3090 measurement
+÷ the same ratio. The ladder is a **defensible bottom-up estimate**, not a measured total, and its dominant
+uncertainty is the L4→4090 conversion, not the leg counts. Ranges below reflect that. **Whole gated ladder, GO at
+every gate, mid-range:
 ~$270 (range ~$150–450).** Optional/HELD (ΔG_open, ABFE) excluded (~$200–500 more). The only real swing is the
 **ensemble-MD leg count** (5c + retrospective); the kill-switch stops most NO-GO paths under ~$150.
 

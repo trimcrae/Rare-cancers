@@ -30,6 +30,17 @@ Consumers (import from here, do NOT re-specify):
   - nr4a3_rbfe.py / rbfe_spot_driver.py (OpenFE alchemical)            — sets OpenFE Settings objects, not raw
         OpenMM; it cannot import openmm_integrator(), but its timestep/H-mass/FF MUST equal the constants below
         (asserted by tests/test_md_settings.py::test_rbfe_matches_canonical).
+  - nr4a3_ternary_fep.py (OpenFE ternary cooperativity)                — DOCUMENTED DEVIATION, registered
+        2026-07-24 (it was running an undeclared deviation, which is exactly what this file exists to prevent):
+        **2 fs, not the canonical 4 fs** (`RBFE_TIMESTEP_FS`, default "2.0"). REASON, not drift: an alchemical
+        X-H bond whose constraint CHANGES between endpoints is left UNCONSTRAINED by OpenFE's hybrid topology
+        factory; an unconstrained C-H has a ~10 fs period and goes unstable at 4 fs once the softcore turns on at
+        the first alchemical window (the warmup NaN, root-caused 2026-07-18 — see nr4a3_ternary_fep.py:258-279).
+        Scope of the deviation: timestep/HMR change only MASSES, so configurational free energies are unaffected
+        in principle — this is a SAMPLING/precision difference, NOT a bias in dG. Charges, however, ARE a
+        Hamiltonian difference: this lane runs NAGL (below), the binary RBFE lane runs am1bcc, and any quantity
+        that SUBTRACTS a binary-lane leg from a ternary-lane leg (the 5a-KS wedge cycle) MUST pin one
+        CHARGE_METHOD across both legs. Within a single lane the charge model cancels and dG_coop is safe.
 
 Pure-constant module: the constants have no dependencies; the OpenMM builder helpers import openmm lazily so a
 CPU/CI context can read the constants without the MD stack installed.
