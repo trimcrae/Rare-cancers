@@ -43,7 +43,7 @@ on:
         # ref=<feature-branch> and protfep_task=<task>, and GitHub runs that branch's file + code.
         # Leave blank for a normal BioEmu run — a blank value changes nothing. Delete this input and
         # its job once gpu-protfep-vast.yml is merged to main.
-        description: "5a-KS protein-FEP bridge: bake | stage-test | refcheck | smoke | pilot | launch | collect | stop (blank = off)"
+        description: "5a-KS protein-FEP bridge: bake | stage-test | refcheck | introspect | smoke | pilot | launch | collect | stop (blank = off)"
         type: string
         default: ""
 
@@ -248,6 +248,47 @@ jobs:
             git commit -m "5a-KS: verify benchmark reference ddG values against SKEMPI 2.0"
             git push origin HEAD:${{ github.ref_name }}
           fi
+
+      - name: Introspect the perses install (FREE — runs the image on the CI runner, no GPU rented)
+        if: ${{ github.event.inputs.protfep_task == 'introspect' }}
+        # The smoke leg died in PointMutationExecutor.__init__ on `from openeye import oechem`, a
+        # LAZY import (which is why the build-time module import assertion passed). OpenEye is
+        # commercial and license-gated, so the question is whether perses offers an OpenEye-free
+        # path to the same hybrid topology. That is answerable for $0 by running the image here
+        # instead of renting another GPU to find out.
+        run: |
+          set -eo pipefail
+          IMG="docker.io/triskit23/protfep:latest"
+          docker pull "$IMG"
+          P=/opt/mamba/envs/protfep/lib/python3.11/site-packages/perses
+          cat > /tmp/probe.py <<'PROBE'
+          import importlib
+          targets = [
+              ("perses.rjmc.topology_proposal", "PointMutationEngine"),
+              ("perses.annihilation.relative", "HybridTopologyFactory"),
+              ("perses.rjmc.geometry", "FFAllAngleGeometryEngine"),
+              ("perses.annihilation.lambda_protocol", "LambdaProtocol"),
+              ("perses.samplers.multistate", "HybridRepexSampler"),
+              ("perses.app.relative_point_mutation_setup", "PointMutationExecutor"),
+          ]
+          for mod, name in targets:
+              try:
+                  getattr(importlib.import_module(mod), name)
+                  print("OK    %s.%s" % (mod, name))
+              except Exception as exc:
+                  print("FAIL  %s.%s -> %s: %s" % (mod, name, type(exc).__name__, exc))
+          try:
+              import openeye
+              print("openeye PRESENT:", getattr(openeye, "__version__", "?"))
+          except Exception as exc:
+              print("openeye ABSENT (expected):", type(exc).__name__)
+          PROBE
+          echo "=== every openeye import site in perses ==="
+          docker run --rm "$IMG" bash -lc "grep -rn '^ *from openeye\|^ *import openeye' $P --include=*.py | head -40; echo '--- files touching openeye ---'; grep -rln openeye $P --include=*.py | wc -l"
+          echo "=== the failing frame in context ==="
+          docker run --rm "$IMG" bash -lc "sed -n '210,265p' $P/app/relative_point_mutation_setup.py"
+          echo "=== which entry points import WITHOUT openeye? ==="
+          docker run --rm -v /tmp/probe.py:/tmp/probe.py "$IMG" python /tmp/probe.py
 
       - name: Submit Vast leg(s)
         if: ${{ contains(fromJSON('["smoke","pilot","launch"]'), github.event.inputs.protfep_task) }}

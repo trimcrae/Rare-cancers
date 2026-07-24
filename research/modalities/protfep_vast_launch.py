@@ -147,10 +147,21 @@ def units_for(mode, n_replicas=3, benchmarks=None):
     raise ValueError(f"unknown mode {mode!r}; expected one of {sorted(MODES)}")
 
 
+def leg_id_for(spec, mode):
+    """The LEG_ID this unit runs under. Pure. Single source for the id, used by BOTH the label and
+    the jobspec — they diverged once and it broke the reap (see unit_label)."""
+    return f"{spec['leg_id']}_smoke" if mode == "smoke" else spec["leg_id"]
+
+
 def unit_label(spec, mode):
-    """Vast instance label for one leg. Pure. Prefix lets the reap find every instance of this lane."""
-    tag = "smoke" if mode == "smoke" else spec["leg_id"]
-    return f"{LABEL_PREFIX}-{tag}".replace("_", "-").lower()[:60]
+    """Vast instance label for one leg. Pure. Prefix lets the reap find every instance of this lane.
+
+    MUST be derived from the same leg id the jobspec uses. It was not: smoke mode labelled the host
+    `protfep-bench-smoke` while its LEG_ID was `<benchmark>__apo_r0_smoke`, so label_matches_leg
+    could never match and collect's reap skipped the host entirely — the smoke leg crashed, Vast
+    re-ran onstart in a loop, and the GPU kept billing with nothing to produce.
+    """
+    return f"{LABEL_PREFIX}-{leg_id_for(spec, mode)}".replace("_", "-").lower()[:60]
 
 
 def label_matches_leg(label, leg_id):
@@ -177,7 +188,7 @@ def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefi
     branch = git_branch or os.environ.get("GIT_BRANCH") or "main"
     b = bucket or DEFAULT_BUCKET
     prefix = result_prefix or RESULT_PREFIX
-    leg_id = spec["leg_id"] if mode != "smoke" else f"{spec['leg_id']}_smoke"
+    leg_id = leg_id_for(spec, mode)
     if not b or not prefix:
         raise ValueError(
             f"refusing to launch with an incomplete result location (bucket={b!r}, prefix={prefix!r}). "

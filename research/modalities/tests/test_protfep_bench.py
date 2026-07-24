@@ -488,15 +488,27 @@ def test_iteration_count_is_timestep_independent():
 
 
 # ---------------------------------------------------------------- reap matching (real money)
-def test_label_matches_its_own_leg_for_every_unit():
-    """Every label the launcher creates must match back to its leg, or the reap misses it.
+def test_label_matches_its_own_leg_for_every_unit_in_every_mode():
+    """Every label the launcher creates must match the LEG_ID its jobspec runs under.
 
-    A missed match leaves a FINISHED leg's GPU billing until the runtime backstop hours later.
+    SMOKE IS INCLUDED DELIBERATELY. It used to be the exception and that is exactly what broke: the
+    host was labelled `protfep-bench-smoke` while its LEG_ID was `<benchmark>__apo_r0_smoke`, so the
+    reap never matched it. The smoke leg then crashed, Vast re-ran onstart in a loop, and the GPU
+    billed on with nothing left to produce.
     """
-    for mode in ("pilot", "full"):
+    for mode in ("smoke", "pilot", "full"):
         for unit in pv.units_for(mode, n_replicas=3):
             label = pv.unit_label(unit, mode)
-            assert pv.label_matches_leg(label, unit["leg_id"]), f"{label} !~ {unit['leg_id']}"
+            leg_id = pv.leg_id_for(unit, mode)
+            assert pv.label_matches_leg(label, leg_id), f"{label} !~ {leg_id}"
+
+
+def test_label_and_jobspec_agree_on_the_leg_id_in_every_mode():
+    """The label and the jobspec's LEG_ID must come from one source, not two that can drift."""
+    for mode in ("smoke", "pilot", "full"):
+        for unit in pv.units_for(mode, n_replicas=2):
+            js = pv.build_jobspec(unit, mode=mode)
+            assert pv.label_matches_leg(js.name, js.env["LEG_ID"]), f"{js.name} !~ {js.env['LEG_ID']}"
 
 
 def test_label_does_not_match_a_different_leg():
