@@ -375,6 +375,131 @@ def waiting_value(price_history, current_price, target_quantile=0.25):
 
 
 # =============================================================================================================
+# ADAPTIVE RESERVATION PRICE — cold-start with zero knowledge, converging as the market is observed
+# =============================================================================================================
+# The static reservation price above needs a price history before it will answer. That is a real limitation, and
+# the literature solves it. Three structural facts about OUR problem make the solution clean:
+#
+#   (i)  OBSERVING PRICES IS FREE AND NON-COMMITTAL. An offer query costs nothing and does not bind us. So there
+#        is NO explore/exploit tradeoff on observation — the usual bandit difficulty is absent. We only need to
+#        learn the price distribution F, and we can watch it as much as we like. (The one thing that DOES cost
+#        real experimentation is the preemption hazard lambda, which you only learn by running; that is handled
+#        separately, as a by-product of jobs we would run anyway — see fit_lambda_ref.)
+#   (ii) THE WORK IS DIVISIBLE AND CHECKPOINTED. We are not choosing one launch instant; we are procuring
+#        W GPU-hours over a horizon, buying whenever the price is acceptable. That makes this DIVISIBLE
+#        PROCUREMENT UNDER A DEADLINE, not a one-shot stopping problem.
+#   (iii) ON-DEMAND IS A HARD, KNOWN CEILING. We can always buy at `d`, so no price above `d` is ever accepted
+#        and our downside is bounded. A *bounded* online search is exactly the setting with a clean
+#        distribution-free answer.
+#
+# THE ACCEPTANCE QUANTILE IS THE DUTY CYCLE (the key derivation, and it is not a tuned parameter).
+# To finish W GPU-hours in T remaining hours on `capacity` concurrent machines we must be running a fraction
+#     rho = W / (T * capacity)
+# of the time. With iid prices, accepting the cheapest rho-fraction of the distribution is exactly enough to
+# meet the deadline and is the cheapest way to do it. So the target quantile IS the required duty cycle:
+#     q_t = clamp(rho, 0, 1)
+# Slack (small rho) => be picky. Behind schedule (rho -> 1) => accept anything up to on-demand. It falls out of
+# the deadline, rather than being chosen.
+#
+# COLD START (zero observations). With no history but a known ceiling `d` and a lower bound `m`, the classic
+# distribution-free reservation price for bounded online search (El-Yaniv, Fiat, Karp & Turpin) is the GEOMETRIC
+# MEAN, P* = sqrt(m*d), which is worst-case optimal with competitive ratio sqrt(d/m). It needs no distribution at
+# all — exactly the "start knowing nothing" regime.
+#
+# CONVERGENCE. Once observations accumulate we switch to the empirical quantile, but with a FINITE-SAMPLE
+# PENALTY: a thin sample that happened to catch cheap prices would otherwise make us hold out for a price that
+# does not exist. We therefore use an UPPER confidence bound on the q-quantile (normal approximation to the
+# binomial order statistic), which starts conservative and tightens as n grows — so the hand-off from the
+# distribution-free rule is smooth and never jumps the threshold upward.
+#
+# The final price is then clamped by the two hard constraints already established: never below the no-churn floor
+# (job physics), never above on-demand (free ceiling).
+
+MIN_OBS_FOR_EMPIRICAL = 12          # below this the empirical quantile is not trustworthy; use the cold-start rule
+DEFAULT_QUANTILE_CONF_Z = 1.28      # ~90% one-sided UCB on the quantile rank
+
+
+def duty_cycle(work_remaining_gpu_h, time_remaining_h, capacity=1):
+    """rho = fraction of remaining wall-clock we must be RUNNING to finish on time. This is the acceptance
+    quantile; see the derivation above. >=1 means the deadline can no longer be met by waiting at all."""
+    if time_remaining_h is None or time_remaining_h <= 0 or capacity <= 0:
+        return 1.0
+    return max(0.0, work_remaining_gpu_h / (time_remaining_h * capacity))
+
+
+def cold_start_price(lower_bound, on_demand):
+    """Distribution-free reservation price for bounded online search: the geometric mean sqrt(m*d).
+    Worst-case optimal (competitive ratio sqrt(d/m)) with NO knowledge of the price distribution."""
+    if not on_demand or on_demand <= 0:
+        return None
+    m = max(1e-6, float(lower_bound or 0.0) or on_demand * 0.05)
+    return round(math.sqrt(m * float(on_demand)), 4)
+
+
+def ucb_quantile(observations, q, z=DEFAULT_QUANTILE_CONF_Z):
+    """UPPER confidence bound on the q-quantile of the observed prices.
+
+    Conservative direction on purpose: with few samples the point estimate can be biased low (we happened to
+    watch during a cheap spell), and a too-low threshold means never buying. The UCB rank shrinks toward the
+    plain empirical quantile as n grows."""
+    xs = sorted(p for p in (observations or []) if p and p > 0)
+    n = len(xs)
+    if n == 0:
+        return None
+    q = min(1.0, max(0.0, q))
+    pad = z * math.sqrt(max(q * (1.0 - q), 1e-9) / n)
+    idx = int(math.ceil(min(1.0, q + pad) * n)) - 1
+    return xs[max(0, min(n - 1, idx))]
+
+
+def adaptive_reservation_price(observations, on_demand, work_remaining_gpu_h, time_remaining_h,
+                               restart_h=0.0, market_prices=None, floor=None, capacity=1,
+                               lambda_ref=DEFAULT_LAMBDA_REF,
+                               max_churn_fraction=DEFAULT_MAX_CHURN_FRACTION,
+                               min_obs=MIN_OBS_FOR_EMPIRICAL):
+    """The full policy: a standing limit price that works from zero knowledge and adapts as the market is seen.
+
+    Returns the price plus every intermediate quantity, because a bare number here is unauditable."""
+    rho = duty_cycle(work_remaining_gpu_h, time_remaining_h, capacity)
+    n = len([p for p in (observations or []) if p and p > 0])
+    m_hat = min([p for p in (observations or []) if p and p > 0], default=None)
+
+    if rho >= 1.0:
+        econ, phase = (float(on_demand) if on_demand else None), "deadline_binding"
+    elif n < min_obs:
+        econ, phase = cold_start_price(m_hat, on_demand), "cold_start_geometric_mean"
+    else:
+        econ, phase = ucb_quantile(observations, rho), "empirical_ucb_quantile"
+
+    churn = None
+    if market_prices and floor and restart_h:
+        churn = churn_floor_price(floor, market_prices, restart_h, lambda_ref, max_churn_fraction)
+
+    candidates = [c for c in (econ, churn) if c]
+    price = max(candidates) if candidates else None
+    capped = False
+    if price and on_demand and price > float(on_demand):
+        price, capped = float(on_demand), True
+
+    return {
+        "reservation_price": None if price is None else round(price, 4),
+        "phase": phase,
+        "duty_cycle_rho": round(rho, 4),
+        "n_observations": n,
+        "economic_price": econ,
+        "churn_floor": churn,
+        "binding": ("on_demand_cap" if capped else
+                    ("churn_floor" if (churn and econ and churn > econ) else phase)),
+        "lambda_ref_is_prior": lambda_ref == DEFAULT_LAMBDA_REF,
+        "note": ("q = the DUTY CYCLE we must sustain to hit the deadline, so the threshold tightens with slack "
+                 "and relaxes as the deadline nears. With <%d observations the cold-start rule sqrt(m*d) is "
+                 "used — worst-case optimal with no distribution knowledge; past that, an upper-confidence "
+                 "quantile that converges to the empirical one. Never below the no-churn floor, never above "
+                 "on-demand." % min_obs),
+    }
+
+
+# =============================================================================================================
 # calibration — the data we must start logging
 # =============================================================================================================
 @dataclass

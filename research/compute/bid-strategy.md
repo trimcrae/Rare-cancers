@@ -114,18 +114,81 @@ P* = max( cheap-end quantile of the price history ,  no-churn floor λ(P*)·R �
 
 If the churn floor binds, the message is *"tighten checkpointing"*, not *"pay more"* — the two are substitutes.
 
-**The blocking gap: we have no price history.** Every observation ever taken was at the instant we wanted to
+**The gap this closes:** §3c's cold start means the absence of a price history is **no longer blocking** — the policy runs from day one and improves as the sampler fills in. What follows applies to the *static* form only.
+
+**No price history yet.** Every observation ever taken was at the instant we wanted to
 launch, which is exactly the biased sample you must not set `P*` from. `reservation_price()` therefore **refuses
 to return a number without one** rather than inventing a target. `.github/workflows/vast-price-sample.yml`
 samples the market hourly (read-only, $0) and begins once it reaches main.
 
+## 3c. ★★ THE ADAPTIVE POLICY — starts from zero knowledge, learns as it goes
+
+A static reservation price needs a history before it answers, which is a real limitation. The literature solves
+it, and three features of *our* problem make the solution unusually clean:
+
+1. **Observing prices is FREE and non-committal.** An offer query costs nothing and binds us to nothing — so
+   there is **no explore/exploit tradeoff on observation**, the usual difficulty in this class. We can watch the
+   market as much as we like. (The one thing that genuinely costs experimentation is the preemption hazard `λ`,
+   which you only learn by running — handled separately, as a by-product of jobs we'd run anyway.)
+2. **The work is divisible and checkpointed.** We are not choosing one launch instant; we are **procuring
+   `W` GPU-hours over a horizon**, buying whenever the price is acceptable. Deadline-constrained divisible
+   procurement, not one-shot stopping.
+3. **On-demand is a hard, known ceiling.** We can always buy at `d`, so our downside is bounded — and *bounded*
+   online search is exactly where a clean distribution-free answer exists.
+
+**The acceptance quantile is the DUTY CYCLE — derived, not tuned.** To finish `W` GPU-hours in `T` remaining
+hours on `c` machines we must be running a fraction `ρ = W/(T·c)` of the time. With iid prices, accepting the
+cheapest `ρ`-fraction of the distribution is exactly enough to hit the deadline and is the cheapest way to do it.
+So `q = ρ`. Slack ⇒ picky. Behind schedule ⇒ `ρ → 1` ⇒ accept anything up to on-demand. It falls out of the
+deadline rather than being chosen.
+
+**Cold start (zero observations).** With no distribution but a known ceiling `d` and lower bound `m`, the
+worst-case-optimal reservation price for bounded online search (El-Yaniv, Fiat, Karp & Turpin) is the **geometric
+mean `√(m·d)`**, competitive ratio `√(d/m)`. No distributional knowledge required — precisely the "know nothing"
+regime.
+
+**Convergence.** Once observations accumulate, switch to the empirical quantile — but with an **upper** confidence
+bound (normal approximation to the binomial order statistic). A thin sample that happened to catch a cheap spell
+would otherwise have us holding out for a price that does not exist. The UCB starts conservative and tightens as
+`n` grows, so the hand-off is smooth and never jumps the threshold upward (unit-tested).
+
+```
+P*  =  clamp(  max( no-churn floor(R),  economic threshold ),   ≤ on-demand )
+
+economic threshold =  √(m̂·d)                   if n < 12          (distribution-free)
+                      UCB_q( observations, ρ )  otherwise          (converges to empirical)
+                      d                         if ρ ≥ 1           (deadline binding)
+```
+
+### Backtest (synthetic market — validates the ALGORITHM, not the saving)
+
+`vast_bid_backtest.py`, seeded, 3-week diurnal+weekly path, 60 GPU-h of work, on-demand $0.60:
+
+| policy | spend | $/GPU-h | vs clairvoyant |
+|---|---|---|---|
+| **ADAPTIVE (cold start, knows nothing)** | **$5.80** | **0.0967** | **1.11×** |
+| best FIXED threshold (knows `F` perfectly) | $6.89 | 0.1149 | 1.32× |
+| incumbent `min_bid × 1.9` | $18.36 | 0.3061 | 3.51× |
+| always on-demand | $18.36 | 0.3061 | 3.51× |
+| *clairvoyant lower bound (buys the 60 cheapest hours)* | *$5.23* | *0.0871* | *1.00×* |
+
+The adaptive policy lands **within 11 % of a policy that knows the future**, from a cold start — and beats the
+best *fixed* threshold even though that one knows `F` exactly, because a fixed threshold cannot relax as the
+deadline approaches. Observed trajectory: `P*` starts at $0.13 with zero data, sits at $0.25 through the
+cold-start phase, drops to ~$0.14–0.15 once the empirical phase engages, then climbs steadily to the on-demand
+ceiling as slack runs out — exactly the urgency behaviour the derivation predicts.
+
+**The price process is invented.** Re-run against `vast-price-history.jsonl` once the sampler has built a real
+series; the table above is not a forecast of savings.
+
 ## 4. Policy
 
-1. **Stand a limit order at `P*` and wait** — the default for all non-deadline work. `P*` is an absolute $/hr,
-   set from the price *history* (cheap-end quantile) and floored by the no-churn constraint. Do **not** pay
-   today's price merely because today is when we happened to look.
-   *(Superseded: "default to on-demand while `min_bid ≈ dph_base`." That was right about the arithmetic of one
-   snapshot and wrong about the decision — see §3b.)*
+1. **Stand a limit order at the ADAPTIVE `P*` and wait** (§3c) — the default for all work. It needs no price
+   history to start: `√(m̂·d)` from a cold start, converging to an upper-confidence empirical quantile at the
+   duty cycle `ρ = W/(T·c)`, floored by the no-churn constraint and capped at on-demand. Do **not** pay today's
+   price merely because today is when we happened to look.
+   *(Superseded twice: "min_bid × 1.9", then "default to on-demand while `min_bid ≈ dph_base`" — the latter was
+   right about one snapshot's arithmetic and wrong about the decision.)*
 1b. **Take on-demand only when waiting is genuinely unavailable:** a hard deadline, or a leg that cannot tolerate
    preemption at all (the covalent tail's slow legs needed continuous ~4 h runs). Otherwise waiting is free.
 2. **Never bid above on-demand.** Cap at `dph_base`, clamped to `≥ min_bid`.

@@ -248,5 +248,107 @@ class TestWaitingValue(unittest.TestCase):
         self.assertIsNone(vbo.waiting_value([], 0.5))
 
 
+class TestDutyCycle(unittest.TestCase):
+    """The acceptance quantile is DERIVED (fraction of remaining time we must be running), not tuned."""
+
+    def test_slack_gives_a_small_quantile(self):
+        self.assertAlmostEqual(vbo.duty_cycle(10.0, 100.0), 0.10, places=6)
+
+    def test_behind_schedule_saturates_at_one(self):
+        self.assertGreaterEqual(vbo.duty_cycle(100.0, 10.0), 1.0)
+
+    def test_no_time_left_means_take_anything(self):
+        self.assertEqual(vbo.duty_cycle(5.0, 0.0), 1.0)
+
+    def test_more_capacity_lowers_the_required_duty_cycle(self):
+        self.assertLess(vbo.duty_cycle(10.0, 100.0, capacity=4), vbo.duty_cycle(10.0, 100.0, capacity=1))
+
+
+class TestColdStart(unittest.TestCase):
+    def test_geometric_mean_of_bound_and_ceiling(self):
+        self.assertAlmostEqual(vbo.cold_start_price(0.10, 0.40), 0.2, places=3)
+
+    def test_sits_strictly_between_the_bounds(self):
+        p = vbo.cold_start_price(0.10, 0.40)
+        self.assertGreater(p, 0.10)
+        self.assertLess(p, 0.40)
+
+    def test_works_with_no_lower_bound_observed_at_all(self):
+        """Zero knowledge really means zero: no observations, only the on-demand ceiling."""
+        self.assertIsNotNone(vbo.cold_start_price(None, 0.40))
+
+    def test_no_ceiling_means_no_answer(self):
+        self.assertIsNone(vbo.cold_start_price(0.1, None))
+
+
+class TestUCBQuantile(unittest.TestCase):
+    OBS = [0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.24, 0.30, 0.40, 0.55]
+
+    def test_thin_sample_is_shaded_UP_not_down(self):
+        """A thin sample biased low would make us hold out for a price that does not exist."""
+        few = vbo.ucb_quantile(self.OBS[:4], 0.25)
+        many = vbo.ucb_quantile(self.OBS * 20, 0.25)
+        self.assertGreaterEqual(few, many)
+
+    def test_converges_toward_the_plain_empirical_quantile(self):
+        big = self.OBS * 200
+        ucb = vbo.ucb_quantile(big, 0.25)
+        plain = sorted(big)[int(0.25 * len(big))]
+        self.assertLessEqual(abs(ucb - plain), 0.02)
+
+    def test_monotone_in_the_quantile(self):
+        self.assertLessEqual(vbo.ucb_quantile(self.OBS, 0.2), vbo.ucb_quantile(self.OBS, 0.8))
+
+    def test_no_observations_returns_none(self):
+        self.assertIsNone(vbo.ucb_quantile([], 0.3))
+
+
+class TestAdaptivePolicy(unittest.TestCase):
+    OBS = [0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.24, 0.30, 0.40, 0.55, 0.11, 0.13, 0.17, 0.22]
+    OD = 0.60
+
+    def test_works_with_ZERO_knowledge(self):
+        out = vbo.adaptive_reservation_price([], self.OD, work_remaining_gpu_h=10.0, time_remaining_h=200.0)
+        self.assertIsNotNone(out["reservation_price"])
+        self.assertEqual(out["phase"], "cold_start_geometric_mean")
+
+    def test_switches_to_empirical_once_enough_observations(self):
+        out = vbo.adaptive_reservation_price(self.OBS, self.OD, 10.0, 200.0)
+        self.assertEqual(out["phase"], "empirical_ucb_quantile")
+        self.assertEqual(out["n_observations"], len(self.OBS))
+
+    def test_deadline_pressure_raises_the_price_to_on_demand(self):
+        out = vbo.adaptive_reservation_price(self.OBS, self.OD, work_remaining_gpu_h=500.0,
+                                             time_remaining_h=10.0)
+        self.assertEqual(out["phase"], "deadline_binding")
+        self.assertAlmostEqual(out["reservation_price"], self.OD, places=4)
+
+    def test_more_slack_gives_a_lower_price(self):
+        tight = vbo.adaptive_reservation_price(self.OBS, self.OD, 50.0, 100.0)["reservation_price"]
+        loose = vbo.adaptive_reservation_price(self.OBS, self.OD, 5.0, 500.0)["reservation_price"]
+        self.assertLessEqual(loose, tight)
+
+    def test_never_exceeds_on_demand(self):
+        for w, t in ((1.0, 1000.0), (100.0, 10.0), (10.0, 1.0)):
+            out = vbo.adaptive_reservation_price(self.OBS, self.OD, w, t)
+            self.assertLessEqual(out["reservation_price"], self.OD + 1e-9)
+
+    def test_never_below_the_churn_floor(self):
+        out = vbo.adaptive_reservation_price(self.OBS, self.OD, 5.0, 5000.0, restart_h=0.9,
+                                             market_prices=MARKET, floor=FLOOR, lambda_ref=2.0)
+        self.assertGreaterEqual(out["reservation_price"], out["churn_floor"] - 1e-9)
+
+    def test_cold_start_to_empirical_handoff_does_not_jump_upward(self):
+        """The finite-sample penalty exists so the transition is smooth — assert it actually is."""
+        cold = vbo.adaptive_reservation_price(self.OBS[:5], self.OD, 10.0, 200.0)["reservation_price"]
+        warm = vbo.adaptive_reservation_price(self.OBS, self.OD, 10.0, 200.0)["reservation_price"]
+        self.assertLessEqual(warm, cold + 1e-9)
+
+    def test_reports_what_is_binding(self):
+        out = vbo.adaptive_reservation_price(self.OBS, self.OD, 10.0, 200.0)
+        self.assertIn(out["binding"], ("cold_start_geometric_mean", "empirical_ucb_quantile",
+                                       "churn_floor", "on_demand_cap", "deadline_binding"))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

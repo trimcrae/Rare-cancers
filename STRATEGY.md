@@ -942,17 +942,27 @@ program is never a race, waiting is close to free — and `min_bid == dph_base` 
 its *ceiling*, i.e. the worst moment to buy, not a reason to pay on-demand.
 
 ```
-P* = max( cheap-end quantile of the price HISTORY ,  no-churn floor: λ(P*)·R ≤ 0.2 )
-     R = reload + ½·ckpt_interval·sec_per_iter
+P* = clamp( max( no-churn floor(R),  economic threshold ),  ≤ on-demand )
+
+economic threshold = √(m̂·d)                  if n < 12    cold start, distribution-free, worst-case optimal
+                     UCB_q(observations, ρ)   otherwise    converges to the empirical quantile
+                     d                        if ρ ≥ 1     deadline binding
+ρ = W / (T·c)   the DUTY CYCLE we must sustain — the acceptance quantile is DERIVED from the deadline, not tuned
+R = reload + ½·ckpt_interval·sec_per_iter
 ```
+
+**It needs no price history to start.** Backtested from a cold start on a seeded synthetic market
+(`vast_bid_backtest.py`): **1.11× a clairvoyant policy that knows the whole price path**, versus 1.32× for the
+best *fixed* threshold that knows the true distribution, and **3.51× for both `min_bid × 1.9` and
+always-on-demand**. It beats the perfectly-informed fixed threshold because it relaxes as the deadline nears,
+which no fixed rule can. *(Synthetic price process — this validates the algorithm, not the size of the saving.)*
 
 The churn floor is the legitimate core of the old ×1.9 — expressed as a job property instead of a market
 multiple. If it binds, **tighten checkpointing rather than pay more**; they are substitutes. Take on-demand only
 when waiting is genuinely unavailable (hard deadline, or a leg that cannot tolerate preemption at all). Rank
-offers by expected **$ per completed unit**, never by the floor. **Blocking gap: there is no price history** —
-every observation was taken at the instant we wanted to launch, the one sample you must not set `P*` from — so
-`reservation_price()` refuses to return a number until the new hourly sampler
-(`.github/workflows/vast-price-sample.yml`, read-only, $0) has run. `gpu_backend` stays unchanged meanwhile.
+offers by expected **$ per completed unit**, never by the floor. The hourly sampler (`.github/workflows/vast-price-sample.yml`, read-only, $0) builds the real series and only
+improves the policy — it is no longer a blocker. `gpu_backend` stays unchanged until the policy is exercised on
+a real launch.
 
 **Decision status (2026-07-24)** — detail + evidence in the [revision
 doc](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md) §8:
