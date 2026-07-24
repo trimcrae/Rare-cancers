@@ -258,7 +258,8 @@ Five load-bearing pieces:
    interface, **loss** on NR4A3→NR4A1/2 mutations, **partial gain** on reciprocal NR4A1/2→NR4A3 mutations,
    persistence across frames, and a recognizable steric/electrostatic/H-bond mechanism. It stays on the plan and
    gives a second, independent causal line **if** its known-answer benchmark passes — but the paper's headline
-   causal result is no longer hostage to an engine that has never run, an unpriced campaign, and an unresolved
+   causal result is no longer hostage to a lane that has cost two engine rebuilds in one day (perses retired as
+   OpenEye-gated → pmx + GROMACS), has never produced a leg, is still unpriced, and carries an unresolved
    cross-lane charge mismatch. **ADOPTED 2026-07-24 (trimcrae go).**
 4. **Separate ACCESSIBILITY from STABILITY.** Estimate `P(B_k | d, s)` (can the linker reach and hold basin *k*?)
    separately from `ΔG_coop(d, B_k, s)` (is the orientation plausible?). A favorable basin the linker rarely
@@ -289,7 +290,8 @@ flagship is cheap, not a gate on the whole tail:
 - **Tier 3 — pilot ONE causal direction.** ★ Now the **ligand-side double difference** (`S` above): one matched
   pair, ternary legs in NR4A3 and NR4A1, **~$5–25** on the priced ternary base with the cancellation identity
   applied. No discrimination ⇒ STOP. *(The protein-mutation pilot remains available as the confirmatory second
-  line: engine built 2026-07-24, never run, still **UNPRICED** — see RUNG 5a-KS.)*
+  line: **pmx + GROMACS** engine, benchmark staged and SKEMPI-referenced but no leg run, still **UNPRICED** —
+  see RUNG 5a-KS.)*
 
 > **⚠ Tier 3 HAD NO IMPLEMENTING ENGINE IN THIS REPO (established 2026-07-24; an engine was built the same day — see the RUNG 5a-KS entry).** Every price this
 > plan has ever carried for the mutation legs (~$40–90 pilot, then ~$5–10 pilot / ~$15–30 cycle) rests on the
@@ -614,8 +616,8 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   ΔΔG_coop(d₀→d | NR4A1)`, ternary legs only (lever 2), on the lane Val B calibrates. **No discrimination ⇒
   STOP** — publish the honest causal negative, skip the refinement tail. Discrimination ⇒ extend to NR4A2 and to
   a second design element.
-  **CONFIRMATORY second line — the reciprocal PROTEIN-mutation cycle — ⚠ ENGINE BUILT, UNVALIDATED · STILL
-  UNPRICED** *(was "Decision ~$5–10 · full cycle if GO ~$15–30").* Pilot ONE direction (3→1); loss ⇒ complete
+  **CONFIRMATORY second line — the reciprocal PROTEIN-mutation cycle — ⚠ pmx + GROMACS ENGINE BUILT (perses
+  retired same-day as OpenEye-gated), BENCHMARK STAGED, NO LEG RUN · STILL UNPRICED** *(was "Decision ~$5–10 · full cycle if GO ~$15–30").* Pilot ONE direction (3→1); loss ⇒ complete
   the reciprocal cycle (3→2 + reciprocal 1/2→3). Kept because two independent causal lines are worth more than
   one — but it is no longer the result the paper depends on.
 
@@ -639,11 +641,83 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
     energy by a system-size-dependent amount that does not cancel between the differently-sized ternary and
     binary boxes). `plan_wedge` refuses a charge-changing mutation unless an explicit correction strategy is
     chosen. **Prefer a charge-conserving handle (L406/T410/I484/I531/L534) for the FIRST causal test.**
+  - **⛔ BLOCKED ON A COMMERCIAL LICENCE — perses is not usable here (established 2026-07-24 PM, by
+    running it).** The benchmark lane was built and launched, and the first real leg failed in
+    perses' *core protein-mutation path*, not its ligand branch:
+
+    ```
+    PointMutationEngine.propose
+      -> _construct_atom_map                  (topology_proposal.py:634)
+      -> PolymerProposalEngine.generate_oemol_from_pdb_template  (:1179, :1180)
+      -> createOEMolFromSDF                   (:487)
+      -> oechem.oemolistream()                (perses/utils/openeye.py:346)
+    ```
+
+    perses 0.10.3 builds the **old→new residue atom map** — which *is* the alchemical transformation
+    — by round-tripping each residue template through an OpenEye OEMol. **OpenEye is commercial and
+    licence-gated.** Probed on free CI: `generate_oemol_from_pdb_template` has no conditional and no
+    RDKit alternative (perses' only RDKit-backed mapper, `rjmc/atom_mapping.py`, is the *ligand*
+    mapper and is not on this path). An import shim satisfies the import but correctly REFUSES the
+    call rather than fabricating a map.
+    **Cost of learning this: ~$0.05 of Vast time** — the smoke plus two free CI probes.
+    **Everything except the perses-specific `build_htf` is engine-agnostic and stands:** staging with
+    a mutation-site check, the SKEMPI-verified references, scoring, the qualification verdict, the
+    price reduction, the Vast lane, the reap.
+    **Alternatives, priced on free CI:** `pmx` (the published GROMACS-based protein-mutation FEP
+    engine) is **not on conda-forge** — pip/GitHub install — while **GROMACS is** (2025.4). So the
+    free route exists but means a second MD stack. **This is a trimcrae fork** (licence vs second MD
+    stack vs descope) and is recorded as open.
+
+  - **✅ ENGINE DECIDED — pmx + GROMACS (trimcrae, 2026-07-24).** Rather than buy an OpenEye licence,
+    descope the wedge, or fall back to the MM-GBSA proxy, the lane switches to **pmx** (Gapsys & de
+    Groot) — the published, field-standard *free* engine for protein-mutation FEP, arguably better
+    validated for this quantity than perses. The price is a second MD stack (GROMACS rather than
+    OpenMM), which is engineering, and engineering is free here; a licence is not. Route confirmed on
+    free CI before any build: **CUDA GROMACS solves** from conda-forge (165 packages) and **pmx
+    `develop` installs on Python 3.11** with `alchemy`/`estimators`/`forcefield`/`gmx`/`mutdb`
+    present. Built: [`Dockerfile.pmxfep`](research/compute/Dockerfile.pmxfep),
+    [`protfep_pmx.py`](research/modalities/protfep_pmx.py), and the full ladder in
+    `gpu-protfep-vast.yml`. Plan + the two probe gotchas that produced false negatives:
+    [protfep-pmx-plan.md](research/modalities/protfep-pmx-plan.md).
+    **Everything around the engine was unchanged** — staging with its mutation-site refusal, the
+    SKEMPI-verified references, scoring, the verdict, the price reduction and the Vast lane are all
+    engine-agnostic. **Most of the ladder is now $0:** stage-test, refcheck, bake, and a build-test
+    that runs the ENTIRE hybrid construction on a CPU runner, because only the alchemical sampling
+    needs a GPU. A host is rented only once a hybrid demonstrably builds.
+
   - **⛔ NOT YET CLEARED — validation.** No leg has run. The engine must recover the known-answer
-    protein-mutation benchmarks (barnase–barstar Y29A/Y29F, hGH–hGHR W104A; all charge-conserving so engine
-    error is not confounded with the charge artifact) **within ~1.5 kcal/mol AND in the right order** before
+    protein-mutation benchmarks (barnase–barstar Y29A/Y29F; both charge-conserving so engine error is not
+    confounded with the charge artifact) **within ~1.5 kcal/mol AND in the right order** before
     5a-KS contributes any number to the manuscript. That benchmark is what prices this rung; until it runs,
     UNPRICED remains the honest label.
+
+  **EXECUTION LAYER BUILT + BENCHMARK LANE LAUNCHED (2026-07-24 PM, this branch).** "Engine built" that
+  morning covered only the *planning* layer — guards, wedge arithmetic, a `PointMutationExecutor`
+  constructor. Nothing could run a leg, which is precisely why there was no rate to price from. Now built
+  and pushed:
+  [`protfep_run.py`](research/modalities/protfep_run.py) (perses hybrid → replica-exchange sampling →
+  MBAR, per-chunk checkpoint/resume, partial leg JSON as the deliverable on a timeout),
+  [`protfep_bench.py`](research/modalities/protfep_bench.py) (benchmark systems, RCSB staging with a
+  mutation-site check that **refuses** to stage if the residue at the site is not the one named, scoring +
+  the qualification verdict), [`protfep_reduce.py`](research/modalities/protfep_reduce.py) (legs → ΔΔG →
+  verdict **and** the first measured per-leg rate), [`protfep_refcheck.py`](research/modalities/protfep_refcheck.py)
+  (recomputes the reference ΔΔG from SKEMPI 2.0's deposited Kd values, because the pass criterion is
+  computed against those numbers), plus the Vast image + launcher + workflow.
+  - **Latent error caught in the build:** the engine's hand-written benchmark list put barstar's Y29 on
+    **chain A**, which in 1BRS is *barnase*. The list is now derived from `protfep_bench` rather than
+    duplicated, and CI verifies the staged site against the deposited structure (confirmed 2026-07-24:
+    chain D = barstar, 87 residues, **TYR at 29**; chain A = barnase, 108 residues).
+  - **Ladder position unchanged.** The engine is still **UNVALIDATED** and the rung still **UNPRICED**. A
+    built execution layer is not a passed benchmark. `plan_wedge` continues to stamp `validated: false`
+    into every plan, and the reducer's verdict cannot go green on a partial set or a wrong ordering.
+  - **Sequence, cheapest-decisive-first:** smoke (~$0.10, proves image+perses+sampler+MBAR+S3) → pilot
+    (both legs of Y29A, ~$1–3 — **the abort gate**: no recovery of the canonical hot spot ⇒ the wedge is
+    not deliverable and the set is not worth paying for) → full set (~$5–10) only if the pilot sees it.
+  - **Declared physics deviation:** 2 fs with a 1 fs warmup, not the canonical 4 fs+HMR. Softcore regions
+    are where the ternary lane NaN'd, the timestep is empirical with no static predictor, and on a
+    brand-new engine's first leg a NaN costs the whole rental while 2 fs costs ~2× the iterations of a
+    sub-dollar leg. Escalate only after this lane survives a full leg — and record it; do not assume it
+    transfers from another lane.
 
   **⚠ BLOCKER 1 — NO PROTEIN-MUTATION FEP ENGINE EXISTS IN THIS REPO (added 2026-07-24).** The old price
   ("3→1 = one binary RBFE + one ternary edge") assumed a paralogue swap runs on the same machinery as a ligand
@@ -777,8 +851,13 @@ RUNG5  basin_search($0–50, multi-E3, pose-marginalised, CATEGORICAL terms)
           │        ──► ★ KILL-SWITCH = ligand-side double difference (~$5–25)
           │      └── no discrimination ⇒ STOP: publish honest causal negative
           │      └── discrimination    ⇒ extend + tail
-          │      └── (optional 2nd line: protein-mutation cycle — engine built,
-          │           never run, UNPRICED, gated on its own known-answer benchmark)
+          │      └── CONFIRMATORY 2nd line: the protein-mutation cycle — pmx + GROMACS
+          │           lane (perses retired: OpenEye-gated), UNPRICED, gated on its own
+          │           SKEMPI-referenced known-answer benchmark. Its branches are unchanged:
+          │           benchmark FAILS ⇒ not deliverable, fall back to the labelled MM-GBSA
+          │           proxy or descope and SAY SO; passes & no loss ⇒ honest causal negative;
+          │           passes & loss ⇒ full reciprocal cycle. It no longer GATES the ladder —
+          │           the ligand-side double difference above does.
           │
        inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep   (Cum ~$252)
           │
@@ -788,8 +867,21 @@ OPTIONAL/HELD (explicit nod only): dg_open_paralogue, abfe_conditional
 ```
 
 **Current front:** Rungs 0–1 done; the NR-V04 covalent feasibility panel, the NR4A differential surface atlas and
-the **Tier-0 paralogue-unique reactive-residue map** are done ($0); **valB_mini** is the live front. Nothing with
-a GPU price launches without an explicit go.
+the **Tier-0 paralogue-unique reactive-residue map** are done ($0). **THREE lanes are live in parallel
+(2026-07-24 PM)** — disjoint engines, providers and rungs, so none blocks another:
+1. **valB_mini** on GCP L4 (free trial credit) — OpenFE ligand RBFE, 1 fs warmup → **2 fs production**, binary
+   arm past production iteration 1680, no NaN.
+2. **The 5a-KS known-answer benchmark** on Vast 4090 — **pmx + GROMACS** protein-mutation FEP (perses was
+   retired the same day: its protein-mutation path is OpenEye-gated). Benchmark legs staged from RCSB with
+   mutation-site verification and reference ΔΔG checked against **SKEMPI 2.0**. This lane can move the ladder's
+   only *unscoped* rung from UNPRICED to priced.
+3. **The NR-V04 retrospective's Boltz ternary co-fold** on AWS SageMaker.
+**Cross-session note (2026-07-24):** the 2026-07-24 ternary-selectivity revision demotes lane 2 from the paper's
+*primary* causal result to its *confirmatory* second line. That does **not** cancel it and does not change what
+lane 2 should be doing now — the known-answer benchmark is required under either framing, and this file gates
+the confirmatory line on exactly that benchmark. What changes is downstream: the ladder no longer stalls if the
+benchmark fails, because the ligand-side double difference carries the causal claim. Nothing with a GPU price
+launches without an explicit go.
 
 **Decision status (2026-07-24)** — detail + evidence in the [revision
 doc](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md) §8:

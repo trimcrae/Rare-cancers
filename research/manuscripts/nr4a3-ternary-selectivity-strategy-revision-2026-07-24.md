@@ -207,11 +207,22 @@ conditional, which is a much smaller conditional surface than the current plan c
 ## 4. Replace the primary causal test with one the ligand-alchemy lane can actually run
 
 STRATEGY.md's designated primary causal result is the reciprocal protein-mutation cycle
-`ΔΔG_neo-interface^m = ΔG_mut^ternary − ΔG_mut^binary`. As of today that rung is **UNPRICED**, its engine
-(`nr4a3_protein_fep.py`) has **never run**, its known-answer benchmark has never run, and it is the repo's only
-**cross-lane** subtraction (NAGL ternary against am1bcc binary) — a charge-model difference that does not cancel
+`ΔΔG_neo-interface^m = ΔG_mut^ternary − ΔG_mut^binary`. As of today that rung is **UNPRICED**, it has produced no leg,
+and it is the repo's only **cross-lane** subtraction (NAGL ternary against am1bcc binary) — a charge-model difference that does not cancel
 and would be indistinguishable from the very effect it is built to detect. The paper's headline causal claim
 should not be hostage to that.
+
+> **Cross-session update, 2026-07-24 PM (added after this document was first written).** A parallel session was
+> mid-build on this exact lane while the review was being written, and it has since established two things that
+> sharpen §4 rather than change it: **perses' protein-mutation path is OpenEye-gated** (established by running
+> it — a commercial licence, not available here), so the engine was retired and **rebuilt on pmx + GROMACS**
+> (trimcrae decision, same day). The benchmark legs are staged from RCSB with mutation-site verification and
+> reference ΔΔG checked against **SKEMPI 2.0**; no GPU leg has run yet. Two consequences, stated plainly:
+> (a) the demotion proposed here **does not cancel that work** — the known-answer benchmark is required under
+> either framing, and the confirmatory line is gated on exactly it; (b) the fact that the lane needed two engine
+> rebuilds in one day, and is still unpriced, is *additional* evidence for not making the paper's headline causal
+> claim depend on it. It is not evidence that the lane is a bad investment — a second, independent causal line is
+> worth having, which is why it is kept.
 
 **There is a causal test that runs on the same ligand-alchemy lane Val B is already calibrating.** For a candidate *d* and a
 matched control *d₀* differing only in the element that engages the wedge:
@@ -389,5 +400,5 @@ in §5 — production really is at 2 fs, so the ~2× lever is live rather than a
 3. **Demote the protein-mutation wedge from primary to confirmatory (§4)?** This is the one genuinely
    *program-shaping* call: it changes what the paper's headline causal evidence is. Recommended, because the
    ligand-side double difference runs on the lane Val B already has an accuracy control for, while the
-   protein-FEP lane has an unexercised engine, an unpriced campaign, and a cross-lane charge mismatch to
-   resolve first.
+   protein-FEP lane has an engine that was rebuilt twice in one day (perses retired as OpenEye-gated → pmx +
+   GROMACS), has produced no leg, is unpriced, and carries a cross-lane charge mismatch to resolve first.

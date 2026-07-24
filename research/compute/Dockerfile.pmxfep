@@ -1,0 +1,87 @@
+# Vast boot image for the 5a-KS PROTEIN point-mutation FEP engine — pmx + GROMACS route.
+#
+# WHY THIS IMAGE EXISTS INSTEAD OF Dockerfile.protfep (the perses one).
+# perses 0.10.3 builds the old->new residue ATOM MAP — which *is* the alchemical transformation — by
+# round-tripping each residue template through an OpenEye OEMol
+# (PolymerProposalEngine.generate_oemol_from_pdb_template -> createOEMolFromSDF -> oechem). OpenEye is
+# commercial and licence-gated, there is no conditional and no RDKit alternative on that path, and an
+# import shim can satisfy the import but must refuse the call. Established 2026-07-24 by running it:
+# ~$0.05 of Vast time plus free CI. trimcrae's call was to switch engines rather than buy a licence,
+# descope the wedge, or fall back to the MM-GBSA proxy.
+#
+# pmx (Gapsys & de Groot) is the published, field-standard FREE engine for exactly this quantity, and
+# it is arguably better validated for protein mutations than perses. The price is a second MD stack —
+# GROMACS instead of OpenMM — which is engineering, and engineering is free here.
+#
+# TWO BUILD-TIME GOTCHAS, both of which produced a false "this route does not work" on first probe:
+#   1. CONDA_OVERRIDE_CUDA is REQUIRED. `gromacs=*=*cuda*` will not solve on a machine without a GPU
+#      (the __cuda virtual package is absent) — and the image builder is exactly such a machine. The
+#      error reads "__cuda =* *, which is missing on the system", which looks like "no CUDA build
+#      exists". It does exist: with the override it solves in 165 packages.
+#   2. pmx comes from the `develop` BRANCH. The repository's default branch is the legacy Python 2
+#      codebase and pip refuses it outright on 3.11 with "requires <3,>=2.7", which reads as "pmx does
+#      not support modern Python". develop is the Python 3 line.
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+# Everything Vast's boot provisioning would otherwise fetch from the slow ubuntu mirrors, baked in.
+# (Vast apt-installs ssh/python/systemd at container start; on cheap hosts that is ~10-40 min of paid
+# boot. Baking it makes provisioning a no-op.) build-essential + git are also pmx's build deps.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        openssh-server openssh-client openssh-sftp-server \
+        git curl wget ca-certificates bzip2 tar gzip build-essential \
+        systemd systemd-sysv dbus locales sudo less tmux \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
+      | tar -xj -C /usr/local/bin --strip-components=1 bin/micromamba
+ENV MAMBA_ROOT_PREFIX=/opt/mamba
+
+# GROMACS with CUDA + the structure-prep stack. openmm/pdbfixer are here because protfep_bench's
+# staging (chain surgery, missing-atom completion, hydrogens at pH 7) is shared with the perses lane
+# and must behave identically — the benchmark's staging is engine-agnostic on purpose.
+RUN CONDA_OVERRIDE_CUDA=12.4 micromamba create -y -n pmxfep -c conda-forge \
+        python=3.11 \
+        "gromacs=*=*cuda*" \
+        openmm pdbfixer mdtraj rdkit \
+        numpy "scipy<2" matplotlib \
+        awscli boto3 certifi ca-certificates
+ENV PATH=/opt/mamba/envs/pmxfep/bin:$PATH
+
+# pmx from the develop branch (see gotcha 2). Installed after the conda solve so pip cannot drag the
+# conda-provided numpy/scipy out from under GROMACS' python bindings.
+#
+# ⚠ NO TRAILING `|| true` ON THIS LAYER. The first version read
+#     RUN pip install ... && pip cache purge || true
+# and the `|| true` applied to the WHOLE chain, so a FAILED pip install produced a successful layer
+# and the build sailed on to fail three layers later with a bare "No module named 'pmx'". A tolerant
+# exit belongs on cache cleanup (which is what it was meant for, below) and never on the step that
+# installs the engine. `set -eux` plus an explicit import check makes this layer a real gate.
+#
+# pmx builds C extensions (_pmx, _xdrio), so it needs its build dependencies present. If pip's build
+# isolation cannot see the conda numpy, the retry drops isolation rather than silently giving up.
+RUN set -eux; \
+    pip install --no-cache-dir setuptools wheel cython; \
+    pip install --no-cache-dir "git+https://github.com/deGrootLab/pmx.git@develop" \
+      || pip install --no-cache-dir --no-build-isolation "git+https://github.com/deGrootLab/pmx.git@develop"; \
+    python -c "import pmx; print('pmx imported from', pmx.__file__)"
+
+# Cache cleanup in its OWN tolerant layer. Chaining `micromamba clean -a -y` onto a create with &&
+# failed the perses image build on a libmamba filesystem bug AFTER the solve had already succeeded;
+# a cleanup bug must not be able to fail a build whose environment is fine.
+RUN micromamba clean --tarballs --index-cache --yes || true; \
+    rm -rf /opt/mamba/pkgs/* || true; \
+    du -sh /opt/mamba/envs/pmxfep
+
+# Bake-time assertions. Every one of these is a failure we would otherwise discover on a paid host.
+# The GPU-support check is the important one: a CPU-only GROMACS would still run the benchmark, just
+# ~50x slower and with nothing in the result to say why — the same silent-degradation failure the
+# perses lane guarded against with require_cuda_platform().
+RUN gmx --version | tee /tmp/gmxver \
+    && grep -qi "GPU support: *CUDA" /tmp/gmxver \
+        || (echo "FATAL: GROMACS has no CUDA GPU support — a leg would run on CPU"; cat /tmp/gmxver; exit 1)
+RUN python -c "import pmx; print('pmx', getattr(pmx, '__version__', '?'), 'from', pmx.__file__)" \
+    && python -c "from pmx import Model; from pmx import mutdb, alchemy, estimators, forcefield, gmx; print('pmx protein-mutation API OK')" \
+    && python -c "from pdbfixer import PDBFixer; import openmm; print('pdbfixer/openmm OK', openmm.version.version)" \
+    && python -c "import numpy, scipy; print('numpy', numpy.__version__, 'scipy', scipy.__version__)" \
+    && which aws gmx

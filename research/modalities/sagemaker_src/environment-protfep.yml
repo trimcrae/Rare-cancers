@@ -8,7 +8,10 @@
 # rounds to stabilise there, and the rbfe lane is the one carrying the binary RBFE results. Keeping
 # the engines in separate envs means a perses solve can never break the proven lane.
 #
-# SHAKEOUT-PENDING. These pins are first-pass and UNVALIDATED — no leg has run. Validate the solve +
+# SHAKEOUT-PENDING. These pins are first-pass and UNVALIDATED — no leg has run. The RUNNING env is
+# research/compute/Dockerfile.protfep (baked for the Vast lane); this file is its documented spec.
+# Keep the two in sync — as of 2026-07-24 the Docker solve resolved perses 0.10.3, openmmtools
+# 0.26.0, ambertools 26.0, openff-toolkit 0.18.0 cleanly against these constraints. Validate the solve +
 # a CUDA OpenMM before any MD, exactly as the rbfe env was shaken out (mode=smoke first, then one
 # real benchmark leg, then the set).
 name: protfep
@@ -36,10 +39,14 @@ dependencies:
   - mdtraj
   - numpy
   - scipy
-  - cuda-version=12.6     # pin CUDA <= the driver so OpenMM's CUDA PTX loads (see the rbfe env's note:
-                          # an unpinned solve pulled >12.8 and hit err 222). Keeps
-                          # OPENMM_REQUIRE_CUDA=1 safe — the job fails loudly instead of silently
-                          # dropping to the ~1.3-2x-slower OpenCL fallback.
+  # NO cuda-version pin — RECONCILED 2026-07-24 with research/compute/Dockerfile.protfep, which is
+  # the env that actually runs. The rbfe env's `cuda-version=12.6` pin FAILED TWICE (gpu_backend.py's
+  # ResourceSpec.min_cuda note: the baked env's PTX came out CUDA-13-class anyway and legs that landed
+  # on 12.6/12.7-driver hosts died with CUDA_ERROR_UNSUPPORTED_PTX_VERSION). The empirical fix that
+  # worked was the HOST FILTER, not the pin: ResourceSpec(min_cuda=13.0) takes only hosts whose driver
+  # can JIT this class of PTX, and a newer driver runs older PTX fine. Belt and braces on top of that:
+  # the image build asserts an OpenMM CUDA plugin ships, and protfep_run.require_cuda_platform()
+  # refuses to sample on the CPU platform, so a fallback is a loud failure rather than a 50x bill.
   - ocl-icd-system        # OpenCL fallback vendor ICD, only used if CUDA still cannot load
   - awscli                # result upload
   - boto3
