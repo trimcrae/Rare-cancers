@@ -688,8 +688,17 @@ def bench(bucket):
     be = get_backend("vast")
     env_url = None if dry else presign_env_tarball(bucket)
     handles = []
+    # A REPEATED (gpu, edge) pair is a deliberate control — the same card on two different HOSTS, to measure
+    # whether host-to-host variance swamps the card difference. It only works if the legs write to DIFFERENT S3
+    # keys. On 2026-07-24 `rtx4090:9.5,rtx4090:9.5` produced one tag, so both legs wrote the same key and one
+    # silently overwrote the other: the control returned a single number and could not answer the question it
+    # was launched to answer. Suffix repeats so a duplicate is a real replicate.
+    _seen = {}
     for gpu, edge_nm in grid:
-        tag = f"bench-{gpu}-{edge_nm}nm".replace(".", "p")
+        _k = (gpu, edge_nm)
+        _seen[_k] = _seen.get(_k, 0) + 1
+        _rep = "" if _seen[_k] == 1 else f"-r{_seen[_k]}"
+        tag = f"bench-{gpu}-{edge_nm}nm{_rep}".replace(".", "p")
         # per-leg overrides consumed by build_bench_jobspec via env
         os.environ["VAST_GPU_MODEL"] = gpu
         os.environ["BENCH_EDGE_NM"] = edge_nm

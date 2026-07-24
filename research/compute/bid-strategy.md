@@ -53,35 +53,47 @@ P* = $0.30/hr (4090), capped at that machine's real on-demand dph_base, never be
 Shipped: gpu_backend._vast_bid_price(offer, ondemand_base) + _vast_ondemand_base_by_machine.
 ```
 
-### ★ Bench result (2026-07-24, 23:08 UTC) — the card decision moves, with one caveat to close first
+### ★ Bench result — VALIDATED RE-RUN (2026-07-24, 23:36 UTC). Supersedes the 23:08 grid entirely.
 
-Measured at the **ternary size (84,534 atoms)**, `ns/day` from the Vast bench legs, `$/hr` = what each leg
-actually won:
+The 23:08 grid is **withdrawn**: every leg was a single 0.9–4.5 s window, and it ranked an RTX 4080 SUPER above
+a 4090 and a "$0.0377/hr A10" (really a Quadro RTX 8000) as cheapest per ns. Re-run with 3 × ~20 s independent
+timed blocks, a physics check, and a rejection gate. All rows below are 84,534 atoms, `healthy=True`, final
+temperature 298.7–301.0 K.
 
-| card | ns/day | ×4090 | $/hr | **$/ns** | basis |
-|---|---|---|---|---|---|
-| RTX 4090 | 669.27 | 1.000 | 0.1333 | 0.00478 | cheapest live floor |
-| RTX 4090 | 669.27 | 1.000 | 0.3000 | 0.01076 | policy price `P*` |
-| **A10** | **335.99** | 0.502 | **0.0377** | **0.00269** | won by the bench leg |
-| L4 | 309.37 | 0.462 | 0.2607 | 0.02022 | won by the bench leg |
+| card | ns/day | blocks | CV | $/hr (bid) | **$/ns** | vs 4090 |
+|---|---|---|---|---|---|---|
+| **RTX 4090** | **755.36** | 756.55 / 754.56 / 754.98 | **0.14 %** | 0.1489 | **0.00473** | 1.00× |
+| RTX 4080 | 703.51 | 702.93 / 704.93 / 702.66 | 0.18 % | 0.1677 | 0.00572 | 1.21× |
+| RTX 3090 | 359.36 | 364.02 / 359.45 / 354.62 | 1.31 % | 0.1030 | 0.00688 | 1.45× |
 
-**The A10 leg is 1.77× cheaper per ns than a 4090 at its cheapest floor, and 4.0× cheaper than a 4090 at `P*`.**
-Half the throughput at a *seventh* of the price. This is the "selection dominates" thesis paying out on the card
-axis: the win comes from a $0.038/hr host existing, not from the silicon.
+**The 4090 is confirmed, but the margin over a 4080 is 7 %, not 2×.** At equal price the relative `$/ns` is
+4090 1.000, 4080 1.074, 3090 2.102. Only the 3090 gap is large. Any claim finer than ~2 % is below what even
+this bench resolves.
 
-**⚠ Do not act on this yet — the A10 leg's CUDA device string starts with `Quadro`.** An A10 reports as
-`NVIDIA A10`, so either Vast's `gpu_name` is mislabelled on that host or we benched a Quadro-family card. Until
-the full device string is read back, "a10" names an *offer*, not a verified GPU. The `$/ns` above is real —
-that host really did 335.99 ns/day for $0.0377/hr — but its **reproducibility depends on whether cheap hosts of
-that kind are a standing feature of the market or a one-off**, which is the same thin-cheap-tail question that
-makes a fixed multiple unsafe (§0).
+**How wrong the old numbers were, same card and size:** 4090 669.27 → **755.36** (+13 %); L4 305.05 → **165.08**
+(−46 %). A 46 % error in a single leg is the measure of what a 2-second window was worth.
 
-**L4 is confirmed as a calibration-only lane, not a purchase option:** at $0.26/hr for 0.46× a 4090 it is the
-worst `$/ns` on the board, 4× the 4090 and 7.5× the A10. We would never rent one for cash while free GCP ones
-exist — its value is the `L4→4090` conversion factor.
+**The gate earned itself on the first live run.** The L4 leg returned blocks of **200.25 / 147.65 / 147.35**
+ns/day — CV **18.5 %** — and was **rejected as `unstable_cv`**. A single window would have reported one of those
+three numbers as fact, and the 23:08 grid did exactly that. A contended host and a steady host have the same
+mean; only the spread separates them. Rejections this run: `unstable_cv` (L4), `wrong_card(Quadro_RTX_8000)`
+(the "A10"), `window_too_short` + `no_replicate_spread` (all four legacy single-shot rows), `errored` (a 3090
+leg with no CUDA platform).
 
-**RTX 4080: no result.** The leg was still `status=created` at collect time (never started). Its $0.081/hr floor
-remains the cheapest 24 GB-class offer seen, so it is still worth a re-run.
+**Two limits, stated rather than glossed:**
+
+1. **The two-host control FAILED — my error, not the market's.** `rtx4090:9.5,rtx4090:9.5` was launched to test
+   whether host-to-host variance swamps the card difference, but both legs built the same tag, wrote the same
+   S3 key, and one overwrote the other. One number came back, so **host variance remains unmeasured** and the
+   7 % 4090-vs-4080 margin is not yet known to exceed it. Fixed (repeats now get an `-rN` suffix); needs a
+   re-run before the 7 % is load-bearing.
+2. **`$/hr` moved during the run** — 4080 $0.1677 → $0.2319, 3090 $0.1030 → $0.1548, L4 $0.2719 → $0.3459 by
+   collect time, i.e. +$0.05–0.07 each, consistent with the storage/bandwidth surcharge accruing into
+   `dph_total`. The `$/ns` column uses the **bid** (compute) price, which is the quantity comparable across
+   cards; all-in is roughly $0.05–0.07/hr higher on every row.
+
+**What this does NOT overturn:** the host-price spread (2.7× across 4090 hosts) still dwarfs the 7 % card
+margin, so ranking *offers* by measured `$/ns` beats picking a card by name.
 
 ## 1. The strategy in plain terms
 
