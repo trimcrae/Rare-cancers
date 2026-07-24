@@ -451,5 +451,66 @@ class TestGpuClassSweep(unittest.TestCase):
         self.assertIn("BENCH", out["caveat"])
 
 
+class TestOnDemandCrosscheck(unittest.TestCase):
+    """The verdict this produces IS the bid policy, so its logic is tested offline rather than only ever seen
+    once in a live CI run. The first version divided on-demand `dph_total` by interruptible `min_bid` — mixing a
+    compute+surcharge number with a compute-only one — and so reported a 1.43x 'premium' that was mostly storage
+    and bandwidth. These cases pin the like-for-like comparison down."""
+
+    @staticmethod
+    def _o(mid, min_bid, base, total):
+        return {str(mid): {"offer_id": mid, "gpu_name": "RTX 4090", "gpu": "RTX 4090",
+                           "min_bid": min_bid, "dph_base": base, "dph_total": total}}
+
+    def test_equal_compute_rates_read_as_no_discount(self):
+        bid = self._o(1, 0.1733, 0.1733, 0.3756)
+        od = self._o(1, None, 0.1733, 0.3756)
+        out = vbo._crosscheck_compare(bid, od)
+        self.assertEqual(out["median_od_base_over_floor"], 1.0)
+        self.assertIn("NO SPOT DISCOUNT", out["verdict"])
+
+    def test_the_surcharge_does_not_masquerade_as_a_premium(self):
+        """dph_total is 2.17x the floor while the compute rates are identical. The old check called that a
+        premium; the fixed one must attribute it to the surcharge and still say no discount."""
+        bid = self._o(1, 0.1733, 0.1733, 0.3756)
+        od = self._o(1, None, 0.1733, 0.3756)
+        out = vbo._crosscheck_compare(bid, od)
+        row = out["rows"][0]
+        self.assertAlmostEqual(row["surcharge_bid_usd_h"], 0.2023, places=4)
+        self.assertTrue(row["surcharge_matches"])
+        self.assertTrue(out["surcharge_identical_across_rental_types"])
+        self.assertNotIn("DISCOUNT of", out["verdict"])
+
+    def test_a_real_discount_flips_the_verdict(self):
+        """If Vast ever prices interruptible compute below on-demand compute, the policy must flip on its own —
+        the on-demand conclusion is a measured market condition, not a constant."""
+        bid = self._o(1, 0.10, 0.10, 0.30)
+        od = self._o(1, None, 0.20, 0.40)
+        out = vbo._crosscheck_compare(bid, od)
+        self.assertEqual(out["median_od_base_over_floor"], 2.0)
+        self.assertIn("REAL SPOT DISCOUNT", out["verdict"])
+        self.assertIn("50%", out["verdict"])
+
+    def test_a_mismatched_surcharge_is_flagged_not_hidden(self):
+        bid = self._o(1, 0.10, 0.10, 0.20)
+        od = self._o(1, None, 0.10, 0.35)
+        out = vbo._crosscheck_compare(bid, od)
+        self.assertFalse(out["surcharge_identical_across_rental_types"])
+        self.assertIn("DIFFERENT", out["verdict"])
+
+    def test_no_common_machines_is_inconclusive_not_a_verdict(self):
+        out = vbo._crosscheck_compare(self._o(1, 0.1, 0.1, 0.2), self._o(2, None, 0.1, 0.2))
+        self.assertIsNone(out["median_od_base_over_floor"])
+        self.assertIn("inconclusive", out["verdict"])
+
+    def test_median_is_taken_over_machines(self):
+        bid, od = {}, {}
+        for mid, (f, b) in enumerate([(0.10, 0.10), (0.10, 0.10), (0.10, 0.40)]):
+            bid.update(self._o(mid, f, f, f + 0.2))
+            od.update(self._o(mid, None, b, b + 0.2))
+        out = vbo._crosscheck_compare(bid, od)
+        self.assertEqual(out["median_od_base_over_floor"], 1.0)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

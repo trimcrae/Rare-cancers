@@ -748,7 +748,20 @@ def ondemand_crosscheck(gpu_substr="rtx4090"):
     floor equals the on-demand price and the incumbent x1.9 is paying ~1.9x on-demand for a preemptible box.
     That is a big claim resting on `dph_base` being a genuine on-demand price rather than the API echoing the
     bid floor back for this query type. So: run the SAME query as ON-DEMAND, match by machine_id, and compare.
-    If on-demand prices come back materially higher, the premise is FALSE and the claim must be withdrawn."""
+    If on-demand prices come back materially higher, the premise is FALSE and the claim must be withdrawn.
+
+    APPLES-TO-APPLES (fixed 2026-07-24). The first version of this check divided the on-demand `dph_total` by the
+    interruptible `min_bid`, which mixes two different quantities: `dph_total` = `dph_base` + storage + estimated
+    bandwidth, while `min_bid` is compute only. Its 1.14-2.17x spread was therefore mostly SURCHARGE, not an
+    on-demand premium, and it cannot answer the question that actually decides the policy:
+
+        is there a real spot DISCOUNT on the compute rate, or does interruptible buy the same rate as on-demand?
+
+    So compare the two like-for-like terms separately per machine:
+      * compute:   `on_demand.dph_base`  vs  `bid.min_bid`      -> `od_base_over_floor`  (the DISCOUNT, if any)
+      * surcharge: `dph_total - dph_base` on each side          -> is it rental-type dependent?
+    A surcharge that matches on both sides is charged whether you bid or buy, so it cancels out of the decision
+    and the compute ratio alone settles it."""
     from gpu_backend import ResourceSpec, _vast_offer_query, _vast_request
     key = os.environ.get("VAST_API_KEY", "")
     if not key:
@@ -764,28 +777,49 @@ def ondemand_crosscheck(gpu_substr="rtx4090"):
             offers = [o for o in offers if g in str(o.get("gpu_name", "")).lower().replace(" ", "")]
         out[label] = {str(o.get("machine_id")): {
             "offer_id": o.get("id"), "min_bid": o.get("min_bid"), "dph_base": o.get("dph_base"),
-            "dph_total": o.get("dph_total"), "gpu": o.get("gpu_name")} for o in offers}
-    common = sorted(set(out["bid"]) & set(out["on_demand"]))
+            "dph_total": o.get("dph_total"), "gpu": o.get("gpu_name"),
+            "storage_cost": o.get("storage_cost"), "inet_up_cost": o.get("inet_up_cost"),
+            "inet_down_cost": o.get("inet_down_cost")} for o in offers}
+    res = _crosscheck_compare(out["bid"], out["on_demand"])
+    res.update({"n_bid_offers": len(out["bid"]), "n_ondemand_offers": len(out["on_demand"])})
+    return res
+
+
+def _crosscheck_compare(bid_map, od_map):
+    """Pure comparison half of `ondemand_crosscheck`, split out so the verdict logic is unit-testable without a
+    live API key. Both args map machine_id -> offer dict."""
+    common = sorted(set(bid_map) & set(od_map))
     rows = []
     for mid in common:
-        b, d = out["bid"][mid], out["on_demand"][mid]
-        try:
-            ratio = float(d["dph_total"]) / float(b["min_bid"]) if b["min_bid"] else None
-        except (TypeError, ValueError, ZeroDivisionError):
-            ratio = None
-        rows.append({"machine_id": mid, "gpu": b["gpu"], "bid_min_bid": b["min_bid"],
-                     "bid_dph_base": b["dph_base"], "ondemand_dph_total": d["dph_total"],
-                     "ondemand_over_floor": None if ratio is None else round(ratio, 3)})
-    ratios = [r["ondemand_over_floor"] for r in rows if r["ondemand_over_floor"]]
-    verdict = ("no machines common to both queries — inconclusive, re-run" if not ratios else
-               ("PREMISE HOLDS: on-demand is at/near the interruptible floor (median ratio %.2f), so a x1.9 bid "
-                "really does exceed on-demand" % sorted(ratios)[len(ratios)//2] if sorted(ratios)[len(ratios)//2] < 1.5
-                else "PREMISE FALSE: on-demand is %.2fx the interruptible floor, so dph_base in the bid query is "
-                     "NOT the on-demand price and the 'bids above on-demand' claim must be withdrawn"
-                     % sorted(ratios)[len(ratios)//2]))
-    return {"n_bid_offers": len(out["bid"]), "n_ondemand_offers": len(out["on_demand"]),
-            "n_common_machines": len(common), "rows": rows,
-            "median_ondemand_over_floor": (sorted(ratios)[len(ratios)//2] if ratios else None),
+        b, d = bid_map[mid], od_map[mid]
+        floor, od_base = _num(b.get("min_bid")), _num(d.get("dph_base"))
+        sur_b = (_num(b.get("dph_total")) or 0) - (_num(b.get("dph_base")) or 0)
+        sur_d = (_num(d.get("dph_total")) or 0) - (_num(d.get("dph_base")) or 0)
+        rows.append({
+            "machine_id": mid, "gpu": b["gpu"],
+            "bid_min_bid": floor, "bid_dph_base": _num(b.get("dph_base")),
+            "ondemand_dph_base": od_base, "ondemand_dph_total": _num(d.get("dph_total")),
+            # THE decision ratio: compute rate you'd pay on-demand / lowest compute rate a bid can win.
+            "od_base_over_floor": (round(od_base / floor, 3) if (floor and od_base) else None),
+            "surcharge_bid_usd_h": round(sur_b, 4), "surcharge_ondemand_usd_h": round(sur_d, 4),
+            "surcharge_matches": abs(sur_b - sur_d) < 1e-6,
+        })
+    ratios = [r["od_base_over_floor"] for r in rows if r["od_base_over_floor"]]
+    med = sorted(ratios)[len(ratios) // 2] if ratios else None
+    sur_same = bool(rows) and all(r["surcharge_matches"] for r in rows)
+    if not ratios:
+        verdict = "no machines common to both queries — inconclusive, re-run"
+    elif med <= 1.02:
+        verdict = ("NO SPOT DISCOUNT: on-demand compute rate is %.3fx the interruptible floor, i.e. the same "
+                   "number. Bidding cannot beat buying on price, so interruption risk is pure downside and "
+                   "on-demand at the floor is the policy. Surcharge (storage+bandwidth) is %s across rental "
+                   "types, so it cancels." % (med, "IDENTICAL" if sur_same else "DIFFERENT — inspect rows"))
+    else:
+        verdict = ("REAL SPOT DISCOUNT of %.0f%%: on-demand compute is %.2fx the interruptible floor, so bidding "
+                   "CAN be cheaper and the interruption-cost trade-off must be re-solved (the on-demand-always "
+                   "conclusion is withdrawn)." % (100.0 * (1 - 1 / med), med))
+    return {"n_common_machines": len(common), "rows": rows,
+            "median_od_base_over_floor": med, "surcharge_identical_across_rental_types": sur_same,
             "verdict": verdict}
 
 
