@@ -259,8 +259,7 @@ Five load-bearing pieces:
    persistence across frames, and a recognizable steric/electrostatic/H-bond mechanism. It stays on the plan and
    gives a second, independent causal line **if** its known-answer benchmark passes — but the paper's headline
    causal result is no longer hostage to an engine that has never run, an unpriced campaign, and an unresolved
-   cross-lane charge mismatch. *(Demotion is PROPOSED — it is program-shaping, so it waits for a trimcrae go;
-   recommended.)*
+   cross-lane charge mismatch. **ADOPTED 2026-07-24 (trimcrae go).**
 4. **Separate ACCESSIBILITY from STABILITY.** Estimate `P(B_k | d, s)` (can the linker reach and hold basin *k*?)
    separately from `ΔG_coop(d, B_k, s)` (is the orientation plausible?). A favorable basin the linker rarely
    accesses is irrelevant.
@@ -392,8 +391,19 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
 
 1. **4 fs ternary production ≈ 2× cheaper per leg — PROPOSED, one paid step settles it.** `ternary-rbfe-runbook.md`
    §1c records that after plain-MD pre-equilibration the calib ternary leg ran **warmup 48/48 @1 fs → production
-   40/40 @4 fs, zero NaN, ΔG_morph = 47.28 ± 0.53**, where every prior attempt died at warmup iteration 1. The
-   live valB lane still runs `TIMESTEP_FS=2.0`. Iterations are **timestep-independent** (2.5 ps/iter), so 4 fs is
+   40/40 @4 fs, zero NaN, ΔG_morph = 47.28 ± 0.53**, where every prior attempt died at warmup iteration 1.
+   **⚠ VERIFIED AGAINST THE LIVE LANE, NOT THE DOC (2026-07-24 4:12 PM ET, GH run 30123894814 `mode=tail` reading
+   the running VM `gcp-ternary-30112102294`) — the production lane is at 2 fs, not 4:**
+   ```
+   [tfep] timestep=2.0 fs, minimization_steps=5000 (NaN-robust start)
+   [PROGRESS-SUMMARY] leg=calib_hi_to_lo__binary_vhl seed=0 src=live live_vms=1
+     warmup_committed_iter=00000800 production_committed_iter=00001680 NaN_seen=no charge=nagl
+     warmup_dt_override="WARMUP timestep overridden to 1.0 fs" reduced_dt_warn="none" nan_at=""
+   ```
+   So the as-run shape is **1 fs warmup → 2 fs production**. The 4 fs figure people remember is the runbook §1c
+   *pre-equilibration demonstration* (40 production iterations on calib), **not** the lane that is running now:
+   `gpu-ternary-fep-gcp.yml` defaults `timestep_fs: 2.0` and `use_preequil: 0`, and the 4 fs demonstration only
+   held **because** pre-equilibration was on. Iterations are **timestep-independent** (2.5 ps/iter), so 4 fs is
    exactly half the force evaluations → **~$10–16/edge → ~$5–8/edge**. ⚠ The runbook requires validation and
    production at the **same** timestep and the 4 fs evidence is 40 production iterations, not 2000 — so the
    settling step is to **re-run the valB_mini calibration edge at 4 fs** (~$5–8), which simultaneously exercises
@@ -406,6 +416,10 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
    `nrv04_retrospective` and valB_full module 3 were priced as "3–6 ternary *edges*", i.e. paying for the shared
    legs 3–6× over (18 legs vs 12, −33 %; 9 legs if only the selectivity contrast is needed, −50 %). **Never price
    a paralogue panel as N edges again.**
+   **★ And the saving is LARGER than the leg count suggests, because the binary leg is not cheap.** pricing.md
+   carried "conservative: the binary leg is a smaller box and should run faster" — the live log above **refutes
+   that**: the `binary_vhl` leg ran at **~28.6–38.2 s/iter (median ≈33)** on L4, the *same* rate as the ternary
+   leg's ~33 s/iter. A shared binary leg is a full-price leg being paid for once instead of N times.
 3. **Sequential (anytime-valid) stopping instead of a fixed 3 replicas — ~20–25 %.** `adaptive_certify.py`
    (anytime-valid bounds, honest under repeated looks and data-dependent stopping) and `adaptive_allocator.py`
    are already built and unit-tested in this repo and are **not wired into the ternary ladder**. Run 2 replicas;
@@ -497,7 +511,15 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 
 
 - **`[ ]` ★ NEW 2026-07-24 · Rung 2b — 4 fs adoption + matched re-calibration** — **~$5–8 · PROPOSED, needs a go.**
-  Re-run the valB_mini Wurz edge at `TIMESTEP_FS=4.0` with `use_preequil=1`. One edge, three jobs: (a) exercises
+  **As-run baseline confirmed from the live lane, not the doc (run 30123894814, 4:12 PM ET): production is
+  `timestep=2.0 fs` with `WARMUP timestep overridden to 1.0 fs`, `NaN_seen=no`** — so the "1 fs warmup + 4 fs
+  production" shape people remember is the runbook §1c *pre-equilibration demonstration*, not this lane.
+  **Exact invocation** (three flags, all load-bearing): `mode=preequil` once (cached), then
+  `mode=run use_preequil=1 timestep_fs=4.0 warmup_timestep_fs=1.0 reset_commits=1`. `use_preequil=1` because 4 fs
+  only held *with* pre-equilibration; `reset_commits=1` because OpenFE refuses to resume a checkpoint whose
+  protocol timestep differs ("Sampler in checkpoint does not match Protocol settings"), so a dt change **starts
+  clean** — this is a fresh edge, not a continuation, which is what the ~$5–8 already prices.
+  One edge, three jobs: (a) exercises
   4 fs over a **full** 2000-iteration production leg (the existing evidence is 40 iterations); (b) supplies the
   **matched-timestep** calibration the runbook requires before any 4 fs production result may be quoted;
   (c) is an independent reproducibility replicate of the 2 fs ΔΔG_coop. **GO/NO-GO:** no NaN across the full leg
@@ -514,7 +536,7 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   a standalone benchmark. Re-open only if am1bcc is forced onto NAGL.
 - **`[ ]` Validation B-full — component-calibration cube** — **~$20–65 (revised 2026-07-24 from ~$35–100 by cost
   levers 1+2; 2–3 ternary edges + the CRL-MD module) · Cum. ~$50.** ★ **Module 3 (paralogue discrimination) now
-  runs on SMARCA2-vs-SMARCA4, not NR-V04** *(PROPOSED, free to decide)*: a close paralogue pair with
+  runs on SMARCA2-vs-SMARCA4, not NR-V04** — **ADOPTED 2026-07-24 (trimcrae go)**: a close paralogue pair with
   degrader-level selectivity, solved structures, a **non-covalent** mechanism, and — decisively — **already
   staged in this repo** (8G1Q, `smarca2_model.py`, the frozen Wurz calibration), so it is a marginal add-on to
   the lane valB_mini already runs rather than a new campaign. NR-V04's selectivity is, by the repo's own UniProt
@@ -769,17 +791,18 @@ OPTIONAL/HELD (explicit nod only): dg_open_paralogue, abfe_conditional
 the **Tier-0 paralogue-unique reactive-residue map** are done ($0); **valB_mini** is the live front. Nothing with
 a GPU price launches without an explicit go.
 
-**Three decisions now in front of trimcrae** (detail + evidence: the [2026-07-24
-revision](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md) §8):
+**Decision status (2026-07-24)** — detail + evidence in the [revision
+doc](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md) §8:
 
-1. **Adopt 4 fs for the ternary lane?** Settled by one ~$5–8 matched re-calibration edge (RUNG 2b) that also
-   supplies the matched-timestep calibration and a reproducibility replicate. ≥6 downstream ternary legs, so it
-   repays several times. *Recommended.*
-2. **Swap the method calibrator from NR-V04 to SMARCA2-vs-SMARCA4?** Free to decide; NR-V04 stays the biological
-   holdout either way. *Recommended* — NR-V04's selectivity is most plausibly covalent target engagement, and
-   SMARCA2/4 is already staged.
-3. **Demote the protein-mutation wedge from primary to confirmatory?** The one genuinely program-shaping call: it
-   changes what the paper's headline causal evidence is. *Recommended* — the ligand-side double difference runs
-   on the lane Val B already has an accuracy control for, while the protein-FEP lane has an unexercised engine,
-   an unpriced campaign and a cross-lane charge mismatch to resolve first. The mutation cycle is kept, not
-   deleted: if its benchmark passes, the paper gets two independent causal lines.
+1. **`[x]` ADOPTED — method calibrator swapped from NR-V04 to SMARCA2-vs-SMARCA4** (valB_full module 3). NR-V04
+   stays the biological holdout; its selectivity is most plausibly covalent target engagement, and SMARCA2/4 is
+   already staged in-repo.
+2. **`[x]` ADOPTED — the protein-mutation wedge is demoted from primary to confirmatory.** The ligand-side double
+   difference is the paper's headline causal evidence and runs on the lane Val B already has an accuracy control
+   for. The mutation cycle is kept, not deleted: if its known-answer benchmark passes, the paper gets two
+   independent causal lines.
+3. **`[ ]` OPEN — adopt 4 fs for the ternary lane?** The only item still needing a go, and the question was
+   sharpened by checking the live lane instead of the doc: **production really is at 2 fs** (1 fs warmup), so the
+   ~2× lever is live rather than already banked. One ~$5–8 matched re-calibration edge settles it and also
+   supplies the matched-timestep calibration plus a reproducibility replicate; ≥6 downstream ternary legs, so it
+   repays several times over. *Recommended.* Nothing launches without an explicit go.

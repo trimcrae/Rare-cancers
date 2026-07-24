@@ -247,7 +247,24 @@ is running on, so the paralogue-discrimination module becomes a marginal add-on 
 **Lever 1 — run ternary production at 4 fs (≈2× on every ternary leg).**
 `ternary-rbfe-runbook.md` §1c records the decisive experiment: after plain-MD pre-equilibration the calib
 ternary leg ran **warmup 48/48 at 1 fs → production 40/40 at 4 fs, zero NaN, ΔG_morph = 47.28 ± 0.53**, where
-every prior attempt died at warmup iteration 1. The live valB lane nevertheless runs `TIMESTEP_FS=2.0`.
+every prior attempt died at warmup iteration 1.
+
+**⚠ Checked against the live lane rather than the doc** (2026-07-24 4:12 PM ET, GH run 30123894814 `mode=tail`
+reading the running VM `gcp-ternary-30112102294`), because "aren't we already at 4 fs?" is exactly the kind of
+question a stale doc answers wrongly:
+
+```
+[tfep] timestep=2.0 fs, minimization_steps=5000 (NaN-robust start)
+[PROGRESS-SUMMARY] leg=calib_hi_to_lo__binary_vhl seed=0 src=live live_vms=1
+  warmup_committed_iter=00000800 production_committed_iter=00001680 NaN_seen=no charge=nagl
+  warmup_dt_override="WARMUP timestep overridden to 1.0 fs" reduced_dt_warn="none" nan_at=""
+```
+
+The as-run shape is **1 fs warmup → 2 fs production**. The remembered "4 fs with a 1 fs warmup" is the §1c
+*pre-equilibration demonstration*, not the production lane: `gpu-ternary-fep-gcp.yml` defaults `timestep_fs: 2.0`
+and `use_preequil: 0`, and the 4 fs demonstration held only *because* pre-equilibration was on. So the lever is
+live, not already banked — and the adoption run must set `use_preequil=1` and `reset_commits=1` (OpenFE refuses
+to resume a checkpoint whose protocol timestep differs, so a dt change is a fresh edge, not a continuation).
 Iterations are **timestep-independent** (2.5 ps/iteration, `rbfe_spot_driver._iters_from_time`), so 4 fs is
 exactly half the force evaluations: **~$10–16/edge → ~$5–8/edge**.
 *Caveat that must be honoured:* the runbook requires validation and production to run at the **same** timestep,
@@ -267,6 +284,11 @@ A three-paralogue comparison needs **three ternary legs plus one shared binary a
 three edges.** `nrv04_retrospective` and valB_full module 3 are both currently priced as "3–6 ternary *edges*",
 i.e. paying for the shared legs three to six times over. Naive 3 edges = 18 legs; shared = 12 legs (−33 %); and
 if only the selectivity *contrast* is needed, 9 legs (−50 %).
+
+**And the saving is larger than the leg count suggests, because a binary leg is not cheap.** pricing.md carried
+"conservative: the binary leg is a smaller box and should run faster"; the live log above refutes it — the
+`binary_vhl` leg ran at **~28.6–38.2 s/iter (median ≈33)** on L4, the same rate as the ternary leg's ~33 s/iter.
+A shared binary leg is a *full-price* leg paid once instead of N times.
 
 **Lever 3 — sequential stopping instead of a fixed 3 replicas (~20–25 %).**
 The repo already contains `adaptive_certify.py` (anytime-valid bounds, honest under repeated looks and
@@ -353,6 +375,9 @@ return a NO-GO before any of it is spent.
 ## 8. Decisions this puts in front of trimcrae
 
 Everything free in this document is already built, run and committed. Three items cross a gate:
+
+*(Status 2026-07-24: items 2 and 3 are **ADOPTED**; item 1 remains open and was sharpened by the live-lane check
+in §5 — production really is at 2 fs, so the ~2× lever is live rather than already banked.)*
 
 1. **Adopt 4 fs for the ternary lane (lever 1)?** The cheapest honest way to settle it is to **re-run the
    valB_mini calibration edge at 4 fs** (~$5–8). That single edge does three jobs at once: it validates the

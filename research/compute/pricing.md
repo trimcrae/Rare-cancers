@@ -55,9 +55,16 @@ neither adds or removes science, and both were previously mis-priced.
 2. **4 fs TERNARY PRODUCTION HALVES EVERY TERNARY LEG — PROPOSED, not yet adopted.** Iterations are
    timestep-independent (2.5 ps/iter), so 4 fs is exactly half the force evaluations of 2 fs. `ternary-rbfe-runbook.md`
    §1c records production **40/40 at 4 fs with zero NaN** after plain-MD pre-equilibration, but the runbook also
-   requires validation and production at the **same** timestep and 40 iterations is not 2000. **Until the ~$5–8
-   matched re-calibration edge (schedule `ternary_4fs_recalibration`) runs, keep quoting the 2 fs base**; the
-   4 fs figures below are marked as the post-adoption value.
+   requires validation and production at the **same** timestep and 40 iterations is not 2000.
+   **⚠ The as-run baseline was VERIFIED against the live lane, not the doc (2026-07-24 4:12 PM ET, GH run
+   30123894814 `mode=tail` on VM `gcp-ternary-30112102294`): `[tfep] timestep=2.0 fs` with
+   `warmup_dt_override="WARMUP timestep overridden to 1.0 fs"`, `NaN_seen=no`.** So the lane is 1 fs warmup →
+   **2 fs production**; the "4 fs" people remember is the §1c pre-equilibration demonstration, and the workflow
+   defaults are `timestep_fs: 2.0` / `use_preequil: 0`. **Until the ~$5–8 matched re-calibration edge (schedule
+   `ternary_4fs_recalibration`) runs, keep quoting the 2 fs base**; the 4 fs figures below are the post-adoption
+   value. The adoption run must pass `use_preequil=1` (4 fs only held with pre-equilibration) and
+   `reset_commits=1` (OpenFE refuses to resume a checkpoint whose protocol timestep differs, so a dt change is a
+   fresh edge, not a continuation).
 
 **What reduces to a basis — and the one thing that does NOT:**
 1. **LIGAND-alchemy stages (binary RBFE, ternary cooperativity, local within-basin FEP) reduce to the RBFE-edge
@@ -182,8 +189,11 @@ individually at its gate.
   `iters 0,20,…,2000` confirms the production count). 920/2400 ≈ **38 %**, so the earlier "~8.7 GPU-h per leg"
   was ~2.6× low and every ternary cost derived from it was correspondingly low. **Projected** full leg ≈
   2400 × 33 s ≈ **~22 L4-GPU-h**. Edge = binary + ternary leg; `min_replicas_per_leg=3` (prereg) → full 3-replica
-  edge ≈ **~132 L4-GPU-h ≈ ~57 4090-GPU-h** (conservative: the binary leg is a smaller box and should run faster,
-  not yet separated). Cost: **~$7–15 Vast 4090**, ~$33 L4-spot, **~$94 L4-on-demand** — provider/card dominates
+  edge ≈ **~132 L4-GPU-h ≈ ~57 4090-GPU-h**. **⚠ The old parenthetical here — "conservative: the binary leg is a
+  smaller box and should run faster, not yet separated" — is REFUTED (2026-07-24, live log of GH run 30123894814
+  reading VM `gcp-ternary-30112102294`): the `calib_hi_to_lo__binary_vhl` leg ran at **~28.6–38.2 s/iter
+  (median ≈33)** on L4, i.e. the SAME rate as the ternary leg's ~33 s/iter. Do not discount a binary leg; it is a
+  full-price leg. This makes the B.0-1 sharing identity worth MORE, not less.** Cost: **~$7–15 Vast 4090**, ~$33 L4-spot, **~$94 L4-on-demand** — provider/card dominates
   because the edge is GPU-h-heavy. **No ternary leg has ever completed**, so the leg length itself is unverified;
   the first completed leg should replace this projection with a measurement. The
   4090 figure uses a spec-based ~2.3× L4→4090 MD ratio (no same-system bench yet — the one soft spot; the
