@@ -10,7 +10,39 @@
 
 ---
 
-## 0. The strategy in plain terms
+## 0. THE NUMBER
+
+**$0.147/hr for an RTX 4090 — and take it as on-demand, not as a bid.**
+
+Computed against the real 20-day price series and today's live filtered offers, for both job profiles
+(ternary 10.7 GPU-h, RBFE 13.7 GPU-h) and every deadline from 2 weeks to 12 hours. **It came out the same in all
+eight cases**, and that constancy *is* the finding:
+
+| | value | why |
+|---|---|---|
+| cheapest rentable floor today | **$0.1467/hr** | live, filtered, verified, CUDA-capable offers |
+| on-demand for the same machine | **$0.1467/hr** | `min_bid == dph_base` on 7/7 offers |
+| churn floor (bid needed to hold a box) | **$0.40–0.53/hr** | ~3× the price of just *buying* it |
+
+**Bidding is dominated, and you don't need the hazard model to see it.** The cheapest possible bid *is* the floor,
+$0.1467 — exactly the on-demand price — so a bid can never be cheaper and can only add preemption risk.
+On-demand wins for any hazard greater than zero. The model only sharpens the picture: to hold a box long enough
+to make net progress you'd have to bid **$0.40–0.53**, roughly **3× the cost of owning it outright** for the run.
+
+**The standing target across days is ~$0.136/hr** — the platform-wide `vast/any` low, available on **17 of 20**
+days. Today's cheapest *filtered* offer is $0.1467, so that ~8 % gap is the only thing left worth chasing, by
+picking the machine rather than by bidding.
+
+```
+Today:    buy on-demand at $0.147/hr (4090).      Never bid above it — bidding buys nothing.
+Target:   ~$0.136/hr when a cheaper box is there.
+Revisit:  only if min_bid drops materially below dph_base — then bidding starts to mean something again.
+```
+
+*(Contingent on the running bench: the RTX 4080 floor is **$0.081/hr**. If its measured throughput holds up, the
+number becomes $0.081 and everything above re-runs on that card.)*
+
+## 1. The strategy in plain terms
 
 **We are not choosing a bid. We are choosing a price we are willing to pay, and letting the market come to us.**
 On Vast an interruptible bid is a standing **limit order**: it acquires the machine whenever the clearing price
@@ -78,7 +110,7 @@ Ranked properly, for **cash**:
 ones exist on GCP; its value is as the **conversion factor** for translating GCP-L4-run results into
 Vast-priced projections (the `L4→4090 ≈ 2.06×` ratio pricing.md depends on).
 
-## 1. What the incumbent policy is, and its four defects
+## 2. What the incumbent policy is, and its four defects
 
 `gpu_backend._vast_bid_price` returns `min_bid × 1.9` — one global multiple of the market floor, for every job on
 every host. It was a sound response to a real problem (the NR-V04 covalent tail churned at ×1.5), but as a policy:
