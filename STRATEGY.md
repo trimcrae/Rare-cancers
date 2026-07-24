@@ -575,8 +575,13 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 
 - **`[ ]` 5a · Orientation-basin search — ★ now MECHANISM-FIRST** — **~$0–50 (CPU $0 + optional MM-GBSA rescore)
   · Cum. ~$140.** Broad transform sampling across the **widened ligandable E3 set** (VHL, CRBN, cIAP1/BIRC2,
-  DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114 — free at CPU, **downselect to ≤2 before any GPU leg and log the
-  dropped set**); matched 3-paralogue scoring **over the warhead-pose ensemble**; cluster into ~3–8 basins/ligase;
+  DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2 — free at CPU, **downselect to ≤2 before any GPU leg and log
+  the dropped set**). **★ Availability answered $0 and it does NOT constrain the choice (CI run 30125742542,
+  2026-07-24):** all 8 widened arms are broadly expressed and record-complete on HPA, every symbol resolved
+  through HPA's own search with an exact-match guard — same verdict as the original VHL/CRBN check. So the
+  downselect must be made on **ligandability + interface geometry**, never on availability; and no recruiter may
+  be dropped with "not expressed" as the reason. Matched 3-paralogue scoring **over the warhead-pose ensemble**;
+  cluster into ~3–8 basins/ligase;
   score with the two new **categorical** terms — (a) does the linker path reach C397/C420/C559 at an
   electrophile-compatible geometry, (b) does the E2~Ub transfer zone cover a **unique** lysine (K572/K518/K592)
   rather than a conserved one — then the cheap counterfactual screen to nominate marginal wedges. The categorical
