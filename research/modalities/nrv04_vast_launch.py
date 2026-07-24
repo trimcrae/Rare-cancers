@@ -808,7 +808,8 @@ def build_firm_jobspec(kind, branch, bucket):
         "RESULT_S3": f"s3://{bucket}/{_FIRM_PREFIX}/{tag}",
         "FIRM_KIND": kind,
         "N_WINDOWS": os.environ.get("N_WINDOWS") or ("12" if kind == "rbfe" else "16"),
-        "N_ITER": os.environ.get("N_ITER") or ("150" if kind == "rbfe" else "120"),
+        # short production is enough for a stable ns/day (throughput is length-independent) and finishes fast.
+        "N_ITER": os.environ.get("N_ITER") or ("60" if kind == "rbfe" else "60"),
         "LEG_ID": os.environ.get("LEG_ID", "calib_hi_to_lo__ternary_vhl"),
     }
     return JobSpec(
@@ -818,7 +819,8 @@ def build_firm_jobspec(kind, branch, bucket):
         checkpoint_uri=f"s3://{bucket}/{_FIRM_PREFIX}/{tag}/ckpt",
         resume=False,
         resources=ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=60, interruptible=True),
-        max_runtime_s=int(os.environ.get("FIRM_MAX_RUNTIME_S", "5400")),
+        # a real 12-window HREX leg runs ~2h+ on one GPU; the old 90-min watchdog reaped it mid-run. 4h ceiling.
+        max_runtime_s=int(os.environ.get("FIRM_MAX_RUNTIME_S", "14400")),
         env=env,
     )
 
@@ -875,7 +877,7 @@ def firm_collect(bucket):
     if os.environ.get("BENCH_NO_STOP") != "1" and key:
         import time
         now = time.time()
-        max_age = int(os.environ.get("FIRM_MAX_AGE_MIN", "100")) * 60
+        max_age = int(os.environ.get("FIRM_MAX_AGE_MIN", "260")) * 60   # > a real ~2h HREX leg + boot; don't reap mid-run
         _terminal = ("exited", "offline", "stopped")
         # keep the NEWEST instance per label; older same-label instances are stale duplicates (an errored run that
         # lingered while a fresh re-dispatch started) -> reap. Also reap terminal + over-age. FIRM_STOP=1 reaps ALL
