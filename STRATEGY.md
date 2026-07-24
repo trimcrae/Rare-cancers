@@ -20,6 +20,8 @@
 > file, not a competing source).
 >
 > **Companion docs (detail only, subordinate to this file):**
+> **[research/compute/pricing.md](research/compute/pricing.md) (★ PRICING single source of truth — every cost line
+> linked to its justifying test/run)** ·
 > [nr4a3-degrader-reviewer-revisions-2026-07-15.md](research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md) (verbatim
 > reviewer verdict) · [nr4a3-degrader-strategy-ternary-first.md](research/manuscripts/nr4a3-degrader-strategy-ternary-first.md)
 > (biological/chemotype rationale) · [nr4a3-degrader-paper.md](research/manuscripts/nr4a3-degrader-paper.md) (the manuscript itself).
@@ -315,6 +317,11 @@ Two of the reviewer's mandated validations look similar ("benchmark the method o
 ---
 
 ## GPU / PROVIDER SELECTION (which card, which cloud, for which run)
+
+> **★ PRICING SINGLE SOURCE OF TRUTH: [`research/compute/pricing.md`](research/compute/pricing.md).** Every cost
+> line in this plan is justified there against a specific test/run (MEASURED vs MEASURING vs ESTIMATED, with the
+> workflow + S3 artifact). The economics block below is a SUMMARY — `pricing.md` carries the evidence and is
+> what to update when a `bench`/`firm` run completes. If the two disagree, `pricing.md` (the measured record) wins.
 
 Provider and GPU are **independent** choices, and the right GPU depends on the **workload**, not the provider —
 OpenFE/RBFE runs on GCP *or* Vast, and so does endpoint MD. Always pick by **cost per nanosecond**
