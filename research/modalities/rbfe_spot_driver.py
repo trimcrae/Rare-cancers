@@ -480,6 +480,23 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
 
     # ================= WARMUP (fresh, or resume a partial warmup) =============================
     warmup_restart = restored_phase == WARMUP and (shared / WARMUP_NC).is_file()
+    # FRESH warmup, but a stale equilibration.nc/.chk survived on the shared dir — happens on a spot
+    # restart when restore() decided 'fresh' (the prior warmup .chk was incomplete/unreadable after the
+    # kill) yet the partial .nc file is still there. OpenFE's create() then does "Storage file ...
+    # already exists; cowardly refusing to overwrite" and CRASHES the whole leg (observed on the firm
+    # ternary, 2026-07-24). restore() already rejected these as unresumable, so clear them and let the
+    # fresh warmup create cleanly. (Mirrors the unresumable-checkpoint cleanup in the except branch below,
+    # applied proactively rather than only after a create() failure.)
+    if not warmup_restart:
+        for _f in (WARMUP_NC, WARMUP_CHK):
+            _p = shared / _f
+            if _p.exists():
+                log(f"[spot-driver] FRESH warmup: removing stale {_f} (restore rejected it as unresumable; "
+                    f"prevents 'cowardly refusing to overwrite')")
+                try:
+                    _p.unlink()
+                except FileNotFoundError:
+                    pass
     # Same single-interval invariant as production: on a RESUME the .chk frames live on the interval
     # baked into the existing warmup .nc (e.g. 8, set by RBFE_WARMUP_CKPT_ITERS), not necessarily the
     # env of THIS VM (default 10 when unset). Derive it from the file so the reporter/run/commit agree;
@@ -555,6 +572,19 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
                            production_checkpoint_iters, pos_iv, vel_iv)
     kwargs = _prod_sampler_kwargs(integrator, system, positions, sim_s, thermo_s, prod_iters)
     prod = HybridRepexSampler(**kwargs)
+    # Reaching here always means a FRESH production create from the warmup state — the resume-production
+    # path returns at the top of this function, so any prod_nc/prod_chk on disk now is a stale leftover
+    # from an earlier attempt that never validly resumed. Clear it, else create() below hits the same
+    # "cowardly refusing to overwrite" crash the warmup path guards against.
+    for _f in (prod_nc, prod_chk):
+        _p = shared / _f
+        if _p.exists():
+            log(f"[spot-driver] FRESH production: removing stale {_f} (never validly resumed; "
+                f"prevents 'cowardly refusing to overwrite')")
+            try:
+                _p.unlink()
+            except FileNotFoundError:
+                pass
     prod.create(
         thermodynamic_states=final["thermodynamic_states"],
         sampler_states=final["sampler_states"],
