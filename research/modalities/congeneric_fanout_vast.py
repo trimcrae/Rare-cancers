@@ -360,7 +360,7 @@ def mode_monitor():
     for i in live:
         print(f"[s1f]   id={i.get('id')} label={i.get('label')} actual={i.get('actual_status')} "
               f"cur={i.get('cur_state')} dph=${i.get('dph_total')} gpu={i.get('gpu_name')} "
-              f"util={i.get('gpu_util')}% age_min={_age_min(i)}")
+              f"util={i.get('gpu_util')}% age_min={_age_min(i)} msg={(i.get('status_msg') or '')[:120]!r}")
     n_done = 0
     for u in units:
         ddg = _get_json(s3, bucket, result_key(u, RESULT_PREFIX))
@@ -400,8 +400,13 @@ def mode_monitor():
         "n_units": len(units), "n_complete": n_done,
         "live_instances": len(live), "instance_states": states,
         "gpu_util": utils, "phases": phases,
+        # status_msg is what distinguishes a host still PULLING the ~6 GiB image (documented ~20-40 min on
+        # cheap 4090 hosts, and normal) from a container that is genuinely wedged — both show actual_status
+        # "loading". Without it, "loading for 29 minutes" is unreadable either way.
         "instances": [{"id": i.get("id"), "label": i.get("label"), "status": i.get("actual_status"),
+                       "cur_state": i.get("cur_state"), "status_msg": (i.get("status_msg") or "")[:200],
                        "gpu": i.get("gpu_name"), "gpu_util": i.get("gpu_util"),
+                       "inet_down": i.get("inet_down"),
                        "dph": i.get("dph_total"), "age_min": _age_min(i)}
                       for i in live],
         "units": [{"unit_id": u["unit_id"],
