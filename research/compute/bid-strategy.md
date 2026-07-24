@@ -222,6 +222,44 @@ reachable **85 %** of the time. That is real but modest, and because it is reach
 rentable subset. Use the external series for the **shape and dynamics** of the distribution; calibrate the
 **level** against our own observations before letting it set an absolute reservation price.
 
+## 3e. ★★ CARD CLASS — we have mostly *not* been on RTX, and the card we did use is the worst $/ns
+
+**What we have actually been running on.** Every *completed* science run used an **L4**: `valA_mini` and
+`valB_mini` on GCP, `step1_pilot` on Modal. The only RTX runs were the NR-V04 covalent panel (3090) and the
+step1_fanout wave-1 / firm timing runs (4090, since halted). So "all production on Vast RTX 4090" is a
+**forward-looking policy, not a description of what has happened.**
+
+**And the policy is under-determined.** "The 4090 wins $/ns at every size" rests on a bench that compared exactly
+**two** cards — 4090 vs 3090. L4, the card we were actually using, was never in the grid, nor was anything else
+on the market. A price analysis scoped to one card inherits that gap, and mine did.
+
+**Live sweep, ranked by $/ns at 146 k atoms** (`--gpu-sweep`, read-only):
+
+| card | offers | floor $/hr | ns/day | **$/ns** | throughput basis |
+|---|---|---|---|---|---|
+| RTX 4080 | 4 | 0.0810 | 239.5 | **0.00812** | ⚠ dlperf proxy |
+| **RTX 4090** | 6 | 0.1733 | 431.9 | **0.00963** | **measured** |
+| A10 | 6 | 0.2667 | 412.2 | 0.01553 | ⚠ proxy |
+| A4000 | 1 | 0.1067 | 91.5 | 0.02798 | ⚠ proxy |
+| **RTX 3090** | 4 | 0.0933 | 72.5 | 0.03090 | **measured** |
+| **L4** | 3 | 0.1600 | 109.3 | **0.03514** | ⚠ proxy |
+| RTX A6000 | 1 | 0.5600 | 235.3 | 0.05712 | ⚠ proxy |
+
+**Two conclusions, opposite in sign to the assumption:**
+
+1. **RTX is not the expensive choice — it is the cheap one.** The L4 we have been defaulting to is **~3.6×
+   worse $/ns than the 4090**, despite a lower $/hr. Cheap per hour, expensive per unit of science. The reason we
+   used it anyway — free GCP/Modal credit — is legitimate, but it makes "cheaper without RTX" true only while
+   the credit lasts and **false on cash**.
+2. **A candidate may beat the 4090 by ~16 %:** the RTX 4080 at $0.081/hr. **This is not a decision** — its
+   throughput is a `dlperf` proxy, a generic DL score and a weak stand-in for MD. It is a candidate to **bench**,
+   which costs cents via `bench_grid`. Note its 16 GB VRAM clears our `min_vram_gb=16` floor but may not hold the
+   466 k-atom covalent systems; bench it at the sizes we actually run.
+
+**Action:** add `rtx4080`, `a10`, `l4` to the bench grid before the next production launch. Two of the seven rows
+above are measured; the rest are proxies, and a card decision taken on a proxy is how the ~2.6× RBFE mispricing
+happened.
+
 ## 4. Policy
 
 1. **Stand a limit order at the ADAPTIVE `P*` and wait** (§3c) — the default for all work. It needs no price
