@@ -29,8 +29,8 @@ on:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
         default: "sagemaker-us-east-2-646605541856"
       cofold_prefix:
-        description: "nrv04_vast_launch: S3 prefix of the EXISTING NR-V04 co-fold to reuse (ValB output)"
-        default: "nrv04-descriptive-v3"
+        description: "nrv04_vast_launch: S3 prefix of the co-fold to stage the COVALENT panel from. NOT nrv04-descriptive-v3 or nrv04-shakeout — those carry 14-3-3 epsilon where Elongin B belongs (2026-07-24 audit); staging rejects them anyway."
+        default: "nrv04-covalent-cofold"
       md_mode:
         description: "nrv04_vast_launch pilot/full: smoke (minimize+500 steps, cents) | run (5ns, priced)"
         type: choice
