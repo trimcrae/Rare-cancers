@@ -309,9 +309,10 @@ Two of the reviewer's mandated validations look similar ("benchmark the method o
      the firm RBFE run measured a complex leg at **~3.6 GPU-h** (2000 production iters × ~5.2 s + boot/setup) →
      **RBFE binary edge (complex+solvent) ≈ ~5–6 GPU-h ≈ ~$0.6–1.4 on Vast 4090**. The old ~55-GPU-h anchor was a
      **CPU-idle am1bcc-per-window pathology on AWS A10G** (~15× the efficient Vast leg) — REFUTED, do not use.
-     **Ternary 3-replica cooperativity edge:** being measured by the parallel real `valB_mini`; the old ~$65–110
-     was scaled off the refuted 55-anchor and is almost certainly too high (ternary is nagl-charged → never had
-     the pathology) — **take valB_mini's realized number, don't quote $65–110.**
+     **Ternary 3-replica cooperativity edge: MEASURED from `valB_mini` (2026-07-24) at ~8.7 GPU-h/leg on L4 →
+     full 3-replica edge ≈ ~52 L4-GPU-h ≈ ~23 4090-GPU-h ≈ ~$3–6 on Vast 4090** (~$1–2/replicate). The old
+     ~$65–110 is superseded. ⚠ **Card/provider dominates** (GPU-h-heavy): the same edge is ~$13 on L4-spot and
+     **~$37 on L4-on-demand** (what valB_mini actually ran on) — so ternary is only cheap on the 4090 / L4-spot.
    - **⚠ DO NOT quote a single whole-program total.** Per the economics block, the provider is ~2–3× cheaper/GPU-h
      (down) but the real per-edge GPU-h is ~5–15× what the old $840 schedule assumed (up) — they roughly cancel to
      an unknown dominated by the unpinned ternary-matrix count. Price bottom-up per edge; gate each rung. (The
@@ -382,11 +383,14 @@ anchor is REFUTED for this hardware:**
   the Vast run charges once in setup and keeps the GPU busy → ~15× fewer GPU-h. ⇒ `step1_fanout` (19 edges) ≈
   **~$12–26**, not $100–380. *(The canonical RBFE map `congeneric-rbfe-map.json` still carries `est_gpu_h: null`;
   the ~3.6-GPU-h figure is the first real Vast-4090 per-leg measurement to fill it.)*
-- **Ternary 3-replica cooperativity edge — being MEASURED by the parallel real `valB_mini` (GCP L4); the old
-  ~$65–110 is UNTRUSTWORTHY.** That estimate scaled a per-GPU-h off the now-refuted 55-anchor; the ternary uses
-  `CHARGE_METHOD=nagl` so it **never had the am1bcc pathology**, and with the RBFE leg measured at ~3.6 GPU-h the
-  ternary is almost certainly far below $65–110. The firm run confirmed the ternary is a **146,509-particle,
-  16-window** system. ⇒ **take valB_mini's realized GPU-h × the L4→4090 card ratio; do NOT quote $65–110.**
+- **Ternary 3-replica cooperativity edge — MEASURED from the parallel real `valB_mini` (GCP L4), 2026-07-24.**
+  The live OpenFE sampler on the detached VM (`total wall clock time 8:40:29` per leg, 146,509 particles, 16
+  windows, ~33 s/iter × 920 iters) gives **~8.7 GPU-h per alchemical leg**. Edge = binary + ternary leg;
+  `min_replicas_per_leg=3` (prereg) → **~52 L4-GPU-h ≈ ~23 4090-GPU-h per full 3-replica edge → ~$3–6 on Vast
+  4090** (~$1–2/replicate). The old ~$65–110 (scaled off the refuted 55-anchor) is **superseded**. ⚠ **Card
+  dominates:** same edge ≈ ~$13 L4-spot, **~$37 L4-on-demand** (valB_mini's actual lane, chosen for capacity) —
+  ternary is only "cheap" on the 4090 / L4-spot. 4090 figure uses a spec-based ~2.3× L4→4090 ratio (no
+  same-system bench yet; the L4-GPU-h is the hard number).
 - **Endpoint MD (covalent) — MY MEASURED CARD FINDING, which UPDATES the "→ 3090" rule/table below:** bench
   head-to-head at 444k atoms gave 4090 **175.6** vs 3090 **72.5** ns/day (**2.42×**) for only ~9% more $/hr → the
   **4090 is ~2.2× cheaper $/ns even at 466k.** This *refutes* the a-priori "bandwidth-bound → 3090" pick (the
@@ -395,10 +399,11 @@ anchor is REFUTED for this hardware:**
 - **No single reliable whole-program total — do NOT quote one (incl. the retracted ~$80–200).** But the RBFE side
   is now SETTLED and cheap: the measured Vast-4090 edge (~5–6 GPU-h ≈ ~$0.6–1.4) is in line with what the old $840
   schedule assumed per edge (5–15 GPU-h), and Vast is ~2–3× cheaper/GPU-h than AWS g5, so **RBFE stages are tens of
-  dollars, not hundreds** (`step1_fanout` 19 edges ≈ **~$12–26**). The ONLY genuine unknown is the **ternary
-  retrospective + prospective-matrix edge COUNT** — the per-edge ternary cost is being measured by valB_mini (and,
-  being nagl-charged, never had the am1bcc pathology). So the program stays **unpriced-in-total only through the
-  unpinned ternary counts** — each rung is gated and priced individually at its gate.
+  dollars, not hundreds** (`step1_fanout` 19 edges ≈ **~$12–26**). The per-edge ternary cost is now MEASURED too
+  (~$3–6/edge on Vast 4090, from valB_mini). The ONLY genuine unknown left is the **ternary retrospective +
+  prospective-matrix edge COUNT** — so the program stays **unpriced-in-total only through the unpinned ternary
+  counts** (at ~$3–6/edge Vast-4090, even a 24–36-edge matrix is ~$70–220; on L4-on-demand it would be ~$900+, so
+  card choice is the lever) — each rung is gated and priced individually at its gate.
 
 **★ TOOLING BUILT THIS SESSION (so a future session doesn't rebuild it):**
 - **Vast throughput bench** — `nrv04_vast_launch.py` modes `bench` / `bench_collect`, driven by
@@ -422,7 +427,7 @@ anchor is REFUTED for this hardware:**
 - **Confirmed system sizes (refines the cost model):** RBFE complex ≈ **35k atoms** (matches the bench); the real
   **ternary ≈ 146,509 particles, 16 λ-windows** — BIGGER than the earlier 85k guess. Cost basis for alchemical
   stages = the MEASURED Vast-4090 anchors in the economics block above (**~$0.6–1.4/RBFE edge**, measured; ternary
-  edge **being measured by valB_mini** — the old ~$65–110 is refuted-high), NOT a bench-throughput extrapolation.
+  edge **MEASURED from valB_mini ≈ ~$3–6/edge Vast 4090** — old ~$65–110 superseded), NOT a bench-throughput extrapolation.
 - **DECISION (trimcrae, 2026-07-23): LOCK IN THE ESTIMATE — do NOT grind for the exact ns/day.** The pipelines are
   proven to launch; the alchemical cost basis is the measured pilot billing (the exact per-edge ns/day on Vast is
   deferred to whenever a real fanout runs). (Also: self-wake timers were unreliable this session — container
@@ -542,7 +547,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   independently satisfied (valA_mini clean on am1bcc → cite OpenFE; **valA_full skipped**), so that side of the
   fan-out gate is met — but RUNG 4 still requires the replicas + pose/state sensitivity above; checking this box
   does **not** by itself unlock the fleet.
-- **`[~]` Validation B-mini — all-binding graded cooperativity edge (Wurz cmpd 1→4)** *(valB_mini · GPU · Vast 4090 / GCP-L4 · ∥)* — **Price: being MEASURED by this very run (one ternary cooperativity edge, GCP L4); old ~$65–110 refuted-high (scaled off the disproven 55-GPU-h RBFE anchor; ternary is nagl-charged, no am1bcc pathology) · Cum. indicative**
+- **`[~]` Validation B-mini — all-binding graded cooperativity edge (Wurz cmpd 1→4)** *(valB_mini · GPU · Vast 4090 / GCP-L4 · ∥)* — **Price: MEASURED ~$3–6 on Vast 4090 (~52 L4-GPU-h; ~8.7 GPU-h/leg × binary+ternary × 3 replicas); ran on L4 on-demand ≈ ~$37. Old ~$65–110 superseded · Cum. indicative**
   **★ RECONCILED 2026-07-24 (all-binding-graded-first rule + schedule sync).** The mini is the **Wurz et al.
   SMARCA2–VHL cmpd 1→4 all-binding graded edge** (α 12.8→2.6 ≈ **+0.94 kcal/mol**; both endpoints are *productive
   binders*), which the schedule already carries as in-progress — this is the cleanest first quantitative
@@ -604,11 +609,11 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   model + pass/fail; a failed module becomes **qualitative-only** and there is **no** blanket "the ternary pipeline
   is validated." Modules:
   1. **All-binding graded cooperativity** — *(already run as valB-mini: Wurz cmpd 1→4)*; Val B-full ADDS ≥1 more
-     graded edge for coverage. *(4090 alchemical ternary; per-edge cost being measured by valB_mini — old ~$65–110 refuted-high)*
+     graded edge for coverage. *(4090 alchemical ternary; per-edge cost MEASURED from valB_mini ≈ ~$3–6/edge Vast 4090)*
   2. **Ternary pose recovery** — does the generator include the known orientation in its top-k, with calibrated
      confidence? *(co-fold, CI/cheap ~$0)*
   3. **Paralogue discrimination** — same degrader across closely related paralogues on a public system with a
-     known differential (the direct analogue of the NR4A ask). *(4090 alchemical ternary; per-edge cost being measured by valB_mini — old ~$65–110 refuted-high)*
+     known differential (the direct analogue of the NR4A ask). *(4090 alchemical ternary; per-edge cost MEASURED from valB_mini ≈ ~$3–6/edge Vast 4090)*
   4. **Productive-vs-unproductive ubiquitination geometry** — a full-CRL model separates ternary occupancy from
      Ub-transfer competence on a public system with mapped lysines. *(3090 MD, ~$10–40)*
   Plus the **cis-epimer negative-endpoint STRESS module** (demoted from valB-mini). **GATE:** the prospective
@@ -700,7 +705,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped (not
   Alchemy **only** within a retained basin (both endpoints plausibly bound, modest congeneric linker change,
   acceptable hybrid topology, endpoint stability not restraint-created). Refines the matched final series; **NOT**
   used to compare unrelated linkers, ligases, or basins. ~3–6 cooperativity edges × per-edge ternary cost (being
-  measured by valB_mini; old ~$65–110 refuted-high). **Final set ~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL and CRBN only where both
+  MEASURED from valB_mini ≈ ~$3–6/edge Vast 4090). **Final set ~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL and CRBN only where both
   survive, explicit negative controls, robust to reciprocal-mutation tests.
   **Deliverable** = a computationally prioritized, structure-defined, retrosynthetically annotated candidate set
   **with an identified causal selectivity mechanism** — degradation experimentally unvalidated.
@@ -732,9 +737,9 @@ cancel to an unknown dominated by the **unpinned ternary-matrix count**. Price b
 | Rung | GPU work | Bottom-up spot $ (Vast 4090) |
 |---|---|---|
 | 1 · Val A smoke | 1 public RBFE edge | **~$0–15** |
-| 2 · pilot + Val B-mini | cmpd19 RBFE edge (~$0.6–1.4) + 1 ternary cooperativity edge | **~$1 + ternary (measuring, valB_mini)** |
-| 3 · Val B cube + NR-V04 feasibility | 2–3 ternary/RBFE edges + MD module; covalent panel (MEASURED) | **ternary (measuring) + ~$10–11** |
-| 4 · fan-out + atlas + NR-V04 retro | ≈19 RBFE edges (~$0.6–1.4 ea) + $0 atlas (DONE) + NR4A1/2/3 ensembles | **~$12–26 + $0 + ternary (measuring)** |
+| 2 · pilot + Val B-mini | cmpd19 RBFE edge (~$0.6–1.4) + 1 ternary cooperativity edge (~$3–6) | **~$4–7 Vast 4090** |
+| 3 · Val B cube + NR-V04 feasibility | 2–3 ternary edges (~$3–6 ea) + MD module; covalent panel (MEASURED) | **~$6–18 + ~$10–11** |
+| 4 · fan-out + atlas + NR-V04 retro | ≈19 RBFE edges (~$0.6–1.4 ea) + $0 atlas (DONE) + NR4A1/2/3 ternary ensembles (~$3–6 ea) | **~$12–26 + $0 + ternary×count** |
 | **★ 5a-KS · pilot wedge leg (KILL-SWITCH)** | atlas($0) + basin($0–50) + **one** mutation direction | **decision ≈ $40–140** |
 | 5 (only if GO) · full cycle + linker($0) + ensemble + local FEP | reciprocal cycle + ternary/CRL MD + within-basin FEP | **~$100–350 + ~$100–250 + ~$150–500** |
 | Optional ΔG_open / ABFE | — | +$200–500 |
