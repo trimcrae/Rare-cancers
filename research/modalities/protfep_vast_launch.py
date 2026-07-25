@@ -382,11 +382,23 @@ def submit(mode="pilot", n_replicas=3, benchmarks=None, dry_run=False):
         return []
     backend = get_backend("vast")
     handles = []
+    # ONE LEG PER MACHINE WITHIN A FLEET. Offers are per GPU slot, so selection happily picks the same
+    # cheapest-$/ns machine for several legs — but a host advertising slots it cannot actually
+    # schedule accepts every rental and then refuses every start. Observed 2026-07-25: machine 53989
+    # took two legs of the same fleet and answered resources_unavailable for both, and machine 11892
+    # a third. Spreading costs almost nothing (the market has ~23 hosts and the floor is flat) and
+    # removes a failure mode that scales with fleet width. The exclusion is per-launch and additive
+    # to the persistent blocked list, which stays in place.
+    used_machines = set(RES.exclude_machine_ids or ())
     for j in jobspecs:
         try:
+            RES.exclude_machine_ids = tuple(used_machines)
             h = backend.submit(j)
+            mid = h.extra.get("machine_id")
+            if mid is not None:
+                used_machines.add(str(mid))
             print(f"[launch] {j.name}: instance={h.job_id} offer={h.extra.get('offer')} "
-                  f"dph={h.extra.get('dph')}")
+                  f"machine={mid} dph={h.extra.get('dph')}")
             handles.append(h)
         except Exception as e:  # noqa: BLE001 — one unrentable unit must not abort the rest
             print(f"[launch] {j.name}: SUBMIT FAILED {type(e).__name__}: {e}")

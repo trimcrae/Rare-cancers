@@ -612,7 +612,13 @@ class VastBackend(Backend):
         return Handle(backend=self.name, job_id=str(inst_id),
                       # min_bid is carried so a launcher can report the market FLOOR alongside what we bid —
                       # the premium is otherwise invisible and gets baked into the next cost estimate.
+                      # machine_id is carried so a FLEET launcher can avoid stacking several legs on
+                      # one machine. Offers are per GPU slot, but a host advertising slots it cannot
+                      # actually schedule will accept both rentals and refuse both starts — observed
+                      # 2026-07-25, machine 53989 took two legs of the same fleet and answered
+                      # resources_unavailable for each.
                       extra={"offer": offer["id"], "dph": offer.get("dph_total"),
+                             "machine_id": offer.get("machine_id"),
                              "min_bid": offer.get("min_bid"), "bid": body.get("price"),
                              "resume": spec.resume})
 

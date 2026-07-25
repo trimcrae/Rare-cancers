@@ -1647,3 +1647,45 @@ def test_the_reduction_commit_step_stages_before_testing_for_changes():
     assert "git diff --cached --quiet" in step
     # And the add must come BEFORE the test, or the test still reads an empty index.
     assert step.index("git add ") < step.index("git diff --cached")
+
+
+def test_a_fleet_does_not_stack_two_legs_on_one_machine(monkeypatch):
+    """A host advertising slots it cannot schedule accepts every rental and refuses every start.
+
+    Observed 2026-07-25: machine 53989 took two legs of the same fleet and answered
+    resources_unavailable for both. Selection picks per-leg on $/ns, so without this the cheapest
+    machine wins every leg in the fleet and the whole fleet fails together.
+    """
+    seen_exclusions, machines = [], iter(["111", "222", "333", "444"])
+
+    class _Backend:
+        def submit(self, js):
+            seen_exclusions.append(set(pv.RES.exclude_machine_ids or ()))
+            return type("H", (), {"job_id": "i", "extra": {"machine_id": next(machines)}})()
+
+    monkeypatch.setattr(pv, "get_backend", lambda name: _Backend())
+    monkeypatch.setattr(pv, "blocked_machine_ids", lambda *a, **k: [])
+    monkeypatch.setattr(pv, "completed_leg_ids", lambda *a, **k: [])
+    pv.RES.exclude_machine_ids = ()
+    pv.submit(mode="pilot")
+    # The first leg excludes nothing; each later leg excludes every machine already taken.
+    assert seen_exclusions[0] == set()
+    assert seen_exclusions[1] == {"111"}
+
+
+def test_the_fleet_exclusion_keeps_the_persistent_blocked_list(monkeypatch):
+    """Per-launch spreading is ADDITIVE to the hosts already known to refuse starts."""
+    seen = []
+
+    class _Backend:
+        def submit(self, js):
+            seen.append(set(pv.RES.exclude_machine_ids or ()))
+            return type("H", (), {"job_id": "i", "extra": {"machine_id": "999"}})()
+
+    monkeypatch.setattr(pv, "get_backend", lambda name: _Backend())
+    monkeypatch.setattr(pv, "blocked_machine_ids", lambda *a, **k: ["53989"])
+    monkeypatch.setattr(pv, "completed_leg_ids", lambda *a, **k: [])
+    pv.RES.exclude_machine_ids = ()
+    pv.submit(mode="pilot")
+    assert "53989" in seen[0], "a persistently blocked host must stay excluded from leg 1"
+    assert {"53989", "999"} <= seen[1]
