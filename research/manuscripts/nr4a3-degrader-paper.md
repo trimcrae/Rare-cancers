@@ -46,11 +46,25 @@ provisional, its repair is scoped but held, and the engine's *absolute* scale is
 recalculation of the NR4A3 leg** shows the absolute ΔG_bind is **strongly conformer-dependent** (+8.17 ± 0.98
 vs +3.5 kcal/mol on the AF2-opened conformer, a ≈ 4.7 kcal/mol shift larger than the selectivity margin), so
 the selectivity is reported as **conditional on the chosen opened conformers**; a matched experiment-anchored
-paralogue comparison is the flagged decisive follow-up. This is a **computation-only** design and feasibility
+paralogue comparison is the flagged decisive follow-up. Separately, because a useful degradation window would
+require an induced-interface margin larger than these methods can resolve, we report a **mechanism-first
+prospective design stage** that searches instead for **categorical** paralogue differences — positions at
+which NR4A1/NR4A2 are structurally incapable rather than merely disfavoured. It identifies an exposed
+NR4A3-unique cysteine and three NR4A3-unique lysines whose paralogue side is a *sequence* fact independent of
+any receptor model; finds that the chemistry axis is **one residue deep, with no geometric fallback**; returns
+a **negative on E3-recruiter breadth** (structural stageability, not target availability, is the binding
+constraint, and widening the panel confirmed the incumbent recruiters rather than displacing them); nominates
+orientation basins that exploit the categorical terms in only a **small minority** of placements; and
+enumerates a **reversible-covalent-preferring virtual linker library** whose covalent handle is reported as an
+unresolved liability alongside the parent warhead's own pharmacology. Two ubiquitination-geometry parameters
+are corrected against solved intact assemblies rather than assumed. The **causal test of whether any designed
+element creates discrimination has not been run**, and its reading is pre-registered. This is a
+**computation-only** design and feasibility
 study — **no molecule was synthesized and no wet-lab validation was performed** — whose principal unresolved
 limitations are the consistency of pocket identification across structural models, the **structural-provenance
-dependence of the free-energy selectivity**, cross-replica convergence, and the atomic binding pose and
-ensemble-weighted selectivity.
+dependence of the free-energy selectivity**, cross-replica convergence, the atomic binding pose and
+ensemble-weighted selectivity, and — for the prospective stage — a double conditionality on a hypothesized
+warhead pose and a chosen receptor frame.
 
 ## 1. Background and rationale
 NR4A receptors are constitutively active orphan nuclear receptors whose canonical ligand pocket is
@@ -1435,8 +1449,8 @@ rules constrain how any of this may be read, and each was produced by a measurem
    identical rule as a control, and that control is **exactly zero in 168 of 192 basins** (0–6.6 % where it is
    nonzero). The lysine term is held to its own separate null — a basin must exceed the background rate at
    which *any* linker-feasible, clash-free placement covers a unique lysine (**1.0–7.5 %** across the 24
-   arm × pose nulls), which is why `crbn|M0`'s **7.5×** is an enrichment on the *lysine* term and must not be
-   read as an electrophile-reach enrichment. So these are **enrichments, not saturation**: a basin is a region
+   arm × pose nulls), which is why the enrichment quoted for `crbn|M0` above is on the *lysine* term and must
+   not be read as an electrophile-reach enrichment. So these are **enrichments, not saturation**: a basin is a region
    that *admits* the mechanism, not one that enforces it, and the gate therefore **nominates** rather than
    decides.
 2. **All seven electrophile-reach basins reach C397, and only C397**, consistent with the ensemble result
@@ -2065,9 +2079,9 @@ ordered so that the free ones can end it before any GPU spend.
 
 | Tier | Pre-registered criterion | Cost | Outcome |
 |---|---|---|---|
-| 0 | **Categorical-axis screen.** If no paralogue-unique nucleophile lies within tether range *and* no paralogue-unique exposed lysine exists, selectivity must come from the marginal axis alone — which sits at the method's resolution limit — so say so and expect a negative | $0 CPU | **pass on both axes** (C397 at 10.9 Å of exit-vector reach; K572/K518/K592 exposed) |
+| 0 | **Categorical-axis screen.** If no paralogue-unique nucleophile lies within tether range *and* no paralogue-unique exposed lysine exists, selectivity must come from the marginal axis alone — which sits at the method's resolution limit — so say so and expect a negative | $0 CPU | **pass on both axes** — an exposed paralogue-unique cysteine within exit-vector reach, and three exposed paralogue-unique lysines (figures in §2.10) |
 | 1 | **Differential surface atlas.** No E3-reachable divergent surface ⇒ stop for free | $0 CPU | **pass** (46 differential-surface handles, §2.4) |
-| 2 | **Basin nomination.** If no basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ stop cheaply | $0 realized | **GO, on the CATEGORICAL basis and weakly** — 7 electrophile-reach, 40 lysine-identity above null, 28 nominally discriminating, of 58 meta-basins; the terms fire in 2–6 % of placements (§2.10) |
+| 2 | **Basin nomination.** If no basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ stop cheaply | $0 realized | **GO, on the CATEGORICAL basis and weakly** — basins exploit both categorical terms above their nulls, but the terms fire in only a small minority of each basin's placements; counts and fractions in §2.10, which is their only home |
 | 3 | **One causal matched-pair test:** a ligand-side double difference asking whether a designed element *creates* discrimination, on one matched pair differing in that element alone | priced, **not run** | pending |
 
 Two of these deserve to be stated as *rules written before the result*, because both concern how a likely
@@ -2342,7 +2356,7 @@ absent by verification status rather than by oversight; entry 70 has no publicat
     anchor is measured with no composition. Volume/pages/DOI/PMID and the full author list not retrieved.]
 70. RCSB Protein Data Bank. *PDB **9UUM** — "Cryo-EM structure of mezigdomide-organized
     CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly", cryo-EM 3.41 Å.* [The CRBN-arm intact
-    assembly supplying §2.10's observed E2 catalytic cysteine and the measured 17.09 Å transfer distance.
+    assembly supplying §2.10's observed E2 catalytic cysteine and its measured substrate-lysine transfer distance.
     **Deposition status "to be published" — there is no associated publication and no year**, so it is cited
     as a structural entry only.]
 71. Shrake, Rupley. *Environment and exposure to solvent of protein atoms. Lysozyme and insulin.* J Mol Biol
