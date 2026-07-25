@@ -1759,7 +1759,14 @@ def load_advanced(path=OUT_JSON):
             "gene": gene, "uniprot": (r.get("uniprot") or {}).get("accession"),
             "e3_class": r.get("e3_class"), "pdb_id": p.get("pdb_id"),
             "resolution_A": p.get("resolution_A"), "ligand_ccd": (p.get("ligand") or {}).get("ccd"),
-            "recruiter_chains": p.get("recruiter_auth_asym_ids"),
+            # recruiter_auth_asym_ids comes from the ASYMMETRIC UNIT's entity map, while the geometry frame
+            # is a biological assembly that may contain a different subset (CRBN 9CUO: entity chains A-F,
+            # assembly frame A-C). Returning the raw list would hand the consumer chain IDs that are not in
+            # the file it is about to read, so intersect with what is actually present.
+            "recruiter_chains": ([c for c in (p.get("recruiter_auth_asym_ids") or [])
+                                  if c in set(occ.get("chains_present_in_frame") or [])]
+                                 or p.get("recruiter_auth_asym_ids")),
+            "recruiter_chains_in_entity": p.get("recruiter_auth_asym_ids"),
             "arm_chains": occ.get("chains_present_in_frame"),
             "coordinate_source": lg.get("coordinate_source"),
             "anchor_xyz": ev.get("anchor_xyz"), "exit_direction": ev.get("direction"),
