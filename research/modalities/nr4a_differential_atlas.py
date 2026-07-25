@@ -104,14 +104,22 @@ def parse_pdb(path: str):
     disappear with no error — and it is wrong for any heavy-atom distance criterion, which will see H atoms.
     Flagged rather than changed, because changing it would move the numbers in two committed artifacts. A
     chain-aware, heavy-atom-only parser lives in `nr4a3_basin_search.parse_multichain_pdb`; use that for
-    anything with more than one chain."""
+    anything with more than one chain.
+
+    ★ 2026-07-25: the silent half is now REFUSED rather than merely documented. Verified first that this
+    changes no committed number — all three matched models (`nr4a{3,1,2}-opened.pdb`) are single-chain A, so
+    the Tier-0 unique-residue map and the Tier-1 differential atlas (46 handles) are untouched. What remains
+    is a latent trap for the NEXT caller, and a silent wrong answer is the one failure mode this program keeps
+    paying for, so multi-chain input now raises instead of quietly discarding half the structure."""
     residues = {}
     order = []
     atoms = []
+    chains = set()
     with open(path) as fh:
         for ln in fh:
             if not ln.startswith("ATOM"):
                 continue
+            chains.add(ln[21])
             name = ln[12:16].strip()
             resn = ln[17:20].strip()
             if resn not in THREE2ONE:
@@ -123,6 +131,13 @@ def parse_pdb(path: str):
             if rid not in residues:
                 residues[rid] = THREE2ONE[resn]
                 order.append(rid)
+    if len(chains) > 1:
+        raise ValueError(
+            f"parse_pdb() is SINGLE-CHAIN ONLY and {path} has {len(chains)} chains "
+            f"({''.join(sorted(chains))}). Residues are keyed by number alone, so chains numbered from 1 "
+            f"would collapse onto each other and roughly half the structure would vanish with no error. "
+            f"Use nr4a3_basin_search.parse_multichain_pdb() for multi-chain input."
+        )
     return [(r, residues[r]) for r in order], atoms
 
 
