@@ -107,6 +107,19 @@ was found in one free build-test run, after three paid GPU failures, purely beca
 extended to cover the complex environment as well as apo. Cover every environment the production run
 uses, or the free tier only proves the easy half.
 
+| 10 | Vast | two hosts in a row sat at `cur_state=stopped` through ~13 start PUTs that all appeared to succeed | Vast answers a start it cannot satisfy with **HTTP 200** and `{"success": false, "error": "resources_unavailable", "msg": "...state change queued."}` — the machine has no free GPU and the start is QUEUED. Both the nudge and `gpu_backend._ensure_running` discarded that body, so a capacity wait was indistinguishable from a working start | ~$0.45 |
+
+Failure #10 produced a **wrong action of mine**, which is the part worth remembering. Because the
+body was discarded, the stopped-box guard read a capacity wait as "the nudge is not taking" and
+destroyed the host after 45 minutes — and would have destroyed every replacement for the same
+reason, since the cause was never the host. The repo's standing rule (**always wait out spot
+capacity**) applies directly: a queued instance bills storage only (`instance.gpuCostPerHour` is 0
+in the record) and starts by itself when a slot frees. The generalisable lesson is narrower than
+"read the docs": **an API that signals failure inside a 200 body turns every discarded response into
+a silent wrong branch.** The forensic dump had already ruled out the obvious causes — `is_bid` true
+with `dph_base` 0.0553 over a `min_bid` of 0.0442, `rentable` true, reliability 0.99 — and still
+could not explain it, because the explanation was never in the instance record.
+
 Failure #9 is worth reading as a monitoring lesson rather than an infrastructure one. The board showed
 `loading` for 36 minutes and that was indistinguishable from a healthy pull, because it printed a
 STATE without a REASON and a timestamp without an AGE. Three fields — `intended_status`, `min_bid` vs
