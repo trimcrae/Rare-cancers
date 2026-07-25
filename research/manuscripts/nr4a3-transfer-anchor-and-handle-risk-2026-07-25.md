@@ -63,8 +63,9 @@ mapping both stagings' quantities into that one frame:
 **The entire disagreement is in the exit vector.** The two bridges land the observed E2 in the same place to
 two hundredths of an angstrom, so:
 
-- **H1 (a different copy in the source assembly) — falsified.** Both stagings map the same single 8R5H
-  conformer to the same point.
+- **H1 (a different copy in the source assembly) — falsified twice over.** Both stagings map the same 8R5H
+  conformer to the same point, *and* 8R5H deposits exactly **one** copy of VHL·EloB·EloC (copy selection
+  reports `n_combinations: 1, coherent: true`), so there was no alternative copy to select.
 - **H2 (different CRL-arm conformers) — falsified.** There is no conformational disagreement to explain.
   **The 39 Å is NOT a second instance of the 48.6 Å composed-RING spread**, and the suggestive numerical
   similarity was a coincidence. Term (b) does **not** carry ~40 Å of frame-to-frame transfer-zone variation
@@ -87,7 +88,9 @@ Read out of the structure rather than argued:
 (Elongin B/C for VHL, DDB1 for CRBN) — and never against the recruiter. A fragment bound to a partner subunit
 therefore passed every check and produced an "E3 exit vector" that is not on the E3 ligand site, silently,
 because the exit atom is still ~4 Å from *some* body atom and every downstream distance still looks
-reasonable. Neither 6GMN F4E copy in that file is in a VHL pocket.
+reasonable. (6GMN deposits four copies of the complex and two modelled F4E copies; the statement above is
+measured for the one the staging **chose**. The other copy was not evaluated against its own copy's VHL and
+no claim is made about it — it is simply not the ligand that produced the 69.9 Å.)
 
 **Fixed** in [`nr4a3_e3_stage.py`](../modalities/nr4a3_e3_stage.py): `pick_ligand` now takes
 `recruiter_chains` and refuses a ligand more than 4.5 Å from the recruiter, recording
@@ -208,8 +211,10 @@ below a given linker length:
 
 - **C397 opens at or below the 12-atom gate in 72/75 = 96 % of unbiased conformers** (median shortest linker
   10 atoms). The "opens at a 10-atom linker" claim is an ensemble property, not a single-frame artifact.
-- **Neither C420 nor C559 is reachable at ≤12 atoms in ANY of the 100 conformers × 12 exit-vector poses.**
-  A different receptor frame does not rescue them, and neither does a different exit vector.
+- **Neither C420 nor C559 is reachable at ≤12 atoms in ANY of the 75 unbiased conformers × 12 exit-vector
+  poses.** A different receptor frame does not rescue them, and neither does a different exit vector. Across
+  all 100 conformers the exceptions are **2 biased metadynamics frames for C420 and none at all for C559** —
+  and those two are frames driven along the pocket-opening CV, not a population the design can count on.
 - **They are recoverable only by paying linker length**: C420 at **16** atoms (51 % of frames), C559 at
   **20** (81 %, and 14/75 frames never open at all within 20).
 - The **biased** metadynamics ensemble is *less* favourable for C397 (median RSA 0.290; 72 % at the gate), so
@@ -310,8 +315,9 @@ this caveat attached.
 Replace the single-frame "RSA 0.395" with the ensemble result: over **75 unbiased NR4A3 MD conformers**,
 C397's RSA is **median 0.416 (mean 0.405 ± 0.096, p10–p90 0.298–0.510)** — the committed 0.395 is at the
 median — and it is reachable at or below the **12-atom gate in 96 %** of them. Add plainly: **C420 and C559
-are reachable at ≤12 atoms in ZERO of 100 conformers × 12 exit-vector poses**; C420 needs **16** atoms (51 %
-of frames) and C559 **20** (81 %), paid out of the same contour length that must also span to the E3. So the
+are reachable at ≤12 atoms in ZERO of the 75 unbiased conformers × 12 exit-vector poses** (across all 100,
+2 biased metadynamics frames for C420 and none for C559); C420 needs **16** atoms (51 % of frames) and C559
+**20** (81 %), paid out of the same contour length that must also span to the E3. So the
 categorical *chemistry* axis is **one residue deep** — robustly present, but with no geometric fallback — and
 the program's insurance against a C397-specific *chemical* failure (pKa, nucleophilicity, adduct stability,
 promiscuity — all untested here) is the categorical **lysine** axis, not a second cysteine. C559's
