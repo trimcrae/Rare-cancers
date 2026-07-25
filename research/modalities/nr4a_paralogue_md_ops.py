@@ -261,8 +261,11 @@ def _progress_signature(targets):
         except Exception:  # noqa: BLE001
             d = {}
         extra = d.get("extra") or {}
+        # DELIBERATELY NOT the marker's timestamp. The host publishes a heartbeat every 2 min, so a
+        # signature containing `utc` would change on every tick whether or not the science advanced —
+        # a stall detector that can never fire, which is worse than none. Phase + ns + deliverable only.
         sig[name] = (d.get("phase"), extra.get("done_ns") if isinstance(extra, dict) else None,
-                     d.get("utc"), _exists(s3, result_key(name)))
+                     _exists(s3, result_key(name)))
     return sig
 
 
@@ -302,7 +305,7 @@ def publish_board(text, branch=WATCH_BRANCH):
         subprocess.run(["rm", "-rf", d])
 
 
-def watch(targets, interval_s=180, max_minutes=330, stall_ticks=6):
+def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
     """ONE CI run that monitors the legs continuously, so monitoring survives this session dying.
 
     Every `interval_s` it prints a full progress board and compares the progress signature with the previous
@@ -322,12 +325,12 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=6):
         with contextlib.redirect_stdout(Tee(sys.stdout, buf)):
             status(targets)
         sig = _progress_signature(targets)
-        one_line = " | ".join(f"{n}: phase={v[0]} ns={v[1]} done={v[3]}" for n, v in sig.items())
+        one_line = " | ".join(f"{n}: phase={v[0]} ns={v[1]} done={v[-1]}" for n, v in sig.items())
         print(f"::notice title=LANE13 TICK {tick}::{one_line}", flush=True)
         publish_board(f"# LANE 13 watch board\n\n`{head.strip('# ')}`\n\n**{one_line}**\n\n```\n"
                       + buf.getvalue()[-40000:] + "\n```\n")
         for name, v in sig.items():
-            if v[3]:
+            if v[-1]:
                 frozen[name] = 0
                 continue
             if prev and prev.get(name) == v:
@@ -338,7 +341,7 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=6):
                 frozen[name] = 0
         prev = sig
         reap(targets)
-        if all(v[3] for v in sig.values()):
+        if all(v[-1] for v in sig.values()):
             print("::notice title=LANE13 ALL LEGS DONE::every deliverable is in S3")
             return 0
         stalled = [n for n, c in frozen.items() if c >= stall_ticks]

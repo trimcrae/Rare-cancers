@@ -92,6 +92,51 @@ def metad_done_ns(metad_dir):
     return max(man, frames * FRAME_PS / 1000.0)
 
 
+def release_done_ns(rel_dir, n_rep):
+    """Unbiased ns completed across the release replicas, from each replica's own progress marker."""
+    tot = 0.0
+    for r in range(n_rep):
+        p = os.path.join(rel_dir, f"release_rep{r}.progress.json")
+        if os.path.exists(p):
+            try:
+                tot += float(json.load(open(p)).get("ns_done", 0.0))
+            except Exception:  # noqa: BLE001
+                pass
+    return tot
+
+
+class Heartbeat(threading.Thread):
+    """Publish LIVE progress every `period_s`, not just at phase boundaries.
+
+    WHY THIS IS NOT COSMETIC. A metadynamics segment is 20 ns and takes over an hour, so a phase marker
+    written only at segment boundaries would leave the progress signature UNCHANGED for that whole hour — and
+    the watch's stall detector, which fires after 6 unchanged ticks (18 min), would raise a false STALL on a
+    perfectly healthy leg. Worse, the opposite error is the one this repo actually keeps paying for: a marker
+    that never changes is indistinguishable from a dead container. So the heartbeat reads the metadynamics
+    trajectory's own frame count (cheap: a 16-byte header read, no trajectory load) and the release replicas'
+    progress markers, and publishes real ns.
+    """
+
+    def __init__(self, metad_dir, rel_dir, n_rep, phase_getter, period_s=120):
+        super().__init__(daemon=True)
+        self.metad_dir, self.rel_dir, self.n_rep = metad_dir, rel_dir, n_rep
+        self.phase_getter, self.period_s = phase_getter, period_s
+        self.stop = threading.Event()
+
+    def run(self):
+        while not self.stop.wait(self.period_s):
+            try:
+                ph = self.phase_getter()
+                extra = {"live": True}
+                if ph == "metad":
+                    extra["done_ns"] = round(metad_done_ns(self.metad_dir), 3)
+                elif ph == "release":
+                    extra["done_ns"] = round(release_done_ns(self.rel_dir, self.n_rep), 3)
+                mark(ph, extra)
+            except Exception as e:  # noqa: BLE001 — a heartbeat must never kill the science
+                print(f"[hb] {e}", flush=True)
+
+
 class Syncer(threading.Thread):
     """Continuous upload at two cadences. Daemon so it can never hold the process open."""
 
@@ -151,6 +196,9 @@ def main(argv=None):
 
     syncer = Syncer(CKPT, CHECKPOINT_URI)
     syncer.start()
+    phase = {"now": "start"}
+    hb = Heartbeat(metad_dir, rel_dir, args.n_rep, lambda: phase["now"])
+    hb.start()
     env0 = dict(os.environ)
     env0.pop("PYTHONPATH", None)          # never let a base-image site-packages shadow the conda env
     env0["TARGET"] = args.target
@@ -160,6 +208,7 @@ def main(argv=None):
         while True:
             done = metad_done_ns(metad_dir)
             todo = args.metad_ns - done
+            phase["now"] = "metad"
             mark("metad", {"done_ns": round(done, 2), "target_ns": args.metad_ns})
             if todo <= 0.05:
                 print(f"[job] metad already at {done:.2f}/{args.metad_ns} ns — skipping", flush=True)
@@ -177,7 +226,9 @@ def main(argv=None):
         syncer._sync(True)
 
         # ---- phase 2: unbiased release replicas + frame export ---------------------------------------
-        mark("release")
+        phase["now"] = "release"
+        mark("release", {"done_ns": round(release_done_ns(rel_dir, args.n_rep), 3),
+                         "target_ns": args.release_ns * args.n_rep})
         env = dict(env0)
         env.update({"NS": str(args.release_ns), "N_REP": str(args.n_rep),
                     "TARGET_RG": str(args.target_rg), "N_EXPORT": str(args.n_export),
@@ -189,6 +240,7 @@ def main(argv=None):
             return r.returncode
 
         # ---- phase 3: package + upload the deliverable ----------------------------------------------
+        phase["now"] = "package"
         mark("package")
         frames = os.path.join(rel_dir, "frames")
         tgz = os.path.join(CKPT, f"{args.target.lower()}-pocket-ensemble.tar.gz")
@@ -205,6 +257,7 @@ def main(argv=None):
         print(f"[job] DONE — {n_frames} frame PDBs exported for {args.target}", flush=True)
         return 0
     finally:
+        hb.stop.set()
         syncer.final()
 
 
