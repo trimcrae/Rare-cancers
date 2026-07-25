@@ -169,6 +169,41 @@ def find_intact_assembly(spec, log):
     return None
 
 
+def chain_sequences(prot):
+    """Per-chain length and sequence, read out of the FILE. Chain identity elsewhere in this pipeline comes
+    from the RCSB API's `auth_asym_ids`; if that ever disagreed with the legacy PDB's chain column, every
+    'which subunit is this ligand bound to' statement would be wrong in a way no distance check could see.
+    Deriving the sequence here makes the labelling auditable instead of trusted."""
+    by = {}
+    for a in prot:
+        if a["name"] != "CA":
+            continue
+        by.setdefault(a["chain"], []).append((a["resid"], S.THREE2ONE.get(a["resname"], "X")))
+    out = {}
+    for ch, rows in by.items():
+        rows.sort()
+        seq = "".join(aa for _, aa in rows)
+        out[ch] = {"n_residues": len(rows), "first_resid": rows[0][0], "last_resid": rows[-1][0],
+                   "seq_head": seq[:40], "seq_tail": seq[-20:]}
+    return out
+
+
+def contact_residues(prot, points, cutoff=4.5):
+    """Every residue with a heavy atom within `cutoff` of any of `points` — the lining of a ligand site,
+    which is what identifies the site by name rather than by a bare distance."""
+    hits = {}
+    for a in prot:
+        for p in points:
+            if G.dist(a["xyz"], p) <= cutoff:
+                key = (a["chain"], a["resid"])
+                d = G.dist(a["xyz"], p)
+                if key not in hits or d < hits[key][1]:
+                    hits[key] = (a["resname"], round(d, 2))
+                break
+    return [{"chain": c, "resid": r, "resname": hits[(c, r)][0], "min_dist_A": hits[(c, r)][1]}
+            for (c, r) in sorted(hits)]
+
+
 def ligand_report(prot, het, body_chains, comp, tag):
     """pick_ligand's answer PLUS the per-chain breakdown it does not report: which subunit the exit atom is
     actually next to. An exit vector 4 A from *some* body atom can still be nowhere near the recruiter."""
@@ -199,15 +234,21 @@ def ligand_report(prot, het, body_chains, comp, tag):
         "nearest_atom_per_chain_A": per_chain,
         "chain_identity": {c: named.get(c, acc_of.get(c, "?")) for c in per_chain},
         "nearest_chain": min(per_chain, key=per_chain.get) if per_chain else None,
+        "site_lining_residues": contact_residues(prot, [tuple(a["xyz"]) for a in lig["atoms"]]),
         "_ligand": lig,
     }
 
 
-def all_candidate_ligands(prot, het, body_chains):
-    """Every HET group this entry offers that could have been chosen, with the exit vector each would give.
-    pick_ligand takes the LARGEST group with >=4 atoms within 4.5 A of the body, and ties break on file order —
-    so on a multi-copy entry the audit has to show what the alternatives were."""
+def all_candidate_ligands(prot, het, body_chains, recruiter_chains, ref_point=None):
+    """Every HET group this entry offers that could have been chosen, with what each would have implied.
+
+    pick_ligand takes the LARGEST group with >=4 atoms within 4.5 A of the BODY, ties broken on file order.
+    The body is the union of the recruiter and its obligate partners, so a fragment bound to a partner (or to
+    a crystallographic surface site on one) is 'eligible' even though it is nowhere near the recruiter's
+    ligand pocket. `min_dist_to_RECRUITER_A` is the column that separates those two cases, and it is not a
+    test the staging performs."""
     body = [a["xyz"] for a in prot if a["chain"] in body_chains]
+    recp = [a["xyz"] for a in prot if a["chain"] in recruiter_chains]
     field = G.SquaredDistanceField(body, cell=1.0, clamp=8.0)
     groups = {}
     for a in het:
@@ -220,9 +261,16 @@ def all_candidate_ligands(prot, het, body_chains):
             continue
         near = sum(1 for a in atoms if field.min_dist(a["xyz"]) <= 4.5)
         cen = G.centroid([a["xyz"] for a in atoms])
-        rows.append({"het": key[0], "chain": key[1], "resid": key[2], "n_heavy": len(atoms),
-                     "n_atoms_within_4.5A_of_selected_body": near,
-                     "eligible": near >= 4, "centroid": [round(c, 2) for c in cen]})
+        d_rec = min((S._min_dist_exact(a["xyz"], recp) for a in atoms), default=None)
+        row = {"het": key[0], "chain": key[1], "resid": key[2], "n_heavy": len(atoms),
+               "n_atoms_within_4.5A_of_selected_body": near,
+               "eligible_by_staging_rule": near >= 4,
+               "min_dist_to_RECRUITER_A": (round(d_rec, 2) if d_rec is not None else None),
+               "bound_to_recruiter": (d_rec is not None and d_rec <= 4.5),
+               "centroid": [round(c, 2) for c in cen]}
+        if ref_point is not None:
+            row["centroid_to_OBSERVED_ligand_site_A"] = round(G.dist(cen, ref_point), 2)
+        rows.append(row)
     rows.sort(key=lambda r: (-r["n_heavy"], r["chain"], r["resid"]))
     return rows
 
@@ -248,6 +296,7 @@ def run_case(case_id, spec, log):
         "pdb_id": intact["pdb_id"], "title": icomp.get("title"), "method": icomp.get("method"),
         "resolution_A": icomp.get("resolution_A"), "e2": intact["e2"],
         "receptor_copy": isel, "copy_selection": iinfo,
+        "chain_sequences": chain_sequences(iprot),
         "catalytic_cys": cat,
         "ligand": ilig,
     }
@@ -284,12 +333,13 @@ def run_case(case_id, spec, log):
         rec = {"pdb_id": pdb, "title": comp.get("title"), "resolution_A": comp.get("resolution_A"),
                "chains_by_accession": comp["chains_by_accession"],
                "receptor_copy": sel, "copy_selection": info,
-               "candidate_ligands": all_candidate_ligands(prot, het, body),
+               "chain_sequences": chain_sequences(prot),
                "ligand": lig}
         # bridge the intact assembly into this receptor's frame, exactly as stage_intact_assembly does
         src_map = {n: {isel[n]} for n in spec["receptor_needs"] if n in isel}
         dst_map = {n: {sel[n]} for n in spec["receptor_needs"] if n in sel}
         tr, binfo = superpose_map(iprot, src_map, prot, dst_map)
+        ref_site = None
         if tr is None:
             rec["bridge"] = binfo
         else:
@@ -302,6 +352,7 @@ def run_case(case_id, spec, log):
                 obs_cen_f = G.apply_superpose([tuple(ilig["_ligand"]["e3_moiety_centroid"])], R, t)[0]
                 rec["mapped_observed_exit_xyz"] = [round(c, 3) for c in obs_exit_f]
                 rec["mapped_observed_e3_moiety_centroid_xyz"] = [round(c, 3) for c in obs_cen_f]
+                ref_site = obs_cen_f
                 if lig is not None:
                     rec["THIS_STAGING_exit_vs_OBSERVED_exit_A"] = round(
                         G.dist(tuple(lig["exit_atom_xyz"]), obs_exit_f), 2)
@@ -315,6 +366,8 @@ def run_case(case_id, spec, log):
                     f"(bridge {binfo['n_bridge_ca']} CA @ {binfo['bridge_rmsd_A']} A); this staging's exit atom "
                     f"is {rec.get('THIS_STAGING_exit_vs_OBSERVED_exit_A')} A from the exit atom OBSERVED in "
                     f"{intact['pdb_id']}")
+        rec["candidate_ligands"] = all_candidate_ligands(
+            prot, het, body, {sel.get(spec["recruiter"])} - {None}, ref_site)
         rec["_prot"] = prot
         rec["_comp"] = comp
         rec["_sel"] = sel
