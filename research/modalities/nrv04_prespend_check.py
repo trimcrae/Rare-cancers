@@ -7,11 +7,14 @@ produce an interpretable result at all. Each is a real measurement on the real i
 
   1. Does every leg STAGE from the co-fold prefix the re-run would use — i.e. does identify_chains resolve the
      254-residue NR4A LBD as the degradation target, with VHL/EloB/EloC accounted for and no 14-3-3 contaminant?
-  2. For each covalent leg, how far is the nearest TARGET-CHAIN Cys Sg from the warhead electrophile? The panel's
-     `warhead_only` legs tethered celastrol to an Elongin C cysteine 12.44 A away because the co-fold never posed
-     free celastrol in the NR4A1 pocket. That is an INPUT defect; no chain-split fix repairs it, and the driver
-     now fails closed above MAX_COVALENT_TETHER_A. If it recurs on the clean co-fold, the leg is unrunnable and
-     the prereg's control #3 cannot be evaluated — which must be known BEFORE the spend, not after.
+  2. For each covalent leg, how far is the PREREGISTERED covalent Cys Sg (NR4A1 C551) from the warhead
+     electrophile? The panel's `warhead_only` legs tethered celastrol to an Elongin C cysteine 12.44 A away
+     because the co-fold never posed free celastrol in the NR4A1 pocket. That is an INPUT defect; no chain-split
+     fix repairs it, and the driver now fails closed above MAX_COVALENT_TETHER_A. If it recurs on the clean
+     co-fold, the leg is unrunnable and the prereg's control #3 cannot be evaluated — which must be known BEFORE
+     the spend, not after.
+     ⚠ This used to ask for the NEAREST target-chain cysteine, which is a different residue (C566) and a
+     different number (8.87-8.99 A vs C551's 28.4-39.1 A). See check_leg's note.
   3. How large is the corrected E3<->target interface in the staged (unsolvated) complex, and — for the matched
      active/epimer pair — is it different at all? R2's frozen rule is "BSA > 0 sustained over > 50 % of frames",
      and every one of the 17 completed legs returned recruited=True, so this bounds what R2 could ever separate.
@@ -26,7 +29,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from nrv04_covalent_panel import PANEL  # noqa: E402
+from nrv04_covalent_panel import PANEL, TARGET_COV_RESNUM  # noqa: E402
 from nrv04_ligands import LIGANDS  # noqa: E402
 
 # `nrv04_ternary.py` writes one co-fold system per ligand; the launcher maps panel ligand -> system subdir.
@@ -34,7 +37,13 @@ LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastrol
 
 
 def _pull_model(s3, bucket, prefix, system, dest):
-    """Download the first `_model_0.cif` under <prefix>/<system>/ (the launcher's own selection rule)."""
+    """Download the first `_model_0.cif` under <prefix>/<system>/ (the launcher's own selection rule).
+
+    NOTE (Lane 8, 2026-07-25): this deliberately samples **one** model per system, because its job is to check
+    the leg the launcher would actually stage. It is therefore NOT evidence about the co-fold ENSEMBLE, and a
+    statement of the form "no co-fold in the bucket does X" cannot rest on it — prereg AMENDMENT 1 made exactly
+    that extrapolation. For the enumeration over every model of every prefix, run
+    `nrv04_covalent_input_audit.py`."""
     base = f"{prefix.rstrip('/')}/{system}/"
     keys, tok = [], None
     while True:
@@ -75,9 +84,17 @@ def _interface_from_pdb(pdb_path, target_chain, e3_chains, cutoff_nm=0.45):
 
 
 def check_leg(leg, cif, workdir):
-    """Stage one leg and measure everything that decides whether it can be run."""
+    """Stage one leg and measure everything that decides whether it can be run.
+
+    ⚠ CORRECTED 2026-07-25 (Lane 8). This used to report the distance to the NEAREST target-chain Cys Sg, which
+    is not the quantity the A1 gate is defined on. On every co-fold in the bucket the nearest one is **C566**
+    (8.87-8.99 A) while the preregistered covalent site **C551** is 28.4-39.1 A away — so the numbers this file
+    produced, and which prereg AMENDMENT 1 records as A1's measured values, belong to the wrong residue. It now
+    resolves the site exactly as `nrv04_covalent_md.build_system` does (`_frozen_cys_by_construct`) and reports
+    the geometric nearest alongside, so the two can never silently diverge again."""
     from nrv04_covalent_assemble import assemble_leg
-    from nrv04_covalent_md import MAX_COVALENT_TETHER_A, _reactive_cys_by_geometry
+    from nrv04_covalent_md import (MAX_COVALENT_TETHER_A, _frozen_cys_by_construct,
+                                   _reactive_cys_by_geometry, _sg_electrophile_distance)
     out = {"leg_id": leg.leg_id, "ligand": leg.ligand, "covalent": leg.covalent, "mutation": leg.mutation}
     try:
         res = assemble_leg(cif, leg, LIGANDS[leg.ligand], workdir)
@@ -92,17 +109,28 @@ def check_leg(leg, cif, workdir):
     ligand_sdf = os.path.join(res["out"], "ligand.sdf")
     out["ligand_atoms"] = res["ligand_atoms"]
 
-    # (2) the warhead question — target-chain-restricted, exactly as the fixed driver now does it
+    # (2) the warhead question — measured at the PREREGISTERED site, exactly as the fixed driver resolves it,
+    # with the geometric nearest reported beside it so a divergence is visible rather than silent.
+    pdb_text = open(complex_pdb).read()
     try:
-        c, r, d, diag = _reactive_cys_by_geometry(open(complex_pdb).read(), ligand_sdf, "C6",
-                                                  target_chain=ch["target_chain"])
-        out["reactive_cys"] = {"chain": c, "resid": r, "dist_A": round(d, 2), "diagnostics": diag}
+        gc, gr, gd, diag = _reactive_cys_by_geometry(pdb_text, ligand_sdf, "C6",
+                                                     target_chain=ch["target_chain"])
+        out["geometric_nearest_cys"] = {"chain": gc, "resid": gr, "dist_A": round(gd, 2), "diagnostics": diag}
+        c, r = _frozen_cys_by_construct(pdb_text, ch["target_chain"], TARGET_COV_RESNUM)
+        d = _sg_electrophile_distance(pdb_text, ligand_sdf, "C6", c, r)
+        out["reactive_cys"] = {"chain": c, "resid": r, "dist_A": round(d, 2),
+                               "fulllen_resnum": TARGET_COV_RESNUM,
+                               "resolution": "IDENTIFIED (preregistered site), not nearest-by-geometry",
+                               "geometry_agrees": gr == r}
         out["covalent_leg_runnable"] = (not leg.covalent) or d <= MAX_COVALENT_TETHER_A
         if leg.covalent and d > MAX_COVALENT_TETHER_A:
-            out["blocker"] = (f"the nearest target-chain Cys Sg is {d:.2f} A from the warhead electrophile, "
-                              f"beyond the {MAX_COVALENT_TETHER_A} A preformed-adduct limit — this co-fold did "
-                              f"not pose the warhead in the NR4A1 pocket, so the covalent leg cannot be built "
-                              f"from it")
+            out["blocker"] = (f"the PREREGISTERED covalent Cys ({c}:{r} = full-length {TARGET_COV_RESNUM}) has "
+                              f"its Sg {d:.2f} A from the warhead electrophile, beyond the "
+                              f"{MAX_COVALENT_TETHER_A} A preformed-adduct limit — this co-fold did not pose the "
+                              f"warhead at the NR4A1 covalent site, so the covalent leg cannot be built from it"
+                              + ("" if gr == r else
+                                 f" (the nearest target-chain cysteine is a different residue, {gc}:{gr} at "
+                                 f"{gd:.2f} A — do NOT read that number as A1)"))
     except SystemExit as e:
         out["reactive_cys"] = {"error": str(e)}
         out["covalent_leg_runnable"] = False
