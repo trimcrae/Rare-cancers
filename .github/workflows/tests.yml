@@ -23,4 +23,12 @@ jobs:
       # rdkit is needed for the null-map guard regression test (stereo-only edges must fail setup) and the
       # structural-alerts / nrv04 tests; without it those importorskip-skip and the guard goes untested.
       - run: pip install pytest numpy scipy pymbar rdkit
+      # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
+      # suite, but a doc author who breaks one should see the offending file:line as a
+      # failing step named after the linter, not a traceback buried in ~1500 tests.
+      # Stdlib-only, ~1 s each.
+      - name: Cross-document numeric consistency (one fact, one place)
+        run: python3 research/manuscripts/lint_consistency.py
+      - name: Manuscript language discipline
+        run: python3 research/manuscripts/lint_claims.py
       - run: python -m pytest research/modalities/tests -q

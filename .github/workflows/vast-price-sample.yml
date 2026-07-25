@@ -60,6 +60,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           cp research/modalities/vast-price-history.jsonl "$RUNNER_TEMP/"
+          # The payload is now safe in RUNNER_TEMP, so DISCARD the working-tree copy before switching
+          # branches. This is load-bearing, and it is why every hourly run failed here from commit da46304
+          # (which added vast-price-history.jsonl to main) onward:
+          #   error: Your local changes to the following files would be overwritten by checkout:
+          #           research/modalities/vast-price-history.jsonl
+          # git refuses to carry a modified TRACKED file across a switch when the two branches' copies
+          # DIFFER — and they always differ here, because main holds a point-in-time snapshot while
+          # modalities-cache holds the accumulated series. While the file was untracked on main the switch
+          # carried it across silently, which is why this was invisible until da46304.
+          # Reproduced and the fix verified on a scratch repo (fails exit 1 without this line, exit 0 with
+          # it, payload intact on the cache branch).
+          git restore --staged --worktree -- research/modalities/vast-price-history.jsonl 2>/dev/null || true
           git fetch origin modalities-cache || true
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
             git checkout -B modalities-cache origin/modalities-cache

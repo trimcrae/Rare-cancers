@@ -61,8 +61,8 @@ it (`JobProfile.min_uninterrupted_h` scales that per card and flags it).
 | Basis | Value | Status | Justifying test / artifact |
 |---|---|---|---|
 | **Card decision** ($/ns per card) | **⚠ SUPERSEDED 2026-07-25 — the card is not the decision, the OFFER is (§A).** Validated: 4090 **755.36** / 4080 **703.51** / 3090 **359.36** ns/day @84,534 → 4090/3090 = **2.10×**. Rank offers on all-in `$/ns`. | **MEASURED** (validated 2026-07-24 grid) | The `1549 / 669 / 175.6` and `72.5 @444k` figures this row used to carry are from the **WITHDRAWN** 23:08 grid (single 0.9–4.5 s windows). Validated re-run: 3 × ~20 s independent blocks per leg, physics-checked (final T 298.7–301.0 K), CV < 1.4%, with a rejection gate that threw out a contended host (CV 18.5%) and a mislabelled card. Table of record: `vast_cost_model.MEASURED_NS_PER_DAY_84K` — the single source of truth, imported by `gpu_backend` and `vast_bid_optimizer` (a second copy is exactly how the withdrawn 669 survived for a day) |
-| **Endpoint MD leg** (covalent, ~466k atoms) | **~$0.43/leg on 3090** (measured) → **~$0.26/leg on 4090** (from the card ratio) | **MEASURED** (3090 real, full-panel ledger; 4090 inferred) | **⚠ UPDATED 2026-07-24 — supersedes the interim "~$0.6/leg, 6 completed legs 2026-07-23" that this row previously carried.** The panel has since **COMPLETED**: NR-V04 covalent panel, **17 of 18 legs finished**, S3-persisted `dph_total` price ledger, **mean ~$0.43/leg over a 15-leg ledger → ~$8 for the 18-leg panel** (`dph_total` ~$0.10–0.21/hr, 6 ns/leg, ~466–650k atoms, ~19–116 ns/day, host-variance-dominated). Milestone `nrv04_feasibility_covalent` → `cost_measured` in `research/manuscripts/degrader-paper-schedule.json` carries the full as-run ledger. **4090 inference:** the 4090 is 2.42× faster at ~1.45× the $/hr → net ~0.6× the $/leg → ~$0.26. *(The old $0.36 was the same 0.6× factor applied to the stale $0.6 base.)* This is the one basis in this table that **is** a completed multi-leg measurement on the card quoted. |
-| **Alchemical RBFE edge** (complex+solvent, ~35k) | **complex leg ≈ ~3.6 GPU-h; edge (complex+solvent) ≈ ~5–6 GPU-h ≈ ~$0.6–1.4 on Vast 4090** | **MEASURED** (this session, Vast 4090) | **firm RBFE, live-diagnosed on instance 45654998 (2026-07-24):** OpenFE HREX complex leg (TYK2 valA, 12 λ-windows, 5 ns production) ran at **~5.2 s/iter × 2000 production iters = ~2 h52 m sampler**, + ~43 min boot/setup → **~3.6 GPU-h billed** at the instance's **$0.122/hr** (~$0.44). Solvent leg (smaller box) extrapolated ~1.5–2 GPU-h. **The cost stands on the measured per-iteration RATE (two independent working 4090 CUDA runs: 45654998 at prod iter 92/2000, 45658414 at equil 71/400, both ~5.1 s/iter, phases advancing normally) × the hardcoded phase counts** — a clean end-to-end ΔG was NOT captured this cycle: both working spot instances were preempted before finishing the ~3 h leg, and because the firm jobspec is `resume=False` neither reached the summary step, so the S3 `firm.json` is a stale PRE-FIX attempt (CUDA-platform fail, predates the OPENMM_PLUGIN_DIR/Dockerfile fix). Getting a completed ΔG needs `resume=True` (+ the equilibration.nc-collision fix) and is a step1_fanout-execution concern, not a pricing one. **The old ~55 GPU-h AWS anchor is REFUTED for Vast, not just de-anchored:** it was a 2026-07-13 A10G leg that was **~65 % GPU-idle (CPU-bottlenecked by 12× per-window am1bcc re-charging)**; the Vast run charges once in setup and keeps the GPU busy → ~15× fewer GPU-h. See `research/modalities/nr4a3-post-pilot-sequence.md` for the pathology |
+| **Endpoint MD leg** (covalent, ~466k atoms) | **~$0.43/leg on 3090** (measured) → **~1.38 reference-4090 GPU-h ≈ ~$0.19/leg** at the $0.137/ref-GPU-h planning rate | **MEASURED** (3090 real, full-panel ledger; the 4090 conversion is inferred) | **⚠ UPDATED 2026-07-24, converted 2026-07-25 — supersedes "~$0.6/leg" (interim, 6 legs), "~$0.45", and "~$0.26/leg on 4090".** The panel **COMPLETED**: NR-V04 covalent panel, **17 of 18 legs finished**, S3-persisted `dph_total` price ledger, **mean ~$0.43/leg over a 15-leg ledger → ~$8 for the 18-leg panel** (`dph_total` ~$0.10–0.21/hr, 6 ns/leg, ~466–650k atoms, ~19–116 ns/day, host-variance-dominated). Milestone `nrv04_feasibility_covalent` → `cost_measured` in `research/manuscripts/degrader-paper-schedule.json` carries the full as-run ledger. **4090 conversion:** $0.43/leg ÷ ~$0.10–0.21/hr ≈ 2–4 3090-GPU-h ÷ the **validated 2.102×** card ratio ≈ **1.38 ref GPU-h**, × $0.137 ≈ **$0.19**. *(The retired $0.26 used the **withdrawn** 2.42× ratio and a different $/hr assumption; 1.38 ref GPU-h is the figure `vast_cost_model` uses for the 5c row — 24 legs × 1.38 = 33.1 ref GPU-h — so this row and §C now agree.)* This is the one basis in this table that **is** a completed multi-leg measurement on the card quoted. |
+| **Alchemical RBFE edge** (complex+solvent, ~35k) | **⚠ SUPERSEDED FOR THE NR4A3 SYSTEM — see the note below this table. Current basis: ~13.7 ref GPU-h ≈ ~$1.9/edge.** *(This row's original value — complex leg ≈ ~3.6 GPU-h; edge ≈ ~5–6 GPU-h ≈ ~$0.6–1.4 — was measured on the **public TYK2** system and must not be used to price NR4A work.)* | **MEASURED on TYK2** (Vast 4090); **re-measured on the real NR4A3 system** (see note) | **firm RBFE, live-diagnosed on instance 45654998 (2026-07-24):** OpenFE HREX complex leg (TYK2 valA, 12 λ-windows, 5 ns production) ran at **~5.2 s/iter × 2000 production iters = ~2 h52 m sampler**, + ~43 min boot/setup → **~3.6 GPU-h billed** at the instance's **$0.122/hr** (~$0.44). Solvent leg (smaller box) extrapolated ~1.5–2 GPU-h. **The cost stands on the measured per-iteration RATE (two independent working 4090 CUDA runs: 45654998 at prod iter 92/2000, 45658414 at equil 71/400, both ~5.1 s/iter, phases advancing normally) × the hardcoded phase counts** — a clean end-to-end ΔG was NOT captured this cycle: both working spot instances were preempted before finishing the ~3 h leg, and because the firm jobspec is `resume=False` neither reached the summary step, so the S3 `firm.json` is a stale PRE-FIX attempt (CUDA-platform fail, predates the OPENMM_PLUGIN_DIR/Dockerfile fix). Getting a completed ΔG needs `resume=True` (+ the equilibration.nc-collision fix) and is a step1_fanout-execution concern, not a pricing one. **The old ~55 GPU-h AWS anchor is REFUTED for Vast, not just de-anchored:** it was a 2026-07-13 A10G leg that was **~65 % GPU-idle (CPU-bottlenecked by 12× per-window am1bcc re-charging)**; the Vast run charges once in setup and keeps the GPU busy → ~15× fewer GPU-h. See `research/modalities/nr4a3-post-pilot-sequence.md` for the pathology |
 
 
 > **⚠ SUPERSEDED FOR THE NR4A3 SYSTEM (MEASURED 2026-07-24, step1_fanout wave 1).** The ~5.2 s/iter above was
@@ -80,7 +80,8 @@ it (`JobProfile.min_uninterrupted_h` scales that per card and flags it).
 > system where **every X-H is a constraint**. Measured on both known-answer anchors: `xh_total = 0` against
 > 1771 / 4997 total constraints, and the alchemical valence CustomBondForce (11 / 28 bonds) contains **no X-H
 > at all**. Nothing is left flexible to cap the timestep, so **the fan-out ran at 4 fs and there is no 2×
-> timestep lever** — the ~$91–101 stands on that axis. *(⚠ On the PRICE axis it does not: repriced to ~$36 on 2026-07-25. The work correction below is what survives.)* That leaves **particle count as the sole remaining
+> timestep lever**. That conclusion is about WORK, and it survives; the ~$91–101 it was attached to does
+> not — that figure is superseded by ~$36 (2026-07-25, the $/hr axis). That leaves **particle count as the sole remaining
 > candidate** for the 2.6×, and it is still unrecorded for the NR4A3 binary complex. What IS established is the rate itself, and that a TYK2 rate must not be used
 > to price NR4A3 work.
 > Recomputed on the repo's own hardcoded leg length (400 equil + 2000 production = 2400 iters,
@@ -88,10 +89,13 @@ it (`JobProfile.min_uninterrupted_h` scales that per card and flags it).
 > Realized bid on this wave was **$0.35–0.39/hr** (current 4090 market, `min_bid × 1.5`), not the $0.122/hr the
 > old row used — so **~$4.80–5.30 per edge** and **~$91–101 for the 19-edge `step1_fanout`** *(⚠ SUPERSEDED 2026-07-25: the $0.35–0.39/hr was what `× 1.5` on a `min_bid`-ranked offer costs, not the market — at the measured $0.137/ref-GPU-h it is **~$1.9/edge and ~$36 for the fan-out**)*, against a pinned
 > estimate of $12–26. The two errors compound: a 2.6× slower system on a 3× pricier bid.
-> **Card choice is NOT the lever:** at these rates a 4090 costs ~$0.0014/iteration and a 3090
-> (~2.42× slower per the controlled bench, ~$0.15/hr) costs ~$0.0014/iteration — indistinguishable, and the
-> 3090 takes 2.4× the wall-clock. Do not "save money" by downgrading the card.
-| **Alchemical ternary cooperativity edge** (3-replica, ~146k particles, **12** windows) | **~$8.8 ($3.2–22)** for the full 3-replica edge — **~56–72 ref GPU-h** at the measured **$0.137/ref-GPU-h** *(REPRICED 2026-07-25; was ~$10–16 on a ~$0.15–0.25/hr assumption, ~$26 at ~$0.40/hr, and ~$20–28 at the $0.35–0.39/hr actually realized. The GPU-h are unchanged.)* | **RATE measured directly on Vast 4090; LEG LENGTH CONFIRMED from the committed ternary trajectory (1560/2000 production iters, untorn).** | **⚠ RECONCILED 2026-07-24 — combines a direct 4090 rate measurement with the corrected leg length; supersedes BOTH the ~$3–6 and the ~$4–7 that preceded it.** **LEG LENGTH NOW CONFIRMED FROM THE COMMITTED TRAJECTORY (forensic read, GH run 30117943561, 2026-07-24).** `mode=forensic` on `calib_hi_to_lo__ternary_vhl` seed 0 opened the committed generations and reports `reporter_checkpoint_interval: 40`, `analysis_last_iteration: 1560`, `checkpoint_last_iteration: 1560`, `TORN: false`, 12 generations all at interval 40. So the ternary leg's production target is **2000 iterations** and it is **1560 committed (~78 %)**, untorn. **This also root-causes the ~920 figure both prior estimates were built on: 920 = 23 x 40 and 1560 = 39 x 40 are CHECKPOINT BOUNDARIES, not leg lengths** — the sampler line `binary_vhl leg at iter 913/920` meant "at 913, next checkpoint 920", and it was the BINARY arm, not the ternary one. Leg = 400 warmup + 2000 production = **2400 iterations** at 2.5 ps/iter. *Rate (theirs, better than a card-ratio guess):* the firm ternary leg on the Vast rtx4090 nr4a3fep image (`run_ternary_leg.sh`, 12 windows, self-staged 8G1Q, 146,284 particles) cleared warmup with no NaN and held production steady at **~14–18 s/iter (median ~16)**. *Leg length (corrected):* the protocol hardcodes **1 ns equilibration + 5 ns production** (`nr4a3_ternary_fep.py:343-344`, `nr4a3_rbfe.py:364-365`) and iterations = sim_length / 2.5 ps, so a leg is **2400 iterations (400 equil + 2000 production)** — confirmed by the openmmtools `.chk` history `iters 0,20,…,2000`. **The ~920-iteration figure that both prior estimates used as 'a full leg' is ~38 % of one**, which is why ~$3–6 and ~$4–7 are each ~2.6× low. Arithmetic: 2400 × ~16 s ≈ **~10.7 4090-GPU-h/leg**; edge = binary+ternary × 3 replicas = 6 legs ≈ **~64 GPU-h** ≈ **~$10–16**. *What the 4090 measurement DID settle:* the **L4→4090 card ratio is validated at ~2.06×** (33 → 16 s/iter) — a ratio of rates is independent of the iteration count, so that conclusion survives the leg-length correction intact and the old spec-based ~2.3× 'soft spot' is closed. ΔG is not the cost basis (throughput is); the ΔG comes from the GCP valB production lane (ΔG_morph 47.28). No clean end-to-end ΔG has been captured on Vast — the firm path is `commit store: LOCAL`, `resume=False`, and the instance was spot-preempted late in production. Old ~$65–110 (off the refuted 55-GPU-h anchor) superseded; **L4-on-demand ~$94 as-run is NOT a go-forward cost — Vast only.** |
+> **⚠ The "card choice is NOT the lever" conclusion that stood here is RETIRED (2026-07-25).** It computed a
+> 4090 and a 3090 at ~$0.0014/iteration each, but on the *two specific prices then in hand* and the
+> **withdrawn** 2.42× ratio. Neither generalises: the validated ratio is **2.10×**, and across the live board
+> the cheapest 3090 floor is **8.8×** below the cheapest 4090 while the spread *within* the 4090 class alone is
+> 2.3×. **Neither card is the answer — rank live offers on all-in `$/ns` (§A).** What survives is the wall-clock
+> caveat: a 3090 needs 2.10× the time, so a leg with a hard continuity requirement is 2.10× more exposed on it.
+| **Alchemical ternary cooperativity edge** (3-replica, ~146k particles, **12** windows) | **~$8.8 ($3.2–22)** for the full 3-replica edge — **~56–72 ref GPU-h** at the measured **$0.137/ref-GPU-h** *(REPRICED 2026-07-25; was ~$10–16 on a ~$0.15–0.25/hr assumption, ~$26 at ~$0.40/hr, and ~$20–28 at the $0.35–0.39/hr actually realized. The GPU-h are unchanged.)* | **RATE measured directly on Vast 4090; LEG LENGTH now OBSERVED — valB_mini's ternary seed 0 reached 2000/2000 production iterations. No ternary edge has completed end-to-end on a 4090, so the dollar figure is still rate x length.** | **⚠ RECONCILED 2026-07-24 — combines a direct 4090 rate measurement with the corrected leg length; supersedes BOTH the ~$3–6 and the ~$4–7 that preceded it.** **LEG LENGTH NOW CONFIRMED FROM THE COMMITTED TRAJECTORY (forensic read, GH run 30117943561, 2026-07-24).** `mode=forensic` on `calib_hi_to_lo__ternary_vhl` seed 0 opened the committed generations and reports `reporter_checkpoint_interval: 40`, `analysis_last_iteration: 1560`, `checkpoint_last_iteration: 1560`, `TORN: false`, 12 generations all at interval 40. So the ternary leg's production target is **2000 iterations**; it read 1560 committed (~78 %) mid-flight, and has since reached **2000/2000** (convergence run 30157501491, MBAR ΔG 47.511 ± 0.045). **This also root-causes the ~920 figure both prior estimates were built on: 920 = 23 x 40 and 1560 = 39 x 40 are CHECKPOINT BOUNDARIES, not leg lengths** — the sampler line `binary_vhl leg at iter 913/920` meant "at 913, next checkpoint 920", and it was the BINARY arm, not the ternary one. Leg = 400 warmup + 2000 production = **2400 iterations** at 2.5 ps/iter. *Rate (theirs, better than a card-ratio guess):* the firm ternary leg on the Vast rtx4090 nr4a3fep image (`run_ternary_leg.sh`, 12 windows, self-staged 8G1Q, 146,284 particles) cleared warmup with no NaN and held production steady at **~14–18 s/iter (median ~16)**. *Leg length (corrected):* the protocol hardcodes **1 ns equilibration + 5 ns production** (`nr4a3_ternary_fep.py:343-344`, `nr4a3_rbfe.py:364-365`) and iterations = sim_length / 2.5 ps, so a leg is **2400 iterations (400 equil + 2000 production)** — confirmed by the openmmtools `.chk` history `iters 0,20,…,2000`. **The ~920-iteration figure that both prior estimates used as 'a full leg' is ~38 % of one**, which is why ~$3–6 and ~$4–7 are each ~2.6× low. Arithmetic: 2400 × ~16 s ≈ **~10.7 4090-GPU-h/leg**; edge = binary+ternary × 3 replicas = 6 legs ≈ **~64 GPU-h** ≈ **~$8.8** at the $0.137/ref-GPU-h policy *(the ~$10–16 this arithmetic first gave assumed ~$0.15–0.25/hr)*. *What the 4090 measurement DID settle:* the **L4→4090 card ratio is validated at ~2.06×** (33 → 16 s/iter) — a ratio of rates is independent of the iteration count, so that conclusion survives the leg-length correction intact and the old spec-based ~2.3× 'soft spot' is closed. ΔG is not the cost basis (throughput is); the ΔG comes from the GCP valB production lane (ΔG_morph 47.28). No clean end-to-end ΔG has been captured on Vast — the firm path is `commit store: LOCAL`, `resume=False`, and the instance was spot-preempted late in production. Old ~$65–110 (off the refuted 55-GPU-h anchor) superseded; **L4-on-demand ~$94 as-run is NOT a go-forward cost — Vast only.** |
 | **Co-fold / docking** (basin nomination) | **~$0–50, cheap** (CPU docking + short Boltz/AF3 co-fold inference) | **ESTIMATED** (known-cheap class) | prior smina/Vina warhead screen + NR-V04 Boltz co-folds; CPU or short GPU. Weak/biased predictor — used to *nominate*, never to kill a small wedge |
 
 ### ★ B.0 — TWO PRICING IDENTITIES ADOPTED 2026-07-24 (they change stage costs without changing any basis)
@@ -139,23 +143,25 @@ neither adds or removes science, and both were previously mis-priced.
      (`fixer.applyMutations([mutation], CHAIN)` → PDBFixer rebuild), scored by
      `endpoint_dG` / `endpoint_dG_multisnapshot` — i.e. **MM-GBSA endpoint scoring, which is not alchemical and
      not a free-energy calculation of the kind the wedge claims.**
-   - **Consequence:** the 5a-KS kill-switch — the manuscript's designated *primary causal* result — currently has
-     **no implementing engine in this repo**, so its "~$5–10 for 1 alchemical direction" line below is unfounded.
-     Pricing it requires an **engine-scoping step first** (adopt a protein-mutation FEP protocol — e.g. an
-     OpenFE/perses-style residue transformation, or a non-OpenFE tool — then measure one direction). Until that
-     scoping is done, treat the 5a-KS row as **UNPRICED**, not cheap. *(Update 2026-07-24 PM: the engine's **execution layer** has since been
-     built too — `protfep_run.py` (perses hybrid → replica-exchange → MBAR, checkpoint/resume),
-     `protfep_bench.py` (barnase–barstar Y29A/Y29F staging + verdict), `protfep_reduce.py` (legs → ΔΔG →
-     verdict **and** the first measured per-leg rate) — and the benchmark lane is launched on Vast. The row
-     **still stays UNPRICED**: no leg has completed, so there is still no rate. An engine that exists
-     is not a rate; only a completed benchmark leg prices this rung.)*
-   - This compounds the *other* known 5a-KS blocker recorded in `STRATEGY.md` (RUNG 5): the wedge is the repo's
-     one **cross-lane subtraction**, and the two lanes currently run **different charge models** (binary =
-     am1bcc, ternary = NAGL), which must be pinned to a single `CHARGE_METHOD` before any wedge is computed.
+   - **Consequence at the time:** the mutation wedge had **no implementing engine in this repo**, so its
+     "~$5–10 for 1 alchemical direction" was unfounded and the row was carried as UNPRICED.
+   - **★ RESOLVED 2026-07-25, in two steps.** (1) The 2026-07-24 ternary-selectivity revision made the
+     **ligand-side double difference** the *primary* causal test — it is ordinary ternary-lane alchemy and needs
+     no protein-mutation engine at all, so the ladder's gate was never really blocked on this (§C, `5a-KS
+     primary`). (2) The **confirmatory** mutation line then got a real engine: perses was retired the same day
+     it was tried (its core residue atom map round-trips through a licence-gated OpenEye OEMol), the lane was
+     rebuilt on **pmx + GROMACS**, and its known-answer benchmark **passed** — so the row moves from UNPRICED to
+     **PROJECTED**, with the projection basis stated in §C. An engine that exists is still not an NR4A-scale
+     rate; only a completed NR4A-scale leg would give one.
+   - The *other* 5a-KS blocker stands as a permanent design constraint: the mutation wedge is the repo's one
+     **cross-lane subtraction**, and the two lanes run **different charge models** (binary = am1bcc, ternary =
+     NAGL), so a single `CHARGE_METHOD` must be pinned across both legs and stamped into both result JSONs
+     before any wedge is computed. `nr4a3_protein_fep.assert_charge_consistency` enforces this as a refusal.
 
-So of the four cost bases, three (card, endpoint-MD leg, RBFE edge) are MEASURED, the ternary edge is a measured
-**rate** projected to a full leg (no ternary leg has ever completed), and the mutation-cycle stages have **no
-basis at all** pending engine scoping.
+So of the four cost bases, three (card, endpoint-MD leg, RBFE edge) are MEASURED; the ternary edge is a measured
+**rate** × a now-**observed** leg length (valB_mini's ternary seed 0 reached 2000/2000 production iterations),
+but **no ternary edge has completed end-to-end on a 4090**, so the Vast figure remains a projection; and the
+mutation-cycle stages have a **qualified engine with a particle-count-projected cost**, not a measured basis.
 
 ---
 
@@ -176,20 +182,31 @@ basis at all** pending engine scoping.
 | **TIER-0 `nr4a_unique_residues`** (paralogue-unique Cys/Lys map) | CI CPU, no GPU | **$0** | DONE 2026-07-24, CI run 30123828812 (nothing to measure) |
 | **`ternary_4fs_recalibration`** (cost lever 1) | 1 ternary edge @4 fs, 28–36 ref GPU-h | **~$4.4** ($1.6–11) | REPRICED 2026-07-25; settles B.0-2 |
 | **5a-KS kill-switch — PRIMARY (ligand-side double difference)** | Tier-0 map ($0) + basin ($0–50) + **ternary legs only** for one matched pair (B.0-1) | **~$12** ($1.6–45) | REPRICED 2026-07-25 (was ~$5–25); 28–144 ref GPU-h. No protein-mutation engine involved |
-| 5a-KS **CONFIRMATORY** (protein-mutation direction) | **1 protein-mutation direction — pmx + GROMACS engine + execution layer BUILT 2026-07-24 (perses retired same-day: OpenEye-gated), benchmark lane LAUNCHED, UNVALIDATED** | **UNPRICED** (was "~$5–60") | **⚠ STILL NOT DERIVABLE, and still not for lack of code.** The pmx/GROMACS lane (`protfep_pmx.py`, `protfep_run.py`, `protfep_bench.py`, `protfep_reduce.py` + the Vast lane) now implements what OpenFE's ligand-only RHTP could not. **No leg has completed**, so there is no per-leg rate to price from — and a mutation hybrid is exactly where the ternary lane hit softcore NaNs, so its cost is not safely inferable from the ligand lane's. The known-answer benchmark (barnase–barstar Y29A/Y29F, both charge-conserving; references verified against SKEMPI 2.0) is what will produce that rate, via `protfep_reduce.price_from_legs` — which scales the benchmark's measured GPU-h to NR4A by particle count and labels the result a PROJECTION, not a measurement. Sequence: smoke ~$0.10 → pilot ~$1–3 (abort gate) → set ~$5–10. **Role, per the 2026-07-24 ternary-selectivity revision: CONFIRMATORY second line, not the ladder's gate.** |
-| full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 protein-mutation directions | **UNPRICED** (was "~$15–30") | **⚠ NOT DERIVABLE** — same engine, same reason: no completed leg to extrapolate from |
+| 5a-KS **CONFIRMATORY** (protein-mutation direction) | 1 protein-mutation direction — **pmx + GROMACS engine QUALIFIED 2026-07-25** (perses retired 2026-07-24: OpenEye-gated) | **~$4.6 PROJECTED (3 replicates)** / ~$3.1 (2 rep) — *excluded from the ladder total* | **★ THE BENCHMARK RAN AND PASSED, so this row is no longer UNPRICED — but it is a PROJECTION, not a rate.** Full set on Vast (equilibrium λ windows + BAR), scored by `protfep_reduce` against SKEMPI 2.0-verified references → [`protfep-benchmark-result.json`](../modalities/protfep-benchmark-result.json): **Y29A +4.424 ± 1.077** vs +3.40 (err 1.024) and near-null **Y29F −0.370 ± 0.175** vs −0.13 (err 0.240), both inside ±1.5 and **correctly ordered**; `qualified: true`. **Measured rate: 1.058 ± 0.432 GPU-h/leg** over 11 legs at a 25,187-particle mean → **$0.212/leg** at the reducer's assumed $0.20/hr. The NR4A figure comes from `protfep_reduce.price_from_legs`, which scales that by **linear particle count** to 146,284 (ternary) and ~35,000 (binary) — a standard first-order assumption for PME MD at fixed cutoff, **an assumption and not a measurement**, so it may not be quoted as a rate and the row stays out of the pinned total. Sequence still applies: smoke ~$0.10 → pilot ~$1–3 (abort gate) → set ~$5–10. **Also unresolved:** between-setup scatter is effect-size dependent by **6.2×** (±1.08 on the hot spot, ±0.18 on the near-null) while within-leg MBAR SEs are 0.05–0.13, so **no benchmark yet probes the wedge's own ~1 kcal/mol regime**. **Role: CONFIRMATORY second line, not the ladder's gate.** |
+| full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 protein-mutation directions | **~$14 PROJECTED** (3 × the row above) — *excluded from the ladder total* | Same engine, same projection basis and the same caveat: particle-count-scaled, not measured at NR4A scale |
 | `5b` inverse linker design | mostly CPU $0 + occasional rescore | **~$0–20** | MEASURED-derived |
 | ensemble refinement / CRL MD (5c) | endpoint MD, 24–~200 legs × ~1.38 ref GPU-h | **~$21** ($1.9–85) | REPRICED 2026-07-25 (was ~$15–100). Per-leg ref GPU-h backed out of the completed 18-leg covalent panel (~$0.43/leg on a 3090 at ~$0.10–0.21/hr ÷ the 2.102× card ratio). Still the biggest swing item — the leg COUNT, not the rate, now dominates |
 | local within-basin FEP | 3–6 ternary **comparisons** (ternary legs only, B.0-1), 56–260 ref GPU-h | **~$22** ($3–80) | REPRICED 2026-07-25 |
 | `ternary_prospective_matrix` (now 5a–5d ladder) | ~4–12 constructs via 5c/5d | **folded into 5c+5d above** | MEASURED-derived |
 
-**★ Whole gated ladder ≈ ~$194 mid-range (~$46–544) for the PRICEABLE stages, GO at every gate** — repriced
+**★ Whole gated ladder ≈ ~$194 mid-range (~$47–561) for the PRICEABLE stages, GO at every gate** — repriced
 2026-07-25 onto the measured Vast policy (**$0.137 per reference GPU-hour**, best-10-offer planning rate; range
-$0.057 best offer .. $0.309 median). Regenerate the whole table with
+$0.057 best offer .. $0.309 median). Regenerate the alchemical/MD stages with
 `python research/modalities/vast_cost_model.py`; JSON in
-[`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json). *(Was ~$467 (~$249–685) in STRATEGY.md — a **2.4× reduction**.)* The tool's own total (~$149) covers only the stages it reprices; the ladder figure adds the CPU-dominated steps (5a ~$0–50, 5b ~$0–20) and the already-spent ones (step0 ~$1–2, the ~$8 covalent panel). STRATEGY.md's per-step `Cum.` chain ends on the same ~$194. *(Optional/HELD ΔG_open + ABFE excluded; the 5a-KS protein-mutation
-wedge and the reciprocal cycle remain **UNPRICED** — they have no completed benchmark leg, and a cheaper $/hr
-does not create one.)*
+[`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json).
+
+**Derivation, so all three places can be checked against each other.** The tool prices 9 stages at
+**$149.4 ($38.2–466.4)**. The ladder figure adds what the tool does not cover: step0 ~$1–2 (mid $1.5),
+`valA_mini` ~$0–15 (**realized ~$0** on GCP credit), the ~$8 measured covalent panel, 5a basin ~$0–50 (mid $25),
+5b linker ~$0–20 (mid $10). So `149.4 + 1.5 + 0 + 8 + 25 + 10 ≈ 194`; low `38.2 + 1 + 8 ≈ 47`; high
+`466.4 + 2 + 15 + 8 + 50 + 20 ≈ 561`. STRATEGY.md's per-step `Cum.` chain and
+[bid-strategy.md §6](./bid-strategy.md) end on the same numbers. *(The `~$46–544` this line previously carried
+did not sum; corrected 2026-07-25. Superseded totals: ~$467 (~$249–685), ~$240 (~$90–390), ~$390 (~$170–610),
+and a stray ~$128 that was bid-strategy §6's table with the 5c row missing.)*
+
+**Excluded from the total:** Optional/HELD ΔG_open + ABFE; and the 5a-KS **confirmatory** protein-mutation wedge
++ reciprocal cycle — their engine **qualified on 2026-07-25**, but the NR4A cost is a particle-count projection
+(~$4.6 for 3 replicates), not a measured NR4A-scale rate.
 
 **⚠⚠ THIS REPRICE FIXES THE `$/hr` AXIS ONLY — THE GPU-HOUR AXIS KEEPS EVERY UNCERTAINTY IT HAD.** The reference
 GPU-hours above are the repo's own work estimates; this multiplies them by a measured rate, it does not
@@ -199,22 +216,26 @@ cmpd19/NR4A3 complex turned out to sample at ~13.6 s/iter against TYK2's ~5.2. *
 these costs are 2.6× low no matter what we bid.** Expect an NR4A ternary leg to be heavier, not lighter, and
 time one before treating the ternary rows as firm.
 
-**⚠ CORRECTED 2026-07-24 — the previous line here read "Now that every base is measured, the ladder totals
-cleanly." It does not, on two counts:**
-- The **ternary base is a projection, not a measurement.** What was measured is a per-iteration *rate*
-  (~33 s/iter on L4); no ternary leg has ever run to completion, and the previous ~$3–6/edge was built on
-  920 iterations treated as a finished leg when a leg is 2400 (≈38 %). Corrected base: **~$7–15/edge** on Vast
-  4090 (~$94/edge as actually run on L4 on-demand). The L4→4090 ratio (~2.3×, spec-based) is still unmeasured on
-  the same system — the softest number in this file.
-- The **mutation-cycle stages have no cost basis at all**, because they have no implementing engine (B.3).
+**⚠ "Now that every base is measured, the ladder totals cleanly" was wrong when it stood here, and it is still
+wrong. What is and is not settled, as of 2026-07-25:**
+- **Ternary edge — a measured rate × a now-observed leg length, but still a projection.** The *rate* is measured
+  (~33 s/iter on L4; ~16 s/iter on a Vast 4090, giving a validated L4→4090 ratio of **~2.06×**, count-independent).
+  The *leg length* is no longer a projection either: valB_mini's ternary seed 0 reached **2000/2000** production
+  iterations, confirming the hardcoded 400 + 2000 = 2400. **But no ternary edge has completed end-to-end on a
+  4090**, so **~$8.8/edge** is rate × length, not a realized bill (~$94/edge as actually run on L4 on-demand).
+  *(The earlier ~$3–6 and ~$4–7 each treated 920 iterations — a checkpoint boundary on the **binary** arm — as a
+  finished leg, ≈38 % of one; the intermediate ~$7–15 predates the $0.137/ref-GPU-h policy.)*
+- **RBFE edge — measured on the real system, and it is the cautionary tale.** The Vast-4090 rate is now taken on
+  the actual cmpd19/NR4A3 complex on three independent hosts, giving **~13.7 ref GPU-h ≈ ~$1.9/edge** and
+  `step1_fanout` ≈ **~$36**. The retired ~5–6 GPU-h / ~$0.6–1.4 was a **public TYK2** rate; applying it to NR4A
+  is exactly the error that cost 2.6×.
+- **Mutation-cycle stages — a qualified engine with a projected cost.** pmx + GROMACS passed its known-answer
+  benchmark 2026-07-25 at a measured **1.058 ± 0.432 GPU-h/leg**, but the NR4A number is particle-count-scaled
+  (~$4.6, 3 replicates) and stays **excluded from the ladder total** (B.3, §C).
 
-What IS settled: the RBFE side. The measured Vast-4090 edge (~5–6 GPU-h ≈ ~$0.6–1.4) is in line with what the old
-$840 schedule assumed per edge (5–15 GPU-h), and Vast is ~2–3× cheaper/GPU-h than AWS g5, so **RBFE stages are a
-few tens of dollars, not hundreds** (`step1_fanout` ≈ **~$36**, repriced 2026-07-25 — the ~$12–26 that stood here was low on BOTH axes, see §C); the ternary edge now rests on a **directly measured
-4090 rate** (~16 s/iter) combined with the **corrected 2400-iteration leg length** → **~$8.8/edge**, and the L4→4090
-card ratio is validated at ~2.06×. The remaining swings are the **ensemble-MD leg count** (5c refinement + the
-retrospective) and the **unpriced mutation engine** (built 2026-07-24, never run). Price and gate each rung
-individually at its gate.
+Remaining swings, in order: the **ensemble-MD leg count** (5c refinement + the retrospective), the **ternary
+transferability risk** (a SMARCA2/VHL rate pricing NR4A ternaries), then the mutation projection. Price and gate
+each rung individually at its gate.
 
 ---
 
@@ -257,17 +278,24 @@ individually at its gate.
   smaller box and should run faster, not yet separated" — is REFUTED (2026-07-24, live log of GH run 30123894814
   reading VM `gcp-ternary-30112102294`): the `calib_hi_to_lo__binary_vhl` leg ran at **~28.6–38.2 s/iter
   (median ≈33)** on L4, i.e. the SAME rate as the ternary leg's ~33 s/iter. Do not discount a binary leg; it is a
-  full-price leg. This makes the B.0-1 sharing identity worth MORE, not less.** Cost: **~$7–15 Vast 4090**, ~$33 L4-spot, **~$94 L4-on-demand** — provider/card dominates
-  because the edge is GPU-h-heavy. **No ternary leg has ever completed**, so the leg length itself is unverified;
-  the first completed leg should replace this projection with a measurement. The
-  4090 figure uses a spec-based ~2.3× L4→4090 MD ratio (no same-system bench yet — the one soft spot; the
-  L4-GPU-h itself is a hard measurement). **Direct Vast-4090 firm-ternary measurement — ATTEMPTED, blocked by a
-  warmup NaN (2026-07-24).** The firm-ternary path was given the required plain-MD pre-equilibration
-  (`ternary_preequil.py`, wired into `nrv04_vast_launch.py`), which ran clean (~7 min, relaxed complex overlaid)
-  and got the alchemy from λ-state 0 to **state 5** before a `SimulationNaNError` at warmup — the softcore
-  instability of the rough SMARCA4→SMARCA2 homology model. The proven GCP `valB_mini` lane clears this through its
-  converged conditioning (it's deep in production); porting that recipe to the Vast lane is future work, so the
-  ~$3–6 figure rests on the L4 measurement × card ratio. The NR-V04 "NR4A1 degrader" sims are the **covalent
+  full-price leg. This makes the B.0-1 sharing identity worth MORE, not less.** Cost: **~$8.8 Vast 4090**
+  ($3.2–22 at the $0.137/ref-GPU-h policy), **~$94 L4-on-demand** — provider/card dominates because the edge is
+  GPU-h-heavy. **★ UPDATED 2026-07-25 on two points.** (i) The line that stood here — *"No ternary leg has ever
+  completed, so the leg length itself is unverified"* — is retired: valB_mini's `calib_hi_to_lo__ternary_vhl`
+  seed 0 reached **2000/2000** production iterations (convergence run 30157501491, MBAR ΔG 47.511 ± 0.045), so
+  the 2400-iteration leg is now **observed**, not assumed. What is still true, and still the reason this is a
+  projection: **no ternary edge has completed end-to-end on a 4090.** (ii) The L4→4090 ratio is no longer
+  spec-based — a direct 4090 ternary leg held ~14–18 s/iter (median ~16) against L4's ~33, **validating ~2.06×**;
+  a ratio of rates is count-independent, so it survived the leg-length correction intact.
+  **Direct Vast-4090 firm-ternary measurement — a first attempt was blocked by a
+  warmup NaN (2026-07-24), a later one produced the rate.** The first firm-ternary path was given the required
+  plain-MD pre-equilibration (`ternary_preequil.py`, wired into `nrv04_vast_launch.py`), which ran clean (~7 min,
+  relaxed complex overlaid) and got the alchemy from λ-state 0 to **state 5** before a `SimulationNaNError` at
+  warmup — the softcore instability of the rough SMARCA4→SMARCA2 homology model. A subsequent firm leg
+  (`run_ternary_leg.sh`, 12 windows, self-staged 8G1Q, 146,284 particles) cleared warmup with no NaN and held
+  production at **~14–18 s/iter (median ~16)**, which is the 4090 rate the **~$8.8** figure uses. What it did
+  **not** do is finish: the instance was spot-preempted late in production with `commit store: LOCAL` and
+  `resume=False`, so there is still no completed Vast edge. The NR-V04 "NR4A1 degrader" sims are the **covalent
   panel = endpoint MD** (celastrol is covalent), feeding the endpoint-MD basis, not this one.
 - **De-anchored AWS RBFE baseline** — `research/modalities/nr4a3-post-pilot-sequence.md` (2026-07-13) +
   `sm_gpu_util.py` (live CloudWatch GPU-util probe). Kept only as historical context; **not** the Vast number.
