@@ -166,6 +166,20 @@ def test_target_chain_without_a_cysteine_fails_closed(_electrophile_at_origin):
         MD._reactive_cys_by_geometry(_cys_pdb([("G", 74, 5.0, 0.0, 0.0)]), "ignored.sdf", "C6", target_chain="A")
 
 
+def test_r3_is_reported_in_angstrom_not_nanometres():
+    """R3 crossed a unit boundary silently. nrv04_readouts' contract is Ångström; the driver works in
+    nanometres and converted for R1 (`* 10.0`) but not for R3, so every committed `min_A` was a nanometre value
+    under an Ångström label. Pinned here as an explicit round trip through the conversion the driver now does."""
+    import nrv04_readouts as RO
+    lys_nm = [[(1.0, 0.0, 0.0)], [(2.0, 0.0, 0.0)]]          # 1 nm and 2 nm from a proxy at the origin
+    proxy_nm = (0.0, 0.0, 0.0)
+    lys_A = [[(x * 10.0, y * 10.0, z * 10.0) for (x, y, z) in fr] for fr in lys_nm]
+    proxy_A = tuple(c * 10.0 for c in proxy_nm)
+    assert RO.lys_presentation(lys_A, proxy_A)["min_A"] == 10.0, "1 nm must be reported as 10 Å"
+    # the unconverted call is what produced the committed numbers, and it is wrong by exactly 10x
+    assert RO.lys_presentation(lys_nm, proxy_nm)["min_A"] == 1.0
+
+
 def test_the_tether_limit_is_the_drivers_own_warning_threshold():
     """8 A was already the distance at which the driver warned; for covalent legs it is now a gate, not a log
     line — build_system raises rather than winching the ligand across the assembly."""

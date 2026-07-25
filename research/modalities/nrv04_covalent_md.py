@@ -685,7 +685,17 @@ def run_leg(env):
         r1["stable"] = r1["plateau_A"] < R.INTERFACE_RMSD_STABLE_A
     else:
         r1 = {"rmsd_series_mean": None, "plateau_A": None, "stable": False, "note": "no frames (blew up)"}
-    r3 = R.lys_presentation(lys_frames, proxy) if (lys_nz and lys_frames) else {"min_A": None, "note": "no target Lys/frames"}
+    # ⚠ UNITS. nrv04_readouts' contract is ÅNGSTRÖM ("frames are lists of (x,y,z) tuples, Å") but everything in
+    # this driver is in NANOMETRES. R1 converts explicitly (`* 10.0  # nm -> Å` in _aligned_iface_rmsd); R3 did
+    # not, so every reported `min_A` was a nanometre value wearing an Ångström label — a silent factor of 10.
+    # Caught 2026-07-25 by recomputing R3 independently from the persisted starting systems: the committed
+    # warhead_only legs report min_A = 2.34/2.44 against an independent t=0 distance of 25.21 Å, and the
+    # cov/noncov/active legs report 4.0–4.48 against 48.92 Å. The ratio is ~10 at BOTH well-separated values,
+    # and is ≥10 exactly as a trajectory minimum should be. Reported R3 distances were therefore ~10× too small
+    # — which reads as ubiquitination-competent geometry when the real Lys Nζ–proxy separation is ~30–49 Å.
+    _lys_A = [[(x * 10.0, y * 10.0, z * 10.0) for (x, y, z) in fr] for fr in lys_frames]
+    _proxy_A = (proxy[0] * 10.0, proxy[1] * 10.0, proxy[2] * 10.0)
+    r3 = R.lys_presentation(_lys_A, _proxy_A) if (lys_nz and lys_frames) else {"min_A": None, "note": "no target Lys/frames"}
 
     result = {"panel": env.get("PANEL", "nrv04_covalent_feasibility"), "leg_id": leg_id, "seed": seed, "mode": mode,
               # RECORD the chain split the readouts were computed against. The panel that ran before this field
