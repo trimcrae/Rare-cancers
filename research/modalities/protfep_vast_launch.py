@@ -706,10 +706,21 @@ def best_alternative_usd_per_ns(offers, exclude_machine_id=None):
 def rebid(mult=None, dry_run=False):
     """Raise the bid on this lane's non-running instances, bounded by measured $/ns value.
 
-    WHY THIS EXISTS. A Vast interruptible instance that cannot get a GPU answers a start with
-    `{"success": false, "error": "resources_unavailable", ...}` and waits. Waiting is usually right and
-    costs storage only. But when the wait is an AUCTION — someone else is paying more for that card —
-    waiting is indefinite and the fix is to bid more, not to wait longer or to re-rent elsewhere.
+    ⚠ READ THIS BEFORE REACHING FOR IT: **it does NOT unstick a queued leg.** This was built on the
+    hypothesis that a `resources_unavailable` wait is an auction you can outbid. That hypothesis was
+    tested on 2026-07-25 and FALSIFIED — the stuck leg's bid was raised 26% to its value ceiling and
+    the instance stayed queued exactly as before. The right response to a queued start is to pick
+    another host (see `collect`), not to bid more.
+
+    That negative result independently corroborates what main's own bid policy asserts:
+    `vast_cost_model.recommended_bid` deliberately bids the floor plus a staleness TICK rather than
+    any multiple, on the reasoning that "the machines we rent are idle, so there is no incumbent bid
+    to beat". Two separate lines of evidence now say the margin does not buy priority.
+
+    SO WHAT IS IT STILL FOR? The value CEILING, which is the reusable part: if a bid is ever raised —
+    by the escape hatch `VAST_BID_FLOOR_MULT`, or by a future policy that does buy retention — it
+    must not be raised past the point where a faster card would have been cheaper per ns of finished
+    MD. `value_ceiling_bid` is that bound and it is independent of why the bid moved.
 
     The question a fixed multiple cannot answer is how much more is still worth paying. This one can:
     bid up to the point where this card's cost per ns of finished MD equals the best alternative on the
