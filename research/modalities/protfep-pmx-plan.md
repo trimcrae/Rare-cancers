@@ -140,10 +140,20 @@ is genuinely occupied. Two consequences worth carrying forward:
 
 - **Do not reach for the bid when a start is queued.** It was the obvious lever and it does nothing.
   The `resources_unavailable` body, not the bid, is the thing to read.
-- **Selection has no availability term, and that is now the binding gap.** `_select_cheapest_offer`
-  ranks purely on $/ns; a machine that cannot schedule us has *infinite* realised $/ns, which the
-  metric cannot see. The cheapest offer on the board and the cheapest way to actually finish a leg
-  are not the same quantity.
+- **Do not WAIT it out either — that was this lane applying the wrong market's rule.** The repo's
+  standing "always wait out spot capacity" rule is written for **AWS managed spot**, a *pool* where
+  you have no host choice and waiting is the only move. Vast is not a pool. The 2026-07-24
+  reservation-price retraction says it directly — *"Vast is ~23 independently-priced RTX 4090 hosts
+  visible at once, so you do not wait for a price, you pick a host"* — and the price history says
+  the same from the other side: **the floor is FLAT** (RTX 4090 daily lows $0.1356–$0.1689 over 20
+  days, 17/20 at the trough), so a different host today costs what this one will cost tomorrow.
+  Queueing behind an occupied machine buys nothing and delays everything.
+- **Selection had no availability term, and that was the binding gap.** `_select_cheapest_offer`
+  ranked purely on $/ns; a machine that cannot schedule us has *infinite* realised $/ns, which the
+  metric cannot see, so it kept winning and kept failing to start. Fixed with
+  `ResourceSpec.exclude_machine_ids`, fed from a `_blocked_machines` list that `collect` records
+  whenever a start comes back `resources_unavailable`. The cheapest offer on the board and the
+  cheapest way to actually finish a leg are not the same quantity.
 
 Failure #9 is worth reading as a monitoring lesson rather than an infrastructure one. The board showed
 `loading` for 36 minutes and that was indistinguishable from a healthy pull, because it printed a

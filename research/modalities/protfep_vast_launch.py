@@ -226,6 +226,8 @@ def stall_minutes(prev, iid, status_msg, now):
     """
     key = str(iid)
     old = (prev or {}).get(key)
+    if not isinstance(old, (list, tuple)) or len(old) != 2:
+        old = None                                   # e.g. the _blocked_machines bookkeeping entry
     if old and old[0] == status_msg:
         return (now - float(old[1])) / 60.0, [status_msg, float(old[1])]
     return 0.0, [status_msg, now]
@@ -293,6 +295,27 @@ def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefi
     )
 
 
+def blocked_machine_ids(bucket=None, prefix=None):
+    """Machines observed refusing starts with `resources_unavailable`. [] if unavailable.
+
+    Recorded by collect() and consumed here so a host that cannot schedule us stops winning
+    selection. It is the availability term the $/ns ranking has no way to express: a machine that
+    never starts has infinite realised cost per ns, yet reads as the cheapest offer on the board.
+    """
+    try:
+        import boto3
+    except ImportError:
+        return []
+    b = bucket or DEFAULT_BUCKET
+    p = (prefix or RESULT_PREFIX).rstrip("/")
+    try:
+        st = json.loads(boto3.client("s3").get_object(
+            Bucket=b, Key=f"{p}/_lane_state.json")["Body"].read())
+        return [str(m) for m in (st.get("_blocked_machines") or [])]
+    except Exception:  # noqa: BLE001 — no state yet, or unreadable; exclude nothing
+        return []
+
+
 def completed_leg_ids(bucket=None, prefix=None):
     """Leg ids whose result is already `done` in S3. Needs live AWS creds; [] if unavailable."""
     try:
@@ -335,6 +358,13 @@ def submit(mode="pilot", n_replicas=3, benchmarks=None, dry_run=False):
     """
     specs = units_for(mode, n_replicas=n_replicas, benchmarks=benchmarks)
     if not dry_run:
+        # Hosts that refused a start with `resources_unavailable`. Excluded here rather than left to
+        # the $/ns ranking, which cannot see availability and would keep re-picking the cheapest
+        # machine that never runs us.
+        bad = blocked_machine_ids()
+        if bad:
+            RES.exclude_machine_ids = tuple(bad)
+            print(f"[launch] excluding {len(bad)} machine(s) known to refuse starts: {bad}")
         finished = set(completed_leg_ids())
         keep = [s for s in specs if leg_id_for(s, mode) not in finished]
         skipped = [leg_id_for(s, mode) for s in specs if leg_id_for(s, mode) in finished]
@@ -479,6 +509,7 @@ def collect(bucket=None, prefix=None, autostop=True):
     # Previous run's status_msg-per-instance, so a frozen phase is measurable rather than eyeballed.
     # Kept in S3 because CI runners are ephemeral; a missing or unreadable file just resets the clock.
     prev_state, new_state = {}, {}
+    blocked = set()
     try:
         prev_state = json.loads(s3.get_object(Bucket=b, Key=f"{p}/_lane_state.json")["Body"].read())
     except Exception:  # noqa: BLE001 — first run, or the object was pruned
@@ -583,10 +614,28 @@ def collect(bucket=None, prefix=None, autostop=True):
                 except Exception as e:  # noqa: BLE001
                     print(f"    nudge failed: {e}")
                 if err == "resources_unavailable":
-                    # Waiting, not stuck. Say so plainly and leave it alone; MAX_INSTANCE_HOURS above
-                    # is still the backstop against a box that waits forever.
-                    print(f"    (capacity wait: no free GPU on machine {i.get('machine_id')}, start is "
-                          f"queued — waiting it out, storage-only billing)")
+                    # NOT something to wait out on Vast. The AWS rule this lane first applied ("always
+                    # wait out spot capacity") is written for a managed-spot POOL, where you have no
+                    # host choice and waiting is the only move. Vast is not a pool: ~23 independently
+                    # priced hosts are visible at once, and the 2026-07-24 reservation-price
+                    # retraction settles it — "you do not wait for a price, you pick a host". The
+                    # price history says the same from the other side: the floor is FLAT, so queueing
+                    # behind one occupied machine buys nothing a different host would not give now.
+                    #
+                    # Bidding more does not help either — verified by doing it: raising this leg's bid
+                    # 26% to its value ceiling left it queued exactly as before.
+                    #
+                    # So record the machine and move on. A host that refuses starts has infinite
+                    # realised $/ns, which the $/ns ranking cannot see, so without this it keeps
+                    # winning selection and keeps failing to start.
+                    blocked.add(str(i.get("machine_id")))
+                    print(f"    (machine {i.get('machine_id')} has no free GPU and no bid fixes it — "
+                          f"recorded as blocked)")
+                    print(f"    -> destroying {iid}: picking another host beats queueing on this one")
+                    try:
+                        _vast_request("DELETE", f"/instances/{iid}/", key)
+                    except Exception as e:  # noqa: BLE001
+                        print(f"    destroy failed: {e}")
                 elif up_h * 60 > MAX_STOPPED_MIN:
                     # Not a capacity wait, and the nudge has not taken in this long. Destroy so the
                     # next dispatch rents a different box. The bound also stops the nudge becoming an
@@ -603,6 +652,9 @@ def collect(bucket=None, prefix=None, autostop=True):
     # Persist the status_msg clock for the next poll. Best-effort on purpose: failing to write a
     # monitoring aid must never fail a collect, and a lost file only costs one reset of the clock.
     try:
+        prior_blocked = set((prev_state.get("_blocked_machines") or []) if isinstance(
+            prev_state.get("_blocked_machines"), list) else [])
+        new_state["_blocked_machines"] = sorted(prior_blocked | blocked)
         s3.put_object(Bucket=b, Key=f"{p}/_lane_state.json",
                       Body=json.dumps(new_state, indent=2).encode())
     except Exception as e:  # noqa: BLE001

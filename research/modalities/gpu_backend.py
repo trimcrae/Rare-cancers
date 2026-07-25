@@ -50,6 +50,15 @@ class ResourceSpec:
     disk_gb: int = 40             # host disk floor (container + trajectories/checkpoints)
     min_reliability: float = 0.90  # skip flaky hosts (Vast reliability2 in [0,1]); preemption we tolerate, crashes we don't
     interruptible: bool = True    # our per-unit checkpointing tolerates interruption -> take the cheap (bid) tier
+    # Machines to skip regardless of price. On Vast a start can be refused with
+    # {"error": "resources_unavailable"} because that host's GPU is already taken — and no bid fixes
+    # it (verified 2026-07-25: raising a stuck leg's bid 26% to its value ceiling changed nothing).
+    # Such a host has INFINITE realised $/ns, which the $/ns ranking cannot see, so it will keep
+    # winning selection and keep failing to start. This is the availability term the ranking lacks.
+    # Vast is ~23 independently-priced hosts visible at once, so the answer is to pick another one
+    # rather than to queue — see the 2026-07-24 reservation-price retraction, "you do not wait for a
+    # price, you pick a host".
+    exclude_machine_ids: tuple = ()
     min_cuda: float = 13.0        # host DRIVER's cuda_max_good must be >= this so OpenMM's CUDA-plugin PTX can JIT.
                                   # RAISED 12.6 -> 13.0 on 2026-07-23: DIAG PROOF that the `cuda-version=12.6` env
                                   # pin did NOT actually take — the baked env's PTX is CUDA-13-class, so legs that
@@ -406,6 +415,9 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
             continue
         if o.get("rentable") is False:
             continue
+        if res.exclude_machine_ids and str(o.get("machine_id")) in {
+                str(m) for m in res.exclude_machine_ids}:
+            continue                                              # host known to refuse starts (see ResourceSpec)
         if ngpu != 1:                                             # one GPU per leg (multi-GPU costs more, no gain)
             continue
         if _vast_gpu_ram_gb(o) + 0.5 < res.min_vram_gb:          # 0.5 GB slack for reporting rounding

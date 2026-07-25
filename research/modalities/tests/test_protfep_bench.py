@@ -1441,21 +1441,24 @@ def _collect_with_reply(monkeypatch, inst, reply):
     return calls
 
 
-def test_a_capacity_wait_is_waited_out_not_destroyed(monkeypatch, capsys):
-    """Vast queues a start it cannot satisfy. The repo's standing rule is to wait those out.
+def test_a_capacity_wait_is_not_waited_out_on_vast(monkeypatch, capsys):
+    """SUPERSEDES an earlier assertion that this lane should wait a capacity wait out.
 
-    This is the exact case an earlier version of the guard got backwards: it destroyed the host as
-    'nudge is not taking' after 45 stopped minutes, when the machine simply had no free GPU — and it
-    would have destroyed every replacement for the same reason, because the cause was never the host.
+    That was the AWS managed-spot rule applied to the wrong market. On AWS you have no host choice,
+    so waiting is the only move. Vast is ~23 independently-priced hosts visible at once, and the
+    2026-07-24 reservation-price retraction settles it: "you do not wait for a price, you pick a
+    host." The price history agrees from the other side — the floor is FLAT, so a different host
+    costs the same today as this one will tomorrow. And bidding more was tried and did nothing.
     """
     inst = {"id": 97, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
             "intended_status": "stopped", "actual_status": "loading", "machine_id": 142143,
-            "start_date": time.time() - (pv.MAX_STOPPED_MIN + 30) * 60, "dph_total": 0.08}
+            "start_date": time.time() - 600, "dph_total": 0.08}
     calls = _collect_with_reply(monkeypatch, inst, {
         "success": False, "error": "resources_unavailable",
         "msg": "Required resources are currently unavailable, state change queued."})
-    assert not any(m == "DELETE" for m, _p, _b in calls), "a capacity wait must not be destroyed"
-    assert "capacity wait" in capsys.readouterr().out
+    assert ("DELETE", "/instances/97/", None) in calls
+    out = capsys.readouterr().out
+    assert "recorded as blocked" in out and "picking another host" in out
 
 
 def test_a_genuinely_stuck_box_is_still_destroyed(monkeypatch):
@@ -1575,3 +1578,57 @@ def test_rebid_never_bids_below_the_floor(monkeypatch):
     calls = _rebid_with(monkeypatch, inst, offers, mult=1.9)
     put = next(b for m, p, b in calls if m == "PUT" and "bid_price" in p)
     assert put["price"] >= 0.20
+
+
+# ----------------------------------------------- availability: pick another host, do not queue
+def test_a_capacity_blocked_host_is_destroyed_not_queued_on(monkeypatch, capsys):
+    """Vast is ~23 independently-priced hosts, not a pool. You pick a host, you do not wait.
+
+    This reverses an earlier version of this lane, which applied the AWS managed-spot rule ("always
+    wait out spot capacity") to a market where it does not hold. Verified by doing it: raising the
+    stuck leg's bid 26% to its value ceiling left it queued exactly as before, so no bid buys the
+    card — and the price history says the floor is flat, so a different host costs the same today.
+    """
+    inst = {"id": 104, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading", "machine_id": 142143,
+            "start_date": time.time() - 600, "dph_total": 0.09}
+    calls = _collect_with_reply(monkeypatch, inst, {
+        "success": False, "error": "resources_unavailable", "msg": "state change queued."})
+    assert ("DELETE", "/instances/104/", None) in calls
+    assert "picking another host" in capsys.readouterr().out
+
+
+def test_selection_skips_a_blocked_machine():
+    """A host that never starts has infinite realised $/ns, which the ranking cannot express."""
+    import gpu_backend as gb
+    offers = [
+        {"machine_id": 1, "gpu_name": "RTX 3090", "min_bid": 0.044, "num_gpus": 1,
+         "cuda_max_good": 13.0, "gpu_ram": 24576},
+        {"machine_id": 2, "gpu_name": "RTX 4090", "min_bid": 0.149, "num_gpus": 1,
+         "cuda_max_good": 13.0, "gpu_ram": 24576},
+    ]
+    plain = gb.ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True)
+    assert gb._select_cheapest_offer(offers, plain)["machine_id"] == 1
+    excl = gb.ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True,
+                           exclude_machine_ids=("1",))
+    assert gb._select_cheapest_offer(offers, excl)["machine_id"] == 2
+
+
+def test_blocked_machine_ids_never_blocks_a_launch(monkeypatch):
+    """Same failure direction as the completed-leg skip: no state must mean 'exclude nothing'."""
+    import builtins
+    real_import = builtins.__import__
+
+    def _boom(name, *a, **k):
+        if name == "boto3":
+            raise ImportError("no boto3")
+        return real_import(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", _boom)
+    assert pv.blocked_machine_ids() == []
+
+
+def test_stall_clock_ignores_the_blocked_machines_bookkeeping_entry():
+    """_blocked_machines lives in the same state file and is not a (msg, first_seen) pair."""
+    m, entry = pv.stall_minutes({"_blocked_machines": ["1", "2"]}, 7, "x", 1000.0)
+    assert m == 0.0 and entry == ["x", 1000.0]
