@@ -257,9 +257,17 @@ property that makes a degrader worth building.
 Two controls are in the library so this is a *tested choice* rather than an assertion:
 
 - **acrylamide**, the irreversible comparator the reversible design is argued against;
-- **α-cyano-propanamide**, the saturated, non-electrophilic control — same heavy atoms, same charge, same
-  amide, no Michael acceptor, so anything attributable to the warhead is attributable to the C=C and nothing
-  else.
+- **2-cyanobutanamide**, the saturated, non-electrophilic control — `cyac_me` with the Michael acceptor
+  reduced and nothing else changed, so anything attributable to the warhead is attributable to the C=C.
+
+⚠ **And a saturated control of a Michael acceptor cannot be perfectly matched — this one is matched in
+constitution but not in stereochemistry.** Reducing the acceptor turns its sp² α-carbon into an sp³ centre
+bearing four different groups (nitrile, amide, ethyl, H), so **the control has a stereocentre the electrophile
+does not have.** That is a property of the transformation, not a flaw in this control. It is declared as a
+single **(S)** diastereomer rather than left unspecified — an unspecified centre would make the "control" two
+compounds — and the **(R)** epimer is the obvious second control if the centre needs to be shown not to
+matter. This surfaced because the RDKit verifier refuses an unassigned stereocentre; it would have been
+invisible to inspection.
 
 ### ★★ The chemistry axis is ONE RESIDUE DEEP, and there is no geometric fallback
 
@@ -298,6 +306,14 @@ agree. `linker_chem_check.py` re-derives both from the **parsed molecule** (topo
 the two anchor atoms), matches the required cores and the declared pendant as exact substructures, checks a
 list of junction motifs that must never appear, refuses any unassigned stereocentre, and **fails the build** on
 a mismatch.
+
+**It has already paid for itself.** On its first complete run it verified **the matched pair** — d and d₀ come
+back as **C₄₇H₅₅N₉O₉S** and **C₄₈H₅₆N₈O₉S**, identical at **66 heavy atoms**, identical in net charge,
+rotatable bonds and stereocentre count, with the backbone length (11) and branch position (*k* = 6) re-derived
+from the parsed molecules rather than taken from the geometry that proposed them. "Differs only in the wedge
+element" is therefore a **measurement**, not a claim. It also found two further defects nothing else would
+have: a branch-attachment check that assumed direct bonding and so failed on every side-chain-mounted
+electrophile, and the stereocentre the saturated control creates.
 
 It exists because four defects had already been found by hand, and reading strings does not scale:
 
