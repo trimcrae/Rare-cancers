@@ -355,6 +355,12 @@ r0**. So the n=3 design silently re-includes buying **r1 and r2 of the edge alre
 [`valB-mini-r0-verdict-2026-07-25.md`](valB-mini-r0-verdict-2026-07-25.md) §7 argued against, on the grounds
 that replicates shrink variance and the miss is systematic. **n = 3 is $27.3, not $17.6.**
 
+**Every figure above is a CEILING.** The ~16 s/iter rate was measured on the **146,284-particle ternary**
+assembly and is applied to the binary leg too. But `binary_<e3>` is E3 machinery + PROTAC with **no target**, so
+it lacks the SMARCA2 bromodomain — ~1,900 of the 7,388 solute atoms, by the convergence analysis's own chain
+census — and its solvated box is correspondingly smaller. The true cost is lower by an amount **nobody has
+measured**, and this document does not invent one. Erring high is the right direction for a spend gate.
+
 **If RUNG 2b adopts 4 fs**, every figure scales by the **step** ratio **0.643 — not 0.5** (the warmup is pinned
 at 1 fs either way, so only the production half halves; a "2× cheaper" claim overstates by ~36 %). The n=1
 scout would be **$4.39**. That decision is RUNG 2b's and is not assumed here — **quote the 2 fs price.**

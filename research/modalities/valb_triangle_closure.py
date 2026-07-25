@@ -342,6 +342,15 @@ def price_triangle(prod_dt_fs=PROD_DT_FS_ASRUN):
             "solvent_leg_ref_gpu_h_ESTIMATE": round(solvent_leg_ref_gpu_h(prod_dt_fs), 2),
             "solvent_sec_per_iter_ESTIMATE": round(SOLVENT_SEC_PER_ITER_EST, 2),
             "solvent_leg_basis": SOLVENT_LEG_BASIS,
+            "binary_leg_priced_at_the_TERNARY_rate": True,
+            "binary_leg_conservatism": "the ~16 s/iter rate was measured on the 146,284-particle TERNARY "
+                                       "assembly and is applied here to the binary leg as well. The binary "
+                                       "assembly is E3 machinery + PROTAC with NO target, so it lacks the "
+                                       "SMARCA2 bromodomain -- ~1,900 of the 7,388 solute atoms by the "
+                                       "convergence analysis's own chain census -- and its solvated box is "
+                                       "correspondingly smaller. So EVERY price here is a CEILING. The true "
+                                       "figure is lower by an amount nobody has measured, and this module does "
+                                       "not invent one.",
         },
         "variants": variants,
         "design_quoted": {"n1_usd": 5.9, "n3_usd": 17.6,

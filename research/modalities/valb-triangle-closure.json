@@ -210,7 +210,9 @@
       "usd_per_reference_gpu_h": 0.1372,
       "solvent_leg_ref_gpu_h_ESTIMATE": 4.78,
       "solvent_sec_per_iter_ESTIMATE": 6.15,
-      "solvent_leg_basis": "a RATE (~6.15 s/iter) backed out of the binary NR4A3 RBFE lane's solvent leg (pricing.md section B: ~4.1 ref GPU-h over its 2400-iteration leg) and re-multiplied by the ternary lane's 2800 iterations. ESTIMATE, not a ternary-lane measurement, and the two lanes' solvent boxes differ (a 59-heavy-atom PROTAC vs a ~20-heavy-atom warhead)."
+      "solvent_leg_basis": "a RATE (~6.15 s/iter) backed out of the binary NR4A3 RBFE lane's solvent leg (pricing.md section B: ~4.1 ref GPU-h over its 2400-iteration leg) and re-multiplied by the ternary lane's 2800 iterations. ESTIMATE, not a ternary-lane measurement, and the two lanes' solvent boxes differ (a 59-heavy-atom PROTAC vs a ~20-heavy-atom warhead).",
+      "binary_leg_priced_at_the_TERNARY_rate": true,
+      "binary_leg_conservatism": "the ~16 s/iter rate was measured on the 146,284-particle TERNARY assembly and is applied here to the binary leg as well. The binary assembly is E3 machinery + PROTAC with NO target, so it lacks the SMARCA2 bromodomain -- ~1,900 of the 7,388 solute atoms by the convergence analysis's own chain census -- and its solvated box is correspondingly smaller. So EVERY price here is a CEILING. The true figure is lower by an amount nobody has measured, and this module does not invent one."
     },
     "variants": {
       "n1_scout_R_only (2 new edges x ternary+binary; r0 reused as T1)": {
