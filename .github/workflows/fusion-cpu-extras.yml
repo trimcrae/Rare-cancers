@@ -183,8 +183,19 @@ jobs:
         run: pip install pytest
       - name: Unit tests — the geometry kernels staging depends on (offline, no network)
         run: python -m pytest research/modalities/tests/test_basin_geom.py -q
+      - name: Fetch the E3 lane's recruiter registry (read-only; consumed, never duplicated)
+        run: |
+          set -e
+          git fetch origin claude/max-effort-2dq11l-e3 || true
+          if git cat-file -e FETCH_HEAD:research/modalities/e3-recruiter-staging.json 2>/dev/null; then
+            mkdir -p /tmp/lane1
+            git show FETCH_HEAD:research/modalities/e3-recruiter-staging.json > /tmp/lane1/e3-recruiter-staging.json
+            echo "lane-1 registry fetched: $(wc -c < /tmp/lane1/e3-recruiter-staging.json) bytes"
+          else
+            echo "lane-1 registry not published yet — VHL/CRBN arms only"
+          fi
       - name: Offline plan (what will be queried — auditable before any network call)
-        run: python research/modalities/nr4a3_e3_stage.py --plan
+        run: python research/modalities/nr4a3_e3_stage.py --plan ${{ github.event.inputs.ternary_extra_args }}
       - name: Stage the E3 arms from RCSB (accession-set discovery + verification + composition)
         run: python research/modalities/nr4a3_e3_stage.py ${{ github.event.inputs.ternary_extra_args }}
       - name: Commit the staged arms back to the triggering branch
