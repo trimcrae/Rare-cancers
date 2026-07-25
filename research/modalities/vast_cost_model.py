@@ -26,6 +26,14 @@ F3. BEING OUTBID PAUSES, IT DOES NOT DESTROY. "Lower-priority instances are paus
     enough to regain the highest priority or until a higher bid finishes up." Disk survives. So a preemption
     costs the work since the last checkpoint plus downtime — NOT a ~6 GiB image reload. (The reload that
     justified `x1.9` was self-inflicted: our own reaper deleted paused boxes.)
+    ⚠ **DISPUTED BY OBSERVATION, 2026-07-25** — see
+    `research/compute/vast-churn-observations-2026-07-25.md`. F3 is quoted from the vendor docs and describes
+    the OUTBID path. On the 5a-KS benchmark run the dominant failure was NOT that path: boxes went to
+    `cur_state=stopped` with `intended_status=stopped` and answered a start with
+    `{"error": "resources_unavailable"}`, i.e. the host could not schedule us at all. Those did NOT resume on
+    their own and could not be made to — a bid raised 26% to its value ceiling changed nothing — so each one
+    cost a destroy plus a full image pull on a different machine. **The reload term is therefore real for this
+    failure mode even though F3 correctly describes the outbid one.** Both exist; only one is priced below.
 
 F4. STORAGE BILLS CONTINUOUSLY, RUNNING OR PAUSED. "Billed continuously while your instance exists,
     regardless of running state ... typically higher for stopped instances." Measured median $0.20/GB/month,
@@ -35,6 +43,12 @@ F4. STORAGE BILLS CONTINUOUSLY, RUNNING OR PAUSED. "Billed continuously while yo
 F5. THE MARKET IS IN DEEP EXCESS SUPPLY. Of 445 interruptible offers pulled across the cards we can use,
     essentially none were rented. On an idle machine `min_bid` is the host's RESERVE price, not a competing
     bid — there is nobody there to outbid. Substitutes are abundant: ~148 offers passed our launch filters.
+    ⚠ **THE INFERENCE, NOT THE COUNT, IS DISPUTED (2026-07-25).** F5 is measured by counting OFFERS; it is
+    used to conclude that a rented machine is idle. On the 5a-KS run roughly HALF of actual RENTAL ATTEMPTS
+    were refused with `resources_unavailable` across 8+ distinct machines — so "an offer is listed" does not
+    imply "the GPU is free", and the step from the offer census to "there is nobody there" does not carry.
+    The excess-supply claim may well hold in aggregate (substitutes were indeed always available); what fails
+    is using it as evidence that an acquired machine has no competing occupant.
 
 ===============================================================================================================
 2. THE OBJECTIVE
@@ -128,8 +142,15 @@ REFERENCE_NS_PER_H = MEASURED_NS_PER_DAY_84K[REFERENCE_CARD] / 24.0   # 31.47 ns
 HOURS_PER_MONTH = 730.0
 
 # Priors, flagged as such wherever they surface. See section 4.
+# ⚠ BOTH PRIORS ARE DISPUTED BY THE 2026-07-25 5a-KS RUN — see
+# `research/compute/vast-churn-observations-2026-07-25.md`. They are left at their original values on
+# purpose: one night on one lane justifies flagging them, NOT refitting them to a new invented number.
+# Pass explicit values, or fit them with `fit_lambda_ref`, rather than trusting these.
 DEFAULT_HAZARD_PER_H = 0.10     # preemptions per running hour on an idle host in an over-supplied market
+                                # ⚠ looked 2.5-4x LOW over ~15-20 observed running hours (2026-07-25)
 DEFAULT_DOWNTIME_H = 0.25       # re-dispatch to one of ~148 substitutes, not "wait for priority to return"
+                                # ⚠ assumes an AUTOMATIC re-dispatch loop. None exists: on 2026-07-25 two
+                                # legs sat hostless for 203 and 276 min because a human had to notice.
 # Staleness tick only. NOT a priority premium: on an idle machine there is no incumbent to outbid (F5), so
 # this exists solely so a quote that moves between search and rent still clears the floor. A bid at or below
 # min_bid can leave the box created-but-stopped (verified 2026-07-23), so it must be strictly above.
@@ -183,12 +204,24 @@ def usd_per_ns(compute_usd_h, storage_usd_h, ns_per_h, hazard_per_h=DEFAULT_HAZA
     return (float(compute_usd_h) + float(storage_usd_h) * (1.0 + lam * D)) / (ns_per_h * useful)
 
 
-def restart_overhead_h(checkpoint_interval_h):
+def restart_overhead_h(checkpoint_interval_h, reload_h=0.0):
     """Work lost per preemption. Uniform arrival within a checkpoint interval => half of it on average.
 
-    NOTE what is absent: an image-reload term. The ~20-minute reload that justified a large bid premium was
-    caused by our own reaper DELETING paused instances; with pause/resume intact the disk survives (F3). PURE."""
-    return max(0.0, float(checkpoint_interval_h)) / 2.0
+    `reload_h` is the image-reload cost, and it defaults to 0.0 for the OUTBID path only. F3 is right that a
+    paused-and-resumed box keeps its disk, so that path pays no reload — and the ~20-minute reload which once
+    justified `x1.9` really was self-inflicted by a reaper deleting paused boxes.
+
+    ⚠ BUT THAT IS NOT THE ONLY PATH, and on 2026-07-25 it was not the common one. A host that answers
+    `resources_unavailable` cannot be resumed at any bid; the leg has to be re-rented elsewhere and pays a
+    full multi-GB pull. Observed repeatedly on the 5a-KS run (see
+    `research/compute/vast-churn-observations-2026-07-25.md`). For that mode pass the real reload — ~0.1-0.25 h
+    on the hosts seen — instead of taking the default.
+
+    This matters to the BID CONCLUSION, not just to a cost readout: `premium_breakeven_dlam_db` asks how fast
+    the hazard must fall with the bid for a premium to pay, and that threshold moves with how expensive a
+    preemption is. Pricing every preemption as reload-free makes preemption look cheap, which makes a premium
+    look unjustified. PURE."""
+    return max(0.0, float(checkpoint_interval_h)) / 2.0 + max(0.0, float(reload_h))
 
 
 # =============================================================================================================
