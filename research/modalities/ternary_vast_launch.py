@@ -618,7 +618,7 @@ def committed_progress(uid, bucket=None, prefix=None):
     return (None, 0, 0)
 
 
-def phase_and_log(uid, bucket=None, prefix=None, tail=14):
+def phase_and_log(uid, bucket=None, prefix=None, tail=8):
     """(phase_marker, age_minutes, log_tail_lines) for a unit, from S3. [] if not written yet.
 
     WHY THIS IS NOT OPTIONAL. The commit-store census (`committed_progress`) is the durable progress signal,
@@ -651,7 +651,13 @@ def phase_and_log(uid, bucket=None, prefix=None, tail=14):
         # what is happening.
         keys = ("[timing]", "[barrier]", "[spot-driver]", "[tfep]", "NaN", "Traceback", "ERROR", "ABORT")
         hits = [ln for ln in raw if any(k in ln for k in keys)]
-        lines = (hits[-tail:] + ["--- raw tail ---"] + raw[-6:]) if hits else raw[-tail:]
+        lines = (hits[-tail:] + ["--- raw tail ---"] + raw[-4:]) if hits else raw[-tail:]
+        # The openmmtools per-chunk progress line, which is the ONLY thing emitted between the driver's
+        # (buffered) [timing] lines during a chunk. Pulled out separately so the compact summary can carry
+        # it: "Iteration 3/8" is the difference between watching a live warmup and watching a frozen log.
+        it_lines = [ln for ln in raw if "Iteration " in ln and "/" in ln]
+        if it_lines:
+            lines.append("LAST-ITER " + it_lines[-1].strip()[:80])
         # The log's OWN mtime, separately from the phase marker's. The marker is written only when the
         # phase CHANGES, so inside a long phase its age just grows and says nothing. The sync loop pushes
         # the log every 2 min, so a log older than ~4 min means the uploader stopped — which is a different
@@ -903,6 +909,21 @@ def collect(bucket=None, prefix=None, autostop=True):
                     _vast_request("DELETE", f"/instances/{iid}/", key)
                 except Exception as e:  # noqa: BLE001
                     print(f"    destroy failed: {e}")
+
+    # ONE COMPACT LINE PER UNIT, LAST. GitHub truncates a job log from the tail, and this board's per-instance
+    # detail is long enough that on a busy poll the verdict scrolls out of a 25-line fetch — which is exactly
+    # when a monitor most needs it. So repeat the decision-relevant facts in one grep-able line each.
+    print("---- TVAST-SUMMARY ----")
+    for u, d in sorted(recs.items()):
+        t = (d.get("timing") or {}).get("production") or {}
+        print(f"TVAST {u} status={d.get('status')} dG={d.get('dg_morph_kcal')} se={d.get('mbar_se_kcal')} "
+              f"NaN={d.get('nan_seen')} prod_s_per_iter={t.get('median_s_per_iter')}")
+    for i in mine:
+        uid = next((u for u in list(recs) + _known_unit_ids() if label_matches_unit(i.get("label"), u)), None)
+        ph, it, sc = committed_progress(uid, b, p) if uid else (None, 0, 0)
+        print(f"TVAST {uid or i.get('label')} up={i.get('actual_status')} committed={ph or 'none'}/{it} "
+              f"gpu={i.get('gpu_name')} dph=${i.get('dph_total')}")
+    print("---- END TVAST-SUMMARY ----")
 
     try:
         prior = set(prev_state.get("_blocked_machines") or [])
