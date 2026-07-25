@@ -23,7 +23,7 @@ on:
         description: "gpu_name substring to sample"
         default: "rtx4090"
       mode:
-        description: "sample (hourly series) | intel (one-shot docs + matched market + storage)"
+        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | bidsem (pay-your-bid probe, <$0.01)"
         default: "sample"
 
 permissions:
@@ -95,4 +95,30 @@ jobs:
                   research/modalities/vast-market-offers-raw.json \
                   research/modalities/vast-docs-raw.json 2>/dev/null || true
           git commit -m "vast market intel pull $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          git push origin HEAD:${{ github.ref_name }}
+
+  bidsem:
+    # The one experiment that DOES rent: settle whether an interruptible rental is billed at your bid or at a
+    # clearing price. Rents the cheapest box on the market for ~2 minutes (<$0.01) and destroys it twice over.
+    if: ${{ github.event.inputs.mode == 'bidsem' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Probe bid semantics (rents ~2 min, self-destroys)
+        working-directory: research/modalities
+        run: python vast_bid_semantics_probe.py --overbid-mult 4.0
+      - name: Commit the verdict
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/vast-bid-semantics-probe.json 2>/dev/null || true
+          git commit -m "vast bid-semantics probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}

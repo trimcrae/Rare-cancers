@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+"""
+DECISIVE EXPERIMENT: on a Vast interruptible rental, do you pay YOUR BID or a CLEARING PRICE?
+
+WHY THIS EXISTS. Every bid decision in this repo rests on "on Vast you PAY YOUR BID" — it is the reason a
+higher multiple is treated as costly, the reason the reservation-price/limit-order framing works, and the
+reason `x1.9` was called an overpayment. **The claim has never been verified.** Vast's own documentation
+(fetched 2026-07-25, `vast-docs-raw.json`) describes the auction — "clients set a bid price ... the current
+highest bid determines the instance that runs; any others are paused" — but nowhere states what you are
+CHARGED. Meanwhile at least one secondary source asserts the opposite ("you pay what's needed to maintain the
+highest bid"), which would make the policy invert: under second-price billing, bidding high buys priority
+nearly for free and the correct bid is your full reservation value.
+
+A plausible reading of ambiguous prose is a hypothesis, not a diagnosis. This is the controlled reproduction.
+
+METHOD. Rent the single cheapest rentable interruptible offer on the market with a bid deliberately set to
+`OVERBID_MULT x min_bid` (default 4x) — far enough above the floor that the two hypotheses cannot be confused
+by rounding or by the storage line. Then read the instance's own billing fields back from the API and compare:
+
+    charged compute rate ~= our bid       -> PAY-YOUR-BID (first price). Repo assumption CONFIRMED.
+    charged compute rate ~= min_bid       -> CLEARING PRICE (second price). Repo assumption REFUTED; bidding
+                                             high is nearly free and the whole policy must be re-derived.
+
+COST. The cheapest offer on the market is typically $0.01-0.05/hr; 4x that for a few minutes is well under one
+cent. A tiny image is used so nothing large is pulled, and the instance is DESTROYED in a `finally` block that
+also sweeps for any instance carrying our label — an orphaned box is the only real risk here and it is guarded
+twice.
+
+Runs on CI (the dev sandbox's egress proxy 403s console.vast.ai). Pure stdlib.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+import time
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from gpu_backend import _vast_request  # noqa: E402
+
+LABEL = "bid-semantics-probe"
+# A ~5 MB image: we are measuring a PRICE, not running anything, so the container should pull in seconds. A
+# fat CUDA image would add minutes of paid time for no information.
+TINY_IMAGE = "alpine:latest"
+
+
+def cheapest_offer(key, max_price=0.20, min_price=0.004):
+    """The cheapest rentable single-GPU interruptible offer. Card is irrelevant — we are probing BILLING."""
+    q = {"num_gpus": {"eq": 1}, "rentable": {"eq": True},
+         "order": [["dph_total", "asc"]], "type": "bid", "limit": 128}
+    offers = (_vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}) or {}).get("offers", [])
+    cands = []
+    for o in offers:
+        try:
+            mb = float(o.get("min_bid") or 0)
+        except (TypeError, ValueError):
+            continue
+        # A floor of ~0 makes the ratio test meaningless (4 x 0 = 0), and an expensive box wastes money.
+        if not (min_price <= mb <= max_price):
+            continue
+        if (o.get("reliability2") or 0) < 0.95:      # a flaky host may never start, burning the run for nothing
+            continue
+        cands.append((mb, o))
+    cands.sort(key=lambda t: t[0])
+    return cands[0][1] if cands else None
+
+
+def instance_record(key, inst_id):
+    resp = _vast_request("GET", "/instances/", key, params={"owner": "me"}) or {}
+    for i in resp.get("instances", []):
+        if str(i.get("id")) == str(inst_id):
+            return i
+    return None
+
+
+def destroy(key, inst_id):
+    try:
+        _vast_request("DELETE", f"/instances/{inst_id}/", key)
+        print(f"[probe] destroyed {inst_id}", flush=True)
+        return True
+    except Exception as e:  # noqa: BLE001
+        print(f"[probe] WARN destroy {inst_id} failed: {e}", flush=True)
+        return False
+
+
+def sweep_label(key):
+    """Belt-and-braces teardown: destroy anything wearing our label, whatever happened above."""
+    try:
+        resp = _vast_request("GET", "/instances/", key, params={"owner": "me"}) or {}
+    except Exception as e:  # noqa: BLE001
+        print(f"[probe] WARN sweep list failed: {e}", flush=True)
+        return
+    for i in resp.get("instances", []):
+        if str(i.get("label") or "") == LABEL:
+            print(f"[probe] sweep: found stray {i.get('id')} — destroying", flush=True)
+            destroy(key, i.get("id"))
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--overbid-mult", type=float, default=4.0)
+    ap.add_argument("--poll-s", type=int, default=15)
+    ap.add_argument("--max-wait-s", type=int, default=180)
+    ap.add_argument("--out", default=os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                  "vast-bid-semantics-probe.json"))
+    a = ap.parse_args()
+
+    key = os.environ.get("VAST_API_KEY", "").strip()
+    if not key:
+        print("FAIL: VAST_API_KEY not set", flush=True)
+        return 2
+
+    offer = cheapest_offer(key)
+    if not offer:
+        print("FAIL: no suitable cheap offer found", flush=True)
+        return 3
+
+    floor = float(offer["min_bid"])
+    bid = round(floor * a.overbid_mult, 4)
+    result = {
+        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "hypothesis_A_pay_your_bid": "charged compute rate ~= bid",
+        "hypothesis_B_clearing_price": "charged compute rate ~= min_bid (floor)",
+        "offer": {k: offer.get(k) for k in
+                  ("id", "machine_id", "gpu_name", "min_bid", "dph_base", "dph_total", "storage_cost",
+                   "search", "rented", "reliability2", "gpu_frac")},
+        "floor_usd_h": floor, "bid_usd_h": bid, "overbid_mult": a.overbid_mult,
+        "polls": [],
+    }
+    print(f"[probe] offer {offer['id']} ({offer.get('gpu_name')}) floor=${floor:.5f}/hr "
+          f"-> bidding ${bid:.5f}/hr ({a.overbid_mult}x)", flush=True)
+
+    inst_id = None
+    try:
+        body = {"client_id": "me", "image": TINY_IMAGE, "disk": 8.0,
+                "onstart": "echo probe", "runtype": "args", "label": LABEL,
+                "target_state": "running", "price": bid}
+        created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body=body) or {}
+        inst_id = created.get("new_contract") or created.get("id")
+        result["create_response"] = {k: created.get(k) for k in ("success", "new_contract", "error", "msg")}
+        if not inst_id:
+            result["verdict"] = f"INCONCLUSIVE — create returned no instance id: {created}"
+            print(f"FAIL: {result['verdict']}", flush=True)
+            return 4
+        print(f"[probe] created instance {inst_id}", flush=True)
+
+        waited = 0
+        while waited <= a.max_wait_s:
+            rec = instance_record(key, inst_id)
+            if rec:
+                snap = {k: rec.get(k) for k in
+                        ("dph_base", "dph_total", "min_bid", "is_bid", "actual_status", "intended_status",
+                         "cur_state", "storage_cost", "storage_total_cost", "search", "start_date", "gpu_name")}
+                snap["t_s"] = waited
+                result["polls"].append(snap)
+                print(f"[probe] t={waited:>3}s status={rec.get('actual_status')}/{rec.get('intended_status')} "
+                      f"dph_base={rec.get('dph_base')} dph_total={rec.get('dph_total')} "
+                      f"min_bid={rec.get('min_bid')} is_bid={rec.get('is_bid')}", flush=True)
+                # dph_base is populated as soon as the contract exists; no need to wait for the container.
+                if rec.get("dph_base") is not None:
+                    break
+            time.sleep(a.poll_s)
+            waited += a.poll_s
+    finally:
+        if inst_id:
+            destroy(key, inst_id)
+        sweep_label(key)
+
+    # ---- verdict ------------------------------------------------------------------------------------------
+    charged = None
+    for p in result["polls"]:
+        if p.get("dph_base") is not None:
+            charged = float(p["dph_base"])
+            break
+    result["charged_dph_base"] = charged
+    if charged is None:
+        result["verdict"] = "INCONCLUSIVE — instance never reported a price before teardown"
+    else:
+        near_bid = abs(charged - bid) <= max(0.002, 0.10 * bid)
+        near_floor = abs(charged - floor) <= max(0.002, 0.10 * floor)
+        if near_bid and not near_floor:
+            result["verdict"] = (f"PAY-YOUR-BID CONFIRMED: charged ${charged:.5f}/hr == our bid ${bid:.5f}/hr "
+                                 f"(floor was ${floor:.5f}). A higher bid is paid on EVERY hour.")
+        elif near_floor and not near_bid:
+            result["verdict"] = (f"CLEARING-PRICE: charged ${charged:.5f}/hr == the floor ${floor:.5f}/hr "
+                                 f"despite bidding ${bid:.5f}. Bidding high is ~free — REDERIVE THE POLICY.")
+        else:
+            result["verdict"] = (f"AMBIGUOUS: charged ${charged:.5f}/hr vs bid ${bid:.5f} / floor ${floor:.5f}")
+    print(f"\n[probe] VERDICT: {result['verdict']}", flush=True)
+
+    with open(a.out, "w") as f:
+        json.dump(result, f, indent=1)
+    print(f"[probe] wrote {a.out}", flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
