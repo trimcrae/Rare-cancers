@@ -174,11 +174,42 @@ from the per-member minimum-length scan, while `fraction_reachable_at_gate_by_pe
 is a direct feasibility test at n = 12 with the same 3.0 Å arm. They are computed by different code paths and
 must agree. Over all **576** (basin × unique cysteine) records: **0 mismatches**.)*
 
-### 5.1 · The matched 10⁶ comparison
+### 5.1 · The LANE-7 matched comparison — the first fully rule-attributable production result
+
+LANE 7's assembly-native control runs the search **twice at identical settings** (250 000 samples, 8 poses,
+seed 20260725) against two E3 registries: **composed** (a bridged RING) and **assembly-native**
+(8R5H / 9UUM, every bridge 0.0 Å, no composition). Re-run under the corrected rule, against the published
+values — same samples, same poses, same seed, so **the rule is the only difference**:
+
+| registry | meta-basins | term (a) | term (b) | nominal | basis |
+|---|---|---|---|---|---|
+| **composed**, published (relaxed) | 53 | **2** | 26 | 22 | CATEGORICAL |
+| **composed**, corrected (exact) | 53 | **0** | 26 | 22 | CATEGORICAL |
+| **assembly-native**, published (relaxed) | 55 | **3** | 26 | 26 | CATEGORICAL |
+| **assembly-native**, corrected (exact) | 55 | **2** | 26 | 26 | CATEGORICAL |
+
+**Three readings, in order of importance.**
+
+1. **Term (a) does NOT go to zero everywhere.** On the **assembly-native** registry — the one LANE 7
+   established is correct, reproducing a measured exit-atom→E2-Cys distance to 0.09 Å where the composed
+   alternative missed by 39.15 Å — **two basins survive the corrected 12-atom gate**, at exact minima of
+   **10** and **12** backbone atoms (relaxed values 9 and 9), reaching C397 in 5.3 % and 5.6 % of their
+   members. Both come from the same pose (`exitvec_07`) with spans of 10.9 and 13.1 Å.
+2. **Term (b) and the nominal limb are bit-identical in both registries** (26/26 and 22/26), which is the A/B
+   result reproduced at production scale on real registries rather than at 150 k on three poses.
+3. **STRATEGY.md's "native marginally stronger" becomes decisive, not marginal.** The published gap was
+   "3 vs 2 term-(a)"; corrected it is **2 vs 0**. Under the exact rule the *composed* construction loses the
+   term-(a) limb entirely while the native one keeps it — so the registry choice, which LANE 7 already settled
+   on independent structural grounds, now also decides whether the cysteine axis exists at all. A caveat that
+   cuts the other way and must travel with it: **neither surviving basin exceeds the term-(b) background**
+   (`term_b_exceeds_background: false`, enrichment 0.0), so they carry the cysteine handle without the lysine
+   one.
+
+### 5.2 · The matched 10⁶ 12-pose comparison (the headline run)
 
 ⏳ *pending CI 30179315860.*
 
-### 5.2 · What the 250 k run already establishes (rule-only quantities)
+### 5.3 · What the first (250 k) run already establishes (rule-only quantities)
 
 Two things in that run are **not** sample-count-sensitive in the way the basin counts are, and both point the
 same way:
@@ -204,7 +235,7 @@ of 8, 9, 11 and 12 atoms were the *low* end of a bound up to 5 atoms wide, and t
 **C420 and C559 are reached by NO basin at the gate with ANY named pendant** — not at 3.0 Å, not at the 8.75 Å
 Dab branch. The categorical chemistry axis is confirmed one residue deep, and more firmly than before.
 
-### 5.3 · The pendant sweep, and why it is not a rescue
+### 5.4 · The pendant sweep, and why it is not a rescue
 
 The gate is read at the preregistered **3.0 Å** arm. That value is **shorter than every real pendant**, and
 this was recorded by RUNG 5b **before** the corrected run existed — it is item 4 of
@@ -230,7 +261,7 @@ chemistry is being asked to clear. **Re-reading the gate at a real pendant would
 preregistered threshold made after seeing the result, so it is NOT a call this lane makes** — the corrected
 number at 3.0 Å is reported as the primary result and the sweep beside it, and the choice is surfaced.
 
-### 5.4 · The conformer ensemble, matched and re-run (`nr4a3-handle-ensemble.json`, $0 local)
+### 5.5 · The conformer ensemble, matched and re-run (`nr4a3-handle-ensemble.json`, $0 local)
 
 The same relaxed rule fed `nr4a3_handle_ensemble.py` through `term_a_feasibility_envelope`, so the three
 figures STRATEGY.md and three manuscripts quote — "C397 reaches the 12-atom gate in **96 %** of unbiased MD
@@ -340,7 +371,7 @@ runs require. Numbers marked ⏳ are pending the matched 10⁶ run.
 
 **One decision this lane deliberately did not make**, because it is a preregistered threshold and the result
 is already known: whether to re-read the term-(a) gate at a realistic pendant reach rather than the 3.0 Å
-convention. See §5.3.
+convention. See §5.4.
 
 ## 8 · Honest scope
 
