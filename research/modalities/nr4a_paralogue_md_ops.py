@@ -212,6 +212,14 @@ def collect(targets):
     s3 = _s3()
     got = []
     for name in leg_names(targets):
+        # ⚠ NEVER unpack a smoke leg. Its tarball has the SAME basename as the real one and unpacks to the
+        # SAME results/<target>-pocket-ensemble directory, so collecting it would quietly mix 12 frames from
+        # a 0.4 ns metadynamics run into the ensemble the categorical verdict is computed on — a silently
+        # wrong answer with nothing to notice it. The smoke exists to prove plumbing and is discarded.
+        if name.endswith("-smoke"):
+            if _exists(s3, result_key(name)):
+                print(f"[ops] {name}: SKIPPED — smoke output is never collected (toy lengths)")
+            continue
         target = target_of(name)
         k = result_key(name)
         if not _exists(s3, k):

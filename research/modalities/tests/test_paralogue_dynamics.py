@@ -107,6 +107,19 @@ check(float(sm.env["METAD_NS"]) < 1 and sm.name.endswith("-smoke"),
       "smoke runs the whole chain at toy length under its own name")
 check(sm.max_runtime_s <= 3600 < s.max_runtime_s, "the anti-idle cap is scaled to the mode")
 
+print("== ops leg naming / smoke segregation")
+import nr4a_paralogue_md_ops as O  # noqa: E402
+names = O.leg_names("NR4A1,NR4A2")
+check(names == ["nr4a-pdyn-nr4a1", "nr4a-pdyn-nr4a1-smoke",
+                "nr4a-pdyn-nr4a2", "nr4a-pdyn-nr4a2-smoke"],
+      "leg_names covers both the real and the smoke prefix (a board that knew only the real name "
+      "reported 'no phase yet' for a leg running at 60 % GPU)")
+check(O.target_of("nr4a-pdyn-nr4a1-smoke") == "nr4a1" and O.target_of("nr4a-pdyn-nr4a2") == "nr4a2",
+      "target_of survives the -smoke suffix (a bare rsplit returns 'smoke')")
+check(O.result_key("nr4a-pdyn-nr4a1-smoke").endswith("nr4a-pdyn-nr4a1-smoke/nr4a1-pocket-ensemble.tar.gz"),
+      "the smoke tarball has the SAME basename as the real one under a DIFFERENT prefix — which is exactly "
+      "why collect must skip it rather than unpack it over the real ensemble")
+
 print("== species offsets are derived, not hardcoded")
 try:
     import json
