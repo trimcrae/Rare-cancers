@@ -184,8 +184,15 @@ def test_observed_residue_reads_the_real_identity(tmp_path):
 
 # ---------------------------------------------------------------- reduction
 def _leg(leg_id, benchmark, env, dg, gpu_h=1.2, particles=32000, status="done"):
+    """A leg record as the CURRENT driver writes one.
+
+    `gpu_hours_cumulative` is present because the fixed driver always writes it; its absence is the
+    exact marker price_from_legs uses to refuse a pre-fix leg whose gpu_hours is only the final
+    segment after a preemption. A fixture missing it would silently be treated as untrustworthy.
+    """
     return {"leg_id": leg_id, "status": status, "dg_kcal": dg, "dg_mbar_se_kcal": 0.2,
-            "gpu_hours": gpu_h, "n_particles": particles, "s_per_iter": 1.8,
+            "gpu_hours": gpu_h, "gpu_hours_cumulative": gpu_h,
+            "n_particles": particles, "s_per_iter": 1.8,
             "meta": {"benchmark": benchmark, "environment": env}}
 
 
@@ -1056,3 +1063,415 @@ def test_mutant_pdb2gmx_merges_chains():
     src = inspect.getsource(ppmx.build_system)
     mutant_call = src.split('"-f", "mutant.pdb"')[1].split("cwd=work_dir")[0]
     assert '"-merge", "all"' in mutant_call
+
+
+def test_submit_skips_finished_legs_before_renting(monkeypatch, capsys):
+    """The onstart idempotency check only fires AFTER the image pull, so a re-dispatch rented a GPU
+    for ~25 minutes just to discover the leg was done and exit — $0.15 a time. The launcher has S3
+    access; the cheap check belongs before the rental."""
+    done = [pv.leg_id_for(u, "pilot") for u in pv.units_for("pilot")]
+    monkeypatch.setattr(pv, "completed_leg_ids", lambda *a, **k: done)
+    assert pv.submit(mode="pilot") == []
+    assert "already done" in capsys.readouterr().out
+
+
+def test_submit_still_launches_the_unfinished_leg(monkeypatch):
+    """Only the finished unit is skipped — the other must still be rented."""
+    units = pv.units_for("pilot")
+    finished = pv.leg_id_for(units[0], "pilot")
+    monkeypatch.setattr(pv, "completed_leg_ids", lambda *a, **k: [finished])
+    submitted = []
+
+    class _Backend:
+        def submit(self, js):
+            submitted.append(js.env["LEG_ID"])
+            return type("H", (), {"job_id": "x", "extra": {}})()
+
+    monkeypatch.setattr(pv, "get_backend", lambda name: _Backend())
+    pv.submit(mode="pilot")
+    assert submitted == [pv.leg_id_for(units[1], "pilot")]
+
+
+def test_completed_leg_ids_never_blocks_a_launch(monkeypatch):
+    """A listing failure must degrade to launching everything, not to launching nothing."""
+    import builtins
+    real_import = builtins.__import__
+
+    def _boom(name, *a, **k):
+        if name == "boto3":
+            raise ImportError("no boto3")
+        return real_import(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", _boom)
+    assert pv.completed_leg_ids() == []
+
+
+MOD_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def test_pipeline_fingerprints_the_driver_it_actually_ran():
+    """The host pulls a branch TARBALL, so a content hash is the only honest code-provenance field."""
+    pipeline = pv._PIPELINE
+    assert "sha256sum protfep_pmx.py" in pipeline
+    assert "PROTFEP_CODE_SHA256" in pipeline
+    # It must be computed AFTER the tarball is unpacked, or it hashes nothing.
+    assert pipeline.index("tar xz") < pipeline.index("PROTFEP_CODE_SHA256")
+
+
+def test_driver_records_its_own_fingerprint():
+    """A leg record must carry the hash of the code that produced it, env-overridable by the host."""
+    src = open(os.path.join(MOD_DIR, "protfep_pmx.py")).read()
+    assert '"driver_sha256": os.environ.get("PROTFEP_CODE_SHA256") or _self_sha256()' in src
+    # And the fallback must be incapable of failing a paid leg.
+    body = src.split("def _self_sha256():")[1].split("\n# ----")[0]
+    assert "except OSError:" in body and "return None" in body
+
+
+def test_phase_marker_age_is_a_real_age_not_zero():
+    """`cloned at 23:28` is not a stall signal; `cloned 47 min ago` is."""
+    src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
+    assert 'time.time() - obj["LastModified"].timestamp()' in src
+    assert "min ago" in src
+
+
+def test_collect_prints_record_provenance_for_every_partial_leg():
+    """Staleness of a `failed` record is only decidable from its timestamps + driver hash."""
+    src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
+    block = src.split("for lid, doc in sorted(partial.items()):")[1]
+    provenance = block.index("driver=")
+    failed_only = block.index('if doc.get("status") == "failed":')
+    assert provenance < failed_only, "provenance must print for ALL partial legs, not only failures"
+
+
+def test_collect_explains_a_non_running_instance():
+    """`loading` for 30 s and `loading` for 30 min print the same without the reason field."""
+    src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
+    assert 'if i.get("actual_status") != "running":' in src
+    assert "status_msg" in src and "inet_down" in src
+
+
+def test_forensic_dump_is_off_by_default_but_available():
+    """It solved the create/start race; left on it buries the board. Opt-in for the next mystery."""
+    src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
+    assert 'os.environ.get("PROTFEP_FORENSIC", "0") != "0"' in src
+
+
+def _collect_with(monkeypatch, instances, leg_docs, lane_state=None, written=None):
+    """Drive collect() against fake S3 + Vast, returning the recorded API calls."""
+    calls = []
+    written = [] if written is None else written
+
+    class _Body:
+        def __init__(self, raw):
+            self._raw = raw
+
+        def read(self):
+            return self._raw
+
+    class _S3:
+        def get_paginator(self, _name):
+            class _P:
+                def paginate(self, **_kw):
+                    return [{"Contents": [
+                        {"Key": f"protfep-benchmark/leg_{k}.json",
+                         "LastModified": __import__("datetime").datetime(2026, 7, 24, 23, 28, 24)}
+                        for k in leg_docs]}]
+            return _P()
+
+        def get_object(self, Bucket=None, Key=None):  # noqa: N803
+            if Key.endswith("_lane_state.json"):
+                if lane_state is None:
+                    raise KeyError("no such key")
+                return {"Body": _Body(json.dumps(lane_state).encode())}
+            lid = os.path.basename(Key)[len("leg_"):-len(".json")]
+            return {"Body": _Body(json.dumps(leg_docs[lid]).encode())}
+
+        def put_object(self, Bucket=None, Key=None, Body=None):  # noqa: N803
+            written.append((Key, json.loads(Body.decode())))
+
+    monkeypatch.setattr(pv, "_vast_request", lambda m, p, k, params=None, body=None: (
+        calls.append((m, p, body)) or ({"instances": instances} if m == "GET" else {})))
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.delenv("PROTFEP_FORENSIC", raising=False)
+    import types
+    monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(client=lambda _n: _S3()))
+    pv.collect()
+    return calls
+
+
+def test_a_stopped_instance_is_nudged_not_destroyed(monkeypatch):
+    """The create/start race leaves a box stopped forever; re-issuing start is the documented fix."""
+    inst = {"id": 77, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "stopped", "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    calls = _collect_with(monkeypatch, [inst], {})
+    assert ("PUT", "/instances/77/", {"state": "running"}) in calls
+    assert not any(m == "DELETE" for m, _p, _b in calls)
+
+
+def test_a_running_instance_is_not_nudged(monkeypatch):
+    inst = {"id": 78, "label": pv.LABEL_PREFIX + "x", "cur_state": "running",
+            "actual_status": "running", "start_date": time.time() - 600, "dph_total": 0.3}
+    calls = _collect_with(monkeypatch, [inst], {})
+    assert not any(m == "PUT" for m, _p, _b in calls)
+
+
+def test_a_finished_leg_s_host_is_destroyed_not_nudged(monkeypatch):
+    """Reap wins over nudge: a done leg must never be restarted into another paid pull."""
+    lid = "barnase_barstar_Y29A__complex_r0"
+    inst = {"id": 79, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "stopped", "actual_status": "loading",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    docs = {lid: {"leg_id": lid, "status": "done", "dg_kcal": 1.0, "dg_mbar_se_kcal": 0.1,
+                  "gpu_hours": 0.1, "n_particles": 100}}
+    calls = _collect_with(monkeypatch, [inst], docs)
+    assert ("DELETE", "/instances/79/", None) in calls
+    assert not any(m == "PUT" for m, _p, _b in calls)
+
+
+def test_a_box_stopped_too_long_is_destroyed_not_nudged_forever(monkeypatch):
+    """An unbounded nudge loop would be paid the moment a done leg failed to pair with its host."""
+    inst = {"id": 80, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "stopped", "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - (pv.MAX_STOPPED_MIN + 5) * 60, "dph_total": 0.3}
+    calls = _collect_with(monkeypatch, [inst], {})
+    assert ("DELETE", "/instances/80/", None) in calls
+
+
+def test_a_superseded_failure_prints_one_line_not_a_traceback(monkeypatch, capsys):
+    """A fixed bug reprinted every poll buries the live signal under history."""
+    lid = "barnase_barstar_Y29A__complex_r0"
+    inst = {"id": 90, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "running", "actual_status": "loading",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    stale = {"leg_id": lid, "status": "failed", "n_states": 16, "windows_done": 0,
+             "error": "ValueError: boom", "traceback": "line one\nline two\nline three",
+             # written well before the instance started
+             "updated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 7200))}
+    _collect_with(monkeypatch, [inst], {lid: stale})
+    out = capsys.readouterr().out
+    assert "stale: predates the host currently on this leg" in out
+    assert "line two" not in out
+
+
+def test_a_live_failure_still_prints_its_full_traceback(monkeypatch, capsys):
+    """Suppression must key on staleness alone — a real crash still needs its frames."""
+    lid = "barnase_barstar_Y29A__complex_r0"
+    inst = {"id": 91, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "running", "actual_status": "running",
+            "start_date": time.time() - 7200, "dph_total": 0.3}
+    live = {"leg_id": lid, "status": "failed", "n_states": 16, "windows_done": 0,
+            "error": "ValueError: boom", "traceback": "line one\nline two\nline three",
+            "updated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    _collect_with(monkeypatch, [inst], {lid: live})
+    out = capsys.readouterr().out
+    assert "line two" in out
+
+
+def test_collect_queries_the_instance_list_once(monkeypatch):
+    """The board and the reap share one fetch; two would be a needless API round trip."""
+    inst = {"id": 92, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+            "actual_status": "running", "start_date": time.time() - 600, "dph_total": 0.3}
+    calls = _collect_with(monkeypatch, [inst], {})
+    assert sum(1 for m, p, _b in calls if m == "GET" and p == "/instances/") == 1
+
+
+def test_stall_minutes_resets_when_the_message_changes():
+    """A changed status_msg means the pull IS advancing — the clock must start over."""
+    now = 1_000_000.0
+    m, entry = pv.stall_minutes({}, 7, "layer-a: Waiting", now)
+    assert m == 0.0 and entry == ["layer-a: Waiting", now]
+    m, entry = pv.stall_minutes({"7": entry}, 7, "layer-a: Waiting", now + 600)
+    assert round(m) == 10 and entry[1] == now, "unchanged message keeps the original first_seen"
+    m, entry = pv.stall_minutes({"7": entry}, 7, "layer-b: Downloading", now + 900)
+    assert m == 0.0 and entry[1] == now + 900
+
+
+def test_a_frozen_pull_is_destroyed_once_past_the_bound(monkeypatch):
+    """Running at the control plane but stuck below it: the pull is dead, not queued."""
+    inst = {"id": 93, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+            "actual_status": "loading", "status_msg": "abc: Waiting",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    state = {"93": ["abc: Waiting", time.time() - (pv.MAX_FROZEN_MIN + 5) * 60]}
+    calls = _collect_with(monkeypatch, [inst], {}, lane_state=state)
+    assert ("DELETE", "/instances/93/", None) in calls
+
+
+def test_a_recently_frozen_pull_is_left_alone(monkeypatch):
+    """A docker layer waiting a minute or two behind its peers is normal."""
+    inst = {"id": 94, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+            "actual_status": "loading", "status_msg": "abc: Waiting",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    state = {"94": ["abc: Waiting", time.time() - 120]}
+    calls = _collect_with(monkeypatch, [inst], {}, lane_state=state)
+    assert not any(m == "DELETE" for m, _p, _b in calls)
+
+
+def test_the_status_clock_is_persisted_for_the_next_poll(monkeypatch):
+    """collect is stateless between CI runs; without this the clock can never exceed zero."""
+    inst = {"id": 95, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+            "actual_status": "loading", "status_msg": "abc: Waiting",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    written = []
+    _collect_with(monkeypatch, [inst], {}, written=written)
+    keys = {k for k, _v in written}
+    assert any(k.endswith("_lane_state.json") for k in keys)
+    payload = next(v for k, v in written if k.endswith("_lane_state.json"))
+    assert payload["95"][0] == "abc: Waiting"
+
+
+def test_ddg_sign_matches_the_reference_convention():
+    """POSITIVE ddG must mean 'the mutation weakens binding', on BOTH sides of the comparison.
+
+    The abort gate compares a computed ddG against a SKEMPI-derived one. If the two conventions
+    disagreed, score_benchmark would be comparing a number against its own negation — and for
+    barnase-barstar Y29A (reference +3.47) an engine returning the correct magnitude with the wrong
+    sign would read as a ~7 kcal/mol error, i.e. it would fail a working engine. The opposite
+    pairing is worse: on the near-null Y29F control a sign flip is nearly invisible.
+    """
+    import protfep_refcheck as rc
+    # Reference side: a mutation that WEAKENS binding raises Kd, and must come out positive.
+    assert rc.ddg_from_kd(kd_mut=3.5e-12, kd_wt=1e-14) > 0
+    # ...and one that strengthens it must come out negative.
+    assert rc.ddg_from_kd(kd_mut=8e-15, kd_wt=1e-14) < 0
+    # Computed side: complex - apo, so a mutation costing MORE free energy inside the complex than
+    # in isolation (i.e. the complex resists it) is positive = weakened binding.
+    res = pr.ddg_for({"complex": [{"dg_kcal": 25.0}], "apo": [{"dg_kcal": 21.5}]})
+    assert res["ddg_bind_kcal"] == pytest.approx(3.5)
+    # And the sign is the one the Y29A reference expects, so the gate compares like with like.
+    assert pb.BENCHMARKS["barnase_barstar_Y29A"]["ref_ddg_bind_kcal"] > 0
+    scored = pb.score_benchmark("barnase_barstar_Y29A", res["ddg_bind_kcal"], None)
+    assert scored["within_tolerance"], "correct sign + magnitude must clear the gate"
+    # The mirror image must NOT pass — this is the assertion that actually catches a flip.
+    flipped = pb.score_benchmark("barnase_barstar_Y29A", -res["ddg_bind_kcal"], None)
+    assert not flipped["within_tolerance"]
+
+
+def test_price_refuses_legs_that_predate_the_cumulative_gpu_hours_fix():
+    """Publishing a 20x-low rate is worse than publishing none: the low one gets planned against."""
+    pre_fix = [{"leg_id": "b__apo_r0", "status": "done", "gpu_hours": 0.073,
+                "n_particles": 13392, "s_per_iter": 16.3}]
+    out = pr.price_from_legs(pre_fix)
+    assert out["priced"] is False
+    assert "cumulative" in out["reason"]
+    assert out["legs_excluded_as_pre_fix"] == ["b__apo_r0"]
+
+
+def test_price_uses_a_post_fix_leg_and_names_what_it_dropped():
+    """A trustworthy leg prices the rung; the excluded ones stay visible rather than vanishing."""
+    legs = [
+        {"leg_id": "b__apo_r0", "status": "done", "gpu_hours": 0.073, "n_particles": 13392},
+        {"leg_id": "b__complex_r0", "status": "done", "gpu_hours": 2.6,
+         "gpu_hours_cumulative": 2.6, "n_particles": 35018, "s_per_iter": 40.0},
+    ]
+    out = pr.price_from_legs(legs, hourly_usd=0.30)
+    assert out["priced"] is True
+    assert out["n_legs_measured"] == 1
+    assert out["gpu_hours_per_leg"]["mean"] == pytest.approx(2.6)
+    assert out["legs_excluded_as_pre_fix"] == ["b__apo_r0"]
+
+
+def test_a_disabled_skip_announces_itself(monkeypatch, capsys):
+    """Degrading to 'launch everything' is right, but silently it spends money and looks like 'none done'."""
+    import builtins
+    real_import = builtins.__import__
+
+    def _boom(name, *a, **k):
+        if name == "boto3":
+            raise ImportError("no boto3")
+        return real_import(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", _boom)
+    pv.completed_leg_ids()
+    out = capsys.readouterr().out
+    assert "WARNING" in out and "already finished" in out
+
+
+def test_the_submit_job_installs_boto3_before_launching():
+    """The skip runs launch-side; without boto3 in that job it silently no-ops and rents everything."""
+    wf = open(os.path.join(os.path.dirname(MOD_DIR), "..", ".github", "workflows",
+                           "gpu-protfep-vast.yml")).read()
+    submit_step = wf.split("- name: Submit the Vast instance(s)")[1].split("- name:")[0]
+    assert "pip install -q boto3" in submit_step
+
+
+def test_the_nudge_logs_what_vast_actually_replied(monkeypatch, capsys):
+    """Vast refuses a start with HTTP 200 + {"success": false}; a discarded body hides the reason."""
+    inst = {"id": 96, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - 300, "dph_total": 0.3}
+
+    def _req(method, path, key, params=None, body=None):
+        if method == "GET":
+            return {"instances": [inst]}
+        return {"success": False, "msg": "instance is not startable"}
+
+    monkeypatch.setattr(pv, "_vast_request", _req)
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.delenv("PROTFEP_FORENSIC", raising=False)
+    import types
+    monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(
+        client=lambda _n: types.SimpleNamespace(
+            get_paginator=lambda _m: types.SimpleNamespace(paginate=lambda **_k: [{"Contents": []}]),
+            get_object=lambda **_k: (_ for _ in ()).throw(KeyError("none")),
+            put_object=lambda **_k: None)))
+    pv.collect()
+    out = capsys.readouterr().out
+    assert "instance is not startable" in out, "the refusal reason must reach the log"
+
+
+def _collect_with_reply(monkeypatch, inst, reply):
+    """collect() where the start PUT returns `reply`. Returns the recorded calls."""
+    calls = []
+
+    def _req(method, path, key, params=None, body=None):
+        calls.append((method, path, body))
+        return {"instances": [inst]} if method == "GET" else reply
+
+    import types
+    monkeypatch.setattr(pv, "_vast_request", _req)
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.delenv("PROTFEP_FORENSIC", raising=False)
+    monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(
+        client=lambda _n: types.SimpleNamespace(
+            get_paginator=lambda _m: types.SimpleNamespace(paginate=lambda **_k: [{"Contents": []}]),
+            get_object=lambda **_k: (_ for _ in ()).throw(KeyError("none")),
+            put_object=lambda **_k: None)))
+    pv.collect()
+    return calls
+
+
+def test_a_capacity_wait_is_waited_out_not_destroyed(monkeypatch, capsys):
+    """Vast queues a start it cannot satisfy. The repo's standing rule is to wait those out.
+
+    This is the exact case an earlier version of the guard got backwards: it destroyed the host as
+    'nudge is not taking' after 45 stopped minutes, when the machine simply had no free GPU — and it
+    would have destroyed every replacement for the same reason, because the cause was never the host.
+    """
+    inst = {"id": 97, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading", "machine_id": 142143,
+            "start_date": time.time() - (pv.MAX_STOPPED_MIN + 30) * 60, "dph_total": 0.08}
+    calls = _collect_with_reply(monkeypatch, inst, {
+        "success": False, "error": "resources_unavailable",
+        "msg": "Required resources are currently unavailable, state change queued."})
+    assert not any(m == "DELETE" for m, _p, _b in calls), "a capacity wait must not be destroyed"
+    assert "capacity wait" in capsys.readouterr().out
+
+
+def test_a_genuinely_stuck_box_is_still_destroyed(monkeypatch):
+    """The capacity exemption must not swallow the case the bound exists for."""
+    inst = {"id": 98, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - (pv.MAX_STOPPED_MIN + 30) * 60, "dph_total": 0.08}
+    calls = _collect_with_reply(monkeypatch, inst, {"success": True})
+    assert ("DELETE", "/instances/98/", None) in calls
+
+
+def test_the_runtime_backstop_still_applies_to_a_capacity_wait(monkeypatch):
+    """Waiting it out is not waiting forever — MAX_INSTANCE_HOURS still ends it."""
+    inst = {"id": 99, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - (pv.MAX_INSTANCE_HOURS + 1) * 3600, "dph_total": 0.08}
+    calls = _collect_with_reply(monkeypatch, inst, {
+        "success": False, "error": "resources_unavailable", "msg": "queued"})
+    assert ("DELETE", "/instances/99/", None) in calls

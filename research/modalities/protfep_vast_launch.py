@@ -60,6 +60,15 @@ LABEL_PREFIX = "protfep-bench"
 # result appeared, so a hung or crashed leg cannot bill indefinitely. It is a BACKSTOP, not
 # the normal path — the normal path is "leg result in S3 -> destroy".
 MAX_INSTANCE_HOURS = float(os.environ.get("PROTFEP_MAX_INSTANCE_HOURS") or "10")
+# How long a box may sit at cur_state="stopped" before the nudge is given up on and it is destroyed.
+# Sized off the observed failure: the complex leg's host sat stopped for 36 minutes with a frozen
+# image pull, so the bound has to exceed a legitimate slow pull while still being far below the
+# 10-hour runtime backstop. A stopped box bills storage only, so this is minutes of waste, not GPU-h.
+MAX_STOPPED_MIN = float(os.environ.get("PROTFEP_MAX_STOPPED_MIN") or "45")
+# How long an instance may show the SAME status_msg while cur_state is running before its image pull
+# is judged dead rather than queued. The apo leg's host pulled the same ~6 GiB image and started
+# sampling well inside this; a docker layer legitimately waits a minute or two behind its peers.
+MAX_FROZEN_MIN = float(os.environ.get("PROTFEP_MAX_FROZEN_MIN") or "15")
 
 # A solvated barnase-barstar complex is ~30-35k atoms and the apo barstar leg ~15-20k — small
 # systems by this repo's standards (the ternary hybrid is 146k). The 4090 is the measured $/ns
@@ -105,6 +114,13 @@ ls -la /tmp/protfep_out || true
 cd /root
 curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz || { echo "repo pull failed"; exit 3; }
 cd Rare-cancers-*/research/modalities || exit 3
+# WHICH CODE actually ran. The host pulls a codeload TARBALL of the branch head, so there is no git
+# sha on disk and the branch may have moved between dispatch and container start. A content hash of
+# the driver is the only fingerprint that cannot lie, and without it a `failed` record in S3 is
+# ambiguous between "the fix does not work" and "this is the pre-fix attempt's record" — which is
+# exactly the ambiguity that cost a diagnostic round trip on the complex leg.
+export PROTFEP_CODE_SHA256="$(sha256sum protfep_pmx.py | cut -c1-12)"
+echo "[protfep] driver protfep_pmx.py sha256[:12]=$PROTFEP_CODE_SHA256 branch=$GIT_BRANCH"
 mark cloned
 # --- continuous checkpoint upload (every 3 min) so a preemption never loses the leg ---
 ( while true; do sleep 180; \
@@ -192,6 +208,21 @@ def label_matches_leg(label, leg_id):
     return label == encoded
 
 
+def stall_minutes(prev, iid, status_msg, now):
+    """How long this instance has been showing this EXACT status_msg. Pure.
+
+    collect() is stateless between CI runs, so it cannot tell "unchanged for six minutes" from
+    "unchanged for an hour" — and that is the whole difference between a docker layer queued behind
+    two others and a pull that has died. `prev` is the previous run's {iid: [msg, first_seen_epoch]}
+    map; a changed message resets the clock. Returns (minutes, new_entry).
+    """
+    key = str(iid)
+    old = (prev or {}).get(key)
+    if old and old[0] == status_msg:
+        return (now - float(old[1])) / 60.0, [status_msg, float(old[1])]
+    return 0.0, [status_msg, now]
+
+
 def _record_is_newer_than_instance(doc, instance):
     """Was this leg record written by the CURRENTLY running instance? Pure (given the inputs).
 
@@ -254,9 +285,57 @@ def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefi
     )
 
 
+def completed_leg_ids(bucket=None, prefix=None):
+    """Leg ids whose result is already `done` in S3. Needs live AWS creds; [] if unavailable."""
+    try:
+        import boto3
+    except ImportError:
+        # LOUD, because this branch spends money. Degrading to "launch everything" is the right
+        # failure direction — a listing problem must never block a real launch — but silently it
+        # looks identical to "nothing was finished", and on 2026-07-25 it paid for a fresh 4090 to
+        # rediscover that the apo leg had completed hours earlier. The caller's CI installs boto3
+        # precisely so this line is never reached.
+        print("[launch] WARNING: boto3 unavailable, cannot check which legs are already done — "
+              "launching EVERY leg for this mode, including any that have already finished")
+        return []
+    b = bucket or DEFAULT_BUCKET
+    p = (prefix or RESULT_PREFIX).rstrip("/")
+    done = []
+    try:
+        s3 = boto3.client("s3")
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=b, Prefix=f"{p}/"):
+            for obj in page.get("Contents", []):
+                name = os.path.basename(obj["Key"])
+                if not (name.startswith("leg_") and name.endswith(".json")):
+                    continue
+                doc = json.loads(s3.get_object(Bucket=b, Key=obj["Key"])["Body"].read().decode())
+                if doc.get("status") == "done" and doc.get("leg_id"):
+                    done.append(doc["leg_id"])
+    except Exception as e:  # noqa: BLE001 — never let a listing failure block a launch
+        print(f"[launch] could not list completed legs ({type(e).__name__}: {e}); launching all")
+        return []
+    return done
+
+
 def submit(mode="pilot", n_replicas=3, benchmarks=None, dry_run=False):
-    """Rent one instance per leg for this mode."""
+    """Rent one instance per leg for this mode, skipping legs already finished.
+
+    SKIPPING HAPPENS BEFORE THE RENTAL, not on the host. The onstart has an idempotency check, but it
+    only runs after the image pull and repo clone — so a re-dispatch was renting a GPU for ~25
+    minutes just to have it discover the leg was done and exit. Observed at $0.15 a time on the apo
+    leg. The launcher has S3 access, so the cheap check belongs here.
+    """
     specs = units_for(mode, n_replicas=n_replicas, benchmarks=benchmarks)
+    if not dry_run:
+        finished = set(completed_leg_ids())
+        keep = [s for s in specs if leg_id_for(s, mode) not in finished]
+        skipped = [leg_id_for(s, mode) for s in specs if leg_id_for(s, mode) in finished]
+        if skipped:
+            print(f"[launch] skipping {len(skipped)} already-finished leg(s), no rental: {skipped}")
+        specs = keep
+        if not specs:
+            print("[launch] every leg for this mode is already done — nothing to rent")
+            return []
     print(f"[launch] mode={mode} units={len(specs)} image={VAST_IMAGE} gpu={RES.gpu}")
     jobspecs = [build_jobspec(s, mode=mode) for s in specs]
     if dry_run:
@@ -301,6 +380,7 @@ def collect(bucket=None, prefix=None, autostop=True):
                 print(f"[collect] unreadable {key}: {e}")
                 continue
             (done if doc.get("status") == "done" else partial)[doc.get("leg_id", key)] = doc
+            doc["_s3_last_modified"] = obj["LastModified"].strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # Phase markers + the tail of each leg's log. A status board that shows only finished JSONs is a
     # LIVENESS check ("the instance is up"), and this repo's rule for an unproven pipeline is that a
@@ -316,8 +396,13 @@ def collect(bucket=None, prefix=None, autostop=True):
                 phase = s3.get_object(Bucket=b, Key=obj["Key"])["Body"].read().decode().strip()
             except Exception as e:  # noqa: BLE001
                 phase = f"(unreadable: {e})"
-            age_min = (obj["LastModified"].timestamp() - obj["LastModified"].timestamp()) / 60
-            print(f"    {leg}: {phase}  (marker written {obj['LastModified']:%H:%M:%S} UTC)")
+            # AGE, not just a wall-clock stamp. "cloned at 23:28" tells you nothing on its own; "cloned
+            # 47 min ago" is the stall signal. The previous version computed the age by subtracting a
+            # timestamp from itself, so it was always 0.0 — and it was never printed, which is why an
+            # apparently-live board could not distinguish a leg advancing from one frozen for an hour.
+            age_min = (time.time() - obj["LastModified"].timestamp()) / 60
+            print(f"    {leg}: {phase}  (marker written {obj['LastModified']:%H:%M:%S} UTC, "
+                  f"{age_min:.0f} min ago)")
             log_key = obj["Key"].replace("/phase.txt", "/run.log")
             try:
                 tail = s3.get_object(Bucket=b, Key=log_key)["Body"].read().decode(errors="replace")
@@ -326,6 +411,23 @@ def collect(bucket=None, prefix=None, autostop=True):
                     print(f"      | {ln[:160]}")
             except Exception:  # noqa: BLE001 — the log may not exist yet
                 print("      | (no run.log yet)")
+
+    # Instances are fetched BEFORE the leg board so the board can say whether a `failed` record has
+    # already been superseded by a newer host. Without that pairing every poll reprints a full
+    # traceback for a failure that was fixed hours ago, which is how a monitoring log stops being
+    # read. The reap below reuses this same list rather than querying twice.
+    key = os.environ.get("VAST_API_KEY")
+    mine = []
+    if key:
+        insts = _vast_request("GET", "/instances/", key).get("instances", [])
+        mine = [i for i in insts if (i.get("label") or "").startswith(LABEL_PREFIX)]
+
+    def _superseded(lid, doc):
+        """Is this failure from an attempt older than the host currently working that leg? Pure."""
+        for i in mine:
+            if label_matches_leg(i.get("label"), lid) and not _record_is_newer_than_instance(doc, i):
+                return True
+        return False
 
     print(f"[collect] {len(done)} finished leg(s), {len(partial)} in progress")
     for lid, doc in sorted(done.items()):
@@ -342,22 +444,40 @@ def collect(bucket=None, prefix=None, autostop=True):
             done_n, total_n, unit = doc.get("iterations_done", 0), doc.get("prod_iters_target"), "iters"
         print(f"  ....  {lid}: {doc.get('status')} {done_n}/{total_n} {unit}"
               + (f" — {doc.get('error')}" if doc.get("status") == "failed" else ""))
+        # WHEN the record was written, always — not only on failure. Without it a `failed` record is
+        # ambiguous between "the fix did not work" and "this is a stale record from the attempt before
+        # the fix, still sitting in S3 because the new leg has not got far enough to overwrite it."
+        # Those two readings call for opposite actions, and only the timestamp separates them. The
+        # reap already reasons about this (_record_is_newer_than_instance); the board did not show it.
+        print(f"        record: updated_utc={doc.get('updated_utc')} started_utc={doc.get('started_utc')} "
+              f"s3_mtime={doc.get('_s3_last_modified')} driver={doc.get('driver_sha256')}")
         if doc.get("status") == "failed":
-            # Print the FULL traceback, not just the exception line. A one-line summary tells you
-            # WHAT failed; only the traceback tells you WHERE, and on a rented host the difference
-            # is another paid round trip. (This is what turned "No module named openeye" from a
-            # guess about which import pulls it into a locatable frame.)
+            if _superseded(lid, doc):
+                # A failure older than the host now working this leg is history, not news. It stays
+                # in S3 until the running attempt overwrites it, so reprinting its traceback on every
+                # poll buries the live signal under a fixed bug. One line, and the timestamps above
+                # are still there for anyone who wants to check the claim.
+                print("      (stale: predates the host currently on this leg — traceback suppressed)")
+                continue
+            # Otherwise print the FULL traceback, not just the exception line. A one-line summary
+            # tells you WHAT failed; only the traceback tells you WHERE, and on a rented host the
+            # difference is another paid round trip. (This is what turned "No module named openeye"
+            # from a guess about which import pulls it into a locatable frame.)
             print(f"      platform={doc.get('platform')} charge_method={doc.get('charge_method')} "
                   f"n_particles={doc.get('n_particles')}")
             for ln in str(doc.get("traceback", "(no traceback recorded)")).splitlines():
                 print(f"      T| {ln[:200]}")
 
-    key = os.environ.get("VAST_API_KEY")
-    n_up = 0
+    # Previous run's status_msg-per-instance, so a frozen phase is measurable rather than eyeballed.
+    # Kept in S3 because CI runners are ephemeral; a missing or unreadable file just resets the clock.
+    prev_state, new_state = {}, {}
+    try:
+        prev_state = json.loads(s3.get_object(Bucket=b, Key=f"{p}/_lane_state.json")["Body"].read())
+    except Exception:  # noqa: BLE001 — first run, or the object was pruned
+        prev_state = {}
+
+    n_up = len(mine)
     if key:
-        insts = _vast_request("GET", "/instances/", key).get("instances", [])
-        mine = [i for i in insts if (i.get("label") or "").startswith(LABEL_PREFIX)]
-        n_up = len(mine)
         for i in mine:
             label, iid = i.get("label"), i.get("id")
             up_h = 0.0
@@ -369,6 +489,27 @@ def collect(bucket=None, prefix=None, autostop=True):
             cost = up_h * float(i.get("dph_total") or 0)
             print(f"  vast {iid} ({label}) {i.get('actual_status')} up={up_h:.2f}h "
                   f"dph={i.get('dph_total')} spent~${cost:.2f}")
+            # WHY it is in that state, when the state is not `running`. `loading` for thirty minutes
+            # and `loading` for thirty seconds print identically otherwise, and the first is a paid
+            # stall while the second is normal. Vast carries the reason in status_msg (image pull
+            # progress, a disk-space refusal, a docker auth failure) and the host's own bandwidth
+            # tells you whether a multi-GB pull at this size is plausible or the host is simply bad.
+            msg = str(i.get("status_msg") or "").strip()
+            frozen_min, new_state[str(iid)] = stall_minutes(prev_state, iid, msg, time.time())
+            if i.get("actual_status") != "running":
+                print(f"      why: cur_state={i.get('cur_state')} intended={i.get('intended_status')} "
+                      f"msg={msg[:200]!r} unchanged_for={frozen_min:.0f}min")
+                print(f"      host: inet_down={i.get('inet_down')}Mbps disk={i.get('disk_space')}GB "
+                      f"image={str(i.get('image_uuid') or '')[-60:]}")
+                # FULL record, on request. This is what identified the create/start race: the curated
+                # fields above could not explain `intended=stopped` on a host nobody asked to stop,
+                # and min_bid=0.24 vs our 0.3015 price — visible only in the full dump — is what ruled
+                # out "outbid" and made the nudge the right action instead of a re-rent. Default OFF
+                # because it buries the rest of the board; PROTFEP_FORENSIC=1 for the next mystery.
+                if os.environ.get("PROTFEP_FORENSIC", "0") != "0":
+                    for k in sorted(i):
+                        v = str(i[k])
+                        print(f"        . {k} = {v[:160]}")
             finished = any(label_matches_leg(label, k) for k in done)
             # Reap a FAILED leg's host too. The container normally exits and the key-free EXIT trap
             # halts billing on its own, but "normally" is doing real work in that sentence — a host
@@ -390,6 +531,74 @@ def collect(bucket=None, prefix=None, autostop=True):
                     _vast_request("DELETE", f"/instances/{iid}/", key)
                 except Exception as e:  # noqa: BLE001
                     print(f"    destroy failed: {e}")
+            elif (i.get("actual_status") != "running" and i.get("cur_state") == "running"
+                  and frozen_min > MAX_FROZEN_MIN):
+                # RUNNING at the control plane but stuck below it: same status_msg for this long
+                # means the image pull has died rather than queued. Docker pulls a few layers at a
+                # time, so a layer sitting at "Waiting" for a minute or two is normal and a changed
+                # message resets the clock — but nothing legitimate holds one message this long on a
+                # host advertising hundreds of Mbps. Re-renting costs a fresh pull; NOT re-renting
+                # costs the same pull plus everything already burned waiting for it.
+                print(f"    -> destroying {iid} (status frozen {frozen_min:.0f} min at {msg[:60]!r}; "
+                      f"pull is dead, not queued)")
+                try:
+                    _vast_request("DELETE", f"/instances/{iid}/", key)
+                except Exception as e:  # noqa: BLE001
+                    print(f"    destroy failed: {e}")
+            elif i.get("cur_state") == "stopped":
+                # SELF-HEAL the create/start race, and TELL THE TWO CASES APART.
+                #
+                # Creating a Vast ask does not reliably launch the container — the start PUT can be
+                # lost while Vast finishes the create, leaving a box that never runs, never bills GPU
+                # and never produces anything (gpu_backend._ensure_running retries only ~48 s, which
+                # is not always long enough). Re-issuing start is idempotent, so it is safe to retry.
+                #
+                # But a stopped box has a SECOND, completely different cause, and the two demand
+                # opposite actions. Vast answers a start it cannot satisfy with HTTP 200 and
+                # {"success": false, "error": "resources_unavailable", "msg": "...state change
+                # queued."} — the machine has no free GPU and our start is QUEUED, not refused. That
+                # is a capacity wait, and this repo's standing rule is to wait those out: a queued
+                # instance bills storage only (instance.gpuCostPerHour is 0, confirmed in the record)
+                # and starts on its own when a slot frees.
+                #
+                # The response body is the only thing that separates them, and discarding it is how
+                # this lane got it backwards: an earlier version of this guard destroyed a host after
+                # 45 stopped minutes as "nudge is not taking" when it was in fact waiting for
+                # capacity — and would have destroyed every replacement for the same reason, since
+                # the cause was never the host.
+                err = None
+                try:
+                    resp = _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
+                    err = (resp or {}).get("error")
+                    print(f"    -> NUDGED {iid}: cur_state=stopped, re-issued start; "
+                          f"vast replied {str(resp)[:300]}")
+                except Exception as e:  # noqa: BLE001
+                    print(f"    nudge failed: {e}")
+                if err == "resources_unavailable":
+                    # Waiting, not stuck. Say so plainly and leave it alone; MAX_INSTANCE_HOURS above
+                    # is still the backstop against a box that waits forever.
+                    print(f"    (capacity wait: no free GPU on machine {i.get('machine_id')}, start is "
+                          f"queued — waiting it out, storage-only billing)")
+                elif up_h * 60 > MAX_STOPPED_MIN:
+                    # Not a capacity wait, and the nudge has not taken in this long. Destroy so the
+                    # next dispatch rents a different box. The bound also stops the nudge becoming an
+                    # unbounded restart loop, which would turn PAID the moment label_matches_leg
+                    # failed to pair a done leg with its host: the reap would never fire, the
+                    # container would exit on its idempotency check, go stopped, and be nudged again.
+                    print(f"    -> destroying {iid} (stopped {up_h * 60:.0f} min, not a capacity "
+                          f"wait; nudge is not taking)")
+                    try:
+                        _vast_request("DELETE", f"/instances/{iid}/", key)
+                    except Exception as e:  # noqa: BLE001
+                        print(f"    destroy failed: {e}")
+
+    # Persist the status_msg clock for the next poll. Best-effort on purpose: failing to write a
+    # monitoring aid must never fail a collect, and a lost file only costs one reset of the clock.
+    try:
+        s3.put_object(Bucket=b, Key=f"{p}/_lane_state.json",
+                      Body=json.dumps(new_state, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[collect] could not persist lane state: {e}")
     return n_up, len(done)
 
 

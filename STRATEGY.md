@@ -563,13 +563,24 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   a public system (the direct analogue of the NR4A ask); (4) productive-vs-unproductive ubiquitination geometry
   (full-CRL MD). Plus the cis-epimer negative-endpoint stress module. **GATE:** the prospective ladder never runs
   unless the **cooperativity + paralogue-discrimination** modules pass.
-- **`[x]` NR-V04 covalent feasibility panel — DONE (17/18)** — **~$8 · Cum. ~$91.** Covalent celastrol–NR4A1 (C551) adduct +
-  C551A + noncov/cov sensitivity + warhead/recruiter controls; 18 legs (6 systems × 3 seeds), 6 ns each, ~466k
-  atoms. **Result (feasibility + control-discrimination only, no selectivity/efficacy claim):** recruitment is a
-  weak discriminator (co-fold seeds contact in all arms), so interface-RMSD stability is the readout —
-  recruiter_active 3/3 stable vs epimer 1/3 (a discrimination the static co-fold could **not** produce); covalent
-  NR4A1 2/3 = noncovalent 2/3 (covalency buys feasibility, not extra stability); C551A 1/3. Report directional
-  concordance only. **GO** — covalency did not swamp the signal.
+- **`[!]` NR-V04 covalent feasibility panel — ⚠ RESULT UNDER CORRECTION; ITS **GO** DOES NOT STAND (2026-07-24)** —
+  **~$8 · Cum. ~$91.** Covalent celastrol–NR4A1 (C551) adduct + C551A + noncov/cov sensitivity +
+  warhead/recruiter controls; 18 legs (6 systems × 3 seeds), 6 ns each, ~466k atoms.
+  **⚠ THE READOUTS DESCRIBE THE WRONG INTERFACE.** `nrv04_covalent_md._topology_indices` split E3 from target
+  POSITIONALLY ("target = last sorted protein chain"), while the co-fold YAML builder writes the target FIRST
+  (`proteins = [("A", lbd)] + e3`). The chains are A=254 (NR4A LBD), E=213 (VHL), F=118 (EloB), G=112 (EloC), so
+  the rule selected **Elongin C** as the degradation target: R1/R2 measured the **EloC↔rest** interface and R3
+  counted **Elongin C's** lysines, not NR4A1's. Proof from the panel's own committed legs — the reactive Cys,
+  resolved independently by geometry and sitting on the NR4A1 LBD, is recorded on chain **A** in 12 of 14 legs
+  while the positional rule pointed at **G** (CI run 30122828434). The arithmetic reproduces the reported numbers
+  exactly; the *interface* is wrong.
+  **Superseded numbers, retained for the record (do NOT cite):** recruiter_active 3/3 stable vs epimer 1/3;
+  covalent NR4A1 2/3 = noncovalent 2/3; C551A 1/3.
+  **Status:** the split is now identified-and-validated rather than guessed (`identify_chains` → `chains.json`,
+  consumed by the driver; every leg records the split it used), and the corrected re-run of the 14 legs (~$6,
+  Vast, into `nrv04-covalent-results-chainfix`) is built and **not yet launched**. Until it lands, this rung
+  supplies **no GO** and must not be cited as one. Full evidence:
+  [research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md](research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
 
 ### RUNG 4 — warhead map, differential atlas, retrospective gate
 
@@ -932,7 +943,9 @@ RUNG2b 4 fs adoption + MATCHED re-calibration (~$5–8) ──[no NaN & ΔΔG co
           │      └── YES ⇒ every downstream ternary leg ≈2× cheaper
           │      └── NO  ⇒ stay at 2 fs, carry the 2 fs base
           │
-RUNG3  valB_full cube (module 3 = SMARCA2-vs-SMARCA4) + nrv04_feasibility [x] ──[GO?]──►   (Cum ~$97)
+RUNG3  valB_full cube (module 3 = SMARCA2-vs-SMARCA4) + nrv04_feasibility [!] ──[GO?]──►   (Cum ~$97)
+          │            ([!] = feasibility's GO is WITHDRAWN pending a corrected re-run: its readouts
+          │             measured the Elongin C interface, not VHL<->NR4A1. It gates nothing until then.)
           │
 RUNG4  step1_fanout ∥ atlas [x]($0) ──► nrv04_retrospective ──[concordant?]──►  (Cum ~$273)
           │      (holdout, NOT the calibrator; read WITH the Cys551 covalent confound)
@@ -956,7 +969,14 @@ RUNG6  fold ──► redteam ──► post/submit                             
 OPTIONAL/HELD (explicit nod only): dg_open_paralogue, abfe_conditional
 ```
 
-**Current front:** Rungs 0–1 done; the NR-V04 covalent feasibility panel, the NR4A differential surface atlas and
+**⚠ CORRECTION IN FLIGHT (2026-07-24):** the NR-V04 covalent feasibility panel's result is **under
+correction** — its readouts describe the Elongin C interface rather than VHL↔NR4A1, so **it currently supplies
+no GO** (details at its RUNG 3 entry). A corrected 14-leg re-run is built and unlaunched. Separately, the
+`nrv04-descriptive-v3` co-folds were found to contain 14-3-3 epsilon where Elongin B belongs and have been
+regenerated as `nrv04-descriptive-v4`. Evidence:
+[research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md](research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
+
+**Current front:** Rungs 0–1 done; the NR-V04 covalent feasibility panel (⚠ under correction), the NR4A differential surface atlas and
 the **Tier-0 paralogue-unique reactive-residue map** are done ($0). **THREE lanes are live in parallel
 (2026-07-24 PM)** — disjoint engines, providers and rungs, so none blocks another:
 1. **valB_mini** on GCP L4 (free trial credit) — OpenFE ligand RBFE, 1 fs warmup → **2 fs production**, binary
