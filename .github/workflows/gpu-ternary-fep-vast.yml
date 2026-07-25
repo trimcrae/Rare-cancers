@@ -13,6 +13,10 @@ name: Ternary cooperativity FEP — Vast lane (RUNG 2b, 4 fs)
 # THE LADDER (cheapest-decisive-first; nothing auto-fires):
 #   test    -> $0.    Pure-logic unit tests for the launcher. Runs on every push to the lane's files.
 #   dry-run -> $0.    Print the exact JobSpec that WOULD be rented (env, image, caps). No rental.
+#   prime   -> $0.    Stage every EDGE leg on a free CPU runner and upload the stage caches to S3, so the
+#                     rented hosts get cache hits. Two wins, both real: it removes ~8-15 min of GPU-idle
+#                     staging from EACH paid host, and it discovers a first-time staging failure for the
+#                     binary and solvent legs at $0 instead of on a 4090.
 #   smoke   -> ~$0.15 One instance, 8 warmup + 12 production iterations: proves image + repo pull + stage +
 #                     pre-equil + setup + commit store + upload end to end before a real leg is paid for.
 #   probe   -> ~$1-2  RUNG 2b STAGE 1. 48 warmup @1 fs -> 200 production @4 fs. The survival question:
@@ -47,9 +51,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: test | dry-run | smoke | probe | edge | collect | reduce | stop
+        description: test | dry-run | prime | smoke | probe | edge | collect | reduce | stop
         type: choice
-        options: [test, dry-run, smoke, probe, edge, collect, reduce, stop]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, stop]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -99,7 +103,7 @@ jobs:
             TASK=$(printf '%s' "$MSG" | grep -oE '\[tvast:[a-z-]+\]' | head -1 | sed 's/\[tvast://; s/\]//' || true)
           fi
           case "${TASK:-test}" in
-            test|dry-run|smoke|probe|edge|collect|reduce|stop) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|stop) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -141,6 +145,51 @@ jobs:
           set -eo pipefail
           python research/modalities/ternary_vast_launch.py --mode probe --dry-run
           python research/modalities/ternary_vast_launch.py --mode edge --dry-run | head -5
+
+  # ------------------------------------------------------------------ free: pre-stage on CPU
+  prime:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == 'prime' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Stage every edge leg on CPU and upload the caches
+        # PULL, DO NOT SOLVE: the same parity image the GPU hosts run, so the staged tree is byte-identical
+        # to what a host would have built. Staging touches no GPU -- it is an RCSB fetch, a SMARCA4->SMARCA2
+        # homology model and an assembly -- so paying a 4090 to do it is the exact anti-pattern the GCP
+        # lane's CPU pre-bake exists to kill. CI runners have unrestricted internet, which the dev sandbox
+        # does not.
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          B="${VAST_CKPT_BUCKET:-sagemaker-us-east-2-646605541856}"
+          mkdir -p /tmp/tin
+          for LEG in calib_hi_to_lo__ternary_vhl calib_hi_to_lo__binary_vhl calib_hi_to_lo__solvent; do
+            KEY="s3://$B/ternary-vast/stagecache/${LEG}__8G1Q__seed0__v1.tar"
+            if aws s3 ls "$KEY" >/dev/null 2>&1; then echo "[prime] HIT  $LEG"; continue; fi
+            echo "[prime] MISS $LEG -- staging on CPU"
+            docker run --rm --entrypoint python \
+              -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/tin:/tmp/tin \
+              -e SEED=0 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+              -w /work/research/modalities \
+              docker.io/triskit23/ternary-fep:latest \
+              /work/research/modalities/ternary_pdb_stage.py \
+                --leg-id "$LEG" --template-pdb 8G1Q --out /tmp/tin 2>&1 | tail -20
+            ls -la "/tmp/tin/$LEG"
+            tar -C /tmp/tin -cf "/tmp/${LEG}.tar" "$LEG"
+            aws s3 cp "/tmp/${LEG}.tar" "$KEY"
+            echo "[prime] uploaded $KEY ($(du -h /tmp/${LEG}.tar | cut -f1))"
+          done
+          echo "[prime] done -- every edge host will now restore its stage tree in seconds"
 
   # ------------------------------------------------------------------ paid: rent hosts
   launch:
