@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 1:20 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 2:05 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -68,7 +68,7 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30165768667`, us-central1-a) | **RUNNING** since **12:34 PM ET**, `live_vms=1`, `NaN=no`, `charge=nagl`. **This is the second attempt** — the 11:57 AM ET launch (VM `gcp-ternary-30164631671`) is no longer live. ⚠ Its committed-iteration counter is **not readable**: the `[PROGRESS-SUMMARY]` numbers are leg-wide across salts and are currently reporting the **forward** leg (trap 1 below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30167855759`, us-central1-a) | **RUNNING** since **1:37 PM ET** with **`warmup_timestep_fs=1.0`** — the *fourth* attempt. The 12:34 PM ET attempt (VM `gcp-ternary-30165768667`) **DIED at 12:55 PM ET on a warmup NaN**, diagnosed and fixed (see the NaN block below); its zombie VM was reaped at 1:32 PM ET (`deleted=1`, L4 usage back to 0.0). Committed-iteration progress is **now readable per-direction** — the leg-wide/fwd-reporting trap is fixed (see the watchdog block below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 1 · RUNG 5a — E3 recruiter staging + ligandability downselect** (CPU/CI, $0) | running — staging the widened ligandable set (VHL, CRBN, cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) from RCSB via a CI runner | ~1–3 h → **this afternoon ET** | Which **≤2 recruiters** 5a carries into any GPU leg, and the logged dropped set. Availability is already answered and may **not** be a drop reason — the downselect is on ligandability + interface geometry |
 | **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, $0) | running — building the transform search + the two **categorical** terms (electrophile reach to C397/C420/C559; E2~Ub transfer zone over K572/K518/K592), pose-marginalised | ~3–6 h → **this evening ET** | **The Tier-2 gate.** No basin exploiting a categorical handle *and* none nominally discriminating NR4A3 ⇒ STOP cheaply. Also tells the program which **exit vectors** matter, which a re-scoped fan-out depends on |
@@ -90,6 +90,58 @@ relevant rung below.*
 > LANES 1–2, not a blocker on them. Its confirmatory line is now **PROJECTED at ~$4.6 (3 rep)** rather than
 > unpriced — but that figure is **particle-count-scaled** from the ~25.7k-particle benchmark to NR4A sizes, an
 > assumption and not a measurement, so it may not be quoted as a rate and stays excluded from the ladder total.
+
+> ### ⚠ WHY THE REV LEG IS STILL ON GCP AFTER THE ALL-VAST DIRECTIVE — the reading, stated so it is not implicit
+> The 1:15 PM ET directive exempts "the valB_mini reverse leg **already running** on GCP L4" but forbids starting
+> any **new** GCP run. The 12:34 PM attempt then died on a warmup NaN with **zero committed iterations**, and it
+> was relaunched on GCP at 1:37 PM. That is deliberately inside the carve-out, on this reading: **the exempted
+> unit is the LEG, not the VM.** A spot leg is *expected* to lose and re-acquire VMs — if the exemption expired
+> with the first VM it could never have applied to a spot leg at all. Two honest qualifications: (1) the
+> exemption's stated rationale ("killing a leg mid-flight would forfeit its progress for nothing") is **weaker
+> here than it looks**, because a crash at warmup iteration 1 forfeits nothing; (2) the counter-argument is
+> therefore real, and the only reason it does not decide the matter is that **the Vast ternary lane does not yet
+> exist** (LANE 4 is building it), so the alternative is not "run it on Vast" but "do not run the one test that
+> gates the entire valB_mini rescope decision." Cost of proceeding: **$0 cash** (expiring GCP trial credit), and
+> fully reversible — reap the VM. **If trimcrae reads the carve-out as per-VM rather than per-leg, kill it and
+> the leg waits for LANE 4.**
+>
+> ### ✅ THE GCP WATCHDOG GAP NAMED ABOVE IS NOW CLOSED — and the Vast version should PORT it, not reinvent it
+> The block above records that the watchdog "silently watches nothing" beyond GCP and names two properties a
+> Vast watchdog must not drop. Both are now **implemented and unit-tested** in
+> [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml), so LANE 4 should lift them:
+> 1. **"Alive" is not "advancing."** The RUNNING branch compares the furthest **committed iteration** against the
+>    previous tick (state in GCS, so it survives restarts). Two alarms with different graces — **SETUP STALL**
+>    (zero commits, VM older than 75 min) and **STALLED** (frozen ≥2 ticks, ~30 min). Neither relaunches; both
+>    **fail the job**, so GitHub's own failure notification is the out-of-band alert. This is not theoretical:
+>    all three of the day's silent stalls presented as a healthy RUNNING VM.
+> 2. **A dead leg can look alive.** Because the in-VM self-delete trap cannot fire (the VM's compute SA lacks
+>    `compute.instances.delete`), a crash leaves a **RUNNING billing zombie**. The watchdog now detects it by
+>    comparing the **post-mortem object's epoch against the VM's own creation time** — newer ⇒ *this* run
+>    crashed, while the previous attempt's post-mortem is older and correctly ignored. Existence alone would be
+>    wrong, since after any fixed relaunch there is always an older one.
+>
+> Three further defects were found *inside* the watchdog while building it, all the same class the lane was
+> audited for, all now covered by `research/modalities/tests/test_watchdog_census.sh` (16 checks, extracted from
+> the workflow at run time so it cannot pass against a stale copy): the step ran under an inherited **`bash -e`**
+> that made its own "NOT -e" comment false; zero-padded `iter-00000520` parsed as **octal**; and the watch file
+> omitted **`warmup_timestep_fs`**, which keys the commit prefix — so a relaunch would have resumed a *different*
+> trajectory. The watch list is now **validated against `_prefix_keying_params` every pass** and refuses to act
+> on an incomplete entry. Full write-up: §F–G of
+> [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
+>
+> ### 🔬 THE WARMUP NaN — diagnosed from evidence, one variable changed
+> The 12:34 PM attempt died at **12:55 PM ET**, ~21 min in, with a full traceback out of `main()`:
+> `SimulationNaNError: Propagating replica 0 at state 1` at **warmup iteration 1**, after 20 integration attempts
+> *and* a Context reinitialisation. The path `/tmp/tout/calib_hi_to_lo__ternary_vhl_**rev_r0**_sim_shared/` and
+> `src=live` together confirm it is genuinely the reverse leg, not a stale fwd log. **The saved pre-NaN state is
+> clean:** `atoms=146020`, `nonfinite_atoms=0`, `coords>1000nm=0`, and **zero force-bearing** non-bonded pairs
+> under 0.90 Å — the closest contact, 0.569 Å, is a zeroed hybrid A/B exception, benign by construction. So this
+> is **not** a clash and **not** a bad build: it is integration instability at state 1, the steepest softcore
+> window, with `warmup_dt_override=NONE` confirming the warmup ran at the full 2.0 fs production timestep.
+> `min_steps`' own note already records that the NaN survives 25000 minimisation steps and that **the 1 fs warmup
+> is what fixes it**. Relaunched with `warmup_timestep_fs=1.0`, **one variable changed**; production stays at
+> 2.0 fs and equilibration never enters ΔG. The reduced warmup dt keys the prefix as **`wu1.0`**, so this is a
+> fresh trajectory by construction — no `commit_salt` change and no poisoned-checkpoint risk.
 
 **The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
 are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
