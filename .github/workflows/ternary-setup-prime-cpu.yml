@@ -19,6 +19,7 @@ on:
       template_pdb:  { description: "crystal template", default: "8G1Q", required: false }
       n_windows:     { description: "lambda windows (system build is independent of this, but kept for parity)", default: "12", required: false }
       use_preequil:  { description: "1 = prime the PRE-EQUILIBRATED (v2pe) setup: overlay the v2 preequilcache (transplant + exact-FF relaxed complex.pdb/ligands.sdf) over the staged tree before parameterizing, and key the cache to v2pe. Requires a prior mode=preequil run (gpu-ternary-fep-gcp.yml). Default 0 = raw v1 setup.", default: "0", required: false }
+      setup_cache_version: { description: "setup-cache key version (default v1). Pass a NOVEL value to force a from-scratch rebuild instead of restoring an existing cache — the only way to verify the lane can still rebuild its inputs. NB use_preequil=1 overrides this to v2pe.", default: "v1", required: false }
 
 permissions:
   id-token: write
@@ -122,7 +123,13 @@ jobs:
           # use_preequil: overlay the v2 pre-equilibrated complex.pdb/ligands.sdf over the staged tree and key the
           # setup cache to v2pe — so a GPU run with use_preequil=1 (SETUP_CACHE_VERSION=v2pe) restores THIS cache
           # instead of re-parameterizing on the idle GPU. Mirrors gpu-ternary-fep-gcp.yml's use_preequil overlay.
-          SETUP_VER=v1
+          # SETUP_VER is the setup-cache key's version component. An override matters for REPRODUCIBILITY
+          # TESTING: with an existing key the prime step RESTORES and skips the ~460s solvate+parameterize
+          # entirely (seen 2026-07-25: a fwd prime 'succeeded' in 24s having run no charge assignment at all,
+          # which silently invalidated a hypothesis test built on it). A novel version forces a genuine
+          # from-scratch build, which is the only way to check the lane can still rebuild its own inputs
+          # rather than merely replay a cache baked under an older env.
+          SETUP_VER=${{ github.event.inputs.setup_cache_version || 'v1' }}
           if [ "$USE_PE" = 1 ]; then
             PE_CACHE="gs://$BUCKET/valB-6hax/preequilcache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v2.tar"
             RAW=$(dirname "$(find /tmp/ternary_in -name complex.pdb | head -1)" 2>/dev/null)
