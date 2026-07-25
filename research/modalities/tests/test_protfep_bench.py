@@ -184,8 +184,15 @@ def test_observed_residue_reads_the_real_identity(tmp_path):
 
 # ---------------------------------------------------------------- reduction
 def _leg(leg_id, benchmark, env, dg, gpu_h=1.2, particles=32000, status="done"):
+    """A leg record as the CURRENT driver writes one.
+
+    `gpu_hours_cumulative` is present because the fixed driver always writes it; its absence is the
+    exact marker price_from_legs uses to refuse a pre-fix leg whose gpu_hours is only the final
+    segment after a preemption. A fixture missing it would silently be treated as untrustworthy.
+    """
     return {"leg_id": leg_id, "status": status, "dg_kcal": dg, "dg_mbar_se_kcal": 0.2,
-            "gpu_hours": gpu_h, "n_particles": particles, "s_per_iter": 1.8,
+            "gpu_hours": gpu_h, "gpu_hours_cumulative": gpu_h,
+            "n_particles": particles, "s_per_iter": 1.8,
             "meta": {"benchmark": benchmark, "environment": env}}
 
 
@@ -1339,3 +1346,27 @@ def test_ddg_sign_matches_the_reference_convention():
     # The mirror image must NOT pass — this is the assertion that actually catches a flip.
     flipped = pb.score_benchmark("barnase_barstar_Y29A", -res["ddg_bind_kcal"], None)
     assert not flipped["within_tolerance"]
+
+
+def test_price_refuses_legs_that_predate_the_cumulative_gpu_hours_fix():
+    """Publishing a 20x-low rate is worse than publishing none: the low one gets planned against."""
+    pre_fix = [{"leg_id": "b__apo_r0", "status": "done", "gpu_hours": 0.073,
+                "n_particles": 13392, "s_per_iter": 16.3}]
+    out = pr.price_from_legs(pre_fix)
+    assert out["priced"] is False
+    assert "cumulative" in out["reason"]
+    assert out["legs_excluded_as_pre_fix"] == ["b__apo_r0"]
+
+
+def test_price_uses_a_post_fix_leg_and_names_what_it_dropped():
+    """A trustworthy leg prices the rung; the excluded ones stay visible rather than vanishing."""
+    legs = [
+        {"leg_id": "b__apo_r0", "status": "done", "gpu_hours": 0.073, "n_particles": 13392},
+        {"leg_id": "b__complex_r0", "status": "done", "gpu_hours": 2.6,
+         "gpu_hours_cumulative": 2.6, "n_particles": 35018, "s_per_iter": 40.0},
+    ]
+    out = pr.price_from_legs(legs, hourly_usd=0.30)
+    assert out["priced"] is True
+    assert out["n_legs_measured"] == 1
+    assert out["gpu_hours_per_leg"]["mean"] == pytest.approx(2.6)
+    assert out["legs_excluded_as_pre_fix"] == ["b__apo_r0"]
