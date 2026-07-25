@@ -340,6 +340,21 @@ def test_geometry_frame_prefers_a_partner_free_structure_even_at_worse_resolutio
     assert staged[0]["has_partner_protein"] is False
 
 
+def test_a_peptide_fragment_entity_is_not_chosen_as_the_geometry_frame():
+    """A pocket and an exit vector measured on a 20-residue degron peptide describe nothing. But full-length
+    coverage must NOT be ranked on: a WD40/Kelch domain construct is the correct object at low coverage."""
+    arm = {"P_RECRUITER"}
+    pep = _full_entry("PEPT", 1.2, 400.0, ["P_RECRUITER"])
+    pep["recruiter_entity_length"] = 18
+    dom = _full_entry("DOMAIN", 2.6, 400.0, ["P_RECRUITER"])
+    dom["recruiter_entity_length"] = 320
+    staged = st.select_staged([pep, dom], arm, uniprot_length=1500)
+    assert staged[0]["pdb_id"] == "DOMAIN"                       # despite worse resolution
+    assert staged[0]["recruiter_uniprot_coverage_fraction"] == 0.213   # low coverage, still correct
+    assert staged[0]["recruiter_entity_is_peptide_fragment"] is False
+    assert staged[1]["recruiter_entity_is_peptide_fragment"] is True
+
+
 def test_a_glue_recruiter_with_only_ternary_structures_still_stages_and_is_flagged():
     arm = {"P_RECRUITER", "P_ADAPTOR"}
     entries = [_full_entry("GLUE", 2.0, 400.0, ["P_RECRUITER", "P_ADAPTOR", "P_SUBSTRATE"])]
@@ -360,6 +375,76 @@ def test_g1_distinguishes_no_structure_at_all_from_no_liganded_structure():
         g_bare["G1_public_ligand_bound_structure"]["observed"]
     assert "none carries a usable" in g_apo["G1_public_ligand_bound_structure"]["observed"]
     assert "1AAA" in g_apo["G1_public_ligand_bound_structure"]["observed"]
+
+
+def test_bridging_demotes_tier3_when_the_ligand_touches_only_one_protein(monkeypatch, tmp_path):
+    """Entry-level co-presence of a second protein is NOT bridging. A crystallisation partner, or a ligand
+    bound to only one of the two chains, would pass the entry-level tier-3 screen; the coordinates must say
+    the ligand actually contacts both."""
+    # chain A = recruiter, chain B = partner 30 A away; the ligand sits on A only.
+    lines = []
+    n = 0
+    for i in range(6):
+        n += 1
+        lines.append("ATOM  {:5d}  CA  ALA A{:4d}    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i + 1, 0.0, i * 2.0, 0.0))
+    for i in range(6):
+        n += 1
+        lines.append("ATOM  {:5d}  CA  ALA B{:4d}    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i + 1, 40.0, i * 2.0, 0.0))
+    for i in range(3):
+        n += 1
+        lines.append("HETATM{:5d}  C{:d}  BIG A 900    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i, 3.0, i * 1.5, 0.0))
+    p = tmp_path / "1TST.pdb"
+    p.write_text("\n".join(lines) + "\nEND\n")
+    monkeypatch.setattr(st, "download_structure", lambda pid, out_dir=None: (str(p), "test"))
+
+    rec = {"arm_component_accessions": ["P_REC"],
+           "linker_bearing_analogue": {"tier": 3, "label": "solved_ternary",
+                                       "evidence_pdb_ids_ternary": ["1TST"]},
+           "staged_structures": [{"pdb_id": "1TST", "recruiter_auth_asym_ids": ["A"],
+                                  "polymer_entities": [{"uniprot_ids": ["P_REC"], "auth_asym_ids": ["A"]},
+                                                       {"uniprot_ids": ["P_OTHER"],
+                                                        "auth_asym_ids": ["B"]}],
+                                  "candidate_ligands": [{"ccd": "BIG", "formula_weight": 900.0}]}]}
+    st.verify_bridging(rec, {"P_REC"})
+    lb = rec["linker_bearing_analogue"]
+    assert lb["tier"] == 2 and lb["label"] == "bivalent_binary"
+    assert "tier_demoted" in lb
+    assert lb["bridging_check"][0]["contacts_recruiter"] > 0
+    assert lb["bridging_check"][0]["contacts_partner"] == 0
+
+
+def test_bridging_keeps_tier3_when_the_ligand_touches_both(monkeypatch, tmp_path):
+    lines, n = [], 0
+    for i in range(4):
+        n += 1
+        lines.append("ATOM  {:5d}  CA  ALA A{:4d}    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i + 1, 0.0, i * 2.0, 0.0))
+    for i in range(4):
+        n += 1
+        lines.append("ATOM  {:5d}  CA  ALA B{:4d}    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i + 1, 9.0, i * 2.0, 0.0))
+    for i in range(4):        # a ligand spanning the 9 A gap, in contact with both chains
+        n += 1
+        lines.append("HETATM{:5d}  C{:d}  BIG A 900    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i, 2.0 + i * 1.7, 0.0, 0.0))
+    p = tmp_path / "2TST.pdb"
+    p.write_text("\n".join(lines) + "\nEND\n")
+    monkeypatch.setattr(st, "download_structure", lambda pid, out_dir=None: (str(p), "test"))
+    rec = {"arm_component_accessions": ["P_REC"],
+           "linker_bearing_analogue": {"tier": 3, "label": "solved_ternary",
+                                       "evidence_pdb_ids_ternary": ["2TST"]},
+           "staged_structures": [{"pdb_id": "2TST", "recruiter_auth_asym_ids": ["A"],
+                                  "polymer_entities": [{"uniprot_ids": ["P_REC"], "auth_asym_ids": ["A"]},
+                                                       {"uniprot_ids": ["P_OTHER"],
+                                                        "auth_asym_ids": ["B"]}],
+                                  "candidate_ligands": [{"ccd": "BIG", "formula_weight": 900.0}]}]}
+    st.verify_bridging(rec, {"P_REC"})
+    lb = rec["linker_bearing_analogue"]
+    assert lb["tier"] == 3 and "tier_demoted" not in lb
+    assert lb["bridging_check"][0]["bridges"] is True
 
 
 def test_base_chain_matches_assembly_symmetry_copies_to_their_entity():

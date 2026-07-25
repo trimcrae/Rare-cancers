@@ -430,6 +430,7 @@ def summarise_entry(pdb_id, accession, chemcomp_cache):
     if not ligands:
         return None
 
+    rec_lengths = [p["length"] for p in polymers if accession in (p["uniprot_ids"] or []) and p["length"]]
     cit = entry.get("rcsb_primary_citation") or {}
     acc_info = entry.get("rcsb_accession_info") or {}
     return {
@@ -446,6 +447,7 @@ def summarise_entry(pdb_id, accession, chemcomp_cache):
         "polymer_entities": polymers,
         "distinct_uniprot_accessions": sorted({u for u in uniprots if u}),
         "recruiter_auth_asym_ids": sorted(set(recruiter_chains)),
+        "recruiter_entity_length": max(rec_lengths) if rec_lengths else None,
         "chain_composition": "; ".join(
             f"{'/'.join(p['auth_asym_ids'])}={p['description']}" for p in polymers if p["auth_asym_ids"]),
         "candidate_ligands": ligands,
@@ -489,18 +491,36 @@ def _entry_rank_key(rec):
     return (0 if res is not None else 1, res if res is not None else 99.0, -biggest, rec["pdb_id"])
 
 
-def select_staged(entries, arm_accs, max_entries_deep=8):
+MIN_RECRUITER_ENTITY_RESIDUES = 60
+
+
+def select_staged(entries, arm_accs, max_entries_deep=8, uniprot_length=None):
     """Order the screened entries and mark the one the geometry is measured on.
 
-    ★ Prefer a CLEAN BINARY structure — the recruiter (and its own arm) bound to a handle-sized ligand and
+    Two preferences, in order.
+
+    ★ (1) A CLEAN BINARY structure — the recruiter (and its own arm) bound to a handle-sized ligand and
     nothing else. A ternary/glue entry is the wrong frame for BOTH numbers this stage produces: the PROTAC's
     burial would be computed against only half the protein that actually buries it, and the partner protein
     occupies the very orientation space being measured. Ternary entries stay the linker-analogue EVIDENCE
-    (classified separately); they are just not the geometry frame unless nothing else exists."""
+    (classified separately); they are just not the geometry frame unless nothing else exists.
+
+    ★ (2) An INTACT substrate-receptor domain, not a peptide. Some depositions contain only a short
+    recruiter-derived peptide (a degron, a BC-box fragment) bound to something else; a pocket and an exit
+    vector measured on 20 residues describe nothing. Entities shorter than 60 residues are deprioritised.
+    Full-length COVERAGE is deliberately NOT used as a preference — a WD40 or Kelch domain construct is the
+    correct experimental object even though it is a small fraction of a 1500-residue protein — so coverage
+    is recorded and reported, never ranked on."""
     for e in entries:
         e["partner_uniprots"] = sorted({u for u in e["distinct_uniprot_accessions"] if u not in arm_accs})
         e["has_partner_protein"] = bool(e["partner_uniprots"])
-    ordered = sorted(entries, key=lambda e: (1 if e["has_partner_protein"] else 0,) + _entry_rank_key(e))
+        L = e.get("recruiter_entity_length")
+        e["recruiter_entity_is_peptide_fragment"] = bool(L is not None
+                                                         and L < MIN_RECRUITER_ENTITY_RESIDUES)
+        e["recruiter_uniprot_coverage_fraction"] = (round(L / float(uniprot_length), 3)
+                                                    if L and uniprot_length else None)
+    ordered = sorted(entries, key=lambda e: (1 if e["recruiter_entity_is_peptide_fragment"] else 0,
+                                             1 if e["has_partner_protein"] else 0) + _entry_rank_key(e))
     staged = ordered[:max_entries_deep]
     for i, e in enumerate(staged):
         e["is_primary"] = (i == 0)
@@ -512,9 +532,10 @@ def classify_linker_analogue(entry_records, accession):
     """Is a linker-bearing analogue already published? Answered STRUCTURALLY, from deposited entries.
 
     tier 3 `solved_ternary`   — a >=500 Da ligand sits in an entry that also contains a second, different
-                               UniProt accession, i.e. a bivalent/glue complex has been solved with this
-                               recruiter. (Chain-level bridging is confirmed from coordinates when the entry
-                               is staged; at panel level this is the entry-level screen.)
+                               UniProt accession. This is the ENTRY-LEVEL screen only: co-presence is not
+                               bridging, and an entry can contain a big ligand and two proteins without the
+                               ligand touching both. `verify_bridging()` re-reads the coordinates and
+                               DEMOTES the tier to 2 when the ligand does not actually contact both.
     tier 2 `bivalent_binary`  — a >=500 Da ligand is bound with the recruiter alone: a linker-bearing handle
                                exists and is crystallographically ordered, but no partner protein.
     tier 1 `handle_only`      — only sub-500 Da ligands: a handle exists, no published linker-bearing form.
@@ -1336,11 +1357,16 @@ def fetch_panel(max_entries_deep=8, search_rows=100):
         # the protein that actually buries it, and the partner protein would occupy the very orientation
         # space being measured. Ternary entries remain the linker-analogue EVIDENCE (classified above); they
         # are just not the geometry frame unless nothing else exists.
-        staged = select_staged(entries, arm_accs, max_entries_deep)
+        staged = select_staged(entries, arm_accs, max_entries_deep, uniprot_length=up.get("length"))
         rec["staged_structures"] = staged
         rec["geometry_frame"] = {
             "primary_has_partner_protein": bool(staged and staged[0]["has_partner_protein"]),
             "n_clean_binary_entries": sum(1 for e in entries if not e["has_partner_protein"]),
+            "primary_recruiter_entity_length": staged[0].get("recruiter_entity_length") if staged else None,
+            "primary_recruiter_uniprot_coverage_fraction": (
+                staged[0].get("recruiter_uniprot_coverage_fraction") if staged else None),
+            "primary_is_peptide_fragment": bool(staged and staged[0].get(
+                "recruiter_entity_is_peptide_fragment")),
             "_note": "If primary_has_partner_protein is true, NO structure of this recruiter exists without a "
                      "bound partner protein — a glue-type recruiter whose handle site may be partly formed BY "
                      "that partner. The partner's chains are excluded from the occluder set so the "
@@ -1352,10 +1378,82 @@ def fetch_panel(max_entries_deep=8, search_rows=100):
     return out
 
 
+def contacts_between(lig_atoms, prot_atoms, grid, chain_ids, cutoff=4.5):
+    """Number of ligand-heavy-atom / protein-heavy-atom pairs within `cutoff`, restricted to `chain_ids`."""
+    c2, n = cutoff * cutoff, 0
+    for a in lig_atoms:
+        for j in grid.near(a["x"], a["y"], a["z"], cutoff):
+            b = prot_atoms[j]
+            if base_chain(b["chain"]) not in chain_ids:
+                continue
+            if (a["x"] - b["x"]) ** 2 + (a["y"] - b["y"]) ** 2 + (a["z"] - b["z"]) ** 2 <= c2:
+                n += 1
+    return n
+
+
+def verify_bridging(rec, arm_accs):
+    """Does the claimed bivalent ligand ACTUALLY bridge the recruiter and a partner protein?
+
+    The tier-3 screen in `classify_linker_analogue` is entry-level: it sees a >=500 Da ligand and a second
+    UniProt accession in the same deposition. Co-presence is not bridging — a crystallisation partner, a
+    second complex in the asymmetric unit, or a ligand bound to only one of the two proteins would all pass
+    that screen. This re-reads the coordinates of the best tier-3 entry and requires the ligand to contact
+    BOTH a recruiter chain and a non-arm partner chain. Failing that, the tier is DEMOTED to 2, because
+    "a linker demonstrably leaves this recruiter toward another protein" is the whole content of tier 3."""
+    lb = rec.get("linker_bearing_analogue") or {}
+    if lb.get("tier") != 3:
+        return
+    by_id = {e["pdb_id"]: e for e in (rec.get("staged_structures") or [])}
+    checked = []
+    for pdb_id in lb.get("evidence_pdb_ids_ternary") or []:
+        entry = by_id.get(pdb_id)
+        if not entry:
+            continue                      # not among the staged deep-fetched entries; nothing to read
+        path, src = download_structure(pdb_id)
+        if not path:
+            continue
+        prot, het = parse_structure(path)
+        if not prot:
+            continue
+        grid = Grid(prot)
+        rch = {base_chain(c) for c in (entry.get("recruiter_auth_asym_ids") or [])}
+        pch = set()
+        for pe in entry.get("polymer_entities") or []:
+            if not (set(pe.get("uniprot_ids") or []) & set(arm_accs)):
+                pch.update(base_chain(c) for c in (pe.get("auth_asym_ids") or []))
+        best = None
+        for (ch, resn, resi), atoms in het.items():
+            cc = next((l for l in entry["candidate_ligands"] if l["ccd"] == resn), None)
+            if not cc or (cc.get("formula_weight") or 0.0) < LINKER_BEARING_MIN_MW:
+                continue
+            nr = contacts_between(atoms, prot, grid, rch)
+            npn = contacts_between(atoms, prot, grid, pch)
+            cand = {"pdb_id": pdb_id, "ccd": resn, "auth_asym_id": ch, "auth_seq_id": resi,
+                    "contacts_recruiter": nr, "contacts_partner": npn,
+                    "bridges": bool(nr > 0 and npn > 0), "coordinate_source": src}
+            if best is None or (cand["bridges"], nr + npn) > (best["bridges"], best["contacts_recruiter"]
+                                                              + best["contacts_partner"]):
+                best = cand
+        if best:
+            checked.append(best)
+            if best["bridges"]:
+                break
+    lb["bridging_check"] = checked
+    if checked and not any(c["bridges"] for c in checked):
+        lb["tier"], lb["label"] = 2, "bivalent_binary"
+        lb["tier_demoted"] = ("entry-level co-presence of a second protein was not confirmed at chain level "
+                              "— the >=500 Da ligand does not contact both the recruiter and a partner in "
+                              "the deposited coordinates, so this is not a solved bivalent complex")
+    elif not checked:
+        lb["bridging_check_status"] = ("no tier-3 evidence entry was among the deep-fetched staged set, so "
+                                       "bridging is asserted at entry level only")
+
+
 def geometry_panel(recruiters, workdir=None, use_fpocket=True):
     """Offline phase: download (cached) coordinates for each primary structure and compute ligandability."""
     workdir = workdir or os.path.join(COORD_DIR, "_fpocket")
     for gene, rec in recruiters.items():
+        verify_bridging(rec, set(rec.get("arm_component_accessions") or []))
         primary = next((s for s in (rec.get("staged_structures") or []) if s.get("is_primary")), None)
         if not primary:
             rec["ligandability"] = {"_status": "no staged structure"}
@@ -1499,6 +1597,11 @@ SCHEMA_DOC = {
             "polymer_entities": "[{entity_id, uniprot_ids, auth_asym_ids, description, length}]",
             "distinct_uniprot_accessions": "[str] — >1 means a multi-protein entry",
             "recruiter_auth_asym_ids": "[str] — the chains that ARE the recruiter",
+            "recruiter_entity_length": "residues of the recruiter actually in the construct",
+            "recruiter_uniprot_coverage_fraction": "that length / the full UniProt length — REPORTED, never "
+                                                   "ranked on: a WD40 or Kelch domain construct is the "
+                                                   "correct experimental object at low full-length coverage",
+            "recruiter_entity_is_peptide_fragment": "bool, <60 residues — deprioritised as a geometry frame",
             "partner_uniprots": "[str] — accessions present that are NOT part of the recruiter's own CRL arm "
                                 "(a neosubstrate / PROTAC target / crystallisation partner)",
             "has_partner_protein": "bool",
