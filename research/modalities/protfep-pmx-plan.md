@@ -120,6 +120,31 @@ a silent wrong branch.** The forensic dump had already ruled out the obvious cau
 with `dph_base` 0.0553 over a `min_bid` of 0.0442, `rentable` true, reliability 0.99 — and still
 could not explain it, because the explanation was never in the instance record.
 
+### The $/ns work, applied here — and one negative result (2026-07-25)
+
+The 2026-07-24 selection change (rank offers by measured cost per ns, not by $/hr) **is** active on
+this lane and is why its spend is low: the complex leg sits on an RTX 3090 at a $0.044212 floor =
+**$0.002953/ns**, against the 4090 alternative at $0.14889 = **$0.004731/ns**. A 4090 needed a floor
+below **$0.0929/h** to win, so ranking by $/hr would have picked the cheap card only by luck.
+
+What was *not* using it was the BID. `vast_bid_optimizer.py` is imported by nothing that launches;
+the live path bids a fixed `min_bid × VAST_BID_FLOOR_MULT`, a constant that knows nothing about the
+card it is bidding on — so a slow card can be bid past the point where a faster one would have been
+cheaper per ns. `protfep_vast_launch.value_ceiling_bid` closes that: bid up to where this card's
+$/ns equals the best alternative on the market right now, and no further.
+
+**The negative result is the useful part.** Applying it raised the stuck leg's bid from $0.0553 to
+$0.0698 (+26%, and free in $/ns terms by construction) — and the instance *still* returned
+`resources_unavailable`. So the wait is not a thin-margin auction we can outbid; that machine's GPU
+is genuinely occupied. Two consequences worth carrying forward:
+
+- **Do not reach for the bid when a start is queued.** It was the obvious lever and it does nothing.
+  The `resources_unavailable` body, not the bid, is the thing to read.
+- **Selection has no availability term, and that is now the binding gap.** `_select_cheapest_offer`
+  ranks purely on $/ns; a machine that cannot schedule us has *infinite* realised $/ns, which the
+  metric cannot see. The cheapest offer on the board and the cheapest way to actually finish a leg
+  are not the same quantity.
+
 Failure #9 is worth reading as a monitoring lesson rather than an infrastructure one. The board showed
 `loading` for 36 minutes and that was indistinguishable from a healthy pull, because it printed a
 STATE without a REASON and a timestamp without an AGE. Three fields — `intended_status`, `min_bid` vs
