@@ -55,7 +55,30 @@ would silently stage a different protein and nothing downstream would notice.
 | **fpocket druggability** | fpocket on the deposited chains with the ligand removed; the ligand attributed to a pocket by alpha-sphere proximity, the file→pocket mapping derived from alpha-sphere fingerprints (never the filename index) | the same field-standard number this program already uses for the NR4A3 cryptic pocket, so the two are comparable |
 | **★ exit vector** | the ligand heavy atom with the largest SASA in complex is the anchor; 512 Fibonacci rays from it; a ray ends where a 1.7 Å linker heavy atom would clash with a protein vdW sphere; the direction is the **solid-angle centroid of the near-maximal rays** | this is the direction a linker must leave from. Taking the centroid rather than `argmax` matters: a wide mouth ties dozens of rays at the cap, and `argmax` would then return whichever the iteration order reached first — a coordinate artifact, not geometry |
 | **★ open solid-angle fraction (15 Å)** | fraction of all 512 rays with ≥15 Å unobstructed reach from the anchor | **the number the orientation-basin search consumes**: the geometric size of the orientation space a tethered target can occupy, before any energetics |
-| **linker-bearing analogue** | answered *structurally* from deposited entries — tier 3 a ≥500 Da ligand in an entry that also contains a second UniProt accession (a solved bivalent/glue complex); tier 2 a ≥500 Da ligand with the recruiter alone; tier 1 only sub-500 Da ligands; tier 0 none | a solved structure with a linker already leaving this exit vector is the only *direct* evidence in the whole panel that the vector tolerates a linker |
+| **linker-bearing analogue** | answered *structurally* from deposited entries — tier 3 a ≥500 Da ligand that is **verified from the coordinates** to contact both the recruiter and a non-arm partner chain; tier 2 a ≥500 Da ligand with the recruiter alone; tier 1 only sub-500 Da ligands; tier 0 none | a solved structure with a linker already leaving this exit vector is the only *direct* evidence in the whole panel that the vector tolerates a linker |
+
+### Four frame decisions that change the answer
+
+None of these is a detail; each was forced by something the first run actually returned.
+
+1. **The geometry frame is a partner-free structure wherever one exists.** Run 30167890490 staged VHL on
+   **7Z76** (VHL·ELOB·ELOC + SMARCA2) and CRBN on **8RQC** (CRBN + IKZF1) — both ternary. In that frame the
+   bound partner sits in the orientation space being measured, so "this recruiter has a solved ternary" was
+   being scored as "this recruiter has nowhere for a target to go". Those runs' openness numbers (VHL 0.164,
+   CRBN 0.236) are artifacts and are not quoted anywhere as results.
+2. **The occluder set is the recruiter plus its own CRL arm**, with arm membership read from the single
+   existing definition of those arms in `nr4a3_e3_expression.py` rather than re-listed. A neosubstrate,
+   PROTAC target or crystallisation partner is removed. Where **no** partner-free structure exists, the
+   recruiter still stages, flagged, with the honest caveat that its site may be partly formed *by* the
+   removed partner.
+3. **Coordinates come from biological assembly 1, not the asymmetric unit.** FEM1B **9PW8** has chains A and
+   B, *both* FEM1B, and returned an exit clearance of 0.0 — a ligand walled in by a crystallographic
+   neighbour that is not there in solution. Failing a recruiter at G3 for a packing artifact is precisely
+   the silent error the dropped-set log exists to prevent.
+4. **Tier 3 is verified, not asserted.** Entry-level co-presence of a second protein is not bridging. Since
+   `linker_analogue_tier` is the top lexicographic key, an unverified tier 3 could have decided the whole
+   result on its own, so the coordinates are re-read and the tier is demoted when the ligand does not
+   actually contact both proteins.
 
 **Interface geometry, honestly bounded.** The open solid-angle fraction is interface geometry *at the
 attachment point* — how much orientation space exists. Whether any orientation in that space is
