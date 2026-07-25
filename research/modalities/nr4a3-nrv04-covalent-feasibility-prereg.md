@@ -8,6 +8,16 @@ This document is the **frozen** definition of the panel and its GO/NO-GO. It is 
 (reviewer condition 4 requires the scoring rules be fixed in advance). Once a leg has run, this file is
 append-only for results; the criteria below do not move.
 
+> **⚠ AMENDED 2026-07-25 — see [AMENDMENT 1](#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated) at
+> the end of this file. The frozen text below is left UNEDITED so the original rule and the amendment can both
+> be read.** In short: **R2** and frozen **criterion 3** are retired as gating criteria — R2 returned the same
+> value (`frac_frames_in_contact = 1.0`) on **all 18** legs including both negative controls, so it had zero
+> discriminating power and criterion 3 was therefore unsatisfiable, making the gate uninformative rather than
+> conservative. `recruiter_epimer` is demoted (it runs as a full ternary, not the binary §3 specifies). A new
+> **binding criterion A1 (input admissibility)** is added and **fails now**: every covalent leg stages its
+> electrophile 8.99–16.39 Å from the target-chain Cys Sγ against a ~1.8 Å C–S bond, so §5 criterion 2 is
+> unevaluable on current inputs. The panel remains **`[HELD]`** — the amendment converts no NO-GO into a GO.
+
 ---
 
 ## 1. Why this panel exists (reviewer condition 4, STRATEGY.md:86-94)
@@ -179,3 +189,110 @@ Only when that CI smoke is green do we wire the Vast launcher and run the real l
 - Every atom of the E3/target scaffold is from a real deposited structure (8G1Q / RCSB); nothing fabricated.
 - Verdicts are **directional concordance/discordance** with the reported NR-V04 outcome — never "recovered
   degradation," never an efficacy/affinity claim.
+
+---
+
+## AMENDMENT 1 — 2026-07-25 (dated defect-fix; trimcrae-delegated)
+
+**Authority.** §Preamble freezes these criteria and STRATEGY.md requires that amending a preregistered rule
+after a failing result be "an explicit, dated, reviewer-approved defect-fix, not a quiet retune." trimcrae
+delegated this decision on 2026-07-25. It is recorded here in full, with the frozen text above left **unedited**
+so the original rule and this amendment can both be read.
+
+**The standard applied.** A rule may be amended only if its *statistic is shown to lack discriminating power*,
+demonstrated independently of whether we liked the answer it gave. "It returned an inconvenient verdict" is not
+grounds. "It returns the same value regardless of the variable it exists to measure" is.
+
+### Defect 1 — R2 has zero discriminating power (measured, not argued)
+
+Frozen R2: *"Recruited = BSA > 0 sustained over > 50% of production frames."* This is a **presence** test, and
+its value is fixed by the **co-folded starting structure** plus the absence of dissociation on a 6 ns timescale
+— not by the variable each control isolates.
+
+**Evidence:** across the panel's committed legs, `frac_frames_in_contact` takes **18 values and exactly one
+distinct value: 1.0.** That includes `warhead_only` (no E3-binding moiety at all) and `recruiter_epimer` (the
+inactive stereoisomer) — the two legs whose entire purpose is to read *lower* than the positives. A statistic
+with **zero variance across the contrast cannot score the contrast.** Independently, the one leg ever run with
+the *corrected* chain split also returns `recruited = true`, so this is not an artifact of the chain defect.
+
+**Ruling: R2 is RETIRED as a GO criterion and demoted to a descriptive readout.** It may be reported; it may not
+gate anything.
+
+### Defect 2 — frozen criterion 3 is unsatisfiable, so the whole gate carried no information
+
+Criterion 3 requires the negative controls to show *no* sustained recruitment under R2. Since R2 returns
+"recruited" for every leg by construction, **criterion 3 can never be satisfied, so the frozen gate returns
+NO-GO regardless of the science.** It would have said NO-GO for a beautifully-behaved NR-V04 ternary and for
+complete garbage alike. That is not a conservative gate; it is an uninformative one.
+
+**Ruling: criterion 3 is REMOVED from the GO condition,** because the statistic it depends on has been retired
+and endpoint MD from a co-folded start at 6 ns provides no replacement capable of failing. Its scientific intent
+is preserved by a stronger, earlier test — A1 below — which acts on the inputs rather than the output.
+
+### Defect 3 — `recruiter_epimer` is not the control §3 specifies
+
+§3 defines it as an *"endpoint system, not a morph"* and a **binary** VHL + epimer construct. As implemented it
+runs as a **full ternary**. Moreover the epimer's inactivity is a *binding-affinity* fact about the VHL–recruiter
+interaction, which a 6 ns MD launched from a co-folded pose cannot resolve in either direction.
+
+**Ruling: `recruiter_epimer` is demoted to a descriptive sensitivity leg** and removed from the GO condition.
+If it is ever to gate anything it must first be rebuilt as the binary system §3 actually specifies.
+
+### NEW BINDING CRITERION A1 — input admissibility (this one can fail, and it does)
+
+*No leg may be scored unless its starting structure instantiates the contrast it encodes.* For every leg
+declared **covalent**, the celastrol electrophilic carbon must sit within bonding distance of the **target-chain**
+Cys Sγ. A C–S single bond is ~1.8 Å; a preformed adduct that is not bonded is not a covalent model.
+
+**Measured on the current co-folds, for $0, before any spend** (`nrv04-prespend-check.json`):
+
+| leg | declared | nearest target-chain Cys Sγ | admissible |
+|---|---|---|---|
+| `cov_nr4a1` | covalent | **8.99 Å** | ✗ |
+| `warhead_only` | covalent | **16.39 Å** | ✗ |
+
+**Every covalent leg fails A1 by roughly 5–9×.** Boltz does not seat celastrol against an NR4A1 cysteine in any
+co-fold currently in the bucket, so §5 criterion 2 — *"does covalency swamp the ternary signal"*, the panel's
+stated crux — is **unevaluable on these inputs**, not merely unmeasured.
+
+*Hypothesis this raises, flagged for the re-run rather than asserted:* the superseded observation that covalent
+NR4A1 and noncovalent NR4A1 scored **identically (2/3 = 2/3)** is exactly what one predicts if the "covalent" leg
+never carried a bond. That is consistent with A1 failing, and it is a prediction the amended panel can test. It
+is **not** offered as an established mechanism here.
+
+### What the panel may claim if re-run on admissible inputs
+
+Interface persistence (**R1**) and covalent-vs-noncovalent sensitivity (**R4**), as **descriptive feasibility**,
+reported as **directional concordance only**. It may **not** issue a recruitment verdict, and it may not be
+cited as validating the noncovalent machinery — §1's conclusion that NR-V04 is a biological holdout rather than
+a method calibrator is untouched by this amendment.
+
+### Does this amendment rescue the failing result? NO — stated as the integrity test
+
+1. **The committed panel's data is invalid for reasons no amendment touches:** the chain split was positional and
+   scored Elongin C, and the inputs were contaminated (14-3-3 epsilon in place of Elongin B, source pinned at
+   CA-Kabsch **RMSD 0.000 Å**). Those legs are unusable under the old rule and the new one alike.
+2. **The amended gate leaves the panel exactly where the unamended gate left it — HELD.** A1 fails on every
+   co-fold in the bucket. What changes is *why*: from "a gate that can never pass" to "inputs that do not
+   instantiate the contrast." That distinction is the useful part, and it converts no NO-GO into a GO.
+
+### Honest statement of what this LOOSENS
+
+The old gate was **unpassable**; removing criterion 3 makes GO reachable where it previously was not. That is a
+loosening and it is stated plainly rather than dressed as a tightening. The justification is not that the old
+answer was unwelcome but that the old statistic had **no discriminating power**, shown from 18 legs of zero
+variance. This is the same degenerate-gate class as valB_mini's calibration gate, which **admits the null**
+(a method predicting no cooperativity change passes 22% of the time against 23% for a method that is exactly
+right). One gate always fails, the other passes anything; both are defective for the same reason — the statistic
+does not discriminate the hypothesis. A1 is added precisely so that the amended gate retains a criterion that
+**can** fail, and it is binding immediately.
+
+### Consequences
+
+- **`nrv04_feasibility_covalent` stays `[HELD]`.** The re-run is not authorised by this amendment.
+- **Unblocking it requires input work, not compute:** re-fold `neg_celastrol` / the covalent systems so the
+  electrophile is seated against Cys551, or drop the covalent legs and re-scope the panel to what noncovalent
+  endpoint MD can support — and say which was done.
+- **A1 is retrospective in force:** any future covalent leg, in this panel or the NR-V04 retrospective, must
+  record its staged Sγ distance and refuse to run if it fails. This is implemented in
+  `nrv04_covalent_md` (`MAX_COVALENT_TETHER_A`, default 8.0 Å, override only with a recorded deviation).
