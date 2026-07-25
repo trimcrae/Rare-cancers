@@ -846,6 +846,7 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     # resources_unavailable for both). Spreading costs ~nothing: the market shows ~23 hosts and the floor
     # is flat day-to-day.
     used = set(bad)
+    failures = []
     for j in keep:
         try:
             j.resources.exclude_machine_ids = tuple(used)
@@ -859,10 +860,28 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
                             "machine_id": mid, "bid": h.extra.get("bid"), "dph": h.extra.get("dph")})
         except Exception as e:  # noqa: BLE001 — one unrentable unit must not abort the rest
             print(f"[launch] {j.name}: SUBMIT FAILED {type(e).__name__}: {e}")
+            failures.append({"unit_id": j.env["UNIT_ID"], "error": f"{type(e).__name__}: {e}"[:400]})
     if handles:
         json.dump(handles, open("ternary-vast-handles.json", "w"), indent=2)
     print(f"[launch] {len(handles)}/{len(keep)} unit(s) submitted -> "
           f"s3://{DEFAULT_BUCKET}/{RESULT_PREFIX}/legs/")
+    # PERSIST THE RENT OUTCOME WHERE A MONITOR CAN READ IT. A per-unit failure is currently only a printed
+    # line inside a green job, and GitHub's job-log API truncates from the tail — so on 2026-07-25 an `edge`
+    # launch that rented nothing reported success and its `[launch]` lines could not be retrieved at all,
+    # leaving "did it rent?" answerable only by the absence of instances. Writing the outcome to S3 makes it
+    # part of the lane's durable state, which is where every other monitoring signal in this lane already
+    # lives. Best-effort: failing to record a diagnostic must never fail a launch.
+    try:
+        s3 = _s3()
+        key = f"{(RESULT_PREFIX).rstrip('/')}/_last_launch.json"
+        s3.put_object(Bucket=DEFAULT_BUCKET, Key=key, Body=json.dumps({
+            "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "mode": mode, "requested": [j.env["UNIT_ID"] for j in keep],
+            "submitted": handles, "failed": failures,
+            "excluded_machines": sorted(bad),
+        }, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[launch] could not persist the launch record: {type(e).__name__}: {e}")
     return handles
 
 
@@ -889,6 +908,18 @@ def collect(bucket=None, prefix=None, autostop=True):
         except Exception as e:  # noqa: BLE001
             print(f"[collect] could not list instances: {type(e).__name__}: {e}")
 
+    # The last launch's own record — what it asked for, what it rented, and why anything failed. A launch
+    # that rents nothing currently exits 0, and GitHub truncates a job log from the tail, so without this
+    # the only evidence is the absence of instances.
+    try:
+        ll = json.loads(s3.get_object(Bucket=b, Key=f"{p}/_last_launch.json")["Body"].read())
+        print(f"[collect] last launch {ll.get('utc')} mode={ll.get('mode')}: "
+              f"{len(ll.get('submitted') or [])} rented, {len(ll.get('failed') or [])} FAILED "
+              f"of {len(ll.get('requested') or [])} requested; excluded={ll.get('excluded_machines')}")
+        for f_ in (ll.get("failed") or []):
+            print(f"    LAUNCH-FAILED {f_.get('unit_id')}: {f_.get('error')}")
+    except Exception:  # noqa: BLE001 — no launch recorded yet
+        pass
     print(f"[collect] {len(done)} finished unit(s), {len(other)} other record(s), {len(mine)} instance(s) up")
     for u, d in sorted(done.items()):
         t = (d.get("timing") or {}).get("production") or {}
