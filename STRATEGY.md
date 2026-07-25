@@ -48,9 +48,16 @@ relevant rung below.*
 > [pricing.md](research/compute/pricing.md) · [bid-strategy.md](research/compute/bid-strategy.md).
 > **This supersedes the "spend the expiring GCP free credit first" preference** recorded in §GPU economics and
 > §Bid policy for *new* work. It does **not** retroactively kill the valB_mini reverse leg already running on
-> GCP L4 — killing a leg mid-flight to change provider would forfeit its progress for nothing — but **no new
-> GCP / SageMaker / Modal run may be started.** The GCP trial (closes 2026-10-10) is now a stranded asset, not
-> a routing preference; if that trade is to be revisited it is a trimcrae call, not a session's.
+> GCP L4 — killing a leg mid-flight to change provider would forfeit its progress for nothing.
+>
+> **⚠ THIS CARVE-OUT WAS SUPERSEDED THE SAME AFTERNOON — READ THE RULING BELOW BEFORE APPLYING THIS PARAGRAPH.**
+> An earlier version of this block read *"no new GCP / SageMaker / Modal run may be started"*, full stop. That is
+> **no longer the operative rule for the valB session**: trimcrae ruled at **2:10 PM ET** that *that* session stays
+> on GCP **in full**, so the exempted unit is the **leg, not the VM**, and its relaunches are correct. The
+> all-Vast default still governs **every other session and every new program-level lane** — LANE 4 builds the
+> Vast ternary lane, and a future session wanting GCP needs its own ruling. See
+> "✅ RULED BY trimcrae, 2026-07-25 2:10 PM ET" below, which is authoritative on scope.
+> The GCP trial (closes 2026-10-10) is otherwise a stranded asset, not a routing preference.
 >
 > **⚠ CONSEQUENCE FOUND IMMEDIATELY — THE SESSION-INDEPENDENT WATCHDOG DOES NOT COVER VAST (2026-07-25 1:30 PM ET).**
 > [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml) is **GCP-only by construction**: it
