@@ -1,0 +1,1410 @@
+{
+  "_title": "E3 recruiter arm registry for the RUNG-5a mechanism-first orientation-basin search",
+  "_method": "RCSB discovery by UniProt-accession SET (never by a remembered PDB ID), composition verified against the same accession set after download, cullin scaffold bridged into the receptor frame by CA superposition with a reported RMSD, E3-side exit vector DERIVED as the ligand heavy atom furthest from the receptor.",
+  "_limits": [
+    "Each arm is ONE crystal/cryo-EM conformer of the receptor and ONE of the cullin scaffold; CRL arms are known to be conformationally mobile, so the RING position is a representative, not a unique, placement. The basin search samples an E2 arc about it rather than a single point.",
+    "The bridge superposition assumes the two entries deposit the bridge protein under a common residue numbering; a mismatch collapses the shared-residue count and is REFUSED, not patched.",
+    "The catalytic-cysteine identification in the E2 geometry step is a geometric proxy, not a sequence-motif assignment.",
+    "Nothing here is evidence that any of these recruiters engages NR4A3 \u2014 it is input staging."
+  ],
+  "staged_at_utc": "2026-07-25T17:30:13Z",
+  "arms": {
+    "vhl": {
+      "arm_id": "vhl",
+      "recruiter": "VHL",
+      "crl": "CRL2^VHL",
+      "status": "OK",
+      "provenance": {
+        "receptor_entry": {
+          "pdb_id": "5T35",
+          "title": "The PROTAC MZ1 in complex with the second bromodomain of Brd4 and pVHL:ElonginC:ElonginB",
+          "resolution_A": 2.7,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "O60885": [
+              "A",
+              "E"
+            ],
+            "Q15370": [
+              "B",
+              "F"
+            ],
+            "Q15369": [
+              "C",
+              "G"
+            ],
+            "P40337": [
+              "D",
+              "H"
+            ]
+          }
+        },
+        "scaffold_entry": {
+          "pdb_id": "5N4W",
+          "title": "Crystal structure of the Cul2-Rbx1-EloBC-VHL ubiquitin ligase complex",
+          "resolution_A": 3.9,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "Q13617": [
+              "A"
+            ],
+            "P40337": [
+              "V"
+            ],
+            "P62877": [
+              "R"
+            ],
+            "Q15370": [
+              "B"
+            ],
+            "Q15369": [
+              "C"
+            ]
+          }
+        }
+      },
+      "rejected": [
+        {
+          "pdb": "5T35",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        },
+        {
+          "pdb": "4W9H",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        }
+      ],
+      "receptor_pdb": "results/nr4a3-e3-arms/vhl-receptor.pdb",
+      "ligand": {
+        "het_code": "759",
+        "chain": "D",
+        "resid": 301,
+        "n_heavy": 69,
+        "atoms": [
+          {
+            "name": "CAA",
+            "elem": "C",
+            "xyz": [
+              12.19,
+              -24.097,
+              -13.186
+            ]
+          },
+          {
+            "name": "CBZ",
+            "elem": "C",
+            "xyz": [
+              12.78,
+              -22.874,
+              -12.467
+            ]
+          },
+          {
+            "name": "NBI",
+            "elem": "N",
+            "xyz": [
+              11.974,
+              -21.922,
+              -11.944
+            ]
+          },
+          {
+            "name": "CAV",
+            "elem": "C",
+            "xyz": [
+              12.591,
+              -20.893,
+              -11.358
+            ]
+          },
+          {
+            "name": "SBR",
+            "elem": "S",
+            "xyz": [
+              14.202,
+              -21.167,
+              -11.474
+            ]
+          },
+          {
+            "name": "CCH",
+            "elem": "C",
+            "xyz": [
+              14.088,
+              -22.649,
+              -12.309
+            ]
+          },
+          {
+            "name": "CCF",
+            "elem": "C",
+            "xyz": [
+              15.121,
+              -23.432,
+              -12.695
+            ]
+          },
+          {
+            "name": "CAU",
+            "elem": "C",
+            "xyz": [
+              16.173,
+              -23.624,
+              -11.798
+            ]
+          },
+          {
+            "name": "CAQ",
+            "elem": "C",
+            "xyz": [
+              17.269,
+              -24.424,
+              -12.127
+            ]
+          },
+          {
+            "name": "CAT",
+            "elem": "C",
+            "xyz": [
+              15.207,
+              -24.071,
+              -13.946
+            ]
+          },
+          {
+            "name": "CAP",
+            "elem": "C",
+            "xyz": [
+              16.31,
+              -24.876,
+              -14.275
+            ]
+          },
+          {
+            "name": "CCA",
+            "elem": "C",
+            "xyz": [
+              17.369,
+              -25.057,
+              -13.373
+            ]
+          },
+          {
+            "name": "CBC",
+            "elem": "C",
+            "xyz": [
+              18.457,
+              -25.866,
+              -13.693
+            ]
+          },
+          {
+            "name": "NBM",
+            "elem": "N",
+            "xyz": [
+              19.691,
+              -25.324,
+              -13.065
+            ]
+          },
+          {
+            "name": "C",
+            "elem": "C",
+            "xyz": [
+              20.526,
+              -24.439,
+              -13.664
+            ]
+          },
+          {
+            "name": "O",
+            "elem": "O",
+            "xyz": [
+              20.361,
+              -24.01,
+              -14.811
+            ]
+          },
+          {
+            "name": "CA",
+            "elem": "C",
+            "xyz": [
+              21.622,
+              -24.014,
+              -12.859
+            ]
+          },
+          {
+            "name": "CB",
+            "elem": "C",
+            "xyz": [
+              21.212,
+              -22.814,
+              -12.006
+            ]
+          },
+          {
+            "name": "CG",
+            "elem": "C",
+            "xyz": [
+              22.483,
+              -21.995,
+              -11.841
+            ]
+          },
+          {
+            "name": "OD1",
+            "elem": "O",
+            "xyz": [
+              23.265,
+              -22.49,
+              -10.738
+            ]
+          },
+          {
+            "name": "CD2",
+            "elem": "C",
+            "xyz": [
+              23.254,
+              -22.188,
+              -13.148
+            ]
+          },
+          {
+            "name": "N",
+            "elem": "N",
+            "xyz": [
+              22.869,
+              -23.553,
+              -13.617
+            ]
+          },
+          {
+            "name": "CBW",
+            "elem": "C",
+            "xyz": [
+              23.49,
+              -24.353,
+              -14.506
+            ]
+          },
+          {
+            "name": "OAK",
+            "elem": "O",
+            "xyz": [
+              23.097,
+              -25.492,
+              -14.761
+            ]
+          },
+          {
+            "name": "CCN",
+            "elem": "C",
+            "xyz": [
+              24.791,
+              -23.861,
+              -15.155
+            ]
+          },
+          {
+            "name": "CCQ",
+            "elem": "C",
+            "xyz": [
+              24.661,
+              -23.41,
+              -16.637
+            ]
+          },
+          {
+            "name": "CAF",
+            "elem": "C",
+            "xyz": [
+              26.073,
+              -23.315,
+              -17.225
+            ]
+          },
+          {
+            "name": "CAG",
+            "elem": "C",
+            "xyz": [
+              23.828,
+              -24.37,
+              -17.495
+            ]
+          },
+          {
+            "name": "CAE",
+            "elem": "C",
+            "xyz": [
+              24.003,
+              -22.033,
+              -16.737
+            ]
+          },
+          {
+            "name": "NBN",
+            "elem": "N",
+            "xyz": [
+              25.631,
+              -25.053,
+              -15.098
+            ]
+          },
+          {
+            "name": "CBT",
+            "elem": "C",
+            "xyz": [
+              26.759,
+              -25.18,
+              -14.392
+            ]
+          },
+          {
+            "name": "OAH",
+            "elem": "O",
+            "xyz": [
+              27.325,
+              -24.272,
+              -13.771
+            ]
+          },
+          {
+            "name": "CBD",
+            "elem": "C",
+            "xyz": [
+              27.355,
+              -26.578,
+              -14.54
+            ]
+          },
+          {
+            "name": "OBQ",
+            "elem": "O",
+            "xyz": [
+              27.513,
+              -26.597,
+              -15.974
+            ]
+          },
+          {
+            "name": "CBB",
+            "elem": "C",
+            "xyz": [
+              27.451,
+              -27.797,
+              -16.709
+            ]
+          },
+          {
+            "name": "CBA",
+            "elem": "C",
+            "xyz": [
+              26.447,
+              -27.518,
+              -17.841
+            ]
+          },
+          {
+            "name": "OBP",
+            "elem": "O",
+            "xyz": [
+              25.378,
+              -28.482,
+              -17.832
+            ]
+          },
+          {
+            "name": "CAZ",
+            "elem": "C",
+            "xyz": [
+              24.328,
+              -28.187,
+              -16.931
+            ]
+          },
+          {
+            "name": "CAY",
+            "elem": "C",
+            "xyz": [
+              23.116,
+              -29.028,
+              -17.37
+            ]
+          },
+          {
+            "name": "OBO",
+            "elem": "O",
+            "xyz": [
+              22.993,
+              -29.112,
+              -18.814
+            ]
+          },
+          {
+            "name": "CAX",
+            "elem": "C",
+            "xyz": [
+              21.787,
+              -28.558,
+              -19.267
+            ]
+          },
+          {
+            "name": "CAW",
+            "elem": "C",
+            "xyz": [
+              20.626,
+              -29.543,
+              -19.027
+            ]
+          },
+          {
+            "name": "NBL",
+            "elem": "N",
+            "xyz": [
+              21.013,
+              -30.956,
+              -18.779
+            ]
+          },
+          {
+            "name": "CBU",
+            "elem": "C",
+            "xyz": [
+              20.9,
+              -31.597,
+              -17.575
+            ]
+          },
+          {
+            "name": "OAI",
+            "elem": "O",
+            "xyz": [
+              20.537,
+              -31.054,
+              -16.529
+            ]
+          },
+          {
+            "name": "CBE",
+            "elem": "C",
+            "xyz": [
+              21.289,
+              -33.103,
+              -17.587
+            ]
+          },
+          {
+            "name": "CCL",
+            "elem": "C",
+            "xyz": [
+              21.582,
+              -33.64,
+              -16.175
+            ]
+          },
+          {
+            "name": "NBH",
+            "elem": "N",
+            "xyz": [
+              22.86,
+              -33.097,
+              -15.675
+            ]
+          },
+          {
+            "name": "CCG",
+            "elem": "C",
+            "xyz": [
+              21.682,
+              -35.052,
+              -16.073
+            ]
+          },
+          {
+            "name": "NBK",
+            "elem": "N",
+            "xyz": [
+              21.511,
+              -35.91,
+              -17.084
+            ]
+          },
+          {
+            "name": "NBJ",
+            "elem": "N",
+            "xyz": [
+              21.665,
+              -37.086,
+              -16.659
+            ]
+          },
+          {
+            "name": "CCB",
+            "elem": "C",
+            "xyz": [
+              21.94,
+              -37.028,
+              -15.358
+            ]
+          },
+          {
+            "name": "CAB",
+            "elem": "C",
+            "xyz": [
+              22.182,
+              -38.24,
+              -14.461
+            ]
+          },
+          {
+            "name": "NCP",
+            "elem": "N",
+            "xyz": [
+              21.97,
+              -35.762,
+              -14.974
+            ]
+          },
+          {
+            "name": "CCJ",
+            "elem": "C",
+            "xyz": [
+              22.18,
+              -35.204,
+              -13.775
+            ]
+          },
+          {
+            "name": "SBS",
+            "elem": "S",
+            "xyz": [
+              21.584,
+              -35.854,
+              -12.289
+            ]
+          },
+          {
+            "name": "CCC",
+            "elem": "C",
+            "xyz": [
+              22.187,
+              -34.63,
+              -11.397
+            ]
+          },
+          {
+            "name": "CAC",
+            "elem": "C",
+            "xyz": [
+              22.046,
+              -34.523,
+              -9.872
+            ]
+          },
+          {
+            "name": "CCD",
+            "elem": "C",
+            "xyz": [
+              22.815,
+              -33.743,
+              -12.192
+            ]
+          },
+          {
+            "name": "CAD",
+            "elem": "C",
+            "xyz": [
+              23.474,
+              -32.495,
+              -11.582
+            ]
+          },
+          {
+            "name": "CCI",
+            "elem": "C",
+            "xyz": [
+              22.826,
+              -34.053,
+              -13.518
+            ]
+          },
+          {
+            "name": "CBX",
+            "elem": "C",
+            "xyz": [
+              23.402,
+              -33.295,
+              -14.471
+            ]
+          },
+          {
+            "name": "CCE",
+            "elem": "C",
+            "xyz": [
+              24.643,
+              -32.687,
+              -14.291
+            ]
+          },
+          {
+            "name": "CAR",
+            "elem": "C",
+            "xyz": [
+              25.73,
+              -33.377,
+              -13.756
+            ]
+          },
+          {
+            "name": "CAN",
+            "elem": "C",
+            "xyz": [
+              26.962,
+              -32.739,
+              -13.583
+            ]
+          },
+          {
+            "name": "CBY",
+            "elem": "C",
+            "xyz": [
+              27.125,
+              -31.408,
+              -13.95
+            ]
+          },
+          {
+            "name": "CL1",
+            "elem": "CL",
+            "xyz": [
+              28.68,
+              -30.578,
+              -13.729
+            ]
+          },
+          {
+            "name": "CAO",
+            "elem": "C",
+            "xyz": [
+              26.041,
+              -30.73,
+              -14.495
+            ]
+          },
+          {
+            "name": "CAS",
+            "elem": "C",
+            "xyz": [
+              24.811,
+              -31.362,
+              -14.665
+            ]
+          }
+        ],
+        "exit_atom_name": "NBK",
+        "exit_atom_xyz": [
+          21.511,
+          -35.91,
+          -17.084
+        ],
+        "exit_atom_min_dist_to_receptor_A": 8.0,
+        "ligand_centroid": [
+          21.873956521739135,
+          -28.227840579710143,
+          -14.564782608695655
+        ]
+      },
+      "ring": {
+        "ring_centroid_xyz": [
+          73.521,
+          -56.012,
+          24.826
+        ],
+        "cullin_centroid_xyz": [
+          58.818,
+          -11.186,
+          35.113
+        ],
+        "rbx1_ring_residue_range": [
+          51,
+          102
+        ],
+        "bridge_protein": "VHL",
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 37,
+          "bridge_rmsd_A": 1.381
+        }
+      },
+      "derived": {
+        "anchor_to_ring_A": 69.75,
+        "ring_to_cullin_A": 48.28
+      }
+    },
+    "crbn": {
+      "arm_id": "crbn",
+      "recruiter": "CRBN",
+      "crl": "CRL4^CRBN",
+      "status": "OK",
+      "provenance": {
+        "receptor_entry": {
+          "pdb_id": "6BOY",
+          "title": "Crystal structure of DDB1-CRBN-BRD4(BD1) complex bound to dBET6 PROTAC.",
+          "resolution_A": 3.33,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "Q16531": [
+              "A"
+            ],
+            "Q96SW2": [
+              "B"
+            ],
+            "O60885": [
+              "C"
+            ]
+          }
+        },
+        "scaffold_entry": {
+          "pdb_id": "2HYE",
+          "title": "Crystal Structure of the DDB1-Cul4A-Rbx1-SV5V Complex",
+          "resolution_A": 3.1,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "Q16531": [
+              "A"
+            ],
+            "P11207": [
+              "B"
+            ],
+            "Q13619": [
+              "C"
+            ],
+            "P62877": [
+              "D"
+            ]
+          }
+        }
+      },
+      "rejected": [
+        {
+          "pdb": "6BOY",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "4TZ4",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL4A', 'RBX1']"
+        }
+      ],
+      "receptor_pdb": "results/nr4a3-e3-arms/crbn-receptor.pdb",
+      "ligand": {
+        "het_code": "RN6",
+        "chain": "B",
+        "resid": 502,
+        "n_heavy": 59,
+        "atoms": [
+          {
+            "name": "N",
+            "elem": "N",
+            "xyz": [
+              76.722,
+              32.855,
+              57.578
+            ]
+          },
+          {
+            "name": "C",
+            "elem": "C",
+            "xyz": [
+              75.401,
+              34.671,
+              58.648
+            ]
+          },
+          {
+            "name": "O",
+            "elem": "O",
+            "xyz": [
+              68.862,
+              41.505,
+              48.297
+            ]
+          },
+          {
+            "name": "C1",
+            "elem": "C",
+            "xyz": [
+              75.728,
+              33.706,
+              57.568
+            ]
+          },
+          {
+            "name": "C10",
+            "elem": "C",
+            "xyz": [
+              72.92,
+              35.237,
+              49.023
+            ]
+          },
+          {
+            "name": "C11",
+            "elem": "C",
+            "xyz": [
+              73.147,
+              36.73,
+              48.815
+            ]
+          },
+          {
+            "name": "C12",
+            "elem": "C",
+            "xyz": [
+              71.963,
+              37.638,
+              49.142
+            ]
+          },
+          {
+            "name": "C13",
+            "elem": "C",
+            "xyz": [
+              70.911,
+              37.676,
+              48.05
+            ]
+          },
+          {
+            "name": "C14",
+            "elem": "C",
+            "xyz": [
+              70.77,
+              40.108,
+              47.714
+            ]
+          },
+          {
+            "name": "C15",
+            "elem": "C",
+            "xyz": [
+              69.867,
+              41.256,
+              47.326
+            ]
+          },
+          {
+            "name": "C16",
+            "elem": "C",
+            "xyz": [
+              69.147,
+              42.392,
+              49.3
+            ]
+          },
+          {
+            "name": "C17",
+            "elem": "C",
+            "xyz": [
+              69.671,
+              42.002,
+              50.523
+            ]
+          },
+          {
+            "name": "C18",
+            "elem": "C",
+            "xyz": [
+              69.876,
+              42.945,
+              51.515
+            ]
+          },
+          {
+            "name": "C19",
+            "elem": "C",
+            "xyz": [
+              69.562,
+              44.274,
+              51.295
+            ]
+          },
+          {
+            "name": "C2",
+            "elem": "C",
+            "xyz": [
+              75.69,
+              32.603,
+              55.668
+            ]
+          },
+          {
+            "name": "C20",
+            "elem": "C",
+            "xyz": [
+              69.042,
+              44.653,
+              50.061
+            ]
+          },
+          {
+            "name": "C21",
+            "elem": "C",
+            "xyz": [
+              68.613,
+              45.99,
+              49.585
+            ]
+          },
+          {
+            "name": "C22",
+            "elem": "C",
+            "xyz": [
+              67.593,
+              46.861,
+              47.437
+            ]
+          },
+          {
+            "name": "C23",
+            "elem": "C",
+            "xyz": [
+              68.393,
+              48.148,
+              47.516
+            ]
+          },
+          {
+            "name": "C24",
+            "elem": "C",
+            "xyz": [
+              66.364,
+              49.478,
+              47.151
+            ]
+          },
+          {
+            "name": "C25",
+            "elem": "C",
+            "xyz": [
+              65.553,
+              48.223,
+              47.048
+            ]
+          },
+          {
+            "name": "C26",
+            "elem": "C",
+            "xyz": [
+              66.14,
+              47.072,
+              47.851
+            ]
+          },
+          {
+            "name": "C27",
+            "elem": "C",
+            "xyz": [
+              68.832,
+              43.738,
+              49.044
+            ]
+          },
+          {
+            "name": "C28",
+            "elem": "C",
+            "xyz": [
+              68.272,
+              44.464,
+              47.874
+            ]
+          },
+          {
+            "name": "C29",
+            "elem": "C",
+            "xyz": [
+              74.833,
+              34.433,
+              53.601
+            ]
+          },
+          {
+            "name": "C3",
+            "elem": "C",
+            "xyz": [
+              75.276,
+              32.218,
+              54.265
+            ]
+          },
+          {
+            "name": "C30",
+            "elem": "C",
+            "xyz": [
+              75.153,
+              35.602,
+              52.755
+            ]
+          },
+          {
+            "name": "C31",
+            "elem": "C",
+            "xyz": [
+              74.893,
+              36.899,
+              53.186
+            ]
+          },
+          {
+            "name": "C32",
+            "elem": "C",
+            "xyz": [
+              75.223,
+              37.986,
+              52.397
+            ]
+          },
+          {
+            "name": "C33",
+            "elem": "C",
+            "xyz": [
+              75.817,
+              37.772,
+              51.173
+            ]
+          },
+          {
+            "name": "C34",
+            "elem": "C",
+            "xyz": [
+              76.089,
+              36.5,
+              50.722
+            ]
+          },
+          {
+            "name": "C35",
+            "elem": "C",
+            "xyz": [
+              75.754,
+              35.418,
+              51.515
+            ]
+          },
+          {
+            "name": "C36",
+            "elem": "C",
+            "xyz": [
+              73.718,
+              34.567,
+              54.571
+            ]
+          },
+          {
+            "name": "C37",
+            "elem": "C",
+            "xyz": [
+              73.874,
+              34.204,
+              55.889
+            ]
+          },
+          {
+            "name": "C38",
+            "elem": "C",
+            "xyz": [
+              71.605,
+              35.064,
+              55.422
+            ]
+          },
+          {
+            "name": "C39",
+            "elem": "C",
+            "xyz": [
+              70.179,
+              35.499,
+              55.575
+            ]
+          },
+          {
+            "name": "C4",
+            "elem": "C",
+            "xyz": [
+              75.905,
+              30.925,
+              53.732
+            ]
+          },
+          {
+            "name": "C40",
+            "elem": "C",
+            "xyz": [
+              72.382,
+              35.05,
+              54.306
+            ]
+          },
+          {
+            "name": "C41",
+            "elem": "C",
+            "xyz": [
+              71.861,
+              35.441,
+              52.955
+            ]
+          },
+          {
+            "name": "C5",
+            "elem": "C",
+            "xyz": [
+              75.375,
+              30.601,
+              52.352
+            ]
+          },
+          {
+            "name": "C6",
+            "elem": "C",
+            "xyz": [
+              75.62,
+              30.986,
+              49.948
+            ]
+          },
+          {
+            "name": "C7",
+            "elem": "C",
+            "xyz": [
+              75.488,
+              32.269,
+              49.15
+            ]
+          },
+          {
+            "name": "C8",
+            "elem": "C",
+            "xyz": [
+              74.215,
+              33.054,
+              49.43
+            ]
+          },
+          {
+            "name": "C9",
+            "elem": "C",
+            "xyz": [
+              74.134,
+              34.38,
+              48.684
+            ]
+          },
+          {
+            "name": "N1",
+            "elem": "N",
+            "xyz": [
+              76.7,
+              32.152,
+              56.376
+            ]
+          },
+          {
+            "name": "N2",
+            "elem": "N",
+            "xyz": [
+              75.972,
+              31.228,
+              51.34
+            ]
+          },
+          {
+            "name": "N3",
+            "elem": "N",
+            "xyz": [
+              70.186,
+              38.939,
+              47.984
+            ]
+          },
+          {
+            "name": "N4",
+            "elem": "N",
+            "xyz": [
+              68.161,
+              45.803,
+              48.273
+            ]
+          },
+          {
+            "name": "N5",
+            "elem": "N",
+            "xyz": [
+              67.709,
+              49.332,
+              47.373
+            ]
+          },
+          {
+            "name": "N6",
+            "elem": "N",
+            "xyz": [
+              75.552,
+              33.389,
+              53.421
+            ]
+          },
+          {
+            "name": "N7",
+            "elem": "N",
+            "xyz": [
+              75.032,
+              33.584,
+              56.382
+            ]
+          },
+          {
+            "name": "O1",
+            "elem": "O",
+            "xyz": [
+              65.869,
+              50.598,
+              47.05
+            ]
+          },
+          {
+            "name": "O2",
+            "elem": "O",
+            "xyz": [
+              69.608,
+              48.136,
+              47.686
+            ]
+          },
+          {
+            "name": "O3",
+            "elem": "O",
+            "xyz": [
+              68.617,
+              47.053,
+              50.18
+            ]
+          },
+          {
+            "name": "O4",
+            "elem": "O",
+            "xyz": [
+              67.966,
+              44.035,
+              46.777
+            ]
+          },
+          {
+            "name": "O5",
+            "elem": "O",
+            "xyz": [
+              71.986,
+              40.279,
+              47.737
+            ]
+          },
+          {
+            "name": "O6",
+            "elem": "O",
+            "xyz": [
+              74.449,
+              29.811,
+              52.191
+            ]
+          },
+          {
+            "name": "S",
+            "elem": "S",
+            "xyz": [
+              72.451,
+              34.474,
+              56.822
+            ]
+          },
+          {
+            "name": "CL",
+            "elem": "CL",
+            "xyz": [
+              76.23,
+              39.137,
+              50.174
+            ]
+          }
+        ],
+        "exit_atom_name": "N",
+        "exit_atom_xyz": [
+          76.722,
+          32.855,
+          57.578
+        ],
+        "exit_atom_min_dist_to_receptor_A": 8.0,
+        "ligand_centroid": [
+          72.08340677966102,
+          38.66174576271188,
+          51.108864406779674
+        ]
+      },
+      "ring": {
+        "ring_centroid_xyz": [
+          47.378,
+          -1.062,
+          52.445
+        ],
+        "cullin_centroid_xyz": [
+          28.778,
+          12.829,
+          10.088
+        ],
+        "rbx1_ring_residue_range": [
+          55,
+          108
+        ],
+        "bridge_protein": "DDB1",
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 808,
+          "bridge_rmsd_A": 1.167
+        }
+      },
+      "derived": {
+        "anchor_to_ring_A": 45.14,
+        "ring_to_cullin_A": 48.3
+      }
+    }
+  },
+  "e2_geometry": {
+    "measured": true,
+    "pdb_id": "9UUM",
+    "title": "Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly",
+    "e2": "UBE2D1",
+    "e2_accession": "P51668",
+    "ring_to_catalytic_cys_A": 35.44,
+    "all_cys_distances_A": [
+      27.7,
+      29.34,
+      29.79,
+      35.44
+    ],
+    "catalytic_cys_resid": 111,
+    "rbx1_ring_residue_range": [
+      50,
+      104
+    ],
+    "proxy_note": "catalytic Cys identified geometrically (SG furthest from the RING centroid within the E2 chain), NOT from a sequence motif \u2014 a proxy, reported as one."
+  },
+  "log": [
+    "[e3stage] vhl: receptor entry 5T35 (2.7 A) chains ['B', 'C', 'D', 'F', 'G', 'H'] ligand 759 n_heavy=69 exit atom NBK exposure 8.0 A",
+    "[e3stage] vhl: scaffold 5N4W bridged on VHL (rmsd 1.381 A over 37 CA) -> RING at [73.521, -56.012, 24.826]",
+    "[e3stage] crbn: receptor entry 6BOY (3.33 A) chains ['A', 'B'] ligand RN6 n_heavy=59 exit atom N exposure 8.0 A",
+    "[e3stage] crbn: scaffold 2HYE bridged on DDB1 (rmsd 1.167 A over 808 CA) -> RING at [47.378, -1.062, 52.445]",
+    "[e3stage] E2 geometry from 9UUM: RING->SG(Cys111) = 35.4 A (n_cys=4, range 27.7-35.4 A)"
+  ]
+}
