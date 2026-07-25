@@ -143,6 +143,43 @@ def test_emitted_library_keeps_the_comparator_and_the_controls():
     assert s["n_controls"] >= 1
 
 
+def test_construct_id_encodes_the_placement_it_was_designed_at():
+    """★ Two placements, two libraries, one id space. The same basin, warhead and segments give a DIFFERENT
+    molecule at the representative and at the term-(a) exemplar (different span floor, so different allowed
+    lengths), and if the ids collided one would silently overwrite the other in any id-keyed consumer."""
+    r_rep = {"meta_basin_id": "crbn|M0", "placement_label": "representative",
+             "designed_on": {"basin_id": "crbn|p|b0", "pose_id": "p"}, "role": "design",
+             "endpoint_distance": {"member_span_deciles_A": None, "member_span_A": {}},
+             "accessibility": {"span_distribution_used": "x", "window_centre_A": 10.0},
+             "wedge_element_sites": {"sites": []}}
+    r_ex = dict(r_rep, placement_label="term_a_exemplar")
+    ids = set()
+    for r in (r_rep, r_ex):
+        ids.add(LDD._record(r, "crbn", "5amide", "a2", None, "none", None, None, "C", 8, {},
+                            {"P_reach_normalised": 0.0}, None)["construct_id"])
+    assert len(ids) == 2, ids
+    assert any("@ex_" in i for i in ids) and any("@rep_" in i for i in ids)
+
+
+def test_the_preregistered_wedge_chemistry_rule_rejects_a_paralogue_donor():
+    """★ THE RULE THAT REPLACED A GEOMETRY-ONLY PICK, and it is now binding on BOTH placements. An H-bond
+    ACCEPTOR wedge can only discriminate if NR4A3 presents a donor and NEITHER paralogue does. Geometry alone
+    selects Ile396 — the most E3-clear site — where the pyridyl nitrogen faces an isoleucine in every
+    paralogue and `S` would be ~0 by construction."""
+    ok = {"nr4a3": "T", "nr4a1": "L", "nr4a2": "V"}
+    ile = {"nr4a3": "I", "nr4a1": "A", "nr4a2": "V"}          # no donor anywhere: the geometry-only pick
+    par = {"nr4a3": "T", "nr4a1": "L", "nr4a2": "S"}          # NR4A2 also donates: not discriminating
+    assert LDD._wedge_chemistry_ok(ok)
+    assert not LDD._wedge_chemistry_ok(ile)
+    assert not LDD._wedge_chemistry_ok(par)
+
+
+def test_the_pendant_reach_table_is_the_shared_one():
+    """One definition, shared with the RUNG-5a term-(a) gate — a local copy is how the two rungs drift."""
+    import linker_design as LD
+    assert LDD.PENDANT_REACH is LD.PENDANT_REACH_A
+
+
 def test_saturated_control_matches_its_electrophile_in_everything_but_the_alkene():
     """The non-electrophilic control must be the cyanoacrylamide with the Michael acceptor reduced — same
     atoms, one bond order different — or it is not a matched control."""
