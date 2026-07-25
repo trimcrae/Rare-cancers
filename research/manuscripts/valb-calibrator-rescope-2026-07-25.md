@@ -226,12 +226,32 @@ production mapper at version parity). All ten pairs, sorted by perturbation:
    "maximise the smallest hop" selection rule optimised the wrong quantity, because it ranked triangles on
    **experimental Δα** while the binding constraint turned out to be **chemical distance.**
 
-**What did hold.** The identity check confirms these are genuine SMARCA2 ternaries, not SMARCA4 — e.g. 9HYP is
-*"CRYSTAL STRUCTURE OF THE SMARCA2-VCB-COMPLEX WITH PROTAC P5"* at **2.2 Å**, against 8G1Q's 3.73 Å SMARCA4
-parent. So §2's *second* argument — that moving to this panel deletes the homology-model term and makes
-replicates measure sampling noise alone — is **correct and remains available** to any future design that can
-reach these structures. It is the P-series *ligands* that are unusable as an alchemical map, not the P-series
-*structures*.
+**What did hold — with one caveat and one new number.** The entry titles confirm these are genuine SMARCA2
+ternaries, not SMARCA4:
+
+| system | PDB | CCD | title | **resolution** |
+|---|---|---|---|---|
+| P1 | 9HYN | A1IYO | *CRYSTAL STRUCTURE OF THE SMARCA2-VCB-COMPLEX WITH PROTAC P1* | 2.37 Å |
+| P2 | 7Z77 | IFF | *…compound 6 in complex with the bromodomain of human SMARCA2 and pVHL:ElonginC:ElonginB* | **1.97 Å** |
+| P3 | 9HYB | A1IYB | *…WITH PROTAC P3* | 2.84 Å |
+| P4 | 9HYO | A1IYN | *…WITH PROTAC P4* | **3.74 Å** |
+| P5 | 9HYP | A1IYM | *…WITH PROTAC P5* | 2.2 Å |
+
+So §2's *second* argument — that this panel deletes the homology-model term and lets replicates measure sampling
+noise alone — is **correct and remains available** to any future design that can reach these structures. It is
+the P-series *ligands* that are unusable as an alchemical map, not the P-series *structures*.
+
+Two honest corrections to that argument, both from this run:
+
+- **P4 (9HYO) is 3.74 Å**, essentially 8G1Q's 3.73 Å. Had P1→P4 been chemically viable (it is not — it changes
+  charge), it would **not** have bought the resolution improvement §2 claimed for the panel as a whole. The
+  claim holds for P1/P2/P3/P5 and not for P4.
+- **The automated `mentions_smarca2` flag returned FALSE for all five entries** and the identity above rests on
+  the *titles*. Cause: RCSB polymer-entity descriptions carry the UniProt recommended name — SMARCA2 is
+  *"Probable global transcription activator SNF2L2"* — so the gene symbol never appears there, and the check
+  only searched descriptions for the literal string. A check that returns False on five true positives is worse
+  than no check, since it reads as "these are not SMARCA2 structures". Fixed to search titles as well and to
+  match SNF2L2/SNF2L4; **re-run before quoting the flag rather than the titles.**
 
 ### The conclusion that follows, and it is the important one
 

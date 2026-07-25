@@ -61,10 +61,18 @@ def entry_dossier(pdb_id):
         except Exception:  # noqa: BLE001
             pass
     rec["polymer_entities"] = names
-    joined = " ".join(names).lower()
-    rec["mentions_smarca2"] = "smarca2" in joined or "brm" in joined
-    rec["mentions_smarca4"] = "smarca4" in joined or "brg1" in joined
-    rec["mentions_vhl"] = "hippel" in joined or "vhl" in joined
+    # ⚠ SEARCH THE TITLE TOO, AND MATCH THE UNIPROT PROTEIN NAMES. The first version looked only at polymer
+    # entity descriptions for the literal strings "smarca2"/"smarca4", and returned FALSE for all five entries
+    # (run 30168896440) even though every title says SMARCA2 outright. RCSB entity descriptions carry the UniProt
+    # recommended name — SMARCA2 is "Probable global transcription activator SNF2L2", SMARCA4 is "...SNF2L4" —
+    # so the gene symbol never appears there. A check that returns False on five true positives is worse than no
+    # check: it would have been read as "these are not SMARCA2 structures".
+    joined = (" ".join(names) + " " + (rec.get("title") or "")).lower()
+    rec["mentions_smarca2"] = any(t in joined for t in ("smarca2", "snf2l2", "brm "))
+    rec["mentions_smarca4"] = any(t in joined for t in ("smarca4", "snf2l4", "brg1"))
+    rec["mentions_vhl"] = any(t in joined for t in ("hippel", "vhl", "pvhl"))
+    rec["_identity_basis"] = "polymer entity descriptions + entry title; gene symbols appear in titles, UniProt "
+    rec["_identity_basis"] += "recommended names (SNF2L2/SNF2L4) in entity descriptions — both are searched"
     # nonpolymer components -> the PROTAC
     cands = []
     for nid in rec["comp_ids"]:
