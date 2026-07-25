@@ -1,0 +1,23 @@
+{
+  "_what": "Task control file for .github/workflows/gpu-nr4a-paralogue-md-vast.yml (LANE 13).",
+  "_why_a_file_and_not_a_dispatch_input": "A workflow_dispatch can only be dispatched once the workflow file exists on the DEFAULT branch, and this lane may not push to main. A `push:` trigger, by contrast, runs from the pushed branch with no default-branch dependency (the same mechanism gpu-protfep-vast.yml uses). Committing a change to THIS file is therefore how a task is launched from a feature branch, and it leaves a git-auditable record of every run that was fired. Once the workflow reaches main, `workflow_dispatch` inputs override this file.",
+  "_tasks": {
+    "noop": "do nothing (the safe default; a push that only touches unrelated files never fires GPU work)",
+    "bake": "$0 CI. Build + push docker.io/triskit23/nr4a-metad (research/compute/Dockerfile.nr4ametad)",
+    "selftest": "$0 CI. Import + unit checks of the lane's pure helpers, and a dry-run JobSpec",
+    "smoke": "~$0.10. One host, toy lengths, the WHOLE chain metad -> release -> export -> S3",
+    "launch": "the real matched NR4A1 + NR4A2 ensembles, one interruptible host each, concurrently",
+    "status": "$0. Vast instance board + S3 phase markers + the tail of each run.log",
+    "collect": "$0. Pull the frame tarballs from S3, unpack into results/nr4a{1,2}-pocket-ensemble, commit",
+    "analyse": "$0. Run nr4a_paralogue_dynamics.py over whatever ensembles are present and commit the JSON",
+    "reap": "$0. Destroy instances whose result is already in S3, or which are terminal/over the backstop",
+    "stop": "$0. Destroy every nr4a-pdyn instance unconditionally"
+  },
+  "task": "bake",
+  "targets": "NR4A1,NR4A2",
+  "metad_ns": 60,
+  "release_ns": 5,
+  "n_rep": 3,
+  "exclude_machines": "",
+  "note": "fire the image bake (Dockerfile.nr4ametad: openmm + openmm-plumed + pdbfixer + mdtraj + biopython)"
+}
