@@ -183,3 +183,29 @@ def test_load_watch_tolerates_a_missing_or_corrupt_file(tmp_path):
     bad = tmp_path / "bad.json"
     bad.write_text("{not json")
     assert wd.load_watch(str(bad)) == {"watch": []}
+
+
+# ---------------------------------------------------------------- a crash is not a preemption
+def test_a_recorded_failure_is_not_a_preemption_and_must_not_relaunch():
+    """The difference that decides whether a NaN costs one rental or eight. A PREEMPTED host is killed
+    mid-run and writes no record, so it reads DIED and resuming from the checkpoint is right. A leg that RAN
+    and recorded status=failed has a reason, and relaunching reproduces it — uncapped that is one full-length
+    rental per attempt, up to the daily cap, every one of them dying identically."""
+    v, _ = _c(has_failed_record=True, instance_alive=False)
+    assert v == "FAILED"
+    ok, why = wd.should_relaunch("FAILED", 0, 8)
+    assert not ok and "diagnosis" in why
+
+
+def test_a_preemption_with_no_record_still_reads_died_and_relaunches():
+    v, _ = _c(has_failed_record=False, instance_alive=False)
+    assert v == "DIED"
+    assert wd.should_relaunch("DIED", 0, 8)[0] is True
+
+
+def test_a_stale_failed_record_does_not_stop_a_live_attempt():
+    """A failure record sits in S3 until the next attempt overwrites it, which does not happen until that
+    attempt gets far enough. While an instance is up, the live progress signal governs — otherwise a fixed
+    bug's old record would freeze the watchdog on the leg that is currently succeeding."""
+    v, _ = _c(has_failed_record=True, instance_alive=True, progress_scalar=200, prev_scalar=100)
+    assert v == "RUNNING"

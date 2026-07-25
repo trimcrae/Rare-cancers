@@ -75,11 +75,13 @@ STALL_TICKS = int(os.environ.get("TVAST_STALL_TICKS") or "2")
 # unit-tested. Each function answers one question and takes the evidence as arguments.
 # =============================================================================================================
 def classify(*, has_result, instance_alive, instance_age_min, progress_scalar, prev_scalar, prev_stall,
+             has_failed_record=False,
              setup_grace_min=SETUP_GRACE_MIN, stall_ticks=STALL_TICKS):
     """The watchdog's verdict for one entry, and the new stall counter. PURE.
 
     Returns (verdict, new_stall) where verdict is one of:
         DONE          the result artifact exists — nothing to do
+        FAILED        the leg RAN and recorded a failure — alert, do NOT relaunch
         RUNNING       an instance is up and the committed iteration ADVANCED this tick
         SETUP_STALL   an instance is up, has committed NOTHING, and is past the cold-start grace
         STALLED       an instance is up, has committed something, and has not advanced for `stall_ticks`
@@ -87,9 +89,17 @@ def classify(*, has_result, instance_alive, instance_age_min, progress_scalar, p
 
     Note what is NOT here: "an instance exists" never on its own yields RUNNING. That is the whole
     correction over a liveness ping.
+
+    And note why FAILED is separated from DIED, which is the difference between a preemption and a crash.
+    A preempted host is killed mid-run and writes NO record, so it correctly reads DIED and resuming from
+    the checkpoint is exactly right. A leg that RAN and recorded `status: failed` — a warmup NaN, say — has
+    a reason it failed, and relaunching it reproduces that reason. Collapsing the two would let one NaN buy
+    up to eight full-length rentals a day, each dying the same way. A crash is a diagnosis job.
     """
     if has_result:
         return "DONE", 0
+    if has_failed_record and not instance_alive:
+        return "FAILED", 0
     if not instance_alive:
         return "DIED", 0
     advanced = progress_scalar > prev_scalar
@@ -277,6 +287,7 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
         print(f"=============== {uid} ===============")
         rec = recs.get(uid) or {}
         has_result = rec.get("status") == "done"
+        has_failed = rec.get("status") == "failed"
 
         inst = next((i for i in insts if tv.label_matches_unit(i.get("label"), uid)), None)
         age_min = 0.0
@@ -296,7 +307,8 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
         pkey = f"{p}/watchdog/progress-{uid}.json"
         prev = _read_json_key(b, pkey, {}) or {}
         verdict, stall = classify(
-            has_result=has_result, instance_alive=inst is not None, instance_age_min=age_min,
+            has_result=has_result, has_failed_record=has_failed,
+            instance_alive=inst is not None, instance_age_min=age_min,
             progress_scalar=scalar, prev_scalar=int(prev.get("scalar") or 0),
             prev_stall=int(prev.get("stall") or 0))
         pstr = f"{phase}/{it}" if phase else "none (stage/pre-equil/setup/minimise)"
@@ -311,6 +323,15 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
             _annotate("notice", "TVAST WATCHDOG DONE",
                       f"{uid} — leg.json is in S3 (dG_morph={rec.get('dg_morph_kcal')}, "
                       f"NaN={rec.get('nan_seen')}). Set enabled=false for this entry.")
+            continue
+        if verdict == "FAILED":
+            alerts += 1
+            tail = (rec.get("log_tail") or [])[-3:]
+            _annotate("error", "TVAST WATCHDOG LEG FAILED",
+                      f"{uid} — the leg RAN and recorded status=failed (rc={rec.get('rc')}, "
+                      f"NaN_seen={rec.get('nan_seen')}) at {rec.get('updated_utc')}. NOT relaunching: it "
+                      f"would fail the same way and, uncapped, would buy a full-length rental per attempt. "
+                      f"Diagnose, then clear the record or disable the entry. Last log lines: {tail}")
             continue
         if verdict == "RUNNING":
             _annotate("notice", "TVAST WATCHDOG RUNNING",
