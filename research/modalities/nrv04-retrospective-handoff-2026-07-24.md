@@ -104,6 +104,12 @@ workflow runs the branch's version of the file + code).
 **Cost ledger for what remains:** retrospective 24 legs ≈ **$11**; corrected feasibility 14 legs ≈ **$6**;
 R3 co-folds ≈ **$1**. All under the ≲$50 autonomy threshold. Provider: **Vast** for everything.
 
+Basis: the measured endpoint-MD leg, **~$0.43/leg on a 3090** from the completed 15-leg feasibility ledger
+(`research/compute/pricing.md`). That basis **survives the 2026-07-25 repricing** — 24 × $0.43 ≈ $10.3. Note the
+**"4090 default / 3090 fallback" card rule was RETIRED on 2026-07-25**: rank *offers* on all-in `$/ns`, not
+cards (a 3090 offer at $0.015/hr beats a 4090 at $0.13/hr despite being 2.10× slower). The launcher's offer
+selection was untouched by that change, so every command above still runs as written.
+
 ---
 
 ## 5. Traps that cost this session an evening
