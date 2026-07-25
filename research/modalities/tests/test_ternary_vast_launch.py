@@ -286,3 +286,45 @@ def test_a_resume_archives_the_previous_attempts_log():
     body = tv.build_jobspec("calib_hi_to_lo__ternary_vhl", bucket="b", prefix="p").command[-1]
     assert "attempts/run-" in body
     assert body.index("attempts/run-") < body.index("bash run_ternary_leg.sh")
+
+
+# ---------------------------------------------------------------- Vast's 16,384-char onstart cap
+def test_rendered_onstart_is_under_vasts_hard_limit():
+    """Vast caps the onstart at 16,384 characters and says so ONLY at rental time, as HTTP 400
+    'invalid_args'. The launcher's per-unit `except` turns that into a printed line inside a GREEN job — a
+    launch that rents nothing and reports success, with the watch list armed and no GPU running. Observed
+    2026-07-25 re-launching the probe after a preemption: the onstart had reached 17,017 characters because
+    three safety fixes had been added since the launch that worked."""
+    from gpu_backend import VastBackend, _vast_onstart
+    for mode in tv.MODES:
+        for (leg, seed, direction) in tv.units_for(mode):
+            j = tv.build_jobspec(leg, seed, direction, mode=mode)
+            # measured with a realistic credential env, because _vast_onstart prepends one export per var
+            n = len(_vast_onstart(j, VastBackend().self_terminate_cmd(),
+                                  extra_env={"AWS_ACCESS_KEY_ID": "A" * 24,
+                                             "AWS_SECRET_ACCESS_KEY": "S" * 44,
+                                             "AWS_DEFAULT_REGION": "us-east-2"}))
+            assert n <= tv.MAX_ONSTART_CHARS, (
+                f"{mode}/{leg}: onstart is {n} chars, cap is {tv.MAX_ONSTART_CHARS}")
+
+
+def test_comment_stripping_preserves_executable_meaning():
+    """Comments stay in the SOURCE and are stripped at RENDER — the repo keeps the reasoning, the host gets
+    the executable subset. Only lines whose first non-space character is `#` are dropped, so an inline `#`
+    inside a string or a command is never touched."""
+    body = "a=1\n  # a comment\nb='has # inside'\n\n\nc=2  # trailing\n"
+    out = tv._render_pipeline(body)
+    assert "# a comment" not in out
+    assert "b='has # inside'" in out and "c=2  # trailing" in out and "a=1" in out
+
+
+def test_the_rendered_pipeline_is_valid_bash_and_its_python_heredocs_compile():
+    """Stripping is only safe if it cannot break either language embedded in the script."""
+    import re
+    import subprocess
+    body = tv.build_jobspec("calib_hi_to_lo__ternary_vhl", bucket="b", prefix="p").command[-1]
+    assert subprocess.run(["bash", "-n"], input=body, text=True).returncode == 0
+    blocks = re.findall(r"<<'PYEOF'[^\n]*\n(.*?)\nPYEOF", body, re.S)
+    assert len(blocks) == 2, f"expected 2 python heredocs, found {len(blocks)}"
+    for i, b in enumerate(blocks):
+        compile(b, f"<heredoc{i}>", "exec")

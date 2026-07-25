@@ -449,6 +449,57 @@ exit $RC
 """
 
 
+# ★ VAST CAPS THE ONSTART SCRIPT AT 16,384 CHARACTERS, AND SAYS SO ONLY AT RENTAL TIME.
+# Diagnosed 2026-07-25 from the API's own reply, not inferred: re-launching the probe after a preemption
+# returned HTTP 400
+#   {"success":false,"error":"invalid_args",
+#    "msg":"error 400/3471: Invalid args: len(image) > 1024, or len(args) > 16384, or len(label) > 256"}
+# The rendered onstart had reached 17,017 characters — over by 633 — because the pipeline had grown by three
+# safety fixes since the launch that worked. Nothing in the code was wrong; it was simply too long, and the
+# failure surfaces as a *submitted-nothing launch that reports success*, which is the worst possible shape:
+# the job is green, the watch list is armed, and no GPU is running.
+#
+# THE FIX IS NOT TO WRITE FEWER COMMENTS. 6,122 of those characters were full-line comments — the part that
+# explains why each step exists, which is exactly what this repo has repeatedly paid for losing. So the
+# comments stay in the SOURCE and are stripped at RENDER: the annotated pipeline lives in the file, the
+# host receives the executable subset. `#`-leading lines are comments in both bash and Python, so the same
+# rule is safe inside the embedded heredocs.
+MAX_ONSTART_CHARS = 16384
+
+
+def _render_pipeline(body):
+    """Strip full-line comments and blank runs from the shell body. PURE.
+
+    Only lines whose FIRST non-space character is `#` are dropped, so an inline `#` inside a string or a
+    command is never touched. Both languages in this script (bash, and the Python heredocs) treat such a
+    line as a comment, so the executable meaning is unchanged.
+    """
+    out, blank = [], False
+    for ln in body.splitlines():
+        if ln.lstrip().startswith("#"):
+            continue
+        if not ln.strip():
+            if blank:
+                continue
+            blank = True
+        else:
+            blank = False
+        out.append(ln)
+    return "\n".join(out)
+
+
+def onstart_length(spec):
+    """Characters Vast will actually receive for this spec, including the env exports and teardown trap.
+
+    The check has to be on the RENDERED onstart, not on the pipeline: `_vast_onstart` prepends an `export`
+    line per env var plus the self-destroy trap, which was ~1.9 kB on the probe. Measuring the pipeline
+    alone would have passed at 15,136 characters while the real payload was 17,017.
+    """
+    from gpu_backend import _object_store_env, _vast_onstart
+    from gpu_backend import VastBackend
+    return len(_vast_onstart(spec, VastBackend().self_terminate_cmd(), extra_env=dict(_object_store_env())))
+
+
 def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=None,
                   warmup_timestep_fs=None, git_branch=None, bucket=None, prefix=None,
                   charge_method=None, n_windows=None, template_pdb=None, image=None):
@@ -529,9 +580,9 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         # The MD's own cap, inside the instance runtime cap, so the deliverable upload still runs.
         "MD_TIMEOUT_S": str(int(sizing["max_runtime_s"] * 0.92)),
     }
-    return JobSpec(
+    spec = JobSpec(
         name=unit_label(uid),
-        command=["bash", "-lc", _PIPELINE.replace("{repo}", REPO)],
+        command=["bash", "-lc", _render_pipeline(_PIPELINE.replace("{repo}", REPO))],
         image=image or VAST_IMAGE,
         checkpoint_uri=result_prefix_for(b, uid, p),
         resume=True,
@@ -539,6 +590,21 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         max_runtime_s=int(os.environ.get("TVAST_MAX_RUNTIME_S") or sizing["max_runtime_s"]),
         env=env,
     )
+    # FAIL HERE, NOT AT THE RENTAL. Over the cap, Vast answers the create with a 400 and the launcher's
+    # per-unit `except` turns it into a printed line inside a GREEN job — a launch that rents nothing and
+    # reports success. Raising during construction makes it a build-time error a unit test can catch.
+    try:
+        n = onstart_length(spec)
+    except Exception:  # noqa: BLE001 — no credentials in a pure/unit context; the length check is advisory
+        n = None
+    if n is not None and n > MAX_ONSTART_CHARS:
+        raise ValueError(
+            f"rendered onstart is {n} characters, over Vast's {MAX_ONSTART_CHARS} limit by "
+            f"{n - MAX_ONSTART_CHARS}. Vast rejects the create with HTTP 400 'invalid_args', which the "
+            f"launcher would otherwise report as a printed failure inside a green job. Shorten the "
+            f"pipeline (comments are already stripped at render) or move a step into a repo script the "
+            f"host runs after the clone.")
+    return spec
 
 
 # =============================================================================================================
