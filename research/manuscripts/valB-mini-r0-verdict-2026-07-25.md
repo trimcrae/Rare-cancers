@@ -290,10 +290,16 @@ is exactly `wurz-calib-frozen.json → validation.heavy_1 = heavy_4 = 59`, an RD
 the frozen SMILES with nothing to do with this trajectory. The molecule found in the `.nc` is the Wurz
 compound-1/4 hybrid, confirmed by a number nobody computed for the purpose.
 
-**Receptor-superposed ligand pose RMSD, all 12 replicas: max 2.81 Å, median 1.94, min 1.20** against the 4.0 Å
-threshold; adjacent checkpointed frames (1960 vs 2000) max 1.58 Å. `ligand_stable_ok: true`,
-`mandatory_unmeasured: []`, **`diagnostics_complete: true`** — measured, not assumed (GH runs 30167976061 →
-30168343299).
+**Receptor-superposed ligand HEAVY-ATOM pose RMSD, all 12 replicas: max 2.765 Å, median 1.644** against the
+4.0 Å threshold; adjacent checkpointed frames (1960 vs 2000) well below it. `ligand_stable_ok: true`,
+`mandatory_unmeasured: []`, **`diagnostics_complete: true`** — measured, not assumed (final: GH run
+30169056960). *Appendix: an earlier run of the same analysis reported 2.813 / 1.941 Å; that was over all 110
+atoms, before the hydrogen mass was measured rather than assumed. The heavy-atom figures above are the quantity
+the prereg names.*
+
+Both independent corroborations return **CONSISTENT**: the derived heavy-atom count against the frozen record
+(59 = 59), and the ligand identified separately in the ~5 k-particle solvent box against the ~142 k-particle
+ternary assembly.
 
 **And §6's "known-incomplete, the cause is unknown" residual tail is explained.** The per-chain breakdown
 discriminates it. In replica 8, the ligand's pose RMSD against each protein chain in turn is

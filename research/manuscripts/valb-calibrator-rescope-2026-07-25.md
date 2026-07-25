@@ -454,9 +454,10 @@ says so"** sentence with:
 > ligand was *derived* from the hybrid System in the `.nc` (no topology file is committed): one 110-atom
 > component against chains of 2343/1925/1433/1329, 44,860 waters and 248 ions — a fail-closed identification
 > with exactly one candidate. **HMR is on in this lane** (H at ~3 Da), so 110 − 51 H = **59 heavy**, which is
-> exactly `wurz-calib-frozen.json → validation.heavy_1 = heavy_4 = 59`. **Receptor-superposed ligand pose RMSD
-> over all 12 replicas: max 2.81 Å, median 1.94, min 1.20** (threshold 4.0); adjacent frames 1960→2000 max
-> 1.58 Å. The 10.3 Å whole-solute RMSD is now **explained, not excused**: per-chain, the ligand sits ~1–3 Å from
+> exactly `wurz-calib-frozen.json → validation.heavy_1 = heavy_4 = 59` — **CONSISTENT**, as is the ligand
+> identified independently in the solvent box vs the ternary assembly. **Receptor-superposed ligand heavy-atom
+> pose RMSD over all 12 replicas: max 2.765 Å, median 1.644** (threshold 4.0; final run 30169056960).
+> The 10.3 Å whole-solute RMSD is now **explained, not excused**: per-chain, the ligand sits ~1–3 Å from
 > the two large chains and 2–13 Å from the two small ones, so the *peripheral chains reorient by ~10 Å while the
 > ligand does not move* — benign for ΔΔG_coop, whose interface is the one that stays intact.
 
