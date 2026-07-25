@@ -188,7 +188,7 @@ jobs:
           ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - run: python -m pip install -q awscli
+      - run: python -m pip install -q awscli boto3
 
       - name: Status board (instances + S3 phase + run.log tail)
         if: ${{ needs.plan.outputs.task == 'status' }}
