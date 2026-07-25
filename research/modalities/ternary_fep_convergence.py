@@ -471,11 +471,46 @@ def _structural(reporter, nc_path):
                               % (last_ckpt, interval)}
         p0 = np.asarray(pos[0].positions.value_in_unit(pos[0].positions.unit))
         pN = np.asarray(posN[0].positions.value_in_unit(posN[0].positions.unit))
-        # coarse whole-system heavy-proxy RMSD (no per-atom selection without topology); reported as an upper proxy
-        rmsd = float(np.sqrt(((pN - p0) ** 2).sum(axis=1).mean())) * 10.0  # nm->Å
-        return {"status": "ok (whole-system proxy RMSD; ligand-specific needs topology selection)",
-                "ligand_rmsd_A": rmsd, "iterations_compared": [0, last_ckpt],
-                "checkpoint_interval": interval}
+
+        # WHAT THIS NUMBER IS, AND WHAT IT IS NOT. The original implementation took an UNALIGNED, PBC-unwrapped
+        # RMSD over EVERY particle — ~146k atoms, overwhelmingly bulk water — and compared it to LIG_RMSD_MAX_A,
+        # a threshold written for a LIGAND heavy-atom RMSD. On the real r0 ternary leg that produced
+        # ligand_rmsd_A = 78.94 A (GH run 30156744299) and flipped technical_failure to true, which via
+        # ternary_fep_reduce._diagnostics_ok() would hand valB_mini a HARD FAIL. 79 A is not a PROTAC leaving an
+        # interface: for a box whose edge is ~110-120 A it is what solvent diffusion plus periodic wrapping give
+        # over 5 ns with no superposition. Comparing it to a 4 A pose threshold is a category error, and a FAIL
+        # manufactured by a mis-specified metric is worse than no metric.
+        # So: only compare to the threshold when the quantity IS pose-like — a SUPERPOSED RMSD over the reporter's
+        # analysis-particle subset (the solute openmmtools was told to retain). Otherwise report the whole-system
+        # number as informational and leave the flag None (unmeasured), which is the honest state.
+        idx = getattr(reporter, "analysis_particle_indices", None)
+        n_idx = len(idx) if idx is not None else 0
+        n_all = int(p0.shape[0])
+        if idx is not None and 0 < n_idx < n_all:
+            sub = reporter.read_sampler_states(iteration=0, analysis_particles_only=True)
+            subN = reporter.read_sampler_states(iteration=last_ckpt, analysis_particles_only=True)
+            a = np.asarray(sub[0].positions.value_in_unit(sub[0].positions.unit))
+            b = np.asarray(subN[0].positions.value_in_unit(subN[0].positions.unit))
+            # Kabsch: remove translation, then the optimal rotation — so the number reports internal/pose change
+            # rather than the whole complex tumbling and drifting through the box.
+            ac, bc = a - a.mean(0), b - b.mean(0)
+            U, _, Vt = np.linalg.svd(ac.T @ bc)
+            d = np.sign(np.linalg.det(Vt.T @ U.T))
+            R = Vt.T @ np.diag([1.0, 1.0, d]) @ U.T
+            rmsd = float(np.sqrt((((ac @ R.T) - bc) ** 2).sum(axis=1).mean())) * 10.0   # nm->A
+            return {"status": "ok (superposed RMSD over the reporter's analysis-particle subset)",
+                    "ligand_rmsd_A": rmsd, "n_atoms_used": n_idx, "n_atoms_total": n_all,
+                    "superposed": True, "iterations_compared": [0, last_ckpt],
+                    "checkpoint_interval": interval}
+        rmsd_all = float(np.sqrt(((pN - p0) ** 2).sum(axis=1).mean())) * 10.0
+        return {"status": "NOT COMPARABLE to LIG_RMSD_MAX_A — no analysis-particle subset is stored (n_idx=%d of "
+                          "%d), so this is an UNALIGNED whole-system value dominated by bulk-solvent diffusion "
+                          "and periodic wrapping. Reported for the record only; the flag stays unmeasured. A real "
+                          "pose check needs the ligand atom indices from the OpenFE hybrid topology."
+                          % (n_idx, n_all),
+                "whole_system_unaligned_rmsd_A": rmsd_all, "ligand_rmsd_A": None,
+                "superposed": False, "n_atoms_total": n_all,
+                "iterations_compared": [0, last_ckpt], "checkpoint_interval": interval}
     except Exception as e:  # noqa: BLE001
         # SELF-DESCRIBING FAILURE. This check has now failed twice with a bare
         # "AttributeError: 'NoneType' object has no attribute 'dimensions'", which names neither the object that
