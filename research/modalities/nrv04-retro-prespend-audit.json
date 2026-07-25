@@ -1,0 +1,1879 @@
+{
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "panel": "nrv04_retrospective",
+  "prereg": "nr4a3-nrv04-retrospective-prereg.md",
+  "authorized_stages": [
+    "R1",
+    "R2"
+  ],
+  "note": "Reads the artifacts the legs would actually stage, not the prefixes the code names. $0: read-only S3 + CPU. Nothing is launched.",
+  "lbd_offset": 344,
+  "lbd_offset_provenance": {
+    "source": "uniprot",
+    "full_len": 598,
+    "residue_551": "C"
+  },
+  "cofold_prefix_the_panel_pins": "nrv04-descriptive-v4",
+  "cofold_models": [
+    {
+      "system": "nr4a1",
+      "cofold_model_seed": 1,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a1/seed_1/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 121,
+            "fulllen_resid": 465,
+            "sg_dist_A": 30.48
+          },
+          {
+            "lbd_resid": 131,
+            "fulllen_resid": 475,
+            "sg_dist_A": 18.83
+          },
+          {
+            "lbd_resid": 161,
+            "fulllen_resid": 505,
+            "sg_dist_A": 39.37
+          },
+          {
+            "lbd_resid": 190,
+            "fulllen_resid": 534,
+            "sg_dist_A": 43.6
+          },
+          {
+            "lbd_resid": 207,
+            "fulllen_resid": 551,
+            "sg_dist_A": 34.42
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 26.77
+          }
+        ],
+        "n_target_cys": 6,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 131,
+            "fulllen_resid": 475,
+            "sg_dist_A": 18.83
+          },
+          "nearest_passes": false,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": true,
+            "sg_dist_A": 34.42
+          },
+          "frozen_site_passes": false,
+          "verdict": "FAIL"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 35,
+          "contacts_e3_4.5A": 41,
+          "min_dist_target_A": 2.85
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 193,
+          "min_dist_vhl_A": 2.61
+        },
+        "key": "nrv04-descriptive-v4/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:19:14+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": 34.42,
+      "a1_verdict": "FAIL"
+    },
+    {
+      "system": "nr4a1",
+      "cofold_model_seed": 2,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a1/seed_2/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 121,
+            "fulllen_resid": 465,
+            "sg_dist_A": 23.79
+          },
+          {
+            "lbd_resid": 131,
+            "fulllen_resid": 475,
+            "sg_dist_A": 22.84
+          },
+          {
+            "lbd_resid": 161,
+            "fulllen_resid": 505,
+            "sg_dist_A": 29.54
+          },
+          {
+            "lbd_resid": 190,
+            "fulllen_resid": 534,
+            "sg_dist_A": 33.06
+          },
+          {
+            "lbd_resid": 207,
+            "fulllen_resid": 551,
+            "sg_dist_A": 29.87
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 10.17
+          }
+        ],
+        "n_target_cys": 6,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 10.17
+          },
+          "nearest_passes": false,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": true,
+            "sg_dist_A": 29.87
+          },
+          "frozen_site_passes": false,
+          "verdict": "FAIL"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 67,
+          "contacts_e3_4.5A": 29,
+          "min_dist_target_A": 2.67
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 262,
+          "min_dist_vhl_A": 2.62
+        },
+        "key": "nrv04-descriptive-v4/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:22:30+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": 29.87,
+      "a1_verdict": "FAIL"
+    },
+    {
+      "system": "nr4a1",
+      "cofold_model_seed": 3,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a1/seed_3/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 121,
+            "fulllen_resid": 465,
+            "sg_dist_A": 29.64
+          },
+          {
+            "lbd_resid": 131,
+            "fulllen_resid": 475,
+            "sg_dist_A": 29.14
+          },
+          {
+            "lbd_resid": 161,
+            "fulllen_resid": 505,
+            "sg_dist_A": 36.89
+          },
+          {
+            "lbd_resid": 190,
+            "fulllen_resid": 534,
+            "sg_dist_A": 40.06
+          },
+          {
+            "lbd_resid": 207,
+            "fulllen_resid": 551,
+            "sg_dist_A": 39.11
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 18.62
+          }
+        ],
+        "n_target_cys": 6,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 18.62
+          },
+          "nearest_passes": false,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": true,
+            "sg_dist_A": 39.11
+          },
+          "frozen_site_passes": false,
+          "verdict": "FAIL"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 40,
+          "contacts_e3_4.5A": 30,
+          "min_dist_target_A": 2.71
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 242,
+          "min_dist_vhl_A": 2.32
+        },
+        "key": "nrv04-descriptive-v4/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:25:31+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": 39.11,
+      "a1_verdict": "FAIL"
+    },
+    {
+      "system": "nr4a2",
+      "cofold_model_seed": 1,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a2/seed_1/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 121,
+            "fulllen_resid": 465,
+            "sg_dist_A": 9.12
+          },
+          {
+            "lbd_resid": 131,
+            "fulllen_resid": 475,
+            "sg_dist_A": 7.94
+          },
+          {
+            "lbd_resid": 161,
+            "fulllen_resid": 505,
+            "sg_dist_A": 24.66
+          },
+          {
+            "lbd_resid": 190,
+            "fulllen_resid": 534,
+            "sg_dist_A": 28.57
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 10.0
+          }
+        ],
+        "n_target_cys": 5,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 131,
+            "fulllen_resid": 475,
+            "sg_dist_A": 7.94
+          },
+          "nearest_passes": true,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": false,
+            "sg_dist_A": null
+          },
+          "frozen_site_passes": false,
+          "verdict": "PASS_WRONG_CYS"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 185,
+          "contacts_e3_4.5A": 0,
+          "min_dist_target_A": 1.05
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 191,
+          "min_dist_vhl_A": 2.61
+        },
+        "key": "nrv04-descriptive-v4/nr4a2/seed_1/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:29:43+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": null,
+      "a1_verdict": "PASS_WRONG_CYS"
+    },
+    {
+      "system": "nr4a2",
+      "cofold_model_seed": 2,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a2/seed_2/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 121,
+            "fulllen_resid": 465,
+            "sg_dist_A": 23.77
+          },
+          {
+            "lbd_resid": 131,
+            "fulllen_resid": 475,
+            "sg_dist_A": 22.48
+          },
+          {
+            "lbd_resid": 161,
+            "fulllen_resid": 505,
+            "sg_dist_A": 28.72
+          },
+          {
+            "lbd_resid": 190,
+            "fulllen_resid": 534,
+            "sg_dist_A": 32.11
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 8.6
+          }
+        ],
+        "n_target_cys": 5,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 8.6
+          },
+          "nearest_passes": false,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": false,
+            "sg_dist_A": null
+          },
+          "frozen_site_passes": false,
+          "verdict": "FAIL"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 72,
+          "contacts_e3_4.5A": 41,
+          "min_dist_target_A": 2.43
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 240,
+          "min_dist_vhl_A": 2.63
+        },
+        "key": "nrv04-descriptive-v4/nr4a2/seed_2/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:32:44+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": null,
+      "a1_verdict": "FAIL"
+    },
+    {
+      "system": "nr4a2",
+      "cofold_model_seed": 3,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a2/seed_3/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 121,
+            "fulllen_resid": 465,
+            "sg_dist_A": 24.24
+          },
+          {
+            "lbd_resid": 131,
+            "fulllen_resid": 475,
+            "sg_dist_A": 17.65
+          },
+          {
+            "lbd_resid": 161,
+            "fulllen_resid": 505,
+            "sg_dist_A": 35.09
+          },
+          {
+            "lbd_resid": 190,
+            "fulllen_resid": 534,
+            "sg_dist_A": 39.13
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 15.68
+          }
+        ],
+        "n_target_cys": 5,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 15.68
+          },
+          "nearest_passes": false,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": false,
+            "sg_dist_A": null
+          },
+          "frozen_site_passes": false,
+          "verdict": "FAIL"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 61,
+          "contacts_e3_4.5A": 0,
+          "min_dist_target_A": 2.74
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 203,
+          "min_dist_vhl_A": 2.65
+        },
+        "key": "nrv04-descriptive-v4/nr4a2/seed_3/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:35:45+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": null,
+      "a1_verdict": "FAIL"
+    },
+    {
+      "system": "nr4a3",
+      "cofold_model_seed": 1,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a3/seed_1/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 25,
+            "fulllen_resid": 369,
+            "sg_dist_A": 41.57
+          },
+          {
+            "lbd_resid": 48,
+            "fulllen_resid": 392,
+            "sg_dist_A": 32.41
+          },
+          {
+            "lbd_resid": 124,
+            "fulllen_resid": 468,
+            "sg_dist_A": 23.21
+          },
+          {
+            "lbd_resid": 134,
+            "fulllen_resid": 478,
+            "sg_dist_A": 22.92
+          },
+          {
+            "lbd_resid": 164,
+            "fulllen_resid": 508,
+            "sg_dist_A": 31.86
+          },
+          {
+            "lbd_resid": 187,
+            "fulllen_resid": 531,
+            "sg_dist_A": 26.38
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 13.88
+          }
+        ],
+        "n_target_cys": 7,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 13.88
+          },
+          "nearest_passes": false,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": false,
+            "sg_dist_A": null
+          },
+          "frozen_site_passes": false,
+          "verdict": "FAIL"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 58,
+          "contacts_e3_4.5A": 14,
+          "min_dist_target_A": 2.76
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 209,
+          "min_dist_vhl_A": 2.56
+        },
+        "key": "nrv04-descriptive-v4/nr4a3/seed_1/boltz_results_nr4a3-nrv04-ternary/predictions/nr4a3-nrv04-ternary/nr4a3-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:39:56+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": null,
+      "a1_verdict": "FAIL"
+    },
+    {
+      "system": "nr4a3",
+      "cofold_model_seed": 2,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a3/seed_2/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 25,
+            "fulllen_resid": 369,
+            "sg_dist_A": 36.2
+          },
+          {
+            "lbd_resid": 48,
+            "fulllen_resid": 392,
+            "sg_dist_A": 33.54
+          },
+          {
+            "lbd_resid": 124,
+            "fulllen_resid": 468,
+            "sg_dist_A": 20.03
+          },
+          {
+            "lbd_resid": 134,
+            "fulllen_resid": 478,
+            "sg_dist_A": 23.45
+          },
+          {
+            "lbd_resid": 164,
+            "fulllen_resid": 508,
+            "sg_dist_A": 25.22
+          },
+          {
+            "lbd_resid": 187,
+            "fulllen_resid": 531,
+            "sg_dist_A": 18.99
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 9.64
+          }
+        ],
+        "n_target_cys": 7,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 9.64
+          },
+          "nearest_passes": false,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": false,
+            "sg_dist_A": null
+          },
+          "frozen_site_passes": false,
+          "verdict": "FAIL"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 87,
+          "contacts_e3_4.5A": 19,
+          "min_dist_target_A": 3.07
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 251,
+          "min_dist_vhl_A": 2.64
+        },
+        "key": "nrv04-descriptive-v4/nr4a3/seed_2/boltz_results_nr4a3-nrv04-ternary/predictions/nr4a3-nrv04-ternary/nr4a3-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:42:57+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": null,
+      "a1_verdict": "FAIL"
+    },
+    {
+      "system": "nr4a3",
+      "cofold_model_seed": 3,
+      "s3_prefix": "s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a3/seed_3/",
+      "n_model_0_cifs_under_pinned_prefix": 1,
+      "pipeline_seed_pin_ok": true,
+      "measurement": {
+        "ligand": "nrv04",
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": [],
+        "target_chain": "A",
+        "admissible_assembly": true,
+        "ligand_heavy_atoms": 79,
+        "electrophile_atom_idx": 7,
+        "target_len": 254,
+        "target_cys": [
+          {
+            "lbd_resid": 25,
+            "fulllen_resid": 369,
+            "sg_dist_A": 41.04
+          },
+          {
+            "lbd_resid": 48,
+            "fulllen_resid": 392,
+            "sg_dist_A": 32.56
+          },
+          {
+            "lbd_resid": 124,
+            "fulllen_resid": 468,
+            "sg_dist_A": 23.21
+          },
+          {
+            "lbd_resid": 134,
+            "fulllen_resid": 478,
+            "sg_dist_A": 23.35
+          },
+          {
+            "lbd_resid": 164,
+            "fulllen_resid": 508,
+            "sg_dist_A": 31.73
+          },
+          {
+            "lbd_resid": 187,
+            "fulllen_resid": 531,
+            "sg_dist_A": 26.18
+          },
+          {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 14.06
+          }
+        ],
+        "n_target_cys": 7,
+        "a1": {
+          "limit_A": 8.0,
+          "nearest_target_cys": {
+            "lbd_resid": 222,
+            "fulllen_resid": 566,
+            "sg_dist_A": 14.06
+          },
+          "nearest_passes": false,
+          "frozen_site": {
+            "fulllen_resid": 551,
+            "lbd_resid": 207,
+            "found": false,
+            "sg_dist_A": null
+          },
+          "frozen_site_passes": false,
+          "verdict": "FAIL"
+        },
+        "warhead": {
+          "celastrol_heavy_atoms": 32,
+          "contacts_target_4.5A": 74,
+          "contacts_e3_4.5A": 3,
+          "min_dist_target_A": 2.78
+        },
+        "recruiter": {
+          "heavy_atoms": 47,
+          "contacts_vhl_4.5A": 230,
+          "min_dist_vhl_A": 2.66
+        },
+        "key": "nrv04-descriptive-v4/nr4a3/seed_3/boltz_results_nr4a3-nrv04-ternary/predictions/nr4a3-nrv04-ternary/nr4a3-nrv04-ternary_model_0.cif",
+        "mtime": "2026-07-24T21:45:57+00:00"
+      },
+      "target_chain": "A",
+      "census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "contaminant": [],
+      "admissible_assembly": true,
+      "frozen_site_C551_dist_A": null,
+      "a1_verdict": "FAIL"
+    }
+  ],
+  "covalent_arm_admissibility": {
+    "arms": [
+      "retro_cov_nr4a1"
+    ],
+    "limit_A": 8.0,
+    "frozen_site_fulllen": 551,
+    "per_model_C551_dist_A": {
+      "nr4a1/m1": 34.42,
+      "nr4a1/m2": 29.87,
+      "nr4a1/m3": 39.11
+    },
+    "n_models_passing_A1": 0,
+    "n_models": 3,
+    "verdict": "EVERY covalent-arm model FAILS the A1 tether gate \u2014 build_system RAISES, so these legs cannot run at all"
+  },
+  "leg_results": [
+    {
+      "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/leg_cov_c551a_s0.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "cov_c551a",
+      "seed": 0,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 4.243,
+      "driver_R3_lys_min_A": 4.13,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s1/leg_cov_c551a_s1.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "cov_c551a",
+      "seed": 1,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 4.877,
+      "driver_R3_lys_min_A": 4.48,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s2/leg_cov_c551a_s2.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "cov_c551a",
+      "seed": 2,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 3.799,
+      "driver_R3_lys_min_A": 4.07,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s0/leg_cov_nr4a1_s0.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "cov_nr4a1",
+      "seed": 0,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 2.561,
+      "driver_R3_lys_min_A": 4.17,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s1/leg_cov_nr4a1_s1.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "cov_nr4a1",
+      "seed": 1,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 3.703,
+      "driver_R3_lys_min_A": 4.12,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s2/leg_cov_nr4a1_s2.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "cov_nr4a1",
+      "seed": 2,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 5.003,
+      "driver_R3_lys_min_A": 4.0,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s0/leg_noncov_nr4a1_s0.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "noncov_nr4a1",
+      "seed": 0,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 2.938,
+      "driver_R3_lys_min_A": 4.0,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s1/leg_noncov_nr4a1_s1.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "noncov_nr4a1",
+      "seed": 1,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 3.651,
+      "driver_R3_lys_min_A": 4.43,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s2/leg_noncov_nr4a1_s2.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "noncov_nr4a1",
+      "seed": 2,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 5.047,
+      "driver_R3_lys_min_A": 4.22,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s0/leg_recruiter_active_s0.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "recruiter_active",
+      "seed": 0,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 3.07,
+      "driver_R3_lys_min_A": 4.47,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s1/leg_recruiter_active_s1.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "recruiter_active",
+      "seed": 1,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 2.418,
+      "driver_R3_lys_min_A": 4.25,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s2/leg_recruiter_active_s2.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "recruiter_active",
+      "seed": 2,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 3.367,
+      "driver_R3_lys_min_A": 4.28,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s0/leg_recruiter_epimer_s0.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "recruiter_epimer",
+      "seed": 0,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 4.175,
+      "driver_R3_lys_min_A": 4.14,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s1/leg_recruiter_epimer_s1.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "recruiter_epimer",
+      "seed": 1,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 4.492,
+      "driver_R3_lys_min_A": 4.67,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s2/leg_recruiter_epimer_s2.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "recruiter_epimer",
+      "seed": 2,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 2.844,
+      "driver_R3_lys_min_A": 4.72,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-warhead_only-s1/leg_warhead_only_s1.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "warhead_only",
+      "seed": 1,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 3.193,
+      "driver_R3_lys_min_A": 2.34,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results/nrv04cov-warhead_only-s2/leg_warhead_only_s2.json",
+      "prefix": "nrv04-covalent-results",
+      "leg_id": "warhead_only",
+      "seed": 2,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 2.611,
+      "driver_R3_lys_min_A": 2.44,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": null
+    },
+    {
+      "key": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/leg_cov_nr4a1_s0.json",
+      "prefix": "nrv04-covalent-results-chainfix",
+      "leg_id": "cov_nr4a1",
+      "seed": 0,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "chain_split",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 1.005,
+      "driver_R3_lys_min_A": 3.25,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": {
+        "target": [
+          "A"
+        ],
+        "e3": [
+          "E",
+          "F",
+          "G"
+        ],
+        "explicit": true,
+        "target_lys_nz": 13
+      }
+    },
+    {
+      "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m1-r0/leg_retro_noncov_nr4a2__m1_s0.json",
+      "prefix": "nrv04-retro-results",
+      "leg_id": "retro_noncov_nr4a2__m1",
+      "seed": 0,
+      "top_level_keys": [
+        "R1_interface",
+        "R2_recruitment",
+        "R3_lys",
+        "blew_up",
+        "blow_phase",
+        "chain_split",
+        "covalent",
+        "equil_ns",
+        "leg_id",
+        "md_settings",
+        "meta",
+        "mode",
+        "mutation",
+        "n_frames",
+        "ns_per_day",
+        "panel",
+        "pe_post_min_kj",
+        "pe_pre_min_kj",
+        "prod_ns",
+        "prod_wall_s",
+        "seed",
+        "timed_ns"
+      ],
+      "driver_R1_interface_plateau_A": 2.807,
+      "driver_R3_lys_min_A": 3.09,
+      "collector_would_read_e1": null,
+      "collector_would_read_e2": null,
+      "collector_would_read_e3": null,
+      "collector_marks_technical_failure": true,
+      "chain_split": {
+        "target": [
+          "A"
+        ],
+        "e3": [
+          "E",
+          "F",
+          "G"
+        ],
+        "explicit": true,
+        "target_lys_nz": 13
+      }
+    }
+  ],
+  "leg_key_contract": {
+    "n_leg_jsons_read": 19,
+    "n_with_driver_key_R1_interface": 19,
+    "n_with_collector_key_R1": 0,
+    "n_collector_would_mark_technical_failure": 19,
+    "measured_E1_plateau_A": [
+      1.005,
+      2.418,
+      2.561,
+      2.611,
+      2.807,
+      2.844,
+      2.938,
+      3.07,
+      3.193,
+      3.367,
+      3.651,
+      3.703,
+      3.799,
+      4.175,
+      4.243,
+      4.492,
+      4.877,
+      5.003,
+      5.047
+    ],
+    "verdict": "MISMATCH: the driver writes R1_interface/R2_recruitment/R3_lys and retro_collect reads R1/R2, so every e1_plateau_A is None and every leg is marked technical_failure"
+  }
+}
