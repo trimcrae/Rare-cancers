@@ -65,6 +65,10 @@ MAX_INSTANCE_HOURS = float(os.environ.get("PROTFEP_MAX_INSTANCE_HOURS") or "10")
 # image pull, so the bound has to exceed a legitimate slow pull while still being far below the
 # 10-hour runtime backstop. A stopped box bills storage only, so this is minutes of waste, not GPU-h.
 MAX_STOPPED_MIN = float(os.environ.get("PROTFEP_MAX_STOPPED_MIN") or "45")
+# How long an instance may show the SAME status_msg while cur_state is running before its image pull
+# is judged dead rather than queued. The apo leg's host pulled the same ~6 GiB image and started
+# sampling well inside this; a docker layer legitimately waits a minute or two behind its peers.
+MAX_FROZEN_MIN = float(os.environ.get("PROTFEP_MAX_FROZEN_MIN") or "15")
 
 # A solvated barnase-barstar complex is ~30-35k atoms and the apo barstar leg ~15-20k — small
 # systems by this repo's standards (the ternary hybrid is 146k). The 4090 is the measured $/ns
@@ -202,6 +206,21 @@ def label_matches_leg(label, leg_id):
     label = str(label).strip().lower()
     encoded = f"{LABEL_PREFIX}-{str(leg_id)}".replace("_", "-").lower()[:60]
     return label == encoded
+
+
+def stall_minutes(prev, iid, status_msg, now):
+    """How long this instance has been showing this EXACT status_msg. Pure.
+
+    collect() is stateless between CI runs, so it cannot tell "unchanged for six minutes" from
+    "unchanged for an hour" — and that is the whole difference between a docker layer queued behind
+    two others and a pull that has died. `prev` is the previous run's {iid: [msg, first_seen_epoch]}
+    map; a changed message resets the clock. Returns (minutes, new_entry).
+    """
+    key = str(iid)
+    old = (prev or {}).get(key)
+    if old and old[0] == status_msg:
+        return (now - float(old[1])) / 60.0, [status_msg, float(old[1])]
+    return 0.0, [status_msg, now]
 
 
 def _record_is_newer_than_instance(doc, instance):
@@ -442,6 +461,14 @@ def collect(bucket=None, prefix=None, autostop=True):
             for ln in str(doc.get("traceback", "(no traceback recorded)")).splitlines():
                 print(f"      T| {ln[:200]}")
 
+    # Previous run's status_msg-per-instance, so a frozen phase is measurable rather than eyeballed.
+    # Kept in S3 because CI runners are ephemeral; a missing or unreadable file just resets the clock.
+    prev_state, new_state = {}, {}
+    try:
+        prev_state = json.loads(s3.get_object(Bucket=b, Key=f"{p}/_lane_state.json")["Body"].read())
+    except Exception:  # noqa: BLE001 — first run, or the object was pruned
+        prev_state = {}
+
     n_up = len(mine)
     if key:
         for i in mine:
@@ -460,9 +487,11 @@ def collect(bucket=None, prefix=None, autostop=True):
             # stall while the second is normal. Vast carries the reason in status_msg (image pull
             # progress, a disk-space refusal, a docker auth failure) and the host's own bandwidth
             # tells you whether a multi-GB pull at this size is plausible or the host is simply bad.
+            msg = str(i.get("status_msg") or "").strip()
+            frozen_min, new_state[str(iid)] = stall_minutes(prev_state, iid, msg, time.time())
             if i.get("actual_status") != "running":
                 print(f"      why: cur_state={i.get('cur_state')} intended={i.get('intended_status')} "
-                      f"msg={str(i.get('status_msg') or '').strip()[:200]!r}")
+                      f"msg={msg[:200]!r} unchanged_for={frozen_min:.0f}min")
                 print(f"      host: inet_down={i.get('inet_down')}Mbps disk={i.get('disk_space')}GB "
                       f"image={str(i.get('image_uuid') or '')[-60:]}")
                 # FULL record, on request. This is what identified the create/start race: the curated
@@ -491,6 +520,20 @@ def collect(bucket=None, prefix=None, autostop=True):
                 why = ("leg done" if finished else
                        "leg FAILED — nothing left to produce" if crashed else "runtime backstop")
                 print(f"    -> destroying {iid} ({why})")
+                try:
+                    _vast_request("DELETE", f"/instances/{iid}/", key)
+                except Exception as e:  # noqa: BLE001
+                    print(f"    destroy failed: {e}")
+            elif (i.get("actual_status") != "running" and i.get("cur_state") == "running"
+                  and frozen_min > MAX_FROZEN_MIN):
+                # RUNNING at the control plane but stuck below it: same status_msg for this long
+                # means the image pull has died rather than queued. Docker pulls a few layers at a
+                # time, so a layer sitting at "Waiting" for a minute or two is normal and a changed
+                # message resets the clock — but nothing legitimate holds one message this long on a
+                # host advertising hundreds of Mbps. Re-renting costs a fresh pull; NOT re-renting
+                # costs the same pull plus everything already burned waiting for it.
+                print(f"    -> destroying {iid} (status frozen {frozen_min:.0f} min at {msg[:60]!r}; "
+                      f"pull is dead, not queued)")
                 try:
                     _vast_request("DELETE", f"/instances/{iid}/", key)
                 except Exception as e:  # noqa: BLE001
@@ -526,6 +569,14 @@ def collect(bucket=None, prefix=None, autostop=True):
                     print(f"    -> NUDGED {iid}: cur_state=stopped with no result yet, re-issued start")
                 except Exception as e:  # noqa: BLE001
                     print(f"    nudge failed: {e}")
+
+    # Persist the status_msg clock for the next poll. Best-effort on purpose: failing to write a
+    # monitoring aid must never fail a collect, and a lost file only costs one reset of the clock.
+    try:
+        s3.put_object(Bucket=b, Key=f"{p}/_lane_state.json",
+                      Body=json.dumps(new_state, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[collect] could not persist lane state: {e}")
     return n_up, len(done)
 
 

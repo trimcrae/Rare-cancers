@@ -1149,9 +1149,10 @@ def test_forensic_dump_is_off_by_default_but_available():
     assert 'os.environ.get("PROTFEP_FORENSIC", "0") != "0"' in src
 
 
-def _collect_with(monkeypatch, instances, leg_docs):
+def _collect_with(monkeypatch, instances, leg_docs, lane_state=None, written=None):
     """Drive collect() against fake S3 + Vast, returning the recorded API calls."""
     calls = []
+    written = [] if written is None else written
 
     class _Body:
         def __init__(self, raw):
@@ -1171,8 +1172,15 @@ def _collect_with(monkeypatch, instances, leg_docs):
             return _P()
 
         def get_object(self, Bucket=None, Key=None):  # noqa: N803
+            if Key.endswith("_lane_state.json"):
+                if lane_state is None:
+                    raise KeyError("no such key")
+                return {"Body": _Body(json.dumps(lane_state).encode())}
             lid = os.path.basename(Key)[len("leg_"):-len(".json")]
             return {"Body": _Body(json.dumps(leg_docs[lid]).encode())}
+
+        def put_object(self, Bucket=None, Key=None, Body=None):  # noqa: N803
+            written.append((Key, json.loads(Body.decode())))
 
     monkeypatch.setattr(pv, "_vast_request", lambda m, p, k, params=None, body=None: (
         calls.append((m, p, body)) or ({"instances": instances} if m == "GET" else {})))
@@ -1260,3 +1268,47 @@ def test_collect_queries_the_instance_list_once(monkeypatch):
             "actual_status": "running", "start_date": time.time() - 600, "dph_total": 0.3}
     calls = _collect_with(monkeypatch, [inst], {})
     assert sum(1 for m, p, _b in calls if m == "GET" and p == "/instances/") == 1
+
+
+def test_stall_minutes_resets_when_the_message_changes():
+    """A changed status_msg means the pull IS advancing — the clock must start over."""
+    now = 1_000_000.0
+    m, entry = pv.stall_minutes({}, 7, "layer-a: Waiting", now)
+    assert m == 0.0 and entry == ["layer-a: Waiting", now]
+    m, entry = pv.stall_minutes({"7": entry}, 7, "layer-a: Waiting", now + 600)
+    assert round(m) == 10 and entry[1] == now, "unchanged message keeps the original first_seen"
+    m, entry = pv.stall_minutes({"7": entry}, 7, "layer-b: Downloading", now + 900)
+    assert m == 0.0 and entry[1] == now + 900
+
+
+def test_a_frozen_pull_is_destroyed_once_past_the_bound(monkeypatch):
+    """Running at the control plane but stuck below it: the pull is dead, not queued."""
+    inst = {"id": 93, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+            "actual_status": "loading", "status_msg": "abc: Waiting",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    state = {"93": ["abc: Waiting", time.time() - (pv.MAX_FROZEN_MIN + 5) * 60]}
+    calls = _collect_with(monkeypatch, [inst], {}, lane_state=state)
+    assert ("DELETE", "/instances/93/", None) in calls
+
+
+def test_a_recently_frozen_pull_is_left_alone(monkeypatch):
+    """A docker layer waiting a minute or two behind its peers is normal."""
+    inst = {"id": 94, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+            "actual_status": "loading", "status_msg": "abc: Waiting",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    state = {"94": ["abc: Waiting", time.time() - 120]}
+    calls = _collect_with(monkeypatch, [inst], {}, lane_state=state)
+    assert not any(m == "DELETE" for m, _p, _b in calls)
+
+
+def test_the_status_clock_is_persisted_for_the_next_poll(monkeypatch):
+    """collect is stateless between CI runs; without this the clock can never exceed zero."""
+    inst = {"id": 95, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+            "actual_status": "loading", "status_msg": "abc: Waiting",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    written = []
+    _collect_with(monkeypatch, [inst], {}, written=written)
+    keys = {k for k, _v in written}
+    assert any(k.endswith("_lane_state.json") for k in keys)
+    payload = next(v for k, v in written if k.endswith("_lane_state.json"))
+    assert payload["95"][0] == "abc: Waiting"
