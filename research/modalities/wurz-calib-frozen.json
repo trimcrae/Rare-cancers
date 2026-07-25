@@ -87,7 +87,9 @@
       "all convergence diagnostics pass (overlap CONNECTED/no bottleneck, dG(t) plateau, replica mixing, fwd/rev agree <=1.0, stable ligand/interface RMSD)",
       "correct POSITIVE sign",
       "|mean ddG_calc - target| <= 1.0 kcal/mol (FIXED accuracy margin, not 'within replicate SD')",
-      "between-replicate cycle SD <= 0.75 kcal/mol"
+      "between-replicate cycle SD <= 0.75 kcal/mol",
+      "mean > target*0.5 (nearer the target than nearer zero) - amendment 2026-07-25",
+      "t-based 95% CI excludes zero - amendment 2026-07-25"
     ],
     "BORDERLINE_extend_to_5": [
       "abs error in (1.0, 2.0] kcal/mol",
@@ -102,7 +104,38 @@
     ],
     "replicate_design": "condition 3: >=3 independent complete-cycle replicates (different seeds AND velocities, preferably decorrelated PE snapshots); report mean + sample SD + t/bootstrap CI; do NOT substitute the single-run MBAR SE for between-replicate uncertainty; extend to 5 on the BORDERLINE triggers.",
     "interpretation_scope": "condition 7: a PASS validates plumbing / endpoint-stability / cycle-algebra / uncertainty / ONE known-answer only; it authorizes the NR-V04 retrospective ONLY. The prospective matrix stays blocked until NR-V04's own preregistered criteria pass.",
-    "retired_rule": "The former +-1.0-band-ALONE rule and the interim zero-exclusion-only rule are both superseded by condition 6: a fixed +-1.0 margin is now COMBINED with correct sign + cycle SD <= 0.75 + all diagnostics, so it cannot accept zero or a diverging replicate set."
+    "retired_rule": "The former +-1.0-band-ALONE rule and the interim zero-exclusion-only rule are both superseded by condition 6: a fixed +-1.0 margin is now COMBINED with correct sign + cycle SD <= 0.75 + all diagnostics, so it cannot accept zero or a diverging replicate set.",
+    "_amendment_2026_07_25_defect_fix": {
+      "what": "The PASS criteria gained two AND-conditions: (a) mean > target*0.5, i.e. the mean must sit nearer the target than nearer zero; (b) the t-based 95% CI must exclude zero. Implemented in ternary_fep_reduce.calibration_gate as GATE_MEAN_NEARER_TARGET_RATIO and GATE_REQUIRE_CI_EXCLUDES_ZERO.",
+      "why": "THE FROZEN RULE ADMITTED THE NULL IT WAS WRITTEN TO EXCLUDE. With target +0.944, |mean - target| <= 1.0 accepts mean = 0.0 (error 0.944 < 1.0). Verified against the gate: five replicates at +0.05 returned PASS. Monte Carlo at n=5, replicate SD 0.7: PASS 22% for a ZERO-signal method vs 23% for a method that is exactly right - a discrimination ratio of ~1.0, i.e. no test at all.",
+      "why_this_is_a_defect_fix_not_a_post_hoc_retune": [
+        "1. It contradicts THIS RULE'S OWN STATED INTENT: retired_rule (below) says the combination was adopted 'so it cannot accept zero or a diverging replicate set'. It accepted zero. The implementation did not implement the preregistration; this restores the documented intent rather than changing it.",
+        "2. It is a property of the ARITHMETIC (1.0 > 0.944), present at freeze time 2026-07-19, and would have been equally wrong had r0 come back favourable. It is not responsive to an unfavourable result.",
+        "3. It is STRICTLY STRICTER. Goalpost-moving means making a gate easier to pass; this makes it harder, so it cannot manufacture a favourable verdict."
+      ],
+      "effect_on_anything_already_decided": "NONE. r0 is INDETERMINATE (n=1, no cycle SD) under both the old and the new rule. No recorded verdict changes.",
+      "measured_effect_of_the_fix": {
+        "zero_signal_method_pass_rate_n5": {
+          "SD_0.3": "0.0%",
+          "SD_0.5": "0.8%",
+          "SD_0.7": "1.7%"
+        },
+        "accurate_method_pass_rate_n5": {
+          "SD_0.3": "99.9%",
+          "SD_0.5": "85.2%",
+          "SD_0.7": "52.0%"
+        },
+        "note": "The accurate-method rates are UNCONDITIONAL (five fresh replicates) and are NOT comparable to the 23% quoted pre-fix, which was conditioned on r0 = -0.534 being held in the set. The claim here is restored DISCRIMINATION, not that the gate became easier."
+      },
+      "consequence_to_carry_forward": "Under the corrected rule valB_mini remains hard to pass for an accurate method at this lane's noise (52% at replicate SD 0.7). That is an argument for recalibrating onto a LARGER measured signal (>=2 kcal/mol), not for loosening this rule.",
+      "decided_by": "Claude, acting as reviewer at trimcrae's explicit delegation (2026-07-25). Not routed to the reviewer-AI: per CLAUDE.md that channel is for major program-shifting decisions or >$50 GPU spend; this is a $0 strictly-stricter defect fix that restores the rule's own stated intent and changes no verdict.",
+      "superseded_PASS_requires_ALL": [
+        "all convergence diagnostics pass (overlap CONNECTED/no bottleneck, dG(t) plateau, replica mixing, fwd/rev agree <=1.0, stable ligand/interface RMSD)",
+        "correct POSITIVE sign",
+        "|mean ddG_calc - target| <= 1.0 kcal/mol (FIXED accuracy margin, not 'within replicate SD')",
+        "between-replicate cycle SD <= 0.75 kcal/mol"
+      ]
+    }
   },
   "validation": {
     "ok": true,

@@ -26,6 +26,7 @@ on:
       use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
       leg_id:      { description: "leg to run", default: "calib_hi_to_lo__ternary_vhl", required: false }
       seed:        { description: "replica seed (run: 0/1/2)", default: "0", required: false }
+      direction:   { description: "fwd (default) | rev — DIRECTION=rev swaps ligand A/B to run the B->A alchemical leg, giving the preregistered forward/reverse ANTISYMMETRY check |dG_fwd + dG_rev| (frozen decision rule: hysteresis <= 1.0). The engine has supported this since it was written; the workflow hardcoded DIRECTION=fwd, so it was unreachable. NB the commit prefix gains a _dir<rev> suffix so a rev leg can never resume the fwd trajectory; the setup cache is already direction-keyed via tag=<leg>_<dir>_r<seed>.", default: "fwd", required: false }
       n_windows:   { description: "lambda windows", default: "12", required: false }
       template_pdb: { description: "crystal template (Wurz 8G1Q for valB_mini cmpd1->cmpd4)", default: "8G1Q", required: false }
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
@@ -67,6 +68,7 @@ jobs:
       MODE: ${{ github.event.inputs.mode || 'smoke' }}
       LEG_ID: ${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}
       SEED: ${{ github.event.inputs.seed || '0' }}
+      DIRECTION: ${{ github.event.inputs.direction || 'fwd' }}
       NWIN: ${{ github.event.inputs.n_windows || '12' }}
       TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
       SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
@@ -589,13 +591,19 @@ jobs:
           # so a dt change must use a FRESH prefix. This makes changing the timestep automatically start clean
           # (no wipe needed — the runner's gpu-runner@ SA can't delete GCS anyway), the old-dt commits just sit
           # unused. (The setup-cache is NOT dt-keyed: the built System is identical across timesteps.)
+          # A rev leg MUST NOT resume the fwd trajectory. The prefix below is keyed by leg+seed+dt+clig+wu+salt
+          # and had NO direction component, so DIRECTION=rev with the same leg/seed/dt would have restored the
+          # FORWARD committed sampling and reported it as a reverse leg — a silent wrong answer of exactly the
+          # kind this lane has produced before. Suffix only when direction != fwd, so every existing fwd
+          # prefix stays byte-identical and keeps resuming.
+          DIRSUF=""; [ "$DIRECTION" != fwd ] && DIRSUF="_dir$DIRECTION"
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT}${DIRSUF} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
             echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
-          ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
+          ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=$DIRECTION N_WINDOWS=$NWIN \
               CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG RBFE_WARMUP_TIMESTEP_FS=$WARMUP_TS \
               RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS RBFE_REQUIRE_PRIMED_SETUP=$REQUIRE_PRIMED RBFE_MIN_STEPS=$MIN_STEPS SETUP_CACHE_VERSION=\$SETUP_VER \
               RBFE_AUTOSTOP_CONVERGENCE=$AUTOSTOP RBFE_AUTOSTOP_MIN_FRAC=$AUTOSTOP_MIN_FRAC \
