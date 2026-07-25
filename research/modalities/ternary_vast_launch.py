@@ -630,7 +630,16 @@ def phase_and_log(uid, bucket=None, prefix=None, tail=14):
     try:
         o = s3.get_object(Bucket=b, Key=f"{base}/run.log")
         log = o["Body"].read().decode(errors="replace")
-        lines = [ln for ln in log.splitlines() if ln.strip()][-tail:]
+        raw = [ln for ln in log.splitlines() if ln.strip()]
+        # SURFACE THE DIAGNOSTIC LINES, not just the tail. The lines that answer "is this advancing and is it
+        # healthy" — the per-chunk `[timing]`, the `[barrier] committed checkpoint at iteration N`, the
+        # spot-driver's phase transitions and targets, and any NaN traceback — are emitted rarely and are
+        # immediately buried by hundreds of openff/openmmtools INFO lines. A pure tail therefore shows the
+        # noise and hides the signal, which is how a leg can look uninformative while its log says exactly
+        # what is happening.
+        keys = ("[timing]", "[barrier]", "[spot-driver]", "[tfep]", "NaN", "Traceback", "ERROR", "ABORT")
+        hits = [ln for ln in raw if any(k in ln for k in keys)]
+        lines = (hits[-tail:] + ["--- raw tail ---"] + raw[-6:]) if hits else raw[-tail:]
         # The log's OWN mtime, separately from the phase marker's. The marker is written only when the
         # phase CHANGES, so inside a long phase its age just grows and says nothing. The sync loop pushes
         # the log every 2 min, so a log older than ~4 min means the uploader stopped — which is a different
