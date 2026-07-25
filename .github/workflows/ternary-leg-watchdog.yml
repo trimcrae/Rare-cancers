@@ -1,0 +1,136 @@
+name: Ternary leg watchdog (session-independent)
+
+# WHY THIS EXISTS. Monitoring a multi-hour ternary GPU leg used to be a background poller inside an agent
+# session. That construction dies with the session, and on 2026-07-25 it did so twice — once silently, hanging
+# ~31 minutes on an unbounded curl while reporting nothing. A leg that is preempted while unwatched is not
+# noticed and nothing resumes it, so the wall clock is simply lost.
+#
+# This moves the watch OUT of any session. It runs on GitHub's cron, reads its watch list from
+# research/modalities/ternary-watch.json, and asks GCS three questions per entry:
+#
+#   result JSON present  -> DONE      (nothing to do; disable the entry)
+#   a gcp-ternary VM up  -> RUNNING   (emit progress)
+#   neither              -> DIED      (re-dispatch; the leg RESUMES from its last committed checkpoint)
+#
+# All state is in the repo and in GCS, so this survives container restarts and needs no agent awake. Every
+# outcome is an annotation, readable from the check-runs API without opening a log.
+#
+# SAFETY. A per-day relaunch counter in GCS caps runaway re-dispatch (max_relaunches_per_day per entry), and the
+# workflow is a no-op on an empty or all-disabled list. It only ever dispatches gpu-ternary-fep-gcp.yml mode=run
+# with the exact parameters recorded in the watch file — it invents nothing.
+#
+# NB a `schedule:` trigger only fires from the DEFAULT BRANCH, so this must be on main to run at all.
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"      # every 15 min: a preemption costs ~40 committed iterations (~20 min of MD),
+                                # so this is matched to the recovery granularity, not arbitrary.
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "1 = report what it WOULD do without dispatching or incrementing the counter"
+        default: "0"
+        required: false
+
+permissions:
+  id-token: write        # GCP WIF
+  contents: read
+  actions: write         # to re-dispatch gpu-ternary-fep-gcp.yml
+
+concurrency:
+  group: ternary-leg-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auth to GCP (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Watch each enabled leg
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY: ${{ github.event.inputs.dry_run || '0' }}
+        run: |
+          set -uo pipefail          # NOT -e: one entry failing must not abandon the others
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          BUCKET="$PROJECT-rbfe-ckpt"
+          RESULTS="gs://$BUCKET/valB-6hax/results"
+          WDIR="gs://$BUCKET/valB-6hax/watchdog"
+          CFG=research/modalities/ternary-watch.json
+          gcloud config set project "$PROJECT" >/dev/null 2>&1
+
+          N=$(python3 -c "import json;d=json.load(open('$CFG'));print(len([w for w in d['watch'] if w.get('enabled')]))")
+          echo "enabled watch entries: $N   (dry_run=$DRY)"
+          if [ "$N" = "0" ]; then
+            echo "::notice title=WATCHDOG idle::No enabled entries in ternary-watch.json — nothing to watch."
+            exit 0
+          fi
+
+          # one live-VM listing shared by every entry (the 1-GPU quota means there is at most one anyway)
+          VMS=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" \
+                  --format="value(name,status)" 2>/dev/null)
+          # keep this strictly numeric: a stray space makes `[ "$NVM" -gt 0 ]` throw "integer expression
+          # expected" and kill the entry mid-loop, which is exactly the silent-skip failure mode this
+          # workflow exists to remove.
+          NVM=$(printf '%s' "$VMS" | tr -d '[:space:]' | wc -c | tr -dc '0-9'); NVM=${NVM:-0}
+          echo "live gcp-ternary VMs: ${VMS:-<none>}"
+
+          python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
+          | while IFS='|' read -r LEG SEED DIR SALT DT CHG NWIN TPL MAXRL; do
+              TAG="$LEG dir=$DIR seed=$SEED"
+              echo "=============== $TAG ==============="
+
+              # 1. DONE? the leg's own direction-keyed result object is the only authority on completion.
+              if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" >/dev/null 2>&1; then
+                echo "::notice title=WATCHDOG DONE::$TAG — result JSON is in GCS. Set enabled=false in ternary-watch.json."
+                continue
+              fi
+
+              # 2. RUNNING? any live gcp-ternary VM means the single GPU is in use; with a 1-GPU quota it is this leg.
+              if [ "$NVM" -gt 0 ]; then
+                echo "::notice title=WATCHDOG RUNNING::$TAG — no result yet and a VM is live ($(printf '%s' "$VMS" | tr '\n' ' ')). Leaving it alone."
+                continue
+              fi
+
+              # 3. DIED. Cap re-dispatch per UTC day using a counter object in GCS (durable across restarts,
+              #    unlike anything held in a process). Read-modify-write is racy in principle; the concurrency
+              #    group above means only one watchdog runs at a time, so in practice it is not.
+              DAY=$(date -u +%Y%m%d)
+              CNTOBJ="$WDIR/relaunch-${DAY}-${LEG}-${DIR}-r${SEED}.txt"
+              CNT=$(gcloud storage cat "$CNTOBJ" 2>/dev/null | tr -dc '0-9')
+              CNT=${CNT:-0}; case "$CNT" in ""|*[!0-9]*) CNT=0 ;; esac
+              case "$MAXRL" in ""|*[!0-9]*) MAXRL=8 ;; esac
+              if [ "$CNT" -ge "$MAXRL" ]; then
+                echo "::error title=WATCHDOG CAPPED::$TAG — died again but already relaunched $CNT times today (cap $MAXRL). NOT relaunching; something is failing repeatedly and needs a human."
+                continue
+              fi
+
+              if [ "$DRY" = "1" ]; then
+                echo "::notice title=WATCHDOG would-relaunch::$TAG — died (no result, no VM), relaunch $((CNT+1))/$MAXRL. dry_run=1 so taking no action."
+                continue
+              fi
+
+              echo "relaunching $TAG (attempt $((CNT+1))/$MAXRL today) — resumes from the last committed checkpoint"
+              if gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" \
+                   -f mode=run -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
+                   -f commit_salt="$SALT" -f timestep_fs="$DT" -f charge_method="$CHG" \
+                   -f n_windows="$NWIN" -f template_pdb="$TPL" \
+                   -f refuse_if_vm_live=1 -f provisioning=spot 2>&1; then
+                printf '%s' "$((CNT+1))" > /tmp/cnt.txt
+                gcloud storage cp /tmp/cnt.txt "$CNTOBJ" >/dev/null 2>&1 \
+                  || echo "::warning::counter write failed — the relaunch cap may under-count"
+                echo "::notice title=WATCHDOG RELAUNCHED::$TAG — was dead (no result, no VM); re-dispatched, attempt $((CNT+1))/$MAXRL today. Resumes from checkpoint."
+              else
+                echo "::error title=WATCHDOG DISPATCH FAILED::$TAG — died AND the re-dispatch call failed. Needs a human."
+              fi
+            done
+          echo "watchdog pass complete"
