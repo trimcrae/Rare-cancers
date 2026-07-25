@@ -206,13 +206,77 @@ def collect(targets):
     return 0
 
 
+def _progress_signature(targets):
+    """A tuple that MUST change while the science is advancing: per leg, the phase name and the biased-ns the
+    job reports with it. Deliberately NOT 'is an instance up' — a rented box can sit with a dead container or
+    an idle GPU and look perfectly healthy, which is the failure class this repo keeps paying for."""
+    s3 = _s3()
+    sig = {}
+    for name in leg_names(targets):
+        ph = _get(s3, f"{RESULT_PREFIX}/{name}/phase.json")
+        try:
+            d = json.loads(ph) if ph else {}
+        except Exception:  # noqa: BLE001
+            d = {}
+        extra = d.get("extra") or {}
+        sig[name] = (d.get("phase"), extra.get("done_ns") if isinstance(extra, dict) else None,
+                     d.get("utc"), _exists(s3, result_key(name)))
+    return sig
+
+
+def watch(targets, interval_s=180, max_minutes=330, stall_ticks=6):
+    """ONE CI run that monitors the legs continuously, so monitoring survives this session dying.
+
+    Every `interval_s` it prints a full progress board and compares the progress signature with the previous
+    tick. Finished legs are reaped (their host has already stopped its own GPU billing; this destroys the
+    exited instance). The loop exits when every leg's deliverable is in S3. `stall_ticks` consecutive ticks
+    with NO change to a running leg's signature is reported as a STALL and fails the job, because a relaunch
+    would hang the same way — an alert is the correct action, not a retry."""
+    t_end = time.time() + max_minutes * 60
+    prev, frozen = None, {}
+    tick = 0
+    while time.time() < t_end:
+        tick += 1
+        print(f"\n########## tick {tick}  {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} "
+              f"##########", flush=True)
+        status(targets)
+        sig = _progress_signature(targets)
+        for name, v in sig.items():
+            if v[3]:
+                frozen[name] = 0
+                continue
+            if prev and prev.get(name) == v:
+                frozen[name] = frozen.get(name, 0) + 1
+                print(f"::warning title=LANE13 NO PROGRESS::{name} unchanged for "
+                      f"{frozen[name]} tick(s): {v}")
+            else:
+                frozen[name] = 0
+        prev = sig
+        reap(targets)
+        if all(v[3] for v in sig.values()):
+            print("::notice title=LANE13 ALL LEGS DONE::every deliverable is in S3")
+            return 0
+        stalled = [n for n, c in frozen.items() if c >= stall_ticks]
+        if stalled:
+            print(f"::error title=LANE13 STALL::{stalled} made no progress for {stall_ticks} ticks "
+                  f"({stall_ticks * interval_s / 60:.0f} min) — diagnose, do not relaunch blindly")
+            return 2
+        time.sleep(interval_s)
+    print("::warning title=LANE13 WATCH WINDOW ENDED::re-fire task=watch to keep monitoring")
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("action", choices=["status", "reap", "collect", "stop"])
+    ap.add_argument("action", choices=["status", "reap", "collect", "stop", "watch"])
     ap.add_argument("--targets", default="NR4A1,NR4A2")
+    ap.add_argument("--interval-s", type=int, default=180)
+    ap.add_argument("--max-minutes", type=int, default=330)
     a = ap.parse_args()
     if a.action == "status":
         return status(a.targets)
+    if a.action == "watch":
+        return watch(a.targets, interval_s=a.interval_s, max_minutes=a.max_minutes)
     if a.action == "reap":
         return reap(a.targets)
     if a.action == "stop":

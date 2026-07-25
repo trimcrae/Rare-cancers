@@ -29,9 +29,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: selftest | bake | smoke | launch | status | collect | analyse | reap | stop
+        description: selftest | bake | smoke | launch | status | watch | collect | analyse | reap | stop
         type: choice
-        options: [selftest, bake, smoke, launch, status, collect, analyse, reap, stop]
+        options: [selftest, bake, smoke, launch, status, watch, collect, analyse, reap, stop]
         default: selftest
       targets:
         description: "comma-separated paralogues (default NR4A1,NR4A2)"
@@ -169,7 +169,7 @@ jobs:
 
   ops:
     needs: plan
-    if: ${{ needs.plan.outputs.task == 'status' || needs.plan.outputs.task == 'collect' || needs.plan.outputs.task == 'analyse' || needs.plan.outputs.task == 'reap' || needs.plan.outputs.task == 'stop' }}
+    if: ${{ needs.plan.outputs.task == 'status' || needs.plan.outputs.task == 'watch' || needs.plan.outputs.task == 'collect' || needs.plan.outputs.task == 'analyse' || needs.plan.outputs.task == 'reap' || needs.plan.outputs.task == 'stop' }}
     runs-on: ubuntu-latest
     # the analyse task samples the matched placement set at the authoritative scale and then walks every
     # conformer of three species through it — free CPU, but hours not minutes
@@ -193,6 +193,15 @@ jobs:
       - name: Status board (instances + S3 phase + run.log tail)
         if: ${{ needs.plan.outputs.task == 'status' }}
         run: python research/modalities/nr4a_paralogue_md_ops.py status --targets "$TARGETS"
+
+      - name: Continuous watch — one CI run that keeps monitoring after this session ends
+        # The repo's Vast watchdog (ternary-vast-watchdog.yml) cannot watch this leg: its relaunch path is
+        # ternary_vast_launch and its watch list lives on main, which this lane may not push to. Rather than
+        # pretend a watchdog is covering it, monitoring is a long-running CI job that polls S3, prints a real
+        # PROGRESS check every 3 min (phase + biased-ns + run.log tail, not 'an instance is up'), reaps
+        # finished hosts, and FAILS on a stall so GitHub's own failure notification fires.
+        if: ${{ needs.plan.outputs.task == 'watch' }}
+        run: python research/modalities/nr4a_paralogue_md_ops.py watch --targets "$TARGETS" --interval-s 180 --max-minutes 330
 
       - name: Reap finished / terminal / over-backstop instances
         if: ${{ needs.plan.outputs.task == 'reap' || needs.plan.outputs.task == 'collect' }}
