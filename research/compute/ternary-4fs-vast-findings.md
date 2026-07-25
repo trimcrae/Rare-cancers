@@ -186,7 +186,7 @@ warning: `calib_hi_to_lo` *is* the SMARCA2/VHL 8G1Q assembly.
 |---|---|
 | 4 fs leg-level speedup = 1.556× | DERIVED FROM CODE + unit-tested |
 | as-run 2 fs leg = 2800 equal-cost iterations | DERIVED FROM CODE |
-| 4 fs production survives ≫40 iterations | **PENDING** — RUNG 2b stage 1 (probe, 200 iterations) |
+| 4 fs production survives ≫40 iterations | **RUNNING** — warmup 48/48 clean, production advancing (see §7) |
 | ΔΔG_coop at 4 fs agrees with the 2 fs value | **PENDING** — RUNG 2b stage 2 (matched edge) |
 | measured s/iter for warmup and production on a Vast 4090 | **PENDING** — recorded by both stages |
 | per-commit checkpoint overhead | **PENDING** — read from the probe |
@@ -234,3 +234,31 @@ existing `calib_hi_to_lo` (SMARCA2/VHL 8G1Q) basis on a full leg, on a 4090, per
 the "the rate came from a 60-iteration probe" caveat. It does **not** remove the NR4A transferability
 warning — `calib_hi_to_lo` *is* 8G1Q. That still needs an `nrv04_active_to_epimer__ternary_nr4a1` leg, and
 the warning should say so explicitly rather than being read as discharged.
+
+---
+
+## 7 · Stage-1 probe — live record
+
+`calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe` · instance 45827166 · machine 12697 · RTX 4090 ·
+bid $0.136/hr · billed $0.1527/hr. All times ET.
+
+| time | event | evidence |
+|---|---|---|
+| 1:36 PM | rented | floor $0.1333, on-demand cap $0.36 |
+| 1:39 PM | container up, **CUDA present** | `openmm 8.4 platforms ['Reference','CPU','CUDA']`, driver 580.173.02 |
+| 1:47 PM | staged from 8G1Q | `[smarca2] model 1/2 relaxed (15 muts)` |
+| 1:55 PM | **pre-equilibration done, 456 s** | 191,713 atoms; endpoint map 109 atoms, max mapped displacement **0.00 Å** |
+| 2:01 PM | setup done, S3 commit store bound | `[spot-safe] commit store: s3://…/ternary-vast/commits/…_dt4.0fs_wu1.0_probe` |
+| 2:04 PM | **warmup iteration 1 SURVIVED** | `Iteration 3/8` — the exact point every prior 4 fs attempt died with `SimulationNaNError` |
+| 2:08 PM | warmup 24/48 committed | S3 census |
+| 2:11 PM | **warmup 48/48, production started at 4 fs** | `committed=warmup/48`, then `Iteration 3/40` |
+| 2:14 PM | production 19/40 of the first chunk, steady | ~7.7 s/iter |
+
+**Two distinct NaN risk points are now passed:** warmup iteration 1 at the softcore λ-states, and the
+warmup→production hand-off where the sampler moves to the full 4 fs timestep.
+
+**Recorded caveat on this probe specifically:** it was launched from commit `06dc6e04`, before the strided
+trajectory setting landed, and before `PYTHONUNBUFFERED=1`. Its `[timing]`/`[barrier]` lines are therefore
+block-buffered — which is how that defect was found (§4c) — and the per-iteration numbers above come from
+openmmtools' own per-chunk estimates and from the S3 commit census, both of which are independent of the
+buffered stream.
