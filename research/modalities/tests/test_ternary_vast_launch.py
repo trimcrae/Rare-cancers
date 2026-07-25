@@ -171,6 +171,43 @@ def test_md_timeout_is_inside_the_instance_runtime_cap():
     assert int(j.env["MD_TIMEOUT_S"]) < j.max_runtime_s
 
 
+# ---------------------------------------------------------------- the ddG_coop identity
+def test_ddg_coop_is_ternary_minus_binary_and_solvent_cancels():
+    """The engine's own definition: ddG_coop = (ternary - solvent) - (binary - solvent) = ternary - binary.
+    So a missing solvent leg is not a gap in this number, and including one must not change it."""
+    legs = {"x__ternary_vhl": {"dg_morph_kcal": 47.4701},
+            "x__binary_vhl": {"dg_morph_kcal": 48.0046}}
+    r = tv.ddg_coop_identity(legs)
+    assert r["ddg_coop_kcal"] == pytest.approx(-0.5345, abs=1e-4)   # reproduces the 2 fs r0 value
+    legs["x__solvent"] = {"dg_morph_kcal": 47.8060}
+    assert tv.ddg_coop_identity(legs)["ddg_coop_kcal"] == pytest.approx(-0.5345, abs=1e-4)
+
+
+def test_cancellation_ratio_reports_how_little_survives_the_subtraction():
+    """r0's answer was 1.1 % of the numbers being subtracted, which is why a 1.478 kcal/mol miss sat on top
+    of a 0.045 statistical error. A reduction that does not surface this ratio hides its own fragility."""
+    r = tv.ddg_coop_identity({"x__ternary_vhl": {"dg_morph_kcal": 47.4701},
+                              "x__binary_vhl": {"dg_morph_kcal": 48.0046}})
+    assert r["cancellation_ratio"] == pytest.approx(0.0111, abs=5e-4)
+
+
+def test_ddg_coop_refuses_rather_than_guessing_when_a_leg_is_missing():
+    assert tv.ddg_coop_identity({"x__ternary_vhl": {"dg_morph_kcal": 1.0}})["ddg_coop_kcal"] is None
+    assert tv.ddg_coop_identity({})["ddg_coop_kcal"] is None
+    assert tv.ddg_coop_identity({"x__ternary_vhl": {"dg_morph_kcal": None},
+                                 "x__binary_vhl": {"dg_morph_kcal": 2.0}})["ddg_coop_kcal"] is None
+
+
+def test_protocol_hash_mismatch_is_surfaced():
+    """A cycle assembled from legs that did not run the same protocol is not a cycle. r0's hashes were
+    consistent, which is how its miss could be attributed to physics rather than to a mismatch."""
+    ok = tv.ddg_coop_identity({"x__ternary_vhl": {"dg_morph_kcal": 1.0, "protocol_hash": "a"},
+                               "x__binary_vhl": {"dg_morph_kcal": 2.0, "protocol_hash": "a"}})
+    bad = tv.ddg_coop_identity({"x__ternary_vhl": {"dg_morph_kcal": 1.0, "protocol_hash": "a"},
+                                "x__binary_vhl": {"dg_morph_kcal": 2.0, "protocol_hash": "b"}})
+    assert ok["protocol_hashes_consistent"] and not bad["protocol_hashes_consistent"]
+
+
 # ---------------------------------------------------------------- the cost arithmetic under test
 def test_four_fs_speedup_is_not_two_because_the_warmup_does_not_shrink():
     """THE CORRECTION RUNG 2b's headline number needs. Iteration counts are timestep-independent, so 4 fs

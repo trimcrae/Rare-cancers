@@ -610,7 +610,7 @@ def phase_and_log(uid, bucket=None, prefix=None, tail=14):
     p = (prefix or RESULT_PREFIX).rstrip("/")
     base = f"{p}/legs/{uid}"
     s3 = _s3()
-    phase, age_min, lines = None, None, []
+    phase, age_min, lines, log_age = None, None, [], None
     try:
         o = s3.get_object(Bucket=b, Key=f"{base}/phase.txt")
         phase = o["Body"].read().decode(errors="replace").strip()
@@ -618,11 +618,17 @@ def phase_and_log(uid, bucket=None, prefix=None, tail=14):
     except Exception:  # noqa: BLE001 — not written yet (image still pulling)
         pass
     try:
-        log = s3.get_object(Bucket=b, Key=f"{base}/run.log")["Body"].read().decode(errors="replace")
+        o = s3.get_object(Bucket=b, Key=f"{base}/run.log")
+        log = o["Body"].read().decode(errors="replace")
         lines = [ln for ln in log.splitlines() if ln.strip()][-tail:]
+        # The log's OWN mtime, separately from the phase marker's. The marker is written only when the
+        # phase CHANGES, so inside a long phase its age just grows and says nothing. The sync loop pushes
+        # the log every 2 min, so a log older than ~4 min means the uploader stopped — which is a different
+        # (and worse) fact than "this phase is taking a while", and the two are indistinguishable without it.
+        log_age = (time.time() - o["LastModified"].timestamp()) / 60.0
     except Exception:  # noqa: BLE001
         pass
-    return phase, age_min, lines
+    return phase, age_min, lines, log_age
 
 
 def leg_records(bucket=None, prefix=None):
@@ -806,9 +812,10 @@ def collect(bucket=None, prefix=None, autostop=True):
                   f"no-advance-polls={stall}")
             # The commit census is blind for the whole cold start, so pair it with the on-host phase
             # marker and log tail — that is what turns a liveness ping into a progress check.
-            mark, mark_age, tail = phase_and_log(uid, b, p)
+            mark, mark_age, tail, log_age = phase_and_log(uid, b, p)
             print(f"      phase: {mark or '(no marker yet — image pull / container start)'}"
-                  + (f"  (written {mark_age:.0f} min ago)" if mark_age is not None else ""))
+                  + (f"  (marker {mark_age:.0f} min old" if mark_age is not None else "  (")
+                  + (f", log {log_age:.1f} min old" if log_age is not None else ", no log yet") + ")")
             for ln in tail:
                 print(f"      | {ln[:170]}")
 
@@ -880,6 +887,75 @@ def collect(bucket=None, prefix=None, autostop=True):
     return len(mine), len(done)
 
 
+def fetch_legs(dest, mode="edge", bucket=None, prefix=None, timestep_fs=None, warmup_timestep_fs=None):
+    """Download this mode's engine leg JSONs into `dest` under the filenames the reducer expects.
+
+    `ternary_fep_reduce._find_leg_files` globs `leg_<leg_id>_<direction>_r<seed>.json` under CKPT_DIR/INPUT_DIR,
+    so the S3 objects (which live at `legs/<unit_id>/engine_leg.json`) have to be renamed back. Reconstructing
+    the name from the unit's own parameters — rather than trusting whatever the object happened to be called —
+    is what keeps a 4 fs leg from ever being reduced as if it were a 2 fs one.
+    """
+    b = bucket or DEFAULT_BUCKET
+    p = (prefix or RESULT_PREFIX).rstrip("/")
+    dt = str(timestep_fs or os.environ.get("TVAST_TIMESTEP_FS") or DEFAULT_TIMESTEP_FS)
+    wdt = str(warmup_timestep_fs or os.environ.get("TVAST_WARMUP_TIMESTEP_FS") or DEFAULT_WARMUP_TIMESTEP_FS)
+    os.makedirs(dest, exist_ok=True)
+    s3 = _s3()
+    got = {}
+    for (leg, seed, direction) in units_for(mode):
+        uid = unit_id(leg, seed, direction, dt, wdt, mode)
+        name = f"leg_{leg}_{direction}_r{seed}.json"
+        try:
+            body = s3.get_object(Bucket=b, Key=f"{p}/legs/{uid}/engine_leg.json")["Body"].read()
+        except Exception as e:  # noqa: BLE001
+            print(f"[fetch-legs] MISSING {uid}: {type(e).__name__}")
+            continue
+        with open(os.path.join(dest, name), "wb") as fh:
+            fh.write(body)
+        d = json.loads(body.decode())
+        got[leg] = d
+        print(f"[fetch-legs] {name}: dG_morph={d.get('dg_morph_kcal')} +/- {d.get('mbar_se_kcal')} "
+              f"(MBAR SE) protocol_hash={str(d.get('protocol_hash'))[:12]}")
+    return got
+
+
+def ddg_coop_identity(legs):
+    """ΔΔG_coop from the legs in hand, by the identity the engine defines. PURE.
+
+    `nr4a3_ternary_fep`'s own docstring: ΔΔG_coop = ΔΔG_alch,ternary − ΔΔG_alch,binary
+    = (ternary − solvent) − (binary − solvent) = **ternary − binary**. The solvent leg cancels EXACTLY, so it
+    is not needed for this number and its absence is not a gap. It is still run and reported, because each
+    environment's ΔΔG is only a relative *binding* free energy with it.
+
+    Computed here as well as by `ternary_fep_reduce` deliberately. The reducer's gating machinery had seven
+    defects found in one day, every one of them reporting success while measuring nothing; a two-term
+    subtraction that can be checked by eye is the right cross-check for a number this load-bearing.
+    """
+    tern = next((v for k, v in legs.items() if "__ternary" in k), None)
+    bina = next((v for k, v in legs.items() if "__binary" in k), None)
+    solv = next((v for k, v in legs.items() if k.endswith("__solvent")), None)
+    if not tern or not bina:
+        return {"ddg_coop_kcal": None,
+                "reason": "need both a ternary and a binary leg; solvent cancels and is optional"}
+    t, bn = tern.get("dg_morph_kcal"), bina.get("dg_morph_kcal")
+    if t is None or bn is None:
+        return {"ddg_coop_kcal": None, "reason": "a leg has no dg_morph_kcal"}
+    ddg = float(t) - float(bn)
+    big = max(abs(float(t)), abs(float(bn)))
+    hashes = {k: v.get("protocol_hash") for k, v in legs.items()}
+    return {
+        "ddg_coop_kcal": ddg,
+        "dg_ternary_kcal": float(t), "dg_binary_kcal": float(bn),
+        "dg_solvent_kcal": (float(solv["dg_morph_kcal"]) if solv and solv.get("dg_morph_kcal") is not None
+                            else None),
+        # How much of each leg survives the subtraction. r0's was 0.0111 — the answer was 1.1 % of the
+        # numbers being subtracted, which is why its systematic miss was ~33x its statistical error.
+        "cancellation_ratio": (abs(ddg) / big) if big else None,
+        "protocol_hashes": hashes,
+        "protocol_hashes_consistent": len(set(v for v in hashes.values() if v)) <= 1,
+    }
+
+
 def _known_unit_ids():
     """Every unit id this module can currently launch — used to pair a live label with a unit before that
     unit has written any record. Without it a freshly launched host has no progress line at all, which is
@@ -917,8 +993,15 @@ def main(argv=None):
     ap.add_argument("--collect", action="store_true")
     ap.add_argument("--stop", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--fetch-legs", metavar="DIR",
+                    help="download this mode's engine leg JSONs into DIR under the reducer's filenames, "
+                         "then print the ΔΔG_coop identity as a cross-check")
     a = ap.parse_args(argv)
-    if a.stop:
+    if a.fetch_legs:
+        legs = fetch_legs(a.fetch_legs, mode=a.mode, timestep_fs=a.timestep_fs,
+                          warmup_timestep_fs=a.warmup_timestep_fs)
+        print(json.dumps(ddg_coop_identity(legs), indent=2))
+    elif a.stop:
         stop_all()
     elif a.collect:
         collect()

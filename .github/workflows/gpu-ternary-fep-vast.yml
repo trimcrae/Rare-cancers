@@ -21,6 +21,8 @@ name: Ternary cooperativity FEP — Vast lane (RUNG 2b, 4 fs)
 #   edge    -> ~$4-6  RUNG 2b STAGE 2, only on a passing probe. The full matched re-calibration edge:
 #                     ternary + binary + solvent at full science length, fanned out 3-wide.
 #   collect -> $0.    Status board + PROGRESS check (committed iteration, not liveness) + anti-idle reap.
+#   reduce  -> $0.    Pull the edge's leg JSONs, cross-check ddG_coop = ternary - binary by hand, and run
+#                     the official reducer INSIDE the parity image that produced the trajectories.
 #   stop    -> $0.    Destroy every tvast-* instance.
 #
 # DISPATCHING BEFORE THIS FILE IS ON main. A brand-new `workflow_dispatch` workflow 404s until it reaches
@@ -45,9 +47,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: test | dry-run | smoke | probe | edge | collect | stop
+        description: test | dry-run | smoke | probe | edge | collect | reduce | stop
         type: choice
-        options: [test, dry-run, smoke, probe, edge, collect, stop]
+        options: [test, dry-run, smoke, probe, edge, collect, reduce, stop]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -91,7 +93,7 @@ jobs:
             TASK=$(printf '%s' "$MSG" | grep -oE '\[tvast:[a-z-]+\]' | head -1 | sed 's/\[tvast://; s/\]//')
           fi
           case "${TASK:-test}" in
-            test|dry-run|smoke|probe|edge|collect|stop) TASK="${TASK:-test}" ;;
+            test|dry-run|smoke|probe|edge|collect|reduce|stop) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -207,6 +209,53 @@ jobs:
           set -eo pipefail
           echo "================ TVAST BOARD ================"
           cat /tmp/board.txt
+
+  reduce:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'reduce' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
+      TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Pull the edge's leg JSONs and cross-check the identity
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          mkdir -p /tmp/tred
+          python research/modalities/ternary_vast_launch.py --mode edge --fetch-legs /tmp/tred \
+            2>&1 | tee /tmp/identity.txt
+      - name: Official reduction, in the SAME env that produced the trajectories
+        # PULL, DO NOT SOLVE. The image carries the exact openfe/openmmtools/pymbar the legs were run with,
+        # and analysing an OpenFE trajectory with a different pymbar/openmmtools than PRODUCED it can move
+        # the MBAR numbers — so this is the correct environment, not merely the fast one. The repo is mounted
+        # over the image's baked copy so the reducer that runs is the branch's, not the build-time one.
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/tred:/tmp/tred \
+            -e CKPT_DIR=/tmp/tred -e INPUT_DIR=/tmp/tred -e MODE=reduce \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_ternary_fep.py 2>&1 | tail -60
+          ls -la /tmp/tred
+      - name: Verdict LAST
+        run: |
+          set -eo pipefail
+          echo "================ TVAST 4 fs IDENTITY ================"
+          cat /tmp/identity.txt
+          echo "reference: the 2 fs r0 cycle gave ddG_coop = -0.534 kcal/mol"
+          echo "  (legs binary 48.0046 / ternary 47.4701 / solvent 47.8060 — valB-mini-r0-verdict-2026-07-25.md)"
 
   stop:
     needs: resolve
