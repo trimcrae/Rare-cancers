@@ -449,6 +449,10 @@ jobs:
           # defaulting to True (the reducer looks for ternary_convergence.json in CKPT_DIR/INPUT_DIR).
           gcloud storage cp /tmp/conv/ternary_convergence.json "$RESULTS/ternary_convergence.json" 2>/dev/null \
             && echo "[converge] uploaded report to $RESULTS/" || true
+          # LAST, so it is the tail of the job log. The JSON above is ~2500 lines and the handful of numbers
+          # that decide anything were being hunted for by eye halfway up it.
+          echo "=== [CONVERGE-SUMMARY] ==="
+          cat /tmp/conv/ternary_convergence_summary.txt || echo "(no summary written)"
       - name: P-series ligand chemistry + mappability (mode=calibchem - CPU/runner-only, NO GPU/VM)
         # THE $0 BLOCKER ON THE valB CALIBRATOR RESCOPE. Every edge in valb-rescope-design.json is a CANDIDATE
         # until the Ciulli P-series ligand chemistry is in hand: an edge LOMAP/Kartograf cannot map does not
