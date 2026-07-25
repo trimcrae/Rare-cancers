@@ -618,6 +618,13 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   covalent confound explicit:** NR4A1 Cys551 is unique to NR4A1 (NR4A3 T579), so a concordant result may be
   recovering *target engagement*, not ternary cooperativity — which is why this is a biological holdout and
   SMARCA2/4 is the method calibrator.
+  **★ STATE (2026-07-24 night): fully built + preregistered + unlaunched.** Because the covalent confound is
+  *measured*, the panel **decomposes** — **R1** (primary, all-non-covalent NR4A1/2/3) tests whether the workflow
+  discriminates paralogues with the warhead held off; **R2** isolates warhead chemistry; **R3** (epimer) is
+  conditional. **A null R1 is a registered, publishable outcome**, not a method failure.
+  **Resume here: [research/modalities/nrv04-retrospective-handoff-2026-07-24.md](research/modalities/nrv04-retrospective-handoff-2026-07-24.md)**
+  (exact commands, cost ledger, traps) · prereg
+  [research/modalities/nr4a3-nrv04-retrospective-prereg.md](research/modalities/nr4a3-nrv04-retrospective-prereg.md).
 
 ### RUNG 5 — orientation-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*
 
@@ -959,7 +966,15 @@ the **Tier-0 paralogue-unique reactive-residue map** are done ($0). **THREE lane
    retired the same day: its protein-mutation path is OpenEye-gated). Benchmark legs staged from RCSB with
    mutation-site verification and reference ΔΔG checked against **SKEMPI 2.0**. This lane can move the ladder's
    only *unscoped* rung from UNPRICED to priced.
-3. **The NR-V04 retrospective's Boltz ternary co-fold** on AWS SageMaker.
+3. **The NR-V04 retrospective** — **built, preregistered, and NOT launched (2026-07-24 night).** Its co-folds
+   are regenerated clean (`nrv04-descriptive-v4`) and staging passes, but **no retrospective leg has produced a
+   result yet**; three infrastructure defects (kernel OOM, error-swallowing monitoring, the 25-input dispatch
+   cap) are fixed in code and **unproven on hardware**, so the next launch is a **pilot, not a fan-out**.
+   ★ **Picking this up? Read
+   [research/modalities/nrv04-retrospective-handoff-2026-07-24.md](research/modalities/nrv04-retrospective-handoff-2026-07-24.md)
+   first** — state of play, exact dispatch commands for every resume path, cost ledger, and the traps.
+   *(Its co-folding moved off SageMaker onto the Vast lane — see
+   [research/compute/provider-deviation-2026-07-24.md](research/compute/provider-deviation-2026-07-24.md).)*
 **Cross-session note (2026-07-24):** the 2026-07-24 ternary-selectivity revision demotes lane 2 from the paper's
 *primary* causal result to its *confirmatory* second line. That does **not** cancel it and does not change what
 lane 2 should be doing now — the known-answer benchmark is required under either framing, and this file gates

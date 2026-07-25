@@ -12,6 +12,12 @@ manuscript ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degr
 pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)) before launching
 anything. Last updated 2026-06-26.
 
+> **★ RESUMING THE NR-V04 RETROSPECTIVE (RUNG 4)? That lane has its OWN handoff — read it instead of this file:**
+> **[`nrv04-retrospective-handoff-2026-07-24.md`](./nrv04-retrospective-handoff-2026-07-24.md)**. It carries the
+> state of play (built + preregistered + **unlaunched**, no leg has yet produced a result), the exact
+> `fusion-cpu-extras.yml` dispatch commands for every resume path, the cost ledger, and the six traps that cost
+> a session an evening. The retrospective runs on the **Vast** lane, not SageMaker.
+
 > **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15). READ THIS FIRST — it re-scopes everything below.**
 > The de novo warhead / **ABFE-validation track is SHELVED** (parked, revisit-when-warranted, not deleted). The
 > program is now the Track B ternary workflow, expressed as trimcrae's **three-step spine**: **(1)** verify FEP
