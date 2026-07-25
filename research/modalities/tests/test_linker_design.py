@@ -1,0 +1,324 @@
+"""Unit tests for the RUNG-5b inverse-linker-design kernels.
+
+Every test below is against a CLOSED-FORM answer, a hand-constructed case, or an identity the module must
+share with `basin_geom` — never against a previously-observed output of the module itself. The two that carry
+the most weight are:
+
+  * `test_branch_window_matches_basin_geom_criterion` — the branch-position kernel must agree, in the
+    continuous limit, with the exact spheroid criterion RUNG 5a's term-(a) GATE was read on. If it ever
+    disagrees, the 5b library would be designed against a different feasibility rule than the gate that
+    nominated the basins, and nothing downstream would announce it.
+  * `test_wlc_density_matches_basin_geom` — `_wlc_density` is a deliberate duplicate of
+    `basin_geom.wlc_end_to_end_density` (so this module imports nothing); the duplicate is pinned here so it
+    cannot drift.
+"""
+import math
+import os
+import sys
+
+import pytest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+import basin_geom as G          # noqa: E402
+import linker_design as LD      # noqa: E402
+
+
+# ---------------------------------------------------------------------------------------------------------
+# three_ball_min_margin — closed-form cases
+# ---------------------------------------------------------------------------------------------------------
+
+
+def test_single_ball_margin_is_negative_radius():
+    """One ball: the minimiser is its centre and the margin is exactly -r."""
+    m, p = LD.three_ball_min_margin([(1.0, 2.0, 3.0)], [2.5])
+    assert m == pytest.approx(-2.5, abs=1e-6)
+    assert LD._dist(p, (1.0, 2.0, 3.0)) < 1e-5
+
+
+def test_two_disjoint_balls_margin_is_half_the_gap():
+    """Two equal balls at separation d > 2r: the optimum sits at the midpoint with margin d/2 - r."""
+    a, b, r = (0.0, 0.0, 0.0), (10.0, 0.0, 0.0), 2.0
+    m, p = LD.three_ball_min_margin([a, b], [r, r])
+    assert m == pytest.approx(5.0 - r, abs=1e-4)
+    assert p[0] == pytest.approx(5.0, abs=1e-3)
+
+
+def test_equilateral_triangle_threshold_is_the_circumradius():
+    """Three equal balls on an equilateral triangle of side s intersect iff r >= circumradius = s/sqrt(3).
+
+    Exact, and the sharpest available test of the solver: it must return a margin that changes sign precisely
+    at r = s/sqrt(3).
+    """
+    s = 6.0
+    verts = [(0.0, 0.0, 0.0), (s, 0.0, 0.0), (s / 2.0, s * math.sqrt(3) / 2.0, 0.0)]
+    circ = s / math.sqrt(3.0)
+    m_at, _ = LD.three_ball_min_margin(verts, [circ] * 3)
+    assert m_at == pytest.approx(0.0, abs=1e-3)
+    assert LD.three_ball_min_margin(verts, [circ * 1.05] * 3)[0] < 0.0
+    assert LD.three_ball_min_margin(verts, [circ * 0.95] * 3)[0] > 0.0
+    assert LD.balls_intersect(verts, [circ * 1.05] * 3)
+    assert not LD.balls_intersect(verts, [circ * 0.95] * 3)
+
+
+def test_margin_is_monotone_in_radius():
+    """Growing every ball can only make the intersection easier — a structural property of the objective."""
+    c = [(0.0, 0.0, 0.0), (7.0, 1.0, 0.0), (2.0, 6.0, 1.0)]
+    prev = None
+    for r in (1.0, 2.0, 3.0, 4.0, 5.0):
+        m, _ = LD.three_ball_min_margin(c, [r] * 3)
+        if prev is not None:
+            assert m < prev + 1e-9
+        prev = m
+
+
+def test_rejects_mismatched_inputs():
+    with pytest.raises(ValueError):
+        LD.three_ball_min_margin([(0, 0, 0)], [1.0, 2.0])
+    with pytest.raises(ValueError):
+        LD.three_ball_min_margin([], [])
+    with pytest.raises(ValueError):
+        LD.three_ball_min_margin([(0, 0, 0)], [-1.0])
+
+
+# ---------------------------------------------------------------------------------------------------------
+# branch_position_window
+# ---------------------------------------------------------------------------------------------------------
+
+
+def test_branch_window_on_a_collinear_construction():
+    """Hand-constructed: a and b are 10 A apart on the x-axis, the nucleophile sits ON the segment at x=4.
+
+    With rise 1.25 and a zero-length arm, the branch atom must reach x=4 from a (needs k*1.25 >= 4, k >= 4)
+    and reach b from there (needs (n-k)*1.25 >= 6, k <= n-5). For n=10 the window is exactly k in 4..5.
+    """
+    a, b, q = (0.0, 0.0, 0.0), (10.0, 0.0, 0.0), (4.0, 0.0, 0.0)
+    w = LD.branch_position_window(a, b, q, n_atoms=10, arm_reach=0.0)
+    assert w["feasible_k"] == [4, 5]
+    assert w["k_min"] == 4 and w["k_max"] == 5
+
+
+def test_branch_window_empty_when_linker_too_short():
+    a, b, q = (0.0, 0.0, 0.0), (10.0, 0.0, 0.0), (4.0, 0.0, 0.0)
+    w = LD.branch_position_window(a, b, q, n_atoms=6, arm_reach=0.0)
+    assert w["feasible_k"] == [] and w["n_feasible"] == 0
+
+
+def test_branch_window_widens_with_arm_reach():
+    """A longer pendant can only add branch positions, never remove them."""
+    a, b, q = (0.0, 0.0, 0.0), (12.0, 0.0, 0.0), (5.0, 3.0, 0.0)
+    prev = None
+    for e in (0.0, 1.0, 2.0, 3.0, 5.0):
+        w = LD.branch_position_window(a, b, q, n_atoms=14, arm_reach=e)
+        if prev is not None:
+            assert set(prev).issubset(set(w["feasible_k"]))
+        prev = w["feasible_k"]
+
+
+def test_relaxed_rule_reproduces_basin_geom_exactly():
+    """`min_linker_atoms_relaxed` must reproduce RUNG 5a's rule bit for bit — it is the thing being compared
+    against, so a drift here would silently redefine the comparison."""
+    a = (0.0, 0.0, 0.0)
+    rise = LD.RISE_PER_ATOM_A
+    for bx in (8.0, 14.0, 20.0):
+        for qx, qy in ((3.0, 4.0), (10.0, 2.0), (6.0, 9.0), (-2.0, 5.0)):
+            b, q = (bx, 0.0, 0.0), (qx, qy, 0.0)
+            n_rel = LD.min_linker_atoms_relaxed(a, b, q, arm_reach=3.0)
+            for n in range(1, 30):
+                assert (n >= n_rel) == G.linker_can_visit(
+                    a, b, q, G.contour_length_from_atoms(n, rise), arm_reach=3.0), (bx, qx, qy, n)
+
+
+def test_relaxed_rule_is_a_strict_lower_bound_on_the_exact_one():
+    """★ THE FINDING THIS MODULE ENCODES. RUNG 5a's criterion credits the pendant arm with shortening the
+    ANCHOR-TO-ANCHOR SPAN, which no pendant can do — the linker must still connect a to b. So the exact
+    requirement is never shorter than the relaxed one, and on a nucleophile sitting on the segment it is
+    longer by the full span the rule gave away.
+
+    The construction is closed-form: a and b are 16 A apart, q sits ON the segment. The relaxed rule sees
+    focal sum = span = 16, subtracts 2e = 6, and returns ceil(10/1.25) = 8 atoms. The truth is that the chain
+    must span 16 A, needing ceil(16/1.25) = 13.
+    """
+    a, b, q = (0.0, 0.0, 0.0), (16.0, 0.0, 0.0), (8.0, 0.0, 0.0)
+    assert LD.min_linker_atoms_relaxed(a, b, q, arm_reach=3.0) == 8
+    assert LD.span_floor_atoms(a, b) == 13
+    assert LD.min_linker_atoms_exact(a, b, q, arm_reach=3.0) == 13
+
+
+def test_exact_is_never_below_relaxed_or_the_span_floor():
+    """The two structural inequalities, over a grid of geometries. Both are provable, neither is fitted."""
+    a = (0.0, 0.0, 0.0)
+    for bx in (6.0, 12.0, 18.0):
+        for qx, qy in ((3.0, 4.0), (10.0, 2.0), (6.0, 9.0), (-2.0, 5.0), (9.0, 0.5)):
+            b, q = (bx, 0.0, 0.0), (qx, qy, 0.0)
+            ex = LD.min_linker_atoms_exact(a, b, q, arm_reach=3.0)
+            assert ex is not None
+            assert ex >= LD.min_linker_atoms_relaxed(a, b, q, arm_reach=3.0)
+            assert ex >= LD.span_floor_atoms(a, b)
+            # ... and never worse than the zero-arm solution, which is always available
+            assert ex <= math.ceil(LD._dist(q, a) / 1.25) + math.ceil(LD._dist(q, b) / 1.25)
+
+
+def test_branch_window_shortcircuits_agree_with_the_full_solve():
+    """`branch_position_window` short-circuits the convex solve on two exact conditions (pairwise-overlap
+    necessity; q-inside-both-anchor-balls sufficiency). Both must give the same verdict as the solve itself,
+    over a grid that exercises all three branches — otherwise the speed-up would be silently changing answers.
+    """
+    a = (0.0, 0.0, 0.0)
+    rise = LD.RISE_PER_ATOM_A
+    for bx in (6.0, 13.0, 19.0):
+        for qx, qy, qz in ((3.0, 4.0, 0.0), (10.0, 2.0, 1.0), (5.0, 9.0, -2.0), (14.0, 1.0, 0.5)):
+            b, q = (bx, 0.0, 0.0), (qx, qy, qz)
+            for n in range(3, 24):
+                got = LD.branch_position_window(a, b, q, n, arm_reach=3.0)["feasible_k"]
+                want = [k for k in range(1, n)
+                        if LD.three_ball_min_margin([a, b, q],
+                                                    [k * rise, (n - k) * rise, 3.0])[0] <= 1e-6]
+                assert got == want, (bx, qx, qy, qz, n, got, want)
+
+
+def test_min_linker_atoms_for_reach_is_the_closed_form():
+    a, b, q = (0.0, 0.0, 0.0), (10.0, 0.0, 0.0), (3.0, 4.0, 0.0)
+    # |q-a| = 5, |q-b| = sqrt(49+16) = 8.0623 ; focal sum 13.0623; arm 3 -> need 7.0623 / 1.25 = 5.65 -> 6
+    assert LD.min_linker_atoms_for_reach(a, b, q, arm_reach=3.0) == 6
+    assert LD.min_linker_atoms_for_reach(a, b, q, arm_reach=0.0) == math.ceil(13.06225 / 1.25)
+    assert LD.min_linker_atoms_for_reach is LD.min_linker_atoms_relaxed
+
+
+def test_zero_arm_exact_requirement_is_the_two_leg_sum():
+    """With no pendant, the branch atom must BE the nucleophile, so the answer is exactly the sum of the two
+    legs rounded up independently — a closed form, and the tightest available check on the integer bookkeeping.
+    """
+    a, b, q = (0.0, 0.0, 0.0), (14.0, 0.0, 0.0), (5.0, 6.0, 0.0)
+    expect = math.ceil(LD._dist(q, a) / 1.25) + math.ceil(LD._dist(q, b) / 1.25)
+    assert LD.min_linker_atoms_exact(a, b, q, arm_reach=0.0) == expect
+
+
+def test_exact_requirement_returns_none_when_out_of_range():
+    a, b, q = (0.0, 0.0, 0.0), (10.0, 0.0, 0.0), (400.0, 0.0, 0.0)
+    assert LD.min_linker_atoms_exact(a, b, q, arm_reach=3.0, n_max=20) is None
+
+
+def test_pendant_contactable_uses_the_exact_rule():
+    a, b, q = (0.0, 0.0, 0.0), (16.0, 0.0, 0.0), (8.0, 0.0, 0.0)
+    assert not LD.pendant_contactable(a, b, q, n_atoms=12, arm_reach=3.0)   # relaxed rule would say yes at 8
+    assert LD.pendant_contactable(a, b, q, n_atoms=13, arm_reach=3.0)
+
+
+# ---------------------------------------------------------------------------------------------------------
+# WLC accessibility
+# ---------------------------------------------------------------------------------------------------------
+
+
+def test_wlc_density_matches_basin_geom():
+    """The deliberate duplicate must equal the original, bit for bit, over the whole domain."""
+    for L in (5.0, 12.5, 25.0):
+        for r in [i * L / 20.0 for i in range(20)]:
+            assert LD._wlc_density(r, L, 4.0) == G.wlc_end_to_end_density(r, L, 4.0)
+
+
+def test_wlc_window_probability_is_a_probability():
+    for n in (6, 10, 16, 24):
+        p = LD.wlc_window_probability(0.0, n * LD.RISE_PER_ATOM_A, n)
+        assert p == pytest.approx(1.0, abs=2e-3)      # the full support integrates to 1
+
+
+def test_wlc_window_probability_zero_beyond_contour():
+    """A basin whose spans exceed the contour length is unreachable — exactly zero, not a small number."""
+    assert LD.wlc_window_probability(20.0, 25.0, n_atoms=8) == 0.0
+
+
+def test_wlc_window_probability_windows_are_additive():
+    n = 14
+    L = n * LD.RISE_PER_ATOM_A
+    lo, mid, hi = 0.0, L * 0.4, L * 0.999999
+    a = LD.wlc_window_probability(lo, mid, n)
+    b = LD.wlc_window_probability(mid, hi, n)
+    assert a + b == pytest.approx(1.0, abs=5e-3)
+
+
+def test_wlc_best_length_has_an_interior_optimum():
+    """★ THE CENSORING FIX. The quantity RUNG 5a reported (a density) was still rising at the top of its
+    scan; the probability integrated over the basin's span window must instead peak INSIDE a wide range."""
+    best, p, meta = LD.wlc_best_length(8.0, 14.0, range(4, 61))
+    assert not meta["at_boundary"]
+    assert 8 <= best <= 24
+    assert p > 0.0
+
+
+def test_wlc_best_length_flags_a_boundary_optimum():
+    """... and when the range is too narrow to contain the optimum, it says so rather than reporting an edge
+    as an answer — the precise failure mode that produced `best_linker_atoms = 19` on 188 of 192 basins."""
+    best, _, meta = LD.wlc_best_length(18.0, 26.0, range(3, 21, 2))
+    assert meta["at_boundary"]
+    assert best == 19
+
+
+def test_wlc_mode_is_grid_independent():
+    """The mode must not move when the bracketing grid is refined — the defect that made `wlc_strain_kt`
+    return a small bin-count-dependent number at its own mode."""
+    a = LD.wlc_mode(16, n_bins=200)
+    b = LD.wlc_mode(16, n_bins=1600)
+    assert a == pytest.approx(b, abs=1e-6)
+
+
+def test_wlc_strain_is_zero_at_the_mode_and_rises_in_the_tail():
+    n = 16
+    L = n * LD.RISE_PER_ATOM_A
+    assert LD.wlc_strain_kt(LD.wlc_mode(n), n) == pytest.approx(0.0, abs=1e-9)
+    assert LD.wlc_strain_kt(L * 0.97, n) > LD.wlc_strain_kt(L * 0.8, n) > 0.0
+    assert LD.wlc_strain_kt(L * 1.01, n) == float("inf")
+
+
+def test_wlc_strain_is_never_negative():
+    """Structural: a relative-to-the-mode log-ratio cannot be negative. Guards the clamp."""
+    for n in (6, 12, 20):
+        L = n * LD.RISE_PER_ATOM_A
+        for i in range(1, 60):
+            assert LD.wlc_strain_kt(i * L / 60.0, n) >= 0.0
+
+
+# ---------------------------------------------------------------------------------------------------------
+# Exit-vector geometry
+# ---------------------------------------------------------------------------------------------------------
+
+
+def test_dihedral_matches_a_known_construction():
+    """A textbook +90 deg torsion: p1 on +y, p2-p3 along +x, p4 on +z."""
+    p1, p2, p3, p4 = (0.0, 1.0, 0.0), (0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 0.0, 1.0)
+    assert abs(abs(LD.dihedral_deg(p1, p2, p3, p4)) - 90.0) < 1e-6
+
+
+def test_dihedral_is_zero_when_coplanar_and_cis():
+    p1, p2, p3, p4 = (0.0, 1.0, 0.0), (0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0)
+    assert LD.dihedral_deg(p1, p2, p3, p4) == pytest.approx(0.0, abs=1e-6)
+
+
+def test_exit_geometry_taut_case_costs_nothing():
+    """Both exit bonds pointing straight at each other: alpha = beta = 0 and no turn to pay for."""
+    g = LD.exit_vector_geometry((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (12.0, 0.0, 0.0), (-1.0, 0.0, 0.0))
+    assert g["alpha_deg"] == pytest.approx(0.0, abs=1e-6)
+    assert g["beta_deg"] == pytest.approx(0.0, abs=1e-6)
+    assert g["turn_detour_A"] == pytest.approx(0.0, abs=1e-6)
+    assert g["turn_penalty_atoms"] == 0
+
+
+def test_exit_geometry_reversed_case_costs_two_bonds_per_end():
+    """Both exit bonds pointing directly AWAY: the chain leaves along the bond then has to come all the way
+    back, so each end costs exactly 2*rise of extra contour. Closed form, no fitting."""
+    rise = LD.RISE_PER_ATOM_A
+    g = LD.exit_vector_geometry((0.0, 0.0, 0.0), (-1.0, 0.0, 0.0), (12.0, 0.0, 0.0), (1.0, 0.0, 0.0))
+    assert g["alpha_deg"] == pytest.approx(180.0, abs=1e-4)
+    assert g["beta_deg"] == pytest.approx(180.0, abs=1e-4)
+    assert g["turn_detour_A"] == pytest.approx(4.0 * rise, abs=1e-6)
+    assert g["turn_penalty_atoms"] == 4
+
+
+def test_exit_geometry_span_matches_the_anchor_distance():
+    g = LD.exit_vector_geometry((1.0, 2.0, 3.0), (0.0, 1.0, 0.0), (4.0, 6.0, 3.0), (0.0, -1.0, 0.0))
+    assert g["span_A"] == pytest.approx(5.0, abs=1e-6)
+
+
+def test_exit_geometry_rejects_coincident_anchors():
+    with pytest.raises(ValueError):
+        LD.exit_vector_geometry((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (0.0, 0.0, 0.0), (1.0, 0.0, 0.0))

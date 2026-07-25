@@ -855,14 +855,17 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
         conserved_cys = [c for c in ctx["reactive"]["all_cysteines"] if c["local_resid"] not in unique_cys_ids]
         reach_conserved = [electrophile_reach(m, pose, conserved_cys, params) for m in sample]
         by_cys = {}
-        for row in reach_unique:
+        for mi_, row in enumerate(reach_unique):
             for r in row:
                 b = by_cys.setdefault(r["uniprot_resid"], {"hits": 0, "n": 0, "min_atoms": 10 ** 6,
-                                                           "focal_sums": []})
+                                                           "focal_sums": [], "best_i": None,
+                                                           "best_focal": float("inf")})
                 b["n"] += 1
                 b["hits"] += 1 if r["reachable"] else 0
                 b["min_atoms"] = min(b["min_atoms"], r["min_linker_atoms"])
                 b["focal_sums"].append(r["focal_sum_A"])
+                if r["focal_sum_A"] < b["best_focal"]:
+                    b["best_focal"], b["best_i"] = r["focal_sum_A"], mi_
         term_a = {}
         rise, e_arm = params["linker_rise_per_atom_A"], params["electrophile_arm_A"]
         for u, b in by_cys.items():
@@ -876,6 +879,28 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
                 "fraction_reachable_at_gate": profile[params["linker_gate_atoms"]],
                 "min_linker_atoms": b["min_atoms"],
                 "median_focal_sum_A": round(sorted(b["focal_sums"])[len(b["focal_sums"]) // 2], 2),
+                # ★ ADDED FOR RUNG 5b (additive only; nothing above is changed). `min_linker_atoms` is a
+                # BEST-OF-N over this basin's sampled members, and the member that achieves it is NOT the
+                # basin's representative — at the representative placement of all five confirmed meta-basins
+                # the C397 requirement is 16-33 atoms against a reported 8-12. A chemist cannot design at a
+                # statistic, so the placement that actually achieves the minimum is emitted here, in full, as
+                # the geometry RUNG 5b builds the covalent constructs on.
+                "exemplar_placement": ({
+                    "member_index": b["best_i"],
+                    "focal_sum_A": round(b["best_focal"], 3),
+                    "anchor_e3_xyz": [round(c, 3) for c in sample[b["best_i"]]["anchor_e3"]],
+                    "span_A": round(sample[b["best_i"]]["span_A"], 3),
+                    "landmarks": [[round(c, 3) for c in p] for p in sample[b["best_i"]]["landmarks"]],
+                    "ring_xyz": ([round(c, 3) for c in sample[b["best_i"]]["ring"]]
+                                 if sample[b["best_i"]]["ring"] else None),
+                    "transfer_anchor_xyz": ([round(c, 3) for c in sample[b["best_i"]]["tanchor"]]
+                                            if sample[b["best_i"]].get("tanchor") else None),
+                    "_reading": "the sampled member of this basin whose linker path comes CLOSEST to this "
+                                "cysteine. Its landmarks recover the full rigid transform (Horn), so the "
+                                "exit-vector geometry and the exact three-ball branch-position window can "
+                                "be computed on it. It is a best-of-N member, so it is the OPTIMISTIC end "
+                                "of the basin and must be reported as such.",
+                } if b["best_i"] is not None else None),
             }
         cons_reachable = sum(1 for row in reach_conserved for r in row if r["reachable"])
         cons_total = sum(len(row) for row in reach_conserved) or 1
@@ -997,6 +1022,13 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
             },
             "span_A": {"min": round(min(spans), 2), "median": round(sorted(spans)[len(spans) // 2], 2),
                        "max": round(max(spans), 2)},
+            # ★ ADDED FOR RUNG 5b (additive only). Deciles of the anchor-anchor span, so accessibility can be
+            # recomputed as a PROBABILITY over the basin's span window instead of a mean density. The density
+            # form's argmax is censored at the top of its scan grid — `best_linker_atoms` reads 19 (the last
+            # scanned value) on 188 of 192 basins, and for a 20 A span the true argmax is ~53 backbone atoms.
+            # A grid edge is not an optimum, and three quantiles are not enough to integrate over.
+            "span_A_deciles": [round(sorted(spans)[min(len(spans) - 1, int(q * len(spans) / 10.0))], 2)
+                               for q in range(11)],
             "min_linker_atoms_for_span": int(math.ceil(min(spans) / params["linker_rise_per_atom_A"])),
             "stability_surrogate": {
                 "_warning": "UNITLESS contact score, NOT a free energy. It ranks within the categorically "
@@ -1085,6 +1117,14 @@ def marginalise_over_poses(per_pose, params=PARAMS):
                 cur["min_linker_atoms"] = min(cur["min_linker_atoms"], v["min_linker_atoms"])
                 if v["fraction_reachable_at_gate"] > 0:
                     cur["n_poses_reachable"] += 1
+                # ★ ADDED FOR RUNG 5b: carry the member placement that achieves the union's minimum focal sum,
+                # tagged with the basin and pose it came from — RUNG 5b has to know WHICH pose's exit-vector
+                # anchor its covalent construct is designed against, because that is the pose conditionality
+                # the construct inherits.
+                ex = v.get("exemplar_placement")
+                if ex is not None and ex["focal_sum_A"] < cur.get("_best_focal", float("inf")):
+                    cur["_best_focal"] = ex["focal_sum_A"]
+                    cur["exemplar_placement"] = dict(ex, basin_id=b["basin_id"], pose_id=b["pose_id"])
         tz_ranks = [b["term_b_transfer_zone"]["best_rank"] for b in members if b["term_b_transfer_zone"]]
         uniq_cov = sorted({u for b in members if b["term_b_transfer_zone"]
                            for u in b["term_b_transfer_zone"]["unique_lysines_covered_nr4a3"]})
