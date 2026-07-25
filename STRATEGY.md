@@ -333,12 +333,23 @@ flagship is cheap, not a gate on the whole tail:
 **All production runs go on Vast — RTX 4090 (default) or RTX 3090 (fallback).** GCP L4 / SageMaker / Modal are
 not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never headline $/hr.
 
-- **Card: the 4090 wins $/ns at every size** (measured `gpu_md_bench`: 4090 1549 / 669 / 175.6 ns/day at 35k /
-  85k / 444k atoms; 3090 72.5 @444k = **2.42× slower** for only ~9% more $/hr). This includes the 466k covalent
-  panel, refuting the a-priori "large system → 3090" rule (at ≤466k, OpenMM PME is still compute-bound, so the
-  4090's ~2× compute swamps the ~8% bandwidth gap). A compute-bound alchemical edge on the 3090 costs roughly
-  **~1.5–2× the 4090 $/edge**; use the 3090 only when 4090 capacity is short. VRAM is never the constraint
-  (≥24 GB floor is ample).
+- **⚠ THE CARD RULE IS RETIRED (2026-07-25): the card is not the decision — the OFFER is.** This bullet used to
+  read *"the 4090 wins $/ns at every size (4090 1549 / 669 / 175.6 ns/day; 3090 72.5 @444k = 2.42× slower for
+  only ~9% more $/hr)"*. Both halves fail. The numbers came from the **withdrawn** 2026-07-24 23:08 bench
+  (single 0.9–4.5 s windows; it also ranked a 4080 SUPER above a 4090). The **validated** grid gives
+  **4090 755.36 / 4080 703.51 / 3090 359.36 ns/day** @84,534 → **2.10×, not 2.42×**. And the cards do **not**
+  cost within ~9% of each other: on the live board the cheapest 3090 floor is **$0.0147/hr** against
+  **$0.1310** for the cheapest 4090 — **8.8×**, far more than covering 2.10× slower. **Rank live offers by
+  all-in `$/ns`** (bid + storage ÷ measured throughput) and take whatever wins; the top 10 routinely contain
+  both cards. VRAM is never the constraint (≥24 GB is ample). A 3090 does need **2.10× the wall clock**, so a
+  leg with a hard continuity requirement is 2.10× more exposed on it — that is scaled and flagged per card,
+  not ignored.
+- **★ REALIZED RATE: $0.137 per reference (4090) GPU-hour** — best-10-offer planning rate on the live board;
+  range $0.057 (best offer) to $0.309 (median). Against the **$0.35–0.39/hr `step1_fanout` actually paid**,
+  that is **2.6–2.8×**. Best-to-median spread is **5.43×**, so *selection* is the dominant lever — worth
+  several times the bid policy. Bid = the floor plus a staleness tick, capped at the machine's on-demand price;
+  derivation, evidence and the four retired multipliers in
+  [research/compute/bid-strategy.md](./research/compute/bid-strategy.md).
 - **Per-edge bases (Vast 4090) — one extrapolated, one rate-measured, one converted; NONE is a completed edge on a 4090:**
   - **RBFE binary edge** (complex+solvent, ~35k atoms) ≈ ~5–6 GPU-h ≈ **~$0.6–1.4**. *(Basis: a live-diagnosed
     per-iteration rate, ~5.2 s/iter × 2000 iters. A clean end-to-end ΔG was **not** captured on the timing run —
@@ -431,7 +442,8 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
 5. **Ligand-side double difference replaces an unpriced protein-mutation campaign** as the primary causal test.
 6. **E3 breadth is free at search, capped before GPU** (≤2 recruiters, dropped set logged).
 
-*Operational Vast setup (bid = `min_bid × 1.5` to hold the slot; pin OpenMM to CUDA 12.6; the OpenFE image
+*Operational Vast setup (bid = the market floor + a staleness tick, capped at on-demand — `× 1.5` is
+retired, see bid-strategy.md; pin OpenMM to CUDA 12.6; the OpenFE image
 `triskit23/nr4a3fep:latest`; the `bench` / `firm` tooling in `nrv04_vast_launch.py`) is documented in
 [pricing.md](research/compute/pricing.md) and `research/modalities/gpu_backend.py` — not repeated here.*
 
@@ -831,6 +843,13 @@ only established today and moved the total by more than the first.
    ternary legs + one shared pair, not N edges) and **4 fs ternary production** (2× per leg, PROPOSED, settled by
    one ~$5–8 matched re-calibration edge). Neither adds or removes science; both were mis-priced.
 
+**★ REPRICED 2026-07-25 → ~$128 mid-range (~$36–381).** The `$/hr` half of the correction below is now fixed
+at source: the bid policy was rebuilt from measurement (`charged = min(bid, on-demand)`, verified by renting one
+offer at three bid multiples) and offers are ranked on all-in `$/ns` instead of `min_bid`, giving **$0.137 per
+reference GPU-hour** against the $0.35–0.39/hr quoted below. **The GPU-hour half is NOT fixed** — see the
+transferability warning at the end of this section. Table + regeneration:
+[research/compute/pricing.md](./research/compute/pricing.md) §C.
+
 **⚠⚠ THE ~$240 TOTAL IS WITHDRAWN (2026-07-24 ~5:15 PM ET) — the per-edge BASES under it were measured and
 found ~3× low.** The `step1_fanout` session measured the real system on three independent Vast 4090 hosts and
 halted the tranche on the result (branch `claude/step1-fanout-cmpd19-congeneric-jfwg0j`, commits 71b0f951 /
@@ -841,7 +860,10 @@ c26eb5a7). **Two errors compounded, and both hit every GPU line in this file, no
    13.70 on three hosts, 16 samples each — a tight enough spread to rule out host variance): a **~2.6× heavier
    system**. Complex leg ~9.1 GPU-h, not 3.6; unit ≈ 13.7 GPU-h.
 2. **Bid basis.** The $/hr came from a **$0.122/hr** instance; the realized current 4090 market at
-   `min_bid × 1.5` is **$0.35–0.39/hr** — ~3×.
+   `min_bid × 1.5` is **$0.35–0.39/hr** — ~3×. **⚠ SUPERSEDED 2026-07-25: that $0.35–0.39 was a consequence of
+   the policy, not of the market.** It came from bidding `× 1.5` on an offer chosen by ranking `min_bid`. Under
+   the measured policy (floor + tick, ranked on all-in `$/ns`) the same work costs **$0.137/reference GPU-hour**
+   — the market was never the problem, the bid rule and the ranking were.
 
 Net for their rung: `step1_fanout` is **~$91–101, not ~$12–26** — measured, and past the >$50 gate, which is why
 trimcrae halted it (~$2 realized, fleet torn down, `live_instances=0`, **0/19 units produced a ΔΔG**, partial
@@ -853,14 +875,18 @@ on the real system, on the quoted card, across three hosts. The rule should be r
 merges; it is left alone here rather than raced.
 
 **★ THE SAME TWO ERRORS ARE LIVE IN THE TERNARY BASE, AND ONE OF THEM IS STILL UNMEASURED.**
-- *Bid basis — measurable now, and it bites:* every ternary figure in this file used **$0.15–0.25/hr**. At the
-  realized **$0.35–0.39/hr**, the same 56–72 GPU-h edge is **~$20–28, not ~$10–16.**
+- *Bid basis — RESOLVED 2026-07-25, and it moved the other way:* every ternary figure in this file used
+  **$0.15–0.25/hr**, and the realized **$0.35–0.39/hr** made the 56–72 GPU-h edge **~$20–28**. Under the
+  measured policy it is **$0.137/reference GPU-hour → ~$8.8**, i.e. below the original estimate. The realized
+  rate was an artifact of bidding `× 1.5` on a `min_bid`-ranked offer.
 - *System transferability — UNMEASURED, and it is exactly the error above:* the ~16 s/iter ternary rate was
   measured on the **SMARCA2/VHL 8G1Q** assembly. It is being used to price **NR4A** ternaries. That is the same
   move that just cost 2.6× on the binary lane. **Do not treat the ternary base as transferable until an NR4A
   ternary leg has been timed** — and expect it to be heavier, not lighter.
-- *Card choice is NOT the lever:* at current rates a 4090 and a 3090 cost the same per iteration and the 3090
-  takes 2.4× the wall-clock. Do not "save money" by downgrading.
+- *Card choice is NOT the lever — but the OFFER is (revised 2026-07-25):* the old form of this line ("a 4090
+  and a 3090 cost the same per iteration") was true of the two *specific* prices then in hand, not of the
+  market. Across the live board the spread **within** the 4090 class alone is 2.3×, and best-to-median across
+  all qualifying offers is **5.43×**. Do not pick a card; rank offers on all-in `$/ns`.
 
 **What survives, and what does not.** The six cost levers are **ratios** — 4 fs halving force evaluations, the
 exact binary/solvent cancellation, sequential stopping — so they are independent of $/hr and of system

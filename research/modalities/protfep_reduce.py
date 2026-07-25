@@ -98,7 +98,19 @@ def group_legs(docs):
 def ddg_for(legs_by_env):
     """ddG_bind for one benchmark from its complex/apo legs. Pure.
 
-    ddG_bind = dG_mut(complex) - dG_mut(apo). Error is the between-replicate SD added in quadrature
+    ddG_bind = dG_mut(complex) - dG_mut(apo), where dG_mut(X) is the ALCHEMICAL WT->mutant
+    transformation run in environment X.
+
+    SIGN, stated because the abort gate turns on it and a flip would look entirely plausible either
+    way. The thermodynamic cycle gives ddG_bind = dG_bind(mut) - dG_bind(wt) = dG_mut(complex) -
+    dG_mut(apo), so POSITIVE means the mutant binds WORSE — the mutation weakens binding. That is the
+    same sign convention as the reference side, where protfep_refcheck computes
+    RT*ln(Kd_mut/Kd_wt) and documents "positive = the mutation WEAKENS binding". The two must agree
+    or score_benchmark compares a number against its own negation; barnase-barstar Y29A is a
+    destabilising hot-spot knockout and its reference is +3.47, so a correct engine returns a large
+    POSITIVE ddG here. Pinned by test_ddg_sign_matches_the_reference_convention.
+
+    Error is the between-replicate SD added in quadrature
     — the repo's standing rule, and the right estimator here because setup-to-setup variance, not
     within-leg MBAR precision, dominates an alchemical mutation. Where only one replicate exists the
     SD is None and the result is explicitly marked single-replicate rather than being given a
@@ -145,6 +157,25 @@ def price_from_legs(docs, hourly_usd=None):
                 and not str(d.get("leg_id", "")).endswith("_smoke")]
     if not finished:
         return {"priced": False, "reason": "no completed non-smoke legs yet"}
+
+    # A leg written before the cumulative-GPU-hours fix reports only its FINAL segment. The apo pilot
+    # leg was preempted at 14/16 windows and finished in 0.073 GPU-h, so it published $0.015/leg and a
+    # ~$0.59 wedge — roughly 20x low, because the ~1.3 GPU-h before the preemption vanished with the
+    # host. The predicate is exact rather than a guess about dates: the fixed driver writes
+    # `gpu_hours_cumulative`, the old one did not. Refusing to price is the honest outcome — a rung
+    # carried as UNPRICED costs a re-run, whereas a rung carried at 1/20th of its true cost is a
+    # number that gets quoted, planned against, and only caught after the money is committed.
+    trustworthy = [d for d in finished if d.get("gpu_hours_cumulative") is not None]
+    suspect = [str(d.get("leg_id")) for d in finished if d.get("gpu_hours_cumulative") is None]
+    if not trustworthy:
+        return {
+            "priced": False,
+            "reason": ("every completed leg predates the cumulative-GPU-hours fix, so its `gpu_hours` "
+                       "is the final segment after preemption rather than the leg's true cost — "
+                       "pricing off it understates the rung (observed ~20x low on the apo pilot leg)"),
+            "legs_excluded_as_pre_fix": suspect,
+        }
+    finished = trustworthy
     gpu_h = [float(d["gpu_hours"]) for d in finished]
     parts = [int(d.get("n_particles") or 0) for d in finished if d.get("n_particles")]
     s_iter = [float(d["s_per_iter"]) for d in finished if d.get("s_per_iter")]
@@ -159,6 +190,7 @@ def price_from_legs(docs, hourly_usd=None):
         "assumed_hourly_usd": rate,
         "usd_per_benchmark_leg": round(mean_h * rate, 3),
         "mean_particles": (int(mean_parts) if mean_parts else None),
+        "legs_excluded_as_pre_fix": suspect,
     }
     if mean_parts:
         scale_t = NR4A_TERNARY_PARTICLES / mean_parts

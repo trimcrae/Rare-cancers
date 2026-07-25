@@ -1,0 +1,117 @@
+{
+ "market": {
+  "n_offers": 148,
+  "best_usd_per_ns": 0.001811,
+  "best10_mean_usd_per_ns": 0.004359,
+  "median_usd_per_ns": 0.009829,
+  "best_usd_per_reference_gpu_h": 0.057,
+  "best10_mean_usd_per_reference_gpu_h": 0.1372,
+  "median_usd_per_reference_gpu_h": 0.3094,
+  "spread_best_to_median": 5.43,
+  "cards_in_top10": [
+   "RTX3090",
+   "RTX4090"
+  ],
+  "hazard_is_prior": true
+ },
+ "plan_usd_per_reference_gpu_h": 0.1372,
+ "range_usd_per_reference_gpu_h": [
+  0.057,
+  0.3094
+ ],
+ "ladder": {
+  "step1_pilot (1-2 RBFE edges)": {
+   "ref_gpu_h": [
+    13.7,
+    27.4
+   ],
+   "plan_usd": 2.8194599999999994,
+   "range_usd": [
+    0.7809,
+    8.47756
+   ]
+  },
+  "step1_fanout (19 RBFE edges @ ~13.7 GPU-h)": {
+   "ref_gpu_h": [
+    260.0,
+    260.0
+   ],
+   "plan_usd": 35.672,
+   "range_usd": [
+    14.82,
+    80.444
+   ]
+  },
+  "valB_mini (1 ternary edge, 3 replicas)": {
+   "ref_gpu_h": [
+    56.0,
+    72.0
+   ],
+   "plan_usd": 8.7808,
+   "range_usd": [
+    3.192,
+    22.2768
+   ]
+  },
+  "valB_full (2-3 ternary edges + CRL-MD)": {
+   "ref_gpu_h": [
+    112.0,
+    216.0
+   ],
+   "plan_usd": 22.500799999999998,
+   "range_usd": [
+    6.384,
+    66.8304
+   ]
+  },
+  "nrv04_retrospective (3 ternary legs + shared binary/solvent)": {
+   "ref_gpu_h": [
+    84.0,
+    216.0
+   ],
+   "plan_usd": 20.58,
+   "range_usd": [
+    4.788,
+    66.8304
+   ]
+  },
+  "ternary_4fs_recalibration (1 matched edge)": {
+   "ref_gpu_h": [
+    28.0,
+    36.0
+   ],
+   "plan_usd": 4.3904,
+   "range_usd": [
+    1.596,
+    11.1384
+   ]
+  },
+  "5a-KS primary (ligand-side double difference)": {
+   "ref_gpu_h": [
+    28.0,
+    144.0
+   ],
+   "plan_usd": 11.799199999999999,
+   "range_usd": [
+    1.596,
+    44.5536
+   ]
+  },
+  "local within-basin FEP (3-6 ternary comparisons)": {
+   "ref_gpu_h": [
+    56.0,
+    260.0
+   ],
+   "plan_usd": 21.677599999999998,
+   "range_usd": [
+    3.192,
+    80.444
+   ]
+  }
+ },
+ "total_plan_usd": 128.22026,
+ "total_range_usd": [
+  36.34890000000001,
+  380.99516
+ ]
+}
