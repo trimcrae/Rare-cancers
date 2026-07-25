@@ -20,14 +20,14 @@
       ]
     },
     "barnase_barstar_Y29F": {
-      "ddg_bind_kcal": -0.4648661567877639,
-      "ddg_sd_kcal": 0.17092670299922652,
+      "ddg_bind_kcal": -0.4389738687061815,
+      "ddg_sd_kcal": 0.15367777662682194,
       "n_complex": 2,
-      "n_apo": 2,
+      "n_apo": 3,
       "dg_complex_kcal": 21.6802103250478,
       "dg_complex_sd": 0.11830180373579864,
-      "dg_apo_kcal": 22.145076481835563,
-      "dg_apo_sd": 0.12337188103876172,
+      "dg_apo_kcal": 22.11918419375398,
+      "dg_apo_sd": 0.09808946050325673,
       "single_replicate": false,
       "error_model": "between-replicate SD in quadrature",
       "mbar_se_range_kcal": [
@@ -57,9 +57,9 @@
       "ref_ddg_bind_kcal": -0.13,
       "ref_source": "SKEMPI 2.0 record for 1BRS_A_D YD29F (Kd_mut 8E-15 M / Kd_wt 1E-14 M at 298 K), cited to PMID 7739054 = Schreiber & Fersht, J Mol Biol 248:478-486 (1995)",
       "ref_verified": true,
-      "calc_ddg_bind_kcal": -0.4648661567877639,
-      "calc_sd_kcal": 0.17092670299922652,
-      "abs_err_kcal": 0.3348661567877639,
+      "calc_ddg_bind_kcal": -0.4389738687061815,
+      "calc_sd_kcal": 0.15367777662682194,
+      "abs_err_kcal": 0.3089738687061815,
       "tolerance_kcal": 1.5,
       "within_tolerance": true
     }
@@ -84,25 +84,25 @@
   },
   "price": {
     "priced": true,
-    "n_legs_measured": 9,
+    "n_legs_measured": 10,
     "gpu_hours_per_leg": {
-      "mean": 1.041,
-      "sd": 0.481,
+      "mean": 1.048,
+      "sd": 0.454,
       "min": 0.379,
       "max": 1.8
     },
-    "s_per_iteration": 196.31,
+    "s_per_iteration": 195.41,
     "assumed_hourly_usd": 0.2,
-    "usd_per_benchmark_leg": 0.208,
-    "mean_particles": 25406,
+    "usd_per_benchmark_leg": 0.21,
+    "mean_particles": 24204,
     "legs_excluded_as_pre_fix": [
       "barnase_barstar_Y29A__apo_r0"
     ],
-    "projected_wedge_usd_2rep": 2.97,
-    "projected_wedge_gpu_h_2rep": 14.9,
-    "projected_wedge_usd_3rep": 4.46,
-    "projected_wedge_gpu_h_3rep": 22.3,
-    "projection_basis": "linear particle-count scaling from the benchmark's 25406 particles to 146284 (NR4A ternary leg) and ~35000 (binary leg). Linear-in-particles is the standard first-order assumption for PME MD at fixed cutoff; it is an ASSUMPTION, not a measurement, and the projected wedge cost is therefore a PROJECTION \u2014 it may not be quoted as a measured rate."
+    "projected_wedge_usd_2rep": 3.14,
+    "projected_wedge_gpu_h_2rep": 15.7,
+    "projected_wedge_usd_3rep": 4.71,
+    "projected_wedge_gpu_h_3rep": 23.5,
+    "projection_basis": "linear particle-count scaling from the benchmark's 24204 particles to 146284 (NR4A ternary leg) and ~35000 (binary leg). Linear-in-particles is the standard first-order assumption for PME MD at fixed cutoff; it is an ASSUMPTION, not a measurement, and the projected wedge cost is therefore a PROJECTION \u2014 it may not be quoted as a measured rate."
   },
   "engines": [
     "pmx (mutate+gentop) + GROMACS lambda windows + BAR"
