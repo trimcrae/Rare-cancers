@@ -1,0 +1,778 @@
+{
+  "_what": "independent audit of ternary_fep_reduce.calibration_gate and its 2026-07-25 defect fix",
+  "_method": "every verdict comes from the SHIPPED gate; the superseded rule is reproduced via the audit-only anti_null=False switch, not by reimplementation",
+  "_date": "2026-07-25",
+  "target_kcal": 0.944,
+  "r0_kcal": -0.534,
+  "A_monotone_strictness": {
+    "_claim": "the corrected rule is STRICTLY STRICTER: no input gets a better verdict than before",
+    "grid_points_checked": 20468,
+    "points_where_corrected_is_MORE_permissive": 0,
+    "counterexamples": [],
+    "points_where_corrected_is_stricter": 883,
+    "verdict": "CLAIM HOLDS \u2014 zero counterexamples over 20468 grid points"
+  },
+  "B_null_and_accuracy": {
+    "_claim": "the superseded rule admits the null; the corrected rule restores discrimination",
+    "n_trials_per_cell": 40000,
+    "scenarios": [
+      {
+        "replicate_sd": 0.3,
+        "scenario": "accurate (mu = target)",
+        "mu": 0.944,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 100.0,
+          "BORDERLINE": 0.0,
+          "FAIL": 0.0,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 99.9,
+          "BORDERLINE": 0.1,
+          "FAIL": 0.0,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.3,
+        "scenario": "NULL (mu = 0)",
+        "mu": 0.0,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 50.36,
+          "BORDERLINE": 0.0,
+          "FAIL": 49.64,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 0.03,
+          "BORDERLINE": 50.34,
+          "FAIL": 49.64,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.3,
+        "scenario": "half-signal (mu = target/2)",
+        "mu": 0.472,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 99.98,
+          "BORDERLINE": 0.0,
+          "FAIL": 0.02,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 47.05,
+          "BORDERLINE": 52.94,
+          "FAIL": 0.02,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.3,
+        "scenario": "2x overshoot (mu = 2*target)",
+        "mu": 1.888,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 66.25,
+          "BORDERLINE": 33.76,
+          "FAIL": 0.0,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 66.25,
+          "BORDERLINE": 33.76,
+          "FAIL": 0.0,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.5,
+        "scenario": "accurate (mu = target)",
+        "mu": 0.944,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 93.94,
+          "BORDERLINE": 5.8,
+          "FAIL": 0.27,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 85.2,
+          "BORDERLINE": 14.53,
+          "FAIL": 0.27,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.5,
+        "scenario": "NULL (mu = 0)",
+        "mu": 0.0,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 47.41,
+          "BORDERLINE": 2.81,
+          "FAIL": 49.77,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 0.82,
+          "BORDERLINE": 49.41,
+          "FAIL": 49.77,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.5,
+        "scenario": "half-signal (mu = target/2)",
+        "mu": 0.472,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 92.19,
+          "BORDERLINE": 5.69,
+          "FAIL": 2.12,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 30.74,
+          "BORDERLINE": 67.15,
+          "FAIL": 2.12,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.5,
+        "scenario": "2x overshoot (mu = 2*target)",
+        "mu": 1.888,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 56.17,
+          "BORDERLINE": 43.56,
+          "FAIL": 0.27,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 56.17,
+          "BORDERLINE": 43.56,
+          "FAIL": 0.27,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.7,
+        "scenario": "accurate (mu = target)",
+        "mu": 0.944,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 66.33,
+          "BORDERLINE": 25.02,
+          "FAIL": 8.65,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 52.39,
+          "BORDERLINE": 38.96,
+          "FAIL": 8.65,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.7,
+        "scenario": "NULL (mu = 0)",
+        "mu": 0.0,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 33.57,
+          "BORDERLINE": 12.63,
+          "FAIL": 53.8,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 1.77,
+          "BORDERLINE": 44.44,
+          "FAIL": 53.8,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.7,
+        "scenario": "half-signal (mu = target/2)",
+        "mu": 0.472,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 62.18,
+          "BORDERLINE": 23.29,
+          "FAIL": 14.53,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 19.14,
+          "BORDERLINE": 66.33,
+          "FAIL": 14.53,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 0.7,
+        "scenario": "2x overshoot (mu = 2*target)",
+        "mu": 1.888,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 37.85,
+          "BORDERLINE": 53.56,
+          "FAIL": 8.59,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 37.85,
+          "BORDERLINE": 53.56,
+          "FAIL": 8.59,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 1.0,
+        "scenario": "accurate (mu = target)",
+        "mu": 0.944,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 29.99,
+          "BORDERLINE": 28.06,
+          "FAIL": 41.95,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 21.14,
+          "BORDERLINE": 36.91,
+          "FAIL": 41.95,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 1.0,
+        "scenario": "NULL (mu = 0)",
+        "mu": 0.0,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 15.8,
+          "BORDERLINE": 14.08,
+          "FAIL": 70.11,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 2.14,
+          "BORDERLINE": 27.75,
+          "FAIL": 70.11,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 1.0,
+        "scenario": "half-signal (mu = target/2)",
+        "mu": 0.472,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 26.5,
+          "BORDERLINE": 24.3,
+          "FAIL": 49.2,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 9.56,
+          "BORDERLINE": 41.24,
+          "FAIL": 49.2,
+          "INDETERMINATE": 0.0
+        }
+      },
+      {
+        "replicate_sd": 1.0,
+        "scenario": "2x overshoot (mu = 2*target)",
+        "mu": 1.888,
+        "n": 5,
+        "extended": true,
+        "superseded_rule": {
+          "PASS": 16.72,
+          "BORDERLINE": 41.9,
+          "FAIL": 41.38,
+          "INDETERMINATE": 0.0
+        },
+        "corrected_rule": {
+          "PASS": 16.53,
+          "BORDERLINE": 42.09,
+          "FAIL": 41.38,
+          "INDETERMINATE": 0.0
+        }
+      }
+    ],
+    "discrimination": [
+      {
+        "replicate_sd": 0.3,
+        "superseded": {
+          "pass_accurate_pct": 100.0,
+          "pass_null_pct": 50.36,
+          "discrimination_ratio": 1.99
+        },
+        "corrected": {
+          "pass_accurate_pct": 99.9,
+          "pass_null_pct": 0.03,
+          "discrimination_ratio": 3330.0
+        }
+      },
+      {
+        "replicate_sd": 0.5,
+        "superseded": {
+          "pass_accurate_pct": 93.94,
+          "pass_null_pct": 47.41,
+          "discrimination_ratio": 1.98
+        },
+        "corrected": {
+          "pass_accurate_pct": 85.2,
+          "pass_null_pct": 0.82,
+          "discrimination_ratio": 103.9
+        }
+      },
+      {
+        "replicate_sd": 0.7,
+        "superseded": {
+          "pass_accurate_pct": 66.33,
+          "pass_null_pct": 33.57,
+          "discrimination_ratio": 1.98
+        },
+        "corrected": {
+          "pass_accurate_pct": 52.39,
+          "pass_null_pct": 1.77,
+          "discrimination_ratio": 29.6
+        }
+      },
+      {
+        "replicate_sd": 1.0,
+        "superseded": {
+          "pass_accurate_pct": 29.99,
+          "pass_null_pct": 15.8,
+          "discrimination_ratio": 1.9
+        },
+        "corrected": {
+          "pass_accurate_pct": 21.14,
+          "pass_null_pct": 2.14,
+          "discrimination_ratio": 9.88
+        }
+      }
+    ]
+  },
+  "C_no_self_rescue": {
+    "_claim": "the fix does not rescue the failing result \u2014 it cannot, being monotone",
+    "r0_held_kcal": -0.534,
+    "conditional_monte_carlo": [
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.3,
+        "remaining_replicates_drawn_from": "method exactly right",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.3,
+        "remaining_replicates_drawn_from": "r0 is representative",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.3,
+        "remaining_replicates_drawn_from": "null",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.5,
+        "remaining_replicates_drawn_from": "method exactly right",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.5,
+        "remaining_replicates_drawn_from": "r0 is representative",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.5,
+        "remaining_replicates_drawn_from": "null",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.7,
+        "remaining_replicates_drawn_from": "method exactly right",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.7,
+        "remaining_replicates_drawn_from": "r0 is representative",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 0.7,
+        "remaining_replicates_drawn_from": "null",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 1.0,
+        "remaining_replicates_drawn_from": "method exactly right",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 1.0,
+        "remaining_replicates_drawn_from": "r0 is representative",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 3,
+        "replicate_sd": 1.0,
+        "remaining_replicates_drawn_from": "null",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.3,
+        "remaining_replicates_drawn_from": "method exactly right",
+        "superseded_PASS_pct": 71.58,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.3,
+        "remaining_replicates_drawn_from": "r0 is representative",
+        "superseded_PASS_pct": 0.0,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.3,
+        "remaining_replicates_drawn_from": "null",
+        "superseded_PASS_pct": 18.42,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.5,
+        "remaining_replicates_drawn_from": "method exactly right",
+        "superseded_PASS_pct": 39.99,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.5,
+        "remaining_replicates_drawn_from": "r0 is representative",
+        "superseded_PASS_pct": 0.42,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.5,
+        "remaining_replicates_drawn_from": "null",
+        "superseded_PASS_pct": 27.12,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.7,
+        "remaining_replicates_drawn_from": "method exactly right",
+        "superseded_PASS_pct": 23.77,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.7,
+        "remaining_replicates_drawn_from": "r0 is representative",
+        "superseded_PASS_pct": 1.97,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 0.7,
+        "remaining_replicates_drawn_from": "null",
+        "superseded_PASS_pct": 22.18,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 1.0,
+        "remaining_replicates_drawn_from": "method exactly right",
+        "superseded_PASS_pct": 11.12,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 1.0,
+        "remaining_replicates_drawn_from": "r0 is representative",
+        "superseded_PASS_pct": 2.99,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      },
+      {
+        "n_including_r0": 5,
+        "replicate_sd": 1.0,
+        "remaining_replicates_drawn_from": "null",
+        "superseded_PASS_pct": 11.49,
+        "corrected_PASS_pct": 0.0,
+        "corrected_is_not_easier": true
+      }
+    ],
+    "all_rows_satisfy_not_easier": true,
+    "exhaustive_n3_scan_over_r1_r2": {
+      "old_PASS": 0,
+      "new_PASS": 0,
+      "cells": 58081
+    },
+    "r0_alone_verdict": {
+      "superseded": "INDETERMINATE",
+      "corrected": "INDETERMINATE"
+    }
+  },
+  "D_acceptance_band": {
+    "_what": "range of mean ddG_coop that a PASS certifies, at vanishing replicate SD (widest case)",
+    "target_kcal": 0.944,
+    "accept_low_kcal": 0.472,
+    "accept_high_kcal": 1.944,
+    "band_width_kcal": 1.472,
+    "band_width_as_multiple_of_target": 1.56,
+    "accept_low_as_fraction_of_target": 0.5,
+    "accept_high_as_fraction_of_target": 2.059,
+    "reading": "a PASS certifies the method's ddG_coop to within roughly a FACTOR OF 4.1 of the true value \u2014 because the preregistered accuracy margin (+-1.0 kcal/mol) is larger than the signal being calibrated (0.944 kcal/mol). The defect fix removed the null from the low side; it could not make a 1.0 kcal/mol margin informative about a 0.944 kcal/mol effect."
+  },
+  "E_signal_size_sweep": {
+    "_what": "P(PASS) for an accurate vs a null method, as a function of the calibrator's true signal, at the FROZEN +-1.0 kcal/mol accuracy margin and the corrected anti-null rule",
+    "_why": "the accuracy margin is absolute, so a larger true signal shrinks the accept band RELATIVE to the effect and the same gate becomes informative. This is the arithmetic behind the proposal to rescope the calibrator to >=2 kcal/mol.",
+    "rows": [
+      {
+        "target_kcal": 0.5,
+        "replicate_sd": 0.5,
+        "n": 5,
+        "pass_accurate_pct": 39.84,
+        "pass_null_pct": 2.13,
+        "discrimination_ratio": 18.7,
+        "accept_band_as_fraction_of_target": 4.0
+      },
+      {
+        "target_kcal": 0.5,
+        "replicate_sd": 0.7,
+        "n": 5,
+        "pass_accurate_pct": 21.93,
+        "pass_null_pct": 2.32,
+        "discrimination_ratio": 9.5,
+        "accept_band_as_fraction_of_target": 4.0
+      },
+      {
+        "target_kcal": 0.944,
+        "replicate_sd": 0.5,
+        "n": 5,
+        "pass_accurate_pct": 85.37,
+        "pass_null_pct": 0.81,
+        "discrimination_ratio": 105.4,
+        "accept_band_as_fraction_of_target": 2.12
+      },
+      {
+        "target_kcal": 0.944,
+        "replicate_sd": 0.7,
+        "n": 5,
+        "pass_accurate_pct": 52.39,
+        "pass_null_pct": 1.68,
+        "discrimination_ratio": 31.2,
+        "accept_band_as_fraction_of_target": 2.12
+      },
+      {
+        "target_kcal": 1.25,
+        "replicate_sd": 0.5,
+        "n": 5,
+        "pass_accurate_pct": 93.33,
+        "pass_null_pct": 0.2,
+        "discrimination_ratio": 466.6,
+        "accept_band_as_fraction_of_target": 1.6
+      },
+      {
+        "target_kcal": 1.25,
+        "replicate_sd": 0.7,
+        "n": 5,
+        "pass_accurate_pct": 63.32,
+        "pass_null_pct": 0.95,
+        "discrimination_ratio": 66.7,
+        "accept_band_as_fraction_of_target": 1.6
+      },
+      {
+        "target_kcal": 1.5,
+        "replicate_sd": 0.5,
+        "n": 5,
+        "pass_accurate_pct": 93.97,
+        "pass_null_pct": 0.04,
+        "discrimination_ratio": 2349.2,
+        "accept_band_as_fraction_of_target": 1.33
+      },
+      {
+        "target_kcal": 1.5,
+        "replicate_sd": 0.7,
+        "n": 5,
+        "pass_accurate_pct": 66.07,
+        "pass_null_pct": 0.45,
+        "discrimination_ratio": 146.8,
+        "accept_band_as_fraction_of_target": 1.33
+      },
+      {
+        "target_kcal": 2.0,
+        "replicate_sd": 0.5,
+        "n": 5,
+        "pass_accurate_pct": 94.04,
+        "pass_null_pct": 0.0,
+        "discrimination_ratio": "inf",
+        "accept_band_as_fraction_of_target": 1.0
+      },
+      {
+        "target_kcal": 2.0,
+        "replicate_sd": 0.7,
+        "n": 5,
+        "pass_accurate_pct": 66.8,
+        "pass_null_pct": 0.07,
+        "discrimination_ratio": 954.3,
+        "accept_band_as_fraction_of_target": 1.0
+      },
+      {
+        "target_kcal": 2.53,
+        "replicate_sd": 0.5,
+        "n": 5,
+        "pass_accurate_pct": 94.04,
+        "pass_null_pct": 0.0,
+        "discrimination_ratio": "inf",
+        "accept_band_as_fraction_of_target": 0.79
+      },
+      {
+        "target_kcal": 2.53,
+        "replicate_sd": 0.7,
+        "n": 5,
+        "pass_accurate_pct": 66.8,
+        "pass_null_pct": 0.0,
+        "discrimination_ratio": "inf",
+        "accept_band_as_fraction_of_target": 0.79
+      },
+      {
+        "target_kcal": 2.99,
+        "replicate_sd": 0.5,
+        "n": 5,
+        "pass_accurate_pct": 94.04,
+        "pass_null_pct": 0.0,
+        "discrimination_ratio": "inf",
+        "accept_band_as_fraction_of_target": 0.67
+      },
+      {
+        "target_kcal": 2.99,
+        "replicate_sd": 0.7,
+        "n": 5,
+        "pass_accurate_pct": 66.8,
+        "pass_null_pct": 0.0,
+        "discrimination_ratio": "inf",
+        "accept_band_as_fraction_of_target": 0.67
+      },
+      {
+        "target_kcal": 3.5,
+        "replicate_sd": 0.5,
+        "n": 5,
+        "pass_accurate_pct": 94.04,
+        "pass_null_pct": 0.0,
+        "discrimination_ratio": "inf",
+        "accept_band_as_fraction_of_target": 0.57
+      },
+      {
+        "target_kcal": 3.5,
+        "replicate_sd": 0.7,
+        "n": 5,
+        "pass_accurate_pct": 66.8,
+        "pass_null_pct": 0.0,
+        "discrimination_ratio": "inf",
+        "accept_band_as_fraction_of_target": 0.57
+      }
+    ]
+  },
+  "F_power_ceiling": {
+    "_what": "P(PASS) ceiling = P(sample SD <= 0.75) at n=5, independent of target and of accuracy",
+    "_consequence": "beyond a target of ~2 kcal/mol the accuracy margin no longer binds; the replicate SD alone sets the achievable power, so precision design beats a bigger signal there",
+    "rows": [
+      {
+        "true_replicate_sd": 0.3,
+        "analytic_ceiling_pct": 99.99,
+        "empirical_plateau_pct_from_audit_E": null,
+        "agree_within_1pct": null
+      },
+      {
+        "true_replicate_sd": 0.5,
+        "analytic_ceiling_pct": 93.89,
+        "empirical_plateau_pct_from_audit_E": 94.04,
+        "agree_within_1pct": true
+      },
+      {
+        "true_replicate_sd": 0.7,
+        "analytic_ceiling_pct": 66.82,
+        "empirical_plateau_pct_from_audit_E": 66.8,
+        "agree_within_1pct": true
+      },
+      {
+        "true_replicate_sd": 1.0,
+        "analytic_ceiling_pct": 31.01,
+        "empirical_plateau_pct_from_audit_E": null,
+        "agree_within_1pct": null
+      }
+    ]
+  }
+}
