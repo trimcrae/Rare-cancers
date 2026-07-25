@@ -90,7 +90,13 @@ jobs:
           # by accident, which is the spend-gated ladder's first rule.
           TASK="${DISPATCH_TASK:-}"
           if [ -z "$TASK" ]; then
-            TASK=$(printf '%s' "$MSG" | grep -oE '\[tvast:[a-z-]+\]' | head -1 | sed 's/\[tvast://; s/\]//')
+            # `|| true` IS LOAD-BEARING. grep exits 1 when it matches nothing, and under `set -eo pipefail`
+            # (plus the runner's own `bash -e`) that failure propagates out of the command substitution and
+            # kills the step — so the "no marker -> fall back to the free `test`" branch could never be
+            # reached, and EVERY marker-less push to this lane's files went red. Observed on run
+            # 30169660474, whose only fault was a commit message without a [tvast:...] marker. A fallback
+            # that cannot execute is not a fallback.
+            TASK=$(printf '%s' "$MSG" | grep -oE '\[tvast:[a-z-]+\]' | head -1 | sed 's/\[tvast://; s/\]//' || true)
           fi
           case "${TASK:-test}" in
             test|dry-run|smoke|probe|edge|collect|reduce|stop) TASK="${TASK:-test}" ;;
