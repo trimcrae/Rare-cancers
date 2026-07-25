@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_e3_stage, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_e3_stage, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_adduct_build, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
@@ -589,6 +589,50 @@ jobs:
       - name: Build the full solvated system from the real co-fold (CPU, no MD; NAGL charges — no sqm)
         working-directory: research/modalities
         run: python nrv04_build_smoke.py
+
+  nrv04_input_audit:
+    # LANE 8 / prereg AMENDMENT 1 criterion A1. The amendment records A1 as failing and concludes Boltz seats
+    # celastrol against no NR4A1 cysteine "in any co-fold currently in the bucket". That rests on
+    # nrv04_prespend_check._pull_model, which samples ONE model per system (sorted(_model_0.cif)[0]) out of a
+    # seed ENSEMBLE. This job measures A1 on EVERY model of EVERY system of EVERY co-fold prefix, and separates
+    # "passes at the NEAREST target cysteine" from "passes at the FROZEN site (NR4A1 C551)" -- which the
+    # prespend check does not distinguish. $0: read-only S3 + CPU.
+    if: ${{ github.event.inputs.task == 'nrv04_input_audit' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3 gemmi numpy rdkit
+      - name: Exhaustive A1 admissibility audit over every co-fold model
+        run: |
+          python research/modalities/nrv04_covalent_input_audit.py \
+            --bucket "${VAST_CKPT_BUCKET}" \
+            --prefixes "${{ github.event.inputs.ternary_extra_args }}"
+      - name: Commit the audit JSON back to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nrv04-covalent-input-audit.json || true
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "NR-V04 A1 audit: every co-fold model measured (auto)"
+            for attempt in 1 2 3 4; do
+              git pull --rebase origin ${{ github.ref_name }} && \
+                git push origin HEAD:${{ github.ref_name }} && break
+              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
+            done
+          fi
 
   nrv04_ffcache_status:
     # Fast diagnostic (~30s): print the ffcache object's LastModified + size so we can tell whether charge_cache
