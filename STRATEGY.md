@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 3:05 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 4:05 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -75,8 +75,7 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** | **NOT RUNNING — being relaunched correctly.** Four attempts died today; the last two are now root-caused to **one cause with a documented fix**: the leg was started from the **raw (`v1`) setup**, not the pre-equilibrated (`v2pe`) one fwd used. Both zombie VMs reaped (L4 usage 0.0). Blocked on the **`v2pe` rev setup prime** (row below) | prime ETA **~3:25 PM ET**, leg launches immediately after → result **2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
-| **`v2pe` rev setup prime** (`ternary-setup-prime-cpu.yml`, CPU, **$0**) | **RUNNING** since 2:53 PM ET, 9 min in. Overlays the v2 pre-equilibrated complex and keys the setup cache to `v2pe` for `direction=rev`. Parameterising 146 k atoms on a 4-vCPU runner ≈ 30 min (120-min timeout) | **~3:25 PM ET** | Unblocks the rev leg. It also doubles as the **$0 existence check** on the preequil cache — if that were missing this fails on CPU instead of wasting a GPU boot |
+| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30171884657`) | **RUNNING and PAST THE FAILURE POINT** — launched 3:35 PM ET, and at 3:58 PM the committed-iteration census read **`warmup/8`**. All four earlier attempts died at **warmup iteration 1**, so a committed checkpoint at 8 is the fix confirmed working, not merely "no error yet". Measured **33.9 s/iteration**, exactly the L4 spec rate in [pricing.md](research/compute/pricing.md); `NaN=no`, no `nan-error-logs`. First attempt on the **`v2pe`** setup, provenance verified identical to fwd (141,968 particles, protocol_hash `52488cfc…`) | **~Sun 6 PM ET** (see the ETA correction below) | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ⚠ **Confound: the 4 fs arm necessarily carries pre-equilibration and `use_preequil` was NEVER VERIFIED for the 2 fs baseline** — agreement authorises adoption; **disagreement is a NO-GO that must NOT be attributed to the timestep** |
@@ -184,6 +183,28 @@ relevant rung below.*
 > a value crosses a boundary — two shells, generation-time vs run-time, runner vs VM — the only acceptable
 > evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
 > inspection of the producing code.
+
+> ### ⏱️ ETA CORRECTED FROM A MEASURED RATE — ~26 h of MD, not the ~10–20 h previously quoted
+> The leg logs **33.91 s/iteration**, which is exactly the L4 rate [pricing.md](research/compute/pricing.md)
+> records ("L4's ~33"), so the GPU is at spec and this is not a slowness problem — the earlier estimate was simply
+> not derived from a measurement. The targets are **warmup 800** + **production 2000** iterations, and those are
+> the counts **fwd actually committed** (`warmup_committed_iter=00000800`, `production_committed_iter=00002000`),
+> so they are required for comparability and must not be trimmed.
+>
+> | | iterations | at 33.91 s/iter |
+> |---|---|---|
+> | warmup (1.0 fs) | 800 | **7.5 h** |
+> | production (2.0 fs) | 2000 | **18.8 h** |
+> | **total pure MD** | 2800 | **26.4 h** |
+>
+> The VM carries a **7 h max-run backstop**, so this spans **~4 VM lifetimes**. That is expected and self-driving:
+> each expiry deletes the VM → the watchdog sees DIED → it relaunches → the leg **resumes from its last committed
+> checkpoint**, and the setup-cache precondition now passes because the `v2pe` cache exists. The per-day relaunch
+> cap of 8 comfortably covers the ~4 needed. **ETA ~Sun 6 PM ET** including restore overhead.
+>
+> **Not doing:** `autostop_convergence=1` would likely end production early and save hours, but fwd ran to the
+> full 2000, so enabling it for rev alone would make the two legs different calculations and void the very
+> antisymmetry test this leg exists to produce. Cost is not a reason to break the comparison.
 
 > ### 🔬 THE WARMUP NaN — ROOT-CAUSED, and the cause was already written down
 > All four rev attempts died at **warmup iteration 1** — at 2.0 fs (replica 0, state 1) and at 1.0 fs (replica 0,
