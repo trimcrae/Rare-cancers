@@ -1,0 +1,779 @@
+{
+  "_what": "valB_mini calibrator rescope \u2014 two designs, priced and powered",
+  "_date": "2026-07-25",
+  "_alpha_provenance": "nr4a3-ternary-coop-prereg.json -> calibration.layer1_vhl_panel (each system primary-source verified; Nat Commun 2025 PMC12480974 Supp. Table 1, SI archived and checksummed). Nothing in this file re-derives or invents an alpha.",
+  "_observable": "apparent TR-FRET cooperativity (alpha_TR-FRET)",
+  "_assay_warning": "the P-series alphas are alpha_TR-FRET (an APPARENT cooperativity, IC50 ratio) while the current valB target is alpha_SPR. Each EDGE is same-assay, which is what a relative calibration needs, but a P-series result must never be reported as continuous with the Wurz number.",
+  "_pricing": {
+    "usd_per_reference_gpu_h": 0.137,
+    "ref_gpu_h_per_edge_replicate": 21.3,
+    "basis": "vast_cost_model.LADDER_REFERENCE_GPU_H['valB_mini (1 ternary edge, 3 replicas)'] = 56-72 ref GPU-h for 3 replicates of one edge"
+  },
+  "panel": {
+    "smarca2_p1": {
+      "alpha": 93.0,
+      "pdb": "9HYN",
+      "ligand_ccd": null
+    },
+    "smarca2_p2": {
+      "alpha": 4.1,
+      "pdb": "7Z77",
+      "ligand_ccd": null
+    },
+    "smarca2_p3": {
+      "alpha": 5.0,
+      "pdb": "9HYB",
+      "ligand_ccd": null
+    },
+    "smarca2_p4": {
+      "alpha": 1.3,
+      "pdb": "9HYO",
+      "ligand_ccd": null
+    },
+    "smarca2_p5": {
+      "alpha": 0.6,
+      "pdb": "9HYP",
+      "ligand_ccd": null
+    }
+  },
+  "resolution_floor_today": {
+    "statistical_per_leg_kcal": 0.045,
+    "statistical_on_the_cycle_kcal": 0.064,
+    "observed_total_error_kcal": 1.478,
+    "ratio": 23.2,
+    "reading": "the cycle's STATISTICAL resolution is ~0.06 kcal/mol; its TOTAL error on the single available observation is 1.478 \u2014 a ~23x gap, which is the finding. A resolution floor is not yet MEASURED, because measuring one needs the reverse legs (in flight) and a redundant edge (design (i)); r0 alone gives a single-point lower bound, not a floor."
+  },
+  "design_i_closure_network": {
+    "_design": "(i) multi-edge congeneric network -> CYCLE CLOSURE + a measured resolution floor",
+    "_why_it_is_different_in_kind": "closure is reference-free. Every other check this lane has (accuracy vs alpha, replicate SD, MBAR overlap) either needs the experimental answer or measures precision only. A nonzero closure residual is proof of systematic error with nothing else assumed.",
+    "_selection_rule": "prefer the triangle whose SMALLEST hop is largest \u2014 the weakest hop sets how much of the closure residual is signal rather than noise",
+    "candidate_triangles": [
+      {
+        "triangle": [
+          "smarca2_p1",
+          "smarca2_p3",
+          "smarca2_p5"
+        ],
+        "pdbs": [
+          "9HYN",
+          "9HYB",
+          "9HYP"
+        ],
+        "edges": [
+          "smarca2_p1->smarca2_p3",
+          "smarca2_p3->smarca2_p5",
+          "smarca2_p1->smarca2_p5 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          1.732,
+          1.256
+        ],
+        "direct_target_kcal": 2.988,
+        "smallest_hop_kcal": 1.256,
+        "closure_identity": "ddG(smarca2_p1->smarca2_p3) + ddG(smarca2_p3->smarca2_p5) - ddG(smarca2_p1->smarca2_p5) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p1",
+          "smarca2_p2",
+          "smarca2_p5"
+        ],
+        "pdbs": [
+          "9HYN",
+          "7Z77",
+          "9HYP"
+        ],
+        "edges": [
+          "smarca2_p1->smarca2_p2",
+          "smarca2_p2->smarca2_p5",
+          "smarca2_p1->smarca2_p5 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          1.85,
+          1.139
+        ],
+        "direct_target_kcal": 2.988,
+        "smallest_hop_kcal": 1.139,
+        "closure_identity": "ddG(smarca2_p1->smarca2_p2) + ddG(smarca2_p2->smarca2_p5) - ddG(smarca2_p1->smarca2_p5) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p1",
+          "smarca2_p3",
+          "smarca2_p4"
+        ],
+        "pdbs": [
+          "9HYN",
+          "9HYB",
+          "9HYO"
+        ],
+        "edges": [
+          "smarca2_p1->smarca2_p3",
+          "smarca2_p3->smarca2_p4",
+          "smarca2_p1->smarca2_p4 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          1.732,
+          0.798
+        ],
+        "direct_target_kcal": 2.53,
+        "smallest_hop_kcal": 0.798,
+        "closure_identity": "ddG(smarca2_p1->smarca2_p3) + ddG(smarca2_p3->smarca2_p4) - ddG(smarca2_p1->smarca2_p4) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p1",
+          "smarca2_p2",
+          "smarca2_p4"
+        ],
+        "pdbs": [
+          "9HYN",
+          "7Z77",
+          "9HYO"
+        ],
+        "edges": [
+          "smarca2_p1->smarca2_p2",
+          "smarca2_p2->smarca2_p4",
+          "smarca2_p1->smarca2_p4 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          1.85,
+          0.681
+        ],
+        "direct_target_kcal": 2.53,
+        "smallest_hop_kcal": 0.681,
+        "closure_identity": "ddG(smarca2_p1->smarca2_p2) + ddG(smarca2_p2->smarca2_p4) - ddG(smarca2_p1->smarca2_p4) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p1",
+          "smarca2_p4",
+          "smarca2_p5"
+        ],
+        "pdbs": [
+          "9HYN",
+          "9HYO",
+          "9HYP"
+        ],
+        "edges": [
+          "smarca2_p1->smarca2_p4",
+          "smarca2_p4->smarca2_p5",
+          "smarca2_p1->smarca2_p5 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          2.53,
+          0.458
+        ],
+        "direct_target_kcal": 2.988,
+        "smallest_hop_kcal": 0.458,
+        "closure_identity": "ddG(smarca2_p1->smarca2_p4) + ddG(smarca2_p4->smarca2_p5) - ddG(smarca2_p1->smarca2_p5) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p3",
+          "smarca2_p4",
+          "smarca2_p5"
+        ],
+        "pdbs": [
+          "9HYB",
+          "9HYO",
+          "9HYP"
+        ],
+        "edges": [
+          "smarca2_p3->smarca2_p4",
+          "smarca2_p4->smarca2_p5",
+          "smarca2_p3->smarca2_p5 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          0.798,
+          0.458
+        ],
+        "direct_target_kcal": 1.256,
+        "smallest_hop_kcal": 0.458,
+        "closure_identity": "ddG(smarca2_p3->smarca2_p4) + ddG(smarca2_p4->smarca2_p5) - ddG(smarca2_p3->smarca2_p5) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p2",
+          "smarca2_p4",
+          "smarca2_p5"
+        ],
+        "pdbs": [
+          "7Z77",
+          "9HYO",
+          "9HYP"
+        ],
+        "edges": [
+          "smarca2_p2->smarca2_p4",
+          "smarca2_p4->smarca2_p5",
+          "smarca2_p2->smarca2_p5 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          0.681,
+          0.458
+        ],
+        "direct_target_kcal": 1.139,
+        "smallest_hop_kcal": 0.458,
+        "closure_identity": "ddG(smarca2_p2->smarca2_p4) + ddG(smarca2_p4->smarca2_p5) - ddG(smarca2_p2->smarca2_p5) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p1",
+          "smarca2_p3",
+          "smarca2_p2"
+        ],
+        "pdbs": [
+          "9HYN",
+          "9HYB",
+          "7Z77"
+        ],
+        "edges": [
+          "smarca2_p1->smarca2_p3",
+          "smarca2_p3->smarca2_p2",
+          "smarca2_p1->smarca2_p2 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          1.732,
+          0.118
+        ],
+        "direct_target_kcal": 1.85,
+        "smallest_hop_kcal": 0.118,
+        "closure_identity": "ddG(smarca2_p1->smarca2_p3) + ddG(smarca2_p3->smarca2_p2) - ddG(smarca2_p1->smarca2_p2) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p3",
+          "smarca2_p2",
+          "smarca2_p5"
+        ],
+        "pdbs": [
+          "9HYB",
+          "7Z77",
+          "9HYP"
+        ],
+        "edges": [
+          "smarca2_p3->smarca2_p2",
+          "smarca2_p2->smarca2_p5",
+          "smarca2_p3->smarca2_p5 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          0.118,
+          1.139
+        ],
+        "direct_target_kcal": 1.256,
+        "smallest_hop_kcal": 0.118,
+        "closure_identity": "ddG(smarca2_p3->smarca2_p2) + ddG(smarca2_p2->smarca2_p5) - ddG(smarca2_p3->smarca2_p5) == 0 for an exact method"
+      },
+      {
+        "triangle": [
+          "smarca2_p3",
+          "smarca2_p2",
+          "smarca2_p4"
+        ],
+        "pdbs": [
+          "9HYB",
+          "7Z77",
+          "9HYO"
+        ],
+        "edges": [
+          "smarca2_p3->smarca2_p2",
+          "smarca2_p2->smarca2_p4",
+          "smarca2_p3->smarca2_p4 (direct, closes the loop)"
+        ],
+        "hop_targets_kcal": [
+          0.118,
+          0.681
+        ],
+        "direct_target_kcal": 0.798,
+        "smallest_hop_kcal": 0.118,
+        "closure_identity": "ddG(smarca2_p3->smarca2_p2) + ddG(smarca2_p2->smarca2_p4) - ddG(smarca2_p3->smarca2_p4) == 0 for an exact method"
+      }
+    ],
+    "recommended": {
+      "triangle": [
+        "smarca2_p1",
+        "smarca2_p3",
+        "smarca2_p5"
+      ],
+      "pdbs": [
+        "9HYN",
+        "9HYB",
+        "9HYP"
+      ],
+      "edges": [
+        "smarca2_p1->smarca2_p3",
+        "smarca2_p3->smarca2_p5",
+        "smarca2_p1->smarca2_p5 (direct, closes the loop)"
+      ],
+      "hop_targets_kcal": [
+        1.732,
+        1.256
+      ],
+      "direct_target_kcal": 2.988,
+      "smallest_hop_kcal": 1.256,
+      "closure_identity": "ddG(smarca2_p1->smarca2_p3) + ddG(smarca2_p3->smarca2_p5) - ddG(smarca2_p1->smarca2_p5) == 0 for an exact method"
+    },
+    "cost_n1_scout": {
+      "n_edges": 3,
+      "n_replicates": 1,
+      "legs": {
+        "ternary": 3,
+        "binary": 3,
+        "solvent": 3,
+        "total": 9
+      },
+      "reference_gpu_h": 65.5,
+      "usd_mid": 8.97,
+      "usd_range": [
+        3.23,
+        22.43
+      ],
+      "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+      "shared_if_extended_to_a_second_target": "the 3 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+    },
+    "cost_n3": {
+      "n_edges": 3,
+      "n_replicates": 3,
+      "legs": {
+        "ternary": 9,
+        "binary": 9,
+        "solvent": 9,
+        "total": 27
+      },
+      "reference_gpu_h": 196.5,
+      "usd_mid": 26.92,
+      "usd_range": [
+        9.69,
+        67.3
+      ],
+      "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+      "shared_if_extended_to_a_second_target": "the 9 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+    },
+    "cost_n5": {
+      "n_edges": 3,
+      "n_replicates": 5,
+      "legs": {
+        "ternary": 15,
+        "binary": 15,
+        "solvent": 15,
+        "total": 45
+      },
+      "reference_gpu_h": 327.5,
+      "usd_mid": 44.87,
+      "usd_range": [
+        16.15,
+        112.17
+      ],
+      "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+      "shared_if_extended_to_a_second_target": "the 15 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+    }
+  },
+  "design_ii_high_contrast": {
+    "_design": "(ii) high-contrast P1->P4 / P1->P5, direct or via intermediate congeneric hops",
+    "routes": [
+      {
+        "route": "smarca2_p1 -> smarca2_p4 (DIRECT)",
+        "n_hops": 1,
+        "pdbs": [
+          "9HYN",
+          "9HYO"
+        ],
+        "target_kcal": 2.53,
+        "risk": "unmappable perturbation \u2014 a 93 -> 1.3 span is a large linker change; congenericity is UNVERIFIED until the RCSB ligand fetch returns",
+        "cost_n3": {
+          "n_edges": 1,
+          "n_replicates": 3,
+          "legs": {
+            "ternary": 3,
+            "binary": 3,
+            "solvent": 3,
+            "total": 9
+          },
+          "reference_gpu_h": 65.5,
+          "usd_mid": 8.97,
+          "usd_range": [
+            3.23,
+            22.43
+          ],
+          "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+          "shared_if_extended_to_a_second_target": "the 3 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+        }
+      },
+      {
+        "route": "smarca2_p1 -> smarca2_p2 -> smarca2_p4 (HOPPED)",
+        "n_hops": 2,
+        "pdbs": [
+          "9HYN",
+          "7Z77",
+          "9HYO"
+        ],
+        "target_kcal": 2.53,
+        "hop_targets_kcal": [
+          1.85,
+          0.681
+        ],
+        "risk": "SD of the SUM is sqrt(2)x a single hop's; past ~2 kcal/mol the gate is SD-limited, so this is only a win if each hop converges better than the direct edge would (per-hop SD below ~0.71x)",
+        "cost_n3": {
+          "n_edges": 2,
+          "n_replicates": 3,
+          "legs": {
+            "ternary": 6,
+            "binary": 6,
+            "solvent": 6,
+            "total": 18
+          },
+          "reference_gpu_h": 131.0,
+          "usd_mid": 17.95,
+          "usd_range": [
+            6.46,
+            44.87
+          ],
+          "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+          "shared_if_extended_to_a_second_target": "the 6 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+        }
+      },
+      {
+        "route": "smarca2_p1 -> smarca2_p3 -> smarca2_p4 (HOPPED)",
+        "n_hops": 2,
+        "pdbs": [
+          "9HYN",
+          "9HYB",
+          "9HYO"
+        ],
+        "target_kcal": 2.53,
+        "hop_targets_kcal": [
+          1.732,
+          0.798
+        ],
+        "risk": "SD of the SUM is sqrt(2)x a single hop's; past ~2 kcal/mol the gate is SD-limited, so this is only a win if each hop converges better than the direct edge would (per-hop SD below ~0.71x)",
+        "cost_n3": {
+          "n_edges": 2,
+          "n_replicates": 3,
+          "legs": {
+            "ternary": 6,
+            "binary": 6,
+            "solvent": 6,
+            "total": 18
+          },
+          "reference_gpu_h": 131.0,
+          "usd_mid": 17.95,
+          "usd_range": [
+            6.46,
+            44.87
+          ],
+          "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+          "shared_if_extended_to_a_second_target": "the 6 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+        }
+      },
+      {
+        "route": "smarca2_p1 -> smarca2_p5 (DIRECT)",
+        "n_hops": 1,
+        "pdbs": [
+          "9HYN",
+          "9HYP"
+        ],
+        "target_kcal": 2.988,
+        "risk": "unmappable perturbation \u2014 a 93 -> 0.6 span is a large linker change; congenericity is UNVERIFIED until the RCSB ligand fetch returns",
+        "cost_n3": {
+          "n_edges": 1,
+          "n_replicates": 3,
+          "legs": {
+            "ternary": 3,
+            "binary": 3,
+            "solvent": 3,
+            "total": 9
+          },
+          "reference_gpu_h": 65.5,
+          "usd_mid": 8.97,
+          "usd_range": [
+            3.23,
+            22.43
+          ],
+          "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+          "shared_if_extended_to_a_second_target": "the 3 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+        }
+      },
+      {
+        "route": "smarca2_p1 -> smarca2_p2 -> smarca2_p5 (HOPPED)",
+        "n_hops": 2,
+        "pdbs": [
+          "9HYN",
+          "7Z77",
+          "9HYP"
+        ],
+        "target_kcal": 2.988,
+        "hop_targets_kcal": [
+          1.85,
+          1.139
+        ],
+        "risk": "SD of the SUM is sqrt(2)x a single hop's; past ~2 kcal/mol the gate is SD-limited, so this is only a win if each hop converges better than the direct edge would (per-hop SD below ~0.71x)",
+        "cost_n3": {
+          "n_edges": 2,
+          "n_replicates": 3,
+          "legs": {
+            "ternary": 6,
+            "binary": 6,
+            "solvent": 6,
+            "total": 18
+          },
+          "reference_gpu_h": 131.0,
+          "usd_mid": 17.95,
+          "usd_range": [
+            6.46,
+            44.87
+          ],
+          "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+          "shared_if_extended_to_a_second_target": "the 6 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+        }
+      },
+      {
+        "route": "smarca2_p1 -> smarca2_p3 -> smarca2_p5 (HOPPED)",
+        "n_hops": 2,
+        "pdbs": [
+          "9HYN",
+          "9HYB",
+          "9HYP"
+        ],
+        "target_kcal": 2.988,
+        "hop_targets_kcal": [
+          1.732,
+          1.256
+        ],
+        "risk": "SD of the SUM is sqrt(2)x a single hop's; past ~2 kcal/mol the gate is SD-limited, so this is only a win if each hop converges better than the direct edge would (per-hop SD below ~0.71x)",
+        "cost_n3": {
+          "n_edges": 2,
+          "n_replicates": 3,
+          "legs": {
+            "ternary": 6,
+            "binary": 6,
+            "solvent": 6,
+            "total": 18
+          },
+          "reference_gpu_h": 131.0,
+          "usd_mid": 17.95,
+          "usd_range": [
+            6.46,
+            44.87
+          ],
+          "_range_basis": "the same 0.36x-2.5x spread pricing.md carries on the valB_mini edge ($8.8, $3.2-22)",
+          "shared_if_extended_to_a_second_target": "the 6 binary legs are target-independent and would transfer unchanged to a BRD4-VHL replication"
+        }
+      }
+    ]
+  },
+  "power": {
+    "_what": "P(PASS) at n=5 through ternary_fep_reduce.calibration_gate (corrected anti-null rule)",
+    "_read_this_first": "compare rows at EQUAL per-edge SD. A 2-hop design at per-edge SD s is evaluated at an effective SD of s*sqrt(2), which is why hops can lose.",
+    "rows": [
+      {
+        "design": "current valB_mini (Wurz 1->4, 1 hop)",
+        "target_kcal": 0.944,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.3,
+        "effective_sd_of_the_measured_quantity": 0.3,
+        "pass_pct_accurate_n5": 99.83,
+        "pass_pct_null_n5": 0.03
+      },
+      {
+        "design": "current valB_mini (Wurz 1->4, 1 hop)",
+        "target_kcal": 0.944,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.5,
+        "effective_sd_of_the_measured_quantity": 0.5,
+        "pass_pct_accurate_n5": 85.02,
+        "pass_pct_null_n5": 0.84
+      },
+      {
+        "design": "current valB_mini (Wurz 1->4, 1 hop)",
+        "target_kcal": 0.944,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.7,
+        "effective_sd_of_the_measured_quantity": 0.7,
+        "pass_pct_accurate_n5": 52.23,
+        "pass_pct_null_n5": 1.82
+      },
+      {
+        "design": "P1->P4 direct (1 hop)",
+        "target_kcal": 2.53,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.3,
+        "effective_sd_of_the_measured_quantity": 0.3,
+        "pass_pct_accurate_n5": 100.0,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P4 direct (1 hop)",
+        "target_kcal": 2.53,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.5,
+        "effective_sd_of_the_measured_quantity": 0.5,
+        "pass_pct_accurate_n5": 93.66,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P4 direct (1 hop)",
+        "target_kcal": 2.53,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.7,
+        "effective_sd_of_the_measured_quantity": 0.7,
+        "pass_pct_accurate_n5": 66.54,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P5 direct (1 hop)",
+        "target_kcal": 2.988,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.3,
+        "effective_sd_of_the_measured_quantity": 0.3,
+        "pass_pct_accurate_n5": 100.0,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P5 direct (1 hop)",
+        "target_kcal": 2.988,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.5,
+        "effective_sd_of_the_measured_quantity": 0.5,
+        "pass_pct_accurate_n5": 93.66,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P5 direct (1 hop)",
+        "target_kcal": 2.988,
+        "n_hops": 1,
+        "per_edge_replicate_sd": 0.7,
+        "effective_sd_of_the_measured_quantity": 0.7,
+        "pass_pct_accurate_n5": 66.54,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P3->P5 hopped (2 hops)",
+        "target_kcal": 2.988,
+        "n_hops": 2,
+        "per_edge_replicate_sd": 0.3,
+        "effective_sd_of_the_measured_quantity": 0.424,
+        "pass_pct_accurate_n5": 98.55,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P3->P5 hopped (2 hops)",
+        "target_kcal": 2.988,
+        "n_hops": 2,
+        "per_edge_replicate_sd": 0.5,
+        "effective_sd_of_the_measured_quantity": 0.707,
+        "pass_pct_accurate_n5": 65.46,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P3->P5 hopped (2 hops)",
+        "target_kcal": 2.988,
+        "n_hops": 2,
+        "per_edge_replicate_sd": 0.7,
+        "effective_sd_of_the_measured_quantity": 0.99,
+        "pass_pct_accurate_n5": 30.79,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P2->P4 hopped (2 hops)",
+        "target_kcal": 2.53,
+        "n_hops": 2,
+        "per_edge_replicate_sd": 0.3,
+        "effective_sd_of_the_measured_quantity": 0.424,
+        "pass_pct_accurate_n5": 98.55,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P2->P4 hopped (2 hops)",
+        "target_kcal": 2.53,
+        "n_hops": 2,
+        "per_edge_replicate_sd": 0.5,
+        "effective_sd_of_the_measured_quantity": 0.707,
+        "pass_pct_accurate_n5": 65.46,
+        "pass_pct_null_n5": 0.0
+      },
+      {
+        "design": "P1->P2->P4 hopped (2 hops)",
+        "target_kcal": 2.53,
+        "n_hops": 2,
+        "per_edge_replicate_sd": 0.7,
+        "effective_sd_of_the_measured_quantity": 0.99,
+        "pass_pct_accurate_n5": 30.79,
+        "pass_pct_null_n5": 0.01
+      }
+    ]
+  },
+  "adaptive_futility_stopping": {
+    "_proposal": "wire adaptive_certify's anytime-valid UPPER bound as a FUTILITY stop on the ternary replicate ladder; leave the PASS criterion untouched",
+    "_why_it_is_not_an_amendment": "it can only stop spending sooner. It never converts a non-PASS into a PASS, so it needs no change to the frozen rule.",
+    "_honest_limit": "the saving is real only when the truth is far from target; when the method is accurate the rule almost never fires and the ladder costs exactly what it did.",
+    "rows": [
+      {
+        "scenario": "r0 is representative (mu = -0.534)",
+        "replicate_sd": 0.5,
+        "mean_replicates_bought_sequential": 4.87,
+        "replicates_bought_fixed": 5,
+        "futility_fired_pct": 16.7,
+        "saving_pct": 2.6
+      },
+      {
+        "scenario": "r0 is representative (mu = -0.534)",
+        "replicate_sd": 0.7,
+        "mean_replicates_bought_sequential": 4.96,
+        "replicates_bought_fixed": 5,
+        "futility_fired_pct": 5.7,
+        "saving_pct": 0.8
+      },
+      {
+        "scenario": "null (mu = 0)",
+        "replicate_sd": 0.5,
+        "mean_replicates_bought_sequential": 5.0,
+        "replicates_bought_fixed": 5,
+        "futility_fired_pct": 0.1,
+        "saving_pct": 0.0
+      },
+      {
+        "scenario": "null (mu = 0)",
+        "replicate_sd": 0.7,
+        "mean_replicates_bought_sequential": 5.0,
+        "replicates_bought_fixed": 5,
+        "futility_fired_pct": 0.1,
+        "saving_pct": 0.0
+      },
+      {
+        "scenario": "method exactly right (mu = +0.944)",
+        "replicate_sd": 0.5,
+        "mean_replicates_bought_sequential": 5.0,
+        "replicates_bought_fixed": 5,
+        "futility_fired_pct": 0.0,
+        "saving_pct": 0.0
+      },
+      {
+        "scenario": "method exactly right (mu = +0.944)",
+        "replicate_sd": 0.7,
+        "mean_replicates_bought_sequential": 5.0,
+        "replicates_bought_fixed": 5,
+        "futility_fired_pct": 0.0,
+        "saving_pct": 0.0
+      }
+    ]
+  },
+  "rev_leg_decision_tree": {
+    "_pending": "|dG_fwd + dG_rev| on the valB r0 ternary (and binary) legs \u2014 the preregistered antisymmetry check, still null on all three legs because the rev direction was unreachable until 2026-07-25",
+    "branch_A_small": {
+      "trigger": "|dG_fwd + dG_rev| <= ~0.3 kcal/mol (no hysteresis)",
+      "means": "the alchemical path is internally consistent and sampling along lambda is adequate. The 1.478 kcal/mol systematic is therefore NOT a path/sampling artifact \u2014 it lives in the MODEL (SMARCA4->SMARCA2 homology substitution, NAGL charges, force field, protonation) or in the REFERENCE DATA (alpha_SPR -> ddG_coop conversion; an apparent cooperativity is not a Kd-derived thermodynamic one).",
+      "action": "RESCOPE. Design (i) on the Ciulli P-series is then strictly dominant, because it attacks BOTH candidate causes at once: the P-series has FIVE solved SMARCA2-VHL ternaries, so the homology-model term disappears entirely, and the closure residual tests the remaining systematic without needing the reference data to be right."
+    },
+    "branch_B_large": {
+      "trigger": "|dG_fwd + dG_rev| > ~1.0 kcal/mol (real hysteresis)",
+      "means": "a slow degree of freedom orthogonal to lambda \u2014 an interface substate the replica exchange does not traverse \u2014 despite every MBAR diagnostic reading clean. Note the one diagnostic that already leans this way: replica mixing 0.8915 against a 0.90 ceiling, recorded as MARGINAL.",
+      "action": "DO NOT RESCOPE YET. A larger target measured through a hysteretic path is still wrong, so buying a new calibrator would buy a better-looking wrong number. Fix the protocol FIRST, and test the fix on the edge already paid for: more lambda windows across the 0.10 bottleneck at pair 4-5, a softer softcore schedule, longer pre-equilibration, or interface-aware enhanced sampling. Only once |dG_fwd + dG_rev| is small does the rescope design above become the right next spend."
+    },
+    "shared_by_both_branches": "the closure network of design (i) is worth buying under EITHER branch, because the closure residual is the instrument that tells the two apart for any future edge without waiting for a reverse leg each time."
+  },
+  "open_blocker": {
+    "what": "ligand chemistry for 9HYN / 7Z77 / 9HYB / 9HYO / 9HYP \u2014 are the pairs congeneric and mappable, and is the net charge conserved across each edge?",
+    "why_it_decides_everything": "an unmappable edge does not converge at any price, and a charge-changing edge needs a different (and much more expensive) treatment. Until this returns, every edge below is a CANDIDATE.",
+    "how": "$0 RCSB fetch on a CI runner (the dev sandbox's egress proxy blocks RCSB), then RDKit MCS in the pre-baked triskit23/ternary-fep image, which already carries rdkit + lomap2 + kartograf \u2014 the same mapper the production edge would use."
+  }
+}
