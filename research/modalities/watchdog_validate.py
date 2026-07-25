@@ -28,10 +28,20 @@ def required_params(doc):
 
     `_required_run_params` supersedes `_prefix_keying_params`: the list outgrew its original name once
     `use_preequil` had to be reproduced. That one is NOT part of the commit prefix, but it selects whether the
-    alchemy starts from the plain-MD-relaxed complex (SETUP_VER=v2pe) or the raw one (v1) -- and because
-    pre-equilibration only moves coordinates, particle counts are identical, so OpenFE's particle check cannot
-    catch a v1 trajectory restored into a v2pe run the way it caught the fwd/rev mismatch. Both names are
+    alchemy starts from the plain-MD-relaxed complex (SETUP_VER=v2pe) or the raw one (v1). Both names are
     accepted so a copy of this file held by another session keeps working.
+
+    CORRECTED 2026-07-25: an earlier version of this docstring said pre-equilibration "only moves coordinates,
+    particle counts are identical, so OpenFE's particle check cannot catch a v1 trajectory restored into a v2pe
+    run." That was asserted without measuring it and it is FALSE. Measured from the prime markers, the v1 build
+    is 146,020 particles and the v2pe build is 141,968 -- the pre-equilibrated complex is RE-SOLVATED, not merely
+    relaxed -- so `assert_multistate_system_equality` WOULD reject a cross-restore.
+
+    Reproducing `use_preequil` is still mandatory, for a stronger reason than a missed check: the setup-cache key
+    itself carries the version (`..._r0__nagl__v1` vs `..._r0__nagl__v2pe`), so getting it wrong does not merely
+    risk a bad resume -- it runs a DIFFERENT SYSTEM. That is exactly what happened on 2026-07-25: four reverse-leg
+    attempts silently ran the 146,020-particle v1 system against a forward leg built at 141,968, and every one of
+    them died at warmup iteration 1.
     """
     return doc.get("_required_run_params") or doc.get("_prefix_keying_params") or []
 
