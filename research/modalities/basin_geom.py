@@ -458,6 +458,43 @@ def farthest_point_sample(points, k: int, seed_index: int = 0):
     return chosen
 
 
+def jaccard_distance(a: set, b: set) -> float:
+    """1 - |a n b| / |a u b|. Two empty sets are identical (distance 0)."""
+    if not a and not b:
+        return 0.0
+    u = len(a | b)
+    return 1.0 - (len(a & b) / u if u else 0.0)
+
+
+def leader_cluster_by(items, descriptor_of, distance, threshold: float, key=None):
+    """Leader clustering under an ARBITRARY descriptor distance.
+
+    Exists because clustering rigid-body placements on landmark RMSD was measured to be the wrong resolution
+    for this problem: with an E3 of ~18 A radius, an 8 A landmark RMSD corresponds to a ~25 deg rotation, and
+    only 0.09 % of accepted placement PAIRS fall inside that — so every 'basin' came out a singleton. It was
+    not a bug; the accepted set is genuinely spread over orientation space at that resolution, and closing the
+    gap by sampling would need ~10^7-10^8 placements per arm.
+
+    The fix is to cluster on the descriptor the SCORED TERMS actually depend on — which target-surface patch
+    the E3 occupies, i.e. the interface fingerprint — under `jaccard_distance`. Rotation of the E3 about the
+    tether that leaves the interface unchanged should not split a basin; it is a real degree of freedom the
+    complex explores, and the right way to report it is as a FREQUENCY within the basin (in what fraction of
+    the basin's placements does the transfer zone cover a unique lysine?), not as a forest of singletons.
+    """
+    ordered = sorted(items, key=key, reverse=True) if key is not None else list(items)
+    clusters, leaders = [], []
+    for it in ordered:
+        d = descriptor_of(it)
+        for ci, ld in enumerate(leaders):
+            if distance(d, ld) <= threshold:
+                clusters[ci].append(it)
+                break
+        else:
+            clusters.append([it])
+            leaders.append(d)
+    return clusters
+
+
 def leader_cluster(items, landmarks_of, cutoff: float, key=None):
     """Greedy leader clustering: process items best-first, assign each to the first cluster whose LEADER is
     within `cutoff` landmark-RMSD, else open a new cluster.

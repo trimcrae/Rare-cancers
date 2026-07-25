@@ -255,11 +255,38 @@ def verify(comp, needed_accs, arm_acc_map):
     return (not missing), missing
 
 
+def _min_dist_exact(p, pts):
+    best = 1e18
+    for q in pts:
+        d = G.dist2(p, q)
+        if d < best:
+            best = d
+    return math.sqrt(best)
+
+
 def pick_ligand(prot_atoms, het_atoms, body_chains):
-    """The recruiter's bound ligand: the largest non-excluded HET group with >= MIN_LIGAND_HEAVY heavy atoms
-    that actually CONTACTS the body chains (>= 4 heavy atoms within 4.5 A). Contact is required so a
-    crystallisation additive parked on a symmetry mate cannot be mistaken for the recruiter ligand."""
+    """The recruiter's bound ligand, and the point where a LINKER LEAVES THE E3 — derived, not looked up.
+
+    TWO DEFECTS THIS FUNCTION EXISTS TO AVOID, both found by reading the first run's own output rather than
+    by reasoning about it:
+
+    1. THE HIGHEST-RESOLUTION LIGAND-BOUND RECRUITER STRUCTURES ARE PROTAC TERNARIES. The verified VHL entry
+       is 5T35 (VHL-EloB-EloC + BRD4-BD2 + a 69-heavy-atom ligand) and the verified CRBN entry is 6BOY
+       (CRBN-DDB1 + BRD4-BD1 + a 59-heavy-atom ligand). In both, the bound "ligand" is a WHOLE degrader:
+       E3-binder + linker + a second warhead. Taking its most solvent-exposed atom as the E3 exit vector
+       returns a point on the OTHER warhead, tens of angstroms away, which would silently anchor the entire
+       linker-reach restraint in the wrong place. The fix uses information the structure genuinely contains:
+       split the ligand by WHICH PROTEIN EACH ATOM IS CLOSER TO. Atoms nearer the recruiter are the E3-binding
+       moiety; the exit vector is the atom of that moiety that is furthest from the recruiter, i.e. the last
+       one before the linker departs. With no second protein present (a bare recruiter ligand) this degrades
+       exactly to "the most exposed atom", which is the right answer there.
+
+    2. THE FIRST RUN REPORTED BOTH ARMS' EXIT EXPOSURE AS EXACTLY 8.00 A. That is not a coincidence, it is the
+       distance field's CLAMP: once several ligand atoms are past 8 A the argmax is degenerate and the choice
+       is arbitrary. Ligands have <100 atoms, so distances here are now computed EXACTLY.
+    """
     body = [a["xyz"] for a in prot_atoms if a["chain"] in body_chains]
+    other = [a["xyz"] for a in prot_atoms if a["chain"] not in body_chains]
     if not body:
         return None
     field = G.SquaredDistanceField(body, cell=1.0, clamp=8.0)
@@ -280,45 +307,73 @@ def pick_ligand(prot_atoms, het_atoms, body_chains):
     if best is None:
         return None
     key, atoms = best
-    # DERIVED exit vector: the ligand heavy atom furthest from the receptor's protein atoms.
-    exposures = [(field.min_dist(a["xyz"]), a) for a in atoms]
-    exposures.sort(key=lambda t: -t[0])
-    exit_d, exit_atom = exposures[0]
+    rows = []
+    for a in atoms:
+        d_e3 = _min_dist_exact(a["xyz"], body)
+        d_other = _min_dist_exact(a["xyz"], other) if other else float("inf")
+        rows.append({"atom": a, "d_e3": d_e3, "d_other": d_other, "on_e3_side": d_e3 <= d_other})
+    e3_side = [r for r in rows if r["on_e3_side"]]
+    if not e3_side:
+        return None
+    e3_side.sort(key=lambda r: -r["d_e3"])
+    exit_row = e3_side[0]
     return {
         "het_code": key[0], "chain": key[1], "resid": key[2],
         "n_heavy": len(atoms),
-        "atoms": [{"name": a["name"], "elem": a["elem"], "xyz": list(a["xyz"])} for a in atoms],
-        "exit_atom_name": exit_atom["name"],
-        "exit_atom_xyz": list(exit_atom["xyz"]),
-        "exit_atom_min_dist_to_receptor_A": round(exit_d, 2),
+        "n_heavy_on_e3_side": len(e3_side),
+        "is_protac_ternary": len(e3_side) < len(atoms),
+        "atoms": [{"name": r["atom"]["name"], "elem": r["atom"]["elem"], "xyz": list(r["atom"]["xyz"]),
+                   "d_e3_A": round(r["d_e3"], 2),
+                   "d_other_protein_A": (round(r["d_other"], 2) if r["d_other"] != float("inf") else None),
+                   "on_e3_side": r["on_e3_side"]} for r in rows],
+        "exit_atom_name": exit_row["atom"]["name"],
+        "exit_atom_xyz": list(exit_row["atom"]["xyz"]),
+        "exit_atom_dist_to_receptor_A": round(exit_row["d_e3"], 2),
+        "exit_atom_dist_to_other_protein_A": (round(exit_row["d_other"], 2)
+                                              if exit_row["d_other"] != float("inf") else None),
+        "e3_moiety_centroid": list(G.centroid([r["atom"]["xyz"] for r in e3_side])),
         "ligand_centroid": list(G.centroid([a["xyz"] for a in atoms])),
+        "_derivation": "ligand atoms split by which protein each is closer to; the exit vector is the "
+                       "E3-side atom furthest from the recruiter (exact distances, no grid clamp).",
     }
 
 
-def bridge_into_frame(src_prot, src_bridge_chains, dst_prot, dst_bridge_chains, max_rmsd=4.0):
-    """Superpose `src` onto `dst` using CA atoms of the bridge protein, matched by residue number.
+def bridge_into_frame(src_prot, src_chain_map, dst_prot, dst_chain_map, max_rmsd=4.0, min_ca=30):
+    """Superpose `src` onto `dst` using the CA atoms of EVERY shared bridge protein AT ONCE.
 
-    Residue-number matching (not sequence alignment) is deliberate: both entries are the SAME protein deposited
-    under the same UniProt numbering scheme in the overwhelming majority of cases, and if they are not, the
-    match count collapses and the RMSD gate below refuses the composition rather than quietly producing a
-    plausible, wrong RING position.
+    WHY ALL OF THEM JOINTLY, and the measurement that forced it. The first run bridged 5N4W into 5T35 on VHL
+    alone and got 1.381 A over just **37 CA** — a thin, short lever. The quantity it positions is the RBX1
+    RING, which sits ~70 A from the ligand anchor, so a rotational error of even 2-3 deg (well within what 37
+    CA at 1.4 A supports) displaces the RING by 2.5-3.7 A and moves the entire term-(b) transfer zone with it.
+    Elongin C is present in both entries and adds CAs for free; using the union constrains the rotation far
+    better than the recruiter alone. Keys are (bridge_protein, resid), NOT resid alone, because VHL and
+    Elongin C both number from ~1 and merging them on residue number would silently pair unrelated residues.
+
+    Residue-number matching within a protein (rather than sequence alignment) is deliberate: both entries
+    deposit the same protein under the same UniProt numbering in the overwhelming majority of cases, and if
+    they do not, the shared count collapses and the gates below REFUSE the composition rather than quietly
+    producing a plausible, wrong RING position.
     """
-    src_ca = chain_ca(src_prot, src_bridge_chains)
-    dst_ca = chain_ca(dst_prot, dst_bridge_chains)
-    src_by_res, dst_by_res = {}, {}
-    for (_c, r), xyz in src_ca.items():
-        src_by_res.setdefault(r, xyz)
-    for (_c, r), xyz in dst_ca.items():
-        dst_by_res.setdefault(r, xyz)
-    shared = sorted(set(src_by_res) & set(dst_by_res))
-    if len(shared) < 30:
-        return None, {"ok": False, "reason": f"only {len(shared)} shared bridge residues (need >= 30)"}
-    mob = [src_by_res[r] for r in shared]
-    ref = [dst_by_res[r] for r in shared]
+    src_by, dst_by = {}, {}
+    for bname, chains in src_chain_map.items():
+        for (c, r), xyz in chain_ca(src_prot, chains).items():
+            src_by.setdefault((bname, r), xyz)
+    for bname, chains in dst_chain_map.items():
+        for (c, r), xyz in chain_ca(dst_prot, chains).items():
+            dst_by.setdefault((bname, r), xyz)
+    shared = sorted(set(src_by) & set(dst_by))
+    if len(shared) < min_ca:
+        return None, {"ok": False, "reason": f"only {len(shared)} shared bridge residues (need >= {min_ca})"}
+    mob = [src_by[k] for k in shared]
+    ref = [dst_by[k] for k in shared]
     R, t, rmsd = G.horn_superpose(mob, ref)
     if rmsd > max_rmsd:
         return None, {"ok": False, "reason": f"bridge RMSD {rmsd:.2f} A > {max_rmsd} A over {len(shared)} CA"}
-    return (R, t), {"ok": True, "n_bridge_ca": len(shared), "bridge_rmsd_A": round(rmsd, 3)}
+    per_protein = {}
+    for k in shared:
+        per_protein[k[0]] = per_protein.get(k[0], 0) + 1
+    return (R, t), {"ok": True, "n_bridge_ca": len(shared), "bridge_rmsd_A": round(rmsd, 3),
+                    "ca_per_bridge_protein": per_protein}
 
 
 def ring_domain_centroid(prot_atoms, rbx1_chains):
@@ -408,20 +463,22 @@ def stage_arm(arm_id, spec, out_dir, log):
             continue
         stext = _get(FILE_URL.format(pdb=spdb)).decode("utf-8", "replace")
         sprot, _ = parse_pdb_text(stext)
-        bridged = None
+        src_map, dst_map = {}, {}
         for bname in spec["bridge"]:
             src_ch = set(scomp["chains_by_accession"].get(ACC[bname], []))
             dst_ch = set(comp["chains_by_accession"].get(ACC[bname], []))
-            if not src_ch or not dst_ch:
-                continue
-            tr, info = bridge_into_frame(sprot, src_ch, prot, dst_ch)
-            if tr is not None:
-                bridged = (bname, tr, info)
-                break
-        if bridged is None:
-            rec["rejected"].append({"pdb": spdb, "role": "scaffold", "reason": "no usable bridge protein"})
+            if src_ch and dst_ch:
+                src_map[bname] = src_ch
+                dst_map[bname] = dst_ch
+        if not src_map:
+            rec["rejected"].append({"pdb": spdb, "role": "scaffold", "reason": "no shared bridge protein"})
             continue
-        bname, (R, t), info = bridged
+        tr, info = bridge_into_frame(sprot, src_map, prot, dst_map)
+        if tr is None:
+            rec["rejected"].append({"pdb": spdb, "role": "scaffold", "reason": info["reason"]})
+            continue
+        bname = "+".join(sorted(src_map))
+        R, t = tr
         rbx = set(scomp["chains_by_accession"].get(ACC["RBX1"], []))
         cen, rng = ring_domain_centroid(sprot, rbx)
         if cen is None:
@@ -465,53 +522,113 @@ def stage_arm(arm_id, spec, out_dir, log):
     return rec
 
 
-def stage_e2_geometry(log):
-    """MEASURE the RING -> E2 catalytic-cysteine offset from a RING:E2 co-structure, instead of assuming it.
+UBIQUITIN_ACC = ("P0CG47", "P0CG48", "P62979", "P62987")     # UBB / UBC / RPS27A / UBA52
+SCAFFOLD_ACC = {ACC[k] for k in ("RBX1", "CUL1", "CUL2", "CUL4A", "CUL4B", "DDB1", "ELOB", "ELOC", "SKP1",
+                                 "VHL", "CRBN")}
 
-    Returns None if no entry verifies — the driver then uses a declared parametric shell and flags it. The
-    catalytic cysteine of a UBE2 domain is identified from the structure by the standard HPN-motif geometry
-    proxy: the cysteine whose SG lies closest to the RING interface is NOT reliable, so we instead take the
-    cysteine that is most conserved-position — measured here as the SG closest to the E2's own centroid-to-RING
-    axis midpoint. This is a proxy and is labelled as one in the output.
+
+def stage_e2_geometry(log):
+    """MEASURE the ubiquitin-transfer geometry from a solved CRL ubiquitylation assembly — do not assume it.
+
+    WHAT CHANGED AND WHY (this function's first version was wrong, and its own output showed it). Version 1
+    identified the E2's catalytic cysteine as "the SG furthest from the RING centroid". That is a GUESS
+    dressed as a measurement: it returned Cys111 of UBE2D1 from PDB 9UUM out of four candidate cysteines
+    spanning 27.7-35.4 A, with nothing but a heuristic behind the choice, and every transfer-zone radius
+    downstream would have inherited it.
+
+    The discriminating observation is in the structure itself. A CRL ubiquitylation assembly carries
+    UBIQUITIN, and the catalytic cysteine is BY DEFINITION the one that carries ubiquitin's C-terminal
+    glycine as a thioester. So the catalytic Cys is identified as the E2 cysteine whose SG is nearest
+    ubiquitin's C-terminal residue — a structural measurement with a unique answer, not a heuristic. If no
+    ubiquitin chain is present the function REFUSES rather than falling back to the guess.
+
+    AND THE BONUS THAT MATTERS MORE THAN THE RADIUS. The same class of structure contains the NEOSUBSTRATE
+    being ubiquitylated, so it also yields the quantity term (b) actually needs and which was otherwise an
+    assumption: the distance from the E2 catalytic cysteine to the substrate lysine that is about to be
+    modified. That converts `lysine_transfer_A` from a declared parameter into a value calibrated against a
+    solved assembly, and the full lysine-distance distribution is reported so the calibration is auditable
+    rather than a single cherry-picked number.
     """
+    seen = set()
     for pair in E2_PAIR_NEEDS:
         try:
-            hits = search_entries([ACC[p] for p in pair], rows=10)
+            hits = search_entries([ACC[p] for p in pair], rows=15)
         except Exception as e:                                          # noqa: BLE001
             log(f"[e3stage] E2 search failed for {pair}: {e}")
             continue
         for pdb in hits:
+            if pdb in seen:
+                continue
+            seen.add(pdb)
             try:
                 comp = entry_composition(pdb)
                 ok, _ = verify(comp, pair, ACC)
                 if not ok:
                     continue
+                ub_acc = [a for a in UBIQUITIN_ACC if a in comp["chains_by_accession"]]
+                if not ub_acc:
+                    log(f"[e3stage] E2 candidate {pdb}: no ubiquitin chain -> cannot IDENTIFY the catalytic "
+                        f"cysteine by measurement; refused (not guessed)")
+                    continue
                 text = _get(FILE_URL.format(pdb=pdb)).decode("utf-8", "replace")
                 prot, _ = parse_pdb_text(text)
                 rbx = set(comp["chains_by_accession"].get(ACC["RBX1"], []))
                 e2c = set(comp["chains_by_accession"].get(ACC[pair[1]], []))
+                ubc = set()
+                for a in ub_acc:
+                    ubc.update(comp["chains_by_accession"][a])
                 cen, rng = ring_domain_centroid(prot, rbx)
                 if cen is None:
                     continue
                 sgs = [a for a in prot if a["chain"] in e2c and a["resname"] == "CYS" and a["name"] == "SG"]
-                if not sgs:
+                ub_res = sorted({a["resid"] for a in prot if a["chain"] in ubc})
+                ub_cterm = [a["xyz"] for a in prot
+                            if a["chain"] in ubc and a["resid"] == ub_res[-1] and a["name"] in ("C", "CA")]
+                if not sgs or not ub_cterm:
                     continue
-                # the catalytic Cys is the one presented on the E2's face AWAY from the RING interface: take
-                # the SG furthest from the RING centroid among those still within the E2 core.
-                d = [(G.dist(a["xyz"], cen), a) for a in sgs]
-                d.sort(key=lambda t: t[0])
-                cat = d[-1][1]
-                log(f"[e3stage] E2 geometry from {pdb}: RING->SG(Cys{cat['resid']}) = {d[-1][0]:.1f} A "
-                    f"(n_cys={len(sgs)}, range {d[0][0]:.1f}-{d[-1][0]:.1f} A)")
+                ranked = sorted(((min(G.dist(a["xyz"], u) for u in ub_cterm), a) for a in sgs),
+                                key=lambda t: t[0])
+                d_ub, cat = ranked[0]
+                d_ring = G.dist(cat["xyz"], cen)
+                # the neosubstrate: any polymer chain that is not CRL scaffold, not the E2, not ubiquitin
+                sub_chains = set()
+                for acc, chains in comp["chains_by_accession"].items():
+                    if acc in SCAFFOLD_ACC or acc in UBIQUITIN_ACC or acc == ACC[pair[1]]:
+                        continue
+                    sub_chains.update(chains)
+                lys = [(G.dist(a["xyz"], cat["xyz"]), a) for a in prot
+                       if a["chain"] in sub_chains and a["resname"] == "LYS" and a["name"] == "NZ"]
+                lys.sort(key=lambda t: t[0])
+                log(f"[e3stage] transfer geometry from {pdb} ({comp['title']}):")
+                log(f"[e3stage]   catalytic Cys{cat['resid']} of {pair[1]} identified by proximity to "
+                    f"ubiquitin C-term (res {ub_res[-1]}): {d_ub:.1f} A; other Cys "
+                    f"{[round(x,1) for x,_ in ranked[1:]]} A")
+                log(f"[e3stage]   RING -> catalytic Cys = {d_ring:.1f} A")
+                if lys:
+                    log(f"[e3stage]   substrate Lys NZ -> catalytic Cys: nearest {lys[0][0]:.1f} A "
+                        f"(Lys{lys[0][1]['resid']}), n={len(lys)}, "
+                        f"all {[round(x,1) for x,_ in lys[:8]]}")
                 return {
                     "measured": True, "pdb_id": pdb, "title": comp["title"],
+                    "method": comp.get("method"), "resolution_A": comp.get("resolution_A"),
                     "e2": pair[1], "e2_accession": ACC[pair[1]],
-                    "ring_to_catalytic_cys_A": round(d[-1][0], 2),
-                    "all_cys_distances_A": [round(x, 2) for x, _ in d],
                     "catalytic_cys_resid": cat["resid"],
+                    "catalytic_cys_identified_by": "minimum SG-to-ubiquitin-C-terminus distance "
+                                                   "(a measurement with a unique answer, not a heuristic)",
+                    "catalytic_cys_to_ubiquitin_cterm_A": round(d_ub, 2),
+                    "runner_up_cys_to_ubiquitin_cterm_A": [round(x, 2) for x, _ in ranked[1:]],
+                    "ring_to_catalytic_cys_A": round(d_ring, 2),
                     "rbx1_ring_residue_range": list(rng),
-                    "proxy_note": "catalytic Cys identified geometrically (SG furthest from the RING centroid "
-                                  "within the E2 chain), NOT from a sequence motif — a proxy, reported as one.",
+                    "substrate_lysine_calibration": ({
+                        "n_substrate_lysines": len(lys),
+                        "nearest_lysine_resid": lys[0][1]["resid"],
+                        "nearest_lysine_to_catalytic_cys_A": round(lys[0][0], 2),
+                        "all_lysine_distances_A": [round(x, 2) for x, _ in lys],
+                        "_reading": "the distance a substrate lysine actually sits from the E2 catalytic "
+                                    "cysteine in a SOLVED ubiquitylation assembly — the empirical scale for "
+                                    "the transfer-zone parameter, reported as a full distribution so the "
+                                    "calibration can be checked rather than taken on trust.",
+                    } if lys else None),
                 }
             except Exception as e:                                      # noqa: BLE001
                 log(f"[e3stage] E2 candidate {pdb} failed: {e}")
