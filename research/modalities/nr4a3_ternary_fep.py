@@ -47,6 +47,8 @@ CKPT = os.environ.get("CKPT_DIR", os.environ.get("OUTPUT_DIR", "/opt/ml/checkpoi
 LEG_ID = os.environ.get("LEG_ID", "nrv04_active_to_epimer__binary_vhl")
 SEED = int(os.environ.get("SEED", "0"))
 DIRECTION = os.environ.get("DIRECTION", "fwd")        # rev = B→A, for a forward/reverse hysteresis check
+CRYSTAL_SMILES = None   # identity of the ligand actually in the crystal SDF; set by _morph_endpoints,
+                        # direction-INDEPENDENT (see the note there). Never infer it from a swapped sa.
 N_WINDOWS = int(os.environ.get("N_WINDOWS", "16"))
 N_ITER = int(os.environ.get("N_ITER", "1000"))
 
@@ -112,6 +114,15 @@ def _morph_endpoints(leg):
     a, b, sa, sb = m["endpoint_a"], m["endpoint_b"], m["smiles_a"], m["smiles_b"]
     if DIRECTION == "rev":
         a, b, sa, sb = b, a, sb, sa
+    # Which molecule is actually IN the crystal SDF is a fact about the structure, not about the direction we
+    # happen to be morphing in. It is the UNSWAPPED endpoint A (calib_hi = Wurz cmpd1 = 8G1Q CCD YHB); cmpd4 is
+    # derived and exists in no crystal. Stash it so _build_components cannot infer it from the (possibly swapped)
+    # sa. Getting this wrong is what broke the first rev leg: with base_smiles=sa, DIRECTION=rev told _repair_pose
+    # the crystal ligand was cmpd4, so bond orders were assigned against a template whose linker ring differs by
+    # N->CH, the thiazole lost its aromatic C-H, and NAGL rejected the molecule with
+    # RadicalsNotSupportedError ("Found 1 radical electrons") ~30 s into charge assignment.
+    global CRYSTAL_SMILES
+    CRYSTAL_SMILES = m["smiles_a"]
     if sa is None or sb is None:
         raise SystemExit("  ABORT: unresolved morph endpoints for %s (status=%s). Calibration endpoints are "
                          "PENDING the frozen Layer-1 calib pair; NR-V04 needs network SMILES resolution."
@@ -203,8 +214,12 @@ def _build_components(openfe, rdkit_chem, leg, env, endpoints):
     sdf = os.path.join(lig_dir, "ligands.sdf")
     if not os.path.exists(sdf):
         sdf = next(iter(glob.glob(os.path.join(IN, "**", "ligands.sdf"), recursive=True)), sdf)
-    molA = _endpoint_pose(sdf, a, sa, sa, rdkit_chem)    # crystal identity = sa (calib_hi = cmpd1)
-    molB = _endpoint_pose(sdf, b, sb, sa, rdkit_chem)    # cmpd1 pose -> cmpd4 (element-change mutation)
+    # base_smiles = the identity of the molecule IN the SDF (the co-crystallised ligand), which is
+    # direction-independent. It was `sa`, which is only the crystal ligand in the FORWARD direction --
+    # _morph_endpoints swaps sa/sb for DIRECTION=rev, so a rev leg claimed the crystal held cmpd4.
+    base = CRYSTAL_SMILES or sa
+    molA = _endpoint_pose(sdf, a, sa, base, rdkit_chem)   # target sa, built from the crystal pose
+    molB = _endpoint_pose(sdf, b, sb, base, rdkit_chem)   # target sb, same crystal pose (element change if needed)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None
