@@ -78,7 +78,6 @@ relevant rung below.*
 | **valB_mini rev ternary leg r0** | **NOT RUNNING — being relaunched correctly.** Four attempts died today; the last two are now root-caused to **one cause with a documented fix**: the leg was started from the **raw (`v1`) setup**, not the pre-equilibrated (`v2pe`) one fwd used. Both zombie VMs reaped (L4 usage 0.0). Blocked on the **`v2pe` rev setup prime** (row below) | prime ETA **~3:25 PM ET**, leg launches immediately after → result **2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 | **`v2pe` rev setup prime** (`ternary-setup-prime-cpu.yml`, CPU, **$0**) | **RUNNING** since 2:53 PM ET, 9 min in. Overlays the v2 pre-equilibrated complex and keys the setup cache to `v2pe` for `direction=rev`. Parameterising 146 k atoms on a 4-vCPU runner ≈ 30 min (120-min timeout) | **~3:25 PM ET** | Unblocks the rev leg. It also doubles as the **$0 existence check** on the preequil cache — if that were missing this fails on CPU instead of wasting a GPU boot |
 
-| **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, **$0 realized**) | **engine DONE, verdict PROVISIONAL GO (categorical, weakly)** — the 12-pose full run (CI 30169233690, 10⁶ placements × 12 poses × VHL+CRBN) has been executing since **2:14 PM ET** and supersedes the 4–6-pose preview numbers; it auto-commits `nr4a3-orientation-basins.json` to the lane branch | **~4:30 PM ET** | Confirms or overturns the Tier-2 **GO**. Both arms passed independently at preview, so a flip is unlikely but is not excluded. A GO sends the next spend to **5a-KS**, not to an MM-GBSA rescore |
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **LANE 4 · RUNG 2b — 4 fs ternary probe** (**Vast**, ≤$25) | running — building the **Vast** ternary lane (none existed; only `-gcp.yml`/`-aws.yml`), then stage 1 = the ~$1–2 survival probe | probe ~2–4 h → **this evening ET**; full edge next if it passes | **≈2× on every downstream ternary leg** (~$8.8 → ~$4.4/edge, ladder has ≥6). Also the **first NR4A-adjacent ternary leg timed on Vast** — closes the named transferability gap where an 8G1Q rate is pricing NR4A ternaries |
 
@@ -567,7 +566,7 @@ survives causal testing."* The *decision* to commit the flagship is cheap, not a
 |---|---|---|---|
 | **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed) |
 | **1** | **Differential surface atlas.** No E3-reachable divergent surface ⇒ STOP for free | **$0 CPU** | **PASSED** (46 handles) |
-| **2** | **Basin nomination.** No basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ STOP cheaply | **$0 realized** (budget was $0–50; **no GPU used**) | **PROVISIONAL GO — basis CATEGORICAL, and weakly.** Both arms pass independently; see the block below. ⚠ preview numbers over 4–6 poses; the **12-pose full run supersedes them** |
+| **2** | **Basin nomination.** No basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ STOP cheaply | **$0 realized** (budget was $0–50; **no GPU used**) | **✅ GO — CONFIRMED on the full 12-pose run** (CI 30169233690, 55 min, 3:11 PM ET). Basis **CATEGORICAL**. 58 meta-basins / 192 basins; **7** exploit term (a), **40** term (b), **28** nominally discriminating. See the block below |
 | **3** | **Pilot ONE causal direction** — the ligand-side double difference `S`, one matched pair, ternary legs in NR4A3 and NR4A1. No discrimination ⇒ STOP | **~$12 ($1.6–45)** | pending (RUNG 5a-KS) |
 
 Tier 2's asymmetry is what makes it usable: cheap scoring has poor S/N for a ~1 kcal/mol *energy* difference, so
@@ -575,9 +574,38 @@ it only **nominates** — but "does this basin place an electrophile at C397 / c
 set-membership question, which cheap scoring answers reliably. A gross absence of signal is an informative
 NO-GO; it is not trusted to kill a real small wedge.
 
-### ★ Tier-2 result in full (2026-07-25, LANE 2, **$0 realized — no GPU**)
+### ★ Tier-2 result in full — CONFIRMED on the 12-pose run (2026-07-25, LANE 2, **$0 realized — no GPU**)
 
 **GO, basis CATEGORICAL — and "weakly" is part of the verdict, not a hedge to drop when quoting it.**
+
+**★ THE FULL RUN CONFIRMED THE GATE AND CHANGED THE HEADLINE. Both must be reported.** The definitive run
+(10⁶ placements × **12** poses × VHL+CRBN, 55 min) gives **58 meta-basins / 192 basins**, of which **7** exploit
+term (a), **40** term (b), and **28** discriminate nominally — *strengthening* the preview rather than flipping
+it. But the **preview's headline did not survive**: `vhl|M2` falls from 5/6 to **6/12 = 0.50** pose persistence,
+and its "both paralogue zones bare" reads **0.008** at 12 poses. The full run instead promotes:
+
+| meta-basin | poses | C397 reach | term (b) vs background | paralogue zones bare |
+|---|---|---|---|---|
+| **`crbn|M0`** ← strongest | **11/12 = 0.92** | **11 atoms** | **7.5×**, exceeds | 0.032 |
+| `vhl|M3` | 9/12 = 0.75 | **8 atoms** (shortest) | 1.4×, exceeds | **0.0** |
+| `vhl|M2` *(the preview headline)* | 6/12 = 0.50 | 9 atoms | 1.43×, exceeds | 0.008 |
+| `vhl|M4` | 5/12 = 0.42 | 12 atoms | exceeds | 0.031 |
+| `vhl|M14` | 3/12 = 0.25 | 12 atoms | **does NOT exceed** | 0.0 |
+
+**Three things this table says that the preview did not.**
+1. **All 7 term-(a) basins reach C397 — and only C397.** Neither C420 (18.3 Å) nor C559 (12.8 Å, RSA 0.095)
+   is reached by any basin at the 12-atom gate. **The categorical chemistry axis rests on a single residue.**
+2. **The strongest basin is now CRBN, not VHL** (`crbn|M0`, 0.92 persistence). That partly offsets — but does
+   not erase — the preview's finding that CRBN's *lysine* null is 0.81–0.96; `crbn|M0` clears background at
+   7.5×, so it is not merely riding that null.
+3. **Reach fractions are 0.019–0.057**, i.e. an electrophile reaches C397 in only **2–6 %** of a basin's
+   placements. This is the quantitative form of "weakly", and it is why the gate **nominates** rather than decides.
+
+*Reconciliation note, checked rather than assumed:* `best_linker_atoms` reads **19** on every meta-basin while
+the term-(a) gate is 12, which looks like a contradiction and is not — `best_linker_atoms` is the linker length
+that best supports **basin accessibility** (`P(B_k | d, s)`), whereas the gate counts
+`term_a_union[cys].max_fraction_reachable_at_gate`, whether an **electrophile** reaches that cysteine within 12
+atoms. Two different quantities; the 7 reconciles exactly against the gate block.
 
 | | VHL *(Lane 1 staged it only as a **sensitivity control**)* | CRBN *(Pareto front)* |
 |---|---|---|
@@ -1097,7 +1125,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 
 ### RUNG 5 — mechanism-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*
 
-- **`[ ]` 5a · Orientation-basin search, mechanism-first** — **~$0–50 (CPU $0 + optional MM-GBSA rescore) ·
+- **`[x]` 5a · Orientation-basin search, mechanism-first — DONE 2026-07-25, $0 REALIZED · TIER-2 GO (CATEGORICAL)** — **~$0 realized (budget was $0–50; the optional MM-GBSA rescore was NOT run and is recommended against — it refines the axis mechanism-first demoted) ·
   Cum. ~$129.** Broad transform sampling across the **widened ligandable E3 set** (VHL, CRBN, cIAP1/BIRC2, DCAF1,
   DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2 — free at CPU. **★ RECRUITER STAGING + THE MANDATORY ≤2 DOWNSELECT
   ARE DONE, $0 (2026-07-25): CRBN (9CUO) + VHL (9GIO) advance — VHL as a labelled *backfill*, not a co-winner —
@@ -1212,7 +1240,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   NR4A1/2/3; separate accessibility from stability; robust constraint-satisfaction filtering → **~4–8 constructs**
   nondominated under scenario + model uncertainty. Add a constraint: **which lysine the ubiquitin actually
   reaches**, reported per construct as a distribution over unique-vs-conserved sites, not just "a lysine is near".
-- **`[ ]` 5d · Local ternary FEP** — **~$22 ($3.2–80; 3–6 ternary comparisons) · Cum. ~$194.** Alchemy **only**
+- **`[ ]` 5d · Local ternary FEP** — **~$22 ($3.2–80; 3–6 ternary comparisons) · Cum. ~$169.** Alchemy **only**
   within a retained basin (both endpoints plausibly bound, modest congeneric change). Refines the matched final
   series → **~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL/CRBN only where both survive,
   explicit negative controls. **Deliverable** = the prioritized, structure-defined, retrosynthetically annotated
@@ -1237,7 +1265,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 
 ## Spend summary
 
-**PINNED TOTAL: ~$194 mid-range (~$47–561)**, GO at every gate, priceable stages only.
+**PINNED TOTAL: ~$169 mid-range (~$47–561)**, GO at every gate, priceable stages only.
 
 **How it is built** — regenerate the alchemical/MD stages with `python research/modalities/vast_cost_model.py`
 (JSON: [`vast-ladder-repricing.json`](research/modalities/vast-ladder-repricing.json)); the tool prices 9 stages
@@ -1245,7 +1273,7 @@ at **$149.4 ($38.2–466.4)** on the measured **$0.137/ref-GPU-h** policy. The l
 tool does not cover: step0 ~$1–2 (mid $1.5), valA_mini ~$0–15 (**realized ~$0** on GCP credit), the ~$8 measured
 covalent panel, 5a basin ~$0–50 (mid $25), 5b linker ~$0–20 (mid $10). `149.4 + 1.5 + 0 + 8 + 25 + 10 ≈ 194`;
 low `38.2 + 1 + 0 + 8 + 0 + 0 ≈ 47`; high `466.4 + 2 + 15 + 8 + 50 + 20 ≈ 561`. The per-step `Cum.` chain above
-ends on the same ~$194, and [pricing.md §C](research/compute/pricing.md) carries the same chain — all three must
+ends on the same ~$169, and [pricing.md §C](research/compute/pricing.md) carries the same chain — all three must
 agree.
 
 **Excluded from the total:** (a) the 5a-KS **confirmatory** protein-mutation wedge and its reciprocal cycle —
@@ -1275,7 +1303,7 @@ absolute, but that spending it on an axis needing ~2.0 kcal/mol when the method 
 | 3 · Val B cube (SMARCA2/4 module) + NR-V04 feas. (DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$22.5 + ~$8 (range $14–75) | ~$48 |
 | 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | **~$36** + ~$21 (range $20–147) | ~$104 |
 | 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference | ~$0–50 + ~$12 (range $2–95) | ~$141 |
-| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$21) + within-basin FEP (~$22) | ~$53 (range $5–185) | ~$194 |
+| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$21) + within-basin FEP (~$22) | ~$53 (range $5–185) | ~$169 |
 | Confirmatory protein-mutation cycle (optional) | 1–3 mutation directions | **~$4.6 PROJECTED** | *(excl.)* |
 | Optional ΔG_open / ABFE (HELD) | — | +$200–500 | *(excl.)* |
 
@@ -1318,7 +1346,7 @@ RUNG5  basin_search($0–50, multi-E3, pose-marginalised, CATEGORICAL terms)    
           │           claim to resolve a paralogue-scale difference. It does NOT gate
           │           the ladder — the ligand-side double difference does.
           │
-       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep         (Cum ~$194)
+       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep         (Cum ~$169)
           │
 RUNG6  fold ──► redteam ──► post/submit                                             ($0)
 
@@ -1378,7 +1406,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 
 | # | superseded claim | what retired it |
 |---|---|---|
-| 1 | Ladder total **~$390 (~$170–610)**, then **~$240 (~$90–390)**, then **~$467 (~$249–685)**, then a stray **~$128 (~$36–381)** | Successively: the six cost levers; the measured per-edge work correction; the measured bid/selection policy. The **$128** was `bid-strategy.md` §6's table with the **5c row missing** — fixed there; the pinned total is **~$194 (~$47–561)** |
+| 1 | Ladder total **~$390 (~$170–610)**, then **~$240 (~$90–390)**, then **~$467 (~$249–685)**, then a stray **~$128 (~$36–381)** | Successively: the six cost levers; the measured per-edge work correction; the measured bid/selection policy. The **$128** was `bid-strategy.md` §6's table with the **5c row missing** — fixed there; the pinned total is **~$169 (~$47–561)** |
 | 2 | "The 4090 wins $/ns at every size (1549 / 669 / 175.6 vs 3090 72.5 @444k; 2.42× for ~9 % more $/hr)" — a **card** rule | The 23:08 2026-07-24 bench was **withdrawn** (single 0.9–4.5 s windows; it also ranked a 4080 SUPER above a 4090). Validated grid: 4090 755.36 / 4080 703.51 / 3090 359.36 ns/day → **2.10×**, and the cheapest 3090 floor is **8.8×** below the cheapest 4090. **Rank offers on all-in `$/ns`; the card is not the decision** |
 | 3 | Bid = `min_bid × 1.1` / `× 1.5` / `× 1.9` / `× 1.25`; and a `P* = clamp(max(no-churn floor, √(m̂·d) or UCB_q), ≤ on-demand)` reservation-price/adaptive-UCB scheme | All four multipliers were live at once. The measured bid ladder showed `charged = min(bid, on-demand)`, so a premium is paid on **every** hour and cannot buy safety from on-demand renters; the ~20-min reload that justified `×1.9` was **self-inflicted** (our reaper DELETEd paused instances). The UCB scheme never reached the launch path. Current rule: **floor + staleness tick, capped at on-demand** ([bid-strategy.md](research/compute/bid-strategy.md) §7) |
 | 4 | RBFE binary edge ≈ **5–6 GPU-h ≈ $0.6–1.4**; `step1_fanout` **$12–26**, then **$91–101** | The 5–6 GPU-h was a **public TYK2** rate (~5.2 s/iter) applied to the ~2.6× heavier cmpd19/NR4A3 complex (~13.6 s/iter on three hosts). Unit is **~13.7 ref GPU-h**. The $91–101 then used the **$0.35–0.39/hr** realized, which was a consequence of bidding `×1.5` on a `min_bid`-ranked offer, not the market. Current: **~$1.9/edge, ~$36 fan-out** |

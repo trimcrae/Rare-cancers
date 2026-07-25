@@ -285,7 +285,7 @@ own work estimates** (pricing.md §B/C) — this reprices them, it does not re-d
 
 ⚠ **This is not the ladder total.** It covers only the nine alchemical/MD stages the cost model reprices. The
 whole gated ladder — adding step0, `valA_mini`, the measured `$8` covalent panel, and the CPU-dominated 5a/5b —
-is **~$194 (~$47–561)**; [STRATEGY.md → Spend summary](../../STRATEGY.md) carries the derivation and is
+is **~$169 (~$47–561)**; [STRATEGY.md → Spend summary](../../STRATEGY.md) carries the derivation and is
 authoritative. *(This table previously omitted the `5c` row, which is where a stray `~$128` total for the whole
 ladder came from. Fixed 2026-07-25.)*
 

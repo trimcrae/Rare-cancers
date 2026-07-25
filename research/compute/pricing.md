@@ -189,7 +189,7 @@ mutation-cycle stages have a **qualified engine with a particle-count-projected 
 | local within-basin FEP | 3–6 ternary **comparisons** (ternary legs only, B.0-1), 56–260 ref GPU-h | **~$22** ($3–80) | REPRICED 2026-07-25 |
 | `ternary_prospective_matrix` (now 5a–5d ladder) | ~4–12 constructs via 5c/5d | **folded into 5c+5d above** | MEASURED-derived |
 
-**★ Whole gated ladder ≈ ~$194 mid-range (~$47–561) for the PRICEABLE stages, GO at every gate** — repriced
+**★ Whole gated ladder ≈ ~$169 mid-range (~$47–561) for the PRICEABLE stages, GO at every gate** — repriced
 2026-07-25 onto the measured Vast policy (**$0.137 per reference GPU-hour**, best-10-offer planning rate; range
 $0.057 best offer .. $0.309 median). Regenerate the alchemical/MD stages with
 `python research/modalities/vast_cost_model.py`; JSON in
