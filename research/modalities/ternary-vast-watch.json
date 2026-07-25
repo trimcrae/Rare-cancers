@@ -1,4 +1,16 @@
 {
   "_note": "Watch list for the Vast ternary lane. The cron watchdog (.github/workflows/ternary-vast-watchdog.yml) reads ONLY this file; an entry with enabled=false is invisible to it. Entries are added by the lane's launch job.",
-  "watch": []
+  "watch": [
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "seed": 0,
+      "direction": "fwd",
+      "mode": "probe",
+      "timestep_fs": "4.0",
+      "warmup_timestep_fs": "1.0",
+      "max_relaunches_per_day": 8,
+      "enabled": true
+    }
+  ]
 }
