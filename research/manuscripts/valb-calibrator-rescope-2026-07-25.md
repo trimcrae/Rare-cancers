@@ -421,6 +421,67 @@ succeeds or fails.** After §5a it is also the *only* one of the two that the av
 
 ---
 
+## 8a. Exact `STRATEGY.md` deltas (this lane does not edit that file)
+
+**(1) RUNG 2 → Validation B-mini → "Recommended next steps (spend order)", item 4.** Replace the current text —
+*"rescope the calibrator to a ≳2 kcal/mol signal … via a multi-edge congeneric path … or the high-contrast
+P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops"* — with:
+
+> **(4) THE REAL DECISION — rescope, but NOT onto the P-series. Both published options are dead, checked for $0
+> before a dollar was spent (GH run 30168578199, RCSB + RDKit MCS in the production mapper's own container;
+> [valb-pseries-chem.json](research/modalities/valb-pseries-chem.json)).** 6 of the 10 Ciulli P-series pairs
+> **change formal charge** (P1 +1, P2 0, P3 +1, P4 0, P5 +1) — which kills **P1→P4 (+2.53)** outright — and the
+> 4 that do not perturb **58–80 heavy atoms** against the **2** of the edge already running (MCS 35–42 of 65–79
+> heavy: half of every molecule). It is a linker/exit-vector *design* series, chemically diverse by
+> construction: a good SAR paper and a bad alchemical map. **General conclusion: a ≥2 kcal/mol ternary
+> calibrator that is ALSO small, charge-neutral and mappable may not exist in the public literature — large
+> cooperativity differences are produced by large chemical changes, so the two requirements fight each other.**
+> **What replaces it: a SYNTHETIC CLOSURE TRIANGLE on the anchor ligand**, because closure needs no experimental
+> measurement at all (`R = ΔΔG(A→B)+ΔΔG(B→C)−ΔΔG(A→C)` is zero for an exact method whatever the true α values
+> are). T1 = cmpd1→cmpd4 **is r0, reused not re-bought**; T2 = cmpd4→cmpd4′ and T3 = cmpd1→cmpd4′ are new, each
+> a ≤2-heavy-atom charge-neutral change. **2 new edges ≈ $5.9 at n=1 ($2.1–15), ≈$17.6 at n=3** — cheaper than
+> the single-edge design already on the ladder. ⚠ cmpd4′ cannot be a second pyridine→benzene swap
+> (`n_pyridine_rings_in_cmpd1: 1`); candidates are the aminopyridazine N→CH, thiazole 4-methyl→H,
+> *tert*-butyl→isopropyl, 2-hydroxyphenyl→phenyl — never the *trans*-4-hydroxyproline OH, which is the VHL
+> anchor. **Honest limit: closure measures internal consistency and systematic path error, NOT accuracy. The
+> known-answer accuracy requirement stays OPEN.** Design:
+> [valb-calibrator-rescope-2026-07-25.md](research/manuscripts/valb-calibrator-rescope-2026-07-25.md).
+
+**(2) Same bullet — replace the "Still unmeasured: the ligand-only pose RMSD … `diagnostics_complete: false`
+says so"** sentence with:
+
+> **✅ MEASURED (GH runs 30167976061 → 30168343299): `diagnostics_complete: TRUE` on the ternary leg.** The
+> ligand was *derived* from the hybrid System in the `.nc` (no topology file is committed): one 110-atom
+> component against chains of 2343/1925/1433/1329, 44,860 waters and 248 ions — a fail-closed identification
+> with exactly one candidate. **HMR is on in this lane** (H at ~3 Da), so 110 − 51 H = **59 heavy**, which is
+> exactly `wurz-calib-frozen.json → validation.heavy_1 = heavy_4 = 59`. **Receptor-superposed ligand pose RMSD
+> over all 12 replicas: max 2.81 Å, median 1.94, min 1.20** (threshold 4.0); adjacent frames 1960→2000 max
+> 1.58 Å. The 10.3 Å whole-solute RMSD is now **explained, not excused**: per-chain, the ligand sits ~1–3 Å from
+> the two large chains and 2–13 Å from the two small ones, so the *peripheral chains reorient by ~10 Å while the
+> ligand does not move* — benign for ΔΔG_coop, whose interface is the one that stays intact.
+
+**(3) Add to the same bullet, after the seven-defects sentence** (the count is now higher and two were
+self-inflicted, which is the point):
+
+> **★ THREE MORE DEFECTS, 2026-07-25 PM — and two were introduced by the repair itself.** (8) a fixed 2.5 Da
+> "heavy atom" cutoff that counted every **HMR'd hydrogen as heavy** (the hydrogen mass is now *measured* per
+> system from the molecular graph, correct at any HMR factor); (9) a solvent-leg ligand check that judged a free
+> PROTAC's conformational change against a 4 Å **pose-collapse** threshold and returned `technical_failure:
+> true` — which via `_diagnostics_ok()` would have handed valB_mini a **hard FAIL**, i.e. defect #7's exact
+> failure mode re-committed eight hours later (now **not applicable**, a third state distinct from failed and
+> unmeasured); (10) `_diagnostics_ok()`'s surviving **"absent report → True"** path, the last instance of this
+> lane's signature defect, now `None` (not verified). A Kabsch convention error was also caught *by its own
+> regression test* before shipping. **The rate at which this lane produces measure-nothing defects is itself a
+> finding**, and it is the argument for spending on **independent** instruments — reverse legs, cycle closure —
+> rather than more replicates through the same machinery.
+
+**(4) The in-flight board's LANE 5 row** can be marked complete: `diagnostics_complete` closed honestly, the
+gate defect independently audited (already-applied; ratification block ready to route), both rescope options
+designed *and one of them refuted by its own $0 pre-gate*, with a replacement design and the rev-leg-keyed
+decision tree in place.
+
+---
+
 ## 9. Honest-scope notes that must travel with any result from this
 
 - **Val B is the NAGL lane's known-answer accuracy control.** OpenFE's published ~1.7 kcal/mol RBFE accuracy was
