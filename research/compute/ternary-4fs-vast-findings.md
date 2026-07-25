@@ -122,6 +122,31 @@ the *existing* basis on a full leg rather than transferring it to NR4A. It remov
 60-iteration probe" caveat; it does **not** remove the NR4A transferability warning. That still needs an
 `nrv04_active_to_epimer__ternary_nr4a1` leg.
 
+## 4b · Every ternary leg now persists a strided solute trajectory — SHIPPED
+
+Lane 3's read-only census of the NR-V04 covalent panel found **72 objects, 19 units, zero trajectory
+objects**: one pre-minimisation frame, a 1.35 GB `System` (forces and parameters, no coordinates over time),
+and scalars already reduced against the wrong chain split. Three known analysis defects in that panel were
+therefore correctable in principle and none in practice, and it has to be re-run or abandoned.
+
+The ternary lane sat between two failure modes, not one. `nr4a3_rbfe._protocol` explicitly sets
+`positions_write_frequency = None` ("energy-only .nc; avoids the ~1 GB trajectory bloat") — the
+*destroy-re-analysability* extreme. `nr4a3_ternary_fep._protocol` never touched `output_settings` at all, so
+it inherited whatever OpenFE's default was, and the same measurement that motivated the binary lane's `None`
+says that default writes **every iteration** at ~0.5 MB/iter → ~1 GB per leg — which this lane then
+**re-uploads whole at every spot commit**. Neither was a choice anyone made.
+
+**Shipped:** `RBFE_POSITIONS_WRITE_PS` (default **50 ps** = a 20-iteration stride at the 2.5 ps
+`time_per_iteration`), velocities off. That is **~50 MB over a full leg** against the ~112 MB System XML the
+driver already uploads unremarked, and it is `output_indices`-filtered (solute, not the water box).
+`rbfe_spot_driver` now logs the resolved stride, and a zero stride prints
+`** NO POSITIONS WILL BE STORED — this leg will not be re-analysable **`, so the question is answered in the
+run log rather than inferred from a file size months later.
+
+⚠ **The stage-1 probe predates this change** (launched from commit `06dc6e04`; the host pulls the branch
+tarball at container start). Its trajectory is whatever the OpenFE default gave. That is acceptable for a
+200-iteration survival probe with no re-analysis value; the stage-2 edge carries the setting.
+
 ## 5 · Test status
 
 | claim | status |
