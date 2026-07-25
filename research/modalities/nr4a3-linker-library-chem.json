@@ -1,0 +1,214 @@
+{
+  "_title": "RDKit verification of the RUNG-5b virtual library",
+  "_method": "Every construct's backbone length and branch position are RE-DERIVED from the parsed molecule (topological shortest path between the two anchor atoms) and compared to the values the geometry asserted; required cores and the declared pendant are matched as exact substructures; a list of junction motifs that must never appear is checked; descriptors are reported without a pass/fail.",
+  "_rdkit_version": "2025.09.6",
+  "n_constructs": 22,
+  "n_failed": 22,
+  "constructs": [
+    {
+      "construct_id": "vhlM4_5triazole_e7_none",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM14_5triazole_e7_none",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5triazole_a5_none",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5piperazine_a5_none",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5amide_a2-a2_pyr3",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5amide_a2-a3_pyr3",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5triazole_a2-a3_cyac_me",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5triazole_a2-a3_cyac_ph",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-a11_cyac_me",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-m4_cyac_me",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-a11_pyr3",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-m4_pyr3",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_e7_none",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5triazole_e6_none",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5amide_a2-a2_ph",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5amide_a2-a3_ph",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM3_5triazole_a2-a3_cyanoprop",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-a11_cyanoprop",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-m4_cyanoprop",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-a11_ph",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-m4_ph",
+      "errors": [
+        "anchor pattern e3_vhl not found"
+      ],
+      "warnings": [],
+      "ok": false
+    },
+    {
+      "construct_id": "crbnM0_5triazole_e7_none",
+      "errors": [
+        "backbone length disagrees: geometry says 24, the molecule says 31",
+        "1 UNASSIGNED stereocentre(s): an 'exact structure' with an undefined centre is two compounds, not one"
+      ],
+      "warnings": [],
+      "n_backbone_atoms_measured": 31,
+      "n_backbone_atoms_intended": 24,
+      "cores": {
+        "cmpd19": true,
+        "vh032_desacetyl": false,
+        "pomalidomide": true
+      },
+      "descriptors": {
+        "mw": 849.9,
+        "heavy_atoms": 61,
+        "clogp": 1.26,
+        "tpsa": 250.1,
+        "hbd": 3,
+        "hba": 16,
+        "rotatable_bonds": 26,
+        "fraction_csp3": 0.45,
+        "n_stereocentres": 1,
+        "_reading": "REPORTED, NOT GATED. A bifunctional degrader is beyond-rule-of-5 by construction; applying a Ro5 filter here would reject the entire modality. These are for the manuscript's physicochemical assessment and for ranking WITHIN the class."
+      },
+      "canonical_smiles": "COC(=O)c1c[nH]c2ccc(OCc3cn(CCOCCOCCOCCOCCOCCOCC(=O)Nc4cccc5c4C(=O)N(C4CCC(=O)NC4=O)C5=O)nn3)cc12",
+      "inchikey": "ULZBIBSIWZWKPR-UHFFFAOYSA-N",
+      "ok": false
+    }
+  ],
+  "matched_pair_check": {
+    "ok": false,
+    "errors": [
+      "pair members failed their own checks"
+    ]
+  },
+  "_descriptor_scope": "A bifunctional degrader is beyond-rule-of-5 by construction. Descriptors are for physicochemical assessment and within-class ranking; no permeability, exposure, efficacy or safety claim follows from them."
+}
