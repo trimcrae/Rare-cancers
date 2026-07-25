@@ -1073,10 +1073,28 @@ def validate_composition_against_solved_assembly(arms, e2, log):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--arms", default="vhl,crbn", help="comma-separated arm ids from ARMS")
+    ap.add_argument("--lane1-registry", default="",
+                    help="path to the E3 lane's recruiter-staging JSON; its recruiters are added as arms "
+                         "(the CRL architecture per recruiter is supplied here, since that lane's output is "
+                         "a flat recruiter list and the RING geometry depends on the architecture)")
+    ap.add_argument("--lane1-only", default="",
+                    help="comma-separated recruiter GENE symbols to take from the lane-1 registry "
+                         "(default: all of them). Use the lane's own downselect to choose.")
     ap.add_argument("--out-dir", default=STAGE_DIR)
     ap.add_argument("--registry", default=REGISTRY)
     ap.add_argument("--plan", action="store_true", help="offline: print the queries, touch no network")
     args = ap.parse_args(argv)
+
+    if args.lane1_registry:
+        only = {g.strip().upper() for g in args.lane1_only.split(",") if g.strip()} or None
+        added = arms_from_lane1(args.lane1_registry, only=only)
+        ARMS.update(added)
+        print(f"[e3stage] lane-1 registry {args.lane1_registry}: added arms {sorted(added)}")
+        for k, v in sorted(added.items()):
+            print(f"[e3stage]   {k}: {v['recruiter']} ({v['e3_architecture']}) "
+                  f"self_ring={v.get('self_ring', False)} seeds={v['seed_ids'][:4]}")
+        if not args.arms.strip():
+            args.arms = ",".join(sorted(added))
 
     ids = [a.strip() for a in args.arms.split(",") if a.strip()]
     unknown = [a for a in ids if a not in ARMS]
@@ -1090,9 +1108,17 @@ def main(argv=None):
             print(f"  arm {a} ({s['crl']}):")
             print(f"    receptor query : accessions {[ACC[n] for n in s['receptor_needs']]} "
                   f"({s['receptor_needs']})")
-            print(f"    scaffold query : accessions {[ACC[n] for n in s['scaffold_needs']]} "
-                  f"({s['scaffold_needs']})")
-            print(f"    bridge on      : {s['bridge']}   seed hints (must still verify): {s['seed_ids']}")
+            if s.get("scaffold_needs"):
+                print(f"    scaffold query : accessions {[ACC[n] for n in s['scaffold_needs']]} "
+                      f"({s['scaffold_needs']})")
+                print(f"    bridge on      : {s['bridge']}")
+            else:
+                print("    scaffold query : NONE — monomeric RING E3, so the RING is in the recruiter's own "
+                      "chain and no cullin scaffold is composed in (none of the measured 48.6 A composition "
+                      "uncertainty is inherited)")
+            print("    intact-assembly query : recruiter + each E2, ubiquitin REQUIRED — the preferred "
+                  "transfer-geometry source")
+            print(f"    seed hints (must still verify): {s['seed_ids'][:6]}")
         print(f"  E2 geometry queries: {[[ACC[p] for p in pair] for pair in E2_PAIR_NEEDS]}")
         return 0
 
