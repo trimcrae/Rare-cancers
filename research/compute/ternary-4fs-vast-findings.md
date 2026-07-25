@@ -290,6 +290,9 @@ bid $0.136/hr · billed $0.1527/hr. All times ET.
 | 2:08 PM | warmup 24/48 committed | S3 census |
 | 2:11 PM | **warmup 48/48, production started at 4 fs** | `committed=warmup/48`, then `Iteration 3/40` |
 | 2:14 PM | production 19/40 of the first chunk, steady | ~7.7 s/iter |
+| 2:43 PM | **PREEMPTED at production ≥120/200** — routine spot behaviour; the capacity policy fired correctly on its first real encounter | `cur_state=stopped intended=stopped` → nudge → `{"success": false, "error": "resources_unavailable"}` → machine 12697 recorded blocked → instance destroyed rather than queued |
+| 2:45 PM | relaunch **rented nothing and reported success** — Vast's 16,384-char onstart cap | HTTP 400 `invalid_args`, rendered onstart 17,017 chars (§8) |
+| 2:51 PM | resumed on a new host after stripping comments at render | instance 45832599, machine 29668, **RTX 4080S** $0.2196/hr; stage + pre-equil caches HIT, resumes from `production/120` |
 | 2:19 PM | **production 40 committed at 4 fs** — equals the ENTIRE prior 4 fs evidence base, on a freshly built system | `instance=45827166 machine=12697 up=running committed=production/40` |
 
 **Attribution.** Every reading above is keyed to the instance actually rented, not inferred from a poller: the
@@ -307,3 +310,37 @@ trajectory setting landed, and before `PYTHONUNBUFFERED=1`. Its `[timing]`/`[bar
 block-buffered — which is how that defect was found (§4c) — and the per-iteration numbers above come from
 openmmtools' own per-chunk estimates and from the S3 commit census, both of which are independent of the
 buffered stream.
+
+
+## 8 · Two infrastructure findings from the probe, both of the silent-success class
+
+**(a) Vast caps the onstart script at 16,384 characters, and the failure is a GREEN job that rents nothing.**
+Diagnosed from the API's own reply rather than inferred: the post-preemption relaunch returned
+`HTTP 400 {"success": false, "error": "invalid_args", "msg": "...len(args) > 16384..."}`. The rendered
+onstart had reached **17,017** characters — over by 633 — because three safety fixes had been added to the
+pipeline since the launch that worked. Nothing in the code was wrong; it was simply too long. The shape is
+what makes it dangerous: the launcher's per-unit `except` turns a create failure into a printed line inside
+a job that exits 0, so the launch reported success, `--verify-armed` passed, and **no GPU was running**.
+
+The fix is **not** fewer comments — 6,122 of those characters were full-line comments, the part that
+explains why each step exists, which is exactly what this repo keeps paying for losing. Comments now stay in
+the **source** and are stripped at **render** (15,136 → 9,013 pipeline chars; 17,017 → 10,774 onstart; 5.6 kB
+headroom). `#`-leading lines are comments in both bash and Python, so the rule is safe inside the embedded
+heredocs — asserted by `bash -n` on the rendered script and by `compile()` on both heredocs.
+`build_jobspec` now **raises** over the cap, making it a build-time error a unit test catches.
+
+**(b) `rbfe_spot_driver`'s progress lines are block-buffered.** It logs with a bare `print` and contains
+**zero** `flush=True` (grep). Behind a pipe, Python block-buffers stdout at ~8 kB. Diagnosed by differential:
+at 2:03 PM the S3 `run.log` carried every line printed with `flush=True` and not one `[spot-driver]` line
+from the same process. Those lines are `[timing] … s/iter` and `[barrier] committed checkpoint at iteration
+N` — the entire progress signal an unproven pipeline is monitored on. `PYTHONUNBUFFERED=1` fixes the class
+without touching a file the GCP lane also runs.
+
+**(c) A strict host filter costs real money in selection.** The lane asks for 8 vCPU / 32 GB / ≥60 GB disk /
+`cuda_max_good ≥ 13.0` because the host builds the ~146k-atom hybrid itself. That narrows the offer pool, and
+the resume landed on an **RTX 4080S at $0.2196/hr** against the first host's 4090 at $0.1527 — the best
+all-in `$/ns` available *under that filter* at that moment, which is `_select_cheapest_offer` working as
+designed ("the card is not the decision — the OFFER is"), not a bug. The lever that would relax it is an S3
+**setup** cache (the stage and pre-equilibration caches already exist); with setup restored rather than
+built, the RAM floor could drop and the pool would widen. Not built here; recorded as the next cheap
+infrastructure win.
