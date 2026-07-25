@@ -448,7 +448,13 @@ def main(argv=None):
     lib = design["virtual_library"]
     results = [check_one(c) for c in lib]
     n_bad = sum(1 for r in results if not r["ok"])
+    # ★ BOTH PAIRS ARE CHECKED (2026-07-25). RUNG 5b now proposes a pair at the term-(a) EXEMPLAR (the
+    # recommended one, which is what 5a-KS would be run on) and one at the REPRESENTATIVE. Verifying only the
+    # first would leave the second's "differs in exactly one atom" claim unverified while it sits in the
+    # artifact being quoted — and the representative pair used to be the ONLY one checked, so this is the
+    # coverage moving with the deliverable rather than staying where it was.
     pair = check_pair(design.get("matched_pair_for_rung_5a_ks", {}), results)
+    pair_rep = check_pair(design.get("matched_pair_at_representative_geometry", {}), results)
 
     out = {
         "_title": "RDKit verification of the RUNG-5b virtual library",
@@ -462,18 +468,21 @@ def main(argv=None):
         "n_failed": n_bad,
         "constructs": results,
         "matched_pair_check": pair,
+        "matched_pair_check_at_representative_geometry": pair_rep,
         "_descriptor_scope": "A bifunctional degrader is beyond-rule-of-5 by construction. Descriptors are "
                              "for physicochemical assessment and within-class ranking; no permeability, "
                              "exposure, efficacy or safety claim follows from them.",
     }
     with open(args.out, "w") as fh:
         json.dump(out, fh, indent=2)
-    print("[chem] %d constructs, %d FAILED  (pair check: %s)"
-          % (len(lib), n_bad, "OK" if pair.get("ok") else "FAILED %s" % pair.get("errors")))
+    print("[chem] %d constructs, %d FAILED  (exemplar pair: %s | representative pair: %s)"
+          % (len(lib), n_bad,
+             "OK" if pair.get("ok") else "FAILED %s" % pair.get("errors"),
+             "OK" if pair_rep.get("ok") else "FAILED %s" % pair_rep.get("errors")))
     for r in results:
         if not r["ok"]:
             print("[chem]   %-40s %s" % (r["construct_id"], "; ".join(r["errors"])))
-    return 1 if (n_bad or not pair.get("ok")) else 0
+    return 1 if (n_bad or not pair.get("ok") or not pair_rep.get("ok")) else 0
 
 
 if __name__ == "__main__":
