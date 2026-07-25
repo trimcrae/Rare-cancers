@@ -139,7 +139,63 @@ unlucky draw. The instruments for systematic error:
 
 ---
 
-## 6. What the newly-wired convergence run found (2026-07-25)
+## 6. THE CONVERGENCE RESULT — r0 is a converged measurement, not a broken run
+
+Once wired and repaired (§6b), the analyzer ran on r0's real committed trajectories. **Ternary leg
+`calib_hi_to_lo__ternary_vhl`, seed 0** (final run `30157501491`):
+
+| diagnostic | value | threshold | verdict |
+|---|---|---|---|
+| MBAR ΔG | 47.511 **± 0.045** | — | tiny statistical error |
+| production iterations | **2000 / 2000** | — | complete leg (the 7/24 forensic read's 1560 was mid-flight) |
+| overlap scalar | 0.135 | ≥ 0.03 | pass |
+| min adjacent overlap | **0.109** (pair 4–5) | ≥ 0.03 | **λ-path connected** |
+| equilibration fraction | 0.381 (761 of 2000) | ≤ 0.50 | pass |
+| N_eff | 676 (g = 1.83) | — | well sampled |
+| replicas visiting both ends | 12 / 12 | — | pass |
+| replica mixing (subdominant eig.) | **0.8915** | ≤ 0.90 | passes **by 0.0085** — record as marginal |
+| ΔG(t) full vs final half | **0.0023** | ≤ 0.5 | pass |
+| ΔG(t) q3 vs q4 | **0.1255** | ≤ 0.5 | pass |
+| fwd/rev gap @ f = 0.875 | **0.0255** (max 0.179 for f<1) | ≤ 1.0 | pass |
+| ligand-only pose RMSD | **unmeasured** | ≤ 4.0 Å | needs ligand indices from the hybrid topology |
+
+`technical_failure: false`, `diagnostics_complete: false` (the one unmeasured flag).
+
+**This is the decisive finding for §7.** The free-energy estimate is converged and structurally sound, and
+its statistical error (0.045) is ~33× smaller than its miss (1.478). **Therefore the wrong sign is systematic,
+and replicates — which shrink variance, not bias — are the wrong instrument.** Adding r1/r2 to a calculation
+whose ΔG(t) is flat to 0.002 kcal/mol cannot move the mean toward +0.944.
+
+One nuance that makes the replicate case *worse*, not better: ternary seed *s* uses the *s % n*-th
+independently relaxed SMARCA2 model, so r1/r2 are partly **different structures**. Their spread would conflate
+sampling noise with homology-model sensitivity — informative about model uncertainty, but not what a
+calibration needs, and it makes the SD ≤ 0.75 requirement harder to satisfy.
+
+### Structural check — measured, and its scare number explained away
+
+The solute proxy (7388 of 141968 atoms = the whole assembly + PROTAC, **not** the ligand) first read
+**78.94 Å**, then 14.97 Å after Kabsch superposition, and *set `technical_failure: true`* — which via
+`_diagnostics_ok()` would have handed valB_mini a **hard FAIL**. That FAIL was an artefact:
+
+- displacement distribution: **p50 2.50 Å, p90 5.91 Å**, but p99 71.5 Å and max 128 Å against a **126.3 Å**
+  box edge, with ~1.3–2.0 % of atoms beyond half a box;
+- the arithmetic closes — √(0.02·100² + 0.98·3²) ≈ 14.4 Å reproduces the reported 14.97, so **the entire
+  apparent rearrangement was that small wrapped tail**;
+- ⇒ **H1 (the ternary assembly genuinely rearranged) is REFUTED; the interface is stable at ~2.5 Å median.**
+  This also retires the worry H1 raised: the systematic behind −0.534 does **not** implicate the
+  SMARCA4→SMARCA2 starting model destabilising the interface.
+
+**Known-incomplete, recorded rather than papered over:** ~1.3 % of atoms still show large displacements after
+minimum-image correction, and **the cause is unknown.** I initially attributed it to the parallelepiped fold
+being non-minimal on this truncated-octahedron cell (rows `[126.3,0,0] [0,126.3,0] [63.1,63.1,89.3]`) and
+added a 27-neighbour search; **direct test refuted that** — fold-only recovers true displacements with worst
+error 0.000 Å over 4000 trials on this exact cell, so the search is a no-op here. Undiscriminated candidates:
+an NPT box differing between the two compared frames; iteration 0 being pre-equilibration; or
+`read_sampler_states[0]` not being the same continuous replica at both iterations. **Discriminator (free):**
+compare adjacent checkpointed frames (1960 vs 2000), where nothing can have moved far. No verdict rides on
+this number — `ligand_stable_ok` stays unmeasured and `technical_failure` stays false.
+
+## 6b. What the newly-wired convergence run found (2026-07-25)
 
 - The committed `simulation.nc` for the r0 legs **does exist** — the first "no production commits" report was my
   wrong path guess (the commit prefix is keyed by (dt, clig, warmup, salt); discovery is now layout-agnostic).
@@ -153,6 +209,44 @@ unlucky draw. The instruments for systematic error:
 Both fixed on `claude/max-effort-3hgq45`. Net: **required change #1 has been non-functional since it was built** —
 unwired, missing a dependency, and fatal on its first metric — and its silence read as `diagnostics_ok = True`.
 
+### The full defect list — every one reported success while measuring nothing
+
+Seven defects in the diagnostic that **gates this programme**, all found on 2026-07-25, all fixed on this branch:
+
+1. **Never wired** to any dispatch path (`MODE=converge` existed in the engine; no workflow could reach it).
+2. **Missing `openfe`** in the analysis env — openmmtools deserializes end thermodynamic states via class
+   references, and OpenFE's alchemical composable state is one, so the *first* metric raised
+   `ModuleNotFoundError`.
+3. **`_overlap`'s lazy `mbar` access sat outside any try**, so that one env gap deleted the other six
+   diagnostics — despite the module docstring promising each degrades to a status string.
+4. **Slice MBAR never converged** — `_block_plateau` and `_forward_reverse` built bare `MBAR` objects on
+   sub-slices and both died on pymbar's `\sum_n W_nk = 1` check. Seeded from the analyser's converged `f_k`,
+   both now compute. (That error's stock text says *"generally indicates the free energies are not converged"*;
+   on the evidence it was a verdict on the solver call, not the physics — openmmtools' own MBAR converged on
+   the identical samples.)
+5. **The fwd/rev gap was taken at fraction 1.0**, where the forward slice (first 100 %) and reverse slice (last
+   100 %) are *the same samples* — so it was identically ~0 and `FWD_REV_GAP_MAX_KCAL` could never fire.
+   Confirmed empirically: `gap_at_full_fraction_uninformative: 0.0` exactly.
+6. **The checkpoint was never opened** — openmmtools looks for `checkpoint.nc`; this repo's driver writes
+   `checkpoint.chk`. So positions were unavailable and the mandated ligand-escape check had **never once
+   produced a number**, on this lane or any other sharing this commit store.
+7. **A ligand-pose threshold applied to the wrong observable** — first an unaligned whole-system RMSD over
+   ~146k atoms (79 Å, dominated by bulk water), then a superposed whole-solute RMSD (15 Å), each compared to
+   `LIG_RMSD_MAX_A`. The second produced a **fabricated hard FAIL**.
+
+Two of these were actively producing wrong verdicts: #1–#3 as a silent `diagnostics_ok = True`, and #7 as a
+FAIL that would have read as *"the ternary lane is broken."* **This bears on how much weight the lane's
+verdicts can carry, and argues for spending the next dollar on *independent* checks — reverse legs, cycle
+closure — rather than more replicates through the same machinery.**
+
+### Infrastructure note worth keeping
+
+The analysis env is now the pre-baked `docker.io/triskit23/ternary-fep` image rather than an ad-hoc
+`micromamba create`: **4.3 min end-to-end vs ~22 min**, and — the reason that actually matters — it is
+*byte-for-byte the env the GPU legs run*, so the analysis uses the same openfe/openmmtools/pymbar that
+**produced** the trajectory. An ad-hoc solve in an analysis step is a silent protocol deviation on a frozen
+protocol. Codified as a standing rule in CLAUDE.md.
+
 ---
 
 ## 7. Recommendation
@@ -160,9 +254,11 @@ unwired, missing a dependency, and fatal on its first metric — and its silence
 **Do not buy r1 + r2 as a rescue attempt.** It cannot pass, and it is the one instrument blind to the failure
 mode most likely in play. In order:
 
-1. **(free, in flight)** Finish the convergence analysis of r0's three legs. Overlap connectivity, dG(t) plateau,
-   replica mixing, N_eff and structural drift decide whether −0.534 is a *measurement* or an *artifact*. Nothing
-   else should be bought before this reads out.
+1. **✅ DONE (free) — and it answered the question: −0.534 is a MEASUREMENT, not an artifact.** See §6. The leg
+   is converged on every measurable criterion (ΔG(t) flat to 0.0023, fwd/rev 0.0255, overlap connected,
+   2000/2000 iterations, MBAR SE 0.045) and structurally stable once periodic wrapping is accounted for. This
+   *strengthens* the rest of this list: a converged calculation missing by 1.478 kcal/mol has a **systematic**
+   problem, and replicates cannot address bias.
 2. **(free)** Record the admits-zero defect (done, §3) and route the gate amendment for approval. Do not apply it
    unilaterally.
 3. **(~one replicate's cost, strictly higher information than a replicate)** Run the **reverse** ternary and

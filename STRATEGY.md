@@ -545,8 +545,30 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
     unguarded lazy `mbar` access that took the whole report down) — both fixed. **Replicates shrink precision, not
     accuracy**, and a wrong sign 1.478 from target is a systematic signature.
 
-  **Recommended next steps (spend order):** (1) *free* — read out the now-working convergence analysis on r0's
-  three legs before buying anything; (2) *free* — route the admits-zero gate defect for approval; (3) *one
+  **★ CONVERGENCE READ OUT (2026-07-25, run 30157501491) — r0 IS A MEASUREMENT, NOT A BROKEN RUN, WHICH SETTLES
+  THE REPLICATE QUESTION.** Ternary seed 0: **2000/2000** production iterations · MBAR ΔG **47.511 ± 0.045** ·
+  overlap connected, min-adjacent **0.109** (floor 0.03) · equilibration fraction **0.381** · N_eff **676** ·
+  12/12 replicas visiting both ends · **ΔG(t) full-vs-final-half 0.0023**, q3-vs-q4 **0.1255** · **fwd/rev gap
+  0.0255** at f=0.875. Replica mixing **0.8915** against a 0.90 ceiling — passes, but **record as marginal**.
+  Structurally stable: the alarming 78.9 Å → 14.97 Å solute RMSD is **periodic wrapping** (p50 2.50 Å, p90
+  5.91 Å, ~2 % of atoms at ~1 box edge of 126.3 Å; √(0.02·100²+0.98·3²) ≈ 14.4 reproduces it), so the
+  *ternary assembly did not rearrange* and the systematic does **not** implicate the SMARCA4→SMARCA2 starting
+  model. **Consequence: the statistical error (0.045) is ~33× smaller than the miss (1.478), so the wrong sign is
+  SYSTEMATIC — and replicates shrink variance, not bias.** Made worse for the replicate case, not better: ternary
+  seed *s* uses the *s%n*-th relaxed SMARCA2 model, so r1/r2 are partly *different structures* and their spread
+  conflates sampling noise with homology-model sensitivity. Still unmeasured: the **ligand-only** pose RMSD
+  (needs ligand indices from the OpenFE hybrid topology) — `diagnostics_complete: false` says so.
+  ⚠ **Seven defects were found in this gating diagnostic on 2026-07-25, every one reporting success while
+  measuring nothing** (never wired · missing `openfe` · an unguarded lazy `mbar` that deleted six other metrics ·
+  slice-MBAR never converging · a fwd/rev gap taken where it is identically zero · the checkpoint never opened
+  because openmmtools wants `checkpoint.nc` and the driver writes `checkpoint.chk` · a ligand-pose threshold
+  applied first to bulk solvent then to a four-chain assembly). Two produced *wrong verdicts*: a silent
+  `diagnostics_ok=True`, then a fabricated hard FAIL. **This is an argument for spending the next dollar on
+  INDEPENDENT checks — reverse legs, cycle closure — not more replicates through the same machinery.** Full
+  evidence: [valB-mini-r0-verdict-2026-07-25.md](research/manuscripts/valB-mini-r0-verdict-2026-07-25.md).
+
+  **Recommended next steps (spend order):** (1) ✅ *done, free* — the convergence analysis read out above; (2) *free*
+  — route the admits-zero gate defect for approval; (3) *one
   replicate's cost, strictly more informative than a replicate* — run the **reverse** ternary+binary legs and test
   |ΔG_fwd + ΔG_rev|; (4) **the real decision** — rescope the calibrator to a **≳2 kcal/mol** signal, the same
   margin this file already says a useful degradation window needs, via a multi-edge congeneric path (which also
