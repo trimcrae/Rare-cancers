@@ -97,9 +97,104 @@ def sweep_label(key):
             destroy(key, i.get("id"))
 
 
+def rent_at(key, offer_id, bid, poll_s, max_wait_s, note=""):
+    """Rent one offer at `bid`, capture the FULL instance record, destroy. Returns the record + charged rate.
+
+    The full record matters: the single-shot probe found a charged rate equal to NEITHER the bid NOR the floor,
+    so the field that explains it may be one we were not keeping."""
+    inst_id = None
+    out = {"bid_usd_h": bid, "note": note, "polls": [], "full_record": None}
+    try:
+        body = {"client_id": "me", "image": TINY_IMAGE, "disk": 8.0,
+                "onstart": "echo probe", "runtype": "args", "label": LABEL,
+                "target_state": "running", "price": bid}
+        created = _vast_request("PUT", f"/asks/{offer_id}/", key, body=body) or {}
+        inst_id = created.get("new_contract") or created.get("id")
+        out["create_response"] = {k: created.get(k) for k in ("success", "new_contract", "error", "msg")}
+        if not inst_id:
+            out["error"] = f"create returned no id: {created}"
+            return out
+        waited = 0
+        while waited <= max_wait_s:
+            rec = instance_record(key, inst_id)
+            if rec:
+                out["polls"].append({"t_s": waited, "dph_base": rec.get("dph_base"),
+                                     "dph_total": rec.get("dph_total"), "min_bid": rec.get("min_bid"),
+                                     "actual_status": rec.get("actual_status")})
+                if rec.get("dph_base") is not None:
+                    out["full_record"] = rec
+                    out["charged_dph_base"] = float(rec["dph_base"])
+                    break
+            time.sleep(poll_s)
+            waited += poll_s
+    except Exception as e:  # noqa: BLE001
+        out["error"] = f"{type(e).__name__}: {e}"
+    finally:
+        if inst_id:
+            destroy(key, inst_id)
+    return out
+
+
+def ladder(key, a):
+    """THE DISCRIMINATING EXPERIMENT. Rent the SAME offer at several bid multiples and compare what we are
+    charged each time.
+
+        charged tracks the bid                 -> PAY-YOUR-BID (first price)
+        charged identical across all bids      -> the bid is a MAX PRICE and we pay a market clearing rate
+                                                  (AWS-spot semantics). Raising the bid is then FREE in $/hr
+                                                  and only buys retention — the opposite of the repo's policy.
+
+    Same offer each time, so host, card, disk and storage rate are all held constant; the bid is the only
+    thing that varies. One rental per rung, a couple of minutes each, pennies total."""
+    offer = cheapest_offer(key)
+    if not offer:
+        return {"error": "no suitable cheap offer"}
+    # Re-read the floor immediately before renting: a stale min_bid is a live alternative explanation for the
+    # single-shot result and has to be ruled out rather than assumed away.
+    fresh = cheapest_offer(key)
+    res = {"generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+           "experiment": "bid ladder on ONE offer — does the charged rate track the bid?",
+           "offer": {k: offer.get(k) for k in ("id", "machine_id", "gpu_name", "min_bid", "dph_base",
+                                               "dph_total", "storage_cost", "search", "gpu_frac", "num_gpus")},
+           "floor_at_select": float(offer["min_bid"]),
+           "floor_on_recheck": float(fresh["min_bid"]) if fresh else None,
+           "rungs": []}
+    floor = float(offer["min_bid"])
+    for mult in [float(x) for x in a.ladder.split(",")]:
+        bid = round(floor * mult, 4)
+        print(f"\n[probe] === rung x{mult}: bid ${bid:.5f} on offer {offer['id']} "
+              f"(floor ${floor:.5f}) ===", flush=True)
+        r = rent_at(key, offer["id"], bid, a.poll_s, a.max_wait_s, note=f"x{mult}")
+        r["mult"] = mult
+        res["rungs"].append(r)
+        print(f"[probe] rung x{mult}: bid ${bid:.5f} -> charged {r.get('charged_dph_base')}", flush=True)
+        time.sleep(5)
+
+    charged = [(r["mult"], r["bid_usd_h"], r.get("charged_dph_base")) for r in res["rungs"]
+               if r.get("charged_dph_base") is not None]
+    res["charged_by_rung"] = charged
+    if len(charged) < 2:
+        res["verdict"] = "INCONCLUSIVE — fewer than two rungs returned a price"
+    else:
+        vals = [c for _, _, c in charged]
+        spread = (max(vals) - min(vals)) / max(min(vals), 1e-9)
+        tracks = all(abs(c - b) <= max(0.002, 0.10 * b) for _, b, c in charged)
+        if tracks:
+            res["verdict"] = "PAY-YOUR-BID: charged tracked the bid at every rung."
+        elif spread < 0.05:
+            res["verdict"] = (f"MAX-PRICE / CLEARING-RATE: charged was {vals[0]:.5f} at every rung despite "
+                              f"bids spanning {charged[0][1]:.5f}-{charged[-1][1]:.5f}. The bid is a CEILING, "
+                              f"not a price. Raising it costs nothing per hour and only buys retention.")
+        else:
+            res["verdict"] = (f"NEITHER: charged varies ({min(vals):.5f}-{max(vals):.5f}) but does not track "
+                              f"the bid. Inspect full_record for the governing field.")
+    return res
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--overbid-mult", type=float, default=4.0)
+    ap.add_argument("--ladder", default="", help="comma-separated bid multiples, e.g. 1.0,2.0,6.0")
     ap.add_argument("--poll-s", type=int, default=15)
     ap.add_argument("--max-wait-s", type=int, default=180)
     ap.add_argument("--out", default=os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -110,6 +205,17 @@ def main():
     if not key:
         print("FAIL: VAST_API_KEY not set", flush=True)
         return 2
+
+    if a.ladder:
+        try:
+            res = ladder(key, a)
+        finally:
+            sweep_label(key)
+        print(f"\n[probe] VERDICT: {res.get('verdict')}", flush=True)
+        with open(a.out.replace(".json", "-ladder.json"), "w") as f:
+            json.dump(res, f, indent=1, default=str)
+        print(f"[probe] wrote {a.out.replace('.json', '-ladder.json')}", flush=True)
+        return 0
 
     offer = cheapest_offer(key)
     if not offer:
