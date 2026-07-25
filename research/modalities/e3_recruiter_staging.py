@@ -1042,10 +1042,6 @@ def run_fpocket(protein_atoms, ligand_atoms, workdir, tag):
         return {"_status": "fpocket produced no info.txt"}
     info = fl.parse_info(open(info_p).read())
     pockets_dir = os.path.join(out, "pockets")
-    # Attribute the LIGAND to a pocket by alpha-sphere proximity — never by file-index convention.
-    lx = sum(a["x"] for a in ligand_atoms) / len(ligand_atoms)
-    ly = sum(a["y"] for a in ligand_atoms) / len(ligand_atoms)
-    lz = sum(a["z"] for a in ligand_atoms) / len(ligand_atoms)
     counts, coords = {}, {}
     if os.path.isdir(pockets_dir):
         for fn in os.listdir(pockets_dir):
@@ -1056,12 +1052,30 @@ def run_fpocket(protein_atoms, ligand_atoms, workdir, tag):
                 coords[idx] = fl.pqr_sphere_coords(txt)
     if not coords:
         return {"_status": "fpocket produced no pocket vertices"}
-    best_idx, best_d = None, 1e9
+
+    # ★ Attribute the ligand to a pocket by OVERLAP — the number of ligand heavy atoms within 4 A of one of
+    # that pocket's alpha spheres — not by distance from the pocket to the ligand CENTROID. For an elongated
+    # ligand the centroid sits in the middle of the molecule, which for a PROTAC is the middle of the LINKER,
+    # so centroid attribution hands back whatever small pocket happens to sit under the linker instead of the
+    # handle pocket. Symptom that exposed it (run 30167890490): MDM2's classic p53-binding cleft scored
+    # druggability 0.085. The file->pocket mapping is still derived from alpha-sphere fingerprints, never the
+    # filename index (fpocket_lib).
+    overlap = {}
     for idx, cs in coords.items():
-        for (x, y, z) in cs:
-            d = (x - lx) ** 2 + (y - ly) ** 2 + (z - lz) ** 2
-            if d < best_d:
-                best_d, best_idx = d, idx
+        cs = list(cs)
+        n = 0
+        for a in ligand_atoms:
+            for (x, y, z) in cs:
+                if (x - a["x"]) ** 2 + (y - a["y"]) ** 2 + (z - a["z"]) ** 2 <= 16.0:
+                    n += 1
+                    break
+        overlap[idx] = n
+    best_idx = max(overlap, key=lambda i: (overlap[i], counts.get(i, 0)))
+    best_d = min((x - a["x"]) ** 2 + (y - a["y"]) ** 2 + (z - a["z"]) ** 2
+                 for (x, y, z) in coords[best_idx] for a in ligand_atoms)
+    if overlap[best_idx] == 0:
+        return {"_status": "no fpocket pocket overlaps the ligand — not attributed",
+                "n_pockets_found": len(info)}
     out_pdb = os.path.join(out, f"{tag}_out.pdb")
     try:
         mapping = fl.map_files_to_pockets(
@@ -1073,12 +1087,19 @@ def run_fpocket(protein_atoms, ligand_atoms, workdir, tag):
     rec = info.get(pnum, {}) if pnum else {}
     return {"pocket_number": pnum, "file_index": best_idx,
             "druggability": rec.get("druggability"), "alpha_spheres": rec.get("alpha_spheres"),
-            "min_alpha_sphere_to_ligand_centroid_A": round(math.sqrt(best_d), 2),
+            "ligand_atoms_overlapping_pocket": overlap[best_idx],
+            "ligand_atoms_total": len(ligand_atoms),
+            "ligand_overlap_fraction": round(overlap[best_idx] / float(len(ligand_atoms)), 3),
+            "min_alpha_sphere_to_ligand_atom_A": round(math.sqrt(best_d), 2),
             "n_pockets_found": len(info),
-            "_method": "fpocket on the deposited protein chains with the ligand removed; the ligand is "
-                       "attributed to the pocket whose alpha spheres come closest to its centroid, and the "
-                       "file->pocket mapping is derived from alpha-sphere fingerprints (fpocket_lib), never "
-                       "assumed from the file index"}
+            "_method": "fpocket on the arm chains with the ligand removed; the ligand is attributed to the "
+                       "pocket overlapping the MOST ligand heavy atoms (within 4 A of an alpha sphere), not "
+                       "the pocket nearest the ligand centroid — for an elongated ligand the centroid lies "
+                       "in the linker, not the handle site. The file->pocket mapping is derived from "
+                       "alpha-sphere fingerprints (fpocket_lib), never assumed from the file index.",
+            "_limit": "A ligand spanning several fpocket pockets is scored on ONE of them, so a low "
+                      "druggability on a large ligand can mean 'decomposed across pockets' rather than "
+                      "'undruggable'. Read ligand_overlap_fraction alongside it."}
 
 
 # =========================================================================================================
