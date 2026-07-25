@@ -964,16 +964,60 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      **General conclusion worth stating in the paper: a ≥2 kcal/mol ternary calibrator that is simultaneously
      small, charge-neutral and mappable may not exist in the public literature** — large cooperativity
      differences are *produced by* large chemical changes.
-  5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE on the anchor ligand, because cycle closure needs no
-     experimental measurement at all.** T1 = cmpd1→cmpd4 **is r0, reused**; T2/T3 are new **≤2-heavy-atom,
-     charge-neutral** edges. **2 new edges ≈ $5.9 at n=1, ≈$17.6 at n=3 — cheaper than the single-edge design
-     already on the ladder**, and it finally supplies the redundant-edge systematic-error detector the program
-     has never had. Checked rather than assumed: cmpd1 has exactly one pyridine so cmpd4′ needs a different
-     transform, four candidates are named, and the hydroxyproline VHL anchor is off-limits. **Honest limit:
-     closure measures internal CONSISTENCY, not accuracy — the known-answer requirement stays OPEN.**
-  6. **Rev-leg decision tree:** |ΔG_fwd + ΔG_rev| ≈ 0 ⇒ rescope, buy the triangle. **Large ⇒ do NOT rescope** —
-     fix the protocol on the edge already paid for. Replica mixing **0.8915 against the 0.90 ceiling** already
-     leans toward the second branch. **The triangle is worth buying under either branch.**
+  5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE, RE-SCOPED BY ITS OWN $0 PRE-GATE.**
+     T1 = cmpd1→cmpd4 **is r0, reused** at coefficient +1 (verified: the triangle closes in T1's as-run
+     direction, no sign flip). Evidence:
+     [valb-closure-triangle-pregate-2026-07-25.md](research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md)
+     (`valb_triangle_chem.py` in the production mapper's own container + `valb_triangle_closure.py`, 19 tests).
+     **Three corrections to the design as originally proposed:**
+     - **(i) T3 is a DOUBLE perturbation for all four named cmpd4′ candidates** — X and Y act at different
+       sites, so the closing edge carries both, which `rbfe_map.py` forbids *specifically for closing edges*
+       (*"Each closing edge is itself a SINGLE-site change (not a double mutation)"*). **Use an AZA-SCAN at the
+       linker ring instead:** cmpd1 (aza) → cmpd4 (all-carbon) → cmpd4″ (aza moved) — three vertices at **one**
+       site, every edge **single-site, charge-neutral, a pure element change with ZERO heavy dummies**, and
+       entirely inside the linker so it touches **no pharmacophore** (all four named candidates land on one).
+       Hand-verified from the SMILES: the linker ring is `c4ccnc(c4)` with a carbonyl and a piperazine at the
+       substituted positions, leaving **exactly 3 free CH** vertices.
+     - **(ii) Price is ~$6.83 at n=1 and ~$27.32 at n=3, not $5.9/$17.6.** Three corrections, and **the largest
+       is NOT the iteration basis**: (a) the 2800-iteration/3.5e6-step basis is +16.7 %; (b) solvent legs add
+       ~$1.31 if run by default; **(c) T1 has only r0, so an n=3 triangle is 16 legs, not 12 (+33 %) — and it
+       silently re-includes the r1/r2 spend the r0 verdict argued against.** At 4 fs everything scales by
+       **0.643, not 0.5** → n=1 ≈ $4.39. Every figure is a **ceiling** (the binary leg is charged at the
+       ternary rate despite lacking the SMARCA2 bromodomain).
+     - **(iii) `_endpoint_pose` cannot build any cmpd4′ today** — it has exactly one mutation path
+       (`_pyridine_to_benzene_pose`) and raises `SystemExit("refusing a wrong-molecule leg")` otherwise. The
+       claim that "the machinery carries over unchanged" is false; the aza-scan needs a one-line generalisation.
+     **Reporting rules that fall out of the algebra:** report **`R_ternary` and `R_binary` SEPARATELY** — since
+     `R = R_ternary − R_binary`, a clean `R` can be two large closures cancelling, and both come from the same
+     six legs. And **run all three edges at seed 0**: seed *s* selects the *s%n*-th relaxed SMARCA2 model, so
+     mixed seeds mean different Hamiltonians, unshared endpoints, and `R` stops being a closure residual at all.
+     **★ HONEST LIMIT, SHARPENED FROM "consistency, not accuracy" TO SOMETHING MUCH STRONGER: closure is
+     IDENTICALLY ZERO for ANY per-endpoint state-function error.** Writing `ΔΔG_calc = ΔΔG_true + e`, the true
+     terms telescope around a cycle so `R = Σe`; and if `e(A→B) = ε(B) − ε(A)` — which is what a *state*
+     property gives — that telescopes too. **So closure sees only the NON-CONSERVATIVE part of the error.**
+     Invisible to it: **force field, the SMARCA4→SMARCA2 homology model, NAGL charges, protonation, and the
+     reference data**. Visible: λ-sampling/hysteresis, endpoint-state inconsistency, inconsistent atom maps.
+     *(Verified numerically two ways: max |R| ≈ 1e-14 over 20,000 random state-function draws, non-zero the
+     moment a path error is added.)* The known-answer **accuracy** requirement therefore stays **OPEN**.
+  6. **⚠ Rev-leg decision tree — and "the triangle is worth buying under either branch" is RETRACTED. It was
+     recorded here on 2026-07-25 afternoon and its own pre-gate refuted it the same evening.**
+     - **Branch A** (|ΔG_fwd + ΔG_rev| ≈ 0 ⇒ the systematic is in the **model or the reference data**): closure
+       is **provably blind to both** by the telescoping identity above. It would return a clean `R` and diagnose
+       **nothing**. *Refuted for diagnosis.*
+     - **Branch B** (large ⇒ path error): closure is the right *class*, but the reverse leg already establishes
+       it for those 2 legs, and the design's own instruction is **"fix the protocol first"** — so a triangle
+       bought before the fix measures the **old** protocol. *Redundant, then stale.* Replica mixing **0.8915**
+       against the 0.90 ceiling leans toward this branch, i.e. **the worst branch to buy into.**
+     - **★ The real reason to buy is narrower and specific.** The fwd/rev pair already in flight **is** a closed
+       2-cycle, so the triangle only earns its keep where a 2-cycle cannot reach. Over 4000 draws — state-function
+       error: 2-cycle 0.00 / 3-cycle 0.00; symmetric path bias: both 1.00; **antisymmetric per-edge bias:
+       2-cycle 0.00, 3-cycle 1.00.** That last row is the triangle's **exclusive** territory, and on an
+       equal-cost 4-leg comparison it still beats both alternatives.
+     - **Order:** read the rev leg → **Branch B ⇒ fix the protocol, do NOT buy** → **Branch A ⇒ buy the ~$1.31
+       SOLVENT-ONLY closure pre-scout first** (2 new legs; T1's solvent leg already ran; a full machinery closure
+       — atom maps, endpoint identity, λ schedule, charges — in a ~5k-particle box at **19 %** of the scout
+       price, able to falsify the triangle before any 142k-particle leg), then the **~$6.83 n=1 scout**.
+       **Do not buy n=3 at ~$27.3 without a separate decision.**
 
   **★ THREE MEASUREMENTS THAT REORDER THE PROBLEM (LANE 5, $0):** (i) even the *corrected* gate certifies only to
   a **factor of 4.1** (accept band [+0.472, +1.944] on a +0.944 target); (ii) **P(PASS) has a hard ceiling of
