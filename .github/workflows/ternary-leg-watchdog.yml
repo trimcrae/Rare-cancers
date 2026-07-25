@@ -140,7 +140,45 @@ jobs:
 
               # 1. DONE? the leg's own direction-keyed result object is the only authority on completion.
               if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" >/dev/null 2>&1; then
-                echo "::notice title=WATCHDOG DONE::$TAG — result JSON is in GCS. Set enabled=false in ternary-watch.json."
+                # A finished leg is not a finished RESULT. The leg JSON holds one ΔG; the deliverable is
+                # ΔΔG_coop, the gate verdict, and |ΔG_fwd + ΔG_rev| — all produced by mode=converge (diagnostics)
+                # and mode=reduce (the cycle + gate). Both are CPU-only, $0, no GPU. Without this the number sits
+                # uncomputed until a human happens to look, which defeats a session-independent watchdog just as
+                # much as an unnoticed preemption does.
+                #
+                # Sequenced across passes rather than in one: workflow_dispatch is fire-and-forget, so there is no
+                # way to wait for converge here. Pass N dispatches converge, pass N+1 (15 min later) dispatches
+                # reduce — by which time the convergence report exists, so the reducer's diagnostics are MEASURED
+                # rather than defaulted. GCS markers make each dispatch happen exactly once; without them this
+                # would re-dispatch every 15 minutes forever.
+                CVM="$WDIR/done-converge-${LEG}-${DIR}-r${SEED}.txt"
+                RDM="$WDIR/done-reduce-${LEG}-${DIR}-r${SEED}.txt"
+                : > /tmp/marker.txt
+                if ! gcloud storage ls "$CVM" >/dev/null 2>&1; then
+                  if [ "$DRY" = "1" ]; then
+                    echo "::notice title=WATCHDOG DONE::$TAG — result JSON present. dry_run=1: would dispatch mode=converge now (diagnostics), then mode=reduce next pass."
+                  elif gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" \
+                         -f mode=converge -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
+                         -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" 2>&1; then
+                    gcloud storage cp /tmp/marker.txt "$CVM" >/dev/null 2>&1 || echo "::warning::converge marker write failed — it may re-dispatch next pass"
+                    echo "::notice title=WATCHDOG DONE -> CONVERGE::$TAG — result JSON present; dispatched mode=converge (CPU, \$0) for the convergence diagnostics. mode=reduce follows on the next pass, once the report exists."
+                  else
+                    echo "::error title=WATCHDOG CONVERGE DISPATCH FAILED::$TAG — the leg finished but mode=converge could not be dispatched; the result will not be reduced automatically."
+                    echo "CONVERGE DISPATCH FAILED $TAG" >> "$ALERT"
+                  fi
+                elif ! gcloud storage ls "$RDM" >/dev/null 2>&1; then
+                  if [ "$DRY" = "1" ]; then
+                    echo "::notice title=WATCHDOG DONE::$TAG — converge already dispatched. dry_run=1: would dispatch mode=reduce now."
+                  elif gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" -f mode=reduce 2>&1; then
+                    gcloud storage cp /tmp/marker.txt "$RDM" >/dev/null 2>&1 || echo "::warning::reduce marker write failed — it may re-dispatch next pass"
+                    echo "::notice title=WATCHDOG DONE -> REDUCE::$TAG — dispatched mode=reduce (CPU, \$0). Its [REDUCE-VERDICT] annotation carries the gate decision and the fwd/rev hysteresis. Set enabled=false in ternary-watch.json once you have read it."
+                  else
+                    echo "::error title=WATCHDOG REDUCE DISPATCH FAILED::$TAG — converge ran but mode=reduce could not be dispatched."
+                    echo "REDUCE DISPATCH FAILED $TAG" >> "$ALERT"
+                  fi
+                else
+                  echo "::notice title=WATCHDOG DONE::$TAG — result JSON present and both converge+reduce already dispatched. Nothing left to do: set enabled=false in ternary-watch.json."
+                fi
                 continue
               fi
 
@@ -172,8 +210,27 @@ jobs:
                 # recency and be read as this rev leg's crash. Defence in depth, same as the census.
                 PMEP=${PMEP:-0}; case "$PMEP" in ""|*[!0-9]*) PMEP=0 ;; esac; PMEP=$((10#$PMEP))
                 if [ "$PMEP" -gt 0 ] && [ "$PMEP" -gt "$VMEPOCH" ]; then
-                  echo "::error title=WATCHDOG CRASHED::$TAG — the VM is RUNNING but the leg is DEAD: it uploaded a post-mortem at epoch $PMEP, after this VM was created ($VMEPOCH). The self-delete trap cannot fire, so this is an idle billing zombie holding the single GPU. Reap it (gcp-reap-vms mode=reap) and read the post-mortem before relaunching — NOT relaunching, a crash repeats."
-                  echo "CRASHED $TAG (postmortem epoch $PMEP > vm epoch $VMEPOCH)" >> "$ALERT"
+                  # REAP IT HERE, do not ask a human to. A crashed leg's VM holds the ONLY GPU and burns credit
+                  # for as long as nobody notices, which defeats the point of a session-independent watchdog.
+                  # This is safe, and differs in a principled way from the evidence-destroying reap earlier on
+                  # 2026-07-25: the detector fires *because* the post-mortem is already in GCS, so the full run
+                  # log is preserved off-VM BY CONSTRUCTION before this line can ever run. Still no relaunch —
+                  # a crash repeats, and the per-day cap is not the right bound for a deterministic failure.
+                  REAPED="not attempted"
+                  if [ "$DRY" = "1" ]; then
+                    REAPED="dry_run — would delete"
+                  else
+                    for _vm in $(printf '%s\n' "$VMS" | awk '{print $1}' | sed '/^$/d'); do
+                      _z=$(gcloud compute instances list --filter="name=$_vm" --format="value(zone.basename())" 2>/dev/null | head -1)
+                      if [ -n "$_z" ] && gcloud compute instances delete "$_vm" --zone="$_z" --quiet 2>/dev/null; then
+                        REAPED="deleted $_vm"
+                      else
+                        REAPED="DELETE FAILED for $_vm — reap manually (gcp-reap-vms mode=reap)"
+                      fi
+                    done
+                  fi
+                  echo "::error title=WATCHDOG CRASHED::$TAG — the VM was RUNNING but the leg is DEAD: it uploaded a post-mortem at epoch $PMEP, after this VM was created ($VMEPOCH). The in-VM self-delete trap cannot fire (no compute.instances.delete on the VM's SA), so it was an idle billing zombie holding the single GPU — $REAPED. The post-mortem is in gs://$BUCKET/valB-6hax/postmortem/ (read it with gpu-ternary-fep-gcp mode=tail). NOT relaunching: a crash repeats, so this needs a fix, not a retry."
+                  echo "CRASHED $TAG (postmortem epoch $PMEP > vm epoch $VMEPOCH; $REAPED)" >> "$ALERT"
                   continue
                 fi
 

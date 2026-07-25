@@ -20,7 +20,7 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce | converge (CPU/runner-only: the reviewer's required-change-#1 convergence analysis of the committed .nc for ALL THREE legs of the cycle — MBAR overlap matrix + bottleneck, dG(t) plateau, fwd/rev, replica mixing, N_eff, structural drift; writes ternary_convergence.json beside the leg results so the reducer's diagnostics_ok stops defaulting to True. $0, no VM) | tail | forensic (CPU/runner-only: open the newest committed (.nc,.chk) production generations with openmmtools + print checkpoint_interval / analysis-vs-checkpoint last iteration / torn-pair flag — confirms the interval-mismatch root cause, $0, no VM) | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | calibchem (CPU/runner-only: fetch the Ciulli P-series ligand chemistry from RCSB + RDKit MCS mappability/charge check - the $0 blocker on the valB calibrator rescope; $0, no VM) | converge (CPU/runner-only: the reviewer's required-change-#1 convergence analysis of the committed .nc for ALL THREE legs of the cycle — MBAR overlap matrix + bottleneck, dG(t) plateau, fwd/rev, replica mixing, N_eff, structural drift; writes ternary_convergence.json beside the leg results so the reducer's diagnostics_ok stops defaulting to True. $0, no VM) | tail | forensic (CPU/runner-only: open the newest committed (.nc,.chk) production generations with openmmtools + print checkpoint_interval / analysis-vs-checkpoint last iteration / torn-pair flag — confirms the interval-mismatch root cause, $0, no VM) | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
       preequil_smoke: { description: "1 = PREEQUIL_SMOKE (system-build + 200-step relax sanity, no full ns) for mode=preequil", default: "0", required: false }
       preequil_ns: { description: "production ns after restrained relaxation for mode=preequil", default: "0.5", required: false }
       use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
@@ -52,7 +52,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 concurrency:
   group: gcp-gpu-ternary-${{ github.event.inputs.mode || 'smoke' }}
@@ -353,6 +353,54 @@ jobs:
           echo "=== [FULL-REDUCTION] every key ==="
           cat /tmp/legs/ternary_coop_reduction.json
           gcloud storage cp /tmp/legs/ternary_coop_reduction.json "$RESULTS/ternary_coop_reduction.json" 2>/dev/null && echo "[reduce] uploaded reduction to $RESULTS/" || true
+          # SURFACE THE VERDICT AS AN ANNOTATION. Everything above prints to the log, and the reduction JSON is
+          # uploaded — both true, both requiring excavation. The watchdog now dispatches this step automatically
+          # when a leg lands, so the number can arrive with NO SESSION AWAKE; if the verdict is only readable by
+          # opening a log nobody opens, that autonomy buys nothing (§D of the guard audit). One API call must give
+          # the decision, the mean, the SD, the target and the fwd/rev hysteresis.
+          python3 - <<'PYVERDICT'
+          import json, os
+          p = '/tmp/legs/ternary_coop_reduction.json'
+          if not os.path.isfile(p):
+              print("::error title=REDUCE-VERDICT MISSING::the reducer produced no ternary_coop_reduction.json — nothing was reduced. Do NOT read the absence as a null result.")
+              raise SystemExit(0)
+          d = json.load(open(p))
+          g = d.get('valB_calibration_gate') or {}
+          dec = d.get('valB_calibration_decision') or {}
+          # hysteresis lives on the decision; None means NOT MEASURED, which must never read as "fine"
+          hy = dec.get('hysteresis_ok')
+          hy_txt = {True: 'within 1.0 (ok)', False: 'EXCEEDS 1.0 (unresolved fwd/rev disagreement)'}.get(
+              hy, 'NOT MEASURED (no reverse leg reduced)')
+          verdict = g.get('decision') or 'NO GATE VERDICT'
+          def num(v, nd=3):
+              try:
+                  return format(float(v), '.%df' % nd)
+              except (TypeError, ValueError):
+                  return str(v)
+          bits = [
+              "decision=%s" % verdict,
+              "mean_ddG_coop=%s" % num(g.get('mean_ddg_coop_kcal')),
+              "target=%s" % num(g.get('target_kcal')),
+              "abs_err=%s" % num(g.get('abs_error_kcal')),
+              "cycle_SD=%s" % num(g.get('cycle_sd_kcal')),
+              "n_replicates=%s" % g.get('n_replicates'),
+              "diagnostics_ok=%s" % g.get('diagnostics_ok'),
+              "fwd/rev hysteresis: %s" % hy_txt,
+          ]
+          msg = "valB_mini reduce — " + " | ".join(bits) + ". reason: " + str(g.get('reason'))
+          # QUIET REQUIRES **BOTH** A PASSING GATE AND MEASURED, PASSING HYSTERESIS.
+          # The gate's `decision` deliberately does NOT incorporate hysteresis -- that lives on
+          # calibration_decision -- so keying the annotation level on `decision` alone emits a GREEN NOTICE for a
+          # PASS whose preregistered fwd/rev criterion was never measured (hysteresis_ok is None) or was measured
+          # and FAILED. That is §B#1 of the guard audit exactly: absent data reading as fine. Caught by exercising
+          # this formatter against real reducer output rather than by reading it.
+          quiet = (verdict == 'PASS' and hy is True)
+          level = 'notice' if quiet else 'error'
+          if verdict == 'PASS' and hy is not True:
+              msg += (" ** GATE PASSED BUT THE PREREGISTERED FWD/REV CRITERION DID NOT: %s. This is NOT a pass "
+                      "of the calibration. **" % hy_txt)
+          print("::%s title=REDUCE-VERDICT::%s" % (level, msg))
+          PYVERDICT
       - name: Log in to Docker Hub for the pre-baked analysis env (mode=converge)
         # The reviewer's required change #1 (2026-07-17) was BUILT (ternary_fep_convergence.py, engine MODE=converge)
         # but never WIRED: this workflow had no `converge` mode and the reduce step calls the reducer directly
@@ -449,8 +497,51 @@ jobs:
           # defaulting to True (the reducer looks for ternary_convergence.json in CKPT_DIR/INPUT_DIR).
           gcloud storage cp /tmp/conv/ternary_convergence.json "$RESULTS/ternary_convergence.json" 2>/dev/null \
             && echo "[converge] uploaded report to $RESULTS/" || true
+          # LAST, so it is the tail of the job log. The JSON above is ~2500 lines and the handful of numbers
+          # that decide anything were being hunted for by eye halfway up it.
+          echo "=== [CONVERGE-SUMMARY] ==="
+          cat /tmp/conv/ternary_convergence_summary.txt || echo "(no summary written)"
+      - name: P-series ligand chemistry + mappability (mode=calibchem - CPU/runner-only, NO GPU/VM)
+        # THE $0 BLOCKER ON THE valB CALIBRATOR RESCOPE. Every edge in valb-rescope-design.json is a CANDIDATE
+        # until the Ciulli P-series ligand chemistry is in hand: an edge LOMAP/Kartograf cannot map does not
+        # converge at any price, and a charge-changing edge needs a different and far more expensive treatment.
+        # The prereg records ligand_ccd: null for all five systems, so it has never been fetched.
+        # Runs here rather than in the dev sandbox because the sandbox egress proxy 403s RCSB at CONNECT.
+        # Uses the PRE-BAKED image (CLAUDE.md: pull, do not solve) - it already carries rdkit + lomap2 +
+        # kartograf, i.e. the SAME mapper the production edge would use, at version parity. --network host so
+        # the container can reach RCSB.
+        if: ${{ github.event.inputs.mode == 'calibchem' }}
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          IMG="docker.io/triskit23/ternary-fep:latest"
+          docker pull "$IMG"
+          docker run --rm --network host --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            "$IMG" /work/research/modalities/valb_pseries_chem.py
+          sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
+          echo "=== [CALIBCHEM-RESULT] ==="
+          cat research/modalities/valb-pseries-chem.json
+          # Commit the artifact back. A verdict that exists only in a CI log is a verdict nobody can cite:
+          # this file is what turns every edge in the rescope design from a candidate into a decided one.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/valb-pseries-chem.json
+          git commit -m "calibchem: P-series ligand chemistry + mappability from RCSB (run ${GITHUB_RUN_ID})" \
+            || { echo "(nothing to commit)"; exit 0; }
+          # Rebase before pushing: a concurrent push to the same branch makes this a non-fast-forward, and the
+          # first attempt lost exactly that race and swallowed it under a `|| echo`. Fail LOUDLY if it still
+          # cannot push -- an artifact that silently did not land is the same defect class as a diagnostic that
+          # silently did not measure.
+          for i in 1 2 3; do
+            git fetch origin "${GITHUB_REF_NAME}" && git rebase "origin/${GITHUB_REF_NAME}" || true
+            git push origin "HEAD:${GITHUB_REF_NAME}" && { echo "[calibchem] artifact committed"; exit 0; }
+            sleep $((i * 5))
+          done
+          echo "::error::calibchem artifact could not be pushed after 3 rebase+push attempts"; exit 1
       - name: Reset committed checkpoints (fresh start on timestep change)
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.reset_commits == '1' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.reset_commits == '1' }}
         run: |
           set -eo pipefail
           BUCKET="${PROJECT}-rbfe-ckpt"
@@ -458,7 +549,7 @@ jobs:
           echo "reset_commits=1 -> wiping $CB (a new-timestep run must not resume a stale-dt trajectory)"
           gcloud storage rm --recursive "$CB/" 2>/dev/null && echo "commits wiped" || echo "(no commits to wipe)"
       - name: Provision Spot L4 VM + run ternary-FEP
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' }}
         run: |
           set -eo pipefail
           VM="gcp-ternary-${GITHUB_RUN_ID}"
@@ -469,6 +560,36 @@ jobs:
           BUCKET="${PROJECT}-rbfe-ckpt"
           RESULTS="gs://$BUCKET/valB-6hax/results"
           echo "image=$IMG_FAMILY mode=$MODE leg=$LEG_ID seed=$SEED ref=$GITREF"
+
+          # ===== SPOT COMMIT PREFIX — computed HERE, in the RUNNER, deliberately =====
+          # This used to be computed inside the `<<SS` heredoc below, and that was a SILENT WRONG-ANSWER BUG.
+          # `<<SS` is UNQUOTED, so unescaped $VAR is expanded by the runner while \$VAR survives to the VM. The
+          # old code assigned `DIRSUF` with unescaped $DIRECTION (so the assignment text was written into the
+          # script and executed ON THE VM) but consumed `${DIRSUF}` unescaped too (so the RUNNER expanded it,
+          # where DIRSUF had never been assigned -> empty). The variable was set in one shell and read in
+          # another, and the direction suffix vanished from the prefix with no error anywhere.
+          #
+          # CONSEQUENCE, observed 2026-07-25 1:41 PM ET: the rev leg restored the FORWARD leg's committed
+          # production trajectory at iteration 2000. It only failed because the fwd and rev hybrid Systems have
+          # different particle counts, so OpenFE's assert_multistate_system_equality caught it
+          # ("Stored checkpoint System particles do not match those of the simulated System"). Had the counts
+          # matched, the rev leg would have RESUMED FORWARD SAMPLING AND REPORTED IT AS REVERSE.
+          #
+          # Every other prefix component (SEED, TIMESTEP_FS, CONSTRAIN_LIG, WARMUP_TS, SALT) is a runner-level
+          # env: var, which is exactly why DIRSUF was the only one that silently disappeared. So compute the
+          # whole prefix runner-side, keep NOTHING about it deferred to the VM's shell, and pass the finished
+          # literal in. The generated startup script then carries the real prefix, auditable by reading it.
+          DIRSUF=""; [ "$DIRECTION" != fwd ] && DIRSUF="_dir$DIRECTION"
+          COMMIT_PREFIX="gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT}${DIRSUF}"
+          # ASSERT the direction survived into the prefix, and do it BEFORE provisioning a GPU. This is the check
+          # whose absence let the bug above ship: the fix "looked right" and nothing ever verified the result.
+          if [ "$DIRECTION" != fwd ]; then
+            case "$COMMIT_PREFIX" in
+              *_dir"$DIRECTION") : ;;
+              *) echo "::error title=COMMIT PREFIX LOST THE DIRECTION::direction=$DIRECTION but the commit prefix is '$COMMIT_PREFIX' — it does not end in _dir$DIRECTION. A leg started now would RESUME THE WRONG DIRECTION'S trajectory. Refusing to provision."; exit 1 ;;
+            esac
+          fi
+          echo "spot commit prefix (FULL, direction-verified): $COMMIT_PREFIX"
 
           cat > /tmp/startup.sh <<SS
           #!/bin/bash
@@ -641,11 +762,16 @@ jobs:
           # FORWARD committed sampling and reported it as a reverse leg — a silent wrong answer of exactly the
           # kind this lane has produced before. Suffix only when direction != fwd, so every existing fwd
           # prefix stays byte-identical and keeps resuming.
-          DIRSUF=""; [ "$DIRECTION" != fwd ] && DIRSUF="_dir$DIRECTION"
+          # The prefix is computed and direction-verified in the RUNNER above (see the long note there) and
+          # interpolated here as a finished literal. Do NOT reintroduce a shell assignment for any part of it:
+          # a variable assigned on the VM cannot be read by the runner's expansion, which is the bug that made
+          # a rev leg restore the fwd trajectory.
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT}${DIRSUF} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
-            echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=$COMMIT_PREFIX RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
+            # echo the FULL prefix. The old echo stopped at \$SEED and so never showed the suffix -- it was
+            # true but useless, and the missing direction was only visible in the Python's own log line.
+            echo "spot-safe commit store: $COMMIT_PREFIX"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=$DIRECTION N_WINDOWS=$NWIN \
@@ -778,14 +904,14 @@ jobs:
           echo "TFEP RESULT: $RES"
 
       - name: Teardown (skip for detached — the VM must keep running)
-        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' }}
         run: |
           if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (7h max-run backstop; tail deletes when done)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
       - name: Result summary
-        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' }}
         run: |
           echo "mode=$MODE leg=$LEG_ID"
           if [ "${DETACHED:-0}" = 1 ]; then echo "🚀 DETACHED: $VM running the leg independently -> GCS; monitor via gpu-rbfe-gcp-tail vm=$VM"; exit 0; fi

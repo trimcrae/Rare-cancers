@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 2:05 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 2:10 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -48,9 +48,16 @@ relevant rung below.*
 > [pricing.md](research/compute/pricing.md) · [bid-strategy.md](research/compute/bid-strategy.md).
 > **This supersedes the "spend the expiring GCP free credit first" preference** recorded in §GPU economics and
 > §Bid policy for *new* work. It does **not** retroactively kill the valB_mini reverse leg already running on
-> GCP L4 — killing a leg mid-flight to change provider would forfeit its progress for nothing — but **no new
-> GCP / SageMaker / Modal run may be started.** The GCP trial (closes 2026-10-10) is now a stranded asset, not
-> a routing preference; if that trade is to be revisited it is a trimcrae call, not a session's.
+> GCP L4 — killing a leg mid-flight to change provider would forfeit its progress for nothing.
+>
+> **⚠ THIS CARVE-OUT WAS SUPERSEDED THE SAME AFTERNOON — READ THE RULING BELOW BEFORE APPLYING THIS PARAGRAPH.**
+> An earlier version of this block read *"no new GCP / SageMaker / Modal run may be started"*, full stop. That is
+> **no longer the operative rule for the valB session**: trimcrae ruled at **2:10 PM ET** that *that* session stays
+> on GCP **in full**, so the exempted unit is the **leg, not the VM**, and its relaunches are correct. The
+> all-Vast default still governs **every other session and every new program-level lane** — LANE 4 builds the
+> Vast ternary lane, and a future session wanting GCP needs its own ruling. See
+> "✅ RULED BY trimcrae, 2026-07-25 2:10 PM ET" below, which is authoritative on scope.
+> The GCP trial (closes 2026-10-10) is otherwise a stranded asset, not a routing preference.
 >
 > **⚠ CONSEQUENCE FOUND IMMEDIATELY — THE SESSION-INDEPENDENT WATCHDOG DOES NOT COVER VAST (2026-07-25 1:30 PM ET).**
 > [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml) is **GCP-only by construction**: it
@@ -68,13 +75,12 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30167855759`, us-central1-a) | **RUNNING** since **1:37 PM ET** with **`warmup_timestep_fs=1.0`** — the *fourth* attempt. The 12:34 PM ET attempt (VM `gcp-ternary-30165768667`) **DIED at 12:55 PM ET on a warmup NaN**, diagnosed and fixed (see the NaN block below); its zombie VM was reaped at 1:32 PM ET (`deleted=1`, L4 usage back to 0.0). Committed-iteration progress is **now readable per-direction** — the leg-wide/fwd-reporting trap is fixed (see the watchdog block below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30168741086`, us-central1-a) | **RUNNING** since **2:01 PM ET**, `warmup_timestep_fs=1.0`, and the **first attempt whose commit prefix is direction-verified** (`…_wu1.0_v2pe_dirrev`). Two earlier attempts died today for two *different* reasons, both now root-caused and fixed: a **2.0 fs warmup NaN** at 12:55 PM, then — after the NaN fix aligned the prefixes — a **fwd/rev prefix collision** at 1:41 PM that made the rev leg try to resume the FORWARD trajectory (see the two blocks below). Both zombie VMs reaped; L4 usage 0.0 before this launch | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 1 · RUNG 5a — E3 recruiter staging + ligandability downselect** (CPU/CI, $0) | running — staging the widened ligandable set (VHL, CRBN, cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) from RCSB via a CI runner | ~1–3 h → **this afternoon ET** | Which **≤2 recruiters** 5a carries into any GPU leg, and the logged dropped set. Availability is already answered and may **not** be a drop reason — the downselect is on ligandability + interface geometry |
 | **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, $0) | running — building the transform search + the two **categorical** terms (electrophile reach to C397/C420/C559; E2~Ub transfer zone over K572/K518/K592), pose-marginalised | ~3–6 h → **this evening ET** | **The Tier-2 gate.** No basin exploiting a categorical handle *and* none nominally discriminating NR4A3 ⇒ STOP cheaply. Also tells the program which **exit vectors** matter, which a re-scoped fan-out depends on |
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **LANE 4 · RUNG 2b — 4 fs ternary probe** (**Vast**, ≤$25) | running — building the **Vast** ternary lane (none existed; only `-gcp.yml`/`-aws.yml`), then stage 1 = the ~$1–2 survival probe | probe ~2–4 h → **this evening ET**; full edge next if it passes | **≈2× on every downstream ternary leg** (~$8.8 → ~$4.4/edge, ladder has ≥6). Also the **first NR4A-adjacent ternary leg timed on Vast** — closes the named transferability gap where an 8G1Q rate is pricing NR4A ternaries |
-| **LANE 5 · RUNG 2 — valB_mini calibrator rescope + gate defect + r0 ligand RMSD** (CPU, $0) | running — closing `diagnostics_complete: false`, preparing the admits-zero defect-fix for approval, designing both rescope options | ~2–5 h → **this evening ET** | The **next step the moment the rev leg lands** — designed for *both* branches of it, so the decision is not serialized behind the result |
 
 > **⚠ NAMING CORRECTED (2026-07-25 1:50 PM ET) — these were first written as "5a-1…5a-5", which was wrong and
 > actively misleading: it read as though all five were sub-parts of RUNG 5a, and it invited the reasonable
@@ -91,7 +97,7 @@ relevant rung below.*
 > unpriced — but that figure is **particle-count-scaled** from the ~25.7k-particle benchmark to NR4A sizes, an
 > assumption and not a measurement, so it may not be quoted as a rate and stays excluded from the ladder total.
 
-> ### ⚠ WHY THE REV LEG IS STILL ON GCP AFTER THE ALL-VAST DIRECTIVE — the reading, stated so it is not implicit
+> ### ✅ RULED BY trimcrae, 2026-07-25 2:10 PM ET: **THIS SESSION STAYS ON GCP IN FULL.**
 > The 1:15 PM ET directive exempts "the valB_mini reverse leg **already running** on GCP L4" but forbids starting
 > any **new** GCP run. The 12:34 PM attempt then died on a warmup NaN with **zero committed iterations**, and it
 > was relaunched on GCP at 1:37 PM. That is deliberately inside the carve-out, on this reading: **the exempted
@@ -101,9 +107,23 @@ relevant rung below.*
 > here than it looks**, because a crash at warmup iteration 1 forfeits nothing; (2) the counter-argument is
 > therefore real, and the only reason it does not decide the matter is that **the Vast ternary lane does not yet
 > exist** (LANE 4 is building it), so the alternative is not "run it on Vast" but "do not run the one test that
-> gates the entire valB_mini rescope decision." Cost of proceeding: **$0 cash** (expiring GCP trial credit), and
-> fully reversible — reap the VM. **If trimcrae reads the carve-out as per-VM rather than per-leg, kill it and
-> the leg waits for LANE 4.**
+> gates the entire valB_mini rescope decision." Cost of proceeding: **$0 cash** (expiring GCP trial credit).
+>
+> **trimcrae ruled on exactly this, verbatim: _"You should keep this whole session on GCP."_** So the question is
+> settled and must not be re-litigated: **the exempted unit is the LEG, not the VM**, and the exemption extends to
+> **all of this session's GPU work**, not just the leg that happened to be mid-flight at 1:15 PM. Relaunching the
+> rev leg on GCP after each of today's failures was correct, and any further relaunch of it goes on GCP too.
+>
+> **Scope of the ruling — do not over-read it.** It governs **this session**. It does **not** reverse the all-Vast
+> directive for other sessions or for new lanes: LANE 4 continues building the Vast ternary lane, and a *new*
+> program-level GPU run outside this session still defaults to Vast per §GPU economics. If a future session wants
+> GCP it needs its own ruling; this line is not that ruling.
+>
+> **One welcome consequence:** the "no GPU run has durable out-of-session monitoring" gap recorded above **does not
+> apply to this session at all.** [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml) is
+> GCP-only by construction, and this session is entirely GCP — so its legs are the ones that *are* fully covered
+> (progress-not-liveness, crash detection, auto-reap, job-failure notification). The gap is LANE 4's to close for
+> Vast.
 >
 > ### ✅ THE GCP WATCHDOG GAP NAMED ABOVE IS NOW CLOSED — and the Vast version should PORT it, not reinvent it
 > The block above records that the watchdog "silently watches nothing" beyond GCP and names two properties a
@@ -129,6 +149,43 @@ relevant rung below.*
 > on an incomplete entry. Full write-up: §F–G of
 > [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
 >
+> ### 🛑 CRITICAL — A REV LEG WAS RESUMING THE **FORWARD** TRAJECTORY (found 2026-07-25 1:41 PM ET)
+> **The most serious defect this lane has produced, and it was recorded as *already fixed*.** The reverse leg
+> restored the **forward** leg's committed production trajectory at iteration 2000, because its commit prefix
+> came out as `…_wu1.0_v2pe` with **no `_dirrev`**. It failed *only* because the fwd and rev hybrid Systems have
+> different particle counts, so OpenFE's `assert_multistate_system_equality` refused the restore
+> (*"Stored checkpoint System particles do not match those of the simulated System"*). **Had the counts matched,
+> the rev leg would have resumed forward sampling and reported it as reverse** — i.e. a fabricated
+> `|ΔG_fwd + ΔG_rev|`, the very number this leg exists to produce. A third-party library's sanity check was the
+> only thing between that and a published result; nothing in this repo caught it. *No data was corrupted:* the
+> failure is in `_get_sampler`, before `run_to_target`, so nothing was committed into the forward prefix —
+> verified from the absence of commit lines in the run log, not assumed.
+>
+> **Mechanism — a variable set in one shell and read in another.** The VM startup script is built with an
+> *unquoted* heredoc, so unescaped `$VAR` is expanded by the **runner** while `\$VAR` survives to the **VM**.
+> `DIRSUF` was assigned *inside* the heredoc (executing on the VM) but consumed as `${DIRSUF}` *unescaped*
+> (expanded by the runner, where it had never been assigned) → empty string, suffix gone, no error. Every other
+> prefix component (`SEED`, `TIMESTEP_FS`, `CONSTRAIN_LIG`, `WARMUP_TS`, `SALT`) is a runner-level `env:` var,
+> which is exactly why `DIRSUF` was the only one lost.
+>
+> **Why it hid for hours:** (1) the workflow's own echo stopped at `$SEED` and never printed the suffix — true
+> and useless; the real prefix appeared only in the Python's line inside a detached VM. (2) It needed a second
+> condition to surface — the first rev attempt used no warmup override, so its prefix was `wu` while the forward
+> data sits under `wu1.0`; no collision, and it died on the unrelated NaN instead. **Setting
+> `warmup_timestep_fs=1.0` to fix that NaN is what aligned the prefixes and exposed this.**
+>
+> **Fixed** runner-side (nothing about the prefix deferred to the VM's shell), with an **assertion that runs
+> before a GPU is provisioned** — if `direction != fwd` and the prefix does not end in `_dir<direction>` it
+> errors and exits — the echo now printing the full prefix, and
+> `research/modalities/tests/test_commit_prefix_direction.sh` (10 checks, **verified to fail 6 ways** on the
+> restored pre-fix arrangement) wired into CI. Full write-up: **§H** of
+> [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
+>
+> **★ The standing lesson, which generalises past this repo: a fix that "reads correctly" is not a fix.** Where
+> a value crosses a boundary — two shells, generation-time vs run-time, runner vs VM — the only acceptable
+> evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
+> inspection of the producing code.
+
 > ### 🔬 THE WARMUP NaN — diagnosed from evidence, one variable changed
 > The 12:34 PM attempt died at **12:55 PM ET**, ~21 min in, with a full traceback out of `main()`:
 > `SimulationNaNError: Propagating replica 0 at state 1` at **warmup iteration 1**, after 20 integration attempts
@@ -541,9 +598,15 @@ not let "we spent ~$2 so far" imply the L4 lane was free.
    saving is *larger* than the leg count suggests: the `binary_vhl` leg ran at **~28.6–38.2 s/iter (median ≈33)**
    on L4, the *same* rate as the ternary leg — a shared binary leg is a full-price leg paid for once instead of
    N times.
-3. **Sequential (anytime-valid) stopping instead of a fixed 3 replicas — ~20–25 %.** `adaptive_certify.py` and
-   `adaptive_allocator.py` are already built and unit-tested and are **not wired into the ternary ladder**. Run 2
-   replicas; add the 3rd only where the decision is not yet determined at the preregistered margin.
+3. **~~Sequential (anytime-valid) stopping instead of a fixed 3 replicas — ~20–25 %.~~ ⚠ REFUTED BY MEASUREMENT
+   2026-07-25 — it saves ~0.8–2.6 % on THIS ladder, and should NOT be wired.** `adaptive_certify.py` /
+   `adaptive_allocator.py` are built and unit-tested but were never wired to the ternary ladder, and the
+   ~20–25 % was an allocation-design figure that was never checked against this ladder's actual shape. Measured
+   as a futility stop (`valb_rescope_design.py`): at σ = 0.5 it stops after **4.87 of 5** replicates (**2.6 %**);
+   at σ = 0.7, **4.96 of 5** (**0.8 %**). **Mechanism, not a fitting artifact:** an anytime-valid bound must be
+   wide enough to remain valid under *every* stopping time, so at n = 2–4 with σ ≈ 0.7 it is simply never tight
+   enough to fire. The saving is real for long horizons; **a 5-replicate ladder is too short to pay for it.**
+   Do not carry the 20–25 % in any total.
 4. **Free gates lead.** `selectivity_wedge_confirm` depended on `valB_full` + `nrv04_retrospective` (~$43) even
    though its validation need is matched-pair, not cooperativity-cube. Decoupled.
 5. **Ligand-side double difference replaces the protein-mutation campaign** as the primary causal test — which
@@ -659,8 +722,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   **Consequence: the statistical error (0.045) is ~33× smaller than the miss (1.478), so the wrong sign is
   SYSTEMATIC — and replicates shrink variance, not bias.** Made worse for the replicate case, not better:
   ternary seed *s* uses the *s%n*-th relaxed SMARCA2 model, so r1/r2 are partly *different structures* and their
-  spread would conflate sampling noise with homology-model sensitivity. Still unmeasured: the **ligand-only**
-  pose RMSD (needs ligand indices from the OpenFE hybrid topology) — `diagnostics_complete: false` says so.
+  spread would conflate sampling noise with homology-model sensitivity.
+  **★ THE LAST OPEN DIAGNOSTIC IS NOW CLOSED — `diagnostics_complete: TRUE` (2026-07-25, run 30169056960).** The
+  **ligand-only** pose RMSD was the one mandatory metric never measured. No committed artifact is a topology
+  file, so the ligand was *derived*: bonded connectivity read from the hybrid System inside the `.nc`
+  (HarmonicBondForce + the softcore CustomBondForce + **constraints**, where X–H bonds live) partitions 141,968
+  particles into 4 protein chains, 44,860 waters, 248 ions and **exactly one** ligand-sized molecule — a
+  fail-closed identification with a single candidate, not a ranked guess. Result: `n=110, heavy=59` · **pose RMSD
+  max 2.765 Å, median 1.644 Å** against a 4.0 Å threshold · `ligand_stable_ok: true` · `mandatory_unmeasured: []`.
+  Two *independent* corroborations, both consistent: 59 heavy atoms equals `wurz-calib-frozen.json`'s
+  `validation.heavy_1 = heavy_4 = 59` (an RDKit count from freeze time, unrelated to this trajectory), and the
+  ligand identified separately in the 5k-particle solvent box matches the one found in the 142k-particle assembly.
+  **So the ligand did not drift — which removes the last benign explanation for the wrong sign and leaves the
+  systematic where the convergence analysis put it: in the model or the reference data, not in the sampling.**
   ⚠ **Seven defects were found in this gating diagnostic on 2026-07-25, every one reporting success while
   measuring nothing** (never wired · missing `openfe` · an unguarded lazy `mbar` that deleted six other metrics ·
   slice-MBAR never converging · a fwd/rev gap taken where it is identically zero · the checkpoint never opened
@@ -697,16 +771,44 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   help; a 403 now aborts immediately with the real reason. **trimcrae granted the permission 2026-07-25 and a
   per-prefix write probe (`gcp-quota-check.yml`) confirms all four prefixes writable.**
 
-  **Recommended next steps (spend order):** (1) ✅ *done, free* — the convergence analysis above; (2) *free* —
-  route the admits-zero gate defect for approval; (3) *one replicate's cost, strictly more informative than a
-  replicate* — run the **reverse** ternary+binary legs and test |ΔG_fwd + ΔG_rev| **← in flight**; (4) **the real
-  decision** — rescope the calibrator to a **≳2 kcal/mol** signal, the same margin this file says a useful
-  degradation window needs, via a multi-edge congeneric path (which also finally supplies cycle closure) or the
-  high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops. Calibrating at 0.944 demands
-  resolution the program does not need — this file's own mechanism-first revision already demoted the
-  marginal/induced-interface axis to "a confirmation tool operating near its limit." The honest deliverable is a
-  **measured resolution floor** for the ΔΔG_coop cycle, not a 23 %-odds PASS on a benchmark a null method passes
-  22 % of the time.
+  **Recommended next steps (spend order) — REVISED 2026-07-25 (LANE 5); steps 1, 2 and the ligand diagnostic are
+  DONE, and step 4's named design was REFUTED for $0 before any spend:**
+  1. ✅ *done, free* — the convergence analysis above, and now the **ligand-only pose RMSD** (`diagnostics_complete: TRUE`).
+  2. ✅ *done, free* — **the admits-zero gate defect fix was already APPLIED in place at 8:25 AM ET**
+     (commit `3f11cbf5`, delegated reviewer authority) — not merely proposed. It has since been **independently
+     audited** (`valb_gate_audit.py`, calling the shipped gate): **strictly stricter across 20,468/20,468 grid
+     points with 0 counterexamples**; **conditioned on r0 the corrected PASS rate is 0.0 % in every cell**
+     (superseded rule: up to 71.6 %); an exhaustive 58,081-cell (r1,r2) scan gives **0 PASS under both**, so it
+     demonstrably **does not rescue the failing result**; discrimination improves 2.0× → 10–3330×. Ratification
+     block: §8 of [valb-gate-defect-fix-audit-2026-07-25.md](research/manuscripts/valb-gate-defect-fix-audit-2026-07-25.md),
+     which states the "applied after an unfavourable result" optic plainly as the risk.
+  3. *in flight* — the **reverse** ternary+binary legs, testing |ΔG_fwd + ΔG_rev|.
+  4. **⚠ THE NAMED RESCOPE IS DEAD — the P-series cannot carry this calibrator, established for $0 on real data**
+     (`valb_pseries_chem.py` → `valb-pseries-chem.json`; RCSB REST + RDKit MCS in the production mapper's own
+     container). **6 of 10 pairs change formal charge** — including **P1→P4 (+2.53), which is `charge_change: -1`
+     and therefore blocked by the same missing charge correction that blocks 8 legs of `step1_fanout`** — and the
+     4 charge-neutral pairs perturb **58–80 heavy atoms** against the **2** of the edge already running. P4's
+     structure (9HYO) is also only **3.74 Å**, so it would not have fixed the resolution problem either.
+     **General conclusion worth stating in the paper: a ≥2 kcal/mol ternary calibrator that is simultaneously
+     small, charge-neutral and mappable may not exist in the public literature** — large cooperativity
+     differences are *produced by* large chemical changes.
+  5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE on the anchor ligand, because cycle closure needs no
+     experimental measurement at all.** T1 = cmpd1→cmpd4 **is r0, reused**; T2/T3 are new **≤2-heavy-atom,
+     charge-neutral** edges. **2 new edges ≈ $5.9 at n=1, ≈$17.6 at n=3 — cheaper than the single-edge design
+     already on the ladder**, and it finally supplies the redundant-edge systematic-error detector the program
+     has never had. Checked rather than assumed: cmpd1 has exactly one pyridine so cmpd4′ needs a different
+     transform, four candidates are named, and the hydroxyproline VHL anchor is off-limits. **Honest limit:
+     closure measures internal CONSISTENCY, not accuracy — the known-answer requirement stays OPEN.**
+  6. **Rev-leg decision tree:** |ΔG_fwd + ΔG_rev| ≈ 0 ⇒ rescope, buy the triangle. **Large ⇒ do NOT rescope** —
+     fix the protocol on the edge already paid for. Replica mixing **0.8915 against the 0.90 ceiling** already
+     leans toward the second branch. **The triangle is worth buying under either branch.**
+
+  **★ THREE MEASUREMENTS THAT REORDER THE PROBLEM (LANE 5, $0):** (i) even the *corrected* gate certifies only to
+  a **factor of 4.1** (accept band [+0.472, +1.944] on a +0.944 target); (ii) **P(PASS) has a hard ceiling of
+  `P(sample SD ≤ 0.75)` = 66.8 % at σ = 0.7, independent of the target** (analytic and MC agree to 0.15 %) — so
+  above ~2 kcal/mol **only precision buys anything**; (iii) sweeping the target shows **2.0 kcal/mol is the
+  knee**, which *derives* this file's "≳2" from the gate's own arithmetic instead of asserting it. Consequence:
+  **redesigning for a tighter cycle SD beats hunting a bigger signal.**
 
 - **`[ ]` Rung 2b — 4 fs adoption + matched re-calibration** — **~$4.4 ($1.6–11) · Cum. ~$17 · PROPOSED, needs a
   go.** **Exact invocation** (three flags, all load-bearing): `mode=preequil` once (cached), then
@@ -787,11 +889,38 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      does not seat celastrol against an NR4A1 cysteine in *either* co-fold, so criterion 3 is **unevaluable** on
      every available input. Staged epimer interface 369 contacts vs active 381 (**3 %**) is noise.
 
-  **Consequence: do not pay for the re-run as built.** It is `[HELD]` pending (a) a prereg amendment giving R2 a
-  threshold that *can* fail and restating `recruiter_epimer` as a matched-ternary **ligand-level** control (it
-  runs as a full ternary, not the binary §3 specifies), and (b) a re-folded `neg_celastrol`, or dropping
-  `warhead_only`. Amending a preregistered rule requires an explicit, dated, reviewer-approved defect-fix — not a
-  session's retune. Full evidence:
+  **Consequence: do not pay for the re-run as built.** It is `[HELD]`.
+
+  **★ THE PREREG AMENDMENT IS DONE (2026-07-25, trimcrae-delegated) — and it does NOT authorise the re-run.**
+  [AMENDMENT 1](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated)
+  is appended to the prereg with the frozen text left **unedited**. The standard applied: a rule may be amended
+  only if its *statistic is shown to lack discriminating power*, demonstrated independently of whether we liked
+  its answer. Four rulings:
+  - **R2 retired as a gating criterion** → descriptive only. `frac_frames_in_contact` took **18 values and one
+    distinct value, 1.0**, including `warhead_only` (no E3-binding moiety) and `recruiter_epimer` (inactive
+    stereoisomer). Zero variance across the contrast ⇒ cannot score the contrast.
+  - **Frozen criterion 3 removed from the GO condition** — it depended entirely on R2 discriminating, so it was
+    **unsatisfiable**, and the gate returned NO-GO regardless of the science. Uninformative, not conservative.
+  - **`recruiter_epimer` demoted** to a descriptive sensitivity leg — it runs as a full ternary, not the binary
+    §3 specifies, and 6 ns from a co-folded pose cannot resolve a binding-affinity difference anyway.
+  - **★ NEW BINDING CRITERION A1 — input admissibility, and it FAILS NOW.** A covalent leg must stage its
+    electrophilic carbon within bonding distance of the **target-chain** Cys Sγ. Measured for $0:
+    `cov_nr4a1` **8.99 Å**, `warhead_only` **16.39 Å**, against a ~1.8 Å C–S bond — **5–9× too far.** Boltz seats
+    celastrol against no NR4A1 cysteine in any co-fold in the bucket, so §5 criterion 2 (*does covalency swamp
+    the ternary signal* — the panel's stated crux) is **unevaluable on these inputs**, not merely unmeasured.
+    Enforced in code (`nrv04_covalent_md`, `MAX_COVALENT_TETHER_A` default 8.0 Å, override only with a recorded
+    deviation) and **retrospective in force** — it binds the NR-V04 retrospective's covalent legs too.
+
+  **Non-rescue, stated as the integrity test:** the amended gate leaves the panel exactly where the unamended one
+  did — **`[HELD]`** — because A1 fails on every available input. What changed is *why*: from "a gate that can
+  never pass" to "inputs that do not instantiate the contrast." **It converts no NO-GO into a GO.** Stated
+  plainly: removing an unsatisfiable criterion *is* a loosening, since GO becomes reachable where it was not;
+  the justification is the measured absence of discriminating power, not the unwelcome verdict. Same degenerate
+  class as valB_mini's gate that **admits the null** — one always fails, one passes anything.
+  **Unblocking now needs INPUT work, not compute:** re-fold the covalent systems with the electrophile seated at
+  Cys551, or drop the covalent legs and re-scope to what noncovalent endpoint MD supports — and say which.
+  *Hypothesis the amendment raises and the re-run can test (not asserted): the superseded covalent-vs-noncovalent
+  null (2/3 = 2/3) is what one predicts if the "covalent" leg never carried a bond.* Full evidence:
   [nrv04-covalent-panel-recovery-2026-07-25.md](research/modalities/nrv04-covalent-panel-recovery-2026-07-25.md)
   · prior chain forensics
   [nrv04-cofold-chain-forensics-2026-07-24.md](research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
@@ -1154,6 +1283,9 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 13 | "There is no interruptible discount on Vast" | A tautology of the query type — `_live_offers` defaults to `interruptible=True`, and a bid-type search reports `dph_base` as your rate *at the floor*. Measured across 63 machines / 12 card classes: median on-demand = **1.25× the floor**, IQR 1.14–1.68, zero hosts at parity |
 | 14 | `lint_claims.py` R5's premise, "no per-edge alchemical dollar figure is a completed run on the card quoted" | Falsified **for the binary lane only** — the NR4A3 rate was taken on the real system, on the quoted card, across three hosts. The rule should be re-scoped to the ternary lane when the step1 branch merges; left alone rather than raced |
 | 15 | Every committed NR-V04 **R3 `min_A`** (2.34–4.48, read as ubiquitination-competent) | The value was in **NANOMETRES under an Ångström label** — OpenMM positions are nm, R1 converted (`* 10.0`), R3 did not. True separations are **~30–49 Å**. Cross-checked independently: `warhead_only` reported 2.34/2.44 against a t=0 distance of **25.21 Å**. Fixed with a regression test |
+| 16 | NR-V04 prereg **R2** (*recruited = BSA > 0 in >50 % of frames*) and frozen **criterion 3** (*controls behave*) as GATING criteria | Retired by [AMENDMENT 1](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md) (2026-07-25, trimcrae-delegated). R2 returned **one distinct value across 18 legs — 1.0** — including both negative controls, so it had **zero discriminating power**; criterion 3 depended on it and was therefore **unsatisfiable**, making the gate return NO-GO regardless of the science. Replaced by binding criterion **A1 (input admissibility)**, which fails now: covalent legs stage the electrophile **8.99–16.39 Å** from the target-chain Cys Sγ against a ~1.8 Å C–S bond. Panel stays `[HELD]` — no NO-GO became a GO |
+| 17 | Cost lever 3: **sequential (anytime-valid) stopping saves ~20–25 %** | Measured on THIS ladder (`valb_rescope_design.py`): **0.8–2.6 %**. At σ=0.5 it stops after 4.87 of 5 replicates, at σ=0.7 after 4.96 of 5. An anytime-valid bound must stay valid under *every* stopping time, so at n = 2–4 with σ ≈ 0.7 it never fires. Real for long horizons; a **5-replicate ladder is too short**. Do not carry it in any total |
+| 18 | The valB_mini rescope path: **the high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops** | Refuted for **$0** on real data (RCSB REST + RDKit MCS, production container): **6 of 10 P-series pairs change formal charge**, including **P1→P4 (`charge_change: -1`)**, blocked by the same missing charge correction that blocks 8 legs of `step1_fanout`; the 4 charge-neutral pairs perturb **58–80 heavy atoms** vs **2** for the running edge; and 9HYO (P4) is **3.74 Å**. Replaced by a **synthetic closure triangle** (~$5.9 at n=1) |
 
 ---
 
