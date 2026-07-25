@@ -360,6 +360,33 @@ raw JSON shape, which it declares unstable — and three parts of that contract 
    present so the E3 is a *controlled variable* — and this rung **does not report any CRBN-over-VHL
    preference**. The output stamps `_role` on a backfilled arm saying exactly that.
 
+### Why the anchor could not be adopted yet — two concrete, diagnosed reasons
+
+Staging was re-run against the lane's own chosen entries, and the anchor adoption **refused** in both cases.
+The reasons are specific and were read out of the run, not inferred:
+
+- **VHL / 9GIO — 404: the entry has no legacy PDB-format file.** This staging downloads `.pdb`; the lane
+  works in **mmCIF biological assemblies**. Large and recent entries are frequently mmCIF-only, so this is a
+  standing gap, not a one-off.
+- **CRBN / 9CUO — the entry does not contain DDB1.** It is a CRBN-only structure. That is not an error on
+  either side: the lane measures the **recruiter's** exit vector, for which a recruiter-only frame is
+  appropriate, while this rung needs the whole **CRL arm** as a rigid docking body, because the omitted
+  partner (DDB1 here, Elongin B/C for VHL) is a real steric occluder against the target.
+
+**So the contract bridge is a superposition, not an entry match.** The right integration is to superpose the
+lane's recruiter frame onto this rung's arm frame and map `anchor_xyz` across, rather than requiring both to
+use the same deposited entry — plus mmCIF support so the lane's frames are loadable at all. Until that lands,
+the authoritative result uses this rung's independently derived exit vector, and every arm record carries the
+refusal with its reason rather than silently falling back.
+
+**A second, unresolved observation, recorded because it is decision-relevant.** Staging VHL from two
+different (both legitimate, both verified) receptor entries put the *observed* transfer anchor **30.9 Å** and
+**69.9 Å** from the ligand exit vector respectively. Both were bridged from the same intact assembly at good
+RMSD. Two hypotheses — a different copy selected within the source assembly, or genuinely different CRL arm
+conformers — and **this lane has not run the observation that discriminates them.** It is not diagnosed, and
+it is the top follow-up: it says the transfer-zone placement carries frame-to-frame variation of the same
+order as the 48.6 Å composed-RING uncertainty in §3, which would weaken term (b) further if it is real.
+
 ### ★ A finding that argues for a THIRD downselect axis
 
 An interim state of that lane's Pareto (before its final result) advanced **BIRC2 and MDM2** instead. Staging
