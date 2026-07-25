@@ -108,7 +108,15 @@ concurrency:
   # Include vast_launch_mode so a bench / bench_collect dispatch is NOT cancelled by a (possibly cross-session)
   # covalent collect/monitor/full dispatch of the same task — they share task=nrv04_vast_launch and, with a
   # task-only group + cancel-in-progress, kept killing each other. Mode-scoped groups keep same-mode dedupe.
-  group: fusion-cpu-extras-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}-${{ github.event.inputs.fanout_mode }}
+  # ★ AND THE REF, because the group was NOT branch-scoped and lanes on different branches were killing each
+  # other's work. Observed 2026-07-25 5:06 PM ET: a `task=nr4a_basin_search` dispatch on
+  # `claude/max-effort-2dq11l-anchor` (run 30174945933, started 5:05 PM) landed in the same group as run
+  # 30173638494 on `claude/max-effort-2dq11l-linker` and, with `cancel-in-progress: true`, cancelled it
+  # **38 minutes into a 55-minute job**. Nothing in the cancelled run's own log says why; the discriminating
+  # observation is the newer run of the same task on a different branch, seconds before the cancellation.
+  # Two lanes on two branches are two pieces of work, so the ref belongs in the key — this is the same defect
+  # class the vast_launch_mode note below records, one level up.
+  group: fusion-cpu-extras-${{ github.ref_name }}-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}-${{ github.event.inputs.fanout_mode }}
   cancel-in-progress: true
 
 jobs:
@@ -282,6 +290,12 @@ jobs:
         run: python research/modalities/nr4a3_linker_design.py
       - name: Docker Hub login (raises the anonymous pull-rate ceiling shared across runners)
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+      - name: Verifier self-test (anchor patterns must match their own references)
+        run: |
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/linker_chem_check.py --self-test
       - name: RDKit verification of every emitted structure
         run: |
           docker run --rm --entrypoint python \

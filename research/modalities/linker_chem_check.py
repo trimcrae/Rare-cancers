@@ -41,15 +41,34 @@ RDLogger.DisableLog("rdApp.*")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# Anchor definitions. Each is a SMARTS whose LAST matched atom is the anchor: the warhead's C5 substituent
-# atom on one side, and the E3 handle's attachment heteroatom on the other. These are exactly the two atoms
-# the geometry calls `a` and `b`.
+# Anchor definitions. Each is a SMILES whose anchor atom carries **atom map 1** — the warhead's C5 substituent
+# atom on one side, the E3 handle's attachment heteroatom on the other. These are exactly the two atoms the
+# geometry calls `a` and `b`.
+#
+# ★ WHY ATOM MAPS AND `MolFromSmiles`, RATHER THAN SMARTS WITH A POSITIONAL INDEX. The first version used
+# hand-written SMARTS and took the anchor as the match's last atom, and BOTH halves of that were wrong:
+#   * `O=C1NC(=O)CCC1N1C(=O)c2cccc([NX3])c2C1=O` ends with the phthalimide carbonyl OXYGEN, not the aniline
+#     nitrogen, so the CRBN anchor was seven bonds from where it was supposed to be — which is exactly the
+#     discrepancy the length check then reported (24 intended, 31 measured). The check caught it, which is
+#     the point, but a positional index into a hand-written pattern is a defect waiting to happen.
+#   * the VHL pattern spelled the thiazole and the benzene with UPPERCASE C, i.e. aliphatic carbon, while
+#     RDKit aromatises those rings on parse — so it matched nothing at all, on 21 of 22 constructs.
+# `MolFromSmiles` perceives aromaticity the same way for the query and the target, and an atom map names the
+# anchor explicitly instead of relying on where it happens to fall in the string.
 ANCHORS = {
-    "warhead_5amide": ("COC(=O)c1c[nH]c2ccc([NX3])cc12", -1),
-    "warhead_5triazole": ("COC(=O)c1c[nH]c2ccc([OX2])cc12", -1),
-    "warhead_5piperazine": ("COC(=O)c1c[nH]c2ccc([NX3]3CCNCC3)cc12", 7),
-    "e3_vhl": ("CC1=C(SC=N1)c1ccc(CNC(=O)C2CC(O)CN2C(=O)C(C(C)(C)C)[NX3])cc1", -1),
-    "e3_crbn": ("O=C1NC(=O)CCC1N1C(=O)c2cccc([NX3])c2C1=O", -1),
+    "warhead_5amide": "COC(=O)c1c[nH]c2ccc([N:1])cc12",
+    "warhead_5triazole": "COC(=O)c1c[nH]c2ccc([O:1])cc12",
+    "warhead_5piperazine": "COC(=O)c1c[nH]c2ccc([N:1]3CCNCC3)cc12",
+    "e3_vhl": "CC1=C(SC=N1)c1ccc(CNC(=O)C2CC(O)CN2C(=O)C(C(C)(C)C)[N:1])cc1",
+    "e3_crbn": "O=C1NC(=O)CCC1N1C(=O)c2cccc([N:1])c2C1=O",
+}
+
+# Stereocentres that are legitimately UNDEFINED rather than unspecified. The thalidomide-class glutarimide
+# C-3 epimerises in aqueous solution on a timescale of minutes, so these ligands are used, and behave, as
+# racemates; demanding a configuration there would be demanding something chemistry does not provide.
+RACEMIC_BY_CHEMISTRY = {
+    "crbn": ("the pomalidomide glutarimide C-3, which epimerises in solution — declared racemic, not "
+             "unspecified", 1),
 }
 
 CORES = {
@@ -80,16 +99,19 @@ PENDANT_SMARTS = {
 
 
 def _match_anchor(mol, key):
-    smarts, idx = ANCHORS[key]
-    patt = Chem.MolFromSmarts(smarts)
+    patt = Chem.MolFromSmiles(ANCHORS[key], sanitize=True)
     if patt is None:
-        raise RuntimeError("bad anchor SMARTS for %s" % key)
-    hits = mol.GetSubstructMatches(patt)
+        raise RuntimeError("bad anchor pattern for %s" % key)
+    mapped = [a.GetIdx() for a in patt.GetAtoms() if a.GetAtomMapNum() == 1]
+    if len(mapped) != 1:
+        raise RuntimeError("anchor pattern %s must mark exactly one atom with map 1" % key)
+    hits = mol.GetSubstructMatches(patt, useChirality=False)
     if not hits:
         return None, "anchor pattern %s not found" % key
-    if len(hits) > 1:
-        return None, "anchor pattern %s is ambiguous (%d matches)" % (key, len(hits))
-    return hits[0][idx], None
+    idxs = {h[mapped[0]] for h in hits}
+    if len(idxs) > 1:
+        return None, "anchor pattern %s is ambiguous (%d distinct anchor atoms)" % (key, len(idxs))
+    return idxs.pop(), None
 
 
 def check_one(c):
@@ -156,12 +178,17 @@ def check_one(c):
         if patt is not None and mol.HasSubstructMatch(patt):
             out["errors"].append("forbidden junction motif present: %s" % name)
 
-    n_stereo = len(Chem.FindMolChiralCenters(mol, includeUnassigned=True, useLegacyImplementation=False))
-    n_unassigned = sum(1 for _, tag in Chem.FindMolChiralCenters(
-        mol, includeUnassigned=True, useLegacyImplementation=False) if tag == "?")
-    if n_unassigned:
-        out["errors"].append("%d UNASSIGNED stereocentre(s): an 'exact structure' with an undefined centre "
-                             "is two compounds, not one" % n_unassigned)
+    centres = Chem.FindMolChiralCenters(mol, includeUnassigned=True, useLegacyImplementation=False)
+    n_stereo = len(centres)
+    n_unassigned = sum(1 for _, tag in centres if tag == "?")
+    allowed_reason, n_allowed = RACEMIC_BY_CHEMISTRY.get(c["e3_handle"], (None, 0))
+    if n_unassigned > n_allowed:
+        out["errors"].append("%d UNASSIGNED stereocentre(s) (%d allowed): an 'exact structure' with an "
+                             "undefined centre is two compounds, not one" % (n_unassigned, n_allowed))
+    elif n_unassigned:
+        out["warnings"].append("%d undefined stereocentre(s), by chemistry rather than by omission: %s"
+                               % (n_unassigned, allowed_reason))
+        out["racemic_by_chemistry"] = allowed_reason
 
     out["descriptors"] = {
         "mw": round(Descriptors.MolWt(mol), 1),
@@ -222,12 +249,65 @@ def check_pair(pair, results):
     }
 
 
+# Minimal N-acylated / N-alkylated references, one per anchor: the smallest molecule that legitimately
+# contains that anchor. Used by `--self-test`, which is the check that WOULD have caught both anchor bugs
+# before they reached the library — a pattern that matches nothing, or that names the wrong atom, fails here
+# in two seconds instead of failing 22 constructs in CI.
+ANCHOR_REFERENCES = {
+    "warhead_5amide": ("COC(=O)c1c[nH]c2ccc(NC(C)=O)cc12", "N"),
+    "warhead_5triazole": ("COC(=O)c1c[nH]c2ccc(OCc3cn(C)nn3)cc12", "O"),
+    "warhead_5piperazine": ("COC(=O)c1c[nH]c2ccc(N3CCN(C(C)=O)CC3)cc12", "N"),
+    "e3_vhl": ("CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)C)O", "N"),
+    "e3_crbn": ("C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(C)=O", "N"),
+}
+
+
+def self_test():
+    """Every anchor pattern must parse, mark exactly one atom, match its own reference molecule, and land on
+    an atom of the expected element. Also checks the forbidden-motif SMARTS parse and that a deliberately
+    malformed molecule is caught."""
+    bad = []
+    for key, (ref_smi, elem) in ANCHOR_REFERENCES.items():
+        ref = Chem.MolFromSmiles(ref_smi)
+        if ref is None:
+            bad.append("%s: reference does not parse" % key)
+            continue
+        idx, err = _match_anchor(ref, key)
+        if err:
+            bad.append("%s: %s" % (key, err))
+        elif ref.GetAtomWithIdx(idx).GetSymbol() != elem:
+            bad.append("%s: anchor landed on %s, expected %s"
+                       % (key, ref.GetAtomWithIdx(idx).GetSymbol(), elem))
+    for name, sma in FORBIDDEN.items():
+        if Chem.MolFromSmarts(sma) is None:
+            bad.append("forbidden motif %s does not parse" % name)
+    for name, sma in PENDANT_SMARTS.items():
+        if Chem.MolFromSmarts(sma) is None:
+            bad.append("pendant SMARTS %s does not parse" % name)
+    # the forbidden motifs must actually fire on molecules that contain them
+    for name, probe in (("alpha_ketoamide", "CC(=O)C(=O)NC"), ("n_o_acetal", "CC(=O)NCOC"),
+                        ("acylurea", "CC(=O)NC(=O)NC"), ("anhydride", "CC(=O)OC(C)=O")):
+        m = Chem.MolFromSmiles(probe)
+        if not m.HasSubstructMatch(Chem.MolFromSmarts(FORBIDDEN[name])):
+            bad.append("forbidden motif %s does not fire on %s" % (name, probe))
+    if bad:
+        for b in bad:
+            print("[chem] SELF-TEST FAILURE: %s" % b)
+        return 1
+    print("[chem] self-test OK (%d anchors, %d forbidden motifs, %d pendants)"
+          % (len(ANCHORS), len(FORBIDDEN), len(PENDANT_SMARTS)))
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--design", default=os.path.join(HERE, "nr4a3-linker-design.json"))
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a3-linker-library-chem.json"))
+    ap.add_argument("--self-test", action="store_true")
     args = ap.parse_args(argv)
+    if args.self_test:
+        return self_test()
 
     design = json.load(open(args.design))
     lib = design["virtual_library"]
