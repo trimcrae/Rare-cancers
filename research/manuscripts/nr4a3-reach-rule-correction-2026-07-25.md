@@ -306,7 +306,24 @@ span approximation for the now-emitted deciles."* Both done.
 derivation, and the **identical** enumerator and **identical** preregistered filter run against each. A
 difference between the two libraries is therefore a difference in the geometry, not in the rule.
 
-Four defects surfaced by doing it:
+Against the **pre-correction** basin artifact (so the comparison is placement-only, with the rule held fixed):
+**45 constructs at exemplar geometry, 9 per basin across all five**, against **21 at the representative**
+where three of the five basins survived only as labelled failures. The corrected-artifact rebuild is ⏳
+pending the matched 10⁶ run and its identity check.
+
+**Five defects surfaced by doing it. The first is the serious one.**
+
+0. **`CONFIRMED` pins POSITIONAL meta-basin IDs, and that is a silent-wrong-answer path.** An `Mn` index is a
+   rank in that run's leader clustering, so it moves when the sampling changes. Running 5b against the same
+   search at 250 k samples instead of 10⁶ resolved **`vhl|M2` to a patch matching the published one at
+   Jaccard 0.176** — a nearly disjoint stretch of NR4A3 surface — and 5b designed nine constructs against it,
+   moved the recommended matched pair onto it, and reported a 21.9 Å exemplar span instead of 13.4. **Nothing
+   failed.** Now each confirmed basin's published interface patch is recorded and checked under the *same*
+   Jaccard threshold the search uses to call two placements one meta-basin (0.6, asserted equal to
+   `meta_basin_jaccard_cutoff` in the test suite rather than re-typed); a miss is a **refusal** with both
+   patches printed. Verified both ways — it refuses the 250 k artifact at 0.176–0.421 across the five.
+
+Four more:
 
 1. The **preregistered wedge chemistry rule** (NR4A3 presents an H-bond donor, **both** paralogues do not) was
    applied only on the exemplar path. The representative pair satisfied it by luck, not by construction. Now
