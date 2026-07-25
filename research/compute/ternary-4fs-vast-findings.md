@@ -292,6 +292,9 @@ bid $0.136/hr · billed $0.1527/hr. All times ET.
 | 2:14 PM | production 19/40 of the first chunk, steady | ~7.7 s/iter |
 | 2:43 PM | **PREEMPTED at production ≥120/200** — routine spot behaviour; the capacity policy fired correctly on its first real encounter | `cur_state=stopped intended=stopped` → nudge → `{"success": false, "error": "resources_unavailable"}` → machine 12697 recorded blocked → instance destroyed rather than queued |
 | 2:45 PM | relaunch **rented nothing and reported success** — Vast's 16,384-char onstart cap | HTTP 400 `invalid_args`, rendered onstart 17,017 chars (§8) |
+| 3:03 PM | setup rebuilt on the new host; stage + pre-equil caches restored in seconds | `up=running`, `committed=production/120` |
+| 3:22 PM | **resumed cleanly across a DIFFERENT GPU MODEL — production/160** | 4090 → 4080S; the checkpoint is platform-independent, as expected |
+| 3:27 PM | **preempted a SECOND time** at production/160; same handling | machine 29668 → `resources_unavailable` → blocked → destroyed |
 | 2:51 PM | resumed on a new host after stripping comments at render | instance 45832599, machine 29668, **RTX 4080S** $0.2196/hr; stage + pre-equil caches HIT, resumes from `production/120` |
 | 2:19 PM | **production 40 committed at 4 fs** — equals the ENTIRE prior 4 fs evidence base, on a freshly built system | `instance=45827166 machine=12697 up=running committed=production/40` |
 
