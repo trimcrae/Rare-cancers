@@ -16,15 +16,6 @@ on:
         type: choice
         options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_e3_stage, nr4a_basin_search, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
-      e3_arms:
-        description: "nr4a_e3_stage: comma-separated E3 arm ids to stage (vhl,crbn,... — see ARMS in nr4a3_e3_stage.py)"
-        default: "vhl,crbn"
-      basin_samples:
-        description: "nr4a_basin_search: rigid-body samples per (E3 arm x warhead pose). Production runs use 250000+."
-        default: "250000"
-      basin_poses:
-        description: "nr4a_basin_search: size of the warhead exit-vector pose ensemble (term (d) marginalisation)"
-        default: "12"
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
         type: choice
@@ -55,7 +46,10 @@ on:
         description: "cofold mode: science entry point (nrv04_ternary.py = NR-V04/VHL; nr4a3_ternary.py = CRBN)"
         default: "nrv04_ternary.py"
       ternary_extra_args:
-        description: "cofold mode: extra args, e.g. '--skip-control --targets NR4A1,NR4A2,NR4A3'"
+        description: "cofold mode: extra args, e.g. '--skip-control --targets NR4A1,NR4A2,NR4A3'. ALSO the
+          raw-CLI-args passthrough for nr4a_e3_stage (e.g. '--arms vhl,crbn') and nr4a_basin_search (e.g.
+          '--samples 250000 --n-poses 12') — reused rather than adding new inputs because workflow_dispatch
+          caps at 25 and this file is at the cap."
         default: ""
       seeds:
         description: "cofold mode: comma-sep diffusion seeds = the ternary ensemble per system"
@@ -192,7 +186,7 @@ jobs:
       - name: Offline plan (what will be queried — auditable before any network call)
         run: python research/modalities/nr4a3_e3_stage.py --plan
       - name: Stage the E3 arms from RCSB (accession-set discovery + verification + composition)
-        run: python research/modalities/nr4a3_e3_stage.py --arms "${{ github.event.inputs.e3_arms }}"
+        run: python research/modalities/nr4a3_e3_stage.py ${{ github.event.inputs.ternary_extra_args }}
       - name: Commit the staged arms back to the triggering branch
         run: |
           set -e
@@ -224,10 +218,7 @@ jobs:
       - name: Unit tests — geometry kernels + search logic
         run: python -m pytest research/modalities/tests/test_basin_geom.py research/modalities/tests/test_basin_search.py -q
       - name: Mechanism-first orientation-basin search (RUNG 5a, $0 CPU)
-        run: |
-          python research/modalities/nr4a3_basin_search.py \
-            --samples "${{ github.event.inputs.basin_samples }}" \
-            --n-poses "${{ github.event.inputs.basin_poses }}"
+        run: python research/modalities/nr4a3_basin_search.py ${{ github.event.inputs.ternary_extra_args }}
       - name: Commit the basin result back to the triggering branch
         run: |
           set -e
