@@ -60,7 +60,9 @@ from nrv04_covalent_panel import CELASTROL_ELECTROPHILE_ATOM, TARGET_COV_RESNUM 
 from nrv04_ligands import LIGANDS, electrophile_atom_index  # noqa: E402
 
 # `nrv04_prespend_check.LIGAND_TO_SYSTEM` inverted: co-fold system subdir -> the ligand co-folded into it.
-SYSTEM_TO_LIGAND = {"nr4a1": "nrv04", "neg_inactive": "nrv04_epimer", "neg_celastrol": "celastrol"}
+SYSTEM_TO_LIGAND = {"nr4a1": "nrv04", "neg_inactive": "nrv04_epimer", "neg_celastrol": "celastrol",
+                    # nrv04_celastrol_site_probe.py systems (the C551 root-cause probe / steered re-fold)
+                    "binary_free": "celastrol", "binary_pocket": "celastrol", "ternary_pocket": "nrv04"}
 # The A1 limit, read from the driver so there is one definition of the bar.
 try:
     from nrv04_covalent_md import MAX_COVALENT_TETHER_A  # noqa: E402
