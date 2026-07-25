@@ -22,7 +22,10 @@ jobs:
           python-version: "3.11"
       # rdkit is needed for the null-map guard regression test (stereo-only edges must fail setup) and the
       # structural-alerts / nrv04 tests; without it those importorskip-skip and the guard goes untested.
-      - run: pip install pytest numpy scipy pymbar rdkit
+      # pyyaml backs test_workflows_parse.py, which catches an unparseable workflow. GitHub reports
+      # that as a MISSING TRIGGER rather than a syntax error, and a cron on such a file silently
+      # never fires — so without this gate a broken workflow looks like a workflow with nothing to do.
+      - run: pip install pytest numpy scipy pymbar rdkit pyyaml
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
       # failing step named after the linter, not a traceback buried in ~1500 tests.
@@ -31,4 +34,9 @@ jobs:
         run: python3 research/manuscripts/lint_consistency.py
       - name: Manuscript language discipline
         run: python3 research/manuscripts/lint_claims.py
+      # Shell-based tests pytest cannot collect. The watchdog census test EXTRACTS its logic from
+      # .github/workflows/ternary-leg-watchdog.yml at run time, so it fails loudly if the workflow's
+      # markers move rather than passing against a stale copy.
+      - name: Watchdog progress-census logic (direction / warmup-dt / base-10 / -e survival)
+        run: bash research/modalities/tests/test_watchdog_census.sh
       - run: python -m pytest research/modalities/tests -q
