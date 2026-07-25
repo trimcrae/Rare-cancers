@@ -186,11 +186,22 @@ jobs:
       - name: Fetch the E3 lane's recruiter registry (read-only; consumed, never duplicated)
         run: |
           set -e
-          git fetch origin claude/max-effort-2dq11l-e3 || true
-          if git cat-file -e FETCH_HEAD:research/modalities/e3-recruiter-staging.json 2>/dev/null; then
-            mkdir -p /tmp/lane1
-            git show FETCH_HEAD:research/modalities/e3-recruiter-staging.json > /tmp/lane1/e3-recruiter-staging.json
+          mkdir -p /tmp/lane1
+          # Prefer main (where that lane merges); fall back to its branch while a merge is in flight. Its
+          # CONSUMER MODULE is fetched alongside the JSON, because load_advanced() is the stable contract and
+          # the raw JSON shape explicitly is not.
+          SRC=""
+          git fetch origin main || true
+          git cat-file -e FETCH_HEAD:research/modalities/e3-recruiter-staging.json 2>/dev/null && SRC=FETCH_HEAD
+          if [ -z "$SRC" ]; then
+            git fetch origin claude/max-effort-2dq11l-e3 || true
+            git cat-file -e FETCH_HEAD:research/modalities/e3-recruiter-staging.json 2>/dev/null && SRC=FETCH_HEAD
+          fi
+          if [ -n "$SRC" ]; then
+            git show $SRC:research/modalities/e3-recruiter-staging.json > /tmp/lane1/e3-recruiter-staging.json
+            git show $SRC:research/modalities/e3_recruiter_staging.py > /tmp/lane1/e3_recruiter_staging.py || true
             echo "lane-1 registry fetched: $(wc -c < /tmp/lane1/e3-recruiter-staging.json) bytes"
+            python3 -c "import sys,json; d=json.load(open('/tmp/lane1/e3-recruiter-staging.json')); print('advanced =', d['downselect']['advanced'], '| backfilled =', d['downselect'].get('backfilled_for_e3_choice_sensitivity'))"
           else
             echo "lane-1 registry not published yet — VHL/CRBN arms only"
           fi
@@ -203,7 +214,7 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/nr4a3-e3-arm-registry.json results/nr4a3-e3-arms || true
+          git add -f research/modalities/nr4a3-e3-arm-registry*.json results/nr4a3-e3-arms || true
           git commit -m "RUNG-5a: stage E3 recruiter arms from RCSB (accession-verified, CI)" || {
             echo "no changes"; exit 0; }
           git pull --rebase origin "${{ github.ref_name }}" || true
