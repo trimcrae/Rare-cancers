@@ -1,4 +1,54 @@
-# Ternary RBFE / cooperativity-FEP runbook (GCP L4 spot)
+# Ternary RBFE / cooperativity-FEP runbook (GCP L4 spot — **and now Vast, see §0**)
+
+## 0 · THE VAST LANE — where new ternary legs go from 2026-07-25
+
+**trimcrae's directive: all production GPU runs go on Vast.** The GCP lane below still works and its failure
+chain is still the authoritative account of *why* the recipe looks the way it does, but a new ternary leg
+belongs on Vast. Read this section, then §1b/§1c for the physics.
+
+| | GCP lane | **Vast lane** |
+|---|---|---|
+| workflow | `gpu-ternary-fep-gcp.yml` | **`gpu-ternary-fep-vast.yml`** |
+| launcher | inline in the workflow | **`ternary_vast_launch.py`** |
+| recipe | inlined invocation | **`run_ternary_leg.sh`** (shared, never re-implemented) |
+| env | built on the VM per run | **`docker.io/triskit23/ternary-fep`** (pull, do not solve) |
+| object store | GCS | **S3** (`ternary-vast/` prefix) |
+| concurrency | 1 GPU, quota-capped | **N instances, one per leg** |
+| watchdog | `ternary-leg-watchdog.yml` (GCP-only) | **`ternary-vast-watchdog.yml`** |
+
+**Tasks** (`workflow_dispatch`, or a `[tvast:<task>]` marker in a pushed commit message while the workflow is
+not yet on `main`): `test` · `dry-run` · `smoke` · `probe` · `edge` · `collect` · `reduce` · `stop`.
+Nothing auto-fires; a push with no marker runs the $0 `test`.
+
+**Things that are different from GCP and will bite you if you assume otherwise:**
+- **A capacity refusal is not a preemption.** `{"success": false, "error": "resources_unavailable"}` means
+  that machine has no free GPU and no bid fixes it. Destroy, exclude the machine, pick another host. Never
+  queue, never raise the bid. `collect` does this automatically and persists the blocked list in S3.
+- **"Alive" is not "advancing."** A rented box can sit up with a dead container. `collect` and the watchdog
+  both require the **committed iteration count** to have gone up, and pair it with the on-host phase marker
+  and log tail so the cold start (stage → pre-equilibrate → setup → minimise), during which the commit store
+  is legitimately empty, is distinguishable from a hang.
+- **The commit prefix is keyed by timestep**, so changing `dt` starts a clean trajectory by construction.
+  There is no `reset_commits` to remember and nothing to wipe.
+- **No setup cache yet.** The Vast host builds the ~146k-atom hybrid itself (~5–15 min observed). The stage
+  tree and the pre-equilibrated complex ARE cached to S3, which is the expensive part (~8 min + ~7.6 min
+  measured on a 4090).
+- **Every leg persists a strided solute trajectory** (`RBFE_POSITIONS_WRITE_PS`, default 50 ps = a
+  20-iteration stride, velocities off). This is a requirement, not a nicety — see §0b.
+
+### 0b · Why the trajectory setting exists (do not turn it off to save space)
+`nr4a3_rbfe._protocol` sets `positions_write_frequency = None` to avoid a ~1 GB analysis `.nc`. That is the
+right instinct and the wrong extreme. A read-only census of the NR-V04 covalent panel on 2026-07-25 found
+**72 objects across 19 units and ZERO trajectory objects** — one pre-minimisation frame, a 1.35 GB `System`
+carrying forces and parameters but no coordinates over time, and scalars already reduced against the wrong
+chain split. Three known analysis defects in that panel were therefore correctable in principle and none in
+practice; it has to be re-run or abandoned. A **strided** write is the resolution: ~50 MB over a full leg,
+against the ~112 MB System XML the same driver already uploads without comment. `rbfe_spot_driver` logs the
+resolved stride every run, and shouts if it is zero.
+
+---
+
+# The GCP lane (below) — still the authoritative account of the recipe's failure chain
 
 **Purpose:** everything a fresh session needs to run a ternary cooperativity-FEP leg (valB and the prospective
 matrix) on GCP L4 spot **without re-discovering the 2026-07-18 failure chain.** Every item below cost real

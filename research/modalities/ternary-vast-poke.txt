@@ -1,0 +1,55 @@
+Poke file for the Vast ternary lane.
+
+WHY IT EXISTS. Until gpu-ternary-fep-vast.yml reaches the default branch, `workflow_dispatch` on it
+404s (GitHub only registers a new dispatchable workflow from `main`), so the only way to run a $0
+`collect` off this feature branch is the workflow's `push` trigger. That trigger is deliberately
+`paths:`-scoped so unrelated commits cannot fire it — which leaves no cheap way to say "poll now".
+This file is that way: it is in the trigger's path list and in nothing else, so touching it runs
+exactly one workflow and changes no code.
+
+Use: append a line, commit with `[tvast:collect]` in the message, push. Delete this file once the
+workflow is on main and `workflow_dispatch` is available.
+
+polls:
+2026-07-25 probe launched, instance 45827166 (machine 12697, bid $0.136/hr)
+
+poll 2026-07-25 17:47Z
+poll 17:44Z add log tail
+poll 17:52Z
+poll 17:52Z b
+poll 17:58Z reduce path added
+poll 18:05Z after main merge + trajectory persistence
+poll 18:12Z
+poll 18:20Z
+poll 18:27Z
+poll 18:35Z
+poll 18:06Z minimize/warmup - the NaN window
+poll 18:12Z unbuffered fix
+poll 18:17Z warmup advancing
+poll 18:24Z warmup 24/48
+poll 18:32Z warmup->production transition
+poll 18:40Z production progress
+poll 18:49Z first production commit expected
+poll 18:24Z production ~mid
+poll 18:20Z attribution check
+poll 18:26Z watchdog FAILED verdict
+poll 18:30Z
+poll 18:31Z resolve fix
+poll 18:36Z probe near completion
+poll 18:44Z
+poll 18:42Z probe terminus + concurrency fix
+relaunch 18:45Z after preemption at production/120
+poll 18:47Z verify new instance
+relaunch 18:52Z after fixing the onstart size cap
+poll 18:53Z confirm rental
+poll 19:02Z resumed probe progress
+poll 19:08Z
+poll 19:13Z after setup-cache landing
+poll 19:16Z
+poll 19:18Z
+launch edge 19:20Z
+poll 19:32Z diagnose slow edge rental
+poll 19:37Z probe terminus + edge state
+relaunch 19:39Z for the final 40 iterations
+poll 19:47Z final state
+poll 19:52Z read the launch record

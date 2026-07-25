@@ -1205,6 +1205,47 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
     import pickle as _pickle
     import subprocess as _sub
 
+    # ---- S3 SETUP CACHE (2026-07-25, ADDITIVE — the GCS path below is untouched) -----------------------
+    # WHY. This whole block already exists for GCS, and it is the difference between a preempted leg
+    # resuming in seconds and re-solvating a ~146k-atom hybrid on a rented GPU that is idle while it does so.
+    # The Vast ternary lane had no equivalent, so every resume rebuilt setup (~6-15 min of paid GPU-idle),
+    # and — less obviously — the RAM/vCPU floor needed to make that rebuild fast is what narrows the offer
+    # pool: the probe's post-preemption resume landed on a $0.2196/hr RTX 4080S where the original host was a
+    # $0.1527/hr 4090, because the strict host filter left little to choose from.
+    #
+    # SAFETY. Selection is by ENV VAR and GCS WINS, so a lane that sets RBFE_SETUP_CACHE_GCS (the GCP ternary
+    # lane, running in another session right now) takes byte-identical code paths to before. Both the restore
+    # and the save are already wrapped in `except -> non-fatal`, so the worst case of a bug here is
+    # "rebuild the setup", which is exactly today's behaviour.
+    _S3_CACHE = os.environ.get("RBFE_SETUP_CACHE_S3")
+
+    def _s3_client():
+        import boto3
+        return boto3.client("s3")
+
+    def _s3_split(uri):
+        bkt, _, key = uri[5:].partition("/")
+        return bkt, key
+
+    def _obj_exists(uri):
+        if uri.startswith("s3://"):
+            b, k = _s3_split(uri)
+            try:
+                _s3_client().head_object(Bucket=b, Key=k)
+                return True
+            except Exception:  # noqa: BLE001
+                return False
+        return _gsh("ls", uri).returncode == 0
+
+    def _obj_download(uri, dest):
+        if uri.startswith("s3://"):
+            b, k = _s3_split(uri)
+            _s3_client().download_file(b, k, str(dest))
+            return
+        r = _gsh("cp", uri, str(dest))
+        if r.returncode:
+            raise RuntimeError("cp %s: %s" % (uri, (r.stderr or "")[-200:]))
+
     def _gsh(*args):
         return _sub.run(["gcloud", "storage", *args], capture_output=True, text=True)
 
@@ -1223,28 +1264,25 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
         except Exception as e:  # noqa: BLE001
             return False, repr(e)
 
-    _cache_root = os.environ.get("RBFE_SETUP_CACHE_GCS")
+    # GCS WINS when both are set, so no existing lane's behaviour can change by adding the S3 option.
+    _cache_root = os.environ.get("RBFE_SETUP_CACHE_GCS") or _S3_CACHE
     _cache_ver = os.environ.get("SETUP_CACHE_VERSION", "v1")
     _charge = os.environ.get("CHARGE_METHOD", "am1bcc")
     cache_dir = ("%s/%s__%s__%s" % (_cache_root.rstrip("/"), tag, _charge, _cache_ver)) if _cache_root else None
     loc = Path(ckpt) / ("setupcache_%s" % tag)
     setup_outputs = None
 
-    if cache_dir and _gsh("ls", cache_dir + "/manifest.json").returncode == 0:
+    if cache_dir and _obj_exists(cache_dir + "/manifest.json"):
         try:
             loc.mkdir(parents=True, exist_ok=True)
             for meta in ("manifest.json", "objs.pkl"):
-                r = _gsh("cp", cache_dir + "/" + meta, str(loc / meta))
-                if r.returncode:
-                    raise RuntimeError("cp %s: %s" % (meta, (r.stderr or "")[-200:]))
+                _obj_download(cache_dir + "/" + meta, loc / meta)
             manifest = _json.loads((loc / "manifest.json").read_text())
             objs = _pickle.loads((loc / "objs.pkl").read_bytes())
             setup_outputs = {}
             for k, mv in manifest.items():
                 if mv[0] == "file":
-                    r = _gsh("cp", cache_dir + "/" + mv[1], str(loc / mv[1]))
-                    if r.returncode:
-                        raise RuntimeError("cp %s: %s" % (mv[1], (r.stderr or "")[-200:]))
+                    _obj_download(cache_dir + "/" + mv[1], loc / mv[1])
                     setup_outputs[k] = loc / mv[1]   # pathlib.Path — openfe deserialize() calls .parent (not a str)
                 else:
                     setup_outputs[k] = objs[k]
@@ -1304,6 +1342,15 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                 # appears once every object is safely uploaded (an all-or-nothing cache).
                 for f in upload + ["objs.pkl", "manifest.json"]:
                     _last = None
+                    # S3 BRANCH (only when this lane is S3-backed). Kept OUT of the retry ladder below,
+                    # whose 8 rounds and 403-abort exist for a specific set of GCS pathologies (a
+                    # parallel-composite upload failing as GcsApiError(''), a prefix-scoped permission
+                    # denial) that have no S3 analogue. boto3 does its own retries; ordering is preserved,
+                    # so manifest.json is still written last and the cache stays all-or-nothing.
+                    if cache_dir.startswith("s3://"):
+                        b_, k_ = _s3_split(cache_dir + "/" + f)
+                        _s3_client().upload_file(str(loc / f), b_, k_)
+                        continue
                     for _attempt in range(8):
                         # PRIMARY: python GCS client (plain upload, avoids the gcloud parallel-composite path that
                         # fails opaquely with GcsApiError('') on the large hybrid_system.xml.bz2). FALLBACK: gcloud
