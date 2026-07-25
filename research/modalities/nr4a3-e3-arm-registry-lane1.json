@@ -1,0 +1,991 @@
+{
+  "_title": "E3 recruiter arm registry for the RUNG-5a mechanism-first orientation-basin search",
+  "_method": "RCSB discovery by UniProt-accession SET (never by a remembered PDB ID), composition verified against the same accession set after download, cullin scaffold bridged into the receptor frame by CA superposition with a reported RMSD, E3-side exit vector DERIVED as the ligand heavy atom furthest from the receptor.",
+  "_limits": [
+    "Each arm is ONE crystal/cryo-EM conformer of the receptor and ONE of the cullin scaffold; CRL arms are known to be conformationally mobile, so the RING position is a representative, not a unique, placement. The basin search samples an E2 arc about it rather than a single point.",
+    "The bridge superposition assumes the two entries deposit the bridge protein under a common residue numbering; a mismatch collapses the shared-residue count and is REFUSED, not patched.",
+    "The catalytic-cysteine identification in the E2 geometry step is a geometric proxy, not a sequence-motif assignment.",
+    "Nothing here is evidence that any of these recruiters engages NR4A3 \u2014 it is input staging."
+  ],
+  "staged_at_utc": "2026-07-25T18:39:16Z",
+  "arms": {
+    "vhl": {
+      "arm_id": "vhl",
+      "recruiter": "VHL",
+      "crl": "CRL2_VHL",
+      "status": "OK",
+      "provenance": {
+        "receptor_entry": {
+          "pdb_id": "6GMN",
+          "title": "pVHL:EloB:EloC in complex with methyl 4H-furo[3,2-b]pyrrole-5-carboxylate",
+          "resolution_A": 1.94,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "Q15370": [
+              "A",
+              "D",
+              "G",
+              "J"
+            ],
+            "Q15369": [
+              "B",
+              "E",
+              "H",
+              "K"
+            ],
+            "P40337": [
+              "C",
+              "F",
+              "L",
+              "I"
+            ]
+          }
+        },
+        "scaffold_entry": {
+          "pdb_id": "8R5H",
+          "title": "Ubiquitin ligation to neosubstrate by a cullin-RING E3 ligase & Cdc34: NEDD8-CUL2-RBX1-ELOB/C-VHL-MZ1 with trapped UBE2R2~donor UB-BRD4 BD2",
+          "resolution_A": 3.44,
+          "method": "EM",
+          "chains_by_accession": {
+            "Q13617": [
+              "A"
+            ],
+            "P62877": [
+              "R"
+            ],
+            "Q712K3": [
+              "C"
+            ],
+            "P0CG48": [
+              "U"
+            ],
+            "Q15369": [
+              "D"
+            ],
+            "O60885": [
+              "F"
+            ],
+            "Q15370": [
+              "G"
+            ],
+            "P40337": [
+              "H"
+            ]
+          }
+        }
+      },
+      "rejected": [
+        {
+          "pdb": "9GIO",
+          "role": "receptor",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/9GIO.pdb"
+        },
+        {
+          "pdb": "9GIO",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        },
+        {
+          "pdb": "6GMN",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        },
+        {
+          "pdb": "8P0F",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        },
+        {
+          "pdb": "9BOL",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        },
+        {
+          "pdb": "4B9K",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        },
+        {
+          "pdb": "8BDJ",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        },
+        {
+          "pdb": "8BDM",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        },
+        {
+          "pdb": "9EQJ",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL2', 'RBX1']"
+        }
+      ],
+      "assembly_copy": {
+        "selected_chains": {
+          "ELOB": "A",
+          "ELOC": "B",
+          "VHL": "C"
+        },
+        "selection": {
+          "ok": true,
+          "n_combinations_checked": 64,
+          "selected": {
+            "ELOB": "A",
+            "ELOC": "B",
+            "VHL": "C"
+          },
+          "n_contacting_pairs": 3,
+          "_note": "one spatially coherent copy selected from an asymmetric unit that may hold several"
+        }
+      },
+      "_receptor_copy_chains": {
+        "ELOB": "A",
+        "ELOC": "B",
+        "VHL": "C"
+      },
+      "receptor_pdb": "results/nr4a3-e3-arms-lane1/vhl-receptor.pdb",
+      "ligand": {
+        "het_code": "F4E",
+        "chain": "B",
+        "resid": 201,
+        "n_heavy": 12,
+        "n_heavy_on_e3_side": 12,
+        "is_protac_ternary": false,
+        "atoms": [
+          {
+            "name": "C10",
+            "elem": "C",
+            "xyz": [
+              -5.426,
+              -10.685,
+              19.773
+            ],
+            "d_e3_A": 3.36,
+            "d_other_protein_A": 22.18,
+            "on_e3_side": true
+          },
+          {
+            "name": "N12",
+            "elem": "N",
+            "xyz": [
+              -4.224,
+              -9.785,
+              21.902
+            ],
+            "d_e3_A": 3.62,
+            "d_other_protein_A": 20.4,
+            "on_e3_side": true
+          },
+          {
+            "name": "C01",
+            "elem": "C",
+            "xyz": [
+              -2.365,
+              -9.147,
+              25.867
+            ],
+            "d_e3_A": 3.11,
+            "d_other_protein_A": 17.91,
+            "on_e3_side": true
+          },
+          {
+            "name": "C03",
+            "elem": "C",
+            "xyz": [
+              -4.06,
+              -8.779,
+              24.209
+            ],
+            "d_e3_A": 3.08,
+            "d_other_protein_A": 19.81,
+            "on_e3_side": true
+          },
+          {
+            "name": "C05",
+            "elem": "C",
+            "xyz": [
+              -4.795,
+              -9.28,
+              23.01
+            ],
+            "d_e3_A": 3.29,
+            "d_other_protein_A": 20.72,
+            "on_e3_side": true
+          },
+          {
+            "name": "C06",
+            "elem": "C",
+            "xyz": [
+              -6.173,
+              -9.308,
+              22.849
+            ],
+            "d_e3_A": 3.4,
+            "d_other_protein_A": 22.09,
+            "on_e3_side": true
+          },
+          {
+            "name": "C07",
+            "elem": "C",
+            "xyz": [
+              -6.417,
+              -9.849,
+              21.595
+            ],
+            "d_e3_A": 3.98,
+            "d_other_protein_A": 22.59,
+            "on_e3_side": true
+          },
+          {
+            "name": "C09",
+            "elem": "C",
+            "xyz": [
+              -6.802,
+              -10.72,
+              19.601
+            ],
+            "d_e3_A": 3.46,
+            "d_other_protein_A": 23.53,
+            "on_e3_side": true
+          },
+          {
+            "name": "C11",
+            "elem": "C",
+            "xyz": [
+              -5.184,
+              -10.14,
+              21.028
+            ],
+            "d_e3_A": 3.52,
+            "d_other_protein_A": 21.56,
+            "on_e3_side": true
+          },
+          {
+            "name": "O02",
+            "elem": "O",
+            "xyz": [
+              -3.122,
+              -9.596,
+              24.805
+            ],
+            "d_e3_A": 2.94,
+            "d_other_protein_A": 18.74,
+            "on_e3_side": true
+          },
+          {
+            "name": "O04",
+            "elem": "O",
+            "xyz": [
+              -4.273,
+              -7.648,
+              24.631
+            ],
+            "d_e3_A": 3.32,
+            "d_other_protein_A": 20.1,
+            "on_e3_side": true
+          },
+          {
+            "name": "O08",
+            "elem": "O",
+            "xyz": [
+              -7.375,
+              -10.209,
+              20.714
+            ],
+            "d_e3_A": 3.38,
+            "d_other_protein_A": 23.74,
+            "on_e3_side": true
+          }
+        ],
+        "exit_atom_name": "C07",
+        "exit_atom_xyz": [
+          -6.417,
+          -9.849,
+          21.595
+        ],
+        "exit_atom_dist_to_receptor_A": 3.98,
+        "exit_atom_dist_to_other_protein_A": 22.59,
+        "e3_moiety_centroid": [
+          -5.018,
+          -9.5955,
+          22.498666666666665
+        ],
+        "ligand_centroid": [
+          -5.018,
+          -9.5955,
+          22.49866666666667
+        ],
+        "_derivation": "ligand atoms split by which protein each is closer to; the exit vector is the E3-side atom furthest from the recruiter (exact distances, no grid clamp)."
+      },
+      "lane1": {
+        "caveats": [
+          "Pareto-dominated; advanced only so the E3 is a controlled variable downstream"
+        ],
+        "backfilled": true,
+        "row_pdb_id": "9GIO",
+        "anchor_adoption": {
+          "ok": false,
+          "reason": "lane-1 measured its anchor on 9GIO but the verified receptor entry here is 6GMN; an anchor is only meaningful in its own structure's frame, so it is NOT transplanted"
+        }
+      },
+      "intact_assembly": {
+        "pdb_id": "8R5H",
+        "title": "Ubiquitin ligation to neosubstrate by a cullin-RING E3 ligase & Cdc34: NEDD8-CUL2-RBX1-ELOB/C-VHL-MZ1 with trapped UBE2R2~donor UB-BRD4 BD2",
+        "method": "EM",
+        "resolution_A": 3.44,
+        "e2": "UBE2R2",
+        "catalytic_cys_resid": 93,
+        "catalytic_cys_to_ubiquitin_cterm_A": 4.27,
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 325,
+          "bridge_rmsd_A": 1.332,
+          "ca_per_bridge_protein": {
+            "ELOB": 102,
+            "ELOC": 87,
+            "VHL": 136
+          }
+        },
+        "catalytic_cys_xyz_in_receptor_frame": [
+          -30.96,
+          48.163,
+          -8.725
+        ],
+        "ring_xyz_in_receptor_frame": [
+          -55.714,
+          63.364,
+          -2.233
+        ]
+      },
+      "transfer_anchor": {
+        "source": "observed_in_intact_assembly",
+        "xyz": [
+          -30.96,
+          48.163,
+          -8.725
+        ],
+        "what": "the E2 catalytic cysteine, observed in a solved ubiquitylation assembly and bridged into this receptor's frame \u2014 one step closer to the observable than a RING plus a modelled swing, and it needs no swing model at all",
+        "provenance_pdb": "8R5H",
+        "anchor_to_transfer_point_A": 69.91
+      },
+      "ring": {
+        "ring_centroid_xyz": [
+          -55.622,
+          63.432,
+          -1.613
+        ],
+        "cullin_centroid_xyz": [
+          -65.627,
+          21.132,
+          -8.339
+        ],
+        "rbx1_ring_residue_range": [
+          51,
+          105
+        ],
+        "bridge_protein": "ELOC+VHL",
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 223,
+          "bridge_rmsd_A": 1.189,
+          "ca_per_bridge_protein": {
+            "ELOC": 87,
+            "VHL": 136
+          }
+        }
+      },
+      "derived": {
+        "anchor_to_ring_A": 91.27,
+        "ring_to_cullin_A": 43.98
+      },
+      "composition_check": {
+        "possible": false,
+        "reason": "9UUM shares no bridge protein with this arm"
+      }
+    },
+    "crbn": {
+      "arm_id": "crbn",
+      "recruiter": "CRBN",
+      "crl": "CRL4_CRBN",
+      "status": "OK",
+      "provenance": {
+        "receptor_entry": {
+          "pdb_id": "9FJX",
+          "title": "Crystal structure of human CRBN-DDB1 in complex with Lenalidomide",
+          "resolution_A": 2.0,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "Q16531": [
+              "A"
+            ],
+            "Q96SW2": [
+              "B"
+            ]
+          }
+        },
+        "scaffold_entry": {
+          "pdb_id": "9UUM",
+          "title": "Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly",
+          "resolution_A": 3.41,
+          "method": "EM",
+          "chains_by_accession": {
+            "Q96SW2": [
+              "C"
+            ],
+            "P51668": [
+              "D"
+            ],
+            "Q9UKT9": [
+              "I"
+            ],
+            "Q15843": [
+              "N"
+            ],
+            "P62979": [
+              "U"
+            ],
+            "P62877": [
+              "R"
+            ],
+            "Q16531": [
+              "B"
+            ],
+            "Q13619": [
+              "A"
+            ]
+          }
+        }
+      },
+      "rejected": [
+        {
+          "pdb": "9CUO",
+          "role": "receptor",
+          "reason": "missing accessions for ['DDB1']"
+        },
+        {
+          "pdb": "9GAO",
+          "role": "receptor",
+          "reason": "missing accessions for ['DDB1']"
+        },
+        {
+          "pdb": "9CUO",
+          "role": "scaffold",
+          "reason": "missing accessions for ['DDB1', 'CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "9GAO",
+          "role": "scaffold",
+          "reason": "missing accessions for ['DDB1', 'CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "9FJX",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "8RQ8",
+          "role": "scaffold",
+          "reason": "missing accessions for ['DDB1', 'CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "9SFM",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "9ODR",
+          "role": "scaffold",
+          "reason": "missing accessions for ['DDB1', 'CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "9GY3",
+          "role": "scaffold",
+          "reason": "missing accessions for ['DDB1', 'CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "8OIZ",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL4A', 'RBX1']"
+        }
+      ],
+      "assembly_copy": {
+        "selected_chains": {
+          "CRBN": "B",
+          "DDB1": "A"
+        },
+        "selection": {
+          "ok": true,
+          "n_combinations": 1,
+          "single_copy": true,
+          "n_contacting_pairs": 1,
+          "coherent": true,
+          "_note": "the only chain combination available; accepted, with its coherence reported"
+        }
+      },
+      "_receptor_copy_chains": {
+        "CRBN": "B",
+        "DDB1": "A"
+      },
+      "receptor_pdb": "results/nr4a3-e3-arms-lane1/crbn-receptor.pdb",
+      "ligand": {
+        "het_code": "LVY",
+        "chain": "B",
+        "resid": 502,
+        "n_heavy": 19,
+        "n_heavy_on_e3_side": 19,
+        "is_protac_ternary": false,
+        "atoms": [
+          {
+            "name": "C1",
+            "elem": "C",
+            "xyz": [
+              9.096,
+              -53.925,
+              4.245
+            ],
+            "d_e3_A": 3.66,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C2",
+            "elem": "C",
+            "xyz": [
+              10.603,
+              -53.661,
+              4.265
+            ],
+            "d_e3_A": 3.49,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C3",
+            "elem": "C",
+            "xyz": [
+              10.826,
+              -52.198,
+              4.568
+            ],
+            "d_e3_A": 3.55,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C4",
+            "elem": "C",
+            "xyz": [
+              10.107,
+              -51.312,
+              3.608
+            ],
+            "d_e3_A": 3.41,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N5",
+            "elem": "N",
+            "xyz": [
+              8.976,
+              -51.791,
+              3.002
+            ],
+            "d_e3_A": 2.96,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C6",
+            "elem": "C",
+            "xyz": [
+              8.432,
+              -53.019,
+              3.239
+            ],
+            "d_e3_A": 3.3,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C7",
+            "elem": "C",
+            "xyz": [
+              8.244,
+              -57.493,
+              4.179
+            ],
+            "d_e3_A": 3.62,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C8",
+            "elem": "C",
+            "xyz": [
+              8.822,
+              -57.367,
+              2.933
+            ],
+            "d_e3_A": 3.59,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C9",
+            "elem": "C",
+            "xyz": [
+              9.271,
+              -55.975,
+              2.711
+            ],
+            "d_e3_A": 3.66,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N10",
+            "elem": "N",
+            "xyz": [
+              8.809,
+              -55.306,
+              3.937
+            ],
+            "d_e3_A": 3.85,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C11",
+            "elem": "C",
+            "xyz": [
+              8.24,
+              -56.191,
+              4.832
+            ],
+            "d_e3_A": 3.35,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C12",
+            "elem": "C",
+            "xyz": [
+              7.79,
+              -59.742,
+              3.767
+            ],
+            "d_e3_A": 3.69,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C13",
+            "elem": "C",
+            "xyz": [
+              8.355,
+              -59.648,
+              2.525
+            ],
+            "d_e3_A": 3.79,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C14",
+            "elem": "C",
+            "xyz": [
+              8.891,
+              -58.447,
+              2.087
+            ],
+            "d_e3_A": 3.95,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C15",
+            "elem": "C",
+            "xyz": [
+              7.731,
+              -58.662,
+              4.626
+            ],
+            "d_e3_A": 3.23,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O16",
+            "elem": "O",
+            "xyz": [
+              7.846,
+              -55.885,
+              5.893
+            ],
+            "d_e3_A": 3.19,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N17",
+            "elem": "N",
+            "xyz": [
+              9.458,
+              -58.346,
+              0.867
+            ],
+            "d_e3_A": 3.96,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O18",
+            "elem": "O",
+            "xyz": [
+              7.464,
+              -53.327,
+              2.66
+            ],
+            "d_e3_A": 3.1,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O19",
+            "elem": "O",
+            "xyz": [
+              10.45,
+              -50.219,
+              3.354
+            ],
+            "d_e3_A": 2.97,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          }
+        ],
+        "exit_atom_name": "N17",
+        "exit_atom_xyz": [
+          9.458,
+          -58.346,
+          0.867
+        ],
+        "exit_atom_dist_to_receptor_A": 3.96,
+        "exit_atom_dist_to_other_protein_A": null,
+        "e3_moiety_centroid": [
+          8.916368421052631,
+          -55.395473684210536,
+          3.5419999999999994
+        ],
+        "ligand_centroid": [
+          8.916368421052631,
+          -55.395473684210536,
+          3.5420000000000003
+        ],
+        "_derivation": "ligand atoms split by which protein each is closer to; the exit vector is the E3-side atom furthest from the recruiter (exact distances, no grid clamp)."
+      },
+      "lane1": {
+        "caveats": [],
+        "backfilled": false,
+        "row_pdb_id": "9CUO",
+        "anchor_adoption": {
+          "ok": false,
+          "reason": "lane-1 measured its anchor on 9CUO but the verified receptor entry here is 9FJX; an anchor is only meaningful in its own structure's frame, so it is NOT transplanted"
+        }
+      },
+      "intact_assembly": {
+        "pdb_id": "9UUM",
+        "title": "Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly",
+        "method": "EM",
+        "resolution_A": 3.41,
+        "e2": "UBE2D1",
+        "catalytic_cys_resid": 85,
+        "catalytic_cys_to_ubiquitin_cterm_A": 3.44,
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 1455,
+          "bridge_rmsd_A": 3.404,
+          "ca_per_bridge_protein": {
+            "CRBN": 370,
+            "DDB1": 1085
+          }
+        },
+        "catalytic_cys_xyz_in_receptor_frame": [
+          8.634,
+          -76.4,
+          12.517
+        ],
+        "ring_xyz_in_receptor_frame": [
+          -11.829,
+          -96.044,
+          5.001
+        ]
+      },
+      "transfer_anchor": {
+        "source": "observed_in_intact_assembly",
+        "xyz": [
+          8.634,
+          -76.4,
+          12.517
+        ],
+        "what": "the E2 catalytic cysteine, observed in a solved ubiquitylation assembly and bridged into this receptor's frame \u2014 one step closer to the observable than a RING plus a modelled swing, and it needs no swing model at all",
+        "provenance_pdb": "9UUM",
+        "anchor_to_transfer_point_A": 21.5
+      },
+      "ring": {
+        "ring_centroid_xyz": [
+          -11.829,
+          -96.044,
+          5.001
+        ],
+        "cullin_centroid_xyz": [
+          -17.857,
+          -86.201,
+          67.335
+        ],
+        "rbx1_ring_residue_range": [
+          50,
+          104
+        ],
+        "bridge_protein": "CRBN+DDB1",
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 1455,
+          "bridge_rmsd_A": 3.404,
+          "ca_per_bridge_protein": {
+            "CRBN": 370,
+            "DDB1": 1085
+          }
+        }
+      },
+      "derived": {
+        "anchor_to_ring_A": 43.49,
+        "ring_to_cullin_A": 63.39
+      },
+      "composition_check": {
+        "possible": true,
+        "reference_pdb": "9UUM",
+        "reference_title": "Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly",
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 1455,
+          "bridge_rmsd_A": 3.404,
+          "ca_per_bridge_protein": {
+            "CRBN": 370,
+            "DDB1": 1085
+          }
+        },
+        "composed_ring_xyz": [
+          -11.83,
+          -96.04,
+          5.0
+        ],
+        "observed_ring_xyz": [
+          -11.83,
+          -96.04,
+          5.0
+        ],
+        "ring_displacement_A": 0.0,
+        "anchor_to_composed_ring_A": 43.49,
+        "anchor_to_observed_ring_A": 43.49,
+        "anchor_to_observed_catalytic_cys_A": 21.5,
+        "_reading": "How far this script's COMPOSED RING sits from the RING of an intact solved CRL assembly placed in the same frame. The term-(b) transfer zone hangs off the RING, so this is the error bar on the zone's placement \u2014 reported whatever it says."
+      }
+    }
+  },
+  "e2_geometry": {
+    "measured": true,
+    "pdb_id": "9UUM",
+    "title": "Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly",
+    "method": "EM",
+    "resolution_A": 3.41,
+    "e2": "UBE2D1",
+    "e2_accession": "P51668",
+    "catalytic_cys_resid": 85,
+    "catalytic_cys_identified_by": "minimum SG-to-ubiquitin-C-terminus distance (a measurement with a unique answer, not a heuristic)",
+    "catalytic_cys_to_ubiquitin_cterm_A": 3.44,
+    "runner_up_cys_to_ubiquitin_cterm_A": [
+      16.44,
+      17.26,
+      20.03
+    ],
+    "ring_to_catalytic_cys_A": 29.34,
+    "rbx1_ring_residue_range": [
+      50,
+      104
+    ],
+    "_composition_check_inputs": {
+      "pdb_id": "9UUM",
+      "chains_by_accession": {
+        "Q96SW2": [
+          "C"
+        ],
+        "P51668": [
+          "D"
+        ],
+        "Q9UKT9": [
+          "I"
+        ],
+        "Q15843": [
+          "N"
+        ],
+        "P62979": [
+          "U"
+        ],
+        "P62877": [
+          "R"
+        ],
+        "Q16531": [
+          "B"
+        ],
+        "Q13619": [
+          "A"
+        ]
+      },
+      "ring_centroid_xyz": [
+        168.038,
+        95.582,
+        120.375
+      ],
+      "catalytic_cys_xyz": [
+        143.483,
+        84.269,
+        131.784
+      ]
+    },
+    "substrate_lysine_calibration": {
+      "n_substrate_lysines": 11,
+      "nearest_lysine_resid": 158,
+      "nearest_lysine_to_catalytic_cys_A": 17.09,
+      "all_lysine_distances_A": [
+        17.09,
+        17.33,
+        28.23,
+        31.15,
+        36.97,
+        37.12,
+        38.1,
+        39.79,
+        39.84,
+        45.37,
+        45.79
+      ],
+      "_reading": "the distance a substrate lysine actually sits from the E2 catalytic cysteine in a SOLVED ubiquitylation assembly \u2014 the empirical scale for the transfer-zone parameter, reported as a full distribution so the calibration can be checked rather than taken on trust."
+    }
+  },
+  "log": [
+    "[e3stage]   assembly copy selected: {'ELOB': 'A', 'ELOC': 'B', 'VHL': 'C'} (3 contacting chain pairs out of 64 combinations)",
+    "[e3stage] vhl: receptor entry 6GMN (1.94 A) chains ['A', 'B', 'C'] ligand F4E n_heavy=12 exit atom C07 exposure 3.98 A",
+    "[e3stage] vhl: INTACT assembly 8R5H (Ubiquitin ligation to neosubstrate by a cullin-RING E3 ligase & Cdc34:) bridged on 325 CA @ 1.332 A -> observed E2 catalytic Cys93 placed directly in the receptor frame (Ub C-term 4.3 A)",
+    "[e3stage] vhl: scaffold 8R5H bridged on ELOC+VHL (rmsd 1.189 A over 223 CA) -> RING at [-55.622, 63.432, -1.613]",
+    "[e3stage] crbn: receptor entry 9FJX (2.0 A) chains ['A', 'B'] ligand LVY n_heavy=19 exit atom N17 exposure 3.96 A",
+    "[e3stage] crbn: INTACT assembly 9UUM (Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF) bridged on 1455 CA @ 3.404 A -> observed E2 catalytic Cys85 placed directly in the receptor frame (Ub C-term 3.4 A)",
+    "[e3stage] crbn: scaffold 9UUM bridged on CRBN+DDB1 (rmsd 3.404 A over 1455 CA) -> RING at [-11.829, -96.044, 5.001]",
+    "[e3stage] transfer geometry from 9UUM (Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly):",
+    "[e3stage]   catalytic Cys85 of UBE2D1 identified by proximity to ubiquitin C-term (res 76): 3.4 A; other Cys [16.4, 17.3, 20.0] A",
+    "[e3stage]   RING -> catalytic Cys = 29.3 A",
+    "[e3stage]   substrate Lys NZ -> catalytic Cys: nearest 17.1 A (Lys158), n=11, all [17.1, 17.3, 28.2, 31.1, 37.0, 37.1, 38.1, 39.8]",
+    "[e3stage] crbn composition check vs 9UUM: composed RING is 0.0 A from the observed one (bridge 1455 CA @ 3.404 A); anchor->RING composed 43.49 vs observed 43.49 A"
+  ]
+}
