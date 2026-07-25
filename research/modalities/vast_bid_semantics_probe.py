@@ -191,9 +191,25 @@ def ladder(key, a):
     return res
 
 
+def verify_cap(key, machine_id):
+    """Read-only ($0): what is THIS machine's on-demand price? The ladder showed the charge saturating at a
+    hard cap; the obvious candidate is the on-demand rate, and 'obvious candidate' is not a measurement. An
+    unfiltered on-demand query for the one machine settles it."""
+    q = {"machine_id": {"eq": int(machine_id)}, "rentable": {"eq": True},
+         "type": "on-demand", "limit": 64}
+    offers = (_vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}) or {}).get("offers", [])
+    rows = [{k: o.get(k) for k in ("id", "machine_id", "gpu_name", "num_gpus", "dph_base", "dph_total",
+                                   "min_bid", "search")} for o in offers]
+    for r in rows:
+        print(f"[cap] on-demand offer {r['id']} {r['gpu_name']} x{r['num_gpus']} "
+              f"dph_base={r['dph_base']} dph_total={r['dph_total']}", flush=True)
+    return {"machine_id": machine_id, "on_demand_offers": rows}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--overbid-mult", type=float, default=4.0)
+    ap.add_argument("--verify-cap", default="", help="machine_id: read-only lookup of its on-demand price")
     ap.add_argument("--ladder", default="", help="comma-separated bid multiples, e.g. 1.0,2.0,6.0")
     ap.add_argument("--poll-s", type=int, default=15)
     ap.add_argument("--max-wait-s", type=int, default=180)
@@ -205,6 +221,14 @@ def main():
     if not key:
         print("FAIL: VAST_API_KEY not set", flush=True)
         return 2
+
+    if a.verify_cap:
+        out = verify_cap(key, a.verify_cap.replace("cap:", "").strip())
+        path = a.out.replace(".json", "-cap.json")
+        with open(path, "w") as f:
+            json.dump(out, f, indent=1)
+        print(f"[cap] wrote {path}", flush=True)
+        return 0
 
     if a.ladder:
         try:

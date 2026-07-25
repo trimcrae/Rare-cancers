@@ -111,8 +111,13 @@ jobs:
         with:
           python-version: "3.11"
       - name: Probe bid semantics (rents ~2 min per rung, self-destroys)
+        if: ${{ !startsWith(github.event.inputs.gpu, 'cap:') }}
         working-directory: research/modalities
         run: python vast_bid_semantics_probe.py --ladder "${{ github.event.inputs.gpu || '1.0,2.5,8.0' }}"
+      - name: Verify the billing cap is the machine on-demand price (read-only, $0)
+        if: ${{ startsWith(github.event.inputs.gpu, 'cap:') }}
+        working-directory: research/modalities
+        run: python vast_bid_semantics_probe.py --verify-cap "${{ github.event.inputs.gpu }}"
       - name: Commit the verdict
         if: always()
         run: |
@@ -120,6 +125,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/modalities/vast-bid-semantics-probe.json \
-                  research/modalities/vast-bid-semantics-probe-ladder.json 2>/dev/null || true
+                  research/modalities/vast-bid-semantics-probe-ladder.json \
+                  research/modalities/vast-bid-semantics-probe-cap.json 2>/dev/null || true
           git commit -m "vast bid-semantics probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}
