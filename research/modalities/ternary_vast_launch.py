@@ -221,11 +221,36 @@ echo "[tvast] $(date -u +%FT%TZ) start unit=$UNIT_ID leg=$LEG_ID seed=$SEED dir=
 AWSC=$(command -v aws || echo /opt/mamba/envs/rbfe/bin/aws)
 mark() { printf '%s %s\n' "$1" "$(date -u +%FT%TZ)" | $AWSC s3 cp - "$RESULT_S3/phase.txt" >/dev/null 2>&1 || true
          $AWSC s3 cp /tmp/run.log "$RESULT_S3/run.log" >/dev/null 2>&1 || true; }
-fail() { echo "[tvast] FAILED at $1"; printf '{"unit_id":"%s","status":"failed","phase":"%s","utc":"%s"}\n' \
-           "$UNIT_ID" "$1" "$(date -u +%FT%TZ)" > /tmp/status.json
+# WHICH FAILURES ARE THE HOST'S FAULT, AND WHICH ARE OURS. This distinction decides whether the watchdog
+# relaunches, so it has to be made here where the phase is known — not inferred later from a log.
+#   cuda-probe  -> THIS HOST cannot run the job (no CUDA platform, wrong driver). Relaunching ELSEWHERE is
+#                  exactly right, so leave no `leg.json`: the unit reads DIED and the launcher picks a
+#                  different machine. Only a `status.json` breadcrumb is left, for a human reading the board.
+#   anything else -> the code or the data failed, and it will fail identically on the next host. Write
+#                  `leg.json` with status=failed so the watchdog's FAILED verdict fires and REFUSES to
+#                  relaunch. Without this, a staging or pre-equil bug would buy a fresh rental per attempt,
+#                  up to the daily cap, every one dying the same way.
+fail() { echo "[tvast] FAILED at $1"
+         printf '{"unit_id":"%s","status":"failed","phase":"%s","rc":1,"nan_seen":false,"utc":"%s","updated_utc":"%s"}\n' \
+           "$UNIT_ID" "$1" "$(date -u +%FT%TZ)" "$(date -u +%FT%TZ)" > /tmp/status.json
          $AWSC s3 cp /tmp/status.json "$RESULT_S3/status.json" >/dev/null 2>&1 || true
+         if [ "$1" != cuda-probe ]; then
+           $AWSC s3 cp /tmp/status.json "$RESULT_S3/leg.json" >/dev/null 2>&1 || true
+         else
+           echo "[tvast] host-side failure ($1) — deliberately NOT writing leg.json so a relaunch picks a different machine"
+         fi
          $AWSC s3 cp /tmp/run.log "$RESULT_S3/run.log" >/dev/null 2>&1 || true; exit 1; }
 mark start
+
+# PRESERVE THE PREVIOUS ATTEMPT'S LOG BEFORE OVERWRITING IT. `exec > >(tee /tmp/run.log)` starts a fresh
+# file, and the sync loop then overwrites `$RESULT_S3/run.log` — so on a resume after preemption the only
+# record of WHY the last attempt ended is destroyed by the attempt that replaces it. Lane 3's census of the
+# NR-V04 panel is the cost of that pattern: three analysis defects were uncorrectable because nothing
+# survived. Costs one S3 copy of a text file.
+if $AWSC s3 ls "$RESULT_S3/run.log" >/dev/null 2>&1; then
+  $AWSC s3 cp "$RESULT_S3/run.log" "$RESULT_S3/attempts/run-$(date -u +%Y%m%dT%H%M%SZ).log" >/dev/null 2>&1 \
+    && echo "[tvast] archived the previous attempt's run.log under attempts/" || true
+fi
 
 # IDEMPOTENCY. Vast re-runs onstart when a container restarts, and CI may re-dispatch a unit whose leg
 # already landed. Re-running would overwrite a finished result with a fresh (and, at a different commit

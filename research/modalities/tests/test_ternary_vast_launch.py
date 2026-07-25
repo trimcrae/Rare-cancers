@@ -266,3 +266,23 @@ def test_stdout_is_unbuffered_so_progress_lines_arrive_when_they_happen():
         for (leg, seed, direction) in tv.units_for(mode):
             e = tv.build_jobspec(leg, seed, direction, mode=mode, bucket="b", prefix="p").env
             assert e.get("PYTHONUNBUFFERED") == "1"
+
+
+def test_a_host_side_failure_leaves_no_leg_json_but_a_code_failure_does():
+    """The distinction that decides whether the watchdog relaunches. A CUDA-probe failure means THIS HOST
+    cannot run the job, so leaving no leg.json makes the unit read DIED and the launcher picks a different
+    machine — correct. Any other phase failed for a reason that will reproduce, so it writes leg.json with
+    status=failed and the watchdog's FAILED verdict refuses to relaunch; without that, a staging bug buys a
+    fresh rental per attempt up to the daily cap, each dying identically."""
+    body = tv.build_jobspec("calib_hi_to_lo__ternary_vhl", bucket="b", prefix="p").command[-1]
+    assert '[ "$1" != cuda-probe ]' in body
+    assert '"$RESULT_S3/leg.json"' in body
+    assert "NOT writing leg.json" in body
+
+
+def test_a_resume_archives_the_previous_attempts_log():
+    """`exec > >(tee ...)` starts a fresh file and the sync loop overwrites the S3 copy, so without this the
+    attempt that resumes destroys the only record of why the previous one ended."""
+    body = tv.build_jobspec("calib_hi_to_lo__ternary_vhl", bucket="b", prefix="p").command[-1]
+    assert "attempts/run-" in body
+    assert body.index("attempts/run-") < body.index("bash run_ternary_leg.sh")
