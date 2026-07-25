@@ -270,10 +270,6 @@ relevant rung below.*
 > resume after a preemption and discard paid GPU hours. The ternary lane opts into strict mode. 28 checks, driven
 > through a fake store so they need no numpy/openmm.
 
-| **LANE 6 · RUNG 5b — inverse linker design** (CPU, $0) | launched **3:45 PM ET** — deriving linker requirements from the Tier-2 GO basins, enumerating the virtual library, filtering by basin fidelity | ~2–5 h → **this evening ET** | **~12–20 virtual constructs, and the matched d/d₀ pair RUNG 5a-KS cannot run without.** 5a-KS is the designated kill-switch, so this lane is on its critical path |
-| **LANE 7 · RUNG 5a — transfer-anchor discriminator + C397 single-point-of-failure** (CPU, $0) | launched **3:45 PM ET** — running the discriminating observation Lane 2 left unrun | ~2–4 h → **this evening ET** | **Whether the Tier-2 GO survives.** Two verified VHL stagings disagree by **39 Å** on where ubiquitin is delivered, and VHL is the arm carrying the actual discrimination (CRBN's lysine null is 0.81–0.96). Also: all 7 term-(a) basins reach **only C397**, so the covalent axis rests on one residue in one frame |
-| **LANE 8 · RUNG 3 — NR-V04 co-fold re-seating** (**Vast** ≤$10, $0 first) | launched **3:45 PM ET** — trying to produce an **A1-admissible** covalent input | ~2–4 h → **this evening ET** | Whether the `[HELD]` panel can be unblocked at all. Boltz seats celastrol **8.99–16.39 Å** from the target-chain Cys Sγ against a ~1.8 Å C–S bond, in **both** contaminated and clean co-folds — a posing problem, not contamination. "Cannot be produced" is a publishable result |
-| **LANE 9 · RUNG 2 — valB closure-triangle $0 pre-gate** (CPU, $0) | launched **3:45 PM ET** — chemistry gate + closure arithmetic + repricing on the corrected 2800-iteration basis | ~2–4 h → **this evening ET** | **ADMIT or REFUTE the triangle before any spend**, exactly as the P-series pre-gate refuted the previous design for $0. Lane 5's ~$5.9 was priced on the retired 2400-iteration basis and is ~17 % low |
 **The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
 are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
 with the GCP lane the reverse leg owns. The rescope-vs-continue decision on valB_mini is still deliberately
@@ -618,14 +614,28 @@ Five load-bearing pieces:
 
 No causally-confirmed NR4A3 wedge ⇒ **STOP**: no linker matrix, no ensemble refinement, no flagship spend;
 publish *"we mapped orientation space and no robust NR4A3-discriminating, ubiquitination-compatible basin
-survives causal testing."* The *decision* to commit the flagship is cheap, not a gate on the whole tail:
+survives causal testing."* The *decision* to commit the flagship is cheap, not a gate on the whole tail.
+
+> **★★ CRITICAL SEMANTICS, ADDED 2026-07-25 BEFORE 5a-KS EVER RUNS — A NULL AT TIER 3 DOES *NOT* STOP THE
+> PROGRAM, AND THE ROW BELOW USED TO SAY IT DID.** Tier 2's GO was won on the **CATEGORICAL** basis: the
+> paralogues have **no nucleophile at the aligned position**, so a covalent bond *cannot form* on them at all.
+> But Tier 3's `S` is a **NON-COVALENT** double difference — it models no bond in either leg, so it can only
+> ever see the **pre-covalent complex**. **It is therefore structurally incapable of testing the categorical
+> mechanism.** What `S` tests is the **MARGINAL** (induced-interface, thermodynamic) wedge — the axis this file
+> already describes as *"a confirmation tool operating near its limit, not a discovery tool"* (a useful window
+> needs ~2.0 kcal/mol against ~1.12 resolvable).
+> **So: `S` ≈ 0 ⇒ the MARGINAL wedge is absent, and the claim rests on the CATEGORICAL axis alone. STOP only if
+> the categorical axis has ALSO failed.** Writing this down *before* the run is deliberate — a null is in fact
+> the **likely** outcome for the recommended pair (its expected NR4A3 gain is bounded by roughly one partly
+> buried H-bond, ~0.5–1.5 kcal/mol, against 1.12 resolvable), and a pre-registered reading is the only thing
+> that stops a predictable null being read after the fact as a verdict on the whole program.
 
 | tier | test | cost | status |
 |---|---|---|---|
 | **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed) |
 | **1** | **Differential surface atlas.** No E3-reachable divergent surface ⇒ STOP for free | **$0 CPU** | **PASSED** (46 handles) |
 | **2** | **Basin nomination.** No basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ STOP cheaply | **$0 realized** (budget was $0–50; **no GPU used**) | **✅ GO — CONFIRMED on the full 12-pose run** (CI 30169233690, 55 min, 3:11 PM ET). Basis **CATEGORICAL**. 58 meta-basins / 192 basins; **7** exploit term (a), **40** term (b), **28** nominally discriminating. See the block below |
-| **3** | **Pilot ONE causal direction** — the ligand-side double difference `S`, one matched pair, ternary legs in NR4A3 and NR4A1. No discrimination ⇒ STOP | **~$12 ($1.6–45)** | pending (RUNG 5a-KS) |
+| **3** | **Pilot ONE causal direction** — the ligand-side double difference `S`, one matched pair, ternary legs in NR4A3 and NR4A1. ⚠ **`S` is NON-COVALENT, so it tests the MARGINAL wedge only. No discrimination ⇒ the marginal wedge is absent and the claim rests on the CATEGORICAL axis alone — STOP only if the categorical axis has ALSO failed** (see the box above; a null is the *likely* outcome for the recommended pair) | **~$12 ($1.6–45)** | pending (RUNG 5a-KS) — **matched pair now DESIGNED**, see RUNG 5b |
 
 Tier 2's asymmetry is what makes it usable: cheap scoring has poor S/N for a ~1 kcal/mol *energy* difference, so
 it only **nominates** — but "does this basin place an electrophile at C397 / cover K572?" is a **geometric**
@@ -698,6 +708,28 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
   under mechanism-first that does not disqualify it, and **a scalar score would have hidden it**, which is the
   clearest vindication yet of dropping the tunable scalar.
 - **Pose-marginalisation:** top VHL meta-basin **6/6 = 1.00**; several at 0.50–0.83; top CRBN **3/4 = 0.75**.
+- **★ LINKER TRACTABILITY, ADDED BY RUNG 5b (2026-07-25) — and it does NOT invert the ranking, though a first
+  pass said it did.** `min_linker_atoms` is a **best-of-N** over a basin's placements, and the member achieving
+  it is **not** the published representative. Measured at the *representative*, C397 needs 14–25 atoms and
+  `crbn|M0` looked the least buildable (~29) — an apparent inversion of the basin ranking. Re-run with the
+  achieving placement emitted explicitly (`exemplar_placement`, $0, 71.6 min; **the gate reproduced exactly at
+  58/7/40/28 CATEGORICAL**, so the addition is purely additive):
+
+  | basin | C397 atoms, representative → exemplar | comfortable length |
+  |---|---|---|
+  | **`crbn\|M0`** | 25 → **11** | **~15 atoms** (1.1 kT) |
+  | `vhl\|M3` | 14 → 11 | ~13–15 |
+  | `vhl\|M2` | 15 → 10 | ~12–14 |
+
+  **So the strongest basin is among the MOST tractable, not the least**, and the inversion was an artifact of
+  comparing a best-of-N length against a typical placement. Both are now emitted — exemplar (optimistic),
+  representative (typical) — and neither may be quoted without saying which.
+- ⚠ **Every reported C397 reach figure is a LOWER BOUND, by up to ~5 atoms.** RUNG 5a's reach rule credits the
+  pendant with shortening the **span**, which no pendant can do. All 576 records were audited and **none is
+  internally impossible** — so this is a bound, not an error, but the numbers must be quoted as bounds.
+- ⚠ **`best_linker_atoms = 19` on 188/192 basins is the scan's LAST GRID POINT**, not an optimum. Do not read it
+  as a converged optimum in either direction.
+- **Exit vectors never let the linker run taut** — α = 33–100°, costing 1–3 backbone atoms of detour at minimum.
 - **Term (b) is NOT EVALUABLE for BIRC2/MDM2** — their ligandable structures are 15 %/19 % fragments lacking the
   RING. This agrees with Lane 1's CRBN+VHL answer by a different route, and argues for adding
   **ubiquitination-geometry evaluability as an explicit Pareto axis** rather than discovering it downstream.
@@ -1339,8 +1371,29 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 - **`[ ]` 5a-KS · Wedge confirmation — pilot-first KILL-SWITCH + causal RESULT** — **~$12 ($1.6–45) · Cum. ~$141.**
   **PRIMARY: the ligand-side double difference.** Pilot ONE matched pair first:
   `S = ΔΔG_coop(d₀→d | NR4A3) − ΔΔG_coop(d₀→d | NR4A1)`, ternary legs only (lever 2), on the lane Val B
-  calibrates. **No discrimination ⇒ STOP** — publish the honest causal negative, skip the refinement tail.
-  Discrimination ⇒ extend to NR4A2 and to a second design element. **Evidence grade:** a NO-GO may be taken on
+  calibrates. ⚠ **"No discrimination ⇒ STOP" is SUPERSEDED — see the Tier-3 semantics box under §The hard
+  kill-switch.** `S` is **non-covalent**, so it tests the **marginal** wedge only and is structurally incapable
+  of testing the **categorical** mechanism Tier 2 actually passed on. **`S` ≈ 0 ⇒ the marginal wedge is absent
+  and the claim rests on the categorical axis alone; STOP only if the categorical axis has ALSO failed.**
+  Discrimination ⇒ extend to NR4A2 and to a second design element.
+
+  **★ THE MATCHED PAIR IS DESIGNED (RUNG 5b, 2026-07-25, $0) — 5a-KS is now buildable.**
+  **`crbn|M0` at its term-(a) exemplar**, 15 backbone atoms (1.1 kT), wedge **3-(3-pyridyl)-L-Ala (*d*) vs
+  L-Phe (*d₀*)** at **Thr407** — Leu in NR4A1, Val in NR4A2, so the H-bond **donor is removed in BOTH**
+  paralogues. **8.6 Å of E3 clearance**, which matters mechanically: it keeps the wedge off the E3 interface, so
+  the shared **binary and solvent legs still cancel exactly** and only **ternary** legs are needed. The same
+  geometry reaches C397 at 11 atoms, so the wedge pair and the covalent series share **one** placement.
+  *Differs only in the wedge element:* one atom (C–H→N), identical formal charge, heavy-atom count, rotatable
+  bonds and (S) centre.
+  **A geometry-only pick would have been wrong**, and the preregistered rule that replaced it is worth keeping:
+  geometry alone selected I396 (12.6 Å) — but a pyridyl N against **isoleucine** is desolvation with no
+  compensation *in any paralogue*, so `S` would have been ≈0 **by construction**. Rule now: **NR4A3 must present
+  a donor and both paralogues must not.**
+  **Honest expectation, recorded BEFORE the run:** NR4A1 offers *absence*, not a penalty, so the expected effect
+  is an **NR4A3 gain bounded by roughly one partly-buried H-bond (~0.5–1.5 kcal/mol) against 1.12 resolvable —
+  i.e. A NULL IS LIKELY.** Fallback fully enumerated and RDKit-verified: `vhl|M3` representative, 11 atoms,
+  T407, 10.3 Å — **C₄₇H₅₅N₉O₉S vs C₄₈H₅₆N₈O₉S, identical 66 heavy atoms.**
+  *Remaining confounds:* modelled rotamer; double conditionality; unmeasured linker-conformer populations. **Evidence grade:** a NO-GO may be taken on
   valB_mini-grade evidence (stopping is the conservative action), but a POSITIVE result stays **exploratory**
   until valB_full passes.
 
@@ -1421,7 +1474,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   *Sequence, cheapest-decisive-first:* smoke (~$0.10) → pilot (both legs of one direction, ~$1–3 — **the abort
   gate**) → full set (~$5–10) only if the pilot sees it.
 
-- **`[ ]` 5b · Inverse linker design** — **~$0–20 (mostly $0 CPU) · Cum. ~$151.** For each confirmed basin, derive
+- **`[x]` 5b · Inverse linker design — DONE 2026-07-25, $0 REALIZED (1,995 enumerated → 21 retained, RDKit-verified 21/21)** — **~$0–20 (mostly $0 CPU) · Cum. ~$151.** For each confirmed basin, derive
   linker requirements (endpoint distance, exit-vector dihedral, strain, reach), enumerate a virtual library,
   filter by basin fidelity, annotate exact structures + synthetic feasibility → **~12–20 virtual constructs** (the
   reviewer's "24–36" now bounds this virtual set, not a hand-built grid). For basins carrying the covalent handle,
