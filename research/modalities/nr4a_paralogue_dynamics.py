@@ -103,6 +103,11 @@ SEED = 20260725
 # re-derives the same set from the alignment and any disagreement is visible in the output.
 NR4A3_UNIQUE_CYS = {397, 420, 559}
 EXPOSED_RSA = 0.25          # the standard relative-SASA cutoff, same as nr4a_differential_atlas.EXPOSED_RSA
+# Linker lengths the matched test is read at. 12 is the design GATE and where the verdict is quoted; the
+# longer ones are reported because a matched placement reaches an NR4A3-unique cysteine in only ~0.2 % of
+# placements, so the 12-atom cell alone is thin — if the species contrast holds across the profile, the gate
+# reading is corroborated rather than isolated.
+LENGTHS = (12, 14, 16, 20)
 
 
 # ---------------------------------------------------------------------------------------------------------
@@ -356,6 +361,45 @@ def species_cysteines_in_ref_frame(path, ref_model, offset, ref_aa_of):
     return out, fitted["superposition"]
 
 
+def matched_reach_hits_multi(anchors, cysteines, lengths, params=None, min_rsa=0.0):
+    """`matched_reach_hits` at SEVERAL linker lengths in one pass, because the 12-atom gate alone has poor
+    statistical power for this particular question.
+
+    The design gate is 12 atoms and that is where the verdict is READ, but a matched placement reaches an
+    NR4A3-unique cysteine in only ~0.2 % of placements, so a verdict computed at 12 alone rests on a handful of
+    events. The same geometry at 14/16/20 atoms is far better sampled, and if the paralogue/NR4A3 contrast
+    behaves the same way across the whole profile, the 12-atom reading is corroborated rather than isolated.
+    Reporting the profile is also this repo's standing practice for the gate, so the choice stays visible.
+
+    Returns {length: (hits_list, per_cysteine_counts)}. Distances are computed once and compared against each
+    length's budget, so the extra lengths are nearly free."""
+    params = params or B.PARAMS
+    cys = [c for c in cysteines if c["rsa"] >= min_rsa]
+    budgets = {n: G.contour_length_from_atoms(n, params["linker_rise_per_atom_A"])
+               + 2.0 * params["electrophile_arm_A"] for n in lengths}
+    big = max(budgets.values()) if budgets else 0.0
+    out = {n: ([0] * len(anchors), {c["label"]: 0 for c in cys}) for n in lengths}
+    cache = {}
+    for i, pl in enumerate(anchors):
+        row = cache.get(pl["pose"])
+        if row is None:
+            row = [G.dist(pl["a_t"], c["xyz"]) for c in cys]
+            cache[pl["pose"]] = row
+        ae = pl["a_e"]
+        for j, c in enumerate(cys):
+            if row[j] > big:
+                continue
+            s = row[j] + G.dist(ae, c["xyz"])
+            if s > big:
+                continue
+            for n in lengths:
+                if s <= budgets[n]:
+                    hits, per = out[n]
+                    hits[i] = 1
+                    per[c["label"]] += 1
+    return out
+
+
 def matched_reach_hits(anchors, cysteines, gate_atoms=None, params=None, min_rsa=0.0):
     """THE DECISIVE TEST. For each E3 placement, does the SAME linker path — same warhead exit anchor, same E3
     anchor, same length budget — put a pendant electrophile on ANY of this conformer's cysteines?
@@ -504,30 +548,42 @@ def categorical_verdict(anchors, joint):
         if not sel["NR4A3"] or not npl:
             continue
         row = {"n_frames": {sp: len(sel[sp]) for sp in SPECIES}, "n_placements": npl}
-        for tag, key3, keyP in (("", "unique_any", "any"), ("_EXPOSED", "unique_exposed", "exposed")):
-            num = den = 0.0
-            collide = 0.0
-            for i in range(npl):
-                f3 = sum(e[key3][i] for e in sel["NR4A3"]) / len(sel["NR4A3"])
-                if f3 == 0.0:
-                    continue
-                bare = 1.0
-                for sp in ("NR4A1", "NR4A2"):
-                    if sel[sp]:
-                        fp = sum(e[keyP][i] for e in sel[sp]) / len(sel[sp])
-                        bare *= (1.0 - fp)
-                den += f3
-                num += f3 * bare
-                collide += f3 * (1.0 - bare)
-            row[f"P_categorical_given_nr4a3{tag}"] = round(num / den, 5) if den else None
-            row[f"P_paralogue_also_labelled_given_nr4a3{tag}"] = round(collide / den, 5) if den else None
-            row[f"mean_P_nr4a3_unique_at_gate{tag}"] = round(den / npl, 6)
-        for sp in SPECIES:
-            if sel[sp]:
-                row[f"mean_P_any_cysteine_at_gate_{sp}"] = round(
-                    sum(sum(e["any"]) for e in sel[sp]) / (len(sel[sp]) * npl), 6)
-                row[f"mean_P_any_EXPOSED_cysteine_at_gate_{sp}"] = round(
-                    sum(sum(e["exposed"]) for e in sel[sp]) / (len(sel[sp]) * npl), 6)
+        by_len = {}
+        for n in LENGTHS:
+            cell = {}
+            for tag, key3, keyP in (("", "unique_any", "any"), ("_EXPOSED", "unique_exposed", "exposed")):
+                num = den = collide = 0.0
+                n_events = 0
+                for i in range(npl):
+                    f3 = sum(e[key3][n][i] for e in sel["NR4A3"]) / len(sel["NR4A3"])
+                    if f3 == 0.0:
+                        continue
+                    n_events += 1
+                    bare = 1.0
+                    for sp in ("NR4A1", "NR4A2"):
+                        if sel[sp]:
+                            fp = sum(e[keyP][n][i] for e in sel[sp]) / len(sel[sp])
+                            bare *= (1.0 - fp)
+                    den += f3
+                    num += f3 * bare
+                    collide += f3 * (1.0 - bare)
+                cell[f"P_categorical_given_nr4a3{tag}"] = round(num / den, 5) if den else None
+                cell[f"P_paralogue_also_labelled_given_nr4a3{tag}"] = round(collide / den, 5) if den else None
+                cell[f"mean_P_nr4a3_unique{tag}"] = round(den / npl, 6)
+                cell[f"n_placements_with_any_nr4a3_hit{tag}"] = n_events
+            for sp in SPECIES:
+                if sel[sp]:
+                    cell[f"mean_P_any_cysteine_{sp}"] = round(
+                        sum(sum(e["any"][n]) for e in sel[sp]) / (len(sel[sp]) * npl), 6)
+                    cell[f"mean_P_any_EXPOSED_cysteine_{sp}"] = round(
+                        sum(sum(e["exposed"][n]) for e in sel[sp]) / (len(sel[sp]) * npl), 6)
+            by_len[n] = cell
+        row["by_linker_atoms"] = by_len
+        gate = B.PARAMS["linker_gate_atoms"]
+        row.update({k: v for k, v in by_len[gate].items()})
+        row["P_paralogue_also_labelled_given_nr4a3"] = by_len[gate]["P_paralogue_also_labelled_given_nr4a3"]
+        row["P_paralogue_also_labelled_given_nr4a3_EXPOSED"] = \
+            by_len[gate]["P_paralogue_also_labelled_given_nr4a3_EXPOSED"]
         out[scope] = row
     return {
         "_what": "P(no paralogue cysteine is reachable | the same construct reaches an NR4A3-unique "
@@ -816,28 +872,37 @@ def main(argv=None):
                     cov = coverage_over_anchors(anchors, lys, params_b) if anchors else None
                     # --- MATCHED term (a) on the SAME placements, in the SAME frame -------------------
                     cys_rf, _sup2 = species_cysteines_in_ref_frame(path, ref, offsets[sp], ref_aa_of)
-                    m_any, m_per = matched_reach_hits(anchors, cys_rf, params=params_b)
-                    m_any_exp, m_per_exp = matched_reach_hits(anchors, cys_rf, params=params_b,
-                                                              min_rsa=EXPOSED_RSA)
+                    m_all = matched_reach_hits_multi(anchors, cys_rf, LENGTHS, params=params_b)
+                    m_exp_all = matched_reach_hits_multi(anchors, cys_rf, LENGTHS, params=params_b,
+                                                         min_rsa=EXPOSED_RSA)
                     npl = max(1, len(anchors))
+                    gate = B.PARAMS["linker_gate_atoms"]
                     matched = {
-                        "P_any_cysteine_at_gate": round(sum(m_any) / npl, 5),
-                        "P_any_EXPOSED_cysteine_at_gate": round(sum(m_any_exp) / npl, 5),
+                        "P_any_cysteine_at_gate": round(sum(m_all[gate][0]) / npl, 5),
+                        "P_any_EXPOSED_cysteine_at_gate": round(sum(m_exp_all[gate][0]) / npl, 5),
+                        "P_any_cysteine_by_linker_atoms": {n: round(sum(m_all[n][0]) / npl, 5)
+                                                           for n in LENGTHS},
+                        "P_any_EXPOSED_cysteine_by_linker_atoms": {n: round(sum(m_exp_all[n][0]) / npl, 5)
+                                                                   for n in LENGTHS},
                         "per_cysteine": {k: round(v / npl, 5) for k, v in
-                                         sorted(m_per.items(), key=lambda kv: -kv[1]) if v},
-                        "per_cysteine_exposed_only": {k: round(v / npl, 5) for k, v in
-                                                      sorted(m_per_exp.items(), key=lambda kv: -kv[1]) if v},
+                                         sorted(m_all[gate][1].items(), key=lambda kv: -kv[1]) if v},
+                        "per_cysteine_at_20": {k: round(v / npl, 5) for k, v in
+                                               sorted(m_all[20][1].items(), key=lambda kv: -kv[1]) if v},
                     }
-                    entry = {"any": m_any, "exposed": m_any_exp, "ensemble": name, "biased": biased,
-                             "frame": fid}
+                    entry = {"any": {n: m_all[n][0] for n in LENGTHS},
+                             "exposed": {n: m_exp_all[n][0] for n in LENGTHS},
+                             "ensemble": name, "biased": biased, "frame": fid}
                     if sp == "NR4A3":
                         uc = [c for c in cys_rf if c["uniprot_resid"] in NR4A3_UNIQUE_CYS]
-                        u_any, _ = matched_reach_hits(anchors, uc, params=params_b)
-                        u_exp, _ = matched_reach_hits(anchors, uc, params=params_b, min_rsa=EXPOSED_RSA)
-                        matched["P_unique_cysteine_at_gate"] = round(sum(u_any) / npl, 5)
-                        matched["P_unique_EXPOSED_cysteine_at_gate"] = round(sum(u_exp) / npl, 5)
-                        entry["unique_any"] = u_any
-                        entry["unique_exposed"] = u_exp
+                        u_all = matched_reach_hits_multi(anchors, uc, LENGTHS, params=params_b)
+                        u_exp = matched_reach_hits_multi(anchors, uc, LENGTHS, params=params_b,
+                                                         min_rsa=EXPOSED_RSA)
+                        matched["P_unique_cysteine_at_gate"] = round(sum(u_all[gate][0]) / npl, 5)
+                        matched["P_unique_EXPOSED_cysteine_at_gate"] = round(sum(u_exp[gate][0]) / npl, 5)
+                        matched["P_unique_cysteine_by_linker_atoms"] = {n: round(sum(u_all[n][0]) / npl, 5)
+                                                                        for n in LENGTHS}
+                        entry["unique_any"] = {n: u_all[n][0] for n in LENGTHS}
+                        entry["unique_exposed"] = {n: u_exp[n][0] for n in LENGTHS}
                     joint[sp].append(entry)
                     rows.append({"frame": fid, "n_lysines": len(lys),
                                  "n_exposed_lysines": sum(1 for k in lys if k["rsa"] >= 0.25),
