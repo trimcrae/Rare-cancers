@@ -95,7 +95,16 @@ def blosum(a: str, b: str) -> int:
 # ---------- PDB parsing ----------
 def parse_pdb(path: str):
     """Return (residues, atoms). residues: ordered list of (resid, one_letter). atoms: list of
-    dict(resid,resname,name,elem,x,y,z)."""
+    dict(resid,resname,name,elem,x,y,z).
+
+    ⚠ SINGLE-CHAIN ONLY, and it does NOT say so anywhere else. Residues are keyed by residue NUMBER alone
+    and hydrogens are kept. That is correct and intended for the matched single-chain NR4A LBD models this
+    module and `nr4a_paralogue_unique_residues.py` were written for. It is silently WRONG for any
+    multi-chain structure — a two-chain complex numbered from 1 collapses onto itself and half the residues
+    disappear with no error — and it is wrong for any heavy-atom distance criterion, which will see H atoms.
+    Flagged rather than changed, because changing it would move the numbers in two committed artifacts. A
+    chain-aware, heavy-atom-only parser lives in `nr4a3_basin_search.parse_multichain_pdb`; use that for
+    anything with more than one chain."""
     residues = {}
     order = []
     atoms = []

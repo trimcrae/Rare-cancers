@@ -86,3 +86,48 @@ def test_all_workflows_parse_and_declare_triggers():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+# --- workflow_dispatch input cap -------------------------------------------------------------------
+#
+# WHY. GitHub caps `workflow_dispatch` at 25 inputs. Exceeding it does not fail the offending input --
+# it makes the ENTIRE workflow file undispatchable: HTTP 422 on dispatch, plus a zero-job "failure" run
+# that reads like a code failure and is not one. Lane 1 hit this on 2026-07-25; the repo had already
+# had to retire a confirmed-no-op input (`constrain_ligand_ch`) once to make room for `direction`.
+# fusion-cpu-extras.yml currently sits AT the cap, so the next input added there breaks it silently.
+# Documented-but-unenforced is how this bites twice, so it is a test.
+GITHUB_WORKFLOW_DISPATCH_INPUT_CAP = 25
+
+
+def test_workflow_dispatch_inputs_within_github_cap():
+    import glob
+
+    offenders = []
+    for path in sorted(glob.glob(os.path.join(WF_DIR, "*.yml"))):
+        try:
+            with open(path) as fh:
+                doc = yaml.safe_load(fh)
+        except Exception:
+            continue  # parse failures are the other test's job, not this one's
+        if not isinstance(doc, dict):
+            continue
+        # `on` is the YAML 1.1 boolean True, so it arrives as the key True (see triggers_of).
+        node = None
+        for key in (True, "on", "On", "ON"):
+            if key in doc and isinstance(doc[key], dict):
+                node = doc[key]
+                break
+        if node is None:
+            continue
+        dispatch = node.get("workflow_dispatch")
+        if not isinstance(dispatch, dict):
+            continue
+        inputs = dispatch.get("inputs") or {}
+        if len(inputs) > GITHUB_WORKFLOW_DISPATCH_INPUT_CAP:
+            offenders.append((os.path.basename(path), len(inputs)))
+
+    assert not offenders, (
+        "workflow_dispatch input cap exceeded -- these files are UNDISPATCHABLE "
+        f"(GitHub allows {GITHUB_WORKFLOW_DISPATCH_INPUT_CAP}): {offenders}. "
+        "Remove an input before adding one; a 26th makes the whole file 422 with a zero-job run."
+    )
