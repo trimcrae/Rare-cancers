@@ -133,13 +133,11 @@ def _delete_atom(mol, Chem, smarts, target_symbol, label=""):
     return out, "delete one %s (atom idx %d); implicit H restored" % (target_symbol, idx)
 
 
-def transform_X(mol, Chem):
-    """T1's transform, exactly as `wurz_calib_freeze` defines it: the UNIQUE aromatic 6-membered one-nitrogen
-    ring (the pyridine-4-carbonyl linker) N -> CH. Re-derived here rather than read, so the harness is
-    validated against the frozen record before any candidate is trusted."""
-    ri = mol.GetRingInfo()
+def _linker_pyridine(mol, Chem):
+    """(ring_atom_indices, ring_N_index) of the UNIQUE aromatic 6-membered one-nitrogen ring in cmpd1 -- the
+    pyridine-4-carbonyl linker. Fails closed if there is not exactly one."""
     cands = []
-    for ring in ri.AtomRings():
+    for ring in mol.GetRingInfo().AtomRings():
         if len(ring) != 6:
             continue
         atoms = [mol.GetAtomWithIdx(i) for i in ring]
@@ -147,11 +145,25 @@ def transform_X(mol, Chem):
             continue
         ns = [a.GetIdx() for a in atoms if a.GetSymbol() == "N"]
         if len(ns) == 1:
-            cands.append(ns[0])
+            cands.append((list(ring), ns[0]))
     if len(cands) != 1:
-        return None, "expected exactly one pyridine ring in the input, found %d" % len(cands)
+        return None, None
+    return cands[0]
+
+
+def transform_X(mol, Chem):
+    """T1's transform, exactly as `wurz_calib_freeze` defines it: the UNIQUE aromatic 6-membered one-nitrogen
+    ring (the pyridine-4-carbonyl linker) N -> CH. Re-derived here rather than read, so the harness is
+    validated against the frozen record before any candidate is trusted.
+
+    Deliberately mutates in place via SetAtomicNum and never deletes an atom, so ATOM INDICES ARE PRESERVED
+    between cmpd1 and cmpd4. The aza-scan below relies on that to address the same ring in both molecules
+    without a fragile re-match."""
+    ring, nidx = _linker_pyridine(mol, Chem)
+    if ring is None:
+        return None, "expected exactly one pyridine ring in the input, found a different number"
     rw = Chem.RWMol(mol)
-    a = rw.GetAtomWithIdx(cands[0])
+    a = rw.GetAtomWithIdx(nidx)
     a.SetAtomicNum(6)
     a.SetNumExplicitHs(0)
     a.SetNoImplicit(False)
@@ -160,7 +172,7 @@ def transform_X(mol, Chem):
         Chem.SanitizeMol(out)
     except Exception as e:  # noqa: BLE001
         return None, "sanitize failed after linker N->CH (%s)" % e
-    return out, "linker pyridine N -> CH (pyridine -> benzene)"
+    return out, "linker pyridine N -> CH (pyridine -> benzene), ring %s, N idx %d" % (ring, nidx)
 
 
 # Candidate Y transforms for cmpd4'. Each is (id, kind, callable(mol, Chem) -> (mol, note), rationale).
@@ -187,18 +199,153 @@ def _cand_phenol_oh(mol, Chem):
     return _delete_atom(mol, Chem, "[OX2H]-c1ccccc1", "O", label="2-hydroxyphenyl -> phenyl")
 
 
+# ---------------------------------------------------------------------------------------------------------
+# ★ AZA-SCAN AT THE LINKER RING -- a triangle topology the design did not consider, and it removes the
+#   design's structural defect rather than merely surviving it.
+#
+# THE DEFECT. With three vertices A,B,C and two DIFFERENT single-site transforms X (site 1) and Y (site 2),
+# the closing edge A->C necessarily carries BOTH, so T3 is a DOUBLE perturbation of size |X| + |Y|. The repo's
+# own perturbation-map invariant forbids exactly this (`rbfe_map.validate_map` asserts single_site on every
+# edge; "NO cross-class double-mutation edges (two simultaneous changes break common-mode)"). All four
+# candidates the design names are at a site DIFFERENT from the linker, so all four inherit the defect.
+#
+# THE FIX. Put all three vertices at the SAME site. The linker ring already has three states available by
+# moving one nitrogen: cmpd1 (aza at the native position), cmpd4 (all-carbon), and cmpd4'' (aza at another
+# ring CH). Then
+#     T1 = cmpd1  -> cmpd4    remove the ring N          (1 mutating atom)  = r0, reused
+#     T2 = cmpd4  -> cmpd4''  add a ring N elsewhere     (1 mutating atom)
+#     T3 = cmpd1  -> cmpd4''  MOVE the ring N            (2 mutating atoms)
+# Every edge is single-site, charge-neutral, and a pure ELEMENT CHANGE with ZERO heavy dummy atoms -- so none
+# of them grows the softcore (dis)appearing region that `ternary-rbfe-runbook.md` identifies as this lane's
+# actual NaN mechanism. It also stays entirely inside the LINKER, the one region of the molecule carrying no
+# recognition role: it does not touch the hydroxyproline VHL anchor, the thiazole cap, the tert-leucine, the
+# aminopyridazine acetyl-lysine mimic, or the phenol. And N<->C is the one substitution whose crystal pose
+# transfers unchanged (near-identical radii), which is why `_pyridine_to_benzene_pose` exists at all.
+#
+# The new nitrogen may only go on a ring carbon that BEARS A HYDROGEN. Putting it at a substituted position
+# would make a quaternary aromatic N+ and change the formal charge -- the failure mode that killed 6 of the 10
+# P-series pairs. That is enforced below, not assumed.
+# ---------------------------------------------------------------------------------------------------------
+def _aza_scan_factory(slot):
+    """Return a transform that moves the linker nitrogen to the `slot`-th free ring CH.
+
+    Applied to cmpd4 it gives cmpd4'' in one step. Applied to cmpd1 (route B) it adds the new N, and the
+    subsequent transform_X removes the original -- the two routes must agree, which is checked."""
+    def _fn(mol, Chem):
+        ring, nidx = _linker_pyridine(mol, Chem)
+        if ring is None:
+            # cmpd4: the linker ring is all-carbon, so find it by its two substituents instead. It is the only
+            # aromatic 6-ring carrying BOTH an exocyclic carbonyl carbon and an exocyclic ring nitrogen.
+            ring = _linker_ring_in_benzene_form(mol, Chem)
+            if ring is None:
+                return None, "could not locate the linker ring"
+            nidx = None
+        free = [i for i in sorted(ring)
+                if mol.GetAtomWithIdx(i).GetSymbol() == "C" and mol.GetAtomWithIdx(i).GetTotalNumHs() == 1]
+        if slot >= len(free):
+            return None, "linker ring has only %d free CH positions; slot %d does not exist" % (len(free), slot)
+        rw = Chem.RWMol(mol)
+        a = rw.GetAtomWithIdx(free[slot])
+        a.SetAtomicNum(7)
+        a.SetNumExplicitHs(0)
+        a.SetNoImplicit(False)
+        a.SetFormalCharge(0)
+        out = rw.GetMol()
+        try:
+            Chem.SanitizeMol(out)
+        except Exception as e:  # noqa: BLE001
+            return None, "sanitize failed after ring CH->N at idx %d (%s)" % (free[slot], e)
+        return out, ("linker ring CH -> N at ring atom idx %d (free CH slot %d of %d); ring %s"
+                     % (free[slot], slot, len(free), sorted(ring)))
+    return _fn
+
+
+def _aza_move_factory(slot):
+    """ROUTE B for the aza-scan: build cmpd4'' straight from cmpd1 by MOVING the nitrogen in a single edit
+    (old ring N -> C and a free ring CH -> N, at once). Genuinely independent of route A, which goes via
+    cmpd4 -- so agreement between them is real corroboration that the triangle's three edges share endpoints,
+    not the same computation run twice.
+
+    (The naive route B -- apply the aza-scan to cmpd1 and then transform_X -- cannot work here and that is not
+    a bug: adding a second nitrogen to the linker ring makes it a DIAZINE, so cmpd1 then has no pyridine at all
+    and transform_X correctly fails closed. The single-edit move is the right independent construction.)"""
+    def _fn(mol, Chem):
+        ring, nidx = _linker_pyridine(mol, Chem)
+        if ring is None:
+            return None, "route B expects cmpd1 (a molecule with exactly one pyridine)"
+        free = [i for i in sorted(ring)
+                if mol.GetAtomWithIdx(i).GetSymbol() == "C" and mol.GetAtomWithIdx(i).GetTotalNumHs() == 1]
+        if slot >= len(free):
+            return None, "linker ring has only %d free CH positions; slot %d does not exist" % (len(free), slot)
+        rw = Chem.RWMol(mol)
+        old = rw.GetAtomWithIdx(nidx)
+        old.SetAtomicNum(6)
+        old.SetNumExplicitHs(0)
+        old.SetNoImplicit(False)
+        new = rw.GetAtomWithIdx(free[slot])
+        new.SetAtomicNum(7)
+        new.SetNumExplicitHs(0)
+        new.SetNoImplicit(False)
+        new.SetFormalCharge(0)
+        out = rw.GetMol()
+        try:
+            Chem.SanitizeMol(out)
+        except Exception as e:  # noqa: BLE001
+            return None, "sanitize failed on the single-edit N move (%s)" % e
+        return out, "single-edit N MOVE on cmpd1: idx %d -> C and idx %d -> N" % (nidx, free[slot])
+    return _fn
+
+
+def _linker_ring_in_benzene_form(mol, Chem):
+    """The linker ring of cmpd4 (all-carbon): the unique aromatic 6-ring bearing BOTH an exocyclic carbonyl
+    carbon and an exocyclic nitrogen (the piperazine). Fails closed unless exactly one ring qualifies."""
+    hits = []
+    for ring in mol.GetRingInfo().AtomRings():
+        if len(ring) != 6:
+            continue
+        atoms = [mol.GetAtomWithIdx(i) for i in ring]
+        if not all(a.GetIsAromatic() and a.GetSymbol() == "C" for a in atoms):
+            continue
+        has_co, has_n = False, False
+        for i in ring:
+            for nb in mol.GetAtomWithIdx(i).GetNeighbors():
+                if nb.GetIdx() in ring:
+                    continue
+                if nb.GetSymbol() == "N":
+                    has_n = True
+                if nb.GetSymbol() == "C" and any(
+                        b.GetBondTypeAsDouble() == 2.0 and b.GetOtherAtom(nb).GetSymbol() == "O"
+                        for b in nb.GetBonds()):
+                    has_co = True
+        if has_co and has_n:
+            hits.append(list(ring))
+    return hits[0] if len(hits) == 1 else None
+
+
+# (id, alchemical class, transform applied to cmpd4 -> cmpd4', independent route-B builder from cmpd1 or None,
+#  site, rationale). route_b=None means the default route B: apply Y to cmpd1, then X.
 CANDIDATES = [
-    ("pyridazine_N1_to_CH", "element_change", _cand_pyridazine_n1,
-     "aminopyridazine ring N -> CH. The ONLY candidate in the same alchemical class as the edge that already "
-     "converged (element change, no dummy atoms). Lands on the warhead's acetyl-lysine-mimetic heterocycle."),
-    ("pyridazine_N2_to_CH", "element_change", _cand_pyridazine_n2,
-     "the other aminopyridazine ring N -> CH; same class, different site."),
-    ("thiazole_4Me_to_H", "deletion", _cand_thiazole_me,
-     "thiazole 4-methyl -> H (one heavy atom). Lands on the VHL ligand's terminal cap."),
-    ("tBu_to_iPr", "deletion", _cand_tbu_to_ipr,
-     "tert-leucine tert-butyl -> isopropyl (one heavy atom). Lands on the VHL hydrophobic contact."),
-    ("phenol_OH_to_H", "deletion", _cand_phenol_oh,
-     "2-hydroxyphenyl -> phenyl (one heavy atom). Lands on the warhead aryl."),
+    # --- the aza-scan family: single-site, zero dummies, linker-only (this lane's proposal) ---------------
+    ("aza_scan_slot0", "element_change", _aza_scan_factory(0), _aza_move_factory(0), "linker ring",
+     "AZA-SCAN: move the linker nitrogen to the 1st free ring CH. All three triangle edges become single-site "
+     "element changes at ONE site with zero heavy dummy atoms; T3 stops being a double perturbation."),
+    ("aza_scan_slot1", "element_change", _aza_scan_factory(1), _aza_move_factory(1), "linker ring",
+     "AZA-SCAN at the 2nd free ring CH."),
+    ("aza_scan_slot2", "element_change", _aza_scan_factory(2), _aza_move_factory(2), "linker ring",
+     "AZA-SCAN at the 3rd free ring CH."),
+    # --- the four candidates named in the rescope design --------------------------------------------------
+    ("pyridazine_N1_to_CH", "element_change", _cand_pyridazine_n1, None, "warhead aminopyridazine",
+     "aminopyridazine ring N -> CH. The only DESIGN-NAMED candidate in the same alchemical class as the edge "
+     "that already converged (element change, no dummy atoms). Lands on the warhead's acetyl-lysine-mimetic "
+     "heterocycle -- and, being at a different site from the linker, still makes T3 a double perturbation."),
+    ("pyridazine_N2_to_CH", "element_change", _cand_pyridazine_n2, None, "warhead aminopyridazine",
+     "the other aminopyridazine ring N -> CH; same class, same site."),
+    ("thiazole_4Me_to_H", "deletion", _cand_thiazole_me, None, "VHL ligand thiazole cap",
+     "thiazole 4-methyl -> H (one heavy atom DELETED -> a softcore dummy)."),
+    ("tBu_to_iPr", "deletion", _cand_tbu_to_ipr, None, "VHL ligand tert-leucine",
+     "tert-leucine tert-butyl -> isopropyl (one heavy atom DELETED -> a softcore dummy)."),
+    ("phenol_OH_to_H", "deletion", _cand_phenol_oh, None, "warhead phenol",
+     "2-hydroxyphenyl -> phenyl (one heavy atom DELETED -> a softcore dummy)."),
 ]
 
 
@@ -212,15 +359,29 @@ def _canon(mol, Chem):
         return Chem.MolToSmiles(mol)
 
 
+# Caches keyed by canonical SMILES. Necessary, not cosmetic: with 8 candidates the gate evaluates 17 distinct
+# edges, and an uncached run costs 2 LOMAP calls (time=20 each) + one rdFMCS (timeout=60) + two ETKDG embeds of
+# a 59-heavy-atom flexible PROTAC per edge. Caching by MOLECULE (embeds) and by unordered PAIR (maps) is what
+# keeps the job inside its wall-clock; it changes no number, only how many times each is computed.
+_EMBED_CACHE = {}
+_MCS_CACHE = {}
+_LOMAP_CACHE = {}
+
+
 def _mcs_edge(mA, mB, Chem, rdFMCS):
     """Perturbed heavy atoms by rdFMCS, with valb_pseries_chem's exact settings."""
+    key = tuple(sorted((_canon(mA, Chem), _canon(mB, Chem))))
+    if key in _MCS_CACHE:
+        return dict(_MCS_CACHE[key])
     res = rdFMCS.FindMCS([mA, mB], **_MCS_KW)
     n = res.numAtoms if res and not res.canceled else 0
     ha, hb = mA.GetNumHeavyAtoms(), mB.GetNumHeavyAtoms()
-    return {"heavy_a": ha, "heavy_b": hb, "mcs_atoms": n, "perturbed_heavy_atoms": ha + hb - 2 * n,
-            "mcs_smarts": (res.smartsString if res else None),
-            "formal_charge_a": Chem.GetFormalCharge(mA), "formal_charge_b": Chem.GetFormalCharge(mB),
-            "charge_change": Chem.GetFormalCharge(mB) - Chem.GetFormalCharge(mA)}
+    out = {"heavy_a": ha, "heavy_b": hb, "mcs_atoms": n, "perturbed_heavy_atoms": ha + hb - 2 * n,
+           "mcs_smarts": (res.smartsString if res else None),
+           "formal_charge_a": Chem.GetFormalCharge(mA), "formal_charge_b": Chem.GetFormalCharge(mB),
+           "charge_change": Chem.GetFormalCharge(mB) - Chem.GetFormalCharge(mA)}
+    _MCS_CACHE[key] = out
+    return dict(out)
 
 
 def _lomap_edge(mA, mB, name_a, name_b):
@@ -235,19 +396,29 @@ def _lomap_edge(mA, mB, name_a, name_b):
         import nr4a3_rbfe as rbfe
     except Exception as e:  # noqa: BLE001
         return {"status": "production mapper unavailable (%s: %s)" % (type(e).__name__, e)}
+    key = tuple(sorted((_canon(mA, Chem), _canon(mB, Chem))))
+    if key in _LOMAP_CACHE:
+        return dict(_LOMAP_CACHE[key], cached=True)
     try:
         # SmallMoleculeComponent needs explicit H + a conformer; build one so LOMAP sees a real molecule.
+        # NOTE the mapper is run with threed=False (2D topology MCS) by nr4a3_rbfe._mapping, so the conformer
+        # does not enter the mapping -- it is only there because SmallMoleculeComponent requires coordinates.
+        # That is also why caching one conformer per molecule cannot change any reported number.
         from rdkit.Chem import AllChem
         out = {}
         comps = {}
         for nm, m in ((name_a, mA), (name_b, mB)):
-            mh = Chem.AddHs(Chem.Mol(m))
-            if AllChem.EmbedMolecule(mh, randomSeed=0xF00D) != 0:
-                AllChem.EmbedMolecule(mh, randomSeed=0xF00D, useRandomCoords=True)
-            try:
-                AllChem.MMFFOptimizeMolecule(mh, maxIters=500)
-            except Exception:  # noqa: BLE001
-                pass
+            ck = _canon(m, Chem)
+            if ck not in _EMBED_CACHE:
+                mh = Chem.AddHs(Chem.Mol(m))
+                if AllChem.EmbedMolecule(mh, randomSeed=0xF00D, maxAttempts=200) != 0:
+                    AllChem.EmbedMolecule(mh, randomSeed=0xF00D, useRandomCoords=True, maxAttempts=200)
+                try:
+                    AllChem.MMFFOptimizeMolecule(mh, maxIters=300)
+                except Exception:  # noqa: BLE001
+                    pass
+                _EMBED_CACHE[ck] = mh
+            mh = Chem.Mol(_EMBED_CACHE[ck])
             mh.SetProp("_Name", nm)
             comps[nm] = openfe.SmallMoleculeComponent.from_rdkit(mh)
         mapping = rbfe._mapping(openfe, comps[name_a], comps[name_b], prefer_element_change=True)
@@ -270,7 +441,8 @@ def _lomap_edge(mA, mB, name_a, name_b):
             "n_heavy_dummy_total": (len(heavy_a) - len(mapped_heavy_a)) + (len(heavy_b) - len(mapped_heavy_b)),
             "perturbed_heavy_by_lomap": (len(heavy_a) - len(mapped_heavy_a)) + (len(heavy_b) - len(mapped_heavy_b)),
         })
-        return out
+        _LOMAP_CACHE[key] = out
+        return dict(out)
     except Exception as e:  # noqa: BLE001
         import traceback
         return {"status": "mapping FAILED: %s: %s" % (type(e).__name__, e),
@@ -367,16 +539,21 @@ def main():
     t1_lomap = _lomap_edge(m1, m4, "cmpd1", "cmpd4")
 
     results = []
-    for cid, kind, fn, why in CANDIDATES:
-        rec = {"candidate_id": cid, "alchemical_class": kind, "rationale": why}
+    for cid, kind, fn, route_b, site, why in CANDIDATES:
+        rec = {"candidate_id": cid, "alchemical_class": kind, "site": site, "rationale": why}
         # Route A: apply Y to cmpd4  -> cmpd4'
         m4p_a, note_a = fn(m4, Chem)
-        # Route B: apply Y to cmpd1 then X -> cmpd4'   (independent derivation of the SAME endpoint)
-        m1p, note_b1 = fn(m1, Chem)
-        m4p_b, note_b2 = (transform_X(m1p, Chem) if m1p is not None else (None, "route B: Y on cmpd1 failed"))
+        # Route B: an INDEPENDENT construction of the same endpoint, so agreement is corroboration rather
+        # than the same computation twice.
+        if route_b is not None:
+            m4p_b, note_b = route_b(m1, Chem)
+        else:
+            m1p, note_b1 = fn(m1, Chem)
+            m4p_b, note_b2 = (transform_X(m1p, Chem) if m1p is not None
+                              else (None, "route B: Y on cmpd1 failed"))
+            note_b = "%s ; %s" % (note_b1, note_b2)
         rec["route_A_cmpd4_then_Y"] = note_a if m4p_a is not None else "FAILED: %s" % note_a
-        rec["route_B_cmpd1_then_Y_then_X"] = (
-            "%s ; %s" % (note_b1, note_b2) if m4p_b is not None else "FAILED: %s / %s" % (note_b1, note_b2))
+        rec["route_B_independent_from_cmpd1"] = note_b if m4p_b is not None else "FAILED: %s" % note_b
         if m4p_a is None:
             rec["verdict"] = "REFUSED — the transform could not be applied (fail-closed, see route_A)"
             results.append(rec)
@@ -409,17 +586,31 @@ def main():
         pert_t2, pert_t3 = t2["mcs"]["perturbed_heavy_atoms"], t3["mcs"]["perturbed_heavy_atoms"]
         anchor_ok = bool(rec["anchor_check_T2"].get("anchor_preserved")
                          and rec["anchor_check_T3"].get("anchor_preserved"))
+        dummies = {k: v["production_map"].get("n_heavy_dummy_total") for k, v in rec["edges"].items()}
         rec["gate"] = {
             "charge_neutral_all_new_edges": bool(charge_ok),
             "perturbed_heavy_T2": pert_t2,
             "perturbed_heavy_T3": pert_t3,
-            "T3_is_a_DOUBLE_perturbation": bool(pert_t3 > pert_t2 and pert_t3 > 1),
+            "perturbed_heavy_T1_reference": t1_mcs["perturbed_heavy_atoms"],
             "T3_equals_T1_plus_T2": bool(pert_t3 == t1_mcs["perturbed_heavy_atoms"] + pert_t2),
+            "T3_is_a_DOUBLE_perturbation": bool(
+                pert_t3 == t1_mcs["perturbed_heavy_atoms"] + pert_t2 and site != "linker ring"),
+            "all_edges_single_site": bool(site == "linker ring"),
             "claim_all_new_edges_le_2_heavy": bool(pert_t2 <= 2 and pert_t3 <= 2),
+            "heavy_dummy_atoms_by_edge": dummies,
+            "zero_heavy_dummies_anywhere": bool(
+                all(v == 0 for v in dummies.values() if v is not None) and
+                all(v is not None for v in dummies.values())),
             "vhl_anchor_preserved": anchor_ok,
             "endpoints_consistent": bool(rec["routes_agree"]),
             "engine_builds_endpoint_today": bool(
                 rec["engine_buildability"].get("engine_builds_this_endpoint_today")),
+            "new_pose_code_required": ("a one-line generalisation of _pyridine_to_benzene_pose (SetAtomicNum on "
+                                       "a second ring atom; N<->C radii are near-identical so the crystal pose "
+                                       "transfers unchanged)" if kind == "element_change" else
+                                       "a NEW atom-deletion pose path (remove a heavy atom and place the "
+                                       "replacement H) -- a different construction from anything the engine "
+                                       "does today"),
         }
         results.append(rec)
 

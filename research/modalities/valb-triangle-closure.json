@@ -1,0 +1,262 @@
+{
+  "_what": "closure arithmetic, leg accounting and CORRECTED pricing for the valB synthetic closure triangle -- the $0 analysis half of the pre-gate (chemistry half: valb_triangle_chem.py)",
+  "_no_spend": "pure stdlib, no GPU, no network. Nothing here launches anything.",
+  "closure_identity": {
+    "orientation": {
+      "T1": "cmpd1 -> cmpd4 (coefficient +1)",
+      "T2": "cmpd4 -> cmpd4prime (coefficient +1)",
+      "T3": "cmpd1 -> cmpd4prime (coefficient -1)"
+    },
+    "T1_direction_matches_r0": true,
+    "T1_direction_note": "r0 measured cmpd1 -> cmpd4 FORWARD (ddG_coop = ternary - binary = -0.534). The triangle uses that same orientation with coefficient +1, so r0 enters unaltered and is genuinely reused rather than re-bought.",
+    "edge_values_on_test_states": {
+      "T1": 0.9439000000000001,
+      "T2": 3.2515,
+      "T3": 4.1954
+    },
+    "residual_R": 0.0,
+    "closes": true,
+    "why": "ddG_coop(A->B) = dG_coop(B) - dG_coop(A) is the difference of a STATE FUNCTION (dG_coop(x) = -RT ln alpha_x), so every oriented cycle telescopes to exactly zero for an exact method -- with no reference to any measured alpha. That is the whole point of the design."
+  },
+  "closure_decomposition_rule": {
+    "R_ternary": 47.4701,
+    "R_binary": 48.0046,
+    "R_coop": -0.5345000000000013,
+    "cancellation_risk": false,
+    "_rule": "REPORT R_ternary AND R_binary SEPARATELY, never R_coop alone. R_coop = R_ternary - R_binary, so a clean-looking R_coop can be two large closures cancelling. Both come free from the same legs."
+  },
+  "what_closure_can_and_cannot_diagnose": {
+    "trials": 2000,
+    "max_abs_R_with_state_function_error_only": 3.552713678800501e-15,
+    "max_abs_R_with_added_path_error": 3.381750239477599,
+    "state_function_errors_are_invisible": true,
+    "INVISIBLE_to_closure": [
+      "force-field error at the ternary interface (a per-endpoint state function)",
+      "the SMARCA4->SMARCA2 homology substitution (same Hamiltonian for every endpoint)",
+      "NAGL partial-charge error (per molecule, hence per endpoint)",
+      "protonation / tautomer assignment error (per endpoint)",
+      "reference-data error (alpha_SPR is an APPARENT cooperativity) -- not in the calculation at all"
+    ],
+    "VISIBLE_to_closure": [
+      "insufficient lambda sampling / hysteresis / poor phase-space overlap (path-dependent, edge-specific)",
+      "ENDPOINT-STATE INCONSISTENCY: the same compound built differently in two edges (a different pose, conformer, or -- as this lane has actually produced -- a different bond-order template). This is the class of bug a reverse leg CANNOT see, because a 2-cycle reuses its own two endpoints.",
+      "atom-map-dependent error, where two edges' hybrid topologies are not mutually consistent"
+    ],
+    "_verdict": "A closure triangle is a PATH-error and endpoint-consistency detector. It is NOT an accuracy control and it cannot see the model or reference-data error classes that the r0 convergence analysis left standing. The known-answer accuracy requirement stays OPEN."
+  },
+  "noise_floor": {
+    "n_legs_in_R": 6,
+    "SD_R_formula": "SD(R) = sqrt(6) * sigma_leg = sqrt(3) * sigma_edge (independent legs, +-1 coefficients)",
+    "sigma_leg_is_unknown_by_a_factor_of": 15.6,
+    "sigma_leg_bounds": {
+      "lower_MBAR_SE_r0_ternary": 0.045,
+      "upper_repo_assumed_replicate_SD": 0.7,
+      "note": "the replicate SD upper bound includes homology-model sensitivity (seed s -> model s%n). A same-seed triangle removes that term, so the true value sits below 0.7 -- but nothing in this lane has measured it."
+    },
+    "rows": [
+      {
+        "sigma_leg": 0.045,
+        "sigma_edge_implied": 0.06363961030678927,
+        "SD_R_analytic": 0.110227038425243,
+        "SD_R_monte_carlo": null,
+        "null_p95_abs_R": 0.21534727499307788,
+        "power_at_n1": {
+          "detect_0.500": 0.994625,
+          "detect_1.000": 1.0,
+          "detect_1.478": 1.0,
+          "detect_2.000": 1.0
+        }
+      },
+      {
+        "sigma_leg": 0.2,
+        "sigma_edge_implied": 0.28284271247461906,
+        "SD_R_analytic": 0.4898979485566356,
+        "SD_R_monte_carlo": null,
+        "null_p95_abs_R": 0.9566115038067977,
+        "power_at_n1": {
+          "detect_0.500": 0.177275,
+          "detect_1.000": 0.539275,
+          "detect_1.478": 0.8587,
+          "detect_2.000": 0.983225
+        }
+      },
+      {
+        "sigma_leg": 0.5,
+        "sigma_edge_implied": 0.7071067811865476,
+        "SD_R_analytic": 1.224744871391589,
+        "SD_R_monte_carlo": null,
+        "null_p95_abs_R": 2.420475959738313,
+        "power_at_n1": {
+          "detect_0.500": 0.0681,
+          "detect_1.000": 0.124,
+          "detect_1.478": 0.21885,
+          "detect_2.000": 0.364475
+        }
+      },
+      {
+        "sigma_leg": 0.7,
+        "sigma_edge_implied": 0.9899494936611666,
+        "SD_R_analytic": 1.7146428199482244,
+        "SD_R_monte_carlo": null,
+        "null_p95_abs_R": 3.34872783972516,
+        "power_at_n1": {
+          "detect_0.500": 0.058775,
+          "detect_1.000": 0.0931,
+          "detect_1.478": 0.141575,
+          "detect_2.000": 0.2135
+        }
+      }
+    ],
+    "_asymmetry": "A SMALL |R| is strong evidence (it bounds the path error AND the noise at once, since both would have to be small). A LARGE |R| at n=1 is AMBIGUOUS -- one draw cannot separate a systematic path error from an unlucky sample. So the n=1 scout can ADMIT the cycle but cannot convict it."
+  },
+  "leg_accounting": {
+    "identity_under_test": "a panel is N ternary legs + 1 shared binary + 1 shared solvent, not N edges",
+    "applies_to_the_triangle": false,
+    "reason": "the identity shares legs across TARGETS at fixed ligand pair; the triangle varies the LIGAND PAIR at fixed target. binary_vhl is an alchemical morph of the ligand inside VCB, so it changes with the pair. Three pairs => three binary legs, nothing shared.",
+    "cross_check_no_leg_is_shared": {
+      "T1": "cmpd1->cmpd4",
+      "T2": "cmpd4->cmpd4prime",
+      "T3": "cmpd1->cmpd4prime",
+      "distinct_ordered_pairs": 3,
+      "shared_legs": 0
+    },
+    "what_DOES_cancel": "the SOLVENT leg cancels exactly inside ddG_coop = ternary - binary, so a closure triangle needs 2 legs per edge, not 3.",
+    "pipeline_gap": "nr4a3_ternary_fep.expand_pilot_legs() adds a solvent leg per distinct morph unconditionally. Run as-is, the triangle would buy 2 solvent legs it does not need for R -- unless they are bought DELIBERATELY, for the reason in `solvent_prescout`.",
+    "forward_looking": "binary legs ARE target-independent, so if any triangle edge is later replicated against a second known-answer system (VHL-BRD4) its binary legs transfer unchanged."
+  },
+  "same_seed_requirement": {
+    "requirement": "all three edges of the triangle MUST run at the same seed (seed 0, to match r0)",
+    "mechanism": "ternary seed s selects the s%n-th relaxed SMARCA2 starting model (ternary_pdb_stage: starting_model_index = SEED % n)",
+    "if_violated": "the edges are computed on different Hamiltonians, endpoint states are not shared, and R stops being a closure residual -- it becomes a homology-model sensitivity measure.",
+    "side_benefit": "a same-seed triangle also removes the homology-model term from R's noise, which is why sigma_leg for R should sit well below the repo's assumed 0.7 replicate SD.",
+    "consequence_for_n3": "an n=3 triangle needs seeds 0,1,2 on ALL THREE edges -- which is why it needs T1's r1 and r2, the legs the r0 verdict recommended not buying."
+  },
+  "price": {
+    "basis": {
+      "steps_per_leg": {
+        "warmup_steps": 1000000.0,
+        "production_steps": 2500000.0,
+        "total_steps": 3500000.0,
+        "warmup_iterations": 800.0,
+        "production_iterations": 2000.0,
+        "total_iterations": 2800.0
+      },
+      "steps_are_the_unit": "iteration counts are NOT comparable across protocols -- a 1 fs warmup iteration and a 2 fs production iteration each cost 1250 force evaluations, which is exactly why the leg is 2800 iterations rather than 2400.",
+      "sec_per_iteration_measured": 16.0,
+      "ternary_leg_ref_gpu_h": 12.444,
+      "ternary_leg_ref_gpu_h_on_the_OLD_2400_basis": 10.667,
+      "iteration_basis_correction": 1.1667,
+      "usd_per_reference_gpu_h": 0.1372,
+      "solvent_leg_ref_gpu_h_ESTIMATE": 4.1,
+      "solvent_leg_basis": "carried from the binary NR4A3 RBFE lane (pricing.md section B: complex ~9.1 / solvent ~4.1 ref GPU-h). ESTIMATE, not a ternary-lane measurement."
+    },
+    "variants": {
+      "n1_scout_R_only (2 new edges x ternary+binary; r0 reused as T1)": {
+        "ref_gpu_h": 49.8,
+        "plan_usd": 6.83,
+        "range_usd": [
+          2.84,
+          15.4
+        ]
+      },
+      "n1_scout_plus_solvent (as expand_pilot_legs would actually run it)": {
+        "ref_gpu_h": 58.0,
+        "plan_usd": 7.95,
+        "range_usd": [
+          3.3,
+          17.94
+        ]
+      },
+      "solvent_only_prescout (2 new SOLVENT legs; T1's solvent leg already ran)": {
+        "ref_gpu_h": 8.2,
+        "plan_usd": 1.13,
+        "range_usd": [
+          0.47,
+          2.54
+        ]
+      },
+      "n3_as_the_design_prices_it (2 new edges x 3 replicas -- INCOMPLETE, see (c))": {
+        "ref_gpu_h": 149.3,
+        "plan_usd": 20.49,
+        "range_usd": [
+          8.51,
+          46.2
+        ]
+      },
+      "n3_HONEST (all three edges at n=3 => 12 new legs + T1's r1,r2 = 16 legs)": {
+        "ref_gpu_h": 199.1,
+        "plan_usd": 27.32,
+        "range_usd": [
+          11.35,
+          61.6
+        ]
+      }
+    },
+    "design_quoted": {
+      "n1_usd": 5.9,
+      "n3_usd": 17.6,
+      "note": "computed on the 2400-iteration basis and on 12 legs at n=3."
+    },
+    "corrections": {
+      "a_iteration_basis_pct": 16.7,
+      "b_solvent_legs_usd_if_run": 1.13,
+      "c_n3_needs_T1_replicates": "the n=3 triangle is 16 legs, not 12 (+33%), because T1 has only r0"
+    }
+  },
+  "price_if_4fs_adopted": {
+    "steps_2fs": 3500000.0,
+    "steps_4fs": 2250000.0,
+    "ratio": 0.6429,
+    "note": "0.643, not 0.5 -- a '2x cheaper at 4 fs' claim overstates the saving by ~36%. The 4 fs decision is RUNG 2b's and is not assumed here; the 2 fs price is the one to quote.",
+    "n1_scout_usd_at_4fs": 4.39
+  },
+  "solvent_prescout_RECOMMENDED_FIRST": {
+    "what": "close the triangle in the SOLVENT environment only, before buying any ternary/binary leg",
+    "new_legs": 2,
+    "T1_solvent_already_run": "r0 solvent leg dG_morph = 47.8060 (CI 30148463967) -- reused, not re-bought",
+    "detects": [
+      "inconsistent atom maps between edges",
+      "endpoint chemical-identity inconsistency (the rev leg's actual bug class)",
+      "lambda-schedule inadequacy",
+      "charge-model inconsistency across edges"
+    ],
+    "cannot_detect": [
+      "protein-sampling path error",
+      "interface substates",
+      "anything about cooperativity"
+    ],
+    "ref_gpu_h_ESTIMATE": 8.2,
+    "plan_usd_ESTIMATE": 1.13,
+    "range_usd": [
+      0.47,
+      2.54
+    ],
+    "fraction_of_full_n1_scout": 0.165,
+    "caveat": "carried from the binary NR4A3 RBFE lane (pricing.md section B: complex ~9.1 / solvent ~4.1 ref GPU-h). ESTIMATE, not a ternary-lane measurement."
+  },
+  "decision_tree": {
+    "branch_A": {
+      "trigger": "|dG_fwd + dG_rev| <~ 0.3 kcal/mol (no hysteresis)",
+      "what_it_implies": "the alchemical path is internally consistent, so r0's 1.478 systematic lives in the MODEL (homology substitution, force field, NAGL charges, protonation) or in the REFERENCE DATA (alpha_SPR is an apparent cooperativity).",
+      "can_closure_see_that_class": false,
+      "why": "every error class branch A names is a per-endpoint STATE FUNCTION or is external to the calculation. Section 2 proves closure is identically zero for all of them. Under branch A the triangle's expected residual is ~0 whether or not the programme's actual problem exists, so it cannot discriminate 'the method is right' from 'the model is wrong'.",
+      "design_claim": "the triangle 'attacks both candidate causes at once'",
+      "verdict": "REFUTED for diagnosis. The triangle would return a clean R and diagnose nothing about r0. It still yields a path-error resolution floor and an endpoint-consistency check, which are publishable methods results -- but they are not what branch A needs."
+    },
+    "branch_B": {
+      "trigger": "|dG_fwd + dG_rev| >~ 1.0 kcal/mol (real hysteresis)",
+      "what_it_implies": "a slow degree of freedom orthogonal to lambda; a path error.",
+      "can_closure_see_that_class": true,
+      "why": "path error is exactly the non-conservative component closure measures.",
+      "verdict": "REDUNDANT, THEN STALE. The reverse leg has already established that path error exists, on the edge already paid for, for 2 legs. The design's own branch-B instruction is 'fix the protocol first' -- and a triangle bought before the fix measures the OLD protocol, so it must be re-bought afterwards. Buying it now is buying a measurement you will discard."
+    },
+    "the_claim_under_test": "the closure network is worth buying either way",
+    "verdict": "NOT SUPPORTED AS STATED. Under branch A closure is provably blind to the live hypothesis; under branch B it duplicates a cheaper instrument and goes stale on the fix. The triangle has ONE genuinely unique capability -- detecting ENDPOINT-STATE INCONSISTENCY across independently built edges, which a 2-cycle (fwd+rev) structurally cannot see because it reuses its own two endpoints. That is a real gap and this lane has actually produced that bug class (the rev leg's base_smiles/bond-order-template defect). It is the honest reason to buy the triangle, and it is a different reason from the one the design gives.",
+    "already_in_hand": "the fwd+rev pair now running IS a degenerate 2-cycle, i.e. the programme's first cycle-closure instrument, arriving at zero marginal cash cost. 'No cycle closure exists' is true historically and is being fixed by the run already in flight.",
+    "cost_per_edge_comparison": {
+      "reverse_leg": "2 new legs to close a 2-cycle on 1 edge = 2.0 legs/edge",
+      "closure_triangle": "4 new legs to close a 3-cycle on 3 edges = 1.33 legs/edge",
+      "reading": "the triangle is cheaper PER EDGE, but only if all three edges were wanted anyway. For diagnosing one edge, the reverse leg is cheaper in absolute terms."
+    }
+  }
+}

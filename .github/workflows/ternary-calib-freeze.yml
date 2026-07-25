@@ -46,7 +46,10 @@ jobs:
   triangle:
     if: ${{ github.event.inputs.mode == 'triangle' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # 90 min, not 45: the gate evaluates 17 distinct edges and each can spend up to 2 x LOMAP(time=20) +
+    # rdFMCS(timeout=60). Those budgets are deliberate (LOMAP settings must match production), so the wall
+    # clock is bounded by them, not by a stall.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - name: Docker Hub login (raises the anonymous pull ceiling on shared runner IPs)
