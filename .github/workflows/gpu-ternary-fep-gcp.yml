@@ -312,28 +312,31 @@ jobs:
           echo "=== [FULL-REDUCTION] every key ==="
           cat /tmp/legs/ternary_coop_reduction.json
           gcloud storage cp /tmp/legs/ternary_coop_reduction.json "$RESULTS/ternary_coop_reduction.json" 2>/dev/null && echo "[reduce] uploaded reduction to $RESULTS/" || true
-      - name: Set up openmmtools/pymbar for the convergence analysis (mode=converge)
+      - name: Log in to Docker Hub for the pre-baked analysis env (mode=converge)
         # The reviewer's required change #1 (2026-07-17) was BUILT (ternary_fep_convergence.py, engine MODE=converge)
         # but never WIRED: this workflow had no `converge` mode and the reduce step calls the reducer directly
         # rather than the engine's main(), so the mandated seed-0 diagnostics have never actually run. The reducer's
         # _diagnostics_ok() treats an ABSENT report as True, so every valB verdict so far has silently defaulted its
         # convergence requirement to "pass". This step closes that hole. $0 — free runner, no GPU, no VM.
+        #
+        # NO CONDA SOLVE (CLAUDE.md standing rule, 2026-07-25). This step first shipped with a
+        # `mamba-org/setup-micromamba` create of `openfe openmmtools pymbar netcdf4 numpy mdtraj` and burned ~20 min
+        # of solve PER RUN, three runs running, while triskit23/ternary-fep already carried that exact stack.
+        # Two reasons the image is right, not merely faster:
+        #   (1) openfe is REQUIRED, not optional garnish — openmmtools stores each end thermodynamic state as a
+        #       serialized class reference and OpenFE's alchemical composable state is one of them, so
+        #       read_end_thermodynamic_states() -> deserialize() -> import_module('openfe...') raises
+        #       ModuleNotFoundError without it, on the FIRST diagnostic (the MBAR overlap matrix). Evidence: GH run
+        #       30155345102, which found the .nc files and died exactly there.
+        #   (2) PARITY — Dockerfile.ternaryfep's spec is byte-for-byte the one this workflow's GPU legs build, so
+        #       the analysis runs on the SAME openfe/openmmtools/pymbar that PRODUCED the trajectory. A different
+        #       pymbar can change the MBAR numbers; an ad-hoc solve here is a silent protocol deviation.
+        # Logging in even though the image is public: anonymous Hub pulls from GitHub runners share an IP and get
+        # rate-limited.
         if: ${{ github.event.inputs.mode == 'converge' }}
-        uses: mamba-org/setup-micromamba@v2
-        with:
-          environment-name: conv
-          create-args: >-
-            python=3.11 openfe openmmtools pymbar netcdf4 numpy mdtraj -c conda-forge
-          init-shell: bash
-        # openfe is REQUIRED, not optional garnish. openmmtools stores each end thermodynamic state as a
-        # serialized class reference, and OpenFE's alchemical composable state is one of them, so
-        # reporter.read_end_thermodynamic_states() -> utils.deserialize() -> importlib.import_module('openfe...')
-        # raises ModuleNotFoundError without it. The FIRST diagnostic the analyzer runs (the MBAR overlap matrix)
-        # touches that path, so an openmmtools-only env cannot analyse an OpenFE trajectory at all — evidence:
-        # GH run 30155345102, which found the .nc files and died on `No module named 'openfe'`.
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
       - name: Convergence analysis of the committed .nc (mode=converge — CPU/runner-only, NO GPU/VM)
         if: ${{ github.event.inputs.mode == 'converge' }}
-        shell: bash -el {0}
         run: |
           set -eo pipefail
           BUCKET="${PROJECT}-rbfe-ckpt"; CB="gs://$BUCKET/valB-6hax/commits"; RESULTS="gs://$BUCKET/valB-6hax/results"
@@ -367,9 +370,22 @@ jobs:
             gcloud storage cp --recursive "$NEW/*" "$DST/" 2>&1 | tail -2 || echo "(download failed for $LEG)"
             ls -la "$DST" | tail -8
           done
-          echo "=== running convergence analysis (CPU) ==="
-          ( cd research/modalities && CKPT_DIR=/tmp/conv INPUT_DIR=/tmp/conv \
-            micromamba run -n conv python ternary_fep_convergence.py )
+          echo "=== running convergence analysis (CPU, pre-baked ternary-fep image) ==="
+          IMG="docker.io/triskit23/ternary-fep:latest"
+          docker pull "$IMG"
+          echo "--- env the analysis will run in (must match the legs' producing env) ---"
+          docker run --rm --entrypoint python "$IMG" -c \
+            "import openfe, openmmtools, pymbar; print('openfe', openfe.__version__, '| openmmtools', openmmtools.__version__, '| pymbar', pymbar.__version__)"
+          # Mount the CHECKED-OUT research/modalities over the image's baked copy: the image supplies the env, the
+          # repo supplies the code. Without this mount the container silently runs whatever code was current at
+          # bake time — which would have been the pre-fix analyzer.
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/conv:/tmp/conv \
+            -e CKPT_DIR=/tmp/conv -e INPUT_DIR=/tmp/conv \
+            -w /work/research/modalities \
+            "$IMG" /work/research/modalities/ternary_fep_convergence.py
+          sudo chown -R "$(id -u):$(id -g)" /tmp/conv 2>/dev/null || true
           echo "=== [CONVERGE-RESULT] ternary_convergence.json ==="
           cat /tmp/conv/ternary_convergence.json
           # Upload beside the leg results so the NEXT mode=reduce picks it up and its diagnostics_ok stops

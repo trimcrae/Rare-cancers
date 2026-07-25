@@ -464,6 +464,51 @@ read it before making changes.
   the >$50 review gate, data only trimcrae has, an upstream capability that genuinely does not exist yet) —
   never merely because the *dev sandbox* lacks the tool. This SHARPENS the egress-proxy rule below (which is
   the special case of this for networked fetches) and composes with pilot-one-leg-first.
+- **★★ NEVER SOLVE A CONDA ENV IN CI — THE SCIENTIFIC STACKS ARE ALREADY BAKED AS DOCKERHUB IMAGES. PULL, DON'T
+  SOLVE (trimcrae standing rule, 2026-07-25).** The repo owns a **Docker Hub account `triskit23`** and
+  **`secrets.DOCKERHUB_TOKEN` is already wired** into CI (see `gpu-protfep-vast.yml`, `gpu-bioemu-vast.yml`,
+  `fusion-cpu-extras.yml`, `ternary-fep-bake.yml`). Every heavy stack this project uses is **pre-baked**, one
+  image per stack, each with a `Dockerfile.*` in `research/compute/` and (for the ternary one) a re-bake workflow:
+
+  | image | Dockerfile | stack it carries |
+  |---|---|---|
+  | `docker.io/triskit23/ternary-fep` | `Dockerfile.ternaryfep` | **openfe≥1.12 · openmmtools · pymbar · netcdf4 · numpy/scipy · ambertools≥23 · openff-toolkit/nagl · rdkit · lomap2 · kartograf · gemmi · pdbfixer · biopython · boto3/awscli/gcs** — re-bake via `ternary-fep-bake.yml` |
+  | `docker.io/triskit23/pmxfep` | `Dockerfile.pmxfep` | pmx + GROMACS protein-mutation FEP (ran the 5a-KS benchmark on Vast) |
+  | `docker.io/triskit23/nr4a3fep` | `Dockerfile.nr4a3fep` | the binary NR4A3 RBFE lane |
+  | `docker.io/triskit23/nrv04vast` | `Dockerfile.nrv04vast` | the NR-V04 covalent/co-fold panel |
+  | `docker.io/triskit23/bioemu` | `Dockerfile.bioemu` | BioEmu |
+
+  **THE RULE:** if a CI step needs openfe / openmm / openmmtools / pymbar / ambertools / rdkit / mdtraj-class
+  deps, **`docker run` the image**. Do **NOT** write a `mamba-org/setup-micromamba` step with a `create-args`
+  spec — solving the openfe/ambertools stack costs **~15–25 min of wall clock every single run** (the bake
+  workflow's own header says the solve dominates its 15–25 min), against a **~2–4 min deterministic pull**.
+  **Exact pattern** — image supplies the ENV, the checked-out repo supplies the CODE (the image bakes
+  `research/modalities/` at build time, so without the mount you silently run stale code):
+  ```yaml
+  - run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+  - run: |
+      docker run --rm --entrypoint python \
+        -v "$PWD/research/modalities:/work/research/modalities" \
+        -v /tmp/conv:/tmp/conv -e CKPT_DIR=/tmp/conv -e INPUT_DIR=/tmp/conv \
+        docker.io/triskit23/ternary-fep:latest /work/research/modalities/<script>.py
+  ```
+  `--entrypoint python` bypasses the image's `autoteardown.py` ENTRYPOINT (that wrapper is for billed GPU legs,
+  not $0 CPU analysis). **Log in even for a public image:** anonymous Docker Hub pulls from GitHub runners share
+  an IP and get rate-limited; the token raises the ceiling, so this is reliability, not just speed.
+  **★ PARITY IS THE SCIENTIFIC ARGUMENT, NOT JUST SPEED.** `Dockerfile.ternaryfep`'s spec is *byte-for-byte* the
+  one `gpu-ternary-fep-gcp.yml` builds on the fly (env key `openfe1.12-am1bcc-gemmi-pdbfixer-biopython-cu126-v2`),
+  and the frozen simulation protocol assumes identical versions everywhere. **Analysing an OpenFE trajectory with
+  a different pymbar/openmmtools than PRODUCED it can change the MBAR numbers** — so the image is the *correct*
+  env, not merely the fast one. An ad-hoc `micromamba create` in an analysis step is a silent protocol deviation.
+  **If a dep is genuinely missing** from every image: add it to the `Dockerfile.*` and **re-bake once**
+  (`ternary-fep-bake.yml`, ~15–25 min, then free forever) — that is the correct fix. Only if you truly cannot
+  re-bake, use `setup-micromamba` **with `cache-environment: true`** so at most the first run solves.
+  **The incident this rule exists to prevent (2026-07-25):** wiring `mode=converge` into
+  `gpu-ternary-fep-gcp.yml`, I gave it a fresh `setup-micromamba` env
+  (`python=3.11 openfe openmmtools pymbar netcdf4 numpy mdtraj`) and burned ~20 min of solve **per run, three
+  runs in a row**, while `triskit23/ternary-fep` already carried openfe + openmmtools + pymbar + netcdf4 + numpy
+  **and** would have guaranteed version parity with the very trajectory being analysed. Before adding ANY env
+  step to CI, check `research/compute/Dockerfile.*` first.
 - **★ EGRESS-PROXY BLOCK IS NOT "INACCESSIBLE" — ROUTE THE FETCH THROUGH A CI RUNNER (trimcrae standing rule,
   2026-07-11).** The dev sandbox's egress proxy **403s many data hosts at CONNECT** — NCBI/GEO, PMC,
   EuropePMC, Springer, UniProt, and similar. When a `curl`/`urllib`/WebFetch to one of these fails with a

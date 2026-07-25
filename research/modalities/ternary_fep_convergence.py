@@ -453,9 +453,35 @@ def _structural(reporter, nc_path):
         # coarse whole-system heavy-proxy RMSD (no per-atom selection without topology); reported as an upper proxy
         rmsd = float(np.sqrt(((pN - p0) ** 2).sum(axis=1).mean())) * 10.0  # nm->Å
         return {"status": "ok (whole-system proxy RMSD; ligand-specific needs topology selection)",
-                "ligand_rmsd_A": rmsd}
+                "ligand_rmsd_A": rmsd, "iterations_compared": [0, last_ckpt],
+                "checkpoint_interval": interval}
     except Exception as e:  # noqa: BLE001
-        return {"status": "structural RMSD failed: %s: %s" % (type(e).__name__, e)}
+        # SELF-DESCRIBING FAILURE. This check has now failed twice with a bare
+        # "AttributeError: 'NoneType' object has no attribute 'dimensions'", which names neither the object that
+        # was None nor the read that produced it — so it cannot be root-caused from the report, only guessed at.
+        # Dump what was actually obtained, so the next run diagnoses instead of re-guessing.
+        probe = {}
+        try:
+            probe["checkpoint_interval"] = int(getattr(reporter, "checkpoint_interval", -1) or -1)
+            probe["last_iteration"] = int(reporter.read_last_iteration())
+        except Exception as pe:  # noqa: BLE001
+            probe["reporter_probe_error"] = "%s: %s" % (type(pe).__name__, pe)
+        for label, it in (("iter0", 0), ("iter_last_ckpt", probe.get("checkpoint_interval", 1) and
+                          (probe.get("last_iteration", 0) // max(probe.get("checkpoint_interval", 1), 1))
+                          * max(probe.get("checkpoint_interval", 1), 1))):
+            try:
+                ss = reporter.read_sampler_states(iteration=it)
+                probe[label] = {
+                    "requested_iteration": it,
+                    "returned": type(ss).__name__,
+                    "n_states": (len(ss) if ss is not None else None),
+                    "state0_type": (type(ss[0]).__name__ if ss else None),
+                    "state0_positions": (type(getattr(ss[0], "positions", None)).__name__ if ss else None),
+                    "state0_box_vectors": (type(getattr(ss[0], "box_vectors", None)).__name__ if ss else None),
+                }
+            except Exception as pe:  # noqa: BLE001
+                probe[label] = "read_sampler_states(%s) raised %s: %s" % (it, type(pe).__name__, pe)
+        return {"status": "structural RMSD failed: %s: %s" % (type(e).__name__, e), "probe": probe}
 
 
 def analyze_all():
