@@ -1236,7 +1236,6 @@ def test_a_box_stopped_too_long_is_destroyed_not_nudged_forever(monkeypatch):
             "start_date": time.time() - (pv.MAX_STOPPED_MIN + 5) * 60, "dph_total": 0.3}
     calls = _collect_with(monkeypatch, [inst], {})
     assert ("DELETE", "/instances/80/", None) in calls
-    assert not any(m == "PUT" for m, _p, _b in calls)
 
 
 def test_a_superseded_failure_prints_one_line_not_a_traceback(monkeypatch, capsys):
@@ -1419,3 +1418,60 @@ def test_the_nudge_logs_what_vast_actually_replied(monkeypatch, capsys):
     pv.collect()
     out = capsys.readouterr().out
     assert "instance is not startable" in out, "the refusal reason must reach the log"
+
+
+def _collect_with_reply(monkeypatch, inst, reply):
+    """collect() where the start PUT returns `reply`. Returns the recorded calls."""
+    calls = []
+
+    def _req(method, path, key, params=None, body=None):
+        calls.append((method, path, body))
+        return {"instances": [inst]} if method == "GET" else reply
+
+    import types
+    monkeypatch.setattr(pv, "_vast_request", _req)
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.delenv("PROTFEP_FORENSIC", raising=False)
+    monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(
+        client=lambda _n: types.SimpleNamespace(
+            get_paginator=lambda _m: types.SimpleNamespace(paginate=lambda **_k: [{"Contents": []}]),
+            get_object=lambda **_k: (_ for _ in ()).throw(KeyError("none")),
+            put_object=lambda **_k: None)))
+    pv.collect()
+    return calls
+
+
+def test_a_capacity_wait_is_waited_out_not_destroyed(monkeypatch, capsys):
+    """Vast queues a start it cannot satisfy. The repo's standing rule is to wait those out.
+
+    This is the exact case an earlier version of the guard got backwards: it destroyed the host as
+    'nudge is not taking' after 45 stopped minutes, when the machine simply had no free GPU — and it
+    would have destroyed every replacement for the same reason, because the cause was never the host.
+    """
+    inst = {"id": 97, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading", "machine_id": 142143,
+            "start_date": time.time() - (pv.MAX_STOPPED_MIN + 30) * 60, "dph_total": 0.08}
+    calls = _collect_with_reply(monkeypatch, inst, {
+        "success": False, "error": "resources_unavailable",
+        "msg": "Required resources are currently unavailable, state change queued."})
+    assert not any(m == "DELETE" for m, _p, _b in calls), "a capacity wait must not be destroyed"
+    assert "capacity wait" in capsys.readouterr().out
+
+
+def test_a_genuinely_stuck_box_is_still_destroyed(monkeypatch):
+    """The capacity exemption must not swallow the case the bound exists for."""
+    inst = {"id": 98, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - (pv.MAX_STOPPED_MIN + 30) * 60, "dph_total": 0.08}
+    calls = _collect_with_reply(monkeypatch, inst, {"success": True})
+    assert ("DELETE", "/instances/98/", None) in calls
+
+
+def test_the_runtime_backstop_still_applies_to_a_capacity_wait(monkeypatch):
+    """Waiting it out is not waiting forever — MAX_INSTANCE_HOURS still ends it."""
+    inst = {"id": 99, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - (pv.MAX_INSTANCE_HOURS + 1) * 3600, "dph_total": 0.08}
+    calls = _collect_with_reply(monkeypatch, inst, {
+        "success": False, "error": "resources_unavailable", "msg": "queued"})
+    assert ("DELETE", "/instances/99/", None) in calls

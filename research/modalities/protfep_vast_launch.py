@@ -545,44 +545,52 @@ def collect(bucket=None, prefix=None, autostop=True):
                     _vast_request("DELETE", f"/instances/{iid}/", key)
                 except Exception as e:  # noqa: BLE001
                     print(f"    destroy failed: {e}")
-            elif i.get("cur_state") == "stopped" and up_h * 60 > MAX_STOPPED_MIN:
-                # A nudge that has not taken in this long is not going to. Destroy and let the next
-                # dispatch rent a different box. Without this bound the nudge below is an unbounded
-                # restart loop — and it would become a PAID one the moment label_matches_leg failed
-                # to pair a done leg with its host, since the reap above would never fire and the
-                # container would exit on its idempotency check, go stopped, and be nudged again.
-                print(f"    -> destroying {iid} (stopped for {up_h * 60:.0f} min; nudge is not taking)")
-                try:
-                    _vast_request("DELETE", f"/instances/{iid}/", key)
-                except Exception as e:  # noqa: BLE001
-                    print(f"    destroy failed: {e}")
             elif i.get("cur_state") == "stopped":
-                # SELF-HEAL the create/start race. Creating a Vast ask does not reliably launch the
-                # container — the start PUT can be lost while Vast is still finishing the create,
-                # leaving the box at cur_state="stopped" forever: never running, never billing GPU,
-                # never producing anything. gpu_backend._ensure_running retries only ~48 s at submit
-                # time, which is not always long enough. Diagnosed first on the congeneric s1f lane;
-                # this lane hit the same thing on the complex leg, which sat stopped for 36 minutes
-                # with its image pull frozen at "Waiting" and no layer ever downloading.
+                # SELF-HEAL the create/start race, and TELL THE TWO CASES APART.
                 #
-                # Deliberately a WIDER trigger than s1f's (which also required an empty status_msg):
-                # our box carried a non-empty one — a frozen snapshot of the moment the pull was
-                # queued — so status_msg does not discriminate. `cur_state == "stopped"` after the
-                # reap checks is enough: a finished or crashed leg was already destroyed above, and
-                # an OUTBID instance carries intended_status == "running", so a nudge there is a
-                # harmless no-op rather than a wrong action. Re-issuing start is idempotent.
+                # Creating a Vast ask does not reliably launch the container — the start PUT can be
+                # lost while Vast finishes the create, leaving a box that never runs, never bills GPU
+                # and never produces anything (gpu_backend._ensure_running retries only ~48 s, which
+                # is not always long enough). Re-issuing start is idempotent, so it is safe to retry.
+                #
+                # But a stopped box has a SECOND, completely different cause, and the two demand
+                # opposite actions. Vast answers a start it cannot satisfy with HTTP 200 and
+                # {"success": false, "error": "resources_unavailable", "msg": "...state change
+                # queued."} — the machine has no free GPU and our start is QUEUED, not refused. That
+                # is a capacity wait, and this repo's standing rule is to wait those out: a queued
+                # instance bills storage only (instance.gpuCostPerHour is 0, confirmed in the record)
+                # and starts on its own when a slot frees.
+                #
+                # The response body is the only thing that separates them, and discarding it is how
+                # this lane got it backwards: an earlier version of this guard destroyed a host after
+                # 45 stopped minutes as "nudge is not taking" when it was in fact waiting for
+                # capacity — and would have destroyed every replacement for the same reason, since
+                # the cause was never the host.
+                err = None
                 try:
-                    # LOG THE RESPONSE. Vast answers a refused start with HTTP 200 and
-                    # {"success": false, "msg": ...} in the body, so a discarded response is
-                    # indistinguishable from a start that worked. Two hosts in a row sat at
-                    # intended=stopped through ~13 start PUTs that all "succeeded" — the reason was
-                    # in a body nobody read. gpu_backend._ensure_running discards it too, which is
-                    # why its 8 attempts printed nothing useful.
                     resp = _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
-                    print(f"    -> NUDGED {iid}: cur_state=stopped with no result yet, re-issued "
-                          f"start; vast replied {str(resp)[:300]}")
+                    err = (resp or {}).get("error")
+                    print(f"    -> NUDGED {iid}: cur_state=stopped, re-issued start; "
+                          f"vast replied {str(resp)[:300]}")
                 except Exception as e:  # noqa: BLE001
                     print(f"    nudge failed: {e}")
+                if err == "resources_unavailable":
+                    # Waiting, not stuck. Say so plainly and leave it alone; MAX_INSTANCE_HOURS above
+                    # is still the backstop against a box that waits forever.
+                    print(f"    (capacity wait: no free GPU on machine {i.get('machine_id')}, start is "
+                          f"queued — waiting it out, storage-only billing)")
+                elif up_h * 60 > MAX_STOPPED_MIN:
+                    # Not a capacity wait, and the nudge has not taken in this long. Destroy so the
+                    # next dispatch rents a different box. The bound also stops the nudge becoming an
+                    # unbounded restart loop, which would turn PAID the moment label_matches_leg
+                    # failed to pair a done leg with its host: the reap would never fire, the
+                    # container would exit on its idempotency check, go stopped, and be nudged again.
+                    print(f"    -> destroying {iid} (stopped {up_h * 60:.0f} min, not a capacity "
+                          f"wait; nudge is not taking)")
+                    try:
+                        _vast_request("DELETE", f"/instances/{iid}/", key)
+                    except Exception as e:  # noqa: BLE001
+                        print(f"    destroy failed: {e}")
 
     # Persist the status_msg clock for the next poll. Best-effort on purpose: failing to write a
     # monitoring aid must never fail a collect, and a lost file only costs one reset of the clock.
