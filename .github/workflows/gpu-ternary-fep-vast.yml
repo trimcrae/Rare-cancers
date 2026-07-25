@@ -181,6 +181,14 @@ jobs:
           else
             echo "watch list already current"
           fi
+          # READ BACK WHAT WAS WRITTEN. arm() succeeding is not the same as the watch list covering this
+          # launch: the file can be changed afterwards by something that has no idea a leg is running, and
+          # on 2026-07-25 exactly that happened — a later edit rewrote "watch" to [] and pushed, so the
+          # watchdog's only input said there was nothing to watch while a billed GPU leg ran. The config
+          # guard cannot catch it (an empty list is a legitimate state), so only a check that knows which
+          # units were just launched can. Failing here is correct: a leg billing with nothing watching it
+          # is worse than a red build.
+          python research/modalities/ternary_vast_watchdog.py --verify-armed "${{ needs.resolve.outputs.task }}"
 
   # ------------------------------------------------------------------ free: monitor + reap
   collect:

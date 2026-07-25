@@ -210,6 +210,35 @@ def arm(mode, path=None, timestep_fs=None, warmup_timestep_fs=None):
     return doc
 
 
+def verify_armed(mode, path=None, timestep_fs=None, warmup_timestep_fs=None):
+    """Assert that every unit of `mode` is present AND enabled in the watch list. Raises otherwise.
+
+    WHY A SEPARATE READ-BACK, when `arm()` just wrote the file. Because the failure this catches is not
+    arm() misbehaving — it is the file being changed AFTERWARDS by something that had no idea a leg was
+    running. That happened on 2026-07-25: the launch job armed the probe and committed it, and a later edit
+    to the same file (adding the config-guard schema) rewrote `"watch"` to `[]` and pushed. The watchdog's
+    only input then said there was nothing to watch, while a billed GPU leg ran unwatched — and it would
+    have reported "idle" with a green tick.
+
+    The config guard cannot catch this: an EMPTY list is a legitimate state (nothing running), so it must
+    stay a no-op. Only something that knows which units were just launched can tell "nothing to watch" from
+    "the thing I am watching went missing". That is this function, and it belongs in the launch path.
+    """
+    dt = str(timestep_fs or os.environ.get("TVAST_TIMESTEP_FS") or tv.DEFAULT_TIMESTEP_FS)
+    wdt = str(warmup_timestep_fs or os.environ.get("TVAST_WARMUP_TIMESTEP_FS")
+              or tv.DEFAULT_WARMUP_TIMESTEP_FS)
+    doc = load_watch(path)
+    armed = {w.get("unit_id") for w in enabled_entries(doc)}
+    want = {tv.unit_id(l, s, d, dt, wdt, mode) for (l, s, d) in tv.units_for(mode)}
+    missing = sorted(want - armed)
+    if missing:
+        raise SystemExit(
+            "[verify-armed] THE WATCH LIST DOES NOT COVER THE UNITS JUST LAUNCHED: %s. A leg is billing "
+            "with nothing watching it. Re-run --arm %s and commit before walking away." % (missing, mode))
+    print("[verify-armed] %s: all %d unit(s) present and enabled in the watch list" % (mode, len(want)))
+    return sorted(want)
+
+
 def _s3():
     import boto3
     return boto3.client("s3")
@@ -401,7 +430,13 @@ def main(argv=None):
     ap.add_argument("--tick", action="store_true", help="run one watchdog pass")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--disable", metavar="UNIT_ID", help="set enabled=false for one entry")
+    ap.add_argument("--verify-armed", metavar="MODE",
+                    help="assert every unit of MODE is present and enabled in the watch list; exit non-zero "
+                         "otherwise. Run it in the launch path, AFTER the commit.")
     a = ap.parse_args(argv)
+    if a.verify_armed:
+        verify_armed(a.verify_armed)
+        return 0
     if a.arm:
         arm(a.arm)
         return 0

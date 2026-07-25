@@ -209,3 +209,27 @@ def test_a_stale_failed_record_does_not_stop_a_live_attempt():
     bug's old record would freeze the watchdog on the leg that is currently succeeding."""
     v, _ = _c(has_failed_record=True, instance_alive=True, progress_scalar=200, prev_scalar=100)
     assert v == "RUNNING"
+
+
+def test_verify_armed_fails_when_the_list_does_not_cover_the_launch(tmp_path):
+    """The guard for the failure that actually happened: the launch armed the probe and committed it, a
+    later edit to the same file rewrote 'watch' to [] and pushed, and the watchdog's only input then said
+    there was nothing to watch while a billed GPU leg ran. An empty list is a LEGITIMATE state (nothing
+    running), so the config guard must stay a no-op on it — only something that knows which units were just
+    launched can tell 'nothing to watch' from 'the thing I am watching went missing'."""
+    import pytest
+    p = _seed(tmp_path)
+    with pytest.raises(SystemExit):
+        wd.verify_armed("edge", path=str(p))
+    wd.arm("edge", path=str(p))
+    assert len(wd.verify_armed("edge", path=str(p))) == 3
+
+
+def test_verify_armed_fails_when_an_entry_is_merely_disabled(tmp_path):
+    p = _seed(tmp_path)
+    wd.arm("probe", path=str(p))
+    doc = json.load(open(p)); doc["watch"][0]["enabled"] = False
+    open(p, "w").write(json.dumps(doc))
+    import pytest
+    with pytest.raises(SystemExit):
+        wd.verify_armed("probe", path=str(p))
