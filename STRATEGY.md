@@ -35,19 +35,39 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 12:50 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 1:20 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
 relevant rung below.*
 
+> ### ★★ STANDING DIRECTIVE (trimcrae, 2026-07-25 1:15 PM ET): **ALL TESTS RUN ON VAST.**
+> Every new GPU run goes on **Vast** under the existing pricing strategy — RTX 4090 default, RTX 3090 fallback,
+> offers ranked by all-in **`$/ns`** (never headline `$/hr`), bid = market floor + a staleness tick **capped at
+> that machine's on-demand price** (the `×1.5` / `×1.9` multipliers are retired). Provenance:
+> [pricing.md](research/compute/pricing.md) · [bid-strategy.md](research/compute/bid-strategy.md).
+> **This supersedes the "spend the expiring GCP free credit first" preference** recorded in §GPU economics and
+> §Bid policy for *new* work. It does **not** retroactively kill the valB_mini reverse leg already running on
+> GCP L4 — killing a leg mid-flight to change provider would forfeit its progress for nothing — but **no new
+> GCP / SageMaker / Modal run may be started.** The GCP trial (closes 2026-10-10) is now a stranded asset, not
+> a routing preference; if that trade is to be revisited it is a trimcrae call, not a session's.
+
 | what | state | ETA | what its result decides |
 |---|---|---|---|
 | **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30165768667`, us-central1-a) | **RUNNING** since **12:34 PM ET**, `live_vms=1`, `NaN=no`, `charge=nagl`. **This is the second attempt** — the 11:57 AM ET launch (VM `gcp-ternary-30164631671`) is no longer live. ⚠ Its committed-iteration counter is **not readable**: the `[PROGRESS-SUMMARY]` numbers are leg-wide across salts and are currently reporting the **forward** leg (trap 1 below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
-**Nothing else is executing.** The rescope-vs-continue decision on valB_mini is deliberately **held** until the
-reverse leg reads out — it is the one cheap test that can falsify the "systematic, not sampling" conclusion the
-current recommendation rests on.
+| **5a-1 · E3 recruiter staging + ligandability downselect** (CPU/CI, $0) | running — staging the widened ligandable set (VHL, CRBN, cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) from RCSB via a CI runner | ~1–3 h → **this afternoon ET** | Which **≤2 recruiters** 5a carries into any GPU leg, and the logged dropped set. Availability is already answered and may **not** be a drop reason — the downselect is on ligandability + interface geometry |
+| **5a-2 · Mechanism-first orientation-basin search** (CPU, $0) | running — building the transform search + the two **categorical** terms (electrophile reach to C397/C420/C559; E2~Ub transfer zone over K572/K518/K592), pose-marginalised | ~3–6 h → **this evening ET** | **The Tier-2 gate.** No basin exploiting a categorical handle *and* none nominally discriminating NR4A3 ⇒ STOP cheaply. Also tells the program which **exit vectors** matter, which a re-scoped fan-out depends on |
+| **5a-3 · NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
+| **5a-4 · RUNG 2b — 4 fs ternary probe** (**Vast**, ≤$25) | running — building the **Vast** ternary lane (none existed; only `-gcp.yml`/`-aws.yml`), then stage 1 = the ~$1–2 survival probe | probe ~2–4 h → **this evening ET**; full edge next if it passes | **≈2× on every downstream ternary leg** (~$8.8 → ~$4.4/edge, ladder has ≥6). Also the **first NR4A-adjacent ternary leg timed on Vast** — closes the named transferability gap where an 8G1Q rate is pricing NR4A ternaries |
+| **5a-5 · valB_mini calibrator rescope + gate defect + r0 ligand RMSD** (CPU, $0) | running — closing `diagnostics_complete: false`, preparing the admits-zero defect-fix for approval, designing both rescope options | ~2–5 h → **this evening ET** | The **next step the moment the rev leg lands** — designed for *both* branches of it, so the decision is not serialized behind the result |
+
+**The five 5a-* lanes above are this session's, and are disjoint from the reverse leg by construction** — four
+are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
+with the GCP lane the reverse leg owns. The rescope-vs-continue decision on valB_mini is still deliberately
+**held** until the reverse leg reads out — it is the one cheap test that can falsify the "systematic, not
+sampling" conclusion the current recommendation rests on — but the *design* for both of its outcomes is being
+built in parallel (lane 5) rather than after it.
 
 *Landed 11:55 AM ET, hence off the board:* the **rev setup prime** (CPU, `ternary-setup-prime-cpu.yml`, run
 30163606577) **succeeded** — the first primer run since the `setupcache/` IAM 403 was granted, so the write half
