@@ -145,6 +145,35 @@ Two consequences, both load-bearing:
   does.
 * The definitive comparison needed a re-run at 10⁶ (CI 30179315860). ⏳
 
+### 5.0b · Controlled A/B: the correction touches term (a) and provably nothing else
+
+Before attributing anything to the rule, the pre-correction code was checked out from git
+(`e4529e54~1`) and both versions were run at **identical settings** — 150 000 samples, 3 poses, seed
+20260725, same registry, same structures. Reasoning that the RNG stream is untouched is a hypothesis; running
+it is the evidence.
+
+| quantity | old code | new code |
+|---|---|---|
+| accepted placements, every arm × pose | 145 / 137 / 202 / 125 / 115 / 162 | **identical** |
+| meta-basin IDs (all 24, in order) | — | **identical** |
+| interface patches | — | **identical** |
+| pose surviving fractions | — | **identical** |
+| term (b) best ranks and mean fractions | — | **identical** |
+| nominal Δ ranges | — | **identical** |
+| gate counts (meta / basins / a / b / nominal) | 24 / 31 / 0 / 5 / 10 | **24 / 31 / 0 / 5 / 10** |
+| C397 `min_linker_atoms` | 22, 27, 25, 23, 25, 43, 29, 34 | **23, 27, 26, 24, 26, 44, 30, 34** |
+| C397 `min_linker_atoms_relaxed_superseded` | — | **22, 27, 25, 23, 25, 43, 29, 34** — exactly the old values |
+
+So: **term (b) and the nominal limb cannot have moved because of the rule** — they are bit-identical — and the
+superseded field reproduces the published rule exactly, so the correction is auditable per record rather than
+on trust. This is what licenses reading a matched 10⁶ comparison as rule-attributable, and it is what proved
+the first run's term-(b) drop (40 → 31) was the sample count and not the rule.
+
+*(A second, independent internal check on the production artifact: `fraction_reachable_at_gate` is derived
+from the per-member minimum-length scan, while `fraction_reachable_at_gate_by_pendant["rung5a_convention"]`
+is a direct feasibility test at n = 12 with the same 3.0 Å arm. They are computed by different code paths and
+must agree. Over all **576** (basin × unique cysteine) records: **0 mismatches**.)*
+
 ### 5.1 · The matched 10⁶ comparison
 
 ⏳ *pending CI 30179315860.*

@@ -1317,6 +1317,11 @@ def term_a_feasibility_envelope(poses, cysteines, field3, rng, params=PARAMS, n_
         per_len = {}
         for n_at in params["linker_report_atoms"]:
             L = G.contour_length_from_atoms(n_at, rise)
+            # EARLY-OUT ONLY, and deliberately the LOOSE bound: `L + 2e` is weaker than the exact criterion
+            # below, so anything it lets through is still tested properly. Using it here cannot admit a false
+            # positive; it only skips poses that are hopeless on the first leg alone. (The exact necessary
+            # bound would be `n*rise + e`, but tightening a pure early-out buys nothing and would have to be
+            # re-derived if the branch model changed.)
             budget = L + 2.0 * e_arm
             feas_by_pose = []
             for pose in poses:
