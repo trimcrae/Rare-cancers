@@ -1134,3 +1134,10 @@ def test_collect_prints_record_provenance_for_every_partial_leg():
     provenance = block.index("driver=")
     failed_only = block.index('if doc.get("status") == "failed":')
     assert provenance < failed_only, "provenance must print for ALL partial legs, not only failures"
+
+
+def test_collect_explains_a_non_running_instance():
+    """`loading` for 30 s and `loading` for 30 min print the same without the reason field."""
+    src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
+    assert 'if i.get("actual_status") != "running":' in src
+    assert "status_msg" in src and "inet_down" in src

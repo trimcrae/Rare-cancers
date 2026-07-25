@@ -430,6 +430,16 @@ def collect(bucket=None, prefix=None, autostop=True):
             cost = up_h * float(i.get("dph_total") or 0)
             print(f"  vast {iid} ({label}) {i.get('actual_status')} up={up_h:.2f}h "
                   f"dph={i.get('dph_total')} spent~${cost:.2f}")
+            # WHY it is in that state, when the state is not `running`. `loading` for thirty minutes
+            # and `loading` for thirty seconds print identically otherwise, and the first is a paid
+            # stall while the second is normal. Vast carries the reason in status_msg (image pull
+            # progress, a disk-space refusal, a docker auth failure) and the host's own bandwidth
+            # tells you whether a multi-GB pull at this size is plausible or the host is simply bad.
+            if i.get("actual_status") != "running":
+                print(f"      why: cur_state={i.get('cur_state')} intended={i.get('intended_status')} "
+                      f"msg={str(i.get('status_msg') or '').strip()[:200]!r}")
+                print(f"      host: inet_down={i.get('inet_down')}Mbps disk={i.get('disk_space')}GB "
+                      f"image={str(i.get('image_uuid') or '')[-60:]}")
             finished = any(label_matches_leg(label, k) for k in done)
             # Reap a FAILED leg's host too. The container normally exits and the key-free EXIT trap
             # halts billing on its own, but "normally" is doing real work in that sentence — a host
