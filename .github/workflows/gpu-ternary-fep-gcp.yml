@@ -163,10 +163,16 @@ jobs:
             echo "  (no post-mortem logs — VM either still alive, spot-preempted (abrupt DELETE, no upload), or never provisioned)"
           fi
           echo "=== recent GCE preemption operations (DEFINITIVE preempt-vs-crash: a VM name here = GCE preempted it, not a crash/zombie) ==="
-          gcloud compute operations list \
+          PREEMPTS=$(gcloud compute operations list \
             --filter="operationType=compute.instances.preempted AND targetLink~gcp-ternary-" \
-            --format="table(targetLink.basename(),operationType,insertTime,statusMessage)" \
-            --sort-by=~insertTime --limit=10 2>/dev/null || echo "  (preemption-operations query failed)"
+            --format="value(targetLink.basename(),insertTime)" \
+            --sort-by=~insertTime --limit=10 2>/dev/null)
+          printf '%s\n' "${PREEMPTS:-  (none found)}"
+          # Fold the preempt-vs-crash verdict into the annotation. Without it, "the VM is gone" needs a log dive
+          # to classify, and preemption (routine, resume from checkpoint) looks identical to a crash (investigate).
+          LASTPRE=$(printf '%s\n' "$PREEMPTS" | head -1 | tr -s ' \t' ' ')
+          DEATH="unclassified"
+          [ -n "$(printf '%s' "$PREEMPTS" | tr -d '[:space:]')" ] && DEATH="PREEMPTED(latest: $LASTPRE)"
           echo "=== live gcp-ternary VMs + L4 quota usage (ZOMBIE-vs-capacity: usage>0 with no progress = zombie holding a GPU; usage=0 + no VM + provision failing = real GCE capacity stockout, NOT a zombie) ==="
           gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="table(name,zone.basename(),status,creationTimestamp)" 2>/dev/null || echo "  (no ternary VMs)"
           Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
@@ -209,7 +215,10 @@ jobs:
           WUD=$(printf '%s\n' "$SRC" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
           NANST=$(printf '%s\n' "$SRC" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
           RDTW=$(printf '%s\n' "$SRC" | grep -aoE "could not build reduced-dt warmup integrator[^\"]{0,90}" | tail -1)
-          VMCOUNT=$(printf '%s\n' "$VMLIST" | grep -c . 2>/dev/null || echo 0)
+          # NB `grep -c . || echo 0` prints 0 AND runs the fallback (grep exits 1 on no match), yielding "0\n0":
+          # the embedded newline broke `[ "$VMCOUNT" = 0 ]` and truncated the annotation. Count without grep.
+          VMCOUNT=$(printf '%s' "$VMLIST" | tr -d '[:space:]' | wc -c | tr -d ' ')
+          [ "$VMCOUNT" -gt 0 ] 2>/dev/null && VMCOUNT=$(printf '%s\n' "$VMLIST" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ') || VMCOUNT=0
           VMS1=$(printf '%s\n' "$VMLIST" | tr '\n' ';' | cut -c1-200)
           echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED src=$SRCKIND live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\" (committed-iters are leg-wide across salts; verdict fields are from src)"
           # ALSO EMIT AS AN ANNOTATION. The tail step prints a lot (SSH dumps, nvidia-smi, the whole run log), so
@@ -219,7 +228,7 @@ jobs:
           # or a NaN appeared, so trouble is visible from the annotation LEVEL without parsing anything.
           SUMMARY="live_vms=$VMCOUNT prod_iter=${PMAX:-0} warmup_iter=${WMAX:-0} NaN=$NAN charge=${CHG:-?} src=$SRCKIND vms=$VMS1"
           if [ "$VMCOUNT" = "0" ]; then
-            echo "::error title=TERNARY-PROGRESS NO-VM::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — NO live VM. The leg is not running: preempted, finished, or died. $SUMMARY"
+            echo "::error title=TERNARY-PROGRESS NO-VM::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — NO live VM. death=${DEATH:-unclassified}. $SUMMARY"
           elif [ "$NAN" = "YES" ]; then
             echo "::error title=TERNARY-PROGRESS NaN::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — NaN seen at ${NANST:-unknown}. $SUMMARY"
           else
