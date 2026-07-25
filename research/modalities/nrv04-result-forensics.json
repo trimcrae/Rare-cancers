@@ -1,0 +1,2148 @@
+{
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "question": "chain split was positional and selected Elongin C, so R1/R2/R3 describe the wrong interface",
+  "surveys": {
+    "nrv04-covalent-results": {
+      "prefix": "nrv04-covalent-results/",
+      "n_objects": 72,
+      "n_units": 19,
+      "by_class": {
+        "other": {
+          "n": 1,
+          "bytes": 4210,
+          "example": "nrv04-covalent-results/_price_ledger.json"
+        },
+        "built_meta": {
+          "n": 12,
+          "bytes": 2920,
+          "example": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/built_cov_c551a_s0.built.json"
+        },
+        "built_cif": {
+          "n": 12,
+          "bytes": 796689589,
+          "example": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/built_cov_c551a_s0.solv.cif"
+        },
+        "built_system": {
+          "n": 12,
+          "bytes": 1349596712,
+          "example": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/built_cov_c551a_s0.system.xml"
+        },
+        "leg_result": {
+          "n": 17,
+          "bytes": 26890,
+          "example": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/leg_cov_c551a_s0.json"
+        },
+        "phase": {
+          "n": 18,
+          "bytes": 544,
+          "example": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/phase.txt"
+        }
+      },
+      "class_meanings": {
+        "leg_result": "final per-leg readouts ONLY (R1/R2/R3 already reduced against the chain split that was used) \u2014 no coordinates",
+        "ckpt_state": "OpenMM serialized state = ONE frame (the last checkpoint); deleted by _rm_ckpt when a leg finishes cleanly",
+        "ckpt_json": "accumulated readout arrays \u2014 per-frame CONTACT COUNTS and interface RMSDs for the split in use, plus target-Lys Nz coords for that split; NOT all-atom",
+        "built_system": "the OpenMM System (forces/parameters) \u2014 no trajectory",
+        "built_cif": "the solvated topology + the PRE-MINIMIZATION starting coordinates = ONE frame",
+        "built_meta": "build metadata (atom counts, charge method, reactive Cys)",
+        "phase": "progress marker",
+        "runlog": "streamed stdout",
+        "trajectory": "MULTI-FRAME COORDINATES \u2014 the only artifact that would permit a $0 recomputation",
+        "other": "unclassified"
+      },
+      "per_unit_classes": {
+        "(root)": [
+          "other"
+        ],
+        "nrv04cov-cov_c551a-s0": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-cov_c551a-s1": [
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-cov_c551a-s2": [
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-cov_nr4a1-s0": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-cov_nr4a1-s1": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-cov_nr4a1-s2": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-noncov_nr4a1-s0": [
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-noncov_nr4a1-s1": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-noncov_nr4a1-s2": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-recruiter_active-s0": [
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-recruiter_active-s1": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-recruiter_active-s2": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-recruiter_epimer-s0": [
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-recruiter_epimer-s1": [
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-recruiter_epimer-s2": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-warhead_only-s0": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "phase"
+        ],
+        "nrv04cov-warhead_only-s1": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ],
+        "nrv04cov-warhead_only-s2": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ]
+      },
+      "objects": [
+        {
+          "key": "nrv04-covalent-results/_price_ledger.json",
+          "bytes": 4210,
+          "last_modified": "2026-07-24T22:45:09+00:00",
+          "klass": "other",
+          "unit": "(root)"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/built_cov_c551a_s0.built.json",
+          "bytes": 198,
+          "last_modified": "2026-07-23T14:44:57+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-cov_c551a-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/built_cov_c551a_s0.solv.cif",
+          "bytes": 60398412,
+          "last_modified": "2026-07-23T14:44:55+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-cov_c551a-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/built_cov_c551a_s0.system.xml",
+          "bytes": 103495634,
+          "last_modified": "2026-07-23T14:44:53+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-cov_c551a-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/leg_cov_c551a_s0.json",
+          "bytes": 1547,
+          "last_modified": "2026-07-23T16:46:15+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-cov_c551a-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T16:46:16+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-cov_c551a-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s1/leg_cov_c551a_s1.json",
+          "bytes": 1547,
+          "last_modified": "2026-07-23T12:19:45+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-cov_c551a-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s1/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T12:19:48+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-cov_c551a-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s2/leg_cov_c551a_s2.json",
+          "bytes": 1547,
+          "last_modified": "2026-07-23T12:20:30+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-cov_c551a-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s2/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T12:20:34+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-cov_c551a-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.built.json",
+          "bytes": 287,
+          "last_modified": "2026-07-23T14:45:20+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.solv.cif",
+          "bytes": 60130769,
+          "last_modified": "2026-07-23T14:45:16+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.system.xml",
+          "bytes": 103096423,
+          "last_modified": "2026-07-23T14:45:12+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s0/leg_cov_nr4a1_s0.json",
+          "bytes": 1663,
+          "last_modified": "2026-07-23T18:02:17+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s0/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T18:02:18+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s1/built_cov_nr4a1_s1.built.json",
+          "bytes": 287,
+          "last_modified": "2026-07-24T03:49:03+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-cov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s1/built_cov_nr4a1_s1.solv.cif",
+          "bytes": 60487957,
+          "last_modified": "2026-07-24T03:48:56+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-cov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s1/built_cov_nr4a1_s1.system.xml",
+          "bytes": 103632523,
+          "last_modified": "2026-07-24T03:48:48+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-cov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s1/leg_cov_nr4a1_s1.json",
+          "bytes": 1663,
+          "last_modified": "2026-07-24T06:03:05+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-cov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s1/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-24T06:03:07+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-cov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s2/built_cov_nr4a1_s2.built.json",
+          "bytes": 287,
+          "last_modified": "2026-07-23T14:55:12+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-cov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s2/built_cov_nr4a1_s2.solv.cif",
+          "bytes": 60049264,
+          "last_modified": "2026-07-23T14:55:09+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-cov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s2/built_cov_nr4a1_s2.system.xml",
+          "bytes": 102974147,
+          "last_modified": "2026-07-23T14:55:05+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-cov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s2/leg_cov_nr4a1_s2.json",
+          "bytes": 1663,
+          "last_modified": "2026-07-24T02:28:39+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-cov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s2/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-24T02:28:41+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-cov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s0/leg_noncov_nr4a1_s0.json",
+          "bytes": 1541,
+          "last_modified": "2026-07-23T05:05:20+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-noncov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s0/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T05:05:23+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-noncov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s1/built_noncov_nr4a1_s1.built.json",
+          "bytes": 198,
+          "last_modified": "2026-07-23T18:50:15+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-noncov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s1/built_noncov_nr4a1_s1.solv.cif",
+          "bytes": 60052567,
+          "last_modified": "2026-07-23T18:50:09+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-noncov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s1/built_noncov_nr4a1_s1.system.xml",
+          "bytes": 102978956,
+          "last_modified": "2026-07-23T18:50:02+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-noncov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s1/leg_noncov_nr4a1_s1.json",
+          "bytes": 1544,
+          "last_modified": "2026-07-24T02:44:59+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-noncov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s1/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-24T02:44:59+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-noncov_nr4a1-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s2/built_noncov_nr4a1_s2.built.json",
+          "bytes": 198,
+          "last_modified": "2026-07-23T14:47:05+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-noncov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s2/built_noncov_nr4a1_s2.solv.cif",
+          "bytes": 60386524,
+          "last_modified": "2026-07-23T14:46:55+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-noncov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s2/built_noncov_nr4a1_s2.system.xml",
+          "bytes": 103479259,
+          "last_modified": "2026-07-23T14:46:48+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-noncov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s2/leg_noncov_nr4a1_s2.json",
+          "bytes": 1544,
+          "last_modified": "2026-07-23T16:57:30+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-noncov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s2/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T16:57:31+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-noncov_nr4a1-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s0/leg_recruiter_active_s0.json",
+          "bytes": 1546,
+          "last_modified": "2026-07-23T05:46:04+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-recruiter_active-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s0/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T05:46:06+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-recruiter_active-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s1/built_recruiter_active_s1.built.json",
+          "bytes": 198,
+          "last_modified": "2026-07-23T16:52:42+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-recruiter_active-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s1/built_recruiter_active_s1.solv.cif",
+          "bytes": 60528569,
+          "last_modified": "2026-07-23T16:52:25+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-recruiter_active-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s1/built_recruiter_active_s1.system.xml",
+          "bytes": 103692408,
+          "last_modified": "2026-07-23T16:51:47+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-recruiter_active-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s1/leg_recruiter_active_s1.json",
+          "bytes": 1547,
+          "last_modified": "2026-07-24T03:43:17+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-recruiter_active-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s1/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-24T03:43:19+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-recruiter_active-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s2/built_recruiter_active_s2.built.json",
+          "bytes": 198,
+          "last_modified": "2026-07-23T21:12:06+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-recruiter_active-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s2/built_recruiter_active_s2.solv.cif",
+          "bytes": 60261465,
+          "last_modified": "2026-07-23T21:12:02+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-recruiter_active-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s2/built_recruiter_active_s2.system.xml",
+          "bytes": 103292039,
+          "last_modified": "2026-07-23T21:11:58+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-recruiter_active-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s2/leg_recruiter_active_s2.json",
+          "bytes": 1548,
+          "last_modified": "2026-07-23T23:12:07+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-recruiter_active-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s2/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T23:12:07+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-recruiter_active-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s0/leg_recruiter_epimer_s0.json",
+          "bytes": 1550,
+          "last_modified": "2026-07-23T06:18:35+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-recruiter_epimer-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s0/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T06:18:36+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-recruiter_epimer-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s1/leg_recruiter_epimer_s1.json",
+          "bytes": 1550,
+          "last_modified": "2026-07-23T06:16:51+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-recruiter_epimer-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s1/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T06:16:53+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-recruiter_epimer-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s2/built_recruiter_epimer_s2.built.json",
+          "bytes": 199,
+          "last_modified": "2026-07-23T14:48:00+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-recruiter_epimer-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s2/built_recruiter_epimer_s2.solv.cif",
+          "bytes": 63518191,
+          "last_modified": "2026-07-23T14:47:39+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-recruiter_epimer-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s2/built_recruiter_epimer_s2.system.xml",
+          "bytes": 108176668,
+          "last_modified": "2026-07-23T14:47:13+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-recruiter_epimer-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s2/leg_recruiter_epimer_s2.json",
+          "bytes": 1549,
+          "last_modified": "2026-07-23T17:55:05+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-recruiter_epimer-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s2/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T17:55:06+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-recruiter_epimer-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s0/built_warhead_only_s0.built.json",
+          "bytes": 290,
+          "last_modified": "2026-07-24T01:55:12+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-warhead_only-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s0/built_warhead_only_s0.solv.cif",
+          "bytes": 83797696,
+          "last_modified": "2026-07-24T01:54:58+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-warhead_only-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s0/built_warhead_only_s0.system.xml",
+          "bytes": 138518077,
+          "last_modified": "2026-07-24T01:54:25+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-warhead_only-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s0/phase.txt",
+          "bytes": 32,
+          "last_modified": "2026-07-24T01:51:44+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-warhead_only-s0"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s1/built_warhead_only_s1.built.json",
+          "bytes": 290,
+          "last_modified": "2026-07-23T20:34:01+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-warhead_only-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s1/built_warhead_only_s1.solv.cif",
+          "bytes": 83726295,
+          "last_modified": "2026-07-23T20:33:36+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-warhead_only-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s1/built_warhead_only_s1.system.xml",
+          "bytes": 138411100,
+          "last_modified": "2026-07-23T20:32:56+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-warhead_only-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s1/leg_warhead_only_s1.json",
+          "bytes": 1670,
+          "last_modified": "2026-07-23T23:43:24+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-warhead_only-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s1/phase.txt",
+          "bytes": 30,
+          "last_modified": "2026-07-23T23:43:25+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-warhead_only-s1"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s2/built_warhead_only_s2.built.json",
+          "bytes": 290,
+          "last_modified": "2026-07-24T01:17:15+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-warhead_only-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s2/built_warhead_only_s2.solv.cif",
+          "bytes": 83351880,
+          "last_modified": "2026-07-24T01:17:12+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-warhead_only-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s2/built_warhead_only_s2.system.xml",
+          "bytes": 137849478,
+          "last_modified": "2026-07-24T01:17:09+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-warhead_only-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s2/leg_warhead_only_s2.json",
+          "bytes": 1671,
+          "last_modified": "2026-07-24T00:47:37+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-warhead_only-s2"
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s2/phase.txt",
+          "bytes": 32,
+          "last_modified": "2026-07-24T01:15:31+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-warhead_only-s2"
+        }
+      ],
+      "recompute_verdict": {
+        "trajectory_objects_found": 0,
+        "zero_dollar_recompute_possible": false,
+        "why": "NO multi-frame coordinate file exists under this prefix. Every persisted object is either a SINGLE frame (built_*.solv.cif = pre-minimization start; ckpt_*.state.xml = one checkpoint frame) or a scalar ALREADY REDUCED against the chain split that was used (leg_*.json; ckpt_*.ckpt.json holds per-frame contact COUNTS and interface RMSDs, not coordinates). R1/R2/R3 for a different chain pair require per-frame all-atom positions, which were never written. Recomputation at $0 is therefore impossible; the MD must be re-run."
+      },
+      "legs": [
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s0/leg_cov_c551a_s0.json",
+          "last_modified": "2026-07-23T16:46:15+00:00",
+          "leg_id": "cov_c551a",
+          "seed": 0,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "C551A",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 466664,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 70.64,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 3.375,
+            "plateau_A": 4.243,
+            "stable": false
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1752.37,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.13,
+            "median_A": 4.49,
+            "max_A": 5.03
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s1/leg_cov_c551a_s1.json",
+          "last_modified": "2026-07-23T12:19:45+00:00",
+          "leg_id": "cov_c551a",
+          "seed": 1,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "C551A",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 466820,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 39.44,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 4.024,
+            "plateau_A": 4.877,
+            "stable": false
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1781.4,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.48,
+            "median_A": 4.98,
+            "max_A": 5.23
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_c551a-s2/leg_cov_c551a_s2.json",
+          "last_modified": "2026-07-23T12:20:30+00:00",
+          "leg_id": "cov_c551a",
+          "seed": 2,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "C551A",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 465813,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 40.22,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 3.348,
+            "plateau_A": 3.799,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1822.11,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.07,
+            "median_A": 4.61,
+            "max_A": 4.88
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s0/leg_cov_nr4a1_s0.json",
+          "last_modified": "2026-07-23T18:02:17+00:00",
+          "leg_id": "cov_nr4a1",
+          "seed": 0,
+          "mode": "run",
+          "covalent": true,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 464621,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 68.71,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 2.295,
+            "plateau_A": 2.561,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1776.31,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.17,
+            "median_A": 4.43,
+            "max_A": 4.81
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s1/leg_cov_nr4a1_s1.json",
+          "last_modified": "2026-07-24T06:03:05+00:00",
+          "leg_id": "cov_nr4a1",
+          "seed": 1,
+          "mode": "run",
+          "covalent": true,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 467349,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 62.99,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 2.992,
+            "plateau_A": 3.703,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1985.07,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.12,
+            "median_A": 4.51,
+            "max_A": 4.93
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-cov_nr4a1-s2/leg_cov_nr4a1_s2.json",
+          "last_modified": "2026-07-24T02:28:39+00:00",
+          "leg_id": "cov_nr4a1",
+          "seed": 2,
+          "mode": "run",
+          "covalent": true,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 463998,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 66.46,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 4.386,
+            "plateau_A": 5.003,
+            "stable": false
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1739.85,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.0,
+            "median_A": 4.57,
+            "max_A": 4.98
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s0/leg_noncov_nr4a1_s0.json",
+          "last_modified": "2026-07-23T05:05:20+00:00",
+          "leg_id": "noncov_nr4a1",
+          "seed": 0,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 466303,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 60.81,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 3.202,
+            "plateau_A": 2.938,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1619.6,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.0,
+            "median_A": 4.33,
+            "max_A": 4.8
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s1/leg_noncov_nr4a1_s1.json",
+          "last_modified": "2026-07-24T02:44:59+00:00",
+          "leg_id": "noncov_nr4a1",
+          "seed": 1,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 464025,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 67.17,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 3.018,
+            "plateau_A": 3.651,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1779.14,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.43,
+            "median_A": 4.82,
+            "max_A": 5.14
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-noncov_nr4a1-s2/leg_noncov_nr4a1_s2.json",
+          "last_modified": "2026-07-23T16:57:30+00:00",
+          "leg_id": "noncov_nr4a1",
+          "seed": 2,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 466572,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 64.96,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 4.451,
+            "plateau_A": 5.047,
+            "stable": false
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1895.84,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.22,
+            "median_A": 4.62,
+            "max_A": 4.9
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s0/leg_recruiter_active_s0.json",
+          "last_modified": "2026-07-23T05:46:04+00:00",
+          "leg_id": "recruiter_active",
+          "seed": 0,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 466354,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 42.73,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 2.711,
+            "plateau_A": 3.07,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1785.09,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.47,
+            "median_A": 4.8,
+            "max_A": 5.1
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s1/leg_recruiter_active_s1.json",
+          "last_modified": "2026-07-24T03:43:17+00:00",
+          "leg_id": "recruiter_active",
+          "seed": 1,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 467657,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 61.48,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 2.32,
+            "plateau_A": 2.418,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1909.02,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.25,
+            "median_A": 4.66,
+            "max_A": 5.08
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_active-s2/leg_recruiter_active_s2.json",
+          "last_modified": "2026-07-23T23:12:07+00:00",
+          "leg_id": "recruiter_active",
+          "seed": 2,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.4,
+          "n_atoms": 465619,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 70.76,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 2.851,
+            "plateau_A": 3.367,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1903.69,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.28,
+            "median_A": 4.65,
+            "max_A": 5.02
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s0/leg_recruiter_epimer_s0.json",
+          "last_modified": "2026-07-23T06:18:35+00:00",
+          "leg_id": "recruiter_epimer",
+          "seed": 0,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.42,
+          "n_atoms": 485731,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 48.88,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 3.788,
+            "plateau_A": 4.175,
+            "stable": false
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1770.13,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.14,
+            "median_A": 4.64,
+            "max_A": 5.03
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s1/leg_recruiter_epimer_s1.json",
+          "last_modified": "2026-07-23T06:16:51+00:00",
+          "leg_id": "recruiter_epimer",
+          "seed": 1,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.42,
+          "n_atoms": 487673,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 50.03,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 3.502,
+            "plateau_A": 4.492,
+            "stable": false
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1785.34,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.67,
+            "median_A": 4.92,
+            "max_A": 5.21
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-recruiter_epimer-s2/leg_recruiter_epimer_s2.json",
+          "last_modified": "2026-07-23T17:55:05+00:00",
+          "leg_id": "recruiter_epimer",
+          "seed": 2,
+          "mode": "run",
+          "covalent": false,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 7.42,
+          "n_atoms": 490479,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 50.94,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 2.546,
+            "plateau_A": 2.844,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1827.57,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 4.72,
+            "median_A": 5.01,
+            "max_A": 5.49
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s1/leg_warhead_only_s1.json",
+          "last_modified": "2026-07-23T23:43:24+00:00",
+          "leg_id": "warhead_only",
+          "seed": 1,
+          "mode": "run",
+          "covalent": true,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "G",
+          "reactive_cys_resid": 74,
+          "sg_electrophile_dist_A": 12.44,
+          "n_atoms": 644777,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 59.13,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 2.704,
+            "plateau_A": 3.193,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 3860.93,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 2.34,
+            "median_A": 2.69,
+            "max_A": 3.09
+          }
+        },
+        {
+          "key": "nrv04-covalent-results/nrv04cov-warhead_only-s2/leg_warhead_only_s2.json",
+          "last_modified": "2026-07-24T00:47:37+00:00",
+          "leg_id": "warhead_only",
+          "seed": 2,
+          "mode": "run",
+          "covalent": true,
+          "mutation": "",
+          "chain_split": null,
+          "reactive_cys_chain": "G",
+          "reactive_cys_resid": 74,
+          "sg_electrophile_dist_A": 12.44,
+          "n_atoms": 647549,
+          "n_frames": 500,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 5.0,
+          "ns_per_day": 115.57,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 2.329,
+            "plateau_A": 2.611,
+            "stable": true
+          },
+          "R2": {
+            "frames": 500,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 3771.64,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 2.44,
+            "median_A": 2.93,
+            "max_A": 3.25
+          }
+        }
+      ],
+      "surviving_checkpoints": []
+    },
+    "nrv04-covalent-results-chainfix": {
+      "prefix": "nrv04-covalent-results-chainfix/",
+      "n_objects": 6,
+      "n_units": 2,
+      "by_class": {
+        "other": {
+          "n": 1,
+          "bytes": 471,
+          "example": "nrv04-covalent-results-chainfix/_price_ledger.json"
+        },
+        "built_meta": {
+          "n": 1,
+          "bytes": 288,
+          "example": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.built.json"
+        },
+        "built_cif": {
+          "n": 1,
+          "bytes": 31951272,
+          "example": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.solv.cif"
+        },
+        "built_system": {
+          "n": 1,
+          "bytes": 58569330,
+          "example": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.system.xml"
+        },
+        "leg_result": {
+          "n": 1,
+          "bytes": 1814,
+          "example": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/leg_cov_nr4a1_s0.json"
+        },
+        "phase": {
+          "n": 1,
+          "bytes": 31,
+          "example": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/phase.txt"
+        }
+      },
+      "class_meanings": {
+        "leg_result": "final per-leg readouts ONLY (R1/R2/R3 already reduced against the chain split that was used) \u2014 no coordinates",
+        "ckpt_state": "OpenMM serialized state = ONE frame (the last checkpoint); deleted by _rm_ckpt when a leg finishes cleanly",
+        "ckpt_json": "accumulated readout arrays \u2014 per-frame CONTACT COUNTS and interface RMSDs for the split in use, plus target-Lys Nz coords for that split; NOT all-atom",
+        "built_system": "the OpenMM System (forces/parameters) \u2014 no trajectory",
+        "built_cif": "the solvated topology + the PRE-MINIMIZATION starting coordinates = ONE frame",
+        "built_meta": "build metadata (atom counts, charge method, reactive Cys)",
+        "phase": "progress marker",
+        "runlog": "streamed stdout",
+        "trajectory": "MULTI-FRAME COORDINATES \u2014 the only artifact that would permit a $0 recomputation",
+        "other": "unclassified"
+      },
+      "per_unit_classes": {
+        "(root)": [
+          "other"
+        ],
+        "nrv04cov-cov_nr4a1-s0": [
+          "built_cif",
+          "built_meta",
+          "built_system",
+          "leg_result",
+          "phase"
+        ]
+      },
+      "objects": [
+        {
+          "key": "nrv04-covalent-results-chainfix/_price_ledger.json",
+          "bytes": 471,
+          "last_modified": "2026-07-24T21:45:41+00:00",
+          "klass": "other",
+          "unit": "(root)"
+        },
+        {
+          "key": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.built.json",
+          "bytes": 288,
+          "last_modified": "2026-07-24T21:42:25+00:00",
+          "klass": "built_meta",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.solv.cif",
+          "bytes": 31951272,
+          "last_modified": "2026-07-24T21:42:22+00:00",
+          "klass": "built_cif",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.system.xml",
+          "bytes": 58569330,
+          "last_modified": "2026-07-24T21:42:18+00:00",
+          "klass": "built_system",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/leg_cov_nr4a1_s0.json",
+          "bytes": 1814,
+          "last_modified": "2026-07-24T21:43:01+00:00",
+          "klass": "leg_result",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        },
+        {
+          "key": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/phase.txt",
+          "bytes": 31,
+          "last_modified": "2026-07-24T21:43:11+00:00",
+          "klass": "phase",
+          "unit": "nrv04cov-cov_nr4a1-s0"
+        }
+      ],
+      "recompute_verdict": {
+        "trajectory_objects_found": 0,
+        "zero_dollar_recompute_possible": false,
+        "why": "NO multi-frame coordinate file exists under this prefix. Every persisted object is either a SINGLE frame (built_*.solv.cif = pre-minimization start; ckpt_*.state.xml = one checkpoint frame) or a scalar ALREADY REDUCED against the chain split that was used (leg_*.json; ckpt_*.ckpt.json holds per-frame contact COUNTS and interface RMSDs, not coordinates). R1/R2/R3 for a different chain pair require per-frame all-atom positions, which were never written. Recomputation at $0 is therefore impossible; the MD must be re-run."
+      },
+      "legs": [
+        {
+          "key": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/leg_cov_nr4a1_s0.json",
+          "last_modified": "2026-07-24T21:43:01+00:00",
+          "leg_id": "cov_nr4a1",
+          "seed": 0,
+          "mode": "smoke",
+          "covalent": true,
+          "mutation": "",
+          "chain_split": {
+            "target": [
+              "A"
+            ],
+            "e3": [
+              "E",
+              "F",
+              "G"
+            ],
+            "explicit": true,
+            "target_lys_nz": 13
+          },
+          "reactive_cys_chain": "A",
+          "reactive_cys_resid": 222,
+          "sg_electrophile_dist_A": 8.99,
+          "n_atoms": 248552,
+          "n_frames": 5,
+          "prod_ns": 5.0,
+          "equil_ns": 1.0,
+          "timed_ns": 0.002,
+          "ns_per_day": 24.09,
+          "blew_up": false,
+          "blow_phase": null,
+          "R1": {
+            "rmsd_series_mean": 0.911,
+            "plateau_A": 1.005,
+            "stable": true
+          },
+          "R2": {
+            "frames": 5,
+            "frac_frames_in_contact": 1.0,
+            "mean_contacts": 1979.4,
+            "recruited": true
+          },
+          "R3": {
+            "min_A": 3.25,
+            "median_A": 3.28,
+            "max_A": 3.34
+          }
+        }
+      ],
+      "surviving_checkpoints": []
+    }
+  },
+  "cofolds": {
+    "nrv04-covalent-cofold": {
+      "prefix": "nrv04-covalent-cofold/",
+      "n_cifs": 3,
+      "inspected": [
+        {
+          "key": "nrv04-covalent-cofold/neg_celastrol/seed_0/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+          "last_modified": "2026-07-22T15:06:07+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-covalent-cofold/neg_inactive/seed_0/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+          "last_modified": "2026-07-22T15:03:28+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-covalent-cofold/nr4a1/seed_0/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-22T15:00:09+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        }
+      ]
+    },
+    "nrv04-descriptive-v4": {
+      "prefix": "nrv04-descriptive-v4/",
+      "n_cifs": 9,
+      "inspected": [
+        {
+          "key": "nrv04-descriptive-v4/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:19:14+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-descriptive-v4/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:22:30+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-descriptive-v4/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:25:31+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-descriptive-v4/nr4a2/seed_1/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:29:43+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-descriptive-v4/nr4a2/seed_2/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:32:44+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-descriptive-v4/nr4a2/seed_3/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:35:45+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-descriptive-v4/nr4a3/seed_1/boltz_results_nr4a3-nrv04-ternary/predictions/nr4a3-nrv04-ternary/nr4a3-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:39:56+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-descriptive-v4/nr4a3/seed_2/boltz_results_nr4a3-nrv04-ternary/predictions/nr4a3-nrv04-ternary/nr4a3-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:42:57+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        },
+        {
+          "key": "nrv04-descriptive-v4/nr4a3/seed_3/boltz_results_nr4a3-nrv04-ternary/predictions/nr4a3-nrv04-ternary/nr4a3-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-24T21:45:57+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 118,
+              "role": "ElonginB"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": false,
+          "verdict": "clean (VHL 213 / EloB 118 / EloC 112 + a 254-residue NR4A LBD)"
+        }
+      ]
+    },
+    "nrv04-descriptive-v3": {
+      "prefix": "nrv04-descriptive-v3/",
+      "n_cifs": 18,
+      "inspected": [
+        {
+          "key": "nrv04-descriptive-v3/control/seed_1/boltz_results_control-vhl-vh032/predictions/control-vhl-vh032/control-vhl-vh032_model_0.cif",
+          "last_modified": "2026-07-11T20:52:02+00:00",
+          "census": [
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/control/seed_2/boltz_results_control-vhl-vh032/predictions/control-vhl-vh032/control-vhl-vh032_model_0.cif",
+          "last_modified": "2026-07-11T20:54:21+00:00",
+          "census": [
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/control/seed_3/boltz_results_control-vhl-vh032/predictions/control-vhl-vh032/control-vhl-vh032_model_0.cif",
+          "last_modified": "2026-07-11T20:56:25+00:00",
+          "census": [
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/neg_celastrol/seed_1/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+          "last_modified": "2026-07-11T21:53:26+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/neg_celastrol/seed_2/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+          "last_modified": "2026-07-11T21:57:22+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/neg_celastrol/seed_3/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+          "last_modified": "2026-07-11T22:01:16+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/neg_inactive/seed_1/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+          "last_modified": "2026-07-11T21:40:34+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/neg_inactive/seed_2/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+          "last_modified": "2026-07-11T21:45:00+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/neg_inactive/seed_3/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+          "last_modified": "2026-07-11T21:49:26+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-11T21:00:48+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-11T21:05:11+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        },
+        {
+          "key": "nrv04-descriptive-v3/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "last_modified": "2026-07-11T21:09:34+00:00",
+          "census": [
+            {
+              "chain": "A",
+              "residues": 254,
+              "role": "NR4A LBD (frozen construct)"
+            },
+            {
+              "chain": "E",
+              "residues": 213,
+              "role": "VHL"
+            },
+            {
+              "chain": "F",
+              "residues": 255,
+              "role": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+            },
+            {
+              "chain": "G",
+              "residues": 112,
+              "role": "ElonginC"
+            }
+          ],
+          "contaminated_14_3_3": true,
+          "verdict": "CONTAMINATED \u2014 14-3-3 epsilon where Elongin B belongs"
+        }
+      ]
+    }
+  }
+}
