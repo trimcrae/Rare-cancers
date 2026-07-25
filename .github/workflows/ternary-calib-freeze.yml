@@ -16,6 +16,10 @@ on:
         description: "also run the (slow) RCSB congeneric search + alpha fetch"
         default: "false"
         required: false
+      mode:
+        description: "freeze (default) | triangle (the $0 valB closure-triangle chemistry pre-gate)"
+        default: "freeze"
+        required: false
   push:
     branches: [claude/rung-2-parallel-7asnpk]
     paths:
@@ -30,11 +34,46 @@ permissions:
   contents: write
 
 concurrency:
-  group: ternary-calib-freeze
+  group: ternary-calib-freeze-${{ github.event.inputs.mode || 'freeze' }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
+  # -----------------------------------------------------------------------------------------------------
+  # LANE 9 ($0): the closure-triangle chemistry PRE-GATE. Runs the PRODUCTION mapper (LOMAP via
+  # nr4a3_rbfe._mapping) inside the pre-baked triskit23/ternary-fep image -- per CLAUDE.md never solve a conda
+  # env in CI, and here version parity with the producing env is the scientific argument, not just speed.
+  # -----------------------------------------------------------------------------------------------------
+  triangle:
+    if: ${{ github.event.inputs.mode == 'triangle' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker Hub login (raises the anonymous pull ceiling on shared runner IPs)
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+      - name: Pull the pre-baked ternary-fep image (rdkit + openfe + lomap2 + kartograf)
+        run: docker pull docker.io/triskit23/ternary-fep:latest
+      - name: Chemistry pre-gate on the valB closure triangle
+        run: |
+          set -o pipefail
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest valb_triangle_chem.py 2>&1 | tee /tmp/triangle.log
+      - name: Commit the report back to the triggering branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          sudo chown -R "$(id -u):$(id -g)" research/modalities || true
+          git add research/modalities/valb-triangle-chem.json 2>/dev/null || true
+          git commit -m "valB closure triangle: \$0 chemistry pre-gate (production LOMAP mapper) [skip ci]" \
+            || { echo "no changes"; exit 0; }
+          git push origin HEAD:${{ github.ref_name }}
+
   freeze:
+    if: ${{ github.event.inputs.mode != 'triangle' }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
