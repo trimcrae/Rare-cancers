@@ -510,3 +510,48 @@ leg-write time (`_ana_keys["n_particles"]`, already printed one line away). **No
 a 146,020-particle `v1` rev leg against a 141,968-particle `v2pe` fwd leg returns `INCONSISTENT` and names both
 counts, and that a `nagl`-vs-`am1bcc` mismatch — the atom-set-preserving case OpenFE structurally cannot see — is
 caught too.
+
+---
+
+## K. The watchdog was silently disabled a SECOND time — by a length cap this time
+
+**3:40 PM ET.** A dispatch returned:
+
+```
+422 Invalid Argument - failed to parse workflow: (Line: 71, Col: 14): Exceeded max expression length 21000
+```
+
+Line 71 is `run: |`. A `run:` block **containing an expression** (`${{ … }}`) is compiled as a **template**, and
+the template is capped at **21,000 characters**, counting the raw indented block. The body had reached **23,453**
+— grown mostly by the comments added while fixing everything else in this document — so the workflow stopped
+parsing. And the failure mode is the familiar one: the dispatch errors, but a **`schedule:` cron on an
+unparseable file simply never fires**, reporting nothing.
+
+That is the **second** time this one workflow was silently disabled by a parse failure. §G was column-0 Python
+inside the block scalar; this is length. Both times the body was inline, and both times **PyYAML parsed the file
+happily**, so §G's YAML gate could not see it.
+
+**Fixed structurally, not by trimming comments.** The body moved to
+[`research/modalities/watchdog_run.sh`](watchdog_run.sh) (304 lines), leaving a 5-line `run:` that exports
+`WATCH_REF` and calls it. A file has no expression cap, can be `bash -n`'d **directly** instead of scraped back
+out of YAML, and cannot dedent itself out of a block scalar — so it retires both failure modes at once. The two
+tests that used to extract from the YAML now read the script, and their extraction is
+`textwrap.dedent`-based rather than assuming a hard-coded indent width.
+
+### K.1 The condition that makes the cap bite — measured, because the first gate cried wolf
+
+The obvious gate ("flag any `run:` block over 21,000 chars") immediately failed a workflow that **demonstrably
+works**: `gpu-ternary-fep-gcp.yml` carries a **29,434-character** `run:` block and has been dispatching all day.
+
+Measured rather than rationalised: that block contains **zero** `${{ }}`. A block with no expression is a plain
+string, not a template, and is **not capped**. The watchdog's block had `${{ github.ref_name }}` — one
+interpolation, which is what turned a 23 KB script into a 23 KB *template*.
+
+So the gate checks **length AND the presence of an expression**. A gate that fires on a working workflow is worse
+than no gate: it trains everyone to ignore it. `tests/test_workflows_parse.py` now reports 132 workflows, 0
+failures, with a `[WARN … n from the cap]` on any expression-bearing block within 3 KB of the limit (one is, at
+20,734). Verified to discriminate: re-inlining the watchdog body *with* its expression restored produces the
+failure; re-inlining it without does not.
+
+**The transferable rule:** when a value crosses into a templated context, its *size* becomes a correctness
+property, not just its content — and the cheapest fix is to stop it crossing at all.

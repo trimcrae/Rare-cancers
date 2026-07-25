@@ -15,7 +15,10 @@
 
 set -uo pipefail
 cd "$(dirname "$0")/../../.." || exit 2
-WF=.github/workflows/ternary-leg-watchdog.yml
+# The watchdog body lives in a SCRIPT, not in the workflow YAML: inline it outgrew GitHub's 21,000-char `run:`
+# template cap and the workflow stopped parsing, which silently disables the cron. Reading the script is also
+# strictly better for this test -- no YAML scraping, and the file can be bash -n'd directly.
+WF=research/modalities/watchdog_run.sh
 [ -f "$WF" ] || { echo "missing $WF"; exit 2; }
 
 TD=$(mktemp -d); trap 'rm -rf "$TD"' EXIT
@@ -26,17 +29,21 @@ python3 - "$WF" > "$TD/census.sh" <<'PY'
 import sys, re
 t = open(sys.argv[1]).read()
 start = t.index('SEL=$(printf \'%s\\n\' "$CALL"')
+start = t.rfind('\n', 0, start) + 1        # take the whole line, whatever its indentation
 end   = t.index('else PROG=0; PHASE="none')
 end   = t.index('\n', t.index('fi', end)) if False else t.index('\n', end)
 block = t[start:end]
-block = '\n'.join(l[16:] if l.startswith(' ' * 16) else l.lstrip() for l in block.split('\n'))
+# dedent generically: strip the block's own common indentation rather than a hard-coded width, so this keeps
+# working wherever the body sits.
+import textwrap
+block = textwrap.dedent(block)
 print('census() {')
 print('  CALL="$1"; SEED="$2"; DIR="$3"; SALT="$4"; WUDT="$5"')
 print('\n'.join('  ' + l for l in block.split('\n')))
 print('  echo "$PROG $PHASE"')
 print('}')
 PY
-grep -q 'PROG=$((1000000' "$TD/census.sh" || { echo "EXTRACTION FAILED — workflow markers changed"; exit 2; }
+grep -q 'PROG=$((1000000' "$TD/census.sh" || { echo "EXTRACTION FAILED — script markers changed"; exit 2; }
 . "$TD/census.sh"
 
 B=gs://bkt/valB-6hax/commits/calib_hi_to_lo__ternary_vhl
@@ -84,9 +91,11 @@ chk "the 2.0 fs attempt reads its own production/777"         "$(census "$LST" 0
 python3 - "$WF" > "$TD/pm.sh" <<'PY2'
 import sys
 t = open(sys.argv[1]).read()
-i = t.index('                PMEP=$(gcloud storage ls')
+i = t.index('PMEP=$(gcloud storage ls')
+i = t.rfind('\n', 0, i) + 1                 # whole line, indentation-agnostic
 j = t.index('PMEP=$((10#$PMEP))') + len('PMEP=$((10#$PMEP))')
-blk = '\n'.join(l[16:] if l.startswith(' ' * 16) else l.lstrip() for l in t[i:j].split('\n'))
+import textwrap
+blk = textwrap.dedent(t[i:j])
 blk = blk.replace(
   'gcloud storage ls "gs://$BUCKET/valB-6hax/postmortem/${LEG}_${DIR}_seed${SEED}_*.log" 2>/dev/null',
   "printf '%s\\n' \"$FIXTURE\"")
@@ -94,7 +103,7 @@ print('pmep() { LEG=calib_hi_to_lo__ternary_vhl; DIR=rev; SEED=0; FIXTURE="$1"')
 print('\n'.join('  ' + l for l in blk.split('\n')))
 print('  echo "$PMEP"; }')
 PY2
-grep -q 'PMEP=\$((10#\$PMEP))' "$TD/pm.sh" || { echo "PM EXTRACTION FAILED — workflow markers changed"; exit 2; }
+grep -q 'PMEP=\$((10#\$PMEP))' "$TD/pm.sh" || { echo "PM EXTRACTION FAILED — script markers changed"; exit 2; }
 . "$TD/pm.sh"
 
 PB=gs://bkt/valB-6hax/postmortem
