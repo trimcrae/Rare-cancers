@@ -257,7 +257,7 @@ jobs:
           git push origin HEAD:"${{ github.ref_name }}"
 
   nr4a_e3_stage:
-    if: ${{ github.event.inputs.task == 'nr4a_e3_stage' && github.event.inputs.fanout_mode != 'diag' }}
+    if: ${{ github.event.inputs.task == 'nr4a_e3_stage' && github.event.inputs.fanout_mode != 'diag' && github.event.inputs.fanout_mode != 'stage' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:

@@ -425,6 +425,42 @@ def run_case(case_id, spec, log):
     return out
 
 
+def registry_cross_check(paths, log):
+    """A composed-RING-vs-observed-RING displacement that the staging's own known-answer check CANNOT see.
+
+    `validate_composition_against_solved_assembly` compares each arm's composed RING against ONE reference
+    assembly -- the entry the E2-geometry step happened to retrieve, which is 9UUM. VHL shares no bridge
+    protein with 9UUM, so that check returns `possible: false` for the VHL arm and the displacement was never
+    measured there. But every VHL record already carries both quantities in the SAME frame: the composed RING
+    (from the cullin-scaffold entry) and the RING of its OWN intact assembly, bridged in by the
+    intact-assembly step. Subtracting them needs no network and no new structure -- it is arithmetic on a
+    committed artifact, and it is reported here because the composed-RING uncertainty is a program-wide
+    caveat that was quantified on one arm only."""
+    out = {}
+    for label, path in paths.items():
+        if not os.path.exists(path):
+            continue
+        reg = json.load(open(path))
+        for aid, rec in (reg.get("arms") or {}).items():
+            ring = (rec.get("ring") or {}).get("ring_centroid_xyz")
+            ia = rec.get("intact_assembly") or {}
+            obs = ia.get("ring_xyz_in_receptor_frame")
+            row = {"registry": label, "arm": aid,
+                   "composed_ring_source": (rec.get("provenance", {}).get("scaffold_entry") or {}).get("pdb_id"),
+                   "observed_ring_source": ia.get("pdb_id"),
+                   "transfer_anchor_source": (rec.get("transfer_anchor") or {}).get("source"),
+                   "anchor_to_transfer_point_A": (rec.get("transfer_anchor") or {}).get(
+                       "anchor_to_transfer_point_A")}
+            if ring and obs:
+                row["composed_vs_observed_RING_A"] = round(G.dist(tuple(ring), tuple(obs)), 2)
+            out[f"{label}:{aid}"] = row
+            if "composed_vs_observed_RING_A" in row:
+                log(f"[diag] registry cross-check {label}:{aid}: composed RING (from "
+                    f"{row['composed_ring_source']}) is {row['composed_vs_observed_RING_A']} A from the RING "
+                    f"of its own intact assembly {row['observed_ring_source']} in the same frame")
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", default=OUT)
@@ -448,6 +484,10 @@ def main(argv=None):
             continue
         log(f"[diag] ===== case {cid} =====")
         res["cases"][cid] = run_case(cid, spec, log)
+    res["registry_cross_check"] = registry_cross_check(
+        {"composed_registryA": os.path.join(HERE, "nr4a3-e3-arm-registry.json"),
+         "composed_registryB_lane1": os.path.join(HERE, "nr4a3-e3-arm-registry-lane1.json"),
+         "assembly_native": os.path.join(HERE, "nr4a3-e3-arm-registry-native.json")}, log)
     res["log"] = lines
     with open(args.out, "w") as fh:
         json.dump(res, fh, indent=1, sort_keys=False)
