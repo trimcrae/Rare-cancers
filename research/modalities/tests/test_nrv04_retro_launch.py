@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+"""Offline tests for the NR-V04 retrospective Vast lane (pure JobSpec construction — no Vast, no S3, no GPU).
+
+The load-bearing thing these pin is that a retrospective leg starts from the co-fold model its unit name says
+it does. The co-fold model is the unit of independence in the frozen statistics (prereg §4a), so a leg that
+globbed a system directory instead of a pinned model prefix would quietly corrupt the model-level means the
+verdict is computed from — and nothing downstream would notice.
+"""
+import os
+import sys
+
+import pytest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import nrv04_retro_panel as retro       # noqa: E402
+import nrv04_vast_launch as launch      # noqa: E402
+
+BUCKET = "test-bucket"
+
+
+def _spec(arm_id="retro_noncov_nr4a2", model=2, replica=1):
+    return launch.build_retro_jobspec(retro.arm_by_id(arm_id), model, replica, "run", "br", BUCKET)
+
+
+def test_cofold_prefix_is_pinned_to_the_units_model_seed():
+    spec = _spec(model=3)
+    assert spec.env["COFOLD_PREFIX_S3"] == f"s3://{BUCKET}/{retro.COFOLD_PREFIX}/nr4a2/seed_3/"
+    assert spec.env["COFOLD_MODEL_SEED"] == "3"
+    assert "-m3-" in spec.name, "the unit name must agree with the model prefix it stages from"
+
+
+def test_every_authorized_unit_gets_a_distinct_checkpoint_and_result_prefix():
+    specs = [launch.build_retro_jobspec(a, m, r, "run", "br", BUCKET) for a, m, r in retro.enumerate_units()]
+    assert len(specs) == 24
+    assert len({s.checkpoint_uri for s in specs}) == 24, "two units sharing a checkpoint would race"
+    assert len({s.env["RESULT_S3"] for s in specs}) == 24
+
+
+def test_retro_results_do_not_collide_with_the_feasibility_panels_prefix():
+    """The feasibility panel's results are a cross-check, not part of this panel — they must not be collected
+    into it by a shared prefix."""
+    assert launch.RETRO_RESULT_PREFIX != launch.RESULT_PREFIX
+    assert _spec().env["RESULT_S3"].startswith(f"s3://{BUCKET}/{launch.RETRO_RESULT_PREFIX}/")
+
+
+def test_staging_patch_applied_and_pins_exactly_one_cif():
+    assert launch._RETRO_PIPELINE != launch._PIPELINE
+    assert "assemble_unit" in launch._RETRO_PIPELINE
+    assert "leg_by_id" not in launch._RETRO_PIPELINE, "retro units carry no covalent-panel Leg"
+    assert "wc -l" in launch._RETRO_PIPELINE, "a second CIF under the pinned prefix must fail, never be guessed"
+
+
+def test_covalent_flags_only_on_the_nr4a1_arm():
+    cov = _spec("retro_cov_nr4a1", 1, 0)
+    assert cov.env["COVALENT"] == "1" and cov.env["COV_RESNUM"] == "551"
+    for arm_id in ("retro_noncov_nr4a1", "retro_noncov_nr4a2", "retro_noncov_nr4a3"):
+        assert _spec(arm_id, 1, 0).env["COVALENT"] == "0"
+
+
+def test_specs_are_spot_safe_and_resumable():
+    spec = _spec()
+    assert spec.resources.interruptible is True
+    assert spec.resume is True, "a preempted leg must resume from its checkpoint, not restart"
+    assert spec.checkpoint_uri
+
+
+def test_pilot_is_a_paralogue_leg_not_nr4a1(monkeypatch):
+    """The pilot's abort information is structural: the assembler has never read an NR4A2/NR4A3 co-fold.
+    Piloting NR4A1 would leave the only real staging risk unexercised."""
+    monkeypatch.setenv("RETRO_PILOT_ONLY", "1")
+    monkeypatch.delenv("RETRO_PILOT_ARM", raising=False)
+    units = launch.retro_units_to_run()
+    assert len(units) == 1
+    arm, model, replica = units[0]
+    assert arm.target in ("NR4A2", "NR4A3") and not arm.covalent
+
+
+def test_full_fanout_is_the_whole_authorized_panel(monkeypatch):
+    monkeypatch.setenv("RETRO_PILOT_ONLY", "0")
+    assert len(launch.retro_units_to_run()) == 24
+
+
+def test_arms_differ_only_in_target_and_covalency(monkeypatch):
+    """Prereg §2c: identical protocol across arms. The env of two R1 legs at the same model/replica may differ
+    only in the fields that identify the arm — any sampling-length or charge drift would be invisible bespoke
+    treatment of a paralogue."""
+    a = _spec("retro_noncov_nr4a2", 1, 0).env
+    b = _spec("retro_noncov_nr4a3", 1, 0).env
+    differing = {k for k in set(a) | set(b) if a.get(k) != b.get(k)}
+    assert differing <= {"LEG_ID", "TARGET", "ENV_ASSEMBLY", "COFOLD_PREFIX_S3", "RESULT_S3"}
+    for shared in ("PROD_NS", "EQUIL_NS", "LIGAND", "COVALENT", "MODE"):
+        assert a[shared] == b[shared]
+
+
+def test_empty_prefix_env_falls_back_instead_of_writing_to_the_bucket_root(monkeypatch):
+    """A workflow input that is present-but-empty used to set the prefix to "" via os.environ.get(k, DEFAULT),
+    which would send every staged read and every result to the bucket ROOT. `or DEFAULT` is the fix."""
+    import importlib
+    for var, attr, default in (("NRV04_COFOLD_PREFIX", "COFOLD_PREFIX", "nrv04-covalent-cofold"),
+                               ("NRV04_RESULT_PREFIX", "RESULT_PREFIX", "nrv04-covalent-results"),
+                               ("NRV04_RETRO_RESULT_PREFIX", "RETRO_RESULT_PREFIX", "nrv04-retro-results")):
+        monkeypatch.setenv(var, "")
+        mod = importlib.reload(launch)
+        assert getattr(mod, attr) == default, f"{var}='' must fall back, not blank the prefix"
+        monkeypatch.delenv(var, raising=False)
+    importlib.reload(launch)
+
+
+# ---------------------------------------------------------------- Vast co-fold lane (provider correctness)
+def test_cofold_lane_runs_the_same_science_entry_point_as_sagemaker():
+    """The Vast and SageMaker co-fold lanes must predict the same thing: same script, same env contract. If
+    they drifted, two providers would silently produce different structures for the same panel."""
+    spec = launch.build_cofold_jobspec("br", BUCKET, "nrv04-descriptive-v5",
+                                       script="nrv04_ternary.py",
+                                       extra_args="--skip-control --targets NR4A1,NR4A2,NR4A3", seeds="1,2,3")
+    assert spec.env["TERNARY_SCRIPT"] == "nrv04_ternary.py"
+    assert spec.env["SEEDS"] == "1,2,3"
+    assert "--targets NR4A1,NR4A2,NR4A3" in spec.env["TERNARY_EXTRA_ARGS"]
+    assert "nrv04_ternary.py" not in launch._COFOLD_PIPELINE, "the script must come from env, never hardcoded"
+    assert '"$TERNARY_SCRIPT" --run' in launch._COFOLD_PIPELINE
+
+
+def test_cofold_boltz_version_is_pinned():
+    """An unpinned Boltz would make a rerun silently a different model — the SageMaker lane pins it and so
+    must this one, at the same version."""
+    assert launch.BOLTZ_SPEC.startswith("boltz==")
+    assert launch.build_cofold_jobspec("br", BUCKET, "p").env["BOLTZ_SPEC"] == launch.BOLTZ_SPEC
+
+
+def test_cofold_uploads_continuously_and_is_spot_safe():
+    """Standing rule: a preemption or timeout after prediction N must still leave 1..N in S3."""
+    spec = launch.build_cofold_jobspec("br", BUCKET, "p")
+    assert spec.resources.interruptible is True
+    assert "s3 sync" in launch._COFOLD_PIPELINE and "sleep 60" in launch._COFOLD_PIPELINE
+    assert "SYNC_PID" in launch._COFOLD_PIPELINE
+
+
+def test_cofold_runs_on_vast_gpu_not_a_cloud_default():
+    spec = launch.build_cofold_jobspec("br", BUCKET, "p")
+    assert spec.resources.gpu == "rtx4090" and spec.resources.min_vram_gb >= 24
+
+
+def test_cofold_propagates_the_prediction_exit_code():
+    """A Boltz crash must fail the run, not report false-green — the SageMaker lane learned this the hard way."""
+    assert "exit $RC" in launch._COFOLD_PIPELINE
+
+
+def test_cofold_requires_a_fresh_output_prefix(monkeypatch):
+    monkeypatch.delenv("COFOLD_OUTPUT_PREFIX", raising=False)
+    with pytest.raises(SystemExit, match="FRESH"):
+        launch.cofold(BUCKET)
+
+
+# ------------------------------------------------- OOM / post-mortem fixes (2026-07-24 pilot failures)
+def test_md_lane_requests_enough_ram_for_a_466k_atom_system():
+    """Both pilot legs were OOM-killed at 16 GB. Solvating/parameterizing the assembly is RAM-bound; VRAM is
+    not the constraint (<4 GB used)."""
+    assert launch.TERNARY_RES.ram_gb >= 48
+    assert launch.TERNARY_RES.min_vram_gb == 24, "VRAM was never the problem — do not inflate it instead"
+
+
+def test_cofold_lane_requests_enough_ram_for_boltz_diffusion():
+    assert launch.build_cofold_jobspec("br", BUCKET, "p").resources.ram_gb >= 64
+
+
+@pytest.mark.parametrize("pipeline_name", ["_PIPELINE", "_RETRO_PIPELINE", "_COFOLD_PIPELINE"])
+def test_pipelines_are_idempotent_across_an_oom_restart(pipeline_name):
+    """Vast re-runs onstart after an OOM kill. A surviving extraction/clone made the restart die on setup
+    instead of retrying the work, so a recoverable failure became a permanent one."""
+    p = getattr(launch, pipeline_name)
+    assert "rm -rf" in p, f"{pipeline_name} must clear stale repo state before fetching"
+
+
+@pytest.mark.parametrize("pipeline_name", ["_PIPELINE", "_RETRO_PIPELINE", "_COFOLD_PIPELINE"])
+def test_pipelines_stream_stdout_to_s3_for_a_post_mortem(pipeline_name):
+    """An OOM kill tears the host down with the EXIT trap. Without streamed stdout there is no traceback and a
+    crash is indistinguishable from a slow leg — which is exactly what happened."""
+    p = getattr(launch, pipeline_name)
+    assert "tee -a /tmp/run.log" in p and "run.log" in p
+
+
+@pytest.mark.parametrize("pipeline_name", ["_PIPELINE", "_RETRO_PIPELINE", "_COFOLD_PIPELINE"])
+def test_mark_no_longer_swallows_s3_failures(pipeline_name):
+    """`mark() { ... 2>/dev/null || true; }` hid every write failure. The preflight must also fail HARD: a leg
+    that cannot write to its result prefix cannot deliver a result, so it must not burn GPU."""
+    p = getattr(launch, pipeline_name)
+    assert "2>/dev/null || true; }" not in p, "mark() must not swallow its own errors"
+    assert "preflight" in p and "exit 4" in p

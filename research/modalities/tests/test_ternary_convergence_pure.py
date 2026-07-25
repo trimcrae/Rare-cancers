@@ -44,6 +44,31 @@ def test_bottleneck_handles_degenerate_input():
     assert cv.overlap_matrix_bottleneck(None)["connected"] is None
 
 
+def test_bottleneck_needs_no_third_party_dependency():
+    """The gate must never be switchable off by a worker's missing dependency: it used to route this trivial
+    min-over-K-1-pairs through numpy, so a numpy-less worker silently returned connected=None and the
+    convergence gate was disabled for that run. Pure arithmetic, always runnable."""
+    import sys
+    hidden = {name: sys.modules.pop(name) for name in list(sys.modules) if name.split(".")[0] == "numpy"}
+    blocker = type(sys)("numpy_blocker")
+
+    class _Deny:
+        def find_module(self, name, path=None):
+            return self if name.split(".")[0] == "numpy" else None
+
+        def load_module(self, name):
+            raise ImportError("numpy blocked for this test")
+
+    sys.meta_path.insert(0, _Deny())
+    try:
+        r = cv.overlap_matrix_bottleneck([[0.5, 0.4], [0.4, 0.5]])
+        assert r["connected"] is True and r["min_adjacent_overlap"] == 0.4
+    finally:
+        sys.meta_path.pop(0)
+        sys.modules.update(hidden)
+        del blocker
+
+
 # --- dG(t) block plateau ----------------------------------------------------------------------------------
 def test_block_plateau_flat_tail_passes():
     r = cv.block_plateau_flags(dg_full=-5.0, dg_final_half=-5.1, dg_q3=-5.05, dg_q4=-5.15)

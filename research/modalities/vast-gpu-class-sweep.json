@@ -1,0 +1,100 @@
+{
+ "atoms": 146000,
+ "restart_overhead_h": 0.422,
+ "ranked_by_usd_per_ns": [
+  {
+   "gpu": "rtx4090",
+   "n_offers": 5,
+   "cheapest_floor_usd_h": 0.1467,
+   "median_floor_usd_h": 0.3333,
+   "bid_query_dph_base_usd_h_ARTIFACT_equals_floor": 0.14666666666666667,
+   "throughput_scale_vs_4090": 1.0,
+   "throughput_basis": "measured_bench",
+   "est_ns_per_day": 431.9,
+   "usd_per_ns": 0.00815
+  },
+  {
+   "gpu": "a10",
+   "n_offers": 6,
+   "cheapest_floor_usd_h": 0.2,
+   "median_floor_usd_h": 0.42,
+   "bid_query_dph_base_usd_h_ARTIFACT_equals_floor": 0.2,
+   "throughput_scale_vs_4090": 1.275,
+   "throughput_basis": "dlperf_proxy_WEAK",
+   "est_ns_per_day": 550.8,
+   "usd_per_ns": 0.00871
+  },
+  {
+   "gpu": "rtx4080",
+   "n_offers": 3,
+   "cheapest_floor_usd_h": 0.1867,
+   "median_floor_usd_h": 0.2,
+   "bid_query_dph_base_usd_h_ARTIFACT_equals_floor": 0.18666666666666668,
+   "throughput_scale_vs_4090": 0.599,
+   "throughput_basis": "dlperf_proxy_WEAK",
+   "est_ns_per_day": 258.5,
+   "usd_per_ns": 0.01733
+  },
+  {
+   "gpu": "a4000",
+   "n_offers": 1,
+   "cheapest_floor_usd_h": 0.0933,
+   "median_floor_usd_h": 0.0933,
+   "bid_query_dph_base_usd_h_ARTIFACT_equals_floor": 0.09333333333333334,
+   "throughput_scale_vs_4090": 0.212,
+   "throughput_basis": "dlperf_proxy_WEAK",
+   "est_ns_per_day": 91.5,
+   "usd_per_ns": 0.02449
+  },
+  {
+   "gpu": "rtx3090",
+   "n_offers": 4,
+   "cheapest_floor_usd_h": 0.0933,
+   "median_floor_usd_h": 0.1333,
+   "bid_query_dph_base_usd_h_ARTIFACT_equals_floor": 0.09333333333333334,
+   "throughput_scale_vs_4090": 0.168,
+   "throughput_basis": "measured_bench",
+   "est_ns_per_day": 72.5,
+   "usd_per_ns": 0.0309
+  },
+  {
+   "gpu": "rtx a6000",
+   "n_offers": 1,
+   "cheapest_floor_usd_h": 0.56,
+   "median_floor_usd_h": 0.56,
+   "bid_query_dph_base_usd_h_ARTIFACT_equals_floor": 0.5599999999999999,
+   "throughput_scale_vs_4090": 0.545,
+   "throughput_basis": "dlperf_proxy_WEAK",
+   "est_ns_per_day": 235.3,
+   "usd_per_ns": 0.05712
+  },
+  {
+   "gpu": "l4",
+   "n_offers": 4,
+   "cheapest_floor_usd_h": 0.2667,
+   "median_floor_usd_h": 0.4,
+   "bid_query_dph_base_usd_h_ARTIFACT_equals_floor": 0.26666666666666666,
+   "throughput_scale_vs_4090": 0.253,
+   "throughput_basis": "dlperf_proxy_WEAK",
+   "est_ns_per_day": 109.3,
+   "usd_per_ns": 0.05858
+  }
+ ],
+ "unusable": [
+  {
+   "gpu": "rtx3080",
+   "n_offers": 0,
+   "note": "no rentable offers matched"
+  },
+  {
+   "gpu": "rtx a5000",
+   "n_offers": 0,
+   "note": "no rentable offers matched"
+  }
+ ],
+ "caveat": "$/ns is the objective; $/hr is not. Throughput for any card marked dlperf_proxy_WEAK or assumed_equal_UNKNOWN is NOT measured \u2014 treat those rows as candidates to BENCH (cents via bench_grid), never as a decision.",
+ "measured_cards": [
+  "rtx3090",
+  "rtx4090"
+ ]
+}

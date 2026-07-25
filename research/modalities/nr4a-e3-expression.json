@@ -91,5 +91,276 @@
     }
   },
   "both_arms_broadly_expressed": true,
-  "verdict": "Both CRL2^VHL and CRL4^CRBN machineries broadly expressed \u2014 both recruiter arms are grounded; the VHL-vs-CRBN choice is NOT constrained by machinery availability and should be made on ternary/geometry/selectivity grounds."
+  "verdict": "Both CRL2^VHL and CRL4^CRBN machineries broadly expressed \u2014 both recruiter arms are grounded; the VHL-vs-CRBN choice is NOT constrained by machinery availability and should be made on ternary/geometry/selectivity grounds.",
+  "widened_recruiter_panel": {
+    "_why": "2026-07-24 ternary-selectivity revision, cost lever 6: selectivity is created at the induced target-E3 interface, so the E3's own surface is the biggest lever on whether a discriminating interface EXISTS. Searching more recruiters is free at CPU. This is the availability half; it feeds the MANDATORY downselect to <=2 recruiters before any GPU leg, and the dropped set must be logged.",
+    "_limits": "Availability is necessary, not sufficient \u2014 an arm that is broadly expressed may still have no ligandable pocket for a linker, no published ligand, or an interface geometrically unable to reach an NR4A3-unique lysine. Ligandability and geometry are decided by the basin search, not here. Symbols are resolved through HPA's own search and a non-matching record is refused, so an unresolved symbol means 'not looked up', NOT 'not expressed'.",
+    "arms": {
+      "CRL4_DCAF1": {
+        "_label": "CRL4^DCAF1 (DCAF1/VPRBP recruiter arm)",
+        "components": {
+          "DCAF1": {
+            "gene": "DCAF1",
+            "ensembl": "ENSG00000145041",
+            "rna_tissue_specificity": "Tissue enhanced",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "DDB1": {
+            "gene": "DDB1",
+            "ensembl": "ENSG00000167986",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "CUL4A": {
+            "gene": "CUL4A",
+            "ensembl": "ENSG00000139842",
+            "rna_tissue_specificity": "Tissue enhanced",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "CUL4B": {
+            "gene": "CUL4B",
+            "ensembl": "ENSG00000158290",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "RBX1": {
+            "gene": "RBX1",
+            "ensembl": "ENSG00000100387",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          }
+        },
+        "all_broadly_expressed": true,
+        "record_complete": true,
+        "components_not_broadly_expressed": [],
+        "unresolved_symbols": []
+      },
+      "CRL4_DCAF15": {
+        "_label": "CRL4^DCAF15 (DCAF15 recruiter arm)",
+        "components": {
+          "DCAF15": {
+            "gene": "DCAF15",
+            "ensembl": "ENSG00000132017",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "DDB1": {
+            "gene": "DDB1",
+            "ensembl": "ENSG00000167986",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "CUL4A": {
+            "gene": "CUL4A",
+            "ensembl": "ENSG00000139842",
+            "rna_tissue_specificity": "Tissue enhanced",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "CUL4B": {
+            "gene": "CUL4B",
+            "ensembl": "ENSG00000158290",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "RBX1": {
+            "gene": "RBX1",
+            "ensembl": "ENSG00000100387",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          }
+        },
+        "all_broadly_expressed": true,
+        "record_complete": true,
+        "components_not_broadly_expressed": [],
+        "unresolved_symbols": []
+      },
+      "CRL4_DCAF16": {
+        "_label": "CRL4^DCAF16 (DCAF16 recruiter arm)",
+        "components": {
+          "DCAF16": {
+            "gene": "DCAF16",
+            "ensembl": "ENSG00000163257",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "DDB1": {
+            "gene": "DDB1",
+            "ensembl": "ENSG00000167986",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "CUL4A": {
+            "gene": "CUL4A",
+            "ensembl": "ENSG00000139842",
+            "rna_tissue_specificity": "Tissue enhanced",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "CUL4B": {
+            "gene": "CUL4B",
+            "ensembl": "ENSG00000158290",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "RBX1": {
+            "gene": "RBX1",
+            "ensembl": "ENSG00000100387",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          }
+        },
+        "all_broadly_expressed": true,
+        "record_complete": true,
+        "components_not_broadly_expressed": [],
+        "unresolved_symbols": []
+      },
+      "CRL3_KEAP1": {
+        "_label": "CRL3^KEAP1 (KEAP1 recruiter arm)",
+        "components": {
+          "KEAP1": {
+            "gene": "KEAP1",
+            "ensembl": "ENSG00000079999",
+            "rna_tissue_specificity": "Tissue enhanced",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "CUL3": {
+            "gene": "CUL3",
+            "ensembl": "ENSG00000036257",
+            "rna_tissue_specificity": "Tissue enhanced",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "RBX1": {
+            "gene": "RBX1",
+            "ensembl": "ENSG00000100387",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          }
+        },
+        "all_broadly_expressed": true,
+        "record_complete": true,
+        "components_not_broadly_expressed": [],
+        "unresolved_symbols": []
+      },
+      "CRL2_FEM1B": {
+        "_label": "CRL2^FEM1B (FEM1B recruiter arm)",
+        "components": {
+          "FEM1B": {
+            "gene": "FEM1B",
+            "ensembl": "ENSG00000169018",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "ELOB": {
+            "gene": "ELOB",
+            "ensembl": "ENSG00000103363",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "ELOC": {
+            "gene": "ELOC",
+            "ensembl": "ENSG00000154582",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "CUL2": {
+            "gene": "CUL2",
+            "ensembl": "ENSG00000108094",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          },
+          "RBX1": {
+            "gene": "RBX1",
+            "ensembl": "ENSG00000100387",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          }
+        },
+        "all_broadly_expressed": true,
+        "record_complete": true,
+        "components_not_broadly_expressed": [],
+        "unresolved_symbols": []
+      },
+      "RING_BIRC2": {
+        "_label": "cIAP1/BIRC2 (monomeric RING E3 \u2014 no cullin scaffold)",
+        "components": {
+          "BIRC2": {
+            "gene": "BIRC2",
+            "ensembl": "ENSG00000110330",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          }
+        },
+        "all_broadly_expressed": true,
+        "record_complete": true,
+        "components_not_broadly_expressed": [],
+        "unresolved_symbols": []
+      },
+      "RING_RNF114": {
+        "_label": "RNF114 (monomeric RING E3 \u2014 no cullin scaffold)",
+        "components": {
+          "RNF114": {
+            "gene": "RNF114",
+            "ensembl": "ENSG00000124226",
+            "rna_tissue_specificity": "Tissue enhanced",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          }
+        },
+        "all_broadly_expressed": true,
+        "record_complete": true,
+        "components_not_broadly_expressed": [],
+        "unresolved_symbols": []
+      },
+      "RING_MDM2": {
+        "_label": "MDM2 (monomeric RING E3 \u2014 nutlin-recruited)",
+        "components": {
+          "MDM2": {
+            "gene": "MDM2",
+            "ensembl": "ENSG00000135679",
+            "rna_tissue_specificity": "Low tissue specificity",
+            "rna_tissue_distribution": "Detected in all",
+            "broadly_expressed": true
+          }
+        },
+        "all_broadly_expressed": true,
+        "record_complete": true,
+        "components_not_broadly_expressed": [],
+        "unresolved_symbols": []
+      }
+    },
+    "broadly_expressed_and_complete": [
+      "CRL2_FEM1B",
+      "CRL3_KEAP1",
+      "CRL4_DCAF1",
+      "CRL4_DCAF15",
+      "CRL4_DCAF16",
+      "RING_BIRC2",
+      "RING_MDM2",
+      "RING_RNF114"
+    ],
+    "flagged_or_incomplete": []
+  }
 }

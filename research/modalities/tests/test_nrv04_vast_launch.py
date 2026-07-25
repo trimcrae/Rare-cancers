@@ -23,7 +23,11 @@ def test_jobspec_targets_ternary_host_and_carries_leg_env():
     spec = build_jobspec(leg_by_id("cov_nr4a1"), 0, "run", "mybranch", _BUCKET)
     assert spec.name == "nrv04cov-cov_nr4a1-s0"
     r = spec.resources
-    assert r.gpu == "rtx3090" and r.min_vram_gb == 24 and r.ram_gb == 16 and r.interruptible is True
+    # ram_gb was pinned at 16 here until 2026-07-24, when both retrospective pilot legs were OOM-killed on it.
+    # The assertion was pinning the defect: 16 GB is not enough to solvate/parameterize a ~466k-atom assembly,
+    # and the covalent panel surviving on it was host luck on free memory. Asserted as a FLOOR now, so raising
+    # headroom later never trips this test again.
+    assert r.gpu == "rtx3090" and r.min_vram_gb == 24 and r.ram_gb >= 48 and r.interruptible is True
     assert r.min_cuda >= 12.4 and r.interruptible is True        # new-driver hosts only (PTX), cheap interruptible tier
     assert spec.checkpoint_uri == f"s3://{_BUCKET}/vast/nrv04cov-cov_nr4a1-s0/ckpt"
     e = spec.env
