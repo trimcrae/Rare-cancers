@@ -45,8 +45,11 @@ against 25.73 Å for the runner-up.**
 | **registry A (5T35)** | 30.85 Å | **0.09 Å** | **0.99 Å** |
 | registry B (6GMN) | 69.91 Å | **39.15 Å** | **51.41 Å** |
 
-The 0.99 Å is an exact agreement rather than a coincidence: 5T35 and 8R5H carry **the same ligand** (MZ1,
-het 759), so the two derivations of "where does the linker leave VHL" are comparing like with like.
+The 0.99 Å is a genuine agreement rather than a coincidence: 5T35 and 8R5H carry **the same ligand** (MZ1,
+het 759), so the two derivations of "where does the linker leave VHL" are comparing like with like. They pick
+*neighbouring* atoms of it — `CAG` in 5T35, `CAE` in 8R5H — which is exactly the resolution the
+furthest-E3-side-atom rule can be expected to have on a 3.44 Å cryo-EM structure versus a 2.7 Å crystal, and
+is the scale of disagreement the convention is worth.
 
 **Registry A is right. Registry B's exit vector is not on the VHL ligand site.**
 
