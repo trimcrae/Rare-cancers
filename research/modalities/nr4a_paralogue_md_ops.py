@@ -65,7 +65,28 @@ def bucket():
 
 
 def leg_names(targets):
-    return [f"{LABEL_PREFIX}-{t.strip().lower()}" for t in targets.split(",") if t.strip()]
+    """Both the real and the smoke leg name for each target.
+
+    The launcher names a smoke leg `nr4a-pdyn-nr4a1-smoke` and gives it its own S3 prefix, so a board that
+    only knew the real name reported "no phase yet, no run.log yet" for a leg that was demonstrably running at
+    60 % GPU — a monitoring check that measures nothing, which is the exact failure class this repo keeps
+    paying for. Listing both is harmless: a prefix with nothing under it just reports absent."""
+    out = []
+    for t in targets.split(","):
+        t = t.strip().lower()
+        if t:
+            out += [f"{LABEL_PREFIX}-{t}", f"{LABEL_PREFIX}-{t}-smoke"]
+    return out
+
+
+def target_of(name):
+    """`nr4a-pdyn-nr4a1` / `nr4a-pdyn-nr4a1-smoke` -> `nr4a1`. A bare rsplit('-') returns 'smoke' for the
+    second form and would look for a tarball that never exists."""
+    parts = name.split("-")
+    for p in reversed(parts):
+        if p.startswith("nr4a") and p != "nr4a":
+            return p
+    return parts[-1]
 
 
 def _s3():
@@ -102,8 +123,7 @@ def instances():
 
 
 def result_key(name):
-    target = name.rsplit("-", 1)[-1]
-    return f"{RESULT_PREFIX}/{name}/{target}-pocket-ensemble.tar.gz"
+    return f"{RESULT_PREFIX}/{name}/{target_of(name)}-pocket-ensemble.tar.gz"
 
 
 def status(targets):
@@ -192,7 +212,7 @@ def collect(targets):
     s3 = _s3()
     got = []
     for name in leg_names(targets):
-        target = name.rsplit("-", 1)[-1]
+        target = target_of(name)
         k = result_key(name)
         if not _exists(s3, k):
             print(f"[ops] {name}: no deliverable yet at s3://{bucket()}/{k}")

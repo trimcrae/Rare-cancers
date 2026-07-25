@@ -20,5 +20,5 @@
   "release_ns": 5,
   "n_rep": 3,
   "exclude_machines": "",
-  "note": "watch with a published board: the job-logs API 404s for an in-progress job, so each tick force-pushes the board to the lane13-watch cache branch and emits a one-line notice annotation"
+  "note": "watch fix: a smoke leg is named nr4a-pdyn-<t>-smoke with its own S3 prefix, so the board was reporting 'no phase yet' for a leg that was demonstrably running at 60 % GPU"
 }
