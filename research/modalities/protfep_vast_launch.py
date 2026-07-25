@@ -105,6 +105,13 @@ ls -la /tmp/protfep_out || true
 cd /root
 curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz || { echo "repo pull failed"; exit 3; }
 cd Rare-cancers-*/research/modalities || exit 3
+# WHICH CODE actually ran. The host pulls a codeload TARBALL of the branch head, so there is no git
+# sha on disk and the branch may have moved between dispatch and container start. A content hash of
+# the driver is the only fingerprint that cannot lie, and without it a `failed` record in S3 is
+# ambiguous between "the fix does not work" and "this is the pre-fix attempt's record" — which is
+# exactly the ambiguity that cost a diagnostic round trip on the complex leg.
+export PROTFEP_CODE_SHA256="$(sha256sum protfep_pmx.py | cut -c1-12)"
+echo "[protfep] driver protfep_pmx.py sha256[:12]=$PROTFEP_CODE_SHA256 branch=$GIT_BRANCH"
 mark cloned
 # --- continuous checkpoint upload (every 3 min) so a preemption never loses the leg ---
 ( while true; do sleep 180; \
@@ -342,6 +349,7 @@ def collect(bucket=None, prefix=None, autostop=True):
                 print(f"[collect] unreadable {key}: {e}")
                 continue
             (done if doc.get("status") == "done" else partial)[doc.get("leg_id", key)] = doc
+            doc["_s3_last_modified"] = obj["LastModified"].strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # Phase markers + the tail of each leg's log. A status board that shows only finished JSONs is a
     # LIVENESS check ("the instance is up"), and this repo's rule for an unproven pipeline is that a
@@ -357,8 +365,13 @@ def collect(bucket=None, prefix=None, autostop=True):
                 phase = s3.get_object(Bucket=b, Key=obj["Key"])["Body"].read().decode().strip()
             except Exception as e:  # noqa: BLE001
                 phase = f"(unreadable: {e})"
-            age_min = (obj["LastModified"].timestamp() - obj["LastModified"].timestamp()) / 60
-            print(f"    {leg}: {phase}  (marker written {obj['LastModified']:%H:%M:%S} UTC)")
+            # AGE, not just a wall-clock stamp. "cloned at 23:28" tells you nothing on its own; "cloned
+            # 47 min ago" is the stall signal. The previous version computed the age by subtracting a
+            # timestamp from itself, so it was always 0.0 — and it was never printed, which is why an
+            # apparently-live board could not distinguish a leg advancing from one frozen for an hour.
+            age_min = (time.time() - obj["LastModified"].timestamp()) / 60
+            print(f"    {leg}: {phase}  (marker written {obj['LastModified']:%H:%M:%S} UTC, "
+                  f"{age_min:.0f} min ago)")
             log_key = obj["Key"].replace("/phase.txt", "/run.log")
             try:
                 tail = s3.get_object(Bucket=b, Key=log_key)["Body"].read().decode(errors="replace")
@@ -383,6 +396,13 @@ def collect(bucket=None, prefix=None, autostop=True):
             done_n, total_n, unit = doc.get("iterations_done", 0), doc.get("prod_iters_target"), "iters"
         print(f"  ....  {lid}: {doc.get('status')} {done_n}/{total_n} {unit}"
               + (f" — {doc.get('error')}" if doc.get("status") == "failed" else ""))
+        # WHEN the record was written, always — not only on failure. Without it a `failed` record is
+        # ambiguous between "the fix did not work" and "this is a stale record from the attempt before
+        # the fix, still sitting in S3 because the new leg has not got far enough to overwrite it."
+        # Those two readings call for opposite actions, and only the timestamp separates them. The
+        # reap already reasons about this (_record_is_newer_than_instance); the board did not show it.
+        print(f"        record: updated_utc={doc.get('updated_utc')} started_utc={doc.get('started_utc')} "
+              f"s3_mtime={doc.get('_s3_last_modified')} driver={doc.get('driver_sha256')}")
         if doc.get("status") == "failed":
             # Print the FULL traceback, not just the exception line. A one-line summary tells you
             # WHAT failed; only the traceback tells you WHERE, and on a rented host the difference

@@ -1097,3 +1097,40 @@ def test_completed_leg_ids_never_blocks_a_launch(monkeypatch):
 
     monkeypatch.setattr(builtins, "__import__", _boom)
     assert pv.completed_leg_ids() == []
+
+
+MOD_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def test_pipeline_fingerprints_the_driver_it_actually_ran():
+    """The host pulls a branch TARBALL, so a content hash is the only honest code-provenance field."""
+    pipeline = pv._PIPELINE
+    assert "sha256sum protfep_pmx.py" in pipeline
+    assert "PROTFEP_CODE_SHA256" in pipeline
+    # It must be computed AFTER the tarball is unpacked, or it hashes nothing.
+    assert pipeline.index("tar xz") < pipeline.index("PROTFEP_CODE_SHA256")
+
+
+def test_driver_records_its_own_fingerprint():
+    """A leg record must carry the hash of the code that produced it, env-overridable by the host."""
+    src = open(os.path.join(MOD_DIR, "protfep_pmx.py")).read()
+    assert '"driver_sha256": os.environ.get("PROTFEP_CODE_SHA256") or _self_sha256()' in src
+    # And the fallback must be incapable of failing a paid leg.
+    body = src.split("def _self_sha256():")[1].split("\n# ----")[0]
+    assert "except OSError:" in body and "return None" in body
+
+
+def test_phase_marker_age_is_a_real_age_not_zero():
+    """`cloned at 23:28` is not a stall signal; `cloned 47 min ago` is."""
+    src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
+    assert 'time.time() - obj["LastModified"].timestamp()' in src
+    assert "min ago" in src
+
+
+def test_collect_prints_record_provenance_for_every_partial_leg():
+    """Staleness of a `failed` record is only decidable from its timestamps + driver hash."""
+    src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
+    block = src.split("for lid, doc in sorted(partial.items()):")[1]
+    provenance = block.index("driver=")
+    failed_only = block.index('if doc.get("status") == "failed":')
+    assert provenance < failed_only, "provenance must print for ALL partial legs, not only failures"

@@ -63,6 +63,21 @@ import md_settings  # noqa: E402
 import nr4a3_protein_fep as pf  # noqa: E402
 import protfep_bench as bench  # noqa: E402
 
+
+def _self_sha256():
+    """First 12 hex chars of this file's SHA-256, or None if it cannot be read. Never raises.
+
+    A provenance field must not be able to fail a leg — an unreadable source file would be bizarre,
+    but recording `null` beats a traceback three hours into a paid run.
+    """
+    import hashlib
+    try:
+        with open(os.path.abspath(__file__), "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()[:12]
+    except OSError:
+        return None
+
+
 # ---- lane settings (env-overridable; these defaults ARE the recipe) ------------------------------
 N_STATES = int(os.environ.get("PMX_N_STATES") or "16")
 # pmx ships hybrid residue definitions only for ITS mutation force fields; a stock GROMACS ff cannot
@@ -749,6 +764,13 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, work_dir=None, n_sta
             "lane survives a full leg, and record it — do not assume it transfers from another lane."),
         "status": "starting",
         "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        # Fingerprint of the driver that produced this record. Set by the Vast onstart from
+        # `sha256sum protfep_pmx.py`; falls back to hashing this file directly so a local or CI run
+        # is fingerprinted too. Provenance on a result is worth having on its own, but the immediate
+        # reason is staleness: an old `failed` record sits in S3 until the next attempt overwrites
+        # it, and only the code hash distinguishes "the fix did not take" from "you are reading the
+        # attempt from before the fix."
+        "driver_sha256": os.environ.get("PROTFEP_CODE_SHA256") or _self_sha256(),
     }
     if meta:
         record["meta"] = meta
