@@ -25,7 +25,9 @@ The re-fold route was not argued away, it was **tested and refuted** (§6, ~$0.0
 
 **Recommendation: RE-SCOPE. Drop the covalent legs.** Now evidenced rather than provisional — §5.
 
-Total spend: **$0.02** (one Vast RTX-4080/32 GB at $0.1211/hr, ~12 min). Everything else was $0 CPU/CI.
+Total spend: **$0.05** (one Vast instance, RTX 4080/32 GB at $0.1211/hr, 22 min wall from submit to
+destroy; ~12 min of it was the actual predictions — see §9 on why the other 10 min were billed). Everything
+else was $0 CPU/CI.
 
 | # | finding | evidence |
 |---|---|---|
@@ -191,7 +193,7 @@ about covalency, and the write-up must state that the covalent confound is docum
 confound stays explicit in every NR-V04 statement: NR4A1 Cys551 is unique to NR4A1 (NR4A3 has Thr579), so a
 concordant result may reflect **target engagement** rather than ternary cooperativity.
 
-## 6. The re-fold route — RUN, and refuted (RTX 4080/32 GB, ~12 min, **$0.02**)
+## 6. The re-fold route — RUN, and refuted (RTX 4080/32 GB, ~12 min of prediction, **$0.05** billed)
 
 Rather than argue that a re-fold could not work, this lane ran the experiment that decides it.
 [`nrv04_celastrol_site_probe.py`](./nrv04_celastrol_site_probe.py) put two systems on Vast through the
@@ -301,6 +303,29 @@ merely reporting it.
 - Add to the "two bugs found here propagate to the unlaunched NR-V04 retrospective" note a **third**: the
   covalent site was resolved by proximity rather than identified, so the A1 gate, the restraint and the C551A
   mutation all pointed at C566. Fixed in `nrv04_covalent_md._frozen_cys_by_construct`.
+
+## 9. An infrastructure gap this run exposed — `mode=cofold` has no control-plane reap
+
+**Evidence, from the instance's own log.** After all 6 predictions completed, the script re-ran and printed
+`seed N: existing CIF found → resume-skip` six times, then `Killed`, then the container came back up
+(`Server listening on 0.0.0.0 port 22`) and started re-installing Boltz. Two full cycles were observed before
+the instance was destroyed by hand.
+
+**Mechanism.** `gpu_backend._vast_onstart` arms a key-free `trap ct_selfdestroy EXIT` that halts GPU billing by
+killing the container — that is the `Killed`, and it worked. But the module's own comment is explicit that
+*"the guaranteed DESTROY is CONTROL-PLANE only — the CI-side collect reap … + stop_all"*. `collect()` reaps
+**panel units**; `cofold()` submits and returns a handle that **nothing ever reaps**. So a finished co-fold
+instance is left for Vast to restart, and it re-runs onstart in a loop until someone notices.
+
+**Cost of the gap here:** 22 min billed against ~12 min of useful prediction — $0.045 instead of ~$0.024, i.e.
+it roughly **doubled the cost of the run**, and would have kept doubling. At this scale it is pocket change;
+on a ternary co-fold at 1–2 h per system it is not, and it bills indefinitely rather than proportionally.
+
+**Fix (not applied here — it belongs to whoever owns the launcher):** give `cofold()` the same treatment the
+panel lane has — either a `cofold_collect` mode that destroys an instance once its `phase.txt` reads `done`,
+or reuse the existing 240-min backstop reap by registering the co-fold handle with it. Until then, **every
+`mode=cofold` dispatch must be paired with a `stop_all` once `phase.txt` says done**, and
+`nrv04_s3_tail` (added here) is the cheap way to see that.
 
 ## Provenance / honesty
 
