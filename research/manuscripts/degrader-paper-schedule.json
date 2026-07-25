@@ -1,472 +1,472 @@
 {
-  "_README": [
-    "OPTIMISTIC critical-path plan for the NR4A3 PROTAC-degrader paper (ChemRxiv preprint + JCIM).",
-    "This file is the SINGLE MACHINE SOURCE the daily status email projects into a day-by-day calendar.",
-    "HUMAN-READABLE MASTER (read this for the full rationale, GO/NO-GO gates + 'what's next'):",
-    "  STRATEGY.md. Milestone `id`s here match the stage tags in that master plan.",
-    "Keep the two in sync: when work lands, update each milestone's `status` and, for an in-progress item,",
-    "`remaining_days`. `status`: done | in_progress | pending. `track`: gpu | cpu | write | submit.",
-    "`parallel_ok`: true = may overlap other legs up to the 8-wide spot quota. `cost_est_usd`: est. SPOT $ for",
-    "THAT step (honest range; pin tighter from realized GPU-h before launch).",
-    "",
-    "2026-07-15 (trimcrae, after the reviewer verdict): SPEND-GATED LADDER + NO PRE-AUTHORIZATION.",
-    "  (a) NOTHING is pre-authorized or staged to auto-launch. EVERY gpu run is presented at its gate with the",
-    "      prior result + a pinned cost estimate, and waits for an explicit trimcrae 'go'. Only $0 CPU/CI runs",
-    "      without a nod.",
-    "  (b) The order is CHEAPEST-DECISIVE-FIRST: the cheapest run that could KILL the paper runs first, and each",
-    "      rung's bigger spend is unlocked ONLY if the previous cheaper rung's result looks promising. We can kill",
-    "      a non-viable paper for ~$25 (valA_mini) and never reach the ~$150-400 flagship matrix until four cheaper",
-    "      gates have each said GO. See the master plan's Spend summary + GO/NO-GO tests.",
-    "  RUNGS: 0 free/running (step0, emc_e3, pocket_reanalysis) -> 1 valA_mini (kill-switch) -> 2 step1_pilot +",
-    "  valB_mini (all-binding graded edge) -> 3 valB_full CUBE + nrv04_feasibility -> 4 step1_fanout +",
-    "  nr4a_differential_atlas($0) + nrv04_retrospective -> 5 ORIENTATION-FIRST LADDER: orientation_basin_search ->",
-    "  selectivity_wedge_confirm (*** CAUSAL KILL-SWITCH: no confirmed NR4A3 wedge => STOP + publish negative) ->",
-    "  inverse_linker_design($0) -> ternary_ensemble_refine -> local_ternary_fep -> 6 fold/redteam/post.",
-    "  OPTIONAL/HELD: dg_open, abfe_conditional.",
-    "  2026-07-24 RESTRUCTURING: RUNG 5 fixed {warhead x exit x ligase x linker} matrix REPLACED by an",
-    "  orientation-first inverse-design ladder with a causal kill-switch (reciprocal alchemical mutation cycles).",
-    "  Pilot-first kill-switch: atlas($0)+basin($0-50)+ONE pilot mutation leg. **BLOCKED + UNPRICED as of 2026-07-24:**",
-    "  the mutation legs are PROTEIN-residue swaps (NR4A3->NR4A1), and this repo has no protein-mutation FEP engine -",
-    "  OpenFE RHTP maps LIGAND atoms only, and the sole protein-mutation path (nr4a3_resistance_ddg.py) is MM-GBSA,",
-    "  not alchemical. Every past price for this rung (~$40-90 pilot / ~$100-350 cycle, later ~$5-10 / ~$15-30)",
-    "  assumed a capability that does not exist. Scope an engine before planning or pricing this rung; the wedge also",
-    "  needs one CHARGE_METHOD pinned across its binary(am1bcc) and ternary(nagl) legs. Card: default everything on Vast",
-    "  to the 4090 (measured $/ns winner at EVERY size, endpoint MD included). DO NOT quote a whole-program total (see",
-    "  the 2026-07-24 CORRECTED economics note below + STRATEGY.md); price bottom-up per edge. STRATEGY.md authoritative.",
-    "",
-    "The reviewer's 5 mandatory changes (verbatim: nr4a3-degrader-reviewer-revisions-2026-07-15.md):",
-    "  (1) separate ACCURACY (public measured-ddG benchmark) vs PRECISION (cmpd19 = conditional hypotheses, no",
-    "      pose) vs TERNARY known-answer control (VHL-BRD4/SMARCA2); NR-V04 -> biological HOLDOUT, not calibrator.",
-    "  (2) cryptic-pocket affinities are CONDITIONAL (dG_bind|open); dG_open differs per paralogue -> part of",
-    "      selectivity. Estimate dG_open per paralogue OR report conditional. Delete 'true binding likely stronger'.",
-    "  (3) ABFE HELD/reframed: T4L is a smoke test not a transferable offset; report RAW; not proof of binding.",
-    "  (4) NR-V04 celastrol is COVALENT (C551) -> covalent adduct + C551A + noncov/cov sensitivity + recruiter",
-    "      controls; report DIRECTIONAL CONCORDANCE, never 'recovered degradation'.",
-    "  (5) prospective matrix = staged gates + PARETO (not a tunable scalar); model EWSR1::NR4A3 fusion context +",
-    "      lysines beyond the LBD + full CRL/E2~Ub ensembles; 24-36 before controls -> preregistered downselect.",
-    "  LANGUAGE: 'predicted selective candidate'; never imply efficacy/safety/therapeutic-window/clinical-readiness;",
-    "  cmpd19 MYC induction is a LIABILITY, not benefit.",
-    "",
-    "2026-07-24 (CORRECTED Vast economics; supersedes a 2026-07-23 note): TWO findings. (1) CARD DECISION (measured,",
-    "  solid): gpu_md_bench 4090=1549/669/175.6 vs 3090=72.5 ns/day at 35k/85k/444k -> the 4090 wins $/ns at EVERY",
-    "  size INCLUDING the 466k covalent panel (2.42x the 3090, ~9% more/hr), refuting the a-priori 3090-for-covalent",
-    "  pick (single-host-per-point; confirm before moving a large panel). (2) RETRACTION: a 2026-07-23 note claimed",
-    "  the whole program is ~$80-200 on Vast 4090 by scaling PLAIN-MD bench throughput by ~1.7x - that retraction",
-    "  stands. But the RBFE leg is now MEASURED on Vast 4090 and it is CHEAP; the old ~55-GPU-h AWS anchor is REFUTED",
-    "  for this hardware. PROVENANCE (this session, 2026-07-24): the firm RBFE run was live-diagnosed on Vast instance",
-    "  45654998 - OpenFE HREX complex leg (TYK2 valA, 12 windows, hardcoded 5 ns production) ran ~5.2 s/iter x 2000",
-    "  production iters = ~2h52m sampler, + ~43 min boot/setup -> ~3.6 GPU-h billed at $0.122/hr (~$0.44); solvent leg",
-    "  adds ~1.5-2 GPU-h. So RBFE binary edge (complex+solvent) ~5-6 GPU-h ~$0.6-1.4; step1_fanout(19) ~$12-26. The old",
-    "  ~55 GPU-h came from a 2026-07-13 AWS A10G leg that was ~65% GPU-IDLE (CPU-bottlenecked by 12x per-window am1bcc",
-    "  re-charging, nr4a3-post-pilot-sequence.md); the Vast run charges once in setup -> ~15x fewer GPU-h. N_ITER does",
-    "  NOT truncate production (nr4a3_rbfe.py:364-365 hardcodes 5 ns), so the earlier 'ran ~2h without finishing = 55",
-    "  GPU-h' reading was WRONG - the leg was on track to finish at ~2h52m. Ternary 3-replica edge (146,509-particle,",
-    "  **12**-window - CORRECTED 2026-07-24): PROJECTED, not measured. The valB_mini GCP L4 run gave a per-ITERATION",
-    "  RATE (~33 s/iter; 'total wall 8:40:29' ~= 920 iters), and 920 iters is NOT a finished leg - the protocol hardcodes",
-    "  1 ns equil + 5 ns prod at 2.5 ps/iter = 400+2000 = 2400 iters (nr4a3_rbfe.py:364-365), so that wall clock covered",
-    "  ~38% of a leg and the earlier ~$3-6/edge was ~2.6x LOW. Corrected: ~22 L4-GPU-h/leg -> x2 legs x3 replicas ~= ~132",
-    "  L4-GPU-h -> / a SPEC-BASED (never benchmarked) ~2.3x L4->4090 ratio ~= **~$10-16 Vast 4090** (RECONCILED: their MEASURED 4090 rate ~14-18 s/iter x the corrected 2400-iter leg = ~10.7 GPU-h/leg -> ~64 GPU-h/edge)",
-    "  (**~$94 as-run on L4 on-demand**). Caveats that must travel with it: NO ternary leg has ever run to completion, so",
-    "  even the leg LENGTH is unverified; the L4->4090 card ratio is now MEASURED at ~2.06x (33 -> 16 s/iter, count-independent, so it survives the leg-length correction); window count is 12 not the 16 an",
-    "  earlier note carried (gpu-ternary-fep-gcp.yml:29,70). Old $65-110 and $3-6 both superseded. Whole gated ladder now",
-    "  totals ~$390 mid-range (~$170-610) on Vast 4090 for the PRICEABLE stages, GO at every gate, excl. optional/HELD",
-    "  dg_open+ABFE (~$200-500 more) AND excl. the 5a-KS mutation wedge + reciprocal cycle, which are UNPRICED: OpenFE's",
-    "  RelativeHybridTopologyProtocol maps LIGAND atoms only and the repo's sole protein-mutation path is non-alchemical",
-    "  MM-GBSA endpoint scoring, so no engine exists (see selectivity_wedge_confirm.blocked_by). Swings, in order: the",
-    "  unpriced wedge, the L4->4090 conversion, then ensemble-MD leg count (5c + retrospective).",
-    "  Authoritative detail in STRATEGY.md -> economics block + research/compute/pricing.md (single source of truth).",
-    "2026-07-24 TERNARY-SELECTIVITY STRATEGY REVISION (research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md; folded into STRATEGY.md, which stays authoritative). DIAGNOSIS: the prospective stage sought selectivity ONLY on the MARGINAL axis (an induced-interface free-energy difference). selectivity_margin_model.py: an 80%/20% degradation window needs ~2.0 kcal/mol of TRUE margin (median over 27 potency scenarios, 1.75-2.25) vs a best-case RESOLVABLE difference of 1.12 kcal/mol (replicate SD 0.7, n=3) and ~1.7 kcal/mol RMSE accuracy that does not even cover the NAGL ternary lane -> that axis is a CONFIRMATION tool at its limit, not a DISCOVERY tool. FIX: search CATEGORICAL axes first, where the paralogues are structurally incapable. nr4a_paralogue_unique_residues.py (full-length UniProt, dual-aligner agreement, run on CI): NR4A3 has 4 unique cysteines (C397 RSA 0.395 at 10.9 A from the cryptic pocket = exit-vector reach; C420; C559; C166 outside the LBD) and 4 unique lysines (K572 RSA 0.879, K518, K592 exposed at 11-16 A; K178 outside) that BOTH paralogues lack. At ZERO thermodynamic margin those give 0.82 (unique lysine) / 0.92 (covalent capture, kinetic form) on the window metric where the interface-only null gives 0.185. PRECEDENT: NR-V04, the field's one demonstrated NR4A-family-selective degrader, is most parsimoniously explained by a paralogue-unique cysteine (NR4A1 C551 -> NR4A3 T579, reproduced here) - filed until now only as a confound. CHECKED-AND-WEAK, reported not dropped: the EWSR1 fusion moiety contributes only 1-2 lysines (Lys-poor LC domain) -> fusion-lysine axis is thin, NOT a design axis. SIX COST LEVERS: (1) 4 fs ternary production ~2x cheaper/leg (runbook 1c: post-pre-equilibration calib ran production 40/40 at 4 fs, zero NaN; iterations are timestep-independent) - PROPOSED, settled by one ~$5-8 matched re-calibration edge; (2) the binary and solvent legs are PARALOGUE-INDEPENDENT so they cancel EXACTLY in any paralogue comparison -> a 3-paralogue panel is 3 ternary LEGS + 1 shared binary + 1 shared solvent, NOT 3 edges (valB_full module 3 and nrv04_retrospective were both priced as N edges); (3) sequential anytime-valid stopping via the already-built adaptive_certify.py, ~20-25%; (4) decouple the causal kill-switch from valB_full + nrv04_retrospective so the free gates lead; (5) the LIGAND-SIDE DOUBLE DIFFERENCE S = ddG_coop(d0->d|NR4A3) - ddG_coop(d0->d|NR4A1) becomes the PRIMARY causal test (ternary legs only, no protein-mutation engine, no cross-lane charge mismatch); the protein-mutation cycle is kept as a CONFIRMATORY second line, still UNPRICED; (6) E3 breadth is free at CPU search, capped at <=2 recruiters before any GPU. Ladder: ~$390 mid (~$170-610) -> ~$240 mid (~$90-390), with lower EXPECTED cost because the leading gates are $0. THREE DECISIONS PENDING A trimcrae GO: adopt 4 fs; swap the method calibrator to SMARCA2-vs-SMARCA4 (NR-V04 stays the biological holdout); demote the protein-mutation wedge to confirmatory."
-  ],
-  "paper": "research/manuscripts/nr4a3-degrader-paper.md",
-  "master_plan": "STRATEGY.md",
-  "reviewer_verdict": "research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md",
-  "target_venue": "ChemRxiv (CC-BY, free) + JCIM subscription route ($0)",
-  "spend_policy": "NO pre-authorization. Every GPU run waits for an explicit go at its gate with a pinned cost. Cheapest-decisive-first: never spend an expensive rung unless the previous cheaper rung's result is promising.",
-  "last_reviewed": "2026-07-24",
-  "milestones": [
-    {
-      "id": "step0_rbfe_mechanics",
-      "title": "RUNG 0: get RBFE running on OpenFE + managed-spot GPU (infra shakeout - NOT science yet)",
-      "status": "done",
-      "track": "gpu",
-      "cost_est_usd": "5-15 (realized ~1-2)",
-      "optimistic_days": 2,
-      "remaining_days": 0,
-      "parallel_ok": false,
-      "depends_on": [],
-      "note": "DONE 2026-07-16 (PASSED, GO). One OpenFE RBFE edge (shared solvent morph denovo_401->lo_m0_NCCO_gen) ran end-to-end via the spot-safe split (setup CPU -> simulate GPU-spot RBFE_SPOT_SAFE=1 -> analyze MBAR); converged dG_morph = -48.75 +/- 0.57 kcal/mol. Confirmed am1bcc charging works on real hardware AND the spot-safe warmup->production->commit/restore driver (main f5f9bbb) is GPU-validated on our real edge (live S3 commits seen in production). Realized ~$1-2 spot. HISTORICAL: Driving OpenFE RBFE on a managed-spot instance (edge 401->lo_m0_NCCO). Re-dispatched ~7x on 2026-07-15 while fixing an ExecuteUserScriptError. Prerequisite for ALL science. CHARGE-MODEL FIX (2026-07-15, free engineering): root-caused the earlier am1bcc failure = the RBFE conda env shipped WITHOUT ambertools; added ambertools>=23 + set partial_charge_method='am1bcc' (CHARGE_METHOD=nagl fallback). The NEXT shakeout uses am1bcc and confirms CPU charging succeeds (~$0 marginal); this puts us on the documented reference method so we can CITE OpenFE's validation and cut Val A to a near-free smoke. GO/NO-GO: one edge completes end-to-end with a sane dG -> proceed; if it can't run at all -> FEP program blocked, reconsider tooling. Also gives us the realized GPU-h/edge to pin every downstream cost."
-    },
-    {
-      "id": "emc_e3_expression",
-      "title": "RUNG 0 (free): public EMC VHL/CRBN expression analysis (informs ligase choice)",
-      "status": "done",
-      "result": "DONE 2026-07-23 (HPA via CI run 30038257256, nr4a-e3-expression.json). All 10 components of BOTH arms 'Detected in all' tissues -> both CRL2^VHL (VHL/ELOB/ELOC/CUL2/RBX1) and CRL4^CRBN (CRBN/DDB1/CUL4A/B/RBX1) broadly expressed => VHL-vs-CRBN choice NOT constrained by machinery availability; decide on ternary/geometry/selectivity grounds. Honest limit: no EMC line in HPA -> general soft-tissue/mesenchymal availability, not EMC-specific. \u2605 WIDENED 2026-07-24 (cost lever 6, CI run 30125742542): the panel now also covers CRL4^DCAF1/DCAF15/DCAF16, CRL3^KEAP1, CRL2^FEM1B and the monomeric RING E3s cIAP1/BIRC2, RNF114 and MDM2 - the ligandable recruiter set the mechanism-first basin search samples. ALL 8 widened arms are broadly expressed AND record-complete (every symbol resolved through HPA's own search with an exact-match guard; zero unresolved, zero flagged). CONSEQUENCE: availability does NOT constrain the recruiter choice for ANY of the widened set either, so the mandatory downselect to <=2 recruiters before any GPU leg must be made on LIGANDABILITY + INTERFACE GEOMETRY, and no recruiter may be dropped with 'not expressed' as the reason. Same honest limit as before: no EMC line is in HPA, so this is machinery availability across general soft-tissue/mesenchymal contexts, and RNA tissue distribution is a breadth proxy, not abundance or activity.",
-      "track": "cpu",
-      "cost_est_usd": "0",
-      "optimistic_days": 1,
-      "remaining_days": 0,
-      "parallel_ok": true,
-      "depends_on": [],
-      "note": "Mandatory-change-5 support. 2026-07-23: extended nr4a3_e3_expression.py from CRBN-only to BOTH recruiter arms (CRL2^VHL: VHL+ELOB+ELOC+CUL2+RBX1; CRL4^CRBN: CRBN+DDB1+CUL4A/B+RBX1) so it actually informs the VHL-vs-CRBN choice; emits a per-arm broad-expression verdict. Ran via CI (depmap-dependency.yml, HPA egress-blocked from sandbox) -> nr4a-e3-expression.json. Honest limit: no EMC line in HPA, so this is machinery-availability across general soft-tissue/mesenchymal tissue, not EMC-specific. Free CPU, done without a nod."
-    },
-    {
-      "id": "pocket_reanalysis",
-      "title": "RUNG 0 (free): harmonized pocket-tracking re-analysis (finalize Gate 2 druggability wording)",
-      "status": "done",
-      "track": "cpu",
-      "cost_est_usd": "0",
-      "optimistic_days": 2,
-      "remaining_days": 0,
-      "parallel_ok": true,
-      "depends_on": [],
-      "note": "DONE 2026-07-23. Harmonized consolidated detection (nr4a3-pocket-reharmonize-summary.json; pinned fpocket + score-independent matcher rerun, jobs 2026-07-10) folded into the paper Gate-2 wording (Sec 2.1). Both 'await harmonized' placeholders replaced with actual both-denominator numbers: 8XTT 19/20 detected, 3 >= D*=0.53 (was 4/20 pre-harmonized -> 3/19 among detected, 3/20 across all deposited); release bias-free continuations druggable in 56/40/80% of frames per replica, 44/75=59% pooled. Cheap CPU; done without a nod."
-    },
-    {
-      "id": "valA_mini",
-      "title": "RUNG 1: reference-reproduction smoke + CITE OpenFE (reduced from a paid benchmark by the am1bcc fix)",
-      "status": "done",
-      "result": "PASS/GO 2026-07-17 (GCP L4 CUDA, spot-safe, run 29566859637). TYK2 ejm31->ejm42, full 5ns x 12-window RBFE both legs: ddg_bind=+0.366 vs ddg_exp=-0.24 kcal/mol -> abs_err=0.606 < 2.0 GO-tol => GO. Our OpenFE container reproduces a known ddG, so the build is sound (kill-switch cleared). Solvent leg ddG=13.703+/-0.079. Result in gs://.../valA-tyk2/results/ddg_nr4a3.json. Ran on GCP to burn $300 credits; survived ~9 spot preemptions purely via the GCS checkpoint/resume path (validated end-to-end).",
-      "track": "gpu",
-      "cost_est_usd": "0-15",
-      "optimistic_days": 1,
-      "remaining_days": 0,
-      "parallel_ok": true,
-      "depends_on": [
-        "step0_rbfe_mechanics"
-      ],
-      "note": "Mandatory change 1A, REDUCED. The RUNG-0 charge-model fix (added ambertools>=23 to environment-rbfe.yml; partial_charge_method='am1bcc') put us on the STANDARD documented method, so am1bcc is what OpenFE's published ~1.7 kcal/mol benchmark rests on - we CITE that and only run a minimal 1-2 public known-answer edge to confirm OUR container build reproduces a known ddG (charging verify is CPU/$0; confirming MD edge ~$5-15). Does NOT touch NR4A - build-consistency check. GO/NO-GO: 1-2 edges land near known ddG -> build sound, GO. Off -> real container bug, fix before spending. FALLBACK: if am1bcc charging ever fails on a specific ligand, set CHARGE_METHOD=nagl and Val A reverts to the paid ~$25 NAGL-validation benchmark. NOT pre-authorized - presented with a pinned cost after step 0."
-    },
-    {
-      "id": "step1_pilot_cmpd19",
-      "title": "RUNG 2: cmpd19 CONDITIONAL relative FE, 1-2 edges + replicas + pose/state sensitivity",
-      "status": "done",
-      "track": "gpu",
-      "cost_est_usd": "15-40 estimated -> REALIZED ~1-3 (one RBFE edge on Vast-4090 bases; ran on Modal L4)",
-      "optimistic_days": 3,
-      "remaining_days": 0,
-      "parallel_ok": true,
-      "depends_on": [
-        "valA_mini"
-      ],
-      "result_first_edge": {
-        "date": "2026-07-18",
-        "edge": "zaienne_cmpd19 -> cw_ev_5nh2 (5-Br -> 5-NH2 indole)",
-        "complex_dg_morph_kcal": -29.68,
-        "complex_unc_kcal": 0.24,
-        "solvent_dg_morph_kcal": -31.52,
-        "solvent_unc_kcal": 0.26,
-        "ddg_bind_kcal": 1.839,
-        "ddg_bind_unc_kcal": 0.36,
-        "engine": "OpenFE RelativeHybridTopologyProtocol, 12 lambda-windows HREX, MBAR; Modal L4 GPU, spot-safe GCS checkpoint/resume",
-        "interpretation": "5-NH2 analogue predicted ~1.8 kcal/mol (~20x) WEAKER than cmpd19 in the modeled opened pocket. Both legs MBAR-converged (tight within-run SE). Single edge / single replicate / single opened-conformer.",
-        "meaning": "Proves the congeneric-RBFE pipeline works end-to-end and CONVERGES on the real NR4A3 system (the plumbing half of the gate). CONDITIONAL relative FE on a HYPOTHESIZED cmpd19 pose (no solved structure, no measured affinity) -> statistical convergence + self-consistency, NOT experimental-accuracy (that is valA, the separate public benchmark).",
-        "crux_cleared": "The pilot's pre-registered crux (can a congeneric RBFE converge on this cryptic pocket without the pocket collapsing?) is CLEARED on this edge -> box checked/done.",
-        "carried_to_fanout": "replicas (reproducibility) + pose/state sensitivity (receptor-sensitivity) sweep are inputs to the RUNG-4 fan-out (refine per-edge n_windows/GPU-h + the conditional caveat); they do NOT reopen this pilot. The fan-out's Val-A accuracy gate is satisfied by 'cite OpenFE + clean valA_mini' (valA_full is SKIPPED); it does NOT require running valA_full."
-      },
-      "note": "Mandatory change 1B. Only if Rung 1 = GO. Conditional relative FE for a HYPOTHESIZED cmpd19 mode in preselected open conformers; tests reproducibility + receptor-sensitivity, NOT pose correctness. GO/NO-GO: reproducible, receptor-sensitive, pocket doesn't collapse -> GO; pathological -> anchor too fragile, reconsider before fan-out. FIRST EDGE RAN 2026-07-18 (see result_first_edge): ddG_bind=+1.84 kcal/mol, converged, pocket stable -> pilot crux CLEARED, DONE. Replicas + pose/state sensitivity carried to the fan-out (do not reopen this pilot); the fan-out's Val-A gate is satisfied by 'cite OpenFE + clean valA_mini', NOT by running the SKIPPED valA_full."
-    },
-    {
-      "id": "valB_mini",
-      "title": "RUNG 2: known-answer ternary edge Wurz cmpd1 -> cmpd4 (SMARCA2-VHL, 8G1Q; ddG_coop_exp=+0.94, alpha_SPR)",
-      "status": "in_progress",
-      "track": "gpu",
-      "cost_est_usd": "RECONCILED ~$10-16 on Vast 4090 (~64 4090-GPU-h: ~10.7 GPU-h/leg x binary+ternary x 3 replicas, from a MEASURED ~16 s/iter 4090 rate x the corrected 2400-iter leg); as-run on L4 on-demand ~$94. CORRECTED 2026-07-24: the earlier ~$3-6 / ~8.7 GPU-h-per-leg treated the live sampler's 920 iterations as a FINISHED leg; a leg is 400 equil + 2000 production = 2400 iterations at 2.5 ps/iter (nr4a3_rbfe.py:364-365), FORENSIC CONFIRMATION (GH run 30117943561, 2026-07-24): mode=forensic on calib_hi_to_lo__ternary_vhl seed 0 reports checkpoint_interval=40, analysis_last_iteration=1560, checkpoint_last_iteration=1560, TORN=false, 12 generations -> ternary production target IS 2000 iters, 1560 committed (~78%). ROOT CAUSE of the 920 confusion: 920=23x40 and 1560=39x40 are CHECKPOINT BOUNDARIES, not leg lengths; the source line 'binary_vhl leg at iter 913/920' meant 'at 913, next checkpoint 920' AND was the BINARY arm. Leg = 400 warmup + 2000 production = 2400 iters. Leg length is no longer a projection; no end-to-end dG yet. Old 65-110 also superseded. Card dominates - GPU-h-heavy. \u2605 2026-07-24 LIVE-LOG CORRECTION (GH run 30123894814, VM gcp-ternary-30112102294): the calib_hi_to_lo__binary_vhl leg ran at ~28.6-38.2 s/iter (median ~33) on L4 - the SAME rate as the ternary leg's ~33 s/iter. pricing.md's 'conservative: the binary leg is a smaller box and should run faster' is REFUTED; a binary leg is a FULL-PRICE leg. This makes the shared-binary-leg identity worth MORE, not less. Also confirmed as-run: production timestep=2.0 fs with a 1.0 fs warmup override, NaN_seen=no.",
-      "optimistic_days": 3,
-      "remaining_days": 3,
-      "parallel_ok": true,
-      "depends_on": [
-        "valA_mini"
-      ],
-      "note": "Mandatory change 1C. REDESIGNED TWICE on 2026-07-17 (research/manuscripts/valB-reviewer-decision-2026-07-17.md). (a) The original hi->lo panel edge (P1->P5) is NOT congeneric; a wide RCSB search found no clean same-assay congeneric both-alpha edge. (b) The first substitute PROTAC 2 -> cis-PROTAC 2 (epimer) was RETIRED by the reviewer (Option-1 GO): a pure single-stereocenter inversion is a NULL alchemical transformation under the production complete single-topology map (identical FF params, 124/124 atoms mapped -> ddG ~ 0 by construction; verified by an endpoint-verification smoke) and needs a bespoke partial/dummy map that is NOT the production protocol. APPROVED replacement = Wurz et al. (Nat Commun 2023) SMARCA2-VHL compound 1 -> compound 4: same-paper SPR alpha 12.8 -> 2.6, a GENUINE constitutional edge (minimal linker pyridine->benzene = ring N->CH), preregistered ddG_coop_exp = -RT ln(2.6/12.8) = +0.94 kcal/mol. Staged from PDB 8G1Q (3.73 A SMARCA4-cmpd1-VHL; NOT a SMARCA2 crystal) with a mandated SMARCA4->SMARCA2 BD substitution + >=2 relaxed models + divergence check. Built + CPU-validated: wurz-calib-frozen.json, wurz_calib_freeze.py, resolver (resolved_calib_wurz), smarca2_model.py (SMARCA4->SMARCA2), ternary_pdb_stage.py assembly, 5-part $0 smoke gate (nr4a3_ternary_fep._five_part_gate), null-map guard + regression test (tests/test_null_map_guard.py). $0 PRE-SPEND GATE (GPU only when the smoke records all 5): (1) chemical identity built==published + not graph-identical after stereo removal; (2) non-null map (linker N->C, no unintended stereocenter change); (3) same atom map + E3 construct in binary & ternary; (4) 8G1Q SMARCA4->SMARCA2 relax >=2 models divergence_ok; (5) alpha_SPR label + +0.94 + SMARCA2-model limitation. DECISION RULE (the +-1.0 kcal/mol band is REMOVED; separation<1 kcal/mol makes a noisy positive point estimate INDETERMINATE): PASS requires positive sign + CI excludes zero + no fwd/rev disagreement + no collapse/escape/restraint-dominated + broad consistency with +0.94. valB_mini GATES valB_full only; NR4A ternary scores stay EXPLORATORY until valB_full passes."
-    },
-    {
-      "id": "ternary_4fs_recalibration",
-      "title": "RUNG 2b (NEW): 4 fs ternary adoption + MATCHED re-calibration (cost lever 1)",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "5-8 (one ternary edge at 4 fs on the revised base). PAYS BACK: the ladder has >=6 further ternary legs and 4 fs halves each.",
-      "optimistic_days": 2,
-      "remaining_days": 2,
-      "parallel_ok": false,
-      "depends_on": [
-        "valB_mini"
-      ],
-      "note": "\u2605 AS-RUN BASELINE VERIFIED AGAINST THE LIVE LANE, NOT THE DOC (2026-07-24 4:12 PM ET, GH run 30123894814 mode=tail reading VM gcp-ternary-30112102294): '[tfep] timestep=2.0 fs, minimization_steps=5000' and warmup_dt_override='WARMUP timestep overridden to 1.0 fs', NaN_seen=no, charge=nagl. So the lane really is 1 fs warmup -> 2 fs PRODUCTION; the '1 fs warmup + 4 fs production' shape is the runbook 1c PRE-EQUILIBRATION DEMONSTRATION (40 production iterations on calib), not this lane - and gpu-ternary-fep-gcp.yml defaults are timestep_fs=2.0 / use_preequil=0. EXACT INVOCATION for the adoption run, all three flags load-bearing: mode=preequil once (cached), then mode=run use_preequil=1 timestep_fs=4.0 warmup_timestep_fs=1.0 reset_commits=1. use_preequil=1 because 4 fs only held WITH pre-equilibration; reset_commits=1 because OpenFE refuses to resume a checkpoint whose protocol timestep differs ('Sampler in checkpoint does not match Protocol settings'), so a dt change starts CLEAN - a fresh edge, not a continuation, which is what the ~$5-8 already prices. 2026-07-24 revision, cost lever 1. EVIDENCE: ternary-rbfe-runbook.md 1c - after plain-MD pre-equilibration the calib ternary leg ran warmup 48/48 @1 fs -> production 40/40 @4 fs with ZERO NaN (dG_morph 47.28 +/- 0.53), where every prior attempt died at warmup iteration 1. The live valB lane nevertheless runs TIMESTEP_FS=2.0. Iterations are TIMESTEP-INDEPENDENT (2.5 ps/iter), so 4 fs is exactly half the force evaluations -> ternary edge ~$10-16 -> ~$5-8. CAVEAT THE RUNBOOK IMPOSES: validation and production must run at the SAME timestep, and the existing 4 fs evidence is 40 production iterations, not 2000. So: re-run the valB_mini Wurz edge at TIMESTEP_FS=4.0 with use_preequil=1. One edge, three jobs - (a) exercises 4 fs over a FULL 2000-iteration production leg, (b) supplies the matched-timestep calibration required before any 4 fs production number may be quoted, (c) is an independent reproducibility replicate of the 2 fs ddG_coop. GO/NO-GO: no NaN across the full leg AND ddG_coop consistent with the 2 fs run within replicate SD -> adopt 4 fs downstream; NaN or a shifted ddG -> stay at 2 fs and carry the 2 fs base unchanged. Run only once valB_mini's 2 fs result is in hand, so there is something to compare against. NOT pre-authorized - needs an explicit go."
-    },
-    {
-      "id": "valA_full",
-      "title": "RUNG 3: expand public RBFE accuracy benchmark to 10-20 edges (publishable size)",
-      "status": "skipped",
-      "track": "gpu",
-      "cost_est_usd": "50-140 (NOT spent; ~$50-140 saved)",
-      "optimistic_days": 0,
-      "remaining_days": 0,
-      "parallel_ok": true,
-      "depends_on": [
-        "valA_mini"
-      ],
-      "result": "SKIPPED 2026-07-18. Skip condition met: valA_mini reproduced the known TYK2 ddG cleanly (abs_err 0.61 < 2.0) on the STANDARD am1bcc method (post RUNG-0 charge fix), NOT the NAGL surrogate. valA_full's only purpose was to characterize/repair a NAGL-introduced discrepancy, which no longer exists -> a full 10-20 edge re-derivation is redundant with OpenFE's published ~1.7 kcal/mol benchmark for this exact reference protocol. Paper cites OpenFE for accuracy; valA_mini stands as a single-edge build-consistency confirmation (NOT a standalone accuracy benchmark). RE-OPEN only if am1bcc charging is later forced onto NAGL (CHARGE_METHOD=nagl) for some ligand.",
-      "note": "Mandatory change 1A (full). SKIPPED - see result. Original GO/NO-GO if run: RMSE in a defensible band (~<=2 kcal/mol, comparable to OpenFE public ~1.7) -> GO. step1_fanout's Val-A accuracy gate is now satisfied by 'cite OpenFE + clean valA_mini' rather than by running valA_full."
-    },
-    {
-      "id": "valB_full",
-      "title": "RUNG 3: Val B component-calibration CUBE (module-specific; no single 'validated' verdict)",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "20-65 (REVISED 2026-07-24 from 40-110 by cost levers 1+2: 4 fs halves each ternary leg, and a paralogue module is N ternary LEGS + 1 shared binary + 1 shared solvent, not N edges)",
-      "optimistic_days": 4,
-      "remaining_days": 4,
-      "parallel_ok": true,
-      "depends_on": [
-        "valB_mini"
-      ],
-      "note": "2026-07-24 REVISION - MODULE 3 NOW RUNS ON SMARCA2-vs-SMARCA4, not NR-V04 (ADOPTED 2026-07-24, trimcrae go). SMARCA2/4 is a close paralogue pair with degrader-level selectivity, solved structures, a NON-COVALENT mechanism, and is ALREADY STAGED in this repo (8G1Q, smarca2_model.py, wurz-calib-frozen.json) - so it is a marginal add-on to the lane valB_mini already runs rather than a new campaign. NR-V04's selectivity is, by this repo's own UniProt result (NR4A1 C551 unique to NR4A1), most plausibly COVALENT TARGET ENGAGEMENT, which makes it a weak calibrator for a NONCOVALENT ternary pipeline - exactly why the reviewer demoted it to a biological holdout; it stays the holdout. Apply cost lever 2 when pricing the paralogue module: N ternary legs + ONE shared binary + ONE shared solvent leg. Mandatory change 1C + 2026-07-24 restructuring. Only if valB_mini = GO. Four separately-calibrated MODULES, each with its own uncertainty model + pass/fail (a failed module -> qualitative-only; NO blanket 'ternary pipeline validated'): (1) all-binding graded cooperativity [already run as valB-mini Wurz 1->4; add >=1 more graded edge for coverage; Vast 4090 ~$65-110/edge]; (2) ternary pose recovery [generator includes the known orientation in top-k with calibrated confidence; co-fold/CI ~$0]; (3) paralogue discrimination [same degrader across close paralogues on a public system with a known differential - the direct analogue of the NR4A ask; 4090 ~$65-110]; (4) productive-vs-unproductive ubiquitination geometry [full-CRL model separates ternary occupancy from Ub-transfer competence on a public system with mapped lysines; 4090 MD ~$10-40]. Plus the cis-epimer negative-endpoint STRESS module (demoted from valB-mini; a pass forced by artificially holding the active pose is not a pass). GATE: the prospective ladder never runs unless the cooperativity + paralogue-discrimination modules pass (calibrated intervals, correct direction on held-out observations)."
-    },
-    {
-      "id": "nrv04_feasibility_covalent",
-      "title": "RUNG 3: NR-V04 covalent (C551) feasibility + reduced control panel",
-      "status": "under_correction",
-      "track": "gpu",
-      "cost_est_usd": "MEASURED ~$0.43/leg (mean, 15-leg ledger) -> ~$8 for the 18-leg panel (was est 40-100 -> ~an order of magnitude overestimate)",
-      "cost_measured": "COMPLETE 2026-07-24: 17/18 legs finished (warhead_only-s0 never cleared its host container-pull across repeated relaunches; that arm's finding stands on its 2 completed seeds). RTX 3090 on Vast interruptible bid, billed on dph_total ~$0.10-0.21/hr. 6 ns/leg (1 ns equil + 5 ns prod, 500 frames), ~466-650k atoms (covalent arms ~650k, 1.4x), ~19-116 ns/day (host-variance-dominated). Final S3-ledger mean ~$0.43/leg -> ~$8/panel. NO blow-ups on any leg. RESULT: recruited=True (frac-frames-in-contact=1.0) on ALL legs -> recruitment is a WEAK discriminator (co-fold seeds the E3 in contact in every arm); interface-STABILITY (Kabsch-aligned interface-RMSD plateau) is the real readout. Per-seed stable fraction: recruiter_active 3/3, recruiter_epimer(inactive) 1/3 -> active-vs-epimer discrimination the static co-fold classifier could NOT produce (it scored them identically); cov_nr4a1(covalent) 2/3 (majority-stable, feasible) = noncov_nr4a1 2/3 (covalency buys feasibility not extra stability); cov_c551a(Cys->Ala) 1/3; warhead_only 2/2. FEASIBILITY + control-discrimination only; NO selectivity/cooperativity/efficacy claim. Infra proven+fixed (all merged, root-caused from instance logs): checkpoint-resume FIXED (persist+reload the exact solvated System XML+mmCIF snapshot, never re-solvate -> cross-host loadState atom-count match) + PROVEN (warhead_only-s2 RESUMED from frame 50 on a different host); snapshot-upload retry (a transient ok=False permanently blocked resume); bid min_bid x1.5->x1.9 (churn fix: slow-host legs need a continuous ~4h run); PTX host filter cuda_max_good>=13.0; 429-throttled teardown; S3 price ledger; idempotent skip-only-alive re-dispatch; terminal/duplicate reap. GPU finding (reconciled 2026-07-24 with the parallel session's dedicated gpu_md_bench): this panel's one 4090 leg ran ~1.8x a typical 3090 (116 vs 65 ns/day) but landed on pricier hosts (host-price variance, not the GPU); the controlled single-host-per-point bench SUPERSEDES that and shows the 4090 wins $/ns at EVERY size incl the 466k covalent panel (2.42x at ~9% more/hr) -> 4090 is the $/ns card going forward even for large endpoint MD (refutes the a-priori 3090-for-covalent pick); 3090+x1.9 merely got THIS panel done cheaply on the hosts it landed. NOTE: rotate VAST_API_KEY (was forwarded to community hosts).",
-      "provider": "vast",
-      "gpu": "rtx3090",
-      "optimistic_days": 3,
-      "remaining_days": 0,
-      "parallel_ok": true,
-      "depends_on": [
-        "valB_mini"
-      ],
-      "note": "Mandatory change 4. Covalent celastrol-NR4A1 (C551) adduct + noncov/cov sensitivity + C551A control + warhead-only/recruiter controls. GO/NO-GO OUTCOME (2026-07-24): GO. Covalency did not swamp the signal (no blow-ups; cov_nr4a1 majority-stable), the panel behaved, and the endpoint-stability readout even recovered an active-vs-epimer discrimination the static co-fold could not. Written into nr4a3-degrader-paper.md 2026-07-24 as the covalent-adduct endpoint-MD feasibility subsection in the NR-V04/co-fold section, feasibility-framed. LAUNCHED 2026-07-23 with the SVD/blow-up finite-guard fix; COMPLETED 2026-07-24 (17/18) after the checkpoint-resume + snapshot-retry + bid-hold + host-filter infra fixes.",
-      "correction_2026_07_24": "RESULT UNDER CORRECTION - its GO does not stand. The endpoint-MD driver split E3 from target POSITIONALLY (last sorted protein chain) while the co-fold builder writes the target FIRST, so with chains A=254 (NR4A LBD) E=213 (VHL) F=118 (EloB) G=112 (EloC) the rule selected ELONGIN C as the degradation target: R1/R2 describe the EloC-vs-rest interface and R3 counted Elongin C's lysines. Proven from the panel's own legs - the reactive Cys, resolved independently by geometry and sitting on the NR4A1 LBD, is recorded on chain A in 12 of 14 legs while the positional rule pointed at G (CI run 30122828434). The arithmetic reproduces exactly; the interface is wrong. The cost_measured field below is retained as the infrastructure/pricing record, which is unaffected; its SCIENCE numbers (recruiter_active 3/3 vs epimer 1/3, cov 2/3 = noncov 2/3, C551A 1/3) are superseded and must not be cited. Corrected 14-leg re-run built, into nrv04-covalent-results-chainfix, NOT yet launched. See research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md"
-    },
-    {
-      "id": "step1_fanout_cmpd19",
-      "title": "RUNG 4: cmpd19 congeneric map, 8-wide (conditional hypotheses + sensitivity ranges)",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "~$91-101 for the 19 edges (MEASURED 2026-07-24, supersedes the $12-26 estimate). ~13.7 GPU-h/edge x $0.35-0.39/hr realized bid. The old figure compounded two errors: a per-iteration rate taken from the PUBLIC TYK2 system (~5.2 s/iter) applied to the ~2.6x heavier NR4A3 cryptic-pocket complex (~13.6 s/iter, measured on 3 independent hosts), on a $0.122/hr bid basis vs the ~$0.37/hr realized. See research/compute/pricing.md section A.",
-      "optimistic_days": 4,
-      "remaining_days": 4,
-      "parallel_ok": true,
-      "depends_on": [
-        "step1_pilot_cmpd19"
-      ],
-      "note": "GATE: Val A accuracy satisfied (valA_full SKIPPED - valA_mini clean on am1bcc -> cite OpenFE) AND the Step 1 pilot behaved. Full congeneric map across druggable 8XTT conformers, release-derived NR4A3 conformers, matched NR4A1/NR4A2 open conformers, resolved microstates. Rank by worst conformer AND receptor>conformer, as CONDITIONAL hypotheses with sensitivity ranges (no synthetic ensemble affinity).",
-      "launched": "LAUNCHED 2026-07-24 ~4:19 PM ET, wave 1 of 3 (8 of 19 units) on Vast RTX 4090 interruptible. Lane built this session: congeneric_fanout.py (pure unit enumeration + cycle/ranking bookkeeping), congeneric_pose_stage.py (common-mode poses), congeneric_fanout_vast.py (launcher), fusion-cpu-extras.yml task=step1_fanout, 19 unit tests. Unit = one edge, both alchemical legs (complex+solvent) + reduce on ONE rented 4090; spot-safe S3 checkpoint/resume; idempotent leg- and unit-level skip so a re-dispatch resumes rather than re-pays.",
-      "scope_actually_launched": "TRANCHE 1 ONLY = the map's 19 edges at their charge-CONSERVING (dq=0) microstate leg, on the PRIMARY nr4a3_design druggable frame (the frame the pilot converged on). EXCLUDED and NOT run: (a) the 8 charge-CHANGING microstate legs - the map's microstate_policy requires a co-alchemical / analytical charge correction that nr4a3_rbfe.py does not implement, so running them would produce numbers with an uncontrolled offset; (b) the 6-frame receptor axis (4 NR4A3 conformers + matched NR4A1/NR4A2 open frames), each frame being another full tranche-1 spend. CONSEQUENCE FOR THE CLAIM: tranche 1 yields a single-conformer CONDITIONAL relative-FE map. It is NOT the selectivity readout and NOT the sensitivity range the title promises - those need the frame axis (tranche 3) and are a separate authorization. congeneric_fanout.plan() emits this exclusion list machine-readably.",
-      "pose_staging": "Common-mode poses built by MCS-core-constrained embedding onto the ONE docked cmpd19 anchor pose (smina, frozen nr4a3_design Pocket-5 box, run 29175736795), NOT by re-docking each analogue independently (which would leave each in its own local optimum and break the morph). 17/17 staged, core inherited atom-for-atom so core RMSD is ~0 by construction. Soft receptor contacts (1.6-2.0 A, relieved by the MD's own minimisation) recorded; severe (<1.6 A) would flag needs_pose_revalidation. The anchor pose is a HYPOTHESIS (no solved NR4A3 cocrystal) - consistent propagation makes the 19 ddG values mutually comparable, not correct.",
-      "cost_observed": "BID DEVIATION, flagged 2026-07-24: the wave-1 instances landed at dph_total ~$0.35-0.39/hr, ~3x the $0.122/hr instance the ~$12-26 estimate was measured on (pricing.md section A). At ~5.5 GPU-h/unit that projects ~$2/unit -> ~$39 for all 19, ABOVE the pinned band though still under the >$50 review gate. This is current 4090 market rate on the bid (min_bid x 1.5), not a launcher defect. Replace with the realized per-unit cost once the first unit completes; do not quote $12-26 as if realized.",
-      "halted": "HALTED 2026-07-24 ~5:15 PM ET by trimcrae, after wave 1 (8 of 19 units) surfaced the measured rate above and the full tranche repriced past the >$50 spend gate. Realized spend ~$2 (fleet torn down ~40-50 min in; monitor confirms live_instances=0, nothing idle-billing). NO ddG was produced - 0/19 units reached a result, so there is nothing to report from this run scientifically.",
-      "resume_state": "The lane is BUILT and PROVEN to sample: 3 hosts reached 95-99% GPU util on the real cmpd19/NR4A3 system and advanced to iteration ~124-160 at a steady ~13.6 s/iter, so the only thing that stopped it was the spend decision. Partial sampler checkpoints for 4 units are in S3 under nr4a3-step1-fanout/results/<unit>/ckpt and the staged common-mode poses under nr4a3-step1-fanout/stage/, so a re-dispatch RESUMES rather than restarts. Re-run with: fusion-cpu-extras.yml task=step1_fanout fanout_mode=launch_confirm (precheck first; stage is already done and idempotent).",
-      "known_gaps_if_resumed": "(1) All 3 thermodynamic cycles close only on edges in the LAST wave (units 16-18) - reorder so a closure edge lands early if a partial run is ever wanted, otherwise the internal-consistency check needs the full 19. (2) Card choice is not a saving: at current rates a 4090 and a 3090 cost the same per iteration and the 3090 takes 2.4x the wall-clock.",
-      "lane_doc": "research/modalities/step1-fanout-lane.md \u2014 build, scope, run, cost post-mortem, bid-logic finding, 4 fixed infra defects, and the resume path.",
-      "blocking_before_resume": "RESOLVED 2026-07-24 (free CPU, no GPU). The timestep question is ANSWERED and is NOT a lever: the effective protocol settings, read off a real hybrid build rather than assumed, are constraints=hbonds + hydrogen_mass=3.0 - OpenFE's DEFAULT, which the production lanes inherit. Under it every X-H is a constraint (xh_total=0 on both known-answer anchors against 1771/4997 constraints; the alchemical valence force holds 11/28 bonds, none an X-H), so all edges run at 4 fs by construction and the ~$91-101 stands on that axis. Two corollaries: the per-edge timestep scan cannot discriminate what the build makes uniform (its RBFE_FORCE_CONSTRAINTS=hbonds was always a no-op, and its calib anchor expected an answer no build could give - now corrected with evidence); and PARTICLE COUNT is the sole remaining candidate for the 2.6x throughput gap vs TYK2, still unrecorded for the NR4A3 binary complex. Capture it on any resumed run - the leg log now uploads unconditionally, so the setup line survives."
-    },
-    {
-      "id": "nrv04_retrospective",
-      "title": "RUNG 4: NR-V04 retrospective - preregistered biological holdout (directional concordance)",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "15-40 (REVISED 2026-07-24 from 55-120 by cost levers 1+2: a 3-paralogue panel is 3 ternary LEGS + 1 shared binary + 1 shared solvent - the binary and solvent legs are paralogue-INDEPENDENT so they cancel exactly in ddG_coop(P)-ddG_coop(P') - and 4 fs halves each leg; was priced as '3-6 ternary EDGES', i.e. paying for the shared legs 3-6x over)",
-      "optimistic_days": 5,
-      "remaining_days": 5,
-      "parallel_ok": false,
-      "depends_on": [
-        "valB_full",
-        "nrv04_feasibility_covalent",
-        "step1_fanout_cmpd19"
-      ],
-      "note": "2026-07-24 REVISION: this NO LONGER GATES the causal kill-switch (cost lever 4) - the wedge's validation need is a matched-pair control, not a cooperativity cube, so selectivity_wedge_confirm is decoupled and can fire before this is bought. INTERPRET WITH THE COVALENT CONFOUND EXPLICIT: NR4A1 Cys551 is unique to NR4A1 (NR4A3 T579, nr4a-paralogue-unique-residues.json), so a concordant result may be recovering TARGET ENGAGEMENT rather than ternary cooperativity - which is why this is the biological holdout and SMARCA2/4 is the method calibrator. Full NR4A1/2/3 ensembles through the physics + ubiquitination pipeline, NO tuning, preregistered scoring (fixed on Val B-full), VHL-inactive epimer negative control. Report DIRECTIONAL CONCORDANCE/DISCORDANCE - NEVER 'recovered degradation'. GO/NO-GO: at least directionally concordant with NR4A1-degraded / NR4A2.NR4A3-spared -> GO to the matrix. Discordant -> matrix NOT justified; publish the honest negative.",
-      "depends_on_note_2026_07_24": "The nrv04_feasibility_covalent dependency is UNDER CORRECTION (wrong chain split), so this rung's stated gate is not currently satisfied by it. The retrospective's own prereg is frozen (nr4a3-nrv04-retrospective-prereg.md) and its inputs were regenerated clean (nrv04-descriptive-v4, the v3 set carried 14-3-3 epsilon in place of Elongin B)."
-    },
-    {
-      "id": "nr4a_differential_atlas",
-      "title": "RUNG 4 (mostly free): NR4A1/2/3 paralogue-differential surface atlas + lysine-accessibility map",
-      "status": "done",
-      "result": "DONE 2026-07-24, $0 in-sandbox CPU. nr4a_differential_atlas.py (pure-stdlib Shrake-Rupley SASA + affine-gap BLOSUM62 alignment + character-change typing) over matched results/nr4a3-matrix/nr4a{3,1,2}-opened.pdb -> nr4a3-differential-surface-atlas.json + .md + 6 passing unit tests. VALIDATED: reproduces canonical nr4a-selectivity.json on 148/148 known residues (0 mismatch). RESULT: 254 residues, 137 exposed, 109 divergent (42.9%), 46 differential-surface handles (exposed x divergent x character-changing; 33 vs both), 15/15 LBD lysines exposed. Top: U576 L->(G/N), U574 Q->(V/G), U412 R->(A/T charge-lost-both), U413 D->(K/S charge-reversed). GATE: PASS/GO - a differential surface exists to steer an E3 against; RUNG-5a orientation-basin search warranted. Optional add-on open: matched NR4A1/2 MD ensembles (~$10-40 Vast 4090) for dynamics robustness.",
-      "track": "cpu",
-      "cost_est_usd": "0-40 (analysis $0 CPU DONE; optional matched NR4A1/2 LBD MD ensembles ~$10-40 on Vast 4090)",
-      "optimistic_days": 3,
-      "remaining_days": 0,
-      "parallel_ok": true,
-      "depends_on": [],
-      "note": "2026-07-24 orientation-first restructuring. Matched NR4A1/2/3 receptor ensembles (identical frames/microstates/transforms/sampling) -> paralogue-differential surface + electrostatic/H-bond map; fusion-context scenarios; SEPARATE LBD/hinge/DBD/fusion lysine map; warhead-pose sensitivity. Output = a discrimination MAP, not three receptor models. FREE CPU analysis -> will build+run without a spend nod; itself a cheap early NO-GO. GATE: >=1 exposed paralogue difference reachable by a recruited VHL/CRBN, else the wedge search is unlikely to succeed."
-    },
-    {
-      "id": "nr4a_unique_residues",
-      "title": "TIER 0 (free): NR4A3 paralogue-UNIQUE reactive-residue map - the CATEGORICAL selectivity axes",
-      "status": "done",
-      "result": "DONE 2026-07-24, $0. nr4a_paralogue_unique_residues.py: full-length UniProt (P22736/P43354/Q92570/Q01844) + DUAL-ALIGNER agreement (linear-gap NW and the atlas's affine-gap BLOSUM62; only alignment-robust calls may be a design premise - K85/K194 excluded on disagreement) + matched-model geometry (Shrake-Rupley RSA, reactive-atom distance to the cryptic pocket and to docked poses). AXIS 1 - 4 NR4A3-unique cysteines: C397 (NR4A1 N363 / NR4A2 S363; RSA 0.395; 10.9 A from the pocket, 12.3 A from the nearest docked pose -> exit-vector reach; the lead handle), C420 (18.3 A -> linker-borne), C559 (12.8 A, RSA 0.095 in this conformer), C166 (outside the modelled LBD). AXIS 2 - 4 NR4A3-unique lysines, 3 exposed in the LBD: K572 (RSA 0.879, 11.5 A), K518 (0.413, 13.4 A), K592 (0.506, 16.2 A), K178 (outside) - all in the same 11-16 A band as the conserved lysines, so an E3 CAN be steered onto a unique site. RECIPROCAL: reproduces the NR-V04 Leg-0 exactly (NR4A1 C551 -> NR4A3 T579) and completes it (NR4A1 has 5 cysteines NR4A3 lacks). FUSION: EWSR1 1-264 contributes only 1 lysine (1-349: 2) -> the fusion-lysine axis is THIN and is NOT a design axis; reported, not dropped. GATE: PASS/GO on BOTH categorical axes. 15 unit tests; ran on CI (run 30123828812) because the sandbox proxy 403s UniProt.",
-      "track": "cpu",
-      "cost_est_usd": "0",
-      "optimistic_days": 1,
-      "remaining_days": 0,
-      "parallel_ok": true,
-      "depends_on": [],
-      "note": "2026-07-24 revision, TIER-0 gate - runs AHEAD of everything priced and costs nothing. A categorical mechanism (the paralogue has no nucleophile / no lysine) does not require winning a ~1 kcal/mol free-energy contest, which selectivity_margin_model.py shows sits at the method's resolution limit. Feeds orientation_basin_search's two new scoring terms. OPEN (cheap): the matched NR4A1/2 MD-ensemble add-on should report the DISTRIBUTION of C397 exposure, not one frame's 0.395. HONEST LIMITS: sequence uniqueness is exact, but reachability is one static conformer + a heavy-atom distance (not a docked electrophile); intrinsic Cys reactivity (pKa, electrostatics) is NOT computed; unique-lysine removal RAISES the odds the paralogue is spared, it does not guarantee it (multi-lysine and non-lysine ubiquitination are documented); an IRREVERSIBLE covalent PROTAC forfeits catalytic turnover -> prefer reversible-covalent; electrophile promiscuity is an unresolved liability with no wet lab to check it and must be reported alongside the parent warhead's MYC induction."
-    },
-    {
-      "id": "orientation_basin_search",
-      "title": "RUNG 5a: MECHANISM-FIRST orientation-space search for NR4A3-selective E3-placement basins (before linkers)",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "0-50 (CPU sampling/clustering $0; optional Vast-4090 MM-GBSA rescore of basin reps ~$30-50)",
-      "optimistic_days": 4,
-      "remaining_days": 4,
-      "parallel_ok": true,
-      "depends_on": [
-        "nr4a_unique_residues",
-        "nr4a_differential_atlas",
-        "step1_fanout_cmpd19"
-      ],
-      "note": "2026-07-24 REVISION - MECHANISM-FIRST. Three additions, all $0 CPU: (a) ELECTROPHILE-REACH term - does the basin's linker path pass within tethering distance of C397/C420/C559 at a geometry a mild electrophile could adopt? None sits inside the pocket, so this is an electrophile on the EXIT VECTOR or the LINKER, architecturally free in a degrader; prefer REVERSIBLE-covalent (an irreversible adduct forfeits catalytic turnover). (b) TRANSFER-ZONE LYSINE-IDENTITY term - which lysine does the modelled E2~Ub transfer zone cover? unique-only > unique+conserved > conserved-only. Set membership, not energy. (c) E3 BREADTH - widen beyond VHL/CRBN to the ligandable set with public ligand-bound structures (cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114); free at CPU, DOWNSELECT TO <=2 BEFORE ANY GPU LEG and LOG THE DROPPED SET. (d) POSE-MARGINALISATION - run over the warhead-pose ensemble and carry only basins that persist, reporting the surviving fraction. The categorical terms are GEOMETRIC set-membership questions, which cheap scoring answers far more reliably than a ~1 kcal/mol energy difference. 2026-07-24 restructuring. Broad VHL/CRBN transform sampling (flexible linker-reach restraint); matched 3-paralogue interface scoring; cluster into ~3-8 basins/ligase; cheap counterfactual residue screen to NOMINATE wedges. Cheap scoring NOMINATES only; the go/no-go is the alchemical mutation-cycle confirm (selectivity_wedge_confirm), NOT these coarse scores (poor S/N for small paralogue differences)."
-    },
-    {
-      "id": "selectivity_wedge_confirm",
-      "title": "RUNG 5a-KS: pilot-first causal KILL-SWITCH (ligand-side double difference) + optional protein-mutation cycle",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "5-25 for the PRIMARY test (REVISED 2026-07-24). The primary causal test is now the LIGAND-SIDE DOUBLE DIFFERENCE S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1) for a candidate d and a matched control d0 differing only in the element that engages the wedge. Each term is an ordinary relative alchemical quantity INSIDE one protein; it needs NO protein-mutation engine, makes NO cross-lane subtraction, and by cost lever 2 needs ONLY TERNARY LEGS (the binary and solvent legs are paralogue-independent and cancel exactly). The reciprocal PROTEIN-MUTATION cycle is retained as a CONFIRMATORY second line and remains UNPRICED. ENGINE, CORRECTED 2026-07-24 PM (a parallel session established this by RUNNING it): the perses route is OpenEye-licence-gated in its CORE mutation path (residue atom map via OEMol), so it was RETIRED and the lane was rebuilt on pmx + GROMACS (Dockerfile.pmxfep, protfep_pmx.py, gpu-protfep-vast.yml). No leg has completed on EITHER engine, so there is still no rate. Ladder, mostly free: stage-test/refcheck/bake/build-test = $0 (the hybrid construction is CPU work) -> smoke ~$0.10 -> pilot ~$1-3 (THE ABORT GATE: barstar Y29A, ref 3.4 kcal/mol verified against SKEMPI 2.0) -> full set ~$5-10, priced by protfep_reduce.price_from_legs once legs complete. Cost of establishing the perses dead end: ~$0.05. NOTE the demotion does NOT cancel this lane - the known-answer benchmark is required under either framing; what changes is that the ladder no longer stalls if it fails.",
-      "optimistic_days": 4,
-      "remaining_days": 4,
-      "parallel_ok": false,
-      "depends_on": [
-        "orientation_basin_search",
-        "valB_mini"
-      ],
-      "blocked_by": [
-        "(CONFIRMATORY LINE ONLY) protein-mutation FEP lane rebuilt on pmx + GROMACS 2026-07-24 after perses proved OpenEye-gated; no leg has completed on either engine, so it stays UNPRICED until its SKEMPI-referenced known-answer benchmark gives a per-leg rate",
-        "(CONFIRMATORY LINE ONLY) cross-lane charge mismatch - the protein-mutation wedge subtracts a binary-lane leg (am1bcc) from a ternary-lane leg (nagl); one CHARGE_METHOD must be pinned across both and stamped into both result JSONs. The PRIMARY ligand-side double difference is not affected: both its legs are ternary-lane."
-      ],
-      "note": "\u2605 DEMOTION OF THE PROTEIN-MUTATION WEDGE TO CONFIRMATORY: ADOPTED 2026-07-24 (trimcrae go). 2026-07-24 REVISION - the kill-switch is no longer blocked behind an unbuilt engine and ~$80-215 of prerequisite ternary work. PRIMARY: pilot ONE matched pair (ternary legs in NR4A3 and NR4A1). No discrimination -> STOP, publish the honest causal negative, run NO linker design/ensemble/local-FEP. Discrimination -> extend to NR4A2 and to a second design element. EVIDENCE GRADE: a NO-GO may be taken on valB_mini-grade evidence (stopping is the conservative action), but a POSITIVE result stays EXPLORATORY until valB_full passes - same rule as every other NR4A ternary score. CONFIRMATORY: the reciprocal protein-mutation cycle, kept because two independent causal lines are worth more than one, but no longer the result the paper depends on. **BLOCKED - see blocked_by; the two prerequisites below are unscoped, so the days/costs here are NOT plannable yet.** 2026-07-24 restructuring, PILOT-FIRST (corrects an earlier framing that mislabeled the full ~$100-350 cycle as 'the kill-switch' - a $350 gate on a $500 tail is poor economics). TIERED cheap-decisive-first gate: Tier1 atlas ($0) -> Tier2 basin nomination ($0-50) -> Tier3 pilot ONE alchemical mutation leg 3->1 (UNPRICED - no engine; the earlier ~$40-90 and the later ~$5-10 both assumed an alchemical protein-mutation capability the repo does not have). ddG_neo-interface = dG_mut^ternary - dG_mut^binary. CHEAP GO/NO-GO: no interface loss on the pilot -> STOP (whole decision ~$40-140 marginal); publish honest causal negative; run NO linker design/ensemble/local-FEP (saves ~$250-750 tail). Loss on pilot -> complete the FULL reciprocal cycle (add 3->2 + reciprocal 1/2->3, ~$100-350) = the paper's PRIMARY CAUSAL RESULT (deliverable, not gate overhead), which also aborts the tail if it disconfirms.",
-      "notes": "2026-07-24 PM: benchmark lane built and launched on Vast (branch claude/parallel-test-vast-cs5ugw). CI-verified staging against the deposited 1BRS structure: chain D = barstar (87 res, TYR29), chain A = barnase - correcting a hand-written benchmark entry that had put Y29 on chain A. Engine remains UNVALIDATED; plan_wedge still stamps validated:false. 2026-07-24 PM: perses lane retired (OpenEye); pmx+GROMACS lane built (Dockerfile.pmxfep, protfep_pmx.py, gpu-protfep-vast.yml on main). Route pre-confirmed on free CI: CUDA GROMACS solves, pmx develop installs on 3.11. Cost of establishing the perses dead end: ~$0.05."
-    },
-    {
-      "id": "inverse_linker_design",
-      "title": "RUNG 5b (free): inverse linker design against confirmed basins (basin-fidelity, not atom count)",
-      "status": "pending",
-      "track": "cpu",
-      "cost_est_usd": "0-20 (CPU enumeration/conformer/closure; optional a few Vast-4090 relaxations)",
-      "optimistic_days": 3,
-      "remaining_days": 3,
-      "parallel_ok": true,
-      "depends_on": [
-        "selectivity_wedge_confirm"
-      ],
-      "note": "2026-07-24 restructuring. Derive per-basin linker requirements (endpoint distance, exit-vector dihedral, attachment angles, flexibility, extension, solvent path, surface avoidance, strain, motion tolerance); enumerate a large virtual library; filter by basin fidelity F_{d,k} (conformer closure + strain); keep linkers realizing DISTINCT basins (orientation control, not atom count); annotate exact structures + synthetic feasibility -> ~12-20 virtual constructs (this is where the '24-36' arithmetic now lives - virtual, not a hand-built grid). 2026-07-24 REVISION: for basins carrying the covalent handle, enumerate the ELECTROPHILE POSITION on the linker as a design variable, and prefer REVERSIBLE-covalent chemistry (an irreversible adduct makes the degrader stoichiometric and forfeits catalytic turnover)."
-    },
-    {
-      "id": "ternary_ensemble_refine",
-      "title": "RUNG 5c: explicit ternary + full-CRL/E2~Ub ensemble refinement, matched paralogues, constraint-satisfaction",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "15-100 (REVISED 2026-07-24: still the largest single GPU spend and the biggest swing item, but fewer survivors reach it now that the categorical terms prune at 5a)",
-      "optimistic_days": 5,
-      "remaining_days": 5,
-      "parallel_ok": false,
-      "depends_on": [
-        "inverse_linker_design"
-      ],
-      "note": "2026-07-24 restructuring. ~12-20 -> replicated ternary + full CRL/E2~Ub MD across target states/linker conformers/in-basin poses; matched NR4A1/2/3; interface-contact persistence; linker strain; basin retention; SEPARATE accessibility P(B_k|d,s) from stability dG_coop; robust constraint-satisfaction (P_d = P(all constraints hold across scenarios), NOT Pareto-membership alone) -> ~4-8 constructs. EWSR1::NR4A3 fusion context; lysines beyond the LBD. 2026-07-24 REVISION: add a constraint on WHICH lysine the ubiquitin actually reaches, reported per construct as a distribution over unique-vs-conserved sites, not just 'a lysine is near'."
-    },
-    {
-      "id": "local_ternary_fep",
-      "title": "RUNG 5d (flagship tail): local ternary FEP within retained basins -> final ~6-12 candidates",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "10-45 (REVISED 2026-07-24 from 30-96 by cost levers 1+2: 4 fs halves each leg and paralogue comparisons need ternary legs only)",
-      "optimistic_days": 5,
-      "remaining_days": 5,
-      "parallel_ok": true,
-      "depends_on": [
-        "ternary_ensemble_refine"
-      ],
-      "note": "2026-07-24 restructuring (replaces ternary_prospective_matrix). Alchemy ONLY within a retained basin (both endpoints plausibly bound, modest congeneric change, acceptable hybrid topology, endpoint stability not restraint-created). NOT for comparing unrelated linkers/ligases/basins. Final set ~6-12 with >=2 mechanistic wedges, >=2 linker architectures, VHL+CRBN only where both survive, explicit negative controls, robust to reciprocal-mutation tests. Deliverable = computationally prioritized, structure-defined, retrosynthetically annotated candidate set WITH an identified causal selectivity mechanism; degradation experimentally UNVALIDATED. LANGUAGE: 'predicted selective candidate'; never imply efficacy/safety/window/clinical-readiness."
-    },
-    {
-      "id": "dg_open_paralogue",
-      "title": "OPTIONAL/HELD: dG_open per paralogue (only if we want UNCONDITIONAL affinity)",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "120-300 (optional)",
-      "optimistic_days": 4,
-      "remaining_days": 4,
-      "parallel_ok": true,
-      "depends_on": [
-        "step0_rbfe_mechanics"
-      ],
-      "note": "Mandatory change 2 (preferred path). Converged pocket-opening free energy per paralogue so observable affinity = dG_open + dG_bind|open and per-paralogue penalties enter SELECTIVITY. HELD - only with an explicit nod. If NOT run, report everything conditional on the open state (fully defensible, $0)."
-    },
-    {
-      "id": "abfe_conditional",
-      "title": "OPTIONAL/HELD: conditional ABFE (pose-plausibility) - RAW, no T4L offset",
-      "status": "pending",
-      "track": "gpu",
-      "cost_est_usd": "80-200 (optional)",
-      "optimistic_days": 5,
-      "remaining_days": 5,
-      "parallel_ok": true,
-      "depends_on": [
-        "valA_mini",
-        "step1_pilot_cmpd19"
-      ],
-      "note": "Mandatory change 3. HELD - as framed, not worth running (interpretability). Launch only with an explicit nod if the pose-plausibility question is worth it. Report RAW ABFE as POSE-PLAUSIBILITY (is the hypothesized pose thermodynamically plausible), T4L discrepancy SEPARATELY. Does NOT prove 'binds at all'. Free-cmpd19 ABFE != each degrader's binary affinity."
-    },
-    {
-      "id": "fold_results",
-      "title": "RUNG 6: fold results into paper (+ SI), apply language discipline, QM/torsion + physchem/retrosynthesis",
-      "status": "pending",
-      "track": "write",
-      "cost_est_usd": "0",
-      "optimistic_days": 3,
-      "remaining_days": 3,
-      "parallel_ok": false,
-      "depends_on": [
-        "step1_fanout_cmpd19",
-        "nrv04_retrospective",
-        "local_ternary_fep",
-        "ternary_ensemble_refine",
-        "selectivity_wedge_confirm",
-        "nr4a_differential_atlas",
-        "valB_full",
-        "pocket_reanalysis",
-        "emc_e3_expression",
-        "nr4a_unique_residues"
-      ],
-      "note": "Single source of truth = nr4a3-degrader-paper.md (+ SI). Apply ALL reviewer language discipline (predicted candidate / conditional bound state / directional concordance; no efficacy/safety/window/clinical claims; cmpd19 MYC induction as liability). Add QM/torsion validation at degrader linker junctions + physicochemical + retrosynthetic assessment of the final matrix. Re-render figures. Fold conditional ABFE (if run) as pose-plausibility only."
-    },
-    {
-      "id": "final_redteam",
-      "title": "RUNG 6: final red-team + review-response pass (honest-weight every claim; medical-integrity check)",
-      "status": "pending",
-      "track": "write",
-      "cost_est_usd": "0",
-      "optimistic_days": 2,
-      "remaining_days": 2,
-      "parallel_ok": false,
-      "depends_on": [
-        "fold_results"
-      ],
-      "note": "Reviewer-AI block before the outward-facing post/submit step."
-    },
-    {
-      "id": "post_submit",
-      "title": "RUNG 6: post ChemRxiv (CC-BY) + submit JCIM + send outreach emails",
-      "status": "pending",
-      "track": "submit",
-      "cost_est_usd": "0",
-      "optimistic_days": 1,
-      "remaining_days": 1,
-      "parallel_ok": false,
-      "depends_on": [
-        "final_redteam"
-      ],
-      "note": "OUTWARD-FACING / irreversible - needs trimcrae sign-off (not auto). This is the finish line."
-    }
-  ],
-  "shelved": {
-    "_reason": "Broad DE NOVO warhead GENERATION stays parked per the ternary-first strategy (denovo_401 is at most a side comparator). ABFE is NOT shelved but is HELD + REFRAMED as a conditional pose-plausibility calc (abfe_conditional) per the 2026-07-15 reviewer verdict. The old transferable-T4L-offset framing and the 'RBFE/ABFE proves it binds at all' framing are RETIRED (reviewer mandatory change 3).",
-    "milestones": []
+ "_README": [
+  "OPTIMISTIC critical-path plan for the NR4A3 PROTAC-degrader paper (ChemRxiv preprint + JCIM).",
+  "This file is the SINGLE MACHINE SOURCE the daily status email projects into a day-by-day calendar.",
+  "HUMAN-READABLE MASTER (read this for the full rationale, GO/NO-GO gates + 'what's next'):",
+  "  STRATEGY.md. Milestone `id`s here match the stage tags in that master plan.",
+  "Keep the two in sync: when work lands, update each milestone's `status` and, for an in-progress item,",
+  "`remaining_days`. `status`: done | in_progress | pending. `track`: gpu | cpu | write | submit.",
+  "`parallel_ok`: true = may overlap other legs up to the 8-wide spot quota. `cost_est_usd`: est. SPOT $ for",
+  "THAT step (honest range; pin tighter from realized GPU-h before launch).",
+  "",
+  "2026-07-15 (trimcrae, after the reviewer verdict): SPEND-GATED LADDER + NO PRE-AUTHORIZATION.",
+  "  (a) NOTHING is pre-authorized or staged to auto-launch. EVERY gpu run is presented at its gate with the",
+  "      prior result + a pinned cost estimate, and waits for an explicit trimcrae 'go'. Only $0 CPU/CI runs",
+  "      without a nod.",
+  "  (b) The order is CHEAPEST-DECISIVE-FIRST: the cheapest run that could KILL the paper runs first, and each",
+  "      rung's bigger spend is unlocked ONLY if the previous cheaper rung's result looks promising. We can kill",
+  "      a non-viable paper for ~$25 (valA_mini) and never reach the ~$150-400 flagship matrix until four cheaper",
+  "      gates have each said GO. See the master plan's Spend summary + GO/NO-GO tests.",
+  "  RUNGS: 0 free/running (step0, emc_e3, pocket_reanalysis) -> 1 valA_mini (kill-switch) -> 2 step1_pilot +",
+  "  valB_mini (all-binding graded edge) -> 3 valB_full CUBE + nrv04_feasibility -> 4 step1_fanout +",
+  "  nr4a_differential_atlas($0) + nrv04_retrospective -> 5 ORIENTATION-FIRST LADDER: orientation_basin_search ->",
+  "  selectivity_wedge_confirm (*** CAUSAL KILL-SWITCH: no confirmed NR4A3 wedge => STOP + publish negative) ->",
+  "  inverse_linker_design($0) -> ternary_ensemble_refine -> local_ternary_fep -> 6 fold/redteam/post.",
+  "  OPTIONAL/HELD: dg_open, abfe_conditional.",
+  "  2026-07-24 RESTRUCTURING: RUNG 5 fixed {warhead x exit x ligase x linker} matrix REPLACED by an",
+  "  orientation-first inverse-design ladder with a causal kill-switch (reciprocal alchemical mutation cycles).",
+  "  Pilot-first kill-switch: atlas($0)+basin($0-50)+ONE pilot mutation leg. **BLOCKED + UNPRICED as of 2026-07-24:**",
+  "  the mutation legs are PROTEIN-residue swaps (NR4A3->NR4A1), and this repo has no protein-mutation FEP engine -",
+  "  OpenFE RHTP maps LIGAND atoms only, and the sole protein-mutation path (nr4a3_resistance_ddg.py) is MM-GBSA,",
+  "  not alchemical. Every past price for this rung (~$40-90 pilot / ~$100-350 cycle, later ~$5-10 / ~$15-30)",
+  "  assumed a capability that does not exist. Scope an engine before planning or pricing this rung; the wedge also",
+  "  needs one CHARGE_METHOD pinned across its binary(am1bcc) and ternary(nagl) legs. Card: default everything on Vast",
+  "  to the 4090 (measured $/ns winner at EVERY size, endpoint MD included). DO NOT quote a whole-program total (see",
+  "  the 2026-07-24 CORRECTED economics note below + STRATEGY.md); price bottom-up per edge. STRATEGY.md authoritative.",
+  "",
+  "The reviewer's 5 mandatory changes (verbatim: nr4a3-degrader-reviewer-revisions-2026-07-15.md):",
+  "  (1) separate ACCURACY (public measured-ddG benchmark) vs PRECISION (cmpd19 = conditional hypotheses, no",
+  "      pose) vs TERNARY known-answer control (VHL-BRD4/SMARCA2); NR-V04 -> biological HOLDOUT, not calibrator.",
+  "  (2) cryptic-pocket affinities are CONDITIONAL (dG_bind|open); dG_open differs per paralogue -> part of",
+  "      selectivity. Estimate dG_open per paralogue OR report conditional. Delete 'true binding likely stronger'.",
+  "  (3) ABFE HELD/reframed: T4L is a smoke test not a transferable offset; report RAW; not proof of binding.",
+  "  (4) NR-V04 celastrol is COVALENT (C551) -> covalent adduct + C551A + noncov/cov sensitivity + recruiter",
+  "      controls; report DIRECTIONAL CONCORDANCE, never 'recovered degradation'.",
+  "  (5) prospective matrix = staged gates + PARETO (not a tunable scalar); model EWSR1::NR4A3 fusion context +",
+  "      lysines beyond the LBD + full CRL/E2~Ub ensembles; 24-36 before controls -> preregistered downselect.",
+  "  LANGUAGE: 'predicted selective candidate'; never imply efficacy/safety/therapeutic-window/clinical-readiness;",
+  "  cmpd19 MYC induction is a LIABILITY, not benefit.",
+  "",
+  "2026-07-24 (CORRECTED Vast economics; supersedes a 2026-07-23 note): TWO findings. (1) CARD DECISION (measured,",
+  "  solid): gpu_md_bench 4090=1549/669/175.6 vs 3090=72.5 ns/day at 35k/85k/444k -> the 4090 wins $/ns at EVERY",
+  "  size INCLUDING the 466k covalent panel (2.42x the 3090, ~9% more/hr), refuting the a-priori 3090-for-covalent",
+  "  pick (single-host-per-point; confirm before moving a large panel). (2) RETRACTION: a 2026-07-23 note claimed",
+  "  the whole program is ~$80-200 on Vast 4090 by scaling PLAIN-MD bench throughput by ~1.7x - that retraction",
+  "  stands. But the RBFE leg is now MEASURED on Vast 4090 and it is CHEAP; the old ~55-GPU-h AWS anchor is REFUTED",
+  "  for this hardware. PROVENANCE (this session, 2026-07-24): the firm RBFE run was live-diagnosed on Vast instance",
+  "  45654998 - OpenFE HREX complex leg (TYK2 valA, 12 windows, hardcoded 5 ns production) ran ~5.2 s/iter x 2000",
+  "  production iters = ~2h52m sampler, + ~43 min boot/setup -> ~3.6 GPU-h billed at $0.122/hr (~$0.44); solvent leg",
+  "  adds ~1.5-2 GPU-h. So RBFE binary edge (complex+solvent) ~5-6 GPU-h ~$0.6-1.4; step1_fanout(19) ~$12-26. The old",
+  "  ~55 GPU-h came from a 2026-07-13 AWS A10G leg that was ~65% GPU-IDLE (CPU-bottlenecked by 12x per-window am1bcc",
+  "  re-charging, nr4a3-post-pilot-sequence.md); the Vast run charges once in setup -> ~15x fewer GPU-h. N_ITER does",
+  "  NOT truncate production (nr4a3_rbfe.py:364-365 hardcodes 5 ns), so the earlier 'ran ~2h without finishing = 55",
+  "  GPU-h' reading was WRONG - the leg was on track to finish at ~2h52m. Ternary 3-replica edge (146,509-particle,",
+  "  **12**-window - CORRECTED 2026-07-24): PROJECTED, not measured. The valB_mini GCP L4 run gave a per-ITERATION",
+  "  RATE (~33 s/iter; 'total wall 8:40:29' ~= 920 iters), and 920 iters is NOT a finished leg - the protocol hardcodes",
+  "  1 ns equil + 5 ns prod at 2.5 ps/iter = 400+2000 = 2400 iters (nr4a3_rbfe.py:364-365), so that wall clock covered",
+  "  ~38% of a leg and the earlier ~$3-6/edge was ~2.6x LOW. Corrected: ~22 L4-GPU-h/leg -> x2 legs x3 replicas ~= ~132",
+  "  L4-GPU-h -> / a SPEC-BASED (never benchmarked) ~2.3x L4->4090 ratio ~= **~$10-16 Vast 4090** (RECONCILED: their MEASURED 4090 rate ~14-18 s/iter x the corrected 2400-iter leg = ~10.7 GPU-h/leg -> ~64 GPU-h/edge)",
+  "  (**~$94 as-run on L4 on-demand**). Caveats that must travel with it: NO ternary leg has ever run to completion, so",
+  "  even the leg LENGTH is unverified; the L4->4090 card ratio is now MEASURED at ~2.06x (33 -> 16 s/iter, count-independent, so it survives the leg-length correction); window count is 12 not the 16 an",
+  "  earlier note carried (gpu-ternary-fep-gcp.yml:29,70). Old $65-110 and $3-6 both superseded. Whole gated ladder now",
+  "  totals ~$390 mid-range (~$170-610) on Vast 4090 for the PRICEABLE stages, GO at every gate, excl. optional/HELD",
+  "  dg_open+ABFE (~$200-500 more) AND excl. the 5a-KS mutation wedge + reciprocal cycle, which are UNPRICED: OpenFE's",
+  "  RelativeHybridTopologyProtocol maps LIGAND atoms only and the repo's sole protein-mutation path is non-alchemical",
+  "  MM-GBSA endpoint scoring, so no engine exists (see selectivity_wedge_confirm.blocked_by). Swings, in order: the",
+  "  unpriced wedge, the L4->4090 conversion, then ensemble-MD leg count (5c + retrospective).",
+  "  Authoritative detail in STRATEGY.md -> economics block + research/compute/pricing.md (single source of truth).",
+  "2026-07-24 TERNARY-SELECTIVITY STRATEGY REVISION (research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md; folded into STRATEGY.md, which stays authoritative). DIAGNOSIS: the prospective stage sought selectivity ONLY on the MARGINAL axis (an induced-interface free-energy difference). selectivity_margin_model.py: an 80%/20% degradation window needs ~2.0 kcal/mol of TRUE margin (median over 27 potency scenarios, 1.75-2.25) vs a best-case RESOLVABLE difference of 1.12 kcal/mol (replicate SD 0.7, n=3) and ~1.7 kcal/mol RMSE accuracy that does not even cover the NAGL ternary lane -> that axis is a CONFIRMATION tool at its limit, not a DISCOVERY tool. FIX: search CATEGORICAL axes first, where the paralogues are structurally incapable. nr4a_paralogue_unique_residues.py (full-length UniProt, dual-aligner agreement, run on CI): NR4A3 has 4 unique cysteines (C397 RSA 0.395 at 10.9 A from the cryptic pocket = exit-vector reach; C420; C559; C166 outside the LBD) and 4 unique lysines (K572 RSA 0.879, K518, K592 exposed at 11-16 A; K178 outside) that BOTH paralogues lack. At ZERO thermodynamic margin those give 0.82 (unique lysine) / 0.92 (covalent capture, kinetic form) on the window metric where the interface-only null gives 0.185. PRECEDENT: NR-V04, the field's one demonstrated NR4A-family-selective degrader, is most parsimoniously explained by a paralogue-unique cysteine (NR4A1 C551 -> NR4A3 T579, reproduced here) - filed until now only as a confound. CHECKED-AND-WEAK, reported not dropped: the EWSR1 fusion moiety contributes only 1-2 lysines (Lys-poor LC domain) -> fusion-lysine axis is thin, NOT a design axis. SIX COST LEVERS: (1) 4 fs ternary production ~2x cheaper/leg (runbook 1c: post-pre-equilibration calib ran production 40/40 at 4 fs, zero NaN; iterations are timestep-independent) - PROPOSED, settled by one ~$5-8 matched re-calibration edge; (2) the binary and solvent legs are PARALOGUE-INDEPENDENT so they cancel EXACTLY in any paralogue comparison -> a 3-paralogue panel is 3 ternary LEGS + 1 shared binary + 1 shared solvent, NOT 3 edges (valB_full module 3 and nrv04_retrospective were both priced as N edges); (3) sequential anytime-valid stopping via the already-built adaptive_certify.py, ~20-25%; (4) decouple the causal kill-switch from valB_full + nrv04_retrospective so the free gates lead; (5) the LIGAND-SIDE DOUBLE DIFFERENCE S = ddG_coop(d0->d|NR4A3) - ddG_coop(d0->d|NR4A1) becomes the PRIMARY causal test (ternary legs only, no protein-mutation engine, no cross-lane charge mismatch); the protein-mutation cycle is kept as a CONFIRMATORY second line, still UNPRICED; (6) E3 breadth is free at CPU search, capped at <=2 recruiters before any GPU. Ladder: ~$390 mid (~$170-610) -> ~$240 mid (~$90-390), with lower EXPECTED cost because the leading gates are $0. THREE DECISIONS PENDING A trimcrae GO: adopt 4 fs; swap the method calibrator to SMARCA2-vs-SMARCA4 (NR-V04 stays the biological holdout); demote the protein-mutation wedge to confirmatory."
+ ],
+ "paper": "research/manuscripts/nr4a3-degrader-paper.md",
+ "master_plan": "STRATEGY.md",
+ "reviewer_verdict": "research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md",
+ "target_venue": "ChemRxiv (CC-BY, free) + JCIM subscription route ($0)",
+ "spend_policy": "NO pre-authorization. Every GPU run waits for an explicit go at its gate with a pinned cost. Cheapest-decisive-first: never spend an expensive rung unless the previous cheaper rung's result is promising.",
+ "last_reviewed": "2026-07-24",
+ "milestones": [
+  {
+   "id": "step0_rbfe_mechanics",
+   "title": "RUNG 0: get RBFE running on OpenFE + managed-spot GPU (infra shakeout - NOT science yet)",
+   "status": "done",
+   "track": "gpu",
+   "cost_est_usd": "5-15 (realized ~1-2)",
+   "optimistic_days": 2,
+   "remaining_days": 0,
+   "parallel_ok": false,
+   "depends_on": [],
+   "note": "DONE 2026-07-16 (PASSED, GO). One OpenFE RBFE edge (shared solvent morph denovo_401->lo_m0_NCCO_gen) ran end-to-end via the spot-safe split (setup CPU -> simulate GPU-spot RBFE_SPOT_SAFE=1 -> analyze MBAR); converged dG_morph = -48.75 +/- 0.57 kcal/mol. Confirmed am1bcc charging works on real hardware AND the spot-safe warmup->production->commit/restore driver (main f5f9bbb) is GPU-validated on our real edge (live S3 commits seen in production). Realized ~$1-2 spot. HISTORICAL: Driving OpenFE RBFE on a managed-spot instance (edge 401->lo_m0_NCCO). Re-dispatched ~7x on 2026-07-15 while fixing an ExecuteUserScriptError. Prerequisite for ALL science. CHARGE-MODEL FIX (2026-07-15, free engineering): root-caused the earlier am1bcc failure = the RBFE conda env shipped WITHOUT ambertools; added ambertools>=23 + set partial_charge_method='am1bcc' (CHARGE_METHOD=nagl fallback). The NEXT shakeout uses am1bcc and confirms CPU charging succeeds (~$0 marginal); this puts us on the documented reference method so we can CITE OpenFE's validation and cut Val A to a near-free smoke. GO/NO-GO: one edge completes end-to-end with a sane dG -> proceed; if it can't run at all -> FEP program blocked, reconsider tooling. Also gives us the realized GPU-h/edge to pin every downstream cost."
+  },
+  {
+   "id": "emc_e3_expression",
+   "title": "RUNG 0 (free): public EMC VHL/CRBN expression analysis (informs ligase choice)",
+   "status": "done",
+   "result": "DONE 2026-07-23 (HPA via CI run 30038257256, nr4a-e3-expression.json). All 10 components of BOTH arms 'Detected in all' tissues -> both CRL2^VHL (VHL/ELOB/ELOC/CUL2/RBX1) and CRL4^CRBN (CRBN/DDB1/CUL4A/B/RBX1) broadly expressed => VHL-vs-CRBN choice NOT constrained by machinery availability; decide on ternary/geometry/selectivity grounds. Honest limit: no EMC line in HPA -> general soft-tissue/mesenchymal availability, not EMC-specific. ★ WIDENED 2026-07-24 (cost lever 6, CI run 30125742542): the panel now also covers CRL4^DCAF1/DCAF15/DCAF16, CRL3^KEAP1, CRL2^FEM1B and the monomeric RING E3s cIAP1/BIRC2, RNF114 and MDM2 - the ligandable recruiter set the mechanism-first basin search samples. ALL 8 widened arms are broadly expressed AND record-complete (every symbol resolved through HPA's own search with an exact-match guard; zero unresolved, zero flagged). CONSEQUENCE: availability does NOT constrain the recruiter choice for ANY of the widened set either, so the mandatory downselect to <=2 recruiters before any GPU leg must be made on LIGANDABILITY + INTERFACE GEOMETRY, and no recruiter may be dropped with 'not expressed' as the reason. Same honest limit as before: no EMC line is in HPA, so this is machinery availability across general soft-tissue/mesenchymal contexts, and RNA tissue distribution is a breadth proxy, not abundance or activity.",
+   "track": "cpu",
+   "cost_est_usd": "0",
+   "optimistic_days": 1,
+   "remaining_days": 0,
+   "parallel_ok": true,
+   "depends_on": [],
+   "note": "Mandatory-change-5 support. 2026-07-23: extended nr4a3_e3_expression.py from CRBN-only to BOTH recruiter arms (CRL2^VHL: VHL+ELOB+ELOC+CUL2+RBX1; CRL4^CRBN: CRBN+DDB1+CUL4A/B+RBX1) so it actually informs the VHL-vs-CRBN choice; emits a per-arm broad-expression verdict. Ran via CI (depmap-dependency.yml, HPA egress-blocked from sandbox) -> nr4a-e3-expression.json. Honest limit: no EMC line in HPA, so this is machinery-availability across general soft-tissue/mesenchymal tissue, not EMC-specific. Free CPU, done without a nod."
+  },
+  {
+   "id": "pocket_reanalysis",
+   "title": "RUNG 0 (free): harmonized pocket-tracking re-analysis (finalize Gate 2 druggability wording)",
+   "status": "done",
+   "track": "cpu",
+   "cost_est_usd": "0",
+   "optimistic_days": 2,
+   "remaining_days": 0,
+   "parallel_ok": true,
+   "depends_on": [],
+   "note": "DONE 2026-07-23. Harmonized consolidated detection (nr4a3-pocket-reharmonize-summary.json; pinned fpocket + score-independent matcher rerun, jobs 2026-07-10) folded into the paper Gate-2 wording (Sec 2.1). Both 'await harmonized' placeholders replaced with actual both-denominator numbers: 8XTT 19/20 detected, 3 >= D*=0.53 (was 4/20 pre-harmonized -> 3/19 among detected, 3/20 across all deposited); release bias-free continuations druggable in 56/40/80% of frames per replica, 44/75=59% pooled. Cheap CPU; done without a nod."
+  },
+  {
+   "id": "valA_mini",
+   "title": "RUNG 1: reference-reproduction smoke + CITE OpenFE (reduced from a paid benchmark by the am1bcc fix)",
+   "status": "done",
+   "result": "PASS/GO 2026-07-17 (GCP L4 CUDA, spot-safe, run 29566859637). TYK2 ejm31->ejm42, full 5ns x 12-window RBFE both legs: ddg_bind=+0.366 vs ddg_exp=-0.24 kcal/mol -> abs_err=0.606 < 2.0 GO-tol => GO. Our OpenFE container reproduces a known ddG, so the build is sound (kill-switch cleared). Solvent leg ddG=13.703+/-0.079. Result in gs://.../valA-tyk2/results/ddg_nr4a3.json. Ran on GCP to burn $300 credits; survived ~9 spot preemptions purely via the GCS checkpoint/resume path (validated end-to-end).",
+   "track": "gpu",
+   "cost_est_usd": "0-15",
+   "optimistic_days": 1,
+   "remaining_days": 0,
+   "parallel_ok": true,
+   "depends_on": [
+    "step0_rbfe_mechanics"
+   ],
+   "note": "Mandatory change 1A, REDUCED. The RUNG-0 charge-model fix (added ambertools>=23 to environment-rbfe.yml; partial_charge_method='am1bcc') put us on the STANDARD documented method, so am1bcc is what OpenFE's published ~1.7 kcal/mol benchmark rests on - we CITE that and only run a minimal 1-2 public known-answer edge to confirm OUR container build reproduces a known ddG (charging verify is CPU/$0; confirming MD edge ~$5-15). Does NOT touch NR4A - build-consistency check. GO/NO-GO: 1-2 edges land near known ddG -> build sound, GO. Off -> real container bug, fix before spending. FALLBACK: if am1bcc charging ever fails on a specific ligand, set CHARGE_METHOD=nagl and Val A reverts to the paid ~$25 NAGL-validation benchmark. NOT pre-authorized - presented with a pinned cost after step 0."
+  },
+  {
+   "id": "step1_pilot_cmpd19",
+   "title": "RUNG 2: cmpd19 CONDITIONAL relative FE, 1-2 edges + replicas + pose/state sensitivity",
+   "status": "done",
+   "track": "gpu",
+   "cost_est_usd": "REPRICED 2026-07-25 -> ~$2.8 ($0.8-$8.5) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: 15-40 estimated -> REALIZED ~1-3 (one RBFE edge on Vast-4090 bases; ran on Modal L4)",
+   "optimistic_days": 3,
+   "remaining_days": 0,
+   "parallel_ok": true,
+   "depends_on": [
+    "valA_mini"
+   ],
+   "result_first_edge": {
+    "date": "2026-07-18",
+    "edge": "zaienne_cmpd19 -> cw_ev_5nh2 (5-Br -> 5-NH2 indole)",
+    "complex_dg_morph_kcal": -29.68,
+    "complex_unc_kcal": 0.24,
+    "solvent_dg_morph_kcal": -31.52,
+    "solvent_unc_kcal": 0.26,
+    "ddg_bind_kcal": 1.839,
+    "ddg_bind_unc_kcal": 0.36,
+    "engine": "OpenFE RelativeHybridTopologyProtocol, 12 lambda-windows HREX, MBAR; Modal L4 GPU, spot-safe GCS checkpoint/resume",
+    "interpretation": "5-NH2 analogue predicted ~1.8 kcal/mol (~20x) WEAKER than cmpd19 in the modeled opened pocket. Both legs MBAR-converged (tight within-run SE). Single edge / single replicate / single opened-conformer.",
+    "meaning": "Proves the congeneric-RBFE pipeline works end-to-end and CONVERGES on the real NR4A3 system (the plumbing half of the gate). CONDITIONAL relative FE on a HYPOTHESIZED cmpd19 pose (no solved structure, no measured affinity) -> statistical convergence + self-consistency, NOT experimental-accuracy (that is valA, the separate public benchmark).",
+    "crux_cleared": "The pilot's pre-registered crux (can a congeneric RBFE converge on this cryptic pocket without the pocket collapsing?) is CLEARED on this edge -> box checked/done.",
+    "carried_to_fanout": "replicas (reproducibility) + pose/state sensitivity (receptor-sensitivity) sweep are inputs to the RUNG-4 fan-out (refine per-edge n_windows/GPU-h + the conditional caveat); they do NOT reopen this pilot. The fan-out's Val-A accuracy gate is satisfied by 'cite OpenFE + clean valA_mini' (valA_full is SKIPPED); it does NOT require running valA_full."
+   },
+   "note": "Mandatory change 1B. Only if Rung 1 = GO. Conditional relative FE for a HYPOTHESIZED cmpd19 mode in preselected open conformers; tests reproducibility + receptor-sensitivity, NOT pose correctness. GO/NO-GO: reproducible, receptor-sensitive, pocket doesn't collapse -> GO; pathological -> anchor too fragile, reconsider before fan-out. FIRST EDGE RAN 2026-07-18 (see result_first_edge): ddG_bind=+1.84 kcal/mol, converged, pocket stable -> pilot crux CLEARED, DONE. Replicas + pose/state sensitivity carried to the fan-out (do not reopen this pilot); the fan-out's Val-A gate is satisfied by 'cite OpenFE + clean valA_mini', NOT by running the SKIPPED valA_full."
+  },
+  {
+   "id": "valB_mini",
+   "title": "RUNG 2: known-answer ternary edge Wurz cmpd1 -> cmpd4 (SMARCA2-VHL, 8G1Q; ddG_coop_exp=+0.94, alpha_SPR)",
+   "status": "in_progress",
+   "track": "gpu",
+   "cost_est_usd": "REPRICED 2026-07-25 -> ~$8.8 ($3.2-$22) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: RECONCILED ~$10-16 on Vast 4090 (~64 4090-GPU-h: ~10.7 GPU-h/leg x binary+ternary x 3 replicas, from a MEASURED ~16 s/iter 4090 rate x the corrected 2400-iter leg); as-run on L4 on-demand ~$94. CORRECTED 2026-07-24: the earlier ~$3-6 / ~8.7 GPU-h-per-leg treated the live sampler's 920 iterations as a FINISHED leg; a leg is 400 equil + 2000 production = 2400 iterations at 2.5 ps/iter (nr4a3_rbfe.py:364-365), FORENSIC CONFIRMATION (GH run 30117943561, 2026-07-24): mode=forensic on calib_hi_to_lo__ternary_vhl seed 0 reports checkpoint_interval=40, analysis_last_iteration=1560, checkpoint_last_iteration=1560, TORN=false, 12 generations -> ternary production target IS 2000 iters, 1560 committed (~78%). ROOT CAUSE of the 920 confusion: 920=23x40 and 1560=39x40 are CHECKPOINT BOUNDARIES, not leg lengths; the source line 'binary_vhl leg at iter 913/920' meant 'at 913, next checkpoint 920' AND was the BINARY arm. Leg = 400 warmup + 2000 production = 2400 iters. Leg length is no longer a projection; no end-to-end dG yet. Old 65-110 also superseded. Card dominates - GPU-h-heavy. ★ 2026-07-24 LIVE-LOG CORRECTION (GH run 30123894814, VM gcp-ternary-30112102294): the calib_hi_to_lo__binary_vhl leg ran at ~28.6-38.2 s/iter (median ~33) on L4 - the SAME rate as the ternary leg's ~33 s/iter. pricing.md's 'conservative: the binary leg is a smaller box and should run faster' is REFUTED; a binary leg is a FULL-PRICE leg. This makes the shared-binary-leg identity worth MORE, not less. Also confirmed as-run: production timestep=2.0 fs with a 1.0 fs warmup override, NaN_seen=no.",
+   "optimistic_days": 3,
+   "remaining_days": 3,
+   "parallel_ok": true,
+   "depends_on": [
+    "valA_mini"
+   ],
+   "note": "Mandatory change 1C. REDESIGNED TWICE on 2026-07-17 (research/manuscripts/valB-reviewer-decision-2026-07-17.md). (a) The original hi->lo panel edge (P1->P5) is NOT congeneric; a wide RCSB search found no clean same-assay congeneric both-alpha edge. (b) The first substitute PROTAC 2 -> cis-PROTAC 2 (epimer) was RETIRED by the reviewer (Option-1 GO): a pure single-stereocenter inversion is a NULL alchemical transformation under the production complete single-topology map (identical FF params, 124/124 atoms mapped -> ddG ~ 0 by construction; verified by an endpoint-verification smoke) and needs a bespoke partial/dummy map that is NOT the production protocol. APPROVED replacement = Wurz et al. (Nat Commun 2023) SMARCA2-VHL compound 1 -> compound 4: same-paper SPR alpha 12.8 -> 2.6, a GENUINE constitutional edge (minimal linker pyridine->benzene = ring N->CH), preregistered ddG_coop_exp = -RT ln(2.6/12.8) = +0.94 kcal/mol. Staged from PDB 8G1Q (3.73 A SMARCA4-cmpd1-VHL; NOT a SMARCA2 crystal) with a mandated SMARCA4->SMARCA2 BD substitution + >=2 relaxed models + divergence check. Built + CPU-validated: wurz-calib-frozen.json, wurz_calib_freeze.py, resolver (resolved_calib_wurz), smarca2_model.py (SMARCA4->SMARCA2), ternary_pdb_stage.py assembly, 5-part $0 smoke gate (nr4a3_ternary_fep._five_part_gate), null-map guard + regression test (tests/test_null_map_guard.py). $0 PRE-SPEND GATE (GPU only when the smoke records all 5): (1) chemical identity built==published + not graph-identical after stereo removal; (2) non-null map (linker N->C, no unintended stereocenter change); (3) same atom map + E3 construct in binary & ternary; (4) 8G1Q SMARCA4->SMARCA2 relax >=2 models divergence_ok; (5) alpha_SPR label + +0.94 + SMARCA2-model limitation. DECISION RULE (the +-1.0 kcal/mol band is REMOVED; separation<1 kcal/mol makes a noisy positive point estimate INDETERMINATE): PASS requires positive sign + CI excludes zero + no fwd/rev disagreement + no collapse/escape/restraint-dominated + broad consistency with +0.94. valB_mini GATES valB_full only; NR4A ternary scores stay EXPLORATORY until valB_full passes."
+  },
+  {
+   "id": "ternary_4fs_recalibration",
+   "title": "RUNG 2b (NEW): 4 fs ternary adoption + MATCHED re-calibration (cost lever 1)",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "REPRICED 2026-07-25 -> ~$4.4 ($1.6-$11) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: 5-8 (one ternary edge at 4 fs on the revised base). PAYS BACK: the ladder has >=6 further ternary legs and 4 fs halves each.",
+   "optimistic_days": 2,
+   "remaining_days": 2,
+   "parallel_ok": false,
+   "depends_on": [
+    "valB_mini"
+   ],
+   "note": "★ AS-RUN BASELINE VERIFIED AGAINST THE LIVE LANE, NOT THE DOC (2026-07-24 4:12 PM ET, GH run 30123894814 mode=tail reading VM gcp-ternary-30112102294): '[tfep] timestep=2.0 fs, minimization_steps=5000' and warmup_dt_override='WARMUP timestep overridden to 1.0 fs', NaN_seen=no, charge=nagl. So the lane really is 1 fs warmup -> 2 fs PRODUCTION; the '1 fs warmup + 4 fs production' shape is the runbook 1c PRE-EQUILIBRATION DEMONSTRATION (40 production iterations on calib), not this lane - and gpu-ternary-fep-gcp.yml defaults are timestep_fs=2.0 / use_preequil=0. EXACT INVOCATION for the adoption run, all three flags load-bearing: mode=preequil once (cached), then mode=run use_preequil=1 timestep_fs=4.0 warmup_timestep_fs=1.0 reset_commits=1. use_preequil=1 because 4 fs only held WITH pre-equilibration; reset_commits=1 because OpenFE refuses to resume a checkpoint whose protocol timestep differs ('Sampler in checkpoint does not match Protocol settings'), so a dt change starts CLEAN - a fresh edge, not a continuation, which is what the ~$5-8 already prices. 2026-07-24 revision, cost lever 1. EVIDENCE: ternary-rbfe-runbook.md 1c - after plain-MD pre-equilibration the calib ternary leg ran warmup 48/48 @1 fs -> production 40/40 @4 fs with ZERO NaN (dG_morph 47.28 +/- 0.53), where every prior attempt died at warmup iteration 1. The live valB lane nevertheless runs TIMESTEP_FS=2.0. Iterations are TIMESTEP-INDEPENDENT (2.5 ps/iter), so 4 fs is exactly half the force evaluations -> ternary edge ~$10-16 -> ~$5-8. CAVEAT THE RUNBOOK IMPOSES: validation and production must run at the SAME timestep, and the existing 4 fs evidence is 40 production iterations, not 2000. So: re-run the valB_mini Wurz edge at TIMESTEP_FS=4.0 with use_preequil=1. One edge, three jobs - (a) exercises 4 fs over a FULL 2000-iteration production leg, (b) supplies the matched-timestep calibration required before any 4 fs production number may be quoted, (c) is an independent reproducibility replicate of the 2 fs ddG_coop. GO/NO-GO: no NaN across the full leg AND ddG_coop consistent with the 2 fs run within replicate SD -> adopt 4 fs downstream; NaN or a shifted ddG -> stay at 2 fs and carry the 2 fs base unchanged. Run only once valB_mini's 2 fs result is in hand, so there is something to compare against. NOT pre-authorized - needs an explicit go."
+  },
+  {
+   "id": "valA_full",
+   "title": "RUNG 3: expand public RBFE accuracy benchmark to 10-20 edges (publishable size)",
+   "status": "skipped",
+   "track": "gpu",
+   "cost_est_usd": "50-140 (NOT spent; ~$50-140 saved)",
+   "optimistic_days": 0,
+   "remaining_days": 0,
+   "parallel_ok": true,
+   "depends_on": [
+    "valA_mini"
+   ],
+   "result": "SKIPPED 2026-07-18. Skip condition met: valA_mini reproduced the known TYK2 ddG cleanly (abs_err 0.61 < 2.0) on the STANDARD am1bcc method (post RUNG-0 charge fix), NOT the NAGL surrogate. valA_full's only purpose was to characterize/repair a NAGL-introduced discrepancy, which no longer exists -> a full 10-20 edge re-derivation is redundant with OpenFE's published ~1.7 kcal/mol benchmark for this exact reference protocol. Paper cites OpenFE for accuracy; valA_mini stands as a single-edge build-consistency confirmation (NOT a standalone accuracy benchmark). RE-OPEN only if am1bcc charging is later forced onto NAGL (CHARGE_METHOD=nagl) for some ligand.",
+   "note": "Mandatory change 1A (full). SKIPPED - see result. Original GO/NO-GO if run: RMSE in a defensible band (~<=2 kcal/mol, comparable to OpenFE public ~1.7) -> GO. step1_fanout's Val-A accuracy gate is now satisfied by 'cite OpenFE + clean valA_mini' rather than by running valA_full."
+  },
+  {
+   "id": "valB_full",
+   "title": "RUNG 3: Val B component-calibration CUBE (module-specific; no single 'validated' verdict)",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "REPRICED 2026-07-25 -> ~$22.5 ($6-$67) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: 20-65 (REVISED 2026-07-24 from 40-110 by cost levers 1+2: 4 fs halves each ternary leg, and a paralogue module is N ternary LEGS + 1 shared binary + 1 shared solvent, not N edges)",
+   "optimistic_days": 4,
+   "remaining_days": 4,
+   "parallel_ok": true,
+   "depends_on": [
+    "valB_mini"
+   ],
+   "note": "2026-07-24 REVISION - MODULE 3 NOW RUNS ON SMARCA2-vs-SMARCA4, not NR-V04 (ADOPTED 2026-07-24, trimcrae go). SMARCA2/4 is a close paralogue pair with degrader-level selectivity, solved structures, a NON-COVALENT mechanism, and is ALREADY STAGED in this repo (8G1Q, smarca2_model.py, wurz-calib-frozen.json) - so it is a marginal add-on to the lane valB_mini already runs rather than a new campaign. NR-V04's selectivity is, by this repo's own UniProt result (NR4A1 C551 unique to NR4A1), most plausibly COVALENT TARGET ENGAGEMENT, which makes it a weak calibrator for a NONCOVALENT ternary pipeline - exactly why the reviewer demoted it to a biological holdout; it stays the holdout. Apply cost lever 2 when pricing the paralogue module: N ternary legs + ONE shared binary + ONE shared solvent leg. Mandatory change 1C + 2026-07-24 restructuring. Only if valB_mini = GO. Four separately-calibrated MODULES, each with its own uncertainty model + pass/fail (a failed module -> qualitative-only; NO blanket 'ternary pipeline validated'): (1) all-binding graded cooperativity [already run as valB-mini Wurz 1->4; add >=1 more graded edge for coverage; Vast 4090 ~$65-110/edge]; (2) ternary pose recovery [generator includes the known orientation in top-k with calibrated confidence; co-fold/CI ~$0]; (3) paralogue discrimination [same degrader across close paralogues on a public system with a known differential - the direct analogue of the NR4A ask; 4090 ~$65-110]; (4) productive-vs-unproductive ubiquitination geometry [full-CRL model separates ternary occupancy from Ub-transfer competence on a public system with mapped lysines; 4090 MD ~$10-40]. Plus the cis-epimer negative-endpoint STRESS module (demoted from valB-mini; a pass forced by artificially holding the active pose is not a pass). GATE: the prospective ladder never runs unless the cooperativity + paralogue-discrimination modules pass (calibrated intervals, correct direction on held-out observations)."
+  },
+  {
+   "id": "nrv04_feasibility_covalent",
+   "title": "RUNG 3: NR-V04 covalent (C551) feasibility + reduced control panel",
+   "status": "under_correction",
+   "track": "gpu",
+   "cost_est_usd": "MEASURED ~$0.43/leg (mean, 15-leg ledger) -> ~$8 for the 18-leg panel (was est 40-100 -> ~an order of magnitude overestimate)",
+   "cost_measured": "COMPLETE 2026-07-24: 17/18 legs finished (warhead_only-s0 never cleared its host container-pull across repeated relaunches; that arm's finding stands on its 2 completed seeds). RTX 3090 on Vast interruptible bid, billed on dph_total ~$0.10-0.21/hr. 6 ns/leg (1 ns equil + 5 ns prod, 500 frames), ~466-650k atoms (covalent arms ~650k, 1.4x), ~19-116 ns/day (host-variance-dominated). Final S3-ledger mean ~$0.43/leg -> ~$8/panel. NO blow-ups on any leg. RESULT: recruited=True (frac-frames-in-contact=1.0) on ALL legs -> recruitment is a WEAK discriminator (co-fold seeds the E3 in contact in every arm); interface-STABILITY (Kabsch-aligned interface-RMSD plateau) is the real readout. Per-seed stable fraction: recruiter_active 3/3, recruiter_epimer(inactive) 1/3 -> active-vs-epimer discrimination the static co-fold classifier could NOT produce (it scored them identically); cov_nr4a1(covalent) 2/3 (majority-stable, feasible) = noncov_nr4a1 2/3 (covalency buys feasibility not extra stability); cov_c551a(Cys->Ala) 1/3; warhead_only 2/2. FEASIBILITY + control-discrimination only; NO selectivity/cooperativity/efficacy claim. Infra proven+fixed (all merged, root-caused from instance logs): checkpoint-resume FIXED (persist+reload the exact solvated System XML+mmCIF snapshot, never re-solvate -> cross-host loadState atom-count match) + PROVEN (warhead_only-s2 RESUMED from frame 50 on a different host); snapshot-upload retry (a transient ok=False permanently blocked resume); bid min_bid x1.5->x1.9 (churn fix: slow-host legs need a continuous ~4h run); PTX host filter cuda_max_good>=13.0; 429-throttled teardown; S3 price ledger; idempotent skip-only-alive re-dispatch; terminal/duplicate reap. GPU finding (reconciled 2026-07-24 with the parallel session's dedicated gpu_md_bench): this panel's one 4090 leg ran ~1.8x a typical 3090 (116 vs 65 ns/day) but landed on pricier hosts (host-price variance, not the GPU); the controlled single-host-per-point bench SUPERSEDES that and shows the 4090 wins $/ns at EVERY size incl the 466k covalent panel (2.42x at ~9% more/hr) -> 4090 is the $/ns card going forward even for large endpoint MD (refutes the a-priori 3090-for-covalent pick); 3090+x1.9 merely got THIS panel done cheaply on the hosts it landed. NOTE: rotate VAST_API_KEY (was forwarded to community hosts).",
+   "provider": "vast",
+   "gpu": "rtx3090",
+   "optimistic_days": 3,
+   "remaining_days": 0,
+   "parallel_ok": true,
+   "depends_on": [
+    "valB_mini"
+   ],
+   "note": "Mandatory change 4. Covalent celastrol-NR4A1 (C551) adduct + noncov/cov sensitivity + C551A control + warhead-only/recruiter controls. GO/NO-GO OUTCOME (2026-07-24): GO. Covalency did not swamp the signal (no blow-ups; cov_nr4a1 majority-stable), the panel behaved, and the endpoint-stability readout even recovered an active-vs-epimer discrimination the static co-fold could not. Written into nr4a3-degrader-paper.md 2026-07-24 as the covalent-adduct endpoint-MD feasibility subsection in the NR-V04/co-fold section, feasibility-framed. LAUNCHED 2026-07-23 with the SVD/blow-up finite-guard fix; COMPLETED 2026-07-24 (17/18) after the checkpoint-resume + snapshot-retry + bid-hold + host-filter infra fixes.",
+   "correction_2026_07_24": "RESULT UNDER CORRECTION - its GO does not stand. The endpoint-MD driver split E3 from target POSITIONALLY (last sorted protein chain) while the co-fold builder writes the target FIRST, so with chains A=254 (NR4A LBD) E=213 (VHL) F=118 (EloB) G=112 (EloC) the rule selected ELONGIN C as the degradation target: R1/R2 describe the EloC-vs-rest interface and R3 counted Elongin C's lysines. Proven from the panel's own legs - the reactive Cys, resolved independently by geometry and sitting on the NR4A1 LBD, is recorded on chain A in 12 of 14 legs while the positional rule pointed at G (CI run 30122828434). The arithmetic reproduces exactly; the interface is wrong. The cost_measured field below is retained as the infrastructure/pricing record, which is unaffected; its SCIENCE numbers (recruiter_active 3/3 vs epimer 1/3, cov 2/3 = noncov 2/3, C551A 1/3) are superseded and must not be cited. Corrected 14-leg re-run built, into nrv04-covalent-results-chainfix, NOT yet launched. See research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md"
+  },
+  {
+   "id": "step1_fanout_cmpd19",
+   "title": "RUNG 4: cmpd19 congeneric map, 8-wide (conditional hypotheses + sensitivity ranges)",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "REPRICED 2026-07-25 -> ~$36 ($15-$80) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: ~$91-101 for the 19 edges (MEASURED 2026-07-24, supersedes the $12-26 estimate). ~13.7 GPU-h/edge x $0.35-0.39/hr realized bid. The old figure compounded two errors: a per-iteration rate taken from the PUBLIC TYK2 system (~5.2 s/iter) applied to the ~2.6x heavier NR4A3 cryptic-pocket complex (~13.6 s/iter, measured on 3 independent hosts), on a $0.122/hr bid basis vs the ~$0.37/hr realized. See research/compute/pricing.md section A.",
+   "optimistic_days": 4,
+   "remaining_days": 4,
+   "parallel_ok": true,
+   "depends_on": [
+    "step1_pilot_cmpd19"
+   ],
+   "note": "GATE: Val A accuracy satisfied (valA_full SKIPPED - valA_mini clean on am1bcc -> cite OpenFE) AND the Step 1 pilot behaved. Full congeneric map across druggable 8XTT conformers, release-derived NR4A3 conformers, matched NR4A1/NR4A2 open conformers, resolved microstates. Rank by worst conformer AND receptor>conformer, as CONDITIONAL hypotheses with sensitivity ranges (no synthetic ensemble affinity).",
+   "launched": "LAUNCHED 2026-07-24 ~4:19 PM ET, wave 1 of 3 (8 of 19 units) on Vast RTX 4090 interruptible. Lane built this session: congeneric_fanout.py (pure unit enumeration + cycle/ranking bookkeeping), congeneric_pose_stage.py (common-mode poses), congeneric_fanout_vast.py (launcher), fusion-cpu-extras.yml task=step1_fanout, 19 unit tests. Unit = one edge, both alchemical legs (complex+solvent) + reduce on ONE rented 4090; spot-safe S3 checkpoint/resume; idempotent leg- and unit-level skip so a re-dispatch resumes rather than re-pays.",
+   "scope_actually_launched": "TRANCHE 1 ONLY = the map's 19 edges at their charge-CONSERVING (dq=0) microstate leg, on the PRIMARY nr4a3_design druggable frame (the frame the pilot converged on). EXCLUDED and NOT run: (a) the 8 charge-CHANGING microstate legs - the map's microstate_policy requires a co-alchemical / analytical charge correction that nr4a3_rbfe.py does not implement, so running them would produce numbers with an uncontrolled offset; (b) the 6-frame receptor axis (4 NR4A3 conformers + matched NR4A1/NR4A2 open frames), each frame being another full tranche-1 spend. CONSEQUENCE FOR THE CLAIM: tranche 1 yields a single-conformer CONDITIONAL relative-FE map. It is NOT the selectivity readout and NOT the sensitivity range the title promises - those need the frame axis (tranche 3) and are a separate authorization. congeneric_fanout.plan() emits this exclusion list machine-readably.",
+   "pose_staging": "Common-mode poses built by MCS-core-constrained embedding onto the ONE docked cmpd19 anchor pose (smina, frozen nr4a3_design Pocket-5 box, run 29175736795), NOT by re-docking each analogue independently (which would leave each in its own local optimum and break the morph). 17/17 staged, core inherited atom-for-atom so core RMSD is ~0 by construction. Soft receptor contacts (1.6-2.0 A, relieved by the MD's own minimisation) recorded; severe (<1.6 A) would flag needs_pose_revalidation. The anchor pose is a HYPOTHESIS (no solved NR4A3 cocrystal) - consistent propagation makes the 19 ddG values mutually comparable, not correct.",
+   "cost_observed": "BID DEVIATION, flagged 2026-07-24: the wave-1 instances landed at dph_total ~$0.35-0.39/hr, ~3x the $0.122/hr instance the ~$12-26 estimate was measured on (pricing.md section A). At ~5.5 GPU-h/unit that projects ~$2/unit -> ~$39 for all 19, ABOVE the pinned band though still under the >$50 review gate. This is current 4090 market rate on the bid (min_bid x 1.5), not a launcher defect. Replace with the realized per-unit cost once the first unit completes; do not quote $12-26 as if realized.",
+   "halted": "HALTED 2026-07-24 ~5:15 PM ET by trimcrae, after wave 1 (8 of 19 units) surfaced the measured rate above and the full tranche repriced past the >$50 spend gate. Realized spend ~$2 (fleet torn down ~40-50 min in; monitor confirms live_instances=0, nothing idle-billing). NO ddG was produced - 0/19 units reached a result, so there is nothing to report from this run scientifically.",
+   "resume_state": "The lane is BUILT and PROVEN to sample: 3 hosts reached 95-99% GPU util on the real cmpd19/NR4A3 system and advanced to iteration ~124-160 at a steady ~13.6 s/iter, so the only thing that stopped it was the spend decision. Partial sampler checkpoints for 4 units are in S3 under nr4a3-step1-fanout/results/<unit>/ckpt and the staged common-mode poses under nr4a3-step1-fanout/stage/, so a re-dispatch RESUMES rather than restarts. Re-run with: fusion-cpu-extras.yml task=step1_fanout fanout_mode=launch_confirm (precheck first; stage is already done and idempotent).",
+   "known_gaps_if_resumed": "(1) All 3 thermodynamic cycles close only on edges in the LAST wave (units 16-18) - reorder so a closure edge lands early if a partial run is ever wanted, otherwise the internal-consistency check needs the full 19. (2) Card choice is not a saving: at current rates a 4090 and a 3090 cost the same per iteration and the 3090 takes 2.4x the wall-clock.",
+   "lane_doc": "research/modalities/step1-fanout-lane.md — build, scope, run, cost post-mortem, bid-logic finding, 4 fixed infra defects, and the resume path.",
+   "blocking_before_resume": "RESOLVED 2026-07-24 (free CPU, no GPU). The timestep question is ANSWERED and is NOT a lever: the effective protocol settings, read off a real hybrid build rather than assumed, are constraints=hbonds + hydrogen_mass=3.0 - OpenFE's DEFAULT, which the production lanes inherit. Under it every X-H is a constraint (xh_total=0 on both known-answer anchors against 1771/4997 constraints; the alchemical valence force holds 11/28 bonds, none an X-H), so all edges run at 4 fs by construction and the ~$91-101 stands on that axis. Two corollaries: the per-edge timestep scan cannot discriminate what the build makes uniform (its RBFE_FORCE_CONSTRAINTS=hbonds was always a no-op, and its calib anchor expected an answer no build could give - now corrected with evidence); and PARTICLE COUNT is the sole remaining candidate for the 2.6x throughput gap vs TYK2, still unrecorded for the NR4A3 binary complex. Capture it on any resumed run - the leg log now uploads unconditionally, so the setup line survives."
+  },
+  {
+   "id": "nrv04_retrospective",
+   "title": "RUNG 4: NR-V04 retrospective - preregistered biological holdout (directional concordance)",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "REPRICED 2026-07-25 -> ~$21 ($4.8-$67) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: 15-40 (REVISED 2026-07-24 from 55-120 by cost levers 1+2: a 3-paralogue panel is 3 ternary LEGS + 1 shared binary + 1 shared solvent - the binary and solvent legs are paralogue-INDEPENDENT so they cancel exactly in ddG_coop(P)-ddG_coop(P') - and 4 fs halves each leg; was priced as '3-6 ternary EDGES', i.e. paying for the shared legs 3-6x over)",
+   "optimistic_days": 5,
+   "remaining_days": 5,
+   "parallel_ok": false,
+   "depends_on": [
+    "valB_full",
+    "nrv04_feasibility_covalent",
+    "step1_fanout_cmpd19"
+   ],
+   "note": "2026-07-24 REVISION: this NO LONGER GATES the causal kill-switch (cost lever 4) - the wedge's validation need is a matched-pair control, not a cooperativity cube, so selectivity_wedge_confirm is decoupled and can fire before this is bought. INTERPRET WITH THE COVALENT CONFOUND EXPLICIT: NR4A1 Cys551 is unique to NR4A1 (NR4A3 T579, nr4a-paralogue-unique-residues.json), so a concordant result may be recovering TARGET ENGAGEMENT rather than ternary cooperativity - which is why this is the biological holdout and SMARCA2/4 is the method calibrator. Full NR4A1/2/3 ensembles through the physics + ubiquitination pipeline, NO tuning, preregistered scoring (fixed on Val B-full), VHL-inactive epimer negative control. Report DIRECTIONAL CONCORDANCE/DISCORDANCE - NEVER 'recovered degradation'. GO/NO-GO: at least directionally concordant with NR4A1-degraded / NR4A2.NR4A3-spared -> GO to the matrix. Discordant -> matrix NOT justified; publish the honest negative.",
+   "depends_on_note_2026_07_24": "The nrv04_feasibility_covalent dependency is UNDER CORRECTION (wrong chain split), so this rung's stated gate is not currently satisfied by it. The retrospective's own prereg is frozen (nr4a3-nrv04-retrospective-prereg.md) and its inputs were regenerated clean (nrv04-descriptive-v4, the v3 set carried 14-3-3 epsilon in place of Elongin B)."
+  },
+  {
+   "id": "nr4a_differential_atlas",
+   "title": "RUNG 4 (mostly free): NR4A1/2/3 paralogue-differential surface atlas + lysine-accessibility map",
+   "status": "done",
+   "result": "DONE 2026-07-24, $0 in-sandbox CPU. nr4a_differential_atlas.py (pure-stdlib Shrake-Rupley SASA + affine-gap BLOSUM62 alignment + character-change typing) over matched results/nr4a3-matrix/nr4a{3,1,2}-opened.pdb -> nr4a3-differential-surface-atlas.json + .md + 6 passing unit tests. VALIDATED: reproduces canonical nr4a-selectivity.json on 148/148 known residues (0 mismatch). RESULT: 254 residues, 137 exposed, 109 divergent (42.9%), 46 differential-surface handles (exposed x divergent x character-changing; 33 vs both), 15/15 LBD lysines exposed. Top: U576 L->(G/N), U574 Q->(V/G), U412 R->(A/T charge-lost-both), U413 D->(K/S charge-reversed). GATE: PASS/GO - a differential surface exists to steer an E3 against; RUNG-5a orientation-basin search warranted. Optional add-on open: matched NR4A1/2 MD ensembles (~$10-40 Vast 4090) for dynamics robustness.",
+   "track": "cpu",
+   "cost_est_usd": "0-40 (analysis $0 CPU DONE; optional matched NR4A1/2 LBD MD ensembles ~$10-40 on Vast 4090)",
+   "optimistic_days": 3,
+   "remaining_days": 0,
+   "parallel_ok": true,
+   "depends_on": [],
+   "note": "2026-07-24 orientation-first restructuring. Matched NR4A1/2/3 receptor ensembles (identical frames/microstates/transforms/sampling) -> paralogue-differential surface + electrostatic/H-bond map; fusion-context scenarios; SEPARATE LBD/hinge/DBD/fusion lysine map; warhead-pose sensitivity. Output = a discrimination MAP, not three receptor models. FREE CPU analysis -> will build+run without a spend nod; itself a cheap early NO-GO. GATE: >=1 exposed paralogue difference reachable by a recruited VHL/CRBN, else the wedge search is unlikely to succeed."
+  },
+  {
+   "id": "nr4a_unique_residues",
+   "title": "TIER 0 (free): NR4A3 paralogue-UNIQUE reactive-residue map - the CATEGORICAL selectivity axes",
+   "status": "done",
+   "result": "DONE 2026-07-24, $0. nr4a_paralogue_unique_residues.py: full-length UniProt (P22736/P43354/Q92570/Q01844) + DUAL-ALIGNER agreement (linear-gap NW and the atlas's affine-gap BLOSUM62; only alignment-robust calls may be a design premise - K85/K194 excluded on disagreement) + matched-model geometry (Shrake-Rupley RSA, reactive-atom distance to the cryptic pocket and to docked poses). AXIS 1 - 4 NR4A3-unique cysteines: C397 (NR4A1 N363 / NR4A2 S363; RSA 0.395; 10.9 A from the pocket, 12.3 A from the nearest docked pose -> exit-vector reach; the lead handle), C420 (18.3 A -> linker-borne), C559 (12.8 A, RSA 0.095 in this conformer), C166 (outside the modelled LBD). AXIS 2 - 4 NR4A3-unique lysines, 3 exposed in the LBD: K572 (RSA 0.879, 11.5 A), K518 (0.413, 13.4 A), K592 (0.506, 16.2 A), K178 (outside) - all in the same 11-16 A band as the conserved lysines, so an E3 CAN be steered onto a unique site. RECIPROCAL: reproduces the NR-V04 Leg-0 exactly (NR4A1 C551 -> NR4A3 T579) and completes it (NR4A1 has 5 cysteines NR4A3 lacks). FUSION: EWSR1 1-264 contributes only 1 lysine (1-349: 2) -> the fusion-lysine axis is THIN and is NOT a design axis; reported, not dropped. GATE: PASS/GO on BOTH categorical axes. 15 unit tests; ran on CI (run 30123828812) because the sandbox proxy 403s UniProt.",
+   "track": "cpu",
+   "cost_est_usd": "0",
+   "optimistic_days": 1,
+   "remaining_days": 0,
+   "parallel_ok": true,
+   "depends_on": [],
+   "note": "2026-07-24 revision, TIER-0 gate - runs AHEAD of everything priced and costs nothing. A categorical mechanism (the paralogue has no nucleophile / no lysine) does not require winning a ~1 kcal/mol free-energy contest, which selectivity_margin_model.py shows sits at the method's resolution limit. Feeds orientation_basin_search's two new scoring terms. OPEN (cheap): the matched NR4A1/2 MD-ensemble add-on should report the DISTRIBUTION of C397 exposure, not one frame's 0.395. HONEST LIMITS: sequence uniqueness is exact, but reachability is one static conformer + a heavy-atom distance (not a docked electrophile); intrinsic Cys reactivity (pKa, electrostatics) is NOT computed; unique-lysine removal RAISES the odds the paralogue is spared, it does not guarantee it (multi-lysine and non-lysine ubiquitination are documented); an IRREVERSIBLE covalent PROTAC forfeits catalytic turnover -> prefer reversible-covalent; electrophile promiscuity is an unresolved liability with no wet lab to check it and must be reported alongside the parent warhead's MYC induction."
+  },
+  {
+   "id": "orientation_basin_search",
+   "title": "RUNG 5a: MECHANISM-FIRST orientation-space search for NR4A3-selective E3-placement basins (before linkers)",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "0-50 (CPU sampling/clustering $0; optional Vast-4090 MM-GBSA rescore of basin reps ~$30-50)",
+   "optimistic_days": 4,
+   "remaining_days": 4,
+   "parallel_ok": true,
+   "depends_on": [
+    "nr4a_unique_residues",
+    "nr4a_differential_atlas",
+    "step1_fanout_cmpd19"
+   ],
+   "note": "2026-07-24 REVISION - MECHANISM-FIRST. Three additions, all $0 CPU: (a) ELECTROPHILE-REACH term - does the basin's linker path pass within tethering distance of C397/C420/C559 at a geometry a mild electrophile could adopt? None sits inside the pocket, so this is an electrophile on the EXIT VECTOR or the LINKER, architecturally free in a degrader; prefer REVERSIBLE-covalent (an irreversible adduct forfeits catalytic turnover). (b) TRANSFER-ZONE LYSINE-IDENTITY term - which lysine does the modelled E2~Ub transfer zone cover? unique-only > unique+conserved > conserved-only. Set membership, not energy. (c) E3 BREADTH - widen beyond VHL/CRBN to the ligandable set with public ligand-bound structures (cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114); free at CPU, DOWNSELECT TO <=2 BEFORE ANY GPU LEG and LOG THE DROPPED SET. (d) POSE-MARGINALISATION - run over the warhead-pose ensemble and carry only basins that persist, reporting the surviving fraction. The categorical terms are GEOMETRIC set-membership questions, which cheap scoring answers far more reliably than a ~1 kcal/mol energy difference. 2026-07-24 restructuring. Broad VHL/CRBN transform sampling (flexible linker-reach restraint); matched 3-paralogue interface scoring; cluster into ~3-8 basins/ligase; cheap counterfactual residue screen to NOMINATE wedges. Cheap scoring NOMINATES only; the go/no-go is the alchemical mutation-cycle confirm (selectivity_wedge_confirm), NOT these coarse scores (poor S/N for small paralogue differences)."
+  },
+  {
+   "id": "selectivity_wedge_confirm",
+   "title": "RUNG 5a-KS: pilot-first causal KILL-SWITCH (ligand-side double difference) + optional protein-mutation cycle",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "REPRICED 2026-07-25 -> ~$12 ($1.6-$45) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: 5-25 for the PRIMARY test (REVISED 2026-07-24). The primary causal test is now the LIGAND-SIDE DOUBLE DIFFERENCE S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1) for a candidate d and a matched control d0 differing only in the element that engages the wedge. Each term is an ordinary relative alchemical quantity INSIDE one protein; it needs NO protein-mutation engine, makes NO cross-lane subtraction, and by cost lever 2 needs ONLY TERNARY LEGS (the binary and solvent legs are paralogue-independent and cancel exactly). The reciprocal PROTEIN-MUTATION cycle is retained as a CONFIRMATORY second line and remains UNPRICED. ENGINE, CORRECTED 2026-07-24 PM (a parallel session established this by RUNNING it): the perses route is OpenEye-licence-gated in its CORE mutation path (residue atom map via OEMol), so it was RETIRED and the lane was rebuilt on pmx + GROMACS (Dockerfile.pmxfep, protfep_pmx.py, gpu-protfep-vast.yml). No leg has completed on EITHER engine, so there is still no rate. Ladder, mostly free: stage-test/refcheck/bake/build-test = $0 (the hybrid construction is CPU work) -> smoke ~$0.10 -> pilot ~$1-3 (THE ABORT GATE: barstar Y29A, ref 3.4 kcal/mol verified against SKEMPI 2.0) -> full set ~$5-10, priced by protfep_reduce.price_from_legs once legs complete. Cost of establishing the perses dead end: ~$0.05. NOTE the demotion does NOT cancel this lane - the known-answer benchmark is required under either framing; what changes is that the ladder no longer stalls if it fails.",
+   "optimistic_days": 4,
+   "remaining_days": 4,
+   "parallel_ok": false,
+   "depends_on": [
+    "orientation_basin_search",
+    "valB_mini"
+   ],
+   "blocked_by": [
+    "(CONFIRMATORY LINE ONLY) protein-mutation FEP lane rebuilt on pmx + GROMACS 2026-07-24 after perses proved OpenEye-gated; no leg has completed on either engine, so it stays UNPRICED until its SKEMPI-referenced known-answer benchmark gives a per-leg rate",
+    "(CONFIRMATORY LINE ONLY) cross-lane charge mismatch - the protein-mutation wedge subtracts a binary-lane leg (am1bcc) from a ternary-lane leg (nagl); one CHARGE_METHOD must be pinned across both and stamped into both result JSONs. The PRIMARY ligand-side double difference is not affected: both its legs are ternary-lane."
+   ],
+   "note": "★ DEMOTION OF THE PROTEIN-MUTATION WEDGE TO CONFIRMATORY: ADOPTED 2026-07-24 (trimcrae go). 2026-07-24 REVISION - the kill-switch is no longer blocked behind an unbuilt engine and ~$80-215 of prerequisite ternary work. PRIMARY: pilot ONE matched pair (ternary legs in NR4A3 and NR4A1). No discrimination -> STOP, publish the honest causal negative, run NO linker design/ensemble/local-FEP. Discrimination -> extend to NR4A2 and to a second design element. EVIDENCE GRADE: a NO-GO may be taken on valB_mini-grade evidence (stopping is the conservative action), but a POSITIVE result stays EXPLORATORY until valB_full passes - same rule as every other NR4A ternary score. CONFIRMATORY: the reciprocal protein-mutation cycle, kept because two independent causal lines are worth more than one, but no longer the result the paper depends on. **BLOCKED - see blocked_by; the two prerequisites below are unscoped, so the days/costs here are NOT plannable yet.** 2026-07-24 restructuring, PILOT-FIRST (corrects an earlier framing that mislabeled the full ~$100-350 cycle as 'the kill-switch' - a $350 gate on a $500 tail is poor economics). TIERED cheap-decisive-first gate: Tier1 atlas ($0) -> Tier2 basin nomination ($0-50) -> Tier3 pilot ONE alchemical mutation leg 3->1 (UNPRICED - no engine; the earlier ~$40-90 and the later ~$5-10 both assumed an alchemical protein-mutation capability the repo does not have). ddG_neo-interface = dG_mut^ternary - dG_mut^binary. CHEAP GO/NO-GO: no interface loss on the pilot -> STOP (whole decision ~$40-140 marginal); publish honest causal negative; run NO linker design/ensemble/local-FEP (saves ~$250-750 tail). Loss on pilot -> complete the FULL reciprocal cycle (add 3->2 + reciprocal 1/2->3, ~$100-350) = the paper's PRIMARY CAUSAL RESULT (deliverable, not gate overhead), which also aborts the tail if it disconfirms.",
+   "notes": "2026-07-24 PM: benchmark lane built and launched on Vast (branch claude/parallel-test-vast-cs5ugw). CI-verified staging against the deposited 1BRS structure: chain D = barstar (87 res, TYR29), chain A = barnase - correcting a hand-written benchmark entry that had put Y29 on chain A. Engine remains UNVALIDATED; plan_wedge still stamps validated:false. 2026-07-24 PM: perses lane retired (OpenEye); pmx+GROMACS lane built (Dockerfile.pmxfep, protfep_pmx.py, gpu-protfep-vast.yml on main). Route pre-confirmed on free CI: CUDA GROMACS solves, pmx develop installs on 3.11. Cost of establishing the perses dead end: ~$0.05."
+  },
+  {
+   "id": "inverse_linker_design",
+   "title": "RUNG 5b (free): inverse linker design against confirmed basins (basin-fidelity, not atom count)",
+   "status": "pending",
+   "track": "cpu",
+   "cost_est_usd": "0-20 (CPU enumeration/conformer/closure; optional a few Vast-4090 relaxations)",
+   "optimistic_days": 3,
+   "remaining_days": 3,
+   "parallel_ok": true,
+   "depends_on": [
+    "selectivity_wedge_confirm"
+   ],
+   "note": "2026-07-24 restructuring. Derive per-basin linker requirements (endpoint distance, exit-vector dihedral, attachment angles, flexibility, extension, solvent path, surface avoidance, strain, motion tolerance); enumerate a large virtual library; filter by basin fidelity F_{d,k} (conformer closure + strain); keep linkers realizing DISTINCT basins (orientation control, not atom count); annotate exact structures + synthetic feasibility -> ~12-20 virtual constructs (this is where the '24-36' arithmetic now lives - virtual, not a hand-built grid). 2026-07-24 REVISION: for basins carrying the covalent handle, enumerate the ELECTROPHILE POSITION on the linker as a design variable, and prefer REVERSIBLE-covalent chemistry (an irreversible adduct makes the degrader stoichiometric and forfeits catalytic turnover)."
+  },
+  {
+   "id": "ternary_ensemble_refine",
+   "title": "RUNG 5c: explicit ternary + full-CRL/E2~Ub ensemble refinement, matched paralogues, constraint-satisfaction",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "15-100 (REVISED 2026-07-24: still the largest single GPU spend and the biggest swing item, but fewer survivors reach it now that the categorical terms prune at 5a)",
+   "optimistic_days": 5,
+   "remaining_days": 5,
+   "parallel_ok": false,
+   "depends_on": [
+    "inverse_linker_design"
+   ],
+   "note": "2026-07-24 restructuring. ~12-20 -> replicated ternary + full CRL/E2~Ub MD across target states/linker conformers/in-basin poses; matched NR4A1/2/3; interface-contact persistence; linker strain; basin retention; SEPARATE accessibility P(B_k|d,s) from stability dG_coop; robust constraint-satisfaction (P_d = P(all constraints hold across scenarios), NOT Pareto-membership alone) -> ~4-8 constructs. EWSR1::NR4A3 fusion context; lysines beyond the LBD. 2026-07-24 REVISION: add a constraint on WHICH lysine the ubiquitin actually reaches, reported per construct as a distribution over unique-vs-conserved sites, not just 'a lysine is near'."
+  },
+  {
+   "id": "local_ternary_fep",
+   "title": "RUNG 5d (flagship tail): local ternary FEP within retained basins -> final ~6-12 candidates",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "REPRICED 2026-07-25 -> ~$22 ($3-$80) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: 10-45 (REVISED 2026-07-24 from 30-96 by cost levers 1+2: 4 fs halves each leg and paralogue comparisons need ternary legs only)",
+   "optimistic_days": 5,
+   "remaining_days": 5,
+   "parallel_ok": true,
+   "depends_on": [
+    "ternary_ensemble_refine"
+   ],
+   "note": "2026-07-24 restructuring (replaces ternary_prospective_matrix). Alchemy ONLY within a retained basin (both endpoints plausibly bound, modest congeneric change, acceptable hybrid topology, endpoint stability not restraint-created). NOT for comparing unrelated linkers/ligases/basins. Final set ~6-12 with >=2 mechanistic wedges, >=2 linker architectures, VHL+CRBN only where both survive, explicit negative controls, robust to reciprocal-mutation tests. Deliverable = computationally prioritized, structure-defined, retrosynthetically annotated candidate set WITH an identified causal selectivity mechanism; degradation experimentally UNVALIDATED. LANGUAGE: 'predicted selective candidate'; never imply efficacy/safety/window/clinical-readiness."
+  },
+  {
+   "id": "dg_open_paralogue",
+   "title": "OPTIONAL/HELD: dG_open per paralogue (only if we want UNCONDITIONAL affinity)",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "120-300 (optional)",
+   "optimistic_days": 4,
+   "remaining_days": 4,
+   "parallel_ok": true,
+   "depends_on": [
+    "step0_rbfe_mechanics"
+   ],
+   "note": "Mandatory change 2 (preferred path). Converged pocket-opening free energy per paralogue so observable affinity = dG_open + dG_bind|open and per-paralogue penalties enter SELECTIVITY. HELD - only with an explicit nod. If NOT run, report everything conditional on the open state (fully defensible, $0)."
+  },
+  {
+   "id": "abfe_conditional",
+   "title": "OPTIONAL/HELD: conditional ABFE (pose-plausibility) - RAW, no T4L offset",
+   "status": "pending",
+   "track": "gpu",
+   "cost_est_usd": "80-200 (optional)",
+   "optimistic_days": 5,
+   "remaining_days": 5,
+   "parallel_ok": true,
+   "depends_on": [
+    "valA_mini",
+    "step1_pilot_cmpd19"
+   ],
+   "note": "Mandatory change 3. HELD - as framed, not worth running (interpretability). Launch only with an explicit nod if the pose-plausibility question is worth it. Report RAW ABFE as POSE-PLAUSIBILITY (is the hypothesized pose thermodynamically plausible), T4L discrepancy SEPARATELY. Does NOT prove 'binds at all'. Free-cmpd19 ABFE != each degrader's binary affinity."
+  },
+  {
+   "id": "fold_results",
+   "title": "RUNG 6: fold results into paper (+ SI), apply language discipline, QM/torsion + physchem/retrosynthesis",
+   "status": "pending",
+   "track": "write",
+   "cost_est_usd": "0",
+   "optimistic_days": 3,
+   "remaining_days": 3,
+   "parallel_ok": false,
+   "depends_on": [
+    "step1_fanout_cmpd19",
+    "nrv04_retrospective",
+    "local_ternary_fep",
+    "ternary_ensemble_refine",
+    "selectivity_wedge_confirm",
+    "nr4a_differential_atlas",
+    "valB_full",
+    "pocket_reanalysis",
+    "emc_e3_expression",
+    "nr4a_unique_residues"
+   ],
+   "note": "Single source of truth = nr4a3-degrader-paper.md (+ SI). Apply ALL reviewer language discipline (predicted candidate / conditional bound state / directional concordance; no efficacy/safety/window/clinical claims; cmpd19 MYC induction as liability). Add QM/torsion validation at degrader linker junctions + physicochemical + retrosynthetic assessment of the final matrix. Re-render figures. Fold conditional ABFE (if run) as pose-plausibility only."
+  },
+  {
+   "id": "final_redteam",
+   "title": "RUNG 6: final red-team + review-response pass (honest-weight every claim; medical-integrity check)",
+   "status": "pending",
+   "track": "write",
+   "cost_est_usd": "0",
+   "optimistic_days": 2,
+   "remaining_days": 2,
+   "parallel_ok": false,
+   "depends_on": [
+    "fold_results"
+   ],
+   "note": "Reviewer-AI block before the outward-facing post/submit step."
+  },
+  {
+   "id": "post_submit",
+   "title": "RUNG 6: post ChemRxiv (CC-BY) + submit JCIM + send outreach emails",
+   "status": "pending",
+   "track": "submit",
+   "cost_est_usd": "0",
+   "optimistic_days": 1,
+   "remaining_days": 1,
+   "parallel_ok": false,
+   "depends_on": [
+    "final_redteam"
+   ],
+   "note": "OUTWARD-FACING / irreversible - needs trimcrae sign-off (not auto). This is the finish line."
   }
+ ],
+ "shelved": {
+  "_reason": "Broad DE NOVO warhead GENERATION stays parked per the ternary-first strategy (denovo_401 is at most a side comparator). ABFE is NOT shelved but is HELD + REFRAMED as a conditional pose-plausibility calc (abfe_conditional) per the 2026-07-15 reviewer verdict. The old transferable-T4L-offset framing and the 'RBFE/ABFE proves it binds at all' framing are RETIRED (reviewer mandatory change 3).",
+  "milestones": []
+ }
 }

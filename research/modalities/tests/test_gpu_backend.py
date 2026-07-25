@@ -167,29 +167,37 @@ def test_vast_selects_cheapest_capable_verified_offer():
     assert chosen["id"] == 2                                       # cheapest that meets VRAM + single-GPU + rentable
 
 
-def test_vast_bid_price_is_margin_above_floor():
-    # bid a margin ABOVE the floor (min_bid) so the box wins AND HOLDS its slot (fewer preemptions -> fewer
-    # ~20-min fat-image reloads); still cheap and always runnable. Default multiplier is 1.9 (raised from 1.5
-    # 2026-07-23 after the covalent tail churned — see gpu_backend).
-    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.30}) == 0.125  # 0.10 * 1.25
-    # cheap 3090 host where min_bid == dph_base (no interruptible discount): bid must stay ABOVE min_bid, NOT be
-    # capped below it (the below-floor cap left the box created-but-stopped, verified 2026-07-23)
-    assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}) == 0.1    # 0.08 * 1.25 >= floor, runnable
-    assert _vast_bid_price({"min_bid": 0.24, "dph_base": 0.2933}) == 0.3    # 0.24 * 1.25
-    assert _vast_bid_price({"min_bid": 0, "dph_base": 0.30}) == 0.375     # no floor -> fall back to base*1.25
+def test_vast_bid_price_is_a_staleness_tick_above_the_floor_not_a_multiple():
+    """The bid is the market floor plus a small tick — NOT a multiple of it.
+
+    Measured 2026-07-25 (`vast-bid-semantics-probe-ladder.json`): renting one offer at three bid multiples gave
+    charged = min(bid, the machine's on-demand price). x1.0 -> $0.00930 charged on a $0.00930 bid; x2.5 and
+    x8.0 both -> $0.02133, matching that machine's on-demand dph_base to 17 significant figures. So every cent
+    of premium below the cap is spent on every hour, and it buys only partial protection: Vast's docs say
+    on-demand renters preempt interruptible ones regardless of bid. The tick exists solely so a quote that
+    moves between the search call and the rent call still clears the floor."""
+    from vast_cost_model import BID_STALENESS_EPS
+
+    for floor in (0.10, 0.08, 0.24, 0.0147):
+        bid = _vast_bid_price({"min_bid": floor, "dph_base": max(floor, 0.30)})
+        assert bid > floor, "a bid at or below min_bid can leave the box created-but-stopped"
+        assert bid <= floor * (1 + BID_STALENESS_EPS) + 0.0006
+        for retired in (1.25, 1.5, 1.9):
+            assert bid < floor * retired, f"policy must undercut the retired x{retired} rule"
+
+    # no floor at all -> fall back to the base price, still a tick not a multiple
+    assert _vast_bid_price({"min_bid": 0, "dph_base": 0.30}) == 0.306
     assert _vast_bid_price({}) is None                            # no pricing -> no bid
 
 
 def test_vast_bid_price_is_capped_at_the_machines_real_on_demand_price():
-    """A fixed multiple has no bound. Measured 2026-07-24: `1.9 x floor` exceeded that host's on-demand price on
-    20 of 23 RTX 4090s; selection saved us only because the cheapest floor happened to sit far below its own
-    on-demand. The cap is what makes the policy safe when the cheap tail thins."""
-    # uncapped (no on-demand price known) -> unchanged behaviour
-    assert _vast_bid_price({"min_bid": 0.2667, "dph_base": 0.2667}) == 0.3334
-    # capped: 1.9 x 0.2667 = 0.5067 would be 58% ABOVE the $0.32 on-demand price for the same box
-    assert _vast_bid_price({"min_bid": 0.2667, "dph_base": 0.2667}, ondemand_base=0.32) == 0.32
-    # cap that does NOT bind leaves the multiple alone
-    assert _vast_bid_price({"min_bid": 0.1333, "dph_base": 0.1333}, ondemand_base=0.36) == 0.1666
+    """Vast enforces this ceiling itself (measured above), but we clamp on our side too: bidding INTO the cap
+    still spends real money on every hour up to it, and a bid-type query cannot see the cap at all
+    (`dph_base == min_bid` identically in a bid search, so it would be comparing the floor to itself)."""
+    # cap binds
+    assert _vast_bid_price({"min_bid": 0.2667, "dph_base": 0.2667}, ondemand_base=0.27) == 0.27
+    # cap does not bind -> the tick stands
+    assert _vast_bid_price({"min_bid": 0.1333, "dph_base": 0.1333}, ondemand_base=0.36) == 0.136
 
 
 def test_vast_bid_cap_never_drops_the_bid_below_the_floor():
@@ -198,16 +206,33 @@ def test_vast_bid_cap_never_drops_the_bid_below_the_floor():
     assert _vast_bid_price({"min_bid": 0.30, "dph_base": 0.30}, ondemand_base=0.20) == 0.30
     assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}, ondemand_base=0.05) == 0.08
     # a garbage cap is ignored rather than crashing the launch
-    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base=None) == 0.125
-    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base="oops") == 0.125
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base=None) == 0.102
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base="oops") == 0.102
 
 
-def test_vast_selection_ranks_by_min_bid_when_interruptible():
-    # A has lower on-demand but higher bid floor; B has higher on-demand but the cheaper bid we'd actually pay
+def test_vast_bid_floor_mult_env_var_is_an_escape_hatch_not_the_default():
+    """A leg that genuinely cannot tolerate pauses may still want to buy retention, so the override survives —
+    but it is OFF unless someone sets it, so the derived policy is what actually runs."""
+    import importlib, os
+    import gpu_backend
+    assert gpu_backend._VAST_BID_FLOOR_MULT is None, "a multiple must not be the default policy"
+    os.environ["VAST_BID_FLOOR_MULT"] = "1.9"
+    try:
+        gb = importlib.reload(gpu_backend)
+        assert gb._vast_bid_price({"min_bid": 0.10, "dph_base": 0.30}) == 0.19
+    finally:
+        del os.environ["VAST_BID_FLOOR_MULT"]
+        importlib.reload(gpu_backend)
+
+
+def test_vast_selection_ranks_by_what_we_would_be_billed_when_interruptible():
+    # A has lower on-demand but higher bid floor; B has higher on-demand but the cheaper bid we'd actually pay.
+    # Same card, so this isolates the host-price effect — which on the live board spans 5.4x best-to-median and
+    # is the single largest lever in the whole policy.
     a = {"id": 1, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.20, "min_bid": 0.18, "gpu_name": "RTX 4090"}
     b = {"id": 2, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.30, "min_bid": 0.09, "gpu_name": "RTX 4090"}
     res_bid = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True)
-    assert _select_cheapest_offer([a, b], res_bid)["id"] == 2      # ranks by min_bid -> B is cheaper to run
+    assert _select_cheapest_offer([a, b], res_bid)["id"] == 2      # cheaper billed rate -> B
     res_od = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=False)
     assert _select_cheapest_offer([a, b], res_od)["id"] == 1       # on-demand -> ranks by dph_total -> A
 
@@ -413,36 +438,46 @@ def test_an_unbenched_card_is_taken_only_when_nothing_measured_qualifies():
 def test_price_ceiling_governs_the_billed_rate_not_the_floor():
     """The cost ceiling must be checked against what we are BILLED, not the floor we bid above.
 
-    On Vast you pay your bid, and the bid is min_bid * _VAST_BID_FLOOR_MULT. Comparing max_hourly_usd to
-    min_bid alone let the effective rate reach mult x the cap before any offer was rejected — at the then-current
-    1.9 and a $0.60 cap that is $1.14/hr, i.e. no effective ceiling. This is how the step1 fan-out ran at
-    ~$0.37/hr against a routing estimate of $0.30 without anything complaining.
-
-    Every threshold here is DERIVED from _VAST_BID_FLOOR_MULT. The original literals only held at 1.9, so
-    lowering it to 1.25 on 2026-07-25 would have broken this test for a reason unrelated to what it guards.
-    """
-    from gpu_backend import ResourceSpec, _select_cheapest_offer, _VAST_BID_FLOOR_MULT
+    Measured 2026-07-25: the charge is min(bid, on-demand), so the billed rate is exactly what
+    `_vast_bid_price` returns. Comparing max_hourly_usd to min_bid alone let the effective rate run past the
+    cap before any offer was rejected — at the old x1.9 with a $0.60 cap that is $1.14/hr, i.e. no ceiling at
+    all. That is how the step1 fan-out ran at ~$0.37/hr against a routing estimate of $0.30 with nothing
+    complaining. Thresholds here are DERIVED from `_vast_bid_price` so the test survives a policy change and
+    only fails if the ceiling genuinely stops governing the billed rate."""
+    from gpu_backend import ResourceSpec, _select_cheapest_offer, _vast_bid_price
 
     res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True)
     cap = 0.60
-    # a floor whose BILLED rate (floor * mult) lands above the cap must be rejected
-    over = round(cap / _VAST_BID_FLOOR_MULT * 1.2, 4)
+
+    def billed(floor):
+        return _vast_bid_price({"min_bid": floor, "dph_base": floor})
+
+    # a floor whose BILLED rate lands above the cap must be rejected
+    over = 0.75
+    assert billed(over) > cap
     pricey = {"id": 1, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.50, "min_bid": over,
               "gpu_name": "RTX 4090"}
     assert _select_cheapest_offer([pricey], res, max_hourly_usd=cap) is None
 
     # ...and one comfortably under the same ceiling is still selectable
-    under = round(cap / _VAST_BID_FLOOR_MULT * 0.5, 4)
+    under = 0.30
+    assert billed(under) < cap
     ok = {"id": 2, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.25, "min_bid": under,
           "gpu_name": "RTX 4090"}
     assert _select_cheapest_offer([ok], res, max_hourly_usd=cap)["id"] == 2
 
-    # the ceiling is exactly the billed rate, so the boundary sits at ceiling / mult
-    boundary = round(cap / _VAST_BID_FLOOR_MULT, 4)
+    # the boundary sits where the BILLED rate crosses the ceiling, wherever the policy puts that
+    lo, hi = 0.30, 0.75
+    for _ in range(40):
+        mid = (lo + hi) / 2
+        if billed(mid) <= cap:
+            lo = mid
+        else:
+            hi = mid
     just_under = {"id": 3, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.40,
-                  "min_bid": boundary - 0.001, "gpu_name": "RTX 4090"}
+                  "min_bid": round(lo - 0.002, 4), "gpu_name": "RTX 4090"}
     just_over = {"id": 4, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.40,
-                 "min_bid": boundary + 0.001, "gpu_name": "RTX 4090"}
+                 "min_bid": round(hi + 0.002, 4), "gpu_name": "RTX 4090"}
     assert _select_cheapest_offer([just_under], res, max_hourly_usd=cap)["id"] == 3
     assert _select_cheapest_offer([just_over], res, max_hourly_usd=cap) is None
 

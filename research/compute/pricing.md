@@ -13,20 +13,46 @@ session; will be updated on completion) · `ESTIMATED` (derived/extrapolated —
 
 ## A. Live per-card price on Vast (MEASURED)
 
-**★ GO-FORWARD LANE (trimcrae, 2026-07-24): ALL production runs are on Vast — RTX 4090 (default, measured $/ns
-winner) or RTX 3090 (fallback).** GCP L4 / SageMaker / Modal are **NOT** the cost basis going forward. The
-ternary edge is now **directly measured on Vast 4090** (2026-07-24, below) — the L4×2.3 card-ratio projection it
-replaces is confirmed, not overturned. **Never quote the L4-on-demand figure as a go-forward cost.**
+**★ GO-FORWARD LANE (trimcrae, 2026-07-24): ALL production runs are on Vast.** GCP L4 / SageMaker / Modal are
+**NOT** the cost basis going forward. **Never quote the L4-on-demand figure as a go-forward cost.**
 
-| Card | $/hr (interruptible) | Source |
+**⚠ THE "RTX 4090 DEFAULT, 3090 FALLBACK" RULE IS RETIRED (2026-07-25).** It rested on a **withdrawn** bench
+(the 2026-07-24 23:08 grid — single 0.9–4.5 s windows, which also ranked a 4080 SUPER above a 4090 and a
+mislabelled Quadro RTX 8000 as cheapest per ns) and on the assumption that the two cards cost about the same per
+hour. Neither survives:
+
+- **Validated throughput @84,534 particles** (3 × ~20 s independent blocks, physics-checked, CV < 1.4%):
+  **4090 = 755.36**, **4080 = 703.51**, **3090 = 359.36** ns/day. So 4090/3090 = **2.10×, not 2.42×**, and the
+  4080 is within **7 %** of a 4090 — not 40 % behind.
+- **Prices are nowhere near equal.** Live board 2026-07-25 (445 interruptible offers; 148 pass our launch
+  filters): cheapest 3090 floor **$0.0147/hr** against **$0.1310/hr** for the cheapest 4090 — **8.8×**, which
+  more than covers being 2.10× slower.
+
+> **The card is not the decision — the OFFER is.** Rank on all-in `$/ns` and take whatever wins; the top 10
+> offers routinely contain both cards. Hard-coding a card is how you pay 2.6× to run on the "faster" one.
+
+**Live board, all-in `$/ns`** (`$/ns = (bid + storage) ÷ (ns_per_day ÷ 24)`) — regenerate with
+`python research/modalities/vast_cost_model.py`:
+
+| | $/ns | **per reference (4090) GPU-hour** |
 |---|---|---|
-| **RTX 4090** (default) | **~$0.145 min-bid → ~$0.15–0.25 realized** (×1.5 bid) | `probe_offers` 2026-07-23 (fusion-cpu-extras `vast_launch_mode=probe_offers`, CI run 30039473430) |
-| **RTX 3090** (fallback) | **~$0.10–0.16 `dph_total`** | same probe + the covalent panel's realized `dph_total` ledger |
+| best offer | 0.00181 | **$0.057** |
+| **best-10 mean — THE PLANNING NUMBER** | 0.00436 | **$0.137** |
+| median offer | 0.00983 | $0.309 |
+| *what `step1_fanout` actually paid* | — | *$0.35–0.39* |
 
-`$/ns = ($/hr) ÷ (ns_per_day ÷ 24)`. **4090 vs 3090:** the 4090 is ~2.4× faster (measured: 175.6 vs 72.5 ns/day
-@444k) for only ~1.5× the $/hr → the **4090 wins $/ns at every size**, so it's the default; a compute-bound
-alchemical edge on the 3090 costs roughly **~1.5–2× the 4090 $/edge** (slower, only partly offset by cheaper
-$/hr). Use the 3090 only when 4090 capacity is short.
+Best-to-median spread is **5.43×**, so selection is the dominant lever — worth several times the bid policy
+(the whole `×1.9 → floor` bid change is 1.48×). Bid policy, evidence and the retired rules:
+**[bid-strategy.md](./bid-strategy.md)**.
+
+**Storage is a real line, not a rounding error.** It bills continuously whether the box is running or paused
+(Vast docs), median **$0.20/GB/month** → ~$0.011/hr at the 40 GB the launcher requests. On the *best* offer that
+is **42 % of all-in cost**; asking for 20 GB instead cuts all-in cost **21 %**.
+
+**Honest limits:** the validated grid covers **one system size** (84,534 particles) — card *ratios* are far more
+size-stable than absolute rates, so ranking is sound, but an absolute ns/day at 146k or 466k is **not** measured.
+A 3090 also needs **2.10× the wall clock**, so a leg with a hard continuity requirement is 2.10× more exposed on
+it (`JobProfile.min_uninterrupted_h` scales that per card and flags it).
 
 ---
 
@@ -34,7 +60,7 @@ $/hr). Use the 3090 only when 4090 capacity is short.
 
 | Basis | Value | Status | Justifying test / artifact |
 |---|---|---|---|
-| **Card decision** ($/ns per card) | **4090 wins $/ns at every size, incl. 466k covalent (2.42× the 3090)** | **MEASURED** (this session) | `gpu_md_bench` grid on Vast: 4090 = **1549 / 669 / 175.6** ns/day at 35k/85k/444k atoms; 3090 = **72.5** @444k. Single-host-per-point. Fusion-cpu-extras `bench`/`bench_grid`; results `s3://…/vast-bench-results/*/bench.json` |
+| **Card decision** ($/ns per card) | **⚠ SUPERSEDED 2026-07-25 — the card is not the decision, the OFFER is (§A).** Validated: 4090 **755.36** / 4080 **703.51** / 3090 **359.36** ns/day @84,534 → 4090/3090 = **2.10×**. Rank offers on all-in `$/ns`. | **MEASURED** (validated 2026-07-24 grid) | The `1549 / 669 / 175.6` and `72.5 @444k` figures this row used to carry are from the **WITHDRAWN** 23:08 grid (single 0.9–4.5 s windows). Validated re-run: 3 × ~20 s independent blocks per leg, physics-checked (final T 298.7–301.0 K), CV < 1.4%, with a rejection gate that threw out a contended host (CV 18.5%) and a mislabelled card. Table of record: `vast_cost_model.MEASURED_NS_PER_DAY_84K` — the single source of truth, imported by `gpu_backend` and `vast_bid_optimizer` (a second copy is exactly how the withdrawn 669 survived for a day) |
 | **Endpoint MD leg** (covalent, ~466k atoms) | **~$0.43/leg on 3090** (measured) → **~$0.26/leg on 4090** (from the card ratio) | **MEASURED** (3090 real, full-panel ledger; 4090 inferred) | **⚠ UPDATED 2026-07-24 — supersedes the interim "~$0.6/leg, 6 completed legs 2026-07-23" that this row previously carried.** The panel has since **COMPLETED**: NR-V04 covalent panel, **17 of 18 legs finished**, S3-persisted `dph_total` price ledger, **mean ~$0.43/leg over a 15-leg ledger → ~$8 for the 18-leg panel** (`dph_total` ~$0.10–0.21/hr, 6 ns/leg, ~466–650k atoms, ~19–116 ns/day, host-variance-dominated). Milestone `nrv04_feasibility_covalent` → `cost_measured` in `research/manuscripts/degrader-paper-schedule.json` carries the full as-run ledger. **4090 inference:** the 4090 is 2.42× faster at ~1.45× the $/hr → net ~0.6× the $/leg → ~$0.26. *(The old $0.36 was the same 0.6× factor applied to the stale $0.6 base.)* This is the one basis in this table that **is** a completed multi-leg measurement on the card quoted. |
 | **Alchemical RBFE edge** (complex+solvent, ~35k) | **complex leg ≈ ~3.6 GPU-h; edge (complex+solvent) ≈ ~5–6 GPU-h ≈ ~$0.6–1.4 on Vast 4090** | **MEASURED** (this session, Vast 4090) | **firm RBFE, live-diagnosed on instance 45654998 (2026-07-24):** OpenFE HREX complex leg (TYK2 valA, 12 λ-windows, 5 ns production) ran at **~5.2 s/iter × 2000 production iters = ~2 h52 m sampler**, + ~43 min boot/setup → **~3.6 GPU-h billed** at the instance's **$0.122/hr** (~$0.44). Solvent leg (smaller box) extrapolated ~1.5–2 GPU-h. **The cost stands on the measured per-iteration RATE (two independent working 4090 CUDA runs: 45654998 at prod iter 92/2000, 45658414 at equil 71/400, both ~5.1 s/iter, phases advancing normally) × the hardcoded phase counts** — a clean end-to-end ΔG was NOT captured this cycle: both working spot instances were preempted before finishing the ~3 h leg, and because the firm jobspec is `resume=False` neither reached the summary step, so the S3 `firm.json` is a stale PRE-FIX attempt (CUDA-platform fail, predates the OPENMM_PLUGIN_DIR/Dockerfile fix). Getting a completed ΔG needs `resume=True` (+ the equilibration.nc-collision fix) and is a step1_fanout-execution concern, not a pricing one. **The old ~55 GPU-h AWS anchor is REFUTED for Vast, not just de-anchored:** it was a 2026-07-13 A10G leg that was **~65 % GPU-idle (CPU-bottlenecked by 12× per-window am1bcc re-charging)**; the Vast run charges once in setup and keeps the GPU busy → ~15× fewer GPU-h. See `research/modalities/nr4a3-post-pilot-sequence.md` for the pathology |
 
@@ -140,31 +166,39 @@ basis at all** pending engine scoping.
 | RUNG 0 (charge fix, EMC E3, pocket) | CPU/CI | **~$0** | MEASURED (done) |
 | `valA_mini` (TYK2 build-consistency) | 1 RBFE edge (reduced) | **~$0–15** | MEASURED (done, GCP L4) |
 | `step0` RBFE shakeout | infra | **~$1–2** | MEASURED (done) |
-| `step1_pilot` cmpd19 | 1–2 RBFE edges | **~$1–3** (Vast 4090; ran Modal L4) | MEASURED-derived |
-| `step1_fanout` cmpd19 map | **19 RBFE edges** (~5–6 GPU-h ea) | **~$12–26** | **MEASURED-derived** (from the ~3.6-GPU-h complex leg) |
-| `valB_mini` ternary | 1 ternary edge | **~$10–16 Vast 4090** (~56–72 GPU-h @ ~$0.15–0.25/hr; **~$94 as-run on L4 on-demand**) | **MEASURED rate × corrected leg length** |
-| `valB_full` ternary cube | 2–3 ternary edges + CRL-MD module | **~$20–65** (revised 2026-07-24 by B.0-1 + B.0-2; was ~$40–110) | derived from the same reconciled base. |
+| `step1_pilot` cmpd19 | 1–2 RBFE edges (14–27 ref GPU-h) | **~$2.8** ($0.8–8.5) | REPRICED 2026-07-25 |
+| `step1_fanout` cmpd19 map | **19 RBFE edges** × ~13.7 ref GPU-h = **260** | **~$36** ($15–80) | REPRICED 2026-07-25. **The old ~$12–26 was stale on BOTH axes** — it used the ~3.6-GPU-h TYK2 leg (the real cmpd19/NR4A3 complex is ~2.6× heavier, unit ≈ 13.7 GPU-h) and a $0.122/hr instance. Measured-as-run was **$91–101** at $0.35–0.39/hr; the GPU-h correction stands, the $/hr one is what this reprice fixes |
+| `valB_mini` ternary | 1 ternary edge, 56–72 ref GPU-h | **~$8.8** ($3.2–22) | REPRICED 2026-07-25 (was ~$10–16 at $0.15–0.25/hr, ~$20–28 at the realized $0.35–0.39). **~$94 as-run on L4 on-demand is not a go-forward cost.** ⚠ The GPU-h are from a **SMARCA2/VHL** leg used to price **NR4A** — see the transferability warning below |
+| `valB_full` ternary cube | 2–3 ternary edges + CRL-MD, 112–216 ref GPU-h | **~$22.5** ($6–67) | REPRICED 2026-07-25 (was ~$20–65) |
 | `nrv04_feasibility_covalent` | 18 endpoint-MD legs | **~$8 total for the 18-leg panel** | MEASURED (endpoint MD; not a per-edge alchemical base) |
-| `nrv04_retrospective` | NR4A1/2/3: **3 ternary LEGS + 1 shared binary + 1 shared solvent** (B.0-1), + endpoint-MD ensembles | **~$15–40** (revised 2026-07-24; was ~$45–115 when priced as 3–6 *edges*) | **PROJECTED** (ternary component; endpoint component MEASURED) |
+| `nrv04_retrospective` | NR4A1/2/3: **3 ternary LEGS + 1 shared binary + 1 shared solvent** (B.0-1), + endpoint-MD ensembles | **~$21** ($4.8–67) | REPRICED 2026-07-25 (was ~$15–40); 84–216 ref GPU-h. PROJECTED on the ternary component |
 | `5a` orientation-basin search (now multi-E3, pose-marginalised, + 2 categorical terms) | CPU $0 + optional MM-GBSA rescore | **~$0–50** | MEASURED-derived |
 | **TIER-0 `nr4a_unique_residues`** (paralogue-unique Cys/Lys map) | CI CPU, no GPU | **$0** | DONE 2026-07-24, CI run 30123828812 (nothing to measure) |
-| **`ternary_4fs_recalibration`** (NEW, cost lever 1) | 1 ternary edge @4 fs | **~$5–8** | derived; settles B.0-2 |
-| **5a-KS kill-switch — PRIMARY (ligand-side double difference)** | Tier-0 map ($0) + basin ($0–50) + **ternary legs only** for one matched pair (B.0-1) | **~$5–25** | derived from the ternary-leg base; no protein-mutation engine involved |
+| **`ternary_4fs_recalibration`** (cost lever 1) | 1 ternary edge @4 fs, 28–36 ref GPU-h | **~$4.4** ($1.6–11) | REPRICED 2026-07-25; settles B.0-2 |
+| **5a-KS kill-switch — PRIMARY (ligand-side double difference)** | Tier-0 map ($0) + basin ($0–50) + **ternary legs only** for one matched pair (B.0-1) | **~$12** ($1.6–45) | REPRICED 2026-07-25 (was ~$5–25); 28–144 ref GPU-h. No protein-mutation engine involved |
 | 5a-KS **CONFIRMATORY** (protein-mutation direction) | **1 protein-mutation direction — pmx + GROMACS engine + execution layer BUILT 2026-07-24 (perses retired same-day: OpenEye-gated), benchmark lane LAUNCHED, UNVALIDATED** | **UNPRICED** (was "~$5–60") | **⚠ STILL NOT DERIVABLE, and still not for lack of code.** The pmx/GROMACS lane (`protfep_pmx.py`, `protfep_run.py`, `protfep_bench.py`, `protfep_reduce.py` + the Vast lane) now implements what OpenFE's ligand-only RHTP could not. **No leg has completed**, so there is no per-leg rate to price from — and a mutation hybrid is exactly where the ternary lane hit softcore NaNs, so its cost is not safely inferable from the ligand lane's. The known-answer benchmark (barnase–barstar Y29A/Y29F, both charge-conserving; references verified against SKEMPI 2.0) is what will produce that rate, via `protfep_reduce.price_from_legs` — which scales the benchmark's measured GPU-h to NR4A by particle count and labels the result a PROJECTION, not a measurement. Sequence: smoke ~$0.10 → pilot ~$1–3 (abort gate) → set ~$5–10. **Role, per the 2026-07-24 ternary-selectivity revision: CONFIRMATORY second line, not the ladder's gate.** |
 | full reciprocal mutation cycle (3→1 + 3→2 + 1/2→3) | ~3 protein-mutation directions | **UNPRICED** (was "~$15–30") | **⚠ NOT DERIVABLE** — same engine, same reason: no completed leg to extrapolate from |
 | `5b` inverse linker design | mostly CPU $0 + occasional rescore | **~$0–20** | MEASURED-derived |
 | ensemble refinement / CRL MD | endpoint MD, dozens–~200 legs | **~$15–100** (revised: fewer survivors reach it once the 5a categorical terms prune) | MEASURED-derived (swing item) |
-| local within-basin FEP | 3–6 ternary **comparisons** (ternary legs only, B.0-1) | **~$10–45** (revised 2026-07-24; was ~$21–90) | PROJECTED |
+| local within-basin FEP | 3–6 ternary **comparisons** (ternary legs only, B.0-1), 56–260 ref GPU-h | **~$22** ($3–80) | REPRICED 2026-07-25 |
 | `ternary_prospective_matrix` (now 5a–5d ladder) | ~4–12 constructs via 5c/5d | **folded into 5c+5d above** | MEASURED-derived |
 
-**★ Whole gated ladder ≈ ~$240 mid-range (~$90–390) for the PRICEABLE stages, Vast 4090, GO at every gate** — revised down from ~$390 (~$170–610) on 2026-07-24 by the two identities in B.0, plus the 5a-KS row becoming priceable now that the primary causal test is the ligand-side double difference
-(optional/HELD ΔG_open + ABFE excluded, ~$200–500 more; **the 5a-KS wedge and the reciprocal mutation cycle are
-NOT in this total — they are UNPRICED pending a benchmark leg on the newly built engine, see B.3**). Arithmetic: the low/high columns of the
-priceable rows above sum to **$150 / $595**; `STRATEGY.md`'s spend table carries the same chain rung-by-rung and
-must agree with this line. *(Was "~$320 (~$190–520)" for a few hours on 2026-07-24, before `nrv04_retrospective`
-was re-derived off the corrected ternary base and the 5a-basin / 5b-linker rows were pulled out of the unpriced
-5a-KS row. The move from ~$270 → ~$390 is ~2/3 the ternary-base correction and ~1/3 rows that were previously
-bundled into an unpriced line; **no new work was added to the ladder.**)*
+**★ Whole gated ladder ≈ ~$128 mid-range (~$36–381) for the PRICEABLE stages, GO at every gate** — repriced
+2026-07-25 onto the measured Vast policy (**$0.137 per reference GPU-hour**, best-10-offer planning rate; range
+$0.057 best offer .. $0.309 median). Regenerate the whole table with
+`python research/modalities/vast_cost_model.py`; JSON in
+[`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json). At the **$0.35–0.39/hr** the fan-out
+actually paid, the same work is **~$330**. *(Optional/HELD ΔG_open + ABFE excluded; the 5a-KS protein-mutation
+wedge and the reciprocal cycle remain **UNPRICED** — they have no completed benchmark leg, and a cheaper $/hr
+does not create one.)*
+
+**⚠⚠ THIS REPRICE FIXES THE `$/hr` AXIS ONLY — THE GPU-HOUR AXIS KEEPS EVERY UNCERTAINTY IT HAD.** The reference
+GPU-hours above are the repo's own work estimates; this multiplies them by a measured rate, it does not
+re-derive them. In particular the ternary base is **a rate measured on the SMARCA2/VHL 8G1Q assembly being used
+to price NR4A ternaries** — the *same* non-transferability that cost **2.6×** on the binary lane when the real
+cmpd19/NR4A3 complex turned out to sample at ~13.6 s/iter against TYK2's ~5.2. **If the GPU-hours are 2.6× low,
+these costs are 2.6× low no matter what we bid.** Expect an NR4A ternary leg to be heavier, not lighter, and
+time one before treating the ternary rows as firm.
 
 **⚠ CORRECTED 2026-07-24 — the previous line here read "Now that every base is measured, the ladder totals
 cleanly." It does not, on two counts:**
@@ -249,11 +283,20 @@ The go-forward lane is Vast (4090 default / 3090 fallback). The operational sett
 defaults; the code of record is `research/modalities/gpu_backend.py` (`VAST_BID_FLOOR_MULT`) +
 `nrv04_vast_launch.py` (launch modes) + `research/compute/Dockerfile.nr4a3fep`.
 
-- **Bid = `min_bid × 1.5`.** A margin above the market floor so the box wins AND holds its slot. **Never bid below
-  `min_bid`** — a below-floor bid leaves the box created-but-stopped. On Vast you pay your bid; the multiplier
-  trades a little $/hr for far fewer preemptions, which matters because the ~6 GiB image reloads in **~20 min**, so
-  each preemption is expensive (a floor-hugging bid is false economy). Preemptions that still happen are absorbed
-  by per-unit checkpoint + idempotent re-dispatch (resume, not restart).
+- **Bid = the market floor plus a staleness tick** (`min_bid × 1.02`, minimum +$0.0005), **capped at that
+  machine's on-demand price**, and **never at or below `min_bid`** (a below-floor bid leaves the box
+  created-but-stopped). Set by `vast_cost_model.recommended_bid`; `gpu_backend._vast_bid_price` delegates.
+  **This replaces `× 1.5` here, `× 1.9` in bid-strategy.md and `× 1.25` in the code — all three were live at
+  once.** Measured 2026-07-25 by renting one offer at three bid multiples: **`charged = min(your bid, the
+  machine's on-demand price)`** (×1.0 → $0.00930 on a $0.00930 bid; ×2.5 and ×8.0 both → $0.021333, matching
+  that machine's on-demand `dph_base` to 17 s.f.). So a premium is paid on **every hour**, and per Vast's docs
+  it cannot buy safety from on-demand renters at all — break-even needs the hazard to fall >100/hr per $/hr.
+  Retention is bought with **checkpoint frequency**, which is free. `VAST_BID_FLOOR_MULT` survives as an unset
+  escape hatch for a leg that genuinely cannot be paused. Full derivation: [bid-strategy.md](./bid-strategy.md).
+- **Rank offers by all-in `$/ns`, not `$/hr` and not `min_bid`.** Ranking by the floor is the single most
+  expensive habit this file used to endorse: best-to-median spread on the live board is **5.43×**.
+- **Ask for the disk the job needs.** Storage bills continuously, running *or paused*; at the cheap end of the
+  board it is 42% of all-in cost, and halving it beats the entire bid change.
 - **Pin OpenMM to CUDA 12.6** + filter `cuda_max_good ≥ 12.6`. An unpinned env pulls a too-new CUDA-13+ OpenMM
   whose PTX won't JIT on any host driver (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION`). Control our build, don't chase
   bleeding-edge hosts. Also filter `reliability2 ≥ 0.90`, require ≥24 GB VRAM, rank offers by `min_bid`.

@@ -1,0 +1,60 @@
+{
+ "generated_utc": "2026-07-25T00:28:05Z",
+ "hypothesis_A_pay_your_bid": "charged compute rate ~= bid",
+ "hypothesis_B_clearing_price": "charged compute rate ~= min_bid (floor)",
+ "offer": {
+  "id": 44921058,
+  "machine_id": 142136,
+  "gpu_name": "Tesla P4",
+  "min_bid": 0.009333333333333334,
+  "dph_base": 0.01,
+  "dph_total": 0.011925925925925927,
+  "storage_cost": 0.17333333333333334,
+  "search": {
+   "gpuCostPerHour": 0.01,
+   "diskHour": 0.001925925925925926,
+   "slaPremiumPerHour": 0.0,
+   "totalHour": 0.011925925925925927,
+   "discountTotalHour": 0,
+   "discountedTotalPerHour": 0.011925925925925927
+  },
+  "rented": false,
+  "reliability2": 0.9895787,
+  "gpu_frac": 1.0
+ },
+ "floor_usd_h": 0.009333333333333334,
+ "bid_usd_h": 0.0373,
+ "overbid_mult": 4.0,
+ "polls": [
+  {
+   "dph_base": 0.021333333333333333,
+   "dph_total": 0.023259259259259257,
+   "min_bid": 0.009333333333333334,
+   "is_bid": true,
+   "actual_status": null,
+   "intended_status": "running",
+   "cur_state": "running",
+   "storage_cost": 0.17333333333333334,
+   "storage_total_cost": 0.001925925925925926,
+   "search": {
+    "gpuCostPerHour": 0.021333333333333333,
+    "diskHour": 0.001925925925925926,
+    "slaPremiumPerHour": 0.0,
+    "totalHour": 0.023259259259259257,
+    "discountTotalHour": 0,
+    "discountedTotalPerHour": 0.023259259259259257
+   },
+   "start_date": 1784939285.7321155,
+   "gpu_name": "Tesla P4",
+   "t_s": 0
+  }
+ ],
+ "create_response": {
+  "success": true,
+  "new_contract": 45755901,
+  "error": null,
+  "msg": null
+ },
+ "charged_dph_base": 0.021333333333333333,
+ "verdict": "AMBIGUOUS: charged $0.02133/hr vs bid $0.03730 / floor $0.00933"
+}
