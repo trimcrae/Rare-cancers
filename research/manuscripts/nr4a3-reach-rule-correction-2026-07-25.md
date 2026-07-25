@@ -126,8 +126,116 @@ labelled sensitivity, not as the gate.
 
 ## 5 · Results of the corrected runs
 
-⏳ *pending — filled from CI run 30178697504 (12-pose production) and 30179151643 (LANE 7 matched
-native/composed comparison), plus the local re-run of `nr4a3_handle_ensemble.py`.*
+### 5.0 · A mismatch caught before it was quoted, and how
+
+The first corrected run (CI 30178697504) returned **term (a) = 0**. Before reporting that as the effect of the
+rule, two numbers in its own output were checked against the published run and did not match: `runtime_s`
+**1082 vs 4295**, and `term_b` **31 vs 40** — and term (b) is *untouched* by the reach rule, so it had no
+business moving at all. That is the discriminating observation. The cause is in the artifact, not in the
+rule: **`samples_per_arm_pose` = 250 000 vs the published 1 000 000.** The published 12-pose run was launched
+with `--samples 1000000` via `ternary_extra_args`; my dispatch omitted it and took the script default. Accepted
+counts confirm it directly — `vhl` pose 0: **1003 → 257**, `crbn` pose 0: **845 → 196**, a clean ~4× across
+every pose.
+
+Two consequences, both load-bearing:
+
+* **Meta-basin IDs are positional and are NOT comparable across runs with different sampling.** `vhl|M4` reads
+  0.42 pose persistence in one run and 0.75 in the other; they are different basins wearing the same label.
+  Any comparison has to be matched on the **interface patch** (Jaccard), which `scratchpad/lane10-compare.py`
+  does.
+* The definitive comparison needed a re-run at 10⁶ (CI 30179315860). ⏳
+
+### 5.1 · The matched 10⁶ comparison
+
+⏳ *pending CI 30179315860.*
+
+### 5.2 · What the 250 k run already establishes (rule-only quantities)
+
+Two things in that run are **not** sample-count-sensitive in the way the basin counts are, and both point the
+same way:
+
+**The E3-INDEPENDENT envelope did not move at all.**
+
+| | C397 | C420 | C559 |
+|---|---|---|---|
+| published (relaxed) | 10 atoms | 16 | 20 |
+| corrected (exact) | **10** | **16** | **20** |
+
+The upper bound is unchanged, which is exactly what the envelope's construction predicts: it already drew the
+E3 anchor at radius `r <= L`, so it never gave the pendant the span. **The target-side geometry is not what
+the correction breaks.** If term (a) falls, it falls because no E3 body docks where an exact-feasible 12-atom
+path exists — a fact about the RECRUITER placements, not a closed target. That is the distinction the envelope
+was built to make, and it is the difference between "widen the E3 panel" and "this mechanism is closed".
+
+**The correction costs about one atom at each basin's minimum, and one atom is enough at a 12-atom gate.**
+Within the 250 k run, comparing each basin's own `min_linker_atoms_relaxed_superseded` against its exact
+value: 12 → 13, 13 → 14, 12 → 13 on the basins that had been at or just under the gate. The published minima
+of 8, 9, 11 and 12 atoms were the *low* end of a bound up to 5 atoms wide, and the exact values land above 12.
+
+**C420 and C559 are reached by NO basin at the gate with ANY named pendant** — not at 3.0 Å, not at the 8.75 Å
+Dab branch. The categorical chemistry axis is confirmed one residue deep, and more firmly than before.
+
+### 5.3 · The pendant sweep, and why it is not a rescue
+
+The gate is read at the preregistered **3.0 Å** arm. That value is **shorter than every real pendant**, and
+this was recorded by RUNG 5b **before** the corrected run existed — it is item 4 of
+`_corrections_to_rung_5a` in the committed `nr4a3-linker-design.json`: *"an aryl bonded to a backbone carbon
+reaches ~4 Å, a directly N-acylated acrylamide ~5 Å, and a Dab-type branch carrying a cyanoacrylamide
+~8.75 Å. The gate is therefore CONSERVATIVE on term (a)."*
+
+So the 250 k run's pendant sweep is a pre-registered sensitivity, not a post-hoc reach for a better number
+(C397, meta-basins reaching the **12-atom** gate):
+
+| pendant | reach | meta-basins reaching C397 at the gate | best fraction |
+|---|---|---|---|
+| `rung5a_convention` **(THE GATE)** | 3.00 Å | **0** | — |
+| `aryl_direct` | 4.00 Å | 3 | 0.091 |
+| `aryl_branch_residue` | 4.50 Å | 6 | 0.091 |
+| `amide_direct` | 5.00 Å | 7 | 0.091 |
+| `dap_branch` | 7.50 Å | 11 | 0.200 |
+| `dab_branch` | 8.75 Å | 18 | 0.250 |
+
+**Two conservatisms were stacked.** The 3.0 Å arm was chosen while the rule was simultaneously giving away up
+to 5 atoms of span; removing the giveaway without revisiting the arm leaves a gate that no realisable
+chemistry is being asked to clear. **Re-reading the gate at a real pendant would be a change to a
+preregistered threshold made after seeing the result, so it is NOT a call this lane makes** — the corrected
+number at 3.0 Å is reported as the primary result and the sweep beside it, and the choice is surfaced.
+
+### 5.4 · The conformer ensemble, matched and re-run (`nr4a3-handle-ensemble.json`, $0 local)
+
+The same relaxed rule fed `nr4a3_handle_ensemble.py` through `term_a_feasibility_envelope`, so the three
+figures STRATEGY.md and three manuscripts quote — "C397 reaches the 12-atom gate in **96 %** of unbiased MD
+frames, C420 and C559 in **0 of 75**" — were computed with it. Re-run over the same 100 conformers
+(75 unbiased release + 25 metadynamics), identical seed, identical everything but the rule:
+
+| quantity, 75 unbiased frames | published (relaxed) | corrected (exact) |
+|---|---|---|
+| C397 at or below the 12-atom gate | **72/75 = 96 %** | **65/75 = 87 %** |
+| C397 median shortest linker | 10 atoms | **12 atoms** |
+| C397 RSA median (unchanged — not a reach quantity) | 0.4156 | 0.4156 |
+| C420 at the gate | 0/75 | 0/75 |
+| C420 median shortest linker | 16 atoms | **20 atoms** |
+| C420 frames never open within 20 atoms | 1 | **5** |
+| C559 at the gate | 0/75 | 0/75 |
+| C559 frames **never open within 20 atoms** | 14 | **45** (60 % of frames geometrically closed) |
+| joint P(pocket druggable **and** C397 reachable) | 0.56 | **0.48** |
+| P(C397 reachable │ pocket druggable) | 0.955 | **0.818** |
+
+**Read it as three things.** (i) C397 survives comfortably — 87 % of unbiased conformers still present it at
+or below the gate, and it is the *median* frame that now needs 12 atoms rather than 10. (ii) The
+one-residue-deep risk gets **worse**, not better: C559 is now geometrically closed in 60 % of frames rather
+than 19 %. (iii) The joint number is the one to quote — the pocket being open and C397 being reachable are
+**not** independent and the conditional fell from 0.955 to 0.818, so "96 % reachable" was doing more work in
+prose than it should have.
+
+**And this is the observation that keeps the two results coherent.** The conformer ensemble says C397 *is*
+reachable at 12 atoms in 87 % of frames; the basin search says **no basin** places an electrophile there. Both
+are computed with the same corrected rule and they do not contradict: the ensemble is the
+**E3-INDEPENDENT** bound (is there *any* spannable anchor position from which a 12-atom chain works?), the
+basin search additionally requires **a real E3 body actually docked at such a position without clashing**. The
+gap between 87 % and 0 is therefore a statement about the **recruiter placements**, not about the target —
+which is exactly the distinction the envelope was built to make, and it is the difference between "widen the
+E3 panel" and "this mechanism is closed."
 
 ## 6 · RUNG 5b re-enumerated at exemplar geometry
 
