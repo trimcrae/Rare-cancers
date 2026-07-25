@@ -44,7 +44,7 @@ ENV PATH=/opt/mamba/envs/md/bin:$PATH
 
 # Fail the BUILD (free) rather than a leg at $/hr if the stack cannot import.
 RUN python -c "import openmm, mdtraj, pdbfixer, Bio, numpy; from openmmplumed import PlumedForce; \
-print('openmm', openmm.__version__); print('mdtraj', mdtraj.version.version)"
+print('openmm', openmm.__version__); print('mdtraj', mdtraj.__version__); print('biopython', Bio.__version__)"
 
 WORKDIR /work
 COPY research/modalities/ /work/research/modalities/

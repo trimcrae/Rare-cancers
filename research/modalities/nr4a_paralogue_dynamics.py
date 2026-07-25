@@ -98,6 +98,12 @@ N_POSES = 12
 N_MC = 12000
 SEED = 20260725
 
+# The three NR4A3 cysteines the program's categorical chemistry axis is built on (UniProt numbering). Kept as
+# a literal so the verdict cannot silently change if the Tier-0 artifact is regenerated; the inventory block
+# re-derives the same set from the alignment and any disagreement is visible in the output.
+NR4A3_UNIQUE_CYS = {397, 420, 559}
+EXPOSED_RSA = 0.25          # the standard relative-SASA cutoff, same as nr4a_differential_atlas.EXPOSED_RSA
+
 
 # ---------------------------------------------------------------------------------------------------------
 # helpers
@@ -310,11 +316,83 @@ def sample_transfer_anchors(ref_model, registry_path, n_samples, n_poses, seed, 
             pls, _stats = B.sample_placements(arm, pose, field, rng, n_samples, params)
             for pl in pls:
                 if pl.get("tanchor"):
-                    anchors.append({"arm": aid, "pose": pose["pose_id"], "xyz": pl["tanchor"]})
+                    # a_t (the warhead exit-vector anchor) and a_e (the E3 ligand exit atom) are the two
+                    # foci of the linker path, so keeping them makes the SAME placement usable for the
+                    # matched term-(a) test as well as for term (b) — one placement set, both terms.
+                    anchors.append({"arm": aid, "pose": pose["pose_id"], "xyz": pl["tanchor"],
+                                    "a_t": tuple(pose["anchor_xyz"]), "a_e": pl["anchor_e3"]})
                     n_acc += 1
         per_arm[aid] = {"recruiter": arm["recruiter"], "n_accepted_with_transfer_anchor": n_acc,
                         "tanchor_source": arm["tanchor_source"]}
     return anchors, per_arm, params, poses
+
+
+def species_cysteines_in_ref_frame(path, ref_model, offset, ref_aa_of):
+    """A conformer's cysteine SG positions in the NR4A3 REFERENCE frame, plus each residue's RSA and post-fit
+    deviation. This is what makes the MATCHED term-(a) test possible: the paralogue is placed in the same frame
+    the E3 placements were sampled in, so the SAME construct geometry can be asked of both molecules."""
+    model = B.load_paralogue(path)
+    fitted = B.superpose_paralogue(model, ref_model)
+    residues, atoms = ATLAS.parse_pdb(path)
+    rsa = ATLAS.residue_rsa(residues, ATLAS.shrake_rupley(atoms))
+    m2r = align_map(model, ref_model)
+    out = []
+    for rid, aa in fitted["residues"]:
+        if aa != "C":
+            continue
+        for a in fitted["atoms_by_res"].get(rid, []):
+            if a["name"] == "SG":
+                dev = fitted.get("deviation_by_res", {}).get(rid)
+                r3 = m2r.get(rid)
+                out.append({"local_resid": rid, "uniprot_resid": rid + offset,
+                            "label": f"C{rid + offset}", "xyz": (a["x"], a["y"], a["z"]),
+                            "rsa": round(rsa.get(rid, 0.0), 4),
+                            "nr4a3_aligned": (f"{ref_aa_of.get(r3)}{r3 + B.UNIPROT_OFFSET}"
+                                              if r3 is not None else None),
+                            "nr4a3_has_cys_here": (ref_aa_of.get(r3) == "C") if r3 is not None else False,
+                            "fit_deviation_A": (round(dev, 2) if dev is not None else None),
+                            "position_reliable": (dev is not None and dev <= 4.0)})
+                break
+    return out, fitted["superposition"]
+
+
+def matched_reach_hits(anchors, cysteines, gate_atoms=None, params=None, min_rsa=0.0):
+    """THE DECISIVE TEST. For each E3 placement, does the SAME linker path — same warhead exit anchor, same E3
+    anchor, same length budget — put a pendant electrophile on ANY of this conformer's cysteines?
+
+    The E3-independent envelope asks the weaker question ("could SOME construct reach it"), which is the right
+    upper bound for ruling a site OUT but over-counts when ruling one IN. This asks the design question: at a
+    placement where the degrader labels NR4A3, is a paralogue cysteine also inside the budget?
+
+    `min_rsa` optionally requires the cysteine to be solvent-exposed as well as reachable — a buried thiol is
+    not attackable, and the committed NR4A3 argument itself leans on C397's RSA. Returns a per-placement 0/1
+    list plus per-cysteine counts. Identical prolate-spheroid criterion to
+    `nr4a3_basin_search.electrophile_reach`, so this is the committed rule, not a new one."""
+    params = params or B.PARAMS
+    gate = gate_atoms or params["linker_gate_atoms"]
+    budget = G.contour_length_from_atoms(gate, params["linker_rise_per_atom_A"]) \
+        + 2.0 * params["electrophile_arm_A"]
+    cys = [c for c in cysteines if c["rsa"] >= min_rsa]
+    hits = [0] * len(anchors)
+    per_cys = {c["label"]: 0 for c in cys}
+    # |SG - a_t| depends only on the POSE, so cache it per (pose, cysteine) instead of recomputing per placement
+    cache = {}
+    for i, pl in enumerate(anchors):
+        key = pl["pose"]
+        row = cache.get(key)
+        if row is None:
+            row = [G.dist(pl["a_t"], c["xyz"]) for c in cys]
+            cache[key] = row
+        ae = pl["a_e"]
+        any_hit = 0
+        for j, c in enumerate(cys):
+            if row[j] > budget:
+                continue
+            if row[j] + G.dist(ae, c["xyz"]) <= budget:
+                per_cys[c["label"]] += 1
+                any_hit = 1
+        hits[i] = any_hit
+    return hits, per_cys
 
 
 def species_lysines_in_ref_frame(path, ref_model, offset):
@@ -381,6 +459,95 @@ def coverage_over_anchors(anchors, lysines, params, exposed_rsa=0.25):
         "P_zone_covers_any_EXPOSED_lysine": round(any_exposed_sum / n, 5),
         "per_lysine_mean_coverage": {k: round(v / n, 5) for k, v in sorted(per_lys.items(), key=lambda kv: -kv[1])
                                      if v / n >= 1e-5},
+    }
+
+
+def _pool_per_cys(rows):
+    """{cysteine label -> [per-frame matched hit fraction]} across a set of frame records. PURE."""
+    out = {}
+    for r in rows:
+        for k, v in (r.get("matched_term_a", {}).get("per_cysteine") or {}).items():
+            out.setdefault(k, []).append(v)
+    return out
+
+
+def categorical_verdict(anchors, joint):
+    """THE NUMBER THE LANE EXISTS TO PRODUCE.
+
+    The categorical claim is that at a placement where the degrader's electrophile reaches an NR4A3-unique
+    cysteine, NO paralogue cysteine is reachable — so the covalent step cannot occur on the paralogue at all.
+    This turns that into a probability, per placement, over the conformer ensembles:
+
+        f3(pl)  = fraction of NR4A3 conformers in which a UNIQUE NR4A3 cysteine is at the gate at pl
+        fP(pl)  = fraction of that paralogue's conformers in which ANY of its cysteines is at the gate at pl
+
+        P(categorical | labelled)  = mean_pl [ f3 * (1-f1) * (1-f2) ] / mean_pl [ f3 ]
+        P(collision  | labelled)  = 1 - the above
+
+    The three trajectories are independent molecules, so multiplying their per-placement frequencies is the
+    exact pairing rather than an approximation of one. Both the reach-only and the reach-AND-exposed readings
+    are reported: a buried thiol is not attackable, so requiring RSA >= 0.25 is the design-relevant filter,
+    while reach-only is the conservative upper bound on the paralogue's opportunity.
+
+    Reported separately for the UNBIASED release ensembles (a population estimate), the BIASED metadynamics
+    ensembles (an adversarial upper bound on how far each pocket opens), and the STATIC opened models (what
+    the committed comparison actually had)."""
+    npl = len(anchors)
+    scopes = {
+        "static_opened_model": lambda e: e["ensemble"] == "static_opened_model",
+        "unbiased_release": lambda e: e["ensemble"].startswith("release_rep"),
+        "metad_biased": lambda e: e["ensemble"] == "metad",
+    }
+    out = {}
+    for scope, keep in scopes.items():
+        sel = {sp: [e for e in joint[sp] if keep(e)] for sp in SPECIES}
+        if not sel["NR4A3"] or not npl:
+            continue
+        row = {"n_frames": {sp: len(sel[sp]) for sp in SPECIES}, "n_placements": npl}
+        for tag, key3, keyP in (("", "unique_any", "any"), ("_EXPOSED", "unique_exposed", "exposed")):
+            num = den = 0.0
+            collide = 0.0
+            for i in range(npl):
+                f3 = sum(e[key3][i] for e in sel["NR4A3"]) / len(sel["NR4A3"])
+                if f3 == 0.0:
+                    continue
+                bare = 1.0
+                for sp in ("NR4A1", "NR4A2"):
+                    if sel[sp]:
+                        fp = sum(e[keyP][i] for e in sel[sp]) / len(sel[sp])
+                        bare *= (1.0 - fp)
+                den += f3
+                num += f3 * bare
+                collide += f3 * (1.0 - bare)
+            row[f"P_categorical_given_nr4a3{tag}"] = round(num / den, 5) if den else None
+            row[f"P_paralogue_also_labelled_given_nr4a3{tag}"] = round(collide / den, 5) if den else None
+            row[f"mean_P_nr4a3_unique_at_gate{tag}"] = round(den / npl, 6)
+        for sp in SPECIES:
+            if sel[sp]:
+                row[f"mean_P_any_cysteine_at_gate_{sp}"] = round(
+                    sum(sum(e["any"]) for e in sel[sp]) / (len(sel[sp]) * npl), 6)
+                row[f"mean_P_any_EXPOSED_cysteine_at_gate_{sp}"] = round(
+                    sum(sum(e["exposed"]) for e in sel[sp]) / (len(sel[sp]) * npl), 6)
+        out[scope] = row
+    return {
+        "_what": "P(no paralogue cysteine is reachable | the same construct reaches an NR4A3-unique "
+                 "cysteine), over one matched placement set and the conformer ensembles.",
+        "_reading": "A value near 1 means the categorical chemistry axis SURVIVES dynamics: where the "
+                    "degrader labels NR4A3 it cannot label a paralogue. A value materially below 1 is the "
+                    "failure mode this lane was built to find — the paralogue is not structurally incapable, "
+                    "it merely lacks a cysteine at the ALIGNED position while carrying one elsewhere that "
+                    "the same linker path reaches.",
+        "_limits": ["Reachability and exposure are necessary, not sufficient — no thiol pKa, "
+                    "nucleophilicity, adduct stability or promiscuity is modelled.",
+                    "Conformational independence across species is exact here (three independent "
+                    "trajectories), but each species' own conformers are correlated within a replica, so "
+                    "the effective n is smaller than the frame count.",
+                    "The placement set is sampled on the NR4A3 reference frame; paralogue conformers are "
+                    "superposed into it, carrying the core-fit residual reported per frame."],
+        "gate_atoms": B.PARAMS["linker_gate_atoms"],
+        "exposed_rsa_cutoff": EXPOSED_RSA,
+        "nr4a3_unique_cysteines": sorted(NR4A3_UNIQUE_CYS),
+        "by_scope": out,
     }
 
 
@@ -626,6 +793,10 @@ def main(argv=None):
         }
         if not anchors:
             print("[pdyn][b] WARNING: no accepted placements — term (b) skipped", flush=True)
+        # per-placement 0/1 hit vectors, accumulated per species so the CATEGORICAL joint statistic can be
+        # computed exactly under conformational independence (the three molecules' trajectories ARE
+        # independent, so this is not an approximation of the pairing — it is the pairing)
+        joint = {sp: [] for sp in SPECIES}
         for sp in SPECIES:
             ens = {}
             todo = []
@@ -643,19 +814,47 @@ def main(argv=None):
                 for i, (fid, path) in enumerate(fps):
                     lys, sup = species_lysines_in_ref_frame(path, ref, offsets[sp])
                     cov = coverage_over_anchors(anchors, lys, params_b) if anchors else None
+                    # --- MATCHED term (a) on the SAME placements, in the SAME frame -------------------
+                    cys_rf, _sup2 = species_cysteines_in_ref_frame(path, ref, offsets[sp], ref_aa_of)
+                    m_any, m_per = matched_reach_hits(anchors, cys_rf, params=params_b)
+                    m_any_exp, m_per_exp = matched_reach_hits(anchors, cys_rf, params=params_b,
+                                                              min_rsa=EXPOSED_RSA)
+                    npl = max(1, len(anchors))
+                    matched = {
+                        "P_any_cysteine_at_gate": round(sum(m_any) / npl, 5),
+                        "P_any_EXPOSED_cysteine_at_gate": round(sum(m_any_exp) / npl, 5),
+                        "per_cysteine": {k: round(v / npl, 5) for k, v in
+                                         sorted(m_per.items(), key=lambda kv: -kv[1]) if v},
+                        "per_cysteine_exposed_only": {k: round(v / npl, 5) for k, v in
+                                                      sorted(m_per_exp.items(), key=lambda kv: -kv[1]) if v},
+                    }
+                    entry = {"any": m_any, "exposed": m_any_exp, "ensemble": name, "biased": biased,
+                             "frame": fid}
+                    if sp == "NR4A3":
+                        uc = [c for c in cys_rf if c["uniprot_resid"] in NR4A3_UNIQUE_CYS]
+                        u_any, _ = matched_reach_hits(anchors, uc, params=params_b)
+                        u_exp, _ = matched_reach_hits(anchors, uc, params=params_b, min_rsa=EXPOSED_RSA)
+                        matched["P_unique_cysteine_at_gate"] = round(sum(u_any) / npl, 5)
+                        matched["P_unique_EXPOSED_cysteine_at_gate"] = round(sum(u_exp) / npl, 5)
+                        entry["unique_any"] = u_any
+                        entry["unique_exposed"] = u_exp
+                    joint[sp].append(entry)
                     rows.append({"frame": fid, "n_lysines": len(lys),
                                  "n_exposed_lysines": sum(1 for k in lys if k["rsa"] >= 0.25),
+                                 "n_cysteines": len(cys_rf),
                                  "superposition_core_rmsd_A": sup["core_rmsd_A"],
                                  "superposition_core_fraction": sup["core_fraction"],
                                  "coverage": cov,
+                                 "matched_term_a": matched,
                                  "unreliably_placed_covered": sorted(
                                      k["label"] for k in lys
                                      if not k["position_reliable"] and cov
                                      and cov["per_lysine_mean_coverage"].get(k["label"], 0) > 0.01)})
                     if (i % 10) == 0 or i == len(fps) - 1:
                         print(f"[pdyn][b] {sp} {name} {i + 1}/{len(fps)} {fid}: "
-                              f"P(any)={cov['P_zone_covers_any_lysine'] if cov else None} "
-                              f"P(any exposed)={cov['P_zone_covers_any_EXPOSED_lysine'] if cov else None}",
+                              f"P(lys any)={cov['P_zone_covers_any_lysine'] if cov else None} "
+                              f"P(cys@gate)={matched['P_any_cysteine_at_gate']} "
+                              f"P(exposed cys@gate)={matched['P_any_EXPOSED_cysteine_at_gate']}",
                               flush=True)
                 per_lys_pool = {}
                 for r in rows:
@@ -670,6 +869,17 @@ def main(argv=None):
                     "per_lysine": {k: quantiles(v) for k, v in
                                    sorted(per_lys_pool.items(), key=lambda kv: -sum(kv[1]))},
                     "superposition_core_rmsd_A": quantiles([r["superposition_core_rmsd_A"] for r in rows]),
+                    "matched_term_a": {
+                        "P_any_cysteine_at_gate": quantiles(
+                            [r["matched_term_a"]["P_any_cysteine_at_gate"] for r in rows]),
+                        "P_any_EXPOSED_cysteine_at_gate": quantiles(
+                            [r["matched_term_a"]["P_any_EXPOSED_cysteine_at_gate"] for r in rows]),
+                        "P_unique_cysteine_at_gate": quantiles(
+                            [r["matched_term_a"]["P_unique_cysteine_at_gate"] for r in rows
+                             if "P_unique_cysteine_at_gate" in r["matched_term_a"]]),
+                        "per_cysteine": {k: quantiles(v) for k, v in sorted(
+                            _pool_per_cys(rows).items(), key=lambda kv: -sum(kv[1]))},
+                    },
                     "frames": rows,
                 }
             unb = [n for n in ens if n.startswith("release_rep")]
@@ -683,6 +893,14 @@ def main(argv=None):
                               [r["coverage"]["P_zone_covers_any_EXPOSED_lysine"] for r in allrows
                                if r["coverage"]])}
             res["term_b"]["by_species"][sp] = {"ensembles": ens, "pooled_unbiased": pooled}
+
+        # ------------- THE CATEGORICAL VERDICT --------------------------------------------------------
+        res["categorical_verdict"] = categorical_verdict(anchors, joint)
+        cv = res["categorical_verdict"]
+        for scope, d in cv["by_scope"].items():
+            print(f"[pdyn][V] {scope}: P(paralogue Cys also at gate | NR4A3 unique Cys at gate) = "
+                  f"{d['P_paralogue_also_labelled_given_nr4a3']} "
+                  f"(exposed-only {d['P_paralogue_also_labelled_given_nr4a3_EXPOSED']})", flush=True)
 
     res["runtime_s"] = round(time.time() - t0, 1)
     with open(args.out, "w") as fh:
