@@ -4,10 +4,30 @@
   "_how": "The workflow runs on a cron. Per enabled entry it asks three questions against S3 and the Vast API: is leg.json already there (DONE), is an instance up AND the committed iteration count HIGHER than last tick (RUNNING), or is it dead/stalled? Only a DIED entry relaunches, resuming from the last committed checkpoint; a stall is an alert, because a relaunch would hang the same way. A per-UTC-day relaunch counter in S3 caps runaway re-dispatch and every outcome is an annotation; any alert also FAILS the job so GitHub's own failure notification fires.",
   "_alive_is_not_advancing": "The Vast-specific correction over the GCP version. A rented instance can sit up with a dead container or an idle GPU and look perfectly healthy, so RUNNING requires the commit store to have ADVANCED, not merely for an instance to exist.",
   "_capacity_refusal": "A start answered with {'success': false, 'error': 'resources_unavailable'} is NOT a preemption and is NOT waited out: destroy, add the machine to the exclusion set, pick another host. That policy lives in ternary_vast_launch.collect + ResourceSpec.exclude_machine_ids and is delegated to, never duplicated.",
-  "_editing": "Set enabled=false when a unit is finished or deliberately parked — do NOT delete the entry, so the history of what was watched stays legible. The watchdog is a no-op on an empty or all-disabled list.",
-
-  "_required_keys_are_enforced": "Every parameter that KEYS THE COMMIT PREFIX or the code the host runs must appear on each enabled entry, because the watchdog relaunches from these values alone. The prefix is <leg_id>_r<seed>[_dir<direction>]_dt<timestep_fs>fs_wu<warmup_timestep_fs>_<mode>, so an entry missing one would make the watchdog 'resume' a DIFFERENT trajectory than the run it is watching. git_branch is required for the same reason and is easy to miss: a schedule only fires from the default branch, so github.ref_name inside the watchdog is 'main' — without recording the branch a unit was launched from, a relaunch would pull main's code onto a feature branch's checkpoint. Validated by watchdog_validate.py on every pass; an incomplete entry aborts the pass rather than relaunching the wrong thing.",
-  "_prefix_keying_params": ["unit_id", "leg_id", "seed", "direction", "mode", "timestep_fs", "warmup_timestep_fs", "git_branch"],
-
-  "watch": []
+  "_editing": "Set enabled=false when a unit is finished or deliberately parked \u2014 do NOT delete the entry, so the history of what was watched stays legible. The watchdog is a no-op on an empty or all-disabled list.",
+  "_required_keys_are_enforced": "Every parameter that KEYS THE COMMIT PREFIX or the code the host runs must appear on each enabled entry, because the watchdog relaunches from these values alone. The prefix is <leg_id>_r<seed>[_dir<direction>]_dt<timestep_fs>fs_wu<warmup_timestep_fs>_<mode>, so an entry missing one would make the watchdog 'resume' a DIFFERENT trajectory than the run it is watching. git_branch is required for the same reason and is easy to miss: a schedule only fires from the default branch, so github.ref_name inside the watchdog is 'main' \u2014 without recording the branch a unit was launched from, a relaunch would pull main's code onto a feature branch's checkpoint. Validated by watchdog_validate.py on every pass; an incomplete entry aborts the pass rather than relaunching the wrong thing.",
+  "_prefix_keying_params": [
+    "unit_id",
+    "leg_id",
+    "seed",
+    "direction",
+    "mode",
+    "timestep_fs",
+    "warmup_timestep_fs",
+    "git_branch"
+  ],
+  "watch": [
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "seed": 0,
+      "direction": "fwd",
+      "mode": "probe",
+      "timestep_fs": "4.0",
+      "warmup_timestep_fs": "1.0",
+      "git_branch": "claude/max-effort-2dq11l-4fs",
+      "max_relaunches_per_day": 8,
+      "enabled": true
+    }
+  ]
 }
