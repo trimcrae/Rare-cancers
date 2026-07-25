@@ -320,6 +320,33 @@ def test_fully_enclosed_site_reports_no_exit_path_not_an_arbitrary_vector():
     assert [d["gate_failed"] for d in ds["dropped"]] == ["G3_linker_can_leave"]
 
 
+def _full_entry(pdb_id, res, mw, uniprots, ccd="LIG"):
+    return {"pdb_id": pdb_id, "resolution_A": res, "distinct_uniprot_accessions": list(uniprots),
+            "candidate_ligands": [{"ccd": ccd, "formula_weight": mw}]}
+
+
+def test_geometry_frame_prefers_a_partner_free_structure_even_at_worse_resolution():
+    """A ternary/glue entry is the wrong frame for burial and the exit vector: the PROTAC would be scored
+    against half the protein that buries it, and the partner occupies the orientation space being measured.
+    So a partner-free entry wins even when a ternary entry has better resolution and a bigger ligand."""
+    arm = {"P_RECRUITER", "P_ADAPTOR"}
+    entries = [_full_entry("TERN", 1.5, 900.0, ["P_RECRUITER", "P_ADAPTOR", "P_TARGET"]),
+               _full_entry("BINARY", 2.4, 350.0, ["P_RECRUITER", "P_ADAPTOR"])]
+    staged = st.select_staged(entries, arm)
+    assert staged[0]["pdb_id"] == "BINARY" and staged[0]["is_primary"] is True
+    assert staged[1]["pdb_id"] == "TERN" and staged[1].get("is_primary") is False
+    assert staged[1]["partner_uniprots"] == ["P_TARGET"]
+    # an obligate arm subunit is NOT a partner
+    assert staged[0]["has_partner_protein"] is False
+
+
+def test_a_glue_recruiter_with_only_ternary_structures_still_stages_and_is_flagged():
+    arm = {"P_RECRUITER", "P_ADAPTOR"}
+    entries = [_full_entry("GLUE", 2.0, 400.0, ["P_RECRUITER", "P_ADAPTOR", "P_SUBSTRATE"])]
+    staged = st.select_staged(entries, arm)
+    assert staged[0]["pdb_id"] == "GLUE" and staged[0]["has_partner_protein"] is True
+
+
 def test_an_open_site_is_not_flagged_no_exit_path():
     res = st.analyse_site(_shell_pocket("+z"), [_atom(0, 0, 0), _atom(1.4, 0, 0)])
     assert res["exit_vector"]["no_exit_path"] is False

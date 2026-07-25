@@ -433,12 +433,60 @@ def summarise_entry(pdb_id, accession, chemcomp_cache):
     }
 
 
+def arm_component_accessions(arm, cache):
+    """UniProt accessions of the recruiter's OWN CRL arm (adaptors, cullin, RING box), taken from the
+    single existing definition of those arms — nr4a3_e3_expression.py — rather than re-listed here.
+
+    WHY THIS EXISTS. The geometry must be computed against the recruiter *and its obligate arm*, and NOT
+    against a bound neosubstrate or PROTAC target. A partner protein in the deposited entry occupies exactly
+    the orientation space this module is trying to measure, so leaving it in the occluder set would deflate
+    the open solid angle of every glue/ternary structure — turning 'this recruiter has a partner in the PDB'
+    into 'this recruiter has nowhere for a target to go', which is the opposite of the truth."""
+    try:
+        import nr4a3_e3_expression as e3exp
+    except Exception:                                    # noqa: BLE001
+        return set(), ["nr4a3_e3_expression import failed — arm components not resolved"]
+    spec = (e3exp.MACHINERIES.get(arm) or e3exp.WIDENED_MACHINERIES.get(arm) or {})
+    symbols = list(spec.get("symbols") or list((spec.get("genes") or {}).keys()))
+    accs, unresolved = set(), []
+    for sym in symbols:
+        if sym in cache:
+            got = cache[sym]
+        else:
+            got = resolve_uniprot(sym, [sym]).get("accession")
+            cache[sym] = got
+        if got:
+            accs.add(got)
+        else:
+            unresolved.append(sym)
+    return accs, unresolved
+
+
 def _entry_rank_key(rec):
     """Stage the highest-quality holo structure: best (lowest) resolution first, then the largest ligand,
     then the PDB ID for determinism. A missing resolution (NMR) sorts after diffraction structures."""
     res = rec.get("resolution_A")
     biggest = max((l.get("formula_weight") or 0.0) for l in rec["candidate_ligands"])
     return (0 if res is not None else 1, res if res is not None else 99.0, -biggest, rec["pdb_id"])
+
+
+def select_staged(entries, arm_accs, max_entries_deep=8):
+    """Order the screened entries and mark the one the geometry is measured on.
+
+    ★ Prefer a CLEAN BINARY structure — the recruiter (and its own arm) bound to a handle-sized ligand and
+    nothing else. A ternary/glue entry is the wrong frame for BOTH numbers this stage produces: the PROTAC's
+    burial would be computed against only half the protein that actually buries it, and the partner protein
+    occupies the very orientation space being measured. Ternary entries stay the linker-analogue EVIDENCE
+    (classified separately); they are just not the geometry frame unless nothing else exists."""
+    for e in entries:
+        e["partner_uniprots"] = sorted({u for u in e["distinct_uniprot_accessions"] if u not in arm_accs})
+        e["has_partner_protein"] = bool(e["partner_uniprots"])
+    ordered = sorted(entries, key=lambda e: (1 if e["has_partner_protein"] else 0,) + _entry_rank_key(e))
+    staged = ordered[:max_entries_deep]
+    for i, e in enumerate(staged):
+        e["is_primary"] = (i == 0)
+        e["ligand"] = max(e["candidate_ligands"], key=lambda l: (l.get("formula_weight") or 0.0))
+    return staged
 
 
 def classify_linker_analogue(entry_records, accession):
@@ -1184,7 +1232,7 @@ def check_availability_not_a_constraint(path=AVAILABILITY_JSON):
 
 def fetch_panel(max_entries_deep=8, search_rows=100):
     """Network phase. Returns {gene: record} with resolved accession, screened entries, staged structures."""
-    out, chemcomp_cache = {}, {}
+    out, chemcomp_cache, arm_cache = {}, {}, {}
     for spec in PANEL:
         gene = spec["gene"]
         print(f"\n=== {gene} ===", file=sys.stderr)
@@ -1212,21 +1260,28 @@ def fetch_panel(max_entries_deep=8, search_rows=100):
         rec["n_entries_screened"] = len(entries)
         rec["linker_bearing_analogue"] = classify_linker_analogue(entries, acc)
 
-        # Prefer entries whose ligand set contains a linker-bearing (>=500 Da) molecule bound WITH a partner
-        # protein, because that is the architecture a degrader actually needs; otherwise best resolution.
-        def _pref(e):
-            others = [u for u in e["distinct_uniprot_accessions"] if u != acc]
-            big = max((l.get("formula_weight") or 0.0) for l in e["candidate_ligands"])
-            tier = 3 if (big >= LINKER_BEARING_MIN_MW and others) else (2 if big >= LINKER_BEARING_MIN_MW
-                                                                       else 1)
-            return (-tier,) + _entry_rank_key(e)
+        arm_accs, arm_unresolved = arm_component_accessions(spec["arm"], arm_cache)
+        arm_accs = set(arm_accs) | {acc}
+        rec["arm_component_accessions"] = sorted(arm_accs)
+        rec["arm_components_unresolved"] = arm_unresolved
 
-        entries.sort(key=_pref)
-        staged = entries[:max_entries_deep]
-        for i, e in enumerate(staged):
-            e["is_primary"] = (i == 0)
-            e["ligand"] = max(e["candidate_ligands"], key=lambda l: (l.get("formula_weight") or 0.0))
+        # ★ WHICH structure the geometry is measured on. Prefer a CLEAN BINARY structure — the recruiter (and
+        # its own arm) bound to a handle-sized ligand and nothing else. A ternary/glue entry is the wrong
+        # frame for BOTH numbers this stage produces: the PROTAC's burial would be computed against only half
+        # the protein that actually buries it, and the partner protein would occupy the very orientation
+        # space being measured. Ternary entries remain the linker-analogue EVIDENCE (classified above); they
+        # are just not the geometry frame unless nothing else exists.
+        staged = select_staged(entries, arm_accs, max_entries_deep)
         rec["staged_structures"] = staged
+        rec["geometry_frame"] = {
+            "primary_has_partner_protein": bool(staged and staged[0]["has_partner_protein"]),
+            "n_clean_binary_entries": sum(1 for e in entries if not e["has_partner_protein"]),
+            "_note": "If primary_has_partner_protein is true, NO structure of this recruiter exists without a "
+                     "bound partner protein — a glue-type recruiter whose handle site may be partly formed BY "
+                     "that partner. The partner's chains are excluded from the occluder set so the "
+                     "orientation space is not deflated, but burial and exit vector are then measured against "
+                     "an incomplete site and must be read as such.",
+        }
         rec["_status"] = "ok"
         out[gene] = rec
     return out
@@ -1245,12 +1300,29 @@ def geometry_panel(recruiters, workdir=None, use_fpocket=True):
         if not path:
             rec["ligandability"] = {"_status": f"coordinate download failed for {pdb_id}"}
             continue
-        prot, het = parse_structure(path)
+        prot_all, het = parse_structure(path)
         ccd = (primary.get("ligand") or {}).get("ccd")
         groups = [(k, v) for k, v in het.items() if k[1] == ccd]
         if not groups:
             rec["ligandability"] = {"_status": f"ligand {ccd} not found in {os.path.basename(path)}"}
             continue
+
+        # ★ OCCLUDER SET = the recruiter's own arm ONLY. Chains belonging to a bound partner protein
+        # (neosubstrate / PROTAC target / a crystallisation partner) are removed: they occupy exactly the
+        # orientation space this stage measures, so leaving them in would report a recruiter with a solved
+        # ternary as having nowhere for a target to go.
+        arm_accs = set(rec.get("arm_component_accessions") or [])
+        arm_chains, partner_chains = set(), set()
+        for pe in primary.get("polymer_entities") or []:
+            tgt = arm_chains if (set(pe.get("uniprot_ids") or []) & arm_accs) else partner_chains
+            tgt.update(pe.get("auth_asym_ids") or [])
+        prot = [a for a in prot_all if a["chain"] in arm_chains] if arm_chains else prot_all
+        excluded = {"partner_chains_excluded": sorted(partner_chains),
+                    "arm_chains_kept": sorted(arm_chains),
+                    "n_atoms_excluded": len(prot_all) - len(prot)}
+        if not prot:
+            prot, excluded["_status"] = prot_all, "no chain mapped to the arm — fell back to all chains"
+
         # If the ligand is present in several copies, take the copy with the most contacts to a recruiter
         # chain — that is the biologically staged one, and it is decided from coordinates, not from the
         # first-listed chain.
@@ -1280,6 +1352,8 @@ def geometry_panel(recruiters, workdir=None, use_fpocket=True):
         if use_fpocket:
             lg["fpocket"] = run_fpocket(prot, lig_atoms, workdir, f"{gene}_{pdb_id}")
         lg["structure_file"] = os.path.basename(path)
+        lg["occluder_set"] = excluded
+        lg["measured_with_partner_protein_removed"] = bool(partner_chains)
         rec["ligandability"] = lg
         ev = lg.get("exit_vector", {})
         print(f"  {gene} {pdb_id}/{ccd}: buried={lg.get('ligand_burial', {}).get('buried_fraction')} "
@@ -1320,6 +1394,11 @@ def build(recruiters, availability):
             "not this module's.",
             "fpocket druggability is computed on the deposited chains with the ligand removed; it is a "
             "pocket-shape score, not a measured affinity.",
+            "Geometry is computed against the recruiter and its OWN CRL arm only; a bound neosubstrate, "
+            "PROTAC target or crystallisation partner is removed from the occluder set, because it occupies "
+            "the orientation space being measured. For a recruiter with no partner-free structure (a "
+            "glue-type E3), that removal means burial and the exit vector are measured against a site that "
+            "may be partly formed BY the removed partner — flagged per recruiter in geometry_frame.",
             "No claim of efficacy, safety, therapeutic window, or clinical readiness is made or implied. "
             "'Advanced' means 'carried into a computational search', never 'suitable for use'.",
         ],
@@ -1352,6 +1431,9 @@ SCHEMA_DOC = {
             "polymer_entities": "[{entity_id, uniprot_ids, auth_asym_ids, description, length}]",
             "distinct_uniprot_accessions": "[str] — >1 means a multi-protein entry",
             "recruiter_auth_asym_ids": "[str] — the chains that ARE the recruiter",
+            "partner_uniprots": "[str] — accessions present that are NOT part of the recruiter's own CRL arm "
+                                "(a neosubstrate / PROTAC target / crystallisation partner)",
+            "has_partner_protein": "bool",
             "chain_composition": "human-readable 'chains=description' summary",
             "candidate_ligands": "[{ccd, name, type, formula, formula_weight, n_heavy_atoms, smiles, "
                                  "entity_id, auth_asym_ids}]",
@@ -1376,7 +1458,14 @@ SCHEMA_DOC = {
                            "clashing, and open_solid_angle_fraction_15A is the fraction of directions with "
                            ">=15 A of reach.",
             "structure_file": "the coordinate file the geometry was computed from",
+            "occluder_set": "{arm_chains_kept, partner_chains_excluded, n_atoms_excluded}",
+            "measured_with_partner_protein_removed": "bool",
         },
+        "arm_component_accessions": "[str] — the recruiter + its own CRL arm; anything else in the entry is "
+                                    "a partner and is removed from the occluder set before geometry",
+        "geometry_frame": "{primary_has_partner_protein, n_clean_binary_entries} — true means NO partner-free "
+                          "structure of this recruiter exists, so burial and the exit vector are measured "
+                          "against an incomplete site",
         "gates": "{G1..G3: {pass, observed}}",
         "advance_note": "present only on a backfilled second recruiter — says why it advanced",
         "axes": "{linker_analogue_tier, exit_quality, orientation_openness, neg_resolution}",
