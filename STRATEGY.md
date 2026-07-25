@@ -91,7 +91,7 @@ relevant rung below.*
 > unpriced — but that figure is **particle-count-scaled** from the ~25.7k-particle benchmark to NR4A sizes, an
 > assumption and not a measurement, so it may not be quoted as a rate and stays excluded from the ladder total.
 
-> ### ⚠ WHY THE REV LEG IS STILL ON GCP AFTER THE ALL-VAST DIRECTIVE — the reading, stated so it is not implicit
+> ### ✅ RULED BY trimcrae, 2026-07-25 2:10 PM ET: **THIS SESSION STAYS ON GCP IN FULL.**
 > The 1:15 PM ET directive exempts "the valB_mini reverse leg **already running** on GCP L4" but forbids starting
 > any **new** GCP run. The 12:34 PM attempt then died on a warmup NaN with **zero committed iterations**, and it
 > was relaunched on GCP at 1:37 PM. That is deliberately inside the carve-out, on this reading: **the exempted
@@ -101,9 +101,23 @@ relevant rung below.*
 > here than it looks**, because a crash at warmup iteration 1 forfeits nothing; (2) the counter-argument is
 > therefore real, and the only reason it does not decide the matter is that **the Vast ternary lane does not yet
 > exist** (LANE 4 is building it), so the alternative is not "run it on Vast" but "do not run the one test that
-> gates the entire valB_mini rescope decision." Cost of proceeding: **$0 cash** (expiring GCP trial credit), and
-> fully reversible — reap the VM. **If trimcrae reads the carve-out as per-VM rather than per-leg, kill it and
-> the leg waits for LANE 4.**
+> gates the entire valB_mini rescope decision." Cost of proceeding: **$0 cash** (expiring GCP trial credit).
+>
+> **trimcrae ruled on exactly this, verbatim: _"You should keep this whole session on GCP."_** So the question is
+> settled and must not be re-litigated: **the exempted unit is the LEG, not the VM**, and the exemption extends to
+> **all of this session's GPU work**, not just the leg that happened to be mid-flight at 1:15 PM. Relaunching the
+> rev leg on GCP after each of today's failures was correct, and any further relaunch of it goes on GCP too.
+>
+> **Scope of the ruling — do not over-read it.** It governs **this session**. It does **not** reverse the all-Vast
+> directive for other sessions or for new lanes: LANE 4 continues building the Vast ternary lane, and a *new*
+> program-level GPU run outside this session still defaults to Vast per §GPU economics. If a future session wants
+> GCP it needs its own ruling; this line is not that ruling.
+>
+> **One welcome consequence:** the "no GPU run has durable out-of-session monitoring" gap recorded above **does not
+> apply to this session at all.** [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml) is
+> GCP-only by construction, and this session is entirely GCP — so its legs are the ones that *are* fully covered
+> (progress-not-liveness, crash detection, auto-reap, job-failure notification). The gap is LANE 4's to close for
+> Vast.
 >
 > ### ✅ THE GCP WATCHDOG GAP NAMED ABOVE IS NOW CLOSED — and the Vast version should PORT it, not reinvent it
 > The block above records that the watchdog "silently watches nothing" beyond GCP and names two properties a
