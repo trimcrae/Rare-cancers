@@ -767,9 +767,49 @@ prospective affinity or degradation-selectivity ranking authority.)*
 > regardless of which chain pair was measured. Even that should be re-derived from the corrected run rather than
 > cited from here.
 >
-> The chain split is now identified and validated rather than inferred from ordering, every leg records the
-> split it used, and the corrected 14-leg re-run is built but not yet launched. Evidence and fixes:
+> The chain split is now identified and validated rather than inferred from ordering, and every leg records the
+> split it used. Evidence and fixes:
 > [`../modalities/nrv04-cofold-chain-forensics-2026-07-24.md`](../modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
+>
+> ## ⚠⚠ UPDATED 2026-07-25 — THE SITUATION IS WORSE THAN "UNDER CORRECTION", AND THE RE-RUN IS **HELD**
+>
+> A $0 attempt to recompute the correct interface from the committed output established four further things.
+> The banner above stands; these change what the subsection can ever claim.
+>
+> 1. **The result is not recoverable, at any price short of re-running the MD.** A read-only object census of
+>    the panel's output found **72 objects, 19 units, and zero trajectory files**. Everything persisted is
+>    either a *single* frame (the solvated topology carries pre-minimisation coordinates), forces/parameters
+>    with no coordinates over time, or scalars **already reduced against the wrong split**. The driver reduces
+>    each frame in-loop and discards positions, and it deletes its one checkpoint frame on clean completion.
+> 2. **The GO was never produced by the frozen scoring rule.** Running the preregistration's own frozen verdict
+>    function on the panel's own committed legs returns **NO-GO** — *both* negative controls scored positive.
+>    The chain split changed which interface the numbers described; it did **not** manufacture a GO that the
+>    frozen rule would otherwise have granted.
+> 3. **The panel's inputs were contaminated as well** — an independent, third data-invalidating defect. The
+>    simulated assemblies contain **14-3-3 epsilon where Elongin B belongs**, identified by CA-geometry
+>    superposition to a specific superseded co-fold set at **RMSD 0.000 Å** (the clean set is 5.9 Å away). An
+>    earlier audit that cleared the panel on this point is **retracted**: it checked the input prefix the code
+>    *names*, not the artifact that *ran*.
+> 4. **The lysine-presentation endpoint (R3) was reported in nanometres under an Ångström label.** Simulation
+>    positions are in nm; the interface endpoint converted, R3 did not. Every committed R3 is therefore **~10×
+>    too small** — reading as ubiquitination-compatible at 2–4 Å when the true separations are **~30–49 Å**.
+>    Cross-checked independently against a t = 0 distance of 25.2 Å on a leg reporting 2.34 Å.
+>
+> **A claim in the paragraph below is now in question.** It states that we "built the covalent celastrol–Cys
+> adduct explicitly." A free staging check finds the electrophilic carbon **8.99–16.39 Å** from the nearest
+> **target-chain** cysteine Sγ, against a ~1.8 Å C–S bond — the co-folding does not seat celastrol against an
+> NR4A1 cysteine in *any* available input. Whether the adduct was formed at all, or formed under severe strain,
+> is not established by anything we retained. Notably, the withdrawn covalent-vs-non-covalent *null* is exactly
+> what one would predict if the covalent leg never carried a bond — a **hypothesis the corrected run can test**,
+> offered here as such and not as a finding.
+>
+> **The preregistration has accordingly been amended (dated, with the frozen text left unedited).** The
+> recruitment endpoint (R2) is **retired as a gating criterion** — it returned one distinct value, 1.0, across
+> all 18 legs including both negative controls, so it had **zero discriminating power**, and the control
+> criterion that depended on it was therefore *unsatisfiable*, making the gate return NO-GO regardless of the
+> science. It is replaced by an **input-admissibility criterion that can fail, and does**: a leg declared
+> covalent must stage its electrophile within bonding distance of the target-chain Sγ. **The re-run is HELD,
+> not merely unlaunched** — unblocking it requires re-folding the covalent systems, not compute.
 
 **A covalent-adduct endpoint-MD feasibility panel was built and executed; its interface readouts are withdrawn,
 and what stands is the panel's execution and cost.** The co-fold retrospective above left celastrol's covalent
@@ -791,8 +831,11 @@ target by chain *order*. The per-arm interface-stability figures are therefore *
 subsection's contribution to any GO decision. One observation survives in direction only, and even it is to be
 re-derived rather than cited: **recruitment is uninformative here** — every completed leg scored "recruited"
 with frac-frames-in-contact = 1.0, in *all* arms including warhead_only (no recruiter) and the epimer, which
-holds regardless of which chain pair was measured. The corrected 14-leg re-run, with the chain split now
-resolved and recorded per leg, is built and pending.
+holds regardless of which chain pair was measured. **This is now formalised: the recruitment endpoint has been
+retired as a gating criterion, on the evidence that it took a single distinct value across all 18 legs
+including both negative controls** — a statistic with no variance across the contrast it exists to score. The
+corrected re-run, with the chain split resolved and recorded per leg, is **HELD** rather than pending: it
+cannot reach the frozen criteria on any currently available co-fold (see the banner above).
 
 What the panel does establish, independent of the chain bug, is **executional**: a six-arm covalent/non-covalent
 endpoint-MD control panel with an explicitly built covalent adduct is constructible and runs to completion at
@@ -803,7 +846,11 @@ changed which atoms were scored and not what was simulated or billed. Even once 
 would be geometric feasibility only, **not a selectivity, cooperativity, or degradation claim:** 5 ns endpoint
 MD samples local interface stability, not binding thermodynamics, ternary cooperativity, or a DC50/Dmax window;
 only three seeds per arm; the Cullin–RING/E2~Ub machinery is absent; and the NR-V04 reconstruction's exact
-recruiter connectivity remains primary-source-unverified. It makes **no efficacy, potency, or therapeutic
+recruiter connectivity remains primary-source-unverified. **One further limit, learned the expensive way and
+now adopted as a standing requirement for every MD driver in this program: the panel persisted no trajectory,
+so three separate analysis defects — the chain split, a chain-blind reactive-cysteine search, and a
+nanometre/Ångström unit error — were each correctable in principle and none correctable in practice.** A
+strided heavy-atom trajectory costs tens of MB against the ~112 MB system file these runs already uploaded. It makes **no efficacy, potency, or therapeutic
 claim.** Full per-leg readouts, the frozen scoring/prereg, and the driver: `nrv04_covalent_md.py` /
 `nrv04_covalent_panel.py`.
 
