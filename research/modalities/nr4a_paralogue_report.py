@@ -71,6 +71,9 @@ def main(argv=None):
     vd = d.get("categorical_verdict") or {}
     for scope, row in (vd.get("by_scope") or {}).items():
         print(f"\n  scope = {scope}   frames {row.get('n_frames')}   placements {row.get('n_placements')}")
+        if row.get("VERDICT_NOT_EVALUABLE"):
+            print(f"    !! NOT EVALUABLE: {row['VERDICT_NOT_EVALUABLE']}")
+            continue
         print(f"    {'L':>3s}  {'P(NR4A3 uniq)':>14s}  {'P(collide|NR4A3)':>17s}  "
               f"{'P(collide|NR4A3) exp':>21s}  {'P(anyCys) A3/A1/A2':>26s}")
         for n, c in sorted((row.get("by_linker_atoms") or {}).items(), key=lambda kv: int(kv[0])):

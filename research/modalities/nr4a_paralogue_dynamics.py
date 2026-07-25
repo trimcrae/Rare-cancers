@@ -565,6 +565,18 @@ def categorical_verdict(anchors, joint):
         if not sel["NR4A3"] or not npl:
             continue
         row = {"n_frames": {sp: len(sel[sp]) for sp in SPECIES}, "n_placements": npl}
+        # ⚠ REFUSE TO REPORT A VERDICT AGAINST AN EMPTY PARALOGUE SET. With no paralogue conformers in a
+        # scope, `bare` is 1 by construction and the arithmetic returns P(collide) = 0 — a PASS produced by
+        # measuring nothing, which is the single failure mode this repo keeps paying for. Before the matched
+        # NR4A1/NR4A2 ensembles exist, the `unbiased_release` and `metad_biased` scopes have exactly that
+        # shape, so they are marked and nulled rather than quietly reported as a clean categorical result.
+        missing = [sp for sp in ("NR4A1", "NR4A2") if not sel[sp]]
+        if missing:
+            row["VERDICT_NOT_EVALUABLE"] = (
+                f"no conformers for {missing} in this scope — every collision probability below would be 0 "
+                f"by construction, not by measurement. Run the matched paralogue ensembles first.")
+            out[scope] = row
+            continue
         by_len = {}
         for n in LENGTHS:
             cell = {}
@@ -993,6 +1005,9 @@ def main(argv=None):
         res["categorical_verdict"] = categorical_verdict(anchors, joint)
         cv = res["categorical_verdict"]
         for scope, d in cv["by_scope"].items():
+            if d.get("VERDICT_NOT_EVALUABLE"):
+                print(f"[pdyn][V] {scope}: NOT EVALUABLE — {d['VERDICT_NOT_EVALUABLE']}", flush=True)
+                continue
             print(f"[pdyn][V] {scope}: P(paralogue Cys also at gate | NR4A3 unique Cys at gate) = "
                   f"{d['P_paralogue_also_labelled_given_nr4a3']} "
                   f"(exposed-only {d['P_paralogue_also_labelled_given_nr4a3_EXPOSED']})", flush=True)
