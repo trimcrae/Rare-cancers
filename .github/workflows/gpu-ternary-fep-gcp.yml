@@ -369,6 +369,22 @@ jobs:
             DST="/tmp/conv/${LEG}_sim_shared"; mkdir -p "$DST"
             gcloud storage cp --recursive "$NEW/*" "$DST/" 2>&1 | tail -2 || echo "(download failed for $LEG)"
             ls -la "$DST" | tail -8
+            # openmmtools keeps POSITIONS in a SEPARATE checkpoint file, not in simulation.nc. Without it the
+            # reporter's checkpoint storage is None and read_sampler_states() dies on None.dimensions (a netCDF4
+            # Dataset attribute) — which is exactly how the mandated ligand-escape check failed. So say out loud
+            # whether this leg's checkpoint is present, and if it is not in the generation dir, look for it
+            # anywhere in the lane before giving up.
+            echo "[files] $(ls -1 "$DST" | tr '\n' ' ')"
+            if ! ls "$DST" | grep -qai "checkpoint"; then
+              CKP=$(grep -aiE "$LEG.*checkpoint.*\.nc$" /tmp/lane.txt | tail -1 || true)
+              if [ -n "$CKP" ]; then
+                echo "[checkpoint] not in the generation dir; pulling $CKP"
+                gcloud storage cp "$CKP" "$DST/" 2>&1 | tail -1 || true
+              else
+                echo "[checkpoint] NONE anywhere in the lane for $LEG — positions were never retained, so the"
+                echo "            structural / ligand-escape diagnostic is UNAVAILABLE for this leg by construction."
+              fi
+            fi
           done
           echo "=== running convergence analysis (CPU, pre-baked ternary-fep image) ==="
           IMG="docker.io/triskit23/ternary-fep:latest"

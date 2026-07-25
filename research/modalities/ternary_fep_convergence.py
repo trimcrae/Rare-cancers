@@ -464,6 +464,14 @@ def _structural(reporter, nc_path):
         try:
             probe["checkpoint_interval"] = int(getattr(reporter, "checkpoint_interval", -1) or -1)
             probe["last_iteration"] = int(reporter.read_last_iteration())
+            # THE LIKELY CAUSE, made explicit: positions live in a SEPARATE checkpoint file, not in
+            # simulation.nc. With no checkpoint storage the reporter holds None and read_sampler_states()
+            # dereferences None.dimensions (a netCDF4 Dataset attribute) — indistinguishable, from the bare
+            # message, from a bug in this module. Name it.
+            probe["has_checkpoint_storage"] = getattr(reporter, "_storage_checkpoint", None) is not None
+            probe["checkpoint_exists_flag"] = bool(getattr(reporter, "_checkpoint_storage_file_exists", None)) \
+                if hasattr(reporter, "_checkpoint_storage_file_exists") else None
+            probe["files_beside_nc"] = sorted(os.listdir(os.path.dirname(nc_path)))[:12]
         except Exception as pe:  # noqa: BLE001
             probe["reporter_probe_error"] = "%s: %s" % (type(pe).__name__, pe)
         for label, it in (("iter0", 0), ("iter_last_ckpt", probe.get("checkpoint_interval", 1) and
