@@ -261,6 +261,30 @@ Two controls are in the library so this is a *tested choice* rather than an asse
   amide, no Michael acceptor, so anything attributable to the warhead is attributable to the C=C and nothing
   else.
 
+### ★★ The chemistry axis is ONE RESIDUE DEEP, and there is no geometric fallback
+
+C397 itself is **robust**: over a 100-conformer MD ensemble its RSA median is **0.416** (the committed 0.395
+sits at the median, not at an optimistic tail) and it reaches the 12-atom gate in **96 %** of unbiased frames.
+
+But **C420 and C559 reach that gate in 0 of 75 frames** — C420 needs 16 backbone atoms and C559 needs 20, both
+paid out of the same contour that must *also* span to the E3. So if C397 fails **chemically** — an unreactive
+microenvironment, a competing conserved cysteine, an unacceptable promiscuity profile — **no other
+NR4A3-unique cysteine can take its place, and the categorical chemistry axis closes.** This is a
+single-point-of-failure and it must be reported as one.
+
+**What this library can and cannot hedge, honestly:**
+
+- **It cannot hedge with a second cysteine, because there is not one.** No enumerated construct, at any
+  pendant length in the sweep, brings C420 or C559 inside a chemically routine linker at these placements.
+  Lengthening the pendant does not fix it: the deficit is 4–8 backbone atoms, and buying them lengthens the
+  linker, which costs permeability and brings *conserved* cysteines into reach at the same time.
+- **It does hedge by not being all-covalent.** Constructs carrying **no electrophile at all** are in the
+  retained set, and they are designed against the **paralogue-unique LYSINE axis (term b)** — K572/K518/K592 —
+  which is independent of C397 entirely. If the covalent handle fails, the library does not go to zero; it
+  falls back to a second categorical mechanism with its own, separately nominated basins.
+- **The matched pair for 5a-KS is deliberately on the non-covalent axis**, so the program's causal test does
+  not itself depend on C397 surviving.
+
 ⚠ **A covalent handle is an unresolved liability, not an upgrade.** Electrophile promiscuity cannot be checked
 without chemoproteomics, which this program does not have, and it must be reported alongside the parent cmpd19
 warhead's published **MYC induction** — parent-warhead pharmacology is a potential liability, not evidence of
@@ -283,9 +307,21 @@ It exists because four defects had already been found by hand, and reading strin
 | a PEG segment placed after an amide nitrogen | an **N,O-acetal** (`N-CH₂-O-`), hydrolytically labile | reading the emitted SMILES |
 | the branch residue abutting the warhead acyl | an **acylurea** instead of two amides | reading the emitted SMILES |
 | `k_warhead = n − k_E3` | every electrophile **one atom too close to the warhead** | re-deriving the index: an atom that is the *i*-th from one end is the *(n+1−i)*-th from the other |
+| the saturated control was α-cyano-**propan**amide | **one carbon short** of its own electrophile — missing the β-methyl, so a difference between them would have been partly a methyl group and not the alkene | a test comparing the two skeletons with bond orders erased |
 
-All four are now refusals in the assembler and assertions in the self-test. The off-by-one is pinned by an
-**identity** (`k_warhead + k_E3 = n + 1`) rather than by restating the formula under test.
+All five are now refusals in the assembler or assertions in the test suite. The off-by-one is pinned by an
+**identity** (`k_warhead + k_E3 = n + 1`) rather than by restating the formula under test; the control is
+pinned by requiring its skeleton to equal the electrophile's once `=` is removed.
+
+**And the verifier's own first two attempts failed, which is worth recording.** Hand-written anchor patterns
+were wrong twice — first a SMARTS whose positional index named the phthalimide carbonyl **oxygen** instead of
+the aniline nitrogen (seven bonds out, and precisely the 24-vs-31 length discrepancy it then reported), then
+`MolFromSmiles` patterns that failed against **their own reference molecules** on 4 of 5 anchors. *(The exact
+RDKit reason for the second failure was not isolated: a diagnostic was written to discriminate the candidate
+causes, but the approach was replaced before it returned, so no cause is claimed here.)* Anchors are now found
+**structurally** — match the two truncated cores, take the shortest path between them, and the anchor on each
+side is the first path atom outside its own core. That is the chemical definition of the anchors verbatim,
+with nothing hand-transcribed, and one rule covers all three warhead handles instead of three patterns.
 
 ---
 
@@ -302,6 +338,31 @@ All four are now refusals in the assembler and assertions in the self-test. The 
 | **basin** | `vhl\|M3` — 0.75 pose persistence, span 9.67 Å, held at ~0 kT by this linker |
 | **d** | `CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O` |
 | **d₀** | `CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O` |
+
+### Why this basin, and not the strongest one — stated because the obvious wrong reason was available
+
+An earlier framing of the RUNG-5a result held that *"CRBN's null is 0.81–0.96, so the discrimination lives on
+VHL."* **That claim is retracted** (Lane 7): 0.81–0.96 is the **any-lysine** null, while term (b)'s enrichment
+is over the **unique-lysine** null — a different denominator from the one the gate uses — and the number is
+itself an exit-vector artefact that **halves, 0.858 → 0.399**, when the CRBN arm is restaged assembly-native
+(CRBN's exit vector had moved 16.5 Å between constructions; VHL's only 0.99 Å). CRBN remains the sole
+Pareto-front member; VHL is a **labelled backfill and E3-choice sensitivity control**.
+
+**No CRBN-vs-VHL preference is asserted here, and the pair above does not rest on one.** `vhl|M3` was selected
+on basin evidence only — pose persistence, then measured E3 clearance at the wedge — among the basins that can
+actually host a matched pair. `crbn|M0` is excluded for exactly one reason, and it is **chemical, not
+recruiter-related**: holding its representative span at ≤3 kT needs **~29 backbone atoms**, past the 24-atom
+routine cap this rung uses. The per-basin audit is emitted in the output so the selection can be checked
+rather than trusted.
+
+**★ And the alternative is worth the orchestrator's explicit call, not a silent filter.** `crbn|M0` is the
+strongest single basin (0.92 pose persistence, 7.5× over the term-(b) background) **and it carries the best
+wedge residue in the entire set: D413 — LYSINE in NR4A1 and SERINE in NR4A2, i.e. a charge REVERSAL rather
+than a deletion — at 10.1 Å of E3 clearance.** An Asp→Lys difference is a far stronger discriminator than the
+Arg→Ala the `vhl|M3` pair engages, because the paralogue does not merely lose a partner, it presents the
+opposite charge. The price is a ~26–29-atom linker: long, but not unprecedented for a PROTAC, and the cap is a
+stated convention rather than a law. That trade — a stronger basin and a much stronger wedge residue, paid for
+in linker length, permeability, and ternary entropy — is a judgement worth making deliberately.
 
 ### Why "differs only in the wedge element" holds — three checks, not an assertion
 
@@ -424,6 +485,22 @@ induced-interface wedge is absent; the selectivity claim rests on the categorica
 manuscript must say so. STOP only if the categorical axis has also failed."** Without this the program is
 one cheap negative away from stopping on a category error.
 
+**D6b — record the single-residue risk where the design ladder can see it.** RUNG 5a already says "the
+categorical chemistry axis rests on a single residue"; RUNG 5b makes it sharper and it belongs beside 5b/5c:
+**C397 reaches the 12-atom gate in 96 % of unbiased MD frames, while C420 and C559 reach it in 0 of 75** — a
+4–8 backbone-atom deficit that cannot be bought back, because buying it lengthens the linker and pulls
+*conserved* cysteines into reach at the same time. **There is no geometric fallback.** The library's only
+honest hedge is that it is not all-covalent: the electrophile-free constructs ride the paralogue-unique
+**lysine** axis instead, and the 5a-KS matched pair is deliberately non-covalent so the causal test does not
+depend on C397 surviving.
+
+**D6c — do not let the retracted CRBN-null claim steer the arm choice.** `vhl|M3` hosts the proposed pair for
+a chemical reason (`crbn|M0`'s representative span needs ~29 backbone atoms), **not** because of any
+CRBN-vs-VHL preference — that framing is retracted and CRBN remains the sole Pareto-front member. Worth an
+explicit decision: `crbn|M0` is the strongest basin *and* carries the best wedge residue anywhere in the set,
+**D413, which is Lys in NR4A1 and Ser in NR4A2 — a charge reversal, not a deletion** — at 10.1 Å of E3
+clearance. Running the pair there costs a ~26–29-atom linker and buys a much stronger discriminator.
+
 **D6 — the pendant-reach convention.** RUNG 5a's 3.0 Å electrophile arm is shorter than every real pendant
 (4.0–8.75 Å for named catalogue branches), so term (a) is **conservative**. Going to a Dab branch shortens the
 exact C397 requirement by 8–9 atoms on `vhl|M3`. The counterweight belongs in the same sentence: a longer
@@ -431,6 +508,17 @@ pendant relaxes reach to **conserved** cysteines too, degrading intra-NR4A3 chem
 paralogue argument (a sequence fact) untouched.
 
 ---
+
+## 8b. Reconciled against the 2026-07-25 STRATEGY.md corrections
+
+Three orchestrator corrections landed while this rung was running. All three were applied; none changes the
+library, and one changes how the matched pair must be justified.
+
+| correction | effect on RUNG 5b |
+|---|---|
+| **"the discrimination lives on VHL" is RETRACTED** — 0.81–0.96 was the *any-lysine* null, not the *unique-lysine* null the gate uses, and it halves (0.858 → 0.399) when the CRBN arm is restaged assembly-native (CRBN's exit vector had moved **16.5 Å**; VHL's 0.99 Å) | **The pair's justification is rewritten.** It never depended on the retracted claim — the selector ranks on pose persistence and measured E3 clearance among basins that can host a pair — but that was luck, not design, so the arm choice now emits a per-basin audit and states explicitly that `crbn|M0` is excluded for a **chemical** reason (~29 backbone atoms) and **not** for a recruiter preference. |
+| **the transfer-anchor conflict is RESOLVED** — registry A (5T35) validated to **0.09 Å** against a solved intact assembly | The feared ~40 Å of transfer-zone variation does not exist, so the term-(b) geometry these constructs are designed to is sound. §6 of the RUNG-5a lane doc listed this as its top unresolved follow-up; it can be closed. |
+| **the chemistry axis is one residue deep, quantified** — C397 reaches the 12-atom gate in **96 %** of unbiased MD frames (RSA median 0.416), while **C420 and C559 reach it in 0 of 75** | Added as a stated risk in both the output JSON's `_limits` and §5 above, with an honest account of what the library can and cannot hedge. |
 
 ## 9. What RUNG 5b did NOT do, and what should come next
 

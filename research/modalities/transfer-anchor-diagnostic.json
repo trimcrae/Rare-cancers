@@ -1,0 +1,1758 @@
+{
+ "_title": "Transfer-anchor diagnostic \u2014 which VHL staging places the observed E2~Ub transfer anchor correctly?",
+ "_method": "Direct, composition-free measurement inside a solved intact ubiquitylation assembly, plus a common-frame decomposition of the two stagings' disagreement into an exit-vector component and a mapped-E2 component, plus a per-copy ligand audit.",
+ "cases": {
+  "vhl": {
+   "case": "vhl",
+   "recruiter": "VHL",
+   "ground_truth": {
+    "pdb_id": "8R5H",
+    "title": "Ubiquitin ligation to neosubstrate by a cullin-RING E3 ligase & Cdc34: NEDD8-CUL2-RBX1-ELOB/C-VHL-MZ1 with trapped UBE2R2~donor UB-BRD4 BD2",
+    "method": "EM",
+    "resolution_A": 3.44,
+    "e2": "UBE2R2",
+    "receptor_copy": {
+     "ELOB": "G",
+     "ELOC": "D",
+     "VHL": "H"
+    },
+    "copy_selection": {
+     "ok": true,
+     "n_combinations": 1,
+     "single_copy": true,
+     "n_contacting_pairs": 3,
+     "coherent": true,
+     "_note": "the only chain combination available; accepted, with its coherence reported"
+    },
+    "chain_sequences": {
+     "A": {
+      "n_residues": 631,
+      "first_resid": 1,
+      "last_resid": 655,
+      "seq_head": "MSLKPRVVDFDETWNKLLTTIKAVVMLEYVERATWNDRFS",
+      "seq_tail": "SSFSLNMNFSSKRTKFKITT"
+     },
+     "R": {
+      "n_residues": 79,
+      "first_resid": 20,
+      "last_resid": 105,
+      "seq_head": "KRFEVKKWNAVALWAWDIVVDNCAICRNHIMDLCIECQAN",
+      "seq_tail": "RWLKTRQVCPLDNREWEFQK"
+     },
+     "C": {
+      "n_residues": 203,
+      "first_resid": 6,
+      "last_resid": 1015,
+      "seq_head": "MTSSQKALMLELKSLQEEPVEGFRITLVDESDLYNWEVAI",
+      "seq_tail": "EYCIXXXXXXXXXXXXXXXX"
+     },
+     "U": {
+      "n_residues": 75,
+      "first_resid": 1,
+      "last_resid": 75,
+      "seq_head": "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQ",
+      "seq_tail": "LSDYNIQKESTLHLVLRLRG"
+     },
+     "D": {
+      "n_residues": 100,
+      "first_resid": 13,
+      "last_resid": 112,
+      "seq_head": "GPDAMYVKLISSDGHEFIVKREHALTSGTIKAMLSGPGQF",
+      "seq_tail": "FPIAPEIALELLMAANFLDC"
+     },
+     "F": {
+      "n_residues": 111,
+      "first_resid": 349,
+      "last_resid": 459,
+      "seq_head": "KVSEQLKAASGILKEMFAKCHAAYAWPFYKPVDVEALGLH",
+      "seq_tail": "VAMARKLQDVFEMRFAKMPD"
+     },
+     "G": {
+      "n_residues": 105,
+      "first_resid": 1,
+      "last_resid": 105,
+      "seq_head": "MDVFLMIRRHKTTIFTDAKESSTVFELKRIVEGILKRPPD",
+      "seq_tail": "EALCIEPFSSPPELPDVMKP"
+     },
+     "H": {
+      "n_residues": 149,
+      "first_resid": 61,
+      "last_resid": 209,
+      "seq_head": "PVLRSVNSREPSQVIFCNRSPRVVLPVWLNFDGEPQPYPT",
+      "seq_tail": "DHPNVQKDLERLTQERIAHQ"
+     }
+    },
+    "catalytic_cys": {
+     "resid": 93,
+     "chain": "C",
+     "xyz": [
+      170.204,
+      185.168,
+      136.429
+     ],
+     "to_ubiquitin_cterm_A": 4.27,
+     "runner_up_A": [
+      25.73
+     ]
+    },
+    "ligand": {
+     "tag": "8R5H (intact assembly)",
+     "het_code": "759",
+     "ligand_chain": "H",
+     "ligand_resid": 301,
+     "n_heavy": 69,
+     "n_heavy_on_e3_side": 32,
+     "is_protac_ternary": true,
+     "exit_atom_name": "CAE",
+     "exit_atom_xyz": [
+      175.844,
+      196.498,
+      164.467
+     ],
+     "exit_dist_to_body_A": 5.07,
+     "nearest_atom_per_chain_A": {
+      "A": 41.41,
+      "C": 18.61,
+      "D": 32.38,
+      "F": 7.98,
+      "G": 39.93,
+      "H": 5.07,
+      "R": 46.79,
+      "U": 33.9
+     },
+     "chain_identity": {
+      "A": "CUL2",
+      "C": "UBE2R2",
+      "D": "ELOC",
+      "F": "O60885",
+      "G": "ELOB",
+      "H": "VHL",
+      "R": "RBX1",
+      "U": "P0CG48"
+     },
+     "nearest_chain": "H",
+     "site_lining_residues": [
+      {
+       "chain": "F",
+       "resid": 374,
+       "resname": "TRP",
+       "min_dist_A": 4.03
+      },
+      {
+       "chain": "F",
+       "resid": 375,
+       "resname": "PRO",
+       "min_dist_A": 3.8
+      },
+      {
+       "chain": "F",
+       "resid": 376,
+       "resname": "PHE",
+       "min_dist_A": 3.94
+      },
+      {
+       "chain": "F",
+       "resid": 380,
+       "resname": "VAL",
+       "min_dist_A": 4.44
+      },
+      {
+       "chain": "F",
+       "resid": 383,
+       "resname": "GLU",
+       "min_dist_A": 4.27
+      },
+      {
+       "chain": "F",
+       "resid": 385,
+       "resname": "LEU",
+       "min_dist_A": 3.87
+      },
+      {
+       "chain": "F",
+       "resid": 386,
+       "resname": "GLY",
+       "min_dist_A": 3.91
+      },
+      {
+       "chain": "F",
+       "resid": 387,
+       "resname": "LEU",
+       "min_dist_A": 4.12
+      },
+      {
+       "chain": "F",
+       "resid": 429,
+       "resname": "ALA",
+       "min_dist_A": 4.31
+      },
+      {
+       "chain": "F",
+       "resid": 432,
+       "resname": "TYR",
+       "min_dist_A": 4.2
+      },
+      {
+       "chain": "F",
+       "resid": 433,
+       "resname": "ASN",
+       "min_dist_A": 3.44
+      },
+      {
+       "chain": "F",
+       "resid": 437,
+       "resname": "HIS",
+       "min_dist_A": 3.93
+      },
+      {
+       "chain": "F",
+       "resid": 438,
+       "resname": "GLU",
+       "min_dist_A": 4.15
+      },
+      {
+       "chain": "F",
+       "resid": 439,
+       "resname": "VAL",
+       "min_dist_A": 4.3
+      },
+      {
+       "chain": "F",
+       "resid": 442,
+       "resname": "MET",
+       "min_dist_A": 4.32
+      },
+      {
+       "chain": "H",
+       "resid": 88,
+       "resname": "TRP",
+       "min_dist_A": 3.79
+      },
+      {
+       "chain": "H",
+       "resid": 98,
+       "resname": "TYR",
+       "min_dist_A": 3.55
+      },
+      {
+       "chain": "H",
+       "resid": 99,
+       "resname": "PRO",
+       "min_dist_A": 3.26
+      },
+      {
+       "chain": "H",
+       "resid": 101,
+       "resname": "LEU",
+       "min_dist_A": 4.02
+      },
+      {
+       "chain": "H",
+       "resid": 107,
+       "resname": "ARG",
+       "min_dist_A": 3.74
+      },
+      {
+       "chain": "H",
+       "resid": 109,
+       "resname": "ILE",
+       "min_dist_A": 3.95
+      },
+      {
+       "chain": "H",
+       "resid": 110,
+       "resname": "HIS",
+       "min_dist_A": 3.57
+      },
+      {
+       "chain": "H",
+       "resid": 111,
+       "resname": "SER",
+       "min_dist_A": 4.1
+      },
+      {
+       "chain": "H",
+       "resid": 112,
+       "resname": "TYR",
+       "min_dist_A": 3.47
+      },
+      {
+       "chain": "H",
+       "resid": 115,
+       "resname": "HIS",
+       "min_dist_A": 3.71
+      },
+      {
+       "chain": "H",
+       "resid": 117,
+       "resname": "TRP",
+       "min_dist_A": 3.69
+      }
+     ]
+    },
+    "OBSERVED_exit_to_catalytic_cys_A": 30.76,
+    "OBSERVED_ligand_centroid_to_catalytic_cys_A": 28.0,
+    "OBSERVED_e3_moiety_centroid_to_catalytic_cys_A": 29.87,
+    "OBSERVED_exit_to_RING_A": 59.16,
+    "OBSERVED_RING_to_catalytic_cys_A": 29.77,
+    "ring_residue_range": [
+     51,
+     105
+    ]
+   },
+   "common_frame_decomposition": {
+    "common_frame": "registryA_5T35",
+    "moved": "registryB_6GMN",
+    "receptor_superposition": {
+     "ok": true,
+     "n_bridge_ca": 324,
+     "bridge_rmsd_A": 0.767,
+     "ca_per_bridge_protein": {
+      "ELOB": 102,
+      "ELOC": 86,
+      "VHL": 136
+     }
+    },
+    "delta_exit_vector_A": 50.67,
+    "delta_mapped_E2_catalytic_cys_A": 0.02,
+    "_reading": "The two stagings disagree by |d_A - d_B| angstroms about the anchor-to-transfer distance. Placed in one frame, this says how much of that lives in the EXIT VECTOR and how much in the mapped E2 position. A small E2 delta with a large exit delta means the disagreement is about the recruiter anchor (H3), not about CRL conformation (H2)."
+   },
+   "stagings": {
+    "registryA_5T35": {
+     "pdb_id": "5T35",
+     "title": "The PROTAC MZ1 in complex with the second bromodomain of Brd4 and pVHL:ElonginC:ElonginB",
+     "resolution_A": 2.7,
+     "chains_by_accession": {
+      "O60885": [
+       "A",
+       "E"
+      ],
+      "Q15370": [
+       "B",
+       "F"
+      ],
+      "Q15369": [
+       "C",
+       "G"
+      ],
+      "P40337": [
+       "D",
+       "H"
+      ]
+     },
+     "receptor_copy": {
+      "ELOB": "B",
+      "ELOC": "C",
+      "VHL": "D"
+     },
+     "copy_selection": {
+      "ok": true,
+      "n_combinations_checked": 8,
+      "selected": {
+       "ELOB": "B",
+       "ELOC": "C",
+       "VHL": "D"
+      },
+      "n_contacting_pairs": 3,
+      "_note": "one spatially coherent copy selected from an asymmetric unit that may hold several"
+     },
+     "chain_sequences": {
+      "A": {
+       "n_residues": 111,
+       "first_resid": 349,
+       "last_resid": 459,
+       "seq_head": "KVSEQLKCCSGILKEMFAKKHAAYAWPFYKPVDVEALGLH",
+       "seq_tail": "VAMARKLQDVFEMRFAKMPD"
+      },
+      "B": {
+       "n_residues": 104,
+       "first_resid": 1,
+       "last_resid": 104,
+       "seq_head": "MDVFLMIRRHKTTIFTDAKESSTVFELKRIVEGILKRPPD",
+       "seq_tail": "FEALCIEPFSSPPELPDVMK"
+      },
+      "C": {
+       "n_residues": 87,
+       "first_resid": 16,
+       "last_resid": 112,
+       "seq_head": "MMYVKLISSDGHEFIVKREHALTSGTIKAMLSNEVNFREI",
+       "seq_tail": "FPIAPEIALELLMAANFLDC"
+      },
+      "D": {
+       "n_residues": 149,
+       "first_resid": 61,
+       "last_resid": 209,
+       "seq_head": "PVLRSVNSREPSQVIFCNRSPRVVLPVWLNFDGEPQPYPT",
+       "seq_tail": "DHPNVQKDLERLTQERIAHQ"
+      },
+      "E": {
+       "n_residues": 111,
+       "first_resid": 349,
+       "last_resid": 459,
+       "seq_head": "KVSEQLKCCSGILKEMFAKKHAAYAWPFYKPVDVEALGLH",
+       "seq_tail": "VAMARKLQDVFEMRFAKMPD"
+      },
+      "F": {
+       "n_residues": 104,
+       "first_resid": 1,
+       "last_resid": 104,
+       "seq_head": "MDVFLMIRRHKTTIFTDAKESSTVFELKRIVEGILKRPPD",
+       "seq_tail": "FEALCIEPFSSPPELPDVMK"
+      },
+      "G": {
+       "n_residues": 88,
+       "first_resid": 16,
+       "last_resid": 112,
+       "seq_head": "MMYVKLISSDGHEFIVKREHALTSGTIKAMLSGNEVNFRE",
+       "seq_tail": "FPIAPEIALELLMAANFLDC"
+      },
+      "H": {
+       "n_residues": 147,
+       "first_resid": 61,
+       "last_resid": 207,
+       "seq_head": "PVLRSVNSREPSQVIFCNRSPRVVLPVWLNFDGEPQPYPT",
+       "seq_tail": "LEDHPNVQKDLERLTQERIA"
+      }
+     },
+     "ligand": {
+      "tag": "5T35 (registryA_5T35)",
+      "het_code": "759",
+      "ligand_chain": "D",
+      "ligand_resid": 301,
+      "n_heavy": 69,
+      "n_heavy_on_e3_side": 32,
+      "is_protac_ternary": true,
+      "exit_atom_name": "CAG",
+      "exit_atom_xyz": [
+       23.828,
+       -24.37,
+       -17.495
+      ],
+      "exit_dist_to_body_A": 5.0,
+      "nearest_atom_per_chain_A": {
+       "A": 7.19,
+       "B": 39.73,
+       "C": 30.51,
+       "D": 5.0,
+       "E": 48.17,
+       "F": 27.04,
+       "G": 31.51,
+       "H": 32.24
+      },
+      "chain_identity": {
+       "A": "O60885",
+       "B": "ELOB",
+       "C": "ELOC",
+       "D": "VHL",
+       "E": "O60885",
+       "F": "ELOB",
+       "G": "ELOC",
+       "H": "VHL"
+      },
+      "nearest_chain": "D",
+      "site_lining_residues": [
+       {
+        "chain": "A",
+        "resid": 374,
+        "resname": "TRP",
+        "min_dist_A": 3.74
+       },
+       {
+        "chain": "A",
+        "resid": 375,
+        "resname": "PRO",
+        "min_dist_A": 3.94
+       },
+       {
+        "chain": "A",
+        "resid": 376,
+        "resname": "PHE",
+        "min_dist_A": 4.04
+       },
+       {
+        "chain": "A",
+        "resid": 380,
+        "resname": "VAL",
+        "min_dist_A": 4.14
+       },
+       {
+        "chain": "A",
+        "resid": 383,
+        "resname": "GLU",
+        "min_dist_A": 4.5
+       },
+       {
+        "chain": "A",
+        "resid": 384,
+        "resname": "ALA",
+        "min_dist_A": 3.96
+       },
+       {
+        "chain": "A",
+        "resid": 385,
+        "resname": "LEU",
+        "min_dist_A": 3.68
+       },
+       {
+        "chain": "A",
+        "resid": 386,
+        "resname": "GLY",
+        "min_dist_A": 4.05
+       },
+       {
+        "chain": "A",
+        "resid": 387,
+        "resname": "LEU",
+        "min_dist_A": 3.89
+       },
+       {
+        "chain": "A",
+        "resid": 429,
+        "resname": "CYS",
+        "min_dist_A": 4.01
+       },
+       {
+        "chain": "A",
+        "resid": 432,
+        "resname": "TYR",
+        "min_dist_A": 4.34
+       },
+       {
+        "chain": "A",
+        "resid": 433,
+        "resname": "ASN",
+        "min_dist_A": 4.1
+       },
+       {
+        "chain": "A",
+        "resid": 437,
+        "resname": "HIS",
+        "min_dist_A": 3.55
+       },
+       {
+        "chain": "A",
+        "resid": 438,
+        "resname": "GLU",
+        "min_dist_A": 3.71
+       },
+       {
+        "chain": "A",
+        "resid": 439,
+        "resname": "VAL",
+        "min_dist_A": 4.18
+       },
+       {
+        "chain": "A",
+        "resid": 442,
+        "resname": "MET",
+        "min_dist_A": 3.87
+       },
+       {
+        "chain": "D",
+        "resid": 67,
+        "resname": "ASN",
+        "min_dist_A": 4.5
+       },
+       {
+        "chain": "D",
+        "resid": 69,
+        "resname": "ARG",
+        "min_dist_A": 4.4
+       },
+       {
+        "chain": "D",
+        "resid": 76,
+        "resname": "PHE",
+        "min_dist_A": 4.15
+       },
+       {
+        "chain": "D",
+        "resid": 86,
+        "resname": "PRO",
+        "min_dist_A": 3.99
+       },
+       {
+        "chain": "D",
+        "resid": 88,
+        "resname": "TRP",
+        "min_dist_A": 3.94
+       },
+       {
+        "chain": "D",
+        "resid": 91,
+        "resname": "PHE",
+        "min_dist_A": 3.72
+       },
+       {
+        "chain": "D",
+        "resid": 98,
+        "resname": "TYR",
+        "min_dist_A": 3.99
+       },
+       {
+        "chain": "D",
+        "resid": 99,
+        "resname": "PRO",
+        "min_dist_A": 3.64
+       },
+       {
+        "chain": "D",
+        "resid": 101,
+        "resname": "LEU",
+        "min_dist_A": 4.22
+       },
+       {
+        "chain": "D",
+        "resid": 107,
+        "resname": "ARG",
+        "min_dist_A": 3.09
+       },
+       {
+        "chain": "D",
+        "resid": 109,
+        "resname": "ILE",
+        "min_dist_A": 3.85
+       },
+       {
+        "chain": "D",
+        "resid": 110,
+        "resname": "HIS",
+        "min_dist_A": 3.58
+       },
+       {
+        "chain": "D",
+        "resid": 111,
+        "resname": "SER",
+        "min_dist_A": 3.9
+       },
+       {
+        "chain": "D",
+        "resid": 112,
+        "resname": "TYR",
+        "min_dist_A": 3.7
+       },
+       {
+        "chain": "D",
+        "resid": 115,
+        "resname": "HIS",
+        "min_dist_A": 3.74
+       },
+       {
+        "chain": "D",
+        "resid": 117,
+        "resname": "TRP",
+        "min_dist_A": 3.66
+       }
+      ]
+     },
+     "bridge": {
+      "ok": true,
+      "n_bridge_ca": 340,
+      "bridge_rmsd_A": 0.977,
+      "ca_per_bridge_protein": {
+       "ELOB": 104,
+       "ELOC": 87,
+       "VHL": 149
+      }
+     },
+     "mapped_catalytic_cys_xyz": [
+      41.538,
+      -39.119,
+      3.009
+     ],
+     "mapped_observed_exit_xyz": [
+      24.547,
+      -24.604,
+      -18.132
+     ],
+     "mapped_observed_e3_moiety_centroid_xyz": [
+      21.974,
+      -24.842,
+      -14.476
+     ],
+     "THIS_STAGING_exit_vs_OBSERVED_exit_A": 0.99,
+     "THIS_STAGING_exit_vs_OBSERVED_e3_moiety_centroid_A": 3.57,
+     "REPRODUCED_anchor_to_transfer_A": 30.85,
+     "candidate_ligands": [
+      {
+       "het": "759",
+       "chain": "D",
+       "resid": 301,
+       "n_heavy": 69,
+       "n_atoms_within_4.5A_of_selected_body": 36,
+       "eligible_by_staging_rule": true,
+       "min_dist_to_RECRUITER_A": 2.57,
+       "bound_to_recruiter": true,
+       "centroid": [
+        21.87,
+        -28.23,
+        -14.56
+       ],
+       "centroid_to_OBSERVED_ligand_site_A": 3.39
+      },
+      {
+       "het": "759",
+       "chain": "H",
+       "resid": 301,
+       "n_heavy": 69,
+       "n_atoms_within_4.5A_of_selected_body": 0,
+       "eligible_by_staging_rule": false,
+       "min_dist_to_RECRUITER_A": 6.73,
+       "bound_to_recruiter": false,
+       "centroid": [
+        1.6,
+        30.23,
+        -25.58
+       ],
+       "centroid_to_OBSERVED_ligand_site_A": 59.76
+      }
+     ]
+    },
+    "registryB_6GMN": {
+     "pdb_id": "6GMN",
+     "title": "pVHL:EloB:EloC in complex with methyl 4H-furo[3,2-b]pyrrole-5-carboxylate",
+     "resolution_A": 1.94,
+     "chains_by_accession": {
+      "Q15370": [
+       "A",
+       "D",
+       "G",
+       "J"
+      ],
+      "Q15369": [
+       "B",
+       "E",
+       "H",
+       "K"
+      ],
+      "P40337": [
+       "C",
+       "F",
+       "L",
+       "I"
+      ]
+     },
+     "receptor_copy": {
+      "ELOB": "A",
+      "ELOC": "B",
+      "VHL": "C"
+     },
+     "copy_selection": {
+      "ok": true,
+      "n_combinations_checked": 64,
+      "selected": {
+       "ELOB": "A",
+       "ELOC": "B",
+       "VHL": "C"
+      },
+      "n_contacting_pairs": 3,
+      "_note": "one spatially coherent copy selected from an asymmetric unit that may hold several"
+     },
+     "chain_sequences": {
+      "A": {
+       "n_residues": 102,
+       "first_resid": 1,
+       "last_resid": 103,
+       "seq_head": "MDVFLMIRRHKTTIFTDAKESSTVFELKRIVEGILKRPPD",
+       "seq_tail": "TFEALCIEPFSSPPELPDVM"
+      },
+      "B": {
+       "n_residues": 87,
+       "first_resid": 17,
+       "last_resid": 112,
+       "seq_head": "MYVKLISSDGHEFIVKREHALTSGTIKAMLSTNEVNFREI",
+       "seq_tail": "FPIAPEIALELLMAANFLDC"
+      },
+      "C": {
+       "n_residues": 136,
+       "first_resid": 62,
+       "last_resid": 201,
+       "seq_head": "VLRSVNSREPSQVIFNRSPRVVLPVWLNFDGEPQPYPTLP",
+       "seq_tail": "RSLYEDLEDHPNVQKDLERL"
+      },
+      "D": {
+       "n_residues": 98,
+       "first_resid": 1,
+       "last_resid": 102,
+       "seq_head": "MDVFLMIRRHKTTIFTDAKESSTVFELKRIVEGILKRPPD",
+       "seq_tail": "RDTFEALIEPFSSPPELPDV"
+      },
+      "E": {
+       "n_residues": 87,
+       "first_resid": 17,
+       "last_resid": 112,
+       "seq_head": "MYVKLISSDGHEFIVKREHALTSGTIKAMLSTNEVNFREI",
+       "seq_tail": "FPIAPEIALELLMAANFLDC"
+      },
+      "F": {
+       "n_residues": 141,
+       "first_resid": 63,
+       "last_resid": 204,
+       "seq_head": "LRSVNSREPSQVIFNRSPRVVLPVWLNFDGEPQPYPTLPP",
+       "seq_tail": "YEDLEDHPNVQKDLERLTQE"
+      },
+      "G": {
+       "n_residues": 101,
+       "first_resid": 1,
+       "last_resid": 103,
+       "seq_head": "MDVFLMIRRHKTTIFTDAKESSTVFELKRIVEGILKRPPD",
+       "seq_tail": "DTFEALIEPFSSPPELPDVM"
+      },
+      "H": {
+       "n_residues": 86,
+       "first_resid": 17,
+       "last_resid": 112,
+       "seq_head": "MYVKLISSDGHEFIVKREHALTSGTIKAMLSNEVNFREIP",
+       "seq_tail": "FPIAPEIALELLMAANFLDC"
+      },
+      "I": {
+       "n_residues": 145,
+       "first_resid": 62,
+       "last_resid": 206,
+       "seq_head": "VLRSVNSREPSQVIFCNRSPRVVLPVWLNFDGEPQPYPTL",
+       "seq_tail": "DLEDHPNVQKDLERLTQERI"
+      },
+      "J": {
+       "n_residues": 101,
+       "first_resid": 1,
+       "last_resid": 103,
+       "seq_head": "MDVFLMIRRHKTTIFTDAKESSTVFELKRIVEGILKRPPD",
+       "seq_tail": "DTFEALIEPFSSPPELPDVM"
+      },
+      "K": {
+       "n_residues": 87,
+       "first_resid": 16,
+       "last_resid": 112,
+       "seq_head": "MMYVKLISSDGHEFIVKREHALTSGTIKAMLTNEVNFREI",
+       "seq_tail": "FPIAPEIALELLMAANFLDC"
+      },
+      "L": {
+       "n_residues": 143,
+       "first_resid": 62,
+       "last_resid": 205,
+       "seq_head": "VLRSVNSREPSQVIFNRSPRVVLPVWLNFDGEPQPYPTLP",
+       "seq_tail": "EDLEDHPNVQKDLERLTQER"
+      }
+     },
+     "ligand": {
+      "tag": "6GMN (registryB_6GMN)",
+      "het_code": "F4E",
+      "ligand_chain": "B",
+      "ligand_resid": 201,
+      "n_heavy": 12,
+      "n_heavy_on_e3_side": 12,
+      "is_protac_ternary": false,
+      "exit_atom_name": "C07",
+      "exit_atom_xyz": [
+       -6.417,
+       -9.849,
+       21.595
+      ],
+      "exit_dist_to_body_A": 3.98,
+      "nearest_atom_per_chain_A": {
+       "A": 12.51,
+       "B": 3.98,
+       "C": 8.58,
+       "D": 28.26,
+       "E": 22.59,
+       "F": 39.52,
+       "G": 55.22,
+       "H": 48.54,
+       "I": 69.69,
+       "J": 45.81,
+       "K": 34.7,
+       "L": 47.94
+      },
+      "chain_identity": {
+       "A": "ELOB",
+       "B": "ELOC",
+       "C": "VHL",
+       "D": "ELOB",
+       "E": "ELOC",
+       "F": "VHL",
+       "G": "ELOB",
+       "H": "ELOC",
+       "I": "VHL",
+       "J": "ELOB",
+       "K": "ELOC",
+       "L": "VHL"
+      },
+      "nearest_chain": "B",
+      "site_lining_residues": [
+       {
+        "chain": "B",
+        "resid": 64,
+        "resname": "GLU",
+        "min_dist_A": 3.36
+       },
+       {
+        "chain": "B",
+        "resid": 65,
+        "resname": "ILE",
+        "min_dist_A": 3.43
+       },
+       {
+        "chain": "B",
+        "resid": 66,
+        "resname": "PRO",
+        "min_dist_A": 3.65
+       },
+       {
+        "chain": "B",
+        "resid": 69,
+        "resname": "VAL",
+        "min_dist_A": 4.33
+       },
+       {
+        "chain": "B",
+        "resid": 102,
+        "resname": "GLU",
+        "min_dist_A": 3.11
+       },
+       {
+        "chain": "B",
+        "resid": 105,
+        "resname": "MET",
+        "min_dist_A": 3.75
+       },
+       {
+        "chain": "B",
+        "resid": 106,
+        "resname": "ALA",
+        "min_dist_A": 4.15
+       },
+       {
+        "chain": "B",
+        "resid": 109,
+        "resname": "PHE",
+        "min_dist_A": 3.63
+       }
+      ]
+     },
+     "bridge": {
+      "ok": true,
+      "n_bridge_ca": 325,
+      "bridge_rmsd_A": 1.332,
+      "ca_per_bridge_protein": {
+       "ELOB": 102,
+       "ELOC": 87,
+       "VHL": 136
+      }
+     },
+     "mapped_catalytic_cys_xyz": [
+      -30.96,
+      48.163,
+      -8.725
+     ],
+     "mapped_observed_exit_xyz": [
+      -3.646,
+      35.295,
+      -2.839
+     ],
+     "mapped_observed_e3_moiety_centroid_xyz": [
+      -5.92,
+      35.108,
+      1.013
+     ],
+     "THIS_STAGING_exit_vs_OBSERVED_exit_A": 51.41,
+     "THIS_STAGING_exit_vs_OBSERVED_e3_moiety_centroid_A": 49.45,
+     "REPRODUCED_anchor_to_transfer_A": 69.91,
+     "candidate_ligands": [
+      {
+       "het": "F4E",
+       "chain": "B",
+       "resid": 201,
+       "n_heavy": 12,
+       "n_atoms_within_4.5A_of_selected_body": 12,
+       "eligible_by_staging_rule": true,
+       "min_dist_to_RECRUITER_A": 6.87,
+       "bound_to_recruiter": false,
+       "centroid": [
+        -5.02,
+        -9.6,
+        22.5
+       ],
+       "centroid_to_OBSERVED_ligand_site_A": 49.61
+      },
+      {
+       "het": "F4E",
+       "chain": "K",
+       "resid": 201,
+       "n_heavy": 12,
+       "n_atoms_within_4.5A_of_selected_body": 0,
+       "eligible_by_staging_rule": false,
+       "min_dist_to_RECRUITER_A": 5.62,
+       "bound_to_recruiter": false,
+       "centroid": [
+        -1.17,
+        37.59,
+        21.92
+       ],
+       "centroid_to_OBSERVED_ligand_site_A": 21.58
+      }
+     ]
+    }
+   },
+   "verdict": {
+    "observed_no_composition_A": 30.76,
+    "per_staging_A": {
+     "registryA_5T35": 30.85,
+     "registryB_6GMN": 69.91
+    },
+    "closest_to_observed": "registryA_5T35",
+    "miss_A": {
+     "registryA_5T35": 0.09,
+     "registryB_6GMN": 39.15
+    }
+   }
+  },
+  "crbn": {
+   "case": "crbn",
+   "recruiter": "CRBN",
+   "ground_truth": {
+    "pdb_id": "9UUM",
+    "title": "Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly",
+    "method": "EM",
+    "resolution_A": 3.41,
+    "e2": "UBE2D1",
+    "receptor_copy": {
+     "CRBN": "C",
+     "DDB1": "B"
+    },
+    "copy_selection": {
+     "ok": true,
+     "n_combinations": 1,
+     "single_copy": true,
+     "n_contacting_pairs": 1,
+     "coherent": true,
+     "_note": "the only chain combination available; accepted, with its coherence reported"
+    },
+    "chain_sequences": {
+     "C": {
+      "n_residues": 381,
+      "first_resid": 45,
+      "last_resid": 425,
+      "seq_head": "NIINFDTSLPTSHTYLGADMEEFHGRTLHDDDSCQVIPVL",
+      "seq_tail": "KKDMSPQKFWGLTRSALLPT"
+     },
+     "D": {
+      "n_residues": 146,
+      "first_resid": 2,
+      "last_resid": 147,
+      "seq_head": "ALKRIQKELSDLQRDPPAHCSAGPVGDDLFHWQATIMGPP",
+      "seq_tail": "KSDKEKYNRHAREWTQKYAM"
+     },
+     "I": {
+      "n_residues": 55,
+      "first_resid": 143,
+      "last_resid": 197,
+      "seq_head": "ERPFQCNQCGASFTQKGNLLRHICLHTGEKPFKCHLCNYA",
+      "seq_tail": "LCNYATQRRDALTGHLRTHS"
+     },
+     "N": {
+      "n_residues": 76,
+      "first_resid": 1,
+      "last_resid": 76,
+      "seq_head": "MLIKVKTLTGKEIEIDIEPTDKVERIKERVEEKEGIPPQQ",
+      "seq_tail": "ADYKILGGSVLHLVLALRGG"
+     },
+     "U": {
+      "n_residues": 76,
+      "first_resid": 1,
+      "last_resid": 76,
+      "seq_head": "MQIFVKTLTGKTITLEVEPSDTIENVKAKIQDKEGIPPDQ",
+      "seq_tail": "SDYNIQKESTLHLVLRLRGG"
+     },
+     "R": {
+      "n_residues": 79,
+      "first_resid": 19,
+      "last_resid": 104,
+      "seq_head": "KKRFEVKKWNAVALWAWDIVVDNCAICRNHIMDLCIECQA",
+      "seq_tail": "SRWLKTRQVCPLDNREWEFQ"
+     },
+     "B": {
+      "n_residues": 1108,
+      "first_resid": 1,
+      "last_resid": 1140,
+      "seq_head": "MSYNYVVTAQKPTAVNGCVTGHFTSAEDLNLLIAKNTRLE",
+      "seq_tail": "KREATADDLIKVVEELTRIH"
+     },
+     "A": {
+      "n_residues": 699,
+      "first_resid": 42,
+      "last_resid": 759,
+      "seq_head": "KLVIKNFRDRPRLPDNYTQDTWRKLHEAVRAVQSSTSIRY",
+      "seq_tail": "IDRDYMERDKDNPNQYHYVA"
+     }
+    },
+    "catalytic_cys": {
+     "resid": 85,
+     "chain": "D",
+     "xyz": [
+      143.483,
+      84.269,
+      131.784
+     ],
+     "to_ubiquitin_cterm_A": 3.44,
+     "runner_up_A": [
+      16.44,
+      17.26,
+      20.03
+     ]
+    },
+    "ligand": {
+     "tag": "9UUM (intact assembly)",
+     "het_code": "QFC",
+     "ligand_chain": "C",
+     "ligand_resid": 502,
+     "n_heavy": 42,
+     "n_heavy_on_e3_side": 38,
+     "is_protac_ternary": true,
+     "exit_atom_name": "C10",
+     "exit_atom_xyz": [
+      140.405,
+      95.971,
+      156.693
+     ],
+     "exit_dist_to_body_A": 4.79,
+     "nearest_atom_per_chain_A": {
+      "A": 52.9,
+      "B": 47.76,
+      "C": 4.79,
+      "D": 25.96,
+      "I": 5.09,
+      "N": 48.22,
+      "R": 30.19,
+      "U": 27.74
+     },
+     "chain_identity": {
+      "A": "CUL4A",
+      "B": "DDB1",
+      "C": "CRBN",
+      "D": "UBE2D1",
+      "I": "Q9UKT9",
+      "N": "Q15843",
+      "R": "RBX1",
+      "U": "P62979"
+     },
+     "nearest_chain": "C",
+     "site_lining_residues": [
+      {
+       "chain": "C",
+       "resid": 102,
+       "resname": "PHE",
+       "min_dist_A": 3.91
+      },
+      {
+       "chain": "C",
+       "resid": 150,
+       "resname": "PHE",
+       "min_dist_A": 3.53
+      },
+      {
+       "chain": "C",
+       "resid": 152,
+       "resname": "ILE",
+       "min_dist_A": 3.97
+      },
+      {
+       "chain": "C",
+       "resid": 154,
+       "resname": "ILE",
+       "min_dist_A": 4.01
+      },
+      {
+       "chain": "C",
+       "resid": 351,
+       "resname": "ASN",
+       "min_dist_A": 3.75
+      },
+      {
+       "chain": "C",
+       "resid": 352,
+       "resname": "PRO",
+       "min_dist_A": 3.76
+      },
+      {
+       "chain": "C",
+       "resid": 353,
+       "resname": "HIS",
+       "min_dist_A": 3.83
+      },
+      {
+       "chain": "C",
+       "resid": 377,
+       "resname": "GLU",
+       "min_dist_A": 3.84
+      },
+      {
+       "chain": "C",
+       "resid": 378,
+       "resname": "HIS",
+       "min_dist_A": 3.27
+      },
+      {
+       "chain": "C",
+       "resid": 379,
+       "resname": "SER",
+       "min_dist_A": 4.37
+      },
+      {
+       "chain": "C",
+       "resid": 380,
+       "resname": "TRP",
+       "min_dist_A": 3.11
+      },
+      {
+       "chain": "C",
+       "resid": 386,
+       "resname": "TRP",
+       "min_dist_A": 3.6
+      },
+      {
+       "chain": "C",
+       "resid": 400,
+       "resname": "TRP",
+       "min_dist_A": 3.78
+      },
+      {
+       "chain": "C",
+       "resid": 402,
+       "resname": "PHE",
+       "min_dist_A": 4.04
+      },
+      {
+       "chain": "I",
+       "resid": 147,
+       "resname": "GLN",
+       "min_dist_A": 3.74
+      },
+      {
+       "chain": "I",
+       "resid": 149,
+       "resname": "ASN",
+       "min_dist_A": 3.63
+      }
+     ]
+    },
+    "OBSERVED_exit_to_catalytic_cys_A": 27.69,
+    "OBSERVED_ligand_centroid_to_catalytic_cys_A": 26.36,
+    "OBSERVED_e3_moiety_centroid_to_catalytic_cys_A": 26.47,
+    "OBSERVED_exit_to_RING_A": 45.64,
+    "OBSERVED_RING_to_catalytic_cys_A": 29.34,
+    "ring_residue_range": [
+     50,
+     104
+    ]
+   },
+   "common_frame_decomposition": {
+    "common_frame": "registryA_6BOY",
+    "moved": "registryB_9FJX",
+    "receptor_superposition": {
+     "ok": true,
+     "n_bridge_ca": 1150,
+     "bridge_rmsd_A": 1.426,
+     "ca_per_bridge_protein": {
+      "CRBN": 369,
+      "DDB1": 781
+     }
+    },
+    "delta_exit_vector_A": 11.21,
+    "delta_mapped_E2_catalytic_cys_A": 2.56,
+    "_reading": "The two stagings disagree by |d_A - d_B| angstroms about the anchor-to-transfer distance. Placed in one frame, this says how much of that lives in the EXIT VECTOR and how much in the mapped E2 position. A small E2 delta with a large exit delta means the disagreement is about the recruiter anchor (H3), not about CRL conformation (H2)."
+   },
+   "stagings": {
+    "registryA_6BOY": {
+     "pdb_id": "6BOY",
+     "title": "Crystal structure of DDB1-CRBN-BRD4(BD1) complex bound to dBET6 PROTAC.",
+     "resolution_A": 3.33,
+     "chains_by_accession": {
+      "Q16531": [
+       "A"
+      ],
+      "Q96SW2": [
+       "B"
+      ],
+      "O60885": [
+       "C"
+      ]
+     },
+     "receptor_copy": {
+      "CRBN": "B",
+      "DDB1": "A"
+     },
+     "copy_selection": {
+      "ok": true,
+      "n_combinations": 1,
+      "single_copy": true,
+      "n_contacting_pairs": 1,
+      "coherent": true,
+      "_note": "the only chain combination available; accepted, with its coherence reported"
+     },
+     "chain_sequences": {
+      "A": {
+       "n_residues": 808,
+       "first_resid": 1,
+       "last_resid": 1140,
+       "seq_head": "MSYNYVVTAQKPTAVNGCVTGHFTSAEDLNLLIAKNTRLE",
+       "seq_tail": "KREATADDLIKVVEELTRIH"
+      },
+      "B": {
+       "n_residues": 375,
+       "first_resid": 44,
+       "last_resid": 427,
+       "seq_head": "PNIINFDTSLPTSHTYLGADMEEFHGRTLHDDDSCQVIPV",
+       "seq_tail": "DMSPQKFWGLTRSALLPTIP"
+      },
+      "C": {
+       "n_residues": 127,
+       "first_resid": 42,
+       "last_resid": 168,
+       "seq_head": "SMNPPPPETSNPNKPKRQTNQLQYLLRVVLKTLWKHQFAW",
+       "seq_tail": "MAEALEKLFLQKINELPTEE"
+      }
+     },
+     "ligand": {
+      "tag": "6BOY (registryA_6BOY)",
+      "het_code": "RN6",
+      "ligand_chain": "B",
+      "ligand_resid": 502,
+      "n_heavy": 59,
+      "n_heavy_on_e3_side": 25,
+      "is_protac_ternary": true,
+      "exit_atom_name": "C10",
+      "exit_atom_xyz": [
+       72.92,
+       35.237,
+       49.023
+      ],
+      "exit_dist_to_body_A": 5.11,
+      "nearest_atom_per_chain_A": {
+       "A": 36.09,
+       "B": 5.11,
+       "C": 5.79
+      },
+      "chain_identity": {
+       "A": "DDB1",
+       "B": "CRBN",
+       "C": "O60885"
+      },
+      "nearest_chain": "B",
+      "site_lining_residues": [
+       {
+        "chain": "B",
+        "resid": 350,
+        "resname": "VAL",
+        "min_dist_A": 4.12
+       },
+       {
+        "chain": "B",
+        "resid": 351,
+        "resname": "ASN",
+        "min_dist_A": 4.07
+       },
+       {
+        "chain": "B",
+        "resid": 352,
+        "resname": "PRO",
+        "min_dist_A": 3.98
+       },
+       {
+        "chain": "B",
+        "resid": 353,
+        "resname": "HIS",
+        "min_dist_A": 3.73
+       },
+       {
+        "chain": "B",
+        "resid": 355,
+        "resname": "TYR",
+        "min_dist_A": 3.67
+       },
+       {
+        "chain": "B",
+        "resid": 357,
+        "resname": "HIS",
+        "min_dist_A": 4.19
+       },
+       {
+        "chain": "B",
+        "resid": 377,
+        "resname": "GLU",
+        "min_dist_A": 3.94
+       },
+       {
+        "chain": "B",
+        "resid": 378,
+        "resname": "HIS",
+        "min_dist_A": 3.42
+       },
+       {
+        "chain": "B",
+        "resid": 379,
+        "resname": "SER",
+        "min_dist_A": 4.12
+       },
+       {
+        "chain": "B",
+        "resid": 380,
+        "resname": "TRP",
+        "min_dist_A": 3.58
+       },
+       {
+        "chain": "B",
+        "resid": 386,
+        "resname": "TRP",
+        "min_dist_A": 3.61
+       },
+       {
+        "chain": "B",
+        "resid": 400,
+        "resname": "TRP",
+        "min_dist_A": 4.07
+       },
+       {
+        "chain": "B",
+        "resid": 402,
+        "resname": "PHE",
+        "min_dist_A": 4.16
+       },
+       {
+        "chain": "C",
+        "resid": 81,
+        "resname": "TRP",
+        "min_dist_A": 3.54
+       },
+       {
+        "chain": "C",
+        "resid": 82,
+        "resname": "PRO",
+        "min_dist_A": 3.73
+       },
+       {
+        "chain": "C",
+        "resid": 83,
+        "resname": "PHE",
+        "min_dist_A": 3.69
+       },
+       {
+        "chain": "C",
+        "resid": 85,
+        "resname": "GLN",
+        "min_dist_A": 4.1
+       },
+       {
+        "chain": "C",
+        "resid": 87,
+        "resname": "VAL",
+        "min_dist_A": 4.06
+       },
+       {
+        "chain": "C",
+        "resid": 92,
+        "resname": "LEU",
+        "min_dist_A": 4.4
+       },
+       {
+        "chain": "C",
+        "resid": 94,
+        "resname": "LEU",
+        "min_dist_A": 3.63
+       },
+       {
+        "chain": "C",
+        "resid": 97,
+        "resname": "TYR",
+        "min_dist_A": 4.48
+       },
+       {
+        "chain": "C",
+        "resid": 136,
+        "resname": "CYS",
+        "min_dist_A": 3.84
+       },
+       {
+        "chain": "C",
+        "resid": 139,
+        "resname": "TYR",
+        "min_dist_A": 4.44
+       },
+       {
+        "chain": "C",
+        "resid": 140,
+        "resname": "ASN",
+        "min_dist_A": 3.93
+       },
+       {
+        "chain": "C",
+        "resid": 145,
+        "resname": "ASP",
+        "min_dist_A": 4.38
+       },
+       {
+        "chain": "C",
+        "resid": 146,
+        "resname": "ILE",
+        "min_dist_A": 4.07
+       },
+       {
+        "chain": "C",
+        "resid": 149,
+        "resname": "MET",
+        "min_dist_A": 3.96
+       }
+      ]
+     },
+     "bridge": {
+      "ok": true,
+      "n_bridge_ca": 1161,
+      "bridge_rmsd_A": 1.916,
+      "ca_per_bridge_protein": {
+       "CRBN": 372,
+       "DDB1": 789
+      }
+     },
+     "mapped_catalytic_cys_xyz": [
+      70.258,
+      22.657,
+      49.472
+     ],
+     "mapped_observed_exit_xyz": [
+      71.423,
+      48.911,
+      58.203
+     ],
+     "mapped_observed_e3_moiety_centroid_xyz": [
+      72.198,
+      48.546,
+      54.638
+     ],
+     "THIS_STAGING_exit_vs_OBSERVED_exit_A": 16.54,
+     "THIS_STAGING_exit_vs_OBSERVED_e3_moiety_centroid_A": 14.46,
+     "REPRODUCED_anchor_to_transfer_A": 12.87,
+     "candidate_ligands": [
+      {
+       "het": "RN6",
+       "chain": "B",
+       "resid": 502,
+       "n_heavy": 59,
+       "n_atoms_within_4.5A_of_selected_body": 25,
+       "eligible_by_staging_rule": true,
+       "min_dist_to_RECRUITER_A": 2.69,
+       "bound_to_recruiter": true,
+       "centroid": [
+        72.08,
+        38.66,
+        51.11
+       ],
+       "centroid_to_OBSERVED_ligand_site_A": 10.5
+      }
+     ]
+    },
+    "registryB_9FJX": {
+     "pdb_id": "9FJX",
+     "title": "Crystal structure of human CRBN-DDB1 in complex with Lenalidomide",
+     "resolution_A": 2.0,
+     "chains_by_accession": {
+      "Q16531": [
+       "A"
+      ],
+      "Q96SW2": [
+       "B"
+      ]
+     },
+     "receptor_copy": {
+      "CRBN": "B",
+      "DDB1": "A"
+     },
+     "copy_selection": {
+      "ok": true,
+      "n_combinations": 1,
+      "single_copy": true,
+      "n_contacting_pairs": 1,
+      "coherent": true,
+      "_note": "the only chain combination available; accepted, with its coherence reported"
+     },
+     "chain_sequences": {
+      "A": {
+       "n_residues": 1099,
+       "first_resid": 1,
+       "last_resid": 1148,
+       "seq_head": "MSYNYVVTAQKPTAVNGCVTGHFTSAEDLNLLIAKNTRLE",
+       "seq_tail": "LIKVVEELTRIHWSHPQFEK"
+      },
+      "B": {
+       "n_residues": 378,
+       "first_resid": 45,
+       "last_resid": 442,
+       "seq_head": "NIINFDTSLPTSHTYLGADMEEFHGRTLHDDDSCQVIPVL",
+       "seq_tail": "FWGLTRSALLPTIPDVILCL"
+      }
+     },
+     "ligand": {
+      "tag": "9FJX (registryB_9FJX)",
+      "het_code": "LVY",
+      "ligand_chain": "B",
+      "ligand_resid": 502,
+      "n_heavy": 19,
+      "n_heavy_on_e3_side": 19,
+      "is_protac_ternary": false,
+      "exit_atom_name": "N17",
+      "exit_atom_xyz": [
+       9.458,
+       -58.346,
+       0.867
+      ],
+      "exit_dist_to_body_A": 3.96,
+      "nearest_atom_per_chain_A": {
+       "A": 40.19,
+       "B": 3.96
+      },
+      "chain_identity": {
+       "A": "DDB1",
+       "B": "CRBN"
+      },
+      "nearest_chain": "B",
+      "site_lining_residues": [
+       {
+        "chain": "B",
+        "resid": 350,
+        "resname": "VAL",
+        "min_dist_A": 4.25
+       },
+       {
+        "chain": "B",
+        "resid": 351,
+        "resname": "ASN",
+        "min_dist_A": 3.62
+       },
+       {
+        "chain": "B",
+        "resid": 352,
+        "resname": "PRO",
+        "min_dist_A": 4.07
+       },
+       {
+        "chain": "B",
+        "resid": 353,
+        "resname": "HIS",
+        "min_dist_A": 3.69
+       },
+       {
+        "chain": "B",
+        "resid": 357,
+        "resname": "HIS",
+        "min_dist_A": 3.92
+       },
+       {
+        "chain": "B",
+        "resid": 378,
+        "resname": "HIS",
+        "min_dist_A": 3.84
+       },
+       {
+        "chain": "B",
+        "resid": 379,
+        "resname": "SER",
+        "min_dist_A": 4.08
+       },
+       {
+        "chain": "B",
+        "resid": 380,
+        "resname": "TRP",
+        "min_dist_A": 3.66
+       },
+       {
+        "chain": "B",
+        "resid": 386,
+        "resname": "TRP",
+        "min_dist_A": 3.49
+       },
+       {
+        "chain": "B",
+        "resid": 400,
+        "resname": "TRP",
+        "min_dist_A": 3.96
+       },
+       {
+        "chain": "B",
+        "resid": 402,
+        "resname": "PHE",
+        "min_dist_A": 4.03
+       }
+      ]
+     },
+     "bridge": {
+      "ok": true,
+      "n_bridge_ca": 1455,
+      "bridge_rmsd_A": 3.404,
+      "ca_per_bridge_protein": {
+       "CRBN": 370,
+       "DDB1": 1085
+      }
+     },
+     "mapped_catalytic_cys_xyz": [
+      8.634,
+      -76.4,
+      12.517
+     ],
+     "mapped_observed_exit_xyz": [
+      9.811,
+      -58.108,
+      -8.241
+     ],
+     "mapped_observed_e3_moiety_centroid_xyz": [
+      7.739,
+      -56.97,
+      -5.438
+     ],
+     "THIS_STAGING_exit_vs_OBSERVED_exit_A": 9.12,
+     "THIS_STAGING_exit_vs_OBSERVED_e3_moiety_centroid_A": 6.68,
+     "REPRODUCED_anchor_to_transfer_A": 21.5,
+     "candidate_ligands": [
+      {
+       "het": "LVY",
+       "chain": "B",
+       "resid": 502,
+       "n_heavy": 19,
+       "n_atoms_within_4.5A_of_selected_body": 19,
+       "eligible_by_staging_rule": true,
+       "min_dist_to_RECRUITER_A": 2.96,
+       "bound_to_recruiter": true,
+       "centroid": [
+        8.92,
+        -55.4,
+        3.54
+       ],
+       "centroid_to_OBSERVED_ligand_site_A": 9.19
+      }
+     ]
+    }
+   },
+   "verdict": {
+    "observed_no_composition_A": 27.69,
+    "per_staging_A": {
+     "registryB_9FJX": 21.5,
+     "registryA_6BOY": 12.87
+    },
+    "closest_to_observed": "registryB_9FJX",
+    "miss_A": {
+     "registryB_9FJX": 6.19,
+     "registryA_6BOY": 14.82
+    }
+   }
+  }
+ },
+ "log": [
+  "[diag] ===== case vhl =====",
+  "[diag] intact assembly for VHL: 8R5H with E2 UBE2R2",
+  "[diag] *** GROUND TRUTH (8R5H, no composition): ligand exit atom 759.CAE -> UBE2R2 catalytic Cys93 = 30.76 A",
+  "[diag] registryA_5T35: reproduced anchor->transfer = 30.85 A (bridge 340 CA @ 0.977 A); this staging's exit atom is 0.99 A from the exit atom OBSERVED in 8R5H",
+  "[diag] registryB_6GMN: reproduced anchor->transfer = 69.91 A (bridge 325 CA @ 1.332 A); this staging's exit atom is 51.41 A from the exit atom OBSERVED in 8R5H",
+  "[diag] ===== case crbn =====",
+  "[diag] intact assembly for CRBN: 9UUM with E2 UBE2D1",
+  "[diag] *** GROUND TRUTH (9UUM, no composition): ligand exit atom QFC.C10 -> UBE2D1 catalytic Cys85 = 27.69 A",
+  "[diag] registryA_6BOY: reproduced anchor->transfer = 12.87 A (bridge 1161 CA @ 1.916 A); this staging's exit atom is 16.54 A from the exit atom OBSERVED in 9UUM",
+  "[diag] registryB_9FJX: reproduced anchor->transfer = 21.5 A (bridge 1455 CA @ 3.404 A); this staging's exit atom is 9.12 A from the exit atom OBSERVED in 9UUM"
+ ]
+}

@@ -459,11 +459,28 @@ def _min_dist_exact(p, pts):
     return math.sqrt(best)
 
 
-def pick_ligand(prot_atoms, het_atoms, body_chains):
+def pick_ligand(prot_atoms, het_atoms, body_chains, recruiter_chains=None):
     """The recruiter's bound ligand, and the point where a LINKER LEAVES THE E3 — derived, not looked up.
 
-    TWO DEFECTS THIS FUNCTION EXISTS TO AVOID, both found by reading the first run's own output rather than
-    by reasoning about it:
+    ★ 2026-07-25 (LANE 7) — THE THIRD DEFECT, and the one that actually reached a committed number. Both
+    tests below were written against the BODY, which is the recruiter PLUS its obligate partners (Elongin
+    B/C for VHL, DDB1 for CRBN). Nothing required the ligand to touch the RECRUITER. So a fragment bound to
+    a partner subunit passes every check and yields an "E3 exit vector" that is not on the E3 ligand site at
+    all — silently, because the exit atom is still ~4 A from *some* body atom and every downstream distance
+    still looks reasonable.
+
+    That is not hypothetical. Staging VHL from 6GMN chose an F4E fragment whose entire 4.5 A lining is eight
+    ELONGIN C residues (Glu64, Ile65, Pro66, Val69, Glu102, Met105, Ala106, Phe109) and which sits **6.87 A
+    from the nearest VHL atom of its own copy and >8 A from every VHL chain in the file**. The resulting exit
+    vector was **51.4 A** from the exit vector observed for MZ1 in the intact CRL2^VHL assembly 8R5H, and it
+    put the observed transfer anchor **69.9 A** from the exit vector against a directly measured **30.8 A** —
+    the 39 A conflict RUNG 5a recorded as unresolved. Requiring recruiter contact refuses that entry instead.
+
+    Verified not to move any committed number: the arms actually consumed by the 12-pose basin run have
+    ligands 2.57 A (5T35 MZ1 -> VHL) and 2.69 A (6BOY dBET6 -> CRBN) from their recruiters.
+
+    TWO EARLIER DEFECTS THIS FUNCTION EXISTS TO AVOID, both found by reading the first run's own output rather
+    than by reasoning about it:
 
     1. THE HIGHEST-RESOLUTION LIGAND-BOUND RECRUITER STRUCTURES ARE PROTAC TERNARIES. The verified VHL entry
        is 5T35 (VHL-EloB-EloC + BRD4-BD2 + a 69-heavy-atom ligand) and the verified CRBN entry is 6BOY
@@ -484,6 +501,8 @@ def pick_ligand(prot_atoms, het_atoms, body_chains):
     other = [a["xyz"] for a in prot_atoms if a["chain"] not in body_chains]
     if not body:
         return None
+    recruiter = ([a["xyz"] for a in prot_atoms if a["chain"] in recruiter_chains]
+                 if recruiter_chains else None)
     field = G.SquaredDistanceField(body, cell=1.0, clamp=8.0)
     groups = {}
     for a in het_atoms:
@@ -491,14 +510,21 @@ def pick_ligand(prot_atoms, het_atoms, body_chains):
             continue
         groups.setdefault((a["resname"], a["chain"], a["resid"], a["icode"]), []).append(a)
     best = None
+    best_d_rec = None
     for key, atoms in groups.items():
         if len(atoms) < MIN_LIGAND_HEAVY:
             continue
         near = sum(1 for a in atoms if field.min_dist(a["xyz"]) <= 4.5)
         if near < 4:
             continue
+        d_rec = None
+        if recruiter:
+            d_rec = min(_min_dist_exact(a["xyz"], recruiter) for a in atoms)
+            if d_rec > 4.5:
+                continue                    # bound to a partner subunit, not to the recruiter — not our site
         if best is None or len(atoms) > len(best[1]):
             best = (key, atoms)
+            best_d_rec = d_rec
     if best is None:
         return None
     key, atoms = best
@@ -526,6 +552,7 @@ def pick_ligand(prot_atoms, het_atoms, body_chains):
         "exit_atom_dist_to_receptor_A": round(exit_row["d_e3"], 2),
         "exit_atom_dist_to_other_protein_A": (round(exit_row["d_other"], 2)
                                               if exit_row["d_other"] != float("inf") else None),
+        "ligand_min_dist_to_recruiter_A": (round(best_d_rec, 2) if best_d_rec is not None else None),
         "e3_moiety_centroid": list(G.centroid([r["atom"]["xyz"] for r in e3_side])),
         "ligand_centroid": list(G.centroid([a["xyz"] for a in atoms])),
         "_derivation": "ligand atoms split by which protein each is closer to; the exit vector is the "
@@ -718,11 +745,12 @@ def stage_arm(arm_id, spec, out_dir, log):
                                     "reason": "assembly-copy selection: " + copy_info["reason"]})
             continue
         body_chains = set(copy_sel.values())
-        lig = pick_ligand(prot, het, body_chains)
+        recruiter_chains = {copy_sel[spec["recruiter"]]} if spec["recruiter"] in copy_sel else None
+        lig = pick_ligand(prot, het, body_chains, recruiter_chains)
         if lig is None:
             rec["rejected"].append({"pdb": pdb, "role": "receptor",
-                                    "reason": "no bound ligand >= %d heavy atoms contacting the receptor"
-                                              % MIN_LIGAND_HEAVY})
+                                    "reason": "no bound ligand >= %d heavy atoms in contact (<=4.5 A) with "
+                                              "the RECRUITER %s itself" % (MIN_LIGAND_HEAVY, spec["recruiter"])})
             continue
         chosen = (pdb, comp, text, prot, body_chains, lig)
         break
@@ -1128,6 +1156,36 @@ def validate_composition_against_solved_assembly(arms, e2, log):
     the transfer zone built on it must be treated as a model rather than a placement. Either way it is
     measured and reported, not assumed.
     """
+    # ★ 2026-07-25 (LANE 7) — THE CHECK'S OWN BLIND SPOT, closed first because it needs no network at all.
+    # Everything below compares each arm against ONE reference assembly: whichever entry the E2-geometry step
+    # retrieved (9UUM). An arm that shares no bridge protein with that entry gets `possible: false` and its
+    # composed-RING displacement is simply never measured — which is what happened to the VHL arm, leaving the
+    # program quoting a composed-RING uncertainty measured on CRBN alone. But every arm that found its OWN
+    # intact assembly already carries both RINGs in the SAME frame: the composed one, and the observed one the
+    # intact-assembly step bridged in. Subtracting them is arithmetic on data already in hand, it works for
+    # every arm regardless of what the reference entry contains, and for VHL it reads 30.18 A.
+    for aid, rec in arms.items():
+        ring = (rec.get("ring") or {}).get("ring_centroid_xyz")
+        obs = (rec.get("intact_assembly") or {}).get("ring_xyz_in_receptor_frame")
+        if not (ring and obs):
+            continue
+        d = G.dist(tuple(ring), tuple(obs))
+        rec["own_assembly_ring_check"] = {
+            "composed_ring_source": (rec.get("provenance", {}).get("scaffold_entry") or {}).get("pdb_id"),
+            "observed_ring_source": (rec.get("intact_assembly") or {}).get("pdb_id"),
+            "composed_vs_observed_RING_A": round(d, 2),
+            "_reading": "Composed RING vs the RING of THIS arm's own intact assembly, both already in this "
+                        "receptor's frame. Independent of which reference entry the E2 step retrieved, so it "
+                        "is measured for every arm that has an intact assembly — including arms the "
+                        "single-reference check below cannot evaluate. NOTE this is the uncertainty on the "
+                        "FALLBACK zone model only: where `transfer_anchor.source` is "
+                        "`observed_in_intact_assembly` the search anchors on the observed E2 cysteine and "
+                        "never swings an arc about this RING.",
+        }
+        log(f"[e3stage] {aid} own-assembly RING check: composed RING (from "
+            f"{rec['own_assembly_ring_check']['composed_ring_source']}) is {round(d, 2)} A from the RING of "
+            f"its own intact assembly {rec['own_assembly_ring_check']['observed_ring_source']}")
+
     info = e2.get("_composition_check_inputs")
     if not info:
         return
@@ -1204,8 +1262,27 @@ def main(argv=None):
                          "(default: all of them). Use the lane's own downselect to choose.")
     ap.add_argument("--out-dir", default=STAGE_DIR)
     ap.add_argument("--registry", default=REGISTRY)
+    ap.add_argument("--prefer-entry", default="",
+                    help="comma-separated arm=PDBID pairs promoted to the FRONT of that arm's candidate "
+                         "list (e.g. vhl=8R5H,crbn=9UUM). A promoted entry is a HINT, not an override: it "
+                         "goes through the identical accession verification, copy selection and "
+                         "recruiter-contact test as any discovered entry, and is dropped with a recorded "
+                         "reason if it fails. Used to stage an ASSEMBLY-NATIVE arm — one whose receptor, "
+                         "ligand, RING and E2 all come from a single intact ubiquitylation assembly, so no "
+                         "bridge is composed and the 48.6 A composed-RING uncertainty does not apply.")
     ap.add_argument("--plan", action="store_true", help="offline: print the queries, touch no network")
     args = ap.parse_args(argv)
+
+    for pair in [p.strip() for p in args.prefer_entry.split(",") if p.strip()]:
+        if "=" not in pair:
+            raise SystemExit(f"--prefer-entry expects arm=PDBID pairs, got {pair!r}")
+        aid, pdb = (x.strip() for x in pair.split("=", 1))
+        if aid not in ARMS:
+            raise SystemExit(f"--prefer-entry: unknown arm {aid!r} (known: {sorted(ARMS)})")
+        # one list drives BOTH the receptor and the scaffold candidate order (lines ~721 and ~836)
+        ARMS[aid]["seed_ids"] = [pdb.upper()] + [x for x in (ARMS[aid].get("seed_ids") or [])
+                                                 if x != pdb.upper()]
+        print(f"[e3stage] --prefer-entry: {aid} will TRY {pdb.upper()} first (still fully verified)")
 
     if args.lane1_registry:
         only = {g.strip().upper() for g in args.lane1_only.split(",") if g.strip()} or None

@@ -280,9 +280,17 @@ instead through an **allosteric surface pocket** — a direct challenge to any c
 exactly why our claim is explicitly **not** that the static canonical pocket is druggable but that it
 *breathes* into a transiently druggable cavity (§2.3); their surface pocket is also an alternative site we do
 not pursue here. *(ii) Ligandability is real but chemotype-specific.* Protein-NMR footprinting (Munoz-Tello
-2020) confirms amodiaquine, chloroquine and cytosporone B directly bind the NR4A LBD while **celastrol,
-C-DIM12 and TMPA do not** — so among the repurposed actives in our selectivity matrix (§2.5), cytosporone B
-carries independent direct-binding support whereas celastrol does not, which we now weight accordingly; and a
+2020) confirms amodiaquine, chloroquine and cytosporone B directly bind the **Nurr1/NR4A2** LBD while
+**celastrol, C-DIM12 and TMPA do not**. ⚠ **Corrected 2026-07-25 — an earlier version of this sentence read
+"the NR4A LBD", which over-generalises a single-paralogue result and inverted its meaning for celastrol.**
+That study assayed **NR4A2 only** (its title names Nurr1; our own bibliography annotates it *[Nurr1/NR4A2]*).
+Celastrol's proposed mechanism is **covalent capture at NR4A1 Cys551** (Zhang 2018), and **NR4A2 carries Tyr at
+the aligned position** — established independently here in the covalent panel's Leg 0, which also puts Thr579
+in NR4A3. **A celastrol negative on NR4A2 is therefore exactly what the Cys551 mechanism predicts: the two
+studies corroborate rather than conflict, and together they STRENGTHEN the covalent confound** rather than
+weakening celastrol's direct-binding evidence. So cytosporone B carries independent direct-binding support on
+NR4A2, and celastrol's NR4A1 engagement is **neither supported nor refuted** by Muñoz-Tello — it was not
+tested there. We no longer down-weight celastrol on this basis. And a
 family-wide chemical-probe audit (Willems/Merk 2025) validates a small vetted NR4A tool set while showing many
 putative NR4A ligands lack on-target engagement — a caution we apply to every repurposed chemotype.
 Fragment-to-lead campaigns reaching sub-µM NR4A ligands with NOR-1/NR4A3 tested (Stiller & Merk 2023; Zaienne

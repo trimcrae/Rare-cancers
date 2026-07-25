@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 3:05 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 5:30 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -75,11 +75,10 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** | **NOT RUNNING — being relaunched correctly.** Four attempts died today; the last two are now root-caused to **one cause with a documented fix**: the leg was started from the **raw (`v1`) setup**, not the pre-equilibrated (`v2pe`) one fwd used. Both zombie VMs reaped (L4 usage 0.0). Blocked on the **`v2pe` rev setup prime** (row below) | prime ETA **~3:25 PM ET**, leg launches immediately after → result **2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
-| **`v2pe` rev setup prime** (`ternary-setup-prime-cpu.yml`, CPU, **$0**) | **RUNNING** since 2:53 PM ET, 9 min in. Overlays the v2 pre-equilibrated complex and keys the setup cache to `v2pe` for `direction=rev`. Parameterising 146 k atoms on a 4-vCPU runner ≈ 30 min (120-min timeout) | **~3:25 PM ET** | Unblocks the rev leg. It also doubles as the **$0 existence check** on the preequil cache — if that were missing this fails on CPU instead of wasting a GPU boot |
+| **valB_mini rev ternary leg r0** (GPU L4, us-central1) | **RUNNING and advancing** — `warmup/96` of 800 at 5:18 PM ET on VM `gcp-ternary-30175078131`. **Switching to ON-DEMAND** (`provisioning=standard`), authorized by trimcrae 5:30 PM ET: spot ran at **53% efficiency** (55.9 iter/h measured vs 106.2 theoretical) across 3 preemptions, and on-demand also lifts max-run from 7 h to 20 h. Current spot VM deliberately left running so no committed work is discarded; the switch takes effect on the next relaunch | **~Sun 7:30 PM ET** on-demand *(was ~Mon 6 PM on spot)* | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
-| **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ⚠ **Confound: the 4 fs arm necessarily carries pre-equilibration and `use_preequil` was NEVER VERIFIED for the 2 fs baseline** — agreement authorises adoption; **disagreement is a NO-GO that must NOT be attributed to the timestep** |
+| **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ✅ **Confound RESOLVED 2026-07-25 ($0): the 2 fs baseline is `v2pe`, pre-equilibrated** — the committed r0 `.nc` holds **141,968** particles, the `v2pe` fingerprint (`v1` raw = 146,020). The arms differ in the **timestep alone**, so a NO-GO is now interpretable |
 
 > **⚠ NAMING CORRECTED (2026-07-25 1:50 PM ET) — these were first written as "5a-1…5a-5", which was wrong and
 > actively misleading: it read as though all five were sub-parts of RUNG 5a, and it invited the reasonable
@@ -185,6 +184,51 @@ relevant rung below.*
 > evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
 > inspection of the producing code.
 
+> ### ✅ ON-DEMAND AUTHORIZED FOR THIS LEG ONLY (trimcrae, 2026-07-25 ~5:30 PM ET)
+> `gpu-ternary-fep-gcp.yml` gates on-demand behind *"ONLY when explicitly authorized for a time-sensitive
+> one-off, e.g. confirming a single valB leg"* — this is that one-off, and the authorization is now given. **It is
+> a deliberate, recorded reversal of the standing "DEFAULT EVERY GPU RUN TO SPOT" rule, scoped to THIS leg**; new
+> work still defaults to spot, and reverting is one line in
+> [ternary-watch.json](research/modalities/ternary-watch.json).
+>
+> **Measured basis, not a guess.** Spot delivered **96 warmup iterations in 103 min** across 3 preemptions and 3
+> setup cycles = **55.9 iter/h**, against **106.2 iter/h** theoretical at the measured 33.91 s/iter — **53%
+> efficiency**. The remaining 2704 iterations:
+>
+> | | throughput | remaining | lands |
+> |---|---|---|---|
+> | spot | 55.9 iter/h | **48.4 h** | ~Mon 6 PM ET |
+> | on-demand | 106.2 iter/h | **25.5 h** | **~Sun 7:30 PM ET** |
+>
+> Spot also caps `max-run` at 25200 s (7 h) where standard gets 72000 s (20 h): **~2 VM lifetimes instead of
+> ~35**, which additionally removes the dependence on GitHub's cron for recovery — measured **silent for 44 min**
+> while the leg sat dead. **Cost: ~$10 of GCP trial credit**, which expires 2026-10-10 and is otherwise a
+> stranded asset — **$0 cash**. NB [pricing.md](research/compute/pricing.md) still forbids quoting the
+> L4-on-demand figure as a go-forward **cost basis** for the program; spending stranded credit on one gating leg
+> is a different question from pricing the ladder.
+
+> ### ⏱️ ETA CORRECTED FROM A MEASURED RATE — ~26 h of MD, not the ~10–20 h previously quoted
+> The leg logs **33.91 s/iteration**, which is exactly the L4 rate [pricing.md](research/compute/pricing.md)
+> records ("L4's ~33"), so the GPU is at spec and this is not a slowness problem — the earlier estimate was simply
+> not derived from a measurement. The targets are **warmup 800** + **production 2000** iterations, and those are
+> the counts **fwd actually committed** (`warmup_committed_iter=00000800`, `production_committed_iter=00002000`),
+> so they are required for comparability and must not be trimmed.
+>
+> | | iterations | at 33.91 s/iter |
+> |---|---|---|
+> | warmup (1.0 fs) | 800 | **7.5 h** |
+> | production (2.0 fs) | 2000 | **18.8 h** |
+> | **total pure MD** | 2800 | **26.4 h** |
+>
+> The VM carries a **7 h max-run backstop**, so this spans **~4 VM lifetimes**. That is expected and self-driving:
+> each expiry deletes the VM → the watchdog sees DIED → it relaunches → the leg **resumes from its last committed
+> checkpoint**, and the setup-cache precondition now passes because the `v2pe` cache exists. The per-day relaunch
+> cap of 8 comfortably covers the ~4 needed. **ETA ~Sun 6 PM ET** including restore overhead.
+>
+> **Not doing:** `autostop_convergence=1` would likely end production early and save hours, but fwd ran to the
+> full 2000, so enabling it for rev alone would make the two legs different calculations and void the very
+> antisymmetry test this leg exists to produce. Cost is not a reason to break the comparison.
+
 > ### 🔬 THE WARMUP NaN — ROOT-CAUSED, and the cause was already written down
 > All four rev attempts died at **warmup iteration 1** — at 2.0 fs (replica 0, state 1) and at 1.0 fs (replica 0,
 > **state 7**). Halving the timestep moved *which* λ window blew up and **not the iteration**: the signature of
@@ -226,6 +270,10 @@ relevant rung below.*
 > resume after a preemption and discard paid GPU hours. The ternary lane opts into strict mode. 28 checks, driven
 > through a fake store so they need no numpy/openmm.
 
+| **LANE 6 · RUNG 5b — inverse linker design** (CPU, $0) | launched **3:45 PM ET** — deriving linker requirements from the Tier-2 GO basins, enumerating the virtual library, filtering by basin fidelity | ~2–5 h → **this evening ET** | **~12–20 virtual constructs, and the matched d/d₀ pair RUNG 5a-KS cannot run without.** 5a-KS is the designated kill-switch, so this lane is on its critical path |
+| **LANE 7 · RUNG 5a — transfer-anchor discriminator + C397 single-point-of-failure** (CPU, $0) | launched **3:45 PM ET** — running the discriminating observation Lane 2 left unrun | ~2–4 h → **this evening ET** | **Whether the Tier-2 GO survives.** Two verified VHL stagings disagree by **39 Å** on where ubiquitin is delivered, and VHL is the arm carrying the actual discrimination (CRBN's lysine null is 0.81–0.96). Also: all 7 term-(a) basins reach **only C397**, so the covalent axis rests on one residue in one frame |
+| **LANE 8 · RUNG 3 — NR-V04 co-fold re-seating** (**Vast** ≤$10, $0 first) | launched **3:45 PM ET** — trying to produce an **A1-admissible** covalent input | ~2–4 h → **this evening ET** | Whether the `[HELD]` panel can be unblocked at all. Boltz seats celastrol **8.99–16.39 Å** from the target-chain Cys Sγ against a ~1.8 Å C–S bond, in **both** contaminated and clean co-folds — a posing problem, not contamination. "Cannot be produced" is a publishable result |
+| **LANE 9 · RUNG 2 — valB closure-triangle $0 pre-gate** (CPU, $0) | launched **3:45 PM ET** — chemistry gate + closure arithmetic + repricing on the corrected 2800-iteration basis | ~2–4 h → **this evening ET** | **ADMIT or REFUTE the triangle before any spend**, exactly as the P-series pre-gate refuted the previous design for $0. Lane 5's ~$5.9 was priced on the retired 2400-iteration basis and is ~17 % low |
 **The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
 are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
 with the GCP lane the reverse leg owns. The rescope-vs-continue decision on valB_mini is still deliberately
@@ -293,9 +341,16 @@ classes:
   paralogues lack, verified from full-length UniProt with two independent aligners
   ([`nr4a_paralogue_unique_residues.py`](research/modalities/nr4a_paralogue_unique_residues.py) →
   [`nr4a-paralogue-unique-residues.json`](research/modalities/nr4a-paralogue-unique-residues.json)):
-  **C397** (NR4A1 N363 / NR4A2 S363; RSA 0.395, 10.9 Å from the cryptic pocket — exit-vector reach; **and
-  measured 2026-07-25 to be NOT geometrically closed — it opens at a 10-atom linker on an E3-independent bound,
-  so a term-(a) shortfall is about WHERE RECRUITERS DOCK, not about the target**), C420
+  **C397** (NR4A1 N363 / NR4A2 S363; **RSA over a 100-conformer MD ensemble: median 0.416, mean 0.405 ± 0.096,
+  p10–p90 0.298–0.510 — the committed single-frame 0.395 sits at the MEDIAN**, so the handle is not a lucky
+  frame; reachable at the ≤12-atom gate in **72/75 = 96 %** of unbiased frames. Also NOT geometrically closed —
+  it opens at a 10-atom linker on an E3-independent bound, so a term-(a) shortfall is about WHERE RECRUITERS
+  DOCK, not about the target. **★ But the chemistry axis is ONE RESIDUE DEEP: C420 and C559 reach the gate in
+  0/75 unbiased frames** — C420 needs **16** atoms, C559 **20**, and that contour length is paid out of the
+  *same* budget that must span to the E3. **Concentration risk, not fragility**, and there is **no geometric
+  fallback**; the untested failure modes are chemical — pKa, nucleophilicity, adduct stability, promiscuity.
+  A live failure mode that does **not** fire: pocket-druggability and C397 reach are **independent** —
+  P(both) = 0.560 against an independence product of 0.563, and P(reachable | druggable) = **0.955**), C420
   (18.3 Å, exposed), C559 (12.8 Å but RSA 0.095 — buried in this conformer, so not currently tether-reachable);
   and exposed unique lysines **K572** (RSA 0.879, 11.5 Å), **K518** (0.413, 13.4 Å), **K592** (0.506, 16.2 Å),
   all in the same 11–16 Å band as the conserved ones — so an E3 can be steered onto a unique lysine instead of a
@@ -397,7 +452,10 @@ allowed to claim.
    - **The ubiquitin-transfer distance is 17.1 Å, MEASURED** — nearest of 11 substrate lysines in a *solved*
      CRL4–CRBN assembly. The repo's assumed **10 Å was ~7 Å too strict** and, applied as written, **would have
      suppressed the term-(b) lysine signal entirely.** Any transfer-zone criterion must use the measured band.
-   - **⚠ A COMPOSED CRL RING CARRIES ~48.6 Å OF POSITIONAL UNCERTAINTY.** A known-answer check *falsified its
+   - **⚠ A COMPOSED CRL RING CARRIES ~30–50 Å OF POSITIONAL UNCERTAINTY** *(measured on both arms 2026-07-25:
+     **VHL 30.18 Å, CRBN 50.14 Å** — the original 48.6 Å was one arm. **NOT IN FORCE in the authoritative
+     Tier-2 run**, which anchors both arms on the observed E2 catalytic cysteine rather than a composed RING.)*
+     Original finding:** A known-answer check *falsified its
      own construction*: a RING composed from a receptor entry + a cullin scaffold — with **both bridges < 1.5 Å**,
      i.e. each join individually excellent — sat **48.6 Å** from the RING of an intact deposited assembly. This
      is **conformational, not error**: CRLs are genuinely mobile, so a well-fitted composition is still not a
@@ -618,9 +676,19 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
 
 - **The categorical terms fire in a small MINORITY of placements** — 0.5–8 % cover a unique lysine, term (a)
   reaches gate level in 2–5 % — against a **1–6.5 %** background. **Enrichments, not saturation.**
-- **CRBN's null is 0.81–0.96**, so most of CRBN's apparent term-(b) signal is background. **The discrimination
-  lives on VHL — the arm carried as a control, not as the winner.** This is decision-relevant and must not be
-  smoothed over when the E3 is chosen.
+- ⚠ **RETRACTED SAME DAY (2026-07-25, LANE 7): "CRBN's null is 0.81–0.96, so most of CRBN's term-(b) signal is
+  background — the discrimination lives on VHL."** That inference was wrong **twice over**, and it was recorded
+  here earlier today, so it is corrected rather than quietly dropped.
+  **(i) Wrong quantity.** 0.81–0.96 is the **any-lysine** null, whereas term (b)'s signal is an enrichment over
+  the **unique-lysine** null. The conclusion was drawn from a different denominator than the one the gate uses.
+  **(ii) The 0.81–0.96 is itself an EXIT-VECTOR ARTIFACT.** Restaged **assembly-native** (8R5H / 9UUM, every
+  bridge **0.0 Å**) and re-run twice at identical settings, CRBN's any-lysine null **halves, 0.858 → 0.399**,
+  while VHL's does not move (0.419 → 0.437). The change tracks the manipulated variable and nothing else —
+  CRBN's exit vector moved **16.5 Å** between constructions, VHL's only **0.99 Å**.
+  **What survives:** the **gate's actual denominator barely moves** (`fraction_unique_covering` 0.040 → 0.035 on
+  CRBN, 0.027 → 0.026 on VHL), so **the Tier-2 GO and its published enrichments are UNAFFECTED**, and Tier-2
+  passes CATEGORICAL on **both** constructions (native marginally stronger: 3 vs 2 term-(a), 26 vs 22
+  discriminating). **What falls is only the claim that the discrimination lives on VHL.** Do not repeat it.
 - **`term_b_best_rank` is a best-of-N statistic, inflated by construction** (exactly piece 5's winner's-curse
   artifact), so those counts are **upper bounds**; the unbiased mean fractions lead. One CRBN basin reached
   rank 4 while scoring *below* background and was correctly excluded — **without the null it would have counted.**
@@ -635,9 +703,21 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
   **ubiquitination-geometry evaluability as an explicit Pareto axis** rather than discovering it downstream.
 - **MM-GBSA rescore: NOT run, and recommended against** — it would refine the very axis the mechanism-first
   reframe demoted. **Next spend should be 5a-KS.**
-- **⚠ OPEN AND DECISION-RELEVANT:** two *verified* VHL stagings place the observed transfer anchor **30.9 Å vs
-  69.9 Å** from the exit vector. Two hypotheses, and **the discriminating observation has not been run.** This
-  is the top follow-up, and no VHL basin ranking should be treated as settled until it is resolved.
+- **✅ RESOLVED 2026-07-25 (LANE 7) — registry A (5T35) is CORRECT, and the Tier-2 result rests on it.** The
+  discriminating observation nobody had run: **8R5H** is a solved, *intact* CRL2^VHL ubiquitylation assembly
+  holding VHL·EloB·EloC, MZ1 **and** a trapped UBE2R2~Ub **in one frame** — so the disputed distance is
+  measurable with **no bridge, no composition, no model**. **Ground truth: exit atom `759.CAE` → UBE2R2
+  catalytic Cys93 = 30.76 Å.** Registry A reproduces it at **30.85 Å (miss 0.09 Å)**; registry B (6GMN) gives
+  **69.91 Å (miss 39.15 Å)**. Decomposed: Δ mapped E2 cysteine **0.02 Å**, Δ exit vector **50.67 Å** — so the
+  disagreement is entirely in the *exit vector*, not the anchor.
+  **Root cause, read off the structure:** 6GMN's chosen "recruiter ligand" (F4E) has a 4.5 Å lining of **eight
+  Elongin C residues and ZERO VHL residues**, 6.87 Å from the nearest VHL atom. `pick_ligand` tested contact
+  against the receptor **body** (recruiter + obligate partners) and **never against the recruiter itself**.
+  Fixed and unit-tested; **verified bit-identical** on both consumed arms (5T35 MZ1 2.57 Å, 6BOY dBET6 2.69 Å).
+  **⚠ And the tempting explanation was FALSIFIED:** this is **not** a second instance of the 48.6 Å composed-RING
+  spread — 8R5H is single-copy and the mapped E2 cysteine agrees to 0.02 Å. **The numeric similarity to 48.6 Å
+  was coincidence.** *(Consequence: the feared "~40 Å of transfer-zone variation would weaken term (b) further"
+  does not exist, and the VHL basin ranking is unchanged.)*
 
 ---
 
@@ -939,16 +1019,60 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      **General conclusion worth stating in the paper: a ≥2 kcal/mol ternary calibrator that is simultaneously
      small, charge-neutral and mappable may not exist in the public literature** — large cooperativity
      differences are *produced by* large chemical changes.
-  5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE on the anchor ligand, because cycle closure needs no
-     experimental measurement at all.** T1 = cmpd1→cmpd4 **is r0, reused**; T2/T3 are new **≤2-heavy-atom,
-     charge-neutral** edges. **2 new edges ≈ $5.9 at n=1, ≈$17.6 at n=3 — cheaper than the single-edge design
-     already on the ladder**, and it finally supplies the redundant-edge systematic-error detector the program
-     has never had. Checked rather than assumed: cmpd1 has exactly one pyridine so cmpd4′ needs a different
-     transform, four candidates are named, and the hydroxyproline VHL anchor is off-limits. **Honest limit:
-     closure measures internal CONSISTENCY, not accuracy — the known-answer requirement stays OPEN.**
-  6. **Rev-leg decision tree:** |ΔG_fwd + ΔG_rev| ≈ 0 ⇒ rescope, buy the triangle. **Large ⇒ do NOT rescope** —
-     fix the protocol on the edge already paid for. Replica mixing **0.8915 against the 0.90 ceiling** already
-     leans toward the second branch. **The triangle is worth buying under either branch.**
+  5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE, RE-SCOPED BY ITS OWN $0 PRE-GATE.**
+     T1 = cmpd1→cmpd4 **is r0, reused** at coefficient +1 (verified: the triangle closes in T1's as-run
+     direction, no sign flip). Evidence:
+     [valb-closure-triangle-pregate-2026-07-25.md](research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md)
+     (`valb_triangle_chem.py` in the production mapper's own container + `valb_triangle_closure.py`, 19 tests).
+     **Three corrections to the design as originally proposed:**
+     - **(i) T3 is a DOUBLE perturbation for all four named cmpd4′ candidates** — X and Y act at different
+       sites, so the closing edge carries both, which `rbfe_map.py` forbids *specifically for closing edges*
+       (*"Each closing edge is itself a SINGLE-site change (not a double mutation)"*). **Use an AZA-SCAN at the
+       linker ring instead:** cmpd1 (aza) → cmpd4 (all-carbon) → cmpd4″ (aza moved) — three vertices at **one**
+       site, every edge **single-site, charge-neutral, a pure element change with ZERO heavy dummies**, and
+       entirely inside the linker so it touches **no pharmacophore** (all four named candidates land on one).
+       Hand-verified from the SMILES: the linker ring is `c4ccnc(c4)` with a carbonyl and a piperazine at the
+       substituted positions, leaving **exactly 3 free CH** vertices.
+     - **(ii) Price is ~$6.83 at n=1 and ~$27.32 at n=3, not $5.9/$17.6.** Three corrections, and **the largest
+       is NOT the iteration basis**: (a) the 2800-iteration/3.5e6-step basis is +16.7 %; (b) solvent legs add
+       ~$1.31 if run by default; **(c) T1 has only r0, so an n=3 triangle is 16 legs, not 12 (+33 %) — and it
+       silently re-includes the r1/r2 spend the r0 verdict argued against.** At 4 fs everything scales by
+       **0.643, not 0.5** → n=1 ≈ $4.39. Every figure is a **ceiling** (the binary leg is charged at the
+       ternary rate despite lacking the SMARCA2 bromodomain).
+     - **(iii) `_endpoint_pose` cannot build any cmpd4′ today** — it has exactly one mutation path
+       (`_pyridine_to_benzene_pose`) and raises `SystemExit("refusing a wrong-molecule leg")` otherwise. The
+       claim that "the machinery carries over unchanged" is false; the aza-scan needs a one-line generalisation.
+     **Reporting rules that fall out of the algebra:** report **`R_ternary` and `R_binary` SEPARATELY** — since
+     `R = R_ternary − R_binary`, a clean `R` can be two large closures cancelling, and both come from the same
+     six legs. And **run all three edges at seed 0**: seed *s* selects the *s%n*-th relaxed SMARCA2 model, so
+     mixed seeds mean different Hamiltonians, unshared endpoints, and `R` stops being a closure residual at all.
+     **★ HONEST LIMIT, SHARPENED FROM "consistency, not accuracy" TO SOMETHING MUCH STRONGER: closure is
+     IDENTICALLY ZERO for ANY per-endpoint state-function error.** Writing `ΔΔG_calc = ΔΔG_true + e`, the true
+     terms telescope around a cycle so `R = Σe`; and if `e(A→B) = ε(B) − ε(A)` — which is what a *state*
+     property gives — that telescopes too. **So closure sees only the NON-CONSERVATIVE part of the error.**
+     Invisible to it: **force field, the SMARCA4→SMARCA2 homology model, NAGL charges, protonation, and the
+     reference data**. Visible: λ-sampling/hysteresis, endpoint-state inconsistency, inconsistent atom maps.
+     *(Verified numerically two ways: max |R| ≈ 1e-14 over 20,000 random state-function draws, non-zero the
+     moment a path error is added.)* The known-answer **accuracy** requirement therefore stays **OPEN**.
+  6. **⚠ Rev-leg decision tree — and "the triangle is worth buying under either branch" is RETRACTED. It was
+     recorded here on 2026-07-25 afternoon and its own pre-gate refuted it the same evening.**
+     - **Branch A** (|ΔG_fwd + ΔG_rev| ≈ 0 ⇒ the systematic is in the **model or the reference data**): closure
+       is **provably blind to both** by the telescoping identity above. It would return a clean `R` and diagnose
+       **nothing**. *Refuted for diagnosis.*
+     - **Branch B** (large ⇒ path error): closure is the right *class*, but the reverse leg already establishes
+       it for those 2 legs, and the design's own instruction is **"fix the protocol first"** — so a triangle
+       bought before the fix measures the **old** protocol. *Redundant, then stale.* Replica mixing **0.8915**
+       against the 0.90 ceiling leans toward this branch, i.e. **the worst branch to buy into.**
+     - **★ The real reason to buy is narrower and specific.** The fwd/rev pair already in flight **is** a closed
+       2-cycle, so the triangle only earns its keep where a 2-cycle cannot reach. Over 4000 draws — state-function
+       error: 2-cycle 0.00 / 3-cycle 0.00; symmetric path bias: both 1.00; **antisymmetric per-edge bias:
+       2-cycle 0.00, 3-cycle 1.00.** That last row is the triangle's **exclusive** territory, and on an
+       equal-cost 4-leg comparison it still beats both alternatives.
+     - **Order:** read the rev leg → **Branch B ⇒ fix the protocol, do NOT buy** → **Branch A ⇒ buy the ~$1.31
+       SOLVENT-ONLY closure pre-scout first** (2 new legs; T1's solvent leg already ran; a full machinery closure
+       — atom maps, endpoint identity, λ schedule, charges — in a ~5k-particle box at **19 %** of the scout
+       price, able to falsify the triangle before any 142k-particle leg), then the **~$6.83 n=1 scout**.
+       **Do not buy n=3 at ~$27.3 without a separate decision.**
 
   **★ THREE MEASUREMENTS THAT REORDER THE PROBLEM (LANE 5, $0):** (i) even the *corrected* gate certifies only to
   a **factor of 4.1** (accept band [+0.472, +1.944] on a +0.944 target); (ii) **P(PASS) has a hard ceiling of
@@ -967,7 +1091,41 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   (b) supplies the **matched-timestep** calibration the runbook requires before any 4 fs production result may be
   quoted; (c) is an independent reproducibility replicate of the 2 fs ΔΔG_coop. **GO/NO-GO:** no NaN across the
   full leg AND ΔΔG_coop consistent with the 2 fs run within replicate SD → adopt 4 fs for every downstream
-  ternary leg (≈2× cheaper, and the ladder has ≥6 of them). NaN or a shifted ΔΔG → stay at 2 fs.
+  ternary leg (**1.56×** cheaper — *not* 2×, see cost lever 1 — and the ladder has ≥6 of them). NaN or a shifted
+  ΔΔG → stay at 2 fs.
+
+  **★ THRESHOLD RATIFIED 2026-07-25 (trimcrae delegated judgement): |ΔΔG_coop(4 fs) − (−0.534)| ≤ 0.7 kcal/mol.**
+  The frozen wording says "within replicate SD" and **there is no replicate SD** — the 2 fs arm is a single
+  cycle. Lane 4 pre-specified **0.7**, the repo's own assumed replicate SD, **before any number existed**.
+  Ratified as written, for one reason that outranks the others: **pre-specification is the property that
+  matters, and revising a threshold now — after the probe survived — would be precisely the retune this program
+  forbids.** Both arms are seed 0, hence the same starting homology model, so the comparison is not additionally
+  confounded by model choice.
+  **Recorded honestly: 0.7 is LENIENT, and the leniency runs in the unsafe direction.** It is an *assumption*,
+  not a measurement, and today's protein-mutation benchmark showed between-setup SD is strongly regime-dependent
+  (**±0.175** on a near-null perturbation vs **±1.077** on a hot spot, a 6.2× spread). A 4 fs-vs-2 fs comparison
+  on the *same system with only the timestep changed* is a **small**-perturbation regime, so the honest expected
+  SD sits near the ±0.175 end — which makes 0.7 roughly 4× wider than the physics warrants. Since a PASS *buys*
+  a protocol change, a too-wide band errs toward adopting 4 fs on weak evidence. **Therefore, reporting rule
+  (additive, not a loosening): report the actual |Δ|, and a pass landing in the 0.35–0.7 band is
+  "consistent but WEAKLY DISCRIMINATING" — adopt provisionally and require the next ternary replicate to
+  confirm it, rather than treating 4 fs as settled.**
+  **✅ THE PRE-EQUILIBRATION CONFOUND IS RESOLVED (2026-07-25, $0) — the 2 fs baseline WAS pre-equilibrated, so
+  the two arms differ in the TIMESTEP ALONE and a disagreement IS attributable to it.** The caveat this replaces
+  read: *"`use_preequil` for the 2 fs baseline was never verified — only the workflow default of 0 is recorded"*,
+  and it would have made a NO-GO uninterpretable.
+  **How it was settled, and why a cache listing could not do it.** A read-only setup-cache probe (added to
+  `gcp-quota-check.yml`, dispatched against this branch — it writes nothing and cannot perturb the concurrent
+  GCP leg) shows **three** versions coexisting for the forward leg: `v1`, `v1pe`, **`v2pe`**. So *presence* is
+  not the discriminator — several caches legitimately exist and a listing cannot say which one a leg
+  **restored**. The decisive field is the leg's own `setup_cache_version`, whose physical fingerprint is the
+  **particle count**: `v2pe` (alchemy from the plain-MD-relaxed complex) = **141,968**; `v1` (raw) = **146,020**
+  (`ternary_fep_reduce._SYSTEM_IDENTITY_FIELDS`). **The committed r0 forward `.nc` holds 141,968 particles** —
+  measured independently by the ligand-identification work, which partitioned exactly that many particles into
+  4 chains, 44,860 waters and 248 ions — and `nr4a3_ternary_fep.py:682` records the same fingerprint verbatim
+  (*"fwd's 141,968-particle v2pe"*). **⇒ r0 is `v2pe`, pre-equilibrated.**
+  *(This is also the fingerprint that caught the four failed reverse attempts, which ran a 146,020-particle `v1`
+  build against the forward leg's 141,968-particle `v2pe` — a mismatch `protocol_hash` cannot see.)*
   **Two-stage, per the 2026-07-24 decision:** stage 1 is a **~$1–2 survival probe** (`prod_iters≈200`) asking
   only "does 4 fs survive well past the 40 iterations the runbook demonstrated?"; stage 2 is the full matched
   edge, only on a passing probe. Sequenced **after** valB_mini's 2 fs result, both because the calibration needs
@@ -1051,8 +1209,17 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   - **`recruiter_epimer` demoted** to a descriptive sensitivity leg — it runs as a full ternary, not the binary
     §3 specifies, and 6 ns from a co-folded pose cannot resolve a binding-affinity difference anyway.
   - **★ NEW BINDING CRITERION A1 — input admissibility, and it FAILS NOW.** A covalent leg must stage its
-    electrophilic carbon within bonding distance of the **target-chain** Cys Sγ. Measured for $0:
-    `cov_nr4a1` **8.99 Å**, `warhead_only` **16.39 Å**, against a ~1.8 Å C–S bond — **5–9× too far.** Boltz seats
+    electrophilic carbon within bonding distance of the **target-chain** Cys Sγ.
+    ⚠ **CORRECTED SAME DAY BY [AMENDMENT 2](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md):
+    A1 was measuring the WRONG CYSTEINE.** It resolved the *nearest* of the construct's **six**, which is
+    **C566**, not the preregistered site **C551** (offset 344: co-fold resid 222 = C566, 207 = C551; the panel's
+    legs record resid **222** throughout). **At C551 the real distances are 28.46 Å (`cov_nr4a1`) and 36.43 Å
+    (`warhead_only`), and 28.42–39.11 Å across ALL 34 co-fold models** — against a ~1.8 Å C–S bond.
+    *(Superseded, do not cite: 8.99 / 16.39 Å.)* **This makes A1 more binding, not less: at ~9 Å it was NEARLY
+    PASSING an 8.0 Å limit, so a co-fold seating celastrol 7 Å from C566 would have PASSED while the real site
+    sat ~28 Å away.** Two further defects shared the root cause and are fixed: the covalent **restraint would
+    have been built onto C566**, and **`cov_c551a` was mutating C566** — the control named for removing C551
+    engagement was not touching C551 at all. Boltz seats
     celastrol against no NR4A1 cysteine in any co-fold in the bucket, so §5 criterion 2 (*does covalency swamp
     the ternary signal* — the panel's stated crux) is **unevaluable on these inputs**, not merely unmeasured.
     Enforced in code (`nrv04_covalent_md`, `MAX_COVALENT_TETHER_A` default 8.0 Å, override only with a recorded
@@ -1064,8 +1231,18 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   plainly: removing an unsatisfiable criterion *is* a loosening, since GO becomes reachable where it was not;
   the justification is the measured absence of discriminating power, not the unwelcome verdict. Same degenerate
   class as valB_mini's gate that **admits the null** — one always fails, one passes anything.
-  **Unblocking now needs INPUT work, not compute:** re-fold the covalent systems with the electrophile seated at
-  Cys551, or drop the covalent legs and re-scope to what noncovalent endpoint MD supports — and say which.
+  **★ SAID, 2026-07-25: the covalent legs are DROPPED and the panel is re-scoped to NONCOVALENT.** The re-fold
+  route was **run and refuted** for **$0.05** on Vast (2 systems × 3 seeds), not argued away: deleting the E3
+  makes seating *worse* (33.6/36.6/44.7 Å vs ~28 Å ternary, so the ternary arrangement is not the cause), and a
+  **steered** co-fold that demonstrably honoured an explicit `max_distance: 6.0` restraint to residue 207
+  (~37 → ~15 Å, contacts doubled) **still never satisfied its own 6 Å bound on any of three seeds**, parking
+  celastrol near the buried C505. No predictor produces the pose (7/7 clean models, 4 seeds, 3 prefixes, 2
+  providers) and no deposited celastrol–NR4A1 structure constrains it, so the only route left is a **hand-placed
+  pose** — which fixes the *comparison* without supplying the *evidence*. **This is a statement about the
+  predictor, not about whether celastrol binds C551**, which is literature-anchored (Zhang 2018,
+  doi:10.1039/C8CC06140H). **Retiring them costs little: Leg 0 already did their job for $0** — the reactive Cys
+  is unique to NR4A1 (NR4A2 Tyr, NR4A3 Thr579), which is the covalent confound's actual content — and NR-V04 is
+  already a demoted *biological holdout*, so modelling its covalency inverts the ladder.
   *Hypothesis the amendment raises and the re-run can test (not asserted): the superseded covalent-vs-noncovalent
   null (2/3 = 2/3) is what one predicts if the "covalent" leg never carried a bond.* Full evidence:
   [nrv04-covalent-panel-recovery-2026-07-25.md](research/modalities/nrv04-covalent-panel-recovery-2026-07-25.md)

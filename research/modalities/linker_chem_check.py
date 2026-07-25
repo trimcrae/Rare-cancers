@@ -98,20 +98,70 @@ PENDANT_SMARTS = {
 }
 
 
-def _match_anchor(mol, key):
-    patt = Chem.MolFromSmiles(ANCHORS[key], sanitize=True)
+# ★ HOW THE ANCHORS ARE ACTUALLY FOUND, AFTER TWO FAILED ATTEMPTS AT HAND-WRITTEN PATTERNS.
+#
+# Attempt 1 was SMARTS with a positional index: the CRBN pattern's last atom was the phthalimide carbonyl
+# OXYGEN rather than the aniline nitrogen (seven bonds out — exactly the 24-vs-31 discrepancy reported), and
+# the VHL pattern spelled aromatic rings with uppercase carbon so it matched nothing at all.
+# Attempt 2 was `MolFromSmiles` with the anchor named by atom map — which failed on 4 of 5 patterns against
+# their OWN reference molecules, i.e. the patterns were wrong in a way that had nothing to do with naming the
+# atom. (`--diagnose-anchors` prints the match-count matrix that discriminates why.)
+#
+# The lesson is that a hand-written pattern is a second, unverified description of the molecule, and this
+# module exists precisely because second descriptions drift. So the anchors are now found STRUCTURALLY, from
+# the fragments the library is built out of and which are already known to match:
+#
+#   1. match the two TRUNCATED cores — the warhead's indole ester, and the E3 handle *minus its attachment
+#      heteroatom*. These are complete, self-contained fragments; the earlier run confirmed both the cmpd19
+#      and pomalidomide cores match cleanly.
+#   2. take the shortest path between them.
+#   3. the anchor on each side is the FIRST atom on that path outside its own core.
+#
+# That is the chemical definition of the anchors verbatim — the warhead's C5 substituent atom, and the E3
+# handle's attachment heteroatom — with nothing hand-transcribed, and it is handle-agnostic: the same rule
+# finds the aniline N, the ether O and the piperazine N without three separate patterns.
+TRUNCATED_CORES = {
+    "warhead": "COC(=O)c1c[nH]c2ccccc12",
+    "e3_vhl": "CC1=C(SC=N1)c1ccc(CNC(=O)C2CC(O)CN2C(=O)C(C(C)(C)C))cc1",
+    "e3_crbn": "O=C1NC(=O)CCC1N1C(=O)c2ccccc2C1=O",
+}
+
+
+def _core_atoms(mol, key):
+    patt = Chem.MolFromSmiles(TRUNCATED_CORES[key])
     if patt is None:
-        raise RuntimeError("bad anchor pattern for %s" % key)
-    mapped = [a.GetIdx() for a in patt.GetAtoms() if a.GetAtomMapNum() == 1]
-    if len(mapped) != 1:
-        raise RuntimeError("anchor pattern %s must mark exactly one atom with map 1" % key)
+        raise RuntimeError("truncated core %s does not parse" % key)
     hits = mol.GetSubstructMatches(patt, useChirality=False)
     if not hits:
-        return None, "anchor pattern %s not found" % key
-    idxs = {h[mapped[0]] for h in hits}
-    if len(idxs) > 1:
-        return None, "anchor pattern %s is ambiguous (%d distinct anchor atoms)" % (key, len(idxs))
-    return idxs.pop(), None
+        return None, "truncated core %s not found" % key
+    if len(hits) > 1 and len({frozenset(h) for h in hits}) > 1:
+        return None, "truncated core %s is ambiguous (%d distinct matches)" % (key, len(hits))
+    return set(hits[0]), None
+
+
+def find_anchors(mol, e3_handle):
+    """(warhead_anchor_idx, e3_anchor_idx, error). Structural, not pattern-transcribed — see the note above."""
+    wh_core, err = _core_atoms(mol, "warhead")
+    if err:
+        return None, None, err
+    e3_core, err = _core_atoms(mol, "e3_" + e3_handle)
+    if err:
+        return None, None, err
+    if wh_core & e3_core:
+        return None, None, "the warhead and E3 cores overlap; the construct is not two handles on a linker"
+    best = None
+    for i in wh_core:
+        for j in e3_core:
+            p = Chem.GetShortestPath(mol, i, j)
+            if p and (best is None or len(p) < len(best)):
+                best = p
+    if not best:
+        return None, None, "no path between the warhead and E3 cores"
+    a = next((x for x in best if x not in wh_core), None)
+    b = next((x for x in reversed(best) if x not in e3_core), None)
+    if a is None or b is None:
+        return None, None, "the cores are directly bonded; there is no linker between them"
+    return a, b, None
 
 
 def check_one(c):
@@ -123,16 +173,22 @@ def check_one(c):
         out["ok"] = False
         return out
 
-    wh_key = "warhead_" + c["warhead_handle"]
-    e3_key = "e3_" + c["e3_handle"]
-    a_idx, err_a = _match_anchor(mol, wh_key)
-    b_idx, err_b = _match_anchor(mol, e3_key)
-    for e in (err_a, err_b):
-        if e:
-            out["errors"].append(e)
-    if a_idx is None or b_idx is None:
+    a_idx, b_idx, err = find_anchors(mol, c["e3_handle"])
+    if err:
+        out["errors"].append(err)
         out["ok"] = False
         return out
+    out["anchor_atoms"] = {
+        "warhead": "%s%d" % (mol.GetAtomWithIdx(a_idx).GetSymbol(), a_idx),
+        "e3": "%s%d" % (mol.GetAtomWithIdx(b_idx).GetSymbol(), b_idx),
+    }
+    expect_wh = {"5amide": "N", "5triazole": "O", "5piperazine": "N"}[c["warhead_handle"]]
+    if mol.GetAtomWithIdx(a_idx).GetSymbol() != expect_wh:
+        out["errors"].append("warhead anchor is %s, but handle %s attaches through %s"
+                             % (mol.GetAtomWithIdx(a_idx).GetSymbol(), c["warhead_handle"], expect_wh))
+    if mol.GetAtomWithIdx(b_idx).GetSymbol() != "N":
+        out["errors"].append("E3 anchor is %s, but both handles attach through N"
+                             % mol.GetAtomWithIdx(b_idx).GetSymbol())
 
     path = Chem.GetShortestPath(mol, a_idx, b_idx)
     n_measured = len(path) - 2          # atoms STRICTLY between the two anchors
@@ -163,15 +219,14 @@ def check_one(c):
                     out["errors"].append("branch position disagrees: geometry says k=%d, the molecule says "
                                          "k=%d" % (c["branch_k_from_warhead"], k_measured))
 
-    for name, core in CORES.items():
-        need = (name == "cmpd19"
-                or (name == "vh032_desacetyl" and c["e3_handle"] == "vhl")
-                or (name == "pomalidomide" and c["e3_handle"] == "crbn"))
-        patt = Chem.MolFromSmiles(core)
-        present = patt is not None and mol.HasSubstructMatch(patt)
-        out.setdefault("cores", {})[name] = present
-        if need and not present:
-            out["errors"].append("required core %s absent" % name)
+    # Required cores, checked against the SAME truncated fragments the anchor rule uses. Deliberately not a
+    # second, independently hand-written set: a duplicate description is exactly what failed twice above, and
+    # a spurious "required core absent" would fail the build for a defect in the check rather than the library.
+    for name in ("warhead", "e3_" + c["e3_handle"]):
+        atoms, err = _core_atoms(mol, name)
+        out.setdefault("cores", {})[name] = atoms is not None
+        if err:
+            out["errors"].append("required core %s: %s" % (name, err))
 
     for name, sma in FORBIDDEN.items():
         patt = Chem.MolFromSmarts(sma)
@@ -299,7 +354,9 @@ def diagnose_anchors():
         rows.append(row)
     cols = ["anchor", "smiles_with_map", "smiles_no_map", "smarts_with_map", "smarts_no_map",
             "smiles_no_map_adjusted"]
-    print("[chem] anchor-matching diagnostic (match counts against each anchor's own reference)")
+    print("[chem] anchor-matching diagnostic (match counts against each anchor's own reference).")
+    print("[chem] RETAINED after the structural rule replaced these patterns: the failure it explains is a "
+          "general RDKit fact about hand-written queries, and the next person to write one needs it.")
     print("[chem] " + " | ".join("%-22s" % c for c in cols))
     for r in rows:
         print("[chem] " + " | ".join("%-22s" % str(r.get(c, "")) for c in cols))
@@ -311,17 +368,34 @@ def self_test():
     an atom of the expected element. Also checks the forbidden-motif SMARTS parse and that a deliberately
     malformed molecule is caught."""
     bad = []
-    for key, (ref_smi, elem) in ANCHOR_REFERENCES.items():
-        ref = Chem.MolFromSmiles(ref_smi)
-        if ref is None:
-            bad.append("%s: reference does not parse" % key)
+    # The truncated cores must each match their own reference, and the anchor rule must land on the right
+    # element in a minimal two-handle construct.
+    for key, smi in TRUNCATED_CORES.items():
+        if Chem.MolFromSmiles(smi) is None:
+            bad.append("truncated core %s does not parse" % key)
+    for e3, wh, expect_wh, probe in (
+            ("vhl", "5amide", "N",
+             "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)"
+             "Nc4ccc5[nH]cc(C(=O)OC)c5c4)O"),
+            ("vhl", "5triazole", "O",
+             "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCCn4cc"
+             "(COc5ccc6[nH]cc(C(=O)OC)c6c5)nn4)O"),
+            ("crbn", "5amide", "N",
+             "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4")):
+        m = Chem.MolFromSmiles(probe)
+        if m is None:
+            bad.append("%s/%s probe does not parse" % (e3, wh))
             continue
-        idx, err = _match_anchor(ref, key)
+        a, b, err = find_anchors(m, e3)
         if err:
-            bad.append("%s: %s" % (key, err))
-        elif ref.GetAtomWithIdx(idx).GetSymbol() != elem:
-            bad.append("%s: anchor landed on %s, expected %s"
-                       % (key, ref.GetAtomWithIdx(idx).GetSymbol(), elem))
+            bad.append("%s/%s: %s" % (e3, wh, err))
+            continue
+        if m.GetAtomWithIdx(a).GetSymbol() != expect_wh:
+            bad.append("%s/%s: warhead anchor is %s, expected %s"
+                       % (e3, wh, m.GetAtomWithIdx(a).GetSymbol(), expect_wh))
+        if m.GetAtomWithIdx(b).GetSymbol() != "N":
+            bad.append("%s/%s: E3 anchor is %s, expected N"
+                       % (e3, wh, m.GetAtomWithIdx(b).GetSymbol()))
     for name, sma in FORBIDDEN.items():
         if Chem.MolFromSmarts(sma) is None:
             bad.append("forbidden motif %s does not parse" % name)
@@ -338,8 +412,8 @@ def self_test():
         for b in bad:
             print("[chem] SELF-TEST FAILURE: %s" % b)
         return 1
-    print("[chem] self-test OK (%d anchors, %d forbidden motifs, %d pendants)"
-          % (len(ANCHORS), len(FORBIDDEN), len(PENDANT_SMARTS)))
+    print("[chem] self-test OK (%d truncated cores, %d forbidden motifs, %d pendants)"
+          % (len(TRUNCATED_CORES), len(FORBIDDEN), len(PENDANT_SMARTS)))
     return 0
 
 

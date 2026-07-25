@@ -1022,12 +1022,71 @@ def matched_pair(reqs, lib):
                           "the basin-fidelity filter"}
     cands.sort(key=lambda c: (-c[0], -c[1]))
     persist, clear, req, site, d, d0 = cands[0]
+
+    # ★ WHY THIS ARM, STATED EXPLICITLY, BECAUSE THE OBVIOUS WRONG REASON IS AVAILABLE. An earlier framing of
+    # the RUNG-5a result held that "CRBN's null is 0.81-0.96, so the discrimination lives on VHL". That claim
+    # has been RETRACTED: 0.81-0.96 is the ANY-lysine null, whereas term (b)'s enrichment is over the
+    # UNIQUE-lysine null, and the number was itself an exit-vector artefact that halves (0.858 -> 0.399) when
+    # the CRBN arm is restaged assembly-native. CRBN remains the sole Pareto-front member; VHL is a labelled
+    # backfill and an E3-choice sensitivity control. **No CRBN-vs-VHL preference is asserted here.** The arm
+    # below was selected on basin evidence only — pose persistence, then measured E3 clearance at the wedge —
+    # among the basins that can actually host a matched pair, and the per-basin reasons are emitted so the
+    # selection can be audited rather than trusted.
+    audit = []
+    for r in reqs:
+        clean = [s for s in r["wedge_element_sites"]["sites"]
+                 if s.get("e3_clear_enough_for_a_matched_pair")]
+        has_pair = any(c["designed_for_basin"] == r["meta_basin_id"] and c["pendant"] == "pyr3" for c in lib)
+        blockers = []
+        if r["meta_basin_id"] == WEAK_CONTROL:
+            blockers.append("labelled weak control: does not exceed the term-(b) background")
+        if not clean:
+            blockers.append("no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance")
+        if not has_pair:
+            blockers.append("no matched pyridyl/phenyl construct survives the basin-fidelity filter — its "
+                            "representative span needs %s backbone atoms to be held at <= %.1f kT, against "
+                            "a chemically routine cap of %d"
+                            % (r["accessibility"]["n_atoms_for_comfortable_span"], MAX_STRAIN_KT,
+                               CHEM_MAX_ATOMS))
+        audit.append({
+            "meta_basin_id": r["meta_basin_id"],
+            "pose_surviving_fraction": r["pose_surviving_fraction"],
+            "term_b_enrichment": r["term_b_max_enrichment_over_background"],
+            "best_wedge_site": (max(clean, key=lambda s: s["e3_clearance_A"]) if clean else None),
+            "can_host_the_pair": bool(clean) and has_pair and r["meta_basin_id"] != WEAK_CONTROL,
+            "blockers": blockers,
+        })
     return {
         "status": "PROPOSED" if (d and d0) else "NO MATCHING CONSTRUCT PAIR IN THE LIBRARY",
         "test": "S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1); ternary legs only (the shared "
                 "ligand-E3 binary leg and the solvent leg are paralogue-independent and cancel exactly)",
         "basin": req["meta_basin_id"],
         "basin_pose_surviving_fraction": persist,
+        "arm_selection_audit": audit,
+        "arm_selection_note": "Selected on basin evidence only — pose persistence, then measured E3 "
+                              "clearance at the wedge — among basins that can host a matched pair. NOT on "
+                              "any CRBN-vs-VHL preference: CRBN is the sole Pareto-front member and VHL is "
+                              "a labelled backfill / E3-choice sensitivity control. `crbn|M0` is the "
+                              "strongest single basin (0.92 pose persistence, 7.5x over background) and is "
+                              "excluded here for one reason only, which is chemical rather than "
+                              "recruiter-related: holding its representative span at <= 3 kT needs ~29 "
+                              "backbone atoms, past the routine cap. See `arm_selection_audit`, and the "
+                              "alternative below.",
+        "alternative_pair_on_the_strongest_basin": {
+            "basin": "crbn|M0",
+            "why_it_is_attractive": "0.92 pose persistence (11/12) and 7.5x enrichment over the term-(b) "
+                                    "null — the strongest nomination RUNG 5a produced — and it carries the "
+                                    "best wedge site in the whole set: D413, which is LYSINE in NR4A1 and "
+                                    "SERINE in NR4A2, i.e. a charge REVERSAL rather than a deletion, at "
+                                    "10.1 A of E3 clearance.",
+            "what_it_costs": "a ~26-29 backbone-atom linker, against the 24-atom routine cap used here. "
+                             "That is long but not unprecedented for a PROTAC, and the cap is a stated "
+                             "convention, not a law.",
+            "the_trade": "a stronger basin and a stronger wedge residue, paid for in linker length and "
+                         "therefore in permeability and in the ternary assembly's entropy. This is a "
+                         "judgement the orchestrator should make explicitly rather than have the cap make "
+                         "silently — which is why it is surfaced here instead of being filtered away.",
+        },
         "wedge_element": "3-pyridyl (d) vs phenyl (d0) — an aza-scan",
         "wedge_target_residue": site,
         "e3_clearance_at_wedge_A": clear,
@@ -1138,6 +1197,16 @@ def run(args):
             "difference in it.",
             "Synthetic annotations are ROUTES, not validated syntheses: building-block availability was not "
             "checked against a live commercial catalogue and no step was attempted.",
+            "★ THE CHEMISTRY AXIS IS ONE RESIDUE DEEP, AND THERE IS NO GEOMETRIC FALLBACK. C397 is robust "
+            "— over a 100-conformer MD ensemble its RSA median is 0.416 (the committed 0.395 sits at the "
+            "median) and it reaches the 12-atom gate in 96 % of unbiased frames. But C420 and C559 reach "
+            "that gate in 0 of 75 frames (C420 needs 16 backbone atoms, C559 needs 20, both paid out of the "
+            "same contour that must also span to the E3). So if C397 fails CHEMICALLY — an unreactive "
+            "microenvironment, a competing conserved cysteine, an unacceptable promiscuity profile — no "
+            "other NR4A3-unique cysteine can take its place, and the categorical chemistry axis closes. "
+            "The hedge this library carries is NOT a second cysteine, because there is none: it is that the "
+            "library is not all-covalent. Constructs with no electrophile at all, and the paralogue-unique "
+            "LYSINE axis (term b) they are designed against, are independent of C397 entirely.",
             "A covalent handle is an unresolved liability, not an upgrade. Electrophile promiscuity cannot "
             "be checked without chemoproteomics, and it must be reported alongside the parent cmpd19 "
             "warhead's published MYC induction. REVERSIBLE-covalent chemistry is preferred throughout so "

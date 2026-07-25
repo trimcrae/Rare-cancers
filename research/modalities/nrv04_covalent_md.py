@@ -79,6 +79,62 @@ def pdb_text_atom_count(pdb_text):
 # Overridable (NRV04_MAX_TETHER_A) so a deliberate exception is explicit and recorded, never accidental.
 MAX_COVALENT_TETHER_A = float(os.environ.get("NRV04_MAX_TETHER_A", "8.0"))
 
+# UniProt P22736 (human NR4A1/NUR77) full length, verified from the live FASTA on 2026-07-25 by
+# `nrv04_covalent_input_audit.resolve_lbd_offset` (full_len = 598, residue 551 = Cys). The frozen LBD construct
+# is the C-terminal `NR4A_LBD_RESIDUES` of that sequence (nr4a3_ternary.lbd_seq: `full[-254:]`), so full-length
+# C551 is construct residue 551 - (598 - 254) = 207. Kept as a constant rather than fetched, because a GPU leg
+# must not depend on a network call, and asserted to be a cysteine at use time so a construct change fails
+# closed instead of anchoring the adduct somewhere else.
+NR4A1_FULL_LEN = 598
+
+
+def _frozen_cys_by_construct(pdb_text, target_chain, cov_resnum, full_len=NR4A1_FULL_LEN):
+    """IDENTIFY the preregistered covalent cysteine by construct arithmetic, and VERIFY it is a Cys with an Sg.
+
+    ⚠ WHY THIS REPLACED "THE NEAREST TARGET-CHAIN CYSTEINE" (Lane 8, 2026-07-25) — third instance of the same
+    defect class as the positional E3/target split and the all-chain reactive-Cys search. `_reactive_cys_by_geometry`
+    answers "which cysteine on the target chain is closest to the warhead", which is NOT the question the prereg
+    asks: the covalent site is **NR4A1 Cys551**, established experimentally (Zhang et al., *Chem. Commun.* 2018,
+    doi:10.1039/C8CC06140H, PMID 30376017 — celastrol is positioned by specific noncovalent interactions next to
+    the C551 thiol and forms a reversible covalent bond).
+
+    Measured consequence, over every clean co-fold in the bucket (`nrv04-covalent-input-audit.json`): the nearest
+    target-chain cysteine is **C566** at 8.87-8.99 A, while **C551 is 28.4-39.1 A** away. So the geometric rule
+    (a) reported an A1 distance for the WRONG residue — the amendment's 8.99 A is C566's, not C551's — (b) would
+    have built the restraint onto C566 had it passed, and (c) made the `cov_c551a` leg mutate **C566**, not C551,
+    so the control did not remove the engagement it is named for. The chemistry is known; it is not something the
+    pose should be allowed to vote on. Geometry is demoted to a diagnostic.
+
+    Returns (chain_id, resid_int). Raises rather than falling back."""
+    from nrv04_covalent_assemble import NR4A_LBD_RESIDUES
+    idx = cov_resnum - (full_len - NR4A_LBD_RESIDUES)
+    if not (1 <= idx <= NR4A_LBD_RESIDUES):
+        raise SystemExit(f"[nrv04-md] the preregistered covalent residue {cov_resnum} maps to construct index "
+                         f"{idx}, outside the {NR4A_LBD_RESIDUES}-residue LBD — the construct definition or the "
+                         f"full length ({full_len}) has changed; refusing to guess a site")
+    have_sg = False
+    seen = None
+    for line in pdb_text.splitlines():
+        if line[:6].strip() not in ("ATOM", "HETATM") or line[21] != target_chain:
+            continue
+        try:
+            if int(line[22:26]) != idx:
+                continue
+        except ValueError:
+            continue
+        seen = line[17:20].strip()
+        if seen == "CYS" and line[12:16].strip() == "SG":
+            have_sg = True
+    if seen is None:
+        raise SystemExit(f"[nrv04-md] target chain {target_chain!r} has no residue {idx} (= full-length "
+                         f"{cov_resnum}); this is not the frozen {NR4A_LBD_RESIDUES}-residue construct")
+    if not have_sg:
+        raise SystemExit(f"[nrv04-md] target chain {target_chain!r} residue {idx} (= full-length {cov_resnum}) "
+                         f"is {seen}, not a CYS with an SG — the preregistered covalent site is not present, so "
+                         f"no adduct can be modelled here. Refusing to substitute a different cysteine (that "
+                         f"substitution is exactly how C566 came to carry the 8.99 A figure attributed to C551).")
+    return target_chain, idx
+
 
 def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mutation, target_chain=None):
     """Build a solvated OpenMM system for one leg. Returns (simulation, meta). CI/Vast only."""
@@ -100,16 +156,33 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     cov_pair = None
     react_chain, react_resid, react_dist, cys_diag = _reactive_cys_by_geometry(
         pdb_text, ligand_sdf, cov_lig_atom, target_chain=target_chain)
-    print(f"[nrv04-md] reactive Cys = chain {react_chain} resid {react_resid} "
-          f"(Sγ {react_dist:.2f} Å from the warhead electrophile; cov_resnum={cov_resnum} is co-fold-renumbered; "
-          f"search restricted to target chain {target_chain!r}); {json.dumps(cys_diag)}", flush=True)
+    # THE SITE IS IDENTIFIED, NOT INFERRED FROM THE POSE (Lane 8, 2026-07-25 — see _frozen_cys_by_construct).
+    # Geometry is kept only as a diagnostic; when the two disagree the disagreement is RECORDED, because that
+    # disagreement (nearest = C566 at ~9 A vs frozen C551 at ~28 A) is what made an inadmissible input look
+    # marginal. `target_chain=None` (a pre-chains.json input) has no identified target, so the old geometric
+    # behaviour is retained there and labelled as such.
+    geom = {"chain": react_chain, "resid": react_resid, "dist_A": round(react_dist, 2)}
+    if target_chain is not None:
+        react_chain, react_resid = _frozen_cys_by_construct(pdb_text, target_chain, cov_resnum)
+        react_dist = _sg_electrophile_distance(pdb_text, ligand_sdf, cov_lig_atom, react_chain, react_resid)
+        cys_diag["site_resolution"] = "IDENTIFIED by construct arithmetic from the preregistered residue"
+        cys_diag["preregistered_resnum_fulllen"] = cov_resnum
+        cys_diag["geometric_nearest_on_target"] = geom
+        cys_diag["geometry_agrees_with_frozen_site"] = (geom["resid"] == react_resid)
+    else:
+        cys_diag["site_resolution"] = ("GEOMETRIC — no identified target chain, so the frozen site could not be "
+                                       "resolved by construct arithmetic; this is the rule Lane 8 demoted")
+    print(f"[nrv04-md] covalent Cys = chain {react_chain} resid {react_resid} "
+          f"(Sγ {react_dist:.2f} Å from the warhead electrophile; preregistered full-length resnum "
+          f"{cov_resnum}); {json.dumps(cys_diag)}", flush=True)
     # FAIL CLOSED on an un-modellable tether. The panel's warhead_only legs tethered celastrol to an ElonginC
     # cysteine 12.44 Å away — the co-fold had not posed free celastrol in the NR4A1 pocket at all — and the only
     # consequence was a WARN line. A covalent leg whose adduct partner is that far away is not the system the
     # prereg describes, so it must stop rather than produce numbers about something else.
     if covalent and react_dist > MAX_COVALENT_TETHER_A:
         raise SystemExit(
-            f"[nrv04-md] the nearest target-chain Cys Sγ is {react_dist:.2f} Å from the warhead electrophile, "
+            f"[nrv04-md] the PREREGISTERED covalent Cys ({react_chain}:{react_resid} = full-length {cov_resnum}) "
+            f"has its Sγ {react_dist:.2f} Å from the warhead electrophile, "
             f"beyond the {MAX_COVALENT_TETHER_A} Å preformed-adduct limit. The co-fold did not pose the warhead "
             f"in this target's pocket, so a covalent leg cannot be built from it — re-fold the input rather than "
             f"stretching the restraint. Diagnostics: {json.dumps(cys_diag)}. "
@@ -312,6 +385,28 @@ def _resid(res):
         return int(res.id)
     except (ValueError, TypeError):
         return None
+
+
+def _sg_electrophile_distance(pdb_text, ligand_sdf, cov_lig_atom, chain_id, resid):
+    """Distance (Å) from one named Cys Sg to the ligand's electrophilic carbon. This is the quantity prereg
+    criterion A1 is defined on, once the residue is IDENTIFIED rather than chosen by proximity."""
+    from rdkit import Chem
+    mol = Chem.SDMolSupplier(ligand_sdf, removeHs=False)[0]
+    c6_idx, _ = _electrophile_and_neighbour(mol, cov_lig_atom)
+    ep = mol.GetConformer().GetAtomPosition(c6_idx)
+    for line in pdb_text.splitlines():
+        if line[:6].strip() not in ("ATOM", "HETATM") or line[21] != chain_id:
+            continue
+        if line[17:20].strip() != "CYS" or line[12:16].strip() != "SG":
+            continue
+        try:
+            if int(line[22:26]) != resid:
+                continue
+            x, y, z = float(line[30:38]), float(line[38:46]), float(line[46:54])
+        except ValueError:
+            continue
+        return ((x - ep.x) ** 2 + (y - ep.y) ** 2 + (z - ep.z) ** 2) ** 0.5
+    raise SystemExit(f"[nrv04-md] no CYS SG at {chain_id}:{resid} to measure the A1 tether against")
 
 
 def _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom, target_chain=None):

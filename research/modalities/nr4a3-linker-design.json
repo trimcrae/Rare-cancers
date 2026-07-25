@@ -8,6 +8,7 @@
     "The geometric anchors are the pose's pocket-mouth exit point and the crystal ligand's derived exit atom; the CHEMICAL anchors are the warhead's C5 substituent atom and the E3 handle's attachment heteroatom. These are within one to two bonds of each other, so every backbone-atom count carries about +/-2 atoms of definitional slack \u2014 comparable to the differences being resolved, which is why lengths are enumerated as a ladder and not asserted as a value.",
     "The WLC strain is an ideal semi-flexible-chain estimate with no excluded volume, no solvent and no torsional preferences. It is NOT a force-field strain energy and no ranking turns on a small difference in it.",
     "Synthetic annotations are ROUTES, not validated syntheses: building-block availability was not checked against a live commercial catalogue and no step was attempted.",
+    "\u2605 THE CHEMISTRY AXIS IS ONE RESIDUE DEEP, AND THERE IS NO GEOMETRIC FALLBACK. C397 is robust \u2014 over a 100-conformer MD ensemble its RSA median is 0.416 (the committed 0.395 sits at the median) and it reaches the 12-atom gate in 96 % of unbiased frames. But C420 and C559 reach that gate in 0 of 75 frames (C420 needs 16 backbone atoms, C559 needs 20, both paid out of the same contour that must also span to the E3). So if C397 fails CHEMICALLY \u2014 an unreactive microenvironment, a competing conserved cysteine, an unacceptable promiscuity profile \u2014 no other NR4A3-unique cysteine can take its place, and the categorical chemistry axis closes. The hedge this library carries is NOT a second cysteine, because there is none: it is that the library is not all-covalent. Constructs with no electrophile at all, and the paralogue-unique LYSINE axis (term b) they are designed against, are independent of C397 entirely.",
     "A covalent handle is an unresolved liability, not an upgrade. Electrophile promiscuity cannot be checked without chemoproteomics, and it must be reported alongside the parent cmpd19 warhead's published MYC induction. REVERSIBLE-covalent chemistry is preferred throughout so catalytic turnover survives; an irreversible adduct makes the degrader stoichiometric.",
     "A longer pendant relaxes reach to CONSERVED NR4A3 cysteines as well as the unique one. The paralogue argument is unaffected (it is a sequence fact), but intra-NR4A3 chemoselectivity is not, and the trade-off is reported per basin.",
     "No efficacy, safety, therapeutic-window or clinical claim is made or implied."
@@ -111313,6 +111314,117 @@
     "test": "S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1); ternary legs only (the shared ligand-E3 binary leg and the solvent leg are paralogue-independent and cancel exactly)",
     "basin": "vhl|M3",
     "basin_pose_surviving_fraction": 0.75,
+    "arm_selection_audit": [
+      {
+        "meta_basin_id": "crbn|M0",
+        "pose_surviving_fraction": 0.917,
+        "term_b_enrichment": 7.5,
+        "best_wedge_site": {
+          "uniprot_resid": 413,
+          "nr4a3": "D",
+          "nr4a1": "K",
+          "nr4a2": "S",
+          "rsa": 0.61,
+          "nonconservative": true,
+          "branch_k_min": 8,
+          "branch_k_max": 10,
+          "e3_clearance_A": 10.41,
+          "e3_clear_enough_for_a_matched_pair": true
+        },
+        "can_host_the_pair": false,
+        "blockers": [
+          "no matched pyridyl/phenyl construct survives the basin-fidelity filter \u2014 its representative span needs 29 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24"
+        ]
+      },
+      {
+        "meta_basin_id": "vhl|M3",
+        "pose_surviving_fraction": 0.75,
+        "term_b_enrichment": 1.4,
+        "best_wedge_site": {
+          "uniprot_resid": 407,
+          "nr4a3": "T",
+          "nr4a1": "L",
+          "nr4a2": "V",
+          "rsa": 0.279,
+          "nonconservative": true,
+          "branch_k_min": 4,
+          "branch_k_max": 9,
+          "e3_clearance_A": 10.35,
+          "e3_clear_enough_for_a_matched_pair": true
+        },
+        "can_host_the_pair": true,
+        "blockers": []
+      },
+      {
+        "meta_basin_id": "vhl|M2",
+        "pose_surviving_fraction": 0.5,
+        "term_b_enrichment": 1.43,
+        "best_wedge_site": {
+          "uniprot_resid": 397,
+          "nr4a3": "C",
+          "nr4a1": "N",
+          "nr4a2": "S",
+          "rsa": 0.395,
+          "nonconservative": true,
+          "branch_k_min": 11,
+          "branch_k_max": 17,
+          "e3_clearance_A": 8.23,
+          "e3_clear_enough_for_a_matched_pair": true
+        },
+        "can_host_the_pair": true,
+        "blockers": []
+      },
+      {
+        "meta_basin_id": "vhl|M4",
+        "pose_surviving_fraction": 0.417,
+        "term_b_enrichment": 4.2,
+        "best_wedge_site": {
+          "uniprot_resid": 407,
+          "nr4a3": "T",
+          "nr4a1": "L",
+          "nr4a2": "V",
+          "rsa": 0.279,
+          "nonconservative": true,
+          "branch_k_min": 1,
+          "branch_k_max": 6,
+          "e3_clearance_A": 10.4,
+          "e3_clear_enough_for_a_matched_pair": true
+        },
+        "can_host_the_pair": false,
+        "blockers": [
+          "no matched pyridyl/phenyl construct survives the basin-fidelity filter \u2014 its representative span needs 26 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24"
+        ]
+      },
+      {
+        "meta_basin_id": "vhl|M14",
+        "pose_surviving_fraction": 0.25,
+        "term_b_enrichment": 0.0,
+        "best_wedge_site": {
+          "uniprot_resid": 406,
+          "nr4a3": "L",
+          "nr4a1": "H",
+          "nr4a2": "H",
+          "rsa": 0.324,
+          "nonconservative": true,
+          "branch_k_min": 3,
+          "branch_k_max": 3,
+          "e3_clearance_A": 8.41,
+          "e3_clear_enough_for_a_matched_pair": true
+        },
+        "can_host_the_pair": false,
+        "blockers": [
+          "labelled weak control: does not exceed the term-(b) background",
+          "no matched pyridyl/phenyl construct survives the basin-fidelity filter \u2014 its representative span needs 31 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24"
+        ]
+      }
+    ],
+    "arm_selection_note": "Selected on basin evidence only \u2014 pose persistence, then measured E3 clearance at the wedge \u2014 among basins that can host a matched pair. NOT on any CRBN-vs-VHL preference: CRBN is the sole Pareto-front member and VHL is a labelled backfill / E3-choice sensitivity control. `crbn|M0` is the strongest single basin (0.92 pose persistence, 7.5x over background) and is excluded here for one reason only, which is chemical rather than recruiter-related: holding its representative span at <= 3 kT needs ~29 backbone atoms, past the routine cap. See `arm_selection_audit`, and the alternative below.",
+    "alternative_pair_on_the_strongest_basin": {
+      "basin": "crbn|M0",
+      "why_it_is_attractive": "0.92 pose persistence (11/12) and 7.5x enrichment over the term-(b) null \u2014 the strongest nomination RUNG 5a produced \u2014 and it carries the best wedge site in the whole set: D413, which is LYSINE in NR4A1 and SERINE in NR4A2, i.e. a charge REVERSAL rather than a deletion, at 10.1 A of E3 clearance.",
+      "what_it_costs": "a ~26-29 backbone-atom linker, against the 24-atom routine cap used here. That is long but not unprecedented for a PROTAC, and the cap is a stated convention, not a law.",
+      "the_trade": "a stronger basin and a stronger wedge residue, paid for in linker length and therefore in permeability and in the ternary assembly's entropy. This is a judgement the orchestrator should make explicitly rather than have the cap make silently \u2014 which is why it is surfaced here instead of being filtered away."
+    },
     "wedge_element": "3-pyridyl (d) vs phenyl (d0) \u2014 an aza-scan",
     "wedge_target_residue": {
       "uniprot_resid": 407,
@@ -111461,5 +111573,5 @@
       "why_this_d0": "the saturated analogue is the standard non-electrophilic control: same heavy atoms, same charge, same amide, no Michael acceptor \u2014 so the alchemical change is the C=C and nothing else."
     }
   },
-  "runtime_s": 19.6
+  "runtime_s": 19.5
 }

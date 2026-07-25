@@ -93,6 +93,8 @@ def main():
         fails.append("field alignment")
     if check_setup_cache_key() != 0:
         fails.append("setup cache key")
+    if check_no_identical_particle_count_claim() != 0:
+        fails.append("identical-particle-count claim")
 
     print("\n%d check(s) failed" % len(fails))
     return 1 if fails else 0
@@ -152,6 +154,56 @@ def check_setup_cache_key():
     else:
         print("PASS use_preequil=1 selects the v2pe setup cache")
     return bad
+
+
+def check_no_identical_particle_count_claim():
+    """MEASURED FACT, and it has been contradicted three times: pre-equilibration RE-SOLVATES the complex, so
+    v1 = 146,020 particles and v2pe = 141,968. They are NOT identical.
+
+    The false claim ("pre-equilibration only moves coordinates, so the particle counts are identical, so OpenFE
+    cannot catch a v1/v2pe cross-restore") was written into the guard audit by me and then propagated into
+    watchdog_validate.py and ternary-watch.json by another session. It matters because it is the stated
+    JUSTIFICATION for a guard: believing OpenFE cannot catch the mismatch changes what you think is load-bearing.
+    A prose correction does not stop a fourth recurrence, so this is a check. Text that QUOTES the claim in order
+    to correct it is fine -- the marker is an assertion of identity next to the pre-equilibration reason.
+    """
+    import glob
+    root = os.path.join(HERE, "..", "..", "..")
+    targets = (glob.glob(os.path.join(root, "research", "modalities", "*.py"))
+               + glob.glob(os.path.join(root, "research", "modalities", "*.json"))
+               + glob.glob(os.path.join(root, "research", "modalities", "*.md")))
+    bad = []
+    for f in targets:
+        try:
+            txt = open(f, errors="replace").read()
+        except OSError:
+            continue
+        low = txt.lower()
+        for marker in ("particle counts are identical", "counts are identical",
+                       "particle count is identical", "counts identical"):
+            idx = 0
+            while True:
+                idx = low.find(marker, idx)
+                if idx < 0:
+                    break
+                window = low[max(0, idx - 400):idx + 200]
+                # a correction quotes the claim AND says it is false; that is allowed
+                corrected = any(w in window for w in ("false", "corrected", "not identical", "wrong", "refuted"))
+                if not corrected:
+                    bad.append((os.path.basename(f), txt[max(0, idx - 90):idx + 90].replace("\n", " ")))
+                idx += 1
+    if bad:
+        print("FAIL a file asserts pre-equilibration preserves particle count — MEASURED FALSE "
+              "(v1=146,020 vs v2pe=141,968):")
+        for name, ctx in bad:
+            print("      %s: ...%s..." % (name, ctx))
+        return 1
+    print("PASS no file asserts the (false) identical-particle-count claim uncorrected")
+    return 0
+
+
+def test_no_identical_particle_count_claim():
+    assert check_no_identical_particle_count_claim() == 0
 
 
 def test_setup_cache_key():
