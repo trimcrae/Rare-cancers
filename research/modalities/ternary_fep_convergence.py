@@ -586,10 +586,19 @@ def _system_edges(system):
             added += 1
         if added:
             prov[name] = prov.get(name, 0) + added
+    # openmm.System's constraint accessor is getConstraintParameters(index) -> (p1, p2, distance). The first cut
+    # of this function called `getConstraint`, which does not exist, and the unit-test fake was written to the
+    # same wrong name — so the test passed while the production path raised AttributeError on the real System
+    # (GH run 30167699679). That is the same failure shape as the seven defects this module was repairing: a
+    # test agreeing with the code rather than with reality. The fake now implements ONLY the documented name.
+    getc = getattr(system, "getConstraintParameters", None) or getattr(system, "getConstraint", None)
     n_con = int(system.getNumConstraints())
+    if getc is None:
+        prov["constraints"] = "UNAVAILABLE — no getConstraintParameters on this System object"
+        return edges, prov
     for c in range(n_con):
-        i, j, _d = system.getConstraint(c)
-        edges.append((int(i), int(j)))
+        p = getc(c)
+        edges.append((int(p[0]), int(p[1])))
     prov["constraints"] = n_con
     return edges, prov
 
@@ -814,17 +823,27 @@ def _ligand_pose_block(reporter, iter_a, iter_b):
             pose_vals.append(pose)
         if internal is not None:
             internal_vals.append(internal)
-    if not pose_vals:
+    # WHICH OBSERVABLE IS FLAGGED depends on the leg, and saying so is not a detail. In a complex leg the
+    # escape/collapse question is "did the ligand leave the pocket", which is the RECEPTOR-superposed pose RMSD.
+    # A SOLVENT leg has no receptor at all — the free ligand's translation and tumbling are physical, not a
+    # failure — so the only meaningful integrity measure there is the ligand's INTERNAL geometry. Flagging the
+    # pose RMSD on a solvent leg would either be undefined or would fail every healthy run.
+    solvent_leg = not prot_rows
+    if not pose_vals and not (solvent_leg and internal_vals):
         out["status"] = "positions unavailable on every replica at iterations %s/%s" % (iter_a, iter_b)
         return out
+    flagged = float(max(internal_vals)) if solvent_leg else float(max(pose_vals))
     out.update({
-        "status": "ok — ligand-only heavy-atom pose RMSD, receptor-superposed, over %d replicas" % len(pose_vals),
+        "status": ("ok — ligand INTERNAL heavy-atom RMSD over %d replicas (solvent leg: no receptor to superpose "
+                   "on, so a pose RMSD is not defined)" % len(internal_vals)) if solvent_leg else
+                  ("ok — ligand-only heavy-atom pose RMSD, receptor-superposed, over %d replicas" % len(pose_vals)),
+        "flagged_observable": "ligand_internal_rmsd" if solvent_leg else "receptor_superposed_pose_rmsd",
         "iterations_compared": [int(iter_a), int(iter_b)],
-        "n_replicas": len(pose_vals),
-        "ligand_rmsd_A": float(max(pose_vals)),          # the flag: worst replica (conservative)
-        "pose_rmsd_max_A": float(max(pose_vals)),
-        "pose_rmsd_median_A": float(np.median(pose_vals)),
-        "pose_rmsd_min_A": float(min(pose_vals)),
+        "n_replicas": len(internal_vals if solvent_leg else pose_vals),
+        "ligand_rmsd_A": flagged,                        # the flag: worst replica (conservative)
+        "pose_rmsd_max_A": (float(max(pose_vals)) if pose_vals else None),
+        "pose_rmsd_median_A": (float(np.median(pose_vals)) if pose_vals else None),
+        "pose_rmsd_min_A": (float(min(pose_vals)) if pose_vals else None),
         "internal_rmsd_max_A": (float(max(internal_vals)) if internal_vals else None),
         "internal_rmsd_median_A": (float(np.median(internal_vals)) if internal_vals else None),
         "per_replica": per_replica,
@@ -1055,12 +1074,46 @@ def _structural(reporter, nc_path):
         return {"status": "structural RMSD failed: %s: %s" % (type(e).__name__, e), "probe": probe}
 
 
+def _ligand_size_cross_check(legs):
+    """A FREE, INDEPENDENT check on the ligand identification, available only because the cycle has a solvent leg.
+
+    OpenFE stores 'not water' as the analysis-particle subset. In the SOLVENT leg there is no protein, so that
+    subset IS the hybrid ligand and nothing else — the run of 2026-07-25 stored 120 of 5304 particles there. That
+    count is a measurement of the ligand's size made by an entirely different route (OpenFE's own selection at
+    setup time) than the bond-graph identification used on the complex legs. If the complex legs' identified
+    ligand has a different atom count, one of the two is wrong and no pose RMSD from this report should be
+    trusted. Reported either way; it costs nothing and it is the only cross-validation the artifacts permit."""
+    solvent_n, complex_n = None, {}
+    for leg in legs:
+        tag = leg.get("tag", "")
+        st = (leg.get("structural") or {})
+        ident = ((st.get("ligand") or {}).get("identification") or {})
+        n_lig = ident.get("n_ligand_atoms")
+        if "solvent" in tag:
+            solvent_n = ident.get("n_analysis_particles") or n_lig
+        elif n_lig is not None:
+            complex_n[tag] = n_lig
+    if solvent_n is None or not complex_n:
+        return {"status": "not computable (need the solvent leg's subset size AND at least one complex leg's "
+                          "identified ligand)", "solvent_subset_atoms": solvent_n, "complex_legs": complex_n}
+    agree = all(v == solvent_n for v in complex_n.values())
+    return {"_what": "solvent-leg analysis subset ('not water' = the ligand) vs the bond-graph identification "
+                     "on the complex legs — two independent routes to the same atom count",
+            "solvent_subset_atoms": solvent_n, "complex_legs_identified_ligand_atoms": complex_n,
+            "agree": agree,
+            "verdict": ("CONSISTENT — the ligand identification is corroborated by OpenFE's own atom selection"
+                        if agree else
+                        "INCONSISTENT — the two routes disagree; do not trust any ligand RMSD in this report "
+                        "until the discrepancy is explained")}
+
+
 def analyze_all():
     os.makedirs(CKPT, exist_ok=True)
     ncs = _find_nc_files()
     legs = [analyze_leg(p, tag) for tag, p in sorted(ncs.items())]
     n_fail = sum(1 for l in legs if l.get("technical_failure"))
-    report = {
+    report = {"ligand_size_cross_check": _ligand_size_cross_check(legs)}
+    report.update({
         "_what": "OpenFE/openmmtools convergence analysis on committed MultiState .nc (reviewer change #1)",
         "_gate": "run on seed-0 BEFORE ternary seed-1; technical_failure feeds the reducer PASS/NO-GO/INDETERMINATE",
         "thresholds": {"overlap_scalar_min": OVERLAP_SCALAR_MIN, "overlap_bottleneck_min": OVERLAP_BOTTLENECK_MIN,
@@ -1069,7 +1122,7 @@ def analyze_all():
                        "plateau_full_half_max_kcal": PLATEAU_FULL_HALF_MAX_KCAL,
                        "quarter_block_max_kcal": QUARTER_BLOCK_MAX_KCAL, "lig_rmsd_max_A": LIG_RMSD_MAX_A},
         "n_legs_analyzed": len(legs), "n_technical_failures": n_fail, "legs": legs,
-    }
+    })
     out = os.path.join(CKPT, "ternary_convergence.json")
     json.dump(report, open(out, "w"), indent=2, default=str)
     print("[tfep-converge] wrote %s (%d legs, %d technical failures)" % (out, len(legs), n_fail), flush=True)
