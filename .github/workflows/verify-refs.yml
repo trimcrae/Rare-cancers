@@ -170,3 +170,52 @@ jobs:
           fi
           if [ "${FAILED:-0}" = 1 ]; then exit 1; fi
           echo "::notice title=VERIFY-REFS OK::$NCROSSREF/6 fixed DOIs resolved, $NRESOLVED DOI(s) resolved overall, no parse errors."
+  # ---------------------------------------------------------------------------------------------
+  # Section 8 was added 2026-07-25 for the degrader manuscript's mechanism-first prospective stage
+  # (RUNG 5a/5b). It verifies (a) three journal DOIs the manuscript must cite, (b) the primary
+  # citation of every PDB entry the E3 staging / transfer-anchor work consumed, and (c) the method
+  # references for the new geometry kernels. It prints only; it commits nothing.
+  verify-degrader-refs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crossref DOIs + RCSB primary citations for the RUNG 5a/5b additions
+        run: |
+          set +e
+          UA="rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)"
+          echo "===== 8a) Crossref: DOIs cited by name in the manuscript ====="
+          for entry in \
+            "10.1039/C8CC06140H#Zhang 2018 (expect: celastrol covalent engagement of NR4A1/Nur77 Cys; Chem Commun 2018)" \
+            "10.1021/acs.jmedchem.4c01305#9CUO primary citation (expect: cereblon ligand; J Med Chem 2024)" \
+            "10.1021/acsmedchemlett.4c00582#9GIO primary citation (expect: VHL/VH032-class ligand; ACS Med Chem Lett 2025)"; do
+            doi="${entry%%#*}"; note="${entry#*#}"
+            echo "  DOI $doi"; echo "    expect: $note"
+            curl -s -m 30 -A "$UA" "https://api.crossref.org/works/$doi" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const m=JSON.parse(s).message;console.log("    crossref: "+((m.title||[])[0]||"?")+" | "+((m["container-title"]||[])[0]||"?")+" | "+(((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0])+" | vol "+(m.volume||"?")+" | p "+(m.page||"?")+" | authors: "+((m.author||[]).map(a=>(a.family||"")+" "+((a.given||"").split(/[\s-]+/).map(x=>x[0]||"").join(""))).join("; ")||"?"));}catch(e){console.log("    PARSE-ERR "+s.slice(0,120))}})'
+          done
+          echo
+          echo "===== 8b) RCSB: entry title + primary citation for every consumed PDB entry ====="
+          for pdb in 8R5H 9UUM 5T35 6BOY 9CUO 9GIO 8G46 8RQC 7Z76; do
+            echo -n "  $pdb -> "
+            curl -s -m 30 -A "$UA" "https://data.rcsb.org/rest/v1/core/entry/$pdb" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);const c=(j.citation||[]).find(x=>x.id==="primary")||(j.citation||[])[0]||{};console.log((j.struct||{}).title||"?","|| method:",((j.exptl||[])[0]||{}).method||"?","| res:",((j.rcsb_entry_info||{}).resolution_combined||["?"])[0],"|| PRIMARY:",(c.rcsb_authors||["?"])[0],"et al.,",c.title||"?","|",c.rcsb_journal_abbrev||"?",c.year||"?","| DOI:",c.pdbx_database_id_doi||"?","| PMID:",c.pdbx_database_id_pub_med||"?");}catch(e){console.log("PARSE-ERR "+s.slice(0,100))}})'
+          done
+          echo
+          echo "===== 8c) Crossref bibliographic: method references for the new geometry kernels ====="
+          while IFS='#' read -r title author note; do
+            [ -z "$title" ] && continue
+            echo "  >>> $note"
+            curl -s -m 30 -A "$UA" -G "https://api.crossref.org/works" \
+              --data-urlencode "query.bibliographic=$title" --data-urlencode "query.author=$author" \
+              --data-urlencode "rows=4" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const items=JSON.parse(s).message.items||[];items.forEach((m,i)=>console.log("      ["+i+"] DOI:",m.DOI,"|",((m.title||[])[0]||"?").slice(0,78),"|",((m["container-title"]||[])[0]||"?"),"|",(((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0]),"| vol",m.volume||"?","| p",m.page||"?"))}catch(e){console.log("      PARSE-ERR")}})'
+          done <<'METH'
+          Environment and exposure to solvent of protein atoms lysozyme and insulin#Shrake#Shrake-Rupley 1973 JMB solvent-accessible surface
+          LIGSITE automatic and efficient detection of potential small molecule binding sites in proteins#Hendlich#Hendlich 1997 LIGSITE pocket detection
+          Closed-form solution of absolute orientation using unit quaternions#Horn#Horn 1987 JOSA A quaternion superposition
+          Probability distributions in classical and continuum polymer models#Thirumalai#Thirumalai-Ha worm-like-chain end-to-end distribution
+          Structural basis for protac-induced target protein degradation by recruitment of VHL and BRD4#Gadd#Gadd 2017 Nat Chem Biol MZ1 ternary (PDB 5T35)
+          Plasticity in binding confers selectivity in ligand-induced protein degradation#Nowak#Nowak 2018 Nat Chem Biol dBET6 (PDB 6BOY)
+          METH
+          echo
+          echo "===== 8d) census ====="
+          echo "(read the lines above; a '?' or PARSE-ERR means that reference was NOT verified by this run)"

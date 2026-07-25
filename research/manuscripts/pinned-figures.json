@@ -309,6 +309,18 @@
    "pattern": "\\$17\\.6\\b",
    "current": "~$27.32 (n=3, 16 legs)",
    "retired_by": "T1 has only r0, so an n=3 triangle is 16 legs not 12 (+33%), silently re-including the r1/r2 spend the r0 verdict argued against"
+  },
+  {
+   "id": "nrv04_a1_wrong_cysteine_899_1639",
+   "pattern": "8\\.99[–-]16\\.39|electrophilic carbon \\*\\*8\\.99",
+   "current": "28.42–39.11 Å at the preregistered C551, across every clean co-fold model in the bucket",
+   "retired_by": "AMENDMENT 2 (2026-07-25): the A1 input-admissibility check resolved the NEAREST of the construct's six cysteines, which is C566, not the preregistered site C551 (residue offset 344). The superseded figures made the input look NEARLY admissible — ~9 Å against an 8 Å limit — while the real site sat ~28 Å away, so the correction makes A1 MORE binding, not less. The same root cause also built the covalent restraint onto C566 and made the cov_c551a control mutate C566, i.e. not touch C551 at all."
+  },
+  {
+   "id": "ternary_selectivity_does_not_materialize",
+   "pattern": "ternary adds no NR4A3 degradation.selectivity|for a representative PROTAC, does not materialize",
+   "current": "one representative, arbitrarily-linkered construct did not PROVIDE EVIDENCE FOR an NR4A3-selective ternary geometry",
+   "retired_by": "An overclaim in the NEGATIVE direction, withdrawn 2026-07-25 from main-text Limitations caveat 5 and SI S2. The co-folding classifier fails its own affinity-sensitive stereochemical control (an inactive epimer scored identically to the active construct), and the paper therefore declares it unsuitable for binding, ternary-stability, degradation-selectivity or linker-ranking claims — so it may not conclude ternary selectivity is ABSENT either. What the run supports is absence of evidence at a tier that cannot produce the evidence."
   }
  ],
  "subset_checks": [
