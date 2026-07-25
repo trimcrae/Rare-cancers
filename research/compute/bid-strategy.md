@@ -253,12 +253,19 @@ own work estimates** (pricing.md §B/C) — this reprices them, it does not re-d
 | `nrv04_retrospective` (3 ternary legs + shared pair) | 84–216 | **20.58** | 4.79–66.83 |
 | `ternary_4fs_recalibration` | 28–36 | **4.39** | 1.60–11.14 |
 | `5a-KS` primary (ligand-side double difference) | 28–144 | **11.80** | 1.60–44.55 |
+| `5c` ensemble refinement (24–200 endpoint-MD legs) | 33–276 | **21.21** | 1.89–85.39 |
 | local within-basin FEP | 56–260 | **21.68** | 3.19–80.44 |
-| **TOTAL (priceable stages)** | | **~$128** | **$36–381** |
+| **TOTAL (stages this tool prices)** | | **~$149** | **$38–466** |
 
-At the `$0.35–0.39/hr` the fan-out actually paid, the same work is **~$330**. The unpriced stages (the
-protein-mutation wedge and the reciprocal cycle) stay unpriced — they have no completed benchmark leg, and a
-cheaper `$/hr` does not create one.
+⚠ **This is not the ladder total.** It covers only the nine alchemical/MD stages the cost model reprices. The
+whole gated ladder — adding step0, `valA_mini`, the measured `$8` covalent panel, and the CPU-dominated 5a/5b —
+is **~$194 (~$47–561)**; [STRATEGY.md → Spend summary](../../STRATEGY.md) carries the derivation and is
+authoritative. *(This table previously omitted the `5c` row, which is where a stray `~$128` total for the whole
+ladder came from. Fixed 2026-07-25.)*
+
+At the `$0.35–0.39/hr` the fan-out actually paid, the same work is **~$330**. The 5a-KS **confirmatory**
+protein-mutation wedge is not in this table: its engine qualified on 2026-07-25, but its NR4A cost is a
+particle-count projection (~$4.6 for 3 replicates), not a measured rate, so it stays out of the total.
 
 ---
 

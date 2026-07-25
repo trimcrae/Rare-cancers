@@ -93,13 +93,15 @@ read it before making changes.
     perform at all, and the most parsimonious explanation of NR-V04's own selectivity (NR4A1 Cys551, absent in
     NR4A3). **(2) The primary causal test is now the LIGAND-side double difference**
     `S = ΔΔG_coop(d₀→d|NR4A3) − ΔΔG_coop(d₀→d|NR4A1)` — ternary legs only, no protein-mutation engine, no
-    cross-lane charge mismatch — so 5a-KS is **priceable again at ~$5–25**. The reciprocal protein-mutation
-    wedge (`research/modalities/nr4a3_protein_fep.py`, perses `PointMutationExecutor`, built 2026-07-24, never
-    run) is kept as the **confirmatory** second line and stays **UNPRICED** until its known-answer benchmark
-    gives a rate; no number from it enters the manuscript before that. **(3) The ladder is ~$240 mid (~$90–390)**,
-    down from ~$390, on two exact identities: the binary and solvent legs are paralogue-independent so a
-    3-paralogue panel is 3 ternary *legs* + one shared pair (not 3 edges), and 4 fs ternary production halves
-    every leg (proposed, settled by one ~$5–8 matched re-calibration edge). Live prices live in
+    cross-lane charge mismatch — so 5a-KS is **priceable again** (~$12 as repriced 2026-07-25). The reciprocal
+    protein-mutation wedge is kept as the **confirmatory** second line; its engine was rebuilt on **pmx +
+    GROMACS** (perses retired as OpenEye-gated) and **passed its known-answer benchmark 2026-07-25**, so its
+    cost is now a particle-count **PROJECTION** (~$4.6) rather than UNPRICED — still not a measured NR4A-scale
+    rate, so it is excluded from the ladder total and still owes a *wedge-sized* benchmark before any number
+    from it enters the manuscript. **(3) The ladder is ~$194 mid (~$47–561)** *(this bullet said ~$240 and
+    before that ~$390; both superseded)*, on two exact identities: the binary and solvent legs are
+    paralogue-independent so a 3-paralogue panel is 3 ternary *legs* + one shared pair (not 3 edges), and 4 fs
+    ternary production halves every leg (proposed, settled by one ~$4.4 matched re-calibration edge). Live prices live in
     **[STRATEGY.md](./STRATEGY.md)** → Spend summary and
     **[research/compute/pricing.md](./research/compute/pricing.md)**; the schedule's `cost_est_usd` mirrors them.
     Language: "predicted selective candidate", never imply efficacy/safety/therapeutic-window/clinical-readiness.

@@ -40,8 +40,9 @@ free-energy profile**. A falsification-heavy, pocket-conditioned generative camp
 null, multi-snapshot rescoring, independent-seed replication, and molecular-species resolution) leaves a
 single candidate, **denovo_401**, whose NR4A3-favoured preference is probed by **initial three-replicate
 absolute-binding free-energy calculations conditional on selected opened conformers** (favouring NR4A3 over
-both paralogues in the AF2-opened states; error bars from a receptor-specific λ-overlap repair are still in
-progress, and the engine's *absolute* scale is not validated). A completed **experiment-anchored (8XTT)
+both paralogues in the AF2-opened states; a receptor-specific λ-overlap defect leaves the whole block
+provisional, its repair is scoped but held, and the engine's *absolute* scale is not validated). A completed
+**experiment-anchored (8XTT)
 recalculation of the NR4A3 leg** shows the absolute ΔG_bind is **strongly conformer-dependent** (+8.17 ± 0.98
 vs +3.5 kcal/mol on the AF2-opened conformer, a ≈ 4.7 kcal/mol shift larger than the selectivity margin), so
 the selectivity is reported as **conditional on the chosen opened conformers**; a matched experiment-anchored
@@ -756,16 +757,22 @@ prospective affinity or degradation-selectivity ranking authority.)*
 >
 > **Consequently:** the active-vs-epimer separation, the covalent-vs-non-covalent comparison, the C551A
 > contrast, and this subsection's contribution to any GO decision are all **withdrawn pending re-run**. The
-> qualitative statement that *contact-based recruitment is a weak discriminator* is unaffected in direction
-> (every arm was "recruited" regardless of which chain pair was measured), but should be re-derived rather than
+> specific per-arm figures are **retracted and must not be quoted**: recruiter_active stable in 3/3 seeds vs
+> recruiter_epimer 1/3; cov_nr4a1 2/3 equal to noncov_nr4a1 2/3; cov_c551a 1/3. They are listed here only so
+> that a reader who has seen them elsewhere can identify them as withdrawn.
+>
+> **What is unaffected**, and is all the paragraph below now claims: the panel's *design and execution* (arms,
+> protocol, 17/18 legs landed, no blow-ups), the *infrastructure and cost* record, and — in direction only — the
+> observation that **contact-based recruitment is a weak discriminator**, since every arm scored as "recruited"
+> regardless of which chain pair was measured. Even that should be re-derived from the corrected run rather than
 > cited from here.
 >
 > The chain split is now identified and validated rather than inferred from ordering, every leg records the
 > split it used, and the corrected 14-leg re-run is built but not yet launched. Evidence and fixes:
 > [`../modalities/nrv04-cofold-chain-forensics-2026-07-24.md`](../modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
 
-**A covalent-adduct endpoint-MD feasibility panel closes two of those gaps and recovers an active-vs-epimer
-discrimination the static co-fold could not.** The co-fold retrospective above left celastrol's covalent
+**A covalent-adduct endpoint-MD feasibility panel was built and executed; its interface readouts are withdrawn,
+and what stands is the panel's execution and cost.** The co-fold retrospective above left celastrol's covalent
 Cys551 engagement unevaluated and its epimer control was affinity-blind (active and 4-hydroxyproline-epimer
 constructs gave the identical 0.75 bridge fraction). To probe both, we built the covalent celastrol–Cys
 adduct explicitly and ran an **18-leg endpoint-MD panel** — six arms × three velocity seeds — on the
@@ -774,33 +781,31 @@ NR-V04-inspired VHL-recruiting assembly: **cov_nr4a1** (covalent adduct + active
 recruiter arm), **recruiter_active** (active recruiter), and **recruiter_epimer** (the VHL-inactive
 4-hydroxyproline epimer). Each leg is 1 ns equilibration + 5 ns production (500 frames) in explicit solvent
 (amber14 / GAFF-2.11 / TIP3P, OpenMM 4 fs hydrogen-mass-repartitioned LangevinMiddle), scored by an
-E3-CA-superposed **Kabsch-aligned interface-RMSD plateau** (R1; "stable" if the second-half plateau is below
-the frozen threshold), an E3–target contact fraction (R2, recruitment), and target-Lys presentation (R3).
-**17 of 18 legs completed** (warhead_only-s0 never cleared its host's container pull across repeated
-relaunches; the arm's finding stands on its two completed seeds); **no leg blew up.** Two readouts matter.
-**(i) Recruitment is uninformative here:** every completed leg is "recruited" with frac-frames-in-contact
-= 1.0 — the co-fold seeds the E3 in contact in *all* arms, including warhead_only (no recruiter) and the
-epimer — so contact-based recruitment is a **weak discriminator** and the interface-*stability* endpoint is
-the real readout. **(ii) Interface stability tracks the designed active/inactive contrast, modestly:** by
-per-seed stable fraction, **recruiter_active is stable in 3/3 seeds** whereas the **inactive recruiter_epimer
-is stable in only 1/3** — a directionally correct **active-vs-epimer separation that the static co-fold
-bridge-fraction classifier could not produce** (it scored the two identically), suggesting the *dynamic*
-interface-stability endpoint carries discrimination a single co-fold snapshot does not. The covalent arm is
-**feasible**: cov_nr4a1 is recruited in every seed and interface-stable in **2/3** — a majority-stable
-covalent NR4A1 ternary — with the reactive-Cys knockout **cov_c551a** less stable (**1/3**), weakly consistent
-with the covalent handle contributing. Crucially, though, the covalent arm is **not more stable than the
-non-covalent** one (noncov_nr4a1 is also 2/3), so on this metric covalency buys feasibility, not extra
-interface stability. **This is a geometric-feasibility and control-discrimination result, not a selectivity,
-cooperativity, or degradation claim:** 5 ns endpoint MD samples local interface stability, not binding
-thermodynamics, ternary cooperativity, or a DC50/Dmax window; only three seeds per arm (stability is
-seed-noisy, and the active/epimer separation is suggestive at n = 3, not established); the Cullin–RING/E2~Ub
-machinery is absent; and the NR-V04 reconstruction's exact recruiter connectivity remains
-primary-source-unverified. It makes **no efficacy, potency, or therapeutic claim.** The panel is notable also
-as an **infrastructure result**: it ran end-to-end on **Vast.ai community RTX 3090s** (interruptible bid tier)
-with portable per-frame checkpoint/resume across preempting hosts, at a **measured ~\$0.43 per leg (~\$8 for
-the full 18-leg panel)** — far below the going-in estimate — demonstrating that a rigorous multi-arm
-endpoint-MD control panel is achievable on commodity spot GPUs for single-digit dollars. Full per-leg
-readouts, the frozen scoring/prereg, and the driver: `nrv04_covalent_md.py` / `nrv04_covalent_panel.py`.
+E3-CA-superposed **Kabsch-aligned interface-RMSD plateau** (R1), an E3–target contact fraction (R2,
+recruitment), and target-Lys presentation (R3). **17 of 18 legs completed** (warhead_only-s0 never cleared its
+host's container pull across repeated relaunches); **no leg blew up.**
+
+**All three readouts were computed against the wrong protein interface** (banner above): R1 and R2 describe the
+Elongin C↔rest interface and R3 counted Elongin C's lysines, because the driver identified the degradation
+target by chain *order*. The per-arm interface-stability figures are therefore **withdrawn**, and with them this
+subsection's contribution to any GO decision. One observation survives in direction only, and even it is to be
+re-derived rather than cited: **recruitment is uninformative here** — every completed leg scored "recruited"
+with frac-frames-in-contact = 1.0, in *all* arms including warhead_only (no recruiter) and the epimer, which
+holds regardless of which chain pair was measured. The corrected 14-leg re-run, with the chain split now
+resolved and recorded per leg, is built and pending.
+
+What the panel does establish, independent of the chain bug, is **executional**: a six-arm covalent/non-covalent
+endpoint-MD control panel with an explicitly built covalent adduct is constructible and runs to completion at
+this scale. It ran end-to-end on **Vast.ai community RTX 3090s** (interruptible bid tier) with portable
+per-frame checkpoint/resume across preempting hosts, at **~\$0.43 per leg (~\$8 for the full 18-leg panel)**
+over a 15-leg price ledger — far below the going-in estimate, and unaffected by the interface error, which
+changed which atoms were scored and not what was simulated or billed. Even once corrected, this class of result
+would be geometric feasibility only, **not a selectivity, cooperativity, or degradation claim:** 5 ns endpoint
+MD samples local interface stability, not binding thermodynamics, ternary cooperativity, or a DC50/Dmax window;
+only three seeds per arm; the Cullin–RING/E2~Ub machinery is absent; and the NR-V04 reconstruction's exact
+recruiter connectivity remains primary-source-unverified. It makes **no efficacy, potency, or therapeutic
+claim.** Full per-leg readouts, the frozen scoring/prereg, and the driver: `nrv04_covalent_md.py` /
+`nrv04_covalent_panel.py`.
 
 **At marketed-library scale, no repurposing candidate survives the counter-screen** (the same funnel over the ~6,000-compound Broad Drug Repurposing Hub plus a 9-target anti-target panel: every paralogue-margin survivor receives a more favourable docking score at ≥1 counter-screen target than at NR4A3, whereas `denovo_401` does not). This is a screen-level result — it does *not* prove no NR4A3-selective repurposed drug exists — that **motivates** the de-novo route (§2.6). **Full screen and target panel: SI §S1.**
 
@@ -1088,7 +1093,8 @@ directionally supportive but **not statistically resolved** and is not claimed a
 SD, ± 2.03, is driven by one replicate whose NR4A3 leg sampled ~2.5 kcal/mol weaker; excluding it, r1/r3 agree
 at −6.9/−4.5.)
 
-**Three limits bound the reading, and two repairs are in flight.** *(i) The absolute scale is not validated.*
+**Three limits bound the reading, and the repair that would lift the second is scoped but deliberately held.**
+*(i) The absolute scale is not validated.*
 The same engine on a textbook benchmark (T4-lysozyme L99A + benzene, experimental ΔG_bind = −5.2 kcal/mol)
 returns **+1.90 ± 0.09**, under-binding by **≈ +7.1 kcal/mol** — a failed/strongly-biased absolute benchmark —
 so we interpret **the receptor contrasts rather than the raw absolute values**, never calibrated absolute
@@ -1114,7 +1120,11 @@ that repair (stated honestly):* a dense-schedule repair pilot scoped to the NR4A
 `results/nr4a3-abfe/diagnostics/nr4a3-abfe-diagnostics.json`, contains partial complex-NR4A2 legs only, **no
 solvent legs, and therefore no ΔG_bind** (the run log records `no ΔG_bind computed (no complete
 complex+solvent legs found)`, `research/modalities/_reports_abfe_diag.txt`). **No repaired ΔG or ΔΔG exists
-yet**, and the repair as piloted covers only one of the four legs that need it. *(iii) The ΔΔG is conditional on
+yet**, and the repair as piloted covers only one of the four legs that need it. **It is not currently running:
+the whole ABFE block is deliberately held** — completing the repair would sharpen error bars on a quantity that
+is conditional on the opened state and reported without any absolute calibration anyway, so it is not the next
+thing worth computing. Read the ABFE block as provisional and unresolved, not as pending. *(iii) The ΔΔG is
+conditional on
 the opened state.* It compares
 binding to *selected opened* conformers and omits the receptor-specific free-energy cost of populating that
 cryptic-opened state, which is potentially decisive and may differ across paralogues (§4).
@@ -1401,7 +1411,9 @@ The structure is an AF2 model
 (NR4A3 has no ligand-bound experimental structure; its apo LBD was released as a solution-NMR ensemble,
 PDB 8XTT, only in 2025) — the MD addresses exactly the single-snapshot limitation. **The 8XTT benchmark
 is done (§2.1) and is two-sided:** the experimental apo ensemble is structurally *heterogeneous* at the
-mapped site (most conformers occluded, 4/20 above D\* — structural corroboration, not a population estimate),
+mapped site (most conformers occluded; under the harmonized tracker the site is matched in 19/20 conformers, of
+which **3 exceed D\*** — 3/19 among detected, 3/20 across all deposited; structural corroboration, not a
+population estimate),
 **but** the AF2 atomic pocket geometry *diverges* from it (pocket-local Cα-RMSD 3.56 Å, handle 3.44 Å). Two
 prediction *directions* transfer to 8XTT conformers (PocketMiner enrichment, denovo_401 MM-GBSA preference),
 so the site's existence and those directions are corroborated while the AF2 *opened geometry* is not.
@@ -1416,7 +1428,9 @@ vs NMR↔NMR RMSD decomposition and a true residue-contact-graph spatial-patch n
 under-overlapped ABFE windows** — note this is *not* a single window: every leg (solvent and all three
 complex legs) has at least one soft-core-tail pair below 0.03 (§2.8), so the dense-schedule repair must cover
 all four legs, and the one repair pilot attempted so far (NR4A2 leg, tags `nr4a3-abfe-nr4a2rep-*`) **did not
-complete and produced no ΔG**.
+complete and produced no ΔG**. This item is **held, not queued** — repairing the error bars would not lift the
+two limits that actually bound the ABFE block (no validated absolute scale; conditional on the chosen opened
+state), so it is not the next computation this program should buy.
 Only a **ligand-bound** experimental structure could validate the warhead-engaged pose. We state the central result at its true
 weight, with the following caveats made explicit rather than buried:
 
@@ -1545,8 +1559,12 @@ multi-snapshot decoy null in its design frame** (§2.7), and which is the subjec
 selectivity FEP (§3). (The earlier decoy-calibrated single-snapshot foothold `denovo_111` — +15.7 vs the +13.1
 95th-percentile bar; §2.6 — was subsequently **withdrawn**: its cationic form reverses selectivity, §2.7.)
 It remains a **screening-grade, single-trajectory GB-implicit, unsynthesized, no-wet-lab** candidate —
-supported by **initial conditional ABFE receptor contrasts** (NR4A2 λ-repair and the NR4A3 structural-model
-sensitivity test still pending) but not experimentally validated. With no wet lab, the strongest honest claim is
+supported by **initial conditional ABFE receptor contrasts** but not experimentally validated. Two riders on
+those contrasts, at their current status: the NR4A3 structural-model sensitivity test **has been run** (the
+8XTT-anchored NR4A3 leg, in triplicate, §2.8) and it moved the absolute by more than the entire selectivity
+margin, while the **matched** experiment-anchored paralogue legs have not been run and remain the decisive
+follow-up; and the dense-schedule λ-repair that would firm up the error bars is **held**, so every ABFE number
+here stays provisional. With no wet lab, the strongest honest claim is
 **"computationally designed for an NR4A3-favoured profile and supported by initial ABFE receptor contrasts
 conditional on selected opened conformers,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
 anti-target (SI §S4); and binding selectivity is still necessary-not-sufficient for *degradation* selectivity

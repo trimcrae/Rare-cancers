@@ -143,7 +143,7 @@ before the feasibility panel ran and are **not** re-tuned here.
 | id | quantity | kernel | role |
 |---|---|---|---|
 | **E1 (PRIMARY)** | interface-RMSD **plateau** (Å): mean RMSD of the E3∩target interface heavy atoms over the **final 50 %** of production frames, vs the starting interface | `interface_rmsd_stable().plateau_A` | continuous primary endpoint; **lower = more stable** |
-| E2 | **stable fraction**: fraction of an arm's legs with plateau < **4.0 Å** | same, `.stable` | binary secondary (the readout that discriminated in the feasibility panel: recruiter_active 3/3 vs epimer 1/3) |
+| E2 | **stable fraction**: fraction of an arm's legs with plateau < **4.0 Å** | same, `.stable` | binary secondary (⚠ *the motivating observation — "recruiter_active 3/3 vs epimer 1/3 in the feasibility panel" — is **WITHDRAWN** as of 2026-07-24: that panel scored the Elongin C interface, not VHL↔NR4A1. The **endpoint and its 4.0 Å threshold are unchanged** — they were frozen before the panel ran and are not re-tuned here — but E2 no longer has a demonstrated discrimination behind it. See `nrv04-cofold-chain-forensics-2026-07-24.md`; note added 2026-07-25, no threshold touched.*) |
 | E3 | mean interface contact count over production | `recruitment().mean_contacts` | secondary. **Known weak discriminator** — the feasibility panel showed co-fold seeds contact in all arms — so it is reported, never gating |
 | E4 | Lys-Nζ presentation distance distribution | `lys_presentation()` | **descriptive only, never a gate** (ternary prereg §6.3: no distance cutoff quantitatively predicts degradation) |
 
