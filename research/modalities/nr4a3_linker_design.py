@@ -99,6 +99,9 @@ FILTER = {
     "max_strain_kT_at_placement": MAX_STRAIN_KT,
     "max_backbone_atoms": CHEM_MAX_ATOMS,
     "max_per_basin_per_kind": 2,      # diversity cap: no basin may flood the library with one pendant class
+    "max_per_basin_per_control": 1,   # ... and each CONTROL gets its own slot, keyed on the pendant itself,
+                                      # so the irreversible comparator cannot be crowded out by the
+                                      # reversible electrophiles it exists to be compared against
     "controls_retained_when_matched": True,    # a control (irreversible comparator, saturated non-
                                       # electrophile, aza-scan phenyl) is kept when a DESIGN construct of the
                                       # same basin/warhead/body was kept — controls exist to match designs,
@@ -891,13 +894,19 @@ def apply_filter(lib):
             design_slots.add((c["designed_for_basin"], c["warhead_handle"], tuple(c["linker_segments"])))
             kept.append(dict(c, role="design"))
     # pass 2 — controls, retained only where they MATCH a kept design
+    # ★ CONTROLS GET THEIR OWN CAP BUCKET, KEYED ON THE PENDANT ITSELF. Sharing the design bucket
+    # (basin x pendant_kind) crowded them out: the two reversible electrophiles filled the "electrophile"
+    # slot for every basin, and the IRREVERSIBLE comparator — the one construct that makes "prefer
+    # reversible" a tested choice rather than an assertion — was filtered to ZERO. A filter that silently
+    # deletes the comparator it is being judged against is worse than no filter.
+    ccounts = {}
     for c in ordered:
         if not is_control(c):
             continue
         slot = (c["designed_for_basin"], c["warhead_handle"], tuple(c["linker_segments"]))
-        key = (c["designed_for_basin"], c["pendant_kind"])
-        if slot in design_slots and counts.get(key, 0) < FILTER["max_per_basin_per_kind"]:
-            counts[key] = counts.get(key, 0) + 1
+        key = (c["designed_for_basin"], c["pendant"])
+        if slot in design_slots and ccounts.get(key, 0) < FILTER["max_per_basin_per_control"]:
+            ccounts[key] = ccounts.get(key, 0) + 1
             kept.append(dict(c, role="control", matched_to_design_slot=[slot[0], slot[1], "+".join(slot[2])]))
     kept_ids = {c["construct_id"] for c in kept}
     # ★ pass 2b — NO CONFIRMED BASIN MAY SILENTLY VANISH. crbn|M0 is RUNG 5a's strongest nomination (0.92

@@ -264,6 +264,7 @@
     "max_strain_kT_at_placement": 3.0,
     "max_backbone_atoms": 24,
     "max_per_basin_per_kind": 2,
+    "max_per_basin_per_control": 1,
     "controls_retained_when_matched": true,
     "failing_basin_kept_as_labelled_negative": true
   },
@@ -2811,29 +2812,29 @@
       ]
     },
     {
-      "construct_id": "vhlM3_5amide_a2-a3_ph",
+      "construct_id": "vhlM3_5triazole_a2-a3_acrylamide",
       "designed_for_basin": "vhl|M3",
       "basin_role": "design target",
       "e3_handle": "vhl",
-      "warhead_handle": "5amide",
+      "warhead_handle": "5triazole",
       "linker_segments": [
         "a2",
         "a3"
       ],
       "linker_class": "alkyl+alkyl",
-      "n_backbone_atoms_intended": 12,
-      "pendant": "ph",
-      "pendant_kind": "wedge_control",
-      "branch_residue": "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH",
+      "n_backbone_atoms_intended": 15,
+      "pendant": "acrylamide",
+      "pendant_kind": "electrophile",
+      "branch_residue": "Fmoc-L-Dab(Boc)-OH",
       "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
-      "branch_k_from_warhead": 7,
-      "branch_target": "T407",
+      "branch_k_from_warhead": 10,
+      "branch_target": "C397 SG",
       "branch_window": {
-        "k_min": 4,
-        "k_max": 9,
-        "best_k": 7
+        "k_min": 10,
+        "k_max": 11,
+        "best_k": 10
       },
-      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)C=C)C(=O)NCCCn4cc(COc5ccc6[nH]cc(C(=O)OC)c6c5)nn4)O",
       "span_window_A": {
         "min": 9.67,
         "median": 20.36,
@@ -2846,15 +2847,15 @@
         "selectivity_vs_other_confirmed_basins": 1.0,
         "selectivity_note": null,
         "other_basin_mean_coverage": 0.3,
-        "strain_kT_at_placement_span": 0.08,
+        "strain_kT_at_placement_span": 0.0,
         "spans_the_floor": true
       },
       "synthetic_route": {
         "steps": [
-          "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+          "1. CuAAC (CuSO4/NaAsc); the propargyl ether is one O-alkylation from 5-hydroxyindole  [warhead side: 5-O-propargyl indole, CuAAC to a linker azide (1,4-triazole)]",
           "2. linker: succinyl / beta-alanine unit",
-          "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
-          "4. selective side-chain deprotection, then Fmoc-L-Phe-OH \u2014 as ordinary a building block as exists.",
+          "3. couple the orthogonally protected branch residue (Fmoc-L-Dab(Boc)-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+          "4. selective side-chain deprotection, then acryloyl chloride or acrylic acid + coupling agent on the branch amine.",
           "5. extend with glutaryl / GABA unit",
           "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
         ],
@@ -2864,7 +2865,7 @@
       "role": "control",
       "matched_to_design_slot": [
         "vhl|M3",
-        "5amide",
+        "5triazole",
         "a2+a3"
       ]
     },
@@ -2927,6 +2928,64 @@
       ]
     },
     {
+      "construct_id": "vhlM2_5amide_a2-a11_acrylamide",
+      "designed_for_basin": "vhl|M2",
+      "basin_role": "design target",
+      "e3_handle": "vhl",
+      "warhead_handle": "5amide",
+      "linker_segments": [
+        "a2",
+        "a11"
+      ],
+      "linker_class": "alkyl+alkyl",
+      "n_backbone_atoms_intended": 20,
+      "pendant": "acrylamide",
+      "pendant_kind": "electrophile",
+      "branch_residue": "Fmoc-L-Dab(Boc)-OH",
+      "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
+      "branch_k_from_warhead": 15,
+      "branch_target": "C397 SG",
+      "branch_window": {
+        "k_min": 7,
+        "k_max": 19,
+        "best_k": 16
+      },
+      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)C=C)C(=O)NCCCCCCCCCCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+      "span_window_A": {
+        "min": 6.88,
+        "median": 19.17,
+        "max": 24.93
+      },
+      "basin_fidelity": {
+        "member_fraction_spannable": 1.0,
+        "member_fraction_comfortable": 0.3,
+        "P_reach_normalised": 0.3,
+        "selectivity_vs_other_confirmed_basins": 1.0,
+        "selectivity_note": null,
+        "other_basin_mean_coverage": 0.3,
+        "strain_kT_at_placement_span": 2.29,
+        "spans_the_floor": true
+      },
+      "synthetic_route": {
+        "steps": [
+          "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+          "2. linker: succinyl / beta-alanine unit",
+          "3. couple the orthogonally protected branch residue (Fmoc-L-Dab(Boc)-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+          "4. selective side-chain deprotection, then acryloyl chloride or acrylic acid + coupling agent on the branch amine.",
+          "5. extend with tridecanedioic-type unit",
+          "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
+        ],
+        "convergent": true,
+        "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
+      },
+      "role": "control",
+      "matched_to_design_slot": [
+        "vhl|M2",
+        "5amide",
+        "a2+a11"
+      ]
+    },
+    {
       "construct_id": "vhlM2_5amide_a2-a11_cyanoprop",
       "designed_for_basin": "vhl|M2",
       "basin_role": "design target",
@@ -2985,64 +3044,6 @@
       ]
     },
     {
-      "construct_id": "vhlM2_5amide_a2-m4_cyanoprop",
-      "designed_for_basin": "vhl|M2",
-      "basin_role": "design target",
-      "e3_handle": "vhl",
-      "warhead_handle": "5amide",
-      "linker_segments": [
-        "a2",
-        "m4"
-      ],
-      "linker_class": "alkyl+peg",
-      "n_backbone_atoms_intended": 20,
-      "pendant": "cyanoprop",
-      "pendant_kind": "control",
-      "branch_residue": "Fmoc-L-Dab(Boc)-OH",
-      "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
-      "branch_k_from_warhead": 15,
-      "branch_target": "C397 SG",
-      "branch_window": {
-        "k_min": 7,
-        "k_max": 19,
-        "best_k": 16
-      },
-      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)[C@@H](C#N)CC)C(=O)NCCOCCOCCOCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
-      "span_window_A": {
-        "min": 6.88,
-        "median": 19.17,
-        "max": 24.93
-      },
-      "basin_fidelity": {
-        "member_fraction_spannable": 1.0,
-        "member_fraction_comfortable": 0.3,
-        "P_reach_normalised": 0.3,
-        "selectivity_vs_other_confirmed_basins": 1.0,
-        "selectivity_note": null,
-        "other_basin_mean_coverage": 0.3,
-        "strain_kT_at_placement_span": 2.29,
-        "spans_the_floor": true
-      },
-      "synthetic_route": {
-        "steps": [
-          "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
-          "2. linker: succinyl / beta-alanine unit",
-          "3. couple the orthogonally protected branch residue (Fmoc-L-Dab(Boc)-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
-          "4. selective side-chain deprotection, then hydrogenation of cyac_me, or direct coupling of 2-cyanobutanoic acid.",
-          "5. extend with PEG4 amino-acid unit",
-          "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
-        ],
-        "convergent": true,
-        "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
-      },
-      "role": "control",
-      "matched_to_design_slot": [
-        "vhl|M2",
-        "5amide",
-        "a2+m4"
-      ]
-    },
-    {
       "construct_id": "vhlM2_5amide_a2-a11_ph",
       "designed_for_basin": "vhl|M2",
       "basin_role": "design target",
@@ -3098,64 +3099,6 @@
         "vhl|M2",
         "5amide",
         "a2+a11"
-      ]
-    },
-    {
-      "construct_id": "vhlM2_5amide_a2-m4_ph",
-      "designed_for_basin": "vhl|M2",
-      "basin_role": "design target",
-      "e3_handle": "vhl",
-      "warhead_handle": "5amide",
-      "linker_segments": [
-        "a2",
-        "m4"
-      ],
-      "linker_class": "alkyl+peg",
-      "n_backbone_atoms_intended": 20,
-      "pendant": "ph",
-      "pendant_kind": "wedge_control",
-      "branch_residue": "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH",
-      "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
-      "branch_k_from_warhead": 15,
-      "branch_target": "C397",
-      "branch_window": {
-        "k_min": 11,
-        "k_max": 18,
-        "best_k": 16
-      },
-      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCOCCOCCOCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
-      "span_window_A": {
-        "min": 6.88,
-        "median": 19.17,
-        "max": 24.93
-      },
-      "basin_fidelity": {
-        "member_fraction_spannable": 1.0,
-        "member_fraction_comfortable": 0.3,
-        "P_reach_normalised": 0.3,
-        "selectivity_vs_other_confirmed_basins": 1.0,
-        "selectivity_note": null,
-        "other_basin_mean_coverage": 0.3,
-        "strain_kT_at_placement_span": 2.29,
-        "spans_the_floor": true
-      },
-      "synthetic_route": {
-        "steps": [
-          "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
-          "2. linker: succinyl / beta-alanine unit",
-          "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
-          "4. selective side-chain deprotection, then Fmoc-L-Phe-OH \u2014 as ordinary a building block as exists.",
-          "5. extend with PEG4 amino-acid unit",
-          "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
-        ],
-        "convergent": true,
-        "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
-      },
-      "role": "control",
-      "matched_to_design_slot": [
-        "vhl|M2",
-        "5amide",
-        "a2+m4"
       ]
     },
     {
@@ -3632,6 +3575,61 @@
           "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
           "4. selective side-chain deprotection, then Fmoc-3-(3-pyridyl)-L-alanine, a standard unnatural-amino-acid building block, coupled in place of the Fmoc-L-Phe of the control.",
           "5. extend with succinyl / beta-alanine unit",
+          "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
+        ],
+        "convergent": true,
+        "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
+      },
+      "rejected_because": [
+        "diversity cap or unmatched control"
+      ]
+    },
+    {
+      "construct_id": "vhlM3_5amide_a2-a3_ph",
+      "designed_for_basin": "vhl|M3",
+      "basin_role": "design target",
+      "e3_handle": "vhl",
+      "warhead_handle": "5amide",
+      "linker_segments": [
+        "a2",
+        "a3"
+      ],
+      "linker_class": "alkyl+alkyl",
+      "n_backbone_atoms_intended": 12,
+      "pendant": "ph",
+      "pendant_kind": "wedge_control",
+      "branch_residue": "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH",
+      "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
+      "branch_k_from_warhead": 7,
+      "branch_target": "T407",
+      "branch_window": {
+        "k_min": 4,
+        "k_max": 9,
+        "best_k": 7
+      },
+      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+      "span_window_A": {
+        "min": 9.67,
+        "median": 20.36,
+        "max": 24.89
+      },
+      "basin_fidelity": {
+        "member_fraction_spannable": 0.3,
+        "member_fraction_comfortable": 0.3,
+        "P_reach_normalised": 0.3,
+        "selectivity_vs_other_confirmed_basins": 1.0,
+        "selectivity_note": null,
+        "other_basin_mean_coverage": 0.3,
+        "strain_kT_at_placement_span": 0.08,
+        "spans_the_floor": true
+      },
+      "synthetic_route": {
+        "steps": [
+          "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+          "2. linker: succinyl / beta-alanine unit",
+          "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+          "4. selective side-chain deprotection, then Fmoc-L-Phe-OH \u2014 as ordinary a building block as exists.",
+          "5. extend with glutaryl / GABA unit",
           "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
         ],
         "convergent": true,
@@ -5321,61 +5319,6 @@
           "1. CuAAC (CuSO4/NaAsc); the propargyl ether is one O-alkylation from 5-hydroxyindole  [warhead side: 5-O-propargyl indole, CuAAC to a linker azide (1,4-triazole)]",
           "2. linker: PEG4 diglycolic unit",
           "3. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
-        ],
-        "convergent": true,
-        "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
-      },
-      "rejected_because": [
-        "diversity cap or unmatched control"
-      ]
-    },
-    {
-      "construct_id": "vhlM3_5triazole_a2-a3_acrylamide",
-      "designed_for_basin": "vhl|M3",
-      "basin_role": "design target",
-      "e3_handle": "vhl",
-      "warhead_handle": "5triazole",
-      "linker_segments": [
-        "a2",
-        "a3"
-      ],
-      "linker_class": "alkyl+alkyl",
-      "n_backbone_atoms_intended": 15,
-      "pendant": "acrylamide",
-      "pendant_kind": "electrophile",
-      "branch_residue": "Fmoc-L-Dab(Boc)-OH",
-      "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
-      "branch_k_from_warhead": 10,
-      "branch_target": "C397 SG",
-      "branch_window": {
-        "k_min": 10,
-        "k_max": 11,
-        "best_k": 10
-      },
-      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)C=C)C(=O)NCCCn4cc(COc5ccc6[nH]cc(C(=O)OC)c6c5)nn4)O",
-      "span_window_A": {
-        "min": 9.67,
-        "median": 20.36,
-        "max": 24.89
-      },
-      "basin_fidelity": {
-        "member_fraction_spannable": 0.3,
-        "member_fraction_comfortable": 0.3,
-        "P_reach_normalised": 0.3,
-        "selectivity_vs_other_confirmed_basins": 1.0,
-        "selectivity_note": null,
-        "other_basin_mean_coverage": 0.3,
-        "strain_kT_at_placement_span": 0.0,
-        "spans_the_floor": true
-      },
-      "synthetic_route": {
-        "steps": [
-          "1. CuAAC (CuSO4/NaAsc); the propargyl ether is one O-alkylation from 5-hydroxyindole  [warhead side: 5-O-propargyl indole, CuAAC to a linker azide (1,4-triazole)]",
-          "2. linker: succinyl / beta-alanine unit",
-          "3. couple the orthogonally protected branch residue (Fmoc-L-Dab(Boc)-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
-          "4. selective side-chain deprotection, then acryloyl chloride or acrylic acid + coupling agent on the branch amine.",
-          "5. extend with glutaryl / GABA unit",
-          "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
         ],
         "convergent": true,
         "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
@@ -39514,61 +39457,6 @@
       ]
     },
     {
-      "construct_id": "vhlM2_5amide_a2-a11_acrylamide",
-      "designed_for_basin": "vhl|M2",
-      "basin_role": "design target",
-      "e3_handle": "vhl",
-      "warhead_handle": "5amide",
-      "linker_segments": [
-        "a2",
-        "a11"
-      ],
-      "linker_class": "alkyl+alkyl",
-      "n_backbone_atoms_intended": 20,
-      "pendant": "acrylamide",
-      "pendant_kind": "electrophile",
-      "branch_residue": "Fmoc-L-Dab(Boc)-OH",
-      "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
-      "branch_k_from_warhead": 15,
-      "branch_target": "C397 SG",
-      "branch_window": {
-        "k_min": 7,
-        "k_max": 19,
-        "best_k": 16
-      },
-      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)C=C)C(=O)NCCCCCCCCCCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
-      "span_window_A": {
-        "min": 6.88,
-        "median": 19.17,
-        "max": 24.93
-      },
-      "basin_fidelity": {
-        "member_fraction_spannable": 1.0,
-        "member_fraction_comfortable": 0.3,
-        "P_reach_normalised": 0.3,
-        "selectivity_vs_other_confirmed_basins": 1.0,
-        "selectivity_note": null,
-        "other_basin_mean_coverage": 0.3,
-        "strain_kT_at_placement_span": 2.29,
-        "spans_the_floor": true
-      },
-      "synthetic_route": {
-        "steps": [
-          "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
-          "2. linker: succinyl / beta-alanine unit",
-          "3. couple the orthogonally protected branch residue (Fmoc-L-Dab(Boc)-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
-          "4. selective side-chain deprotection, then acryloyl chloride or acrylic acid + coupling agent on the branch amine.",
-          "5. extend with tridecanedioic-type unit",
-          "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
-        ],
-        "convergent": true,
-        "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
-      },
-      "rejected_because": [
-        "diversity cap or unmatched control"
-      ]
-    },
-    {
       "construct_id": "vhlM2_5amide_a2-m4_acrylamide",
       "designed_for_basin": "vhl|M2",
       "basin_role": "design target",
@@ -39779,6 +39667,61 @@
           "3. couple the orthogonally protected branch residue (Fmoc-L-Dab(Boc)-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
           "4. selective side-chain deprotection, then acryloyl chloride or acrylic acid + coupling agent on the branch amine.",
           "5. extend with glutaryl / GABA unit",
+          "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
+        ],
+        "convergent": true,
+        "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
+      },
+      "rejected_because": [
+        "diversity cap or unmatched control"
+      ]
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-m4_cyanoprop",
+      "designed_for_basin": "vhl|M2",
+      "basin_role": "design target",
+      "e3_handle": "vhl",
+      "warhead_handle": "5amide",
+      "linker_segments": [
+        "a2",
+        "m4"
+      ],
+      "linker_class": "alkyl+peg",
+      "n_backbone_atoms_intended": 20,
+      "pendant": "cyanoprop",
+      "pendant_kind": "control",
+      "branch_residue": "Fmoc-L-Dab(Boc)-OH",
+      "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
+      "branch_k_from_warhead": 15,
+      "branch_target": "C397 SG",
+      "branch_window": {
+        "k_min": 7,
+        "k_max": 19,
+        "best_k": 16
+      },
+      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)[C@@H](C#N)CC)C(=O)NCCOCCOCCOCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+      "span_window_A": {
+        "min": 6.88,
+        "median": 19.17,
+        "max": 24.93
+      },
+      "basin_fidelity": {
+        "member_fraction_spannable": 1.0,
+        "member_fraction_comfortable": 0.3,
+        "P_reach_normalised": 0.3,
+        "selectivity_vs_other_confirmed_basins": 1.0,
+        "selectivity_note": null,
+        "other_basin_mean_coverage": 0.3,
+        "strain_kT_at_placement_span": 2.29,
+        "spans_the_floor": true
+      },
+      "synthetic_route": {
+        "steps": [
+          "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+          "2. linker: succinyl / beta-alanine unit",
+          "3. couple the orthogonally protected branch residue (Fmoc-L-Dab(Boc)-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+          "4. selective side-chain deprotection, then hydrogenation of cyac_me, or direct coupling of 2-cyanobutanoic acid.",
+          "5. extend with PEG4 amino-acid unit",
           "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
         ],
         "convergent": true,
@@ -40054,6 +39997,61 @@
           "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
           "4. selective side-chain deprotection, then Fmoc-3-(3-pyridyl)-L-alanine, a standard unnatural-amino-acid building block, coupled in place of the Fmoc-L-Phe of the control.",
           "5. extend with undecanedioic-type unit",
+          "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
+        ],
+        "convergent": true,
+        "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
+      },
+      "rejected_because": [
+        "diversity cap or unmatched control"
+      ]
+    },
+    {
+      "construct_id": "vhlM2_5amide_a2-m4_ph",
+      "designed_for_basin": "vhl|M2",
+      "basin_role": "design target",
+      "e3_handle": "vhl",
+      "warhead_handle": "5amide",
+      "linker_segments": [
+        "a2",
+        "m4"
+      ],
+      "linker_class": "alkyl+peg",
+      "n_backbone_atoms_intended": 20,
+      "pendant": "ph",
+      "pendant_kind": "wedge_control",
+      "branch_residue": "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH",
+      "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
+      "branch_k_from_warhead": 15,
+      "branch_target": "C397",
+      "branch_window": {
+        "k_min": 11,
+        "k_max": 18,
+        "best_k": 16
+      },
+      "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCOCCOCCOCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+      "span_window_A": {
+        "min": 6.88,
+        "median": 19.17,
+        "max": 24.93
+      },
+      "basin_fidelity": {
+        "member_fraction_spannable": 1.0,
+        "member_fraction_comfortable": 0.3,
+        "P_reach_normalised": 0.3,
+        "selectivity_vs_other_confirmed_basins": 1.0,
+        "selectivity_note": null,
+        "other_basin_mean_coverage": 0.3,
+        "strain_kT_at_placement_span": 2.29,
+        "spans_the_floor": true
+      },
+      "synthetic_route": {
+        "steps": [
+          "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+          "2. linker: succinyl / beta-alanine unit",
+          "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+          "4. selective side-chain deprotection, then Fmoc-L-Phe-OH \u2014 as ordinary a building block as exists.",
+          "5. extend with PEG4 amino-acid unit",
           "6. HATU or T3P amide coupling of the linker acid to the des-acetyl VH032 amine  [E3 side: VH032 (des-acetyl), linker on the tert-leucine nitrogen]"
         ],
         "convergent": true,
@@ -111296,18 +111294,18 @@
   ],
   "library_summary": {
     "n_enumerated": 1995,
-    "n_rejected": 1973,
-    "n_constructs": 22,
+    "n_rejected": 1974,
+    "n_constructs": 21,
     "by_basin": {
       "crbn|M0": 1,
       "vhl|M3": 9,
-      "vhl|M2": 10,
+      "vhl|M2": 9,
       "vhl|M4": 1,
       "vhl|M14": 1
     },
     "n_reversible_covalent": 4,
-    "n_irreversible_comparator": 0,
-    "n_controls": 7
+    "n_irreversible_comparator": 2,
+    "n_controls": 4
   },
   "matched_pair_for_rung_5a_ks": {
     "status": "PROPOSED",
@@ -111573,5 +111571,5 @@
       "why_this_d0": "the saturated analogue is the standard non-electrophilic control: same heavy atoms, same charge, same amide, no Michael acceptor \u2014 so the alchemical change is the C=C and nothing else."
     }
   },
-  "runtime_s": 24.6
+  "runtime_s": 20.0
 }

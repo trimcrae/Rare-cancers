@@ -121,6 +121,28 @@ def test_the_irreversible_comparator_is_present_and_labelled():
     assert any(p.get("reversible") is True for p in LDD.PENDANT.values())
 
 
+def test_controls_have_their_own_cap_bucket():
+    """★ The regression this pins. Sharing the design bucket (basin x pendant_kind) let the two reversible
+    electrophiles fill the 'electrophile' slot and filtered the IRREVERSIBLE comparator to zero — deleting
+    the one construct that makes 'prefer reversible' falsifiable. Controls are capped per PENDANT."""
+    assert "max_per_basin_per_control" in LDD.FILTER
+    assert LDD.FILTER["max_per_basin_per_control"] >= 1
+
+
+def test_emitted_library_keeps_the_comparator_and_the_controls():
+    """Checked against the committed artifact rather than the code path, because the failure mode was a
+    library that looked healthy while missing its comparator."""
+    import json
+    import os
+    path = os.path.join(os.path.dirname(__file__), "..", "nr4a3-linker-design.json")
+    if not os.path.exists(path):
+        pytest.skip("design artifact not present")
+    s = json.load(open(path))["library_summary"]
+    assert s["n_irreversible_comparator"] >= 1, "the irreversible comparator was filtered out of the library"
+    assert s["n_reversible_covalent"] >= 1
+    assert s["n_controls"] >= 1
+
+
 def test_saturated_control_matches_its_electrophile_in_everything_but_the_alkene():
     """The non-electrophilic control must be the cyanoacrylamide with the Michael acceptor reduced — same
     atoms, one bond order different — or it is not a matched control."""

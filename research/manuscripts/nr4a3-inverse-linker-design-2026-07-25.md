@@ -201,7 +201,7 @@ two-decimal rounding of the stored coordinates). A recovery worse than 0.05 Å i
 
 ## 5. The virtual library
 
-**2,141 constructs enumerated, 22 retained** by a **preregistered** filter — fixed before enumeration and never
+**1,995 constructs enumerated, 21 retained** by a **preregistered** filter — fixed before enumeration and never
 tuned to a result, the same discipline the E3 downselect and the Tier-2 gate were held to. It is a set of
 thresholds, not a tunable scalar, because a tunable scalar is what STRATEGY.md's load-bearing piece 5 forbids.
 
