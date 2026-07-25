@@ -130,11 +130,11 @@ def _forward_reverse(analyzer, n_points=8):
         if u_ln is None or N_l is None:
             # fall back to the reduced potential from the reporter
             return {"status": "forward/reverse needs analyzer u_ln cache (not exposed in this version)"}
-        from pymbar import MBAR
         N_l = np.asarray(N_l, dtype=int)
         K = len(N_l)
+        f_k = _converged_f_k(analyzer)   # seed each slice solve; see _solve_mbar for why a bare MBAR fails here
         fracs = [i / n_points for i in range(1, n_points + 1)]
-        fwd, rev = [], []
+        fwd, rev, errs = [], [], []
         for f in fracs:
             for series, store in ((True, fwd), (False, rev)):
                 Nsub = np.maximum((N_l * f).astype(int), 1)
@@ -147,17 +147,33 @@ def _forward_reverse(analyzer, n_points=8):
                     offset += n
                 sel = np.concatenate(cols)
                 try:
-                    m = MBAR(u_ln[:, sel], Nsub)
-                    df = m.compute_free_energy_differences()["Delta_f"] if hasattr(m, "compute_free_energy_differences") \
-                        else m.getFreeEnergyDifferences()[0]
-                    store.append(float(df[0, -1]) * KT_KCAL)
-                except Exception:  # noqa: BLE001
+                    store.append(_solve_mbar(u_ln[:, sel], Nsub, f_k) * KT_KCAL)
+                except Exception as e:  # noqa: BLE001
                     store.append(None)
-        gap = None
+                    # Record WHY a point is missing. Silent Nones made an all-null series look like a computed
+                    # result with status "ok", which is how this diagnostic reported nothing and still passed.
+                    if len(errs) < 3:
+                        errs.append("%s: %s" % (type(e).__name__, str(e)[:160]))
+        # THE GAP MUST BE TAKEN BELOW f = 1. At f = 1 the forward slice (first 100 % of each state's samples) and
+        # the reverse slice (last 100 %) are THE SAME SAMPLES, so |fwd[-1] − rev[-1]| is identically ~0 and a
+        # threshold on it can never fire. Use the largest fraction strictly below 1 as the headline gap, and also
+        # report the worst gap over all f < 1, which is what actually detects drift/hysteresis.
+        pairs = [(f, a, b) for f, a, b in zip(fracs, fwd, rev)
+                 if f < 1.0 and a is not None and b is not None]
+        gap = abs(pairs[-1][1] - pairs[-1][2]) if pairs else None
+        gap_at = pairs[-1][0] if pairs else None
+        gap_max = max((abs(a - b) for _, a, b in pairs), default=None)
+        trivial = None
         if fwd and rev and fwd[-1] is not None and rev[-1] is not None:
-            gap = abs(fwd[-1] - rev[-1])
-        return {"status": "ok", "fractions": fracs, "forward_dg_kcal": fwd, "reverse_dg_kcal": rev,
-                "final_forward_reverse_gap_kcal": gap}
+            trivial = abs(fwd[-1] - rev[-1])
+        n_ok = sum(1 for v in fwd + rev if v is not None)
+        return {"status": ("ok" if n_ok else "no point solved — see slice_errors"),
+                "fractions": fracs, "forward_dg_kcal": fwd, "reverse_dg_kcal": rev,
+                "n_points_solved": n_ok, "n_points_total": 2 * len(fracs),
+                "slice_errors": errs or None,
+                "final_forward_reverse_gap_kcal": gap, "gap_taken_at_fraction": gap_at,
+                "max_forward_reverse_gap_below_full_kcal": gap_max,
+                "gap_at_full_fraction_uninformative": trivial}
     except Exception as e:  # noqa: BLE001
         return {"status": "forward/reverse failed: %s: %s" % (type(e).__name__, e)}
 
@@ -175,27 +191,69 @@ def block_plateau_flags(dg_full, dg_final_half, dg_q3, dg_q4):
             "plateau_full_vs_half_ok": plateau, "quarter_block_ok": quarters}
 
 
-def _mbar_dg_on_slice(u_ln, N_l, lo_frac, hi_frac):
-    """MBAR ΔG (kcal/mol) over the [lo_frac, hi_frac) portion of EACH state's decorrelated samples. Used for the
-    block-plateau tail analysis (reviewer condition 4)."""
+def _solve_mbar(u_kn, N_k, initial_f_k=None):
+    """Build an MBAR on a SUB-SLICE of an already-analysed trajectory and return Delta_f, in kT.
+
+    Why this exists: a bare `MBAR(u_kn, N_k)` on a slice reliably failed on the real valB legs with pymbar's
+    `ParameterError: Should have \\sum_n W_nk = 1. Actual column sum for state 0 was 11.94` (K = 12) — the
+    self-consistency check on the weight matrix, i.e. the SOLVER did not converge, not a corrupt trajectory.
+    openmmtools' own MBAR on the identical data converged fine (ΔG 47.51 ± 0.045 kcal/mol) because it seeds and
+    solves differently. The stock error text ends with "This generally indicates the free energies are not
+    converged", which reads as a verdict on the physics; on the evidence (full MBAR converged, overlap matrix
+    connected at 0.109 min-adjacent) it is a verdict on this solver call. So: seed from the analyser's already
+    converged f_k and ask for the robust solver, falling back through older pymbar signatures.
+    """
     import numpy as np
     from pymbar import MBAR
+    attempts = []
+    if initial_f_k is not None:
+        attempts.append({"initial_f_k": np.asarray(initial_f_k, dtype=float),
+                         "solver_protocol": "robust"})
+        attempts.append({"initial_f_k": np.asarray(initial_f_k, dtype=float)})
+    attempts.append({"solver_protocol": "robust"})
+    attempts.append({})
+    last = None
+    for kw in attempts:
+        try:
+            m = MBAR(u_kn, N_k, **kw)
+            df = (m.compute_free_energy_differences()["Delta_f"]
+                  if hasattr(m, "compute_free_energy_differences") else m.getFreeEnergyDifferences()[0])
+            return float(df[0, -1])
+        except Exception as e:  # noqa: BLE001  (TypeError = signature; ParameterError = non-convergence)
+            last = e
+    raise last if last is not None else RuntimeError("MBAR slice solve failed with no exception recorded")
+
+
+def _slice_indices(N_l, lo_frac, hi_frac):
+    """Column indices + per-state counts for the [lo_frac, hi_frac) portion of EACH state's samples."""
+    import numpy as np
     N_l = np.asarray(N_l, dtype=int)
-    K = len(N_l)
     cols, offset, Nsub = [], 0, []
-    for k in range(K):
+    for k in range(len(N_l)):
         n = int(N_l[k])
         a = offset + int(n * lo_frac)
-        b = offset + int(n * hi_frac)
-        b = max(b, a + 1)
+        b = max(offset + int(n * hi_frac), a + 1)
         cols.append(np.arange(a, min(b, offset + n)))
         Nsub.append(len(cols[-1]))
         offset += n
-    sel = np.concatenate(cols)
-    m = MBAR(u_ln[:, sel], np.asarray(Nsub, dtype=int))
-    df = (m.compute_free_energy_differences()["Delta_f"] if hasattr(m, "compute_free_energy_differences")
-          else m.getFreeEnergyDifferences()[0])
-    return float(df[0, -1]) * KT_KCAL
+    return np.concatenate(cols), np.asarray(Nsub, dtype=int)
+
+
+def _mbar_dg_on_slice(u_ln, N_l, lo_frac, hi_frac, initial_f_k=None):
+    """MBAR ΔG (kcal/mol) over the [lo_frac, hi_frac) portion of EACH state's decorrelated samples. Used for the
+    block-plateau tail analysis (reviewer condition 4)."""
+    sel, Nsub = _slice_indices(N_l, lo_frac, hi_frac)
+    return _solve_mbar(u_ln[:, sel], Nsub, initial_f_k) * KT_KCAL
+
+
+def _converged_f_k(analyzer):
+    """The analyser's already-converged per-state free energies (kT), used to SEED every slice MBAR. Returns None
+    if unavailable — the slice solves then just run unseeded, as before."""
+    try:
+        f_ij, _ = analyzer.get_free_energy()
+        return [float(x) for x in f_ij[0, :]]
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def _block_plateau(analyzer):
@@ -206,10 +264,11 @@ def _block_plateau(analyzer):
         N_l = getattr(analyzer, "_unbiased_decorrelated_N_l", None)
         if u_ln is None or N_l is None:
             return {"status": "block plateau needs analyzer u_ln cache (not exposed in this version)"}
-        dg_full = _mbar_dg_on_slice(u_ln, N_l, 0.0, 1.0)
-        dg_half = _mbar_dg_on_slice(u_ln, N_l, 0.5, 1.0)
-        dg_q3 = _mbar_dg_on_slice(u_ln, N_l, 0.5, 0.75)
-        dg_q4 = _mbar_dg_on_slice(u_ln, N_l, 0.75, 1.0)
+        f_k = _converged_f_k(analyzer)
+        dg_full = _mbar_dg_on_slice(u_ln, N_l, 0.0, 1.0, f_k)
+        dg_half = _mbar_dg_on_slice(u_ln, N_l, 0.5, 1.0, f_k)
+        dg_q3 = _mbar_dg_on_slice(u_ln, N_l, 0.5, 0.75, f_k)
+        dg_q4 = _mbar_dg_on_slice(u_ln, N_l, 0.75, 1.0, f_k)
         out = {"status": "ok", "dg_full_kcal": dg_full, "dg_final_half_kcal": dg_half,
                "dg_q3_kcal": dg_q3, "dg_q4_kcal": dg_q4}
         out.update(block_plateau_flags(dg_full, dg_half, dg_q3, dg_q4))
@@ -349,6 +408,19 @@ def analyze_leg(nc_path, tag):
     failed = [k for k, v in flags.items() if v is False]
     rec["technical_failure"] = bool(failed)
     rec["failed_checks"] = failed
+    # COMPLETENESS, reported SEPARATELY from failure. The frozen rule requires that "all convergence diagnostics
+    # pass"; a flag of None means the metric was never obtained, and counting that as satisfied is how the r0 leg
+    # returned technical_failure=false while forward/reverse, dG(t) plateau, quarter-block AND ligand drift were
+    # all unmeasured. This does NOT retroactively flip technical_failure (that field means MEASURED failures);
+    # it exposes the distinction so a reader — and the reducer — can tell "checked and fine" from "never checked".
+    unmeasured = [k for k, v in flags.items() if v is None]
+    rec["mandatory_unmeasured"] = unmeasured
+    rec["diagnostics_complete"] = not unmeasured
+    rec["gate_note"] = ("all diagnostics measured and passing" if not unmeasured and not failed else
+                        "MEASURED FAILURES: %s" % failed if failed else
+                        "no measured failure, but %d diagnostic(s) never computed: %s — the frozen rule's "
+                        "'all convergence diagnostics pass' is NOT satisfied by an unmeasured diagnostic"
+                        % (len(unmeasured), unmeasured))
     return rec
 
 
@@ -361,11 +433,21 @@ def _structural(reporter, nc_path):
         return {"status": "mdtraj unavailable — structural RMSD skipped (non-blocking)"}
     try:
         import numpy as np
-        # positions are in the checkpoint; read replica 0 sampler states across production
+        # Positions live in the CHECKPOINT, which is written every checkpoint_interval iterations — so an
+        # arbitrary iteration (e.g. read_last_iteration(), 2000 against an interval of 40 is fine, but any
+        # non-multiple is not) yields sampler states whose .positions is None. Dereferencing that gave
+        # "AttributeError: 'NoneType' object has no attribute 'dimensions'", which is how the mandated
+        # ligand-escape check reported nothing. Align both reads to the checkpoint grid and check for None.
+        interval = int(getattr(reporter, "checkpoint_interval", 0) or 1)
+        last = int(reporter.read_last_iteration())
+        last_ckpt = (last // interval) * interval if interval > 1 else last
         pos = reporter.read_sampler_states(iteration=0)
-        posN = reporter.read_sampler_states(iteration=reporter.read_last_iteration())
+        posN = reporter.read_sampler_states(iteration=last_ckpt)
         if not pos or not posN:
             return {"status": "no sampler-state positions in checkpoint (checkpoint_interval may exclude frames)"}
+        if getattr(pos[0], "positions", None) is None or getattr(posN[0], "positions", None) is None:
+            return {"status": "sampler states carry no positions at iterations 0/%d (checkpoint_interval=%d)"
+                              % (last_ckpt, interval)}
         p0 = np.asarray(pos[0].positions.value_in_unit(pos[0].positions.unit))
         pN = np.asarray(posN[0].positions.value_in_unit(posN[0].positions.unit))
         # coarse whole-system heavy-proxy RMSD (no per-atom selection without topology); reported as an upper proxy
