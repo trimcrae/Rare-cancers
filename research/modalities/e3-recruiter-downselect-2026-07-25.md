@@ -57,6 +57,12 @@ would silently stage a different protein and nothing downstream would notice.
 | **★ open solid-angle fraction (15 Å)** | fraction of all 512 rays with ≥15 Å unobstructed reach from the anchor | **the number the orientation-basin search consumes**: the geometric size of the orientation space a tethered target can occupy, before any energetics |
 | **linker-bearing analogue** | answered *structurally* from deposited entries — tier 3 a ≥500 Da ligand that is **verified from the coordinates** to contact both the recruiter and a non-arm partner chain; tier 2 a ≥500 Da ligand with the recruiter alone; tier 1 only sub-500 Da ligands; tier 0 none | a solved structure with a linker already leaving this exit vector is the only *direct* evidence in the whole panel that the vector tolerates a linker |
 
+**The burial routine is checked against an independent implementation, not assumed.** `sasa_per_atom` computes
+per-atom Shrake–Rupley with an occluders-only `subset` (the ligand's area inside the full complex, without
+paying for the other ~5,000 protein atoms). Summed per residue on the repo's AF2 NR4A3 model it reproduces
+`nr4a_differential_atlas.shrake_rupley` — written independently, for a different purpose — to **0.0 Å² on
+every one of 626 residues**, total 59,736.4 Å² either way. The optimisation changes cost, not the number.
+
 ### Four frame decisions that change the answer
 
 None of these is a detail; each was forced by something the first run actually returned.
