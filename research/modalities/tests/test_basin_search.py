@@ -81,6 +81,38 @@ def test_pick_ligand_refuses_a_crystallisation_additive_parked_away_from_the_rec
     assert S.pick_ligand(e3, tiny, {"A"}) is None              # below MIN_LIGAND_HEAVY
 
 
+def test_pick_ligand_refuses_a_ligand_bound_to_an_OBLIGATE_PARTNER_rather_than_the_recruiter():
+    """THE THIRD BUG THIS ENCODES, and the only one that reached a committed number.
+
+    The receptor BODY is the recruiter plus its obligate partners (Elongin B/C for VHL, DDB1 for CRBN), and
+    both of pick_ligand's tests were written against that body — so a fragment bound to a PARTNER passed,
+    and produced an 'E3 exit vector' that is nowhere near the E3 ligand site. Staging VHL from 6GMN did
+    exactly that: the chosen F4E fragment's entire 4.5 A lining is eight Elongin C residues and it lies
+    6.87 A from the nearest VHL atom, giving an exit vector 51.4 A from the one MZ1 occupies in the intact
+    assembly 8R5H and a transfer anchor at 69.9 A against a directly measured 30.8 A.
+
+    Without `recruiter_chains` the old (permissive) behaviour is preserved, so this is additive."""
+    recruiter = _fake_prot("A", 10, (0.0, 0.0, 0.0))            # CAs at x = 0..27, y = z = 0
+    partner = _fake_prot("B", 10, (0.0, 60.0, 0.0))             # an obligate partner, 60 A away in y
+    body = {"A", "B"}
+    on_partner = [{"name": f"P{i}", "resname": "LIG", "chain": "B", "resid": 201, "icode": " ",
+                   "xyz": (3.0 * i, 63.0, 0.0), "elem": "C"} for i in range(14)]
+    # permissive (old) behaviour: eligible, because it touches the BODY
+    assert S.pick_ligand(recruiter + partner, on_partner, body) is not None
+    # with the recruiter named, it is refused — the whole point
+    assert S.pick_ligand(recruiter + partner, on_partner, body, {"A"}) is None
+    # and a genuine recruiter-bound ligand still passes, carrying the measured contact distance
+    on_recruiter = [{"name": f"R{i}", "resname": "LIG", "chain": "A", "resid": 301, "icode": " ",
+                     "xyz": (3.0 * i, 3.0, 0.0), "elem": "C"} for i in range(14)]
+    got = S.pick_ligand(recruiter + partner, on_recruiter, body, {"A"})
+    assert got is not None
+    assert got["ligand_min_dist_to_recruiter_A"] == pytest.approx(3.0, abs=0.01)
+    # a bigger partner-bound ligand must not outrank a smaller recruiter-bound one, because size is the
+    # tie-break and the partner-bound group is now excluded before the comparison ever happens
+    got2 = S.pick_ligand(recruiter + partner, on_recruiter + on_partner, body, {"A"})
+    assert got2["chain"] == "A" and got2["resid"] == 301
+
+
 def test_bridge_keys_by_protein_and_residue_so_two_chains_numbered_from_one_cannot_collide():
     """VHL and Elongin C both number from ~1. Keying the bridge on residue number alone would pair VHL 12
     with Elongin C 12 and produce a confident, meaningless superposition."""

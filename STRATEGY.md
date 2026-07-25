@@ -341,9 +341,16 @@ classes:
   paralogues lack, verified from full-length UniProt with two independent aligners
   ([`nr4a_paralogue_unique_residues.py`](research/modalities/nr4a_paralogue_unique_residues.py) →
   [`nr4a-paralogue-unique-residues.json`](research/modalities/nr4a-paralogue-unique-residues.json)):
-  **C397** (NR4A1 N363 / NR4A2 S363; RSA 0.395, 10.9 Å from the cryptic pocket — exit-vector reach; **and
-  measured 2026-07-25 to be NOT geometrically closed — it opens at a 10-atom linker on an E3-independent bound,
-  so a term-(a) shortfall is about WHERE RECRUITERS DOCK, not about the target**), C420
+  **C397** (NR4A1 N363 / NR4A2 S363; **RSA over a 100-conformer MD ensemble: median 0.416, mean 0.405 ± 0.096,
+  p10–p90 0.298–0.510 — the committed single-frame 0.395 sits at the MEDIAN**, so the handle is not a lucky
+  frame; reachable at the ≤12-atom gate in **72/75 = 96 %** of unbiased frames. Also NOT geometrically closed —
+  it opens at a 10-atom linker on an E3-independent bound, so a term-(a) shortfall is about WHERE RECRUITERS
+  DOCK, not about the target. **★ But the chemistry axis is ONE RESIDUE DEEP: C420 and C559 reach the gate in
+  0/75 unbiased frames** — C420 needs **16** atoms, C559 **20**, and that contour length is paid out of the
+  *same* budget that must span to the E3. **Concentration risk, not fragility**, and there is **no geometric
+  fallback**; the untested failure modes are chemical — pKa, nucleophilicity, adduct stability, promiscuity.
+  A live failure mode that does **not** fire: pocket-druggability and C397 reach are **independent** —
+  P(both) = 0.560 against an independence product of 0.563, and P(reachable | druggable) = **0.955**), C420
   (18.3 Å, exposed), C559 (12.8 Å but RSA 0.095 — buried in this conformer, so not currently tether-reachable);
   and exposed unique lysines **K572** (RSA 0.879, 11.5 Å), **K518** (0.413, 13.4 Å), **K592** (0.506, 16.2 Å),
   all in the same 11–16 Å band as the conserved ones — so an E3 can be steered onto a unique lysine instead of a
@@ -445,7 +452,10 @@ allowed to claim.
    - **The ubiquitin-transfer distance is 17.1 Å, MEASURED** — nearest of 11 substrate lysines in a *solved*
      CRL4–CRBN assembly. The repo's assumed **10 Å was ~7 Å too strict** and, applied as written, **would have
      suppressed the term-(b) lysine signal entirely.** Any transfer-zone criterion must use the measured band.
-   - **⚠ A COMPOSED CRL RING CARRIES ~48.6 Å OF POSITIONAL UNCERTAINTY.** A known-answer check *falsified its
+   - **⚠ A COMPOSED CRL RING CARRIES ~30–50 Å OF POSITIONAL UNCERTAINTY** *(measured on both arms 2026-07-25:
+     **VHL 30.18 Å, CRBN 50.14 Å** — the original 48.6 Å was one arm. **NOT IN FORCE in the authoritative
+     Tier-2 run**, which anchors both arms on the observed E2 catalytic cysteine rather than a composed RING.)*
+     Original finding:** A known-answer check *falsified its
      own construction*: a RING composed from a receptor entry + a cullin scaffold — with **both bridges < 1.5 Å**,
      i.e. each join individually excellent — sat **48.6 Å** from the RING of an intact deposited assembly. This
      is **conformational, not error**: CRLs are genuinely mobile, so a well-fitted composition is still not a
@@ -666,9 +676,19 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
 
 - **The categorical terms fire in a small MINORITY of placements** — 0.5–8 % cover a unique lysine, term (a)
   reaches gate level in 2–5 % — against a **1–6.5 %** background. **Enrichments, not saturation.**
-- **CRBN's null is 0.81–0.96**, so most of CRBN's apparent term-(b) signal is background. **The discrimination
-  lives on VHL — the arm carried as a control, not as the winner.** This is decision-relevant and must not be
-  smoothed over when the E3 is chosen.
+- ⚠ **RETRACTED SAME DAY (2026-07-25, LANE 7): "CRBN's null is 0.81–0.96, so most of CRBN's term-(b) signal is
+  background — the discrimination lives on VHL."** That inference was wrong **twice over**, and it was recorded
+  here earlier today, so it is corrected rather than quietly dropped.
+  **(i) Wrong quantity.** 0.81–0.96 is the **any-lysine** null, whereas term (b)'s signal is an enrichment over
+  the **unique-lysine** null. The conclusion was drawn from a different denominator than the one the gate uses.
+  **(ii) The 0.81–0.96 is itself an EXIT-VECTOR ARTIFACT.** Restaged **assembly-native** (8R5H / 9UUM, every
+  bridge **0.0 Å**) and re-run twice at identical settings, CRBN's any-lysine null **halves, 0.858 → 0.399**,
+  while VHL's does not move (0.419 → 0.437). The change tracks the manipulated variable and nothing else —
+  CRBN's exit vector moved **16.5 Å** between constructions, VHL's only **0.99 Å**.
+  **What survives:** the **gate's actual denominator barely moves** (`fraction_unique_covering` 0.040 → 0.035 on
+  CRBN, 0.027 → 0.026 on VHL), so **the Tier-2 GO and its published enrichments are UNAFFECTED**, and Tier-2
+  passes CATEGORICAL on **both** constructions (native marginally stronger: 3 vs 2 term-(a), 26 vs 22
+  discriminating). **What falls is only the claim that the discrimination lives on VHL.** Do not repeat it.
 - **`term_b_best_rank` is a best-of-N statistic, inflated by construction** (exactly piece 5's winner's-curse
   artifact), so those counts are **upper bounds**; the unbiased mean fractions lead. One CRBN basin reached
   rank 4 while scoring *below* background and was correctly excluded — **without the null it would have counted.**
@@ -683,9 +703,21 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
   **ubiquitination-geometry evaluability as an explicit Pareto axis** rather than discovering it downstream.
 - **MM-GBSA rescore: NOT run, and recommended against** — it would refine the very axis the mechanism-first
   reframe demoted. **Next spend should be 5a-KS.**
-- **⚠ OPEN AND DECISION-RELEVANT:** two *verified* VHL stagings place the observed transfer anchor **30.9 Å vs
-  69.9 Å** from the exit vector. Two hypotheses, and **the discriminating observation has not been run.** This
-  is the top follow-up, and no VHL basin ranking should be treated as settled until it is resolved.
+- **✅ RESOLVED 2026-07-25 (LANE 7) — registry A (5T35) is CORRECT, and the Tier-2 result rests on it.** The
+  discriminating observation nobody had run: **8R5H** is a solved, *intact* CRL2^VHL ubiquitylation assembly
+  holding VHL·EloB·EloC, MZ1 **and** a trapped UBE2R2~Ub **in one frame** — so the disputed distance is
+  measurable with **no bridge, no composition, no model**. **Ground truth: exit atom `759.CAE` → UBE2R2
+  catalytic Cys93 = 30.76 Å.** Registry A reproduces it at **30.85 Å (miss 0.09 Å)**; registry B (6GMN) gives
+  **69.91 Å (miss 39.15 Å)**. Decomposed: Δ mapped E2 cysteine **0.02 Å**, Δ exit vector **50.67 Å** — so the
+  disagreement is entirely in the *exit vector*, not the anchor.
+  **Root cause, read off the structure:** 6GMN's chosen "recruiter ligand" (F4E) has a 4.5 Å lining of **eight
+  Elongin C residues and ZERO VHL residues**, 6.87 Å from the nearest VHL atom. `pick_ligand` tested contact
+  against the receptor **body** (recruiter + obligate partners) and **never against the recruiter itself**.
+  Fixed and unit-tested; **verified bit-identical** on both consumed arms (5T35 MZ1 2.57 Å, 6BOY dBET6 2.69 Å).
+  **⚠ And the tempting explanation was FALSIFIED:** this is **not** a second instance of the 48.6 Å composed-RING
+  spread — 8R5H is single-copy and the mapped E2 cysteine agrees to 0.02 Å. **The numeric similarity to 48.6 Å
+  was coincidence.** *(Consequence: the feared "~40 Å of transfer-zone variation would weaken term (b) further"
+  does not exist, and the VHL basin ranking is unchanged.)*
 
 ---
 
