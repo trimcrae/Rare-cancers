@@ -7,7 +7,7 @@
     "The catalytic-cysteine identification in the E2 geometry step is a geometric proxy, not a sequence-motif assignment.",
     "Nothing here is evidence that any of these recruiters engages NR4A3 \u2014 it is input staging."
   ],
-  "staged_at_utc": "2026-07-25T18:08:34Z",
+  "staged_at_utc": "2026-07-25T18:23:15Z",
   "arms": {
     "vhl": {
       "arm_id": "vhl",
@@ -1939,6 +1939,16 @@
         "anchor_to_observed_catalytic_cys_A": 11.98,
         "_reading": "How far this script's COMPOSED RING sits from the RING of an intact solved CRL assembly placed in the same frame. The term-(b) transfer zone hangs off the RING, so this is the error bar on the zone's placement \u2014 reported whatever it says."
       }
+    },
+    "birc2": {
+      "arm_id": "birc2",
+      "status": "FAILED_TypeError",
+      "error": "can only concatenate list (not \"NoneType\") to list"
+    },
+    "mdm2": {
+      "arm_id": "mdm2",
+      "status": "FAILED_TypeError",
+      "error": "can only concatenate list (not \"NoneType\") to list"
     }
   },
   "e2_geometry": {
@@ -2029,6 +2039,10 @@
     "[e3stage] crbn: receptor entry 6BOY (3.33 A) chains ['A', 'B'] ligand RN6 n_heavy=59 exit atom C10 exposure 5.11 A",
     "[e3stage] crbn: INTACT assembly 9UUM (Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF) bridged on 1161 CA @ 1.916 A -> observed E2 catalytic Cys85 placed directly in the receptor frame (Ub C-term 3.4 A)",
     "[e3stage] crbn: scaffold 2HYE bridged on DDB1 (rmsd 1.167 A over 808 CA) -> RING at [47.378, -1.062, 52.445]",
+    "[e3stage] arm birc2 FAILED: TypeError: can only concatenate list (not \"NoneType\") to list",
+    "Traceback (most recent call last):\n  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_e3_stage.py\", line 1135, in main\n    arms[a] = stage_arm(a, ARMS[a], args.out_dir, log)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_e3_stage.py\", line 598, in stage_arm\n    accs = {k: ACC[k] for k in set(spec[\"receptor_needs\"] + spec[\"scaffold_needs\"] + spec[\"bridge\"])}\n                                   ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~\nTypeError: can only concatenate list (not \"NoneType\") to list\n",
+    "[e3stage] arm mdm2 FAILED: TypeError: can only concatenate list (not \"NoneType\") to list",
+    "Traceback (most recent call last):\n  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_e3_stage.py\", line 1135, in main\n    arms[a] = stage_arm(a, ARMS[a], args.out_dir, log)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_e3_stage.py\", line 598, in stage_arm\n    accs = {k: ACC[k] for k in set(spec[\"receptor_needs\"] + spec[\"scaffold_needs\"] + spec[\"bridge\"])}\n                                   ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~\nTypeError: can only concatenate list (not \"NoneType\") to list\n",
     "[e3stage] transfer geometry from 9UUM (Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly):",
     "[e3stage]   catalytic Cys85 of UBE2D1 identified by proximity to ubiquitin C-term (res 76): 3.4 A; other Cys [16.4, 17.3, 20.0] A",
     "[e3stage]   RING -> catalytic Cys = 29.3 A",
