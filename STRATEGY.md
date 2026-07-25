@@ -21,6 +21,31 @@
 
 ---
 
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 11:30 AM ET**)
+
+*Keep this section current. It is the first thing a fresh session should read to know what is executing, what
+is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
+relevant rung below.*
+
+| what | state | ETA | what its result decides |
+|---|---|---|---|
+| **valB_mini rev setup prime** (CPU, `ternary-setup-prime-cpu.yml`, run 30163606577, direction=rev seed 0 nagl) | running — staging (~14–20 min) then ~12 min build + cache upload | **~12:00 PM ET** | Whether the rev GPU leg can restore setup in seconds instead of rebuilding it inside the unprotected, preemption-exposed window. **First primer run since the `setupcache/` IAM 403 was fixed** — also the end-to-end proof that fix works |
+| **valB_mini rev ternary leg r0** (GPU L4 spot) | **NOT running** — launch blocked on the prime above. First attempt (VM `gcp-ternary-30162403453`) was **spot-preempted 11:02 AM ET**, 12 min in, *during the uncheckpointed setup build*, so the whole build was lost. `NaN=no`, no crash | launch on prime success; leg ~10–20 h detached → **result 2026-07-26 AM ET** | **|ΔG_fwd + ΔG_rev| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+
+**Nothing else is executing.** The rescope-vs-continue decision on valB_mini is deliberately **held** until the
+reverse leg reads out — it is the one cheap test that can falsify the "systematic, not sampling" conclusion the
+current recommendation rests on.
+
+### ⚠ Reading the ternary lane's monitoring output — two traps
+
+1. **`warmup_committed_iter` / `production_committed_iter` in `[PROGRESS-SUMMARY]` are LEG-WIDE ACROSS SALTS.**
+   They can report a *different direction's* legs. A rev-leg check showing `production_committed_iter=2000` was
+   the **forward** leg's count, not progress. Misread three times on 2026-07-25.
+2. **Step DURATION, not status, is what distinguishes these outcomes** — all at the same step, all "step 7":
+   `~0.4 min + success` = a **cache restore that ran no build** (a hypothesis test built on this was silently
+   void); `~0.5 min + failure` = the endpoint-construction radical; `~11.5 min + failure` = a real, complete
+   build that failed only on the cache upload.
+
 ## Program and thesis
 
 The goal is the **state of the art of what in-silico methods can do for an NR4A3-selective degrader** — a
@@ -566,6 +591,37 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   `diagnostics_ok=True`, then a fabricated hard FAIL. **This is an argument for spending the next dollar on
   INDEPENDENT checks — reverse legs, cycle closure — not more replicates through the same machinery.** Full
   evidence: [valB-mini-r0-verdict-2026-07-25.md](research/manuscripts/valB-mini-r0-verdict-2026-07-25.md).
+
+  **★ THE REVERSE LEG WAS UNREACHABLE — FOUR CALLERS PINNED IT SHUT (2026-07-25).** The preregistered
+  forward/reverse antisymmetry check (`hysteresis <= 1.0`, still `null` on all three legs) could not be run at
+  all, and each blocker was the same shape — *capability present in the engine, unreachable from outside*:
+  (a) `MODE=converge` existed in `nr4a3_ternary_fep.main()` but no workflow could dispatch it; (b) the run
+  invocation hardcoded `DIRECTION=fwd`; (c) there was no `direction` dispatch input (adding one hit GitHub's
+  25-input cap → retired the confirmed-no-op `constrain_ligand_ch`, pinning `CONSTRAIN_LIG='0'` so every existing
+  `clig0` commit prefix stays resumable); (d) `ternary-setup-prime-cpu.yml` pinned `DIRECTION: fwd`, and since the
+  setup-cache key is `tag=<leg>_<dir>_r<seed>` a rev leg needed its own prime and could never get one while the
+  GPU lane fails fast on `RBFE_REQUIRE_PRIMED_SETUP=1`. **A rev leg was unsatisfiable from both ends.** All four
+  fixed; a `direction`-keyed commit prefix (`_dirrev`, applied only when direction≠fwd) now makes it impossible
+  for a rev leg to resume the fwd trajectory — which it would have done silently.
+  **Root cause of the rev-only failure (fixed):** `_build_components` passed `base_smiles=sa` to `_endpoint_pose`,
+  where that argument means *"the identity of the molecule in the staged crystal SDF."* `sa` is the crystal ligand
+  only in the FORWARD direction (calib_hi = cmpd1 = 8G1Q CCD `YHB`); cmpd4 is derived and in no crystal. With A/B
+  swapped, the rev leg claimed the crystal held **cmpd4**, `_repair_pose` assigned bond orders against a template
+  differing by N→CH, the thiazole lost its aromatic C–H, and NAGL rejected the molecule
+  (`RadicalsNotSupportedError`, ~30 s into charge assignment). `CRYSTAL_SMILES` is now captured from the
+  *unswapped* endpoint A; forward behaviour is byte-identical; 4 pure-stdlib regression checks added
+  (`tests/test_ternary_crystal_identity.py`), one of which asserts that in rev the crystal must NOT equal
+  endpoint A so the test discriminates the fix from the bug. **The forward r0 result is unaffected** — in fwd the
+  argument was correct, `_endpoint_pose` fails closed on a SMILES mismatch, and the 5-part gate's
+  `endpoints_match` check passed.
+  **Infrastructure findings worth keeping (all fixed):** the setup-cache upload failure was **not** the
+  "transient GcsApiError" the code called it — `gcloud storage cp` renders a permission denial as
+  `GcsApiError('')` with an empty message, and only the python client showed the truth: **403, `gpu-runner@`
+  lacked `storage.objects.create` on the `setupcache/` prefix** while succeeding on `stagecache/` in the same job.
+  Two fresh builds died there (fwd 11.5 min, rev 11.7 min, same file) so it was systematic, and 8 retries with
+  backoff could never help; a 403 now aborts immediately with the real reason. **trimcrae granted the permission
+  2026-07-25 and a per-prefix write probe (`gcp-quota-check.yml`) confirms all four prefixes writable** —
+  so the CPU primer can finally do its job and new legs stop paying 8–40 min of GPU-idle setup.
 
   **Recommended next steps (spend order):** (1) ✅ *done, free* — the convergence analysis read out above; (2) *free*
   — route the admits-zero gate defect for approval; (3) *one
