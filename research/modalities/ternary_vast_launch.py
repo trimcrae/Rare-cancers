@@ -345,6 +345,8 @@ timeout -k 120 "${MD_TIMEOUT_S}" env \
   RBFE_TIMESTEP_FS="$RBFE_TIMESTEP_FS" RBFE_WARMUP_TIMESTEP_FS="$RBFE_WARMUP_TIMESTEP_FS" \
   RBFE_MIN_STEPS="$RBFE_MIN_STEPS" RBFE_WARMUP_ITERS="$RBFE_WARMUP_ITERS" RBFE_PROD_ITERS="$RBFE_PROD_ITERS" \
   RBFE_POSITIONS_WRITE_PS="$RBFE_POSITIONS_WRITE_PS" RBFE_VELOCITIES_WRITE_PS="$RBFE_VELOCITIES_WRITE_PS" \
+  RBFE_SETUP_CACHE_S3="$RBFE_SETUP_CACHE_S3" SETUP_CACHE_VERSION="$SETUP_CACHE_VERSION" \
+  RBFE_REQUIRE_PRIMED_SETUP="$RBFE_REQUIRE_PRIMED_SETUP" \
   RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_S3="$COMMIT_S3" \
   RBFE_WARMUP_CKPT_ITERS="$WARMUP_CKPT_ITERS" RBFE_PROD_CKPT_ITERS="$PROD_CKPT_ITERS" \
   bash run_ternary_leg.sh
@@ -569,6 +571,16 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         # geometric re-analysis needs them.
         "RBFE_POSITIONS_WRITE_PS": os.environ.get("TVAST_POSITIONS_WRITE_PS") or "50",
         "RBFE_VELOCITIES_WRITE_PS": os.environ.get("TVAST_VELOCITIES_WRITE_PS") or "",
+        # S3 SETUP CACHE. Solvating + parameterising the ~146k-atom hybrid is ~6-15 min of GPU-idle time,
+        # rebuilt on EVERY resume because it is the one expensive step that was not cached. Keyed by
+        # (leg, direction, seed, charge, version); the built System is timestep-independent, so it is
+        # deliberately NOT dt-keyed — but it IS pre-equilibration-dependent, hence the `pe` in the version.
+        "RBFE_SETUP_CACHE_S3": f"s3://{b}/{p}/setupcache",
+        "SETUP_CACHE_VERSION": os.environ.get("TVAST_SETUP_CACHE_VERSION") or "v1pe",
+        # The engine FAILS FAST when a setup cache is configured but missing, to enforce the GCP lane's
+        # CPU-prime-then-GPU process. This lane has no CPU prime for SETUP (only for stage), so the first
+        # run of each leg must be allowed to build it — after which every resume restores it.
+        "RBFE_REQUIRE_PRIMED_SETUP": "0",
         "RBFE_WARMUP_ITERS": sizing["warmup_iters"],
         "RBFE_PROD_ITERS": sizing["prod_iters"],
         # Checkpoint granularity == the maximum work a preemption can cost, traded against per-commit
