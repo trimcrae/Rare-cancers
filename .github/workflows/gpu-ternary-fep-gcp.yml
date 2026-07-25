@@ -481,7 +481,17 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/modalities/valb-pseries-chem.json
           git commit -m "calibchem: P-series ligand chemistry + mappability from RCSB (run ${GITHUB_RUN_ID})" \
-            && git push origin "HEAD:${GITHUB_REF_NAME}" || echo "(nothing to commit)"
+            || { echo "(nothing to commit)"; exit 0; }
+          # Rebase before pushing: a concurrent push to the same branch makes this a non-fast-forward, and the
+          # first attempt lost exactly that race and swallowed it under a `|| echo`. Fail LOUDLY if it still
+          # cannot push -- an artifact that silently did not land is the same defect class as a diagnostic that
+          # silently did not measure.
+          for i in 1 2 3; do
+            git fetch origin "${GITHUB_REF_NAME}" && git rebase "origin/${GITHUB_REF_NAME}" || true
+            git push origin "HEAD:${GITHUB_REF_NAME}" && { echo "[calibchem] artifact committed"; exit 0; }
+            sleep $((i * 5))
+          done
+          echo "::error::calibchem artifact could not be pushed after 3 rebase+push attempts"; exit 1
       - name: Reset committed checkpoints (fresh start on timestep change)
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.reset_commits == '1' }}
         run: |
