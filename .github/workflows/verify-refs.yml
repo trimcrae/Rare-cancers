@@ -21,6 +21,19 @@ jobs:
       - name: Verify DOIs, Bangerter full text, and pazopanib/sunitinib EMC reports
         run: |
           set +e
+          # CENSUS THE OUTCOME, don't just print it. This step is `set +e` with no failure path: every curl
+          # here can time out or hit a Crossref/Europe PMC outage, the node one-liners then print PARSE-ERR or
+          # an undefined DOI, and the job still ends GREEN. A green "Verify external references" run is exactly
+          # the kind of thing whose conclusion gets trusted — so a run where most lookups silently returned
+          # nothing must not be indistinguishable from one where they all resolved. Mirror stdout to a file and
+          # count the failure markers at the end. (Same defect class as the ternary-lane guards audited in
+          # research/modalities/ternary-lane-guard-audit-2026-07-25.md, section D: a verdict readable only by
+          # excavating the log is a verdict nobody checks.)
+          # Save the REAL stdout/stderr on fds 3/4 first. Both 1 and 2 are about to point at the same tee, so
+          # without a saved copy there is nothing left to restore them to — `exec 1>&2` would just re-point
+          # stdout at the tee, the tee's stdin would never close, and the wait below would hang forever.
+          exec 3>&1 4>&2
+          exec > >(tee /tmp/verify.log) 2>&1
           echo "===== 1) Crossref: DOI -> title / journal / year ====="
           for entry in \
             "10.1038/s41591-024-03233-x#TxGNN (expect: foundation model, clinician-centered drug repurposing; Nat Med 2024)" \
@@ -133,3 +146,27 @@ jobs:
           Oncogenic orphan nuclear receptor NR4A3 interacts and cooperates with MYB in acinic cell carcinoma#Haller 2020 NR4A3-MYB AciCC
           NR4A transcription factors limit CAR T cell function in solid tumours#Chen 2019 Nature triple-NR4A
           NR4A
+
+          # ---- verdict ----------------------------------------------------------------------------------
+          # Restore the saved descriptors: that closes the tee's stdin, so it flushes and exits. Then wait for
+          # it (bash tracks the process-substitution child) with a short settle as a belt-and-braces flush.
+          exec 1>&3 2>&4
+          wait 2>/dev/null || true
+          sleep 1
+          LOG=/tmp/verify.log
+          NPARSE=$(grep -c 'PARSE-ERR' "$LOG" 2>/dev/null | tr -dc '0-9'); NPARSE=$((10#${NPARSE:-0}))
+          NUNDEF=$(grep -cE '\-> DOI: (undefined|\?)$|DOI: undefined' "$LOG" 2>/dev/null | tr -dc '0-9'); NUNDEF=$((10#${NUNDEF:-0}))
+          NRESOLVED=$(grep -cE 'DOI: 10\.' "$LOG" 2>/dev/null | tr -dc '0-9'); NRESOLVED=$((10#${NRESOLVED:-0}))
+          NCROSSREF=$(grep -c 'crossref: ' "$LOG" 2>/dev/null | tr -dc '0-9'); NCROSSREF=$((10#${NCROSSREF:-0}))
+          echo "reference-verification census: crossref_titles=$NCROSSREF dois_resolved=$NRESOLVED parse_errors=$NPARSE undefined_dois=$NUNDEF"
+          # Section 1 has a FIXED list of 6 DOIs, so its expected count is knowable rather than inferred.
+          if [ "$NCROSSREF" -lt 6 ]; then
+            echo "::error title=VERIFY-REFS INCOMPLETE::Section 1 resolved only $NCROSSREF/6 fixed DOIs — Crossref was unreachable or rate-limited for the rest. Do NOT treat this run as having verified anything; re-run before trusting the output."
+            FAILED=1
+          fi
+          if [ "$NPARSE" -gt 0 ] || [ "$NUNDEF" -gt 0 ]; then
+            echo "::warning title=VERIFY-REFS PARTIAL::$NPARSE parse error(s) and $NUNDEF unresolved DOI(s) — those specific references were NOT verified by this run. Check the log lines before flipping any citation's verified flag."
+            grep -nE 'PARSE-ERR|DOI: undefined' "$LOG" | head -20
+          fi
+          if [ "${FAILED:-0}" = 1 ]; then exit 1; fi
+          echo "::notice title=VERIFY-REFS OK::$NCROSSREF/6 fixed DOIs resolved, $NRESOLVED DOI(s) resolved overall, no parse errors."
