@@ -370,8 +370,14 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
                 f"##########")
         print(head, flush=True)
         buf = io.StringIO()
+        # capture the WHOLE tick — status, the start nudge and the reap — because the board is the only
+        # thing readable while the run is in progress, and "did the nudge fire?" is exactly the question
+        # a stuck intended=stopped leg raises.
         with contextlib.redirect_stdout(Tee(sys.stdout, buf)):
             status(targets)
+            insts = instances()
+            nudge_start(insts)
+            reap(targets)
         sig = _progress_signature(targets)
         one_line = " | ".join(f"{n}: phase={v[0]} ns={v[1]} done={v[-1]}" for n, v in sig.items())
         print(f"::notice title=LANE13 TICK {tick}::{one_line}", flush=True)
@@ -388,8 +394,6 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
             else:
                 frozen[name] = 0
         prev = sig
-        nudge_start(instances())
-        reap(targets)
         if all(v[-1] for v in sig.values()):
             print("::notice title=LANE13 ALL LEGS DONE::every deliverable is in S3")
             return 0

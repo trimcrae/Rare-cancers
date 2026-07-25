@@ -20,7 +20,7 @@
   "release_ns": 5,
   "n_rep": 3,
   "exclude_machines": "",
-  "note": "re-fire watch with a start nudge: NR4A2 landed on an RTX 3090 at $0.0451/hr (correctly -- $0.0030/ns against $0.0043/ns for the $0.136/hr 4090) but sat at intended=stopped while the image was still loading, which is the create/start race and NOT a capacity refusal. The 3090 is 2.10x slower, so its leg is ~16 h rather than ~8 h and the anti-idle backstop moves 14 -> 26 h.",
+  "note": "watch: capture the WHOLE tick on the board (status + start nudge + reap), because the board is the only thing readable mid-run and 'did the nudge fire?' is exactly the question the NR4A2 leg raises while it sits at intended=stopped/actual=loading. NR4A1 is advancing: metad 0.05 -> 0.5 ns between 23:42 and 23:46 ET-4, i.e. ~160 ns/day on its RTX 4090.",
   "estimate_usd": {
     "point": 2.5,
     "range": [
