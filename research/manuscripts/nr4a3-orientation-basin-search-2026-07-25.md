@@ -421,6 +421,17 @@ use the same deposited entry — plus mmCIF support so the lane's frames are loa
 the authoritative result uses this rung's independently derived exit vector, and every arm record carries the
 refusal with its reason rather than silently falling back.
 
+> **★ RESOLVED 2026-07-25 by LANE 7 — read
+> [nr4a3-transfer-anchor-and-handle-risk-2026-07-25.md](./nr4a3-transfer-anchor-and-handle-risk-2026-07-25.md).**
+> The observation was run. Measured with **no composition** inside 8R5H, the exit vector sits **30.76 Å** from
+> the E2 catalytic Cys93; **this rung's staging (5T35) reproduces it to 0.09 Å**. In a common frame the two
+> mapped E2 cysteines agree to **0.02 Å** while the exit vectors differ by **50.67 Å**, so **neither** listed
+> hypothesis is right: it is an **exit-vector defect** in the other registry, whose "recruiter ligand" is a
+> fragment bound to **Elongin C** (6.87 Å from the nearest VHL atom). `pick_ligand` tested contact against the
+> receptor *body* rather than the *recruiter*; fixed, with a unit test, and verified to leave this rung's arms
+> bit-identical. **The transfer zone does NOT carry ~40 Å of frame-to-frame variation from this source, and
+> the VHL basin ranking below stands.** The paragraph that follows is retained as the record of what was open.
+
 **A second, unresolved observation, recorded because it is decision-relevant.** Staging VHL from two
 different (both legitimate, both verified) receptor entries put the *observed* transfer anchor **30.9 Å** and
 **69.9 Å** from the ligand exit vector respectively. Both were bridged from the same intact assembly at good
