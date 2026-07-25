@@ -35,19 +35,120 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 12:50 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 2:05 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
 relevant rung below.*
 
+> ### ★★ STANDING DIRECTIVE (trimcrae, 2026-07-25 1:15 PM ET): **ALL TESTS RUN ON VAST.**
+> Every new GPU run goes on **Vast** under the existing pricing strategy — RTX 4090 default, RTX 3090 fallback,
+> offers ranked by all-in **`$/ns`** (never headline `$/hr`), bid = market floor + a staleness tick **capped at
+> that machine's on-demand price** (the `×1.5` / `×1.9` multipliers are retired). Provenance:
+> [pricing.md](research/compute/pricing.md) · [bid-strategy.md](research/compute/bid-strategy.md).
+> **This supersedes the "spend the expiring GCP free credit first" preference** recorded in §GPU economics and
+> §Bid policy for *new* work. It does **not** retroactively kill the valB_mini reverse leg already running on
+> GCP L4 — killing a leg mid-flight to change provider would forfeit its progress for nothing — but **no new
+> GCP / SageMaker / Modal run may be started.** The GCP trial (closes 2026-10-10) is now a stranded asset, not
+> a routing preference; if that trade is to be revisited it is a trimcrae call, not a session's.
+>
+> **⚠ CONSEQUENCE FOUND IMMEDIATELY — THE SESSION-INDEPENDENT WATCHDOG DOES NOT COVER VAST (2026-07-25 1:30 PM ET).**
+> [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml) is **GCP-only by construction**: it
+> authenticates to GCP via WIF, reads its state from **GCS**, asks "is a `gcp-ternary` **VM** up?", and its sole
+> recovery action is to re-dispatch **`gpu-ternary-fep-gcp.yml`**. Registering a Vast leg with it yields
+> monitoring that *silently watches nothing* — the exact defect class that produced seven false-success
+> diagnostics on this lane earlier the same day. So the directive above creates a real gap: **as of now no
+> GPU run the program makes has durable, out-of-session monitoring.** A Vast-capable watchdog is being built
+> alongside the Vast ternary lane. Two things the GCP version has no analogue for and which must not be
+> dropped: (1) on Vast **"alive" is not "advancing"** — a rented box can sit up with a dead container or an idle
+> GPU, so the check must require the committed-iteration count to have *increased* since the previous tick;
+> (2) a **capacity refusal is not a preemption** — `resources_unavailable` means destroy, exclude the machine
+> id, and pick another host, never wait and never raise the bid. Note a `schedule:` trigger only fires from the
+> **default branch**, so any such watchdog is inert until merged to `main`.
+
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30165768667`, us-central1-a) | **RUNNING** since **12:34 PM ET**, `live_vms=1`, `NaN=no`, `charge=nagl`. **This is the second attempt** — the 11:57 AM ET launch (VM `gcp-ternary-30164631671`) is no longer live. ⚠ Its committed-iteration counter is **not readable**: the `[PROGRESS-SUMMARY]` numbers are leg-wide across salts and are currently reporting the **forward** leg (trap 1 below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30167855759`, us-central1-a) | **RUNNING** since **1:37 PM ET** with **`warmup_timestep_fs=1.0`** — the *fourth* attempt. The 12:34 PM ET attempt (VM `gcp-ternary-30165768667`) **DIED at 12:55 PM ET on a warmup NaN**, diagnosed and fixed (see the NaN block below); its zombie VM was reaped at 1:32 PM ET (`deleted=1`, L4 usage back to 0.0). Committed-iteration progress is **now readable per-direction** — the leg-wide/fwd-reporting trap is fixed (see the watchdog block below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
-**Nothing else is executing.** The rescope-vs-continue decision on valB_mini is deliberately **held** until the
-reverse leg reads out — it is the one cheap test that can falsify the "systematic, not sampling" conclusion the
-current recommendation rests on.
+| **LANE 1 · RUNG 5a — E3 recruiter staging + ligandability downselect** (CPU/CI, $0) | running — staging the widened ligandable set (VHL, CRBN, cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) from RCSB via a CI runner | ~1–3 h → **this afternoon ET** | Which **≤2 recruiters** 5a carries into any GPU leg, and the logged dropped set. Availability is already answered and may **not** be a drop reason — the downselect is on ligandability + interface geometry |
+| **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, $0) | running — building the transform search + the two **categorical** terms (electrophile reach to C397/C420/C559; E2~Ub transfer zone over K572/K518/K592), pose-marginalised | ~3–6 h → **this evening ET** | **The Tier-2 gate.** No basin exploiting a categorical handle *and* none nominally discriminating NR4A3 ⇒ STOP cheaply. Also tells the program which **exit vectors** matter, which a re-scoped fan-out depends on |
+| **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
+| **LANE 4 · RUNG 2b — 4 fs ternary probe** (**Vast**, ≤$25) | running — building the **Vast** ternary lane (none existed; only `-gcp.yml`/`-aws.yml`), then stage 1 = the ~$1–2 survival probe | probe ~2–4 h → **this evening ET**; full edge next if it passes | **≈2× on every downstream ternary leg** (~$8.8 → ~$4.4/edge, ladder has ≥6). Also the **first NR4A-adjacent ternary leg timed on Vast** — closes the named transferability gap where an 8G1Q rate is pricing NR4A ternaries |
+| **LANE 5 · RUNG 2 — valB_mini calibrator rescope + gate defect + r0 ligand RMSD** (CPU, $0) | running — closing `diagnostics_complete: false`, preparing the admits-zero defect-fix for approval, designing both rescope options | ~2–5 h → **this evening ET** | The **next step the moment the rev leg lands** — designed for *both* branches of it, so the decision is not serialized behind the result |
+
+> **⚠ NAMING CORRECTED (2026-07-25 1:50 PM ET) — these were first written as "5a-1…5a-5", which was wrong and
+> actively misleading: it read as though all five were sub-parts of RUNG 5a, and it invited the reasonable
+> question "didn't 5a-KS already run?". Only LANES 1–2 are RUNG 5a. The five span rungs 2, 2b, 3 and 5a, which
+> is exactly *why* they parallelise.**
+>
+> **And 5a-KS has NOT run.** What ran on 2026-07-25 is the **known-answer qualification benchmark for its
+> CONFIRMATORY second line** (pmx + GROMACS on barnase–barstar Y29A/Y29F — both within ±1.5, ordering correct).
+> That validates the **engine**, not the wedge: it is barnase–barstar, not NR4A. The rung's **PRIMARY** test —
+> the ligand-side double difference `S = ΔΔG_coop(d₀→d|NR4A3) − ΔΔG_coop(d₀→d|NR4A1)` — **has never run and
+> cannot yet**, because it needs a candidate *d* and matched control *d₀*, and those molecules do not exist
+> until 5b enumerates them from the basins LANE 2 is nominating now. 5a-KS is therefore **downstream** of
+> LANES 1–2, not a blocker on them. Its confirmatory line is now **PROJECTED at ~$4.6 (3 rep)** rather than
+> unpriced — but that figure is **particle-count-scaled** from the ~25.7k-particle benchmark to NR4A sizes, an
+> assumption and not a measurement, so it may not be quoted as a rate and stays excluded from the ladder total.
+
+> ### ⚠ WHY THE REV LEG IS STILL ON GCP AFTER THE ALL-VAST DIRECTIVE — the reading, stated so it is not implicit
+> The 1:15 PM ET directive exempts "the valB_mini reverse leg **already running** on GCP L4" but forbids starting
+> any **new** GCP run. The 12:34 PM attempt then died on a warmup NaN with **zero committed iterations**, and it
+> was relaunched on GCP at 1:37 PM. That is deliberately inside the carve-out, on this reading: **the exempted
+> unit is the LEG, not the VM.** A spot leg is *expected* to lose and re-acquire VMs — if the exemption expired
+> with the first VM it could never have applied to a spot leg at all. Two honest qualifications: (1) the
+> exemption's stated rationale ("killing a leg mid-flight would forfeit its progress for nothing") is **weaker
+> here than it looks**, because a crash at warmup iteration 1 forfeits nothing; (2) the counter-argument is
+> therefore real, and the only reason it does not decide the matter is that **the Vast ternary lane does not yet
+> exist** (LANE 4 is building it), so the alternative is not "run it on Vast" but "do not run the one test that
+> gates the entire valB_mini rescope decision." Cost of proceeding: **$0 cash** (expiring GCP trial credit), and
+> fully reversible — reap the VM. **If trimcrae reads the carve-out as per-VM rather than per-leg, kill it and
+> the leg waits for LANE 4.**
+>
+> ### ✅ THE GCP WATCHDOG GAP NAMED ABOVE IS NOW CLOSED — and the Vast version should PORT it, not reinvent it
+> The block above records that the watchdog "silently watches nothing" beyond GCP and names two properties a
+> Vast watchdog must not drop. Both are now **implemented and unit-tested** in
+> [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml), so LANE 4 should lift them:
+> 1. **"Alive" is not "advancing."** The RUNNING branch compares the furthest **committed iteration** against the
+>    previous tick (state in GCS, so it survives restarts). Two alarms with different graces — **SETUP STALL**
+>    (zero commits, VM older than 75 min) and **STALLED** (frozen ≥2 ticks, ~30 min). Neither relaunches; both
+>    **fail the job**, so GitHub's own failure notification is the out-of-band alert. This is not theoretical:
+>    all three of the day's silent stalls presented as a healthy RUNNING VM.
+> 2. **A dead leg can look alive.** Because the in-VM self-delete trap cannot fire (the VM's compute SA lacks
+>    `compute.instances.delete`), a crash leaves a **RUNNING billing zombie**. The watchdog now detects it by
+>    comparing the **post-mortem object's epoch against the VM's own creation time** — newer ⇒ *this* run
+>    crashed, while the previous attempt's post-mortem is older and correctly ignored. Existence alone would be
+>    wrong, since after any fixed relaunch there is always an older one.
+>
+> Three further defects were found *inside* the watchdog while building it, all the same class the lane was
+> audited for, all now covered by `research/modalities/tests/test_watchdog_census.sh` (16 checks, extracted from
+> the workflow at run time so it cannot pass against a stale copy): the step ran under an inherited **`bash -e`**
+> that made its own "NOT -e" comment false; zero-padded `iter-00000520` parsed as **octal**; and the watch file
+> omitted **`warmup_timestep_fs`**, which keys the commit prefix — so a relaunch would have resumed a *different*
+> trajectory. The watch list is now **validated against `_prefix_keying_params` every pass** and refuses to act
+> on an incomplete entry. Full write-up: §F–G of
+> [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
+>
+> ### 🔬 THE WARMUP NaN — diagnosed from evidence, one variable changed
+> The 12:34 PM attempt died at **12:55 PM ET**, ~21 min in, with a full traceback out of `main()`:
+> `SimulationNaNError: Propagating replica 0 at state 1` at **warmup iteration 1**, after 20 integration attempts
+> *and* a Context reinitialisation. The path `/tmp/tout/calib_hi_to_lo__ternary_vhl_**rev_r0**_sim_shared/` and
+> `src=live` together confirm it is genuinely the reverse leg, not a stale fwd log. **The saved pre-NaN state is
+> clean:** `atoms=146020`, `nonfinite_atoms=0`, `coords>1000nm=0`, and **zero force-bearing** non-bonded pairs
+> under 0.90 Å — the closest contact, 0.569 Å, is a zeroed hybrid A/B exception, benign by construction. So this
+> is **not** a clash and **not** a bad build: it is integration instability at state 1, the steepest softcore
+> window, with `warmup_dt_override=NONE` confirming the warmup ran at the full 2.0 fs production timestep.
+> `min_steps`' own note already records that the NaN survives 25000 minimisation steps and that **the 1 fs warmup
+> is what fixes it**. Relaunched with `warmup_timestep_fs=1.0`, **one variable changed**; production stays at
+> 2.0 fs and equilibration never enters ΔG. The reduced warmup dt keys the prefix as **`wu1.0`**, so this is a
+> fresh trajectory by construction — no `commit_salt` change and no poisoned-checkpoint risk.
+
+**The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
+are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
+with the GCP lane the reverse leg owns. The rescope-vs-continue decision on valB_mini is still deliberately
+**held** until the reverse leg reads out — it is the one cheap test that can falsify the "systematic, not
+sampling" conclusion the current recommendation rests on — but the *design* for both of its outcomes is being
+built in parallel (lane 5) rather than after it.
 
 *Landed 11:55 AM ET, hence off the board:* the **rev setup prime** (CPU, `ternary-setup-prime-cpu.yml`, run
 30163606577) **succeeded** — the first primer run since the `setupcache/` IAM 403 was granted, so the write half
@@ -657,13 +758,58 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   exactly; the *interface* is wrong. The superseded science numbers are listed in
   [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) and **must not be cited**; the
   infrastructure/pricing record (~$0.43/leg, ~$8/panel) is unaffected.
-  **Status:** the split is now identified-and-validated rather than guessed (`identify_chains` → `chains.json`,
-  consumed by the driver; every leg records the split it used), and the corrected re-run of the 14 legs (~$6,
-  Vast, into `nrv04-covalent-results-chainfix`) is built and **not yet launched**. Until it lands, this rung
-  supplies **no GO** and must not be cited as one. Full evidence:
+  **★ STATUS (2026-07-25, LANE 3) — THE WITHDRAWN GO CANNOT BE RECOVERED AT $0, AND IT WAS NEVER AVAILABLE TO
+  RECOVER. THE RE-RUN IS `[HELD]`, NOT MERELY UNLAUNCHED.** Four findings, each measured, not argued:
+  1. **No trajectory was ever persisted**, so recomputation against the correct chain pair is impossible. A
+     read-only S3 census (`nrv04_result_forensics.py`, CI run 30167457977 → `nrv04-result-forensics.json`) finds
+     **72 objects / 19 units and `trajectory_objects_found: 0`** — 796 MB of `built_cif` (solvated topology +
+     **pre-minimisation** coordinates = one frame), 1.35 GB of `built_system` (forces/parameters, no coordinates
+     over time), and 27 kB of `leg_result` scalars **already reduced against the wrong split**. The driver
+     reduces each frame in-loop and discards positions, and `_rm_ckpt` deletes the single checkpoint frame on
+     clean completion (17/18 legs). The MD must be re-run or nothing.
+  2. **The prereg's own frozen `panel_verdict()` returns `go: false` on the panel's own committed legs** —
+     *"warhead_only recruited despite no E3 moiety"* and *"inactive epimer engaged VHL"*, i.e. **both negative
+     controls came back positive**. All 17 legs returned `frac_frames_in_contact = 1.0`, and R2's frozen rule
+     (any contact in >50 % of frames) **cannot be failed by a system started from a co-folded complex** — the one
+     leg ever run with the *corrected* split returns `recruited=true` too. The recorded GO ("active 3/3 vs epimer
+     1/3") is an **R1 narrative that §5 does not score.** So the chain split changed which interface the numbers
+     described; it did **not** manufacture a GO that the frozen rule would otherwise have given.
+  3. **The panel's INPUTS were contaminated as well — a third, independent data-invalidating defect.** A census
+     of all 12 persisted systems gives `A=254 E=213 F=255 G=112`; a CA-geometry Kabsch match identifies the
+     source as `nrv04-descriptive-v3/nr4a1/seed_1` at **RMSD 0.000 Å**, with the clean `nrv04-covalent-cofold`
+     **5.884 Å** away. So the panel **simulated 14-3-3 epsilon where Elongin B belongs.** Mechanism:
+     `fusion-cpu-extras.yml@786759a9` set `cofold_prefix` default `"nrv04-descriptive-v3"`, so the launcher's
+     clean fallback never fired. **⚠ The 2026-07-24 forensics' "the panel is clean on this defect" is RETRACTED**
+     — it audited the prefix the *code names*, not the artifact that *ran*.
+  4. **A free pre-spend staging check shows the re-run cannot reach the frozen GO on any co-fold in the bucket.**
+     All 6 legs stage cleanly with `target=A e3=[E,F,G]` (so the chain fix itself is proven end-to-end for $0),
+     but `warhead_only`'s nearest **target-chain** Cys Sγ is **16.39 Å** and `cov_nr4a1`'s is **8.99 Å** — Boltz
+     does not seat celastrol against an NR4A1 cysteine in *either* co-fold, so criterion 3 is **unevaluable** on
+     every available input. Staged epimer interface 369 contacts vs active 381 (**3 %**) is noise.
+
+  **Consequence: do not pay for the re-run as built.** It is `[HELD]` pending (a) a prereg amendment giving R2 a
+  threshold that *can* fail and restating `recruiter_epimer` as a matched-ternary **ligand-level** control (it
+  runs as a full ternary, not the binary §3 specifies), and (b) a re-folded `neg_celastrol`, or dropping
+  `warhead_only`. Amending a preregistered rule requires an explicit, dated, reviewer-approved defect-fix — not a
+  session's retune. Full evidence:
+  [nrv04-covalent-panel-recovery-2026-07-25.md](research/modalities/nrv04-covalent-panel-recovery-2026-07-25.md)
+  · prior chain forensics
   [nrv04-cofold-chain-forensics-2026-07-24.md](research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
-  *(Separately, the `nrv04-descriptive-v3` co-folds were found to contain 14-3-3 epsilon where Elongin B belongs
-  and have been regenerated as `nrv04-descriptive-v4`.)*
+
+  **★ TWO BUGS FOUND HERE PROPAGATE TO THE UNLAUNCHED NR-V04 RETROSPECTIVE (RUNG 4), WHICH SHARES THIS DRIVER —
+  both are fixed with regression tests, and the retrospective must not launch on the old code.**
+  (i) **`_reactive_cys_by_geometry` was chain-blind** — a second live instance of the *same* defect class as the
+  chain split; it is now restricted to the identified target chain, raises above an 8 Å preformed-adduct limit on
+  covalent legs, and records its search diagnostics. (ii) **R3 reported NANOMETRES under an Ångström label.**
+  OpenMM positions are nm; R1 converted (`* 10.0`), R3 did not, so **every committed R3 is ~10× too small** —
+  reading as ubiquitination-competent (~2–4 Å) when the true separation is **~30–49 Å**. Independently
+  cross-checked: `warhead_only` reported `min_A` 2.34/2.44 against a t=0 distance of **25.21 Å**.
+
+  **★ HIGHEST-LEVERAGE INFRASTRUCTURE CHANGE FOR THE WHOLE TERNARY PROGRAM (adopted as a requirement, 2026-07-25):
+  every MD driver must persist a strided heavy-atom TRAJECTORY.** Tens of MB against the ~112 MB System XML the
+  driver *already* uploads — and every analysis defect above (wrong chain split, chain-blind cysteine search, the
+  R3 unit error) would then have been correctable for **$0** instead of costing a re-run. This is the concrete,
+  general lesson from a panel that produced three data-invalidating defects and left nothing to re-derive from.
 
 ### RUNG 4 — warhead map, differential atlas, retrospective gate
 
@@ -943,7 +1089,9 @@ OPTIONAL/HELD (explicit nod only): dg_open_paralogue, abfe_conditional (incl. th
 ## Current front
 
 Rungs 0–1 are done. The Tier-0 unique-residue map and the differential atlas are done ($0, both PASS). The
-NR-V04 covalent feasibility panel is **under correction** and gates nothing.
+NR-V04 covalent feasibility panel is **WITHDRAWN** — not merely "under correction". Its GO was never
+produced by the frozen scoring rule, its inputs were contaminated, and no trajectory survives to re-derive from,
+so its re-run is **`[HELD]`** pending a prereg amendment. It gates nothing.
 
 **One lane is live:** valB_mini's **reverse** ternary+binary legs on GCP L4 (free trial credit), launched
 11:57 AM ET — see the **IN FLIGHT** board at the top of this file.
@@ -999,12 +1147,13 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 6 | Endpoint-MD leg **~$0.6/leg**, then **~$0.45**, then **~$0.26 on a 4090** (via the 2.42× ratio) | Completed 18-leg ledger gives ~$0.43/leg on a 3090; converted by the *validated* 2.102× ratio → **~1.38 ref GPU-h ≈ ~$0.19** |
 | 7 | "**No ternary leg has ever run to completion**, so even the leg length is unverified" | valB_mini's ternary seed 0 reached **2000/2000** production iterations (convergence run 30157501491). The leg length is now observed. *Still true and still load-bearing:* **no ternary edge has completed end-to-end on a 4090**, so the Vast cost basis remains rate × leg length |
 | 8 | "5a-KS is **UNPRICED and BLOCKED** — no protein-mutation FEP engine exists in this repo; scope one before RUNG 5 can be planned or priced" | True when written (OpenFE's RHTP maps **ligand** atoms only; the sole protein-mutation path, `nr4a3_resistance_ddg.py:53`, is PDBFixer + MM-GBSA, non-alchemical). The engine was then built (perses → retired as OpenEye-gated → pmx + GROMACS) and **passed its known-answer benchmark 2026-07-25**. The **primary** kill-switch never needed it — it is the ligand-side double difference at ~$12 |
-| 9 | NR-V04 covalent panel science: recruiter_active **3/3** stable vs epimer **1/3**; covalent NR4A1 **2/3** = noncovalent **2/3**; C551A **1/3** | The driver split E3 from target **positionally** and selected **Elongin C** as the target. Arithmetic reproduces; the interface is wrong. Corrected 14-leg re-run built, unlaunched. The **cost** record (~$0.43/leg, ~$8/panel) is unaffected |
+| 9 | NR-V04 covalent panel science: recruiter_active **3/3** stable vs epimer **1/3**; covalent NR4A1 **2/3** = noncovalent **2/3**; C551A **1/3** | Retired **three times over** (2026-07-25): the split was **positional** and selected Elongin C, so the numbers describe the wrong interface; the **inputs were contaminated** (14-3-3 epsilon in place of Elongin B, source pinned to `nrv04-descriptive-v3/nr4a1/seed_1` at CA-Kabsch **RMSD 0.000 Å**); and the prereg's frozen `panel_verdict()` returns **`go: false`** on these very legs, both negative controls positive. The GO was an **R1 narrative §5 does not score**. The **cost** record (~$0.43/leg, ~$8/panel) is unaffected |
 | 10 | 5a-KS benchmark: Y29A **4.025 ± 1.100** (2 × 3); Y29F **−0.552** (single replicate) | Superseded by the full 3 × 3 set: **+4.424 ± 1.077** and **−0.370 ± 0.175**. Y29A's error against the reference *grew* as replicates landed (0.549 → 1.024) — the scatter showing itself, not a drift to explain away |
 | 11 | The warmup NaN was "an alchemical C–H whose constraint changes between endpoints", then "the whole ligand's C–H are unconstrained" | **Both** were artifacts of a `[hmr-diag]` counter that mistook alchemical *nonbonded-exception* pairs for X–H bonds. A perses force-layout dump showed **0 unconstrained valence X–H** on both anchors, and calib NaN'd at 4 fs anyway. Real cause: the **softcore region in a rough homology-built assembly**; the fix is plain-MD pre-equilibration |
 | 12 | 8XTT: **4/20** conformers above D\* | The harmonized rerun (pinned fpocket + score-independent matcher) reports **19/20 detected, 3 ≥ D\*** = 3/19 among detected, **3/20** across all deposited |
 | 13 | "There is no interruptible discount on Vast" | A tautology of the query type — `_live_offers` defaults to `interruptible=True`, and a bid-type search reports `dph_base` as your rate *at the floor*. Measured across 63 machines / 12 card classes: median on-demand = **1.25× the floor**, IQR 1.14–1.68, zero hosts at parity |
 | 14 | `lint_claims.py` R5's premise, "no per-edge alchemical dollar figure is a completed run on the card quoted" | Falsified **for the binary lane only** — the NR4A3 rate was taken on the real system, on the quoted card, across three hosts. The rule should be re-scoped to the ternary lane when the step1 branch merges; left alone rather than raced |
+| 15 | Every committed NR-V04 **R3 `min_A`** (2.34–4.48, read as ubiquitination-competent) | The value was in **NANOMETRES under an Ångström label** — OpenMM positions are nm, R1 converted (`* 10.0`), R3 did not. True separations are **~30–49 Å**. Cross-checked independently: `warhead_only` reported 2.34/2.44 against a t=0 distance of **25.21 Å**. Fixed with a regression test |
 
 ---
 

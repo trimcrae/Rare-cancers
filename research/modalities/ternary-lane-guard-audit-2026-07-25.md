@@ -102,8 +102,108 @@ because the distinguishing evidence (step DURATION) sat in a log at an unpredict
 - `|| true` on `gcloud storage ls/cat` that gather **optional context** (lane listings, live-VM lists).
 - `gcp-quota-check.yml` "Print quotas" is `set +e` with no failure path — it is a *print* step; the probe step
   beside it now carries the verdict.
-- `verify-refs.yml` is `set +e` with no failure path. **Not audited today** — outside the ternary lane, but the
-  same shape, so worth a look before its output is trusted.
+
+---
+
+## F. LIVENESS mistaken for PROGRESS — 1 found, 1 fixed
+
+The watchdog (`ternary-leg-watchdog.yml`) originally classified a leg as healthy on the strength of *a VM
+exists*. That is the same class one level up: a guard reporting success while measuring the wrong quantity.
+All three of today's silent stalls presented as a perfectly healthy RUNNING VM — an am1bcc cold-cache wait
+(~40 min at 0% GPU), a 25000-step minimize (~15 min at ~0% GPU), and the warmup-iteration-1 NaN. A liveness
+watchdog would have reported "RUNNING, leaving it alone" through every one of them, indefinitely.
+
+Fixed: the RUNNING branch now asks whether the leg is **advancing**, comparing the furthest committed
+iteration against the previous pass (state in GCS, so it survives restarts). Two distinct alarms, because the
+two failure modes have different signatures and different graces:
+
+| condition | alarm |
+|---|---|
+| zero committed iterations, VM older than `SETUP_GRACE_MIN=75` | **SETUP STALL** — hung in env-solve/charge/minimize |
+| committed iteration frozen ≥ `STALL_PASSES=2` passes (~30 min) | **STALLED** — MD not advancing |
+
+Neither relaunches: a relaunch of a hung setup hangs identically. Both **fail the job**, so GitHub's own
+workflow-failure notification is the alert path — an `::error::` annotation nobody opens is no better than the
+silent stall the watchdog exists to remove. RUNNING and DONE stay green so the mailbox stays quiet.
+
+Note the census had to be made **direction-aware** for the same reason as §A: a direction-blind census reads
+the fwd leg's far-further trajectory and reports a dead-stopped rev leg as racing ahead.
+
+### F.0 A comment that asserted a property the code did not have
+
+The watchdog's body opened with:
+
+```bash
+set -uo pipefail          # NOT -e: one entry failing must not abandon the others
+```
+
+**GitHub's default shell is `bash -e {0}`, and `set -uo pipefail` does not clear an `-e` that arrived on the
+invocation.** So `-e` was live the entire time and the comment was simply false — the purest form of this
+audit's bug class, since the *stated* guarantee was the thing being violated.
+
+It cost a run within minutes of deploying the progress census. On a leg with no commits yet,
+`MAXW=$(... | grep ... | tail -1)` takes the failing pipeline's status (grep matched nothing, `pipefail`
+propagated it), `-e` killed the watch entry, and the step died **24 seconds after printing the entry header,
+with no verdict of any kind** — the silent skip the watchdog exists to remove, reintroduced by a wrong comment.
+
+Fixed at the root — `shell: bash --noprofile --norc -uo pipefail {0}`, so the invocation matches the intent —
+plus `set +e` in the body and `|| true` on the census greps as defence in depth.
+
+Two things worth keeping straight, both settled by running them rather than by reading POSIX:
+
+- A failing **non-final** command in an `&&` list is **exempt** from `-e`: `[ -z "$x" ] && continue` is safe.
+  (So the `; true` terminators added alongside are defensive-only, and an earlier draft of this fix justified
+  them incorrectly.)
+- A bare **assignment from a command substitution** is *not* exempt — its status is the pipeline's. That is the
+  construct that actually killed the run.
+
+Checked the one other workflow with the same header, `gcp-reap-vms.yml`: it inherits `-e` too, but its only
+`&&` lists are the exempt shape and its list/delete failures are already explicitly handled — and for a reaper,
+failing loudly is the correct posture anyway. Left as-is.
+
+### F.1 The octal trap — found by the test, not by review
+
+Writing the test for that census turned up a live defect in it. The commit store pads iterations to 8 digits
+(`iter-00000520`), and **bash reads a leading-zero literal as octal**:
+
+- `$((1000000 + 00000520))` → `1000336` — a silently *wrong* progress scalar;
+- `00000999` is not octal at all → the arithmetic **errors**, `PROG` is never assigned, and `set -u` then kills
+  that watch entry mid-loop — reintroducing the exact silent-skip this workflow was built to remove.
+
+Fixed with `$((10#$MAXW))` / `$((10#$MAXP))` (and the same guard on the relaunch counter, as free insurance).
+`research/modalities/tests/test_watchdog_census.sh` locks in both properties — direction isolation and base-10
+parsing — and **extracts the census block from the workflow at run time** rather than copying it, so it cannot
+pass against a stale duplicate of logic the workflow no longer has.
+
+The pre-existing `WMAX`/`PMAX` in `gpu-ternary-fep-gcp.yml` and `gpu-rbfe-gcp-tail.yml` were checked: they are
+only ever interpolated into display strings, never into `$(( ))`, so they are cosmetically zero-padded but not
+wrong.
+
+---
+
+## G. `verify-refs.yml` — audited, and fixed
+
+Flagged in §E as un-audited. Checked: it is `set +e` with no failure path, and it is the **same shape** — every
+`curl` can time out or hit a Crossref/Europe PMC outage, the `node` one-liners then print `PARSE-ERR` or an
+undefined DOI, and the job still ends **green**.
+
+Its blast radius is genuinely smaller than the ternary guards': `permissions: contents: read`, it commits
+nothing, and nothing consumes its output automatically. So the failure is not a corrupted artifact — it is a
+**human reading a green "Verify external references" run as though it verified something**, when most lookups
+may have returned nothing. That is §D's defect (a verdict readable only by excavation), and it is exactly the
+kind of run whose conclusion gets trusted.
+
+Fixed proportionately — not a rewrite. Output is mirrored to a file and censused at the end:
+`crossref_titles`, `dois_resolved`, `parse_errors`, `undefined_dois`. Section 1 has a **fixed list of 6 DOIs**,
+so its expected count is knowable rather than inferred: fewer than 6 resolved is an `::error::` **and a job
+failure** ("do NOT treat this run as having verified anything"). Parse errors elsewhere raise a `::warning::`
+naming the specific unverified references, since those sections are searches with no knowable expected count.
+
+One implementation trap worth recording: the mirror needs the real stdout/stderr saved on fds 3/4 **first**.
+Both 1 and 2 get pointed at the same `tee`, so with no saved copy there is nothing to restore them to — the
+obvious `exec 1>&2` merely re-points stdout at the tee, its stdin never closes, and the `wait` hangs forever.
+Verified locally that the restore terminates and the census counts correctly (a would-be CI hang, caught on the
+bench).
 
 ---
 

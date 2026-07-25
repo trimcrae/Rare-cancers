@@ -1,0 +1,163 @@
+{
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "prefix": "nrv04-covalent-results-chainfix",
+  "n_snapshots": 1,
+  "cutoffs_nm": {
+    "interface": 0.8,
+    "contact": 0.45
+  },
+  "limit": "build-time snapshot (pre-minimization); the driver's R1 reference is post-equilibration. These bound what the readouts see; they are not the readouts.",
+  "units": {
+    "nrv04cov-cov_nr4a1-s0": {
+      "chain_census": {
+        "A": 254,
+        "E": 213,
+        "F": 118,
+        "G": 112
+      },
+      "e3_roles": {
+        "E": "VHL",
+        "F": "ElonginB",
+        "G": "ElonginC"
+      },
+      "corrected_split": {
+        "target": [
+          "A"
+        ],
+        "e3": [
+          "E",
+          "F",
+          "G"
+        ]
+      },
+      "positional_split": {
+        "target": [
+          "G"
+        ],
+        "e3": [
+          "A",
+          "E",
+          "F"
+        ]
+      },
+      "splits_agree": false,
+      "corrected": {
+        "interface": {
+          "e3_atoms": 6873,
+          "target_atoms": 4039,
+          "iface_e3_side": 744,
+          "iface_target_side": 1167,
+          "iface_atoms": 1911,
+          "contacts_t0": 2011
+        },
+        "R3_inputs": {
+          "n_target_lys_nz": 13,
+          "min_A": 34.0,
+          "median_A": 54.66,
+          "max_A": 74.37
+        }
+      },
+      "positional_as_run": {
+        "interface": {
+          "e3_atoms": 9194,
+          "target_atoms": 1718,
+          "iface_e3_side": 1554,
+          "iface_target_side": 1167,
+          "iface_atoms": 2721,
+          "contacts_t0": 4459
+        },
+        "R3_inputs": {
+          "n_target_lys_nz": 6,
+          "min_A": 31.38,
+          "median_A": 41.56,
+          "max_A": 53.2
+        }
+      },
+      "warhead": {
+        "ligand_heavy_atoms": 79,
+        "cys_sg_total": 13,
+        "global": {
+          "n_sg": 13,
+          "min_A": 5.25,
+          "cys": "A:222",
+          "lig_atom": "C1x"
+        },
+        "target_chain_only": {
+          "n_sg": 6,
+          "min_A": 5.25,
+          "cys": "A:222",
+          "lig_atom": "C1x"
+        }
+      },
+      "source_key": "nrv04-covalent-results-chainfix/nrv04cov-cov_nr4a1-s0/built_cov_nr4a1_s0.solv.cif"
+    }
+  },
+  "source_cofold": {
+    "tested_on": "nrv04cov-cov_nr4a1-s0",
+    "result": {
+      "built": {
+        "chain": "A",
+        "n_ca": 254
+      },
+      "candidates": [
+        {
+          "candidate": "nrv04-covalent-cofold/nr4a1/seed_0/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "rmsd_A": 0.0,
+          "meta": {
+            "chain": "A",
+            "n_ca": 254
+          }
+        },
+        {
+          "candidate": "nrv04-descriptive-v3/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "rmsd_A": 5.884,
+          "meta": {
+            "chain": "A",
+            "n_ca": 254
+          }
+        },
+        {
+          "candidate": "nrv04-descriptive-v3/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "rmsd_A": 4.688,
+          "meta": {
+            "chain": "A",
+            "n_ca": 254
+          }
+        },
+        {
+          "candidate": "nrv04-descriptive-v3/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "rmsd_A": 3.076,
+          "meta": {
+            "chain": "A",
+            "n_ca": 254
+          }
+        },
+        {
+          "candidate": "nrv04-shakeout/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "rmsd_A": 5.884,
+          "meta": {
+            "chain": "A",
+            "n_ca": 254
+          }
+        },
+        {
+          "candidate": "nrv04-shakeout/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+          "rmsd_A": 4.688,
+          "meta": {
+            "chain": "A",
+            "n_ca": 254
+          }
+        }
+      ],
+      "best_match": {
+        "candidate": "nrv04-covalent-cofold/nr4a1/seed_0/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+        "rmsd_A": 0.0,
+        "meta": {
+          "chain": "A",
+          "n_ca": 254
+        }
+      },
+      "verdict": "IDENTIFIED \u2014 CA geometry is identical to this co-fold model"
+    }
+  }
+}

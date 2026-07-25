@@ -1,0 +1,26 @@
+{
+  "_what": "Declarative watch list for the ternary-leg watchdog (.github/workflows/ternary-leg-watchdog.yml).",
+  "_why": "Monitoring used to live in a background poller inside an agent session. That dies whenever the session or container stops -- twice on 2026-07-25, once silently for 31 minutes on an unbounded curl -- and a long GPU leg then runs unwatched: a spot preemption is not noticed, nothing resumes it, and the wall clock is lost. This file plus the scheduled workflow move the watch OUT of the session entirely. All state lives in the repo and in GCS, so it survives restarts, and no agent needs to be awake.",
+  "_how": "The workflow runs on a cron. For each enabled entry it asks GCS three questions: is the leg's result JSON already there (done), is the leg ADVANCING (a live VM whose committed iteration is still climbing), or is it dead/stalled? Only a dead leg is re-dispatched, which resumes from the last committed checkpoint. A per-day relaunch counter in GCS caps runaway re-dispatch, and every outcome is an annotation; a stall or a hit cap also FAILS the job so GitHub's own failure notification fires.",
+  "_editing": "Set enabled=false when a leg is finished or deliberately parked -- do NOT delete the entry, so the history of what was watched stays legible. The watchdog is a no-op with an empty or all-disabled list.",
+
+  "_required_keys_are_enforced": "Every parameter that KEYS THE SPOT COMMIT PREFIX must appear on each entry, because the watchdog relaunches from these values alone. The prefix is <seed>_dt<timestep_fs>fs_clig0_wu<warmup_timestep_fs>[_<commit_salt>][_dir<direction>], so an entry missing one of them would make the watchdog 'resume' a DIFFERENT trajectory than the run it is watching -- the same direction-blind-key bug class documented in ternary-lane-guard-audit-2026-07-25.md. The workflow validates the list against `_prefix_keying_params` on every pass and refuses to act on an incomplete entry rather than relaunching the wrong thing.",
+  "_prefix_keying_params": ["leg_id", "seed", "direction", "commit_salt", "timestep_fs", "warmup_timestep_fs"],
+
+  "watch": [
+    {
+      "enabled": true,
+      "note": "valB_mini reverse leg — the preregistered |dG_fwd + dG_rev| antisymmetry check, which is still null on all three legs. Its result decides whether the r0 systematic sits in the model/reference data (rescope the calibrator) or in interface substates (change the rescope design first). RELAUNCHED 2026-07-25 with warmup_timestep_fs=1.0 after the 2.0 fs warmup died with a SimulationNaNError at warmup iteration 1, replica 0, state 1 — the saved pre-NaN state was clean (nonfinite_atoms=0, zero force-bearing contacts under 0.90 A), so this is integration instability at the steepest softcore window, not a clash. Note the reduced warmup dt changes the commit prefix to wu1.0, so this is a fresh trajectory by construction and no salt change is needed. Production still runs at 2.0 fs; equilibration is discarded and never enters dG.",
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "seed": "0",
+      "direction": "rev",
+      "commit_salt": "v2pe",
+      "timestep_fs": "2.0",
+      "warmup_timestep_fs": "1.0",
+      "charge_method": "nagl",
+      "n_windows": "12",
+      "template_pdb": "8G1Q",
+      "max_relaunches_per_day": 8
+    }
+  ]
+}

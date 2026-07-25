@@ -1,0 +1,431 @@
+{
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "cofold_prefix": "nrv04-covalent-cofold",
+  "legs": [
+    {
+      "leg_id": "cov_nr4a1",
+      "ligand": "nrv04",
+      "covalent": true,
+      "mutation": "",
+      "stage": "OK",
+      "chains": {
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        }
+      },
+      "ligand_atoms": 79,
+      "reactive_cys": {
+        "chain": "A",
+        "resid": 222,
+        "dist_A": 8.99,
+        "diagnostics": {
+          "global_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.99
+          },
+          "n_cys_sg_total": 13,
+          "target_chain": "A",
+          "n_cys_sg_on_target": 6,
+          "search": "restricted to the identified degradation-target chain 'A'",
+          "target_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.99
+          },
+          "global_nearest_is_off_target": false
+        }
+      },
+      "covalent_leg_runnable": false,
+      "blocker": "the nearest target-chain Cys Sg is 8.99 A from the warhead electrophile, beyond the 8.0 A preformed-adduct limit \u2014 this co-fold did not pose the warhead in the NR4A1 pocket, so the covalent leg cannot be built from it",
+      "interface_staged": {
+        "target_heavy": 1991,
+        "e3_heavy": 3493,
+        "contacts": 381
+      }
+    },
+    {
+      "leg_id": "noncov_nr4a1",
+      "ligand": "nrv04",
+      "covalent": false,
+      "mutation": "",
+      "stage": "OK",
+      "chains": {
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        }
+      },
+      "ligand_atoms": 79,
+      "reactive_cys": {
+        "chain": "A",
+        "resid": 222,
+        "dist_A": 8.99,
+        "diagnostics": {
+          "global_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.99
+          },
+          "n_cys_sg_total": 13,
+          "target_chain": "A",
+          "n_cys_sg_on_target": 6,
+          "search": "restricted to the identified degradation-target chain 'A'",
+          "target_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.99
+          },
+          "global_nearest_is_off_target": false
+        }
+      },
+      "covalent_leg_runnable": true,
+      "interface_staged": {
+        "target_heavy": 1991,
+        "e3_heavy": 3493,
+        "contacts": 381
+      }
+    },
+    {
+      "leg_id": "cov_c551a",
+      "ligand": "nrv04",
+      "covalent": false,
+      "mutation": "C551A",
+      "stage": "OK",
+      "chains": {
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        }
+      },
+      "ligand_atoms": 79,
+      "reactive_cys": {
+        "chain": "A",
+        "resid": 222,
+        "dist_A": 8.99,
+        "diagnostics": {
+          "global_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.99
+          },
+          "n_cys_sg_total": 13,
+          "target_chain": "A",
+          "n_cys_sg_on_target": 6,
+          "search": "restricted to the identified degradation-target chain 'A'",
+          "target_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.99
+          },
+          "global_nearest_is_off_target": false
+        }
+      },
+      "covalent_leg_runnable": true,
+      "interface_staged": {
+        "target_heavy": 1991,
+        "e3_heavy": 3493,
+        "contacts": 381
+      }
+    },
+    {
+      "leg_id": "warhead_only",
+      "ligand": "celastrol",
+      "covalent": true,
+      "mutation": "",
+      "stage": "OK",
+      "chains": {
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        }
+      },
+      "ligand_atoms": 33,
+      "reactive_cys": {
+        "chain": "A",
+        "resid": 222,
+        "dist_A": 16.39,
+        "diagnostics": {
+          "global_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 16.39
+          },
+          "n_cys_sg_total": 13,
+          "target_chain": "A",
+          "n_cys_sg_on_target": 6,
+          "search": "restricted to the identified degradation-target chain 'A'",
+          "target_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 16.39
+          },
+          "global_nearest_is_off_target": false
+        }
+      },
+      "covalent_leg_runnable": false,
+      "blocker": "the nearest target-chain Cys Sg is 16.39 A from the warhead electrophile, beyond the 8.0 A preformed-adduct limit \u2014 this co-fold did not pose the warhead in the NR4A1 pocket, so the covalent leg cannot be built from it",
+      "interface_staged": {
+        "target_heavy": 1991,
+        "e3_heavy": 3493,
+        "contacts": 332
+      }
+    },
+    {
+      "leg_id": "recruiter_active",
+      "ligand": "nrv04",
+      "covalent": false,
+      "mutation": "",
+      "stage": "OK",
+      "chains": {
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        }
+      },
+      "ligand_atoms": 79,
+      "reactive_cys": {
+        "chain": "A",
+        "resid": 222,
+        "dist_A": 8.99,
+        "diagnostics": {
+          "global_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.99
+          },
+          "n_cys_sg_total": 13,
+          "target_chain": "A",
+          "n_cys_sg_on_target": 6,
+          "search": "restricted to the identified degradation-target chain 'A'",
+          "target_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.99
+          },
+          "global_nearest_is_off_target": false
+        }
+      },
+      "covalent_leg_runnable": true,
+      "interface_staged": {
+        "target_heavy": 1991,
+        "e3_heavy": 3493,
+        "contacts": 381
+      }
+    },
+    {
+      "leg_id": "recruiter_epimer",
+      "ligand": "nrv04_epimer",
+      "covalent": false,
+      "mutation": "",
+      "stage": "OK",
+      "chains": {
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        }
+      },
+      "ligand_atoms": 79,
+      "reactive_cys": {
+        "chain": "A",
+        "resid": 222,
+        "dist_A": 8.87,
+        "diagnostics": {
+          "global_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.87
+          },
+          "n_cys_sg_total": 13,
+          "target_chain": "A",
+          "n_cys_sg_on_target": 6,
+          "search": "restricted to the identified degradation-target chain 'A'",
+          "target_nearest": {
+            "chain": "A",
+            "resid": 222,
+            "dist_A": 8.87
+          },
+          "global_nearest_is_off_target": false
+        }
+      },
+      "covalent_leg_runnable": true,
+      "interface_staged": {
+        "target_heavy": 1991,
+        "e3_heavy": 3493,
+        "contacts": 369
+      }
+    }
+  ],
+  "cofold_models": {
+    "nr4a1": "nrv04-covalent-cofold/nr4a1/seed_0/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+    "neg_celastrol": "nrv04-covalent-cofold/neg_celastrol/seed_0/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+    "neg_inactive": "nrv04-covalent-cofold/neg_inactive/seed_0/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif"
+  },
+  "summary": {
+    "n_legs": 6,
+    "n_staged": 6,
+    "n_blocked": 2,
+    "blocked_legs": [
+      {
+        "leg_id": "cov_nr4a1",
+        "why": "the nearest target-chain Cys Sg is 8.99 A from the warhead electrophile, beyond the 8.0 A preformed-adduct limit \u2014 this co-fold did not pose the warhead in the NR4A1 pocket, so the covalent leg cannot be built from it"
+      },
+      {
+        "leg_id": "warhead_only",
+        "why": "the nearest target-chain Cys Sg is 16.39 A from the warhead electrophile, beyond the 8.0 A preformed-adduct limit \u2014 this co-fold did not pose the warhead in the NR4A1 pocket, so the covalent leg cannot be built from it"
+      }
+    ],
+    "all_legs_runnable": false
+  }
+}
