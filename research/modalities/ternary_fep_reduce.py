@@ -142,12 +142,18 @@ def calibration_decision(ternary_agg, binary_agg, target_kcal, restraint_dominat
                 "n_ternary": ternary_agg["n_replicas"], "n_binary": binary_agg["n_replicas"]}
     lo, hi, ddg = ws["ci95_low"], ws["ci95_high"], ws["ddg_coop_kcal"]
     hys = [h for h in (ternary_agg.get("hysteresis_kcal"), binary_agg.get("hysteresis_kcal")) if h is not None]
-    hysteresis_ok = all(h <= 1.0 for h in hys) if hys else True
+    # `if hys else True` DEFAULTED A PREREGISTERED CRITERION TO PASS. hysteresis_kcal is None whenever no rev leg
+    # exists, and no rev leg had EVER run (the workflow hardcoded DIRECTION=fwd), so "no unresolved forward/reverse
+    # disagreement" was satisfied by never having measured it — the same shape as _diagnostics_ok() returning True
+    # on an absent report. Absent is now reported as UNMEASURED, distinct from measured-and-fine.
+    hysteresis_measured = bool(hys)
+    hysteresis_ok = all(h <= 1.0 for h in hys) if hys else None
     excludes_zero = lo > 0.0                       # resolved POSITIVE cooperativity change (correct sign)
     ci_includes_zero = lo <= 0.0 <= hi
     target_in_ci = lo <= target_kcal <= hi
     checks = {"correct_positive_sign": ddg > 0, "ci_excludes_zero": excludes_zero,
-              "hysteresis_resolved": hysteresis_ok, "consistent_with_target": target_in_ci,
+              "hysteresis_resolved": hysteresis_ok, "hysteresis_measured": hysteresis_measured,
+              "consistent_with_target": target_in_ci,
               "not_restraint_dominated": (restraint_dominated is not True)}
     if hi < 0.0:
         decision, reason = "NO-GO", ("CI is entirely NEGATIVE (%.2f..%.2f) — method resolves the WRONG sign "
@@ -155,8 +161,10 @@ def calibration_decision(ternary_agg, binary_agg, target_kcal, restraint_dominat
     elif ci_includes_zero:
         decision, reason = "INDETERMINATE", ("95%% CI includes zero (%.2f..%.2f) — cannot resolve a nonzero "
                                              "cooperativity change (noisy positive point estimate alone)." % (lo, hi))
-    elif not hysteresis_ok:
+    elif hysteresis_ok is False:
         decision, reason = "INDETERMINATE", "unresolved forward/reverse hysteresis (>1.0 kcal/mol)."
+    elif hysteresis_ok is None:
+        decision, reason = "INDETERMINATE", ("forward/reverse hysteresis NOT MEASURED (no rev leg) — the frozen rule requires no unresolved fwd/rev disagreement, and an unmeasured check does not satisfy it.")
     elif restraint_dominated is True:
         decision, reason = "INDETERMINATE", "restraint-dominated / collapse / ligand-escape flagged by convergence QC."
     elif not target_in_ci:
@@ -247,7 +255,7 @@ def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, exte
     if abs_err > GATE_ABS_ERR_FAIL:
         return {"decision": "FAIL", "reason": "|error| %.2f > %.1f kcal/mol." % (abs_err, GATE_ABS_ERR_FAIL),
                 **metrics}
-    if not diagnostics_ok:
+    if diagnostics_ok is False:
         return {"decision": "FAIL", "reason": "persistent convergence diagnostics failure "
                 "(overlap/drift/structural) on one or more legs.", **metrics}
     if extended and sd is not None and sd > GATE_CYCLE_SD_EXTEND:
@@ -256,6 +264,14 @@ def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, exte
 
     # ---- BORDERLINE (extend to 5, do not advance) ----
     reasons = []
+    # diagnostics_ok is TRI-STATE (see _diagnostics_ok): True = measured and clean, False = a measured failure
+    # (FAIL, above), None = no measured failure but at least one diagnostic was NEVER COMPUTED. None must not
+    # reach PASS -- the frozen rule requires that ALL convergence diagnostics pass, and an unmeasured one does
+    # not. It routes to BORDERLINE ("extend, do not advance") rather than FAIL, because "not yet measured" is a
+    # different claim from "measured and bad".
+    if diagnostics_ok is None:
+        reasons.append("convergence diagnostics INCOMPLETE (a mandated check was never computed) — 'all "
+                       "diagnostics pass' is not satisfied by an unmeasured diagnostic")
     if abs_err > GATE_ABS_ERR_PASS:
         reasons.append("abs error %.2f in (%.1f, %.1f]" % (abs_err, GATE_ABS_ERR_PASS, GATE_ABS_ERR_FAIL))
     if sd is not None and sd > GATE_CYCLE_SD_PASS:
@@ -326,7 +342,15 @@ def _diagnostics_ok():
         if os.path.isfile(p):
             try:
                 rep = json.load(open(p))
-                return not any(l.get("technical_failure") for l in rep.get("legs", []))
+                legs = rep.get("legs", [])
+                # Two distinct ways this can fail to be "all diagnostics pass": a MEASURED failure, or a
+                # diagnostic that was never computed. Only the first was checked, so a report with
+                # diagnostics_complete=false (e.g. ligand-pose RMSD unmeasurable) still returned True.
+                if any(l.get("technical_failure") for l in legs):
+                    return False
+                if legs and any(l.get("diagnostics_complete") is False for l in legs):
+                    return None      # tri-state: not failed, but not verified either
+                return True
             except Exception:  # noqa: BLE001
                 pass
     return True
