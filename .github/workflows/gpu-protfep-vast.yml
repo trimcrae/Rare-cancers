@@ -209,6 +209,13 @@ jobs:
       - name: Submit the Vast instance(s)
         run: |
           set -eo pipefail
+          # boto3 is REQUIRED here, not optional: the launcher lists S3 to skip legs that are already
+          # done BEFORE renting anything. Without it completed_leg_ids() takes its ImportError branch,
+          # returns an empty skip list, and every leg is rented — which is exactly what happened on
+          # 2026-07-25, paying for a fresh 4090 to rediscover that the apo leg had finished hours
+          # earlier. The fallback is right (never block a launch on a listing failure); the missing
+          # dependency was not.
+          python -m pip install -q boto3
           MODE="${{ github.event.inputs.task }}"
           [ "$MODE" = "launch" ] && MODE="full"
           python research/modalities/protfep_vast_launch.py \

@@ -1370,3 +1370,27 @@ def test_price_uses_a_post_fix_leg_and_names_what_it_dropped():
     assert out["n_legs_measured"] == 1
     assert out["gpu_hours_per_leg"]["mean"] == pytest.approx(2.6)
     assert out["legs_excluded_as_pre_fix"] == ["b__apo_r0"]
+
+
+def test_a_disabled_skip_announces_itself(monkeypatch, capsys):
+    """Degrading to 'launch everything' is right, but silently it spends money and looks like 'none done'."""
+    import builtins
+    real_import = builtins.__import__
+
+    def _boom(name, *a, **k):
+        if name == "boto3":
+            raise ImportError("no boto3")
+        return real_import(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", _boom)
+    pv.completed_leg_ids()
+    out = capsys.readouterr().out
+    assert "WARNING" in out and "already finished" in out
+
+
+def test_the_submit_job_installs_boto3_before_launching():
+    """The skip runs launch-side; without boto3 in that job it silently no-ops and rents everything."""
+    wf = open(os.path.join(os.path.dirname(MOD_DIR), "..", ".github", "workflows",
+                           "gpu-protfep-vast.yml")).read()
+    submit_step = wf.split("- name: Submit the Vast instance(s)")[1].split("- name:")[0]
+    assert "pip install -q boto3" in submit_step

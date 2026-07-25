@@ -290,6 +290,13 @@ def completed_leg_ids(bucket=None, prefix=None):
     try:
         import boto3
     except ImportError:
+        # LOUD, because this branch spends money. Degrading to "launch everything" is the right
+        # failure direction — a listing problem must never block a real launch — but silently it
+        # looks identical to "nothing was finished", and on 2026-07-25 it paid for a fresh 4090 to
+        # rediscover that the apo leg had completed hours earlier. The caller's CI installs boto3
+        # precisely so this line is never reached.
+        print("[launch] WARNING: boto3 unavailable, cannot check which legs are already done — "
+              "launching EVERY leg for this mode, including any that have already finished")
         return []
     b = bucket or DEFAULT_BUCKET
     p = (prefix or RESULT_PREFIX).rstrip("/")
