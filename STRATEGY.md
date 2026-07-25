@@ -787,11 +787,38 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      does not seat celastrol against an NR4A1 cysteine in *either* co-fold, so criterion 3 is **unevaluable** on
      every available input. Staged epimer interface 369 contacts vs active 381 (**3 %**) is noise.
 
-  **Consequence: do not pay for the re-run as built.** It is `[HELD]` pending (a) a prereg amendment giving R2 a
-  threshold that *can* fail and restating `recruiter_epimer` as a matched-ternary **ligand-level** control (it
-  runs as a full ternary, not the binary §3 specifies), and (b) a re-folded `neg_celastrol`, or dropping
-  `warhead_only`. Amending a preregistered rule requires an explicit, dated, reviewer-approved defect-fix — not a
-  session's retune. Full evidence:
+  **Consequence: do not pay for the re-run as built.** It is `[HELD]`.
+
+  **★ THE PREREG AMENDMENT IS DONE (2026-07-25, trimcrae-delegated) — and it does NOT authorise the re-run.**
+  [AMENDMENT 1](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated)
+  is appended to the prereg with the frozen text left **unedited**. The standard applied: a rule may be amended
+  only if its *statistic is shown to lack discriminating power*, demonstrated independently of whether we liked
+  its answer. Four rulings:
+  - **R2 retired as a gating criterion** → descriptive only. `frac_frames_in_contact` took **18 values and one
+    distinct value, 1.0**, including `warhead_only` (no E3-binding moiety) and `recruiter_epimer` (inactive
+    stereoisomer). Zero variance across the contrast ⇒ cannot score the contrast.
+  - **Frozen criterion 3 removed from the GO condition** — it depended entirely on R2 discriminating, so it was
+    **unsatisfiable**, and the gate returned NO-GO regardless of the science. Uninformative, not conservative.
+  - **`recruiter_epimer` demoted** to a descriptive sensitivity leg — it runs as a full ternary, not the binary
+    §3 specifies, and 6 ns from a co-folded pose cannot resolve a binding-affinity difference anyway.
+  - **★ NEW BINDING CRITERION A1 — input admissibility, and it FAILS NOW.** A covalent leg must stage its
+    electrophilic carbon within bonding distance of the **target-chain** Cys Sγ. Measured for $0:
+    `cov_nr4a1` **8.99 Å**, `warhead_only` **16.39 Å**, against a ~1.8 Å C–S bond — **5–9× too far.** Boltz seats
+    celastrol against no NR4A1 cysteine in any co-fold in the bucket, so §5 criterion 2 (*does covalency swamp
+    the ternary signal* — the panel's stated crux) is **unevaluable on these inputs**, not merely unmeasured.
+    Enforced in code (`nrv04_covalent_md`, `MAX_COVALENT_TETHER_A` default 8.0 Å, override only with a recorded
+    deviation) and **retrospective in force** — it binds the NR-V04 retrospective's covalent legs too.
+
+  **Non-rescue, stated as the integrity test:** the amended gate leaves the panel exactly where the unamended one
+  did — **`[HELD]`** — because A1 fails on every available input. What changed is *why*: from "a gate that can
+  never pass" to "inputs that do not instantiate the contrast." **It converts no NO-GO into a GO.** Stated
+  plainly: removing an unsatisfiable criterion *is* a loosening, since GO becomes reachable where it was not;
+  the justification is the measured absence of discriminating power, not the unwelcome verdict. Same degenerate
+  class as valB_mini's gate that **admits the null** — one always fails, one passes anything.
+  **Unblocking now needs INPUT work, not compute:** re-fold the covalent systems with the electrophile seated at
+  Cys551, or drop the covalent legs and re-scope to what noncovalent endpoint MD supports — and say which.
+  *Hypothesis the amendment raises and the re-run can test (not asserted): the superseded covalent-vs-noncovalent
+  null (2/3 = 2/3) is what one predicts if the "covalent" leg never carried a bond.* Full evidence:
   [nrv04-covalent-panel-recovery-2026-07-25.md](research/modalities/nrv04-covalent-panel-recovery-2026-07-25.md)
   · prior chain forensics
   [nrv04-cofold-chain-forensics-2026-07-24.md](research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
@@ -1154,6 +1181,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 13 | "There is no interruptible discount on Vast" | A tautology of the query type — `_live_offers` defaults to `interruptible=True`, and a bid-type search reports `dph_base` as your rate *at the floor*. Measured across 63 machines / 12 card classes: median on-demand = **1.25× the floor**, IQR 1.14–1.68, zero hosts at parity |
 | 14 | `lint_claims.py` R5's premise, "no per-edge alchemical dollar figure is a completed run on the card quoted" | Falsified **for the binary lane only** — the NR4A3 rate was taken on the real system, on the quoted card, across three hosts. The rule should be re-scoped to the ternary lane when the step1 branch merges; left alone rather than raced |
 | 15 | Every committed NR-V04 **R3 `min_A`** (2.34–4.48, read as ubiquitination-competent) | The value was in **NANOMETRES under an Ångström label** — OpenMM positions are nm, R1 converted (`* 10.0`), R3 did not. True separations are **~30–49 Å**. Cross-checked independently: `warhead_only` reported 2.34/2.44 against a t=0 distance of **25.21 Å**. Fixed with a regression test |
+| 16 | NR-V04 prereg **R2** (*recruited = BSA > 0 in >50 % of frames*) and frozen **criterion 3** (*controls behave*) as GATING criteria | Retired by [AMENDMENT 1](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md) (2026-07-25, trimcrae-delegated). R2 returned **one distinct value across 18 legs — 1.0** — including both negative controls, so it had **zero discriminating power**; criterion 3 depended on it and was therefore **unsatisfiable**, making the gate return NO-GO regardless of the science. Replaced by binding criterion **A1 (input admissibility)**, which fails now: covalent legs stage the electrophile **8.99–16.39 Å** from the target-chain Cys Sγ against a ~1.8 Å C–S bond. Panel stays `[HELD]` — no NO-GO became a GO |
 
 ---
 
