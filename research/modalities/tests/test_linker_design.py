@@ -194,6 +194,36 @@ def test_zero_arm_exact_requirement_is_the_two_leg_sum():
     assert LD.min_linker_atoms_exact(a, b, q, arm_reach=0.0) == expect
 
 
+def test_exact_scan_start_is_exact_not_a_heuristic():
+    """`min_linker_atoms_exact` starts its scan at max(span floor, relaxed bound) rather than at n=2, which is
+    what makes it affordable inside RUNG 5a's inner loop (~10^5 calls). Both skipped bounds are provable
+    necessary conditions, so the shortcut must return the IDENTICAL answer to a scan from the bottom — if it
+    ever did not, the speed-up would be silently redefining the corrected gate.
+    """
+    def naive(a, b, q, e, n_max=40):
+        for n in range(2, n_max + 1):
+            if LD.branch_position_window(a, b, q, n, e)["n_feasible"] > 0:
+                return n
+        return None
+
+    a = (0.0, 0.0, 0.0)
+    for bx in (5.0, 11.0, 17.0, 23.0):
+        for qx, qy, qz in ((3.0, 4.0, 0.0), (10.0, 2.0, 1.0), (5.0, 9.0, -2.0),
+                           (bx / 2.0, 0.0, 0.0), (-4.0, 3.0, 2.0), (bx + 6.0, 0.0, 0.0)):
+            for e in (0.0, 3.0, 8.75):
+                b, q = (bx, 0.0, 0.0), (qx, qy, qz)
+                assert LD.min_linker_atoms_exact(a, b, q, e, n_max=40) == naive(a, b, q, e), (bx, qx, qy, qz, e)
+
+
+def test_pendant_reach_table_is_shared_with_the_rung5a_gate():
+    """One definition, two rungs (CLAUDE.md §1). The RUNG-5a gate value must be the first entry and must be
+    the SHORTEST — a sweep that let the gate sit on a longer pendant would be a tuned knob, not a sensitivity.
+    """
+    t = LD.PENDANT_REACH_A
+    assert t["rung5a_convention"] == 3.0
+    assert min(t.values()) == t["rung5a_convention"]
+
+
 def test_exact_requirement_returns_none_when_out_of_range():
     a, b, q = (0.0, 0.0, 0.0), (10.0, 0.0, 0.0), (400.0, 0.0, 0.0)
     assert LD.min_linker_atoms_exact(a, b, q, arm_reach=3.0, n_max=20) is None

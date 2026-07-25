@@ -509,6 +509,51 @@ def test_electrophile_reach_couples_the_two_tethers_through_one_contour_length()
     assert on["reachable"] is True and off["reachable"] is False
 
 
+def test_reach_never_reports_a_linker_shorter_than_the_span_it_must_bridge():
+    """★ THE 2026-07-25 CORRECTION, pinned on the geometry that exposed it. The published rule was the
+    prolate-spheroid RELAXATION |q-a| + |q-b| <= n*rise + 2e; for a nucleophile ON the anchor-anchor segment
+    that reduces to `span <= n*rise + 2e`, i.e. it credits the pendant with shortening the SPAN. It cannot —
+    the backbone still has to connect a to b.
+
+    Closed form, no fitting: span 20 A, cysteine at its midpoint. The relaxed rule sees focal sum 20, deducts
+    2e = 6 and returns ceil(14/1.25) = 12 atoms. The span alone needs ceil(20/1.25) = 16. So the published
+    figure was low by 4 atoms on exactly this record, and the corrected one must never sit below the floor.
+    """
+    pose = {"anchor_xyz": [0.0, 0.0, 0.0]}
+    pl = {"anchor_e3": (20.0, 0.0, 0.0)}
+    cys = [{"uniprot_resid": 397, "xyz": (10.0, 0.0, 0.0), "unique": True}]
+    r = B.electrophile_reach(pl, pose, cys)[0]
+    assert r["min_linker_atoms_relaxed_superseded"] == 12          # what RUNG 5a published
+    assert r["span_floor_atoms"] == 16
+    assert r["min_linker_atoms"] >= r["span_floor_atoms"]          # the constraint no pendant can buy off
+    assert r["min_linker_atoms"] >= r["min_linker_atoms_relaxed_superseded"]
+
+
+def test_reach_is_never_shorter_than_either_published_bound_over_a_grid():
+    """Both inequalities are provable (see `linker_design.min_linker_atoms_exact`), so they hold for EVERY
+    record the search emits, not just the demonstration geometry. A regression that reintroduced the relaxed
+    rule anywhere in the aggregation would break this."""
+    pose = {"anchor_xyz": [0.0, 0.0, 0.0]}
+    for bx in (6.0, 13.0, 21.0):
+        pl = {"anchor_e3": (bx, 0.0, 0.0)}
+        cys = [{"uniprot_resid": 397 + i, "xyz": xyz, "unique": True}
+               for i, xyz in enumerate([(3.0, 4.0, 0.0), (10.0, 2.0, 1.0), (5.0, 9.0, -2.0),
+                                        (bx / 2.0, 0.0, 0.0), (-4.0, 3.0, 2.0)])]
+        for r in B.electrophile_reach(pl, pose, cys):
+            assert r["min_linker_atoms"] is not None
+            assert r["min_linker_atoms"] >= r["span_floor_atoms"]
+            assert r["min_linker_atoms"] >= r["min_linker_atoms_relaxed_superseded"]
+
+
+def test_reach_reports_unreachable_as_null_rather_than_as_a_number():
+    """Out of range must read as absent, not as `reach_scan_max_atoms` — a number would be quoted."""
+    pose = {"anchor_xyz": [0.0, 0.0, 0.0]}
+    pl = {"anchor_e3": (12.0, 0.0, 0.0)}
+    cys = [{"uniprot_resid": 559, "xyz": (400.0, 0.0, 0.0), "unique": True}]
+    r = B.electrophile_reach(pl, pose, cys)[0]
+    assert r["min_linker_atoms"] is None and r["reachable"] is False
+
+
 def test_term_b_limb_requires_beating_the_null_not_merely_covering_a_unique_lysine():
     """Without a null, 'this basin's transfer zone covers K572' is uninterpretable. If ANY linker-feasible,
     clash-free placement covers a unique lysine at the same rate, the term carries no information and a
