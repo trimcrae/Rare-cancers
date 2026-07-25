@@ -60,6 +60,11 @@ LABEL_PREFIX = "protfep-bench"
 # result appeared, so a hung or crashed leg cannot bill indefinitely. It is a BACKSTOP, not
 # the normal path — the normal path is "leg result in S3 -> destroy".
 MAX_INSTANCE_HOURS = float(os.environ.get("PROTFEP_MAX_INSTANCE_HOURS") or "10")
+# How long a box may sit at cur_state="stopped" before the nudge is given up on and it is destroyed.
+# Sized off the observed failure: the complex leg's host sat stopped for 36 minutes with a frozen
+# image pull, so the bound has to exceed a legitimate slow pull while still being far below the
+# 10-hour runtime backstop. A stopped box bills storage only, so this is minutes of waste, not GPU-h.
+MAX_STOPPED_MIN = float(os.environ.get("PROTFEP_MAX_STOPPED_MIN") or "45")
 
 # A solvated barnase-barstar complex is ~30-35k atoms and the apo barstar leg ~15-20k — small
 # systems by this repo's standards (the ternary hybrid is 146k). The 4090 is the measured $/ns
@@ -469,6 +474,37 @@ def collect(bucket=None, prefix=None, autostop=True):
                     _vast_request("DELETE", f"/instances/{iid}/", key)
                 except Exception as e:  # noqa: BLE001
                     print(f"    destroy failed: {e}")
+            elif i.get("cur_state") == "stopped" and up_h * 60 > MAX_STOPPED_MIN:
+                # A nudge that has not taken in this long is not going to. Destroy and let the next
+                # dispatch rent a different box. Without this bound the nudge below is an unbounded
+                # restart loop — and it would become a PAID one the moment label_matches_leg failed
+                # to pair a done leg with its host, since the reap above would never fire and the
+                # container would exit on its idempotency check, go stopped, and be nudged again.
+                print(f"    -> destroying {iid} (stopped for {up_h * 60:.0f} min; nudge is not taking)")
+                try:
+                    _vast_request("DELETE", f"/instances/{iid}/", key)
+                except Exception as e:  # noqa: BLE001
+                    print(f"    destroy failed: {e}")
+            elif i.get("cur_state") == "stopped":
+                # SELF-HEAL the create/start race. Creating a Vast ask does not reliably launch the
+                # container — the start PUT can be lost while Vast is still finishing the create,
+                # leaving the box at cur_state="stopped" forever: never running, never billing GPU,
+                # never producing anything. gpu_backend._ensure_running retries only ~48 s at submit
+                # time, which is not always long enough. Diagnosed first on the congeneric s1f lane;
+                # this lane hit the same thing on the complex leg, which sat stopped for 36 minutes
+                # with its image pull frozen at "Waiting" and no layer ever downloading.
+                #
+                # Deliberately a WIDER trigger than s1f's (which also required an empty status_msg):
+                # our box carried a non-empty one — a frozen snapshot of the moment the pull was
+                # queued — so status_msg does not discriminate. `cur_state == "stopped"` after the
+                # reap checks is enough: a finished or crashed leg was already destroyed above, and
+                # an OUTBID instance carries intended_status == "running", so a nudge there is a
+                # harmless no-op rather than a wrong action. Re-issuing start is idempotent.
+                try:
+                    _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
+                    print(f"    -> NUDGED {iid}: cur_state=stopped with no result yet, re-issued start")
+                except Exception as e:  # noqa: BLE001
+                    print(f"    nudge failed: {e}")
     return n_up, len(done)
 
 

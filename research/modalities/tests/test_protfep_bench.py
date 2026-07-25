@@ -1147,3 +1147,78 @@ def test_forensic_dump_is_on_by_default_and_disableable():
     """An unproven lane pays for verbosity once; a proven one should be able to turn it off."""
     src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
     assert 'os.environ.get("PROTFEP_FORENSIC", "1") != "0"' in src
+
+
+def _collect_with(monkeypatch, instances, leg_docs):
+    """Drive collect() against fake S3 + Vast, returning the recorded API calls."""
+    calls = []
+
+    class _Body:
+        def __init__(self, raw):
+            self._raw = raw
+
+        def read(self):
+            return self._raw
+
+    class _S3:
+        def get_paginator(self, _name):
+            class _P:
+                def paginate(self, **_kw):
+                    return [{"Contents": [
+                        {"Key": f"protfep-benchmark/leg_{k}.json",
+                         "LastModified": __import__("datetime").datetime(2026, 7, 24, 23, 28, 24)}
+                        for k in leg_docs]}]
+            return _P()
+
+        def get_object(self, Bucket=None, Key=None):  # noqa: N803
+            lid = os.path.basename(Key)[len("leg_"):-len(".json")]
+            return {"Body": _Body(json.dumps(leg_docs[lid]).encode())}
+
+    monkeypatch.setattr(pv, "_vast_request", lambda m, p, k, params=None, body=None: (
+        calls.append((m, p, body)) or ({"instances": instances} if m == "GET" else {})))
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.setenv("PROTFEP_FORENSIC", "0")
+    import types
+    monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(client=lambda _n: _S3()))
+    pv.collect()
+    return calls
+
+
+def test_a_stopped_instance_is_nudged_not_destroyed(monkeypatch):
+    """The create/start race leaves a box stopped forever; re-issuing start is the documented fix."""
+    inst = {"id": 77, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "stopped", "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    calls = _collect_with(monkeypatch, [inst], {})
+    assert ("PUT", "/instances/77/", {"state": "running"}) in calls
+    assert not any(m == "DELETE" for m, _p, _b in calls)
+
+
+def test_a_running_instance_is_not_nudged(monkeypatch):
+    inst = {"id": 78, "label": pv.LABEL_PREFIX + "x", "cur_state": "running",
+            "actual_status": "running", "start_date": time.time() - 600, "dph_total": 0.3}
+    calls = _collect_with(monkeypatch, [inst], {})
+    assert not any(m == "PUT" for m, _p, _b in calls)
+
+
+def test_a_finished_leg_s_host_is_destroyed_not_nudged(monkeypatch):
+    """Reap wins over nudge: a done leg must never be restarted into another paid pull."""
+    lid = "barnase_barstar_Y29A__complex_r0"
+    inst = {"id": 79, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "stopped", "actual_status": "loading",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    docs = {lid: {"leg_id": lid, "status": "done", "dg_kcal": 1.0, "dg_mbar_se_kcal": 0.1,
+                  "gpu_hours": 0.1, "n_particles": 100}}
+    calls = _collect_with(monkeypatch, [inst], docs)
+    assert ("DELETE", "/instances/79/", None) in calls
+    assert not any(m == "PUT" for m, _p, _b in calls)
+
+
+def test_a_box_stopped_too_long_is_destroyed_not_nudged_forever(monkeypatch):
+    """An unbounded nudge loop would be paid the moment a done leg failed to pair with its host."""
+    inst = {"id": 80, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "stopped", "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - (pv.MAX_STOPPED_MIN + 5) * 60, "dph_total": 0.3}
+    calls = _collect_with(monkeypatch, [inst], {})
+    assert ("DELETE", "/instances/80/", None) in calls
+    assert not any(m == "PUT" for m, _p, _b in calls)
