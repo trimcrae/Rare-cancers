@@ -111,13 +111,17 @@ jobs:
         with:
           python-version: "3.11"
       - name: Probe bid semantics (rents ~2 min per rung, self-destroys)
-        if: ${{ !startsWith(github.event.inputs.gpu, 'cap:') }}
+        if: ${{ !startsWith(github.event.inputs.gpu, 'cap:') && github.event.inputs.gpu != 'list' }}
         working-directory: research/modalities
         run: python vast_bid_semantics_probe.py --ladder "${{ github.event.inputs.gpu || '1.0,2.5,8.0' }}"
       - name: Verify the billing cap is the machine on-demand price (read-only, $0)
         if: ${{ startsWith(github.event.inputs.gpu, 'cap:') }}
         working-directory: research/modalities
         run: python vast_bid_semantics_probe.py --verify-cap "${{ github.event.inputs.gpu }}"
+      - name: Anti-idle close-out — nothing left running (read-only, $0)
+        if: ${{ github.event.inputs.gpu == 'list' }}
+        working-directory: research/modalities
+        run: python vast_bid_semantics_probe.py --list-only
       - name: Commit the verdict
         if: always()
         run: |

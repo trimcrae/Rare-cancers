@@ -209,6 +209,8 @@ def verify_cap(key, machine_id):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--overbid-mult", type=float, default=4.0)
+    ap.add_argument("--list-only", action="store_true",
+                    help="read-only: list account instances and destroy any stray probe box")
     ap.add_argument("--verify-cap", default="", help="machine_id: read-only lookup of its on-demand price")
     ap.add_argument("--ladder", default="", help="comma-separated bid multiples, e.g. 1.0,2.0,6.0")
     ap.add_argument("--poll-s", type=int, default=15)
@@ -221,6 +223,24 @@ def main():
     if not key:
         print("FAIL: VAST_API_KEY not set", flush=True)
         return 2
+
+    if a.list_only:
+        # Anti-idle close-out. Renting anything, even for two minutes, earns an explicit check that nothing
+        # survived it: an orphaned GPU is the only expensive failure mode this probe has.
+        resp = _vast_request("GET", "/instances/", key, params={"owner": "me"}) or {}
+        insts = resp.get("instances", [])
+        print(f"[list] {len(insts)} instance(s) on the account", flush=True)
+        for i in insts:
+            print(f"  id={i.get('id')} label={i.get('label')!r} status={i.get('actual_status')} "
+                  f"dph={i.get('dph_total')} gpu={i.get('gpu_name')}", flush=True)
+        stray = [i for i in insts if str(i.get("label") or "") == LABEL]
+        if stray:
+            print(f"[list] {len(stray)} STRAY probe instance(s) — destroying", flush=True)
+            for i in stray:
+                destroy(key, i.get("id"))
+            return 1
+        print("[list] no probe instances survive — clean", flush=True)
+        return 0
 
     if a.verify_cap:
         out = verify_cap(key, a.verify_cap.replace("cap:", "").strip())
