@@ -140,7 +140,45 @@ jobs:
 
               # 1. DONE? the leg's own direction-keyed result object is the only authority on completion.
               if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" >/dev/null 2>&1; then
-                echo "::notice title=WATCHDOG DONE::$TAG — result JSON is in GCS. Set enabled=false in ternary-watch.json."
+                # A finished leg is not a finished RESULT. The leg JSON holds one ΔG; the deliverable is
+                # ΔΔG_coop, the gate verdict, and |ΔG_fwd + ΔG_rev| — all produced by mode=converge (diagnostics)
+                # and mode=reduce (the cycle + gate). Both are CPU-only, $0, no GPU. Without this the number sits
+                # uncomputed until a human happens to look, which defeats a session-independent watchdog just as
+                # much as an unnoticed preemption does.
+                #
+                # Sequenced across passes rather than in one: workflow_dispatch is fire-and-forget, so there is no
+                # way to wait for converge here. Pass N dispatches converge, pass N+1 (15 min later) dispatches
+                # reduce — by which time the convergence report exists, so the reducer's diagnostics are MEASURED
+                # rather than defaulted. GCS markers make each dispatch happen exactly once; without them this
+                # would re-dispatch every 15 minutes forever.
+                CVM="$WDIR/done-converge-${LEG}-${DIR}-r${SEED}.txt"
+                RDM="$WDIR/done-reduce-${LEG}-${DIR}-r${SEED}.txt"
+                : > /tmp/marker.txt
+                if ! gcloud storage ls "$CVM" >/dev/null 2>&1; then
+                  if [ "$DRY" = "1" ]; then
+                    echo "::notice title=WATCHDOG DONE::$TAG — result JSON present. dry_run=1: would dispatch mode=converge now (diagnostics), then mode=reduce next pass."
+                  elif gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" \
+                         -f mode=converge -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
+                         -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" 2>&1; then
+                    gcloud storage cp /tmp/marker.txt "$CVM" >/dev/null 2>&1 || echo "::warning::converge marker write failed — it may re-dispatch next pass"
+                    echo "::notice title=WATCHDOG DONE -> CONVERGE::$TAG — result JSON present; dispatched mode=converge (CPU, \$0) for the convergence diagnostics. mode=reduce follows on the next pass, once the report exists."
+                  else
+                    echo "::error title=WATCHDOG CONVERGE DISPATCH FAILED::$TAG — the leg finished but mode=converge could not be dispatched; the result will not be reduced automatically."
+                    echo "CONVERGE DISPATCH FAILED $TAG" >> "$ALERT"
+                  fi
+                elif ! gcloud storage ls "$RDM" >/dev/null 2>&1; then
+                  if [ "$DRY" = "1" ]; then
+                    echo "::notice title=WATCHDOG DONE::$TAG — converge already dispatched. dry_run=1: would dispatch mode=reduce now."
+                  elif gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" -f mode=reduce 2>&1; then
+                    gcloud storage cp /tmp/marker.txt "$RDM" >/dev/null 2>&1 || echo "::warning::reduce marker write failed — it may re-dispatch next pass"
+                    echo "::notice title=WATCHDOG DONE -> REDUCE::$TAG — dispatched mode=reduce (CPU, \$0). Its [REDUCE-VERDICT] annotation carries the gate decision and the fwd/rev hysteresis. Set enabled=false in ternary-watch.json once you have read it."
+                  else
+                    echo "::error title=WATCHDOG REDUCE DISPATCH FAILED::$TAG — converge ran but mode=reduce could not be dispatched."
+                    echo "REDUCE DISPATCH FAILED $TAG" >> "$ALERT"
+                  fi
+                else
+                  echo "::notice title=WATCHDOG DONE::$TAG — result JSON present and both converge+reduce already dispatched. Nothing left to do: set enabled=false in ternary-watch.json."
+                fi
                 continue
               fi
 
