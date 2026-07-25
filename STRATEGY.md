@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 12:10 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 12:50 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -43,7 +43,7 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30164631671`, us-central1-a) | **RUNNING** since **11:57 AM ET** (launch run 30164631671, tail 30164683214), `NaN=no`. ⚠ Its committed-iteration counter is **not readable** — the `[PROGRESS-SUMMARY]` numbers are leg-wide across salts and are currently reporting the **forward** leg (trap 1 below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30165768667`, us-central1-a) | **RUNNING** since **12:34 PM ET**, `live_vms=1`, `NaN=no`, `charge=nagl`. **This is the second attempt** — the 11:57 AM ET launch (VM `gcp-ternary-30164631671`) is no longer live. ⚠ Its committed-iteration counter is **not readable**: the `[PROGRESS-SUMMARY]` numbers are leg-wide across salts and are currently reporting the **forward** leg (trap 1 below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 **Nothing else is executing.** The rescope-vs-continue decision on valB_mini is deliberately **held** until the
 reverse leg reads out — it is the one cheap test that can falsify the "systematic, not sampling" conclusion the
@@ -51,11 +51,18 @@ current recommendation rests on.
 
 *Landed 11:55 AM ET, hence off the board:* the **rev setup prime** (CPU, `ternary-setup-prime-cpu.yml`, run
 30163606577) **succeeded** — the first primer run since the `setupcache/` IAM 403 was granted, so the write half
-of that fix is proven end-to-end, and the GPU leg launched two minutes later. **Not yet verified:** that the leg
-actually *restored* from that cache rather than rebuilding — the restore happens inside the detached VM, and the
-discriminator is step duration, not status (trap 2). Confirm it on the next tail; it matters because the
-unprotected rebuild window is exactly what killed the first rev attempt (VM `gcp-ternary-30162403453`,
-spot-preempted 11:02 AM ET, 12 min in, mid-build, whole build lost).
+of that fix is proven end-to-end. **Not yet verified:** that a leg actually *restored* from that cache rather
+than rebuilding — the restore happens inside the detached VM, and the discriminator is step duration, not status
+(trap 2). Confirm it on the next tail; it matters because the unprotected rebuild window is what killed the
+*first* rev attempt (VM `gcp-ternary-30162403453`, spot-preempted 11:02 AM ET, 12 min in, mid-build).
+
+**⚠ The rev leg has now been launched three times (11:57 AM, then 12:30 PM ET), and WHY the second attempt
+ended is not established here — do not assume preemption.** A concurrent session landed a fix on
+`claude/max-effort-3hgq45` for a **direction-blind idempotent skip** — *"the rev leg found the FWD result and
+reported success"* — which would make a rev launch exit early having matched the forward leg's output. That is
+a **candidate** explanation with the right shape, not a diagnosis: it has not been checked against this leg's
+log. Whoever picks this up owns that check before reading any rev result, because a rev leg that silently
+reported the forward answer would make the antisymmetry test meaningless rather than merely absent.
 
 ### ⚠ Reading the ternary lane's monitoring output — two traps
 
