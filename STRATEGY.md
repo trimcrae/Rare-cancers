@@ -270,6 +270,11 @@ relevant rung below.*
 > resume after a preemption and discard paid GPU hours. The ternary lane opts into strict mode. 28 checks, driven
 > through a fake store so they need no numpy/openmm.
 
+| **LANE 10 · RUNG 5a/5b — reach-rule fix + re-enumeration at exemplar geometry** (CPU, $0) | launched **6:10 PM ET** | ~2–4 h | **Whether Tier-2 still passes.** Every published C397 reach figure is a **lower bound by up to ~5 atoms** (the reach rule credits the pendant with shortening the span, which no pendant can do), and the 7 term-(a) basins sit at reach fractions of only **0.019–0.057** — so the correction could push basins out of the ≤12-atom gate. Also re-enumerates the 21-construct library at the corrected **exemplar** geometry |
+| **LANE 11 · RUNG 4 — NR-V04 retrospective $0 pre-spend audit** (CPU, $0) | launched **6:10 PM ET** | ~2–3 h | Whether the **built-but-unlaunched** retrospective inherits any of the **four** defects found in its sibling panel today — they share a driver — and whether its own frozen criteria contain the **zero-discriminating-power** defect AMENDMENT 1 found. Gate before ~$21 |
+| **LANE 12 · RUNG 6 — fold 2026-07-25 into the manuscript** (CPU, $0) | launched **6:10 PM ET** | ~2–4 h | The paper still carries **pre-basin-search framing**. Folds in the Tier-2 GO, the E3-breadth negative, the 5b library, the transfer-anchor resolution, the C397 one-residue risk, the composed-RING limit and the closure-blindness result — at full strength, under the language discipline |
+| **LANE 13 · Matched NR4A1/NR4A2 MD ensembles** (**Vast**, ≤$40) | launched **6:10 PM ET** | ~3–6 h | **Whether the CATEGORICAL case survives paralogue DYNAMICS.** Uniqueness is a sequence fact and is not in doubt; what has never been tested is whether a paralogue opens a **compensating** nucleophile or lysine in a populated conformer. Everything to date compares **one static conformer per paralogue**, and Tier 2 passed on this axis |
+
 **The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
 are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
 with the GCP lane the reverse leg owns. The rescope-vs-continue decision on valB_mini is still deliberately
