@@ -81,7 +81,6 @@ relevant rung below.*
 | **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, $0) | running — building the transform search + the two **categorical** terms (electrophile reach to C397/C420/C559; E2~Ub transfer zone over K572/K518/K592), pose-marginalised | ~3–6 h → **this evening ET** | **The Tier-2 gate.** No basin exploiting a categorical handle *and* none nominally discriminating NR4A3 ⇒ STOP cheaply. Also tells the program which **exit vectors** matter, which a re-scoped fan-out depends on |
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **LANE 4 · RUNG 2b — 4 fs ternary probe** (**Vast**, ≤$25) | running — building the **Vast** ternary lane (none existed; only `-gcp.yml`/`-aws.yml`), then stage 1 = the ~$1–2 survival probe | probe ~2–4 h → **this evening ET**; full edge next if it passes | **≈2× on every downstream ternary leg** (~$8.8 → ~$4.4/edge, ladder has ≥6). Also the **first NR4A-adjacent ternary leg timed on Vast** — closes the named transferability gap where an 8G1Q rate is pricing NR4A ternaries |
-| **LANE 5 · RUNG 2 — valB_mini calibrator rescope + gate defect + r0 ligand RMSD** (CPU, $0) | running — closing `diagnostics_complete: false`, preparing the admits-zero defect-fix for approval, designing both rescope options | ~2–5 h → **this evening ET** | The **next step the moment the rev leg lands** — designed for *both* branches of it, so the decision is not serialized behind the result |
 
 > **⚠ NAMING CORRECTED (2026-07-25 1:50 PM ET) — these were first written as "5a-1…5a-5", which was wrong and
 > actively misleading: it read as though all five were sub-parts of RUNG 5a, and it invited the reasonable
@@ -599,9 +598,15 @@ not let "we spent ~$2 so far" imply the L4 lane was free.
    saving is *larger* than the leg count suggests: the `binary_vhl` leg ran at **~28.6–38.2 s/iter (median ≈33)**
    on L4, the *same* rate as the ternary leg — a shared binary leg is a full-price leg paid for once instead of
    N times.
-3. **Sequential (anytime-valid) stopping instead of a fixed 3 replicas — ~20–25 %.** `adaptive_certify.py` and
-   `adaptive_allocator.py` are already built and unit-tested and are **not wired into the ternary ladder**. Run 2
-   replicas; add the 3rd only where the decision is not yet determined at the preregistered margin.
+3. **~~Sequential (anytime-valid) stopping instead of a fixed 3 replicas — ~20–25 %.~~ ⚠ REFUTED BY MEASUREMENT
+   2026-07-25 — it saves ~0.8–2.6 % on THIS ladder, and should NOT be wired.** `adaptive_certify.py` /
+   `adaptive_allocator.py` are built and unit-tested but were never wired to the ternary ladder, and the
+   ~20–25 % was an allocation-design figure that was never checked against this ladder's actual shape. Measured
+   as a futility stop (`valb_rescope_design.py`): at σ = 0.5 it stops after **4.87 of 5** replicates (**2.6 %**);
+   at σ = 0.7, **4.96 of 5** (**0.8 %**). **Mechanism, not a fitting artifact:** an anytime-valid bound must be
+   wide enough to remain valid under *every* stopping time, so at n = 2–4 with σ ≈ 0.7 it is simply never tight
+   enough to fire. The saving is real for long horizons; **a 5-replicate ladder is too short to pay for it.**
+   Do not carry the 20–25 % in any total.
 4. **Free gates lead.** `selectivity_wedge_confirm` depended on `valB_full` + `nrv04_retrospective` (~$43) even
    though its validation need is matched-pair, not cooperativity-cube. Decoupled.
 5. **Ligand-side double difference replaces the protein-mutation campaign** as the primary causal test — which
@@ -717,8 +722,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   **Consequence: the statistical error (0.045) is ~33× smaller than the miss (1.478), so the wrong sign is
   SYSTEMATIC — and replicates shrink variance, not bias.** Made worse for the replicate case, not better:
   ternary seed *s* uses the *s%n*-th relaxed SMARCA2 model, so r1/r2 are partly *different structures* and their
-  spread would conflate sampling noise with homology-model sensitivity. Still unmeasured: the **ligand-only**
-  pose RMSD (needs ligand indices from the OpenFE hybrid topology) — `diagnostics_complete: false` says so.
+  spread would conflate sampling noise with homology-model sensitivity.
+  **★ THE LAST OPEN DIAGNOSTIC IS NOW CLOSED — `diagnostics_complete: TRUE` (2026-07-25, run 30169056960).** The
+  **ligand-only** pose RMSD was the one mandatory metric never measured. No committed artifact is a topology
+  file, so the ligand was *derived*: bonded connectivity read from the hybrid System inside the `.nc`
+  (HarmonicBondForce + the softcore CustomBondForce + **constraints**, where X–H bonds live) partitions 141,968
+  particles into 4 protein chains, 44,860 waters, 248 ions and **exactly one** ligand-sized molecule — a
+  fail-closed identification with a single candidate, not a ranked guess. Result: `n=110, heavy=59` · **pose RMSD
+  max 2.765 Å, median 1.644 Å** against a 4.0 Å threshold · `ligand_stable_ok: true` · `mandatory_unmeasured: []`.
+  Two *independent* corroborations, both consistent: 59 heavy atoms equals `wurz-calib-frozen.json`'s
+  `validation.heavy_1 = heavy_4 = 59` (an RDKit count from freeze time, unrelated to this trajectory), and the
+  ligand identified separately in the 5k-particle solvent box matches the one found in the 142k-particle assembly.
+  **So the ligand did not drift — which removes the last benign explanation for the wrong sign and leaves the
+  systematic where the convergence analysis put it: in the model or the reference data, not in the sampling.**
   ⚠ **Seven defects were found in this gating diagnostic on 2026-07-25, every one reporting success while
   measuring nothing** (never wired · missing `openfe` · an unguarded lazy `mbar` that deleted six other metrics ·
   slice-MBAR never converging · a fwd/rev gap taken where it is identically zero · the checkpoint never opened
@@ -755,16 +771,44 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   help; a 403 now aborts immediately with the real reason. **trimcrae granted the permission 2026-07-25 and a
   per-prefix write probe (`gcp-quota-check.yml`) confirms all four prefixes writable.**
 
-  **Recommended next steps (spend order):** (1) ✅ *done, free* — the convergence analysis above; (2) *free* —
-  route the admits-zero gate defect for approval; (3) *one replicate's cost, strictly more informative than a
-  replicate* — run the **reverse** ternary+binary legs and test |ΔG_fwd + ΔG_rev| **← in flight**; (4) **the real
-  decision** — rescope the calibrator to a **≳2 kcal/mol** signal, the same margin this file says a useful
-  degradation window needs, via a multi-edge congeneric path (which also finally supplies cycle closure) or the
-  high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops. Calibrating at 0.944 demands
-  resolution the program does not need — this file's own mechanism-first revision already demoted the
-  marginal/induced-interface axis to "a confirmation tool operating near its limit." The honest deliverable is a
-  **measured resolution floor** for the ΔΔG_coop cycle, not a 23 %-odds PASS on a benchmark a null method passes
-  22 % of the time.
+  **Recommended next steps (spend order) — REVISED 2026-07-25 (LANE 5); steps 1, 2 and the ligand diagnostic are
+  DONE, and step 4's named design was REFUTED for $0 before any spend:**
+  1. ✅ *done, free* — the convergence analysis above, and now the **ligand-only pose RMSD** (`diagnostics_complete: TRUE`).
+  2. ✅ *done, free* — **the admits-zero gate defect fix was already APPLIED in place at 8:25 AM ET**
+     (commit `3f11cbf5`, delegated reviewer authority) — not merely proposed. It has since been **independently
+     audited** (`valb_gate_audit.py`, calling the shipped gate): **strictly stricter across 20,468/20,468 grid
+     points with 0 counterexamples**; **conditioned on r0 the corrected PASS rate is 0.0 % in every cell**
+     (superseded rule: up to 71.6 %); an exhaustive 58,081-cell (r1,r2) scan gives **0 PASS under both**, so it
+     demonstrably **does not rescue the failing result**; discrimination improves 2.0× → 10–3330×. Ratification
+     block: §8 of [valb-gate-defect-fix-audit-2026-07-25.md](research/manuscripts/valb-gate-defect-fix-audit-2026-07-25.md),
+     which states the "applied after an unfavourable result" optic plainly as the risk.
+  3. *in flight* — the **reverse** ternary+binary legs, testing |ΔG_fwd + ΔG_rev|.
+  4. **⚠ THE NAMED RESCOPE IS DEAD — the P-series cannot carry this calibrator, established for $0 on real data**
+     (`valb_pseries_chem.py` → `valb-pseries-chem.json`; RCSB REST + RDKit MCS in the production mapper's own
+     container). **6 of 10 pairs change formal charge** — including **P1→P4 (+2.53), which is `charge_change: -1`
+     and therefore blocked by the same missing charge correction that blocks 8 legs of `step1_fanout`** — and the
+     4 charge-neutral pairs perturb **58–80 heavy atoms** against the **2** of the edge already running. P4's
+     structure (9HYO) is also only **3.74 Å**, so it would not have fixed the resolution problem either.
+     **General conclusion worth stating in the paper: a ≥2 kcal/mol ternary calibrator that is simultaneously
+     small, charge-neutral and mappable may not exist in the public literature** — large cooperativity
+     differences are *produced by* large chemical changes.
+  5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE on the anchor ligand, because cycle closure needs no
+     experimental measurement at all.** T1 = cmpd1→cmpd4 **is r0, reused**; T2/T3 are new **≤2-heavy-atom,
+     charge-neutral** edges. **2 new edges ≈ $5.9 at n=1, ≈$17.6 at n=3 — cheaper than the single-edge design
+     already on the ladder**, and it finally supplies the redundant-edge systematic-error detector the program
+     has never had. Checked rather than assumed: cmpd1 has exactly one pyridine so cmpd4′ needs a different
+     transform, four candidates are named, and the hydroxyproline VHL anchor is off-limits. **Honest limit:
+     closure measures internal CONSISTENCY, not accuracy — the known-answer requirement stays OPEN.**
+  6. **Rev-leg decision tree:** |ΔG_fwd + ΔG_rev| ≈ 0 ⇒ rescope, buy the triangle. **Large ⇒ do NOT rescope** —
+     fix the protocol on the edge already paid for. Replica mixing **0.8915 against the 0.90 ceiling** already
+     leans toward the second branch. **The triangle is worth buying under either branch.**
+
+  **★ THREE MEASUREMENTS THAT REORDER THE PROBLEM (LANE 5, $0):** (i) even the *corrected* gate certifies only to
+  a **factor of 4.1** (accept band [+0.472, +1.944] on a +0.944 target); (ii) **P(PASS) has a hard ceiling of
+  `P(sample SD ≤ 0.75)` = 66.8 % at σ = 0.7, independent of the target** (analytic and MC agree to 0.15 %) — so
+  above ~2 kcal/mol **only precision buys anything**; (iii) sweeping the target shows **2.0 kcal/mol is the
+  knee**, which *derives* this file's "≳2" from the gate's own arithmetic instead of asserting it. Consequence:
+  **redesigning for a tighter cycle SD beats hunting a bigger signal.**
 
 - **`[ ]` Rung 2b — 4 fs adoption + matched re-calibration** — **~$4.4 ($1.6–11) · Cum. ~$17 · PROPOSED, needs a
   go.** **Exact invocation** (three flags, all load-bearing): `mode=preequil` once (cached), then
@@ -1240,6 +1284,8 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 14 | `lint_claims.py` R5's premise, "no per-edge alchemical dollar figure is a completed run on the card quoted" | Falsified **for the binary lane only** — the NR4A3 rate was taken on the real system, on the quoted card, across three hosts. The rule should be re-scoped to the ternary lane when the step1 branch merges; left alone rather than raced |
 | 15 | Every committed NR-V04 **R3 `min_A`** (2.34–4.48, read as ubiquitination-competent) | The value was in **NANOMETRES under an Ångström label** — OpenMM positions are nm, R1 converted (`* 10.0`), R3 did not. True separations are **~30–49 Å**. Cross-checked independently: `warhead_only` reported 2.34/2.44 against a t=0 distance of **25.21 Å**. Fixed with a regression test |
 | 16 | NR-V04 prereg **R2** (*recruited = BSA > 0 in >50 % of frames*) and frozen **criterion 3** (*controls behave*) as GATING criteria | Retired by [AMENDMENT 1](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md) (2026-07-25, trimcrae-delegated). R2 returned **one distinct value across 18 legs — 1.0** — including both negative controls, so it had **zero discriminating power**; criterion 3 depended on it and was therefore **unsatisfiable**, making the gate return NO-GO regardless of the science. Replaced by binding criterion **A1 (input admissibility)**, which fails now: covalent legs stage the electrophile **8.99–16.39 Å** from the target-chain Cys Sγ against a ~1.8 Å C–S bond. Panel stays `[HELD]` — no NO-GO became a GO |
+| 17 | Cost lever 3: **sequential (anytime-valid) stopping saves ~20–25 %** | Measured on THIS ladder (`valb_rescope_design.py`): **0.8–2.6 %**. At σ=0.5 it stops after 4.87 of 5 replicates, at σ=0.7 after 4.96 of 5. An anytime-valid bound must stay valid under *every* stopping time, so at n = 2–4 with σ ≈ 0.7 it never fires. Real for long horizons; a **5-replicate ladder is too short**. Do not carry it in any total |
+| 18 | The valB_mini rescope path: **the high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops** | Refuted for **$0** on real data (RCSB REST + RDKit MCS, production container): **6 of 10 P-series pairs change formal charge**, including **P1→P4 (`charge_change: -1`)**, blocked by the same missing charge correction that blocks 8 legs of `step1_fanout`; the 4 charge-neutral pairs perturb **58–80 heavy atoms** vs **2** for the running edge; and 9HYO (P4) is **3.74 Å**. Replaced by a **synthetic closure triangle** (~$5.9 at n=1) |
 
 ---
 
