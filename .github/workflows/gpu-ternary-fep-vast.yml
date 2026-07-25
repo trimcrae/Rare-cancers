@@ -39,6 +39,9 @@ on:
       - research/modalities/run_ternary_leg.sh
       - research/modalities/tests/test_ternary_vast_launch.py
       - .github/workflows/gpu-ternary-fep-vast.yml
+      # The poke file exists ONLY to trigger this workflow from a feature branch, where
+      # workflow_dispatch is not yet available. See research/modalities/ternary-vast-poke.txt.
+      - research/modalities/ternary-vast-poke.txt
   workflow_dispatch:
     inputs:
       task:

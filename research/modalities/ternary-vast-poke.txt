@@ -1,0 +1,14 @@
+Poke file for the Vast ternary lane.
+
+WHY IT EXISTS. Until gpu-ternary-fep-vast.yml reaches the default branch, `workflow_dispatch` on it
+404s (GitHub only registers a new dispatchable workflow from `main`), so the only way to run a $0
+`collect` off this feature branch is the workflow's `push` trigger. That trigger is deliberately
+`paths:`-scoped so unrelated commits cannot fire it — which leaves no cheap way to say "poll now".
+This file is that way: it is in the trigger's path list and in nothing else, so touching it runs
+exactly one workflow and changes no code.
+
+Use: append a line, commit with `[tvast:collect]` in the message, push. Delete this file once the
+workflow is on main and `workflow_dispatch` is available.
+
+polls:
+2026-07-25 probe launched, instance 45827166 (machine 12697, bid $0.136/hr)
