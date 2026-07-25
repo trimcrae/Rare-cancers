@@ -143,6 +143,22 @@ def test_emitted_library_keeps_the_comparator_and_the_controls():
     assert s["n_controls"] >= 1
 
 
+def test_every_confirmed_basin_has_a_published_patch_to_be_checked_against():
+    """★ Meta-basin IDs are POSITIONAL — a rank in that run's clustering — so `CONFIRMED` alone cannot
+    guarantee the artifact's `crbn|M0` is the basin that was confirmed. Re-running the same search at 250 000
+    samples instead of 10^6 gave a `vhl|M2` whose interface patch matched the published one at Jaccard
+    **0.176**, and RUNG 5b designed nine constructs against it and recommended a matched pair on it, with no
+    symptom. Every id must therefore carry a patch to be checked against, and the threshold must be the SAME
+    one the search uses to call two placements one meta-basin — not a looser number chosen here.
+    """
+    import nr4a3_basin_search as BS
+    assert set(LDD.CONFIRMED) == set(LDD.CONFIRMED_PATCH)
+    assert LDD.CONFIRMED_PATCH_MIN_JACCARD == BS.PARAMS["meta_basin_jaccard_cutoff"]
+    for bid, patch in LDD.CONFIRMED_PATCH.items():
+        assert patch == sorted(set(patch)), bid          # sorted, no duplicates
+        assert len(patch) >= 5, bid                      # a real interface patch, not a stub
+
+
 def test_construct_id_encodes_the_placement_it_was_designed_at():
     """★ Two placements, two libraries, one id space. The same basin, warhead and segments give a DIFFERENT
     molecule at the representative and at the term-(a) exemplar (different span floor, so different allowed

@@ -80,6 +80,29 @@ RISE = LD.RISE_PER_ATOM_A
 # the artifact, never restated here.
 CONFIRMED = ["crbn|M0", "vhl|M3", "vhl|M2", "vhl|M4", "vhl|M14"]
 
+# ★★ AND THE IDS ARE POSITIONAL, WHICH MAKES THE LIST ABOVE A SILENT-WRONG-ANSWER PATH ON ITS OWN.
+# A meta-basin's `Mn` index is its rank in a leader clustering of that run's accepted placements, so it is
+# NOT stable across runs with different sampling: re-running the same search at 250 000 samples instead of
+# 10^6 produced a `crbn|M0` whose interface patch shares almost nothing with the published one, and RUNG 5b
+# designed against it without a murmur — 21.9 A exemplar span instead of 13.4, and the recommended matched
+# pair silently moved from `crbn|M0` to `vhl|M2` (observed 2026-07-25). Nothing crashed; the answer was just
+# a different basin's.
+#
+# The fix is an IDENTITY CHECK, not a re-selection. Each confirmed basin's published interface patch is
+# recorded below, verbatim from `nr4a3-orientation-basins.json` as committed on 2026-07-25 (the definitive
+# 12-pose, 10^6-sample run), and `run()` refuses if the artifact's basin of that name is not the same patch
+# under the SAME Jaccard threshold the search itself uses to call two placements one meta-basin
+# (`meta_basin_jaccard_cutoff` = 0.6). An id that resolves to a different surface patch is not the basin the
+# confirmation decision was made about, and designing on it is worse than failing.
+CONFIRMED_PATCH = {
+    "crbn|M0": [389, 390, 391, 393, 394, 396, 400, 404, 407, 408, 412, 532, 572],
+    "vhl|M3": [373, 390, 391, 393, 394, 396, 400, 404, 408, 572, 574],
+    "vhl|M2": [391, 393, 394, 396, 400, 403, 404, 407, 412, 530, 531, 532, 572],
+    "vhl|M4": [400, 487, 525, 528, 530, 531, 532, 572, 573, 574],
+    "vhl|M14": [400, 403, 404, 407, 412, 530, 531, 532, 572, 573, 574],
+}
+CONFIRMED_PATCH_MIN_JACCARD = 0.6      # = BS.PARAMS["meta_basin_jaccard_cutoff"], asserted in the test suite
+
 # Half-width of the accessibility window, in Angstrom, about the mechanism-carrying placement's span. Stated
 # as a constant rather than tuned: 3.0 A is roughly one C-C bond either side of taut, i.e. the tolerance a
 # linker has before it is either straining or slack. Every fidelity number below scales with it, so it is
@@ -1323,6 +1346,30 @@ def run(args):
     missing = [b for b in CONFIRMED if b not in metas]
     if missing:
         raise SystemExit("confirmed basins absent from the artifact: %s" % missing)
+    # ★ IDENTITY CHECK — see CONFIRMED_PATCH. Present-by-name is not the same as being the same basin.
+    identity = []
+    for bid in CONFIRMED:
+        got = set(metas[bid]["interface_patch_uniprot"])
+        want = set(CONFIRMED_PATCH[bid])
+        j = 1.0 - G.jaccard_distance(got, want)
+        identity.append({"meta_basin_id": bid, "patch_jaccard_vs_published": round(j, 3),
+                         "ok": j >= CONFIRMED_PATCH_MIN_JACCARD,
+                         "published_patch": sorted(want), "artifact_patch": sorted(got)})
+    bad = [i for i in identity if not i["ok"]]
+    if bad:
+        raise SystemExit(
+            "REFUSING: the artifact's meta-basin IDs do not denote the confirmed basins.\n"
+            + "\n".join("  %s: patch Jaccard %.3f < %.2f\n    published: %s\n    artifact:  %s"
+                        % (i["meta_basin_id"], i["patch_jaccard_vs_published"],
+                           CONFIRMED_PATCH_MIN_JACCARD, i["published_patch"], i["artifact_patch"])
+                        for i in bad)
+            + "\n  Meta-basin indices are POSITIONAL — a rank in that run's clustering — so they move when the "
+              "sampling changes. Designing against an id that resolves to a different surface patch produces a "
+              "library for a basin nobody confirmed, with no symptom. Re-run the basin search at the settings "
+              "the confirmation was made on (12 poses, 1e6 samples), or update CONFIRMED/CONFIRMED_PATCH "
+              "together and say why.")
+    print("[5b] confirmed-basin identity OK: patch Jaccard %s"
+          % ", ".join("%s=%.2f" % (i["meta_basin_id"], i["patch_jaccard_vs_published"]) for i in identity))
 
     # ★★ TWO PLACEMENTS, TWO FULL LIBRARIES, ONE CODE PATH. The requirements, the enumeration and the
     # preregistered filter are identical; only the placement they are derived at differs. That is what makes
@@ -1486,6 +1533,14 @@ def run(args):
         "chemistry": {"e3_handles": E3_HANDLE, "warhead_handles": WARHEAD_HANDLE,
                       "linker_segments": LINKER_SEGMENT, "pendants": PENDANT},
         "basin_fidelity_filter": FILTER,
+        "confirmed_basin_identity_check": {
+            "_what": "meta-basin IDs are POSITIONAL (a rank in that run's clustering), so `CONFIRMED` alone "
+                     "cannot guarantee the artifact's `crbn|M0` is the basin that was confirmed. Each id's "
+                     "interface patch is matched against the published one under the SAME Jaccard threshold "
+                     "the search uses to call two placements one meta-basin; a miss is a refusal, not a note.",
+            "min_jaccard": CONFIRMED_PATCH_MIN_JACCARD,
+            "per_basin": identity,
+        },
         "basin_requirements": reqs_ex,
         "basin_requirements_at_representative_geometry": reqs_rep,
         # ★ `virtual_library` IS BOTH LIBRARIES, TAGGED. The RDKit verifier consumes this key, and verifying
