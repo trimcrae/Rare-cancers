@@ -498,21 +498,30 @@ def _structural(reporter, nc_path):
             # edge, with exactly 2.0 % of atoms beyond half a box. sqrt(0.02*100^2 + 0.98*3^2) ~= 14.4 Å recovers
             # the 14.97 Å that was reported, so the whole apparent rearrangement WAS that wrapped 2 % tail. Undo
             # the wrap before superposing and the number measures structure again.
-            box = None
+            # The cell is NOT orthorhombic — OpenFE solvates in a reduced-form triclinic box, so componentwise
+            # d -= L*round(d/L) is invalid and the first attempt correctly refused to apply it (run 30157333131:
+            # minimum_image_corrected=false, "non-orthorhombic"). The general form works for any lattice: take the
+            # displacement to FRACTIONAL coordinates, round off whole lattice translations there, and convert back.
+            # Exact for the reduced form OpenMM enforces, and it reduces to the diagonal case when the cell is
+            # rectangular — so there is no longer a shape this silently skips.
+            M = None
             try:
                 bv = subN[0].box_vectors
-                M = np.asarray([[bv[i][j].value_in_unit(bv.unit) for j in range(3)] for i in range(3)])
-                off = float(np.abs(M - np.diag(np.diag(M))).max())
-                if off <= 1e-6:                       # orthorhombic: componentwise min-image is exact
-                    box = np.diag(M).astype(float)
+                M = np.asarray([[float(bv[i][j].value_in_unit(bv.unit)) for j in range(3)] for i in range(3)])
             except Exception:  # noqa: BLE001
-                box = None
+                try:                                  # some versions hand back a plain Vec3 list (already nm)
+                    bv = subN[0].box_vectors
+                    M = np.asarray([[float(bv[i][j]) for j in range(3)] for i in range(3)])
+                except Exception:  # noqa: BLE001
+                    M = None
             unwrapped = False
-            if box is not None and np.all(box > 0):
+            if M is not None and abs(float(np.linalg.det(M))) > 1e-9:
                 d = b - a
-                d -= box * np.round(d / box)          # wrap each displacement into [-L/2, L/2]
+                frac = d @ np.linalg.inv(M)           # rows of M are the lattice vectors
+                d = d - np.round(frac) @ M            # remove whole lattice translations
                 b = a + d
                 unwrapped = True
+            box = (np.abs(M).max(axis=1) if M is not None else None)   # per-vector length scale, for reporting
 
             # Kabsch: remove translation, then the optimal rotation — so the number reports internal/pose change
             # rather than the whole complex tumbling and drifting through the box.
@@ -550,6 +559,10 @@ def _structural(reporter, nc_path):
                                "inflated by periodic wrapping and is informational only"),
                     "solute_superposed_rmsd_A": rmsd, "ligand_rmsd_A": None,
                     "minimum_image_corrected": unwrapped,
+                    "box_matrix_A": ([[round(v * 10.0, 3) for v in row] for row in M.tolist()]
+                                     if M is not None else None),
+                    "box_is_orthorhombic": (bool(np.abs(M - np.diag(np.diag(M))).max() <= 1e-6)
+                                            if M is not None else None),
                     "solute_stable": (bool(rmsd <= LIG_RMSD_MAX_A) if unwrapped else None),
                     "displacement_percentiles_A": pct, "max_displacement_A": float(disp.max()),
                     "box_edge_A": box_nm, "fraction_atoms_beyond_half_box": frac_beyond_half_box,
