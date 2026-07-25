@@ -49,13 +49,9 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  # a long-running `watch` would otherwise block every later task in the same group for hours, so a new run
-  # supersedes the old one. Safe because no task here is a partial mutation: launch/collect/analyse are each
-  # idempotent, and a cancelled watch stops monitoring but never stops a leg (the host self-terminates and the
-  # instance-level anti-idle backstop is independent of CI).
-  group: nr4a-paralogue-md-vast
-  cancel-in-progress: true
+# NB concurrency is set PER JOB, keyed by the task, not workflow-wide. A workflow-level group would make a
+# 5-hour `watch` cancel (or block) the ~1-hour `analyse` that has to run alongside it, and neither is a partial
+# mutation of the other. Per task: a new run of the SAME task supersedes the old one; different tasks coexist.
 
 jobs:
   plan:
@@ -147,6 +143,9 @@ jobs:
 
   run:
     needs: plan
+    concurrency:
+      group: lane13-run
+      cancel-in-progress: false
     if: ${{ needs.plan.outputs.task == 'smoke' || needs.plan.outputs.task == 'launch' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -178,6 +177,9 @@ jobs:
 
   ops:
     needs: plan
+    concurrency:
+      group: lane13-ops-${{ needs.plan.outputs.task }}
+      cancel-in-progress: true
     if: ${{ needs.plan.outputs.task == 'status' || needs.plan.outputs.task == 'watch' || needs.plan.outputs.task == 'collect' || needs.plan.outputs.task == 'analyse' || needs.plan.outputs.task == 'reap' || needs.plan.outputs.task == 'stop' }}
     runs-on: ubuntu-latest
     # the analyse task samples the matched placement set at the authoritative scale and then walks every
