@@ -1,25 +1,39 @@
 # 5a-KS wedge engine — the pmx + GROMACS route (decided 2026-07-24)
 
-**Status: ★ QUALIFIED 2026-07-25.** The engine passed its known-answer benchmark and the rung is priced.
+**Status: ★ QUALIFIED 2026-07-25, full 3 × 3 replication.**
 
 | benchmark | computed ΔΔG_bind | reference (SKEMPI-verified) | abs err | within ±1.5 |
 |---|---|---|---|---|
-| barnase–barstar **Y29A** (hot spot) | **+4.025 ± 1.100** (complex 2, apo 3) | +3.40 | 0.625 | ✔ |
-| barnase–barstar **Y29F** (near-null control) | **−0.552** (single replicate) | −0.13 | 0.422 | ✔ |
+| barnase–barstar **Y29A** (hot spot) | **+4.424 ± 1.077** | +3.40 | 1.024 | ✔ |
+| barnase–barstar **Y29F** (near-null control) | **−0.370 ± 0.175** | −0.13 | 0.240 | ✔ |
 
-Ordering correct (Y29A ≫ Y29F). Measured **1.094 ± 0.514 GPU-h/leg** over 7 legs, **$0.219/leg**;
-PROJECTED wedge **$3.08 (2 rep) / $4.62 (3 rep)** — particle-count-scaled, an assumption not a rate.
+Ordering correct (Y29A ≫ Y29F). Measured **1.058 ± 0.432 GPU-h/leg** over 11 legs, **$0.212/leg**;
+PROJECTED wedge ~**$4.7 (3 rep)** — particle-count-scaled, an assumption not a rate.
 
-**The most decision-relevant number here is not the agreement, it is the SCATTER.** Y29A's
-between-replicate SD is **1.1 kcal/mol** against a 4.0 effect. The engine finds the right answer on
-average, but one leg does not determine it — so any wedge claim must be built on replicates, and the
-single-leg figure this benchmark first produced (2.851) drifted to 3.951 and then 4.025 as replicates
-landed. Y29F remains single-replicate; its reference sits near zero where a ±1.5 window is weak, so
-the ordering test carries most of its weight.
+## ★ The result that should change decisions: the noise is effect-size dependent
 
-The pipeline reached this through heavy host churn (see the failure table): the resume path, not host
-stability, is what made it finish — legs survived repeated host death by restoring banked λ windows
-from S3.
+Between-replicate SD differs **6.2×** between the two benchmarks, at identical replication:
+
+| perturbation | effect | between-leg SD | within-leg MBAR SE |
+|---|---|---|---|
+| Y29A hot-spot knockout | +4.4 | **±1.077** | 0.05–0.13 |
+| Y29F near-null | ≈0 | **±0.175** | 0.05–0.13 |
+
+Within-leg sampling error is ~10× smaller than between-leg scatter in both cases, so this is
+**setup/equilibration variance, not sampling length**. Longer legs will not fix it; more legs will.
+
+Two consequences. First, **a single leg does not determine a number** — Y29A's mean walked
+2.851 → 3.951 → 4.025 → 4.424 as replicates arrived and its error against the reference *grew*
+(0.549 → 1.024). The reducer's refusal to attach an error bar to one leg was right. Second, and more
+usefully: the wedge measures a SMALL induced-interface difference (~1.12 kcal/mol best-case resolvable,
+per the ternary-selectivity review), which is the regime where this engine is reproducible to ±0.18 —
+not the ±1.08 the hot spot implies. **So the honest validation still missing is a benchmark sized like
+the wedge.** The hot spot proves the engine sees a large effect; the near-null proves it does not
+invent one; neither directly proves it resolves ~1 kcal/mol between two real ternary states.
+
+The pipeline reached this through heavy host churn (see the failure table and
+`research/compute/vast-churn-observations-2026-07-25.md`): the resume path, not host stability, is what
+made it finish — legs survived repeated host death by restoring banked λ windows from S3.
 
 ## Why the engine changed
 
