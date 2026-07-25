@@ -61,6 +61,44 @@ At 4 fs the count is **1600 + 2000 = 3600 iterations**, but each is half the ste
 counts are a misleading unit here and **steps (force evaluations) are the right one.** Any future per-leg price
 should be built from steps × measured seconds-per-step, not from an iteration count carried between protocols.
 
+## 2b · The 4 fs arm changes TWO things, not one — and the record does not say what the 2 fs arm did
+
+**This has to be stated before any GO/NO-GO is read.** The 4 fs arm necessarily runs **with**
+pre-equilibration: 4 fs held in the runbook's §1c demonstration *only because* the physical complex had been
+relaxed by plain MD first, and every prior attempt without it died at warmup iteration 1. So `use_preequil=1`
+is not a free choice in the 4 fs arm — it is part of the arm.
+
+**What the 2 fs arm did is not recorded.** The as-run baseline was verified against the live VM for
+`timestep=2.0 fs`, the 1 fs warmup override, `nagl` and `minimization_steps=5000` (GH run 30123894814,
+`mode=tail` on VM `gcp-ternary-30112102294`). `use_preequil` was **not** among the verified fields; what
+STRATEGY and the schedule actually record is that the *workflow default* is `use_preequil: 0`. A default is
+not an observation of the run.
+
+**Why this cannot be resolved from here, and how to resolve it.** The commit prefix
+(`commits/<leg>/<seed>_dt<dt>fs_clig<c>_wu<wu>[_salt][_dir]`) has no pre-equilibration component, so the
+checkpoint layout cannot answer it. The one artifact that can is the **setup-cache version**: the GCP lane
+keys the cache to `…__nagl__v2pe` when `use_preequil=1` and to the plain version otherwise. So a single
+`gcloud storage ls gs://<bucket>/valB-6hax/setupcache/ | grep calib` settles it. This lane has no GCS
+credentials and is under instruction not to touch the GCP workflow while another session is running a leg on
+it, so it is logged here as an **open check for whoever holds GCS**, not guessed at.
+
+**How the GO/NO-GO must therefore be worded.** The comparison is not "2 fs vs 4 fs with everything else
+held"; it is **the 2 fs baseline against the protocol we would actually deploy**, which is
+`4 fs production + 1 fs warmup + pre-equilibration` as a package. That is the decision-relevant comparison,
+because there is no deployable "4 fs without pre-equilibration" arm to choose. Consequences:
+
+- **AGREE within replicate SD → adopt.** The package reproduces the baseline, which is what adoption needs.
+- **DISAGREE → NO-GO, and do NOT attribute it to the timestep.** With `use_preequil` unknown in the baseline,
+  a shift could be the timestep, the starting structure, or both. The correct response is to stay at 2 fs and,
+  if the decomposition is wanted, run the cheap missing arm (2 fs **with** pre-equilibration) rather than
+  reason about which change did it.
+
+*(In principle pre-equilibration should not move ΔG at all: it is a different force field used only as a
+coordinate conditioner, the engine explicitly excludes it from `protocol_signature` as a starting-coordinate
+choice like the per-replica seed, and OpenFE discards the equilibration from MBAR by construction. In practice
+a rough homology model plus finite sampling can make the starting structure matter, which is why this is
+recorded as a confound rather than argued away.)*
+
 ## 3 · Why the warmup checkpoint interval is per-mode — DERIVED, to be confirmed by measurement
 
 A commit costs a reporter sync plus a ~25 MB `.nc`/`.chk` pair copied and PUT to S3; the MD between commits
