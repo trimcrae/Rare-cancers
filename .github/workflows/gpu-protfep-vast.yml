@@ -287,6 +287,12 @@ jobs:
               print(f"price: {p['n_legs_measured']} leg(s), {p['gpu_hours_per_leg']['mean']} GPU-h/leg, "
                     f"${p['usd_per_benchmark_leg']}/leg @ ${p['assumed_hourly_usd']}/h "
                     f"-> PROJECTED wedge ${p.get('projected_wedge_usd_3rep')} (3 rep)")
+              if p.get("legs_excluded_as_pre_fix"):
+                  print(f"  (excluded from the rate: {p['legs_excluded_as_pre_fix']})")
+          else:
+              # A withheld price must SAY it is withheld and why. Printing nothing reads as "not
+              # computed yet" when the real state may be "computed and deliberately refused".
+              print(f"price: WITHHELD — {p.get('reason', 'no reason recorded')}")
           PY
 
   stop:
