@@ -56,8 +56,19 @@ jobs:
             fi
           done
           echo
-          [ "$FAIL" = 0 ] && echo "VERDICT: gpu-runner@ can create objects under every prefix the lane needs — the CPU primer should now be able to cache the setup." \
-                          || echo "VERDICT: at least one prefix is still NOT writable by gpu-runner@ — the CPU primer will keep failing there; grant roles/storage.objectAdmin (or objectCreator) on gs://$BUCKET."
+          # SURFACE THE VERDICT WHERE IT CAN BE READ WITHOUT THE LOG. Every verdict this lane produces today is
+          # buried in a log that must be fetched and tail-windowed to find, which has cost real time and led to
+          # at least one wrong conclusion. A ::notice::/::error:: annotation is retrievable from the check-runs
+          # API, and a non-zero exit puts the answer in the STEP CONCLUSION — so "did IAM get fixed?" is one
+          # cheap status call, not a log excavation.
+          if [ "$FAIL" = 0 ]; then
+            echo "::notice title=IAM-PROBE PASS::gpu-runner@ can create objects under every prefix the lane needs (setupcache, stagecache, results, commits) — the CPU setup-primer can now cache, so new legs no longer pay GPU-idle setup."
+            echo "VERDICT: PASS — all prefixes writable."
+          else
+            echo "::error title=IAM-PROBE FAIL::At least one prefix is still NOT writable by gpu-runner@ (see CREATE DENIED lines). The CPU primer will keep failing there. Grant roles/storage.objectAdmin (or objectCreator) on gs://$BUCKET."
+            echo "VERDICT: FAIL — see CREATE DENIED above."
+            exit 1
+          fi
       - name: Print L4/G2 quotas + billing
         run: |
           set +e
