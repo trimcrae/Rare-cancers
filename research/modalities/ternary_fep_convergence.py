@@ -1179,23 +1179,39 @@ def _ligand_size_cross_check(legs):
     setup time) than the bond-graph identification used on the complex legs. If the complex legs' identified
     ligand has a different atom count, one of the two is wrong and no pose RMSD from this report should be
     trusted. Reported either way; it costs nothing and it is the only cross-validation the artifacts permit."""
-    solvent_n, complex_n = None, {}
+    solvent_n, solvent_subset, complex_n = None, None, {}
     for leg in legs:
         tag = leg.get("tag", "")
         st = (leg.get("structural") or {})
         ident = ((st.get("ligand") or {}).get("identification") or {})
         n_lig = ident.get("n_ligand_atoms")
         if "solvent" in tag:
-            solvent_n = ident.get("n_analysis_particles") or n_lig
+            # ⚠ COMPARE LIGAND TO LIGAND. The first version took the solvent leg's raw analysis-particle count
+            # as "the ligand", on the reasoning that a solvent leg has no protein so 'not water' must be the
+            # ligand alone. The real run said otherwise: 120 stored particles against a 110-atom identified
+            # ligand (run 30168804028), and the check correctly refused to certify. The 10 extra are the
+            # neutralising COUNTER-IONS, which are also 'not water'. So use the solvent leg's own identified
+            # ligand and keep the subset size as context, rather than comparing a ligand to a ligand-plus-ions.
+            solvent_n = n_lig
+            solvent_subset = ident.get("n_analysis_particles")
         elif n_lig is not None:
             complex_n[tag] = n_lig
     if solvent_n is None or not complex_n:
-        return {"status": "not computable (need the solvent leg's subset size AND at least one complex leg's "
-                          "identified ligand)", "solvent_subset_atoms": solvent_n, "complex_legs": complex_n}
+        return {"status": "not computable (need the solvent leg's identified ligand AND at least one complex "
+                          "leg's)", "solvent_identified_ligand_atoms": solvent_n,
+                "solvent_subset_atoms": solvent_subset, "complex_legs": complex_n}
     agree = all(v == solvent_n for v in complex_n.values())
-    return {"_what": "solvent-leg analysis subset ('not water' = the ligand) vs the bond-graph identification "
-                     "on the complex legs — two independent routes to the same atom count",
-            "solvent_subset_atoms": solvent_n, "complex_legs_identified_ligand_atoms": complex_n,
+    return {"_what": "the ligand identified INDEPENDENTLY in each environment — a ~5 k-particle solvent box and "
+                     "a ~142 k-particle four-chain ternary assembly are different systems whose hybrid ligand "
+                     "must nonetheless have the same atom count",
+            "solvent_identified_ligand_atoms": solvent_n,
+            "solvent_analysis_subset_atoms": solvent_subset,
+            "solvent_subset_minus_ligand": ((solvent_subset - solvent_n)
+                                            if (solvent_subset and solvent_n) else None),
+            "_subset_note": "the solvent leg's 'not water' subset is ligand PLUS neutralising counter-ions, so "
+                            "subset size is NOT the ligand size — comparing the two is what made this check "
+                            "fire spuriously on its first run",
+            "complex_legs_identified_ligand_atoms": complex_n,
             "agree": agree,
             "verdict": ("CONSISTENT — the ligand identification is corroborated by OpenFE's own atom selection"
                         if agree else
