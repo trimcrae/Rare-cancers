@@ -519,6 +519,45 @@ def test_load_advanced_is_a_stable_consumer_contract_that_carries_caveats(tmp_pa
     assert any("not a biological assembly" in c for c in rows[1]["caveats"])
 
 
+def test_bridging_reaches_evidence_entries_that_are_not_in_the_staged_set(monkeypatch, tmp_path):
+    """Once staging began preferring partner-free frames, the tier-3 evidence entry stopped being in the
+    staged top-8 for exactly the recruiters that have many binary structures — so bridging silently went
+    unverified for VHL, CRBN, BIRC2 and DCAF1 while still deciding the top lexicographic key. The evidence
+    entries' metadata is now carried on the record so verification does not depend on staging."""
+    lines, n = [], 0
+    for i in range(4):
+        n += 1
+        lines.append("ATOM  {:5d}  CA  ALA A{:4d}    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i + 1, 0.0, i * 2.0, 0.0))
+    for i in range(4):
+        n += 1
+        lines.append("ATOM  {:5d}  CA  ALA B{:4d}    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i + 1, 9.0, i * 2.0, 0.0))
+    for i in range(4):
+        n += 1
+        lines.append("HETATM{:5d}  C{:d}  BIG A 900    {:8.3f}{:8.3f}{:8.3f}  1.00  0.00           C"
+                     .format(n, i, 2.0 + i * 1.7, 0.0, 0.0))
+    p = tmp_path / "3TST.pdb"
+    p.write_text("\n".join(lines) + "\nEND\n")
+    monkeypatch.setattr(st, "download_structure", lambda pid, out_dir=None: (str(p), "test"))
+    rec = {"arm_component_accessions": ["P_REC"],
+           # note: staged_structures deliberately does NOT contain 3TST
+           "staged_structures": [{"pdb_id": "9BIN", "is_primary": True}],
+           "linker_bearing_analogue": {
+               "tier": 3, "label": "solved_ternary", "evidence_pdb_ids_ternary": ["3TST"],
+               "_evidence_entries": [{"pdb_id": "3TST", "recruiter_auth_asym_ids": ["A"],
+                                      "polymer_entities": [{"uniprot_ids": ["P_REC"],
+                                                            "auth_asym_ids": ["A"]},
+                                                           {"uniprot_ids": ["P_OTHER"],
+                                                            "auth_asym_ids": ["B"]}],
+                                      "candidate_ligands": [{"ccd": "BIG", "formula_weight": 900.0}]}]}}
+    st.verify_bridging(rec, {"P_REC"})
+    lb = rec["linker_bearing_analogue"]
+    assert lb["bridging_check"], "evidence entry outside the staged set must still be checked"
+    assert lb["bridging_check"][0]["bridges"] is True
+    assert lb["tier"] == 3
+
+
 def test_base_chain_matches_assembly_symmetry_copies_to_their_entity():
     assert st.base_chain("A") == "A"
     assert st.base_chain("A-2") == "A"

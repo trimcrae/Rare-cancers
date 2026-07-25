@@ -559,6 +559,21 @@ def classify_linker_analogue(entry_records, accession):
                 if others:
                     ternary_entries.append({"pdb_id": rec["pdb_id"], "ccd": lig["ccd"],
                                             "formula_weight": mw, "partner_uniprots": others})
+    # Keep the metadata of the top ternary-evidence entries so bridging can be verified from coordinates
+    # later WITHOUT another RCSB round-trip. These entries are deep-fetched already; they are simply not in
+    # the staged top-8 once staging started preferring partner-free frames, which silently left tier 3
+    # unverified for exactly the recruiters that have many binary structures (VHL, CRBN, BIRC2, DCAF1).
+    keep_ids = []
+    for e in ternary_entries:
+        if e["pdb_id"] not in keep_ids:
+            keep_ids.append(e["pdb_id"])
+        if len(keep_ids) >= 4:
+            break
+    evidence_meta = [
+        {"pdb_id": r["pdb_id"], "recruiter_auth_asym_ids": r.get("recruiter_auth_asym_ids", []),
+         "polymer_entities": r.get("polymer_entities", []), "candidate_ligands": r["candidate_ligands"]}
+        for r in entry_records if r["pdb_id"] in keep_ids]
+
     if ternary_entries:
         tier, label = 3, "solved_ternary"
     elif big_entries:
@@ -573,6 +588,7 @@ def classify_linker_analogue(entry_records, accession):
         "n_entries_ligand_bridging_second_uniprot": len({e["pdb_id"] for e in ternary_entries}),
         "evidence_pdb_ids_ge_500Da": sorted({e["pdb_id"] for e in big_entries})[:12],
         "evidence_pdb_ids_ternary": sorted({e["pdb_id"] for e in ternary_entries})[:12],
+        "_evidence_entries": evidence_meta,
         "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker "
                   "leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this "
                   "handle would form a ternary complex or be selective.",
@@ -1423,8 +1439,12 @@ def verify_bridging(rec, arm_accs):
     if lb.get("tier") != 3:
         return
     by_id = {e["pdb_id"]: e for e in (rec.get("staged_structures") or [])}
+    for e in lb.get("_evidence_entries") or []:          # evidence entries are not always in the staged top-8
+        by_id.setdefault(e["pdb_id"], e)
     checked = []
-    for pdb_id in lb.get("evidence_pdb_ids_ternary") or []:
+    ordered_ids = [e["pdb_id"] for e in (lb.get("_evidence_entries") or [])] or \
+        list(lb.get("evidence_pdb_ids_ternary") or [])
+    for pdb_id in ordered_ids:
         entry = by_id.get(pdb_id)
         if not entry:
             continue                      # not among the staged deep-fetched entries; nothing to read
