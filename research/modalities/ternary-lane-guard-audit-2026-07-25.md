@@ -129,6 +129,38 @@ silent stall the watchdog exists to remove. RUNNING and DONE stay green so the m
 Note the census had to be made **direction-aware** for the same reason as §A: a direction-blind census reads
 the fwd leg's far-further trajectory and reports a dead-stopped rev leg as racing ahead.
 
+### F.0 A comment that asserted a property the code did not have
+
+The watchdog's body opened with:
+
+```bash
+set -uo pipefail          # NOT -e: one entry failing must not abandon the others
+```
+
+**GitHub's default shell is `bash -e {0}`, and `set -uo pipefail` does not clear an `-e` that arrived on the
+invocation.** So `-e` was live the entire time and the comment was simply false — the purest form of this
+audit's bug class, since the *stated* guarantee was the thing being violated.
+
+It cost a run within minutes of deploying the progress census. On a leg with no commits yet,
+`MAXW=$(... | grep ... | tail -1)` takes the failing pipeline's status (grep matched nothing, `pipefail`
+propagated it), `-e` killed the watch entry, and the step died **24 seconds after printing the entry header,
+with no verdict of any kind** — the silent skip the watchdog exists to remove, reintroduced by a wrong comment.
+
+Fixed at the root — `shell: bash --noprofile --norc -uo pipefail {0}`, so the invocation matches the intent —
+plus `set +e` in the body and `|| true` on the census greps as defence in depth.
+
+Two things worth keeping straight, both settled by running them rather than by reading POSIX:
+
+- A failing **non-final** command in an `&&` list is **exempt** from `-e`: `[ -z "$x" ] && continue` is safe.
+  (So the `; true` terminators added alongside are defensive-only, and an earlier draft of this fix justified
+  them incorrectly.)
+- A bare **assignment from a command substitution** is *not* exempt — its status is the pipeline's. That is the
+  construct that actually killed the run.
+
+Checked the one other workflow with the same header, `gcp-reap-vms.yml`: it inherits `-e` too, but its only
+`&&` lists are the exempt shape and its list/delete failures are already explicitly handled — and for a reaper,
+failing loudly is the correct posture anyway. Left as-is.
+
 ### F.1 The octal trap — found by the test, not by review
 
 Writing the test for that census turned up a live defect in it. The commit store pads iterations to 8 digits

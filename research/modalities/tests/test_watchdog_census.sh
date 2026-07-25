@@ -67,5 +67,18 @@ chk "advance resets the stall counter"    "$(st 1000560 1000520 3)" "0"
 chk "frozen iteration increments it"      "$(st 1000520 1000520 1)" "2"
 chk "a regression counts as no-advance"   "$(st 16 1000520 0)"      "1"
 
+# SURVIVES -e. GitHub's default shell is `bash -e {0}`, and `set -uo pipefail` in the step body does NOT clear
+# an -e that arrived on the invocation. With -e live, the no-match `grep` on a leg that has no commits yet
+# returns 1 and kills the watch entry between printing its header and printing any verdict — a real run died
+# exactly that way. The empty-listing case is the one that triggers it, so assert the census survives under the
+# strictest option set rather than only under the test's own.
+out=$(bash -euo pipefail -c '. "$1"; census "" 0 rev v2pe' _ "$TD/census.sh" 2>&1)
+rc=$?
+if [ "$rc" = 0 ] && [ "$out" = "0 none (setup/env-solve/minimize)" ]; then
+  echo "PASS empty listing survives bash -euo pipefail (the -e trap)"
+else
+  echo "FAIL empty listing under -e: rc=$rc out='$out'"; fail=1
+fi
+
 [ "$fail" = 0 ] && echo "watchdog census: all checks pass"
 exit "$fail"
