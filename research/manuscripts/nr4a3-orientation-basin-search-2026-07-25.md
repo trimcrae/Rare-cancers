@@ -307,6 +307,14 @@ NR4A3 surface *around K572 itself*.
   nominate), but it is exactly the sort of thing that a scalar score would have hidden by averaging.
 - Two NR4A1 lysines covered in the detailed basin sit in **badly-superposed loops** and are flagged
   `covered_but_unreliably_placed` rather than counted silently.
+- **★ `term_b_best_rank` is a BEST-OF-N statistic and is inflated by construction.** It is the maximum over a
+  basin's sampled placements, each of which is itself a maximum over the sampled E2 arc — precisely the
+  winner's-curse artifact STRATEGY.md's load-bearing piece 5 says a raw Pareto set still admits. The
+  unbiased quantities are the **mean fractions** (0.005–0.08 covering a unique lysine, 0.0–0.061 with the
+  paralogue zones bare), and they are the numbers the table above leads with. **The gate's term-(b) count is
+  therefore an upper bound on how many basins genuinely carry the mechanism, and should be read as one.**
+  A basin selected on `best_rank` alone would be a selection artifact; requiring it to beat the null is what
+  keeps the count meaningful, and even then the count is optimistic.
 
 ---
 

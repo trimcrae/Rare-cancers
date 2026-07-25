@@ -912,6 +912,12 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
                 "category_counts": {c: sum(1 for cc, _ in per_member if cc == c)
                                     for c in {cc for cc, _ in per_member}},
                 "best_category": cat, "best_rank": rank,
+                "_best_rank_warning": "best_rank is a BEST-OF-N statistic — the maximum over this basin's "
+                                      "sampled placements, each itself a maximum over the sampled E2 arc — "
+                                      "so it is inflated by construction, exactly the winner's-curse "
+                                      "artifact a raw Pareto set admits. The unbiased quantities are the "
+                                      "fraction_members_* fields; read those, and treat any count built on "
+                                      "best_rank as an UPPER BOUND.",
             }
             # sensitivity: does the category survive the swept transfer distance and RING-E2 radius?
             sens = {}
@@ -1223,6 +1229,10 @@ def tier2_verdict(metas, per_arm_basins):
         "n_basins_total": per_arm_basins,
         "n_exploiting_term_a_electrophile_reach": len(cat_a),
         "n_exploiting_term_b_unique_lysine_zone": len(cat_b),
+        "_term_b_count_is_an_upper_bound": (
+            "counted on term_b_best_rank, a BEST-OF-N statistic that is inflated by construction. Requiring "
+            "the basin to beat the null keeps the count meaningful, but it remains optimistic; the unbiased "
+            "per-basin quantities are the fraction_members_* fields."),
         "n_nominally_discriminating": len(nominal),
         "basis": basis,
         "pass": go,
