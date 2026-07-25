@@ -1381,7 +1381,8 @@ length (16 and 20 backbone atoms respectively), and that length is paid out of t
 span to the E3, so buying it degrades the term it would rescue while simultaneously bringing **conserved**
 cysteines into reach. So the honest statement is not "NR4A3 carries paralogue-unique cysteines" (plural, true
 by sequence) but **"one of them is a usable handle."** This is **concentration risk rather than fragility**:
-a live way the axis could have failed does not fire. Term (a) needs **one** conformer to do two things at once
+a live way the axis could have failed does not fire. The electrophile-reach criterion needs **one** conformer
+to do two things at once
 — present the cryptic pocket the warhead occupies *and* put C397 within a linker's reach — and marginal
 fractions say nothing about whether those are the same frames; had they been anti-correlated the axis would
 have been conditional on a state that excludes warhead binding, with no marginal statistic showing it. Joining
@@ -1539,7 +1540,11 @@ stereocentre created by the saturated non-electrophilic control. The default ele
 non-electrophilic analogue carried as comparators. **The preference is a stated design rationale with its
 comparator enumerated, not a computed result:** an irreversible adduct makes the degrader **stoichiometric**
 and forfeits catalytic turnover, the property that makes the modality attractive — nothing energetic has been
-run comparing the two.
+run comparing the two. *Noted because it is a convergence and not a design input:* the field's one demonstrated
+NR4A-family-selective degrader recruits a warhead whose own reported mechanism is **reversible**-covalent
+engagement of a paralogue-unique cysteine [64]. This library arrived at the same chemistry class from
+turnover arguments, and at the reciprocal residue from sequence — so the precedent is corroborating, **not**
+evidence that this construct will behave as that one did.
 
 **The covalent handle is an unresolved liability, not an upgrade, and the parent warhead's pharmacology
 compounds it.** Electrophile promiscuity cannot be assessed without chemoproteomics, which this program does
