@@ -121,12 +121,12 @@ sys.exit(1 if bad else 0)
           # env-solve/stage/solvate/minimize" (normal, tens of minutes) from "no commits because it is hung"
           # (the ~40-min am1bcc cold-cache stall and the ~15-min 25000-step minimize both looked exactly like
           # a healthy VM from the outside). Empty listing -> 0.
-          VMAGE=0
+          VMAGE=0; VMEPOCH=0
           CREATED=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" \
                       --format="value(creationTimestamp)" 2>/dev/null | sort | head -1)
           if [ -n "$CREATED" ]; then
             CS=$(date -u -d "$CREATED" +%s 2>/dev/null | tr -dc '0-9')
-            [ -n "$CS" ] && VMAGE=$(( ( $(date -u +%s) - CS ) / 60 )); true
+            [ -n "$CS" ] && { VMEPOCH=$((10#$CS)); VMAGE=$(( ( $(date -u +%s) - VMEPOCH ) / 60 )); }; true
           fi
           case "$VMAGE" in ""|*[!0-9]*) VMAGE=0 ;; esac
           echo "oldest live VM age: ${VMAGE} min (created ${CREATED:-<none>})"
@@ -164,6 +164,31 @@ sys.exit(1 if bad else 0)
               #    the only durable progress signal outside the VM: the furthest COMMITTED iteration in the spot
               #    commit store. State is kept in GCS, so the comparison survives restarts like everything else.
               if [ "$NVM" -gt 0 ]; then
+                # CRASHED-BUT-VM-ALIVE. The in-VM self-delete trap cannot fire (the VM's compute service
+                # account lacks compute.instances.delete), so a leg that dies mid-run leaves a RUNNING billing
+                # zombie holding the single GPU. Liveness therefore cannot distinguish "running" from "crashed
+                # 40 minutes ago" — on 2026-07-25 the rev leg died on a warmup NaN at 12:55 PM ET and the VM
+                # was still RUNNING at 1:30. Without this check the leg only surfaces at the 75-min setup grace.
+                #
+                # The engine uploads its run log on NORESULT as postmortem/<leg>_<dir>_seed<n>_<epoch>.log. That
+                # epoch, compared against the VM's OWN creation time, is the discriminator: a postmortem newer
+                # than this VM means THIS run crashed, while the previous attempt's postmortem is older and is
+                # correctly ignored. (Existence alone would be wrong — there is always an older one.) Scope
+                # note: this runs in the RUNNING branch only, where a real VM creation time exists. In the DIED
+                # branch a preemption leaves no postmortem (abrupt DELETE) and relaunching is right, so the
+                # per-day cap is the bound there.
+                PMEP=$(gcloud storage ls "gs://$BUCKET/valB-6hax/postmortem/${LEG}_${DIR}_seed${SEED}_*.log" 2>/dev/null \
+                       | sed -nE "s#.*_${DIR}_seed${SEED}_([0-9]+)\\.log\$#\\1#p" | sort -n | tail -1 || true)
+                # the sed anchors on _${DIR}_seed${SEED}_ as well, not just the seed: otherwise its correctness
+                # would rest ENTIRELY on the glob above, and a fwd post-mortem in the listing would win on
+                # recency and be read as this rev leg's crash. Defence in depth, same as the census.
+                PMEP=${PMEP:-0}; case "$PMEP" in ""|*[!0-9]*) PMEP=0 ;; esac; PMEP=$((10#$PMEP))
+                if [ "$PMEP" -gt 0 ] && [ "$PMEP" -gt "$VMEPOCH" ]; then
+                  echo "::error title=WATCHDOG CRASHED::$TAG — the VM is RUNNING but the leg is DEAD: it uploaded a post-mortem at epoch $PMEP, after this VM was created ($VMEPOCH). The self-delete trap cannot fire, so this is an idle billing zombie holding the single GPU. Reap it (gcp-reap-vms mode=reap) and read the post-mortem before relaunching — NOT relaunching, a crash repeats."
+                  echo "CRASHED $TAG (postmortem epoch $PMEP > vm epoch $VMEPOCH)" >> "$ALERT"
+                  continue
+                fi
+
                 # Furthest committed iteration for THIS direction. The commit prefix is
                 #   commits/<leg>/<seed>_dt<dt>fs_clig0_wu<..>[_<salt>][_dir<rev>]
                 # so a direction-blind census would read the fwd leg's much-further trajectory and declare a
