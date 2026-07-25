@@ -120,7 +120,34 @@ sensitivity check at all. The cap is ≤2, not ==1.
 
 *(filled from the CI run)*
 
-## 6 · Limits
+## 6 · What this does and does not hand to the basin search
+
+**Hands over.** For each advanced recruiter: a named deposited structure and the biological assembly it was
+read from, the chains that are the recruiter and the chains that are its own CRL arm, the linker attachment
+point `anchor_xyz` in that structure's own frame, the outward unit `exit_direction`, how far a linker reaches
+along it, and `open_solid_angle_fraction_15A` — the size of the orientation space available to a tethered
+target before any energetics. The consumer API is `e3_recruiter_staging.load_advanced()`, which also returns a
+`caveats` list that must be carried into any downstream report.
+
+**Does not hand over.** Whether any orientation in that space is thermodynamically favourable; whether it
+discriminates NR4A3 from NR4A1/2; whether a linker of the required length is synthetically reachable; whether
+the recruiter's own pharmacology is tolerable. Those are the basin search's, RUNG 5b's, and a literature
+assessment's questions respectively. Nothing here is a selectivity claim.
+
+## 7 · Proposed STRATEGY.md deltas
+
+*This lane does not edit STRATEGY.md. The exact edits requested are listed here for whoever owns that file.*
+
+See the lane's final report for the verbatim quote/replacement pairs; in substance:
+
+1. **§"The prospective stage" → item (c)** should record that the widening and the mandatory downselect are
+   **done**, name the advanced pair and the artifact, and state the finding that changes how (c) reads: the
+   binding constraint on E3 breadth is **structural stageability**, not availability. HPA says all eight
+   widened arms are available; the PDB says the panel is materially smaller than eight.
+2. **RUNG 5 → 5a** should mark the recruiter-staging half complete with its artifact paths and cost ($0), so
+   the remaining 5a work is unambiguously the orientation-basin search itself.
+
+## 8 · Limits
 
 - One deposited conformer, one ligand copy, no protein flexibility, no linker sampling, no explicit solvent.
   The exit vector **bounds where a linker could leave**; it does not show that any particular linker does.
