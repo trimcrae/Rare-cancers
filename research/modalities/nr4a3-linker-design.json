@@ -111419,9 +111419,23 @@
     "arm_selection_note": "Selected on basin evidence only \u2014 pose persistence, then measured E3 clearance at the wedge \u2014 among basins that can host a matched pair. NOT on any CRBN-vs-VHL preference: CRBN is the sole Pareto-front member and VHL is a labelled backfill / E3-choice sensitivity control. `crbn|M0` is the strongest single basin (0.92 pose persistence, 7.5x over background) and is excluded here for one reason only, which is chemical rather than recruiter-related: holding its representative span at <= 3 kT needs ~29 backbone atoms, past the routine cap. See `arm_selection_audit`, and the alternative below.",
     "alternative_pair_on_the_strongest_basin": {
       "basin": "crbn|M0",
-      "why_it_is_attractive": "0.92 pose persistence (11/12) and 7.5x enrichment over the term-(b) null \u2014 the strongest nomination RUNG 5a produced \u2014 and it carries the best wedge site in the whole set: D413, which is LYSINE in NR4A1 and SERINE in NR4A2, i.e. a charge REVERSAL rather than a deletion, at 10.1 A of E3 clearance.",
-      "what_it_costs": "a ~26-29 backbone-atom linker, against the 24-atom routine cap used here. That is long but not unprecedented for a PROTAC, and the cap is a stated convention, not a law.",
-      "the_trade": "a stronger basin and a stronger wedge residue, paid for in linker length and therefore in permeability and in the ternary assembly's entropy. This is a judgement the orchestrator should make explicitly rather than have the cap make silently \u2014 which is why it is surfaced here instead of being filtered away."
+      "pose_surviving_fraction": 0.917,
+      "term_b_enrichment_over_background": 7.5,
+      "best_wedge_site": {
+        "uniprot_resid": 413,
+        "nr4a3": "D",
+        "nr4a1": "K",
+        "nr4a2": "S",
+        "rsa": 0.61,
+        "nonconservative": true,
+        "branch_k_min": 8,
+        "branch_k_max": 10,
+        "e3_clearance_A": 10.41,
+        "e3_clear_enough_for_a_matched_pair": true
+      },
+      "why_it_is_attractive": "the strongest nomination RUNG 5a produced (0.92 pose persistence, 7.5x over the term-(b) null), and it carries a wedge site at D413 \u2014 K in NR4A1 and S in NR4A2 \u2014 with 10.4 A of E3 clearance",
+      "what_it_costs": "a ~29 backbone-atom linker against the 24-atom routine cap used here. Long, but not unprecedented for a PROTAC, and the cap is a stated convention rather than a law.",
+      "the_trade": "a stronger basin and, where the site differs, a stronger wedge residue \u2014 paid for in linker length and therefore in permeability and in the ternary assembly's own entropy. Surfaced rather than filtered away, because it is a judgement that should be made explicitly instead of made silently by a threshold."
     },
     "wedge_element": "3-pyridyl (d) vs phenyl (d0) \u2014 an aza-scan",
     "wedge_target_residue": {
@@ -111566,10 +111580,11 @@
     "second_pair_if_the_first_is_read": {
       "purpose": "the pre-covalent half of the CATEGORICAL axis",
       "d": "cyac_me (beta-methyl alpha-cyanoacrylamide) at the C397 branch position",
-      "d0": "cyanoprop (the saturated alpha-cyano-propanamide), same branch position",
+      "d0": "cyanoprop (2-cyanobutanamide, the saturated analogue), same branch position",
       "what_it_measures": "whether the electrophile-bearing arm's NON-COVALENT recognition already discriminates Cys397 (NR4A3) from Asn363 (NR4A1). In reversible-covalent chemistry, selectivity is K_i x k_inact; this test addresses K_i only, and a null leaves the categorical (k_inact) argument standing.",
-      "why_this_d0": "the saturated analogue is the standard non-electrophilic control: same heavy atoms, same charge, same amide, no Michael acceptor \u2014 so the alchemical change is the C=C and nothing else."
+      "why_this_d0": "the saturated analogue is the standard non-electrophilic control: same heavy atoms, same charge, same nitrile, same amide, no Michael acceptor \u2014 so the alchemical change is the C=C and nothing else.",
+      "the_caveat_that_comes_with_it": "reducing the acceptor creates an sp3 stereocentre the electrophile does not have, so this pair is matched in CONSTITUTION but not in STEREOCHEMISTRY. It is declared as a single (S) diastereomer; the (R) epimer is the obvious second control if the centre has to be shown not to matter."
     }
   },
-  "runtime_s": 22.8
+  "runtime_s": 20.3
 }

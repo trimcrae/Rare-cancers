@@ -1010,6 +1010,42 @@ def matched_pair(reqs, lib):
     tests the MARGINAL axis, while RUNG 5a's Tier-2 GO was taken on the CATEGORICAL one. A NO-GO from this
     test therefore falsifies the marginal wedge, NOT the program.
     """
+    def _alternative_block(rs):
+        """The strongest basin that CANNOT host the pair, with its best wedge site — read from the data, not
+        transcribed. Transcribed numbers in prose are exactly what `lint_consistency.py` exists to catch."""
+        cant = [r for r in rs if r["meta_basin_id"] != WEAK_CONTROL
+                and not any(c["designed_for_basin"] == r["meta_basin_id"] and c["pendant"] == "pyr3"
+                            for c in lib)]
+        if not cant:
+            return None
+        r = max(cant, key=lambda r: (r["pose_surviving_fraction"],
+                                     r["term_b_max_enrichment_over_background"]))
+        clean = [s for s in r["wedge_element_sites"]["sites"]
+                 if s.get("e3_clear_enough_for_a_matched_pair")]
+        site = max(clean, key=lambda s: s["e3_clearance_A"]) if clean else None
+        return {
+            "basin": r["meta_basin_id"],
+            "pose_surviving_fraction": r["pose_surviving_fraction"],
+            "term_b_enrichment_over_background": r["term_b_max_enrichment_over_background"],
+            "best_wedge_site": site,
+            "why_it_is_attractive": (
+                "the strongest nomination RUNG 5a produced (%.2f pose persistence, %.1fx over the term-(b) "
+                "null)%s"
+                % (r["pose_surviving_fraction"], r["term_b_max_enrichment_over_background"],
+                   ("" if site is None else
+                    ", and it carries a wedge site at %s%d — %s in NR4A1 and %s in NR4A2 — with %.1f A of E3 "
+                    "clearance" % (site["nr4a3"], site["uniprot_resid"], site["nr4a1"], site["nr4a2"],
+                                   site["e3_clearance_A"])))),
+            "what_it_costs": ("a ~%s backbone-atom linker against the %d-atom routine cap used here. Long, "
+                              "but not unprecedented for a PROTAC, and the cap is a stated convention rather "
+                              "than a law."
+                              % (r["accessibility"]["n_atoms_for_comfortable_span"], CHEM_MAX_ATOMS)),
+            "the_trade": "a stronger basin and, where the site differs, a stronger wedge residue — paid for "
+                         "in linker length and therefore in permeability and in the ternary assembly's own "
+                         "entropy. Surfaced rather than filtered away, because it is a judgement that should "
+                         "be made explicitly instead of made silently by a threshold.",
+        }
+
     # The pair must EXIST IN THE FILTERED LIBRARY — a proposal naming a construct the filter rejected would
     # be a proposal to run FEP on a linker that cannot hold its own basin. Candidates are therefore drawn
     # from `lib`, and only then ranked by the two properties that make a pair readable: how many poses the
@@ -1089,21 +1125,7 @@ def matched_pair(reqs, lib):
                               "recruiter-related: holding its representative span at <= 3 kT needs ~29 "
                               "backbone atoms, past the routine cap. See `arm_selection_audit`, and the "
                               "alternative below.",
-        "alternative_pair_on_the_strongest_basin": {
-            "basin": "crbn|M0",
-            "why_it_is_attractive": "0.92 pose persistence (11/12) and 7.5x enrichment over the term-(b) "
-                                    "null — the strongest nomination RUNG 5a produced — and it carries the "
-                                    "best wedge site in the whole set: D413, which is LYSINE in NR4A1 and "
-                                    "SERINE in NR4A2, i.e. a charge REVERSAL rather than a deletion, at "
-                                    "10.1 A of E3 clearance.",
-            "what_it_costs": "a ~26-29 backbone-atom linker, against the 24-atom routine cap used here. "
-                             "That is long but not unprecedented for a PROTAC, and the cap is a stated "
-                             "convention, not a law.",
-            "the_trade": "a stronger basin and a stronger wedge residue, paid for in linker length and "
-                         "therefore in permeability and in the ternary assembly's entropy. This is a "
-                         "judgement the orchestrator should make explicitly rather than have the cap make "
-                         "silently — which is why it is surfaced here instead of being filtered away.",
-        },
+        "alternative_pair_on_the_strongest_basin": _alternative_block(reqs),
         "wedge_element": "3-pyridyl (d) vs phenyl (d0) — an aza-scan",
         "wedge_target_residue": site,
         "e3_clearance_at_wedge_A": clear,
@@ -1134,14 +1156,19 @@ def matched_pair(reqs, lib):
         "second_pair_if_the_first_is_read": {
             "purpose": "the pre-covalent half of the CATEGORICAL axis",
             "d": "cyac_me (beta-methyl alpha-cyanoacrylamide) at the C397 branch position",
-            "d0": "cyanoprop (the saturated alpha-cyano-propanamide), same branch position",
+            "d0": "cyanoprop (2-cyanobutanamide, the saturated analogue), same branch position",
             "what_it_measures": "whether the electrophile-bearing arm's NON-COVALENT recognition already "
                                 "discriminates Cys397 (NR4A3) from Asn363 (NR4A1). In reversible-covalent "
                                 "chemistry, selectivity is K_i x k_inact; this test addresses K_i only, and "
                                 "a null leaves the categorical (k_inact) argument standing.",
             "why_this_d0": "the saturated analogue is the standard non-electrophilic control: same heavy "
-                           "atoms, same charge, same amide, no Michael acceptor — so the alchemical change "
-                           "is the C=C and nothing else.",
+                           "atoms, same charge, same nitrile, same amide, no Michael acceptor — so the "
+                           "alchemical change is the C=C and nothing else.",
+            "the_caveat_that_comes_with_it": "reducing the acceptor creates an sp3 stereocentre the "
+                                             "electrophile does not have, so this pair is matched in "
+                                             "CONSTITUTION but not in STEREOCHEMISTRY. It is declared as a "
+                                             "single (S) diastereomer; the (R) epimer is the obvious second "
+                                             "control if the centre has to be shown not to matter.",
         },
     }
 
