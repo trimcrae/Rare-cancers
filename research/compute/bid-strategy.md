@@ -238,6 +238,32 @@ Also unfixed, and worth naming:
 
 ---
 
+### 5b. The price series mixes two provenances — do not read a quantile off it yet
+
+`vast-price-history.jsonl` currently holds **two different kinds of row**, and
+`vast_bid_optimizer._load_history` takes **every row with a `min_floor`, ignoring `source` and `ts`**:
+
+| rows | `source` | `ts` | what they are |
+|---|---|---|---|
+| 80 (on `main`) | `gpuwatch_tracker` | **null** | a backfilled external scrape — `min_floor` only, `n_offers` and `median_floor` null, `floors: []` |
+| accumulating (on `modalities-cache`) | `systematic` | real ISO timestamps | this workflow's own live snapshots, full offer detail |
+
+Pooling an untimestamped external scrape with our own snapshots into one quantile is a **provenance mix**, not a
+longer series: the two are not sampling the same thing, and the untimestamped rows cannot be placed in time at
+all. **Left explicit rather than silently merged** — deciding whether the `gpuwatch_tracker` rows belong in the
+distribution is a judgement about what the reservation price is being set against, and it should be made
+deliberately, with the answer written here.
+
+**Low stakes today, and worth saying so:** the reservation-price / waiting-value read-out that consumes this
+history is part of the scheme §7 records as retired — it never reached the launch path. The live policy is
+floor-plus-tick ranked on all-in `$/ns` and does not read this file. This is a data-collection lane for a
+*possible* future policy, not an input the ladder currently rests on.
+
+*(Found 2026-07-25 while verifying the sampler fix: the workflow's seed step used `git show … > file`, which
+truncates before the command runs, so a failed `git show` silently emptied the series. Fixed to a
+write-temp-then-adopt-if-non-empty. My first reading of that incident — "it zeroed an 80-sample history" — was
+**wrong**: the 80 are this separate external scrape, and the systematic series legitimately starts from zero.)*
+
 ## 6. REPRICED LADDER
 
 Regenerate with `python research/modalities/vast_cost_model.py`; JSON in

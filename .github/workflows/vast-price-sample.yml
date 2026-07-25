@@ -49,7 +49,21 @@ jobs:
         working-directory: research/modalities
         run: |
           git fetch origin modalities-cache || true
-          git show origin/modalities-cache:research/modalities/vast-price-history.jsonl > vast-price-history.jsonl 2>/dev/null || true
+          # Seed from the cache branch WITHOUT truncating on failure. `cmd > file` empties the
+          # target before cmd runs, so the old one-liner
+          #     git show origin/modalities-cache:...jsonl > vast-price-history.jsonl 2>/dev/null || true
+          # silently ZEROED the accumulated series whenever git show failed — and `|| true` hid it.
+          # Observed 2026-07-25 on the first successful run after the persist-step fix: the cache
+          # branch had no such file yet, so the series was emptied and restarted from one sample.
+          # Write to a temp and only adopt it if it is non-empty; otherwise keep the checked-out copy.
+          if git show origin/modalities-cache:research/modalities/vast-price-history.jsonl \
+               > "$RUNNER_TEMP/seed.jsonl" 2>/dev/null && [ -s "$RUNNER_TEMP/seed.jsonl" ]; then
+            cp "$RUNNER_TEMP/seed.jsonl" vast-price-history.jsonl
+            echo "seeded from modalities-cache: $(wc -l < vast-price-history.jsonl) samples"
+          else
+            echo "no series on modalities-cache yet — keeping the checked-out copy" \
+                 "($(wc -l < vast-price-history.jsonl) rows; see the provenance note in bid-strategy.md §5)"
+          fi
           python vast_bid_optimizer.py --live --gpu "${{ github.event.inputs.gpu || 'rtx4090' }}" \
             --work-gpu-h 10.7 --atoms 146000 --ckpt-iters 40 --sec-per-iter 16 \
             --sample-out vast-price-history.jsonl --history vast-price-history.jsonl
