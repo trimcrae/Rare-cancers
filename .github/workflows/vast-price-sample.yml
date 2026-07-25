@@ -7,6 +7,11 @@ name: Vast price sampler (build the price time series)
 # Read-only offer search. No rent, no instance, no spend. Appends one JSON line per run to
 # research/modalities/vast-price-history.jsonl on the `modalities-cache` branch.
 #
+# `mode: intel` instead runs the one-shot market-intelligence pull (vast_market_intel.py): Vast's own
+# documentation (the auction's rules), a matched bid/on-demand cross-section including the STORAGE line, and
+# external price history. It commits its outputs back to the TRIGGERING branch, because that pull is evidence
+# for a policy revision rather than a time series.
+#
 # NOTE: `schedule:` only fires from the DEFAULT branch, so sampling begins once this file reaches main.
 
 on:
@@ -17,6 +22,9 @@ on:
       gpu:
         description: "gpu_name substring to sample"
         default: "rtx4090"
+      mode:
+        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | bidsem (pay-your-bid probe, <$0.01)"
+        default: "sample"
 
 permissions:
   contents: write
@@ -27,6 +35,7 @@ concurrency:
 
 jobs:
   sample:
+    if: ${{ (github.event.inputs.mode || 'sample') == 'sample' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -62,3 +71,65 @@ jobs:
           git add research/modalities/vast-price-history.jsonl
           git commit -m "vast price sample $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin modalities-cache
+
+  intel:
+    if: ${{ github.event.inputs.mode == 'intel' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Pull market intelligence (docs + matched offers + storage + history)
+        working-directory: research/modalities
+        run: python vast_market_intel.py --days 120
+      - name: Commit the evidence back to this branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/vast-market-intel.json \
+                  research/modalities/vast-market-offers-raw.json \
+                  research/modalities/vast-docs-raw.json 2>/dev/null || true
+          git commit -m "vast market intel pull $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          git push origin HEAD:${{ github.ref_name }}
+
+  bidsem:
+    # The one experiment that DOES rent: settle whether an interruptible rental is billed at your bid or at a
+    # clearing price. Rents the cheapest box on the market for ~2 minutes (<$0.01) and destroys it twice over.
+    if: ${{ github.event.inputs.mode == 'bidsem' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Probe bid semantics (rents ~2 min per rung, self-destroys)
+        if: ${{ !startsWith(github.event.inputs.gpu, 'cap:') && github.event.inputs.gpu != 'list' }}
+        working-directory: research/modalities
+        run: python vast_bid_semantics_probe.py --ladder "${{ github.event.inputs.gpu || '1.0,2.5,8.0' }}"
+      - name: Verify the billing cap is the machine on-demand price (read-only, $0)
+        if: ${{ startsWith(github.event.inputs.gpu, 'cap:') }}
+        working-directory: research/modalities
+        run: python vast_bid_semantics_probe.py --verify-cap "${{ github.event.inputs.gpu }}"
+      - name: Anti-idle close-out — nothing left running (read-only, $0)
+        if: ${{ github.event.inputs.gpu == 'list' }}
+        working-directory: research/modalities
+        run: python vast_bid_semantics_probe.py --list-only
+      - name: Commit the verdict
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/vast-bid-semantics-probe.json \
+                  research/modalities/vast-bid-semantics-probe-ladder.json \
+                  research/modalities/vast-bid-semantics-probe-cap.json 2>/dev/null || true
+          git commit -m "vast bid-semantics probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          git push origin HEAD:${{ github.ref_name }}

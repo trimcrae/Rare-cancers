@@ -23,11 +23,20 @@ import json
 import os
 import re
 import shlex
+import sys
 import urllib.error
 import urllib.parse
 import urllib.request
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+
+# THE VAST SPEND POLICY LIVES IN ONE PLACE. Bid level, throughput table and offer ranking all come from
+# `vast_cost_model`, which derives them from a single cost function over measured inputs. This module used to
+# carry its own copies of all three, and they drifted: the constant said x1.25 while its own docstring said
+# x1.5, pricing.md said x1.5, bid-strategy.md said "keep x1.9", and a second throughput table in
+# vast_bid_optimizer still held a withdrawn 669 ns/day. Importing is what makes that class of drift impossible.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import vast_cost_model as _vcm  # noqa: E402
 
 
 # ---- job / resource spec ----------------------------------------------------------------------------------
@@ -258,60 +267,39 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
     }
 
 
-# INTERRUPTIBLE BID = a small margin above the market FLOOR (min_bid), never above on-demand. On Vast you pay
-# your bid, so bidding 1.25x the on-demand base (the old rule) meant paying MORE than on-demand — defeating the
-# whole point of interruptible. That was an over-correction to mid-boot preemptions back when boot was the ~25-min
-# Bid a modest margin ABOVE the market floor (min_bid). Earlier reasoning assumed a "~3-min boot" made preemptions
-# cheap, so it bid barely above floor (x1.1) — but MEASURED reality (2026-07-23 NR-V04 panel) is the baked CUDA-12
-# image is ~6 GiB and reloads in ~20 min, so each preemption is EXPENSIVE, and a floor-hugging bid churned the
-# preemption-prone legs (a covalent leg sat at frame 100 for ~3 h, re-bought+reloading repeatedly). On Vast you PAY
-# YOUR BID, so a higher multiple costs a little more $/hr but is preempted far less -> for a fat-image job it's
-# cheaper OVERALL (each avoided ~20-min reload > the small rate bump). Still checkpoint + re-dispatch/resume on the
-# preemptions that do happen. Tunable via env.
-# RAISED 1.5 -> 1.9 (2026-07-23, evidence-based): with x1.5 the NR-V04 covalent tail churned — the slow-host legs
-# (~19 ns/day) need a CONTINUOUS ~4 h run to reach frame 500, but preemptions kept resetting them to their last
-# checkpoint, so 4/5 tail legs made ZERO net frame progress across a ~40-min cycle (n_results flat 4 cycles). A
-# slow leg's only path to finishing is holding one host long enough; x1.9 wins+holds far better at trivial extra
-# $/hr on a ~$0.52/leg panel. Still well under on-demand.
-# LOWERED 1.9 -> 1.25 (2026-07-25). The 1.9 existed for ONE reason: each preemption was observed to cost a
-# ~20-minute image reload, so holding the box was worth a big rate premium. That cost was self-inflicted. Vast's
-# docs state that being outbid PAUSES an interruptible instance with its data preserved and resumes it
-# automatically when priority returns — but our reaper treated "stopped" as terminal and DELETEd it, forcing a
-# fresh ~6 GiB pull on the re-rent (`nrv04_vast_launch.instance_outbid` now prevents that). With the pause/resume
-# path intact, losing the auction costs wall-clock plus storage, not a reload — and per the operating regime this
-# program is never a race, so wall-clock is close to free. On the cheapest live 4090 ($0.1333 floor) this is
-# $0.1667/hr instead of $0.2533/hr, a 34% cut on the same box.
-_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.25"))  # margin above min_bid to win+hold
+# INTERRUPTIBLE BID — the policy now lives in `vast_cost_model.recommended_bid`, derived rather than tuned.
+#
+# The history this replaces: x1.1 -> x1.5 -> x1.9 -> x1.25, each a reaction to the last incident, with the
+# docs never agreeing on which was in force. The x1.9 in particular was bought to avoid a ~20-minute image
+# reload on every preemption — a cost that turned out to be SELF-INFLICTED (our reaper deleted paused
+# instances instead of letting Vast resume them), so the premium was insuring against our own bug.
+#
+# What MEASUREMENT replaced it with (2026-07-25, `vast-bid-semantics-probe-ladder.json`): renting one offer at
+# three bid multiples showed charged = min(bid, the machine's on-demand price) — x1.0 -> $0.00930 on a
+# $0.00930 bid, x2.5 and x8.0 both -> $0.02133, which matched machine 142136's on-demand dph_base to 17
+# significant figures. So every cent of premium below that cap is spent on every hour. Combined with Vast's
+# documented rule that on-demand renters preempt interruptible ones regardless of bid, and a market where
+# ~148 qualifying offers sat idle, the premium buys partial protection we can get for free by re-dispatching.
+# `vast_cost_model.premium_breakeven_dlam_db` states the refutable version: a premium only pays if the hazard
+# falls by >100 preemptions/hour per $/hr of premium.
+#
+# Kept only so existing callers and the ceiling arithmetic keep working; it is NO LONGER a policy knob.
+_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "0") or 0) or None
 
 
 def _vast_bid_price(offer: dict, ondemand_base: float = None):
-    """Interruptible bid $/hr = a margin ABOVE the market floor (min_bid), CAPPED at the same machine's on-demand
-    price when that is known, and never below the floor.
+    """Interruptible bid $/hr = the market floor plus a staleness tick, capped at the machine's real on-demand
+    price and never at or below the floor. Delegates to `vast_cost_model.recommended_bid`; see the note above
+    for why this is a tick and not a multiple.
 
-    It MUST stay >= min_bid: a below-floor bid leaves the instance created-but-stopped (verified 2026-07-23 — an
-    'always under on-demand' cap fell BELOW min_bid on cheap 3090 hosts, so the box never started). On Vast you
-    pay your bid and min_bid IS the interruptible market price. The multiplier is _VAST_BID_FLOOR_MULT
-    (1.25 since 2026-07-25) — do NOT restate its value in prose here: this docstring claimed 1.5 while the
-    constant was 1.9, a drift another session had to come and fix.
+    `VAST_BID_FLOOR_MULT` is still honoured as an ESCAPE HATCH if someone sets it explicitly — a specific leg
+    that genuinely cannot tolerate pauses may want to buy retention — but it is unset by default, so the
+    derived policy is what runs.
 
-    The ~20-min fat-image reload that once justified a large multiplier was SELF-INFLICTED: being outbid pauses
-    an instance with its disk intact and Vast auto-resumes it, but our reaper deleted it and forced a re-rent.
-    See `nrv04_vast_launch.instance_outbid`.
-
-    WHY THE CAP NEEDS `ondemand_base` PASSED IN (2026-07-24). The old note here read "still well under on-demand"
-    and justified it from the offer's own `dph_base`. That field CANNOT support the claim: the launch path
-    queries `type: "bid"`, and in a bid-type search Vast reports `dph_base` as your rate AT the floor — so
-    `dph_base == min_bid` identically and comparing against it is comparing the floor to itself. A genuine
-    on-demand price only exists in a separate `type: "on-demand"` query, joined by `machine_id` (see
-    `_vast_ondemand_base_by_machine`).
-
-    Measured on 63 machines common to both queries: EVERY host had a real interruptible discount (median on-demand
-    = 1.25x floor; zero hosts at parity), and `1.9 x floor` exceeded that host's on-demand price on **20 of 23**
-    RTX 4090s. Selection saves us today only by luck — `_select_cheapest_offer` ranks by min_bid and the cheapest
-    4090 floor happened to sit at $0.1333 against $0.3600 on-demand, so 1.9x = $0.2533 stayed under. Let the cheap
-    tail thin out and the same multiple bids $0.5067 against $0.3200 on-demand: 58% over. The defect in a fixed
-    multiple is not its level today, it is that nothing bounds it when the floor moves. This cap is that bound.
-    PURE."""
+    WHY THE CAP NEEDS `ondemand_base` PASSED IN. The launch path queries `type: "bid"`, and in a bid-type
+    search Vast reports `dph_base` as your rate AT the floor — so `dph_base == min_bid` identically and
+    comparing against it compares the floor to itself. A genuine on-demand price only exists in a separate
+    `type: "on-demand"` query joined by `machine_id` (see `_vast_ondemand_base_by_machine`). PURE."""
     try:
         floor = float(offer.get("min_bid") or 0.0)
         base = float(offer.get("dph_base") or offer.get("dph_total") or 0.0)
@@ -320,15 +308,16 @@ def _vast_bid_price(offer: dict, ondemand_base: float = None):
     ref = floor if floor > 0 else base
     if ref <= 0:
         return None
-    bid = ref * _VAST_BID_FLOOR_MULT
-    try:
-        cap = float(ondemand_base or 0.0)
-    except (TypeError, ValueError):
-        cap = 0.0
-    if cap > 0:
-        # Never pay more than simply buying the box; but never drop below the floor either, or it never starts.
-        bid = max(floor, min(bid, cap))
-    return round(max(bid, 0.001), 4)
+    if _VAST_BID_FLOOR_MULT:                       # explicit override only
+        bid = ref * _VAST_BID_FLOOR_MULT
+        try:
+            cap = float(ondemand_base or 0.0)
+        except (TypeError, ValueError):
+            cap = 0.0
+        if cap > 0:
+            bid = max(ref, min(bid, cap))
+        return round(max(bid, 0.001), 4)
+    return _vcm.recommended_bid(ref, ondemand_base)
 
 
 def _vast_ondemand_base_by_machine(key, res: ResourceSpec = None) -> dict:
@@ -359,16 +348,12 @@ def _vast_gpu_ram_gb(offer: dict) -> float:
     return ram / 1024.0 if ram > 1000 else ram
 
 
-# MEASURED ns/day at 84,534 particles (the ternary size), from the validated 2026-07-24 Vast grid: 3 x ~20 s
-# independent timed blocks per leg, physics-checked, CV < 1.4%. ONLY cards actually benched appear here — an
-# unmeasured card gets no entry and is ranked last rather than given a guessed number, because the whole reason
-# this table exists is that a proxy-throughput ranking produced two confident wrong answers on 2026-07-24.
-# Keys are matched longest-first against the offer's gpu_name (spaces stripped, upper-cased).
-_MEASURED_NS_PER_DAY_84K = {
-    "RTX4090": 755.36,   # CV 0.14%  blocks 756.55/754.56/754.98
-    "RTX4080": 703.51,   # CV 0.18%  blocks 702.93/704.93/702.66
-    "RTX3090": 359.36,   # CV 1.31%  blocks 364.02/359.45/354.62
-}
+# MEASURED ns/day at 84,534 particles — SINGLE SOURCE OF TRUTH is `vast_cost_model.MEASURED_NS_PER_DAY_84K`
+# (validated 2026-07-24 grid: 3 x ~20 s independent timed blocks per leg, physics-checked, CV < 1.4%, with a
+# rejection gate that threw out a contended host and a mislabelled card). Re-exported here so existing callers
+# keep working; do NOT add a card to this alias — add it to the cost model, or the two tables drift, which is
+# exactly how a withdrawn 669 ns/day survived in a second table for a day.
+_MEASURED_NS_PER_DAY_84K = _vcm.MEASURED_NS_PER_DAY_84K
 
 
 def measured_ns_per_day(gpu_name):
@@ -406,12 +391,13 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
         try:
             if res.interruptible and o.get("min_bid") is not None:
                 price = float(o.get("min_bid"))                    # rank bid offers by their true interruptible cost
-                # ...but the CEILING must be checked against what we will actually be BILLED. On Vast you pay
-                # your bid, and _vast_bid_price bids min_bid * _VAST_BID_FLOOR_MULT. Comparing the ceiling to
-                # min_bid alone let the effective rate reach mult x the cap before any offer was rejected —
-                # with mult=1.9 and a $0.60 cap that is $1.14/hr, i.e. no effective ceiling at all. Ranking
-                # still uses min_bid (a constant multiplier preserves the ordering).
-                effective = price * _VAST_BID_FLOOR_MULT
+                # ...but the CEILING must be checked against what we will actually be BILLED. Measured
+                # 2026-07-25: on Vast the charge is min(your bid, the machine's on-demand price), so the
+                # billed rate is exactly what `_vast_bid_price` returns — ask it rather than re-deriving a
+                # multiple here. Comparing the ceiling to min_bid alone let the effective rate run past the
+                # cap before any offer was rejected (at the old x1.9 and a $0.60 cap, $1.14/hr — no ceiling
+                # at all), which is how the step1 fan-out ran at ~$0.37/hr against a $0.30 estimate.
+                effective = _vast_bid_price(o) or price
             else:
                 price = float(o.get("dph_total", o.get("dph_base", 1e9)))
                 effective = price
@@ -435,16 +421,25 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
         capable.append((price, o))
     if not capable:
         return None
-    # RANK BY $/ns, NOT $/hr. The host-price spread across 4090 offers alone is ~2.7x ($0.1333 to $0.3550
-    # median), which dwarfs the ~7% throughput gap between a 4090 and a 4080 — so the money is in WHICH HOST,
-    # and the only way to compare hosts carrying different cards is cost per unit of finished work. Ranking by
-    # $/hr picks a $0.103/hr 3090 over a $0.149/hr 4090 and pays 45% more per ns for it.
+    # RANK BY $/ns, NOT $/hr — and on the price we will actually be BILLED, storage included.
+    #
+    # Measured on the live board (2026-07-25, 148 qualifying offers): the spread from the best offer to the
+    # median is 5.4x, and 2.3x within the RTX 4090 class alone. That dwarfs both the 2.10x card gap and the
+    # 1.48x that the retired x1.9 bid multiple was worth — SELECTION IS THE LEVER, by roughly an order of
+    # magnitude. Ranking by $/hr picks a $0.103/hr 3090 over a $0.149/hr 4090 and pays 45% more per ns for it;
+    # ranking by the floor rather than the bid ignores the tick we actually pay; ignoring storage misprices
+    # hosts whose $/GB/month differs by 20x on an otherwise identical box.
     #
     # Cards we have never benched have no $/ns, so they sort AFTER every measured offer and are taken only when
     # nothing measured qualifies. That is deliberate: substituting a spec-sheet proxy for a measurement is what
     # produced the retracted 2026-07-24 rankings.
-    scored = [(offer_usd_per_ns(o.get("gpu_name"), p), p, o) for p, o in capable]
-    measured = [(upn, p, o) for upn, p, o in scored if upn is not None]
+    job = _vcm.JobProfile(disk_gb=max(40, res.disk_gb), min_vram_gb=res.min_vram_gb,
+                          min_reliability=res.min_reliability, min_cuda=res.min_cuda)
+    # On-demand offers are billed at dph_total and carry no meaningful min_bid, so hand the scorer the rate we
+    # would actually be charged rather than letting it derive a bid that nobody would pay.
+    scored = [(_vcm.score_offer(o, job, billed_usd_h=(None if res.interruptible else p)), p, o)
+              for p, o in capable]
+    measured = [(s.usd_per_ns, p, o) for s, p, o in scored if s is not None]
     if measured:
         return min(measured, key=lambda t: (t[0], t[1]))[2]
     substr = _VAST_GPU_SUBSTR.get(res.gpu)                        # nothing benched -> prefer the requested model
