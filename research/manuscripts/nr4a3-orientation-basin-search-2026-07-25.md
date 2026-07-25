@@ -5,9 +5,13 @@
 > [STRATEGY.md](../../STRATEGY.md); where they differ, STRATEGY.md wins and this file is reconciled to it.
 > Proposed STRATEGY.md deltas are collected at the end rather than applied here.
 >
-> **Status:** engine built, unit-tested (35 tests), E3 arms staged from RCSB on CI, search executed. No GPU
+> **Status:** engine built, unit-tested (42 tests), E3 arms staged from RCSB on CI, search executed. No GPU
 > was used and none is requested by this rung. The optional MM-GBSA rescore in the 5a envelope was **not**
 > run and is not recommended (see §7).
+>
+> **Language discipline applies throughout.** A surviving basin is a **nomination** — an input to a
+> *predicted selective candidate* series — never a "selective hit". Nothing here implies efficacy, safety,
+> a therapeutic window, or clinical readiness.
 
 ---
 
