@@ -224,6 +224,26 @@ intact-assembly evidence, and a *quantified* caveat wherever composition is unav
 - **A unitless contact score** with preregistered, never-fitted weights, used **only to rank within** the
   categorically selected set.
 
+### ★ Term (a) also has an E3-**independent** upper bound, and it changes what a negative means
+
+If term (a) comes back empty there are two completely different reasons, and the basin search alone cannot
+tell them apart:
+
+- **(i)** the geometry is fine but no E3 body happens to dock in the region from which the linker could reach
+  the cysteine — a fact about the **recruiter**, fixable by trying another one; or
+- **(ii)** no credible linker can reach that cysteine from the pocket exit vector *while also spanning to an
+  E3* — a fact about the **target**, which no recruiter choice can fix.
+
+That is the difference between "widen the E3 panel" and "this mechanism is closed", and a negative result has
+to say which it is to be worth publishing. The bound needs no E3 and is exact: fixing the warhead exit anchor
+**a**, a linker of contour length *L* with a pendant arm *e* can put an electrophile on **SG** for an E3
+anchor at **b** iff `|SG−a| + |SG−b| ≤ L + 2e`. The fraction of the reach shell satisfying it — rejecting
+anchor positions inside the protein exactly as the search does — is an upper bound **no basin can exceed**.
+
+**First read, over the real pose ensemble: C397 is not geometrically closed.** It opens at a **10-atom**
+linker — inside the 12-atom practical gate — with C420 opening at 14 and C559 at 20. So any term-(a)
+shortfall in this rung is about *where an E3 can dock*, not about the target's geometry.
+
 ### Term (b) is scored against a null, and the gate requires beating it
 
 Without a null, *"this basin's transfer zone covers K572"* is uninterpretable: if **any** linker-feasible,
