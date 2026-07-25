@@ -77,7 +77,7 @@ relevant rung below.*
 |---|---|---|---|
 | **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30168741086`, us-central1-a) | **RUNNING** since **2:01 PM ET**, `warmup_timestep_fs=1.0`, and the **first attempt whose commit prefix is direction-verified** (`…_wu1.0_v2pe_dirrev`). Two earlier attempts died today for two *different* reasons, both now root-caused and fixed: a **2.0 fs warmup NaN** at 12:55 PM, then — after the NaN fix aligned the prefixes — a **fwd/rev prefix collision** at 1:41 PM that made the rev leg try to resume the FORWARD trajectory (see the two blocks below). Both zombie VMs reaped; L4 usage 0.0 before this launch | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
-| **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, $0) | running — building the transform search + the two **categorical** terms (electrophile reach to C397/C420/C559; E2~Ub transfer zone over K572/K518/K592), pose-marginalised | ~3–6 h → **this evening ET** | **The Tier-2 gate.** No basin exploiting a categorical handle *and* none nominally discriminating NR4A3 ⇒ STOP cheaply. Also tells the program which **exit vectors** matter, which a re-scoped fan-out depends on |
+| **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, **$0 realized**) | **engine DONE, verdict PROVISIONAL GO (categorical, weakly)** — the 12-pose full run (CI 30169233690, 10⁶ placements × 12 poses × VHL+CRBN) has been executing since **2:14 PM ET** and supersedes the 4–6-pose preview numbers; it auto-commits `nr4a3-orientation-basins.json` to the lane branch | **~4:30 PM ET** | Confirms or overturns the Tier-2 **GO**. Both arms passed independently at preview, so a flip is unlikely but is not excluded. A GO sends the next spend to **5a-KS**, not to an MM-GBSA rescore |
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **LANE 4 · RUNG 2b — 4 fs ternary probe** (**Vast**, ≤$25) | running — building the **Vast** ternary lane (none existed; only `-gcp.yml`/`-aws.yml`), then stage 1 = the ~$1–2 survival probe | probe ~2–4 h → **this evening ET**; full edge next if it passes | **≈2× on every downstream ternary leg** (~$8.8 → ~$4.4/edge, ladder has ≥6). Also the **first NR4A-adjacent ternary leg timed on Vast** — closes the named transferability gap where an 8G1Q rate is pricing NR4A ternaries |
 
@@ -266,7 +266,9 @@ classes:
   paralogues lack, verified from full-length UniProt with two independent aligners
   ([`nr4a_paralogue_unique_residues.py`](research/modalities/nr4a_paralogue_unique_residues.py) →
   [`nr4a-paralogue-unique-residues.json`](research/modalities/nr4a-paralogue-unique-residues.json)):
-  **C397** (NR4A1 N363 / NR4A2 S363; RSA 0.395, 10.9 Å from the cryptic pocket — exit-vector reach), C420
+  **C397** (NR4A1 N363 / NR4A2 S363; RSA 0.395, 10.9 Å from the cryptic pocket — exit-vector reach; **and
+  measured 2026-07-25 to be NOT geometrically closed — it opens at a 10-atom linker on an E3-independent bound,
+  so a term-(a) shortfall is about WHERE RECRUITERS DOCK, not about the target**), C420
   (18.3 Å, exposed), C559 (12.8 Å but RSA 0.095 — buried in this conformer, so not currently tether-reachable);
   and exposed unique lysines **K572** (RSA 0.879, 11.5 Å), **K518** (0.413, 13.4 Å), **K592** (0.506, 16.2 Å),
   all in the same 11–16 Å band as the conserved ones — so an E3 can be steered onto a unique lysine instead of a
@@ -363,6 +365,20 @@ allowed to claim.
    lysines **outside** the LBD (hinge, DBD, fusion partner); public EMC VHL/CRBN expression; **full CRL/E2~Ub
    geometry ensembles**. Ternary formation is necessary, not sufficient — productive lysine positioning is a
    distinct requirement.
+   **★ TWO MEASUREMENTS LANDED HERE 2026-07-25 (LANE 2, $0), and BOTH correct assumptions the program was
+   using — they bind on every ternary / degradation-geometry step, not just 5a:**
+   - **The ubiquitin-transfer distance is 17.1 Å, MEASURED** — nearest of 11 substrate lysines in a *solved*
+     CRL4–CRBN assembly. The repo's assumed **10 Å was ~7 Å too strict** and, applied as written, **would have
+     suppressed the term-(b) lysine signal entirely.** Any transfer-zone criterion must use the measured band.
+   - **⚠ A COMPOSED CRL RING CARRIES ~48.6 Å OF POSITIONAL UNCERTAINTY.** A known-answer check *falsified its
+     own construction*: a RING composed from a receptor entry + a cullin scaffold — with **both bridges < 1.5 Å**,
+     i.e. each join individually excellent — sat **48.6 Å** from the RING of an intact deposited assembly. This
+     is **conformational, not error**: CRLs are genuinely mobile, so a well-fitted composition is still not a
+     position. **Consequence: no degradation-geometry claim may rest on a RING or E2 that was COMPOSED rather
+     than observed.** The fix in use is to anchor on the **observed E2 catalytic cysteine** from solved
+     assemblies (**8R5H** for VHL, **9UUM** for CRBN). Relatedly, the E2 catalytic cysteine had been *guessed*
+     by a heuristic; identifying it by proximity to ubiquitin's C-terminus gives **Cys85 at 3.4 Å vs 16.4 Å**
+     for the next-nearest — and **overturns the heuristic's answer**.
 
 ### Why Val A is nearly free but Val B is load-bearing
 
@@ -523,13 +539,49 @@ survives causal testing."* The *decision* to commit the flagship is cheap, not a
 |---|---|---|---|
 | **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed) |
 | **1** | **Differential surface atlas.** No E3-reachable divergent surface ⇒ STOP for free | **$0 CPU** | **PASSED** (46 handles) |
-| **2** | **Basin nomination.** No basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ STOP cheaply | **$0–50** | pending (RUNG 5a) |
+| **2** | **Basin nomination.** No basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ STOP cheaply | **$0 realized** (budget was $0–50; **no GPU used**) | **PROVISIONAL GO — basis CATEGORICAL, and weakly.** Both arms pass independently; see the block below. ⚠ preview numbers over 4–6 poses; the **12-pose full run supersedes them** |
 | **3** | **Pilot ONE causal direction** — the ligand-side double difference `S`, one matched pair, ternary legs in NR4A3 and NR4A1. No discrimination ⇒ STOP | **~$12 ($1.6–45)** | pending (RUNG 5a-KS) |
 
 Tier 2's asymmetry is what makes it usable: cheap scoring has poor S/N for a ~1 kcal/mol *energy* difference, so
 it only **nominates** — but "does this basin place an electrophile at C397 / cover K572?" is a **geometric**
 set-membership question, which cheap scoring answers reliably. A gross absence of signal is an informative
 NO-GO; it is not trusted to kill a real small wedge.
+
+### ★ Tier-2 result in full (2026-07-25, LANE 2, **$0 realized — no GPU**)
+
+**GO, basis CATEGORICAL — and "weakly" is part of the verdict, not a hedge to drop when quoting it.**
+
+| | VHL *(Lane 1 staged it only as a **sensitivity control**)* | CRBN *(Pareto front)* |
+|---|---|---|
+| meta-basins | 19 | 21 |
+| exploiting **term (a)** at the 12-atom gate | **2** | **0** |
+| shortest C397 linker | **9 atoms** | 15 atoms |
+| exploiting **term (b)** above the null | 12 | 12 |
+| enrichment over null | **2.9–11.8×** | 1.06–5.6× |
+| null: covers *any* NR4A3 lysine | 0.35–0.49 | **0.81–0.96** |
+
+- **The categorical terms fire in a small MINORITY of placements** — 0.5–8 % cover a unique lysine, term (a)
+  reaches gate level in 2–5 % — against a **1–6.5 %** background. **Enrichments, not saturation.**
+- **CRBN's null is 0.81–0.96**, so most of CRBN's apparent term-(b) signal is background. **The discrimination
+  lives on VHL — the arm carried as a control, not as the winner.** This is decision-relevant and must not be
+  smoothed over when the E3 is chosen.
+- **`term_b_best_rank` is a best-of-N statistic, inflated by construction** (exactly piece 5's winner's-curse
+  artifact), so those counts are **upper bounds**; the unbiased mean fractions lead. One CRBN basin reached
+  rank 4 while scoring *below* background and was correctly excluded — **without the null it would have counted.**
+- **Strongest nomination `vhl|M2`:** 5/6 poses, C397 reachable at a **10-atom** linker, term-(b) rank 5 with a
+  unique lysine and *both* paralogue zones bare, and its interface patch (UniProt 390–412 + **572**) sits
+  *around K572 itself*. **`vhl|M0` survives 6/6 poses** with C397 at 9 atoms despite a **negative nominal Δ** —
+  under mechanism-first that does not disqualify it, and **a scalar score would have hidden it**, which is the
+  clearest vindication yet of dropping the tunable scalar.
+- **Pose-marginalisation:** top VHL meta-basin **6/6 = 1.00**; several at 0.50–0.83; top CRBN **3/4 = 0.75**.
+- **Term (b) is NOT EVALUABLE for BIRC2/MDM2** — their ligandable structures are 15 %/19 % fragments lacking the
+  RING. This agrees with Lane 1's CRBN+VHL answer by a different route, and argues for adding
+  **ubiquitination-geometry evaluability as an explicit Pareto axis** rather than discovering it downstream.
+- **MM-GBSA rescore: NOT run, and recommended against** — it would refine the very axis the mechanism-first
+  reframe demoted. **Next spend should be 5a-KS.**
+- **⚠ OPEN AND DECISION-RELEVANT:** two *verified* VHL stagings place the observed transfer anchor **30.9 Å vs
+  69.9 Å** from the exit vector. Two hypotheses, and **the discriminating observation has not been run.** This
+  is the top follow-up, and no VHL basin ranking should be treated as settled until it is resolved.
 
 ---
 
