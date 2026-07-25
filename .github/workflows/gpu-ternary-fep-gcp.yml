@@ -323,8 +323,14 @@ jobs:
         with:
           environment-name: conv
           create-args: >-
-            python=3.11 openmmtools pymbar netcdf4 numpy mdtraj -c conda-forge
+            python=3.11 openfe openmmtools pymbar netcdf4 numpy mdtraj -c conda-forge
           init-shell: bash
+        # openfe is REQUIRED, not optional garnish. openmmtools stores each end thermodynamic state as a
+        # serialized class reference, and OpenFE's alchemical composable state is one of them, so
+        # reporter.read_end_thermodynamic_states() -> utils.deserialize() -> importlib.import_module('openfe...')
+        # raises ModuleNotFoundError without it. The FIRST diagnostic the analyzer runs (the MBAR overlap matrix)
+        # touches that path, so an openmmtools-only env cannot analyse an OpenFE trajectory at all — evidence:
+        # GH run 30155345102, which found the .nc files and died on `No module named 'openfe'`.
       - name: Convergence analysis of the committed .nc (mode=converge — CPU/runner-only, NO GPU/VM)
         if: ${{ github.event.inputs.mode == 'converge' }}
         shell: bash -el {0}

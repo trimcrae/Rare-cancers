@@ -59,7 +59,16 @@ def _find_nc_files():
 def _overlap(analyzer):
     """MBAR overlap matrix + scalar. pymbar 3 and 4 differ; try both. Overlap scalar = 1 - 2nd-largest eigenvalue
     of the overlap matrix (the Perron eigenvalue is 1); higher = better adjacent-state overlap."""
-    mbar = getattr(analyzer, "mbar", None) or getattr(analyzer, "_mbar", None)
+    # `analyzer.mbar` is a LAZY openmmtools descriptor, not an attribute: touching it builds the MBAR object,
+    # which reads the end thermodynamic states, which DESERIALIZES class references out of the .nc. On an
+    # OpenFE trajectory that path imports openfe, so a bare getattr can raise ModuleNotFoundError (or any
+    # deserialization error) rather than return None — and this function is called OUTSIDE a try in
+    # analyze_leg, so it took the whole report down with it (GH run 30155345102). The module docstring promises
+    # every diagnostic degrades to a status string; that promise did not hold here. It does now.
+    try:
+        mbar = getattr(analyzer, "mbar", None) or getattr(analyzer, "_mbar", None)
+    except Exception as e:  # noqa: BLE001
+        return {"status": "mbar construction failed: %s: %s" % (type(e).__name__, e)}
     if mbar is None:
         return {"status": "no mbar object on analyzer"}
     try:
@@ -301,13 +310,22 @@ def analyze_leg(nc_path, tag):
         rec["mbar_dg_err_kcal"] = rec["mbar_dg_err_kt"] * KT_KCAL
     except Exception as e:  # noqa: BLE001
         rec["mbar_status"] = "get_free_energy failed: %s: %s" % (type(e).__name__, e)
-    rec["overlap"] = _overlap(analyzer)
-    rec["equilibration"] = _equilibration(analyzer)
-    rec["mixing"] = _mixing(analyzer, reporter)
-    rec["forward_reverse"] = _forward_reverse(analyzer)
-    rec["block_plateau"] = _block_plateau(analyzer)
+    # Defence in depth for the module docstring's promise: ONE diagnostic that raises must not delete the other
+    # six. Each is a lazy openmmtools/pymbar path that can fail for env reasons entirely unrelated to the
+    # trajectory's health, and a report that vanishes tells you nothing about the leg.
+    def _safe(name, fn, *a):
+        try:
+            return fn(*a)
+        except Exception as e:  # noqa: BLE001
+            return {"status": "%s raised %s: %s" % (name, type(e).__name__, e)}
+
+    rec["overlap"] = _safe("overlap", _overlap, analyzer)
+    rec["equilibration"] = _safe("equilibration", _equilibration, analyzer)
+    rec["mixing"] = _safe("mixing", _mixing, analyzer, reporter)
+    rec["forward_reverse"] = _safe("forward_reverse", _forward_reverse, analyzer)
+    rec["block_plateau"] = _safe("block_plateau", _block_plateau, analyzer)
     rec["restraints"] = {"status": "RBFE binding legs carry no orientational restraints; none to diagnose"}
-    rec["structural"] = _structural(reporter, nc_path)
+    rec["structural"] = _safe("structural", _structural, reporter, nc_path)
 
     # ---- health flags (each None if the metric wasn't computable) ----
     ov = rec["overlap"].get("overlap_scalar")
