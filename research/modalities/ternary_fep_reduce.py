@@ -344,8 +344,11 @@ def per_replicate_ddg_coop(morph_key):
 
 def _diagnostics_ok():
     """True unless the committed convergence report (ternary_fep_convergence) flags a technical failure on ANY
-    leg (reviewer condition 4/6: persistent overlap/drift/structural failure -> gate FAIL). Absent report ->
-    True (the convergence gate is its own step; here we only fold in a failure that WAS measured)."""
+    leg (reviewer condition 4/6: persistent overlap/drift/structural failure -> gate FAIL).
+
+    TRI-STATE: True = every leg measured and clean; False = a MEASURED failure; None = not verified, which
+    covers both a leg with an uncomputed diagnostic AND an absent report entirely. None routes to BORDERLINE,
+    never to PASS."""
     for base in (CKPT, IN):
         p = os.path.join(base, "ternary_convergence.json")
         if os.path.isfile(p):
@@ -362,7 +365,16 @@ def _diagnostics_ok():
                 return True
             except Exception:  # noqa: BLE001
                 pass
-    return True
+    # ⚠ AN ABSENT REPORT IS NOT A PASS (fixed 2026-07-25). This returned True, with the docstring's rationale
+    # that "the convergence gate is its own step". But the frozen rule requires that ALL convergence diagnostics
+    # pass, and a report that was never produced satisfies that no more than a diagnostic that was never
+    # computed — which the tri-state above already, correctly, refuses to treat as satisfied. Returning True here
+    # was the last surviving instance of this lane's signature defect: reporting success while measuring nothing.
+    # It is exactly what let every valB verdict silently default its convergence requirement to "pass" before
+    # MODE=converge was ever wired to a dispatch path.
+    # Strictly stricter, and it changes no recorded verdict: r0 is INDETERMINATE at n=1, which is returned before
+    # diagnostics are consulted at all.
+    return None
 
 
 def _diff(mean_a, ci_a, mean_b, ci_b):
