@@ -1669,7 +1669,12 @@ SCHEMA_DOC = {
             "is_primary": "bool — the structure the geometry was computed on",
         },
         "linker_bearing_analogue": "{tier 0-3, label, n_entries_with_ligand_ge_500Da, "
-                                   "n_entries_ligand_bridging_second_uniprot, evidence_pdb_ids_*}",
+                                   "n_entries_ligand_bridging_second_uniprot, evidence_pdb_ids_*, "
+                                   "bridging_check[] (per-entry contacts_recruiter / contacts_partner / "
+                                   "bridges, read from coordinates), tier_demoted (present when the "
+                                   "entry-level tier-3 claim did NOT survive that check), "
+                                   "_evidence_entries[] (metadata kept so the check does not depend on "
+                                   "what staging happened to keep)}",
         "ligandability": {
             "ligand_burial": "{sasa_free_A2, sasa_in_complex_A2, buried_fraction}",
             "site_enclosure": "{blocked_fraction, n_rays, max_A}",
