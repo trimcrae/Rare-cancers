@@ -15,6 +15,8 @@ control-plane half.
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import json
 import os
 import subprocess
@@ -22,6 +24,26 @@ import sys
 import tarfile
 import tempfile
 import time
+
+
+class Tee:
+    """Write to two streams at once, so a watch tick both STREAMS to the CI log and is captured for the
+    published board. (A board that only existed in a buffer would go dark exactly when the run hangs.)"""
+
+    def __init__(self, *streams):
+        self.streams = streams
+
+    def write(self, s):
+        for st in self.streams:
+            st.write(s)
+        return len(s)
+
+    def flush(self):
+        for st in self.streams:
+            try:
+                st.flush()
+            except Exception:  # noqa: BLE001
+                pass
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -224,6 +246,42 @@ def _progress_signature(targets):
     return sig
 
 
+WATCH_BRANCH = os.environ.get("PDYN_WATCH_BRANCH", "lane13-watch")
+
+
+def publish_board(text, branch=WATCH_BRANCH):
+    """Force-push the current board to a one-commit cache branch so it is READABLE WHILE THE RUN IS STILL
+    GOING.
+
+    GitHub's job-logs API returns 404 for an in-progress job and annotations are capped per step, so a
+    long-running watch job is otherwise a black box for exactly as long as it matters — which would make the
+    repo's "tight monitoring of an unproven pipeline" rule unenforceable from outside CI. A cache branch is the
+    pattern this repo already uses for CI outputs (`modalities-cache`), and one orphan commit per tick keeps it
+    from growing. Best-effort: a failed publish never interrupts the watch."""
+    tok = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    repo = os.environ.get("GITHUB_REPOSITORY", "trimcrae/Rare-cancers")
+    if not tok:
+        return
+    d = tempfile.mkdtemp(prefix="pdynboard")
+    try:
+        with open(os.path.join(d, "board.md"), "w") as fh:
+            fh.write(text)
+        env = dict(os.environ, GIT_TERMINAL_PROMPT="0")
+        for cmd in (["git", "init", "-q", "-b", branch],
+                    ["git", "config", "user.name", "Claude"],
+                    ["git", "config", "user.email", "noreply@anthropic.com"],
+                    ["git", "add", "board.md"],
+                    ["git", "commit", "-q", "-m", f"lane13 watch board {time.strftime('%FT%TZ', time.gmtime())}"],
+                    ["git", "push", "-q", "--force",
+                     f"https://x-access-token:{tok}@github.com/{repo}", f"{branch}:{branch}"]):
+            r = subprocess.run(cmd, cwd=d, env=env, capture_output=True)
+            if r.returncode:
+                print(f"[watch] board publish step {cmd[1]} failed: {r.stderr.decode()[:200]}")
+                return
+    finally:
+        subprocess.run(["rm", "-rf", d])
+
+
 def watch(targets, interval_s=180, max_minutes=330, stall_ticks=6):
     """ONE CI run that monitors the legs continuously, so monitoring survives this session dying.
 
@@ -237,10 +295,17 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=6):
     tick = 0
     while time.time() < t_end:
         tick += 1
-        print(f"\n########## tick {tick}  {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} "
-              f"##########", flush=True)
-        status(targets)
+        head = (f"\n########## tick {tick}  {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} "
+                f"##########")
+        print(head, flush=True)
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(Tee(sys.stdout, buf)):
+            status(targets)
         sig = _progress_signature(targets)
+        one_line = " | ".join(f"{n}: phase={v[0]} ns={v[1]} done={v[3]}" for n, v in sig.items())
+        print(f"::notice title=LANE13 TICK {tick}::{one_line}", flush=True)
+        publish_board(f"# LANE 13 watch board\n\n`{head.strip('# ')}`\n\n**{one_line}**\n\n```\n"
+                      + buf.getvalue()[-40000:] + "\n```\n")
         for name, v in sig.items():
             if v[3]:
                 frozen[name] = 0
