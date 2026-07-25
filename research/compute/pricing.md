@@ -80,7 +80,8 @@ it (`JobProfile.min_uninterrupted_h` scales that per card and flags it).
 > system where **every X-H is a constraint**. Measured on both known-answer anchors: `xh_total = 0` against
 > 1771 / 4997 total constraints, and the alchemical valence CustomBondForce (11 / 28 bonds) contains **no X-H
 > at all**. Nothing is left flexible to cap the timestep, so **the fan-out ran at 4 fs and there is no 2×
-> timestep lever** — the ~$91–101 stands on that axis. *(⚠ On the PRICE axis it does not: repriced to ~$36 on 2026-07-25. The work correction below is what survives.)* That leaves **particle count as the sole remaining
+> timestep lever**. That conclusion is about WORK, and it survives; the ~$91–101 it was attached to does
+> not — that figure is superseded by ~$36 (2026-07-25, the $/hr axis). That leaves **particle count as the sole remaining
 > candidate** for the 2.6×, and it is still unrecorded for the NR4A3 binary complex. What IS established is the rate itself, and that a TYK2 rate must not be used
 > to price NR4A3 work.
 > Recomputed on the repo's own hardcoded leg length (400 equil + 2000 production = 2400 iters,

@@ -73,7 +73,7 @@ The hazard has a floor no bid reaches under. A premium buys protection against *
 > until a higher bid finishes up."*
 
 The disk survives, so a preemption costs the work since the last checkpoint plus downtime — **not** a ~6 GiB
-image reload. The reload that justified `×1.9` was **self-inflicted**: our own reaper listed `"stopped"` as
+image reload. The reload that once justified the now-retired `×1.9` was **self-inflicted**: our own reaper listed `"stopped"` as
 terminal and DELETEd paused instances, forcing a fresh pull on re-rent. The premium was insuring against our
 own bug.
 
@@ -154,7 +154,7 @@ Measured all-in `$/ns` on the live board:
 | best-10 mean (**the planning number**) | 0.00436 | **$0.137** |
 | median offer | 0.00983 | $0.309 |
 
-**5.43× from best to median.** Against **1.48×** for the entire `×1.9 → floor` bid change. Selection is worth
+**5.43× from best to median.** Against **1.48×** for the entire bid change that retired `×1.9`. Selection is worth
 several times what bidding is, and it is the thing the old policy did worst — it ranked by `min_bid`, which is
 neither what we pay nor what we get.
 

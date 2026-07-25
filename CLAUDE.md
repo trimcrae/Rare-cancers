@@ -5,6 +5,31 @@ read it before making changes.
 
 ## TL;DR for agents
 
+- **📏 ONE FACT, ONE PLACE — AND WHEN YOU CORRECT A NUMBER, REGISTER THE OLD ONE (trimcrae standing rule,
+  2026-07-25, after a STRATEGY.md cleanup found the ladder total stated at THREE different values in one file,
+  a high band that did not sum, a spine disagreeing with the table it summarised, and a rung recorded as both
+  UNPRICED and PRICED).** Every number, gate and status has exactly **one home** — a named section of one file
+  — and everywhere else **points at it** instead of restating it. If you catch yourself typing a cost, a total,
+  a rate or a status that already exists somewhere, that is the bug: link it. **Three hard rules:**
+  1. **A total is DERIVED, never typed.** Regenerate it (`vast_cost_model.py` → `vast-ladder-repricing.json`)
+     and let the checker verify it sums. A hand-carried total drifts silently — that is where `$544` (which
+     did not sum) and `$128` (a table missing one row) both came from.
+  2. **Corrections go in an APPENDIX, not inline.** Never silently drop a superseded number — but never leave
+     the "was X, then Y, both wrong, now Z" narrative in the live plan either, because the old values stay
+     quotable and the next reader cannot tell which is current. One line in the appendix; the live text carries
+     only the current value.
+  3. **Changing a pinned number means adding its old value to
+     [`research/manuscripts/pinned-figures.json`](./research/manuscripts/pinned-figures.json) IN THE SAME
+     COMMIT.** This is not paperwork — it is how CI finds the copies you missed.
+  **Enforced, because prose discipline is exactly what already failed here** (the same reason `lint_claims.py`
+  exists): **[`research/manuscripts/lint_consistency.py`](./research/manuscripts/lint_consistency.py)** runs in
+  CI on every push over STRATEGY.md, CLAUDE.md, pricing.md, bid-strategy.md, the schedule JSON, the paper, the
+  SI and the NR-V04 prereg. It fails the build when a total does not equal its parts, when a repriced-ladder
+  table omits a stage the cost model prices, or when a superseded value is restated without being marked as
+  superseded. Run it locally before committing doc changes: `python3 research/manuscripts/lint_consistency.py`.
+  It clears correctly-written retractions (a marker nearby, a contrast like "2.10× **not** 2.42×", or an
+  enclosing retraction heading), so a red build means a real inconsistency — **fix the doc, don't loosen the
+  pattern.**
 - **🔬 ALWAYS ROOT-CAUSE AN ERROR WITH A REAL DIAGNOSTIC — NEVER HAND-WAVE A "probably X" EXPLANATION (trimcrae
   standing rule, 2026-07-14).** When anything fails, stalls, resets, returns a wrong/surprising value, or behaves
   unexpectedly, you must **produce the actual evidence that proves the mechanism** before you explain it, act on

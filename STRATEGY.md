@@ -10,13 +10,18 @@
 > [degrader-paper-schedule.json](research/manuscripts/degrader-paper-schedule.json) (its milestone `id`s match the
 > stage tags below one-for-one; that JSON is a machine MIRROR of this file, not a competing source).
 >
-> **Two editing rules that keep this file from rotting** (it has been re-corrected three times; the failure was
-> always the same — a number lived in four places and a fix reached one):
+> **Three editing rules that keep this file from rotting** (it has been re-corrected three times; the failure
+> was always the same — a number lived in four places and a fix reached one):
 > 1. **One fact, one place.** Every number, gate and decision has exactly one home section. Everywhere else
 >    points at it. If you find yourself restating a cost, delete the restatement.
 > 2. **Corrections go in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims), not inline.** Never
 >    quietly drop a superseded number — but never leave the retraction narrative in the live plan either. One
 >    line in the appendix, then the live text carries only the current value.
+> 3. **Register the old value when you change a pinned one**, in the same commit, in
+>    [`pinned-figures.json`](research/manuscripts/pinned-figures.json). Rules 1–2 are *enforced* by
+>    [`lint_consistency.py`](research/manuscripts/lint_consistency.py) in CI — it fails the build when a total
+>    does not equal its parts or a superseded value is restated unmarked. Run it before you commit:
+>    `python3 research/manuscripts/lint_consistency.py`.
 >
 > **Companion docs (detail only, subordinate to this file):**
 > [research/compute/pricing.md](research/compute/pricing.md) — ★ PRICING single source of truth, every cost line

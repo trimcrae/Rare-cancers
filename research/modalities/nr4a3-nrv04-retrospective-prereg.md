@@ -61,7 +61,7 @@ warhead-reactivity explanation; it is not a method failure, and it must not be r
 
 | Arm | Quantity | Lane | Gate |
 |---|---|---|---|
-| **Arm E — ensemble endpoint MD** *(this document's subject)* | geometric/ensemble interface readouts (R1–R3 of `nrv04_readouts.py`). **No free energy.** | the proven Vast endpoint-MD lane that ran the 18-leg covalent panel (`nrv04_covalent_md.py`), measured ~$0.45/leg | authorized at §7 pricing; **not** gated on the valB free-energy calibration, because it asserts no free energy |
+| **Arm E — ensemble endpoint MD** *(this document's subject)* | geometric/ensemble interface readouts (R1–R3 of `nrv04_readouts.py`). **No free energy.** | the proven Vast endpoint-MD lane that ran the 18-leg covalent panel (`nrv04_covalent_md.py`), measured ~$0.43/leg | authorized at §7 pricing; **not** gated on the valB free-energy calibration, because it asserts no free energy |
 | **Arm F — alchemical ΔΔG_coop** | per-paralogue ΔΔG_coop via the binary↔ternary cycle (ternary prereg §1) | `run_ternary_leg.sh` / `nr4a3_ternary_fep.py` | **BLOCKED** by calibration addendum **condition 7** — runs only after the valB calibration PASSes. Not launched by this document. |
 
 **This split is the load-bearing honesty of the design.** The valB calibration exists to license *free-energy*
@@ -249,7 +249,7 @@ prediction, and nothing is fabricated.
 
 ## 7. Cost, staging and authorization
 
-Per-leg cost is **MEASURED** (the 18-leg covalent panel, ~$0.45/leg on Vast RTX 3090/4090 spot).
+Per-leg cost is **MEASURED** (the 18-leg covalent panel, **~$0.43/leg** over a 15-leg S3 price ledger, on Vast RTX 3090 interruptible at `dph_total` ~$0.10–0.21/hr; ~$0.19 converted to a reference 4090 GPU-hour). *(Corrected 2026-07-25 from the ~$0.45 this line carried — the final ledger mean is $0.43.)*
 
 | stage | legs | cost | status |
 |---|---|---|---|
