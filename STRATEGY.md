@@ -87,8 +87,9 @@ relevant rung below.*
 > the ligand-side double difference `S = ΔΔG_coop(d₀→d|NR4A3) − ΔΔG_coop(d₀→d|NR4A1)` — **has never run and
 > cannot yet**, because it needs a candidate *d* and matched control *d₀*, and those molecules do not exist
 > until 5b enumerates them from the basins LANE 2 is nominating now. 5a-KS is therefore **downstream** of
-> LANES 1–2, not a blocker on them. The rung also stays **UNPRICED for NR4A**: its measured rate was
-> particle-count-scaled from a ~25.7k-particle benchmark, an assumption rather than a measurement.
+> LANES 1–2, not a blocker on them. Its confirmatory line is now **PROJECTED at ~$4.6 (3 rep)** rather than
+> unpriced — but that figure is **particle-count-scaled** from the ~25.7k-particle benchmark to NR4A sizes, an
+> assumption and not a measurement, so it may not be quoted as a rate and stays excluded from the ladder total.
 
 **The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
 are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
