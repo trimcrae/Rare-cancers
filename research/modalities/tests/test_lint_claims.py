@@ -150,6 +150,22 @@ def test_local_negation_does_not_clear_an_assertion_that_merely_contains_not():
     assert not lint_claims._locally_negated(sent, sent.index("synthesis-ready"))
 
 
+def test_local_negation_survives_quotes_and_emphasis_around_the_phrase():
+    # A prereg's banned-phrase list writes the phrase in quotes or emphasis after the negation:
+    #   never "synthesis-ready" ... / no **synthesis-ready** claim
+    # The quote must not defeat the scoping (it did, on the NR-V04 retrospective prereg, 2026-07-24).
+    for sent in ('Forbidden: never "synthesis-ready" language',
+                 "Forbidden: no **synthesis-ready** claim",
+                 "Forbidden: never `synthesis-ready`"):
+        assert lint_claims._locally_negated(sent, sent.index("synthesis-ready")), sent
+
+
+def test_local_negation_does_not_leak_across_a_sentence_boundary():
+    # Clause-ending punctuation still blocks it: the negation applies to the PREVIOUS sentence.
+    sent = "The matrix is not final. It is a synthesis-ready deliverable"
+    assert not lint_claims._locally_negated(sent, sent.index("synthesis-ready"))
+
+
 def test_earned_phrase_rules_use_local_negation():
     for rid in ("R1-synthesis-ready", "R1-selective-hit"):
         rule = next(r for r in lint_claims.RULES if r.rid == rid)

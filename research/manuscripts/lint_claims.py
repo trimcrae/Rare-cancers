@@ -404,10 +404,16 @@ def _lineno_for(offsets, pos):
 # Both contain "not", so DISCLAIMER_RE clears both and the second escapes. For earned-phrase rules we
 # therefore look only at the short span immediately BEFORE the match, where a negation that actually
 # scopes the phrase has to sit.
+#
+# The gap between the negation and the phrase may contain quotes/backticks/emphasis: a prereg's banned-phrase
+# list is written `never "recovered degradation"` or `never **validated**`, and a quote character must not
+# defeat the scoping (it was doing exactly that on the NR-V04 retrospective prereg, 2026-07-24). Punctuation
+# that would END the clause — . ; : ! ? — is still excluded, so "…is not X. Y is recovered degradation" does
+# NOT clear.
 LOCAL_NEGATION_WINDOW = 40
 LOCAL_NEGATION_RE = re.compile(
     r"\b(?:not|never|no|nor|non|isn't|aren't|without|rather than|instead of|as opposed to)\b"
-    r"[\s\w,]{0,20}$",
+    r"[\s\w,\"'`*_()\[\]-]{0,20}$",
     re.IGNORECASE,
 )
 

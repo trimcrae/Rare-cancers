@@ -26,8 +26,10 @@ from nrv04_ligands import LIGANDS  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
 # co-fold outputs in the reused S3 bucket (nrv04_ternary.py --run --negatives writes one subdir per system).
-COFOLD_PREFIX = os.environ.get("NRV04_COFOLD_PREFIX", "nrv04-covalent-cofold")
-RESULT_PREFIX = os.environ.get("NRV04_RESULT_PREFIX", "nrv04-covalent-results")
+# `or DEFAULT` not `get(k, DEFAULT)`: a workflow input that is present-but-EMPTY would otherwise set the prefix
+# to "", silently sending every staged read and every result to the bucket ROOT.
+COFOLD_PREFIX = os.environ.get("NRV04_COFOLD_PREFIX") or "nrv04-covalent-cofold"
+RESULT_PREFIX = os.environ.get("NRV04_RESULT_PREFIX") or "nrv04-covalent-results"
 
 # panel ligand -> the co-fold SYSTEM subdir it comes from (nrv04_ternary.py naming).
 _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastrol": "neg_celastrol"}
@@ -42,7 +44,13 @@ _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastro
 # We're not racing (endpoint-MD, checkpointed, parallel), so the 3090's ~0.6x-4090 throughput is fine and it's
 # ~70% cheaper than the first host + under GCP L4 spot. _select_cheapest_offer still falls back to any capable
 # 24 GB card if 3090s are scarce, always ranked by the true interruptible cost (min_bid).
-TERNARY_RES = ResourceSpec(gpu="rtx3090", min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=60, interruptible=True)
+# ⚠ RAM RAISED 16 -> 48 GB (2026-07-24). 16 GB was not a modest-requirements choice, it was too small: both
+# retrospective pilot legs were OOM-KILLED (the co-fold lane's instance log showed the kernel's bare `Killed`
+# on the same account the same evening, and these legs died the same way — partial output, no traceback, no
+# result). Solvating and parameterizing a ~466k-atom assembly is RAM-bound, and the covalent panel surviving on
+# 16 GB was host luck on actual free memory, not headroom. VRAM is NOT the constraint here (<4 GB is used);
+# host RAM is. The extra RAM costs cents/hr and buys legs that finish.
+TERNARY_RES = ResourceSpec(gpu="rtx3090", min_vram_gb=24, vcpus=4, ram_gb=48, disk_gb=60, interruptible=True)
 
 # Boot image. Vast's cheap 4090 hosts have catastrophically slow BOOT-TIME PROVISIONING (Vast apt-installs
 # python3/openssh/systemd from archive.ubuntu.com at container start — ~40 min on these hosts, diag-confirmed
@@ -73,9 +81,25 @@ fi
 export PATH=/opt/mamba/envs/md/bin:$PATH
 PY=/opt/mamba/envs/md/bin/python
 AWS=/opt/mamba/envs/md/bin/aws
-mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
+# mark() used to end in `2>/dev/null || true`, which hid EVERY S3 write failure. A monitoring mechanism that
+# swallows its own errors is worse than none: it produced hours of "the leg is silent" with no way to tell a
+# dead leg from a broken marker. The FIRST mark is now a hard PREFLIGHT — if we cannot write to $RESULT_S3 the
+# leg is unmonitorable and unable to deliver a result, so fail immediately and loudly instead of burning GPU.
+mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || echo "[mark] WARN could not write phase '$1' to $RESULT_S3"; }
+echo "preflight $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || {
+  echo "[preflight] FATAL cannot write to $RESULT_S3 — refusing to run an unmonitorable leg"; exit 4; }
+# --- stream this leg's stdout to S3 continuously, so an OOM kill or a crash leaves a POST-MORTEM. Both pilot
+# legs died with no traceback because nothing captured stdout and the EXIT trap tore the host down with it.
+exec > >(tee -a /tmp/run.log) 2>&1
+( while true; do $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true; sleep 45; done ) &
+LOGSYNC_PID=$!
+trap '$AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true' EXIT
 mark env-ready
 # --- repo code (public codeload tarball; the base image has no git) ---
+# IDEMPOTENT: Vast restarts the container after an OOM kill and re-runs this script. A stale extraction used to
+# leave `cd Rare-cancers-*` matching multiple dirs (and the co-fold lane's `git clone` failing outright), so a
+# restart could never recover — it died on setup instead of retrying the work.
+rm -rf Rare-cancers-*
 curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
 cd Rare-cancers-*/research/modalities
 mark cloned
@@ -97,6 +121,8 @@ $PY autoteardown.py $PY nrv04_covalent_md.py
 mark md-done
 # --- publish the leg readout JSON ---
 $AWS s3 cp /tmp/out/ "$RESULT_S3/" --recursive --exclude '*' --include 'leg_*.json'
+kill $LOGSYNC_PID 2>/dev/null || true
+$AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors || true
 mark uploaded
 """
 
@@ -240,6 +266,14 @@ def diag():
     whether a long 'loading' is an image pull on a slow host, a scheduler wait, or an error."""
     key = os.environ.get("VAST_API_KEY")
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    # $DIAG_FILTER = an instance id or a label substring. Without it, diag dumps EVERY instance on the account
+    # — including sibling sessions' — and the one you care about gets buried under output you cannot page
+    # through (this is exactly what happened chasing the silent retro pilot on 2026-07-24).
+    filt = (os.environ.get("DIAG_FILTER") or "").strip()
+    if filt:
+        insts = [i for i in insts
+                 if filt == str(i.get("id")) or filt.lower() in (i.get("label") or "").lower()]
+        print(f"[diag] filter={filt!r} -> {len(insts)} matching instance(s)", flush=True)
     print(f"[diag] {len(insts)} instance(s)", flush=True)
     # keys most informative about why an instance is stuck in 'loading'
     status_keys = ["id", "label", "actual_status", "cur_state", "intended_status", "status_msg", "gpu_name",
@@ -359,6 +393,18 @@ def collect(bucket, autostop=None):
     if price.get("measured_mean_usd_per_leg") is not None:
         print(f"[price] MEASURED ${price['measured_mean_usd_per_leg']}/leg over {price['measured_legs']} leg(s) "
               f"-> projected panel ({price['panel_units']} units) ≈ ${price['projected_panel_total_usd']}", flush=True)
+    # The chain split each leg's readouts were computed against — printed LAST, as a one-liner, because the
+    # 2026-07-24 finding was that the panel described the Elongin C interface and its own output could not say
+    # so. A number whose meaning depends on a chain assignment must show that assignment where it is read.
+    for r in results:
+        cs = r.get("chain_split")
+        if cs is None:
+            print(f"[chain-split] {r.get('leg_id')} s{r.get('seed')}: NOT RECORDED — leg predates the fix; its "
+                  f"readouts cannot be confirmed to describe the intended interface", flush=True)
+        else:
+            print(f"[chain-split] {r.get('leg_id')} s{r.get('seed')}: target={cs.get('target')} "
+                  f"e3={cs.get('e3')} explicit={cs.get('explicit')} target_lys_nz={cs.get('target_lys_nz')}",
+                  flush=True)
     return len(insts), len(done_units)
 
 
@@ -384,12 +430,26 @@ def monitor(bucket):
 
 
 def stop_all():
-    """Destroy every one of MY Vast instances (stop the bleed). Prints each id it tears down."""
+    """Destroy MY Vast instances (stop the bleed). Prints each id it tears down.
+
+    ⚠ $VAST_KILL (an instance id or a label substring) NARROWS this to matching instances, and you almost
+    always want it: this account is shared across concurrent sessions, so an unfiltered sweep destroys OTHER
+    sessions' live work — on 2026-07-24 a sibling session was mid-run on the protein-mutation FEP benchmark
+    while this one needed to kill a single stuck retro leg. Unfiltered remains available for a genuine
+    stop-everything, but it is the exception."""
     key = os.environ.get("VAST_API_KEY")
     if not key:
         raise SystemExit("[stop] VAST_API_KEY not set")
     import time
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    sel = (os.environ.get("VAST_KILL") or "").strip()
+    if sel:
+        insts = [i for i in insts
+                 if sel == str(i.get("id")) or sel.lower() in (i.get("label") or "").lower()]
+        print(f"[stop] selector={sel!r} -> {len(insts)} matching instance(s)", flush=True)
+    else:
+        print("[stop] NO SELECTOR — destroying EVERY instance on this account, including other sessions'. "
+              "Set VAST_KILL to narrow.", flush=True)
     print(f"[stop] {len(insts)} instance(s) to destroy", flush=True)
     failed = []
     for n, i in enumerate(insts):
@@ -474,20 +534,35 @@ def _s3_list(s3, bucket, prefix, suffix=None, limit=None):
         tok = r["NextContinuationToken"]
 
 
+# Every co-fold prefix that could supply a ternary starting structure. The covalent panel only ever needed
+# NR4A1 (+ its two controls), but the RETROSPECTIVE holdout needs the PARALOGUE co-folds too, and those were
+# written by the earlier descriptive/shakeout benchmark runs under their own prefixes. discover scans all of
+# them so the retrospective's input inventory is read off S3, never assumed.
+COFOLD_BASES = [b for b in (os.environ.get("NRV04_COFOLD_BASES") or
+                            "nrv04-descriptive-v4,nrv04-covalent-cofold,nrv04-descriptive-v3,nrv04-ternary,nrv04-shakeout").split(",") if b]
+
+
 def discover_cofold(bucket, base=None):
-    """List the reused co-fold prefix and report which *_model_0.cif exist (reuse ValB's structures, no regen).
-    Also dumps the RAW prefix layout so we can see the actual subdir names if they differ from expected."""
+    """List every candidate co-fold prefix and report which *_model_0.cif exist (reuse existing structures, no
+    regen). Also dumps the RAW prefix layout so we can see the actual subdir names if they differ from expected.
+
+    `base` (or $NRV04_COFOLD_PREFIX) restricts the scan to one prefix; the default scans COFOLD_BASES so the
+    retrospective's paralogue inputs (nr4a2/nr4a3), which live outside the covalent panel's prefix, are found."""
     import boto3
-    base = (base or os.environ.get("NRV04_COFOLD_PREFIX", COFOLD_PREFIX)).rstrip("/")
+    bases = [base.rstrip("/")] if base else [b.rstrip("/") for b in COFOLD_BASES]
     s3 = boto3.client("s3")
-    all_cifs = _s3_list(s3, bucket, base + "/", suffix="_model_0.cif")
-    sample = _s3_list(s3, bucket, base + "/", limit=25)
-    found = {}
-    for lig, system in _LIGAND_TO_SYSTEM.items():
-        keys = [k for k in all_cifs if f"/{system}/" in k]
-        found[system] = sorted(keys)
-    out = {"bucket": bucket, "base": base, "total_model0_cifs": len(all_cifs),
-           "per_system": found, "raw_sample_keys": sample, "all_cif_keys": all_cifs[:40]}
+    per_base, systems = {}, {}
+    for b in bases:
+        cifs = _s3_list(s3, bucket, b + "/", suffix="_model_0.cif")
+        per_base[b] = {"total_model0_cifs": len(cifs),
+                       "subdirs": sorted({k[len(b) + 1:].split("/")[0] for k in cifs}),
+                       "raw_sample_keys": _s3_list(s3, bucket, b + "/", limit=15),
+                       "cif_keys": cifs[:60]}
+        for k in cifs:                                  # <base>/<system>/.../*_model_0.cif
+            systems.setdefault(k[len(b) + 1:].split("/")[0], []).append(k)
+    out = {"bucket": bucket, "bases": bases, "per_base": per_base,
+           "per_system": {k: sorted(v) for k, v in sorted(systems.items())},
+           "total_model0_cifs": sum(v["total_model0_cifs"] for v in per_base.values())}
     json.dump(out, open("nrv04-cofold-discovery.json", "w"), indent=2)
     print("[discover] " + json.dumps(out, indent=2), flush=True)
     return out
@@ -916,6 +991,431 @@ def firm_collect(bucket):
     return 0
 
 
+# =============================================================================================================
+# CO-FOLD lane on VAST — replaces the SageMaker gpu-ternary-aws path for Boltz-2 ternary predictions.
+#
+# WHY IT EXISTS. gpu-ternary-aws.yml was the repo's ONLY Boltz co-folding lane, so a co-fold need routed to
+# SageMaker by default — which is how the 2026-07-24 v4 regeneration went to a provider nobody chose
+# (research/compute/provider-deviation-2026-07-24.md). STRATEGY's GPU economics put production on Vast, so the
+# capability has to exist there or the deviation just repeats the next time a co-fold is needed.
+#
+# It runs the SAME science entry point as the SageMaker lane — `nrv04_ternary.py --run` with the same env
+# contract (TERNARY_SCRIPT / TERNARY_EXTRA_ARGS / SEEDS / OUTPUT_DIR) — so the two lanes cannot drift into
+# predicting different things. What differs is only the provisioning: a torch base image + pip install instead
+# of a SageMaker container, and an explicit background S3 sync instead of SageMaker's Continuous upload mode.
+# =============================================================================================================
+COFOLD_IMAGE = os.environ.get("COFOLD_IMAGE") or "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime"
+BOLTZ_SPEC = os.environ.get("BOLTZ_SPEC") or "boltz==2.2.1"      # PINNED, same as the SageMaker lane
+
+_COFOLD_PIPELINE = r"""
+set -eo pipefail
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -q >/dev/null 2>&1 || true
+apt-get install -y -q --no-install-recommends git curl ca-certificates >/dev/null 2>&1 || true
+pip install --quiet awscli $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu12 || \
+  { echo "[cofold] pip install FAILED"; exit 3; }
+AWS=$(command -v aws || echo /opt/conda/bin/aws)
+# Same reasoning as the MD lane: a mark that hides its own failure is worse than no mark. Preflight hard.
+mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || echo "[mark] WARN could not write phase '$1' to $RESULT_S3"; }
+echo "preflight $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || {
+  echo "[preflight] FATAL cannot write to $RESULT_S3 — refusing to run an unmonitorable job"; exit 4; }
+# Stream stdout to S3 so an OOM kill leaves a post-mortem. The 2026-07-24 shakeout was OOM-killed in diffusion
+# and the only reason we know is that Vast happened to still hold the container log.
+exec > >(tee -a /tmp/run.log) 2>&1
+( while true; do $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true; sleep 45; done ) &
+LOGSYNC_PID=$!
+mark deps-ready
+nvidia-smi || true
+free -g || true
+# IDEMPOTENT: after an OOM kill Vast re-runs this script, and a surviving /tmp/repo made `git clone` fail
+# outright ("destination path already exists") — so the restart died on setup instead of retrying the work.
+rm -rf /tmp/repo
+git clone -q https://github.com/trimcrae/Rare-cancers /tmp/repo
+git -C /tmp/repo checkout -q "$GIT_BRANCH" || true
+RESOLVED=$(git -C /tmp/repo rev-parse HEAD)
+mark cloned
+export OUTPUT_DIR=/tmp/cofold_out
+mkdir -p "$OUTPUT_DIR"
+# Provenance stamp mirroring the SageMaker lane, so predictions from either provider are equally auditable.
+python - <<PYEOF
+import json, os
+json.dump({"provider": "vast", "git_branch": os.environ.get("GIT_BRANCH"),
+           "resolved_commit": os.environ.get("RESOLVED") or "$RESOLVED",
+           "boltz_spec": os.environ.get("BOLTZ_SPEC"), "output_prefix": os.environ.get("OUTPUT_PREFIX"),
+           "ternary_script": os.environ.get("TERNARY_SCRIPT"),
+           "extra_args": os.environ.get("TERNARY_EXTRA_ARGS"), "seeds": os.environ.get("SEEDS")},
+          open(os.path.join(os.environ["OUTPUT_DIR"], "run_provenance.json"), "w"), indent=2)
+PYEOF
+# CONTINUOUS UPLOAD (standing rule): sync every 60 s in the background, so a preemption or timeout after
+# prediction N still leaves predictions 1..N in S3 rather than losing the whole run.
+( while true; do $AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --only-show-errors || true; sleep 60; done ) &
+SYNC_PID=$!
+mark predicting
+cd /tmp/repo/research/modalities
+set +e
+python "$TERNARY_SCRIPT" --run $TERNARY_EXTRA_ARGS 2>&1 | tail -400
+RC=$?
+set -e
+kill $SYNC_PID 2>/dev/null || true
+kill $LOGSYNC_PID 2>/dev/null || true
+$AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --only-show-errors || true
+$AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors || true
+mark "done rc=$RC"
+exit $RC
+"""
+
+
+def build_cofold_jobspec(branch, bucket, output_prefix, script="nrv04_ternary.py", extra_args="",
+                         seeds="1,2,3"):
+    """PURE: the JobSpec for one Vast co-fold run. No I/O -> unit-tested."""
+    tag = f"cofold-{output_prefix}"
+    env = {
+        "GIT_BRANCH": branch,
+        "RESULT_S3": f"s3://{bucket}/{output_prefix}",
+        "OUTPUT_PREFIX": output_prefix,
+        "TERNARY_SCRIPT": script,
+        "TERNARY_EXTRA_ARGS": extra_args,
+        "SEEDS": seeds,
+        "BOLTZ_SPEC": BOLTZ_SPEC,
+    }
+    return JobSpec(
+        name=tag,
+        command=["bash", "-lc", _COFOLD_PIPELINE],
+        image=COFOLD_IMAGE,
+        checkpoint_uri=f"s3://{bucket}/{output_prefix}",
+        # resume=False: Boltz predictions are idempotent per (system, seed) but the script does not skip
+        # completed ones, so a restart re-predicts. The continuous sync is what makes a preemption cheap.
+        resume=False,
+        # ⚠ RAM RAISED 32 -> 64 GB (2026-07-24): the shakeout run reached MSAs + featurization and was then
+        # OOM-KILLED in diffusion — the instance log's bare `Killed` is the kernel OOM killer. Boltz-2 on an
+        # ~800-residue ternary is host-RAM-bound, not VRAM-bound.
+        resources=ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=64, disk_gb=80,
+                               interruptible=True),
+        max_runtime_s=int(os.environ.get("COFOLD_MAX_RUNTIME_S", "21600")),
+        env=env,
+    )
+
+
+def cofold(bucket):
+    """Launch a Boltz co-fold run on Vast. OUTPUT_PREFIX must be a FRESH prefix — co-fold outputs are inputs to
+    a preregistered panel, so overwriting one in place would silently change a panel's structures."""
+    branch = os.environ.get("GIT_BRANCH", "claude/nr-v04-retrospective-testing-6ywxye")
+    output_prefix = os.environ.get("COFOLD_OUTPUT_PREFIX", "")
+    if not output_prefix:
+        raise SystemExit("[cofold] set COFOLD_OUTPUT_PREFIX (a FRESH S3 prefix; never overwrite an existing "
+                         "co-fold set — it is a preregistered panel's input)")
+    spec = build_cofold_jobspec(branch, bucket,
+                                output_prefix,
+                                script=os.environ.get("TERNARY_SCRIPT", "nrv04_ternary.py"),
+                                extra_args=os.environ.get("TERNARY_EXTRA_ARGS", ""),
+                                seeds=os.environ.get("SEEDS", "1,2,3"))
+    if os.environ.get("DRY_RUN", "0") == "1":
+        print(f"[cofold-dry] {spec.name}: image={spec.image} gpu={spec.resources.gpu} "
+              f"script={spec.env['TERNARY_SCRIPT']} args={spec.env['TERNARY_EXTRA_ARGS']!r} "
+              f"seeds={spec.env['SEEDS']} -> {spec.env['RESULT_S3']}", flush=True)
+        return 0
+    import boto3
+    s3 = boto3.client("s3")
+    if _s3_list(s3, bucket, output_prefix.rstrip("/") + "/", limit=1):
+        raise SystemExit(f"[cofold] {output_prefix} already has objects — refusing to write into an existing "
+                         f"co-fold prefix. Use a fresh one.")
+    be = get_backend("vast")
+    h = be.submit(spec)
+    print(f"[cofold-submit] {spec.name} -> instance {h.job_id} dph≈${h.extra.get('dph')}/hr "
+          f"-> {spec.env['RESULT_S3']}", flush=True)
+    json.dump([{"unit": spec.name, "instance": h.job_id, "prefix": output_prefix}],
+              open("nrv04-cofold-handles.json", "w"), indent=2)
+    return 0
+
+
+# =============================================================================================================
+# RETROSPECTIVE holdout lane (prereg: nr4a3-nrv04-retrospective-prereg.md)
+#
+# Same proven endpoint-MD machinery as the covalent feasibility panel — same image, same pre-packed conda env,
+# same driver (nrv04_covalent_md.py is target-agnostic: it splits E3 from target by topology, so NR4A2/NR4A3
+# need no engine change) — with exactly ONE difference that matters: the co-fold MODEL SEED is PINNED per leg
+# instead of globbing a system directory. That is not a detail. The co-fold model is the unit of independence in
+# the frozen statistics (prereg §4a), so a leg that silently picked a different model would corrupt the
+# model-level means the verdict is computed from.
+# =============================================================================================================
+RETRO_RESULT_PREFIX = os.environ.get("NRV04_RETRO_RESULT_PREFIX") or "nrv04-retro-results"
+
+_RETRO_PIPELINE = _PIPELINE.replace(
+    """$AWS s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
+export COFOLD_CIF=$(find /tmp/cofold -name '*_model_0.cif' | sort | head -1)
+test -n "$COFOLD_CIF" || { echo "no co-fold CIF found under $COFOLD_PREFIX_S3"; exit 3; }
+$PY -c "import os; from nrv04_covalent_panel import leg_by_id; from nrv04_ligands import LIGANDS; \\
+from nrv04_covalent_assemble import assemble_leg; lg=leg_by_id(os.environ['LEG_ID']); \\
+assemble_leg(os.environ['COFOLD_CIF'], lg, LIGANDS[lg.ligand], os.environ['INPUT_DIR'])\"""",
+    """$AWS s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
+export COFOLD_CIF=$(find /tmp/cofold -name '*_model_0.cif' | sort | head -1)
+test -n "$COFOLD_CIF" || { echo "no co-fold CIF found under $COFOLD_PREFIX_S3"; exit 3; }
+# exactly ONE CIF must be under the pinned model prefix — two would mean the seed pin failed and the leg would
+# silently start from an unknown model, corrupting the model-level statistics (prereg 4a). Fail, never guess.
+test "$(find /tmp/cofold -name '*_model_0.cif' | wc -l)" = 1 || { echo "expected exactly 1 co-fold CIF under the pinned model prefix $COFOLD_PREFIX_S3"; exit 3; }
+$PY -c "import os; from nrv04_ligands import LIGANDS; \\
+from nrv04_covalent_assemble import assemble_unit; \\
+assemble_unit(os.environ['COFOLD_CIF'], os.environ['LEG_ID'], LIGANDS[os.environ['LIGAND']], os.environ['INPUT_DIR'])\"""",
+)
+
+# A str.replace that stops matching is a SILENT no-op: the retrospective would fall back to the feasibility
+# panel's leg_by_id staging, every retro leg would die on an unknown LEG_ID (or worse, glob an unpinned model),
+# and nothing would say so. Fail at import instead — this is exactly the class of drift the shared-recipe rule
+# exists to prevent.
+if _RETRO_PIPELINE == _PIPELINE or "assemble_unit" not in _RETRO_PIPELINE:
+    raise RuntimeError("nrv04_vast_launch: the retrospective staging patch no longer matches _PIPELINE — "
+                       "re-sync _RETRO_PIPELINE with the covalent staging block before launching any leg")
+
+
+def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=None):
+    """PURE: the JobSpec for one retrospective unit (arm, co-fold model, MD replica). No I/O -> unit-tested."""
+    import nrv04_retro_panel as retro
+    name = retro.unit_name(arm, model_seed, replica)
+    env = retro.leg_env(arm, model_seed, replica, mode=mode)
+    env.update({
+        "GIT_BRANCH": branch,
+        "COFOLD_PREFIX_S3": retro.cofold_prefix_s3(arm, bucket, model_seed),
+        "RESULT_S3": f"s3://{bucket}/{RETRO_RESULT_PREFIX}/{name}",
+    })
+    if env_tarball_url:
+        env["ENV_TARBALL_URL"] = env_tarball_url
+    pipeline = _RETRO_PIPELINE.replace("{repo}", REPO)
+    return JobSpec(
+        name=name,
+        command=["bash", "-lc", pipeline],
+        image=VAST_IMAGE,
+        checkpoint_uri=s3_checkpoint_uri(name, bucket=bucket),
+        resume=True,
+        resources=TERNARY_RES,
+        max_runtime_s=int(os.environ.get("MAX_RUNTIME_S", "43200")),
+        env=env,
+    )
+
+
+def retro_units_to_run():
+    """Pilot-one-leg-first (prereg §7). The pilot is `retro_noncov_nr4a2` m1 r0 — NOT an NR4A1 leg. The abort
+    information here is not biological, it is structural: the assembler has read NR4A1 co-folds many times but
+    has NEVER read an NR4A2/NR4A3 one, so a paralogue leg is the one that can actually fail. Picking NR4A1
+    would prove nothing new and leave the real risk unexercised."""
+    import nrv04_retro_panel as retro
+    if os.environ.get("RETRO_PILOT_ONLY", "1") == "1":
+        arm = retro.arm_by_id(os.environ.get("RETRO_PILOT_ARM", "retro_noncov_nr4a2"))
+        return [(arm, int(os.environ.get("RETRO_PILOT_MODEL", "1")), int(os.environ.get("RETRO_PILOT_REPLICA", "0")))]
+    return retro.enumerate_units()
+
+
+def _chain_role_census(pdb_path):
+    """Per-chain residue counts from an assembled complex.pdb, in FILE ORDER (not sorted).
+
+    This exists because the MD driver splits E3 from target POSITIONALLY — nrv04_covalent_md._topology_indices
+    calls the LAST sorted protein chain the target — while the co-fold YAML builder (nrv04_ternary.run) writes
+    `proteins = [("A", target_lbd)] + e3`, i.e. the target FIRST. If those two conventions disagree, every
+    interface readout in the panel is silently computed against the wrong chain pair and nothing errors. So the
+    census is measured from the real file rather than assumed."""
+    counts, order = {}, []
+    for line in open(pdb_path):
+        if not line.startswith(("ATOM", "HETATM")):
+            continue
+        ch, resseq = line[21], line[22:27]
+        key = (ch, resseq)
+        if ch not in counts:
+            counts[ch] = set()
+            order.append(ch)
+        counts[ch].add(key)
+    return [{"chain": c, "residues": len(counts[c])} for c in order]
+
+
+def retro_stage_test(bucket):
+    """FREE CI de-risking: assemble a leg from a REAL NR4A2 and NR4A3 co-fold CIF and verify a complex.pdb +
+    bond-order-correct ligand.sdf come out. The paralogue co-folds have only ever been read by the co-fold
+    REPORTER, never by the MD assembler, so this is the one staging risk the retrospective carries. Proves it
+    on a free runner before renting any GPU."""
+    import boto3
+    import nrv04_retro_panel as retro
+    import nrv04_covalent_assemble as asm_mod
+    from nrv04_covalent_assemble import assemble_unit
+    s3 = boto3.client("s3")
+    results = []
+    for arm_id in ("retro_noncov_nr4a2", "retro_noncov_nr4a3", "retro_noncov_nr4a1"):
+        arm = retro.arm_by_id(arm_id)
+        prefix = retro.cofold_prefix_s3(arm, bucket, retro.COFOLD_MODEL_SEEDS[0]).replace(f"s3://{bucket}/", "")
+        cifs = _s3_list(s3, bucket, prefix, suffix="_model_0.cif")
+        if len(cifs) != 1:
+            raise SystemExit(f"[retro-stage-test] expected exactly 1 co-fold CIF under {prefix}, found {len(cifs)}")
+        local = f"/tmp/retro_cofold_{arm_id}.cif"
+        s3.download_file(bucket, cifs[0], local)
+        res = assemble_unit(local, arm_id, LIGANDS[arm.ligand], "/tmp/retro_staged")
+        cpdb = os.path.join(res["out"], "complex.pdb")
+        n_atom = sum(1 for line in open(cpdb) if line.startswith(("ATOM", "HETATM")))
+        if n_atom < 500:
+            raise SystemExit(f"[retro-stage-test] {arm_id}: complex.pdb too small ({n_atom}) — chain surgery failed")
+        roles = _chain_role_census(cpdb)
+        results.append({"arm": arm_id, "key": cifs[0], "ligand_atoms": res["ligand_atoms"],
+                        "complex_atoms": n_atom, "chains": roles, "identified": res["chains"]})
+        print(f"[retro-stage-test] {arm_id}: {res['ligand_atoms']} ligand atoms, {n_atom} complex atoms, "
+              f"chains {roles}", flush=True)
+    # the three arms must assemble to comparable systems — a paralogue that lost a chain would silently become a
+    # different experiment, and the identical-protocol requirement (prereg 2c) would be violated invisibly.
+    sizes = [r["complex_atoms"] for r in results]
+    if max(sizes) > 1.25 * min(sizes):
+        raise SystemExit(f"[retro-stage-test] arms differ in size by >25% {sizes} — not protocol-matched")
+    ligs = {r["ligand_atoms"] for r in results}
+    if len(ligs) != 1:
+        raise SystemExit(f"[retro-stage-test] ligand atom counts differ across arms {ligs} — same ligand expected")
+
+    # THE CHAIN-SPLIT CHECK. What must hold is that the IDENTIFIED split (nrv04_covalent_assemble.identify_chains,
+    # written to chains.json and consumed by the driver) resolves the NR4A LBD as the degradation target.
+    #
+    # It must NOT be "does the legacy positional rule agree?" — that was this check's first form, and it is
+    # exactly backwards: the positional rule ("target = last sorted protein chain") picks Elongin C in these
+    # co-folds, which is the defect the identifier exists to replace. Requiring the two to agree would block
+    # every correct assembly forever. The positional answer is still computed and REPORTED, because seeing what
+    # the old rule would have said is how the historical readouts stay interpretable.
+    split = []
+    for r in results:
+        chains = r["chains"]
+        identified = r["identified"]
+        positional = sorted(chains, key=lambda c: c["chain"])[-1]     # what _topology_indices WOULD have picked
+        target_res = next(c["residues"] for c in chains if c["chain"] == identified["target_chain"])
+        ok = target_res == asm_mod.NR4A_LBD_RESIDUES
+        split.append({"arm": r["arm"], "identified_target": identified["target_chain"],
+                      "identified_target_residues": target_res, "e3_roles": identified["e3_roles"],
+                      "legacy_positional_would_pick": positional["chain"],
+                      "legacy_was_wrong": positional["chain"] != identified["target_chain"], "ok": ok})
+        print(f"[retro-stage-test] {r['arm']}: identified target={identified['target_chain']} "
+              f"({target_res} res, expected {asm_mod.NR4A_LBD_RESIDUES}) e3={identified['e3_roles']}; "
+              f"legacy positional rule would have picked {positional['chain']} -> {'OK' if ok else 'BAD'}",
+              flush=True)
+    json.dump({"results": results, "protocol_matched": True, "chain_split": split},
+              open("nrv04-retro-stage-test.json", "w"), indent=2)
+    if not all(s["ok"] for s in split):
+        raise SystemExit("[retro-stage-test] the identified target chain is not the frozen NR4A LBD construct. "
+                         "Refusing to launch.")
+    if len({s["identified_target"] for s in split}) != 1:
+        raise SystemExit("[retro-stage-test] arms resolved DIFFERENT target chains — not protocol-matched. "
+                         "Refusing to launch.")
+    print("RETRO-STAGE-TEST PASS — the assembler handles NR4A1/NR4A2/NR4A3 co-folds, the arms are matched, and "
+          "the identified chain split resolves the NR4A LBD as the degradation target.", flush=True)
+    return 0
+
+
+def retro_launch(bucket):
+    """Launch retrospective units on Vast. Idempotent: skips units with a result already in S3 or a live
+    instance, so a re-dispatch RESUMES the killed/preempted ones without ever racing a checkpoint."""
+    import nrv04_retro_panel as retro
+    branch = os.environ.get("GIT_BRANCH", "claude/nr-v04-retrospective-testing-6ywxye")
+    mode = os.environ.get("MODE", "run")
+    dry = os.environ.get("DRY_RUN", "0") == "1"
+    units = retro_units_to_run()
+
+    skip_done, skip_live = set(), set()
+    if not dry:
+        vk = os.environ.get("VAST_API_KEY")
+        try:
+            live = _vast_request("GET", "/instances/", vk, params={"owner": "me"}).get("instances", [])
+            _alive = ("running", "loading", "created", "scheduling", "starting")
+            skip_live = {i.get("label") for i in live if i.get("label") and (i.get("actual_status") or "") in _alive}
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro] WARN could not list live instances ({e}); not skipping any", flush=True)
+        try:
+            import boto3
+            s3 = boto3.client("s3")
+            dk = _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
+            skip_done = {k.split("/")[-2] for k in dk if k.rsplit("/", 1)[-1].startswith("leg_")}
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro] WARN could not list S3 results ({e}); not skipping any", flush=True)
+
+    env_url = None if dry else presign_env_tarball(bucket)
+    be = None if dry else get_backend("vast")
+    print(f"[retro] {len(units)} unit(s), mode={mode}, dry_run={dry}, pilot_only="
+          f"{os.environ.get('RETRO_PILOT_ONLY', '1')}, skip_done={len(skip_done)}, skip_live={len(skip_live)}",
+          flush=True)
+    handles = []
+    for arm, model_seed, replica in units:
+        name = retro.unit_name(arm, model_seed, replica)
+        if not dry and name in skip_done:
+            print(f"[skip] {name} — result already in S3", flush=True); continue
+        if not dry and name in skip_live:
+            print(f"[skip] {name} — live instance already running", flush=True); continue
+        spec = build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=env_url)
+        if dry:
+            print(f"[retro-dry] {spec.name}: gpu={spec.resources.gpu} cofold={spec.env['COFOLD_PREFIX_S3']} "
+                  f"covalent={spec.env['COVALENT']} -> {spec.env['RESULT_S3']}", flush=True)
+            continue
+        h = be.submit(spec)
+        print(f"[retro-submit] {spec.name} -> instance {h.job_id} dph≈${h.extra.get('dph')}/hr", flush=True)
+        handles.append({"unit": spec.name, "arm": arm.arm_id, "model": model_seed, "replica": replica,
+                        "instance": h.job_id})
+    if handles:
+        json.dump(handles, open("nrv04-retro-handles.json", "w"), indent=2)
+    return 0
+
+
+def retro_collect(bucket):
+    """Pull every landed retrospective leg JSON, map it onto the frozen leg-record schema, and — only when the
+    panel is COMPLETE — apply the frozen gate. Prereg §4f forbids an interim look at the arm ordering, so an
+    incomplete panel reports coverage ONLY and refuses to compute the contrast."""
+    import boto3
+    import nrv04_retro_panel as retro
+    import nrv04_retro_gate as gate
+    s3 = boto3.client("s3")
+    keys = [k for k in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
+            if k.rsplit("/", 1)[-1].startswith("leg_")]
+    legs, raw = [], []
+    for k in keys:
+        try:
+            d = json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro-collect] WARN unreadable {k}: {e}", flush=True); continue
+        raw.append({"key": k, "leg": d.get("leg_id"), "seed": d.get("seed")})
+        leg_id = d.get("leg_id") or ""
+        arm_id, _, mtag = leg_id.partition("__m")
+        rec = {
+            "arm_id": arm_id,
+            "cofold_model_seed": int(mtag) if mtag.isdigit() else None,
+            "replica": d.get("seed"),
+            "e1_plateau_A": ((d.get("R1") or {}).get("plateau_A")),
+            "e2_stable": ((d.get("R1") or {}).get("stable")),
+            "e3_mean_contacts": ((d.get("R2") or {}).get("mean_contacts")),
+            "technical_failure": bool(d.get("blew_up")) or ((d.get("R1") or {}).get("plateau_A") is None),
+            "source_key": k,
+        }
+        legs.append(rec)
+
+    # PROGRESS, not liveness. A retro leg writes a phase marker (env-ready -> cloned -> staged -> md-running ->
+    # md-done -> uploaded) as it goes. This lane has never run an MD leg end-to-end, so "is it advancing?" has
+    # to be answerable between checks — a frozen phase across two consecutive collects is a stall, and without
+    # this the only signal would be a result appearing hours later or never.
+    phases = {}
+    for pk in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix="phase.txt"):
+        unit = pk.split("/")[-2]
+        try:
+            phases[unit] = s3.get_object(Bucket=bucket, Key=pk)["Body"].read().decode().strip()
+        except Exception as e:  # noqa: BLE001
+            phases[unit] = "unreadable: %s" % e
+
+    expected = {retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()}
+    have = {f"nrv04retro-{l['arm_id']}-m{l['cofold_model_seed']}-r{l['replica']}" for l in legs}
+    missing = sorted(expected - have)
+    out = {"n_legs": len(legs), "expected_units": len(expected), "missing_units": missing,
+           "panel_complete": not missing, "phases": phases, "legs": legs, "raw_keys": raw}
+    for unit, ph in sorted(phases.items()):
+        print(f"[retro-phase] {unit}: {ph}", flush=True)
+    if missing:
+        out["verdict"] = None
+        out["note"] = ("panel INCOMPLETE (%d/%d units) — prereg §4f forbids computing the paralogue contrast "
+                       "before every leg has landed. Coverage only." % (len(have), len(expected)))
+        print(f"[retro-collect] {len(have)}/{len(expected)} units landed; contrast NOT computed (prereg §4f)",
+              flush=True)
+    else:
+        out["verdict"] = gate.verdict(legs)
+        print("[retro-collect] panel complete — frozen gate applied", flush=True)
+    json.dump(out, open("nrv04-retro-collect.json", "w"), indent=2)
+    print(json.dumps({k: v for k, v in out.items() if k not in ("legs", "raw_keys", "phases")}, indent=2),
+          flush=True)
+    return 0
+
+
 def main():
     bucket = os.environ.get("VAST_CKPT_BUCKET")
     if not bucket:
@@ -928,6 +1428,14 @@ def main():
         return firm(bucket)
     if os.environ.get("FIRM_COLLECT") == "1":
         return firm_collect(bucket)
+    if os.environ.get("COFOLD") == "1":
+        return cofold(bucket)
+    if os.environ.get("RETRO_STAGE_TEST") == "1":
+        return retro_stage_test(bucket)
+    if os.environ.get("RETRO") == "1":
+        return retro_launch(bucket)
+    if os.environ.get("RETRO_COLLECT") == "1":
+        return retro_collect(bucket)
     if os.environ.get("DISCOVER") == "1":
         discover_cofold(bucket)
         return 0

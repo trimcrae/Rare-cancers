@@ -1,0 +1,301 @@
+# NR-V04 retrospective — PREREGISTRATION of the biological holdout (2026-07-24)
+
+**Committed BEFORE any retrospective leg runs.** This freezes — a priori, before any favourable number is
+visible — the panel, the starting structures, the protocol, the primary endpoint, the statistical test, the
+blinding, the extension rule, the verdict tiers, the honest-failure semantics, and the claim ceiling for the
+**NR-V04 retrospective** (STRATEGY.md RUNG 4, schedule id `nrv04_retrospective`).
+
+It sits on top of:
+- [`nr4a3-ternary-coop-prereg.md`](./nr4a3-ternary-coop-prereg.md) — the standing ternary prereg (§3d is the
+  family-transfer bar this document implements; §6a is the controls list).
+- [`nr4a3-ternary-calib-prereg-addendum-2026-07-19.md`](./nr4a3-ternary-calib-prereg-addendum-2026-07-19.md) —
+  the valB calibration freeze, whose **condition 7** gates the *quantitative* arm of this retrospective.
+- [`nr4a3-nrv04-covalent-feasibility-prereg.md`](./nr4a3-nrv04-covalent-feasibility-prereg.md) — the feasibility
+  panel that ran first, and whose **Leg 0** result is the single most important input to this design.
+
+Machine-readable frozen copy: [`nrv04-retrospective-prereg.json`](./nrv04-retrospective-prereg.json).
+Enforced by [`nrv04_retro_panel.py`](./nrv04_retro_panel.py) (panel), [`nrv04_retro_blind.py`](./nrv04_retro_blind.py)
+(blinding) and [`nrv04_retro_gate.py`](./nrv04_retro_gate.py) (scoring + verdict), with offline unit tests, so no
+criterion can be re-decided post-hoc on a favourable result.
+
+**Nothing in this document authorizes a spend by itself.** Every GPU stage is presented at its gate with a
+pinned cost (§7).
+
+---
+
+## 0. The known answer, and the confound that reshapes the test
+
+**Known answer (Wang 2024, `nrv04-ternary-benchmark.json` → `ground_truth`):** NR-V04 degraded **NR4A1** and
+**spared NR4A2 and NR4A3**, with PLA/co-IP complex evidence and VHL/proteasome dependence. There is **no solved
+NR-V04 ternary structure and no paralogue-resolved K_d, α or ΔG_coop** — so the holdout can only ever test
+**directional concordance with a functional ordering**, never "recovery" of a measured quantity.
+
+**The confound, and it is measured, not hypothetical.** The feasibility panel's Leg 0
+(`nrv04-cys-conservation.json`, CI run 29923279236) established that the celastrol-reactive cysteine
+**NR4A1 Cys551 is unique to NR4A1**: the aligned position is **Tyr in NR4A2** and **Thr in NR4A3**, and neither
+paralogue has any cysteine within a ±5 window. Celastrol therefore **cannot form the covalent adduct on
+NR4A2/NR4A3 at all**.
+
+This changes what the retrospective is allowed to be. Running all three paralogues *non-covalently* and calling
+a NR4A1 win "recovering NR-V04 selectivity" would be wrong, and running NR4A1 *covalently* against non-covalent
+paralogues and calling it the same thing would be worse — the covalent restraint alone could produce the
+ordering. So the panel is designed to **decompose** the phenotype rather than merely reproduce it:
+
+| Contrast | What it isolates | Why it is the honest test |
+|---|---|---|
+| **R1** NR4A1 vs NR4A2 vs NR4A3, **all non-covalent** | ternary geometry / interface energetics with the warhead-reactivity confound **held off** | This is the only contrast that can tell us whether the *ternary workflow* discriminates NR4A paralogues — which is what a **prospective, non-covalent** NR4A3 degrader campaign would depend on. |
+| **R2** NR4A1 covalent vs NR4A1 non-covalent | the covalency component of the phenotype | Quantifies how much of the NR-V04 result is warhead chemistry the non-covalent machinery cannot represent. |
+| **R3** epimer arms (conditional) | whether any R1 ordering also appears with a VHL-**inactive** recruiter | If the ordering appears with the inactive epimer too, R1's ordering is not recruitment-specific. |
+
+**Both outcomes of R1 are informative and are pre-committed in §5.** A null R1 is the *expected* result under the
+warhead-reactivity explanation; it is not a method failure, and it must not be reported as one.
+
+---
+
+## 1. Scope: two arms, only one of which is authorized now
+
+| Arm | Quantity | Lane | Gate |
+|---|---|---|---|
+| **Arm E — ensemble endpoint MD** *(this document's subject)* | geometric/ensemble interface readouts (R1–R3 of `nrv04_readouts.py`). **No free energy.** | the proven Vast endpoint-MD lane that ran the 18-leg covalent panel (`nrv04_covalent_md.py`), measured ~$0.45/leg | authorized at §7 pricing; **not** gated on the valB free-energy calibration, because it asserts no free energy |
+| **Arm F — alchemical ΔΔG_coop** | per-paralogue ΔΔG_coop via the binary↔ternary cycle (ternary prereg §1) | `run_ternary_leg.sh` / `nr4a3_ternary_fep.py` | **BLOCKED** by calibration addendum **condition 7** — runs only after the valB calibration PASSes. Not launched by this document. |
+
+**This split is the load-bearing honesty of the design.** The valB calibration exists to license *free-energy*
+claims; Arm E makes none, so it is not licensed by valB and does not need to be. What Arm E can buy is
+correspondingly smaller, and §6 states exactly how small.
+
+---
+
+## 2. Frozen panel (Arm E)
+
+### 2a. Starting structures — one source, verified before use
+Every retrospective leg starts from a Boltz-2 co-fold in
+`s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/`, inventoried on 2026-07-24 (CI run 30121409280,
+`nrv04-cofold-discovery.json`; E3 identity audited in CI run 30122648680). Using **one** co-fold prefix for all
+three paralogues is what makes the arms protocol-matched; the `nrv04-covalent-cofold/` and `nrv04-shakeout/`
+NR4A1 structures are deliberately **not** mixed in.
+
+> **⚠ SOURCE CHANGED 2026-07-24, BEFORE ANY LEG RAN.** The original plan was to reuse `nrv04-descriptive-v3`.
+> The E3 identity audit (CI run 30122648680) measured its chain F at **255 residues = UniProt P62258, 14-3-3
+> protein epsilon** — where Elongin B (Q15370, 118 residues) belongs. `nrv04_ternary.py` fetches the
+> `ELONGIN_B` constant's sequence directly, and that constant was P62258 until the 2026-07-17 correction; those
+> co-folds are dated 2026-07-11. They are not the VHL/EloB/EloC machinery and cannot support a ternary-
+> recruitment readout, so the panel's source is the **regenerated `nrv04-descriptive-v4`**. The staging
+> assembler independently rejects a 255-residue chain, so the contaminated source cannot be used by accident.
+> Full record: [`nrv04-cofold-chain-forensics-2026-07-24.md`](./nrv04-cofold-chain-forensics-2026-07-24.md).
+
+| system | co-fold models available | used here |
+|---|---|---|
+| `nr4a1` (NR-V04 + VHL/EloBC + NR4A1 LBD) | seeds 1, 2, 3 | **all 3** |
+| `nr4a2` | seeds 1, 2, 3 | **all 3** |
+| `nr4a3` | seeds 1, 2, 3 | **all 3** |
+| `neg_inactive` (Hyp-epimer) | seeds 1, 2, 3 — **NR4A1 only** | R3 only (see §2d) |
+
+### 2b. Legs — 24 GPU legs in the authorized stages
+Unit = (arm × co-fold model × MD replica). **3 co-fold models × 2 MD replicas = 6 legs per arm.**
+
+| stage | arm id | ligand | target | covalent | legs |
+|---|---|---|---|---|---|
+| **R1** (primary) | `retro_noncov_nr4a1` | NR-V04 active | NR4A1 | no | 6 |
+| **R1** | `retro_noncov_nr4a2` | NR-V04 active | NR4A2 | no | 6 |
+| **R1** | `retro_noncov_nr4a3` | NR-V04 active | NR4A3 | no | 6 |
+| **R2** | `retro_cov_nr4a1` | NR-V04 active | NR4A1 | **yes** (C6→Cys551) | 6 |
+| **R3** *(conditional, §5d)* | `retro_epi_nr4a{1,2,3}` | Hyp-epimer | each | no | 18 + 6 new co-folds |
+
+The two MD replicas of a model differ by **velocity seed only** (0, 1); the co-fold model is the higher-level
+independent unit, and §4 scores it as such.
+
+**No covalent NR4A2/NR4A3 leg exists and none may be added** — Leg 0 showed there is no cysteine to bond to.
+Modelling one would be fabricating chemistry.
+
+### 2c. Protocol — identical across every arm, no paralogue gets bespoke treatment
+Frozen to the canonical values in [`md_settings.py`](./md_settings.py) (the same settings the covalent
+feasibility panel ran, so its legs remain a cross-check):
+
+- 4 fs timestep, 3.0 amu HMR, HBonds constraints, rigid water, 300 K, 1.0 /ps friction
+- amber14-all + amber14/tip3p, GAFF-2.11 small molecule, TIP3P, 0.9 nm cutoff
+- ligand charges **NAGL**
+- **1.0 ns equilibration + 5.0 ns production** per leg, ~10 ps frame cadence
+- minimization → velocities at 300 K (seeded by replica) → chunked equilibration with a finite guard → production
+- per-frame checkpointing to S3 (`CKPT_EVERY_FRAMES=50`), spot-preemption-safe resume
+
+Any deviation on any single leg **voids that leg**, not the threshold.
+
+### 2d. Controls (ternary prereg §6a)
+- **Epimer (VHL-inactive) negative** — R3, conditional (§5d). Its NR4A1 co-folds already exist; NR4A2/NR4A3
+  epimer co-folds must be generated first and that generation is itself a gated step.
+- **Warhead-only / E3-ligand-only / C551A** — already run in the feasibility panel; **not repeated**. They are
+  cited from there, and their cross-panel comparability is limited to the fact that the protocol is identical.
+- **Identical analysis and stopping rules for NR4A1/2/3** — enforced mechanically: one code path, one threshold
+  set, arms distinguished only by their input structure.
+
+---
+
+## 3. Endpoints (frozen)
+
+All computed by the already-frozen kernels in [`nrv04_readouts.py`](./nrv04_readouts.py) — thresholds were fixed
+before the feasibility panel ran and are **not** re-tuned here.
+
+| id | quantity | kernel | role |
+|---|---|---|---|
+| **E1 (PRIMARY)** | interface-RMSD **plateau** (Å): mean RMSD of the E3∩target interface heavy atoms over the **final 50 %** of production frames, vs the starting interface | `interface_rmsd_stable().plateau_A` | continuous primary endpoint; **lower = more stable** |
+| E2 | **stable fraction**: fraction of an arm's legs with plateau < **4.0 Å** | same, `.stable` | binary secondary (the readout that discriminated in the feasibility panel: recruiter_active 3/3 vs epimer 1/3) |
+| E3 | mean interface contact count over production | `recruitment().mean_contacts` | secondary. **Known weak discriminator** — the feasibility panel showed co-fold seeds contact in all arms — so it is reported, never gating |
+| E4 | Lys-Nζ presentation distance distribution | `lys_presentation()` | **descriptive only, never a gate** (ternary prereg §6.3: no distance cutoff quantitatively predicts degradation) |
+
+**E1 is the primary endpoint and the only one the verdict of §5 turns on.** E2–E4 are reported alongside it in
+every result, including when they disagree with E1.
+
+---
+
+## 4. Statistical analysis (frozen)
+
+### 4a. The unit of independence is the CO-FOLD MODEL, not the leg
+Two replicas of one co-fold model share a starting structure and are **not** independent. Every test therefore
+operates on **model-level values** = the mean of a model's 2 replicas → **n = 3 per arm**.
+
+### 4b. Primary test — one-sided exact permutation, pooled contrast
+Statistic: `mean(E1 | NR4A1 non-covalent) − mean(E1 | NR4A2 ∪ NR4A3 non-covalent)`, on model-level values
+(3 vs 6). Directional prediction registered here, before data: **negative** (NR4A1 more stable).
+Reference distribution: **exhaustive enumeration of all C(9,3) = 84 arrangements** of the 9 model-level values.
+One-sided p, α = **0.05**. Minimum attainable p = 1/84 ≈ **0.012**.
+
+### 4c. Secondary tests
+- Pairwise NR4A1 vs NR4A2 and NR4A1 vs NR4A3: exact permutation over C(6,3) = 20 arrangements. **Registered
+  limitation: the minimum attainable one-sided p is 0.05**, reachable only under perfect separation. These are
+  reported as descriptive support, never as the verdict.
+- **Leave-one-model-out (LOMO):** the sign of the primary statistic recomputed with each of the 9 models dropped
+  in turn. "Survives LOMO" = the sign is unchanged in all 9 refits.
+- **Covalency decomposition (R2):** `mean(E1 | NR4A1 covalent) − mean(E1 | NR4A1 non-covalent)`, reported with
+  its LOMO range. No significance test is claimed on n = 3 vs 3.
+
+### 4d. Extension rule (pre-registered, adaptive)
+If the primary contrast has the **predicted sign** but **p ∈ (0.012, 0.05]** — i.e. the ordering is right but
+n = 3 models cannot resolve it — generate **3 additional co-fold models per paralogue** and re-run R1 at n = 6
+models/arm (C(18,6) = 18564 arrangements). This is the *only* pre-authorized extension, it is triggered by the
+p-value alone, and it may not be invoked to rescue a **wrong-sign** result.
+
+### 4e. Technical-failure handling
+A leg that NaNs / blows up is re-run **once** from a fresh velocity seed. A second failure marks the leg
+`technical_failure` and excludes it. If an arm loses **more than one** leg, that arm is reported
+**underpowered** and the verdict is `INDETERMINATE` — a degraded arm may never be quietly compared against
+intact ones.
+
+### 4f. No interim analysis
+The paralogue contrast is computed **once**, after all R1+R2 legs have landed. Per-leg convergence/liveness
+monitoring is permitted (and required, per the tight-monitoring rule); **looking at the arm ordering before the
+panel completes is not.**
+
+---
+
+## 5. Verdict (frozen tiers)
+
+Computed by `nrv04_retro_gate.verdict()` from the leg JSONs. Let `d` = the primary statistic (§4b) and `p` its
+one-sided permutation p-value.
+
+| tier | criteria (all must hold) |
+|---|---|
+| **CONCORDANT** | `d < 0` (NR4A1 most stable) **AND** `p ≤ 0.05` **AND** NR4A1's model-level mean is below **both** NR4A2's and NR4A3's **AND** the sign survives LOMO (§4c) **AND** no arm is underpowered (§4e) |
+| **WEAKLY CONCORDANT** | `d < 0` and NR4A1 below both paralogues, but `p > 0.05` **or** the sign fails LOMO |
+| **DISCORDANT** | `d ≥ 0`, **or** a paralogue's mean is below NR4A1's with `p ≤ 0.05` in the reverse direction |
+| **INDETERMINATE** | any arm underpowered (§4e), or a protocol deviation voided legs |
+
+### 5a. What CONCORDANT licenses
+Only this: the ensemble ternary workflow, run identically and without tuning on three paralogues, ordered them
+**directionally concordantly** with the reported NR-V04 outcome, **with the covalent confound held off**. That
+is the GO condition for RUNG 5 in STRATEGY.md.
+
+### 5b. What DISCORDANT means — and what it does NOT mean
+Discordance does **not** falsify the ternary-first thesis. NR-V04's selectivity may arise (i) from the covalent
+warhead chemistry alone — which Leg 0 shows is *sufficient* to explain it, since NR4A2/NR4A3 lack the cysteine
+entirely — or (ii) downstream at ubiquitination rather than at ternary formation. It **does** mean the ensemble
+ternary workflow has **not** demonstrated NR4A paralogue discrimination on this holdout, and it must not be
+cited as authority for a prospective selectivity claim. The method's paralogue-discrimination authority then
+rests **solely** on valB's public paralogue-discrimination module, and the manuscript must say so.
+
+### 5c. The null result that is *expected*, not embarrassing
+Because the reactive cysteine is unique to NR4A1, a **null R1 with a strong R2 covalency effect** is a coherent,
+publishable answer: it localises NR-V04's selectivity to warhead reactivity. Registering this in advance is what
+stops it being re-narrated later as a method failure or quietly dropped.
+
+### 5d. R3 trigger
+The epimer arms (and the 6 new co-folds they need) run **only if R1 returns CONCORDANT or WEAKLY CONCORDANT** —
+there is nothing to control for if no ordering exists. This is an early-abort, not a de-scope.
+
+---
+
+## 6. Claim ceiling (language discipline)
+
+**Permitted**, and only when the tier supports it:
+> *"Run identically across NR4A1/2/3 without tuning, the ensemble ternary workflow was **directionally
+> concordant/discordant** with the reported NR-V04 outcome."*
+
+**Forbidden from any amount of this evidence** — these are hard, and the claim linter enforces the vocabulary:
+- never a "recovery of degradation" framing; never "reproduced NR-V04 selectivity"; never "validated"
+- no ΔΔG, α, cooperativity or affinity claim, and no **quantitative degradation** claim (Arm E computes none)
+- no efficacy, safety, therapeutic-window or clinical-readiness language
+- no promotion of any compound to "lead"
+
+Standing provenance caveat, repeated in every result: the NR-V04 chemistry in-repo is an **"NR-V04-inspired
+representative reconstruction"**, not a verified exact structural match (`chemical_identity.blocker` in
+`nrv04-ternary-benchmark.json`); every protein atom comes from a real deposited structure or a recorded
+prediction, and nothing is fabricated.
+
+---
+
+## 7. Cost, staging and authorization
+
+Per-leg cost is **MEASURED** (the 18-leg covalent panel, ~$0.45/leg on Vast RTX 3090/4090 spot).
+
+| stage | legs | cost | status |
+|---|---|---|---|
+| **R1** matched non-covalent paralogue comparison | 18 | **~$8** | the decisive contrast — runs first |
+| **R2** covalency decomposition (NR4A1) | 6 | **~$3** | runs with R1 (same fan-out) |
+| **R3** epimer specificity control | 18 + 6 co-folds | **~$8 + co-fold** | **conditional on §5d** |
+| **R1 extension** (if §4d fires) | +18 + 9 co-folds | **~$8 + co-fold** | conditional on the p-value alone |
+| **Arm F** alchemical ΔΔG_coop | 3–4 ternary edges + shared binary/solvent | **~$45–110** | **BLOCKED** on the valB calibration PASS (addendum condition 7) |
+
+**R1 + R2 ≈ $11 total**, inside the standing ≲$50 autonomy threshold, and it is the cheapest contrast that can
+kill the whole retrospective. Everything above it is conditional. Provider: **Vast** (RTX 3090 preferred, 4090
+fallback) — the lane the endpoint-MD price was measured on.
+
+**Sequencing discipline:** pilot **one** leg to completion first (validate the paralogue staging on a structure
+the assembler has never seen — NR4A2/NR4A3 co-folds have only ever been read by the co-fold reporter, never by
+the MD assembler), then fan out the remaining 23. Once the pilot proves the lane, there is no short-circuit
+value left in serializing, so the rest go **fully parallel**.
+
+---
+
+## 8. Blinding (and an honest statement of its limits)
+
+- Leg outputs are written under **opaque arm tokens** (`nrv04_retro_blind.py`, deterministic salted map), so any
+  manual inspection of results during the run is arm-blind.
+- The **scoring is mechanical**: `nrv04_retro_gate.verdict()` consumes leg JSONs and emits the tier with no
+  analyst discretion. It is committed, with unit tests, **before any leg runs** — git history is the proof.
+- **Limitation, stated plainly:** this is a single-operator study, so blinding is **procedural, not adversarial**
+  — the operator who generates the token map could in principle invert it. The real guarantee is not the
+  blinding; it is that the criteria, thresholds, test, and code are frozen in git before the data exist. The
+  blinding reduces incidental bias during monitoring; it does not make this a blinded trial, and the manuscript
+  must not describe it as one.
+
+---
+
+## 9. Dependency honesty — what this holdout is running ahead of
+
+STRATEGY.md RUNG 4 lists `nrv04_retrospective` as gated on **valB_full + feasibility + step1_fanout**, and
+calibration addendum condition 7 says the NR-V04 retrospective runs only after the calibration PASSes. As of
+2026-07-24 **only the feasibility panel is complete**; valB is still the live front and step1_fanout has not run.
+
+This document therefore **narrows** the retrospective rather than jumping its gate:
+- The arm those gates govern — **Arm F, the free-energy arm** — is **not run** (§1). Condition 7 is respected as
+  written.
+- The arm that runs now — **Arm E** — asserts no free energy, so the calibration is not what would license it;
+  its authority is bounded by §5a/§6 accordingly, and it is reported as an **ensemble-geometry holdout**, not as
+  a validated cooperativity result.
+
+If that narrowing is judged insufficient, the correct remedy is to hold Arm E until valB passes — not to run it
+and describe it as more than it is.
+
+---
+
+*Frozen 2026-07-24, before any retrospective leg ran. Amendments must be dated additions to this file, never
+silent edits to a criterion.*

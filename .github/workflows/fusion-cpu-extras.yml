@@ -26,16 +26,37 @@ on:
         type: boolean
         default: false
       vast_launch_mode:
-        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect"
+        description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect | retro_* (NR-V04 retrospective holdout)"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect, cofold_audit, cofold_dry, cofold]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
         default: "sagemaker-us-east-2-646605541856"
       cofold_prefix:
-        description: "nrv04_vast_launch: S3 prefix of the EXISTING NR-V04 co-fold to reuse (ValB output)"
-        default: "nrv04-descriptive-v3"
+        description: "nrv04_vast_launch: S3 prefix of the co-fold to stage the COVALENT panel from. NOT nrv04-descriptive-v3 or nrv04-shakeout — those carry 14-3-3 epsilon where Elongin B belongs (2026-07-24 audit); staging rejects them anyway."
+        default: "nrv04-covalent-cofold"
+      nrv04_result_prefix:
+        description: "nrv04_vast_launch: S3 results prefix. Set a FRESH one to re-run legs that already have results (the launcher skips a unit whose result exists). Never overwrite the original - a corrected re-run belongs beside the evidence it corrects, not on top of it."
+        default: ""
+      cofold_output_prefix:
+        description: "cofold mode: FRESH S3 prefix for the co-fold outputs (never reuse - co-folds are a preregistered panel's inputs)"
+        default: ""
+      ternary_script:
+        description: "cofold mode: science entry point (nrv04_ternary.py = NR-V04/VHL; nr4a3_ternary.py = CRBN)"
+        default: "nrv04_ternary.py"
+      ternary_extra_args:
+        description: "cofold mode: extra args, e.g. '--skip-control --targets NR4A1,NR4A2,NR4A3'"
+        default: ""
+      seeds:
+        description: "cofold mode: comma-sep diffusion seeds = the ternary ensemble per system"
+        default: "1,2,3"
+      vast_kill:
+        description: "stop_all mode: instance id or label substring to destroy. BLANK DESTROYS EVERY INSTANCE ON THE ACCOUNT, including other sessions' live work."
+        default: ""
+      diag_filter:
+        description: "diag mode: instance id or label substring to dump (blank = every instance on the account, which buries the one you want)"
+        default: ""
       md_mode:
         description: "nrv04_vast_launch pilot/full: smoke (minimize+500 steps, cents) | run (5ns, priced)"
         type: choice
@@ -411,11 +432,12 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+      NRV04_RESULT_PREFIX: ${{ github.event.inputs.nrv04_result_prefix }}
       GIT_BRANCH: ${{ github.ref_name }}
       MODE: ${{ github.event.inputs.md_mode }}
       VAST_IMAGE: ${{ github.event.inputs.vast_image }}
       PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'full' && '0' || '1' }}
-      DRY_RUN: ${{ github.event.inputs.vast_launch_mode == 'dry' && '1' || '0' }}
+      DRY_RUN: ${{ (github.event.inputs.vast_launch_mode == 'dry' || github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'cofold_dry') && '1' || '0' }}
       DISCOVER: ${{ github.event.inputs.vast_launch_mode == 'discover' && '1' || '0' }}
       STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'stage_test' && '1' || '0' }}
       COLLECT: ${{ github.event.inputs.vast_launch_mode == 'collect' && '1' || '0' }}
@@ -436,6 +458,23 @@ jobs:
       N_ITER: ${{ github.event.inputs.firm_n_iter }}
       VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
       PILOT_SEED: ${{ github.event.inputs.pilot_seed }}
+      # --- NR-V04 RETROSPECTIVE holdout (prereg: nr4a3-nrv04-retrospective-prereg.md) ---
+      # retro_stage_test: free CI proof the assembler handles NR4A2/NR4A3 co-folds; retro_dry: print the fan-out;
+      # retro_pilot: ONE paralogue leg (the only untested staging path); retro_full: the 24-unit panel;
+      # retro_collect: gather leg JSONs and apply the frozen gate (refuses a verdict on an incomplete panel).
+      # Boltz co-folding ON VAST — the lane that removes the SageMaker-by-default path (see
+      # research/compute/provider-deviation-2026-07-24.md). COFOLD_OUTPUT_PREFIX must be FRESH.
+      COFOLD: ${{ (github.event.inputs.vast_launch_mode == 'cofold' || github.event.inputs.vast_launch_mode == 'cofold_dry') && '1' || '0' }}
+      COFOLD_OUTPUT_PREFIX: ${{ github.event.inputs.cofold_output_prefix }}
+      TERNARY_SCRIPT: ${{ github.event.inputs.ternary_script }}
+      TERNARY_EXTRA_ARGS: ${{ github.event.inputs.ternary_extra_args }}
+      SEEDS: ${{ github.event.inputs.seeds }}
+      DIAG_FILTER: ${{ github.event.inputs.diag_filter }}
+      VAST_KILL: ${{ github.event.inputs.vast_kill }}
+      RETRO_STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'retro_stage_test' && '1' || '0' }}
+      RETRO: ${{ (github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') && '1' || '0' }}
+      RETRO_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'retro_collect' && '1' || '0' }}
+      RETRO_PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'retro_full' && '0' || '1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -446,16 +485,23 @@ jobs:
         run: |
           set -o pipefail
           pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
-          if [ "${{ github.event.inputs.vast_launch_mode }}" = "stage_test" ]; then
-            pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed"
+          case "${{ github.event.inputs.vast_launch_mode }}" in
+            stage_test|retro_stage_test|cofold_audit)
+              pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed" ;;
+          esac
+          if [ "${{ github.event.inputs.vast_launch_mode }}" = "cofold_audit" ]; then
+            python nrv04_cofold_audit.py --bucket "$VAST_CKPT_BUCKET" --completed-panel
+          else
+            python nrv04_vast_launch.py
           fi
-          python nrv04_vast_launch.py
       - name: Upload Vast handles
-        if: ${{ always() && (github.event.inputs.vast_launch_mode == 'pilot' || github.event.inputs.vast_launch_mode == 'full') }}
+        if: ${{ always() && (github.event.inputs.vast_launch_mode == 'pilot' || github.event.inputs.vast_launch_mode == 'full' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') }}
         uses: actions/upload-artifact@v4
         with:
           name: nrv04-vast-handles
-          path: research/modalities/nrv04-vast-handles.json
+          path: |
+            research/modalities/nrv04-vast-handles.json
+            research/modalities/nrv04-retro-handles.json
           if-no-files-found: ignore
 
   # STEP 1 FAN-OUT (RUNG 4) — the cmpd19 congeneric RBFE map, 8-wide on Vast 4090.
