@@ -518,7 +518,36 @@ def _structural(reporter, nc_path):
             if M is not None and abs(float(np.linalg.det(M))) > 1e-9:
                 d = b - a
                 frac = d @ np.linalg.inv(M)           # rows of M are the lattice vectors
-                d = d - np.round(frac) @ M            # remove whole lattice translations
+                d = d - np.round(frac) @ M            # fold into the primitive parallelepiped
+                # Belt-and-braces neighbour search: after the fold, also try the 27 adjacent lattice translations
+                # and keep the shortest per atom. For skewed cells the parallelepiped fold can in general leave a
+                # non-minimal image, and this is the standard brute-force fix.
+                #
+                # ⚠ HONEST NOTE ON WHY IT IS HERE. I added this believing it would explain the residual large
+                # displacements in run 30157501491 (after folding: p99 71.5 Å, max 128.1 Å against a 126.3 Å edge)
+                # on THIS box — a reduced-form truncated octahedron, rows [126.3,0,0], [0,126.3,0], [63.1,63.1,89.3].
+                # That belief is REFUTED by direct test: over 4000 random small displacements plus whole lattice
+                # translations on this exact cell, fold-only recovers the true displacement with worst error
+                # 0.000 Å — identical to fold + 27-search. So the fold was already minimal here and the search is a
+                # no-op on this system; it is retained only as insurance for cells where it is not.
+                # ⇒ THE RESIDUAL ~1.3 % TAIL IS THEREFORE NOT A MINIMUM-IMAGE ARTEFACT, AND ITS CAUSE IS UNKNOWN.
+                # Candidates NOT yet discriminated: an NPT box that differs between the two frames (the unwrap uses
+                # frame N's vectors); iteration 0 being a pre-equilibration configuration rather than the start of
+                # production; or read_sampler_states index [0] not referring to the same continuous replica at both
+                # iterations. Do not guess between these in a write-up — the discriminator is to compare successive
+                # CHECKPOINTED frames (e.g. 1960 vs 2000, one interval apart) where no configuration can have moved
+                # far: a tail that persists between adjacent frames is a bookkeeping/indexing problem, one that
+                # vanishes means frame 0 is simply not comparable to frame 2000.
+                best = (d ** 2).sum(axis=1)
+                shifts = [(i, j, k) for i in (-1, 0, 1) for j in (-1, 0, 1) for k in (-1, 0, 1)
+                          if (i, j, k) != (0, 0, 0)]
+                for s in shifts:
+                    cand = d + np.asarray(s, dtype=float) @ M
+                    n2 = (cand ** 2).sum(axis=1)
+                    take = n2 < best
+                    if take.any():
+                        d[take] = cand[take]
+                        best[take] = n2[take]
                 b = a + d
                 unwrapped = True
             box = (np.abs(M).max(axis=1) if M is not None else None)   # per-vector length scale, for reporting
