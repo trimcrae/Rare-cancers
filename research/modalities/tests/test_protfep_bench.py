@@ -1141,3 +1141,9 @@ def test_collect_explains_a_non_running_instance():
     src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
     assert 'if i.get("actual_status") != "running":' in src
     assert "status_msg" in src and "inet_down" in src
+
+
+def test_forensic_dump_is_on_by_default_and_disableable():
+    """An unproven lane pays for verbosity once; a proven one should be able to turn it off."""
+    src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
+    assert 'os.environ.get("PROTFEP_FORENSIC", "1") != "0"' in src
