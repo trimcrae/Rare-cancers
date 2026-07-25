@@ -13,6 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       leg_id:        { description: "leg to pre-bake", default: "calib_hi_to_lo__ternary_vhl", required: false }
+      direction:     { description: "fwd (default) | rev — primes the setup cache for the B->A leg. The cache key is tag=<leg>_<direction>_r<seed>, so a rev GPU leg REQUIRES its own prime; it cannot reuse the fwd cache.", default: "fwd", required: false }
       seed:          { description: "replica seed (starting-model index = seed % n_models)", default: "0", required: false }
       charge_method: { description: "am1bcc | nagl — MUST match the GPU run's charge_method (cache key includes it)", default: "nagl", required: false }
       template_pdb:  { description: "crystal template", default: "8G1Q", required: false }
@@ -98,7 +99,14 @@ jobs:
           MODE: run
           LEG_ID: ${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}
           SEED: ${{ github.event.inputs.seed || '0' }}
-          DIRECTION: fwd
+          # Was hardcoded `fwd` — the THIRD place in this lane where a reverse leg was unreachable because a
+          # caller pinned the direction (after the run invocation in gpu-ternary-fep-gcp.yml and the absent
+          # `direction` dispatch input). It matters here specifically: the setup cache key is
+          # tag = <leg>_<DIRECTION>_r<seed> (nr4a3_ternary_fep, tag construction), so a rev leg needs its OWN
+          # primed cache and cannot borrow the fwd one — correct behaviour, since the B->A hybrid topology is a
+          # different object. With DIRECTION pinned to fwd this workflow could never produce that cache, so a
+          # rev GPU leg would fail fast on RBFE_REQUIRE_PRIMED_SETUP=1 with no way to satisfy it.
+          DIRECTION: ${{ github.event.inputs.direction || 'fwd' }}
           N_WINDOWS: ${{ github.event.inputs.n_windows || '12' }}
           CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'nagl' }}
           TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
