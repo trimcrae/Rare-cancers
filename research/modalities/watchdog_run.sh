@@ -66,11 +66,19 @@ case "$VMAGE" in ""|*[!0-9]*) VMAGE=0 ;; esac
 echo "oldest live VM age: ${VMAGE} min (created ${CREATED:-<none>})"
 
 # Grace period before "no commits at all" is called a stall, and the number of consecutive
-# no-advance passes before a frozen iteration counter is called a stall. At cron */15 a stall
-# count of 2 means ~30 min without a single committed interval, against a ~20-min production
-# commit granularity (RBFE_PROD_CKPT_ITERS=40) — so 2 is one missed interval, not noise.
+# no-advance passes before a frozen iteration counter is called a stall.
+#
+# STALL_PASSES=3, RAISED FROM 2 ON A MEASURED RATE (2026-07-25). The leg logs 33.91 s/iteration, so with
+# RBFE_PROD_CKPT_ITERS=40 a HEALTHY production leg commits only every ~22.6 min. At cron */15, two consecutive
+# no-advance passes is ~30 min — uncomfortably close to that 22.6, so a slow resume or a chunk boundary would
+# raise a FALSE stall. Three passes is ~45 min, comfortably clear of one commit interval while still catching a
+# real stall within the hour. The earlier value of 2 was chosen against a guessed "~20-min" granularity before
+# the rate was measured; 22.6 min is the measurement.
+#
+# A false positive here costs an email, not a leg — STALLED neither relaunches nor reaps — but an alarm that
+# cries wolf is one people stop reading, which is the failure this whole watchdog exists to avoid.
 SETUP_GRACE_MIN=75
-STALL_PASSES=2
+STALL_PASSES=3
 
 # An ::error:: annotation that nobody opens is no better than the silent stall this workflow exists
 # to remove. So a stall / cap / failed dispatch also FAILS THE JOB, which makes GitHub send its own
@@ -236,7 +244,7 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
         echo "::error title=WATCHDOG SETUP STALL::$TAG — VM live ${VMAGE} min with ZERO committed iterations (grace ${SETUP_GRACE_MIN} min). Setup is hung, not slow: check am1bcc/charge cache, minimize step count, and GPU utilisation. NOT relaunching (a relaunch would hang the same way)."
         echo "SETUP STALL $TAG" >> "$ALERT"
       elif [ "$STALL" -ge "$STALL_PASSES" ] && [ "$PROG" -gt 0 ]; then
-        echo "::error title=WATCHDOG STALLED::$TAG — VM live but the committed iteration has been frozen at $PHASE for $STALL consecutive passes (~$((STALL * 15)) min). MD is not advancing. NOT relaunching — diagnose (GPU util, NaN, run log) before spending more."
+        echo "::error title=WATCHDOG STALLED::$TAG — VM live but the committed iteration has been frozen at $PHASE for $STALL consecutive passes (~$((STALL * 15)) min, vs a ~23-min healthy commit interval). MD is not advancing. NOT relaunching — diagnose (GPU util, NaN, run log) before spending more."
         echo "STALLED $TAG at $PHASE" >> "$ALERT"
       else
         echo "::notice title=WATCHDOG RUNNING::$TAG — advancing at $PHASE, VM live ${VMAGE} min ($(printf '%s' "$VMS" | tr '\n' ' ')). Leaving it alone."
