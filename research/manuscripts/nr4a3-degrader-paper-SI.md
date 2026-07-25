@@ -73,10 +73,15 @@ result is honest and instructive: **all three paralogues form a productive-geome
 PROTAC bridges the LBD and CRBN (2.5–3.1 Å each side) and each LBD presents an exposed lysine near the modeled
 CRBN-facing interface (closest Lys-Nζ to the nearest CRBN heavy atom NR4A3 K195 3.12 Å, NR4A1 K53 2.34 Å,
 NR4A2 K175 3.96 Å — a **CRBN-proximity proxy, not modeled ubiquitin-transfer geometry**) — with **comparable,
-within-Boltz-noise confidence** (iptm 0.72/0.83/0.82). So for this representative linker the **ternary adds no
-NR4A3 degradation-selectivity**: it does *not* "multiply" the binder's paralogue margin the way SI §S3 hoped;
-degradation selectivity, if any, rests on the **binder** margin (denovo_401/111), with **linker/exit-vector
-design** the (untested) lever that might introduce ternary selectivity. Caveats: one arbitrary linker; Boltz
+within-Boltz-noise confidence** (iptm 0.72/0.83/0.82). ⚠ **Corrected 2026-07-25 — this paragraph previously
+concluded that "the ternary adds no NR4A3 degradation-selectivity", and that is an overclaim in the negative
+direction which is withdrawn.** The classifier used here fails its own affinity-sensitive stereochemical
+control (main §2.5) and is therefore unsuitable for degradation-selectivity claims *in either direction*; what
+this run supports is only that **one representative, arbitrarily-linkered construct did not provide evidence
+for** an NR4A3-selective ternary geometry, at a tier that cannot produce such evidence. It does not show the
+ternary fails to "multiply" the binder's paralogue margin. The stage that actually interrogates the ternary
+axis — and which searches **categorical** paralogue handles ahead of an induced-interface margin the method
+cannot resolve — is main §2.10. Caveats on the present run: one arbitrary linker; Boltz
 gives a single ternary pose (not the productive-ensemble/cooperativity α that sets real degradation
 selectivity); Lys-proximity is a CRBN-only proxy (no full CRL4^CRBN + E2~Ub). This is not a formality: the
 binding-selectivity matrix is a **necessary but not sufficient** filter, because a degrader's actual
@@ -92,7 +97,7 @@ degradation prediction. We therefore add the standard **three-body cooperative-e
 cooperativity α into the numbers that actually decide a degrader: **DC50, Dmax, and the hook effect**. Because
 absolute affinities and α are exactly the quantities the current ABFE does **not** validate (the absolute
 scale fails the T4L benchmark, §3; the initial three-replicate ABFE gives a *conditional receptor contrast*
-only, with an NR4A2 λ-overlap repair still pending — and MM-GBSA ΔG is likewise not a calibrated Kd), the
+only, with the λ-overlap repair **held rather than pending** (parked, not in flight) — and MM-GBSA ΔG is likewise not a calibrated Kd), the
 model is delivered honestly as a **mechanistic harness + sensitivity maps over α and binary Kd** that would
 accept experimentally measured or validated ensemble-weighted affinities in future work, **not** a
 point DC50 derived from the current raw ABFE absolutes — in an illustrative potent regime it reproduces the expected behaviour (DC50 425 → 16 nM as α 1 →

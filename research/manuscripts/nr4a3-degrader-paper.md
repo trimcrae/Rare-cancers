@@ -284,7 +284,15 @@ not pursue here. *(ii) Ligandability is real but chemotype-specific.* Protein-NM
 **celastrol, C-DIM12 and TMPA do not**. ⚠ **Corrected 2026-07-25 — an earlier version of this sentence read
 "the NR4A LBD", which over-generalises a single-paralogue result and inverted its meaning for celastrol.**
 That study assayed **NR4A2 only** (its title names Nurr1; our own bibliography annotates it *[Nurr1/NR4A2]*).
-Celastrol's proposed mechanism is **covalent capture at NR4A1 Cys551** (Zhang 2018), and **NR4A2 carries Tyr at
+Celastrol's proposed mechanism is **covalent engagement at NR4A1 Cys551** (Zhang et al. 2018 [64]) — and, on
+the primary record, that bond is **reversible**: the source's title is *"Celastrol binds to its target protein
+via specific noncovalent interactions and reversible covalent bonds."* ⚠ **Corrected 2026-07-25: an earlier
+version of this sentence read "covalent capture", and this paper elsewhere refers to celastrol simply as
+"covalent".** Neither is wrong about the bond forming, but both understate the mechanism, and the distinction
+is load-bearing rather than pedantic — a reversible-covalent binder has a residence time and retains catalytic
+turnover in a degrader architecture, which is precisely the property §2.10's linker library selects for on
+independent design grounds. Read "covalent" throughout this paper as *reversible*-covalent wherever it refers
+to celastrol. **NR4A2 carries Tyr at
 the aligned position** — established independently here in the covalent panel's Leg 0, which also puts Thr579
 in NR4A3. **A celastrol negative on NR4A2 is therefore exactly what the Cys551 mechanism predicts: the two
 studies corroborate rather than conflict, and together they STRENGTHEN the covalent confound** rather than
@@ -730,8 +738,10 @@ decisive for the frozen go/no-go gate (`negative_controls_pass = false`), which 
 affinity or linker ranking. Further limitations: only three seeds × one top model were analyzed here (thin;
 poses within a seed are nested, so pooled counts overstate independence); the free-celastrol control detects
 one gross architectural failure (no recruiter) but one control does not establish specificity; celastrol's
-covalent engagement of NR4A1 Cys551 was **not evaluated** (the residue-offset lookup was not confirmed against
-an output structure); the Cullin–RING/E2~Ub machinery was absent; and the phenotype does not establish that
+covalent engagement of NR4A1 Cys551 was **not evaluated here** — the residue-offset lookup has since been
+confirmed against output structures, and confirming it is what revealed that the co-folding never seats
+celastrol anywhere near Cys551 (banner below), so the covalent arm of this comparison was never instantiated
+rather than merely unmeasured; the Cullin–RING/E2~Ub machinery was absent; and the phenotype does not establish that
 selectivity is *caused* by ternary geometry. Under the same gross classifier the representative
 `denovo_401`–CRBN linker contacted both proteins for all three paralogues, showing **no modelled paralogue
 discrimination**. This is a **structure-only gross architecture classifier that showed thin retrospective
@@ -804,12 +814,22 @@ prospective affinity or degradation-selectivity ranking authority.)*
 >    Cross-checked independently against a t = 0 distance of 25.2 Å on a leg reporting 2.34 Å.
 >
 > **A claim in the paragraph below is now in question.** It states that we "built the covalent celastrol–Cys
-> adduct explicitly." A free staging check finds the electrophilic carbon **8.99–16.39 Å** from the nearest
-> **target-chain** cysteine Sγ, against a ~1.8 Å C–S bond — the co-folding does not seat celastrol against an
-> NR4A1 cysteine in *any* available input. Whether the adduct was formed at all, or formed under severe strain,
-> is not established by anything we retained. Notably, the withdrawn covalent-vs-non-covalent *null* is exactly
-> what one would predict if the covalent leg never carried a bond — a **hypothesis the corrected run can test**,
-> offered here as such and not as a finding.
+> adduct explicitly." A staging check finds the electrophilic carbon far outside bonding distance of the
+> preregistered cysteine in *every* available input, against a ~1.8 Å C–S bond — the co-folding does not seat
+> celastrol against an NR4A1 cysteine at all. Whether the adduct was formed, or formed under severe strain, is
+> not established by anything we retained. Notably, the withdrawn covalent-vs-non-covalent *null* is exactly
+> what one would predict if the covalent leg never carried a bond — a **hypothesis a corrected run could
+> test**, offered here as such and not as a finding.
+>
+> ⚠ **Superseded within a day, and the correction runs against us — do not cite 8.99–16.39 Å.** That first
+> staging check resolved the *nearest* of the construct's six cysteines, which is **C566**, not the
+> preregistered site **C551** (residue offset 344; the panel's legs record the C566 index throughout). At the
+> preregistered C551 the distances are **28.42–39.11 Å across every clean co-fold model in the bucket**. The
+> superseded figures made the input look *nearly* admissible — at ~9 Å a co-fold would have come close to
+> passing an 8 Å limit while the real site sat ~28 Å away — so the correction makes the admissibility
+> criterion **more** binding, not less. Two further defects shared the same root cause and are fixed: the
+> covalent restraint would have been built onto C566, and the control named for removing C551 engagement
+> (`cov_c551a`) was mutating C566 — i.e. it was not touching C551 at all.
 >
 > **The preregistration has accordingly been amended (dated, with the frozen text left unedited).** The
 > recruitment endpoint (R2) is **retired as a gating criterion** — it returned one distinct value, 1.0, across
@@ -818,6 +838,31 @@ prospective affinity or degradation-selectivity ranking authority.)*
 > science. It is replaced by an **input-admissibility criterion that can fail, and does**: a leg declared
 > covalent must stage its electrophile within bonding distance of the target-chain Sγ. **The re-run is HELD,
 > not merely unlaunched** — unblocking it requires re-folding the covalent systems, not compute.
+>
+> ## ⚠⚠ RESOLVED 2026-07-25 — THE COVALENT LEGS ARE RETIRED AND THE PANEL IS RE-SCOPED TO NON-COVALENT
+>
+> The re-folding route named above was **run and refuted**, not argued away, and the covalent arms are
+> therefore dropped rather than left indefinitely held. Three results, in the order they close the question.
+> **(1) Removing the E3 makes the seating worse, not better** — a binary re-fold without the VHL module puts
+> celastrol 33.6–44.7 Å from C551 against ~28 Å in the ternary arrangement, so the ternary geometry is not what
+> prevents the contact. **(2) Steering the predictor directly at C551** with an explicit 6 Å pocket restraint
+> to that residue **demonstrably acts and still fails**: the distance closes from ~37 Å to **14.8 / 15.6 /
+> 15.9 Å** and warhead–target contacts rise, on three independent seeds, and the 6 Å bound is satisfied on
+> none of them — the ligand parks instead near the buried C505. **(3) The miss is systematic rather than seed
+> noise**: seven clean models over four diffusion seeds, three prefixes and two compute providers span
+> 28.4–39.1 Å at C551 with no trend toward it. The only remaining route to a covalent input is a **hand-placed
+> pose**, which would fix the *comparison* without supplying the *evidence*.
+>
+> **This is a statement about the structure predictor, not about the chemistry.** Celastrol's covalent
+> engagement of NR4A1 Cys551 is literature-anchored (Zhang et al. 2018 [64]); no deposited celastrol–NR4A1
+> complex exists to constrain an MSA-based predictor, and a predictor's inability to reproduce a site is
+> evidence about the predictor. It also over-reaches to say "no predictor" — every model here is **Boltz-2**,
+> and the four seeds, three prefixes and two providers vary the *sampling and the compute host, not the
+> method*. Retiring the covalent arms costs little: the panel's Leg 0 already established for \$0 the covalent
+> confound's actual content — the reactive cysteine is **unique to NR4A1** (NR4A2 Tyr, NR4A3 Thr579) — and
+> NR-V04 is in any case a **biological holdout for the family-selectivity question, not the method
+> calibrator**, so modelling its covalency was never load-bearing for the machinery used elsewhere in this
+> paper.
 
 **A covalent-adduct endpoint-MD feasibility panel was built and executed; its interface readouts are withdrawn,
 and what stands is the panel's execution and cost.** The co-fold retrospective above left celastrol's covalent
@@ -1233,6 +1278,26 @@ pre-registered GO/NO-GO are still outstanding. What it does establish is that th
 end-to-end and converges on the real NR4A3 system — the quantitative-method foundation on which the paralogue-
 selectivity and ternary-cooperativity calculations are built.
 
+**A general limit on what a thermodynamic-cycle self-check can ever certify, stated here because it bounds
+every free-energy claim in this paper.** Cycle closure — running a closed loop of alchemical edges and asking
+whether the computed values sum to zero — is a routine and valuable internal check, and it is often reported as
+if it spoke to accuracy. It does not, and the reason is an identity rather than a matter of degree. Writing
+each computed edge as `ΔΔG_calc(A→B) = ΔΔG_true(A→B) + e(A→B)`, the true terms telescope around any closed
+cycle, so the residual is `R = Σ e`. If the error is a **per-endpoint state function** — `e(A→B) = ε(B) − ε(A)`
+for any ε assigned to states rather than to paths — then that sum telescopes to zero as well. **A closed cycle
+is therefore identically blind to every error class that attaches to an endpoint**: the force field, a homology
+substitution in the receptor model, the partial-charge method, and protonation/tautomer assignment. (Error in
+the *reference* data is invisible for a different and simpler reason — it is not in the calculation at all.)
+What closure does see is the non-conservative part: λ-sampling and hysteresis, poor overlap, endpoint states
+built inconsistently between edges, and mutually inconsistent atom maps — the last two being classes a
+forward/reverse pair structurally cannot reach. We verified the identity numerically (2,000 random
+state-function draws give a maximum |R| of 3.6 × 10⁻¹⁵, i.e. machine precision, while adding a per-edge path
+error makes R non-zero immediately) and in independent unit tests that construct a fresh per-endpoint bias
+rather than re-running the generator's own loop. The practical consequence is a reporting rule this paper
+adopts: **a closed cycle, a small forward/reverse gap, and good MBAR overlap are precision diagnostics and may
+never be presented as accuracy evidence**, and a known-answer benchmark against measured data is not
+substitutable by any number of internally consistent cycles.
+
 **The full congeneric map is designed and staged, but NOT computed.** A 19-edge perturbation map around the
 cmpd19 anchor is frozen (`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue
 inheriting the anchor's core coordinates atom-for-atom, so the edges are mutually comparable), and the execution
@@ -1243,6 +1308,255 @@ only the **charge-conserving** microstate of each edge (the charge-changing spec
 analytical charge correction that is not implemented), and only the **primary** receptor conformer — so it would
 be a single-conformer *conditional* map, not a paralogue-selectivity readout and not a sensitivity range. Record:
 `research/modalities/step1-fanout-lane.md`.
+
+### 2.10 A mechanism-first prospective degrader-design stage: categorical paralogue handles, a negative on E3 breadth, and a virtual linker library (all CPU, no GPU)
+
+*Novelty positioning, carried forward from §2.5 rather than restated: nothing in this section is a
+methodological first.* All-atom alchemical ternary-cooperativity free-energy calculation is an active
+published area [60–63], orientation/pose sampling around a tethered ternary is standard practice, and the
+geometric kernels used here are textbook. What is offered is an **open-source implementation applied honestly
+to the NR4A family with its negatives reported**, plus the two structure-derived corrections below — an
+incremental methods contribution, and any future quantitative result from this line must be benchmarked
+against that prior art rather than presented as a new capability.
+
+Sections 2.4–2.9 pursue paralogue discrimination as a **thermodynamic margin** — a divergent pocket, a
+docking/endpoint/FEP ranking, a ternary that might compound it. This section reports a re-ordered prospective
+stage that puts a different question first, and reports what it returned, including where it returned a
+negative. **Every result below was computed on CPU; no GPU was used and none is claimed.** Nothing here is a
+molecule that was made, a binding measurement, or a degradation result: the output is a set of **predicted
+selective candidates** and the geometric hypotheses behind them.
+
+**Why the search was re-ordered: the induced-interface axis sits at the method's own resolution limit.** A
+useful degradation window needs on the order of **2.0 kcal/mol** of true induced-interface margin (median over
+27 potency scenarios, range 1.75–2.25; `selectivity_margin_model.py`), against a best-case **resolvable**
+difference of **1.12 kcal/mol** at the replicate scatter this program assumes (SD 0.7, n = 3) and a
+field-standard relative-FE accuracy near 1.7 kcal/mol RMSE. Replicates shrink *precision*, not *accuracy*, so
+more sampling does not close that gap. We therefore treat the induced-interface (**marginal**) axis as a
+confirmation tool operating near its limit rather than a discovery tool, and searched first on **categorical**
+differences — positions at which NR4A1/NR4A2 are structurally *incapable* rather than merely disfavoured.
+
+**Full-length paralogue alignment gives two categorical handles, and their paralogue side is a sequence fact
+rather than a model output.** Aligning full-length UniProt NR4A3/NR4A1/NR4A2 with two independent aligners and
+requiring agreement (`nr4a_paralogue_unique_residues.py`) identifies **four NR4A3-unique cysteines**, of which
+**Cys397** — NR4A1 Asn363, NR4A2 Ser363 — is exposed and sits **10.9 Å** from the cryptic pocket along the
+exit vector, and **four NR4A3-unique lysines**, of which **K572, K518 and K592** are exposed in the LBD in the
+same 11–16 Å band as the conserved ones. Neither handle needs a receptor model on the paralogue side: a
+thiol–Michael adduct cannot form where the aligned position carries no thiol, and a lysine that is not present
+cannot be ubiquitinated. That is the sense in which these are *categorical*, and it is why they are worth
+searching on ahead of an energy difference the method cannot resolve. The same analysis reproduces, from the
+opposite direction, the residue that most parsimoniously explains the one demonstrated case of NR4A-family
+degradation selectivity: **NR4A1 Cys551 is unique to NR4A1** (NR4A3 Thr579, NR4A2 Tyr), which is both the
+covalent confound in reading NR-V04 (§2.5) and the reciprocal of the handle used here. *Checked and reported
+weak rather than quietly dropped:* the EWSR1 moiety of the fusion contributes only **1–2 lysines** (the
+low-complexity domain is Lys-poor), so a fusion-lysine-directed axis is thin and is **not** used as a design
+variable.
+
+**The chemistry axis is robust in the receptor ensemble but is one residue deep, with no geometric fallback.**
+Scoring the three unique cysteines across the **100 committed NR4A3 conformers** of §2.3 — 25 metadynamics
+frames and 75 bias-free release frames, identical Shrake–Rupley and identical reach calculation per frame
+(`nr4a3_handle_ensemble.py`) — shows C397's exposure is a property of the fold and not a lucky frame.
+*Every statistic in this paragraph is computed on the **75 unbiased release frames only**; the 25
+metadynamics frames are deliberately excluded because they are biased along the pocket-opening collective
+variable and their histogram is therefore not a population estimate.* Over those 75, C397's RSA median is
+**0.416** (mean 0.405 ± 0.096, p10–p90 0.298–0.510), with the single committed frame's 0.395 sitting at the
+median, and C397 comes within a practical **12-backbone-atom** linker of the pocket exit vector in
+**72/75 = 96 %** of them. **C420 and C559 reach that gate in 0 of 75** (across all 100 conformers the only
+exceptions are **two biased metadynamics frames for C420** and none at all for C559 — frames driven along the
+opening CV, not a population a design can count on). They are recoverable only by paying contour
+length (16 and 20 backbone atoms respectively), and that length is paid out of the *same* budget that must also
+span to the E3, so buying it degrades the term it would rescue while simultaneously bringing **conserved**
+cysteines into reach. So the honest statement is not "NR4A3 carries paralogue-unique cysteines" (plural, true
+by sequence) but **"one of them is a usable handle."** This is **concentration risk rather than fragility**:
+a live way the axis could have failed does not fire. Term (a) needs **one** conformer to do two things at once
+— present the cryptic pocket the warhead occupies *and* put C397 within a linker's reach — and marginal
+fractions say nothing about whether those are the same frames; had they been anti-correlated the axis would
+have been conditional on a state that excludes warhead binding, with no marginal statistic showing it. Joining
+the two per-frame (the harmonized pocket analysis carries an `orthosteric_druggability` for exactly these
+conformers at the pinned D\* = 0.53) gives **P(both) = 0.560** against an independence product of **0.563**,
+and P(reach | druggable) = **0.955** versus 0.960 unconditional. At n = 75 this establishes **the absence of an
+anti-correlation, not independence as a precise property** — read the direction and the magnitude, not the
+probability. What the axis does carry is a single point of failure whose
+untested modes are **chemical, not geometric** — thiol pKa, intrinsic nucleophilicity, adduct stability and
+electrophile promiscuity, none of which any in-silico step in this program tests and the last of which needs
+chemoproteomics. The program's only insurance against a C397-specific chemical failure is the **unique-lysine**
+term, not a second cysteine.
+
+**Widening the E3 recruiter panel returned a negative, and the negative is the result.** The design argument
+for widening beyond VHL/CRBN is that recruiter choice is free at CPU and multiplies the chance that *some* E3
+surface complements NR4A3's differential surface. Ten recruiters (VHL, CRBN, BIRC2, DCAF1, DCAF15, DCAF16,
+KEAP1, FEM1B, RNF114, MDM2) were assessed from live UniProt/RCSB fetches under a **rule whose decision content
+was committed before the fetch** — three eligibility gates (a public ligand-bound structure at ≤3.0 Å or by
+NMR; ligand buried fraction ≥0.50; exit clearance ≥8 Å with 30° cone openness ≥0.30), then a nondominated
+Pareto front over linker-analogue tier / exit quality / open solid angle, then a fixed lexicographic tiebreak
+to a hard cap of two, with **no tunable scalar** (`e3_recruiter_staging.py`; the gates, axes, tiebreak and cap
+are byte-identical between the preregistering commit and the final artifact). *Stated precisely because the
+distinction matters:* the **decision rule** was fixed before any data; the **geometry engine** was
+defect-repaired after the first data were seen — biological-assembly frames, the exit-vector ray origin,
+coordinate-level verification of bridging — with each repair and its triggering observation logged. **CRBN
+(9CUO [67]) and VHL (9GIO [68]) advance**, CRBN as the sole Pareto-front member and **VHL explicitly as a backfill and
+E3-choice sensitivity control, not a co-winner**; the CRBN−VHL margin is **0.033** in open solid angle on one
+deposited conformer each with no error model, and is reported as a **tie, not a finding**.
+
+The informative part is *why* the widening did not deliver breadth. **Availability was the wrong constraint:**
+all eight widened arms are broadly expressed and record-complete on the Human Protein Atlas, and no recruiter
+was dropped for expression (enforced by a test that fails the build if a drop reason mentions it). The binding
+constraint is **structural stageability**. **RNF114 has no deposited structure of the protein at all** — not
+"unliganded", structurally unknown — so nothing could be staged for it. **DCAF16**'s ligand is only **34.4 %**
+buried once its partners are removed from the occluder set, against the 0.50 gate, and makes far more contacts
+to the partner than to DCAF16 itself: that is what a **molecular-glue interface looks like when the partner is
+taken away — not a handle pocket to hang a linker on** — and it holds despite DCAF16 carrying the panel's
+*highest* open solid angle (0.736), i.e. openness without a pocket. **DCAF15** has no partner-free liganded
+structure at all. **So the widening confirmed the incumbents rather than displacing them**, and that is a real
+negative for the E3-breadth argument rather than a null to absorb quietly. Three honest riders travel with it:
+the confirmation holds only *after* the biological-assembly frame fix (before it, the advanced pair was
+BIRC2 + MDM2, because VHL and CRBN were being measured inside ternary complexes whose bound partner occupied
+the very orientation space being scored — those numbers are retracted, not merely superseded); **BIRC2 lost by
+0.039** in open solid angle at identical tier and exit quality, so it is a near-tie and the first recruiter to
+bring back at $0; and **the rule is blind to recruiter-intrinsic pharmacology** — MDM2 and KEAP1 rank well on
+geometry while their handles are developed inhibitors of the E3's *own* function. That blindness is a required
+input to the next gate, not a footnote: no recruiter may be committed to on geometry alone.
+
+**An orientation-basin search over the two advanced recruiters nominates on the categorical terms — and
+"weakly" is part of the verdict.** Sampling 10⁶ rigid-body placements of each recruiter arm around the
+warhead-bound target, over an ensemble of **12** warhead exit-vector poses, and evaluating every placement
+against NR4A3 and both paralogues superposed into **one** frame (so a paralogue difference cannot be an
+artifact of three independent searches; `nr4a3_basin_search.py`), then clustering on the interface fingerprint
+the scored terms actually depend on, gives **58 pose-marginalised meta-basins over 192 basins**. Of these,
+**7** place an electrophile within the practical 12-atom gate of a unique cysteine, **40** put the modelled
+E2~Ub transfer zone over a unique lysine at a rate exceeding its own background null, and **28** discriminate
+NR4A3 nominally. The strongest is **`crbn|M0`**: it survives **11 of 12** poses, reaches C397 at **11**
+backbone atoms at its achieving placement, and clears the *lysine* term's background by **7.5×**. Four quoting
+rules constrain how any of this may be read, and each was produced by a measurement rather than by caution:
+
+1. **The categorical terms fire in a small minority of placements.** Gate-level electrophile-reach fractions
+   across the seven basins are **0.019–0.057** — an electrophile reaches C397 in only **2–6 %** of a basin's
+   placements — and each is itself a *maximum* over the meta-basin's member basins, i.e. the optimistic end.
+   Reach is nonetheless **selective** rather than generic: the **conserved** cysteines are scored by the
+   identical rule as a control, and that control is **exactly zero in 168 of 192 basins** (0–6.6 % where it is
+   nonzero). The lysine term is held to its own separate null — a basin must exceed the background rate at
+   which *any* linker-feasible, clash-free placement covers a unique lysine (**1.0–7.5 %** across the 24
+   arm × pose nulls), which is why `crbn|M0`'s **7.5×** is an enrichment on the *lysine* term and must not be
+   read as an electrophile-reach enrichment. So these are **enrichments, not saturation**: a basin is a region
+   that *admits* the mechanism, not one that enforces it, and the gate therefore **nominates** rather than
+   decides.
+2. **All seven electrophile-reach basins reach C397, and only C397**, consistent with the ensemble result
+   above and with the same consequence — the chemistry axis has no geometric fallback.
+3. **Every reported reach length is a lower bound, by up to about 5 backbone atoms.** The reach criterion
+   credits a pendant arm with shortening the *span* between the two anchors, which no pendant can do: a linker
+   must physically connect the two exit vectors whatever its branch carries. All 576 (basin × unique cysteine)
+   records were audited and **none is internally impossible**, so this is a bound rather than an error — but
+   the figures must be quoted as bounds.
+4. **The shortest-linker figure is a best-of-N over a basin's members, and the achieving member is not the
+   published representative.** Both are now emitted — the achieving placement (optimistic) and the
+   representative (typical) — and neither may be quoted without saying which. The gap is large enough to
+   matter: at `crbn|M0`, and at one fixed pendant convention throughout, the exact C397 requirement is
+   **25** backbone atoms at the representative and **11** at the achieving placement (under the search's own
+   shorter 3.0 Å pendant convention the representative figure is 33; a length quoted without its pendant
+   convention is not interpretable). A first pass that compared a best-of-N length against a typical
+   placement concluded
+   that linker tractability *inverts* the basin ranking; re-running with the achieving placement emitted
+   explicitly reversed that, leaving the strongest basin among the most tractable. The Tier-2 counts above
+   reproduced exactly across that re-run, so the correction is additive.
+
+**Two ubiquitination-geometry parameters were measured rather than assumed, and both corrected defaults this
+program was using.** *(i)* The distance an E2~Ub must span to a substrate lysine was assumed at **10 Å**; in a
+solved CRL4–DDB1–CRBN–IKZF3–E2~Ub ubiquitylation assembly (9UUM [70]) the nearest of 11 substrate lysines sits
+**17.09 Å** from the E2 catalytic cysteine, with the rest at 17.3–45.8 Å. The assumed value was therefore
+~7 Å too strict, and the reported run uses the measured one. *Stated carefully, because the obvious stronger
+claim is not supported:* the committed per-basin sensitivity sweep shows the categorical rank is **not**
+abolished at 10 Å — 84 of 192 basins still reach rank ≥ 3 somewhere in the sweep at 10 Å against 75 at 17 Å,
+because a wider zone also picks up **paralogue** lysines and demotes the rank — so the correct statement is
+that a parameter chosen by assumption was quietly setting the scale of a gate, **not** that it would have
+suppressed the term. The category is genuinely sensitive to the choice, and is reported per basin as such;
+that sensitivity is the term's single biggest soft spot. (A deposited assembly is a snapshot poised for
+transfer, not a transition state, so the measured value is an empirically anchored **permissive** radius, not
+a proof of the productive one; and it is one distance in one CRBN assembly.) *(ii)* A **composed** CRL RING —
+one built by superposing a ligand-bound receptor entry onto a separate cullin-scaffold entry — carries
+**~30–50 Å of positional uncertainty** (VHL 30.18 Å, CRBN 50.14 Å against the RING of each arm's own intact
+assembly; two arms, so a two-point range rather than a distribution). This is **conformational rather than
+error**: the joins are good (VHL 0.98/1.17 Å, CRBN 1.17/1.92 Å) and CRLs are genuinely mobile scaffolds, so a
+well-fitted composition is still not a position. The consequence
+generalises past this section — **no degradation-geometry claim in this program may rest on a RING or an E2
+that was composed rather than observed** — and it is **not in force in the run reported here**, which anchors
+both arms on the **E2 catalytic cysteine observed in a solved assembly** (8R5H [69] for VHL, 9UUM [70] for
+CRBN). It
+binds any future recruiter for which no intact assembly exists. Relatedly, the E2 catalytic cysteine had itself
+been assigned by a heuristic; identifying it instead as the thiol bearing ubiquitin's C-terminal glycine
+**overturns the heuristic's answer** and is unambiguous (3.4 Å versus 16.4 Å for the next-nearest candidate).
+
+**A conflict in where the transfer zone sits was resolved against a solved intact assembly, not adjudicated.**
+Staging VHL from two separately verified receptor entries put the observed transfer anchor **30.9 Å** and
+**69.9 Å** from the recruiter's ligand exit vector — a ~39 Å disagreement that, had it been conformational,
+would have weakened the lysine term across the board. **8R5H [69] settles it with no model at all**: it holds
+VHL·Elongin B·Elongin C, the MZ1 degrader bound in the VHL site, **and** a trapped UBE2R2~ubiquitin in one
+frame, so the disputed distance is directly measurable — **30.76 Å**. The staging the reported run consumed
+reproduces it to **0.09 Å** (like-for-like, because that staging's source entry carries the *same* ligand and
+the rule selects a neighbouring atom of it — which is also the resolution this convention can be expected to
+have between a 2.7 Å crystal and a 3.44 Å cryo-EM map, so 0.09 Å should be read as agreement at the
+convention's own resolution, not as a precision claim); the alternative misses by **39.15 Å**. Decomposing
+both into a common frame puts
+**0.02 Å** of the disagreement in the mapped E2 position and **50.67 Å** in the exit vector, which localises
+the fault and refutes the conformational explanation. The root cause, read off the structure rather than
+inferred: the rejected staging's chosen "recruiter ligand" has a 4.5 Å lining of **eight Elongin C residues and
+zero VHL residues**, because the ligand-selection step tested contact against the receptor *body* (recruiter
+plus obligate partners) and never against the recruiter itself. Fixed, unit-tested on that case, and verified
+to leave every consumed number bit-identical.
+
+**A virtual linker library turns the surviving basins into enumerated structures, and prefers reversible
+covalency for a reason that is argued, not measured.** Enumerating linker architectures against each confirmed
+basin's exact geometric requirement — anchor-to-anchor span, both exit-vector angles, the connecting dihedral,
+worm-like-chain strain, and the integer branch positions from which a pendant of a given reach can touch
+Cys397's Sγ — gives **1,995 constructs, of which 21 are retained** by a filter **fixed before enumeration**
+(span the anchor-to-anchor floor; comfortably hold ≥25 % of the basin's members; ≤3 kT of chain strain at the
+designed placement; ≤24 backbone atoms; a per-basin cap; one construct retained per confirmed basin even on
+failure, with its failing thresholds attached, so the library cannot look clean by silently dropping the best
+basin). Every retained construct is emitted as an explicit SMILES from staged warhead chemistry (the cmpd19
+methyl 5-X-indole-3-carboxylate anchor with exit vectors already in the congeneric series), a published E3
+handle (VH032 on the *tert*-leucine nitrogen, or pomalidomide on the 4-amino nitrogen), and an L-amino-acid
+branch residue that makes the pendant's stereocentre a defined **(S)** centre inherited from a catalogue
+building block rather than an unspecified one. **All 21 were verified with RDKit against the parsed molecule
+rather than against the geometry that proposed them** — backbone length and branch position re-derived by
+topological shortest path between the two anchors, required cores and declared pendants matched as exact
+substructures, and any unassigned stereocentre refused. That verification is a **refusal, not a report**, and
+it caught defects invisible to inspection, including a junction that emitted an α-ketoamide, a hydrolytically
+labile N,O-acetal, an off-by-one that placed every electrophile one atom too close to the warhead, and a
+stereocentre created by the saturated non-electrophilic control. The default electrophile is a
+**reversible-covalent β-methyl α-cyanoacrylamide**, with an irreversible acrylamide and a saturated
+non-electrophilic analogue carried as comparators. **The preference is a stated design rationale with its
+comparator enumerated, not a computed result:** an irreversible adduct makes the degrader **stoichiometric**
+and forfeits catalytic turnover, the property that makes the modality attractive — nothing energetic has been
+run comparing the two.
+
+**The covalent handle is an unresolved liability, not an upgrade, and the parent warhead's pharmacology
+compounds it.** Electrophile promiscuity cannot be assessed without chemoproteomics, which this program does
+not have; and lengthening the pendant, which relaxes reach on the *unique* cysteine, relaxes it on the
+**conserved** cysteines at the same time, so intra-NR4A3 chemoselectivity degrades with the same knob that buys
+reach (the paralogue argument is untouched, being a sequence fact). These sit alongside the parent chemotype's
+own reported pharmacology: cmpd19 **de-represses MYC** by blocking the NOR-1–corepressor interaction (§1), so
+parent-warhead pharmacology is a **potential liability, not evidence of benefit**, and must be reported with
+any covalent design rather than separated from it. The library's only honest hedge is that it is not
+all-covalent: constructs carrying **no electrophile at all** are retained and are designed against the
+**unique-lysine** term instead, which is independent of Cys397 entirely.
+
+**What this stage does not establish.** It is a **nomination**, not a result. Every construct and every basin
+is conditional on the **hypothesized cmpd19 binary pose × the chosen receptor frame** — a *double*
+conditionality, and this work holds no cmpd19 pose in the matched-model frame (cmpd19 has functional
+target-engagement evidence and no solved NR4A3 co-crystal, §2.9), which is why the warhead exit vector is
+marginalised over a pose ensemble rather than asserted. The placements are **rigid-body with rigid side
+chains, no solvation and no induced fit**, so a basin is a region of orientation space that admits a
+mechanism, not a modelled complex; the strain estimate is an ideal semi-flexible-chain quantity, not a
+force-field energy; whether the linker's conformer population actually visits the branch position that
+presents the electrophile is unmeasured. The lysine term **raises the odds; it does not guarantee the
+paralogue is spared**, because real degraders often ubiquitinate several lysines and lysine-less substrates
+can still be degraded through N-terminal, Ser, Thr or Cys ubiquitination. The models are LBD-only, so hinge,
+DBD and fusion-partner lysines are absent. The synthetic annotations are **routes, not validated syntheses** —
+building-block availability was not checked against a live commercial catalogue and no step was attempted.
+And the **causal test has not been run**: the preregistered matched-pair experiment that would ask whether a
+designed element *creates* discrimination is designed and priced but unexecuted, and its semantics are fixed
+in advance in §5. Under the language this paper holds itself to, the deliverable of this stage is *a
+computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis
+and experimental testing* — not a hit, not a selective degrader, and no statement about efficacy, safety, a
+therapeutic window, or clinical readiness.
 
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
@@ -1459,6 +1773,46 @@ druggable release-frame pocket / divergent handles, with a lead-size constraint 
 (`nr4a3_matrix.py` candidate mode). Docking scores are used only as triage priors. All
 parsing/mapping/classification/scoring logic is in pure, unit-tested modules (TESTING.md).
 
+**Mechanism-first prospective stage (§2.10).** All CPU, no GPU; the network-touching steps run on free CI
+runners because the development environment's egress proxy blocks the structural and sequence databases.
+*Paralogue-unique residues* (`nr4a_paralogue_unique_residues.py`): full-length UniProt sequences for NR4A3,
+NR4A1, NR4A2 and the EWSR1 fusion partner [50], aligned by two independent aligners with **agreement
+required** — a position on which the aligners disagree is excluded rather than adjudicated — then intersected
+with matched-model solvent exposure. *Handle ensemble* (`nr4a3_handle_ensemble.py`): the identical
+Shrake–Rupley routine [71] and the identical reach calculation applied per-frame to the 100 committed NR4A3
+conformers of §2.3, with the 25 biased metadynamics frames reported separately and **never pooled** with the
+75 bias-free frames. *E3 recruiter staging* (`e3_recruiter_staging.py`): RCSB search by UniProt accession with
+a fail-closed exact-match guard that refuses rather than substituting a plausible accession; coordinates read
+from **biological assembly 1**, not the asymmetric unit; occluders restricted to the recruiter plus its own
+CRL arm with every removed chain recorded; burial by [71], cavity volume by a LIGSITE protein–solvent–protein
+scan [72], and an exit vector taken as the **solid-angle centroid of the near-maximal rays** from the
+most-exposed ligand heavy atom rather than the single maximal ray, since a wide mouth ties dozens of rays and
+an argmax would return an iteration-order artifact. *Basin search* (`nr4a3_basin_search.py` + `basin_geom.py`,
+pure standard library, 35 unit tests each against a closed-form or hand-constructed answer): NR4A1/NR4A2 are
+placed into the NR4A3 frame by quaternion superposition [73] with iterative outlier rejection, so a single
+sampled set of E3 placements is scored against all three paralogues and a paralogue difference cannot be an
+artifact of three separate searches; every paralogue lysine carries its own post-fit deviation and a
+reliability flag, and a covered-but-unreliably-placed lysine is reported separately rather than counted.
+Linker reach uses the exact prolate-spheroid criterion — a chain of contour length *L* tethered at exit
+vectors **a** and **b** can route through **p** only if |p−a| + |p−b| ≤ *L* — which is what makes reaching a
+cysteine and spanning to the E3 compete for the *same* budget; accessibility uses a worm-like-chain
+end-to-end density rather than a Gaussian chain, because real degrader linkers are 3–16 backbone atoms and a
+Gaussian assigns non-zero probability *beyond* the contour length, i.e. exactly where the answer matters
+(primary reference for this distribution to be established, see References). Clustering is on the **interface
+fingerprint** the scored terms depend on, rather than on the RMSD between placements' reference points: at an
+~18 Å recruiter radius an 8 Å reference-point RMSD corresponds to only a ~25° rotation, and just 0.09 % of
+accepted placement pairs fall inside it, so RMSD clustering returned zero basins and would have needed
+~10⁷–10⁸ placements per arm. The lysine-identity term is scored
+against a background null computed over the **unclustered** accepted set — the same population the basins
+were drawn from, with only the enriching step removed — and a basin must exceed it; the electrophile term
+carries the analogous control of scoring the **conserved** cysteines by the identical rule. Both terms are
+read at a practical 12-backbone-atom linker rather than at the 20-atom sampling ceiling, where the focal-sum
+criterion admits almost any nearby cysteine and the gate could not fail. *Linker design*
+(`linker_design.py` + `nr4a3_linker_design.py`, 52 tests; `linker_chem_check.py` for verification) computes
+the exact three-ball branch-position window at integer backbone positions and emits SMILES by assembly, then
+**re-derives** length and branch position from the parsed molecule by topological shortest path between the
+two anchor atoms; a mismatch, a forbidden junction motif, or an unassigned stereocentre **fails the build**.
+
 ## 4. Limitations
 In-silico throughout; no molecule synthesized; broader indications (SI §S4) are **motivation, not
 demonstrated efficacy**. Therapeutic application to EMC (and AciCC) additionally **assumes NR4A3 dependence, which is not tested here**: the supporting prior (a transfer prior from fusion-addicted EWSR1/FET sarcomas; EMC-native evidence the fusion is a functional driver; a near-invariant clonal fusion in a quiet genome) and the **one decisive gap** (no loss-of-function experiment in any EMC model — the make-or-break dTAG test is delegated to the EMC-program paper), together with the systemic-lead safety/tolerability rationale and the pan-NR4A/CAR-T pole, are in **SI §S9** (safety in **SI §S6**, indications in **SI §S4**). This paper's claimed contribution is the target's **computational druggability/selectivity, not EMC efficacy**.
@@ -1535,17 +1889,28 @@ weight, with the following caveats made explicit rather than buried:
    computed result that the orthosteric pocket is **enriched for paralogue-divergent residues**
    (70 % vs 43 % across the rest of the LBD) means binder selectivity is handle-rich but
    druggability/noise-limited — so the rational plan keeps the binder selective **and** optimizes it for
-   affinity + a productive exit vector. The hoped-for *additional* lever — sourcing paralogue selectivity from
-   the **ternary** — **has now been tested (§2.5) and, for a representative PROTAC, does not materialize**:
-   the NR4A3/NR4A1/NR4A2 ternaries have **comparable predicted geometry with no evidence for an
-   NR4A3-selective ternary**, so the ternary does **not** compound the binder's NR4A1 margin as hoped. Degradation selectivity therefore rests, on current evidence, on the **binder** (plus
+   affinity + a productive exit vector.
+   ⚠ **A conclusion previously drawn here is withdrawn as an overclaim in the negative direction.** This
+   caveat used to state that sourcing paralogue selectivity from the ternary "**has now been tested and does
+   not materialize**", on the basis of the representative-PROTAC co-fold in §2.5. That inference is not
+   available from that experiment: §2.5 establishes, from its own failed stereochemical control, that the
+   co-folding classifier is **unsuitable for binding, ternary-stability, degradation-selectivity or
+   linker-ranking claims**, and a method that may not rank ternary selectivity may not conclude ternary
+   selectivity is absent either. What §2.5 supports is the weaker and correct statement it already makes:
+   **one representative, arbitrarily-linkered construct did not *provide evidence for* an NR4A3-selective
+   ternary geometry** — an absence of evidence at a tier that cannot produce the evidence, not a negative
+   result. Accordingly the ternary is **not** written off as a selectivity lever here, and §2.10 reports the
+   stage that actually interrogates it: paralogue discrimination is searched first on **categorical** handles
+   (a nucleophile and lysines the paralogues do not possess), because the induced-interface margin the co-fold
+   was being asked about needs ~2.0 kcal/mol against a best-case resolvable ~1.12 and is therefore not
+   decidable by any tier this paper runs, let alone by a structure-only classifier. That search **nominates**;
+   it does not settle the question, and the causal test remains unrun.
+   Degradation selectivity therefore rests, on current evidence, on the **binder** margin plus those
+   nominated categorical handles (plus
    **pharmacokinetics** for NR4A2: CNS exposure is an additional design concern given NR4A2's established
    dopaminergic biology, **but the distribution of toxicity from NR4A2 loss is not established here**
-   (§4/SI §S6)), with **linker/exit-vector
-   engineering** the only remaining (untested) route to ternary selectivity; and **fusion-vs-wild-type**
-   selectivity remains **unobtainable from the degrader** (route to the ASO). Net: running the ternary
-   *narrowed* the budget rather than widening it — the binder carries more of the load than the architecture
-   originally hoped.
+   (§4/SI §S6)); and **fusion-vs-wild-type**
+   selectivity remains **unobtainable from the degrader** (route to the ASO).
 6. **The carried candidate is a chemotype/pose hypothesis, not a synthesized or affinity-validated molecule.**
    `denovo_401` passes the in-silico property/alert filters (§2.7), but remains a docking/endpoint/ABFE-tier
    prediction on an AF2-derived pocket, unsynthesized and un-validated. The durable claim is the
@@ -1555,7 +1920,7 @@ weight, with the following caveats made explicit rather than buried:
    needed to explain candidate advancement.)
 7. **Single-snapshot MM-GBSA is non-specific; multi-snapshot de-noising AND its matching decoy
    re-scoring are now run, and `denovo_401` clears them — leaving ABFE as the last tier: initial
-   three-replicate ABFE complete, with the NR4A2 λ-overlap repair pending before final interpretation (§3).** The de-novo
+   three-replicate ABFE complete, and the λ-overlap repair **held, not pending** (§2.8).** The de-novo
    funnel originally docked an *unbiased-release* NR4A3 receptor against *biased-metad* paralogue receptors
    (a receptor-model asymmetry whose *direction* on selectivity is uncertain — §2.6), and the single-snapshot, single-pose MM-GBSA carries
    no replicate/ensemble average and **fails the decoy control** (§2.6). Two follow-up controls
@@ -1576,9 +1941,45 @@ weight, with the following caveats made explicit rather than buried:
    **release-frame-specific (= design-frame-specific)**, not universal. What remains is
    **single-trajectory GB-implicit MD, not ABFE**, so **selectivity ABFE is the quantitative gate — initial
    three-replicate ABFE complete (three-replicate ΔΔG NR4A3-favoured; NR4A2-sparing resolved below zero,
-   NR4A1 unanimous in direction but not resolved from zero), with the NR4A2 λ-overlap repair
-   pending before final interpretation (§3)**;
+   NR4A1 unanimous in direction but not resolved from zero), with the dense-schedule λ-overlap repair
+   **deliberately held rather than queued** — it is parked, not in flight, and repairing error bars would not
+   lift the two limits that actually bound the block (no validated absolute scale; conditional on the chosen
+   opened state) (§2.8)**;
    the receptor-frame dependence is best resolved by ensemble scoring over the druggable release sub-ensemble.
+
+8. **The mechanism-first prospective stage (§2.10) is a nomination with four limits that bound it, and one
+   of them is a single point of failure.** *(a) The categorical chemistry axis is one residue deep.* C397 is
+   robust in the receptor ensemble, but C420 and C559 are unreachable at the practical gate in every unbiased
+   conformer, so there is **no geometric fallback** — and the untested failure modes for C397 are **chemical,
+   not geometric** (thiol pKa, nucleophilicity, adduct stability, and electrophile promiscuity), none of which
+   this or any other in-silico step here tests and the last of which requires chemoproteomics. The only hedge
+   is the independent unique-**lysine** axis, which raises the odds without guaranteeing a paralogue is
+   spared: real degraders often ubiquitinate several lysines, and lysine-less substrates can still be degraded
+   through N-terminal, Ser, Thr or Cys ubiquitination. A covalent handle is therefore an **unresolved
+   liability, not an upgrade**, and must be reported together with the parent cmpd19 chemotype's own
+   **MYC de-repression** — parent-warhead pharmacology is a potential liability, not evidence of benefit.
+   *(b) The nominations are rigid-body.* Rigid side chains, no solvation, no induced fit, LBD-only models
+   (hinge, DBD and fusion-partner lysines absent), one static opened conformer per paralogue for the
+   interface, and an ideal semi-flexible-chain strain estimate that is not a force-field energy. A basin is a
+   region of orientation space that *admits* a mechanism, not a modelled complex; whether a linker's conformer
+   population actually visits the branch position that presents the electrophile is **unmeasured**. *(c) The
+   double conditionality is the binding one.* Everything rests on the hypothesized cmpd19 binary pose × the
+   chosen receptor frame, and no cmpd19 pose exists in the matched-model frame — which is why the warhead exit
+   vector is marginalised over a pose ensemble rather than asserted, and why the pose-surviving fraction is
+   reported per basin. Sequence-level uniqueness of C397 and the lysines is pose-independent; the *reach*
+   estimates are not. *(d) The causal test has not been run.* No result in §2.10 shows that any designed
+   element **creates** discrimination; the matched-pair experiment that would ask is designed, priced and
+   unexecuted, and its reading is fixed in advance in §5. Everything in §2.10 is accordingly a set of
+   **predicted selective candidates** — *a computationally prioritized, structure-defined, retrosynthetically
+   annotated candidate matrix for synthesis and experimental testing* — with the synthetic annotations being
+   **routes, not validated syntheses** (no building-block availability was checked against a live commercial
+   catalogue and no step was attempted).
+9. **A cycle-closure check, a small forward/reverse gap, and good MBAR overlap are precision diagnostics and
+   are never accuracy evidence** — not as a matter of degree but by an identity: a closed cycle is
+   **identically blind** to any error that attaches to an endpoint rather than to a path, which is to say to
+   the force field, the receptor model, the charge method and protonation assignment (§2.9). Every free-energy
+   result in this paper is therefore bounded above by its known-answer benchmarking, not by its internal
+   self-consistency, and no amount of internally consistent cycling substitutes for a measured reference.
 
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
 selectivity claim needs endpoint free energy. The criterion-matched NR4A1/NR4A2 metadynamics runs are
@@ -1655,6 +2056,41 @@ and the three-replica / gate-descriptor diagnostics are **post-hoc analyses**, l
 file and **not** folded silently into the original single-Rg gate definition. The route is
 abandoned (weight shifting to ASO/immuno backups in the roadmap) if the opened conformations are not
 geometrically druggable under the harmonized analysis, or no selective drug-like binder can be designed.
+
+**The prospective design stage of §2.10 carries its own preregistered gate ladder, ordered
+cheapest-decisive-first, and two of its rules were fixed specifically so that a predictable outcome could not
+be reinterpreted after the fact.** The ladder is a hard kill-switch: if no paralogue-discriminating,
+ubiquitination-compatible mechanism survives, the honest negative is the publication, and the tiers are
+ordered so that the free ones can end it before any GPU spend.
+
+| Tier | Pre-registered criterion | Cost | Outcome |
+|---|---|---|---|
+| 0 | **Categorical-axis screen.** If no paralogue-unique nucleophile lies within tether range *and* no paralogue-unique exposed lysine exists, selectivity must come from the marginal axis alone — which sits at the method's resolution limit — so say so and expect a negative | $0 CPU | **pass on both axes** (C397 at 10.9 Å of exit-vector reach; K572/K518/K592 exposed) |
+| 1 | **Differential surface atlas.** No E3-reachable divergent surface ⇒ stop for free | $0 CPU | **pass** (46 differential-surface handles, §2.4) |
+| 2 | **Basin nomination.** If no basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ stop cheaply | $0 realized | **GO, on the CATEGORICAL basis and weakly** — 7 electrophile-reach, 40 lysine-identity above null, 28 nominally discriminating, of 58 meta-basins; the terms fire in 2–6 % of placements (§2.10) |
+| 3 | **One causal matched-pair test:** a ligand-side double difference asking whether a designed element *creates* discrimination, on one matched pair differing in that element alone | priced, **not run** | pending |
+
+Two of these deserve to be stated as *rules written before the result*, because both concern how a likely
+negative is read. **(a) The Tier-2 gate nominates; it does not decide.** Its asymmetry is deliberate: cheap
+scoring has poor signal-to-noise for a ~1 kcal/mol *energy* difference, but "does this basin place an
+electrophile within reach of C397, and does its transfer zone cover a unique lysine?" is a **geometric
+set-membership** question that cheap scoring answers reliably. A gross absence of signal would therefore have
+been an informative NO-GO; the presence of a weak signal is *not* trusted to establish a real wedge.
+**(b) A null at Tier 3 does not falsify the program, and the reason is structural rather than charitable.**
+The Tier-2 GO was taken on the **categorical** basis — the paralogues have no nucleophile at the aligned
+position, so the bond cannot form on them at all. The Tier-3 double difference is an ordinary **non-covalent**
+alchemical quantity: it models no bond in either leg and can only ever see the pre-covalent complex, so it is
+**structurally incapable of testing the categorical mechanism**. What it tests is the **marginal**
+induced-interface wedge. Its expected effect for the designed pair is bounded by roughly one partly-buried
+hydrogen bond (~0.5–1.5 kcal/mol) against a best-case resolvable ~1.12, so **a null is the likely outcome**,
+and the reading is fixed in advance: *a null means the marginal wedge is absent and the claim rests on the
+categorical axis alone; the program stops only if the categorical axis has also failed.* Writing that down
+before the run is the point — without it, a predictable null becomes a verdict on the whole program through a
+category error. The corresponding **honest expectation recorded in advance** is that the designed pair offers
+NR4A3 a *gain* rather than imposing a paralogue *penalty* (the aligned paralogue residues are hydrocarbon and
+simply cannot donate), and that a NO-GO may be acted on at this evidence grade because stopping is the
+conservative action, whereas a **positive** result stays **exploratory** until the known-answer ternary
+control passes.
 
 **Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single de-noised,
 initial-ABFE-supported foothold, not an unqualified pass.** `denovo_401` docks into the druggable release
@@ -1863,6 +2299,66 @@ before submission.*
     ΔΔG_coop cycle. Authors/title to be completed at submission.]
 63. *J Chem Inf Model* (2024). doi 10.1021/acs.jcim.4c01227. [PROTAC ternary cooperativity / paralogue
     selectivity by free-energy calculation. Authors/title to be completed at submission.]
+
+**Sources added for the mechanism-first prospective stage (§2.10) and the celastrol mechanism (§2.2, §2.5).**
+*Entries 64–73 were verified against the primary record on 2026-07-25 by machine query (Crossref for journal
+articles, the RCSB data API for structural entries; the verification job's log is in the reproducibility
+archive). Where a field is marked "not retrieved" it was not returned by that query and is deliberately left
+blank rather than reconstructed — an unverified author list is a fabrication. Structural entries 68–70 printed
+title, method, resolution, first author, journal and year but **no DOI or PMID**, so those two fields are
+absent by verification status rather than by oversight; entry 70 has no publication at all.*
+
+64. Zhang D, Chen Z, Hu C, Yan S, Li Z, Lian B, Xu Y, Ding R, Zeng Z, Zhang X-k, Su Y. *Celastrol binds to its
+    target protein via specific noncovalent interactions and **reversible** covalent bonds.* Chem Commun
+    54:12871–12874 (2018). doi 10.1039/C8CC06140H. [The celastrol covalent-engagement anchor cited in §2.2 and
+    §2.5. **Note the mechanism this title states: the bond is *reversible*.** The paper's earlier shorthand
+    "covalent capture" is therefore imprecise and is corrected in §2.2 — which matters twice over, because the
+    one demonstrated NR4A-family-selective degrader's warhead is itself a reversible-covalent binder, and
+    reversible covalency is also the chemistry §2.10's library selects on independent grounds.]
+65. Gadd MS, et al. *Structural basis of PROTAC cooperative recognition for selective protein degradation.*
+    Nat Chem Biol 13:514–521 (2017). doi 10.1038/nchembio.2329. [PDB **5T35** — VHL·EloB·EloC + BRD4-BD2 + MZ1,
+    X-ray 2.7 Å; the VHL recruiter frame the §2.10 basin search consumed. Full author list not retrieved.]
+66. Nowak RP, et al. *Plasticity in binding confers selectivity in ligand-induced protein degradation.*
+    Nat Chem Biol 14:706–714 (2018). doi 10.1038/s41589-018-0055-y. [PDB **6BOY** — DDB1–CRBN–BRD4(BD1) + dBET6,
+    X-ray 3.33 Å; the CRBN recruiter frame. Full author list not retrieved.]
+67. Zheng X, Ji N, Campbell V, Slavin A, Zhu X, Chen D, Rong H, Enerson B, Mayo M, Sharma K, Browne CM,
+    Klaus CR, Li H, Massa G, McDonald AA, Shi Y, Sintchak M, Skouras S, Walther DM, Yuan K, Zhang Y,
+    Kelleher J, Liu G, Luo X, Mainolfi N, Weiss MM. *Discovery of KT-474 — a Potent, Selective, and Orally
+    Bioavailable IRAK4 Degrader for the Treatment of Autoimmune Diseases.* J Med Chem 67:18022–18037 (2024).
+    doi 10.1021/acs.jmedchem.4c01305. [Primary citation of PDB **9CUO** ("Crystal structure of CRBN with
+    compound 3", X-ray 1.60 Å) — the CRBN entry advanced by the §2.10 E3 downselect.]
+68. Lucas SCC, Xu Y, Hewitt S, Collie GW, Fusani L, Kadamur G, Hadfield TE, Su N, Truman C, Demanze S, Hao H,
+    Phillips C. *Discovery of a Series of Covalent Ligands That Bind to Cys77 of the Von Hippel–Lindau Tumor
+    Suppressor Protein (VHL).* ACS Med Chem Lett 16:693–699 (2025). doi 10.1021/acsmedchemlett.4c00582.
+    [Primary citation of PDB **9GIO** ("Crystal structure of the VHL–EloC–EloB complex with a covalent compound
+    bound to C77 of VHL", X-ray 1.486 Å) — the VHL entry advanced by the §2.10 E3 downselect. **Flagged, not
+    resolved:** the deposited compound is described by the structural record as a **covalent Cys77 ligand**,
+    which is not the same characterization as the hydroxyproline-pocket handle chemistry every published VHL
+    PROTAC uses; whether that changes the downselect's ligandability scoring is a $0 re-check, and it does not
+    touch the reported basin result, which consumed **5T35/8R5H** and not 9GIO.]
+69. Li J, et al. *Cullin-RING ligases employ geometrically optimized catalytic partners for substrate
+    targeting.* Mol Cell (2024). [Primary citation of PDB **8R5H** — "NEDD8-CUL2-RBX1-ELOB/C-VHL-MZ1 with
+    trapped UBE2R2~donor Ub-BRD4 BD2", cryo-EM 3.44 Å; the intact assembly against which §2.10's transfer
+    anchor is measured with no composition. Volume/pages/DOI/PMID and the full author list not retrieved.]
+70. RCSB Protein Data Bank. *PDB **9UUM** — "Cryo-EM structure of mezigdomide-organized
+    CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly", cryo-EM 3.41 Å.* [The CRBN-arm intact
+    assembly supplying §2.10's observed E2 catalytic cysteine and the measured 17.09 Å transfer distance.
+    **Deposition status "to be published" — there is no associated publication and no year**, so it is cited
+    as a structural entry only.]
+71. Shrake, Rupley. *Environment and exposure to solvent of protein atoms. Lysozyme and insulin.* J Mol Biol
+    79:351–371 (1973). doi 10.1016/0022-2836(73)90011-9. [Solvent-accessible-surface algorithm used for every
+    RSA and burial figure in §2.10. Author initials not retrieved.]
+72. Hendlich, et al. *LIGSITE: automatic and efficient detection of potential small molecule-binding sites in
+    proteins.* J Mol Graph Model 15:359–363 (1997). doi 10.1016/S1093-3263(98)00002-3. [Cavity-volume scan in
+    the E3 ligandability assessment. Full author list not retrieved.]
+73. Horn. *Closed-form solution of absolute orientation using unit quaternions.* J Opt Soc Am A 4:629 (1987).
+    doi 10.1364/JOSAA.4.000629. [The superposition used to place NR4A1/NR4A2 into the NR4A3 frame so that one
+    sampled set of placements is evaluated against all three paralogues. Author initials not retrieved.]
+
+*Deliberately NOT cited:* the worm-like-chain end-to-end distribution used for the linker-accessibility term in
+§2.10 is a standard polymer-physics result, but the machine query for its primary source returned **no matching
+record** (all candidates were unrelated). Rather than attach a remembered citation to it, the model is described
+in Methods and the reference is left to be established from the primary literature before submission.
 
 ## Data and software availability
 All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the
