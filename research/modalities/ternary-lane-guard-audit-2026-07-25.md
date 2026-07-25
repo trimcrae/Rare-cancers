@@ -397,9 +397,9 @@ literally named for the v2 pre-equilibrated setup. That convention is what made 
 rev relaunches passed `commit_salt=v2pe` while leaving `use_preequil` at its **default 0**, so the salt *said*
 pre-equilibrated while `SETUP_VER` was `v1`. A salt is a human-maintained label, not a key.
 
-Adding `use_preequil` to the prefix would orphan fwd's committed data (its prefix carries no `_pe`), so the
-proper fix is to record the setup version **in the commit manifest** and refuse a restore whose version differs —
-that is the durable guard and it is **not yet built. Recorded as an open gap, not as done.** What is in place now:
+Adding `use_preequil` to the prefix would orphan fwd's committed data (its prefix carries no `_pe`), so the fix
+is to record the provenance **in the commit manifest** and refuse a restore whose provenance differs. **This is
+now BUILT** — see §J.4. What else is in place:
 
 - `use_preequil` is a **required** watch parameter, so a watchdog relaunch can never silently flip it. The list
   was renamed `_required_run_params` (the old `_prefix_keying_params` is still honoured) precisely because it
@@ -416,3 +416,45 @@ same transformation on the same system — resolves the right way: **fwd ran wit
 `v2pe` salt and `SETUP_VER=v2pe` (set only by `use_preequil=1`) say so. Pre-equilibration is therefore not a
 deviation from fwd; it is a *correction of the rev run back into agreement with fwd*. It fixes the crash and
 restores comparability in the same change.
+
+### J.4 The durable guard: a system fingerprint in the commit manifest
+
+Recorded first as an open gap, then built. The scan for siblings found the hazard is **wider than
+`use_preequil`** — three system-changing params are absent from the commit prefix:
+
+| absent from the prefix | what it changes |
+|---|---|
+| `SETUP_CACHE_VERSION` | `v2pe` (alchemy from the plain-MD-relaxed complex) vs `v1` (raw) |
+| `CHARGE_METHOD` | `nagl` vs `am1bcc` — different partial charges, i.e. a different Hamiltonian |
+| `N_WINDOWS` | a different λ schedule |
+
+So piecemeal prefix suffixes were the wrong shape. Instead `rbfe_spot_checkpoint.py` now hashes those params
+(plus the prefix ones, as cheap redundancy) into a `system_fingerprint`, stamps it into **every** commit manifest
+(`schema: 2`), and consults it in `restore_latest` — **against the manifest alone, before any download**, so a
+mismatch costs nothing. One field covers all three backends (local/S3/GCS) because they share
+`_BaseCommitStore.commit`.
+
+**Two cases, deliberately treated differently.** The first implementation failed closed on both, which looked
+more correct and was worse:
+
+- **Stamped and DIFFERENT → refused unconditionally.** Positive evidence that the generation came from another
+  configuration. No flag overrides it; the rejection names the differing fields and both values.
+- **UNSTAMPED (pre-dating the field) → warn loudly, allow; refuse only under `RBFE_STRICT_PROVENANCE=1`.**
+  Absence of provenance is not evidence of mismatch. Failing closed would have made **another session's already
+  running leg refuse to resume after a preemption and discard paid GPU hours** — for a change it had no part in.
+  For a running leg the generation was written by the dispatch that will resume it, so accepting is almost
+  certainly right; the dangerous case is a human resuming an old prefix with changed params, which is exactly
+  when the stamped branch fires. The unstamped population is finite and shrinking. **The ternary GPU lane opts
+  into `RBFE_STRICT_PROVENANCE=1`**, having verified nothing unstamped needs resuming there (fwd is complete and
+  the rev prefix holds no generations).
+
+Note what this buys that OpenFE cannot: `assert_multistate_system_equality` caught the §H fwd/rev mismatch only
+because particle counts differed. Pre-equilibration **moves coordinates without changing the atom set**, so
+counts match and that check cannot fire. This is the only guard that covers it.
+
+`tests/test_system_fingerprint.py` — 28 checks. The real checkpoint suite
+(`rbfe_spot_checkpoint_test.py`) needs numpy + openmm and runs only in the AWS GPU workflow, so it cannot gate
+this; the new test drives `restore_latest` through a **fake store** instead, needing no scientific stack, and
+asserts the properties that matter: a mismatched generation is skipped **without being downloaded**, a prefix
+holding a mix still resumes from the newest **compatible** generation rather than refusing outright, and no flag
+excuses a real mismatch.
