@@ -347,3 +347,29 @@ designed ("the card is not the decision — the OFFER is"), not a bug. The lever
 **setup** cache (the stage and pre-equilibration caches already exist); with setup restored rather than
 built, the RAM floor could drop and the pool would widen. Not built here; recorded as the next cheap
 infrastructure win.
+
+---
+
+## 9 · State at hand-off (2026-07-25, 3:41 PM ET)
+
+| unit | instance | machine | card | $/hr | state |
+|---|---|---|---|---|---|
+| probe (stage 1) | 45835634 | 46392 | RTX 4080S | 0.2071 | resuming from **production/160** of 200 |
+| edge ternary_vhl | 45835957 | 114237 | RTX 4090 | 0.2237 | loading |
+| edge binary_vhl | 45835971 | 46392 | RTX 4080S | 0.2105 | loading |
+| edge solvent | 45835977 | 114273 | RTX 4090 | 0.2348 | loading |
+
+All four are armed in `ternary-vast-watch.json` and `--verify-armed` passed for both modes.
+
+**Realised $/hr is running ~50 % above the $0.137 planning rate** ($0.207–0.235 vs $0.137). The cause is
+identified in §8c: the host filter (8 vCPU / 32 GB / ≥60 GB disk / `cuda_max_good ≥ 13.0`) exists so the host
+can build the hybrid setup, and it thins the offer pool enough that selection has little to rank. Now that an
+S3 setup cache exists, that floor is the next thing to lower.
+
+**Two units share machine 46392.** `submit()` spreads one unit per machine *within a call*, and the probe was
+rented by an earlier call — so the spreading rule does not see it. Not harmful (both are running), but a host
+that loses its GPU would take two units with it; the exclusion set should be seeded from live instances as
+well as from the blocked list.
+
+**Projected spend for the whole lane ≈ $5.4** against a $25 ceiling: probe ~$0.34 across three hosts, edge
+~$3.8 at these rates plus preemption overhead.
