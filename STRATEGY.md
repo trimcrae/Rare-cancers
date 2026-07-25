@@ -998,3 +998,26 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 12 | 8XTT: **4/20** conformers above D\* | The harmonized rerun (pinned fpocket + score-independent matcher) reports **19/20 detected, 3 ≥ D\*** = 3/19 among detected, **3/20** across all deposited |
 | 13 | "There is no interruptible discount on Vast" | A tautology of the query type — `_live_offers` defaults to `interruptible=True`, and a bid-type search reports `dph_base` as your rate *at the floor*. Measured across 63 machines / 12 card classes: median on-demand = **1.25× the floor**, IQR 1.14–1.68, zero hosts at parity |
 | 14 | `lint_claims.py` R5's premise, "no per-edge alchemical dollar figure is a completed run on the card quoted" | Falsified **for the binary lane only** — the NR4A3 rate was taken on the real system, on the quoted card, across three hosts. The rule should be re-scoped to the ternary lane when the step1 branch merges; left alone rather than raced |
+
+---
+
+## Appendix B — superseded strategy framings
+
+*Moved out of CLAUDE.md 2026-07-25, where 168 lines of plan mirror had accreted (including two blocks already
+labelled superseded) in the file that loads into every session. Plan history belongs with the plan. Same rule as
+Appendix A: kept so a decision is never silently dropped, out of the live text so it stops competing with it.*
+
+| framing | status |
+|---|---|
+| **Atlas-anchor reframe** (2026-07-11 AM) — the repo's #1 priority is an EMC treatment anchored by the **EMC Open Target & Drug Atlas** (`research/atlas/`: proteostasis-chromatin; fusion-subtype antiangiogenic biomarker; fusion-junction + lineage antigens; direct fusion targeting) + collaborator outreach | **Superseded the same day** by the degrader-primary decision (trimcrae + gate-AI). The atlas *work* stays valuable as **support** — biological rationale, fusion-vs-WT biology, anti-target liabilities, an assay roadmap for collaborators, and the **backup route** if degrader design fails — but it must not absorb most effort via indefinite evidence aggregation. Its own state: `research/atlas/README.md` + `STATUS.md` |
+| **Two-papers-first plan** (2026-06-26) — publish (1) the NR4A3-degrader result paper and (2) the fusion-junction ASO paper, with the EMC-program roadmap and the fusion-exclusivity framework in the next tier | Still the portfolio shape, but the degrader paper is now the ≈70–80% program and the ASO paper is support. Route board: [IDEAS.md](research/IDEAS.md); capstone ranking: [emc-treatment-strategy.md](research/manuscripts/emc-treatment-strategy.md); why splitting the degrader paper out serves rather than replaces the EMC goal: [nr4a3-degrader-paper-positioning.md](research/manuscripts/nr4a3-degrader-paper-positioning.md). The ASO route's one remaining gate is **delivery** |
+| **Three-step spine** — (1) FEP converges on cmpd19 → (2) replicate NR-V04's selectivity in silico → (3) design + ternary-test on the cmpd19 anchor | **Superseded as the ORDERING** by the 2026-07-15 reviewer verdict (the thesis is unchanged). NR-V04 is a *holdout*, not the calibrator, and runs *after* the known-answer SMARCA2/VHL control. The ordered plan above is authoritative |
+| **Track A** — qualify an NR4A3-engaging warhead via repaired ABFE (`denovo_401` as a credible design input) | **SHELVED 2026-07-15** — parked, not deleted. `denovo_401` is a **side comparator / benchmark, not a lead**. Revisit only if the ternary workflow needs an absolute-affinity anchor that a coming method makes cheap |
+| **Orientation-first** prospective search | **Superseded 2026-07-24** by mechanism-first (§Program and thesis). Orientation is still the second stage; it is no longer the first |
+| **PR #3 coordination note** (`claude/emc-research-strategy-kdz9kn` set atlas-primacy) | Resolved — merged and reconciled to degrader-primary |
+
+**One inference discipline worth keeping from that history, because it is easy to overclaim:** NR-V04 is
+event-level proof that family-selective NR4A degradation is *achievable*, which is what makes this program
+credible and rebuts "the family is too homologous." It is **not** proof that the structural mechanism of that
+selectivity is known, solved, or transferable — there is no solved ternary and no matched cross-paralogue
+cooperativity measurement. Never claim the latter.
