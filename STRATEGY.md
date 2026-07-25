@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 2:05 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 2:10 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -68,7 +68,7 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30167855759`, us-central1-a) | **RUNNING** since **1:37 PM ET** with **`warmup_timestep_fs=1.0`** — the *fourth* attempt. The 12:34 PM ET attempt (VM `gcp-ternary-30165768667`) **DIED at 12:55 PM ET on a warmup NaN**, diagnosed and fixed (see the NaN block below); its zombie VM was reaped at 1:32 PM ET (`deleted=1`, L4 usage back to 0.0). Committed-iteration progress is **now readable per-direction** — the leg-wide/fwd-reporting trap is fixed (see the watchdog block below) | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30168741086`, us-central1-a) | **RUNNING** since **2:01 PM ET**, `warmup_timestep_fs=1.0`, and the **first attempt whose commit prefix is direction-verified** (`…_wu1.0_v2pe_dirrev`). Two earlier attempts died today for two *different* reasons, both now root-caused and fixed: a **2.0 fs warmup NaN** at 12:55 PM, then — after the NaN fix aligned the prefixes — a **fwd/rev prefix collision** at 1:41 PM that made the rev leg try to resume the FORWARD trajectory (see the two blocks below). Both zombie VMs reaped; L4 usage 0.0 before this launch | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 1 · RUNG 5a — E3 recruiter staging + ligandability downselect** (CPU/CI, $0) | running — staging the widened ligandable set (VHL, CRBN, cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) from RCSB via a CI runner | ~1–3 h → **this afternoon ET** | Which **≤2 recruiters** 5a carries into any GPU leg, and the logged dropped set. Availability is already answered and may **not** be a drop reason — the downselect is on ligandability + interface geometry |
 | **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, $0) | running — building the transform search + the two **categorical** terms (electrophile reach to C397/C420/C559; E2~Ub transfer zone over K572/K518/K592), pose-marginalised | ~3–6 h → **this evening ET** | **The Tier-2 gate.** No basin exploiting a categorical handle *and* none nominally discriminating NR4A3 ⇒ STOP cheaply. Also tells the program which **exit vectors** matter, which a re-scoped fan-out depends on |
@@ -129,6 +129,43 @@ relevant rung below.*
 > on an incomplete entry. Full write-up: §F–G of
 > [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
 >
+> ### 🛑 CRITICAL — A REV LEG WAS RESUMING THE **FORWARD** TRAJECTORY (found 2026-07-25 1:41 PM ET)
+> **The most serious defect this lane has produced, and it was recorded as *already fixed*.** The reverse leg
+> restored the **forward** leg's committed production trajectory at iteration 2000, because its commit prefix
+> came out as `…_wu1.0_v2pe` with **no `_dirrev`**. It failed *only* because the fwd and rev hybrid Systems have
+> different particle counts, so OpenFE's `assert_multistate_system_equality` refused the restore
+> (*"Stored checkpoint System particles do not match those of the simulated System"*). **Had the counts matched,
+> the rev leg would have resumed forward sampling and reported it as reverse** — i.e. a fabricated
+> `|ΔG_fwd + ΔG_rev|`, the very number this leg exists to produce. A third-party library's sanity check was the
+> only thing between that and a published result; nothing in this repo caught it. *No data was corrupted:* the
+> failure is in `_get_sampler`, before `run_to_target`, so nothing was committed into the forward prefix —
+> verified from the absence of commit lines in the run log, not assumed.
+>
+> **Mechanism — a variable set in one shell and read in another.** The VM startup script is built with an
+> *unquoted* heredoc, so unescaped `$VAR` is expanded by the **runner** while `\$VAR` survives to the **VM**.
+> `DIRSUF` was assigned *inside* the heredoc (executing on the VM) but consumed as `${DIRSUF}` *unescaped*
+> (expanded by the runner, where it had never been assigned) → empty string, suffix gone, no error. Every other
+> prefix component (`SEED`, `TIMESTEP_FS`, `CONSTRAIN_LIG`, `WARMUP_TS`, `SALT`) is a runner-level `env:` var,
+> which is exactly why `DIRSUF` was the only one lost.
+>
+> **Why it hid for hours:** (1) the workflow's own echo stopped at `$SEED` and never printed the suffix — true
+> and useless; the real prefix appeared only in the Python's line inside a detached VM. (2) It needed a second
+> condition to surface — the first rev attempt used no warmup override, so its prefix was `wu` while the forward
+> data sits under `wu1.0`; no collision, and it died on the unrelated NaN instead. **Setting
+> `warmup_timestep_fs=1.0` to fix that NaN is what aligned the prefixes and exposed this.**
+>
+> **Fixed** runner-side (nothing about the prefix deferred to the VM's shell), with an **assertion that runs
+> before a GPU is provisioned** — if `direction != fwd` and the prefix does not end in `_dir<direction>` it
+> errors and exits — the echo now printing the full prefix, and
+> `research/modalities/tests/test_commit_prefix_direction.sh` (10 checks, **verified to fail 6 ways** on the
+> restored pre-fix arrangement) wired into CI. Full write-up: **§H** of
+> [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
+>
+> **★ The standing lesson, which generalises past this repo: a fix that "reads correctly" is not a fix.** Where
+> a value crosses a boundary — two shells, generation-time vs run-time, runner vs VM — the only acceptable
+> evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
+> inspection of the producing code.
+
 > ### 🔬 THE WARMUP NaN — diagnosed from evidence, one variable changed
 > The 12:34 PM attempt died at **12:55 PM ET**, ~21 min in, with a full traceback out of `main()`:
 > `SimulationNaNError: Propagating replica 0 at state 1` at **warmup iteration 1**, after 20 integration attempts
