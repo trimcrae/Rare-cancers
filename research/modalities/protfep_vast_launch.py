@@ -386,6 +386,23 @@ def collect(bucket=None, prefix=None, autostop=True):
             except Exception:  # noqa: BLE001 — the log may not exist yet
                 print("      | (no run.log yet)")
 
+    # Instances are fetched BEFORE the leg board so the board can say whether a `failed` record has
+    # already been superseded by a newer host. Without that pairing every poll reprints a full
+    # traceback for a failure that was fixed hours ago, which is how a monitoring log stops being
+    # read. The reap below reuses this same list rather than querying twice.
+    key = os.environ.get("VAST_API_KEY")
+    mine = []
+    if key:
+        insts = _vast_request("GET", "/instances/", key).get("instances", [])
+        mine = [i for i in insts if (i.get("label") or "").startswith(LABEL_PREFIX)]
+
+    def _superseded(lid, doc):
+        """Is this failure from an attempt older than the host currently working that leg? Pure."""
+        for i in mine:
+            if label_matches_leg(i.get("label"), lid) and not _record_is_newer_than_instance(doc, i):
+                return True
+        return False
+
     print(f"[collect] {len(done)} finished leg(s), {len(partial)} in progress")
     for lid, doc in sorted(done.items()):
         print(f"  DONE  {lid}: dG = {doc.get('dg_kcal'):.3f} +/- {doc.get('dg_mbar_se_kcal'):.3f} kcal/mol "
@@ -409,21 +426,24 @@ def collect(bucket=None, prefix=None, autostop=True):
         print(f"        record: updated_utc={doc.get('updated_utc')} started_utc={doc.get('started_utc')} "
               f"s3_mtime={doc.get('_s3_last_modified')} driver={doc.get('driver_sha256')}")
         if doc.get("status") == "failed":
-            # Print the FULL traceback, not just the exception line. A one-line summary tells you
-            # WHAT failed; only the traceback tells you WHERE, and on a rented host the difference
-            # is another paid round trip. (This is what turned "No module named openeye" from a
-            # guess about which import pulls it into a locatable frame.)
+            if _superseded(lid, doc):
+                # A failure older than the host now working this leg is history, not news. It stays
+                # in S3 until the running attempt overwrites it, so reprinting its traceback on every
+                # poll buries the live signal under a fixed bug. One line, and the timestamps above
+                # are still there for anyone who wants to check the claim.
+                print("      (stale: predates the host currently on this leg — traceback suppressed)")
+                continue
+            # Otherwise print the FULL traceback, not just the exception line. A one-line summary
+            # tells you WHAT failed; only the traceback tells you WHERE, and on a rented host the
+            # difference is another paid round trip. (This is what turned "No module named openeye"
+            # from a guess about which import pulls it into a locatable frame.)
             print(f"      platform={doc.get('platform')} charge_method={doc.get('charge_method')} "
                   f"n_particles={doc.get('n_particles')}")
             for ln in str(doc.get("traceback", "(no traceback recorded)")).splitlines():
                 print(f"      T| {ln[:200]}")
 
-    key = os.environ.get("VAST_API_KEY")
-    n_up = 0
+    n_up = len(mine)
     if key:
-        insts = _vast_request("GET", "/instances/", key).get("instances", [])
-        mine = [i for i in insts if (i.get("label") or "").startswith(LABEL_PREFIX)]
-        n_up = len(mine)
         for i in mine:
             label, iid = i.get("label"), i.get("id")
             up_h = 0.0

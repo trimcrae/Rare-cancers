@@ -1222,3 +1222,41 @@ def test_a_box_stopped_too_long_is_destroyed_not_nudged_forever(monkeypatch):
     calls = _collect_with(monkeypatch, [inst], {})
     assert ("DELETE", "/instances/80/", None) in calls
     assert not any(m == "PUT" for m, _p, _b in calls)
+
+
+def test_a_superseded_failure_prints_one_line_not_a_traceback(monkeypatch, capsys):
+    """A fixed bug reprinted every poll buries the live signal under history."""
+    lid = "barnase_barstar_Y29A__complex_r0"
+    inst = {"id": 90, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "running", "actual_status": "loading",
+            "start_date": time.time() - 600, "dph_total": 0.3}
+    stale = {"leg_id": lid, "status": "failed", "n_states": 16, "windows_done": 0,
+             "error": "ValueError: boom", "traceback": "line one\nline two\nline three",
+             # written well before the instance started
+             "updated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 7200))}
+    _collect_with(monkeypatch, [inst], {lid: stale})
+    out = capsys.readouterr().out
+    assert "stale: predates the host currently on this leg" in out
+    assert "line two" not in out
+
+
+def test_a_live_failure_still_prints_its_full_traceback(monkeypatch, capsys):
+    """Suppression must key on staleness alone — a real crash still needs its frames."""
+    lid = "barnase_barstar_Y29A__complex_r0"
+    inst = {"id": 91, "label": pv.LABEL_PREFIX + "-barnase-barstar-y29a--complex-r0",
+            "cur_state": "running", "actual_status": "running",
+            "start_date": time.time() - 7200, "dph_total": 0.3}
+    live = {"leg_id": lid, "status": "failed", "n_states": 16, "windows_done": 0,
+            "error": "ValueError: boom", "traceback": "line one\nline two\nline three",
+            "updated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    _collect_with(monkeypatch, [inst], {lid: live})
+    out = capsys.readouterr().out
+    assert "line two" in out
+
+
+def test_collect_queries_the_instance_list_once(monkeypatch):
+    """The board and the reap share one fetch; two would be a needless API round trip."""
+    inst = {"id": 92, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+            "actual_status": "running", "start_date": time.time() - 600, "dph_total": 0.3}
+    calls = _collect_with(monkeypatch, [inst], {})
+    assert sum(1 for m, p, _b in calls if m == "GET" and p == "/instances/") == 1
