@@ -1,0 +1,506 @@
+{
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "a1_limit_A": 8.0,
+  "frozen_covalent_site_fulllen": 551,
+  "electrophile_atom_label": "C6",
+  "lbd_offset": 344,
+  "lbd_offset_provenance": {
+    "source": "uniprot",
+    "full_len": 598,
+    "residue_551": "C"
+  },
+  "note": "A1 measured on EVERY model of EVERY system of EVERY co-fold prefix. The prereg amendment's 'any co-fold in the bucket' rested on nrv04_prespend_check._pull_model, which samples ONE model per system (sorted(_model_0.cif)[0]).",
+  "prefixes": {
+    "nrv04-celastrol-site-probe-v1": {
+      "n_cif_objects": 6,
+      "systems": {
+        "binary_free": {
+          "ligand": "celastrol",
+          "n_models": 3,
+          "models": [
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                }
+              ],
+              "e3_chains": [],
+              "e3_roles": {},
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 29.62
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 21.6
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 37.26
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 40.95
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 36.57
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 19.14
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 19.14
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 36.57
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 33,
+                "contacts_target_4.5A": 42,
+                "contacts_e3_4.5A": 0,
+                "min_dist_target_A": 2.27
+              },
+              "key": "nrv04-celastrol-site-probe-v1/binary_free/seed_1/boltz_results_binary_free/predictions/binary_free/binary_free_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-25T20:54:42+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                }
+              ],
+              "e3_chains": [],
+              "e3_roles": {},
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 31.73
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 30.84
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 39.61
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 42.28
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 44.74
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 19.29
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 19.29
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 44.74
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 33,
+                "contacts_target_4.5A": 40,
+                "contacts_e3_4.5A": 0,
+                "min_dist_target_A": 2.71
+              },
+              "key": "nrv04-celastrol-site-probe-v1/binary_free/seed_2/boltz_results_binary_free/predictions/binary_free/binary_free_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-25T20:55:44+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                }
+              ],
+              "e3_chains": [],
+              "e3_roles": {},
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 27.86
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 20.03
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 34.75
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 38.6
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 33.55
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 17.12
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 17.12
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 33.55
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 33,
+                "contacts_target_4.5A": 42,
+                "contacts_e3_4.5A": 0,
+                "min_dist_target_A": 2.32
+              },
+              "key": "nrv04-celastrol-site-probe-v1/binary_free/seed_3/boltz_results_binary_free/predictions/binary_free/binary_free_model_0.cif",
+              "seed": "seed_3",
+              "model": 0,
+              "mtime": "2026-07-25T20:55:44+00:00"
+            }
+          ]
+        },
+        "binary_pocket": {
+          "ligand": "celastrol",
+          "n_models": 3,
+          "models": [
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                }
+              ],
+              "e3_chains": [],
+              "e3_roles": {},
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 24.52
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 29.26
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 12.45
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 14.52
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 14.78
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 14.05
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 12.45
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 14.78
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 33,
+                "contacts_target_4.5A": 65,
+                "contacts_e3_4.5A": 0,
+                "min_dist_target_A": 2.0
+              },
+              "key": "nrv04-celastrol-site-probe-v1/binary_pocket/seed_1/boltz_results_binary_pocket/predictions/binary_pocket/binary_pocket_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-25T20:56:45+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                }
+              ],
+              "e3_chains": [],
+              "e3_roles": {},
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 25.88
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 30.64
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 13.01
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 14.59
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 15.62
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 16.51
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 13.01
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 15.62
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 33,
+                "contacts_target_4.5A": 47,
+                "contacts_e3_4.5A": 0,
+                "min_dist_target_A": 2.55
+              },
+              "key": "nrv04-celastrol-site-probe-v1/binary_pocket/seed_2/boltz_results_binary_pocket/predictions/binary_pocket/binary_pocket_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-25T20:57:47+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                }
+              ],
+              "e3_chains": [],
+              "e3_roles": {},
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 24.46
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 29.4
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 12.0
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 13.99
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 15.92
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 14.59
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 12.0
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 15.92
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 33,
+                "contacts_target_4.5A": 76,
+                "contacts_e3_4.5A": 0,
+                "min_dist_target_A": 2.32
+              },
+              "key": "nrv04-celastrol-site-probe-v1/binary_pocket/seed_3/boltz_results_binary_pocket/predictions/binary_pocket/binary_pocket_model_0.cif",
+              "seed": "seed_3",
+              "model": 0,
+              "mtime": "2026-07-25T20:57:47+00:00"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "prefixes_examined": [
+    "nrv04-celastrol-site-probe-v1"
+  ],
+  "summary": {
+    "n_models_measured": 6,
+    "n_models_clean_assembly": 6,
+    "n_pass_A1_at_frozen_C551": 0,
+    "n_pass_A1_at_any_target_cys": 0,
+    "best_frozen_site_dist_A": 14.78,
+    "best_frozen_site_model": "nrv04-celastrol-site-probe-v1/binary_pocket/seed_1/boltz_results_binary_pocket/predictions/binary_pocket/binary_pocket_model_0.cif",
+    "admissible_input_exists": false
+  }
+}
