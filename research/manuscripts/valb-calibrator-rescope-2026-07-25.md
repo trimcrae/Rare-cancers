@@ -329,8 +329,27 @@ the cmpd1→cmpd4 edge that already converged.
 | edge | perturbation | status |
 |---|---|---|
 | **T1** | Wurz cmpd1 → cmpd4 (ring N→CH, **2 perturbed heavy atoms**) | **ALREADY RUN — this is r0.** Reused, not re-bought |
-| **T2** | cmpd4 → cmpd4′ (a second small, charge-neutral single-site change on the same scaffold) | new |
+| **T2** | cmpd4 → cmpd4′ (a second small, charge-neutral single-site change — see the constraint below) | new |
 | **T3** | cmpd1 → cmpd4′ (**closes the loop**) | new |
+
+**⚠ cmpd4′ cannot be another pyridine→benzene swap, and this was checked rather than assumed.**
+`wurz_calib_freeze._pyridine_variants` enumerates every aromatic six-membered one-nitrogen ring in cmpd1 and
+finds **exactly one** (`n_pyridine_rings_in_cmpd1: 1`, in the frozen record) — the pyridine-4-carbonyl linker,
+which is the ring cmpd4 already consumes. The other N-heterocycles are a five-membered thiazole and a
+two-nitrogen aminopyridazine, neither of which is a pyridine. So cmpd4′ must come from a *different* transform.
+Concrete candidates, all ≤ 2 perturbed heavy atoms and charge-neutral:
+
+- **aminopyridazine ring N → CH** (a second single-element swap, on a different ring — closest in kind to the
+  transform already validated);
+- **thiazole 4-methyl → H** (one heavy atom);
+- **tert-butyl → isopropyl** (one heavy atom);
+- **2-hydroxyphenyl → phenyl** (one heavy atom).
+
+**What must NOT be touched:** the *trans*-4-hydroxyproline hydroxyl, which is the VHL anchor. Removing it would
+abolish VHL engagement, and a leg whose ligand does not stay bound will not converge — the closure would then be
+measuring a dissociation, not a systematic error. (Thermodynamically a closure identity holds for any ligands;
+practically it needs three legs that each converge.) `_endpoint_pose` already builds derived analogues from
+cmpd1's crystal pose, which is exactly how cmpd4 is handled today, so the machinery carries over unchanged.
 
 `R = ΔΔG_coop(T1) + ΔΔG_coop(T2) − ΔΔG_coop(T3)`, expected **0**.
 
