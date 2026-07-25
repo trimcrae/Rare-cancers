@@ -633,6 +633,11 @@ def main():
         "candidates": results,
     }
     json.dump(report, open(OUT, "w"), indent=2)
+    # Print the FULL report to stdout as well as the summary: the job log is the one artifact that survives a
+    # branch-push race, and a $0 result that only exists in a file the runner failed to commit is a result lost.
+    print("===== FULL REPORT =====")
+    print(json.dumps(report, indent=2))
+    print("===== SUMMARY =====")
     print(json.dumps({"harness": harness,
                       "T1_reference": {"mcs_perturbed": t1_mcs["perturbed_heavy_atoms"],
                                        "lomap": t1_lomap.get("perturbed_heavy_by_lomap",

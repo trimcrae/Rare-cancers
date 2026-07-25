@@ -63,17 +63,31 @@ jobs:
             -v "$PWD/research/modalities:/work/research/modalities" \
             -w /work/research/modalities \
             docker.io/triskit23/ternary-fep:latest valb_triangle_chem.py 2>&1 | tee /tmp/triangle.log
-      - name: Commit the report back to the triggering branch
+      # The artifact is the RELIABLE path. The branch push races the lane's own commits (the checkout is pinned
+      # to the dispatch SHA, so any commit made while the mapper runs makes the push non-fast-forward), and a
+      # $0 report must not be lost to a race it has no reason to care about.
+      - name: Upload the report as an artifact (always retrievable)
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: valb-triangle-chem
+          path: |
+            research/modalities/valb-triangle-chem.json
+            /tmp/triangle.log
+          if-no-files-found: warn
+      - name: Commit the report back to the triggering branch (best effort)
+        if: always()
+        continue-on-error: true
         run: |
-          set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           sudo chown -R "$(id -u):$(id -g)" research/modalities || true
           git add research/modalities/valb-triangle-chem.json 2>/dev/null || true
           git commit -m "valB closure triangle: \$0 chemistry pre-gate (production LOMAP mapper) [skip ci]" \
             || { echo "no changes"; exit 0; }
-          git push origin HEAD:${{ github.ref_name }}
+          # rebase onto whatever the branch has moved to, then push; never force
+          git pull --rebase origin ${{ github.ref_name }} || true
+          git push origin HEAD:${{ github.ref_name }} || echo "push raced the branch; the artifact has the report"
 
   freeze:
     if: ${{ github.event.inputs.mode != 'triangle' }}
