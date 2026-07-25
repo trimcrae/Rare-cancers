@@ -87,8 +87,13 @@ STALL_PASSES=3
 # The entry loop is a pipeline subshell, so the flag has to live in a file, not a variable.
 ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
 
-python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('use_preequil','0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
-| while IFS='|' read -r LEG SEED DIR SALT DT WUDT UPE CHG NWIN TPL MAXRL; do
+# `provisioning` defaults to spot, matching the standing rule. It is read from config rather than hardcoded so
+# a switch to on-demand is a one-line config edit -- gpu-ternary-fep-gcp.yml gates 'standard' on being
+# "explicitly authorized for a time-sensitive one-off", so the VALUE is a human decision, but the PLUMBING
+# should not also require a code change. This was the third hardcoded value found in this dispatch after
+# DIRECTION and use_preequil.
+python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('use_preequil','0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('provisioning','spot'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
+| while IFS='|' read -r LEG SEED DIR SALT DT WUDT UPE CHG NWIN TPL PROV MAXRL; do
     TAG="$LEG dir=$DIR seed=$SEED"
     echo "=============== $TAG ==============="
 
@@ -293,7 +298,7 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
          -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" \
          -f use_preequil="$UPE" -f charge_method="$CHG" \
          -f n_windows="$NWIN" -f template_pdb="$TPL" \
-         -f refuse_if_vm_live=1 -f provisioning=spot 2>&1; then
+         -f refuse_if_vm_live=1 -f provisioning="$PROV" 2>&1; then
       printf '%s' "$((CNT+1))" > /tmp/cnt.txt
       gcloud storage cp /tmp/cnt.txt "$CNTOBJ" >/dev/null 2>&1 \
         || echo "::warning::counter write failed — the relaunch cap may under-count"
