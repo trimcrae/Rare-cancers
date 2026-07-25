@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
@@ -185,6 +185,51 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f research/modalities/nr4a-e3-expression.json
           git commit -m "E3-machinery availability: widened ligandable recruiter panel (HPA, CI)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
+
+  # RUNG 5a(c): stage every widened ligandable E3 recruiter from the RCSB PDB, compute ligandability +
+  # exit-vector geometry, and apply the preregistered downselect to <=2 with the dropped set logged. Needs
+  # UniProt + RCSB, both of which the dev sandbox's egress proxy 403s, so it runs here. $0 CPU.
+  e3_recruiter_stage:
+    if: ${{ github.event.inputs.task == 'e3_recruiter_stage' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests (pure geometry + the preregistered downselect rule, offline)
+        working-directory: research/modalities
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest tests/test_e3_recruiter_staging.py -q
+      - name: Install fpocket (conda-forge via micromamba)
+        continue-on-error: true
+        run: |
+          set -e
+          cd "$RUNNER_TEMP"
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/menv" -c conda-forge fpocket
+          echo "$RUNNER_TEMP/menv/bin" >> "$GITHUB_PATH"
+      - name: Stage E3 recruiters + ligandability + downselect (RCSB + UniProt)
+        working-directory: research/modalities
+        run: python e3_recruiter_staging.py --phase all
+      - name: Commit results back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/e3-recruiter-staging.json \
+                     research/modalities/e3-recruiter-staging.md \
+                     research/modalities/e3-recruiter-rcsb-cache.json
+          git commit -m "E3 recruiter staging + ligandability downselect (RCSB/UniProt, CI)" || {
             echo "no changes"; exit 0; }
           git pull --rebase origin "${{ github.ref_name }}" || true
           git push origin HEAD:"${{ github.ref_name }}"
