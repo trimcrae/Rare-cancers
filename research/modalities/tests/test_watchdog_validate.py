@@ -105,9 +105,10 @@ def check_watchdog_field_alignment():
     runs a different configuration while reporting success. Same class as every other defect in the guard audit,
     so it gets a check rather than care."""
     import re
-    wf = os.path.join(HERE, "..", "..", "..", ".github", "workflows", "ternary-leg-watchdog.yml")
+    # the body lives in a script, not the workflow YAML (it outgrew GitHub's 21,000-char run: template cap)
+    wf = os.path.join(HERE, "..", "watchdog_run.sh")
     if not os.path.isfile(wf):
-        print("SKIP field alignment (workflow not found)")
+        print("SKIP field alignment (watchdog_run.sh not found)")
         return 0
     t = open(wf).read()
     m = re.search(r"\[print\('([^']+)'%\((.*?)\)\) for w in", t)
@@ -133,9 +134,9 @@ def check_setup_cache_key():
     same drift that made a rev leg resume the fwd trajectory. Observed engine path, from the 2026-07-25 prime:
     setupcache/calib_hi_to_lo__ternary_vhl_rev_r0__nagl__v2pe
     """
-    wf = os.path.join(HERE, "..", "..", "..", ".github", "workflows", "ternary-leg-watchdog.yml")
+    wf = os.path.join(HERE, "..", "watchdog_run.sh")
     if not os.path.isfile(wf):
-        print("SKIP setup-cache key (workflow not found)")
+        print("SKIP setup-cache key (watchdog_run.sh not found)")
         return 0
     t = open(wf).read()
     bad = 0

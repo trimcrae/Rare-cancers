@@ -20,6 +20,7 @@ Pure stdlib apart from PyYAML, which is present on the runners and in the dev sa
 """
 
 import os
+import re
 import sys
 
 try:
@@ -44,6 +45,47 @@ def triggers_of(doc):
                     return sorted(node)
                 return [node]
     return []
+
+
+# THE 21,000-CHARACTER TEMPLATE CAP, and the condition that makes it bite.
+# A `run:` block CONTAINING an expression (${{ ... }}) is compiled as a TEMPLATE, and the template is capped at
+# 21,000 characters counting the raw indented block. Over the cap the whole workflow becomes unparseable: a
+# dispatch fails with "Exceeded max expression length 21000" and a `schedule:` cron on that file simply NEVER
+# FIRES. The ternary watchdog hit this at 23,453 chars and was silently disabled -- the SECOND time a parse
+# failure disabled that one workflow (the first was column-0 Python inside the block scalar).
+#
+# A block with NO expression is a plain string and is NOT capped. This is measured, not assumed:
+# gpu-ternary-fep-gcp.yml carries a 29,434-character run: block with zero ${{ }} and dispatches fine, all day.
+# Flagging it would be a false alarm, and a gate that cries wolf is worse than no gate -- so the expression
+# condition is part of the check.
+#
+# PyYAML parses an over-cap file happily, so the YAML check above cannot see this at all: it needs its own gate.
+RUN_CAP = 21000
+RUN_WARN = 18000
+
+
+def run_block_sizes(path):
+    """[(line_no, raw_chars, has_expression)] per `run:` block, sized as GitHub sees it (indentation included)."""
+    lines = open(path).read().split("\n")
+    out = []
+    i = 0
+    while i < len(lines):
+        m = re.match(r"^(\s*)run:\s*[|>]", lines[i])
+        if not m:
+            i += 1
+            continue
+        key_indent = len(m.group(1))
+        j = i + 1
+        size = 0
+        while j < len(lines):
+            l = lines[j]
+            if l.strip() and (len(l) - len(l.lstrip())) <= key_indent:
+                break
+            size += len(l) + 1
+            j += 1
+        out.append((i + 1, size, "${{" in "\n".join(lines[i + 1:j])))
+        i = j
+    return out
 
 
 def main():
@@ -72,7 +114,23 @@ def main():
                   "cron that never fires looks identical to one with nothing to do" % name)
             failed += 1
             continue
-        print("PASS %s (%s)" % (name, ",".join(str(t) for t in trig)))
+        blocks = run_block_sizes(path)
+        # only an EXPRESSION-bearing block is a template, and only a template is capped
+        oversized = [(ln, sz) for ln, sz, expr in blocks if expr and sz >= RUN_CAP]
+        if oversized:
+            ln, sz = max(oversized, key=lambda x: x[1])
+            print("FAIL %s: the `run:` block at line %d is %d raw chars, over GitHub's %d template cap — the "
+                  "workflow will not parse, dispatch fails with 'Exceeded max expression length', and any cron "
+                  "on it SILENTLY NEVER FIRES. Move the body into a script file (see "
+                  "research/modalities/watchdog_run.sh), or remove the ${{ }} from it." % (name, ln, sz, RUN_CAP))
+            failed += 1
+            continue
+        near = [(ln, sz) for ln, sz, expr in blocks if expr and sz >= RUN_WARN]
+        warn = ""
+        if near:
+            ln, sz = max(near, key=lambda x: x[1])
+            warn = "  [WARN run: block at line %d is %d chars, %d from the %d cap]" % (ln, sz, RUN_CAP - sz, RUN_CAP)
+        print("PASS %s (%s)%s" % (name, ",".join(str(t) for t in trig), warn))
 
     print("\n%d workflow(s) checked, %d failed" % (len(names), failed))
     return 1 if failed else 0
