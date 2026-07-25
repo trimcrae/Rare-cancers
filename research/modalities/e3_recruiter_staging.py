@@ -289,23 +289,20 @@ RCSB_SEARCH = "https://search.rcsb.org/rcsbsearch/v2/query"
 RCSB_DATA = "https://data.rcsb.org/rest/v1/core"
 
 
-def rcsb_search_entries(accession, max_rows=100):
-    """Entry IDs whose polymer entities reference this UniProt accession AND that carry >=1 non-polymer
-    entity, sorted by resolution ascending. Returns (ids, query_record)."""
-    query = {
-        "type": "group", "logical_operator": "and", "nodes": [
-            {"type": "terminal", "service": "text", "parameters": {
-                "attribute": "rcsb_polymer_entity_container_identifiers."
-                             "reference_sequence_identifiers.database_accession",
-                "operator": "exact_match", "value": accession}},
-            {"type": "terminal", "service": "text", "parameters": {
-                "attribute": "rcsb_polymer_entity_container_identifiers."
-                             "reference_sequence_identifiers.database_name",
-                "operator": "exact_match", "value": "UniProt"}},
-            {"type": "terminal", "service": "text", "parameters": {
-                "attribute": "rcsb_entry_info.nonpolymer_entity_count",
-                "operator": "greater", "value": 0}},
-        ]}
+def _accession_nodes(accession):
+    return [
+        {"type": "terminal", "service": "text", "parameters": {
+            "attribute": "rcsb_polymer_entity_container_identifiers."
+                         "reference_sequence_identifiers.database_accession",
+            "operator": "exact_match", "value": accession}},
+        {"type": "terminal", "service": "text", "parameters": {
+            "attribute": "rcsb_polymer_entity_container_identifiers."
+                         "reference_sequence_identifiers.database_name",
+            "operator": "exact_match", "value": "UniProt"}},
+    ]
+
+
+def _run_search(query, max_rows):
     payload = {"query": query, "return_type": "entry",
                "request_options": {"paginate": {"start": 0, "rows": max_rows},
                                    "results_verbosity": "compact",
@@ -314,12 +311,34 @@ def rcsb_search_entries(accession, max_rows=100):
     res = _post_json(RCSB_SEARCH, payload)
     ids = []
     if isinstance(res, dict):
-        rs = res.get("result_set") or []
-        for r in rs:
+        for r in res.get("result_set") or []:
             ids.append(r if isinstance(r, str) else r.get("identifier"))
-    ids = [i for i in ids if i]
-    return ids, {"endpoint": RCSB_SEARCH, "query": query, "n_hits": len(ids),
-                 "total_count": (res or {}).get("total_count")}
+    return [i for i in ids if i], (res or {}).get("total_count")
+
+
+def rcsb_search_entries(accession, max_rows=100):
+    """Entry IDs whose polymer entities reference this UniProt accession AND carry >=1 non-polymer entity,
+    sorted by resolution ascending.
+
+    A SECOND, unfiltered search runs alongside it. Zero hits from the filtered search alone cannot tell
+    'this protein has no deposited structure' apart from 'it has structures but none with a ligand', and
+    those are different findings that would appear identically in the dropped-set log — one says the
+    recruiter is structurally unknown, the other says it is known and un-liganded."""
+    query = {"type": "group", "logical_operator": "and",
+             "nodes": _accession_nodes(accession) + [
+                 {"type": "terminal", "service": "text", "parameters": {
+                     "attribute": "rcsb_entry_info.nonpolymer_entity_count",
+                     "operator": "greater", "value": 0}}]}
+    ids, total = _run_search(query, max_rows)
+    any_q = {"type": "group", "logical_operator": "and", "nodes": _accession_nodes(accession)}
+    any_ids, any_total = _run_search(any_q, max_rows)
+    return ids, {"endpoint": RCSB_SEARCH, "query": query,
+                 "n_hits_with_nonpolymer": len(ids), "total_count_with_nonpolymer": total,
+                 "n_hits_any_structure": len(any_ids), "total_count_any_structure": any_total,
+                 "example_apo_entries": any_ids[:8],
+                 "_reading": ("n_hits_any_structure == 0 -> no deposited structure of this protein at all; "
+                              "n_hits_any_structure > 0 with n_hits_with_nonpolymer == 0 -> structures "
+                              "exist but none carries a bound non-polymer ligand")}
 
 
 def rcsb_entry(pdb_id):
@@ -536,18 +555,36 @@ def classify_linker_analogue(entry_records, accession):
 # PHASE 3 — coordinates
 # =========================================================================================================
 def download_structure(pdb_id, out_dir=COORD_DIR):
+    """Coordinates for one entry, preferring the FIRST BIOLOGICAL ASSEMBLY over the asymmetric unit.
+
+    ★ This is not a detail. The asymmetric unit can contain several crystallographic copies of the same
+    protein, and a ligand sitting near a packing interface is then walled in by a neighbour that is not
+    there in solution — which this module would report as 'no linker can leave', dropping the recruiter at
+    G3 for a crystallographic artifact. Observed 2026-07-25 on FEM1B 9PW8 (chains A *and* B are both FEM1B;
+    clearance came back 0.0). The biological assembly is the frame the question is actually about.
+
+    Returns (path, source_label) or (None, reason)."""
     os.makedirs(out_dir, exist_ok=True)
-    for ext, url in (("pdb", f"https://files.rcsb.org/download/{pdb_id}.pdb"),
-                     ("cif", f"https://files.rcsb.org/download/{pdb_id}.cif")):
+    attempts = [("assembly1.cif", f"https://files.rcsb.org/download/{pdb_id}-assembly1.cif",
+                 "biological assembly 1 (mmCIF)"),
+                ("cif", f"https://files.rcsb.org/download/{pdb_id}.cif", "asymmetric unit (mmCIF)"),
+                ("pdb", f"https://files.rcsb.org/download/{pdb_id}.pdb", "asymmetric unit (PDB)")]
+    for ext, url, label in attempts:
         path = os.path.join(out_dir, f"{pdb_id}.{ext}")
         if os.path.exists(path) and os.path.getsize(path) > 1000:
-            return path
-        raw = _http(url, binary=True, timeout=120)
-        if raw:
+            return path, label
+        raw = _http(url, binary=True, timeout=180)
+        if raw and len(raw) > 1000:
             with open(path, "wb") as fh:
                 fh.write(raw)
-            return path
-    return None
+            return path, label
+    return None, "no coordinate file could be downloaded"
+
+
+def base_chain(cid):
+    """Assembly files suffix symmetry copies ('A' -> 'A-2'), while the data API's auth_asym_ids come from
+    the asymmetric unit. Match on the base id so a symmetry copy is still attributed to its entity."""
+    return (cid or "").split("-")[0]
 
 
 def parse_structure(path):
@@ -1068,6 +1105,7 @@ def evaluate_gates(rec):
         methods = " ".join(primary.get("experimental_methods") or []).upper()
         is_nmr = "NMR" in methods
         g1_ok = is_nmr or (res is not None and res <= MIN_RESOLUTION_A)
+    search = rec.get("rcsb_search") or {}
     bf = ((lg.get("ligand_burial") or {}).get("buried_fraction"))
     g2_ok = bf is not None and bf >= GATES["G2_ligand_is_pocket_bound"]["threshold"]
     ev = lg.get("exit_vector") or {}
@@ -1081,7 +1119,13 @@ def evaluate_gates(rec):
             "observed": (f"{primary['pdb_id']} @ {primary.get('resolution_A')} A "
                          f"({'/'.join(primary.get('experimental_methods') or []) or 'method?'}), "
                          f"ligand {primary.get('ligand', {}).get('ccd')}")
-            if primary else "no deposited entry with a usable (non-solvent, >=10 heavy atom) ligand"},
+            if primary else
+            ("no deposited structure of this protein at all "
+             f"(RCSB: {search.get('total_count_any_structure')} entries carrying the accession)"
+             if not search.get("n_hits_any_structure")
+             else f"{search.get('n_hits_any_structure')} deposited structure(s) exist, but none carries a "
+                  "usable (non-solvent, >=10 heavy atom) ligand: "
+                  f"{', '.join(search.get('example_apo_entries') or []) or 'n/a'}")},
         "G2_ligand_is_pocket_bound": {"pass": bool(g2_ok), "observed": bf},
         "G3_linker_can_leave": {"pass": bool(g3_ok),
                                 "observed": {"clearance_A": ev.get("clearance_A"),
@@ -1296,9 +1340,9 @@ def geometry_panel(recruiters, workdir=None, use_fpocket=True):
             rec["ligandability"] = {"_status": "no staged structure"}
             continue
         pdb_id = primary["pdb_id"]
-        path = download_structure(pdb_id)
+        path, src = download_structure(pdb_id)
         if not path:
-            rec["ligandability"] = {"_status": f"coordinate download failed for {pdb_id}"}
+            rec["ligandability"] = {"_status": f"coordinate download failed for {pdb_id}: {src}"}
             continue
         prot_all, het = parse_structure(path)
         ccd = (primary.get("ligand") or {}).get("ccd")
@@ -1312,21 +1356,23 @@ def geometry_panel(recruiters, workdir=None, use_fpocket=True):
         # orientation space this stage measures, so leaving them in would report a recruiter with a solved
         # ternary as having nowhere for a target to go.
         arm_accs = set(rec.get("arm_component_accessions") or [])
-        arm_chains, partner_chains = set(), set()
+        arm_ids, partner_ids = set(), set()
         for pe in primary.get("polymer_entities") or []:
-            tgt = arm_chains if (set(pe.get("uniprot_ids") or []) & arm_accs) else partner_chains
-            tgt.update(pe.get("auth_asym_ids") or [])
-        prot = [a for a in prot_all if a["chain"] in arm_chains] if arm_chains else prot_all
-        excluded = {"partner_chains_excluded": sorted(partner_chains),
-                    "arm_chains_kept": sorted(arm_chains),
-                    "n_atoms_excluded": len(prot_all) - len(prot)}
+            tgt = arm_ids if (set(pe.get("uniprot_ids") or []) & arm_accs) else partner_ids
+            tgt.update(base_chain(c) for c in (pe.get("auth_asym_ids") or []))
+        prot = [a for a in prot_all if base_chain(a["chain"]) in arm_ids] if arm_ids else prot_all
+        excluded = {"partner_entity_chains_excluded": sorted(partner_ids),
+                    "arm_entity_chains_kept": sorted(arm_ids),
+                    "chains_present_in_frame": sorted({a["chain"] for a in prot}),
+                    "n_atoms_excluded": len(prot_all) - len(prot),
+                    "coordinate_source": src}
         if not prot:
             prot, excluded["_status"] = prot_all, "no chain mapped to the arm — fell back to all chains"
 
         # If the ligand is present in several copies, take the copy with the most contacts to a recruiter
         # chain — that is the biologically staged one, and it is decided from coordinates, not from the
         # first-listed chain.
-        rchains = set(primary.get("recruiter_auth_asym_ids") or [])
+        rchains = {base_chain(c) for c in (primary.get("recruiter_auth_asym_ids") or [])}
         pg = Grid(prot)
 
         def _contacts(atoms, chains=None):
@@ -1334,7 +1380,7 @@ def geometry_panel(recruiters, workdir=None, use_fpocket=True):
             for a in atoms:
                 for j in pg.near(a["x"], a["y"], a["z"], 4.5):
                     b = prot[j]
-                    if chains and b["chain"] not in chains:
+                    if chains and base_chain(b["chain"]) not in chains:
                         continue
                     if ((a["x"] - b["x"]) ** 2 + (a["y"] - b["y"]) ** 2 + (a["z"] - b["z"]) ** 2) <= 20.25:
                         n += 1
@@ -1352,8 +1398,9 @@ def geometry_panel(recruiters, workdir=None, use_fpocket=True):
         if use_fpocket:
             lg["fpocket"] = run_fpocket(prot, lig_atoms, workdir, f"{gene}_{pdb_id}")
         lg["structure_file"] = os.path.basename(path)
+        lg["coordinate_source"] = src
         lg["occluder_set"] = excluded
-        lg["measured_with_partner_protein_removed"] = bool(partner_chains)
+        lg["measured_with_partner_protein_removed"] = bool(partner_ids)
         rec["ligandability"] = lg
         ev = lg.get("exit_vector", {})
         print(f"  {gene} {pdb_id}/{ccd}: buried={lg.get('ligand_burial', {}).get('buried_fraction')} "
@@ -1503,6 +1550,16 @@ def to_markdown(d):
             ev.get("clearance_A", "—"), ev.get("cone_openness_30deg", "—"),
             ev.get("open_solid_angle_fraction_15A", "—"), lb.get("label", "—"),
             r.get("decision", "—")))
+    flagged = [g for g, r in d["recruiters"].items()
+               if (r.get("geometry_frame") or {}).get("primary_has_partner_protein")]
+    if flagged:
+        L += ["", "**Measured with a partner protein removed** (no partner-free structure exists for these, "
+                  "so burial and the exit vector are measured against a site that may be partly formed BY "
+                  "the removed partner): " + ", ".join(flagged) + ".", ""]
+    back = d["downselect"].get("backfilled_for_e3_choice_sensitivity") or []
+    if back:
+        L += ["", "**Backfilled** (Pareto-dominated, retained as the second recruiter so the E3 is a "
+                  "controlled variable downstream rather than a confound): " + ", ".join(back) + ".", ""]
     L += ["", "## Dropped set — every recruiter not advanced, with the reason", "",
           "*STRATEGY.md: \"a silent top-N reads as 'we covered everything'\". Availability is **never** a "
           "reason here — all widened arms are broadly expressed (HPA, CI run 30125742542).*", ""]

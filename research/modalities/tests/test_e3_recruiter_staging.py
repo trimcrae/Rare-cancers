@@ -347,6 +347,27 @@ def test_a_glue_recruiter_with_only_ternary_structures_still_stages_and_is_flagg
     assert staged[0]["pdb_id"] == "GLUE" and staged[0]["has_partner_protein"] is True
 
 
+def test_g1_distinguishes_no_structure_at_all_from_no_liganded_structure():
+    """Two different findings that would otherwise read identically in the dropped-set log: a recruiter
+    nobody has crystallised, versus one that is well characterised but never with a ligand."""
+    bare = {"staged_structures": [], "linker_bearing_analogue": {"tier": 0}, "ligandability": {},
+            "rcsb_search": {"n_hits_any_structure": 0, "total_count_any_structure": 0}}
+    apo = {"staged_structures": [], "linker_bearing_analogue": {"tier": 0}, "ligandability": {},
+           "rcsb_search": {"n_hits_any_structure": 4, "example_apo_entries": ["1AAA", "2BBB"]}}
+    g_bare, _ = st.evaluate_gates(bare)
+    g_apo, _ = st.evaluate_gates(apo)
+    assert "no deposited structure of this protein at all" in \
+        g_bare["G1_public_ligand_bound_structure"]["observed"]
+    assert "none carries a usable" in g_apo["G1_public_ligand_bound_structure"]["observed"]
+    assert "1AAA" in g_apo["G1_public_ligand_bound_structure"]["observed"]
+
+
+def test_base_chain_matches_assembly_symmetry_copies_to_their_entity():
+    assert st.base_chain("A") == "A"
+    assert st.base_chain("A-2") == "A"
+    assert st.base_chain("") == ""
+
+
 def test_an_open_site_is_not_flagged_no_exit_path():
     res = st.analyse_site(_shell_pocket("+z"), [_atom(0, 0, 0), _atom(1.4, 0, 0)])
     assert res["exit_vector"]["no_exit_path"] is False
