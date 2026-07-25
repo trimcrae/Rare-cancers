@@ -59,8 +59,19 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY: ${{ github.event.inputs.dry_run || '0' }}
+        # DECLARE THE SHELL EXPLICITLY. GitHub's default is `bash -e {0}`, and `set -uo pipefail` in the body
+        # does NOT clear an -e that arrived on the invocation — so the "NOT -e" comment that used to sit below
+        # asserted a property this step did not have. It cost a run: on a leg with no commits yet, the progress
+        # census's `MAXW=$(... | grep ... | tail -1)` assignment takes the failing pipeline's status (grep found
+        # nothing, pipefail propagated it), and -e killed the watch entry between printing its header and
+        # printing any verdict — 24 s, no output, exit 1. Exactly the silent-skip this workflow exists to
+        # remove, reintroduced by a comment that was wrong. Setting the options here makes the invocation match
+        # the intent. Reproduced and locked in by tests/test_watchdog_census.sh.
+        shell: bash --noprofile --norc -uo pipefail {0}
         run: |
-          set -uo pipefail          # NOT -e: one entry failing must not abandon the others
+          set +e                    # belt and braces: -e must stay OFF even if the shell: line above is edited.
+                                    # One entry failing must not abandon the others, and a no-match grep in a
+                                    # census is a normal reading (no commits yet), not an error.
           PROJECT=project-a7ebde30-e2ed-4b8d-9a9
           BUCKET="$PROJECT-rbfe-ckpt"
           RESULTS="gs://$BUCKET/valB-6hax/results"
@@ -93,7 +104,7 @@ jobs:
                       --format="value(creationTimestamp)" 2>/dev/null | sort | head -1)
           if [ -n "$CREATED" ]; then
             CS=$(date -u -d "$CREATED" +%s 2>/dev/null | tr -dc '0-9')
-            [ -n "$CS" ] && VMAGE=$(( ( $(date -u +%s) - CS ) / 60 ))
+            [ -n "$CS" ] && VMAGE=$(( ( $(date -u +%s) - CS ) / 60 )); true
           fi
           case "$VMAGE" in ""|*[!0-9]*) VMAGE=0 ;; esac
           echo "oldest live VM age: ${VMAGE} min (created ${CREATED:-<none>})"
@@ -142,16 +153,22 @@ jobs:
                 else
                   SEL=$(printf '%s\n' "$SEL" | grep -a "_dir$DIR" || true)
                 fi
-                [ -n "$SALT" ] && SEL=$(printf '%s\n' "$SEL" | grep -a "_$SALT" || true)
-                MAXW=$(printf '%s\n' "$SEL" | grep -aoE "warmup/iter-[0-9]+"     | grep -aoE "[0-9]+$" | sort -n | tail -1)
-                MAXP=$(printf '%s\n' "$SEL" | grep -aoE "production/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
+                [ -n "$SALT" ] && SEL=$(printf '%s\n' "$SEL" | grep -a "_$SALT" || true); true
+                # `|| true` on both: a leg with no commits yet is the NORMAL early reading, not a failure, and
+                # with pipefail a no-match grep would otherwise propagate 1 out of the pipeline.
+                MAXW=$(printf '%s\n' "$SEL" | grep -aoE "warmup/iter-[0-9]+"     | grep -aoE "[0-9]+$" | sort -n | tail -1 || true)
+                MAXP=$(printf '%s\n' "$SEL" | grep -aoE "production/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1 || true)
                 # FORCE BASE 10. The commit store pads to 8 digits (iter-00000520), and bash reads a
                 # leading-zero literal as OCTAL: 00000520 would silently become 336, and 00000999 is not octal
                 # at all, so $((1000000 + MAXP)) ERRORS — leaving PROG unset, which under `set -u` kills this
                 # entry mid-loop. Exactly the silent-skip this workflow exists to remove; caught by
                 # tests/test_watchdog_census.sh, not by review.
-                [ -n "$MAXW" ] && MAXW=$((10#$MAXW))
-                [ -n "$MAXP" ] && MAXP=$((10#$MAXP))
+                # `; true` is defensive only: a failing NON-final command in an && list is exempt from -e
+                # (verified empirically), so `[ -n "" ] && ...` is already safe -- but it stops being safe the
+                # moment someone reorders the line so the test is last. The construct that actually killed the
+                # run was the bare `MAXW=$(pipeline)` assignment above, whose status IS the pipeline's.
+                [ -n "$MAXW" ] && MAXW=$((10#$MAXW)); true
+                [ -n "$MAXP" ] && MAXP=$((10#$MAXP)); true
                 # one monotonic scalar to compare passes on: production dominates warmup, and warmup is
                 # offset so a warmup->production transition can never look like a regression.
                 if [ -n "$MAXP" ]; then PROG=$((1000000 + MAXP)); PHASE="production/$MAXP"
