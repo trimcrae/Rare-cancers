@@ -1222,6 +1222,23 @@ def analyze_all():
     out = os.path.join(CKPT, "ternary_convergence.json")
     json.dump(report, open(out, "w"), indent=2, default=str)
     print("[tfep-converge] wrote %s (%d legs, %d technical failures)" % (out, len(legs), n_fail), flush=True)
+    # A COMPACT SUMMARY, because the full report is ~2500 lines of CI log and the four numbers that decide
+    # anything were being hunted for by eye. Printed last so it is the tail of the job log.
+    print("[tfep-converge] ==== SUMMARY ====", flush=True)
+    for leg in legs:
+        st = (leg.get("structural") or {})
+        lg = (st.get("ligand") or {})
+        ident = (lg.get("identification") or {})
+        xc = (ident.get("frozen_heavy_atom_cross_check") or {})
+        print("[tfep-converge] %-34s complete=%-5s tech_fail=%-5s | ligand n=%s heavy=%s H_mass=%s | "
+              "pose_rmsd max=%s med=%s (%s) | frozen-heavy-xcheck=%s"
+              % (leg.get("tag"), leg.get("diagnostics_complete"), leg.get("technical_failure"),
+                 ident.get("n_ligand_atoms"), ident.get("n_ligand_heavy_atoms"), ident.get("hydrogen_mass_da"),
+                 (round(lg["pose_rmsd_max_A"], 3) if lg.get("pose_rmsd_max_A") is not None else "n/a"),
+                 (round(lg["pose_rmsd_median_A"], 3) if lg.get("pose_rmsd_median_A") is not None else "n/a"),
+                 lg.get("flagged_observable"), xc.get("verdict", "n/a")), flush=True)
+    print("[tfep-converge] ligand-size cross-check: %s" % report["ligand_size_cross_check"].get(
+        "verdict", report["ligand_size_cross_check"].get("status")), flush=True)
     return report
 
 
