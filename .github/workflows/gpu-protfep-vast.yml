@@ -60,6 +60,10 @@ on:
         description: "assumed $/hr for the price reduction (blank = 0.20, the observed 4090 spot band)"
         type: string
         default: ""
+      forensic:
+        description: "collect only: dump every Vast field for non-running instances (bid vs min_bid, etc.)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -240,6 +244,11 @@ jobs:
         with:
           python-version: "3.11"
       - name: Status board + anti-idle reap
+        env:
+          # Reachable from CI on purpose: the full record is what identified the create/start race
+          # (min_bid vs our price is the field that separates "outbid" from "broken"), and needing a
+          # commit to switch it on cost a round trip in the middle of a live diagnosis.
+          PROTFEP_FORENSIC: ${{ github.event.inputs.forensic == 'true' && '1' || '0' }}
         run: |
           set -eo pipefail
           python -m pip install -q boto3
