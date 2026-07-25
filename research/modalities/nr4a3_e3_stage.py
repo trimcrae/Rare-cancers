@@ -152,10 +152,78 @@ def classify_e3(e3_class_text: str) -> str:
     return "UNKNOWN"
 
 
+ASSEMBLY_URL = "https://files.rcsb.org/download/{pdb}.pdb1"
+
+
+def adopt_lane1_anchor(pdb, arm_chains, anchor_xyz, exit_direction, log=None):
+    """Consume the E3 lane's recruiter-side anchor — but VERIFY the coordinate frame rather than trust it.
+
+    WHY VERIFY. The lane computes `anchor_xyz` on **biological assembly 1 (mmCIF)**, and this script downloads
+    the **asymmetric unit** PDB. Those are not always the same frame: a biological assembly can be generated
+    from the AU by crystallographic symmetry operators, in which case a coordinate handed across is silently
+    in the wrong place — and every distance downstream would still look perfectly reasonable. This is the same
+    silent-success class as everything else fixed in this lane, so it gets the same treatment: the anchor is
+    accepted only if it actually LANDS ON a ligand heavy atom in the frame we loaded.
+
+    Returns (adopted_dict_or_None, info). A frame mismatch is a REFUSAL with the measured miss distance, not a
+    warning, and the caller then falls back to its own derived exit vector.
+    """
+    for url, kind in ((ASSEMBLY_URL.format(pdb=pdb), "biological assembly 1"),
+                      (FILE_URL.format(pdb=pdb), "asymmetric unit")):
+        try:
+            text = _get(url).decode("utf-8", "replace")
+        except (NotAvailable, RuntimeError):
+            continue
+        prot, het = parse_pdb_text(text)
+        cand = [a for a in het if a["resname"] not in EXCLUDE_HET]
+        if not cand:
+            continue
+        d, best = min(((G.dist(anchor_xyz, a["xyz"]), a) for a in cand), key=lambda t: t[0])
+        if d <= 0.5:
+            if log:
+                log(f"[e3stage]   lane-1 anchor VERIFIED against the {kind}: lands on {best['resname']}."
+                    f"{best['name']} at {d:.2f} A")
+            return ({"source": "e3_lane", "pdb_id": pdb, "frame": kind,
+                     "anchor_xyz": list(anchor_xyz), "exit_direction": list(exit_direction),
+                     "matched_atom": f"{best['resname']}.{best['name']}",
+                     "match_distance_A": round(d, 3)},
+                    {"ok": True, "frame": kind, "miss_A": round(d, 3)})
+        nearest = (d, kind)
+    return None, {"ok": False, "reason": f"lane-1 anchor does not land on a ligand atom in any frame we can "
+                                         f"load (nearest {nearest[0]:.1f} A in the {nearest[1]})"}
+
+
 def arms_from_lane1(registry_path, only=None):
     """Build ARMS entries from Lane 1's recruiter staging JSON. Refuses a recruiter whose UniProt accession
     Lane 1 itself refused (accession null) — an unresolved identity is not a staging input."""
     reg = json.load(open(registry_path))
+    # schema v1.1: the decided rows live under downselect. Tolerate either shape rather than assume one.
+    ds = reg.get("downselect") or {}
+    # The decided rows come from that lane's own CONSUMER API (`load_advanced`), which it declares stable
+    # across schema revisions; the raw JSON shape is explicitly not. Import it if the module sits beside the
+    # registry, and if it does not, rebuild the same fields from the registry — and SAY SO, because a quiet
+    # fallback would mean consuming a reconstructed row while believing it came from the contract.
+    adv_rows = {}
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(registry_path)))
+        import e3_recruiter_staging as _e3lane            # noqa: PLC0415
+        for r in _e3lane.load_advanced(registry_path):
+            adv_rows[r["gene"]] = r
+    except Exception as _exc:                             # noqa: BLE001
+        print(f"[e3stage] lane-1 consumer API unavailable ({type(_exc).__name__}: {_exc}) — rebuilding the "
+              f"rows from the registry", flush=True)
+        back = set(ds.get("backfilled_for_e3_choice_sensitivity") or [])
+        for gene in (ds.get("advanced") or []):
+            rr = (reg.get("recruiters") or {}).get(gene) or {}
+            ev = ((rr.get("ligandability") or {}).get("exit_vector")) or {}
+            prim = next((s for s in (rr.get("staged_structures") or []) if s.get("is_primary")), None) or {}
+            adv_rows[gene] = {
+                "gene": gene, "pdb_id": prim.get("pdb_id"),
+                "anchor_xyz": ev.get("anchor_xyz"), "exit_direction": ev.get("direction"),
+                "backfilled": gene in back,
+                "caveats": (["Pareto-dominated; advanced only so the E3 is a controlled variable downstream"]
+                            if gene in back else []),
+            }
     out = {}
     for gene, rec in (reg.get("recruiters") or {}).items():
         if only and gene not in only:
@@ -169,6 +237,11 @@ def arms_from_lane1(registry_path, only=None):
             continue
         ACC.setdefault(gene, acc)
         seeds = [s["pdb_id"] for s in (rec.get("staged_structures") or [])]
+        # schema v1.1 puts the decided row in downselect; prefer it over the raw staged list, because it is
+        # the row the lane actually stands behind (with its anchor, its frame and its caveats).
+        row = (adv_rows or {}).get(gene)
+        if row:
+            seeds = [row["pdb_id"]] + [x for x in seeds if x != row["pdb_id"]]
         needs = [gene] + list(spec_cls["obligate_partners"])
         arm = {
             "recruiter": gene,
@@ -178,6 +251,11 @@ def arms_from_lane1(registry_path, only=None):
             "receptor_body": needs,
             "seed_ids": seeds,
             "lane1_exit_vector": (rec.get("ligandability") or {}).get("exit_vector"),
+            "lane1_row": row,
+            "lane1_caveats": (row or {}).get("caveats") or [],
+            "lane1_backfilled": bool((row or {}).get("backfilled")),
+            "lane1_anchor_xyz": (row or {}).get("anchor_xyz"),
+            "lane1_exit_direction": (row or {}).get("exit_direction"),
             "lane1_primary_pdb": next((s["pdb_id"] for s in (rec.get("staged_structures") or [])
                                        if s.get("is_primary")), None),
         }
@@ -669,6 +747,36 @@ def stage_arm(arm_id, spec, out_dir, log):
                         a["xyz"][0], a["xyz"][1], a["xyz"][2], a["elem"][:2]))
     rec["receptor_pdb"] = os.path.relpath(body_path, REPO)
     rec["ligand"] = lig
+
+    # ---- 1b. THE E3 LANE'S ANCHOR, adopted where it verifies, and CROSS-CHECKED against ours either way.
+    # Its anchor is the contract's recruiter-side attachment point, computed on biological assembly 1 with
+    # occluders limited to the recruiter's own CRL arm. Ours is derived independently by splitting the ligand
+    # on which protein each atom is closer to. Two independent derivations of the same quantity is a free
+    # consistency check, so the distance between them is always reported — agreement is evidence, and
+    # disagreement is a finding, but neither is allowed to pass unmeasured.
+    rec["lane1"] = {"caveats": spec.get("lane1_caveats") or [],
+                    "backfilled": bool(spec.get("lane1_backfilled")),
+                    "row_pdb_id": (spec.get("lane1_row") or {}).get("pdb_id")}
+    l1_anchor = spec.get("lane1_anchor_xyz")
+    if l1_anchor and (spec.get("lane1_row") or {}).get("pdb_id") == pdb:
+        adopted, info = adopt_lane1_anchor(pdb, body_chains, tuple(l1_anchor),
+                                           spec.get("lane1_exit_direction") or [0.0, 0.0, 1.0], log)
+        rec["lane1"]["anchor_adoption"] = info
+        d_ours = G.dist(tuple(l1_anchor), tuple(lig["exit_atom_xyz"]))
+        rec["lane1"]["distance_to_our_derived_exit_atom_A"] = round(d_ours, 2)
+        log(f"[e3stage] {arm_id}: lane-1 anchor vs our independently derived exit atom "
+            f"({lig['exit_atom_name']}): {d_ours:.2f} A apart "
+            f"[adoption {'OK' if info['ok'] else 'REFUSED: ' + info['reason']}]")
+        if adopted:
+            rec["ligand"]["exit_atom_xyz"] = adopted["anchor_xyz"]
+            rec["ligand"]["exit_vector_source"] = adopted
+            rec["ligand"]["our_derived_exit_atom_xyz"] = list(lig["exit_atom_xyz"])
+    elif l1_anchor:
+        rec["lane1"]["anchor_adoption"] = {
+            "ok": False,
+            "reason": f"lane-1 measured its anchor on {(spec.get('lane1_row') or {}).get('pdb_id')} but the "
+                      f"verified receptor entry here is {pdb}; an anchor is only meaningful in its own "
+                      f"structure's frame, so it is NOT transplanted"}
 
     # ---- 2a. PREFERRED: a solved, intact ubiquitylation assembly for this recruiter. Read the transfer
     # geometry straight out of it rather than composing a RING from two unrelated entries.

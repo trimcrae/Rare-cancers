@@ -479,6 +479,13 @@ def load_arm_from_registry(rec):
         "composition_check": rec.get("composition_check"),
         "provenance": rec.get("provenance", {}),
         "ligand_het": rec["ligand"]["het_code"],
+        # The E3 lane requires its `caveats` be carried into any downstream report, and it is right to: a
+        # recruiter measured with a partner protein removed, or on an asymmetric unit rather than a
+        # biological assembly, is usable but must not be reported as if it were clean. `backfilled` is
+        # equally load-bearing — a backfilled recruiter is an E3-CHOICE SENSITIVITY CONTROL, not a co-winner,
+        # so a difference between it and the front-runner is not a preference this rung may report.
+        "lane1": rec.get("lane1") or {},
+        "exit_vector_source": rec["ligand"].get("exit_vector_source", {"source": "derived_here"}),
     }
 
 
@@ -1338,6 +1345,14 @@ def main(argv=None):
             "recruiter": arm["recruiter"], "crl": arm.get("crl"),
             "ligand_het": arm.get("ligand_het"),
             "provenance": arm.get("provenance"),
+            "e3_lane_caveats": (arm.get("lane1") or {}).get("caveats") or [],
+            "e3_lane_backfilled": bool((arm.get("lane1") or {}).get("backfilled")),
+            "exit_vector_source": arm.get("exit_vector_source"),
+            "_role": ("E3-CHOICE SENSITIVITY CONTROL — this recruiter was Pareto-dominated in the E3 lane's "
+                      "downselect and advanced only so the E3 is a controlled variable. A difference between "
+                      "it and the front-running recruiter is NOT a preference this rung may report."
+                      if (arm.get("lane1") or {}).get("backfilled") else
+                      "downselected recruiter"),
             "per_pose": per_pose, "meta_basins": metas,
         }
         print(f"[basin] {arm['arm_id']}: {len(metas)} pose-marginalised meta-basins; "

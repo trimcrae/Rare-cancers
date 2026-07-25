@@ -335,19 +335,40 @@ Other limits, all written into the output JSON:
 
 ---
 
-## 6. ★ Coordination with the E3 lane — and a finding that cuts against its downselect
+## 6. Coordination with the E3 lane
 
-The parallel recruiter lane stages the widened ligandable panel and downselects it; its output is consumed by
-`arms_from_lane1()` rather than duplicated. Its Pareto front **advanced BIRC2 and MDM2** and dropped VHL and
-CRBN as dominated on ligandability + interface geometry.
+**The E3 lane's FINAL downselect is `advanced = [CRBN, VHL]`, with CRBN the sole Pareto-front member and VHL
+a labelled backfill.** Its contract is consumed through its own `load_advanced()` API — never by reading its
+raw JSON shape, which it declares unstable — and three parts of that contract are honoured here:
 
-I first argued here that this was structurally fortunate: BIRC2 and MDM2 are **monomeric RING** E3s, which
-carry their own RING in the *same chain*, so — unlike a cullin–RING recruiter whose RING sits 40–70 Å away on
-a separate polypeptide — they would need no composition and would inherit none of §3's 48.6 Å uncertainty.
+1. **`anchor_xyz` + `exit_direction`** are adopted as the recruiter-side attachment point where they verify.
+   They are *verified, not trusted*: the lane computes them on **biological assembly 1 (mmCIF)** while this
+   script downloads the **asymmetric unit**, and those are not always the same frame — a coordinate handed
+   across a frame boundary lands silently in the wrong place while every downstream distance still looks
+   reasonable. `adopt_lane1_anchor` accepts the anchor only if it lands within 0.5 Å of a ligand heavy atom
+   in the frame actually loaded, tries the biological assembly first, and **refuses** otherwise. Either way
+   the distance between the lane's anchor and this lane's independently derived exit atom is reported — two
+   independent derivations of the same quantity is a free consistency check, and neither agreement nor
+   disagreement is allowed to pass unmeasured.
+2. **`caveats` is carried into the output**, per the lane's requirement, on every arm and every report.
+3. **VHL is a BACKFILL, not a co-winner.** The CRBN−VHL margin is 0.033 in open solid angle on one conformer
+   each, which that lane reports as a tie. VHL is therefore the **E3-choice sensitivity control** — it is
+   present so the E3 is a *controlled variable* — and this rung **does not report any CRBN-over-VHL
+   preference**. The output stamps `_role` on a backfilled arm saying exactly that.
 
-**Staging them refuted that, and the evidence is unambiguous.** Both recruiters staged cleanly, at superb
-resolution, and then returned `PARTIAL_no_transfer_geometry`. The reason is not a gap in ubiquitylation
-structures; it is which *fragment* the ligandable structures actually are:
+### ★ A finding that argues for a THIRD downselect axis
+
+An interim state of that lane's Pareto (before its final result) advanced **BIRC2 and MDM2** instead. Staging
+them is worth recording, because it produces an axis neither ranking contains — and because it *agrees* with
+where the lane's final answer landed.
+
+I first argued that BIRC2/MDM2 were structurally fortunate: they are **monomeric RING** E3s, carrying their
+own RING in the *same chain*, so — unlike a cullin–RING recruiter whose RING sits 40–70 Å away on a separate
+polypeptide — they would need no composition and would inherit none of §3's 48.6 Å uncertainty.
+
+**Staging them refuted that, and the evidence is unambiguous.** Both staged cleanly, at superb resolution,
+and then returned `PARTIAL_no_transfer_geometry`. The reason is not a gap in ubiquitylation structures; it is
+which *fragment* the ligandable structures actually are:
 
 | arm | staged entry | residues present | fraction of full length | what that domain is |
 |---|---|---|---|---|
@@ -363,13 +384,19 @@ long unstructured region that no deposited structure spans*. So "the RING is in 
 which leaves the transfer zone **less** determined than a composed CRL RING, not more. My earlier claim was
 backwards and is retracted here rather than quietly dropped.
 
-**The decision-relevant consequence.** Term (b) — one of the two categorical axes the entire mechanism-first
-reframe rests on — **cannot be evaluated at all** for the two recruiters the ligandability downselect
-advanced, while it *can* be evaluated from directly observed geometry for the two it dropped (VHL via 8R5H,
-CRBN via 9UUM; §3). A downselect run on ligandability and exit-vector geometry cannot see this, because it
-never asks where the RING is. **The two rankings should be reconciled before any recruiter is committed to a
-GPU leg**, and the reconciliation is not "ligandability was wrong" — it is that ubiquitination-geometry
-*evaluability* is a separate axis that belongs in the Pareto set.
+**The decision-relevant consequence, and it is constructive rather than a conflict.** Term (b) — one of the
+two categorical axes the entire mechanism-first reframe rests on — **cannot be evaluated at all** for BIRC2
+or MDM2, while it *can* be evaluated from **directly observed** geometry for **CRBN (9UUM) and VHL (8R5H)**
+— which are precisely the two the E3 lane's final downselect advanced. So the two analyses **agree**, by
+different routes: ligandability + exit geometry and ubiquitination-geometry evaluability both land on
+CRBN + VHL.
+
+That agreement is the reason to add the axis rather than to argue about a ranking. A downselect run on
+ligandability and exit-vector geometry **cannot see** whether the transfer zone is placeable, because it
+never asks where the RING is; here it happened to coincide, and on a differently-composed panel it would not
+have. **Ubiquitination-geometry evaluability belongs in the Pareto set as its own axis**, with a concrete
+test: *does a solved assembly place this recruiter's RING (or its E2) relative to its ligand-binding site?*
+For BIRC2 and MDM2 the answer is no, and no amount of ligand quality changes it.
 
 ---
 
@@ -411,15 +438,18 @@ Add under reviewer requirement 5 ("full CRL/E2~Ub geometry ensembles"):
 about *which recruiters dock where*, not about the target — which is an argument for widening the recruiter
 panel rather than abandoning the axis.
 
-**D6 — the E3 downselect needs a THIRD axis: is the transfer geometry evaluable at all?** The E3 lane's
-Pareto advanced **BIRC2 and MDM2** and dropped VHL and CRBN. Staging them shows term (b) **cannot be
-evaluated** for either advanced recruiter: their ligandable structures are the **BIR3 domain (residues
-255–346, 15 % of BIRC2)** and the **p53-binding domain (18–111, 19 % of MDM2)**, and the catalytic RING —
-hundreds of residues away at the C-terminus, across a region no structure spans — is absent. Meanwhile both
-*dropped* recruiters have **directly observed** transfer geometry from solved ubiquitylation assemblies
-(§3, §6). A ligandability-and-exit-vector Pareto cannot see this because it never asks where the RING is.
-RUNG 5a's downselect rationale should therefore carry ubiquitination-geometry **evaluability** as its own
-axis, and the two rankings should be reconciled before any recruiter is committed to a GPU leg.
+**D6 — the E3 downselect gains a THIRD axis: is the transfer geometry evaluable at all?** The E3 lane's final
+downselect (`advanced = [CRBN, VHL]`, CRBN on the front, VHL a labelled backfill) and this rung's
+ubiquitination-geometry evaluability **agree**, by different routes. But that agreement was not guaranteed:
+staging the two recruiters an interim Pareto had advanced (**BIRC2**, **MDM2**) shows term (b) **cannot be
+evaluated** for either — their ligandable structures are the **BIR3 domain (255–346, 15 % of BIRC2)** and the
+**p53-binding domain (18–111, 19 % of MDM2)**, and the catalytic RING, hundreds of residues away across a
+region no structure spans, is absent. A ligandability-and-exit-vector Pareto cannot see that, because it
+never asks where the RING is. RUNG 5a's downselect rationale should carry the axis explicitly, with the test
+stated: *does a solved assembly place this recruiter's RING or E2 relative to its ligand-binding site?*
+**And VHL must be recorded as the E3-choice sensitivity control, not a co-winner** — the CRBN−VHL margin is
+0.033 in open solid angle on one conformer each, which is a tie; no CRBN-over-VHL preference is reportable
+from this rung.
 
 ---
 
