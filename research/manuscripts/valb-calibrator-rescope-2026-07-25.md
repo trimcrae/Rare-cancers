@@ -4,7 +4,19 @@
 number below is a $0 CPU derivation, and the spend decision is trimcrae's.
 **Artifacts:** [`valb_rescope_design.py`](../modalities/valb_rescope_design.py) ·
 [`valb-rescope-design.json`](../modalities/valb-rescope-design.json) ·
-[`valb-gate-audit.json`](../modalities/valb-gate-audit.json) (the power arithmetic this rests on).
+[`valb-gate-audit.json`](../modalities/valb-gate-audit.json) (the power arithmetic this rests on) ·
+[`valb_pseries_chem.py`](../modalities/valb_pseries_chem.py) ·
+[`valb-pseries-chem.json`](../modalities/valb-pseries-chem.json) (the RCSB mappability check).
+
+> ## ⚠ READ §5a FIRST — THE $0 BLOCKER RAN, AND IT REFUTES §§2–4
+>
+> Sections 2–4 design the rescope onto the Ciulli SMARCA2–VHL P-series and were written while the ligand
+> chemistry was unknown. **It is now known** (GH run 30168578199, RCSB + RDKit MCS in the production mapper's own
+> container), and the P-series **cannot carry this calibrator**: 6 of its 10 pairs **change formal charge**, and
+> the 4 that do not perturb **58–80 heavy atoms** — against the 2 perturbed atoms of the edge already running.
+> **§§2–4 are retained unedited** because their arithmetic is correct and reusable, and because a design refuted
+> by its own pre-check is worth showing rather than deleting. **§5a is what actually happened; §8 is the revised
+> recommendation and supersedes the one §§2–4 imply.**
 
 ---
 
@@ -177,6 +189,61 @@ costs nothing.
 
 ---
 
+## 5a. The blocker ran — and the P-series cannot carry this calibrator
+
+Run **30168578199**, $0, on a GitHub runner in `triskit23/ternary-fep` (rdkit + lomap2 + kartograf, i.e. the
+production mapper at version parity). All ten pairs, sorted by perturbation:
+
+| edge | heavy A → B | MCS | **perturbed heavy** | charge A → B | verdict |
+|---|---|---|---|---|---|
+| P1 → P5 | 65 → 71 | 39 | **58** | +1 → +1 | large perturbation |
+| P1 → P4 | 65 → 79 | 42 | 60 | +1 → **0** | **CHARGE-CHANGING** |
+| P1 → P2 | 65 → 69 | 36 | 62 | +1 → **0** | **CHARGE-CHANGING** |
+| P2 → P5 | 69 → 71 | 36 | 68 | 0 → **+1** | **CHARGE-CHANGING** |
+| P4 → P5 | 79 → 71 | 39 | 72 | 0 → **+1** | **CHARGE-CHANGING** |
+| P1 → P3 | 65 → 79 | 35 | **74** | +1 → +1 | large perturbation |
+| P2 → P3 | 69 → 79 | 36 | 76 | 0 → **+1** | **CHARGE-CHANGING** |
+| P2 → P4 | 69 → 79 | 36 | 76 | 0 → 0 | large perturbation |
+| P3 → P5 | 79 → 71 | 35 | **80** | +1 → +1 | large perturbation |
+| P3 → P4 | 79 → 79 | 35 | 88 | +1 → **0** | **CHARGE-CHANGING** |
+
+**Three findings, in order of how much they cost the design.**
+
+1. **The P-series is not a congeneric series in the RBFE sense.** Its MCS is only 35–42 atoms out of 65–79
+   heavy, so *half of every molecule* is perturbed. For scale, the edge already running — Wurz cmpd1 → cmpd4 —
+   is a **single ring N→CH swap: 2 perturbed heavy atoms**, run over 12 λ-windows. Going to 58 is not a bigger
+   version of the same calculation; it is a different regime, needing far more windows (and therefore far more
+   than the $9–27 quoted in §2–3) with no assurance of overlap even then. The published α series is a
+   *linker/exit-vector design* series — chemically diverse by construction, which is exactly what makes it a
+   good SAR paper and a bad alchemical map.
+2. **Six of ten pairs change formal charge**, in the pattern P1 **+1**, P2 **0**, P3 **+1**, P4 **0**, P5 **+1**.
+   A charge-changing alchemical transformation needs finite-size/Ewald corrections and is a different and much
+   more expensive calculation. This kills **P1→P4 (+2.53) outright** — the very edge §3 costed at $9.
+3. **What survives is narrower than expected, and it is not what §2 recommended.** The charge-consistent **+1
+   subset {P1, P3, P5}** does form a closed triangle — so the closure *topology* of §2 is intact — but its
+   edges perturb 74 / 80 / 58 heavy atoms. The two-hop route P1→P3→P5 is therefore **worse than the direct
+   P1→P5 on both axes at once**: larger perturbations (74 and 80 vs 58) *and* the √2 SD penalty of §4. §2's
+   "maximise the smallest hop" selection rule optimised the wrong quantity, because it ranked triangles on
+   **experimental Δα** while the binding constraint turned out to be **chemical distance.**
+
+**What did hold.** The identity check confirms these are genuine SMARCA2 ternaries, not SMARCA4 — e.g. 9HYP is
+*"CRYSTAL STRUCTURE OF THE SMARCA2-VCB-COMPLEX WITH PROTAC P5"* at **2.2 Å**, against 8G1Q's 3.73 Å SMARCA4
+parent. So §2's *second* argument — that moving to this panel deletes the homology-model term and makes
+replicates measure sampling noise alone — is **correct and remains available** to any future design that can
+reach these structures. It is the P-series *ligands* that are unusable as an alchemical map, not the P-series
+*structures*.
+
+### The conclusion that follows, and it is the important one
+
+**A ≥2 kcal/mol ternary calibrator that is also a small, charge-neutral, mappable perturbation may simply not
+exist in the public literature.** Large cooperativity differences are produced by large chemical changes — that
+is *why* they are large. The two requirements are in tension by construction, and the P-series is the best
+public candidate the repo had identified.
+
+This does not leave the program stuck, because **cycle closure never needed the experimental answer.** See §8.
+
+---
+
 ## 6. The decision tree, keyed to the reverse leg now in flight
 
 The preregistered antisymmetry check `|ΔG_fwd + ΔG_rev|` is `null` on all three legs and is being measured right
@@ -243,28 +310,75 @@ horizon is long enough for it to earn its keep.
 
 ---
 
-## 8. Recommendation
+## 8. REVISED RECOMMENDATION — a **synthetic closure triangle on the anchor ligand**
 
-1. **Now, $0 — run the RCSB ligand-chemistry fetch** (§5). It gates everything and costs nothing. Nothing below
-   should be authorised before it returns.
-2. **When the reverse leg lands, read the branch (§6).** Branch B → fix the protocol on the edge already paid
-   for; do not buy a new calibrator. Branch A → proceed.
-3. **Under branch A, buy design (i) i-scout: three edges × one replicate, ~$9 (range $3.2–22).** It costs what
-   the *existing* single-edge design costs and returns something that design structurally cannot: a
-   reference-free systematic-error detector, and the measured resolution floor. It is abortable before the
-   replicate spend.
-4. **Only then decide on replicates (~$27 for n = 3).** If the closure residual is small, the systematic is in
-   the model or reference data and replicates are worth buying; if it is large, replicates are again the wrong
-   instrument and the money goes to the protocol.
-5. **Do not buy the hopped routes of design (ii)** unless the RCSB fetch shows the direct edges are unmappable
-   — §4 shows they *lower* the pass probability at equal per-edge noise.
-6. **Do not wire sequential stopping into this ladder** (§7).
+§5a removes both published options. What it does **not** remove is the instrument, and this is the point the
+whole document turns on:
+
+> **Cycle closure needs no experimental measurement whatsoever.** `R = ΔΔG(A→B) + ΔΔG(B→C) − ΔΔG(A→C)` is zero
+> for an exact method *whatever the true α values are*. So the ligands in a closure triangle **do not have to
+> have measured cooperativity at all** — they only have to be mappable.
+
+That inverts the constraint that §5a just showed is binding. Instead of hunting the literature for compounds
+with a large measured Δα *and* a small chemical distance — a pair of requirements in tension by construction —
+build the triangle from **small, deliberately chosen perturbations of the anchor ligand itself**, exactly like
+the cmpd1→cmpd4 edge that already converged.
+
+### The design
+
+| edge | perturbation | status |
+|---|---|---|
+| **T1** | Wurz cmpd1 → cmpd4 (ring N→CH, **2 perturbed heavy atoms**) | **ALREADY RUN — this is r0.** Reused, not re-bought |
+| **T2** | cmpd4 → cmpd4′ (a second small, charge-neutral single-site change on the same scaffold) | new |
+| **T3** | cmpd1 → cmpd4′ (**closes the loop**) | new |
+
+`R = ΔΔG_coop(T1) + ΔΔG_coop(T2) − ΔΔG_coop(T3)`, expected **0**.
+
+Why this is better than either published option on every axis that matters:
+
+- **It reuses r0.** The triangle costs **2 new edges**, not 3 — the leg already paid for becomes one side of it.
+- **Every perturbation is the size that already converged.** No new convergence risk, no window-count blow-up,
+  no charge correction. §5a's failure mode cannot occur.
+- **It needs no α, so the literature constraint vanishes.** cmpd4 is *already* a derived compound (the frozen
+  record calls it "DERIVED (no separate crystal)"), so a second derived analogue is the same move again, and
+  `ternary_calib_epimer_freeze.py` / `wurz_calib_freeze.py` already implement the machinery for deriving and
+  validating one.
+- **It measures the resolution floor directly.** |R| *is* the number "this workflow resolves ΔΔG_coop
+  differences of ≥ X and not below", obtained without assuming any experiment is right.
+- **It discriminates the branches of §6 by itself**, so it is worth buying under either.
+
+**Cost:** 2 edges × 2 legs (ternary + binary; the solvent morph cancels in ΔΔG_coop) ≈ **43 ref GPU-h ≈ $5.9**
+at n = 1 (range $2.1–15); **~$17.6** at n = 3 (range $6.3–44). *Cheaper than the single-edge design already on
+the ladder*, because r0 is reused.
+
+**What it is NOT, stated plainly:** a closure triangle measures **internal consistency and systematic path
+error**. It is **not** an accuracy control — it cannot tell you the cycle gets the right answer, only that it
+gets a *self-consistent* one. **The known-answer accuracy requirement therefore remains OPEN**, and §5a is the
+honest reason why: the public literature may not contain a ternary edge that is simultaneously large-signal and
+mappable. That is a finding to report in the paper, not a gap to paper over.
+
+### Ordered actions
+
+1. **✅ done, $0** — the RCSB mappability check (§5a). It refuted §§2–4 before a dollar was spent, which is what
+   a $0 pre-gate is for.
+2. **$0, next** — derive and validate 1–2 candidate cmpd4′ analogues through the existing freeze machinery, and
+   confirm with the same RCSB/RDKit path that each is ≤ ~4 perturbed heavy atoms and charge-neutral against
+   **both** cmpd1 and cmpd4. Only then is the triangle a plan rather than a sketch.
+3. **$0, worth doing regardless** — fetch the Wurz 2023 SI α table. If that paper's own series contains a
+   *congeneric* pair with a larger Δα than 12.8→2.6, it is the one known-answer option §5a did not test, and it
+   would come with a matching crystal structure. Cheap, and it is the only remaining route to a real accuracy
+   control.
+4. **When the reverse leg lands, read the branch (§6).** Branch B → fix the protocol on the edge already paid
+   for. Branch A → buy the triangle.
+5. **Under branch A, buy the closure triangle at n = 1 first (~$5.9).** Abortable before any replicate spend,
+   and it returns the resolution floor on its own.
+6. **Do not** buy the P-series edges (§5a), the hopped routes (§4), or sequential stopping on this ladder (§7).
 
 **The deliverable to aim at is the measured resolution floor, not a PASS.** A rigorous statement that "this
 workflow resolves induced-interface ΔΔG_coop differences of ≥ X kcal/mol and not below" is honest-limits
 reporting of exactly the kind the North Star calls for, it is what the paper needs in order to say what the
-ternary numbers can support, and — unlike a PASS — **the closure network produces it whether the calibration
-succeeds or fails.**
+ternary numbers can support, and — unlike a PASS — **the closure triangle produces it whether the calibration
+succeeds or fails.** After §5a it is also the *only* one of the two that the available chemistry can deliver.
 
 ---
 
