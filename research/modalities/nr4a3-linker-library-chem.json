@@ -2,7 +2,7 @@
   "_title": "RDKit verification of the RUNG-5b virtual library",
   "_method": "Every construct's backbone length and branch position are RE-DERIVED from the parsed molecule (topological shortest path between the two anchor atoms) and compared to the values the geometry asserted; required cores and the declared pendant are matched as exact substructures; a list of junction motifs that must never appear is checked; descriptors are reported without a pass/fail.",
   "_rdkit_version": "2025.09.6",
-  "n_constructs": 22,
+  "n_constructs": 21,
   "n_failed": 0,
   "constructs": [
     {
@@ -483,36 +483,36 @@
       "ok": true
     },
     {
-      "construct_id": "vhlM3_5amide_a2-a3_ph",
+      "construct_id": "vhlM3_5triazole_a2-a3_acrylamide",
       "errors": [],
       "warnings": [],
       "anchor_atoms": {
-        "warhead": "N52",
+        "warhead": "O54",
         "e3": "N28"
       },
-      "n_backbone_atoms_measured": 12,
-      "n_backbone_atoms_intended": 12,
-      "branch_side_chain_bonds": 1,
-      "branch_k_measured": 7,
-      "branch_k_intended": 7,
+      "n_backbone_atoms_measured": 15,
+      "n_backbone_atoms_intended": 15,
+      "branch_side_chain_bonds": 3,
+      "branch_k_measured": 10,
+      "branch_k_intended": 10,
       "cores": {
         "warhead": true,
         "e3_vhl": true
       },
       "descriptors": {
-        "mw": 935.1,
-        "heavy_atoms": 67,
-        "clogp": 4.54,
-        "tpsa": 241.0,
+        "mw": 996.2,
+        "heavy_atoms": 71,
+        "clogp": 2.83,
+        "tpsa": 281.0,
         "hbd": 7,
-        "hba": 11,
-        "rotatable_bonds": 19,
-        "fraction_csp3": 0.388,
+        "hba": 14,
+        "rotatable_bonds": 23,
+        "fraction_csp3": 0.429,
         "n_stereocentres": 4,
         "_reading": "REPORTED, NOT GATED. A bifunctional degrader is beyond-rule-of-5 by construction; applying a Ro5 filter here would reject the entire modality. These are for the manuscript's physicochemical assessment and for ranking WITHIN the class."
       },
-      "canonical_smiles": "COC(=O)c1c[nH]c2ccc(NC(=O)CCCNC(=O)[C@H](Cc3ccccc3)NC(=O)CCC(=O)N[C@H](C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(-c4scnc4C)cc3)C(C)(C)C)cc12",
-      "inchikey": "XCYDXUVUCFSUHY-ZUNCKWBDSA-N",
+      "canonical_smiles": "C=CC(=O)NCC[C@H](NC(=O)CCC(=O)N[C@H](C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(-c2scnc2C)cc1)C(C)(C)C)C(=O)NCCCn1cc(COc2ccc3[nH]cc(C(=O)OC)c3c2)nn1",
+      "inchikey": "OCVRMNGVLYXSEP-FKQALKKSSA-N",
       "ok": true
     },
     {
@@ -549,6 +549,39 @@
       "ok": true
     },
     {
+      "construct_id": "vhlM2_5amide_a2-a11_acrylamide",
+      "errors": [],
+      "warnings": [],
+      "anchor_atoms": {
+        "warhead": "N60",
+        "e3": "N28"
+      },
+      "n_backbone_atoms_measured": 20,
+      "n_backbone_atoms_intended": 20,
+      "branch_side_chain_bonds": 3,
+      "branch_k_measured": 15,
+      "branch_k_intended": 15,
+      "cores": {
+        "warhead": true,
+        "e3_vhl": true
+      },
+      "descriptors": {
+        "mw": 1054.3,
+        "heavy_atoms": 75,
+        "clogp": 6.11,
+        "tpsa": 270.1,
+        "hbd": 8,
+        "hba": 12,
+        "rotatable_bonds": 29,
+        "fraction_csp3": 0.509,
+        "n_stereocentres": 4,
+        "_reading": "REPORTED, NOT GATED. A bifunctional degrader is beyond-rule-of-5 by construction; applying a Ro5 filter here would reject the entire modality. These are for the manuscript's physicochemical assessment and for ranking WITHIN the class."
+      },
+      "canonical_smiles": "C=CC(=O)NCC[C@H](NC(=O)CCC(=O)N[C@H](C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(-c2scnc2C)cc1)C(C)(C)C)C(=O)NCCCCCCCCCCCC(=O)Nc1ccc2[nH]cc(C(=O)OC)c2c1",
+      "inchikey": "SRBFEMQOMOQGRL-GZJDIVCHSA-N",
+      "ok": true
+    },
+    {
       "construct_id": "vhlM2_5amide_a2-a11_cyanoprop",
       "errors": [],
       "warnings": [],
@@ -582,39 +615,6 @@
       "ok": true
     },
     {
-      "construct_id": "vhlM2_5amide_a2-m4_cyanoprop",
-      "errors": [],
-      "warnings": [],
-      "anchor_atoms": {
-        "warhead": "N63",
-        "e3": "N28"
-      },
-      "n_backbone_atoms_measured": 20,
-      "n_backbone_atoms_intended": 20,
-      "branch_side_chain_bonds": 3,
-      "branch_k_measured": 15,
-      "branch_k_intended": 15,
-      "cores": {
-        "warhead": true,
-        "e3_vhl": true
-      },
-      "descriptors": {
-        "mw": 1101.3,
-        "heavy_atoms": 78,
-        "clogp": 3.01,
-        "tpsa": 321.6,
-        "hbd": 8,
-        "hba": 16,
-        "rotatable_bonds": 30,
-        "fraction_csp3": 0.519,
-        "n_stereocentres": 5,
-        "_reading": "REPORTED, NOT GATED. A bifunctional degrader is beyond-rule-of-5 by construction; applying a Ro5 filter here would reject the entire modality. These are for the manuscript's physicochemical assessment and for ranking WITHIN the class."
-      },
-      "canonical_smiles": "CC[C@H](C#N)C(=O)NCC[C@H](NC(=O)CCC(=O)N[C@H](C(=O)N1C[C@H](O)C[C@H]1C(=O)NCc1ccc(-c2scnc2C)cc1)C(C)(C)C)C(=O)NCCOCCOCCOCCC(=O)Nc1ccc2[nH]cc(C(=O)OC)c2c1",
-      "inchikey": "RNMRGHILMRCZQQ-WGPQJPLOSA-N",
-      "ok": true
-    },
-    {
       "construct_id": "vhlM2_5amide_a2-a11_ph",
       "errors": [],
       "warnings": [],
@@ -645,39 +645,6 @@
       },
       "canonical_smiles": "COC(=O)c1c[nH]c2ccc(NC(=O)CCCCCCCCCCCNC(=O)[C@H](Cc3ccccc3)NC(=O)CCC(=O)N[C@H](C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(-c4scnc4C)cc3)C(C)(C)C)cc12",
       "inchikey": "QMAWUKPECYLIRX-RGUKBMEDSA-N",
-      "ok": true
-    },
-    {
-      "construct_id": "vhlM2_5amide_a2-m4_ph",
-      "errors": [],
-      "warnings": [],
-      "anchor_atoms": {
-        "warhead": "N60",
-        "e3": "N28"
-      },
-      "n_backbone_atoms_measured": 20,
-      "n_backbone_atoms_intended": 20,
-      "branch_side_chain_bonds": 1,
-      "branch_k_measured": 15,
-      "branch_k_intended": 15,
-      "cores": {
-        "warhead": true,
-        "e3_vhl": true
-      },
-      "descriptors": {
-        "mw": 1053.2,
-        "heavy_atoms": 75,
-        "clogp": 4.2,
-        "tpsa": 268.7,
-        "hbd": 7,
-        "hba": 14,
-        "rotatable_bonds": 27,
-        "fraction_csp3": 0.444,
-        "n_stereocentres": 4,
-        "_reading": "REPORTED, NOT GATED. A bifunctional degrader is beyond-rule-of-5 by construction; applying a Ro5 filter here would reject the entire modality. These are for the manuscript's physicochemical assessment and for ranking WITHIN the class."
-      },
-      "canonical_smiles": "COC(=O)c1c[nH]c2ccc(NC(=O)CCOCCOCCOCCNC(=O)[C@H](Cc3ccccc3)NC(=O)CCC(=O)N[C@H](C(=O)N3C[C@H](O)C[C@H]3C(=O)NCc3ccc(-c4scnc4C)cc3)C(C)(C)C)cc12",
-      "inchikey": "AWPUQKCEPPRJEO-XMHJPUBNSA-N",
       "ok": true
     },
     {
