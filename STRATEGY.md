@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 4:10 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 5:30 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -75,7 +75,7 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30172893752`) | **RUNNING, PAST THE FAILURE POINT, and now self-driving.** The 3:35 PM VM reached a committed **`warmup/8`** checkpoint at 33.9 s/iter — all four earlier attempts died at **warmup iteration 1**, so this is the pre-equilibration fix confirmed working. It was then **spot-preempted at ~4:04 PM** (25 min in; routine) and the **watchdog relaunched it unprompted at 4:06 PM — attempt 2/8, resuming from checkpoint**, its first autonomous recovery. Setup provenance verified identical to fwd (141,968 particles, protocol_hash `52488cfc…`) | **~Sun 6 PM ET** (~26 h MD across ~4 VM lifetimes, self-driven) | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** (GPU L4, us-central1) | **RUNNING and advancing** — `warmup/96` of 800 at 5:18 PM ET on VM `gcp-ternary-30175078131`. **Switching to ON-DEMAND** (`provisioning=standard`), authorized by trimcrae 5:30 PM ET: spot ran at **53% efficiency** (55.9 iter/h measured vs 106.2 theoretical) across 3 preemptions, and on-demand also lifts max-run from 7 h to 20 h. Current spot VM deliberately left running so no committed work is discarded; the switch takes effect on the next relaunch | **~Sun 7:30 PM ET** on-demand *(was ~Mon 6 PM on spot)* | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ✅ **Confound RESOLVED 2026-07-25 ($0): the 2 fs baseline is `v2pe`, pre-equilibrated** — the committed r0 `.nc` holds **141,968** particles, the `v2pe` fingerprint (`v1` raw = 146,020). The arms differ in the **timestep alone**, so a NO-GO is now interpretable |
@@ -183,6 +183,29 @@ relevant rung below.*
 > a value crosses a boundary — two shells, generation-time vs run-time, runner vs VM — the only acceptable
 > evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
 > inspection of the producing code.
+
+> ### ✅ ON-DEMAND AUTHORIZED FOR THIS LEG ONLY (trimcrae, 2026-07-25 ~5:30 PM ET)
+> `gpu-ternary-fep-gcp.yml` gates on-demand behind *"ONLY when explicitly authorized for a time-sensitive
+> one-off, e.g. confirming a single valB leg"* — this is that one-off, and the authorization is now given. **It is
+> a deliberate, recorded reversal of the standing "DEFAULT EVERY GPU RUN TO SPOT" rule, scoped to THIS leg**; new
+> work still defaults to spot, and reverting is one line in
+> [ternary-watch.json](research/modalities/ternary-watch.json).
+>
+> **Measured basis, not a guess.** Spot delivered **96 warmup iterations in 103 min** across 3 preemptions and 3
+> setup cycles = **55.9 iter/h**, against **106.2 iter/h** theoretical at the measured 33.91 s/iter — **53%
+> efficiency**. The remaining 2704 iterations:
+>
+> | | throughput | remaining | lands |
+> |---|---|---|---|
+> | spot | 55.9 iter/h | **48.4 h** | ~Mon 6 PM ET |
+> | on-demand | 106.2 iter/h | **25.5 h** | **~Sun 7:30 PM ET** |
+>
+> Spot also caps `max-run` at 25200 s (7 h) where standard gets 72000 s (20 h): **~2 VM lifetimes instead of
+> ~35**, which additionally removes the dependence on GitHub's cron for recovery — measured **silent for 44 min**
+> while the leg sat dead. **Cost: ~$10 of GCP trial credit**, which expires 2026-10-10 and is otherwise a
+> stranded asset — **$0 cash**. NB [pricing.md](research/compute/pricing.md) still forbids quoting the
+> L4-on-demand figure as a go-forward **cost basis** for the program; spending stranded credit on one gating leg
+> is a different question from pricing the ladder.
 
 > ### ⏱️ ETA CORRECTED FROM A MEASURED RATE — ~26 h of MD, not the ~10–20 h previously quoted
 > The leg logs **33.91 s/iteration**, which is exactly the L4 rate [pricing.md](research/compute/pricing.md)
