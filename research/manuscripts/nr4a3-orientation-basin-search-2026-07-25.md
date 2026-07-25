@@ -263,6 +263,49 @@ reported so a reader can move it.
 
 ---
 
+## 4b. Result (VHL preview, 600 k placements × 6 poses) — **Tier-2 GO, on the CATEGORICAL limb, but weakly**
+
+The authoritative run is the 12-pose, 10⁶-placement, two-arm CI job; this is the VHL preview, and its shape is
+what matters more than its exact numbers.
+
+**The gate reads GO on the categorical basis** — 19 pose-marginalised meta-basins, 2 exploiting term (a) at
+the practical linker gate, 12 exploiting term (b) above the null, 8 nominally discriminating. But the honest
+reading is *weak*, and the machinery built to make it honest is what says so:
+
+| meta-basin | poses | members | term (a): C397 min linker | term (b) rank | mean frac. covering a unique lysine | enrichment vs null | nominal Δ (unitless) |
+|---|---|---|---|---|---|---|---|
+| **M2** | 5/6 | 139 | **10 atoms** | **5** (unique-only, paralogues bare) | 0.010 | 3.2× | **+0.15 … +5.39** |
+| M0 | 6/6 | 183 | **9 atoms** | 3 | 0.005 | 3.2× | −14.4 … −4.61 |
+| M4 | 4/6 | 127 | 13 atoms | 5 | 0.034 | 2.9× | +0.85 … +3.92 |
+| M6 | 4/6 | 104 | 23 atoms | 3 | 0.053 | 11.8× | −18.4 … −3.4 |
+| M5 | 3/6 | 100 | 21 atoms | 5 | 0.080 | 6.5× | −24.5 … −15.6 |
+
+**M2 is the strongest nomination**: it survives 5 of 6 warhead exit-vector poses, reaches C397 with a
+**10-atom** linker (inside the 12-atom gate), reaches term-(b) rank 5, and is the only top basin whose cheap
+contact score also points the right way. Its interface patch (UniProt 390–412 plus **572**) sits on the
+NR4A3 surface *around K572 itself*.
+
+**What must be said alongside it.**
+
+- **The categorical terms fire in a small MINORITY of each basin's placements** — 0.5–8 % cover a unique
+  lysine, and term (a)'s gate-level reach fraction is 2–5 %. These are enrichments over a background of
+  1–3.5 %, not saturation. A basin is a region that *admits* the mechanism, not one that enforces it.
+- **The null is what makes those numbers readable at all.** Background coverage of a unique lysine by any
+  linker-feasible, clash-free placement is only 0.010–0.035, so the enrichments (2.9–11.8×) are real signal
+  rather than a zone so large it covers everything. Had the null come back near 1.0, every basin's term (b)
+  would have been meaningless — and with the *uncalibrated* 10 Å transfer distance it would instead have come
+  back near 0 and suppressed the term entirely.
+- **The term-(b) category is NOT robust to the transfer-zone sweep** in the basin examined in detail: it holds
+  at the calibrated 17.1 Å but drops to rank 1 at the old assumed 10 Å with a tight RING radius. This is
+  reported per basin (`sensitivity_robust`) and it is the single biggest soft spot in the term.
+- **The best-populated basin (M0) has a NEGATIVE nominal Δ** — the cheap contact score favours the
+  paralogues there. Under mechanism-first that does not disqualify it (the categorical terms are what
+  nominate), but it is exactly the sort of thing that a scalar score would have hidden by averaging.
+- Two NR4A1 lysines covered in the detailed basin sit in **badly-superposed loops** and are flagged
+  `covered_but_unreliably_placed` rather than counted silently.
+
+---
+
 ## 5. Honest scope
 
 Everything is conditional on the hypothesised **cmpd19 binary pose × the chosen receptor frame** — a *double*
