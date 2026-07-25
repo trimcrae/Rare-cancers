@@ -148,6 +148,11 @@ in the authoritative run** — both arms carry `transfer_anchor.source = observe
 the composed RING — but it binds immediately for any future arm that has no intact assembly and falls back to
 the composed-RING arc.
 
+`validate_composition_against_solved_assembly` now performs this **own-assembly** comparison for every arm
+before its single-reference check, so the number is recorded in the registry for any future arm rather than
+being silently skipped whenever the arm and the reference entry share no bridge protein. (Added, not re-run:
+Lane 2's committed registry is left exactly as it was.)
+
 ### 1.6 Verdict
 
 > **The VHL staging that the authoritative Tier-2 result rests on is CORRECT, validated to 0.09 Å against a
@@ -226,12 +231,41 @@ pose-sampling noise (the reference model reads 10/14/20 here against 10/16/20 in
 Every frame is processed by the identical protocol, so the **cross-frame** comparison — which is what the
 table is for — is unaffected.
 
-### 2.3 Verdict: concentration risk, not fragility
+### 2.3 ★ The question the marginals cannot answer: is it the SAME conformer?
+
+Term (a) needs one conformer to do two things at once — present the cryptic pocket the warhead occupies
+**and** put C397 within a linker's reach of a dockable E3 anchor. "The pocket opens in 59 % of frames" and
+"C397 is reachable in 96 % of frames" say nothing about whether those are the *same* frames, and if they were
+anti-correlated the entire term-(a) axis would be conditional on a conformational state that excludes the
+warhead binding — with no marginal statistic showing it.
+
+The join is free: the reharmonized pocket analysis carries a per-frame `orthosteric_druggability` for exactly
+these conformers, keyed by the same frame index, against the pinned **d\* = 0.53**.
+
+| 75 unbiased conformers | value |
+|---|---|
+| P(pocket druggable at d\*) | 0.587 |
+| P(C397 reachable at the 12-atom gate) | 0.960 |
+| **P(BOTH)** | **0.560** |
+| P(both) if independent | 0.563 |
+| **P(C397 reachable \| pocket druggable)** | **0.955** |
+
+**They are independent to within the noise of 75 frames — no anti-correlation.** In **56 %** of unbiased
+conformers the cryptic pocket is druggable *and* C397 sits at the gate, and conditioning on a druggable
+pocket does not cost the handle anything (0.955 vs 0.960 unconditional). The biased metadynamics set agrees
+(0.48 observed vs 0.49 independent). This was a live way the mechanism could have failed, and it does not.
+
+*Limit:* 25 frames per replica is small for a joint statistic — read the direction and the magnitude of the
+(absent) anti-correlation, not a precise probability.
+
+### 2.4 Verdict: concentration risk, not fragility
 
 **C397 is genuinely the only handle at any credible linker length — and it is a *robust* only handle.** The
 axis is not fragile in the sense the question feared (the handle failing to be there in a different
-conformer): across 75 unbiased conformers C397 is exposed at median RSA 0.42 and reachable at the gate in
-96 % of them. What the axis *does* carry is **concentration risk**: everything rests on one residue, and the
+conformer): across 75 unbiased conformers C397 is exposed at median RSA 0.42, reachable at the gate in 96 %
+of them, and reachable in **95.5 %** of the conformers that also present a druggable cryptic pocket — the two
+requirements are independent, not competing. What the axis *does* carry is **concentration risk**:
+everything rests on one residue, and the
 untested failure modes are chemical, not geometric — thiol pKa, intrinsic nucleophilicity, adduct stability,
 and electrophile promiscuity, none of which this or any other in-silico step in the program has tested, and
 the last of which needs chemoproteomics.
@@ -317,7 +351,11 @@ C397's RSA is **median 0.416 (mean 0.405 ± 0.096, p10–p90 0.298–0.510)** �
 median — and it is reachable at or below the **12-atom gate in 96 %** of them. Add plainly: **C420 and C559
 are reachable at ≤12 atoms in ZERO of the 75 unbiased conformers × 12 exit-vector poses** (across all 100,
 2 biased metadynamics frames for C420 and none for C559); C420 needs **16** atoms (51 % of frames) and C559
-**20** (81 %), paid out of the same contour length that must also span to the E3. So the
+**20** (81 %), paid out of the same contour length that must also span to the E3. Add the joint result, which
+closes a live failure mode: the cryptic pocket being druggable and C397 being reachable are **independent**
+over the same 75 conformers — P(both) = **0.560** against an independence product of 0.563, and
+P(reachable | druggable) = **0.955** — so the handle is not conditional on a conformational state that
+excludes the warhead. So the
 categorical *chemistry* axis is **one residue deep** — robustly present, but with no geometric fallback — and
 the program's insurance against a C397-specific *chemical* failure (pKa, nucleophilicity, adduct stability,
 promiscuity — all untested here) is the categorical **lysine** axis, not a second cysteine. C559's

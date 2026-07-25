@@ -71,6 +71,34 @@ ENSEMBLES = {
 }
 
 
+D_STAR = 0.53          # the pinned orthosteric-druggability threshold from pocket-reharmonize-summary.json
+
+
+def druggability_by_frame(subdir):
+    """Per-frame orthosteric druggability from the SAME reharmonized pocket analysis these conformers came
+    from, keyed by the frame index embedded in each directory name (`fp_<index>_<hash>`).
+
+    WHY THIS JOIN IS THE POINT. Term (a) needs a conformer to do TWO things at once: present the cryptic
+    pocket the warhead occupies, AND put C397 within a linker's reach of a dockable E3 anchor. Reported
+    separately, 'the pocket opens in X % of frames' and 'C397 is reachable in Y % of frames' say nothing about
+    whether it is the SAME frames. If the two were anti-correlated, the term-(a) claim would be conditional on
+    a conformational state that excludes the warhead binding at all -- and no marginal statistic would show
+    it."""
+    p = os.path.join(ENSEMBLE_ROOT, subdir, "pocket_analysis_summary.json")
+    if not os.path.exists(p):
+        return {}
+    d = json.load(open(p))
+    ser = ((d.get("druggability_timeseries") or {}).get("series")) or []
+    return {int(s["frame"]): s.get("orthosteric_druggability") for s in ser if "frame" in s}
+
+
+def frame_index(dirname):
+    try:
+        return int(dirname.split("_")[1])
+    except (IndexError, ValueError):
+        return None
+
+
 def frame_paths(subdir):
     d = os.path.join(ENSEMBLE_ROOT, subdir)
     if not os.path.isdir(d):
@@ -216,8 +244,12 @@ def main(argv=None):
 
     for name, fps, biased in todo:
         rows = []
+        drug = druggability_by_frame(ENSEMBLES[name][0]) if name in ENSEMBLES else {}
         for i, (fid, path) in enumerate(fps):
             rows.append(analyse_frame(path, handles, pocket_local, args.n_poses, args.seed + i, args.n_mc))
+            fi = frame_index(fid)
+            rows[-1]["frame_index"] = fi
+            rows[-1]["orthosteric_druggability"] = drug.get(fi)
             print(f"[hens] {name} {fid}: "
                   + " ".join(f"{k}(rsa={v.get('rsa')},L={v.get('shortest_linker_atoms')})"
                              for k, v in rows[-1]["handles"].items() if k.startswith("C")), flush=True)
@@ -270,6 +302,49 @@ def main(argv=None):
     res["pooled_unbiased"] = {"_what": "the 3 unbiased release replicas pooled; the metadynamics ensemble is "
                                        "deliberately excluded because it is biased along the pocket CV",
                               "n_replicas": len(unb), "summary": pooled}
+
+    # ---- JOINT feasibility: is the pocket open in the SAME conformers where C397 is reachable? -----------
+    joint = {}
+    for scope, names in (("pooled_unbiased", unb), ("metad_biased", ["metad_biased"])):
+        cells = {}
+        for lab in ("C397", "C420", "C559"):
+            n = a = b = ab = 0
+            for nm in names:
+                for f in res["ensembles"][nm]["frames"]:
+                    d = f.get("orthosteric_druggability")
+                    L = f["handles"].get(lab, {}).get("shortest_linker_atoms")
+                    if d is None:
+                        continue
+                    n += 1
+                    A = d >= D_STAR                                  # pocket druggable
+                    Bq = (L is not None and L <= B.PARAMS["linker_gate_atoms"])   # cysteine at the gate
+                    a += A
+                    b += Bq
+                    ab += (A and Bq)
+            if n:
+                cells[lab] = {
+                    "n_frames": n,
+                    "P_pocket_druggable": round(a / n, 3),
+                    "P_reachable_at_gate": round(b / n, 3),
+                    "P_BOTH": round(ab / n, 3),
+                    "P_both_if_independent": round((a / n) * (b / n), 3),
+                    "P_reachable_GIVEN_druggable": (round(ab / a, 3) if a else None),
+                    "_reading": "P_BOTH materially below P_both_if_independent would mean the handle and the "
+                                "pocket are anti-correlated, i.e. term (a) is conditional on a conformational "
+                                "state that excludes the warhead. Equal or above means they are compatible.",
+                }
+        joint[scope] = cells
+    res["joint_pocket_and_handle"] = {
+        "d_star": D_STAR,
+        "_what": "The mechanism needs ONE conformer to present the cryptic pocket AND put the cysteine within "
+                 "linker reach. Marginal percentages cannot answer that; this is the joint distribution over "
+                 "the same frames, with the independence product as the reference.",
+        "_limits": ["Druggability comes from the reharmonized fpocket analysis at the pinned d* = 0.53, on the "
+                    "same frames; nothing here re-derives it.",
+                    "25 frames per replica is a small n for a joint statistic — read the direction and the "
+                    "magnitude of any anti-correlation, not a precise probability."],
+        "by_ensemble": joint,
+    }
     with open(args.out, "w") as fh:
         json.dump(res, fh, indent=1)
     print(f"[hens] wrote {args.out}", flush=True)

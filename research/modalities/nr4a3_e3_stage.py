@@ -1156,6 +1156,36 @@ def validate_composition_against_solved_assembly(arms, e2, log):
     the transfer zone built on it must be treated as a model rather than a placement. Either way it is
     measured and reported, not assumed.
     """
+    # ★ 2026-07-25 (LANE 7) — THE CHECK'S OWN BLIND SPOT, closed first because it needs no network at all.
+    # Everything below compares each arm against ONE reference assembly: whichever entry the E2-geometry step
+    # retrieved (9UUM). An arm that shares no bridge protein with that entry gets `possible: false` and its
+    # composed-RING displacement is simply never measured — which is what happened to the VHL arm, leaving the
+    # program quoting a composed-RING uncertainty measured on CRBN alone. But every arm that found its OWN
+    # intact assembly already carries both RINGs in the SAME frame: the composed one, and the observed one the
+    # intact-assembly step bridged in. Subtracting them is arithmetic on data already in hand, it works for
+    # every arm regardless of what the reference entry contains, and for VHL it reads 30.18 A.
+    for aid, rec in arms.items():
+        ring = (rec.get("ring") or {}).get("ring_centroid_xyz")
+        obs = (rec.get("intact_assembly") or {}).get("ring_xyz_in_receptor_frame")
+        if not (ring and obs):
+            continue
+        d = G.dist(tuple(ring), tuple(obs))
+        rec["own_assembly_ring_check"] = {
+            "composed_ring_source": (rec.get("provenance", {}).get("scaffold_entry") or {}).get("pdb_id"),
+            "observed_ring_source": (rec.get("intact_assembly") or {}).get("pdb_id"),
+            "composed_vs_observed_RING_A": round(d, 2),
+            "_reading": "Composed RING vs the RING of THIS arm's own intact assembly, both already in this "
+                        "receptor's frame. Independent of which reference entry the E2 step retrieved, so it "
+                        "is measured for every arm that has an intact assembly — including arms the "
+                        "single-reference check below cannot evaluate. NOTE this is the uncertainty on the "
+                        "FALLBACK zone model only: where `transfer_anchor.source` is "
+                        "`observed_in_intact_assembly` the search anchors on the observed E2 cysteine and "
+                        "never swings an arc about this RING.",
+        }
+        log(f"[e3stage] {aid} own-assembly RING check: composed RING (from "
+            f"{rec['own_assembly_ring_check']['composed_ring_source']}) is {round(d, 2)} A from the RING of "
+            f"its own intact assembly {rec['own_assembly_ring_check']['observed_ring_source']}")
+
     info = e2.get("_composition_check_inputs")
     if not info:
         return
