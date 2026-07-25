@@ -634,6 +634,50 @@ jobs:
             done
           fi
 
+  nrv04_adduct_build:
+    # LANE 8. The co-folds cannot supply an A1-admissible covalent input (every clean model puts the celastrol
+    # electrophile 28.4-39.1 A from NR4A1 C551 -- the amendment's 8.99 A is to a DIFFERENT cysteine, C566).
+    # So: try to CONSTRUCT the preformed Michael adduct at the literature site (Zhang 2018,
+    # doi:10.1039/C8CC06140H), protein rigid, and gate the product on A1 measured with the driver's own code.
+    # $0 CPU.
+    if: ${{ github.event.inputs.task == 'nrv04_adduct_build' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3 gemmi numpy scipy rdkit
+      - name: Construct the preformed celastrol-C551 adduct (protein rigid) and gate it on A1
+        run: |
+          python research/modalities/nrv04_covalent_adduct_build.py \
+            --bucket "${VAST_CKPT_BUCKET}" \
+            --upload-prefix "${{ github.event.inputs.cofold_output_prefix }}" \
+            --models "${{ github.event.inputs.ternary_extra_args }}"
+      - name: Commit the construction JSON back to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nrv04-covalent-adduct-build.json || true
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "NR-V04 covalent adduct construction attempt (auto)"
+            for attempt in 1 2 3 4; do
+              git pull --rebase origin ${{ github.ref_name }} && \
+                git push origin HEAD:${{ github.ref_name }} && break
+              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
+            done
+          fi
+
   nrv04_ffcache_status:
     # Fast diagnostic (~30s): print the ffcache object's LastModified + size so we can tell whether charge_cache
     # is progressing (recent mtime = a ligand just finished) or hung on one ligand's sqm (stale mtime).
