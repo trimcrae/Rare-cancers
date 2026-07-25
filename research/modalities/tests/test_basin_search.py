@@ -398,6 +398,27 @@ def test_zero_hit_search_is_an_answer_not_a_network_failure(monkeypatch):
     assert S.search_entries(["P40337", "P51668"]) == []
 
 
+def test_feasibility_envelope_separates_a_closed_target_from_an_unlucky_recruiter():
+    """The distinction a negative result has to make. If term (a) comes back empty it is either because no E3
+    body happened to dock where the linker could reach the cysteine — fixable by trying another recruiter —
+    or because no credible linker can reach it at all, which no recruiter choice can fix. The envelope is
+    E3-independent, so it is an UPPER BOUND no basin can exceed."""
+    rng = random.Random(31)
+    field = G.SquaredDistanceField([(0.0, 0.0, -50.0)], cell=1.0, clamp=8.0)   # a distant dummy: nothing blocks
+    poses = [{"anchor_xyz": [0.0, 0.0, 0.0]}]
+    near = {"uniprot_resid": 397, "xyz": (8.0, 0.0, 0.0)}
+    far = {"uniprot_resid": 559, "xyz": (300.0, 0.0, 0.0)}
+    env = B.term_a_feasibility_envelope(poses, [near, far], field, rng, n_mc=3000)
+    n, f = env["per_cysteine"]["C397"], env["per_cysteine"]["C559"]
+    assert n["geometrically_closed"] is False
+    assert n["shortest_linker_with_any_feasible_anchor"] is not None
+    assert f["geometrically_closed"] is True                  # 300 A is beyond any linker: CLOSED, not unlucky
+    assert f["shortest_linker_with_any_feasible_anchor"] is None
+    # and the bound is monotone in linker length — more linker never reaches less
+    fr = [n["by_linker_atoms"][k]["max_over_poses"] for k in sorted(n["by_linker_atoms"])]
+    assert fr == sorted(fr)
+
+
 def test_electrophile_reach_couples_the_two_tethers_through_one_contour_length():
     """The electrophile rides ON the linker, so reaching a cysteine and spanning to the E3 are paid for out of
     the SAME contour length. That coupling is what makes term (a) a real constraint rather than a free wish."""

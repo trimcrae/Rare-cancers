@@ -1095,6 +1095,78 @@ def marginalise_over_poses(per_pose, params=PARAMS):
     return out
 
 
+def term_a_feasibility_envelope(poses, cysteines, field3, rng, params=PARAMS, n_mc=20000):
+    """An E3-INDEPENDENT UPPER BOUND on term (a): at each linker length, what fraction of possible E3-anchor
+    placements is compatible with routing a pendant electrophile onto each NR4A3 cysteine?
+
+    WHY THIS IS WORTH ITS OWN ANALYSIS. If term (a) comes back empty, there are two completely different
+    reasons and the basin search alone cannot tell them apart:
+      (i) the geometry is fine but no E3 body happens to dock in the region where the linker could reach the
+          cysteine — a fact about the RECRUITER, fixable by trying another one; or
+      (ii) no linker of any credible length can reach that cysteine from the pocket exit vector at all while
+          also spanning to an E3 — a fact about the TARGET, which no recruiter choice can fix.
+    Distinguishing them is the difference between "widen the E3 panel" and "this mechanism is closed", and it
+    is the sort of thing a negative result has to state to be worth publishing.
+
+    The computation is exact and needs no E3. Fixing the warhead exit anchor `a`, a linker of contour length L
+    with a pendant arm of reach e can put the electrophile on the cysteine SG for an E3 anchor at `b` iff
+    `|SG−a| + |SG−b| <= L + 2e`, and `b` must itself be a spannable, non-overlapping anchor position. The
+    fraction of the reach shell satisfying both is estimated by Monte Carlo, with anchor positions inside the
+    protein rejected exactly as the search rejects them.
+    """
+    rise, e_arm = params["linker_rise_per_atom_A"], params["electrophile_arm_A"]
+    lo_span = G.contour_length_from_atoms(params["linker_min_atoms"], rise)
+    out = {}
+    for cys in cysteines:
+        sg = cys["xyz"]
+        per_len = {}
+        for n_at in params["linker_report_atoms"]:
+            L = G.contour_length_from_atoms(n_at, rise)
+            budget = L + 2.0 * e_arm
+            feas_by_pose = []
+            for pose in poses:
+                a = tuple(pose["anchor_xyz"])
+                d_aS = G.dist(a, sg)
+                if d_aS > budget:                       # the cysteine is beyond reach from this anchor alone
+                    feas_by_pose.append(0.0)
+                    continue
+                hit = tot = 0
+                for _ in range(n_mc // max(1, len(poses))):
+                    r = lo_span + (L - lo_span) * (rng.random() ** (1.0 / 3.0)) if L > lo_span else lo_span
+                    v = G.random_unit_vector(rng)
+                    b = (a[0] + v[0] * r, a[1] + v[1] * r, a[2] + v[2] * r)
+                    if field3.min_dist(b) - field3.cell_slack < params["pose_min_clearance_A"]:
+                        continue                        # an E3 anchor inside the target is not a placement
+                    tot += 1
+                    if d_aS + G.dist(sg, b) <= budget:
+                        hit += 1
+                feas_by_pose.append(hit / tot if tot else 0.0)
+            per_len[n_at] = {
+                "mean_fraction_of_anchor_space": round(sum(feas_by_pose) / len(feas_by_pose), 4),
+                "max_over_poses": round(max(feas_by_pose), 4),
+                "n_poses_with_any": sum(1 for f in feas_by_pose if f > 0),
+            }
+        first_open = next((n for n in params["linker_report_atoms"]
+                           if per_len[n]["max_over_poses"] > 0), None)
+        out[f"C{cys['uniprot_resid']}"] = {
+            "dist_exit_anchor_to_SG_A": {
+                "min": round(min(G.dist(tuple(p["anchor_xyz"]), sg) for p in poses), 2),
+                "max": round(max(G.dist(tuple(p["anchor_xyz"]), sg) for p in poses), 2)},
+            "by_linker_atoms": per_len,
+            "shortest_linker_with_any_feasible_anchor": first_open,
+            "geometrically_closed": first_open is None,
+        }
+    return {
+        "_what": "E3-INDEPENDENT upper bound on term (a). A basin can only do as well as this; if the envelope "
+                 "is empty at a given linker length, no recruiter choice can rescue that cysteine at that "
+                 "length, and the failure is a fact about the TARGET rather than about the E3 panel.",
+        "_method": "exact prolate-spheroid criterion |SG-a| + |SG-b| <= L + 2e, Monte-Carlo over E3-anchor "
+                   "positions b in the reach shell, rejecting positions inside the protein exactly as the "
+                   "search does.",
+        "per_cysteine": out,
+    }
+
+
 def tier2_verdict(metas, per_arm_basins):
     """STRATEGY.md kill-switch TIER 2: 'No basin exploits a categorical handle AND none even nominally
     discriminates NR4A3 => STOP cheaply.'
@@ -1255,6 +1327,14 @@ def main(argv=None):
               f"top surviving fraction "
               f"{metas[0]['pose_surviving_fraction'] if metas else 0}", flush=True)
 
+    envelope = term_a_feasibility_envelope(poses, reactive["unique_cysteines"], fields["NR4A3"], rng)
+    print("[basin] term-(a) E3-INDEPENDENT feasibility envelope:", flush=True)
+    for cys, v in envelope["per_cysteine"].items():
+        print(f"[basin]   {cys}: exit-anchor->SG {v['dist_exit_anchor_to_SG_A']['min']}-"
+              f"{v['dist_exit_anchor_to_SG_A']['max']} A | shortest linker with ANY feasible E3 anchor: "
+              f"{v['shortest_linker_with_any_feasible_anchor']} atoms | "
+              f"closed={v['geometrically_closed']}", flush=True)
+
     all_metas = [m for a in results.values() for m in a["meta_basins"]]
     n_basins = sum(len(p["basins"]) for a in results.values() for p in a["per_pose"])
     gate = tier2_verdict(all_metas, n_basins)
@@ -1323,6 +1403,7 @@ def main(argv=None):
         "pose_ensemble": poses,
         "arms": results,
         "meta_basins_ranked": all_metas,
+        "term_a_feasibility_envelope": envelope,
         "tier2_gate": gate,
         "runtime_s": round(time.time() - t0, 1),
     }
