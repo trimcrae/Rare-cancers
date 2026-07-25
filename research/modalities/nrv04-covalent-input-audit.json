@@ -1,0 +1,2287 @@
+{
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "a1_limit_A": 8.0,
+  "frozen_covalent_site_fulllen": 551,
+  "electrophile_atom_label": "C6",
+  "lbd_offset": 344,
+  "lbd_offset_provenance": {
+    "source": "uniprot",
+    "full_len": 598,
+    "residue_551": "C"
+  },
+  "note": "A1 measured on EVERY model of EVERY system of EVERY co-fold prefix. The prereg amendment's 'any co-fold in the bucket' rested on nrv04_prespend_check._pull_model, which samples ONE model per system (sorted(_model_0.cif)[0]).",
+  "prefixes": {
+    "fusion-cofold": {
+      "n_cif_objects": 2,
+      "systems": {
+        "boltz_results_composite": {
+          "skipped": "system 'boltz_results_composite' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        },
+        "boltz_results_seam": {
+          "skipped": "system 'boltz_results_seam' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        }
+      }
+    },
+    "nr4a3-binary": {
+      "n_cif_objects": 4,
+      "systems": {
+        "boltz_results_nr4a1-binary": {
+          "skipped": "system 'boltz_results_nr4a1-binary' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        },
+        "boltz_results_nr4a2-binary": {
+          "skipped": "system 'boltz_results_nr4a2-binary' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        },
+        "boltz_results_nr4a3-binary": {
+          "skipped": "system 'boltz_results_nr4a3-binary' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        },
+        "boltz_results_nr4a3-ternary-control": {
+          "skipped": "system 'boltz_results_nr4a3-ternary-control' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        }
+      }
+    },
+    "nr4a3-ternary": {
+      "n_cif_objects": 5,
+      "systems": {
+        "boltz_out": {
+          "skipped": "system 'boltz_out' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        },
+        "boltz_results_nr4a1-ternary-protac": {
+          "skipped": "system 'boltz_results_nr4a1-ternary-protac' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        },
+        "boltz_results_nr4a2-ternary-protac": {
+          "skipped": "system 'boltz_results_nr4a2-ternary-protac' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        },
+        "boltz_results_nr4a3-ternary-control": {
+          "skipped": "system 'boltz_results_nr4a3-ternary-control' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        },
+        "boltz_results_nr4a3-ternary-protac": {
+          "skipped": "system 'boltz_results_nr4a3-ternary-protac' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 1
+        }
+      }
+    },
+    "nrv04-cofold-vast-shakeout": {
+      "n_cif_objects": 1,
+      "systems": {
+        "nr4a1": {
+          "ligand": "nrv04",
+          "n_models": 1,
+          "models": [
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 118
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "F",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "F": "ElonginB",
+                "G": "ElonginC"
+              },
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 30.76
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 19.13
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 39.61
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 43.85
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 34.66
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 26.85
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 19.13
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 34.66
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 32,
+                "contacts_target_4.5A": 32,
+                "contacts_e3_4.5A": 40,
+                "min_dist_target_A": 2.84
+              },
+              "recruiter": {
+                "heavy_atoms": 47,
+                "contacts_vhl_4.5A": 193,
+                "min_dist_vhl_A": 2.61
+              },
+              "key": "nrv04-cofold-vast-shakeout/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-24T23:01:51+00:00"
+            }
+          ]
+        }
+      }
+    },
+    "nrv04-covalent-cofold": {
+      "n_cif_objects": 3,
+      "systems": {
+        "neg_celastrol": {
+          "ligand": "celastrol",
+          "n_models": 1,
+          "models": [
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 118
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "F",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "F": "ElonginB",
+                "G": "ElonginC"
+              },
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 27.04
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 20.75
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 37.09
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 40.95
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 36.43
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 16.39
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 16.39
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 36.43
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 33,
+                "contacts_target_4.5A": 44,
+                "contacts_e3_4.5A": 135,
+                "min_dist_target_A": 2.83
+              },
+              "key": "nrv04-covalent-cofold/neg_celastrol/seed_0/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+              "seed": "seed_0",
+              "model": 0,
+              "mtime": "2026-07-22T15:06:07+00:00"
+            }
+          ]
+        },
+        "neg_inactive": {
+          "ligand": "nrv04_epimer",
+          "n_models": 1,
+          "models": [
+            {
+              "ligand": "nrv04_epimer",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 118
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "F",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "F": "ElonginB",
+                "G": "ElonginC"
+              },
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 22.63
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 23.53
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 27.46
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 30.71
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 28.42
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 8.87
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 8.87
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 28.42
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 32,
+                "contacts_target_4.5A": 73,
+                "contacts_e3_4.5A": 11,
+                "min_dist_target_A": 2.66
+              },
+              "recruiter": {
+                "heavy_atoms": 47,
+                "contacts_vhl_4.5A": 259,
+                "min_dist_vhl_A": 2.66
+              },
+              "key": "nrv04-covalent-cofold/neg_inactive/seed_0/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+              "seed": "seed_0",
+              "model": 0,
+              "mtime": "2026-07-22T15:03:28+00:00"
+            }
+          ]
+        },
+        "nr4a1": {
+          "ligand": "nrv04",
+          "n_models": 1,
+          "models": [
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 118
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "F",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "F": "ElonginB",
+                "G": "ElonginC"
+              },
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 22.58
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 23.62
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 27.17
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 30.41
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 28.46
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 8.99
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 8.99
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 28.46
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 32,
+                "contacts_target_4.5A": 79,
+                "contacts_e3_4.5A": 6,
+                "min_dist_target_A": 2.47
+              },
+              "recruiter": {
+                "heavy_atoms": 47,
+                "contacts_vhl_4.5A": 248,
+                "min_dist_vhl_A": 2.52
+              },
+              "key": "nrv04-covalent-cofold/nr4a1/seed_0/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_0",
+              "model": 0,
+              "mtime": "2026-07-22T15:00:09+00:00"
+            }
+          ]
+        }
+      }
+    },
+    "nrv04-covalent-results": {
+      "n_cif_objects": 12,
+      "systems": {}
+    },
+    "nrv04-covalent-results-chainfix": {
+      "n_cif_objects": 1,
+      "systems": {}
+    },
+    "nrv04-descriptive-v3": {
+      "n_cif_objects": 18,
+      "systems": {
+        "control": {
+          "skipped": "system 'control' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 3
+        },
+        "neg_celastrol": {
+          "ligand": "celastrol",
+          "n_models": 3,
+          "models": [
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/neg_celastrol/seed_1/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-11T21:53:26+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/neg_celastrol/seed_2/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-11T21:57:22+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/neg_celastrol/seed_3/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+              "seed": "seed_3",
+              "model": 0,
+              "mtime": "2026-07-11T22:01:16+00:00"
+            }
+          ]
+        },
+        "neg_inactive": {
+          "ligand": "nrv04_epimer",
+          "n_models": 3,
+          "models": [
+            {
+              "ligand": "nrv04_epimer",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/neg_inactive/seed_1/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-11T21:40:34+00:00"
+            },
+            {
+              "ligand": "nrv04_epimer",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/neg_inactive/seed_2/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-11T21:45:00+00:00"
+            },
+            {
+              "ligand": "nrv04_epimer",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/neg_inactive/seed_3/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+              "seed": "seed_3",
+              "model": 0,
+              "mtime": "2026-07-11T21:49:26+00:00"
+            }
+          ]
+        },
+        "nr4a1": {
+          "ligand": "nrv04",
+          "n_models": 3,
+          "models": [
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-11T21:00:48+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-11T21:05:11+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-descriptive-v3/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_3",
+              "model": 0,
+              "mtime": "2026-07-11T21:09:34+00:00"
+            }
+          ]
+        },
+        "nr4a2": {
+          "skipped": "system 'nr4a2' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 3
+        },
+        "nr4a3": {
+          "skipped": "system 'nr4a3' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 3
+        }
+      }
+    },
+    "nrv04-descriptive-v4": {
+      "n_cif_objects": 9,
+      "systems": {
+        "nr4a1": {
+          "ligand": "nrv04",
+          "n_models": 3,
+          "models": [
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 118
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "F",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "F": "ElonginB",
+                "G": "ElonginC"
+              },
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 30.48
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 18.83
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 39.37
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 43.6
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 34.42
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 26.77
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 18.83
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 34.42
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 32,
+                "contacts_target_4.5A": 35,
+                "contacts_e3_4.5A": 41,
+                "min_dist_target_A": 2.85
+              },
+              "recruiter": {
+                "heavy_atoms": 47,
+                "contacts_vhl_4.5A": 193,
+                "min_dist_vhl_A": 2.61
+              },
+              "key": "nrv04-descriptive-v4/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-24T21:19:14+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 118
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "F",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "F": "ElonginB",
+                "G": "ElonginC"
+              },
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 23.79
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 22.84
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 29.54
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 33.06
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 29.87
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 10.17
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 10.17
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 29.87
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 32,
+                "contacts_target_4.5A": 67,
+                "contacts_e3_4.5A": 29,
+                "min_dist_target_A": 2.67
+              },
+              "recruiter": {
+                "heavy_atoms": 47,
+                "contacts_vhl_4.5A": 262,
+                "min_dist_vhl_A": 2.62
+              },
+              "key": "nrv04-descriptive-v4/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-24T21:22:30+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 118
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "F",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "F": "ElonginB",
+                "G": "ElonginC"
+              },
+              "contaminant": [],
+              "target_chain": "A",
+              "admissible_assembly": true,
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "target_len": 254,
+              "target_cys": [
+                {
+                  "lbd_resid": 121,
+                  "fulllen_resid": 465,
+                  "sg_dist_A": 29.64
+                },
+                {
+                  "lbd_resid": 131,
+                  "fulllen_resid": 475,
+                  "sg_dist_A": 29.14
+                },
+                {
+                  "lbd_resid": 161,
+                  "fulllen_resid": 505,
+                  "sg_dist_A": 36.89
+                },
+                {
+                  "lbd_resid": 190,
+                  "fulllen_resid": 534,
+                  "sg_dist_A": 40.06
+                },
+                {
+                  "lbd_resid": 207,
+                  "fulllen_resid": 551,
+                  "sg_dist_A": 39.11
+                },
+                {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 18.62
+                }
+              ],
+              "n_target_cys": 6,
+              "a1": {
+                "limit_A": 8.0,
+                "nearest_target_cys": {
+                  "lbd_resid": 222,
+                  "fulllen_resid": 566,
+                  "sg_dist_A": 18.62
+                },
+                "nearest_passes": false,
+                "frozen_site": {
+                  "fulllen_resid": 551,
+                  "lbd_resid": 207,
+                  "found": true,
+                  "sg_dist_A": 39.11
+                },
+                "frozen_site_passes": false,
+                "verdict": "FAIL"
+              },
+              "warhead": {
+                "celastrol_heavy_atoms": 32,
+                "contacts_target_4.5A": 40,
+                "contacts_e3_4.5A": 30,
+                "min_dist_target_A": 2.71
+              },
+              "recruiter": {
+                "heavy_atoms": 47,
+                "contacts_vhl_4.5A": 242,
+                "min_dist_vhl_A": 2.32
+              },
+              "key": "nrv04-descriptive-v4/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_3",
+              "model": 0,
+              "mtime": "2026-07-24T21:25:31+00:00"
+            }
+          ]
+        },
+        "nr4a2": {
+          "skipped": "system 'nr4a2' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 3
+        },
+        "nr4a3": {
+          "skipped": "system 'nr4a3' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 3
+        }
+      }
+    },
+    "nrv04-retro-results": {
+      "n_cif_objects": 1,
+      "systems": {}
+    },
+    "nrv04-shakeout": {
+      "n_cif_objects": 12,
+      "systems": {
+        "neg_celastrol": {
+          "ligand": "celastrol",
+          "n_models": 4,
+          "models": [
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/neg_celastrol/seed_1/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-11T17:39:11+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/neg_celastrol/seed_1/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_1.cif",
+              "seed": "seed_1",
+              "model": 1,
+              "mtime": "2026-07-11T17:39:10+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/neg_celastrol/seed_2/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-11T17:43:37+00:00"
+            },
+            {
+              "ligand": "celastrol",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 33,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/neg_celastrol/seed_2/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_1.cif",
+              "seed": "seed_2",
+              "model": 1,
+              "mtime": "2026-07-11T17:43:37+00:00"
+            }
+          ]
+        },
+        "neg_inactive": {
+          "ligand": "nrv04_epimer",
+          "n_models": 4,
+          "models": [
+            {
+              "ligand": "nrv04_epimer",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/neg_inactive/seed_1/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-11T17:29:46+00:00"
+            },
+            {
+              "ligand": "nrv04_epimer",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/neg_inactive/seed_1/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_1.cif",
+              "seed": "seed_1",
+              "model": 1,
+              "mtime": "2026-07-11T17:29:46+00:00"
+            },
+            {
+              "ligand": "nrv04_epimer",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/neg_inactive/seed_2/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-11T17:34:44+00:00"
+            },
+            {
+              "ligand": "nrv04_epimer",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/neg_inactive/seed_2/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_1.cif",
+              "seed": "seed_2",
+              "model": 1,
+              "mtime": "2026-07-11T17:34:44+00:00"
+            }
+          ]
+        },
+        "nr4a1": {
+          "ligand": "nrv04",
+          "n_models": 4,
+          "models": [
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-11T17:19:44+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_1.cif",
+              "seed": "seed_1",
+              "model": 1,
+              "mtime": "2026-07-11T17:19:45+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-11T17:24:47+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-shakeout/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_1.cif",
+              "seed": "seed_2",
+              "model": 1,
+              "mtime": "2026-07-11T17:24:48+00:00"
+            }
+          ]
+        }
+      }
+    },
+    "nrv04-smoke-restart": {
+      "n_cif_objects": 3,
+      "systems": {
+        "nr4a1": {
+          "ligand": "nrv04",
+          "n_models": 3,
+          "models": [
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-smoke-restart/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-11T20:11:19+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-smoke-restart/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-11T20:16:01+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-smoke-restart/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_3",
+              "model": 0,
+              "mtime": "2026-07-11T20:32:42+00:00"
+            }
+          ]
+        }
+      }
+    },
+    "nrv04-ternary-pilot": {
+      "n_cif_objects": 12,
+      "systems": {
+        "control": {
+          "skipped": "system 'control' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 3
+        },
+        "nr4a1": {
+          "ligand": "nrv04",
+          "n_models": 3,
+          "models": [
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-ternary-pilot/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_1",
+              "model": 0,
+              "mtime": "2026-07-11T14:33:51+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-ternary-pilot/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_2",
+              "model": 0,
+              "mtime": "2026-07-11T14:38:19+00:00"
+            },
+            {
+              "ligand": "nrv04",
+              "census": [
+                {
+                  "chain": "A",
+                  "residues": 254
+                },
+                {
+                  "chain": "E",
+                  "residues": 213
+                },
+                {
+                  "chain": "F",
+                  "residues": 255
+                },
+                {
+                  "chain": "G",
+                  "residues": 112
+                }
+              ],
+              "e3_chains": [
+                "E",
+                "G"
+              ],
+              "e3_roles": {
+                "E": "VHL",
+                "G": "ElonginC"
+              },
+              "contaminant": [
+                {
+                  "chain": "F",
+                  "residues": 255,
+                  "what": "14-3-3 epsilon (P62258) \u2014 the pre-2026-07-17 ElonginB accession error"
+                }
+              ],
+              "target_chain": null,
+              "admissible_assembly": false,
+              "why_no_target": "leftover chains ['A', 'F'] (need exactly 1 x 254)",
+              "ligand_heavy_atoms": 79,
+              "electrophile_atom_idx": 7,
+              "a1": {
+                "verdict": "UNEVALUABLE",
+                "why": "no identified degradation-target chain"
+              },
+              "key": "nrv04-ternary-pilot/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+              "seed": "seed_3",
+              "model": 0,
+              "mtime": "2026-07-11T14:42:42+00:00"
+            }
+          ]
+        },
+        "nr4a2": {
+          "skipped": "system 'nr4a2' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 3
+        },
+        "nr4a3": {
+          "skipped": "system 'nr4a3' is not one of ['nr4a1', 'neg_inactive', 'neg_celastrol']",
+          "n_models": 3
+        }
+      }
+    }
+  },
+  "prefixes_examined": [
+    "fusion-cofold",
+    "nr4a3-binary",
+    "nr4a3-ternary",
+    "nrv04-cofold-vast-shakeout",
+    "nrv04-covalent-cofold",
+    "nrv04-covalent-results",
+    "nrv04-covalent-results-chainfix",
+    "nrv04-descriptive-v3",
+    "nrv04-descriptive-v4",
+    "nrv04-retro-results",
+    "nrv04-shakeout",
+    "nrv04-smoke-restart",
+    "nrv04-ternary-pilot"
+  ],
+  "summary": {
+    "n_models_measured": 34,
+    "n_models_clean_assembly": 7,
+    "n_pass_A1_at_frozen_C551": 0,
+    "n_pass_A1_at_any_target_cys": 0,
+    "best_frozen_site_dist_A": 28.42,
+    "best_frozen_site_model": "nrv04-covalent-cofold/neg_inactive/seed_0/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+    "admissible_input_exists": false
+  }
+}
