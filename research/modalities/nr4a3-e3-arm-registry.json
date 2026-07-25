@@ -7,13 +7,13 @@
     "The catalytic-cysteine identification in the E2 geometry step is a geometric proxy, not a sequence-motif assignment.",
     "Nothing here is evidence that any of these recruiters engages NR4A3 \u2014 it is input staging."
   ],
-  "staged_at_utc": "2026-07-25T18:03:31Z",
+  "staged_at_utc": "2026-07-25T18:08:34Z",
   "arms": {
     "vhl": {
       "arm_id": "vhl",
       "recruiter": "VHL",
       "crl": "CRL2^VHL",
-      "status": "PARTIAL_no_verified_cullin_scaffold",
+      "status": "OK",
       "provenance": {
         "receptor_entry": {
           "pdb_id": "5T35",
@@ -38,6 +38,29 @@
               "H"
             ]
           }
+        },
+        "scaffold_entry": {
+          "pdb_id": "5N4W",
+          "title": "Crystal structure of the Cul2-Rbx1-EloBC-VHL ubiquitin ligase complex",
+          "resolution_A": 3.9,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "Q13617": [
+              "A"
+            ],
+            "P40337": [
+              "V"
+            ],
+            "P62877": [
+              "R"
+            ],
+            "Q15370": [
+              "B"
+            ],
+            "Q15369": [
+              "C"
+            ]
+          }
         }
       },
       "rejected": [
@@ -50,48 +73,31 @@
           "pdb": "4W9H",
           "role": "scaffold",
           "reason": "missing accessions for ['CUL2', 'RBX1']"
-        },
-        {
-          "pdb": "5N4W",
-          "role": "scaffold",
-          "reason": "bridge RMSD 7.29 A > 4.0 A over 124 CA"
-        },
-        {
-          "pdb": "8R5H",
-          "role": "scaffold",
-          "reason": "bridge RMSD 5.25 A > 4.0 A over 237 CA"
-        },
-        {
-          "pdb": "8QU8",
-          "role": "scaffold",
-          "reason": "bridge RMSD 5.38 A > 4.0 A over 226 CA"
-        },
-        {
-          "pdb": "8WDK",
-          "role": "scaffold",
-          "reason": "bridge RMSD 5.24 A > 4.0 A over 236 CA"
-        },
-        {
-          "pdb": "8RX0",
-          "role": "scaffold",
-          "reason": "bridge RMSD 5.37 A > 4.0 A over 235 CA"
-        },
-        {
-          "pdb": "8RWZ",
-          "role": "scaffold",
-          "reason": "bridge RMSD 5.62 A > 4.0 A over 234 CA"
-        },
-        {
-          "pdb": "9T32",
-          "role": "scaffold",
-          "reason": "404 (no such resource): https://files.rcsb.org/download/9T32.pdb"
-        },
-        {
-          "pdb": "6R7F",
-          "role": "scaffold",
-          "reason": "bridge RMSD 5.82 A > 4.0 A over 237 CA"
         }
       ],
+      "assembly_copy": {
+        "selected_chains": {
+          "ELOB": "B",
+          "ELOC": "C",
+          "VHL": "D"
+        },
+        "selection": {
+          "ok": true,
+          "n_combinations_checked": 8,
+          "selected": {
+            "ELOB": "B",
+            "ELOC": "C",
+            "VHL": "D"
+          },
+          "n_contacting_pairs": 3,
+          "_note": "one spatially coherent copy selected from an asymmetric unit that may hold several"
+        }
+      },
+      "_receptor_copy_chains": {
+        "ELOB": "B",
+        "ELOC": "C",
+        "VHL": "D"
+      },
       "receptor_pdb": "results/nr4a3-e3-arms/vhl-receptor.pdb",
       "ligand": {
         "het_code": "759",
@@ -950,8 +956,80 @@
         ],
         "_derivation": "ligand atoms split by which protein each is closer to; the exit vector is the E3-side atom furthest from the recruiter (exact distances, no grid clamp)."
       },
-      "intact_assembly": null,
-      "ring": null
+      "intact_assembly": {
+        "pdb_id": "8R5H",
+        "title": "Ubiquitin ligation to neosubstrate by a cullin-RING E3 ligase & Cdc34: NEDD8-CUL2-RBX1-ELOB/C-VHL-MZ1 with trapped UBE2R2~donor UB-BRD4 BD2",
+        "method": "EM",
+        "resolution_A": 3.44,
+        "e2": "UBE2R2",
+        "catalytic_cys_resid": 93,
+        "catalytic_cys_to_ubiquitin_cterm_A": 4.27,
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 340,
+          "bridge_rmsd_A": 0.977,
+          "ca_per_bridge_protein": {
+            "ELOB": 104,
+            "ELOC": 87,
+            "VHL": 149
+          }
+        },
+        "catalytic_cys_xyz_in_receptor_frame": [
+          41.538,
+          -39.119,
+          3.009
+        ],
+        "ring_xyz_in_receptor_frame": [
+          46.267,
+          -56.562,
+          26.659
+        ]
+      },
+      "transfer_anchor": {
+        "source": "observed_in_intact_assembly",
+        "xyz": [
+          41.538,
+          -39.119,
+          3.009
+        ],
+        "what": "the E2 catalytic cysteine, observed in a solved ubiquitylation assembly and bridged into this receptor's frame \u2014 one step closer to the observable than a RING plus a modelled swing, and it needs no swing model at all",
+        "provenance_pdb": "8R5H",
+        "anchor_to_transfer_point_A": 30.85
+      },
+      "ring": {
+        "ring_centroid_xyz": [
+          76.168,
+          -52.908,
+          24.842
+        ],
+        "cullin_centroid_xyz": [
+          59.262,
+          -8.906,
+          35.303
+        ],
+        "rbx1_ring_residue_range": [
+          51,
+          102
+        ],
+        "bridge_protein": "ELOC+VHL",
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 123,
+          "bridge_rmsd_A": 1.166,
+          "ca_per_bridge_protein": {
+            "ELOC": 86,
+            "VHL": 37
+          }
+        }
+      },
+      "derived": {
+        "anchor_to_ring_A": 73.12,
+        "ring_to_cullin_A": 48.28
+      },
+      "composition_check": {
+        "possible": false,
+        "reason": "9UUM shares no bridge protein with this arm"
+      }
     },
     "crbn": {
       "arm_id": "crbn",
@@ -1009,6 +1087,24 @@
           "reason": "missing accessions for ['CUL4A', 'RBX1']"
         }
       ],
+      "assembly_copy": {
+        "selected_chains": {
+          "CRBN": "B",
+          "DDB1": "A"
+        },
+        "selection": {
+          "ok": true,
+          "n_combinations": 1,
+          "single_copy": true,
+          "n_contacting_pairs": 1,
+          "coherent": true,
+          "_note": "the only chain combination available; accepted, with its coherence reported"
+        }
+      },
+      "_receptor_copy_chains": {
+        "CRBN": "B",
+        "DDB1": "A"
+      },
       "receptor_pdb": "results/nr4a3-e3-arms/crbn-receptor.pdb",
       "ligand": {
         "het_code": "RN6",
@@ -1926,12 +2022,10 @@
     }
   },
   "log": [
-    "[e3stage] vhl: receptor entry 5T35 (2.7 A) chains ['B', 'C', 'D', 'F', 'G', 'H'] ligand 759 n_heavy=69 exit atom CAG exposure 5.0 A",
-    "[e3stage] vhl: intact-assembly search failed for UBE2D1: POST failed after 4 tries: https://search.rcsb.org/rcsbsearch/v2/query (Expecting value: line 1 column 1 (char 0))",
-    "[e3stage] vhl: intact-assembly search failed for UBE2D2: POST failed after 4 tries: https://search.rcsb.org/rcsbsearch/v2/query (Expecting value: line 1 column 1 (char 0))",
-    "[e3stage] vhl: intact-assembly search failed for UBE2D3: POST failed after 4 tries: https://search.rcsb.org/rcsbsearch/v2/query (Expecting value: line 1 column 1 (char 0))",
-    "[e3stage] vhl: intact-assembly search failed for UBE2G1: POST failed after 4 tries: https://search.rcsb.org/rcsbsearch/v2/query (Expecting value: line 1 column 1 (char 0))",
-    "[e3stage] vhl: intact-assembly search failed for UBE2L3: POST failed after 4 tries: https://search.rcsb.org/rcsbsearch/v2/query (Expecting value: line 1 column 1 (char 0))",
+    "[e3stage]   assembly copy selected: {'ELOB': 'B', 'ELOC': 'C', 'VHL': 'D'} (3 contacting chain pairs out of 8 combinations)",
+    "[e3stage] vhl: receptor entry 5T35 (2.7 A) chains ['B', 'C', 'D'] ligand 759 n_heavy=69 exit atom CAG exposure 5.0 A",
+    "[e3stage] vhl: INTACT assembly 8R5H (Ubiquitin ligation to neosubstrate by a cullin-RING E3 ligase & Cdc34:) bridged on 340 CA @ 0.977 A -> observed E2 catalytic Cys93 placed directly in the receptor frame (Ub C-term 4.3 A)",
+    "[e3stage] vhl: scaffold 5N4W bridged on ELOC+VHL (rmsd 1.166 A over 123 CA) -> RING at [76.168, -52.908, 24.842]",
     "[e3stage] crbn: receptor entry 6BOY (3.33 A) chains ['A', 'B'] ligand RN6 n_heavy=59 exit atom C10 exposure 5.11 A",
     "[e3stage] crbn: INTACT assembly 9UUM (Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF) bridged on 1161 CA @ 1.916 A -> observed E2 catalytic Cys85 placed directly in the receptor frame (Ub C-term 3.4 A)",
     "[e3stage] crbn: scaffold 2HYE bridged on DDB1 (rmsd 1.167 A over 808 CA) -> RING at [47.378, -1.062, 52.445]",
