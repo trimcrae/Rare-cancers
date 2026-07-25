@@ -291,3 +291,35 @@ def test_exit_quality_is_zero_when_geometry_is_missing():
 def test_fib_sphere_is_unit_length():
     for (x, y, z) in st._fib_sphere(64):
         assert math.isclose(math.sqrt(x * x + y * y + z * z), 1.0, abs_tol=1e-9)
+
+
+def test_fully_enclosed_site_reports_no_exit_path_not_an_arbitrary_vector():
+    """A ligand with no route to solvent must be FLAGGED, not handed a meaningless direction.
+
+    Regression for a real degeneracy found 2026-07-25 by running the geometry on the repo's own AF2 NR4A3
+    model with a pseudo-ligand at the (closed) cryptic pocket: with max clearance 0.0, the near-maximal tie
+    test `c >= 0.95 * cmax` accepted ALL 512 directions, whose solid-angle centroid is ~the zero vector, and
+    the code then fell back to an arbitrary argmax — reporting a confident-looking unit vector next to a 0.0
+    clearance. A meaningless vector wearing the same field name as a real one is the failure mode."""
+    # mouth_cos > 1 carves nothing, and a 3.3 A shell radius leaves no room for a 1.7 A linker atom in ANY
+    # direction: max clearance is exactly 0.0, which is the degenerate case.
+    sealed = _shell_pocket("+z", radius=3.3, n=900, mouth_cos=2.0)
+    res = st.analyse_site(sealed, [_atom(0, 0, 0)])
+    ev = res["exit_vector"]
+    assert ev["no_exit_path"] is True
+    assert ev["clearance_A"] <= st.GEOM["ray_step_A"]
+    assert ev["n_near_maximal_directions"] == 0
+    assert abs(sum(c * c for c in ev["direction"]) - 1.0) < 1e-6      # still a unit vector, but declared
+    recs = {"SEALED": {"staged_structures": [{"pdb_id": "1XXX", "resolution_A": 1.5,
+                                              "experimental_methods": ["X-RAY"], "is_primary": True,
+                                              "ligand": {"ccd": "LIG"}}],
+                       "linker_bearing_analogue": {"tier": 3},
+                       "ligandability": {"ligand_burial": {"buried_fraction": 0.99},
+                                         "exit_vector": ev}}}
+    ds = st.downselect(recs)
+    assert [d["gate_failed"] for d in ds["dropped"]] == ["G3_linker_can_leave"]
+
+
+def test_an_open_site_is_not_flagged_no_exit_path():
+    res = st.analyse_site(_shell_pocket("+z"), [_atom(0, 0, 0), _atom(1.4, 0, 0)])
+    assert res["exit_vector"]["no_exit_path"] is False

@@ -737,15 +737,30 @@ def analyse_site(protein_atoms, ligand_atoms, recruiter_chains=None):
     # iteration order happened to reach first — a coordinate-order artifact, not geometry. Take instead the
     # solid-angle centroid of the near-maximal directions: the middle of the opening. Deterministic, and it
     # is what a linker leaving the site actually points along.
-    tied = [i for i, c in enumerate(clear) if c >= 0.95 * cmax] or [max(range(len(clear)),
-                                                                       key=lambda i: clear[i])]
-    sx = sum(dirs[i][0] for i in tied); sy = sum(dirs[i][1] for i in tied); sz = sum(dirs[i][2] for i in tied)
-    nrm = math.sqrt(sx * sx + sy * sy + sz * sz)
-    if nrm > 1e-6:
-        bd = (sx / nrm, sy / nrm, sz / nrm)
-    else:                                     # open in opposing directions (a through-tunnel): fall back
-        bd = dirs[max(range(len(clear)), key=lambda i: clear[i])]
-    best_clear = _clearance(ax, ay, az, bd[0], bd[1], bd[2], pg, protein_atoms)
+    #
+    # ★ The cmax == 0 case is NOT a tie and must be special-cased. `c >= 0.95 * cmax` is satisfied by every
+    # direction when cmax is 0, so a FULLY ENCLOSED site (an occluded ligand, or a buried cryptic pocket)
+    # would otherwise average all 512 directions to ~the zero vector and then report an arbitrary
+    # argmax direction alongside a 0.0 clearance — a meaningless vector wearing the same field name as a real
+    # one. Caught 2026-07-25 by running the geometry on the repo's own AF2 NR4A3 model with a pseudo-ligand
+    # at the (closed) cryptic pocket: clearance 0.0 with n_near_maximal_directions = 512.
+    no_exit = cmax <= GEOM["ray_step_A"]
+    if no_exit:
+        tied = []
+        vx0, vy0, vz0 = ax - cx, ay - cy, az - cz
+        n0 = math.sqrt(vx0 * vx0 + vy0 * vy0 + vz0 * vz0)
+        bd = (vx0 / n0, vy0 / n0, vz0 / n0) if n0 > 1e-6 else (0.0, 0.0, 1.0)
+        best_clear = cmax
+    else:
+        tied = [i for i, c in enumerate(clear) if c >= 0.95 * cmax]
+        sx = sum(dirs[i][0] for i in tied); sy = sum(dirs[i][1] for i in tied)
+        sz = sum(dirs[i][2] for i in tied)
+        nrm = math.sqrt(sx * sx + sy * sy + sz * sz)
+        if nrm > 1e-6:
+            bd = (sx / nrm, sy / nrm, sz / nrm)
+        else:                                 # open in opposing directions (a through-tunnel): fall back
+            bd = dirs[max(range(len(clear)), key=lambda i: clear[i])]
+        best_clear = _clearance(ax, ay, az, bd[0], bd[1], bd[2], pg, protein_atoms)
     cos_cut = math.cos(math.radians(GEOM["cone_half_angle_deg"]))
     cone_idx = [i for i, d in enumerate(dirs)
                 if d[0] * bd[0] + d[1] * bd[1] + d[2] * bd[2] >= cos_cut]
@@ -796,6 +811,7 @@ def analyse_site(protein_atoms, ligand_atoms, recruiter_chains=None):
             "clearance_A": round(best_clear, 2),
             "max_ray_clearance_A": round(cmax, 2),
             "n_near_maximal_directions": len(tied),
+            "no_exit_path": bool(no_exit),
             "cone_openness_30deg": round(cone_open, 4),
             "angle_to_centroid_vector_deg": round(angle, 1),
             "open_solid_angle_fraction_15A": round(openness, 4),
