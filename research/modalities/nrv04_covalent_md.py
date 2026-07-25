@@ -72,7 +72,15 @@ def pdb_text_atom_count(pdb_text):
     return sum(1 for ln in pdb_text.splitlines() if ln[:6].strip() in ("ATOM", "HETATM"))
 
 
-def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mutation):
+# The largest Sg...electrophile separation that a PREFORMED Michael adduct can honestly be modelled from. The
+# restraint pulls the pair to 1.81 A with k = 3e5 kJ/mol/nm^2; from ~8 A that is a strain minimisation can
+# dissipate, from ~12 A it is a winch that drags the ligand across the assembly. 8 A was already the driver's
+# own warning threshold — this makes it a GATE for covalent legs instead of a line of log nobody reads.
+# Overridable (NRV04_MAX_TETHER_A) so a deliberate exception is explicit and recorded, never accidental.
+MAX_COVALENT_TETHER_A = float(os.environ.get("NRV04_MAX_TETHER_A", "8.0"))
+
+
+def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mutation, target_chain=None):
     """Build a solvated OpenMM system for one leg. Returns (simulation, meta). CI/Vast only."""
     import numpy as np  # noqa: F401
     from openmm import app, unit, HarmonicBondForce, HarmonicAngleForce, Platform
@@ -90,14 +98,26 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     # consistent and are immune to renumbering.
     pdb_text = open(complex_pdb).read()
     cov_pair = None
-    react_chain, react_resid, react_dist = _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom)
+    react_chain, react_resid, react_dist, cys_diag = _reactive_cys_by_geometry(
+        pdb_text, ligand_sdf, cov_lig_atom, target_chain=target_chain)
     print(f"[nrv04-md] reactive Cys = chain {react_chain} resid {react_resid} "
-          f"(Sγ {react_dist:.2f} Å from the warhead electrophile; cov_resnum={cov_resnum} is co-fold-renumbered)",
-          flush=True)
-    if react_dist > 8.0:
-        print(f"[nrv04-md] WARN reactive Sγ is {react_dist:.1f} Å from the electrophile (>8 Å) — the co-fold may "
-              f"not have posed the warhead in the pocket; the covalent restraint tether may be geometrically strained",
-              flush=True)
+          f"(Sγ {react_dist:.2f} Å from the warhead electrophile; cov_resnum={cov_resnum} is co-fold-renumbered; "
+          f"search restricted to target chain {target_chain!r}); {json.dumps(cys_diag)}", flush=True)
+    # FAIL CLOSED on an un-modellable tether. The panel's warhead_only legs tethered celastrol to an ElonginC
+    # cysteine 12.44 Å away — the co-fold had not posed free celastrol in the NR4A1 pocket at all — and the only
+    # consequence was a WARN line. A covalent leg whose adduct partner is that far away is not the system the
+    # prereg describes, so it must stop rather than produce numbers about something else.
+    if covalent and react_dist > MAX_COVALENT_TETHER_A:
+        raise SystemExit(
+            f"[nrv04-md] the nearest target-chain Cys Sγ is {react_dist:.2f} Å from the warhead electrophile, "
+            f"beyond the {MAX_COVALENT_TETHER_A} Å preformed-adduct limit. The co-fold did not pose the warhead "
+            f"in this target's pocket, so a covalent leg cannot be built from it — re-fold the input rather than "
+            f"stretching the restraint. Diagnostics: {json.dumps(cys_diag)}. "
+            f"(Override with NRV04_MAX_TETHER_A only if the deviation is recorded in the prereg.)")
+    if react_dist > MAX_COVALENT_TETHER_A:
+        print(f"[nrv04-md] WARN reactive Sγ is {react_dist:.1f} Å from the electrophile "
+              f"(>{MAX_COVALENT_TETHER_A} Å) — noncovalent leg, so this is descriptive only, but the warhead is "
+              f"not seated in this target's pocket", flush=True)
     if mutation == "C551A":                                    # the panel's 'C551A' = knock out the reactive Cys
         from nrv04_covalent_stage import mutate_cys_to_ala
         pdb_text = mutate_cys_to_ala(pdb_text, react_chain, react_resid)
@@ -164,7 +184,8 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
 
     meta = {"n_atoms": modeller.topology.getNumAtoms(),
             "protein_heavy_atoms": n_before, "after_addH": n_after_h, "charge_method": charge_used,
-            "reactive_cys": {"chain": react_chain, "resid": react_resid, "sg_electrophile_dist_A": round(react_dist, 2)}}
+            "reactive_cys": {"chain": react_chain, "resid": react_resid,
+                             "sg_electrophile_dist_A": round(react_dist, 2), "search": cys_diag}}
     if covalent:
         cov_pair = _covalent_indices(modeller.topology, ligand_sdf, cov_lig_atom, react_resid, react_chain)
         _add_covalent_restraint(system, cov_pair)
@@ -293,19 +314,31 @@ def _resid(res):
         return None
 
 
-def _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom):
-    """Identify the reactive cysteine as the CYS whose Sγ is NEAREST the ligand's electrophilic carbon in the
-    co-fold pose. Robust to the co-fold's residue renumbering (Boltz numbers from 1, so the UniProt 'Cys551'
-    label does NOT appear — confirmed 2026-07-22: the target chain's cysteines were 121/131/161/190/207/222).
-    Because the co-fold placed the celastrol warhead in the NR4A1 pocket, the nearest Sγ IS the modeled covalent
-    partner, and this auto-selects the target chain (the warhead end of the PROTAC sits on NR4A1, not the E3).
-    Returns (chain_id, resid_int, distance_angstrom). Raises if there are no cysteines."""
+def _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom, target_chain=None):
+    """Identify the reactive cysteine as the CYS whose Sγ is NEAREST the ligand's electrophilic carbon, SEARCHED
+    ONLY ON THE DEGRADATION-TARGET CHAIN.
+
+    ⚠ HISTORY — READ BEFORE CHANGING. This search used to run over EVERY chain in the assembly, on the reasoning
+    that "the co-fold placed the celastrol warhead in the NR4A1 pocket, so the nearest Sγ IS the modeled covalent
+    partner." That reasoning assumes its conclusion. When the co-fold did NOT pose the warhead in the pocket —
+    which is exactly what happened to the panel's `warhead_only` legs — the global search silently returned an
+    ELONGIN C cysteine 12.44 Å away and the covalent restraint was built onto an E3 subunit. This is the same
+    defect class as the positional E3/target split in `_topology_indices`: a selection rule that ignores the
+    dimension the data varies along, and therefore returns a confident answer about the wrong thing.
+
+    So the chain now comes from the assembler's identification, not from the geometry. The geometry chooses only
+    WHICH cysteine on that chain, which is what it is actually competent to decide. `target_chain=None` keeps the
+    old global behaviour for pre-chains.json inputs and says so in the returned diagnostics.
+
+    Returns (chain_id, resid_int, distance_angstrom, diagnostics). `diagnostics` always reports the global
+    nearest as well, so a leg whose target-chain distance is large can be told apart from one whose assembly is
+    malformed. Raises if the requested chain carries no cysteine at all."""
     from rdkit import Chem
     mol = Chem.SDMolSupplier(ligand_sdf, removeHs=False)[0]
     c6_idx, _ = _electrophile_and_neighbour(mol, cov_lig_atom)
     conf = mol.GetConformer()
     ep = conf.GetAtomPosition(c6_idx)                          # electrophile xyz (Å, same frame as complex.pdb)
-    best = None                                                # (dist2, chain, resid)
+    cands = []                                                 # (dist, chain, resid) for every CYS Sγ
     for line in pdb_text.splitlines():
         if line[:6].strip() not in ("ATOM", "HETATM"):
             continue
@@ -316,12 +349,30 @@ def _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom):
             resid = int(line[22:26])
         except ValueError:
             continue
-        d2 = (x - ep.x) ** 2 + (y - ep.y) ** 2 + (z - ep.z) ** 2
-        if best is None or d2 < best[0]:
-            best = (d2, line[21], resid)
-    if best is None:
+        d = ((x - ep.x) ** 2 + (y - ep.y) ** 2 + (z - ep.z) ** 2) ** 0.5
+        cands.append((d, line[21], resid))
+    if not cands:
         raise SystemExit("[nrv04-md] no CYS Sγ found in the complex — cannot anchor the covalent warhead")
-    return best[1], best[2], best[0] ** 0.5
+    cands.sort()
+    g_d, g_c, g_r = cands[0]
+    diag = {"global_nearest": {"chain": g_c, "resid": g_r, "dist_A": round(g_d, 2)},
+            "n_cys_sg_total": len(cands), "target_chain": target_chain}
+    if target_chain is None:
+        diag["search"] = ("GLOBAL — no chains.json target supplied. This is the rule that tethered celastrol to "
+                          "Elongin C in the 2026-07-23 panel; verify the chain it returns.")
+        return g_c, g_r, g_d, diag
+    on_target = [c for c in cands if c[1] == target_chain]
+    diag["n_cys_sg_on_target"] = len(on_target)
+    diag["search"] = f"restricted to the identified degradation-target chain {target_chain!r}"
+    if not on_target:
+        raise SystemExit(f"[nrv04-md] the degradation-target chain {target_chain!r} carries no cysteine, so no "
+                         f"covalent adduct can be modelled on it. Nearest Sγ anywhere is chain {g_c} resid {g_r} "
+                         f"at {g_d:.2f} Å, which is NOT the target — building the restraint there is the defect "
+                         f"this check exists to prevent.")
+    t_d, t_c, t_r = on_target[0]
+    diag["target_nearest"] = {"chain": t_c, "resid": t_r, "dist_A": round(t_d, 2)}
+    diag["global_nearest_is_off_target"] = (g_c != target_chain)
+    return t_c, t_r, t_d, diag
 
 
 # ---- orchestration --------------------------------------------------------------------------------------
@@ -511,6 +562,15 @@ def run_leg(env):
     # A resume needs BOTH a valid production checkpoint AND the built-system snapshot that produced it (reloaded
     # verbatim, never re-solvated). A checkpoint with no matching snapshot (a pre-fix leg) is un-resumable -> we
     # drop it and restart the leg cleanly (and persist a snapshot this time so future preemptions resume). ---
+    # The assembler identifies the E3/target split and writes it beside the inputs. It is read HERE, before the
+    # build, because build_system needs it too: the reactive-cysteine search must be restricted to the target
+    # chain, or it re-runs the very defect this file's two history notes describe.
+    chains_json = os.path.join(in_dir, "chains.json")
+    explicit_target = None
+    if os.path.exists(chains_json):
+        with open(chains_json) as _f:
+            explicit_target = json.load(_f).get("target_chain")
+
     result_s3 = env.get("RESULT_S3")
     ckpt_every = max(1, int(env.get("CKPT_EVERY_FRAMES", "50")))
     state_path, cj_path = _ckpt_paths(out_dir, leg_id, seed)
@@ -528,15 +588,9 @@ def run_leg(env):
     else:
         sim, topology, meta = build_system(
             os.path.join(in_dir, "complex.pdb"), os.path.join(in_dir, "ligand.sdf"),
-            covalent, env.get("COV_LIG_ATOM", "C6"), int(env.get("COV_RESNUM", "551")), env.get("MUTATION", ""))
+            covalent, env.get("COV_LIG_ATOM", "C6"), int(env.get("COV_RESNUM", "551")), env.get("MUTATION", ""),
+            target_chain=explicit_target)
         _save_built_system(built_paths, sim, topology, meta, result_s3)   # persist so future preemptions can resume
-    # the assembler identifies the E3/target split and writes it next to the inputs; the driver must not
-    # re-derive it (see _topology_indices' history note).
-    chains_json = os.path.join(in_dir, "chains.json")
-    explicit_target = None
-    if os.path.exists(chains_json):
-        with open(chains_json) as _f:
-            explicit_target = json.load(_f).get("target_chain")
     chain_ids, e3_chains, target_chains, lys_nz = _topology_indices(topology, target_chain=explicit_target)
 
     blew_up = False; blow_phase = None
@@ -631,7 +685,17 @@ def run_leg(env):
         r1["stable"] = r1["plateau_A"] < R.INTERFACE_RMSD_STABLE_A
     else:
         r1 = {"rmsd_series_mean": None, "plateau_A": None, "stable": False, "note": "no frames (blew up)"}
-    r3 = R.lys_presentation(lys_frames, proxy) if (lys_nz and lys_frames) else {"min_A": None, "note": "no target Lys/frames"}
+    # ⚠ UNITS. nrv04_readouts' contract is ÅNGSTRÖM ("frames are lists of (x,y,z) tuples, Å") but everything in
+    # this driver is in NANOMETRES. R1 converts explicitly (`* 10.0  # nm -> Å` in _aligned_iface_rmsd); R3 did
+    # not, so every reported `min_A` was a nanometre value wearing an Ångström label — a silent factor of 10.
+    # Caught 2026-07-25 by recomputing R3 independently from the persisted starting systems: the committed
+    # warhead_only legs report min_A = 2.34/2.44 against an independent t=0 distance of 25.21 Å, and the
+    # cov/noncov/active legs report 4.0–4.48 against 48.92 Å. The ratio is ~10 at BOTH well-separated values,
+    # and is ≥10 exactly as a trajectory minimum should be. Reported R3 distances were therefore ~10× too small
+    # — which reads as ubiquitination-competent geometry when the real Lys Nζ–proxy separation is ~30–49 Å.
+    _lys_A = [[(x * 10.0, y * 10.0, z * 10.0) for (x, y, z) in fr] for fr in lys_frames]
+    _proxy_A = (proxy[0] * 10.0, proxy[1] * 10.0, proxy[2] * 10.0)
+    r3 = R.lys_presentation(_lys_A, _proxy_A) if (lys_nz and lys_frames) else {"min_A": None, "note": "no target Lys/frames"}
 
     result = {"panel": env.get("PANEL", "nrv04_covalent_feasibility"), "leg_id": leg_id, "seed": seed, "mode": mode,
               # RECORD the chain split the readouts were computed against. The panel that ran before this field

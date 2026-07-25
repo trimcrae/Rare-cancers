@@ -36,7 +36,10 @@ def main():
     from nrv04_covalent_md import build_system
 
     bucket = os.environ["VAST_CKPT_BUCKET"]
-    base = os.environ.get("NRV04_COFOLD_PREFIX", "nrv04-descriptive-v3").rstrip("/")
+    # ⚠ default was `nrv04-descriptive-v3` until 2026-07-25. Those co-folds carry 14-3-3 epsilon where Elongin B
+    # belongs (2026-07-24 audit), so the smoke's default input was a contaminated assembly. identify_chains now
+    # rejects it, but a default that is known-wrong is a trap, not a safety net.
+    base = os.environ.get("NRV04_COFOLD_PREFIX", "nrv04-covalent-cofold").rstrip("/")
 
     # Two representative legs: cov_nr4a1 (covalent restraint + nr4a1 co-fold) and cov_c551a (C551A mutation path).
     for leg_id, system in [("cov_nr4a1", "nr4a1"), ("cov_c551a", "nr4a1")]:
@@ -45,8 +48,12 @@ def main():
         res = assemble_leg(cif, leg, LIGANDS[leg.ligand], f"/tmp/stage_{leg_id}")
         cpdb = os.path.join(res["out"], "complex.pdb")
         lsdf = os.path.join(res["out"], "ligand.sdf")
+        # Pass the IDENTIFIED target chain, so the reactive-cysteine search is restricted to it exactly as the
+        # production driver does. Without it the smoke exercises the old global search and would miss a warhead
+        # tethered to an E3 subunit — the defect the production path now fails closed on.
         sim, topo, meta = build_system(cpdb, lsdf, leg.covalent,
-                                       env_or("COV_LIG_ATOM", "C6"), 551, leg.mutation)
+                                       env_or("COV_LIG_ATOM", "C6"), 551, leg.mutation,
+                                       target_chain=res["chains"]["target_chain"])
         n = meta["n_atoms"]
         print(f"[build-smoke] {leg_id}: heavy={meta.get('protein_heavy_atoms')} "
               f"after_addH={meta.get('after_addH')} solvated_total={n} covalent_pair={meta.get('covalent_pair')}",

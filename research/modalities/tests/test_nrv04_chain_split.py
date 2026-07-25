@@ -87,3 +87,100 @@ def test_e3_lengths_match_the_audited_uniprot_values():
     assert asm.E3_CHAIN_RESIDUES == {213: "VHL", 118: "ElonginB", 112: "ElonginC"}
     assert 255 in asm.CONTAMINANT_CHAIN_RESIDUES
     assert asm.NR4A_LBD_RESIDUES == 254
+
+
+# ---------------------------------------------------------------------------------------------------------
+# The SECOND live instance of the same defect class, found 2026-07-25: the reactive-cysteine search was also
+# chain-blind. `_topology_indices` was fixed on 2026-07-24; `_reactive_cys_by_geometry` still searched EVERY
+# chain, and when the co-fold had not posed the warhead in the target pocket it returned an Elongin C cysteine
+# 12.44 A away — the covalent restraint was built onto an E3 subunit, with only a WARN line. These tests pin
+# that the chain now comes from identification and the geometry only chooses WHICH cysteine on it.
+# ---------------------------------------------------------------------------------------------------------
+
+import types  # noqa: E402
+
+import nrv04_covalent_md as MD  # noqa: E402
+
+
+def _cys_pdb(entries):
+    """PDB text with one CYS SG per entry = (chain, resid, x, y, z) in Angstrom."""
+    lines = []
+    for i, (ch, resid, x, y, z) in enumerate(entries, start=1):
+        lines.append(f"ATOM  {i:5d}  SG  CYS {ch}{resid:4d}    "
+                     f"{x:8.3f}{y:8.3f}{z:8.3f}  1.00  0.00           S")
+    return "\n".join(lines) + "\n"
+
+
+@pytest.fixture()
+def _electrophile_at_origin(monkeypatch):
+    """Stub the RDKit ligand read so the geometry tests need no SDF and no RDKit: the electrophile is at the
+    origin, and every Sg's distance is just its x coordinate."""
+    pos = types.SimpleNamespace(x=0.0, y=0.0, z=0.0)
+    conf = types.SimpleNamespace(GetAtomPosition=lambda _i: pos)
+    mol = types.SimpleNamespace(GetConformer=lambda: conf)
+    fake_chem = types.SimpleNamespace(SDMolSupplier=lambda *_a, **_k: [mol])
+    monkeypatch.setitem(sys.modules, "rdkit", types.SimpleNamespace(Chem=fake_chem))
+    monkeypatch.setitem(sys.modules, "rdkit.Chem", fake_chem)
+    monkeypatch.setattr(MD, "_electrophile_and_neighbour", lambda *_a, **_k: (0, 1))
+
+
+# The panel's real warhead_only geometry, from its own committed legs: the nearest Sg ANYWHERE is Elongin C's,
+# 12.44 A away, and the NR4A1 LBD's own cysteines are further still.
+WARHEAD_ONLY_LAYOUT = [("G", 74, 12.44, 0.0, 0.0), ("A", 222, 15.0, 0.0, 0.0), ("A", 190, 20.0, 0.0, 0.0)]
+# A well-posed covalent leg: the target-chain cysteine is the nearest thing to the electrophile (the panel's
+# other 15 legs, which recorded chain A resid 222 at 7.4 A).
+SEATED_LAYOUT = [("A", 222, 7.4, 0.0, 0.0), ("G", 74, 12.44, 0.0, 0.0), ("E", 12, 30.0, 0.0, 0.0)]
+
+
+def test_geometric_search_is_restricted_to_the_identified_target_chain(_electrophile_at_origin):
+    """With the target named, an off-target cysteine can never be selected however close it is."""
+    ch, resid, dist, diag = MD._reactive_cys_by_geometry(
+        _cys_pdb(WARHEAD_ONLY_LAYOUT), "ignored.sdf", "C6", target_chain="A")
+    assert ch == "A" and resid == 222
+    assert round(dist, 2) == 15.0
+    # the diagnostic must still surface the global nearest, so a bad co-fold stays distinguishable from a bad build
+    assert diag["global_nearest"] == {"chain": "G", "resid": 74, "dist_A": 12.44}
+    assert diag["global_nearest_is_off_target"] is True
+
+
+def test_the_old_global_search_would_have_picked_elongin_c(_electrophile_at_origin):
+    """The bug, stated as a test. target_chain=None reproduces the rule that actually ran."""
+    ch, resid, dist, diag = MD._reactive_cys_by_geometry(
+        _cys_pdb(WARHEAD_ONLY_LAYOUT), "ignored.sdf", "C6", target_chain=None)
+    assert (ch, resid, round(dist, 2)) == ("G", 74, 12.44), "this is what the panel's warhead_only legs did"
+    assert "GLOBAL" in diag["search"]
+
+
+def test_a_seated_warhead_is_unaffected(_electrophile_at_origin):
+    """The fix must not move a leg whose warhead IS in the target pocket — the panel's other 15 legs."""
+    ch, resid, dist, diag = MD._reactive_cys_by_geometry(
+        _cys_pdb(SEATED_LAYOUT), "ignored.sdf", "C6", target_chain="A")
+    assert (ch, resid, round(dist, 2)) == ("A", 222, 7.4)
+    assert diag["global_nearest_is_off_target"] is False
+
+
+def test_target_chain_without_a_cysteine_fails_closed(_electrophile_at_origin):
+    """NR4A3 has no cysteine at the aligned NR4A1-Cys551 position (Leg 0). Silently building the adduct on the
+    nearest off-target Sg instead is exactly the failure this must refuse."""
+    with pytest.raises(SystemExit, match="carries no cysteine"):
+        MD._reactive_cys_by_geometry(_cys_pdb([("G", 74, 5.0, 0.0, 0.0)]), "ignored.sdf", "C6", target_chain="A")
+
+
+def test_r3_is_reported_in_angstrom_not_nanometres():
+    """R3 crossed a unit boundary silently. nrv04_readouts' contract is Ångström; the driver works in
+    nanometres and converted for R1 (`* 10.0`) but not for R3, so every committed `min_A` was a nanometre value
+    under an Ångström label. Pinned here as an explicit round trip through the conversion the driver now does."""
+    import nrv04_readouts as RO
+    lys_nm = [[(1.0, 0.0, 0.0)], [(2.0, 0.0, 0.0)]]          # 1 nm and 2 nm from a proxy at the origin
+    proxy_nm = (0.0, 0.0, 0.0)
+    lys_A = [[(x * 10.0, y * 10.0, z * 10.0) for (x, y, z) in fr] for fr in lys_nm]
+    proxy_A = tuple(c * 10.0 for c in proxy_nm)
+    assert RO.lys_presentation(lys_A, proxy_A)["min_A"] == 10.0, "1 nm must be reported as 10 Å"
+    # the unconverted call is what produced the committed numbers, and it is wrong by exactly 10x
+    assert RO.lys_presentation(lys_nm, proxy_nm)["min_A"] == 1.0
+
+
+def test_the_tether_limit_is_the_drivers_own_warning_threshold():
+    """8 A was already the distance at which the driver warned; for covalent legs it is now a gate, not a log
+    line — build_system raises rather than winching the ligand across the assembly."""
+    assert MD.MAX_COVALENT_TETHER_A == 8.0
