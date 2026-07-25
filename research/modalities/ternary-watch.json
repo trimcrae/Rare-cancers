@@ -1,0 +1,22 @@
+{
+  "_what": "Declarative watch list for the ternary-leg watchdog (.github/workflows/ternary-leg-watchdog.yml).",
+  "_why": "Monitoring used to live in a background poller inside an agent session. That dies whenever the session or container stops -- twice on 2026-07-25, once silently for 31 minutes on an unbounded curl -- and a long GPU leg then runs unwatched: a spot preemption is not noticed, nothing resumes it, and the wall clock is lost. This file plus the scheduled workflow move the watch OUT of the session entirely. All state lives in the repo and in GCS, so it survives restarts, and no agent needs to be awake.",
+  "_how": "The workflow runs on a cron. For each enabled entry it asks GCS three questions: is the leg's result JSON already there (done), is a VM alive (running), or neither (died)? Only in the third case does it re-dispatch, which resumes from the last committed checkpoint. A per-day relaunch counter in GCS caps runaway re-dispatch, and every outcome is emitted as an annotation so it is readable from the check-runs API without opening a log.",
+  "_editing": "Set enabled=false when a leg is finished or deliberately parked -- do NOT delete the entry, so the history of what was watched stays legible. The watchdog is a no-op with an empty or all-disabled list.",
+
+  "watch": [
+    {
+      "enabled": true,
+      "note": "valB_mini reverse leg — the preregistered |dG_fwd + dG_rev| antisymmetry check, which is still null on all three legs. Its result decides whether the r0 systematic sits in the model/reference data (rescope the calibrator) or in interface substates (change the rescope design first).",
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "seed": "0",
+      "direction": "rev",
+      "commit_salt": "v2pe",
+      "timestep_fs": "2.0",
+      "charge_method": "nagl",
+      "n_windows": "12",
+      "template_pdb": "8G1Q",
+      "max_relaunches_per_day": 8
+    }
+  ]
+}
