@@ -1312,3 +1312,30 @@ def test_the_status_clock_is_persisted_for_the_next_poll(monkeypatch):
     assert any(k.endswith("_lane_state.json") for k in keys)
     payload = next(v for k, v in written if k.endswith("_lane_state.json"))
     assert payload["95"][0] == "abc: Waiting"
+
+
+def test_ddg_sign_matches_the_reference_convention():
+    """POSITIVE ddG must mean 'the mutation weakens binding', on BOTH sides of the comparison.
+
+    The abort gate compares a computed ddG against a SKEMPI-derived one. If the two conventions
+    disagreed, score_benchmark would be comparing a number against its own negation — and for
+    barnase-barstar Y29A (reference +3.47) an engine returning the correct magnitude with the wrong
+    sign would read as a ~7 kcal/mol error, i.e. it would fail a working engine. The opposite
+    pairing is worse: on the near-null Y29F control a sign flip is nearly invisible.
+    """
+    import protfep_refcheck as rc
+    # Reference side: a mutation that WEAKENS binding raises Kd, and must come out positive.
+    assert rc.ddg_from_kd(kd_mut=3.5e-12, kd_wt=1e-14) > 0
+    # ...and one that strengthens it must come out negative.
+    assert rc.ddg_from_kd(kd_mut=8e-15, kd_wt=1e-14) < 0
+    # Computed side: complex - apo, so a mutation costing MORE free energy inside the complex than
+    # in isolation (i.e. the complex resists it) is positive = weakened binding.
+    res = pr.ddg_for({"complex": [{"dg_kcal": 25.0}], "apo": [{"dg_kcal": 21.5}]})
+    assert res["ddg_bind_kcal"] == pytest.approx(3.5)
+    # And the sign is the one the Y29A reference expects, so the gate compares like with like.
+    assert pb.BENCHMARKS["barnase_barstar_Y29A"]["ref_ddg_bind_kcal"] > 0
+    scored = pb.score_benchmark("barnase_barstar_Y29A", res["ddg_bind_kcal"], None)
+    assert scored["within_tolerance"], "correct sign + magnitude must clear the gate"
+    # The mirror image must NOT pass — this is the assertion that actually catches a flip.
+    flipped = pb.score_benchmark("barnase_barstar_Y29A", -res["ddg_bind_kcal"], None)
+    assert not flipped["within_tolerance"]

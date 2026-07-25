@@ -98,7 +98,19 @@ def group_legs(docs):
 def ddg_for(legs_by_env):
     """ddG_bind for one benchmark from its complex/apo legs. Pure.
 
-    ddG_bind = dG_mut(complex) - dG_mut(apo). Error is the between-replicate SD added in quadrature
+    ddG_bind = dG_mut(complex) - dG_mut(apo), where dG_mut(X) is the ALCHEMICAL WT->mutant
+    transformation run in environment X.
+
+    SIGN, stated because the abort gate turns on it and a flip would look entirely plausible either
+    way. The thermodynamic cycle gives ddG_bind = dG_bind(mut) - dG_bind(wt) = dG_mut(complex) -
+    dG_mut(apo), so POSITIVE means the mutant binds WORSE — the mutation weakens binding. That is the
+    same sign convention as the reference side, where protfep_refcheck computes
+    RT*ln(Kd_mut/Kd_wt) and documents "positive = the mutation WEAKENS binding". The two must agree
+    or score_benchmark compares a number against its own negation; barnase-barstar Y29A is a
+    destabilising hot-spot knockout and its reference is +3.47, so a correct engine returns a large
+    POSITIVE ddG here. Pinned by test_ddg_sign_matches_the_reference_convention.
+
+    Error is the between-replicate SD added in quadrature
     — the repo's standing rule, and the right estimator here because setup-to-setup variance, not
     within-leg MBAR precision, dominates an alchemical mutation. Where only one replicate exists the
     SD is None and the result is explicitly marked single-replicate rather than being given a
