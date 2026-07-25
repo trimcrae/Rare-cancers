@@ -452,12 +452,15 @@ allowed to claim.
    using — they bind on every ternary / degradation-geometry step, not just 5a:**
    - **The ubiquitin-transfer distance is 17.1 Å, MEASURED** — nearest of 11 substrate lysines in a *solved*
      CRL4–CRBN assembly. The repo's assumed **10 Å was ~7 Å too strict** and, applied as written, **would have
-     suppressed the term-(b) lysine signal entirely.** Any transfer-zone criterion must use the measured band.
+     been the wrong scale and would have MATERIALLY WEAKENED the term-(b) lysine signal.** ⚠ *Corrected
+     2026-07-25: an earlier "would have suppressed it entirely" is **contradicted by the committed sweep** —
+     84/192 basins still reach rank ≥3 at 10 Å, against 75 at 17 Å.* Any transfer-zone criterion must use the
+     measured band.
    - **⚠ A COMPOSED CRL RING CARRIES ~30–50 Å OF POSITIONAL UNCERTAINTY** *(measured on both arms 2026-07-25:
      **VHL 30.18 Å, CRBN 50.14 Å** — the original 48.6 Å was one arm. **NOT IN FORCE in the authoritative
      Tier-2 run**, which anchors both arms on the observed E2 catalytic cysteine rather than a composed RING.)*
      Original finding:** A known-answer check *falsified its
-     own construction*: a RING composed from a receptor entry + a cullin scaffold — with **both bridges < 1.5 Å**,
+     own construction*: a RING composed from a receptor entry + a cullin scaffold — with **both bridges < 1.5 Å** *(true of the 48.58 Å pair only; CRBN's own-assembly bridge is **1.916 Å** — and CRBN carries two live composed-RING numbers, 48.58 and 50.14, through different bridges, which is a one-fact-one-place hazard)*,
      i.e. each join individually excellent — sat **48.6 Å** from the RING of an intact deposited assembly. This
      is **conformational, not error**: CRLs are genuinely mobile, so a well-fitted composition is still not a
      position. **Consequence: no degradation-geometry claim may rest on a RING or E2 that was COMPOSED rather
@@ -569,7 +572,12 @@ revision](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-
   ternary" claim failing coordinate-level verification. **So the widening delivered less breadth than this
   plan's text implied, and it CONFIRMED the incumbents rather than displacing them — a real, publishable
   negative for the E3-breadth argument, and it must be reported as one rather than quietly absorbed.**
-  **BIRC2 is the flagged first recruiter to revisit** at $0 (tier-3 verified, best resolution 1.249 Å, openness
+  ⚠ **AND A $0 RE-CHECK IS OWED ON THE VHL ARM ITSELF (flagged 2026-07-25, NOT resolved): PDB 9GIO — the
+  structure the E3 downselect advanced VHL on — is described by the structural record as carrying "a covalent
+  compound bound to C77 of VHL", not the VH032-class hydroxyproline-pocket handle the staging doc calls it, and
+  its attributed fpocket druggability is 0.001.** This does **not** touch the reported basin result, which
+  consumed **5T35 / 8R5H** — but it is exactly the class of fact that *decided a downselect*, and it is free to
+  check. **BIRC2 is the flagged first recruiter to revisit** at $0 (tier-3 verified, best resolution 1.249 Å, openness
   within 0.04 of CRBN) if CRBN/VHL prove geometrically unpromising — it is already fully staged.
   ⚠ **The downselect is BLIND to recruiter-intrinsic pharmacology by construction.** MDM2 and KEAP1 rank well on
   geometry while their handles are developed inhibitors of the E3's *own* function. Recorded as a **required
@@ -690,7 +698,7 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
 | null: covers *any* NR4A3 lysine | 0.35–0.49 | **0.81–0.96** |
 
 - **The categorical terms fire in a small MINORITY of placements** — 0.5–8 % cover a unique lysine, term (a)
-  reaches gate level in 2–5 % — against a **1–6.5 %** background. **Enrichments, not saturation.**
+  reaches gate level in 2–5 % — against the gate's **unique-lysine null of 1.0–7.5 %** (`term_b_background_null.fraction_unique_covering`, 24 arm×pose nulls). **Enrichments, not saturation.** ⚠ *Corrected 2026-07-25: an earlier "1–6.5 %" was carried over from the PREVIEW run and matched no artifact field; it also contradicted the correct 2–6 % stated above. Do not pair one range with both terms — the reach control is a different quantity, and is zero in 168/192 basins.*
 - ⚠ **RETRACTED SAME DAY (2026-07-25, LANE 7): "CRBN's null is 0.81–0.96, so most of CRBN's term-(b) signal is
   background — the discrimination lives on VHL."** That inference was wrong **twice over**, and it was recorded
   here earlier today, so it is corrected rather than quietly dropped.
@@ -1273,8 +1281,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   makes seating *worse* (33.6/36.6/44.7 Å vs ~28 Å ternary, so the ternary arrangement is not the cause), and a
   **steered** co-fold that demonstrably honoured an explicit `max_distance: 6.0` restraint to residue 207
   (~37 → ~15 Å, contacts doubled) **still never satisfied its own 6 Å bound on any of three seeds**, parking
-  celastrol near the buried C505. No predictor produces the pose (7/7 clean models, 4 seeds, 3 prefixes, 2
-  providers) and no deposited celastrol–NR4A1 structure constrains it, so the only route left is a **hand-placed
+  celastrol near the buried C505. **One predictor** (Boltz-2) fails to produce the pose across 7/7 clean models, 4 seeds and 3 prefixes *(the "2 providers" are compute hosts, not two independent predictors — so this is a Boltz-2 result, not a statement about structure prediction in general)* and no deposited celastrol–NR4A1 structure constrains it, so the only route left is a **hand-placed
   pose** — which fixes the *comparison* without supplying the *evidence*. **This is a statement about the
   predictor, not about whether celastrol binds C551**, which is literature-anchored (Zhang 2018,
   doi:10.1039/C8CC06140H). **Retiring them costs little: Leg 0 already did their job for $0** — the reactive Cys
@@ -1286,7 +1293,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   · prior chain forensics
   [nrv04-cofold-chain-forensics-2026-07-24.md](research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
 
-  **★ TWO BUGS FOUND HERE PROPAGATE TO THE UNLAUNCHED NR-V04 RETROSPECTIVE (RUNG 4), WHICH SHARES THIS DRIVER —
+  **★ FOUR BUGS FOUND HERE PROPAGATE TO THE UNLAUNCHED NR-V04 RETROSPECTIVE (RUNG 4), WHICH SHARES THIS DRIVER —
   both are fixed with regression tests, and the retrospective must not launch on the old code.**
   (i) **`_reactive_cys_by_geometry` was chain-blind** — a second live instance of the *same* defect class as the
   chain split; it is now restricted to the identified target chain, raises above an 8 Å preformed-adduct limit on
@@ -1333,6 +1340,43 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   differential surface exists to steer an E3 against (distinct from the ~70 % pocket hotspot), so the 5a
   orientation-basin search is warranted. *(Optional add-on: matched NR4A1/2 MD ensembles ~$10–40 to test which
   handles survive dynamics.)*
+- **`[!]` NR-V04 retrospective — preregistered holdout — ★ HELD 2026-07-25: IT COULD NOT HAVE RETURNED A
+  VERDICT UNDER ANY PHYSICS, TWICE OVER** — **~$24 ($5.6–78; repriced from ~$21 onto the 2800-iteration basis)
+  · Cum. ~$107.**
+  A **$0** pre-spend audit (`nrv04-retrospective-prespend-audit-2026-07-25.md`) found **two independent, silent
+  blockers**, each of which would have consumed the whole spend and read post-hoc as a result:
+  - **(1) The collector read keys the driver never writes.** `retro_collect` read `d["R1"]`/`d["R2"]`; the
+    driver writes **`R1_interface` / `R2_recruitment` / `R3_lys`**. Controlled reproduction through the *real*
+    collector: **24 flawless legs → every `e1_plateau_A` None → every leg `technical_failure` → every arm
+    underpowered → `tier: INDETERMINATE`.** Corroborated on real artifacts — **19/19 leg JSONs carry
+    `R1_interface`, 0/19 carry `R1`**, and two other in-repo consumers read the correct key. **The existing
+    tests could not catch it**: they feed the gate `e1_plateau_A` directly, so the driver→collector boundary was
+    never crossed. Fixed, with a schema guard that refuses a verdict when legs land, none blow up, and none
+    yield an endpoint.
+  - **(2) The covalent R2 arm is unbuildable — and it BLOCKS R1 rather than merely costing an arm.** AMENDMENT
+    2's finding reproduces on *independent* models: at the preregistered C551, `retro_cov_nr4a1`'s three pinned
+    models measure **34.42 / 29.87 / 39.11 Å** against the 8.0 Å limit, so `build_system` **raises**. The raise
+    happens *before a leg JSON is written*, so those 6 units never land, **`panel_complete` stays False and §4f
+    suppresses the R1 contrast permanently.** The two blockers are **sequential, not alternatives**.
+  **Cleared, and verified rather than assumed:** the nm/Å unit error, the positional chain split and the input
+  contamination are **NOT** inherited — confirmed on **all 9 models**, including the **6 NR4A2/NR4A3 co-folds no
+  prior audit had ever measured** (the earlier allowlist skipped them) which feed **12 of the 18 primary legs**.
+  **★ AMENDMENT 3 APPLIED (trimcrae-delegated):** R2 **retired** (authorized panel = **R1 only, 18 legs**); the
+  §4d extension window corrected from an unreachable `(0.012, 0.05]` to `(0.05, 0.12]`; the **inert** LOMO
+  clause demoted to a reported diagnostic (228,543 configurations reached p ≤ α with correct ordering and
+  **zero** then failed LOMO); and an **MDE registered** — measured leg-to-leg σ **0.855 Å**, 80 % power only at
+  **1.5–2.0 Å**. Non-rescue: **no result exists to flip**, and defects 1/3/4 all tighten while 2 can only add
+  work to already-non-concordant results. **Net, the retrospective can claim LESS than before.**
+  ⚠ **And a limitation that is not a bug:** R1's arms are **not matched in ligand placement, with the asymmetry
+  running against the hypothesis** — warhead↔target contacts at t=0 are NR4A1 **47** vs NR4A2 **106** / NR4A3
+  **73**, i.e. *the spared paralogues start better engaged with their target*, and the designated **pilot leg**
+  (`nrv04-descriptive-v4/nr4a2/seed_1`) starts with a **1.05 Å heavy-atom overlap**. A null R1 remains a
+  registered outcome, but it licenses *"did not resolve a difference of the size this design can detect"* — **not**
+  "selectivity is localised to warhead reactivity", which stands on Leg 0 + Zhang 2018 alone.
+  **Price, two different objects wearing one name:** the ~$21 line was **Arm F (alchemical)**, which the prereg
+  does not authorise and which is blocked — repriced **~$24 ($5.6–78)**. What a GO would actually spend is
+  **Arm E: 18 legs ≈ $7.7** at the measured $0.43/leg.
+  *(Original entry retained below for the frozen gate wording.)*
 - **`[ ]` NR-V04 retrospective — preregistered holdout** — **~$21 ($4.8–67) · Cum. ~$104.** Full ensembles
   through the pipeline, no tuning, epimer control; report directional concordance only. **Gate:** Val B-full +
   NR-V04 feasibility + Step 1 fan-out. **It no longer gates the causal kill-switch** (lever 4).
@@ -1397,7 +1441,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   **Honest expectation, recorded BEFORE the run:** NR4A1 offers *absence*, not a penalty, so the expected effect
   is an **NR4A3 gain bounded by roughly one partly-buried H-bond (~0.5–1.5 kcal/mol) against 1.12 resolvable —
   i.e. A NULL IS LIKELY.** Fallback fully enumerated and RDKit-verified: `vhl|M3` representative, 11 atoms,
-  T407, 10.3 Å — **C₄₇H₅₅N₉O₉S vs C₄₈H₅₆N₈O₉S, identical 66 heavy atoms.**
+  T407, 10.3 Å — **C52H65N9O9S vs C53H66N8O9S** *(per `nr4a3-linker-library-chem.json`; an earlier C₄₇H₅₅N₉O₉S / C₄₈H₅₆N₈O₉S with "66 heavy atoms" disagreed with the artifact and is superseded — the equal-heavy-atom property holds, the formulae were wrong).*
   *Remaining confounds:* modelled rotamer; double conditionality; unmeasured linker-conformer populations. **Evidence grade:** a NO-GO may be taken on
   valB_mini-grade evidence (stopping is the conservative action), but a POSITIVE result stays **exploratory**
   until valB_full passes.

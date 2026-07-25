@@ -304,3 +304,65 @@ and describe it as more than it is.
 
 *Frozen 2026-07-24, before any retrospective leg ran. Amendments must be dated additions to this file, never
 silent edits to a criterion.*
+
+
+---
+
+## AMENDMENT 3 — 2026-07-25 (dated defect-fix; trimcrae-delegated, APPLIED)
+
+**Authority.** §7's freeze and STRATEGY.md's requirement that amending a preregistered rule be an explicit,
+dated, reviewer-approved defect-fix. The frozen text above is left **unedited**.
+
+**Standard applied (AMENDMENT 1's):** a rule may be amended only if its statistic is shown to lack
+discriminating power, demonstrated independently of whether we liked the answer it gave. All four findings
+below were measured **before any retrospective leg ran**, so no result exists to have liked or disliked.
+
+**Defect 1 — the R2 arm is unbuildable on every available input.** `retro_cov_nr4a1` declares the C6→Cys551
+adduct. Measured at the preregistered site on the exact pinned models
+(`nrv04-descriptive-v4/nr4a1/seed_{1,2,3}`): **34.42 / 29.87 / 39.11 Å**, against A1's 8.0 Å limit, so
+`nrv04_covalent_md.build_system` raises. This is the same finding as covalent-panel AMENDMENT 2, on
+independent models: no predictor in this pipeline — unconstrained, re-seeded, E3-free or steered — seats
+celastrol against C551. It is also **blocking**: the raise happens before a leg JSON is written, so the 6
+units never land, `panel_complete` stays False and §4f suppresses the R1 contrast permanently — leaving R2
+in the panel does not merely cost an arm, it costs the primary result. **Ruling: R2 is RETIRED**, and with
+it §5c's registered composite outcome. The
+covalent confound is documented from **Leg 0** (sequence) and **Zhang 2018** (literature), never from a
+simulation this program ran. The authorized panel becomes **R1 only, 18 legs**.
+
+**Defect 2 — the §4d extension rule cannot fire in its stated case.** Attainable p-values are k/84. The
+window (0.012, 0.05] contains exactly {0.0238, 0.0357, 0.0476}, all ≤ α and therefore already CONCORDANT;
+the smallest attainable p above α is 0.0595, outside the window. **Ruling: the window becomes
+`(0.05, 0.12]`** — the right-sign-but-unresolvable band the rule's own text describes, i.e. p ∈ {5…10}/84 —
+and it remains triggerable by the p-value alone and unavailable to a wrong-sign result.
+
+**Defect 3 — the LOMO clause is inert.** 228,543 configurations reached p ≤ α with the correct ordering;
+zero failed LOMO. **Ruling: LOMO is retained as a REPORTED robustness diagnostic and removed from the
+CONCORDANT tier's conjunction**, which it cannot affect. The WEAKLY_CONCORDANT branch predicated on it is
+struck as unreachable.
+
+**Defect 4 — no minimum detectable effect was registered, and §5c depends on one.** Measured leg-to-leg
+σ = 0.855 Å; MDE at 80 % power = **1.5 Å (optimistic, σ_model = 0) to 2.0 Å**. **Ruling: the MDE is
+registered**, and §5b/§5c are narrowed: a null R1 licenses *"the workflow did not resolve a paralogue
+difference of the magnitude this design can detect (≥ ~1.5–2.0 Å in interface-RMSD plateau at n = 3
+models/arm)"* and **may not** be reported as localising NR-V04's selectivity to warhead reactivity. That
+localisation stands on Leg 0 and Zhang 2018 and is stated as such.
+
+**Does this amendment rescue a failing result? NO — stated as the integrity test.**
+1. **No result exists.** Not one retrospective leg has run; there is no outcome for any of this to flip.
+   Every criterion changed here was assessed by enumeration or against the *sibling* panel's noise.
+2. **None of the four can convert a fail into a pass.** Defect 1 **removes** an arm (strictly less evidence,
+   strictly less spend). Defect 2 alters only whether *more data is generated* — `extension_triggered` is a
+   separate field that `nrv04_retro_gate.verdict` never reads when assigning a tier; the corrected window
+   fires on p > α, which is precisely the region that is **not** CONCORDANT, so it can only add work to
+   ambiguous results, never promote one. Defect 3 removes a condition that has been shown incapable of ever
+   being false when the others hold — the CONCORDANT set is **unchanged** by construction. Defect 4
+   **restricts** what a null may claim.
+3. **The primary contrast, its direction, its α, its endpoint, its threshold and its unit of independence
+   are all untouched.**
+
+**Honest statement of what this LOOSENS and what it TIGHTENS.** Defect 2 is a **loosening in form** — it
+makes an extension reachable where it previously was not — but it buys no claim: an extension only ever adds
+models and re-runs the same frozen test at larger n. Defects 1, 3 and 4 all **tighten**: one arm is deleted,
+one tier condition is demoted to a diagnostic (removing a clause that could never bite is neutral to the
+verdict and honest about the tier's real content), and the null's licensed claim is narrowed. Net: the
+retrospective can claim **less** after this amendment than before it.
