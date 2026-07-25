@@ -236,16 +236,46 @@ jobs:
         run: |
           set -eo pipefail
           python -m pip install -q boto3
-          python research/modalities/protfep_vast_launch.py --collect
+          python research/modalities/protfep_vast_launch.py --collect 2>&1 | tee /tmp/board.txt
       - name: Reduce to verdict + measured price
         run: |
           set -eo pipefail
           B="${BUCKET:-sagemaker-us-east-2-646605541856}"
           ARGS=""
           [ -n "${{ github.event.inputs.hourly_usd }}" ] && ARGS="--hourly-usd ${{ github.event.inputs.hourly_usd }}"
+          # The full JSON goes to the FILE, which is committed below. Echoing ~45 lines of it into the
+          # log every poll pushed the status board — the part a monitor actually reads — out of the
+          # log tail, so each check cost a bigger and bigger log fetch to see less and less.
           python research/modalities/protfep_reduce.py \
             --source "s3://${B}/protfep-benchmark" \
-            --out research/modalities/protfep-benchmark-result.json $ARGS
+            --out research/modalities/protfep-benchmark-result.json $ARGS > /dev/null
+      - name: Summary LAST
+        run: |
+          set -eo pipefail
+          # A CI log is read from its TAIL. Whatever a monitor needs must therefore be the last thing
+          # printed, not the first — the per-instance detail above scrolls out of view exactly when a
+          # run gets interesting. Same lesson the congeneric s1f lane wrote down.
+          echo "================ BOARD ================"
+          cat /tmp/board.txt
+          echo "================ VERDICT + PRICE ================"
+          python - <<'PY'
+          import json
+          d = json.load(open("research/modalities/protfep-benchmark-result.json"))
+          v, p = d["verdict"], d.get("price", {})
+          print("qualified:", v.get("qualified"), "|", v.get("reason", ""))
+          for name, r in (d.get("per_benchmark") or {}).items():
+              if not r:
+                  print(f"  {name}: no complete ddG yet")
+                  continue
+              sd = r.get("ddg_sd_kcal")
+              print(f"  {name}: ddG = {r['ddg_bind_kcal']:.2f}"
+                    + (f" +/- {sd:.2f}" if sd else " (single replicate, no error bar)")
+                    + f"  [complex {r['n_complex']}, apo {r['n_apo']}]")
+          if p.get("priced"):
+              print(f"price: {p['n_legs_measured']} leg(s), {p['gpu_hours_per_leg']['mean']} GPU-h/leg, "
+                    f"${p['usd_per_benchmark_leg']}/leg @ ${p['assumed_hourly_usd']}/h "
+                    f"-> PROJECTED wedge ${p.get('projected_wedge_usd_3rep')} (3 rep)")
+          PY
       - name: Commit the reduction into the branch
         run: |
           set -eo pipefail
