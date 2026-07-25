@@ -6,9 +6,11 @@
 > they differ, STRATEGY.md wins and this file is reconciled to it. Proposed STRATEGY.md deltas are collected
 > at the end rather than applied here.
 >
-> **Status:** kernels built and unit-tested (31 tests, each against a closed-form answer or an identity the
-> module must share with `basin_geom`); the design driver run; the library emitted and RDKit-verified on CI.
-> **No GPU was used and none is requested by this rung.**
+> **Status:** DONE. Kernels and driver built and unit-tested (**52 tests**, each against a closed-form answer,
+> a hand-constructed case, or an identity the module must share with `basin_geom`); the design driver run; the
+> library emitted and **RDKit-verified GREEN on CI — 22/22 constructs, 0 failures**, with every backbone length
+> and branch position re-derived from the parsed molecule rather than trusted from the geometry that proposed
+> it. **No GPU was used and none is requested by this rung. $0 realized.**
 >
 > **Language discipline applies throughout.** Every construct is a **predicted selective candidate** and the
 > set is *a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for
@@ -41,7 +43,8 @@ which needs a candidate *d* and a control *d₀* differing **only** in the eleme
 | [`linker_design.py`](../modalities/linker_design.py) | pure-stdlib kernels: convex three-ball feasibility, the electrophile branch-position window, the WLC window probability, exit-vector angles |
 | [`nr4a3_linker_design.py`](../modalities/nr4a3_linker_design.py) | the driver — per-basin requirements, the virtual library, the filter, the matched pair |
 | [`linker_chem_check.py`](../modalities/linker_chem_check.py) | RDKit verification that the emitted molecules *are* what the geometry said |
-| [`tests/test_linker_design.py`](../modalities/tests/test_linker_design.py) | 31 unit tests |
+| [`tests/test_linker_design.py`](../modalities/tests/test_linker_design.py) | 31 kernel tests |
+| [`tests/test_nr4a3_linker_design.py`](../modalities/tests/test_nr4a3_linker_design.py) | 21 driver tests — SMILES assembly, the backbone-index identity, the filter's preregistration |
 | `nr4a3-linker-design.json` · `nr4a3-linker-library-chem.json` | the outputs |
 
 Everything is pure stdlib except the verification, which runs on a free CI runner inside the pre-baked
