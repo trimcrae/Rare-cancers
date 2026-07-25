@@ -117,12 +117,22 @@ jobs:
           echo "=== setupcache entries (read-only) ==="
           LIST=$(gcloud storage ls "gs://$BUCKET/valB-6hax/setupcache/**" 2>&1 | head -100)
           echo "$LIST"
-          CALIB=$(echo "$LIST" | grep -i calib)
-          echo "=== calib entries ==="
-          echo "${CALIB:-（none）}"
-          PE=$(echo "$CALIB" | grep -c 'v2pe')
-          NOPE=$(echo "$CALIB" | grep -vc 'v2pe')
-          echo "calib entries WITH v2pe: $PE ; WITHOUT: $NOPE"
+          # Count CACHE KEYS, not files. Each key is a directory holding ~5 objects, so counting lines
+          # counts objects and reports a meaningless "mixed" whenever more than one version exists.
+          CALIB=$(echo "$LIST" | grep -i calib | sed -E 's#(.*/setupcache/[^/]+)/.*#\1#' | sort -u)
+          echo "=== calib cache KEYS ==="
+          echo "${CALIB:-(none)}"
+          PE=$(echo "$CALIB" | grep -c 'pe$')
+          NOPE=$(echo "$CALIB" | grep -vc 'pe$')
+          echo "calib cache keys pre-equilibrated (…pe): $PE ; raw: $NOPE"
+          # ⚠ PRESENCE IS NOT THE DISCRIMINATOR, and this step must not be read as if it were. Several
+          # versions legitimately coexist (v1, v1pe, v2pe all exist for the fwd leg), so which one a given
+          # leg RESTORED is not decidable from a listing. The decisive field is the leg's own recorded
+          # `setup_cache_version`, and its physical fingerprint is the PARTICLE COUNT:
+          #     v2pe (alchemy from the plain-MD-relaxed complex) = 141,968 particles
+          #     v1   (raw)                                       = 146,020 particles
+          # Settled for r0 on 2026-07-25: the committed forward .nc holds 141,968 particles, so the 2 fs
+          # baseline is v2pe -- pre-equilibrated. See ternary_fep_reduce._SYSTEM_IDENTITY_FIELDS.
           if [ -z "$CALIB" ]; then
             echo "::warning title=PREEQUIL PROVENANCE UNKNOWN::No calib setup-cache entries listed — the 2 fs baseline's use_preequil remains UNVERIFIED. A 4fs-vs-2fs disagreement must NOT be attributed to the timestep."
           elif [ "$PE" -gt 0 ] && [ "$NOPE" -eq 0 ]; then

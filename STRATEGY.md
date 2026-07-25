@@ -78,7 +78,7 @@ relevant rung below.*
 | **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30172893752`) | **RUNNING, PAST THE FAILURE POINT, and now self-driving.** The 3:35 PM VM reached a committed **`warmup/8`** checkpoint at 33.9 s/iter — all four earlier attempts died at **warmup iteration 1**, so this is the pre-equilibration fix confirmed working. It was then **spot-preempted at ~4:04 PM** (25 min in; routine) and the **watchdog relaunched it unprompted at 4:06 PM — attempt 2/8, resuming from checkpoint**, its first autonomous recovery. Setup provenance verified identical to fwd (141,968 particles, protocol_hash `52488cfc…`) | **~Sun 6 PM ET** (~26 h MD across ~4 VM lifetimes, self-driven) | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
-| **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ⚠ **Confound: the 4 fs arm necessarily carries pre-equilibration and `use_preequil` was NEVER VERIFIED for the 2 fs baseline** — agreement authorises adoption; **disagreement is a NO-GO that must NOT be attributed to the timestep** |
+| **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ✅ **Confound RESOLVED 2026-07-25 ($0): the 2 fs baseline is `v2pe`, pre-equilibrated** — the committed r0 `.nc` holds **141,968** particles, the `v2pe` fingerprint (`v1` raw = 146,020). The arms differ in the **timestep alone**, so a NO-GO is now interpretable |
 
 > **⚠ NAMING CORRECTED (2026-07-25 1:50 PM ET) — these were first written as "5a-1…5a-5", which was wrong and
 > actively misleading: it read as though all five were sub-parts of RUNG 5a, and it invited the reasonable
@@ -1011,12 +1011,22 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   (additive, not a loosening): report the actual |Δ|, and a pass landing in the 0.35–0.7 band is
   "consistent but WEAKLY DISCRIMINATING" — adopt provisionally and require the next ternary replicate to
   confirm it, rather than treating 4 fs as settled.**
-  ⚠ **And the confound bounds what a NO-GO may be blamed on:** the 4 fs arm necessarily carries
-  pre-equilibration, while `use_preequil` for the 2 fs baseline was **never verified** — only the workflow
-  *default* of 0 is recorded, and a default is not evidence about what ran. **Agreement authorises adoption; a
-  DISAGREEMENT is a NO-GO that must NOT be attributed to the timestep.** A read-only setup-cache provenance
-  probe (presence of the `v2pe` suffix on the calib entries) was added to `gcp-quota-check.yml` and dispatched
-  2026-07-25 to settle it; it writes nothing and cannot perturb the concurrent GCP leg.
+  **✅ THE PRE-EQUILIBRATION CONFOUND IS RESOLVED (2026-07-25, $0) — the 2 fs baseline WAS pre-equilibrated, so
+  the two arms differ in the TIMESTEP ALONE and a disagreement IS attributable to it.** The caveat this replaces
+  read: *"`use_preequil` for the 2 fs baseline was never verified — only the workflow default of 0 is recorded"*,
+  and it would have made a NO-GO uninterpretable.
+  **How it was settled, and why a cache listing could not do it.** A read-only setup-cache probe (added to
+  `gcp-quota-check.yml`, dispatched against this branch — it writes nothing and cannot perturb the concurrent
+  GCP leg) shows **three** versions coexisting for the forward leg: `v1`, `v1pe`, **`v2pe`**. So *presence* is
+  not the discriminator — several caches legitimately exist and a listing cannot say which one a leg
+  **restored**. The decisive field is the leg's own `setup_cache_version`, whose physical fingerprint is the
+  **particle count**: `v2pe` (alchemy from the plain-MD-relaxed complex) = **141,968**; `v1` (raw) = **146,020**
+  (`ternary_fep_reduce._SYSTEM_IDENTITY_FIELDS`). **The committed r0 forward `.nc` holds 141,968 particles** —
+  measured independently by the ligand-identification work, which partitioned exactly that many particles into
+  4 chains, 44,860 waters and 248 ions — and `nr4a3_ternary_fep.py:682` records the same fingerprint verbatim
+  (*"fwd's 141,968-particle v2pe"*). **⇒ r0 is `v2pe`, pre-equilibrated.**
+  *(This is also the fingerprint that caught the four failed reverse attempts, which ran a 146,020-particle `v1`
+  build against the forward leg's 141,968-particle `v2pe` — a mismatch `protocol_hash` cannot see.)*
   **Two-stage, per the 2026-07-24 decision:** stage 1 is a **~$1–2 survival probe** (`prod_iters≈200`) asking
   only "does 4 fs survive well past the 40 iterations the runbook demonstrated?"; stage 2 is the full matched
   edge, only on a passing probe. Sequenced **after** valB_mini's 2 fs result, both because the calibration needs
