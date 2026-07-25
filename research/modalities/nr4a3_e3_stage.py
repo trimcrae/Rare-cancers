@@ -595,7 +595,13 @@ def ring_domain_centroid(prot_atoms, rbx1_chains):
 def stage_arm(arm_id, spec, out_dir, log):
     rec = {"arm_id": arm_id, "recruiter": spec["recruiter"], "crl": spec["crl"], "status": "pending",
            "provenance": {}, "rejected": []}
-    accs = {k: ACC[k] for k in set(spec["receptor_needs"] + spec["scaffold_needs"] + spec["bridge"])}
+    # A MONOMERIC RING arm has no cullin scaffold and no bridge — both are legitimately None, so they have to
+    # be tolerated here rather than concatenated blindly. (They were not: BIRC2 and MDM2, the two recruiters
+    # the E3 lane's downselect actually advanced, both died on `list + None` at this line before reaching the
+    # guard that handles them a hundred lines below.)
+    accs = {k: ACC[k] for k in set((spec.get("receptor_needs") or [])
+                                   + (spec.get("scaffold_needs") or [])
+                                   + (spec.get("bridge") or []))}
 
     # ---- 1. the ligand-bound receptor entry
     need = spec["receptor_needs"]

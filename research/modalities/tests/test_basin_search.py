@@ -379,6 +379,34 @@ def test_assembly_copy_selection_refuses_a_real_choice_but_flags_a_forced_one():
     assert lone == {"VHL": "A"} and linfo["coherent"] is True           # nothing to contact, trivially fine
 
 
+def test_monomeric_ring_arms_survive_the_accession_gather(tmp_path):
+    """THE BUG THIS ENCODES. A monomeric RING E3 has no cullin scaffold and no bridge, so both fields are
+    legitimately None — and the very first line of stage_arm concatenated them into a list. BIRC2 and MDM2,
+    the two recruiters the E3 lane's downselect actually ADVANCED, both died on `list + None` before ever
+    reaching the guard written to handle them."""
+    reg = {"recruiters": {
+        "BIRC2": {"uniprot": {"accession": "Q13490"}, "e3_class": "monomeric RING E3 (BIR/RING)",
+                  "arm": "RING_BIRC2", "staged_structures": [{"pdb_id": "4HY4", "is_primary": True}]},
+        "VHL": {"uniprot": {"accession": "P40337"}, "e3_class": "CRL2 substrate receptor (BC-box)",
+                "arm": "CRL2_VHL", "staged_structures": [{"pdb_id": "5T35", "is_primary": True}]},
+        "NOACC": {"uniprot": {"accession": None}, "e3_class": "monomeric RING E3"},
+    }}
+    p = tmp_path / "lane1.json"
+    p.write_text(json.dumps(reg))
+    arms = S.arms_from_lane1(str(p))
+    assert set(arms) == {"birc2", "vhl"}                       # the unresolved accession is REFUSED, not guessed
+    assert arms["birc2"]["e3_architecture"] == "MONOMERIC_RING"
+    assert arms["birc2"]["self_ring"] is True
+    assert arms["birc2"]["scaffold_needs"] is None and arms["birc2"]["bridge"] is None
+    assert arms["vhl"]["e3_architecture"] == "CRL2"
+    assert "CUL2" in arms["vhl"]["scaffold_needs"] and "RBX1" in arms["vhl"]["scaffold_needs"]
+    # the exact expression that crashed: gathering accessions across all three (possibly-None) fields
+    for spec in arms.values():
+        keys = set((spec.get("receptor_needs") or []) + (spec.get("scaffold_needs") or [])
+                   + (spec.get("bridge") or []))
+        assert all(k in S.ACC for k in keys)
+
+
 def test_zero_hit_search_is_an_answer_not_a_network_failure(monkeypatch):
     """RCSB answers a zero-hit search with 204 No Content and an EMPTY BODY, which urllib treats as SUCCESS —
     so it never reaches the HTTPError branch and json.loads('') raises. That made five legitimately-empty
