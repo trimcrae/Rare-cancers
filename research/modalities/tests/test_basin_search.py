@@ -187,13 +187,27 @@ def test_accessibility_is_zero_for_linkers_shorter_than_the_basin_span():
 # --------------------------------------------------------------------- the Tier-2 gate truth table
 
 
-def _meta(term_a=False, term_b_rank=0, nominal=0.0):
-    return {"term_a_union": ({"C397": {"max_fraction_reachable": 1.0, "min_linker_atoms": 10,
-                                       "n_poses_reachable": 3}} if term_a else
-                             {"C397": {"max_fraction_reachable": 0.0, "min_linker_atoms": 99,
-                                       "n_poses_reachable": 0}}),
-            "term_b_best_rank": term_b_rank,
+def _meta(term_a=False, term_b_rank=0, nominal=0.0, reach_beyond_gate=False):
+    if term_a:
+        ta = {"C397": {"max_fraction_reachable": 1.0, "max_fraction_reachable_at_gate": 0.8,
+                       "min_linker_atoms": 10, "n_poses_reachable": 3}}
+    elif reach_beyond_gate:
+        # reachable only at the permissive SAMPLING ceiling, not at a practical linker length
+        ta = {"C397": {"max_fraction_reachable": 1.0, "max_fraction_reachable_at_gate": 0.0,
+                       "min_linker_atoms": 19, "n_poses_reachable": 0}}
+    else:
+        ta = {"C397": {"max_fraction_reachable": 0.0, "max_fraction_reachable_at_gate": 0.0,
+                       "min_linker_atoms": 99, "n_poses_reachable": 0}}
+    return {"term_a_union": ta, "term_b_best_rank": term_b_rank,
             "stability_surrogate_nominal_delta_range": [nominal - 1.0, nominal]}
+
+
+def test_term_a_limb_is_read_at_a_practical_linker_length_not_the_sampling_ceiling():
+    """At the 20-atom sampling ceiling the focal-sum criterion admits almost any cysteine near the anchor
+    midpoint, so 'reachable' would be nearly free and term (a) could not fail. A gate that cannot fail is not
+    a gate, so the categorical limb is read at the practical linker length."""
+    assert B.tier2_verdict([_meta(reach_beyond_gate=True)], 1)["basis"] == "NONE"
+    assert B.tier2_verdict([_meta(term_a=True)], 1)["basis"] == "CATEGORICAL"
 
 
 def test_tier2_gate_is_a_conjunction_and_labels_a_nominal_only_pass_as_weaker():

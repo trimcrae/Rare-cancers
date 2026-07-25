@@ -22,12 +22,21 @@ ranks the hits, and then RE-VERIFIES the composition of whatever it downloaded a
 before using it. Optional `seed_ids` are hints that must pass the identical verification; a seed that fails is
 dropped with the reason recorded, never used.
 
-DERIVED, NOT ASSUMED — the exit vector. The E3-side tether anchor is taken as the ligand heavy atom that is
-FURTHEST from the receptor's protein atoms, i.e. the most solvent-exposed atom of the bound ligand. That is
-the point where a linker can leave without burying itself in the E3, and it is read out of the coordinates
-rather than looked up from chemical folklore about which position of VH032 or pomalidomide is "the exit
-vector". The run log prints the chosen atom and its exposure so the convention is auditable by eye
-(TESTING.md rule 6).
+DERIVED, NOT ASSUMED — the exit vector. The E3-side tether anchor is read out of the coordinates rather than
+looked up from chemical folklore about which position of VH032 or pomalidomide is "the exit vector": the
+ligand's atoms are split by WHICH PROTEIN EACH IS CLOSER TO, and the anchor is the E3-side atom furthest from
+the recruiter — the last atom before the linker departs. The split matters because the best ligand-bound
+recruiter structures turn out to be PROTAC ternaries (the E3-side moiety is only part of the bound ligand),
+and a naive "most exposed atom" rule returns a point on the OTHER warhead. The run log prints the chosen atom
+and its exposure so the convention is auditable by eye (TESTING.md rule 6).
+
+MEASURED, NOT ASSUMED — the transfer geometry. The E2 catalytic cysteine is identified by proximity to
+UBIQUITIN'S C-TERMINUS (which it carries as a thioester), a question with a unique structural answer; the
+function refuses rather than guessing if no ubiquitin chain is present. The same solved ubiquitylation
+assembly then yields the substrate-lysine-to-catalytic-cysteine distance, which calibrates the transfer-zone
+parameter the basin search would otherwise have to assume. And because that assembly is itself a complete CRL,
+it doubles as a KNOWN-ANSWER CHECK on this script's own composition: where an arm shares a bridge protein with
+it, the composed RING position is compared against the directly observed one and the displacement reported.
 
 NETWORK. RCSB is 403'd at CONNECT by the dev sandbox's egress proxy, so this runs on a GitHub Actions runner
 (CLAUDE.md §6). Pure stdlib urllib — no pip, matching the CPU-workflow convention.
@@ -432,7 +441,7 @@ def stage_arm(arm_id, spec, out_dir, log):
     pdb, comp, text, prot, body_chains, lig = chosen
     log(f"[e3stage] {arm_id}: receptor entry {pdb} ({comp['resolution_A']} A) "
         f"chains {sorted(body_chains)} ligand {lig['het_code']} n_heavy={lig['n_heavy']} "
-        f"exit atom {lig['exit_atom_name']} exposure {lig['exit_atom_min_dist_to_receptor_A']} A")
+        f"exit atom {lig['exit_atom_name']} exposure {lig['exit_atom_dist_to_receptor_A']} A")
     rec["provenance"]["receptor_entry"] = comp
 
     body_atoms = [a for a in prot if a["chain"] in body_chains]
@@ -619,6 +628,12 @@ def stage_e2_geometry(log):
                     "runner_up_cys_to_ubiquitin_cterm_A": [round(x, 2) for x, _ in ranked[1:]],
                     "ring_to_catalytic_cys_A": round(d_ring, 2),
                     "rbx1_ring_residue_range": list(rng),
+                    "_composition_check_inputs": {
+                        "pdb_id": pdb,
+                        "chains_by_accession": comp["chains_by_accession"],
+                        "ring_centroid_xyz": [round(c, 3) for c in cen],
+                        "catalytic_cys_xyz": [round(c, 3) for c in cat["xyz"]],
+                    },
                     "substrate_lysine_calibration": ({
                         "n_substrate_lysines": len(lys),
                         "nearest_lysine_resid": lys[0][1]["resid"],
@@ -634,6 +649,82 @@ def stage_e2_geometry(log):
                 log(f"[e3stage] E2 candidate {pdb} failed: {e}")
                 continue
     return None
+
+
+def validate_composition_against_solved_assembly(arms, e2, log):
+    """KNOWN-ANSWER CHECK on this script's own two-structure composition.
+
+    Every arm's RING position is COMPOSED — a ligand-bound receptor entry plus a separate cullin-scaffold
+    entry, bridged by superposition. Nothing so far says that composition lands the RING where a real,
+    intact assembly puts it, and the RING is what the entire term-(b) transfer zone hangs off.
+
+    The E2-geometry step happens to retrieve exactly the structure that can answer it: a complete solved CRL
+    ubiquitylation assembly. Where an arm shares a bridge protein with that assembly, we superpose the
+    assembly into the arm's frame and measure how far the DIRECTLY OBSERVED RING sits from the COMPOSED one.
+    A small displacement means the composition reproduces an intact CRL; a large one means it does not, and
+    the transfer zone built on it must be treated as a model rather than a placement. Either way it is
+    measured and reported, not assumed.
+    """
+    info = e2.get("_composition_check_inputs")
+    if not info:
+        return
+    try:
+        text = _get(FILE_URL.format(pdb=info["pdb_id"])).decode("utf-8", "replace")
+        aprot, _ = parse_pdb_text(text)
+    except Exception as exc:                                            # noqa: BLE001
+        log(f"[e3stage] composition check skipped: {exc}")
+        return
+    for aid, rec in arms.items():
+        ring = rec.get("ring")
+        if rec.get("status") != "OK" or not ring:
+            continue
+        spec = ARMS[aid]
+        recep = (rec.get("provenance") or {}).get("receptor_entry", {})
+        src_map, dst_map = {}, {}
+        for bname in spec["bridge"]:
+            s = set(info["chains_by_accession"].get(ACC[bname], []))
+            d = set((recep.get("chains_by_accession") or {}).get(ACC[bname], []))
+            if s and d:
+                src_map[bname], dst_map[bname] = s, d
+        if not src_map:
+            rec["composition_check"] = {"possible": False,
+                                        "reason": f"{info['pdb_id']} shares no bridge protein with this arm"}
+            continue
+        try:
+            path = os.path.join(REPO, rec["receptor_pdb"])
+            with open(path) as fh:
+                dprot, _ = parse_pdb_text(fh.read())
+        except Exception as exc:                                        # noqa: BLE001
+            rec["composition_check"] = {"possible": False, "reason": str(exc)}
+            continue
+        tr, binfo = bridge_into_frame(aprot, src_map, dprot, dst_map)
+        if tr is None:
+            rec["composition_check"] = {"possible": False, "reason": binfo["reason"]}
+            continue
+        R, t = tr
+        obs_ring = G.apply_superpose([tuple(info["ring_centroid_xyz"])], R, t)[0]
+        obs_cys = G.apply_superpose([tuple(info["catalytic_cys_xyz"])], R, t)[0]
+        comp_ring = tuple(ring["ring_centroid_xyz"])
+        anchor = tuple(rec["ligand"]["exit_atom_xyz"])
+        rec["composition_check"] = {
+            "possible": True,
+            "reference_pdb": info["pdb_id"], "reference_title": e2.get("title"),
+            "bridge": binfo,
+            "composed_ring_xyz": [round(c, 2) for c in comp_ring],
+            "observed_ring_xyz": [round(c, 2) for c in obs_ring],
+            "ring_displacement_A": round(G.dist(comp_ring, obs_ring), 2),
+            "anchor_to_composed_ring_A": round(G.dist(anchor, comp_ring), 2),
+            "anchor_to_observed_ring_A": round(G.dist(anchor, obs_ring), 2),
+            "anchor_to_observed_catalytic_cys_A": round(G.dist(anchor, obs_cys), 2),
+            "_reading": "How far this script's COMPOSED RING sits from the RING of an intact solved CRL "
+                        "assembly placed in the same frame. The term-(b) transfer zone hangs off the RING, so "
+                        "this is the error bar on the zone's placement — reported whatever it says.",
+        }
+        log(f"[e3stage] {aid} composition check vs {info['pdb_id']}: composed RING is "
+            f"{rec['composition_check']['ring_displacement_A']} A from the observed one "
+            f"(bridge {binfo['n_bridge_ca']} CA @ {binfo['bridge_rmsd_A']} A); anchor->RING composed "
+            f"{rec['composition_check']['anchor_to_composed_ring_A']} vs observed "
+            f"{rec['composition_check']['anchor_to_observed_ring_A']} A")
 
 
 def main(argv=None):
@@ -674,9 +765,13 @@ def main(argv=None):
         try:
             arms[a] = stage_arm(a, ARMS[a], args.out_dir, log)
         except Exception as e:                                          # noqa: BLE001
-            log(f"[e3stage] arm {a} FAILED: {e}")
+            import traceback
+            log(f"[e3stage] arm {a} FAILED: {type(e).__name__}: {e}")
+            log(traceback.format_exc())
             arms[a] = {"arm_id": a, "status": f"FAILED_{type(e).__name__}", "error": str(e)}
     e2 = stage_e2_geometry(log)
+    if e2:
+        validate_composition_against_solved_assembly(arms, e2, log)
 
     out = {
         "_title": "E3 recruiter arm registry for the RUNG-5a mechanism-first orientation-basin search",

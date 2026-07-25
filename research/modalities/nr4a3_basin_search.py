@@ -85,7 +85,15 @@ PARAMS = {
     # --- linker reach (the tether that makes this an orientation search and not blind docking)
     "linker_min_atoms": 3,
     "linker_max_atoms": 20,          # ~25 A contour; STRATEGY: "the linker already leaves the pocket and
-                                     # travels 10-20 A". 20 atoms is a permissive ceiling, not a design target.
+                                     # travels 10-20 A". 20 atoms is a permissive SAMPLING ceiling, not a
+                                     # design target — see linker_gate_atoms.
+    # THE GATE MUST NOT BE READ AT THE SAMPLING CEILING. At 20 atoms the focal-sum criterion admits almost
+    # any cysteine within ~15 A of the anchor midpoint, so "reachable" would be nearly free and term (a)
+    # would pass trivially — a gate that cannot fail is not a gate. The categorical limb is therefore read at
+    # a PRACTICAL linker length, with the full length profile reported so the choice is visible and a reader
+    # can move it.
+    "linker_gate_atoms": 12,         # ~15 A contour; a PEG3/short-alkyl linker, mid-range for real degraders
+    "linker_report_atoms": [6, 8, 10, 12, 14, 16, 20],
     "linker_rise_per_atom_A": 1.25,  # projected rise of an all-anti sp3 chain (basin_geom.contour_length_from_atoms)
     "linker_persistence_length_A": 4.0,   # PEG/alkyl-like; the accessibility term is swept over this
     "electrophile_arm_A": 3.0,       # a mild pendant electrophile (e.g. a cyanoacrylamide) on a short arm
@@ -102,8 +110,16 @@ PARAMS = {
     "n_e2_samples": 48,
     "ring_to_e2_cys_A": 25.0,        # overridden by the MEASURED value when the registry has one
     "ring_to_e2_cys_range_A": [18.0, 32.0],   # sensitivity sweep, always reported
-    "lysine_transfer_A": 10.0,       # NZ must reach the E2~Ub thioester; swept below
-    "lysine_transfer_sweep_A": [8.0, 10.0, 12.0, 16.0],
+    # THE TRANSFER DISTANCE IS CALIBRATED, NOT GUESSED — and the calibration moved it a long way. The default
+    # below was an assumption (~10 A, "the lysine has to reach the thioester"). The staging step measures it
+    # instead, from a solved CRL ubiquitylation assembly, and gets a NEAREST substrate lysine 17.1 A from the
+    # E2 catalytic cysteine. A 10 A zone would therefore have been ~7 A too strict and would have suppressed
+    # term (b) across the board. The measured value replaces this at run time when the registry carries one;
+    # the sweep spans tighter and looser so the category's dependence on the choice is visible.
+    # HONEST LIMIT: a deposited assembly is a snapshot poised for transfer, not the transition state, so the
+    # measured distance is an empirically anchored PERMISSIVE radius, not a proof of the productive one.
+    "lysine_transfer_A": 10.0,
+    "lysine_transfer_sweep_A": [10.0, 14.0, 17.0, 21.0],
 
     # --- clustering. A basin is a TARGET-SURFACE PATCH, identified by the interface fingerprint, NOT an
     # SE(3) micro-cluster: see basin_geom.leader_cluster_by for the measurement that forced this.
@@ -792,9 +808,16 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
                 b["min_atoms"] = min(b["min_atoms"], r["min_linker_atoms"])
                 b["focal_sums"].append(r["focal_sum_A"])
         term_a = {}
+        rise, e_arm = params["linker_rise_per_atom_A"], params["electrophile_arm_A"]
         for u, b in by_cys.items():
+            profile = {}
+            for n_at in params["linker_report_atoms"]:
+                budget = G.contour_length_from_atoms(n_at, rise) + 2.0 * e_arm
+                profile[n_at] = round(sum(1 for s in b["focal_sums"] if s <= budget) / len(b["focal_sums"]), 3)
             term_a[f"C{u}"] = {
-                "fraction_reachable": round(b["hits"] / b["n"], 3),
+                "fraction_reachable_at_sampling_ceiling": round(b["hits"] / b["n"], 3),
+                "fraction_reachable_by_linker_atoms": profile,
+                "fraction_reachable_at_gate": profile[params["linker_gate_atoms"]],
                 "min_linker_atoms": b["min_atoms"],
                 "median_focal_sum_A": round(sorted(b["focal_sums"])[len(b["focal_sums"]) // 2], 2),
             }
@@ -943,11 +966,15 @@ def marginalise_over_poses(per_pose, params=PARAMS):
         term_a_union = {}
         for b in members:
             for cys, v in (b["term_a_electrophile_reach"]["unique_cysteines"] or {}).items():
-                cur = term_a_union.setdefault(cys, {"max_fraction_reachable": 0.0, "min_linker_atoms": 10 ** 6,
-                                                    "n_poses_reachable": 0})
-                cur["max_fraction_reachable"] = max(cur["max_fraction_reachable"], v["fraction_reachable"])
+                cur = term_a_union.setdefault(cys, {"max_fraction_reachable": 0.0,
+                                                    "max_fraction_reachable_at_gate": 0.0,
+                                                    "min_linker_atoms": 10 ** 6, "n_poses_reachable": 0})
+                cur["max_fraction_reachable"] = max(cur["max_fraction_reachable"],
+                                                    v["fraction_reachable_at_sampling_ceiling"])
+                cur["max_fraction_reachable_at_gate"] = max(cur["max_fraction_reachable_at_gate"],
+                                                            v["fraction_reachable_at_gate"])
                 cur["min_linker_atoms"] = min(cur["min_linker_atoms"], v["min_linker_atoms"])
-                if v["fraction_reachable"] > 0:
+                if v["fraction_reachable_at_gate"] > 0:
                     cur["n_poses_reachable"] += 1
         tz_ranks = [b["term_b_transfer_zone"]["best_rank"] for b in members if b["term_b_transfer_zone"]]
         uniq_cov = sorted({u for b in members if b["term_b_transfer_zone"]
@@ -993,7 +1020,8 @@ def tier2_verdict(metas, per_arm_basins):
     questions, which cheap scoring answers reliably; the nominal limb is a cheap ENERGY difference, which it
     does not, so a nominal-only GO is explicitly weaker than a categorical GO.
     """
-    cat_a = [m for m in metas if any(v["max_fraction_reachable"] > 0 for v in m["term_a_union"].values())]
+    cat_a = [m for m in metas
+             if any(v.get("max_fraction_reachable_at_gate", 0.0) > 0 for v in m["term_a_union"].values())]
     cat_b = [m for m in metas if m["term_b_best_rank"] >= 3]
     nominal = [m for m in metas if m["stability_surrogate_nominal_delta_range"][1] > 0]
     exploits_categorical = bool(cat_a or cat_b)
@@ -1100,8 +1128,22 @@ def main(argv=None):
         e2 = reg.get("e2_geometry")
         if e2 and e2.get("measured"):
             PARAMS["ring_to_e2_cys_A"] = e2["ring_to_catalytic_cys_A"]
+            PARAMS["_transfer_geometry_source"] = {
+                "pdb_id": e2["pdb_id"], "title": e2.get("title"), "e2": e2.get("e2"),
+                "catalytic_cys": e2.get("catalytic_cys_resid"),
+                "identified_by": e2.get("catalytic_cys_identified_by"),
+            }
             print(f"[basin] RING->E2 catalytic-Cys distance MEASURED from {e2['pdb_id']}: "
                   f"{e2['ring_to_catalytic_cys_A']} A (replaces the parametric default)", flush=True)
+            cal = e2.get("substrate_lysine_calibration")
+            if cal and cal.get("nearest_lysine_to_catalytic_cys_A"):
+                PARAMS["lysine_transfer_A"] = cal["nearest_lysine_to_catalytic_cys_A"]
+                PARAMS["_lysine_transfer_calibrated_from"] = (
+                    f"{e2['pdb_id']}: nearest substrate Lys{cal['nearest_lysine_resid']} NZ is "
+                    f"{cal['nearest_lysine_to_catalytic_cys_A']} A from the E2 catalytic cysteine")
+                print(f"[basin] transfer distance CALIBRATED from {e2['pdb_id']}: nearest substrate lysine "
+                      f"sits {cal['nearest_lysine_to_catalytic_cys_A']} A from the catalytic Cys "
+                      f"(the 10.0 A default was an assumption and was too strict by ~7 A)", flush=True)
     if not arms:
         raise SystemExit(f"no E3 arms available — run nr4a3_e3_stage.py on CI first (registry: {args.registry})")
 
