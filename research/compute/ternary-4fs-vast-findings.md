@@ -157,3 +157,47 @@ tarball at container start). Its trajectory is whatever the OpenFE default gave.
 | ΔΔG_coop at 4 fs agrees with the 2 fs value | **PENDING** — RUNG 2b stage 2 (matched edge) |
 | measured s/iter for warmup and production on a Vast 4090 | **PENDING** — recorded by both stages |
 | per-commit checkpoint overhead | **PENDING** — read from the probe |
+
+---
+
+## 6 · Proposed edits to STRATEGY.md and pricing.md
+
+Written as exact deltas so the owner of those files can apply them without re-deriving anything. Nothing here
+is applied by this lane; STRATEGY.md is not edited by anyone but its owner.
+
+**STRATEGY.md → "Cost levers adopted 2026-07-24", lever 1.** Replace *"so 4 fs is exactly half the force
+evaluations → ~$8.8/edge → ~$4.4"* with the ratio that survives the warmup:
+
+> Iterations are timestep-independent, so 4 fs halves the force evaluations **in production**. The warmup is
+> not halved: its iteration count is derived from the WARMUP integrator (1 fs), so 1 ns of equilibration is
+> 1e6 steps at either production timestep. Per replica: 2 fs = 1.0e6 + 2.5e6 = 3.5e6 steps; 4 fs = 1.0e6 +
+> 1.25e6 = 2.25e6. **Leg-level saving 1.56×, not 2×** (derivation + unit test:
+> `research/compute/ternary-4fs-vast-findings.md` §1).
+
+**STRATEGY.md → per-edge bases table, "Ternary cooperativity edge" row.** The parenthetical
+*"(400 equil + 2000 production at 2.5 ps/iter, `nr4a3_ternary_fep.py:343-344`)"* is the count for a warmup at
+the **production** timestep. The as-run protocol sets `warmup_timestep_fs=1.0`, which makes it **800** warmup
+iterations of the **same 1250 steps each** — so the as-run 2 fs leg is **2800 equal-cost iterations, not
+2400**, and pricing it as `2400 × s/iter` understates by ~17 % (§2). Prefer pricing in **steps**: iterations
+are not comparable across protocols.
+
+**STRATEGY.md → RUNG 2b entry.** Add the confound, because it changes what a NO-GO licenses (§2b): the 4 fs
+arm necessarily carries pre-equilibration, `use_preequil` was never verified for the 2 fs baseline (only the
+workflow default is recorded), and the settling observation is one `gcloud storage ls` of the setup-cache
+prefix for a `v2pe` suffix. Agreement authorises adoption; disagreement is a NO-GO that must **not** be
+attributed to the timestep.
+
+**STRATEGY.md → the trajectory requirement.** Record that it is now implemented, not just required:
+`RBFE_POSITIONS_WRITE_PS` defaults to 50 ps (a 20-iteration stride, ~50 MB/leg, solute only) in
+`nr4a3_ternary_fep._protocol`, and `rbfe_spot_driver` logs the resolved stride and shouts when it is zero
+(§4b). Note that this changes the **GCP** ternary lane too, since both call the same engine.
+
+**pricing.md → the ternary row's provenance.** Two amendments: (i) the 4 fs conversion factor is **0.643×**,
+not 0.5×; (ii) the leg is 2800 iterations as run, not 2400. Both are arithmetic on the existing measured
+per-iteration rate — neither requires a new measurement, and neither changes that rate.
+
+**pricing.md → the "time one before treating these rows as firm" warning.** This lane re-measures the
+existing `calib_hi_to_lo` (SMARCA2/VHL 8G1Q) basis on a full leg, on a 4090, per phase. It therefore removes
+the "the rate came from a 60-iteration probe" caveat. It does **not** remove the NR4A transferability
+warning — `calib_hi_to_lo` *is* 8G1Q. That still needs an `nrv04_active_to_epimer__ternary_nr4a1` leg, and
+the warning should say so explicitly rather than being read as discharged.
