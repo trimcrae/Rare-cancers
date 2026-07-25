@@ -106,6 +106,84 @@ ARMS = {
     },
 }
 
+# ---------------------------------------------------------------------------------------------------------
+# LANE-1 ADAPTER — consume the widened recruiter set without duplicating its work.
+#
+# A parallel lane stages the ligandable recruiter panel (VHL, CRBN, BIRC2, DCAF1, DCAF15, DCAF16, KEAP1,
+# FEM1B, RNF114, MDM2) with UniProt resolution, ligandability and an exit-vector analysis, and downselects
+# it. What it does NOT produce is the thing the basin search moves: a receptor BODY in a coordinate frame
+# together with the RING that the transfer zone hangs off. This adapter takes its recruiter list and its
+# per-recruiter structure choices as INPUTS and stages the geometry here.
+#
+# THE STRUCTURAL DISTINCTION THAT MATTERS, and that a flat recruiter list hides: a CULLIN-RING recruiter
+# (VHL, CRBN, the DCAFs, KEAP1, FEM1B) is a substrate receptor bolted onto a cullin scaffold, so its RING is
+# 40-70 A away on a separate polypeptide and has to be composed in. A MONOMERIC RING E3 (BIRC2, MDM2,
+# RNF114) carries its own RING in the SAME chain, so the RING needs no composition at all and its position
+# is fixed relative to the ligand by covalent geometry. Those two architectures give completely different
+# transfer-zone geometry, and the second is the more favourable one for term (b) precisely because nothing
+# has to be modelled to place the RING. Lane 1's downselect advanced BIRC2 and MDM2 — both monomeric.
+CRL_CLASS_SPECS = {
+    "CRL2": {"obligate_partners": ["ELOB", "ELOC"], "scaffold_needs": ["ELOC", "CUL2", "RBX1"],
+             "bridge": ["ELOC"]},
+    "CRL4": {"obligate_partners": ["DDB1"], "scaffold_needs": ["DDB1", "CUL4A", "RBX1"], "bridge": ["DDB1"]},
+    "CRL3": {"obligate_partners": [], "scaffold_needs": ["CUL3", "RBX1"], "bridge": ["CUL3"]},
+    "MONOMERIC_RING": {"obligate_partners": [], "scaffold_needs": None, "bridge": None},
+}
+
+
+def classify_e3(e3_class_text: str) -> str:
+    t = (e3_class_text or "").upper()
+    if "CRL2" in t:
+        return "CRL2"
+    if "CRL4" in t:
+        return "CRL4"
+    if "CRL3" in t:
+        return "CRL3"
+    if "MONOMERIC" in t or "RING" in t:
+        return "MONOMERIC_RING"
+    return "UNKNOWN"
+
+
+def arms_from_lane1(registry_path, only=None):
+    """Build ARMS entries from Lane 1's recruiter staging JSON. Refuses a recruiter whose UniProt accession
+    Lane 1 itself refused (accession null) — an unresolved identity is not a staging input."""
+    reg = json.load(open(registry_path))
+    out = {}
+    for gene, rec in (reg.get("recruiters") or {}).items():
+        if only and gene not in only:
+            continue
+        acc = ((rec.get("uniprot") or {}).get("accession"))
+        if not acc:
+            continue
+        cls = classify_e3(rec.get("e3_class"))
+        spec_cls = CRL_CLASS_SPECS.get(cls)
+        if spec_cls is None:
+            continue
+        ACC.setdefault(gene, acc)
+        seeds = [s["pdb_id"] for s in (rec.get("staged_structures") or [])]
+        needs = [gene] + list(spec_cls["obligate_partners"])
+        arm = {
+            "recruiter": gene,
+            "crl": rec.get("arm") or cls,
+            "e3_architecture": cls,
+            "receptor_needs": needs,
+            "receptor_body": needs,
+            "seed_ids": seeds,
+            "lane1_exit_vector": (rec.get("ligandability") or {}).get("exit_vector"),
+            "lane1_primary_pdb": next((s["pdb_id"] for s in (rec.get("staged_structures") or [])
+                                       if s.get("is_primary")), None),
+        }
+        if spec_cls["scaffold_needs"] is None:
+            arm["self_ring"] = True                 # the RING is in the recruiter's own chain
+            arm["scaffold_needs"] = None
+            arm["bridge"] = None
+        else:
+            arm["scaffold_needs"] = needs[:1] + list(spec_cls["scaffold_needs"])
+            arm["bridge"] = [b for b in ([gene] + list(spec_cls["bridge"])) if b in ACC]
+        out[gene.lower()] = arm
+    return out
+
+
 # The RING->E2 catalytic-cysteine geometry is MEASURED from a RING-E2 co-structure when one can be found;
 # these accession sets drive that search. If none verifies, the driver falls back to a parametric shell and
 # says so in the output — an assumption declared is fine, an assumption hidden is not.
@@ -128,6 +206,16 @@ THREE2ONE = {
 # ---------------------------------------------------------------------------------------------------------
 
 
+class NotAvailable(RuntimeError):
+    """The resource genuinely does not exist (404) — distinct from a transient network failure.
+
+    Load-bearing distinction: large modern assemblies are often deposited with NO legacy PDB-format file, so
+    `files.rcsb.org/download/XXXX.pdb` 404s while the entry is perfectly real. That must SKIP the candidate
+    and move to the next one, not retry four times and then kill the whole arm — which is exactly what
+    happened to the VHL arm on entry 9T32.
+    """
+
+
 def _get(url, tries=4, timeout=60):
     last = None
     for i in range(tries):
@@ -135,6 +223,11 @@ def _get(url, tries=4, timeout=60):
             req = urllib.request.Request(url, headers={"User-Agent": "Rare-cancers/nr4a3_e3_stage"})
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read()
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                raise NotAvailable(f"404 (no such resource): {url}") from None
+            last = e
+            time.sleep(1.5 * (2 ** i))
         except Exception as e:                      # noqa: BLE001 — network flake is expected, retry
             last = e
             time.sleep(1.5 * (2 ** i))
@@ -422,7 +515,11 @@ def stage_arm(arm_id, spec, out_dir, log):
             rec["rejected"].append({"pdb": pdb, "role": "receptor",
                                     "reason": f"missing accessions for {missing}"})
             continue
-        text = _get(FILE_URL.format(pdb=pdb)).decode("utf-8", "replace")
+        try:
+            text = _get(FILE_URL.format(pdb=pdb)).decode("utf-8", "replace")
+        except NotAvailable as e:
+            rec["rejected"].append({"pdb": pdb, "role": "receptor", "reason": str(e)})
+            continue
         prot, het = parse_pdb_text(text)
         body_chains = set()
         for n in spec["receptor_body"]:
@@ -455,8 +552,33 @@ def stage_arm(arm_id, spec, out_dir, log):
     rec["receptor_pdb"] = os.path.relpath(body_path, REPO)
     rec["ligand"] = lig
 
-    # ---- 2. the cullin scaffold entry -> RING centroid, bridged into the receptor frame
-    sneed = spec["scaffold_needs"]
+    # ---- 2a. PREFERRED: a solved, intact ubiquitylation assembly for this recruiter. Read the transfer
+    # geometry straight out of it rather than composing a RING from two unrelated entries.
+    intact = None
+    try:
+        intact = stage_intact_assembly(arm_id, spec, comp, prot, log)
+    except Exception as e:                                              # noqa: BLE001
+        log(f"[e3stage] {arm_id}: intact-assembly staging failed: {e}")
+    rec["intact_assembly"] = intact
+    if intact:
+        rec["transfer_anchor"] = {
+            "source": "observed_in_intact_assembly",
+            "xyz": intact["catalytic_cys_xyz_in_receptor_frame"],
+            "what": "the E2 catalytic cysteine, observed in a solved ubiquitylation assembly and bridged "
+                    "into this receptor's frame — one step closer to the observable than a RING plus a "
+                    "modelled swing, and it needs no swing model at all",
+            "provenance_pdb": intact["pdb_id"],
+            "anchor_to_transfer_point_A": round(
+                G.dist(tuple(lig["exit_atom_xyz"]), tuple(intact["catalytic_cys_xyz_in_receptor_frame"])), 2),
+        }
+
+    # ---- 2b. the cullin scaffold entry -> RING centroid, bridged into the receptor frame (the FALLBACK,
+    # and the thing the composition check measures the error of)
+    sneed = spec.get("scaffold_needs")
+    if not sneed:
+        rec["ring"] = None
+        rec["status"] = "OK" if intact else "PARTIAL_no_transfer_geometry"
+        return rec
     scands = list(dict.fromkeys(spec.get("seed_ids", []) + search_entries([ACC[n] for n in sneed], rows=40)))
     ring = None
     for spdb in scands:
@@ -470,7 +592,11 @@ def stage_arm(arm_id, spec, out_dir, log):
             rec["rejected"].append({"pdb": spdb, "role": "scaffold",
                                     "reason": f"missing accessions for {missing}"})
             continue
-        stext = _get(FILE_URL.format(pdb=spdb)).decode("utf-8", "replace")
+        try:
+            stext = _get(FILE_URL.format(pdb=spdb)).decode("utf-8", "replace")
+        except NotAvailable as e:
+            rec["rejected"].append({"pdb": spdb, "role": "scaffold", "reason": str(e)})
+            continue
         sprot, _ = parse_pdb_text(stext)
         src_map, dst_map = {}, {}
         for bname in spec["bridge"]:
@@ -514,8 +640,8 @@ def stage_arm(arm_id, spec, out_dir, log):
             f"{ring['ring_centroid_xyz']}")
         break
     if ring is None:
-        rec["status"] = "PARTIAL_no_verified_cullin_scaffold"
         rec["ring"] = None
+        rec["status"] = "OK" if intact else "PARTIAL_no_verified_cullin_scaffold"
         return rec
     rec["ring"] = ring
     rec["provenance"]["scaffold_entry"] = ring.pop("scaffold_entry")
@@ -527,6 +653,18 @@ def stage_arm(arm_id, spec, out_dir, log):
         "ring_to_cullin_A": round(G.dist(tuple(ring["ring_centroid_xyz"]),
                                          tuple(ring["cullin_centroid_xyz"])), 2),
     }
+    if not intact:
+        rec["transfer_anchor"] = {
+            "source": "composed_ring_MODEL",
+            "xyz": ring["ring_centroid_xyz"],
+            "what": "the RBX1 RING composed from two unrelated entries. The E2 catalytic cysteine is NOT "
+                    "observed for this arm, so the transfer zone is an arc sampled about this point.",
+            "provenance_pdb": (rec["provenance"].get("scaffold_entry") or {}).get("pdb_id"),
+            "anchor_to_transfer_point_A": rec["derived"]["anchor_to_ring_A"],
+            "_uncertainty": "A composed RING is one point on a large conformational arc. Measured on the "
+                            "CRBN arm, a composed RING sat 48.6 A from the RING of an intact solved assembly "
+                            "in the same frame, with both bridges better than 1.5 A. Treat this as a MODEL.",
+        }
     rec["status"] = "OK"
     return rec
 
@@ -647,6 +785,96 @@ def stage_e2_geometry(log):
                 }
             except Exception as e:                                      # noqa: BLE001
                 log(f"[e3stage] E2 candidate {pdb} failed: {e}")
+                continue
+    return None
+
+
+def stage_intact_assembly(arm_id, spec, recep_comp, recep_prot, log):
+    """Find a SOLVED, INTACT ubiquitylation assembly for this recruiter and read the transfer geometry
+    straight out of it, instead of composing the RING from two unrelated entries.
+
+    WHY THIS EXISTS — the composition check falsified the composed model, and the number is not small. For the
+    CRBN arm, the RING composed from a CRBN-DDB1 entry plus a DDB1-CUL4A-RBX1 crystal (bridged on 808 DDB1
+    CA at 1.17 A, i.e. an excellent bridge) sits **48.6 A** from the RING of an intact, substrate-engaged
+    CRL4-CRBN cryo-EM assembly placed in the same frame. Both superpositions are good; the discrepancy is
+    not error, it is CONFORMATION — CRL4 is a rotational scaffold whose DDB1 propeller pivots on the cullin,
+    so an unengaged crystal scaffold and a substrate-engaged assembly put the RING in genuinely different
+    places. A composed RING is therefore one arbitrary point on a very large arc, not a placement.
+
+    Two consequences, both adopted here rather than argued around:
+      * where an intact assembly exists, the transfer zone is anchored on the OBSERVED E2 CATALYTIC CYSTEINE
+        bridged into the receptor's frame — one step closer to the observable than the RING, and it needs no
+        swing model at all (for CRBN this is 12.0 A from the ligand exit vector);
+      * where one does not, the composed RING is still used, but it is FLAGGED as a model with the 48.6 A
+        figure attached as the honest scale of its uncertainty.
+    """
+    obligate = [n for n in spec["receptor_needs"]]
+    for e2name in ("UBE2D1", "UBE2D2", "UBE2D3", "UBE2R1", "UBE2R2", "UBE2G1", "UBE2L3"):
+        need = [spec["recruiter"], e2name]
+        try:
+            hits = search_entries([ACC[n] for n in need], rows=10)
+        except Exception as exc:                                        # noqa: BLE001
+            log(f"[e3stage] {arm_id}: intact-assembly search failed for {e2name}: {exc}")
+            continue
+        for pdb in hits:
+            try:
+                comp = entry_composition(pdb)
+                ok, _ = verify(comp, need, ACC)
+                if not ok:
+                    continue
+                ub_acc = [a for a in UBIQUITIN_ACC if a in comp["chains_by_accession"]]
+                if not ub_acc:
+                    continue
+                try:
+                    text = _get(FILE_URL.format(pdb=pdb)).decode("utf-8", "replace")
+                except NotAvailable:
+                    continue
+                aprot, _ = parse_pdb_text(text)
+                e2c = set(comp["chains_by_accession"].get(ACC[e2name], []))
+                ubc = set()
+                for a in ub_acc:
+                    ubc.update(comp["chains_by_accession"][a])
+                sgs = [a for a in aprot if a["chain"] in e2c and a["resname"] == "CYS" and a["name"] == "SG"]
+                ub_res = sorted({a["resid"] for a in aprot if a["chain"] in ubc})
+                ub_ct = [a["xyz"] for a in aprot
+                         if a["chain"] in ubc and a["resid"] == ub_res[-1] and a["name"] in ("C", "CA")]
+                if not sgs or not ub_ct:
+                    continue
+                ranked = sorted(((min(G.dist(a["xyz"], u) for u in ub_ct), a) for a in sgs), key=lambda t: t[0])
+                d_ub, cat = ranked[0]
+                src_map, dst_map = {}, {}
+                for bname in obligate:
+                    s = set(comp["chains_by_accession"].get(ACC[bname], []))
+                    d = set(recep_comp["chains_by_accession"].get(ACC[bname], []))
+                    if s and d:
+                        src_map[bname], dst_map[bname] = s, d
+                if not src_map:
+                    continue
+                tr, binfo = bridge_into_frame(aprot, src_map, recep_prot, dst_map)
+                if tr is None:
+                    continue
+                R, t = tr
+                cys_frame = G.apply_superpose([cat["xyz"]], R, t)[0]
+                rbx = set(comp["chains_by_accession"].get(ACC["RBX1"], []))
+                ring_frame = None
+                if rbx:
+                    cen, _rng = ring_domain_centroid(aprot, rbx)
+                    if cen:
+                        ring_frame = G.apply_superpose([cen], R, t)[0]
+                log(f"[e3stage] {arm_id}: INTACT assembly {pdb} ({comp['title'][:70]}) bridged on "
+                    f"{binfo['n_bridge_ca']} CA @ {binfo['bridge_rmsd_A']} A -> observed E2 catalytic "
+                    f"Cys{cat['resid']} placed directly in the receptor frame (Ub C-term {d_ub:.1f} A)")
+                return {
+                    "pdb_id": pdb, "title": comp["title"], "method": comp.get("method"),
+                    "resolution_A": comp.get("resolution_A"),
+                    "e2": e2name, "catalytic_cys_resid": cat["resid"],
+                    "catalytic_cys_to_ubiquitin_cterm_A": round(d_ub, 2),
+                    "bridge": binfo,
+                    "catalytic_cys_xyz_in_receptor_frame": [round(c, 3) for c in cys_frame],
+                    "ring_xyz_in_receptor_frame": ([round(c, 3) for c in ring_frame] if ring_frame else None),
+                }
+            except Exception as exc:                                    # noqa: BLE001
+                log(f"[e3stage] {arm_id}: intact candidate {pdb} failed: {exc}")
                 continue
     return None
 

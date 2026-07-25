@@ -120,6 +120,9 @@ PARAMS = {
     # measured distance is an empirically anchored PERMISSIVE radius, not a proof of the productive one.
     "lysine_transfer_A": 10.0,
     "lysine_transfer_sweep_A": [10.0, 14.0, 17.0, 21.0],
+    # Spread about an OBSERVED catalytic-cysteine anchor, representing real CRL arm mobility. Kept small and
+    # swept: the point of preferring the observed anchor is that it needs far less modelling than the arc.
+    "observed_anchor_mobility_A": 8.0,
 
     # --- clustering. A basin is a TARGET-SURFACE PATCH, identified by the interface fingerprint, NOT an
     # SE(3) micro-cluster: see basin_geom.leader_cluster_by for the measurement that forced this.
@@ -462,6 +465,18 @@ def load_arm_from_registry(rec):
         "ligand_centroid": tuple(rec["ligand"]["ligand_centroid"]),
         "ring": tuple(ring["ring_centroid_xyz"]) if ring.get("ring_centroid_xyz") else None,
         "cullin": tuple(ring["cullin_centroid_xyz"]) if ring.get("cullin_centroid_xyz") else None,
+        # The transfer anchor is the point the term-(b) zone is built on. Preferred source: the E2 catalytic
+        # cysteine OBSERVED in a solved ubiquitylation assembly and bridged into this receptor's frame, in
+        # which case no RING swing has to be modelled at all. Fallback: the composed RING, which the staging
+        # step measured to sit 48.6 A from an intact assembly's RING on the CRBN arm — so when the fallback is
+        # in use the zone is a MODEL with a very large uncertainty, and the output says so.
+        "transfer_anchor": rec.get("transfer_anchor"),
+        "tanchor": (tuple(rec["transfer_anchor"]["xyz"])
+                    if (rec.get("transfer_anchor") or {}).get("source") == "observed_in_intact_assembly"
+                    else None),
+        "tanchor_source": (rec.get("transfer_anchor") or {}).get("source", "none"),
+        "intact_assembly": rec.get("intact_assembly"),
+        "composition_check": rec.get("composition_check"),
         "provenance": rec.get("provenance", {}),
         "ligand_het": rec["ligand"]["het_code"],
     }
@@ -485,6 +500,7 @@ def synthetic_arm(rng, n_res=120):
         "n_ca": n_res, "chains": ["A"],
         "anchor": anchor, "ligand_centroid": (0.0, 0.0, 15.0),
         "ring": (0.0, 0.0, -30.0), "cullin": (0.0, 0.0, -55.0),
+        "tanchor": None, "tanchor_source": "composed_ring_MODEL",
         "provenance": {"synthetic": True}, "ligand_het": "SYN",
     }
 
@@ -573,6 +589,8 @@ def sample_placements(arm, pose, field3, rng, n_samples, params=PARAMS, prescree
             "landmarks": G.transform_points(lm_pts, R, pivot, ae),
             "ring": G.transform_points([arm["ring"]], R, pivot, ae)[0] if arm["ring"] else None,
             "cullin": G.transform_points([arm["cullin"]], R, pivot, ae)[0] if arm["cullin"] else None,
+            "tanchor": (G.transform_points([arm["tanchor"]], R, pivot, ae)[0]
+                        if arm.get("tanchor") else None),
         })
     return accepted, {"n_samples": n_samples, "n_accepted": len(accepted),
                       "n_prescreen_rejected": n_pre_reject,
@@ -697,10 +715,40 @@ def transfer_zone(placement, lys_by_species, rng, params=PARAMS, ring_r=None, tr
     be degraded via N-terminal/Ser/Thr/Cys ubiquitination, so this RAISES THE ODDS, it does not guarantee the
     paralogue is spared.
     """
+    d = params["lysine_transfer_A"] if transfer_d is None else transfer_d
+    obs = placement.get("tanchor")
+    if obs is not None:
+        # OBSERVED transfer point: the E2 catalytic cysteine seen in a solved assembly and carried rigidly
+        # with the E3 body. No swing arc is modelled — instead the CRL's real conformational mobility is
+        # represented by a small isotropic spread about the observed point, whose scale is a parameter and
+        # is swept. This is strictly less modelling than the RING-arc fallback below.
+        mob = params.get("observed_anchor_mobility_A", 0.0) if ring_r is None else max(0.0, ring_r - 25.0)
+        covered = {sp: set() for sp in lys_by_species}
+        unreliable = {sp: set() for sp in lys_by_species}
+        n_e2s = params["n_e2_samples"] if n_e2 is None else n_e2
+        d2 = d * d
+        for i in range(n_e2s):
+            if mob > 0.0:
+                v = G.random_unit_vector(rng)
+                rr = mob * (rng.random() ** (1.0 / 3.0))
+                e2p = (obs[0] + v[0] * rr, obs[1] + v[1] * rr, obs[2] + v[2] * rr)
+            else:
+                e2p = obs
+            for sp, lys in lys_by_species.items():
+                for k in lys:
+                    if G.dist2(e2p, k["xyz"]) <= d2:
+                        covered[sp].add(k["local_resid"])
+                        if k.get("position_reliable") is False:
+                            unreliable[sp].add(k["local_resid"])
+            if mob == 0.0:
+                break
+        return {"n_e2_samples": (n_e2s if mob > 0 else 1), "zone_model": "observed_catalytic_cys",
+                "covered": {sp: sorted(s) for sp, s in covered.items()},
+                "covered_but_unreliably_placed": {sp: sorted(s) for sp, s in unreliable.items() if s},
+                "mobility_A": mob, "transfer_d_A": d}
     if placement["ring"] is None or placement["cullin"] is None:
         return None
     r = params["ring_to_e2_cys_A"] if ring_r is None else ring_r
-    d = params["lysine_transfer_A"] if transfer_d is None else transfer_d
     ring, cul = placement["ring"], placement["cullin"]
     try:
         axis = G.unit(G.sub(ring, cul))
@@ -720,7 +768,8 @@ def transfer_zone(placement, lys_by_species, rng, params=PARAMS, ring_r=None, tr
                     cov.add(k["local_resid"])
                     if k.get("position_reliable") is False:
                         unreliable[sp].add(k["local_resid"])
-    return {"n_e2_samples": n_e2, "covered": {sp: sorted(s) for sp, s in covered.items()},
+    return {"n_e2_samples": n_e2, "zone_model": "composed_ring_arc",
+            "covered": {sp: sorted(s) for sp, s in covered.items()},
             "covered_but_unreliably_placed": {sp: sorted(s) for sp, s in unreliable.items() if s},
             "ring_to_e2_A": r, "transfer_d_A": d}
 
