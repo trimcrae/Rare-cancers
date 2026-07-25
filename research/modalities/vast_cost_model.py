@@ -67,21 +67,28 @@ R1. RANK OFFERS BY $/ns, NEVER BY $/hr. C is proportional to c/theta, so an offe
 R2. BID AT THE FLOOR (plus a staleness tick), NOT A MULTIPLE OF IT. With lam roughly flat in b — which is what
     F5 implies, since the machines we rent are idle and have no competing bidder — C is strictly increasing in
     b, so the optimum is the lowest bid that wins, i.e. the floor. `premium_breakeven_dlam_db` computes how
-    steeply the hazard would have to fall with bid to overturn this; at our numbers it is ~47 preemptions per
-    hour per $/hr of premium, which no market in excess supply delivers.
+    steeply the hazard would have to fall with bid to overturn this; at the policy's own operating point on
+    the 2026-07-25 board it is 105 preemptions/hour per $/hr of premium, which no market in excess supply
+    delivers. On that same board the retired rules cost 1.12x (x1.25), 1.26x (x1.5) and 1.48x (x1.9) the
+    policy, on the very offer their own min_bid ranking selects.
 
-R3. THE OFFER IS THE LEVER, NOT THE CARD AND NOT THE MULTIPLE. Measured spread on the live board: 4.25x between
-    the best offer and the best RTX 4090, 2.3x within the 4090 class alone. The `1.9 -> 1.25` multiple change
-    that this repo shipped was worth 1.34x. Selection dominates bidding by roughly an order of magnitude.
+R3. THE OFFER IS THE LEVER, NOT THE CARD AND NOT THE MULTIPLE. Measured on the 2026-07-25 board, all-in $/ns:
+    5.43x from the best offer to the median, and 2.61x between the best offer overall and the best RTX 4090.
+    Against 1.48x for the whole x1.9 -> floor bid change. Selection is worth several times what bidding is.
 
 R4. INTERRUPTIBLE ESSENTIALLY ALWAYS. `breakeven_hazard_vs_ondemand` returns the lam at which on-demand becomes
-    cheaper; on today's board that is ~2 preemptions per hour. Take on-demand only for a leg that genuinely
+    cheaper; on today's board that is ~2-3 preemptions per hour. Take on-demand only for a leg that genuinely
     cannot be paused at all.
 
 R5. SPEND ENGINEERING, NOT DOLLARS, ON RETENTION. R enters as 1/(1-lam*R) and is ours to shrink for free by
     checkpointing more often; b enters linearly and costs money. When churn hurts, tighten checkpointing.
 
-R6. ASK FOR THE DISK THE JOB NEEDS. Storage bills on the allocation, continuously, running or paused (F4).
+R6. ASK FOR THE DISK THE JOB NEEDS. Storage bills on the allocation, continuously, running or paused (F4), and
+    at the cheap end of the board it is not a rounding error: on the best offer (a $0.0147/hr RTX 3090) the
+    40 GB our launcher requests costs $0.0110/hr against a $0.0152 bid — 42% of the total. Halving the disk
+    there cuts all-in cost by ~21% ($0.0570 -> $0.0449 per reference GPU-hour), which is more than the entire
+    bid change is worth. It is also why the best 3090's advantage over the best 4090 shrinks from 4.25x on
+    $/ns-before-storage to 2.61x all-in: cheap compute makes the fixed storage line proportionally larger.
 
 ===============================================================================================================
 4. WHAT IS *NOT* CLAIMED
@@ -420,3 +427,93 @@ def summarise_market(ranked, top=10):
         "cards_in_top10": sorted({r.card for r in ranked[:k]}),
         "hazard_is_prior": True,
     }
+
+
+# =============================================================================================================
+# CLI — planning numbers and a repriced ladder, from a market snapshot
+# =============================================================================================================
+# The point of this entry point is that every cost figure in pricing.md / STRATEGY.md can be REGENERATED rather
+# than hand-carried. Hand-carried numbers are how the repo ended up quoting "$12-26" for a fan-out whose own
+# footnote said "$91-101" three lines later.
+
+# GPU-hours per stage, expressed on the REFERENCE card. These are the repo's own measured/derived work
+# estimates (pricing.md section B/C); this module reprices them, it does not re-estimate them.
+LADDER_REFERENCE_GPU_H = {
+    "step1_pilot (1-2 RBFE edges)": (13.7, 27.4),
+    "step1_fanout (19 RBFE edges @ ~13.7 GPU-h)": (260.0, 260.0),
+    "valB_mini (1 ternary edge, 3 replicas)": (56.0, 72.0),
+    "valB_full (2-3 ternary edges + CRL-MD)": (112.0, 216.0),
+    "nrv04_retrospective (3 ternary legs + shared binary/solvent)": (84.0, 216.0),
+    "ternary_4fs_recalibration (1 matched edge)": (28.0, 36.0),
+    "5a-KS primary (ligand-side double difference)": (28.0, 144.0),
+    "local within-basin FEP (3-6 ternary comparisons)": (56.0, 260.0),
+}
+
+
+def _main(argv=None):
+    import argparse
+    import json as _json
+    ap = argparse.ArgumentParser(description="Vast planning numbers + repriced ladder from a market snapshot")
+    ap.add_argument("--offers", default="vast-market-offers-raw.json",
+                    help="vast_market_intel.py output (raw offers)")
+    ap.add_argument("--disk-gb", type=float, default=40.0)
+    ap.add_argument("--checkpoint-h", type=float, default=0.5)
+    ap.add_argument("--hazard", type=float, default=DEFAULT_HAZARD_PER_H)
+    ap.add_argument("--card", default="", help="restrict to one card, e.g. RTX4090 (default: all benched)")
+    ap.add_argument("--top", type=int, default=10)
+    ap.add_argument("--json-out", default="")
+    a = ap.parse_args(argv)
+
+    with open(a.offers) as f:
+        blob = _json.load(f)
+    raw = blob.get("offers", blob)
+    bid_offers = raw.get("bid", [])
+    od = {str(o["machine_id"]): float(o["dph_base"]) for o in raw.get("on-demand", [])
+          if o.get("machine_id") and o.get("dph_base")}
+    if a.card:
+        bid_offers = [o for o in bid_offers if card_of(o.get("gpu_name")) == a.card.upper()]
+
+    job = JobProfile(disk_gb=a.disk_gb, checkpoint_interval_h=a.checkpoint_h, hazard_per_h=a.hazard)
+    ranked = rank_offers(bid_offers, job, od)
+    summ = summarise_market(ranked, top=a.top)
+    if not summ:
+        print("no qualifying offers")
+        return 1
+
+    key_best_k = f"best{min(a.top, len(ranked))}_mean_usd_per_reference_gpu_h"
+    plan = summ[key_best_k]                       # what a policy that always takes a top-k offer achieves
+    lo = summ["best_usd_per_reference_gpu_h"]     # the cheap tail, if we land on it
+    hi = summ["median_usd_per_reference_gpu_h"]   # what ignoring the ranking costs
+
+    print(f"=== MARKET ({len(ranked)} qualifying offers{', ' + a.card if a.card else ''}) ===")
+    for k, v in summ.items():
+        print(f"  {k:44s} {v}")
+    print(f"\n=== PLANNING RATE: ${plan:.4f} per reference GPU-hour "
+          f"(range ${lo:.4f} best offer .. ${hi:.4f} median) ===")
+    print(f"\n{'stage':58s} {'ref GPU-h':>14} {'plan $':>9} {'range $':>16}")
+    tot = [0.0, 0.0, 0.0]
+    for name, (g_lo, g_hi) in LADDER_REFERENCE_GPU_H.items():
+        mid = (g_lo + g_hi) / 2
+        tot[0] += mid * plan
+        tot[1] += g_lo * lo
+        tot[2] += g_hi * hi
+        print(f"{name:58s} {g_lo:6.0f}-{g_hi:<7.0f} {mid * plan:9.2f} "
+              f"{g_lo * lo:7.2f}-{g_hi * hi:<8.2f}")
+    print(f"{'TOTAL (priceable ladder stages)':58s} {'':>14} {tot[0]:9.2f} {tot[1]:7.2f}-{tot[2]:<8.2f}")
+    print("\nNOTE: reference GPU-hours are the repo's own work estimates (pricing.md B/C) — this reprices "
+          "them, it does not re-derive them. The hazard is a prior; the ranking is stable in it.")
+    if a.json_out:
+        with open(a.json_out, "w") as f:
+            _json.dump({"market": summ, "plan_usd_per_reference_gpu_h": plan,
+                        "range_usd_per_reference_gpu_h": [lo, hi],
+                        "ladder": {k: {"ref_gpu_h": v, "plan_usd": (v[0] + v[1]) / 2 * plan,
+                                       "range_usd": [v[0] * lo, v[1] * hi]}
+                                   for k, v in LADDER_REFERENCE_GPU_H.items()},
+                        "total_plan_usd": tot[0], "total_range_usd": [tot[1], tot[2]]}, f, indent=1)
+        print(f"wrote {a.json_out}")
+    return 0
+
+
+if __name__ == "__main__":
+    import sys as _sys
+    _sys.exit(_main())
