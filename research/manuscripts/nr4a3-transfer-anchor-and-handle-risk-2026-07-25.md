@@ -129,8 +129,9 @@ CRBN's apparent term-(b) signal is background"* — is partly a consequence of a
 and `crbn|M0`, the **strongest basin in the whole 12-pose run**, was scored against it.
 
 **That prediction was then tested — see §4.** Restaging both arms **assembly-native** and re-running at
-matched settings **halves CRBN's null (0.858 → 0.399)** while leaving VHL's unmoved. The 0.81–0.96 figure is
-an exit-vector artifact.
+matched settings **halves CRBN's any-lysine null (0.858 → 0.399)** while leaving VHL's unmoved. The 0.81–0.96
+figure is an exit-vector artifact — though §4.2 shows it is also **not the null the gate divides by**, so the
+GO itself is unaffected and it is the surrounding narrative that falls.
 
 ### 1.5 A free by-product: the composed-RING caveat is quantified on **both** arms now, not one
 
@@ -163,10 +164,11 @@ Lane 2's committed registry is left exactly as it was.)
 > unchanged, and Tier-2 SURVIVES — slightly strengthened on its VHL limb, because the "term (b) may carry
 > ~40 Å of transfer-zone variation" risk is removed rather than merely unquantified.**
 >
-> The offsetting finding is on the other arm: **CRBN's exit vector, and therefore its null, is not a fixed
-> property of CRBN** — and §4 shows that when the arm is staged composition-free, CRBN's null **halves**
-> (0.858 → 0.399) while VHL's does not move. So the Tier-2 GO stands on both constructions, but the
-> conclusion built around the old null — *"the discrimination lives on VHL"* — does not.
+> The offsetting finding is on the other arm: **CRBN's exit vector, and therefore its any-lysine null, is not
+> a fixed property of CRBN** — §4 shows that when the arm is staged composition-free, that null **halves**
+> (0.858 → 0.399) while VHL's does not move, and while the *gate's own* denominator (the unique-lysine null)
+> barely changes on either arm. So the Tier-2 GO and its enrichments stand on both constructions; what does
+> not survive is the conclusion built around the old figure — *"the discrimination lives on VHL"*.
 
 ---
 
@@ -338,18 +340,41 @@ different parameters.
 shows **no** change in its null; the arm whose exit vector moved 16.5 Å shows its null **halve, 0.858 → 0.399**.
 The change tracks the manipulated variable and nothing else.
 
-### 4.2 What it does to the record
+### 4.2 What it does to the record — and a conflation of TWO different nulls
 
 > **CRBN's 0.81–0.96 lysine null is an artifact of the dBET6 exit-vector choice, not a property of CRBN.**
 > At the composition-free geometry — the one measured inside the very assembly the transfer anchor is taken
-> from — CRBN's null is **0.32–0.45**, statistically indistinguishable from VHL's **0.38–0.52**.
+> from — CRBN's null is **0.32–0.45**, indistinguishable from VHL's **0.38–0.52**.
 
-STRATEGY.md's Tier-2 block currently states: *"CRBN's null is 0.81–0.96, so most of CRBN's apparent term-(b)
-signal is background. **The discrimination lives on VHL — the arm carried as a control, not as the winner.**
-This is decision-relevant and must not be smoothed over when the E3 is chosen."* **That conclusion does not
-survive.** With both arms staged composition-free the two nulls are comparable, so "the discrimination lives
-on VHL" is not established — it was an artifact of one arm being anchored on a PROTAC's exit vector and the
-other on a PROTAC's exit vector that happened to point differently.
+**But it matters exactly which null that is,** and checking the source (`run_arm_pose`, the
+`term_b_background_null` block) shows the record has been mixing two:
+
+| null | what it counts | used for |
+|---|---|---|
+| `fraction_any_nr4a3_lysine` | the zone covers **any** NR4A3 lysine (rank ≥ 1) | reported only — **this is the 0.81–0.96** |
+| `fraction_unique_covering` | the zone covers a **paralogue-unique** lysine (rank ≥ 3) | **the denominator the gate actually divides by** — `enrichment_over_background`, and the `exceeds_background` test |
+
+Under the arm swap the two behave completely differently:
+
+| | VHL composed → native | CRBN composed → native |
+|---|---|---|
+| `fraction_any_nr4a3_lysine` (mean) | 0.419 → 0.437 | **0.858 → 0.399** |
+| `fraction_unique_covering` (mean) | 0.027 → 0.026 | **0.040 → 0.035** |
+
+**So the gate's denominator barely moves, and the promiscuity statistic halves.** Two consequences, and they
+point in opposite directions:
+
+1. **The Tier-2 GO is untouched.** The enrichments and the `exceeds_background` test are computed against
+   `fraction_unique_covering`, which changes by ~10 % — well inside sampling noise at these counts. Nothing
+   about the authoritative run's enrichment figures needs restating.
+2. **The interpretive claim built on the other null does not survive.** STRATEGY.md's Tier-2 block states:
+   *"CRBN's null is 0.81–0.96, so most of CRBN's apparent term-(b) signal is background. **The discrimination
+   lives on VHL — the arm carried as a control, not as the winner.** This is decision-relevant and must not be
+   smoothed over when the E3 is chosen."* That inference has **two** independent problems. First, the
+   0.81–0.96 is the **any-lysine** null, while "CRBN's apparent term-(b) signal" is an enrichment over the
+   **unique-lysine** null — the sentence draws a conclusion about one quantity from a different one. Second,
+   the 0.81–0.96 itself is an **exit-vector artifact**: staged composition-free it is 0.32–0.45. **"The
+   discrimination lives on VHL" is not established on either reading.**
 
 ### 4.3 And the gate itself is robust to the arm construction
 
@@ -369,13 +394,12 @@ term-(a) and discrimination counts. So the GO does not depend on how the arm was
 - **It is not a restatement of the authoritative 12-pose result.** At 250 k × 8 poses the absolute counts are
   necessarily lower than the 10⁶ × 12-pose run's (7 term-(a), 40 term-(b), 28 discriminating). Only the
   composed-vs-native contrast at matched settings is meaningful here.
-- **Meta-basin IDs are not stable across runs.** `crbn|M0` in this comparison is not the `crbn|M0` of the
-  authoritative run, so nothing here re-ranks that specific basin. What it does say is that the *background*
-  the authoritative `crbn|M0` was scored against is roughly twice too high — which means its 7.5×
-  enrichment is measured against the wrong denominator, in the direction that would make it **larger**, while
-  the "most of CRBN's signal is background" framing around it is what falls. **Re-running the authoritative
-  12-pose configuration on the native registry is the clean way to settle it, is ~55 min of free CPU, and has
-  not been done.**
+- **Meta-basin IDs are not stable across runs**, so `crbn|M0` here is not the `crbn|M0` of the authoritative
+  run and nothing above re-ranks that specific basin. And as §4.2 shows, its **7.5× enrichment is not the
+  quantity that moves** — that figure divides by the unique-lysine null, which the arm swap leaves alone. What
+  falls is the surrounding claim that CRBN's signal is mostly background. **Re-running the authoritative
+  12-pose configuration on the assembly-native registry is the clean way to settle the ranking; it is ~60 min
+  of free CPU and is running now — its result belongs here, not in this section's inferences.**
 
 ---
 
@@ -413,17 +437,20 @@ manipulated variable and nothing else. So:
 
 > Delete *"CRBN's null is 0.81–0.96, so most of CRBN's apparent term-(b) signal is background. **The
 > discrimination lives on VHL — the arm carried as a control, not as the winner.**"* and replace with:
-> *"CRBN's 0.81–0.96 null was an artifact of anchoring the arm on dBET6's exit vector. Staged
-> composition-free from 9UUM — the assembly the transfer anchor itself comes from — CRBN's null is
-> **0.32–0.45**, comparable to VHL's **0.38–0.52**. **Neither arm is established as carrying the
-> discrimination**, and the E3 choice cannot be made on this axis. The gate itself is robust: Tier-2 passes
-> on the CATEGORICAL basis with either construction (native marginally stronger: 3 vs 2 term-(a), 26 vs 22
+> *"CRBN's 0.81–0.96 figure is the **any-lysine** null, and two things are wrong with the inference drawn
+> from it. (i) It is not the denominator the gate uses: `enrichment_over_background` and `exceeds_background`
+> divide by the **unique-lysine** null, which is 0.010–0.060 — so a statement about term-(b) signal cannot be
+> read off the any-lysine figure. (ii) The 0.81–0.96 is itself an **exit-vector artifact**: staged
+> composition-free from 9UUM (the assembly the transfer anchor comes from), CRBN's any-lysine null is
+> **0.32–0.45**, comparable to VHL's **0.38–0.52**, while the unique-lysine null — the one that matters —
+> barely moves on either arm (CRBN 0.040 → 0.035; VHL 0.027 → 0.026). **So the Tier-2 GO and its enrichment
+> figures are unaffected, and "the discrimination lives on VHL" is not established.** The gate is robust to
+> the arm construction: CATEGORICAL GO either way, native marginally stronger (3 vs 2 term-(a), 26 vs 22
 > discriminating, at matched settings)."*
 
-Add as the block's new open item: the **authoritative 12-pose configuration has not been re-run on the
-assembly-native registry** (~55 min of free CPU). Until it is, the authoritative run's CRBN enrichments are
-measured against a background that is roughly twice too high — an error in the direction that makes them
-*larger*, so the caveat is on the framing, not on the GO.
+Add as the block's new open item: the **authoritative 12-pose configuration on the assembly-native registry**
+(~60 min of free CPU) is the clean way to see whether the basin *ranking* moves once no bridge is composed
+and both arms sit at their measured anchor distances.
 
 **L3 — §MECHANISM-FIRST: state the chemistry axis as ONE residue deep, and give C397's distribution.**
 Replace the single-frame "RSA 0.395" with the ensemble result: over **75 unbiased NR4A3 MD conformers**,
