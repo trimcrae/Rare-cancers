@@ -120,6 +120,10 @@ WEAK_CONTROL = "vhl|M14"
 PENDANT_REACH = {
     "rung5a_convention": 3.0,        # what the RUNG-5a gate used. Kept so the two can be compared.
     "aryl_direct": 4.0,              # a pyridyl/phenyl bonded straight to a backbone carbon
+    "aryl_branch_residue": 4.5,      # the ring nitrogen of a 3-(3-pyridyl)-L-Ala side chain, measured from
+                                     # the branch alpha-carbon: CA-CB (1.53) + CB-ipso (1.51) + two ring
+                                     # bonds to the meta nitrogen (~2.4), through-space, between the compact
+                                     # and fully extended rotamers
     "amide_direct": 5.0,             # backbone N-acylated: N-C(=O)-C(alpha)=C(beta)...S
     "dap_branch": 7.5,               # 2,3-diaminopropanoyl branch + acrylamide: 6 atoms
     "dab_branch": 8.75,              # 2,4-diaminobutanoyl branch + acrylamide: 7 atoms
@@ -282,15 +286,19 @@ PENDANT = {
         "route": "acryloyl chloride or acrylic acid + coupling agent on the branch amine.",
     },
     "cyanoprop": {
-        "smi": "CCNC(=O)C(C#N)C",
+        "smi": "CCNC(=O)C(C#N)CC",
         "kind": "control",
         "reversible": None,
-        "name": "alpha-cyano-propanamide (SATURATED, non-electrophilic control for cyac_me)",
+        "name": "2-cyanobutanamide (SATURATED, non-electrophilic control for cyac_me)",
         "reach_key": "dab_branch",
-        "why": "The matched non-electrophilic control: cyac_me with the Michael acceptor reduced. Same heavy "
-               "atoms, same net charge, same amide, no electrophile — so any difference attributable to the "
-               "warhead is attributable to the C=C and nothing else.",
-        "route": "hydrogenation of cyac_me, or direct coupling of 2-cyanopropanoic acid.",
+        "why": "The matched non-electrophilic control: cyac_me with the Michael acceptor reduced, and NOTHING "
+               "ELSE changed. Same heavy atoms, same net charge, same nitrile, same amide, no electrophile — "
+               "so any difference attributable to the warhead is attributable to the C=C and nothing else.",
+        "route": "hydrogenation of cyac_me, or direct coupling of 2-cyanobutanoic acid.",
+        "_correction": "this was alpha-cyano-PROPANamide (`CCNC(=O)C(C#N)C`) until a test compared its "
+                       "skeleton to cyac_me's and found it ONE CARBON SHORT — it was missing the "
+                       "beta-methyl, so it was not a matched control at all, and a difference between the "
+                       "two would have been partly a methyl group rather than the alkene.",
     },
     # --- wedge elements for the RUNG 5a-KS matched pair, as the side chain of the branch residue. The pair
     #     is 3-(3-pyridyl)-L-alanine vs L-phenylalanine: two catalogue amino acids differing by ONE ATOM.
@@ -299,7 +307,7 @@ PENDANT = {
         "kind": "wedge",
         "reversible": None,
         "name": "3-(3-pyridyl)-L-alanine side chain (H-bond ACCEPTOR at the wedge site)",
-        "reach_key": "amide_direct",
+        "reach_key": "aryl_branch_residue",
         "why": "The 'd' member of the matched pair. Its ring nitrogen is an acceptor for the Arg412 "
                "guanidinium that NR4A3 has and NR4A1 (Ala) and NR4A2 (Thr) do not.",
         "route": "Fmoc-3-(3-pyridyl)-L-alanine, a standard unnatural-amino-acid building block, coupled in "
@@ -310,7 +318,7 @@ PENDANT = {
         "kind": "wedge_control",
         "reversible": None,
         "name": "L-phenylalanine side chain (aza-scan CONTROL — same size, same charge, no acceptor)",
-        "reach_key": "amide_direct",
+        "reach_key": "aryl_branch_residue",
         "why": "The 'd0' member. An aza-scan is the cleanest available matched pair: exactly one atom "
                "differs (an aromatic C-H becomes N), net charge, heavy-atom count and rotatable-bond count "
                "are identical, the stereocentre is the same (S), and the only property changed is the "
@@ -506,12 +514,12 @@ def basin_requirements(ctx, meta, sites):
             if LD.pendant_contactable(a, b, c["xyz"], n_probe, e))
 
     n_design = floor + 4
-    wedges = wedge_sites(ctx, a, b, n_design, PENDANT_REACH["aryl_direct"])
+    wedges = wedge_sites(ctx, a, b, n_design, PENDANT_REACH["aryl_branch_residue"])
     for w in wedges:
         q = ctx["model"]["cb"][w["uniprot_resid"] - UNIPROT_OFFSET]
         k = max(1, (w["branch_k_min"] + w["branch_k_max"]) // 2)
         _, p = LD.three_ball_min_margin([a, b, q], [k * RISE, (n_design - k) * RISE,
-                                                    PENDANT_REACH["aryl_direct"]])
+                                                    PENDANT_REACH["aryl_branch_residue"]])
         w["e3_clearance_A"] = round(e3_clearance(arm, R, t, p), 2)
         w["e3_clear_enough_for_a_matched_pair"] = w["e3_clearance_A"] >= 6.0
 
@@ -719,7 +727,7 @@ def enumerate_library(reqs, ctx):
             for pkey, target, reach_key in (
                     [(p, ctx["_c397"], "dab_branch") for p in
                      ("cyac_me", "cyac_ph", "acrylamide", "cyanoprop")]
-                    + ([(p, wedge_xyz, "amide_direct") for p in ("pyr3", "ph")] if wedge_xyz else [])):
+                    + ([(p, wedge_xyz, "aryl_branch_residue") for p in ("pyr3", "ph")] if wedge_xyz else [])):
                 reach = PENDANT_REACH[reach_key]
                 for s1 in LINKER_SEGMENT:
                     if LINKER_SEGMENT[s1]["n"] == 0 or LINKER_SEGMENT[s1].get("amine_only"):
@@ -738,7 +746,7 @@ def enumerate_library(reqs, ctx):
                             continue
                         lib.append(_record(r, aid, wh_key, s1, s2, pkey, k, w, smi, n_bb, spans,
                                            basin_fidelity(n_bb, r, by_id),
-                                           wedge_site if reach_key == "amide_direct" else None))
+                                           wedge_site if reach_key == "aryl_branch_residue" else None))
     return lib
 
 

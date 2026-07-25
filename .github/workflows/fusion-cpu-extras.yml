@@ -290,6 +290,12 @@ jobs:
         run: python research/modalities/nr4a3_linker_design.py
       - name: Docker Hub login (raises the anonymous pull-rate ceiling shared across runners)
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+      - name: Anchor diagnostic (prints which query construction matches; never fails the build)
+        run: |
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/linker_chem_check.py --diagnose-anchors || true
       - name: Verifier self-test (anchor patterns must match their own references)
         run: |
           docker run --rm --entrypoint python \

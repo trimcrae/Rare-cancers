@@ -262,6 +262,50 @@ ANCHOR_REFERENCES = {
 }
 
 
+def diagnose_anchors():
+    """Print which query construction actually matches, for each anchor, against its own reference.
+
+    Written instead of guessing why `[N:1]` failed. Four hypotheses, each discriminated by one row:
+      (H1) the pattern is wrong independently of the map      -> the no-map column also fails
+      (H2) the bracket atom `[N:1]` fixes H count / valence   -> the no-map column passes, `[N:1]` fails
+      (H3) atom maps participate in matching                  -> same signature as H2, separated by the
+                                                                 `[#7:1]`-as-SMARTS column
+      (H4) aromaticity perception differs                     -> SMARTS-with-lowercase passes where the
+                                                                 SMILES-derived query fails
+    """
+    rows = []
+    for key, (ref_smi, elem) in ANCHOR_REFERENCES.items():
+        ref = Chem.MolFromSmiles(ref_smi)
+        pat = ANCHORS[key]
+        nomap = pat.replace("[N:1]", "N").replace("[O:1]", "O")
+        variants = {
+            "smiles_with_map": Chem.MolFromSmiles(pat),
+            "smiles_no_map": Chem.MolFromSmiles(nomap),
+            "smarts_with_map": Chem.MolFromSmarts(pat.replace("[N:1]", "[#7:1]").replace("[O:1]", "[#8:1]")),
+            "smarts_no_map": Chem.MolFromSmarts(nomap),
+            "smiles_no_map_adjusted": None,
+        }
+        m = Chem.MolFromSmiles(nomap)
+        if m is not None:
+            from rdkit.Chem import rdmolops
+            p = rdmolops.AdjustQueryParameters.NoAdjustments()
+            p.adjustDegree = False
+            p.makeDummiesQueries = True
+            variants["smiles_no_map_adjusted"] = rdmolops.AdjustQueryProperties(m, p)
+        row = {"anchor": key}
+        for name, q in variants.items():
+            row[name] = ("PARSE-FAIL" if q is None
+                         else str(len(ref.GetSubstructMatches(q, uniquify=False))))
+        rows.append(row)
+    cols = ["anchor", "smiles_with_map", "smiles_no_map", "smarts_with_map", "smarts_no_map",
+            "smiles_no_map_adjusted"]
+    print("[chem] anchor-matching diagnostic (match counts against each anchor's own reference)")
+    print("[chem] " + " | ".join("%-22s" % c for c in cols))
+    for r in rows:
+        print("[chem] " + " | ".join("%-22s" % str(r.get(c, "")) for c in cols))
+    return 0
+
+
 def self_test():
     """Every anchor pattern must parse, mark exactly one atom, match its own reference molecule, and land on
     an atom of the expected element. Also checks the forbidden-motif SMARTS parse and that a deliberately
@@ -305,7 +349,10 @@ def main(argv=None):
     ap.add_argument("--design", default=os.path.join(HERE, "nr4a3-linker-design.json"))
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a3-linker-library-chem.json"))
     ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--diagnose-anchors", action="store_true")
     args = ap.parse_args(argv)
+    if args.diagnose_anchors:
+        return diagnose_anchors()
     if args.self_test:
         return self_test()
 
