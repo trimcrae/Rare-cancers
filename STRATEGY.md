@@ -772,9 +772,33 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
     **chain A**, which in 1BRS is *barnase*. The list is now derived from `protfep_bench` rather than
     duplicated, and CI verifies the staged site against the deposited structure (confirmed 2026-07-24:
     chain D = barstar, 87 residues, **TYR at 29**; chain A = barnase, 108 residues).
-  - **Ladder position unchanged.** The engine is still **UNVALIDATED** and the rung still **UNPRICED**. A
-    built execution layer is not a passed benchmark. `plan_wedge` continues to stamp `validated: false`
-    into every plan, and the reducer's verdict cannot go green on a partial set or a wrong ordering.
+  - **★ QUALIFIED 2026-07-25 — the engine passed its known-answer benchmark, and the rung is PRICED.**
+    Full set on Vast (pmx + GROMACS, equilibrium λ windows + BAR), scored against SKEMPI-verified
+    references by `protfep_reduce`:
+
+    | benchmark | computed ΔΔG_bind | reference | abs err | within ±1.5 |
+    |---|---|---|---|---|
+    | barnase–barstar **Y29A** (hot spot) | **+4.025 ± 1.100** (complex 2, apo 3) | +3.40 | 0.625 | ✔ |
+    | barnase–barstar **Y29F** (near-null control) | **−0.552** (single replicate) | −0.13 | 0.422 | ✔ |
+
+    **Ordering correct** (Y29A ≫ Y29F), which is the test that matters — a wedge is read as a ranking,
+    so a magnitude pass with the ordering wrong is a fail. The near-null control did its job: the engine
+    returned ≈−0.55 where the experiment sees ≈0 rather than inventing an effect.
+    **Measured rate: 1.094 ± 0.514 GPU-h/leg** over 7 legs (range 0.379–1.8), **$0.219/leg**, giving a
+    **PROJECTED** wedge of **$3.08 (2 rep) / $4.62 (3 rep)** — particle-count-scaled from a 25,750-particle
+    benchmark to the NR4A sizes, an assumption and not a measurement, so it may not be quoted as a rate.
+
+    **Three caveats that travel with this result and must not be dropped:**
+    1. **The replicate scatter is large.** Y29A's between-setup SD is **1.1 kcal/mol** against an effect
+       of 4.0 — so a *single* leg does not determine a number, and any wedge claim needs replicates. This
+       is the most decision-relevant thing the benchmark produced.
+    2. **Y29F is single-replicate** (no error bar) and its reference sits near zero, where a ±1.5 window
+       is weak; the ordering test carries most of that benchmark's weight, as its own `why` field says.
+    3. **The per-leg GPU-h SD (0.514 on a mean of 1.094) is host variance, not physics** — Vast hosts
+       differ ~5× in speed, so the price is a band, not a point.
+
+    `plan_wedge` may now stamp `validated: true`; it could not before, and the reducer's verdict still
+    cannot go green on a partial set or a wrong ordering.
   - **Sequence, cheapest-decisive-first:** smoke (~$0.10, proves image+perses+sampler+MBAR+S3) → pilot
     (both legs of Y29A, ~$1–3 — **the abort gate**: no recovery of the canonical hot spot ⇒ the wedge is
     not deliverable and the set is not worth paying for) → full set (~$5–10) only if the pilot sees it.

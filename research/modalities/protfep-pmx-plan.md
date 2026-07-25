@@ -1,10 +1,25 @@
 # 5a-KS wedge engine — the pmx + GROMACS route (decided 2026-07-24)
 
-**Status: PIPELINE PROVEN END-TO-END ON A GPU (2026-07-24, ~$0.10 total).** The smoke leg reached
-`status: done` on a Vast 4090 — stage -> pdb2gmx -> pmx mutate -> gentop -> solvate/ions -> minimise
--> NVT -> NPT -> lambda windows -> `gmx bar` -> leg JSON -> S3 -> self-destroy -> reap. The pilot
-(the abort gate) is the next rung. The reducer correctly refused to score the smoke leg. This note exists so the build does not
-have to re-derive what four free-CI probes already established.
+**Status: ★ QUALIFIED 2026-07-25.** The engine passed its known-answer benchmark and the rung is priced.
+
+| benchmark | computed ΔΔG_bind | reference (SKEMPI-verified) | abs err | within ±1.5 |
+|---|---|---|---|---|
+| barnase–barstar **Y29A** (hot spot) | **+4.025 ± 1.100** (complex 2, apo 3) | +3.40 | 0.625 | ✔ |
+| barnase–barstar **Y29F** (near-null control) | **−0.552** (single replicate) | −0.13 | 0.422 | ✔ |
+
+Ordering correct (Y29A ≫ Y29F). Measured **1.094 ± 0.514 GPU-h/leg** over 7 legs, **$0.219/leg**;
+PROJECTED wedge **$3.08 (2 rep) / $4.62 (3 rep)** — particle-count-scaled, an assumption not a rate.
+
+**The most decision-relevant number here is not the agreement, it is the SCATTER.** Y29A's
+between-replicate SD is **1.1 kcal/mol** against a 4.0 effect. The engine finds the right answer on
+average, but one leg does not determine it — so any wedge claim must be built on replicates, and the
+single-leg figure this benchmark first produced (2.851) drifted to 3.951 and then 4.025 as replicates
+landed. Y29F remains single-replicate; its reference sits near zero where a ±1.5 window is weak, so
+the ordering test carries most of its weight.
+
+The pipeline reached this through heavy host churn (see the failure table): the resume path, not host
+stability, is what made it finish — legs survived repeated host death by restoring banked λ windows
+from S3.
 
 ## Why the engine changed
 
