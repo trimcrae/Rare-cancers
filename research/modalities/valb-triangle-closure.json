@@ -56,12 +56,12 @@
     "rows": [
       {
         "sigma_leg": 0.045,
-        "sigma_edge_implied": 0.06363961030678927,
-        "SD_R_analytic": 0.110227038425243,
-        "SD_R_monte_carlo": null,
-        "null_p95_abs_R": 0.21534727499307788,
+        "sigma_edge_implied": 0.0636,
+        "SD_R_analytic": 0.1102,
+        "SD_R_monte_carlo": 0.11,
+        "null_p95_abs_R": 0.2153,
         "power_at_n1": {
-          "detect_0.500": 0.994625,
+          "detect_0.500": 0.9946,
           "detect_1.000": 1.0,
           "detect_1.478": 1.0,
           "detect_2.000": 1.0
@@ -69,45 +69,61 @@
       },
       {
         "sigma_leg": 0.2,
-        "sigma_edge_implied": 0.28284271247461906,
-        "SD_R_analytic": 0.4898979485566356,
-        "SD_R_monte_carlo": null,
-        "null_p95_abs_R": 0.9566115038067977,
+        "sigma_edge_implied": 0.2828,
+        "SD_R_analytic": 0.4899,
+        "SD_R_monte_carlo": 0.4905,
+        "null_p95_abs_R": 0.9566,
         "power_at_n1": {
-          "detect_0.500": 0.177275,
-          "detect_1.000": 0.539275,
+          "detect_0.500": 0.1773,
+          "detect_1.000": 0.5393,
           "detect_1.478": 0.8587,
-          "detect_2.000": 0.983225
+          "detect_2.000": 0.9832
         }
       },
       {
         "sigma_leg": 0.5,
-        "sigma_edge_implied": 0.7071067811865476,
-        "SD_R_analytic": 1.224744871391589,
-        "SD_R_monte_carlo": null,
-        "null_p95_abs_R": 2.420475959738313,
+        "sigma_edge_implied": 0.7071,
+        "SD_R_analytic": 1.2247,
+        "SD_R_monte_carlo": 1.2317,
+        "null_p95_abs_R": 2.4205,
         "power_at_n1": {
           "detect_0.500": 0.0681,
           "detect_1.000": 0.124,
-          "detect_1.478": 0.21885,
-          "detect_2.000": 0.364475
+          "detect_1.478": 0.2188,
+          "detect_2.000": 0.3645
         }
       },
       {
         "sigma_leg": 0.7,
-        "sigma_edge_implied": 0.9899494936611666,
-        "SD_R_analytic": 1.7146428199482244,
-        "SD_R_monte_carlo": null,
-        "null_p95_abs_R": 3.34872783972516,
+        "sigma_edge_implied": 0.9899,
+        "SD_R_analytic": 1.7146,
+        "SD_R_monte_carlo": 1.7112,
+        "null_p95_abs_R": 3.3487,
         "power_at_n1": {
-          "detect_0.500": 0.058775,
+          "detect_0.500": 0.0588,
           "detect_1.000": 0.0931,
-          "detect_1.478": 0.141575,
+          "detect_1.478": 0.1416,
           "detect_2.000": 0.2135
         }
       }
     ],
     "_asymmetry": "A SMALL |R| is strong evidence (it bounds the path error AND the noise at once, since both would have to be small). A LARGE |R| at n=1 is AMBIGUOUS -- one draw cannot separate a systematic path error from an unlucky sample. So the n=1 scout can ADMIT the cycle but cannot convict it."
+  },
+  "two_cycle_vs_three_cycle": {
+    "symmetric_bias": {
+      "two_cycle_detects": 1.0,
+      "three_cycle_detects": 1.0
+    },
+    "antisymmetric_bias": {
+      "two_cycle_detects": 0.0,
+      "three_cycle_detects": 1.0
+    },
+    "state_function": {
+      "two_cycle_detects": 0.0,
+      "three_cycle_detects": 0.0
+    },
+    "_reading": "The reverse leg and the triangle are NOT the same instrument, but they overlap on the error class the reverse leg was bought to test. The triangle's exclusive territory is the ANTISYMMETRIC per-edge bias row: detection 0.00 for the 2-cycle, ~1.00 for the 3-cycle. Neither sees a state-function error, which is why the known-answer accuracy requirement stays OPEN regardless of what either returns.",
+    "_trials": 4000
   },
   "leg_accounting": {
     "identity_under_test": "a panel is N ternary legs + 1 shared binary + 1 shared solvent, not N edges",

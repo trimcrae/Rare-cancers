@@ -407,6 +407,69 @@ def decision_tree():
     }
 
 
+def two_cycle_vs_three_cycle(trials=4000, seed=1234):
+    """WHAT THE TRIANGLE ADDS OVER THE REVERSE LEG ALREADY IN FLIGHT -- demonstrated, not asserted.
+
+    The forward/reverse pair now running IS a closed cycle: 1 -> 4 -> 1, residual |dG_fwd + dG_rev|, which is
+    the preregistered antisymmetry check. So the programme's first cycle-closure instrument is already arriving
+    at zero marginal cash cost, and 'no cycle closure exists' is a historical statement, not a current one.
+
+    The two instruments differ CATEGORICALLY, and the difference is which symmetry of the error they can see:
+
+      (a) STATE-FUNCTION error (per-endpoint bias)          -> invisible to BOTH. Neither is an accuracy control.
+      (b) SYMMETRIC path bias (the estimate lags whichever
+          endpoint the leg started from: fwd = true + d,
+          rev = -true + d)                                  -> the 2-cycle SEES it (residual 2d). So does the 3-cycle.
+      (c) ANTISYMMETRIC per-edge bias (fwd = true + d,
+          rev = -true - d, with d differing per EDGE)       -> the 2-cycle is BLIND (residual exactly 0); the
+                                                               3-cycle sees it, because R = d1 + d2 - d3 does
+                                                               not cancel across three different edges.
+
+    Class (c) is the honest, specific reason to buy the triangle, and it is a different reason from the one the
+    design gives. It is also the class a merely reversible-but-wrong lambda schedule produces."""
+    rng = random.Random(seed)
+    res = {"symmetric_bias": {"two_cycle_detects": 0, "three_cycle_detects": 0},
+           "antisymmetric_bias": {"two_cycle_detects": 0, "three_cycle_detects": 0},
+           "state_function": {"two_cycle_detects": 0, "three_cycle_detects": 0}}
+    tol = 1e-9
+    for _ in range(trials):
+        true = {s: rng.gauss(0, 5.0) for s in ("cmpd1", "cmpd4", "cmpd4prime")}
+        d = {n: rng.gauss(0, 0.4) for n, _, _, _ in TRIANGLE}
+        eps = {s: rng.gauss(0, 5.0) for s in ("cmpd1", "cmpd4", "cmpd4prime")}
+
+        def edge_true(n):
+            _, a, b, _ = next(t for t in TRIANGLE if t[0] == n)
+            return true[b] - true[a]
+
+        # (b) symmetric: both directions biased the same way relative to their own start
+        two = abs((edge_true("T1") + d["T1"]) + (-edge_true("T1") + d["T1"]))
+        three = abs(sum(s * (edge_true(n) + d[n]) for n, _, _, s in TRIANGLE))
+        res["symmetric_bias"]["two_cycle_detects"] += two > tol
+        res["symmetric_bias"]["three_cycle_detects"] += three > tol
+        # (c) antisymmetric: the reverse leg carries the exact negative bias
+        two = abs((edge_true("T1") + d["T1"]) + (-edge_true("T1") - d["T1"]))
+        three = abs(sum(s * (edge_true(n) + d[n]) for n, _, _, s in TRIANGLE))
+        res["antisymmetric_bias"]["two_cycle_detects"] += two > tol
+        res["antisymmetric_bias"]["three_cycle_detects"] += three > tol
+        # (a) state function
+        def ef(n):
+            _, a, b, _ = next(t for t in TRIANGLE if t[0] == n)
+            return (true[b] + eps[b]) - (true[a] + eps[a])
+        two = abs(ef("T1") + (-ef("T1")))
+        three = abs(sum(s * ef(n) for n, _, _, s in TRIANGLE))
+        res["state_function"]["two_cycle_detects"] += two > tol
+        res["state_function"]["three_cycle_detects"] += three > tol
+    for k in res:
+        res[k] = {kk: vv / trials for kk, vv in res[k].items()}
+    res["_reading"] = (
+        "The reverse leg and the triangle are NOT the same instrument, but they overlap on the error class the "
+        "reverse leg was bought to test. The triangle's exclusive territory is the ANTISYMMETRIC per-edge bias "
+        "row: detection 0.00 for the 2-cycle, ~1.00 for the 3-cycle. Neither sees a state-function error, which "
+        "is why the known-answer accuracy requirement stays OPEN regardless of what either returns.")
+    res["_trials"] = trials
+    return res
+
+
 def solvent_prescout():
     """The cheapest early-abort gate on the triangle itself, and it is a new recommendation.
 
@@ -467,6 +530,7 @@ def build_report():
             {"ternary": {"T1": 47.4701, "T2": 0.0, "T3": 0.0}, "binary": {"T1": 48.0046, "T2": 0.0, "T3": 0.0}}),
         "what_closure_can_and_cannot_diagnose": state_function_blindness(),
         "noise_floor": closure_noise_floor(),
+        "two_cycle_vs_three_cycle": two_cycle_vs_three_cycle(),
         "leg_accounting": leg_accounting(),
         "same_seed_requirement": same_seed_requirement(),
         "price": price_triangle(),

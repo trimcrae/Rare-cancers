@@ -148,6 +148,20 @@ def test_solvent_prescout_is_a_small_fraction_of_the_full_scout():
 # ---------------------------------------------------------------------------------------------------------
 # 5. the decision tree must actually be derived from the blindness result, not asserted
 # ---------------------------------------------------------------------------------------------------------
+def test_three_cycle_sees_what_the_two_cycle_cannot():
+    """The honest case FOR the triangle, made falsifiable: an ANTISYMMETRIC per-edge bias is invisible to a
+    forward/reverse pair (residual identically zero) and visible to a 3-cycle. If this ever stopped holding,
+    the reverse leg already in flight would subsume the triangle entirely."""
+    r = vtc.two_cycle_vs_three_cycle(trials=1500)
+    assert r["antisymmetric_bias"]["two_cycle_detects"] == 0.0
+    assert r["antisymmetric_bias"]["three_cycle_detects"] > 0.99
+    # and the overlap: a symmetric bias is seen by both, so the triangle does not replace the reverse leg
+    assert r["symmetric_bias"]["two_cycle_detects"] > 0.99
+    # neither is an accuracy control
+    assert r["state_function"]["two_cycle_detects"] == 0.0
+    assert r["state_function"]["three_cycle_detects"] == 0.0
+
+
 def test_decision_tree_branch_A_is_keyed_to_blindness():
     dt = vtc.decision_tree()
     assert dt["branch_A"]["can_closure_see_that_class"] is False
