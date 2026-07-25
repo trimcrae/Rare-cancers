@@ -317,7 +317,32 @@ RDKit-verifiable `d`/`d₀` pair selected by the same code as the representative
 "Differs only in the wedge element" is intact: one atom (C–H → N), identical formal charge, heavy-atom count,
 rotatable bonds and (S) centre.
 
-## 7 · Honest scope
+## 7 · Exact STRATEGY.md deltas
+
+STRATEGY.md is owned by the orchestrator; this lane never edits it. These are the exact changes the corrected
+runs require. Numbers marked ⏳ are pending the matched 10⁶ run.
+
+| § / anchor | current text | replace with |
+|---|---|---|
+| §Tier-2 result in full, headline | "gives **58 meta-basins / 192 basins**, of which **7** exploit term (a), **40** term (b), and **28** discriminate nominally" | ⏳ corrected counts, **plus** the note that the term-(a) figure was computed with a reach rule that credited the pendant with shortening the span |
+| §Tier-2 table, "C397 reach" column | 11 / 8 / 9 / 12 / 12 atoms | ⏳ corrected exact values; label the column **"C397 reach (EXACT rule, 3.0 Å arm)"** and keep the relaxed values in the appendix per CLAUDE.md §1.2 |
+| §Tier-2, item 1 | "**All 7 term-(a) basins reach C397 — and only C397.**" | ⏳ — the "and only C397" half **strengthens** (C420/C559 are reached by no basin at the gate with **any** named pendant, up to 8.75 Å) |
+| §Tier-2, item 3 | "**Reach fractions are 0.019–0.057**" | ⏳ corrected fractions |
+| §Tier-2, VHL/CRBN table | "exploiting term (a) at the 12-atom gate: **2** / **0**"; "shortest C397 linker: **9 atoms** / 15 atoms" | ⏳ corrected |
+| §Tier-2, "categorical terms fire in a small MINORITY" | "term (a) reaches gate level in 2–5 %" | ⏳ corrected |
+| §Tier-2, ⚠ LOWER BOUND bullet | "⚠ **Every reported C397 reach figure is a LOWER BOUND, by up to ~5 atoms.** … the numbers must be quoted as bounds." | **"✅ CORRECTED 2026-07-25 (LANE 10).** The reach rule now uses the exact three-ball / integer-branch-position criterion (`linker_design.min_linker_atoms_exact`), the same kernel RUNG 5b hands a chemist, so the repo holds one reach rule instead of two. Superseded relaxed values are carried per record as `*_relaxed_superseded`. A controlled A/B at identical settings shows term (b), the nominal limb, the basins, the patches and the pose fractions are **bit-identical** — only term (a) moves." |
+| §CATEGORICAL handle block (~line 342) | "reachable at the ≤12-atom gate in **72/75 = 96 %** of unbiased frames"; "it opens at a 10-atom linker on an E3-independent bound"; "C420 needs **16** atoms, C559 **20**"; "P(both) = 0.560 … P(reachable │ druggable) = **0.955**" | "**65/75 = 87 %**"; "it opens at a **10**-atom linker on an E3-independent bound" *(unchanged — the envelope did not move)*; "C420 needs **20** atoms (median), C559 is **geometrically closed within 20 atoms in 45/75 = 60 %** of unbiased frames"; "P(both) = **0.48** against an independence product of **0.508** … P(reachable │ druggable) = **0.818**" |
+| §Tier-2, LANE 7 sensitivity | "native marginally stronger: 3 vs 2 term-(a), 26 vs 22 discriminating" | ⏳ from the re-run matched comparison (CI 30179330682) |
+| §Tier-2, LINKER TRACTABILITY table | "`crbn\|M0` 25 → **11**; `vhl\|M3` 14 → 11; `vhl\|M2` 15 → 10" | ⏳ corrected exact values at both placements; the representative→exemplar *direction* is unchanged |
+| §RUNG 5a-KS matched-pair block | "The same geometry reaches C397 at 11 atoms" | ⏳ corrected. **The recommended pair itself is UNCHANGED** — `crbn\|M0` exemplar, 3-(3-pyridyl)-L-Ala vs L-Phe at Thr407, 8.6 Å clearance — and it now has enumerated, RDKit-verifiable `d`/`d₀` SMILES at 14 backbone atoms instead of being a design target without molecules |
+| §RUNG 5b entry | "1,995 enumerated → 21 retained" | "at **representative** geometry 1 995 → 21; at the **term-(a) exemplar** ⏳ → ⏳, all five basins hosting a full complement. Both libraries emitted; the exemplar one is primary and is labelled OPTIMISTIC (best-of-N)" |
+| **new bullet** | — | "**The fidelity filter carries no basin-quality information.** At representative geometry it retained `crbn\|M0`, the strongest basin, only as a labelled failure — on exactly the ground it retained the labelled weak control: a long representative span. Computed per placement as `filter_control_reading`. Basin quality comes from Tier 2 and nowhere else." |
+
+**One decision this lane deliberately did not make**, because it is a preregistered threshold and the result
+is already known: whether to re-read the term-(a) gate at a realistic pendant reach rather than the 3.0 Å
+convention. See §5.3.
+
+## 8 · Honest scope
 
 Unchanged by any of this, and it bounds everything above: conditional on the **hypothesised cmpd19 binary
 pose × the chosen receptor frame** — a double conditionality — and on one static opened conformer per
