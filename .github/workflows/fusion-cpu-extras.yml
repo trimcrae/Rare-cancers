@@ -14,8 +14,13 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
+      fanout_mode:
+        description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
+        type: choice
+        options: [plan, stage, precheck, launch, launch_confirm, collect, monitor, diag, stop]
+        default: plan
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
         type: boolean
@@ -82,7 +87,7 @@ concurrency:
   # Include vast_launch_mode so a bench / bench_collect dispatch is NOT cancelled by a (possibly cross-session)
   # covalent collect/monitor/full dispatch of the same task — they share task=nrv04_vast_launch and, with a
   # task-only group + cancel-in-progress, kept killing each other. Mode-scoped groups keep same-mode dedupe.
-  group: fusion-cpu-extras-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}
+  group: fusion-cpu-extras-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}-${{ github.event.inputs.fanout_mode }}
   cancel-in-progress: true
 
 jobs:
@@ -608,6 +613,88 @@ jobs:
         with:
           name: nrv04-vast-handles
           path: research/modalities/nrv04-vast-handles.json
+          if-no-files-found: ignore
+
+  # STEP 1 FAN-OUT (RUNG 4) — the cmpd19 congeneric RBFE map, 8-wide on Vast 4090.
+  # `plan` and `precheck` are free and spend nothing; `stage` is free CPU on this runner; `launch` is a DRY
+  # print of exactly what it would rent; only `launch_confirm` rents instances. `collect` also reaps finished /
+  # terminal / over-age hosts, so the GPU meter never runs on idle boxes.
+  step1_fanout:
+    if: ${{ github.event.inputs.task == 'step1_fanout' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      GIT_BRANCH: ${{ github.ref_name }}
+      VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
+      FANOUT_WIDTH: "8"
+      PLAN: ${{ github.event.inputs.fanout_mode == 'plan' && '1' || '0' }}
+      STAGE: ${{ github.event.inputs.fanout_mode == 'stage' && '1' || '0' }}
+      PRECHECK: ${{ github.event.inputs.fanout_mode == 'precheck' && '1' || '0' }}
+      LAUNCH: ${{ (github.event.inputs.fanout_mode == 'launch' || github.event.inputs.fanout_mode == 'launch_confirm') && '1' || '0' }}
+      FANOUT_CONFIRM: ${{ github.event.inputs.fanout_mode == 'launch_confirm' && '1' || '0' }}
+      COLLECT: ${{ github.event.inputs.fanout_mode == 'collect' && '1' || '0' }}
+      MONITOR: ${{ github.event.inputs.fanout_mode == 'monitor' && '1' || '0' }}
+      DIAG: ${{ github.event.inputs.fanout_mode == 'diag' && '1' || '0' }}
+      STOP: ${{ github.event.inputs.fanout_mode == 'stop' && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps (rdkit only for the pose-staging mode)
+        run: |
+          pip install -q boto3
+          if [ "${{ github.event.inputs.fanout_mode }}" = "stage" ]; then pip install -q rdkit; fi
+      - name: Gate on the fan-out unit tests (a broken unit list must never reach a GPU)
+        run: |
+          pip install -q pytest
+          python -m pytest research/modalities/tests/test_congeneric_fanout.py -q
+      - name: Step 1 fan-out — ${{ github.event.inputs.fanout_mode }}
+        working-directory: research/modalities
+        run: python congeneric_fanout_vast.py
+      # A job log is only readable from its tail, and the tail is always runner boilerplate — so the readout
+      # that matters is committed back to the branch instead. Also leaves a timestamped trail of the fleet.
+      - name: Commit the progress / map readout back to the branch
+        if: ${{ always() && (github.event.inputs.fanout_mode == 'monitor' || github.event.inputs.fanout_mode == 'collect' || github.event.inputs.fanout_mode == 'diag') }}
+        run: |
+          set -e
+          cd "$GITHUB_WORKSPACE"
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          # Add each file INDEPENDENTLY: `git add A B` fails atomically if either pathspec matches nothing, so
+          # a monitor run (which writes progress.json but not map.json) staged nothing at all and reported
+          # "no readout change" while silently swallowing the error.
+          staged=0
+          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt; do
+            if [ -f "research/modalities/$f" ]; then
+              git add -f "research/modalities/$f"; staged=1; echo "staged $f"
+            else
+              echo "absent (expected for this mode): $f"
+            fi
+          done
+          [ "$staged" = 1 ] || { echo "nothing to commit"; exit 0; }
+          git diff --cached --quiet && { echo "no readout change"; exit 0; }
+          git commit -m "step1 fan-out ${{ github.event.inputs.fanout_mode }} readout ($(date -u +%FT%TZ))"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${{ github.ref_name }}" && \
+            git push origin HEAD:"${{ github.ref_name }}" && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the readout"
+      - name: Upload fan-out artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: step1-fanout-${{ github.event.inputs.fanout_mode }}
+          path: |
+            research/modalities/step1-fanout-handles.json
+            research/modalities/step1-fanout-map.json
+            research/modalities/step1-fanout-progress.json
           if-no-files-found: ignore
 
   run:

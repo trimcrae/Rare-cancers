@@ -38,6 +38,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -90,8 +91,15 @@ if aws s3 ls "$RESULT_S3/leg_$LEG_ID.json" >/dev/null 2>&1; then
   fi
 fi
 mkdir -p /tmp/protfep_in /tmp/protfep_out
-# RESUME: pull any prior checkpoint for this leg (spot preemption or a re-dispatch of the same unit).
-aws s3 cp "$RESULT_S3/" /tmp/protfep_out/ --recursive --exclude '*' --include "leg_$LEG_ID.json" 2>/dev/null || true
+# RESUME: pull back EVERYTHING the sync loop uploads, not just the leg JSON.
+# A finished lambda window is recorded by its .xvg inside work_<leg>/, and run_windows skips any
+# window whose .xvg is present — but only if the file is actually restored. Pulling only the JSON
+# meant a preempted leg silently re-ran every completed window: the apo pilot leg was preempted at
+# 14/16 windows, ~1 GPU-h that would have been paid for twice with nothing in the log to say why.
+# hybrid.top + npt.gro come back too so build_system can skip the whole setup phase.
+aws s3 cp "$RESULT_S3/" /tmp/protfep_out/ --recursive --exclude '*' \
+    --include "leg_$LEG_ID.json" --include "work_$LEG_ID/*" 2>/dev/null || true
+echo "[protfep] restored $(ls /tmp/protfep_out/work_$LEG_ID/*.xvg 2>/dev/null | wc -l) finished window(s)"
 ls -la /tmp/protfep_out || true
 # --- repo code (public codeload tarball) ---
 cd /root
@@ -101,7 +109,8 @@ mark cloned
 # --- continuous checkpoint upload (every 3 min) so a preemption never loses the leg ---
 ( while true; do sleep 180; \
     aws s3 cp /tmp/protfep_out/ "$RESULT_S3/" --recursive --exclude '*' \
-        --include "leg_$LEG_ID.json" --include "*.xvg" >/dev/null 2>&1 || true; \
+        --include "leg_$LEG_ID.json" --include "work_$LEG_ID/*.xvg" \
+        --include "work_$LEG_ID/hybrid.top" --include "work_$LEG_ID/npt.gro" >/dev/null 2>&1 || true; \
     aws s3 cp /tmp/run.log "$RESULT_S3/run.log" >/dev/null 2>&1 || true; \
   done ) &
 SYNC_PID=$!
@@ -114,7 +123,8 @@ kill $SYNC_PID 2>/dev/null || true
 mark md-done
 # --- final upload: the leg JSON (the deliverable) + the trajectory checkpoint + the log ---
 aws s3 cp /tmp/protfep_out/ "$RESULT_S3/" --recursive --exclude '*' \
-    --include "leg_$LEG_ID.json" --include "*.xvg" || echo "result upload failed"
+    --include "leg_$LEG_ID.json" --include "work_$LEG_ID/*.xvg" \
+    --include "work_$LEG_ID/hybrid.top" --include "work_$LEG_ID/npt.gro" || echo "result upload failed"
 mark done
 echo "[protfep] $(date -u +%FT%TZ) EXIT rc=$RC"
 exit $RC
@@ -180,6 +190,26 @@ def label_matches_leg(label, leg_id):
     label = str(label).strip().lower()
     encoded = f"{LABEL_PREFIX}-{str(leg_id)}".replace("_", "-").lower()[:60]
     return label == encoded
+
+
+def _record_is_newer_than_instance(doc, instance):
+    """Was this leg record written by the CURRENTLY running instance? Pure (given the inputs).
+
+    Compares the record's `updated_utc` against the instance's start time. Returns False when either
+    timestamp is missing or unparseable — the conservative direction, since the cost of not reaping
+    is a host that self-destroys or hits the runtime backstop, while the cost of reaping wrongly is
+    killing a leg that was about to do real work.
+    """
+    import calendar
+    stamp = doc.get("updated_utc") or doc.get("started_utc")
+    started = instance.get("start_date")
+    if not stamp or started is None:
+        return False
+    try:
+        rec_epoch = calendar.timegm(time.strptime(str(stamp), "%Y-%m-%dT%H:%M:%SZ"))
+        return rec_epoch > float(started)
+    except (ValueError, TypeError):
+        return False
 
 
 def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefix=None):
@@ -302,8 +332,15 @@ def collect(bucket=None, prefix=None, autostop=True):
         print(f"  DONE  {lid}: dG = {doc.get('dg_kcal'):.3f} +/- {doc.get('dg_mbar_se_kcal'):.3f} kcal/mol "
               f"({doc.get('gpu_hours')} GPU-h, {doc.get('n_particles')} particles)")
     for lid, doc in sorted(partial.items()):
-        print(f"  ....  {lid}: {doc.get('status')} {doc.get('iterations_done', 0)}/"
-              f"{doc.get('prod_iters_target')} iters"
+        # Progress is reported in whatever unit the ENGINE advances in: openmmtools legs count
+        # replica-exchange iterations, pmx/GROMACS legs count lambda windows. Printing the wrong
+        # one showed "0/None iters" for a leg that was in fact four windows in and healthy — a
+        # progress board that under-reports progress is worse than none, because it reads as a stall.
+        if doc.get("windows_done") is not None or doc.get("n_states"):
+            done_n, total_n, unit = doc.get("windows_done", 0), doc.get("n_states"), "windows"
+        else:
+            done_n, total_n, unit = doc.get("iterations_done", 0), doc.get("prod_iters_target"), "iters"
+        print(f"  ....  {lid}: {doc.get('status')} {done_n}/{total_n} {unit}"
               + (f" — {doc.get('error')}" if doc.get("status") == "failed" else ""))
         if doc.get("status") == "failed":
             # Print the FULL traceback, not just the exception line. A one-line summary tells you
@@ -337,8 +374,14 @@ def collect(bucket=None, prefix=None, autostop=True):
             # halts billing on its own, but "normally" is doing real work in that sentence — a host
             # that keeps the container alive after a crash would otherwise bill until the runtime
             # backstop hours later, and a failed leg has nothing left to produce.
-            crashed = any(label_matches_leg(label, k) for k, d in partial.items()
-                          if d.get("status") == "failed")
+            # A `failed` record only justifies reaping if it belongs to THIS instance. A stale
+            # failure from a previous attempt sits in S3 until the new leg overwrites it, which does
+            # not happen until after the image pull and repo clone — so reaping on the record alone
+            # destroys a freshly launched host that has not started yet. That is exactly what
+            # happened to the complex leg: killed 25 minutes into its image pull, on the strength of
+            # a failure from an attempt 90 minutes earlier.
+            crashed = any(label_matches_leg(label, k) and _record_is_newer_than_instance(d, i)
+                          for k, d in partial.items() if d.get("status") == "failed")
             if autostop and (finished or crashed or up_h > MAX_INSTANCE_HOURS):
                 why = ("leg done" if finished else
                        "leg FAILED — nothing left to produce" if crashed else "runtime backstop")

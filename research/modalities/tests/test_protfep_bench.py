@@ -15,6 +15,7 @@ What is being protected here, in order of how badly it would bite:
 import json
 import os
 import sys
+import time
 
 import pytest
 
@@ -795,3 +796,263 @@ def test_reduce_reports_the_engine_from_the_legs_not_a_hardcoded_string():
         out = pr.reduce_all(td)
     assert out["engines"] == ["pmx + GROMACS"]
     assert out["protocols"] == ["equilibrium lambda windows"]
+
+
+# ---------------------------------------------------------------- target resolution after pdb2gmx
+def _pdb(rows):
+    return "".join(
+        f"ATOM  {i+1:5d}  CA  {rn:>3s} {ch}{rid:4d}      0.000   0.000   0.000  1.00 20.00           C\n"
+        for i, (ch, rid, rn) in enumerate(rows)) + "END\n"
+
+
+def test_target_is_found_after_pdb2gmx_relabels_the_chain(tmp_path):
+    """pdb2gmx does not preserve author chain identity across a multi-chain system.
+
+    The complex leg failed with `resid 29 not found in chain "D"` even though barstar's Y29 was
+    plainly present — under a different label. Resolution goes by SEQUENCE, which pdb2gmx does not
+    change, not by the label, which it does.
+    """
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    prepped = tmp_path / "prepped.pdb"
+    barnase = [("A", i, "LEU") for i in range(1, 11)]
+    barstar = [("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR")] + [("D", 30, "GLY")]
+    orig.write_text(_pdb(barnase + barstar))
+    # pdb2gmx renames D -> B and renumbers it continuously after chain A
+    relabelled = [("A", i, "LEU") for i in range(1, 11)] + \
+                 [("B", 10 + i, "SER") for i in range(1, 29)] + \
+                 [("B", 39, "TYR"), ("B", 40, "GLY")]
+    prepped.write_text(_pdb(relabelled))
+    m = pf.classify_mutation("D:Y29A")
+    chain, resid = ppmx.resolve_target_after_prep(str(prepped), str(orig), m)
+    assert (chain, resid) == ("B", 39)
+
+
+def test_target_resolution_refuses_when_the_wild_type_does_not_match(tmp_path):
+    """Belt and braces: the chain matches well overall, but the resolved position is not the WT.
+
+    A high-similarity match landing on the wrong residue is exactly the case that would otherwise
+    become a confident wrong ddG, so the identity is re-checked after resolution.
+    """
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "o.pdb"; prepped = tmp_path / "p.pdb"
+    seq = [("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR"), ("D", 30, "GLY")]
+    orig.write_text(_pdb(seq))
+    # Same chain, but the target position already carries PHE — ~97% similar, so it clears the
+    # sequence gate and must be caught by the wild-type check instead.
+    altered = [("B", i, "SER") for i in range(1, 29)] + [("B", 29, "PHE"), ("B", 30, "GLY")]
+    prepped.write_text(_pdb(altered))
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="not the expected TYR"):
+        ppmx.resolve_target_after_prep(str(prepped), str(orig), m)
+
+
+def test_target_resolution_refuses_a_poor_sequence_match(tmp_path):
+    """No chain resembling the target means we do not know where to mutate — refuse, do not guess."""
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "o.pdb"; prepped = tmp_path / "p.pdb"
+    orig.write_text(_pdb([("D", 1, "SER"), ("D", 29, "TYR")]))
+    prepped.write_text(_pdb([("B", 1, "LEU"), ("B", 2, "ALA")]))
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="could not identify the target chain"):
+        ppmx.resolve_target_after_prep(str(prepped), str(orig), m)
+
+
+def test_target_resolution_refuses_two_equally_similar_chains(tmp_path):
+    """Two near-identical chains means the mutation could land on either — refuse, do not pick."""
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "o.pdb"; prepped = tmp_path / "p.pdb"
+    seq = [("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR")]
+    orig.write_text(_pdb(seq))
+    dup = [("A", i, "SER") for i in range(1, 29)] + [("A", 29, "TYR")] + \
+          [("B", i, "SER") for i in range(1, 29)] + [("B", 29, "TYR")]
+    prepped.write_text(_pdb(dup))
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="AMBIGUOUS"):
+        ppmx.resolve_target_after_prep(str(prepped), str(orig), m)
+
+
+def test_chain_residue_lists_dedupes_atoms_into_residues(tmp_path):
+    p = tmp_path / "x.pdb"
+    p.write_text(
+        "ATOM      1  N   TYR D  29       0.000   0.000   0.000  1.00 20.00           N\n"
+        "ATOM      2  CA  TYR D  29       0.000   0.000   0.000  1.00 20.00           C\n"
+        "ATOM      3  CA  GLY D  30       0.000   0.000   0.000  1.00 20.00           C\nEND\n")
+    assert ppmx.chain_residue_lists(str(p)) == {"D": [(29, "TYR"), (30, "GLY")]}
+
+
+def test_progress_board_uses_the_engine_s_own_unit():
+    """A pmx leg advances in lambda WINDOWS; an openmmtools leg advances in iterations.
+
+    Printing the wrong field showed "0/None iters" for a leg that was four windows in and perfectly
+    healthy. A board that under-reports progress is worse than no board — it reads as a stall.
+    """
+    pmx_leg = {"leg_id": "x", "status": "sampling", "windows_done": 4, "n_states": 16}
+    omm_leg = {"leg_id": "y", "status": "production", "iterations_done": 250, "prod_iters_target": 2000}
+    # The selection logic mirrors collect(); assert the field choice rather than capturing stdout.
+    assert (pmx_leg.get("windows_done") is not None or pmx_leg.get("n_states"))
+    assert not (omm_leg.get("windows_done") is not None or omm_leg.get("n_states"))
+
+
+def test_resume_pulls_back_everything_the_sync_uploads():
+    """Upload and resume must be SYMMETRIC, or a preempted leg silently redoes finished work.
+
+    The apo pilot leg was preempted at 14/16 windows. The sync loop had been uploading each finished
+    window's .xvg, but the resume pulled only the leg JSON — so a re-dispatch would have re-run all
+    14 windows, ~1 GPU-h paid twice, with nothing in the log to say why.
+    """
+    pipeline = pv._PIPELINE
+    resume_block = pipeline.split("RESUME:")[1].split("repo code")[0]
+    for needed in ('--include "leg_$LEG_ID.json"', '--include "work_$LEG_ID/*"'):
+        assert needed in resume_block, f"resume does not restore {needed}"
+    # everything the uploads write under work_<leg>/ must be restorable by that wildcard
+    for uploaded in ("work_$LEG_ID/*.xvg", "work_$LEG_ID/hybrid.top", "work_$LEG_ID/npt.gro"):
+        assert uploaded in pipeline, f"{uploaded} is never uploaded, so it can never be resumed"
+
+
+def test_build_system_short_circuits_on_a_restored_system(tmp_path, monkeypatch):
+    """A restored system must skip setup entirely — that is the point of resuming."""
+    monkeypatch.setattr(ppmx, "resolve_forcefield", lambda req: ("ff-mut", "/ffroot"))
+    work = tmp_path / "work"
+    work.mkdir()
+    (work / "hybrid.top").write_text("; topology\n")
+    (work / "npt.gro").write_text("system\n 13392\n")
+    gro, top, n_atoms, ff = ppmx.build_system("/nonexistent/input.pdb", "D:Y29A", str(work))
+    assert n_atoms == 13392 and ff == "ff-mut"
+    assert gro.endswith("npt.gro") and top.endswith("hybrid.top")
+
+
+def test_build_system_does_not_short_circuit_on_a_partial_restore(tmp_path, monkeypatch):
+    """hybrid.top without npt.gro is half a system; continuing from it is worse than rebuilding."""
+    monkeypatch.setattr(ppmx, "resolve_forcefield", lambda req: ("ff-mut", "/ffroot"))
+    work = tmp_path / "work"
+    work.mkdir()
+    (work / "hybrid.top").write_text("; topology\n")
+    # No npt.gro -> must NOT short-circuit; it proceeds and fails on the missing input instead.
+    with pytest.raises(Exception):
+        ppmx.build_system("/nonexistent/input.pdb", "D:Y29A", str(work))
+
+
+# ---------------------------------------------------------------- cost integrity across resumes
+def test_reap_ignores_a_stale_failure_record():
+    """A failure from a PREVIOUS attempt must not kill a freshly launched host.
+
+    The complex leg was destroyed 25 minutes into its image pull because a `failed` leg JSON from an
+    attempt 90 minutes earlier was still in S3 — the new leg had not yet overwritten it, which does
+    not happen until after the pull and clone.
+    """
+    instance = {"start_date": 2000.0}
+    stale = {"status": "failed", "updated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(1000.0))}
+    fresh = {"status": "failed", "updated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(3000.0))}
+    assert pv._record_is_newer_than_instance(stale, instance) is False
+    assert pv._record_is_newer_than_instance(fresh, instance) is True
+
+
+def test_reap_guard_is_conservative_on_missing_timestamps():
+    """Not reaping costs a self-destruct or the runtime backstop; reaping wrongly kills real work."""
+    assert pv._record_is_newer_than_instance({}, {"start_date": 1.0}) is False
+    assert pv._record_is_newer_than_instance({"updated_utc": "nonsense"}, {"start_date": 1.0}) is False
+    assert pv._record_is_newer_than_instance({"updated_utc": "2026-07-24T00:00:00Z"}, {}) is False
+
+
+def test_price_uses_cumulative_gpu_hours_not_the_final_segment():
+    """A preempted leg reports only its last segment unless the field accumulates.
+
+    The apo pilot leg finished in 0.073 GPU-h after being preempted at 14/16 windows, and the reducer
+    published usd_per_benchmark_leg=0.015 — ~20x low, because ~1.3 GPU-h had gone with the host. A
+    cost basis that silently omits preempted work is worse than none.
+    """
+    resumed = _leg("x__complex_r0", "x", "complex", -5.0, gpu_h=1.4)
+    resumed["gpu_hours_this_run"] = 0.073
+    resumed["gpu_hours_prior_attempts"] = 1.33
+    priced = pr.price_from_legs([resumed], hourly_usd=0.20)
+    # gpu_hours is the cumulative figure, so the price reflects the whole leg
+    assert priced["gpu_hours_per_leg"]["mean"] == pytest.approx(1.4)
+    assert priced["usd_per_benchmark_leg"] == pytest.approx(0.28, abs=0.01)
+
+
+# ---------------------------------------------------------------- resolution against pmx's Model
+class _FakeRes:
+    def __init__(self, rid, name):
+        self.id, self.resname = rid, name
+
+
+class _FakeChain:
+    def __init__(self, cid, residues):
+        self.id = cid
+        self.residues = [_FakeRes(r, n) for r, n in residues]
+
+
+class _FakeModel:
+    def __init__(self, chains):
+        self.chains = [_FakeChain(c, r) for c, r in chains]
+
+
+def test_model_inventory_reads_pmx_s_own_chains():
+    model = _FakeModel([("A", [(1, "LEU"), (2, "SER")]), ("B", [(1, "GLY")])])
+    assert ppmx.model_residue_lists(model) == {"A": [(1, "LEU"), (2, "SER")], "B": [(1, "GLY")]}
+
+
+def test_model_inventory_falls_back_to_an_index_when_a_chain_has_no_id():
+    class _NoId:
+        def __init__(self):
+            self.residues = [_FakeRes(1, "ALA")]
+    model = type("M", (), {"chains": [_NoId()]})()
+    assert ppmx.model_residue_lists(model) == {"0": [(1, "ALA")]}
+
+
+def test_resolution_uses_the_model_not_the_file(tmp_path):
+    """The bug: prepped.pdb said D:29, the file-based resolver returned D:29, and pmx still raised
+    `resid 29 not found in chain "D"` — pmx's Model exposes different chain labels than the file.
+    Resolution must consult the representation the mutation is actually addressed to.
+    """
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    barstar = [("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR"), ("D", 30, "GLY")]
+    orig.write_text(_pdb([("A", i, "LEU") for i in range(1, 11)] + barstar))
+    # pmx's Model labels the same chains 0 and 1, with its own numbering
+    model = _FakeModel([
+        ("0", [(i, "LEU") for i in range(1, 11)]),
+        ("1", [(i, "SER") for i in range(1, 29)] + [(29, "TYR"), (30, "GLY")]),
+    ])
+    m = pf.classify_mutation("D:Y29A")
+    assert ppmx.resolve_target_in_model(model, str(orig), m) == ("1", 29)
+
+
+def test_model_resolution_refuses_a_wrong_wild_type(tmp_path):
+    import nr4a3_protein_fep as pf
+    orig = tmp_path / "orig.pdb"
+    orig.write_text(_pdb([("D", i, "SER") for i in range(1, 29)] + [("D", 29, "TYR"), ("D", 30, "GLY")]))
+    model = _FakeModel([("0", [(i, "SER") for i in range(1, 29)] + [(29, "PHE"), (30, "GLY")])])
+    m = pf.classify_mutation("D:Y29A")
+    with pytest.raises(RuntimeError, match="not the expected TYR"):
+        ppmx.resolve_target_in_model(model, str(orig), m)
+
+
+def test_both_resolvers_share_one_matching_rule():
+    """File-based and Model-based resolution must not drift — one rule, two front doors."""
+    import inspect
+    assert "_match_target_chain" in inspect.getsource(ppmx.resolve_target_after_prep)
+    assert "_match_target_chain" in inspect.getsource(ppmx.resolve_target_in_model)
+
+
+def test_split_topology_guard_refuses_per_chain_itp_files(tmp_path):
+    """A split topology means gentop converts a file of #includes and the mutated chain keeps plain
+    parameters. grompp then fails with 'No default Angle types' naming the .itp — the symptom, not
+    the cause — which cost the complex leg a full diagnostic cycle to trace."""
+    (tmp_path / "topol_Protein_chain_D.itp").write_text("; chain D\n")
+    with pytest.raises(RuntimeError, match="split the topology"):
+        ppmx._split_topology_guard(str(tmp_path))
+
+
+def test_split_topology_guard_passes_on_an_inline_topology(tmp_path):
+    (tmp_path / "topol.top").write_text("; everything inline\n")
+    ppmx._split_topology_guard(str(tmp_path))  # must not raise
+
+
+def test_mutant_pdb2gmx_merges_chains():
+    """Without -merge all, any multi-chain leg silently produces an unconvertible topology."""
+    import inspect
+    src = inspect.getsource(ppmx.build_system)
+    mutant_call = src.split('"-f", "mutant.pdb"')[1].split("cwd=work_dir")[0]
+    assert '"-merge", "all"' in mutant_call

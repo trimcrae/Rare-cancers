@@ -408,3 +408,45 @@ def test_an_unbenched_card_is_taken_only_when_nothing_measured_qualifies():
     # a measured card wins even at 60x the $/hr, because the L4 has no trustworthy throughput to rank on
     assert _select_cheapest_offer([l4, m4090], res)["id"] == 8
     assert _select_cheapest_offer([l4], res)["id"] == 9      # ...but it is still usable if it is all there is
+
+
+def test_price_ceiling_governs_the_billed_rate_not_the_floor():
+    """The cost ceiling must be checked against what we are BILLED, not the floor we bid above.
+
+    On Vast you pay your bid, and the bid is min_bid * _VAST_BID_FLOOR_MULT. Comparing max_hourly_usd to
+    min_bid alone let the effective rate reach mult x the cap before any offer was rejected — at the then-current
+    1.9 and a $0.60 cap that is $1.14/hr, i.e. no effective ceiling. This is how the step1 fan-out ran at
+    ~$0.37/hr against a routing estimate of $0.30 without anything complaining.
+
+    Every threshold here is DERIVED from _VAST_BID_FLOOR_MULT. The original literals only held at 1.9, so
+    lowering it to 1.25 on 2026-07-25 would have broken this test for a reason unrelated to what it guards.
+    """
+    from gpu_backend import ResourceSpec, _select_cheapest_offer, _VAST_BID_FLOOR_MULT
+
+    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=True)
+    cap = 0.60
+    # a floor whose BILLED rate (floor * mult) lands above the cap must be rejected
+    over = round(cap / _VAST_BID_FLOOR_MULT * 1.2, 4)
+    pricey = {"id": 1, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.50, "min_bid": over,
+              "gpu_name": "RTX 4090"}
+    assert _select_cheapest_offer([pricey], res, max_hourly_usd=cap) is None
+
+    # ...and one comfortably under the same ceiling is still selectable
+    under = round(cap / _VAST_BID_FLOOR_MULT * 0.5, 4)
+    ok = {"id": 2, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.25, "min_bid": under,
+          "gpu_name": "RTX 4090"}
+    assert _select_cheapest_offer([ok], res, max_hourly_usd=cap)["id"] == 2
+
+    # the ceiling is exactly the billed rate, so the boundary sits at ceiling / mult
+    boundary = round(cap / _VAST_BID_FLOOR_MULT, 4)
+    just_under = {"id": 3, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.40,
+                  "min_bid": boundary - 0.001, "gpu_name": "RTX 4090"}
+    just_over = {"id": 4, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.40,
+                 "min_bid": boundary + 0.001, "gpu_name": "RTX 4090"}
+    assert _select_cheapest_offer([just_under], res, max_hourly_usd=cap)["id"] == 3
+    assert _select_cheapest_offer([just_over], res, max_hourly_usd=cap) is None
+
+    # on-demand offers are billed at dph_total, so their ceiling check is unchanged
+    od = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=False)
+    assert _select_cheapest_offer([{"id": 5, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.55,
+                                    "gpu_name": "RTX 4090"}], od, max_hourly_usd=cap)["id"] == 5

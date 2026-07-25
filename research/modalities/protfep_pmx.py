@@ -240,6 +240,26 @@ def mdp_lambda_window(state_index, n_states, ps, collect_data):
 # ------------------------------------------------------------------------------------------------
 # System construction
 # ------------------------------------------------------------------------------------------------
+def _split_topology_guard(work_dir):
+    """Refuse to continue if pdb2gmx still split the topology into per-chain .itp files.
+
+    pmx's gen_hybrid_top converts the topology it is handed. If the molecule definitions live in
+    included per-chain files instead, it converts a file of #includes, the mutated chain keeps its
+    plain-force-field parameters, and grompp fails later with a wall of "No default Angle types"
+    that names the .itp rather than the real cause. `-merge all` prevents the split; this asserts it
+    actually did, because a silent split costs a full leg to rediscover.
+    """
+    import glob as _glob
+    split = sorted(_glob.glob(os.path.join(work_dir, "topol_*.itp")))
+    if split:
+        raise RuntimeError(
+            f"pdb2gmx split the topology into {[os.path.basename(p) for p in split]} despite "
+            f"`-merge all`. pmx's gentop would convert only the top-level file and the mutated "
+            f"chain would keep plain force-field parameters — grompp then fails with 'No default "
+            f"Angle types' against the .itp, which points at the symptom and not the cause.")
+    _log("topology is inline (no per-chain .itp split) — gentop will see the real molecule")
+
+
 def build_system(structure_path, mutation_spec, work_dir):
     """pmx mutate -> pdb2gmx -> pmx gentop -> box/solvate/ions -> minimise -> NVT -> NPT.
 
@@ -251,6 +271,20 @@ def build_system(structure_path, mutation_spec, work_dir):
     m = pf.classify_mutation(mutation_spec)
     if not m["buildable"]:
         raise pf.MutationError(m["risk"])
+
+    # RESUMPTION SHORT-CIRCUIT. Setup (pdb2gmx x2, mutate, gentop, solvate, ions, minimise, NVT, NPT)
+    # is deterministic and takes minutes; if a previous attempt's outputs were restored from S3 there
+    # is nothing to gain by redoing it, and on a preempted leg the whole point is to resume where it
+    # stopped. Both files are required: hybrid.top without npt.gro (or vice versa) is a partial
+    # restore, and continuing from half a system is worse than rebuilding it.
+    existing_gro = os.path.join(work_dir, "npt.gro")
+    existing_top = os.path.join(work_dir, "hybrid.top")
+    if os.path.exists(existing_gro) and os.path.exists(existing_top):
+        n_atoms = _count_atoms(existing_gro)
+        ff_name, ff_root = resolve_forcefield(FORCEFIELD)
+        os.environ["GMXLIB"] = ff_root + (":" + os.environ["GMXLIB"] if os.environ.get("GMXLIB") else "")
+        _log(f"RESUMING from a restored system: {n_atoms} atoms, skipping setup entirely")
+        return existing_gro, existing_top, n_atoms, ff_name
 
     ff_name, ff_root = resolve_forcefield(FORCEFIELD)
     # GROMACS finds a force field via GMXLIB; pmx's hybrid residue definitions live in ITS data tree,
@@ -289,20 +323,25 @@ def build_system(structure_path, mutation_spec, work_dir):
     # entry that put barstar's Y29 on chain A, which is barnase. `mut_chain` is passed when the
     # installed pmx accepts it, and the outcome is VERIFIED against the written file either way, so
     # a silently chain-blind pmx cannot go unnoticed.
-    kwargs = {"m": model, "mut_resid": m["resid"], "mut_resname": m["mutant"], "ff": ff_name}
+    # Resolve against PMX'S OWN Model, not against the file. prepped.pdb contained `D:29` and the
+    # text-based resolver returned exactly that, yet pmx still raised `resid 29 not found in chain
+    # "D"` — because pmx's Model does not necessarily expose the file's chain letters. The mutation
+    # is addressed to the Model, so the Model is what resolution must consult.
+    target_chain, target_resid = resolve_target_in_model(model, structure_path, m)
+    kwargs = {"m": model, "mut_resid": target_resid, "mut_resname": m["mutant"], "ff": ff_name}
     import inspect as _inspect
     sig = _inspect.signature(pmx_mutate)
     chain_param = next((p for p in ("mut_chain", "chain", "mut_chain_id") if p in sig.parameters), None)
     if chain_param:
-        kwargs[chain_param] = m["chain"]
-        _log(f"pmx mutate: targeting chain {m['chain']} via `{chain_param}`")
+        kwargs[chain_param] = target_chain
+        _log(f"pmx mutate: targeting {target_chain}:{target_resid} via `{chain_param}`")
     else:
         _log(f"NOTE this pmx's mutate() exposes no chain argument ({sorted(sig.parameters)}); "
              f"relying on the post-mutation verification below")
     mutated = pmx_mutate(**kwargs)
     mutated.write(mutant)
-    _verify_mutation_site(mutant, m, prepped)
-    _log(f"pmx mutate: {m['wt']}{m['resid']}->{m['mutant']} (chain {m['chain']}) -> {mutant}")
+    _verify_mutation_site(mutant, dict(m, chain=target_chain, resid=target_resid), prepped)
+    _log(f"pmx mutate: {m['wt']}{m['resid']}->{m['mutant']} (staged {m['chain']}:{m['resid']}, built {target_chain}:{target_resid}) -> {mutant}")
 
     # pdb2gmx pass 2, on the MUTANT: this is the one that produces the topology gentop promotes.
     #
@@ -316,8 +355,21 @@ def build_system(structure_path, mutation_spec, work_dir):
     # HV1/HV2/HV3 are the vanishing hydrogens pmx had just placed. Pass 1 strips hydrogens to
     # normalise protonation on the WILD-TYPE structure; pass 2 must preserve what pmx built.
     # `-missing` would "fix" this by building an INCOMPLETE topology — the wrong kind of green.
+    # `-merge all` IS LOAD-BEARING FOR ANY MULTI-CHAIN LEG.
+    # With more than one chain, pdb2gmx splits the topology into per-chain topol_Protein_chain_X.itp
+    # files and leaves topol.top as little more than #includes. pmx's gen_hybrid_top then converts
+    # the top-level file — which no longer contains the molecule definitions — so the hybrid
+    # residue's B-state parameters never reach the chain that was actually mutated. grompp then
+    # rejects the result with a wall of "No default Angle types" / "No default Per. Imp. Dih. types"
+    # against topol_Protein_chain_D.itp: 19 of them on the complex leg.
+    #
+    # This is precisely why the apo leg has worked from the start and the complex leg never could —
+    # single-chain systems get everything inline, so gentop sees the real topology. Merging into one
+    # [moleculetype] keeps it inline for the complex too. The chains are not covalently joined and
+    # nothing about the physics changes; only the topology's file layout does.
     run([GMX, "pdb2gmx", "-f", "mutant.pdb", "-o", "conf.pdb", "-p", "topol.top",
-         "-ff", ff_name, "-water", WATER_MODEL], cwd=work_dir)
+         "-ff", ff_name, "-water", WATER_MODEL, "-merge", "all"], cwd=work_dir)
+    _split_topology_guard(work_dir)
 
     # gentop promotes the plain topology to an A->B alchemical one.
     from pmx.alchemy import gen_hybrid_top
@@ -348,6 +400,134 @@ def build_system(structure_path, mutation_spec, work_dir):
     n_atoms = _count_atoms(os.path.join(work_dir, "npt.gro"))
     _log(f"system built and equilibrated: {n_atoms} atoms (force field {ff_name})")
     return os.path.join(work_dir, "npt.gro"), hybrid_top, n_atoms, ff_name
+
+
+def chain_residue_lists(pdb_path):
+    """{chain_id: [(resid, resname), ...]} in file order. Pure.
+
+    Deliberately plain text parsing: this has to work on both the author-numbered RCSB structure and
+    whatever pdb2gmx emits, without either a structure library's opinions or ours.
+    """
+    chains, seen = {}, set()
+    with open(pdb_path) as fh:
+        for line in fh:
+            if line[:6] not in ("ATOM  ", "HETATM"):
+                continue
+            chain = line[21]
+            key = (chain, line[22:27])
+            if key in seen:
+                continue
+            seen.add(key)
+            try:
+                resid = int(line[22:26])
+            except ValueError:
+                continue
+            chains.setdefault(chain, []).append((resid, line[17:20].strip().upper()))
+    return chains
+
+
+def model_residue_lists(model):
+    """{chain_id: [(resid, resname), ...]} as PMX ITSELF sees the structure. Pure (given the model).
+
+    THIS is the representation the mutation is addressed against, so it is the one resolution must
+    use. Resolving against the FILE was the bug: prepped.pdb plainly contained `D:29`, the text-based
+    resolver duly returned ("D", 29), and pmx then raised `resid 29 not found in chain "D"` — because
+    pmx's Model does not necessarily expose the file's chain letters. Two different representations
+    of the same structure, and the mutation was aimed using the wrong one.
+
+    pmx's chain id attribute has moved across versions, so it is read defensively; a chain whose id
+    cannot be determined is keyed by its index, which still lets sequence matching find it.
+    """
+    out = {}
+    for idx, chain in enumerate(getattr(model, "chains", []) or []):
+        cid = getattr(chain, "id", None)
+        if cid is None:
+            cid = getattr(chain, "chain_id", None)
+        if cid is None:
+            cid = str(idx)
+        residues = []
+        for res in getattr(chain, "residues", []) or []:
+            rid = getattr(res, "id", None)
+            if rid is None:
+                rid = getattr(res, "resnr", None)
+            rname = (getattr(res, "resname", None) or getattr(res, "name", "") or "").strip().upper()
+            if rid is not None and rname:
+                residues.append((int(rid), rname))
+        out[cid] = residues
+    return out
+
+
+def _match_target_chain(orig_chains, candidate_chains, mutation):
+    """Shared resolution logic: find the candidate chain matching the staged target. Pure.
+
+    Returns (chain_id, resid). Raises with a diagnostic naming what was actually present, because
+    "not found" without the alternatives costs a round trip to answer "well, what IS there?".
+    """
+    m = mutation
+    if m["chain"] not in orig_chains:
+        raise RuntimeError(f"chain {m['chain']} absent from the staged structure "
+                           f"(present: {sorted(orig_chains)})")
+    target = orig_chains[m["chain"]]
+    names = [rn for _rid, rn in target]
+    index = next((i for i, (rid, _rn) in enumerate(target) if rid == m["resid"]), None)
+    if index is None:
+        raise RuntimeError(f"residue {m['resid']} absent from staged chain {m['chain']}")
+
+    def _similarity(other):
+        n = min(len(names), len(other))
+        if n == 0:
+            return 0.0
+        return sum(1 for a, b in zip(names[:n], other[:n]) if a == b) / max(len(names), len(other))
+
+    scored = sorted(((_similarity([rn for _r, rn in res]), cid)
+                     for cid, res in candidate_chains.items()), reverse=True)
+    if not scored:
+        raise RuntimeError("the prepared structure exposes no chains at all")
+    best_score, best_chain = scored[0]
+    present = {c: len(r) for c, r in candidate_chains.items()}
+    if best_score < 0.9:
+        raise RuntimeError(f"could not identify the target chain: best match {best_chain!r} at "
+                           f"{best_score:.0%}. Chains present: {present}. Refusing to guess.")
+    if len(scored) > 1 and scored[1][0] > best_score - 0.05:
+        raise RuntimeError(f"target chain is AMBIGUOUS: {best_chain!r} at {best_score:.0%} vs "
+                           f"{scored[1][1]!r} at {scored[1][0]:.0%}. Refusing to pick.")
+    resolved = candidate_chains[best_chain]
+    if index >= len(resolved):
+        raise RuntimeError(f"chain {best_chain!r} ({len(resolved)} residues) is shorter than the "
+                           f"target position {index}")
+    resid, resname = resolved[index]
+    if resname != m["wt"]:
+        raise RuntimeError(f"resolved {best_chain}:{resid} is {resname}, not the expected {m['wt']}")
+    return best_chain, resid
+
+
+def resolve_target_in_model(model, original_pdb, mutation):
+    """Resolve the mutation target against PMX'S OWN view of the structure. Returns (chain, resid).
+
+    Logs pmx's chain inventory unconditionally: when this goes wrong the useful question is always
+    "what does pmx think is in there?", and on a rented host that answer costs another leg.
+    """
+    orig = chain_residue_lists(original_pdb)
+    pmx_chains = model_residue_lists(model)
+    _log("pmx Model inventory: " + ", ".join(
+        f"{cid!r}:{len(res)}res[{res[0][0]}..{res[-1][0]}]" if res else f"{cid!r}:empty"
+        for cid, res in sorted(pmx_chains.items(), key=lambda kv: str(kv[0]))))
+    chain, resid = _match_target_chain(orig, pmx_chains, mutation)
+    if (chain, resid) != (mutation["chain"], mutation["resid"]):
+        _log(f"target resolved against pmx's Model: {mutation['chain']}:{mutation['resid']} "
+             f"-> {chain}:{resid}")
+    return chain, resid
+
+
+def resolve_target_after_prep(prepped_pdb, original_pdb, mutation):
+    """File-based resolution. Retained for tests and for diagnostics that only have the PDB.
+
+    NOTE: build_system does NOT use this — it resolves against pmx's Model, because that is the
+    representation the mutation is addressed to and the two can disagree (they did). Both share
+    `_match_target_chain`, so there is one matching rule rather than two that can drift.
+    """
+    return _match_target_chain(chain_residue_lists(original_pdb),
+                               chain_residue_lists(prepped_pdb), mutation)
 
 
 def discover_forcefields():
@@ -579,6 +759,26 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, work_dir=None, n_sta
         with open(result_path, "w") as fh:
             json.dump(record, fh, indent=2)
 
+    # GPU-HOURS MUST ACCUMULATE ACROSS RESUMES.
+    # A preempted leg reports only its FINAL segment otherwise, and protfep_reduce prices the rung
+    # from exactly this field. The apo pilot leg was preempted at 14/16 windows and finished in 0.073
+    # GPU-h; the reducer duly published usd_per_benchmark_leg=0.015 and a ~$0.59 wedge projection,
+    # roughly 20x low, because the ~1.3 GPU-h before the preemption had vanished with the host. A
+    # cost basis that silently omits preempted work is worse than no cost basis.
+    prior_gpu_h = 0.0
+    if os.path.exists(result_path):
+        try:
+            with open(result_path) as fh:
+                prior = json.load(fh)
+            prior_gpu_h = float(prior.get("gpu_hours_cumulative")
+                                or prior.get("gpu_hours")
+                                or prior.get("gpu_hours_so_far") or 0.0)
+            if prior_gpu_h:
+                _log(f"carrying {prior_gpu_h:.3f} GPU-h forward from a previous attempt")
+        except Exception as e:  # noqa: BLE001 — a corrupt prior record must not block the rerun
+            _log(f"could not read prior GPU-hours ({type(e).__name__}: {e}); counting this run only")
+    record["gpu_hours_prior_attempts"] = round(prior_gpu_h, 3)
+
     _commit()
     t0 = time.time()
     try:
@@ -599,10 +799,14 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, work_dir=None, n_sta
         run_windows(work_dir, npt_gro, n_states, on_window=_on_window)
         _commit(status="analyzing")
         dg, err, diagnostics = analyse(work_dir, n_states)
-        gpu_h = round((time.time() - t0) / 3600.0, 3)
+        this_run_h = (time.time() - t0) / 3600.0
+        gpu_h = round(prior_gpu_h + this_run_h, 3)
         _commit(status="done", dg_kcal=dg, dg_mbar_se_kcal=err, analysis=diagnostics,
-                gpu_hours=gpu_h,
-                s_per_iter=round((time.time() - t0) / max(1, n_states), 1))
+                gpu_hours=gpu_h, gpu_hours_cumulative=gpu_h,
+                gpu_hours_this_run=round(this_run_h, 3),
+                # s_per_iter is per WINDOW and only meaningful for windows this run actually ran;
+                # across a resume it would otherwise average in windows that were merely restored.
+                s_per_iter=round(this_run_h * 3600.0 / max(1, n_states), 1))
         _log(f"LEG DONE {leg_id}: dG = {dg:.3f} +/- {err:.3f} kcal/mol ({gpu_h:.2f} GPU-h)")
     except Exception as e:  # noqa: BLE001 — the partial record IS the deliverable on failure
         salvage = {}
@@ -615,7 +819,7 @@ def run_leg(leg_id, structure_path, mutation_spec, out_dir, work_dir=None, n_sta
             salvage = {"dg_partial_error": f"{type(e2).__name__}: {e2}"}
         _commit(status="failed", error=f"{type(e).__name__}: {e}",
                 traceback=traceback.format_exc()[-4000:],
-                gpu_hours=round((time.time() - t0) / 3600.0, 3), **salvage)
+                gpu_hours=round(prior_gpu_h + (time.time() - t0) / 3600.0, 3), **salvage)
         _log(f"LEG FAILED {leg_id}: {type(e).__name__}: {e}")
         raise
     finally:

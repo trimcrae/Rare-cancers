@@ -1,6 +1,9 @@
 # 5a-KS wedge engine — the pmx + GROMACS route (decided 2026-07-24)
 
-**Status: route confirmed available, driver not yet written.** This note exists so the build does not
+**Status: PIPELINE PROVEN END-TO-END ON A GPU (2026-07-24, ~$0.10 total).** The smoke leg reached
+`status: done` on a Vast 4090 — stage -> pdb2gmx -> pmx mutate -> gentop -> solvate/ions -> minimise
+-> NVT -> NPT -> lambda windows -> `gmx bar` -> leg JSON -> S3 -> self-destroy -> reap. The pilot
+(the abort gate) is the next rung. The reducer correctly refused to score the smoke leg. This note exists so the build does not
 have to re-derive what four free-CI probes already established.
 
 ## Why the engine changed
@@ -77,3 +80,26 @@ benchmarks use and is generally cheaper. Equilibrium λ-window FEP is easier to 
 Start equilibrium; if convergence is poor or the cost is unattractive, the non-equilibrium path is the
 documented fallback and pmx has the estimators for both (`pmx.estimators`). Record whichever is used
 in the leg JSON — the two are not interchangeable when quoting a number.
+
+
+## What the ladder actually cost to get working (2026-07-24)
+
+Seven distinct failures, six of them caught on FREE CI. This is the build-test earning its place:
+only the alchemical sampling needs a GPU, so the entire CPU half — staging, pdb2gmx, pmx mutate,
+gentop, solvation, minimise/NVT/NPT — is provable for $0 before a host is rented.
+
+| # | Where | Failure | Root cause | Cost |
+|---|---|---|---|---|
+| 1 | bake | `No module named 'pmx'` | `RUN pip install ... \|\| true` — the tolerant exit applied to the whole chain, so a FAILED install made a SUCCESSFUL layer | $0 |
+| 2 | bake | Dockerfile parse error | multi-line `python -c` payload; Dockerfile has no continued quoted strings | $0 |
+| 3 | build-test | `forcefield path ... not found` | pmx's data layout differs by release; the GMXLIB guess was conditional and only warned | $0 |
+| 4 | build-test | `IndexError` in `pmx.molecule.__getitem__` | pmx copies coordinates onto the hybrid residue BY ATOM NAME; `pmx mutate` ran before `pdb2gmx`, so naming was not the force field's | $0 |
+| 5 | build-test | `12 missing atoms ... Y2A 29` | `-ignh` on pass 2 stripped the hybrid's vanishing hydrogens that pmx had just placed | $0 |
+| 6 | GPU smoke | grompp rejects the mdp | vdW softcore with a nonzero coul-lambda needs `sc-coul`; the ligand decharge-then-decouple answer does not transfer to a residue mutation | $0.02 |
+| 7 | (earlier) | leg looped, billing | smoke's label and LEG_ID diverged, so the reap never matched it | ~$0.05 |
+
+Two lessons worth keeping. **A tolerant exit on a load-bearing step is worse than no check at all** —
+failure #1 sailed on to fail three layers later with a misleading error, and
+`tests/test_dockerfile_hygiene.py` now enforces the class. And **`-missing` would have "fixed" #5 by
+building an INCOMPLETE topology** — a green run on bad physics, which is the failure mode this whole
+ladder exists to avoid.
