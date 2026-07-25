@@ -253,6 +253,14 @@ bid $0.136/hr · billed $0.1527/hr. All times ET.
 | 2:08 PM | warmup 24/48 committed | S3 census |
 | 2:11 PM | **warmup 48/48, production started at 4 fs** | `committed=warmup/48`, then `Iteration 3/40` |
 | 2:14 PM | production 19/40 of the first chunk, steady | ~7.7 s/iter |
+| 2:19 PM | **production 40 committed at 4 fs** — equals the ENTIRE prior 4 fs evidence base, on a freshly built system | `instance=45827166 machine=12697 up=running committed=production/40` |
+
+**Attribution.** Every reading above is keyed to the instance actually rented, not inferred from a poller: the
+Vast query filters on the `tvast-` label, the S3 reads live under the `ternary-vast/` prefix, and the commit
+prefix carries the unit id including `dt4.0fs`, which no other lane writes. The instance and machine id are
+now printed on every progress line so this is evidence rather than an argument — the shared scratchpad turned
+out to be shared across all five lanes, and a poller script there was overwritten between lanes, so "my poll
+said it was advancing" is not on its own a statement about *this* box.
 
 **Two distinct NaN risk points are now passed:** warmup iteration 1 at the softcore λ-states, and the
 warmup→production hand-off where the sampler moves to the full 4 fs timestep.
