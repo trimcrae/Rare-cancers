@@ -311,6 +311,51 @@ def collect(targets):
     return 0
 
 
+TASK_FILE = os.path.join(HERE, "nr4a-paralogue-md-task.json")
+
+
+def set_task(new_task, note, **fields):
+    """Chain the lane's next stage by committing the task file — which IS this workflow's push trigger.
+
+    WHY THE LANE CHAINS ITSELF. The legs take ~12.5 h and a GitHub job is capped at 6, so a single watch
+    cannot cover the run; and the collect + analyse that turn the ensembles into the verdict would otherwise
+    wait for a human. Since the workflow fires on a change to this file, the watch can hand off to the next
+    stage the same way a person would, and the whole chain — watch → watch → collect → analyse — completes
+    with nobody awake. Every hand-off is an ordinary commit, so the sequence stays git-auditable.
+
+    Best-effort: a failed hand-off is reported and never aborts the run in progress."""
+    tok = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    branch = os.environ.get("GIT_BRANCH") or os.environ.get("GITHUB_REF_NAME")
+    repo = os.environ.get("GITHUB_REPOSITORY", "trimcrae/Rare-cancers")
+    if not tok or not branch or not os.path.exists(TASK_FILE):
+        print(f"[chain] cannot hand off (token={bool(tok)} branch={branch}) — re-fire task={new_task} by hand")
+        return False
+    try:
+        d = json.load(open(TASK_FILE))
+        d["task"] = new_task
+        d["note"] = note
+        d.update(fields)
+        with open(TASK_FILE, "w") as fh:
+            json.dump(d, fh, indent=2)
+            fh.write("\n")
+        url = f"https://x-access-token:{tok}@github.com/{repo}"
+        for cmd in (["git", "config", "user.name", "Claude"],
+                    ["git", "config", "user.email", "noreply@anthropic.com"],
+                    ["git", "add", os.path.relpath(TASK_FILE, REPO)],
+                    ["git", "commit", "-q", "-m", f"lane13 [auto]: hand off to task={new_task}"],
+                    ["git", "pull", "--rebase", "-q", url, branch],
+                    ["git", "push", "-q", url, f"HEAD:{branch}"]):
+            r = subprocess.run(cmd, cwd=REPO, capture_output=True)
+            if r.returncode and cmd[1] != "commit":
+                print(f"[chain] {' '.join(cmd[:2])} failed: {r.stderr.decode()[:200]}")
+                return False
+        print(f"::notice title=LANE13 HAND-OFF::task={new_task}")
+        return True
+    except Exception as e:  # noqa: BLE001
+        print(f"[chain] hand-off failed: {e}")
+        return False
+
+
 def relaunch_dead(targets, insts, budget, excluded):
     """Re-rent any real leg that has NO deliverable and NO live instance.
 
@@ -463,8 +508,10 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
             else:
                 frozen[name] = 0
         prev = sig
-        if all(v[-1] for v in sig.values()):
+        real_done = all(v[-1] for n, v in sig.items() if not n.endswith("-smoke"))
+        if real_done:
             print("::notice title=LANE13 ALL LEGS DONE::every deliverable is in S3")
+            set_task("collect", "all matched paralogue ensembles are in S3 — collecting, then analysing")
             return 0
         stalled = [n for n, c in frozen.items() if c >= stall_ticks]
         if stalled:
@@ -472,7 +519,12 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
                   f"({stall_ticks * interval_s / 60:.0f} min) — diagnose, do not relaunch blindly")
             return 2
         time.sleep(interval_s)
-    print("::warning title=LANE13 WATCH WINDOW ENDED::re-fire task=watch to keep monitoring")
+    # A GitHub job is capped at 6 h and the legs need ~12.5 h, so the watch re-arms itself rather than
+    # leaving the run unmonitored for the rest of the night.
+    rounds = int(os.environ.get("PDYN_WATCH_ROUND", "0")) + 1
+    print(f"::warning title=LANE13 WATCH WINDOW ENDED::re-arming watch round {rounds}")
+    set_task("watch", f"watch round {rounds} — the GitHub job cap is 6 h and the legs need ~12.5 h",
+             watch_round=rounds)
     return 0
 
 

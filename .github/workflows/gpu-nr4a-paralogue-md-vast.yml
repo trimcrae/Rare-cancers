@@ -158,6 +158,9 @@ jobs:
       VAST_IMAGE: ${{ github.event.inputs.vast_image }}
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       PDYN_EXCLUDE: ${{ needs.plan.outputs.exclude_machines }}
+      # the watch and collect hand the lane off to the next stage by committing the task file, which is this
+      # workflow's own push trigger — that is what lets watch -> watch -> collect -> analyse finish unattended
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -198,10 +201,10 @@ jobs:
       PDYN_RELEASE_NS: ${{ needs.plan.outputs.release_ns }}
       PDYN_N_REP: ${{ needs.plan.outputs.n_rep }}
       PDYN_EXCLUDE: ${{ needs.plan.outputs.exclude_machines }}
-      BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
-      # the watch task force-pushes its board to a one-commit cache branch each tick, because the job-logs
-      # API 404s for an in-progress job and a long watch would otherwise be unreadable while it matters
+      # the watch and collect hand the lane off to the next stage by committing the task file, which is this
+      # workflow's own push trigger — that is what lets watch -> watch -> collect -> analyse finish unattended
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -235,13 +238,27 @@ jobs:
         if: ${{ needs.plan.outputs.task == 'collect' }}
         run: python research/modalities/nr4a_paralogue_md_ops.py collect --targets "$TARGETS"
 
+      - name: Hand off to the analysis
+        # collect commits the ensembles below; this queues the analysis that turns them into the verdict, so
+        # the chain watch -> collect -> analyse completes with nobody awake.
+        if: ${{ needs.plan.outputs.task == 'collect' }}
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import nr4a_paralogue_md_ops as O
+          O.set_task("analyse", "matched paralogue ensembles collected — running the categorical verdict")
+          PY
+
       - name: Run the categorical-dynamics analysis
         if: ${{ needs.plan.outputs.task == 'analyse' }}
         run: |
           set -eo pipefail
           python research/modalities/nr4a_paralogue_dynamics.py --mode all --validate-coverage \
-            --samples 500000 \
+            --samples "${PDYN_SAMPLES:-500000}" \
             --out research/modalities/nr4a-paralogue-dynamics.json 2>&1 | tail -120
+          echo "===================== REPORT ====================="
+          python research/modalities/nr4a_paralogue_report.py
 
       - name: Commit whatever landed
         if: ${{ needs.plan.outputs.task == 'collect' || needs.plan.outputs.task == 'analyse' }}
