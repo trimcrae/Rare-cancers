@@ -2,10 +2,16 @@
 """
 Vast interruptible bidding as an OPTIMIZATION problem: least $ per COMPLETED unit, subject to a wall-clock cap.
 
-THE PROBLEM WITH THE CURRENT POLICY. `gpu_backend._vast_bid_price` bids `min_bid x 1.9` — one global multiple of
-the market floor, for every job, on every host. That is a reasonable heuristic and it fixed a real churn problem
-(the NR-V04 covalent tail), but as a *policy* it has four defects, three of which cost money on every launch and
-none of which need new data to fix:
+⚠ STATUS (2026-07-25): THIS MODULE IS ADVISORY AND IS NOT ON THE LAUNCH PATH. The live policy lives in
+`vast_cost_model.py` and is imported by `gpu_backend`; see `research/compute/bid-strategy.md`. What survives
+here that the cost model does not have: a hazard/quantile treatment and a synthetic backtest, useful if a
+preemption ledger is ever collected. Read the rest of this docstring as the ANALYSIS THAT LED TO THE REWRITE,
+not as a description of what runs.
+
+THE PROBLEM WITH THE POLICY THIS ANALYSED. `gpu_backend._vast_bid_price` then bid `min_bid x 1.9` — one global
+multiple of the market floor, for every job, on every host. That was a reasonable heuristic and it fixed a real
+churn problem (the NR-V04 covalent tail), but as a *policy* it had four defects, three of which cost money on
+every launch and none of which needed new data to fix:
 
   1. THE ON-DEMAND CAP IS DOCUMENTED BUT NOT ENFORCED. The docstring says "never above on-demand"; the code is
      `ref * 1.9` with no cap. Where `min_bid` is a large fraction of `dph_base`, x1.9 bids ABOVE on-demand — you

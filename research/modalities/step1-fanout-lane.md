@@ -155,8 +155,8 @@ only become meaningful on a build that leaves ligand X-H flexible.
 ## 6. Bid logic — how $0.37/hr passed a $0.30 estimate
 
 ```python
-_VAST_BID_FLOOR_MULT = 1.9
-bid = min_bid × 1.9          # and on Vast you PAY YOUR BID
+_VAST_BID_FLOOR_MULT = 1.9   # ⚠ HISTORICAL — retired 2026-07-25, see research/compute/bid-strategy.md
+bid = min_bid × 1.9          # and on Vast you PAY YOUR BID (confirmed by measurement, up to an on-demand cap)
 ```
 
 `min_bid` is the market clearing floor, so we bid **90% above market by policy**. Working back from the

@@ -227,6 +227,10 @@ Also unfixed, and worth naming:
 - **One market snapshot.** The 21-day external series shows the 4090 floor is **flat** (18/21 days at its
   trough, peak/trough 1.25×) but the 3090 floor swings **1.71×** with only 4/21 days at trough — so the cheap
   3090 tail is *less* dependable than the 4090 floor. Plan with the best-10 mean, not the best offer.
+- **A continuity requirement is a constraint, not a cost.** Ranking on `$/ns` alone hands a leg that must run
+  through to the cheapest and therefore slowest card. `JobProfile.min_uninterrupted_h` (in reference-card
+  hours) plus `min_clean_run_prob` **excludes** hosts that cannot plausibly meet it; both default to off,
+  because most legs checkpoint and genuinely do not care.
 - **Host throughput variance is real** (the covalent panel spanned 19–116 ns/day on nominally equal cards). The
   table is per *card*, not per *host*. `verify_and_abandon_threshold` is the response: benchmark briefly on
   arrival and drop a host whose realised `$/ns` is worse than the next candidate — cheap, because substitutes

@@ -208,6 +208,25 @@ class TestSelection(unittest.TestCase):
         self.assertEqual(fast.notes, [])                       # 2 h on a 4090: P(clean) = 0.55, no flag
         self.assertTrue(any("uninterrupted" in n for n in slow.notes))   # 4.2 h on a 3090: P(clean) = 0.28
 
+    def test_continuity_constraint_excludes_hosts_that_cannot_meet_it(self):
+        # The hole this closes: ranking on $/ns alone hands a leg that must run through to the CHEAPEST and
+        # therefore usually SLOWEST card. A 3090 needs 2.10x the wall clock, so it is 2.10x more exposed.
+        cheap_slow = offer(gpu="RTX 3090", min_bid=0.0147, oid="cheap3090")
+        dear_fast = offer(gpu="RTX 4090", min_bid=0.1310, oid="fast4090")
+
+        # unconstrained: the cheap 3090 wins on $/ns, as it should
+        assert vcm.rank_offers([cheap_slow, dear_fast], vcm.JobProfile())[0].offer_id == "cheap3090"
+
+        # a leg needing 3 reference-hours uninterrupted: the 3090 needs 6.3 h and is excluded
+        job = vcm.JobProfile(min_uninterrupted_h=3.0, hazard_per_h=0.2, min_clean_run_prob=0.5)
+        ranked = vcm.rank_offers([cheap_slow, dear_fast], job)
+        assert [r.offer_id for r in ranked] == ["fast4090"]
+
+    def test_continuity_constraint_is_off_by_default(self):
+        # Most legs checkpoint and genuinely do not care; the constraint must not fire unasked.
+        job = vcm.JobProfile(min_uninterrupted_h=8.0, hazard_per_h=1.0)
+        assert len(vcm.rank_offers([offer(gpu="RTX 3090", min_bid=0.02)], job)) == 1
+
     def test_reference_gpu_hour_conversion_is_self_consistent(self):
         # $/ns x (reference ns per hour) must reproduce the $/hr we would pay on a reference-card host.
         s = vcm.score_offer(offer(gpu="RTX 4090", min_bid=0.13, storage=0.0), vcm.JobProfile(

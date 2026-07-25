@@ -337,14 +337,17 @@ def mode_launch():
             print(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}", flush=True)
             continue
         # Print the FLOOR, the BID and the premium separately. The fan-out's cost estimate was built from a
-        # single instance's realized $/hr with no visibility into how much of that was our own bid multiplier
-        # (1.9x the market floor — a 90% premium, paid because on Vast you pay your bid). Making the premium
-        # visible at submit time is what stops the next estimate inheriting it silently.
+        # single instance's realized $/hr with no visibility into how much of that was our own bid premium.
+        # Making it visible at submit time is what stops the next estimate inheriting it silently — this is the
+        # lane whose realized $0.35-0.39/hr was later mistaken for "the 4090 market" when it was really
+        # x1.5 on a min_bid-ranked offer. Report the premium we ACTUALLY bid rather than a hardcoded multiple:
+        # under the derived policy (floor + a staleness tick) it should now be a fraction of a cent.
         _dph = h.extra.get("dph")
         _floor = h.extra.get("min_bid")
-        _prem = (f" (floor ${_floor}/hr x{os.environ.get('VAST_BID_FLOOR_MULT', '1.9')} "
-                 f"= +${round(float(_dph) - float(_floor), 3)}/hr premium)"
-                 if _dph and _floor else "")
+        _bid = h.extra.get("bid")
+        _prem = (f" (floor ${_floor}/hr -> bid ${_bid}/hr"
+                 f"{f', +${round(float(_bid) - float(_floor), 4)}/hr premium' if _bid else ''})"
+                 if _floor else "")
         print(f"[s1f] submitted {spec.name} -> instance {h.job_id} dph≈${_dph}/hr{_prem}", flush=True)
         handles.append({"unit_id": u["unit_id"], "label": spec.name, "instance": h.job_id,
                         "dph": h.extra.get("dph")})

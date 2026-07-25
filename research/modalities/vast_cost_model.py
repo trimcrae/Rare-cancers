@@ -277,6 +277,11 @@ class JobProfile:
     # uninterrupted wall-clock for the same leg, so a continuity requirement penalises slow cards and the
     # cheap-3090 tail is NOT automatically the answer for a leg that must run through.
     min_uninterrupted_h: float = 0.0
+    # If set (0..1), an offer whose P(clean run of min_uninterrupted_h) falls below this is EXCLUDED, not just
+    # noted. Without it, ranking on $/ns alone hands a continuity-sensitive leg to the cheapest — and therefore
+    # usually slowest — card, which is exactly backwards: a 3090 needs 2.10x the wall clock, so it is 2.10x
+    # more exposed. Default 0 = no constraint, because most legs checkpoint and genuinely do not care.
+    min_clean_run_prob: float = 0.0
     hazard_per_h: float = DEFAULT_HAZARD_PER_H
     downtime_h: float = DEFAULT_DOWNTIME_H
     min_vram_gb: float = 24.0
@@ -302,6 +307,7 @@ class OfferScore:
     usd_per_reference_gpu_h: float
     ondemand_base: float = None
     breakeven_hazard: float = None
+    clean_run_prob: float = None
     notes: list = field(default_factory=list)
 
 
@@ -337,26 +343,29 @@ def score_offer(offer, job: JobProfile, ondemand_base=None, billed_usd_h=None):
     if upn is None:
         return None
     notes = []
+    clean_p = None
+    if job.min_uninterrupted_h > 0 and job.hazard_per_h > 0:
+        clean_p = math.exp(-job.hazard_per_h * job.min_uninterrupted_h * (REFERENCE_NS_PER_H / nsph))
     if ondemand_base:
         be = breakeven_hazard_vs_ondemand(bid, ondemand_base, s, job.restart_h, job.downtime_h)
         if be == 0.0:
             notes.append("on-demand is cheaper here even with zero preemptions — buy on-demand")
     else:
         be = None
-    if job.min_uninterrupted_h > 0 and job.hazard_per_h > 0:
+    if clean_p is not None:
         # The requirement is stated in reference-card hours; on THIS card the same leg occupies
         # t = t_ref * (theta_ref / theta), so a slow card needs a proportionally longer clean window.
         t = job.min_uninterrupted_h * (REFERENCE_NS_PER_H / nsph)
-        p = math.exp(-job.hazard_per_h * t)     # P(no preemption in t) under a Poisson hazard
-        if p < 0.5:
+        if clean_p < max(0.5, job.min_clean_run_prob):
             notes.append(f"leg needs {t:.1f} h uninterrupted on this card ({job.min_uninterrupted_h:.1f} h on "
-                         f"the reference card); P(clean run) ~ {p:.2f} — consider on-demand for this leg")
+                         f"the reference card); P(clean run) ~ {clean_p:.2f} — consider on-demand for this leg")
     return OfferScore(
         offer_id=offer.get("id"), machine_id=offer.get("machine_id"),
         gpu_name=offer.get("gpu_name"), card=card_of(offer.get("gpu_name")),
         min_bid=round(floor, 5), bid=bid, storage_usd_h=round(s, 5), ns_per_h=round(nsph, 3),
         usd_per_ns=round(upn, 6), usd_per_reference_gpu_h=round(upn * REFERENCE_NS_PER_H, 5),
-        ondemand_base=ondemand_base, breakeven_hazard=(None if be is None else round(be, 3)), notes=notes)
+        ondemand_base=ondemand_base, breakeven_hazard=(None if be is None else round(be, 3)), notes=notes,
+        clean_run_prob=(None if clean_p is None else round(clean_p, 4)))
 
 
 def passes_filters(offer, job: JobProfile):
@@ -387,8 +396,14 @@ def rank_offers(offers, job: JobProfile, ondemand_by_machine=None):
         if not passes_filters(o, job):
             continue
         s = score_offer(o, job, od.get(str(o.get("machine_id"))))
-        if s is not None:
-            out.append(s)
+        if s is None:
+            continue
+        # A continuity constraint is a CONSTRAINT, not a cost: ranking on $/ns alone would hand a leg that must
+        # run through to the cheapest and therefore slowest card. Excluded here rather than merely noted.
+        if job.min_clean_run_prob > 0 and s.clean_run_prob is not None \
+                and s.clean_run_prob < job.min_clean_run_prob:
+            continue
+        out.append(s)
     out.sort(key=lambda r: (r.usd_per_ns, r.min_bid))
     return out
 
