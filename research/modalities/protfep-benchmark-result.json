@@ -1,21 +1,21 @@
 {
   "source": "s3://sagemaker-us-east-2-646605541856/protfep-benchmark",
-  "n_leg_docs": 11,
+  "n_leg_docs": 12,
   "n_smoke_legs_excluded": 1,
   "per_benchmark": {
     "barnase_barstar_Y29A": {
-      "ddg_bind_kcal": 3.950764818355637,
-      "ddg_sd_kcal": 1.1541997542159463,
+      "ddg_bind_kcal": 4.02525493945188,
+      "ddg_sd_kcal": 1.099506484875597,
       "n_complex": 2,
-      "n_apo": 2,
+      "n_apo": 3,
       "dg_complex_kcal": 26.831978967495218,
       "dg_complex_sd": 1.0258456409661432,
-      "dg_apo_kcal": 22.88121414913958,
-      "dg_apo_sd": 0.528978065275786,
+      "dg_apo_kcal": 22.806724028043337,
+      "dg_apo_sd": 0.39567060946481036,
       "single_replicate": false,
       "error_model": "between-replicate SD in quadrature",
       "mbar_se_range_kcal": [
-        0.11233269598470362,
+        0.08126195028680688,
         0.2605162523900574
       ]
     },
@@ -29,9 +29,9 @@
       "ref_ddg_bind_kcal": 3.4,
       "ref_source": "SKEMPI 2.0 record for 1BRS_A_D YD29A (Kd_mut 3.5E-12 M / Kd_wt 1E-14 M at 298 K -> 3.47 kcal/mol), cited to PMID 7739054 = Schreiber & Fersht, J Mol Biol 248:478-486 (1995), 'Energetics of protein-protein interactions: analysis of the barnase-barstar interface by single mutations and double mutant cycles'",
       "ref_verified": true,
-      "calc_ddg_bind_kcal": 3.950764818355637,
-      "calc_sd_kcal": 1.1541997542159463,
-      "abs_err_kcal": 0.5507648183556371,
+      "calc_ddg_bind_kcal": 4.02525493945188,
+      "calc_sd_kcal": 1.099506484875597,
+      "abs_err_kcal": 0.6252549394518803,
       "tolerance_kcal": 1.5,
       "within_tolerance": true
     }
@@ -50,25 +50,25 @@
   },
   "price": {
     "priced": true,
-    "n_legs_measured": 5,
+    "n_legs_measured": 6,
     "gpu_hours_per_leg": {
-      "mean": 1.337,
-      "sd": 0.364,
-      "min": 0.961,
+      "mean": 1.177,
+      "sd": 0.509,
+      "min": 0.379,
       "max": 1.8
     },
-    "s_per_iteration": 277.76,
+    "s_per_iteration": 242.08,
     "assumed_hourly_usd": 0.2,
-    "usd_per_benchmark_leg": 0.267,
-    "mean_particles": 30694,
+    "usd_per_benchmark_leg": 0.235,
+    "mean_particles": 27810,
     "legs_excluded_as_pre_fix": [
       "barnase_barstar_Y29A__apo_r0"
     ],
-    "projected_wedge_usd_2rep": 3.16,
-    "projected_wedge_gpu_h_2rep": 15.8,
-    "projected_wedge_usd_3rep": 4.74,
-    "projected_wedge_gpu_h_3rep": 23.7,
-    "projection_basis": "linear particle-count scaling from the benchmark's 30694 particles to 146284 (NR4A ternary leg) and ~35000 (binary leg). Linear-in-particles is the standard first-order assumption for PME MD at fixed cutoff; it is an ASSUMPTION, not a measurement, and the projected wedge cost is therefore a PROJECTION \u2014 it may not be quoted as a measured rate."
+    "projected_wedge_usd_2rep": 3.07,
+    "projected_wedge_gpu_h_2rep": 15.3,
+    "projected_wedge_usd_3rep": 4.6,
+    "projected_wedge_gpu_h_3rep": 23.0,
+    "projection_basis": "linear particle-count scaling from the benchmark's 27810 particles to 146284 (NR4A ternary leg) and ~35000 (binary leg). Linear-in-particles is the standard first-order assumption for PME MD at fixed cutoff; it is an ASSUMPTION, not a measurement, and the projected wedge cost is therefore a PROJECTION \u2014 it may not be quoted as a measured rate."
   },
   "engines": [
     "pmx (mutate+gentop) + GROMACS lambda windows + BAR"
