@@ -343,6 +343,46 @@ def test_ligand_pose_block_leaves_the_flag_unmeasured_when_the_ligand_cannot_be_
     assert "ligand NOT identified" in out["status"]
 
 
+def test_hydrogen_mass_is_measured_not_assumed_under_HMR():
+    """The real ternary leg runs hydrogen-mass repartitioning: its ligand's masses are {3:51, 6:5, 8:6, 10:18,
+    12:18, 14:8, 16:3, 32:1}. A fixed 2.5 Da 'heavy atom' cutoff calls all 51 hydrogens heavy — which is what
+    shipped, and what made the first real run report 110 heavy atoms for a 59-heavy-atom molecule."""
+    # 8 heavy atoms in a chain, each carrying one HMR'd hydrogen
+    heavy_ids = list(range(0, 16, 2))
+    edges = [(a, b) for a, b in zip(heavy_ids, heavy_ids[1:])] + [(h, h + 1) for h in heavy_ids]
+    masses = []
+    for i in range(16):
+        masses.append(9.995 if i % 2 == 0 else 3.024)      # CH carbon under HMR / HMR'd hydrogen
+    h, note = tfc.hydrogen_mass_da(list(range(16)), masses, edges)
+    assert h == pytest.approx(3.0, abs=0.05), note
+    assert "repartition" in note
+    cut = h * tfc.HEAVY_MASS_MARGIN
+    assert len([i for i in range(16) if masses[i] > cut]) == 8, "the HMR'd hydrogens must not count as heavy"
+
+
+def test_hydrogen_mass_refuses_when_the_modal_terminal_atom_is_not_the_lightest():
+    masses = [12.0, 79.9, 79.9, 79.9]                      # three terminal bromines, no hydrogens
+    h, note = tfc.hydrogen_mass_da([0, 1, 2, 3], masses, [(0, 1), (0, 2), (0, 3)])
+    assert h is None and "refusing" in note
+
+
+def test_solvent_leg_ligand_check_is_not_applicable_rather_than_failed():
+    """A free PROTAC in bulk water explores conformations — that is physics, not pose collapse. Flagging it
+    against LIG_RMSD_MAX_A returned technical_failure=True on the real r0 solvent leg, which via the reducer
+    would have handed valB_mini a hard FAIL. The check must be SKIPPED there, not failed and not left unmeasured."""
+    n, bonds, cons, masses, ligs = _build_assembly(n_chains=0, chain_size=0, n_waters=200, n_ions=4,
+                                                   ligand_size=100)
+    subset = list(ligs[0])
+    sysm = _FakeSystem(n, bonds, cons, masses)
+    base = _coords(len(subset), seed=11)
+    moved = base + np.random.default_rng(12).normal(scale=0.6, size=base.shape)   # a big conformational change
+    rep = _FakeReporter(sysm, subset, {0: [base], 10: [moved]})
+    out = tfc._ligand_pose_block(rep, 0, 10)
+    assert out.get("check_applicable") is False, out.get("status")
+    assert out["ligand_rmsd_A"] is None, "a solvent leg must not produce a value judged against a pose threshold"
+    assert out["internal_rmsd_max_A"] is not None, "the internal RMSD is still reported, as information"
+
+
 def test_ligand_pose_block_reports_a_missing_system_rather_than_a_number():
     class _NoStates:
         analysis_particle_indices = [0, 1, 2]

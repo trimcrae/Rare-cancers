@@ -424,6 +424,13 @@ def analyze_leg(nc_path, tag):
         "quarter_block_ok": rec["block_plateau"].get("quarter_block_ok"),
         "ligand_stable_ok": (None if lig is None else lig <= LIG_RMSD_MAX_A),
     }
+    # NOT APPLICABLE is a third thing, distinct from both "failed" and "never measured". The solvent leg has no
+    # receptor, so the ligand-escape check has no referent there; leaving it as None would park that leg on
+    # diagnostics_complete=False forever, and flagging it False fabricates a hard FAIL (which it did once).
+    if ((rec["structural"].get("ligand") or {}).get("check_applicable") is False):
+        flags.pop("ligand_stable_ok", None)
+        rec["ligand_check_not_applicable"] = ("solvent leg — no receptor, so ligand escape / pose collapse is "
+                                              "undefined; the check is skipped, not passed and not failed")
     rec["health_flags"] = flags
     # technical_failure = any computable flag is False (a metric we could measure and it failed its threshold)
     failed = [k for k, v in flags.items() if v is False]
@@ -470,10 +477,17 @@ def analyze_leg(nc_path, tag):
 LIG_MIN_ATOMS = 15             # smaller than any PROTAC; larger than an ion, a water, or a lone counter-ion pair
 LIG_MAX_ATOMS = 500            # ~30 residues; every protein chain in this assembly is far larger
 PROTEIN_MIN_ATOMS = 1000       # a component at least this big is treated as a protein chain (fit target)
-HEAVY_ATOM_MASS_MIN_DA = 2.5   # > deuterium: excludes H even under hydrogen-mass repartitioning (HMR ~3 Da H
-                               # would break this, so HMR is asserted OFF for the ternary lane — TIMESTEP_FS=2.0,
-                               # no HMR; if HMR is ever enabled here this constant must be revisited, and the
-                               # emitted `n_heavy` makes that visible rather than silent)
+# ⚠ NO FIXED HEAVY-ATOM MASS CUTOFF. This constant used to be 2.5 Da with a comment asserting that HMR was off
+# in the ternary lane, so anything above deuterium had to be a heavy atom. THE REAL TRAJECTORY REFUTED THAT
+# (GH run 30167976061): the identified ligand's mass histogram is {3: 51, 6: 5, 8: 6, 10: 18, 12: 18, 14: 8,
+# 16: 3, 32: 1} — 51 atoms at ~3 Da are HYDROGENS UNDER HMR (1.008 -> 3.024), and 6/8/10 are the carbons that
+# donated the mass (12.011 - n_H x 2.016 for n_H = 3/2/1). So a 2.5 Da cutoff called every hydrogen heavy and
+# the "heavy-atom RMSD" silently ran over all 110 atoms. The emitted n_heavy is what made it visible, exactly as
+# the old comment promised — but a constant that depends on an unverified simulation setting is the wrong shape.
+# The hydrogen mass is now MEASURED PER SYSTEM from the ligand's own graph (see _hydrogen_mass_da), which works
+# at any HMR factor and needs nothing asserted.
+HEAVY_MASS_MARGIN = 1.3        # heavy = mass > (measured hydrogen mass) x this. 1.3 separates an HMR'd H (3.02)
+                               # from the lightest possible heavy atom, a fully HMR'd methyl carbon (5.96).
 BOND_CUTOFF_NM = 0.19          # cross-check graph only: 1.9 Å covers C–C 1.53, C–S 1.82, S–S 2.05 marginally;
                                # shorter than any nonbonded contact between distinct molecules
 
@@ -543,6 +557,43 @@ def classify_components(components, subset_indices=None):
     info["ligand"] = list(cands[0])
     info["status"] = "ok"
     return info
+
+
+def hydrogen_mass_da(atom_indices, masses, edges):
+    """MEASURE the hydrogen mass in this system instead of assuming it.
+
+    A hydrogen is a TERMINAL atom (graph degree 1 — under constraints=HBonds its X–H bond is a constraint, which
+    `_system_edges` reads, so the degree is right) and hydrogens are by far the most common terminal species in
+    an organic molecule. So: take the modal mass among the molecule's degree-1 atoms, and require it to also be
+    the LIGHTEST mode — otherwise the molecule is something this heuristic should not be guessing about, and we
+    say so instead. This is correct at any HMR factor, including none, and needs no simulation setting asserted.
+
+    Returns (hydrogen_mass_da, note) with hydrogen_mass_da None when it cannot be determined."""
+    idx = set(atom_indices)
+    deg = {i: 0 for i in atom_indices}
+    for i, j in edges:
+        if i in idx and j in idx:
+            deg[i] += 1
+            deg[j] += 1
+    terminal = [i for i in atom_indices if deg[i] == 1]
+    if not terminal:
+        return None, "no terminal atoms in the molecular graph — cannot identify hydrogens"
+    hist = {}
+    for i in terminal:
+        hist[round(masses[i], 1)] = hist.get(round(masses[i], 1), 0) + 1
+    modal = max(hist.items(), key=lambda kv: (kv[1], -kv[0]))[0]
+    # Hydrogen is the lightest atom in the molecule under ANY repartitioning — HMR moves mass FROM heavy atoms
+    # TO hydrogens, narrowing the gap (H 3.02 vs a fully repartitioned methyl carbon 5.96) but never inverting
+    # it. So requiring the modal terminal mass to also be the molecule's minimum is assumption-free, and it is
+    # what refuses a molecule whose terminal atoms are halogens rather than hydrogens.
+    lightest = round(min(masses[i] for i in atom_indices), 1)
+    if modal != lightest:
+        return None, ("the modal terminal mass (%.1f Da) is not the molecule's lightest atom (%.1f Da) — "
+                      "refusing to call it hydrogen" % (modal, lightest))
+    return modal, ("hydrogen mass measured at %.2f Da from %d terminal atoms (%d of them at this mass); "
+                   "%s" % (modal, len(terminal), hist[modal],
+                           "consistent with hydrogen-mass repartitioning" if modal > 1.5 else
+                           "unrepartitioned hydrogens"))
 
 
 def _mass_da(m):
@@ -630,6 +681,27 @@ def _distance_edges(coords_nm, cutoff_nm=BOND_CUTOFF_NM):
     return edges
 
 
+def _frozen_heavy_cross_check(n_heavy, n_total):
+    """Compare the derived heavy-atom count against the frozen calibration record. Best-effort: an absent file
+    is reported, never treated as agreement."""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wurz-calib-frozen.json")
+    try:
+        v = json.load(open(p)).get("validation", {})
+        expect = [v.get(k) for k in ("heavy_1", "heavy_4") if v.get(k) is not None]
+    except Exception as e:  # noqa: BLE001
+        return {"status": "frozen record unreadable (%s: %s) — no cross-check" % (type(e).__name__, e)}
+    if not expect:
+        return {"status": "frozen record carries no heavy-atom count — no cross-check"}
+    ok = n_heavy in expect
+    return {"frozen_heavy_atom_counts": expect, "derived_n_heavy": n_heavy, "derived_n_atoms_total": n_total,
+            "agree": ok,
+            "verdict": ("CONSISTENT — the molecule identified in the .nc has the frozen morph's heavy-atom count"
+                        if ok else
+                        "INCONSISTENT — derived %d heavy atoms against a frozen %s. Either the wrong molecule "
+                        "was identified or the hydrogen measurement is wrong; do not trust the pose RMSD."
+                        % (n_heavy, expect))}
+
+
 def _ligand_atoms(reporter):
     """Resolve the ligand's atom indices for this leg. Returns a dict that ALWAYS records how the answer was
     obtained (or why it was not) — `ligand_atom_indices` is None unless the identification succeeded outright."""
@@ -672,10 +744,21 @@ def _ligand_atoms(reporter):
     out["ligand_atom_indices"] = lig
     if lig is None:
         return out
-    heavy = [i for i in lig if masses[i] >= HEAVY_ATOM_MASS_MIN_DA]
+    h_mass, h_note = hydrogen_mass_da(lig, masses, edges)
+    out["hydrogen_mass_da"] = h_mass
+    out["hydrogen_mass_note"] = h_note
+    cut = (h_mass * HEAVY_MASS_MARGIN) if h_mass is not None else None
+    out["heavy_atom_mass_cutoff_da"] = cut
+    heavy = [i for i in lig if cut is not None and masses[i] > cut]
     out["n_ligand_atoms"] = len(lig)
     out["n_ligand_heavy_atoms"] = len(heavy)
     out["ligand_heavy_indices"] = heavy
+    # INDEPENDENT CORROBORATION, free and decisive. wurz-calib-frozen.json records validation.heavy_1 = 59 and
+    # heavy_4 = 59 for this exact morph — a heavy-atom count established at freeze time by RDKit on the frozen
+    # SMILES, with nothing to do with this trajectory, this System, or this graph. If the count derived here
+    # matches it, the molecule identified in a 141,968-particle .nc is the Wurz compound-1/4 hybrid, and the
+    # hydrogen measurement above is right as well (an H-inclusive count would read 110, not 59).
+    out["frozen_heavy_atom_cross_check"] = _frozen_heavy_cross_check(len(heavy), len(lig))
     # Composition, emitted so a human can sanity-check that this is a PROTAC and not, say, a lipid or a mis-split
     # protein loop. Nearest-integer mass buckets; no element assignment is asserted.
     buckets = {}
@@ -683,8 +766,12 @@ def _ligand_atoms(reporter):
         buckets[int(round(masses[i]))] = buckets.get(int(round(masses[i])), 0) + 1
     out["ligand_mass_histogram_da"] = dict(sorted(buckets.items()))
     out["protein_atom_indices"] = [i for c in comps if len(c) >= PROTEIN_MIN_ATOMS for i in c]
+    # The same measured cutoff is applied to the protein: the fit target should be heavy atoms, and the protein
+    # is repartitioned by the same HMR setting as the ligand (it is one System). If the ligand's hydrogen mass
+    # could not be measured, no cutoff is applied and every protein atom is used — a fit set that is too LARGE
+    # is a conservative failure mode; silently fitting on hydrogens-called-heavy is not.
     out["protein_heavy_indices"] = [i for i in out["protein_atom_indices"]
-                                    if masses[i] >= HEAVY_ATOM_MASS_MIN_DA]
+                                    if cut is None or masses[i] > cut]
     out["protein_chain_sizes"] = [len(c) for c in comps if len(c) >= PROTEIN_MIN_ATOMS]
     out["protein_chains"] = [list(c) for c in comps if len(c) >= PROTEIN_MIN_ATOMS]
     return out
@@ -823,21 +910,30 @@ def _ligand_pose_block(reporter, iter_a, iter_b):
             pose_vals.append(pose)
         if internal is not None:
             internal_vals.append(internal)
-    # WHICH OBSERVABLE IS FLAGGED depends on the leg, and saying so is not a detail. In a complex leg the
-    # escape/collapse question is "did the ligand leave the pocket", which is the RECEPTOR-superposed pose RMSD.
-    # A SOLVENT leg has no receptor at all — the free ligand's translation and tumbling are physical, not a
-    # failure — so the only meaningful integrity measure there is the ligand's INTERNAL geometry. Flagging the
-    # pose RMSD on a solvent leg would either be undefined or would fail every healthy run.
+    # ⚠ THE SOLVENT LEG HAS NO POSE CHECK AT ALL, AND FLAGGING ANYTHING THERE MANUFACTURES A FAILURE.
+    # First cut of this function flagged the solvent leg on the ligand's INTERNAL RMSD, reasoning that with no
+    # receptor to superpose on, internal geometry was the only integrity measure left. On the real r0 solvent
+    # leg that returned ligand_stable_ok=FALSE and technical_failure=TRUE (GH run 30167976061) — and via
+    # ternary_fep_reduce._diagnostics_ok() that would have handed valB_mini a HARD FAIL. It is wrong for the
+    # same reason defect #7 was wrong: a free PROTAC in bulk water is SUPPOSED to explore conformations, so its
+    # internal RMSD exceeding a 4 Å POSE-COLLAPSE threshold is physics, not a broken run. LIG_RMSD_MAX_A was
+    # written for a ligand escaping a pocket; a leg with no pocket has nothing that check can be about.
+    # So the solvent leg's ligand check is NOT APPLICABLE — neither passed, nor failed, nor unmeasured. The
+    # internal RMSD is still reported, as information.
     solvent_leg = not prot_rows
     if not pose_vals and not (solvent_leg and internal_vals):
         out["status"] = "positions unavailable on every replica at iterations %s/%s" % (iter_a, iter_b)
         return out
-    flagged = float(max(internal_vals)) if solvent_leg else float(max(pose_vals))
+    if solvent_leg:
+        out["check_applicable"] = False
+    flagged = None if solvent_leg else float(max(pose_vals))
     out.update({
-        "status": ("ok — ligand INTERNAL heavy-atom RMSD over %d replicas (solvent leg: no receptor to superpose "
-                   "on, so a pose RMSD is not defined)" % len(internal_vals)) if solvent_leg else
+        "status": ("NOT APPLICABLE — solvent leg: no receptor, so there is no pose to collapse and no pocket to "
+                   "escape. The ligand's internal RMSD over %d replicas is reported as information and is NOT "
+                   "compared to LIG_RMSD_MAX_A (a free PROTAC exploring conformations in water is physics)."
+                   % len(internal_vals)) if solvent_leg else
                   ("ok — ligand-only heavy-atom pose RMSD, receptor-superposed, over %d replicas" % len(pose_vals)),
-        "flagged_observable": "ligand_internal_rmsd" if solvent_leg else "receptor_superposed_pose_rmsd",
+        "flagged_observable": "none (not applicable)" if solvent_leg else "receptor_superposed_pose_rmsd",
         "iterations_compared": [int(iter_a), int(iter_b)],
         "n_replicas": len(internal_vals if solvent_leg else pose_vals),
         "ligand_rmsd_A": flagged,                        # the flag: worst replica (conservative)
