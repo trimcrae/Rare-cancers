@@ -52,7 +52,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 concurrency:
   group: gcp-gpu-ternary-${{ github.event.inputs.mode || 'smoke' }}
@@ -519,6 +519,13 @@ jobs:
           sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
           echo "=== [CALIBCHEM-RESULT] ==="
           cat research/modalities/valb-pseries-chem.json
+          # Commit the artifact back. A verdict that exists only in a CI log is a verdict nobody can cite:
+          # this file is what turns every edge in the rescope design from a candidate into a decided one.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/valb-pseries-chem.json
+          git commit -m "calibchem: P-series ligand chemistry + mappability from RCSB (run ${GITHUB_RUN_ID})" \
+            && git push origin "HEAD:${GITHUB_REF_NAME}" || echo "(nothing to commit)"
       - name: Reset committed checkpoints (fresh start on timestep change)
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.reset_commits == '1' }}
         run: |
