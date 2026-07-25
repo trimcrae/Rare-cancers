@@ -150,3 +150,40 @@ def test_cofold_requires_a_fresh_output_prefix(monkeypatch):
     monkeypatch.delenv("COFOLD_OUTPUT_PREFIX", raising=False)
     with pytest.raises(SystemExit, match="FRESH"):
         launch.cofold(BUCKET)
+
+
+# ------------------------------------------------- OOM / post-mortem fixes (2026-07-24 pilot failures)
+def test_md_lane_requests_enough_ram_for_a_466k_atom_system():
+    """Both pilot legs were OOM-killed at 16 GB. Solvating/parameterizing the assembly is RAM-bound; VRAM is
+    not the constraint (<4 GB used)."""
+    assert launch.TERNARY_RES.ram_gb >= 48
+    assert launch.TERNARY_RES.min_vram_gb == 24, "VRAM was never the problem — do not inflate it instead"
+
+
+def test_cofold_lane_requests_enough_ram_for_boltz_diffusion():
+    assert launch.build_cofold_jobspec("br", BUCKET, "p").resources.ram_gb >= 64
+
+
+@pytest.mark.parametrize("pipeline_name", ["_PIPELINE", "_RETRO_PIPELINE", "_COFOLD_PIPELINE"])
+def test_pipelines_are_idempotent_across_an_oom_restart(pipeline_name):
+    """Vast re-runs onstart after an OOM kill. A surviving extraction/clone made the restart die on setup
+    instead of retrying the work, so a recoverable failure became a permanent one."""
+    p = getattr(launch, pipeline_name)
+    assert "rm -rf" in p, f"{pipeline_name} must clear stale repo state before fetching"
+
+
+@pytest.mark.parametrize("pipeline_name", ["_PIPELINE", "_RETRO_PIPELINE", "_COFOLD_PIPELINE"])
+def test_pipelines_stream_stdout_to_s3_for_a_post_mortem(pipeline_name):
+    """An OOM kill tears the host down with the EXIT trap. Without streamed stdout there is no traceback and a
+    crash is indistinguishable from a slow leg — which is exactly what happened."""
+    p = getattr(launch, pipeline_name)
+    assert "tee -a /tmp/run.log" in p and "run.log" in p
+
+
+@pytest.mark.parametrize("pipeline_name", ["_PIPELINE", "_RETRO_PIPELINE", "_COFOLD_PIPELINE"])
+def test_mark_no_longer_swallows_s3_failures(pipeline_name):
+    """`mark() { ... 2>/dev/null || true; }` hid every write failure. The preflight must also fail HARD: a leg
+    that cannot write to its result prefix cannot deliver a result, so it must not burn GPU."""
+    p = getattr(launch, pipeline_name)
+    assert "2>/dev/null || true; }" not in p, "mark() must not swallow its own errors"
+    assert "preflight" in p and "exit 4" in p

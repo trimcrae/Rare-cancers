@@ -112,3 +112,38 @@ numbers, nothing failed.
 - **The manuscript and STRATEGY.md still carry both affected results** — the covalent panel's GO and the co-fold
   benchmark's paralogue separation. Until the re-runs land, they should be marked as under correction rather
   than cited.
+
+---
+
+## Addendum — why the first retrospective legs produced nothing (2026-07-24, later)
+
+Three pilot attempts (two retrospective MD legs, one Vast co-fold shakeout) ran, produced partial output, and
+died leaving no result and no traceback. Root cause, from the co-fold instance's own container log:
+
+```
+fatal: destination path '/tmp/repo' already exists and is not an empty directory.
+Killed
+```
+
+`Killed` is the kernel OOM killer. Three separate defects, all in this session's own infrastructure:
+
+1. **Under-requested host RAM.** The MD lane asked for **16 GB** to solvate and parameterize a ~466k-atom
+   assembly, and the co-fold lane **32 GB** for Boltz-2 diffusion on an ~800-residue ternary. Both are
+   host-RAM-bound; neither is VRAM-bound (<4 GB used). The covalent feasibility panel surviving on 16 GB was
+   luck on a host with free memory, not headroom. Raised to **48 GB** (MD) and **64 GB** (co-fold).
+
+2. **Non-idempotent onstart.** Vast re-runs the onstart script after an OOM kill, but a surviving `/tmp/repo`
+   made `git clone` fail outright and a surviving extraction made `cd Rare-cancers-*` ambiguous — so the
+   automatic restart died on setup instead of retrying the work. A recoverable failure became a permanent one.
+   Both pipelines now clear stale state before fetching.
+
+3. **Monitoring that hid its own failures.** `mark()` ended in `2>/dev/null || true`, so every S3 write error
+   was silent, and nothing captured the leg's stdout. A dead leg was therefore indistinguishable from a slow
+   one — which is precisely why diagnosing this took an evening and produced two wrong intermediate
+   hypotheses (slow image pull; broken S3 writes). Now: stdout streams to `$RESULT_S3/run.log` every 45 s, the
+   first `mark` is a hard **preflight** that aborts a leg which cannot write its own results, and later marks
+   report failures instead of swallowing them.
+
+**Cost of the lesson:** a few tens of cents of killed instances. **Cost of the missing instrumentation:** most
+of an evening. The general rule this earns: a monitoring mechanism that can fail silently will eventually be
+the reason an investigation is slow, so it must fail loudly or not exist.

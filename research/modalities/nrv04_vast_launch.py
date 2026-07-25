@@ -44,7 +44,13 @@ _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastro
 # We're not racing (endpoint-MD, checkpointed, parallel), so the 3090's ~0.6x-4090 throughput is fine and it's
 # ~70% cheaper than the first host + under GCP L4 spot. _select_cheapest_offer still falls back to any capable
 # 24 GB card if 3090s are scarce, always ranked by the true interruptible cost (min_bid).
-TERNARY_RES = ResourceSpec(gpu="rtx3090", min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=60, interruptible=True)
+# ⚠ RAM RAISED 16 -> 48 GB (2026-07-24). 16 GB was not a modest-requirements choice, it was too small: both
+# retrospective pilot legs were OOM-KILLED (the co-fold lane's instance log showed the kernel's bare `Killed`
+# on the same account the same evening, and these legs died the same way — partial output, no traceback, no
+# result). Solvating and parameterizing a ~466k-atom assembly is RAM-bound, and the covalent panel surviving on
+# 16 GB was host luck on actual free memory, not headroom. VRAM is NOT the constraint here (<4 GB is used);
+# host RAM is. The extra RAM costs cents/hr and buys legs that finish.
+TERNARY_RES = ResourceSpec(gpu="rtx3090", min_vram_gb=24, vcpus=4, ram_gb=48, disk_gb=60, interruptible=True)
 
 # Boot image. Vast's cheap 4090 hosts have catastrophically slow BOOT-TIME PROVISIONING (Vast apt-installs
 # python3/openssh/systemd from archive.ubuntu.com at container start — ~40 min on these hosts, diag-confirmed
@@ -75,9 +81,25 @@ fi
 export PATH=/opt/mamba/envs/md/bin:$PATH
 PY=/opt/mamba/envs/md/bin/python
 AWS=/opt/mamba/envs/md/bin/aws
-mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
+# mark() used to end in `2>/dev/null || true`, which hid EVERY S3 write failure. A monitoring mechanism that
+# swallows its own errors is worse than none: it produced hours of "the leg is silent" with no way to tell a
+# dead leg from a broken marker. The FIRST mark is now a hard PREFLIGHT — if we cannot write to $RESULT_S3 the
+# leg is unmonitorable and unable to deliver a result, so fail immediately and loudly instead of burning GPU.
+mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || echo "[mark] WARN could not write phase '$1' to $RESULT_S3"; }
+echo "preflight $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || {
+  echo "[preflight] FATAL cannot write to $RESULT_S3 — refusing to run an unmonitorable leg"; exit 4; }
+# --- stream this leg's stdout to S3 continuously, so an OOM kill or a crash leaves a POST-MORTEM. Both pilot
+# legs died with no traceback because nothing captured stdout and the EXIT trap tore the host down with it.
+exec > >(tee -a /tmp/run.log) 2>&1
+( while true; do $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true; sleep 45; done ) &
+LOGSYNC_PID=$!
+trap '$AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true' EXIT
 mark env-ready
 # --- repo code (public codeload tarball; the base image has no git) ---
+# IDEMPOTENT: Vast restarts the container after an OOM kill and re-runs this script. A stale extraction used to
+# leave `cd Rare-cancers-*` matching multiple dirs (and the co-fold lane's `git clone` failing outright), so a
+# restart could never recover — it died on setup instead of retrying the work.
+rm -rf Rare-cancers-*
 curl -Ls "{repo}/archive/refs/heads/$GIT_BRANCH.tar.gz" | tar xz
 cd Rare-cancers-*/research/modalities
 mark cloned
@@ -99,6 +121,8 @@ $PY autoteardown.py $PY nrv04_covalent_md.py
 mark md-done
 # --- publish the leg readout JSON ---
 $AWS s3 cp /tmp/out/ "$RESULT_S3/" --recursive --exclude '*' --include 'leg_*.json'
+kill $LOGSYNC_PID 2>/dev/null || true
+$AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors || true
 mark uploaded
 """
 
@@ -991,9 +1015,21 @@ apt-get install -y -q --no-install-recommends git curl ca-certificates >/dev/nul
 pip install --quiet awscli $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu12 || \
   { echo "[cofold] pip install FAILED"; exit 3; }
 AWS=$(command -v aws || echo /opt/conda/bin/aws)
-mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
+# Same reasoning as the MD lane: a mark that hides its own failure is worse than no mark. Preflight hard.
+mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || echo "[mark] WARN could not write phase '$1' to $RESULT_S3"; }
+echo "preflight $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || {
+  echo "[preflight] FATAL cannot write to $RESULT_S3 — refusing to run an unmonitorable job"; exit 4; }
+# Stream stdout to S3 so an OOM kill leaves a post-mortem. The 2026-07-24 shakeout was OOM-killed in diffusion
+# and the only reason we know is that Vast happened to still hold the container log.
+exec > >(tee -a /tmp/run.log) 2>&1
+( while true; do $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true; sleep 45; done ) &
+LOGSYNC_PID=$!
 mark deps-ready
 nvidia-smi || true
+free -g || true
+# IDEMPOTENT: after an OOM kill Vast re-runs this script, and a surviving /tmp/repo made `git clone` fail
+# outright ("destination path already exists") — so the restart died on setup instead of retrying the work.
+rm -rf /tmp/repo
 git clone -q https://github.com/trimcrae/Rare-cancers /tmp/repo
 git -C /tmp/repo checkout -q "$GIT_BRANCH" || true
 RESOLVED=$(git -C /tmp/repo rev-parse HEAD)
@@ -1021,7 +1057,9 @@ python "$TERNARY_SCRIPT" --run $TERNARY_EXTRA_ARGS 2>&1 | tail -400
 RC=$?
 set -e
 kill $SYNC_PID 2>/dev/null || true
+kill $LOGSYNC_PID 2>/dev/null || true
 $AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --only-show-errors || true
+$AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors || true
 mark "done rc=$RC"
 exit $RC
 """
@@ -1048,7 +1086,10 @@ def build_cofold_jobspec(branch, bucket, output_prefix, script="nrv04_ternary.py
         # resume=False: Boltz predictions are idempotent per (system, seed) but the script does not skip
         # completed ones, so a restart re-predicts. The continuous sync is what makes a preemption cheap.
         resume=False,
-        resources=ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80,
+        # ⚠ RAM RAISED 32 -> 64 GB (2026-07-24): the shakeout run reached MSAs + featurization and was then
+        # OOM-KILLED in diffusion — the instance log's bare `Killed` is the kernel OOM killer. Boltz-2 on an
+        # ~800-residue ternary is host-RAM-bound, not VRAM-bound.
+        resources=ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=64, disk_gb=80,
                                interruptible=True),
         max_runtime_s=int(os.environ.get("COFOLD_MAX_RUNTIME_S", "21600")),
         env=env,
