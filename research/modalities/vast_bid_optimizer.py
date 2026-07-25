@@ -215,12 +215,22 @@ def _round(d):
 # =============================================================================================================
 # offer ranking — the second half of the problem
 # =============================================================================================================
-# Measured ns/day per card at three system sizes (gpu_md_bench, controlled single-host-per-point; pricing.md B).
-# Used as a THROUGHPUT prior so ranking is by expected $/completed-unit rather than by the market floor.
-MEASURED_NS_PER_DAY = {
-    "rtx4090": {35_000: 1549.0, 85_000: 669.0, 444_000: 175.6},
-    "rtx3090": {444_000: 72.5},
-}
+# THROUGHPUT — delegated to `vast_cost_model`, which is the single source of truth for benched cards.
+#
+# What was here before: `{"rtx4090": {35_000: 1549.0, 85_000: 669.0, 444_000: 175.6}, "rtx3090": {444_000: 72.5}}`.
+# Every one of those numbers came from the 2026-07-24 23:08 grid, which was WITHDRAWN the same day — each leg
+# was a single 0.9-4.5 s window, and it ranked an RTX 4080 SUPER above a 4090 and a "$0.0377/hr A10" (really a
+# Quadro RTX 8000) as cheapest per ns. The validated re-run (3 x ~20 s independent timed blocks per leg,
+# physics-checked, CV < 1.4%, with a rejection gate) put the 4090 at 755.36 ns/day, not 669 — a 13% error that
+# survived here for a day because the number lived in two places and only one was corrected.
+#
+# HONEST LIMIT: the validated grid measured ONE system size (84,534 particles) for three cards. The old
+# multi-size table implied we could interpolate throughput across system sizes; we cannot, on validated data.
+# Ranking only needs the RATIO between cards, which is far more size-stable than the absolute rate, so the
+# single-size table is sound for selection and must not be used to predict an absolute ns/day at another size.
+import vast_cost_model as _vcm  # noqa: E402
+
+MEASURED_NS_PER_DAY = {c.lower(): {84_534: v} for c, v in _vcm.MEASURED_NS_PER_DAY_84K.items()}
 
 
 def throughput_scale(offer, atoms, reference="rtx4090"):
@@ -228,9 +238,9 @@ def throughput_scale(offer, atoms, reference="rtx4090"):
 
     Prefers the repo's MEASURED bench where the card is known; falls back to Vast's `dlperf` ratio, which is a
     generic DL score and a WEAK proxy for MD — flagged in the output rather than silently trusted."""
-    name = str(offer.get("gpu_name", "")).lower().replace(" ", "").replace("_", "")
-    key = "rtx4090" if "4090" in name else ("rtx3090" if "3090" in name else None)
-    ref_tab = MEASURED_NS_PER_DAY.get(reference, {})
+    card = _vcm.card_of(offer.get("gpu_name"))
+    key = card.lower() if card else None
+    ref_tab = MEASURED_NS_PER_DAY.get(str(reference).lower(), {})
     ref_ns = _interp(ref_tab, atoms)
     if key and key in MEASURED_NS_PER_DAY:
         ns = _interp(MEASURED_NS_PER_DAY[key], atoms)
@@ -294,7 +304,10 @@ def rank_offers(offers, work_gpu_h_reference, atoms, restart_h, wall_max_h=None,
 
 
 def _compare_to_fixed_multiple(floor, market, work, restart_h, lambda_ref, offer, mult=1.9):
-    """What the incumbent `min_bid x mult` policy would cost on this offer, and whether it breaches on-demand."""
+    """What a RETIRED `min_bid x mult` policy would cost on this offer, and whether it breaches on-demand.
+
+    Kept as a comparison baseline only. The live policy is `vast_cost_model.recommended_bid` (floor + a
+    staleness tick); x1.9/x1.5/x1.25 are all history, and none of them is what the launcher bids."""
     b = floor * mult
     cost, wall, lam = plan_cost(b, floor, market, work, restart_h, lambda_ref)
     d = None
