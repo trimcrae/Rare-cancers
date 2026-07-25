@@ -79,6 +79,28 @@ jobs:
           CFG=research/modalities/ternary-watch.json
           gcloud config set project "$PROJECT" >/dev/null 2>&1
 
+          # VALIDATE FIRST. The watchdog relaunches a leg from these values alone, so an entry missing a
+          # parameter that KEYS THE COMMIT PREFIX would resume a different trajectory than the one it is
+          # watching -- the direction-blind-key bug class this lane was audited for, reproduced inside the
+          # watchdog itself (the first version of this file omitted warmup_timestep_fs, which keys `wu<..>`).
+          # Refuse to act on an incomplete list rather than relaunching the wrong thing.
+          if ! python3 -c "
+import json,sys
+d=json.load(open('$CFG'))
+req=d.get('_prefix_keying_params') or []
+bad=[]
+for w in d['watch']:
+    if not w.get('enabled'): continue
+    miss=[k for k in req if k not in w]
+    if miss: bad.append((w.get('leg_id','?'), w.get('direction','?'), miss))
+for leg,dirn,miss in bad:
+    print('::error title=WATCHDOG CONFIG INVALID::%s dir=%s is missing prefix-keying param(s) %s -- a relaunch would resume a DIFFERENT commit prefix. Refusing to act.' % (leg,dirn,','.join(miss)))
+sys.exit(1 if bad else 0)
+"; then
+            echo "watch list is invalid — see the annotation above. Failing rather than relaunching the wrong run."
+            exit 1
+          fi
+
           N=$(python3 -c "import json;d=json.load(open('$CFG'));print(len([w for w in d['watch'] if w.get('enabled')]))")
           echo "enabled watch entries: $N   (dry_run=$DRY)"
           if [ "$N" = "0" ]; then
@@ -123,8 +145,8 @@ jobs:
           # The entry loop is a pipeline subshell, so the flag has to live in a file, not a variable.
           ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
 
-          python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
-          | while IFS='|' read -r LEG SEED DIR SALT DT CHG NWIN TPL MAXRL; do
+          python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
+          | while IFS='|' read -r LEG SEED DIR SALT DT WUDT CHG NWIN TPL MAXRL; do
               TAG="$LEG dir=$DIR seed=$SEED"
               echo "=============== $TAG ==============="
 
@@ -154,6 +176,9 @@ jobs:
                   SEL=$(printf '%s\n' "$SEL" | grep -a "_dir$DIR" || true)
                 fi
                 [ -n "$SALT" ] && SEL=$(printf '%s\n' "$SEL" | grep -a "_$SALT" || true); true
+                # `wu<warmup_dt>` keys the prefix as well, so a census blind to it would read the 2.0 fs
+                # warmup attempt's commits while watching the 1.0 fs one (or vice versa).
+                SEL=$(printf '%s\n' "$SEL" | grep -aE "_wu${WUDT}(_|/)" || true)
                 # `|| true` on both: a leg with no commits yet is the NORMAL early reading, not a failure, and
                 # with pipefail a no-match grep would otherwise propagate 1 out of the pipeline.
                 MAXW=$(printf '%s\n' "$SEL" | grep -aoE "warmup/iter-[0-9]+"     | grep -aoE "[0-9]+$" | sort -n | tail -1 || true)
@@ -225,7 +250,8 @@ jobs:
               echo "relaunching $TAG (attempt $((CNT+1))/$MAXRL today) — resumes from the last committed checkpoint"
               if gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" \
                    -f mode=run -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
-                   -f commit_salt="$SALT" -f timestep_fs="$DT" -f charge_method="$CHG" \
+                   -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" \
+                   -f charge_method="$CHG" \
                    -f n_windows="$NWIN" -f template_pdb="$TPL" \
                    -f refuse_if_vm_live=1 -f provisioning=spot 2>&1; then
                 printf '%s' "$((CNT+1))" > /tmp/cnt.txt

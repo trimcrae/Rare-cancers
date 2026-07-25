@@ -31,7 +31,7 @@ end   = t.index('\n', t.index('fi', end)) if False else t.index('\n', end)
 block = t[start:end]
 block = '\n'.join(l[16:] if l.startswith(' ' * 16) else l.lstrip() for l in block.split('\n'))
 print('census() {')
-print('  CALL="$1"; SEED="$2"; DIR="$3"; SALT="$4"')
+print('  CALL="$1"; SEED="$2"; DIR="$3"; SALT="$4"; WUDT="$5"')
 print('\n'.join('  ' + l for l in block.split('\n')))
 print('  echo "$PROG $PHASE"')
 print('}')
@@ -40,24 +40,27 @@ grep -q 'PROG=$((1000000' "$TD/census.sh" || { echo "EXTRACTION FAILED — workf
 . "$TD/census.sh"
 
 B=gs://bkt/valB-6hax/commits/calib_hi_to_lo__ternary_vhl
-# fwd is FAR ahead (production 520); rev seed 0 has only warmup 16; rev seed 1 is a different leg entirely.
-LST="$B/0_dt2.0fs_clig0_wu_v2pe/warmup/iter-00000008/abc/COMMITTED.json
-$B/0_dt2.0fs_clig0_wu_v2pe/production/iter-00000520/def/COMMITTED.json
-$B/0_dt2.0fs_clig0_wu_v2pe_dirrev/warmup/iter-00000016/ghi/COMMITTED.json
-$B/1_dt2.0fs_clig0_wu_v2pe_dirrev/production/iter-00000999/jkl/COMMITTED.json"
+# Every prefix-keying dimension is represented, each with a DIFFERENT iteration count, so a census blind to
+# any one of them reads the wrong leg and the test says which. `wu1.0` is the reduced-dt warmup relaunch;
+# `wu` (empty) is the 2.0 fs attempt that died with a NaN at warmup iteration 1.
+LST="$B/0_dt2.0fs_clig0_wu1.0_v2pe/warmup/iter-00000008/abc/COMMITTED.json
+$B/0_dt2.0fs_clig0_wu1.0_v2pe/production/iter-00000520/def/COMMITTED.json
+$B/0_dt2.0fs_clig0_wu1.0_v2pe_dirrev/warmup/iter-00000016/ghi/COMMITTED.json
+$B/1_dt2.0fs_clig0_wu1.0_v2pe_dirrev/production/iter-00000999/jkl/COMMITTED.json
+$B/0_dt2.0fs_clig0_wu_v2pe_dirrev/production/iter-00000777/mno/COMMITTED.json"
 
 fail=0
 chk() { if [ "$2" = "$3" ]; then echo "PASS $1"; else echo "FAIL $1: got '$2' want '$3'"; fail=1; fi; }
 
-chk "rev seed0 does NOT read fwd's production/520" "$(census "$LST" 0 rev v2pe)" "16 warmup/16"
-chk "fwd seed0 reads its own production/520"       "$(census "$LST" 0 fwd v2pe)" "1000520 production/520"
-chk "seed is honoured (rev seed1 is its own leg)"  "$(census "$LST" 1 rev v2pe)" "1000999 production/999"
-chk "no commits at all -> scalar 0"               "$(census "" 0 rev v2pe)"     "0 none (setup/env-solve/minimize)"
-chk "a mismatched salt sees nothing"              "$(census "$LST" 0 rev zzz)"  "0 none (setup/env-solve/minimize)"
+chk "rev seed0 does NOT read fwd's production/520" "$(census "$LST" 0 rev v2pe 1.0)" "16 warmup/16"
+chk "fwd seed0 reads its own production/520"       "$(census "$LST" 0 fwd v2pe 1.0)" "1000520 production/520"
+chk "seed is honoured (rev seed1 is its own leg)"  "$(census "$LST" 1 rev v2pe 1.0)" "1000999 production/999"
+chk "no commits at all -> scalar 0"               "$(census "" 0 rev v2pe 1.0)"     "0 none (setup/env-solve/minimize)"
+chk "a mismatched salt sees nothing"              "$(census "$LST" 0 rev zzz 1.0)"  "0 none (setup/env-solve/minimize)"
 
 # production must outrank ANY warmup, so a warmup->production transition can never look like a regression
-W=$(census "$LST" 0 rev v2pe | cut -d' ' -f1)
-P=$(census "$LST" 0 fwd v2pe | cut -d' ' -f1)
+W=$(census "$LST" 0 rev v2pe 1.0 | cut -d' ' -f1)
+P=$(census "$LST" 0 fwd v2pe 1.0 | cut -d' ' -f1)
 if [ "$P" -gt "$W" ]; then echo "PASS production scalar outranks every warmup scalar"
 else echo "FAIL monotonicity: production $P not > warmup $W"; fail=1; fi
 
@@ -67,12 +70,18 @@ chk "advance resets the stall counter"    "$(st 1000560 1000520 3)" "0"
 chk "frozen iteration increments it"      "$(st 1000520 1000520 1)" "2"
 chk "a regression counts as no-advance"   "$(st 16 1000520 0)"      "1"
 
+# The warmup timestep keys the prefix too: `wu1.0` (the reduced-dt relaunch) and `wu` (the 2.0 fs attempt that
+# NaN'd at warmup iteration 1) are different trajectories, and reading one while watching the other is the same
+# wrong-answer bug as reading fwd while watching rev.
+chk "wu1.0 does NOT read the 2.0 fs attempt's production/777" "$(census "$LST" 0 rev v2pe 1.0)" "16 warmup/16"
+chk "the 2.0 fs attempt reads its own production/777"         "$(census "$LST" 0 rev v2pe '')"   "1000777 production/777"
+
 # SURVIVES -e. GitHub's default shell is `bash -e {0}`, and `set -uo pipefail` in the step body does NOT clear
 # an -e that arrived on the invocation. With -e live, the no-match `grep` on a leg that has no commits yet
 # returns 1 and kills the watch entry between printing its header and printing any verdict — a real run died
 # exactly that way. The empty-listing case is the one that triggers it, so assert the census survives under the
 # strictest option set rather than only under the test's own.
-out=$(bash -euo pipefail -c '. "$1"; census "" 0 rev v2pe' _ "$TD/census.sh" 2>&1)
+out=$(bash -euo pipefail -c '. "$1"; census "" 0 rev v2pe 1.0' _ "$TD/census.sh" 2>&1)
 rc=$?
 if [ "$rc" = 0 ] && [ "$out" = "0 none (setup/env-solve/minimize)" ]; then
   echo "PASS empty listing survives bash -euo pipefail (the -e trap)"
