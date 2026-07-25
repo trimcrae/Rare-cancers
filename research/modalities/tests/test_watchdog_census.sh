@@ -76,6 +76,38 @@ chk "a regression counts as no-advance"   "$(st 16 1000520 0)"      "1"
 chk "wu1.0 does NOT read the 2.0 fs attempt's production/777" "$(census "$LST" 0 rev v2pe 1.0)" "16 warmup/16"
 chk "the 2.0 fs attempt reads its own production/777"         "$(census "$LST" 0 rev v2pe '')"   "1000777 production/777"
 
+# CRASH DETECTOR. The engine uploads postmortem/<leg>_<dir>_seed<n>_<epoch>.log on NORESULT, and the watchdog
+# compares that epoch against the VM's own creation time to tell "this run crashed" from "the previous attempt
+# crashed". Extract that block from the workflow too and feed it listings the glob would normally pre-filter --
+# because if the sed's correctness rests only on the glob, a newer fwd post-mortem wins on recency and gets read
+# as this rev leg's crash. (It did, until the sed was anchored on the direction as well.)
+python3 - "$WF" > "$TD/pm.sh" <<'PY2'
+import sys
+t = open(sys.argv[1]).read()
+i = t.index('                PMEP=$(gcloud storage ls')
+j = t.index('PMEP=$((10#$PMEP))') + len('PMEP=$((10#$PMEP))')
+blk = '\n'.join(l[16:] if l.startswith(' ' * 16) else l.lstrip() for l in t[i:j].split('\n'))
+blk = blk.replace(
+  'gcloud storage ls "gs://$BUCKET/valB-6hax/postmortem/${LEG}_${DIR}_seed${SEED}_*.log" 2>/dev/null',
+  "printf '%s\\n' \"$FIXTURE\"")
+print('pmep() { LEG=calib_hi_to_lo__ternary_vhl; DIR=rev; SEED=0; FIXTURE="$1"')
+print('\n'.join('  ' + l for l in blk.split('\n')))
+print('  echo "$PMEP"; }')
+PY2
+grep -q 'PMEP=\$((10#\$PMEP))' "$TD/pm.sh" || { echo "PM EXTRACTION FAILED — workflow markers changed"; exit 2; }
+. "$TD/pm.sh"
+
+PB=gs://bkt/valB-6hax/postmortem
+chk "newest REV post-mortem wins" \
+    "$(pmep "$PB/calib_hi_to_lo__ternary_vhl_rev_seed0_1784999700.log
+$PB/calib_hi_to_lo__ternary_vhl_rev_seed0_1785000999.log")" "1785000999"
+chk "a NEWER fwd post-mortem must NOT be read as rev's crash" \
+    "$(pmep "$PB/calib_hi_to_lo__ternary_vhl_rev_seed0_1785000999.log
+$PB/calib_hi_to_lo__ternary_vhl_fwd_seed0_1785009999.log")" "1785000999"
+chk "only a fwd post-mortem -> rev shows no crash" \
+    "$(pmep "$PB/calib_hi_to_lo__ternary_vhl_fwd_seed0_1785009999.log")" "0"
+chk "no post-mortems at all -> 0"  "$(pmep "")" "0"
+
 # SURVIVES -e. GitHub's default shell is `bash -e {0}`, and `set -uo pipefail` in the step body does NOT clear
 # an -e that arrived on the invocation. With -e live, the no-match `grep` on a leg that has no commits yet
 # returns 1 and kills the watch entry between printing its header and printing any verdict — a real run died
