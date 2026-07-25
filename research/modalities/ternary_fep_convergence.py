@@ -59,7 +59,16 @@ def _find_nc_files():
 def _overlap(analyzer):
     """MBAR overlap matrix + scalar. pymbar 3 and 4 differ; try both. Overlap scalar = 1 - 2nd-largest eigenvalue
     of the overlap matrix (the Perron eigenvalue is 1); higher = better adjacent-state overlap."""
-    mbar = getattr(analyzer, "mbar", None) or getattr(analyzer, "_mbar", None)
+    # `analyzer.mbar` is a LAZY openmmtools descriptor, not an attribute: touching it builds the MBAR object,
+    # which reads the end thermodynamic states, which DESERIALIZES class references out of the .nc. On an
+    # OpenFE trajectory that path imports openfe, so a bare getattr can raise ModuleNotFoundError (or any
+    # deserialization error) rather than return None — and this function is called OUTSIDE a try in
+    # analyze_leg, so it took the whole report down with it (GH run 30155345102). The module docstring promises
+    # every diagnostic degrades to a status string; that promise did not hold here. It does now.
+    try:
+        mbar = getattr(analyzer, "mbar", None) or getattr(analyzer, "_mbar", None)
+    except Exception as e:  # noqa: BLE001
+        return {"status": "mbar construction failed: %s: %s" % (type(e).__name__, e)}
     if mbar is None:
         return {"status": "no mbar object on analyzer"}
     try:
@@ -121,11 +130,11 @@ def _forward_reverse(analyzer, n_points=8):
         if u_ln is None or N_l is None:
             # fall back to the reduced potential from the reporter
             return {"status": "forward/reverse needs analyzer u_ln cache (not exposed in this version)"}
-        from pymbar import MBAR
         N_l = np.asarray(N_l, dtype=int)
         K = len(N_l)
+        f_k = _converged_f_k(analyzer)   # seed each slice solve; see _solve_mbar for why a bare MBAR fails here
         fracs = [i / n_points for i in range(1, n_points + 1)]
-        fwd, rev = [], []
+        fwd, rev, errs = [], [], []
         for f in fracs:
             for series, store in ((True, fwd), (False, rev)):
                 Nsub = np.maximum((N_l * f).astype(int), 1)
@@ -138,17 +147,33 @@ def _forward_reverse(analyzer, n_points=8):
                     offset += n
                 sel = np.concatenate(cols)
                 try:
-                    m = MBAR(u_ln[:, sel], Nsub)
-                    df = m.compute_free_energy_differences()["Delta_f"] if hasattr(m, "compute_free_energy_differences") \
-                        else m.getFreeEnergyDifferences()[0]
-                    store.append(float(df[0, -1]) * KT_KCAL)
-                except Exception:  # noqa: BLE001
+                    store.append(_solve_mbar(u_ln[:, sel], Nsub, f_k) * KT_KCAL)
+                except Exception as e:  # noqa: BLE001
                     store.append(None)
-        gap = None
+                    # Record WHY a point is missing. Silent Nones made an all-null series look like a computed
+                    # result with status "ok", which is how this diagnostic reported nothing and still passed.
+                    if len(errs) < 3:
+                        errs.append("%s: %s" % (type(e).__name__, str(e)[:160]))
+        # THE GAP MUST BE TAKEN BELOW f = 1. At f = 1 the forward slice (first 100 % of each state's samples) and
+        # the reverse slice (last 100 %) are THE SAME SAMPLES, so |fwd[-1] − rev[-1]| is identically ~0 and a
+        # threshold on it can never fire. Use the largest fraction strictly below 1 as the headline gap, and also
+        # report the worst gap over all f < 1, which is what actually detects drift/hysteresis.
+        pairs = [(f, a, b) for f, a, b in zip(fracs, fwd, rev)
+                 if f < 1.0 and a is not None and b is not None]
+        gap = abs(pairs[-1][1] - pairs[-1][2]) if pairs else None
+        gap_at = pairs[-1][0] if pairs else None
+        gap_max = max((abs(a - b) for _, a, b in pairs), default=None)
+        trivial = None
         if fwd and rev and fwd[-1] is not None and rev[-1] is not None:
-            gap = abs(fwd[-1] - rev[-1])
-        return {"status": "ok", "fractions": fracs, "forward_dg_kcal": fwd, "reverse_dg_kcal": rev,
-                "final_forward_reverse_gap_kcal": gap}
+            trivial = abs(fwd[-1] - rev[-1])
+        n_ok = sum(1 for v in fwd + rev if v is not None)
+        return {"status": ("ok" if n_ok else "no point solved — see slice_errors"),
+                "fractions": fracs, "forward_dg_kcal": fwd, "reverse_dg_kcal": rev,
+                "n_points_solved": n_ok, "n_points_total": 2 * len(fracs),
+                "slice_errors": errs or None,
+                "final_forward_reverse_gap_kcal": gap, "gap_taken_at_fraction": gap_at,
+                "max_forward_reverse_gap_below_full_kcal": gap_max,
+                "gap_at_full_fraction_uninformative": trivial}
     except Exception as e:  # noqa: BLE001
         return {"status": "forward/reverse failed: %s: %s" % (type(e).__name__, e)}
 
@@ -166,27 +191,69 @@ def block_plateau_flags(dg_full, dg_final_half, dg_q3, dg_q4):
             "plateau_full_vs_half_ok": plateau, "quarter_block_ok": quarters}
 
 
-def _mbar_dg_on_slice(u_ln, N_l, lo_frac, hi_frac):
-    """MBAR ΔG (kcal/mol) over the [lo_frac, hi_frac) portion of EACH state's decorrelated samples. Used for the
-    block-plateau tail analysis (reviewer condition 4)."""
+def _solve_mbar(u_kn, N_k, initial_f_k=None):
+    """Build an MBAR on a SUB-SLICE of an already-analysed trajectory and return Delta_f, in kT.
+
+    Why this exists: a bare `MBAR(u_kn, N_k)` on a slice reliably failed on the real valB legs with pymbar's
+    `ParameterError: Should have \\sum_n W_nk = 1. Actual column sum for state 0 was 11.94` (K = 12) — the
+    self-consistency check on the weight matrix, i.e. the SOLVER did not converge, not a corrupt trajectory.
+    openmmtools' own MBAR on the identical data converged fine (ΔG 47.51 ± 0.045 kcal/mol) because it seeds and
+    solves differently. The stock error text ends with "This generally indicates the free energies are not
+    converged", which reads as a verdict on the physics; on the evidence (full MBAR converged, overlap matrix
+    connected at 0.109 min-adjacent) it is a verdict on this solver call. So: seed from the analyser's already
+    converged f_k and ask for the robust solver, falling back through older pymbar signatures.
+    """
     import numpy as np
     from pymbar import MBAR
+    attempts = []
+    if initial_f_k is not None:
+        attempts.append({"initial_f_k": np.asarray(initial_f_k, dtype=float),
+                         "solver_protocol": "robust"})
+        attempts.append({"initial_f_k": np.asarray(initial_f_k, dtype=float)})
+    attempts.append({"solver_protocol": "robust"})
+    attempts.append({})
+    last = None
+    for kw in attempts:
+        try:
+            m = MBAR(u_kn, N_k, **kw)
+            df = (m.compute_free_energy_differences()["Delta_f"]
+                  if hasattr(m, "compute_free_energy_differences") else m.getFreeEnergyDifferences()[0])
+            return float(df[0, -1])
+        except Exception as e:  # noqa: BLE001  (TypeError = signature; ParameterError = non-convergence)
+            last = e
+    raise last if last is not None else RuntimeError("MBAR slice solve failed with no exception recorded")
+
+
+def _slice_indices(N_l, lo_frac, hi_frac):
+    """Column indices + per-state counts for the [lo_frac, hi_frac) portion of EACH state's samples."""
+    import numpy as np
     N_l = np.asarray(N_l, dtype=int)
-    K = len(N_l)
     cols, offset, Nsub = [], 0, []
-    for k in range(K):
+    for k in range(len(N_l)):
         n = int(N_l[k])
         a = offset + int(n * lo_frac)
-        b = offset + int(n * hi_frac)
-        b = max(b, a + 1)
+        b = max(offset + int(n * hi_frac), a + 1)
         cols.append(np.arange(a, min(b, offset + n)))
         Nsub.append(len(cols[-1]))
         offset += n
-    sel = np.concatenate(cols)
-    m = MBAR(u_ln[:, sel], np.asarray(Nsub, dtype=int))
-    df = (m.compute_free_energy_differences()["Delta_f"] if hasattr(m, "compute_free_energy_differences")
-          else m.getFreeEnergyDifferences()[0])
-    return float(df[0, -1]) * KT_KCAL
+    return np.concatenate(cols), np.asarray(Nsub, dtype=int)
+
+
+def _mbar_dg_on_slice(u_ln, N_l, lo_frac, hi_frac, initial_f_k=None):
+    """MBAR ΔG (kcal/mol) over the [lo_frac, hi_frac) portion of EACH state's decorrelated samples. Used for the
+    block-plateau tail analysis (reviewer condition 4)."""
+    sel, Nsub = _slice_indices(N_l, lo_frac, hi_frac)
+    return _solve_mbar(u_ln[:, sel], Nsub, initial_f_k) * KT_KCAL
+
+
+def _converged_f_k(analyzer):
+    """The analyser's already-converged per-state free energies (kT), used to SEED every slice MBAR. Returns None
+    if unavailable — the slice solves then just run unseeded, as before."""
+    try:
+        f_ij, _ = analyzer.get_free_energy()
+        return [float(x) for x in f_ij[0, :]]
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def _block_plateau(analyzer):
@@ -197,10 +264,11 @@ def _block_plateau(analyzer):
         N_l = getattr(analyzer, "_unbiased_decorrelated_N_l", None)
         if u_ln is None or N_l is None:
             return {"status": "block plateau needs analyzer u_ln cache (not exposed in this version)"}
-        dg_full = _mbar_dg_on_slice(u_ln, N_l, 0.0, 1.0)
-        dg_half = _mbar_dg_on_slice(u_ln, N_l, 0.5, 1.0)
-        dg_q3 = _mbar_dg_on_slice(u_ln, N_l, 0.5, 0.75)
-        dg_q4 = _mbar_dg_on_slice(u_ln, N_l, 0.75, 1.0)
+        f_k = _converged_f_k(analyzer)
+        dg_full = _mbar_dg_on_slice(u_ln, N_l, 0.0, 1.0, f_k)
+        dg_half = _mbar_dg_on_slice(u_ln, N_l, 0.5, 1.0, f_k)
+        dg_q3 = _mbar_dg_on_slice(u_ln, N_l, 0.5, 0.75, f_k)
+        dg_q4 = _mbar_dg_on_slice(u_ln, N_l, 0.75, 1.0, f_k)
         out = {"status": "ok", "dg_full_kcal": dg_full, "dg_final_half_kcal": dg_half,
                "dg_q3_kcal": dg_q3, "dg_q4_kcal": dg_q4}
         out.update(block_plateau_flags(dg_full, dg_half, dg_q3, dg_q4))
@@ -288,7 +356,28 @@ def analyze_leg(nc_path, tag):
         rec["status"] = "openmmtools unavailable: %s" % e
         return rec
     try:
-        reporter = MultiStateReporter(nc_path, open_mode="r")
+        # CHECKPOINT FILENAME. OpenFE/openmmtools defaults the checkpoint to `checkpoint.nc`, but this repo's
+        # driver writes `checkpoint.chk` (rbfe_spot_driver PRODUCTION pair `simulation.nc`/`checkpoint.chk`;
+        # nr4a3_rbfe._read_last_iters, :1551). So a default-constructed reporter finds no checkpoint storage,
+        # positions are unavailable, and read_sampler_states() dies on None.dimensions (a netCDF4 Dataset
+        # attribute). Evidence (GH run 30156575387): files_beside_nc = [COMMITTED.json, checkpoint.chk,
+        # simulation.nc] with has_checkpoint_storage = false — the file was always there under a name openmmtools
+        # never looks for. That is why the mandated ligand-escape / pose-collapse check has never once produced a
+        # number, on this lane or any other using the same commit store. Point the reporter at the real file.
+        _dir = os.path.dirname(os.path.abspath(nc_path))
+        _base = os.path.basename(nc_path).rsplit(".", 1)[0]          # simulation | equilibration
+        _cands = ["%s.chk" % _base, "checkpoint.chk", "%s_checkpoint.nc" % _base, "checkpoint.nc"]
+        _ckpt = next((c for c in _cands if os.path.isfile(os.path.join(_dir, c))), None)
+        reporter = None
+        if _ckpt:
+            try:
+                reporter = MultiStateReporter(nc_path, open_mode="r", checkpoint_storage=_ckpt)
+            except Exception as e:  # noqa: BLE001  (older signature / interval mismatch -> fall back)
+                rec["checkpoint_open_note"] = "checkpoint_storage=%s rejected (%s: %s); opened without it" % (
+                    _ckpt, type(e).__name__, e)
+        rec["checkpoint_file"] = _ckpt
+        if reporter is None:
+            reporter = MultiStateReporter(nc_path, open_mode="r")
         analyzer = MultiStateSamplerAnalyzer(reporter)
     except Exception as e:  # noqa: BLE001
         rec["status"] = "could not open reporter/analyzer: %s: %s" % (type(e).__name__, e)
@@ -301,13 +390,22 @@ def analyze_leg(nc_path, tag):
         rec["mbar_dg_err_kcal"] = rec["mbar_dg_err_kt"] * KT_KCAL
     except Exception as e:  # noqa: BLE001
         rec["mbar_status"] = "get_free_energy failed: %s: %s" % (type(e).__name__, e)
-    rec["overlap"] = _overlap(analyzer)
-    rec["equilibration"] = _equilibration(analyzer)
-    rec["mixing"] = _mixing(analyzer, reporter)
-    rec["forward_reverse"] = _forward_reverse(analyzer)
-    rec["block_plateau"] = _block_plateau(analyzer)
+    # Defence in depth for the module docstring's promise: ONE diagnostic that raises must not delete the other
+    # six. Each is a lazy openmmtools/pymbar path that can fail for env reasons entirely unrelated to the
+    # trajectory's health, and a report that vanishes tells you nothing about the leg.
+    def _safe(name, fn, *a):
+        try:
+            return fn(*a)
+        except Exception as e:  # noqa: BLE001
+            return {"status": "%s raised %s: %s" % (name, type(e).__name__, e)}
+
+    rec["overlap"] = _safe("overlap", _overlap, analyzer)
+    rec["equilibration"] = _safe("equilibration", _equilibration, analyzer)
+    rec["mixing"] = _safe("mixing", _mixing, analyzer, reporter)
+    rec["forward_reverse"] = _safe("forward_reverse", _forward_reverse, analyzer)
+    rec["block_plateau"] = _safe("block_plateau", _block_plateau, analyzer)
     rec["restraints"] = {"status": "RBFE binding legs carry no orientational restraints; none to diagnose"}
-    rec["structural"] = _structural(reporter, nc_path)
+    rec["structural"] = _safe("structural", _structural, reporter, nc_path)
 
     # ---- health flags (each None if the metric wasn't computable) ----
     ov = rec["overlap"].get("overlap_scalar")
@@ -331,6 +429,19 @@ def analyze_leg(nc_path, tag):
     failed = [k for k, v in flags.items() if v is False]
     rec["technical_failure"] = bool(failed)
     rec["failed_checks"] = failed
+    # COMPLETENESS, reported SEPARATELY from failure. The frozen rule requires that "all convergence diagnostics
+    # pass"; a flag of None means the metric was never obtained, and counting that as satisfied is how the r0 leg
+    # returned technical_failure=false while forward/reverse, dG(t) plateau, quarter-block AND ligand drift were
+    # all unmeasured. This does NOT retroactively flip technical_failure (that field means MEASURED failures);
+    # it exposes the distinction so a reader — and the reducer — can tell "checked and fine" from "never checked".
+    unmeasured = [k for k, v in flags.items() if v is None]
+    rec["mandatory_unmeasured"] = unmeasured
+    rec["diagnostics_complete"] = not unmeasured
+    rec["gate_note"] = ("all diagnostics measured and passing" if not unmeasured and not failed else
+                        "MEASURED FAILURES: %s" % failed if failed else
+                        "no measured failure, but %d diagnostic(s) never computed: %s — the frozen rule's "
+                        "'all convergence diagnostics pass' is NOT satisfied by an unmeasured diagnostic"
+                        % (len(unmeasured), unmeasured))
     return rec
 
 
@@ -343,19 +454,194 @@ def _structural(reporter, nc_path):
         return {"status": "mdtraj unavailable — structural RMSD skipped (non-blocking)"}
     try:
         import numpy as np
-        # positions are in the checkpoint; read replica 0 sampler states across production
+        # Positions live in the CHECKPOINT, which is written every checkpoint_interval iterations — so an
+        # arbitrary iteration (e.g. read_last_iteration(), 2000 against an interval of 40 is fine, but any
+        # non-multiple is not) yields sampler states whose .positions is None. Dereferencing that gave
+        # "AttributeError: 'NoneType' object has no attribute 'dimensions'", which is how the mandated
+        # ligand-escape check reported nothing. Align both reads to the checkpoint grid and check for None.
+        interval = int(getattr(reporter, "checkpoint_interval", 0) or 1)
+        last = int(reporter.read_last_iteration())
+        last_ckpt = (last // interval) * interval if interval > 1 else last
         pos = reporter.read_sampler_states(iteration=0)
-        posN = reporter.read_sampler_states(iteration=reporter.read_last_iteration())
+        posN = reporter.read_sampler_states(iteration=last_ckpt)
         if not pos or not posN:
             return {"status": "no sampler-state positions in checkpoint (checkpoint_interval may exclude frames)"}
+        if getattr(pos[0], "positions", None) is None or getattr(posN[0], "positions", None) is None:
+            return {"status": "sampler states carry no positions at iterations 0/%d (checkpoint_interval=%d)"
+                              % (last_ckpt, interval)}
         p0 = np.asarray(pos[0].positions.value_in_unit(pos[0].positions.unit))
         pN = np.asarray(posN[0].positions.value_in_unit(posN[0].positions.unit))
-        # coarse whole-system heavy-proxy RMSD (no per-atom selection without topology); reported as an upper proxy
-        rmsd = float(np.sqrt(((pN - p0) ** 2).sum(axis=1).mean())) * 10.0  # nm->Å
-        return {"status": "ok (whole-system proxy RMSD; ligand-specific needs topology selection)",
-                "ligand_rmsd_A": rmsd}
+
+        # WHAT THIS NUMBER IS, AND WHAT IT IS NOT. The original implementation took an UNALIGNED, PBC-unwrapped
+        # RMSD over EVERY particle — ~146k atoms, overwhelmingly bulk water — and compared it to LIG_RMSD_MAX_A,
+        # a threshold written for a LIGAND heavy-atom RMSD. On the real r0 ternary leg that produced
+        # ligand_rmsd_A = 78.94 A (GH run 30156744299) and flipped technical_failure to true, which via
+        # ternary_fep_reduce._diagnostics_ok() would hand valB_mini a HARD FAIL. 79 A is not a PROTAC leaving an
+        # interface: for a box whose edge is ~110-120 A it is what solvent diffusion plus periodic wrapping give
+        # over 5 ns with no superposition. Comparing it to a 4 A pose threshold is a category error, and a FAIL
+        # manufactured by a mis-specified metric is worse than no metric.
+        # So: only compare to the threshold when the quantity IS pose-like — a SUPERPOSED RMSD over the reporter's
+        # analysis-particle subset (the solute openmmtools was told to retain). Otherwise report the whole-system
+        # number as informational and leave the flag None (unmeasured), which is the honest state.
+        idx = getattr(reporter, "analysis_particle_indices", None)
+        n_idx = len(idx) if idx is not None else 0
+        n_all = int(p0.shape[0])
+        if idx is not None and 0 < n_idx < n_all:
+            sub = reporter.read_sampler_states(iteration=0, analysis_particles_only=True)
+            subN = reporter.read_sampler_states(iteration=last_ckpt, analysis_particles_only=True)
+            a = np.asarray(sub[0].positions.value_in_unit(sub[0].positions.unit))
+            b = np.asarray(subN[0].positions.value_in_unit(subN[0].positions.unit))
+
+            # MINIMUM IMAGE FIRST — the stored positions are WRAPPED, so part of the solute sits on the far side
+            # of the box and its raw displacement is a lattice vector, not motion. Measured on r0's ternary leg
+            # (run 30157135654): p50 2.52 Å, p90 6.03 Å, but p99 90.84 Å and max 135.49 Å against a 126.30 Å box
+            # edge, with exactly 2.0 % of atoms beyond half a box. sqrt(0.02*100^2 + 0.98*3^2) ~= 14.4 Å recovers
+            # the 14.97 Å that was reported, so the whole apparent rearrangement WAS that wrapped 2 % tail. Undo
+            # the wrap before superposing and the number measures structure again.
+            # The cell is NOT orthorhombic — OpenFE solvates in a reduced-form triclinic box, so componentwise
+            # d -= L*round(d/L) is invalid and the first attempt correctly refused to apply it (run 30157333131:
+            # minimum_image_corrected=false, "non-orthorhombic"). The general form works for any lattice: take the
+            # displacement to FRACTIONAL coordinates, round off whole lattice translations there, and convert back.
+            # Exact for the reduced form OpenMM enforces, and it reduces to the diagonal case when the cell is
+            # rectangular — so there is no longer a shape this silently skips.
+            M = None
+            try:
+                bv = subN[0].box_vectors
+                M = np.asarray([[float(bv[i][j].value_in_unit(bv.unit)) for j in range(3)] for i in range(3)])
+            except Exception:  # noqa: BLE001
+                try:                                  # some versions hand back a plain Vec3 list (already nm)
+                    bv = subN[0].box_vectors
+                    M = np.asarray([[float(bv[i][j]) for j in range(3)] for i in range(3)])
+                except Exception:  # noqa: BLE001
+                    M = None
+            unwrapped = False
+            if M is not None and abs(float(np.linalg.det(M))) > 1e-9:
+                d = b - a
+                frac = d @ np.linalg.inv(M)           # rows of M are the lattice vectors
+                d = d - np.round(frac) @ M            # fold into the primitive parallelepiped
+                # Belt-and-braces neighbour search: after the fold, also try the 27 adjacent lattice translations
+                # and keep the shortest per atom. For skewed cells the parallelepiped fold can in general leave a
+                # non-minimal image, and this is the standard brute-force fix.
+                #
+                # ⚠ HONEST NOTE ON WHY IT IS HERE. I added this believing it would explain the residual large
+                # displacements in run 30157501491 (after folding: p99 71.5 Å, max 128.1 Å against a 126.3 Å edge)
+                # on THIS box — a reduced-form truncated octahedron, rows [126.3,0,0], [0,126.3,0], [63.1,63.1,89.3].
+                # That belief is REFUTED by direct test: over 4000 random small displacements plus whole lattice
+                # translations on this exact cell, fold-only recovers the true displacement with worst error
+                # 0.000 Å — identical to fold + 27-search. So the fold was already minimal here and the search is a
+                # no-op on this system; it is retained only as insurance for cells where it is not.
+                # ⇒ THE RESIDUAL ~1.3 % TAIL IS THEREFORE NOT A MINIMUM-IMAGE ARTEFACT, AND ITS CAUSE IS UNKNOWN.
+                # Candidates NOT yet discriminated: an NPT box that differs between the two frames (the unwrap uses
+                # frame N's vectors); iteration 0 being a pre-equilibration configuration rather than the start of
+                # production; or read_sampler_states index [0] not referring to the same continuous replica at both
+                # iterations. Do not guess between these in a write-up — the discriminator is to compare successive
+                # CHECKPOINTED frames (e.g. 1960 vs 2000, one interval apart) where no configuration can have moved
+                # far: a tail that persists between adjacent frames is a bookkeeping/indexing problem, one that
+                # vanishes means frame 0 is simply not comparable to frame 2000.
+                best = (d ** 2).sum(axis=1)
+                shifts = [(i, j, k) for i in (-1, 0, 1) for j in (-1, 0, 1) for k in (-1, 0, 1)
+                          if (i, j, k) != (0, 0, 0)]
+                for s in shifts:
+                    cand = d + np.asarray(s, dtype=float) @ M
+                    n2 = (cand ** 2).sum(axis=1)
+                    take = n2 < best
+                    if take.any():
+                        d[take] = cand[take]
+                        best[take] = n2[take]
+                b = a + d
+                unwrapped = True
+            box = (np.abs(M).max(axis=1) if M is not None else None)   # per-vector length scale, for reporting
+
+            # Kabsch: remove translation, then the optimal rotation — so the number reports internal/pose change
+            # rather than the whole complex tumbling and drifting through the box.
+            ac, bc = a - a.mean(0), b - b.mean(0)
+            U, _, Vt = np.linalg.svd(ac.T @ bc)
+            d = np.sign(np.linalg.det(Vt.T @ U.T))
+            R = Vt.T @ np.diag([1.0, 1.0, d]) @ U.T
+            disp = np.sqrt((((ac @ R.T) - bc) ** 2).sum(axis=1)) * 10.0                  # per-atom, Å
+            rmsd = float(np.sqrt((disp ** 2).mean()))
+            # WHOSE RMSD IS THIS? On the real valB legs the analysis-particle subset is 7388 of 141968 atoms —
+            # the WHOLE SOLUTE (SMARCA2 BD + VHL + EloB + EloC + the PROTAC), not the ligand. So it still must not
+            # be judged against LIG_RMSD_MAX_A, a LIGAND pose threshold: a superposed multi-chain assembly cannot
+            # be fit by one global rotation when the chains move relative to each other, so the number runs high
+            # for reasons that are not pose collapse. Report it, do not fail on it.
+            #
+            # 14.97 Å (run 30156954406) is nonetheless too large to wave away, and there are two live explanations
+            # that this function must not choose between by assertion:
+            #   H1 the ternary assembly genuinely rearranged — decision-relevant, since that interface IS what
+            #      ΔΔG_coop measures;
+            #   H2 one or more chains wrapped across the periodic boundary — pure artifact.
+            # The discriminator is the per-atom displacement DISTRIBUTION: a PBC jump is bimodal with a mode near
+            # a box edge and leaves most atoms small, whereas real rearrangement moves atoms continuously. So emit
+            # the percentiles and the box edge and let the next reader decide on data.
+            pct = {("p%d" % p): float(np.percentile(disp, p)) for p in (50, 90, 99)}
+            box_nm = (float(box.max()) * 10.0) if box is not None else None
+            frac_beyond_half_box = (float((disp > (box_nm / 2.0)).mean()) if box_nm else None)
+            # Only judge it against the threshold once the wrap is actually undone. Even then this is the SOLUTE
+            # subset (protein assembly + PROTAC), not the ligand alone — so it is a structural-stability measure,
+            # a legitimate escape/collapse detector, but not the ligand-pose RMSD the prereg names. Report which
+            # it is; leave the pose flag unmeasured until the ligand atom indices come from the hybrid topology.
+            return {"status": ("ok (minimum-image-corrected, superposed RMSD over the solute subset — %d of %d "
+                               "atoms; structural-stability proxy, NOT the ligand-only pose RMSD)"
+                               % (n_idx, n_all)) if unwrapped else
+                              ("NOT minimum-image corrected (box unavailable or non-orthorhombic) — the value is "
+                               "inflated by periodic wrapping and is informational only"),
+                    "solute_superposed_rmsd_A": rmsd, "ligand_rmsd_A": None,
+                    "minimum_image_corrected": unwrapped,
+                    "box_matrix_A": ([[round(v * 10.0, 3) for v in row] for row in M.tolist()]
+                                     if M is not None else None),
+                    "box_is_orthorhombic": (bool(np.abs(M - np.diag(np.diag(M))).max() <= 1e-6)
+                                            if M is not None else None),
+                    "solute_stable": (bool(rmsd <= LIG_RMSD_MAX_A) if unwrapped else None),
+                    "displacement_percentiles_A": pct, "max_displacement_A": float(disp.max()),
+                    "box_edge_A": box_nm, "fraction_atoms_beyond_half_box": frac_beyond_half_box,
+                    "n_atoms_used": n_idx, "n_atoms_total": n_all,
+                    "superposed": True, "iterations_compared": [0, last_ckpt],
+                    "checkpoint_interval": interval}
+        rmsd_all = float(np.sqrt(((pN - p0) ** 2).sum(axis=1).mean())) * 10.0
+        return {"status": "NOT COMPARABLE to LIG_RMSD_MAX_A — no analysis-particle subset is stored (n_idx=%d of "
+                          "%d), so this is an UNALIGNED whole-system value dominated by bulk-solvent diffusion "
+                          "and periodic wrapping. Reported for the record only; the flag stays unmeasured. A real "
+                          "pose check needs the ligand atom indices from the OpenFE hybrid topology."
+                          % (n_idx, n_all),
+                "whole_system_unaligned_rmsd_A": rmsd_all, "ligand_rmsd_A": None,
+                "superposed": False, "n_atoms_total": n_all,
+                "iterations_compared": [0, last_ckpt], "checkpoint_interval": interval}
     except Exception as e:  # noqa: BLE001
-        return {"status": "structural RMSD failed: %s: %s" % (type(e).__name__, e)}
+        # SELF-DESCRIBING FAILURE. This check has now failed twice with a bare
+        # "AttributeError: 'NoneType' object has no attribute 'dimensions'", which names neither the object that
+        # was None nor the read that produced it — so it cannot be root-caused from the report, only guessed at.
+        # Dump what was actually obtained, so the next run diagnoses instead of re-guessing.
+        probe = {}
+        try:
+            probe["checkpoint_interval"] = int(getattr(reporter, "checkpoint_interval", -1) or -1)
+            probe["last_iteration"] = int(reporter.read_last_iteration())
+            # THE LIKELY CAUSE, made explicit: positions live in a SEPARATE checkpoint file, not in
+            # simulation.nc. With no checkpoint storage the reporter holds None and read_sampler_states()
+            # dereferences None.dimensions (a netCDF4 Dataset attribute) — indistinguishable, from the bare
+            # message, from a bug in this module. Name it.
+            probe["has_checkpoint_storage"] = getattr(reporter, "_storage_checkpoint", None) is not None
+            probe["checkpoint_exists_flag"] = bool(getattr(reporter, "_checkpoint_storage_file_exists", None)) \
+                if hasattr(reporter, "_checkpoint_storage_file_exists") else None
+            probe["files_beside_nc"] = sorted(os.listdir(os.path.dirname(nc_path)))[:12]
+        except Exception as pe:  # noqa: BLE001
+            probe["reporter_probe_error"] = "%s: %s" % (type(pe).__name__, pe)
+        for label, it in (("iter0", 0), ("iter_last_ckpt", probe.get("checkpoint_interval", 1) and
+                          (probe.get("last_iteration", 0) // max(probe.get("checkpoint_interval", 1), 1))
+                          * max(probe.get("checkpoint_interval", 1), 1))):
+            try:
+                ss = reporter.read_sampler_states(iteration=it)
+                probe[label] = {
+                    "requested_iteration": it,
+                    "returned": type(ss).__name__,
+                    "n_states": (len(ss) if ss is not None else None),
+                    "state0_type": (type(ss[0]).__name__ if ss else None),
+                    "state0_positions": (type(getattr(ss[0], "positions", None)).__name__ if ss else None),
+                    "state0_box_vectors": (type(getattr(ss[0], "box_vectors", None)).__name__ if ss else None),
+                }
+            except Exception as pe:  # noqa: BLE001
+                probe[label] = "read_sampler_states(%s) raised %s: %s" % (it, type(pe).__name__, pe)
+        return {"status": "structural RMSD failed: %s: %s" % (type(e).__name__, e), "probe": probe}
 
 
 def analyze_all():

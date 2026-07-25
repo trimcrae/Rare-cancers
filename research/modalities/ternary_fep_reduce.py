@@ -177,6 +177,28 @@ def calibration_decision(ternary_agg, binary_agg, target_kcal, restraint_dominat
 # replicate SD" — combined with correct sign, a between-replicate cycle-SD ceiling, and all convergence
 # diagnostics. This SUPERSEDES the band-only rule that was retired for "could accept zero": here PASS needs
 # correct sign AND small error AND small cycle SD AND clean diagnostics, so it cannot pass zero or a diverging set.
+# ★ DEFECT FIX 2026-07-25 — the gate as frozen ADMITTED THE NULL IT WAS WRITTEN TO EXCLUDE.
+# With target +0.944, `|mean − target| <= GATE_ABS_ERR_PASS(1.0)` accepts mean = 0.0 (error 0.944 < 1.0). So a
+# method predicting NO cooperativity change passed: verified directly against this gate, five replicates at
+# +0.05 → PASS, and Monte Carlo gave PASS 22 % for a zero-signal method vs 23 % for one that is exactly right.
+# A gate you can pass by predicting nothing cannot validate anything.
+#
+# WHY THIS IS A DEFECT FIX AND NOT A POST-HOC RETUNE — the three things that make it legitimate:
+#   1. It CONTRADICTS THE FROZEN RULE'S OWN STATED INTENT. wurz-calib-frozen.json →
+#      decision_rule_valB_mini.retired_rule says the combination was adopted "so it cannot accept zero or a
+#      diverging replicate set." It accepts zero. The implementation therefore fails to implement the
+#      preregistration; restoring that intent is not changing it.
+#   2. It is a property of the ARITHMETIC (1.0 > 0.944), present at freeze time on 2026-07-19, and would have
+#      been just as wrong had r0 come back favourable. It is not responsive to an unfavourable result.
+#   3. It is STRICTLY STRICTER IN EVERY DIRECTION. Goalpost-moving means making a gate easier to pass; this makes
+#      it harder, so it cannot manufacture a favourable verdict. Nothing already decided changes: r0 is
+#      INDETERMINATE at n=1 under both the old and new rule.
+# The original constants are preserved verbatim below and the superseded behaviour is recorded in the frozen JSON.
+# Consequence worth stating: under the corrected rule valB_mini is hard to pass even for an accurate method at
+# this lane's noise — which is itself the argument for recalibrating onto a larger signal, not for loosening this.
+GATE_REQUIRE_CI_EXCLUDES_ZERO = True   # a resolved nonzero effect, not a noisy positive point estimate
+GATE_MEAN_NEARER_TARGET_RATIO = 0.5    # mean must exceed target*this, i.e. sit nearer the target than nearer zero
+
 GATE_ABS_ERR_PASS = 1.0        # |mean ΔΔG_calc − target| <= this AND ... = PASS-eligible
 GATE_ABS_ERR_FAIL = 2.0        # |mean ΔΔG_calc − target| >  this = FAIL
 GATE_CYCLE_SD_PASS = 0.75      # between-replicate sample SD <= this = PASS-eligible
@@ -244,6 +266,23 @@ def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, exte
     if not reasons and near_boundary and not extended:
         reasons.append("within %.1f of a pass/fail boundary (abs_err=%.2f, sd=%s) — not robust"
                        % (GATE_BOUNDARY_MARGIN, abs_err, "%.2f" % sd if sd is not None else "n/a"))
+    # ---- the two anti-null conditions (defect fix 2026-07-25; see the constants block) ----
+    # Both are checked HERE, after the FAIL tier and alongside the BORDERLINE reasons, so a result that predicts
+    # nothing lands in BORDERLINE/extend rather than PASS. They are AND-conditions on PASS, never routes to PASS.
+    near_zero = mean <= (target_kcal * GATE_MEAN_NEARER_TARGET_RATIO)
+    if near_zero:
+        reasons.append("mean %+.3f is nearer ZERO than the target %+.3f (needs > %+.3f) — a prediction of 'no "
+                       "cooperativity change' must not pass a benchmark whose measured answer is %+.3f"
+                       % (mean, target_kcal, target_kcal * GATE_MEAN_NEARER_TARGET_RATIO, target_kcal))
+    ci_excludes_zero = (ci is not None and (mean - ci) > 0.0)
+    if GATE_REQUIRE_CI_EXCLUDES_ZERO and not ci_excludes_zero:
+        reasons.append("t-CI includes zero (%+.3f +/- %.3f) — the effect is not resolved as nonzero"
+                       % (mean, ci if ci is not None else float("nan")))
+    metrics["anti_null_checks"] = {"mean_nearer_target_than_zero": (not near_zero),
+                                  "ci95_excludes_zero": ci_excludes_zero,
+                                  "ci95_low": (mean - ci) if ci is not None else None,
+                                  "min_mean_for_pass": target_kcal * GATE_MEAN_NEARER_TARGET_RATIO}
+
     if reasons:
         return {"decision": "BORDERLINE", "reason": "; ".join(reasons)
                 + " -> extend to 5 replicates and re-reduce (do NOT advance to NR-V04).",

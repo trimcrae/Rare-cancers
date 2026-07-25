@@ -1315,6 +1315,22 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                         if r.returncode == 0:
                             break
                         _last = "pyclient=%s | gcloud=%s" % (_perr, (r.stderr or ""))
+                        # A 403 IS NOT TRANSIENT — DO NOT BURN 8 BACKOFF ROUNDS ON IT. `gcloud storage cp`
+                        # reports a permission denial as GcsApiError('') with an EMPTY message, which is why
+                        # this failure has been labelled "a transient GcsApiError" and retried. It is not
+                        # transient: on 2026-07-25 both a fresh fwd build and the rev build died here after 8
+                        # retries and ~2 min of pointless backoff, and only the python client's error carried
+                        # the truth — 403, gpu-runner@ lacks storage.objects.create on the setupcache/ prefix
+                        # (it CAN write stagecache/, so the grant is prefix-limited; every setup cache that
+                        # exists was written by a GPU VM under the compute SA, not by the CPU primer).
+                        # Fail immediately with the real reason so the next reader is not misdirected.
+                        if "403" in _perr or "storage.objects.create" in _perr or "Forbidden" in _perr:
+                            print("  [spot-safe] cache upload %s: PERMISSION DENIED (403), not transient — "
+                                  "aborting retries. The uploading identity lacks storage.objects.create on "
+                                  "this prefix; retrying cannot fix it. Either grant it, or build the setup on "
+                                  "the VM (allow_gpu_setup_build=1), whose SA can write. Full: %s"
+                                  % (f, _perr), flush=True)
+                            raise RuntimeError("cp %s: PERMISSION DENIED (403) — %s" % (f, _perr[-300:]))
                         print("  [spot-safe] cache upload %s attempt %d failed (%s); retrying"
                               % (f, _attempt + 1, _last[-240:]), flush=True)
                         time.sleep(min(60, 5 * (2 ** _attempt)))
@@ -1455,7 +1471,7 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
         if _gsh("ls", cache_dir + "/manifest.json").returncode != 0:
             raise SystemExit("[spot-safe] PRIME_ONLY: cache did NOT persist (no manifest.json at %s) — the "
                              "upload failed (see 'setup-cache save failed' above). Failing the prime so it is "
-                             "visible; re-run it (uploads now retry transient GcsApiErrors)." % cache_dir)
+                             "visible. If the cause was a 403 the re-run will fail identically — a permission denial is NOT transient; build the setup on the VM (allow_gpu_setup_build=1) or grant the uploader storage.objects.create on this prefix." % cache_dir)
         print("  [spot-safe] PRIME_ONLY: setup built + cached to %s (manifest verified in GCS); exiting before MD "
               "(a GPU run will restore it and skip setup)." % cache_dir, flush=True)
         return None, None, {"primed": True, "cache_dir": cache_dir, "n_particles": system.getNumParticles()}

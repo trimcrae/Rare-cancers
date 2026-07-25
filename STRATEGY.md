@@ -21,6 +21,31 @@
 
 ---
 
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 11:30 AM ET**)
+
+*Keep this section current. It is the first thing a fresh session should read to know what is executing, what
+is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
+relevant rung below.*
+
+| what | state | ETA | what its result decides |
+|---|---|---|---|
+| **valB_mini rev setup prime** (CPU, `ternary-setup-prime-cpu.yml`, run 30163606577, direction=rev seed 0 nagl) | running — staging (~14–20 min) then ~12 min build + cache upload | **~12:00 PM ET** | Whether the rev GPU leg can restore setup in seconds instead of rebuilding it inside the unprotected, preemption-exposed window. **First primer run since the `setupcache/` IAM 403 was fixed** — also the end-to-end proof that fix works |
+| **valB_mini rev ternary leg r0** (GPU L4 spot) | **NOT running** — launch blocked on the prime above. First attempt (VM `gcp-ternary-30162403453`) was **spot-preempted 11:02 AM ET**, 12 min in, *during the uncheckpointed setup build*, so the whole build was lost. `NaN=no`, no crash | launch on prime success; leg ~10–20 h detached → **result 2026-07-26 AM ET** | **|ΔG_fwd + ΔG_rev| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+
+**Nothing else is executing.** The rescope-vs-continue decision on valB_mini is deliberately **held** until the
+reverse leg reads out — it is the one cheap test that can falsify the "systematic, not sampling" conclusion the
+current recommendation rests on.
+
+### ⚠ Reading the ternary lane's monitoring output — two traps
+
+1. **`warmup_committed_iter` / `production_committed_iter` in `[PROGRESS-SUMMARY]` are LEG-WIDE ACROSS SALTS.**
+   They can report a *different direction's* legs. A rev-leg check showing `production_committed_iter=2000` was
+   the **forward** leg's count, not progress. Misread three times on 2026-07-25.
+2. **Step DURATION, not status, is what distinguishes these outcomes** — all at the same step, all "step 7":
+   `~0.4 min + success` = a **cache restore that ran no build** (a hypothesis test built on this was silently
+   void); `~0.5 min + failure` = the endpoint-construction radical; `~11.5 min + failure` = a real, complete
+   build that failed only on the cache upload.
+
 ## Program and thesis
 
 The goal is the **state of the art of what in-silico methods can do for an NR4A3-selective degrader** — a
@@ -515,6 +540,99 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   valB_mini gates valB_full only — it does **not** authorize the NR4A matrix; until valB_full passes, NR4A ternary
   scores are **exploratory**. *(In progress. The cis-epimer PROTAC-2 edge is demoted to the negative-endpoint
   stress module of the cube below — a pass forced by holding an unstable pose is not a pass.)*
+
+  **★ r0 IS IN AND IT IS THE WRONG SIGN — AND MORE REPLICATES CANNOT FIX IT (2026-07-25). Full analysis +
+  recommendation: [valB-mini-r0-verdict-2026-07-25.md](research/manuscripts/valB-mini-r0-verdict-2026-07-25.md).**
+  The first complete cycle (CI 30148463967, re-dumped 30155238348) gives **ΔΔG_coop(r0) = −0.534 kcal/mol** against
+  the +0.944 target — wrong sign, 1.478 off — from legs binary **48.0046** / ternary **47.4701** / solvent
+  **47.8060**, i.e. the answer is **1.1 % of the numbers being subtracted** (the reduction's own
+  `cancellation_ratio` = 0.0111). Protocol hashes are **consistent** across the three legs, so the cycle is *not*
+  contaminated by a protocol mismatch; and the record's `converged: false` is only `n_replicas >= 3` failing at
+  n=1, **not** an MD-convergence finding. Four things follow, each verified against the frozen gate rather than
+  asserted:
+  - **r1+r2 cannot PASS.** Exhaustive scan of every (r1,r2) over [−4,+8]² through `calibration_gate`: 0 PASS,
+    17,276 BORDERLINE, 11,885 FAIL. Condition 3's boundary rule needs a first-round PASS to carry cycle
+    SD ≤ 0.25, while one replicate pinned at −0.534 forces SD ≥ 0.69. Buying r1+r2 buys a *BORDERLINE-extend-to-5*
+    or a FAIL — neither authorizes NR-V04.
+  - **The n=3 round was never decisive.** A *perfectly accurate* method passes first-round only 9 % of the time at
+    the repo's own assumed replicate SD of 0.7 (50 % at SD 0.3, 20 % at 0.5, 4 % at 1.0). BORDERLINE-by-construction.
+  - **The gate admits the null.** `|mean − 0.944| ≤ 1.0` accepts mean = 0.0, so at n ≥ 5 a method predicting **no
+    cooperativity change** PASSES (verified: five replicates at +0.05 → PASS). Monte Carlo: PASS 22 % for μ=0 vs
+    23 % for a method that is exactly right. **A gate you can pass by predicting nothing cannot validate anything.**
+    ⚠ Recorded, deliberately **NOT applied** — amending a preregistered rule after a failing result needs an
+    explicit, dated, reviewer-approved defect-fix, not a quiet retune.
+  - **Two of three systematic-error detectors were never run; one *could not* run.** No reverse legs exist
+    (`antisymmetry_fwd_plus_rev_kcal: null` on all three), there is no redundant edge so no cycle closure, and the
+    reviewer's required change #1 (convergence analysis of the committed `.nc`) was **built but never wired to any
+    dispatch path** — while `_diagnostics_ok()` returns True when the report is *absent*, so the gate's "all
+    diagnostics pass" requirement was satisfied by never measuring it. Wired 2026-07-25; first execution then hit
+    two further blockers (missing `openfe`, needed to deserialize openmmtools' end thermodynamic states; and an
+    unguarded lazy `mbar` access that took the whole report down) — both fixed. **Replicates shrink precision, not
+    accuracy**, and a wrong sign 1.478 from target is a systematic signature.
+
+  **★ CONVERGENCE READ OUT (2026-07-25, run 30157501491) — r0 IS A MEASUREMENT, NOT A BROKEN RUN, WHICH SETTLES
+  THE REPLICATE QUESTION.** Ternary seed 0: **2000/2000** production iterations · MBAR ΔG **47.511 ± 0.045** ·
+  overlap connected, min-adjacent **0.109** (floor 0.03) · equilibration fraction **0.381** · N_eff **676** ·
+  12/12 replicas visiting both ends · **ΔG(t) full-vs-final-half 0.0023**, q3-vs-q4 **0.1255** · **fwd/rev gap
+  0.0255** at f=0.875. Replica mixing **0.8915** against a 0.90 ceiling — passes, but **record as marginal**.
+  Structurally stable: the alarming 78.9 Å → 14.97 Å solute RMSD is **periodic wrapping** (p50 2.50 Å, p90
+  5.91 Å, ~2 % of atoms at ~1 box edge of 126.3 Å; √(0.02·100²+0.98·3²) ≈ 14.4 reproduces it), so the
+  *ternary assembly did not rearrange* and the systematic does **not** implicate the SMARCA4→SMARCA2 starting
+  model. **Consequence: the statistical error (0.045) is ~33× smaller than the miss (1.478), so the wrong sign is
+  SYSTEMATIC — and replicates shrink variance, not bias.** Made worse for the replicate case, not better: ternary
+  seed *s* uses the *s%n*-th relaxed SMARCA2 model, so r1/r2 are partly *different structures* and their spread
+  conflates sampling noise with homology-model sensitivity. Still unmeasured: the **ligand-only** pose RMSD
+  (needs ligand indices from the OpenFE hybrid topology) — `diagnostics_complete: false` says so.
+  ⚠ **Seven defects were found in this gating diagnostic on 2026-07-25, every one reporting success while
+  measuring nothing** (never wired · missing `openfe` · an unguarded lazy `mbar` that deleted six other metrics ·
+  slice-MBAR never converging · a fwd/rev gap taken where it is identically zero · the checkpoint never opened
+  because openmmtools wants `checkpoint.nc` and the driver writes `checkpoint.chk` · a ligand-pose threshold
+  applied first to bulk solvent then to a four-chain assembly). Two produced *wrong verdicts*: a silent
+  `diagnostics_ok=True`, then a fabricated hard FAIL. **This is an argument for spending the next dollar on
+  INDEPENDENT checks — reverse legs, cycle closure — not more replicates through the same machinery.** Full
+  evidence: [valB-mini-r0-verdict-2026-07-25.md](research/manuscripts/valB-mini-r0-verdict-2026-07-25.md).
+
+  **★ THE REVERSE LEG WAS UNREACHABLE — FOUR CALLERS PINNED IT SHUT (2026-07-25).** The preregistered
+  forward/reverse antisymmetry check (`hysteresis <= 1.0`, still `null` on all three legs) could not be run at
+  all, and each blocker was the same shape — *capability present in the engine, unreachable from outside*:
+  (a) `MODE=converge` existed in `nr4a3_ternary_fep.main()` but no workflow could dispatch it; (b) the run
+  invocation hardcoded `DIRECTION=fwd`; (c) there was no `direction` dispatch input (adding one hit GitHub's
+  25-input cap → retired the confirmed-no-op `constrain_ligand_ch`, pinning `CONSTRAIN_LIG='0'` so every existing
+  `clig0` commit prefix stays resumable); (d) `ternary-setup-prime-cpu.yml` pinned `DIRECTION: fwd`, and since the
+  setup-cache key is `tag=<leg>_<dir>_r<seed>` a rev leg needed its own prime and could never get one while the
+  GPU lane fails fast on `RBFE_REQUIRE_PRIMED_SETUP=1`. **A rev leg was unsatisfiable from both ends.** All four
+  fixed; a `direction`-keyed commit prefix (`_dirrev`, applied only when direction≠fwd) now makes it impossible
+  for a rev leg to resume the fwd trajectory — which it would have done silently.
+  **Root cause of the rev-only failure (fixed):** `_build_components` passed `base_smiles=sa` to `_endpoint_pose`,
+  where that argument means *"the identity of the molecule in the staged crystal SDF."* `sa` is the crystal ligand
+  only in the FORWARD direction (calib_hi = cmpd1 = 8G1Q CCD `YHB`); cmpd4 is derived and in no crystal. With A/B
+  swapped, the rev leg claimed the crystal held **cmpd4**, `_repair_pose` assigned bond orders against a template
+  differing by N→CH, the thiazole lost its aromatic C–H, and NAGL rejected the molecule
+  (`RadicalsNotSupportedError`, ~30 s into charge assignment). `CRYSTAL_SMILES` is now captured from the
+  *unswapped* endpoint A; forward behaviour is byte-identical; 4 pure-stdlib regression checks added
+  (`tests/test_ternary_crystal_identity.py`), one of which asserts that in rev the crystal must NOT equal
+  endpoint A so the test discriminates the fix from the bug. **The forward r0 result is unaffected** — in fwd the
+  argument was correct, `_endpoint_pose` fails closed on a SMILES mismatch, and the 5-part gate's
+  `endpoints_match` check passed.
+  **Infrastructure findings worth keeping (all fixed):** the setup-cache upload failure was **not** the
+  "transient GcsApiError" the code called it — `gcloud storage cp` renders a permission denial as
+  `GcsApiError('')` with an empty message, and only the python client showed the truth: **403, `gpu-runner@`
+  lacked `storage.objects.create` on the `setupcache/` prefix** while succeeding on `stagecache/` in the same job.
+  Two fresh builds died there (fwd 11.5 min, rev 11.7 min, same file) so it was systematic, and 8 retries with
+  backoff could never help; a 403 now aborts immediately with the real reason. **trimcrae granted the permission
+  2026-07-25 and a per-prefix write probe (`gcp-quota-check.yml`) confirms all four prefixes writable** —
+  so the CPU primer can finally do its job and new legs stop paying 8–40 min of GPU-idle setup.
+
+  **Recommended next steps (spend order):** (1) ✅ *done, free* — the convergence analysis read out above; (2) *free*
+  — route the admits-zero gate defect for approval; (3) *one
+  replicate's cost, strictly more informative than a replicate* — run the **reverse** ternary+binary legs and test
+  |ΔG_fwd + ΔG_rev|; (4) **the real decision** — rescope the calibrator to a **≳2 kcal/mol** signal, the same
+  margin this file already says a useful degradation window needs, via a multi-edge congeneric path (which also
+  finally supplies cycle closure) or the high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate
+  hops. Calibrating at 0.944 demands resolution the program does not need: this file's own mechanism-first revision
+  already demoted the marginal/induced-interface axis to "a confirmation tool operating near its limit." The
+  honest deliverable is a **measured resolution floor** for the ΔΔG_coop cycle, not a 23 %-odds PASS on a
+  benchmark a null method passes 22 % of the time.
 
   **As-run protocol (live leg log, run 30112102294, 2026-07-24 1:13 PM ET) — this is what the cost basis and the
   paper must describe, not the older 16-window/4 fs assumption:** `NWIN=12` λ-windows · `CHARGE_METHOD=nagl` ·

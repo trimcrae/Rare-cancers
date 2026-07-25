@@ -20,12 +20,13 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce | tail | forensic (CPU/runner-only: open the newest committed (.nc,.chk) production generations with openmmtools + print checkpoint_interval / analysis-vs-checkpoint last iteration / torn-pair flag — confirms the interval-mismatch root cause, $0, no VM) | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | converge (CPU/runner-only: the reviewer's required-change-#1 convergence analysis of the committed .nc for ALL THREE legs of the cycle — MBAR overlap matrix + bottleneck, dG(t) plateau, fwd/rev, replica mixing, N_eff, structural drift; writes ternary_convergence.json beside the leg results so the reducer's diagnostics_ok stops defaulting to True. $0, no VM) | tail | forensic (CPU/runner-only: open the newest committed (.nc,.chk) production generations with openmmtools + print checkpoint_interval / analysis-vs-checkpoint last iteration / torn-pair flag — confirms the interval-mismatch root cause, $0, no VM) | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
       preequil_smoke: { description: "1 = PREEQUIL_SMOKE (system-build + 200-step relax sanity, no full ns) for mode=preequil", default: "0", required: false }
       preequil_ns: { description: "production ns after restrained relaxation for mode=preequil", default: "0.5", required: false }
       use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
       leg_id:      { description: "leg to run", default: "calib_hi_to_lo__ternary_vhl", required: false }
       seed:        { description: "replica seed (run: 0/1/2)", default: "0", required: false }
+      direction:   { description: "fwd (default) | rev — DIRECTION=rev swaps ligand A/B to run the B->A alchemical leg, giving the preregistered forward/reverse ANTISYMMETRY check |dG_fwd + dG_rev| (frozen decision rule: hysteresis <= 1.0). The engine has supported this since it was written; the workflow hardcoded DIRECTION=fwd, so it was unreachable. NB the commit prefix gains a _dir<rev> suffix so a rev leg can never resume the fwd trajectory; the setup cache is already direction-keyed via tag=<leg>_<dir>_r<seed>.", default: "fwd", required: false }
       n_windows:   { description: "lambda windows", default: "12", required: false }
       template_pdb: { description: "crystal template (Wurz 8G1Q for valB_mini cmpd1->cmpd4)", default: "8G1Q", required: false }
       zone:        { description: "GCE zone", default: "us-central1-a", required: false }
@@ -33,7 +34,6 @@ on:
       detach:      { description: "1 = launch VM + exit (multi-hour real legs; monitor via gpu-rbfe-gcp-tail vm=gcp-ternary-<runid>). Auto-on for mode=run", default: "0", required: false }
       charge_method: { description: "nagl (openff-nagl ML charges, fast; has a warm CPU-primed setup cache — DEFAULT, matches all existing valB legs) | am1bcc (field standard but SLOW on big PROTACs via AmberTools sqm AND has no primed cache -> ~40 min GPU-idle setup; if you need am1bcc, run ternary-setup-prime-cpu.yml charge_method=am1bcc FIRST so the GPU restores the cache instead of re-parameterizing). MUST match across all valB legs.", default: "nagl", required: false }
       timestep_fs: { description: "MD timestep (fs). CORRECTED 2026-07-19: OpenFE leaves the WHOLE alchemical ligand's C-H unconstrained (not just morphing bonds), so the ceiling is a LANE property, not edge chemistry: large ternary assemblies NaN at 4.0 (calib) and run at 2.0; binary warhead RBFE runs at 4.0. With constrain_ligand_ch=1 a larger dt (try 3.0/4.0) may become stable. See ternary-rbfe-runbook.md 1b.", default: "2.0", required: false }
-      constrain_ligand_ch: { description: "1 = constrain the NON-alchemical ligand C-H bonds OpenFE leaves flexible (nr4a3_rbfe.constrain_nonalchemical_xh) to enable a larger stable timestep for the ternary lane. NB (2026-07-19): the ligand C-H are ALREADY constrained, so this is a no-op — kept only as a guard. MUST match across ALL legs of a calculation. Keyed into the commit prefix.", default: "0", required: false }
       warmup_timestep_fs: { description: "MD timestep (fs) for the DISCARDED equilibration/warmup only; production runs at timestep_fs. Set smaller than timestep_fs (e.g. 1.5) to survive a rough ternary warmup while producing at the larger dt — equilibration never enters ΔG, so this does not affect the result. Empty = warmup uses the production dt. Keyed into the commit prefix.", default: "", required: false }
       warmup_iters: { description: "override warmup iteration count (RBFE_WARMUP_ITERS). Empty = derive from equilibration_length. Use a small value (e.g. 100) with a reduced warmup_timestep_fs so the reduced-dt relax is short, or for a fast timestep-feasibility test.", default: "", required: false }
       prod_iters: { description: "override production iteration count (RBFE_PROD_ITERS). Empty = full science length. Use a small value (e.g. 120) for a fast timestep-feasibility test (does production survive at timestep_fs).", default: "", required: false }
@@ -67,13 +67,19 @@ jobs:
       MODE: ${{ github.event.inputs.mode || 'smoke' }}
       LEG_ID: ${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}
       SEED: ${{ github.event.inputs.seed || '0' }}
+      DIRECTION: ${{ github.event.inputs.direction || 'fwd' }}
       NWIN: ${{ github.event.inputs.n_windows || '12' }}
       TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
       SPOT_SAFE: ${{ github.event.inputs.spot_safe || '0' }}
       DETACH: ${{ github.event.inputs.detach || '0' }}
       CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'nagl' }}
       TIMESTEP_FS: ${{ github.event.inputs.timestep_fs || '2.0' }}
-      CONSTRAIN_LIG: ${{ github.event.inputs.constrain_ligand_ch || '0' }}
+      # Was a workflow input; RETIRED 2026-07-25 to free a slot under GitHub's 25-input dispatch cap for
+      # `direction`. It was a CONFIRMED NO-OP: a perses force-layout dump (2026-07-19) showed the ligand C-H
+      # are already constrained, and nr4a3_rbfe.constrain_nonalchemical_xh() adds 0 restraints. Its only
+      # remaining function was keying the commit prefix, so it is PINNED to '0' -- the value every real
+      # dispatch has used -- which keeps every existing `clig0` prefix byte-identical and still resumable.
+      CONSTRAIN_LIG: '0'
       WARMUP_TS: ${{ github.event.inputs.warmup_timestep_fs || '' }}
       WARMUP_ITERS: ${{ github.event.inputs.warmup_iters || '' }}
       PROD_ITERS: ${{ github.event.inputs.prod_iters || '' }}
@@ -157,10 +163,16 @@ jobs:
             echo "  (no post-mortem logs — VM either still alive, spot-preempted (abrupt DELETE, no upload), or never provisioned)"
           fi
           echo "=== recent GCE preemption operations (DEFINITIVE preempt-vs-crash: a VM name here = GCE preempted it, not a crash/zombie) ==="
-          gcloud compute operations list \
+          PREEMPTS=$(gcloud compute operations list \
             --filter="operationType=compute.instances.preempted AND targetLink~gcp-ternary-" \
-            --format="table(targetLink.basename(),operationType,insertTime,statusMessage)" \
-            --sort-by=~insertTime --limit=10 2>/dev/null || echo "  (preemption-operations query failed)"
+            --format="value(targetLink.basename(),insertTime)" \
+            --sort-by=~insertTime --limit=10 2>/dev/null)
+          printf '%s\n' "${PREEMPTS:-  (none found)}"
+          # Fold the preempt-vs-crash verdict into the annotation. Without it, "the VM is gone" needs a log dive
+          # to classify, and preemption (routine, resume from checkpoint) looks identical to a crash (investigate).
+          LASTPRE=$(printf '%s\n' "$PREEMPTS" | head -1 | tr -s ' \t' ' ')
+          DEATH="unclassified"
+          [ -n "$(printf '%s' "$PREEMPTS" | tr -d '[:space:]')" ] && DEATH="PREEMPTED(latest: $LASTPRE)"
           echo "=== live gcp-ternary VMs + L4 quota usage (ZOMBIE-vs-capacity: usage>0 with no progress = zombie holding a GPU; usage=0 + no VM + provision failing = real GCE capacity stockout, NOT a zombie) ==="
           gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="table(name,zone.basename(),status,creationTimestamp)" 2>/dev/null || echo "  (no ternary VMs)"
           Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
@@ -203,9 +215,25 @@ jobs:
           WUD=$(printf '%s\n' "$SRC" | grep -aoE "WARMUP timestep overridden to [0-9.]+ fs" | tail -1)
           NANST=$(printf '%s\n' "$SRC" | grep -aoE "replica [0-9]+ at state [0-9]+ resulted in a NaN|iteration[0-9]+-replica[0-9]+-state[0-9]+" | tail -1)
           RDTW=$(printf '%s\n' "$SRC" | grep -aoE "could not build reduced-dt warmup integrator[^\"]{0,90}" | tail -1)
-          VMCOUNT=$(printf '%s\n' "$VMLIST" | grep -c . 2>/dev/null || echo 0)
+          # NB `grep -c . || echo 0` prints 0 AND runs the fallback (grep exits 1 on no match), yielding "0\n0":
+          # the embedded newline broke `[ "$VMCOUNT" = 0 ]` and truncated the annotation. Count without grep.
+          VMCOUNT=$(printf '%s' "$VMLIST" | tr -d '[:space:]' | wc -c | tr -d ' ')
+          [ "$VMCOUNT" -gt 0 ] 2>/dev/null && VMCOUNT=$(printf '%s\n' "$VMLIST" | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ') || VMCOUNT=0
           VMS1=$(printf '%s\n' "$VMLIST" | tr '\n' ';' | cut -c1-200)
           echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED src=$SRCKIND live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\" (committed-iters are leg-wide across salts; verdict fields are from src)"
+          # ALSO EMIT AS AN ANNOTATION. The tail step prints a lot (SSH dumps, nvidia-smi, the whole run log), so
+          # this one decisive line sits at an unpredictable depth and finding it means fetching the log and
+          # guessing a tail window — which wasted real time today. ::notice::/::error:: are retrievable from the
+          # check-runs API, so a progress check becomes one cheap call. An ERROR (not notice) when the VM is gone
+          # or a NaN appeared, so trouble is visible from the annotation LEVEL without parsing anything.
+          SUMMARY="live_vms=$VMCOUNT prod_iter=${PMAX:-0} warmup_iter=${WMAX:-0} NaN=$NAN charge=${CHG:-?} src=$SRCKIND vms=$VMS1"
+          if [ "$VMCOUNT" = "0" ]; then
+            echo "::error title=TERNARY-PROGRESS NO-VM::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — NO live VM. death=${DEATH:-unclassified}. $SUMMARY"
+          elif [ "$NAN" = "YES" ]; then
+            echo "::error title=TERNARY-PROGRESS NaN::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — NaN seen at ${NANST:-unknown}. $SUMMARY"
+          else
+            echo "::notice title=TERNARY-PROGRESS ok::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — $SUMMARY (NB committed-iters are leg-wide ACROSS SALTS, so they may reflect a DIFFERENT direction's legs, not this one)"
+          fi
       - name: Set up openmmtools for forensic ckpt probe (mode=forensic)
         if: ${{ github.event.inputs.mode == 'forensic' }}
         uses: mamba-org/setup-micromamba@v2
@@ -262,14 +290,154 @@ jobs:
           mkdir -p /tmp/legs
           echo "=== pulling leg result JSONs from $RESULTS ==="
           gcloud storage cp "$RESULTS/leg_*.json" /tmp/legs/ 2>/tmp/cperr || { echo "no leg JSONs found (honest empty reduce):"; cat /tmp/cperr; }
+          # Pull the convergence report too, if mode=converge has produced one: the reducer's _diagnostics_ok()
+          # returns True when the report is ABSENT, so without this the gate's "all diagnostics pass" requirement
+          # is satisfied by never having measured it.
+          gcloud storage cp "$RESULTS/ternary_convergence.json" /tmp/legs/ 2>/dev/null \
+            && echo "[reduce] convergence report present — diagnostics_ok is MEASURED" \
+            || echo "[reduce] NO convergence report — diagnostics_ok DEFAULTS to True (unmeasured, not verified)"
           echo "=== leg JSONs present ==="; ls -1 /tmp/legs/ 2>/dev/null || echo "(none)"
           echo "=== running reducer (CPU) ==="
           ( cd research/modalities && CKPT_DIR=/tmp/legs INPUT_DIR=/tmp/legs python3 ternary_fep_reduce.py )
           echo "=== [REDUCE-RESULT] ternary_coop_reduction.json ==="
           python3 -c "import json;d=json.load(open('/tmp/legs/ternary_coop_reduction.json'));print(json.dumps({k:d[k] for k in ('valB_calibration_gate','valB_calibration_decision','n_available_morphs') if k in d}, indent=2))" 2>/dev/null || cat /tmp/legs/ternary_coop_reduction.json
+          # PER-LEG FORENSIC TABLE. The 3-key summary above says WHAT the verdict is; it does not say whether the
+          # legs that produced it are comparable. ΔΔG_coop is a DIFFERENCE of two legs, so a protocol_hash or
+          # n_windows mismatch between the ternary and binary leg silently contaminates the cycle while every
+          # step still reports success. Print the raw per-leg record (ΔG, MBAR SE, protocol hash, windows,
+          # starting model) plus an explicit cross-leg consistency verdict, so the number can be audited.
+          echo "=== [LEG-TABLE] per-leg raw records ==="
+          python3 - <<'PYDUMP'
+          import glob, json, os
+          rows = []
+          for f in sorted(glob.glob('/tmp/legs/leg_*.json')):
+              d = json.load(open(f))
+              ps = d.get('protocol_settings') or {}
+              rows.append({'file': os.path.basename(f), 'env': d.get('environment'), 'dir': d.get('direction'),
+                           'seed': d.get('seed'), 'dg_morph_kcal': d.get('dg_morph_kcal'),
+                           'mbar_se_kcal': d.get('mbar_se_kcal'), 'n_windows': d.get('n_windows'),
+                           'n_mapped_atoms': d.get('n_mapped_atoms'),
+                           'protocol_hash': (d.get('protocol_hash') or '')[:12],
+                           'protocol_settings': ps,
+                           'starting_model': d.get('starting_model')})
+          print(json.dumps(rows, indent=2, default=str))
+          hashes = {r['protocol_hash'] for r in rows if r['protocol_hash']}
+          wins = {r['n_windows'] for r in rows if r['n_windows'] is not None}
+          print('[LEG-CONSISTENCY] n_legs=%d distinct_protocol_hashes=%d %s distinct_n_windows=%s -> %s'
+                % (len(rows), len(hashes), sorted(hashes), sorted(wins),
+                   'CONSISTENT' if len(hashes) <= 1 and len(wins) <= 1 else 'MISMATCH — the cycle is contaminated'))
+          # the cycle, spelled out, so the sign and the algebra are both visible
+          by = {}
+          for r in rows:
+              if r['dg_morph_kcal'] is not None:
+                  by.setdefault((r['env'], r['seed']), r['dg_morph_kcal'])
+          for seed in sorted({k[1] for k in by}):
+              t, b, s = by.get(('ternary', seed)), by.get(('binary', seed)), by.get(('solvent', seed))
+              if t is not None and b is not None:
+                  print('[CYCLE] seed=%s  dG_ternary=%.3f  dG_binary=%.3f  dG_solvent=%s  ->  ddG_coop = %.3f - %.3f = %+.3f kcal/mol'
+                        % (seed, t, b, ('%.3f' % s) if s is not None else 'n/a', t, b, t - b))
+          PYDUMP
+          echo "=== [FULL-REDUCTION] every key ==="
+          cat /tmp/legs/ternary_coop_reduction.json
           gcloud storage cp /tmp/legs/ternary_coop_reduction.json "$RESULTS/ternary_coop_reduction.json" 2>/dev/null && echo "[reduce] uploaded reduction to $RESULTS/" || true
+      - name: Log in to Docker Hub for the pre-baked analysis env (mode=converge)
+        # The reviewer's required change #1 (2026-07-17) was BUILT (ternary_fep_convergence.py, engine MODE=converge)
+        # but never WIRED: this workflow had no `converge` mode and the reduce step calls the reducer directly
+        # rather than the engine's main(), so the mandated seed-0 diagnostics have never actually run. The reducer's
+        # _diagnostics_ok() treats an ABSENT report as True, so every valB verdict so far has silently defaulted its
+        # convergence requirement to "pass". This step closes that hole. $0 — free runner, no GPU, no VM.
+        #
+        # NO CONDA SOLVE (CLAUDE.md standing rule, 2026-07-25). This step first shipped with a
+        # `mamba-org/setup-micromamba` create of `openfe openmmtools pymbar netcdf4 numpy mdtraj` and burned ~20 min
+        # of solve PER RUN, three runs running, while triskit23/ternary-fep already carried that exact stack.
+        # Two reasons the image is right, not merely faster:
+        #   (1) openfe is REQUIRED, not optional garnish — openmmtools stores each end thermodynamic state as a
+        #       serialized class reference and OpenFE's alchemical composable state is one of them, so
+        #       read_end_thermodynamic_states() -> deserialize() -> import_module('openfe...') raises
+        #       ModuleNotFoundError without it, on the FIRST diagnostic (the MBAR overlap matrix). Evidence: GH run
+        #       30155345102, which found the .nc files and died exactly there.
+        #   (2) PARITY — Dockerfile.ternaryfep's spec is byte-for-byte the one this workflow's GPU legs build, so
+        #       the analysis runs on the SAME openfe/openmmtools/pymbar that PRODUCED the trajectory. A different
+        #       pymbar can change the MBAR numbers; an ad-hoc solve here is a silent protocol deviation.
+        # Logging in even though the image is public: anonymous Hub pulls from GitHub runners share an IP and get
+        # rate-limited.
+        if: ${{ github.event.inputs.mode == 'converge' }}
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+      - name: Convergence analysis of the committed .nc (mode=converge — CPU/runner-only, NO GPU/VM)
+        if: ${{ github.event.inputs.mode == 'converge' }}
+        run: |
+          set -eo pipefail
+          BUCKET="${PROJECT}-rbfe-ckpt"; CB="gs://$BUCKET/valB-6hax/commits"; RESULTS="gs://$BUCKET/valB-6hax/results"
+          # Analyse EVERY leg of the cycle, not just the ternary one: ddG_coop is a difference, so a broken binary
+          # leg falsifies the number exactly as thoroughly as a broken ternary leg. leg_id input is ignored here.
+          LEGS="calib_hi_to_lo__ternary_vhl calib_hi_to_lo__binary_vhl calib_hi_to_lo__solvent"
+          mkdir -p /tmp/conv
+          # LAYOUT-AGNOSTIC DISCOVERY. The commit prefix is keyed by (dt, clig, warmup, salt) and the seed's
+          # position in it is not something to guess at: a wrong guessed path returns "no commits" and looks
+          # exactly like "the trajectory is gone". So enumerate the whole lane ONCE and let the paths speak.
+          echo "=== full recursive listing of the valB lane (path shapes + sizes) ==="
+          gcloud storage ls --recursive "gs://$BUCKET/valB-6hax/" 2>/dev/null > /tmp/lane.txt || true
+          echo "objects: $(wc -l < /tmp/lane.txt)"
+          echo "--- distinct path shapes (digits/hashes collapsed) ---"
+          sed -E 's#/[0-9a-f]{8,}/#/<hash>/#g; s#iter-[0-9]+#iter-N#g; s#/[0-9]+/#/<n>/#g' /tmp/lane.txt \
+            | sed -E "s#^gs://$BUCKET/valB-6hax/##" | sort -u | head -40
+          echo "--- every simulation.nc / .chk in the lane ---"
+          grep -aE "\.nc$|\.chk$" /tmp/lane.txt | head -30 || echo "(NONE — no sampler trajectory survives in the lane)"
+          echo "--- COMMITTED.json markers ---"
+          grep -ac "COMMITTED.json" /tmp/lane.txt || echo 0
+          for LEG in $LEGS; do
+            echo "=== locating newest committed simulation.nc for $LEG (any prefix/seed) ==="
+            ALL=$(grep -a "$LEG" /tmp/lane.txt | grep -aE "/simulation\.nc$" || true)
+            if [ -z "$ALL" ]; then echo "(no simulation.nc anywhere for $LEG — skipping)"; continue; fi
+            NEW=$(printf '%s\n' "$ALL" | sed -E 's#/simulation\.nc$##' \
+                  | awk -F'iter-' '{printf "%d\t%s\n", (NF>1?$NF+0:0), $0}' | sort -k1,1rn | head -1 | cut -f2)
+            echo "newest: $NEW"
+            # _find_nc_files keys each leg by its parent dir name minus the _sim_shared suffix, so name the
+            # download dir after the leg to get a readable tag in the report.
+            DST="/tmp/conv/${LEG}_sim_shared"; mkdir -p "$DST"
+            gcloud storage cp --recursive "$NEW/*" "$DST/" 2>&1 | tail -2 || echo "(download failed for $LEG)"
+            ls -la "$DST" | tail -8
+            # openmmtools keeps POSITIONS in a SEPARATE checkpoint file, not in simulation.nc. Without it the
+            # reporter's checkpoint storage is None and read_sampler_states() dies on None.dimensions (a netCDF4
+            # Dataset attribute) — which is exactly how the mandated ligand-escape check failed. So say out loud
+            # whether this leg's checkpoint is present, and if it is not in the generation dir, look for it
+            # anywhere in the lane before giving up.
+            echo "[files] $(ls -1 "$DST" | tr '\n' ' ')"
+            if ! ls "$DST" | grep -qai "checkpoint"; then
+              CKP=$(grep -aiE "$LEG.*checkpoint.*\.nc$" /tmp/lane.txt | tail -1 || true)
+              if [ -n "$CKP" ]; then
+                echo "[checkpoint] not in the generation dir; pulling $CKP"
+                gcloud storage cp "$CKP" "$DST/" 2>&1 | tail -1 || true
+              else
+                echo "[checkpoint] NONE anywhere in the lane for $LEG — positions were never retained, so the"
+                echo "            structural / ligand-escape diagnostic is UNAVAILABLE for this leg by construction."
+              fi
+            fi
+          done
+          echo "=== running convergence analysis (CPU, pre-baked ternary-fep image) ==="
+          IMG="docker.io/triskit23/ternary-fep:latest"
+          docker pull "$IMG"
+          echo "--- env the analysis will run in (must match the legs' producing env) ---"
+          docker run --rm --entrypoint python "$IMG" -c \
+            "import openfe, openmmtools, pymbar; print('openfe', openfe.__version__, '| openmmtools', openmmtools.__version__, '| pymbar', pymbar.__version__)"
+          # Mount the CHECKED-OUT research/modalities over the image's baked copy: the image supplies the env, the
+          # repo supplies the code. Without this mount the container silently runs whatever code was current at
+          # bake time — which would have been the pre-fix analyzer.
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/conv:/tmp/conv \
+            -e CKPT_DIR=/tmp/conv -e INPUT_DIR=/tmp/conv \
+            -w /work/research/modalities \
+            "$IMG" /work/research/modalities/ternary_fep_convergence.py
+          sudo chown -R "$(id -u):$(id -g)" /tmp/conv 2>/dev/null || true
+          echo "=== [CONVERGE-RESULT] ternary_convergence.json ==="
+          cat /tmp/conv/ternary_convergence.json
+          # Upload beside the leg results so the NEXT mode=reduce picks it up and its diagnostics_ok stops
+          # defaulting to True (the reducer looks for ternary_convergence.json in CKPT_DIR/INPUT_DIR).
+          gcloud storage cp /tmp/conv/ternary_convergence.json "$RESULTS/ternary_convergence.json" 2>/dev/null \
+            && echo "[converge] uploaded report to $RESULTS/" || true
       - name: Reset committed checkpoints (fresh start on timestep change)
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.reset_commits == '1' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.reset_commits == '1' }}
         run: |
           set -eo pipefail
           BUCKET="${PROJECT}-rbfe-ckpt"
@@ -277,7 +445,7 @@ jobs:
           echo "reset_commits=1 -> wiping $CB (a new-timestep run must not resume a stale-dt trajectory)"
           gcloud storage rm --recursive "$CB/" 2>/dev/null && echo "commits wiped" || echo "(no commits to wipe)"
       - name: Provision Spot L4 VM + run ternary-FEP
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' }}
         run: |
           set -eo pipefail
           VM="gcp-ternary-${GITHUB_RUN_ID}"
@@ -449,13 +617,19 @@ jobs:
           # so a dt change must use a FRESH prefix. This makes changing the timestep automatically start clean
           # (no wipe needed — the runner's gpu-runner@ SA can't delete GCS anyway), the old-dt commits just sit
           # unused. (The setup-cache is NOT dt-keyed: the built System is identical across timesteps.)
+          # A rev leg MUST NOT resume the fwd trajectory. The prefix below is keyed by leg+seed+dt+clig+wu+salt
+          # and had NO direction component, so DIRECTION=rev with the same leg/seed/dt would have restored the
+          # FORWARD committed sampling and reported it as a reverse leg — a silent wrong answer of exactly the
+          # kind this lane has produced before. Suffix only when direction != fwd, so every existing fwd
+          # prefix stays byte-identical and keeps resuming.
+          DIRSUF=""; [ "$DIRECTION" != fwd ] && DIRSUF="_dir$DIRECTION"
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT}${DIRSUF} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
             echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
-          ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=fwd N_WINDOWS=$NWIN \
+          ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=$DIRECTION N_WINDOWS=$NWIN \
               CHARGE_METHOD=$CHARGE_METHOD RBFE_TIMESTEP_FS=$TIMESTEP_FS RBFE_CONSTRAIN_LIGAND_CH=$CONSTRAIN_LIG RBFE_WARMUP_TIMESTEP_FS=$WARMUP_TS \
               RBFE_WARMUP_ITERS=$WARMUP_ITERS RBFE_PROD_ITERS=$PROD_ITERS RBFE_REQUIRE_PRIMED_SETUP=$REQUIRE_PRIMED RBFE_MIN_STEPS=$MIN_STEPS SETUP_CACHE_VERSION=\$SETUP_VER \
               RBFE_AUTOSTOP_CONVERGENCE=$AUTOSTOP RBFE_AUTOSTOP_MIN_FRAC=$AUTOSTOP_MIN_FRAC \
@@ -585,14 +759,14 @@ jobs:
           echo "TFEP RESULT: $RES"
 
       - name: Teardown (skip for detached — the VM must keep running)
-        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' }}
         run: |
           if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (7h max-run backstop; tail deletes when done)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
       - name: Result summary
-        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' }}
         run: |
           echo "mode=$MODE leg=$LEG_ID"
           if [ "${DETACHED:-0}" = 1 ]; then echo "🚀 DETACHED: $VM running the leg independently -> GCS; monitor via gpu-rbfe-gcp-tail vm=$VM"; exit 0; fi

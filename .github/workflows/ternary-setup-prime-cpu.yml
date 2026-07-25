@@ -13,11 +13,13 @@ on:
   workflow_dispatch:
     inputs:
       leg_id:        { description: "leg to pre-bake", default: "calib_hi_to_lo__ternary_vhl", required: false }
+      direction:     { description: "fwd (default) | rev — primes the setup cache for the B->A leg. The cache key is tag=<leg>_<direction>_r<seed>, so a rev GPU leg REQUIRES its own prime; it cannot reuse the fwd cache.", default: "fwd", required: false }
       seed:          { description: "replica seed (starting-model index = seed % n_models)", default: "0", required: false }
       charge_method: { description: "am1bcc | nagl — MUST match the GPU run's charge_method (cache key includes it)", default: "nagl", required: false }
       template_pdb:  { description: "crystal template", default: "8G1Q", required: false }
       n_windows:     { description: "lambda windows (system build is independent of this, but kept for parity)", default: "12", required: false }
       use_preequil:  { description: "1 = prime the PRE-EQUILIBRATED (v2pe) setup: overlay the v2 preequilcache (transplant + exact-FF relaxed complex.pdb/ligands.sdf) over the staged tree before parameterizing, and key the cache to v2pe. Requires a prior mode=preequil run (gpu-ternary-fep-gcp.yml). Default 0 = raw v1 setup.", default: "0", required: false }
+      setup_cache_version: { description: "setup-cache key version (default v1). Pass a NOVEL value to force a from-scratch rebuild instead of restoring an existing cache — the only way to verify the lane can still rebuild its inputs. NB use_preequil=1 overrides this to v2pe.", default: "v1", required: false }
 
 permissions:
   id-token: write
@@ -98,7 +100,14 @@ jobs:
           MODE: run
           LEG_ID: ${{ github.event.inputs.leg_id || 'calib_hi_to_lo__ternary_vhl' }}
           SEED: ${{ github.event.inputs.seed || '0' }}
-          DIRECTION: fwd
+          # Was hardcoded `fwd` — the THIRD place in this lane where a reverse leg was unreachable because a
+          # caller pinned the direction (after the run invocation in gpu-ternary-fep-gcp.yml and the absent
+          # `direction` dispatch input). It matters here specifically: the setup cache key is
+          # tag = <leg>_<DIRECTION>_r<seed> (nr4a3_ternary_fep, tag construction), so a rev leg needs its OWN
+          # primed cache and cannot borrow the fwd one — correct behaviour, since the B->A hybrid topology is a
+          # different object. With DIRECTION pinned to fwd this workflow could never produce that cache, so a
+          # rev GPU leg would fail fast on RBFE_REQUIRE_PRIMED_SETUP=1 with no way to satisfy it.
+          DIRECTION: ${{ github.event.inputs.direction || 'fwd' }}
           N_WINDOWS: ${{ github.event.inputs.n_windows || '12' }}
           CHARGE_METHOD: ${{ github.event.inputs.charge_method || 'nagl' }}
           TEMPLATE_PDB: ${{ github.event.inputs.template_pdb || '8G1Q' }}
@@ -114,7 +123,13 @@ jobs:
           # use_preequil: overlay the v2 pre-equilibrated complex.pdb/ligands.sdf over the staged tree and key the
           # setup cache to v2pe — so a GPU run with use_preequil=1 (SETUP_CACHE_VERSION=v2pe) restores THIS cache
           # instead of re-parameterizing on the idle GPU. Mirrors gpu-ternary-fep-gcp.yml's use_preequil overlay.
-          SETUP_VER=v1
+          # SETUP_VER is the setup-cache key's version component. An override matters for REPRODUCIBILITY
+          # TESTING: with an existing key the prime step RESTORES and skips the ~460s solvate+parameterize
+          # entirely (seen 2026-07-25: a fwd prime 'succeeded' in 24s having run no charge assignment at all,
+          # which silently invalidated a hypothesis test built on it). A novel version forces a genuine
+          # from-scratch build, which is the only way to check the lane can still rebuild its own inputs
+          # rather than merely replay a cache baked under an older env.
+          SETUP_VER=${{ github.event.inputs.setup_cache_version || 'v1' }}
           if [ "$USE_PE" = 1 ]; then
             PE_CACHE="gs://$BUCKET/valB-6hax/preequilcache/${LEG_ID}__${TEMPLATE_PDB}__seed${SEED}__v2.tar"
             RAW=$(dirname "$(find /tmp/ternary_in -name complex.pdb | head -1)" 2>/dev/null)
