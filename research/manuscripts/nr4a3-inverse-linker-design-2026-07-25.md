@@ -139,7 +139,19 @@ that is one static conformer and it is not a chemoselectivity claim.)*
 
 ---
 
-## 3. ★ The result that matters most: linker tractability nearly INVERTS the basin ranking
+## 3. ★★ SUPERSEDED BY §3b — the representative is the wrong placement, and correcting it reverses this section
+
+> **Read §3b before §3.** The analysis below is computed at each basin's **representative** placement, and it
+> concluded that linker tractability inverts the basin ranking — that `crbn|M0`, the strongest nomination,
+> needs ~29 backbone atoms and is the least buildable. **That conclusion does not survive.** The
+> representative is the highest-scoring member of the largest member basin; the member that actually carries
+> the term-(a) mechanism is a different placement, and the basin-search re-run built for this rung now emits
+> it. At the mechanism-carrying placement **every confirmed basin is within routine linker range, and
+> `crbn|M0` is among the most tractable.** §3 is retained because it is the correctly-computed answer to a
+> question posed at the wrong placement, and because the size of the error — 29 atoms versus 15 — is the
+> argument for why the exemplar had to be emitted at all.
+
+## 3a. At the REPRESENTATIVE placement (superseded)
 
 Per basin, at the representative placement, the number of backbone atoms needed to hold the span at ≤3 kT of
 worm-like-chain strain:
@@ -171,6 +183,42 @@ Two qualifications, both load-bearing:
   library that silently omitted the best basin for a reason no reader could see.
 
 ---
+
+## 3b. ★★ THE CORRECTED RESULT — at the mechanism-carrying placement, every basin is routine
+
+The basin-search re-run (CI 30175026755, 71.6 min, **$0**) **reproduced the Tier-2 gate exactly** — 58
+meta-basins, **7** term-(a), **40** term-(b), 28 nominally discriminating, basis CATEGORICAL, pass — so the
+change was purely additive and every published RUNG-5a number stands. What it adds is the
+`exemplar_placement`: per basin and per unique cysteine, the sampled member that **achieves** the reported
+minimum, with its landmarks, so its full rigid transform is recoverable (verified to 0.0004–0.0007 Å).
+
+Designing on it instead of on the representative changes the answer completely:
+
+| meta-basin | span at rep | **exact C397 at rep** | span at **exemplar** | **exact C397 at exemplar** | comfortable length at exemplar |
+|---|---|---|---|---|---|
+| **`crbn\|M0`** | 23.3 Å | **25** | **13.4 Å** | **11** | **~15 atoms** (1.1 kT) |
+| `vhl\|M3` | 9.7 Å | 14 | 12.6 Å | **11** | ~13–15 |
+| `vhl\|M2` | 17.7 Å | 15 | 12.3 Å | **10** | ~12–14 |
+| `vhl\|M4` | 21.7 Å | 22 | 16.8 Å | **14** | ~18–20 |
+| `vhl\|M14` | 24.2 Å | 20 | 8.3 Å | **7** | ~9 |
+
+*(exact = three-ball rule, integer branch positions, Dab-type pendant at 8.75 Å)*
+
+**Three consequences, and the first one reverses §3.**
+
+1. **`crbn|M0` — RUNG 5a's strongest nomination — is not the least buildable. It is among the most.** At its
+   exemplar it needs a **15-backbone-atom** linker, not 29, and reaches C397 at 11. The "linker tractability
+   inverts the basin ranking" finding was an artifact of the placement.
+2. **The exit-vector geometry is much kinder at the exemplars too** — α = 33–70° and turn penalties of 1–3
+   backbone atoms, against α up to 100° at the representatives. The linker does not have to double back.
+3. **The exemplar's wedge sites are cleaner than any representative's.** Recomputed at the exemplar (they had
+   to be — the exemplar minimises the *C397* focal sum, so nothing guarantees the wedge geometry carries
+   over), `crbn|M0` offers **five** divergent, exposed, linker-reachable sites, every one with **8.6–14.3 Å**
+   of E3 clearance — more than any VHL basin provides anywhere.
+
+⚠ **The exemplar is a best-of-N member and therefore the OPTIMISTIC end of its basin; the representative is a
+typical one.** The truth for any real molecule lies between them. Both are emitted, side by side, for exactly
+that reason — quoting either alone misleads, in opposite directions.
 
 ## 4. Linker requirements, per basin
 
@@ -344,7 +392,38 @@ with nothing hand-transcribed, and one rule covers all three warhead handles ins
 
 ---
 
-## 6. ★ The matched pair for RUNG 5a-KS
+## 6. ★★ The matched pair for RUNG 5a-KS — RECOMMENDED
+
+> **The recommendation is the exemplar-placement pair in §6a. The representative-placement pair in §6b is
+> retained as the fully-enumerated, RDKit-verified fallback and as the record of how the choice was made.**
+
+### 6a. RECOMMENDED — `crbn|M0` at its term-(a) exemplar
+
+| | |
+|---|---|
+| **basin** | **`crbn\|M0`** — 0.92 pose persistence (11/12), **7.5×** over the term-(b) null: RUNG 5a's strongest nomination |
+| **placement** | the **term-(a) exemplar**, not the representative |
+| **linker** | **15 backbone atoms** (span floor 11, exemplar span 13.4 Å, **1.1 kT** of chain strain) |
+| **wedge element** | 3-(3-pyridyl)-L-alanine (d) vs L-phenylalanine (d₀) — an aza-scan branch residue |
+| **wedge target** | **Thr407** — **Leu** in NR4A1, **Val** in NR4A2: the donor is removed in *both* paralogues |
+| **E3 clearance at the wedge** | **8.6 Å** |
+| **and the same geometry carries the covalent handle** | C397 reachable at **11** backbone atoms with a Dab pendant — so the wedge pair and the reversible-covalent series can be built on **one** placement instead of two |
+
+**Why T407 and not the site with the most clearance.** Geometry alone picked **Ile396** (Ile → Ala/Val, 12.6 Å
+— the most E3-clear position available) and that is the **wrong chemistry**: the wedge element is an H-bond
+*acceptor*, and a pyridyl nitrogen against an isoleucine is a desolvation cost with no compensating
+interaction — in NR4A3 *and* in both paralogues, so the double difference would be near zero by construction.
+A preregistered one-line chemistry rule now applies alongside the geometry: **NR4A3 must present a side-chain
+H-bond donor and both paralogues must not.** That selects T407 (Thr → Leu/Val) over I396, N400 (Asn → Thr/Ser
+— both paralogues keep a donor) and Q532 (Gln → Pro/Ser — Ser keeps one). It is also, independently, the site
+the representative-placement analysis had already chosen on its own chemistry.
+
+⚠ **What is and is not enumerated.** This block specifies the design target exactly — basin, placement,
+length, branch-position window, wedge site, clearance. The **SMILES in `virtual_library` were enumerated at
+representative geometry** and are not re-derived here. Re-enumerating the library at exemplar geometry is the
+obvious next **$0** step and is listed in §9.
+
+### 6b. The representative-placement pair (fully enumerated and RDKit-verified)
 
 **Proposed pair, on `vhl|M3` at 11 backbone atoms:**
 
@@ -552,11 +631,13 @@ library, and one changes how the matched pair must be justified.
 ## 9. What RUNG 5b did NOT do, and what should come next
 
 - **No GPU, and none is warranted here.** The next spend on the ladder is still 5a-KS.
-- The designs are built on the **representative** placements. The basin search now emits the term-(a)
-  **exemplar** placement; re-running this rung against a basin artifact carrying it will move the covalent
-  constructs onto the geometry that actually achieves the reach, and is expected to **shorten** them.
-- The span distribution is currently a **3-point approximation** from `{min, median, max}`; the search now
-  emits deciles, and re-running against them replaces every coverage number with an exact one.
+- **Re-enumerate the library at the EXEMPLAR placements.** The requirements are now computed there (§3b) and
+  they change the answer materially — 15 backbone atoms instead of 29 on the strongest basin — but the
+  emitted SMILES are still enumerated at representative geometry. This is pure **$0 CPU** and is the single
+  highest-value follow-up.
+- **Use the span deciles.** The coverage numbers are still a 3-point approximation from `{min, median, max}`;
+  the re-run now emits `span_A_deciles`, so every `member_fraction_comfortable` can be replaced with an exact
+  value. Also $0.
 - **Linker conformer populations are unmeasured.** Whether the chain actually visits the branch position that
   presents the electrophile to C397 — or the wedge to Arg412 — is a 5c question, and 5b's windows are
   necessary conditions, not populations.

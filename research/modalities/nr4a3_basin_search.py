@@ -994,6 +994,7 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
         delta = mean3 - max(par["NR4A1"]["mean_interface_score"], par["NR4A2"]["mean_interface_score"])
 
         spans = [m["span_A"] for m in members]
+        _sorted_spans = sorted(spans)
         # the basin's PATCH: target residues contacted by >= half its placements, and their centroid
         counts = {}
         for m in members:
@@ -1027,7 +1028,12 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
             # form's argmax is censored at the top of its scan grid — `best_linker_atoms` reads 19 (the last
             # scanned value) on 188 of 192 basins, and for a 20 A span the true argmax is ~53 backbone atoms.
             # A grid edge is not an optimum, and three quantiles are not enough to integrate over.
-            "span_A_deciles": [round(sorted(spans)[min(len(spans) - 1, int(q * len(spans) / 10.0))], 2)
+            # (sorted ONCE, hoisted — the first version re-sorted inside the comprehension, eleven times per
+            # basin. Same output, and the cost was never the reason a run is slow: everything added here
+            # touches only the ~10^3 ACCEPTED, CLUSTERED members, against the ~10^6 sampled placements x 44
+            # prescreen points the search already does, so the additions are bounded below ~0.001 % of the
+            # run. A CI run 28 % longer than its reference is runner variance, not this.)
+            "span_A_deciles": [round(_sorted_spans[min(len(spans) - 1, int(q * len(spans) / 10.0))], 2)
                                for q in range(11)],
             "min_linker_atoms_for_span": int(math.ceil(min(spans) / params["linker_rise_per_atom_A"])),
             "stability_surrogate": {

@@ -524,6 +524,73 @@ def basin_requirements(ctx, meta, sites):
             lab for lab, c in sites["conserved_cysteines"].items()
             if LD.pendant_contactable(a, b, c["xyz"], n_probe, e))
 
+    # ★★ THE SAME REQUIREMENTS, RE-DERIVED AT THE PLACEMENT THAT ACTUALLY CARRIES THE MECHANISM.
+    # The representative is the highest-scoring member of the largest member basin; the member that achieves
+    # the basin's reported C397 minimum is a different placement entirely, and it is the one a covalent
+    # construct has to be built on. The basin search now emits it (`exemplar_placement`), and the difference
+    # is decisive: at the representative the exact requirement is 14-25 backbone atoms, at the exemplar it is
+    # 7-14 — chemically routine, and within ~2 atoms of the reported relaxed figure. **The 16-33-atom numbers
+    # that come out of designing at the representative are an artifact of using the wrong placement, not a
+    # property of the basin.** Both are emitted, because the exemplar is a best-of-N and therefore the
+    # OPTIMISTIC end of the basin while the representative is a typical member: the truth for any real
+    # molecule lies between them, and quoting either alone would mislead in a different direction.
+    exemplar = None
+    ex_rec = (meta["term_a_union"].get("C397") or {}).get("exemplar_placement")
+    if ex_rec:
+        pose_e = ctx["poses"][ex_rec["pose_id"]]
+        a_e = tuple(pose_e["anchor_xyz"])
+        u_e = tuple(pose_e["exit_direction"])
+        Re, te, rms_e, err_e = recover_transform(arm, ex_rec["landmarks"], ex_rec["anchor_e3_xyz"])
+        b_e = G.apply_superpose([arm["anchor"]], Re, te)[0]
+        v_e = G.matvec(Re, G.sub(arm["anchor"], arm["_e3_moiety_centroid"]))
+        floor_e = LD.span_floor_atoms(a_e, b_e)
+        cys = sites["unique_cysteines"]["C397"]["xyz"]
+        exemplar = {
+            "_what": "the sampled member of this basin whose linker path comes CLOSEST to C397 — the "
+                     "placement that achieves the basin's reported minimum. A best-of-N member, so the "
+                     "OPTIMISTIC end of the basin, and it must be quoted as such.",
+            "basin_id": ex_rec.get("basin_id"),
+            "pose_id": ex_rec["pose_id"],
+            "span_A": ex_rec["span_A"],
+            "span_floor_atoms": floor_e,
+            "transform_recovery_error_A": round(err_e, 4),
+            "exit_vector_geometry": LD.exit_vector_geometry(a_e, u_e, b_e, v_e),
+            "c397_exact_atoms_by_pendant": {
+                k: LD.min_linker_atoms_exact(a_e, b_e, cys, e, n_max=90)
+                for k, e in sorted(PENDANT_REACH.items(), key=lambda kv: kv[1])
+            },
+            "c397_relaxed_rung5a_atoms": LD.min_linker_atoms_relaxed(a_e, b_e, cys, 3.0),
+            "branch_window_dab_pendant": {
+                str(n): (lambda w: {"k_min": w["k_min"], "k_max": w["k_max"], "best_k": w["best_k"]})(
+                    LD.branch_position_window(a_e, b_e, cys, n, PENDANT_REACH["dab_branch"]))
+                for n in range(max(4, floor_e), floor_e + 9, 2)
+            },
+            "strain_kT_at_span": {
+                str(n): round(LD.wlc_strain_kt(ex_rec["span_A"], n), 2)
+                for n in range(max(4, floor_e), floor_e + 15, 2)
+            },
+        }
+        # The wedge sites have to be recomputed here too. The exemplar is chosen to minimise the C397 focal
+        # sum, so it is a TERM-(a) placement; nothing guarantees that the divergent residues a linker
+        # substituent can touch, or how far they sit from the E3 body, are the same as at the representative.
+        # Quoting the representative's wedge geometry beside the exemplar's reach numbers would be mixing two
+        # placements, which is the exact error this whole block exists to correct.
+        n_design_e = floor_e + 4
+        wedges_e = wedge_sites(ctx, a_e, b_e, n_design_e, PENDANT_REACH["aryl_branch_residue"])
+        for w in wedges_e:
+            q = ctx["model"]["cb"][w["uniprot_resid"] - UNIPROT_OFFSET]
+            k = max(1, (w["branch_k_min"] + w["branch_k_max"]) // 2)
+            _, p = LD.three_ball_min_margin([a_e, b_e, q], [k * RISE, (n_design_e - k) * RISE,
+                                                            PENDANT_REACH["aryl_branch_residue"]])
+            w["e3_clearance_A"] = round(e3_clearance(arm, Re, te, p), 2)
+            w["e3_clear_enough_for_a_matched_pair"] = w["e3_clearance_A"] >= 6.0
+        exemplar["wedge_element_sites"] = {
+            "probe_linker_atoms": n_design_e,
+            "sites": wedges_e,
+            "_reading": "recomputed AT THE EXEMPLAR. A matched pair hosted on this basin should be designed "
+                        "against these, not against the representative's sites.",
+        }
+
     n_design = floor + 4
     wedges = wedge_sites(ctx, a, b, n_design, PENDANT_REACH["aryl_branch_residue"])
     for w in wedges:
@@ -609,6 +676,7 @@ def basin_requirements(ctx, meta, sites):
                            "rising there — a grid edge, not an optimum.",
         },
         "electrophile_reach": reach,
+        "electrophile_reach_at_the_term_a_exemplar": exemplar,
         "conserved_cysteine_reach_by_pendant": {
             "_reading": "a longer pendant relaxes reach to EVERY cysteine, not only the unique one. The "
                         "paralogue argument is unaffected (NR4A1/NR4A2 carry no nucleophile at the aligned "
@@ -970,6 +1038,93 @@ def synthetic_annotation(e3_key, wh_key, s1, s2, pkey):
 # ---------------------------------------------------------------------------------------------------------
 
 
+# Side chains that can donate an H-bond to a pyridyl-type acceptor. The wedge element in the matched pair is
+# an H-BOND ACCEPTOR (an aza-scan), so the site it engages has to have a DONOR in NR4A3 and no donor in
+# either paralogue — otherwise the pair is asking a nitrogen lone pair to discriminate two hydrocarbons,
+# which it cannot do, and the wedge would be paying a desolvation penalty for nothing.
+SIDECHAIN_HBOND_DONORS = set("STYNQKRHW")
+
+
+def _wedge_chemistry_ok(site):
+    """Is this site the right KIND of difference for an H-bond-acceptor wedge?
+
+    Geometry alone picked Ile396 (Ile -> Ala/Val at 12.6 A of clearance) as the best site, which is the most
+    E3-clear position available and the wrong chemistry: a pyridyl nitrogen against an isoleucine is a
+    desolvation cost with no compensating interaction, in NR4A3 *and* in both paralogues, so the double
+    difference would be near zero by construction. The rule is preregistered and it is one line of chemistry:
+    NR4A3 must present a donor and BOTH paralogues must not.
+    """
+    return (site["nr4a3"] in SIDECHAIN_HBOND_DONORS
+            and site["nr4a1"] not in SIDECHAIN_HBOND_DONORS
+            and site["nr4a2"] not in SIDECHAIN_HBOND_DONORS)
+
+
+def exemplar_matched_pair(reqs):
+    """★★ THE PAIR, RE-DERIVED AT THE MECHANISM-CARRYING PLACEMENT.
+
+    `matched_pair` below selects among constructs enumerated at each basin's REPRESENTATIVE. That is the
+    wrong placement for anything to do with C397, and it turns out to be the wrong placement for the wedge
+    too: at the representative, `crbn|M0` — RUNG 5a's strongest nomination — needs ~29 backbone atoms and has
+    at most 10.4 A of E3 clearance at a wedge site, so it was excluded. **At its term-(a) exemplar it needs
+    ~13-15 atoms and carries five clean wedge sites, every one of them further from the E3 body (8.6-14.3 A)
+    than anything the VHL basins offer.** The exclusion was an artifact of the placement, not a property of
+    the basin, and this function is the correction.
+
+    Selection is on the same two properties as before — pose persistence first, then measured E3 clearance —
+    among basins whose exemplar can host the pair at a chemically routine length.
+    """
+    cands = []
+    for r in reqs:
+        if r["meta_basin_id"] == WEAK_CONTROL:
+            continue
+        ex = r.get("electrophile_reach_at_the_term_a_exemplar")
+        if not ex:
+            continue
+        clean = [s for s in ex["wedge_element_sites"]["sites"]
+                 if s.get("e3_clear_enough_for_a_matched_pair") and s["uniprot_resid"] != 397
+                 and _wedge_chemistry_ok(s)]
+        if not clean:
+            continue
+        # shortest routine length that holds the exemplar's span comfortably
+        n = next((int(k) for k, v in sorted(ex["strain_kT_at_span"].items(), key=lambda kv: int(kv[0]))
+                  if v <= MAX_STRAIN_KT), None)
+        if n is None or n > CHEM_MAX_ATOMS:
+            continue
+        site = max(clean, key=lambda s: s["e3_clearance_A"])
+        cands.append((r["pose_surviving_fraction"], site["e3_clearance_A"], r, ex, site, n))
+    if not cands:
+        return {"status": "NO EXEMPLAR PAIR", "reason": "no confirmed basin's exemplar hosts a clean wedge "
+                                                        "site at a chemically routine length"}
+    cands.sort(key=lambda c: (-c[0], -c[1]))
+    persist, clear, r, ex, site, n = cands[0]
+    return {
+        "status": "RECOMMENDED — supersedes the representative-placement pair below",
+        "basin": r["meta_basin_id"],
+        "placement": "the term-(a) EXEMPLAR (basin %s, pose %s), NOT the representative"
+                     % (ex.get("basin_id"), ex["pose_id"]),
+        "pose_surviving_fraction": persist,
+        "term_b_enrichment_over_background": r["term_b_max_enrichment_over_background"],
+        "exemplar_span_A": ex["span_A"],
+        "linker_backbone_atoms": n,
+        "span_floor_atoms": ex["span_floor_atoms"],
+        "strain_kT_at_that_length": ex["strain_kT_at_span"].get(str(n)),
+        "wedge_site": site,
+        "e3_clearance_at_wedge_A": site["e3_clearance_A"],
+        "wedge_element": "3-(3-pyridyl)-L-alanine (d) vs L-phenylalanine (d0) — an aza-scan branch residue",
+        "can_also_carry_the_covalent_handle": {
+            "c397_exact_atoms_dab_pendant": ex["c397_exact_atoms_by_pendant"]["dab_branch"],
+            "_reading": "the same placement supports a reversible-covalent construct at this length, so the "
+                        "wedge pair and the covalent series can be built on ONE geometry rather than two.",
+        },
+        "_caveat": "the exemplar is a best-of-N member and therefore the OPTIMISTIC end of its basin; the "
+                   "representative is a typical one. The truth for any real molecule lies between them, and "
+                   "both are reported for exactly that reason. The SMILES in `virtual_library` were "
+                   "enumerated at representative geometry and are NOT re-derived here — this block specifies "
+                   "the design target (basin, placement, length, branch window, wedge site), and "
+                   "re-enumerating the library at exemplar geometry is the obvious next $0 step.",
+    }
+
+
 def matched_pair(reqs, lib):
     """Propose d / d0 for `S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1)`.
 
@@ -1207,6 +1362,7 @@ def run(args):
     lib.sort(key=lambda c: (-c["basin_fidelity"]["P_reach_normalised"],
                             -(c["basin_fidelity"]["selectivity_vs_other_confirmed_basins"] or 0.0)))
     pair = matched_pair(reqs, lib)
+    pair_ex = exemplar_matched_pair(reqs)
 
     for r in reqs:
         r.pop("_a", None)
@@ -1306,6 +1462,7 @@ def run(args):
             "n_irreversible_comparator": sum(1 for c in lib if c["pendant"] == "acrylamide"),
             "n_controls": sum(1 for c in lib if c["pendant_kind"] in ("control", "wedge_control")),
         },
+        "matched_pair_for_rung_5a_ks_RECOMMENDED": pair_ex,
         "matched_pair_for_rung_5a_ks": pair,
         "runtime_s": round(time.time() - t0, 1),
     }
@@ -1324,7 +1481,12 @@ def run(args):
                  r["exit_vector_geometry"]["dihedral_deg"],
                  {k: v["exact_atoms"] for k, v in c.get("by_pendant", {}).items()},
                  len(r["wedge_element_sites"]["sites"])))
-    print("[5b] matched pair: %s" % pair.get("status"))
+    print("[5b] matched pair (representative): %s" % pair.get("status"))
+    print("[5b] matched pair (EXEMPLAR, recommended): %s  basin=%s n=%s wedge=%s clearance=%s"
+          % (pair_ex.get("status"), pair_ex.get("basin"),
+             pair_ex.get("linker_backbone_atoms"),
+             (pair_ex.get("wedge_site") or {}).get("uniprot_resid"),
+             pair_ex.get("e3_clearance_at_wedge_A")))
     return 0
 
 
