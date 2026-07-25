@@ -840,24 +840,38 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 
     | benchmark | computed ΔΔG_bind | reference | abs err | within ±1.5 |
     |---|---|---|---|---|
-    | barnase–barstar **Y29A** (hot spot) | **+4.025 ± 1.100** (complex 2, apo 3) | +3.40 | 0.625 | ✔ |
-    | barnase–barstar **Y29F** (near-null control) | **−0.552** (single replicate) | −0.13 | 0.422 | ✔ |
+    | barnase–barstar **Y29A** (hot spot) | **+4.424 ± 1.077** (3 × 3 replicates) | +3.40 | 1.024 | ✔ |
+    | barnase–barstar **Y29F** (near-null control) | **−0.370 ± 0.175** (3 × 3 replicates) | −0.13 | 0.240 | ✔ |
 
     **Ordering correct** (Y29A ≫ Y29F), which is the test that matters — a wedge is read as a ranking,
     so a magnitude pass with the ordering wrong is a fail. The near-null control did its job: the engine
     returned ≈−0.55 where the experiment sees ≈0 rather than inventing an effect.
-    **Measured rate: 1.094 ± 0.514 GPU-h/leg** over 7 legs (range 0.379–1.8), **$0.219/leg**, giving a
-    **PROJECTED** wedge of **$3.08 (2 rep) / $4.62 (3 rep)** — particle-count-scaled from a 25,750-particle
-    benchmark to the NR4A sizes, an assumption and not a measurement, so it may not be quoted as a rate.
+    **Measured rate: 1.058 ± 0.432 GPU-h/leg** over 11 legs (range 0.379–1.8), **$0.212/leg**, giving a
+    **PROJECTED** wedge of ~**$4.7 (3 rep)** — particle-count-scaled from a ~25.7k-particle benchmark to the
+    NR4A sizes, an assumption and not a measurement, so it may not be quoted as a rate.
 
-    **Three caveats that travel with this result and must not be dropped:**
-    1. **The replicate scatter is large.** Y29A's between-setup SD is **1.1 kcal/mol** against an effect
-       of 4.0 — so a *single* leg does not determine a number, and any wedge claim needs replicates. This
-       is the most decision-relevant thing the benchmark produced.
-    2. **Y29F is single-replicate** (no error bar) and its reference sits near zero, where a ±1.5 window
-       is weak; the ordering test carries most of that benchmark's weight, as its own `why` field says.
-    3. **The per-leg GPU-h SD (0.514 on a mean of 1.094) is host variance, not physics** — Vast hosts
-       differ ~5× in speed, so the price is a band, not a point.
+    **★ THE MOST DECISION-RELEVANT RESULT IS THE NOISE STRUCTURE, NOT THE AGREEMENT.** At full 3 × 3
+    replication the between-setup scatter differs by **6.2×** between the two benchmarks:
+
+    | perturbation | effect size | between-replicate SD |
+    |---|---|---|
+    | Y29A, hot-spot knockout | +4.4 kcal/mol | **±1.077** |
+    | Y29F, near-null | ≈0 | **±0.175** |
+
+    Within-leg MBAR standard errors are 0.05–0.13 kcal/mol, i.e. **an order of magnitude smaller than the
+    between-leg scatter** — so this is setup/equilibration variance, NOT insufficient sampling. Running each
+    leg longer would not fix it; running more legs would. Two consequences for how the wedge is used:
+    1. **A single leg does not determine a number.** Y29A's mean walked 2.851 → 3.951 → 4.025 → 4.424 as
+       replicates landed, and its error against the reference *grew* (0.549 → 1.024). Replicates are
+       mandatory, not optional.
+    2. **The wedge's own regime is the well-determined one.** The ternary-selectivity review puts the
+       best-case resolvable difference at ~1.12 kcal/mol — a SMALL perturbation, which is exactly where this
+       engine is reproducible to ±0.18, not the ±1.08 the hot spot suggests. This is encouraging for the
+       wedge and it also means **the right validation for 5a-KS is a benchmark sized like the wedge**, not a
+       hot-spot knockout. That benchmark does not exist yet.
+
+    **Also carried:** the per-leg GPU-h SD (0.432 on a mean of 1.058) is **host variance, not physics** —
+    two hosts rented minutes apart differed ~10× in throughput per particle — so the price is a band.
 
     `plan_wedge` may now stamp `validated: true`; it could not before, and the reducer's verdict still
     cannot go green on a partial set or a wrong ordering.

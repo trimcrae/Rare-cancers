@@ -290,7 +290,15 @@ defaults; the code of record is `research/modalities/gpu_backend.py` (`VAST_BID_
   machine's on-demand price)`** (×1.0 → $0.00930 on a $0.00930 bid; ×2.5 and ×8.0 both → $0.021333, matching
   that machine's on-demand `dph_base` to 17 s.f.). So a premium is paid on **every hour**, and per Vast's docs
   it cannot buy safety from on-demand renters at all — break-even needs the hazard to fall >100/hr per $/hr.
-  Retention is bought with **checkpoint frequency**, which is free. `VAST_BID_FLOOR_MULT` survives as an unset
+  Retention is bought with **checkpoint frequency**, which is free.
+  ⚠ **The >100/hr break-even rests on two disputed inputs (2026-07-25)** — see
+  [vast-churn-observations-2026-07-25.md](./vast-churn-observations-2026-07-25.md). It is computed with a
+  hazard of 0.10/h and a reload-free preemption; the 5a-KS run saw a hazard 2.5–4× that, and a dominant
+  failure mode (`resources_unavailable`) which cannot be resumed at any bid and so pays a full image pull
+  per occurrence. A cheaper-looking preemption makes a premium look less justified, so the threshold is
+  soft in the direction of *under*-stating the case for a margin. **The bid itself is NOT known to be
+  wrong** — raising a stuck leg's bid 26% bought nothing, which independently supports "tick, not premium",
+  and retention was never tested. What needs re-deriving is the justification, against measured λ and R. `VAST_BID_FLOOR_MULT` survives as an unset
   escape hatch for a leg that genuinely cannot be paused. Full derivation: [bid-strategy.md](./bid-strategy.md).
 - **Rank offers by all-in `$/ns`, not `$/hr` and not `min_bid`.** Ranking by the floor is the single most
   expensive habit this file used to endorse: best-to-median spread on the live board is **5.43×**.
