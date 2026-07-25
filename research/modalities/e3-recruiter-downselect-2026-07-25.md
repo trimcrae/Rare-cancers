@@ -120,11 +120,78 @@ sensitivity check at all. The cap is ≤2, not ==1.
 
 ## 4 · Result
 
-*(filled from the CI run — see §5 for the dropped set)*
+**Advanced: CRBN and VHL.** Source: GitHub Actions run **30169233382** (job 89707362939), 2,919 fetched URLs.
+The full per-recruiter table lives in the generated [`e3-recruiter-staging.md`](e3-recruiter-staging.md) and
+is not restated here.
+
+| | CRBN | VHL |
+|---|---|---|
+| structure | **9CUO**, 1.60 Å, X-ray | **9GIO**, 1.486 Å, X-ray |
+| chains | A–F = cereblon (assembly frame A–C) | A = Elongin-B, B = Elongin-C, C = VHL |
+| ligand | **A1A0J**, 259.3 Da, 19 heavy atoms | **3JF** (VH032-class), 472.6 Da, 33 heavy atoms |
+| citation | Jal. *J. Med. Chem.* 2024, `10.1021/acs.jmedchem.4c01305`, PMID 39151120 | *ACS Med. Chem. Lett.* 2025, `10.1021/acsmedchemlett.4c00582`, PMID 40236540 |
+| construct | 113 aa (thalidomide-binding domain), 0.256 of full length | 160 aa, 0.751 of full length |
+| buried fraction | 0.634 | 0.665 |
+| exit clearance / cone | 25.0 Å (cap) / 1.00 | 25.0 Å (cap) / 1.00 |
+| **open solid angle (≥15 Å)** | **0.549** | **0.516** |
+| analogue tier | 3, bridging **verified** on 8RQC | 3, bridging **verified** on 7Z76 |
+| status | sole Pareto-front member | **backfilled** for E3-choice sensitivity |
+
+**CRBN is the only Pareto-front member.** VHL advances as the backfill, not as a co-winner: it is dominated
+by CRBN (equal analogue tier, equal saturated exit quality, marginally lower open solid angle) and is carried
+so that the E3 is a controlled variable in every downstream basin comparison rather than a confound. That
+distinction is in the JSON (`backfilled_for_e3_choice_sensitivity`) and in `load_advanced()`'s `caveats`, and
+it should survive into anything the basin search reports.
+
+**Read the CRBN-over-VHL margin as a tie, not a finding.** The two differ by 0.033 in open solid angle on a
+single deposited conformer each, with no error model on that quantity. Nothing here says CRBN is the better
+recruiter for NR4A3 — only that both clear every gate comfortably and neither can be excluded at this stage.
+
+### Three checks that changed the answer, each on real data
+
+- **The bridging check demoted DCAF15.** Its tier-3 label rested on entry-level co-presence in **8ROY**; the
+  coordinates show the ligand contacting DCAF15 (87 contacts) and **not** the partner (0). Tier 2, logged.
+  Every other tier-3 claim survived verification: VHL on 7Z76, CRBN on 8RQC, BIRC2 on 6W7O, DCAF1 on 9NSN,
+  DCAF16 on 8G46.
+- **The exit-vector fix rescued FEM1B from a false drop.** It had been failing G3 at clearance 0.0; it now
+  reads 25.0 Å with a 0.543 cone and passes. It is still dropped — on the Pareto front, at tier 1 and an open
+  solid angle of 0.045 — but for the right reason.
+- **The frame fix reversed the whole result.** Before staging preferred partner-free biological assemblies,
+  the advanced pair was BIRC2 + MDM2, because VHL and CRBN were being measured inside ternary complexes whose
+  bound partner occupied the orientation space. Those numbers are retracted, not merely superseded.
 
 ## 5 · The dropped set
 
-*(filled from the CI run)*
+Eight recruiters dropped, every one with its reason recorded in
+`downselect.dropped[]` and none of them for availability. Two failed a gate; six were Pareto-dominated.
+
+**Failed a gate — a structural fact about the recruiter, not a ranking:**
+
+- **RNF114** — **G1**. No deposited structure of the protein at all (RCSB returns nothing for Q9Y508). This is
+  the strongest form of the drop: not "un-liganded", but structurally unknown. The module distinguishes those
+  two cases precisely because they mean different things about ligandability.
+- **DCAF16** — **G2**, buried fraction **0.344** against the 0.50 threshold. Measured on 8G46 with BRD4
+  removed from the occluder set, its ligand YK3 is not held in a DCAF16 pocket; it lies at an interface that
+  the partner helps form. That is what a molecular-glue site looks like when you take the partner away, and
+  it is the single most informative drop in the panel: **DCAF16's site is not a handle pocket to hang a
+  linker on.** Note its open solid angle is the highest in the panel (0.736) — openness without a pocket.
+
+**Pareto-dominated — passed every gate, lost on ligandability + interface geometry:**
+
+| recruiter | tier | exit quality | open solid angle | why it lost |
+|---|---|---|---|---|
+| BIRC2 | 3 | 20.0 | 0.510 | matched CRBN on tier and exit quality, marginally lower openness — the closest call in the panel |
+| MDM2 | 2 | 20.0 | 0.514 | openness comparable to CRBN, but no solved bivalent complex |
+| DCAF15 | 2 | 20.0 | 0.217 | tier demoted by the bridging check; low openness |
+| DCAF1 | 3 | 16.6 | 0.180 | only gate-passer with a non-saturated cone (0.829); low openness |
+| KEAP1 | 2 | 20.0 | 0.147 | lowest openness of the tier-2 group |
+| FEM1B | 1 | 10.9 | 0.045 | no published linker-bearing form, and the tightest exit in the panel |
+
+**BIRC2 is the drop most worth revisiting.** It is tier 3 with verified bridging (6W7O), the best resolution
+in the panel (1.249 Å), and an open solid angle within 0.04 of CRBN's. It lost a near-tie on one axis measured
+from one conformer. If the basin search finds CRBN and VHL geometrically unpromising against NR4A3, BIRC2 is
+the first recruiter to bring back — and it costs $0 to do so, because everything needed is already staged in
+the JSON.
 
 ## 6 · What this does and does not hand to the basin search
 

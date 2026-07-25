@@ -40,7 +40,7 @@
     "ligand_instance": "{auth_asym_id, auth_seq_id, n_heavy_atoms_modelled, n_contacts_to_recruiter_chain_4.5A, n_copies_in_entry, contacts_recruiter}",
     "is_primary": "bool \u2014 the structure the geometry was computed on"
    },
-   "linker_bearing_analogue": "{tier 0-3, label, n_entries_with_ligand_ge_500Da, n_entries_ligand_bridging_second_uniprot, evidence_pdb_ids_*}",
+   "linker_bearing_analogue": "{tier 0-3, label, n_entries_with_ligand_ge_500Da, n_entries_ligand_bridging_second_uniprot, evidence_pdb_ids_*, bridging_check[] (per-entry contacts_recruiter / contacts_partner / bridges, read from coordinates), tier_demoted (present when the entry-level tier-3 claim did NOT survive that check), _evidence_entries[] (metadata kept so the check does not depend on what staging happened to keep)}",
    "ligandability": {
     "ligand_burial": "{sasa_free_A2, sasa_in_complex_A2, buried_fraction}",
     "site_enclosure": "{blocked_fraction, n_rays, max_A}",
@@ -11254,5 +11254,6 @@
    "https://data.rcsb.org/rest/v1/core/polymer_entity/6T7Z/1",
    "https://data.rcsb.org/rest/v1/core/polymer_entity/6T7Z/2"
   ]
- }
+ },
+ "_provenance_note": "recruiters[] \u2014 every fetched field and every computed geometry \u2014 is verbatim from GitHub Actions run 30169233382 (job 89707362939). Only the derived text blocks (_schema, _limits, _method, _consumers) and the downselect, which is a pure function of recruiters[], were regenerated locally so that the artifact matches the committed code. Nothing was recomputed from coordinates."
 }
