@@ -9,6 +9,7 @@ to pin the three things that could silently corrupt the deliverable:
      and the cap drops the rest with a recorded reason;
   3. no recruiter can be dropped on availability, which STRATEGY.md forbids explicitly.
 """
+import json
 import math
 
 import pytest
@@ -445,6 +446,49 @@ def test_bridging_keeps_tier3_when_the_ligand_touches_both(monkeypatch, tmp_path
     lb = rec["linker_bearing_analogue"]
     assert lb["tier"] == 3 and "tier_demoted" not in lb
     assert lb["bridging_check"][0]["bridges"] is True
+
+
+def test_load_advanced_is_a_stable_consumer_contract_that_carries_caveats(tmp_path):
+    """Lane 2 builds against load_advanced(). Two things it must guarantee: the exit-vector frame is present
+    under stable keys, and a recruiter measured on a compromised frame arrives WITH the caveat attached
+    rather than looking clean."""
+    doc = {
+        "downselect": {"advanced": ["GOOD", "MEH"], "backfilled_for_e3_choice_sensitivity": ["MEH"]},
+        "recruiters": {
+            "GOOD": {"uniprot": {"accession": "P1"}, "e3_class": "cls",
+                     "linker_bearing_analogue": {"tier": 3},
+                     "staged_structures": [{"pdb_id": "1AAA", "resolution_A": 1.5, "is_primary": True,
+                                            "ligand": {"ccd": "LIG"}, "recruiter_auth_asym_ids": ["A"]}],
+                     "ligandability": {"coordinate_source": "biological assembly 1 (mmCIF)",
+                                       "ligand_burial": {"buried_fraction": 0.8},
+                                       "occluder_set": {"chains_present_in_frame": ["A", "B"]},
+                                       "exit_vector": {"anchor_xyz": [1.0, 2.0, 3.0],
+                                                       "direction": [0, 0, 1], "clearance_A": 20.0,
+                                                       "cone_openness_30deg": 0.9,
+                                                       "open_solid_angle_fraction_15A": 0.4,
+                                                       "no_exit_path": False}}},
+            "MEH": {"uniprot": {"accession": "P2"}, "e3_class": "cls",
+                    "linker_bearing_analogue": {"tier": 1},
+                    "staged_structures": [{"pdb_id": "2BBB", "resolution_A": 2.9, "is_primary": True,
+                                           "ligand": {"ccd": "LG2"}, "recruiter_auth_asym_ids": ["C"]}],
+                    "ligandability": {"coordinate_source": "asymmetric unit (mmCIF)",
+                                      "measured_with_partner_protein_removed": True,
+                                      "ligand_burial": {"buried_fraction": 0.6},
+                                      "occluder_set": {"chains_present_in_frame": ["C"]},
+                                      "exit_vector": {"anchor_xyz": [0, 0, 0], "direction": [1, 0, 0],
+                                                      "clearance_A": 12.0, "cone_openness_30deg": 0.5,
+                                                      "open_solid_angle_fraction_15A": 0.2,
+                                                      "no_exit_path": False}}}},
+    }
+    p = tmp_path / "staging.json"
+    p.write_text(json.dumps(doc))
+    rows = st.load_advanced(str(p))
+    assert [r["gene"] for r in rows] == ["GOOD", "MEH"]           # ranked order preserved
+    assert rows[0]["anchor_xyz"] == [1.0, 2.0, 3.0] and rows[0]["exit_direction"] == [0, 0, 1]
+    assert rows[0]["caveats"] == []                               # a clean frame carries none
+    assert rows[1]["backfilled"] is True
+    assert any("partly formed by the partner" in c for c in rows[1]["caveats"])
+    assert any("not a biological assembly" in c for c in rows[1]["caveats"])
 
 
 def test_base_chain_matches_assembly_symmetry_copies_to_their_entity():

@@ -1662,6 +1662,66 @@ SCHEMA_DOC = {
 }
 
 
+def load_advanced(path=OUT_JSON):
+    """★ THE CONSUMER API — what the orientation-basin search reads. Stable across schema revisions.
+
+    Returns a list, in ranked order, of the recruiters that survived the downselect:
+
+        [{"gene", "uniprot", "e3_class", "pdb_id", "resolution_A", "ligand_ccd",
+          "recruiter_chains",            # auth_asym_ids of the recruiter in the staged frame
+          "arm_chains",                  # every chain kept in the occluder set (recruiter + its CRL arm)
+          "coordinate_source",           # 'biological assembly 1 (mmCIF)' or the asymmetric-unit fallback
+          "anchor_xyz",                  # the linker attachment point, in the staged structure's own frame
+          "exit_direction",              # outward unit vector from the anchor
+          "exit_clearance_A",            # unobstructed reach along it before a 1.7 A linker atom clashes
+          "cone_openness_30deg",
+          "open_solid_angle_fraction_15A",   # size of the orientation space available to a tethered target
+          "buried_fraction", "linker_analogue_tier", "backfilled",
+          "caveats"}]                    # non-empty strings the consumer must carry into its own output
+
+    `caveats` is deliberately part of the contract: a recruiter measured with a partner protein removed, or
+    on an asymmetric unit rather than a biological assembly, is usable but must not be reported as if it
+    were clean."""
+    d = json.load(open(path))
+    ds = d["downselect"]
+    back = set(ds.get("backfilled_for_e3_choice_sensitivity") or [])
+    out = []
+    for gene in ds["advanced"]:
+        r = d["recruiters"][gene]
+        lg = r.get("ligandability") or {}
+        ev = lg.get("exit_vector") or {}
+        occ = lg.get("occluder_set") or {}
+        p = next((s for s in (r.get("staged_structures") or []) if s.get("is_primary")), None) or {}
+        caveats = []
+        if lg.get("measured_with_partner_protein_removed"):
+            caveats.append("no partner-free structure exists for this recruiter; its site may be partly "
+                           "formed by the partner that was removed from the occluder set")
+        if "assembly" not in (lg.get("coordinate_source") or ""):
+            caveats.append(f"geometry computed on the {lg.get('coordinate_source')}, not a biological "
+                           "assembly — a crystallographic neighbour may occlude the exit")
+        if ev.get("no_exit_path"):
+            caveats.append("no unobstructed exit path was found in this frame")
+        if gene in back:
+            caveats.append("Pareto-dominated; advanced only so the E3 is a controlled variable downstream")
+        out.append({
+            "gene": gene, "uniprot": (r.get("uniprot") or {}).get("accession"),
+            "e3_class": r.get("e3_class"), "pdb_id": p.get("pdb_id"),
+            "resolution_A": p.get("resolution_A"), "ligand_ccd": (p.get("ligand") or {}).get("ccd"),
+            "recruiter_chains": p.get("recruiter_auth_asym_ids"),
+            "arm_chains": occ.get("chains_present_in_frame"),
+            "coordinate_source": lg.get("coordinate_source"),
+            "anchor_xyz": ev.get("anchor_xyz"), "exit_direction": ev.get("direction"),
+            "exit_clearance_A": ev.get("clearance_A"),
+            "cone_openness_30deg": ev.get("cone_openness_30deg"),
+            "open_solid_angle_fraction_15A": ev.get("open_solid_angle_fraction_15A"),
+            "buried_fraction": (lg.get("ligand_burial") or {}).get("buried_fraction"),
+            "linker_analogue_tier": (r.get("linker_bearing_analogue") or {}).get("tier"),
+            "backfilled": gene in back,
+            "caveats": caveats,
+        })
+    return out
+
+
 def to_markdown(d):
     L = ["# E3 recruiter staging + ligandability downselect", "",
          f"*{d['_title']}*", "", "> **Honest scope.** " + d["_limits"][0], ""]
