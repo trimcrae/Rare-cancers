@@ -1056,3 +1056,44 @@ def test_mutant_pdb2gmx_merges_chains():
     src = inspect.getsource(ppmx.build_system)
     mutant_call = src.split('"-f", "mutant.pdb"')[1].split("cwd=work_dir")[0]
     assert '"-merge", "all"' in mutant_call
+
+
+def test_submit_skips_finished_legs_before_renting(monkeypatch, capsys):
+    """The onstart idempotency check only fires AFTER the image pull, so a re-dispatch rented a GPU
+    for ~25 minutes just to discover the leg was done and exit — $0.15 a time. The launcher has S3
+    access; the cheap check belongs before the rental."""
+    done = [pv.leg_id_for(u, "pilot") for u in pv.units_for("pilot")]
+    monkeypatch.setattr(pv, "completed_leg_ids", lambda *a, **k: done)
+    assert pv.submit(mode="pilot") == []
+    assert "already done" in capsys.readouterr().out
+
+
+def test_submit_still_launches_the_unfinished_leg(monkeypatch):
+    """Only the finished unit is skipped — the other must still be rented."""
+    units = pv.units_for("pilot")
+    finished = pv.leg_id_for(units[0], "pilot")
+    monkeypatch.setattr(pv, "completed_leg_ids", lambda *a, **k: [finished])
+    submitted = []
+
+    class _Backend:
+        def submit(self, js):
+            submitted.append(js.env["LEG_ID"])
+            return type("H", (), {"job_id": "x", "extra": {}})()
+
+    monkeypatch.setattr(pv, "get_backend", lambda name: _Backend())
+    pv.submit(mode="pilot")
+    assert submitted == [pv.leg_id_for(units[1], "pilot")]
+
+
+def test_completed_leg_ids_never_blocks_a_launch(monkeypatch):
+    """A listing failure must degrade to launching everything, not to launching nothing."""
+    import builtins
+    real_import = builtins.__import__
+
+    def _boom(name, *a, **k):
+        if name == "boto3":
+            raise ImportError("no boto3")
+        return real_import(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", _boom)
+    assert pv.completed_leg_ids() == []

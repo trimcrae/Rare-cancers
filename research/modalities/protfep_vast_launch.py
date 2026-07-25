@@ -254,9 +254,50 @@ def build_jobspec(spec, mode="pilot", git_branch=None, bucket=None, result_prefi
     )
 
 
+def completed_leg_ids(bucket=None, prefix=None):
+    """Leg ids whose result is already `done` in S3. Needs live AWS creds; [] if unavailable."""
+    try:
+        import boto3
+    except ImportError:
+        return []
+    b = bucket or DEFAULT_BUCKET
+    p = (prefix or RESULT_PREFIX).rstrip("/")
+    done = []
+    try:
+        s3 = boto3.client("s3")
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=b, Prefix=f"{p}/"):
+            for obj in page.get("Contents", []):
+                name = os.path.basename(obj["Key"])
+                if not (name.startswith("leg_") and name.endswith(".json")):
+                    continue
+                doc = json.loads(s3.get_object(Bucket=b, Key=obj["Key"])["Body"].read().decode())
+                if doc.get("status") == "done" and doc.get("leg_id"):
+                    done.append(doc["leg_id"])
+    except Exception as e:  # noqa: BLE001 — never let a listing failure block a launch
+        print(f"[launch] could not list completed legs ({type(e).__name__}: {e}); launching all")
+        return []
+    return done
+
+
 def submit(mode="pilot", n_replicas=3, benchmarks=None, dry_run=False):
-    """Rent one instance per leg for this mode."""
+    """Rent one instance per leg for this mode, skipping legs already finished.
+
+    SKIPPING HAPPENS BEFORE THE RENTAL, not on the host. The onstart has an idempotency check, but it
+    only runs after the image pull and repo clone — so a re-dispatch was renting a GPU for ~25
+    minutes just to have it discover the leg was done and exit. Observed at $0.15 a time on the apo
+    leg. The launcher has S3 access, so the cheap check belongs here.
+    """
     specs = units_for(mode, n_replicas=n_replicas, benchmarks=benchmarks)
+    if not dry_run:
+        finished = set(completed_leg_ids())
+        keep = [s for s in specs if leg_id_for(s, mode) not in finished]
+        skipped = [leg_id_for(s, mode) for s in specs if leg_id_for(s, mode) in finished]
+        if skipped:
+            print(f"[launch] skipping {len(skipped)} already-finished leg(s), no rental: {skipped}")
+        specs = keep
+        if not specs:
+            print("[launch] every leg for this mode is already done — nothing to rent")
+            return []
     print(f"[launch] mode={mode} units={len(specs)} image={VAST_IMAGE} gpu={RES.gpu}")
     jobspecs = [build_jobspec(s, mode=mode) for s in specs]
     if dry_run:
