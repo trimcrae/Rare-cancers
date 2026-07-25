@@ -1,0 +1,709 @@
+{
+ "_title": "Transfer-anchor diagnostic \u2014 which VHL staging places the observed E2~Ub transfer anchor correctly?",
+ "_method": "Direct, composition-free measurement inside a solved intact ubiquitylation assembly, plus a common-frame decomposition of the two stagings' disagreement into an exit-vector component and a mapped-E2 component, plus a per-copy ligand audit.",
+ "cases": {
+  "vhl": {
+   "case": "vhl",
+   "recruiter": "VHL",
+   "ground_truth": {
+    "pdb_id": "8R5H",
+    "title": "Ubiquitin ligation to neosubstrate by a cullin-RING E3 ligase & Cdc34: NEDD8-CUL2-RBX1-ELOB/C-VHL-MZ1 with trapped UBE2R2~donor UB-BRD4 BD2",
+    "method": "EM",
+    "resolution_A": 3.44,
+    "e2": "UBE2R2",
+    "receptor_copy": {
+     "ELOB": "G",
+     "ELOC": "D",
+     "VHL": "H"
+    },
+    "copy_selection": {
+     "ok": true,
+     "n_combinations": 1,
+     "single_copy": true,
+     "n_contacting_pairs": 3,
+     "coherent": true,
+     "_note": "the only chain combination available; accepted, with its coherence reported"
+    },
+    "catalytic_cys": {
+     "resid": 93,
+     "chain": "C",
+     "xyz": [
+      170.204,
+      185.168,
+      136.429
+     ],
+     "to_ubiquitin_cterm_A": 4.27,
+     "runner_up_A": [
+      25.73
+     ]
+    },
+    "ligand": {
+     "tag": "8R5H (intact assembly)",
+     "het_code": "759",
+     "ligand_chain": "H",
+     "ligand_resid": 301,
+     "n_heavy": 69,
+     "n_heavy_on_e3_side": 32,
+     "is_protac_ternary": true,
+     "exit_atom_name": "CAE",
+     "exit_atom_xyz": [
+      175.844,
+      196.498,
+      164.467
+     ],
+     "exit_dist_to_body_A": 5.07,
+     "nearest_atom_per_chain_A": {
+      "A": 41.41,
+      "C": 18.61,
+      "D": 32.38,
+      "F": 7.98,
+      "G": 39.93,
+      "H": 5.07,
+      "R": 46.79,
+      "U": 33.9
+     },
+     "chain_identity": {
+      "A": "CUL2",
+      "C": "UBE2R2",
+      "D": "ELOC",
+      "F": "O60885",
+      "G": "ELOB",
+      "H": "VHL",
+      "R": "RBX1",
+      "U": "P0CG48"
+     },
+     "nearest_chain": "H"
+    },
+    "OBSERVED_exit_to_catalytic_cys_A": 30.76,
+    "OBSERVED_ligand_centroid_to_catalytic_cys_A": 28.0,
+    "OBSERVED_e3_moiety_centroid_to_catalytic_cys_A": 29.87,
+    "OBSERVED_exit_to_RING_A": 59.16,
+    "OBSERVED_RING_to_catalytic_cys_A": 29.77,
+    "ring_residue_range": [
+     51,
+     105
+    ]
+   },
+   "common_frame_decomposition": {
+    "common_frame": "registryA_5T35",
+    "moved": "registryB_6GMN",
+    "receptor_superposition": {
+     "ok": true,
+     "n_bridge_ca": 324,
+     "bridge_rmsd_A": 0.767,
+     "ca_per_bridge_protein": {
+      "ELOB": 102,
+      "ELOC": 86,
+      "VHL": 136
+     }
+    },
+    "delta_exit_vector_A": 50.67,
+    "delta_mapped_E2_catalytic_cys_A": 0.02,
+    "_reading": "The two stagings disagree by |d_A - d_B| angstroms about the anchor-to-transfer distance. Placed in one frame, this says how much of that lives in the EXIT VECTOR and how much in the mapped E2 position. A small E2 delta with a large exit delta means the disagreement is about the recruiter anchor (H3), not about CRL conformation (H2)."
+   },
+   "stagings": {
+    "registryA_5T35": {
+     "pdb_id": "5T35",
+     "title": "The PROTAC MZ1 in complex with the second bromodomain of Brd4 and pVHL:ElonginC:ElonginB",
+     "resolution_A": 2.7,
+     "chains_by_accession": {
+      "O60885": [
+       "A",
+       "E"
+      ],
+      "Q15370": [
+       "B",
+       "F"
+      ],
+      "Q15369": [
+       "C",
+       "G"
+      ],
+      "P40337": [
+       "D",
+       "H"
+      ]
+     },
+     "receptor_copy": {
+      "ELOB": "B",
+      "ELOC": "C",
+      "VHL": "D"
+     },
+     "copy_selection": {
+      "ok": true,
+      "n_combinations_checked": 8,
+      "selected": {
+       "ELOB": "B",
+       "ELOC": "C",
+       "VHL": "D"
+      },
+      "n_contacting_pairs": 3,
+      "_note": "one spatially coherent copy selected from an asymmetric unit that may hold several"
+     },
+     "candidate_ligands": [
+      {
+       "het": "759",
+       "chain": "D",
+       "resid": 301,
+       "n_heavy": 69,
+       "n_atoms_within_4.5A_of_selected_body": 36,
+       "eligible": true,
+       "centroid": [
+        21.87,
+        -28.23,
+        -14.56
+       ]
+      },
+      {
+       "het": "759",
+       "chain": "H",
+       "resid": 301,
+       "n_heavy": 69,
+       "n_atoms_within_4.5A_of_selected_body": 0,
+       "eligible": false,
+       "centroid": [
+        1.6,
+        30.23,
+        -25.58
+       ]
+      }
+     ],
+     "ligand": {
+      "tag": "5T35 (registryA_5T35)",
+      "het_code": "759",
+      "ligand_chain": "D",
+      "ligand_resid": 301,
+      "n_heavy": 69,
+      "n_heavy_on_e3_side": 32,
+      "is_protac_ternary": true,
+      "exit_atom_name": "CAG",
+      "exit_atom_xyz": [
+       23.828,
+       -24.37,
+       -17.495
+      ],
+      "exit_dist_to_body_A": 5.0,
+      "nearest_atom_per_chain_A": {
+       "A": 7.19,
+       "B": 39.73,
+       "C": 30.51,
+       "D": 5.0,
+       "E": 48.17,
+       "F": 27.04,
+       "G": 31.51,
+       "H": 32.24
+      },
+      "chain_identity": {
+       "A": "O60885",
+       "B": "ELOB",
+       "C": "ELOC",
+       "D": "VHL",
+       "E": "O60885",
+       "F": "ELOB",
+       "G": "ELOC",
+       "H": "VHL"
+      },
+      "nearest_chain": "D"
+     },
+     "bridge": {
+      "ok": true,
+      "n_bridge_ca": 340,
+      "bridge_rmsd_A": 0.977,
+      "ca_per_bridge_protein": {
+       "ELOB": 104,
+       "ELOC": 87,
+       "VHL": 149
+      }
+     },
+     "mapped_catalytic_cys_xyz": [
+      41.538,
+      -39.119,
+      3.009
+     ],
+     "mapped_observed_exit_xyz": [
+      24.547,
+      -24.604,
+      -18.132
+     ],
+     "mapped_observed_e3_moiety_centroid_xyz": [
+      21.974,
+      -24.842,
+      -14.476
+     ],
+     "THIS_STAGING_exit_vs_OBSERVED_exit_A": 0.99,
+     "THIS_STAGING_exit_vs_OBSERVED_e3_moiety_centroid_A": 3.57,
+     "REPRODUCED_anchor_to_transfer_A": 30.85
+    },
+    "registryB_6GMN": {
+     "pdb_id": "6GMN",
+     "title": "pVHL:EloB:EloC in complex with methyl 4H-furo[3,2-b]pyrrole-5-carboxylate",
+     "resolution_A": 1.94,
+     "chains_by_accession": {
+      "Q15370": [
+       "A",
+       "D",
+       "G",
+       "J"
+      ],
+      "Q15369": [
+       "B",
+       "E",
+       "H",
+       "K"
+      ],
+      "P40337": [
+       "C",
+       "F",
+       "L",
+       "I"
+      ]
+     },
+     "receptor_copy": {
+      "ELOB": "A",
+      "ELOC": "B",
+      "VHL": "C"
+     },
+     "copy_selection": {
+      "ok": true,
+      "n_combinations_checked": 64,
+      "selected": {
+       "ELOB": "A",
+       "ELOC": "B",
+       "VHL": "C"
+      },
+      "n_contacting_pairs": 3,
+      "_note": "one spatially coherent copy selected from an asymmetric unit that may hold several"
+     },
+     "candidate_ligands": [
+      {
+       "het": "F4E",
+       "chain": "B",
+       "resid": 201,
+       "n_heavy": 12,
+       "n_atoms_within_4.5A_of_selected_body": 12,
+       "eligible": true,
+       "centroid": [
+        -5.02,
+        -9.6,
+        22.5
+       ]
+      },
+      {
+       "het": "F4E",
+       "chain": "K",
+       "resid": 201,
+       "n_heavy": 12,
+       "n_atoms_within_4.5A_of_selected_body": 0,
+       "eligible": false,
+       "centroid": [
+        -1.17,
+        37.59,
+        21.92
+       ]
+      }
+     ],
+     "ligand": {
+      "tag": "6GMN (registryB_6GMN)",
+      "het_code": "F4E",
+      "ligand_chain": "B",
+      "ligand_resid": 201,
+      "n_heavy": 12,
+      "n_heavy_on_e3_side": 12,
+      "is_protac_ternary": false,
+      "exit_atom_name": "C07",
+      "exit_atom_xyz": [
+       -6.417,
+       -9.849,
+       21.595
+      ],
+      "exit_dist_to_body_A": 3.98,
+      "nearest_atom_per_chain_A": {
+       "A": 12.51,
+       "B": 3.98,
+       "C": 8.58,
+       "D": 28.26,
+       "E": 22.59,
+       "F": 39.52,
+       "G": 55.22,
+       "H": 48.54,
+       "I": 69.69,
+       "J": 45.81,
+       "K": 34.7,
+       "L": 47.94
+      },
+      "chain_identity": {
+       "A": "ELOB",
+       "B": "ELOC",
+       "C": "VHL",
+       "D": "ELOB",
+       "E": "ELOC",
+       "F": "VHL",
+       "G": "ELOB",
+       "H": "ELOC",
+       "I": "VHL",
+       "J": "ELOB",
+       "K": "ELOC",
+       "L": "VHL"
+      },
+      "nearest_chain": "B"
+     },
+     "bridge": {
+      "ok": true,
+      "n_bridge_ca": 325,
+      "bridge_rmsd_A": 1.332,
+      "ca_per_bridge_protein": {
+       "ELOB": 102,
+       "ELOC": 87,
+       "VHL": 136
+      }
+     },
+     "mapped_catalytic_cys_xyz": [
+      -30.96,
+      48.163,
+      -8.725
+     ],
+     "mapped_observed_exit_xyz": [
+      -3.646,
+      35.295,
+      -2.839
+     ],
+     "mapped_observed_e3_moiety_centroid_xyz": [
+      -5.92,
+      35.108,
+      1.013
+     ],
+     "THIS_STAGING_exit_vs_OBSERVED_exit_A": 51.41,
+     "THIS_STAGING_exit_vs_OBSERVED_e3_moiety_centroid_A": 49.45,
+     "REPRODUCED_anchor_to_transfer_A": 69.91
+    }
+   },
+   "verdict": {
+    "observed_no_composition_A": 30.76,
+    "per_staging_A": {
+     "registryA_5T35": 30.85,
+     "registryB_6GMN": 69.91
+    },
+    "closest_to_observed": "registryA_5T35",
+    "miss_A": {
+     "registryA_5T35": 0.09,
+     "registryB_6GMN": 39.15
+    }
+   }
+  },
+  "crbn": {
+   "case": "crbn",
+   "recruiter": "CRBN",
+   "ground_truth": {
+    "pdb_id": "9UUM",
+    "title": "Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly",
+    "method": "EM",
+    "resolution_A": 3.41,
+    "e2": "UBE2D1",
+    "receptor_copy": {
+     "CRBN": "C",
+     "DDB1": "B"
+    },
+    "copy_selection": {
+     "ok": true,
+     "n_combinations": 1,
+     "single_copy": true,
+     "n_contacting_pairs": 1,
+     "coherent": true,
+     "_note": "the only chain combination available; accepted, with its coherence reported"
+    },
+    "catalytic_cys": {
+     "resid": 85,
+     "chain": "D",
+     "xyz": [
+      143.483,
+      84.269,
+      131.784
+     ],
+     "to_ubiquitin_cterm_A": 3.44,
+     "runner_up_A": [
+      16.44,
+      17.26,
+      20.03
+     ]
+    },
+    "ligand": {
+     "tag": "9UUM (intact assembly)",
+     "het_code": "QFC",
+     "ligand_chain": "C",
+     "ligand_resid": 502,
+     "n_heavy": 42,
+     "n_heavy_on_e3_side": 38,
+     "is_protac_ternary": true,
+     "exit_atom_name": "C10",
+     "exit_atom_xyz": [
+      140.405,
+      95.971,
+      156.693
+     ],
+     "exit_dist_to_body_A": 4.79,
+     "nearest_atom_per_chain_A": {
+      "A": 52.9,
+      "B": 47.76,
+      "C": 4.79,
+      "D": 25.96,
+      "I": 5.09,
+      "N": 48.22,
+      "R": 30.19,
+      "U": 27.74
+     },
+     "chain_identity": {
+      "A": "CUL4A",
+      "B": "DDB1",
+      "C": "CRBN",
+      "D": "UBE2D1",
+      "I": "Q9UKT9",
+      "N": "Q15843",
+      "R": "RBX1",
+      "U": "P62979"
+     },
+     "nearest_chain": "C"
+    },
+    "OBSERVED_exit_to_catalytic_cys_A": 27.69,
+    "OBSERVED_ligand_centroid_to_catalytic_cys_A": 26.36,
+    "OBSERVED_e3_moiety_centroid_to_catalytic_cys_A": 26.47,
+    "OBSERVED_exit_to_RING_A": 45.64,
+    "OBSERVED_RING_to_catalytic_cys_A": 29.34,
+    "ring_residue_range": [
+     50,
+     104
+    ]
+   },
+   "common_frame_decomposition": {
+    "common_frame": "registryA_6BOY",
+    "moved": "registryB_9FJX",
+    "receptor_superposition": {
+     "ok": true,
+     "n_bridge_ca": 1150,
+     "bridge_rmsd_A": 1.426,
+     "ca_per_bridge_protein": {
+      "CRBN": 369,
+      "DDB1": 781
+     }
+    },
+    "delta_exit_vector_A": 11.21,
+    "delta_mapped_E2_catalytic_cys_A": 2.56,
+    "_reading": "The two stagings disagree by |d_A - d_B| angstroms about the anchor-to-transfer distance. Placed in one frame, this says how much of that lives in the EXIT VECTOR and how much in the mapped E2 position. A small E2 delta with a large exit delta means the disagreement is about the recruiter anchor (H3), not about CRL conformation (H2)."
+   },
+   "stagings": {
+    "registryA_6BOY": {
+     "pdb_id": "6BOY",
+     "title": "Crystal structure of DDB1-CRBN-BRD4(BD1) complex bound to dBET6 PROTAC.",
+     "resolution_A": 3.33,
+     "chains_by_accession": {
+      "Q16531": [
+       "A"
+      ],
+      "Q96SW2": [
+       "B"
+      ],
+      "O60885": [
+       "C"
+      ]
+     },
+     "receptor_copy": {
+      "CRBN": "B",
+      "DDB1": "A"
+     },
+     "copy_selection": {
+      "ok": true,
+      "n_combinations": 1,
+      "single_copy": true,
+      "n_contacting_pairs": 1,
+      "coherent": true,
+      "_note": "the only chain combination available; accepted, with its coherence reported"
+     },
+     "candidate_ligands": [
+      {
+       "het": "RN6",
+       "chain": "B",
+       "resid": 502,
+       "n_heavy": 59,
+       "n_atoms_within_4.5A_of_selected_body": 25,
+       "eligible": true,
+       "centroid": [
+        72.08,
+        38.66,
+        51.11
+       ]
+      }
+     ],
+     "ligand": {
+      "tag": "6BOY (registryA_6BOY)",
+      "het_code": "RN6",
+      "ligand_chain": "B",
+      "ligand_resid": 502,
+      "n_heavy": 59,
+      "n_heavy_on_e3_side": 25,
+      "is_protac_ternary": true,
+      "exit_atom_name": "C10",
+      "exit_atom_xyz": [
+       72.92,
+       35.237,
+       49.023
+      ],
+      "exit_dist_to_body_A": 5.11,
+      "nearest_atom_per_chain_A": {
+       "A": 36.09,
+       "B": 5.11,
+       "C": 5.79
+      },
+      "chain_identity": {
+       "A": "DDB1",
+       "B": "CRBN",
+       "C": "O60885"
+      },
+      "nearest_chain": "B"
+     },
+     "bridge": {
+      "ok": true,
+      "n_bridge_ca": 1161,
+      "bridge_rmsd_A": 1.916,
+      "ca_per_bridge_protein": {
+       "CRBN": 372,
+       "DDB1": 789
+      }
+     },
+     "mapped_catalytic_cys_xyz": [
+      70.258,
+      22.657,
+      49.472
+     ],
+     "mapped_observed_exit_xyz": [
+      71.423,
+      48.911,
+      58.203
+     ],
+     "mapped_observed_e3_moiety_centroid_xyz": [
+      72.198,
+      48.546,
+      54.638
+     ],
+     "THIS_STAGING_exit_vs_OBSERVED_exit_A": 16.54,
+     "THIS_STAGING_exit_vs_OBSERVED_e3_moiety_centroid_A": 14.46,
+     "REPRODUCED_anchor_to_transfer_A": 12.87
+    },
+    "registryB_9FJX": {
+     "pdb_id": "9FJX",
+     "title": "Crystal structure of human CRBN-DDB1 in complex with Lenalidomide",
+     "resolution_A": 2.0,
+     "chains_by_accession": {
+      "Q16531": [
+       "A"
+      ],
+      "Q96SW2": [
+       "B"
+      ]
+     },
+     "receptor_copy": {
+      "CRBN": "B",
+      "DDB1": "A"
+     },
+     "copy_selection": {
+      "ok": true,
+      "n_combinations": 1,
+      "single_copy": true,
+      "n_contacting_pairs": 1,
+      "coherent": true,
+      "_note": "the only chain combination available; accepted, with its coherence reported"
+     },
+     "candidate_ligands": [
+      {
+       "het": "LVY",
+       "chain": "B",
+       "resid": 502,
+       "n_heavy": 19,
+       "n_atoms_within_4.5A_of_selected_body": 19,
+       "eligible": true,
+       "centroid": [
+        8.92,
+        -55.4,
+        3.54
+       ]
+      }
+     ],
+     "ligand": {
+      "tag": "9FJX (registryB_9FJX)",
+      "het_code": "LVY",
+      "ligand_chain": "B",
+      "ligand_resid": 502,
+      "n_heavy": 19,
+      "n_heavy_on_e3_side": 19,
+      "is_protac_ternary": false,
+      "exit_atom_name": "N17",
+      "exit_atom_xyz": [
+       9.458,
+       -58.346,
+       0.867
+      ],
+      "exit_dist_to_body_A": 3.96,
+      "nearest_atom_per_chain_A": {
+       "A": 40.19,
+       "B": 3.96
+      },
+      "chain_identity": {
+       "A": "DDB1",
+       "B": "CRBN"
+      },
+      "nearest_chain": "B"
+     },
+     "bridge": {
+      "ok": true,
+      "n_bridge_ca": 1455,
+      "bridge_rmsd_A": 3.404,
+      "ca_per_bridge_protein": {
+       "CRBN": 370,
+       "DDB1": 1085
+      }
+     },
+     "mapped_catalytic_cys_xyz": [
+      8.634,
+      -76.4,
+      12.517
+     ],
+     "mapped_observed_exit_xyz": [
+      9.811,
+      -58.108,
+      -8.241
+     ],
+     "mapped_observed_e3_moiety_centroid_xyz": [
+      7.739,
+      -56.97,
+      -5.438
+     ],
+     "THIS_STAGING_exit_vs_OBSERVED_exit_A": 9.12,
+     "THIS_STAGING_exit_vs_OBSERVED_e3_moiety_centroid_A": 6.68,
+     "REPRODUCED_anchor_to_transfer_A": 21.5
+    }
+   },
+   "verdict": {
+    "observed_no_composition_A": 27.69,
+    "per_staging_A": {
+     "registryB_9FJX": 21.5,
+     "registryA_6BOY": 12.87
+    },
+    "closest_to_observed": "registryB_9FJX",
+    "miss_A": {
+     "registryB_9FJX": 6.19,
+     "registryA_6BOY": 14.82
+    }
+   }
+  }
+ },
+ "log": [
+  "[diag] ===== case vhl =====",
+  "[diag] intact assembly for VHL: 8R5H with E2 UBE2R2",
+  "[diag] *** GROUND TRUTH (8R5H, no composition): ligand exit atom 759.CAE -> UBE2R2 catalytic Cys93 = 30.76 A",
+  "[diag] registryA_5T35: reproduced anchor->transfer = 30.85 A (bridge 340 CA @ 0.977 A); this staging's exit atom is 0.99 A from the exit atom OBSERVED in 8R5H",
+  "[diag] registryB_6GMN: reproduced anchor->transfer = 69.91 A (bridge 325 CA @ 1.332 A); this staging's exit atom is 51.41 A from the exit atom OBSERVED in 8R5H",
+  "[diag] ===== case crbn =====",
+  "[diag] intact assembly for CRBN: 9UUM with E2 UBE2D1",
+  "[diag] *** GROUND TRUTH (9UUM, no composition): ligand exit atom QFC.C10 -> UBE2D1 catalytic Cys85 = 27.69 A",
+  "[diag] registryA_6BOY: reproduced anchor->transfer = 12.87 A (bridge 1161 CA @ 1.916 A); this staging's exit atom is 16.54 A from the exit atom OBSERVED in 9UUM",
+  "[diag] registryB_9FJX: reproduced anchor->transfer = 21.5 A (bridge 1455 CA @ 3.404 A); this staging's exit atom is 9.12 A from the exit atom OBSERVED in 9UUM"
+ ]
+}
