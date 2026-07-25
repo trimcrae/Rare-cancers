@@ -445,11 +445,12 @@ def collect(bucket=None, prefix=None, autostop=True):
                       f"msg={str(i.get('status_msg') or '').strip()[:200]!r}")
                 print(f"      host: inet_down={i.get('inet_down')}Mbps disk={i.get('disk_space')}GB "
                       f"image={str(i.get('image_uuid') or '')[-60:]}")
-                # FULL record while this lane is unproven. `intended=stopped` on a host nobody asked
-                # to stop is not something the curated fields above can explain, and every guess at
-                # it costs another CI round trip. There is at most one non-running instance on this
-                # lane, so the verbosity is bounded; set PROTFEP_FORENSIC=0 once the lane is proven.
-                if os.environ.get("PROTFEP_FORENSIC", "1") != "0":
+                # FULL record, on request. This is what identified the create/start race: the curated
+                # fields above could not explain `intended=stopped` on a host nobody asked to stop,
+                # and min_bid=0.24 vs our 0.3015 price — visible only in the full dump — is what ruled
+                # out "outbid" and made the nudge the right action instead of a re-rent. Default OFF
+                # because it buries the rest of the board; PROTFEP_FORENSIC=1 for the next mystery.
+                if os.environ.get("PROTFEP_FORENSIC", "0") != "0":
                     for k in sorted(i):
                         v = str(i[k])
                         print(f"        . {k} = {v[:160]}")

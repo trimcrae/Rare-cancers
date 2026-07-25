@@ -1143,10 +1143,10 @@ def test_collect_explains_a_non_running_instance():
     assert "status_msg" in src and "inet_down" in src
 
 
-def test_forensic_dump_is_on_by_default_and_disableable():
-    """An unproven lane pays for verbosity once; a proven one should be able to turn it off."""
+def test_forensic_dump_is_off_by_default_but_available():
+    """It solved the create/start race; left on it buries the board. Opt-in for the next mystery."""
     src = open(os.path.join(MOD_DIR, "protfep_vast_launch.py")).read()
-    assert 'os.environ.get("PROTFEP_FORENSIC", "1") != "0"' in src
+    assert 'os.environ.get("PROTFEP_FORENSIC", "0") != "0"' in src
 
 
 def _collect_with(monkeypatch, instances, leg_docs):
@@ -1177,7 +1177,7 @@ def _collect_with(monkeypatch, instances, leg_docs):
     monkeypatch.setattr(pv, "_vast_request", lambda m, p, k, params=None, body=None: (
         calls.append((m, p, body)) or ({"instances": instances} if m == "GET" else {})))
     monkeypatch.setenv("VAST_API_KEY", "x")
-    monkeypatch.setenv("PROTFEP_FORENSIC", "0")
+    monkeypatch.delenv("PROTFEP_FORENSIC", raising=False)
     import types
     monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(client=lambda _n: _S3()))
     pv.collect()
