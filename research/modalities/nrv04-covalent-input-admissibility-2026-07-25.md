@@ -131,8 +131,14 @@ Three obstacles, in increasing severity.
 
 1. **Distance.** 28.4 Å against a 1.8 Å bond and an 8.0 Å admissibility limit.
 2. **Reachability under the ternary constraint.** For `cov_nr4a1` the recruiter must stay in VHL while the
-   electrophile reaches C551. Measured in
-   [`nrv04_covalent_adduct_build.py`](./nrv04_covalent_adduct_build.py) → `reachability`.
+   electrophile reaches C551. [`nrv04_covalent_adduct_build.py`](./nrv04_covalent_adduct_build.py) measures
+   this by construction — Cys551 Sγ SASA, then required span (anchor→Sγ) against the largest anchor→electrophile
+   distance the actual molecule attains over a 300-conformer ETKDG ensemble, then clearance at the adduct
+   position, then a rigid-protein constrained pose search gated on A1.
+   **⏳ STATUS: still running at the time of writing** (`nrv04-covalent-adduct-build.json` is the output).
+   It refines the *hand-construction* route only; it cannot change the answers in §2 or §6, and the
+   recommendation in §5 does not depend on it — reasons 2–4 stand on their own, and reason 1 applies to a
+   hand-placed pose at full weight now that §6 has closed the steered-refold route.
 3. **Evidence for the pose — which is *not* the same as evidence for the site.** These must be kept apart,
    and getting them backwards is what an earlier reading of this file did.
    - **The SITE is experimentally supported.** Zhang 2018 establishes C551. It is not an assumption.
