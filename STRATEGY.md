@@ -51,6 +51,20 @@ relevant rung below.*
 > GCP L4 — killing a leg mid-flight to change provider would forfeit its progress for nothing — but **no new
 > GCP / SageMaker / Modal run may be started.** The GCP trial (closes 2026-10-10) is now a stranded asset, not
 > a routing preference; if that trade is to be revisited it is a trimcrae call, not a session's.
+>
+> **⚠ CONSEQUENCE FOUND IMMEDIATELY — THE SESSION-INDEPENDENT WATCHDOG DOES NOT COVER VAST (2026-07-25 1:30 PM ET).**
+> [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml) is **GCP-only by construction**: it
+> authenticates to GCP via WIF, reads its state from **GCS**, asks "is a `gcp-ternary` **VM** up?", and its sole
+> recovery action is to re-dispatch **`gpu-ternary-fep-gcp.yml`**. Registering a Vast leg with it yields
+> monitoring that *silently watches nothing* — the exact defect class that produced seven false-success
+> diagnostics on this lane earlier the same day. So the directive above creates a real gap: **as of now no
+> GPU run the program makes has durable, out-of-session monitoring.** A Vast-capable watchdog is being built
+> alongside the Vast ternary lane. Two things the GCP version has no analogue for and which must not be
+> dropped: (1) on Vast **"alive" is not "advancing"** — a rented box can sit up with a dead container or an idle
+> GPU, so the check must require the committed-iteration count to have *increased* since the previous tick;
+> (2) a **capacity refusal is not a preemption** — `resources_unavailable` means destroy, exclude the machine
+> id, and pick another host, never wait and never raise the bid. Note a `schedule:` trigger only fires from the
+> **default branch**, so any such watchdog is inert until merged to `main`.
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
