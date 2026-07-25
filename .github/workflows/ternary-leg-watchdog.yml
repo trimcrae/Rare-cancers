@@ -84,6 +84,34 @@ jobs:
           NVM=$(printf '%s' "$VMS" | tr -d '[:space:]' | wc -c | tr -dc '0-9'); NVM=${NVM:-0}
           echo "live gcp-ternary VMs: ${VMS:-<none>}"
 
+          # AGE of the oldest live VM, in minutes. Needed to tell "no commits yet because it is still in
+          # env-solve/stage/solvate/minimize" (normal, tens of minutes) from "no commits because it is hung"
+          # (the ~40-min am1bcc cold-cache stall and the ~15-min 25000-step minimize both looked exactly like
+          # a healthy VM from the outside). Empty listing -> 0.
+          VMAGE=0
+          CREATED=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" \
+                      --format="value(creationTimestamp)" 2>/dev/null | sort | head -1)
+          if [ -n "$CREATED" ]; then
+            CS=$(date -u -d "$CREATED" +%s 2>/dev/null | tr -dc '0-9')
+            [ -n "$CS" ] && VMAGE=$(( ( $(date -u +%s) - CS ) / 60 ))
+          fi
+          case "$VMAGE" in ""|*[!0-9]*) VMAGE=0 ;; esac
+          echo "oldest live VM age: ${VMAGE} min (created ${CREATED:-<none>})"
+
+          # Grace period before "no commits at all" is called a stall, and the number of consecutive
+          # no-advance passes before a frozen iteration counter is called a stall. At cron */15 a stall
+          # count of 2 means ~30 min without a single committed interval, against a ~20-min production
+          # commit granularity (RBFE_PROD_CKPT_ITERS=40) — so 2 is one missed interval, not noise.
+          SETUP_GRACE_MIN=75
+          STALL_PASSES=2
+
+          # An ::error:: annotation that nobody opens is no better than the silent stall this workflow exists
+          # to remove. So a stall / cap / failed dispatch also FAILS THE JOB, which makes GitHub send its own
+          # workflow-failure notification out-of-band — the alert path that does not depend on an agent, a
+          # session, or anyone thinking to look. RUNNING and DONE stay green so the mailbox stays quiet.
+          # The entry loop is a pipeline subshell, so the flag has to live in a file, not a variable.
+          ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
+
           python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
           | while IFS='|' read -r LEG SEED DIR SALT DT CHG NWIN TPL MAXRL; do
               TAG="$LEG dir=$DIR seed=$SEED"
@@ -96,8 +124,64 @@ jobs:
               fi
 
               # 2. RUNNING? any live gcp-ternary VM means the single GPU is in use; with a 1-GPU quota it is this leg.
+              #
+              #    A LIVENESS ping is not enough. On 2026-07-25 three separate silent stalls all presented as a
+              #    perfectly healthy RUNNING VM: an am1bcc cold-cache wait (~40 min at 0% GPU), a 25000-step
+              #    minimize (~15 min at ~0% GPU), and a warmup NaN. So ask whether the leg is ADVANCING, using
+              #    the only durable progress signal outside the VM: the furthest COMMITTED iteration in the spot
+              #    commit store. State is kept in GCS, so the comparison survives restarts like everything else.
               if [ "$NVM" -gt 0 ]; then
-                echo "::notice title=WATCHDOG RUNNING::$TAG — no result yet and a VM is live ($(printf '%s' "$VMS" | tr '\n' ' ')). Leaving it alone."
+                # Furthest committed iteration for THIS direction. The commit prefix is
+                #   commits/<leg>/<seed>_dt<dt>fs_clig0_wu<..>[_<salt>][_dir<rev>]
+                # so a direction-blind census would read the fwd leg's much-further trajectory and declare a
+                # dead-stopped rev leg to be racing ahead — the same direction-blind bug class as the rest.
+                CALL=$(gcloud storage ls --recursive "gs://$BUCKET/valB-6hax/commits/$LEG/" 2>/dev/null || true)
+                SEL=$(printf '%s\n' "$CALL" | grep -aE "/${SEED}_dt" || true)
+                if [ "$DIR" = fwd ]; then
+                  SEL=$(printf '%s\n' "$SEL" | grep -av '_dir' || true)     # fwd carries NO suffix
+                else
+                  SEL=$(printf '%s\n' "$SEL" | grep -a "_dir$DIR" || true)
+                fi
+                [ -n "$SALT" ] && SEL=$(printf '%s\n' "$SEL" | grep -a "_$SALT" || true)
+                MAXW=$(printf '%s\n' "$SEL" | grep -aoE "warmup/iter-[0-9]+"     | grep -aoE "[0-9]+$" | sort -n | tail -1)
+                MAXP=$(printf '%s\n' "$SEL" | grep -aoE "production/iter-[0-9]+" | grep -aoE "[0-9]+$" | sort -n | tail -1)
+                # FORCE BASE 10. The commit store pads to 8 digits (iter-00000520), and bash reads a
+                # leading-zero literal as OCTAL: 00000520 would silently become 336, and 00000999 is not octal
+                # at all, so $((1000000 + MAXP)) ERRORS — leaving PROG unset, which under `set -u` kills this
+                # entry mid-loop. Exactly the silent-skip this workflow exists to remove; caught by
+                # tests/test_watchdog_census.sh, not by review.
+                [ -n "$MAXW" ] && MAXW=$((10#$MAXW))
+                [ -n "$MAXP" ] && MAXP=$((10#$MAXP))
+                # one monotonic scalar to compare passes on: production dominates warmup, and warmup is
+                # offset so a warmup->production transition can never look like a regression.
+                if [ -n "$MAXP" ]; then PROG=$((1000000 + MAXP)); PHASE="production/$MAXP"
+                elif [ -n "$MAXW" ]; then PROG=$MAXW; PHASE="warmup/$MAXW"
+                else PROG=0; PHASE="none (setup/env-solve/minimize)"; fi
+
+                POBJ="$WDIR/progress-${LEG}-${DIR}-r${SEED}.txt"
+                PREV=$(gcloud storage cat "$POBJ" 2>/dev/null | tr -dc '0-9 ' | tr -s ' ')
+                PPROG=$(printf '%s' "$PREV" | awk '{print $1+0}'); PPROG=${PPROG:-0}
+                PSTALL=$(printf '%s' "$PREV" | awk '{print $2+0}'); PSTALL=${PSTALL:-0}
+                case "$PPROG" in ""|*[!0-9]*) PPROG=0 ;; esac
+                case "$PSTALL" in ""|*[!0-9]*) PSTALL=0 ;; esac
+
+                if [ "$PROG" -gt "$PPROG" ]; then STALL=0; else STALL=$((PSTALL + 1)); fi
+                echo "progress: $PHASE  (scalar $PROG, previous $PPROG, no-advance passes $STALL)"
+                if [ "$DRY" != "1" ]; then
+                  printf '%s %s' "$PROG" "$STALL" > /tmp/prog.txt
+                  gcloud storage cp /tmp/prog.txt "$POBJ" >/dev/null 2>&1 \
+                    || echo "::warning::progress write failed — stall detection will restart from zero next pass"
+                fi
+
+                if [ "$PROG" = "0" ] && [ "$VMAGE" -ge "$SETUP_GRACE_MIN" ]; then
+                  echo "::error title=WATCHDOG SETUP STALL::$TAG — VM live ${VMAGE} min with ZERO committed iterations (grace ${SETUP_GRACE_MIN} min). Setup is hung, not slow: check am1bcc/charge cache, minimize step count, and GPU utilisation. NOT relaunching (a relaunch would hang the same way)."
+                  echo "SETUP STALL $TAG" >> "$ALERT"
+                elif [ "$STALL" -ge "$STALL_PASSES" ] && [ "$PROG" -gt 0 ]; then
+                  echo "::error title=WATCHDOG STALLED::$TAG — VM live but the committed iteration has been frozen at $PHASE for $STALL consecutive passes (~$((STALL * 15)) min). MD is not advancing. NOT relaunching — diagnose (GPU util, NaN, run log) before spending more."
+                  echo "STALLED $TAG at $PHASE" >> "$ALERT"
+                else
+                  echo "::notice title=WATCHDOG RUNNING::$TAG — advancing at $PHASE, VM live ${VMAGE} min ($(printf '%s' "$VMS" | tr '\n' ' ')). Leaving it alone."
+                fi
                 continue
               fi
 
@@ -108,9 +192,11 @@ jobs:
               CNTOBJ="$WDIR/relaunch-${DAY}-${LEG}-${DIR}-r${SEED}.txt"
               CNT=$(gcloud storage cat "$CNTOBJ" 2>/dev/null | tr -dc '0-9')
               CNT=${CNT:-0}; case "$CNT" in ""|*[!0-9]*) CNT=0 ;; esac
+              CNT=$((10#$CNT))   # base 10, never octal — see the MAXW/MAXP note above; free insurance
               case "$MAXRL" in ""|*[!0-9]*) MAXRL=8 ;; esac
               if [ "$CNT" -ge "$MAXRL" ]; then
                 echo "::error title=WATCHDOG CAPPED::$TAG — died again but already relaunched $CNT times today (cap $MAXRL). NOT relaunching; something is failing repeatedly and needs a human."
+                echo "RELAUNCH CAP $TAG ($CNT/$MAXRL today)" >> "$ALERT"
                 continue
               fi
 
@@ -131,6 +217,13 @@ jobs:
                 echo "::notice title=WATCHDOG RELAUNCHED::$TAG — was dead (no result, no VM); re-dispatched, attempt $((CNT+1))/$MAXRL today. Resumes from checkpoint."
               else
                 echo "::error title=WATCHDOG DISPATCH FAILED::$TAG — died AND the re-dispatch call failed. Needs a human."
+                echo "DISPATCH FAILED $TAG" >> "$ALERT"
               fi
             done
           echo "watchdog pass complete"
+          if [ -s "$ALERT" ]; then
+            echo "=== watchdog raised $(wc -l < "$ALERT" | tr -d ' ') alert(s) ==="
+            cat "$ALERT"
+            echo "failing the job so GitHub's workflow-failure notification fires (see the annotations above)."
+            exit 1
+          fi
