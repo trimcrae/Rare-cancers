@@ -1363,8 +1363,22 @@ partly recovered here: because the ligand is identical across all three experime
 leg is literally the same calculation for each receptor and cancels in the ΔΔG, along with common-mode
 ligand-charge/protonation error, so the *selectivity* ΔΔG **eliminates the shared solvent leg and may reduce
 truly common errors** (a general numerical claim of "better-behaved" would need a relevant selectivity benchmark).
-A confirmatory alchemical-mutation cross-check is left as future work, gated on the pocket-homology assessment
-noted in [`../method-watch.md`](../method-watch.md). **Receptor prep for
+A confirmatory alchemical-mutation cross-check is **no longer blocked on tooling**: an alchemical
+protein-mutation FEP engine (pmx + GROMACS; equilibrium λ windows reduced with BAR) was implemented and, on
+2026-07-25, **passed a known-answer benchmark** on the barnase–barstar interface at 3 × 3 replication —
+**Y29A +4.42 ± 1.08** against a SKEMPI-verified +3.40 (abs err 1.02) and the near-null control **Y29F
+−0.37 ± 0.18** against −0.13 (abs err 0.24), both inside a ±1.5 kcal/mol tolerance and correctly ordered.
+Two properties of that benchmark bear directly on whether such a cross-check would be interpretable here, and
+both are reported because they cut in opposite directions. (a) **Between-setup scatter is effect-size
+dependent by ~6×** — ±1.08 on the +4.4 kcal/mol hot-spot knockout versus ±0.18 on the near-null — while
+*within*-leg MBAR standard errors are 0.05–0.13 kcal/mol in both, i.e. an order of magnitude smaller. The
+variance is therefore in setup/equilibration, not sampling length, so single-replicate mutation ΔΔG values are
+not interpretable and replicates are mandatory. (b) **No benchmark yet probes the regime this cross-check would
+occupy** — resolving ~1 kcal/mol between two closely related receptor states — so the engine is validated for
+seeing a large effect and for not inventing one where none exists, but *not* demonstrated to resolve a small
+paralogue-scale difference. The cross-check accordingly remains future work, now gated on that missing
+wedge-scale benchmark **and** on the pocket-homology assessment noted in
+[`../method-watch.md`](../method-watch.md), rather than on engine availability. **Receptor prep for
 FEP:** the docked opened frame is cleaned with `pdb4amber` (LEaP-compatible, drops MD hydrogens/waters) and its
 **disordered N-terminal hinge is trimmed to the folded LBD core** (`_trim_floppy_termini`, adaptive, pocket
 never trimmed) — motivated by the structural-sanity control (§2.3: fold intact, core RMSD 1.76 Å) and standard
