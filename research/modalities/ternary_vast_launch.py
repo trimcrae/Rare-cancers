@@ -921,7 +921,12 @@ def collect(bucket=None, prefix=None, autostop=True):
     for i in mine:
         uid = next((u for u in list(recs) + _known_unit_ids() if label_matches_unit(i.get("label"), u)), None)
         ph, it, sc = committed_progress(uid, b, p) if uid else (None, 0, 0)
-        print(f"TVAST {uid or i.get('label')} up={i.get('actual_status')} committed={ph or 'none'}/{it} "
+        # INSTANCE ID ON EVERY PROGRESS LINE. A progress reading is only worth anything if it is
+        # attributable to the box you actually rented: a monitor that reports "advancing" from the wrong
+        # job is the same silent-success class this lane's watchdog exists to prevent, and it is more
+        # expensive here than elsewhere because the wrong reading leaves a billed GPU unwatched.
+        print(f"TVAST {uid or i.get('label')} instance={i.get('id')} machine={i.get('machine_id')} "
+              f"up={i.get('actual_status')} committed={ph or 'none'}/{it} "
               f"gpu={i.get('gpu_name')} dph=${i.get('dph_total')}")
     print("---- END TVAST-SUMMARY ----")
 
