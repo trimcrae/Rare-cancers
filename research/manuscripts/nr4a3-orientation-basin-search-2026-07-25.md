@@ -352,6 +352,52 @@ ligandability ranking.
 
 ---
 
+## 6b. Exact STRATEGY.md deltas proposed by this lane
+
+*This lane does not edit STRATEGY.md (four lanes run concurrently and the orchestrator owns it). These are the
+precise changes to apply, each with its evidence.*
+
+**D1 — RUNG 5a status.** `[ ] 5a · Orientation-basin search, mechanism-first — ~$0–50 (CPU $0 + optional
+MM-GBSA rescore) · Cum. ~$129` → **`[x]` … DONE 2026-07-25 · $0 REALIZED**, with the gate verdict. The
+optional MM-GBSA rescore was **not** run and is recommended against (§7).
+
+**D2 — the Tier-2 kill-switch row.** In §"The hard kill-switch", tier 2's status `pending (RUNG 5a)` → the
+verdict, and it should record *both* limbs and the null, because "GO" alone overstates it: the categorical
+terms fire in a minority of each basin's placements (0.5–8 % for term (b), 2–5 % for term (a) at the gate)
+against a background of 1–3.5 %, i.e. **2.9–11.8× enrichment, not saturation.**
+
+**D3 — the ladder total (DERIVED, must be regenerated, never typed).** In
+[`pinned-figures.json`](pinned-figures.json) → `derivations.ladder_total.non_tool_stages`, the entry
+`"5a_basin_search": [0.0, 25.0, 50.0]` should become `[0.0, 0.0, 50.0]` — the **mid becomes the realized $0**,
+exactly the convention the same block already applies to `valA_mini` ("valA_mini's mid is its REALIZED ~$0 on
+GCP credit, not the midpoint of its 0–15 band"). That moves `expect_mid` from 194 to **169**; regenerate with
+`vast_cost_model.py` rather than editing the total, and register the superseded value in the same commit per
+CLAUDE.md rule 1.3.
+
+**D4 — two new measured figures, both from solved structures, both currently absent from the plan.**
+Add under reviewer requirement 5 ("full CRL/E2~Ub geometry ensembles"):
+- the substrate-lysine → E2-catalytic-cysteine distance is **17.1 Å**, measured in a solved CRL4–CRBN
+  ubiquitylation assembly (nearest of 11 substrate lysines). Any ubiquitination-geometry model that assumes a
+  tighter zone — this repo's own default was 10 Å — is too strict by ~7 Å;
+- **a composed CRL RING carries ~48.6 Å of positional uncertainty.** Composing a RING from a receptor entry
+  plus a separate cullin-scaffold entry, with both bridges better than 1.5 Å, put it 48.6 Å from the RING of
+  an intact assembly. **This applies to any ternary or degradation-geometry modelling in the program that
+  composes a RING or an E2 position**, not just to this rung. Prefer intact-assembly evidence; where
+  composition is unavoidable, carry this as the caveat.
+
+**D5 — §MECHANISM-FIRST gains a sharpening.** Term (a) is **not geometrically closed**: C397 opens at a
+**10-atom** linker on an E3-independent bound (C420 at 14, C559 at 20). So a term-(a) shortfall is a fact
+about *which recruiters dock where*, not about the target — which is an argument for widening the recruiter
+panel rather than abandoning the axis.
+
+**D6 — the E3 downselect gains a structural argument.** The E3 lane advanced **BIRC2 and MDM2**, both
+**monomeric RING** E3s. Independently of ligandability, that architecture carries its RING in the *same
+chain* as the recruiter, so it inherits **none** of D4's 48.6 Å composition uncertainty — the transfer zone
+is fixed relative to the ligand by covalent geometry. That is a reason to prefer them that the ligandability
+Pareto does not capture, and it should be recorded in RUNG 5a's downselect rationale.
+
+---
+
 ## 7. On the optional MM-GBSA rescore in the 5a envelope
 
 **Not run, and not recommended.** It is a GPU step, and it would refine the one axis this rung is explicitly
