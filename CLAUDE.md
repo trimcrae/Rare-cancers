@@ -83,12 +83,23 @@ read it before making changes.
     **⚠ DO NOT quote prices from this file — it has been stale twice.** The per-rung dollar figures that used to
     sit here (`valA_mini ~$25 … cumulative ~$655 … RUNG 5 ~$150–400`) were **4–12× off** and named **valA_mini**
     as "the KILL-SWITCH", which it is not: valA_mini is the *accuracy* gate, and the designated **causal
-    kill-switch is 5a-KS**, the reciprocal target-surface mutation wedge in RUNG 5. As of 2026-07-24 the whole
-    priceable ladder is **~$390 mid (~$170–610)**, and **5a-KS itself is UNPRICED — the engine was BUILT on 2026-07-24 but has never run**
-    (OpenFE's RHTP maps ligand atoms only, so it could not express a protein mutation at all; the new
-    `research/modalities/nr4a3_protein_fep.py` uses perses `PointMutationExecutor` instead). An engine that
-    exists is not a rate — the rung is priced only once a known-answer benchmark leg runs, and no number
-    from it may enter the manuscript until that benchmark passes. Live prices live in
+    kill-switch is 5a-KS** in RUNG 5. **★ REVISED 2026-07-24 (ternary-selectivity review) — read
+    [research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md](./research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md).**
+    Three things changed. **(1) The search is MECHANISM-FIRST, not orientation-first.** A useful degradation
+    window needs ~2.0 kcal/mol of *true* induced-interface margin against a best-case *resolvable* difference of
+    1.12 kcal/mol — so that axis is a confirmation tool at its limit, not a discovery tool. NR4A3 instead carries
+    **paralogue-unique cysteines and lysines** (C397 at 10.9 Å from the cryptic pocket; K572/K518/K592 exposed),
+    verified from full-length UniProt with two aligners — **categorical** mechanisms the paralogues cannot
+    perform at all, and the most parsimonious explanation of NR-V04's own selectivity (NR4A1 Cys551, absent in
+    NR4A3). **(2) The primary causal test is now the LIGAND-side double difference**
+    `S = ΔΔG_coop(d₀→d|NR4A3) − ΔΔG_coop(d₀→d|NR4A1)` — ternary legs only, no protein-mutation engine, no
+    cross-lane charge mismatch — so 5a-KS is **priceable again at ~$5–25**. The reciprocal protein-mutation
+    wedge (`research/modalities/nr4a3_protein_fep.py`, perses `PointMutationExecutor`, built 2026-07-24, never
+    run) is kept as the **confirmatory** second line and stays **UNPRICED** until its known-answer benchmark
+    gives a rate; no number from it enters the manuscript before that. **(3) The ladder is ~$240 mid (~$90–390)**,
+    down from ~$390, on two exact identities: the binary and solvent legs are paralogue-independent so a
+    3-paralogue panel is 3 ternary *legs* + one shared pair (not 3 edges), and 4 fs ternary production halves
+    every leg (proposed, settled by one ~$5–8 matched re-calibration edge). Live prices live in
     **[STRATEGY.md](./STRATEGY.md)** → Spend summary and
     **[research/compute/pricing.md](./research/compute/pricing.md)**; the schedule's `cost_est_usd` mirrors them.
     Language: "predicted selective candidate", never imply efficacy/safety/therapeutic-window/clinical-readiness.

@@ -1,0 +1,867 @@
+{
+ "_title": "How much selectivity margin does degradation need, and can the physics resolve it?",
+ "_limits": [
+  "Every K_d, alpha, concentration, rate and efficiency is an ILLUSTRATIVE ASSUMPTION - none is measured for NR4A3 or any degrader. This is a sensitivity analysis, not a prediction.",
+  "1:1:1 equilibrium with a steady-state degradation balance: no explicit E2~Ub kinetics, no processivity, no deubiquitinase competition, no permeability or exposure term.",
+  "The margin is applied to the ternary arm only; a real design changes binary affinity, cooperativity and geometry together.",
+  "Covalent capture is modelled as an effective-affinity gain, NOT a k_inact/K_I treatment; an IRREVERSIBLE covalent PROTAC also sacrifices catalytic turnover (hence the reversible-covalent recommendation in the write-up), which this model does not represent.",
+  "The unique-lysine axis is modelled as a drop in ubiquitination efficiency, not as a geometric calculation - establishing the actual transfer-zone geometry is the ternary/CRL stage's job.",
+  "No efficacy, safety, therapeutic-window or clinical claim is made or implied."
+ ],
+ "params": {
+  "target_total_uM": 0.1,
+  "e3_total_uM": 1.0,
+  "kd_target_uM": 0.1,
+  "kd_e3_uM": 1.0,
+  "alpha_baseline": 3.0,
+  "ubiq_efficiency": 0.5,
+  "on_target_dmax": 0.95,
+  "k_ub_max_over_k_basal": 20.0,
+  "paralogue_ceiling": 0.2,
+  "eps_paralogue_frac": 0.05,
+  "covalent_gain_fold": 30.0,
+  "k_inact_per_h": 0.2,
+  "exposure_h": 24.0,
+  "dose_log10_lo": -4.0,
+  "dose_log10_hi": 3.0,
+  "dose_points": 71
+ },
+ "required_margin": {
+  "sweep": [
+   {
+    "margin_kcal": 0.0,
+    "alpha_nr4a3": 3.0,
+    "dose_uM": 0.0016,
+    "deg_nr4a3_at_ceiling": 0.195,
+    "deg_paralogue": 0.195
+   },
+   {
+    "margin_kcal": 0.25,
+    "alpha_nr4a3": 4.57,
+    "dose_uM": 398.1072,
+    "deg_nr4a3_at_ceiling": 0.233,
+    "deg_paralogue": 0.167
+   },
+   {
+    "margin_kcal": 0.5,
+    "alpha_nr4a3": 6.98,
+    "dose_uM": 316.2278,
+    "deg_nr4a3_at_ceiling": 0.342,
+    "deg_paralogue": 0.185
+   },
+   {
+    "margin_kcal": 0.75,
+    "alpha_nr4a3": 10.64,
+    "dose_uM": 316.2278,
+    "deg_nr4a3_at_ceiling": 0.421,
+    "deg_paralogue": 0.174
+   },
+   {
+    "margin_kcal": 1.0,
+    "alpha_nr4a3": 16.22,
+    "dose_uM": 316.2278,
+    "deg_nr4a3_at_ceiling": 0.508,
+    "deg_paralogue": 0.166
+   },
+   {
+    "margin_kcal": 1.25,
+    "alpha_nr4a3": 24.74,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.645,
+    "deg_paralogue": 0.194
+   },
+   {
+    "margin_kcal": 1.5,
+    "alpha_nr4a3": 37.72,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.72,
+    "deg_paralogue": 0.191
+   },
+   {
+    "margin_kcal": 1.75,
+    "alpha_nr4a3": 57.53,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.783,
+    "deg_paralogue": 0.188
+   },
+   {
+    "margin_kcal": 2.0,
+    "alpha_nr4a3": 87.73,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.831,
+    "deg_paralogue": 0.186
+   },
+   {
+    "margin_kcal": 2.25,
+    "alpha_nr4a3": 133.78,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.867,
+    "deg_paralogue": 0.185
+   },
+   {
+    "margin_kcal": 2.5,
+    "alpha_nr4a3": 204.0,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.893,
+    "deg_paralogue": 0.184
+   },
+   {
+    "margin_kcal": 2.75,
+    "alpha_nr4a3": 311.09,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.912,
+    "deg_paralogue": 0.184
+   },
+   {
+    "margin_kcal": 3.0,
+    "alpha_nr4a3": 474.39,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.924,
+    "deg_paralogue": 0.184
+   },
+   {
+    "margin_kcal": 3.25,
+    "alpha_nr4a3": 723.42,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.933,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 3.5,
+    "alpha_nr4a3": 1103.16,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.938,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 3.75,
+    "alpha_nr4a3": 1682.25,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.942,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 4.0,
+    "alpha_nr4a3": 2565.32,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.945,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 4.25,
+    "alpha_nr4a3": 3911.95,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.947,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 4.5,
+    "alpha_nr4a3": 5965.47,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.948,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 4.75,
+    "alpha_nr4a3": 9096.95,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.949,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 5.0,
+    "alpha_nr4a3": 13872.25,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.949,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 5.25,
+    "alpha_nr4a3": 21154.28,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.949,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 5.5,
+    "alpha_nr4a3": 32258.9,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 5.75,
+    "alpha_nr4a3": 49192.72,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 6.0,
+    "alpha_nr4a3": 75015.69,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 6.25,
+    "alpha_nr4a3": 114394.04,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 6.5,
+    "alpha_nr4a3": 174443.46,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 6.75,
+    "alpha_nr4a3": 266014.91,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 7.0,
+    "alpha_nr4a3": 405655.41,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 7.25,
+    "alpha_nr4a3": 618598.06,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 7.5,
+    "alpha_nr4a3": 943321.74,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 7.75,
+    "alpha_nr4a3": 1438504.19,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   },
+   {
+    "margin_kcal": 8.0,
+    "alpha_nr4a3": 2193625.15,
+    "dose_uM": 251.1886,
+    "deg_nr4a3_at_ceiling": 0.95,
+    "deg_paralogue": 0.183
+   }
+  ],
+  "required_margin_kcal_by_target": {
+   "0.7": 1.5,
+   "0.8": 2.0,
+   "0.9": 2.75
+  },
+  "note": "Margin applied to the NR4A3 ternary arm only (alpha_NR4A3 = alpha_baseline x exp(margin/RT)); binary warhead affinity held EQUAL across paralogues, the conservative assumption for a ~70%-conserved pocket. The ubiquitination drive is re-calibrated at every margin so the NR4A3 arm is always a working degrader (see calibrate_drive)."
+ },
+ "resolution": {
+  "note": "MDD = z * replicate_SD * sqrt(2/n) for the difference of two independently-estimated ddG values; replicate SD (prereg), NOT MBAR SE. Separate from ACCURACY: OpenFE's public RBFE benchmark is ~1.7 kcal/mol RMSE, and the ternary/NAGL lane has no accuracy number of its own until Val B.",
+  "table": [
+   {
+    "replicate_sd_kcal": 0.4,
+    "n_replicates": 2,
+    "mdd_kcal_95pct": 0.78
+   },
+   {
+    "replicate_sd_kcal": 0.4,
+    "n_replicates": 3,
+    "mdd_kcal_95pct": 0.64
+   },
+   {
+    "replicate_sd_kcal": 0.4,
+    "n_replicates": 5,
+    "mdd_kcal_95pct": 0.5
+   },
+   {
+    "replicate_sd_kcal": 0.4,
+    "n_replicates": 8,
+    "mdd_kcal_95pct": 0.39
+   },
+   {
+    "replicate_sd_kcal": 0.7,
+    "n_replicates": 2,
+    "mdd_kcal_95pct": 1.37
+   },
+   {
+    "replicate_sd_kcal": 0.7,
+    "n_replicates": 3,
+    "mdd_kcal_95pct": 1.12
+   },
+   {
+    "replicate_sd_kcal": 0.7,
+    "n_replicates": 5,
+    "mdd_kcal_95pct": 0.87
+   },
+   {
+    "replicate_sd_kcal": 0.7,
+    "n_replicates": 8,
+    "mdd_kcal_95pct": 0.69
+   },
+   {
+    "replicate_sd_kcal": 1.0,
+    "n_replicates": 2,
+    "mdd_kcal_95pct": 1.96
+   },
+   {
+    "replicate_sd_kcal": 1.0,
+    "n_replicates": 3,
+    "mdd_kcal_95pct": 1.6
+   },
+   {
+    "replicate_sd_kcal": 1.0,
+    "n_replicates": 5,
+    "mdd_kcal_95pct": 1.24
+   },
+   {
+    "replicate_sd_kcal": 1.0,
+    "n_replicates": 8,
+    "mdd_kcal_95pct": 0.98
+   }
+  ],
+  "typical_mdd_kcal_sd0.7_n3": 1.12
+ },
+ "categorical_axes": {
+  "interface_thermodynamics_only": {
+   "dose_uM": 0.0016,
+   "deg_nr4a3_at_ceiling": 0.195,
+   "deg_paralogue": 0.195
+  },
+  "unique_lysine": {
+   "dose_uM": 15.8489,
+   "deg_nr4a3_at_ceiling": 0.828,
+   "deg_paralogue": 0.194
+  },
+  "covalent_capture": {
+   "dose_uM": 0.0016,
+   "deg_nr4a3_at_ceiling": 0.237,
+   "deg_paralogue": 0.174
+  },
+  "covalent_plus_unique_lysine": {
+   "dose_uM": 0.0398,
+   "deg_nr4a3_at_ceiling": 0.885,
+   "deg_paralogue": 0.192
+  },
+  "covalent_capture_KINETIC": {
+   "dose_uM": 1000.0,
+   "deg_nr4a3_at_ceiling": 0.958,
+   "deg_paralogue": 0.084,
+   "labelled_fraction": 0.992
+  },
+  "_covalent_gain_as_margin_kcal": 2.02,
+  "_null_is_the_ceiling": 0.2,
+  "_note_covalent": "`covalent_capture` is the EQUILIBRIUM proxy (an effective-affinity gain) and is a LOWER BOUND; `covalent_capture_KINETIC` is the time-integrating form, which is what an irreversible adduct actually does. Neither models the loss of catalytic turnover an irreversible covalent PROTAC incurs."
+ },
+ "scenario_grid": [
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.25,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.189,
+    "unique_lysine": 0.821,
+    "covalent_capture": 0.19,
+    "covalent_plus_unique_lysine": 0.853,
+    "covalent_capture_KINETIC": 0.91
+   }
+  },
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.0,
+    "0.9": 2.75
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.198,
+    "unique_lysine": 0.827,
+    "covalent_capture": 0.199,
+    "covalent_plus_unique_lysine": 0.832,
+    "covalent_capture_KINETIC": 0.955
+   }
+  },
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.5
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.183,
+    "unique_lysine": 0.815,
+    "covalent_capture": 0.206,
+    "covalent_plus_unique_lysine": 0.838,
+    "covalent_capture_KINETIC": 0.991
+   }
+  },
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.25,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.193,
+    "unique_lysine": 0.823,
+    "covalent_capture": 0.189,
+    "covalent_plus_unique_lysine": 0.821,
+    "covalent_capture_KINETIC": 0.906
+   }
+  },
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.75
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.197,
+    "unique_lysine": 0.827,
+    "covalent_capture": 0.197,
+    "covalent_plus_unique_lysine": 0.832,
+    "covalent_capture_KINETIC": 0.953
+   }
+  },
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": null,
+    "0.8": null,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.168,
+    "unique_lysine": 0.805,
+    "covalent_capture": 0.204,
+    "covalent_plus_unique_lysine": 0.836,
+    "covalent_capture_KINETIC": 0.907
+   }
+  },
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.25,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.2,
+    "unique_lysine": 0.832,
+    "covalent_capture": 0.197,
+    "covalent_plus_unique_lysine": 0.83,
+    "covalent_capture_KINETIC": 0.902
+   }
+  },
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.75
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.195,
+    "unique_lysine": 0.827,
+    "covalent_capture": 0.195,
+    "covalent_plus_unique_lysine": 0.833,
+    "covalent_capture_KINETIC": 0.951
+   }
+  },
+  {
+   "kd_target_uM": 0.01,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": null,
+    "0.8": null,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.167,
+    "unique_lysine": 0.811,
+    "covalent_capture": 0.201,
+    "covalent_plus_unique_lysine": 0.834,
+    "covalent_capture_KINETIC": 0.903
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.25,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.199,
+    "unique_lysine": 0.825,
+    "covalent_capture": 0.321,
+    "covalent_plus_unique_lysine": 0.899,
+    "covalent_capture_KINETIC": 0.926
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.75
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.174,
+    "unique_lysine": 0.826,
+    "covalent_capture": 0.285,
+    "covalent_plus_unique_lysine": 0.906,
+    "covalent_capture_KINETIC": 0.963
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.5
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.179,
+    "unique_lysine": 0.812,
+    "covalent_capture": 0.293,
+    "covalent_plus_unique_lysine": 0.892,
+    "covalent_capture_KINETIC": 0.696
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.25,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.186,
+    "unique_lysine": 0.82,
+    "covalent_capture": 0.27,
+    "covalent_plus_unique_lysine": 0.891,
+    "covalent_capture_KINETIC": 0.915
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.75
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.195,
+    "unique_lysine": 0.828,
+    "covalent_capture": 0.237,
+    "covalent_plus_unique_lysine": 0.885,
+    "covalent_capture_KINETIC": 0.958
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": null,
+    "0.8": null,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.167,
+    "unique_lysine": 0.832,
+    "covalent_capture": 0.245,
+    "covalent_plus_unique_lysine": 0.866,
+    "covalent_capture_KINETIC": 0.62
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.25,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.173,
+    "unique_lysine": 0.821,
+    "covalent_capture": 0.224,
+    "covalent_plus_unique_lysine": 0.85,
+    "covalent_capture_KINETIC": 0.906
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.75
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.183,
+    "unique_lysine": 0.817,
+    "covalent_capture": 0.195,
+    "covalent_plus_unique_lysine": 0.858,
+    "covalent_capture_KINETIC": 0.953
+   }
+  },
+  {
+   "kd_target_uM": 0.1,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": null,
+    "0.8": null,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.185,
+    "unique_lysine": 0.818,
+    "covalent_capture": 0.201,
+    "covalent_plus_unique_lysine": 0.834,
+    "covalent_capture_KINETIC": 0.601
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.185,
+    "unique_lysine": 0.827,
+    "covalent_capture": 0.663,
+    "covalent_plus_unique_lysine": 0.9,
+    "covalent_capture_KINETIC": 0.958
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.0,
+    "0.9": 2.5
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.194,
+    "unique_lysine": 0.829,
+    "covalent_capture": 0.631,
+    "covalent_plus_unique_lysine": 0.949,
+    "covalent_capture_KINETIC": 0.98
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 1.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 1.75,
+    "0.9": 2.5
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.186,
+    "unique_lysine": 0.831,
+    "covalent_capture": 0.645,
+    "covalent_plus_unique_lysine": 0.97,
+    "covalent_capture_KINETIC": 0.589
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.25,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.174,
+    "unique_lysine": 0.824,
+    "covalent_capture": 0.517,
+    "covalent_plus_unique_lysine": 0.9,
+    "covalent_capture_KINETIC": 0.941
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.75
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.183,
+    "unique_lysine": 0.829,
+    "covalent_capture": 0.534,
+    "covalent_plus_unique_lysine": 0.945,
+    "covalent_capture_KINETIC": 0.971
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 3.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": null,
+    "0.8": null,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.19,
+    "unique_lysine": 0.821,
+    "covalent_capture": 0.545,
+    "covalent_plus_unique_lysine": 0.958,
+    "covalent_capture_KINETIC": 0.476
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.9,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.75,
+    "0.8": 2.25,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.17,
+    "unique_lysine": 0.824,
+    "covalent_capture": 0.359,
+    "covalent_plus_unique_lysine": 0.899,
+    "covalent_capture_KINETIC": 0.921
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.95,
+   "required_margin_kcal_by_target": {
+    "0.7": 1.5,
+    "0.8": 2.0,
+    "0.9": 2.75
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.18,
+    "unique_lysine": 0.825,
+    "covalent_capture": 0.372,
+    "covalent_plus_unique_lysine": 0.93,
+    "covalent_capture_KINETIC": 0.338
+   }
+  },
+  {
+   "kd_target_uM": 1.0,
+   "alpha_baseline": 10.0,
+   "on_target_dmax": 0.99,
+   "required_margin_kcal_by_target": {
+    "0.7": null,
+    "0.8": null,
+    "0.9": null
+   },
+   "categorical_deg_nr4a3_at_ceiling": {
+    "interface_thermodynamics_only": 0.186,
+    "unique_lysine": 0.817,
+    "covalent_capture": 0.382,
+    "covalent_plus_unique_lysine": 0.924,
+    "covalent_capture_KINETIC": 0.349
+   }
+  }
+ ],
+ "grid_summary": {
+  "n_scenarios": 27,
+  "required_margin_by_target": {
+   "0.7": {
+    "n_reachable": 21,
+    "min": 1.5,
+    "median": 1.5,
+    "max": 1.75,
+    "n_above_mdd": 21
+   },
+   "0.8": {
+    "n_reachable": 21,
+    "min": 1.75,
+    "median": 2.0,
+    "max": 2.25,
+    "n_above_mdd": 21
+   },
+   "0.9": {
+    "n_reachable": 12,
+    "min": 2.5,
+    "median": 2.75,
+    "max": 2.75,
+    "n_above_mdd": 12
+   }
+  },
+  "median_deg_nr4a3_at_ceiling_zero_margin": {
+   "interface_thermodynamics_only": 0.185,
+   "unique_lysine": 0.824,
+   "covalent_capture": 0.245,
+   "covalent_plus_unique_lysine": 0.885,
+   "covalent_capture_KINETIC": 0.915
+  },
+  "mdd_kcal_used": 1.12
+ },
+ "verdict": {
+  "headline": "To reach 80% NR4A3 degradation while a paralogue stays under 20%, the induced interface must supply a TRUE margin of ~2.00 kcal/mol (grid range 1.75-2.25 over 27 scenarios). The best-case RESOLVABLE difference is 1.12 kcal/mol (replicate SD 0.7, n=3), so the required effect is ~1.79x the noise floor and of the same order as the method's ACCURACY (~1.7 kcal/mol RMSE on the public RBFE benchmark). At ZERO thermodynamic margin the null gives 0.185 (the ceiling, by construction), while the categorical axes give a median 0.824 (unique lysine), 0.915 (covalent capture, time-integrating form; the equilibrium proxy's 0.245 is a lower bound) and 0.885 (affinity-proxy covalent + unique lysine) - selectivity bought with no free-energy contest at all.",
+  "required_over_resolvable": 1.79,
+  "implication": "Rank the search axes by whether the mechanism is CATEGORICAL (present/absent) or MARGINAL (a free-energy contest). Spend the alchemy on CONFIRMING a categorical design, not on trying to WIN a contest at the edge of resolution."
+ }
+}

@@ -1,0 +1,2599 @@
+{
+ "_title": "NR4A3 paralogue-unique reactive residues \u2014 the categorical selectivity axes",
+ "_why": "A residue type present in NR4A3 and absent at the aligned position in BOTH paralogues is a selectivity mechanism that does not depend on winning a ~1 kcal/mol free-energy contest: cysteines gate covalent capture, lysines gate ubiquitin transfer.",
+ "_method": "UniProt FASTA + Needleman-Wunsch global alignment (NR4A3 as reference) for uniqueness; Shrake-Rupley RSA + reactive-atom distances on the matched opened LBD model for reachability. Pure stdlib.",
+ "_limits": [
+  "Sequence uniqueness is exact; everything downstream (reachability, adduct formation, transfer competence) is a HYPOTHESIS generated for testing, not a result.",
+  "Reachability uses ONE static opened conformer and a heavy-atom distance to the cryptic pocket \u2014 not a docked electrophile or a linker conformer search.",
+  "Intrinsic cysteine reactivity (pKa, local electrostatics, hard/soft preference) is NOT computed.",
+  "Lysine uniqueness does not by itself establish ubiquitination competence \u2014 that is a geometry question for the ternary/CRL stage.",
+  "No efficacy, safety, therapeutic-window or clinical claim is made or implied."
+ ],
+ "accessions": {
+  "NR4A1": "P22736",
+  "NR4A2": "P43354",
+  "NR4A3": "Q92570",
+  "EWSR1": "Q01844"
+ },
+ "sequence_lengths": {
+  "NR4A1": 598,
+  "NR4A2": 598,
+  "NR4A3": 626,
+  "EWSR1": 656
+ },
+ "cryptic_pocket_uniprot": [
+  406,
+  407,
+  410,
+  411,
+  412,
+  481,
+  484,
+  485,
+  531,
+  534
+ ],
+ "reach_bands_A": {
+  "in_pocket": 8.0,
+  "exit_vector": 12.0,
+  "linker_borne": 22.0
+ },
+ "nr4a3_cysteines": [
+  {
+   "residue": "C",
+   "resnum": 3,
+   "context": "MP[C]VQAQY",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 3,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 3,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "MP[C]IQAQY"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 3,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 3,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "MP[C]VQAQY"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 75,
+   "context": "ELKPS[C]VYQMQ",
+   "partners": {
+    "NR4A1": {
+     "residue": "T",
+     "resnum": 74,
+     "same_type": false,
+     "affine_residue": "F",
+     "affine_resnum": 67,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "YQLPG[T]VQPCS"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 77,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 77,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "DVKPP[C]LYQMP"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 166,
+   "context": "PSAPG[C]IAPGP",
+   "partners": {
+    "NR4A1": {
+     "residue": "H",
+     "resnum": 160,
+     "same_type": false,
+     "affine_residue": "H",
+     "affine_resnum": 160,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "DGSFG[H]FSPSQ"
+    },
+    "NR4A2": {
+     "residue": "N",
+     "resnum": 151,
+     "same_type": false,
+     "affine_residue": "-",
+     "affine_resnum": null,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "PGSLH[N]FHQNY"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 292,
+   "context": "SGEGT[C]AVCGD",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 267,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 267,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GSEGR[C]AVCGD"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 263,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 263,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "SNEGL[C]AVCGD"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 295,
+   "context": "GTCAV[C]GDNAA",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 270,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 270,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GRCAV[C]GDNAS"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 266,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 266,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GLCAV[C]GDNAA"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 301,
+   "context": "GDNAA[C]QHYGV",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 276,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 276,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GDNAS[C]QHYGV"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 272,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 272,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GDNAA[C]QHYGV"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 309,
+   "context": "YGVRT[C]EGCKG",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 284,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 284,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "YGVRT[C]EGCKG"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 280,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 280,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "YGVRT[C]EGCKG"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 312,
+   "context": "RTCEG[C]KGFFK",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 287,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 287,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RTCEG[C]KGFFK"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 283,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 283,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RTCEG[C]KGFFK"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 328,
+   "context": "NAKYV[C]LANKN",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 303,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 303,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "NAKYI[C]LANKD"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 299,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 299,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "NAKYV[C]LANKN"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 334,
+   "context": "LANKN[C]PVDKR",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 309,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 309,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "LANKD[C]PVDKR"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 305,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 305,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "LANKN[C]PVDKR"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 344,
+   "context": "RRRNR[C]QYCRF",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 319,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 319,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RRRNR[C]QFCRF"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 315,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 315,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RRRNR[C]QYCRF"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 347,
+   "context": "NRCQY[C]RFQKC",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 322,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 322,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "NRCQF[C]RFQKC"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 318,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 318,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "NRCQY[C]RFQKC"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 352,
+   "context": "CRFQK[C]LSVGM",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 327,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 327,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "CRFQK[C]LAVGM"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 323,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 323,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "CRFQK[C]LAVGM"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 397,
+   "context": "PSPPI[C]MMNAL",
+   "partners": {
+    "NR4A1": {
+     "residue": "N",
+     "resnum": 363,
+     "same_type": false,
+     "affine_residue": "N",
+     "affine_resnum": 363,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "DASPA[N]LLTSL"
+    },
+    "NR4A2": {
+     "residue": "S",
+     "resnum": 363,
+     "same_type": false,
+     "affine_residue": "S",
+     "affine_resnum": 363,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "PSPPV[S]LISAL"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 25,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.395,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 10.86,
+    "dist_to_nearest_docked_ligand_A": 12.3,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "exit_vector"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 420,
+   "context": "DYSRY[C]PTDQA",
+   "partners": {
+    "NR4A1": {
+     "residue": "Q",
+     "resnum": 388,
+     "same_type": false,
+     "affine_residue": "Q",
+     "affine_resnum": 388,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "DYSKF[Q]ELVLP"
+    },
+    "NR4A2": {
+     "residue": "A",
+     "resnum": 389,
+     "same_type": false,
+     "affine_residue": "A",
+     "affine_resnum": 389,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "YSRFQ[A]NPDYQ"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 48,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.311,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 18.34,
+    "dist_to_nearest_docked_ligand_A": 16.04,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL1873475",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 496,
+   "context": "DKFVF[C]NGLVL",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 465,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 465,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GKLIF[C]SGLVL"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 465,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 465,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GKLIF[C]NGVVL"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 124,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.0,
+    "exposed": false,
+    "dist_to_cryptic_pocket_A": 3.33,
+    "dist_to_nearest_docked_ligand_A": 6.85,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL4755698",
+    "reach_class": "in_pocket"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 506,
+   "context": "LHRLQ[C]LRGFG",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 475,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 475,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "LHRLQ[C]ARGFG"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 475,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 475,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "LHRLQ[C]VRGFG"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 134,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.024,
+    "exposed": false,
+    "dist_to_cryptic_pocket_A": 11.68,
+    "dist_to_nearest_docked_ligand_A": 14.85,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL1873475",
+    "reach_class": "exit_vector"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 536,
+   "context": "IQALA[C]LSALS",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 505,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 505,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "VPAFA[C]LSALV"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 505,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 505,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "ISAFS[C]IAALA"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 164,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.0,
+    "exposed": false,
+    "dist_to_cryptic_pocket_A": 6.74,
+    "dist_to_nearest_docked_ligand_A": 8.92,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "in_pocket"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 559,
+   "context": "RVEEL[C]NKITS",
+   "partners": {
+    "NR4A1": {
+     "residue": "Q",
+     "resnum": 528,
+     "same_type": false,
+     "affine_residue": "Q",
+     "affine_resnum": 528,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "RVEEL[Q]NRIAS"
+    },
+    "NR4A2": {
+     "residue": "Q",
+     "resnum": 528,
+     "same_type": false,
+     "affine_residue": "Q",
+     "affine_resnum": 528,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "RVEEL[Q]NKIVN"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 187,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.095,
+    "exposed": false,
+    "dist_to_cryptic_pocket_A": 12.8,
+    "dist_to_nearest_docked_ligand_A": 13.45,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 594,
+   "context": "ELRKI[C]TLGLQ",
+   "partners": {
+    "NR4A1": {
+     "residue": "C",
+     "resnum": 566,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 566,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "ELRTL[C]TQGLQ"
+    },
+    "NR4A2": {
+     "residue": "C",
+     "resnum": 566,
+     "same_type": true,
+     "affine_residue": "C",
+     "affine_resnum": 566,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "ELRTL[C]TQGLQ"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 222,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.063,
+    "exposed": false,
+    "dist_to_cryptic_pocket_A": 8.96,
+    "dist_to_nearest_docked_ligand_A": 10.1,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "exit_vector"
+   }
+  }
+ ],
+ "nr4a3_lysines": [
+  {
+   "residue": "K",
+   "resnum": 37,
+   "context": "NPDYT[K]LTMDL",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 32,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 32,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "TPEFI[K]PTMDL"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 41,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 41,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "TPEFV[K]FSMDL"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 72,
+   "context": "SNYEL[K]PSCVY",
+   "partners": {
+    "NR4A1": {
+     "residue": "L",
+     "resnum": 71,
+     "same_type": false,
+     "affine_residue": "-",
+     "affine_resnum": null,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "TFLYQ[L]PGTVQ"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 74,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 74,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "TGYDV[K]PPCLY"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 85,
+   "context": "QRPLI[K]VEEGR",
+   "partners": {
+    "NR4A1": {
+     "residue": "S",
+     "resnum": 83,
+     "same_type": false,
+     "affine_residue": "S",
+     "affine_resnum": 80,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "CSSAS[S]SASST"
+    },
+    "NR4A2": {
+     "residue": "-",
+     "resnum": null,
+     "same_type": false,
+     "affine_residue": "K",
+     "affine_resnum": 91,
+     "affine_same_type": true,
+     "aligners_agree": false,
+     "context": "(aligned to a gap)"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": false,
+   "alignment_robust": false,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 136,
+   "context": "TSMYF[K]QSPPS",
+   "partners": {
+    "NR4A1": {
+     "residue": "Y",
+     "resnum": 132,
+     "same_type": false,
+     "affine_residue": "Y",
+     "affine_resnum": 132,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "SGSDY[Y]GSPCS"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 123,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 123,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GSVYY[K]PSSPP"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 178,
+   "context": "LDPPM[K]AVPTV",
+   "partners": {
+    "NR4A1": {
+     "residue": "R",
+     "resnum": 171,
+     "same_type": false,
+     "affine_residue": "E",
+     "affine_resnum": 175,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "TYEGL[R]AWTEQ"
+    },
+    "NR4A2": {
+     "residue": "I",
+     "resnum": 163,
+     "same_type": false,
+     "affine_residue": "N",
+     "affine_resnum": 155,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "ATTHM[I]EQRKT"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 194,
+   "context": "PLFHF[K]PSPPH",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 179,
+     "same_type": true,
+     "affine_residue": "S",
+     "affine_resnum": 191,
+     "affine_same_type": false,
+     "aligners_agree": false,
+     "context": "TEQLP[K]ASGPP"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 179,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 179,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "SLFSF[K]QSPPG"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": false,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 249,
+   "context": "GLPLA[K]RAAPL",
+   "partners": {
+    "NR4A1": {
+     "residue": "S",
+     "resnum": 223,
+     "same_type": false,
+     "affine_residue": "-",
+     "affine_resnum": null,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "LGEGE[S]YSMPT"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 226,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 226,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "PNPIR[K]PASMG"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 313,
+   "context": "TCEGC[K]GFFKR",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 288,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 288,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "TCEGC[K]GFFKR"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 284,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 284,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "TCEGC[K]GFFKR"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 317,
+   "context": "CKGFF[K]RTVQK",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 292,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 292,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "CKGFF[K]RTVQK"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 288,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 288,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "CKGFF[K]RTVQK"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 322,
+   "context": "KRTVQ[K]NAKYV",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 297,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 297,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "KRTVQ[K]NAKYI"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 293,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 293,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "KRTVQ[K]NAKYV"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 325,
+   "context": "VQKNA[K]YVCLA",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 300,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 300,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "VQKNA[K]YICLA"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 296,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 296,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "VQKNA[K]YVCLA"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 332,
+   "context": "VCLAN[K]NCPVD",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 307,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 307,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "ICLAN[K]DCPVD"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 303,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 303,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "VCLAN[K]NCPVD"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 338,
+   "context": "NCPVD[K]RRRNR",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 313,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 313,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "DCPVD[K]RRRNR"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 309,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 309,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "NCPVD[K]RRRNR"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 351,
+   "context": "YCRFQ[K]CLSVG",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 326,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 326,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "FCRFQ[K]CLAVG"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 322,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 322,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "YCRFQ[K]CLAVG"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 359,
+   "context": "SVGMV[K]EVVRT",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 334,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 334,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "AVGMV[K]EVVRT"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 330,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 330,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "AVGMV[K]EVVRT"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 368,
+   "context": "RTDSL[K]GRRGR",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 343,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 343,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RTDSL[K]GRRGR"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 339,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 339,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RTDSL[K]GRRGR"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 377,
+   "context": "GRLPS[K]PKSPL",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 352,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 352,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GRLPS[K]PKQPP"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 348,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 348,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GRLPS[K]PKSPQ"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 5,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.799,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 51.73,
+    "dist_to_nearest_docked_ligand_A": 53.96,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "distal"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 379,
+   "context": "LPSKP[K]SPLQQ",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 354,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 354,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "LPSKP[K]QPPDA"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 350,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 350,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "LPSKP[K]SPQEP"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 7,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.837,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 46.66,
+    "dist_to_nearest_docked_ligand_A": 47.51,
+    "nearest_docked_ligand": "resveratrol",
+    "reach_class": "distal"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 454,
+   "context": "RSWAE[K]IPGFT",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 423,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 423,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RKWAE[K]IPGFA"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 423,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 423,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RGWAE[K]IPGFA"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 82,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.488,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 6.84,
+    "dist_to_nearest_docked_ligand_A": 11.98,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL4755698",
+    "reach_class": "in_pocket"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 463,
+   "context": "FTDLP[K]EDQTL",
+   "partners": {
+    "NR4A1": {
+     "residue": "P",
+     "resnum": 432,
+     "same_type": false,
+     "affine_residue": "P",
+     "affine_resnum": 432,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "FAELS[P]ADQDL"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 432,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 432,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "FADLP[K]ADQDL"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 91,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.712,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 19.68,
+    "dist_to_nearest_docked_ligand_A": 19.18,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 492,
+   "context": "NTAED[K]FVFCN",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 461,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 461,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "KPGEG[K]LIFCS"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 461,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 461,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "NPVEG[K]LIFCN"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 120,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.321,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 9.6,
+    "dist_to_nearest_docked_ligand_A": 5.34,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL1873475",
+    "reach_class": "exit_vector"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 518,
+   "context": "WLDSI[K]DFSLN",
+   "partners": {
+    "NR4A1": {
+     "residue": "L",
+     "resnum": 487,
+     "same_type": false,
+     "affine_residue": "L",
+     "affine_resnum": 487,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "WIDSI[L]AFSRS"
+    },
+    "NR4A2": {
+     "residue": "V",
+     "resnum": 487,
+     "same_type": false,
+     "affine_residue": "V",
+     "affine_resnum": 487,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "WIDSI[V]EFSSN"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 146,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.413,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 13.44,
+    "dist_to_nearest_docked_ligand_A": 14.06,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL1961797",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 550,
+   "context": "ERHGL[K]EPKRV",
+   "partners": {
+    "NR4A1": {
+     "residue": "Q",
+     "resnum": 519,
+     "same_type": false,
+     "affine_residue": "Q",
+     "affine_resnum": 519,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "DRHGL[Q]EPRRV"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 519,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 519,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "ERHGL[K]EPKRV"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 178,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.637,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 26.11,
+    "dist_to_nearest_docked_ligand_A": 24.1,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "distal"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 553,
+   "context": "GLKEP[K]RVEEL",
+   "partners": {
+    "NR4A1": {
+     "residue": "R",
+     "resnum": 522,
+     "same_type": false,
+     "affine_residue": "R",
+     "affine_resnum": 522,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "GLQEP[R]RVEEL"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 522,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 522,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "GLKEP[K]RVEEL"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 181,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.667,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 25.27,
+    "dist_to_nearest_docked_ligand_A": 25.92,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "distal"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 561,
+   "context": "EELCN[K]ITSSL",
+   "partners": {
+    "NR4A1": {
+     "residue": "R",
+     "resnum": 530,
+     "same_type": false,
+     "affine_residue": "R",
+     "affine_resnum": 530,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "EELQN[R]IASCL"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 530,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 530,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "EELQN[K]IVNCL"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 189,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.518,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 18.57,
+    "dist_to_nearest_docked_ligand_A": 17.1,
+    "nearest_docked_ligand": "resveratrol",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 567,
+   "context": "ITSSL[K]DHQSK",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 536,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 536,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "IASCL[K]EHVAA"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 536,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 536,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "IVNCL[K]DHVTF"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 195,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.449,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 15.52,
+    "dist_to_nearest_docked_ligand_A": 19.53,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 572,
+   "context": "KDHQS[K]GQALE",
+   "partners": {
+    "NR4A1": {
+     "residue": "A",
+     "resnum": 540,
+     "same_type": false,
+     "affine_residue": "-",
+     "affine_resnum": null,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "LKEHV[A]AVAGE"
+    },
+    "NR4A2": {
+     "residue": "N",
+     "resnum": 543,
+     "same_type": false,
+     "affine_residue": "N",
+     "affine_resnum": 543,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "HVTFN[N]GGLNR"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 200,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.879,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 11.45,
+    "dist_to_nearest_docked_ligand_A": 15.14,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "exit_vector"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 582,
+   "context": "EPTES[K]VLGAL",
+   "partners": {
+    "NR4A1": {
+     "residue": "R",
+     "resnum": 554,
+     "same_type": false,
+     "affine_residue": "R",
+     "affine_resnum": 554,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "ASCLS[R]LLGKL"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 554,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 554,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "PNYLS[K]LLGKL"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 210,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.266,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 11.64,
+    "dist_to_nearest_docked_ligand_A": 11.7,
+    "nearest_docked_ligand": "celastrol",
+    "reach_class": "exit_vector"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 592,
+   "context": "LVELR[K]ICTLG",
+   "partners": {
+    "NR4A1": {
+     "residue": "T",
+     "resnum": 564,
+     "same_type": false,
+     "affine_residue": "T",
+     "affine_resnum": 564,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "LPELR[T]LCTQG"
+    },
+    "NR4A2": {
+     "residue": "T",
+     "resnum": 564,
+     "same_type": false,
+     "affine_residue": "T",
+     "affine_resnum": 564,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "LPELR[T]LCTQG"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 220,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.506,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 16.23,
+    "dist_to_nearest_docked_ligand_A": 17.15,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL1961797",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 605,
+   "context": "RIFYL[K]LEDLV",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 577,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 577,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RIFYL[K]LEDLV"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 577,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 577,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "RIFYL[K]LEDLV"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 233,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.484,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 24.72,
+    "dist_to_nearest_docked_ligand_A": 25.07,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "distal"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 618,
+   "context": "PSIID[K]LFLDT",
+   "partners": {
+    "NR4A1": {
+     "residue": "K",
+     "resnum": 590,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 590,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "PPIID[K]IFMDT"
+    },
+    "NR4A2": {
+     "residue": "K",
+     "resnum": 590,
+     "same_type": true,
+     "affine_residue": "K",
+     "affine_resnum": 590,
+     "affine_same_type": true,
+     "aligners_agree": true,
+     "context": "PAIID[K]LFLDT"
+    }
+   },
+   "unique_vs_both": false,
+   "unique_vs_both_affine": false,
+   "alignment_robust": true,
+   "unique_vs": [],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 246,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.516,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 20.85,
+    "dist_to_nearest_docked_ligand_A": 18.32,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "linker_borne"
+   }
+  }
+ ],
+ "nr4a3_unique_cysteines": [
+  {
+   "residue": "C",
+   "resnum": 166,
+   "context": "PSAPG[C]IAPGP",
+   "partners": {
+    "NR4A1": {
+     "residue": "H",
+     "resnum": 160,
+     "same_type": false,
+     "affine_residue": "H",
+     "affine_resnum": 160,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "DGSFG[H]FSPSQ"
+    },
+    "NR4A2": {
+     "residue": "N",
+     "resnum": 151,
+     "same_type": false,
+     "affine_residue": "-",
+     "affine_resnum": null,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "PGSLH[N]FHQNY"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 397,
+   "context": "PSPPI[C]MMNAL",
+   "partners": {
+    "NR4A1": {
+     "residue": "N",
+     "resnum": 363,
+     "same_type": false,
+     "affine_residue": "N",
+     "affine_resnum": 363,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "DASPA[N]LLTSL"
+    },
+    "NR4A2": {
+     "residue": "S",
+     "resnum": 363,
+     "same_type": false,
+     "affine_residue": "S",
+     "affine_resnum": 363,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "PSPPV[S]LISAL"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 25,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.395,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 10.86,
+    "dist_to_nearest_docked_ligand_A": 12.3,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "exit_vector"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 420,
+   "context": "DYSRY[C]PTDQA",
+   "partners": {
+    "NR4A1": {
+     "residue": "Q",
+     "resnum": 388,
+     "same_type": false,
+     "affine_residue": "Q",
+     "affine_resnum": 388,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "DYSKF[Q]ELVLP"
+    },
+    "NR4A2": {
+     "residue": "A",
+     "resnum": 389,
+     "same_type": false,
+     "affine_residue": "A",
+     "affine_resnum": 389,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "YSRFQ[A]NPDYQ"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 48,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.311,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 18.34,
+    "dist_to_nearest_docked_ligand_A": 16.04,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL1873475",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "C",
+   "resnum": 559,
+   "context": "RVEEL[C]NKITS",
+   "partners": {
+    "NR4A1": {
+     "residue": "Q",
+     "resnum": 528,
+     "same_type": false,
+     "affine_residue": "Q",
+     "affine_resnum": 528,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "RVEEL[Q]NRIAS"
+    },
+    "NR4A2": {
+     "residue": "Q",
+     "resnum": 528,
+     "same_type": false,
+     "affine_residue": "Q",
+     "affine_resnum": 528,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "RVEEL[Q]NKIVN"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 187,
+    "resname": "CYS",
+    "reactive_atom": "SG",
+    "rsa": 0.095,
+    "exposed": false,
+    "dist_to_cryptic_pocket_A": 12.8,
+    "dist_to_nearest_docked_ligand_A": 13.45,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "linker_borne"
+   }
+  }
+ ],
+ "nr4a3_unique_lysines": [
+  {
+   "residue": "K",
+   "resnum": 178,
+   "context": "LDPPM[K]AVPTV",
+   "partners": {
+    "NR4A1": {
+     "residue": "R",
+     "resnum": 171,
+     "same_type": false,
+     "affine_residue": "E",
+     "affine_resnum": 175,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "TYEGL[R]AWTEQ"
+    },
+    "NR4A2": {
+     "residue": "I",
+     "resnum": 163,
+     "same_type": false,
+     "affine_residue": "N",
+     "affine_resnum": 155,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "ATTHM[I]EQRKT"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": false,
+   "geometry": {
+    "note": "outside the modelled LBD construct (373-626) \u2014 no geometry"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 518,
+   "context": "WLDSI[K]DFSLN",
+   "partners": {
+    "NR4A1": {
+     "residue": "L",
+     "resnum": 487,
+     "same_type": false,
+     "affine_residue": "L",
+     "affine_resnum": 487,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "WIDSI[L]AFSRS"
+    },
+    "NR4A2": {
+     "residue": "V",
+     "resnum": 487,
+     "same_type": false,
+     "affine_residue": "V",
+     "affine_resnum": 487,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "WIDSI[V]EFSSN"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 146,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.413,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 13.44,
+    "dist_to_nearest_docked_ligand_A": 14.06,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL1961797",
+    "reach_class": "linker_borne"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 572,
+   "context": "KDHQS[K]GQALE",
+   "partners": {
+    "NR4A1": {
+     "residue": "A",
+     "resnum": 540,
+     "same_type": false,
+     "affine_residue": "-",
+     "affine_resnum": null,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "LKEHV[A]AVAGE"
+    },
+    "NR4A2": {
+     "residue": "N",
+     "resnum": 543,
+     "same_type": false,
+     "affine_residue": "N",
+     "affine_resnum": 543,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "HVTFN[N]GGLNR"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 200,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.879,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 11.45,
+    "dist_to_nearest_docked_ligand_A": 15.14,
+    "nearest_docked_ligand": "cytosporone B",
+    "reach_class": "exit_vector"
+   }
+  },
+  {
+   "residue": "K",
+   "resnum": 592,
+   "context": "LVELR[K]ICTLG",
+   "partners": {
+    "NR4A1": {
+     "residue": "T",
+     "resnum": 564,
+     "same_type": false,
+     "affine_residue": "T",
+     "affine_resnum": 564,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "LPELR[T]LCTQG"
+    },
+    "NR4A2": {
+     "residue": "T",
+     "resnum": 564,
+     "same_type": false,
+     "affine_residue": "T",
+     "affine_resnum": 564,
+     "affine_same_type": false,
+     "aligners_agree": true,
+     "context": "LPELR[T]LCTQG"
+    }
+   },
+   "unique_vs_both": true,
+   "unique_vs_both_affine": true,
+   "alignment_robust": true,
+   "unique_vs": [
+    "NR4A1",
+    "NR4A2"
+   ],
+   "in_lbd": true,
+   "geometry": {
+    "local_resid": 220,
+    "resname": "LYS",
+    "reactive_atom": "NZ",
+    "rsa": 0.506,
+    "exposed": true,
+    "dist_to_cryptic_pocket_A": 16.23,
+    "dist_to_nearest_docked_ligand_A": 17.15,
+    "nearest_docked_ligand": "NR4A3-active:CHEMBL1961797",
+    "reach_class": "linker_borne"
+   }
+  }
+ ],
+ "reciprocal_paralogue_unique": {
+  "NR4A1": [
+   {
+    "residue": "C",
+    "resnum": 78,
+    "context": "GTVQP[C]SSASS",
+    "nr4a3_residue": "Q",
+    "nr4a3_resnum": 80
+   },
+   {
+    "residue": "K",
+    "resnum": 102,
+    "context": "ASASF[K]FEDFQ",
+    "nr4a3_residue": "H",
+    "nr4a3_resnum": 104
+   },
+   {
+    "residue": "C",
+    "resnum": 111,
+    "context": "FQVYG[C]YPGPL",
+    "nr4a3_residue": "Q",
+    "nr4a3_resnum": 113
+   },
+   {
+    "residue": "C",
+    "resnum": 136,
+    "context": "YYGSP[C]SAPSP",
+    "nr4a3_residue": "P",
+    "nr4a3_resnum": 140
+   },
+   {
+    "residue": "K",
+    "resnum": 208,
+    "context": "AQSPL[K]LFPSQ",
+    "nr4a3_residue": "A",
+    "nr4a3_resnum": 229
+   },
+   {
+    "residue": "K",
+    "resnum": 254,
+    "context": "PVTST[K]ARSGA",
+    "nr4a3_residue": "P",
+    "nr4a3_resnum": 281
+   },
+   {
+    "residue": "K",
+    "resnum": 381,
+    "context": "GPSTA[K]LDYSK",
+    "nr4a3_residue": "D",
+    "nr4a3_resnum": 413
+   },
+   {
+    "residue": "K",
+    "resnum": 386,
+    "context": "KLDYS[K]FQELV",
+    "nr4a3_residue": "R",
+    "nr4a3_resnum": 418
+   },
+   {
+    "residue": "K",
+    "resnum": 397,
+    "context": "LPHFG[K]EDAGD",
+    "nr4a3_residue": "-",
+    "nr4a3_resnum": null
+   },
+   {
+    "residue": "K",
+    "resnum": 419,
+    "context": "LEVIR[K]WAEKI",
+    "nr4a3_residue": "S",
+    "nr4a3_resnum": 450
+   },
+   {
+    "residue": "K",
+    "resnum": 456,
+    "context": "LAYRS[K]PGEGK",
+    "nr4a3_residue": "N",
+    "nr4a3_resnum": 487
+   },
+   {
+    "residue": "C",
+    "resnum": 534,
+    "context": "NRIAS[C]LKEHV",
+    "nr4a3_residue": "S",
+    "nr4a3_resnum": 565
+   },
+   {
+    "residue": "C",
+    "resnum": 551,
+    "context": "PQPAS[C]LSRLL",
+    "nr4a3_residue": "T",
+    "nr4a3_resnum": 579
+   },
+   {
+    "residue": "K",
+    "resnum": 558,
+    "context": "SRLLG[K]LPELR",
+    "nr4a3_residue": "A",
+    "nr4a3_resnum": 586
+   }
+  ],
+  "NR4A2": [
+   {
+    "residue": "K",
+    "resnum": 91,
+    "context": "QQSSI[K]VEDIQ",
+    "nr4a3_residue": "H",
+    "nr4a3_resnum": 100
+   },
+   {
+    "residue": "K",
+    "resnum": 167,
+    "context": "MIEQR[K]TPVSR",
+    "nr4a3_residue": "T",
+    "nr4a3_resnum": 182
+   },
+   {
+    "residue": "C",
+    "resnum": 190,
+    "context": "TPVSS[C]QMRFD",
+    "nr4a3_residue": "A",
+    "nr4a3_resnum": 206
+   },
+   {
+    "residue": "C",
+    "resnum": 534,
+    "context": "NKIVN[C]LKDHV",
+    "nr4a3_residue": "S",
+    "nr4a3_resnum": 565
+   },
+   {
+    "residue": "K",
+    "resnum": 558,
+    "context": "SKLLG[K]LPELR",
+    "nr4a3_residue": "A",
+    "nr4a3_resnum": 586
+   }
+  ]
+ },
+ "fusion_context_ewsr1_lysines": {
+  "exon7_like_1_264": {
+   "ewsr1_residues_kept": 264,
+   "n_lysines": 1,
+   "lysine_positions": [
+    144
+   ]
+  },
+  "modelled_keep_200": {
+   "ewsr1_residues_kept": 200,
+   "n_lysines": 1,
+   "lysine_positions": [
+    144
+   ]
+  },
+  "exon12_like_1_349": {
+   "ewsr1_residues_kept": 349,
+   "n_lysines": 2,
+   "lysine_positions": [
+    144,
+    335
+   ]
+  }
+ },
+ "summary": {
+  "n_nr4a3_cysteines": 20,
+  "n_unique_cysteines_vs_both": 4,
+  "n_unique_cysteines_exposed": 2,
+  "n_nr4a3_lysines": 31,
+  "n_unique_lysines_vs_both": 4,
+  "n_unique_lysines_exposed": 3,
+  "alignment_ambiguous_positions": [
+   "K85",
+   "K194"
+  ],
+  "uniqueness_rule": "unique_vs_both AND alignment_robust (both aligners agree)"
+ },
+ "gate": {
+  "question": "Does NR4A3 present a reactive residue that BOTH paralogues structurally lack, positioned so a degrader could exploit it?",
+  "covalent_axis_available": true,
+  "unique_lysine_axis_available": true,
+  "tether_reachable_unique_cysteines": [
+   397,
+   420
+  ],
+  "exposed_unique_lysines": [
+   518,
+   572,
+   592
+  ],
+  "verdict": "GO on BOTH categorical axes \u2014 at least one exposed NR4A3-unique cysteine is within tether range of the warhead pocket (covalent-capture axis) AND at least one exposed NR4A3-unique lysine exists (ubiquitination-site axis). Search these BEFORE, not after, the ~1 kcal/mol interface-thermodynamics axis."
+ },
+ "_source": "UniProt FASTA (rest.uniprot.org)"
+}
