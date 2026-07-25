@@ -1524,6 +1524,9 @@ def retro_collect(bucket):
     out = {"n_legs": len(legs), "expected_units": len(expected), "missing_units": missing,
            "panel_complete": not missing, "phases": phases, "legs": legs, "raw_keys": raw}
 
+    for unit, ph in sorted(phases.items()):          # PROGRESS first: a monitoring check must still print the
+        print(f"[retro-phase] {unit}: {ph}", flush=True)   # phase markers even if the schema guard then fires
+
     # SCHEMA GUARD. A key-name drift between the driver and this mapping is invisible in the verdict — it
     # arrives as "every leg technically failed", which reads as a physics/stability result. So: if legs landed,
     # none blew up, and yet not one produced an E1, that is a SCHEMA mismatch, and it is said out loud.
@@ -1537,8 +1540,6 @@ def retro_collect(bucket):
         out["verdict"] = None
         json.dump(out, open("nrv04-retro-collect.json", "w"), indent=2)
         return 1
-    for unit, ph in sorted(phases.items()):
-        print(f"[retro-phase] {unit}: {ph}", flush=True)
     if missing:
         out["verdict"] = None
         out["note"] = ("panel INCOMPLETE (%d/%d units) — prereg §4f forbids computing the paralogue contrast "
