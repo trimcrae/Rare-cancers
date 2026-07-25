@@ -147,6 +147,39 @@ run log rather than inferred from a file size months later.
 tarball at container start). Its trajectory is whatever the OpenFE default gave. That is acceptable for a
 200-iteration survival probe with no re-analysis value; the stage-2 edge carries the setting.
 
+## 4c · First measurements from the Vast lane (stage-1 probe, instance 45827166, RTX 4090)
+
+Machine 12697, bid **$0.136/hr** against a market floor of $0.1333 and an on-demand cap of $0.36; billed
+`dph_total` **$0.1527/hr**. Driver 580.173.02, 24564 MiB.
+
+**Cold-start budget (all measured, ET):**
+
+| phase | wall | note |
+|---|---|---|
+| rental → container start | 2.8 min | 3.35 GB image pull |
+| staging (RCSB + SMARCA4→SMARCA2 model + assembly) | ~8 min | cache MISS; cached to S3 for every later leg |
+| pre-equilibration (0.5 ns, 191,713-atom solvated box) | **456 s** | cached to S3; endpoint map 109 atoms, **max mapped displacement 0.00 Å**, graph identical, chirality and net charge conserved — the runbook §1c "~3 ligand atoms deviate" follow-up does not reproduce |
+| setup (hybrid solvate + parameterise) | ~6 min | on the GPU host; faster than the GCP lane's ~8 min |
+| **total before the first MD iteration** | **~25 min** | of which ~15 min is now cached and will not repeat |
+
+**Per-iteration rate.** A warmup iteration at a 4 fs *production* configuration is 625 steps (`n_steps` is fixed
+at the production dt; the warmup only overrides `.timestep`), so warmup and production cost the **same wall time
+per iteration** here — which is what makes the warmup the expensive half.
+
+- pure MD: **~6.6–8.5 s/iter** (openmmtools per-chunk estimates)
+- commit-inclusive at `warmup_ckpt_iters=8`: **11.4 s/iter** (24→32 committed in 91 s)
+- ⇒ **per-commit overhead ≈ 23 s.** At the probe's ci=8 that is ~34 % overhead; at the edge's **ci=64 it is
+  ~0.4 s/iter, under 5 %.** The per-mode checkpoint interval was chosen from this reasoning before the run and
+  the run confirms the magnitude.
+
+**Projected full 4 fs ternary leg:** 1600 warmup + 2000 production = 3600 iterations × ~8.9 s (commit-inclusive
+at ci=64) ≈ **8.9 GPU-h**, plus ~25 min cold start ≈ **9.3 h ≈ $1.42** at this host's rate.
+
+**Against the STRATEGY basis.** The ternary row carries ~16 s/iter at **2 fs** (1250 steps). This lane measures
+~8.5 s/iter at 625 steps, i.e. **~17 s per 1250 steps** — the existing rate is **confirmed**, on the same 8G1Q
+system, on a full leg rather than a 60-iteration probe. It does **not** discharge the NR4A transferability
+warning: `calib_hi_to_lo` *is* the SMARCA2/VHL 8G1Q assembly.
+
 ## 5 · Test status
 
 | claim | status |
