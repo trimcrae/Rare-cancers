@@ -8,14 +8,24 @@ note that unblocking needs *input* work: *"re-fold the covalent systems … or d
 re-scope — and say which."* This lane was asked to produce an admissible input or establish that it cannot be
 produced, and to say which.
 
-**Answer: no admissible input exists, and the reason is not the one the amendment recorded.** The 8.99 Å is
-the distance to the **wrong cysteine**. Measured at the preregistered covalent site — NR4A1 **Cys551** — the
-best co-fold in the entire bucket is **28.42 Å**, and the range across every clean model is **28.42–39.11 Å**.
+**Answer: no admissible input exists, it cannot be produced by re-folding, and the reason A1 failed is not the
+one the amendment recorded.** The 8.99 Å is the distance to the **wrong cysteine**. Measured at the
+preregistered covalent site — NR4A1 **Cys551** — the best co-fold in the entire bucket is **28.42 Å**, and the
+range across every clean model is **28.42–39.11 Å**.
 
-**Recommendation: RE-SCOPE. Drop the covalent legs.** Reasoning in §5; the alternative (a steered re-fold) is
-built and costed in §6 and is *not* recommended as the first move.
+The re-fold route was not argued away, it was **tested and refuted** (§6, ~$0.02 of GPU):
 
-Total spend: **$0**.
+- Removing the E3 entirely (`binary_free`: NR4A1-LBD + celastrol alone, 3 seeds) makes it **worse**, not
+  better — **33.6, 36.6, 44.7 Å**. So the ternary arrangement is not what pushes the warhead off-site.
+- **Steering the predictor directly at C551** with a Boltz `pocket` constraint (`contacts: [[A, 207]]`,
+  `max_distance: 6.0`) closes the gap to **14.8 / 15.6 / 15.9 Å** and roughly doubles the warhead's contacts
+  with the target — the constraint is plainly being honoured — but it **still fails A1 by ~2×, and Boltz never
+  satisfies its own 6 Å constraint**. Given an explicit, experimentally anchored instruction to put celastrol
+  on C551, the predictor will not do it.
+
+**Recommendation: RE-SCOPE. Drop the covalent legs.** Now evidenced rather than provisional — §5.
+
+Total spend: **$0.02** (one Vast RTX-4080/32 GB at $0.1211/hr, ~12 min). Everything else was $0 CPU/CI.
 
 | # | finding | evidence |
 |---|---|---|
@@ -25,6 +35,7 @@ Total spend: **$0**.
 | 4 | **The repo had already measured this and not connected it** — `celastrol-end→Cys551 SG proxy = 27.4 Å`, recorded as a PASS of a review item | `nrv04-ternary-benchmark.json` → `review_fix_verification.5_cys551_evaluated` |
 | 5 | **The warhead is not in the target pocket at all** — the celastrol moiety makes **more** contacts with the E3 machinery than with NR4A1 (40–135 vs 32–44); for free celastrol it is 135 vs 44 | audit `warhead.contacts_*`, §3 |
 | 6 | **`cov_c551a` was mutating C566, not C551** — the same geometric rule picks the mutation site | `nrv04_covalent_md.build_system` (fixed here) |
+| 7 | **Re-folding cannot produce the input.** Unconstrained binary is *worse* (33.6–44.7 Å); a pocket constraint aimed at C551 stops at **14.8–15.9 Å** and never satisfies its own 6 Å bound | `nrv04-covalent-input-audit-nrv04-celastrol-site-probe-v1.json`, 6 models, §6 |
 
 ---
 
@@ -156,8 +167,10 @@ Three obstacles, in increasing severity.
    experimentally established and, on the corrected reading of Muñoz-Tello 2020 (§4.3), better supported than
    the repo currently records. That is precisely why the §6 probe was run rather than assumed — a **steered**
    co-fold imposes only the experimentally supported constraint (proximity to C551) and lets the predictor
-   choose the pose, which is a materially better-founded input than one placed by hand. **This reason is
-   therefore conditional on the probe**, and reasons 2–4 are not.
+   choose the pose, which would have been a materially better-founded input than one placed by hand.
+   **The probe closed that door:** steered at C551 with a 6 Å bound, Boltz stops at 14.8–15.9 Å on all three
+   seeds and never satisfies its own constraint (§6). So the only remaining route to a covalent input is a
+   pose placed entirely by hand, and this reason applies to it at full weight.
 2. **The covalent legs' scientific job is already done, for $0, by Leg 0.** The panel exists (prereg §1)
    because celastrol's covalency could make NR-V04's selectivity a warhead-reactivity story the noncovalent
    machinery cannot represent. Leg 0 **settled that**: the reactive Cys is unique to NR4A1 (NR4A2 = Tyr,
@@ -178,25 +191,47 @@ about covalency, and the write-up must state that the covalent confound is docum
 confound stays explicit in every NR-V04 statement: NR4A1 Cys551 is unique to NR4A1 (NR4A3 has Thr579), so a
 concordant result may reflect **target engagement** rather than ternary cooperativity.
 
-## 6. The alternative, built and costed but not recommended first
+## 6. The re-fold route — RUN, and refuted (RTX 4080/32 GB, ~12 min, **$0.02**)
 
-If the covalent question is judged worth re-opening later, the cheapest decisive experiment is **not** a
-re-fold of the panel — it is one $0-to-read probe of whether the predictor knows the site at all.
-[`nrv04_celastrol_site_probe.py`](./nrv04_celastrol_site_probe.py) runs three systems and is measured
-afterwards for $0 by the audit:
+Rather than argue that a re-fold could not work, this lane ran the experiment that decides it.
+[`nrv04_celastrol_site_probe.py`](./nrv04_celastrol_site_probe.py) put two systems on Vast through the
+existing co-fold lane (`nrv04_vast_launch.py mode=cofold`, output prefix `nrv04-celastrol-site-probe-v1`), and
+the predictions were then measured for **$0** by the same audit code that scores A1 →
+[`nrv04-covalent-input-audit-nrv04-celastrol-site-probe-v1.json`](./nrv04-covalent-input-audit-nrv04-celastrol-site-probe-v1.json).
 
-| system | what it decides |
-|---|---|
-| `binary_free` — NR4A1-LBD + celastrol, unconstrained | Does the predictor place the warhead at C551 with no E3 to drape it on? **If it misses C551 here too, no re-fold can manufacture the input** and the re-scope becomes permanent rather than provisional. |
-| `binary_pocket` — the same, steered to contact residue 207 | Can it be steered there at all, and is the steered pose sterically sane? |
-| `ternary_pocket` — full ternary + NR-V04, same constraint | The candidate admissible input — worth running **only** if the two binary systems say steering works. |
+| system | seed | nearest target Cys | **C551 Sγ → electrophile** | warhead↔target contacts |
+|---|---|---|---|---|
+| `binary_free` — NR4A1-LBD + celastrol, **unconstrained** | 1 | C566 @ 19.14 Å | **36.57 Å** | 42 |
+| `binary_free` | 2 | C566 @ 19.29 Å | **44.74 Å** | 40 |
+| `binary_free` | 3 | C566 @ 17.12 Å | **33.55 Å** | 42 |
+| `binary_pocket` — **steered** at LBD 207 (= C551), `max_distance: 6.0` | 1 | C505 @ 12.45 Å | **14.78 Å** | 65 |
+| `binary_pocket` | 2 | C505 @ 13.01 Å | **15.62 Å** | 47 |
+| `binary_pocket` | 3 | C505 @ 12.00 Å | **15.92 Å** | 76 |
 
-Priced as a Vast RTX-4090 co-fold on the existing lane (`nrv04_vast_launch.py mode=cofold`,
-`TERNARY_SCRIPT=nrv04_celastrol_site_probe.py`): the two binary systems are 254-residue monomers, far below
-the ~800-residue ternary that set the lane's runtime, so the binary pair over 3 seeds is **well under $1**.
-Run the binaries first; the ternary is gated on them.
+**Both hypotheses from §4 are now settled, and the answer is the pessimistic one.**
 
-**Honesty condition attached to any steered result:** a pocket-constrained prediction is a **steered**
+1. **H1 — "the ternary arrangement pushed the warhead off-site" — is REFUTED.** Delete the E3 entirely and the
+   predictor does **worse**: 33.6–44.7 Å binary against 28.4–39.1 Å ternary. Nothing about the VHL/EloBC
+   environment is causing the miss.
+2. **H2 — "the predictor does not know this site" — is SUPPORTED, and by the strongest available test.** The
+   `pocket` constraint is unambiguously *doing something*: C551 distance falls from ~37 Å to ~15 Å and the
+   warhead's contacts with the target roughly double (42 → 47–76), so Boltz accepted and acted on it
+   (`processed/constraints/binary_pocket.npz` is written). But it **stops at 14.8–15.9 Å and never satisfies
+   its own 6.0 Å bound**, on all three seeds. Told explicitly, in its own constraint language, to place
+   celastrol against residue 207, it will not — it parks the ligand near the buried C505 instead.
+
+**What that licenses, and what it does not.** It licenses: *no co-fold in this pipeline — unconstrained,
+re-seeded, E3-free, or steered — produces an A1-admissible celastrol–C551 input.* The re-fold option named in
+AMENDMENT 1's "Consequences" is therefore closed on evidence, not on judgement. It does **not** license any
+claim that celastrol fails to bind C551 — Zhang 2018 says it does, experimentally. A structure predictor's
+inability to reproduce a site is a statement about the predictor, not about the chemistry, and this file makes
+no other reading of it.
+
+`ternary_pocket` was built but **not run**: it was gated on the binary systems showing steering works, and
+they show it does not. Running it would have spent money to reach a conclusion the $0.02 pilot already
+reached — the single-decision-relevant-leg-first rule working as intended.
+
+**Honesty condition, retained for any future steered result:** a pocket-constrained prediction is a **steered**
 prediction. Its confidence scores do not evidence the pose — the pose was imposed. It is an assumption made
 explicit, never a prediction that celastrol binds there. This is stated in the script's own output so it
 cannot be quoted without it.
