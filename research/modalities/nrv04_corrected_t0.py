@@ -37,42 +37,51 @@ CONTACT_CUTOFF_NM = 0.45
 
 NR4A_LBD_RESIDUES = 254
 E3_CHAIN_RESIDUES = {213: "VHL", 118: "ElonginB", 112: "ElonginC"}
-SOLVENT = {"HOH", "WAT", "NA", "CL", "K", "MG", "SOD", "CLA"}
+
+# ⚠ The protein/non-protein test is taken VERBATIM from nrv04_covalent_md._topology_indices, which excludes
+# exactly these residue names. It is NOT `gemmi.find_tabulated_residue(...).is_amino_acid()`: the small molecule
+# is written as residue **UNK**, and UNK *is* a tabulated amino acid (the PDB's "unknown residue"), so the
+# chemical test silently classifies the ligand chain as a 1-residue protein. On the first run of this script it
+# did exactly that — sorted-last became the LIGAND chain X instead of Elongin C, and the "as-run" comparison
+# reported 0 target lysines. That is the same defect class this whole lane is auditing (a classifier blind to a
+# dimension the data varies along), caught here by the numbers disagreeing with the driver's own R3.
+NON_PROTEIN_RESNAMES = ("HOH", "NA", "CL", "UNK", "LIG", "UNL")
+LIGAND_RESNAMES = ("UNK", "LIG", "UNL")
 
 
-def _is_aa(resname):
-    import gemmi
-    info = gemmi.find_tabulated_residue(resname)
-    return bool(info) and info.is_amino_acid()
+def _is_protein_res(resname):
+    return resname not in NON_PROTEIN_RESNAMES
+
+
+def _is_ligand_res(resname):
+    return resname in LIGAND_RESNAMES
 
 
 def load_frame(cif_path):
     """Return (chains, atoms) from a solvated mmCIF snapshot.
 
-    chains: {chain_id: {"n_res": int, "kind": "protein"|"ligand"|"solvent"}}
-    atoms:  list of dicts (chain, resname, resid, name, element, xyz in nm) for NON-SOLVENT atoms only —
-            solvent is ~95 % of the file and touches none of the readouts, so it is dropped on read.
+    chains: {chain_id: {"n_res": int, "kind": "protein"|"ligand"}}
+    atoms:  list of dicts (chain, resname, resid, name, element, xyz in nm) for protein + ligand atoms only —
+            water and ions are ~95 % of the file and touch none of the readouts, so they are dropped on read.
     """
     import gemmi
     st = gemmi.read_structure(cif_path)
     chains, atoms = {}, []
     for ch in st[0]:
-        n_aa = n_other = 0
+        n_prot = n_lig = 0
         for res in ch:
-            if res.name in SOLVENT:
-                continue
-            if _is_aa(res.name):
-                n_aa += 1
-            else:
-                n_other += 1
+            prot, lig = _is_protein_res(res.name), _is_ligand_res(res.name)
+            if not (prot or lig):
+                continue                                        # water / ions
+            n_prot += int(prot)
+            n_lig += int(lig)
             for at in res:
                 atoms.append({"chain": ch.name, "resname": res.name, "resid": str(res.seqid.num),
                               "name": at.name.strip(), "element": at.element.name,
                               # gemmi positions are Angstrom; the driver works in nm.
                               "xyz": (at.pos.x / 10.0, at.pos.y / 10.0, at.pos.z / 10.0)})
-        if n_aa or n_other:
-            chains[ch.name] = {"n_res": n_aa + n_other,
-                               "kind": "protein" if n_aa >= max(1, n_other) else "ligand"}
+        if n_prot or n_lig:
+            chains[ch.name] = {"n_res": n_prot + n_lig, "kind": "protein" if n_prot else "ligand"}
     return chains, atoms
 
 
@@ -141,7 +150,7 @@ def warhead_geometry(atoms, target_chains):
     A large target-restricted distance means the co-fold never posed the warhead in the NR4A1 pocket, which no
     chain-split fix can repair."""
     import numpy as np
-    lig = [a for a in atoms if not _is_aa(a["resname"]) and a["resname"] not in SOLVENT and a["element"] != "H"]
+    lig = [a for a in atoms if _is_ligand_res(a["resname"]) and a["element"] != "H"]
     sg_all = [a for a in atoms if a["resname"] == "CYS" and a["name"] == "SG"]
     if not lig or not sg_all:
         return {"ligand_heavy_atoms": len(lig), "cys_sg": len(sg_all), "note": "no ligand or no cysteine"}
@@ -158,6 +167,51 @@ def warhead_geometry(atoms, target_chains):
         out[tag] = {"n_sg": len(sel), "min_A": round(float(d.min()), 2),
                     "cys": f"{sel[j]['chain']}:{sel[j]['resid']}", "lig_atom": lig[i]["name"]}
     return out
+
+
+def target_ca_coords(cif_path, target_chain=None, n_res=NR4A_LBD_RESIDUES):
+    """CA coordinates (nm) of the degradation-target chain, in residue order — the fingerprint used to identify
+    WHICH co-fold a simulated system was built from. If `target_chain` is None the chain with `n_res` protein
+    residues is used."""
+    chains, atoms = load_frame(cif_path)
+    if target_chain is None:
+        cand = [c for c, v in chains.items() if v["kind"] == "protein" and v["n_res"] == n_res]
+        if len(cand) != 1:
+            return None, {"error": f"no unique {n_res}-residue chain; census="
+                                   f"{ {c: v['n_res'] for c, v in chains.items()} }"}
+        target_chain = cand[0]
+    ca = [(int(a["resid"]), a["xyz"]) for a in atoms if a["name"] == "CA" and a["chain"] == target_chain]
+    ca.sort()
+    return [x for _, x in ca], {"chain": target_chain, "n_ca": len(ca)}
+
+
+def identify_source_cofold(built_cif, candidate_cifs):
+    """Which co-fold produced this simulated system?
+
+    The census already proves the panel's chain F is 255 residues (14-3-3 epsilon) while the prefix the code
+    now points at carries a 118-residue Elongin B — so the panel did NOT come from that prefix. This pins the
+    positive identification instead of only the negative one: solvation translates every atom and PDBFixer adds
+    hydrogens, but the heavy-atom CA geometry of the target chain is carried through unchanged, so a Kabsch RMSD
+    of ~0 A against a candidate co-fold identifies the exact source model. A non-match is >> 1 A because
+    independent Boltz seeds do not reproduce each other's coordinates."""
+    from nrv04_covalent_md import kabsch_rmsd
+    ref, meta = target_ca_coords(built_cif)
+    if ref is None:
+        return {"error": meta}
+    rows = []
+    for name, path in candidate_cifs:
+        cand, cmeta = target_ca_coords(path)
+        if cand is None or len(cand) != len(ref):
+            rows.append({"candidate": name, "rmsd_A": None,
+                         "note": f"CA count {len(cand) if cand else None} != {len(ref)}", "meta": cmeta})
+            continue
+        rows.append({"candidate": name, "rmsd_A": round(kabsch_rmsd(cand, ref) * 10.0, 3), "meta": cmeta})
+    scored = [r for r in rows if r.get("rmsd_A") is not None]
+    best = min(scored, key=lambda r: r["rmsd_A"]) if scored else None
+    return {"built": meta, "candidates": rows, "best_match": best,
+            "verdict": ("IDENTIFIED — CA geometry is identical to this co-fold model"
+                        if best and best["rmsd_A"] < 0.05 else
+                        "NO candidate matches; the source co-fold is not among those tested")}
 
 
 def analyse_cif(cif_path):
@@ -180,22 +234,46 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Corrected-split t=0 analysis of the panel's persisted systems.")
     ap.add_argument("--bucket", default=os.environ.get("VAST_CKPT_BUCKET", ""))
     ap.add_argument("--prefix", default="nrv04-covalent-results")
+    # Candidate source co-folds for the identity match: the prefix the launcher points at NOW, and the two
+    # contaminated prefixes that predate it. `nrv04-descriptive-v3` was the workflow input's DEFAULT at the time
+    # the panel ran (fusion-cpu-extras.yml @786759a9, cofold_prefix default "nrv04-descriptive-v3"), which is the
+    # mechanism this match is testing.
+    ap.add_argument("--cofold-candidates",
+                    default="nrv04-covalent-cofold/nr4a1,nrv04-descriptive-v3/nr4a1,nrv04-shakeout/nr4a1")
     ap.add_argument("--out", default="research/modalities/nrv04-corrected-t0.json")
     args = ap.parse_args(argv)
     if not args.bucket:
         raise SystemExit("set --bucket or $VAST_CKPT_BUCKET")
 
     s3 = boto3.client("s3")
-    keys, tok = [], None
-    while True:
-        kw = {"Bucket": args.bucket, "Prefix": args.prefix.rstrip("/") + "/"}
-        if tok:
-            kw["ContinuationToken"] = tok
-        r = s3.list_objects_v2(**kw)
-        keys += [o["Key"] for o in r.get("Contents", []) if o["Key"].endswith(".solv.cif")]
-        if not r.get("IsTruncated"):
-            break
-        tok = r["NextContinuationToken"]
+
+    def _list(prefix, suffix):
+        out, tok = [], None
+        while True:
+            kw = {"Bucket": args.bucket, "Prefix": prefix}
+            if tok:
+                kw["ContinuationToken"] = tok
+            r = s3.list_objects_v2(**kw)
+            out += [o["Key"] for o in r.get("Contents", []) if o["Key"].endswith(suffix)]
+            if not r.get("IsTruncated"):
+                break
+            tok = r["NextContinuationToken"]
+        return out
+
+    keys = _list(args.prefix.rstrip("/") + "/", ".solv.cif")
+
+    # Pull one model per candidate co-fold prefix for the identity match.
+    candidates = []
+    for cp in [c for c in args.cofold_candidates.split(",") if c]:
+        cks = sorted(_list(cp.rstrip("/") + "/", "_model_0.cif"))
+        for ck in cks[:3]:                                      # a few seeds each; a wrong seed still shows >> 1 A
+            local = "/tmp/cand_" + ck.replace("/", "_")
+            try:
+                s3.download_file(args.bucket, ck, local)
+                candidates.append((ck, local))
+            except Exception as e:  # noqa: BLE001
+                print(f"[t0] candidate {ck} unavailable: {e}", flush=True)
+    print(f"[t0] {len(candidates)} candidate co-fold models for the identity match", flush=True)
 
     doc = {"bucket": args.bucket, "prefix": args.prefix, "n_snapshots": len(keys),
            "cutoffs_nm": {"interface": IFACE_CUTOFF_NM, "contact": CONTACT_CUTOFF_NM},
@@ -210,6 +288,11 @@ def main(argv=None):
         try:
             doc["units"][unit] = analyse_cif(local)
             doc["units"][unit]["source_key"] = k
+            # Identify the source co-fold ONCE (the first unit) — it is the same staging path for every leg and
+            # the match costs a full parse of every candidate.
+            if "source_cofold" not in doc:
+                doc["source_cofold"] = {"tested_on": unit, "result": identify_source_cofold(local, candidates)}
+                print("[t0] SOURCE CO-FOLD: " + json.dumps(doc["source_cofold"]["result"], indent=2), flush=True)
         except Exception as e:  # noqa: BLE001
             doc["units"][unit] = {"source_key": k, "error": f"{type(e).__name__}: {e}"}
         finally:
