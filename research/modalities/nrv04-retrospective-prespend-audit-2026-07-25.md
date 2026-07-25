@@ -15,7 +15,7 @@ AMENDMENT 1's exact sense. **Total spend: $0. Nothing was launched.**
 | # | finding | evidence |
 |---|---|---|
 | 1 | **The retrospective could not have returned a verdict.** `retro_collect` reads `d["R1"]`/`d["R2"]`; the driver writes `R1_interface`/`R2_recruitment`/`R3_lys`. Every `e1_plateau_A` → None → every leg `technical_failure` → every arm `underpowered` → **INDETERMINATE** | controlled reproduction: 24 driver-shaped legs through the real `retro_collect` via a stubbed S3 → `tier: INDETERMINATE`; and **19/19 real leg JSONs in the bucket carry `R1_interface`, 0/19 carry `R1`** |
-| 2 | **The covalent R2 arm (6 of 24 legs) cannot be built.** At the preregistered site C551 its three co-fold models sit at **34.42 / 29.87 / 39.11 Å** against the 8.0 Å A1 limit — `build_system` raises | `nrv04-retro-prespend-audit.json` → `covalent_arm_admissibility`, measured on the exact pinned models |
+| 2 | **The covalent R2 arm (6 of 24 legs) cannot be built — and while it stays in the frozen panel it BLOCKS the R1 verdict.** At C551 its three models sit at **34.42 / 29.87 / 39.11 Å** against the 8.0 Å A1 limit, so `build_system` raises *before* any leg JSON is written; those 6 units are permanently missing, `panel_complete` is permanently False, and prereg §4f suppresses the contrast forever | `nrv04-retro-prespend-audit.json` → `covalent_arm_admissibility`; plus a reproduction feeding the real collector 18 perfect R1 legs → `panel_complete: false, verdict: null` |
 | 3 | **Chain identity is CLEAN on all 9 co-fold models** — including the 6 `nr4a2`/`nr4a3` models that no prior audit had ever measured, and that feed 12 of the 18 primary legs | census `A=254 / E=213 (VHL) / F=118 (**Elongin B**) / G=112 (EloC)`, no contaminant, target chain identified = A, on every model |
 | 4 | **The R1 arms are NOT matched in ligand placement, and the mismatch runs against the hypothesis.** Warhead↔target contacts at t=0: NR4A1 **47 mean**, NR4A2 **106**, NR4A3 **73**; warhead↔E3: NR4A1 **33**, paralogues **12–14**. `nr4a2/m1` starts with a **1.05 Å** heavy-atom overlap | audit `warhead.contacts_*`, all 9 models |
 | 5 | **The extension rule can never fire in the case it was written for.** On the 84-point lattice every attainable p in its window is ≤ α, i.e. already CONCORDANT; the smallest attainable p above α (0.0595) is outside it | exhaustive enumeration, `nrv04-retro-criteria-audit.json` |
@@ -77,6 +77,20 @@ Two things worth keeping: the 6 `nr4a2`/`nr4a3` models had **never** been chain-
 them — they are not in its covalent-panel system allowlist) even though they are the inputs to 12 of the 18
 primary legs; and each pinned model prefix resolves to **exactly one** `*_model_0.cif`, which is the invariant
 the leg pipeline itself enforces on pain of exit 3.
+
+**The R2 failure is not confined to R2.** `build_system` raises *before* a leg JSON is written, so those 6
+units never land; `retro_collect` builds `expected` from `retro.enumerate_units()` (stages R1 **and** R2), and
+prereg §4f forbids a contrast on an incomplete panel. Fed 18 flawless R1 legs and no R2 legs, the real
+collector returns:
+
+```
+R1 legs landed: 18 of 24 enumerated units
+missing: nrv04retro-retro_cov_nr4a1-m{1,2,3}-r{0,1}
+panel_complete: False | verdict: None
+```
+
+So the two blockers are **sequential**: fix the collector and you still get no verdict, because R2 can never
+complete the panel. Retiring R2 (proposed AMENDMENT 3, defect 1) is what makes the R1 result reachable at all.
 
 A hardening that already works: `_frozen_cys_by_construct` verifies the residue is a Cys bearing an Sγ and
 raises otherwise, so a covalent paralogue leg — forbidden by prereg §2b — would **fail closed** on NR4A3
@@ -223,7 +237,10 @@ Do **not** launch. Nothing is pending and $0 has been spent. Three things gate i
 > (`nrv04-descriptive-v4/nr4a1/seed_{1,2,3}`): **34.42 / 29.87 / 39.11 Å**, against A1's 8.0 Å limit, so
 > `nrv04_covalent_md.build_system` raises. This is the same finding as covalent-panel AMENDMENT 2, on
 > independent models: no predictor in this pipeline — unconstrained, re-seeded, E3-free or steered — seats
-> celastrol against C551. **Ruling: R2 is RETIRED**, and with it §5c's registered composite outcome. The
+> celastrol against C551. It is also **blocking**: the raise happens before a leg JSON is written, so the 6
+> units never land, `panel_complete` stays False and §4f suppresses the R1 contrast permanently — leaving R2
+> in the panel does not merely cost an arm, it costs the primary result. **Ruling: R2 is RETIRED**, and with
+> it §5c's registered composite outcome. The
 > covalent confound is documented from **Leg 0** (sequence) and **Zhang 2018** (literature), never from a
 > simulation this program ran. The authorized panel becomes **R1 only, 18 legs**.
 >
