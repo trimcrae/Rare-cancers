@@ -109,11 +109,12 @@ and Y (site 2), the closing edge cmpd1 → cmpd4′ necessarily carries **both**
 perturbed(T3)  =  perturbed(T1)  +  perturbed(T2)          (the sites are independent, so it is exactly additive)
 ```
 
-So **T3 is a double mutation** — and the repo's own perturbation-map invariant forbids exactly that:
-`rbfe_map.validate_map()` asserts `single_site` on every edge, and the module states *"NO cross-class
-double-mutation edges (two simultaneous changes break common-mode)."* The design's claim that "T2/T3 are new
-≤2-heavy-atom, charge-neutral edges" is therefore **wrong for T3 in every named case**, as is "every
-perturbation is the size that already converged."
+So **T3 is a double mutation** — and the repo's own perturbation-map design forbids exactly that, *specifically
+for closing edges*. `rbfe_map.py` states the rule twice: *"NO cross-class double-mutation edges (two
+simultaneous changes break common-mode)"*, and — directly on point — on the cycle-closure edges themselves,
+*"Each closing edge is itself a SINGLE-site change (not a double mutation)."* `validate_map()` asserts
+`single_site` on every edge. The design's claim that "T2/T3 are new ≤2-heavy-atom, charge-neutral edges" is
+therefore **wrong for T3 in every named case**, as is "every perturbation is the size that already converged."
 
 The magnitude is mild — 3–4 perturbed heavy atoms, not 58 — so this is a **design defect, not a killer**. But
 it is avoidable for free.
@@ -269,6 +270,28 @@ it is testable.
 **Cost per edge, for completeness:** the reverse leg closes a 2-cycle on 1 edge for 2 new legs (2.0 legs/edge);
 the triangle closes a 3-cycle on 3 edges for 4 new legs (1.33 legs/edge). The triangle is cheaper *per edge* —
 but only if all three edges were wanted anyway. To diagnose one edge, the reverse leg is cheaper outright.
+
+### 4a. Is there a better use of the same four legs? — the comparison the ADMIT actually rests on
+
+A design should win a comparison, not win by being the only proposal. All three options below cost the **same
+4 new ternary+binary legs ≈ $6.83**:
+
+| option | edges covered | sees symmetric path bias | sees **antisymmetric per-edge** bias | tests cross-edge endpoint consistency |
+|---|---|---|---|---|
+| **the closure triangle** (T2 + T3, forward only) | **3** | ✅ | **✅ (uniquely)** | **✅** |
+| forward **and** reverse of one new edge (T2 fwd + rev) | 1 | ✅ | ❌ (a 2-cycle is blind by construction) | ❌ |
+| two more **replicates** of T1 (r1 + r2) | 1 | ❌ (random error only) | ❌ | ❌ |
+
+**The triangle wins**: it is the only option covering more than one edge, the only one that can see an
+antisymmetric per-edge bias, and the only one testing cross-edge endpoint consistency. *(The replicate option is
+the one the r0 verdict already argued against on independent grounds — r0's miss is 33× its own MBAR SE, so it
+is systematic, and seed *s* swaps the homology model so the SD would conflate sampling with model sensitivity.)*
+**This is the substantive reason to ADMIT the triangle** — and it is neither the reason the design gives, nor a
+claim about r0's systematic.
+
+Winning a 4-leg comparison is not the same as being the next thing to buy: §7's $1.31 pre-scout costs ~19 % of
+these four legs and can falsify the machinery first, and the reverse-leg branch decides whether any of it should
+be bought yet at all.
 
 ---
 

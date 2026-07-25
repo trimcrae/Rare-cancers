@@ -484,6 +484,47 @@ def two_cycle_vs_three_cycle(trials=4000, seed=1234):
     return res
 
 
+def alternative_uses_of_four_legs():
+    """The question that must be asked before recommending any spend: is there a BETTER use of the same 4 new
+    ternary+binary legs? Enumerated honestly, because the triangle should win on a comparison rather than by
+    being the only proposal on the table.
+
+    All options cost the same 4 new legs (2 edges' worth) at the same ~$6.83."""
+    opts = [
+        {"option": "the closure TRIANGLE (T2 + T3, forward only)",
+         "buys": "R across THREE edges, plus R_ternary and R_binary separately",
+         "detects": ["symmetric path bias", "ANTISYMMETRIC per-edge bias (uniquely)",
+                     "endpoint-state inconsistency across three independently staged edges",
+                     "mutually inconsistent atom maps"],
+         "misses": ["all state-function error", "its own noise floor (sigma is unmeasured, so one draw cannot "
+                    "separate systematic from unlucky)"],
+         "edges_covered": 3},
+        {"option": "forward AND reverse of ONE new edge (T2 fwd + T2 rev)",
+         "buys": "a sigma-free antisymmetry number on a second edge",
+         "detects": ["symmetric path bias on that one edge"],
+         "misses": ["antisymmetric per-edge bias (a 2-cycle is blind to it by construction)",
+                    "anything cross-edge", "all state-function error"],
+         "edges_covered": 1},
+        {"option": "two more REPLICATES of T1 (r1 + r2, ternary+binary)",
+         "buys": "a between-replicate SD on the existing edge",
+         "detects": ["random error only"],
+         "misses": ["all systematic error -- and r0's miss is 33x its own MBAR SE, so it IS systematic; this is "
+                    "the spend the r0 verdict already argued against, and seed s also swaps the homology model "
+                    "so the SD would conflate sampling with model sensitivity"],
+         "edges_covered": 1},
+    ]
+    return {
+        "equal_cost_comparison": opts,
+        "verdict": "The triangle WINS the 4-leg comparison: it is the only one of the three that covers more "
+                   "than one edge, the only one that can see an antisymmetric per-edge bias, and the only one "
+                   "that tests cross-edge endpoint consistency. That is the substantive reason to ADMIT it -- "
+                   "not the reason the design gives, and not a claim about r0's systematic.",
+        "but": "winning a 4-leg comparison is not the same as being the next thing to buy. The $1.31 "
+               "solvent-only pre-scout costs ~19% of these 4 legs and can falsify the triangle's machinery "
+               "first, and the reverse leg's branch decides whether any of it should be bought yet at all.",
+    }
+
+
 def solvent_prescout():
     """The cheapest early-abort gate on the triangle itself, and it is a new recommendation.
 
@@ -545,6 +586,7 @@ def build_report():
         "what_closure_can_and_cannot_diagnose": state_function_blindness(),
         "noise_floor": closure_noise_floor(),
         "two_cycle_vs_three_cycle": two_cycle_vs_three_cycle(),
+        "alternative_uses_of_the_same_four_legs": alternative_uses_of_four_legs(),
         "leg_accounting": leg_accounting(),
         "same_seed_requirement": same_seed_requirement(),
         "price": price_triangle(),
