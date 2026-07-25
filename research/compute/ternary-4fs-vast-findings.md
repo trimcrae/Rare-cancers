@@ -99,6 +99,33 @@ choice like the per-replica seed, and OpenFE discards the equilibration from MBA
 a rough homology model plus finite sampling can make the starting structure matter, which is why this is
 recorded as a confound rather than argued away.)*
 
+## 2c · The stage-2 decision rule, PRE-SPECIFIED (written before the number exists)
+
+STRATEGY's RUNG 2b gate says *"ΔΔG_coop consistent with the 2 fs run within replicate SD"*. **There is no
+replicate SD.** The 2 fs arm is a single cycle (r0), and the whole valB_mini verdict turns on the fact that
+r1/r2 were never run. So the gate as written has no threshold in it, and picking one after seeing the 4 fs
+number would be exactly the retune-after-a-failing-result this program has already refused once.
+
+So, declared now:
+
+- **Comparator:** ΔΔG_coop(4 fs) against **−0.534 kcal/mol**, the r0 cycle
+  (binary 48.0046 / ternary 47.4701 / solvent 47.8060, `valB-mini-r0-verdict-2026-07-25.md`).
+- **Threshold: 0.7 kcal/mol**, which is *this repo's own assumed replicate SD* — the number STRATEGY uses
+  when it computes that a perfectly accurate method passes the first round only 9 % of the time. It is not
+  invented here and it is not chosen to make anything pass.
+- **PASS (adopt 4 fs):** no NaN across the full leg **AND** |ΔΔG_coop(4 fs) − (−0.534)| ≤ 0.7.
+- **FAIL (stay at 2 fs):** any NaN, **or** a difference > 0.7.
+- **Reported either way**, with the difference stated numerically rather than as a verdict word.
+
+**One confound is removed and should be said so.** Ternary seed *s* uses the *s*-th relaxed SMARCA2 model
+(`starting_model_index = seed % n_models`), so a different seed would compare two *different structures*. Both
+arms are **seed 0**, hence the same starting model. What remains uncontrolled is only the pre-equilibration
+conditioner (§2b) — one confound, not two.
+
+**And a limit worth stating plainly:** this is a comparison of two single cycles. A 0.7 threshold on n=1 vs
+n=1 detects a gross protocol shift and nothing finer. It cannot certify that 4 fs and 2 fs agree to within,
+say, 0.2 kcal/mol, and no claim of that kind should be built on it.
+
 ## 3 · Why the warmup checkpoint interval is per-mode — DERIVED, to be confirmed by measurement
 
 A commit costs a reporter sync plus a ~25 MB `.nc`/`.chk` pair copied and PUT to S3; the MD between commits
