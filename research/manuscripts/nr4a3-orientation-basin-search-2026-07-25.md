@@ -70,7 +70,7 @@ CONNECT.
 
 ---
 
-## 2. Five things the run itself corrected — each with the observation that forced it
+## 2. Seven things the run itself corrected — each with the observation that forced it
 
 Every item here was found by reading a real run's output or a real measurement, not by reasoning about the
 code. They are recorded because several change what the result means, not just how it was computed.
@@ -137,6 +137,27 @@ the sweep spanning 10–21 Å so the category's dependence on the choice stays v
 *Honest limit:* a deposited assembly is a snapshot poised for transfer, not the transition state, so the
 measured distance is an empirically anchored **permissive** radius, not a proof of the productive one.
 
+### 2.6 The VHL "receptor body" was **two copies of the complex**
+
+5T35 deposits **two** copies of VHL–EloB–EloC (chains B, C, D and F, G, H). Taking "every chain annotated as
+one of those three proteins" as the rigid body gives an object that is literally two complexes with a void
+between them, roughly twice the real size — on which every clash test, contact count and interface score would
+have been meaningless.
+
+The same defect corrupted the bridge, and *that* is how it surfaced: pairing VHL from one copy with Elongin C
+from the other drove the joint superposition to **5.2–7.3 Å over 124–237 Cα** and caused **every** VHL
+cullin-scaffold candidate to be rejected, where the earlier single-protein bridge had succeeded at 1.38 Å.
+Neither symptom announces itself as a chain-selection problem. Copy selection now enumerates one chain per
+protein, keeps combinations whose chains **mutually contact**, and ranks by contact — refusing when there is a
+real choice and nothing is coherent, and *flagging rather than refusing* when only one combination exists.
+
+### 2.7 A zero-hit search was being read as a network failure
+
+RCSB answers an empty search with **204 No Content and an empty body**, which urllib treats as *success* — so
+it never reached the HTTPError branch and `json.loads('')` raised, four times. Five legitimately-empty "is
+there a VHL + E2 + ubiquitin structure?" probes each reported *"POST failed after 4 tries"*, turning a real
+negative answer into a fake infrastructure problem. An empty body **is** the answer.
+
 ---
 
 ## 3. ★ The result that matters most: a composed CRL RING is not a placement
@@ -202,6 +223,16 @@ intact-assembly evidence, and a *quantified* caveat wherever composition is unav
   scores exactly zero, however good its interface looks.
 - **A unitless contact score** with preregistered, never-fitted weights, used **only to rank within** the
   categorically selected set.
+
+### Term (b) is scored against a null, and the gate requires beating it
+
+Without a null, *"this basin's transfer zone covers K572"* is uninterpretable: if **any** linker-feasible,
+clash-free placement covers a unique lysine at the same rate, the term carries no information and a
+good-scoring basin is just a placement that exists. The background is computed over the **unclustered**
+accepted set — the same population the basins were drawn from, with the one step that could enrich it
+(clustering) removed — and the Tier-2 term-(b) limb requires a basin to **exceed** it, not merely to reach
+rank 3. Term (a) has its own control in the same spirit: the **conserved** cysteines are scored identically,
+so reachability can be seen to be selective for the unique ones rather than generic.
 
 ### The gate is not read at the sampling ceiling
 
