@@ -77,7 +77,6 @@ relevant rung below.*
 |---|---|---|---|
 | **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30168741086`, us-central1-a) | **RUNNING** since **2:01 PM ET**, `warmup_timestep_fs=1.0`, and the **first attempt whose commit prefix is direction-verified** (`…_wu1.0_v2pe_dirrev`). Two earlier attempts died today for two *different* reasons, both now root-caused and fixed: a **2.0 fs warmup NaN** at 12:55 PM, then — after the NaN fix aligned the prefixes — a **fwd/rev prefix collision** at 1:41 PM that made the rev leg try to resume the FORWARD trajectory (see the two blocks below). Both zombie VMs reaped; L4 usage 0.0 before this launch | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
-| **LANE 1 · RUNG 5a — E3 recruiter staging + ligandability downselect** (CPU/CI, $0) | running — staging the widened ligandable set (VHL, CRBN, cIAP1/BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) from RCSB via a CI runner | ~1–3 h → **this afternoon ET** | Which **≤2 recruiters** 5a carries into any GPU leg, and the logged dropped set. Availability is already answered and may **not** be a drop reason — the downselect is on ligandability + interface geometry |
 | **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, $0) | running — building the transform search + the two **categorical** terms (electrophile reach to C397/C420/C559; E2~Ub transfer zone over K572/K518/K592), pose-marginalised | ~3–6 h → **this evening ET** | **The Tier-2 gate.** No basin exploiting a categorical handle *and* none nominally discriminating NR4A3 ⇒ STOP cheaply. Also tells the program which **exit vectors** matter, which a re-scoped fan-out depends on |
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **LANE 4 · RUNG 2b — 4 fs ternary probe** (**Vast**, ≤$25) | running — building the **Vast** ternary lane (none existed; only `-gcp.yml`/`-aws.yml`), then stage 1 = the ~$1–2 survival probe | probe ~2–4 h → **this evening ET**; full edge next if it passes | **≈2× on every downstream ternary leg** (~$8.8 → ~$4.4/edge, ladder has ≥6). Also the **first NR4A-adjacent ternary leg timed on Vast** — closes the named transferability gap where an 8G1Q rate is pricing NR4A ternaries |
@@ -449,6 +448,30 @@ revision](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-
   CPU this costs ~nothing and multiplies the chance that *some* E3 surface complements NR4A3's differential
   surface. **Downselect to ≤2 recruiters before any GPU leg, and log what was dropped** — a silent top-N reads as
   "we covered everything". Availability is already answered and does **not** constrain the choice (RUNG 5a).
+  **★ DONE 2026-07-25, $0 (CI run 30169233382, 2,919 fetched URLs — every field fetched, none recalled).**
+  Staged, assessed and downselected: **CRBN (9CUO, 1.60 Å) + VHL (9GIO, 1.486 Å) advance**, with VHL explicitly a
+  **backfill** for E3-choice sensitivity, *not* a co-winner — CRBN is the sole Pareto-front member and the
+  CRBN−VHL margin is **0.033** in open solid angle on one conformer each, reported as a tie rather than a
+  finding. All eight others are logged with reasons in
+  [`e3-recruiter-staging.json`](research/modalities/e3-recruiter-staging.json) → `downselect.dropped[]`, each
+  carrying an explicit `availability_was_not_a_factor: true`; rationale in
+  [e3-recruiter-downselect-2026-07-25.md](research/modalities/e3-recruiter-downselect-2026-07-25.md). The rule
+  was **preregistered before the fetch**: three gates (public ligand-bound structure ≤3.0 Å; ligand buried
+  fraction ≥0.50; exit clearance ≥8 Å with 30° cone openness ≥0.30), then a Pareto front over analogue tier /
+  exit quality / open solid angle, then a fixed lexicographic tiebreak — **no tunable scalar**.
+  **★ THE FINDING THAT CHANGES HOW THIS ITEM READS: the binding constraint on E3 breadth is STRUCTURAL
+  STAGEABILITY, not availability.** HPA says all eight widened arms are available; the **PDB says the panel is
+  materially smaller**. **RNF114 has no deposited structure of the protein at all**; **DCAF16**'s ligand is only
+  **34 % buried** once its partner is removed — a *glue interface, not a handle pocket* — despite having the
+  panel's highest open solid angle (0.736); and **DCAF15** has no partner-free liganded structure, its "solved
+  ternary" claim failing coordinate-level verification. **So the widening delivered less breadth than this
+  plan's text implied, and it CONFIRMED the incumbents rather than displacing them — a real, publishable
+  negative for the E3-breadth argument, and it must be reported as one rather than quietly absorbed.**
+  **BIRC2 is the flagged first recruiter to revisit** at $0 (tier-3 verified, best resolution 1.249 Å, openness
+  within 0.04 of CRBN) if CRBN/VHL prove geometrically unpromising — it is already fully staged.
+  ⚠ **The downselect is BLIND to recruiter-intrinsic pharmacology by construction.** MDM2 and KEAP1 rank well on
+  geometry while their handles are developed inhibitors of the E3's *own* function. Recorded as a **required
+  input to the next gate** — a recruiter must not be committed to on geometry alone.
 - **(d) Pose-marginalisation, free** — run the basin search over the warhead-**pose ensemble** and carry only
   basins that persist, reporting the surviving fraction. Sequence-level uniqueness of C397/K572 is
   pose-independent; only the *reach* estimate is conditional, which is a far smaller conditional surface than the
@@ -996,8 +1019,15 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 
 - **`[ ]` 5a · Orientation-basin search, mechanism-first** — **~$0–50 (CPU $0 + optional MM-GBSA rescore) ·
   Cum. ~$129.** Broad transform sampling across the **widened ligandable E3 set** (VHL, CRBN, cIAP1/BIRC2, DCAF1,
-  DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2 — free at CPU, **downselect to ≤2 before any GPU leg and log the
-  dropped set**). **★ Availability answered $0 and it does NOT constrain the choice** (CI run 30125742542): all 8
+  DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2 — free at CPU. **★ RECRUITER STAGING + THE MANDATORY ≤2 DOWNSELECT
+  ARE DONE, $0 (2026-07-25): CRBN (9CUO) + VHL (9GIO) advance — VHL as a labelled *backfill*, not a co-winner —
+  and the full dropped set is logged with reasons**, none of them availability. Engine
+  `e3_recruiter_staging.py` → [`e3-recruiter-staging.json`](research/modalities/e3-recruiter-staging.json);
+  consumer API `load_advanced()`, whose `anchor_xyz` / `exit_direction` / `caveats` fields are the contract the
+  basin search consumes. **The remaining 5a work is the orientation-basin search itself.** Two constraints it
+  inherits: the E3-breadth widening **confirmed the incumbents rather than displacing them** (structural
+  stageability, not availability, is the binding limit — see item (c) above), and the downselect is **blind to
+  recruiter-intrinsic pharmacology**, which is a required input to the next gate). **★ Availability answered $0 and it does NOT constrain the choice** (CI run 30125742542): all 8
   widened arms are broadly expressed and record-complete on HPA (`nr4a3_e3_expression.py`, extendable to any
   further candidate), every symbol resolved through HPA's own search with an exact-match guard — same verdict as
   the original VHL/CRBN check. So the downselect must be made on
@@ -1286,6 +1316,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 16 | NR-V04 prereg **R2** (*recruited = BSA > 0 in >50 % of frames*) and frozen **criterion 3** (*controls behave*) as GATING criteria | Retired by [AMENDMENT 1](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md) (2026-07-25, trimcrae-delegated). R2 returned **one distinct value across 18 legs — 1.0** — including both negative controls, so it had **zero discriminating power**; criterion 3 depended on it and was therefore **unsatisfiable**, making the gate return NO-GO regardless of the science. Replaced by binding criterion **A1 (input admissibility)**, which fails now: covalent legs stage the electrophile **8.99–16.39 Å** from the target-chain Cys Sγ against a ~1.8 Å C–S bond. Panel stays `[HELD]` — no NO-GO became a GO |
 | 17 | Cost lever 3: **sequential (anytime-valid) stopping saves ~20–25 %** | Measured on THIS ladder (`valb_rescope_design.py`): **0.8–2.6 %**. At σ=0.5 it stops after 4.87 of 5 replicates, at σ=0.7 after 4.96 of 5. An anytime-valid bound must stay valid under *every* stopping time, so at n = 2–4 with σ ≈ 0.7 it never fires. Real for long horizons; a **5-replicate ladder is too short**. Do not carry it in any total |
 | 18 | The valB_mini rescope path: **the high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops** | Refuted for **$0** on real data (RCSB REST + RDKit MCS, production container): **6 of 10 P-series pairs change formal charge**, including **P1→P4 (`charge_change: -1`)**, blocked by the same missing charge correction that blocks 8 legs of `step1_fanout`; the 4 charge-neutral pairs perturb **58–80 heavy atoms** vs **2** for the running edge; and 9HYO (P4) is **3.74 Å**. Replaced by a **synthetic closure triangle** (~$5.9 at n=1) |
+| 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
 
 ---
 
