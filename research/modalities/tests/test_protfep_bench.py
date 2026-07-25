@@ -1632,3 +1632,18 @@ def test_stall_clock_ignores_the_blocked_machines_bookkeeping_entry():
     """_blocked_machines lives in the same state file and is not a (msg, first_seen) pair."""
     m, entry = pv.stall_minutes({"_blocked_machines": ["1", "2"]}, 7, "x", 1000.0)
     assert m == 0.0 and entry == ["x", 1000.0]
+
+
+def test_the_reduction_commit_step_stages_before_testing_for_changes():
+    """`git diff --quiet` ignores UNTRACKED files, so a never-committed artifact looks unchanged.
+
+    The reduction file had never been committed, so every collect printed "no change to commit" and
+    discarded it — including the run that produced the pilot's ddG, which survived only in a CI log.
+    """
+    wf = open(os.path.join(os.path.dirname(MOD_DIR), "..", ".github", "workflows",
+                           "gpu-protfep-vast.yml")).read()
+    step = wf.split("- name: Commit the reduction into the branch")[1].split("- name:")[0]
+    assert "git add research/modalities/protfep-benchmark-result.json" in step
+    assert "git diff --cached --quiet" in step
+    # And the add must come BEFORE the test, or the test still reads an empty index.
+    assert step.index("git add ") < step.index("git diff --cached")

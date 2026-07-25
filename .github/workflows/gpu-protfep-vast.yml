@@ -273,8 +273,14 @@ jobs:
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          if ! git diff --quiet -- research/modalities/protfep-benchmark-result.json; then
-            git add research/modalities/protfep-benchmark-result.json
+          # STAGE FIRST, then test the INDEX. `git diff --quiet -- <path>` compares the working tree
+          # against HEAD for TRACKED files only, and silently reports "no change" for a file git has
+          # never seen. This file had never been committed, so every collect since the lane was built
+          # printed "no change to commit" and threw the reduction away — including the run that
+          # produced the pilot's ddG, which survived only in a CI log. An artifact-publishing step
+          # must test the index, which knows about new files.
+          git add research/modalities/protfep-benchmark-result.json
+          if ! git diff --cached --quiet -- research/modalities/protfep-benchmark-result.json; then
             git commit -m "5a-KS: capture protein-mutation FEP benchmark reduction from Vast legs"
             git push origin HEAD:${{ github.ref_name }}
           else
