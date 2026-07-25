@@ -445,6 +445,393 @@ def analyze_leg(nc_path, tag):
     return rec
 
 
+# =============================================================================================================
+# LIGAND IDENTIFICATION — the missing half of the mandated pose check (defect #7, closed 2026-07-25).
+#
+# The prereg names a LIGAND heavy-atom RMSD. Every implementation so far measured something else and compared it
+# to LIG_RMSD_MAX_A: first an unaligned whole-system RMSD over ~146 k atoms (79 Å, dominated by bulk water), then
+# a superposed whole-SOLUTE RMSD over the 7388-atom analysis subset (15 Å, a four-chain assembly that one global
+# rotation cannot fit). The second manufactured a hard FAIL. The reason neither was the ligand is that nothing in
+# the committed artifacts (`simulation.nc`, `checkpoint.chk`, `COMMITTED.json`) is a topology file — there is no
+# PDB, no residue table, no atom names. So the ligand had to be *derived*.
+#
+# It can be, exactly, from the hybrid System openmmtools serializes into the .nc: bonded connectivity partitions
+# every particle into molecules, and in a solvated ternary assembly there is exactly ONE molecule that is neither
+# a monatomic ion, nor water, nor a protein-sized chain. That is the PROTAC. This is an identification, not a
+# heuristic ranking, and it FAILS CLOSED: if the count of candidates is not exactly one, no ligand is returned
+# and the flag stays unmeasured. A second, fully independent identification from interatomic distances alone
+# (no System, no bond table) is run as a cross-check, and disagreement is reported rather than hidden.
+#
+# WHY BONDS *AND* CONSTRAINTS: with `constraints=HBonds` OpenMM removes the X–H entries from HarmonicBondForce
+# and represents them as constraints, so a bonds-only graph shatters every heavy atom's hydrogens into isolated
+# singletons and the size classification collapses. And WHY CustomBondForce: OpenFE's HybridTopologyFactory moves
+# the alchemical region's bonds into a softcore CustomBondForce, so a HarmonicBondForce-only graph would split
+# the ligand itself — precisely the molecule we are trying to find.
+LIG_MIN_ATOMS = 15             # smaller than any PROTAC; larger than an ion, a water, or a lone counter-ion pair
+LIG_MAX_ATOMS = 500            # ~30 residues; every protein chain in this assembly is far larger
+PROTEIN_MIN_ATOMS = 1000       # a component at least this big is treated as a protein chain (fit target)
+HEAVY_ATOM_MASS_MIN_DA = 2.5   # > deuterium: excludes H even under hydrogen-mass repartitioning (HMR ~3 Da H
+                               # would break this, so HMR is asserted OFF for the ternary lane — TIMESTEP_FS=2.0,
+                               # no HMR; if HMR is ever enabled here this constant must be revisited, and the
+                               # emitted `n_heavy` makes that visible rather than silent)
+BOND_CUTOFF_NM = 0.19          # cross-check graph only: 1.9 Å covers C–C 1.53, C–S 1.82, S–S 2.05 marginally;
+                               # shorter than any nonbonded contact between distinct molecules
+
+
+def molecules_from_edges(n_atoms, edges):
+    """Partition [0, n_atoms) into connected components under `edges` (union-find). Pure stdlib — this is the
+    part that decides which atoms are 'the ligand', so it is unit-testable without openmm, numpy or a .nc.
+    Returns a list of sorted index lists, largest first."""
+    parent = list(range(n_atoms))
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for i, j in edges:
+        if not (0 <= i < n_atoms and 0 <= j < n_atoms):
+            continue
+        ri, rj = find(i), find(j)
+        if ri != rj:
+            parent[ri] = rj
+    groups = {}
+    for i in range(n_atoms):
+        groups.setdefault(find(i), []).append(i)
+    return sorted(groups.values(), key=lambda c: (-len(c), c[0]))
+
+
+def classify_components(components, subset_indices=None):
+    """Bucket molecular components by size, and pick the ligand — or refuse. FAILS CLOSED by construction: the
+    ligand is returned ONLY when exactly one component satisfies every criterion. Zero candidates and two
+    candidates both return ligand=None with the reason and the full size histogram, so a caller can never
+    mistake 'could not identify' for 'identified'.
+
+    `subset_indices` (the reporter's analysis-particle set) is an ADDITIONAL requirement, not a filter: the
+    ligand must be fully retained in the stored subset, otherwise its positions do not exist and no RMSD is
+    computable from this trajectory."""
+    subset = set(subset_indices) if subset_indices is not None else None
+    sizes = {}
+    for c in components:
+        sizes[len(c)] = sizes.get(len(c), 0) + 1
+    cands, rejected_not_retained = [], 0
+    for c in components:
+        if not (LIG_MIN_ATOMS <= len(c) <= LIG_MAX_ATOMS):
+            continue
+        if subset is not None and not set(c).issubset(subset):
+            rejected_not_retained += 1
+            continue
+        cands.append(c)
+    info = {
+        "n_components": len(components),
+        "size_histogram": dict(sorted(sizes.items(), key=lambda kv: -kv[0])[:12]),
+        "n_monatomic": sizes.get(1, 0),
+        "n_water_sized": sizes.get(3, 0),
+        "protein_components": [len(c) for c in components if len(c) >= PROTEIN_MIN_ATOMS],
+        "n_ligand_sized_candidates": len(cands),
+        "n_candidates_rejected_not_retained_in_subset": rejected_not_retained,
+        "criteria": {"min_atoms": LIG_MIN_ATOMS, "max_atoms": LIG_MAX_ATOMS,
+                     "protein_min_atoms": PROTEIN_MIN_ATOMS},
+    }
+    if len(cands) != 1:
+        info["ligand"] = None
+        info["status"] = ("ligand NOT identified: %d components fall in [%d, %d] atoms and are fully retained in "
+                          "the analysis subset — the identification requires exactly 1, so it refuses rather "
+                          "than pick" % (len(cands), LIG_MIN_ATOMS, LIG_MAX_ATOMS))
+        return info
+    info["ligand"] = list(cands[0])
+    info["status"] = "ok"
+    return info
+
+
+def _mass_da(m):
+    """Particle mass in daltons, from an openmm Quantity or a plain number. Duck-typed on purpose: it is what
+    lets the identification above be exercised end-to-end by a unit test with a fake System, on a runner with no
+    openmm — which is the only way to prove the metric RESPONDS to a displaced ligand rather than merely
+    returning a number."""
+    v = getattr(m, "value_in_unit", None)
+    if v is None:
+        return float(m)
+    try:
+        from openmm import unit as ommunit
+    except Exception:  # noqa: BLE001  (older path, then no-openmm fake)
+        try:
+            from simtk import unit as ommunit  # type: ignore
+        except Exception:  # noqa: BLE001
+            return float(v(None))
+    return float(v(ommunit.dalton))
+
+
+def _system_edges(system):
+    """Bonded connectivity of an openmm.System as (i, j) pairs: every bonded force that exposes a bond list, PLUS
+    the distance constraints (which is where X–H bonds live under constraints=HBonds). Returns (edges, provenance)
+    so the report says which forces actually contributed — a silently-empty force is the failure mode here."""
+    edges, prov = [], {}
+    for k in range(system.getNumForces()):
+        f = system.getForce(k)
+        name = type(f).__name__
+        get_n, get_p = getattr(f, "getNumBonds", None), getattr(f, "getBondParameters", None)
+        if get_n is None or get_p is None:
+            continue
+        n = int(get_n())
+        added = 0
+        for b in range(n):
+            p = get_p(b)
+            try:
+                i, j = int(p[0]), int(p[1])
+            except Exception:  # noqa: BLE001  (a force whose params are not (i, j, ...) is not a 2-body bond)
+                break
+            edges.append((i, j))
+            added += 1
+        if added:
+            prov[name] = prov.get(name, 0) + added
+    n_con = int(system.getNumConstraints())
+    for c in range(n_con):
+        i, j, _d = system.getConstraint(c)
+        edges.append((int(i), int(j)))
+    prov["constraints"] = n_con
+    return edges, prov
+
+
+def _distance_edges(coords_nm, cutoff_nm=BOND_CUTOFF_NM):
+    """INDEPENDENT cross-check connectivity from coordinates alone — no System, no bond table. Cell-list neighbour
+    search at a covalent-bond cutoff. Its purpose is to be wrong in different ways than the bond graph: if the
+    two identifications agree atom-for-atom, the ligand assignment does not rest on either one being right."""
+    import numpy as np
+    xyz = np.asarray(coords_nm, dtype=float)
+    n = xyz.shape[0]
+    cell = {}
+    inv = 1.0 / cutoff_nm
+    keys = np.floor(xyz * inv).astype(int)
+    for i in range(n):
+        cell.setdefault(tuple(keys[i]), []).append(i)
+    edges = []
+    c2 = cutoff_nm * cutoff_nm
+    offs = [(a, b, c) for a in (-1, 0, 1) for b in (-1, 0, 1) for c in (-1, 0, 1)]
+    for i in range(n):
+        ki = keys[i]
+        for o in offs:
+            for j in cell.get((ki[0] + o[0], ki[1] + o[1], ki[2] + o[2]), ()):
+                if j <= i:
+                    continue
+                d = xyz[i] - xyz[j]
+                if float(d @ d) <= c2:
+                    edges.append((i, j))
+    return edges
+
+
+def _ligand_atoms(reporter):
+    """Resolve the ligand's atom indices for this leg. Returns a dict that ALWAYS records how the answer was
+    obtained (or why it was not) — `ligand_atom_indices` is None unless the identification succeeded outright."""
+    out = {"provenance": None}
+    idx = getattr(reporter, "analysis_particle_indices", None)
+    subset = [int(v) for v in idx] if idx is not None else None
+    out["n_analysis_particles"] = (len(subset) if subset is not None else 0)
+    system = None
+    for route in ("read_end_thermodynamic_states", "read_thermodynamic_states"):
+        fn = getattr(reporter, route, None)
+        if fn is None:
+            continue
+        try:
+            states = fn()
+            st = states
+            while isinstance(st, (list, tuple)) and st:
+                st = st[0]
+            system = getattr(st, "system", None)
+            if system is not None:
+                out["provenance"] = route
+                break
+        except Exception as e:  # noqa: BLE001
+            out.setdefault("route_errors", {})[route] = "%s: %s" % (type(e).__name__, e)
+    if system is None:
+        out["status"] = ("could not deserialize a System from the reporter (%s) — the ligand cannot be "
+                         "identified, so the pose RMSD stays UNMEASURED"
+                         % out.get("route_errors", "no route available"))
+        out["ligand_atom_indices"] = None
+        return out
+    n_atoms = int(system.getNumParticles())
+    out["n_particles"] = n_atoms
+    masses = [_mass_da(system.getParticleMass(i)) for i in range(n_atoms)]
+    edges, prov = _system_edges(system)
+    out["bond_provenance"] = prov
+    out["n_edges"] = len(edges)
+    comps = molecules_from_edges(n_atoms, edges)
+    info = classify_components(comps, subset)
+    out.update({k: v for k, v in info.items() if k != "ligand"})
+    lig = info.get("ligand")
+    out["ligand_atom_indices"] = lig
+    if lig is None:
+        return out
+    heavy = [i for i in lig if masses[i] >= HEAVY_ATOM_MASS_MIN_DA]
+    out["n_ligand_atoms"] = len(lig)
+    out["n_ligand_heavy_atoms"] = len(heavy)
+    out["ligand_heavy_indices"] = heavy
+    # Composition, emitted so a human can sanity-check that this is a PROTAC and not, say, a lipid or a mis-split
+    # protein loop. Nearest-integer mass buckets; no element assignment is asserted.
+    buckets = {}
+    for i in lig:
+        buckets[int(round(masses[i]))] = buckets.get(int(round(masses[i])), 0) + 1
+    out["ligand_mass_histogram_da"] = dict(sorted(buckets.items()))
+    out["protein_atom_indices"] = [i for c in comps if len(c) >= PROTEIN_MIN_ATOMS for i in c]
+    out["protein_heavy_indices"] = [i for i in out["protein_atom_indices"]
+                                    if masses[i] >= HEAVY_ATOM_MASS_MIN_DA]
+    out["protein_chain_sizes"] = [len(c) for c in comps if len(c) >= PROTEIN_MIN_ATOMS]
+    out["protein_chains"] = [list(c) for c in comps if len(c) >= PROTEIN_MIN_ATOMS]
+    return out
+
+
+def _min_image(A, B, M):
+    """Fold B−A into the primitive cell of lattice `M` (rows = lattice vectors). Exact for any triclinic cell,
+    reduces to the diagonal case when rectangular. Returns (B_unwrapped, applied)."""
+    import numpy as np
+    if M is None or abs(float(np.linalg.det(M))) <= 1e-9:
+        return B, False
+    d = B - A
+    d = d - np.round(d @ np.linalg.inv(M)) @ M
+    return A + d, True
+
+
+def _kabsch_rmsd(A, B, fit_rows, meas_rows):
+    """RMSD over `meas_rows` after superposing frame B onto frame A using ONLY `fit_rows`. With fit_rows == a
+    protein chain and meas_rows == the ligand this is a POSE RMSD in the receptor frame — the quantity the
+    prereg's escape/collapse threshold was written for. With fit_rows == meas_rows == the ligand it is the
+    ligand's internal conformational change."""
+    import numpy as np
+    if not fit_rows or not meas_rows:
+        return None
+    fa, fb = A[fit_rows], B[fit_rows]
+    ca, cb = fa.mean(0), fb.mean(0)
+    # H = A^T B, so R = V·diag·U^T rotates FRAME A onto FRAME B (the same convention the solute-proxy block
+    # above uses). Applying it to B instead of A silently measures the rotation itself: caught by
+    # test_pose_rmsd_ignores_rigid_body_motion_of_the_whole_system, which read 45 Å for a pure rigid-body move.
+    U, _, Vt = np.linalg.svd((fa - ca).T @ (fb - cb))
+    s = np.sign(np.linalg.det(Vt.T @ U.T))
+    R = Vt.T @ np.diag([1.0, 1.0, s]) @ U.T
+    ma = (A[meas_rows] - ca) @ R.T
+    mb = B[meas_rows] - cb
+    return float(np.sqrt(((ma - mb) ** 2).sum(axis=1).mean()) * 10.0)   # nm -> Å
+
+
+def _replica_coords(state):
+    import numpy as np
+    p = getattr(state, "positions", None)
+    if p is None:
+        return None, None
+    xyz = np.asarray(p.value_in_unit(p.unit))
+    M = None
+    bv = getattr(state, "box_vectors", None)
+    if bv is not None:
+        try:
+            M = np.asarray([[float(bv[i][j].value_in_unit(bv.unit)) for j in range(3)] for i in range(3)])
+        except Exception:  # noqa: BLE001  (some versions hand back a plain Vec3 list, already in nm)
+            try:
+                M = np.asarray([[float(bv[i][j]) for j in range(3)] for i in range(3)])
+            except Exception:  # noqa: BLE001
+                M = None
+    return xyz, M
+
+
+def _ligand_pose_block(reporter, iter_a, iter_b):
+    """THE MANDATED LIGAND-ONLY POSE RMSD, over EVERY replica rather than replica 0.
+
+    Two things this fixes beyond the observable itself. (a) Replica k's sampler state is a CONTINUOUS
+    configuration — replicas exchange λ, not coordinates — so replica k at iteration 0 and at iteration N is the
+    same trajectory, and 12 replicas give 12 independent escape tests instead of 1. (b) The previous single-replica
+    read is what left the residual large-displacement tail undiagnosable: with the whole distribution in hand,
+    a tail present in one replica and absent in eleven is an indexing artifact, and one present in all twelve is
+    physics. The flag uses the WORST replica: a ligand that leaves the pocket in any replica is a real problem,
+    and taking the max cannot manufacture a pass."""
+    import numpy as np
+    ident = _ligand_atoms(reporter)
+    out = {"identification": {k: v for k, v in ident.items()
+                              if k not in ("ligand_atom_indices", "ligand_heavy_indices", "protein_atom_indices",
+                                           "protein_heavy_indices", "protein_chains")},
+           "ligand_rmsd_A": None}
+    if ident.get("ligand_atom_indices") is None:
+        out["status"] = ident.get("status", "ligand not identified")
+        return out
+    subset = [int(v) for v in (getattr(reporter, "analysis_particle_indices", None) or [])]
+    row_of = {v: r for r, v in enumerate(subset)}
+    lig_rows = [row_of[i] for i in ident["ligand_heavy_indices"] if i in row_of]
+    prot_rows = [row_of[i] for i in ident["protein_heavy_indices"] if i in row_of]
+    chain_rows = [[row_of[i] for i in c if i in row_of] for c in ident.get("protein_chains", [])]
+    out["n_ligand_heavy_rows"] = len(lig_rows)
+    out["n_protein_heavy_rows"] = len(prot_rows)
+    if len(lig_rows) != len(ident["ligand_heavy_indices"]) or not lig_rows:
+        out["status"] = ("ligand heavy atoms are not all present in the stored analysis subset (%d of %d) — "
+                         "no pose RMSD is computable from this trajectory"
+                         % (len(lig_rows), len(ident["ligand_heavy_indices"])))
+        return out
+    try:
+        sa = reporter.read_sampler_states(iteration=iter_a, analysis_particles_only=True)
+        sb = reporter.read_sampler_states(iteration=iter_b, analysis_particles_only=True)
+    except Exception as e:  # noqa: BLE001
+        out["status"] = "read_sampler_states failed: %s: %s" % (type(e).__name__, e)
+        return out
+    if not sa or not sb:
+        out["status"] = "no sampler states at iterations %s/%s" % (iter_a, iter_b)
+        return out
+    # INDEPENDENT CROSS-CHECK. Re-derive the ligand from frame-0 geometry alone — a covalent-cutoff neighbour
+    # graph over the stored subset, no System, no bond table, no force names. It can be wrong in ways the bond
+    # graph cannot (a molecule split across the periodic boundary fragments; nothing else at 1.9 Å joins two
+    # molecules), so agreement atom-for-atom means the assignment does not rest on either route being right.
+    # Disagreement is REPORTED, never silently resolved in favour of the answer we already have.
+    lig_all_rows = sorted(row_of[i] for i in ident["ligand_atom_indices"] if i in row_of)
+    try:
+        A0, _ = _replica_coords(sa[0])
+        dcomps = molecules_from_edges(int(A0.shape[0]), _distance_edges(A0))
+        dinfo = classify_components(dcomps, None)
+        dlig = dinfo.get("ligand")
+        out["independent_distance_check"] = {
+            "n_components": dinfo["n_components"], "n_candidates": dinfo["n_ligand_sized_candidates"],
+            "identified": dlig is not None, "n_atoms": (len(dlig) if dlig else None),
+            "agrees_with_bond_graph": (bool(dlig is not None and sorted(dlig) == lig_all_rows)),
+            "note": ("two fully independent identifications; disagreement does NOT invalidate the bond-graph "
+                     "answer (a PBC-split molecule fragments the distance graph) but must be read before "
+                     "trusting the number"),
+        }
+    except Exception as e:  # noqa: BLE001
+        out["independent_distance_check"] = {"status": "%s: %s" % (type(e).__name__, e)}
+
+    per_replica, pose_vals, internal_vals = [], [], []
+    for k in range(min(len(sa), len(sb))):
+        A, _ = _replica_coords(sa[k])
+        B, M = _replica_coords(sb[k])
+        if A is None or B is None:
+            continue
+        B, applied = _min_image(A, B, M)
+        pose = _kabsch_rmsd(A, B, prot_rows, lig_rows)
+        internal = _kabsch_rmsd(A, B, lig_rows, lig_rows)
+        per_chain = [_kabsch_rmsd(A, B, cr, lig_rows) for cr in chain_rows if cr]
+        rec = {"replica": k, "pose_rmsd_A": pose, "internal_rmsd_A": internal,
+               "per_chain_pose_rmsd_A": [None if v is None else round(v, 3) for v in per_chain],
+               "min_over_chains_A": (min([v for v in per_chain if v is not None]) if any(
+                   v is not None for v in per_chain) else None),
+               "minimum_image_corrected": applied}
+        per_replica.append(rec)
+        if pose is not None:
+            pose_vals.append(pose)
+        if internal is not None:
+            internal_vals.append(internal)
+    if not pose_vals:
+        out["status"] = "positions unavailable on every replica at iterations %s/%s" % (iter_a, iter_b)
+        return out
+    out.update({
+        "status": "ok — ligand-only heavy-atom pose RMSD, receptor-superposed, over %d replicas" % len(pose_vals),
+        "iterations_compared": [int(iter_a), int(iter_b)],
+        "n_replicas": len(pose_vals),
+        "ligand_rmsd_A": float(max(pose_vals)),          # the flag: worst replica (conservative)
+        "pose_rmsd_max_A": float(max(pose_vals)),
+        "pose_rmsd_median_A": float(np.median(pose_vals)),
+        "pose_rmsd_min_A": float(min(pose_vals)),
+        "internal_rmsd_max_A": (float(max(internal_vals)) if internal_vals else None),
+        "internal_rmsd_median_A": (float(np.median(internal_vals)) if internal_vals else None),
+        "per_replica": per_replica,
+    })
+    return out
+
+
 def _structural(reporter, nc_path):
     """Best-effort ligand heavy-atom RMSD vs the first frame (ligand-escape / collapse detector). Requires the
     checkpoint positions + mdtraj; if unavailable, returns a status string (non-blocking)."""
@@ -471,6 +858,24 @@ def _structural(reporter, nc_path):
                               % (last_ckpt, interval)}
         p0 = np.asarray(pos[0].positions.value_in_unit(pos[0].positions.unit))
         pN = np.asarray(posN[0].positions.value_in_unit(posN[0].positions.unit))
+
+        # THE MANDATED OBSERVABLE, computed first and independently of the solute proxy below. Wrapped so that a
+        # failure here degrades to a status string and leaves the flag unmeasured — it must never be able to
+        # invent either a pass or a fail, which is exactly what the previous two implementations did.
+        try:
+            ligand = _ligand_pose_block(reporter, 0, last_ckpt)
+        except Exception as e:  # noqa: BLE001
+            ligand = {"status": "ligand pose block raised %s: %s" % (type(e).__name__, e), "ligand_rmsd_A": None}
+        # DISCRIMINATOR for the unexplained large-displacement tail (recorded as cause-unknown on 2026-07-25):
+        # adjacent checkpointed frames are one interval apart, so nothing can physically have moved far. A tail
+        # that persists between them is a bookkeeping/indexing problem; one that vanishes means iteration 0 is
+        # simply not comparable to iteration N (pre-equilibration configuration, or a different NPT box).
+        adjacent = None
+        if interval > 1 and last_ckpt >= 2 * interval:
+            try:
+                adjacent = _ligand_pose_block(reporter, last_ckpt - interval, last_ckpt)
+            except Exception as e:  # noqa: BLE001
+                adjacent = {"status": "adjacent-frame block raised %s: %s" % (type(e).__name__, e)}
 
         # WHAT THIS NUMBER IS, AND WHAT IT IS NOT. The original implementation took an UNALIGNED, PBC-unwrapped
         # RMSD over EVERY particle — ~146k atoms, overwhelmingly bulk water — and compared it to LIG_RMSD_MAX_A,
@@ -580,13 +985,17 @@ def _structural(reporter, nc_path):
             # Only judge it against the threshold once the wrap is actually undone. Even then this is the SOLUTE
             # subset (protein assembly + PROTAC), not the ligand alone — so it is a structural-stability measure,
             # a legitimate escape/collapse detector, but not the ligand-pose RMSD the prereg names. Report which
-            # it is; leave the pose flag unmeasured until the ligand atom indices come from the hybrid topology.
+            # it is. As of 2026-07-25 the ligand-only pose RMSD is computed separately (`ligand`, above) from
+            # atom indices DERIVED from the serialized hybrid System, so this proxy is now informational only and
+            # `ligand_rmsd_A` — the flagged quantity — no longer comes from it.
             return {"status": ("ok (minimum-image-corrected, superposed RMSD over the solute subset — %d of %d "
                                "atoms; structural-stability proxy, NOT the ligand-only pose RMSD)"
                                % (n_idx, n_all)) if unwrapped else
                               ("NOT minimum-image corrected (box unavailable or non-orthorhombic) — the value is "
                                "inflated by periodic wrapping and is informational only"),
-                    "solute_superposed_rmsd_A": rmsd, "ligand_rmsd_A": None,
+                    "solute_superposed_rmsd_A": rmsd,
+                    "ligand_rmsd_A": ligand.get("ligand_rmsd_A"),
+                    "ligand": ligand, "ligand_adjacent_frame": adjacent,
                     "minimum_image_corrected": unwrapped,
                     "box_matrix_A": ([[round(v * 10.0, 3) for v in row] for row in M.tolist()]
                                      if M is not None else None),
@@ -604,7 +1013,9 @@ def _structural(reporter, nc_path):
                           "and periodic wrapping. Reported for the record only; the flag stays unmeasured. A real "
                           "pose check needs the ligand atom indices from the OpenFE hybrid topology."
                           % (n_idx, n_all),
-                "whole_system_unaligned_rmsd_A": rmsd_all, "ligand_rmsd_A": None,
+                "whole_system_unaligned_rmsd_A": rmsd_all,
+                "ligand_rmsd_A": ligand.get("ligand_rmsd_A"),
+                "ligand": ligand, "ligand_adjacent_frame": adjacent,
                 "superposed": False, "n_atoms_total": n_all,
                 "iterations_compared": [0, last_ckpt], "checkpoint_interval": interval}
     except Exception as e:  # noqa: BLE001
