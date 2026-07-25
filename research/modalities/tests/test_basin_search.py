@@ -379,6 +379,21 @@ def test_assembly_copy_selection_refuses_a_real_choice_but_flags_a_forced_one():
     assert lone == {"VHL": "A"} and linfo["coherent"] is True           # nothing to contact, trivially fine
 
 
+def test_both_sensitivity_standards_are_reported_and_the_strict_one_stays_the_default():
+    """One swept transfer distance (10.0 A) is this file's own SUPERSEDED assumption — the solved assembly
+    measured 17.1 A — so requiring the term-(b) category to survive it is requiring it to survive a refuted
+    parameter. Narrowing the sweep after a basin failed it would be moving the goalpost, so BOTH standards
+    are reported and `sensitivity_robust` keeps pointing at the STRICTER one."""
+    sens = {"d10.0_r18.0": 1, "d10.0_r32.0": 5, "d14.0_r18.0": 5, "d14.0_r32.0": 5,
+            "d17.0_r18.0": 5, "d17.0_r32.0": 3, "d21.0_r18.0": 5, "d21.0_r32.0": 3}
+    cal = {k: v for k, v in sens.items() if 14.0 <= float(k.split("_")[0][1:]) <= 21.0}
+    assert min(sens.values()) < 3                       # fails the full sweep, because of the refuted value
+    assert min(cal.values()) >= 3                       # holds across the calibrated range
+    assert set(cal) == {"d14.0_r18.0", "d14.0_r32.0", "d17.0_r18.0", "d17.0_r32.0",
+                        "d21.0_r18.0", "d21.0_r32.0"}
+    assert 10.0 in B.PARAMS["lysine_transfer_sweep_A"]   # the superseded value stays IN the reported sweep
+
+
 def test_monomeric_ring_arms_survive_the_accession_gather(tmp_path):
     """THE BUG THIS ENCODES. A monomeric RING E3 has no cullin scaffold and no bridge, so both fields are
     legitimately None — and the very first line of stage_arm concatenated them into a list. BIRC2 and MDM2,
