@@ -288,6 +288,12 @@ than 19 %. (iii) The joint number is the one to quote — the pocket being open 
 **not** independent and the conditional fell from 0.955 to 0.818, so "96 % reachable" was doing more work in
 prose than it should have.
 
+*One schema consequence, checked rather than assumed:* the corrected artifact is key-for-key identical to the
+published one **except** that `ensembles/reference_opened_model/.../C559/shortest_linker_atoms/distribution`
+is now absent. That is not a schema break — it is the result: in the single reference opened model C559 has
+**no** feasible linker within 20 atoms, so there is no distribution to summarise. A consumer reading that path
+should treat its absence as *closed*.
+
 **And this is the observation that keeps the two results coherent.** The conformer ensemble says C397 *is*
 reachable at 12 atoms in 87 % of frames; the basin search says **no basin** places an electrophile there. Both
 are computed with the same corrected rule and they do not contradict: the ensemble is the
