@@ -55,6 +55,7 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import ternary_vast_launch as tv  # noqa: E402
+import watchdog_validate as wdv  # noqa: E402
 from gpu_backend import _vast_request  # noqa: E402
 
 WATCH_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ternary-vast-watch.json")
@@ -128,13 +129,21 @@ def enabled_entries(doc):
 
 
 def watch_entry(leg_id, seed, direction, mode, timestep_fs, warmup_timestep_fs,
-                max_relaunches_per_day=8, enabled=True):
+                git_branch=None, max_relaunches_per_day=8, enabled=True):
     """One watch-list entry. PURE. Carries every parameter a relaunch needs, so the watchdog INVENTS
-    NOTHING — it re-dispatches exactly what was launched."""
+    NOTHING — it re-dispatches exactly what was launched.
+
+    `git_branch` is in here for a reason that is easy to miss: the watchdog runs on a SCHEDULE, and a
+    schedule only fires from the default branch, so `github.ref_name` inside it is `main`. A unit launched
+    from a feature branch would therefore be relaunched onto a host that pulls MAIN's code — different code,
+    silently, on a resumed checkpoint. Recording the branch the unit was launched from and replaying it is
+    the difference between "resume this leg" and "run something else under this leg's name".
+    """
     return {
         "unit_id": tv.unit_id(leg_id, seed, direction, timestep_fs, warmup_timestep_fs, mode),
         "leg_id": leg_id, "seed": int(seed), "direction": direction, "mode": mode,
         "timestep_fs": str(timestep_fs), "warmup_timestep_fs": str(warmup_timestep_fs),
+        "git_branch": git_branch or os.environ.get("GIT_BRANCH") or "main",
         "max_relaunches_per_day": int(max_relaunches_per_day),
         "enabled": bool(enabled),
     }
@@ -178,10 +187,14 @@ def arm(mode, path=None, timestep_fs=None, warmup_timestep_fs=None):
         else:
             doc["watch"].append(e)
             added += 1
-    doc["_note"] = ("Watch list for the Vast ternary lane. The cron watchdog "
-                    "(.github/workflows/ternary-vast-watchdog.yml) reads ONLY this file; an entry with "
-                    "enabled=false is invisible to it. Entries are added by the lane's launch job.")
+    # Do NOT rewrite the file's `_`-prefixed documentation or `_prefix_keying_params` here: arming is an
+    # append, and a launch job silently replacing the config guard's required-key list with whatever this
+    # version of the code happened to think is exactly how a guard stops guarding.
     save_watch(doc, path)
+    problems = wdv.validate(doc)
+    if problems:
+        raise SystemExit("[arm] REFUSING to write a watch list the config guard rejects: %r. The entry the "
+                         "launch just armed would make a relaunch resume a different trajectory." % problems)
     print(f"[arm] mode={mode} dt={dt} warmup_dt={wdt}: {added} new entr(ies), "
           f"{len(enabled_entries(doc))} enabled in total")
     return doc
@@ -217,6 +230,20 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
     b = bucket or tv.DEFAULT_BUCKET
     p = (prefix or tv.RESULT_PREFIX).rstrip("/")
     doc = load_watch(path)
+    # CONFIG GUARD, reusing the module Lane 3 extracted rather than re-implementing it. An entry missing a
+    # prefix-keying parameter would make a relaunch resume a DIFFERENT trajectory than the one being watched.
+    # It lives in a FILE, not inline in the workflow, for a reason worth repeating: the GCP watchdog's guard
+    # was an inline `python3 -c` whose lines sat at column 0, which dedented them out of the `run: |` block
+    # and made the whole workflow unparseable — and GitHub's symptom for that is a 422 about a MISSING
+    # TRIGGER, while a `schedule:` cron on an unparseable file simply never fires. The guard meant to stop the
+    # watchdog acting on bad config stopped the watchdog running at all, silently.
+    problems = wdv.validate(doc)
+    for leg, direction, missing in problems:
+        _annotate("error", "TVAST WATCHDOG CONFIG INVALID",
+                  f"{leg} dir={direction} is missing prefix-keying param(s) {','.join(missing)} — a relaunch "
+                  f"would resume a DIFFERENT commit prefix. Refusing to act.")
+    if problems:
+        return len(problems)
     entries = enabled_entries(doc)
     print(f"enabled watch entries: {len(entries)} (dry_run={dry_run})")
     if not entries:

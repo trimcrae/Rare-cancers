@@ -113,8 +113,51 @@ def test_watch_entry_carries_everything_a_relaunch_needs():
     assert e["unit_id"].endswith("_probe") and "dt4.0fs" in e["unit_id"]
 
 
-def test_arm_is_idempotent_and_reenables(tmp_path):
+REAL_WATCH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                          "ternary-vast-watch.json")
+
+
+def _seed(tmp_path):
+    """A watch file that carries the SHIPPED `_prefix_keying_params`, so arming is tested against the real
+    config guard rather than against an empty one."""
     p = tmp_path / "watch.json"
+    real = json.load(open(REAL_WATCH))
+    p.write_text(json.dumps({"_prefix_keying_params": real["_prefix_keying_params"], "watch": []}))
+    return p
+
+
+def test_armed_entries_satisfy_the_shipped_config_guard(tmp_path):
+    """The guard and the armer must agree. If a launch can write an entry the guard rejects, the watchdog
+    refuses to act on the very leg that was just paid for — and the failure appears an hour later, on a cron,
+    with a GPU already burning."""
+    import watchdog_validate as wdv
+    p = _seed(tmp_path)
+    for mode in ("probe", "edge"):
+        wd.arm(mode, path=str(p))
+    assert wdv.validate(json.load(open(p))) == []
+
+
+def test_git_branch_is_recorded_because_a_schedule_only_fires_from_main(tmp_path):
+    """A cron fires from the DEFAULT branch, so github.ref_name inside the watchdog is 'main'. Without the
+    launching branch on the entry, relaunching a feature-branch unit would pull main's code onto that unit's
+    checkpoint — different code, silently, under the same leg name."""
+    p = _seed(tmp_path)
+    wd.arm("probe", path=str(p), timestep_fs="4.0", warmup_timestep_fs="1.0")
+    e = json.load(open(p))["watch"][0]
+    assert e.get("git_branch")
+
+
+def test_arm_does_not_rewrite_the_config_guards_required_key_list(tmp_path):
+    """Arming is an append. A launch job that silently replaced `_prefix_keying_params` with whatever its
+    code version believed is exactly how a guard stops guarding."""
+    p = _seed(tmp_path)
+    before = json.load(open(p))["_prefix_keying_params"]
+    wd.arm("edge", path=str(p))
+    assert json.load(open(p))["_prefix_keying_params"] == before
+
+
+def test_arm_is_idempotent_and_reenables(tmp_path):
+    p = _seed(tmp_path)
     wd.arm("probe", path=str(p))
     first = json.loads(p.read_text())
     n1 = len(first["watch"])
@@ -128,7 +171,7 @@ def test_arm_is_idempotent_and_reenables(tmp_path):
 
 
 def test_arm_edge_registers_all_three_legs(tmp_path):
-    p = tmp_path / "watch.json"
+    p = _seed(tmp_path)
     wd.arm("edge", path=str(p))
     ids = [w["leg_id"] for w in json.loads(p.read_text())["watch"]]
     assert set(ids) == {"calib_hi_to_lo__ternary_vhl", "calib_hi_to_lo__binary_vhl",

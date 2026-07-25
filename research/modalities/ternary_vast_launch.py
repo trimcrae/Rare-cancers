@@ -319,6 +319,7 @@ timeout -k 120 "${MD_TIMEOUT_S}" env \
   SKIP_PREEQUIL=1 CHARGE_METHOD="$CHARGE_METHOD" N_WINDOWS="$N_WINDOWS" \
   RBFE_TIMESTEP_FS="$RBFE_TIMESTEP_FS" RBFE_WARMUP_TIMESTEP_FS="$RBFE_WARMUP_TIMESTEP_FS" \
   RBFE_MIN_STEPS="$RBFE_MIN_STEPS" RBFE_WARMUP_ITERS="$RBFE_WARMUP_ITERS" RBFE_PROD_ITERS="$RBFE_PROD_ITERS" \
+  RBFE_POSITIONS_WRITE_PS="$RBFE_POSITIONS_WRITE_PS" RBFE_VELOCITIES_WRITE_PS="$RBFE_VELOCITIES_WRITE_PS" \
   RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_S3="$COMMIT_S3" \
   RBFE_WARMUP_CKPT_ITERS="$WARMUP_CKPT_ITERS" RBFE_PROD_CKPT_ITERS="$PROD_CKPT_ITERS" \
   bash run_ternary_leg.sh
@@ -471,6 +472,15 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         # 5000, not the engine default 25000: the GCP lane measured 25000 steps spending ~20-60 min at ~0%
         # GPU across 12 replicas for NO NaN benefit (the NaN survives 25000 — see runbook 1b/1c).
         "RBFE_MIN_STEPS": os.environ.get("TVAST_MIN_STEPS") or "5000",
+        # STRIDED HEAVY-ATOM TRAJECTORY — set explicitly here, not left to an engine default, because this is
+        # the property that decides whether a leg can ever be re-analysed. The NR-V04 covalent panel's
+        # read-only census found 72 objects across 19 units and ZERO trajectories, which made three known
+        # analysis defects permanently uncorrectable and forced the panel to be re-run or abandoned. 50 ps is
+        # a 20-iteration stride at the 2.5 ps time_per_iteration: ~50 MB over a full leg, against the ~112 MB
+        # System XML this same driver already uploads. Velocities stay off — they double the size and no
+        # geometric re-analysis needs them.
+        "RBFE_POSITIONS_WRITE_PS": os.environ.get("TVAST_POSITIONS_WRITE_PS") or "50",
+        "RBFE_VELOCITIES_WRITE_PS": os.environ.get("TVAST_VELOCITIES_WRITE_PS") or "",
         "RBFE_WARMUP_ITERS": sizing["warmup_iters"],
         "RBFE_PROD_ITERS": sizing["prod_iters"],
         # Checkpoint granularity == the maximum work a preemption can cost, traded against per-commit

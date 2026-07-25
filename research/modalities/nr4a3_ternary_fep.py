@@ -297,6 +297,56 @@ def _protocol(openfe):
         s.simulation_settings.minimization_steps = int(os.environ.get("RBFE_MIN_STEPS", "25000"))
     except Exception as e:  # noqa: BLE001
         print("  [tfep] WARN minimization_steps (%s)" % e, flush=True)
+    # ===== STRIDED HEAVY-ATOM TRAJECTORY — A REQUIREMENT, NOT AN OPTION (2026-07-25) =====================
+    # WHAT THIS FIXES. The NR-V04 covalent panel was reduced in-loop with positions discarded, and its
+    # committed output was censused read-only on 2026-07-25: 72 objects, 19 units, ZERO trajectory objects.
+    # Everything that survived was a single pre-minimisation frame, a 1.35 GB System (forces + parameters, no
+    # coordinates over time), or scalars already reduced against the WRONG chain split. Three separate
+    # analysis defects in that panel — a positional chain split that measured the wrong interface, a
+    # chain-blind reactive-cysteine search, and an R3 reporting nanometres under an Angstrom label — were all
+    # correctable in principle and NONE correctable in practice, because nothing survived to re-derive from.
+    # The panel now has to be re-run or abandoned. A trajectory that survives makes an analysis bug found next
+    # month cost $0 instead of another rental.
+    #
+    # WHY A STRIDE, AND NOT SIMPLY "ON". OpenFE's default writes positions EVERY iteration for all 12 replicas,
+    # which nr4a3_rbfe measured (netCDF-proven, 2026-07-16) at ~0.5 MB/iter -> ~1 GB by 2000 iterations — and
+    # this lane re-uploads the WHOLE .nc at every spot commit, so an every-iteration trajectory is paid for
+    # tens of times over. That cost is why the binary lane turned positions OFF entirely, which is the other
+    # extreme and the one that destroyed the NR-V04 panel's re-analysability. A 50 ps stride is 20 iterations
+    # at the 2.5 ps time_per_iteration, i.e. ~1/20th the bytes: ~50 MB over a full leg, against the ~112 MB
+    # System XML the driver already uploads without anyone objecting. Tens of MB buys back every future
+    # re-analysis.
+    #
+    # VELOCITIES STAY OFF. They roughly double the size and no structural re-analysis needs them; the
+    # trajectory exists to recompute geometry (interfaces, RMSDs, contacts), not to restart dynamics — restarts
+    # come from the checkpoint .chk, which carries its own velocities.
+    #
+    # Coordinates are `output_indices`-filtered (OpenFE's default excludes water), so this is a solute
+    # trajectory, not a box dump. Guarded attribute-by-attribute because names and units vary by openfe
+    # version, and a settings write must never be able to abort a leg.
+    _pos_ps = os.environ.get("RBFE_POSITIONS_WRITE_PS", "50")
+    _vel_ps = os.environ.get("RBFE_VELOCITIES_WRITE_PS", "")
+    _oset = getattr(s, "output_settings", None)
+    for _attr, _val in (("positions_write_frequency", _pos_ps), ("velocities_write_frequency", _vel_ps)):
+        if _oset is None or not hasattr(_oset, _attr):
+            print("  [tfep] WARN output_settings.%s absent in this openfe — cannot control trajectory "
+                  "persistence" % _attr, flush=True)
+            continue
+        try:
+            if not _val or _val.lower() in ("0", "none", "off"):
+                setattr(_oset, _attr, None)
+                print("  [tfep] output_settings.%s -> None (not written)" % _attr, flush=True)
+            else:
+                from openff.units import unit as _ou3
+                setattr(_oset, _attr, float(_val) * _ou3.picosecond)
+                print("  [tfep] output_settings.%s -> %s ps  (STRIDED TRAJECTORY: %s ps / %s = every %.0f "
+                      "iterations; solute only via output_indices=%r). This is the re-analysability "
+                      "requirement — see the NR-V04 zero-trajectory census, 2026-07-25."
+                      % (_attr, _val, _val, "2.5 ps/iter",
+                         max(1.0, float(_val) / 2.5), getattr(_oset, "output_indices", "?")), flush=True)
+        except Exception as e:  # noqa: BLE001
+            print("  [tfep] WARN output_settings.%s=%r failed (%s); trajectory persistence is whatever "
+                  "openfe defaults to — CHECK THE .nc SIZE" % (_attr, _val, e), flush=True)
     try:
         from openff.units import unit as _ou2
         _dt_fs = float(os.environ.get("RBFE_TIMESTEP_FS", "2.0"))

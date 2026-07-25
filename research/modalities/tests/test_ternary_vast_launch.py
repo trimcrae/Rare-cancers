@@ -164,6 +164,30 @@ def test_checkpoint_interval_never_truncates_its_phase():
             assert int(n) >= ci, f"{mode}.{iters_key}={n} is below {ci_key}={ci}"
 
 
+def test_every_leg_persists_a_strided_trajectory():
+    """THE RE-ANALYSABILITY REQUIREMENT. The NR-V04 covalent panel's read-only census found 72 objects across
+    19 units and ZERO trajectory objects: everything kept was one pre-minimisation frame, a 1.35 GB System
+    with no coordinates over time, or scalars already reduced against the wrong chain split. Three known
+    analysis defects were therefore permanently uncorrectable and the panel has to be re-run or abandoned.
+    Every leg this lane runs must store coordinates over time, and the stride must be a stride — OpenFE's
+    every-iteration default was measured at ~1 GB per leg, re-uploaded whole at every spot commit."""
+    for mode in tv.MODES:
+        for (leg, seed, direction) in tv.units_for(mode):
+            e = tv.build_jobspec(leg, seed, direction, mode=mode, bucket="b", prefix="p").env
+            ps = float(e["RBFE_POSITIONS_WRITE_PS"])
+            assert ps > 0, f"{mode}/{leg} would store NO positions — not re-analysable"
+            assert ps >= 2.5, "a stride below one iteration is the every-iteration default in disguise"
+            assert not e["RBFE_VELOCITIES_WRITE_PS"], "velocities double the size and buy no geometry"
+
+
+def test_the_trajectory_setting_actually_reaches_the_engine():
+    """Set in the jobspec but not forwarded past run_ternary_leg.sh would be a setting that exists only in a
+    comment. The pipeline must name it in the env it hands the recipe."""
+    body = tv.build_jobspec("calib_hi_to_lo__ternary_vhl", bucket="b", prefix="p").command[-1]
+    assert "RBFE_POSITIONS_WRITE_PS" in body
+    assert body.index("RBFE_POSITIONS_WRITE_PS") < body.index("bash run_ternary_leg.sh")
+
+
 def test_md_timeout_is_inside_the_instance_runtime_cap():
     """The MD cap must fire BEFORE the instance cap, or the run is killed with the deliverable still on the
     host's disk and nothing uploaded."""
