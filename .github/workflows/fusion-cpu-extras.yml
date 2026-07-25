@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_e3_stage, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
@@ -248,6 +248,57 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f research/modalities/nr4a3-orientation-basins.json
           git commit -m "RUNG-5a: mechanism-first orientation-basin search result (CI)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
+
+  # RUNG 5b — RDKit verification of the inverse-linker-design library. The enumerator derives a backbone
+  # length and a branch position from GEOMETRY and then emits a SMILES by concatenation; those are two
+  # independent descriptions of the same molecule and nothing forces them to agree. This re-derives both from
+  # the parsed molecule and FAILS THE BUILD on a mismatch. It uses the pre-baked ternary-fep image rather
+  # than solving an env (CLAUDE.md §6) — `--entrypoint python` bypasses the image's autoteardown wrapper,
+  # which is for billed GPU legs, not $0 CPU analysis, and the repo checkout is mounted so the container runs
+  # the branch's code rather than the copy baked at image-build time.
+  nr4a_linker_chem:
+    if: ${{ github.event.inputs.task == 'nr4a_linker_chem' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pytest (the design code itself is pure stdlib)
+        run: pip install pytest
+      - name: Unit tests — linker-design kernels + the enumerator's self-test
+        run: |
+          python -m pytest research/modalities/tests/test_linker_design.py -q
+          python research/modalities/nr4a3_linker_design.py --self-test
+      - name: Re-derive the design library from the committed basin artifact
+        run: python research/modalities/nr4a3_linker_design.py
+      - name: Docker Hub login (raises the anonymous pull-rate ceiling shared across runners)
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+      - name: RDKit verification of every emitted structure
+        run: |
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/linker_chem_check.py \
+            --design /work/research/modalities/nr4a3-linker-design.json \
+            --out /work/research/modalities/nr4a3-linker-library-chem.json
+      - name: Commit the design + verification back to the triggering branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/nr4a3-linker-design.json \
+                     research/modalities/nr4a3-linker-library-chem.json || true
+          git commit -m "RUNG-5b: linker design library + RDKit verification (CI)" || {
             echo "no changes"; exit 0; }
           git pull --rebase origin "${{ github.ref_name }}" || true
           git push origin HEAD:"${{ github.ref_name }}"

@@ -644,13 +644,24 @@ def build_smiles(e3_key, wh_key, seg1_key, seg2_key=None, pendant=None):
     if s2.get("acyl_only"):
         raise ValueError("segment %r placed after an amide N would make an N,O-acetal (N-CH2-O-)"
                          % seg2_key)
+    if s2["n"] == 0:
+        # the branch residue's C-terminal amide N would sit directly on the warhead tail's own carbonyl,
+        # making an ACYLUREA (C(=O)-N-C(=O)-N) rather than two amides. A third motif the assembler emitted
+        # silently before the SMILES were read.
+        raise ValueError("the branch residue needs at least one atom between its C-terminal amide and the "
+                         "warhead tail, or the two carbonyls form an acylurea")
     node = "C(=O)N[C@@H](%s)C(=O)N" % _renumber(PENDANT[pendant]["smi"], 7)
     smi = e3["pre"] + "C(=O)" + s1["smi"] + node + s2["smi"] + wh["tail"] + e3["post"]
     n = 1 + s1["n"] + 1 + BRANCH_NODE_ATOMS + 1 + s2["n"] + wh["tail_atoms"]
-    # index of the branch alpha-carbon counted from the E3 end: the E3 acyl C, SEG1, the second acyl C, then
-    # the residue's N, then C-alpha
+    # Index of the branch alpha-carbon counted from the E3 end: the E3 acyl C (1), SEG1, the second acyl C,
+    # then the residue's N, then C-alpha.
     k_e3 = 1 + s1["n"] + 1 + 2
-    return smi, n, n - k_e3
+    # ★ AND THE CONVERSION TO THE WAREHEAD-END INDEX IS n + 1 - k_e3, NOT n - k_e3. Both indices count the
+    # branch atom ITSELF, so an atom that is the i-th from one end is the (n + 1 - i)-th from the other; the
+    # first version dropped the +1 and put every electrophile one backbone atom too close to the warhead.
+    # The self-test now asserts k_warhead + k_e3 == n + 1, which is an identity no formula error can satisfy
+    # by accident, rather than restating the formula being tested.
+    return smi, n, n + 1 - k_e3
 
 
 def _renumber(frag, base):
@@ -714,7 +725,7 @@ def enumerate_library(reqs, ctx):
                     if LINKER_SEGMENT[s1]["n"] == 0 or LINKER_SEGMENT[s1].get("amine_only"):
                         continue
                     for s2 in LINKER_SEGMENT:
-                        if LINKER_SEGMENT[s2].get("acyl_only"):
+                        if LINKER_SEGMENT[s2].get("acyl_only") or LINKER_SEGMENT[s2]["n"] == 0:
                             continue
                         try:
                             smi, n_bb, k = build_smiles(aid, wh_key, s1, s2, pkey)
@@ -1211,7 +1222,7 @@ def self_test():
                 assert "NC(=O)C(=O)" not in smi, smi
                 assert "C(=O)NCO" not in smi and "C(=O)NCCO" not in smi.replace("C(=O)NCCOC", "@"), smi
                 for s2 in LINKER_SEGMENT:
-                    if LINKER_SEGMENT[s2].get("acyl_only"):
+                    if LINKER_SEGMENT[s2].get("acyl_only") or LINKER_SEGMENT[s2]["n"] == 0:
                         continue
                     smi2, n2, k2 = build_smiles(e3, wh_key, s1, s2, "cyac_me")
                     assert n2 == 1 + LINKER_SEGMENT[s1]["n"] + 1 + BRANCH_NODE_ATOMS + 1 \
@@ -1220,8 +1231,12 @@ def self_test():
                     assert smi2.count("(") == smi2.count(")")
                     assert "NC(=O)C(=O)" not in smi2, smi2
                     assert "C(=O)NCO" not in smi2, smi2          # the N,O-acetal that was emitted before
-                    # the branch alpha-carbon's distance from BOTH ends must be consistent
-                    assert n2 - k2 == 1 + LINKER_SEGMENT[s1]["n"] + 1 + 2
+                    assert "C(=O)NC(=O)N" not in smi2, smi2      # the acylurea that was emitted before
+                    # ★ the identity: an atom that is the i-th from one end is the (n+1-i)-th from the other
+                    k_e3 = 1 + LINKER_SEGMENT[s1]["n"] + 1 + 2
+                    assert k2 + k_e3 == n2 + 1, (e3, wh_key, s1, s2, k2, k_e3, n2)
+                    # and it must be strictly interior — a branch AT either anchor is not a branch
+                    assert 1 <= k2 <= n2 - 1
     # a branch residue with no acyl segment on its N-side must REFUSE (it would make an amine, not an amide)
     try:
         build_smiles("vhl", "5amide", "s0", "a2", "pyr3")
