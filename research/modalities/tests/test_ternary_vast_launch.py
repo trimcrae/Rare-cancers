@@ -254,3 +254,15 @@ def test_cost_model_step_counts_match_openfe_derivation():
     assert m["steps_per_iter_warmup"] == pytest.approx(2500.0)       # 2.5 ps / 1 fs
     # a measured 16 s/iter at 2 fs => 2000 production iterations is ~8.9 h
     assert m["production_h"] == pytest.approx(2000 * 16.0 / 3600.0, rel=1e-6)
+
+
+def test_stdout_is_unbuffered_so_progress_lines_arrive_when_they_happen():
+    """rbfe_spot_driver logs with a bare `print` and contains zero `flush=True` — verified by grep, and
+    observed on the stage-1 probe: the S3 run.log carried every flushed line from the engine and not one
+    `[spot-driver]` line from the same process. Its lines are `[timing] ... s/iter` and `[barrier] committed
+    checkpoint at iteration N`, i.e. the entire progress signal. Buffered at ~8 KB behind a pipe, they arrive
+    in delayed bursts and a monitor cannot tell a stall from a buffer during the riskiest window."""
+    for mode in tv.MODES:
+        for (leg, seed, direction) in tv.units_for(mode):
+            e = tv.build_jobspec(leg, seed, direction, mode=mode, bucket="b", prefix="p").env
+            assert e.get("PYTHONUNBUFFERED") == "1"

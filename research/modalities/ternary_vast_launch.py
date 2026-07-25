@@ -447,6 +447,18 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
     uid = unit_id(leg_id, seed, direction, dt, wdt, mode)
     solvent = leg_id.endswith("__solvent")
     env = {
+        # ★ THE PROGRESS LINES ARE BLOCK-BUFFERED WITHOUT THIS. Diagnosed on the stage-1 probe, 2026-07-25,
+        # by differential rather than by guess: at 2:03 PM ET the S3 run.log carried every line printed with
+        # `flush=True` (`[tfep] timestep=4.0 fs`, `[hmr-diag]`, `[spot-safe] commit store`) and NOT ONE line
+        # from `rbfe_spot_driver`, which uses a bare `log=print` and contains zero `flush=True` (verified by
+        # grep) — same process, same stdout, the only difference being the flush. Python block-buffers stdout
+        # at ~8 KB when it is a pipe, and this pipeline pipes into `tee`.
+        # Why it matters: `[timing] N iters in Ns = X s/iter` and `[barrier] committed checkpoint at
+        # iteration N` are the driver's lines, i.e. exactly the progress signal an unproven pipeline is
+        # monitored on. Buffered, they arrive in delayed bursts, so a monitor sees a frozen log during the
+        # single riskiest window (warmup iteration 1, where every prior 4 fs attempt died) and cannot tell a
+        # stall from a buffer. One env var fixes the whole class without touching a file the GCP lane runs.
+        "PYTHONUNBUFFERED": "1",
         "TVAST_MODE": mode,
         "UNIT_ID": uid,
         "LEG_ID": leg_id,
