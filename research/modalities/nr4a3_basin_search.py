@@ -1424,6 +1424,38 @@ def main(argv=None):
             "No efficacy, safety, therapeutic-window or clinical claim is made or implied. Surviving basins "
             "are inputs to a PREDICTED SELECTIVE CANDIDATE series, never a selective hit.",
         ],
+        "_schema_version": "1.0",
+        "_schema": {
+            "tier2_gate": "the RUNG-5a verdict. {pass, basis in CATEGORICAL|NOMINAL_ONLY|NONE, verdict, "
+                          "n_meta_basins, n_exploiting_term_a_electrophile_reach, "
+                          "n_exploiting_term_b_unique_lysine_zone (an UPPER BOUND — best-of-N), "
+                          "n_nominally_discriminating, asymmetry_note}",
+            "meta_basins_ranked": "pose-marginalised basins across all arms, best first. Per basin: "
+                                  "{meta_basin_id, arm_id, pose_surviving_fraction (term (d)), "
+                                  "n_poses_present/n_poses_total, total_members, interface_patch_uniprot, "
+                                  "term_a_union{C###: min_linker_atoms, max_fraction_reachable_at_gate}, "
+                                  "term_b_best_rank (best-of-N, inflated), "
+                                  "term_b_mean_fraction_unique_covering (UNBIASED — read this), "
+                                  "term_b_mean_fraction_paralogues_bare, term_b_exceeds_background, "
+                                  "term_b_max_enrichment_over_background, term_b_unique_lysines_covered, "
+                                  "stability_surrogate_nominal_delta_range (UNITLESS, ranks only), "
+                                  "best_accessibility, best_linker_atoms}",
+            "term_a_feasibility_envelope": "E3-INDEPENDENT upper bound per unique cysteine: "
+                                           "{shortest_linker_with_any_feasible_anchor, "
+                                           "geometrically_closed, by_linker_atoms}. Distinguishes 'no "
+                                           "recruiter docked there' from 'no linker can reach it'.",
+            "arms.<arm>.per_pose[].term_b_background_null": "the NULL — the rate at which ANY accepted "
+                                                            "placement covers a unique lysine. A basin "
+                                                            "carries term-(b) information only insofar as "
+                                                            "it exceeds this.",
+            "arms.<arm>.e3_lane_caveats": "carried verbatim from the E3 lane's contract; must be repeated "
+                                          "in any downstream report.",
+            "arms.<arm>.e3_lane_backfilled": "true = E3-CHOICE SENSITIVITY CONTROL, not a co-winner. A "
+                                             "difference between it and the front-runner is NOT a "
+                                             "reportable preference.",
+            "parameters._lysine_transfer_calibrated_from": "provenance of the transfer distance when it was "
+                                                           "measured rather than assumed.",
+        },
         "parameters": PARAMS,
         "inputs": {
             "structures": os.path.relpath(args.struct_dir, REPO) + "/nr4a{3,1,2}-opened.pdb",
