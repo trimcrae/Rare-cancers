@@ -614,10 +614,20 @@ jobs:
           python-version: "3.11"
       - run: pip install -q boto3 gemmi numpy rdkit
       - name: Exhaustive A1 admissibility audit over every co-fold model
+        env:
+          PREFIXES: ${{ github.event.inputs.ternary_extra_args }}
         run: |
+          # A restricted run must NOT overwrite the full 34-model enumeration -- that file is the evidence for
+          # the "no admissible input in the bucket" claim, and a 7-model replacement would silently weaken it.
+          OUT=research/modalities/nrv04-covalent-input-audit.json
+          if [ -n "$PREFIXES" ]; then
+            SLUG=$(printf '%s' "$PREFIXES" | tr ',' '-' | tr -cd 'a-zA-Z0-9-' | cut -c1-60)
+            OUT="research/modalities/nrv04-covalent-input-audit-${SLUG}.json"
+          fi
+          echo "writing $OUT"
           python research/modalities/nrv04_covalent_input_audit.py \
-            --bucket "${VAST_CKPT_BUCKET}" \
-            --prefixes "${{ github.event.inputs.ternary_extra_args }}"
+            --bucket "${VAST_CKPT_BUCKET}" --prefixes "$PREFIXES" --out "$OUT"
+          echo "AUDIT_OUT=$OUT" >> "$GITHUB_ENV"
       # $0 validation of the steered-refold probe BEFORE any GPU spend: writes the three Boltz YAMLs (no
       # inference) and, in doing so, resolves C551 to its construct index against the LIVE UniProt sequence and
       # asserts it is a cysteine. A YAML or index error caught here costs nothing; caught on the GPU box it
@@ -633,7 +643,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nrv04-covalent-input-audit.json || true
+          git add research/modalities/nrv04-covalent-input-audit*.json || true
           if git diff --cached --quiet; then
             echo "no change"
           else
