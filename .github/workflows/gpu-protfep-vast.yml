@@ -249,6 +249,18 @@ jobs:
           python research/modalities/protfep_reduce.py \
             --source "s3://${B}/protfep-benchmark" \
             --out research/modalities/protfep-benchmark-result.json $ARGS > /dev/null
+      - name: Commit the reduction into the branch
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          if ! git diff --quiet -- research/modalities/protfep-benchmark-result.json; then
+            git add research/modalities/protfep-benchmark-result.json
+            git commit -m "5a-KS: capture protein-mutation FEP benchmark reduction from Vast legs"
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "no change to commit"
+          fi
+
       - name: Summary LAST
         run: |
           set -eo pipefail
@@ -276,17 +288,6 @@ jobs:
                     f"${p['usd_per_benchmark_leg']}/leg @ ${p['assumed_hourly_usd']}/h "
                     f"-> PROJECTED wedge ${p.get('projected_wedge_usd_3rep')} (3 rep)")
           PY
-      - name: Commit the reduction into the branch
-        run: |
-          set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          if ! git diff --quiet -- research/modalities/protfep-benchmark-result.json; then
-            git add research/modalities/protfep-benchmark-result.json
-            git commit -m "5a-KS: capture protein-mutation FEP benchmark reduction from Vast legs"
-            git push origin HEAD:${{ github.ref_name }}
-          else
-            echo "no change to commit"
-          fi
 
   stop:
     if: ${{ github.event.inputs.task == 'stop' }}
