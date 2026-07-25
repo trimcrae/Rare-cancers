@@ -79,7 +79,7 @@ relevant rung below.*
 | **`v2pe` rev setup prime** (`ternary-setup-prime-cpu.yml`, CPU, **$0**) | **RUNNING** since 2:53 PM ET, 9 min in. Overlays the v2 pre-equilibrated complex and keys the setup cache to `v2pe` for `direction=rev`. Parameterising 146 k atoms on a 4-vCPU runner ≈ 30 min (120-min timeout) | **~3:25 PM ET** | Unblocks the rev leg. It also doubles as the **$0 existence check** on the preequil cache — if that were missing this fails on CPU instead of wasting a GPU boot |
 
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
-| **LANE 4 · RUNG 2b — 4 fs ternary probe** (**Vast**, ≤$25) | running — building the **Vast** ternary lane (none existed; only `-gcp.yml`/`-aws.yml`), then stage 1 = the ~$1–2 survival probe | probe ~2–4 h → **this evening ET**; full edge next if it passes | **≈2× on every downstream ternary leg** (~$8.8 → ~$4.4/edge, ladder has ≥6). Also the **first NR4A-adjacent ternary leg timed on Vast** — closes the named transferability gap where an 8G1Q rate is pricing NR4A ternaries |
+| **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ⚠ **Confound: the 4 fs arm necessarily carries pre-equilibration and `use_preequil` was NEVER VERIFIED for the 2 fs baseline** — agreement authorises adoption; **disagreement is a NO-GO that must NOT be attributed to the timestep** |
 
 > **⚠ NAMING CORRECTED (2026-07-25 1:50 PM ET) — these were first written as "5a-1…5a-5", which was wrong and
 > actively misleading: it read as though all five were sub-parts of RUNG 5a, and it invited the reasonable
@@ -711,8 +711,24 @@ not let "we spent ~$2 so far" imply the L4 lane was free.
 
 ### Cost levers adopted 2026-07-24 ([evidence](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md))
 
-1. **4 fs ternary production ≈ 2× cheaper per leg — PROPOSED, one paid step settles it.** Iterations are
-   timestep-independent (2.5 ps/iter), so 4 fs is exactly half the force evaluations → **~$8.8/edge → ~$4.4**.
+1. **~~4 fs ternary production ≈ 2× cheaper per leg.~~ ⚠ CORRECTED 2026-07-25 — the saving is **1.56×**, not
+   2×, and the leg is **2800 iterations**, not 2400. Both verified against `rbfe_spot_driver` source, both pure
+   arithmetic on the existing measured rate.**
+   - **Why not 2×:** halving the timestep halves the force evaluations only in the phase whose dt *changed*.
+     The warmup is pinned at **1 fs either way**. Per replica: 2 fs = 1.0e6 (warmup) + 2.5e6 (production)
+     = **3.5e6 steps**; 4 fs = 1.0e6 + 1.25e6 = **2.25e6**. Ratio **0.643×** ⇒ a **1.56×** saving. The old
+     "2×" overstated it by ~36 %.
+   - **Why 2800, not 2400:** "400 equil + 2000 production at 2.5 ps/iter" assumes the warmup runs at the
+     *production* timestep. It does not — `_iters_from_time` derives warmup iterations from the **WARMUP**
+     integrator, and the source comment says so outright (*"more iters at a smaller dt"*). At the as-run
+     `warmup_timestep_fs=1.0`, 1 ns of equilibration is 1e6 steps ÷ 1250 steps-per-iteration = **800**
+     iterations, each costing the **same 1250 force evaluations** as a production iteration. So the as-run 2 fs
+     leg is **2800 equal-cost iterations**, and pricing it at 2400 understated **every 2 fs ternary stage by
+     ~17 %**.
+   - **⚠ The claim "iterations are timestep-independent (2.5 ps/iter)" is FALSE and is retired.** Iterations are
+     `steps ÷ steps_per_iteration`, and steps depend on dt; 2.5 ps/iter holds only *at 2 fs*. **Price in STEPS,
+     not iterations** — iteration counts are not comparable across protocols.
+   - Net effect on the edge: **~$8.8 → ~$10.2 at 2 fs**, and the 4 fs edge is **~$6.6, not ~$4.4**.
    **The as-run lane is 1 fs warmup → 2 fs production**, verified against the live VM, not the doc (GH run
    30123894814 `mode=tail` on VM `gcp-ternary-30112102294`: `[tfep] timestep=2.0 fs`,
    `warmup_dt_override="WARMUP timestep overridden to 1.0 fs"`, `NaN_seen=no`; `gpu-ternary-fep-gcp.yml` defaults
@@ -1240,7 +1256,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   NR4A1/2/3; separate accessibility from stability; robust constraint-satisfaction filtering → **~4–8 constructs**
   nondominated under scenario + model uncertainty. Add a constraint: **which lysine the ubiquitin actually
   reaches**, reported per construct as a distribution over unique-vs-conserved sites, not just "a lysine is near".
-- **`[ ]` 5d · Local ternary FEP** — **~$22 ($3.2–80; 3–6 ternary comparisons) · Cum. ~$169.** Alchemy **only**
+- **`[ ]` 5d · Local ternary FEP** — **~$25 ($3.7–94; 3–6 ternary comparisons) · Cum. ~$185.** Alchemy **only**
   within a retained basin (both endpoints plausibly bound, modest congeneric change). Refines the matched final
   series → **~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL/CRBN only where both survive,
   explicit negative controls. **Deliverable** = the prioritized, structure-defined, retrosynthetically annotated
@@ -1265,7 +1281,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 
 ## Spend summary
 
-**PINNED TOTAL: ~$169 mid-range (~$47–561)**, GO at every gate, priceable stages only.
+**PINNED TOTAL: ~$185 mid-range (~$51–614)**, GO at every gate, priceable stages only.
 
 **How it is built** — regenerate the alchemical/MD stages with `python research/modalities/vast_cost_model.py`
 (JSON: [`vast-ladder-repricing.json`](research/modalities/vast-ladder-repricing.json)); the tool prices 9 stages
@@ -1273,7 +1289,7 @@ at **$149.4 ($38.2–466.4)** on the measured **$0.137/ref-GPU-h** policy. The l
 tool does not cover: step0 ~$1–2 (mid $1.5), valA_mini ~$0–15 (**realized ~$0** on GCP credit), the ~$8 measured
 covalent panel, 5a basin ~$0–50 (mid $25), 5b linker ~$0–20 (mid $10). `149.4 + 1.5 + 0 + 8 + 25 + 10 ≈ 194`;
 low `38.2 + 1 + 0 + 8 + 0 + 0 ≈ 47`; high `466.4 + 2 + 15 + 8 + 50 + 20 ≈ 561`. The per-step `Cum.` chain above
-ends on the same ~$169, and [pricing.md §C](research/compute/pricing.md) carries the same chain — all three must
+ends on the same ~$185, and [pricing.md §C](research/compute/pricing.md) carries the same chain — all three must
 agree.
 
 **Excluded from the total:** (a) the 5a-KS **confirmatory** protein-mutation wedge and its reciprocal cycle —
@@ -1303,7 +1319,7 @@ absolute, but that spending it on an axis needing ~2.0 kcal/mol when the method 
 | 3 · Val B cube (SMARCA2/4 module) + NR-V04 feas. (DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$22.5 + ~$8 (range $14–75) | ~$48 |
 | 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | **~$36** + ~$21 (range $20–147) | ~$104 |
 | 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference | ~$0–50 + ~$12 (range $2–95) | ~$141 |
-| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$21) + within-basin FEP (~$22) | ~$53 (range $5–185) | ~$169 |
+| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$21) + within-basin FEP (~$22) | ~$57 (range $6–199) | ~$185 |
 | Confirmatory protein-mutation cycle (optional) | 1–3 mutation directions | **~$4.6 PROJECTED** | *(excl.)* |
 | Optional ΔG_open / ABFE (HELD) | — | +$200–500 | *(excl.)* |
 
@@ -1346,7 +1362,7 @@ RUNG5  basin_search($0–50, multi-E3, pose-marginalised, CATEGORICAL terms)    
           │           claim to resolve a paralogue-scale difference. It does NOT gate
           │           the ladder — the ligand-side double difference does.
           │
-       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep         (Cum ~$169)
+       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep         (Cum ~$185)
           │
 RUNG6  fold ──► redteam ──► post/submit                                             ($0)
 
@@ -1406,7 +1422,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 
 | # | superseded claim | what retired it |
 |---|---|---|
-| 1 | Ladder total **~$390 (~$170–610)**, then **~$240 (~$90–390)**, then **~$467 (~$249–685)**, then a stray **~$128 (~$36–381)** | Successively: the six cost levers; the measured per-edge work correction; the measured bid/selection policy. The **$128** was `bid-strategy.md` §6's table with the **5c row missing** — fixed there; the pinned total is **~$169 (~$47–561)** |
+| 1 | Ladder total **~$390 (~$170–610)**, then **~$240 (~$90–390)**, then **~$467 (~$249–685)**, then a stray **~$128 (~$36–381)** | Successively: the six cost levers; the measured per-edge work correction; the measured bid/selection policy. The **$128** was `bid-strategy.md` §6's table with the **5c row missing** — fixed there; the pinned total is **~$185 (~$51–614)** |
 | 2 | "The 4090 wins $/ns at every size (1549 / 669 / 175.6 vs 3090 72.5 @444k; 2.42× for ~9 % more $/hr)" — a **card** rule | The 23:08 2026-07-24 bench was **withdrawn** (single 0.9–4.5 s windows; it also ranked a 4080 SUPER above a 4090). Validated grid: 4090 755.36 / 4080 703.51 / 3090 359.36 ns/day → **2.10×**, and the cheapest 3090 floor is **8.8×** below the cheapest 4090. **Rank offers on all-in `$/ns`; the card is not the decision** |
 | 3 | Bid = `min_bid × 1.1` / `× 1.5` / `× 1.9` / `× 1.25`; and a `P* = clamp(max(no-churn floor, √(m̂·d) or UCB_q), ≤ on-demand)` reservation-price/adaptive-UCB scheme | All four multipliers were live at once. The measured bid ladder showed `charged = min(bid, on-demand)`, so a premium is paid on **every** hour and cannot buy safety from on-demand renters; the ~20-min reload that justified `×1.9` was **self-inflicted** (our reaper DELETEd paused instances). The UCB scheme never reached the launch path. Current rule: **floor + staleness tick, capped at on-demand** ([bid-strategy.md](research/compute/bid-strategy.md) §7) |
 | 4 | RBFE binary edge ≈ **5–6 GPU-h ≈ $0.6–1.4**; `step1_fanout` **$12–26**, then **$91–101** | The 5–6 GPU-h was a **public TYK2** rate (~5.2 s/iter) applied to the ~2.6× heavier cmpd19/NR4A3 complex (~13.6 s/iter on three hosts). Unit is **~13.7 ref GPU-h**. The $91–101 then used the **$0.35–0.39/hr** realized, which was a consequence of bidding `×1.5` on a `min_bid`-ranked offer, not the market. Current: **~$1.9/edge, ~$36 fan-out** |

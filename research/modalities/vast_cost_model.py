@@ -493,17 +493,47 @@ def summarise_market(ranked, top=10):
 # particles — the 175.6 / 72.5 ns/day figures at 444k come from the withdrawn grid and must not be used.
 ENDPOINT_MD_REF_GPU_H_PER_LEG = 1.38
 
+# ---------------------------------------------------------------------------------------------------
+# ★ TERNARY LEG LENGTH CORRECTED 2026-07-25 (Lane 4), verified against rbfe_spot_driver source.
+#
+# Every 2 fs ternary figure below was previously derived from a 2400-iteration leg ("400 equil + 2000
+# production at 2.5 ps/iter"). That 400 assumes the warmup runs at the PRODUCTION timestep. It does not:
+# `rbfe_spot_driver` derives warmup_iters from the WARMUP integrator (`_iters_from_time`, and the comment
+# there says so outright -- "more iters at a smaller dt"), and the as-run protocol overrides the warmup to
+# 1.0 fs. So 1 ns of equilibration is 1e6 steps / 1250 steps-per-iteration = **800** warmup iterations, not
+# 400, each costing the SAME 1250 force evaluations as a production iteration.
+#
+#   as-run 2 fs leg = 800 warmup + 2000 production = 2800 equal-cost iterations, not 2400  (+16.7%)
+#
+# Pricing at 2400 understated every 2 fs ternary stage by ~17%. The measured ~16 s/iter is unchanged --
+# this is arithmetic on the existing rate, not a new measurement.
+TERNARY_LEG_ITER_CORRECTION = 2800.0 / 2400.0  # 1.1667
+
+# ★ And the 4 fs saving is 1.56x, NOT 2x. Halving the timestep halves the force evaluations only in the
+# phase whose dt changed. The warmup is pinned at 1 fs either way, so per replica:
+#     2 fs: 1.0e6 (warmup) + 2.5e6 (production) = 3.5e6 steps
+#     4 fs: 1.0e6 (warmup) + 1.25e6 (production) = 2.25e6 steps
+# ratio 2.25/3.5 = 0.643. A "2x cheaper at 4 fs" claim overstates the saving by ~36%.
+TERNARY_4FS_CONVERSION = 2.25 / 3.5  # 0.643
+
+def _t(lo, hi):
+    """A 2 fs ternary stage, corrected from the 2400-iteration basis to the as-run 2800."""
+    return (round(lo * TERNARY_LEG_ITER_CORRECTION, 1), round(hi * TERNARY_LEG_ITER_CORRECTION, 1))
+
+
 LADDER_REFERENCE_GPU_H = {
     "step1_pilot (1-2 RBFE edges)": (13.7, 27.4),
     "step1_fanout (19 RBFE edges @ ~13.7 GPU-h)": (260.0, 260.0),
-    "valB_mini (1 ternary edge, 3 replicas)": (56.0, 72.0),
-    "valB_full (2-3 ternary edges + CRL-MD)": (112.0, 216.0),
-    "nrv04_retrospective (3 ternary legs + shared binary/solvent)": (84.0, 216.0),
-    "ternary_4fs_recalibration (1 matched edge)": (28.0, 36.0),
-    "5a-KS primary (ligand-side double difference)": (28.0, 144.0),
+    "valB_mini (1 ternary edge, 3 replicas)": _t(56.0, 72.0),
+    "valB_full (2-3 ternary edges + CRL-MD)": _t(112.0, 216.0),
+    "nrv04_retrospective (3 ternary legs + shared binary/solvent)": _t(84.0, 216.0),
+    # the 4 fs edge is the corrected 2 fs edge x 0.643, not x 0.5
+    "ternary_4fs_recalibration (1 matched edge)": (round(_t(56.0, 72.0)[0] * TERNARY_4FS_CONVERSION, 1),
+                                                  round(_t(56.0, 72.0)[1] * TERNARY_4FS_CONVERSION, 1)),
+    "5a-KS primary (ligand-side double difference)": _t(28.0, 144.0),
     "5c ensemble refinement (24-200 endpoint-MD legs)": (24 * ENDPOINT_MD_REF_GPU_H_PER_LEG,
                                                         200 * ENDPOINT_MD_REF_GPU_H_PER_LEG),
-    "local within-basin FEP (3-6 ternary comparisons)": (56.0, 260.0),
+    "local within-basin FEP (3-6 ternary comparisons)": _t(56.0, 260.0),
 }
 
 

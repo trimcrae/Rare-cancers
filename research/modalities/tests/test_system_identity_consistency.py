@@ -22,16 +22,42 @@ sys.path.insert(0, os.path.join(HERE, ".."))
 
 
 def run_case(legs):
-    """Write leg JSONs into a temp CKPT/IN and return the reduce's system-identity verdict."""
-    with tempfile.TemporaryDirectory() as d:
-        for name, rec in legs.items():
-            json.dump(rec, open(os.path.join(d, name), "w"))
-        os.environ["CKPT_DIR"] = d
-        os.environ["INPUT_DIR"] = d
-        for m in ("ternary_fep_reduce",):
-            sys.modules.pop(m, None)
-        import ternary_fep_reduce as r
-        return r._system_identity_consistency()
+    """Write leg JSONs into a temp CKPT/IN and return the reduce's system-identity verdict.
+
+    ⚠ This helper re-imports `ternary_fep_reduce` under patched env, which is a GLOBAL side effect, so it
+    must leave no trace. It previously left two, and they made the suite order-dependent:
+
+      1. It popped the module and re-imported, so `sys.modules["ternary_fep_reduce"]` ended up a DIFFERENT
+         object from the one other test modules had already bound. `importlib.reload(x)` requires
+         `sys.modules[x.__name__] is x`, so `test_ternary_leg_audit` failed with "module
+         ternary_fep_reduce not in sys.modules" -- but only when it ran after this file. Passing alone and
+         failing in the suite is the signature.
+      2. It assigned CKPT_DIR/INPUT_DIR via os.environ and never restored them, leaving both pointing at a
+         TemporaryDirectory that had since been deleted.
+
+    Both are restored now, so the helper is order-independent.
+    """
+    prev_mod = sys.modules.get("ternary_fep_reduce")
+    prev_env = {k: os.environ.get(k) for k in ("CKPT_DIR", "INPUT_DIR")}
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            for name, rec in legs.items():
+                json.dump(rec, open(os.path.join(d, name), "w"))
+            os.environ["CKPT_DIR"] = d
+            os.environ["INPUT_DIR"] = d
+            sys.modules.pop("ternary_fep_reduce", None)
+            import ternary_fep_reduce as r
+            return r._system_identity_consistency()
+    finally:
+        if prev_mod is not None:
+            sys.modules["ternary_fep_reduce"] = prev_mod
+        else:
+            sys.modules.pop("ternary_fep_reduce", None)
+        for k, v in prev_env.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
 
 
 def leg(n_particles=141968, charge="nagl", setup="v2pe"):
