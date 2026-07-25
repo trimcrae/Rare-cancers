@@ -1,5 +1,10 @@
 # NR-V04 retrospective — PREREGISTRATION of the biological holdout (2026-07-24)
 
+> **This is the SCIENTIFIC contract, not the run book.** For state of play, the exact dispatch commands, the
+> cost ledger and the operational traps, read
+> **[`nrv04-retrospective-handoff-2026-07-24.md`](./nrv04-retrospective-handoff-2026-07-24.md)**. Nothing in
+> that file may relax anything frozen here.
+
 **Committed BEFORE any retrospective leg runs.** This freezes — a priori, before any favourable number is
 visible — the panel, the starting structures, the protocol, the primary endpoint, the statistical test, the
 blinding, the extension rule, the verdict tiers, the honest-failure semantics, and the claim ceiling for the

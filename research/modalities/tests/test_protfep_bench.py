@@ -1475,3 +1475,103 @@ def test_the_runtime_backstop_still_applies_to_a_capacity_wait(monkeypatch):
     calls = _collect_with_reply(monkeypatch, inst, {
         "success": False, "error": "resources_unavailable", "msg": "queued"})
     assert ("DELETE", "/instances/99/", None) in calls
+
+
+# ------------------------------------------------------------- value-bounded rebidding ($/ns)
+def test_value_ceiling_is_the_price_where_the_other_card_wins():
+    """Bid up to where this card's $/ns equals the best alternative's, and no further."""
+    # A 3090 does 359.36 ns/day; against a 0.004731 $/ns alternative that is $0.0708/hr.
+    got = pv.value_ceiling_bid("RTX 3090", 0.004731)
+    assert got == pytest.approx(0.004731 * 359.36 / 24.0)
+    assert got == pytest.approx(0.0708, abs=0.001)
+    # At exactly the ceiling the two are equal; a hair above and the alternative is cheaper per ns.
+    import gpu_backend as gb
+    assert gb.offer_usd_per_ns("RTX 3090", got) == pytest.approx(0.004731, rel=1e-6)
+
+
+def test_value_ceiling_refuses_an_unmeasured_card():
+    """Same refusal measured_ns_per_day makes: a proxy throughput produced retracted rankings."""
+    assert pv.value_ceiling_bid("RTX 5090", 0.004731) is None
+    assert pv.value_ceiling_bid("RTX 3090", None) is None
+
+
+def test_best_alternative_excludes_the_instance_s_own_machine():
+    """Otherwise a box prices itself as its own alternative and the ceiling collapses to its bid."""
+    offers = [
+        {"machine_id": 1, "gpu_name": "RTX 3090", "min_bid": 0.044212, "num_gpus": 1},
+        {"machine_id": 2, "gpu_name": "RTX 4090", "min_bid": 0.14889, "num_gpus": 1},
+    ]
+    # Excluding machine 1 leaves only the 4090.
+    assert pv.best_alternative_usd_per_ns(offers, exclude_machine_id=1) == pytest.approx(0.004731,
+                                                                                        abs=1e-5)
+    # Including it, the cheap 3090 wins and the "alternative" is itself.
+    assert pv.best_alternative_usd_per_ns(offers) == pytest.approx(0.002953, abs=1e-5)
+
+
+def test_best_alternative_skips_unrentable_and_multi_gpu_offers():
+    offers = [
+        {"machine_id": 3, "gpu_name": "RTX 4090", "min_bid": 0.01, "num_gpus": 1, "rentable": False},
+        {"machine_id": 4, "gpu_name": "RTX 4090", "min_bid": 0.02, "num_gpus": 4},
+        {"machine_id": 5, "gpu_name": "RTX 4090", "min_bid": 0.14889, "num_gpus": 1},
+    ]
+    assert pv.best_alternative_usd_per_ns(offers) == pytest.approx(0.004731, abs=1e-5)
+
+
+def _rebid_with(monkeypatch, inst, offers, mult=1.9, dry_run=False):
+    calls = []
+
+    def _req(method, path, key, params=None, body=None):
+        calls.append((method, path, body))
+        if path == "/instances/":
+            return {"instances": [inst]}
+        if path == "/search/asks/":
+            return {"offers": offers}
+        return {"success": True}
+
+    monkeypatch.setattr(pv, "_vast_request", _req)
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    pv.rebid(mult=mult, dry_run=dry_run)
+    return calls
+
+
+def test_rebid_is_capped_by_value_not_by_the_multiple(monkeypatch, capsys):
+    """1.9x the floor would be $0.084 — past the point where the 4090 is cheaper per ns."""
+    inst = {"id": 100, "label": pv.LABEL_PREFIX + "-x", "gpu_name": "RTX 3090",
+            "min_bid": 0.044212, "machine_id": 1, "cur_state": "stopped",
+            "actual_status": "loading"}
+    offers = [{"machine_id": 2, "gpu_name": "RTX 4090", "min_bid": 0.14889, "num_gpus": 1}]
+    calls = _rebid_with(monkeypatch, inst, offers, mult=1.9)
+    put = next(b for m, p, b in calls if m == "PUT" and "bid_price" in p)
+    assert put["price"] == pytest.approx(0.0708, abs=0.001), "must stop at the value ceiling"
+    assert "value ceiling" in capsys.readouterr().out
+
+
+def test_rebid_uses_the_multiple_when_it_is_below_the_ceiling(monkeypatch):
+    """The ceiling is a bound, not a target — do not bid up to it for its own sake."""
+    inst = {"id": 101, "label": pv.LABEL_PREFIX + "-x", "gpu_name": "RTX 3090",
+            "min_bid": 0.044212, "machine_id": 1, "cur_state": "stopped",
+            "actual_status": "loading"}
+    offers = [{"machine_id": 2, "gpu_name": "RTX 4090", "min_bid": 0.14889, "num_gpus": 1}]
+    calls = _rebid_with(monkeypatch, inst, offers, mult=1.25)
+    put = next(b for m, p, b in calls if m == "PUT" and "bid_price" in p)
+    assert put["price"] == pytest.approx(0.0553, abs=0.001)
+
+
+def test_rebid_never_touches_a_running_instance(monkeypatch):
+    """Changing the bid under a leg that is doing real work risks losing it for nothing."""
+    inst = {"id": 102, "label": pv.LABEL_PREFIX + "-x", "gpu_name": "RTX 3090",
+            "min_bid": 0.044212, "machine_id": 1, "cur_state": "running",
+            "actual_status": "running"}
+    calls = _rebid_with(monkeypatch, inst, [], mult=1.9)
+    assert not any("bid_price" in p for _m, p, _b in calls)
+
+
+def test_rebid_never_bids_below_the_floor(monkeypatch):
+    """A below-floor bid leaves the box created-but-stopped — verified 2026-07-23."""
+    inst = {"id": 103, "label": pv.LABEL_PREFIX + "-x", "gpu_name": "RTX 3090",
+            "min_bid": 0.20, "machine_id": 1, "cur_state": "stopped", "actual_status": "loading"}
+    # An alternative so cheap that the ceiling falls under this expensive floor.
+    offers = [{"machine_id": 2, "gpu_name": "RTX 4090", "min_bid": 0.02, "num_gpus": 1}]
+    calls = _rebid_with(monkeypatch, inst, offers, mult=1.9)
+    put = next(b for m, p, b in calls if m == "PUT" and "bid_price" in p)
+    assert put["price"] >= 0.20

@@ -40,9 +40,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: stage-test | refcheck | bake | build-test | smoke | pilot | launch | collect | stop
+        description: stage-test | refcheck | bake | build-test | smoke | pilot | launch | collect | rebid | stop
         type: choice
-        options: [stage-test, refcheck, bake, build-test, smoke, pilot, launch, collect, stop]
+        options: [stage-test, refcheck, bake, build-test, smoke, pilot, launch, collect, rebid, stop]
         default: stage-test
       n_replicas:
         description: "replicates per environment (launch only; default 3)"
@@ -64,6 +64,10 @@ on:
         description: "collect only: dump every Vast field for non-running instances (bid vs min_bid, etc.)"
         type: boolean
         default: false
+      rebid_mult:
+        description: "rebid only: target multiple of the floor (blank = 1.9); the value ceiling still caps it"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -310,6 +314,30 @@ jobs:
               # computed yet" when the real state may be "computed and deliberately refused".
               print(f"price: WITHHELD — {p.get('reason', 'no reason recorded')}")
           PY
+
+  rebid:
+    # Raise the bid on a lane instance that cannot get a GPU, bounded by MEASURED $/ns rather than by
+    # a fixed multiple of the floor. A queued interruptible instance is sometimes waiting on an
+    # auction rather than on the machine, and the useful question is not "how much more" but "how
+    # much more is still cheaper than renting the alternative" — which the merged $/ns work answers.
+    if: ${{ github.event.inputs.task == 'rebid' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Rebid non-running instances up to their value ceiling
+        run: |
+          set -eo pipefail
+          ARGS=""
+          [ -n "${{ github.event.inputs.rebid_mult }}" ] && ARGS="--rebid-mult ${{ github.event.inputs.rebid_mult }}"
+          python research/modalities/protfep_vast_launch.py --rebid $ARGS
 
   stop:
     if: ${{ github.event.inputs.task == 'stop' }}
