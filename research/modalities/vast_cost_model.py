@@ -453,6 +453,13 @@ def summarise_market(ranked, top=10):
 
 # GPU-hours per stage, expressed on the REFERENCE card. These are the repo's own measured/derived work
 # estimates (pricing.md section B/C); this module reprices them, it does not re-estimate them.
+# ENDPOINT-MD LEG, in reference-card hours, BACKED OUT OF THE ONE COMPLETED MULTI-LEG MEASUREMENT: the NR-V04
+# covalent panel ran 18 legs on RTX 3090s at a realised dph_total of ~$0.10-0.21/hr for a mean ~$0.43/leg, i.e.
+# ~2.9 h/leg on a 3090. Divided by the measured 2.102x card ratio that is ~1.38 reference GPU-hours per leg.
+# Derived this way rather than from a 466k-atom throughput number because the only validated bench is at 84,534
+# particles — the 175.6 / 72.5 ns/day figures at 444k come from the withdrawn grid and must not be used.
+ENDPOINT_MD_REF_GPU_H_PER_LEG = 1.38
+
 LADDER_REFERENCE_GPU_H = {
     "step1_pilot (1-2 RBFE edges)": (13.7, 27.4),
     "step1_fanout (19 RBFE edges @ ~13.7 GPU-h)": (260.0, 260.0),
@@ -461,6 +468,8 @@ LADDER_REFERENCE_GPU_H = {
     "nrv04_retrospective (3 ternary legs + shared binary/solvent)": (84.0, 216.0),
     "ternary_4fs_recalibration (1 matched edge)": (28.0, 36.0),
     "5a-KS primary (ligand-side double difference)": (28.0, 144.0),
+    "5c ensemble refinement (24-200 endpoint-MD legs)": (24 * ENDPOINT_MD_REF_GPU_H_PER_LEG,
+                                                        200 * ENDPOINT_MD_REF_GPU_H_PER_LEG),
     "local within-basin FEP (3-6 ternary comparisons)": (56.0, 260.0),
 }
 

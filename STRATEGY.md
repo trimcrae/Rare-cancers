@@ -288,7 +288,7 @@ flagship is cheap, not a gate on the whole tail:
   asymmetry the new terms buy: "does this basin place an electrophile at C397 / cover K572?" is a **geometric**
   question cheap scoring answers reliably, unlike a ~1 kcal/mol energy difference.
 - **Tier 3 — pilot ONE causal direction.** ★ Now the **ligand-side double difference** (`S` above): one matched
-  pair, ternary legs in NR4A3 and NR4A1, **~$5–25** on the priced ternary base with the cancellation identity
+  pair, ternary legs in NR4A3 and NR4A1, **~$12 ($1.6–45)** on the priced ternary base with the cancellation identity
   applied. No discrimination ⇒ STOP. *(The protein-mutation pilot remains available as the confirmatory second
   line: **pmx + GROMACS** engine, benchmark staged and SKEMPI-referenced but no leg run, still **UNPRICED** —
   see RUNG 5a-KS.)*
@@ -351,11 +351,14 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
   derivation, evidence and the four retired multipliers in
   [research/compute/bid-strategy.md](./research/compute/bid-strategy.md).
 - **Per-edge bases (Vast 4090) — one extrapolated, one rate-measured, one converted; NONE is a completed edge on a 4090:**
-  - **RBFE binary edge** (complex+solvent, ~35k atoms) ≈ ~5–6 GPU-h ≈ **~$0.6–1.4**. *(Basis: a live-diagnosed
+  - **RBFE binary edge** (complex+solvent, ~35k atoms) ≈ **~13.7 ref GPU-h ≈ ~$1.9** at the measured
+    $0.137/ref-GPU-h *(repriced 2026-07-25; the old "~5–6 GPU-h ≈ ~$0.6–1.4" used the TYK2 leg, and the real
+    cmpd19/NR4A3 complex is ~2.6× heavier)*. *(Basis: a live-diagnosed
     per-iteration rate, ~5.2 s/iter × 2000 iters. A clean end-to-end ΔG was **not** captured on the timing run —
     both spot instances were preempted — so this is an extrapolated rate, not a completed-edge measurement.)*
-  - **Ternary cooperativity edge** (3-replica, ~146k particles, **12** windows) ≈ **~$10–16** (~56–72 4090-GPU-h
-    at a realized ~$0.15–0.25/hr host; ~$26 at ~$0.40/hr). **⚠ RECONCILED 2026-07-24 — supersedes BOTH the ~$3–6
+  - **Ternary cooperativity edge** (3-replica, ~146k particles, **12** windows) ≈ **~$8.8 ($3.2–22)** —
+    56–72 ref GPU-h at the measured $0.137/ref-GPU-h *(repriced 2026-07-25 from ~$10–16, which assumed a
+    ~$0.15–0.25/hr host; it was ~$20–28 at the $0.35–0.39/hr actually realized)*. **⚠ RECONCILED 2026-07-24 — supersedes BOTH the ~$3–6
     and the ~$4–7 that preceded it, and each was low for the SAME reason.** The number now combines two things
     that were previously mixed up with each other:
     - **Rate — directly MEASURED on Vast 4090** (the firm ternary leg via `run_ternary_leg.sh`, 12 windows,
@@ -371,7 +374,7 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
       iterations** (`nr4a3_ternary_fep.py:343-344`, `nr4a3_rbfe.py:364-365`; the openmmtools `.chk` history
       `iters 0,20,…,2000` confirms the production count). Using 920 makes any leg cost **~2.6× low**.
 
-    Arithmetic: 2400 × ~16 s ≈ **~10.7 4090-GPU-h/leg** → ×2 legs ×3 replicas ≈ **~64 GPU-h/edge** ≈ **~$10–16**.
+    Arithmetic: 2400 × ~16 s ≈ **~10.7 4090-GPU-h/leg** → ×2 legs ×3 replicas ≈ **~64 GPU-h/edge** ≈ **~$8.8** at the measured $0.137/ref-GPU-h *(was ~$10–16 on a ~$0.15–0.25/hr assumption)*.
     **What the 4090 run DID settle:** the **L4→4090 card ratio is validated at ~2.06×** (33 → 16 s/iter). A ratio
     of rates is independent of the iteration count, so that conclusion survives the leg-length correction fully
     intact — the old "spec-based, never benchmarked" soft spot is now closed. **What is still unsettled:** the ternary leg stands at 1560/2000 production
@@ -382,7 +385,9 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
     counter that mistook alchemical nonbonded-exception pairs for X–H bonds) — the ligand C–H *are* constrained,
     and the real cause is the softcore region in a rough homology-built assembly. The fix that works is **plain-MD
     pre-equilibration** (`ternary_preequil.py`), not a smaller timestep; see `ternary-rbfe-runbook.md` §1b/§1c.
-  - **Endpoint-MD leg** (~466k atoms) ≈ **~$0.45** *(measured on a 3090 at ~$0.6, converted to 4090 by the same
+  - **Endpoint-MD leg** (~466k atoms) ≈ **~$0.19** (~1.38 ref GPU-h, backed out of the completed 18-leg
+    covalent panel: ~$0.43/leg realized on a 3090 at ~$0.10–0.21/hr ÷ the 2.102× card ratio) *(repriced
+    2026-07-25 from ~$0.45)* *(measured on a 3090 at ~$0.6, converted to 4090 by the same
     card ratio — inferred, not directly measured)*.
   - **Provider reality check (2026-07-24):** the ladder is *priced* in Vast-4090 dollars, but `valB_mini` is
     *actually running* on **GCP L4 on-demand** (`PROVISIONING: standard`), the lane this section calls not-go-forward
@@ -392,10 +397,16 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
     `credit-status.json` records GCP `spent: 8.0` from a **manual** source that has not been reconciled against
     today's ~8 dispatched L4 legs. Keep the Vast basis as the *planning* number, track GCP burn separately, and do
     not let "we spent ~$2 so far" imply the L4 lane was free.
-- **Whole gated ladder ≈ ~$467 mid-range (~$249–685) for the PRICEABLE stages, GO at every gate.** *(Was ~$390 (~$170–610); +$77 mid from the 2026-07-24 step1_fanout repricing — see RUNG 4.)* Excludes
-  (a) the **UNPRICED** 5a-KS wedge + reciprocal cycle (engine BUILT 2026-07-24 but never run — an engine is not a
-  rate) and (b) optional/HELD ΔG_open + ABFE (~$200–500 more if invoked). *(Was "~$270 (~$150–450)" before the
-  2026-07-24 ternary-base and wedge corrections, then ~$370 on the interim projected ternary base.)* Swings, in
+- **Whole gated ladder ≈ ~$194 mid-range (~$46–544) for the PRICEABLE stages, GO at every gate.**
+  **★ REPRICED 2026-07-25** onto the measured Vast policy (**$0.137 per reference-4090 GPU-hour**; best-10-offer
+  planning rate, range $0.057–$0.309). *(Was ~$467 (~$249–685) — a **2.4× reduction**, all of it on the $/hr
+  axis: the bid rule and the offer ranking were rebuilt from measurement, not the work estimates.)* Regenerate
+  the per-stage table with `python research/modalities/vast_cost_model.py`; provenance in
+  [research/compute/pricing.md](./research/compute/pricing.md), derivation in
+  [research/compute/bid-strategy.md](./research/compute/bid-strategy.md). Excludes optional/HELD ΔG_open + ABFE
+  (~$200–500 more if invoked) and the UNPRICED protein-mutation wedge.
+  **⚠ THE GPU-HOUR AXIS IS UNCHANGED and keeps every uncertainty it had** — in particular the ternary base is a
+  SMARCA2/VHL rate pricing NR4A ternaries, the same non-transferability that cost 2.6× on the binary lane. Swings, in
   order: the unpriced wedge, the **ensemble-MD leg count** (5c + retrospective), then the unverified ternary leg
   length; card choice is the lever on GPU-h-heavy stages.
 
@@ -417,9 +428,9 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
    *pre-equilibration demonstration* (40 production iterations on calib), **not** the lane that is running now:
    `gpu-ternary-fep-gcp.yml` defaults `timestep_fs: 2.0` and `use_preequil: 0`, and the 4 fs demonstration only
    held **because** pre-equilibration was on. Iterations are **timestep-independent** (2.5 ps/iter), so 4 fs is
-   exactly half the force evaluations → **~$10–16/edge → ~$5–8/edge**. ⚠ The runbook requires validation and
+   exactly half the force evaluations → **~$8.8/edge → ~$4.4/edge**. ⚠ The runbook requires validation and
    production at the **same** timestep and the 4 fs evidence is 40 production iterations, not 2000 — so the
-   settling step is to **re-run the valB_mini calibration edge at 4 fs** (~$5–8), which simultaneously exercises
+   settling step is to **re-run the valB_mini calibration edge at 4 fs** (~$4.4), which simultaneously exercises
    the timestep over a full leg, supplies the matched-timestep calibration, and adds a reproducibility replicate.
 2. **★ The binary and solvent legs cancel EXACTLY in any paralogue comparison — up to 2×.** `nr4a3_ternary_fep.py`
    defines `binary_<e3>` as **E3 machinery + PROTAC with NO target**, and solvent as ligand-in-water. Both are
@@ -437,7 +448,7 @@ not the go-forward basis. Pick by **$/ns** (`$/hr ÷ (ns_per_day ÷ 24)`), never
    (anytime-valid bounds, honest under repeated looks and data-dependent stopping) and `adaptive_allocator.py`
    are already built and unit-tested in this repo and are **not wired into the ternary ladder**. Run 2 replicas;
    add the 3rd only where the decision is not yet determined at the preregistered margin.
-4. **Free gates lead.** `selectivity_wedge_confirm` depended on `valB_full` + `nrv04_retrospective` (~$80–215)
+4. **Free gates lead.** `selectivity_wedge_confirm` depended on `valB_full` + `nrv04_retrospective` (~$43; repriced 2026-07-25 from ~$80–215)
    even though its validation needs are matched-pair, not cooperativity-cube. Decoupled — see the plan below.
 5. **Ligand-side double difference replaces an unpriced protein-mutation campaign** as the primary causal test.
 6. **E3 breadth is free at search, capped before GPU** (≤2 recruiters, dropped set logged).
@@ -484,16 +495,17 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 
 ### RUNG 2 — cheap precision + cheap probes *(only if Rung 1 = GO)*
 
-- **`[x]` Step 1 pilot — cmpd19 conditional RBFE** — **~$1–3 (1–2 RBFE edges) · Cum. ~$4.** First edge
+- **`[x]` Step 1 pilot — cmpd19 conditional RBFE** — **~$2.8 ($0.8–8.5; 1–2 RBFE edges) · Cum. ~$4.** First edge
   `zaienne_cmpd19 → cw_ev_5nh2` (5-Br→5-NH₂) converged: complex ΔG_morph −29.68 ± 0.24, solvent −31.52 ± 0.26 →
   **ΔΔG_bind = +1.84 kcal/mol** (the 5-NH₂ analogue ~1.8 kcal/mol weaker *in the modeled opened pocket*). Proves
   the congeneric-RBFE pipeline converges on the real NR4A3 system without pocket collapse — the pilot's crux is
   cleared. Reproducibility replicas + pose/state sensitivity are carried forward as **fan-out inputs** (they
   refine per-edge `n_windows` and the conditional caveat, and gate the fleet). This is statistical convergence on
   a *hypothesized* pose, **not** an accuracy claim.
-- **`[~]` Validation B-mini — all-binding graded cooperativity edge** — **~$10–16 (reconciled 2026-07-24 from a
-  MEASURED 4090 rate × the corrected 2400-iteration leg; was ~$3–6, then ~$4–7, both off a 38 %-complete leg)
-  · Cum. ~$16.** The Wurz SMARCA2–VHL
+- **`[~]` Validation B-mini — all-binding graded cooperativity edge** — **~$8.8 ($3.2–22) · Cum. ~$13.**
+  *(Repriced 2026-07-25 from ~$10–16 onto the measured $0.137/ref-GPU-h; the 56–72 ref-GPU-h estimate is
+  unchanged, itself reconciled 2026-07-24 from a MEASURED 4090 rate × the corrected 2400-iteration leg — was
+  ~$3–6, then ~$4–7, both off a 38 %-complete leg.)* The Wurz SMARCA2–VHL
   **cmpd 1→4** all-binding graded edge (α 12.8→2.6 ≈ +0.94 kcal/mol; both endpoints are productive binders — the
   cleanest first calibration). Exercises the bespoke `ΔΔG_coop = ternary − binary` cycle that cannot be cited
   away. **GO/NO-GO (verbatim from the prereg in `degrader-paper-schedule.json`; the ±1.0 kcal/mol band was
@@ -524,7 +536,7 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   the leg length. ΔG_morph 47.28 comes from the GCP valB production lane; no Vast leg has completed end-to-end.
 
 
-- **`[ ]` ★ NEW 2026-07-24 · Rung 2b — 4 fs adoption + matched re-calibration** — **~$5–8 · PROPOSED, needs a go.**
+- **`[ ]` ★ NEW 2026-07-24 · Rung 2b — 4 fs adoption + matched re-calibration** — **~$4.4 ($1.6–11) · Cum. ~$17 · PROPOSED, needs a go.** *(Repriced 2026-07-25 from ~$5–8.)*
   **As-run baseline confirmed from the live lane, not the doc (run 30123894814, 4:12 PM ET): production is
   `timestep=2.0 fs` with `WARMUP timestep overridden to 1.0 fs`, `NaN_seen=no`** — so the "1 fs warmup + 4 fs
   production" shape people remember is the runbook §1c *pre-equilibration demonstration*, not this lane.
@@ -532,7 +544,7 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   `mode=run use_preequil=1 timestep_fs=4.0 warmup_timestep_fs=1.0 reset_commits=1`. `use_preequil=1` because 4 fs
   only held *with* pre-equilibration; `reset_commits=1` because OpenFE refuses to resume a checkpoint whose
   protocol timestep differs ("Sampler in checkpoint does not match Protocol settings"), so a dt change **starts
-  clean** — this is a fresh edge, not a continuation, which is what the ~$5–8 already prices.
+  clean** — this is a fresh edge, not a continuation, which is what the ~$4.4 already prices.
   One edge, three jobs: (a) exercises
   4 fs over a **full** 2000-iteration production leg (the existing evidence is 40 iterations); (b) supplies the
   **matched-timestep** calibration the runbook requires before any 4 fs production result may be quoted;
@@ -548,8 +560,9 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   on the standard am1bcc method, so a full re-derivation is redundant with OpenFE's published benchmark. Framing
   that must hold: cite OpenFE for accuracy; present valA_mini as a single-edge build-consistency confirmation, not
   a standalone benchmark. Re-open only if am1bcc is forced onto NAGL.
-- **`[ ]` Validation B-full — component-calibration cube** — **~$20–65 (revised 2026-07-24 from ~$35–100 by cost
-  levers 1+2; 2–3 ternary edges + the CRL-MD module) · Cum. ~$50.** ★ **Module 3 (paralogue discrimination) now
+- **`[ ]` Validation B-full — component-calibration cube** — **~$22.5 ($6–67) · Cum. ~$40.**
+  *(Repriced 2026-07-25; the 112–216 ref-GPU-h estimate is unchanged, revised 2026-07-24 from ~$35–100 by cost
+  levers 1+2; 2–3 ternary edges + the CRL-MD module.)* ★ **Module 3 (paralogue discrimination) now
   runs on SMARCA2-vs-SMARCA4, not NR-V04** — **ADOPTED 2026-07-24 (trimcrae go)**: a close paralogue pair with
   degrader-level selectivity, solved structures, a **non-covalent** mechanism, and — decisively — **already
   staged in this repo** (8G1Q, `smarca2_model.py`, the frozen Wurz calibration), so it is a marginal add-on to
@@ -564,7 +577,7 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   (full-CRL MD). Plus the cis-epimer negative-endpoint stress module. **GATE:** the prospective ladder never runs
   unless the **cooperativity + paralogue-discrimination** modules pass.
 - **`[!]` NR-V04 covalent feasibility panel — ⚠ RESULT UNDER CORRECTION; ITS **GO** DOES NOT STAND (2026-07-24)** —
-  **~$8 · Cum. ~$91.** Covalent celastrol–NR4A1 (C551) adduct + C551A + noncov/cov sensitivity +
+  **~$8 (MEASURED as-run, 18 legs) · Cum. ~$48.** Covalent celastrol–NR4A1 (C551) adduct + C551A + noncov/cov sensitivity +
   warhead/recruiter controls; 18 legs (6 systems × 3 seeds), 6 ns each, ~466k atoms.
   **⚠ THE READOUTS DESCRIBE THE WRONG INTERFACE.** `nrv04_covalent_md._topology_indices` split E3 from target
   POSITIONALLY ("target = last sorted protein chain"), while the co-fold YAML builder writes the target FIRST
@@ -584,11 +597,17 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 
 ### RUNG 4 — warhead map, differential atlas, retrospective gate
 
-- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** — **~$91–101 (≈19 RBFE edges × ~$4.8–5.3 on a Vast
-  4090) · Cum. ~$187.** ⚠ **REPRICED 2026-07-24 from ~$12–26 — the old figure was ~4× low and must not be
-  requoted.** It compounded two errors: a per-iteration rate measured on the **public TYK2** edge used as if it
-  were the NR4A3 rate (measured: 498 vs **190 ns/day** aggregate, three independent hosts), on a **single**
-  unusually cheap host's $0.122/hr against a realized $0.35–0.39/hr. **Lane BUILT and proven to sample** (wave 1
+- **`[ ]` Step 1 fan-out — cmpd19 congeneric map, 8-wide** — **~$36 ($15–80; ≈19 RBFE edges × ~13.7 ref
+  GPU-h at $0.137/ref-GPU-h) · Cum. ~$84.** ★ **REPRICED 2026-07-25 from ~$91–101.**
+  The 2026-07-24 correction identified two compounding errors; **one has now been fixed at source and one has
+  not, and the distinction matters:**
+  - **Work (NOT fixed, unchanged here):** a per-iteration rate measured on the **public TYK2** edge was used as
+    if it were the NR4A3 rate (measured: 498 vs **190 ns/day** aggregate, three independent hosts). That
+    correction stands — the unit is **~13.7 ref GPU-h**, not ~5–6.
+  - **Price (FIXED):** the old $12–26 used a **single** unusually cheap host's $0.122/hr; the $91–101 that
+    replaced it used the **$0.35–0.39/hr actually realized**. Neither was the market — $0.35–0.39 is what
+    bidding `× 1.5` on a `min_bid`-ranked offer costs. At the measured **$0.137/ref-GPU-h** the same 260 ref
+    GPU-h is **~$36**. **Lane BUILT and proven to sample** (wave 1
   reached 95–99 % GPU utilisation on the real system) but **HALTED at ~$2 with 0/19 ΔΔG** once the repricing
   crossed the spend gate; everything is checkpointed, so a resume continues rather than restarts. Full record:
   [research/modalities/step1-fanout-lane.md](research/modalities/step1-fanout-lane.md).
@@ -599,8 +618,10 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   **Gate:** Val A satisfied (cite OpenFE) AND the Step 1 pilot behaved (with its replicas + pose/state
   sensitivity). **Timestep is NOT a lever** — measured free on CPU: the protocol runs at OpenFE's default
   `constraints=hbonds` + HMR 3.0, every X-H is constrained, so all edges are 4 fs and no 2× saving exists. The
-  one remaining lever is the **bid multiplier** (`VAST_BID_FLOOR_MULT`, currently 1.9 = a 90 % premium over the
-  market floor; ~1.2 is defensible for a per-iteration-checkpointed lane and would give ~$57).
+  bid/selection lever has now been **pulled** (2026-07-25): the multiplier is retired in favour of a
+  floor-plus-tick bid, and offers are ranked on all-in `$/ns` rather than `min_bid` — which is where most of the
+  $91–101 → ~$36 comes from, i.e. *selection*, not the multiple. See
+  [research/compute/bid-strategy.md](./research/compute/bid-strategy.md).
 - **`[x]` ★ NR4A paralogue-UNIQUE reactive-residue map — DONE 2026-07-24 · $0 · TIER-0 GATE PASS/GO.** Full-length
   UniProt (P22736/P43354/Q92570/Q01844) + dual-aligner agreement + matched-model geometry
   (`nr4a_paralogue_unique_residues.py`, 15 unit tests, run on CI because the sandbox proxy blocks UniProt).
@@ -619,9 +640,10 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   differential surface exists to steer an E3 against (distinct from the ~70% pocket hotspot), so the 5a
   orientation-basin search is warranted. *(Optional add-on: matched NR4A1/2 MD ensembles ~$10–40 to test which
   handles survive dynamics.)*
-- **`[ ]` NR-V04 retrospective — preregistered holdout** — **~$15–40 (revised 2026-07-24 from ~$45–115 by cost
-  levers 1+2: a 3-paralogue panel is **3 ternary legs + 1 shared binary + 1 shared solvent**, not 3 edges, and
-  4 fs halves each leg) · Cum. ~$115.** Full ensembles through the pipeline, no tuning, epimer
+- **`[ ]` NR-V04 retrospective — preregistered holdout** — **~$21 ($4.8–67) · Cum. ~$104.**
+  *(Repriced 2026-07-25 from ~$15–40; the 84–216 ref-GPU-h estimate is unchanged, revised 2026-07-24 by cost
+  levers 1+2: a 3-paralogue panel is 3 ternary legs + 1 shared binary + 1 shared solvent, not 3 edges, and 4 fs
+  halves each leg.)* Full ensembles through the pipeline, no tuning, epimer
   control; report directional concordance only. **Gate:** Val B-full + NR-V04 feasibility + Step 1 fan-out.
   **★ It no longer gates the causal kill-switch** (lever 4): the wedge's validation need is a matched-pair
   control, not a cooperativity cube, so 5a-KS is decoupled and can fire before this is bought.
@@ -641,7 +663,7 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
 ### RUNG 5 — orientation-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*
 
 - **`[ ]` 5a · Orientation-basin search — ★ now MECHANISM-FIRST** — **~$0–50 (CPU $0 + optional MM-GBSA rescore)
-  · Cum. ~$140.** Broad transform sampling across the **widened ligandable E3 set** (VHL, CRBN, cIAP1/BIRC2,
+  · Cum. ~$129.** Broad transform sampling across the **widened ligandable E3 set** (VHL, CRBN, cIAP1/BIRC2,
   DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2 — free at CPU, **downselect to ≤2 before any GPU leg and log
   the dropped set**). **★ Availability answered $0 and it does NOT constrain the choice (CI run 30125742542,
   2026-07-24):** all 8 widened arms are broadly expressed and record-complete on HPA, every symbol resolved
@@ -654,8 +676,8 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   rather than a conserved one — then the cheap counterfactual screen to nominate marginal wedges. The categorical
   terms are **geometric set-membership questions**, which cheap scoring answers far more reliably than a
   ~1 kcal/mol energy difference.
-- **`[ ]` 5a-KS · Wedge confirmation — ★ pilot-first KILL-SWITCH + causal RESULT** — **~$5–25 (PRIMARY: the
-  ligand-side double difference) · Cum. ~$155.** Pilot ONE matched pair first: `S = ΔΔG_coop(d₀→d | NR4A3) −
+- **`[ ]` 5a-KS · Wedge confirmation — ★ pilot-first KILL-SWITCH + causal RESULT** — **~$12 ($1.6–45; PRIMARY: the
+  ligand-side double difference) · Cum. ~$141.** *(Repriced 2026-07-25 from ~$5–25.)* Pilot ONE matched pair first: `S = ΔΔG_coop(d₀→d | NR4A3) −
   ΔΔG_coop(d₀→d | NR4A1)`, ternary legs only (lever 2), on the lane Val B calibrates. **No discrimination ⇒
   STOP** — publish the honest causal negative, skip the refinement tail. Discrimination ⇒ extend to NR4A2 and to
   a second design element.
@@ -780,20 +802,21 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   explicit, identical `CHARGE_METHOD` (NAGL is the only choice that can charge both a small mutation edge and a
   PROTAC-scale assembly), stamp it into both result JSONs, and add a test that refuses to compute a wedge from two
   legs whose recorded `charge_method` differ. Cost: $0 — it is a config pin plus an assertion.
-- **`[ ]` 5b · Inverse linker design** — **~$0–20 (mostly $0 CPU) · Cum. ~$165.** For each confirmed basin, derive
+- **`[ ]` 5b · Inverse linker design** — **~$0–20 (mostly $0 CPU) · Cum. ~$151.** For each confirmed basin, derive
   linker requirements (endpoint distance, exit-vector dihedral, strain, reach), enumerate a virtual library,
   filter by basin fidelity, annotate exact structures + synthetic feasibility → **~12–20 virtual constructs** (the
   "24–36" now bounds this virtual set, not a hand-built grid). ★ For basins carrying the covalent handle, the
   library enumerates the **electrophile position on the linker** as a design variable, and **prefers
   reversible-covalent** chemistry (an irreversible adduct forfeits catalytic turnover).
-- **`[ ]` 5c · Explicit ternary-ensemble refinement** — **~$15–100 (revised: endpoint MD, dozens–~200 legs; still
-  the largest single GPU spend and the biggest swing item — fewer survivors reach it now that the categorical
-  terms prune at 5a) · Cum. ~$222.** Replicated ternary + full CRL/E2~Ub MD across target states,
+- **`[ ]` 5c · Explicit ternary-ensemble refinement** — **~$21 ($1.9–85; endpoint MD, 24–~200 legs at
+  ~1.38 ref GPU-h each) · Cum. ~$172.** *(Repriced 2026-07-25 from ~$15–100. Still the biggest swing item —
+  the leg COUNT, not the rate, now dominates its uncertainty.)* Replicated ternary + full CRL/E2~Ub MD across target states,
   linker conformers, and in-basin poses; matched NR4A1/2/3; separate accessibility from stability; robust
   constraint-satisfaction filtering → **~4–8 constructs** nondominated under scenario + model uncertainty.
   ★ Add a constraint: **which lysine the ubiquitin actually reaches**, reported per construct as a distribution
   over unique-vs-conserved sites, not just "a lysine is near".
-- **`[ ]` 5d · Local ternary FEP** — **~$10–45 (revised by levers 1+2 from ~$21–90; 3–6 ternary comparisons) · Cum. ~$240.** Alchemy **only** within a
+- **`[ ]` 5d · Local ternary FEP** — **~$22 ($3.2–80; 3–6 ternary comparisons) · Cum. ~$194.** *(Repriced 2026-07-25 from ~$10–45; ref-GPU-h
+  unchanged, revised by levers 1+2 from ~$21–90.)* Alchemy **only** within a
   retained basin (both endpoints plausibly bound, modest congeneric change). Refines the matched final series →
   **~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL/CRBN only where both survive, explicit
   negative controls. **Deliverable** = the prioritized, structure-defined, retrosynthetically annotated candidate
@@ -841,7 +864,7 @@ only established today and moved the total by more than the first.
 4. **★ REVISED DOWNWARD 2026-07-24 by the six cost levers** (§GPU economics). The two that move the totals are
    the **exact cancellation of the binary/solvent legs in any paralogue comparison** (a paralogue panel is N
    ternary legs + one shared pair, not N edges) and **4 fs ternary production** (2× per leg, PROPOSED, settled by
-   one ~$5–8 matched re-calibration edge). Neither adds or removes science; both were mis-priced.
+   one ~$4.4 matched re-calibration edge). Neither adds or removes science; both were mis-priced.
 
 **★ REPRICED 2026-07-25 → ~$128 mid-range (~$36–381).** The `$/hr` half of the correction below is now fixed
 at source: the bid policy was rebuilt from measurement (`charged = min(bid, on-demand)`, verified by renting one
@@ -891,24 +914,31 @@ merges; it is left alone here rather than raced.
 **What survives, and what does not.** The six cost levers are **ratios** — 4 fs halving force evaluations, the
 exact binary/solvent cancellation, sequential stopping — so they are independent of $/hr and of system
 heaviness and all still hold. What does not survive is the **absolute total**: it was built on bases that have
-now been measured low, so the ladder is **more expensive than either ~$390 or ~$240**.
+now been measured low. That correction stands on the **work** axis; the **price** axis has since been
+rebuilt from measurement and moves the total the other way (below).
 
-**PINNED TOTAL: ~$467 mid-range (~$249–685)**, GO at every gate, priceable stages only — from the
-`step1_fanout` session that took the measurement; it supersedes the ~$400–450 first-order re-derivation that
-stood here. Excludes (a) the 5a-KS wedge + reciprocal cycle (UNPRICED/BLOCKED) and (b) Optional/HELD ΔG_open +
-ABFE (~$200–500 more). Dominant uncertainties, in order: the unpriced wedge, the L4→4090 conversion, then the
-**ensemble-MD leg count** (5c + retrospective) — plus the ternary transferability risk above, which is still
-unmeasured.
+**PINNED TOTAL: ~$194 mid-range (~$46–544)**, GO at every gate, priceable stages only. Excludes (a) the 5a-KS
+protein-mutation wedge + reciprocal cycle (UNPRICED/BLOCKED) and (b) Optional/HELD ΔG_open + ABFE (~$200–500
+more). Dominant uncertainties, in order: the unpriced wedge, the **ensemble-MD leg count** (5c + retrospective),
+and the ternary transferability risk above — which is still unmeasured.
 
-**Not yet folded in: the bid multiple went 1.9 → 1.25 on 2026-07-25**, and every figure above was priced on a
-1.5–1.9 basis. That is a real reduction to *all* GPU lines (the fan-out alone goes ~$91–101 → ~$57–66), but the
-total is left at $467 rather than re-derived on the spot — a repricing gets measured, not estimated twice in
-one day. **This makes the mechanism-first case
-stronger, not weaker:** if GPU work costs ~3× what the plan assumed, spending it on an axis that needs
-~2.0 kcal/mol when the method resolves 1.12 is a worse trade than ever, and the $0 categorical screens are
-worth correspondingly more.
+**★ THE DEFERRED REPRICING IS DONE (2026-07-25), AND THE DEFERRED ESTIMATE WAS WRONG.** This block previously
+read: *"Not yet folded in: the bid multiple went 1.9 → 1.25 … the fan-out alone goes ~$91–101 → ~$57–66, but the
+total is left at $467 rather than re-derived on the spot — a repricing gets measured, not estimated twice in one
+day."* That was the right instinct, and the measurement has now been taken. It says two things:
+1. **The fan-out is ~$36, not ~$57–66.** The estimate only counted the bid multiple. Measurement showed
+   **selection** — ranking offers on all-in `$/ns` instead of `min_bid` — is the larger lever by several times
+   (5.43× best-to-median spread on the live board, against 1.48× for the whole `×1.9 →` floor bid change).
+2. **The total is ~$194, not ~$467** — a **2.4× reduction**, entirely on the `$/hr` axis.
+The `$0.35–0.39/hr` that the fan-out actually paid was never "the 4090 market": it is what bidding `× 1.5` on a
+`min_bid`-ranked offer costs. Derivation and evidence:
+[research/compute/bid-strategy.md](./research/compute/bid-strategy.md).
 
-*(Superseded, retained for the record: "~$240 mid-range (~$90–390)", itself down from ~$390 (~$170–610).)*
+**This does NOT weaken the mechanism-first case.** The argument was never that GPU work is expensive in the
+absolute — it is that spending it on an axis needing ~2.0 kcal/mol when the method resolves 1.12 is a bad
+trade at *any* price, and the $0 categorical screens dominate either way.
+
+*(Superseded, retained for the record: "~$467 (~$249–685)", "~$240 (~$90–390)", "~$390 (~$170–610)".)*
 ⚠ **A rate measured on one molecular system is not a price for another** — the single largest correction to
 date (~4× on the fan-out) came from applying a public-TYK2 per-iteration rate to the NR4A3 complex, which is
 ~2.6× heavier in aggregate throughput. Treat any cross-system rate as a routing hint, never a price. This table
@@ -918,19 +948,19 @@ and `pricing.md` §C carry the same chain and must agree.
 |---|---|---|---|
 | 0 · infra + free CPU (DONE) | step0 + emc_e3 + pocket | ~$1–2 | ~$2 |
 | 1 · Val A smoke (DONE, realized ~$0 on GCP credit) | 1 public RBFE edge | ~$0–15 | ~$2 |
-| 2 · pilot (DONE) + Val B-mini | 1–2 RBFE edges + 1 ternary edge | ~$1–3 + ~$7–15 | ~$15 |
-| **2b · NEW: 4 fs adoption + matched re-calibration** | 1 ternary edge @4 fs | **~$5–8** | ~$21 |
-| 3 · Val B cube (SMARCA2/4 module) + NR-V04 feas. (DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$35–100 + ~$8 | ~$97 |
-| 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | **~$91–101** (3-host rate on the real system) + ~$45–115 | ~$273 |
-| 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference | ~$0–50 + ~$5–25 | ~$313 |
-| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker($0–20) + ensemble MD ($20–150) + within-basin FEP ($21–90) | ~$41–260 | ~$463 |
+| 2 · pilot (DONE) + Val B-mini | 1–2 RBFE edges + 1 ternary edge | ~$2.8 + ~$8.8 (range $4–31) | ~$13 |
+| **2b · 4 fs adoption + matched re-calibration** | 1 ternary edge @4 fs | **~$4.4** ($1.6–11) | ~$17 |
+| 3 · Val B cube (SMARCA2/4 module) + NR-V04 feas. (DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$22.5 + ~$8 (range $14–75) | ~$48 |
+| 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | **~$36** + ~$21 (range $20–147) | ~$104 |
+| 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference | ~$0–50 + ~$12 (range $2–95) | ~$141 |
+| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$21) + within-basin FEP (~$22) | ~$53 (range $5–185) | ~$194 |
 | Confirmatory protein-mutation cycle (optional) | — | **UNPRICED** | *(excl.)* |
 | Optional ΔG_open / ABFE (HELD) | — | +$200–500 | *(excl.)* |
 
 Notes: the restructuring buys **causal evidence** (matched-pair cycles + ensemble MD + local FEP) over
 co-fold-and-score — higher information per dollar, not lower. A non-viable paper still dies for ~$2 at Val A, or
 **free** at the Tier-0 unique-residue map and the atlas (both passed) — and the ladder's cheapest decisive gate is
-restored: the kill-switch is a **~$5–25 ligand-side double difference** on the lane Val B calibrates, no longer a
+restored: the kill-switch is a **~$12 ($1.6–45) ligand-side double difference** on the lane Val B calibrates, no longer a
 gate blocked behind an unbuilt engine and ~$80–215 of prerequisite ternary work. The *expected* cost is lower
 than the totals suggest, because the leading gates are now $0.
 
@@ -946,7 +976,7 @@ RUNG1  valA_mini [x] ──[GO]──►                                        
           │
 RUNG2  step1_pilot [x] ∥ valB_mini [~ 2 fs]  ──[GO?]──►                (Cum ~$15)
           │
-RUNG2b 4 fs adoption + MATCHED re-calibration (~$5–8) ──[no NaN & ΔΔG consistent?]──►
+RUNG2b 4 fs adoption + MATCHED re-calibration (~$4.4) ──[no NaN & ΔΔG consistent?]──►
           │      └── YES ⇒ every downstream ternary leg ≈2× cheaper
           │      └── NO  ⇒ stay at 2 fs, carry the 2 fs base
           │
@@ -958,7 +988,7 @@ RUNG4  step1_fanout ∥ atlas [x]($0) ──► nrv04_retrospective ──[conco
           │      (holdout, NOT the calibrator; read WITH the Cys551 covalent confound)
           │
 RUNG5  basin_search($0–50, multi-E3, pose-marginalised, CATEGORICAL terms)
-          │        ──► ★ KILL-SWITCH = ligand-side double difference (~$5–25)
+          │        ──► ★ KILL-SWITCH = ligand-side double difference (~$12)
           │      └── no discrimination ⇒ STOP: publish honest causal negative
           │      └── discrimination    ⇒ extend + tail
           │      └── CONFIRMATORY 2nd line: the protein-mutation cycle — pmx + GROMACS
@@ -1095,10 +1125,14 @@ doc](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24
    matched re-calibration edge**, only on a passing probe. A NO at stage 1 costs ~$1–2 instead of a full edge.
    **Sequenced after valB_mini's 2 fs result lands** — both because the calibration needs something to compare
    against, and because dispatching into that lane now risks cancelling another session's run.
-4. **`[x]` DECIDED — HOLD the step1 fan-out; do NOT resume the 19-edge tranche at ~$91–101.** Nothing is lost by
+4. **`[x]` DECIDED — HOLD the step1 fan-out; do NOT resume the 19-edge tranche.** *(Price updated 2026-07-25:
+   the tranche is **~$36, not ~$91–101**, so it **no longer crosses the >$50 review gate** that was one reason
+   it was halted. **The decision stands on the scientific reason below, which is independent of price** — a
+   cheaper way to optimise the wrong objective is still the wrong objective. Un-halting is trimcrae's call, and
+   it is now a cheaper call than it was.)* Nothing is lost by
    re-scoping: **0/19 units produced a ΔΔG**. And under mechanism-first the fan-out's *selection criterion* has
    changed — the exit vector must now be able to carry a linker toward **C397** (10.9 Å) and orient the E3 so the
    transfer zone covers **K572/K518/K592**, which is not the same as ranking substituents by affinity. Resuming
-   the old edge list would spend ~$91–101 optimising the wrong objective. **Order: run 5a's $0 basin search
+   the old edge list would spend ~$36 optimising the wrong objective. **Order: run 5a's $0 basin search
    first** (it tells us which exit vectors matter), **then** a re-scoped, smaller fan-out — with a cycle-closure
    edge moved early, per that session's own note that all three cycles currently close only in the last wave.
