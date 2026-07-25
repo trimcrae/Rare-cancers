@@ -141,6 +141,13 @@ sensitivity check at all. The cap is ≤2, not ==1.
   A recruiter can therefore win on ligandability and interface geometry while carrying an on-target
   liability this stage cannot see. Any recruiter advanced here must have that liability assessed from the
   literature **before** it is committed to. It is an input to the next gate, not a footnote.
+- **Arm membership is only as complete as the availability module's component lists.** `nr4a3_e3_expression.py`
+  defines each arm as substrate receptor + adaptor(s) + cullin + RBX1, which omits accessory subunits such as
+  **DDA1** in CRL4. Any chain not on that list is treated as a partner and removed from the occluder set, so a
+  structure containing a genuine accessory subunit is measured slightly **over-open**. The error runs in the
+  conservative direction — it cannot falsely seal a site — and every removed chain is recorded in
+  `ligandability.occluder_set.partner_entity_chains_excluded`, so it is auditable per recruiter rather than
+  hidden.
 - The exit-vector quality axis **saturates**: clearance is capped at 20 Å and most gate-passing recruiters
   reach a 30° cone openness of 1.0, so `exit_quality` mostly restates G3 rather than discriminating. The
   discrimination in practice comes from the analogue tier and the open solid angle. This is reported, **not
