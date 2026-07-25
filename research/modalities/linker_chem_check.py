@@ -205,14 +205,28 @@ def check_one(c):
         if not hits:
             out["errors"].append("declared pendant %s not found in the molecule" % c["pendant"])
         else:
+            # ★ THE BRANCH ATOM IS THE PATH ATOM TOPOLOGICALLY CLOSEST TO THE PENDANT — not necessarily one
+            # BONDED to it. The first version required direct adjacency and failed on every Dab-branch
+            # construct, because the electrophile is mounted on a two-carbon side chain: the pendant's
+            # matched atoms start three bonds from the backbone, so nothing on the path touches them. The
+            # distance is measured rather than assumed, and reported, so a pendant that has drifted onto the
+            # wrong part of the molecule still shows up as an implausible side-chain length.
             pend_atoms = set(a for h in hits for a in h)
-            on_path = [i for i, ai in enumerate(path)
-                       if any(nb.GetIdx() in pend_atoms for nb in mol.GetAtomWithIdx(ai).GetNeighbors())
-                       and ai not in pend_atoms]
-            if not on_path:
-                out["errors"].append("pendant %s is not attached to the backbone path" % c["pendant"])
+            dmat = Chem.GetDistanceMatrix(mol)
+            best = None
+            for i, ai in enumerate(path):
+                if ai in pend_atoms:
+                    continue
+                d = min(dmat[ai][pa] for pa in pend_atoms)
+                if best is None or d < best[0]:
+                    best = (d, i)
+            if best is None or best[0] > 4:
+                out["errors"].append("pendant %s is not attached to the backbone path (nearest backbone "
+                                     "atom is %s bonds away)"
+                                     % (c["pendant"], "none" if best is None else int(best[0])))
             else:
-                k_measured = min(on_path)          # index along the path from the WAREHEAD anchor
+                out["branch_side_chain_bonds"] = int(best[0])
+                k_measured = best[1]               # index along the path from the WARHEAD anchor
                 out["branch_k_measured"] = k_measured
                 out["branch_k_intended"] = c["branch_k_from_warhead"]
                 if k_measured != c["branch_k_from_warhead"]:

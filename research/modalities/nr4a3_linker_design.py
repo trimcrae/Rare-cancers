@@ -286,7 +286,15 @@ PENDANT = {
         "route": "acryloyl chloride or acrylic acid + coupling agent on the branch amine.",
     },
     "cyanoprop": {
-        "smi": "CCNC(=O)C(C#N)CC",
+        # ★ THE (S) TAG IS NOT COSMETIC. Reducing the Michael acceptor turns its sp2 alpha-carbon into an sp3
+        # centre bearing four different groups — nitrile, amide, ethyl, H — so **the saturated control has a
+        # stereocentre the electrophile does not have.** That is an unavoidable property of saturated
+        # controls for Michael acceptors, not a flaw in this one, and it is the reason the pair is matched in
+        # CONSTITUTION but not in STEREOCHEMISTRY. It is declared as a single (S) diastereomer rather than
+        # left unspecified, because an unspecified centre would make the "control" two compounds; the (R)
+        # epimer is an available second control and would be the obvious check that the centre does not
+        # matter. RDKit refuses an unassigned centre, which is how this surfaced.
+        "smi": "CCNC(=O)[C@@H](C#N)CC",
         "kind": "control",
         "reversible": None,
         "name": "2-cyanobutanamide (SATURATED, non-electrophilic control for cyac_me)",

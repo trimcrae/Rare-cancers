@@ -332,7 +332,7 @@ with nothing hand-transcribed, and one rule covers all three warhead handles ins
 | | |
 |---|---|
 | **wedge element** | **3-(3-pyridyl)-L-alanine (d) vs L-phenylalanine (d₀)** as the linker's branch residue — an aza-scan |
-| **wedge target** | **Arg412** — NR4A1 **Ala**, NR4A2 **Thr**; non-conservative; RSA 0.78 |
+| **wedge target** | **Thr407** — NR4A1 **Leu**, NR4A2 **Val**; non-conservative (polar → hydrophobic); RSA 0.28 |
 | **branch position** | *k* = 6 of 11, counted from the warhead |
 | **E3 clearance at the wedge** | **10.3 Å** from the nearest E3 atom in the modelled placement |
 | **basin** | `vhl\|M3` — 0.75 pose persistence, span 9.67 Å, held at ~0 kT by this linker |
@@ -374,10 +374,19 @@ wedge (a carboxylate on Arg412) would have been a stronger interaction and a **w
 net-charge change under PME needs a finite-size correction that does not cancel between differently-sized
 boxes, and the repo's own `assert_charge_consistency` refuses such a wedge outright.
 
-**(ii) The wedge engages a target-side difference.** Arg412 is one of the program's seven selectivity handles;
-it is Ala in NR4A1 and Thr in NR4A2, non-conservatively, at RSA 0.78. And it is **within pendant reach of the
-linker path in all five confirmed basins** — as is T407 — so the pair is not an artefact of one basin's
-geometry.
+**(ii) The wedge engages a target-side difference.** Thr407 is **Leu in NR4A1 and Val in NR4A2** — a polar
+hydroxyl replaced by pure hydrocarbon in both paralogues, so the pyridyl nitrogen finds an H-bond donor in
+NR4A3 and nothing at all in either paralogue. It is **within pendant reach of the linker path in all five
+confirmed basins**, as is Arg412, so the pair is not an artefact of one basin's geometry.
+
+*Why T407 rather than R412, since both qualify:* the selector took the site with the greater measured E3
+clearance (10.3 Å vs 8.7 Å in this basin), and the chemistry supports the same choice independently. **Arg412
+is more exposed (RSA 0.78) and far more flexible** — a long, multi-rotamer side chain in a rigid model, so a
+pendant designed against it inherits more conformational uncertainty, and an H-bond formed at high solvent
+exposure competes with water and is worth less. **Thr407 (RSA 0.28) is small, has one χ₁, and sits partly
+shielded**, so both its geometry and the magnitude of the interaction are better determined. Arg412 is one of
+the program's seven selectivity handles and remains the natural **second** wedge in the same basin, which makes
+the two corroborating rather than redundant.
 
 **(iii) The wedge does not touch the E3.** This is the check that makes the double difference mean what it
 says. `S` isolates a *target-side* interaction only because the ligand's solvation, its internal strain and its
@@ -388,12 +397,13 @@ wedge element could touch the E3, that cancellation would fail. Measured clearan
 
 ### Remaining confounds — stated with the proposal, not in a footnote
 
-1. **Arg412's side chain is rigid in this model.** A pendant designed against one modelled rotamer is
-   conditional on it, and an Arg at RSA 0.78 is exactly the side chain that samples most widely.
-2. **NR4A1 carries alanine at the aligned position**, so the wedge does not meet an unfavourable partner there
-   — it meets a solvent-exposed gap. The expected signal is an **NR4A3 gain**, not an NR4A1 penalty, and its
-   magnitude is bounded by a single solvent-exposed H-bond: roughly **0.5–1.5 kcal/mol against a best-case
-   resolvable difference of 1.12**. A null is a likely outcome and must be interpreted accordingly.
+1. **Thr407's side chain is rigid in this model.** One χ₁ is far less uncertainty than an arginine would
+   carry, but it is still a modelled rotamer and the pair is conditional on it.
+2. **NR4A1 carries leucine and NR4A2 valine at the aligned position**, so the wedge does not meet an
+   unfavourable partner there — it meets a hydrocarbon that simply cannot donate. The expected signal is an
+   **NR4A3 gain**, not a paralogue penalty, and its magnitude is bounded by a single partly-buried H-bond:
+   roughly **0.5–1.5 kcal/mol against a best-case resolvable difference of 1.12**. A null is a likely outcome
+   and must be interpreted accordingly.
 3. **Double conditionality.** The construct rests on the hypothesised cmpd19 pose × one receptor frame.
 4. **The basin is a rigid-body nomination, not a modelled complex.** The linker conformer that places the wedge
    on Arg412 is one of many the chain can adopt and its population is unmeasured — that is 5c's job.

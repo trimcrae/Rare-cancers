@@ -124,9 +124,14 @@ def test_the_irreversible_comparator_is_present_and_labelled():
 def test_saturated_control_matches_its_electrophile_in_everything_but_the_alkene():
     """The non-electrophilic control must be the cyanoacrylamide with the Michael acceptor reduced — same
     atoms, one bond order different — or it is not a matched control."""
-    e = LDD.PENDANT["cyac_me"]["smi"].replace("/", "").replace("\\", "")
-    c = LDD.PENDANT["cyanoprop"]["smi"]
-    # identical skeletons once bond orders are erased: the ONLY difference is the C=C
-    assert e.replace("=", "") == c.replace("=", ""), (e, c)
+    def skeleton(smi):
+        return (smi.replace("/", "").replace("\\", "").replace("=", "")
+                   .replace("[C@@H]", "C").replace("[C@H]", "C"))
+    e, c = LDD.PENDANT["cyac_me"]["smi"], LDD.PENDANT["cyanoprop"]["smi"]
+    # identical skeletons once bond orders and stereo tags are erased: the only constitutional difference
+    # is the C=C. The STEREO difference is real and deliberate -- reducing the acceptor creates a centre the
+    # electrophile does not have -- which is why the tags are stripped here and documented there.
+    assert skeleton(e) == skeleton(c), (e, c)
+    assert "@" in c and "@" not in e, "the saturated control must declare the centre reduction creates"
     assert "C#N" in c
     assert "=C" not in c.replace("C(=O)", "")        # no alkene survives in the control
