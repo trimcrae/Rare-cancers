@@ -19,7 +19,22 @@
         0.2605162523900574
       ]
     },
-    "barnase_barstar_Y29F": null
+    "barnase_barstar_Y29F": {
+      "ddg_bind_kcal": -0.5521032504780123,
+      "ddg_sd_kcal": null,
+      "n_complex": 2,
+      "n_apo": 1,
+      "dg_complex_kcal": 21.6802103250478,
+      "dg_complex_sd": 0.11830180373579864,
+      "dg_apo_kcal": 22.23231357552581,
+      "dg_apo_sd": null,
+      "single_replicate": true,
+      "error_model": "NO ERROR BAR \u2014 single replicate per environment; the MBAR SE of one leg is a within-leg precision estimate and understates setup variance, so it is reported separately rather than used as the uncertainty",
+      "mbar_se_range_kcal": [
+        0.05019120458891013,
+        0.1338432122370937
+      ]
+    }
   },
   "scores": {
     "barnase_barstar_Y29A": {
@@ -34,41 +49,60 @@
       "abs_err_kcal": 0.6252549394518803,
       "tolerance_kcal": 1.5,
       "within_tolerance": true
+    },
+    "barnase_barstar_Y29F": {
+      "benchmark": "barnase_barstar_Y29F",
+      "system": "barnase-barstar",
+      "mutation": "D:Y29F",
+      "ref_ddg_bind_kcal": -0.13,
+      "ref_source": "SKEMPI 2.0 record for 1BRS_A_D YD29F (Kd_mut 8E-15 M / Kd_wt 1E-14 M at 298 K), cited to PMID 7739054 = Schreiber & Fersht, J Mol Biol 248:478-486 (1995)",
+      "ref_verified": true,
+      "calc_ddg_bind_kcal": -0.5521032504780123,
+      "calc_sd_kcal": null,
+      "abs_err_kcal": 0.42210325047801234,
+      "tolerance_kcal": 1.5,
+      "within_tolerance": true
     }
   },
   "verdict": {
-    "qualified": false,
-    "reason": "incomplete \u2014 1/2 benchmarks scored; a partial set cannot qualify the engine",
-    "n_scored": 1,
+    "qualified": true,
+    "reason": "all 2 benchmarks within 1.5 kcal/mol and ordering correct",
+    "n_scored": 2,
     "n_required": 2,
-    "complete": false,
+    "complete": true,
     "failures": [],
-    "ordering": [],
+    "ordering": [
+      {
+        "larger": "barnase_barstar_Y29A",
+        "smaller": "barnase_barstar_Y29F",
+        "ordering_correct": true
+      }
+    ],
     "unverified_references": [],
     "caveat": null,
     "gate": "5a-KS may not contribute a number to the manuscript, and the rung may not be priced from a leg rate alone, until this qualifies."
   },
   "price": {
     "priced": true,
-    "n_legs_measured": 6,
+    "n_legs_measured": 7,
     "gpu_hours_per_leg": {
-      "mean": 1.177,
-      "sd": 0.509,
+      "mean": 1.094,
+      "sd": 0.514,
       "min": 0.379,
       "max": 1.8
     },
-    "s_per_iteration": 242.08,
+    "s_per_iteration": 215.41,
     "assumed_hourly_usd": 0.2,
-    "usd_per_benchmark_leg": 0.235,
-    "mean_particles": 27810,
+    "usd_per_benchmark_leg": 0.219,
+    "mean_particles": 25750,
     "legs_excluded_as_pre_fix": [
       "barnase_barstar_Y29A__apo_r0"
     ],
-    "projected_wedge_usd_2rep": 3.07,
-    "projected_wedge_gpu_h_2rep": 15.3,
-    "projected_wedge_usd_3rep": 4.6,
-    "projected_wedge_gpu_h_3rep": 23.0,
-    "projection_basis": "linear particle-count scaling from the benchmark's 27810 particles to 146284 (NR4A ternary leg) and ~35000 (binary leg). Linear-in-particles is the standard first-order assumption for PME MD at fixed cutoff; it is an ASSUMPTION, not a measurement, and the projected wedge cost is therefore a PROJECTION \u2014 it may not be quoted as a measured rate."
+    "projected_wedge_usd_2rep": 3.08,
+    "projected_wedge_gpu_h_2rep": 15.4,
+    "projected_wedge_usd_3rep": 4.62,
+    "projected_wedge_gpu_h_3rep": 23.1,
+    "projection_basis": "linear particle-count scaling from the benchmark's 25750 particles to 146284 (NR4A ternary leg) and ~35000 (binary leg). Linear-in-particles is the standard first-order assumption for PME MD at fixed cutoff; it is an ASSUMPTION, not a measurement, and the projected wedge cost is therefore a PROJECTION \u2014 it may not be quoted as a measured rate."
   },
   "engines": [
     "pmx (mutate+gentop) + GROMACS lambda windows + BAR"
