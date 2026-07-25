@@ -16,6 +16,11 @@ on:
         type: choice
         options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
+      e3_phase:
+        description: "e3_recruiter_stage: all = refetch RCSB/UniProt + geometry; geom = reuse the committed e3-recruiter-rcsb-cache.json and recompute geometry only"
+        type: choice
+        options: [all, geom, fetch]
+        default: all
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
         type: choice
@@ -220,7 +225,7 @@ jobs:
           echo "$RUNNER_TEMP/menv/bin" >> "$GITHUB_PATH"
       - name: Stage E3 recruiters + ligandability + downselect (RCSB + UniProt)
         working-directory: research/modalities
-        run: python e3_recruiter_staging.py --phase all
+        run: python e3_recruiter_staging.py --phase "${{ github.event.inputs.e3_phase || 'all' }}"
       - name: Commit results back to the triggering branch
         run: |
           set -e
