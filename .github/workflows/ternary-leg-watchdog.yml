@@ -84,19 +84,7 @@ jobs:
           # watching -- the direction-blind-key bug class this lane was audited for, reproduced inside the
           # watchdog itself (the first version of this file omitted warmup_timestep_fs, which keys `wu<..>`).
           # Refuse to act on an incomplete list rather than relaunching the wrong thing.
-          if ! python3 -c "
-import json,sys
-d=json.load(open('$CFG'))
-req=d.get('_prefix_keying_params') or []
-bad=[]
-for w in d['watch']:
-    if not w.get('enabled'): continue
-    miss=[k for k in req if k not in w]
-    if miss: bad.append((w.get('leg_id','?'), w.get('direction','?'), miss))
-for leg,dirn,miss in bad:
-    print('::error title=WATCHDOG CONFIG INVALID::%s dir=%s is missing prefix-keying param(s) %s -- a relaunch would resume a DIFFERENT commit prefix. Refusing to act.' % (leg,dirn,','.join(miss)))
-sys.exit(1 if bad else 0)
-"; then
+          if ! python3 research/modalities/watchdog_validate.py "$CFG"; then
             echo "watch list is invalid — see the annotation above. Failing rather than relaunching the wrong run."
             exit 1
           fi
