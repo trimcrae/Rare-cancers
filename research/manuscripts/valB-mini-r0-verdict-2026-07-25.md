@@ -272,6 +272,55 @@ mode most likely in play. In order:
    - the reviewer's original high-contrast pair (P1 α 93 → P4 α 1.3 ≈ **+2.53**; → P5 α 0.6 ≈ **+2.99**) reached
      via intermediate congeneric hops instead of one 32–47-atom jump.
 
+---
+
+## 8. ADDENDUM (2026-07-25 PM ET) — the last unmeasured diagnostic is now measured, and the solute RMSD is explained
+
+Two items this document left open are closed. Full detail:
+[valb-gate-defect-fix-audit-2026-07-25.md](valb-gate-defect-fix-audit-2026-07-25.md) and
+[valb-calibrator-rescope-2026-07-25.md](valb-calibrator-rescope-2026-07-25.md).
+
+**§6's `ligand-only pose RMSD: unmeasured` is measured.** Nothing in the committed artifacts is a topology
+file, so the ligand was *derived* from the hybrid System serialized inside the `.nc`: bonded connectivity
+(bonds + constraints + the softcore `CustomBondForce`) partitions the 141,968 particles into 4 protein chains
+of 2343/1925/1433/1329, 44,860 waters, 248 monatomic ions and **exactly one** ligand-sized molecule of **110
+atoms** — a fail-closed identification with one candidate, not a ranked guess. Removing the 51 hydrogens (mass
+~3 Da; **HMR is on in this lane**, contrary to what a code comment had asserted) gives **59 heavy atoms**, which
+is exactly `wurz-calib-frozen.json → validation.heavy_1 = heavy_4 = 59`, an RDKit count made at freeze time from
+the frozen SMILES with nothing to do with this trajectory. The molecule found in the `.nc` is the Wurz
+compound-1/4 hybrid, confirmed by a number nobody computed for the purpose.
+
+**Receptor-superposed ligand HEAVY-ATOM pose RMSD, all 12 replicas: max 2.765 Å, median 1.644** against the
+4.0 Å threshold; adjacent checkpointed frames (1960 vs 2000) well below it. `ligand_stable_ok: true`,
+`mandatory_unmeasured: []`, **`diagnostics_complete: true`** — measured, not assumed (final: GH run
+30169056960). *Appendix: an earlier run of the same analysis reported 2.813 / 1.941 Å; that was over all 110
+atoms, before the hydrogen mass was measured rather than assumed. The heavy-atom figures above are the quantity
+the prereg names.*
+
+Both independent corroborations return **CONSISTENT**: the derived heavy-atom count against the frozen record
+(59 = 59), and the ligand identified separately in the ~5 k-particle solvent box against the ~142 k-particle
+ternary assembly.
+
+**And §6's "known-incomplete, the cause is unknown" residual tail is explained.** The per-chain breakdown
+discriminates it. In replica 8, the ligand's pose RMSD against each protein chain in turn is
+**[1.53, 1.50, 12.18, 10.58] Å** — the ligand cannot be in two places, so the two *smallest* chains have moved
+~10 Å relative to the two largest, after minimum-image correction. Across replicas the pattern is consistent:
+the ligand sits within ~1–3 Å of the two large chains and 2–13 Å from the two small ones. **The peripheral
+chains reorient; the ligand does not move.** That accounts for the 10.3 Å whole-solute superposed RMSD with no
+artifact invoked — a single global rotation cannot fit a four-chain assembly whose chains move relative to each
+other, which is what the metric's own caveat said. *(Chain identity is inferred from size and is not verified
+here; by residue count the two small chains are consistent with Elongin B and C, the parts of VCB furthest from
+the ligand.)* **This is benign for ΔΔG_coop**: the interface the cooperativity measures — VHL·PROTAC·SMARCA2 —
+is the one that stays intact.
+
+**Two defects were found in the course of measuring it, and one was newly introduced by the fix itself**: a
+fixed 2.5 Da "heavy atom" cutoff that counted every HMR'd hydrogen as heavy, and a solvent-leg ligand check that
+flagged a free PROTAC's conformational change against a 4 Å *pose-collapse* threshold and produced
+`technical_failure: true` — which via `_diagnostics_ok()` would have handed valB_mini a **hard FAIL**, i.e.
+exactly the defect-#7 failure mode, re-committed. Both fixed; the solvent leg's ligand check is now **not
+applicable** rather than failed or unmeasured. Separately, `_diagnostics_ok()`'s last "absent report → True"
+path — the surviving instance of §6's signature defect — now returns `None` (not verified).
+
 ### Strategic note
 
 STRATEGY.md already concluded (2026-07-24, mechanism-first revision) that the marginal/induced-interface axis
