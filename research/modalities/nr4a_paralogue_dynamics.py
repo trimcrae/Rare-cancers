@@ -332,7 +332,8 @@ def sample_transfer_anchors(ref_model, registry_path, n_samples, n_poses, seed, 
     return anchors, per_arm, params, poses
 
 
-def species_cysteines_in_ref_frame(path, ref_model, offset, ref_aa_of):
+def species_cysteines_in_ref_frame(path, ref_model, offset, ref_aa_of, pocket_local=None,
+                                   ref_pocket_centroid=None):
     """A conformer's cysteine SG positions in the NR4A3 REFERENCE frame, plus each residue's RSA and post-fit
     deviation. This is what makes the MATCHED term-(a) test possible: the paralogue is placed in the same frame
     the E3 placements were sampled in, so the SAME construct geometry can be asked of both molecules."""
@@ -358,7 +359,23 @@ def species_cysteines_in_ref_frame(path, ref_model, offset, ref_aa_of):
                             "fit_deviation_A": (round(dev, 2) if dev is not None else None),
                             "position_reliable": (dev is not None and dev <= 4.0)})
                 break
-    return out, fitted["superposition"]
+    sup = dict(fitted["superposition"])
+    # ★ THE ASSUMPTION THE MATCHED TEST RESTS ON, MEASURED RATHER THAN ASSERTED. The matched test holds the
+    # warhead exit-vector anchors fixed at the NR4A3 reference pocket and asks whether the SAME construct
+    # reaches a paralogue cysteine. That is only meaningful if the paralogue's HOMOLOGOUS pocket actually
+    # lands there after superposition. A large offset would mean the warhead is not where the test pretends
+    # it is, and the comparison would be measuring the superposition rather than the chemistry — so it is
+    # measured per frame instead of taken on faith.
+    if pocket_local and ref_pocket_centroid is not None:
+        side = []
+        for rid in pocket_local:
+            for a in fitted["atoms_by_res"].get(rid, []):
+                if a["name"] not in B.BACKBONE:
+                    side.append((a["x"], a["y"], a["z"]))
+        if side:
+            sup["homologous_pocket_centroid_offset_A"] = round(
+                G.dist(G.centroid(side), ref_pocket_centroid), 2)
+    return out, sup
 
 
 def matched_reach_hits_multi(anchors, cysteines, lengths, params=None, min_rsa=0.0):
@@ -833,6 +850,12 @@ def main(argv=None):
               flush=True)
         anchors, per_arm, params_b, _poses = sample_transfer_anchors(
             ref, args.registry, args.samples, args.n_poses, args.seed)
+        _side = []
+        for _rid in ref_pocket_local:
+            for _a in ref["atoms_by_res"].get(_rid, []):
+                if _a["name"] not in B.BACKBONE:
+                    _side.append((_a["x"], _a["y"], _a["z"]))
+        ref_pocket_centroid = G.centroid(_side)
         print(f"[pdyn][b] {len(anchors)} accepted placements carry an observed transfer anchor: {per_arm}",
               flush=True)
         res["term_b"] = {
@@ -871,7 +894,9 @@ def main(argv=None):
                     lys, sup = species_lysines_in_ref_frame(path, ref, offsets[sp])
                     cov = coverage_over_anchors(anchors, lys, params_b) if anchors else None
                     # --- MATCHED term (a) on the SAME placements, in the SAME frame -------------------
-                    cys_rf, _sup2 = species_cysteines_in_ref_frame(path, ref, offsets[sp], ref_aa_of)
+                    cys_rf, sup2 = species_cysteines_in_ref_frame(
+                        path, ref, offsets[sp], ref_aa_of,
+                        pocket_local=pocket_local_by_species[sp], ref_pocket_centroid=ref_pocket_centroid)
                     m_all = matched_reach_hits_multi(anchors, cys_rf, LENGTHS, params=params_b)
                     m_exp_all = matched_reach_hits_multi(anchors, cys_rf, LENGTHS, params=params_b,
                                                          min_rsa=EXPOSED_RSA)
@@ -909,6 +934,8 @@ def main(argv=None):
                                  "n_cysteines": len(cys_rf),
                                  "superposition_core_rmsd_A": sup["core_rmsd_A"],
                                  "superposition_core_fraction": sup["core_fraction"],
+                                 "homologous_pocket_centroid_offset_A":
+                                     sup2.get("homologous_pocket_centroid_offset_A"),
                                  "coverage": cov,
                                  "matched_term_a": matched,
                                  "unreliably_placed_covered": sorted(
@@ -934,6 +961,9 @@ def main(argv=None):
                     "per_lysine": {k: quantiles(v) for k, v in
                                    sorted(per_lys_pool.items(), key=lambda kv: -sum(kv[1]))},
                     "superposition_core_rmsd_A": quantiles([r["superposition_core_rmsd_A"] for r in rows]),
+                    "homologous_pocket_centroid_offset_A": quantiles(
+                        [r["homologous_pocket_centroid_offset_A"] for r in rows
+                         if r.get("homologous_pocket_centroid_offset_A") is not None]),
                     "matched_term_a": {
                         "P_any_cysteine_at_gate": quantiles(
                             [r["matched_term_a"]["P_any_cysteine_at_gate"] for r in rows]),
