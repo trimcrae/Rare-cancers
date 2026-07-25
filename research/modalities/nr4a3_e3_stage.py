@@ -118,10 +118,18 @@ ARMS = {
 # THE STRUCTURAL DISTINCTION THAT MATTERS, and that a flat recruiter list hides: a CULLIN-RING recruiter
 # (VHL, CRBN, the DCAFs, KEAP1, FEM1B) is a substrate receptor bolted onto a cullin scaffold, so its RING is
 # 40-70 A away on a separate polypeptide and has to be composed in. A MONOMERIC RING E3 (BIRC2, MDM2,
-# RNF114) carries its own RING in the SAME chain, so the RING needs no composition at all and its position
-# is fixed relative to the ligand by covalent geometry. Those two architectures give completely different
-# transfer-zone geometry, and the second is the more favourable one for term (b) precisely because nothing
-# has to be modelled to place the RING. Lane 1's downselect advanced BIRC2 and MDM2 — both monomeric.
+# RNF114) carries its own RING in the SAME chain.
+#
+# ⚠ AND THE OBVIOUS INFERENCE FROM THAT IS WRONG — checked by staging them, not by reasoning. "Same chain"
+# looks like it should mean "no composition needed, so the transfer zone is better determined". It does not.
+# The ligandable structures of these recruiters are SMALL FRAGMENTS: 4HY4 gives BIRC2 residues 255-346, 15 %
+# of a 618-residue protein (the BIR3 / SMAC-mimetic domain), and 6Q9L gives MDM2 residues 18-111, 19 % of 491
+# (the p53-binding / nutlin domain). The catalytic RING is hundreds of residues away at the C-terminus, and
+# the two domains are separately-crystallised fragments joined by a long unstructured region that no
+# deposited structure spans. So the RING is attached by a several-hundred-residue flexible tether and its
+# position is LESS determined than a composed CRL RING, not more — both arms come back
+# PARTIAL_no_transfer_geometry. Lane 1's ligandability Pareto advanced exactly these two, and it cannot see
+# this, because it never asks where the RING is.
 CRL_CLASS_SPECS = {
     "CRL2": {"obligate_partners": ["ELOB", "ELOC"], "scaffold_needs": ["ELOC", "CUL2", "RBX1"],
              "bridge": ["ELOC"]},

@@ -335,20 +335,41 @@ Other limits, all written into the output JSON:
 
 ---
 
-## 6. Coordination with the E3 lane
+## 6. ★ Coordination with the E3 lane — and a finding that cuts against its downselect
 
 The parallel recruiter lane stages the widened ligandable panel and downselects it; its output is consumed by
-`arms_from_lane1()` rather than duplicated. One structural distinction is added here because a flat recruiter
-list hides it, and it changes how much modelling term (b) requires:
+`arms_from_lane1()` rather than duplicated. Its Pareto front **advanced BIRC2 and MDM2** and dropped VHL and
+CRBN as dominated on ligandability + interface geometry.
 
-- a **cullin–RING recruiter** (VHL, CRBN, the DCAFs, KEAP1, FEM1B) is a substrate receptor bolted onto a
-  cullin, so its RING is 40–70 Å away on a separate polypeptide and must be composed in — inheriting §3's
-  48.6 Å uncertainty;
-- a **monomeric RING E3** (BIRC2, MDM2, RNF114) carries its own RING in the **same chain**, so the RING needs
-  no composition at all and its position is fixed relative to the ligand by covalent geometry.
+I first argued here that this was structurally fortunate: BIRC2 and MDM2 are **monomeric RING** E3s, which
+carry their own RING in the *same chain*, so — unlike a cullin–RING recruiter whose RING sits 40–70 Å away on
+a separate polypeptide — they would need no composition and would inherit none of §3's 48.6 Å uncertainty.
 
-That makes the monomeric arms structurally *cheaper to be confident about* on term (b), independent of any
-ligandability ranking.
+**Staging them refuted that, and the evidence is unambiguous.** Both recruiters staged cleanly, at superb
+resolution, and then returned `PARTIAL_no_transfer_geometry`. The reason is not a gap in ubiquitylation
+structures; it is which *fragment* the ligandable structures actually are:
+
+| arm | staged entry | residues present | fraction of full length | what that domain is |
+|---|---|---|---|---|
+| **BIRC2** | 4HY4, **1.25 Å** | **255–346** | **15 %** of 618 | the BIR3 domain — the SMAC-mimetic site |
+| **MDM2** | 6Q9L, **1.13 Å** | **18–111** | **19 %** of 491 | the p53-binding domain — the nutlin site |
+| VHL | 5T35, 2.7 Å | 61–209 (+EloB/EloC) | 70 % | the intact VHL–EloB–EloC module |
+| CRBN | 6BOY, 3.33 Å | 44–427 (+DDB1) | 85 % | the intact CRBN–DDB1 module |
+
+**The catalytic RING of BIRC2 and MDM2 is not in these structures at all.** It lies hundreds of residues away
+at the C-terminus, and the ligandable domain and the RING are *separately crystallised fragments joined by a
+long unstructured region that no deposited structure spans*. So "the RING is in the same polypeptide" does
+**not** mean its position is known — it means it is attached by a several-hundred-residue flexible tether,
+which leaves the transfer zone **less** determined than a composed CRL RING, not more. My earlier claim was
+backwards and is retracted here rather than quietly dropped.
+
+**The decision-relevant consequence.** Term (b) — one of the two categorical axes the entire mechanism-first
+reframe rests on — **cannot be evaluated at all** for the two recruiters the ligandability downselect
+advanced, while it *can* be evaluated from directly observed geometry for the two it dropped (VHL via 8R5H,
+CRBN via 9UUM; §3). A downselect run on ligandability and exit-vector geometry cannot see this, because it
+never asks where the RING is. **The two rankings should be reconciled before any recruiter is committed to a
+GPU leg**, and the reconciliation is not "ligandability was wrong" — it is that ubiquitination-geometry
+*evaluability* is a separate axis that belongs in the Pareto set.
 
 ---
 
@@ -390,11 +411,15 @@ Add under reviewer requirement 5 ("full CRL/E2~Ub geometry ensembles"):
 about *which recruiters dock where*, not about the target — which is an argument for widening the recruiter
 panel rather than abandoning the axis.
 
-**D6 — the E3 downselect gains a structural argument.** The E3 lane advanced **BIRC2 and MDM2**, both
-**monomeric RING** E3s. Independently of ligandability, that architecture carries its RING in the *same
-chain* as the recruiter, so it inherits **none** of D4's 48.6 Å composition uncertainty — the transfer zone
-is fixed relative to the ligand by covalent geometry. That is a reason to prefer them that the ligandability
-Pareto does not capture, and it should be recorded in RUNG 5a's downselect rationale.
+**D6 — the E3 downselect needs a THIRD axis: is the transfer geometry evaluable at all?** The E3 lane's
+Pareto advanced **BIRC2 and MDM2** and dropped VHL and CRBN. Staging them shows term (b) **cannot be
+evaluated** for either advanced recruiter: their ligandable structures are the **BIR3 domain (residues
+255–346, 15 % of BIRC2)** and the **p53-binding domain (18–111, 19 % of MDM2)**, and the catalytic RING —
+hundreds of residues away at the C-terminus, across a region no structure spans — is absent. Meanwhile both
+*dropped* recruiters have **directly observed** transfer geometry from solved ubiquitylation assemblies
+(§3, §6). A ligandability-and-exit-vector Pareto cannot see this because it never asks where the RING is.
+RUNG 5a's downselect rationale should therefore carry ubiquitination-geometry **evaluability** as its own
+axis, and the two rankings should be reconciled before any recruiter is committed to a GPU leg.
 
 ---
 
