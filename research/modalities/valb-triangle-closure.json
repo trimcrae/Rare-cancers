@@ -163,8 +163,9 @@
       "ternary_leg_ref_gpu_h_on_the_OLD_2400_basis": 10.667,
       "iteration_basis_correction": 1.1667,
       "usd_per_reference_gpu_h": 0.1372,
-      "solvent_leg_ref_gpu_h_ESTIMATE": 4.1,
-      "solvent_leg_basis": "carried from the binary NR4A3 RBFE lane (pricing.md section B: complex ~9.1 / solvent ~4.1 ref GPU-h). ESTIMATE, not a ternary-lane measurement."
+      "solvent_leg_ref_gpu_h_ESTIMATE": 4.78,
+      "solvent_sec_per_iter_ESTIMATE": 6.15,
+      "solvent_leg_basis": "a RATE (~6.15 s/iter) backed out of the binary NR4A3 RBFE lane's solvent leg (pricing.md section B: ~4.1 ref GPU-h over its 2400-iteration leg) and re-multiplied by the ternary lane's 2800 iterations. ESTIMATE, not a ternary-lane measurement, and the two lanes' solvent boxes differ (a 59-heavy-atom PROTAC vs a ~20-heavy-atom warhead)."
     },
     "variants": {
       "n1_scout_R_only (2 new edges x ternary+binary; r0 reused as T1)": {
@@ -176,19 +177,19 @@
         ]
       },
       "n1_scout_plus_solvent (as expand_pilot_legs would actually run it)": {
-        "ref_gpu_h": 58.0,
-        "plan_usd": 7.95,
+        "ref_gpu_h": 59.3,
+        "plan_usd": 8.14,
         "range_usd": [
-          3.3,
-          17.94
+          3.38,
+          18.36
         ]
       },
       "solvent_only_prescout (2 new SOLVENT legs; T1's solvent leg already ran)": {
-        "ref_gpu_h": 8.2,
-        "plan_usd": 1.13,
+        "ref_gpu_h": 9.6,
+        "plan_usd": 1.31,
         "range_usd": [
-          0.47,
-          2.54
+          0.55,
+          2.96
         ]
       },
       "n3_as_the_design_prices_it (2 new edges x 3 replicas -- INCOMPLETE, see (c))": {
@@ -215,7 +216,7 @@
     },
     "corrections": {
       "a_iteration_basis_pct": 16.7,
-      "b_solvent_legs_usd_if_run": 1.13,
+      "b_solvent_legs_usd_if_run": 1.31,
       "c_n3_needs_T1_replicates": "the n=3 triangle is 16 legs, not 12 (+33%), because T1 has only r0"
     }
   },
@@ -241,14 +242,14 @@
       "interface substates",
       "anything about cooperativity"
     ],
-    "ref_gpu_h_ESTIMATE": 8.2,
-    "plan_usd_ESTIMATE": 1.13,
+    "ref_gpu_h_ESTIMATE": 9.6,
+    "plan_usd_ESTIMATE": 1.31,
     "range_usd": [
-      0.47,
-      2.54
+      0.55,
+      2.96
     ],
-    "fraction_of_full_n1_scout": 0.165,
-    "caveat": "carried from the binary NR4A3 RBFE lane (pricing.md section B: complex ~9.1 / solvent ~4.1 ref GPU-h). ESTIMATE, not a ternary-lane measurement."
+    "fraction_of_full_n1_scout": 0.192,
+    "caveat": "a RATE (~6.15 s/iter) backed out of the binary NR4A3 RBFE lane's solvent leg (pricing.md section B: ~4.1 ref GPU-h over its 2400-iteration leg) and re-multiplied by the ternary lane's 2800 iterations. ESTIMATE, not a ternary-lane measurement, and the two lanes' solvent boxes differ (a 59-heavy-atom PROTAC vs a ~20-heavy-atom warhead)."
   },
   "decision_tree": {
     "branch_A": {

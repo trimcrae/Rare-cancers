@@ -32,9 +32,9 @@ chemistry and real arithmetic **before** any dollar is spent.
 topology carries a defect the repo's own perturbation-map invariant forbids; a different topology (§2, the
 **aza-scan at the linker ring**) removes that defect at no extra cost and is strictly better on every axis.
 Its value proposition should be restated: it is **not** a diagnosis of r0 and **not** an accuracy control, it
-is a detector for one specific error class that the reverse leg structurally cannot see (§4). And a **$1.13
+is a detector for one specific error class that the reverse leg structurally cannot see (§4). And a **$1.31
 solvent-only pre-scout** (§7) should be bought before any ternary leg, because it can falsify the triangle's
-machinery for ~16 % of the price.
+machinery for ~19 % of the price.
 
 ---
 
@@ -284,9 +284,9 @@ ligand *inside VCB*, so it is a function of the pair — three pairs, three bina
 Claiming it here would underprice the triangle by ~2×. *(This confirms the rescope doc's own §2 reasoning.)*
 
 **What does cancel:** the **solvent leg cancels exactly** inside `ΔΔG_coop = ternary − binary`, so a triangle
-whose deliverable is R needs **2 legs per edge, not 3**. ⚠ But `nr4a3_ternary_fep.expand_pilot_legs()` adds a
-solvent leg per distinct morph **unconditionally**, so run as-is the triangle would buy 2 solvent legs it does
-not need — **$1.13** of avoidable spend, unless they are bought deliberately for the reason in §7.
+whose deliverable is R needs **2 legs per edge, not 3**. ⚠ But the pattern `nr4a3_ternary_fep.expand_pilot_legs()` implements is *one shared solvent leg per
+distinct morph*, added unconditionally — so registering T2/T3 as morphs would buy 2 solvent legs the closure does
+not need — **$1.31** of avoidable spend, unless they are bought deliberately for the reason in §7.
 
 **Forward-looking:** binary legs *are* target-independent, so if a triangle edge is later replicated against a
 second known-answer system (VHL–BRD4), its binary legs transfer unchanged.
@@ -312,9 +312,9 @@ ternary leg**, against 10.67 on the withdrawn 2400 basis. At the repo's planning
 
 | variant | legs | ref GPU-h | **plan $** | range $ |
 |---|---|---|---|---|
-| **solvent-only pre-scout** (§7) | 2 solvent | 8.2 | **$1.13** | $0.47–2.54 |
+| **solvent-only pre-scout** (§7) | 2 solvent | 9.6 | **$1.31** | $0.55–2.96 |
 | **n = 1 scout, R only** (2 new edges × ternary+binary; r0 reused) | 4 | 49.8 | **$6.83** | $2.84–15.40 |
-| n = 1 as `expand_pilot_legs` would actually run it (+2 solvent) | 6 | 58.0 | $7.95 | $3.30–17.94 |
+| n = 1 as the pipeline pattern would run it (+2 solvent) | 6 | 59.3 | $8.14 | $3.38–18.36 |
 | n = 3 *as the design prices it* — **incomplete** | 12 | 149.3 | $20.49 | $8.51–46.20 |
 | **n = 3 HONEST** (all three edges at n=3 ⇒ 12 new legs **+ T1's r1, r2**) | **16** | 199.1 | **$27.32** | $11.35–61.60 |
 
@@ -338,14 +338,14 @@ scout would be **$4.39**. That decision is RUNG 2b's and is not assumed here —
 
 ---
 
-## 7. ★ Buy the SOLVENT closure first — $1.13, and it can falsify the triangle before any ternary leg
+## 7. ★ Buy the SOLVENT closure first — $1.31, and it can falsify the triangle before any ternary leg
 
 A new recommendation, and it is the repo's own pilot-one-leg-first rule applied to the triangle itself.
 
 `R_solvent = ΔG_solv(T1) + ΔG_solv(T2) − ΔG_solv(T3)` is a **full closure test of the alchemical machinery** —
 atom-map consistency between edges, endpoint chemical identity, λ-schedule adequacy, charge-model consistency —
 in a ~5 k-particle box instead of a ~142 k-particle assembly. **T1's solvent leg already ran** (r0: ΔG_morph =
-47.8060), so it costs **2 new solvent legs ≈ $1.13**, about **16 %** of the full n=1 scout.
+47.8060), so it costs **2 new solvent legs ≈ $1.31**, about **19 %** of the full n=1 scout.
 
 It **cannot** see protein-sampling path error, interface substates, or anything about cooperativity — and that
 is the point: it isolates the *machinery* from the *physics*. **If the machinery closure fails, no ternary leg
@@ -353,10 +353,15 @@ should be bought**, and finding that out costs a fraction of one ternary leg. It
 class this lane has actually produced: the reverse leg's `base_smiles` defect built an endpoint against the
 wrong bond-order template — a chemical-identity error that shows up in solvent.
 
-⚠ **Honest caveat on the number.** The 4.1 ref GPU-h solvent leg is **carried from the binary NR4A3 RBFE lane**
-(pricing.md §B: complex ~9.1 / solvent ~4.1) and is an **estimate, not a ternary-lane measurement**. It is
-*not* 1/28 of a ternary leg despite the particle ratio, because a solvent leg runs the same 12 λ-windows for
-the same number of iterations and is latency-bound rather than throughput-bound at that size.
+⚠ **Honest caveat on the number, and a self-caught instance of the very error this document corrects.**
+The only solvent-leg figure the repo has is the binary NR4A3 RBFE lane's **~4.1 ref GPU-h** (pricing.md §B) —
+and that is stated on the **binary lane's 2400-iteration leg**. Carrying it across as a *total* would import a
+2400-basis number into a 2800-basis calculation, which is exactly the mistake being corrected in §6. It is
+therefore converted to a **rate** first (4.1 h / 2400 iters = **6.15 s/iter**) and re-multiplied by the ternary
+lane's 2800 iterations → **4.78 ref GPU-h per leg**. Still an **estimate, not a ternary-lane measurement**, and
+the two lanes' solvent boxes differ (a 59-heavy-atom PROTAC vs a ~20-heavy-atom warhead). It is *not* 1/28 of a
+ternary leg despite the particle ratio, because a solvent leg runs the same 12 λ-windows for the same number of
+iterations and is latency-bound rather than throughput-bound at that size.
 
 ---
 
@@ -370,8 +375,8 @@ the same number of iterations and is latency-bound rather than throughput-bound 
 3. **Read the reverse leg** (result ~2026-07-26 AM ET). Branch B ⇒ **fix the protocol on the edge already paid
    for**; do not buy the triangle, it would go stale on the fix. Branch A ⇒ continue to (4), but with the
    purpose restated per §4: it is not a diagnosis of r0.
-4. **~$1.13 — the solvent-only closure pre-scout (§7).** Abortable, and it can falsify the triangle's machinery
-   for ~16 % of the scout price.
+4. **~$1.31 — the solvent-only closure pre-scout (§7).** Abortable, and it can falsify the triangle's machinery
+   for ~19 % of the scout price.
 5. **~$6.83 — the n = 1 closure scout**, only if (4) closes. Report `R_ternary` and `R_binary` **separately**
    (§1a), all edges at **seed 0** (§1b).
 6. **Do NOT buy n = 3 at $27.3** without a separate decision: it drags in T1's r1/r2, the spend the r0 verdict

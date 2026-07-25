@@ -13,13 +13,13 @@ or simulation rather than assertion. Pure stdlib; no network, no GPU, no chemist
      determines the decision-tree answer.
   3. HOW BIG MUST |R| BE TO MEAN ANYTHING? (`closure_noise_floor`)
      R is a +-1 combination of six leg free energies, so its noise is sqrt(6) x the per-leg noise -- and the
-     per-leg noise for this lane is known only to within a factor of ~11 (MBAR SE 0.045 vs the repo's assumed
+     per-leg noise for this lane is known only to within a factor of ~15 (MBAR SE 0.045 vs the repo's assumed
      replicate SD 0.7). The detection threshold inherits that uncertainty.
   4. WHAT DOES IT ACTUALLY COST, on the corrected basis? (`price_triangle`)
      Priced in STEPS, because iteration counts are not comparable across protocols: 1 fs warmup iterations and
      2 fs production iterations cost the same 1250 force evaluations each, which is exactly why the leg is
      2800 iterations and not 2400. Two further corrections to the design's ~$5.9 are derived here, one of which
-     is larger than the iteration correction.
+     (T1's replicates do not exist) is LARGER than the iteration correction.
 
 EVERY INPUT IS SOURCED. Protocol lengths come from `nr4a3_ternary_fep` (EQUILIBRATION_NS / PRODUCTION_NS) and
 `rbfe_spot_driver._iters_from_time`; the per-iteration rate and the $/reference-GPU-h come from the repo's
@@ -48,14 +48,27 @@ USD_PER_REF_GPU_H = 0.1372          # vast-ladder-repricing.json -> plan_usd_per
 USD_PER_REF_GPU_H_LO = 0.057        # best live offer
 USD_PER_REF_GPU_H_HI = 0.3094       # market median (what ignoring the ranking costs)
 
+# ---------------------------------------------------------------------------------------------------------
+# SOLVENT LEG -- carried as a RATE, not as a total, because the two lanes have different leg lengths.
+#
 # A solvent leg is NOT ~1/28 of a ternary leg just because the box is ~5k particles against ~142k: it runs the
 # SAME 12 lambda-windows for the SAME number of iterations and is latency-bound, not throughput-bound, at that
-# size. The repo's own binary NR4A3 RBFE basis (pricing.md B: complex ~9.1, solvent ~4.1 ref GPU-h) puts a
-# solvent leg at ~45% of a ~35k-particle complex leg. Carried across as an ESTIMATE, flagged as such -- no
-# solvent-leg rate has been measured on the ternary lane.
-SOLVENT_LEG_REF_GPU_H_EST = 4.1
-SOLVENT_LEG_BASIS = ("carried from the binary NR4A3 RBFE lane (pricing.md section B: complex ~9.1 / solvent "
-                     "~4.1 ref GPU-h). ESTIMATE, not a ternary-lane measurement.")
+# size. The only solvent-leg figure the repo has is the binary NR4A3 RBFE lane's (pricing.md section B:
+# complex ~9.1 / solvent ~4.1 ref GPU-h).
+#
+# ⚠ That 4.1 is stated on the BINARY lane's 2400-iteration leg. Carrying it across as a TOTAL would import a
+# 2400-basis number into a 2800-basis calculation -- precisely the error this module exists to correct. So it
+# is converted to a per-iteration rate first (4.1 h / 2400 iters = 6.15 s/iter) and re-multiplied by the
+# ternary lane's own iteration count.
+SOLVENT_SEC_PER_ITER_EST = 4.1 * 3600.0 / 2400.0        # 6.15 s/iter, from the binary lane's solvent leg
+SOLVENT_LEG_BASIS = ("a RATE (~6.15 s/iter) backed out of the binary NR4A3 RBFE lane's solvent leg "
+                     "(pricing.md section B: ~4.1 ref GPU-h over its 2400-iteration leg) and re-multiplied by "
+                     "the ternary lane's 2800 iterations. ESTIMATE, not a ternary-lane measurement, and the "
+                     "two lanes' solvent boxes differ (a 59-heavy-atom PROTAC vs a ~20-heavy-atom warhead).")
+
+
+def solvent_leg_ref_gpu_h(prod_dt_fs=PROD_DT_FS_ASRUN):
+    return steps_per_leg(prod_dt_fs=prod_dt_fs)["total_iterations"] * SOLVENT_SEC_PER_ITER_EST / 3600.0
 
 
 def steps_per_leg(prod_dt_fs=PROD_DT_FS_ASRUN, warmup_dt_fs=WARMUP_DT_FS,
@@ -309,9 +322,9 @@ def price_triangle(prod_dt_fs=PROD_DT_FS_ASRUN):
     variants = {
         "n1_scout_R_only (2 new edges x ternary+binary; r0 reused as T1)": money(4 * leg_h),
         "n1_scout_plus_solvent (as expand_pilot_legs would actually run it)":
-            money(4 * leg_h + 2 * SOLVENT_LEG_REF_GPU_H_EST),
+            money(4 * leg_h + 2 * solvent_leg_ref_gpu_h(prod_dt_fs)),
         "solvent_only_prescout (2 new SOLVENT legs; T1's solvent leg already ran)":
-            money(2 * SOLVENT_LEG_REF_GPU_H_EST),
+            money(2 * solvent_leg_ref_gpu_h(prod_dt_fs)),
         "n3_as_the_design_prices_it (2 new edges x 3 replicas -- INCOMPLETE, see (c))": money(12 * leg_h),
         "n3_HONEST (all three edges at n=3 => 12 new legs + T1's r1,r2 = 16 legs)": money(16 * leg_h),
     }
@@ -326,7 +339,8 @@ def price_triangle(prod_dt_fs=PROD_DT_FS_ASRUN):
             "ternary_leg_ref_gpu_h_on_the_OLD_2400_basis": round(old_leg_h, 3),
             "iteration_basis_correction": round(leg_h / old_leg_h, 4),
             "usd_per_reference_gpu_h": USD_PER_REF_GPU_H,
-            "solvent_leg_ref_gpu_h_ESTIMATE": SOLVENT_LEG_REF_GPU_H_EST,
+            "solvent_leg_ref_gpu_h_ESTIMATE": round(solvent_leg_ref_gpu_h(prod_dt_fs), 2),
+            "solvent_sec_per_iter_ESTIMATE": round(SOLVENT_SEC_PER_ITER_EST, 2),
             "solvent_leg_basis": SOLVENT_LEG_BASIS,
         },
         "variants": variants,
@@ -334,7 +348,7 @@ def price_triangle(prod_dt_fs=PROD_DT_FS_ASRUN):
                           "note": "computed on the 2400-iteration basis and on 12 legs at n=3."},
         "corrections": {
             "a_iteration_basis_pct": round((leg_h / old_leg_h - 1) * 100, 1),
-            "b_solvent_legs_usd_if_run": round(2 * SOLVENT_LEG_REF_GPU_H_EST * USD_PER_REF_GPU_H, 2),
+            "b_solvent_legs_usd_if_run": round(2 * solvent_leg_ref_gpu_h(prod_dt_fs) * USD_PER_REF_GPU_H, 2),
             "c_n3_needs_T1_replicates": "the n=3 triangle is 16 legs, not 12 (+33%), because T1 has only r0",
         },
     }
@@ -480,7 +494,7 @@ def solvent_prescout():
 
     This is exactly the repo's pilot-one-leg-first rule applied to the triangle: if the machinery closure
     fails, no ternary leg should be bought, and finding that out costs a fraction of one ternary leg."""
-    c = 2 * SOLVENT_LEG_REF_GPU_H_EST
+    c = 2 * solvent_leg_ref_gpu_h()
     full = 4 * ternary_leg_ref_gpu_h()
     return {
         "what": "close the triangle in the SOLVENT environment only, before buying any ternary/binary leg",
