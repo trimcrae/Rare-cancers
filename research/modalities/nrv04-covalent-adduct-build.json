@@ -1,0 +1,584 @@
+{
+  "lbd_offset": 344,
+  "lbd_offset_provenance": {
+    "source": "uniprot",
+    "full_len": 598,
+    "residue_551": "C"
+  },
+  "a1_limit_A": 8.0,
+  "cs_bond_A": 1.81,
+  "uniprot": "P22736",
+  "models": [
+    {
+      "source_cif": "/tmp/adduct_src.cif",
+      "ligand": "nrv04",
+      "frozen_site_fulllen": 551,
+      "chains": {
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": []
+      },
+      "frozen_site": {
+        "lbd_resid": 207,
+        "fulllen_resid": 551,
+        "sg_sasa_A2": 22.65,
+        "reference": "Zhang et al., Chem. Commun. 2018, doi:10.1039/C8CC06140H (PMID 30376017): celastrol forms a REVERSIBLE covalent bond with Nur77/NR4A1 C551 after specific noncovalent positioning; C551 is the highly-exposed cysteine of the six in the Nur77 LBD."
+      },
+      "electrophile_atom_idx": 7,
+      "as_cofold": {
+        "c6_to_C551_sg_A": 34.66
+      },
+      "anchors": {
+        "n_recruiter_atoms_contacting_VHL": 37,
+        "vhl_chain": "E",
+        "definition": "recruiter (non-warhead) heavy atoms within 4.5 A of VHL in the co-fold"
+      },
+      "reachability": {
+        "anchor_atom_idx": 52,
+        "required_anchor_to_C551_sg_A": 36.92,
+        "needed_allowing_for_the_C_S_bond_A": 35.11,
+        "empirical_max_A": 30.49,
+        "n_conformers": 283,
+        "topological_bonds": 31,
+        "all_anti_upper_bound_A": 38.75,
+        "reachable_under_empirical_bound": false,
+        "reachable_under_topological_bound": true,
+        "verdict": "AMBIGUOUS"
+      },
+      "adduct_site_room": {
+        "n_candidates": 72,
+        "best_min_protein_dist_A": 3.8,
+        "n_candidates_with_clearance_ge_3.0A": 47,
+        "least_crowded_n_atoms_within_6A": 32
+      },
+      "construction": {
+        "objective": 1905.155633126127,
+        "c6_to_target_A": 1.62,
+        "anchor_rmsd_A": 18.98,
+        "clash_sumsq": 55.63,
+        "worst_overlap_A": 1.92,
+        "n_torsions": 27,
+        "n_restarts": 24,
+        "final_c6_to_C551_sg_A": 1.4,
+        "a1_limit_A": 8.0,
+        "passes_A1": true,
+        "at_covalent_bond_length": false
+      },
+      "constructed_cif": "/tmp/adduct_built.cif",
+      "verdict": "CONSTRUCTED",
+      "s3_key": "nrv04-cofold-vast-shakeout/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+      "uploaded": "s3://sagemaker-us-east-2-646605541856/nrv04-covalent-adduct-v1/nr4a1-nrv04-ternary_model_0_adduct.cif"
+    },
+    {
+      "source_cif": "/tmp/adduct_src.cif",
+      "ligand": "celastrol",
+      "frozen_site_fulllen": 551,
+      "chains": {
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": []
+      },
+      "frozen_site": {
+        "lbd_resid": 207,
+        "fulllen_resid": 551,
+        "sg_sasa_A2": 37.93,
+        "reference": "Zhang et al., Chem. Commun. 2018, doi:10.1039/C8CC06140H (PMID 30376017): celastrol forms a REVERSIBLE covalent bond with Nur77/NR4A1 C551 after specific noncovalent positioning; C551 is the highly-exposed cysteine of the six in the Nur77 LBD."
+      },
+      "electrophile_atom_idx": 7,
+      "as_cofold": {
+        "c6_to_C551_sg_A": 36.43
+      },
+      "anchors": {
+        "n_recruiter_atoms_contacting_VHL": 0,
+        "vhl_chain": "E",
+        "definition": "recruiter (non-warhead) heavy atoms within 4.5 A of VHL in the co-fold"
+      },
+      "reachability": {
+        "verdict": "N_A",
+        "why": "no recruiter atoms contact VHL (free-warhead leg) \u2014 the warhead is unconstrained, so reach is not limiting"
+      },
+      "adduct_site_room": {
+        "n_candidates": 72,
+        "best_min_protein_dist_A": 4.81,
+        "n_candidates_with_clearance_ge_3.0A": 58,
+        "least_crowded_n_atoms_within_6A": 9
+      },
+      "construction": {
+        "objective": 45.585542799413915,
+        "c6_to_target_A": 0.58,
+        "anchor_rmsd_A": null,
+        "clash_sumsq": 2.12,
+        "worst_overlap_A": 0.73,
+        "n_torsions": 1,
+        "n_restarts": 24,
+        "final_c6_to_C551_sg_A": 2.37,
+        "a1_limit_A": 8.0,
+        "passes_A1": true,
+        "at_covalent_bond_length": false
+      },
+      "constructed_cif": "/tmp/adduct_built.cif",
+      "verdict": "CONSTRUCTED",
+      "s3_key": "nrv04-covalent-cofold/neg_celastrol/seed_0/boltz_results_neg_celastrol-nr4a1/predictions/neg_celastrol-nr4a1/neg_celastrol-nr4a1_model_0.cif",
+      "uploaded": "s3://sagemaker-us-east-2-646605541856/nrv04-covalent-adduct-v1/neg_celastrol-nr4a1_model_0_adduct.cif"
+    },
+    {
+      "source_cif": "/tmp/adduct_src.cif",
+      "ligand": "nrv04_epimer",
+      "frozen_site_fulllen": 551,
+      "chains": {
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": []
+      },
+      "frozen_site": {
+        "lbd_resid": 207,
+        "fulllen_resid": 551,
+        "sg_sasa_A2": 5.36,
+        "reference": "Zhang et al., Chem. Commun. 2018, doi:10.1039/C8CC06140H (PMID 30376017): celastrol forms a REVERSIBLE covalent bond with Nur77/NR4A1 C551 after specific noncovalent positioning; C551 is the highly-exposed cysteine of the six in the Nur77 LBD."
+      },
+      "electrophile_atom_idx": 7,
+      "as_cofold": {
+        "c6_to_C551_sg_A": 28.42
+      },
+      "anchors": {
+        "n_recruiter_atoms_contacting_VHL": 45,
+        "vhl_chain": "E",
+        "definition": "recruiter (non-warhead) heavy atoms within 4.5 A of VHL in the co-fold"
+      },
+      "reachability": {
+        "anchor_atom_idx": 52,
+        "required_anchor_to_C551_sg_A": 36.95,
+        "needed_allowing_for_the_C_S_bond_A": 35.14,
+        "empirical_max_A": 29.99,
+        "n_conformers": 279,
+        "topological_bonds": 31,
+        "all_anti_upper_bound_A": 38.75,
+        "reachable_under_empirical_bound": false,
+        "reachable_under_topological_bound": true,
+        "verdict": "AMBIGUOUS"
+      },
+      "adduct_site_room": {
+        "n_candidates": 72,
+        "best_min_protein_dist_A": 3.31,
+        "n_candidates_with_clearance_ge_3.0A": 20,
+        "least_crowded_n_atoms_within_6A": 43
+      },
+      "construction": {
+        "objective": 1848.3999130331013,
+        "c6_to_target_A": 1.35,
+        "anchor_rmsd_A": 18.02,
+        "clash_sumsq": 63.7,
+        "worst_overlap_A": 1.9,
+        "n_torsions": 27,
+        "n_restarts": 24,
+        "final_c6_to_C551_sg_A": 2.78,
+        "a1_limit_A": 8.0,
+        "passes_A1": true,
+        "at_covalent_bond_length": false
+      },
+      "constructed_cif": "/tmp/adduct_built.cif",
+      "verdict": "CONSTRUCTED",
+      "s3_key": "nrv04-covalent-cofold/neg_inactive/seed_0/boltz_results_neg_inactive-nr4a1/predictions/neg_inactive-nr4a1/neg_inactive-nr4a1_model_0.cif",
+      "uploaded": "s3://sagemaker-us-east-2-646605541856/nrv04-covalent-adduct-v1/neg_inactive-nr4a1_model_0_adduct.cif"
+    },
+    {
+      "source_cif": "/tmp/adduct_src.cif",
+      "ligand": "nrv04",
+      "frozen_site_fulllen": 551,
+      "chains": {
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": []
+      },
+      "frozen_site": {
+        "lbd_resid": 207,
+        "fulllen_resid": 551,
+        "sg_sasa_A2": 13.27,
+        "reference": "Zhang et al., Chem. Commun. 2018, doi:10.1039/C8CC06140H (PMID 30376017): celastrol forms a REVERSIBLE covalent bond with Nur77/NR4A1 C551 after specific noncovalent positioning; C551 is the highly-exposed cysteine of the six in the Nur77 LBD."
+      },
+      "electrophile_atom_idx": 7,
+      "as_cofold": {
+        "c6_to_C551_sg_A": 28.46
+      },
+      "anchors": {
+        "n_recruiter_atoms_contacting_VHL": 44,
+        "vhl_chain": "E",
+        "definition": "recruiter (non-warhead) heavy atoms within 4.5 A of VHL in the co-fold"
+      },
+      "reachability": {
+        "anchor_atom_idx": 29,
+        "required_anchor_to_C551_sg_A": 38.19,
+        "needed_allowing_for_the_C_S_bond_A": 36.38,
+        "empirical_max_A": 15.26,
+        "n_conformers": 283,
+        "topological_bonds": 14,
+        "all_anti_upper_bound_A": 17.5,
+        "reachable_under_empirical_bound": false,
+        "reachable_under_topological_bound": false,
+        "verdict": "UNREACHABLE"
+      },
+      "verdict": "UNREACHABLE",
+      "why": "with the recruiter held in VHL as the co-fold places it, the electrophile must span 38.2 A to reach C551 S-gamma, but the molecule's largest attainable anchor->electrophile distance is 15.3 A (all-anti upper bound 17.5 A). This ternary arrangement is incompatible with a C551 adduct; no pose search repairs it.",
+      "s3_key": "nrv04-covalent-cofold/nr4a1/seed_0/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif"
+    },
+    {
+      "source_cif": "/tmp/adduct_src.cif",
+      "ligand": "nrv04",
+      "frozen_site_fulllen": 551,
+      "chains": {
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": []
+      },
+      "frozen_site": {
+        "lbd_resid": 207,
+        "fulllen_resid": 551,
+        "sg_sasa_A2": 23.06,
+        "reference": "Zhang et al., Chem. Commun. 2018, doi:10.1039/C8CC06140H (PMID 30376017): celastrol forms a REVERSIBLE covalent bond with Nur77/NR4A1 C551 after specific noncovalent positioning; C551 is the highly-exposed cysteine of the six in the Nur77 LBD."
+      },
+      "electrophile_atom_idx": 7,
+      "as_cofold": {
+        "c6_to_C551_sg_A": 34.42
+      },
+      "anchors": {
+        "n_recruiter_atoms_contacting_VHL": 37,
+        "vhl_chain": "E",
+        "definition": "recruiter (non-warhead) heavy atoms within 4.5 A of VHL in the co-fold"
+      },
+      "reachability": {
+        "anchor_atom_idx": 52,
+        "required_anchor_to_C551_sg_A": 36.91,
+        "needed_allowing_for_the_C_S_bond_A": 35.1,
+        "empirical_max_A": 30.49,
+        "n_conformers": 283,
+        "topological_bonds": 31,
+        "all_anti_upper_bound_A": 38.75,
+        "reachable_under_empirical_bound": false,
+        "reachable_under_topological_bound": true,
+        "verdict": "AMBIGUOUS"
+      },
+      "adduct_site_room": {
+        "n_candidates": 72,
+        "best_min_protein_dist_A": 3.83,
+        "n_candidates_with_clearance_ge_3.0A": 47,
+        "least_crowded_n_atoms_within_6A": 33
+      },
+      "construction": {
+        "objective": 1772.261842275262,
+        "c6_to_target_A": 1.18,
+        "anchor_rmsd_A": 19.87,
+        "clash_sumsq": 42.08,
+        "worst_overlap_A": 2.49,
+        "n_torsions": 27,
+        "n_restarts": 24,
+        "final_c6_to_C551_sg_A": 1.71,
+        "a1_limit_A": 8.0,
+        "passes_A1": true,
+        "at_covalent_bond_length": true
+      },
+      "constructed_cif": "/tmp/adduct_built.cif",
+      "verdict": "CONSTRUCTED",
+      "s3_key": "nrv04-descriptive-v4/nr4a1/seed_1/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+      "uploaded": "s3://sagemaker-us-east-2-646605541856/nrv04-covalent-adduct-v1/nr4a1-nrv04-ternary_model_0_adduct.cif"
+    },
+    {
+      "source_cif": "/tmp/adduct_src.cif",
+      "ligand": "nrv04",
+      "frozen_site_fulllen": 551,
+      "chains": {
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": []
+      },
+      "frozen_site": {
+        "lbd_resid": 207,
+        "fulllen_resid": 551,
+        "sg_sasa_A2": 8.31,
+        "reference": "Zhang et al., Chem. Commun. 2018, doi:10.1039/C8CC06140H (PMID 30376017): celastrol forms a REVERSIBLE covalent bond with Nur77/NR4A1 C551 after specific noncovalent positioning; C551 is the highly-exposed cysteine of the six in the Nur77 LBD."
+      },
+      "electrophile_atom_idx": 7,
+      "as_cofold": {
+        "c6_to_C551_sg_A": 29.87
+      },
+      "anchors": {
+        "n_recruiter_atoms_contacting_VHL": 46,
+        "vhl_chain": "E",
+        "definition": "recruiter (non-warhead) heavy atoms within 4.5 A of VHL in the co-fold"
+      },
+      "reachability": {
+        "anchor_atom_idx": 52,
+        "required_anchor_to_C551_sg_A": 39.57,
+        "needed_allowing_for_the_C_S_bond_A": 37.76,
+        "empirical_max_A": 30.49,
+        "n_conformers": 283,
+        "topological_bonds": 31,
+        "all_anti_upper_bound_A": 38.75,
+        "reachable_under_empirical_bound": false,
+        "reachable_under_topological_bound": true,
+        "verdict": "AMBIGUOUS"
+      },
+      "adduct_site_room": {
+        "n_candidates": 72,
+        "best_min_protein_dist_A": 3.81,
+        "n_candidates_with_clearance_ge_3.0A": 35,
+        "least_crowded_n_atoms_within_6A": 20
+      },
+      "construction": {
+        "objective": 1066.8444660209302,
+        "c6_to_target_A": 0.69,
+        "anchor_rmsd_A": 17.31,
+        "clash_sumsq": 11.61,
+        "worst_overlap_A": 2.08,
+        "n_torsions": 27,
+        "n_restarts": 24,
+        "final_c6_to_C551_sg_A": 2.45,
+        "a1_limit_A": 8.0,
+        "passes_A1": true,
+        "at_covalent_bond_length": false
+      },
+      "constructed_cif": "/tmp/adduct_built.cif",
+      "verdict": "CONSTRUCTED",
+      "s3_key": "nrv04-descriptive-v4/nr4a1/seed_2/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif",
+      "uploaded": "s3://sagemaker-us-east-2-646605541856/nrv04-covalent-adduct-v1/nr4a1-nrv04-ternary_model_0_adduct.cif"
+    },
+    {
+      "source_cif": "/tmp/adduct_src.cif",
+      "ligand": "nrv04",
+      "frozen_site_fulllen": 551,
+      "chains": {
+        "census": [
+          {
+            "chain": "A",
+            "residues": 254
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "contaminant": []
+      },
+      "frozen_site": {
+        "lbd_resid": 207,
+        "fulllen_resid": 551,
+        "sg_sasa_A2": 38.07,
+        "reference": "Zhang et al., Chem. Commun. 2018, doi:10.1039/C8CC06140H (PMID 30376017): celastrol forms a REVERSIBLE covalent bond with Nur77/NR4A1 C551 after specific noncovalent positioning; C551 is the highly-exposed cysteine of the six in the Nur77 LBD."
+      },
+      "electrophile_atom_idx": 7,
+      "as_cofold": {
+        "c6_to_C551_sg_A": 39.11
+      },
+      "anchors": {
+        "n_recruiter_atoms_contacting_VHL": 45,
+        "vhl_chain": "E",
+        "definition": "recruiter (non-warhead) heavy atoms within 4.5 A of VHL in the co-fold"
+      },
+      "reachability": {
+        "anchor_atom_idx": 31,
+        "required_anchor_to_C551_sg_A": 33.61,
+        "needed_allowing_for_the_C_S_bond_A": 31.8,
+        "empirical_max_A": 17.47,
+        "n_conformers": 283,
+        "topological_bonds": 16,
+        "all_anti_upper_bound_A": 20.0,
+        "reachable_under_empirical_bound": false,
+        "reachable_under_topological_bound": false,
+        "verdict": "UNREACHABLE"
+      },
+      "verdict": "UNREACHABLE",
+      "why": "with the recruiter held in VHL as the co-fold places it, the electrophile must span 33.6 A to reach C551 S-gamma, but the molecule's largest attainable anchor->electrophile distance is 17.5 A (all-anti upper bound 20.0 A). This ternary arrangement is incompatible with a C551 adduct; no pose search repairs it.",
+      "s3_key": "nrv04-descriptive-v4/nr4a1/seed_3/boltz_results_nr4a1-nrv04-ternary/predictions/nr4a1-nrv04-ternary/nr4a1-nrv04-ternary_model_0.cif"
+    }
+  ],
+  "summary": {
+    "n_attempted": 7,
+    "n_constructed": 5,
+    "admissible_input_exists": true,
+    "best_final_c6_to_C551_sg_A": 1.4,
+    "verdicts": {
+      "UNREACHABLE": 2,
+      "CONSTRUCTED": 5
+    }
+  }
+}
