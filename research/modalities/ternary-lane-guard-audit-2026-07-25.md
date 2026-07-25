@@ -26,11 +26,11 @@ The engine has supported `DIRECTION=rev` since it was written. Every blocker was
 |---|---|---|---|
 | 1 | `gpu-ternary-fep-gcp.yml` run invocation | `DIRECTION=fwd` hardcoded | passes `$DIRECTION` |
 | 2 | same, dispatch inputs | no `direction` input existed | added (retired the confirmed-no-op `constrain_ligand_ch` for the 25-input cap, pinning `CONSTRAIN_LIG='0'` so existing `clig0` prefixes stay resumable) |
-| 3 | same, spot commit prefix | keyed `leg+seed+dt+clig+wu+salt`, **no direction** — a rev leg would have RESUMED the fwd trajectory and reported it as reverse | `_dir<rev>` suffix, applied only when direction≠fwd so every existing prefix is byte-identical |
+| 3 | same, spot commit prefix | keyed `leg+seed+dt+clig+wu+salt`, **no direction** — a rev leg would have RESUMED the fwd trajectory and reported it as reverse | ⚠ **THE FIRST FIX DID NOT WORK — see §H. It shipped, read correctly, and left the bug fully live.** Now fixed runner-side with an assertion + a test |
 | 4 | `ternary-setup-prime-cpu.yml` | `DIRECTION: fwd` pinned; setup-cache key is `tag=<leg>_<dir>_r<seed>`, so a rev leg needed its own prime and could never get one while the GPU lane fails fast on `RBFE_REQUIRE_PRIMED_SETUP=1` — **unsatisfiable from both ends** | `direction` input |
 | 5 | `gpu-ternary-fep-gcp.yml` idempotent skip | `gcloud storage ls .../leg_${LEG_ID}_fwd_r${SEED}.json` — a rev leg found the **fwd** result, printed `TFEP_RESULT status=OK (idempotent-skip)` and exited after 37 s CPU with no MD | keys on `${DIRECTION}` |
 
-**#5 cost two VMs.** And because the VM's service account lacks `compute.instances.delete`, the self-delete trap
+**#3's first fix was ineffective and #5 cost two VMs.** And because the VM's service account lacks `compute.instances.delete`, the self-delete trap
 no-ops, so each such exit leaves an idle L4 spot **billing zombie holding the single-GPU quota**.
 
 ### Direction-blind by design — checked and CORRECT, do not "fix"
@@ -222,3 +222,74 @@ Three independent times today, **step DURATION rather than status** was the only
 its conclusion.** Whenever a new dimension is added to this lane (a direction, a paralogue, a charge model, an
 E3), grep every cache key, commit prefix, result filename, postmortem name and skip check for the *old* implicit
 value before running anything.
+
+---
+
+## H. THE ONE THAT ACTUALLY HAPPENED: §A#3's fix never worked, and a rev leg resumed the FORWARD trajectory
+
+**2026-07-25, 1:41 PM ET.** This is the most serious finding in this document, and it was found *by* the audit's
+own remedies rather than by review — §A#3 was recorded above as **fixed**, the code read correctly, and the bug
+was fully live the whole time.
+
+### What happened
+The reverse leg restored **the forward leg's committed production trajectory at iteration 2000**:
+
+```
+[spot-safe] commit store: .../commits/calib_hi_to_lo__ternary_vhl/0_dt2.0fs_clig0_wu1.0_v2pe   <- no _dirrev
+[spot-driver] restore -> production@iter 2000
+ValueError: Stored checkpoint System particles do not match those of the simulated System
+```
+
+It failed **only** because the fwd and rev hybrid Systems have different particle counts (this rev build maps
+109 atoms), so OpenFE's `assert_multistate_system_equality` refused the restore. **Had the counts matched, the
+rev leg would have resumed forward sampling and reported it as reverse** — a silent wrong answer in the
+production lane, in the exact form §A#3 warned about. A third-party library's sanity check is the only thing
+that stood between this and a fabricated antisymmetry result. Nothing in this repo caught it.
+
+*(No data was corrupted: the failure occurs in `_get_sampler`, before `run_to_target`, so nothing was committed
+into the forward prefix. Verified by the absence of commit lines in the run log, not assumed.)*
+
+### The mechanism — a variable set in one shell and read in another
+The VM startup script is built with an **unquoted** heredoc, `cat > /tmp/startup.sh <<SS`. In an unquoted
+heredoc, unescaped `$VAR` is expanded **by the runner** as the script is written, while `\$VAR` survives into
+the file to be expanded **by the VM**. The fix as shipped did:
+
+```bash
+DIRSUF=""; [ "$DIRECTION" != fwd ] && DIRSUF="_dir$DIRECTION"      # inside the heredoc -> executes ON THE VM
+COMMIT_ENV="...wu${WARMUP_TS}${SALT:+_$SALT}${DIRSUF} ..."         # ${DIRSUF} unescaped -> RUNNER expands it
+```
+
+`DIRSUF` was assigned in the VM's shell and read in the runner's, where it had never been assigned. It expanded
+to the empty string, the suffix vanished, and **nothing errored**. Every other prefix component — `SEED`,
+`TIMESTEP_FS`, `CONSTRAIN_LIG`, `WARMUP_TS`, `SALT` — is a runner-level `env:` var, which is precisely why
+`DIRSUF` was the only one that disappeared: it was the only one whose value depended on a shell assignment.
+
+### Why nobody noticed for hours
+Two independent concealments, both already named elsewhere in this document:
+
+1. **A truncated log line (§D).** The workflow's own echo was
+   `echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"` — it stopped at the seed and
+   **never printed the suffix**. True, and useless. The real prefix appeared only in the Python's
+   `[spot-safe] commit store:` line, deep in a detached VM's log.
+2. **It needed a second condition to surface.** The rev leg's *first* attempt used no warmup override, so its
+   prefix was `wu` while the forward data sits under `wu1.0` — no collision, and it died on an unrelated 2.0 fs
+   warmup NaN instead. Setting `warmup_timestep_fs=1.0` to fix that NaN is what aligned the two prefixes and
+   exposed this. **The NaN fix accidentally found the real bug.**
+
+### The fix, and the check that was missing
+The prefix is now computed **entirely in the runner**, before the heredoc, with nothing about it deferred to the
+VM's shell, and the generated script carries the finished literal (auditable by reading it). Added:
+
+- an **assertion before provisioning**: if `direction != fwd` and the prefix does not end in `_dir<direction>`,
+  emit `::error title=COMMIT PREFIX LOST THE DIRECTION::…` and **exit before a GPU is bought**;
+- the echo now prints the **full** prefix;
+- `research/modalities/tests/test_commit_prefix_direction.sh` (10 checks) asserts on the workflow text — that
+  `DIRSUF` is assigned *before* the heredoc line, that the commit env consumes the finished prefix and no longer
+  interpolates `DIRSUF`, that the assertion exists, and that the echo is not truncated. **Verified it
+  discriminates by restoring the exact pre-fix arrangement: 6 of its checks fail.**
+
+### The lesson, which generalises past this repo
+> **A fix that "reads correctly" is not a fix. §A#3 was marked fixed in this very document while the bug was
+> live.** Where a value crosses a boundary — two shells, generation-time vs run-time, runner vs VM — the only
+> acceptable evidence is an **assertion on the produced artifact**, not an inspection of the producing code.
+> Add the assertion in the same commit as the fix.
