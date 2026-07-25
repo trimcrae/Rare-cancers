@@ -149,6 +149,21 @@ def test_caches_are_keyed_by_everything_that_changes_the_artifact():
     assert a["PE_CACHE"] != c["PE_CACHE"]
 
 
+def test_checkpoint_interval_never_truncates_its_phase():
+    """The engine rounds each phase's target DOWN to a multiple of its checkpoint interval, so an interval
+    larger than a short phase's requested length would SILENTLY shorten the run — a probe asking for 48
+    warmup iterations at interval 64 would run 64, and one asking for 12 production at interval 40 would
+    run 40. Both are wrong in a way no error message would report."""
+    for mode, sizing in tv.MODES.items():
+        for iters_key, ci_key in (("warmup_iters", "warmup_ckpt_iters"),
+                                  ("prod_iters", "prod_ckpt_iters")):
+            n, ci = sizing[iters_key], int(sizing[ci_key])
+            if not n:
+                continue           # derived (full science length) — always far above any interval
+            assert int(n) % ci == 0, f"{mode}.{iters_key}={n} is not a multiple of {ci_key}={ci}"
+            assert int(n) >= ci, f"{mode}.{iters_key}={n} is below {ci_key}={ci}"
+
+
 def test_md_timeout_is_inside_the_instance_runtime_cap():
     """The MD cap must fire BEFORE the instance cap, or the run is killed with the deliverable still on the
     host's disk and nothing uploaded."""

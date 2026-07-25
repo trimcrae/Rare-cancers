@@ -115,14 +115,25 @@ def resource_spec(gpu=None, disk_gb=None):
 # the runbook's §1c demonstration (48/48) and makes the probe a STRICTLY HARSHER test of 4 fs than the full
 # leg: less equilibrated coordinates entering production. A pass therefore carries over; a fail is
 # unambiguous. Stage 2 runs the full derived warmup, matched to the 2 fs run.
+#
+# WARMUP CHECKPOINT INTERVAL, and why it is per-mode rather than a constant. A checkpoint costs a reporter
+# sync plus an ~25 MB .nc/.chk pair copied and PUT to S3, so its cost is fixed per commit while the MD
+# between commits is `interval x seconds-per-iteration`. The GCP lane's 8 was chosen against a 2 fs
+# warmup; at 4 fs the derived warmup is ~1600 iterations (n_steps per iteration halves, so covering the
+# same 1 ns takes twice as many of them), and an interval of 8 would mean ~200 commits — plausibly a
+# double-digit percentage of the leg spent committing. `edge` therefore uses 64 (1600/64 = 25 commits,
+# first resumable snapshot ~8 min in, which is still far inside a preemption window). `probe` keeps 8,
+# both because 48 iterations must stay a multiple of the interval and because a short interval is exactly
+# what MEASURES the commit overhead — the probe is where that number comes from rather than a guess.
 MODES = {
     "probe": {
-        "prod_iters": "200", "warmup_iters": "48",
+        "prod_iters": "200", "warmup_iters": "48", "warmup_ckpt_iters": "8", "prod_ckpt_iters": "40",
         "max_runtime_s": 4 * 3600,
         "legs": [("calib_hi_to_lo__ternary_vhl", 0, "fwd")],
     },
     "edge": {
         "prod_iters": "", "warmup_iters": "",          # empty = full derived science length
+        "warmup_ckpt_iters": "64", "prod_ckpt_iters": "40",
         "max_runtime_s": 20 * 3600,
         "legs": [("calib_hi_to_lo__ternary_vhl", 0, "fwd"),
                  ("calib_hi_to_lo__binary_vhl", 0, "fwd"),
@@ -131,7 +142,7 @@ MODES = {
     # A 12-iteration end-to-end shakeout: proves image + repo pull + stage + pre-equil + setup + commit-store
     # + upload on a real host for ~$0.15, before a real leg is paid for. Its dG is meaningless by construction.
     "smoke": {
-        "prod_iters": "12", "warmup_iters": "8",
+        "prod_iters": "12", "warmup_iters": "8", "warmup_ckpt_iters": "8", "prod_ckpt_iters": "4",
         "max_runtime_s": 3 * 3600,
         "legs": [("calib_hi_to_lo__ternary_vhl", 0, "fwd")],
     },
@@ -462,12 +473,12 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         "RBFE_MIN_STEPS": os.environ.get("TVAST_MIN_STEPS") or "5000",
         "RBFE_WARMUP_ITERS": sizing["warmup_iters"],
         "RBFE_PROD_ITERS": sizing["prod_iters"],
-        # Checkpoint granularity == the maximum work a preemption can cost. Warmup commits every 8
-        # iterations so the FIRST resumable snapshot lands within minutes of the MD starting; production
-        # every 40. These are the values the GCP lane settled on and they are what makes an interruptible
-        # bid safe to take.
-        "WARMUP_CKPT_ITERS": os.environ.get("TVAST_WARMUP_CKPT_ITERS") or "8",
-        "PROD_CKPT_ITERS": os.environ.get("TVAST_PROD_CKPT_ITERS") or "40",
+        # Checkpoint granularity == the maximum work a preemption can cost, traded against per-commit
+        # overhead. Per-mode; see the note on MODES. The engine rounds each phase's target DOWN to a
+        # multiple of its interval, so an interval larger than a short phase's target would silently
+        # shorten the run — which is why probe and edge do not share one value.
+        "WARMUP_CKPT_ITERS": os.environ.get("TVAST_WARMUP_CKPT_ITERS") or sizing["warmup_ckpt_iters"],
+        "PROD_CKPT_ITERS": os.environ.get("TVAST_PROD_CKPT_ITERS") or sizing["prod_ckpt_iters"],
         # The MD's own cap, inside the instance runtime cap, so the deliverable upload still runs.
         "MD_TIMEOUT_S": str(int(sizing["max_runtime_s"] * 0.92)),
     }

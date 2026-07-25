@@ -148,7 +148,9 @@ jobs:
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:
       - uses: actions/checkout@v4
-        with: { ref: "${{ github.ref_name }}" }
+        # fetch-depth 0 because the arm step below commits and pushes the watch list, and a shallow clone
+        # cannot rebase onto a branch another job (or the agent) has moved in the meantime.
+        with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       - name: Rent one host per unit
