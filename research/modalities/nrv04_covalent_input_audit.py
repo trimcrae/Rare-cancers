@@ -31,7 +31,12 @@ It also measures three things the pre-spend check does not, each of which can ch
       with the E3 chains, and the same for the VH032 recruiter moiety with VHL. A model whose warhead is not on
       the target at all fails for a reason no restraint can repair, and is distinguishable here from one whose
       warhead is in the pocket but pointing the wrong way.
-  (c) **Boltz confidence**, so a model selected on geometry is not silently a low-confidence outlier.
+  (c) **Which co-fold prefix and seed each model came from**, so a claim about "the bucket" is an enumeration
+      rather than an extrapolation, and a contaminated prefix is reported on rather than aborted upon.
+
+  *(Boltz per-model confidence is deliberately NOT read here. It would matter for choosing between models that
+  pass; every model fails at the frozen site by 20+ A, so a confidence tie-break would be decoration on a
+  decision already made. Add it if a model ever passes.)*
 
 Chemistry note: the electrophile is located by the single frozen definition in `nrv04_ligands`, and the ligand
 pose is recovered by the same template kernel `nrv04_covalent_assemble` uses, so this audit measures exactly

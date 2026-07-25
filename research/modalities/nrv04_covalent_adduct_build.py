@@ -477,7 +477,13 @@ def main(argv=None):
            "a1_limit_A": MAX_COVALENT_TETHER_A, "cs_bond_A": CS_BOND_A,
            "uniprot": NR4A1_ACC, "models": []}
     print(f"[adduct] {len(jobs)} clean model(s) to attempt", flush=True)
-    for key, ligand in jobs:
+    import time
+    for n, (key, ligand) in enumerate(jobs, 1):
+        # OBSERVABILITY (added after the first run took ~50 min with no way to tell advancing from stalled --
+        # an in-progress GitHub job's log is not readable through the API). Per-model timing is printed, and the
+        # partial JSON is mirrored to S3 after every model so a timeout still leaves the finished models.
+        t0 = time.time()
+        print(f"[adduct] ({n}/{len(jobs)}) starting {key}", flush=True)
         local = "/tmp/adduct_src.cif"
         s3.download_file(args.bucket, key, local)
         out_cif = "/tmp/adduct_built.cif"
@@ -487,6 +493,7 @@ def main(argv=None):
             rep, xyz = {"source_cif": key, "ligand": ligand, "verdict": "ERROR",
                         "why": f"{type(e).__name__}: {e}"}, None
         rep["s3_key"] = key
+        rep["seconds"] = round(time.time() - t0, 1)
         if xyz is not None and args.upload_prefix and s3:
             dest = f"{args.upload_prefix.rstrip('/')}/{key.split('/')[-1].replace('.cif', '_adduct.cif')}"
             s3.upload_file(out_cif, args.bucket, dest)
@@ -495,9 +502,16 @@ def main(argv=None):
         print(f"  {key.split('/')[-1]:44s} verdict={rep['verdict']} "
               f"cofold_d={((rep.get('as_cofold') or {}).get('c6_to_C551_sg_A'))} "
               f"reach={(rep.get('reachability') or {}).get('verdict')} "
-              f"built_d={((rep.get('construction') or {}).get('final_c6_to_C551_sg_A'))}", flush=True)
+              f"built_d={((rep.get('construction') or {}).get('final_c6_to_C551_sg_A'))} "
+              f"[{rep['seconds']}s]", flush=True)
         with open(args.out, "w") as f:
             json.dump(doc, f, indent=2, default=str)
+        if s3 and args.upload_prefix:                      # continuous upload: a timeout keeps finished models
+            try:
+                s3.upload_file(args.out, args.bucket,
+                               f"{args.upload_prefix.rstrip('/')}/_partial_adduct_build.json")
+            except Exception as e:  # noqa: BLE001 -- observability must never fail the science
+                print(f"[adduct] WARN partial upload failed: {e}", flush=True)
 
     ok = [m for m in doc["models"] if m.get("verdict") == "CONSTRUCTED"]
     doc["summary"] = {
