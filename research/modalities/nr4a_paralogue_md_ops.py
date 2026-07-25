@@ -57,7 +57,13 @@ DEFAULT_BUCKET = "sagemaker-us-east-2-646605541856"
 # Anti-idle backstop. A leg that has been up this long without a result is destroyed regardless of what it
 # claims to be doing: 60 ns metad + 3 x 5 ns release is ~5-6 h on a 4090 and ~11-12 h on a 3090, so 14 h is
 # comfortably past any legitimate single-host run and a preempted leg resumes from its checkpoint anyway.
-BACKSTOP_H = float(os.environ.get("PDYN_BACKSTOP_H", "14"))
+# RAISED 14 -> 26 h once the NR4A2 leg landed on an RTX 3090. The $/ns ranking is right to take it (3090 at
+# $0.0451/hr is $0.0030/ns against $0.0043/ns for the $0.136/hr 4090), but the card is 2.10x slower, so 75 ns
+# of MD is ~16 h rather than ~8 h and a 14 h backstop would have destroyed a perfectly healthy leg mid-release.
+# The real anti-idle guarantee is not this number: it is the onstart EXIT trap, which exits the container the
+# moment the pipeline finishes or dies. This backstop only catches a HUNG container, and at $0.045-0.14/hr its
+# worst case is about a dollar.
+BACKSTOP_H = float(os.environ.get("PDYN_BACKSTOP_H", "26"))
 
 
 def bucket():
@@ -170,6 +176,40 @@ def status(targets):
               f"dph={i.get('dph_total')} up={up_h:.2f} h "
               f"gpu_util={i.get('gpu_util')} status_msg={str(i.get('status_msg'))[:80]}")
     return 0
+
+
+def nudge_start(insts):
+    """Re-issue `state=running` for any instance Vast left at intended=stopped.
+
+    Creating an ask does NOT reliably launch the container: the start PUT races Vast finishing the create, and
+    on some hosts it is lost, leaving the box `intended=stopped` forever. `VastBackend._ensure_running` retries
+    for ~50 s at submit time, which is not long enough when the host is still PULLING a multi-GB image — the
+    launcher warned exactly that for the NR4A2 leg. This is the same idempotent PUT, retried from the watch
+    for as long as the leg matters.
+
+    Deliberately distinct from a CAPACITY REFUSAL: a start answered `{"success": false,
+    "error": "resources_unavailable"}` means that host's GPU is taken and the answer is destroy + exclude +
+    pick another host, never retry. That is reported here so the two are never confused."""
+    key = os.environ.get("VAST_API_KEY")
+    if not key:
+        return
+    for i in insts or []:
+        if i.get("intended_status") == "running":
+            continue
+        if i.get("actual_status") in ("exited",):
+            continue
+        try:
+            r = _vast_request("PUT", f"/instances/{i.get('id')}/", key, body={"state": "running"})
+            if isinstance(r, dict) and r.get("success") is False:
+                print(f"::warning title=LANE13 START REFUSED::{i.get('id')} {i.get('label')} "
+                      f"{r.get('error')}: {r.get('msg')} — if this is resources_unavailable, DESTROY the "
+                      f"instance, add machine {i.get('machine_id')} to exclude_machines and relaunch; "
+                      f"do NOT wait and do NOT raise the bid")
+            else:
+                print(f"[ops] nudged start on {i.get('id')} {i.get('label')} "
+                      f"(intended={i.get('intended_status')} actual={i.get('actual_status')})")
+        except Exception as e:  # noqa: BLE001
+            print(f"[ops] start nudge {i.get('id')} failed: {e}")
 
 
 def reap(targets, force=False):
@@ -348,6 +388,7 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
             else:
                 frozen[name] = 0
         prev = sig
+        nudge_start(instances())
         reap(targets)
         if all(v[-1] for v in sig.values()):
             print("::notice title=LANE13 ALL LEGS DONE::every deliverable is in S3")

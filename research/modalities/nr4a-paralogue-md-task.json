@@ -20,7 +20,7 @@
   "release_ns": 5,
   "n_rep": 3,
   "exclude_machines": "",
-  "note": "LAUNCHED. NR4A1 = instance 45853652 on machine 12697 (bid $0.136/hr, floor $0.1333, reached intended=running on attempt 1). NR4A2 = instance 45853654 on machine 142143 (bid $0.0451/hr, floor $0.0442 -- 3x cheaper, which is the $/ns ranking doing its job). NR4A2 answered intended=stopped actual=loading across 8 start attempts: that is the known create/start race with the image still pulling, NOT a resources_unavailable capacity refusal -- if it has not reached running by the next few ticks, destroy + exclude machine 142143 and relaunch elsewhere. The watch also reaps the finished smoke host (its deliverable is already in S3).",
+  "note": "re-fire watch with a start nudge: NR4A2 landed on an RTX 3090 at $0.0451/hr (correctly -- $0.0030/ns against $0.0043/ns for the $0.136/hr 4090) but sat at intended=stopped while the image was still loading, which is the create/start race and NOT a capacity refusal. The 3090 is 2.10x slower, so its leg is ~16 h rather than ~8 h and the anti-idle backstop moves 14 -> 26 h.",
   "estimate_usd": {
     "point": 2.5,
     "range": [
