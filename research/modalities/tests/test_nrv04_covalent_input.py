@@ -133,6 +133,56 @@ def test_construction_is_gated_on_A1_not_merely_reported():
     assert "protein" in src.lower() and "rigid" in src.lower()
 
 
+# --- 3b. the driver must IDENTIFY the covalent cysteine, never pick the nearest one -------------------------
+
+def _pdb_line(serial, name, resname, chain, resid, xyz=(0.0, 0.0, 0.0)):
+    return ("ATOM  %5d  %-3s %3s %s%4d    %8.3f%8.3f%8.3f  1.00  0.00          %s\n"
+            % (serial, name, resname, chain, resid, xyz[0], xyz[1], xyz[2], name[0]))
+
+
+def _chain_pdb(cys_positions, chain="A", n_res=254):
+    """A 254-residue chain where the residues listed in `cys_positions` are cysteines with an SG."""
+    out, serial = [], 1
+    for r in range(1, n_res + 1):
+        rn = "CYS" if r in cys_positions else "ALA"
+        for an in (("N", "CA", "C", "O", "CB", "SG") if rn == "CYS" else ("N", "CA", "C", "O", "CB")):
+            out.append(_pdb_line(serial, an, rn, chain, r, (r * 1.0, 0.0, 0.0)))
+            serial += 1
+    return "".join(out)
+
+
+def test_frozen_cys_is_resolved_by_construct_not_by_proximity():
+    """C551 maps to construct residue 207. A chain carrying cysteines at both 207 (C551) and 222 (C566) must
+    resolve to 207 regardless of where the ligand is — this is the whole fix."""
+    md = pytest.importorskip("nrv04_covalent_md")
+    chain, resid = md._frozen_cys_by_construct(_chain_pdb({207, 222}), "A", TARGET_COV_RESNUM)
+    assert (chain, resid) == ("A", 207)
+
+
+def test_frozen_cys_fails_closed_when_the_site_is_not_a_cysteine():
+    """Refusing to substitute a nearby cysteine is the point: substituting is how C566 came to carry the
+    8.99 A figure that was attributed to C551."""
+    md = pytest.importorskip("nrv04_covalent_md")
+    with pytest.raises(SystemExit) as e:
+        md._frozen_cys_by_construct(_chain_pdb({222}), "A", TARGET_COV_RESNUM)   # only C566 present
+    assert "222" not in str(e.value), "must not fall back to the other cysteine"
+
+
+def test_frozen_cys_fails_closed_on_a_wrong_length_construct():
+    md = pytest.importorskip("nrv04_covalent_md")
+    with pytest.raises(SystemExit):
+        md._frozen_cys_by_construct(_chain_pdb({207}, n_res=100), "A", TARGET_COV_RESNUM)
+
+
+def test_build_system_records_the_geometric_disagreement():
+    """When the identified site and the geometric nearest differ, the driver must SAY so — the disagreement is
+    the diagnostic that distinguishes a bad co-fold from a bad build."""
+    src = open(os.path.join(HERE, "nrv04_covalent_md.py")).read()
+    assert "geometry_agrees_with_frozen_site" in src
+    assert "geometric_nearest_on_target" in src
+    assert "_frozen_cys_by_construct" in src
+
+
 # --- 4. the steered-refold probe ----------------------------------------------------------------------------
 
 def test_cov_residue_index_rejects_a_non_cysteine():
