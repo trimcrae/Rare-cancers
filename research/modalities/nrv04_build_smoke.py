@@ -41,29 +41,54 @@ def main():
     # rejects it, but a default that is known-wrong is a trap, not a safety net.
     base = os.environ.get("NRV04_COFOLD_PREFIX", "nrv04-covalent-cofold").rstrip("/")
 
-    # Two representative legs: cov_nr4a1 (covalent restraint + nr4a1 co-fold) and cov_c551a (C551A mutation path).
-    for leg_id, system in [("cov_nr4a1", "nr4a1"), ("cov_c551a", "nr4a1")]:
+    # ⚠ CHANGED 2026-07-25 (Lane 8). `cov_nr4a1` can no longer BUILD, and that is the correct outcome, not a
+    # regression: the covalent site is now IDENTIFIED as the preregistered C551 rather than taken as the nearest
+    # target-chain cysteine, and on every co-fold in the bucket C551 is 28.4-39.1 A from the electrophile — far
+    # beyond MAX_COVALENT_TETHER_A. Before the fix the smoke "passed" while silently building the restraint onto
+    # **C566** at ~9 A. So the smoke now has two jobs:
+    #   (a) prove the BUILD PLUMBING still works end-to-end (addHydrogens -> addSolvent -> createSystem), which
+    #       the noncovalent legs exercise identically minus the restraint force; and
+    #   (b) prove the A1 GATE FIRES on a covalent leg staged from an inadmissible co-fold.
+    # A smoke that skipped (b) would go green again the moment the gate broke.
+    for leg_id, system, expect in [("noncov_nr4a1", "nr4a1", "build"),
+                                   ("cov_c551a", "nr4a1", "build"),
+                                   ("cov_nr4a1", "nr4a1", "a1_gate_fires")]:
         leg = leg_by_id(leg_id)
         cif = _pull_cofold(bucket, base, system, f"/tmp/cofold_{leg_id}")
         res = assemble_leg(cif, leg, LIGANDS[leg.ligand], f"/tmp/stage_{leg_id}")
         cpdb = os.path.join(res["out"], "complex.pdb")
         lsdf = os.path.join(res["out"], "ligand.sdf")
-        # Pass the IDENTIFIED target chain, so the reactive-cysteine search is restricted to it exactly as the
-        # production driver does. Without it the smoke exercises the old global search and would miss a warhead
-        # tethered to an E3 subunit — the defect the production path now fails closed on.
-        sim, topo, meta = build_system(cpdb, lsdf, leg.covalent,
-                                       env_or("COV_LIG_ATOM", "C6"), 551, leg.mutation,
-                                       target_chain=res["chains"]["target_chain"])
+        # Pass the IDENTIFIED target chain, so the covalent-site resolution is the production path's exactly.
+        # Without it the driver falls back to the geometric search this smoke exists to keep retired.
+        args = (cpdb, lsdf, leg.covalent, env_or("COV_LIG_ATOM", "C6"), 551, leg.mutation)
+        kwargs = {"target_chain": res["chains"]["target_chain"]}
+
+        if expect == "a1_gate_fires":
+            try:
+                build_system(*args, **kwargs)
+            except SystemExit as e:
+                msg = str(e)
+                if "preformed-adduct limit" not in msg:
+                    raise SystemExit(f"[build-smoke] {leg_id} failed, but NOT on the A1 gate: {msg}")
+                print(f"[build-smoke] {leg_id}: A1 gate fired as required -> {msg}", flush=True)
+                continue
+            raise SystemExit(
+                f"[build-smoke] {leg_id} BUILT a covalent system from a co-fold whose preregistered C551 Sg is "
+                f"~28 A from the electrophile. The A1 gate did not fire — either the site resolution regressed to "
+                f"'nearest cysteine' (which lands on C566 at ~9 A) or MAX_COVALENT_TETHER_A was raised. Both are "
+                f"recorded deviations, not fixes.")
+
+        sim, topo, meta = build_system(*args, **kwargs)
         n = meta["n_atoms"]
         print(f"[build-smoke] {leg_id}: heavy={meta.get('protein_heavy_atoms')} "
-              f"after_addH={meta.get('after_addH')} solvated_total={n} covalent_pair={meta.get('covalent_pair')}",
-              flush=True)
+              f"after_addH={meta.get('after_addH')} solvated_total={n} covalent_pair={meta.get('covalent_pair')} "
+              f"cys={meta.get('reactive_cys')}", flush=True)
         if n < 5000:
             raise SystemExit(f"[build-smoke] {leg_id} solvated system implausibly small ({n} atoms)")
         if leg.covalent and "covalent_pair" not in meta:
             raise SystemExit(f"[build-smoke] {leg_id} covalent but no covalent_pair in meta")
-    print("BUILD-SMOKE PASS — full solvated system builds from the real co-fold (addHydrogens + addSolvent + "
-          "createSystem + covalent restraint).", flush=True)
+    print("BUILD-SMOKE PASS — the solvated system builds from the real co-fold (addHydrogens + addSolvent + "
+          "createSystem), AND the A1 admissibility gate fires on the covalent leg.", flush=True)
 
 
 def env_or(k, d):

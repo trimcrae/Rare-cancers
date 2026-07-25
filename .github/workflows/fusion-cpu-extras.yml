@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_e3_stage, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_e3_stage, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
@@ -589,6 +589,143 @@ jobs:
       - name: Build the full solvated system from the real co-fold (CPU, no MD; NAGL charges — no sqm)
         working-directory: research/modalities
         run: python nrv04_build_smoke.py
+
+  nrv04_input_audit:
+    # LANE 8 / prereg AMENDMENT 1 criterion A1. The amendment records A1 as failing and concludes Boltz seats
+    # celastrol against no NR4A1 cysteine "in any co-fold currently in the bucket". That rests on
+    # nrv04_prespend_check._pull_model, which samples ONE model per system (sorted(_model_0.cif)[0]) out of a
+    # seed ENSEMBLE. This job measures A1 on EVERY model of EVERY system of EVERY co-fold prefix, and separates
+    # "passes at the NEAREST target cysteine" from "passes at the FROZEN site (NR4A1 C551)" -- which the
+    # prespend check does not distinguish. $0: read-only S3 + CPU.
+    if: ${{ github.event.inputs.task == 'nrv04_input_audit' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3 gemmi numpy rdkit
+      - name: Exhaustive A1 admissibility audit over every co-fold model
+        env:
+          PREFIXES: ${{ github.event.inputs.ternary_extra_args }}
+        run: |
+          # A restricted run must NOT overwrite the full 34-model enumeration -- that file is the evidence for
+          # the "no admissible input in the bucket" claim, and a 7-model replacement would silently weaken it.
+          OUT=research/modalities/nrv04-covalent-input-audit.json
+          if [ -n "$PREFIXES" ]; then
+            SLUG=$(printf '%s' "$PREFIXES" | tr ',' '-' | tr -cd 'a-zA-Z0-9-' | cut -c1-60)
+            OUT="research/modalities/nrv04-covalent-input-audit-${SLUG}.json"
+          fi
+          echo "writing $OUT"
+          python research/modalities/nrv04_covalent_input_audit.py \
+            --bucket "${VAST_CKPT_BUCKET}" --prefixes "$PREFIXES" --out "$OUT"
+          echo "AUDIT_OUT=$OUT" >> "$GITHUB_ENV"
+      # $0 validation of the steered-refold probe BEFORE any GPU spend: writes the three Boltz YAMLs (no
+      # inference) and, in doing so, resolves C551 to its construct index against the LIVE UniProt sequence and
+      # asserts it is a cysteine. A YAML or index error caught here costs nothing; caught on the GPU box it
+      # costs a rented hour.
+      - name: Prep-validate the C551 site probe YAMLs (no GPU, no inference)
+        env:
+          OUTPUT_DIR: ${{ runner.temp }}/site_probe
+        run: |
+          python research/modalities/nrv04_celastrol_site_probe.py
+          echo "=== binary_pocket.yaml (tail) ==="
+          tail -8 "$OUTPUT_DIR/binary_pocket.yaml"
+      - name: Commit the audit JSON back to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nrv04-covalent-input-audit*.json || true
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "NR-V04 A1 audit: every co-fold model measured (auto)"
+            for attempt in 1 2 3 4; do
+              git pull --rebase origin ${{ github.ref_name }} && \
+                git push origin HEAD:${{ github.ref_name }} && break
+              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
+            done
+          fi
+
+  nrv04_adduct_build:
+    # LANE 8. The co-folds cannot supply an A1-admissible covalent input (every clean model puts the celastrol
+    # electrophile 28.4-39.1 A from NR4A1 C551 -- the amendment's 8.99 A is to a DIFFERENT cysteine, C566).
+    # So: try to CONSTRUCT the preformed Michael adduct at the literature site (Zhang 2018,
+    # doi:10.1039/C8CC06140H), protein rigid, and gate the product on A1 measured with the driver's own code.
+    # $0 CPU.
+    if: ${{ github.event.inputs.task == 'nrv04_adduct_build' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3 gemmi numpy scipy rdkit
+      - name: Construct the preformed celastrol-C551 adduct (protein rigid) and gate it on A1
+        run: |
+          python research/modalities/nrv04_covalent_adduct_build.py \
+            --bucket "${VAST_CKPT_BUCKET}" \
+            --upload-prefix "${{ github.event.inputs.cofold_output_prefix }}" \
+            --models "${{ github.event.inputs.ternary_extra_args }}"
+      - name: Commit the construction JSON back to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nrv04-covalent-adduct-build.json || true
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "NR-V04 covalent adduct construction attempt (auto)"
+            for attempt in 1 2 3 4; do
+              git pull --rebase origin ${{ github.ref_name }} && \
+                git push origin HEAD:${{ github.ref_name }} && break
+              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
+            done
+          fi
+
+  nrv04_s3_tail:
+    # ~30 s progress check on ANY Vast job that follows the repo's phase-marker + run.log convention: prints
+    # `phase.txt` and the tail of `run.log` under an S3 prefix, plus the object listing with mtimes. This exists
+    # because an in-progress job's log is not readable through the GitHub API and `diag` only reports the
+    # INSTANCE's state -- neither distinguishes "advancing" from "stalled", which the tight-monitoring rule
+    # requires every check to do. Prefix comes from cofold_output_prefix. $0.
+    if: ${{ github.event.inputs.task == 'nrv04_s3_tail' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      PREFIX: ${{ github.event.inputs.cofold_output_prefix }}
+    steps:
+      - name: phase + run.log tail + object listing
+        run: |
+          python3 -m pip install -q awscli >/dev/null 2>&1 || pip install -q awscli >/dev/null 2>&1 || true
+          echo "=== phase.txt ==="
+          aws s3 cp "s3://${VAST_CKPT_BUCKET}/${PREFIX}/phase.txt" - 2>/dev/null || echo "(no phase.txt yet)"
+          echo "=== objects (mtime, size) ==="
+          aws s3 ls "s3://${VAST_CKPT_BUCKET}/${PREFIX}/" --recursive --human-readable 2>/dev/null | tail -40 \
+            || echo "(prefix empty)"
+          echo "=== run.log (tail 60) ==="
+          aws s3 cp "s3://${VAST_CKPT_BUCKET}/${PREFIX}/run.log" /tmp/run.log 2>/dev/null \
+            && tail -60 /tmp/run.log || echo "(no run.log yet)"
 
   nrv04_ffcache_status:
     # Fast diagnostic (~30s): print the ffcache object's LastModified + size so we can tell whether charge_cache
