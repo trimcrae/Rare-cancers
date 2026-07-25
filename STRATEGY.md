@@ -1154,8 +1154,17 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   - **`recruiter_epimer` demoted** to a descriptive sensitivity leg — it runs as a full ternary, not the binary
     §3 specifies, and 6 ns from a co-folded pose cannot resolve a binding-affinity difference anyway.
   - **★ NEW BINDING CRITERION A1 — input admissibility, and it FAILS NOW.** A covalent leg must stage its
-    electrophilic carbon within bonding distance of the **target-chain** Cys Sγ. Measured for $0:
-    `cov_nr4a1` **8.99 Å**, `warhead_only` **16.39 Å**, against a ~1.8 Å C–S bond — **5–9× too far.** Boltz seats
+    electrophilic carbon within bonding distance of the **target-chain** Cys Sγ.
+    ⚠ **CORRECTED SAME DAY BY [AMENDMENT 2](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md):
+    A1 was measuring the WRONG CYSTEINE.** It resolved the *nearest* of the construct's **six**, which is
+    **C566**, not the preregistered site **C551** (offset 344: co-fold resid 222 = C566, 207 = C551; the panel's
+    legs record resid **222** throughout). **At C551 the real distances are 28.46 Å (`cov_nr4a1`) and 36.43 Å
+    (`warhead_only`), and 28.42–39.11 Å across ALL 34 co-fold models** — against a ~1.8 Å C–S bond.
+    *(Superseded, do not cite: 8.99 / 16.39 Å.)* **This makes A1 more binding, not less: at ~9 Å it was NEARLY
+    PASSING an 8.0 Å limit, so a co-fold seating celastrol 7 Å from C566 would have PASSED while the real site
+    sat ~28 Å away.** Two further defects shared the root cause and are fixed: the covalent **restraint would
+    have been built onto C566**, and **`cov_c551a` was mutating C566** — the control named for removing C551
+    engagement was not touching C551 at all. Boltz seats
     celastrol against no NR4A1 cysteine in any co-fold in the bucket, so §5 criterion 2 (*does covalency swamp
     the ternary signal* — the panel's stated crux) is **unevaluable on these inputs**, not merely unmeasured.
     Enforced in code (`nrv04_covalent_md`, `MAX_COVALENT_TETHER_A` default 8.0 Å, override only with a recorded
@@ -1167,8 +1176,18 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   plainly: removing an unsatisfiable criterion *is* a loosening, since GO becomes reachable where it was not;
   the justification is the measured absence of discriminating power, not the unwelcome verdict. Same degenerate
   class as valB_mini's gate that **admits the null** — one always fails, one passes anything.
-  **Unblocking now needs INPUT work, not compute:** re-fold the covalent systems with the electrophile seated at
-  Cys551, or drop the covalent legs and re-scope to what noncovalent endpoint MD supports — and say which.
+  **★ SAID, 2026-07-25: the covalent legs are DROPPED and the panel is re-scoped to NONCOVALENT.** The re-fold
+  route was **run and refuted** for **$0.05** on Vast (2 systems × 3 seeds), not argued away: deleting the E3
+  makes seating *worse* (33.6/36.6/44.7 Å vs ~28 Å ternary, so the ternary arrangement is not the cause), and a
+  **steered** co-fold that demonstrably honoured an explicit `max_distance: 6.0` restraint to residue 207
+  (~37 → ~15 Å, contacts doubled) **still never satisfied its own 6 Å bound on any of three seeds**, parking
+  celastrol near the buried C505. No predictor produces the pose (7/7 clean models, 4 seeds, 3 prefixes, 2
+  providers) and no deposited celastrol–NR4A1 structure constrains it, so the only route left is a **hand-placed
+  pose** — which fixes the *comparison* without supplying the *evidence*. **This is a statement about the
+  predictor, not about whether celastrol binds C551**, which is literature-anchored (Zhang 2018,
+  doi:10.1039/C8CC06140H). **Retiring them costs little: Leg 0 already did their job for $0** — the reactive Cys
+  is unique to NR4A1 (NR4A2 Tyr, NR4A3 Thr579), which is the covalent confound's actual content — and NR-V04 is
+  already a demoted *biological holdout*, so modelling its covalency inverts the ladder.
   *Hypothesis the amendment raises and the re-run can test (not asserted): the superseded covalent-vs-noncovalent
   null (2/3 = 2/3) is what one predicts if the "covalent" leg never carried a bond.* Full evidence:
   [nrv04-covalent-panel-recovery-2026-07-25.md](research/modalities/nrv04-covalent-panel-recovery-2026-07-25.md)

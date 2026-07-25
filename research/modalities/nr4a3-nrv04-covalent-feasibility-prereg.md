@@ -14,9 +14,14 @@ append-only for results; the criteria below do not move.
 > value (`frac_frames_in_contact = 1.0`) on **all 18** legs including both negative controls, so it had zero
 > discriminating power and criterion 3 was therefore unsatisfiable, making the gate uninformative rather than
 > conservative. `recruiter_epimer` is demoted (it runs as a full ternary, not the binary §3 specifies). A new
-> **binding criterion A1 (input admissibility)** is added and **fails now**: every covalent leg stages its
-> electrophile 8.99–16.39 Å from the target-chain Cys Sγ against a ~1.8 Å C–S bond, so §5 criterion 2 is
-> unevaluable on current inputs. The panel remains **`[HELD]`** — the amendment converts no NO-GO into a GO.
+> **binding criterion A1 (input admissibility)** is added and **fails now**. ⚠ **A1's figures were CORRECTED by
+> [AMENDMENT 2](#amendment-2--2026-07-25-same-day-as-amendment-1-corrects-it) the same day: the 8.99–16.39 Å it
+> first quoted are distances to **C566**, not to the preregistered site **C551**, because the implementation
+> took the *nearest* of the construct's six cysteines. At C551 the real figures are **28.46–39.11 Å across all
+> 34 co-fold models**.** The verdict is unchanged and strengthened (at ~9 Å the gate was nearly passing; it now
+> fails closed), §5 criterion 2 stays unevaluable, and AMENDMENT 2 additionally **retires the covalent legs**
+> after the re-fold route was run and refuted. The panel remains **`[HELD]`** — neither amendment converts a
+> NO-GO into a GO.
 
 ---
 
@@ -296,3 +301,76 @@ does not discriminate the hypothesis. A1 is added precisely so that the amended 
 - **A1 is retrospective in force:** any future covalent leg, in this panel or the NR-V04 retrospective, must
   record its staged Sγ distance and refuse to run if it fails. This is implemented in
   `nrv04_covalent_md` (`MAX_COVALENT_TETHER_A`, default 8.0 Å, override only with a recorded deviation).
+
+---
+
+## AMENDMENT 2 — 2026-07-25 (same day as AMENDMENT 1; corrects it)
+
+**AMENDMENT 1's criterion A1 was measuring the wrong cysteine.** Its verdict is unchanged and in fact
+strengthened; its **numbers were wrong** and are corrected here rather than quietly restated.
+
+### The defect
+
+A1 requires a covalent leg to stage its electrophile within bonding distance of "the target-chain Cys Sγ".
+That was implemented via `_reactive_cys_by_geometry`, which returns the **nearest** target-chain cysteine.
+The NR4A1 LBD construct has **six** (C465, C475, C505, C534, **C551**, C566), and the nearest is **C566** —
+not C551, the residue this preregistration names as the covalent site throughout §1 and §3.
+
+Construct arithmetic (P22736 = 598 aa, C-terminal 254-residue construct, offset **344**): co-fold residue
+**207 = C551**, residue **222 = C566**. The panel's own legs record `reactive_cys = chain A resid 222`
+throughout — i.e. every covalent leg resolved **C566**.
+
+### Corrected measurements — at C551, across **all 34** co-fold models in the bucket
+
+| system | nearest target Cys (what A1 measured) | **C551 Sγ → electrophile (what A1 MEANT)** |
+|---|---|---|
+| `cov_nr4a1` | C566 @ **8.99 Å** | **28.46 Å** |
+| `warhead_only` | C566 @ **16.39 Å** | **36.43 Å** |
+| best of 7 clean models | — | **28.42 Å** |
+| worst | — | **39.11 Å** |
+
+**Superseded, do not cite: the 8.99 Å and 16.39 Å figures in AMENDMENT 1.** They are C566 distances.
+AMENDMENT 1 also said "any co-fold in the bucket", which rested on **one model per system**; it is now **all
+34** (7 clean, 27 rejected as contaminated), and the conclusion holds across every one.
+
+### Why this makes A1 *more* binding, not less
+
+At ~9 Å the gate was **nearly passing** against an 8.0 Å limit. Had a co-fold placed celastrol 7 Å from C566,
+**A1 would have PASSED while the actual covalent site sat ~28 Å away.** The gate could have admitted an
+inadmissible input. It now fails closed at ~28 Å.
+
+### Two further defects in the same root cause, both now fixed
+
+1. **The covalent restraint would have been built onto C566** — the adduct would not have been at the
+   preregistered site.
+2. **`cov_c551a` was mutating C566.** The control named for removing C551 engagement **was not touching C551**,
+   so it did not remove the engagement it exists to remove, and its result was uninterpretable as designed.
+
+`_frozen_cys_by_construct` now **identifies** the site by construct arithmetic and verifies it is a Cys bearing
+an Sγ, **failing closed**; geometry is demoted to a diagnostic that records any disagreement.
+
+### RULING — the covalent legs are RETIRED, and the panel is re-scoped to noncovalent
+
+The re-fold route was **run and refuted**, not argued away ($0.05 on Vast, 2 systems × 3 seeds):
+- **Deleting the E3 makes seating worse** (33.6 / 36.6 / 44.7 Å free vs ~28 Å ternary) — the ternary
+  arrangement is not the cause.
+- **A steered co-fold honours its constraint and still fails**: an explicit `max_distance: 6.0` restraint to
+  residue 207 moved the electrophile ~37 → ~15 Å and doubled warhead–target contacts, yet **Boltz never
+  satisfied its own 6 Å bound on any of three seeds**, parking celastrol near the buried C505 instead.
+
+No predictor produces the pose (7/7 clean models, 4 seeds, 3 prefixes, 2 providers, plus the refuted steered
+probe) and **no deposited celastrol–NR4A1 structure constrains it**. The only remaining route is a
+**hand-placed pose**, which would fix the *comparison* (cov vs noncov on the same construction) without
+supplying the *evidence*. **This is a statement about the predictor, not about whether celastrol binds C551** —
+the site is literature-anchored (Zhang et al., *Chem. Commun.* 2018, doi:10.1039/C8CC06140H, PMID 30376017:
+celastrol positioned by specific noncovalent interactions adjacent to the C551 thiol, reversible covalent bond;
+C551 is the most exposed of the six).
+
+**Retiring them costs the panel little, because Leg 0 already did their job for $0:** the reactive cysteine is
+**unique to NR4A1** (NR4A2 Tyr, NR4A3 Thr579), which is the covalent confound's actual content. And NR-V04 is
+already demoted to a **biological holdout** with SMARCA2/4 as the method calibrator, so modelling a demoted
+holdout's covalency inverts the ladder.
+
+**A noncovalent-only panel is exactly what AMENDMENT 1 permits to be claimed** (interface persistence + a
+covalent/noncovalent sensitivity statement is no longer available; R1 persistence and directional concordance
+remain). The panel stays **`[HELD]`** — this amendment retires a leg set, it does not authorise a run.
