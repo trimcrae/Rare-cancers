@@ -1,0 +1,91 @@
+name: Ternary VAST leg watchdog (session-independent)
+
+# WHY THIS EXISTS, SEPARATELY FROM ternary-leg-watchdog.yml.
+# That workflow watches ternary legs on GCP and ONLY on GCP: it authenticates by WIF, reads its state from
+# GCS, asks "is a `gcp-ternary-*` VM up?", and its only recovery is to re-dispatch gpu-ternary-fep-gcp.yml.
+# Pointing a Vast leg at it would give monitoring that silently watches nothing — the failure class this
+# program keeps getting bitten by (a check that reports success while measuring nothing). Since trimcrae's
+# 2026-07-25 directive puts ALL production GPU runs on Vast, that gap would otherwise apply to every GPU
+# run the program makes from here.
+#
+# Three questions per enabled entry in research/modalities/ternary-vast-watch.json:
+#   leg.json in S3                      -> DONE     (disable the entry)
+#   an instance up AND the committed iteration count went UP -> RUNNING (emit progress)
+#   neither                             -> DIED     (relaunch; resumes from the last committed checkpoint)
+#
+# "Alive" is deliberately not enough. A rented Vast box can sit up with a dead container or an idle GPU, so
+# RUNNING requires ADVANCE in the commit store, not the existence of an instance.
+#
+# A capacity refusal (`resources_unavailable`) is handled by the launcher's own policy — destroy, add the
+# machine to the exclusion set, pick another host; never wait, never raise the bid. That policy lives in
+# ternary_vast_launch.collect + ResourceSpec.exclude_machine_ids and is DELEGATED to here rather than
+# duplicated, so there is only one of it.
+#
+# SAFETY: a per-UTC-day relaunch counter in S3 caps runaway re-dispatch; the pass is a no-op on an empty or
+# all-disabled list; only a DIED entry relaunches (a stall gets an alert, because a relaunch would hang the
+# same way); and if the Vast instance list cannot be read the pass REFUSES to act rather than risk
+# relaunching on top of a live leg. All state is in the repo + S3, so it survives container restarts with
+# no agent awake.
+#
+# NB a `schedule:` trigger only fires from the DEFAULT BRANCH, so this must be on main to run at all.
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"    # matched to the recovery granularity: production commits every 40 iterations
+                              # (~10 min of MD at 4 fs), so 15 min sees at most one missed interval.
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "1 = report what it WOULD do without relaunching or incrementing the counter"
+        default: "0"
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  # Read-modify-write of the relaunch counter is racy in principle; one watchdog at a time makes it safe in
+  # practice, and it also guarantees two passes can never both relaunch the same dead unit.
+  group: ternary-vast-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: The watchdog itself is alive and parsing
+        # MAKE "IT RAN AT ALL" OBSERVABLE. On 2026-07-25 the GCP watchdog was given an inline `python3 -c`
+        # guard whose lines sat at column 0; that dedents them out of the `run: |` block and makes the whole
+        # workflow INVALID YAML. GitHub's symptom is a 422 about a MISSING TRIGGER, and a `schedule:` cron on
+        # an unparseable file simply never fires — so the guard meant to stop the watchdog acting on bad
+        # config stopped the watchdog running at all, silently, and nothing reported that it never ran. This
+        # step re-parses every workflow (Lane 3's test, reused not rewritten) and validates the watch list
+        # BEFORE the pass, and emits a heartbeat annotation so a green tick means "it ran", not "it existed".
+        run: |
+          set -eo pipefail
+          python -m pip install -q pyyaml
+          python research/modalities/tests/test_workflows_parse.py | tail -3
+          python research/modalities/watchdog_validate.py research/modalities/ternary-vast-watch.json
+          echo "::notice title=TVAST WATCHDOG HEARTBEAT::pass starting at $(date -u +%FT%TZ) on ${{ github.ref_name }} — workflows parse, watch list valid."
+      - name: One watchdog pass
+        run: |
+          set -eo pipefail
+          # boto3 is load-bearing: the progress signal, the leg records and the relaunch counter are all in
+          # S3. Without it the watchdog cannot tell advancing from stalled and must not act.
+          python -m pip install -q boto3
+          ARGS=""
+          [ "${{ github.event.inputs.dry_run }}" = "1" ] && ARGS="--dry-run"
+          # A non-zero exit is the point on an alert: it makes GitHub send its own workflow-failure
+          # notification, which is the alert path that does not depend on an agent or a session. An
+          # ::error:: annotation nobody opens is no better than the silent stall this exists to remove.
+          python research/modalities/ternary_vast_watchdog.py --tick $ARGS

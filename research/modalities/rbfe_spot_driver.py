@@ -376,6 +376,15 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     kill_after = int(os.environ.get("RBFE_SPOT_KILL_AFTER", "0"))
     _commits = [0]
     pos_iv, vel_iv = _pos_vel_intervals(out_s, sim_s)
+    # MAKE TRAJECTORY PERSISTENCE OBSERVABLE. pos_iv is the write stride in ITERATIONS, derived from
+    # positions_write_frequency; 0 means NO coordinates are stored over time and the committed .nc cannot be
+    # re-analysed for anything geometric. That is not a hypothetical loss — the NR-V04 covalent panel's census
+    # found zero trajectory objects across 19 units, which made three known analysis defects permanently
+    # uncorrectable. Logging it here means the answer is in every run log rather than inferred later from a
+    # file size.
+    log(f"[spot-driver] trajectory persistence: positions every {pos_iv} iteration(s), velocities every "
+        f"{vel_iv} — output_indices={getattr(out_s, 'output_indices', '?')!r}"
+        + ("  ** NO POSITIONS WILL BE STORED — this leg will not be re-analysable **" if not pos_iv else ""))
     prod_nc, prod_chk = out_s.output_filename, out_s.checkpoint_storage_filename
     log(f"[spot-driver] warmup_target={warmup_target} (ci={warmup_checkpoint_iters}) "
         f"prod_target={prod_target} (ci={production_checkpoint_iters})")
