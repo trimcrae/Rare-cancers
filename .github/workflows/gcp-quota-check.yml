@@ -93,3 +93,43 @@ jobs:
             LINE=$(printf '%s\n' "$Q" | awk -v m="$M" '$1==m {print "limit="$2" usage="$3}')
             echo "  ${M}: ${LINE:-NOT PRESENT}"
           done
+
+      # ------------------------------------------------------------------------------------------------
+      # READ-ONLY: did the 2 fs valB baseline carry pre-equilibration?
+      #
+      # WHY. RUNG 2b compares a 4 fs ternary edge against the 2 fs r0 baseline. The 4 fs arm NECESSARILY
+      # carries pre-equilibration (4 fs only held with it), but `use_preequil` was never verified for the
+      # 2 fs baseline -- only the workflow DEFAULT of 0 is recorded, which is not evidence about what ran.
+      # If the baseline had no pre-equilibration then the two arms differ in TWO variables, and a
+      # disagreement cannot be attributed to the timestep. That would make tonight's stage-2 verdict
+      # uninterpretable in the NO-GO direction, so it is worth one `ls` to settle.
+      #
+      # The setup-cache key carries a version suffix (`v2pe` = pre-equilibrated), so the presence or
+      # absence of that suffix on the calib entries IS the observation. Purely `gcloud storage ls` --
+      # no writes, no dispatch, nothing that can perturb the leg a concurrent session is running.
+      - name: Setup-cache provenance — was the 2 fs baseline pre-equilibrated?
+        if: ${{ always() }}
+        run: |
+          set +e
+          # Derived exactly as the IAM probe above does -- not grepped out of this file, and NOT guessed.
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          BUCKET="$PROJECT-rbfe-ckpt"
+          echo "=== setupcache entries (read-only) ==="
+          LIST=$(gcloud storage ls "gs://$BUCKET/valB-6hax/setupcache/**" 2>&1 | head -100)
+          echo "$LIST"
+          CALIB=$(echo "$LIST" | grep -i calib)
+          echo "=== calib entries ==="
+          echo "${CALIB:-（none）}"
+          PE=$(echo "$CALIB" | grep -c 'v2pe')
+          NOPE=$(echo "$CALIB" | grep -vc 'v2pe')
+          echo "calib entries WITH v2pe: $PE ; WITHOUT: $NOPE"
+          if [ -z "$CALIB" ]; then
+            echo "::warning title=PREEQUIL PROVENANCE UNKNOWN::No calib setup-cache entries listed — the 2 fs baseline's use_preequil remains UNVERIFIED. A 4fs-vs-2fs disagreement must NOT be attributed to the timestep."
+          elif [ "$PE" -gt 0 ] && [ "$NOPE" -eq 0 ]; then
+            echo "::notice title=PREEQUIL CONFIRMED::Every calib setup-cache entry carries the v2pe suffix — the 2 fs baseline WAS pre-equilibrated, so the 4fs/2fs comparison differs in the timestep alone and a disagreement IS attributable to it."
+          elif [ "$PE" -eq 0 ]; then
+            echo "::error title=PREEQUIL ABSENT::No calib entry carries v2pe — the 2 fs baseline was NOT pre-equilibrated, so the 4 fs and 2 fs arms differ in TWO variables. Agreement still authorises adoption; a DISAGREEMENT is a NO-GO that must NOT be attributed to the timestep."
+          else
+            echo "::warning title=PREEQUIL MIXED::calib setup-cache entries are mixed ($PE with v2pe, $NOPE without) — determine which one r0 actually restored before reading the 2b verdict."
+          fi
+          exit 0

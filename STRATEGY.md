@@ -992,7 +992,31 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   (b) supplies the **matched-timestep** calibration the runbook requires before any 4 fs production result may be
   quoted; (c) is an independent reproducibility replicate of the 2 fs ΔΔG_coop. **GO/NO-GO:** no NaN across the
   full leg AND ΔΔG_coop consistent with the 2 fs run within replicate SD → adopt 4 fs for every downstream
-  ternary leg (≈2× cheaper, and the ladder has ≥6 of them). NaN or a shifted ΔΔG → stay at 2 fs.
+  ternary leg (**1.56×** cheaper — *not* 2×, see cost lever 1 — and the ladder has ≥6 of them). NaN or a shifted
+  ΔΔG → stay at 2 fs.
+
+  **★ THRESHOLD RATIFIED 2026-07-25 (trimcrae delegated judgement): |ΔΔG_coop(4 fs) − (−0.534)| ≤ 0.7 kcal/mol.**
+  The frozen wording says "within replicate SD" and **there is no replicate SD** — the 2 fs arm is a single
+  cycle. Lane 4 pre-specified **0.7**, the repo's own assumed replicate SD, **before any number existed**.
+  Ratified as written, for one reason that outranks the others: **pre-specification is the property that
+  matters, and revising a threshold now — after the probe survived — would be precisely the retune this program
+  forbids.** Both arms are seed 0, hence the same starting homology model, so the comparison is not additionally
+  confounded by model choice.
+  **Recorded honestly: 0.7 is LENIENT, and the leniency runs in the unsafe direction.** It is an *assumption*,
+  not a measurement, and today's protein-mutation benchmark showed between-setup SD is strongly regime-dependent
+  (**±0.175** on a near-null perturbation vs **±1.077** on a hot spot, a 6.2× spread). A 4 fs-vs-2 fs comparison
+  on the *same system with only the timestep changed* is a **small**-perturbation regime, so the honest expected
+  SD sits near the ±0.175 end — which makes 0.7 roughly 4× wider than the physics warrants. Since a PASS *buys*
+  a protocol change, a too-wide band errs toward adopting 4 fs on weak evidence. **Therefore, reporting rule
+  (additive, not a loosening): report the actual |Δ|, and a pass landing in the 0.35–0.7 band is
+  "consistent but WEAKLY DISCRIMINATING" — adopt provisionally and require the next ternary replicate to
+  confirm it, rather than treating 4 fs as settled.**
+  ⚠ **And the confound bounds what a NO-GO may be blamed on:** the 4 fs arm necessarily carries
+  pre-equilibration, while `use_preequil` for the 2 fs baseline was **never verified** — only the workflow
+  *default* of 0 is recorded, and a default is not evidence about what ran. **Agreement authorises adoption; a
+  DISAGREEMENT is a NO-GO that must NOT be attributed to the timestep.** A read-only setup-cache provenance
+  probe (presence of the `v2pe` suffix on the calib entries) was added to `gcp-quota-check.yml` and dispatched
+  2026-07-25 to settle it; it writes nothing and cannot perturb the concurrent GCP leg.
   **Two-stage, per the 2026-07-24 decision:** stage 1 is a **~$1–2 survival probe** (`prod_iters≈200`) asking
   only "does 4 fs survive well past the 40 iterations the runbook demonstrated?"; stage 2 is the full matched
   edge, only on a passing probe. Sequenced **after** valB_mini's 2 fs result, both because the calibration needs
