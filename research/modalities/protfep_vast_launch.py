@@ -572,8 +572,15 @@ def collect(bucket=None, prefix=None, autostop=True):
                 # an OUTBID instance carries intended_status == "running", so a nudge there is a
                 # harmless no-op rather than a wrong action. Re-issuing start is idempotent.
                 try:
-                    _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
-                    print(f"    -> NUDGED {iid}: cur_state=stopped with no result yet, re-issued start")
+                    # LOG THE RESPONSE. Vast answers a refused start with HTTP 200 and
+                    # {"success": false, "msg": ...} in the body, so a discarded response is
+                    # indistinguishable from a start that worked. Two hosts in a row sat at
+                    # intended=stopped through ~13 start PUTs that all "succeeded" — the reason was
+                    # in a body nobody read. gpu_backend._ensure_running discards it too, which is
+                    # why its 8 attempts printed nothing useful.
+                    resp = _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
+                    print(f"    -> NUDGED {iid}: cur_state=stopped with no result yet, re-issued "
+                          f"start; vast replied {str(resp)[:300]}")
                 except Exception as e:  # noqa: BLE001
                     print(f"    nudge failed: {e}")
 

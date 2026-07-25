@@ -1394,3 +1394,28 @@ def test_the_submit_job_installs_boto3_before_launching():
                            "gpu-protfep-vast.yml")).read()
     submit_step = wf.split("- name: Submit the Vast instance(s)")[1].split("- name:")[0]
     assert "pip install -q boto3" in submit_step
+
+
+def test_the_nudge_logs_what_vast_actually_replied(monkeypatch, capsys):
+    """Vast refuses a start with HTTP 200 + {"success": false}; a discarded body hides the reason."""
+    inst = {"id": 96, "label": pv.LABEL_PREFIX + "-x", "cur_state": "stopped",
+            "intended_status": "stopped", "actual_status": "loading",
+            "start_date": time.time() - 300, "dph_total": 0.3}
+
+    def _req(method, path, key, params=None, body=None):
+        if method == "GET":
+            return {"instances": [inst]}
+        return {"success": False, "msg": "instance is not startable"}
+
+    monkeypatch.setattr(pv, "_vast_request", _req)
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.delenv("PROTFEP_FORENSIC", raising=False)
+    import types
+    monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(
+        client=lambda _n: types.SimpleNamespace(
+            get_paginator=lambda _m: types.SimpleNamespace(paginate=lambda **_k: [{"Contents": []}]),
+            get_object=lambda **_k: (_ for _ in ()).throw(KeyError("none")),
+            put_object=lambda **_k: None)))
+    pv.collect()
+    out = capsys.readouterr().out
+    assert "instance is not startable" in out, "the refusal reason must reach the log"
