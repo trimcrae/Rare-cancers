@@ -197,6 +197,103 @@ def effective_interval(manifest, nc_path=None, chk_path=None, fallback=None):
 # --------------------------------------------------------------------------------------------
 # commit stores (versioned, immutable generations; manifest written LAST = the commit point)
 # --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# system fingerprint: the params that change the SYSTEM but are NOT in the commit prefix
+# --------------------------------------------------------------------------------------------
+# WHY (2026-07-25). The spot commit prefix is keyed
+# `<seed>_dt<dt>fs_clig<c>_wu<warmup_dt>[_<salt>][_dir<dir>]`. Several things that change the PHYSICS are absent
+# from it, so two genuinely different calculations can share one prefix and a resume can silently restore the
+# wrong trajectory:
+#
+#   * SETUP_CACHE_VERSION  -- v2pe (alchemy started from the plain-MD-relaxed complex) vs v1 (raw).
+#   * CHARGE_METHOD        -- nagl vs am1bcc: different partial charges, i.e. a different Hamiltonian.
+#   * N_WINDOWS            -- a different lambda schedule.
+#
+# The fwd/rev version of this bug (see ternary-lane-guard-audit-2026-07-25.md section H) was caught only because
+# the two hybrid systems had different PARTICLE COUNTS, so OpenFE's assert_multistate_system_equality refused the
+# restore. That escape does not generalise: pre-equilibration only MOVES COORDINATES, so a v1-vs-v2pe mismatch has
+# identical particle counts and that check cannot fire at all.
+#
+# So: stamp a fingerprint of these params into every commit manifest, and refuse to restore a generation whose
+# fingerprint differs from the running configuration. Cheap (a hash of a few env vars) and checked against the
+# MANIFEST ALONE, before any download, so a mismatch costs nothing.
+#
+# Adding these to the prefix instead would ORPHAN existing committed data (fwd's prefix carries no such suffix),
+# which is why the provenance is recorded rather than keyed.
+SYSTEM_FINGERPRINT_ENV = (
+    "LEG_ID",
+    "DIRECTION",
+    "SEED",
+    "CHARGE_METHOD",
+    "SETUP_CACHE_VERSION",
+    "N_WINDOWS",
+    "RBFE_TIMESTEP_FS",
+    "RBFE_WARMUP_TIMESTEP_FS",
+    "RBFE_CONSTRAIN_LIGAND_CH",
+)
+
+
+def system_fingerprint_fields(env=None):
+    """The raw {name: value} the fingerprint is computed over. Missing vars record as '' so an absent var and an
+    empty one hash identically -- the alternative (omitting the key) would make the hash depend on which vars
+    happened to be exported, which is not a property of the system."""
+    env = os.environ if env is None else env
+    return {k: str(env.get(k, "")) for k in SYSTEM_FINGERPRINT_ENV}
+
+
+def system_fingerprint(env=None):
+    """Short stable hash of `system_fingerprint_fields`. Stable across processes and machines: it hashes a
+    sorted, explicitly-ordered JSON rendering, never a dict repr or a Python hash()."""
+    fields = system_fingerprint_fields(env)
+    payload = json.dumps([[k, fields[k]] for k in SYSTEM_FINGERPRINT_ENV], separators=(",", ":"))
+    return hashlib.sha256(payload.encode()).hexdigest()[:16], fields
+
+
+def fingerprint_mismatch_reason(manifest, env=None, strict_unstamped=None):
+    """Return None if `manifest` may be restored into the current configuration, else a human reason string.
+
+    TWO CASES, DELIBERATELY TREATED DIFFERENTLY -- because one is evidence and the other is only absence:
+
+    * **Stamped and DIFFERENT -> always refused.** Here we have positive evidence that this generation came from
+      another configuration, so restoring it would report one calculation's sampling as another's. No flag
+      overrides this; there is no legitimate reason to want it.
+
+    * **UNSTAMPED (written before provenance stamping) -> warn, and refuse only under
+      `RBFE_STRICT_PROVENANCE=1`.** Absence of provenance is not evidence of mismatch. Failing closed here would
+      be the more "correct-looking" choice and was the first implementation, but it imposes a real cost on work
+      this change had nothing to do with: any leg ALREADY RUNNING with unstamped generations -- including other
+      sessions' GPU legs on other providers -- would refuse to resume after a preemption and silently throw away
+      paid GPU hours. For a running leg the generation was written by the same dispatch that will resume it, so
+      accepting it is almost certainly right; the genuinely dangerous case is a human resuming an OLD prefix with
+      CHANGED params, and that is exactly when the stamped branch above fires. The unstamped population is finite
+      and shrinking, since every new commit is stamped. Lanes that have verified nothing unstamped needs resuming
+      set `RBFE_STRICT_PROVENANCE=1` (the ternary GPU lane does).
+    """
+    env = os.environ if env is None else env
+    if strict_unstamped is None:
+        strict_unstamped = str(env.get("RBFE_STRICT_PROVENANCE", "")) == "1"
+    want, want_fields = system_fingerprint(env)
+    got = (manifest or {}).get("system_fingerprint")
+    if got is None:
+        msg = ("manifest carries NO system_fingerprint (written before provenance stamping), so its "
+               "SETUP_CACHE_VERSION (v1 vs v2pe), CHARGE_METHOD and N_WINDOWS cannot be checked -- and identical "
+               "particle counts mean OpenFE cannot detect a mismatch either.")
+        if strict_unstamped:
+            return msg + " RBFE_STRICT_PROVENANCE=1 -> refusing it."
+        print("[restore] WARNING: %s Accepting it because RBFE_STRICT_PROVENANCE is not set; if you have changed "
+              "charge method, windows, or pre-equilibration since this generation was written, STOP and use a "
+              "fresh commit_salt." % msg, flush=True)
+        return None
+    if got == want:
+        return None
+    got_fields = (manifest or {}).get("system_fingerprint_fields") or {}
+    diffs = [f"{k}: committed={got_fields.get(k, '?')!r} running={want_fields[k]!r}"
+             for k in SYSTEM_FINGERPRINT_ENV if got_fields.get(k, None) != want_fields[k]]
+    return ("system fingerprint MISMATCH (committed=%s running=%s) -- this generation was produced by a "
+            "different configuration, so restoring it would report one calculation's sampling as another's. "
+            "Differing: %s" % (got, want, "; ".join(diffs) or "(fields not recorded on the manifest)"))
+
+
 class _BaseCommitStore:
     MANIFEST = "COMMITTED.json"
 
@@ -218,7 +315,9 @@ class _BaseCommitStore:
             fsync_file(snap_chk)
             v = validate_reporter_pair(snap_nc, snap_chk, iteration, checkpoint_interval)
             generation = uuid.uuid4().hex
-            manifest = {"schema": 1, "phase": phase, "generation": generation, **v}
+            _fp, _fp_fields = system_fingerprint()
+            manifest = {"schema": 2, "phase": phase, "generation": generation,
+                        "system_fingerprint": _fp, "system_fingerprint_fields": _fp_fields, **v}
             self._persist(phase, iteration, generation, snap_nc, snap_chk, manifest)
         return manifest
 
@@ -247,6 +346,14 @@ class _BaseCommitStore:
         mis-accepting) a valid generation at an off-env-grid boundary."""
         for phase in phases:
             for iteration, generation, man in self.list_committed(phase):
+                # PROVENANCE FIRST, before any download: the manifest alone decides whether this generation
+                # belongs to the running configuration, so a mismatch costs nothing. Rejecting falls through to
+                # the next-newest generation exactly like a validation failure, so a prefix that holds a mix of
+                # provenances still resumes from the newest COMPATIBLE one instead of refusing outright.
+                _why = fingerprint_mismatch_reason(man)
+                if _why is not None:
+                    print(f"[restore] {phase} iter {iteration} gen {generation[:8]} REJECTED: {_why}", flush=True)
+                    continue
                 with tempfile.TemporaryDirectory(dir=str(workspace)) as td:
                     td = Path(td)
                     try:

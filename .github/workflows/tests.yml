@@ -50,4 +50,10 @@ jobs:
       # not a guard.
       - name: No two-shell variable in the VM startup heredoc
         run: python3 research/modalities/tests/test_heredoc_two_shell.py
+      # Params that change the PHYSICS but are absent from the commit prefix (setup version, charge method,
+      # windows). OpenFE's particle check cannot catch a v1-vs-v2pe mismatch because pre-equilibration only moves
+      # coordinates, so the manifest fingerprint is the only guard. Needs no scientific stack: it drives
+      # restore_latest through a fake store.
+      - name: Commit-manifest system fingerprint (no cross-provenance resume)
+        run: python3 research/modalities/tests/test_system_fingerprint.py
       - run: python -m pytest research/modalities/tests -q
