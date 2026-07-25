@@ -128,10 +128,9 @@ spanning 12.87–27.69 Å. So CRBN's 0.81–0.96 background — the number STRAT
 CRBN's apparent term-(b) signal is background"* — is partly a consequence of an arbitrary co-structure choice,
 and `crbn|M0`, the **strongest basin in the whole 12-pose run**, was scored against it.
 
-**What has NOT been done:** the basin search has not been re-run with a longer CRBN anchor, so nothing here
-says which way `crbn|M0` moves. A matched, identical-settings comparison (composed arms vs
-**assembly-native** arms staged entirely from 8R5H / 9UUM, so no bridge is composed at all) is built and
-queued as a $0 CPU job; its result belongs in §4 when it lands.
+**That prediction was then tested — see §4.** Restaging both arms **assembly-native** and re-running at
+matched settings **halves CRBN's null (0.858 → 0.399)** while leaving VHL's unmoved. The 0.81–0.96 figure is
+an exit-vector artifact.
 
 ### 1.5 A free by-product: the composed-RING caveat is quantified on **both** arms now, not one
 
@@ -165,8 +164,9 @@ Lane 2's committed registry is left exactly as it was.)
 > ~40 Å of transfer-zone variation" risk is removed rather than merely unquantified.**
 >
 > The offsetting finding is on the other arm: **CRBN's exit vector, and therefore its null, is not a fixed
-> property of CRBN.** That does not touch the VHL limb, but it does mean `crbn|M0`'s standing as the
-> strongest basin is conditional on a co-structure choice that was never examined.
+> property of CRBN** — and §4 shows that when the arm is staged composition-free, CRBN's null **halves**
+> (0.858 → 0.399) while VHL's does not move. So the Tier-2 GO stands on both constructions, but the
+> conclusion built around the old null — *"the discrimination lives on VHL"* — does not.
 
 ---
 
@@ -304,17 +304,78 @@ launched, not pre-staged, and not requested by this lane.**
 | `nr4a3_e3_stage.py` | `pick_ligand` now requires **recruiter** contact; `--prefer-entry` stages assembly-native arms |
 | `tests/test_basin_search.py` | a unit test encoding the 6GMN partner-bound-ligand case |
 | [`nr4a3-e3-arm-registry-recruiter-contact-recheck.json`](../modalities/nr4a3-e3-arm-registry-recruiter-contact-recheck.json) | proof the fix moves no committed number |
+| [`nr4a3-e3-arm-registry-native.json`](../modalities/nr4a3-e3-arm-registry-native.json) | both arms staged **assembly-native** — every bridge 0.0 Å |
+| `nr4a3-orientation-basins-matched-{composed,native}.json` | the matched, identical-settings comparison of §4 |
 
 ---
 
-## 4. Matched composed-vs-assembly-native comparison
+## 4. ★ Matched composed-vs-assembly-native comparison — **CRBN's null halves, and it was the exit vector**
 
-*(A $0 CPU job runs the basin search twice at identical settings — same seed, same samples, same poses — once
-against the composed registry and once against arms staged entirely from 8R5H / 9UUM. Its purpose is the §1.4
-question: what CRBN's null and the two categorical terms do when the arm carries no composed bridge and the
-observed anchor distance. Results land in
-`nr4a3-orientation-basins-matched-{composed,native}.json`; this section is filled in from them and from
-nothing else.)*
+Both arms were restaged **assembly-native** — receptor, ligand, RING and E2 all from ONE intact assembly, so
+**every bridge RMSD is 0.0 Å and nothing is composed**:
+
+| arm | receptor = scaffold = intact assembly | ligand | ligand → recruiter | anchor → transfer anchor |
+|---|---|---|---|---|
+| VHL | **8R5H** (354 Cα bridge @ **0.0 Å**) | MZ1 (het 759) | 2.80 Å | **30.76 Å** |
+| CRBN | **9UUM** (1489 Cα bridge @ **0.0 Å**) | mezigdomide (QFC) | 2.18 Å | **27.69 Å** |
+
+The basin search then ran **twice at identical settings** (250 000 samples × 8 poses × 2 arms, same seed;
+700 s and 816 s), once per registry — so this is a controlled comparison, not a re-quote of the 12-pose run at
+different parameters.
+
+### 4.1 The result
+
+| | VHL (composed, 5T35) | VHL (**native**, 8R5H) | CRBN (composed, 6BOY) | CRBN (**native**, 9UUM) |
+|---|---|---|---|---|
+| anchor → transfer anchor | 30.85 Å | 30.76 Å | **12.87 Å** | **27.69 Å** |
+| exit vector moved | — | **0.99 Å** | — | **16.5 Å** |
+| **null: any NR4A3 lysine covered** (mean over poses) | 0.419 | 0.437 | **0.858** | **0.399** |
+| null range | 0.385–0.445 | 0.380–0.520 | **0.760–0.980** | **0.320–0.445** |
+| null: unique lysine covered | 0.027 | 0.026 | 0.040 | 0.035 |
+| accepted placements / pose | 249–364 | 265–375 | 202–277 | 367–481 |
+
+**This is a causal demonstration, not a correlation.** The arm whose exit vector barely moved (VHL, 0.99 Å)
+shows **no** change in its null; the arm whose exit vector moved 16.5 Å shows its null **halve, 0.858 → 0.399**.
+The change tracks the manipulated variable and nothing else.
+
+### 4.2 What it does to the record
+
+> **CRBN's 0.81–0.96 lysine null is an artifact of the dBET6 exit-vector choice, not a property of CRBN.**
+> At the composition-free geometry — the one measured inside the very assembly the transfer anchor is taken
+> from — CRBN's null is **0.32–0.45**, statistically indistinguishable from VHL's **0.38–0.52**.
+
+STRATEGY.md's Tier-2 block currently states: *"CRBN's null is 0.81–0.96, so most of CRBN's apparent term-(b)
+signal is background. **The discrimination lives on VHL — the arm carried as a control, not as the winner.**
+This is decision-relevant and must not be smoothed over when the E3 is chosen."* **That conclusion does not
+survive.** With both arms staged composition-free the two nulls are comparable, so "the discrimination lives
+on VHL" is not established — it was an artifact of one arm being anchored on a PROTAC's exit vector and the
+other on a PROTAC's exit vector that happened to point differently.
+
+### 4.3 And the gate itself is robust to the arm construction
+
+| | composed | native |
+|---|---|---|
+| meta-basins / basins | 53 / 127 | 55 / 128 |
+| exploiting term (a) at the 12-atom gate | 2 | 3 |
+| exploiting term (b) above the null | 26 | 26 |
+| nominally discriminating | 22 | 26 |
+| **Tier-2** | **GO, CATEGORICAL** | **GO, CATEGORICAL** |
+
+**Tier-2 passes on both**, on the same basis, with the native construction marginally *stronger* on both the
+term-(a) and discrimination counts. So the GO does not depend on how the arm was built.
+
+### 4.4 Two things this comparison does NOT say
+
+- **It is not a restatement of the authoritative 12-pose result.** At 250 k × 8 poses the absolute counts are
+  necessarily lower than the 10⁶ × 12-pose run's (7 term-(a), 40 term-(b), 28 discriminating). Only the
+  composed-vs-native contrast at matched settings is meaningful here.
+- **Meta-basin IDs are not stable across runs.** `crbn|M0` in this comparison is not the `crbn|M0` of the
+  authoritative run, so nothing here re-ranks that specific basin. What it does say is that the *background*
+  the authoritative `crbn|M0` was scored against is roughly twice too high — which means its 7.5×
+  enrichment is measured against the wrong denominator, in the direction that would make it **larger**, while
+  the "most of CRBN's signal is background" framing around it is what falls. **Re-running the authoritative
+  12-pose configuration on the native registry is the clean way to settle it, is ~55 min of free CPU, and has
+  not been done.**
 
 ---
 
@@ -340,13 +401,29 @@ Replace with:
 > the **recruiter**; fixed, with a unit test, and verified to leave both consumed arms bit-identical.
 > **The VHL basin ranking stands and Tier-2 survives.**
 
-**L2 — the Tier-2 block gains a NEW open item, replacing the closed one.** CRBN's anchor→transfer distance is
-**not a property of CRBN**: it reads **12.87 / 21.50 / 27.69 Å** for dBET6 (6BOY) / lenalidomide (9FJX) /
-mezigdomide (9UUM, measured composition-free in the assembly itself), all three ligands bound to CRBN in the
-same tri-tryptophan pocket. The 12-pose run used the **smallest**, and that distance is STRATEGY's own stated
-cause of CRBN's **0.81–0.96** lysine null. So `crbn|M0`'s standing as the strongest basin is **conditional on
-an unexamined co-structure choice.** A matched $0 re-run is the test; until it lands, quote `crbn|M0` with
-this caveat attached.
+**L2 — ★ RETRACT "the discrimination lives on VHL". CRBN's 0.81–0.96 null is an exit-vector artifact.**
+CRBN's anchor→transfer distance is **not a property of CRBN**: it reads **12.87 / 21.50 / 27.69 Å** for
+dBET6 (6BOY) / lenalidomide (9FJX) / mezigdomide (9UUM, measured composition-free inside the assembly
+itself), all three ligands bound to CRBN in the same tri-tryptophan pocket. The 12-pose run used the
+**smallest**, and STRATEGY names that distance as the cause of the high null. **Tested, at $0:** restaging
+both arms **assembly-native** (8R5H / 9UUM, every bridge 0.0 Å) and re-running the search at identical
+settings (250 k × 8 poses, same seed) halves CRBN's null — **0.858 → 0.399 mean** (0.760–0.980 → 0.320–0.445)
+— while VHL's, whose exit vector moved only 0.99 Å, does not move (0.419 → 0.437). The change tracks the
+manipulated variable and nothing else. So:
+
+> Delete *"CRBN's null is 0.81–0.96, so most of CRBN's apparent term-(b) signal is background. **The
+> discrimination lives on VHL — the arm carried as a control, not as the winner.**"* and replace with:
+> *"CRBN's 0.81–0.96 null was an artifact of anchoring the arm on dBET6's exit vector. Staged
+> composition-free from 9UUM — the assembly the transfer anchor itself comes from — CRBN's null is
+> **0.32–0.45**, comparable to VHL's **0.38–0.52**. **Neither arm is established as carrying the
+> discrimination**, and the E3 choice cannot be made on this axis. The gate itself is robust: Tier-2 passes
+> on the CATEGORICAL basis with either construction (native marginally stronger: 3 vs 2 term-(a), 26 vs 22
+> discriminating, at matched settings)."*
+
+Add as the block's new open item: the **authoritative 12-pose configuration has not been re-run on the
+assembly-native registry** (~55 min of free CPU). Until it is, the authoritative run's CRBN enrichments are
+measured against a background that is roughly twice too high — an error in the direction that makes them
+*larger*, so the caveat is on the framing, not on the GO.
 
 **L3 — §MECHANISM-FIRST: state the chemistry axis as ONE residue deep, and give C397's distribution.**
 Replace the single-frame "RSA 0.395" with the ensemble result: over **75 unbiased NR4A3 MD conformers**,
