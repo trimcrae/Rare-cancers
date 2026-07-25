@@ -1565,6 +1565,14 @@ def build(recruiters, availability):
             "the orientation space being measured. For a recruiter with no partner-free structure (a "
             "glue-type E3), that removal means burial and the exit vector are measured against a site that "
             "may be partly formed BY the removed partner — flagged per recruiter in geometry_frame.",
+            "★ The rule is deliberately BLIND to recruiter-intrinsic pharmacology, and that is a real "
+            "omission, not a neutral one. Several ligandable E3s are ligandable precisely because their "
+            "handle is a well-developed inhibitor of the E3's own function — recruiting MDM2 with a "
+            "nutlin-class handle also inhibits MDM2, and recruiting KEAP1 perturbs the KEAP1-NRF2 axis. "
+            "A recruiter can therefore win on ligandability and interface geometry while carrying an "
+            "on-target liability this stage cannot see. Any recruiter advanced here must have that "
+            "liability assessed from the literature before it is committed to, and it is an input to the "
+            "next gate, not a footnote.",
             "No claim of efficacy, safety, therapeutic window, or clinical readiness is made or implied. "
             "'Advanced' means 'carried into a computational search', never 'suitable for use'.",
         ],

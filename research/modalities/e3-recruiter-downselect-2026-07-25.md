@@ -135,3 +135,14 @@ sensitivity check at all. The cap is ≤2, not ==1.
 - Availability is recorded and then deliberately **excluded** from the rule (§1). That is a decision, not an
   oversight: the HPA panel is uniformly positive, so including it would add no discrimination while giving
   the appearance of a filter that did work it did not do.
+- **★ The rule is blind to recruiter-intrinsic pharmacology, and that is a real omission.** Several
+  ligandable E3s are ligandable *precisely because* their handle is a well-developed inhibitor of the E3's
+  own function — a nutlin-class MDM2 handle also inhibits MDM2; a KEAP1 handle perturbs the KEAP1–NRF2 axis.
+  A recruiter can therefore win on ligandability and interface geometry while carrying an on-target
+  liability this stage cannot see. Any recruiter advanced here must have that liability assessed from the
+  literature **before** it is committed to. It is an input to the next gate, not a footnote.
+- The exit-vector quality axis **saturates**: clearance is capped at 20 Å and most gate-passing recruiters
+  reach a 30° cone openness of 1.0, so `exit_quality` mostly restates G3 rather than discriminating. The
+  discrimination in practice comes from the analogue tier and the open solid angle. This is reported, **not
+  retuned** — amending a preregistered rule after seeing the result is exactly the move STRATEGY.md forbids
+  without a dated, reviewed defect-fix.
