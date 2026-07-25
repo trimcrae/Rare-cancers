@@ -91,6 +91,8 @@ def main():
 
     if check_watchdog_field_alignment() != 0:
         fails.append("field alignment")
+    if check_setup_cache_key() != 0:
+        fails.append("setup cache key")
 
     print("\n%d check(s) failed" % len(fails))
     return 1 if fails else 0
@@ -123,6 +125,36 @@ def check_watchdog_field_alignment():
     print("FAIL field alignment: %d format slots, %d values, %d read vars — fields would shift silently"
           % (n_fmt, n_val, len(names)))
     return 1
+
+
+def check_setup_cache_key():
+    """The watchdog builds the primed-setup-cache path itself to check the precondition before buying a VM. That
+    path must match the engine's key exactly, or the check silently passes/fails on a path nobody writes -- the
+    same drift that made a rev leg resume the fwd trajectory. Observed engine path, from the 2026-07-25 prime:
+    setupcache/calib_hi_to_lo__ternary_vhl_rev_r0__nagl__v2pe
+    """
+    wf = os.path.join(HERE, "..", "..", "..", ".github", "workflows", "ternary-leg-watchdog.yml")
+    if not os.path.isfile(wf):
+        print("SKIP setup-cache key (workflow not found)")
+        return 0
+    t = open(wf).read()
+    bad = 0
+    if "setupcache/${LEG}_${DIR}_r${SEED}__${CHG}__${SETUPVER}" not in t:
+        print("FAIL setup-cache key: the watchdog's path no longer matches the engine's "
+              "<leg>_<dir>_r<seed>__<charge>__<version> key")
+        bad = 1
+    else:
+        print("PASS setup-cache key matches the engine's <leg>_<dir>_r<seed>__<charge>__<version>")
+    if 'SETUPVER=v1; [ "$UPE" = "1" ] && SETUPVER=v2pe' not in t:
+        print("FAIL setup-cache version: use_preequil=1 must select v2pe (it is what forces SETUP_VER=v2pe)")
+        bad = 1
+    else:
+        print("PASS use_preequil=1 selects the v2pe setup cache")
+    return bad
+
+
+def test_setup_cache_key():
+    assert check_setup_cache_key() == 0
 
 
 def test_watchdog_field_alignment():

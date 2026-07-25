@@ -318,6 +318,21 @@ jobs:
                 continue
               fi
 
+              # PRECONDITION: the primed setup cache must EXIST before buying a VM. The GPU lane already refuses
+              # to solvate+parameterize on an idle GPU (RBFE_REQUIRE_PRIMED_SETUP), but it does so ON the VM --
+              # so a relaunch into a missing cache still provisions, bails after ~2.6 min, and leaves a zombie
+              # holding the single GPU because the self-delete trap has no permission. That happened at 3:18 PM
+              # on 2026-07-25: this watchdog relaunched the rev leg 4 minutes before its v2pe prime finished.
+              # The check is one `ls`, and it moves the guard to BEFORE the spend. The cache key mirrors the
+              # engine's: <leg>_<dir>_r<seed>__<charge>__<setup_version>, where use_preequil=1 forces v2pe.
+              SETUPVER=v1; [ "$UPE" = "1" ] && SETUPVER=v2pe
+              SCACHE="gs://$BUCKET/valB-6hax/setupcache/${LEG}_${DIR}_r${SEED}__${CHG}__${SETUPVER}"
+              if ! gcloud storage ls "$SCACHE/" >/dev/null 2>&1; then
+                echo "::error title=WATCHDOG SETUP CACHE MISSING::$TAG — NOT relaunching: the primed setup cache $SCACHE does not exist, so a GPU run would provision, refuse to build on the idle GPU, and leave a billing zombie. Pre-bake it first: dispatch ternary-setup-prime-cpu.yml with leg_id=$LEG direction=$DIR seed=$SEED charge_method=$CHG use_preequil=$UPE (free CPU). Not counting this against the relaunch cap."
+                echo "SETUP CACHE MISSING $TAG ($SCACHE)" >> "$ALERT"
+                continue
+              fi
+
               echo "relaunching $TAG (attempt $((CNT+1))/$MAXRL today) — resumes from the last committed checkpoint"
               if gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" \
                    -f mode=run -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
