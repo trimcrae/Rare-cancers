@@ -155,3 +155,52 @@ class TestBenchRejectionGate(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestOutbidIsNotDead(unittest.TestCase):
+    """An outbid interruptible instance looks identical to a dead one — status "stopped" — but its disk is
+    intact and Vast resumes it automatically. Destroying it discards that disk and buys a ~20-minute image
+    reload on the re-rent. That self-inflicted reload was the ENTIRE justification for bidding floor x 1.9."""
+
+    @classmethod
+    def setUpClass(cls):
+        spec = importlib.util.spec_from_file_location(
+            "nrv04_vast_launch", os.path.join(os.path.dirname(__file__), "..", "nrv04_vast_launch.py"))
+        cls.L = importlib.util.module_from_spec(spec)
+        try:
+            spec.loader.exec_module(cls.L)
+        except Exception as e:            # noqa: BLE001
+            raise unittest.SkipTest(f"launcher not importable here: {e}")
+
+    @staticmethod
+    def _i(**kw):
+        d = {"is_bid": True, "actual_status": "stopped", "intended_status": "running",
+             "min_bid": 0.30, "price": 0.20}
+        d.update(kw)
+        return d
+
+    def test_outbid_box_is_preserved(self):
+        """min_bid 0.30 has risen above our 0.20 bid -> paused by the market, keep the disk."""
+        self.assertTrue(self.L.instance_outbid(self._i()))
+
+    def test_a_still_winning_stopped_box_is_not_called_outbid(self):
+        """Our bid still clears the machine price, so 'stopped' means something else went wrong."""
+        self.assertFalse(self.L.instance_outbid(self._i(min_bid=0.10, price=0.20)))
+
+    def test_an_exited_container_is_dead_and_must_still_be_reaped(self):
+        """The job finished or self-terminated. Destroying it is correct — this is the anti-idle guarantee."""
+        self.assertFalse(self.L.instance_outbid(self._i(actual_status="exited")))
+
+    def test_an_on_demand_instance_can_never_be_outbid(self):
+        self.assertFalse(self.L.instance_outbid(self._i(is_bid=False)))
+
+    def test_an_instance_we_asked_to_stop_is_ours_not_the_markets(self):
+        self.assertFalse(self.L.instance_outbid(self._i(intended_status="stopped")))
+
+    def test_a_running_instance_is_not_outbid(self):
+        self.assertFalse(self.L.instance_outbid(self._i(actual_status="running")))
+
+    def test_missing_price_data_keeps_the_disk_rather_than_destroying_it(self):
+        """Destroying is irreversible; not destroying is caught by the over-age backstop minutes later."""
+        self.assertTrue(self.L.instance_outbid(self._i(min_bid=None)))
+        self.assertTrue(self.L.instance_outbid(self._i(price="?")))

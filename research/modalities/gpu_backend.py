@@ -273,7 +273,15 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
 # checkpoint, so 4/5 tail legs made ZERO net frame progress across a ~40-min cycle (n_results flat 4 cycles). A
 # slow leg's only path to finishing is holding one host long enough; x1.9 wins+holds far better at trivial extra
 # $/hr on a ~$0.52/leg panel. Still well under on-demand.
-_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.9"))   # margin above min_bid to win+HOLD
+# LOWERED 1.9 -> 1.25 (2026-07-25). The 1.9 existed for ONE reason: each preemption was observed to cost a
+# ~20-minute image reload, so holding the box was worth a big rate premium. That cost was self-inflicted. Vast's
+# docs state that being outbid PAUSES an interruptible instance with its data preserved and resumes it
+# automatically when priority returns — but our reaper treated "stopped" as terminal and DELETEd it, forcing a
+# fresh ~6 GiB pull on the re-rent (`nrv04_vast_launch.instance_outbid` now prevents that). With the pause/resume
+# path intact, losing the auction costs wall-clock plus storage, not a reload — and per the operating regime this
+# program is never a race, so wall-clock is close to free. On the cheapest live 4090 ($0.1333 floor) this is
+# $0.1667/hr instead of $0.2533/hr, a 34% cut on the same box.
+_VAST_BID_FLOOR_MULT = float(os.environ.get("VAST_BID_FLOOR_MULT", "1.25"))  # margin above min_bid to win+hold
 
 
 def _vast_bid_price(offer: dict, ondemand_base: float = None):

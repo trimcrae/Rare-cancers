@@ -938,22 +938,17 @@ stands.
 **Now measured properly across 63 machines / 12 card classes:** the interruptible discount is **universal** —
 median on-demand = **1.25× the floor**, IQR 1.14–1.68, and **zero hosts at parity**.
 
-**THE NUMBER — corrected.** The earlier "$0.30/hr reservation price" is **retracted**: it was a duty-cycle
-quantile, which is the right model for ONE price process, and Vast is ~23 independently-priced 4090 hosts you
-can see at once. You do not wait for a price there, you pick a host — and a $0.30 ceiling never binds (5 of 23
-sit under it), so it buys nothing and would only ever pass up a cheaper box. The policy is: **take the cheapest
-host by measured $/ns, bid its own floor × a small margin, capped at that host's on-demand price.** The open
-quantity is the margin: `×1.15` vs the incumbent `×1.9` is **39 %** on the same box ($0.1533 vs $0.2533), traded
-against a ~20-min reload per preemption — a trade never yet weighed against a measured preemption rate.
+**THE NUMBER: `floor × 1.25`** on the cheapest host by measured $/ns, capped at that host's on-demand price —
+$0.1667/hr on today's cheapest live 4090, vs $0.2533 under `×1.9` (**34 % cut, same box**). The earlier
+"$0.30/hr reservation price" is retracted: it was a duty-cycle quantile, right for ONE price process, and Vast is
+~23 independently-priced hosts you can see at once — you pick a host, you do not wait for a price.
 
-**A second correction, on the incumbent.** An earlier line here called `×1.9` a 38 % (then 55 %) overpayment
-versus on-demand. Both were computed on a host the selector would never pick. `_select_cheapest_offer` ranks by
-`min_bid`, so `×1.9` lands on the cheapest floor ($0.1333) and bids **$0.2533 against $0.3600 on-demand — it is
-NOT overpaying today.** Its real defect is that it is **unbounded**: `1.9 × floor` exceeds that host's own
-on-demand price on **20 of 23** 4090s, so the policy is safe only while a thin cheap tail exists. Remove the two
-hosts under $0.20 and it bids **$0.5067 against $0.3200 — 58 % over.** Shipped the fix: an on-demand cap in
-`gpu_backend._vast_bid_price`, which needs a separate `type: "on-demand"` query (`_vast_ondemand_base_by_machine`)
-because a bid-type query's `dph_base` *is* the floor.
+**The bigger find was a bug, not a bid.** [Vast's docs](https://vast.ai/article/Rental-Types) say being outbid
+**pauses** an instance with its data preserved and resumes it automatically; our reaper treated `"stopped"` as
+terminal and DELETEd it, forcing a fresh ~6 GiB image pull. That self-inflicted ~20-min reload was the sole
+justification for `×1.9` (*"re-bought+reloading repeatedly"*). Fixed via
+`nrv04_vast_launch.instance_outbid`, which discriminates on `is_bid` / `intended_status` / `min_bid > price`
+rather than on a status string; `exited` containers are still reaped, so the anti-idle guarantee holds.
 
 **Selection dominates bidding**: cheapest 4090 floor $0.1333 vs median $0.3550 is a 2.7× host-to-host spread,
 far larger than the ~1.20× discount available within a host. Full derivation in

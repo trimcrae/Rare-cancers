@@ -14,37 +14,42 @@
 
 ## 0. THE NUMBER
 
-**Bid the cheapest qualifying host's own floor × a small margin, capped at that host's on-demand price.**
-Not an absolute dollar figure — and the earlier "$0.30/hr reservation price" here is **retracted**.
+**`floor × 1.25` on the cheapest host by measured $/ns, capped at that host's on-demand price.** On today's
+cheapest live 4090 ($0.1333 floor) that is **$0.1667/hr**, against $0.2533 under the old `×1.9` — a **34 % cut on
+the same box**. Shipped: `gpu_backend._VAST_BID_FLOOR_MULT = 1.25`.
 
-**Why $0.30 was the wrong shape of answer.** It was derived as a duty-cycle quantile: stand at a price, let the
-market come to you. That is the right model for **one** price process. Vast is not one price process — it is
-~23 independently-priced RTX 4090 hosts visible simultaneously, and you do not wait for a price, **you pick a
-host.** A $0.30 ceiling never binds (5 of 23 hosts sit under it right now; all 23 would have to price above
-$0.30 at once for it to do anything), so it changes nothing and buys nothing. Passing up a $0.15 host to
-"target" $0.30 would be strictly worse — and is not what the code does: `_select_cheapest_offer` ranks by $/ns
-and takes the $0.1333 host today.
+**But the multiple was never the real problem.** [Vast's docs](https://vast.ai/article/Rental-Types) are explicit
+that losing the auction is a **pause, not a death**: *"Data preserved when paused but instance not functional.
+Resume automatically when priority returns."* Our reaper listed `"stopped"` in `_terminal` and **DELETEd** it —
+discarding an intact disk and forcing a fresh ~6 GiB image pull on the re-rent.
 
-**Where the money actually is: the multiple, not the threshold.** On Vast you pay *your bid*, so landing on the
-cheapest host and then bidding `1.9 × floor` discards most of the advantage of having found it:
+That self-inflicted ~20-minute reload was the **entire evidential basis** for `×1.9`. The 2026-07-23 incident note
+says so in its own words: *"a covalent leg sat at frame 100 for ~3 h, **re-bought**+reloading repeatedly."*
+Re-bought. It never had to be. With the pause/resume path intact, being outbid costs **wall-clock plus storage,
+not a reload** — and per the operating regime this program is never a race, so wall-clock is close to free.
 
-| bid on the $0.1333 host | $/hr | vs bidding at the floor |
-|---|---|---|
-| floor × 1.00 | 0.1333 | — |
-| floor × 1.15 | 0.1533 | +15 % |
-| floor × 1.50 | 0.2000 | +50 % |
-| **floor × 1.90 (incumbent)** | **0.2533** | **+90 %** |
+`nrv04_vast_launch.instance_outbid` now discriminates on data rather than on what a status string seems to mean:
 
-`×1.15` versus `×1.90` on the same box is **39 %**. That is the whole remaining lever, and it is larger than
-anything the reservation-price machinery was ever going to deliver.
+| signal | meaning |
+|---|---|
+| `is_bid` | only an interruptible rental can be outbid at all |
+| `actual_status == "exited"` | container ran and left — job done or self-terminated. **Genuinely dead, still reaped.** |
+| `intended_status == "running"` | *we* still want it up, so a stopped state is the market's doing |
+| `min_bid > price` | the machine's clearing price rose above our standing bid — **the direct observation of being outbid** |
 
-**The one thing that stops us just bidding the floor.** The floor *is* the current clearing price, so a
-floor-hugging bid is displaced by the next bidder, and each displacement costs a ~20-minute image reload
-(measured 2026-07-23). `×1.9` was a real, evidence-driven response to that: at `×1.5` the NR-V04 covalent tail
-churned so badly that 4 of 5 slow legs made **zero net frame progress** across a ~40-min cycle. So the multiple
-is a genuine trade, not an obvious overpayment — **but the ~$0.10/hr it costs on a cheap host has never been
-weighed against a measured preemption rate.** That measurement, not another threshold model, is what sets the
-number.
+Missing price fields resolve to "outbid, keep the disk": destroying is irreversible, while not destroying is
+caught by the over-age backstop minutes later. The anti-idle guarantee is unchanged — an `exited` container is
+still destroyed on sight.
+
+**Two costs this does not remove.** Storage keeps billing while paused (~$0.05/hr, consistent with the surcharge
+we watched accrue into `dph_total` during the bench), so a permanently-outbid box is a slow leak that the
+over-age cap must continue to catch. And a lower bid genuinely does mean more time paused — which is only
+acceptable *because* we are not racing.
+
+**Method note.** The plan before this was to build a survival experiment measuring preemption hazard against bid
+multiple. It would have produced a precise number for a model this market does not use: Vast is a per-machine
+auction where you run iff you are top bidder on that box, not an AWS-style stochastic spot pool. Reading the
+vendor documentation cost nothing and found a bug worth more than the experiment's answer.
 
 ### ★ Bench result — VALIDATED RE-RUN (2026-07-24, 23:36 UTC). Supersedes the 23:08 grid entirely.
 

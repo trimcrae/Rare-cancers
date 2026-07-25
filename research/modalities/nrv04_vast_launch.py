@@ -331,7 +331,10 @@ def collect(bucket, autostop=None):
                 up_s = 0
             done = label in done_units
             over_age = up_s > max_leg_s
-            terminal = (i.get("actual_status") or "") in _terminal
+            # An outbid interruptible box looks exactly like a dead one ("stopped"), but its disk is intact
+            # and Vast resumes it automatically when our bid regains priority. Destroying it throws that away
+            # and buys a ~20-min image reload we never owed. Over-age still reaps it, so this cannot leak.
+            terminal = (i.get("actual_status") or "") in _terminal and not instance_outbid(i)
             extra = id(i) not in _keep_ids                         # a duplicate (not the kept instance for its label)
             if done or over_age or terminal or extra:
                 if _stop_throttle:
@@ -491,6 +494,41 @@ def _bench_flags(d):
         except (TypeError, ValueError):
             flags.append("bad_cv")
     return flags
+
+
+def instance_outbid(inst):
+    """True when an interruptible instance is PAUSED because someone outbid us — not because it died.
+
+    WHY THIS MATTERS MORE THAN THE BID MULTIPLE (2026-07-25). Vast's own docs are explicit that losing the
+    auction is a PAUSE, not a death: "Data preserved when paused but instance not functional. Resume
+    automatically when priority returns." Our reaper, however, listed "stopped" in `_terminal` and DELETEd it —
+    discarding a preserved disk and forcing a fresh ~6 GiB image pull on the re-rent. That self-inflicted
+    ~20-minute reload is the entire evidential basis for bidding `floor x 1.9`: the 2026-07-23 note reads "a
+    covalent leg sat at frame 100 for ~3 h, re-bought+reloading repeatedly." Re-bought. It never had to be.
+
+    Discriminated on DATA, not on guessing what a status string means:
+      * `is_bid` - only an interruptible rental can be outbid at all;
+      * `actual_status == "exited"` - the container ran and left (job done, or self-terminate). Genuinely dead;
+      * `intended_status == "running"` - WE still want it up, so a stopped state is the market's doing, not ours;
+      * `min_bid > price` - the machine's clearing price has risen above our standing bid. This is the direct
+        observation of being outbid and needs no inference at all.
+
+    Unknown/missing price fields resolve to True (assume outbid, do not destroy) because destroying loses a
+    preserved disk irreversibly while NOT destroying is caught by the over-age backstop a few minutes later.
+    PURE."""
+    if not inst.get("is_bid"):
+        return False
+    actual = str(inst.get("actual_status") or "").lower()
+    if actual == "exited":
+        return False                       # container exited on its own -> finished or self-terminated
+    if actual not in ("stopped", "offline"):
+        return False
+    if str(inst.get("intended_status") or "running").lower() != "running":
+        return False                       # we asked for it to stop; that is ours, not the market's
+    try:
+        return float(inst.get("min_bid")) > float(inst.get("price"))
+    except (TypeError, ValueError):
+        return True                        # unknown -> keep the disk; over-age still reaps it
 
 
 def _raw_device(d):
@@ -764,7 +802,10 @@ def bench_collect(bucket):
                 age = now - float(i.get("start_date") or now)
             except (TypeError, ValueError):
                 age = 0
-            terminal = (i.get("actual_status") or "") in _terminal
+            # An outbid interruptible box looks exactly like a dead one ("stopped"), but its disk is intact
+            # and Vast resumes it automatically when our bid regains priority. Destroying it throws that away
+            # and buys a ~20-min image reload we never owed. Over-age still reaps it, so this cannot leak.
+            terminal = (i.get("actual_status") or "") in _terminal and not instance_outbid(i)
             if terminal or age > max_age:
                 try:
                     _vast_request("DELETE", f"/instances/{i.get('id')}/", key)

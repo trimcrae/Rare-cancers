@@ -171,12 +171,12 @@ def test_vast_bid_price_is_margin_above_floor():
     # bid a margin ABOVE the floor (min_bid) so the box wins AND HOLDS its slot (fewer preemptions -> fewer
     # ~20-min fat-image reloads); still cheap and always runnable. Default multiplier is 1.9 (raised from 1.5
     # 2026-07-23 after the covalent tail churned — see gpu_backend).
-    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.30}) == 0.19   # 0.10 * 1.9
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.30}) == 0.125  # 0.10 * 1.25
     # cheap 3090 host where min_bid == dph_base (no interruptible discount): bid must stay ABOVE min_bid, NOT be
     # capped below it (the below-floor cap left the box created-but-stopped, verified 2026-07-23)
-    assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}) == 0.152  # 0.08 * 1.9 >= floor, runnable
-    assert _vast_bid_price({"min_bid": 0.24, "dph_base": 0.2933}) == 0.456  # 0.24 * 1.9
-    assert _vast_bid_price({"min_bid": 0, "dph_base": 0.30}) == 0.57      # no floor -> fall back to base*1.9
+    assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}) == 0.1    # 0.08 * 1.25 >= floor, runnable
+    assert _vast_bid_price({"min_bid": 0.24, "dph_base": 0.2933}) == 0.3    # 0.24 * 1.25
+    assert _vast_bid_price({"min_bid": 0, "dph_base": 0.30}) == 0.375     # no floor -> fall back to base*1.25
     assert _vast_bid_price({}) is None                            # no pricing -> no bid
 
 
@@ -185,11 +185,11 @@ def test_vast_bid_price_is_capped_at_the_machines_real_on_demand_price():
     20 of 23 RTX 4090s; selection saved us only because the cheapest floor happened to sit far below its own
     on-demand. The cap is what makes the policy safe when the cheap tail thins."""
     # uncapped (no on-demand price known) -> unchanged behaviour
-    assert _vast_bid_price({"min_bid": 0.2667, "dph_base": 0.2667}) == 0.5067
+    assert _vast_bid_price({"min_bid": 0.2667, "dph_base": 0.2667}) == 0.3334
     # capped: 1.9 x 0.2667 = 0.5067 would be 58% ABOVE the $0.32 on-demand price for the same box
     assert _vast_bid_price({"min_bid": 0.2667, "dph_base": 0.2667}, ondemand_base=0.32) == 0.32
     # cap that does NOT bind leaves the multiple alone
-    assert _vast_bid_price({"min_bid": 0.1333, "dph_base": 0.1333}, ondemand_base=0.36) == 0.2533
+    assert _vast_bid_price({"min_bid": 0.1333, "dph_base": 0.1333}, ondemand_base=0.36) == 0.1666
 
 
 def test_vast_bid_cap_never_drops_the_bid_below_the_floor():
@@ -198,8 +198,8 @@ def test_vast_bid_cap_never_drops_the_bid_below_the_floor():
     assert _vast_bid_price({"min_bid": 0.30, "dph_base": 0.30}, ondemand_base=0.20) == 0.30
     assert _vast_bid_price({"min_bid": 0.08, "dph_base": 0.08}, ondemand_base=0.05) == 0.08
     # a garbage cap is ignored rather than crashing the launch
-    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base=None) == 0.19
-    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base="oops") == 0.19
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base=None) == 0.125
+    assert _vast_bid_price({"min_bid": 0.10, "dph_base": 0.10}, ondemand_base="oops") == 0.125
 
 
 def test_vast_selection_ranks_by_min_bid_when_interruptible():
