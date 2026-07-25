@@ -22,6 +22,42 @@ jobs:
           workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v2
+      - name: GCS write probe — can gpu-runner@ create objects under the cache prefixes?
+        # WHY: the CPU setup-primer's whole purpose is to write the OpenFE setup cache, and on 2026-07-25 it could
+        # not — gpu-runner@ got 403 storage.objects.create on valB-6hax/setupcache/ while succeeding on
+        # valB-6hax/stagecache/ in the same job. gcloud reports that denial as GcsApiError('') with an EMPTY
+        # message, so it had been mislabelled "transient" and retried 8 times, and the real cause only showed in
+        # the python client's error. This probe answers "can we create here?" in ~5 s per prefix instead of
+        # inferring it from a 30-minute build that fails at the very last step. It writes a tiny uniquely-named
+        # object and deletes it, so it never collides with a real cache (two writers on one cache key could
+        # otherwise interleave files from builds with different solvation and leave a torn cache).
+        run: |
+          set +e
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          BUCKET="$PROJECT-rbfe-ckpt"
+          echo "probe object: iam-probe-$GITHUB_RUN_ID.txt"
+          echo "probe $GITHUB_RUN_ID" > /tmp/iam-probe.txt
+          FAIL=0
+          for PREFIX in valB-6hax/setupcache valB-6hax/stagecache valB-6hax/results valB-6hax/commits; do
+            URI="gs://$BUCKET/$PREFIX/iam-probe-$GITHUB_RUN_ID.txt"
+            OUT=$(gcloud storage cp /tmp/iam-probe.txt "$URI" 2>&1)
+            if [ $? -eq 0 ]; then
+              echo "  CREATE ok    $PREFIX/"
+              gcloud storage rm "$URI" >/dev/null 2>&1 \
+                && echo "  DELETE ok    $PREFIX/ (probe cleaned up)" \
+                || echo "  ::warning:: DELETE denied $PREFIX/ — probe object left behind, remove it by hand"
+            else
+              FAIL=1
+              echo "  CREATE DENIED $PREFIX/"
+              # gcloud hides a 403 behind GcsApiError(''); name it so nobody calls it transient again.
+              printf '%s\n' "$OUT" | grep -qiE "403|forbidden|does not have storage" \
+                && echo "    -> explicit 403/forbidden in the gcloud output" \
+                || echo "    -> gcloud gave an OPAQUE error (likely GcsApiError('') = a hidden 403). Raw: $(printf '%s' "$OUT" | tr '\n' ' ' | cut -c1-200)"
+            fi
+          done
+          echo
+          [ "$FAIL" = 0 ] && echo "VERDICT: gpu-runner@ can create objects under every prefix the lane needs — the CPU primer should now be able to cache the setup." \
+                          || echo "VERDICT: at least one prefix is still NOT writable by gpu-runner@ — the CPU primer will keep failing there; grant roles/storage.objectAdmin (or objectCreator) on gs://$BUCKET."
       - name: Print L4/G2 quotas + billing
         run: |
           set +e
