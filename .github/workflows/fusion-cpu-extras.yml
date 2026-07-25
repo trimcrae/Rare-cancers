@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
@@ -59,6 +59,9 @@ on:
       bench_grid:
         description: "bench mode: comma-sep gpu:edge_nm pairs to launch in ONE dispatch (e.g. rtx4090:9.5,rtx3090:9.5). Blank = single leg from vast_gpu+bench_edge_nm"
         default: ""
+      bench_min_vram_gb:
+        description: "bench mode: VRAM floor for offer selection. Lower to 16 to bench a 16 GB card (RTX 4080); default 24"
+        default: "24"
       firm_kind:
         description: "firm mode: which real alchemical edge(s) to run on the nr4a3fep 4090 image — rbfe | ternary | rbfe,ternary"
         default: "rbfe,ternary"
@@ -103,6 +106,158 @@ jobs:
           python-version: "3.11"
       - name: Vast.ai adapter smoke (auth + offer search; opt-in rent+destroy)
         run: python research/compute/vast_smoke.py
+
+  # NR4A3 paralogue-UNIQUE reactive residues (cysteines -> covalent-capture axis; lysines -> ubiquitination-site
+  # axis). Needs UniProt, which the dev sandbox's egress proxy 403s -> runs here. Results are pushed back to the
+  # TRIGGERING branch (not modalities-cache) because they are a design input the strategy docs cite directly.
+  nr4a_unique_residues:
+    if: ${{ github.event.inputs.task == 'nr4a_unique_residues' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests (pure logic, offline)
+        working-directory: research/modalities
+        run: python -m unittest tests.test_nr4a_paralogue_unique_residues -v
+      - name: Map NR4A3 paralogue-unique cysteines + lysines (UniProt full-length + matched model geometry)
+        working-directory: research/modalities
+        run: python nr4a_paralogue_unique_residues.py
+      - name: Commit results back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/nr4a-paralogue-unique-residues.json \
+                     research/modalities/nr4a-paralogue-unique-residues.md \
+                     research/modalities/nr4a-sequences-cache.json
+          git commit -m "NR4A3 paralogue-unique reactive-residue map (UniProt full-length, CI)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
+
+  # Widened ligandable-recruiter availability panel (cost lever 6): which E3 arms beyond VHL/CRBN are even
+  # available, feeding the mandatory downselect to <=2 recruiters before any GPU leg. HPA is egress-blocked
+  # from the dev sandbox, so it runs here.
+  nr4a_e3_widened:
+    if: ${{ github.event.inputs.task == 'nr4a_e3_widened' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: E3-machinery availability — VHL/CRBN arms + widened ligandable recruiter panel (HPA)
+        run: python research/modalities/nr4a3_e3_expression.py
+      - name: Commit results back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/nr4a-e3-expression.json
+          git commit -m "E3-machinery availability: widened ligandable recruiter panel (HPA, CI)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
+
+  # Bid optimisation: rank LIVE Vast offers by expected $ per COMPLETED unit and compare against the incumbent
+  # min_bid x1.9 policy. Read-only offer search — no rent, no instance, no spend.
+  vast_bid_advise:
+    if: ${{ github.event.inputs.task == 'vast_bid_advise' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests (pure logic, offline)
+        working-directory: research/modalities
+        run: python -m unittest tests.test_vast_bid_optimizer -v
+      - name: GPU-CLASS SWEEP — rank card classes by $/ns, not $/hr
+        working-directory: research/modalities
+        run: |
+          python vast_bid_optimizer.py --live --gpu-sweep "rtx4090,rtx3090,l4,a10,rtx4080,rtx3080,a4000,rtx a5000,rtx a6000" \
+            --work-gpu-h 10.7 --atoms 146000 --ckpt-iters 40 --sec-per-iter 16 \
+            > vast-gpu-class-sweep.json && cat vast-gpu-class-sweep.json
+      - name: CROSS-CHECK the on-demand premise (same query as on-demand, matched by machine_id)
+        working-directory: research/modalities
+        run: |
+          # Measures the INTERRUPTIBLE DISCOUNT — the only number that decides bid-vs-buy. Must sweep every card
+          # class and request a deep page: scoped to rtx4090 at the API's default limit this matched exactly ONE
+          # machine. And it must issue a real on-demand query, because `dph_base` inside a `type: "bid"` search is
+          # the rate at the floor by definition (that identity produced a retracted "no discount" claim).
+          python vast_bid_optimizer.py --live --crosscheck-ondemand --crosscheck-limit 512 \
+            --gpu "rtx4090,rtx3090,rtx4080,l4,a10,a4000,rtx a5000,rtx a6000" \
+            --work-gpu-h 1 > vast-bid-ondemand-crosscheck.json && cat vast-bid-ondemand-crosscheck.json
+      - name: Advise — ternary edge profile (10.7 GPU-h/leg, 146k particles, ckpt 40 @ ~16 s/iter)
+        working-directory: research/modalities
+        run: |
+          python vast_bid_optimizer.py --live --gpu rtx4090             --work-gpu-h 10.7 --atoms 146000 --ckpt-iters 40 --sec-per-iter 16             --out vast-bid-advice-ternary.json
+      - name: Advise — RBFE edge profile (13.7 GPU-h/unit, 35k particles, measured NR4A3 rate ~13.6 s/iter)
+        working-directory: research/modalities
+        run: |
+          python vast_bid_optimizer.py --live --gpu rtx4090             --work-gpu-h 13.7 --atoms 35000 --ckpt-iters 40 --sec-per-iter 13.6             --out vast-bid-advice-rbfe.json
+      - name: Commit the advice back to the triggering branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/vast-bid-advice-*.json research/modalities/vast-bid-ondemand-crosscheck.json research/modalities/vast-gpu-class-sweep.json || true
+          git commit -m "vast bid advice on the live market (read-only offer search)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
+
+  # Pull Vast's OFFICIAL historical market metrics (hourly, P10/median/P90). The sandbox proxy 403s
+  # console.vast.ai, so this runs here. Read-only; no rent, no spend.
+  vast_price_history:
+    if: ${{ github.event.inputs.task == 'vast_price_history' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch historical GPU market metrics (RTX 4090)
+        working-directory: research/modalities
+        run: python vast_price_history_fetch.py --gpu "RTX 4090" --days 60
+      - name: Commit the history back to the triggering branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/vast-price-history.jsonl \
+                     research/modalities/vast-price-history-raw.json || true
+          git commit -m "vast official market-metrics price history" || { echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
 
   nrv04_cys:
     if: ${{ github.event.inputs.task == 'nrv04_cys' }}
@@ -428,6 +583,8 @@ jobs:
       BENCH_EDGE_NM: ${{ github.event.inputs.bench_edge_nm }}
       BENCH_STEPS: ${{ github.event.inputs.bench_steps }}
       BENCH_GRID: ${{ github.event.inputs.bench_grid }}
+      # 16 GB cards (RTX 4080) must be benchable; default stays 24.
+      BENCH_MIN_VRAM_GB: ${{ github.event.inputs.bench_min_vram_gb || '24' }}
       FIRM: ${{ github.event.inputs.vast_launch_mode == 'firm' && '1' || '0' }}
       FIRM_COLLECT: ${{ (github.event.inputs.vast_launch_mode == 'firm_collect' || github.event.inputs.vast_launch_mode == 'firm_stop') && '1' || '0' }}
       FIRM_STOP: ${{ github.event.inputs.vast_launch_mode == 'firm_stop' && '1' || '0' }}

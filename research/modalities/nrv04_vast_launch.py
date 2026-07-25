@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -330,7 +331,10 @@ def collect(bucket, autostop=None):
                 up_s = 0
             done = label in done_units
             over_age = up_s > max_leg_s
-            terminal = (i.get("actual_status") or "") in _terminal
+            # An outbid interruptible box looks exactly like a dead one ("stopped"), but its disk is intact
+            # and Vast resumes it automatically when our bid regains priority. Destroying it throws that away
+            # and buys a ~20-min image reload we never owed. Over-age still reaps it, so this cannot leak.
+            terminal = (i.get("actual_status") or "") in _terminal and not instance_outbid(i)
             extra = id(i) not in _keep_ids                         # a duplicate (not the kept instance for its label)
             if done or over_age or terminal or extra:
                 if _stop_throttle:
@@ -457,6 +461,91 @@ def units_to_run():
     return enumerate_units()
 
 
+# A bench number is only usable if it survives all of these. Encoded as a function so the collector REJECTS bad
+# legs instead of printing them next to good ones and leaving the reader to notice (2026-07-24: a 2-second
+# window and a fallback-to-Quadro leg were both tabulated as if they ranked cards).
+_BENCH_MIN_WALL_S = 30.0     # below this you measure clock ramp + launch overhead, not throughput
+_BENCH_MAX_CV = 0.10         # block-to-block scatter above this means a contended/throttled host
+
+
+def _bench_flags(d):
+    """Reasons this bench row must NOT enter a card ranking. Empty list = usable. PURE."""
+    flags = []
+    if str(d.get("status")) not in ("OK", "SUSPECT"):
+        return ["errored"]
+    if str(d.get("healthy", "True")).lower() == "false":
+        flags.append("unphysical")
+    req = str(d.get("gpu_requested") or d.get("gpu") or "").lower().replace(" ", "")
+    dev = _raw_device(d).lower().replace(" ", "")
+    if req and dev and dev != "unknown" and req not in dev:
+        flags.append(f"wrong_card(got_{_raw_device(d).replace(' ', '_')})")
+    try:
+        if float(d.get("wall_s") or 0) < _BENCH_MIN_WALL_S:
+            flags.append("window_too_short")
+    except (TypeError, ValueError):
+        flags.append("no_wall_s")
+    cv = d.get("cv")
+    if cv is None:
+        flags.append("no_replicate_spread")     # pre-2026-07-24 single-shot legs cannot show stability
+    else:
+        try:
+            if float(cv) > _BENCH_MAX_CV:
+                flags.append("unstable_cv")
+        except (TypeError, ValueError):
+            flags.append("bad_cv")
+    return flags
+
+
+def instance_outbid(inst):
+    """True when an interruptible instance is PAUSED because someone outbid us — not because it died.
+
+    WHY THIS MATTERS MORE THAN THE BID MULTIPLE (2026-07-25). Vast's own docs are explicit that losing the
+    auction is a PAUSE, not a death: "Data preserved when paused but instance not functional. Resume
+    automatically when priority returns." Our reaper, however, listed "stopped" in `_terminal` and DELETEd it —
+    discarding a preserved disk and forcing a fresh ~6 GiB image pull on the re-rent. That self-inflicted
+    ~20-minute reload is the entire evidential basis for bidding `floor x 1.9`: the 2026-07-23 note reads "a
+    covalent leg sat at frame 100 for ~3 h, re-bought+reloading repeatedly." Re-bought. It never had to be.
+
+    Discriminated on DATA, not on guessing what a status string means:
+      * `is_bid` - only an interruptible rental can be outbid at all;
+      * `actual_status == "exited"` - the container ran and left (job done, or self-terminate). Genuinely dead;
+      * `intended_status == "running"` - WE still want it up, so a stopped state is the market's doing, not ours;
+      * `min_bid > price` - the machine's clearing price has risen above our standing bid. This is the direct
+        observation of being outbid and needs no inference at all.
+
+    Unknown/missing price fields resolve to True (assume outbid, do not destroy) because destroying loses a
+    preserved disk irreversibly while NOT destroying is caught by the over-age backstop a few minutes later.
+    PURE."""
+    if not inst.get("is_bid"):
+        return False
+    actual = str(inst.get("actual_status") or "").lower()
+    if actual == "exited":
+        return False                       # container exited on its own -> finished or self-terminated
+    if actual not in ("stopped", "offline"):
+        return False
+    if str(inst.get("intended_status") or "running").lower() != "running":
+        return False                       # we asked for it to stop; that is ours, not the market's
+    try:
+        return float(inst.get("min_bid")) > float(inst.get("price"))
+    except (TypeError, ValueError):
+        return True                        # unknown -> keep the disk; over-age still reaps it
+
+
+def _raw_device(d):
+    """Full CUDA device name, recovered from the stored raw BENCH_RESULT line.
+
+    The launcher's kv parser splits on whitespace, so `device='Quadro RTX 8000'` was stored as `device='Quadro`.
+    That truncation is why a leg that fell back to a Quadro was reported under the card we had REQUESTED. Parse
+    the quoted value out of `_raw` so historical results are readable too; newer legs underscore the name at the
+    source (`gpu_md_bench.py`) and need no repair."""
+    dev = str(d.get("device") or "")
+    raw = str(d.get("_raw") or "")
+    m = re.search(r"device='([^']*)'", raw) or re.search(r"device=(\S+)", raw)
+    if m:
+        return m.group(1).replace("_", " ")
+    return dev.strip("'") or "UNKNOWN"
+
+
 def _s3_list(s3, bucket, prefix, suffix=None, limit=None):
     keys, tok = [], None
     while True:
@@ -571,7 +660,11 @@ for kv in line.split():
         k, v = kv.split("=", 1)
         d[k] = v
 d["_raw"] = line
-d["gpu"] = os.environ.get("VAST_GPU_MODEL", "")
+# The card we ASKED for. _select_cheapest_offer falls back to any capable card when the requested model is
+# not offered, so this is NOT the card that ran — read `device` for that. Recording it as "gpu" made a
+# fallback-to-Quadro leg get reported as an A10 (2026-07-24).
+d["gpu_requested"] = os.environ.get("VAST_GPU_MODEL", "")
+d["gpu"] = d["gpu_requested"]  # back-compat for already-written bench.json files
 d["edge_nm"] = os.environ.get("BENCH_EDGE_NM", "")
 json.dump(d, open("/tmp/bench.json", "w"), indent=2)
 PYEOF
@@ -602,7 +695,11 @@ def build_bench_jobspec(tag, branch, bucket, env_tarball_url=None):
         image=VAST_IMAGE,
         checkpoint_uri=f"s3://{bucket}/{_BENCH_PREFIX}/{tag}/ckpt",
         resume=False,
-        resources=ResourceSpec(gpu=gpu, min_vram_gb=24, vcpus=4, ram_gb=16, disk_gb=40, interruptible=True),
+        # VRAM floor is overridable so a 16 GB card can be BENCHED. Default unchanged at 24. Without this the
+        # RTX 4080 (16 GB) — currently the only live candidate that might beat the 4090 on $/ns — is silently
+        # filtered out of its own benchmark, which is how a card decision gets made on a proxy forever.
+        resources=ResourceSpec(gpu=gpu, min_vram_gb=int(os.environ.get("BENCH_MIN_VRAM_GB", "24")),
+                               vcpus=4, ram_gb=16, disk_gb=40, interruptible=True),
         max_runtime_s=int(os.environ.get("BENCH_MAX_RUNTIME_S", "2400")),
         env=env,
     )
@@ -629,8 +726,17 @@ def bench(bucket):
     be = get_backend("vast")
     env_url = None if dry else presign_env_tarball(bucket)
     handles = []
+    # A REPEATED (gpu, edge) pair is a deliberate control — the same card on two different HOSTS, to measure
+    # whether host-to-host variance swamps the card difference. It only works if the legs write to DIFFERENT S3
+    # keys. On 2026-07-24 `rtx4090:9.5,rtx4090:9.5` produced one tag, so both legs wrote the same key and one
+    # silently overwrote the other: the control returned a single number and could not answer the question it
+    # was launched to answer. Suffix repeats so a duplicate is a real replicate.
+    _seen = {}
     for gpu, edge_nm in grid:
-        tag = f"bench-{gpu}-{edge_nm}nm".replace(".", "p")
+        _k = (gpu, edge_nm)
+        _seen[_k] = _seen.get(_k, 0) + 1
+        _rep = "" if _seen[_k] == 1 else f"-r{_seen[_k]}"
+        tag = f"bench-{gpu}-{edge_nm}nm{_rep}".replace(".", "p")
         # per-leg overrides consumed by build_bench_jobspec via env
         os.environ["VAST_GPU_MODEL"] = gpu
         os.environ["BENCH_EDGE_NM"] = edge_nm
@@ -673,11 +779,14 @@ def bench_collect(bucket):
         done_tags.add(d.get("tag") or k.split("/")[-2])
     print(f"[bench-collect] {len(rows)} bench result(s):", flush=True)
     for d in sorted(rows, key=lambda r: (str(r.get("gpu")), str(r.get("edge_nm")))):
-        print(f"  gpu={d.get('gpu')} edge={d.get('edge_nm')}nm atoms={d.get('atoms')} "
-              f"device={d.get('device')} platform={d.get('platform')} "
-              f"ns_per_day={d.get('ns_per_day')} status={d.get('status')}", flush=True)
-        if d.get("status") != "OK":                    # root-cause: the full BENCH_RESULT line (incl err=...)
-            print(f"    raw: {d.get('_raw')}", flush=True)
+        flags = _bench_flags(d)
+        print(f"  requested={d.get('gpu_requested') or d.get('gpu')} edge={d.get('edge_nm')}nm "
+              f"atoms={d.get('atoms')} ACTUAL_DEVICE={_raw_device(d)} platform={d.get('platform')} "
+              f"ns_per_day={d.get('ns_per_day')} cv={d.get('cv')} status={d.get('status')} "
+              f"{'USABLE' if not flags else 'REJECT:' + ','.join(flags)}", flush=True)
+        # ALWAYS print the raw line, not just on failure. A leg that returns status=OK on the WRONG CARD is the
+        # dangerous case — it produces a plausible ns/day that gets attributed to the card we asked for.
+        print(f"    raw: {d.get('_raw')}", flush=True)
     # TARGETED anti-idle teardown, scoped to the bench-* label namespace (covalent panel NEVER touched, no
     # stop_all). Destroy ONLY: (a) terminal instances (a finished bench self-exits -> exited/stopped), or (b) an
     # over-age instance (stuck/crashed backstop). Do NOT key off "has a bench.json" — a STALE result from a prior
@@ -693,7 +802,10 @@ def bench_collect(bucket):
                 age = now - float(i.get("start_date") or now)
             except (TypeError, ValueError):
                 age = 0
-            terminal = (i.get("actual_status") or "") in _terminal
+            # An outbid interruptible box looks exactly like a dead one ("stopped"), but its disk is intact
+            # and Vast resumes it automatically when our bid regains priority. Destroying it throws that away
+            # and buys a ~20-min image reload we never owed. Over-age still reaps it, so this cannot leak.
+            terminal = (i.get("actual_status") or "") in _terminal and not instance_outbid(i)
             if terminal or age > max_age:
                 try:
                     _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
