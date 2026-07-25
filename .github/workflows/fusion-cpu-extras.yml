@@ -14,8 +14,17 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_e3_stage, nr4a_basin_search, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
+      e3_arms:
+        description: "nr4a_e3_stage: comma-separated E3 arm ids to stage (vhl,crbn,... — see ARMS in nr4a3_e3_stage.py)"
+        default: "vhl,crbn"
+      basin_samples:
+        description: "nr4a_basin_search: rigid-body samples per (E3 arm x warhead pose). Production runs use 250000+."
+        default: "250000"
+      basin_poses:
+        description: "nr4a_basin_search: size of the warhead exit-vector pose ensemble (term (d) marginalisation)"
+        default: "12"
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
         type: choice
@@ -156,6 +165,76 @@ jobs:
                      research/modalities/nr4a-paralogue-unique-residues.md \
                      research/modalities/nr4a-sequences-cache.json
           git commit -m "NR4A3 paralogue-unique reactive-residue map (UniProt full-length, CI)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
+
+  # RUNG-5a part 1 — E3 ARM STAGING. Discovers, verifies and composes each recruiter arm (ligand-bound
+  # substrate receptor + derived ligand exit vector + cullin-scaffold RING position bridged into the receptor
+  # frame). Needs RCSB, which the dev sandbox 403s at CONNECT, so it runs here. Pure stdlib.
+  nr4a_e3_stage:
+    if: ${{ github.event.inputs.task == 'nr4a_e3_stage' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pytest (test runner only; the science code is pure stdlib)
+        run: pip install pytest
+      - name: Unit tests — the geometry kernels staging depends on (offline, no network)
+        run: python -m pytest research/modalities/tests/test_basin_geom.py -q
+      - name: Offline plan (what will be queried — auditable before any network call)
+        run: python research/modalities/nr4a3_e3_stage.py --plan
+      - name: Stage the E3 arms from RCSB (accession-set discovery + verification + composition)
+        run: python research/modalities/nr4a3_e3_stage.py --arms "${{ github.event.inputs.e3_arms }}"
+      - name: Commit the staged arms back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/nr4a3-e3-arm-registry.json results/nr4a3-e3-arms || true
+          git commit -m "RUNG-5a: stage E3 recruiter arms from RCSB (accession-verified, CI)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
+
+  # RUNG-5a part 2 — THE MECHANISM-FIRST ORIENTATION-BASIN SEARCH itself. Pure stdlib and $0, but the
+  # production sample counts are too slow for the dev sandbox, so it runs on a free runner.
+  nr4a_basin_search:
+    if: ${{ github.event.inputs.task == 'nr4a_basin_search' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pytest (test runner only; the science code is pure stdlib)
+        run: pip install pytest
+      - name: Unit tests — geometry kernels + search logic
+        run: python -m pytest research/modalities/tests/test_basin_geom.py research/modalities/tests/test_basin_search.py -q
+      - name: Mechanism-first orientation-basin search (RUNG 5a, $0 CPU)
+        run: |
+          python research/modalities/nr4a3_basin_search.py \
+            --samples "${{ github.event.inputs.basin_samples }}" \
+            --n-poses "${{ github.event.inputs.basin_poses }}"
+      - name: Commit the basin result back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/nr4a3-orientation-basins.json
+          git commit -m "RUNG-5a: mechanism-first orientation-basin search result (CI)" || {
             echo "no changes"; exit 0; }
           git pull --rebase origin "${{ github.ref_name }}" || true
           git push origin HEAD:"${{ github.ref_name }}"
