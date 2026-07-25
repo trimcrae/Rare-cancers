@@ -736,6 +736,34 @@ paired active-vs-epimer comparison — are **committed**; the corrected descript
 seed-level architecture characterization only, pending a real-CIF forced-restart smoke, and confers **no**
 prospective affinity or degradation-selectivity ranking authority.)*
 
+> ## ⚠ THE FOLLOWING SUBSECTION IS UNDER CORRECTION — DO NOT CITE ITS NUMBERS (2026-07-24)
+>
+> Every quantitative claim in the covalent-panel paragraph below was computed against the **wrong protein
+> interface** and must not be quoted, reproduced in a figure, or relied on, pending a corrected re-run.
+>
+> **What happened.** The endpoint-MD driver split "E3" from "degradation target" *positionally* — it took the
+> last protein chain in sorted order as the target — while the co-fold builder writes the target **first**
+> (`proteins = [("A", NR4A-LBD)] + e3`). With chains A = 254 aa (NR4A LBD), E = 213 (VHL), F = 118 (Elongin B),
+> G = 112 (Elongin C), the rule selected **Elongin C** as the degradation target. So the interface-RMSD
+> stability endpoint (R1) and the contact endpoint (R2) describe the **Elongin C↔rest** interface rather than
+> the VHL↔NR4A1 one, and the Lys-presentation endpoint (R3) counted **Elongin C's** lysines instead of the
+> target's.
+>
+> **How we know.** The same driver resolves the celastrol-reactive cysteine independently, *by geometry*, and
+> records its chain in every leg. That cysteine is on the NR4A1 LBD, and it is recorded on chain **A** in 12 of
+> the 14 landed legs — while the positional rule was pointing at chain **G**, in the same runs. The reported
+> arithmetic reproduces exactly from the landed plateaus; it is the interface being measured that is wrong.
+>
+> **Consequently:** the active-vs-epimer separation, the covalent-vs-non-covalent comparison, the C551A
+> contrast, and this subsection's contribution to any GO decision are all **withdrawn pending re-run**. The
+> qualitative statement that *contact-based recruitment is a weak discriminator* is unaffected in direction
+> (every arm was "recruited" regardless of which chain pair was measured), but should be re-derived rather than
+> cited from here.
+>
+> The chain split is now identified and validated rather than inferred from ordering, every leg records the
+> split it used, and the corrected 14-leg re-run is built but not yet launched. Evidence and fixes:
+> [`../modalities/nrv04-cofold-chain-forensics-2026-07-24.md`](../modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
+
 **A covalent-adduct endpoint-MD feasibility panel closes two of those gaps and recovers an active-vs-epimer
 discrimination the static co-fold could not.** The co-fold retrospective above left celastrol's covalent
 Cys551 engagement unevaluated and its epimer control was affinity-blind (active and 4-hydroxyproline-epimer
