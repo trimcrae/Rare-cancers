@@ -343,3 +343,76 @@ it would not have surfaced this — the line is obviously correct unless you hap
 excludes one of the criteria. Which is the same conclusion as §H, arrived at from the opposite direction:
 
 > **Reading code cannot verify a claim about what it produces. Run it and assert on the output.**
+
+---
+
+## J. The real cause of the rev NaN was already written down — and a key that cannot catch its own mismatch
+
+### J.1 Two GPU attempts spent rediscovering a documented result
+
+Both 2026-07-25 rev attempts died at **warmup iteration 1** — at 2.0 fs (replica 0, state 1) and at 1.0 fs
+(replica 0, state 7). Halving the timestep moved *which* λ window blew up and **not the iteration**, which is the
+empirical signature of something other than a timestep ceiling.
+
+`nr4a3_ternary_fep.py` already said so, in a comment, with a measurement behind it:
+
+> *"the instability is the softcore alchemical (dis)appearing region in a large, rough homology-built assembly,
+> and there is NO static predictor of the ternary timestep. **The fix that WORKS is NOT a smaller timestep**:
+> relax the fully-interacting physical complex with plain MD BEFORE the alchemy (`ternary_preequil.py`,
+> `use_preequil=1`). With the relaxed structure the calib leg ran warmup 48/48 at 1 fs → production 40/40 at
+> 4 fs with zero NaN, **where every prior run died at warmup iter 1.**"*
+
+"Every prior run died at warmup iter 1" is a verbatim description of both of today's failures. The cost of not
+reading it first: two GPU attempts and ~40 minutes of L4.
+
+Two related false leads, recorded so they are not re-run:
+- **The `[hmr-diag]` line is misleading but not broken.** It prints `X-H bonds=0 constrained=0 UNCONSTRAINED=0`
+  and concludes *"NO unconstrained X-H bonds found → 4 fs is safe"*. With `constraints=hbonds` every X-H is a
+  *constraint* rather than a stretch term, so `xh_total=0` is correct — but `constrained=0` is computed as
+  `xh_total - xh_unconstrained` and therefore reads **0 when the truth is "all of them"**. The file itself already
+  flags that `xh_total == 0` is *ambiguous*, and the disambiguating counter (`count_morphing_xh`, the
+  edge-discriminating one) runs **only** under `RBFE_HMRDIAG_ONLY=1` — i.e. never during a real leg. So a real
+  leg prints a confident safety verdict from the statistic that cannot support it.
+- **The edge has no morphing X-H.** valB_mini is a linker pyridine **N→CH**, so a hydrogen appears/disappears on
+  a mapped heavy atom — which looks exactly like the unconstrainable bond that caps a timestep. It was already
+  measured and refuted for this edge: `xh_total=0` with **4997 constraints**, and the alchemical valence force
+  holds **28 bonds, none an X-H** (`rbfe_edge_timestep_scan.py`).
+
+### J.2 `use_preequil` changes the system but is NOT in the commit prefix — and here the particle check cannot save us
+
+The prefix is `<seed>_dt<dt>fs_clig<c>_wu<warmup_dt>[_<salt>][_dir<dir>]`. **`use_preequil` is absent from it**,
+yet it selects whether the alchemy starts from the plain-MD-relaxed physical complex (`SETUP_VER=v2pe`) or the raw
+one (`v1`). So a `v1`-started and a `v2pe`-started run of the same leg share a prefix.
+
+**This one is worse than §H, not better.** In §H the fwd/rev mismatch was caught by OpenFE's
+`assert_multistate_system_equality` because the two hybrid systems had different particle counts. Pre-equilibration
+only **moves coordinates** — the atom set is identical — so the particle counts match and that check **cannot
+fire**. A `v1` trajectory restored into a `v2pe` run would resume silently.
+
+*Nothing is contaminated today:* both failed rev runs died before `run_to_target`, so neither committed a
+generation. Verified from the absence of commit lines in their logs.
+
+The existing convention encodes the provenance in the **salt** — fwd's prefix is `…_wu1.0_v2pe`, and that salt is
+literally named for the v2 pre-equilibrated setup. That convention is what made today's confusion possible: the
+rev relaunches passed `commit_salt=v2pe` while leaving `use_preequil` at its **default 0**, so the salt *said*
+pre-equilibrated while `SETUP_VER` was `v1`. A salt is a human-maintained label, not a key.
+
+Adding `use_preequil` to the prefix would orphan fwd's committed data (its prefix carries no `_pe`), so the
+proper fix is to record the setup version **in the commit manifest** and refuse a restore whose version differs —
+that is the durable guard and it is **not yet built. Recorded as an open gap, not as done.** What is in place now:
+
+- `use_preequil` is a **required** watch parameter, so a watchdog relaunch can never silently flip it. The list
+  was renamed `_required_run_params` (the old `_prefix_keying_params` is still honoured) precisely because it
+  outgrew "prefix-keying" — this param matters and is *not* in the prefix.
+- The watch file's fields must reach the dispatch **unshifted**: the entry is serialised as a pipe-joined line and
+  read back with `read -r A B C…`, so a disagreement between the format slots, the values and the variable names
+  silently shifts every later field — `charge_method` landing in `use_preequil`. Checked now
+  (`test_watchdog_validate.py`, verified to fail when one read variable is removed).
+
+### J.3 And the fix is what fwd already did, so comparability is preserved
+
+The worry that switching rev to pre-equilibration would invalidate `|ΔG_fwd + ΔG_rev|` — fwd and rev must be the
+same transformation on the same system — resolves the right way: **fwd ran with `use_preequil=1`.** Its prefix's
+`v2pe` salt and `SETUP_VER=v2pe` (set only by `use_preequil=1`) say so. Pre-equilibration is therefore not a
+deviation from fwd; it is a *correction of the rev run back into agreement with fwd*. It fixes the crash and
+restores comparability in the same change.
