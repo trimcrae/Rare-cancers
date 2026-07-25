@@ -1,7 +1,7 @@
 {
  "_title": "E3 recruiter staging + ligandability downselect \u2014 STRATEGY.md RUNG 5a(c), 'E3 breadth, free at the search stage'",
  "_why": "Selectivity in this program is created at the induced target-E3 interface, so the E3's own surface is the largest lever on whether a discriminating interface exists at all. Basin search is CPU, so widening the recruiter set is free \u2014 but a wide set multiplied by GPU legs is not, which is why STRATEGY caps it at <=2 recruiters before any GPU leg AND requires the dropped set to be logged: a silent top-N reads as 'we covered everything'.",
- "_method": "UniProt (reviewed, human, exact gene match, fail-closed) -> RCSB search for entries carrying that accession with >=1 non-polymer entity -> RCSB data API for resolution, method, chain composition, ligand CCD and primary citation -> coordinates from files.rcsb.org -> pure-stdlib geometry (Shrake-Rupley burial, ray-cast enclosure and exit vector, LIGSITE-style cavity volume) + optional fpocket druggability -> preregistered gates, Pareto front, lexicographic tiebreak.",
+ "_method": "UniProt (reviewed, human, exact gene match, fail-closed) -> RCSB search for entries carrying that accession with >=1 non-polymer entity, plus an unfiltered search so 'no structure' is distinguishable from 'no liganded structure' -> RCSB data API for resolution, method, chain composition, ligand CCD and primary citation -> the geometry frame is the best PARTNER-FREE entry with an intact (>=60-residue) receptor construct, taken from BIOLOGICAL ASSEMBLY 1 rather than the asymmetric unit, with the occluder set restricted to the recruiter and its own CRL arm -> pure-stdlib geometry (Shrake-Rupley burial, ray-cast enclosure and exit vector, LIGSITE PSP cavity volume) + fpocket druggability attributed by ligand-atom overlap -> a tier-3 'solved bivalent complex' claim is re-verified from coordinates and demoted if the ligand does not contact both proteins -> preregistered gates, Pareto front, lexicographic tiebreak.",
  "_limits": [
   "This is DESIGN PREP, not a validated result. Ligandability computed from one deposited holo structure is a hypothesis for testing: it says a published ligand occupies a pocket with a solvent-directed exit vector, nothing more.",
   "One conformer, one ligand copy, no protein flexibility, no linker sampling, no solvent model beyond an implicit 1.4 A probe. The exit vector bounds where a linker COULD leave; it does not show that any linker does leave.",
@@ -9,6 +9,7 @@
   "Interface geometry here is the OPEN SOLID ANGLE at the linker attachment point \u2014 the size of the orientation space available to a tethered target. Whether any orientation in it is favourable, and whether it discriminates NR4A3 from NR4A1/2, is the orientation-basin search's question, not this module's.",
   "fpocket druggability is computed on the deposited chains with the ligand removed; it is a pocket-shape score, not a measured affinity.",
   "Geometry is computed against the recruiter and its OWN CRL arm only; a bound neosubstrate, PROTAC target or crystallisation partner is removed from the occluder set, because it occupies the orientation space being measured. For a recruiter with no partner-free structure (a glue-type E3), that removal means burial and the exit vector are measured against a site that may be partly formed BY the removed partner \u2014 flagged per recruiter in geometry_frame.",
+  "\u2605 The rule is deliberately BLIND to recruiter-intrinsic pharmacology, and that is a real omission, not a neutral one. Several ligandable E3s are ligandable precisely because their handle is a well-developed inhibitor of the E3's own function \u2014 recruiting MDM2 with a nutlin-class handle also inhibits MDM2, and recruiting KEAP1 perturbs the KEAP1-NRF2 axis. A recruiter can therefore win on ligandability and interface geometry while carrying an on-target liability this stage cannot see. Any recruiter advanced here must have that liability assessed from the literature before it is committed to, and it is an input to the next gate, not a footnote.",
   "No claim of efficacy, safety, therapeutic window, or clinical readiness is made or implied. 'Advanced' means 'carried into a computational search', never 'suitable for use'."
  ],
  "_schema_version": "1.1",
@@ -67,7 +68,7 @@
   }
  },
  "_consumers": [
-  "RUNG 5a orientation-basin search (reads recruiters[*].ligandability.exit_vector and staged_structures[*] for the receptor + attachment frame)"
+  "RUNG 5a orientation-basin search \u2014 call e3_recruiter_staging.load_advanced() for the stable contract (gene, pdb_id, recruiter/arm chains, coordinate_source, anchor_xyz, exit_direction, clearance, cone openness, open_solid_angle_fraction_15A, and a `caveats` list that MUST be carried into any downstream report). Reading recruiters[*].ligandability.exit_vector directly also works but skips the caveats."
  ],
  "parameters": {
   "gates": {
@@ -93,6 +94,7 @@
    "ray_n_directions": 512,
    "ray_max_A": 25.0,
    "ray_step_A": 0.25,
+   "ray_first_atom_A": 1.5,
    "linker_atom_radius_A": 1.7,
    "cone_half_angle_deg": 30.0,
    "cone_open_clearance_A": 8.0,
@@ -234,9 +236,295 @@
      "6HAX",
      "6HAY"
     ],
+    "_evidence_entries": [
+     {
+      "pdb_id": "7Z76",
+      "recruiter_auth_asym_ids": [
+       "C"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q15370"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "Elongin-B",
+        "length": 104
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q15369"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "Elongin-C",
+        "length": 97
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "P40337"
+        ],
+        "auth_asym_ids": [
+         "C"
+        ],
+        "description": "von Hippel-Lindau disease tumor suppressor",
+        "length": 162
+       },
+       {
+        "entity_id": "4",
+        "uniprot_ids": [
+         "P51531"
+        ],
+        "auth_asym_ids": [
+         "D"
+        ],
+        "description": "Probable global transcription activator SNF2L2",
+        "length": 123
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "IFJ",
+        "name": "(2~{S},4~{R})-~{N}-[(1~{R})-2-[(2~{R})-1-[4-(4-bromanyl-7-cyclopentyl-5-oxidanylidene-benzimidazolo[1,2-a]quinazolin-9-yl)piperidin-1-yl]propan-2-yl]oxy-1-[4-(4-methyl-1,3-thiazol-5-yl)phenyl]ethyl]-1-[(2~{S})-2-[[1-(dimethylamino)cyclopropyl]carbonylamino]-3,3-dimethyl-butanoyl]-4-oxidanyl-pyrrolidine-2-carboxamide",
+        "type": "non-polymer",
+        "formula": "C56 H70 Br N9 O6 S",
+        "formula_weight": 1077.181,
+        "n_heavy_atoms": 73,
+        "smiles": "Cc1c(scn1)c2ccc(cc2)[C@H](CO[C@H](C)CN3CCC(CC3)c4ccc5c(c4)N(C6=NC(=O)c7c(cccc7Br)N56)C8CCCC8)NC(=O)[C@@H]9C[C@H](CN9C(=O)[C@H](C(C)(C)C)NC(=O)C1(CC1)N(C)C)O",
+        "entity_id": "6",
+        "auth_asym_ids": [
+         "D"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "7JTO",
+      "recruiter_auth_asym_ids": [
+       "L"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "P61964"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "WD repeat-containing protein 5",
+        "length": 308
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q15370"
+        ],
+        "auth_asym_ids": [
+         "J"
+        ],
+        "description": "Elongin-B",
+        "length": 104
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "Q15369"
+        ],
+        "auth_asym_ids": [
+         "K"
+        ],
+        "description": "Elongin-C",
+        "length": 97
+       },
+       {
+        "entity_id": "4",
+        "uniprot_ids": [
+         "P40337"
+        ],
+        "auth_asym_ids": [
+         "L"
+        ],
+        "description": "von Hippel-Lindau disease tumor suppressor",
+        "length": 162
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "VKA",
+        "name": "3-methyl-N-(11-{[2-(4-{[4'-(4-methylpiperazin-1-yl)-3'-{[6-oxo-4-(trifluoromethyl)-5,6-dihydropyridine-3-carbonyl]amino}[1,1'-biphenyl]-3-yl]methyl}piperazin-1-yl)ethyl]amino}-11-oxoundecanoyl)-L-valyl-(4R)-4-hydroxy-N-{[4-(4-methyl-1,3-thiazol-5-yl)phenyl]methyl}-L-prolinamide",
+        "type": "non-polymer",
+        "formula": "C64 H84 F3 N11 O7 S",
+        "formula_weight": 1208.481,
+        "n_heavy_atoms": 86,
+        "smiles": "Cc1c(scn1)c2ccc(cc2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCCCCCCCCC(=O)NCCN4CCN(CC4)Cc5cccc(c5)c6ccc(c(c6)NC(=O)C7=C(CC(=O)N=C7)C(F)(F)F)N8CCN(CC8)C)O",
+        "entity_id": "7",
+        "auth_asym_ids": [
+         "B"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "8BDS",
+      "recruiter_auth_asym_ids": [
+       "C"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q15370"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "Elongin-B",
+        "length": 104
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q15369"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "Elongin-C",
+        "length": 97
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "P40337"
+        ],
+        "auth_asym_ids": [
+         "C"
+        ],
+        "description": "von Hippel-Lindau disease tumor suppressor",
+        "length": 162
+       },
+       {
+        "entity_id": "4",
+        "uniprot_ids": [
+         "O60885"
+        ],
+        "auth_asym_ids": [
+         "D"
+        ],
+        "description": "Bromodomain-containing protein 4",
+        "length": 127
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "QIY",
+        "name": "(2S,4R)-N-[(1S)-1-(4-chlorophenyl)-3-[2-[2-[2-[2-[2-[(9S)-7-(4-chlorophenyl)-4,5,13-trimethyl-3-thia-1,8$l^{5},11,12-tetrazatricyclo[8.3.0.0^{2,6}]trideca-2(6),4,7,10,12-pentaen-9-yl]ethanoylamino]ethoxy]ethoxy]ethoxy]ethylamino]-3-oxidanylidene-propyl]-1-[(2R)-3-methyl-2-(3-methyl-1,2-oxazol-5-yl)butanoyl]-4-oxidanyl-pyrrolidine-2-carboxamide",
+        "type": "non-polymer",
+        "formula": "C50 H63 Cl2 N9 O9 S",
+        "formula_weight": 1037.061,
+        "n_heavy_atoms": 71,
+        "smiles": "Cc1cc(on1)[C@@H](C(C)C)C(=O)N2C[C@@H](C[C@H]2C(=O)N[C@@H](CC(=O)NCCOCCOCCOCCNC(=O)C[C@H]3c4nnc(n4-c5c(c(c(s5)C)C)C(=[NH2]3)c6ccc(cc6)Cl)C)c7ccc(cc7)Cl)O",
+        "entity_id": "7",
+        "auth_asym_ids": [
+         "C"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "6HR2",
+      "recruiter_auth_asym_ids": [
+       "B",
+       "F"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "P51532"
+        ],
+        "auth_asym_ids": [
+         "A",
+         "E"
+        ],
+        "description": "Transcription activator BRG1",
+        "length": 120
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "P40337"
+        ],
+        "auth_asym_ids": [
+         "B",
+         "F"
+        ],
+        "description": "von Hippel-Lindau disease tumor suppressor",
+        "length": 149
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "Q15369"
+        ],
+        "auth_asym_ids": [
+         "C",
+         "G"
+        ],
+        "description": "Elongin-C",
+        "length": 97
+       },
+       {
+        "entity_id": "4",
+        "uniprot_ids": [
+         "Q15370"
+        ],
+        "auth_asym_ids": [
+         "D",
+         "H"
+        ],
+        "description": "Elongin-B",
+        "length": 104
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "FWZ",
+        "name": "(2~{S},4~{R})-~{N}-[[2-[2-[4-[[4-[3-azanyl-6-(2-hydroxyphenyl)pyridazin-4-yl]piperazin-1-yl]methyl]phenyl]ethoxy]-4-(4-methyl-1,3-thiazol-5-yl)phenyl]methyl]-1-[(2~{S})-2-[(1-fluoranylcyclopropyl)carbonylamino]-3,3-dimethyl-butanoyl]-4-oxidanyl-pyrrolidine-2-carboxamide",
+        "type": "non-polymer",
+        "formula": "C49 H58 F N9 O6 S",
+        "formula_weight": 920.105,
+        "n_heavy_atoms": 66,
+        "smiles": "Cc1c(scn1)c2ccc(c(c2)OCCc3ccc(cc3)CN4CCN(CC4)c5cc(nnc5N)c6ccccc6O)CNC(=O)[C@@H]7C[C@H](CN7C(=O)[C@H](C(C)(C)C)NC(=O)C8(CC8)F)O",
+        "entity_id": "5",
+        "auth_asym_ids": [
+         "B",
+         "F"
+        ]
+       }
+      ]
+     }
+    ],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective.",
-    "bridging_check": [],
-    "bridging_check_status": "no tier-3 evidence entry was among the deep-fetched staged set, so bridging is asserted at entry level only"
+    "bridging_check": [
+     {
+      "pdb_id": "7Z76",
+      "ccd": "IFJ",
+      "auth_asym_id": "D",
+      "auth_seq_id": 1501,
+      "contacts_recruiter": 222,
+      "contacts_partner": 157,
+      "bridges": true,
+      "coordinate_source": "biological assembly 1 (mmCIF)"
+     }
+    ]
    },
    "arm_component_accessions": [
     "P40337",
@@ -1210,7 +1498,7 @@
      "channel_lining_residues": [
       "C:TYR98"
      ],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 2639,
@@ -1382,9 +1670,232 @@
      "8UH6",
      "9D0W"
     ],
+    "_evidence_entries": [
+     {
+      "pdb_id": "8RQC",
+      "recruiter_auth_asym_ids": [
+       "A",
+       "D"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q96SW2"
+        ],
+        "auth_asym_ids": [
+         "A",
+         "D"
+        ],
+        "description": "Protein cereblon",
+        "length": 329
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q13422"
+        ],
+        "auth_asym_ids": [
+         "B",
+         "E"
+        ],
+        "description": "DNA-binding protein Ikaros",
+        "length": 36
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "QFC",
+        "name": "Mezigdomide",
+        "type": "non-polymer",
+        "formula": "C32 H30 F N5 O4",
+        "formula_weight": 567.61,
+        "n_heavy_atoms": 42,
+        "smiles": "c1cc2c(c(c1)OCc3ccc(cc3)CN4CCN(CC4)c5ccc(cc5F)C#N)CN(C2=O)[C@H]6CCC(=O)NC6=O",
+        "entity_id": "4",
+        "auth_asym_ids": [
+         "A",
+         "D"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "9OS2",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q96SW2"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "Protein cereblon",
+        "length": 378
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q16531"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "DNA damage-binding protein 1",
+        "length": 1140
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "Q9UN86"
+        ],
+        "auth_asym_ids": [
+         "C",
+         "D"
+        ],
+        "description": "Ras GTPase-activating protein-binding protein 2",
+        "length": 482
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1CED",
+        "name": "(1S,3S)-2-[(2-chlorophenyl)methanesulfonyl]-N-{[(4R)-3-(2,4-dioxo-1,3-diazinan-1-yl)imidazo[1,2-a]pyridin-7-yl]methyl}-1-methyl-1,2,3,4-tetrahydroisoquinoline-3-carboxamide",
+        "type": "non-polymer",
+        "formula": "C30 H29 Cl N6 O5 S",
+        "formula_weight": 621.106,
+        "n_heavy_atoms": 43,
+        "smiles": "C[C@H]1c2ccccc2C[C@H](N1S(=O)(=O)Cc3ccccc3Cl)C(=O)NCc4ccn5c(c4)ncc5N6CCC(=O)NC6=O",
+        "entity_id": "5",
+        "auth_asym_ids": [
+         "B"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "9SAF",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q16531"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "DNA damage-binding protein 1",
+        "length": 836
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q96SW2"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "Protein cereblon",
+        "length": 442
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "O60885"
+        ],
+        "auth_asym_ids": [
+         "C"
+        ],
+        "description": "Bromodomain-containing protein 4",
+        "length": 127
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1JM8",
+        "name": "~{N}-[(2~{S})-1-[[(3~{S})-2,6-bis(oxidanylidene)piperidin-3-yl]amino]-1-oxidanylidene-propan-2-yl]-9-[2-[(9~{S})-7-(4-chlorophenyl)-4,5,13-trimethyl-3-thia-1,8,11,12-tetrazatricyclo[8.3.0.0^{2,6}]trideca-2(6),4,10,12-tetraen-9-yl]ethanoylamino]nonanamide",
+        "type": "non-polymer",
+        "formula": "C36 H47 Cl N8 O5 S",
+        "formula_weight": 739.327,
+        "n_heavy_atoms": 51,
+        "smiles": "Cc1c(sc-2c1C(N[C@H](c3n2c(nn3)C)CC(=O)NCCCCCCCCC(=O)N[C@@H](C)C(=O)N[C@H]4CCC(=O)NC4=O)c5ccc(cc5)Cl)C",
+        "entity_id": "5",
+        "auth_asym_ids": [
+         "B"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "11MR",
+      "recruiter_auth_asym_ids": [
+       "B",
+       "D"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q9Y450"
+        ],
+        "auth_asym_ids": [
+         "A",
+         "C"
+        ],
+        "description": "HBS1-like protein",
+        "length": 208
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q96SW2"
+        ],
+        "auth_asym_ids": [
+         "B",
+         "D"
+        ],
+        "description": "Protein cereblon",
+        "length": 404
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1C9W",
+        "name": "N-[(3S)-2,6-dioxopiperidin-3-yl]-2-fluoro-3-[(2-{4-[1-(trifluoromethyl)cyclopropyl]phenyl}propan-2-yl)carbamamido]benzamide",
+        "type": "non-polymer",
+        "formula": "C26 H26 F4 N4 O4",
+        "formula_weight": 534.503,
+        "n_heavy_atoms": 38,
+        "smiles": "CC(C)(c1ccc(cc1)C2(CC2)C(F)(F)F)NC(=O)Nc3cccc(c3F)C(=O)N[C@H]4CCC(=O)NC4=O",
+        "entity_id": "4",
+        "auth_asym_ids": [
+         "B",
+         "D"
+        ]
+       }
+      ]
+     }
+    ],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective.",
-    "bridging_check": [],
-    "bridging_check_status": "no tier-3 evidence entry was among the deep-fetched staged set, so bridging is asserted at entry level only"
+    "bridging_check": [
+     {
+      "pdb_id": "8RQC",
+      "ccd": "QFC",
+      "auth_asym_id": "A",
+      "auth_seq_id": 602,
+      "contacts_recruiter": 243,
+      "contacts_partner": 73,
+      "bridges": true,
+      "coordinate_source": "biological assembly 1 (mmCIF)"
+     }
+    ]
    },
    "arm_component_accessions": [
     "P62877",
@@ -2114,7 +2625,7 @@
      "angle_to_centroid_vector_deg": 28.4,
      "open_solid_angle_fraction_15A": 0.5488,
      "channel_lining_residues": [],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 2244,
@@ -2285,9 +2796,168 @@
      "6W8I",
      "8DSO"
     ],
+    "_evidence_entries": [
+     {
+      "pdb_id": "6W7O",
+      "recruiter_auth_asym_ids": [
+       "C",
+       "D"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q06187"
+        ],
+        "auth_asym_ids": [
+         "A",
+         "B"
+        ],
+        "description": "Tyrosine-protein kinase BTK",
+        "length": 277
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q13490"
+        ],
+        "auth_asym_ids": [
+         "C",
+         "D"
+        ],
+        "description": "Baculoviral IAP repeat-containing protein 2",
+        "length": 99
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "TL7",
+        "name": "[5-({[(3S)-2-(N-methyl-L-alanyl-3-methyl-L-valyl)-3-{[(1R)-1,2,3,4-tetrahydronaphthalen-1-yl]carbamoyl}-1,2,3,4-tetrahydroisoquinolin-7-yl]oxy}methyl)pyrazin-2-yl]methyl (3R)-3-{5-amino-4-carbamoyl-3-[4-(2,4-difluorophenoxy)phenyl]-1H-pyrazol-1-yl}piperidine-1-carboxylate",
+        "type": "non-polymer",
+        "formula": "C58 H65 F2 N11 O8",
+        "formula_weight": 1082.202,
+        "n_heavy_atoms": 79,
+        "smiles": "C[C@@H](C(=O)N[C@H](C(=O)N1Cc2cc(ccc2C[C@H]1C(=O)N[C@@H]3CCCc4c3cccc4)OCc5cnc(cn5)COC(=O)N6CCC[C@H](C6)n7c(c(c(n7)c8ccc(cc8)Oc9ccc(cc9F)F)C(=O)N)N)C(C)(C)C)NC",
+        "entity_id": "3",
+        "auth_asym_ids": [
+         "A",
+         "B"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "8DSO",
+      "recruiter_auth_asym_ids": [
+       "D"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q06187"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "Tyrosine-protein kinase BTK",
+        "length": 277
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q13490"
+        ],
+        "auth_asym_ids": [
+         "D"
+        ],
+        "description": "Baculoviral IAP repeat-containing protein 2",
+        "length": 99
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "TOO",
+        "name": "(4S)-4-[2-(2-{4-[(2E)-4-{(3R)-3-[4-amino-3-(4-phenoxyphenyl)-1H-pyrazolo[3,4-d]pyrimidin-1-yl]piperidin-1-yl}-4-oxobut-2-en-1-yl]piperazin-1-yl}ethoxy)acetamido]-1-{(2S)-2-cyclohexyl-2-[(N-methyl-L-alanyl)amino]acetyl}-N-[(1R)-1,2,3,4-tetrahydronaphthalen-1-yl]-L-prolinamide bound form",
+        "type": "non-polymer",
+        "formula": "C61 H81 N13 O7",
+        "formula_weight": 1108.379,
+        "n_heavy_atoms": 81,
+        "smiles": "C[C@@H](C(=O)N[C@@H](C1CCCCC1)C(=O)N2C[C@H](C[C@H]2C(=O)N[C@@H]3CCCc4c3cccc4)NC(=O)COCCN5CCN(CC5)CCCC(=O)N6CCC[C@H](C6)n7c8c(c(n7)c9ccc(cc9)Oc1ccccc1)c(ncn8)N)NC",
+        "entity_id": "3",
+        "auth_asym_ids": [
+         "B"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "6W8I",
+      "recruiter_auth_asym_ids": [
+       "D",
+       "E",
+       "F"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q06187"
+        ],
+        "auth_asym_ids": [
+         "A",
+         "B",
+         "C"
+        ],
+        "description": "Tyrosine-protein kinase BTK",
+        "length": 277
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q13490"
+        ],
+        "auth_asym_ids": [
+         "D",
+         "E",
+         "F"
+        ],
+        "description": "Baculoviral IAP repeat-containing protein 2",
+        "length": 99
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "TKY",
+        "name": "14-{[(3S)-2-(N-methyl-L-alanyl-3-methyl-L-valyl)-3-{[(1R)-1,2,3,4-tetrahydronaphthalen-1-yl]carbamoyl}-1,2,3,4-tetrahydroisoquinolin-7-yl]oxy}-3,6,9,12-tetraoxatetradecan-1-yl (3R)-3-{5-amino-4-carbamoyl-3-[4-(2,4-difluorophenoxy)phenyl]-1H-pyrazol-1-yl}piperidine-1-carboxylate",
+        "type": "non-polymer",
+        "formula": "C62 H79 F2 N9 O12",
+        "formula_weight": 1180.341,
+        "n_heavy_atoms": 85,
+        "smiles": "C[C@@H](C(=O)N[C@H](C(=O)N1Cc2cc(ccc2C[C@H]1C(=O)N[C@@H]3CCCc4c3cccc4)OCCOCCOCCOCCOCCOC(=O)N5CCC[C@H](C5)n6c(c(c(n6)c7ccc(cc7)Oc8ccc(cc8F)F)C(=O)N)N)C(C)(C)C)NC",
+        "entity_id": "3",
+        "auth_asym_ids": [
+         "C",
+         "D",
+         "E"
+        ]
+       }
+      ]
+     }
+    ],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective.",
-    "bridging_check": [],
-    "bridging_check_status": "no tier-3 evidence entry was among the deep-fetched staged set, so bridging is asserted at entry level only"
+    "bridging_check": [
+     {
+      "pdb_id": "6W7O",
+      "ccd": "TL7",
+      "auth_asym_id": "A",
+      "auth_seq_id": 701,
+      "contacts_recruiter": 179,
+      "contacts_partner": 215,
+      "bridges": true,
+      "coordinate_source": "biological assembly 1 (mmCIF)"
+     }
+    ]
    },
    "arm_component_accessions": [
     "Q13490"
@@ -2964,7 +3634,7 @@
       "A:CYS309",
       "A:GLU311"
      ],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 755,
@@ -3131,9 +3801,201 @@
      "9NSN",
      "9NSO"
     ],
+    "_evidence_entries": [
+     {
+      "pdb_id": "9NSN",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q9Y4B6"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "DDB1- and CUL4-associated factor 1",
+        "length": 338
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "P61964"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "WD repeat-containing protein 5",
+        "length": 329
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1B0X",
+        "name": "N-{(1P)-5'-({(26E)-27-[(3P)-4-{[(1S)-3-amino-1-(3-chloro-4-fluorophenyl)-3-oxopropyl]carbamoyl}-3-(4-chloro-2-fluorophenyl)-1H-pyrrol-2-yl]-25-oxo-3,6,9,12,15,18,21-heptaoxa-24-azaheptacos-26-en-1-yl}carbamoyl)-2'-fluoro-4-[(3R,5S)-3,4,5-trimethylpiperazin-1-yl][1,1'-biphenyl]-3-yl}-6-oxo-4-(trifluoromethyl)-5,6-dihydropyridine-3-carboxamide",
+        "type": "non-polymer",
+        "formula": "C66 H75 Cl2 F6 N9 O13",
+        "formula_weight": 1387.251,
+        "n_heavy_atoms": 96,
+        "smiles": "C[C@@H]1CN(C[C@@H](N1C)C)c2ccc(cc2NC(=O)C3=C(CC(=O)N=C3)C(F)(F)F)c4cc(ccc4F)C(=O)NCCOCCOCCOCCOCCOCCOCCOCCNC(=O)/C=C/c5c(c(c[nH]5)C(=O)N[C@@H](CC(=O)N)c6ccc(c(c6)Cl)F)c7ccc(cc7F)Cl",
+        "entity_id": "3",
+        "auth_asym_ids": [
+         "B"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "9NSO",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q9Y4B6"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "DDB1- and CUL4-associated factor 1",
+        "length": 338
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "P61964"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "WD repeat-containing protein 5",
+        "length": 329
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1B0Y",
+        "name": "(4P)-N-[(1S)-3-amino-1-(3-chloro-4-fluorophenyl)-3-oxopropyl]-4-(4-chloro-2-fluorophenyl)-5-[(34E)-1-{(1P)-6-fluoro-3'-[4-fluoro-2-(trifluoromethyl)benzamido]-4'-[(3R,5S)-3,4,5-trimethylpiperazin-1-yl][1,1'-biphenyl]-3-yl}-1,33-dioxo-5,8,11,14,17,20,23,26,29-nonaoxa-2,32-diazapentatriacont-34-en-35-yl]-1H-pyrrole-3-carboxamide",
+        "type": "non-polymer",
+        "formula": "C71 H83 Cl2 F7 N8 O14",
+        "formula_weight": 1476.359,
+        "n_heavy_atoms": 102,
+        "smiles": "C[C@@H]1CN(C[C@@H](N1C)C)c2ccc(cc2NC(=O)c3ccc(cc3C(F)(F)F)F)c4cc(ccc4F)C(=O)NCCOCCOCCOCCOCCOCCOCCOCCOCCOCCNC(=O)/C=C/c5c(c(c[nH]5)C(=O)N[C@@H](CC(=O)N)c6ccc(c(c6)Cl)F)c7ccc(cc7F)Cl",
+        "entity_id": "3",
+        "auth_asym_ids": [
+         "A"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "9B9W",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "P61964"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "WD repeat-containing protein 5",
+        "length": 329
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q9Y4B6"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "DDB1- and CUL4-associated factor 1",
+        "length": 338
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1ANN",
+        "name": "(4P)-N-[(1R)-3-amino-1-(3-chloro-4-fluorophenyl)-3-oxopropyl]-4-(4-chloro-2-fluorophenyl)-5-[(25E)-1-{(1P)-6-fluoro-3'-[4-fluoro-2-(trifluoromethyl)benzamido]-4'-[(3R,5S)-3,4,5-trimethylpiperazin-1-yl][1,1'-biphenyl]-3-yl}-1,24-dioxo-5,8,11,14,17,20-hexaoxa-2,23-diazahexacos-25-en-26-yl]-1H-pyrrole-3-carboxamide",
+        "type": "non-polymer",
+        "formula": "C65 H71 Cl2 F7 N8 O11",
+        "formula_weight": 1344.201,
+        "n_heavy_atoms": 93,
+        "smiles": "C[C@@H]1CN(C[C@@H](N1C)C)c2ccc(cc2NC(=O)c3ccc(cc3C(F)(F)F)F)c4cc(ccc4F)C(=O)NCCOCCOCCOCCOCCOCCOCCNC(=O)/C=C/c5c(c(c[nH]5)C(=O)N[C@@H](CC(=O)N)c6ccc(c(c6)Cl)F)c7ccc(cc7F)Cl",
+        "entity_id": "3",
+        "auth_asym_ids": [
+         "A"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "9B9T",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "P61964"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "WD repeat-containing protein 5",
+        "length": 329
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q9Y4B6"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "DDB1- and CUL4-associated factor 1",
+        "length": 338
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1ANM",
+        "name": "N-{(1P)-5'-[(17-{(4P)-4-[(2P)-4-{[(1R)-3-amino-1-(3-chloro-4-fluorophenyl)-3-oxopropyl]carbamoyl}-3-(4-chloro-2-fluorophenyl)-1H-pyrrol-2-yl]-1H-pyrazol-1-yl}-16-oxo-3,6,9,12-tetraoxa-15-azaheptadecan-1-yl)carbamoyl]-2'-fluoro-4-[(3R,5S)-3,4,5-trimethylpiperazin-1-yl][1,1'-biphenyl]-3-yl}-6-oxo-4-(trifluoromethyl)-1,6-dihydropyridine-3-carboxamide",
+        "type": "non-polymer",
+        "formula": "C62 H65 Cl2 F6 N11 O10",
+        "formula_weight": 1309.144,
+        "n_heavy_atoms": 91,
+        "smiles": "C[C@@H]1CN(C[C@@H](N1C)C)c2ccc(cc2NC(=O)C3=CNC(=O)C=C3C(F)(F)F)c4cc(ccc4F)C(=O)NCCOCCOCCOCCOCCNC(=O)Cn5cc(cn5)c6c(c(c[nH]6)C(=O)N[C@@H](CC(=O)N)c7ccc(c(c7)Cl)F)c8ccc(cc8F)Cl",
+        "entity_id": "3",
+        "auth_asym_ids": [
+         "A"
+        ]
+       }
+      ]
+     }
+    ],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective.",
-    "bridging_check": [],
-    "bridging_check_status": "no tier-3 evidence entry was among the deep-fetched staged set, so bridging is asserted at entry level only"
+    "bridging_check": [
+     {
+      "pdb_id": "9NSN",
+      "ccd": "A1B0X",
+      "auth_asym_id": "B",
+      "auth_seq_id": 1401,
+      "contacts_recruiter": 314,
+      "contacts_partner": 266,
+      "bridges": true,
+      "coordinate_source": "biological assembly 1 (mmCIF)"
+     }
+    ]
    },
    "arm_component_accessions": [
     "P62877",
@@ -3809,7 +4671,7 @@
       "B:SER1328",
       "B:PRO1329"
      ],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 4620,
@@ -3956,6 +4818,64 @@
     ],
     "evidence_pdb_ids_ternary": [
      "8ROY"
+    ],
+    "_evidence_entries": [
+     {
+      "pdb_id": "8ROY",
+      "recruiter_auth_asym_ids": [
+       "A"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q66K64"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "DDB1- and CUL4-associated factor 15",
+        "length": 603
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q16531"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "DNA damage-binding protein 1",
+        "length": 836
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "Q9BW61"
+        ],
+        "auth_asym_ids": [
+         "D"
+        ],
+        "description": "DET1- and DDB1-associated protein 1",
+        "length": 102
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1H18",
+        "name": "1-[5-[[3,4-bis(chloranyl)-1~{H}-indol-7-yl]sulfamoyl]-3-methyl-furan-2-yl]carbonyl-~{N}-methyl-piperidine-4-carboxamide",
+        "type": "non-polymer",
+        "formula": "C21 H22 Cl2 N4 O5 S",
+        "formula_weight": 513.394,
+        "n_heavy_atoms": 33,
+        "smiles": "Cc1cc(oc1C(=O)N2CCC(CC2)C(=O)NC)S(=O)(=O)Nc3ccc(c4c3[nH]cc4Cl)Cl",
+        "entity_id": "4",
+        "auth_asym_ids": [
+         "A"
+        ]
+       }
+      ]
+     }
     ],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective.",
     "bridging_check": [
@@ -4936,7 +5856,7 @@
       "A:MET560",
       "A:LEU563"
      ],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 9598,
@@ -5084,6 +6004,198 @@
      "8G46",
      "8OV6",
      "9S3R"
+    ],
+    "_evidence_entries": [
+     {
+      "pdb_id": "8G46",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q16531"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "DNA damage-binding protein 1",
+        "length": 864
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q9NXF7"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "DDB1- and CUL4-associated factor 16",
+        "length": 220
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "O60885"
+        ],
+        "auth_asym_ids": [
+         "C"
+        ],
+        "description": "Bromodomain-containing protein 4",
+        "length": 129
+       },
+       {
+        "entity_id": "4",
+        "uniprot_ids": [
+         "Q9BW61"
+        ],
+        "auth_asym_ids": [
+         "E"
+        ],
+        "description": "DET1- and DDB1-associated protein 1",
+        "length": 106
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "YK3",
+        "name": "tert-butyl [(6S,10P)-4-{4-[(ethanesulfonyl)amino]phenyl}-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl]acetate",
+        "type": "non-polymer",
+        "formula": "C25 H31 N5 O4 S2",
+        "formula_weight": 529.675,
+        "n_heavy_atoms": 36,
+        "smiles": "CCS(=O)(=O)Nc1ccc(cc1)C2=N[C@H](c3nnc(n3-c4c2c(c(s4)C)C)C)CC(=O)OC(C)(C)C",
+        "entity_id": "6",
+        "auth_asym_ids": [
+         "B"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "9S3R",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q16531"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "DNA damage-binding protein 1",
+        "length": 1140
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q9NXF7"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "DDB1- and CUL4-associated factor 16",
+        "length": 218
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "P51531"
+        ],
+        "auth_asym_ids": [
+         "C"
+        ],
+        "description": "Probable global transcription activator SNF2L2",
+        "length": 123
+       },
+       {
+        "entity_id": "4",
+        "uniprot_ids": [
+         "Q9BW61"
+        ],
+        "auth_asym_ids": [
+         "D"
+        ],
+        "description": "DET1- and DDB1-associated protein 1",
+        "length": 102
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "A1JLV",
+        "name": "2-[6-azanyl-5-[(1~{S},5~{R})-8-[2-[(~{E})-3-(azepan-1-yl)prop-1-enyl]pyridin-4-yl]-3,8-diazabicyclo[3.2.1]octan-3-yl]pyridazin-3-yl]phenol",
+        "type": "non-polymer",
+        "formula": "C30 H37 N7 O",
+        "formula_weight": 511.661,
+        "n_heavy_atoms": 38,
+        "smiles": "c1ccc(c(c1)c2cc(c(nn2)N)N3C[C@H]4CC[C@@H](C3)N4c5ccnc(c5)/C=C/CN6CCCCCC6)O",
+        "entity_id": "6",
+        "auth_asym_ids": [
+         "B"
+        ]
+       }
+      ]
+     },
+     {
+      "pdb_id": "8OV6",
+      "recruiter_auth_asym_ids": [
+       "B"
+      ],
+      "polymer_entities": [
+       {
+        "entity_id": "1",
+        "uniprot_ids": [
+         "Q16531"
+        ],
+        "auth_asym_ids": [
+         "A"
+        ],
+        "description": "DDB1deltaBPB",
+        "length": 836
+       },
+       {
+        "entity_id": "2",
+        "uniprot_ids": [
+         "Q9NXF7"
+        ],
+        "auth_asym_ids": [
+         "B"
+        ],
+        "description": "DDB1- and CUL4-associated factor 16",
+        "length": 218
+       },
+       {
+        "entity_id": "3",
+        "uniprot_ids": [
+         "O60885"
+        ],
+        "auth_asym_ids": [
+         "C"
+        ],
+        "description": "Bromodomain-containing protein 4",
+        "length": 419
+       }
+      ],
+      "candidate_ligands": [
+       {
+        "ccd": "U79",
+        "name": "methyl 2-[(9~{S})-7-[4-[4-[[4-[(3-cyano-4-methyl-1~{H}-indol-7-yl)sulfamoyl]phenyl]methylcarbamoyl]phenyl]phenyl]-4,5,13-trimethyl-3-thia-1,8,11,12-tetrazatricyclo[8.3.0.0^{2,6}]trideca-2(6),4,7,10,12-pentaen-9-yl]ethanoate",
+        "type": "non-polymer",
+        "formula": "C44 H38 N8 O5 S2",
+        "formula_weight": 822.953,
+        "n_heavy_atoms": 59,
+        "smiles": "Cc1ccc(c2c1c(c[nH]2)C#N)NS(=O)(=O)c3ccc(cc3)CNC(=O)c4ccc(cc4)c5ccc(cc5)C6=N[C@H](c7nnc(n7-c8c6c(c(s8)C)C)C)CC(=O)OC",
+        "entity_id": "5",
+        "auth_asym_ids": [
+         "C"
+        ]
+       }
+      ]
+     }
     ],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective.",
     "bridging_check": [
@@ -5487,7 +6599,7 @@
      "angle_to_centroid_vector_deg": 44.6,
      "open_solid_angle_fraction_15A": 0.7363,
      "channel_lining_residues": [],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 7396,
@@ -5640,6 +6752,7 @@
      "7XM3"
     ],
     "evidence_pdb_ids_ternary": [],
+    "_evidence_entries": [],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective."
    },
    "arm_component_accessions": [
@@ -6285,7 +7398,7 @@
       "A:PHE577",
       "A:SER602"
      ],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 2240,
@@ -6426,6 +7539,7 @@
     "n_entries_ligand_bridging_second_uniprot": 0,
     "evidence_pdb_ids_ge_500Da": [],
     "evidence_pdb_ids_ternary": [],
+    "_evidence_entries": [],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective."
    },
    "arm_component_accessions": [
@@ -7008,27 +8122,25 @@
       21.2
      ],
      "direction": [
-      0.6467,
-      0.7235,
-      0.2415
+      0.0514,
+      0.6509,
+      0.7574
      ],
-     "clearance_A": 0.0,
-     "max_ray_clearance_A": 0.0,
-     "n_near_maximal_directions": 0,
-     "no_exit_path": true,
-     "cone_openness_30deg": 0.0,
-     "angle_to_centroid_vector_deg": 0.0,
-     "open_solid_angle_fraction_15A": 0.0,
+     "clearance_A": 25.0,
+     "max_ray_clearance_A": 25.0,
+     "n_near_maximal_directions": 23,
+     "no_exit_path": false,
+     "cone_openness_30deg": 0.5429,
+     "angle_to_centroid_vector_deg": 46.6,
+     "open_solid_angle_fraction_15A": 0.0449,
      "channel_lining_residues": [
-      "B:ARG55",
       "B:PHE81",
+      "B:ASP82",
       "B:GLY97",
       "B:ALA98",
-      "B:GLY99",
-      "B:HIS100",
       "B:ASP131"
      ],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 5004,
@@ -7077,12 +8189,18 @@
      "observed": 0.8694
     },
     "G3_linker_can_leave": {
-     "pass": false,
+     "pass": true,
      "observed": {
-      "clearance_A": 0.0,
-      "cone_openness_30deg": 0.0
+      "clearance_A": 25.0,
+      "cone_openness_30deg": 0.5429
      }
     }
+   },
+   "axes": {
+    "linker_analogue_tier": 1,
+    "exit_quality": 10.858,
+    "orientation_openness": 0.0449,
+    "neg_resolution": -2.8
    },
    "decision": "DROP"
   },
@@ -7159,6 +8277,7 @@
     "n_entries_ligand_bridging_second_uniprot": 0,
     "evidence_pdb_ids_ge_500Da": [],
     "evidence_pdb_ids_ternary": [],
+    "_evidence_entries": [],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective."
    },
    "arm_component_accessions": [
@@ -7290,6 +8409,7 @@
      "4OAS"
     ],
     "evidence_pdb_ids_ternary": [],
+    "_evidence_entries": [],
     "_limit": "A >=500 Da ordered ligand in a two-protein entry is structural evidence that a linker leaving this recruiter is tolerated. It is NOT evidence that an NR4A3 degrader on this handle would form a ternary complex or be selective."
    },
    "arm_component_accessions": [
@@ -7950,7 +9070,7 @@
      "channel_lining_residues": [
       "A:MET62"
      ],
-     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
+     "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the complex (the natural linker attachment point); direction = the maximum-clearance direction of 512 Fibonacci rays from that anchor, each ray beginning at the first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom would clash with a protein vdW sphere",
      "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. This bounds where a linker COULD leave; it does not establish that any particular linker does leave, nor anything about the resulting ternary complex."
     },
     "n_protein_atoms": 774,
@@ -8082,13 +9202,6 @@
     "availability_was_not_a_factor": true
    },
    {
-    "recruiter": "FEM1B",
-    "stage": "gate",
-    "gate_failed": "G3_linker_can_leave",
-    "reason": "exit-vector clearance >= 8.0 A AND 30-degree cone openness >= 0.30 \u2014 observed: {'clearance_A': 0.0, 'cone_openness_30deg': 0.0}",
-    "availability_was_not_a_factor": true
-   },
-   {
     "recruiter": "RNF114",
     "stage": "gate",
     "gate_failed": "G1_public_ligand_bound_structure",
@@ -8114,6 +9227,12 @@
     "availability_was_not_a_factor": true
    },
    {
+    "recruiter": "FEM1B",
+    "stage": "pareto",
+    "reason": "passed all gates but is Pareto-dominated on ligandability + interface geometry (dominated by CRBN); axes {\"linker_analogue_tier\": 1, \"exit_quality\": 10.858, \"orientation_openness\": 0.0449, \"neg_resolution\": -2.8}",
+    "availability_was_not_a_factor": true
+   },
+   {
     "recruiter": "KEAP1",
     "stage": "pareto",
     "reason": "passed all gates but is Pareto-dominated on ligandability + interface geometry (dominated by CRBN); axes {\"linker_analogue_tier\": 2, \"exit_quality\": 20.0, \"orientation_openness\": 0.1465, \"neg_resolution\": -1.32}",
@@ -8132,7 +9251,7 @@
   }
  },
  "provenance": {
-  "n_urls_fetched": 2915,
+  "n_urls_fetched": 2919,
   "urls": [
    "https://rest.uniprot.org/uniprotkb/search?query=gene_exact%3AVHL%20AND%20organism_id%3A9606%20AND%20reviewed%3Atrue&fields=accession,id,gene_names,protein_name,length,reviewed&format=json&size=10",
    "https://search.rcsb.org/rcsbsearch/v2/query",
