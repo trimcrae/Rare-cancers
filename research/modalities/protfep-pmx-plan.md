@@ -101,6 +101,18 @@ gentop, solvation, minimise/NVT/NPT — is provable for $0 before a host is rent
 | 8 | build-test | 19 grompp errors in `topol_Protein_chain_D.itp` | `pdb2gmx` splits the topology per chain; `gentop` converted only the top-level file, so the mutated chain's own `.itp` stayed wild-type. `-merge all` + a guard that refuses if split files exist | $0 |
 | 9 | Vast | complex host sat 36 min at `cur_state=stopped`, image pull frozen at `Waiting` | Vast's create/start race — the start PUT can be lost while the create finishes, leaving a box that never runs. NOT outbid (`min_bid` 0.24 < our 0.3015), so nothing would ever have resumed it. Re-issuing start is idempotent and fixed it in one call | ~$0.21 |
 
+| 11 | CI | the reduction was never committed; the pilot's ddG lived only in a CI log | `git diff --quiet -- <path>` compares the working tree to HEAD **for tracked files only** and reports "no change" for a file git has never seen. The artifact had never been committed, so every collect since the lane was built printed "no change to commit" and discarded it. Stage first, test `--cached` | $0 |
+| 12 | fleet | a 10-leg launch put 2 legs on machine 53989 and a 3rd on 11892; all refused to start | Vast offers are per GPU **slot**, and $/ns selection is per-leg with no memory, so the single cheapest machine wins several legs of one fleet. A host advertising slots it cannot schedule accepts every rental and refuses every start — so the failure **scales with fleet width**. One leg per machine per launch | ~$0.05 |
+| 13 | fleet | a relaunch meant to replace 3 dead hosts re-rented all 10 legs | The launch-time skip only knew about legs whose result was already in S3; the 7 still RUNNING were invisible to it, so each got a second instance on the same leg_id and S3 key. Skip in-flight legs too, and dedupe in collect keeping the oldest | ~$0 (the first fleet's hosts had already been reaped, so the leg ids never actually overlapped — the hole was real, the damage was not) |
+
+Failures #11–13 share one shape and it is worth naming: **each was a guard that reported success while
+doing nothing.** A diff that cannot see untracked files, a selector with no memory across a fleet, a
+skip list that knew "finished" but not "running". None of them errored; all of them printed a
+reassuring line. That is strictly more dangerous than a crash, because the board looked healthy
+while the deliverable was being dropped, the fleet was self-colliding, and the bill was doubling.
+The lesson generalises past this lane: a guard must be tested against the case it exists to catch,
+not merely against the happy path where it has nothing to do.
+
 Failure #8 is the one that explains the whole shape of the lane: **the apo leg always worked and the
 complex leg never could**, because apo is a single chain and has no per-chain split to get wrong. It
 was found in one free build-test run, after three paid GPU failures, purely because the build-test was
