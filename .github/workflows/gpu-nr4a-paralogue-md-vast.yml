@@ -190,6 +190,12 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       TASK: ${{ needs.plan.outputs.task }}
       TARGETS: ${{ needs.plan.outputs.targets }}
+      # the watch can re-rent a dead leg, so it needs the same code branch and run parameters the launcher used
+      GIT_BRANCH: ${{ github.ref_name }}
+      PDYN_METAD_NS: ${{ needs.plan.outputs.metad_ns }}
+      PDYN_RELEASE_NS: ${{ needs.plan.outputs.release_ns }}
+      PDYN_N_REP: ${{ needs.plan.outputs.n_rep }}
+      PDYN_EXCLUDE: ${{ needs.plan.outputs.exclude_machines }}
       BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       # the watch task force-pushes its board to a one-commit cache branch each tick, because the job-logs
       # API 404s for an in-progress job and a long watch would otherwise be unreadable while it matters

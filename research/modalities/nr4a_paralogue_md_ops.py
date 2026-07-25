@@ -311,6 +311,52 @@ def collect(targets):
     return 0
 
 
+def relaunch_dead(targets, insts, budget, excluded):
+    """Re-rent any real leg that has NO deliverable and NO live instance.
+
+    WHY THIS IS PART OF MONITORING. Preemption is routine and every leg is checkpointed, so the cost of one is
+    supposed to be ~10 min of redone MD plus a re-dispatch. But this repo has no automatic re-dispatch loop,
+    and the last time it mattered two legs sat hostless for 203 and 276 minutes because a human had to notice
+    — which is far more expensive than the preemption itself. A 12-hour leg on an interruptible host will
+    almost certainly be preempted at least once, so a watch that reports the death without acting on it would
+    make the overnight run depend on a human being awake.
+
+    Bounded by `budget` (a dict of leg -> remaining relaunches) so a leg that dies instantly cannot spin, and
+    it only ever re-rents a leg with NOTHING live — never on top of a running host."""
+    if insts is None:
+        return
+    live = {(i.get("label") or "") for i in insts
+            if i.get("actual_status") not in ("exited",)}
+    s3 = _s3()
+    import nr4a_paralogue_md_vast_launch as L
+    from gpu_backend import get_backend
+    for name in leg_names(targets):
+        if name.endswith("-smoke") or name in live:
+            continue
+        if _exists(s3, result_key(name)):
+            continue
+        if budget.get(name, 0) <= 0:
+            print(f"::warning title=LANE13 RELAUNCH BUDGET::{name} is dead but its relaunch budget is spent "
+                  f"— diagnose before re-firing task=launch")
+            continue
+        budget[name] = budget[name] - 1
+        tgt = target_of(name).upper()
+        print(f"::warning title=LANE13 RELAUNCH::{name} has no deliverable and no live instance — re-renting "
+              f"(resumes from its S3 checkpoint; {budget[name]} relaunch(es) left this pass)")
+        try:
+            spec = L.build_jobspec(tgt, mode="real",
+                                   metad_ns=float(os.environ.get("PDYN_METAD_NS", "60")),
+                                   release_ns=float(os.environ.get("PDYN_RELEASE_NS", "5")),
+                                   n_rep=int(os.environ.get("PDYN_N_REP", "3")),
+                                   git_branch=os.environ.get("GIT_BRANCH") or None,
+                                   exclude=tuple(excluded))
+            h = get_backend("vast").submit(spec)
+            mid = str(h.extra.get("machine_id"))
+            print(f"[ops] relaunched {name}: instance={h.job_id} machine={mid} bid=${h.extra.get('bid')}")
+        except Exception as e:  # noqa: BLE001
+            print(f"[ops] relaunch {name} FAILED: {e}")
+
+
 def _progress_signature(targets):
     """A tuple that MUST change while the science is advancing: per leg, the phase name and the biased-ns the
     job reports with it. Deliberately NOT 'is an instance up' — a rented box can sit with a dead container or
@@ -378,6 +424,8 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
     would hang the same way — an alert is the correct action, not a retry."""
     t_end = time.time() + max_minutes * 60
     prev, frozen = None, {}
+    budget = {n: 6 for n in leg_names(targets)}
+    excluded = set(x.strip() for x in (os.environ.get("PDYN_EXCLUDE") or "").split(",") if x.strip())
     tick = 0
     while time.time() < t_end:
         tick += 1
@@ -391,8 +439,14 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
         with contextlib.redirect_stdout(Tee(sys.stdout, buf)):
             status(targets)
             insts = instances()
+            for i in insts or []:
+                # remember every machine this pass ever refused or is already holding a leg, so a relaunch
+                # never lands back on it
+                if i.get("machine_id"):
+                    excluded.add(str(i["machine_id"]))
             nudge_start(insts)
             reap(targets)
+            relaunch_dead(targets, instances(), budget, excluded)
         sig = _progress_signature(targets)
         one_line = " | ".join(f"{n}: phase={v[0]} ns={v[1]} done={v[-1]}" for n, v in sig.items())
         print(f"::notice title=LANE13 TICK {tick}::{one_line}", flush=True)
