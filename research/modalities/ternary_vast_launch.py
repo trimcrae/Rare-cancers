@@ -596,6 +596,35 @@ def committed_progress(uid, bucket=None, prefix=None):
     return (None, 0, 0)
 
 
+def phase_and_log(uid, bucket=None, prefix=None, tail=14):
+    """(phase_marker, age_minutes, log_tail_lines) for a unit, from S3. [] if not written yet.
+
+    WHY THIS IS NOT OPTIONAL. The commit-store census (`committed_progress`) is the durable progress signal,
+    but it reads ZERO for the whole cold start — stage, pre-equilibrate, solvate+parameterise, minimise —
+    which is tens of minutes and is exactly where the GCP lane's three silent stalls lived (an am1bcc
+    cold-cache wait at 0 % GPU, a 25000-step minimise, and a warmup NaN). Without the phase marker and the
+    log tail, every one of those looks identical to a healthy leg that has simply not committed yet. The
+    marker says WHICH phase; the age of the marker says whether that phase is moving.
+    """
+    b = bucket or DEFAULT_BUCKET
+    p = (prefix or RESULT_PREFIX).rstrip("/")
+    base = f"{p}/legs/{uid}"
+    s3 = _s3()
+    phase, age_min, lines = None, None, []
+    try:
+        o = s3.get_object(Bucket=b, Key=f"{base}/phase.txt")
+        phase = o["Body"].read().decode(errors="replace").strip()
+        age_min = (time.time() - o["LastModified"].timestamp()) / 60.0
+    except Exception:  # noqa: BLE001 — not written yet (image still pulling)
+        pass
+    try:
+        log = s3.get_object(Bucket=b, Key=f"{base}/run.log")["Body"].read().decode(errors="replace")
+        lines = [ln for ln in log.splitlines() if ln.strip()][-tail:]
+    except Exception:  # noqa: BLE001
+        pass
+    return phase, age_min, lines
+
+
 def leg_records(bucket=None, prefix=None):
     """{unit_id: leg.json} for every unit that has written one."""
     b = bucket or DEFAULT_BUCKET
@@ -772,9 +801,16 @@ def collect(bucket=None, prefix=None, autostop=True):
             pstall = prev[1] if isinstance(prev, (list, tuple)) and len(prev) > 1 else 0
             stall = 0 if scalar > pprog else int(pstall) + 1
             new_state[f"prog:{uid}"] = [scalar, stall]
-            print(f"      progress: {phase or 'none (stage/pre-equil/setup/minimise)'}"
+            print(f"      committed: {phase or 'none yet'}"
                   f"{('/' + str(it)) if phase else ''}  scalar={scalar} prev={pprog} "
                   f"no-advance-polls={stall}")
+            # The commit census is blind for the whole cold start, so pair it with the on-host phase
+            # marker and log tail — that is what turns a liveness ping into a progress check.
+            mark, mark_age, tail = phase_and_log(uid, b, p)
+            print(f"      phase: {mark or '(no marker yet — image pull / container start)'}"
+                  + (f"  (written {mark_age:.0f} min ago)" if mark_age is not None else ""))
+            for ln in tail:
+                print(f"      | {ln[:170]}")
 
         msg = str(i.get("status_msg") or "").strip()
         frozen_min, new_state[str(iid)] = stall_minutes(prev_state, iid, msg, time.time())
