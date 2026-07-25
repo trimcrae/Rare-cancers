@@ -356,7 +356,28 @@ def analyze_leg(nc_path, tag):
         rec["status"] = "openmmtools unavailable: %s" % e
         return rec
     try:
-        reporter = MultiStateReporter(nc_path, open_mode="r")
+        # CHECKPOINT FILENAME. OpenFE/openmmtools defaults the checkpoint to `checkpoint.nc`, but this repo's
+        # driver writes `checkpoint.chk` (rbfe_spot_driver PRODUCTION pair `simulation.nc`/`checkpoint.chk`;
+        # nr4a3_rbfe._read_last_iters, :1551). So a default-constructed reporter finds no checkpoint storage,
+        # positions are unavailable, and read_sampler_states() dies on None.dimensions (a netCDF4 Dataset
+        # attribute). Evidence (GH run 30156575387): files_beside_nc = [COMMITTED.json, checkpoint.chk,
+        # simulation.nc] with has_checkpoint_storage = false — the file was always there under a name openmmtools
+        # never looks for. That is why the mandated ligand-escape / pose-collapse check has never once produced a
+        # number, on this lane or any other using the same commit store. Point the reporter at the real file.
+        _dir = os.path.dirname(os.path.abspath(nc_path))
+        _base = os.path.basename(nc_path).rsplit(".", 1)[0]          # simulation | equilibration
+        _cands = ["%s.chk" % _base, "checkpoint.chk", "%s_checkpoint.nc" % _base, "checkpoint.nc"]
+        _ckpt = next((c for c in _cands if os.path.isfile(os.path.join(_dir, c))), None)
+        reporter = None
+        if _ckpt:
+            try:
+                reporter = MultiStateReporter(nc_path, open_mode="r", checkpoint_storage=_ckpt)
+            except Exception as e:  # noqa: BLE001  (older signature / interval mismatch -> fall back)
+                rec["checkpoint_open_note"] = "checkpoint_storage=%s rejected (%s: %s); opened without it" % (
+                    _ckpt, type(e).__name__, e)
+        rec["checkpoint_file"] = _ckpt
+        if reporter is None:
+            reporter = MultiStateReporter(nc_path, open_mode="r")
         analyzer = MultiStateSamplerAnalyzer(reporter)
     except Exception as e:  # noqa: BLE001
         rec["status"] = "could not open reporter/analyzer: %s: %s" % (type(e).__name__, e)
