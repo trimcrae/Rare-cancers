@@ -463,7 +463,7 @@ read it before making changes.
   via (1) or (2). Reserve "deferred" for things blocked by a **real** external dependency (a spend crossing
   the >$50 review gate, data only trimcrae has, an upstream capability that genuinely does not exist yet) —
   never merely because the *dev sandbox* lacks the tool. This SHARPENS the egress-proxy rule below (which is
-  the special case of this for networked fetches) and composes with pilot-one-leg-first + wait-out-spot.
+  the special case of this for networked fetches) and composes with pilot-one-leg-first.
 - **★ EGRESS-PROXY BLOCK IS NOT "INACCESSIBLE" — ROUTE THE FETCH THROUGH A CI RUNNER (trimcrae standing rule,
   2026-07-11).** The dev sandbox's egress proxy **403s many data hosts at CONNECT** — NCBI/GEO, PMC,
   EuropePMC, Springer, UniProt, and similar. When a `curl`/`urllib`/WebFetch to one of these fails with a
@@ -529,8 +529,9 @@ read it before making changes.
   the root cause** (kill + re-run differently, cache the slow step, shard it, raise a cap) rather than reporting
   status again. **Own your ETAs:** if you gave one and it's blown, that is itself the trigger to dig — the
   first time reality diverges from your estimate, investigate, don't wait for the second data point. This
-  composes with (does not override) the spot-capacity rule below: **investigate first to DIAGNOSE**; if the
-  diagnosis is a known-benign spot capacity-wait, *then* wait it out — but you only know that by looking.
+  composes with (does not override) the Vast capacity rule below: **investigate first to DIAGNOSE**; if the
+  diagnosis is `resources_unavailable`, the action is to move to another host, not to wait — but you only
+  know which it is by looking.
 - **★★ TIGHT, CONTINUOUS MONITORING OF AN UNPROVEN PIPELINE — short cadence + a real PROGRESS check each time,
   until it reaches its terminal success state at least ONCE (trimcrae standing rule, 2026-07-19, after tight
   monitoring caught three separate silent failures on the ternary lane in one session: an am1bcc cold-cache
@@ -548,16 +549,24 @@ read it before making changes.
   UNEXPECTED-SLOWNESS (that's the *investigate* trigger; this is the *cadence* that surfaces it early) and with
   ROOT-CAUSE-WITH-EVIDENCE (each progress check IS evidence, not a guess). "Constant monitoring until we KNOW
   it works," in trimcrae's words.
-- **ALWAYS WAIT OUT SPOT CAPACITY — never switch to on-demand because a job is stuck "Starting / Insufficient
-  capacity" (trimcrae standing rule, 2026-07-05).** A spot job that can't get an EC2 instance is *not* a
-  problem — it is exactly what spot + per-iteration checkpointing was designed for: it waits, and when capacity
-  frees it acquires an instance and resumes losing ≤1 iteration (fast reload). The binding constraint is often
-  real EC2 spot *availability* (~5-6 g5 some days), which is *below* the account quota (8) — that's fine, the
-  fleet just runs fewer legs concurrently and the rest queue. Do NOT diagnose a capacity-wait as a stall, and do
-  NOT reach for on-demand to "unblock" it. The ONLY action a capacity-wait warrants: if a job hits `max_wait`/
-  `max_run` and FAILS, **re-dispatch it** (same tag → resumes from checkpoint). Keep `max_wait` generous
-  (≥ run + expected wait; ABFE uses 20h vs 12h run). On-demand is only for jobs that genuinely can't be spot
-  (no spot quota for the type, or truly can't checkpoint) — never as a capacity workaround.
+- **★ ON VAST, A CAPACITY REFUSAL MEANS PICK ANOTHER HOST — DO NOT WAIT IT OUT (trimcrae, 2026-07-25;
+  REPLACES the old AWS "always wait out spot capacity" rule, deleted as confusing now that all production
+  runs are on Vast).** When a start comes back
+  `{"success": false, "error": "resources_unavailable", "msg": "...state change queued."}`, that machine's
+  GPU is taken. **Destroy the instance and launch on a different host — do not queue, and do not raise the
+  bid.** Both alternatives were tried on 2026-07-25 and neither works: raising a stuck leg's bid 26% to its
+  value ceiling left it queued exactly as before, and the box sat `cur_state=stopped` for 45 minutes across
+  ~13 start attempts. Two facts from the merged pricing work make picking strictly better than waiting:
+  Vast is **~23 independently-priced hosts visible at once** ("you do not wait for a price, you pick a host"),
+  and **the floor is FLAT** (RTX 4090 daily lows $0.1356–$0.1689 over 20 days, 17/20 at the trough), so a
+  different host today costs what this one will cost tomorrow. **Why the AWS rule does not transfer:** AWS
+  managed spot is a *pool* — you have no host choice, so waiting is the only move and is correct there.
+  Vast is a market of individual machines. Applying the pool rule to the market cost this repo ~45 min of
+  wall clock on 2026-07-25. Implemented in `protfep_vast_launch.collect` (records the machine, destroys the
+  instance) + `ResourceSpec.exclude_machine_ids` (keeps selection off it): a host that never starts has
+  **infinite realised $/ns**, which the $/ns ranking cannot see, so without the exclusion it keeps winning
+  selection and keeps failing to start. This does NOT change the preemption rule below — a host that ran and
+  was preempted is routine and resumes from checkpoint; this is about one that never started.
 - **★ SPOT PREEMPTIONS ARE ROUTINE — MENTION LIGHTLY, DON'T MAKE A BIG DEAL (trimcrae standing rule,
   2026-07-16).** A spot VM getting preempted (GCE DELETEs it; SageMaker interrupts it) is **expected spot
   behavior**, so treat it as routine self-doable recovery: re-dispatch to resume from the checkpoint (GCE) or let
@@ -627,21 +636,6 @@ read it before making changes.
   checkpoint dir. **Only stay on-demand when spot genuinely can't work:** the job truly cannot checkpoint, or the
   needed instance type has **no spot quota** (e.g. `ml.g5.4xlarge` spot quota was 0 — a bigger-RAM need may force
   on-demand or a quota-raise). Prefer spot; justify on-demand.
-  - **A TRANSIENT SPOT-CAPACITY OUTAGE IS *NOT* A REASON TO SWITCH TO ON-DEMAND — WAIT (trimcrae, 2026-07-03,
-    after I did exactly the wrong thing).** When a spot job sits in `[Starting] Insufficient capacity error from
-    EC2 while launching instances, retrying!`, that is temporary EC2 capacity, **not** the "spot can't work"
-    exception (which is *permanent*: can't-checkpoint, or spot-quota-0). The correct response is to **do nothing**:
-    the job is checkpointed, `max_wait` is ~20 h, it burns $0 while parked, and it **auto-resumes the instant
-    capacity returns** (a mass g5.xlarge outage on 2026-07-03 cleared within hours and all shards resumed on
-    their own). **Do NOT** stop the parked jobs, spin up on-demand replacements, probe on-demand quota, or build
-    stop/relaunch tooling to "rescue" the run — that whole detour was wasted effort + real $ and had to be fully
-    reverted. **This is never a race** (§ Operating regime): no single result — not even the headline FEP ΔΔG —
-    justifies paying the on-demand premium to dodge a temporary outage. Extra reasons on-demand was the wrong
-    call here: on-demand *Training* g5.xlarge quota is **1**, so it runs **serial** (≈40–110 h for the 3-receptor
-    FEP) — *slower* than parked spot that resumes and runs **parallel** (K≤8, ≈5–14 h) — while costing ~3× (real
-    FEP: ~$18–60 spot vs ~$55–150 on-demand; do NOT trust the submitter's `UNIT_GPU_H=1` cost-note stub — it
-    under-quotes ABFE by ~15–30×). If a run is truly time-critical AND spot capacity is out for many hours,
-    **ask trimcrae before going on-demand** — don't decide it solo.
 - **VALIDATE A FAN-OUT GPU FLEET ON A SINGLE SHARD FIRST, then scale (trimcrae rule, 2026-07-03).** Any job
   that fans out N parallel GPU shards (the FEP fleet; any future spot fleet) must be shaken out with
   `n_shards=1` before launching all N — a failed env/wiring test on 8 shards burns 8× the compute for the
@@ -661,8 +655,8 @@ read it before making changes.
   leg with the **highest abort information** — the one most likely to kill the whole idea if it fails (e.g. the
   known-answer POSITIVE CONTROL, or the single paralogue/replicate whose result the conclusion most hinges on).
   This composes with the per-unit checkpoint rule (a pilot leg's completed windows are reused when you DO fan
-  out, so the pilot is not wasted) and with the "wait out spot capacity" rule (a pilot is about the RESULT, not
-  a capacity probe). Examples: the ABFE λ-repair already does this (validate r1's soft-core-tail overlap before
+  out, so the pilot is not wasted). A pilot is about the RESULT, not a capacity probe — if the pilot's host
+  will not start at all, move it to another host (see the Vast capacity rule) and read the result there. Examples: the ABFE λ-repair already does this (validate r1's soft-core-tail overlap before
   spending on r2/r3 error-bar replicates); a retrospective NR-V04 ternary benchmark should run **one paralogue
   (or the CRBN/lenalidomide control) first** and abort if the workflow can't even recover the known geometry,
   before paying for the full NR4A1/2/3 × seeds × linkers fleet. Don't fan out a big spend on a hypothesis a
