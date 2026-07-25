@@ -204,6 +204,8 @@ def calibration_decision(ternary_agg, binary_agg, target_kcal, restraint_dominat
 # The original constants are preserved verbatim below and the superseded behaviour is recorded in the frozen JSON.
 # Consequence worth stating: under the corrected rule valB_mini is hard to pass even for an accurate method at
 # this lane's noise — which is itself the argument for recalibrating onto a larger signal, not for loosening this.
+GATE_ANTI_NULL_ENABLED = True          # the corrected rule. `calibration_gate(anti_null=False)` reproduces the
+                                       # superseded behaviour FOR AUDIT ONLY — see the note at the check itself.
 GATE_REQUIRE_CI_EXCLUDES_ZERO = True   # a resolved nonzero effect, not a noisy positive point estimate
 GATE_MEAN_NEARER_TARGET_RATIO = 0.5    # mean must exceed target*this, i.e. sit nearer the target than nearer zero
 
@@ -218,7 +220,7 @@ def _sign(x):
     return 0 if x == 0 else (1 if x > 0 else -1)
 
 
-def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, extended=False):
+def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, extended=False, anti_null=None):
     """AUTHORITATIVE valB_mini calibration verdict — reviewer condition 6 (2026-07-19), three-tier PASS /
     BORDERLINE / FAIL against a FIXED accuracy margin, using the BETWEEN-REPLICATE cycle SD (condition 3), NOT
     the MBAR SE. `ddg_coop_replicates` = the per-independent-replicate ΔΔG_coop values (each a complete
@@ -285,13 +287,20 @@ def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, exte
     # ---- the two anti-null conditions (defect fix 2026-07-25; see the constants block) ----
     # Both are checked HERE, after the FAIL tier and alongside the BORDERLINE reasons, so a result that predicts
     # nothing lands in BORDERLINE/extend rather than PASS. They are AND-conditions on PASS, never routes to PASS.
-    near_zero = mean <= (target_kcal * GATE_MEAN_NEARER_TARGET_RATIO)
+    # `anti_null` is an AUDIT SWITCH, not a tuning knob. It defaults to the corrected rule; passing False
+    # reproduces the SUPERSEDED (pre-2026-07-25) behaviour verbatim so that the amendment's claims — "strictly
+    # stricter in every direction", "changes no recorded verdict" — can be re-derived by anyone, rather than
+    # taken on trust. Production callers must never pass it: doing so re-admits the null the fix removed. It is
+    # deliberately NOT an environment variable, so it cannot be flipped from a workflow input.
+    _anti_null = GATE_ANTI_NULL_ENABLED if anti_null is None else bool(anti_null)
+    metrics["anti_null_rule_applied"] = _anti_null
+    near_zero = _anti_null and mean <= (target_kcal * GATE_MEAN_NEARER_TARGET_RATIO)
     if near_zero:
         reasons.append("mean %+.3f is nearer ZERO than the target %+.3f (needs > %+.3f) — a prediction of 'no "
                        "cooperativity change' must not pass a benchmark whose measured answer is %+.3f"
                        % (mean, target_kcal, target_kcal * GATE_MEAN_NEARER_TARGET_RATIO, target_kcal))
     ci_excludes_zero = (ci is not None and (mean - ci) > 0.0)
-    if GATE_REQUIRE_CI_EXCLUDES_ZERO and not ci_excludes_zero:
+    if _anti_null and GATE_REQUIRE_CI_EXCLUDES_ZERO and not ci_excludes_zero:
         reasons.append("t-CI includes zero (%+.3f +/- %.3f) — the effect is not resolved as nonzero"
                        % (mean, ci if ci is not None else float("nan")))
     metrics["anti_null_checks"] = {"mean_nearer_target_than_zero": (not near_zero),

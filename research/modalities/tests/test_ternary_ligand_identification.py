@@ -116,7 +116,10 @@ class _FakeSystem:
     def getNumConstraints(self):
         return len(self._c)
 
-    def getConstraint(self, k):
+    # ONLY the name openmm.System actually exposes. The first version of this fake implemented `getConstraint`,
+    # matching a typo in the production code, so the whole suite went green while the real analysis raised
+    # AttributeError on GCS run 30167699679. A fake that mirrors the code instead of the API tests nothing.
+    def getConstraintParameters(self, k):
         return (self._c[k][0], self._c[k][1], 0.1)
 
     def getParticleMass(self, i):
@@ -198,6 +201,16 @@ def test_constraints_are_load_bearing():
     assert with_cons["ligand"] is not None
     assert without["ligand"] is None or sorted(without["ligand"]) != sorted(ligs[0]), (
         "identification survived dropping the constraint edges — the constraint path is not exercised")
+
+
+def test_system_edges_uses_the_documented_openmm_constraint_accessor():
+    """A System exposing ONLY openmm's real accessor must work. If the production code reaches for any other
+    name, this raises — which is what happened for real on GH run 30167699679 while the suite was green."""
+    n, bonds, cons, masses, _ = _build_assembly(n_chains=1, chain_size=1200, n_waters=5, n_ions=1)
+    sysm = _FakeSystem(n, bonds, cons, masses)
+    assert not hasattr(sysm, "getConstraint"), "the fake must not offer a name openmm does not have"
+    edges, prov = tfc._system_edges(sysm)
+    assert prov["constraints"] == len(cons)
 
 
 def test_system_edges_reads_every_bonded_force_and_the_constraints():
