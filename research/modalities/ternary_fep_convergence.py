@@ -497,9 +497,38 @@ def _structural(reporter, nc_path):
             U, _, Vt = np.linalg.svd(ac.T @ bc)
             d = np.sign(np.linalg.det(Vt.T @ U.T))
             R = Vt.T @ np.diag([1.0, 1.0, d]) @ U.T
-            rmsd = float(np.sqrt((((ac @ R.T) - bc) ** 2).sum(axis=1).mean())) * 10.0   # nm->A
-            return {"status": "ok (superposed RMSD over the reporter's analysis-particle subset)",
-                    "ligand_rmsd_A": rmsd, "n_atoms_used": n_idx, "n_atoms_total": n_all,
+            disp = np.sqrt((((ac @ R.T) - bc) ** 2).sum(axis=1)) * 10.0                  # per-atom, Å
+            rmsd = float(np.sqrt((disp ** 2).mean()))
+            # WHOSE RMSD IS THIS? On the real valB legs the analysis-particle subset is 7388 of 141968 atoms —
+            # the WHOLE SOLUTE (SMARCA2 BD + VHL + EloB + EloC + the PROTAC), not the ligand. So it still must not
+            # be judged against LIG_RMSD_MAX_A, a LIGAND pose threshold: a superposed multi-chain assembly cannot
+            # be fit by one global rotation when the chains move relative to each other, so the number runs high
+            # for reasons that are not pose collapse. Report it, do not fail on it.
+            #
+            # 14.97 Å (run 30156954406) is nonetheless too large to wave away, and there are two live explanations
+            # that this function must not choose between by assertion:
+            #   H1 the ternary assembly genuinely rearranged — decision-relevant, since that interface IS what
+            #      ΔΔG_coop measures;
+            #   H2 one or more chains wrapped across the periodic boundary — pure artifact.
+            # The discriminator is the per-atom displacement DISTRIBUTION: a PBC jump is bimodal with a mode near
+            # a box edge and leaves most atoms small, whereas real rearrangement moves atoms continuously. So emit
+            # the percentiles and the box edge and let the next reader decide on data.
+            pct = {("p%d" % p): float(np.percentile(disp, p)) for p in (50, 90, 99)}
+            box_nm = None
+            try:
+                bv = subN[0].box_vectors
+                box_nm = float(max(bv[i][i].value_in_unit(bv.unit) for i in range(3))) * 10.0
+            except Exception:  # noqa: BLE001
+                pass
+            frac_beyond_half_box = (float((disp > (box_nm / 2.0)).mean()) if box_nm else None)
+            return {"status": "solute-subset superposed RMSD — INFORMATIONAL, not comparable to LIG_RMSD_MAX_A "
+                              "(subset is %d of %d atoms = the whole solute, not the ligand). See H1/H2 note; "
+                              "the displacement percentiles discriminate real rearrangement from PBC wrapping."
+                              % (n_idx, n_all),
+                    "solute_superposed_rmsd_A": rmsd, "ligand_rmsd_A": None,
+                    "displacement_percentiles_A": pct, "max_displacement_A": float(disp.max()),
+                    "box_edge_A": box_nm, "fraction_atoms_beyond_half_box": frac_beyond_half_box,
+                    "n_atoms_used": n_idx, "n_atoms_total": n_all,
                     "superposed": True, "iterations_compared": [0, last_ckpt],
                     "checkpoint_interval": interval}
         rmsd_all = float(np.sqrt(((pN - p0) ** 2).sum(axis=1).mean())) * 10.0
