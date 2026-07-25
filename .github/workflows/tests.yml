@@ -44,4 +44,10 @@ jobs:
       # and read in the runner's. Only OpenFE's particle-count check stopped it becoming a published number.
       - name: Spot commit prefix carries the direction (no silent fwd/rev resume)
         run: bash research/modalities/tests/test_commit_prefix_direction.sh
+      # Generalises that fix: in an UNQUOTED heredoc, a variable assigned inside it lives in the VM's shell,
+      # so referencing it unescaped asks the RUNNER for a value it never had and silently yields "". The file
+      # already warned about this trap in a comment (for STAGE_CACHE) and DIRSUF broke it anyway -- prose is
+      # not a guard.
+      - name: No two-shell variable in the VM startup heredoc
+        run: python3 research/modalities/tests/test_heredoc_two_shell.py
       - run: python -m pytest research/modalities/tests -q

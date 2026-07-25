@@ -293,3 +293,22 @@ VM's shell, and the generated script carries the finished literal (auditable by 
 > live.** Where a value crosses a boundary — two shells, generation-time vs run-time, runner vs VM — the only
 > acceptable evidence is an **assertion on the produced artifact**, not an inspection of the producing code.
 > Add the assertion in the same commit as the fix.
+
+### H.1 Was DIRSUF the only one? Scanned mechanically — yes, and the trap was already documented
+
+The two-shell defect is decidable, so it was scanned for rather than reasoned about: extract the unquoted
+heredoc body, collect every variable **assigned inside it**, and flag any that is also referenced **unescaped**
+(i.e. runner-expanded). Two candidates came back, both false positives, and both instructive:
+
+- **`CHARGE_METHOD`** — a runner-level `env:` key on the step, so the runner genuinely holds it. The apparent
+  "assignments" are `env CHARGE_METHOD=$CHARGE_METHOD …` subprocess prefixes, not shell assignments read later.
+- **`STAGE_CACHE`** — assigned with runner-side values baked into the literal, and **every use is `\$STAGE_CACHE`**
+  (escaped, VM-side). The flagged line was the *comment* directly above it:
+
+  > `# NOTE the backslash escapes: \$STAGE_CACHE must be evaluated ON THE VM. Unescaped ($STAGE_CACHE) the …`
+
+So `DIRSUF` was the **only** instance — and this file already carried an explicit written warning about the exact
+trap, a few dozen lines from where the DIRSUF fix violated it. **A prose warning is not a guard.**
+`research/modalities/tests/test_heredoc_two_shell.py` is now the guard: it ignores comments and `env VAR=`
+prefixes (the only two false-positive sources found), and was **verified to discriminate** — reintroducing the
+DIRSUF pattern makes it fail, naming the variable, the line, and the fix.
