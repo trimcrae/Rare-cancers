@@ -206,7 +206,7 @@ and never approaches buried. Two secondary readings matter:
   still the least exposed of the three, and, as §2.2 shows, **exposure is not what closes C559 anyway.**
 - All three unique **lysines** stay exposed across the ensemble, so term (b)'s handles are robust too.
 
-### 2.2 Reach: C397 holds up; C420 and C559 are closed at the gate in **every** conformer
+### 2.2 Reach: C397 holds up; C420 and C559 are closed at the gate in **every unbiased** conformer
 
 The E3-independent envelope, recomputed independently on each conformer with its own pocket centroid and its
 own 12-anchor warhead exit-vector ensemble — the fraction of frames in which each cysteine is reachable at or
@@ -311,7 +311,7 @@ launched, not pre-staged, and not requested by this lane.**
 
 ---
 
-## 4. ★ Matched composed-vs-assembly-native comparison — **CRBN's null halves, and it was the exit vector**
+## 4. ★ Matched composed-vs-assembly-native comparison — CRBN's promiscuity null halves, and it was the exit vector
 
 Both arms were restaged **assembly-native** — receptor, ligand, RING and E2 all from ONE intact assembly, so
 **every bridge RMSD is 0.0 Å and nothing is composed**:
