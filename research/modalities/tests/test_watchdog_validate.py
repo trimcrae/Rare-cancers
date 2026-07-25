@@ -14,16 +14,16 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, ".."))
 import watchdog_validate as wv  # noqa: E402
 
-REQ = ["leg_id", "seed", "direction", "commit_salt", "timestep_fs", "warmup_timestep_fs"]
+REQ = ["leg_id", "seed", "direction", "commit_salt", "timestep_fs", "warmup_timestep_fs", "use_preequil"]
 
 
-def doc(entries, required=REQ):
-    return {"_prefix_keying_params": required, "watch": entries}
+def doc(entries, required=REQ, key="_required_run_params"):
+    return {key: required, "watch": entries}
 
 
 def full(**over):
     e = {"enabled": True, "leg_id": "L", "seed": "0", "direction": "rev", "commit_salt": "v2pe",
-         "timestep_fs": "2.0", "warmup_timestep_fs": "1.0"}
+         "timestep_fs": "2.0", "warmup_timestep_fs": "1.0", "use_preequil": "1"}
     e.update(over)
     return e
 
@@ -56,7 +56,20 @@ def main():
     # No declared requirements must not silently mean "everything passes" for the WRONG reason: it means the
     # config declares nothing to enforce. Assert the behaviour explicitly so nobody 'fixes' it by accident.
     e = full(); e.pop("warmup_timestep_fs")
-    chk("no _prefix_keying_params -> nothing enforced (explicitly)", wv.validate(doc([e], required=[])), [])
+    chk("no required list -> nothing enforced (explicitly)", wv.validate(doc([e], required=[])), [])
+
+    # use_preequil is NOT part of the commit prefix, but it selects the relaxed (v2pe) vs raw (v1) starting
+    # complex. Pre-equilibration only moves coordinates, so particle counts match and OpenFE's
+    # assert_multistate_system_equality CANNOT catch a cross-restore the way it caught fwd/rev. Omitting it must
+    # therefore fail exactly as loudly as omitting a prefix key.
+    e = full(); e.pop("use_preequil")
+    chk("missing use_preequil is caught (not prefix-keying, but system-changing)",
+        wv.validate(doc([e])), [("L", "rev", ["use_preequil"])])
+
+    # the legacy key name must keep working: another session may hold a copy of the older watch file
+    e = full(); e.pop("warmup_timestep_fs")
+    chk("legacy _prefix_keying_params key is still honoured",
+        wv.validate(doc([e], key="_prefix_keying_params")), [("L", "rev", ["warmup_timestep_fs"])])
 
     # the real repo config must be valid, or the watchdog is inert
     real = os.path.join(HERE, "..", "ternary-watch.json")
@@ -76,8 +89,44 @@ def main():
     rc_ok = wv.main(["watchdog_validate.py", real])
     chk("main() exits zero on the real config", rc_ok, 0)
 
+    if check_watchdog_field_alignment() != 0:
+        fails.append("field alignment")
+
     print("\n%d check(s) failed" % len(fails))
     return 1 if fails else 0
+
+
+def check_watchdog_field_alignment():
+    """The watchdog serialises each watch entry as a pipe-joined line and reads it back with `read -r A B C...`.
+    If the format string, the value list and the variable list ever disagree, every field after the divergence
+    is SILENTLY SHIFTED into the wrong variable -- charge_method landing in use_preequil, say -- and the relaunch
+    runs a different configuration while reporting success. Same class as every other defect in the guard audit,
+    so it gets a check rather than care."""
+    import re
+    wf = os.path.join(HERE, "..", "..", "..", ".github", "workflows", "ternary-leg-watchdog.yml")
+    if not os.path.isfile(wf):
+        print("SKIP field alignment (workflow not found)")
+        return 0
+    t = open(wf).read()
+    m = re.search(r"\[print\('([^']+)'%\((.*?)\)\) for w in", t)
+    r = re.search(r"read -r ([A-Z ]+); do", t)
+    if not m or not r:
+        print("FAIL field alignment: could not locate the serialise/read pair — markers changed")
+        return 1
+    n_fmt = m.group(1).count("%s")
+    n_val = m.group(2).count("w[") + m.group(2).count("w.get(")
+    names = r.group(1).split()
+    if n_fmt == n_val == len(names):
+        print("PASS field alignment: %d format slots == %d values == %d read vars (%s)"
+              % (n_fmt, n_val, len(names), ",".join(names)))
+        return 0
+    print("FAIL field alignment: %d format slots, %d values, %d read vars — fields would shift silently"
+          % (n_fmt, n_val, len(names)))
+    return 1
+
+
+def test_watchdog_field_alignment():
+    assert check_watchdog_field_alignment() == 0
 
 
 def test_watchdog_config_guard():

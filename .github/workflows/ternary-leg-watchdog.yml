@@ -133,8 +133,8 @@ jobs:
           # The entry loop is a pipeline subshell, so the flag has to live in a file, not a variable.
           ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
 
-          python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
-          | while IFS='|' read -r LEG SEED DIR SALT DT WUDT CHG NWIN TPL MAXRL; do
+          python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('use_preequil','0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
+          | while IFS='|' read -r LEG SEED DIR SALT DT WUDT UPE CHG NWIN TPL MAXRL; do
               TAG="$LEG dir=$DIR seed=$SEED"
               echo "=============== $TAG ==============="
 
@@ -159,7 +159,8 @@ jobs:
                     echo "::notice title=WATCHDOG DONE::$TAG — result JSON present. dry_run=1: would dispatch mode=converge now (diagnostics), then mode=reduce next pass."
                   elif gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" \
                          -f mode=converge -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
-                         -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" 2>&1; then
+                         -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" \
+                         -f use_preequil="$UPE" 2>&1; then
                     gcloud storage cp /tmp/marker.txt "$CVM" >/dev/null 2>&1 || echo "::warning::converge marker write failed — it may re-dispatch next pass"
                     echo "::notice title=WATCHDOG DONE -> CONVERGE::$TAG — result JSON present; dispatched mode=converge (CPU, \$0) for the convergence diagnostics. mode=reduce follows on the next pass, once the report exists."
                   else
@@ -321,7 +322,7 @@ jobs:
               if gh workflow run gpu-ternary-fep-gcp.yml --ref "${{ github.ref_name }}" \
                    -f mode=run -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
                    -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" \
-                   -f charge_method="$CHG" \
+                   -f use_preequil="$UPE" -f charge_method="$CHG" \
                    -f n_windows="$NWIN" -f template_pdb="$TPL" \
                    -f refuse_if_vm_live=1 -f provisioning=spot 2>&1; then
                 printf '%s' "$((CNT+1))" > /tmp/cnt.txt

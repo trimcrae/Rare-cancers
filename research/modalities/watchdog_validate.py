@@ -23,9 +23,22 @@ import json
 import sys
 
 
+def required_params(doc):
+    """The params every enabled entry must carry.
+
+    `_required_run_params` supersedes `_prefix_keying_params`: the list outgrew its original name once
+    `use_preequil` had to be reproduced. That one is NOT part of the commit prefix, but it selects whether the
+    alchemy starts from the plain-MD-relaxed complex (SETUP_VER=v2pe) or the raw one (v1) -- and because
+    pre-equilibration only moves coordinates, particle counts are identical, so OpenFE's particle check cannot
+    catch a v1 trajectory restored into a v2pe run the way it caught the fwd/rev mismatch. Both names are
+    accepted so a copy of this file held by another session keeps working.
+    """
+    return doc.get("_required_run_params") or doc.get("_prefix_keying_params") or []
+
+
 def validate(doc):
     """Return a list of (leg_id, direction, [missing keys]) for enabled entries that are incomplete."""
-    required = doc.get("_prefix_keying_params") or []
+    required = required_params(doc)
     problems = []
     for entry in doc.get("watch", []):
         if not entry.get("enabled"):
@@ -46,12 +59,12 @@ def main(argv):
     for leg, direction, missing in problems:
         print(
             "::error title=WATCHDOG CONFIG INVALID::%s dir=%s is missing prefix-keying param(s) %s "
-            "— a relaunch would resume a DIFFERENT commit prefix. Refusing to act."
+            "— a relaunch would not reproduce the run it is watching. Refusing to act."
             % (leg, direction, ",".join(missing))
         )
     if not problems:
         n = len([e for e in doc.get("watch", []) if e.get("enabled")])
-        print("watch list valid: %d enabled entry/entries carry every prefix-keying param" % n)
+        print("watch list valid: %d enabled entry/entries carry every required run param" % n)
     return 1 if problems else 0
 
 
