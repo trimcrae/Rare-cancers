@@ -618,6 +618,17 @@ jobs:
           python research/modalities/nrv04_covalent_input_audit.py \
             --bucket "${VAST_CKPT_BUCKET}" \
             --prefixes "${{ github.event.inputs.ternary_extra_args }}"
+      # $0 validation of the steered-refold probe BEFORE any GPU spend: writes the three Boltz YAMLs (no
+      # inference) and, in doing so, resolves C551 to its construct index against the LIVE UniProt sequence and
+      # asserts it is a cysteine. A YAML or index error caught here costs nothing; caught on the GPU box it
+      # costs a rented hour.
+      - name: Prep-validate the C551 site probe YAMLs (no GPU, no inference)
+        env:
+          OUTPUT_DIR: ${{ runner.temp }}/site_probe
+        run: |
+          python research/modalities/nrv04_celastrol_site_probe.py
+          echo "=== binary_pocket.yaml (tail) ==="
+          tail -8 "$OUTPUT_DIR/binary_pocket.yaml"
       - name: Commit the audit JSON back to the branch
         run: |
           git config user.name "github-actions[bot]"

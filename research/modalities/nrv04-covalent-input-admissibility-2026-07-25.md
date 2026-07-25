@@ -21,7 +21,7 @@ Total spend: **$0**.
 |---|---|---|
 | 1 | **A1 has been measuring the wrong residue.** The 8.99 Å belongs to **C566**; the frozen site **C551** is 28.4–39.1 Å away in every clean model | `nrv04-covalent-input-audit.json`, 7 clean models, LBD↔full-length map fetched from UniProt (598 aa, residue 551 = Cys) |
 | 2 | **"any co-fold in the bucket" had never been enumerated** — the pre-spend check samples **one** model per system out of an ensemble | `nrv04_prespend_check._pull_model` = `sorted([k for k in keys if k.endswith("_model_0.cif")])[0]` |
-| 3 | **The miss is systematic, not seed noise** — 5 independent diffusion seeds across 4 prefixes, C551 distance 28.4–39.1 Å, never below 26.8 Å to *any* buried cysteine | audit table, §2 |
+| 3 | **The miss is systematic, not seed noise** — 7 clean models over 4 distinct diffusion seeds and 3 independent prefixes span 28.4–39.1 Å at C551, with no trend toward it | audit table, §2 |
 | 4 | **The repo had already measured this and not connected it** — `celastrol-end→Cys551 SG proxy = 27.4 Å`, recorded as a PASS of a review item | `nrv04-ternary-benchmark.json` → `review_fix_verification.5_cys551_evaluated` |
 | 5 | **The warhead is not in the target pocket at all** — the celastrol moiety makes **more** contacts with the E3 machinery than with NR4A1 (40–135 vs 32–44); for free celastrol it is 135 vs 44 | audit `warhead.contacts_*`, §3 |
 | 6 | **`cov_c551a` was mutating C566, not C551** — the same geometric rule picks the mutation site | `nrv04_covalent_md.build_system` (fixed here) |
@@ -80,8 +80,10 @@ Two things this settles that a sample of one could not:
 - **The amendment's "in any co-fold currently in the bucket" was an extrapolation.**
   `nrv04_prespend_check._pull_model` selects `sorted([k for k in keys if k.endswith("_model_0.cif")])[0]` —
   one model per system. The conclusion happens to be right; the evidence for it did not exist until now.
-- **The miss is systematic.** Five independent diffusion seeds across four prefixes span 28.4–39.1 Å at C551
-  with no trend toward it. This is not a sampling problem that more seeds fix.
+- **The miss is systematic.** The 7 clean models span **4 distinct diffusion seeds** (0,1,2,3) across
+  **3 independent prefixes**, produced in two separate campaigns two days apart (2026-07-22 15:00–15:06 UTC and
+  2026-07-24 21:19–23:01 UTC) on **two different providers** — and every one lands 28.4–39.1 Å from C551, with
+  no trend toward it. This is not a sampling problem that more seeds fix.
 
 The repo had *already* measured this and filed it as a pass: `nrv04-ternary-benchmark.json` records
 `"5_cys551_evaluated": "PASS — cys551_evaluated=True; celastrol-end→Cys551 SG proxy=27.4 Å"`. That 27.4 Å is
