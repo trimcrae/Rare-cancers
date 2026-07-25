@@ -516,6 +516,46 @@ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here
   scores are **exploratory**. *(In progress. The cis-epimer PROTAC-2 edge is demoted to the negative-endpoint
   stress module of the cube below — a pass forced by holding an unstable pose is not a pass.)*
 
+  **★ r0 IS IN AND IT IS THE WRONG SIGN — AND MORE REPLICATES CANNOT FIX IT (2026-07-25). Full analysis +
+  recommendation: [valB-mini-r0-verdict-2026-07-25.md](research/manuscripts/valB-mini-r0-verdict-2026-07-25.md).**
+  The first complete cycle (CI 30148463967, re-dumped 30155238348) gives **ΔΔG_coop(r0) = −0.534 kcal/mol** against
+  the +0.944 target — wrong sign, 1.478 off — from legs binary **48.0046** / ternary **47.4701** / solvent
+  **47.8060**, i.e. the answer is **1.1 % of the numbers being subtracted** (the reduction's own
+  `cancellation_ratio` = 0.0111). Protocol hashes are **consistent** across the three legs, so the cycle is *not*
+  contaminated by a protocol mismatch; and the record's `converged: false` is only `n_replicas >= 3` failing at
+  n=1, **not** an MD-convergence finding. Four things follow, each verified against the frozen gate rather than
+  asserted:
+  - **r1+r2 cannot PASS.** Exhaustive scan of every (r1,r2) over [−4,+8]² through `calibration_gate`: 0 PASS,
+    17,276 BORDERLINE, 11,885 FAIL. Condition 3's boundary rule needs a first-round PASS to carry cycle
+    SD ≤ 0.25, while one replicate pinned at −0.534 forces SD ≥ 0.69. Buying r1+r2 buys a *BORDERLINE-extend-to-5*
+    or a FAIL — neither authorizes NR-V04.
+  - **The n=3 round was never decisive.** A *perfectly accurate* method passes first-round only 9 % of the time at
+    the repo's own assumed replicate SD of 0.7 (50 % at SD 0.3, 20 % at 0.5, 4 % at 1.0). BORDERLINE-by-construction.
+  - **The gate admits the null.** `|mean − 0.944| ≤ 1.0` accepts mean = 0.0, so at n ≥ 5 a method predicting **no
+    cooperativity change** PASSES (verified: five replicates at +0.05 → PASS). Monte Carlo: PASS 22 % for μ=0 vs
+    23 % for a method that is exactly right. **A gate you can pass by predicting nothing cannot validate anything.**
+    ⚠ Recorded, deliberately **NOT applied** — amending a preregistered rule after a failing result needs an
+    explicit, dated, reviewer-approved defect-fix, not a quiet retune.
+  - **Two of three systematic-error detectors were never run; one *could not* run.** No reverse legs exist
+    (`antisymmetry_fwd_plus_rev_kcal: null` on all three), there is no redundant edge so no cycle closure, and the
+    reviewer's required change #1 (convergence analysis of the committed `.nc`) was **built but never wired to any
+    dispatch path** — while `_diagnostics_ok()` returns True when the report is *absent*, so the gate's "all
+    diagnostics pass" requirement was satisfied by never measuring it. Wired 2026-07-25; first execution then hit
+    two further blockers (missing `openfe`, needed to deserialize openmmtools' end thermodynamic states; and an
+    unguarded lazy `mbar` access that took the whole report down) — both fixed. **Replicates shrink precision, not
+    accuracy**, and a wrong sign 1.478 from target is a systematic signature.
+
+  **Recommended next steps (spend order):** (1) *free* — read out the now-working convergence analysis on r0's
+  three legs before buying anything; (2) *free* — route the admits-zero gate defect for approval; (3) *one
+  replicate's cost, strictly more informative than a replicate* — run the **reverse** ternary+binary legs and test
+  |ΔG_fwd + ΔG_rev|; (4) **the real decision** — rescope the calibrator to a **≳2 kcal/mol** signal, the same
+  margin this file already says a useful degradation window needs, via a multi-edge congeneric path (which also
+  finally supplies cycle closure) or the high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate
+  hops. Calibrating at 0.944 demands resolution the program does not need: this file's own mechanism-first revision
+  already demoted the marginal/induced-interface axis to "a confirmation tool operating near its limit." The
+  honest deliverable is a **measured resolution floor** for the ΔΔG_coop cycle, not a 23 %-odds PASS on a
+  benchmark a null method passes 22 % of the time.
+
   **As-run protocol (live leg log, run 30112102294, 2026-07-24 1:13 PM ET) — this is what the cost basis and the
   paper must describe, not the older 16-window/4 fs assumption:** `NWIN=12` λ-windows · `CHARGE_METHOD=nagl` ·
   `TIMESTEP_FS=2.0` (warmup 1.0 fs) · `TEMPLATE_PDB=8G1Q` · `PROVISIONING=standard` (GCP **L4 on-demand**).
