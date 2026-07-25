@@ -248,6 +248,14 @@ anchor positions inside the protein exactly as the search does — is an upper b
 linker — inside the 12-atom practical gate — with C420 opening at 14 and C559 at 20. So any term-(a)
 shortfall in this rung is about *where an E3 can dock*, not about the target's geometry.
 
+⚠ **The envelope is POSE-ENSEMBLE dependent, and a small ensemble reports a pessimistic bound.** The same
+E3-independent calculation returned **10 atoms** for C397 on a 6-pose ensemble and **14 atoms** on a 4-pose
+one, because the smaller ensemble simply did not sample an anchor as close to C397 (exit-anchor→SG spanned
+9.75–25.91 Å versus 16.07–25.91 Å). The bound is a **minimum over poses**, so more poses can only lower it:
+every quoted figure is an **upper bound on the true minimum**, and the 12-pose production run is the
+authoritative one. This is a sampling property of the ensemble, not a difference between recruiters — the
+envelope never sees the E3 at all.
+
 ### Term (b) is scored against a null, and the gate requires beating it
 
 Without a null, *"this basin's transfer zone covers K572"* is uninterpretable: if **any** linker-feasible,
@@ -315,6 +323,32 @@ NR4A3 surface *around K572 itself*.
   therefore an upper bound on how many basins genuinely carry the mechanism, and should be read as one.**
   A basin selected on `best_rank` alone would be a selection artifact; requiring it to beat the null is what
   keeps the count meaningful, and even then the count is optimistic.
+
+## 4c. Result (CRBN preview, 500 k placements × 4 poses) — GO on term (b) only, and more weakly
+
+| | VHL (backfill / **E3-choice sensitivity control**) | CRBN (Pareto front) |
+|---|---|---|
+| meta-basins | 19 | 21 |
+| exploiting **term (a)** at the 12-atom gate | **2** | **0** |
+| shortest C397 linker over basins | **9 atoms** | 15 atoms |
+| exploiting **term (b)** above the null | 12 | 12 |
+| enrichment over null (top basins) | 2.9–11.8× | **1.06–5.6×** |
+| background: any NR4A3 lysine covered | 0.35–0.49 | **0.81–0.96** |
+| top pose-surviving fraction | **6/6 = 1.00** | 3/4 = 0.75 |
+
+**Two things worth stating carefully.**
+
+1. **The E3-choice sensitivity control earned its place.** Term (a) is reachable at a 9–10-atom linker in the
+   VHL arm and **not at all** at the gate in the CRBN arm. On CRBN alone this rung would have concluded that
+   term (a) fails; the control shows it is **E3-dependent, not closed**. That is precisely what a controlled
+   variable is for. **It is not a CRBN-vs-VHL preference and must not be read as one** — the E3 lane reports
+   the two as tied on its own axes (margin 0.033 in open solid angle, one conformer each), VHL is a labelled
+   backfill, and the axis here is a different one entirely.
+2. **CRBN's null is much higher** (0.81–0.96 of placements cover *some* NR4A3 lysine, versus 0.35–0.49 for
+   VHL), because its observed transfer anchor sits only 12.9 Å from the ligand exit vector while VHL's sits
+   30.9 Å away. A high background is exactly the regime where term (b) discriminates least, and it shows: one
+   CRBN basin reaches rank 4 while scoring **below** background (0.82×) and is correctly **excluded** by the
+   gate. Without the null it would have been counted.
 
 ---
 
