@@ -336,6 +336,68 @@ def test_placements_respect_the_linker_restraint_and_never_clash():
         assert p["n_soft"] <= B.PARAMS["max_soft_clashes"]
 
 
+def test_assembly_copy_selection_picks_one_coherent_copy_not_both():
+    """THE BUG THIS ENCODES. 5T35 deposits TWO copies of VHL-EloB-EloC. Taking every chain annotated as one
+    of those three proteins gives a 'receptor body' that is literally two complexes with a void between them,
+    and it also lets the bridge pair VHL from one copy with Elongin C from the other — which is exactly what
+    drove the joint superposition RMSDs to 5.2-7.3 A and rejected every VHL scaffold candidate. Neither
+    symptom announces itself as a chain-selection problem."""
+    prot = []
+    for i in range(40):
+        prot.append({"name": "CA", "resname": "ALA", "chain": "A", "resid": i, "icode": " ",
+                     "xyz": (i * 1.0, 0.0, 0.0), "elem": "C"})
+        prot.append({"name": "CA", "resname": "ALA", "chain": "B", "resid": i, "icode": " ",
+                     "xyz": (i * 1.0, 4.0, 0.0), "elem": "C"})
+    for i in range(40):                                       # a second copy, 300 A away
+        prot.append({"name": "CA", "resname": "ALA", "chain": "C", "resid": i, "icode": " ",
+                     "xyz": (300.0 + i * 1.0, 0.0, 0.0), "elem": "C"})
+        prot.append({"name": "CA", "resname": "ALA", "chain": "D", "resid": i, "icode": " ",
+                     "xyz": (300.0 + i * 1.0, 4.0, 0.0), "elem": "C"})
+    sel, info = S.select_assembly_copy(prot, {"VHL": {"A", "C"}, "ELOC": {"B", "D"}})
+    assert sel is not None and info["ok"]
+    assert (sel["VHL"], sel["ELOC"]) in (("A", "B"), ("C", "D"))       # never A with D
+    assert info["n_contacting_pairs"] == 1
+
+
+def test_assembly_copy_selection_refuses_a_real_choice_but_flags_a_forced_one():
+    """Two different situations that must NOT be conflated. When there are several copies to choose between
+    and none is coherent, refusing is right. When there is only ONE chain combination available, refusing
+    gains nothing — there is no alternative to fall back to — so it is accepted and its incoherence is
+    FLAGGED instead of hidden."""
+    prot = []
+    for ch, x in (("A", 0.0), ("B", 500.0), ("C", 1000.0), ("D", 1500.0)):
+        for i in range(30):
+            prot.append({"name": "CA", "resname": "ALA", "chain": ch, "resid": i, "icode": " ",
+                         "xyz": (x + i, 0.0, 0.0), "elem": "C"})
+    sel, info = S.select_assembly_copy(prot, {"VHL": {"A", "C"}, "ELOC": {"B", "D"}})
+    assert sel is None and "mutually-contacting" in info["reason"]
+    forced, finfo = S.select_assembly_copy(prot, {"VHL": {"A"}, "ELOC": {"B"}})
+    assert forced == {"VHL": "A", "ELOC": "B"}
+    assert finfo["single_copy"] is True and finfo["coherent"] is False
+    assert "WARNING" in finfo["_note"]
+    lone, linfo = S.select_assembly_copy(prot, {"VHL": {"A"}})
+    assert lone == {"VHL": "A"} and linfo["coherent"] is True           # nothing to contact, trivially fine
+
+
+def test_zero_hit_search_is_an_answer_not_a_network_failure(monkeypatch):
+    """RCSB answers a zero-hit search with 204 No Content and an EMPTY BODY, which urllib treats as SUCCESS —
+    so it never reaches the HTTPError branch and json.loads('') raises. That made five legitimately-empty
+    'is there a VHL + E2 + ubiquitin structure?' probes each report 'POST failed after 4 tries', turning a
+    real negative answer into a fake infrastructure problem."""
+    class _Empty:
+        def read(self):
+            return b""
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+    monkeypatch.setattr(S.urllib.request, "urlopen", lambda *a, **k: _Empty())
+    assert S._post_json(S.SEARCH_URL, {"query": {}}) == {"result_set": []}
+    assert S.search_entries(["P40337", "P51668"]) == []
+
+
 def test_electrophile_reach_couples_the_two_tethers_through_one_contour_length():
     """The electrophile rides ON the linker, so reaching a cysteine and spanning to the E3 are paid for out of
     the SAME contour length. That coupling is what makes term (a) a real constraint rather than a free wish."""
@@ -349,3 +411,16 @@ def test_electrophile_reach_couples_the_two_tethers_through_one_contour_length()
     assert on["min_linker_atoms"] < off["min_linker_atoms"]
     assert off["detour_A"] > 40.0
     assert on["reachable"] is True and off["reachable"] is False
+
+
+def test_term_b_limb_requires_beating_the_null_not_merely_covering_a_unique_lysine():
+    """Without a null, 'this basin's transfer zone covers K572' is uninterpretable. If ANY linker-feasible,
+    clash-free placement covers a unique lysine at the same rate, the term carries no information and a
+    basin that scores well is just a placement that exists — so the gate requires the basin to EXCEED the
+    background rate, not merely to reach rank 3."""
+    at_background = _meta(term_b_rank=5)
+    at_background["term_b_exceeds_background"] = False
+    assert B.tier2_verdict([at_background], 1)["basis"] == "NONE"
+    above = _meta(term_b_rank=5)
+    above["term_b_exceeds_background"] = True
+    assert B.tier2_verdict([above], 1)["basis"] == "CATEGORICAL"

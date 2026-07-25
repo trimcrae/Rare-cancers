@@ -991,7 +991,37 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
             "accessibility_P_basin_given_linker": basin_accessibility(spans, params),
             "mean_contacts_nr4a3": round(sum(m["n_contact"] for m in sample) / len(sample), 1),
         })
-    return {"pose_id": pose["pose_id"], "stats": stats, "basins": basins}
+    # ---- THE NULL. Without it, "this basin's transfer zone covers K572" is uninterpretable: if ANY
+    # linker-feasible, clash-free placement covers a unique lysine at the same rate, the term has no
+    # discriminating power and a basin that scores well is just a placement that exists. The background is
+    # computed over the UNCLUSTERED accepted set — the same population the basins were drawn from, with the
+    # clustering step (the only thing that could enrich it) removed.
+    bg_n = min(len(placements), 200)
+    bg = [transfer_zone(m, ctx["lys_by_species"], rng, params) for m in placements[:bg_n]]
+    bg = [t for t in bg if t]
+    background = None
+    if bg:
+        cls = [classify_transfer(t["covered"], unique_lys_ids) for t in bg]
+        background = {
+            "n_placements_scored": len(bg),
+            "fraction_unique_covering": round(sum(1 for _, r in cls if r >= 3) / len(cls), 3),
+            "fraction_unique_and_paralogues_bare": round(sum(1 for _, r in cls if r >= 4) / len(cls), 3),
+            "fraction_any_nr4a3_lysine": round(sum(1 for _, r in cls if r >= 1) / len(cls), 3),
+            "_reading": "the rate at which ANY accepted (linker-feasible, clash-free, real-interface) "
+                        "placement covers a paralogue-unique lysine. A basin only carries term-(b) "
+                        "information insofar as it EXCEEDS this; a basin at the background rate is a "
+                        "placement that exists, not a mechanism.",
+        }
+        for b in basins:
+            tz = b.get("term_b_transfer_zone")
+            if tz:
+                tz["enrichment_over_background"] = (
+                    round(tz["fraction_members_unique_covering"] / background["fraction_unique_covering"], 2)
+                    if background["fraction_unique_covering"] > 0 else None)
+                tz["exceeds_background"] = (
+                    tz["fraction_members_unique_covering"] > background["fraction_unique_covering"])
+    return {"pose_id": pose["pose_id"], "stats": stats, "basins": basins,
+            "term_b_background_null": background}
 
 
 def marginalise_over_poses(per_pose, params=PARAMS):
@@ -1038,6 +1068,11 @@ def marginalise_over_poses(per_pose, params=PARAMS):
             "arm_id": rep["arm_id"],
             "interface_patch_uniprot": [r + UNIPROT_OFFSET for r in patch],
             "term_b_mean_fraction_unique_covering": round(sum(tz_fracs) / len(tz_fracs), 3) if tz_fracs else 0.0,
+            "term_b_exceeds_background": any(
+                (b["term_b_transfer_zone"] or {}).get("exceeds_background") for b in members),
+            "term_b_max_enrichment_over_background": max(
+                [(b["term_b_transfer_zone"] or {}).get("enrichment_over_background") or 0.0
+                 for b in members], default=0.0),
             "term_b_mean_fraction_paralogues_bare": round(sum(tz_bare) / len(tz_bare), 3) if tz_bare else 0.0,
             "n_poses_present": len(poses), "n_poses_total": n_poses,
             "pose_surviving_fraction": round(len(poses) / n_poses, 3),
@@ -1071,7 +1106,10 @@ def tier2_verdict(metas, per_arm_basins):
     """
     cat_a = [m for m in metas
              if any(v.get("max_fraction_reachable_at_gate", 0.0) > 0 for v in m["term_a_union"].values())]
-    cat_b = [m for m in metas if m["term_b_best_rank"] >= 3]
+    # Term (b) counts only where the basin BEATS the null. A basin whose transfer zone covers a unique lysine
+    # at the same rate as any linker-feasible placement carries no information, and letting it through would
+    # turn "a placement exists" into "a mechanism was found".
+    cat_b = [m for m in metas if m["term_b_best_rank"] >= 3 and m.get("term_b_exceeds_background", True)]
     nominal = [m for m in metas if m["stability_surrogate_nominal_delta_range"][1] > 0]
     exploits_categorical = bool(cat_a or cat_b)
     discriminates_nominally = bool(nominal)

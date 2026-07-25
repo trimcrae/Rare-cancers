@@ -245,10 +245,17 @@ def _post_json(url, payload, tries=4, timeout=60):
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return json.loads(r.read())
         except urllib.error.HTTPError as e:
-            if e.code == 204:                       # RCSB returns 204 for "no hits"
+            if e.code == 204:
                 return {"result_set": []}
             last = e
             time.sleep(1.5 * (2 ** i))
+        except json.JSONDecodeError:
+            # RCSB answers a ZERO-HIT search with 204 No Content and an EMPTY BODY, which urllib treats as
+            # success — so it never reaches the HTTPError branch above and json.loads('') raises. That made
+            # every legitimately-empty search look like four failed network calls: the VHL arm's
+            # intact-assembly probes reported "POST failed after 4 tries" for five different E2s when the
+            # true answer was simply "no such structure exists". An empty body IS the answer.
+            return {"result_set": []}
         except Exception as e:                      # noqa: BLE001
             last = e
             time.sleep(1.5 * (2 ** i))
@@ -440,6 +447,96 @@ def pick_ligand(prot_atoms, het_atoms, body_chains):
     }
 
 
+def _chain_atoms(prot, chain):
+    return [a["xyz"] for a in prot if a["chain"] == chain]
+
+
+def _chains_touch(prot, c1, c2, cutoff=6.0):
+    """Do two chains form an interface? Grid-based, so it is cheap enough to run over every candidate pair."""
+    a1 = _chain_atoms(prot, c1)
+    a2 = _chain_atoms(prot, c2)
+    if not a1 or not a2:
+        return False
+    f = G.SquaredDistanceField(a1, cell=1.5, clamp=8.0)
+    return sum(1 for p in a2 if f.min_dist(p) <= cutoff) >= 10
+
+
+def select_assembly_copy(prot, chains_by_protein, log=None, max_combos=64):
+    """Pick ONE spatially coherent copy of a multi-protein complex from an asymmetric unit that may hold several.
+
+    THE BUG THIS EXISTS TO KILL. 5T35 deposits **two** copies of VHL-EloB-EloC (chains B,C,D and F,G,H). Taking
+    "every chain annotated as VHL, Elongin B or Elongin C" as the receptor body gives a rigid body that is
+    literally two complexes, roughly twice the real size, with a void between them — and every clash test,
+    contact count and interface score computed on it would be meaningless. The same defect corrupts the
+    bridge: pairing VHL from one copy with Elongin C from the other produced joint superposition RMSDs of
+    5.2-7.3 A over 124-237 CA, which is why every VHL scaffold candidate was rejected while the earlier
+    single-protein bridge had succeeded at 1.38 A. Neither symptom announces itself as a chain-selection
+    problem.
+
+    Derived, not assumed (TESTING.md rule 1): enumerate one chain per protein, keep the combinations whose
+    chains MUTUALLY CONTACT, and rank by total contact so the tightest genuine copy wins. Refuses rather than
+    guessing if the enumeration is too large or nothing is coherent.
+    """
+    proteins = sorted(chains_by_protein)
+    lists = [sorted(chains_by_protein[p]) for p in proteins]
+    n = 1
+    for l in lists:
+        n *= max(1, len(l))
+    if n > max_combos:
+        return None, {"ok": False, "reason": f"{n} chain combinations exceeds the {max_combos} cap"}
+    if n == 1:
+        # Nothing to SELECT — but coherence is still worth measuring and reporting, because a "single copy"
+        # whose subunits do not touch is a fact about the entry the caller should see. Refusing here would be
+        # wrong (there is no alternative to fall back to); hiding it would be worse.
+        only = {p: lists[i][0] for i, p in enumerate(proteins)}
+        chs = list(only.values())
+        pairs = sum(1 for i in range(len(chs)) for j in range(i + 1, len(chs))
+                    if _chains_touch(prot, chs[i], chs[j]))
+        expected = len(chs) * (len(chs) - 1) // 2
+        return only, {"ok": True, "n_combinations": 1, "single_copy": True,
+                      "n_contacting_pairs": pairs, "coherent": pairs == expected,
+                      "_note": ("the only chain combination available; accepted, with its coherence reported"
+                                if pairs == expected else
+                                "WARNING: the only chain combination available and its subunits do NOT all "
+                                "contact each other — accepted because there is no alternative, flagged "
+                                "because it may not be one assembled complex")}
+
+    def combos(idx=0, cur=None):
+        cur = cur or {}
+        if idx == len(proteins):
+            yield dict(cur)
+            return
+        for c in lists[idx]:
+            cur[proteins[idx]] = c
+            yield from combos(idx + 1, cur)
+
+    best, best_score, checked = None, -1, 0
+    for combo in combos():
+        chs = list(combo.values())
+        if len(set(chs)) != len(chs):
+            continue
+        checked += 1
+        score = 0
+        coherent = True
+        for i in range(len(chs)):
+            for j in range(i + 1, len(chs)):
+                if _chains_touch(prot, chs[i], chs[j]):
+                    score += 1
+                else:
+                    coherent = False
+        if coherent and score > best_score:
+            best, best_score = combo, score
+    if best is None:
+        return None, {"ok": False, "reason": f"no mutually-contacting chain combination among {checked}"}
+    info = {"ok": True, "n_combinations_checked": checked, "selected": best,
+            "n_contacting_pairs": best_score,
+            "_note": "one spatially coherent copy selected from an asymmetric unit that may hold several"}
+    if log:
+        log(f"[e3stage]   assembly copy selected: {best} ({best_score} contacting chain pairs "
+            f"out of {checked} combinations)")
+    return best, info
+
+
 def bridge_into_frame(src_prot, src_chain_map, dst_prot, dst_chain_map, max_rmsd=4.0, min_ca=30):
     """Superpose `src` onto `dst` using the CA atoms of EVERY shared bridge protein AT ONCE.
 
@@ -521,9 +618,14 @@ def stage_arm(arm_id, spec, out_dir, log):
             rec["rejected"].append({"pdb": pdb, "role": "receptor", "reason": str(e)})
             continue
         prot, het = parse_pdb_text(text)
-        body_chains = set()
-        for n in spec["receptor_body"]:
-            body_chains.update(comp["chains_by_accession"].get(ACC[n], []))
+        cbp = {n: set(comp["chains_by_accession"].get(ACC[n], [])) for n in spec["receptor_body"]}
+        cbp = {k: v for k, v in cbp.items() if v}
+        copy_sel, copy_info = select_assembly_copy(prot, cbp, log)
+        if copy_sel is None:
+            rec["rejected"].append({"pdb": pdb, "role": "receptor",
+                                    "reason": "assembly-copy selection: " + copy_info["reason"]})
+            continue
+        body_chains = set(copy_sel.values())
         lig = pick_ligand(prot, het, body_chains)
         if lig is None:
             rec["rejected"].append({"pdb": pdb, "role": "receptor",
@@ -540,6 +642,8 @@ def stage_arm(arm_id, spec, out_dir, log):
         f"chains {sorted(body_chains)} ligand {lig['het_code']} n_heavy={lig['n_heavy']} "
         f"exit atom {lig['exit_atom_name']} exposure {lig['exit_atom_dist_to_receptor_A']} A")
     rec["provenance"]["receptor_entry"] = comp
+    rec["assembly_copy"] = {"selected_chains": copy_sel, "selection": copy_info}
+    rec["_receptor_copy_chains"] = copy_sel
 
     body_atoms = [a for a in prot if a["chain"] in body_chains]
     body_path = os.path.join(out_dir, f"{arm_id}-receptor.pdb")
@@ -556,7 +660,7 @@ def stage_arm(arm_id, spec, out_dir, log):
     # geometry straight out of it rather than composing a RING from two unrelated entries.
     intact = None
     try:
-        intact = stage_intact_assembly(arm_id, spec, comp, prot, log)
+        intact = stage_intact_assembly(arm_id, spec, comp, prot, log, recep_copy=copy_sel)
     except Exception as e:                                              # noqa: BLE001
         log(f"[e3stage] {arm_id}: intact-assembly staging failed: {e}")
     rec["intact_assembly"] = intact
@@ -598,13 +702,17 @@ def stage_arm(arm_id, spec, out_dir, log):
             rec["rejected"].append({"pdb": spdb, "role": "scaffold", "reason": str(e)})
             continue
         sprot, _ = parse_pdb_text(stext)
+        src_cbp = {b: set(scomp["chains_by_accession"].get(ACC[b], [])) for b in spec["bridge"]}
+        src_cbp = {k: v for k, v in src_cbp.items() if v}
+        src_sel, src_info = select_assembly_copy(sprot, src_cbp, log)
         src_map, dst_map = {}, {}
         for bname in spec["bridge"]:
-            src_ch = set(scomp["chains_by_accession"].get(ACC[bname], []))
-            dst_ch = set(comp["chains_by_accession"].get(ACC[bname], []))
-            if src_ch and dst_ch:
-                src_map[bname] = src_ch
-                dst_map[bname] = dst_ch
+            sc = {src_sel[bname]} if (src_sel and bname in src_sel) else set(
+                scomp["chains_by_accession"].get(ACC[bname], []))
+            dc = {copy_sel[bname]} if bname in copy_sel else set()
+            if sc and dc:
+                src_map[bname] = sc
+                dst_map[bname] = dc
         if not src_map:
             rec["rejected"].append({"pdb": spdb, "role": "scaffold", "reason": "no shared bridge protein"})
             continue
@@ -789,7 +897,7 @@ def stage_e2_geometry(log):
     return None
 
 
-def stage_intact_assembly(arm_id, spec, recep_comp, recep_prot, log):
+def stage_intact_assembly(arm_id, spec, recep_comp, recep_prot, log, recep_copy=None):
     """Find a SOLVED, INTACT ubiquitylation assembly for this recruiter and read the transfer geometry
     straight out of it, instead of composing the RING from two unrelated entries.
 
@@ -842,12 +950,17 @@ def stage_intact_assembly(arm_id, spec, recep_comp, recep_prot, log):
                     continue
                 ranked = sorted(((min(G.dist(a["xyz"], u) for u in ub_ct), a) for a in sgs), key=lambda t: t[0])
                 d_ub, cat = ranked[0]
+                acbp = {b: set(comp["chains_by_accession"].get(ACC[b], [])) for b in obligate}
+                acbp = {k: v for k, v in acbp.items() if v}
+                asel, _ainfo = select_assembly_copy(aprot, acbp)
                 src_map, dst_map = {}, {}
                 for bname in obligate:
-                    s = set(comp["chains_by_accession"].get(ACC[bname], []))
-                    d = set(recep_comp["chains_by_accession"].get(ACC[bname], []))
-                    if s and d:
-                        src_map[bname], dst_map[bname] = s, d
+                    sc = {asel[bname]} if (asel and bname in asel) else set(
+                        comp["chains_by_accession"].get(ACC[bname], []))
+                    dc = ({recep_copy[bname]} if (recep_copy and bname in recep_copy)
+                          else set(recep_comp["chains_by_accession"].get(ACC[bname], [])))
+                    if sc and dc:
+                        src_map[bname], dst_map[bname] = sc, dc
                 if not src_map:
                     continue
                 tr, binfo = bridge_into_frame(aprot, src_map, recep_prot, dst_map)
@@ -909,9 +1022,11 @@ def validate_composition_against_solved_assembly(arms, e2, log):
         spec = ARMS[aid]
         recep = (rec.get("provenance") or {}).get("receptor_entry", {})
         src_map, dst_map = {}, {}
+        sel = rec.get("_receptor_copy_chains") or {}
         for bname in spec["bridge"]:
             s = set(info["chains_by_accession"].get(ACC[bname], []))
-            d = set((recep.get("chains_by_accession") or {}).get(ACC[bname], []))
+            d = ({sel[bname]} if bname in sel
+                 else set((recep.get("chains_by_accession") or {}).get(ACC[bname], [])))
             if s and d:
                 src_map[bname], dst_map[bname] = s, d
         if not src_map:
