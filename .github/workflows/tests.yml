@@ -39,4 +39,9 @@ jobs:
       # markers move rather than passing against a stale copy.
       - name: Watchdog progress-census logic (direction / warmup-dt / base-10 / -e survival)
         run: bash research/modalities/tests/test_watchdog_census.sh
+      # The spot commit prefix must carry the direction. A rev leg that resumes the FORWARD trajectory reports
+      # forward sampling as reverse -- and on 2026-07-25 it did, because DIRSUF was assigned in the VM's shell
+      # and read in the runner's. Only OpenFE's particle-count check stopped it becoming a published number.
+      - name: Spot commit prefix carries the direction (no silent fwd/rev resume)
+        run: bash research/modalities/tests/test_commit_prefix_direction.sh
       - run: python -m pytest research/modalities/tests -q

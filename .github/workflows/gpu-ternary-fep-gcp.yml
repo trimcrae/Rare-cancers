@@ -470,6 +470,36 @@ jobs:
           RESULTS="gs://$BUCKET/valB-6hax/results"
           echo "image=$IMG_FAMILY mode=$MODE leg=$LEG_ID seed=$SEED ref=$GITREF"
 
+          # ===== SPOT COMMIT PREFIX — computed HERE, in the RUNNER, deliberately =====
+          # This used to be computed inside the `<<SS` heredoc below, and that was a SILENT WRONG-ANSWER BUG.
+          # `<<SS` is UNQUOTED, so unescaped $VAR is expanded by the runner while \$VAR survives to the VM. The
+          # old code assigned `DIRSUF` with unescaped $DIRECTION (so the assignment text was written into the
+          # script and executed ON THE VM) but consumed `${DIRSUF}` unescaped too (so the RUNNER expanded it,
+          # where DIRSUF had never been assigned -> empty). The variable was set in one shell and read in
+          # another, and the direction suffix vanished from the prefix with no error anywhere.
+          #
+          # CONSEQUENCE, observed 2026-07-25 1:41 PM ET: the rev leg restored the FORWARD leg's committed
+          # production trajectory at iteration 2000. It only failed because the fwd and rev hybrid Systems have
+          # different particle counts, so OpenFE's assert_multistate_system_equality caught it
+          # ("Stored checkpoint System particles do not match those of the simulated System"). Had the counts
+          # matched, the rev leg would have RESUMED FORWARD SAMPLING AND REPORTED IT AS REVERSE.
+          #
+          # Every other prefix component (SEED, TIMESTEP_FS, CONSTRAIN_LIG, WARMUP_TS, SALT) is a runner-level
+          # env: var, which is exactly why DIRSUF was the only one that silently disappeared. So compute the
+          # whole prefix runner-side, keep NOTHING about it deferred to the VM's shell, and pass the finished
+          # literal in. The generated startup script then carries the real prefix, auditable by reading it.
+          DIRSUF=""; [ "$DIRECTION" != fwd ] && DIRSUF="_dir$DIRECTION"
+          COMMIT_PREFIX="gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT}${DIRSUF}"
+          # ASSERT the direction survived into the prefix, and do it BEFORE provisioning a GPU. This is the check
+          # whose absence let the bug above ship: the fix "looked right" and nothing ever verified the result.
+          if [ "$DIRECTION" != fwd ]; then
+            case "$COMMIT_PREFIX" in
+              *_dir"$DIRECTION") : ;;
+              *) echo "::error title=COMMIT PREFIX LOST THE DIRECTION::direction=$DIRECTION but the commit prefix is '$COMMIT_PREFIX' — it does not end in _dir$DIRECTION. A leg started now would RESUME THE WRONG DIRECTION'S trajectory. Refusing to provision."; exit 1 ;;
+            esac
+          fi
+          echo "spot commit prefix (FULL, direction-verified): $COMMIT_PREFIX"
+
           cat > /tmp/startup.sh <<SS
           #!/bin/bash
           exec > >(tee /var/log/tfep.log) 2>&1
@@ -641,11 +671,16 @@ jobs:
           # FORWARD committed sampling and reported it as a reverse leg — a silent wrong answer of exactly the
           # kind this lane has produced before. Suffix only when direction != fwd, so every existing fwd
           # prefix stays byte-identical and keeps resuming.
-          DIRSUF=""; [ "$DIRECTION" != fwd ] && DIRSUF="_dir$DIRECTION"
+          # The prefix is computed and direction-verified in the RUNNER above (see the long note there) and
+          # interpolated here as a finished literal. Do NOT reintroduce a shell assignment for any part of it:
+          # a variable assigned on the VM cannot be read by the runner's expansion, which is the bug that made
+          # a rev leg restore the fwd trajectory.
           COMMIT_ENV=""
           if [ "\$TMODE" = run ]; then
-            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT}${DIRSUF} RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
-            echo "spot-safe commit store: gs://$BUCKET/valB-6hax/commits/$LEG_ID/$SEED"
+            COMMIT_ENV="RBFE_SPOT_COMMIT_GCS=$COMMIT_PREFIX RBFE_WARMUP_CKPT_ITERS=8 RBFE_PROD_CKPT_ITERS=40 RBFE_SETUP_CACHE_GCS=gs://$BUCKET/valB-6hax/setupcache"
+            # echo the FULL prefix. The old echo stopped at \$SEED and so never showed the suffix -- it was
+            # true but useless, and the missing direction was only visible in the Python's own log line.
+            echo "spot-safe commit store: $COMMIT_PREFIX"
           fi
           echo "--- ternary-FEP TMODE=\$TMODE leg=$LEG_ID seed=$SEED ---"
           ( cd \$WORK && env MODE=\$TMODE LEG_ID=$LEG_ID SEED=$SEED DIRECTION=$DIRECTION N_WINDOWS=$NWIN \
