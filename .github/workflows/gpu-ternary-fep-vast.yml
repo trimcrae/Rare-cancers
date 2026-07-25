@@ -1,0 +1,219 @@
+name: Ternary cooperativity FEP — Vast lane (RUNG 2b, 4 fs)
+
+# The ternary lane on VAST, per trimcrae's 2026-07-25 directive that all production GPU runs go on Vast.
+# Before this, the ternary FEP could only run on GCP L4 (1-GPU quota, another session's lane) or on a
+# script-shaped Vast path with no checkpoint/resume, no cache and no reap. Engine: research/modalities/
+# ternary_vast_launch.py; recipe: run_ternary_leg.sh (single source of truth — never re-implemented here).
+#
+# IMAGE: docker.io/triskit23/ternary-fep (research/compute/Dockerfile.ternaryfep). PULL, DO NOT SOLVE — the
+# image's mamba spec is byte-for-byte the one the GCP ternary lane builds on the fly, so it is the *correct*
+# environment, not merely the fast one: analysing an OpenFE trajectory with a different pymbar/openmmtools
+# than PRODUCED it can move the MBAR numbers.
+#
+# THE LADDER (cheapest-decisive-first; nothing auto-fires):
+#   test    -> $0.    Pure-logic unit tests for the launcher. Runs on every push to the lane's files.
+#   dry-run -> $0.    Print the exact JobSpec that WOULD be rented (env, image, caps). No rental.
+#   smoke   -> ~$0.15 One instance, 8 warmup + 12 production iterations: proves image + repo pull + stage +
+#                     pre-equil + setup + commit store + upload end to end before a real leg is paid for.
+#   probe   -> ~$1-2  RUNG 2b STAGE 1. 48 warmup @1 fs -> 200 production @4 fs. The survival question:
+#                     does 4 fs hold well past the 40 iterations the runbook demonstrated? A NO here costs
+#                     ~$1-2 instead of a full edge.
+#   edge    -> ~$4-6  RUNG 2b STAGE 2, only on a passing probe. The full matched re-calibration edge:
+#                     ternary + binary + solvent at full science length, fanned out 3-wide.
+#   collect -> $0.    Status board + PROGRESS check (committed iteration, not liveness) + anti-idle reap.
+#   stop    -> $0.    Destroy every tvast-* instance.
+#
+# DISPATCHING BEFORE THIS FILE IS ON main. A brand-new `workflow_dispatch` workflow 404s until it reaches
+# the default branch, but a `push` trigger runs from the pushed branch with no such dependency. So the task
+# can also be given in the COMMIT MESSAGE as a `[tvast:<task>]` marker, which is how this lane was
+# bootstrapped and validated on a feature branch. Once the file is on main, use workflow_dispatch.
+
+on:
+  push:
+    branches:
+      - main
+      - claude/max-effort-2dq11l-4fs
+    paths:
+      - research/modalities/ternary_vast_launch.py
+      - research/modalities/ternary_vast_watchdog.py
+      - research/modalities/run_ternary_leg.sh
+      - research/modalities/tests/test_ternary_vast_launch.py
+      - .github/workflows/gpu-ternary-fep-vast.yml
+  workflow_dispatch:
+    inputs:
+      task:
+        description: test | dry-run | smoke | probe | edge | collect | stop
+        type: choice
+        options: [test, dry-run, smoke, probe, edge, collect, stop]
+        default: test
+      timestep_fs:
+        description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
+        type: string
+        default: ""
+      warmup_timestep_fs:
+        description: "warmup/equilibration timestep in fs (blank = 1.0). Equilibration is DISCARDED, so this never enters dG."
+        type: string
+        default: ""
+      vast_image:
+        description: "override the image (blank = docker.io/triskit23/ternary-fep:latest)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  # Serialise this lane's control plane. Two concurrent submits can put two instances on one unit, which
+  # write the same S3 keys, do the same work and bill twice.
+  group: ternary-vast-lane
+  cancel-in-progress: false
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      task: ${{ steps.pick.outputs.task }}
+    steps:
+      - id: pick
+        env:
+          DISPATCH_TASK: ${{ github.event.inputs.task }}
+          MSG: ${{ github.event.head_commit.message }}
+        run: |
+          set -eo pipefail
+          # Precedence: explicit dispatch input > a [tvast:<task>] marker in the pushed commit message >
+          # `test` (free). The default is deliberately the $0 one: a push must never be able to rent a GPU
+          # by accident, which is the spend-gated ladder's first rule.
+          TASK="${DISPATCH_TASK:-}"
+          if [ -z "$TASK" ]; then
+            TASK=$(printf '%s' "$MSG" | grep -oE '\[tvast:[a-z-]+\]' | head -1 | sed 's/\[tvast://; s/\]//')
+          fi
+          case "${TASK:-test}" in
+            test|dry-run|smoke|probe|edge|collect|stop) TASK="${TASK:-test}" ;;
+            *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
+          esac
+          echo "task=$TASK" >> "$GITHUB_OUTPUT"
+          echo "::notice title=TVAST task::$TASK"
+
+  # ------------------------------------------------------------------ free: pure logic
+  test:
+    needs: resolve
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Unit tests (identity round-trip, prefix keying, cost arithmetic)
+        run: |
+          set -eo pipefail
+          python -m pip install -q pytest
+          python -m pytest research/modalities/tests/test_ternary_vast_launch.py \
+                           research/modalities/tests/test_ternary_vast_watchdog.py -q
+
+  dry-run:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == 'dry-run' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Print the JobSpec that would be rented
+        env:
+          GIT_BRANCH: ${{ github.ref_name }}
+          TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
+          TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_vast_launch.py --mode probe --dry-run
+          python research/modalities/ternary_vast_launch.py --mode edge --dry-run | head -5
+
+  # ------------------------------------------------------------------ paid: rent hosts
+  launch:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == 'smoke' || needs.resolve.outputs.task == 'probe' || needs.resolve.outputs.task == 'edge' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+      TVAST_IMAGE: ${{ github.event.inputs.vast_image }}
+      TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
+      TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Rent one host per unit
+        run: |
+          set -eo pipefail
+          # boto3 is REQUIRED, not optional: the launcher lists S3 to skip units that are already done
+          # BEFORE renting anything. Without it the skip list is empty and every unit is rented again.
+          python -m pip install -q boto3
+          python research/modalities/ternary_vast_launch.py --mode "${{ needs.resolve.outputs.task }}"
+          echo "::notice title=TVAST launched::task=${{ needs.resolve.outputs.task }} — poll with task=collect."
+      - name: Arm the session-independent watchdog for this task
+        # The watch list is the ONLY input the cron watchdog reads, so a launch that does not register its
+        # units is a launch nobody is watching. Committed to the branch so it survives this runner.
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_vast_watchdog.py --arm "${{ needs.resolve.outputs.task }}"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/ternary-vast-watch.json
+          if ! git diff --cached --quiet -- research/modalities/ternary-vast-watch.json; then
+            git commit -m "tvast: arm the watchdog for ${{ needs.resolve.outputs.task }}"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}"
+          else
+            echo "watch list already current"
+          fi
+
+  # ------------------------------------------------------------------ free: monitor + reap
+  collect:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'collect' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Status board + progress check + anti-idle reap
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          python research/modalities/ternary_vast_launch.py --collect 2>&1 | tee /tmp/board.txt
+      - name: Summary LAST
+        # A CI log is read from its TAIL, so whatever a monitor needs must be the last thing printed.
+        run: |
+          set -eo pipefail
+          echo "================ TVAST BOARD ================"
+          cat /tmp/board.txt
+
+  stop:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'stop' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Destroy every tvast-* instance (anti-idle backstop)
+        run: python research/modalities/ternary_vast_launch.py --stop
