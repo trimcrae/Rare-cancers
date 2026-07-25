@@ -44,6 +44,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import protfep_bench as bench  # noqa: E402
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
+# The measured-throughput helpers behind the 2026-07-24 $/ns selection work. Imported rather than
+# re-derived so this lane's bid ceiling and the launcher's offer ranking can never disagree about
+# what a card is worth — a second copy of the table is a second thing to forget to update.
+from gpu_backend import (  # noqa: E402
+    _vast_offer_query as gb_vast_offer_query,
+    measured_ns_per_day as gb_measured_ns_per_day,
+    offer_usd_per_ns as gb_offer_usd_per_ns,
+)
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
 # NOTE THE `or`, NOT `os.environ.get(key, default)`. CI passes optional workflow inputs as EMPTY
@@ -602,6 +610,117 @@ def collect(bucket=None, prefix=None, autostop=True):
     return n_up, len(done)
 
 
+def value_ceiling_bid(gpu_name, best_alt_usd_per_ns):
+    """Highest $/hr at which THIS card still beats the best alternative on cost per ns of MD. Pure.
+
+    This is the merged $/ns work applied to the bid rather than only to the offer choice. Selection
+    already ranks hosts by `offer_usd_per_ns` — cost per unit of finished work, which is what actually
+    decides spend — but the BID is then set by a fixed `min_bid x VAST_BID_FLOOR_MULT`, a constant that
+    knows nothing about the card it is bidding on. So a slow card can be bid up past the point where a
+    faster one would have been cheaper per ns, and nothing notices.
+
+    The ceiling closes that: bid up to, but never past, the price at which we would rather have rented
+    something else. Returns None for a card with no measured throughput — the same refusal
+    `measured_ns_per_day` makes, because inventing a proxy throughput is what produced the retracted
+    2026-07-24 rankings.
+    """
+    ns_per_day = gb_measured_ns_per_day(gpu_name)
+    if not ns_per_day or not best_alt_usd_per_ns:
+        return None
+    return float(best_alt_usd_per_ns) * (ns_per_day / 24.0)
+
+
+def best_alternative_usd_per_ns(offers, exclude_machine_id=None):
+    """Cheapest $/ns available from any OTHER machine in this offer list. Pure.
+
+    "Other" matters: an instance compared against its own machine's offer would price itself as its own
+    alternative and the ceiling would collapse to the current bid.
+    """
+    best = None
+    for o in offers:
+        if exclude_machine_id is not None and str(o.get("machine_id")) == str(exclude_machine_id):
+            continue
+        if o.get("rentable") is False or int(o.get("num_gpus", 1) or 1) != 1:
+            continue
+        floor = o.get("min_bid")
+        if floor is None:
+            continue
+        upn = gb_offer_usd_per_ns(o.get("gpu_name"), floor)
+        if upn is not None and (best is None or upn < best):
+            best = upn
+    return best
+
+
+def rebid(mult=None, dry_run=False):
+    """Raise the bid on this lane's non-running instances, bounded by measured $/ns value.
+
+    WHY THIS EXISTS. A Vast interruptible instance that cannot get a GPU answers a start with
+    `{"success": false, "error": "resources_unavailable", ...}` and waits. Waiting is usually right and
+    costs storage only. But when the wait is an AUCTION — someone else is paying more for that card —
+    waiting is indefinite and the fix is to bid more, not to wait longer or to re-rent elsewhere.
+
+    The question a fixed multiple cannot answer is how much more is still worth paying. This one can:
+    bid up to the point where this card's cost per ns of finished MD equals the best alternative on the
+    market right now, and no further. Past that ceiling we should be renting the other machine instead,
+    which is precisely what `_select_cheapest_offer` would do on the next launch.
+
+    Changing the bid in place beats destroy-and-relaunch: it keeps the instance, its disk and its place
+    in the queue, and costs one API call.
+    """
+    key = os.environ["VAST_API_KEY"]
+    target_mult = float(mult if mult is not None else os.environ.get("PROTFEP_REBID_MULT") or "1.9")
+    insts = _vast_request("GET", "/instances/", key).get("instances", [])
+    mine = [i for i in insts if (i.get("label") or "").startswith(LABEL_PREFIX)]
+    if not mine:
+        print("[rebid] no instances on this lane")
+        return 0
+    offers = []
+    try:
+        q = gb_vast_offer_query(RES)
+        offers = _vast_request("GET", "/search/asks/", key,
+                               params={"q": json.dumps(q)}).get("offers", [])
+    except Exception as e:  # noqa: BLE001 — without a market we simply have no ceiling; say so
+        print(f"[rebid] could not fetch offers ({type(e).__name__}: {e}); no value ceiling available")
+
+    n = 0
+    for i in mine:
+        iid, gpu = i.get("id"), i.get("gpu_name")
+        if i.get("actual_status") == "running" and i.get("cur_state") == "running":
+            print(f"[rebid] {iid} ({gpu}) already running — left alone")
+            continue
+        floor = i.get("min_bid")
+        if floor is None:
+            print(f"[rebid] {iid}: no min_bid reported, skipping")
+            continue
+        floor = float(floor)
+        wanted = floor * target_mult
+        alt = best_alternative_usd_per_ns(offers, exclude_machine_id=i.get("machine_id"))
+        ceiling = value_ceiling_bid(gpu, alt)
+        # The on-demand price of the same machine remains a hard cap: paying more than simply buying
+        # the box outright, while STILL being preemptible, is strictly dominated.
+        od = i.get("dph_base_ondemand") or None
+        bid = wanted
+        why = f"{target_mult:g}x floor"
+        if ceiling is not None and ceiling < bid:
+            bid, why = ceiling, f"value ceiling vs best alternative ${alt:.6f}/ns"
+        if od and float(od) < bid:
+            bid, why = float(od), "on-demand cap"
+        bid = round(max(bid, floor), 4)
+        cur = gb_offer_usd_per_ns(gpu, bid)
+        print(f"[rebid] {iid} ({gpu}) floor ${floor:.4f} -> bid ${bid:.4f} ({why})"
+              + (f"; ${cur:.6f}/ns" if cur else "; $/ns unknown for this card"))
+        if dry_run:
+            continue
+        try:
+            resp = _vast_request("PUT", f"/instances/bid_price/{iid}/", key,
+                                 body={"client_id": "me", "price": bid})
+            print(f"          vast replied {str(resp)[:200]}")
+            n += 1
+        except Exception as e:  # noqa: BLE001
+            print(f"          rebid failed: {e}")
+    return n
+
+
 def stop_all():
     """Destroy every instance of this lane (anti-idle backstop)."""
     key = os.environ["VAST_API_KEY"]
@@ -626,9 +745,14 @@ def main(argv=None):
     ap.add_argument("--n-replicas", type=int, default=int(os.environ.get("PROTFEP_N_REPLICAS", "3")))
     ap.add_argument("--collect", action="store_true")
     ap.add_argument("--stop", action="store_true")
+    ap.add_argument("--rebid", action="store_true",
+                    help="raise the bid on non-running lane instances, bounded by measured $/ns value")
+    ap.add_argument("--rebid-mult", type=float, default=None)
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args(argv)
-    if args.stop:
+    if args.rebid:
+        rebid(mult=args.rebid_mult, dry_run=args.dry_run)
+    elif args.stop:
         stop_all()
     elif args.collect:
         collect()
