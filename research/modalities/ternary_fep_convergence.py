@@ -491,6 +491,29 @@ def _structural(reporter, nc_path):
             subN = reporter.read_sampler_states(iteration=last_ckpt, analysis_particles_only=True)
             a = np.asarray(sub[0].positions.value_in_unit(sub[0].positions.unit))
             b = np.asarray(subN[0].positions.value_in_unit(subN[0].positions.unit))
+
+            # MINIMUM IMAGE FIRST — the stored positions are WRAPPED, so part of the solute sits on the far side
+            # of the box and its raw displacement is a lattice vector, not motion. Measured on r0's ternary leg
+            # (run 30157135654): p50 2.52 Å, p90 6.03 Å, but p99 90.84 Å and max 135.49 Å against a 126.30 Å box
+            # edge, with exactly 2.0 % of atoms beyond half a box. sqrt(0.02*100^2 + 0.98*3^2) ~= 14.4 Å recovers
+            # the 14.97 Å that was reported, so the whole apparent rearrangement WAS that wrapped 2 % tail. Undo
+            # the wrap before superposing and the number measures structure again.
+            box = None
+            try:
+                bv = subN[0].box_vectors
+                M = np.asarray([[bv[i][j].value_in_unit(bv.unit) for j in range(3)] for i in range(3)])
+                off = float(np.abs(M - np.diag(np.diag(M))).max())
+                if off <= 1e-6:                       # orthorhombic: componentwise min-image is exact
+                    box = np.diag(M).astype(float)
+            except Exception:  # noqa: BLE001
+                box = None
+            unwrapped = False
+            if box is not None and np.all(box > 0):
+                d = b - a
+                d -= box * np.round(d / box)          # wrap each displacement into [-L/2, L/2]
+                b = a + d
+                unwrapped = True
+
             # Kabsch: remove translation, then the optimal rotation — so the number reports internal/pose change
             # rather than the whole complex tumbling and drifting through the box.
             ac, bc = a - a.mean(0), b - b.mean(0)
@@ -514,18 +537,20 @@ def _structural(reporter, nc_path):
             # a box edge and leaves most atoms small, whereas real rearrangement moves atoms continuously. So emit
             # the percentiles and the box edge and let the next reader decide on data.
             pct = {("p%d" % p): float(np.percentile(disp, p)) for p in (50, 90, 99)}
-            box_nm = None
-            try:
-                bv = subN[0].box_vectors
-                box_nm = float(max(bv[i][i].value_in_unit(bv.unit) for i in range(3))) * 10.0
-            except Exception:  # noqa: BLE001
-                pass
+            box_nm = (float(box.max()) * 10.0) if box is not None else None
             frac_beyond_half_box = (float((disp > (box_nm / 2.0)).mean()) if box_nm else None)
-            return {"status": "solute-subset superposed RMSD — INFORMATIONAL, not comparable to LIG_RMSD_MAX_A "
-                              "(subset is %d of %d atoms = the whole solute, not the ligand). See H1/H2 note; "
-                              "the displacement percentiles discriminate real rearrangement from PBC wrapping."
-                              % (n_idx, n_all),
+            # Only judge it against the threshold once the wrap is actually undone. Even then this is the SOLUTE
+            # subset (protein assembly + PROTAC), not the ligand alone — so it is a structural-stability measure,
+            # a legitimate escape/collapse detector, but not the ligand-pose RMSD the prereg names. Report which
+            # it is; leave the pose flag unmeasured until the ligand atom indices come from the hybrid topology.
+            return {"status": ("ok (minimum-image-corrected, superposed RMSD over the solute subset — %d of %d "
+                               "atoms; structural-stability proxy, NOT the ligand-only pose RMSD)"
+                               % (n_idx, n_all)) if unwrapped else
+                              ("NOT minimum-image corrected (box unavailable or non-orthorhombic) — the value is "
+                               "inflated by periodic wrapping and is informational only"),
                     "solute_superposed_rmsd_A": rmsd, "ligand_rmsd_A": None,
+                    "minimum_image_corrected": unwrapped,
+                    "solute_stable": (bool(rmsd <= LIG_RMSD_MAX_A) if unwrapped else None),
                     "displacement_percentiles_A": pct, "max_displacement_A": float(disp.max()),
                     "box_edge_A": box_nm, "fraction_atoms_beyond_half_box": frac_beyond_half_box,
                     "n_atoms_used": n_idx, "n_atoms_total": n_all,
