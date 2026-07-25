@@ -120,13 +120,24 @@ Three obstacles, in increasing severity.
 2. **Reachability under the ternary constraint.** For `cov_nr4a1` the recruiter must stay in VHL while the
    electrophile reaches C551. Measured in
    [`nrv04_covalent_adduct_build.py`](./nrv04_covalent_adduct_build.py) → `reachability`.
-3. **Evidence for the pose itself.** Even a geometrically valid constructed adduct is only as good as the
-   claim that celastrol *sits* there. The literature the repo already cites is in tension on this: Zhang 2018
-   reports subnanomolar covalent engagement at C551, while Muñoz-Tello 2020 protein-NMR footprinting — cited
-   in [`nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md) §2.2 — finds that **celastrol does
-   not directly bind the NR4A LBD** (amodiaquine, chloroquine and cytosporone B do). There is no deposited
-   celastrol–NR4A1 structure. An MSA-based predictor therefore has no evidence for a specific celastrol pose,
-   which is the most parsimonious explanation of finding 3 and is exactly what the probe in §6 tests.
+3. **Evidence for the pose — which is *not* the same as evidence for the site.** These must be kept apart,
+   and getting them backwards is what an earlier reading of this file did.
+   - **The SITE is experimentally supported.** Zhang 2018 establishes C551. It is not an assumption.
+   - **The POSE is not.** A targeted search of the PDB finds **no deposited celastrol–NR4A1 complex**; the
+     deposited Nur77-LBD complexes carry other ligands (4JGV/THPN, 3V3Q, 8Y7L). An MSA-based predictor
+     therefore has no structural exemplar for a celastrol pose, which is the most parsimonious explanation of
+     finding 3 and is what the probe in §6 tests.
+
+   ⚠ **A correction that runs the other way, and it matters.**
+   [`nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md) §2.2 cites Muñoz-Tello 2020 as showing
+   that "celastrol, C-DIM12 and TMPA do **not**" directly bind "**the NR4A LBD**", and down-weights celastrol
+   accordingly. That study (Muñoz-Tello, Lin, Khan, de Vera, Kamenecka & Kojetin, *J. Med. Chem.* **2020**,
+   PMID 33289551) assayed the **Nurr1 (NR4A2)** LBD only — its title and abstract are Nurr1-specific. So it is
+   **not** in tension with Zhang 2018 at all: celastrol failing to bind **NR4A2** is exactly what Zhang's
+   C551 mechanism predicts, because Leg 0 measured that **NR4A2 has Tyr at the aligned position**. Read
+   correctly the two papers **corroborate** each other and **strengthen** the covalent confound. The
+   manuscript's generalisation from one paralogue to "the NR4A LBD" is an over-claim on a point where the
+   source is explicitly single-paralogue, and should be narrowed (§8).
 
 ## 5. Recommendation — RE-SCOPE, drop the covalent legs
 
@@ -136,12 +147,17 @@ Three obstacles, in increasing severity.
    covalency *swamps* the ternary signal, by comparing `cov_nr4a1` against `noncov_nr4a1`.
    *The obvious rebuttal, stated so it is not left as a hole:* build **both** legs from the same constructed
    pose and they differ only by the bond, so the comparison is matched again. That rebuttal is correct as far
-   as it goes — matching is not the problem. The problem is what both halves would then rest on. The pose
-   would be one **we placed**: no predictor produced it (§2, 7/7 models, 4 seeds, 3 prefixes, 2 providers), no
-   structure supports it (there is no deposited celastrol–NR4A1 complex), and the literature is in tension
-   over whether celastrol engages the NR4A LBD directly at all (§4.3). Endpoint MD would then report how
-   stably an assumed interface persists, and criterion 2's verdict would be a statement about that assumption.
-   A matched comparison between two unevidenced structures is still unevidenced.
+   as it goes — matching is not the problem. The problem is what both halves would then rest on. The **pose**
+   would be one **we placed**: no predictor produced it (§2, 7/7 models, 4 seeds, 3 prefixes, 2 providers) and
+   no deposited structure constrains it (§4.3). Endpoint MD would then report how stably an assumed interface
+   persists, and criterion 2's verdict would be a statement about that assumption. A matched comparison
+   between two unevidenced *poses* is still unevidenced.
+   *Weight this reason honestly:* it applies to the **pose**, not the **site**. The site (C551) is
+   experimentally established and, on the corrected reading of Muñoz-Tello 2020 (§4.3), better supported than
+   the repo currently records. That is precisely why the §6 probe was run rather than assumed — a **steered**
+   co-fold imposes only the experimentally supported constraint (proximity to C551) and lets the predictor
+   choose the pose, which is a materially better-founded input than one placed by hand. **This reason is
+   therefore conditional on the probe**, and reasons 2–4 are not.
 2. **The covalent legs' scientific job is already done, for $0, by Leg 0.** The panel exists (prereg §1)
    because celastrol's covalency could make NR-V04's selectivity a warhead-reactivity story the noncovalent
    machinery cannot represent. Leg 0 **settled that**: the reactive Cys is unique to NR4A1 (NR4A2 = Tyr,
@@ -230,6 +246,16 @@ merely reporting it.
 - **Retire the covalent legs** (`cov_nr4a1`, `warhead_only`) from §3, or state explicitly that they are
   unrunnable on any available input and the panel proceeds noncovalent-only — with the covalent confound
   documented from Leg 0 and Zhang 2018 rather than from simulation.
+
+**`nr4a3-degrader-paper.md` §2.2** — narrow a single-paralogue result that is currently stated family-wide:
+
+- Replace *"Protein-NMR footprinting (Muñoz-Tello 2020) confirms amodiaquine, chloroquine and cytosporone B
+  directly bind **the NR4A LBD** while celastrol, C-DIM12 and TMPA do not"* with *"…directly bind the
+  **Nurr1 (NR4A2)** LBD while celastrol, C-DIM12 and TMPA do not"*, and drop the inference that celastrol
+  therefore lacks direct-binding support **on NR4A1** — it does not: Zhang 2018 reports covalent engagement at
+  NR4A1 C551, and celastrol's failure on NR4A2 is what that mechanism predicts given NR4A2's Tyr at the
+  aligned position (Leg 0). If anything the corrected reading **strengthens** the paper's covalent-confound
+  argument, which is why the narrowing is not a loss.
 
 **`STRATEGY.md`** — RUNG 3 `nrv04_feasibility_covalent`:
 
