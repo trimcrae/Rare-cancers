@@ -173,6 +173,13 @@ GEOM = {
     "ray_n_directions": 512,
     "ray_max_A": 25.0,
     "ray_step_A": 0.25,
+    # ★ Rays start at the first BONDED linker-atom position, not at the anchor atom's centre. A sample point
+    # 0.25 A from the anchor lies INSIDE the anchor's own van-der-Waals sphere, so any protein atom merely in
+    # contact with the anchor (~3.3 A) falls inside the 3.40 A clash radius of that sample in nearly every
+    # direction — and the site reports zero clearance however open it is. A linker's first atom is bonded at
+    # ~1.5 A. Measured 2026-07-25 on a controlled reproduction (an atom contacted on five of six sides, open
+    # on the sixth): 0.0 A from the centre vs 25.0 A from 1.5 A.
+    "ray_first_atom_A": 1.5,
     "linker_atom_radius_A": 1.7,      # a linker heavy atom must fit; clash = within vdW_protein + this
     "cone_half_angle_deg": 30.0,
     "cone_open_clearance_A": 8.0,
@@ -781,22 +788,32 @@ def sasa_per_atom(atoms, n_points=None, probe=None, subset=None):
     return out
 
 
-def _clearance(px, py, pz, dx, dy, dz, grid, atoms, max_A=None, step=None, pad=None):
-    """March a ray from (p) along unit (d); return the distance at which a linker heavy atom would first
-    clash with protein (vdW_protein + linker radius), capped at max_A."""
+def _clearance(px, py, pz, dx, dy, dz, grid, atoms, max_A=None, step=None, pad=None, t0=None):
+    """March a ray from (p) along unit (d); return how far a chain of linker heavy atoms could extend before
+    the first clash with protein (vdW_protein + linker radius), capped at max_A.
+
+    `t0` is where the FIRST linker atom sits, not where the ray is anchored. It defaults to a bond length
+    (GEOM["ray_first_atom_A"]) precisely because sampling from the anchor's own centre puts the first test
+    point inside the anchor's van-der-Waals sphere, which reports any vdW-contacting site as sealed."""
     max_A = max_A if max_A is not None else GEOM["ray_max_A"]
     step = step or GEOM["ray_step_A"]
     pad = pad if pad is not None else GEOM["linker_atom_radius_A"]
-    t = step
+    t = t0 if t0 is not None else GEOM["ray_first_atom_A"]
+    last_ok = 0.0                      # 0.0 means even the FIRST linker position clashes: no exit this way
     while t <= max_A:
         x, y, z = px + dx * t, py + dy * t, pz + dz * t
+        clash = False
         for j in grid.near(x, y, z, 3.0 + pad):
             b = atoms[j]
             r = VDW.get(b["elem"], DEFAULT_VDW) + pad
             if (x - b["x"]) ** 2 + (y - b["y"]) ** 2 + (z - b["z"]) ** 2 < r * r:
-                return t - step
+                clash = True
+                break
+        if clash:
+            break
+        last_ok = t
         t += step
-    return max_A
+    return last_ok
 
 
 def analyse_site(protein_atoms, ligand_atoms, recruiter_chains=None):
@@ -824,8 +841,8 @@ def analyse_site(protein_atoms, ligand_atoms, recruiter_chains=None):
     enc_dirs = _fib_sphere(GEOM["enclosure_n_rays"])
     blocked = 0
     for (dx, dy, dz) in enc_dirs:
-        if _clearance(cx, cy, cz, dx, dy, dz, pg, protein_atoms,
-                      max_A=GEOM["enclosure_max_A"], pad=0.0) < GEOM["enclosure_max_A"]:
+        if _clearance(cx, cy, cz, dx, dy, dz, pg, protein_atoms, max_A=GEOM["enclosure_max_A"],
+                      pad=0.0, t0=GEOM["ray_step_A"]) < GEOM["enclosure_max_A"]:
             blocked += 1
     enclosure = blocked / float(len(enc_dirs))
 
@@ -850,7 +867,7 @@ def analyse_site(protein_atoms, ligand_atoms, recruiter_chains=None):
     # argmax direction alongside a 0.0 clearance — a meaningless vector wearing the same field name as a real
     # one. Caught 2026-07-25 by running the geometry on the repo's own AF2 NR4A3 model with a pseudo-ligand
     # at the (closed) cryptic pocket: clearance 0.0 with n_near_maximal_directions = 512.
-    no_exit = cmax <= GEOM["ray_step_A"]
+    no_exit = cmax <= 0.0
     if no_exit:
         tied = []
         vx0, vy0, vz0 = ax - cx, ay - cy, az - cz
@@ -924,8 +941,10 @@ def analyse_site(protein_atoms, ligand_atoms, recruiter_chains=None):
             "channel_lining_residues": [f"{c}:{rn}{ri}" for (c, rn, ri) in sorted(lining, key=lambda t: t[2])],
             "_method": "anchor = the ligand heavy atom with the largest solvent-accessible area in the "
                        "complex (the natural linker attachment point); direction = the maximum-clearance "
-                       "direction of 512 Fibonacci rays from that anchor, a ray terminating where a 1.7 A "
-                       "linker heavy atom would clash with a protein vdW sphere",
+                       "direction of 512 Fibonacci rays from that anchor, each ray beginning at the "
+                       "first BONDED linker-atom position (1.5 A out, not at the anchor centre, which lies "
+                       "inside the anchor's own vdW sphere) and terminating where a 1.7 A linker heavy atom "
+                       "would clash with a protein vdW sphere",
             "_limit": "One deposited conformer, one ligand, no linker sampling and no protein flexibility. "
                       "This bounds where a linker COULD leave; it does not establish that any particular "
                       "linker does leave, nor anything about the resulting ternary complex.",
@@ -1539,11 +1558,16 @@ def build(recruiters, availability):
                 "is not, which is why STRATEGY caps it at <=2 recruiters before any GPU leg AND requires the "
                 "dropped set to be logged: a silent top-N reads as 'we covered everything'.",
         "_method": "UniProt (reviewed, human, exact gene match, fail-closed) -> RCSB search for entries "
-                   "carrying that accession with >=1 non-polymer entity -> RCSB data API for resolution, "
-                   "method, chain composition, ligand CCD and primary citation -> coordinates from "
-                   "files.rcsb.org -> pure-stdlib geometry (Shrake-Rupley burial, ray-cast enclosure and exit "
-                   "vector, LIGSITE-style cavity volume) + optional fpocket druggability -> preregistered "
-                   "gates, Pareto front, lexicographic tiebreak.",
+                   "carrying that accession with >=1 non-polymer entity, plus an unfiltered search so "
+                   "'no structure' is distinguishable from 'no liganded structure' -> RCSB data API for "
+                   "resolution, method, chain composition, ligand CCD and primary citation -> the geometry "
+                   "frame is the best PARTNER-FREE entry with an intact (>=60-residue) receptor construct, "
+                   "taken from BIOLOGICAL ASSEMBLY 1 rather than the asymmetric unit, with the occluder set "
+                   "restricted to the recruiter and its own CRL arm -> pure-stdlib geometry (Shrake-Rupley "
+                   "burial, ray-cast enclosure and exit vector, LIGSITE PSP cavity volume) + fpocket "
+                   "druggability attributed by ligand-atom overlap -> a tier-3 'solved bivalent complex' "
+                   "claim is re-verified from coordinates and demoted if the ligand does not contact both "
+                   "proteins -> preregistered gates, Pareto front, lexicographic tiebreak.",
         "_limits": [
             "This is DESIGN PREP, not a validated result. Ligandability computed from one deposited holo "
             "structure is a hypothesis for testing: it says a published ligand occupies a pocket with a "
@@ -1578,8 +1602,11 @@ def build(recruiters, availability):
         ],
         "_schema_version": SCHEMA_VERSION,
         "_schema": SCHEMA_DOC,
-        "_consumers": ["RUNG 5a orientation-basin search (reads recruiters[*].ligandability.exit_vector and "
-                       "staged_structures[*] for the receptor + attachment frame)"],
+        "_consumers": ["RUNG 5a orientation-basin search — call e3_recruiter_staging.load_advanced() for "
+                       "the stable contract (gene, pdb_id, recruiter/arm chains, coordinate_source, "
+                       "anchor_xyz, exit_direction, clearance, cone openness, open_solid_angle_fraction_15A, "
+                       "and a `caveats` list that MUST be carried into any downstream report). Reading "
+                       "recruiters[*].ligandability.exit_vector directly also works but skips the caveats."],
         "parameters": {"gates": GATES, "geometry": GEOM, "excluded_ccd_count": len(EXCLUDED_CCD),
                        "min_ligand_heavy_atoms": MIN_LIGAND_HEAVY_ATOMS,
                        "linker_bearing_min_mw_Da": LINKER_BEARING_MIN_MW,

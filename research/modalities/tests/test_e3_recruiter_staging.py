@@ -96,6 +96,34 @@ def test_clearance_is_capped_and_monotone():
     assert open_ == pytest.approx(st.GEOM["ray_max_A"])
 
 
+def test_a_vdw_contacted_anchor_with_one_open_side_is_not_reported_as_sealed():
+    """Regression for the bug that dropped FEM1B at G3.
+
+    Rays used to start 0.25 A from the anchor — INSIDE the anchor atom's own van-der-Waals sphere — so any
+    protein atom merely in CONTACT with the anchor (~3.3 A) fell inside the 3.40 A clash radius of that first
+    sample in nearly every direction, and a wide-open site reported clearance 0.0. A linker's first atom is
+    bonded at ~1.5 A. Controlled reproduction: an atom contacted on five of six sides, wide open on the
+    sixth, gave 0.0 A from the centre and 25.0 A from a bond length out.
+
+    The tell in the real data was an internal contradiction: FEM1B's anchor had 14.56 A^2 of solvent-accessible
+    surface while max_ray_clearance_A read 0.0."""
+    prot = [_atom(3.3, 0, 0), _atom(-3.3, 0, 0), _atom(0, 3.3, 0), _atom(0, -3.3, 0), _atom(0, 0, -3.3)]
+    g = st.Grid(prot)
+    up = st._clearance(0, 0, 0, 0, 0, 1, g, prot)
+    assert up == pytest.approx(st.GEOM["ray_max_A"]), up
+    # and starting from the anchor centre still reports it sealed — i.e. the fix is what changes the answer
+    assert st._clearance(0, 0, 0, 0, 0, 1, g, prot, t0=st.GEOM["ray_step_A"]) == 0.0
+
+
+def test_a_genuinely_sealed_site_is_still_sealed_after_the_bond_length_offset():
+    """The fix must not open a site that is truly enclosed — otherwise it trades a false negative for a
+    false positive, which is worse here because a false positive advances a recruiter."""
+    sealed = _shell_pocket("+z", radius=3.3, n=900, mouth_cos=2.0)
+    res = st.analyse_site(sealed, [_atom(0, 0, 0)])
+    assert res["exit_vector"]["no_exit_path"] is True
+    assert res["exit_vector"]["clearance_A"] == 0.0
+
+
 # ---------------------------------------------------------------------------------------------------------
 # structure parsing
 # ---------------------------------------------------------------------------------------------------------
