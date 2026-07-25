@@ -536,13 +536,16 @@ jobs:
     # is progressing (recent mtime = a ligand just finished) or hung on one ligand's sqm (stale mtime).
     if: ${{ github.event.inputs.task == 'nrv04_ffcache_status' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - name: Head the ffcache object + list the prefix
         run: |
           python3 -m pip install -q awscli >/dev/null 2>&1 || pip install -q awscli >/dev/null 2>&1 || true
@@ -551,6 +554,31 @@ jobs:
           echo "=== head-object ffcache.json ==="
           aws s3api head-object --bucket "${VAST_CKPT_BUCKET}" --key nrv04-ffcache/ffcache.json \
             --query '{LastModified:LastModified,SizeBytes:ContentLength}' --output json || echo "(no ffcache.json yet)"
+      # READ-ONLY forensics of the covalent panel's result prefixes. Answers the one question that decides whether
+      # the withdrawn GO can be recovered without spending: does the bucket hold per-frame COORDINATES, or only
+      # scalars already reduced against the wrong chain split? Settled from real keys/sizes/mtimes, not from
+      # reading the driver (CLAUDE.md §4 — the listing is the diagnosis, the code is the hypothesis).
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3 gemmi
+      - name: NR-V04 covalent-panel result forensics (read-only)
+        run: python research/modalities/nrv04_result_forensics.py --bucket "${VAST_CKPT_BUCKET}"
+      - name: Commit the forensics JSON back to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nrv04-result-forensics.json || true
+          if git diff --cached --quiet; then
+            echo "no change to nrv04-result-forensics.json"
+          else
+            git commit -m "NR-V04 panel S3 forensics: what was actually persisted (auto)"
+            for attempt in 1 2 3 4; do
+              git pull --rebase origin ${{ github.ref_name }} && \
+                git push origin HEAD:${{ github.ref_name }} && break
+              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
+            done
+          fi
 
   fep_bake:
     # Prebake the OpenFE ("rbfe") env into a Vast boot image -> Docker Hub (triskit23/nr4a3fep:latest). This is
