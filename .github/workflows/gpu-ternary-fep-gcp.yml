@@ -353,6 +353,54 @@ jobs:
           echo "=== [FULL-REDUCTION] every key ==="
           cat /tmp/legs/ternary_coop_reduction.json
           gcloud storage cp /tmp/legs/ternary_coop_reduction.json "$RESULTS/ternary_coop_reduction.json" 2>/dev/null && echo "[reduce] uploaded reduction to $RESULTS/" || true
+          # SURFACE THE VERDICT AS AN ANNOTATION. Everything above prints to the log, and the reduction JSON is
+          # uploaded — both true, both requiring excavation. The watchdog now dispatches this step automatically
+          # when a leg lands, so the number can arrive with NO SESSION AWAKE; if the verdict is only readable by
+          # opening a log nobody opens, that autonomy buys nothing (§D of the guard audit). One API call must give
+          # the decision, the mean, the SD, the target and the fwd/rev hysteresis.
+          python3 - <<'PYVERDICT'
+          import json, os
+          p = '/tmp/legs/ternary_coop_reduction.json'
+          if not os.path.isfile(p):
+              print("::error title=REDUCE-VERDICT MISSING::the reducer produced no ternary_coop_reduction.json — nothing was reduced. Do NOT read the absence as a null result.")
+              raise SystemExit(0)
+          d = json.load(open(p))
+          g = d.get('valB_calibration_gate') or {}
+          dec = d.get('valB_calibration_decision') or {}
+          # hysteresis lives on the decision; None means NOT MEASURED, which must never read as "fine"
+          hy = dec.get('hysteresis_ok')
+          hy_txt = {True: 'within 1.0 (ok)', False: 'EXCEEDS 1.0 (unresolved fwd/rev disagreement)'}.get(
+              hy, 'NOT MEASURED (no reverse leg reduced)')
+          verdict = g.get('decision') or 'NO GATE VERDICT'
+          def num(v, nd=3):
+              try:
+                  return format(float(v), '.%df' % nd)
+              except (TypeError, ValueError):
+                  return str(v)
+          bits = [
+              "decision=%s" % verdict,
+              "mean_ddG_coop=%s" % num(g.get('mean_ddg_coop_kcal')),
+              "target=%s" % num(g.get('target_kcal')),
+              "abs_err=%s" % num(g.get('abs_error_kcal')),
+              "cycle_SD=%s" % num(g.get('cycle_sd_kcal')),
+              "n_replicates=%s" % g.get('n_replicates'),
+              "diagnostics_ok=%s" % g.get('diagnostics_ok'),
+              "fwd/rev hysteresis: %s" % hy_txt,
+          ]
+          msg = "valB_mini reduce — " + " | ".join(bits) + ". reason: " + str(g.get('reason'))
+          # QUIET REQUIRES **BOTH** A PASSING GATE AND MEASURED, PASSING HYSTERESIS.
+          # The gate's `decision` deliberately does NOT incorporate hysteresis -- that lives on
+          # calibration_decision -- so keying the annotation level on `decision` alone emits a GREEN NOTICE for a
+          # PASS whose preregistered fwd/rev criterion was never measured (hysteresis_ok is None) or was measured
+          # and FAILED. That is §B#1 of the guard audit exactly: absent data reading as fine. Caught by exercising
+          # this formatter against real reducer output rather than by reading it.
+          quiet = (verdict == 'PASS' and hy is True)
+          level = 'notice' if quiet else 'error'
+          if verdict == 'PASS' and hy is not True:
+              msg += (" ** GATE PASSED BUT THE PREREGISTERED FWD/REV CRITERION DID NOT: %s. This is NOT a pass "
+                      "of the calibration. **" % hy_txt)
+          print("::%s title=REDUCE-VERDICT::%s" % (level, msg))
+          PYVERDICT
       - name: Log in to Docker Hub for the pre-baked analysis env (mode=converge)
         # The reviewer's required change #1 (2026-07-17) was BUILT (ternary_fep_convergence.py, engine MODE=converge)
         # but never WIRED: this workflow had no `converge` mode and the reduce step calls the reducer directly
