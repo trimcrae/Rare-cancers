@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 2:10 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 3:05 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -75,7 +75,8 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4 spot, VM `gcp-ternary-30168741086`, us-central1-a) | **RUNNING** since **2:01 PM ET**, `warmup_timestep_fs=1.0`, and the **first attempt whose commit prefix is direction-verified** (`…_wu1.0_v2pe_dirrev`). Two earlier attempts died today for two *different* reasons, both now root-caused and fixed: a **2.0 fs warmup NaN** at 12:55 PM, then — after the NaN fix aligned the prefixes — a **fwd/rev prefix collision** at 1:41 PM that made the rev leg try to resume the FORWARD trajectory (see the two blocks below). Both zombie VMs reaped; L4 usage 0.0 before this launch | ~10–20 h detached → **result 2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null` on all three legs.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** | **NOT RUNNING — being relaunched correctly.** Four attempts died today; the last two are now root-caused to **one cause with a documented fix**: the leg was started from the **raw (`v1`) setup**, not the pre-equilibrated (`v2pe`) one fwd used. Both zombie VMs reaped (L4 usage 0.0). Blocked on the **`v2pe` rev setup prime** (row below) | prime ETA **~3:25 PM ET**, leg launches immediately after → result **2026-07-26 AM ET** | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **`v2pe` rev setup prime** (`ternary-setup-prime-cpu.yml`, CPU, **$0**) | **RUNNING** since 2:53 PM ET, 9 min in. Overlays the v2 pre-equilibrated complex and keys the setup cache to `v2pe` for `direction=rev`. Parameterising 146 k atoms on a 4-vCPU runner ≈ 30 min (120-min timeout) | **~3:25 PM ET** | Unblocks the rev leg. It also doubles as the **$0 existence check** on the preequil cache — if that were missing this fails on CPU instead of wasting a GPU boot |
 
 | **LANE 2 · RUNG 5a — Mechanism-first orientation-basin search** (CPU, **$0 realized**) | **engine DONE, verdict PROVISIONAL GO (categorical, weakly)** — the 12-pose full run (CI 30169233690, 10⁶ placements × 12 poses × VHL+CRBN) has been executing since **2:14 PM ET** and supersedes the 4–6-pose preview numbers; it auto-commits `nr4a3-orientation-basins.json` to the lane branch | **~4:30 PM ET** | Confirms or overturns the Tier-2 **GO**. Both arms passed independently at preview, so a flip is unlikely but is not excluded. A GO sends the next spend to **5a-KS**, not to an MM-GBSA rescore |
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
@@ -185,19 +186,46 @@ relevant rung below.*
 > evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
 > inspection of the producing code.
 
-> ### 🔬 THE WARMUP NaN — diagnosed from evidence, one variable changed
-> The 12:34 PM attempt died at **12:55 PM ET**, ~21 min in, with a full traceback out of `main()`:
-> `SimulationNaNError: Propagating replica 0 at state 1` at **warmup iteration 1**, after 20 integration attempts
-> *and* a Context reinitialisation. The path `/tmp/tout/calib_hi_to_lo__ternary_vhl_**rev_r0**_sim_shared/` and
-> `src=live` together confirm it is genuinely the reverse leg, not a stale fwd log. **The saved pre-NaN state is
-> clean:** `atoms=146020`, `nonfinite_atoms=0`, `coords>1000nm=0`, and **zero force-bearing** non-bonded pairs
-> under 0.90 Å — the closest contact, 0.569 Å, is a zeroed hybrid A/B exception, benign by construction. So this
-> is **not** a clash and **not** a bad build: it is integration instability at state 1, the steepest softcore
-> window, with `warmup_dt_override=NONE` confirming the warmup ran at the full 2.0 fs production timestep.
-> `min_steps`' own note already records that the NaN survives 25000 minimisation steps and that **the 1 fs warmup
-> is what fixes it**. Relaunched with `warmup_timestep_fs=1.0`, **one variable changed**; production stays at
-> 2.0 fs and equilibration never enters ΔG. The reduced warmup dt keys the prefix as **`wu1.0`**, so this is a
-> fresh trajectory by construction — no `commit_salt` change and no poisoned-checkpoint risk.
+> ### 🔬 THE WARMUP NaN — ROOT-CAUSED, and the cause was already written down
+> All four rev attempts died at **warmup iteration 1** — at 2.0 fs (replica 0, state 1) and at 1.0 fs (replica 0,
+> **state 7**). Halving the timestep moved *which* λ window blew up and **not the iteration**: the signature of
+> something other than a timestep ceiling. `nr4a3_ternary_fep.py` already recorded the answer, with a measurement
+> behind it:
+>
+> > *"the instability is the softcore alchemical (dis)appearing region in a large, rough homology-built assembly,
+> > and there is NO static predictor of the ternary timestep. **The fix that WORKS is NOT a smaller timestep**:
+> > relax the fully-interacting physical complex with plain MD BEFORE the alchemy (`use_preequil=1`). With the
+> > relaxed structure the calib leg ran warmup 48/48 → production 40/40 with zero NaN, **where every prior run
+> > died at warmup iter 1.**"*
+>
+> **The rev runs were started from the raw `v1` setup.** They passed `commit_salt=v2pe` while leaving
+> `use_preequil` at its **default 0**, so `SETUP_VER` stayed `v1` and the restored cache was
+> `…_rev_r0__nagl__v1`. The salt *said* pre-equilibrated; the setup was not. And fwd's prefix
+> (`…_wu1.0_v2pe`) carries that salt because **fwd genuinely ran with `use_preequil=1`** — `SETUP_VER=v2pe` is set
+> only by that flag. So pre-equilibration is **not a deviation from fwd; it is a correction of rev back into
+> agreement with fwd**, which fixes the crash *and* preserves comparability for the hysteresis test. A salt is a
+> human-maintained label, not a key — which is exactly how this hid.
+>
+> Two false leads, measured and refuted, recorded so they are not re-run: the edge has **no morphing X-H**
+> (`xh_total=0` with 4997 constraints; the alchemical valence force holds 28 bonds, none an X-H), so the N→CH
+> perturbation does **not** cap the timestep; and the `[hmr-diag]` line that prints *"NO unconstrained X-H bonds
+> found → 4 fs is safe"* is **misleading but not broken** — with `constraints=hbonds` every X-H is a *constraint*
+> rather than a stretch term, yet it displays `constrained=0` when the truth is "all of them", and its
+> disambiguating companion (`count_morphing_xh`) runs only under `RBFE_HMRDIAG_ONLY=1`, i.e. never during a real
+> leg. Full write-up: **§J** of
+> [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
+>
+> ### 🛡️ NEW GUARD — commit-manifest provenance, covering what OpenFE cannot
+> Chasing the above found a hazard **worse** than §H's: `SETUP_CACHE_VERSION`, `CHARGE_METHOD` and `N_WINDOWS` all
+> change the physics and are **absent from the commit prefix**, so two different calculations share one. §H's
+> fwd/rev mismatch was caught only because the hybrid systems had different **particle counts**; pre-equilibration
+> *moves coordinates without changing the atom set*, so counts match and
+> `assert_multistate_system_equality` **cannot fire at all**. Every commit manifest now carries a
+> `system_fingerprint` over those params, checked in `restore_latest` **against the manifest alone, before any
+> download**. A stamped mismatch is refused unconditionally; an **unstamped** one warns and is allowed unless
+> `RBFE_STRICT_PROVENANCE=1` — because failing closed there would make *another session's running leg* refuse to
+> resume after a preemption and discard paid GPU hours. The ternary lane opts into strict mode. 28 checks, driven
+> through a fake store so they need no numpy/openmm.
 
 **The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
 are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
