@@ -7,17 +7,864 @@
     "The catalytic-cysteine identification in the E2 geometry step is a geometric proxy, not a sequence-motif assignment.",
     "Nothing here is evidence that any of these recruiters engages NR4A3 \u2014 it is input staging."
   ],
-  "staged_at_utc": "2026-07-25T17:50:15Z",
+  "staged_at_utc": "2026-07-25T17:54:18Z",
   "arms": {
     "vhl": {
       "arm_id": "vhl",
-      "status": "FAILED_KeyError",
-      "error": "'exit_atom_min_dist_to_receptor_A'"
+      "status": "FAILED_RuntimeError",
+      "error": "GET failed after 4 tries: https://files.rcsb.org/download/9T32.pdb (HTTP Error 404: Not Found)"
     },
     "crbn": {
       "arm_id": "crbn",
-      "status": "FAILED_KeyError",
-      "error": "'exit_atom_min_dist_to_receptor_A'"
+      "recruiter": "CRBN",
+      "crl": "CRL4^CRBN",
+      "status": "OK",
+      "provenance": {
+        "receptor_entry": {
+          "pdb_id": "6BOY",
+          "title": "Crystal structure of DDB1-CRBN-BRD4(BD1) complex bound to dBET6 PROTAC.",
+          "resolution_A": 3.33,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "Q16531": [
+              "A"
+            ],
+            "Q96SW2": [
+              "B"
+            ],
+            "O60885": [
+              "C"
+            ]
+          }
+        },
+        "scaffold_entry": {
+          "pdb_id": "2HYE",
+          "title": "Crystal Structure of the DDB1-Cul4A-Rbx1-SV5V Complex",
+          "resolution_A": 3.1,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "Q16531": [
+              "A"
+            ],
+            "P11207": [
+              "B"
+            ],
+            "Q13619": [
+              "C"
+            ],
+            "P62877": [
+              "D"
+            ]
+          }
+        }
+      },
+      "rejected": [
+        {
+          "pdb": "6BOY",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL4A', 'RBX1']"
+        },
+        {
+          "pdb": "4TZ4",
+          "role": "scaffold",
+          "reason": "missing accessions for ['CUL4A', 'RBX1']"
+        }
+      ],
+      "receptor_pdb": "results/nr4a3-e3-arms/crbn-receptor.pdb",
+      "ligand": {
+        "het_code": "RN6",
+        "chain": "B",
+        "resid": 502,
+        "n_heavy": 59,
+        "n_heavy_on_e3_side": 25,
+        "is_protac_ternary": true,
+        "atoms": [
+          {
+            "name": "N",
+            "elem": "N",
+            "xyz": [
+              76.722,
+              32.855,
+              57.578
+            ],
+            "d_e3_A": 11.56,
+            "d_other_protein_A": 3.84,
+            "on_e3_side": false
+          },
+          {
+            "name": "C",
+            "elem": "C",
+            "xyz": [
+              75.401,
+              34.671,
+              58.648
+            ],
+            "d_e3_A": 10.47,
+            "d_other_protein_A": 3.69,
+            "on_e3_side": false
+          },
+          {
+            "name": "O",
+            "elem": "O",
+            "xyz": [
+              68.862,
+              41.505,
+              48.297
+            ],
+            "d_e3_A": 4.1,
+            "d_other_protein_A": 5.2,
+            "on_e3_side": true
+          },
+          {
+            "name": "C1",
+            "elem": "C",
+            "xyz": [
+              75.728,
+              33.706,
+              57.568
+            ],
+            "d_e3_A": 10.66,
+            "d_other_protein_A": 3.93,
+            "on_e3_side": false
+          },
+          {
+            "name": "C10",
+            "elem": "C",
+            "xyz": [
+              72.92,
+              35.237,
+              49.023
+            ],
+            "d_e3_A": 5.11,
+            "d_other_protein_A": 5.79,
+            "on_e3_side": true
+          },
+          {
+            "name": "C11",
+            "elem": "C",
+            "xyz": [
+              73.147,
+              36.73,
+              48.815
+            ],
+            "d_e3_A": 4.32,
+            "d_other_protein_A": 5.15,
+            "on_e3_side": true
+          },
+          {
+            "name": "C12",
+            "elem": "C",
+            "xyz": [
+              71.963,
+              37.638,
+              49.142
+            ],
+            "d_e3_A": 5.13,
+            "d_other_protein_A": 4.01,
+            "on_e3_side": false
+          },
+          {
+            "name": "C13",
+            "elem": "C",
+            "xyz": [
+              70.911,
+              37.676,
+              48.05
+            ],
+            "d_e3_A": 5.33,
+            "d_other_protein_A": 4.8,
+            "on_e3_side": false
+          },
+          {
+            "name": "C14",
+            "elem": "C",
+            "xyz": [
+              70.77,
+              40.108,
+              47.714
+            ],
+            "d_e3_A": 3.71,
+            "d_other_protein_A": 4.97,
+            "on_e3_side": true
+          },
+          {
+            "name": "C15",
+            "elem": "C",
+            "xyz": [
+              69.867,
+              41.256,
+              47.326
+            ],
+            "d_e3_A": 3.24,
+            "d_other_protein_A": 5.71,
+            "on_e3_side": true
+          },
+          {
+            "name": "C16",
+            "elem": "C",
+            "xyz": [
+              69.147,
+              42.392,
+              49.3
+            ],
+            "d_e3_A": 3.99,
+            "d_other_protein_A": 4.84,
+            "on_e3_side": true
+          },
+          {
+            "name": "C17",
+            "elem": "C",
+            "xyz": [
+              69.671,
+              42.002,
+              50.523
+            ],
+            "d_e3_A": 3.65,
+            "d_other_protein_A": 3.54,
+            "on_e3_side": false
+          },
+          {
+            "name": "C18",
+            "elem": "C",
+            "xyz": [
+              69.876,
+              42.945,
+              51.515
+            ],
+            "d_e3_A": 3.28,
+            "d_other_protein_A": 3.2,
+            "on_e3_side": false
+          },
+          {
+            "name": "C19",
+            "elem": "C",
+            "xyz": [
+              69.562,
+              44.274,
+              51.295
+            ],
+            "d_e3_A": 3.89,
+            "d_other_protein_A": 4.25,
+            "on_e3_side": true
+          },
+          {
+            "name": "C2",
+            "elem": "C",
+            "xyz": [
+              75.69,
+              32.603,
+              55.668
+            ],
+            "d_e3_A": 10.81,
+            "d_other_protein_A": 4.01,
+            "on_e3_side": false
+          },
+          {
+            "name": "C20",
+            "elem": "C",
+            "xyz": [
+              69.042,
+              44.653,
+              50.061
+            ],
+            "d_e3_A": 3.73,
+            "d_other_protein_A": 5.5,
+            "on_e3_side": true
+          },
+          {
+            "name": "C21",
+            "elem": "C",
+            "xyz": [
+              68.613,
+              45.99,
+              49.585
+            ],
+            "d_e3_A": 3.46,
+            "d_other_protein_A": 6.8,
+            "on_e3_side": true
+          },
+          {
+            "name": "C22",
+            "elem": "C",
+            "xyz": [
+              67.593,
+              46.861,
+              47.437
+            ],
+            "d_e3_A": 3.75,
+            "d_other_protein_A": 9.19,
+            "on_e3_side": true
+          },
+          {
+            "name": "C23",
+            "elem": "C",
+            "xyz": [
+              68.393,
+              48.148,
+              47.516
+            ],
+            "d_e3_A": 3.32,
+            "d_other_protein_A": 9.05,
+            "on_e3_side": true
+          },
+          {
+            "name": "C24",
+            "elem": "C",
+            "xyz": [
+              66.364,
+              49.478,
+              47.151
+            ],
+            "d_e3_A": 3.45,
+            "d_other_protein_A": 10.92,
+            "on_e3_side": true
+          },
+          {
+            "name": "C25",
+            "elem": "C",
+            "xyz": [
+              65.553,
+              48.223,
+              47.048
+            ],
+            "d_e3_A": 3.47,
+            "d_other_protein_A": 11.28,
+            "on_e3_side": true
+          },
+          {
+            "name": "C26",
+            "elem": "C",
+            "xyz": [
+              66.14,
+              47.072,
+              47.851
+            ],
+            "d_e3_A": 3.5,
+            "d_other_protein_A": 9.84,
+            "on_e3_side": true
+          },
+          {
+            "name": "C27",
+            "elem": "C",
+            "xyz": [
+              68.832,
+              43.738,
+              49.044
+            ],
+            "d_e3_A": 3.98,
+            "d_other_protein_A": 5.8,
+            "on_e3_side": true
+          },
+          {
+            "name": "C28",
+            "elem": "C",
+            "xyz": [
+              68.272,
+              44.464,
+              47.874
+            ],
+            "d_e3_A": 3.93,
+            "d_other_protein_A": 7.27,
+            "on_e3_side": true
+          },
+          {
+            "name": "C29",
+            "elem": "C",
+            "xyz": [
+              74.833,
+              34.433,
+              53.601
+            ],
+            "d_e3_A": 8.42,
+            "d_other_protein_A": 4.03,
+            "on_e3_side": false
+          },
+          {
+            "name": "C3",
+            "elem": "C",
+            "xyz": [
+              75.276,
+              32.218,
+              54.265
+            ],
+            "d_e3_A": 10.23,
+            "d_other_protein_A": 4.4,
+            "on_e3_side": false
+          },
+          {
+            "name": "C30",
+            "elem": "C",
+            "xyz": [
+              75.153,
+              35.602,
+              52.755
+            ],
+            "d_e3_A": 7.17,
+            "d_other_protein_A": 3.71,
+            "on_e3_side": false
+          },
+          {
+            "name": "C31",
+            "elem": "C",
+            "xyz": [
+              74.893,
+              36.899,
+              53.186
+            ],
+            "d_e3_A": 5.93,
+            "d_other_protein_A": 3.52,
+            "on_e3_side": false
+          },
+          {
+            "name": "C32",
+            "elem": "C",
+            "xyz": [
+              75.223,
+              37.986,
+              52.397
+            ],
+            "d_e3_A": 4.79,
+            "d_other_protein_A": 3.9,
+            "on_e3_side": false
+          },
+          {
+            "name": "C33",
+            "elem": "C",
+            "xyz": [
+              75.817,
+              37.772,
+              51.173
+            ],
+            "d_e3_A": 4.87,
+            "d_other_protein_A": 4.17,
+            "on_e3_side": false
+          },
+          {
+            "name": "C34",
+            "elem": "C",
+            "xyz": [
+              76.089,
+              36.5,
+              50.722
+            ],
+            "d_e3_A": 5.26,
+            "d_other_protein_A": 4.16,
+            "on_e3_side": false
+          },
+          {
+            "name": "C35",
+            "elem": "C",
+            "xyz": [
+              75.754,
+              35.418,
+              51.515
+            ],
+            "d_e3_A": 6.32,
+            "d_other_protein_A": 3.85,
+            "on_e3_side": false
+          },
+          {
+            "name": "C36",
+            "elem": "C",
+            "xyz": [
+              73.718,
+              34.567,
+              54.571
+            ],
+            "d_e3_A": 8.53,
+            "d_other_protein_A": 4.2,
+            "on_e3_side": false
+          },
+          {
+            "name": "C37",
+            "elem": "C",
+            "xyz": [
+              73.874,
+              34.204,
+              55.889
+            ],
+            "d_e3_A": 9.33,
+            "d_other_protein_A": 4.11,
+            "on_e3_side": false
+          },
+          {
+            "name": "C38",
+            "elem": "C",
+            "xyz": [
+              71.605,
+              35.064,
+              55.422
+            ],
+            "d_e3_A": 8.76,
+            "d_other_protein_A": 3.85,
+            "on_e3_side": false
+          },
+          {
+            "name": "C39",
+            "elem": "C",
+            "xyz": [
+              70.179,
+              35.499,
+              55.575
+            ],
+            "d_e3_A": 8.93,
+            "d_other_protein_A": 3.9,
+            "on_e3_side": false
+          },
+          {
+            "name": "C4",
+            "elem": "C",
+            "xyz": [
+              75.905,
+              30.925,
+              53.732
+            ],
+            "d_e3_A": 10.53,
+            "d_other_protein_A": 3.8,
+            "on_e3_side": false
+          },
+          {
+            "name": "C40",
+            "elem": "C",
+            "xyz": [
+              72.382,
+              35.05,
+              54.306
+            ],
+            "d_e3_A": 8.19,
+            "d_other_protein_A": 4.07,
+            "on_e3_side": false
+          },
+          {
+            "name": "C41",
+            "elem": "C",
+            "xyz": [
+              71.861,
+              35.441,
+              52.955
+            ],
+            "d_e3_A": 7.62,
+            "d_other_protein_A": 3.78,
+            "on_e3_side": false
+          },
+          {
+            "name": "C5",
+            "elem": "C",
+            "xyz": [
+              75.375,
+              30.601,
+              52.352
+            ],
+            "d_e3_A": 9.74,
+            "d_other_protein_A": 3.94,
+            "on_e3_side": false
+          },
+          {
+            "name": "C6",
+            "elem": "C",
+            "xyz": [
+              75.62,
+              30.986,
+              49.948
+            ],
+            "d_e3_A": 7.92,
+            "d_other_protein_A": 5.48,
+            "on_e3_side": false
+          },
+          {
+            "name": "C7",
+            "elem": "C",
+            "xyz": [
+              75.488,
+              32.269,
+              49.15
+            ],
+            "d_e3_A": 6.42,
+            "d_other_protein_A": 6.18,
+            "on_e3_side": false
+          },
+          {
+            "name": "C8",
+            "elem": "C",
+            "xyz": [
+              74.215,
+              33.054,
+              49.43
+            ],
+            "d_e3_A": 6.17,
+            "d_other_protein_A": 5.59,
+            "on_e3_side": false
+          },
+          {
+            "name": "C9",
+            "elem": "C",
+            "xyz": [
+              74.134,
+              34.38,
+              48.684
+            ],
+            "d_e3_A": 4.79,
+            "d_other_protein_A": 6.42,
+            "on_e3_side": true
+          },
+          {
+            "name": "N1",
+            "elem": "N",
+            "xyz": [
+              76.7,
+              32.152,
+              56.376
+            ],
+            "d_e3_A": 11.65,
+            "d_other_protein_A": 3.24,
+            "on_e3_side": false
+          },
+          {
+            "name": "N2",
+            "elem": "N",
+            "xyz": [
+              75.972,
+              31.228,
+              51.34
+            ],
+            "d_e3_A": 8.58,
+            "d_other_protein_A": 5.18,
+            "on_e3_side": false
+          },
+          {
+            "name": "N3",
+            "elem": "N",
+            "xyz": [
+              70.186,
+              38.939,
+              47.984
+            ],
+            "d_e3_A": 5.05,
+            "d_other_protein_A": 4.64,
+            "on_e3_side": false
+          },
+          {
+            "name": "N4",
+            "elem": "N",
+            "xyz": [
+              68.161,
+              45.803,
+              48.273
+            ],
+            "d_e3_A": 4.02,
+            "d_other_protein_A": 7.74,
+            "on_e3_side": true
+          },
+          {
+            "name": "N5",
+            "elem": "N",
+            "xyz": [
+              67.709,
+              49.332,
+              47.373
+            ],
+            "d_e3_A": 2.69,
+            "d_other_protein_A": 9.68,
+            "on_e3_side": true
+          },
+          {
+            "name": "N6",
+            "elem": "N",
+            "xyz": [
+              75.552,
+              33.389,
+              53.421
+            ],
+            "d_e3_A": 8.9,
+            "d_other_protein_A": 3.83,
+            "on_e3_side": false
+          },
+          {
+            "name": "N7",
+            "elem": "N",
+            "xyz": [
+              75.032,
+              33.584,
+              56.382
+            ],
+            "d_e3_A": 10.12,
+            "d_other_protein_A": 4.01,
+            "on_e3_side": false
+          },
+          {
+            "name": "O1",
+            "elem": "O",
+            "xyz": [
+              65.869,
+              50.598,
+              47.05
+            ],
+            "d_e3_A": 2.81,
+            "d_other_protein_A": 11.48,
+            "on_e3_side": true
+          },
+          {
+            "name": "O2",
+            "elem": "O",
+            "xyz": [
+              69.608,
+              48.136,
+              47.686
+            ],
+            "d_e3_A": 3.14,
+            "d_other_protein_A": 7.88,
+            "on_e3_side": true
+          },
+          {
+            "name": "O3",
+            "elem": "O",
+            "xyz": [
+              68.617,
+              47.053,
+              50.18
+            ],
+            "d_e3_A": 3.45,
+            "d_other_protein_A": 7.09,
+            "on_e3_side": true
+          },
+          {
+            "name": "O4",
+            "elem": "O",
+            "xyz": [
+              67.966,
+              44.035,
+              46.777
+            ],
+            "d_e3_A": 3.14,
+            "d_other_protein_A": 8.03,
+            "on_e3_side": true
+          },
+          {
+            "name": "O5",
+            "elem": "O",
+            "xyz": [
+              71.986,
+              40.279,
+              47.737
+            ],
+            "d_e3_A": 3.26,
+            "d_other_protein_A": 5.15,
+            "on_e3_side": true
+          },
+          {
+            "name": "O6",
+            "elem": "O",
+            "xyz": [
+              74.449,
+              29.811,
+              52.191
+            ],
+            "d_e3_A": 10.31,
+            "d_other_protein_A": 3.22,
+            "on_e3_side": false
+          },
+          {
+            "name": "S",
+            "elem": "S",
+            "xyz": [
+              72.451,
+              34.474,
+              56.822
+            ],
+            "d_e3_A": 9.69,
+            "d_other_protein_A": 3.6,
+            "on_e3_side": false
+          },
+          {
+            "name": "CL",
+            "elem": "CL",
+            "xyz": [
+              76.23,
+              39.137,
+              50.174
+            ],
+            "d_e3_A": 3.73,
+            "d_other_protein_A": 3.78,
+            "on_e3_side": true
+          }
+        ],
+        "exit_atom_name": "C10",
+        "exit_atom_xyz": [
+          72.92,
+          35.237,
+          49.023
+        ],
+        "exit_atom_dist_to_receptor_A": 5.11,
+        "exit_atom_dist_to_other_protein_A": 5.79,
+        "e3_moiety_centroid": [
+          69.33427999999999,
+          43.955279999999995,
+          48.37083999999999
+        ],
+        "ligand_centroid": [
+          72.08340677966102,
+          38.66174576271188,
+          51.108864406779674
+        ],
+        "_derivation": "ligand atoms split by which protein each is closer to; the exit vector is the E3-side atom furthest from the recruiter (exact distances, no grid clamp)."
+      },
+      "ring": {
+        "ring_centroid_xyz": [
+          47.378,
+          -1.062,
+          52.445
+        ],
+        "cullin_centroid_xyz": [
+          28.778,
+          12.829,
+          10.088
+        ],
+        "rbx1_ring_residue_range": [
+          55,
+          108
+        ],
+        "bridge_protein": "DDB1",
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 808,
+          "bridge_rmsd_A": 1.167,
+          "ca_per_bridge_protein": {
+            "DDB1": 808
+          }
+        }
+      },
+      "derived": {
+        "anchor_to_ring_A": 44.52,
+        "ring_to_cullin_A": 48.3
+      },
+      "composition_check": {
+        "possible": true,
+        "reference_pdb": "9UUM",
+        "reference_title": "Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly",
+        "bridge": {
+          "ok": true,
+          "n_bridge_ca": 789,
+          "bridge_rmsd_A": 1.405,
+          "ca_per_bridge_protein": {
+            "DDB1": 789
+          }
+        },
+        "composed_ring_xyz": [
+          47.38,
+          -1.06,
+          52.45
+        ],
+        "observed_ring_xyz": [
+          93.54,
+          12.49,
+          59.18
+        ],
+        "ring_displacement_A": 48.58,
+        "anchor_to_composed_ring_A": 44.52,
+        "anchor_to_observed_ring_A": 32.33,
+        "anchor_to_observed_catalytic_cys_A": 11.98,
+        "_reading": "How far this script's COMPOSED RING sits from the RING of an intact solved CRL assembly placed in the same frame. The term-(b) transfer zone hangs off the RING, so this is the error bar on the zone's placement \u2014 reported whatever it says."
+      }
     }
   },
   "e2_geometry": {
@@ -41,6 +888,45 @@
       50,
       104
     ],
+    "_composition_check_inputs": {
+      "pdb_id": "9UUM",
+      "chains_by_accession": {
+        "Q96SW2": [
+          "C"
+        ],
+        "P51668": [
+          "D"
+        ],
+        "Q9UKT9": [
+          "I"
+        ],
+        "Q15843": [
+          "N"
+        ],
+        "P62979": [
+          "U"
+        ],
+        "P62877": [
+          "R"
+        ],
+        "Q16531": [
+          "B"
+        ],
+        "Q13619": [
+          "A"
+        ]
+      },
+      "ring_centroid_xyz": [
+        168.038,
+        95.582,
+        120.375
+      ],
+      "catalytic_cys_xyz": [
+        143.483,
+        84.269,
+        131.784
+      ]
+    },
     "substrate_lysine_calibration": {
       "n_substrate_lysines": 11,
       "nearest_lysine_resid": 158,
@@ -62,11 +948,15 @@
     }
   },
   "log": [
-    "[e3stage] arm vhl FAILED: 'exit_atom_min_dist_to_receptor_A'",
-    "[e3stage] arm crbn FAILED: 'exit_atom_min_dist_to_receptor_A'",
+    "[e3stage] vhl: receptor entry 5T35 (2.7 A) chains ['B', 'C', 'D', 'F', 'G', 'H'] ligand 759 n_heavy=69 exit atom CAG exposure 5.0 A",
+    "[e3stage] arm vhl FAILED: RuntimeError: GET failed after 4 tries: https://files.rcsb.org/download/9T32.pdb (HTTP Error 404: Not Found)",
+    "Traceback (most recent call last):\n  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_e3_stage.py\", line 766, in main\n    arms[a] = stage_arm(a, ARMS[a], args.out_dir, log)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_e3_stage.py\", line 473, in stage_arm\n    stext = _get(FILE_URL.format(pdb=spdb)).decode(\"utf-8\", \"replace\")\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/nr4a3_e3_stage.py\", line 141, in _get\n    raise RuntimeError(f\"GET failed after {tries} tries: {url} ({last})\")\nRuntimeError: GET failed after 4 tries: https://files.rcsb.org/download/9T32.pdb (HTTP Error 404: Not Found)\n",
+    "[e3stage] crbn: receptor entry 6BOY (3.33 A) chains ['A', 'B'] ligand RN6 n_heavy=59 exit atom C10 exposure 5.11 A",
+    "[e3stage] crbn: scaffold 2HYE bridged on DDB1 (rmsd 1.167 A over 808 CA) -> RING at [47.378, -1.062, 52.445]",
     "[e3stage] transfer geometry from 9UUM (Cryo-EM structure of mezigdomide-organized CRL4-DDB1-CRBN-IKZF3(ZF2-ZF3)-UbcH5a-Ub ubiquitylation assembly):",
     "[e3stage]   catalytic Cys85 of UBE2D1 identified by proximity to ubiquitin C-term (res 76): 3.4 A; other Cys [16.4, 17.3, 20.0] A",
     "[e3stage]   RING -> catalytic Cys = 29.3 A",
-    "[e3stage]   substrate Lys NZ -> catalytic Cys: nearest 17.1 A (Lys158), n=11, all [17.1, 17.3, 28.2, 31.1, 37.0, 37.1, 38.1, 39.8]"
+    "[e3stage]   substrate Lys NZ -> catalytic Cys: nearest 17.1 A (Lys158), n=11, all [17.1, 17.3, 28.2, 31.1, 37.0, 37.1, 38.1, 39.8]",
+    "[e3stage] crbn composition check vs 9UUM: composed RING is 48.58 A from the observed one (bridge 789 CA @ 1.405 A); anchor->RING composed 44.52 vs observed 32.33 A"
   ]
 }
