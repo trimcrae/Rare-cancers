@@ -172,8 +172,27 @@ jobs:
                 # recency and be read as this rev leg's crash. Defence in depth, same as the census.
                 PMEP=${PMEP:-0}; case "$PMEP" in ""|*[!0-9]*) PMEP=0 ;; esac; PMEP=$((10#$PMEP))
                 if [ "$PMEP" -gt 0 ] && [ "$PMEP" -gt "$VMEPOCH" ]; then
-                  echo "::error title=WATCHDOG CRASHED::$TAG — the VM is RUNNING but the leg is DEAD: it uploaded a post-mortem at epoch $PMEP, after this VM was created ($VMEPOCH). The self-delete trap cannot fire, so this is an idle billing zombie holding the single GPU. Reap it (gcp-reap-vms mode=reap) and read the post-mortem before relaunching — NOT relaunching, a crash repeats."
-                  echo "CRASHED $TAG (postmortem epoch $PMEP > vm epoch $VMEPOCH)" >> "$ALERT"
+                  # REAP IT HERE, do not ask a human to. A crashed leg's VM holds the ONLY GPU and burns credit
+                  # for as long as nobody notices, which defeats the point of a session-independent watchdog.
+                  # This is safe, and differs in a principled way from the evidence-destroying reap earlier on
+                  # 2026-07-25: the detector fires *because* the post-mortem is already in GCS, so the full run
+                  # log is preserved off-VM BY CONSTRUCTION before this line can ever run. Still no relaunch —
+                  # a crash repeats, and the per-day cap is not the right bound for a deterministic failure.
+                  REAPED="not attempted"
+                  if [ "$DRY" = "1" ]; then
+                    REAPED="dry_run — would delete"
+                  else
+                    for _vm in $(printf '%s\n' "$VMS" | awk '{print $1}' | sed '/^$/d'); do
+                      _z=$(gcloud compute instances list --filter="name=$_vm" --format="value(zone.basename())" 2>/dev/null | head -1)
+                      if [ -n "$_z" ] && gcloud compute instances delete "$_vm" --zone="$_z" --quiet 2>/dev/null; then
+                        REAPED="deleted $_vm"
+                      else
+                        REAPED="DELETE FAILED for $_vm — reap manually (gcp-reap-vms mode=reap)"
+                      fi
+                    done
+                  fi
+                  echo "::error title=WATCHDOG CRASHED::$TAG — the VM was RUNNING but the leg is DEAD: it uploaded a post-mortem at epoch $PMEP, after this VM was created ($VMEPOCH). The in-VM self-delete trap cannot fire (no compute.instances.delete on the VM's SA), so it was an idle billing zombie holding the single GPU — $REAPED. The post-mortem is in gs://$BUCKET/valB-6hax/postmortem/ (read it with gpu-ternary-fep-gcp mode=tail). NOT relaunching: a crash repeats, so this needs a fix, not a retry."
+                  echo "CRASHED $TAG (postmortem epoch $PMEP > vm epoch $VMEPOCH; $REAPED)" >> "$ALERT"
                   continue
                 fi
 
