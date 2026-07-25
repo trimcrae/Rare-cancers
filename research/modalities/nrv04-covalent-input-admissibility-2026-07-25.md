@@ -132,12 +132,16 @@ Three obstacles, in increasing severity.
 
 **Say which: drop them.** Four reasons, in order of weight:
 
-1. **The panel's crux is unevaluable and would stay unevaluable.** Frozen §5 criterion 2 asks whether
-   covalency *swamps* the ternary signal, by comparing `cov_nr4a1` against `noncov_nr4a1`. Answering it needs
-   a covalent model that differs from the noncovalent one **only** by the bond. Any input produced here —
-   constructed or steered — differs from the co-fold by a **repositioned warhead**, so the comparison would
-   confound the tether with a pose change. The measurement the criterion asks for cannot be made from these
-   materials.
+1. **The panel's crux would be answered about a complex we invented.** Frozen §5 criterion 2 asks whether
+   covalency *swamps* the ternary signal, by comparing `cov_nr4a1` against `noncov_nr4a1`.
+   *The obvious rebuttal, stated so it is not left as a hole:* build **both** legs from the same constructed
+   pose and they differ only by the bond, so the comparison is matched again. That rebuttal is correct as far
+   as it goes — matching is not the problem. The problem is what both halves would then rest on. The pose
+   would be one **we placed**: no predictor produced it (§2, 7/7 models, 4 seeds, 3 prefixes, 2 providers), no
+   structure supports it (there is no deposited celastrol–NR4A1 complex), and the literature is in tension
+   over whether celastrol engages the NR4A LBD directly at all (§4.3). Endpoint MD would then report how
+   stably an assumed interface persists, and criterion 2's verdict would be a statement about that assumption.
+   A matched comparison between two unevidenced structures is still unevidenced.
 2. **The covalent legs' scientific job is already done, for $0, by Leg 0.** The panel exists (prereg §1)
    because celastrol's covalency could make NR-V04's selectivity a warhead-reactivity story the noncovalent
    machinery cannot represent. Leg 0 **settled that**: the reactive Cys is unique to NR4A1 (NR4A2 = Tyr,
