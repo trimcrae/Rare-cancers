@@ -366,10 +366,33 @@ def submit(mode="pilot", n_replicas=3, benchmarks=None, dry_run=False):
             RES.exclude_machine_ids = tuple(bad)
             print(f"[launch] excluding {len(bad)} machine(s) known to refuse starts: {bad}")
         finished = set(completed_leg_ids())
-        keep = [s for s in specs if leg_id_for(s, mode) not in finished]
+        # AND legs that are already RUNNING. `finished` only covers legs whose result is in S3, so a
+        # re-launch fired while a fleet was still working re-rented every in-flight leg: on
+        # 2026-07-25 a 10-leg relaunch meant to replace 3 destroyed hosts re-rented all 10, putting
+        # two instances on each live leg_id — same S3 key, same work, double the bill. A leg is
+        # "already being worked" if it is done OR a lane instance is currently labelled for it.
+        inflight = set()
+        key = os.environ.get("VAST_API_KEY")
+        if key:
+            try:
+                for i in _vast_request("GET", "/instances/", key).get("instances", []):
+                    label = i.get("label") or ""
+                    if not label.startswith(LABEL_PREFIX):
+                        continue
+                    for sp in specs:
+                        if label_matches_leg(label, leg_id_for(sp, mode)):
+                            inflight.add(leg_id_for(sp, mode))
+            except Exception as e:  # noqa: BLE001 — never block a launch on a listing failure
+                print(f"[launch] could not list live instances ({type(e).__name__}: {e}); "
+                      "cannot skip in-flight legs, duplicates are possible")
+        busy = finished | inflight
+        keep = [s for s in specs if leg_id_for(s, mode) not in busy]
         skipped = [leg_id_for(s, mode) for s in specs if leg_id_for(s, mode) in finished]
         if skipped:
             print(f"[launch] skipping {len(skipped)} already-finished leg(s), no rental: {skipped}")
+        if inflight:
+            print(f"[launch] skipping {len(inflight)} leg(s) already running, no rental: "
+                  f"{sorted(inflight)}")
         specs = keep
         if not specs:
             print("[launch] every leg for this mode is already done — nothing to rent")
@@ -526,6 +549,28 @@ def collect(bucket=None, prefix=None, autostop=True):
         prev_state = json.loads(s3.get_object(Bucket=b, Key=f"{p}/_lane_state.json")["Body"].read())
     except Exception:  # noqa: BLE001 — first run, or the object was pruned
         prev_state = {}
+
+    # DEDUPE: at most one live instance per leg. A launch fired while a fleet was still working can
+    # put two instances on one leg_id — they write the same S3 key, do the same work, and bill twice.
+    # Keep the OLDEST (it has the most progress and its checkpoints are already in S3) and destroy
+    # the rest. Done before the per-instance pass so a duplicate is not also nudged or rebid.
+    if key and mine:
+        by_leg = {}
+        for i in mine:
+            by_leg.setdefault(i.get("label") or "", []).append(i)
+        for label, group in by_leg.items():
+            if len(group) < 2:
+                continue
+            group.sort(key=lambda x: float(x.get("start_date") or 0))
+            keep_inst, dupes = group[0], group[1:]
+            print(f"  DUPLICATE {label}: {len(group)} instances; keeping {keep_inst.get('id')} "
+                  f"(oldest), destroying {[d.get('id') for d in dupes]}")
+            for d in dupes:
+                try:
+                    _vast_request("DELETE", f"/instances/{d.get('id')}/", key)
+                except Exception as e:  # noqa: BLE001
+                    print(f"    destroy {d.get('id')} failed: {e}")
+            mine = [x for x in mine if x not in dupes]
 
     n_up = len(mine)
     if key:

@@ -1689,3 +1689,56 @@ def test_the_fleet_exclusion_keeps_the_persistent_blocked_list(monkeypatch):
     pv.submit(mode="pilot")
     assert "53989" in seen[0], "a persistently blocked host must stay excluded from leg 1"
     assert {"53989", "999"} <= seen[1]
+
+
+def test_collect_destroys_duplicate_instances_keeping_the_oldest(monkeypatch, capsys):
+    """Two instances on one leg write the same S3 key, do the same work, and bill twice."""
+    old = {"id": 1, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+           "actual_status": "running", "start_date": time.time() - 3600, "dph_total": 0.1}
+    new = {"id": 2, "label": pv.LABEL_PREFIX + "-x", "cur_state": "running",
+           "actual_status": "running", "start_date": time.time() - 60, "dph_total": 0.1}
+    calls = []
+
+    def _req(method, path, key, params=None, body=None):
+        calls.append((method, path, body))
+        return {"instances": [new, old]} if method == "GET" else {"success": True}
+
+    import types
+    monkeypatch.setattr(pv, "_vast_request", _req)
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.delenv("PROTFEP_FORENSIC", raising=False)
+    monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(
+        client=lambda _n: types.SimpleNamespace(
+            get_paginator=lambda _m: types.SimpleNamespace(paginate=lambda **_k: [{"Contents": []}]),
+            get_object=lambda **_k: (_ for _ in ()).throw(KeyError("none")),
+            put_object=lambda **_k: None)))
+    pv.collect()
+    assert ("DELETE", "/instances/2/", None) in calls, "the NEWER duplicate must go"
+    assert ("DELETE", "/instances/1/", None) not in calls, "the oldest has the progress"
+    assert "DUPLICATE" in capsys.readouterr().out
+
+
+def test_launch_skips_a_leg_that_is_already_running(monkeypatch, capsys):
+    """`finished` covers only legs whose result is in S3; an in-flight leg must not be re-rented."""
+    units = pv.units_for("pilot")
+    live_label = pv.unit_label(units[0], "pilot")
+
+    def _req(method, path, key, params=None, body=None):
+        return {"instances": [{"id": 5, "label": live_label}]}
+
+    submitted = []
+
+    class _Backend:
+        def submit(self, js):
+            submitted.append(js.env["LEG_ID"])
+            return type("H", (), {"job_id": "x", "extra": {}})()
+
+    monkeypatch.setattr(pv, "_vast_request", _req)
+    monkeypatch.setattr(pv, "get_backend", lambda name: _Backend())
+    monkeypatch.setattr(pv, "blocked_machine_ids", lambda *a, **k: [])
+    monkeypatch.setattr(pv, "completed_leg_ids", lambda *a, **k: [])
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    pv.RES.exclude_machine_ids = ()
+    pv.submit(mode="pilot")
+    assert pv.leg_id_for(units[0], "pilot") not in submitted
+    assert "already running" in capsys.readouterr().out
