@@ -212,6 +212,19 @@ jobs:
           VMCOUNT=$(printf '%s\n' "$VMLIST" | grep -c . 2>/dev/null || echo 0)
           VMS1=$(printf '%s\n' "$VMLIST" | tr '\n' ';' | cut -c1-200)
           echo "[PROGRESS-SUMMARY] leg=$LEG_ID seed=$SEED src=$SRCKIND live_vms=$VMCOUNT vms=\"$VMS1\" warmup_committed_iter=${WMAX:-0} production_committed_iter=${PMAX:-0} NaN_seen=$NAN charge=${CHG:-?} warmup_dt_override=\"${WUD:-NONE}\" reduced_dt_warn=\"${RDTW:-none}\" nan_at=\"${NANST:-}\" (committed-iters are leg-wide across salts; verdict fields are from src)"
+          # ALSO EMIT AS AN ANNOTATION. The tail step prints a lot (SSH dumps, nvidia-smi, the whole run log), so
+          # this one decisive line sits at an unpredictable depth and finding it means fetching the log and
+          # guessing a tail window — which wasted real time today. ::notice::/::error:: are retrievable from the
+          # check-runs API, so a progress check becomes one cheap call. An ERROR (not notice) when the VM is gone
+          # or a NaN appeared, so trouble is visible from the annotation LEVEL without parsing anything.
+          SUMMARY="live_vms=$VMCOUNT prod_iter=${PMAX:-0} warmup_iter=${WMAX:-0} NaN=$NAN charge=${CHG:-?} src=$SRCKIND vms=$VMS1"
+          if [ "$VMCOUNT" = "0" ]; then
+            echo "::error title=TERNARY-PROGRESS NO-VM::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — NO live VM. The leg is not running: preempted, finished, or died. $SUMMARY"
+          elif [ "$NAN" = "YES" ]; then
+            echo "::error title=TERNARY-PROGRESS NaN::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — NaN seen at ${NANST:-unknown}. $SUMMARY"
+          else
+            echo "::notice title=TERNARY-PROGRESS ok::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — $SUMMARY (NB committed-iters are leg-wide ACROSS SALTS, so they may reflect a DIFFERENT direction's legs, not this one)"
+          fi
       - name: Set up openmmtools for forensic ckpt probe (mode=forensic)
         if: ${{ github.event.inputs.mode == 'forensic' }}
         uses: mamba-org/setup-micromamba@v2
