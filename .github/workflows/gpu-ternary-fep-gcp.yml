@@ -512,9 +512,15 @@ jobs:
           # engine is now SPOT-SAFE (execute_hybrid_dag_spot_safe commits MD per-interval to the GCS CommitStore
           # below), so a preempted leg RESUMES from its last committed iteration on re-dispatch — a finished leg
           # is still kept via this skip.
-          if [ "$MODE" = run ] && [ "$FORCE_RERUN" != 1 ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_fwd_r${SEED}.json >/dev/null 2>&1; then
-            echo "leg ${LEG_ID} seed $SEED already in GCS — idempotent skip"
-            for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} (idempotent-skip) ###END###"; sleep 3; done
+          # DIRECTION-KEYED. This checked for leg_<id>_fwd_r<seed>.json regardless of the direction being run,
+          # so a DIRECTION=rev leg found the FORWARD result, declared itself already done, printed
+          # status=OK (idempotent-skip) and exited after ~37 s with no MD and no run log. It reported success
+          # while computing nothing -- and because the VM cannot self-delete (its SA lacks
+          # compute.instances.delete) it then sat as an idle billing zombie holding the single-GPU quota.
+          # The result file is leg_<id>_<direction>_r<seed>.json, so the check must name the direction.
+          if [ "$MODE" = run ] && [ "$FORCE_RERUN" != 1 ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}.json >/dev/null 2>&1; then
+            echo "leg ${LEG_ID} dir=${DIRECTION} seed $SEED already in GCS — idempotent skip"
+            for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} dir=${DIRECTION} (idempotent-skip) ###END###"; sleep 3; done
             exit 0
           fi
           [ "$MODE" = run ] && [ "$FORCE_RERUN" = 1 ] && echo "force_rerun=1: bypassing idempotent-skip; a stale leg result (if any) will be overwritten"
