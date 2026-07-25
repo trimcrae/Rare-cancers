@@ -623,12 +623,25 @@ def run_leg():
         print("  [tfep] PRIME DONE %s: setup cached to %s (%s particles) — GPU run will skip setup." % (
             LEG_ID, _ana_keys.get("cache_dir"), _ana_keys.get("n_particles")), flush=True)
         return
+    # SYSTEM IDENTITY IN THE LEG RECORD (2026-07-25). ΔΔG_coop is a DIFFERENCE of legs and |ΔG_fwd + ΔG_rev| is a
+    # SUM of them, so both are meaningless unless the legs describe the SAME system. The record carried
+    # protocol_hash, n_windows and starting_model but NOT the particle count or which setup cache was used --
+    # so the reduce's per-leg forensic table, whose entire purpose is auditing cross-leg comparability, was
+    # missing the most basic system-identity number. Answering "did fwd and rev use the same system?" today meant
+    # excavating a five-day-old CI log belonging to a DIFFERENT workflow (the setup prime), and the answer
+    # mattered: the four failed rev attempts ran a 146,020-particle v1 build against fwd's 141,968-particle v2pe
+    # one. Both values are already in hand here -- printed one line away in the prime branch above.
+    _setup_cache = _ana_keys.get("cache_dir") if isinstance(_ana_keys, dict) else None
+    _n_particles = _ana_keys.get("n_particles") if isinstance(_ana_keys, dict) else None
     out = {"leg_id": LEG_ID, "environment": env, "morph": "%s->%s" % (a, b), "direction": DIRECTION,
            "seed": SEED, "dg_morph_kcal": float(dg_kcal) if dg_kcal is not None else None,
            "mbar_se_kcal": float(unc_kcal) if unc_kcal is not None else None, "n_mapped_atoms": n_mapped,
            "n_windows": N_WINDOWS, "spot_safe": True,
            "protocol_hash": proto_hash, "protocol_settings": proto_payload,
-           "starting_model": starting_model}
+           "starting_model": starting_model,
+           "n_particles": _n_particles, "setup_cache_dir": _setup_cache,
+           "charge_method": os.environ.get("CHARGE_METHOD"),
+           "setup_cache_version": os.environ.get("SETUP_CACHE_VERSION")}
     json.dump(out, open(os.path.join(CKPT, "leg_%s_%s_r%d.json" % (LEG_ID, DIRECTION, SEED)), "w"), indent=2)
     _dg = out["dg_morph_kcal"]; _se = out["mbar_se_kcal"]
     print("  [tfep] LEG DONE %s: ΔG_morph=%s ± %s (MBAR SE) [spot-safe]" % (

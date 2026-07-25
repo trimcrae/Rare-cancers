@@ -56,4 +56,10 @@ jobs:
       # restore_latest through a fake store.
       - name: Commit-manifest system fingerprint (no cross-provenance resume)
         run: python3 research/modalities/tests/test_system_fingerprint.py
+      # ddG_coop is a DIFFERENCE of legs and |dG_fwd + dG_rev| a SUM of them, so both are meaningless if the legs
+      # describe different systems. protocol_hash covers the OpenFE settings and NOT the system: on 2026-07-25
+      # four rev attempts ran a 146,020-particle v1 build against fwd's 141,968-particle v2pe one and nothing
+      # reported it. Also asserts that 'unrecorded' reports as UNKNOWN rather than as agreement.
+      - name: Cross-leg system identity (particles / charge / setup version)
+        run: python3 research/modalities/tests/test_system_identity_consistency.py
       - run: python -m pytest research/modalities/tests -q

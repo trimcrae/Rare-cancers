@@ -384,10 +384,19 @@ The prefix is `<seed>_dt<dt>fs_clig<c>_wu<warmup_dt>[_<salt>][_dir<dir>]`. **`us
 yet it selects whether the alchemy starts from the plain-MD-relaxed physical complex (`SETUP_VER=v2pe`) or the raw
 one (`v1`). So a `v1`-started and a `v2pe`-started run of the same leg share a prefix.
 
-**This one is worse than §H, not better.** In §H the fwd/rev mismatch was caught by OpenFE's
-`assert_multistate_system_equality` because the two hybrid systems had different particle counts. Pre-equilibration
-only **moves coordinates** — the atom set is identical — so the particle counts match and that check **cannot
-fire**. A `v1` trajectory restored into a `v2pe` run would resume silently.
+**⚠ CORRECTED 2026-07-25 3:25 PM ET — the original text here asserted a physical property without measuring
+it, which is the exact failure this document exists to catalogue.** It claimed pre-equilibration "only moves
+coordinates — the atom set is identical — so the particle counts match and OpenFE's check cannot fire." **That is
+false.** Measured from the prime markers: the `v1` rev build is **146,020** particles and the `v2pe` build is
+**141,968** — a difference of 4,052. The pre-equilibrated complex is re-solvated, not merely relaxed. So
+`assert_multistate_system_equality` **would** catch a `v1`↔`v2pe` cross-restore, exactly as it caught §H.
+
+The hazard is therefore **real but narrower than stated**: `use_preequil` is genuinely absent from the commit
+prefix, so the two provenances do share a prefix — but the failure mode is a *loud* rejection deep in the restore
+path, not a silent wrong answer. The genuinely undetectable cases are the ones where the atom set is unchanged:
+**`CHARGE_METHOD`** (`nagl` vs `am1bcc` — same atoms, different partial charges) and **`N_WINDOWS`** in the cases
+OpenFE does not check. Those are what §J.4's fingerprint is load-bearing for; for `use_preequil` it upgrades a
+late, cryptic failure into an early, named one at zero download cost.
 
 *Nothing is contaminated today:* both failed rev runs died before `run_to_target`, so neither committed a
 generation. Verified from the absence of commit lines in their logs.
@@ -448,9 +457,14 @@ more correct and was worse:
   into `RBFE_STRICT_PROVENANCE=1`**, having verified nothing unstamped needs resuming there (fwd is complete and
   the rev prefix holds no generations).
 
-Note what this buys that OpenFE cannot: `assert_multistate_system_equality` caught the §H fwd/rev mismatch only
-because particle counts differed. Pre-equilibration **moves coordinates without changing the atom set**, so
-counts match and that check cannot fire. This is the only guard that covers it.
+What this buys over OpenFE's own check — stated accurately, after the correction in §J.2:
+`assert_multistate_system_equality` compares particle counts, so it catches any mismatch that changes the atom
+set (§H's fwd/rev, and — measured — `v1` vs `v2pe`, which differ 146,020 vs 141,968 because the pre-equilibrated
+complex is re-solvated). It is **blind** to a mismatch that preserves the atom set: `CHARGE_METHOD` `nagl` vs
+`am1bcc` is the same atoms with different partial charges, i.e. a different Hamiltonian that would resume
+silently. That case is what the fingerprint is load-bearing for. For the atom-set-changing cases it is still worth
+having, because it converts a cryptic failure after a download and reporter validation into a named refusal
+against the manifest alone.
 
 `tests/test_system_fingerprint.py` — 28 checks. The real checkpoint suite
 (`rbfe_spot_checkpoint_test.py`) needs numpy + openmm and runs only in the AWS GPU workflow, so it cannot gate
@@ -458,3 +472,41 @@ this; the new test drives `restore_latest` through a **fake store** instead, nee
 asserts the properties that matter: a mismatched generation is skipped **without being downloaded**, a prefix
 holding a mix still resumes from the newest **compatible** generation rather than refusing outright, and no flag
 excuses a real mismatch.
+
+### J.5 Provenance measured, comparability confirmed, and a gap in the leg record
+
+The `v2pe` rev prime (2026-07-25 3:22 PM ET) and the `v2pe` **fwd** prime (2026-07-20) report **identical**
+system identity:
+
+| | fwd `v2pe` prime | rev `v2pe` prime |
+|---|---|---|
+| `n_particles` | **141,968** | **141,968** |
+| `protocol_hash` | `52488cfc…` | `52488cfc…` |
+
+So the rev leg now runs the same system, under the same protocol, as the leg it will be compared against — the
+hysteresis test is well-posed. (The prime's `52488cfc…` differs from the *leg's* `a5ad9520…` because the prime
+takes no `timestep_fs`; both primes agreeing is the relevant fact, and the leg recomputes its own hash with the
+timestep at run time.)
+
+This also confirms the diagnosis of the four failures beyond the pre-equilibration argument: at **146,020**
+particles they were not merely a badly-equilibrated version of fwd's system, they were **a different system**.
+
+**Gap found while checking this, and it is a real one.** The leg result JSON records `leg_id`, `environment`,
+`morph`, `direction`, `seed`, `dg_morph_kcal`, `mbar_se_kcal`, `n_mapped_atoms`, `n_windows`, `protocol_hash`,
+`protocol_settings` and `starting_model` — but **not `n_particles`, and not which setup cache it used.** The
+reduce's per-leg forensic table exists precisely so a ΔΔG can be audited for cross-leg comparability, and the most
+basic system-identity number is absent from it, which is why answering "did fwd and rev use the same system?"
+required excavating a five-day-old CI log for a workflow that is not even the leg. The value is in hand at
+leg-write time (`_ana_keys["n_particles"]`, already printed one line away). **Now closed:**
+
+- the leg record gains `n_particles`, `setup_cache_dir`, `charge_method` and `setup_cache_version`;
+- the reduction gains **`system_identity_consistency`** alongside `protocol_hash_consistency` — a separate check,
+  because `protocol_hash` covers the OpenFE *settings* and not the *system*;
+- legs written before these fields existed record `None`, and that reports as **`UNKNOWN` — "NOT VERIFIED"** —
+  rather than being folded in as agreement. Absent provenance must not read as matching provenance; that is §B's
+  defect, and it has already recurred three times in this document, so the tri-state is explicit and tested.
+
+`tests/test_system_identity_consistency.py`, 16 checks, including that **today's actual situation is caught**:
+a 146,020-particle `v1` rev leg against a 141,968-particle `v2pe` fwd leg returns `INCONSISTENT` and names both
+counts, and that a `nagl`-vs-`am1bcc` mismatch — the atom-set-preserving case OpenFE structurally cannot see — is
+caught too.

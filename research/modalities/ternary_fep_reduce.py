@@ -509,6 +509,72 @@ def _protocol_hash_consistency():
             "hashes": {h: sorted(v) for h, v in hashes.items()}}
 
 
+# fields that must AGREE across every leg of a cycle, and why. protocol_hash (above) covers the OpenFE settings;
+# these cover the SYSTEM, which it does not.
+_SYSTEM_IDENTITY_FIELDS = {
+    "n_particles": "different particle counts = a different solvated system, so the legs are not comparable",
+    "charge_method": "nagl vs am1bcc = different partial charges = a different Hamiltonian, with the SAME atoms "
+                     "(so OpenFE's particle check cannot see it)",
+    "setup_cache_version": "v2pe (alchemy from the plain-MD-relaxed complex) vs v1 (raw) -- measured 141,968 vs "
+                           "146,020 particles on this leg, i.e. genuinely different systems",
+}
+
+
+def _system_identity_consistency():
+    """Every leg of the cycle must describe the SAME system, not merely run the same protocol.
+
+    WHY THIS EXISTS SEPARATELY FROM `_protocol_hash_consistency` (2026-07-25). ΔΔG_coop is a DIFFERENCE of legs and
+    |ΔG_fwd + ΔG_rev| is a SUM of them; both are meaningless if the legs describe different systems, and
+    protocol_hash does not capture the system. On 2026-07-25 four reverse-leg attempts ran a 146,020-particle `v1`
+    build while the forward leg it would be compared against was a 141,968-particle `v2pe` build -- a difference no
+    check in this repo would have reported, and one that had to be established by excavating a five-day-old CI log
+    from a different workflow.
+
+    Legs written before these fields existed record `None`. That is reported as `unknown`, NOT folded in as
+    agreement -- absent provenance must never read as matching provenance (see section B of
+    ternary-lane-guard-audit-2026-07-25.md).
+    """
+    seen = {k: {} for k in _SYSTEM_IDENTITY_FIELDS}
+    unknown = {k: [] for k in _SYSTEM_IDENTITY_FIELDS}
+    for base in (CKPT, IN):
+        for f in glob.glob(os.path.join(base, "**", "leg_*_r*.json"), recursive=True):
+            try:
+                d = json.load(open(f))
+            except Exception:  # noqa: BLE001
+                continue
+            name = os.path.basename(f)
+            for k in _SYSTEM_IDENTITY_FIELDS:
+                v = d.get(k)
+                if v is None:
+                    unknown[k].append(name)
+                else:
+                    seen[k].setdefault(str(v), []).append(name)
+    out = {}
+    inconsistent = []
+    unmeasured = []
+    for k, why in _SYSTEM_IDENTITY_FIELDS.items():
+        n = len(seen[k])
+        out[k] = {"n_distinct": n, "values": {v: sorted(fs) for v, fs in seen[k].items()},
+                  "unrecorded_in": sorted(set(unknown[k])), "why_it_matters": why}
+        if n > 1:
+            inconsistent.append(k)
+        elif n == 0 and unknown[k]:
+            unmeasured.append(k)
+    if inconsistent:
+        verdict = "INCONSISTENT"
+        note = ("legs disagree on %s -- the cycle mixes different systems and neither ΔΔG_coop nor the fwd/rev "
+                "sum is meaningful until that is resolved" % ", ".join(inconsistent))
+    elif unmeasured:
+        verdict = "UNKNOWN"
+        note = ("no leg records %s (written before system-identity was captured), so cross-leg comparability is "
+                "NOT VERIFIED -- this is 'unmeasured', not 'consistent'" % ", ".join(unmeasured))
+    else:
+        verdict = "CONSISTENT"
+        note = "every leg that records system identity agrees on it"
+    return {"verdict": verdict, "note": note, "fields": out,
+            "partially_unrecorded": sorted({f for k in _SYSTEM_IDENTITY_FIELDS for f in set(unknown[k])})}
+
+
 def reduce_all():
     os.makedirs(CKPT, exist_ok=True)
     morphs = sorted({eng._morph_key(lid) for lid in eng.expand_pilot_legs()})
@@ -574,6 +640,7 @@ def reduce_all():
         "valB_calibration_gate": calib_gate,   # AUTHORITATIVE condition-6 three-tier verdict (headline)
         "leg_algebra_audit": [leg_algebra_audit(m) for m in morphs],   # condition-8 antisymmetry/cancellation
         "protocol_hash_consistency": _protocol_hash_consistency(),
+        "system_identity_consistency": _system_identity_consistency(),
         "n_available_morphs": sum(1 for s in summaries if s.get("available")),
     }
     out = os.path.join(CKPT, "ternary_coop_reduction.json")
