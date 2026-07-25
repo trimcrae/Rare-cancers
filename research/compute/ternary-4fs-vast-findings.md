@@ -256,6 +256,16 @@ attributed to the timestep.
 not 0.5×; (ii) the leg is 2800 iterations as run, not 2400. Both are arithmetic on the existing measured
 per-iteration rate — neither requires a new measurement, and neither changes that rate.
 
+**STRATEGY.md → monitoring/infrastructure.** Record that the Vast lane has its own session-independent
+watchdog (`.github/workflows/ternary-vast-watchdog.yml` + `ternary_vast_watchdog.py` +
+`ternary-vast-watch.json`), and that `ternary-leg-watchdog.yml` remains **GCP-only** — it authenticates by
+WIF, reads GCS, looks for `gcp-ternary-*` VMs and re-dispatches the GCP workflow, so pointing a Vast leg at
+it yields monitoring that watches nothing. The Vast one requires the **committed iteration to have advanced**
+before it says RUNNING, separates a recorded crash (FAILED, no relaunch) from a preemption (DIED, relaunch
+from checkpoint), delegates capacity refusals to the launcher's destroy-and-exclude policy, and reads back
+after arming so a leg cannot end up billing with an empty watch list. **It only fires once on `main`** — a
+`schedule:` trigger does not run from a feature branch.
+
 **pricing.md → the "time one before treating these rows as firm" warning.** This lane re-measures the
 existing `calib_hi_to_lo` (SMARCA2/VHL 8G1Q) basis on a full leg, on a 4090, per phase. It therefore removes
 the "the rate came from a 60-iteration probe" caveat. It does **not** remove the NR4A transferability
