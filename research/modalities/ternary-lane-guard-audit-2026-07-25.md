@@ -312,3 +312,34 @@ trap, a few dozen lines from where the DIRSUF fix violated it. **A prose warning
 `research/modalities/tests/test_heredoc_two_shell.py` is now the guard: it ignores comments and `env VAR=`
 prefixes (the only two false-positive sources found), and was **verified to discriminate** — reintroducing the
 DIRSUF pattern makes it fail, naming the variable, the line, and the fix.
+
+---
+
+## I. §B#1 reproduced a third time — in the annotation that reports the verdict
+
+The watchdog now dispatches `mode=converge` then `mode=reduce` automatically when a leg lands, so the calibration
+verdict can arrive with **no session awake**. That autonomy is worth nothing if the verdict is only readable by
+excavating a log (§D), so `mode=reduce` gained a one-call `[REDUCE-VERDICT]` annotation.
+
+**And the annotation shipped with §B#1's defect in it.** Its level was keyed on the gate's `decision` alone:
+
+```python
+level = 'notice' if verdict == 'PASS' else 'error'
+```
+
+But the gate's `decision` **deliberately excludes hysteresis** — the fwd/rev criterion lives on
+`calibration_decision`, which is the whole reason §B#1 existed. So a PASS whose preregistered
+`|ΔG_fwd + ΔG_rev|` criterion was **never measured** (`hysteresis_ok is None`), or was measured and **failed**,
+emitted a **green notice**. Absent data reading as fine, for the third time in this document, in code written
+*because of* the first two.
+
+Fixed: quiet requires **both** a passing gate **and** measured, passing hysteresis, and a PASS with anything else
+carries an explicit rider — *"GATE PASSED BUT THE PREREGISTERED FWD/REV CRITERION DID NOT … This is NOT a pass of
+the calibration."* All four routings verified against **real reducer output**: ok → notice; unmeasured → error;
+exceeded → error; wrong sign → error.
+
+**Why it was caught this time:** the formatter was *exercised* against real gate output rather than read. Reading
+it would not have surfaced this — the line is obviously correct unless you happen to remember that `decision`
+excludes one of the criteria. Which is the same conclusion as §H, arrived at from the opposite direction:
+
+> **Reading code cannot verify a claim about what it produces. Run it and assert on the output.**
