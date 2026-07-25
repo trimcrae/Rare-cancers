@@ -6,7 +6,7 @@
     "bake": "$0 CI. Build + push docker.io/triskit23/nr4a-metad (research/compute/Dockerfile.nr4ametad)",
     "selftest": "$0 CI. Import + unit checks of the lane's pure helpers, and a dry-run JobSpec",
     "smoke": "~$0.10. One host, toy lengths, the WHOLE chain metad -> release -> export -> S3",
-    "launch": "the real matched NR4A1 + NR4A2 ensembles, one interruptible host each, concurrently",
+    "launch": "the real matched ensembles, one interruptible host each, concurrently. `launch_targets` restricts WHICH legs are rented (a relaunch of one leg must not re-rent a healthy sibling); `targets` still governs watch/collect/analyse.",
     "status": "$0. Vast instance board + S3 phase markers + the tail of each run.log",
     "collect": "$0. Pull the frame tarballs from S3, unpack into results/nr4a{1,2}-pocket-ensemble, commit",
     "analyse": "$0. Run nr4a_paralogue_dynamics.py over whatever ensembles are present and commit the JSON",
@@ -14,13 +14,13 @@
     "stop": "$0. Destroy every nr4a-pdyn instance unconditionally",
     "watch": "$0. ONE long CI run that polls S3 every 3 min with a real PROGRESS check, reaps finished hosts, and fails on a stall \u2014 monitoring that survives a session death"
   },
-  "task": "watch",
+  "task": "launch",
   "targets": "NR4A1,NR4A2",
   "metad_ns": 60,
   "release_ns": 5,
   "n_rep": 3,
-  "exclude_machines": "",
-  "note": "watch: capture the WHOLE tick on the board (status + start nudge + reap), because the board is the only thing readable mid-run and 'did the nudge fire?' is exactly the question the NR4A2 leg raises while it sits at intended=stopped/actual=loading. NR4A1 is advancing: metad 0.05 -> 0.5 ns between 23:42 and 23:46 ET-4, i.e. ~160 ns/day on its RTX 4090.",
+  "exclude_machines": "142143",
+  "note": "CAPACITY REFUSAL, diagnosed from the API rather than guessed: the NR4A2 start on machine 142143 answered {'success': false, 'error': 'resources_unavailable', 'msg': 'Required resources are currently unavailable, state change queued.'} after ~11 min at intended=stopped/actual=loading. Standing policy: destroy, exclude the machine, pick another host -- never wait, never raise the bid, because a host that never starts has infinite realised $/ns which the ranking cannot see. The stuck instance was destroyed automatically by the watch; this relaunches NR4A2 only. NR4A1 (45853652, RTX 4090) is healthy and advancing: metad 0.05 -> 0.5 -> 0.7 ns across 23:42/23:46/23:48 UTC, i.e. ~145-160 ns/day.",
   "estimate_usd": {
     "point": 2.5,
     "range": [
@@ -29,5 +29,6 @@
     ],
     "ceiling_usd": 40,
     "basis": "smoke leg implied ~234 ns/day on a rented RTX 4090; 75 ns of MD per paralogue (60 ns metad + 3 x 5 ns release); bid $0.136/hr actually paid against a $0.1333 floor; 60 GB at the $0.20/GB/month median storage rate; two hosts concurrently"
-  }
+  },
+  "launch_targets": "NR4A2"
 }

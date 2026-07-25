@@ -201,10 +201,25 @@ def nudge_start(insts):
         try:
             r = _vast_request("PUT", f"/instances/{i.get('id')}/", key, body={"state": "running"})
             if isinstance(r, dict) and r.get("success") is False:
-                print(f"::warning title=LANE13 START REFUSED::{i.get('id')} {i.get('label')} "
-                      f"{r.get('error')}: {r.get('msg')} — if this is resources_unavailable, DESTROY the "
-                      f"instance, add machine {i.get('machine_id')} to exclude_machines and relaunch; "
-                      f"do NOT wait and do NOT raise the bid")
+                err = str(r.get("error"))
+                if err == "resources_unavailable":
+                    # THE STANDING POLICY, EXECUTED RATHER THAN ANNOUNCED. That host's GPU is taken and no
+                    # bid fixes it: raising a stuck leg's bid 26 % to its value ceiling left it queued
+                    # exactly as before, and a box sat `stopped` for 45 min across ~13 start attempts. A host
+                    # that never starts has INFINITE realised $/ns, which the $/ns ranking cannot see, so
+                    # without the exclusion it keeps winning selection and keeps failing.
+                    mid = i.get("machine_id")
+                    print(f"::error title=LANE13 CAPACITY REFUSAL::{i.get('id')} {i.get('label')} on machine "
+                          f"{mid}: {r.get('msg')} — DESTROYING and excluding machine {mid}. "
+                          f"Relaunch with exclude_machines={mid}. Never wait, never raise the bid.")
+                    try:
+                        _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+                        print(f"[ops] destroyed {i.get('id')}; EXCLUDE_MACHINE={mid}")
+                    except Exception as e:  # noqa: BLE001
+                        print(f"[ops] destroy {i.get('id')} failed: {e}")
+                else:
+                    print(f"::warning title=LANE13 START REFUSED::{i.get('id')} {i.get('label')} "
+                          f"{err}: {r.get('msg')} (not a capacity refusal — retrying next tick)")
             else:
                 print(f"[ops] nudged start on {i.get('id')} {i.get('label')} "
                       f"(intended={i.get('intended_status')} actual={i.get('actual_status')})")

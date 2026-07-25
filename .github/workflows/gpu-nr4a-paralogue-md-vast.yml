@@ -68,6 +68,7 @@ jobs:
       release_ns: ${{ steps.p.outputs.release_ns }}
       n_rep: ${{ steps.p.outputs.n_rep }}
       exclude_machines: ${{ steps.p.outputs.exclude_machines }}
+      launch_targets: ${{ steps.p.outputs.launch_targets }}
     steps:
       - uses: actions/checkout@v4
       - id: p
@@ -81,8 +82,12 @@ jobs:
           task = (os.environ.get("IN_TASK") or "").strip() if ev == "workflow_dispatch" else ""
           task = task or str(d.get("task", "noop"))
           targets = (os.environ.get("IN_TARGETS") or "").strip() or str(d.get("targets", "NR4A1,NR4A2"))
+          # `launch_targets` lets a relaunch re-rent ONE leg without also re-renting a healthy sibling,
+          # while `targets` keeps the watch/collect/analyse tasks covering the whole set.
+          lt = str(d.get("launch_targets") or "").strip() or targets
           print(f"task={task}")
           print(f"targets={targets}")
+          print(f"launch_targets={lt}")
           print(f"metad_ns={d.get('metad_ns', 60)}")
           print(f"release_ns={d.get('release_ns', 5)}")
           print(f"n_rep={d.get('n_rep', 3)}")
@@ -163,7 +168,7 @@ jobs:
           set -eo pipefail
           python -m pip install -q awscli || true
           MODE=${{ needs.plan.outputs.task == 'smoke' && 'smoke' || 'real' }}
-          ARGS="--mode $MODE --targets ${{ needs.plan.outputs.targets }}"
+          ARGS="--mode $MODE --targets ${{ needs.plan.outputs.launch_targets }}"
           if [ "$MODE" = "real" ]; then
             ARGS="$ARGS --metad-ns ${{ needs.plan.outputs.metad_ns }} --release-ns ${{ needs.plan.outputs.release_ns }} --n-rep ${{ needs.plan.outputs.n_rep }}"
           fi
