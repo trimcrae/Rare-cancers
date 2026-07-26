@@ -33,9 +33,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs) | cofold_dry ($0, print the JobSpec) | cofold (~$0.3-1, rent one Vast host for Boltz-2) | cofold_collect ($0) | leg_diag ($0, dump a 5a-KS FEP leg's phase/status/log from S3, including the PREVIOUS attempt's)"
+        description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs) | cofold_dry ($0, print the JobSpec) | cofold (~$0.3-1, rent one Vast host for Boltz-2) | cofold_collect ($0) | leg_diag ($0, dump a 5a-KS FEP leg's phase/status/log from S3, including the PREVIOUS attempt's) | preequil_repro ($0 CPU, reproduce the preequil failure and prove the fix before re-renting)"
         type: choice
-        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect, leg_diag]
+        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect, leg_diag, preequil_repro]
         default: prep
       cofold_dir:
         description: "stage: directory holding the Boltz co-fold CIFs (blank = research/modalities/5aks_cofold_out)"
@@ -337,3 +337,51 @@ jobs:
             echo "--- run.log (CURRENT attempt — tail 120)"
             aws s3 cp "$P/run.log" - 2>/dev/null | tail -120 || echo "(none)"
           done
+
+  # ------------------------------------------------ $0 CPU: reproduce the preequil failure, and prove the fix
+  # The first 5a-KS smoke leg died with `"phase":"preequil"`. The discriminating experiment — same command,
+  # same parity image, two complex.pdb files differing only in hydrogenation — lives in
+  # nr4a3_5aks_preequil_repro.py so it is readable and reusable rather than buried in inline shell.
+  # It runs on CPU because the failure is in system CONSTRUCTION, which touches no GPU.
+  preequil_repro:
+    if: ${{ github.event.inputs.mode == 'preequil_repro' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Re-stage from the co-folds, then run both arms in the parity image
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          B=sagemaker-us-east-2-646605541856
+          mkdir -p /tmp/cofold /tmp/5aks_in /tmp/5aks_repro
+          aws s3 cp "s3://$B/rung5aks-cofold-v1/" /tmp/cofold/ --recursive \
+            --exclude '*' --include '*.cif' --only-show-errors
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/cofold:/tmp/cofold -v /tmp/5aks_in:/tmp/5aks_in -v /tmp/5aks_repro:/tmp/5aks_repro \
+            -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_stage.py --cofold-dir /tmp/cofold --out-dir /tmp/5aks_in
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/5aks_in:/tmp/5aks_in -v /tmp/5aks_repro:/tmp/5aks_repro \
+            -e STAGED_DIR=/tmp/5aks_in -e REPRO_SCRATCH=/tmp/5aks_repro \
+            -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_preequil_repro.py
+      - name: Re-seed the stage cache with the HYDROGENATED tree
+        # The cache the rented host reads still holds the unfixed complex.pdb, so a re-launch without this
+        # would restore the broken inputs and fail identically.
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_vast_launch.py --mode 5aks --seed-stage-cache /tmp/5aks_in

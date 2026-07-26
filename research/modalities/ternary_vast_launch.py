@@ -288,17 +288,23 @@ fail() { echo "[tvast] FAILED at $1"
            echo "[tvast] host-side failure ($1) — deliberately NOT writing leg.json so a relaunch picks a different machine"
          fi
          $AWSC s3 cp /tmp/run.log "$RESULT_S3/run.log" >/dev/null 2>&1 || true; exit 1; }
-mark start
-
 # PRESERVE THE PREVIOUS ATTEMPT'S LOG BEFORE OVERWRITING IT. `exec > >(tee /tmp/run.log)` starts a fresh
 # file, and the sync loop then overwrites `$RESULT_S3/run.log` — so on a resume after preemption the only
 # record of WHY the last attempt ended is destroyed by the attempt that replaces it. Lane 3's census of the
 # NR-V04 panel is the cost of that pattern: three analysis defects were uncorrectable because nothing
 # survived. Costs one S3 copy of a text file.
+#
+# ⚠ THIS BLOCK MUST RUN BEFORE THE FIRST `mark`, AND IT DID NOT. `mark()` uploads /tmp/run.log — which the
+# `exec > >(tee ...)` above has just TRUNCATED — to $RESULT_S3/run.log. With `mark start` ordered first, the
+# fresh ~170-byte log overwrote the previous attempt's in S3, and the archive below then dutifully copied
+# the stub. Measured 2026-07-26 on the first 5a-KS smoke: seventeen archived attempts, every one 168 bytes,
+# and the log of the attempt that actually failed was gone. The status.json written by fail() survived and
+# named the phase, which is the only reason the failure was diagnosable at all. Archive first, then mark.
 if $AWSC s3 ls "$RESULT_S3/run.log" >/dev/null 2>&1; then
   $AWSC s3 cp "$RESULT_S3/run.log" "$RESULT_S3/attempts/run-$(date -u +%Y%m%dT%H%M%SZ).log" >/dev/null 2>&1 \
     && echo "[tvast] archived the previous attempt's run.log under attempts/" || true
 fi
+mark start
 
 # IDEMPOTENCY. Vast re-runs onstart when a container restarts, and CI may re-dispatch a unit whose leg
 # already landed. Re-running would overwrite a finished result with a fresh (and, at a different commit

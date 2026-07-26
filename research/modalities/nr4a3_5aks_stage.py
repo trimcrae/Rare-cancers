@@ -257,7 +257,7 @@ def _ligand_sdf_from_cif(cif_path, template_smiles):
 def _write_protein_pdb(cif_path, out_pdb):
     """Write the co-fold's POLYMER chains (CRBN + the target LBD) to a PDB, dropping the ligand.
 
-    Returns (chain_names, residues_per_chain). The residue counts are not decoration: they are how a reader
+    Returns (chain_names, residues_per_chain, pdbfixer_report). The residue counts are not decoration: they are how a reader
     tells a two-chain ternary from a one-chain control WITHOUT trusting the file name, and the CRBN chain
     (~442 aa) and the NR4A LBD (254 aa by `nr4a3_ternary.LBD_LEN`) are unmistakable by size.
     """
@@ -279,7 +279,21 @@ def _write_protein_pdb(cif_path, out_pdb):
     if long_ids:
         raise ValueError(f"co-fold chain ids {long_ids} do not fit the PDB single-character chain column")
     st.write_pdb(out_pdb)
-    return sorted(counts), counts
+
+    # ★ HYDROGENATE, OR THE LEG DIES IN PRE-EQUILIBRATION. Measured, not assumed: the first 5a-KS smoke leg
+    # (unit 5aks_..._5aks_smoke, 2026-07-26) cleared the CUDA probe, the repo pull and staging — the
+    # pre-seeded stage cache HIT — and failed with `"phase":"preequil"`, rc=1.
+    # `remove_hydrogens()` above is deliberate (a predicted structure's H placement is not worth keeping), but
+    # it leaves a protein with NO hydrogens and no terminal OXT, and OpenMM's `ForceField.createSystem` does
+    # NOT add protein hydrogens — it fails template matching with
+    # "No template found for residue 0 (MET) ... missing 9 H atoms".
+    # This is the SAME defect the crystal stager already hit and fixed on 2026-07-17, whose docstring records
+    # "this ternary-staging path had never carried a real production leg before". A co-fold-derived leg is a
+    # second entry point into the same wall, so it calls the SAME function rather than growing a second copy
+    # that can drift from it.
+    import ternary_pdb_stage as tps
+    fixed = tps._hydrogenate_pdb(out_pdb)
+    return sorted(counts), counts, fixed
 
 
 def find_cofold_cif(cofold_dir, species):
@@ -325,7 +339,7 @@ def stage_from_cofold(cofold_dir, out_dir, design_path=None):
         tmp = os.path.join(out_dir, f".staging_{leg['leg_id']}")
         os.makedirs(tmp, exist_ok=True)
         try:
-            chains, counts = _write_protein_pdb(cif, os.path.join(tmp, "complex.pdb"))
+            chains, counts, fixed = _write_protein_pdb(cif, os.path.join(tmp, "complex.pdb"))
         except Exception as e:  # noqa: BLE001
             shutil.rmtree(tmp, ignore_errors=True)
             missing.append({"leg": leg["leg_id"], "cif": cif, "reason": f"protein write failed: {e}"})
@@ -354,7 +368,7 @@ def stage_from_cofold(cofold_dir, out_dir, design_path=None):
                "one_pose_two_endpoints": True,
                "limitation": ("the starting structure is a Boltz-2 PREDICTION of the ternary complex, not a "
                               "crystal structure; every result is conditional on that pose"),
-               "cif_note": note, "ligand": lig_info}
+               "cif_note": note, "ligand": lig_info, "hydrogenation": fixed}
         with open(os.path.join(leg_out, "staging_manifest.json"), "w") as fh:
             json.dump(rec, fh, indent=1)
         final = os.path.join(out_dir, leg["leg_id"])
@@ -362,7 +376,8 @@ def stage_from_cofold(cofold_dir, out_dir, design_path=None):
         os.replace(tmp, final)
         staged.append({"leg": leg["leg_id"], "cif": cif, "chains": chains, "residues_per_chain": counts,
                        "expected_roles": leg["chain_roles"], "note": note,
-                       "ligand_stereo_smiles": lig_info.get("stereo_smiles")})
+                       "ligand_stereo_smiles": lig_info.get("stereo_smiles"),
+                       "n_hydrogens": fixed.get("n_hydrogens"), "n_atoms": fixed.get("n_atoms")})
 
     # ★ THE TWO LEGS MUST CARRY THE SAME MOLECULE, STEREOCHEMISTRY INCLUDED — AND NOTHING ELSE CHECKS THIS.
     # `S = dG_tern(NR4A3) - dG_tern(NR4A1)` is a difference of two legs, so anything that differs between
