@@ -198,7 +198,7 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 5:36 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 6:19 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
@@ -206,10 +206,10 @@ a window long enough to swamp the 40-iteration commit block** (see the quantisat
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **45.4/60 ns**, up 234 min, GPU 40 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.23 ns/h** over 53 min — fifth agreeing interval (3.4, 3.14, 3.00, 3.15, 3.23) | metad ~**10:05 AM**, release ~**2:45 PM** |
-| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **57.15/60 ns**, up 586 min, GPU 72 %. **5.20 ns/h** over 53 min (5.67–6.00 on the four earlier windows) | metad ~**6:10 AM** — the **metad→release phase change** is the next event on this leg; release ~**8:40 AM** |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 1120/2000**, up 837 min. **179 iter/h** over the longest window (201 min); 226 over the last 53 min | ~**10:30 AM** |
-| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — **production 1840/2000**, up 837 min. **272 iter/h** over 53 min. Faster than the ternary leg, which is expected: a binary system has fewer particles per iteration | ~**6:10 AM** — **160 iterations from done** |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **47.6/60 ns**, up 277 min, GPU 44 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.07 ns/h** over 43 min — sixth agreeing interval | metad ~**10:05 AM**, release ~**2:45 PM** |
+| **NR4A2 paralogue MD** (Vast **45896793**, **RTX 4080S**) | **advancing** — metad **59.25/60 ns**. ⚠ **Preempted off its 4090 at ~5:50 AM** after 586 min and re-rented; **one live host per leg, verified on the instance board** (45896528 was rented ~5:54 AM and destroyed, not left running). Its own run.log reports **47.3 ns/day at 33 % GPU**, a **3× drop** from the 141 ns/day it held on the 4090 — see [pricing.md §A.1](research/compute/pricing.md) | metad ~**6:45 AM**; release **~3:00 PM at the new host's rate**, against ~8:40 AM had it kept the 4090 |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 1200/2000**, up 880 min. **167 iter/h** over the longest window (244 min) | ~**11:10 AM** |
+| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | **production 2000/2000 — the full count is reached**, up 880 min. The watchdog still reports it RUNNING, i.e. `leg.json` is not in S3 yet, so it is writing out rather than done | **landing now** |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **warmup COMPLETE (800/800), `production/120` of 2000**, VM up 658 min. Still **no rate quoted**: the one clean production window carries exactly **one** 40-iteration commit block, which is the same thing that produced this morning's two withdrawn ETAs | **~Mon 8:40 AM**, that session's figure — its result keys the calibrator rescope |
 
 ⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Three agreeing

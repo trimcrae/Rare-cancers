@@ -54,6 +54,36 @@ size-stable than absolute rates, so ranking is sound, but an absolute ns/day at 
 A 3090 also needs **2.10× the wall clock**, so a leg with a hard continuity requirement is 2.10× more exposed on
 it (`JobProfile.min_uninterrupted_h` scales that per card and flags it).
 
+### ⚠ A.1 — `$/ns` RANKING IS BLIND TO A HOST THAT ONLY GIVES YOU PART OF THE GPU (observed 2026-07-26)
+
+Four LANE-13 metadynamics legs, each reporting its own ns/day in `run.log`, alongside the Vast board's
+`gpu_util` at the same moment:
+
+| instance | card | `gpu_util` | realised ns/day | $/hr |
+|---|---|---|---|---|
+| 45854620 | RTX 4090 | 75 % | **141** | 0.193 |
+| 45853652 | RTX 4090 | ~74 % | **146** | 0.153 |
+| 45878836 | RTX 4080S | 44 % | **~77** | 0.130 |
+| 45896793 | RTX 4080S | 33 % | **~47** | 0.207 |
+
+**ns/day tracks `gpu_util`, not the card.** Per utilisation-point the four legs give 1.88 / 2.06 / 1.75 / 1.42
+ns/day-per-%, i.e. roughly one constant, whereas the benched card ratio (4080 within **7 %** of a 4090, above)
+would predict the two 4080S rows to land near the 4090 rows and they land **1.8–3.0× below**. So this is not the
+card ratio failing to transfer to a PLUMED workload — it is **hosts handing the job a fraction of their GPU**.
+
+**Why the ranking cannot see it:** `$/ns` is `(bid + storage) ÷ (ns_per_day ÷ 24)` where `ns_per_day` is a
+**card constant** from `MEASURED_NS_PER_DAY_84K`. A starved host therefore scores as if it were healthy, and can
+win selection while being **both slower and dearer** — 45896793 is 3× slower than the 4090 it replaced *and*
+costs more per hour. This is the same blind spot as a host that never starts (infinite realised $/ns, invisible
+to the ranking, which is why `ResourceSpec.exclude_machine_ids` exists): **realised throughput is not fed back
+into selection.**
+
+**Not yet established:** whether low `gpu_util` is contention from a co-tenant, a weak host CPU feeding PLUMED,
+or a throttled card — the board does not distinguish them, and no leg was killed to find out. What the table
+does support is the operational rule: **treat sustained `gpu_util` well below the ~70–75 % these legs reach on a
+healthy host as a selection signal**, and exclude the machine rather than re-ranking on a constant that cannot
+represent it.
+
 ---
 
 ## B. COST BASES — the per-unit anchors everything else is priced from

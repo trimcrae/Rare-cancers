@@ -14,13 +14,13 @@
     "stop": "$0. Destroy every nr4a-pdyn instance unconditionally",
     "watch": "$0. ONE long CI run that polls S3 every 3 min with a real PROGRESS check, nudges a stuck start, destroys a host that answers resources_unavailable, RE-RENTS a leg that died with no deliverable (bounded), reaps finished hosts, and fails on a stall. Monitoring that survives a session death."
   },
-  "task": "status",
+  "task": "noop",
   "targets": "NR4A1,NR4A2",
   "metad_ns": 60,
   "release_ns": 5,
   "n_rep": 3,
   "exclude_machines": "142143,17720",
-  "note": "status ($0, read-only, rents and destroys nothing). NR4A2 appears on TWO different instance ids within 25 min - 45896528 (RTX 4090, up 2 min at 09:56Z) then 45896793 (RTX 4080S, up 21 min at 10:19Z, i.e. created ~09:58Z) - after being preempted off 45854620. Either the second replaced a host that refused capacity, or BOTH are live, which would be two hosts writing one checkpoint prefix: an interleaved trajectory that nothing reports. The instance board discriminates.",
+  "note": "noop. The status board settled the question it was fired for: exactly ONE live instance per leg (45878836 NR4A1, 45896793 NR4A2), so 45896528 was rented and destroyed rather than left running alongside - no two hosts on one checkpoint prefix. Watch round 2 (run 30190578524) is still in flight and remains the only relauncher; a second concurrent watch is the hazard to avoid.",
   "estimate_usd": {
     "point": 2.5,
     "range": [
