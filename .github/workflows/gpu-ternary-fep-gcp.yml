@@ -447,31 +447,64 @@ jobs:
           echo "--- COMMITTED.json markers ---"
           grep -ac "COMMITTED.json" /tmp/lane.txt || echo 0
           for LEG in $LEGS; do
-            echo "=== locating newest committed simulation.nc for $LEG (any prefix/seed) ==="
+            echo "=== locating newest committed simulation.nc for $LEG dir=$DIRECTION ==="
+            # DIRECTION-KEYED, and it must be. This grepped on $LEG alone and then took the HIGHEST iter-N, so
+            # with a fwd leg at production/2000 and a rev leg at production/300 it ALWAYS picked fwd — and named
+            # the download dir "${LEG}_sim_shared", dropping the direction, so the report read as the cycle's
+            # diagnostics. The reducer consumes exactly that report for diagnostics_ok, so a rev leg's landing
+            # would have filed FORWARD convergence as the rev cycle's evidence: section B#2 of
+            # research/modalities/ternary-lane-guard-audit-2026-07-25.md, "absent/wrong data reading as measured".
+            # Observed live 2026-07-26 8:09 AM: a converge run dispatched for dir=rev analysed the fwd legs at
+            # iterations_compared [0, 2000] while the rev leg sat at production/~300.
+            #
+            # NB binary and solvent are the cycle's SHARED arms and exist only as fwd, so a rev request finds
+            # nothing for them. That is reported explicitly and skipped -- never silently substituted, which is
+            # the failure this whole block is guarding against.
             ALL=$(grep -a "$LEG" /tmp/lane.txt | grep -aE "/simulation\.nc$" || true)
-            if [ -z "$ALL" ]; then echo "(no simulation.nc anywhere for $LEG — skipping)"; continue; fi
+            if [ "$DIRECTION" = fwd ]; then
+              ALL=$(printf '%s\n' "$ALL" | grep -av '_dir' || true)
+            else
+              ALL=$(printf '%s\n' "$ALL" | grep -a "_dir$DIRECTION" || true)
+            fi
+            if [ -z "$(printf '%s' "$ALL" | tr -d '[:space:]')" ]; then
+              echo "::notice title=CONVERGE no trajectory for this direction::$LEG has no committed simulation.nc under dir=$DIRECTION (binary/solvent are fwd-only shared arms of the cycle). SKIPPING — deliberately NOT falling back to another direction's trajectory."
+              continue
+            fi
             NEW=$(printf '%s\n' "$ALL" | sed -E 's#/simulation\.nc$##' \
                   | awk -F'iter-' '{printf "%d\t%s\n", (NF>1?$NF+0:0), $0}' | sort -k1,1rn | head -1 | cut -f2)
             echo "newest: $NEW"
             # _find_nc_files keys each leg by its parent dir name minus the _sim_shared suffix, so name the
             # download dir after the leg to get a readable tag in the report.
-            DST="/tmp/conv/${LEG}_sim_shared"; mkdir -p "$DST"
+            # the dir name becomes the leg tag in the report, so carry the direction into it (fwd keeps the
+            # historical name so existing fwd reports stay comparable)
+            DTAG="$LEG"; [ "$DIRECTION" != fwd ] && DTAG="${LEG}_${DIRECTION}"
+            DST="/tmp/conv/${DTAG}_sim_shared"; mkdir -p "$DST"
             gcloud storage cp --recursive "$NEW/*" "$DST/" 2>&1 | tail -2 || echo "(download failed for $LEG)"
             ls -la "$DST" | tail -8
             # openmmtools keeps POSITIONS in a SEPARATE checkpoint file, not in simulation.nc. Without it the
             # reporter's checkpoint storage is None and read_sampler_states() dies on None.dimensions (a netCDF4
             # Dataset attribute) — which is exactly how the mandated ligand-escape check failed. So say out loud
             # whether this leg's checkpoint is present, and if it is not in the generation dir, look for it
-            # anywhere in the lane before giving up.
+            # elsewhere UNDER THE SAME COMMIT PREFIX before giving up.
+            #
+            # SCOPED TO $NEW's OWN PREFIX, not to $LEG. Searching the whole lane for "<leg>.*checkpoint" is the
+            # same direction-blind mistake as the simulation.nc discovery above, one level down and worse: the
+            # checkpoint carries the POSITIONS that simulation.nc does not, so pairing a rev simulation.nc with
+            # a fwd checkpoint feeds the ligand-escape / pose-RMSD diagnostic coordinates from a different
+            # trajectory and it reports a confident number about the wrong thing. Deriving the search root from
+            # $NEW makes leg, salt, timestep and direction all match by construction.
+            CPFX=$(printf '%s' "$NEW" | sed -E 's#/(warmup|production)/iter-[0-9]+$##')
             echo "[files] $(ls -1 "$DST" | tr '\n' ' ')"
             if ! ls "$DST" | grep -qai "checkpoint"; then
-              CKP=$(grep -aiE "$LEG.*checkpoint.*\.nc$" /tmp/lane.txt | tail -1 || true)
+              CKP=$(grep -aF "$CPFX/" /tmp/lane.txt | grep -aiE "checkpoint.*\.nc$" | tail -1 || true)
               if [ -n "$CKP" ]; then
-                echo "[checkpoint] not in the generation dir; pulling $CKP"
+                echo "[checkpoint] not in the generation dir; pulling $CKP (same commit prefix as the .nc)"
                 gcloud storage cp "$CKP" "$DST/" 2>&1 | tail -1 || true
               else
-                echo "[checkpoint] NONE anywhere in the lane for $LEG — positions were never retained, so the"
+                echo "[checkpoint] NONE under $CPFX — positions were never retained for THIS trajectory, so the"
                 echo "            structural / ligand-escape diagnostic is UNAVAILABLE for this leg by construction."
+                echo "            (Deliberately NOT widening the search to the leg's other prefixes: another"
+                echo "             direction's or salt's checkpoint is a different trajectory, not a substitute.)"
               fi
             fi
           done
