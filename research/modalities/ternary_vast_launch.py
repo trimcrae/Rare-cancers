@@ -200,8 +200,24 @@ def unit_id(leg_id, seed, direction, timestep_fs, warmup_timestep_fs, mode):
 
 def unit_label(uid):
     """Vast instance label. PURE. Vast caps labels at 60 chars and we match label->unit by re-deriving,
-    never by parsing back — the protfep lane lost a reap to a lossy label that could not round-trip."""
-    return f"{LABEL_PREFIX}-{uid}".replace("_", "-").replace(".", "p").lower()[:60]
+    never by parsing back — the protfep lane lost a reap to a lossy label that could not round-trip.
+
+    ⚠ A BARE `[:60]` TRUNCATION IS ITSELF THE LOSSY ENCODING THIS DOCSTRING WARNS ABOUT, and RUNG 5a-KS
+    walked straight into it: `5aks_d0_to_d__ternary_nr4a3 ... _5aks_smoke` renders to exactly 61 characters
+    and was silently cut to `...-5aks-smok`. Re-deriving still "matched", so the round-trip test passed —
+    but two DIFFERENT units whose labels agree in their first 60 characters then share one label, and
+    `collect` reaps on that match. The consequence is not cosmetic: it either reaps the wrong host or fails
+    to reap the right one, and a GPU then bills until the runtime backstop hours later. The test that caught
+    it is the one asserting a label must NOT match a different unit id.
+
+    So an over-long label ends in a digest of the WHOLE unit id instead of losing its tail. Labels that
+    already fit are returned byte-identical, so no unit that has ever run gets a new label.
+    """
+    lab = f"{LABEL_PREFIX}-{uid}".replace("_", "-").replace(".", "p").lower()
+    if len(lab) <= 60:
+        return lab
+    import hashlib
+    return lab[:51] + "-" + hashlib.sha256(uid.encode()).hexdigest()[:8]
 
 
 def label_matches_unit(label, uid):
