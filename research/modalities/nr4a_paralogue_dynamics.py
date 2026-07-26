@@ -200,6 +200,39 @@ def align_map(mobile, ref):
     return out
 
 
+_CONSTRUCT_CACHE = {}
+
+
+def construct_frame(model, species, seqs, ref, ref_pocket_local):
+    """(local→UniProt offset, homologous-pocket local ids) for THIS model's own construct, cached by sequence.
+
+    ⚠ WHY THIS IS PER-MODEL AND NOT PER-SPECIES. The static `nr4a1-opened.pdb` covers UniProt 348-598, but the
+    MD construct is trimmed by `nr4a3_metad._resolve_target`, which maps the NR4A3 LBD window onto the
+    paralogue BY ALIGNMENT and can land on a different first residue — and mdtraj then renumbers the exported
+    frames from 1 regardless. Deriving the offset once from the static model and applying it to MD frames
+    would therefore shift every residue label by the difference, silently: C465 would be reported as some
+    other number, the homologous pocket would be the wrong ten residues, and nothing would raise. Both are
+    re-derived from each model's own sequence instead, and the result is cached on the sequence so the cost is
+    one alignment per distinct construct rather than one per frame."""
+    key = (species, model["seq"])
+    hit = _CONSTRUCT_CACHE.get(key)
+    if hit is not None:
+        return hit
+    off = species_offset(model, species, seqs)
+    if species == "NR4A3":
+        pocket = [r for r in ref_pocket_local if r in model["aa_of"]]
+        missing = [r for r in ref_pocket_local if r not in model["aa_of"]]
+    else:
+        pocket, missing = homologous_pocket(model, ref, ref_pocket_local)
+    val = (off, pocket, missing)
+    _CONSTRUCT_CACHE[key] = val
+    if len(_CONSTRUCT_CACHE) <= 12:
+        print(f"[pdyn] construct {species}: {len(model['residues'])} residues, local->UniProt +{off}, "
+              f"homologous pocket {len(pocket)}/{len(ref_pocket_local)} "
+              f"(UniProt {[r + off for r in pocket]})", flush=True)
+    return val
+
+
 def homologous_pocket(model, ref, ref_pocket_local):
     """The paralogue's own local ids for NR4A3's Pocket-5 lining. Same construction `nr4a3_metad._resolve_target`
     uses to put the metadynamics CV on the HOMOLOGOUS pocket, so the ensemble and the analysis agree."""
@@ -234,15 +267,18 @@ def cysteines_of(model, offset, ref, ref_aa_of):
     return out
 
 
-def analyse_conformer_terma(path, species, offset, ref, ref_aa_of, pocket_local_by_species, seed,
+def analyse_conformer_terma(path, species, seqs, ref, ref_aa_of, ref_pocket_local, seed,
                             n_poses=N_POSES, n_mc=N_MC):
     """One conformer: RSA of every Cys and Lys, plus the E3-INDEPENDENT term-(a) reach envelope over ALL
-    cysteines, recomputed on THIS conformer with its own pocket centroid and its own exit-vector poses."""
+    cysteines, recomputed on THIS conformer with its own pocket centroid and its own exit-vector poses.
+
+    The residue numbering and the homologous pocket are derived from THIS model's own sequence — an MD
+    construct can be trimmed differently from the static opened model, and mdtraj renumbers exports from 1."""
     model = B.load_paralogue(path)                 # heavy atoms only — every criterion here is heavy-atom
     residues, atoms = ATLAS.parse_pdb(path)        # with H, matching the committed Shrake-Rupley RSA exactly
     rsa = ATLAS.residue_rsa(residues, ATLAS.shrake_rupley(atoms))
 
-    pocket_local = pocket_local_by_species[species]
+    offset, pocket_local, _missing = construct_frame(model, species, seqs, ref, ref_pocket_local)
     side = []
     for rid in pocket_local:
         for a in model["atoms_by_res"].get(rid, []):
@@ -456,12 +492,12 @@ def matched_reach_hits(anchors, cysteines, gate_atoms=None, params=None, min_rsa
     return hits, per_cys
 
 
-def species_lysines_in_ref_frame(path, ref_model, offset):
+def species_lysines_in_ref_frame(path, ref_model, offset, model=None, fitted=None):
     """A conformer's lysine NZ positions in the NR4A3 REFERENCE frame, each carrying its own post-fit
     deviation, so a claim about a lysine sitting in a badly-superposed loop is visibly untrustworthy. NR4A3's
     own MD frames go through the identical superposition, which is what keeps the contrast matched."""
-    model = B.load_paralogue(path)
-    fitted = B.superpose_paralogue(model, ref_model)
+    model = model or B.load_paralogue(path)
+    fitted = fitted or B.superpose_paralogue(model, ref_model)
     residues, atoms = ATLAS.parse_pdb(path)
     rsa = ATLAS.residue_rsa(residues, ATLAS.shrake_rupley(atoms))
     out = []
@@ -836,8 +872,8 @@ def main(argv=None):
             for name, fps, biased in todo:
                 rows = []
                 for i, (fid, path) in enumerate(fps):
-                    rows.append(analyse_conformer_terma(path, sp, offsets[sp], ref, ref_aa_of,
-                                                        pocket_local_by_species, args.seed + i,
+                    rows.append(analyse_conformer_terma(path, sp, seqs, ref, ref_aa_of,
+                                                        ref_pocket_local, args.seed + i,
                                                         n_poses=args.n_poses, n_mc=args.n_mc))
                     if (i % 10) == 0 or i == len(fps) - 1:
                         print(f"[pdyn][a] {sp} {name} {i + 1}/{len(fps)} {fid}: "
@@ -903,12 +939,14 @@ def main(argv=None):
             for name, fps, biased in todo:
                 rows = []
                 for i, (fid, path) in enumerate(fps):
-                    lys, sup = species_lysines_in_ref_frame(path, ref, offsets[sp])
+                    _m = B.load_paralogue(path)
+                    off_i, pocket_i, _miss = construct_frame(_m, sp, seqs, ref, ref_pocket_local)
+                    lys, sup = species_lysines_in_ref_frame(path, ref, off_i, model=_m)
                     cov = coverage_over_anchors(anchors, lys, params_b) if anchors else None
                     # --- MATCHED term (a) on the SAME placements, in the SAME frame -------------------
                     cys_rf, sup2 = species_cysteines_in_ref_frame(
-                        path, ref, offsets[sp], ref_aa_of,
-                        pocket_local=pocket_local_by_species[sp], ref_pocket_centroid=ref_pocket_centroid)
+                        path, ref, off_i, ref_aa_of,
+                        pocket_local=pocket_i, ref_pocket_centroid=ref_pocket_centroid)
                     m_all = matched_reach_hits_multi(anchors, cys_rf, LENGTHS, params=params_b)
                     m_exp_all = matched_reach_hits_multi(anchors, cys_rf, LENGTHS, params=params_b,
                                                          min_rsa=EXPOSED_RSA)
