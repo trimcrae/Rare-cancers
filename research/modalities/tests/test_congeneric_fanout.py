@@ -343,3 +343,34 @@ def test_terminus_gate_holds_until_a_ddg_exists():
 
     assert len(fv._pending(_S3([]), "bkt", units)) == 19
     assert len(fv._pending(_S3([cf.result_key(units[2], fv.RESULT_PREFIX)]), "bkt", units)) == 18
+
+
+def test_an_exited_instance_does_not_hold_its_units_slot():
+    """Vast teardown is two-layer: the container's EXIT trap halts GPU billing key-free, but only CI can
+    DESTROY the instance, so an exited box lingers in the listing doing nothing. If the launcher counted it as
+    occupying the unit, every relaunch would be a silent no-op — which is precisely what a preemption produces
+    (container gone, checkpoint banked, corpse still carrying the label)."""
+    import congeneric_fanout_vast as fv
+    src = open(fv.__file__).read()
+    assert '_TERMINAL = ("exited", "offline", "error")' in src
+    # the slot count and the label set must BOTH filter, or one of them re-introduces the bug alone
+    assert 'live_labels = {i.get("label") for i in live if (i.get("actual_status") or "") not in _TERMINAL}' \
+        in src
+    assert '_busy = [i for i in live if (i.get("actual_status") or "") not in _TERMINAL]' in src
+
+
+def test_the_terminus_gate_cannot_deadlock_the_shakeout_unit():
+    """THE GATE HOLDS BACK THE FAN-OUT, NOT THE UNIT THAT PROVES THE TERMINUS. A gate that returns outright
+    while no ddg.json exists can never restart the one unit whose whole job is to produce that ddg.json — a
+    cron would tick all night launching nothing. It must NARROW to the shakeout unit instead of returning."""
+    import congeneric_fanout_vast as fv
+    src = open(fv.__file__).read()
+    gate = src[src.index("FANOUT_REQUIRE_PROVEN_TERMINUS"):]
+    gate = gate[:gate.index("slots = max(")]
+    assert "FANOUT_SHAKEOUT_UNIT" in gate, "the gate has no way to keep the shakeout unit alive"
+    assert "todo = keep" in gate, "the gate discards rather than narrows"
+    # Exactly ONE executable `return` may remain in the gate, and it is the one guarded by a MISSING
+    # shakeout name. Comments are stripped first: the block explains the deadlock in prose, and matching
+    # those words would make this assertion pass or fail on the wording rather than on the code.
+    code = [ln for ln in gate.splitlines() if ln.strip() and not ln.strip().startswith("#")]
+    assert sum(1 for ln in code if ln.strip() == "return") == 1
