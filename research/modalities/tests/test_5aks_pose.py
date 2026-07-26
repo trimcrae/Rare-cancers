@@ -29,6 +29,9 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(HERE, "..")))
+sys.path.insert(0, HERE)
+
+from _skip_guard import skip_module    # noqa: E402
 
 try:
     import gemmi
@@ -36,8 +39,9 @@ try:
     from rdkit.Chem import AllChem
     from rdkit import RDLogger
 except ImportError as e:                                    # pragma: no cover - env probe
-    print(f"SKIP: needs gemmi + RDKit (run inside triskit23/ternary-fep): {e}")
-    sys.exit(0)
+    # NOT a bare sys.exit(0): raised at module scope it aborts pytest COLLECTION and the whole
+    # modalities suite reports "no tests ran". gemmi is absent from tests.yml, so this path is live.
+    skip_module(f"needs gemmi + RDKit (run inside triskit23/ternary-fep): {e}")
 
 RDLogger.DisableLog("rdApp.*")
 

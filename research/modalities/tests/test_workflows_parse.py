@@ -23,11 +23,14 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from _skip_guard import skip_module    # noqa: E402
+
 try:
     import yaml
 except ImportError:  # pragma: no cover
-    print("SKIP: PyYAML unavailable")
-    sys.exit(0)
+    skip_module("PyYAML unavailable")
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")
 WF_DIR = os.path.join(ROOT, ".github", "workflows")

@@ -161,22 +161,37 @@ def test_the_ternary_list_is_still_read_by_the_LEGACY_path():
     assert problems == [(doc["watch"][live]["leg_id"], doc["watch"][live]["direction"], ["timestep_fs"])]
 
 
-def test_the_four_live_ternary_entries_are_byte_identical_to_what_shipped():
-    """These four units belong to the ternary lane, not to this generalisation, so their exact identities are
-    pinned here — a rename or a dropped row should fail loudly.
+RUNG_2B_UNITS = [
+    "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
+    "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
+    "calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge",
+    "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge",
+]
 
-    `enabled` is deliberately NOT pinned. It is live operational state: a unit is disabled when its leg COMPLETES,
-    and the list keeps the row so the finished unit stays on the record. The probe (ΔG_morph 48.1970) and the
-    solvent leg (ΔG_morph 47.7982) both landed on 2026-07-26 and were correctly set enabled:false, which turned
-    `all(enabled)` into an assertion that the lane must never finish anything. Pinning identities is the real
-    invariant; pinning progress makes the suite go red on success."""
+
+def test_the_rung_2b_ternary_entries_are_byte_identical_to_what_shipped():
+    """The RUNG 2b units are pinned by IDENTITY — a rename or a dropped row must fail loudly.
+
+    TWO THINGS THIS TEST DELIBERATELY DOES NOT PIN, each because pinning it made the suite go red on success:
+
+      * `enabled`. It is live operational state — a unit is disabled when its leg COMPLETES, and the row stays
+        so the finished unit remains on the record. The probe (ΔG_morph 48.1970) and the solvent leg (47.7982)
+        landed on 2026-07-26 and were correctly set false, which turned `all(enabled)` into an assertion that
+        the lane must never finish anything.
+      * THE LENGTH OF THE LIST (2026-07-26, the same failure one level up). Asserting the whole list EQUALS
+        these four says "no other lane may ever be watched", which is the opposite of what the generalised
+        registry is for: RUNG 5a-KS registered its smoke leg — correctly — and the suite went red because a
+        different lane started working. What belongs to RUNG 2b is that ITS four rows are present, in order,
+        unrenamed; what belongs to the registry is that rows stay unique and well-formed.
+
+    Pinning identity is the real invariant. Pinning progress, or pinning that nobody else exists, is not."""
     ids = [e["unit_id"] for e in _ternary()["watch"]]
-    assert ids == [
-        "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
-        "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
-        "calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge",
-        "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge",
-    ]
+    present = [u for u in ids if u in set(RUNG_2B_UNITS)]
+    assert present == RUNG_2B_UNITS, (
+        "a RUNG 2b unit was renamed, dropped or reordered — these four identities are the pinned invariant; "
+        f"found {present}")
+    # A later lane may APPEND, never overwrite: uniqueness is what stops two rows racing one S3 restart set.
+    assert len(ids) == len(set(ids)), f"duplicate unit_id in the ternary watch list: {ids}"
     # every row still carries the flag (present and boolean) — its VALUE is operational
     assert all(isinstance(e.get("enabled"), bool) for e in _ternary()["watch"])
 
