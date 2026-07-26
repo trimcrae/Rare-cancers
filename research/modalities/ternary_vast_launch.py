@@ -1410,6 +1410,14 @@ def main(argv=None):
     ap.add_argument("--fetch-legs", metavar="DIR",
                     help="download this mode's engine leg JSONs into DIR under the reducer's filenames, "
                          "then print the ΔΔG_coop identity as a cross-check")
+    # ★ RELAUNCH ONE ARM OF A PAIR. Without this, recovering a single preempted leg means dispatching the
+    # whole mode, which also re-rents its sibling. That is exactly wrong when the sibling has a KNOWN,
+    # DETERMINISTIC defect: on 2026-07-26 NR4A3 was preempted (routine, resumes) while NR4A1 had aborted on
+    # endpoint verification for a reason that would reproduce identically — so a whole-mode relaunch would
+    # have bought a second NR4A1 rental that ran the full 0.5 ns pre-equilibration and failed the same way.
+    ap.add_argument("--only", metavar="SUBSTRING",
+                    help="restrict this launch to units whose LEG ID contains SUBSTRING (e.g. `nr4a3`), so a "
+                         "single preempted arm can be recovered without re-renting its sibling")
     ap.add_argument("--seed-stage-cache", metavar="DIR",
                     help="upload CI-staged leg inputs from DIR/<leg_id>/ into this mode's stage cache, so a "
                          "leg whose inputs cannot be built on the host (a Boltz co-fold) finds them there")
@@ -1439,8 +1447,15 @@ def main(argv=None):
     elif a.collect:
         collect()
     else:
+        legs = None
+        if a.only:
+            legs = [u for u in units_for(a.mode) if a.only in u[0]]
+            if not legs:
+                raise SystemExit(f"--only {a.only!r} matched no leg in mode {a.mode!r}; "
+                                 f"available: {[u[0] for u in units_for(a.mode)]}")
+            print(f"[launch] --only {a.only!r} -> {[u[0] for u in legs]}")
         submit(mode=a.mode, dry_run=a.dry_run, timestep_fs=a.timestep_fs,
-               warmup_timestep_fs=a.warmup_timestep_fs)
+               warmup_timestep_fs=a.warmup_timestep_fs, legs=legs)
     return 0
 
 

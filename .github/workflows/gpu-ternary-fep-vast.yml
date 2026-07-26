@@ -71,6 +71,10 @@ on:
         description: "5aks-prime: S3 prefix holding the Boltz co-fold CIFs (blank = rung5aks-cofold-v1)"
         type: string
         default: ""
+      leg_only:
+        description: "launch: restrict to units whose LEG ID contains this substring (e.g. `nr4a3`). Recovers ONE preempted arm without re-renting a sibling that has a known deterministic defect."
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -311,7 +315,8 @@ jobs:
           # a red job, not a silent no-op — checked by test_ternary_vast_launch.
           MODE=$(printf '%s' "${{ needs.resolve.outputs.task }}" | tr '-' '_')
           echo "MODE=$MODE" >> "$GITHUB_ENV"
-          python research/modalities/ternary_vast_launch.py --mode "$MODE"
+          ONLY="${{ github.event.inputs.leg_only }}"
+          python research/modalities/ternary_vast_launch.py --mode "$MODE" ${ONLY:+--only "$ONLY"}
           echo "::notice title=TVAST launched::task=${{ needs.resolve.outputs.task }} (mode=$MODE) — poll with task=collect."
       - name: Arm the session-independent watchdog for this task
         # The watch list is the ONLY input the cron watchdog reads, so a launch that does not register its
