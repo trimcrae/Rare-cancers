@@ -282,6 +282,18 @@ Consequences kept separate, because they are independent:
   re-run:** sign flips positive with a held pose → mechanism established; sign stays negative → the wrong sign has
   another cause and the departure is a separate (real) defect. Do not report the mechanism as settled before that.
 - **BOTH cycles need the binary arm re-run**, not only r0 — the 4 fs arm carries the identical defect.
+- **IT ALSO BEARS ON THE RESCOPE REPLACEMENT — free pre-check, audit §L.3e.** The specified **synthetic closure
+  triangle** (~$6) is 3 edges × (ternary + binary) = 6 legs, and its **three binary legs are the same construction
+  that departs**. The design already handles this correctly — `closure_decomposition` splits
+  `R_coop = R_ternary − R_binary` and its own rule says to report both, never `R_coop` alone — so **nothing needs
+  changing**. What it gains is a **pre-registrable prediction**: *`R_binary` materially non-zero, `R_ternary`
+  small.* Both outcomes are informative, and the second argues against my own reading — if `R_binary` is also
+  small, the departure's bias is a per-endpoint state function, telescopes out of any cycle, and therefore largely
+  cancels from ΔΔG_coop too. **Run the pose diagnostic on the triangle's legs when they land** (`mode=converge` /
+  `task=converge`, $0) and do not interpret `R_binary` without it. **Open and NOT decided here:** whether those
+  binary legs should be run **restrained** — restrained makes `R_binary` a clean path-error measurement,
+  unrestrained makes it a measurement of the departure. Different experiments; that choice changes what the $6
+  buys and is trimcrae's.
 - **ΔΔG_coop cannot be reported from the r0 cycle at all** until the binary arm is re-run — a blocker
   *independent* of the reverse leg's hysteresis result, which concerns the (clean) ternary arm.
 - **WHAT TO CHANGE ON THE RE-RUN** (λ attribution, GH run 30210186711, audit §L.3c): the escape is *alchemically
