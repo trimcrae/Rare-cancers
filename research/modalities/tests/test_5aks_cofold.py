@@ -76,6 +76,34 @@ check(len({p["leg_id"] for p in plan}) == len(plan), "leg ids are distinct")
 check(all(p["environment"] == "ternary" for p in plan),
       "ternary only — the binary and solvent legs cancel in the double difference (wedge is 9.0 A off the E3)")
 
+
+print("== the leg ids must be classified TERNARY by the real FEP engine")
+# The trap: nr4a3_ternary_fep._environment_of falls back to `"ternary" if "__ternary" in leg_id else "binary"`
+# for any id not in the FROZEN PILOT_LEG_MAP. A single-underscore id (5aks_ternary_nr4a3 — which is what this
+# planner emitted first) classifies as BINARY, so the engine would drop the target chain and S would be a
+# difference of two binary legs with no paralogue in them. A binary leg converges perfectly well, so nothing
+# downstream would look wrong.
+import nr4a3_ternary_fep as ENG          # noqa: E402
+import ternary_coop as TCOOP             # noqa: E402
+
+for p_ in plan:
+    check(ENG._environment_of(p_["leg_id"]) == "ternary",
+          f"the engine classifies {p_['leg_id']} as ternary, not binary")
+check(ENG._environment_of("5aks_ternary_nr4a3") == "binary",
+      "...and the single-underscore form this planner first emitted really would have been read as BINARY")
+check(len({ENG._morph_key(p_["leg_id"]) for p_ in plan}) == 1,
+      "both species' legs share ONE morph key, as the repo's binary/ternary arms of a pair do")
+
+print("== 5a-KS legs must NOT be added to the frozen pilot bundle")
+check(all(lid not in TCOOP.PILOT_LEG_MAP for lid in K.LEG_MAP),
+      "no 5a-KS leg appears in ternary_coop.PILOT_LEG_MAP — that map is the PREREGISTERED pilot, and "
+      "load_pilot_legs fails closed on drift, so extending it would either break the guard or silently "
+      "enlarge a preregistered experiment")
+TCOOP.load_pilot_legs()      # must still agree with the frozen manifest
+check(True, "load_pilot_legs still agrees with the frozen manifest after this module is imported")
+check(all(K.LEG_MAP[lid]["target"] in K.SPECIES and K.LEG_MAP[lid]["environment"] == "ternary"
+          for lid in K.LEG_MAP), "each 5a-KS leg records its target species and the ternary environment")
+
 print("== a partial or absent design is refused, never guessed around")
 for bad, want in ((  {"matched_pair_for_rung_5a_ks": {}},                       "no `matched_pair"),
                   (  {},                                                        "no `matched_pair"),

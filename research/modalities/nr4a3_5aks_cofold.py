@@ -50,6 +50,37 @@ OUT = os.path.join(HERE, "nr4a3-5aks-cofold-prep.json")
 # not something to pay for up front.
 SPECIES = ("NR4A3", "NR4A1")
 
+# ⚠ THE DOUBLE UNDERSCORE IS LOad-BEARING, NOT STYLE. `nr4a3_ternary_fep._environment_of` looks a leg id up in
+# the frozen PILOT_LEG_MAP and, for anything not in it, falls back to `"ternary" if "__ternary" in leg_id else
+# "binary"`. A single-underscore id like `5aks_ternary_nr4a3` therefore classifies as BINARY — the engine would
+# drop the target chain and run the wrong system, and `S` would be a difference of two binary legs with no
+# paralogue in them at all. Nothing downstream would notice: a binary leg converges perfectly well.
+MORPH = "5aks_d0_to_d"
+
+
+def leg_id(species):
+    """`5aks_d0_to_d__ternary_nr4a3` — the repo's `<morph>__<environment>_<target>` convention, which the FEP
+    engine parses. `_morph_key` recovers `5aks_d0_to_d`, shared by both species' legs exactly as
+    `nrv04_active_to_epimer` is shared by its binary and ternary arms."""
+    return f"{MORPH}__ternary_{species.lower()}"
+
+
+# The legs' physical meaning, kept HERE rather than added to `ternary_coop.PILOT_LEG_MAP`. That map is the
+# FROZEN pilot bundle and `load_pilot_legs` fails closed when it disagrees with the preregistered leg-id list,
+# so extending it would either break that guard or silently enlarge a preregistered experiment with legs it
+# never declared. RUNG 5a-KS is a different experiment and carries its own registry.
+LEG_MAP = {
+    leg_id(sp): {
+        "morph": "5aKS_d0 (phenyl) -> 5aKS_d (3-pyridyl)",
+        "environment": "ternary",
+        "e3": "CRBN",
+        "target": sp,
+        "purpose": "one arm of the ligand-side double difference S = ddG_coop(d0->d | NR4A3) - "
+                   "ddG_coop(d0->d | NR4A1). Ternary only: the wedge sits ~9 A clear of the E3 interface, so "
+                   "the shared binary and solvent legs are paralogue-independent and cancel exactly.",
+    } for sp in SPECIES
+}
+
 
 def load_pair(design_path=DESIGN):
     """The matched pair, read from RUNG 5b's artifact — never hand-typed.
@@ -110,8 +141,9 @@ def cofold_plan(mp, species=SPECIES):
         "cofold_ligand_smiles": d0,
         "cofold_ligand_role": "d0 (control endpoint) — the pose BOTH endpoints are staged from",
         "perturbed_endpoint_smiles": d,
-        "leg_id": f"5aks_ternary_{sp.lower()}",
+        "leg_id": leg_id(sp),
         "environment": "ternary",
+        "e3": "CRBN",
     } for sp in species]
 
 
