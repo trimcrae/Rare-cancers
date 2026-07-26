@@ -185,24 +185,39 @@ failure mode.
 job's own `done_ns` **resets to zero at the metad→release boundary** — a raw counter would read a healthy
 phase transition as a 60 ns regression and stall-alert a good leg.
 
-**Honestly not proven live:** `DIED → relaunch`, `FAILED`, and the `STALL` escalation. Proving them needs a
-dead leg and a billed one was not killed to get it; they rest on unit tests plus the fact that the relaunch
-path is the same `build_jobspec` + `submit` the lane already uses.
+**✅ `DIED → relaunch` IS NOW PROVEN LIVE, autonomously, on a real leg (2026-07-26 1:42 AM ET).** The
+`schedule` pass at that time — not a dispatch, and with no session driving it — found `nr4a-pdyn-nr4a1` with
+**no result and no instance**, classified it `DIED`, rented **45878836** on machine 17720 (attempt 1/6 for the
+UTC day) and the leg **resumed from its own checkpoint at 33.55 ns** rather than restarting. That is the
+watchdog's real success terminus for the recovery path, witnessed end to end, and it happened while the lane's
+own watch had been dead for ~5 h — which is precisely the failure this engine was built for.
+
+**Still not proven live:** `FAILED` and the `STALL` escalation. Proving them needs a leg that crashes with a
+recorded reason or freezes while alive, and a billed one was not killed to get it; they rest on unit tests plus
+the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 10:45 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:15 AM ET**)
 
-*Checked hourly overnight. Every row is a PROGRESS reading — the counter moved since the previous pass — not a
-liveness ping.*
+*Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
+measured over the stated interval between two watchdog passes, not assumed.*
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast 45853652, RTX 4090) | **advancing** — metad **17.8/60 ns**, scalar 1015350 → 1017800, stall=0, GPU 59 %, up 181 min. **6.1 ns/h** measured across two watchdog passes | metad ~**5:30 AM**, then release legs |
-| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **16.05/60 ns**, scalar 1013700 → 1016050, stall=0, GPU 69 %, up 168 min. **5.9 ns/h** | metad ~**6:00 AM**, then release legs |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **warmup 1216/1600**, up 385 min | ⚠ **~6:00 AM, NOT ~1 AM** — see the ETA correction below |
-| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — production/80, up 385 min | ~overnight |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **advancing — `warmup/640` of 800 (80 %)**, up 380 min, no preemption since 6:40 PM. Rate settled at **~68 iter/h (52.8 s/iter)** across two agreeing baselines (63 min and 190 min). Production (2000 iters) starts ~3:20 AM | **~Mon 8:40 AM** — its result keys the calibrator rescope |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **34.95/60 ns**, up 33 min, GPU 45 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint | metad ~**9:40 AM**, release ~**2:00 PM** — ⚠ off **3.4 ns/h**, ONE 27-min interval on a host that is still warming; the 4090 it lost ran 6.1 ns/h. Re-read next pass before this ETA is trusted |
+| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **37.25/60 ns**, up 385 min, GPU 75 %. **5.67 ns/h** over 27 min | metad ~**6:15 AM**, release ~**9:00 AM** |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 520/2000**, up 636 min. **267 iter/h** over 27 min (warmup finished as projected) | ~**7:45 AM** |
+| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — **production 1080/2000**, up 636 min. ⚠ **40 iterations in the last 27 min (89/h) against 257/h over the preceding 224 min** | **not quoted** — see the slowdown flag below |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **advancing — `warmup/720` of 800 (90 %)**, VM up 452 min. **66.7 iter/h** over 72 min, agreeing with that session's ~68 iter/h | warmup done ~**3:25 AM**, then 2000 production iterations; **~Mon 8:40 AM** — its result keys the calibrator rescope |
+
+⚠ **BINARY EDGE LEG — A SLOWDOWN THAT IS NOT YET DIAGNOSED, AND IS NOT BEING EXPLAINED AWAY.** Two hypotheses
+fit the numbers and they are not distinguishable from one 27-minute window: (a) the leg really has slowed ~2.9×,
+or (b) the commit store advances in **blocks of 40 iterations**, so a short window catches a whole number of
+blocks and the apparent rate is quantisation — the ternary leg's 120 in the same window is exactly 3 blocks, and
+the binary's 40 exactly 1. The discriminating observation is a **longer interval**: under (b) the rate returns
+to ~257/h over ≥90 min, under (a) it does not. Taken on the next passes; no ETA is quoted for this leg until
+then, and the earlier "~overnight" is withdrawn rather than restated.
 
 **✅ RUNG 2b is HALF LANDED.** The **probe** (ΔG_morph **48.1970**) and the **solvent** leg (ΔG_morph
 **47.7982**) are both **DONE in S3 with no NaN** — so 4 fs has now survived two complete legs, not just the
@@ -210,16 +225,14 @@ probe. Their watch entries are set `enabled: false` (kept in the list, not delet
 on the record). **ΔΔG_coop cannot be computed until the ternary and binary legs land**, so the ratified gate
 (PASS = no NaN **and** |ΔΔG_coop − (−0.534)| ≤ 0.7) is not yet applicable.
 
-⚠ **ETA CORRECTION, mine:** I quoted "~1 AM" for the ternary leg. It is still in **warmup** at 385 minutes
-(1216 of 1600), i.e. ~0.317 min/iteration. Remaining warmup ≈ 122 min, then 2000 production iterations which
-run at roughly half the per-iteration cost (625 steps at 4 fs against warmup's 1250 at 1 fs) ≈ 317 min.
-**Realistic finish ~6:00 AM ET.** The original figure was a guess carried forward without arithmetic.
+**Why the ternary leg's ETA moved so far:** production runs at roughly **half** warmup's per-iteration cost
+(625 steps at 4 fs against warmup's 1250 at 1 fs), so a leg's finish cannot be extrapolated from its warmup
+rate. The table's figure is measured on **production** iterations directly. *(The two earlier quotes are in
+[§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 19b.)*
 
-⚠ **`vast-watchdog.yml` has NOT yet fired on cron** — every run so far is `workflow_dispatch`. The trigger
-block parses (`schedule: [{cron: "*/15 * * * *"}]`) and the workflow is on `main`, so this reads as GitHub's
-normal registration lag for a newly-added schedule, **but it has not proven itself**, so autonomous coverage of
-the paralogue legs is **claimed only once a `schedule` event appears**. Until then those legs rest on the
-hourly routine plus auto-teardown. *(The ternary watchdog's own cron is stretching far worse than that — it fired 9:17 PM then **not for 3h40m**. **"Busy repo" is measurably NOT the cause:** repo Actions load had fallen to **~2 runs/h** in that window. Ruled out with evidence — the file parses, its `run:` block is 368 chars, its registered `state` is `active`, and manual dispatch works every time. The proof it is repo-wide rather than a defect in either watchdog is **`vast-price-sample.yml`**, an unrelated cron, showing the same pattern in the same window: **7:15 PM → 9:01 PM (106 min) → 12:46 AM (225 min)**. So a newly-added `schedule:` proving itself is necessary but **not sufficient** — this repo's crons deliver ~2–4 h regardless of the expression, and no cron expression changes that.)*
+✅ **`vast-watchdog.yml` HAS now fired on cron** — first `schedule` event **2026-07-26 1:42 AM ET**, and it is
+the pass that recovered NR4A1 (above). Autonomous coverage of the paralogue legs is therefore claimed, on the
+evidence rather than on the trigger block parsing. *(The ternary watchdog's own cron is stretching far worse than that — it fired 9:17 PM then **not for 3h40m**. **"Busy repo" is measurably NOT the cause:** repo Actions load had fallen to **~2 runs/h** in that window. Ruled out with evidence — the file parses, its `run:` block is 368 chars, its registered `state` is `active`, and manual dispatch works every time. The proof it is repo-wide rather than a defect in either watchdog is **`vast-price-sample.yml`**, an unrelated cron, showing the same pattern in the same window: **7:15 PM → 9:01 PM (106 min) → 12:46 AM (225 min)**. So a newly-added `schedule:` proving itself is necessary but **not sufficient** — this repo's crons deliver ~2–4 h regardless of the expression, and no cron expression changes that.)*
 
 
 ## Program and thesis
@@ -1682,6 +1695,8 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 16 | NR-V04 prereg **R2** (*recruited = BSA > 0 in >50 % of frames*) and frozen **criterion 3** (*controls behave*) as GATING criteria | Retired by [AMENDMENT 1](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md) (2026-07-25, trimcrae-delegated). R2 returned **one distinct value across 18 legs — 1.0** — including both negative controls, so it had **zero discriminating power**; criterion 3 depended on it and was therefore **unsatisfiable**, making the gate return NO-GO regardless of the science. Replaced by binding criterion **A1 (input admissibility)**, which fails now: covalent legs stage the electrophile **8.99–16.39 Å** from the target-chain Cys Sγ against a ~1.8 Å C–S bond. Panel stays `[HELD]` — no NO-GO became a GO |
 | 17 | Cost lever 3: **sequential (anytime-valid) stopping saves ~20–25 %** | Measured on THIS ladder (`valb_rescope_design.py`): **0.8–2.6 %**. At σ=0.5 it stops after 4.87 of 5 replicates, at σ=0.7 after 4.96 of 5. An anytime-valid bound must stay valid under *every* stopping time, so at n = 2–4 with σ ≈ 0.7 it never fires. Real for long horizons; a **5-replicate ladder is too short**. Do not carry it in any total |
 | 18 | The valB_mini rescope path: **the high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops** | Refuted for **$0** on real data (RCSB REST + RDKit MCS, production container): **6 of 10 P-series pairs change formal charge**, including **P1→P4 (`charge_change: -1`)**, blocked by the same missing charge correction that blocks 8 legs of `step1_fanout`; the 4 charge-neutral pairs perturb **58–80 heavy atoms** vs **2** for the running edge; and 9HYO (P4) is **3.74 Å**. Replaced by a **synthetic closure triangle** (~$5.9 at n=1) |
+| 19a | "`vast-watchdog.yml` has NOT yet fired on cron … autonomous coverage of the paralogue legs is claimed only once a `schedule` event appears", and "**honestly not proven live:** `DIED → relaunch`" | Both retired by the same event: the **1:42 AM ET 2026-07-26 `schedule` pass** found `nr4a-pdyn-nr4a1` dead with no instance, relaunched it as **45878836**, and it resumed from its 33.55 ns checkpoint — with no session awake. `FAILED` and `STALL` remain unproven live |
+| 19b | RUNG 2b **ternary** edge finish "**~1 AM**", then "**~6:00 AM**"; **binary** edge "**~overnight**"; NR4A1 paralogue metad "~**5:30 AM**", NR4A2 "~**6:00 AM**" (all ET, 2026-07-26) | The ~1 AM figure was carried forward without arithmetic. The ~6:00 AM replacement extrapolated from **warmup**, which costs ~2× per iteration what production does. Live ETAs now come from measured **production** (or metad) intervals in the board above; the binary leg has **no** quoted ETA while its rate is undiagnosed, and NR4A1's slipped when it was preempted onto a slower card |
 | 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
 
 ---
