@@ -51,9 +51,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, 5aks-prime, 5aks-smoke, 5aks]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -65,6 +65,10 @@ on:
         default: ""
       vast_image:
         description: "override the image (blank = docker.io/triskit23/ternary-fep:latest)"
+        type: string
+        default: ""
+      cofold_prefix:
+        description: "5aks-prime: S3 prefix holding the Boltz co-fold CIFs (blank = rung5aks-cofold-v1)"
         type: string
         default: ""
 
@@ -100,7 +104,7 @@ jobs:
             # reached, and EVERY marker-less push to this lane's files went red. Observed on run
             # 30169660474, whose only fault was a commit message without a [tvast:...] marker. A fallback
             # that cannot execute is not a fallback.
-            TASK=$(printf '%s' "$MSG" | grep -oE '\[tvast:[a-z-]+\]' | head -1 | sed 's/\[tvast://; s/\]//' || true)
+            TASK=$(printf '%s' "$MSG" | grep -oE '\[tvast:[a-z0-9-]+\]' | head -1 | sed 's/\[tvast://; s/\]//' || true)
           fi
           # THIS ALLOWLIST MUST BE KEPT IN SYNC WITH THE `task` INPUT'S OPTIONS. It is a silent downgrade, not an
           # error: an unlisted task falls back to `test`, which passes, prints a warning nobody reads, and does
@@ -109,7 +113,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|5aks-prime|5aks-smoke|5aks) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -200,10 +204,80 @@ jobs:
           done
           echo "[prime] done -- every edge host will now restore its stage tree in seconds"
 
+  # ------------------------------------------------------------ free: RUNG 5a-KS inputs (no crystal exists)
+  # WHY 5a-KS NEEDS ITS OWN PRIME. The `prime` job above stages from a crystal (RCSB 8G1Q + a SMARCA2
+  # homology model). RUNG 5a-KS has no crystal to stage from — there is no PDB entry for CRBN + an NR4A-LBD
+  # + this construct, which is the entire reason the rung exists. Its inputs come from a Boltz-2 co-fold
+  # (rung5aks-cofold.yml task=cofold) and are assembled here, on a free runner, then PRE-SEEDED into the
+  # same stage cache the hosts read. `5aks`/`5aks_smoke` set STAGE_REQUIRED=1, so if this job has not run
+  # the leg fails immediately with a clear message instead of silently falling through to the crystal
+  # stager with a leg id it has never heard of.
+  #
+  # It runs in triskit23/ternary-fep for the standing parity reason: the RDKit that assigns the ligand's
+  # bond orders here is the one the FEP leg will read that SDF with.
+  5aks-prime:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == '5aks-prime' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: ternary-vast-mutate
+      cancel-in-progress: false
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Pull the co-folds, stage both legs, and seed the stage cache
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          B="${VAST_CKPT_BUCKET:-sagemaker-us-east-2-646605541856}"
+          P="${COFOLD_PREFIX:-rung5aks-cofold-v1}"
+          mkdir -p /tmp/cofold /tmp/5aks_in
+          aws s3 cp "s3://$B/$P/" /tmp/cofold/ --recursive --exclude '*' --include '*.cif' --only-show-errors
+          # A co-fold set that did not land is the ONLY thing this job can be missing, and staging nothing
+          # would otherwise seed nothing and report success.
+          test "$(find /tmp/cofold -name '*.cif' | wc -l)" -ge 2 \
+            || { echo "::error::fewer than 2 co-fold CIFs under s3://$B/$P — run rung5aks-cofold.yml task=cofold first"; exit 1; }
+          find /tmp/cofold -name '*.cif' -printf '  %s B  %p\n'
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/cofold:/tmp/cofold -v /tmp/5aks_in:/tmp/5aks_in \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_stage.py \
+              --cofold-dir /tmp/cofold --out-dir /tmp/5aks_in
+          echo "=== staged tree ==="; find /tmp/5aks_in -type f -printf '  %s B  %p\n'
+          python research/modalities/ternary_vast_launch.py --mode 5aks --seed-stage-cache /tmp/5aks_in
+      - name: The staged inputs are committed, so the structures that were simulated are auditable
+        run: |
+          set -eo pipefail
+          mkdir -p research/modalities/5aks_fep_inputs
+          # The manifests only -- complex.pdb is megabytes of predicted coordinates and lives in S3. What
+          # has to be in git is WHICH structure each leg started from and what it resolved.
+          for d in /tmp/5aks_in/*/; do
+            leg=$(basename "$d"); mkdir -p "research/modalities/5aks_fep_inputs/$leg"
+            cp "$d/staging_manifest.json" "research/modalities/5aks_fep_inputs/$leg/" || true
+          done
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/5aks_fep_inputs
+          if git diff --cached --quiet; then echo "manifests unchanged"; else
+            git commit -m "RUNG 5a-KS: staging manifests for the two ternary legs (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}"
+          fi
+
   # ------------------------------------------------------------------ paid: rent hosts
   launch:
     needs: [resolve, test]
-    if: ${{ needs.resolve.outputs.task == 'smoke' || needs.resolve.outputs.task == 'probe' || needs.resolve.outputs.task == 'edge' }}
+    if: ${{ needs.resolve.outputs.task == 'smoke' || needs.resolve.outputs.task == 'probe' || needs.resolve.outputs.task == 'edge' || needs.resolve.outputs.task == '5aks-smoke' || needs.resolve.outputs.task == '5aks' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     concurrency:
@@ -231,14 +305,20 @@ jobs:
           # boto3 is REQUIRED, not optional: the launcher lists S3 to skip units that are already done
           # BEFORE renting anything. Without it the skip list is empty and every unit is rented again.
           python -m pip install -q boto3
-          python research/modalities/ternary_vast_launch.py --mode "${{ needs.resolve.outputs.task }}"
-          echo "::notice title=TVAST launched::task=${{ needs.resolve.outputs.task }} — poll with task=collect."
+          # TASK -> MODE. The dispatch options read as a ladder (`5aks-smoke`), while `MODES` keys are
+          # Python identifiers (`5aks_smoke`). Only this job's tasks reach the tr, and none of them
+          # contains a meaningful dash. An unmapped mode would be an argparse `--mode` choice error, i.e.
+          # a red job, not a silent no-op — checked by test_ternary_vast_launch.
+          MODE=$(printf '%s' "${{ needs.resolve.outputs.task }}" | tr '-' '_')
+          echo "MODE=$MODE" >> "$GITHUB_ENV"
+          python research/modalities/ternary_vast_launch.py --mode "$MODE"
+          echo "::notice title=TVAST launched::task=${{ needs.resolve.outputs.task }} (mode=$MODE) — poll with task=collect."
       - name: Arm the session-independent watchdog for this task
         # The watch list is the ONLY input the cron watchdog reads, so a launch that does not register its
         # units is a launch nobody is watching. Committed to the branch so it survives this runner.
         run: |
           set -eo pipefail
-          python research/modalities/ternary_vast_watchdog.py --arm "${{ needs.resolve.outputs.task }}"
+          python research/modalities/ternary_vast_watchdog.py --arm "$MODE"
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/ternary-vast-watch.json
           if ! git diff --cached --quiet -- research/modalities/ternary-vast-watch.json; then
@@ -255,7 +335,7 @@ jobs:
           # guard cannot catch it (an empty list is a legitimate state), so only a check that knows which
           # units were just launched can. Failing here is correct: a leg billing with nothing watching it
           # is worse than a red build.
-          python research/modalities/ternary_vast_watchdog.py --verify-armed "${{ needs.resolve.outputs.task }}"
+          python research/modalities/ternary_vast_watchdog.py --verify-armed "$MODE"
 
   # ------------------------------------------------------------------ free: monitor + reap
   collect:
