@@ -97,7 +97,22 @@ def _morph_endpoints(leg, resolve_smiles=False):
     a, b = [s.strip() for s in morph.split("->")]
     smiles_a = smiles_b = None
     status = "resolved"
-    if a.startswith("NRV04") or b.startswith("NRV04"):
+    if a.startswith("5aks_") or b.startswith("5aks_"):
+        # RUNG 5a-KS — the ligand-side kill-switch pair. The SMILES come from RUNG 5b's committed design
+        # artifact via `nr4a3_5aks_cofold.load_pair`, never from a copy here: a second home for a molecule is
+        # exactly how a design and the thing actually simulated drift apart, and the co-fold, the stager and
+        # this resolver would then be simulating three subtly different constructs. Local file, no network.
+        try:
+            import nr4a3_5aks_cofold as _k5
+            mp = _k5.load_pair()
+            smiles_a, smiles_b = _k5.endpoint_smiles(mp)
+            ok, why = _k5.pair_is_matched(mp)
+            status = "resolved_5aks_design" if ok else f"5aks_pair_not_matched ({why})"
+            if not ok:
+                smiles_a = smiles_b = None
+        except Exception as e:  # noqa: BLE001
+            status = f"5aks_design_unresolved ({type(e).__name__}: {e})"
+    elif a.startswith("NRV04") or b.startswith("NRV04"):
         if resolve_smiles:
             try:
                 active = _nv.load_nrv04_smiles()

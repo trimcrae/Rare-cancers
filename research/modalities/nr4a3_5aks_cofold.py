@@ -57,6 +57,27 @@ SPECIES = ("NR4A3", "NR4A1")
 # paralogue in them at all. Nothing downstream would notice: a binary leg converges perfectly well.
 MORPH = "5aks_d0_to_d"
 
+# ⚠ THE ENDPOINT NAMES ARE A CONTRACT WITH THE FEP ENGINE, NOT LABELS. `nr4a3_ternary_fep._build_components`
+# resolves each alchemical endpoint by looking up `_Name` in `ligands.sdf` (`nr4a3_rbfe._sdf_mol`), and
+# `ternary_coop_prep._morph_endpoints` derives those names by splitting the leg's `morph` string on `->`. So
+# three files have to agree on two strings; they agree by importing THESE, and a test asserts the round trip.
+# Bare `d0`/`d` were rejected as too generic to be safe as SDF record names in a shared tree.
+ENDPOINT_A, ENDPOINT_B = "5aks_d0", "5aks_d"
+MORPH_STR = f"{ENDPOINT_A} -> {ENDPOINT_B}"
+
+
+def cofold_cif_stem(species):
+    """The Boltz prediction stem for one species' ternary co-fold — `nr4a3_ternary.py`'s own naming.
+
+    ⚠ THIS EXISTS BECAUSE A LOOSE GLOB PICKED THE WRONG STRUCTURE. The stager used to look for
+    `*nr4a3*model_0.cif`, and `nr4a3_ternary.py` also writes the CRBN+lenalidomide POSITIVE CONTROL as
+    `nr4a3-ternary-control` — a single-chain CRBN complex with no NR4A3 in it at all. Sorted, `...control...`
+    precedes `...protac...`, so the NR4A3 leg would have been staged from the control. It would have failed
+    closed at the template-match step (lenalidomide is not the construct), but for the wrong reason, and a
+    future co-fold whose ligand happened to match would not have failed at all.
+    """
+    return f"{species.lower()}-ternary-protac"
+
 
 def leg_id(species):
     """`5aks_d0_to_d__ternary_nr4a3` — the repo's `<morph>__<environment>_<target>` convention, which the FEP
@@ -71,7 +92,12 @@ def leg_id(species):
 # never declared. RUNG 5a-KS is a different experiment and carries its own registry.
 LEG_MAP = {
     leg_id(sp): {
-        "morph": "5aKS_d0 (phenyl) -> 5aKS_d (3-pyridyl)",
+        # The morph string is PARSED, not displayed: `ternary_coop_prep._morph_endpoints` splits it on `->`
+        # and the two halves become the SDF record names the engine resolves each endpoint by. It used to
+        # read "5aKS_d0 (phenyl) -> 5aKS_d (3-pyridyl)", which would have made the engine hunt for a record
+        # literally named "5aKS_d0 (phenyl)" and hard-fail. The chemistry lives in `wedge`, below.
+        "morph": MORPH_STR,
+        "wedge": "phenyl (d0, control) -> 3-pyridyl (d, wedge) — one aromatic C-H -> N",
         "environment": "ternary",
         "e3": "CRBN",
         "target": sp,
@@ -144,6 +170,8 @@ def cofold_plan(mp, species=SPECIES):
         "leg_id": leg_id(sp),
         "environment": "ternary",
         "e3": "CRBN",
+        "cofold_cif_stem": cofold_cif_stem(sp),
+        "endpoint_names": [ENDPOINT_A, ENDPOINT_B],
     } for sp in species]
 
 
@@ -188,11 +216,17 @@ def build(argv=None):
         sys.path.insert(0, HERE)
         import nr4a3_ternary  # noqa: E402  (imported lazily: needs network + GPU, absent in the sandbox)
         d0, _d = endpoint_smiles(mp)
-        record["inference"] = {"driver": "nr4a3_ternary.py", "protac_smiles": d0}
+        # ⚠ --targets, NOT the driver's default. `nr4a3_ternary.py` co-folds NR4A3 **and NR4A1 and NR4A2**;
+        # `S` is defined on the NR4A3/NR4A1 pair only, and the design records that extending to NR4A2 is what
+        # a DISCRIMINATING result earns rather than something to pay for up front. Folding NR4A2 anyway would
+        # be a third ~800-residue Boltz prediction of rented GPU time bought for a leg nobody is going to run.
+        targets = ",".join(SPECIES)
+        record["inference"] = {"driver": "nr4a3_ternary.py", "protac_smiles": d0, "targets": targets,
+                               "cif_stems": {sp: cofold_cif_stem(sp) for sp in SPECIES}}
         # nr4a3_ternary.main() parses sys.argv; hand it the pair's CONTROL endpoint as the PROTAC. Passing d0
         # explicitly (rather than relying on $PROTAC_SMILES) keeps the molecule that was co-folded visible in
         # the recorded command instead of in an environment variable nobody reads back.
-        sys.argv = ["nr4a3_ternary.py", "--run", "--protac-smiles", d0]
+        sys.argv = ["nr4a3_ternary.py", "--run", "--protac-smiles", d0, "--targets", targets]
         nr4a3_ternary.main()
         record["inference"]["status"] = "ran"
 
