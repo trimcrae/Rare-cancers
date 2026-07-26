@@ -69,4 +69,10 @@ jobs:
       # reported it. Also asserts that 'unrecorded' reports as UNKNOWN rather than as agreement.
       - name: Cross-leg system identity (particles / charge / setup version)
         run: python3 research/modalities/tests/test_system_identity_consistency.py
-      - run: python -m pytest research/modalities/tests -q
+      # --continue-on-collection-errors, because ONE unimportable file must not be able to hide the other
+      # ~2000 results. Twice on 2026-07-26 a module-scope failure in a single test file (a sys.exit(0) in an
+      # import guard, then an unguarded open() after a partial-environment staging failure) aborted collection
+      # and the job reported "no tests ran" — a red build that looked ordinary while the guard gate in front of
+      # every GPU launch had stopped checking anything. With this flag the broken file is one ERROR, the build
+      # is still red, and everything else still reports. It does not excuse the bug; it stops the blast radius.
+      - run: python -m pytest research/modalities/tests -q --continue-on-collection-errors
