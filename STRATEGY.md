@@ -357,7 +357,40 @@ classes:
   **resolvable** difference of **1.12 kcal/mol** (replicate SD 0.7, n = 3) and a method accuracy of ~1.7 kcal/mol
   RMSE — which does not even cover the NAGL ternary lane. Replicates shrink precision, not accuracy. **This axis
   is a confirmation tool operating near its limit, not a discovery tool.**
-- **CATEGORICAL** — the paralogue is structurally *incapable*. NR4A3 carries reactive residues that BOTH
+- **CATEGORICAL** — ⚠ **NARROWED 2026-07-25/26 (Lane 13, $0, before any flagship spend): the paralogue is
+  structurally incapable *AT THE ALIGNED POSITION* — which is NOT the same as "a covalent bond cannot form on
+  it at all", and this file asserted the stronger claim.** The sequence fact is exact and unchanged: NR4A1 and
+  NR4A2 carry no cysteine where NR4A3 has C397. **What does not follow is that they present no reachable
+  nucleophile.** Three measurements:
+  - **Only 4 of NR4A3's 20 enumerated cysteines are unique; 16 are SHARED — and one of the shared ones is
+    inside the design gate.** Term (a) is built from `unique_cysteines` **only** and summarises the conserved
+    set at the 20-atom *sampling ceiling*, never at the 12-atom gate — so *"all 7 term-(a) basins reach C397 and
+    only C397"* is a statement about **{C397, C420, C559}**, not about every cysteine. Scored over **all** of
+    them on the same 75 unbiased conformers, **C496 — whose homologue is NR4A1 C465 / NR4A2 C465 — reaches the
+    ≤12-atom gate in 29/75 = 0.387** (Wilson 0.285–0.500). **What closes it is BURIAL (RSA median 0.023), not
+    geometry.**
+  - **Each paralogue's static opened model presents TWO cysteines inside the same gate**, and **NR4A1 C465 opens
+    at a 6-atom linker against C397's 10** — i.e. *more* geometrically accessible than NR4A3's own handle.
+    (NR4A1 C551, the celastrol site, at 10; NR4A2 C465 at 10, C534 at 12.)
+  - **Matched-construct test** (same placement, warhead exit anchor, E3 anchor and budget; 5,657 placements):
+    P(a paralogue Cys is also reached | an NR4A3-unique one is) = **0 at 12 atoms, 0.081 at 16, 0.258 at 20** —
+    and **16–20 is a range this plan already contemplates** (C420 needs 16, C559 needs 20, `best_linker_atoms`
+    reads 19).
+
+  **★ SO WHAT ACTUALLY HOLDS THE CATEGORICAL AXIS UP IS EXPOSURE, NOT ABSENCE.** Every paralogue cysteine in
+  range sits at RSA **0.011–0.165** against C397's **0.395**, so reach-**and**-exposure still gives **0
+  collisions at every length**. But that is **one number per residue from one conformer**, and RSA is the most
+  conformationally variable quantity in play — C397's own range over its ensemble is **0.108–0.673**. The
+  matched paralogue MD ensembles that turn those single numbers into distributions are **in flight** and the
+  verdict is deliberately marked **`VERDICT_NOT_EVALUABLE`** until they land, rather than reported as a clean
+  pass computed against zero paralogue frames. *(Not reimplementation drift: the same pipeline reproduces the
+  committed handle-ensemble values exactly — C397 0.960 at the gate, C420 0.000, C559 0.000, RSA median 0.416.)*
+  **Consequence for the design: keep the linker SHORT.** The discrimination is clean at 12 atoms and degrades
+  measurably by 16–20 — so a construct that reaches C397 at 11 atoms is not merely more tractable, it is
+  *more selective*, and any design drifting to 16+ atoms trades away the axis it exists to exploit.
+
+  *(Original framing, retained because the sequence fact under it is exact:)* the paralogue is structurally
+  *incapable*. NR4A3 carries reactive residues that BOTH
   paralogues lack, verified from full-length UniProt with two independent aligners
   ([`nr4a_paralogue_unique_residues.py`](research/modalities/nr4a_paralogue_unique_residues.py) →
   [`nr4a-paralogue-unique-residues.json`](research/modalities/nr4a-paralogue-unique-residues.json)):
@@ -676,7 +709,7 @@ survives causal testing."* The *decision* to commit the flagship is cheap, not a
 
 | tier | test | cost | status |
 |---|---|---|---|
-| **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed) |
+| **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed). ⚠ **NARROWED 2026-07-26: "structurally incapable" holds AT THE ALIGNED POSITION only** — 16 of NR4A3's 20 cysteines are shared, each paralogue presents **two** inside the 12-atom gate (NR4A1 C465 at **6** atoms), and the axis survives on **exposure**, not absence. Clean at 12 atoms; P(paralogue collision) rises to **0.081 at 16** and **0.258 at 20**. See §MECHANISM-FIRST |
 | **1** | **Differential surface atlas.** No E3-reachable divergent surface ⇒ STOP for free | **$0 CPU** | **PASSED** (46 handles) |
 | **2** | **Basin nomination.** No basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ STOP cheaply | **$0 realized** (budget was $0–50; **no GPU used**) | **✅ GO — CONFIRMED on the full 12-pose run** (CI 30169233690, 55 min, 3:11 PM ET). Basis **CATEGORICAL**. 58 meta-basins / 192 basins; **7** exploit term (a), **40** term (b), **28** nominally discriminating. See the block below |
 | **3** | **Pilot ONE causal direction** — the ligand-side double difference `S`, one matched pair, ternary legs in NR4A3 and NR4A1. ⚠ **`S` is NON-COVALENT, so it tests the MARGINAL wedge only. No discrimination ⇒ the marginal wedge is absent and the claim rests on the CATEGORICAL axis alone — STOP only if the categorical axis has ALSO failed** (see the box above; a null is the *likely* outcome for the recommended pair) | **~$12 ($1.6–45)** | pending (RUNG 5a-KS) — **matched pair now DESIGNED**, see RUNG 5b |
@@ -743,6 +776,11 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
   CRBN, 0.027 → 0.026 on VHL), so **the Tier-2 GO and its published enrichments are UNAFFECTED**, and Tier-2
   passes CATEGORICAL on **both** constructions (native marginally stronger: 3 vs 2 term-(a), 26 vs 22
   discriminating). **What falls is only the claim that the discrimination lives on VHL.** Do not repeat it.
+- ⚠ **Term (b)'s discrimination is a RARE JOINT EVENT, not paralogue lysine scarcity (Lane 13, $0).**
+  P(the transfer zone covers *any* lysine) is **NR4A3 0.438 / NR4A1 0.387 / NR4A2 0.363** — i.e. essentially
+  **non-discriminating on the any-lysine measure**, consistent with the committed 0.0–0.032 *joint* statistic.
+  The term earns its signal from the coincidence of covering a *unique* lysine while both paralogue zones stay
+  bare, not from the paralogues having fewer lysines to hit. State it that way; the scarcity reading is wrong.
 - **`term_b_best_rank` is a best-of-N statistic, inflated by construction** (exactly piece 5's winner's-curse
   artifact), so those counts are **upper bounds**; the unbiased mean fractions lead. One CRBN basin reached
   rank 4 while scoring *below* background and was correctly excluded — **without the null it would have counted.**
@@ -1356,7 +1394,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 - **`[x]` TIER-0 · NR4A paralogue-UNIQUE reactive-residue map — DONE 2026-07-24 · $0 · GATE PASS/GO.** Full-length
   UniProt (P22736/P43354/Q92570/Q01844) + dual-aligner agreement + matched-model geometry
   (`nr4a_paralogue_unique_residues.py`, 15 unit tests, run on CI because the sandbox proxy blocks UniProt).
-  **4 NR4A3-unique cysteines** (2 exposed): **C397** — NR4A1 N363 / NR4A2 S363, RSA 0.395, **10.9 Å** from the
+  **4 NR4A3-unique cysteines** (2 exposed) ⚠ *out of **20** enumerated — the other 16 are SHARED, and uniqueness here is enumerated **ONE-WAY only**: the reciprocal handles (both paralogues carry C534 where NR4A3 has S565; NR4A1 carries C551) are absent from the JSON*: **C397** — NR4A1 N363 / NR4A2 S363, RSA 0.395, **10.9 Å** from the
   cryptic pocket (exit-vector reach) — plus C420 (18.3 Å, RSA 0.311), C559 (12.8 Å but RSA 0.095, buried in this
   conformer), C166 (outside the LBD). **4 NR4A3-unique lysines** (3 exposed in the LBD): **K572** (RSA 0.879,
   11.5 Å), **K518** (0.413, 13.4 Å), **K592** (0.506, 16.2 Å), K178 (outside). Reciprocal check reproduces the
