@@ -1036,6 +1036,34 @@ def _contact_pose_timeseries(reporter, last_ckpt, interval, max_frames=TIMESERIE
         out["exceedance_lambda_histogram"] = dict(sorted(hist.items()))
         out["exceedances_at_physical_endpoint_states"] = at_endpoint
         out["exceedances_at_alchemical_interior_states"] = at_interior
+        # PERSISTENCE vs INITIATION — two different questions, and the histogram above only answers the first.
+        # Replicas exchange λ, so once a replica has departed it keeps contributing over-threshold frames at
+        # whatever λ it visits afterwards. The pooled histogram is therefore occupancy-weighted PERSISTENCE of the
+        # displaced state, which is informative (a displaced configuration that survives at a physical endpoint is
+        # not a softcore artifact) but is NOT evidence about where the departure STARTED.
+        #
+        # The initiation statistic is one value per replica: the λ it was at on its FIRST over-threshold frame.
+        # There are at most n_replicas of these, so it is a small sample and must be read as such — but it is the
+        # quantity that separates "the alchemy pushed it out and it never came back" from "it left under a
+        # physical Hamiltonian".
+        first_hist = {}
+        fe_endpoint = fe_interior = 0
+        for r in per_replica:
+            s = r.get("lambda_at_first_exceed")
+            if s is None:
+                continue
+            first_hist[s] = first_hist.get(s, 0) + 1
+            if s in endpoints:
+                fe_endpoint += 1
+            else:
+                fe_interior += 1
+        out["first_exceedance_lambda_histogram"] = dict(sorted(first_hist.items()))
+        out["first_exceedances_at_physical_endpoint_states"] = fe_endpoint
+        out["first_exceedances_at_alchemical_interior_states"] = fe_interior
+        out["initiation_note"] = ("first-exceedance counts are one per departing replica (n<=%d), so they are a "
+                                  "SMALL SAMPLE — read them as suggestive, not as a rate. Departures initiating at "
+                                  "a physical endpoint state cannot be attributed to alchemical softening."
+                                  % len(per_replica))
         out["lambda_verdict"] = (
             ("no frame exceeds the threshold, so there is nothing to attribute to a λ state"
              if (at_endpoint + at_interior) == 0 else
@@ -1559,10 +1587,16 @@ def analyze_all():
             # restraint" and "the modelled complex is wrong", and it belongs in the summary.
             ep = ts.get("exceedances_at_physical_endpoint_states")
             if ep is not None:
-                lines.append("%-34s   lambda: %s over-threshold frames at PHYSICAL ENDPOINT states, %s in the "
-                             "alchemical interior (of %s states) | exceedance histogram %s"
+                lines.append("%-34s   lambda PERSISTENCE (occupancy-weighted, all frames): %s at PHYSICAL ENDPOINT "
+                             "states, %s in the alchemical interior (of %s states) | histogram %s"
                              % ("", ep, ts.get("exceedances_at_alchemical_interior_states"),
                                 ts.get("n_lambda_states"), ts.get("exceedance_lambda_histogram")))
+                # INITIATION is the sharper question and a smaller sample — one value per departing replica.
+                lines.append("%-34s   lambda INITIATION (first exceedance per replica, small n): %s at PHYSICAL "
+                             "ENDPOINT states, %s in the interior | histogram %s"
+                             % ("", ts.get("first_exceedances_at_physical_endpoint_states"),
+                                ts.get("first_exceedances_at_alchemical_interior_states"),
+                                ts.get("first_exceedance_lambda_histogram")))
             elif ts.get("lambda_verdict"):
                 lines.append("%-34s   lambda: %s" % ("", str(ts["lambda_verdict"])[:150]))
         elif ts.get("status"):

@@ -303,6 +303,67 @@ def test_unavailable_lambda_is_UNANSWERED_not_benign():
     assert r["per_replica"] and r["per_replica"][0]["classification"] == "DISPLACED_AND_STAYED", r["per_replica"]
 
 
+
+
+# --- PERSISTENCE vs INITIATION ------------------------------------------------------------------------
+#
+# The pooled exceedance histogram is occupancy-weighted PERSISTENCE: once a replica has departed it keeps
+# contributing over-threshold frames at whatever λ it visits afterwards, because replicas exchange λ. That answers
+# "does the displaced state survive at a physical endpoint?" — informative, but NOT "where did it start?".
+#
+# Measured on the real binary leg (GH run 30209919828) the pooled histogram is nearly FLAT across all 12 states
+# ({0:12, 1:14, 2:8, 3:11, 4:13, 5:11, 6:11, 7:13, 8:11, 9:11, 10:13, 11:17}), which is exactly the signature λ
+# mixing after the fact would produce. So the initiation statistic has to be separate, and it has to be honest
+# about being a small sample: at most one value per departing replica.
+
+def test_initiation_is_counted_once_per_replica_not_per_frame():
+    """Persistence pools every frame; initiation must pool one value per replica."""
+    d = {i: 1.6 * (i / 400.0) for i in range(0, 401, 40)}
+    lam = {i: [0, 0, 0] for i in range(0, 401, 40)}          # 3 replicas, all pinned at endpoint state 0
+    r = _runL(d, lam, n_replicas=3)
+    # every replica departs, so initiation counts exactly 3 — while persistence counts many more frames
+    assert r["first_exceedances_at_physical_endpoint_states"] == 3, r
+    assert sum(r["first_exceedance_lambda_histogram"].values()) == 3, r["first_exceedance_lambda_histogram"]
+    assert r["exceedances_at_physical_endpoint_states"] > 3, (
+        "persistence must pool frames, not replicas — otherwise the two statistics are the same number")
+
+
+def test_initiation_distinguishes_endpoint_from_interior_start():
+    """A replica that STARTS departing while at an interior λ is attributed to the interior, and vice versa."""
+    d = {i: 1.6 * (i / 400.0) for i in range(0, 401, 40)}
+    # replica 0 is at interior state 6 early (where it first exceeds) then moves to endpoint 11;
+    # replica 1 is at endpoint 0 early then moves to interior 5.
+    lam = {i: ([6, 0] if i <= 200 else [11, 5]) for i in range(0, 401, 40)}
+    r = _runL(d, lam, n_replicas=2)
+    assert r["n_lambda_states"] == 12, r["n_lambda_states"]
+    fh = r["first_exceedance_lambda_histogram"]
+    assert sum(fh.values()) == 2, fh
+    assert r["first_exceedances_at_physical_endpoint_states"] == 1, r
+    assert r["first_exceedances_at_alchemical_interior_states"] == 1, r
+    # and the two statistics must genuinely differ on this input, or the test proves nothing
+    assert (r["exceedances_at_physical_endpoint_states"],
+            r["exceedances_at_alchemical_interior_states"]) != (1, 1), (
+        "persistence and initiation should not coincide here")
+
+
+def test_a_replica_that_never_exceeds_contributes_no_initiation():
+    d = {i: 0.0 for i in range(0, 401, 40)}
+    lam = {i: [0] for i in range(0, 401, 40)}
+    r = _runL(d, lam)
+    assert r["first_exceedance_lambda_histogram"] == {}, r
+    assert r["first_exceedances_at_physical_endpoint_states"] == 0
+
+
+def test_the_small_sample_caveat_is_stated_in_the_output():
+    """A 12-replica statistic must not be presented as a rate — the caveat travels with the number."""
+    d = {i: 1.6 * (i / 400.0) for i in range(0, 401, 40)}
+    lam = {i: [0] for i in range(0, 401, 40)}
+    r = _runL(d, lam)
+    assert "SMALL SAMPLE" in r.get("initiation_note", ""), r.get("initiation_note")
+
+
+# NB the __main__ runner iterates globals(), so it MUST stay LAST in this file — appending a test after it
+# silently skips that test (happened twice while writing this file).
 if __name__ == "__main__":
     fails = 0
     for name, fn in sorted(globals().items()):
