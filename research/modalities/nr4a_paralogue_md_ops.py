@@ -438,6 +438,27 @@ def _progress_signature(targets):
     return sig
 
 
+def watched_for_stalls(name):
+    """Is this leg's frozen signature allowed to FAIL the watch? PURE.
+
+    NO FOR A SMOKE LEG, and this is a fix for an observed outage rather than a precaution. `leg_names()`
+    SYNTHESISES a `<target>-smoke` name for every target whether or not a smoke leg was ever launched, and a
+    leg that does not exist has the signature (None, None, False) — which can never change. So the stall
+    detector fires on it on schedule. At 2026-07-26T00:28:55Z (8:28 PM ET) this watch died with
+
+        ##[error]['nr4a-pdyn-nr4a2-smoke'] made no progress for 8 ticks (24 min) — diagnose, do not relaunch
+
+    while BOTH real legs were demonstrably advancing at 60-69 % GPU utilisation (NR4A1 4.55 -> 4.75 ns,
+    NR4A2 3.05 -> 3.25 ns over those same ticks). A phantom took the monitoring down and left two billed legs
+    with no session-independent cover at all. `real_done` already excludes smoke legs from the completion
+    test; the stall test has to exclude them for the same reason, and that asymmetry was the whole bug.
+
+    A smoke leg is a throwaway plumbing proof — its output must never even be collected — so it is still
+    STATUS-REPORTED every tick, just never a reason to fail the run.
+    """
+    return not str(name).endswith("-smoke")
+
+
 WATCH_BRANCH = os.environ.get("PDYN_WATCH_BRANCH", "lane13-watch")
 
 
@@ -513,6 +534,10 @@ def watch(targets, interval_s=180, max_minutes=330, stall_ticks=8):
         publish_board(f"# LANE 13 watch board\n\n`{head.strip('# ')}`\n\n**{one_line}**\n\n```\n"
                       + buf.getvalue()[-40000:] + "\n```\n")
         for name, v in sig.items():
+            if not watched_for_stalls(name):
+                # A never-launched smoke leg is frozen by definition and would fail this run on schedule.
+                frozen[name] = 0
+                continue
             if v[-1]:
                 frozen[name] = 0
                 continue

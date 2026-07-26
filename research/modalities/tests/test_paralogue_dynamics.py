@@ -119,6 +119,12 @@ check(O.target_of("nr4a-pdyn-nr4a1-smoke") == "nr4a1" and O.target_of("nr4a-pdyn
 check(O.result_key("nr4a-pdyn-nr4a1-smoke").endswith("nr4a-pdyn-nr4a1-smoke/nr4a1-pocket-ensemble.tar.gz"),
       "the smoke tarball has the SAME basename as the real one under a DIFFERENT prefix — which is exactly "
       "why collect must skip it rather than unpack it over the real ensemble")
+# REGRESSION, 2026-07-26. leg_names() synthesises a -smoke name per target whether or not a smoke leg was ever
+# launched, so a phantom's progress signature (None, None, False) can never change. The stall detector fired on
+# it and KILLED the watch at 00:28:55Z while both real legs advanced at 60-69 % GPU util — leaving two billed
+# legs with no session-independent monitoring. real_done already excluded smoke legs; the stall test did not.
+check(O.watched_for_stalls("nr4a-pdyn-nr4a1") and not O.watched_for_stalls("nr4a-pdyn-nr4a2-smoke"),
+      "a never-launched smoke leg is frozen BY DEFINITION and must never be the reason the watch fails")
 
 print("== species offsets are derived, not hardcoded")
 try:
