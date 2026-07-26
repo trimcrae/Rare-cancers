@@ -198,7 +198,7 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 6:37 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 7:15 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
@@ -206,9 +206,9 @@ a window long enough to swamp the 40-iteration commit block** (see the quantisat
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **48.5/60 ns**, up 295 min. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.18 ns/h** — seventh agreeing interval | metad ~**10:20 AM**, release ~**3:00 PM** |
-| **NR4A2 paralogue MD** (Vast **45896793**, **RTX 4080S**) | **advancing** — metad **59.75/60 ns**, minutes from the release phase. ⚠ **Preempted off its 4090 at ~5:50 AM** after 586 min; **one live host per leg, verified on the instance board** (45896528 was rented ~5:54 AM and destroyed, not left running). Realised **47 ns/day**, a **3× drop** from the 141 ns/day it held on the 4090, and **GPU utilisation is still falling — 33 % → 24 %** ([pricing.md §A.1](research/compute/pricing.md)) | release ~**3:15 PM at the current rate**, against ~8:40 AM had it kept the 4090. **Churn trigger, named in advance so it is not a judgement call later: if the realised rate drops below ~1.5 ns/h — release past ~5 PM, i.e. materially beyond NR4A1 — re-rent it.** Above that, moving hosts buys nothing, because NR4A1 is the critical path |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **production 1200/2000**, up 897 min. ⚠ **The counter has not moved across two consecutive passes** (10:19Z and 10:36Z). At 167 iter/h a 40-iteration commit block takes ~14 min, so 17 min of no new block is *within* quantisation and is **not yet** a stall — the decisive reading is the next pass, where a third identical 1200 would be one | ~**11:10 AM** if it is advancing |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **50.5/60 ns**, up 333 min, GPU 38 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.2 ns/h** through metad; its release phase should run at NR4A2's ~8.7 ns/h once the PLUMED bias is gone | metad ~**10:15 AM**, release ~**12:00 PM** |
+| **NR4A2 paralogue MD** (Vast **45896793**, **RTX 4080S**) | ✅ **metad COMPLETE — now `release/4.5` of 15 ns**, GPU **74 %**, up 77 min. Preempted off its 4090 at ~5:50 AM; one live host per leg, verified on the instance board. **The phase change fixed the throughput**: 24–33 % GPU and ~47 ns/day under metadynamics, **74 % and ~209 ns/day** on the same box in release — see [pricing.md §A.1](research/compute/pricing.md) | ~**8:30 AM**. **The churn trigger set at the last check is withdrawn — the leg fixed itself at the phase boundary, and re-renting would have thrown away a host that is fine for this phase** |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1280/2000**, up 936 min. The flat 1200 across two passes **was quantisation, not a stall**: the decisive longer reading moved it 2 blocks. **152 iter/h** over the longest window (300 min) | ~**12:00 PM** |
 | ~~RUNG 2b binary edge leg~~ (Vast 45835971) | **✅ DONE 6:37 AM — ΔG_morph 48.1256, no NaN.** Watch entry disabled | landed |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **warmup COMPLETE (800/800), `production/120` of 2000**, VM up 658 min. Still **no rate quoted**: the one clean production window carries exactly **one** 40-iteration commit block, which is the same thing that produced this morning's two withdrawn ETAs | **~Mon 8:40 AM**, that session's figure — its result keys the calibrator rescope |
 

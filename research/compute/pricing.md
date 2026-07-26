@@ -54,7 +54,7 @@ size-stable than absolute rates, so ranking is sound, but an absolute ns/day at 
 A 3090 also needs **2.10× the wall clock**, so a leg with a hard continuity requirement is 2.10× more exposed on
 it (`JobProfile.min_uninterrupted_h` scales that per card and flags it).
 
-### ⚠ A.1 — `$/ns` RANKING IS BLIND TO A HOST THAT ONLY GIVES YOU PART OF THE GPU (observed 2026-07-26)
+### ⚠ A.1 — `$/ns` RANKING CANNOT SEE A WORKLOAD WHOSE THROUGHPUT DEPENDS ON THE HOST CPU (2026-07-26)
 
 Four LANE-13 metadynamics legs, each reporting its own ns/day in `run.log`, alongside the Vast board's
 `gpu_util` at the same moment:
@@ -78,11 +78,35 @@ costs more per hour. This is the same blind spot as a host that never starts (in
 to the ranking, which is why `ResourceSpec.exclude_machine_ids` exists): **realised throughput is not fed back
 into selection.**
 
-**Not yet established:** whether low `gpu_util` is contention from a co-tenant, a weak host CPU feeding PLUMED,
-or a throttled card — the board does not distinguish them, and no leg was killed to find out. What the table
-does support is the operational rule: **treat sustained `gpu_util` well below the ~70–75 % these legs reach on a
-healthy host as a selection signal**, and exclude the machine rather than re-ranking on a constant that cannot
-represent it.
+**★ ESTABLISHED 2026-07-26 7:15 AM ET — IT IS PLUMED ON A WEAK HOST CPU, AND THE HOST IS NOT THE VARIABLE THE
+TABLE ABOVE MAKES IT LOOK.** The discriminating observation arrived free, when NR4A2 crossed the
+**metad → release** boundary **on the same instance, the same card, minutes apart**:
+
+| instance | card | phase | `gpu_util` | realised |
+|---|---|---|---|---|
+| 45896793 | RTX 4080S | metadynamics | **24–33 %** | ~47 ns/day |
+| 45896793 | RTX 4080S | **release (plain MD, no bias)** | **74 %** | **~8.7 ns/h ≈ 209 ns/day** |
+
+A co-tenant does not vanish exactly at a phase boundary, and a throttled card does not un-throttle for the next
+phase. What changes at that boundary is **PLUMED's CPU-side bias computation**, which metadynamics needs every
+step and release does not. So the low utilisation is a **CPU-bound metadynamics bias on a weak host**, and the
+GPU on the very same box runs at 74 % once the bias is gone — faster, in fact, than the 4090 hosts' *metad*
+rate. That also explains why the 4090 hosts held 71–75 % *during* metad: they were paired with CPUs that could
+keep up.
+
+**Superseded by that, and stated so it is not re-quoted:** "hosts handing the job a fraction of their GPU",
+and the operational rule that followed it (exclude any machine showing low `gpu_util`). Excluding on
+utilisation alone would have discarded a host that is **perfectly good for every non-metadynamics leg**.
+
+**What survives, and is the point of this section:** `$/ns` is `(bid + storage) ÷ (ns_per_day ÷ 24)` with
+`ns_per_day` a **card constant** from `MEASURED_NS_PER_DAY_84K`, so it cannot represent a workload whose
+throughput depends on the **host CPU** — 45896793 scored as healthy and won selection while being 3× slower
+*and* dearer per hour than the 4090 it replaced. Same blind spot as a host that never starts (infinite realised
+$/ns, invisible to the ranking, which is why `ResourceSpec.exclude_machine_ids` exists): **realised throughput
+is not fed back into selection.** The correct rule is therefore narrower than the one withdrawn above —
+**for CPU-coupled workloads (PLUMED metadynamics, and anything else with per-step host-side work) the card
+constant is not a throughput model, and host CPU has to enter selection.** For plain-MD legs the existing
+ranking is fine.
 
 ---
 
