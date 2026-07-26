@@ -669,3 +669,24 @@ gate is legible without opening the JSON.
 Until that lands, r0's ΔΔG_coop carries an unresolved flag on its binary arm — recorded here rather than folded
 into a revised verdict, because the rev leg's hysteresis result is also still outstanding and the two together
 are what the valB_mini rescope decision rests on.
+
+### L.4 One thing deliberately NOT changed mid-flight: `run_analyze()` on the GPU VM
+
+The lane is otherwise CPU-factored — `prime`, `converge`, `reduce`, `forensic`, `calibchem`, `tail` and the
+watchdog are all runner-only, $0, no VM. The one remaining GPU-billed CPU task is the leg's final MBAR inside
+`run_analyze()`, which runs on the L4 VM while the GPU sits idle.
+
+**Left alone on purpose, and it is worth writing down why rather than leaving it as an open loop.** The saving is
+~10–30 min of L4 time, ≈$0.25 of trial credit. Against that, it is a change to the *completion path* of a leg
+14 h in: the VM is what writes `leg_<id>_<dir>_r<seed>.json`, and that object is the sole signal the watchdog
+uses to decide a leg is DONE and to fire `mode=converge` → `mode=reduce`. Getting it wrong does not cost $0.25,
+it costs the leg's landing. The next relaunch picks up `main`, so a change made now *would* take effect at the
+~2:40 PM boundary — which is an argument for not making it now, not for making it.
+
+Note also that running the analysis on the VM is the **parity-correct** choice by CLAUDE.md's own rule: the
+trajectory's producing environment and the analysing environment are the same interpreter, and a different
+pymbar/openmmtools can change the MBAR numbers. Moving it to a runner is only safe *because*
+`Dockerfile.ternaryfep` is byte-for-byte the spec the GPU legs build — so this is a small optimisation with a
+real correctness precondition, which is the opposite of a free win.
+
+**Revisit after the leg lands**, not before.
