@@ -130,18 +130,32 @@ exactly how `ternary-leg-watchdog.yml` sat UNPARSEABLE for days while everyone b
 |---|---|---|---|
 | `ternary-vast-watchdog.yml` (cron) | the **4 RUNG 2b legs** (probe, ternary, binary, solvent) | **YES** — relaunches a DIED leg from its last checkpoint; a STALL alerts but does **not** relaunch, because a relaunch would hang the same way and pay for it again | **5 runs, all success, latest 9:14 PM ET.** Cron says `*/15` but GitHub throttles busy repos, so real firings are ~55–65 min apart — i.e. **hourly in practice** |
 | hourly routine → this session | **everything**, incl. the 2 paralogue MD legs, the valB reverse leg, and Lane reports | no — it wakes an agent to judge | fires hourly, persists server-side, survives container restarts |
+| `vast-watchdog.yml` (cron) | **any Vast job kind the engine implements** — currently the **2 paralogue MD legs** (`paralogue_md`) and, by construction, `ternary` | **YES** — relaunches a DIED leg from its checkpoint, capped per UTC day, and **withholds** the relaunch while the lane's own workflow is in flight; STALL/FAILED alert but never relaunch | **Exercised live 2026-07-25 10:00–10:05 PM ET** against both legs: verdicts RUNNING, state written and read back (`prev=1014350`, `stall=1` on a frozen tick, `stall=0` on an advance). Merged to `main` 2026-07-26 |
 | `autoteardown` wrapper | **all** Vast/GCP spend | **YES** — guarantees no idle-GPU billing anywhere | standing |
 
-⚠ **The 2 paralogue MD legs (Vast 45853652 / 45854620, ~$4.3, due ~8:30–10:30 AM ET) are NOT in the cron
-watchdog** and deliberately were not added. Its entry schema is **ternary-specific**
-(`watch_entry(leg_id, seed, direction, mode, timestep_fs, warmup_timestep_fs)`, `unit_id` built from those,
-relaunch dispatching the ternary launcher), so a metad MD leg forced into it would either **invent wrong
-relaunch parameters** or track a **progress scalar that measures nothing** — monitoring that watches nothing,
-which is the defect class this program keeps paying for. **What they actually have:** billing is bounded by
-auto-teardown, and a stall or preemption is caught by the hourly routine rather than auto-recovered. **The
-exposure is therefore wall-clock, not money** — a leg that dies at 2 AM resumes from checkpoint when the
-routine notices, costing hours, not dollars. Generalising the watchdog to non-ternary Vast jobs is the real
-fix and is **not** done.
+⚠ **RESOLVED 2026-07-26 — the 2 paralogue MD legs ARE now covered by a cron watchdog**, and the gap had a
+**proven cause, not a suspected one.** `vast_watchdog.py` is a **kind registry** over the single shared policy
+in `watchdog_policy.py`, which `ternary_vast_watchdog.py` **re-exports** — a test asserts
+`tvwd.classify is wp.classify is vw.classify`, so the two monitors cannot drift into disagreeing about whether
+a leg is dead. A kind the engine does not implement is **refused at validation time, loudly, aborting the
+pass** — never silently skipped. The ternary list is untouched and takes the identical legacy code path.
+
+**Root cause of the outage, from the log rather than inferred:** LANE 13's own long-running watch **died at
+8:28 PM ET** on `['nr4a-pdyn-nr4a2-smoke'] made no progress for 8 ticks` — a leg that was **never launched**,
+whose signature `(None, None, False)` can never change — **while both real legs were advancing at 60–69 % GPU
+utilisation.** `leg_names()` synthesises a `-smoke` name per target regardless of whether one exists;
+`real_done` excluded smoke legs and **the stall test did not**. That asymmetry was the whole bug: **a phantom
+entry took the monitoring down and left two billed legs uncovered for ~1.5 h.** Fixed
+(`watched_for_stalls()`), and the new engine **refuses to watch a smoke leg at all** rather than inherit the
+failure mode.
+
+**One trap worth keeping:** the `paralogue_md` progress scalar is `phase_rank × 1e6 + milli-ns`, because the
+job's own `done_ns` **resets to zero at the metad→release boundary** — a raw counter would read a healthy
+phase transition as a 60 ns regression and stall-alert a good leg.
+
+**Honestly not proven live:** `DIED → relaunch`, `FAILED`, and the `STALL` escalation. Proving them needs a
+dead leg and a billed one was not killed to get it; they rest on unit tests plus the fact that the relaunch
+path is the same `build_jobspec` + `submit` the lane already uses.
 
 ---
 
