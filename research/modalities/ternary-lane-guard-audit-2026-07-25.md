@@ -728,3 +728,47 @@ pymbar/openmmtools can change the MBAR numbers. Moving it to a runner is only sa
 real correctness precondition, which is the opposite of a free win.
 
 **Revisit after the leg lands**, not before.
+
+### L.3b Time-resolved: the binary leg's ligand LEAVES AND STAYS OUT in 8 of 12 replicas — and the ternary leg is the control that makes it mean something
+
+GH run 30209580292, `mode=converge` with the per-replica contact-moiety series (25 frames, iterations 0–2000):
+
+| leg | replicas ending beyond 4.0 Å | class counts |
+|---|---|---|
+| `calib_hi_to_lo__binary_vhl` | **8 of 12** | `DISPLACED_AND_STAYED: 5`, `INTERMEDIATE: 3`, `STABLE: 4` |
+| `calib_hi_to_lo__ternary_vhl` | **0 of 12** | `STABLE: 12` |
+| `calib_hi_to_lo__solvent` | — | no receptor in the stored subset, so a pose series has no referent |
+
+Three things are settled by what is **absent**:
+
+- **`JUMP: 0`.** No replica's displacement is carried by a single-frame discontinuity. A PBC-imaging or
+  replica-indexing bug produces exactly that signature, and it is not there. **Not bookkeeping.**
+- **`EXCURSION_AND_RETURNED: 0`.** No replica goes out and comes back. So the two-frame 16.327 Å was not the
+  endpoint frame unluckily catching a transient — the displaced replicas *stay* displaced. **Not an artifact of
+  comparing iteration 0 to iteration 2000.**
+- **the ternary leg is `STABLE: 12`.** Same cycle, same 12 windows, same analysis code, same contact definition,
+  same 0.45 nm cutoff, same reference-frame convention — and it comes back clean at 2.835 / 1.653 Å with 51–57
+  atoms in contact. That is the control, and it is what turns "the binary number is large" into "the binary
+  **leg** is different". Any explanation that blames the diagnostic has to explain why the diagnostic works on
+  the leg next to it.
+
+**So: in the binary complex the ligand progressively leaves its starting pose in the majority of replicas and does
+not return.** ΔG_binary is not a free energy of the intended bound state, and since ΔΔG_coop = ΔG_ternary −
+ΔG_binary, **r0's −0.534 is not a valid measurement of cooperativity.** Critically, this is *not* the kind of
+defect more sampling fixes — the sampling is working, it is finding a state the calculation was not meant to be
+about.
+
+**What this does and does not change:**
+
+- The **rev leg now running is still worth finishing.** It is a `dir=rev` leg of the *ternary* arm, and the ternary
+  arm is the clean one (12/12 stable). The preregistered |ΔG_fwd + ΔG_rev| antisymmetry check remains a valid
+  measurement of that arm.
+- **ΔΔG_coop cannot be reported from this cycle** even with a perfect hysteresis result, until the binary arm is
+  re-run with whatever addresses the departure. Those are now independent blockers, not one.
+
+**Still open — and this is the next free question, not a spend:** *which λ were the departing replicas at when they
+left?* Replicas exchange λ rather than coordinates, so a replica wanders the ladder, and the answer separates two
+very different diagnoses: departures confined to weakly-coupled windows are a protocol-design issue (the binary
+leg wants a restraint, and the ΔG may still be salvageable), whereas departures at the fully-interacting physical
+endpoint mean the **binary complex model itself is wrong**. `reporter.read_replica_thermodynamic_states()` carries
+the per-iteration λ assignment, so this costs reads of a file `mode=converge` already has open.
