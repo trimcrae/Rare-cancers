@@ -866,6 +866,135 @@ def _replica_coords(state):
     return xyz, M
 
 
+TIMESERIES_MAX_FRAMES = 25     # bound the reads; 25 frames over a 2000-iteration leg is ample shape resolution
+
+
+def _contact_pose_timeseries(reporter, last_ckpt, interval, max_frames=TIMESERIES_MAX_FRAMES):
+    """Contact-moiety pose RMSD vs the reference frame, as a SERIES over checkpointed iterations, per replica.
+
+    WHY A SERIES. The two-frame number (`ligand`, above) established that the binary leg's BOUND moiety moves
+    ~16 Å — not just its solvent-exposed end (GH run 30202934339: contact-moiety max 16.327 Å, median 4.333 Å,
+    30-52 of 59 heavy atoms in contact, against the ternary leg's clean 2.835 / 1.653 in the same cycle). That is
+    a real measured failure, and it is where a two-frame comparison stops being able to help: `iterations_compared
+    [0, 2000]` is consistent with at least three histories that mean different things.
+
+        DISPLACED_AND_STAYED   monotonic-ish departure that does not return -> the ligand left. If this is the
+                               binary leg's shape, ΔG_binary is sampling an unbound/misbound state and
+                               ΔΔG_coop = ΔG_ternary - ΔG_binary is not recoverable by resampling harder.
+        EXCURSION_AND_RETURNED went out and came back -> the endpoint frame caught it out. The trajectory may be
+                               usable; the ENDPOINT metric is what is misleading, not the sampling.
+        JUMP                   a single-frame discontinuity -> suspect bookkeeping (imaging, replica indexing),
+                               not physics. A molecule cannot cross the box in one checkpoint interval.
+
+    Distinguishing them costs nothing: positions for every checkpointed iteration are already in the .nc/.chk the
+    caller has open. Nothing here feeds a gate -- the flag stays with the two-frame contact-moiety value. This is
+    diagnostic evidence for reading that flag, and it is deliberately kept out of the pass/fail path so that a
+    classifier heuristic can never move a verdict.
+
+    Contacts come from the FIRST usable frame, per replica, and are held fixed across the series for the same
+    reason the two-frame version does it: a departing atom would drop out of a later frame's contact set and the
+    departure would erase its own evidence.
+    """
+    import numpy as np
+    out = {"reference_iteration": None, "frames_requested": 0, "frames_used": 0}
+    ident = _ligand_atoms(reporter)
+    if ident.get("ligand_atom_indices") is None:
+        out["status"] = "ligand not identified: %s" % ident.get("status", "?")
+        return out
+    subset = [int(v) for v in (getattr(reporter, "analysis_particle_indices", None) or [])]
+    row_of = {v: r for r, v in enumerate(subset)}
+    lig_rows = [row_of[i] for i in ident["ligand_heavy_indices"] if i in row_of]
+    prot_rows = [row_of[i] for i in ident["protein_heavy_indices"] if i in row_of]
+    if not lig_rows or not prot_rows:
+        out["status"] = ("no receptor in the stored subset (solvent leg) or ligand heavy atoms absent — a pose "
+                         "series has no referent here")
+        return out
+
+    step = max(interval, 1)
+    iters = list(range(0, int(last_ckpt) + 1, step))
+    if len(iters) > max_frames:                       # subsample evenly, always keeping first and last
+        keep = {0, len(iters) - 1}
+        stride = (len(iters) - 1) / float(max_frames - 1)
+        keep.update(int(round(i * stride)) for i in range(max_frames))
+        iters = [iters[i] for i in sorted(k for k in keep if 0 <= k < len(iters))]
+    out["frames_requested"] = len(iters)
+
+    ref = None            # per-replica reference coords
+    contact_rows = None   # per-replica contact rows, fixed from the reference frame
+    used = []
+    series = {}           # replica -> [(iteration, rmsd)]
+    for it in iters:
+        try:
+            states = reporter.read_sampler_states(iteration=it, analysis_particles_only=True)
+        except Exception:  # noqa: BLE001 — a missing frame is skipped, never faked
+            continue
+        if not states:
+            continue
+        coords = []
+        for st in states:
+            xyz, M = _replica_coords(st)
+            coords.append((xyz, M))
+        if any(c[0] is None for c in coords):
+            continue
+        if ref is None:
+            ref = [c[0] for c in coords]
+            contact_rows = [_contact_ligand_rows(A, lig_rows, prot_rows) for A in ref]
+            out["reference_iteration"] = int(it)
+            out["n_contact_heavy_per_replica"] = [len(c) for c in contact_rows]
+        used.append(int(it))
+        for k in range(min(len(ref), len(coords))):
+            if not contact_rows[k]:
+                continue
+            B, _ = _min_image(ref[k], coords[k][0], coords[k][1])
+            v = _kabsch_rmsd(ref[k], B, prot_rows, contact_rows[k])
+            if v is not None:
+                series.setdefault(k, []).append((int(it), round(float(v), 3)))
+    out["frames_used"] = len(used)
+    out["iterations"] = used
+    if not series:
+        out["status"] = ("no checkpointed frame carried usable positions (checkpoint_interval=%d, last=%d) — the "
+                         "series is UNAVAILABLE, which is not the same as flat" % (interval, last_ckpt))
+        return out
+
+    per_replica, classes = [], {}
+    for k in sorted(series):
+        vals = [v for _, v in series[k]]
+        its = [i for i, _ in series[k]]
+        mx = max(vals); mi = its[vals.index(mx)]; fin = vals[-1]
+        # gap between consecutive frames: a JUMP is a step larger than everything else combined with a flat rest
+        gaps = [abs(vals[j + 1] - vals[j]) for j in range(len(vals) - 1)] or [0.0]
+        biggest_gap = max(gaps)
+        if mx <= LIG_RMSD_MAX_A:
+            cls = "STABLE"
+        elif fin >= 0.7 * mx:
+            cls = "DISPLACED_AND_STAYED"
+        elif fin <= 0.4 * mx:
+            cls = "EXCURSION_AND_RETURNED"
+        else:
+            cls = "INTERMEDIATE"
+        # a single frame carrying most of the range, with the rest quiet, is a discontinuity not a trajectory
+        if mx > LIG_RMSD_MAX_A and biggest_gap >= 0.8 * mx:
+            cls = "JUMP(" + cls + ")"
+        classes[cls] = classes.get(cls, 0) + 1
+        per_replica.append({"replica": k, "n_contact_heavy": len(contact_rows[k]),
+                            "max_A": mx, "iteration_at_max": mi, "final_A": fin,
+                            "largest_single_frame_step_A": round(biggest_gap, 3),
+                            "classification": cls, "series": series[k]})
+    out["per_replica"] = per_replica
+    out["class_counts"] = classes
+    ended_out = sum(1 for r in per_replica if r["final_A"] > LIG_RMSD_MAX_A)
+    out["n_replicas"] = len(per_replica)
+    out["n_replicas_ending_beyond_threshold"] = ended_out
+    out["verdict"] = ("%d of %d replicas END beyond the %.1f Å threshold; class counts %s. "
+                      "DISPLACED_AND_STAYED dominating means the ligand left and resampling will not fix it; "
+                      "EXCURSION_AND_RETURNED dominating means the ENDPOINT metric is what misleads, not the "
+                      "sampling; a JUMP prefix means suspect bookkeeping (imaging/indexing), because nothing can "
+                      "physically move that far in one checkpoint interval."
+                      % (ended_out, len(per_replica), LIG_RMSD_MAX_A, classes))
+    out["status"] = "ok — %d frames from iteration %s to %s" % (len(used), used[0], used[-1])
+    return out
+
+
 def _ligand_pose_block(reporter, iter_a, iter_b):
     """THE MANDATED LIGAND-ONLY POSE RMSD, over EVERY replica rather than replica 0.
 
@@ -1066,6 +1195,16 @@ def _structural(reporter, nc_path):
                 adjacent = _ligand_pose_block(reporter, last_ckpt - interval, last_ckpt)
             except Exception as e:  # noqa: BLE001
                 adjacent = {"status": "adjacent-frame block raised %s: %s" % (type(e).__name__, e)}
+        # TIME-RESOLVED, because two frames cannot answer the question the two-frame number RAISES. See
+        # _contact_pose_timeseries: a 16 Å endpoint displacement is consistent with a slow unbind, a transient
+        # excursion that came back, and a one-off jump, and those have completely different consequences for
+        # whether ΔG_binary is usable. Free: the positions for every checkpointed iteration are already inside the
+        # .nc/.chk this function has open, so this costs reads and no extra GCS traffic.
+        timeseries = None
+        try:
+            timeseries = _contact_pose_timeseries(reporter, last_ckpt, interval)
+        except Exception as e:  # noqa: BLE001
+            timeseries = {"status": "timeseries raised %s: %s" % (type(e).__name__, e)}
 
         # WHAT THIS NUMBER IS, AND WHAT IT IS NOT. The original implementation took an UNALIGNED, PBC-unwrapped
         # RMSD over EVERY particle — ~146k atoms, overwhelmingly bulk water — and compared it to LIG_RMSD_MAX_A,
@@ -1186,6 +1325,7 @@ def _structural(reporter, nc_path):
                     "solute_superposed_rmsd_A": rmsd,
                     "ligand_rmsd_A": ligand.get("ligand_rmsd_A"),
                     "ligand": ligand, "ligand_adjacent_frame": adjacent,
+                    "ligand_contact_pose_timeseries": timeseries,
                     "minimum_image_corrected": unwrapped,
                     "box_matrix_A": ([[round(v * 10.0, 3) for v in row] for row in M.tolist()]
                                      if M is not None else None),
@@ -1206,6 +1346,7 @@ def _structural(reporter, nc_path):
                 "whole_system_unaligned_rmsd_A": rmsd_all,
                 "ligand_rmsd_A": ligand.get("ligand_rmsd_A"),
                 "ligand": ligand, "ligand_adjacent_frame": adjacent,
+                    "ligand_contact_pose_timeseries": timeseries,
                 "superposed": False, "n_atoms_total": n_all,
                 "iterations_compared": [0, last_ckpt], "checkpoint_interval": interval}
     except Exception as e:  # noqa: BLE001
@@ -1340,6 +1481,17 @@ def analyze_all():
                         lg.get("n_contact_heavy_min", "n/a"), lg.get("n_contact_heavy_max", "n/a"),
                         _r("pose_rmsd_max_A"), _r("pose_rmsd_median_A"),
                         lg.get("flagged_observable"), xc.get("verdict", "n/a")))
+        # The time-resolved shape on its own line, because it is what says whether a large two-frame number means
+        # the ligand LEFT or that the endpoint frame merely caught it out — different consequences for whether the
+        # leg is salvageable, and not inferable from the numbers above.
+        ts = (st.get("ligand_contact_pose_timeseries") or {})
+        if ts.get("per_replica"):
+            lines.append("%-34s   time-resolved: %s ending beyond %.1f A of %s replicas | classes %s | frames %s (iter %s..%s)"
+                         % ("", ts.get("n_replicas_ending_beyond_threshold"), LIG_RMSD_MAX_A,
+                            ts.get("n_replicas"), ts.get("class_counts"), ts.get("frames_used"),
+                            (ts.get("iterations") or ["?"])[0], (ts.get("iterations") or ["?"])[-1]))
+        elif ts.get("status"):
+            lines.append("%-34s   time-resolved: %s" % ("", str(ts.get("status"))[:150]))
     lines.append("ligand-size cross-check: %s" % report["ligand_size_cross_check"].get(
         "verdict", report["ligand_size_cross_check"].get("status")))
     txt = "\n".join(lines)
