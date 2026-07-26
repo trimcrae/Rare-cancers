@@ -577,17 +577,71 @@ def _clear_stale_shared(ckpt):
                 print(f"  [rbfe] WARN could not clear {sub}/ ({e})", flush=True)
 
 
+def _provable_map_floor(ligA, ligB):
+    """The PROVABLE minimum map size for this edge, or (None, why) when it cannot be derived.
+
+    Delegates to `atom_map_audit.edge_bounds` so the floor has exactly one home (rule 1) and the audit that
+    found the contamination and the guard that prevents the next one cannot drift apart. Returns
+    (floor, expected_complete, note)."""
+    try:
+        from rdkit import Chem
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import atom_map_audit as ama
+        smiA = Chem.MolToSmiles(Chem.RemoveHs(Chem.Mol(ligA.to_rdkit())))
+        smiB = Chem.MolToSmiles(Chem.RemoveHs(Chem.Mol(ligB.to_rdkit())))
+        b = ama.edge_bounds("A", smiA, "B", smiB)
+        return b.get("total_floor_enforced"), b.get("expected_n_mapped_atoms"), b.get("floor_note")
+    except Exception as e:  # noqa: BLE001 — an underivable floor must be SAID, never silently treated as clean
+        return None, None, "floor not derivable: %s: %s" % (type(e).__name__, e)
+
+
 def _check_mapping_sane(mapping, ligA, ligB, n_mapped):
-    """Guard against a DEGENERATE atom map (the 2026-07-14 solvent-leg forensic showed n_mapped_atoms=1 for a
-    Br->NH2 congeneric edge whose MCS is ~13 atoms — a map that small alchemically transforms nearly the whole
-    molecule, so ΔG_morph is garbage and the whole ΔΔG is invalid). A real relative edge maps most of the smaller
-    ligand's heavy atoms. HARD-FAIL before any MD spend if the map is implausibly small; tune with RBFE_MIN_MAPPED_
-    FRAC (default 0.4 of the smaller ligand's heavy-atom count) / RBFE_MIN_MAPPED (absolute floor, default 3)."""
+    """HARD-FAIL before any MD spend if the atom map is degenerate. Two independent floors, both fatal.
+
+    1. THE PROVABLE FLOOR (added 2026-07-26, the atom-map blast-radius audit). `_mapping` ran LOMAP with
+       `time=20`, which is the MCS TIMEOUT — a timed-out search returns its best PARTIAL map SILENTLY, so what
+       the leg alchemically transformed depended on how fast its rented host was. Raising the budget to 300 s
+       makes that rarer; it does NOT make it detectable, and detection is the part that has to survive the next
+       slower host. `atom_map_audit.edge_bounds` derives, from the two endpoints alone, the smallest map any
+       correct search must return — for endpoints that are the same graph up to k element substitutions that is
+       |A| minus those k atoms, the H they carry, and the atom-count difference, so a legitimate STRICT
+       (element_change=False) map still clears it and the fan-out's congeneric edges are not false-positived.
+       Measured against this floor, three archived observations separate cleanly: valB_mini r0 mapped 109/109
+       (CLEAN), the 5a-KS NR4A1 arm 80/111 and the RUNG 2b timestep scan's calib anchor 47/109 (DEGENERATE).
+    2. THE FRACTIONAL FLOOR (2026-07-14, the n_mapped=1 solvent-leg forensic). Kept as the fallback for edges
+       whose provable floor cannot be derived, and as a second net when it can. Tune with RBFE_MIN_MAPPED_FRAC
+       (default 0.4 of the smaller ligand's heavy-atom count) / RBFE_MIN_MAPPED (absolute floor, default 3).
+
+    A FAILURE TO DERIVE THE FLOOR IS REPORTED, NOT SWALLOWED. This repo has twice had a null reading rendered
+    as a benign one; an underivable floor prints UNVERIFIABLE and leaves floor 2 in force, it never passes the
+    leg silently. Set RBFE_MAP_FLOOR_FATAL=0 to demote floor 1 to a warning — only for a deliberate re-run of a
+    known-degenerate map, never to get a leg past a genuine abort."""
     try:
         hA = ligA.to_rdkit().GetNumHeavyAtoms()
         hB = ligB.to_rdkit().GetNumHeavyAtoms()
     except Exception:  # noqa: BLE001
         hA = hB = None
+
+    provable, complete, note = _provable_map_floor(ligA, ligB)
+    if provable is None:
+        print(f"  [rbfe] ⚠ map floor UNVERIFIABLE for {LIGAND_A}->{LIGAND_B} ({note}) — this is NOT a clean "
+              f"reading, only an absent one; the fractional floor below is the sole remaining check.", flush=True)
+    elif n_mapped < provable:
+        msg = (f"  ABORT: DEGENERATE atom map — mapped {n_mapped} atoms for {LIGAND_A}->{LIGAND_B}, below the "
+               f"PROVABLE floor {provable}"
+               + (f" (a complete map of {complete} atoms exists)" if complete else "")
+               + f". {note} {provable - n_mapped} atom(s) that must map would instead be annihilated and "
+                 f"recreated, so this leg would run a DIFFERENT perturbation from the designed one — and it "
+                 f"would still converge and still report a confident ΔG. Most likely the LOMAP MCS hit its "
+                 f"{os.environ.get('RBFE_LOMAP_TIME_S', '300')}s budget (RBFE_LOMAP_TIME_S); raise it and "
+                 f"re-run. Do NOT spend MD on this map.")
+        if os.environ.get("RBFE_MAP_FLOOR_FATAL", "1") == "1":
+            raise SystemExit(msg)
+        print("  [rbfe] ⚠ (RBFE_MAP_FLOOR_FATAL=0, continuing anyway)" + msg, flush=True)
+    else:
+        print(f"  [rbfe] map floor OK: {n_mapped} mapped >= provable floor {provable}"
+              + (f" (complete = {complete})" if complete else ""), flush=True)
+
     frac = float(os.environ.get("RBFE_MIN_MAPPED_FRAC", "0.4"))
     floor = int(os.environ.get("RBFE_MIN_MAPPED", "3"))
     need = floor
