@@ -121,6 +121,30 @@ comparable.*
 
 ---
 
+### 🌙 OVERNIGHT MONITORING — what is covered by what (2026-07-26, trimcrae asked for hourly)
+
+**Three layers, and they cover different things. Stated explicitly because assumed-but-absent coverage is
+exactly how `ternary-leg-watchdog.yml` sat UNPARSEABLE for days while everyone believed it was watching.**
+
+| layer | covers | acts autonomously? | verified |
+|---|---|---|---|
+| `ternary-vast-watchdog.yml` (cron) | the **4 RUNG 2b legs** (probe, ternary, binary, solvent) | **YES** — relaunches a DIED leg from its last checkpoint; a STALL alerts but does **not** relaunch, because a relaunch would hang the same way and pay for it again | **5 runs, all success, latest 9:14 PM ET.** Cron says `*/15` but GitHub throttles busy repos, so real firings are ~55–65 min apart — i.e. **hourly in practice** |
+| hourly routine → this session | **everything**, incl. the 2 paralogue MD legs, the valB reverse leg, and Lane reports | no — it wakes an agent to judge | fires hourly, persists server-side, survives container restarts |
+| `autoteardown` wrapper | **all** Vast/GCP spend | **YES** — guarantees no idle-GPU billing anywhere | standing |
+
+⚠ **The 2 paralogue MD legs (Vast 45853652 / 45854620, ~$4.3, due ~8:30–10:30 AM ET) are NOT in the cron
+watchdog** and deliberately were not added. Its entry schema is **ternary-specific**
+(`watch_entry(leg_id, seed, direction, mode, timestep_fs, warmup_timestep_fs)`, `unit_id` built from those,
+relaunch dispatching the ternary launcher), so a metad MD leg forced into it would either **invent wrong
+relaunch parameters** or track a **progress scalar that measures nothing** — monitoring that watches nothing,
+which is the defect class this program keeps paying for. **What they actually have:** billing is bounded by
+auto-teardown, and a stall or preemption is caught by the hourly routine rather than auto-recovered. **The
+exposure is therefore wall-clock, not money** — a leg that dies at 2 AM resumes from checkpoint when the
+routine notices, costing hours, not dollars. Generalising the watchdog to non-ternary Vast jobs is the real
+fix and is **not** done.
+
+---
+
 ## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 8:05 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
