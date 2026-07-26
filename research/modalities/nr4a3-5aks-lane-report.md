@@ -206,7 +206,26 @@ dict, and the Vast lane promotes it into the normalised leg record the reducers 
 
 **So `S` can be identity-checked, which is the one thing a double difference most needs.**
 
-## 7 · Result
+## 7 · What runs next, in order
+
+Everything below is wired and dispatchable; nothing here needs new code.
+
+| # | command | cost | gate |
+|---|---|---|---|
+| 1 | `rung5aks-cofold.yml` **`mode=preequil_repro`** | $0 CPU | must print **CONFIRMED**. It also **re-seeds the stage cache with the hydrogenated tree** — without that step a re-launch restores the broken `complex.pdb` and fails identically |
+| 2 | `gpu-ternary-fep-vast.yml` **`task=5aks-smoke`** | ~$0.15 | must reach `production` and write a leg record. **Only run this if step 1 said CONFIRMED** |
+| 3 | `gpu-ternary-fep-vast.yml` **`task=5aks`** | the two legs | fans out both arms; `collect` reaps, and the cron watchdog relaunches a DIED leg from its checkpoint |
+| 4 | `gpu-ternary-fep-vast.yml` **`task=5aks-reduce`** | $0 | computes `S` in the parity image and commits `nr4a3-5aks-reduction.json` |
+| 5 | fold `S` into paper **§2.10(d)** and the **Tier-3 row of §5's ladder**, and into §6 below | $0 | §2.10(d) currently reads *"The causal test has not been run"*; that sentence and the ladder row `priced, **not run** / pending` are what this rung retires |
+
+**Monitor with `task=collect`, which is a PROGRESS check** — it prints the furthest committed iteration and
+compares it with the previous poll. A leg that is "up" is not a leg that is running.
+
+**If step 1 does NOT print CONFIRMED, do not proceed.** The script deliberately distinguishes *HYPOTHESIS
+REFUTED* (the unfixed arm passed, so hydrogenation is not the cause and the real one is unfound) from *FIX
+INSUFFICIENT* (both arms fail), and says do not re-rent in either case.
+
+## 8 · Result
 
 *(filled in when the legs land — `nr4a3-5aks-reduction.json` is the machine record and its `S_kcal` is the
 one home for the number)*
