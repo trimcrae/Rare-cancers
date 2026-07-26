@@ -579,6 +579,28 @@ def _pending(s3, bucket, units):
     return [u for u in units if not _exists(s3, bucket, result_key(u, RESULT_PREFIX))]
 
 
+_LAUNCH_LOG = []
+
+
+def _lprint(msg):
+    """print + retain, so the launch DECISION survives the CI log.
+
+    monitor, collect and diag all write their readouts to committed files precisely because a GitHub job log
+    is only readable from its tail and the tail is always runner boilerplate. `launch` was the one mode with
+    no durable record — and it is the mode that spends money. It cost two diagnostic cycles on 2026-07-26 to
+    answer "did the tick relaunch the preempted unit or not", a question the readout answers in one line."""
+    print(msg, flush=True)
+    _LAUNCH_LOG.append(str(msg))
+
+
+def _write_launch_readout():
+    try:
+        with open("step1-fanout-launch-readout.txt", "w") as f:
+            f.write("\n".join(_LAUNCH_LOG) + "\n")
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] could not write the launch readout: {e}")
+
+
 def mode_launch():
     bucket, s3 = _require_bucket(), _s3()
     key = os.environ.get("VAST_API_KEY")
@@ -602,7 +624,7 @@ def mode_launch():
     live_labels = {i.get("label") for i in live if (i.get("actual_status") or "") not in _TERMINAL}
     _dead = [i.get("label") for i in live if (i.get("actual_status") or "") in _TERMINAL]
     if _dead:
-        print(f"[s1f] {len(_dead)} instance(s) in a terminal state do NOT hold their unit's slot "
+        _lprint(f"[s1f] {len(_dead)} instance(s) in a terminal state do NOT hold their unit's slot "
               f"(collect destroys them; their checkpoints are in S3 and a relaunch resumes): {_dead}")
     # a unit whose instance is already up is not re-submitted (idempotent top-up)
     todo = [u for u in pending if f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
@@ -621,7 +643,7 @@ def mode_launch():
     if only:
         matched = [u for u in todo if any(t in u["unit_id"] or t in u["ligand_b"] for t in only)]
         skipped = len(todo) - len(matched)
-        print(f"[s1f] FANOUT_ONLY={only!r} -> {len(matched)} of {len(todo)} pending units selected "
+        _lprint(f"[s1f] FANOUT_ONLY={only!r} -> {len(matched)} of {len(todo)} pending units selected "
               f"({skipped} held back)")
         if not matched:
             raise SystemExit(f"[s1f] FANOUT_ONLY={only!r} matched no pending unit — refusing to launch "
@@ -648,16 +670,17 @@ def mode_launch():
     if os.environ.get("FANOUT_REQUIRE_PROVEN_TERMINUS") == "1":
         proven = [u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))]
         if proven:
-            print(f"[s1f] terminus PROVEN by {len(proven)} unit(s) ({proven[0]}) — fan-out released")
+            _lprint(f"[s1f] terminus PROVEN by {len(proven)} unit(s) ({proven[0]}) — fan-out released")
         else:
             shakeout = (os.environ.get("FANOUT_SHAKEOUT_UNIT") or "").strip()
             if not shakeout:
-                print("[s1f] TERMINUS NOT PROVEN and no FANOUT_SHAKEOUT_UNIT named — holding everything. "
+                _lprint("[s1f] TERMINUS NOT PROVEN and no FANOUT_SHAKEOUT_UNIT named — holding everything. "
                       "Set FANOUT_SHAKEOUT_UNIT so the gate can keep the shakeout unit alive while it holds "
                       "the other units back.")
+                _write_launch_readout()
                 return
             keep = [u for u in todo if shakeout in u["unit_id"] or shakeout in u["ligand_b"]]
-            print(f"[s1f] TERMINUS NOT PROVEN — no unit has a ddg.json, so reduce/commit/upload has never "
+            _lprint(f"[s1f] TERMINUS NOT PROVEN — no unit has a ddg.json, so reduce/commit/upload has never "
                   f"been observed on this lane. Holding {len(todo) - len(keep)} unit(s); RESUMING the "
                   f"shakeout unit ({shakeout}) if it needs it: {len(keep)} to submit.")
             todo = keep
@@ -669,19 +692,21 @@ def mode_launch():
     batch = todo[:slots]
 
     lo, hi = cost_estimate(len(batch))
-    print(f"[s1f] units={len(units)} done={done} pending={len(pending)} live={len(live)} "
+    _lprint(f"[s1f] units={len(units)} done={done} pending={len(pending)} live={len(live)} "
           f"free_slots={slots} -> submitting {len(batch)}")
-    print(f"[s1f] cost of THIS submission ({len(batch)} units): plan ${cost_plan(len(batch))} "
+    _lprint(f"[s1f] cost of THIS submission ({len(batch)} units): plan ${cost_plan(len(batch))} "
           f"(band ${lo}-{hi}) | whole remaining tranche ({len(pending)} units): "
           f"plan ${cost_plan(len(pending))} (band ${'-'.join(str(x) for x in cost_estimate(len(pending)))})")
-    print(f"[s1f] wave shape: {json.dumps(wave_plan(len(pending), WIDTH))}")
+    _lprint(f"[s1f] wave shape: {json.dumps(wave_plan(len(pending), WIDTH))}")
     for u in batch:
-        print(f"[s1f]   queue {u['unit_id']}  ({u['ligand_a']} -> {u['ligand_b']}, {u['edge_class']})")
+        _lprint(f"[s1f]   queue {u['unit_id']}  ({u['ligand_a']} -> {u['ligand_b']}, {u['edge_class']})")
     if not batch:
-        print("[s1f] nothing to submit (fleet already at width, or all units done)")
+        _lprint("[s1f] nothing to submit (fleet already at width, or all units done)")
+        _write_launch_readout()
         return
     if os.environ.get("FANOUT_CONFIRM") != "1":
-        print("[s1f] DRY — set FANOUT_CONFIRM=1 to actually rent instances")
+        _lprint("[s1f] DRY — set FANOUT_CONFIRM=1 to actually rent instances")
+        _write_launch_readout()
         return
 
     # Machines this lane has already learned are bad — a capacity refusal, or a sustained shortfall against
@@ -689,7 +714,7 @@ def mode_launch():
     # a different CI run discovered, with no agent awake in between.
     excluded, _ = _load_excluded(s3, bucket)
     if excluded:
-        print(f"[s1f] excluding {len(excluded)} machine(s) from offer selection: {excluded}")
+        _lprint(f"[s1f] excluding {len(excluded)} machine(s) from offer selection: {excluded}")
 
     backend, handles = get_backend("vast"), []
     _ledger = _load_ledger(s3, bucket)
@@ -702,7 +727,7 @@ def mode_launch():
         try:
             h = backend.submit(spec)
         except Exception as e:  # noqa: BLE001 — one host shortage must not abort the wave
-            print(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}", flush=True)
+            _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}", flush=True)
             continue
         # Print the FLOOR, the BID and the premium separately. The fan-out's cost estimate was built from a
         # single instance's realized $/hr with no visibility into how much of that was our own bid premium.
@@ -719,7 +744,7 @@ def mode_launch():
         _mid = h.extra.get("machine_id")
         if _mid is not None:
             used_machines.add(str(_mid))
-        print(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} dph≈${_dph}/hr{_prem}",
+        _lprint(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} dph≈${_dph}/hr{_prem}",
               flush=True)
         handles.append({"unit_id": u["unit_id"], "label": spec.name, "instance": h.job_id,
                         "machine_id": _mid, "dph": h.extra.get("dph"),
@@ -738,7 +763,8 @@ def mode_launch():
                          Body=json.dumps({f"{LABEL_PREFIX}{i:02d}-{u['ligand_b']}"[:64]: u["unit_id"]
                                           for i, u in enumerate(units)}, indent=2).encode())
     except Exception as e:  # noqa: BLE001
-        print(f"[s1f] manifest upload skipped: {e}")
+        _lprint(f"[s1f] manifest upload skipped: {e}")
+    _write_launch_readout()
 
 
 def mode_monitor():
@@ -912,6 +938,14 @@ def mode_monitor():
     # its tail, and the tail is always the runner's own post-job boilerplate. A committed progress file is the
     # readout that survives, and it doubles as a timestamped trail of how the fleet advanced.
     snapshot = {
+        # ⚠ WHERE IN THE TICK THIS WAS TAKEN, because it misled a reader (me) twice in one session. The
+        # autoscale tick runs monitor -> collect -> launch, and `live` is fetched ONCE at the top of this
+        # function, so this snapshot is a BEFORE picture: it cannot show instances this tick's launch went on
+        # to create, instances its collect went on to reap, or the effect of the nudge below. Reading
+        # "live_instances: 1" here and concluding "the launch did nothing" is exactly the wrong inference —
+        # the launch had not run yet. A second snapshot after the launch would be more current but would
+        # destroy the advance diff, since _progress_prev.json would be overwritten seconds after it was set.
+        "_snapshot_point": "START of the tick — before this tick's collect, nudge and launch",
         "n_units": len(units), "n_complete": n_done,
         "live_instances": len(live), "instance_states": states,
         "gpu_util": utils, "phases": phases,
