@@ -616,3 +616,78 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+# =============================================================================================================
+# PRE-REGISTERED PREDICTION — written 2026-07-26, BEFORE any triangle leg is bought
+# =============================================================================================================
+BINARY_DEPARTURE_PREREG = "R_binary materially non-zero, R_ternary small."
+
+
+def binary_departure_prereg(R_ternary=None, R_binary=None, sigma_leg=0.045):
+    """The prediction the pose finding makes about this triangle, and the verdict once R lands.
+
+    WHY IT IS WRITTEN NOW. `mode=converge` measured the r0 (2 fs) and RUNG-2b (4 fs) cycles and found the BINARY
+    leg's receptor-contacting moiety departs and does not return in 8/12 and 7/12 replicas respectively, while
+    BOTH cycles' ternary legs are 12/12 stable (audit §L.3-L.3d). The triangle's three binary legs are the same
+    construction. So this design now has a specific prediction rather than a generic path-error hypothesis, and a
+    prediction is only worth anything if it is recorded before the data.
+
+    THE DECISION THIS ACCOMPANIES (trimcrae delegated, 2026-07-26): run the binary legs UNRESTRAINED. The
+    triangle's economy is r0 reused as T1 -- `price_triangle` buys FOUR legs, not six ($6.83 at n=1). Restrained
+    T2/T3 in a cycle with an unrestrained T1 makes R measure the protocol difference rather than path error, so
+    restraining means re-buying T1 too: 6 legs, ~$10.25, +50%, and the reuse that justified the design is gone.
+    Unrestrained also answers a question restrained cannot -- see the branches.
+
+    THE BRANCHES, and both directions are informative:
+
+      BINARY_PATH_DEPENDENT  |R_binary| resolved, |R_ternary| not -> the departure's bias is PATH-dependent, a
+                             closure sees it, and the triangle has localised the defect to the binary environment
+                             by a route entirely independent of the pose diagnostic.
+      BOTH_RESOLVED          both large -> path error is not confined to the binary arm; the ternary arm has one
+                             too, which the pose data does NOT predict and would be a new finding.
+      BINARY_CANCELS         neither resolved -> the bias is a per-endpoint STATE FUNCTION, telescopes out of any
+                             cycle, and therefore also largely cancels from ddG_coop = ternary - binary. The
+                             departure would then corrupt the cooperativity NUMBER far less than L.3b implies.
+                             THIS IS THE BRANCH THAT ARGUES AGAINST THE r0 READING, and it must not be explained
+                             away if it lands.
+      TERNARY_ONLY           |R_ternary| resolved, |R_binary| not -> contradicts the pose data outright; do not
+                             rationalise it, re-examine the diagnostic.
+
+    POWER IS THE LIMITING FACTOR AND IS RECORDED HERE SO IT CANNOT BE FORGOTTEN AFTERWARDS. Each of R_ternary and
+    R_binary is a THREE-leg closure, so SD = sqrt(3)*sigma_leg, and sigma_leg for this lane is known only to
+    within a factor of ~15 (`closure_noise_floor`). At the low bound (MBAR SE 0.045) the design resolves an effect
+    the size of r0's own 1.478 miss with power ~1.0; at sigma_leg = 0.5 that power is ~0.22. So BINARY_CANCELS is
+    only evidence of cancellation if sigma_leg is near the low bound -- otherwise it is indistinguishable from
+    "underpowered" and is reported as UNDERPOWERED rather than as support for either reading.
+    """
+    thresh = 1.96 * math.sqrt(3.0) * float(sigma_leg)
+    out = {
+        "prediction": BINARY_DEPARTURE_PREREG,
+        "registered": "2026-07-26, before any triangle leg was bought",
+        "basis": ("r0 (2 fs) binary 8/12 replicas departed, RUNG-2b (4 fs) binary 7/12; both ternary arms 0/12. "
+                  "GH runs 30210186711 and 30210676030."),
+        "binary_legs_run": "UNRESTRAINED - restraining forfeits the r0-as-T1 reuse; see the docstring",
+        "three_leg_closure_SD": round(math.sqrt(3.0) * float(sigma_leg), 4),
+        "resolution_threshold_abs": round(thresh, 4),
+        "sigma_leg_assumed": sigma_leg,
+        "power_caveat": ("sigma_leg is known only to a factor of ~15; at 0.5 the power to resolve a 1.478-sized "
+                         "effect is ~0.22. BINARY_CANCELS at high sigma_leg means UNDERPOWERED, not cancellation."),
+    }
+    if R_ternary is None or R_binary is None:
+        out["verdict"] = "NOT YET MEASURED - this is the pre-registration, not a result"
+        return out
+    t_res = abs(float(R_ternary)) > thresh
+    b_res = abs(float(R_binary)) > thresh
+    out["R_ternary"], out["R_binary"] = float(R_ternary), float(R_binary)
+    out["verdict"] = ("BOTH_RESOLVED" if (t_res and b_res) else
+                      "BINARY_PATH_DEPENDENT" if b_res else
+                      "TERNARY_ONLY" if t_res else
+                      "BINARY_CANCELS")
+    out["prediction_upheld"] = (out["verdict"] == "BINARY_PATH_DEPENDENT")
+    if out["verdict"] == "BINARY_CANCELS" and float(sigma_leg) > 0.2:
+        out["verdict"] = "UNDERPOWERED"
+        out["prediction_upheld"] = None
+        out["why"] = ("neither closure resolves, but at sigma_leg=%.3g this design cannot resolve an effect the "
+                      "size of r0's miss - absence of signal is not evidence of cancellation" % sigma_leg)
+    return out

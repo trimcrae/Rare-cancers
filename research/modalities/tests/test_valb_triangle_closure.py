@@ -176,3 +176,73 @@ def test_report_builds_and_is_json_serialisable():
     for k in ("closure_identity", "what_closure_can_and_cannot_diagnose", "noise_floor",
               "leg_accounting", "price", "decision_tree", "solvent_prescout_RECOMMENDED_FIRST"):
         assert k in r
+
+
+# --- the pre-registered binary-departure prediction ---------------------------------------------------
+#
+# WHY. The pose diagnostics measured the r0 (2 fs) and RUNG-2b (4 fs) cycles and found the BINARY leg's
+# receptor-contacting moiety departs and does not return in 8/12 and 7/12 replicas, while both cycles' TERNARY
+# legs are 12/12 stable (audit L.3-L.3d). The triangle's three binary legs are that same construction, so this
+# design now carries a specific prediction: R_binary resolved, R_ternary not.
+#
+# A prediction is only worth something if it is recorded before the data AND cannot be quietly reinterpreted
+# afterwards. These tests pin the branch logic — including, deliberately, the two branches that would count
+# AGAINST the r0 reading, because those are the ones there would be an incentive to explain away.
+
+def test_prereg_is_recorded_as_unmeasured_before_any_data():
+    r = vtc.binary_departure_prereg()
+    assert "NOT YET MEASURED" in r["verdict"], r["verdict"]
+    assert r["prediction"], "the prediction text must be stored, not implied"
+    assert "UNRESTRAINED" in r["binary_legs_run"], r["binary_legs_run"]
+
+
+def test_prediction_upheld_only_when_binary_alone_resolves():
+    r = vtc.binary_departure_prereg(R_ternary=0.05, R_binary=1.6, sigma_leg=0.045)
+    assert r["verdict"] == "BINARY_PATH_DEPENDENT", r
+    assert r["prediction_upheld"] is True
+
+
+def test_both_closures_large_does_NOT_count_as_upholding_the_prediction():
+    """Path error in the ternary arm too would be a NEW finding, not a confirmation."""
+    r = vtc.binary_departure_prereg(R_ternary=1.6, R_binary=1.7, sigma_leg=0.045)
+    assert r["verdict"] == "BOTH_RESOLVED", r
+    assert r["prediction_upheld"] is False
+
+
+def test_neither_resolving_at_LOW_sigma_is_recorded_as_cancellation_against_the_r0_reading():
+    """The branch that argues against my own finding must land as BINARY_CANCELS, not be softened away."""
+    r = vtc.binary_departure_prereg(R_ternary=0.05, R_binary=0.05, sigma_leg=0.045)
+    assert r["verdict"] == "BINARY_CANCELS", r
+    assert r["prediction_upheld"] is False
+
+
+def test_neither_resolving_at_HIGH_sigma_is_UNDERPOWERED_not_cancellation():
+    """Absence of signal in an underpowered design is not evidence of cancellation, in either direction."""
+    r = vtc.binary_departure_prereg(R_ternary=0.05, R_binary=0.05, sigma_leg=0.5)
+    assert r["verdict"] == "UNDERPOWERED", r
+    assert r["prediction_upheld"] is None, "an underpowered result must not read as upheld OR refuted"
+    assert "not evidence of cancellation" in r.get("why", "")
+
+
+def test_ternary_only_contradicts_the_pose_data_and_is_labelled_so():
+    r = vtc.binary_departure_prereg(R_ternary=1.6, R_binary=0.05, sigma_leg=0.045)
+    assert r["verdict"] == "TERNARY_ONLY", r
+    assert r["prediction_upheld"] is False
+
+
+def test_threshold_is_the_three_leg_closure_not_the_six_leg_one():
+    """R_ternary and R_binary are each 3-leg cycles; using the 6-leg SD would inflate the threshold by sqrt(2)
+    and make a real binary signal read as unresolved."""
+    import math
+    s = 0.045
+    r = vtc.binary_departure_prereg(R_ternary=0.0, R_binary=0.0, sigma_leg=s)
+    # both fields are rounded to 4 dp for readability, so compare at that precision rather than exactly
+    assert abs(r["three_leg_closure_SD"] - math.sqrt(3.0) * s) < 5e-5, r["three_leg_closure_SD"]
+    assert abs(r["resolution_threshold_abs"] - 1.96 * math.sqrt(3.0) * s) < 5e-5
+    # and it must NOT be the 6-leg SD, which would inflate the threshold by sqrt(2)
+    assert r["resolution_threshold_abs"] < 1.96 * math.sqrt(6.0) * s - 1e-6
+
+
+def test_the_power_caveat_travels_with_the_number():
+    r = vtc.binary_departure_prereg()
+    assert "factor of ~15" in r["power_caveat"] and "UNDERPOWERED" in r["power_caveat"], r["power_caveat"]
