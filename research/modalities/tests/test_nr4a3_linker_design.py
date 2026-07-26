@@ -210,3 +210,77 @@ def test_saturated_control_matches_its_electrophile_in_everything_but_the_alkene
     assert "@" in c and "@" not in e, "the saturated control must declare the centre reduction creates"
     assert "C#N" in c
     assert "=C" not in c.replace("C(=O)", "")        # no alkene survives in the control
+
+
+def test_the_enumerator_and_the_pair_selector_choose_the_wedge_site_by_ONE_rule():
+    """★★ THE DEFECT THIS PINS (LANE 14, 2026-07-26): the preregistered wedge chemistry rule was binding in
+    `matched_pair` but NOT in `enumerate_library`, which went on taking the site with the most E3 clearance.
+    The emitted pair then reported `wedge_target_residue: T407` while its own d/d0 molecules had been built
+    with the pyridyl aimed at C397 — Asn in NR4A1, Ser in NR4A2, i.e. both paralogues keep an H-bond partner,
+    which is precisely the "S is ~0 by construction" trap the rule exists to prevent. Measured over the
+    corrected artifact the two selections disagreed on 8 of 10 (basin x placement) records.
+
+    The pin is that there is ONE selector. A second call site re-deriving "max clearance among clean sites"
+    is the bug, not an equivalent spelling of it.
+    """
+    sites = [
+        # the geometry winner, and the wrong chemistry: Cys397 (Asn/Ser) — both paralogues can H-bond
+        {"uniprot_resid": 397, "nr4a3": "C", "nr4a1": "N", "nr4a2": "S",
+         "e3_clearance_A": 14.29, "e3_clear_enough_for_a_matched_pair": True},
+        # the most-clear NON-397 site, still the wrong chemistry: Ile (Ala/Val) — no donor anywhere
+        {"uniprot_resid": 396, "nr4a3": "I", "nr4a1": "A", "nr4a2": "V",
+         "e3_clearance_A": 12.63, "e3_clear_enough_for_a_matched_pair": True},
+        # the chemistry winner, and the least clear of the three: Thr (Leu/Val)
+        {"uniprot_resid": 407, "nr4a3": "T", "nr4a1": "L", "nr4a2": "V",
+         "e3_clearance_A": 8.6, "e3_clear_enough_for_a_matched_pair": True},
+        # right chemistry but touching the E3: excluded regardless
+        {"uniprot_resid": 412, "nr4a3": "R", "nr4a1": "A", "nr4a2": "T",
+         "e3_clearance_A": 2.0, "e3_clear_enough_for_a_matched_pair": False},
+    ]
+    picked = LDD.select_wedge_site(sites)
+    assert picked is not None and picked["uniprot_resid"] == 407, picked
+    # ... and a basin with no chemistry-valid site gets NO wedge site, rather than the most E3-clear one
+    assert LDD.select_wedge_site([s for s in sites if s["uniprot_resid"] in (396, 397)]) is None
+    assert LDD.select_wedge_site([]) is None
+
+
+def test_c397_is_never_the_wedge_site_even_if_it_somehow_passed_the_chemistry_rule():
+    """The categorical handle's cysteine must not host the MARGINAL wedge — putting both mechanisms on one
+    residue would make a null from 5a-KS unreadable. Cys is not an H-bond donor so the chemistry rule already
+    excludes it; this pins the intent rather than the coincidence."""
+    cys_as_if_a_donor = {"uniprot_resid": 397, "nr4a3": "T", "nr4a1": "L", "nr4a2": "V",
+                         "e3_clearance_A": 99.0, "e3_clear_enough_for_a_matched_pair": True}
+    other = {"uniprot_resid": 407, "nr4a3": "S", "nr4a1": "L", "nr4a2": "V",
+             "e3_clearance_A": 6.1, "e3_clear_enough_for_a_matched_pair": True}
+    assert LDD.select_wedge_site([cys_as_if_a_donor, other])["uniprot_resid"] == 407
+
+
+def test_the_collision_bracket_is_a_bracket_and_never_an_interpolation():
+    """★ LANE 13 measured FOUR points. A construct at 18 atoms sits between 0.081 and 0.258 and that is the
+    whole honest statement — a curve through four points quoting a value at 18 is not. Above the longest
+    measured point the upper end is OPEN, because the measurement stops there and the trend is rising."""
+    at12 = LDD.collision_bracket(12)
+    assert at12["lo"] == at12["hi"] == 0.0
+    at14 = LDD.collision_bracket(14)
+    assert at14["lo"] == at14["hi"] == 0.0                 # 14 is itself a measured point
+    at16 = LDD.collision_bracket(16)
+    assert at16["lo"] == at16["hi"] == 0.081
+    mid = LDD.collision_bracket(18)
+    assert (mid["lo"], mid["hi"]) == (0.081, 0.258) and mid["at"] == [16, 20]
+    assert "NOT interpolated" in mid["reading"]
+    beyond = LDD.collision_bracket(24)
+    assert beyond["lo"] == 0.258 and beyond["hi"] is None, "above the last measured point the bracket is open"
+    # monotone non-decreasing in the lower end, which is the only shape the measurement supports
+    los = [LDD.collision_bracket(n)["lo"] for n in range(8, 30)]
+    assert all(b >= a for a, b in zip(los, los[1:])), los
+
+
+def test_the_collision_profile_matches_its_cited_source():
+    """The numbers are LANE 13's, cited to a document; a local edit that drifts from the source is exactly
+    the one-fact-two-places failure this repo keeps hitting. Pinned by value AND by the reach-and-exposure
+    companion, which is 0.000 at every length and is the reason the axis currently holds at all."""
+    p = LDD.PARALOGUE_COLLISION_BY_LINKER_ATOMS
+    assert sorted(p) == [12, 14, 16, 20]
+    assert [p[n]["reach_only"] for n in (12, 14, 16, 20)] == [0.0, 0.0, 0.081, 0.258]
+    assert all(v["reach_and_exposed"] == 0.0 for v in p.values()), \
+        "reach-AND-exposure is 0.000 at every measured length; that is what holds the categorical axis up"
