@@ -39,6 +39,30 @@ before diagnosing a GPU provisioning/quota problem.
   on-demand create **failed request-validation** and the leg had NEVER actually run on-demand.
   Both provisioning branches must carry `--instance-termination-action=DELETE`.
 
+## 3b. `max-run-duration` CANNOT be changed on a RUNNING instance — the boundary is fixed
+
+- Measured 2026-07-26 on a **decoy** e2-micro (`gcp-quota-check.yml`), never on a live leg. Create at
+  `--max-run-duration=7200s`, then `gcloud compute instances set-scheduling --max-run-duration=259200s`:
+
+  ```
+  ERROR: (gcloud.compute.instances.set-scheduling) Could not fetch resource:
+   - Max run duration cannot be changed while the instance is running.
+  ```
+
+  rc=1, duration unchanged at 7200, instance still RUNNING (so the attempt is at least harmless).
+- **Consequence, and it is a planning constraint not a bug:** a VM's cap is fixed at CREATE time. When a leg is
+  going to outlive its cap you cannot buy more time later — you get a boundary, the leg resumes from its last
+  committed checkpoint on a fresh VM, and the cost is the **detection latency**, not the extension.
+- **So set the cap correctly at create.** `144000s` (40 h) is validated as acceptable at create time. A full
+  ternary leg is ~2800 iterations at ~56.5 s/iter ≈ **44 h of MD**, so 40 h does NOT span a fresh leg and one
+  boundary is structural. Validate a larger create-time value before assuming it is allowed.
+- **What IS recoverable is the latency.** Recovery runs off the watchdog cron, which GitHub delivers at ~2–4 h
+  intervals for this repo regardless of the expression. Dispatching `ternary-leg-watchdog.yml` by hand the moment
+  the VM disappears turns 2–4 h of dead wall clock into minutes — which matters on GCP specifically, where the
+  credits are free and expiring so **wall clock is the scarce resource, not money**.
+- A `mode=extend` was built for this and then **removed**, because the operation can never succeed on a running
+  instance. Kept here as the fact rather than as dead code that invites a retry.
+
 ## 4. "L4 stocked out" in a launcher log is NOT proof of capacity exhaustion
 
 - The provision loop historically labeled ANY non-quota create failure as "stocked out",
