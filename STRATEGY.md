@@ -1795,7 +1795,30 @@ explicit go.
    smaller fan-out — with a cycle-closure edge moved early, since all three cycles currently close only in the
    last wave. *(Note the price has since fallen to ~$36, so un-halting no longer crosses the >$50 review gate.
    That makes it a cheaper call, not a different one; it is trimcrae's.)*
-5. **`[ ]` OPEN — the valB_mini rescope.** Held until the reverse leg reads out. See RUNG 2, "Recommended next
+5. **`[ ]` OPEN — FOR trimcrae: raise `GPUS_ALL_REGIONS` on the GCP project.** The single highest-leverage
+   action available on that lane, and it is his because it is a change to his cloud account, not something to
+   file from CI.
+   **The situation:** the trial credit expires **2026-10-10** (76 days from 2026-07-26) and is otherwise a
+   stranded asset — unspent credit is a loss, not a saving. But `GPUS_ALL_REGIONS = 1` caps the project at **one
+   concurrent GPU** across all regions and types (confirmed `limit=1.0 usage=1.0`), which is why the regional
+   `PREEMPTIBLE_NVIDIA_L4_GPUS` limit of 3 sits **unused**. So the bottleneck on using the asset is the quota,
+   not our willingness to spend.
+   **What it buys, concretely:**
+
+   | `GPUS_ALL_REGIONS` | max burnable before expiry | closure triangle (4 fresh legs × ~44 h) |
+   |---|---|---|
+   | 1 (today) | ~1,824 GPU-h | **7.3 days** serialised |
+   | 2 | ~3,648 GPU-h | 3.7 days |
+   | 4 | ~7,296 GPU-h | **1.8 days** (fully parallel) |
+
+   **The ask:** metric `compute.googleapis.com/gpus_all_regions`, scope *global*, current limit 1 → request 4.
+   **Check first, because it may not be grantable as-is:** GCP commonly gates GPU-quota increases on account
+   type, so if the project is still on the free trial the request may be refused until it is converted to a paid
+   account (the credits carry over and are still spent first). **I have not verified which this project is** —
+   `gcp-quota-check.yml` prints `billingEnabled` and the billing account, so one dispatch answers it before
+   anything is filed.
+
+6. **`[ ]` OPEN — the valB_mini rescope.** Held until the reverse leg reads out. See RUNG 2, "Recommended next
    steps".
 6. **`[ ]` OPEN — route the admits-zero gate defect for approval.** The frozen gate accepts a method that
    predicts no cooperativity change (22 % vs 23 %). Amending a preregistered rule after a failing result needs an
