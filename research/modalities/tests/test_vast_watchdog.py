@@ -298,11 +298,16 @@ def test_the_shipped_entries_are_exactly_what_the_builder_produces():
     # policy and is allowed to grow; what this test pins is that the shipped list stays BUILDER-PRODUCED
     # rather than hand-typed, and test_the_shipped_entries_carry_what_lane13_ACTUALLY_launched keeps it equal
     # to the task file, so the two relaunchers cannot disagree about where a leg may run.
+    # NR4A2 finished 2026-07-26 8:36 AM ET (result artifact in S3) and is `enabled: false` -- kept in the
+    # list, not deleted, per the file's own editing convention, so the completed unit stays on the record.
+    # What this test pins is that the shipped entries stay BUILDER-PRODUCED rather than hand-typed; the
+    # enabled flag is lifecycle and is expected to move.
     doc = _generic()
     want = [vw.paralogue_entry("NR4A1", git_branch="claude/max-effort-2dq11l-paralogue",
                                exclude_machines="142143,17720"),
             vw.paralogue_entry("NR4A2", git_branch="claude/max-effort-2dq11l-paralogue",
-                               exclude_machines="142143,17720")]
+                               exclude_machines="142143,17720", enabled=False)]
+    want[1]["_disabled_why"] = doc["watch"][1].get("_disabled_why")
     assert doc["watch"] == want
 
 
@@ -385,8 +390,14 @@ def test_verify_armed_fails_when_the_list_is_present_but_invalid(tmp_path):
 
 
 def test_verify_armed_passes_on_the_shipped_list():
-    assert vw.verify_armed(["nr4a-pdyn-nr4a1", "nr4a-pdyn-nr4a2"], GENERIC_LIST) == \
-        ["nr4a-pdyn-nr4a1", "nr4a-pdyn-nr4a2"]
+    # Only the STILL-RUNNING leg is armed; NR4A2 completed and was disabled. verify_armed exists to catch a
+    # live leg going missing from the list, so a finished one must NOT count as armed -- that distinction is
+    # the whole point of the read-back.
+    assert vw.verify_armed(["nr4a-pdyn-nr4a1"], GENERIC_LIST) == ["nr4a-pdyn-nr4a1"]
+    # SystemExit, not Exception -- it derives from BaseException, and pytest.raises(Exception) would let the
+    # refusal sail through as an uncaught error rather than a passing assertion.
+    with pytest.raises(SystemExit, match="DOES NOT COVER"):
+        vw.verify_armed(["nr4a-pdyn-nr4a2"], GENERIC_LIST)
 
 
 def test_an_empty_or_missing_list_is_a_legitimate_no_op(tmp_path):
