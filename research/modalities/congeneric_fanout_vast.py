@@ -957,6 +957,9 @@ def mode_collect():
     idx_of = {u["unit_id"]: i for i, u in enumerate(units)}
     label_of = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u["unit_id"] for u in units}
     ledger = _load_ledger(s3, bucket)
+    # Consecutive-terminal-observation state, in S3 so one CI run inherits what the previous one saw.
+    _terminal = _get_json(s3, bucket, f"{RESULT_PREFIX}/_terminal_state.json") or {}
+    _terminal_next = {}
     for i in (_live_instances(key) if key else []):
         lab, st = i.get("label"), (i.get("actual_status") or "")
         age_min = _age_min(i)
@@ -970,7 +973,22 @@ def mode_collect():
         if label_of.get(lab) in finished:
             why = "result in S3"
         elif st in ("exited", "offline", "error"):
-            why = f"terminal state {st}"
+            # ⚠ A TRANSIENT `exited` IS NOT A FAILURE, and this reaper became dangerous the moment it moved
+            # onto a 20-minute cron. s1f-04 read `exited` at 10 minutes in wave 1 and came back `running` on
+            # its own (lane record section 8). Destroying on a single observation would throw away a host
+            # that was about to recover — survivable, because the checkpoint resumes, but it costs a boot and
+            # a fresh rental EVERY time it misfires, across a 19-host fleet, unattended, all night.
+            #
+            # So a terminal state must be seen on TWO CONSECUTIVE ticks before it is believed. The finished
+            # case above is unaffected: a unit with its ddg.json in S3 is destroyed on sight, because there
+            # the evidence is the result itself and not the instance's mood.
+            seen = int((_terminal.get(str(i.get("id"))) or {}).get("ticks", 0)) + 1
+            _terminal_next[str(i.get("id"))] = {"ticks": seen, "state": st, "utc": _utcnow()}
+            if seen < 2:
+                print(f"[s1f] {i.get('id')} ({lab}) reads {st} — first observation, NOT reaping. A transient "
+                      f"`exited` recovered on its own in wave 1; two consecutive ticks are required.")
+                continue
+            why = f"terminal state {st} on {seen} consecutive checks"
         elif age_min > REAP_AGE_MIN:
             why = f"age {age_min} min > {REAP_AGE_MIN}"
         if not why:
@@ -983,6 +1001,13 @@ def mode_collect():
         except Exception as e:  # noqa: BLE001
             print(f"[s1f] reap {i.get('id')} failed: {e}")
     _save_ledger(s3, bucket, ledger)
+    # Rewritten, not merged: an instance absent from this pass is gone or recovered, and either way its
+    # streak is over. A streak that persisted across a recovery would reap a healthy host on its next blip.
+    try:
+        s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_terminal_state.json",
+                      Body=json.dumps(_terminal_next, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] terminal-state save failed: {e}")
 
     # ---- realised spend against the estimate -------------------------------------------------------------
     # Reported HERE, at collect, and written into the map artifact — not left to be reconstructed later. The

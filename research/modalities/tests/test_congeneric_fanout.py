@@ -318,3 +318,28 @@ def test_cost_plan_and_band_are_derived_from_the_repriced_ladder():
     assert 30 <= cf.cost_plan(19) <= 45
     band = cf.cost_estimate(19)
     assert band[0] <= cf.cost_plan(19) <= band[1]
+
+
+def test_expected_iteration_rate_matches_the_measured_seconds_per_iteration():
+    """The slow-host threshold has to be anchored to the MEASURED cmpd19/NR4A3 rate (three wave-1 hosts at
+    12.76 / 13.70 / 14.42 s per HREX iteration), not to a round number. Wave 2's own host reproduced it:
+    160 -> 260 committed iterations across ~23 min of sampling is ~261 iter/h."""
+    import congeneric_fanout_vast as fv
+    assert 250 <= fv.EXPECTED_ITER_PER_H <= 285
+
+
+def test_terminus_gate_holds_until_a_ddg_exists():
+    """The gate is what lets a cron fan out safely. If it could release with no result in S3 it would be
+    launching 18 units into the unproven terminus it exists to guard."""
+    import congeneric_fanout_vast as fv
+    units = cf.default_units()
+
+    class _S3:
+        def __init__(self, have): self.have = set(have)
+        def head_object(self, Bucket=None, Key=None):
+            if Key not in self.have:
+                raise KeyError(Key)
+            return {}
+
+    assert len(fv._pending(_S3([]), "bkt", units)) == 19
+    assert len(fv._pending(_S3([cf.result_key(units[2], fv.RESULT_PREFIX)]), "bkt", units)) == 18
