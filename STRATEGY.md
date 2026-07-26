@@ -198,22 +198,23 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:37 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 3:37 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
-measured over the stated interval between two watchdog passes, not assumed.*
+measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
+a window long enough to swamp the 40-iteration commit block** (see the quantisation note below).*
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **36.1/60 ns**, up 55 min, GPU 44 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.14 ns/h** over 22 min, agreeing with the previous interval's 3.4 — the slow rate is **real, not warm-up** | metad ~**10:15 AM**, release ~**3:00 PM** |
-| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **39.45/60 ns**, up 407 min, GPU 75 %. **6.00 ns/h** over 22 min, agreeing with 5.67 and 5.9 | metad ~**6:00 AM**, release ~**8:30 AM** |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 520/2000**, up 636 min. **267 iter/h** over 27 min (warmup finished as projected) | ~**7:45 AM** |
-| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — **production 1080/2000**, up 636 min. ⚠ **40 iterations in the last 27 min (89/h) against 257/h over the preceding 224 min** | **not quoted** — see the slowdown flag below |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **advancing — `warmup/720` of 800 (90 %)**, VM up 452 min. **66.7 iter/h** over 72 min, agreeing with that session's ~68 iter/h | warmup done ~**3:25 AM**, then 2000 production iterations; **~Mon 8:40 AM** — its result keys the calibrator rescope |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **39.1/60 ns**, up 115 min, GPU 43 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.00 ns/h** over 60 min — third agreeing interval (3.4, 3.14, 3.00), so the slow rate is settled | metad ~**10:35 AM**, release ~**3:35 PM** |
+| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **45.4/60 ns**, up 467 min, GPU 73 %. **5.95 ns/h** over 60 min, agreeing with 6.00, 5.67, 5.9 | metad ~**6:05 AM**, release ~**8:35 AM** |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 720/2000**, up 717 min. **146 iter/h** over 82 min; **176 iter/h** over the longest available window (109 min) | ~**11:00 AM – 12:25 PM** — a range, because the two long windows do not yet agree |
+| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — **production 1400/2000**, up 717 min. **234 iter/h** over 82 min. Faster than the ternary leg, which is expected: a binary system has fewer particles per iteration | ~**6:10 AM** |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **advancing — `warmup/792` of 800 (99 %)**, VM up 514 min. **69.7 iter/h** over 62 min, agreeing with that session's ~68 | warmup done ~**3:21 AM**, then 2000 production iterations; **~Mon 8:40 AM** — its result keys the calibrator rescope |
 
-⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Two agreeing
-intervals put the 4080S at **3.14–3.4 ns/h** against **~5.5–6.0 ns/h** for the same job on a 4090 — a ratio of
-**0.55**, where the cards' own throughput ratio for this class of workload is ~0.83. The utilisation gap says
+⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Three agreeing
+intervals (3.4, 3.14, 3.00, the last over a full hour) put the 4080S at **~3.0–3.4 ns/h** against **~5.5–6.0
+ns/h** for the same job on a 4090 — a ratio of **0.55**, where the cards' own throughput ratio for this class of workload is ~0.83. The utilisation gap says
 the same thing from the other side: **44 % GPU on the 4080S against 75 % on the 4090**, steady across passes.
 A card that is merely slower runs *busy*; one that is fed too slowly runs *idle*, and this one is idle. So the
 cause is **host-side (CPU/PCIe feeding the PLUMED bias), not the card**.
@@ -223,13 +224,15 @@ NR4A2 either way — at the price of a capacity scramble, whatever progress sits
 a re-rent that can land on another starving host. The extra billed time is **~$0.75**. What *is* worth
 carrying forward: machine **17720** should be excluded when the next paralogue leg is launched.
 
-⚠ **BINARY EDGE LEG — A SLOWDOWN THAT IS NOT YET DIAGNOSED, AND IS NOT BEING EXPLAINED AWAY.** Two hypotheses
-fit the numbers and they are not distinguishable from one 27-minute window: (a) the leg really has slowed ~2.9×,
-or (b) the commit store advances in **blocks of 40 iterations**, so a short window catches a whole number of
-blocks and the apparent rate is quantisation — the ternary leg's 120 in the same window is exactly 3 blocks, and
-the binary's 40 exactly 1. The discriminating observation is a **longer interval**: under (b) the rate returns
-to ~257/h over ≥90 min, under (a) it does not. Taken on the next passes; no ETA is quoted for this leg until
-then, and the earlier "~overnight" is withdrawn rather than restated.
+✅ **THE BINARY LEG'S "SLOWDOWN" WAS QUANTISATION — RESOLVED, and the discriminating observation was taken
+rather than assumed.** Over 82 min the leg did **320 iterations = 234/h**, back at its baseline, so the "40 in
+27 min" was one commit block caught whole. The mechanism is now confirmed rather than merely plausible: **every
+delta observed on either leg is an exact multiple of 40** — binary 40, 320; ternary 120, 200 — so the commit
+store advances in **blocks of 40 iterations** and a short window measures the block boundary, not the rate.
+**The rule this leaves behind is in the table caption: never quote a FEP rate off a window that spans only a
+few blocks.** I broke that rule in the same breath as writing it — the ternary leg's "~7:45 AM" came off a
+27-minute window carrying exactly 3 blocks, which is why it is now a range off 82- and 109-minute windows
+instead. *(Withdrawn ETAs are in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 19b.)*
 
 **✅ RUNG 2b is HALF LANDED.** The **probe** (ΔG_morph **48.1970**) and the **solvent** leg (ΔG_morph
 **47.7982**) are both **DONE in S3 with no NaN** — so 4 fs has now survived two complete legs, not just the
@@ -1708,7 +1711,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 17 | Cost lever 3: **sequential (anytime-valid) stopping saves ~20–25 %** | Measured on THIS ladder (`valb_rescope_design.py`): **0.8–2.6 %**. At σ=0.5 it stops after 4.87 of 5 replicates, at σ=0.7 after 4.96 of 5. An anytime-valid bound must stay valid under *every* stopping time, so at n = 2–4 with σ ≈ 0.7 it never fires. Real for long horizons; a **5-replicate ladder is too short**. Do not carry it in any total |
 | 18 | The valB_mini rescope path: **the high-contrast P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops** | Refuted for **$0** on real data (RCSB REST + RDKit MCS, production container): **6 of 10 P-series pairs change formal charge**, including **P1→P4 (`charge_change: -1`)**, blocked by the same missing charge correction that blocks 8 legs of `step1_fanout`; the 4 charge-neutral pairs perturb **58–80 heavy atoms** vs **2** for the running edge; and 9HYO (P4) is **3.74 Å**. Replaced by a **synthetic closure triangle** (~$5.9 at n=1) |
 | 19a | "`vast-watchdog.yml` has NOT yet fired on cron … autonomous coverage of the paralogue legs is claimed only once a `schedule` event appears", and "**honestly not proven live:** `DIED → relaunch`" | Both retired by the same event: the **1:42 AM ET 2026-07-26 `schedule` pass** found `nr4a-pdyn-nr4a1` dead with no instance, relaunched it as **45878836**, and it resumed from its 33.55 ns checkpoint — with no session awake. `FAILED` and `STALL` remain unproven live |
-| 19b | RUNG 2b **ternary** edge finish "**~1 AM**", then "**~6:00 AM**"; **binary** edge "**~overnight**"; NR4A1 paralogue metad "~**5:30 AM**", NR4A2 "~**6:00 AM**" (all ET, 2026-07-26) | The ~1 AM figure was carried forward without arithmetic. The ~6:00 AM replacement extrapolated from **warmup**, which costs ~2× per iteration what production does. Live ETAs now come from measured **production** (or metad) intervals in the board above; the binary leg has **no** quoted ETA while its rate is undiagnosed, and NR4A1's slipped when it was preempted onto a slower card |
+| 19b | RUNG 2b **ternary** edge finish "**~1 AM**", then "**~6:00 AM**", then "**~7:45 AM**"; **binary** edge "**~overnight**", then "a possible **2.9× slowdown**"; NR4A1 paralogue metad "~**5:30 AM**", NR4A2 "~**6:00 AM**" (all ET, 2026-07-26) | The ~1 AM figure was carried forward without arithmetic. The ~6:00 AM replacement extrapolated from **warmup**, which costs ~2× per iteration what production does. The ~7:45 AM and the binary "slowdown" were both **commit-block quantisation**: the store advances in blocks of 40 iterations and both came off a 27-min window. Live ETAs now come from windows long enough to span many blocks; NR4A1's slipped when it was preempted onto a host that starves its GPU |
 | 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
 
 ---
