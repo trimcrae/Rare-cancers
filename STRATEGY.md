@@ -35,7 +35,7 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 5:30 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 8:05 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -75,7 +75,7 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4, us-central1) | **RUNNING and advancing** — `warmup/96` of 800 at 5:18 PM ET on VM `gcp-ternary-30175078131`. **Switching to ON-DEMAND** (`provisioning=standard`), authorized by trimcrae 5:30 PM ET: spot ran at **53% efficiency** (55.9 iter/h measured vs 106.2 theoretical) across 3 preemptions, and on-demand also lifts max-run from 7 h to 20 h. Current spot VM deliberately left running so no committed work is discarded; the switch takes effect on the next relaunch | **~Sun 7:30 PM ET** on-demand *(was ~Mon 6 PM on spot)* | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** (GPU L4 **ON-DEMAND**, us-central1) | **RUNNING and advancing** — `warmup/296` of 800 at 8:02 PM ET, VM `gcp-ternary-30177970643` live 81 min. **On-demand CONFIRMED BY QUOTA, not inferred:** `NVIDIA_L4_GPUS usage=1.0`, `PREEMPTIBLE usage=0.0`. The watchdog relaunched it unattended at 6:38 PM and that relaunch picked up the switch | **~Mon 3–6 AM ET** *(ETA CORRECTED — see below; the earlier ~Sun 7:30 PM was computed from the THEORETICAL rate, which the leg does not hit)* | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ✅ **Confound RESOLVED 2026-07-25 ($0): the 2 fs baseline is `v2pe`, pre-equilibrated** — the committed r0 `.nc` holds **141,968** particles, the `v2pe` fingerprint (`v1` raw = 146,020). The arms differ in the **timestep alone**, so a NO-GO is now interpretable |
@@ -183,6 +183,25 @@ relevant rung below.*
 > a value crosses a boundary — two shells, generation-time vs run-time, runner vs VM — the only acceptable
 > evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
 > inspection of the producing code.
+
+> ### ⏱️ ETA CORRECTED AGAIN — on-demand runs at ~75% of theoretical, not 100%
+> I quoted **~Sun 7:30 PM ET** when authorising on-demand. That was computed from the **theoretical** 106 iter/h
+> (33.91 s/iter) and the leg does not hit it. Two measurements, each stated with its own weakness:
+>
+> | measurement | rate | caveat |
+> |---|---|---|
+> | same VM, 7:44→8:02 PM | **80 iter/h** | ±33% — 24 iterations is exactly 3 commit intervals, so it is quantised |
+> | 5:18→8:02 PM | **73 iter/h** | a **lower bound** — spans the dead gap and a relaunch |
+> | theoretical | 106 iter/h | not observed |
+>
+> On 2504 remaining iterations (504 warmup + 2000 production) that is **31–34 h → ~Mon 3–6 AM ET**. On-demand is
+> still the right call — it lifted efficiency from **53% to ~75%** and removed the ~35-relaunch thrash — but it
+> buys less than the un-preempted arithmetic implied.
+>
+> **A mechanism worth testing rather than assuming:** warmup commits every **8** iterations while production
+> commits every **40**, so per-iteration GCS commit overhead is ~5× heavier in warmup. If that is the gap, the
+> production phase should run materially closer to theoretical and the ETA improves. **Not asserted** — the
+> discriminator is simply the observed rate once production starts, which costs nothing to read.
 
 > ### ✅ ON-DEMAND AUTHORIZED FOR THIS LEG ONLY (trimcrae, 2026-07-25 ~5:30 PM ET)
 > `gpu-ternary-fep-gcp.yml` gates on-demand behind *"ONLY when explicitly authorized for a time-sensitive
