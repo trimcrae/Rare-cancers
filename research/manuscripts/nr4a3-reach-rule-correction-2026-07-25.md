@@ -281,12 +281,45 @@ frames, C420 and C559 in **0 of 75**" — were computed with it. Re-run over the
 | joint P(pocket druggable **and** C397 reachable) | 0.56 | **0.48** |
 | P(C397 reachable │ pocket druggable) | 0.955 | **0.818** |
 
-**Read it as three things.** (i) C397 survives comfortably — 87 % of unbiased conformers still present it at
-or below the gate, and it is the *median* frame that now needs 12 atoms rather than 10. (ii) The
-one-residue-deep risk gets **worse**, not better: C559 is now geometrically closed in 60 % of frames rather
-than 19 %. (iii) The joint number is the one to quote — the pocket being open and C397 being reachable are
-**not** independent and the conditional fell from 0.955 to 0.818, so "96 % reachable" was doing more work in
-prose than it should have.
+**⚠ TWO OF THOSE ROWS ARE MONTE-CARLO ARTEFACTS, AND I ALMOST REPORTED THEM AS PHYSICS.** The envelope
+estimates a *fraction of anchor space* by Monte Carlo, and the exact rule admits a strictly smaller set than
+the relaxed one — so the same budget resolves a rarer event, and the tail figures get worse in a way that has
+nothing to do with geometry. Swept on one fixed frame (the reference opened model), `n_mc` ∈ {12 000, 48 000,
+150 000} × two seeds:
+
+| n_mc | seed | C397 | C420 | C559 | C397 feasible fraction at 12 atoms |
+|---|---|---|---|---|---|
+| 12 000 *(the script's default)* | 20260725 | 10 | **20** | **CLOSED** | 0.0607 |
+| 12 000 | 12345 | 10 | 16 | **CLOSED** | 0.0507 |
+| 48 000 | 20260725 | 10 | 16 | **20** | 0.0638 |
+| 48 000 | 12345 | 10 | 16 | **20** | 0.0408 |
+| 150 000 | 20260725 | 10 | 16 | **20** | 0.0498 |
+
+So: **the gate-level verdicts are MC-robust at every budget** (C397 opens at 10; C420 and C559 are feasible
+at *zero* anchor positions at 12 atoms in every run), but the **tail** figures are not converged at 12 000.
+C559 reads "closed within 20 atoms" at 12 000 and "20 atoms" at 48 000 and above. **Therefore:**
+
+* ❌ **RETRACTED before it was quoted: "C559 is geometrically closed in 45/75 = 60 % of frames."** That count
+  is an artefact of the MC budget, not a property of the structure. The published 14/75 is the same artefact
+  at the same budget under the other rule; neither is a physical fraction.
+* ❌ **RETRACTED: "C420 median 20 atoms."** At converged budget it is **16** — unchanged from published.
+* ✔ **What survives, and is robust at every budget and seed:** C420 and C559 reach the 12-atom gate in
+  **0/75** frames under both rules, and C559 needs ≥ 20 atoms. The one-residue-deep conclusion stands; the
+  quantitative worsening I attributed to the correction does not.
+
+**The 87 % itself IS converged, checked the same way rather than assumed.** All **10** unbiased frames the
+corrected run classified as failing the 12-atom gate were re-evaluated at **4× and 12×** the budget. Every
+one of them returns a feasible anchor-space fraction of **exactly 0.0000 at 12 atoms, at all three budgets**
+— these frames have no feasible 12-atom anchor position at all, not a rare one the sampler missed. (Their
+*tail* values wander — 14 → 16 → 20 across frames and pose draws — which is the same tail noise the sweep
+above found, and is exactly why the tail is not quoted.)
+
+**Read the rest as three things.** (i) C397 survives comfortably — 87 % of unbiased conformers still present
+it at or below the gate, and it is the *median* frame that now needs 12 atoms rather than 10. (ii) The
+one-residue-deep risk is confirmed but **not** quantitatively worsened, per the retraction above. (iii) The
+joint number is the one to quote — the pocket being open and C397 being reachable are **not** independent and
+the conditional fell from 0.955 to 0.818, so "96 % reachable" was doing more work in prose than it should
+have.
 
 *One schema consequence, checked rather than assumed:* the corrected artifact is key-for-key identical to the
 published one **except** that `ensembles/reference_opened_model/.../C559/shortest_linker_atoms/distribution`
