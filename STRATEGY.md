@@ -241,12 +241,12 @@ measured over the stated interval, and **only quoted off a window long enough to
 block**; the two withdrawn ETAs in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 19b/19c
 are both what happens when that rule is broken.*
 
-**✅ NO GPU IS RUNNING.** Both LANE-13 paralogue legs and all four RUNG 2b legs have reached their deliverables;
-every watch entry in both lists is `enabled: false`. Realised spend for the two lanes is on the order of a few
-dollars against a ~$4.3 projection for LANE 13 alone.
+**One GPU is running: the RUNG 5a-KS co-fold (LANE 16).** Both LANE-13 paralogue legs and all four RUNG 2b
+legs have reached their deliverables; every watch entry in both of those lists is `enabled: false`.
 
 | what | state | ETA (ET) |
 |---|---|---|
+| **RUNG 5a-KS ternary co-fold** (LANE 16) — Boltz-2, CRBN + NR4A{3,1}-LBD + the RUNG-5b construct. Vast instance **45935273**, RTX 4090 | **PROGRESSING** — deps installed and the GPU probe passed at **3:42 PM ET**; next phase is the two predictions. Unproven pipeline, so checks are ~4 min apart and read the phase marker, not liveness | first co-fold ~**4:15–4:45 PM ET** |
 | ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Lane 13 is closed: legs, collect and analysis all landed |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**) — *driven by the `max-effort-3hgq45` session* | **`production/720` of 2000**. ⚠ **On a NEW VM — `gcp-ternary-30215419909`, up 49 min** — the 1196-min `gcp-ternary-30177970643` is gone. It **resumed from checkpoint** (720 > the 680 it had reached), so nothing was lost; a max-run-duration expiry or a preemption, and that session's lane recovered either way. No rate is read from this window: it spans the restart AND moves exactly one 40-iteration block | **~Mon**, on that session's clock — its result keys the calibrator rescope |
 
