@@ -295,9 +295,22 @@ jobs:
           # awk does not key on, or the phases are not what the label says. A profile whose attribution cannot be
           # checked against the driver's own log is exactly the "confident answer about the wrong thing" this lane
           # keeps producing, so the evidence for the labelling ships next to the labels.
+          # The [barrier] commit lines are one per checkpoint (every 8 warmup iterations), so by iteration 640
+          # there are ~80 of them and a `tail -60` window shows NOTHING BUT barrier lines — which is how the
+          # first run of this profile hid the single most important line in the log (the phase target). Collapse
+          # them to a count plus the newest one, and show the [spot-driver] phase lines in full.
           timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet \
-            --command "echo $B64 | base64 -d > /tmp/prof.awk; L=/tmp/tfep_run.log; echo '--- driver phase/lifecycle lines (the evidence for the phase labels below) ---'; sed -e 's/\x1b\[[0-9;]*m//g' \$L 2>/dev/null | grep -aE 'spot-driver|autostop|committed|COMMIT|barrier|restore|resume|target' | grep -avE 'took [0-9.]+ *s' | tail -60; echo '--- total timing lines ---'; grep -ac 'took' \$L; echo '--- profile ---'; sed -e 's/\x1b\[[0-9;]*m//g' \$L 2>/dev/null | awk -f /tmp/prof.awk | sort" \
+            --command "echo $B64 | base64 -d > /tmp/prof.awk; L=/tmp/tfep_run.log; C=/tmp/clean.log; sed -e 's/\x1b\[[0-9;]*m//g' \$L > \$C 2>/dev/null; echo '--- [spot-driver] phase lines IN FULL (the evidence for the phase labels) ---'; grep -aE 'spot-driver|autostop' \$C | tail -40; echo '--- [barrier] commits: count, first, last (collapsed: one per checkpoint floods any tail window) ---'; grep -ac 'barrier. committed' \$C; grep -aE 'barrier. committed' \$C | head -1; grep -aE 'barrier. committed' \$C | tail -1; echo '--- total timing lines ---'; grep -ac 'took' \$C; echo '--- profile ---'; awk -f /tmp/prof.awk \$C | sort" \
             2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$"
+          echo "=== GCS objects under THIS leg's own direction+salt prefix (which phase has committed what) ==="
+          # The watchdog census reported production/280 for this entry while the driver's barrier lines said
+          # warmup 640/800. Both cannot describe the same trajectory, so list the prefix itself rather than
+          # believing either reading: the object paths are the arbiter.
+          CPFX="gs://${PROJECT}-rbfe-ckpt/valB-6hax/commits/${{ github.event.inputs.leg_id }}"
+          gcloud storage ls --recursive "$CPFX/" 2>/dev/null \
+            | sed -E 's#^.*/commits/##; s#/(warmup|production)/iter-#|\1|#' \
+            | awk -F'|' 'NF>=3{split($3,a,"/"); key=$1"|"$2; n=a[1]+0; if(n>mx[key])mx[key]=n; cnt[key]++} END{for(k in mx) printf "  %-70s furthest=%-8d objects=%d\n", k, mx[k], cnt[k]}' \
+            | sort
           echo "=== [TIMING] read the PHASE lines for warmup-vs-production, the BLOCK lines for drift ==="
 
       - name: Set up openmmtools for forensic ckpt probe (mode=forensic)

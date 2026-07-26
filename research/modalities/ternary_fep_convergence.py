@@ -890,17 +890,21 @@ def _ligand_pose_block(reporter, iter_a, iter_b):
     except Exception as e:  # noqa: BLE001
         out["independent_distance_check"] = {"status": "%s: %s" % (type(e).__name__, e)}
 
-    per_replica, pose_vals, internal_vals = [], [], []
+    per_replica, pose_vals, internal_vals, contact_vals = [], [], [], []
     for k in range(min(len(sa), len(sb))):
         A, _ = _replica_coords(sa[k])
         B, M = _replica_coords(sb[k])
         if A is None or B is None:
             continue
         B, applied = _min_image(A, B, M)
+        contact_rows = _contact_ligand_rows(A, lig_rows, prot_rows)
         pose = _kabsch_rmsd(A, B, prot_rows, lig_rows)
+        contact = _kabsch_rmsd(A, B, prot_rows, contact_rows)
         internal = _kabsch_rmsd(A, B, lig_rows, lig_rows)
         per_chain = [_kabsch_rmsd(A, B, cr, lig_rows) for cr in chain_rows if cr]
         rec = {"replica": k, "pose_rmsd_A": pose, "internal_rmsd_A": internal,
+               "contact_pose_rmsd_A": contact,
+               "n_contact_heavy": len(contact_rows),
                "per_chain_pose_rmsd_A": [None if v is None else round(v, 3) for v in per_chain],
                "min_over_chains_A": (min([v for v in per_chain if v is not None]) if any(
                    v is not None for v in per_chain) else None),
