@@ -3,12 +3,13 @@
 Automated emails to trimcrae (trimcrae@gmail.com). All times **US Eastern, 12-hour AM/PM**.
 
 ## What's live (merged to `main`)
-- **Daily status email** — `.github/workflows/daily-degrader-email.yml`, cron `0 10 * * *` (**6:00 AM ET**;
-  moved one hour earlier 2026-07-17). Sends: (1) what SageMaker jobs finished in the last ~30h, (2) what's
-  running now (+ spot slots), (3) an optimistic day-by-day schedule to PROTAC-degrader-paper completion.
-  Leads with a **bite-sized summary**; raw tables are tucked into a collapsed "Full detail" block.
-  ⚠️ Its Claude summary-writer Routine must run **before** this send — see the 5:00 AM ET target below.
-- **Weekly newsletter** — `.github/workflows/method-watch.yml`, cron `0 11 * * 5` (Fridays 7:00 AM ET);
+- **Daily status email — ⛔ RETIRED 2026-07-26, no longer sends on a schedule.** Its `schedule:` cron was
+  removed from `.github/workflows/daily-degrader-email.yml` at trimcrae's request. The workflow itself is
+  intact and **still dispatchable** (`mode=dry_run` / `mode=send`) — see "Manual controls" — and the file
+  carries the exact two lines to re-add on `main` if the daily cadence is ever wanted back. Everything below
+  about how it composes (summary priority order, `daily_status_email.py`) still describes the dispatch path.
+  Its Claude summary-writer Routine has nothing left to feed, so it is dead weight — see the appendix.
+- **Weekly newsletter — the surviving cadence** — `.github/workflows/method-watch.yml`, cron `0 11 * * 5` (Fridays 7:00 AM ET);
   emails the method-watch digest via `research/modalities/email_digest.py`. Now picks up a Claude-written
   summary the same way the daily email does (`email-outbox:newsletter-summary.md`, accepted if ≤2 days
   old) — see "Weekly newsletter Option B" below.
@@ -159,6 +160,20 @@ Steps:
 
 ## Manual controls
 - Preview without sending: dispatch `daily-degrader-email.yml` with mode=`dry_run` (downloads a preview artifact).
-- Send now: dispatch with mode=`send`.
+- Send now: dispatch with mode=`send`. **This is now the ONLY way the degrader status email goes out** — the
+  daily cron is gone.
 - Disable newsletter email: set repo variable `NEWSLETTER_EMAIL=off`.
 - Override model: repo variable `ANTHROPIC_MODEL`.
+
+## Appendix — superseded cadences
+- **Daily status email, cron `0 10 * * *` (6:00 AM ET), live 2026-07-15 → 2026-07-26.** Sent daily; earlier
+  it ran at `0 11 * * *` (7:00 AM ET) until moved one hour earlier on 2026-07-17. Removed 2026-07-26 because
+  trimcrae did not want a daily email; the weekly newsletter is the intended cadence. Last scheduled send:
+  run `30200038716`, 7:23 AM ET on 2026-07-26 (GitHub delayed it ~83 min past the 6:00 AM ET target — the
+  usual cron throttling on this repo).
+- **Daily summary-writer Routine (5:00 AM ET, `0 9 * * *`), which committed `email-outbox:daily-summary.md`.**
+  Already gone — trimcrae confirmed 2026-07-26 that the only Claude Routines still scheduled are the weekly
+  newsletter's. That is *why* the daily email kept arriving on generated prose rather than a Claude summary,
+  and it is also why deleting a Routine could never have stopped it: **the send was a GitHub `schedule:` cron,
+  not a Routine.** `email-outbox:daily-summary.md` is now a dead file read by nothing.
+  The weekly newsletter's own summary-writer Routine is separate and must be KEPT.

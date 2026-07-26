@@ -12,9 +12,12 @@ name: Daily degrader-paper status email
 # Optional secrets for the SMTP path: MAIL_PASSWORD (Gmail app password), MAIL_USERNAME, SMTP_HOST, SMTP_PORT.
 
 on:
-  schedule:
-    # 10:00 UTC = 6:00 AM EDT (5:00 AM EST). GitHub cron is UTC and does not follow DST.
-    - cron: "0 10 * * *"
+  # DAILY CRON REMOVED 2026-07-26 at trimcrae's request — the daily email was unwanted; the weekly
+  # newsletter (method-watch.yml, Fridays) is the surviving cadence. Manual dispatch is deliberately
+  # KEPT so the composer stays exercisable (mode=dry_run) and sendable on demand. To restore the daily
+  # email, re-add the two lines below ON MAIN (a `schedule:` only fires from the default branch):
+  #   schedule:
+  #     - cron: "0 10 * * *"   # 10:00 UTC = 6:00 AM EDT (5:00 AM EST); GitHub cron does not follow DST
   workflow_dispatch:
     inputs:
       mode:
