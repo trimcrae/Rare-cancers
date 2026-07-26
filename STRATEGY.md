@@ -198,18 +198,30 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:15 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:37 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval between two watchdog passes, not assumed.*
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **34.95/60 ns**, up 33 min, GPU 45 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint | metad ~**9:40 AM**, release ~**2:00 PM** — ⚠ off **3.4 ns/h**, ONE 27-min interval on a host that is still warming; the 4090 it lost ran 6.1 ns/h. Re-read next pass before this ETA is trusted |
-| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **37.25/60 ns**, up 385 min, GPU 75 %. **5.67 ns/h** over 27 min | metad ~**6:15 AM**, release ~**9:00 AM** |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **36.1/60 ns**, up 55 min, GPU 44 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.14 ns/h** over 22 min, agreeing with the previous interval's 3.4 — the slow rate is **real, not warm-up** | metad ~**10:15 AM**, release ~**3:00 PM** |
+| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **39.45/60 ns**, up 407 min, GPU 75 %. **6.00 ns/h** over 22 min, agreeing with 5.67 and 5.9 | metad ~**6:00 AM**, release ~**8:30 AM** |
 | **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 520/2000**, up 636 min. **267 iter/h** over 27 min (warmup finished as projected) | ~**7:45 AM** |
 | **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — **production 1080/2000**, up 636 min. ⚠ **40 iterations in the last 27 min (89/h) against 257/h over the preceding 224 min** | **not quoted** — see the slowdown flag below |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **advancing — `warmup/720` of 800 (90 %)**, VM up 452 min. **66.7 iter/h** over 72 min, agreeing with that session's ~68 iter/h | warmup done ~**3:25 AM**, then 2000 production iterations; **~Mon 8:40 AM** — its result keys the calibrator rescope |
+
+⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Two agreeing
+intervals put the 4080S at **3.14–3.4 ns/h** against **~5.5–6.0 ns/h** for the same job on a 4090 — a ratio of
+**0.55**, where the cards' own throughput ratio for this class of workload is ~0.83. The utilisation gap says
+the same thing from the other side: **44 % GPU on the 4080S against 75 % on the 4090**, steady across passes.
+A card that is merely slower runs *busy*; one that is fed too slowly runs *idle*, and this one is idle. So the
+cause is **host-side (CPU/PCIe feeding the PLUMED bias), not the card**.
+**The decision is to leave it alone**, and the reason is arithmetic rather than caution: moving hosts buys
+~5 h of wall-clock that nothing is waiting on — the analysis is a MATCHED comparison and cannot start without
+NR4A2 either way — at the price of a capacity scramble, whatever progress sits past the last checkpoint, and
+a re-rent that can land on another starving host. The extra billed time is **~$0.75**. What *is* worth
+carrying forward: machine **17720** should be excluded when the next paralogue leg is launched.
 
 ⚠ **BINARY EDGE LEG — A SLOWDOWN THAT IS NOT YET DIAGNOSED, AND IS NOT BEING EXPLAINED AWAY.** Two hypotheses
 fit the numbers and they are not distinguishable from one 27-minute window: (a) the leg really has slowed ~2.9×,

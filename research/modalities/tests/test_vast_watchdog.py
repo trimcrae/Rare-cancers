@@ -292,11 +292,17 @@ def test_only_died_relaunches_and_the_cap_holds():
 
 # ================================================================= THE SHIPPED LIST IS NOT HAND-TYPED DRIFT
 def test_the_shipped_entries_are_exactly_what_the_builder_produces():
+    # 17720 joined the exclusion on 2026-07-26: it STARVES the GPU rather than refusing capacity — the same
+    # job ran 3.14-3.4 ns/h at 44 % utilisation on its RTX 4080S against 5.5-6.0 ns/h at 75 % on a 4090. An
+    # idle GPU, not a busy slower one, so a relaunch must not land back on it. The exclusion is host-selection
+    # policy and is allowed to grow; what this test pins is that the shipped list stays BUILDER-PRODUCED
+    # rather than hand-typed, and test_the_shipped_entries_carry_what_lane13_ACTUALLY_launched keeps it equal
+    # to the task file, so the two relaunchers cannot disagree about where a leg may run.
     doc = _generic()
     want = [vw.paralogue_entry("NR4A1", git_branch="claude/max-effort-2dq11l-paralogue",
-                               exclude_machines="142143"),
+                               exclude_machines="142143,17720"),
             vw.paralogue_entry("NR4A2", git_branch="claude/max-effort-2dq11l-paralogue",
-                               exclude_machines="142143")]
+                               exclude_machines="142143,17720")]
     assert doc["watch"] == want
 
 
