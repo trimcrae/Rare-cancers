@@ -48,6 +48,9 @@ on:
       release_fanout:
         description: "1 = also attempt the terminus-gated fan-out; 0 = progress check only"
         default: "1"
+      shakeout_unit:
+        description: "unit the gate keeps alive (resumes) while the terminus is unproven; ignored once a ddg.json exists"
+        default: "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid"
 
 permissions:
   contents: write
@@ -110,6 +113,12 @@ jobs:
           LAUNCH: "1"
           FANOUT_CONFIRM: "1"
           FANOUT_REQUIRE_PROVEN_TERMINUS: "1"
+          # The unit the gate keeps ALIVE while it holds the other eighteen back. Without this the gate is a
+          # deadlock: it would refuse to launch anything until a ddg.json exists, including the one unit whose
+          # whole job is to produce that ddg.json — so a preemption (which happened at 4:31 PM ET on
+          # 2026-07-26, with 260 iterations already banked) would leave the cron ticking all night launching
+          # nothing. Once a ddg.json exists this value is ignored and the full remaining tranche goes out.
+          FANOUT_SHAKEOUT_UNIT: ${{ github.event.inputs.shakeout_unit || 'e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid' }}
         run: python congeneric_fanout_vast.py
 
       - name: Commit the progress readout and any newly-armed watch entries

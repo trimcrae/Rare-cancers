@@ -590,7 +590,20 @@ def mode_launch():
     done = len(units) - len(pending)
 
     live = _live_instances(key)
-    live_labels = {i.get("label") for i in live}
+    # ⚠ AN `exited` INSTANCE DOES NOT HOLD ITS UNIT'S SLOT. Vast teardown is two-layer: the container's EXIT
+    # trap halts GPU billing key-free, but only CI can DESTROY the instance, so an exited box LINGERS in the
+    # listing doing nothing. Counting it as occupying the unit would make every relaunch a silent no-op —
+    # which is exactly what happened to the shakeout unit when it was preempted at 4:31 PM ET on 2026-07-26:
+    # the container was gone, 260 committed iterations sat banked in S3, and the launcher would have reported
+    # "nothing to submit" because the corpse still carried the label. This is the same lesson
+    # vast_watchdog.ParalogueMdKind already encodes ("an `exited` container is NOT alive"); the fan-out
+    # launcher simply did not have it yet.
+    _TERMINAL = ("exited", "offline", "error")
+    live_labels = {i.get("label") for i in live if (i.get("actual_status") or "") not in _TERMINAL}
+    _dead = [i.get("label") for i in live if (i.get("actual_status") or "") in _TERMINAL]
+    if _dead:
+        print(f"[s1f] {len(_dead)} instance(s) in a terminal state do NOT hold their unit's slot "
+              f"(collect destroys them; their checkpoints are in S3 and a relaunch resumes): {_dead}")
     # a unit whose instance is already up is not re-submitted (idempotent top-up)
     todo = [u for u in pending if f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
             not in live_labels]
@@ -624,16 +637,35 @@ def mode_launch():
     # MINUTE the terminus is proven instead of the next time somebody looks. That is strictly more parallel
     # than waiting for a human or an agent, and strictly safer than launching early, which is the combination
     # the shakeout rule is actually asking for. Serialising costs wall-clock and buys nothing else.
+    #
+    # ⚠⚠ THE GATE HOLDS BACK THE FAN-OUT. IT MUST NEVER BLOCK THE SHAKEOUT UNIT'S OWN RESUME.
+    # As first written it returned outright whenever no ddg.json existed — which is a DEADLOCK, and not a
+    # theoretical one: the shakeout unit was preempted at 4:31 PM ET on 2026-07-26 with 260 iterations banked,
+    # and a gate that refuses to launch anything until a ddg.json exists would never have restarted the one
+    # unit whose entire job is to produce that ddg.json. The cron would have ticked all night launching
+    # nothing. So while the terminus is unproven the gate NARROWS to the shakeout unit instead of returning:
+    # the fifteen cold units stay held, and the unit that is already paid for keeps going.
     if os.environ.get("FANOUT_REQUIRE_PROVEN_TERMINUS") == "1":
         proven = [u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))]
-        if not proven:
-            print("[s1f] TERMINUS NOT YET PROVEN — no unit has a ddg.json in S3, so reduce/commit/upload has "
-                  "never been observed on this lane. Holding the fan-out. (This is not an error: the gate is "
-                  "designed to no-op until the shakeout unit lands, then let the next tick fan out.)")
-            return
-        print(f"[s1f] terminus PROVEN by {len(proven)} unit(s) ({proven[0]}) — fan-out released")
+        if proven:
+            print(f"[s1f] terminus PROVEN by {len(proven)} unit(s) ({proven[0]}) — fan-out released")
+        else:
+            shakeout = (os.environ.get("FANOUT_SHAKEOUT_UNIT") or "").strip()
+            if not shakeout:
+                print("[s1f] TERMINUS NOT PROVEN and no FANOUT_SHAKEOUT_UNIT named — holding everything. "
+                      "Set FANOUT_SHAKEOUT_UNIT so the gate can keep the shakeout unit alive while it holds "
+                      "the other units back.")
+                return
+            keep = [u for u in todo if shakeout in u["unit_id"] or shakeout in u["ligand_b"]]
+            print(f"[s1f] TERMINUS NOT PROVEN — no unit has a ddg.json, so reduce/commit/upload has never "
+                  f"been observed on this lane. Holding {len(todo) - len(keep)} unit(s); RESUMING the "
+                  f"shakeout unit ({shakeout}) if it needs it: {len(keep)} to submit.")
+            todo = keep
 
-    slots = max(0, WIDTH - len(live))
+    # Slots count only instances actually DOING something, for the same reason live_labels does: a fleet of
+    # exited corpses would otherwise report zero free slots and silently launch nothing.
+    _busy = [i for i in live if (i.get("actual_status") or "") not in _TERMINAL]
+    slots = max(0, WIDTH - len(_busy))
     batch = todo[:slots]
 
     lo, hi = cost_estimate(len(batch))
