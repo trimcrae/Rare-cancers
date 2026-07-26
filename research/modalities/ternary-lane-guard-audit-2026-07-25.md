@@ -728,3 +728,88 @@ pymbar/openmmtools can change the MBAR numbers. Moving it to a runner is only sa
 real correctness precondition, which is the opposite of a free win.
 
 **Revisit after the leg lands**, not before.
+
+### L.3b Time-resolved: the binary leg's ligand LEAVES AND STAYS OUT in 8 of 12 replicas — and the ternary leg is the control that makes it mean something
+
+GH run 30209580292, `mode=converge` with the per-replica contact-moiety series (25 frames, iterations 0–2000):
+
+| leg | replicas ending beyond 4.0 Å | class counts |
+|---|---|---|
+| `calib_hi_to_lo__binary_vhl` | **8 of 12** | `DISPLACED_AND_STAYED: 5`, `INTERMEDIATE: 3`, `STABLE: 4` |
+| `calib_hi_to_lo__ternary_vhl` | **0 of 12** | `STABLE: 12` |
+| `calib_hi_to_lo__solvent` | — | no receptor in the stored subset, so a pose series has no referent |
+
+Three things are settled by what is **absent**:
+
+- **`JUMP: 0`.** No replica's displacement is carried by a single-frame discontinuity. A PBC-imaging or
+  replica-indexing bug produces exactly that signature, and it is not there. **Not bookkeeping.**
+- **`EXCURSION_AND_RETURNED: 0`.** No replica goes out and comes back. So the two-frame 16.327 Å was not the
+  endpoint frame unluckily catching a transient — the displaced replicas *stay* displaced. **Not an artifact of
+  comparing iteration 0 to iteration 2000.**
+- **the ternary leg is `STABLE: 12`.** Same cycle, same 12 windows, same analysis code, same contact definition,
+  same 0.45 nm cutoff, same reference-frame convention — and it comes back clean at 2.835 / 1.653 Å with 51–57
+  atoms in contact. That is the control, and it is what turns "the binary number is large" into "the binary
+  **leg** is different". Any explanation that blames the diagnostic has to explain why the diagnostic works on
+  the leg next to it.
+
+**So: in the binary complex the ligand progressively leaves its starting pose in the majority of replicas and does
+not return.** ΔG_binary is not a free energy of the intended bound state, and since ΔΔG_coop = ΔG_ternary −
+ΔG_binary, **r0's −0.534 is not a valid measurement of cooperativity.** Critically, this is *not* the kind of
+defect more sampling fixes — the sampling is working, it is finding a state the calculation was not meant to be
+about.
+
+**What this does and does not change:**
+
+- The **rev leg now running is still worth finishing.** It is a `dir=rev` leg of the *ternary* arm, and the ternary
+  arm is the clean one (12/12 stable). The preregistered |ΔG_fwd + ΔG_rev| antisymmetry check remains a valid
+  measurement of that arm.
+- **ΔΔG_coop cannot be reported from this cycle** even with a perfect hysteresis result, until the binary arm is
+  re-run with whatever addresses the departure. Those are now independent blockers, not one.
+
+**Still open — and this is the next free question, not a spend:** *which λ were the departing replicas at when they
+left?* Replicas exchange λ rather than coordinates, so a replica wanders the ladder, and the answer separates two
+very different diagnoses: departures confined to weakly-coupled windows are a protocol-design issue (the binary
+leg wants a restraint, and the ΔG may still be salvageable), whereas departures at the fully-interacting physical
+endpoint mean the **binary complex model itself is wrong**. `reporter.read_replica_thermodynamic_states()` carries
+the per-iteration λ assignment, so this costs reads of a file `mode=converge` already has open.
+
+### L.3c λ attribution: the departure is alchemically FACILITATED but not alchemically CONFINED
+
+GH run 30210186711, the binary leg (`calib_hi_to_lo__binary_vhl`), 12 λ states:
+
+| statistic | at physical endpoint states (0, 11) | in the alchemical interior | per-state histogram |
+|---|---|---|---|
+| **PERSISTENCE** — every over-threshold (replica, frame) pair | 29 | 116 | `{0:12, 1:14, 2:8, 3:11, 4:13, 5:11, 6:11, 7:13, 8:11, 9:11, 10:13, 11:17}` |
+| **INITIATION** — first over-threshold frame, one per replica | **1** | **7** | `{0:1, 4:1, 7:3, 9:2, 10:1}` |
+
+The ternary leg is `0 / 0` on both, with empty histograms — consistent with its 12/12 STABLE classification, and the
+control that says these numbers are measuring something real.
+
+**Read together they give a mechanism that neither gives alone:**
+
+- **Initiation is λ-dependent.** 7 of 8 departures begin in the interior, skewed to the upper-λ states
+  (`{7:3, 9:2, 10:1}` = 6 of 8), where the softcore region is largest. Only 1 of 8 begins at a fully-interacting
+  physical endpoint. **So the alchemical softening is what opens the door.**
+- **Persistence is λ-INdependent.** Once a replica has departed, the displaced configuration survives everywhere
+  on the ladder — the pooled histogram is nearly flat and per-state the endpoints are mildly *enriched*
+  (14.5/state at 0 and 11 vs 11.6/state across the interior). **The physical Hamiltonian does not close the door
+  again.**
+
+**What that licenses, and what it does not:**
+
+- ✅ **It is plausibly a PROTOCOL problem, not necessarily a wrong model.** I had explicitly left open that
+  departures at physical λ would mean "the binary complex model itself is wrong"; the initiation statistic does
+  **not** support that, and I am not claiming it. A restraint on the receptor-contacting moiety would be the
+  obvious remedy for an alchemically-facilitated escape.
+- ✅ **It confirms more sampling will not fix the existing trajectory.** Not because sampling is inadequate, but
+  because the departure is effectively irreversible on this timescale — so the committed trajectory is
+  *contaminated*, with unbound configurations entering MBAR at physical λ, rather than merely under-converged.
+- ❌ **n = 8.** "Concentrated at states 7–10" is 6 of 8 departing replicas. Suggestive of an upper-λ mechanism,
+  nowhere near a rate, and it must not be quoted as one. The `initiation_note` field carries this caveat with the
+  number so it cannot be separated from it.
+- ❌ **It does not establish that a restraint would be sufficient**, only that it addresses the observed
+  initiation channel. Adding one changes the Hamiltonian and needs the standard restraint-correction treatment.
+
+**Net for the r0 cycle, unchanged from §L.3b:** ΔG_binary is not a free energy of the intended bound state, so
+ΔΔG_coop(r0) = −0.534 is not a valid measurement of cooperativity, and the binary arm needs re-running rather than
+extending. What §L.3c adds is *what to change on the re-run*, and that the ternary arm remains clean throughout.

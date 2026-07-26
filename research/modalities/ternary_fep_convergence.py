@@ -866,6 +866,227 @@ def _replica_coords(state):
     return xyz, M
 
 
+TIMESERIES_MAX_FRAMES = 25     # bound the reads; 25 frames over a 2000-iteration leg is ample shape resolution
+
+
+def _contact_pose_timeseries(reporter, last_ckpt, interval, max_frames=TIMESERIES_MAX_FRAMES):
+    """Contact-moiety pose RMSD vs the reference frame, as a SERIES over checkpointed iterations, per replica.
+
+    WHY A SERIES. The two-frame number (`ligand`, above) established that the binary leg's BOUND moiety moves
+    ~16 Å — not just its solvent-exposed end (GH run 30202934339: contact-moiety max 16.327 Å, median 4.333 Å,
+    30-52 of 59 heavy atoms in contact, against the ternary leg's clean 2.835 / 1.653 in the same cycle). That is
+    a real measured failure, and it is where a two-frame comparison stops being able to help: `iterations_compared
+    [0, 2000]` is consistent with at least three histories that mean different things.
+
+        DISPLACED_AND_STAYED   monotonic-ish departure that does not return -> the ligand left. If this is the
+                               binary leg's shape, ΔG_binary is sampling an unbound/misbound state and
+                               ΔΔG_coop = ΔG_ternary - ΔG_binary is not recoverable by resampling harder.
+        EXCURSION_AND_RETURNED went out and came back -> the endpoint frame caught it out. The trajectory may be
+                               usable; the ENDPOINT metric is what is misleading, not the sampling.
+        JUMP                   a single-frame discontinuity -> suspect bookkeeping (imaging, replica indexing),
+                               not physics. A molecule cannot cross the box in one checkpoint interval.
+
+    Distinguishing them costs nothing: positions for every checkpointed iteration are already in the .nc/.chk the
+    caller has open. Nothing here feeds a gate -- the flag stays with the two-frame contact-moiety value. This is
+    diagnostic evidence for reading that flag, and it is deliberately kept out of the pass/fail path so that a
+    classifier heuristic can never move a verdict.
+
+    Contacts come from the FIRST usable frame, per replica, and are held fixed across the series for the same
+    reason the two-frame version does it: a departing atom would drop out of a later frame's contact set and the
+    departure would erase its own evidence.
+    """
+    import numpy as np
+    out = {"reference_iteration": None, "frames_requested": 0, "frames_used": 0}
+    ident = _ligand_atoms(reporter)
+    if ident.get("ligand_atom_indices") is None:
+        out["status"] = "ligand not identified: %s" % ident.get("status", "?")
+        return out
+    subset = [int(v) for v in (getattr(reporter, "analysis_particle_indices", None) or [])]
+    row_of = {v: r for r, v in enumerate(subset)}
+    lig_rows = [row_of[i] for i in ident["ligand_heavy_indices"] if i in row_of]
+    prot_rows = [row_of[i] for i in ident["protein_heavy_indices"] if i in row_of]
+    if not lig_rows or not prot_rows:
+        out["status"] = ("no receptor in the stored subset (solvent leg) or ligand heavy atoms absent — a pose "
+                         "series has no referent here")
+        return out
+
+    step = max(interval, 1)
+    iters = list(range(0, int(last_ckpt) + 1, step))
+    if len(iters) > max_frames:                       # subsample evenly, always keeping first and last
+        keep = {0, len(iters) - 1}
+        stride = (len(iters) - 1) / float(max_frames - 1)
+        keep.update(int(round(i * stride)) for i in range(max_frames))
+        iters = [iters[i] for i in sorted(k for k in keep if 0 <= k < len(iters))]
+    out["frames_requested"] = len(iters)
+
+    ref = None            # per-replica reference coords
+    contact_rows = None   # per-replica contact rows, fixed from the reference frame
+    used = []
+    series = {}           # replica -> [(iteration, rmsd)]
+    lam = {}              # replica -> {iteration: lambda-state index}
+    n_states = None
+    for it in iters:
+        try:
+            states = reporter.read_sampler_states(iteration=it, analysis_particles_only=True)
+        except Exception:  # noqa: BLE001 — a missing frame is skipped, never faked
+            continue
+        if not states:
+            continue
+        coords = []
+        for st in states:
+            xyz, M = _replica_coords(st)
+            coords.append((xyz, M))
+        if any(c[0] is None for c in coords):
+            continue
+        if ref is None:
+            ref = [c[0] for c in coords]
+            contact_rows = [_contact_ligand_rows(A, lig_rows, prot_rows) for A in ref]
+            out["reference_iteration"] = int(it)
+            out["n_contact_heavy_per_replica"] = [len(c) for c in contact_rows]
+        used.append(int(it))
+        # WHICH λ IS EACH REPLICA AT? Replicas exchange λ, not coordinates, so a replica wanders the ladder and
+        # "replica 7 departed" says nothing on its own about the Hamiltonian it departed under. In an OpenFE
+        # hybrid-topology RBFE BOTH endpoints are physical (state 0 = ligand A fully interacting, state N-1 =
+        # ligand B fully interacting) and the softcore/partially-decoupled region is largest in the INTERIOR. So
+        # the discriminating question is not "weakly coupled or not" but: does the ligand leave at a PHYSICAL
+        # ENDPOINT state (the modelled complex is unstable -> the binary pose/model is wrong) or only in the
+        # alchemical interior (a protocol artifact -> the leg may want a restraint and ΔG may be salvageable)?
+        # Unavailable is recorded as unavailable; nothing is inferred from a missing assignment.
+        try:
+            st_idx = reporter.read_replica_thermodynamic_states(iteration=it)
+        except Exception:  # noqa: BLE001
+            st_idx = None
+        if st_idx is not None:
+            try:
+                seq = [int(v) for v in list(st_idx)]
+                n_states = max(n_states or 0, (max(seq) + 1) if seq else 0)
+                for k, s in enumerate(seq):
+                    lam.setdefault(k, {})[int(it)] = s
+            except Exception:  # noqa: BLE001
+                pass
+        for k in range(min(len(ref), len(coords))):
+            if not contact_rows[k]:
+                continue
+            B, _ = _min_image(ref[k], coords[k][0], coords[k][1])
+            v = _kabsch_rmsd(ref[k], B, prot_rows, contact_rows[k])
+            if v is not None:
+                series.setdefault(k, []).append((int(it), round(float(v), 3)))
+    out["frames_used"] = len(used)
+    out["iterations"] = used
+    if not series:
+        out["status"] = ("no checkpointed frame carried usable positions (checkpoint_interval=%d, last=%d) — the "
+                         "series is UNAVAILABLE, which is not the same as flat" % (interval, last_ckpt))
+        return out
+
+    per_replica, classes = [], {}
+    for k in sorted(series):
+        vals = [v for _, v in series[k]]
+        its = [i for i, _ in series[k]]
+        mx = max(vals); mi = its[vals.index(mx)]; fin = vals[-1]
+        # gap between consecutive frames: a JUMP is a step larger than everything else combined with a flat rest
+        gaps = [abs(vals[j + 1] - vals[j]) for j in range(len(vals) - 1)] or [0.0]
+        biggest_gap = max(gaps)
+        if mx <= LIG_RMSD_MAX_A:
+            cls = "STABLE"
+        elif fin >= 0.7 * mx:
+            cls = "DISPLACED_AND_STAYED"
+        elif fin <= 0.4 * mx:
+            cls = "EXCURSION_AND_RETURNED"
+        else:
+            cls = "INTERMEDIATE"
+        # a single frame carrying most of the range, with the rest quiet, is a discontinuity not a trajectory
+        if mx > LIG_RMSD_MAX_A and biggest_gap >= 0.8 * mx:
+            cls = "JUMP(" + cls + ")"
+        classes[cls] = classes.get(cls, 0) + 1
+        # λ ATTRIBUTION for this replica: the state it was in at the first frame that exceeds the threshold, and
+        # at the end. `None` throughout if the reporter gave no assignment — never guessed.
+        lk = lam.get(k) or {}
+        first_exceed_it = next((i for i, v in series[k] if v > LIG_RMSD_MAX_A), None)
+        rec = {"replica": k, "n_contact_heavy": len(contact_rows[k]),
+               "max_A": mx, "iteration_at_max": mi, "final_A": fin,
+               "largest_single_frame_step_A": round(biggest_gap, 3),
+               "classification": cls, "series": series[k],
+               "lambda_at_first_exceed": (lk.get(first_exceed_it) if first_exceed_it is not None else None),
+               "lambda_at_max": lk.get(mi), "lambda_at_final": lk.get(its[-1]),
+               "lambda_states_visited": (sorted(set(lk.values())) if lk else None)}
+        per_replica.append(rec)
+    out["per_replica"] = per_replica
+    out["class_counts"] = classes
+    out["n_lambda_states"] = n_states
+    # AGGREGATE THE λ QUESTION. Pool every (replica, frame) whose RMSD exceeds the threshold and ask where on the
+    # ladder those frames sit. Endpoint states (0 and N-1) are the PHYSICAL Hamiltonians in a hybrid-topology
+    # RBFE, so exceedances there cannot be explained away as softcore behaviour.
+    if n_states:
+        endpoints = {0, n_states - 1}
+        at_endpoint = at_interior = 0
+        hist = {}
+        for k in sorted(series):
+            lk = lam.get(k) or {}
+            for i, v in series[k]:
+                if v <= LIG_RMSD_MAX_A:
+                    continue
+                s = lk.get(i)
+                if s is None:
+                    continue
+                hist[s] = hist.get(s, 0) + 1
+                if s in endpoints:
+                    at_endpoint += 1
+                else:
+                    at_interior += 1
+        out["exceedance_lambda_histogram"] = dict(sorted(hist.items()))
+        out["exceedances_at_physical_endpoint_states"] = at_endpoint
+        out["exceedances_at_alchemical_interior_states"] = at_interior
+        # PERSISTENCE vs INITIATION — two different questions, and the histogram above only answers the first.
+        # Replicas exchange λ, so once a replica has departed it keeps contributing over-threshold frames at
+        # whatever λ it visits afterwards. The pooled histogram is therefore occupancy-weighted PERSISTENCE of the
+        # displaced state, which is informative (a displaced configuration that survives at a physical endpoint is
+        # not a softcore artifact) but is NOT evidence about where the departure STARTED.
+        #
+        # The initiation statistic is one value per replica: the λ it was at on its FIRST over-threshold frame.
+        # There are at most n_replicas of these, so it is a small sample and must be read as such — but it is the
+        # quantity that separates "the alchemy pushed it out and it never came back" from "it left under a
+        # physical Hamiltonian".
+        first_hist = {}
+        fe_endpoint = fe_interior = 0
+        for r in per_replica:
+            s = r.get("lambda_at_first_exceed")
+            if s is None:
+                continue
+            first_hist[s] = first_hist.get(s, 0) + 1
+            if s in endpoints:
+                fe_endpoint += 1
+            else:
+                fe_interior += 1
+        out["first_exceedance_lambda_histogram"] = dict(sorted(first_hist.items()))
+        out["first_exceedances_at_physical_endpoint_states"] = fe_endpoint
+        out["first_exceedances_at_alchemical_interior_states"] = fe_interior
+        out["initiation_note"] = ("first-exceedance counts are one per departing replica (n<=%d), so they are a "
+                                  "SMALL SAMPLE — read them as suggestive, not as a rate. Departures initiating at "
+                                  "a physical endpoint state cannot be attributed to alchemical softening."
+                                  % len(per_replica))
+        out["lambda_verdict"] = (
+            ("no frame exceeds the threshold, so there is nothing to attribute to a λ state"
+             if (at_endpoint + at_interior) == 0 else
+             "%d of %d over-threshold (replica, frame) pairs sit at a PHYSICAL ENDPOINT state (0 or %d) — those "
+             "cannot be attributed to softcore/alchemical softening, so the modelled complex itself is unstable "
+             "there; %d sit in the alchemical interior."
+             % (at_endpoint, at_endpoint + at_interior, n_states - 1, at_interior)))
+    else:
+        out["lambda_verdict"] = ("λ assignments UNAVAILABLE from this reporter — the endpoint-vs-interior question "
+                                 "is unanswered, NOT answered in the benign direction")
+    ended_out = sum(1 for r in per_replica if r["final_A"] > LIG_RMSD_MAX_A)
+    out["n_replicas"] = len(per_replica)
+    out["n_replicas_ending_beyond_threshold"] = ended_out
+    out["verdict"] = ("%d of %d replicas END beyond the %.1f Å threshold; class counts %s. "
+                      "DISPLACED_AND_STAYED dominating means the ligand left and resampling will not fix it; "
+                      "EXCURSION_AND_RETURNED dominating means the ENDPOINT metric is what misleads, not the "
+                      "sampling; a JUMP prefix means suspect bookkeeping (imaging/indexing), because nothing can "
+                      "physically move that far in one checkpoint interval."
+                      % (ended_out, len(per_replica), LIG_RMSD_MAX_A, classes))
+    out["status"] = "ok — %d frames from iteration %s to %s" % (len(used), used[0], used[-1])
+    return out
+
+
 def _ligand_pose_block(reporter, iter_a, iter_b):
     """THE MANDATED LIGAND-ONLY POSE RMSD, over EVERY replica rather than replica 0.
 
@@ -1066,6 +1287,16 @@ def _structural(reporter, nc_path):
                 adjacent = _ligand_pose_block(reporter, last_ckpt - interval, last_ckpt)
             except Exception as e:  # noqa: BLE001
                 adjacent = {"status": "adjacent-frame block raised %s: %s" % (type(e).__name__, e)}
+        # TIME-RESOLVED, because two frames cannot answer the question the two-frame number RAISES. See
+        # _contact_pose_timeseries: a 16 Å endpoint displacement is consistent with a slow unbind, a transient
+        # excursion that came back, and a one-off jump, and those have completely different consequences for
+        # whether ΔG_binary is usable. Free: the positions for every checkpointed iteration are already inside the
+        # .nc/.chk this function has open, so this costs reads and no extra GCS traffic.
+        timeseries = None
+        try:
+            timeseries = _contact_pose_timeseries(reporter, last_ckpt, interval)
+        except Exception as e:  # noqa: BLE001
+            timeseries = {"status": "timeseries raised %s: %s" % (type(e).__name__, e)}
 
         # WHAT THIS NUMBER IS, AND WHAT IT IS NOT. The original implementation took an UNALIGNED, PBC-unwrapped
         # RMSD over EVERY particle — ~146k atoms, overwhelmingly bulk water — and compared it to LIG_RMSD_MAX_A,
@@ -1186,6 +1417,7 @@ def _structural(reporter, nc_path):
                     "solute_superposed_rmsd_A": rmsd,
                     "ligand_rmsd_A": ligand.get("ligand_rmsd_A"),
                     "ligand": ligand, "ligand_adjacent_frame": adjacent,
+                    "ligand_contact_pose_timeseries": timeseries,
                     "minimum_image_corrected": unwrapped,
                     "box_matrix_A": ([[round(v * 10.0, 3) for v in row] for row in M.tolist()]
                                      if M is not None else None),
@@ -1206,6 +1438,7 @@ def _structural(reporter, nc_path):
                 "whole_system_unaligned_rmsd_A": rmsd_all,
                 "ligand_rmsd_A": ligand.get("ligand_rmsd_A"),
                 "ligand": ligand, "ligand_adjacent_frame": adjacent,
+                    "ligand_contact_pose_timeseries": timeseries,
                 "superposed": False, "n_atoms_total": n_all,
                 "iterations_compared": [0, last_ckpt], "checkpoint_interval": interval}
     except Exception as e:  # noqa: BLE001
@@ -1340,6 +1573,34 @@ def analyze_all():
                         lg.get("n_contact_heavy_min", "n/a"), lg.get("n_contact_heavy_max", "n/a"),
                         _r("pose_rmsd_max_A"), _r("pose_rmsd_median_A"),
                         lg.get("flagged_observable"), xc.get("verdict", "n/a")))
+        # The time-resolved shape on its own line, because it is what says whether a large two-frame number means
+        # the ligand LEFT or that the endpoint frame merely caught it out — different consequences for whether the
+        # leg is salvageable, and not inferable from the numbers above.
+        ts = (st.get("ligand_contact_pose_timeseries") or {})
+        if ts.get("per_replica"):
+            lines.append("%-34s   time-resolved: %s ending beyond %.1f A of %s replicas | classes %s | frames %s (iter %s..%s)"
+                         % ("", ts.get("n_replicas_ending_beyond_threshold"), LIG_RMSD_MAX_A,
+                            ts.get("n_replicas"), ts.get("class_counts"), ts.get("frames_used"),
+                            (ts.get("iterations") or ["?"])[0], (ts.get("iterations") or ["?"])[-1]))
+            # WHERE ON THE λ LADDER. Both endpoints are physical in a hybrid-topology RBFE, so exceedances at
+            # state 0 or N-1 cannot be blamed on softcore softening — that is the line between "the leg wants a
+            # restraint" and "the modelled complex is wrong", and it belongs in the summary.
+            ep = ts.get("exceedances_at_physical_endpoint_states")
+            if ep is not None:
+                lines.append("%-34s   lambda PERSISTENCE (occupancy-weighted, all frames): %s at PHYSICAL ENDPOINT "
+                             "states, %s in the alchemical interior (of %s states) | histogram %s"
+                             % ("", ep, ts.get("exceedances_at_alchemical_interior_states"),
+                                ts.get("n_lambda_states"), ts.get("exceedance_lambda_histogram")))
+                # INITIATION is the sharper question and a smaller sample — one value per departing replica.
+                lines.append("%-34s   lambda INITIATION (first exceedance per replica, small n): %s at PHYSICAL "
+                             "ENDPOINT states, %s in the interior | histogram %s"
+                             % ("", ts.get("first_exceedances_at_physical_endpoint_states"),
+                                ts.get("first_exceedances_at_alchemical_interior_states"),
+                                ts.get("first_exceedance_lambda_histogram")))
+            elif ts.get("lambda_verdict"):
+                lines.append("%-34s   lambda: %s" % ("", str(ts["lambda_verdict"])[:150]))
+        elif ts.get("status"):
+            lines.append("%-34s   time-resolved: %s" % ("", str(ts.get("status"))[:150]))
     lines.append("ligand-size cross-check: %s" % report["ligand_size_cross_check"].get(
         "verdict", report["ligand_size_cross_check"].get("status")))
     txt = "\n".join(lines)

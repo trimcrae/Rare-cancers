@@ -210,7 +210,7 @@ a window long enough to swamp the 40-iteration commit block** (see the quantisat
 | ~~NR4A2 paralogue MD~~ (Vast 45896793) | ✅ **DELIVERABLE IN S3, 8:36 AM ET — the paralogue MD pipeline has reached its real success terminus for the first time.** Watch entry disabled. It ran metad on a host whose CPU starved PLUMED (24 % GPU) and finished release on the SAME box at 93 % — the diagnosis in [pricing.md §A.1](research/compute/pricing.md), confirmed twice | landed |
 | **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1920/2000**, up 1165 min. **166 iter/h** over 87 min; 157 over the longest window (529 min). **80 iterations from done** | ~**11:35 AM** — the LAST leg of the cycle. When it lands, the reduce computes ΔΔG_coop at 4 fs and the ratified gate applies |
 | ~~RUNG 2b binary edge leg~~ (Vast 45835971) | **✅ DONE 6:37 AM — ΔG_morph 48.1256, no NaN.** Watch entry disabled | landed |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/400` of 2000**, VM up 899 min. Production **RAMPED**: 40 → 60 → **79 iter/h** across three consecutive windows, **63.8** over the whole 301 min. My earlier "40 iter/h" was measured on the first hour after the phase change and was not the rate | **~Mon 5:40–10:40 AM** — consistent with that session's ~Mon 8:40 AM, so my "tracking a day later" flag is **withdrawn**. Its result keys the calibrator rescope |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **warmup COMPLETE (800/800); in production.** Live position, per-iteration rate and ETA live in [`ternary-watch.json`](./research/modalities/ternary-watch.json) → `_eta` / `_measured_rate` — **one home, do not restate them here** (this row carried a stale `warmup/640`, a rate of 52.8 s/iter and an ETA of "~Mon 8:40 AM", all three superseded; see that file's `_rate_appendix`) | see `_eta` — its result keys the calibrator rescope |
 
 ⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Three agreeing
 intervals (3.4, 3.14, 3.00, the last over a full hour) put the 4080S at **~3.0–3.4 ns/h** against **~5.5–6.0
@@ -239,6 +239,51 @@ store advances in **blocks of 40 iterations** and a short window measures the bl
 few blocks.** I broke that rule in the same breath as writing it — the ternary leg's "~7:45 AM" came off a
 27-minute window carrying exactly 3 blocks, which is why it is now a range off 82- and 109-minute windows
 instead. *(Withdrawn ETAs are in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 19b.)*
+
+⚠ **THE −0.534 REFERENCE RESTS ON A BROKEN BINARY ARM — and the 2b gate SURVIVES ANYWAY. Read both halves.**
+Measured 2026-07-26 (GH runs 30202934339, 30209580292; audit §L.3–L.3b): in the r0 **binary** leg the ligand's
+*receptor-contacting* moiety leaves its pose and does not return in **8 of 12 replicas**, while the **ternary** leg
+in the same cycle is **12/12 stable**. So ΔG_binary is not a free energy of the intended bound state, and
+**ΔΔG_coop(r0) = −0.534 is not a valid measurement of cooperativity.**
+
+But the 2b gate is a **4 fs-vs-2 fs consistency check**, not an accuracy check against a trusted value — so a
+defect the two timesteps *share* cancels out of the comparison, and the gate stays meaningful **on one condition:
+the 4 fs cycle's binary arm has to carry the same defect as the 2 fs one.**
+
+**★ THAT CONDITION IS NOW THE LIVE QUESTION, AND IT CUTS BOTH WAYS.** RUNG 2b has landed (below) with
+ΔΔG_coop(4 fs) = **−0.5125** against the 2 fs **−0.534**, i.e. **|Δ| = 0.0215 kcal/mol** — a *very* tight
+agreement. Two readings, and they are not equally comfortable:
+
+1. **The 4 fs binary leg shares the departure.** Then the agreement is a genuine *timestep* reproduction on a
+   shared-broken-arm basis: the 2b PASS stands as a verdict about 4 fs, and neither absolute ΔΔG_coop is a valid
+   cooperativity. This is the reading the r0 finding predicts.
+2. **The 4 fs binary leg holds its pose.** Then a contaminated 2 fs binary arm and a clean 4 fs one agree to
+   0.02 kcal/mol — which would mean the departure barely moves ΔG_binary, and my "ΔG_binary is not a free energy
+   of the intended bound state" would need **substantial softening** as a practical claim, whatever the pose data
+   says.
+
+**So this is a real test of the r0 conclusion, not a formality, and it is free.** `mode=converge` now reports the
+per-replica contact-moiety series and its λ attribution for every leg; the 2b legs live in **S3 via the Vast lane**
+rather than GCS, so the diagnostic has to be pointed at them there. **Until it is run, treat the 2b PASS as
+provisional on reading 1** — and note that reading 2 would be evidence *against* my own finding, which is the
+outcome to be most careful not to discount.
+
+Consequences kept separate, because they are independent:
+- **RUNG 2 was already FAILED** (wrong sign), so this changes no verdict from pass to fail — it supplies a
+  candidate *mechanism*. **HYPOTHESIS, not a finding:** a binary leg sampling a departed/unbound state would bias
+  ΔG_binary, and ΔΔG_coop = ΔG_ternary − ΔG_binary could take the wrong sign from that alone. Untested; it would
+  need a binary re-run that holds its pose, and only then is it worth stating as more than a candidate.
+- **ΔΔG_coop cannot be reported from the r0 cycle at all** until the binary arm is re-run — a blocker
+  *independent* of the reverse leg's hysteresis result, which concerns the (clean) ternary arm.
+- **WHAT TO CHANGE ON THE RE-RUN** (λ attribution, GH run 30210186711, audit §L.3c): the escape is *alchemically
+  facilitated but not alchemically confined*. **7 of 8** departures **initiate** in the interior, skewed to the
+  upper-λ states where the softcore region is largest (`{7:3, 9:2, 10:1}`), so the softening opens the door — but
+  once departed the displaced state **persists at every λ including both physical endpoints**, so the physical
+  Hamiltonian does not close it. Consequences: a **restraint on the receptor-contacting moiety** is the obvious
+  remedy (with the standard restraint correction); the existing trajectory is **contaminated, not merely
+  under-converged**, so extending it is not an option; and this does **not** show the binary complex model is
+  wrong — an interpretation the persistence numbers alone would have supported and the initiation numbers do not.
+  *n = 8 departing replicas — suggestive of an upper-λ mechanism, not a rate.*
 
 **✅ RUNG 2b — ALL FOUR LEGS LANDED, AND 4 fs REPRODUCES 2 fs.** Reduced 2026-07-26 11:44 AM ET by the
 official reducer, inside the parity image that produced the trajectories (`gpu-ternary-fep-vast.yml task=reduce`,
