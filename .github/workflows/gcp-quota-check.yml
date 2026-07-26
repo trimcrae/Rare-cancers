@@ -86,6 +86,25 @@ jobs:
           gcloud compute regions describe us-central1 --flatten="quotas[]" \
             --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/tmp/qerr \
             | grep -iE "L4|G2|GPU" | sort || { echo "describe failed:"; cat /tmp/qerr; }
+          # ---------------------------------------------------------------------------------------------
+          # WHICH GPU TYPES ARE WE ALREADY ENTITLED TO? A DIFFERENT QUESTION FROM "how many".
+          # GPUS_ALL_REGIONS caps the COUNT (1, permanently — repeated increase requests refused for a small
+          # account). It says nothing about the TYPE. Each family has its own separate quota, so if any of them is
+          # already NON-ZERO we can run a faster card inside the same budget of one GPU, with no request to file
+          # and nobody's permission needed. The L4 this lane uses is a modest card (~300 GB/s, ~30 TFLOPS FP32)
+          # and OpenMM on a 142k-particle system is bandwidth-bound, which is why a Vast 4090 runs the same leg
+          # ~3.5x faster. An A100 (~1.5-2 TB/s) would be a large step up IF the quota is already there.
+          # So: print EVERY GPU row across all four us-central1 zones and the global table, non-zero first.
+          # Checking what we already hold costs one dispatch; asking for something we already have costs credibility.
+          echo "=== EVERY GPU quota row, us-central1 (type | limit | usage) — NON-ZERO LIMITS ARE USABLE TODAY ==="
+          ALLQ=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
+                   --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
+          NONZERO=$(printf '%s\n' "$ALLQ" | grep -iE "GPU" | awk '$2+0 > 0' | sort)
+          printf '%s\n' "${NONZERO:-  (no GPU metric in us-central1 has a non-zero limit)}"
+          echo "--- GPU rows sitting at ZERO (would each need their own quota request) ---"
+          printf '%s\n' "$ALLQ" | grep -iE "GPU" | awk '$2+0 == 0 {print "  " $1}' | sort | head -20
+          echo "=== [GPU-TYPE SUMMARY] what we could run TODAY inside the 1-GPU cap ==="
+          printf '%s\n' "${NONZERO:-none}" | awk '{printf "  USABLE NOW: %s (limit %s, usage %s)\n", $1, $2, $3}' 
           echo "=== [QUOTA-SUMMARY] (the ones that matter for on-demand L4) ==="
           Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
                 --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
