@@ -202,7 +202,7 @@ liveness ping.*
 | **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **16.05/60 ns**, scalar 1013700 → 1016050, stall=0, GPU 69 %, up 168 min. **5.9 ns/h** | metad ~**6:00 AM**, then release legs |
 | **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **warmup 1216/1600**, up 385 min | ⚠ **~6:00 AM, NOT ~1 AM** — see the ETA correction below |
 | **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — production/80, up 385 min | ~overnight |
-| *(sibling session)* valB_mini reverse leg, GCP L4 | not mine to drive; its result keys the calibrator rescope | ~this morning |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **advancing — `warmup/640` of 800 (80 %)**, up 380 min, no preemption since 6:40 PM. Rate settled at **~68 iter/h (52.8 s/iter)** across two agreeing baselines (63 min and 190 min). Production (2000 iters) starts ~3:20 AM | **~Mon 8:40 AM** — its result keys the calibrator rescope |
 
 **✅ RUNG 2b is HALF LANDED.** The **probe** (ΔG_morph **48.1970**) and the **solvent** leg (ΔG_morph
 **47.7982**) are both **DONE in S3 with no NaN** — so 4 fs has now survived two complete legs, not just the
@@ -219,8 +219,7 @@ run at roughly half the per-iteration cost (625 steps at 4 fs against warmup's 1
 block parses (`schedule: [{cron: "*/15 * * * *"}]`) and the workflow is on `main`, so this reads as GitHub's
 normal registration lag for a newly-added schedule, **but it has not proven itself**, so autonomous coverage of
 the paralogue legs is **claimed only once a `schedule` event appears**. Until then those legs rest on the
-hourly routine plus auto-teardown. *(The ternary watchdog's own cron is also stretching — 60 → 65 → 93 min
-gaps — consistent with GitHub throttling a busy repo.)*
+hourly routine plus auto-teardown. *(The ternary watchdog's own cron is stretching far worse than that — it fired 9:17 PM then **not for 3h40m**. **"Busy repo" is measurably NOT the cause:** repo Actions load had fallen to **~2 runs/h** in that window. Ruled out with evidence — the file parses, its `run:` block is 368 chars, its registered `state` is `active`, and manual dispatch works every time. The proof it is repo-wide rather than a defect in either watchdog is **`vast-price-sample.yml`**, an unrelated cron, showing the same pattern in the same window: **7:15 PM → 9:01 PM (106 min) → 12:46 AM (225 min)**. So a newly-added `schedule:` proving itself is necessary but **not sufficient** — this repo's crons deliver ~2–4 h regardless of the expression, and no cron expression changes that.)*
 
 
 ## Program and thesis

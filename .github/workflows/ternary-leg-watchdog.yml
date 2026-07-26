@@ -23,8 +23,20 @@ name: Ternary leg watchdog (session-independent)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"      # every 15 min: a preemption costs ~40 committed iterations (~20 min of MD),
-                                # so this is matched to the recovery granularity, not arbitrary.
+    - cron: "*/15 * * * *"      # */15 is the REQUEST. IT IS NOT WHAT YOU GET, and the difference matters:
+                                # measured 2026-07-26, GitHub ran this repo's crons at ~2-4 h intervals, not 15
+                                # min (this workflow: 9:17 PM then nothing for 3h40m). NOT a fault in this file
+                                # -- state=active, it parses, manual dispatch works, and the repo was nearly
+                                # idle (2 runs/h) so load does not explain it. The proof it is repo-wide is
+                                # vast-price-sample.yml, an unrelated cron, showing the same pattern in the same
+                                # window: 7:15 PM -> 9:01 PM (106 min) -> 12:46 AM (225 min).
+                                #
+                                # CONSEQUENCE: the UNATTENDED detect-and-relaunch latency is hours, not minutes,
+                                # and no cron expression changes that. Tolerable while the leg is ON-DEMAND
+                                # (20 h max-run, nothing to be preempted from). It would NOT be tolerable for a
+                                # spot leg, where a preemption sitting unnoticed for 3 h is 3 h of lost wall
+                                # clock -- so if a spot leg is ever put back under this watchdog, it needs a
+                                # non-cron trigger, not a tighter cron.
   workflow_dispatch:
     inputs:
       dry_run:
