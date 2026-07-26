@@ -813,3 +813,53 @@ control that says these numbers are measuring something real.
 **Net for the r0 cycle, unchanged from §L.3b:** ΔG_binary is not a free energy of the intended bound state, so
 ΔΔG_coop(r0) = −0.534 is not a valid measurement of cooperativity, and the binary arm needs re-running rather than
 extending. What §L.3c adds is *what to change on the re-run*, and that the ternary arm remains clean throughout.
+
+### L.3d The 4 fs cycle reproduces the departure exactly — so the r0 finding is REINFORCED, not softened, and the 2b timestep PASS stands
+
+This was set up as a test that could go against §L.3–L.3c. RUNG 2b's 4 fs cycle agrees with r0's 2 fs cycle to
+|Δ(ΔΔG_coop)| = 0.0215 kcal/mol, and if 2b's binary leg had held its pose then a contaminated arm and a clean one
+agreeing that closely would have meant the departure barely moves ΔG_binary. It did not hold.
+
+GH run 30210676030 (Vast lane, `task=converge`, CPU, $0) against GH run 30210186711 (GCP lane, r0):
+
+| | **2 fs (r0, GCP L4)** | **4 fs (RUNG 2b, Vast)** |
+|---|---|---|
+| binary `contact_pose` max / median (Å) | 16.327 / 4.333 | **17.622 / 5.358** |
+| binary `n_contact` heavy | 30–52 | 30–47 |
+| binary replicas ending beyond 4.0 Å | **8 of 12** | **7 of 12** |
+| binary classes | DISPLACED_AND_STAYED 5, INTERMEDIATE 3, STABLE 4 | DISPLACED_AND_STAYED 7, INTERMEDIATE 3, STABLE 2 |
+| binary λ **initiation** (endpoint / interior) | 1 / 7 | **1 / 9** |
+| binary λ **persistence** (endpoint / interior) | 29 / 116, flat histogram | 23 / 121, flat histogram |
+| **ternary** `contact_pose` max / median (Å) | 2.835 / 1.653 | **2.999 / 1.897** |
+| **ternary** replicas beyond 4.0 Å | **0 of 12** | **0 of 12** |
+| solvent | not applicable (no receptor) | not applicable |
+
+**Every feature reproduces.** Same magnitude of departure, same fraction of replicas, same class mix, the same
+λ signature (initiation overwhelmingly interior with exactly 1 endpoint case), the same flat persistence
+histogram — and the same completely clean ternary arm. Across a **different timestep** (2 fs vs 4 fs), a
+**different provider and GPU** (GCP L4 vs Vast 4090/4080S), a **different commit interval**, and **independent
+runs**.
+
+**What follows, kept separate because they are separate:**
+
+1. **The r0 conclusion is strengthened.** The binary-arm departure is not a one-off of one trajectory — it is a
+   systematic, reproducible property of this binary leg's setup. About as well-established as an in-silico
+   observation gets here.
+2. **The RUNG 2b timestep PASS stands, on its own terms.** The gate asks whether 4 fs reproduces 2 fs, and it
+   does. A defect the two cycles share cancels from the comparison, which is exactly the condition §L.3b named and
+   this measurement satisfies. **4 fs adoption is not undermined by any of this.**
+3. **Neither absolute ΔΔG_coop is a valid cooperativity.** −0.534 (2 fs) and −0.5125 (4 fs) are two precise
+   measurements of the same wrong thing. Precision was never the problem, and the agreement is not evidence of
+   correctness — it is evidence of *reproducibility*, which is a different claim and the one the gate makes.
+4. **The wrong-sign mechanism is now a much better-supported hypothesis — still a hypothesis.** The experimental
+   target is **+0.94**; both cycles return ≈ −0.52 to −0.53; both have a reproducibly departed binary arm and a
+   clean ternary arm. That co-occurrence is suggestive and it is still **correlational**. The test is a restrained
+   binary re-run: if the sign flips positive with a held pose, the mechanism is established; if it does not, the
+   wrong sign has another cause and the departure is a separate (real) defect.
+5. **Both cycles need the binary arm re-run**, not just r0 — with a restraint on the receptor-contacting moiety
+   and the standard restraint correction (§L.3c). Extending either trajectory is useless: they are contaminated,
+   not under-converged.
+
+**And note what made this checkable at all:** the diagnostic had to be pointed at a *different lane's* storage
+(S3 via Vast, not GCS), which is why `--fetch-trajectories` and the Vast `converge` task exist. A finding that can
+only be verified on the lane that produced it is a finding that cannot be cross-checked.
