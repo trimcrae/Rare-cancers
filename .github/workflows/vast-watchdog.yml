@@ -169,9 +169,22 @@ jobs:
       - name: Dispatch the Step 1 fan-out tick unless one is already in flight
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GH_REPO, not a --repo flag on each call. This job has NO actions/checkout on purpose (it needs no
+          # code), and without a git remote every `gh` subcommand dies with "failed to determine base repo:
+          # not a git repository" — which is how the first version of this job failed at 5:27 PM ET. Setting
+          # it in env covers every gh invocation instead of one flag per call site.
+          GH_REPO: ${{ github.repository }}
         run: |
           set -eo pipefail
           WF=step1-fanout-autoscale.yml
+          # HONOUR dry_run. It means "report what you WOULD do without acting", and the tick this dispatches
+          # runs the launcher with LAUNCH=1 — i.e. a dry-run watchdog pass would otherwise be the one thing in
+          # this workflow that can rent a GPU. Checked here rather than passed through, because the tick's own
+          # `release_fanout=0` still runs monitor+collect and mutates the committed readout.
+          if [ "${{ github.event.inputs.dry_run }}" = "1" ]; then
+            echo "::notice title=STEP1 TICK SKIPPED (dry_run)::dry_run=1 — would have dispatched $WF."
+            exit 0
+          fi
           # Skip when a tick is already queued or running. The concurrency group would serialise them anyway,
           # but `cancel-in-progress: false` means extras QUEUE rather than collapse, and a queue of identical
           # no-op ticks is noise that makes the real one hard to find in the run list.
@@ -187,5 +200,5 @@ jobs:
           # branch, the shakeout unit and the release flag stay single-homed in the workflow that owns them.
           # --ref main because a workflow_dispatch resolves against the default branch, where that file lives;
           # the job then checks out the fleet branch itself.
-          gh workflow run "$WF" --ref main --repo "${{ github.repository }}"
+          gh workflow run "$WF" --ref main
           echo "::notice title=STEP1 FAN-OUT TICK DISPATCHED::$WF dispatched by the vast-watchdog cron (this repo's step1 cron has not fired on schedule; see the header comment)."
