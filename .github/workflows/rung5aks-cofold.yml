@@ -241,6 +241,7 @@ jobs:
           N=$(aws s3 ls "$U/" --recursive | wc -l | tr -d ' ')
           NCIF=$(aws s3 ls "$U/" --recursive | grep -c '\.cif$' || true)
           echo "OBJECTS=$N  CIFS=$NCIF  (the stager needs one *-ternary-protac_model_0.cif per species = 2)"
+          export NCIF
           echo "=== run.log tail ==="; aws s3 cp "$U/run.log" - 2>/dev/null | tail -30 || echo "(no log yet)"
           # ⚠ A PROGRESS CHECK, NOT A LIVENESS PING (standing rule for an unproven pipeline). "The instance is
           # up" says nothing — a box that pulled its image and then wedged looks identical to one predicting.
@@ -269,6 +270,29 @@ jobs:
               if not rows:
                   print("  (none up — either finished and self-destroyed, or never started)")
                   print("  -> if no CIFs landed above, that is a FAILED run, not a finished one")
+              # ★ CONTROL-PLANE REAP — THE LAYER THIS LANE WAS MISSING.
+              # Vast teardown is two-layer BY DESIGN (gpu_backend.VastBackend): the host self-STOPS key-free
+              # via an EXIT trap (no VAST_API_KEY is ever put on a community host), and CI — which holds the
+              # key — DESTROYS the exited instance. The ternary lane has that second layer in its `collect`
+              # reap. THIS LANE HAD ONLY THE FIRST, so a co-fold whose trap does not take effect has nothing
+              # to remove it.
+              # Observed 2026-07-26: instance 45935273 finished (phase.txt `done`, written 19:52:00Z) and was
+              # STILL reporting `running` at 20:00:30Z — eight minutes of an idle RTX 4090 on the meter, with
+              # gpu_util 0.0%, cpu_util 0.99% and 0.027 GB resident. Small in dollars here (~$0.03); the
+              # mechanism is what matters, because nothing would have stopped it.
+              # Reap on the RESULT, exactly as the ternary lane does: the CIFs are in S3, so the instance has
+              # no work left whatever its status field says.
+              done = int(os.environ.get("NCIF", "0")) >= 2
+              if rows and done:
+                  for i in rows:
+                      try:
+                          _vast_request("DELETE", "/instances/%s/" % i.get("id"), k)
+                          print("  reaped %s — its co-folds are in S3, so it has no work left" % i.get("id"))
+                      except Exception as e:
+                          print("  WARN could not destroy %s: %s" % (i.get("id"), e))
+              elif rows:
+                  print("  left up: only %s CIF(s) in S3 yet, so the run may still be predicting"
+                        % os.environ.get("NCIF"))
           except Exception as e:
               print("could not list instances:", type(e).__name__, e)
           PYEOF
