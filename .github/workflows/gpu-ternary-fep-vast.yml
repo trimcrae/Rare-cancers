@@ -51,9 +51,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, 5aks-prime, 5aks-smoke, 5aks]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -113,7 +113,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|5aks-prime|5aks-smoke|5aks) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|5aks-prime|5aks-smoke|5aks|5aks-reduce) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -453,6 +453,69 @@ jobs:
   # PARITY, not just speed: the analysis runs in the SAME image that produced the trajectories, because analysing
   # an OpenFE trajectory with a different pymbar/openmmtools than PRODUCED it can move the MBAR numbers. The repo
   # is mounted over the image's baked copy so the analyser that runs is the branch's.
+  # ------------------------------------------------------------------ free: RUNG 5a-KS -> S
+  # The double difference is computed by the OFFICIAL reducer inside the parity image, never by hand. The
+  # reducer refuses a binary or solvent 5a-KS leg outright: the binary and solvent legs cancel ALGEBRAICALLY
+  # out of S, so including one adds noise at best and computes a different quantity at worst.
+  5aks-reduce:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == '5aks-reduce' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Pull both ternary legs' engine records
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          mkdir -p /tmp/5aks_legs
+          python research/modalities/ternary_vast_launch.py --mode 5aks --fetch-legs /tmp/5aks_legs
+          ls -la /tmp/5aks_legs
+      - name: Reduce to S, in the SAME env that produced the trajectories
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/5aks_legs:/tmp/5aks_legs \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_reduce.py --legs /tmp/5aks_legs \
+              --out /work/research/modalities/nr4a3-5aks-reduction.json
+      - name: The reduction is a DELIVERABLE, so its absence is a failure
+        run: |
+          set -eo pipefail
+          F=research/modalities/nr4a3-5aks-reduction.json
+          test -s "$F" || { echo "::error::no reduction written"; exit 1; }
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("research/modalities/nr4a3-5aks-reduction.json"))
+          print(json.dumps(d, indent=1)[:4000])
+          dec = d.get("decision")
+          if dec in ("REFUSED", "INCOMPLETE"):
+              print(f"::error::the reduction returned {dec}: {d.get('reason')}")
+              sys.exit(1)
+          print(f"::notice title=RUNG 5a-KS::S = {d.get('S_kcal')} +/- {d.get('S_err_kcal')} "
+                f"({d.get('S_err_kind')}), decision={dec}")
+          PY
+      - name: Commit the reduction
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/nr4a3-5aks-reduction.json
+          if git diff --cached --quiet; then echo "reduction unchanged"; else
+            git commit -m "RUNG 5a-KS: the double difference S (CI, parity image)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}"
+          fi
+
   converge:
     needs: resolve
     if: ${{ needs.resolve.outputs.task == 'converge' }}
