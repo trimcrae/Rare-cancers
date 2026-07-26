@@ -14,13 +14,13 @@
     "stop": "$0. Destroy every nr4a-pdyn instance unconditionally",
     "watch": "$0. ONE long CI run that polls S3 every 3 min with a real PROGRESS check, nudges a stuck start, destroys a host that answers resources_unavailable, RE-RENTS a leg that died with no deliverable (bounded), reaps finished hosts, and fails on a stall. Monitoring that survives a session death."
   },
-  "task": "collect",
+  "task": "analyse",
   "targets": "NR4A1,NR4A2",
   "metad_ns": 60,
   "release_ns": 5,
   "n_rep": 3,
   "exclude_machines": "142143,17720",
-  "note": "all matched paralogue ensembles are in S3 \u2014 collecting, then analysing",
+  "note": "matched paralogue ensembles collected \u2014 running the categorical verdict",
   "estimate_usd": {
     "point": 2.5,
     "range": [
