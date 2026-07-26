@@ -966,7 +966,7 @@ jobs:
           # detector, then this), which is why it is sized for the science rather than against the failure.
           if [ "$PROVISIONING" = standard ]; then
             PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=259200s
-            echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; waits out on-demand-capacity like spot; 40h max-run cap)"
+            echo "PROVISIONING=standard (ON-DEMAND — waits out on-demand-capacity like spot; max-run cap ${MAXRUN}, spans a ~44h leg)"
           else
             PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=25200s
           fi
