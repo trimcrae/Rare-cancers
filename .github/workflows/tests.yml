@@ -50,6 +50,13 @@ jobs:
       # not a guard.
       - name: No two-shell variable in the VM startup heredoc
         run: python3 research/modalities/tests/test_heredoc_two_shell.py
+      # LANE 13 chains itself: `collect` exits 0 and the workflow immediately queues `analyse`. So the guards
+      # that stop an EMPTY ensemble reaching the verdict have to hold on every push, not only when someone
+      # dispatches that lane's own `selftest` task -- which is where this file's only invocation used to be.
+      - name: Paralogue-dynamics guards (an empty ensemble must never become a verdict)
+        # No `| tail` here: the default shell is `bash -e` WITHOUT pipefail, so a pipe would take the exit
+        # status of `tail` and swallow the very failure this step exists to surface.
+        run: python3 research/modalities/tests/test_paralogue_dynamics.py
       # Params that change the PHYSICS but are absent from the commit prefix (setup version, charge method,
       # windows). OpenFE's particle check cannot catch a v1-vs-v2pe mismatch because pre-equilibration only moves
       # coordinates, so the manifest fingerprint is the only guard. Needs no scientific stack: it drives

@@ -263,9 +263,22 @@ def reap(targets, force=False):
 
 def collect(targets):
     """Pull each finished ensemble tarball and unpack it into results/nr4a{1,2}-pocket-ensemble/, which is the
-    layout nr4a_paralogue_dynamics.py reads and the same one the committed NR4A3 ensemble uses."""
+    layout nr4a_paralogue_dynamics.py reads and the same one the committed NR4A3 ensemble uses.
+
+    ⚠ AN EMPTY COLLECT IS A FAILURE, NOT A QUIET SUCCESS. This step is the only thing between S3 and the
+    verdict, and the lane CHAINS ITSELF: the workflow's next step queues `analyse` the moment collect exits 0.
+    Every emptiness here used to be silent — a tarball with no `frames/` member, a `frames/` holding no
+    frame.pdb, a target whose deliverable never appeared — and each one produced the same outcome: `git diff
+    --cached --quiet` says "nothing to commit", the job goes green, and `analyse` runs `--mode all` over an
+    EMPTY ensemble directory. `nr4a_paralogue_dynamics.frame_paths` returns [] for a missing directory, the
+    ensembles branch skips it on `if fps:`, and the committed artifact carries `ensembles: {}` with
+    `pooled_unbiased: null` — a full, green, *static-only* answer wearing the label of the dynamics test this
+    lane exists to run. So: any leg that yields zero frame PDBs, and any requested target with no deliverable,
+    raises. Non-zero here means the hand-off to `analyse` never happens.
+    """
     s3 = _s3()
     got = []
+    problems = []
     for name in leg_names(targets):
         # ⚠ NEVER unpack a smoke leg. Its tarball has the SAME basename as the real one and unpacks to the
         # SAME results/<target>-pocket-ensemble directory, so collecting it would quietly mix 12 frames from
@@ -279,6 +292,7 @@ def collect(targets):
         k = result_key(name)
         if not _exists(s3, k):
             print(f"[ops] {name}: no deliverable yet at s3://{bucket()}/{k}")
+            problems.append(f"{name}: no deliverable at s3://{bucket()}/{k}")
             continue
         dest = os.path.join(REPO, "results", f"{target}-pocket-ensemble")
         os.makedirs(dest, exist_ok=True)
@@ -289,8 +303,15 @@ def collect(targets):
                 # the tarball holds frames/<ensemble>/fp_*/frame.pdb + release_summary.json
                 tf.extractall(td)
             src = os.path.join(td, "frames")
+            if not os.path.isdir(src):
+                # Name what the tarball DID contain — the whole point of failing here is that the next person
+                # reads the cause off the log instead of re-deriving it from an empty results directory.
+                top = sorted({m.split("/", 1)[0] for m in os.listdir(td) if m != "e.tar.gz"})
+                problems.append(f"{name}: tarball has no frames/ member (top-level entries: {top or 'none'})")
+                print(f"[ops] {name}: ERROR — no frames/ in the tarball; top-level entries {top or 'none'}")
+                continue
             n = 0
-            for ens in sorted(os.listdir(src)) if os.path.isdir(src) else []:
+            for ens in sorted(os.listdir(src)):
                 sd = os.path.join(src, ens)
                 dd = os.path.join(dest, ens)
                 os.makedirs(dd, exist_ok=True)
@@ -307,7 +328,15 @@ def collect(targets):
                     b.write(a.read())
             print(f"[ops] {name}: unpacked {n} frame PDBs into {os.path.relpath(dest, REPO)}")
             got.append({"target": target, "n_frames": n})
-    print(json.dumps({"collected": got}, indent=1))
+            if n == 0:
+                problems.append(f"{name}: deliverable unpacked 0 frame PDBs into {os.path.relpath(dest, REPO)}")
+                print(f"[ops] {name}: ERROR — 0 frame PDBs unpacked; the ensemble directory is empty")
+    print(json.dumps({"collected": got, "problems": problems}, indent=1))
+    if not got:
+        problems.append("collect produced no ensembles at all — there is nothing for `analyse` to read")
+    if problems:
+        raise SystemExit("[ops] collect FAILED — refusing to hand off to `analyse`:\n  "
+                         + "\n  ".join(problems))
     return 0
 
 

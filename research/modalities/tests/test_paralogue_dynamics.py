@@ -12,6 +12,7 @@ The load-bearing pieces are exactly the ones a wrong answer would be invisible i
 """
 import math
 import os
+import shutil
 import struct
 import sys
 import tempfile
@@ -136,6 +137,112 @@ try:
         check(P.species_offset(m, sp, seqs) == want, f"{sp} local->UniProt offset == {want}")
 except FileNotFoundError as e:
     print(f"  SKIP structural checks: {e}")
+
+print("== an EMPTY collect must fail rather than hand off to `analyse`")
+# The lane chains itself: the workflow queues `analyse` the moment `collect` exits 0. Every emptiness below
+# used to end the same way — "nothing to commit", a green job, and a categorical verdict computed with no
+# dynamics in it at all. These four cases are the ways the ensemble can arrive empty.
+import tarfile as _tf                                              # noqa: E402
+import nr4a_paralogue_md_ops as O2                                 # noqa: E402
+
+
+def _make_tgz(path, entries):
+    """entries: {archive_path: b'bytes'}; an empty dict makes a tarball with nothing in it."""
+    with _tf.open(path, "w:gz") as t:
+        for arc, blob in entries.items():
+            d = os.path.join(os.path.dirname(path), "stage", arc)
+            os.makedirs(os.path.dirname(d), exist_ok=True)
+            with open(d, "wb") as fh:
+                fh.write(blob)
+            t.add(d, arcname=arc)
+
+
+def _collect_with(entries, targets="NR4A1"):
+    """Run the REAL collect() against a crafted tarball. Returns (ok, message)."""
+    td = tempfile.mkdtemp()
+    src = os.path.join(td, "deliverable.tar.gz")
+    _make_tgz(src, entries)
+    saved = (O2._s3, O2._exists, O2.REPO, O2.leg_names)
+    try:
+        O2._s3 = lambda: None
+        O2._exists = lambda s3, key: True
+        O2.REPO = os.path.join(td, "repo")
+        O2.leg_names = lambda t: [f"{O2.LABEL_PREFIX}-{x.strip().lower()}" for x in str(t).split(",") if x.strip()]
+
+        def fake_run(cmd, **kw):
+            with open(src, "rb") as a, open(cmd[4], "wb") as b:   # aws s3 cp <uri> <dest>
+                b.write(a.read())
+            return None
+        real_run, O2.subprocess.run = O2.subprocess.run, fake_run
+        try:
+            O2.collect(targets)
+            return True, ""
+        except SystemExit as e:
+            return False, str(e)
+        finally:
+            O2.subprocess.run = real_run
+    finally:
+        O2._s3, O2._exists, O2.REPO, O2.leg_names = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+_PDB = b"ATOM      1  N   MET A   1       0.000   0.000   0.000  1.00  0.00           N\nEND\n"
+
+ok, msg = _collect_with({"frames/metad/fp_0_x/frame.pdb": _PDB, "release_summary.json": b"{}"})
+check(ok, "a well-formed tarball collects cleanly (the fixture itself is sound)")
+
+ok, msg = _collect_with({"release_summary.json": b"{}"})
+check(not ok and "no frames/ member" in msg,
+      "a tarball with NO frames/ member fails, and the message names what the tarball did contain")
+
+ok, msg = _collect_with({"frames/metad/.keep": b""})
+check(not ok and "0 frame PDBs" in msg,
+      "a frames/ tree holding no frame.pdb fails instead of unpacking an empty ensemble")
+
+ok, msg = _collect_with({})
+check(not ok, "a tarball with nothing in it fails")
+
+
+def _collect_missing():
+    td = tempfile.mkdtemp()
+    saved = (O2._s3, O2._exists, O2.REPO)
+    try:
+        O2._s3, O2._exists, O2.REPO = (lambda: None), (lambda s3, key: False), os.path.join(td, "repo")
+        try:
+            O2.collect("NR4A1,NR4A2")
+            return True, ""
+        except SystemExit as e:
+            return False, str(e)
+    finally:
+        O2._s3, O2._exists, O2.REPO = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+ok, msg = _collect_missing()
+check(not ok and "nothing for `analyse` to read" in msg,
+      "no deliverable in S3 at all fails loudly rather than chaining an analysis over an empty tree")
+
+print("== the analysis refuses an ensemble it does not have")
+check(callable(getattr(P, "ensemble_census", None)), "ensemble_census() exists")
+_cen = P.ensemble_census()
+check(set(_cen["by_species"]) == set(P.SPECIES), "the census covers every species")
+check(all(c["n_frames_total"] == sum(c["by_subset"].values()) for c in _cen["by_species"].values()),
+      "n_frames_total is the sum of its subsets, not an independent count that could disagree")
+check(_cen["species_with_no_frames"] == [sp for sp, c in _cen["by_species"].items()
+                                         if c["n_frames_total"] == 0],
+      "species_with_no_frames is derived from the same counts it reports")
+# `frame_paths` returning [] for a missing directory is the hole; the census must SEE it, not inherit it.
+check(P.frame_paths("NR4A1", "no_such_subdir") == [],
+      "frame_paths is still silent on a missing directory (unchanged) — the census is what makes it loud")
+if _cen["species_with_no_frames"]:
+    try:
+        P.main(["--mode", "ensembles", "--terma", "--out", os.path.join(tempfile.mkdtemp(), "x.json")])
+        check(False, "main() must refuse --mode ensembles while a species has zero conformers")
+    except SystemExit as e:
+        check("REFUSING TO RUN" in str(e) and "--allow-missing-ensembles" in str(e),
+              "main() refuses --mode ensembles on an empty ensemble and names the override")
+else:
+    print("  SKIP main() refusal: every species already has conformers committed")
 
 print()
 if fails:

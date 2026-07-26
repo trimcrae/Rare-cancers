@@ -725,6 +725,35 @@ def frame_paths(species, subdir):
     return out
 
 
+def ensemble_census():
+    """How many conformers each species actually contributes, per subset — computed BEFORE any analysis.
+
+    ⚠ THE SILENT-EMPTY HOLE THIS CLOSES. `frame_paths` returns [] for a directory that does not exist, and
+    both term drivers gate on `if fps:`. So a species with no ensemble is not an error — it is simply absent
+    from `ensembles`, leaving `pooled_unbiased: null` in a JSON that is otherwise complete. Read downstream,
+    "no frames" and "no reachable cysteine in any frame" are indistinguishable, and they are opposite answers
+    to this lane's question. The census makes the distinction a first-class, committed field, and `main`
+    refuses to run the ensembles mode when a species has zero frames unless the override is explicit.
+    """
+    by_species = {}
+    for sp in SPECIES:
+        per = {sub: len(frame_paths(sp, sub)) for sub, _ in SUBSETS}
+        by_species[sp] = {
+            "root": os.path.relpath(ENSEMBLE_ROOT[sp], REPO),
+            "root_exists": os.path.isdir(ENSEMBLE_ROOT[sp]),
+            "by_subset": per,
+            "n_frames_total": sum(per.values()),
+            "n_frames_unbiased": sum(v for k, v in per.items() if k.startswith("release_rep")),
+        }
+    return {
+        "_what": "conformers available per species per subset, counted before any analysis ran",
+        "_why": "distinguishes 'no frames' from 'no reachable cysteine in any frame' — opposite answers that "
+                "an absent ensemble would otherwise render identically in this artifact.",
+        "by_species": by_species,
+        "species_with_no_frames": [sp for sp, c in by_species.items() if c["n_frames_total"] == 0],
+    }
+
+
 def summarise_terma(rows, gate=None):
     gate = gate or B.PARAMS["linker_gate_atoms"]
     labels = sorted({lab for r in rows for lab in r["cys"]})
@@ -764,11 +793,27 @@ def main(argv=None):
     ap.add_argument("--limit", type=int, default=0, help="debug: cap frames per ensemble")
     ap.add_argument("--validate-coverage", action="store_true")
     ap.add_argument("--out", default=OUT)
+    ap.add_argument("--allow-missing-ensembles", action="store_true",
+                    help="proceed even when a species contributes ZERO conformers (see ensemble_census)")
     args = ap.parse_args(argv)
     do_a = args.terma or not args.termb
     do_b = args.termb or not args.terma
 
     t0 = time.time()
+    census = ensemble_census()
+    for sp, c in census["by_species"].items():
+        print(f"[pdyn] ensemble census {sp}: {c['n_frames_total']} frames "
+              f"({', '.join(f'{k}={v}' for k, v in c['by_subset'].items())})", flush=True)
+    if args.mode in ("ensembles", "all") and census["species_with_no_frames"] and not args.allow_missing_ensembles:
+        raise SystemExit(
+            "[pdyn] REFUSING TO RUN — no conformers for " + ", ".join(census["species_with_no_frames"]) + ".\n"
+            "  This lane's whole question is whether paralogue DYNAMICS open a compensating site. Running\n"
+            "  --mode " + args.mode + " over an empty ensemble directory does not answer it: `frame_paths`\n"
+            "  returns [] for a missing directory and the ensembles branch skips it, so the artifact would\n"
+            "  come out full, green and STATIC-ONLY while carrying the dynamics label. Expected layout:\n"
+            "  " + "\n  ".join(f"{sp}: {os.path.relpath(ENSEMBLE_ROOT[sp], REPO)}/<{'|'.join(s for s, _ in SUBSETS)}>/*/frame.pdb"
+                               for sp in census["species_with_no_frames"]) + "\n"
+            "  Run `nr4a_paralogue_md_ops.py collect` first, or pass --allow-missing-ensembles to override.")
     seqs = json.load(open(SEQ_CACHE))
     ref = B.load_paralogue(STATIC_MODEL["NR4A3"])
     ref_aa_of = ref["aa_of"]
@@ -848,6 +893,7 @@ def main(argv=None):
         cys = cysteines_of(m, offsets[sp], ref, ref_aa_of)
         inv[sp] = [{"label": c["label"], "nr4a3_aligned": c["nr4a3_aligned"],
                     "nr4a3_has_cys_here": c["nr4a3_has_cys_here"]} for c in cys]
+    res["ensemble_census"] = census
     res["cysteine_inventory"] = {
         "_reading": "A paralogue cysteine whose `nr4a3_has_cys_here` is false is a site NR4A3 does NOT have "
                     "— the reciprocal of the program's own categorical handle, and the exact failure mode "
