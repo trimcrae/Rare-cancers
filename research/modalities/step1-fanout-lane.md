@@ -26,6 +26,16 @@ it), then **all 18 remaining at once**. That is maximum parallelism subject to p
 it costs ~1 unit of wall-clock against the risk of 19 wasted rentals. `FANOUT_ONLY` is the lever; without it
 "one unit" would have meant unit 00 rather than the one that is furthest along.
 
+**The fan-out is released by a machine condition, not by an agent remembering to come back.**
+[`step1-fanout-autoscale.yml`](../../.github/workflows/step1-fanout-autoscale.yml) ticks every 20 min —
+progress check → collect → **terminus-gated** launch — and `FANOUT_REQUIRE_PROVEN_TERMINUS=1` refuses to
+submit until a `ddg.json` exists in S3. So the remaining 18 go out the *minute* the shakeout unit lands one,
+and cannot go out before. That is strictly more parallel than waiting for a human to notice and strictly
+safer than launching early, which is the combination the shakeout rule is actually asking for.
+Verified end-to-end 2026-07-26 (runs **30218758883**, **30218885472**): every step green, the gate correctly
+**held** at one live instance, and `collect` assembled the map with cycle-closure bookkeeping reporting all
+three cycles incomplete and naming their missing edges.
+
 **The four wave-1 survivors, by committed iteration** (census over the spot commit store, 2026-07-26 3:47 PM
 ET). Warmup target is 400 iterations, production 2000:
 
@@ -40,10 +50,26 @@ The other 15 units are cold and start from staging.
 
 ### The bid, and what it says about the retracted $91–101
 
-Wave 2's first rental: Vast **45936074**, RTX 4090, **$0.1446/hr** — against wave 1's **$0.35–0.39/hr** for
-the same card class on the same market days later. That gap is the retired `×1.9` bid multiplier, not the
-market, exactly as §6 reconstructs. At ~13.7 reference-GPU-h per unit that is **~$1.98/unit ⇒ ~$37.6 for the
-19-unit tranche**, which lands on STRATEGY.md's **~$36** planning figure rather than the retracted $91–101.
+Wave 2's first rental: Vast **45936074** on machine **18857**, RTX 4090, **charged $0.1224/hr** — against
+wave 1's **$0.35–0.39/hr** for the same card class on the same market days later. That gap is the retired
+`×1.9` bid multiplier, not the market, exactly as §6 reconstructs. At ~13.7 reference-GPU-h per unit that is
+**~$1.68/unit ⇒ ~$31.9 for the 19-unit tranche**, *under* STRATEGY.md's **~$36** planning figure and nowhere
+near the retracted $91–101.
+
+**And the throughput reproduces the measurement.** The host advanced **160 → 260 committed iterations** across
+~23 min of sampling = **~261 iter/h**, against the **~265 iter/h** implied by wave 1's three hosts
+(12.76 / 13.70 / 14.42 s/iter). So this host runs at full card rate and the starvation question is answered
+for it **with data**, which matters because the obvious signal did not survive contact: `gpu_util` read
+**None under both spellings** while the box was demonstrably advancing. A monitor whose only health signal can
+silently go absent watches nothing — so the committed-iteration **rate** is the throughput signal this lane
+uses. It comes from our own object store rather than the provider's telemetry, and it measures the realised
+throughput of *this* workload rather than a proxy for it.
+
+⚠ **Read rates over long windows only.** The commit store advances in blocks (20 iterations in warmup, 40 in
+production), so a short window is quantised: the same healthy host reads 109 iter/h and 300 iter/h across two
+consecutive ~10-min windows, and only the multi-block window gives 261. This is the same commit-block
+quantisation that produced three wrong ETAs in STRATEGY.md's correction table (row 19b) — it is a property of
+the checkpoint interval, not of the host.
 
 ### Timestep — 4 fs here is NOT an import from the ternary lane
 
