@@ -259,6 +259,55 @@ dict, and the Vast lane promotes it into the normalised leg record the reducers 
 
 **So `S` can be identity-checked, which is the one thing a double difference most needs.**
 
+## 6b · Both production legs went down on their first attempt — one preemption, one REAL defect
+
+**No GPU is billing:** NR4A3's host exited and NR4A1's was destroyed by `collect`. Realized cost of the
+attempt is small; what it bought is two distinguishable failures.
+
+### NR4A3 (`45941659`, machine 117843) — PREEMPTION, routine
+Its `run.log` was advancing normally right up to the end — `Iteration 44/64, took 7.742s`, steady at
+~7.7 s/iter — and then the instance exited having written **no `leg.json` and no `status.json`**. Work
+stopping mid-iteration with no failure record written is a host going away, not code failing; the pipeline
+deliberately leaves no `leg.json` in that case so a relaunch picks a different machine. Re-dispatch resumes.
+
+### NR4A1 (`45941913`, machine 114101) — a real, reproducible defect, and NOT in staging
+It completed solvation (286,494 atoms), minimisation, NVT, NPT and the full 0.5 ns relaxation, then aborted:
+
+```
+[preequil] endpoint map (lomap_element_change): 80 mapped atoms A->B (ligA 111, ligB 111)
+[preequil] endpoint verification: {"n_mapped": 80, "n_dummy_B": 31, "graph_identical": false,
+  "mapped_max_displacement_ang": 0.0, "chirality_not_inverted": true, "net_charge_conserved": true,
+  "no_clash": true, "ok": false}
+[preequil] ABORT: endpoint verification FAILED (reviewer condition 1)
+```
+
+against the NR4A3 arm's **111 mapped / 0 dummy / `graph_identical: true`** on the *same construct*. The
+engine's own report names the difference, and it is **not the aza-scan**: `smiles_in` carries the warhead's
+indole in a **non-aromatic Kekulé** form (`[H]C1=C(...)c2...N1[H]`) while `smiles_out` carries a properly
+aromatic one (`...c([H])n3[H]`).
+
+**Staging is exonerated by measurement, not by argument.** `nr4a3_5aks_ligand_diag.py` pulled *both* legs'
+`ligands.sdf` out of the stage cache the rented hosts actually read, in the parity image:
+
+| | records | constitution identical | aromatic atoms | formula |
+|---|---|---|---|---|
+| `…__ternary_nr4a3` | 2 (`5aks_d0`, `5aks_d`) | ✅ both, and to NR4A1's | 21 / 21 | `C44H47N7O13` |
+| `…__ternary_nr4a1` | 2 (`5aks_d0`, `5aks_d`) | ✅ both, and to NR4A3's | 21 / 21 | `C44H47N7O13` |
+
+Identical files, indole correctly aromatic in both. **So the defect is downstream of staging** — in the
+endpoint rebuild that happens *after* the pre-equilibration MD (`ligB` is core-transplanted onto the relaxed
+`ligA`), where the perception of the relaxed geometry is evidently not stable across poses.
+
+**What this is NOT:** it is not the one-atom wedge, not the stereocentre, and not the hydrogenation fix —
+`mapped_max_displacement_ang` is still 0.0 and charge and chirality still check out. It is a *warhead*-side
+aromaticity perception failure that happens to abort the leg.
+
+**Next measurement (still $0, still CPU):** run `ternary_preequil` on the **NR4A1** leg specifically, in the
+parity image, dumping the intermediate `ligA`/`ligB` mols either side of the core transplant — the same
+two-arm discipline that settled the hydrogenation question. Do **not** re-rent NR4A1 until that returns: the
+failure is deterministic for this pose and a re-rental would reproduce it at full pre-equilibration cost.
+**NR4A3 can be relaunched independently** — its defect was the host, not the science.
+
 ## 7 · What runs next, in order
 
 Everything below is wired and dispatchable; nothing here needs new code.
