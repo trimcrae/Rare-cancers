@@ -247,6 +247,53 @@ jobs:
           else
             echo "::notice title=TERNARY-PROGRESS ok::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — $SUMMARY (NB committed-iters are leg-wide ACROSS SALTS, so they may reflect a DIFFERENT direction's legs, not this one)"
           fi
+
+      # PER-PHASE ITERATION TIMING PROFILE (mode=tail; CPU/runner-only, no GPU/VM created — it SSHes into the
+      # already-running VM and reads a file).
+      #
+      # WHY THIS EXISTS. ternary-watch.json carried 33.91 s/iter as *the* per-iteration cost and extrapolated the
+      # whole remaining leg from it. That number was measured during WARMUP. Production is measured (from the GCS
+      # commit-marker series) at ~66 s/iter — 1.95x — and the step count does NOT explain the gap: OpenFE sets
+      # `n_steps` once from the PRODUCTION timestep, and rbfe_spot_driver builds the warmup move as a COPY with
+      # only `.timestep` changed, so both phases run 1250 MD steps per iteration and should cost the same.
+      #
+      # Two candidate mechanisms were killed by reading the code rather than guessing: the autostop convergence
+      # check (a full MBAR per checkpoint boundary) is opt-in and OFF here, and would not engage until 40% of the
+      # 2000-iteration cap anyway; and warmup checkpoints MORE often (every 8 vs every 40), so commit overhead
+      # would make warmup the slower phase, not the faster one. That leaves a mechanism I cannot establish from
+      # the source, so this reads the ONE artifact that settles it: this VM's own run log, which contains both
+      # phases' timing lines for the SAME machine, GPU and system.
+      #
+      # The per-100-iteration blocks are the second question and the more important one: a CONSTANT production
+      # cost means 66 s/iter is simply the right number and the ETA follows from it, while a RISING one means the
+      # cost grows with accumulated iterations and every ETA computed from a current rate is optimistic.
+      #
+      # The awk program lives in research/modalities/iter_timing_profile.awk (see the note at its top: as a
+      # heredoc, its column-0 terminator dedented out of this block scalar and broke the YAML) and is shipped to
+      # the VM base64'd rather than quoted into --command. `gcloud compute ssh --command '...'` is a
+      # single-quoted string, so an awk program inside it cannot use single quotes at all, and $0/$1/NF would be
+      # eaten by the remote shell if double-quoted. Encoding sidesteps both: one token, no quotes, no escaping.
+      - name: Per-phase iteration timing profile (mode=tail — CPU/runner-only, no GPU/VM)
+        if: ${{ github.event.inputs.mode == 'tail' }}
+        run: |
+          set +e   # DIAGNOSTIC step: a missing VM / no-match grep must not fail the job.
+          TVM_IN="${{ github.event.inputs.leg_id }}"
+          case "$TVM_IN" in
+            gcp-ternary-*) TVM="$TVM_IN" ;;
+            *) TVM=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null | head -1) ;;
+          esac
+          if [ -z "$TVM" ]; then
+            echo "no live gcp-ternary VM — nothing to profile (the run log lives on the VM, not in GCS)"
+            exit 0
+          fi
+          TZONE=$(gcloud compute instances list --filter="name=$TVM" --format="value(zone.basename())" 2>/dev/null | head -1)
+          B64=$(base64 -w0 < research/modalities/iter_timing_profile.awk)
+          echo "=== per-phase iteration timing on $TVM ($TZONE) ==="
+          timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet \
+            --command "echo $B64 | base64 -d > /tmp/prof.awk; sed -e 's/\x1b\[[0-9;]*m//g' /tmp/tfep_run.log 2>/dev/null | awk -f /tmp/prof.awk | sort" \
+            2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$"
+          echo "=== [TIMING] read the PHASE lines for warmup-vs-production, the BLOCK lines for drift ==="
+
       - name: Set up openmmtools for forensic ckpt probe (mode=forensic)
         if: ${{ github.event.inputs.mode == 'forensic' }}
         uses: mamba-org/setup-micromamba@v2
