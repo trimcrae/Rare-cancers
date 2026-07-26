@@ -176,8 +176,24 @@ def _mapping(openfe, ligA, ligB, prefer_element_change=False):
     For this clean congeneric append the MCS is unambiguous, so 2D gives the correct 1:1 scaffold map."""
     from openfe.setup import LomapAtomMapper
 
+    # ★ THE MCS BUDGET IS A CORRECTNESS PARAMETER, NOT A PERFORMANCE ONE (2026-07-26).
+    # `time` is LOMAP's MCS timeout in SECONDS, and a timed-out MCS returns the best PARTIAL match it has
+    # found — silently. So the atom map, i.e. WHAT THE ALCHEMICAL TRANSFORMATION ACTUALLY IS, depended on how
+    # fast the host happened to be. Measured on RUNG 5a-KS: the same edge, whose two ligands differ by ONE
+    # ATOM and therefore admit a complete 111-atom 1:1 map, mapped 111 atoms on two hosts and **80 atoms with
+    # 31 dummies** on a third — at `element_change` BOTH True and False, which is the signature of a timeout
+    # rather than of a chemistry difference (a real element-change asymmetry moves the two settings apart, and
+    # that is the entire reason this function computes both). `threed=False` makes the map pose-independent,
+    # so neither the MD, nor the platform, nor the conformer can explain it; wall-clock can.
+    # A partial map is not a slow answer, it is a DIFFERENT EXPERIMENT: 31 atoms that should have mapped 1:1
+    # become dummies that are annihilated and recreated. Left unchecked it converges and returns a confident
+    # number for a perturbation nobody designed.
+    # Raising the budget cannot make a previously-correct map worse — a longer search can only find an
+    # equal-or-larger MCS — and `RBFE_LOMAP_TIME_S` keeps the old value reachable for an exact re-run.
+    _t = int(os.environ.get("RBFE_LOMAP_TIME_S", "300"))
+
     def _suggest(element_change):
-        return next(LomapAtomMapper(time=20, threed=False,
+        return next(LomapAtomMapper(time=_t, threed=False,
                                     element_change=element_change).suggest_mappings(ligA, ligB))
 
     # Log the ACTUAL component names being mapped, NOT the module globals LIGAND_A/LIGAND_B. When another engine
@@ -202,6 +218,22 @@ def _mapping(openfe, ligA, ligB, prefer_element_change=False):
             except StopIteration:
                 continue
         if best is not None:
+            # ⚠ SAY WHEN THE MAP IS DEGENERATE, AT THE POINT IT IS PRODUCED. When both molecules have the same
+            # heavy-atom count the edge is an element change or a pure re-pose, and a COMPLETE 1:1 map provably
+            # exists — so a short map is a failed search, not a property of the chemistry. Downstream this is
+            # only caught by `ternary_endpoint_align.verify_endpoints` (and only on lanes that run it); every
+            # other consumer would use the partial map silently.
+            try:
+                _nA = ligA.to_rdkit().GetNumAtoms()
+                _nB = ligB.to_rdkit().GetNumAtoms()
+                if _nA == _nB and best[0] < _nA:
+                    print(f"[rbfe] ⚠ DEGENERATE MAP: {best[0]} of {_nA} atoms mapped for {nA}->{nB} although "
+                          f"both endpoints have {_nA} atoms, so a complete 1:1 map exists. {_nA - best[0]} "
+                          f"atom(s) would become dummies and the leg would run a DIFFERENT perturbation from "
+                          f"the designed one. Most likely the MCS hit its {_t}s budget "
+                          f"(RBFE_LOMAP_TIME_S); re-run with a larger one.", flush=True)
+            except Exception:  # noqa: BLE001 — a diagnostic must never break the mapping it describes
+                pass
             print(f"[rbfe] prefer_element_change -> using the {best[0]}-atom map for {nA}->{nB}", flush=True)
             return best[1]
         # neither setting mapped -> fall through to the diagnostics + Kartograf path below
