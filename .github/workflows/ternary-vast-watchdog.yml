@@ -40,7 +40,7 @@ on:
         default: "0"
         required: false
       generic_shakeout:
-        description: "1 = ALSO run vast_watchdog.py (the generic multi-kind engine) in DRY-RUN, read-only"
+        description: "0 = off | dry = ALSO run vast_watchdog.py read-only | live = ALSO run it for real"
         default: "0"
         required: false
 
@@ -101,17 +101,25 @@ jobs:
         # branch's version of the file and its code. This is that hatch, and this is the only on-main workflow
         # that already holds both VAST_API_KEY and the AWS credentials the generic tick needs.
         #
-        # IT CANNOT AFFECT THE LIVE TERNARY LEGS. The step is gated on a workflow_dispatch input that the CRON
-        # never supplies (`github.event.inputs.*` is empty on a schedule event), and it is hard-wired to
-        # --dry-run: no relaunch, no counter increment, no state write. It reads S3 and the Vast instance list
-        # and prints verdicts. It is also `continue-on-error`, so a generic-engine problem can never fail the
-        # ternary watchdog's own job or mask its verdict.
+        # IT CANNOT AFFECT THE LIVE TERNARY LEGS. The step is gated on a workflow_dispatch input the CRON
+        # never supplies (`github.event.inputs.*` is empty on a schedule event), it touches only the GENERIC
+        # watch list — which is disjoint from ternary-vast-watch.json by construction and by test — and it is
+        # `continue-on-error`, so a generic-engine problem can never fail the ternary watchdog's own job or
+        # mask its verdict.
         #
-        # Keeping it permanently is deliberate: "unproven until you have watched it reach its real success
-        # terminus at least once" applies to every new KIND added to the generic engine, not just the first.
-        if: ${{ github.event.inputs.generic_shakeout == '1' }}
+        # `dry` is read-only. `live` is the pass that also WRITES the progress state, and that write has to be
+        # exercised at least once before anyone trusts a RUNNING verdict: prev_scalar is the watchdog's only
+        # memory, so a silently failing write makes every tick read as "advanced" and disables the stall
+        # detector permanently. `live` can also relaunch a genuinely dead leg, which is the intended
+        # behaviour and is capped, interlocked and checkpoint-resuming.
+        #
+        # Keeping the hook permanently is deliberate: "unproven until you have watched it reach its real
+        # success terminus at least once" applies to every new KIND added later, not just the first.
+        if: ${{ github.event.inputs.generic_shakeout == 'dry' || github.event.inputs.generic_shakeout == 'live' }}
         continue-on-error: true
         run: |
           set -eo pipefail
           python research/modalities/vast_watchdog.py --kinds
-          python research/modalities/vast_watchdog.py --tick --dry-run
+          ARGS="--dry-run"
+          [ "${{ github.event.inputs.generic_shakeout }}" = "live" ] && ARGS=""
+          python research/modalities/vast_watchdog.py --tick $ARGS

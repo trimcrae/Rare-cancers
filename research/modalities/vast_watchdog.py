@@ -623,10 +623,22 @@ def tick(path=None, dry_run=False):
         print(f"verdict={verdict} progress={ev.scalar_label} scalar={ev.scalar} prev={prev.get('scalar')} "
               f"stall={stall} instance={iid} age={ev.instance_age_min:.0f}min {ev.note}")
         if not dry_run:
-            _write_json_key(state_bucket, pkey,
-                            {"scalar": ev.scalar, "stall": stall, "kind": kind.name,
-                             "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                             "phase": ev.scalar_label, "verdict": verdict})
+            wrote = _write_json_key(state_bucket, pkey,
+                                    {"scalar": ev.scalar, "stall": stall, "kind": kind.name,
+                                     "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                                     "phase": ev.scalar_label, "verdict": verdict})
+            if not wrote:
+                # THIS IS AN ALERT, NOT A WARNING. `prev_scalar` is the ONLY memory this watchdog has. If the
+                # write keeps failing, every pass reads prev=0, every pass therefore sees "advanced", and the
+                # stall detector can never fire again — the watchdog goes on reporting RUNNING forever while
+                # measuring nothing. That is the exact defect class this whole file exists to prevent, so it
+                # fails the job rather than leaving a ::warning:: nobody opens.
+                alerts += 1
+                _annotate("error", "VAST WATCHDOG STATE WRITE FAILED",
+                          f"{uid} — could not persist progress state to s3://{state_bucket}/{pkey}. Without "
+                          f"it prev_scalar is 0 on every pass, so EVERY tick reads as 'advanced' and the "
+                          f"stall detector is silently disabled. Fix the credentials/bucket before trusting "
+                          f"any RUNNING verdict from this watchdog.")
 
         if verdict == "DONE":
             _annotate("notice", "VAST WATCHDOG DONE",
