@@ -84,7 +84,7 @@ $0.74 spent, ~$35 not spent.**
 |---|---|---|
 | Tier 0 — categorical screen | **PASSED** *(narrowed)* | NR4A3 has chemistry the paralogues lack — but only at the aligned position, and it holds because the paralogues' equivalent cysteines are **buried**, not absent |
 | Tier 1 — surface atlas | **PASSED** | there is a surface to steer an E3 against |
-| Tier 2 — basin nomination | **PASSED, both routes intact** | at least one way to build a selective degrader exists — on the lysine route *and*, at a longer linker, the covalent one |
+| Tier 2 — basin nomination | **PASSED, both routes intact** | at least one way to build a selective degrader exists — on the lysine route **and** the covalent one, which clears the 12-atom gate on **3 basins** (shortest 10 atoms) |
 | RUNG 1 — accuracy control | **PASSED** | the binary free-energy pipeline reproduces a known answer |
 | RUNG 2 — cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
 | RUNG 2b — 4 fs speed test, stage 1 | **PASSED** | every future simulation ~1.56× cheaper; stage 2 in flight |
@@ -97,27 +97,59 @@ $0.74 spent, ~$35 not spent.**
 | **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
 | **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
 
-### ✅ RESOLVED 2026-07-26 — the covalent design route survives; it missed the gate by ONE ATOM
+### ✅ PASSED — the covalent design route clears the gate. **3 basins, not 0, and not "missed by one atom".**
 
-Correcting a real bug (the reach rule had been crediting the electrophile's pendant with *shortening* the
-linker span, which no pendant can do) dropped the count of basins placing an electrophile within the
-**12-atom** gate from **7 to 0**, which read as "the covalent route is dead". **It is not.** Under the
-corrected rule the shortest modelled reach to **C397 is 13 atoms** — the gate is 12 — with **three** basins at
-13 (`vhl|M2`, `vhl|M6` at 0.75 pose persistence, `vhl|M7`), six more at 14–16, and **174** basin–cysteine
-reach records overall. **So the zero is a threshold artifact, not an absence of reach.**
+⚠ **This block previously read "it missed the gate by ONE ATOM" and that was WRONG — my error, corrected
+2026-07-26.** I read a **superseded artifact** and reported its numbers as the corrected result.
 
-**The gate stays at 12 and is NOT moved to rescue the count.** Moving a threshold after seeing it fail is the
-retune this program forbids. What changes instead is the **design requirement**, and it now carries a priced
-cost: a covalent construct needs a **13–14 atom** linker rather than ≤12, and by the paralogue-collision
-profile (**0 at 12 atoms, 0.081 at 16, 0.258 at 20**) that buys a **small but non-zero** chance of the linker
-also reaching a paralogue cysteine — bounded between 0 and 0.081, and not worth interpolating more finely than
-that from three points. **Consequence: the covalent route is viable but strictly worse than it looked, and
-every atom of linker length is now a selectivity cost, not just a synthesis cost.** *(Shortest corrected reach
-per residue: C397 **13**, C420 **16**, C559 **31** — C559 is out of contention at any usable length.)*
+| run | samples | runtime | term (a) | term (b) | nominal |
+|---|---|---|---|---|---|
+| published, pre-correction | 10⁶ | 4294.9 s | **7** | 40 | 28 |
+| *what I quoted* — corrected but **under-sampled** | **250 000** | **1082 s** | **0** | **31** | 27 |
+| **corrected + MATCHED — authoritative** | 10⁶ | 4303.6 s | **3** | **40** | **28** |
 
-*Provenance: the successor artifact is the 12-pose / 192-basin run, which matches the published run's scope
-exactly; the 8-pose / 128-basin matched-native run reporting 2 is a narrower staging comparison and is not
-comparable.*
+**The signal I missed was sitting in my own table: term (b) had moved, 40 → 31.** Term (b) is computed from
+the lysine transfer zone and is **untouched by the reach rule** — it had no business changing at all, and its
+movement was proof the run was not comparable rather than merely corrected. I checked provenance on *scope*
+(12 poses, 192 basins — which matched) and never on **sample count**, where the 4× runtime gap was visible.
+The matched run reproduces published term (b) **and** the nominal limb **exactly**, so only term (a) moved and
+the comparison is genuinely rule-attributable. Confirmed-basin patches match at Jaccard **1.000**.
+
+**So the corrected result is 7 → 3, and the gate PASSES.** Three basins clear the preregistered **12-atom**
+gate: **`vhl|M2` at 10 atoms** (reach fraction 0.057), **`vhl|M3` at 11** (0.021), **`crbn|M17` at 12** (0.045,
+term-b 3.87×). Shortest reach per residue is **C397 10 · C420 16 · C559 27** — *not* the 13/16/31 I reported.
+And nothing is rescued by a newly-invented surface: **`crbn|M17` matches `crbn|M0`** — the strongest
+nomination — at Jaccard exactly **0.600**, i.e. the gate-passing CRBN placement sits on the strongest basin's
+own surface. (`crbn|M0` itself reads 13 and does miss by one.)
+
+**The gate was never moved, and did not need to be.** The design consequence from the collision profile still
+stands and is the durable part: **0 collisions at 12 atoms, 0.081 at 16, 0.258 at 20**, so every extra linker
+atom is a *selectivity* cost, not just a synthesis cost. **The honest cut-off is 14 backbone atoms** — the
+longest length at which reach-only collision is a measured zero. It is **not** made a gate, for two stated
+reasons: no *enumerated molecule* reaches 12 (the shortest is 14), and reach-**and**-exposure is 0.000
+everywhere, so the axis rests on **burial**, not on distance.
+
+### Library and matched pair — one real defect found and fixed
+
+**The 21-construct library survives the reach correction with ZERO casualties**, and **no construct ever
+"worked" because of the pendant-credit bug** — re-enumeration returns all 21 field-for-field identical. The
+reason is structural: 5b's enumerator always used the exact three-ball kernel, which pre-dates the correction;
+the bug lived in `basin_geom.linker_can_visit`, consumed only by the basin search.
+
+**But the recommended pair's molecules were built for the WRONG RESIDUE.** The preregistered wedge rule
+(*NR4A3 must present a donor, both paralogues must not*) was enforced in `matched_pair()` but **not** in
+`enumerate_library()`. The record read `wedge_target_residue: T407` while its own d/d₀ carried
+`branch_target: C397` — **Asn in NR4A1, Ser in NR4A2, so BOTH paralogues keep an H-bond partner**: exactly the
+"S ≈ 0 by construction" trap the rule exists to prevent. The two selections disagreed on **8 of 10** records.
+Fixed with one shared `select_wedge_site()` plus a refusal when emitted molecules don't match the reported
+site. Cost: 12 constructs. **Library is now 36 exemplar + 18 representative, RDKit-verified 54/54.**
+
+**The pair stands; the shared-LENGTH reading does not.** `crbn|M0` exemplar, 3-(3-pyridyl)-L-Ala vs L-Phe at
+**Thr407**, **19 backbone atoms**, **9.04 Å** E3 clearance, 64 heavy atoms, one aromatic C–H→N — every
+preserved property re-measured rather than asserted. But on that placement the covalent series sits at 14 and
+the wedge pair at 19; a single chain carrying **both** needs 16, and the segment grid cannot build it (branch
+floor k=6 against T407's k∈[2,3] at n=16). **That is a grid limit, not geometry**, and it is named as a $0
+follow-up rather than fixed quietly, because it would edit a preregistered enumeration.
 
 ---
 
