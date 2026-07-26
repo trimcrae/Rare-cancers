@@ -863,3 +863,43 @@ runs**.
 **And note what made this checkable at all:** the diagnostic had to be pointed at a *different lane's* storage
 (S3 via Vast, not GCS), which is why `--fetch-trajectories` and the Vast `converge` task exist. A finding that can
 only be verified on the lane that produced it is a finding that cannot be cross-checked.
+
+### L.3e A free pre-check on the replacement design — and a prediction worth pre-registering
+
+The valB_mini rescope's specified replacement is the **synthetic closure triangle** (~$6, `valb_triangle_closure.py`),
+3 edges × (ternary + binary) = **6 legs**. Its three binary legs are *the same construction that departs*: an
+alchemical morph of the ligand inside VCB. The departure is established across two cycles, two timesteps and two
+providers (§L.3d), so there is no reason to expect these three to behave differently.
+
+**The design is already built for this, which is the good news.** `closure_decomposition` splits the residual:
+
+    R_coop = R_ternary − R_binary,  each a closed cycle in its own environment, each separately zero for an exact
+    method — and its `_rule` already says to report both, never R_coop alone, because a clean-looking R_coop can
+    be two large closures cancelling.
+
+So nothing about the design needs changing. What changes is that it now has a **specific prediction to state in
+advance**, which is worth more than a generic path-error detector:
+
+> **PRE-REGISTERED PREDICTION.** `R_binary` will be materially non-zero and `R_ternary` will be small, because
+> all three binary legs carry the departure and all three ternary legs do not (0/12 replicas displaced in both
+> cycles measured so far).
+
+Both outcomes are informative, which is what makes it worth stating up front rather than after:
+
+- **R_binary large, R_ternary small** → the departure's bias is **path-dependent**, a closure residual sees it, and
+  the triangle has independently localised the defect to the binary environment. Confirms §L.3b–L.3d by a
+  completely different route.
+- **R_binary small too** → the bias is a per-endpoint **state function**, telescopes out of any cycle, and
+  therefore also largely cancels from ΔΔG_coop. That would mean the departure, while real, corrupts the
+  *cooperativity number* far less than §L.3b implies — and I would have to say so. It is the outcome that argues
+  against my own reading, which is exactly why it belongs in the prediction.
+
+**One thing to actually do, and it is free:** run the pose diagnostic on the triangle's legs when they land.
+`mode=converge` (GCP) and `task=converge` (Vast) both now report the contact-moiety series and λ attribution per
+leg, so this costs a dispatch. **Do not interpret `R_binary` without it** — a non-zero binary closure has at least
+two causes (the departure, or ordinary path error) and the pose data is what separates them.
+
+**And the open design question, stated but NOT decided here:** whether the triangle's binary legs should be run
+**restrained** (§L.3c's remedy, with the standard restraint correction) rather than as-is. Restrained legs would
+make `R_binary` a clean path-error measurement; unrestrained legs make it a measurement of the departure. Those
+are different experiments and the choice is trimcrae's, not mine — it changes what the ~$6 buys.
