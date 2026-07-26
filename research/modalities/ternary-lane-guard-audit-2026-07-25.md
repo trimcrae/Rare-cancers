@@ -772,3 +772,44 @@ very different diagnoses: departures confined to weakly-coupled windows are a pr
 leg wants a restraint, and the ΔG may still be salvageable), whereas departures at the fully-interacting physical
 endpoint mean the **binary complex model itself is wrong**. `reporter.read_replica_thermodynamic_states()` carries
 the per-iteration λ assignment, so this costs reads of a file `mode=converge` already has open.
+
+### L.3c λ attribution: the departure is alchemically FACILITATED but not alchemically CONFINED
+
+GH run 30210186711, the binary leg (`calib_hi_to_lo__binary_vhl`), 12 λ states:
+
+| statistic | at physical endpoint states (0, 11) | in the alchemical interior | per-state histogram |
+|---|---|---|---|
+| **PERSISTENCE** — every over-threshold (replica, frame) pair | 29 | 116 | `{0:12, 1:14, 2:8, 3:11, 4:13, 5:11, 6:11, 7:13, 8:11, 9:11, 10:13, 11:17}` |
+| **INITIATION** — first over-threshold frame, one per replica | **1** | **7** | `{0:1, 4:1, 7:3, 9:2, 10:1}` |
+
+The ternary leg is `0 / 0` on both, with empty histograms — consistent with its 12/12 STABLE classification, and the
+control that says these numbers are measuring something real.
+
+**Read together they give a mechanism that neither gives alone:**
+
+- **Initiation is λ-dependent.** 7 of 8 departures begin in the interior, skewed to the upper-λ states
+  (`{7:3, 9:2, 10:1}` = 6 of 8), where the softcore region is largest. Only 1 of 8 begins at a fully-interacting
+  physical endpoint. **So the alchemical softening is what opens the door.**
+- **Persistence is λ-INdependent.** Once a replica has departed, the displaced configuration survives everywhere
+  on the ladder — the pooled histogram is nearly flat and per-state the endpoints are mildly *enriched*
+  (14.5/state at 0 and 11 vs 11.6/state across the interior). **The physical Hamiltonian does not close the door
+  again.**
+
+**What that licenses, and what it does not:**
+
+- ✅ **It is plausibly a PROTOCOL problem, not necessarily a wrong model.** I had explicitly left open that
+  departures at physical λ would mean "the binary complex model itself is wrong"; the initiation statistic does
+  **not** support that, and I am not claiming it. A restraint on the receptor-contacting moiety would be the
+  obvious remedy for an alchemically-facilitated escape.
+- ✅ **It confirms more sampling will not fix the existing trajectory.** Not because sampling is inadequate, but
+  because the departure is effectively irreversible on this timescale — so the committed trajectory is
+  *contaminated*, with unbound configurations entering MBAR at physical λ, rather than merely under-converged.
+- ❌ **n = 8.** "Concentrated at states 7–10" is 6 of 8 departing replicas. Suggestive of an upper-λ mechanism,
+  nowhere near a rate, and it must not be quoted as one. The `initiation_note` field carries this caveat with the
+  number so it cannot be separated from it.
+- ❌ **It does not establish that a restraint would be sufficient**, only that it addresses the observed
+  initiation channel. Adding one changes the Hamiltonian and needs the standard restraint-correction treatment.
+
+**Net for the r0 cycle, unchanged from §L.3b:** ΔG_binary is not a free energy of the intended bound state, so
+ΔΔG_coop(r0) = −0.534 is not a valid measurement of cooperativity, and the binary arm needs re-running rather than
+extending. What §L.3c adds is *what to change on the re-run*, and that the ternary arm remains clean throughout.

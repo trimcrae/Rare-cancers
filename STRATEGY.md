@@ -231,6 +231,15 @@ Consequences kept separate, because they are independent:
   need a binary re-run that holds its pose, and only then is it worth stating as more than a candidate.
 - **ΔΔG_coop cannot be reported from the r0 cycle at all** until the binary arm is re-run — a blocker
   *independent* of the reverse leg's hysteresis result, which concerns the (clean) ternary arm.
+- **WHAT TO CHANGE ON THE RE-RUN** (λ attribution, GH run 30210186711, audit §L.3c): the escape is *alchemically
+  facilitated but not alchemically confined*. **7 of 8** departures **initiate** in the interior, skewed to the
+  upper-λ states where the softcore region is largest (`{7:3, 9:2, 10:1}`), so the softening opens the door — but
+  once departed the displaced state **persists at every λ including both physical endpoints**, so the physical
+  Hamiltonian does not close it. Consequences: a **restraint on the receptor-contacting moiety** is the obvious
+  remedy (with the standard restraint correction); the existing trajectory is **contaminated, not merely
+  under-converged**, so extending it is not an option; and this does **not** show the binary complex model is
+  wrong — an interpretation the persistence numbers alone would have supported and the initiation numbers do not.
+  *n = 8 departing replicas — suggestive of an upper-λ mechanism, not a rate.*
 
 ⚠ **ETA CORRECTION, mine:** I quoted "~1 AM" for the ternary leg. It is still in **warmup** at 385 minutes
 (1216 of 1600), i.e. ~0.317 min/iteration. Remaining warmup ≈ 122 min, then 2000 production iterations which
