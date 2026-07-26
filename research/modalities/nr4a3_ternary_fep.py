@@ -699,7 +699,20 @@ def run_leg():
            # protocol hash but with no system identity recorded at all, so comparability rested on a hash that
            # by construction does not cover the system. One resolved value, written in both places.
            "charge_method": os.environ.get("CHARGE_METHOD", "am1bcc"),
-           "setup_cache_version": os.environ.get("SETUP_CACHE_VERSION")}
+           # Same defect, same fix: `nr4a3_rbfe` keys its setup cache on
+           # `os.environ.get("SETUP_CACHE_VERSION", "v1")`, so a leg that ran without the variable used **v1**
+           # — while this line recorded `null` and the reduce reported the field UNRECORDED across the cycle.
+           # Record what the run RESOLVED, not what happened to be exported.
+           "setup_cache_version": os.environ.get("SETUP_CACHE_VERSION", "v1")}
+    # ⚠ SAY SO AT WRITE TIME. A missing identity field is only discoverable at reduce time otherwise — which is
+    # how the 4 fs cycle reached a verdict with `system_identity_consistency` UNKNOWN across all three legs and
+    # nobody noticing until the reduction was read by hand. `n_particles` comes from the analysis keys and is
+    # None unless the setup was primed, so it is the one that can still go missing.
+    for _k in ("n_particles", "charge_method", "setup_cache_version"):
+        if out.get(_k) in (None, ""):
+            print(f"  [tfep] ⚠ IDENTITY FIELD MISSING: {_k} is unset on leg {LEG_ID}. ddG_coop is a DIFFERENCE "
+                  f"of legs, and protocol_hash does NOT cover the system — a cycle built from legs that cannot "
+                  f"be identity-checked is comparable only by assumption.", flush=True)
     json.dump(out, open(os.path.join(CKPT, "leg_%s_%s_r%d.json" % (LEG_ID, DIRECTION, SEED)), "w"), indent=2)
     _dg = out["dg_morph_kcal"]; _se = out["mbar_se_kcal"]
     print("  [tfep] LEG DONE %s: ΔG_morph=%s ± %s (MBAR SE) [spot-safe]" % (
