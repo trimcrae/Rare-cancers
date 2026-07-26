@@ -34,8 +34,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from congeneric_fanout import (  # noqa: E402
-    PRIMARY_FRAME, PRIMARY_RECEPTOR, checkpoint_prefix, cost_estimate, cycle_closure, default_units, plan,
-    rank_by_ddg, result_key, unit_env, wave_plan,
+    PRIMARY_FRAME, PRIMARY_RECEPTOR, checkpoint_prefix, cost_estimate, cost_plan, cycle_closure,
+    default_units, plan, rank_by_ddg, result_key, unit_env, wave_plan,
 )
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
 
@@ -167,9 +167,17 @@ mark done
 """
 
 
-def build_jobspec(unit, branch, bucket, idx):
-    """JobSpec for ONE fan-out unit (both alchemical legs + reduce on a single rented 4090)."""
+def build_jobspec(unit, branch, bucket, idx, exclude_machine_ids=()):
+    """JobSpec for ONE fan-out unit (both alchemical legs + reduce on a single rented 4090).
+
+    `exclude_machine_ids` is applied to a PER-JOB COPY of FANOUT_RES, never to the module-level object: the
+    fleet loop widens the exclusion set as it goes (so 18 units land on 18 distinct hosts instead of stacking
+    on the single cheapest one and contending for its GPU), and mutating a shared dataclass would make every
+    already-built spec change under it."""
+    import dataclasses
     label = f"{LABEL_PREFIX}{idx:02d}-{unit['ligand_b']}"[:64]
+    res = dataclasses.replace(FANOUT_RES, exclude_machine_ids=tuple(sorted(str(m) for m in
+                                                                          exclude_machine_ids)))
     result_s3 = f"s3://{bucket}/{RESULT_PREFIX}/{unit['unit_id']}"
     ckpt = checkpoint_prefix(unit, RESULT_PREFIX)
     pipeline = (_PREAMBLE + _LEG + _REDUCE).replace("{repo}", REPO)
@@ -182,7 +190,7 @@ def build_jobspec(unit, branch, bucket, idx):
            if k in ("RECEPTOR", "LIGAND_A", "LIGAND_B")},
     }
     return JobSpec(name=label, command=["bash", "-lc", pipeline], image=FEP_IMAGE,
-                   checkpoint_uri=f"s3://{bucket}/{ckpt}", resume=True, resources=FANOUT_RES,
+                   checkpoint_uri=f"s3://{bucket}/{ckpt}", resume=True, resources=res,
                    max_runtime_s=MAX_RUNTIME_S, env=env)
 
 
@@ -242,6 +250,119 @@ def _require_bucket():
     if not BUCKET:
         raise SystemExit("[s1f] VAST_CKPT_BUCKET is required")
     return BUCKET
+
+
+# ---- committed progress: the ONLY durable evidence that the science advanced -------------------------------
+#
+# WHY THIS EXISTS AND WHY IT IS NOT `phase.txt`. `phase.txt` says WHICH phase a unit reached; it says nothing
+# about whether that phase is still moving. A rented Vast box can sit up with a wedged container, a dead
+# sampler or an idle GPU and keep reporting `leg-complex-running` forever, which is precisely the "monitoring
+# that watches nothing" failure this repo has paid for repeatedly. The spot commit store is written by the
+# sampler itself every RBFE_WARMUP_CKPT_ITERS / RBFE_PROD_CKPT_ITERS iterations, survives the instance, and
+# its iteration number only goes UP — so it is the progress scalar, and `phase.txt` is context around it.
+#
+# Layout, from rbfe_spot_checkpoint.S3CommitStore:
+#     <ckpt_prefix>/<leg>/<phase>/iter-XXXXXXXX/<generation>/COMMITTED.json
+# The scalar ranks production above warmup so the warmup->production transition can never read as a
+# regression, and ranks the solvent leg above the complex leg for the same reason (a unit runs complex first,
+# so its committed iteration count RESETS when the solvent leg starts).
+_PHASE_RANK = {"warmup": 0, "production": 1}
+_LEG_RANK = {"complex": 0, "solvent": 1}
+_PHASE_STRIDE = 1_000_000
+_LEG_STRIDE = 10_000_000
+
+
+def committed_progress(s3, bucket, unit):
+    """(scalar, detail) of the furthest committed iteration of this unit. scalar < 0 means UNREADABLE.
+
+    `readable=False` is emphatically not "zero progress": treating a listing failure as zero manufactures a
+    stall out of a network blip. Callers must skip, not act, on a negative scalar."""
+    base = f"{checkpoint_prefix(unit, RESULT_PREFIX)}"
+    best = {}
+    try:
+        pag = s3.get_paginator("list_objects_v2")
+        for page in pag.paginate(Bucket=bucket, Prefix=f"{base}/"):
+            for obj in page.get("Contents", []):
+                # .../<leg>/<phase>/iter-XXXXXXXX/<generation>/COMMITTED.json
+                rest = obj["Key"][len(base):].lstrip("/").split("/")
+                if len(rest) < 3 or not rest[2].startswith("iter-"):
+                    continue
+                leg, phase = rest[0], rest[1]
+                if leg not in _LEG_RANK or phase not in _PHASE_RANK:
+                    continue
+                try:
+                    it = int(rest[2].split("iter-")[1])
+                except (IndexError, ValueError):
+                    continue
+                k = (leg, phase)
+                best[k] = max(best.get(k, 0), it)
+    except Exception as e:  # noqa: BLE001
+        return -1, f"commit store unlistable: {type(e).__name__}: {e}"
+    if not best:
+        return 0, "no commit yet (boot / stage / setup / minimise)"
+    (leg, phase), it = max(best.items(),
+                           key=lambda kv: (_LEG_RANK[kv[0][0]], _PHASE_RANK[kv[0][1]], kv[1]))
+    scalar = _LEG_RANK[leg] * _LEG_STRIDE + _PHASE_RANK[phase] * _PHASE_STRIDE + it
+    return scalar, f"{leg}/{phase}@{it}"
+
+
+# ---- host exclusion: realised throughput fed back into selection -------------------------------------------
+#
+# `$/ns` ranking multiplies a CARD CONSTANT (vast_cost_model.MEASURED_NS_PER_DAY_84K), so it is structurally
+# blind to a host that is slower than its card — a starved host scores as if healthy, wins selection, and
+# keeps winning (pricing.md section A.1). Same blind spot as a host that never starts: infinite realised
+# $/ns, invisible to the ranking, which is why `ResourceSpec.exclude_machine_ids` exists at all.
+#
+# The exclusion set therefore lives in S3, NOT in this process: a launch in one CI run must see what a
+# monitor in a different CI run learned, with no agent awake in between.
+#
+# ⚠ SCOPE, and it is narrower than the rule pricing.md A.1 first proposed and then WITHDREW. Excluding on low
+# `gpu_util` alone was wrong there because the low utilisation was PLUMED's CPU-side metadynamics bias, and
+# the same host ran at 74 % on the very next (unbiased) phase — so it would have discarded a host that is
+# perfectly good for every non-metadynamics leg. What survives is the narrower statement: for a workload with
+# NO per-step host-side work, the card constant IS the throughput model, so a sustained shortfall against it
+# is a real defect in the host. This lane is plain RBFE — no PLUMED, no bias, no per-step CPU coupling — so
+# the narrow rule applies here and the withdrawn broad one is not being re-adopted.
+_EXCLUDE_KEY = f"{RESULT_PREFIX}/_excluded_machines.json"
+# Healthy hosts on this class of work sit ~70-95 %. 40 % is well below the healthy band and well above the
+# ~0 % an idle box reports, so it separates "starved" from both "fine" and "not started".
+STARVED_UTIL_PCT = float(os.environ.get("FANOUT_STARVED_UTIL_PCT", "40"))
+# Two CONSECUTIVE observations, because a single sample can catch a checkpoint sync, an S3 upload or the gap
+# between two chunks. One sample is noise; two spaced ticks is the host.
+STARVED_TICKS = int(os.environ.get("FANOUT_STARVED_TICKS", "2"))
+# Nothing is judged before the box has had time to pull a ~6 GiB image and build the hybrid system. Below
+# this age a low utilisation is a cold start, not starvation.
+STARVED_MIN_AGE_MIN = float(os.environ.get("FANOUT_STARVED_MIN_AGE_MIN", "75"))
+
+
+def _load_excluded(s3, bucket):
+    doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
+    env = os.environ.get("FANOUT_EXCLUDE_MACHINES", "")
+    ids = {str(m) for m in (doc.get("machine_ids") or [])}
+    ids |= {m.strip() for m in env.split(",") if m.strip()}
+    return sorted(ids), doc
+
+
+def _record_exclusion(s3, bucket, machine_id, why):
+    ids, doc = _load_excluded(s3, bucket)
+    mid = str(machine_id)
+    if mid in ids:
+        return False
+    hist = doc.get("history") or []
+    import datetime
+    hist.append({"machine_id": mid, "why": why,
+                 "utc": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")})
+    try:
+        s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY,
+                      Body=json.dumps({"_what": "Vast machine_ids this lane refuses to re-rent. Realised "
+                                                "throughput is not fed back into $/ns ranking, so without "
+                                                "this a bad host keeps winning selection (pricing.md A.1).",
+                                       "machine_ids": sorted(set(ids) | {mid}),
+                                       "history": hist}, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] could not persist exclusion of machine {mid}: {e}")
+        return False
+    return True
 
 
 # ---- modes ------------------------------------------------------------------------------------------------
@@ -311,14 +432,37 @@ def mode_launch():
     # a unit whose instance is already up is not re-submitted (idempotent top-up)
     todo = [u for u in pending if f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
             not in live_labels]
+
+    # ---- FANOUT_ONLY: launch a NAMED subset, not "the next N in map order" --------------------------------
+    # THE SHAKEOUT RULE NEEDS THIS. 0 of 19 units of this lane has ever produced a ddG: sampling is proven
+    # (three hosts at 95-99 % GPU on the real system in wave 1) but the TERMINUS — reduce both legs, write
+    # ddg.json, upload it — is not. CLAUDE.md's litmus test says a congeneric map has no result that would
+    # cancel the rest, so there is no SCIENTIFIC reason to serialise; but "a pipeline is unproven until you
+    # have watched it reach its real success terminus at least once" still bites, and fanning 19 wide into an
+    # unproven terminus risks paying 19x for zero results. So exactly ONE unit runs first, and it is chosen
+    # DELIBERATELY (the most-advanced checkpoint, i.e. the one closest to the terminus, so the proof costs the
+    # least wall-clock) rather than by map position. Without this flag "one unit" would mean unit 00.
+    only = [t.strip() for t in (os.environ.get("FANOUT_ONLY") or "").split(",") if t.strip()]
+    if only:
+        matched = [u for u in todo if any(t in u["unit_id"] or t in u["ligand_b"] for t in only)]
+        skipped = len(todo) - len(matched)
+        print(f"[s1f] FANOUT_ONLY={only!r} -> {len(matched)} of {len(todo)} pending units selected "
+              f"({skipped} held back)")
+        if not matched:
+            raise SystemExit(f"[s1f] FANOUT_ONLY={only!r} matched no pending unit — refusing to launch "
+                             f"something other than what was asked for")
+        todo = matched
+
     slots = max(0, WIDTH - len(live))
     batch = todo[:slots]
 
-    lo, hi = cost_estimate(len(pending))
+    lo, hi = cost_estimate(len(batch))
     print(f"[s1f] units={len(units)} done={done} pending={len(pending)} live={len(live)} "
           f"free_slots={slots} -> submitting {len(batch)}")
-    print(f"[s1f] remaining fan-out cost band (all {len(pending)} pending units): ${lo}-{hi} "
-          f"| {json.dumps(wave_plan(len(pending), WIDTH))}")
+    print(f"[s1f] cost of THIS submission ({len(batch)} units): plan ${cost_plan(len(batch))} "
+          f"(band ${lo}-{hi}) | whole remaining tranche ({len(pending)} units): "
+          f"plan ${cost_plan(len(pending))} (band ${'-'.join(str(x) for x in cost_estimate(len(pending)))})")
+    print(f"[s1f] wave shape: {json.dumps(wave_plan(len(pending), WIDTH))}")
     for u in batch:
         print(f"[s1f]   queue {u['unit_id']}  ({u['ligand_a']} -> {u['ligand_b']}, {u['edge_class']})")
     if not batch:
@@ -328,9 +472,20 @@ def mode_launch():
         print("[s1f] DRY — set FANOUT_CONFIRM=1 to actually rent instances")
         return
 
+    # Machines this lane has already learned are bad — a capacity refusal, or a sustained shortfall against
+    # the card constant the ranking assumes. Read from S3 so a launch in one CI run inherits what a monitor in
+    # a different CI run discovered, with no agent awake in between.
+    excluded, _ = _load_excluded(s3, bucket)
+    if excluded:
+        print(f"[s1f] excluding {len(excluded)} machine(s) from offer selection: {excluded}")
+
     backend, handles = get_backend("vast"), []
+    # Machines used by THIS wave are also excluded as we go, so an 18-wide fan-out lands on 18 distinct hosts
+    # rather than stacking on the single cheapest one and contending for its GPU.
+    used_machines = set(excluded)
     for u in batch:
-        spec = build_jobspec(u, os.environ.get("GIT_BRANCH", "main"), bucket, idx_of[u["unit_id"]])
+        spec = build_jobspec(u, os.environ.get("GIT_BRANCH", "main"), bucket, idx_of[u["unit_id"]],
+                             exclude_machine_ids=used_machines)
         try:
             h = backend.submit(spec)
         except Exception as e:  # noqa: BLE001 — one host shortage must not abort the wave

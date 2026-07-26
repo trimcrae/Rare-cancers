@@ -234,7 +234,7 @@ superposed into the NR4A3 reference frame, carrying a per-frame core-fit residua
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:49 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 3:37 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
@@ -248,7 +248,7 @@ dollars against a ~$4.3 projection for LANE 13 alone.
 | what | state | ETA (ET) |
 |---|---|---|
 | ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Lane 13 is closed: legs, collect and analysis all landed |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/680` of 2000**, VM up 1196 min. The last 59 min moved exactly **one** 40-iteration block, so no rate is read from it; over the whole **598 min** the leg runs **60.2 iter/h**, agreeing with the 62.3 measured an hour ago | **~Mon 7:20 AM – 12:35 PM**, centre ~noon. That is a few hours later than the `max-effort-3hgq45` session's ~Mon 8:40 AM but well inside the spread of both; its result keys the calibrator rescope |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**) — *driven by the `max-effort-3hgq45` session* | **`production/720` of 2000**. ⚠ **On a NEW VM — `gcp-ternary-30215419909`, up 49 min** — the 1196-min `gcp-ternary-30177970643` is gone. It **resumed from checkpoint** (720 > the 680 it had reached), so nothing was lost; a max-run-duration expiry or a preemption, and that session's lane recovered either way. No rate is read from this window: it spans the restart AND moves exactly one 40-iteration block | **~Mon**, on that session's clock — its result keys the calibrator rescope |
 
 ⚠ **WHY NR4A1's REPLACEMENT HOST APPEARED TO STARVE ITS GPU — kept because the diagnosis outlived the leg,
 which finished on that same host.** Three agreeing

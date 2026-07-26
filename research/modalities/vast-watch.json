@@ -59,7 +59,8 @@
       "owning_workflow": "gpu-nr4a-paralogue-md-vast.yml",
       "exclude_machines": "142143,17720",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "result artifact is in S3; the watchdog reported DONE 2026-07-26 3:37 PM ET. Its ensemble is collected (100 frames) and the categorical-dynamics analysis has run. Kept in the list rather than deleted so the completed unit stays on the record."
     },
     {
       "kind": "paralogue_md",

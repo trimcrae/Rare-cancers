@@ -89,7 +89,12 @@ def test_a_kind_the_engine_implements_but_the_doc_does_not_declare_is_refused():
 
 
 def test_an_entry_missing_a_relaunch_parameter_aborts_the_pass():
+    # Force the row enabled in the throwaway copy: validate() deliberately skips DISABLED entries, so once a
+    # lane completes and its units are disabled this test would assert against an empty problem list and fail
+    # for a reason that has nothing to do with what it checks. The required-key contract is a property of the
+    # SCHEMA, not of which legs are running. (Same coupling bit the ternary list earlier the same day.)
     doc = _generic()
+    doc["watch"][0]["enabled"] = True
     del doc["watch"][0]["metad_ns"]
     problems = wdv.validate(doc, known_kinds=set(vw.KINDS))
     assert problems and "metad_ns" in problems[0][2]
@@ -305,12 +310,16 @@ def test_the_shipped_entries_are_exactly_what_the_builder_produces():
     # list, not deleted, per the file's own editing convention, so the completed unit stays on the record.
     # What this test pins is that the shipped entries stay BUILDER-PRODUCED rather than hand-typed; the
     # enabled flag is lifecycle and is expected to move.
+    # BOTH legs completed 2026-07-26 (NR4A2 8:36 AM, NR4A1 by 3:37 PM) and are `enabled: false`, kept on the
+    # record per the file's editing convention. What this pins is that the entries stay BUILDER-PRODUCED
+    # rather than hand-typed; `enabled` and `_disabled_why` are lifecycle and are expected to move.
     doc = _generic()
     want = [vw.paralogue_entry("NR4A1", git_branch="claude/max-effort-2dq11l-paralogue",
-                               exclude_machines="142143,17720"),
+                               exclude_machines="142143,17720", enabled=False),
             vw.paralogue_entry("NR4A2", git_branch="claude/max-effort-2dq11l-paralogue",
                                exclude_machines="142143,17720", enabled=False)]
-    want[1]["_disabled_why"] = doc["watch"][1].get("_disabled_why")
+    for i in (0, 1):
+        want[i]["_disabled_why"] = doc["watch"][i].get("_disabled_why")
     assert doc["watch"] == want
 
 
@@ -393,14 +402,16 @@ def test_verify_armed_fails_when_the_list_is_present_but_invalid(tmp_path):
 
 
 def test_verify_armed_passes_on_the_shipped_list():
-    # Only the STILL-RUNNING leg is armed; NR4A2 completed and was disabled. verify_armed exists to catch a
-    # live leg going missing from the list, so a finished one must NOT count as armed -- that distinction is
-    # the whole point of the read-back.
-    assert vw.verify_armed(["nr4a-pdyn-nr4a1"], GENERIC_LIST) == ["nr4a-pdyn-nr4a1"]
+    # Both paralogue legs have completed, so NOTHING is armed — and that is the state verify_armed must
+    # report honestly. Its job is to catch a LIVE leg going missing from the list; a finished one must never
+    # count as armed, or "covered" would drift to mean "was covered once".
     # SystemExit, not Exception -- it derives from BaseException, and pytest.raises(Exception) would let the
     # refusal sail through as an uncaught error rather than a passing assertion.
-    with pytest.raises(SystemExit, match="DOES NOT COVER"):
-        vw.verify_armed(["nr4a-pdyn-nr4a2"], GENERIC_LIST)
+    for done_unit in ("nr4a-pdyn-nr4a1", "nr4a-pdyn-nr4a2"):
+        with pytest.raises(SystemExit, match="DOES NOT COVER"):
+            vw.verify_armed([done_unit], GENERIC_LIST)
+    # An empty ask is a legitimate no-op: nothing running, nothing to cover.
+    assert vw.verify_armed([], GENERIC_LIST) == []
 
 
 def test_an_empty_or_missing_list_is_a_legitimate_no_op(tmp_path):
