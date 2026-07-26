@@ -198,7 +198,7 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 10:37 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 11:05 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
@@ -208,7 +208,7 @@ a window long enough to swamp the 40-iteration commit block** (see the quantisat
 |---|---|---|
 | **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | ✅ **metad COMPLETE — `release/1.5` of 15 ns**, up 535 min. GPU **37 % → 82 %** at the phase change, on the same host — the third independent confirmation of [pricing.md §A.1](research/compute/pricing.md). Preempted off a 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint | ~**12:20 PM**, and then watch round 4 chains **collect → analyse** over both ensembles on the FIXED hand-off |
 | ~~NR4A2 paralogue MD~~ (Vast 45896793) | ✅ **DELIVERABLE IN S3, 8:36 AM ET — the paralogue MD pipeline has reached its real success terminus for the first time.** Watch entry disabled. It ran metad on a host whose CPU starved PLUMED (24 % GPU) and finished release on the SAME box at 93 % — the diagnosis in [pricing.md §A.1](research/compute/pricing.md), confirmed twice | landed |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1680/2000**, up 1078 min. **157 iter/h** over the last hour AND over the longest window (442 min) — the two agree exactly | ~**11:40 AM** |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1920/2000**, up 1165 min. **166 iter/h** over 87 min; 157 over the longest window (529 min). **80 iterations from done** | ~**11:35 AM** — the LAST leg of the cycle. When it lands, the reduce computes ΔΔG_coop at 4 fs and the ratified gate applies |
 | ~~RUNG 2b binary edge leg~~ (Vast 45835971) | **✅ DONE 6:37 AM — ΔG_morph 48.1256, no NaN.** Watch entry disabled | landed |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/400` of 2000**, VM up 899 min. Production **RAMPED**: 40 → 60 → **79 iter/h** across three consecutive windows, **63.8** over the whole 301 min. My earlier "40 iter/h" was measured on the first hour after the phase change and was not the rate | **~Mon 5:40–10:40 AM** — consistent with that session's ~Mon 8:40 AM, so my "tracking a day later" flag is **withdrawn**. Its result keys the calibrator rescope |
 
