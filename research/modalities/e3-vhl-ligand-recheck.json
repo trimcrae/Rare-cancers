@@ -1,0 +1,285 @@
+{
+ "_title": "VHL arm staging re-check \u2014 is 9GIO's ligand in the recruiter pocket or on Cys77?",
+ "_why": "The E3 downselect scored VHL on 9GIO. If its ligand is a covalent adduct at Cys77 rather than a hydroxyproline-pocket handle, the ligandability and exit-vector numbers describe a site no VHL degrader linker would leave from. 5T35 (MZ1) is the positive control and is the structure the reported basin result actually consumed.",
+ "_method": "RCSB data API + deposited mmCIF; polymer residues with a heavy atom within 4.5 A of a ligand heavy atom. Pure stdlib.",
+ "_limits": [
+  "Contact lining is geometry, not an energetic assessment of ligandability.",
+  "A covalent linkage is inferred from proximity to a Cys SG, not read from struct_conn.",
+  "This CANNOT move the Tier-2 verdict: that result consumed 5T35/8R5H, not 9GIO."
+ ],
+ "entries": {
+  "9GIO": {
+   "pdb_id": "9GIO",
+   "expected_ccd": "3JF",
+   "title": "Crystal structure of the VHL-EloC-EloB complex with a covalent compound bound to C77 of VHL.",
+   "resolution_A": 1.486,
+   "nonpolymer_ids": [
+    "4",
+    "5"
+   ],
+   "polymer_names": [
+    {
+     "entity": "1",
+     "name": "Elongin-B",
+     "chains": [
+      "A"
+     ]
+    },
+    {
+     "entity": "2",
+     "name": "Isoform 2 of Elongin-C",
+     "chains": [
+      "B"
+     ]
+    },
+    {
+     "entity": "3",
+     "name": "von Hippel-Lindau disease tumor suppressor",
+     "chains": [
+      "C"
+     ]
+    }
+   ],
+   "ligands": [
+    {
+     "entity": "4",
+     "ccd": "3JF",
+     "name": "N-acetyl-3-methyl-L-valyl-(4R)-4-hydroxy-N-[4-(4-methyl-1,3-thiazol-5-yl)benzyl]-L-prolinamide"
+    },
+    {
+     "entity": "5",
+     "ccd": "A1IMD",
+     "name": "N-[2-(dimethylsulfamoyl)-5-[(1-methylpyrazol-4-yl)methoxy]phenyl]propanamide"
+    }
+   ],
+   "n_atoms_parsed": 3043,
+   "per_ligand": {
+    "3JF": {
+     "n_ligand_heavy": 33,
+     "n_lining_residues": 16,
+     "lining_chains": [
+      "C"
+     ],
+     "lining_polymers": [
+      "von Hippel-Lindau disease tumor suppressor"
+     ],
+     "hyp_pocket_overlap": [
+      98,
+      99,
+      101,
+      107,
+      109,
+      110,
+      111,
+      112,
+      115,
+      117
+     ],
+     "n_hyp_pocket_overlap": 10,
+     "cys77_in_lining": false,
+     "nearest_cys_sg_A": [
+      [
+       12.35,
+       "C",
+       "77"
+      ],
+      [
+       30.68,
+       "C",
+       "162"
+      ],
+      [
+       34.65,
+       "B",
+       "112"
+      ],
+      [
+       40.01,
+       "B",
+       "74"
+      ],
+      [
+       46.22,
+       "A",
+       "60"
+      ]
+     ]
+    },
+    "A1IMD": {
+     "n_ligand_heavy": 25,
+     "n_lining_residues": 7,
+     "lining_chains": [
+      "C"
+     ],
+     "lining_polymers": [
+      "von Hippel-Lindau disease tumor suppressor"
+     ],
+     "hyp_pocket_overlap": [
+      106
+     ],
+     "n_hyp_pocket_overlap": 1,
+     "cys77_in_lining": true,
+     "nearest_cys_sg_A": [
+      [
+       1.84,
+       "C",
+       "77"
+      ],
+      [
+       29.14,
+       "C",
+       "162"
+      ],
+      [
+       30.48,
+       "B",
+       "112"
+      ],
+      [
+       31.26,
+       "A",
+       "60"
+      ],
+      [
+       32.2,
+       "B",
+       "74"
+      ]
+     ]
+    }
+   }
+  },
+  "5T35": {
+   "pdb_id": "5T35",
+   "expected_ccd": null,
+   "title": "The PROTAC MZ1 in complex with the second bromodomain of Brd4 and pVHL:ElonginC:ElonginB",
+   "resolution_A": 2.7,
+   "nonpolymer_ids": [
+    "5"
+   ],
+   "polymer_names": [
+    {
+     "entity": "1",
+     "name": "Bromodomain-containing protein 4",
+     "chains": [
+      "A",
+      "E"
+     ]
+    },
+    {
+     "entity": "2",
+     "name": "Transcription elongation factor B polypeptide 2",
+     "chains": [
+      "B",
+      "F"
+     ]
+    },
+    {
+     "entity": "3",
+     "name": "Transcription elongation factor B polypeptide 1",
+     "chains": [
+      "C",
+      "G"
+     ]
+    },
+    {
+     "entity": "4",
+     "name": "Von Hippel-Lindau disease tumor suppressor",
+     "chains": [
+      "D",
+      "H"
+     ]
+    }
+   ],
+   "ligands": [
+    {
+     "entity": "5",
+     "ccd": "759",
+     "name": "(2~{S},4~{R})-1-[(2~{S})-2-[2-[2-[2-[2-[2-[(9~{S})-7-(4-chlorophenyl)-4,5,13-trimethyl-3-thia-1,8,11,12-tetrazatricyclo[8.3.0.0^{2,6}]trideca-2(6),4,7,10,12-pentaen-9-yl]ethanoylamino]ethoxy]ethoxy]ethoxy]ethanoylamino]-3,3-dimethyl-butanoyl]-~{N}-[[4-(4-methyl-2,3-dihydro-1,3-thiazol-5-yl)phenyl]methyl]-4-oxidanyl-pyrrolidine-2-carboxamide"
+    }
+   ],
+   "n_atoms_parsed": 7415,
+   "per_ligand": {
+    "759": {
+     "n_ligand_heavy": 138,
+     "n_lining_residues": 64,
+     "lining_chains": [
+      "A",
+      "D",
+      "E",
+      "H"
+     ],
+     "lining_polymers": [
+      "Bromodomain-containing protein 4",
+      "Von Hippel-Lindau disease tumor suppressor"
+     ],
+     "hyp_pocket_overlap": [
+      98,
+      99,
+      101,
+      107,
+      109,
+      110,
+      111,
+      112,
+      115,
+      117
+     ],
+     "n_hyp_pocket_overlap": 10,
+     "cys77_in_lining": false,
+     "nearest_cys_sg_A": [
+      [
+       4.01,
+       "A",
+       "429"
+      ],
+      [
+       4.03,
+       "E",
+       "429"
+      ],
+      [
+       12.04,
+       "A",
+       "391"
+      ],
+      [
+       12.04,
+       "E",
+       "391"
+      ],
+      [
+       12.11,
+       "D",
+       "77"
+      ]
+     ]
+    }
+   }
+  }
+ },
+ "verdict_9GIO": {
+  "3JF": {
+   "on_VHL": true,
+   "in_hydroxyproline_pocket": true,
+   "n_hyp_pocket_residues_contacted": 10,
+   "contacts_Cys77": false,
+   "nearest_cys_sg_A": [
+    12.35,
+    "C",
+    "77"
+   ]
+  },
+  "A1IMD": {
+   "on_VHL": true,
+   "in_hydroxyproline_pocket": false,
+   "n_hyp_pocket_residues_contacted": 1,
+   "contacts_Cys77": true,
+   "nearest_cys_sg_A": [
+    1.84,
+    "C",
+    "77"
+   ]
+  }
+ }
+}

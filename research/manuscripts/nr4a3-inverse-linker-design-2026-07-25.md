@@ -8,7 +8,7 @@
 >
 > **Status:** DONE. Kernels and driver built and unit-tested (**52 tests**, each against a closed-form answer,
 > a hand-constructed case, or an identity the module must share with `basin_geom`); the design driver run; the
-> library emitted and **RDKit-verified GREEN on CI — 22/22 constructs, 0 failures**, with every backbone length
+> library emitted and **RDKit-verified GREEN on CI — **21/21** constructs, 0 failures ⚠ *(corrected 2026-07-26: this line and §565 said 22, stale by two CI runs; the artifact, STRATEGY.md and the manuscript all say 21)***, with every backbone length
 > and branch position re-derived from the parsed molecule rather than trusted from the geometry that proposed
 > it. **No GPU was used and none is requested by this rung. $0 realized.**
 >
@@ -562,7 +562,7 @@ why it must not be run as though it were the kill-switch either.
 the precise changes to apply, each with its evidence.*
 
 **D1 — RUNG 5b status.** `[ ] 5b · Inverse linker design — ~$0–20 (mostly $0 CPU)` → **`[x]` … DONE
-2026-07-25 · $0 REALIZED**, 22 constructs across all five confirmed basins, RDKit-verified. The `$0–20`
+2026-07-25 · $0 REALIZED**, **21** constructs across all five confirmed basins, RDKit-verified. The `$0–20`
 band's mid should become the realized **$0**, by the same convention `valA_mini` already uses; regenerate the
 ladder total with `vast_cost_model.py` rather than typing it, and register the superseded value in
 `pinned-figures.json` in the same commit.

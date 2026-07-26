@@ -1,0 +1,280 @@
+name: NR4A paralogue MD ensembles (Vast) — LANE 13
+
+# Matched NR4A1 / NR4A2 conformer ensembles, built with the IDENTICAL protocol that produced the committed
+# NR4A3 ensemble, to test whether paralogue DYNAMICS open a COMPENSATING site the static single-conformer
+# comparison cannot see: another cysteine anywhere in the fold that a populated conformer brings within tether
+# range of the same linker paths, or exposed lysines that make the E2~Ub transfer term non-discriminating.
+# The categorical axis is the basis Tier 2 passed on, so this is worth knowing BEFORE the flagship spend.
+#
+# HOW A TASK IS FIRED FROM A FEATURE BRANCH. A `workflow_dispatch` is only dispatchable once the file is on the
+# DEFAULT branch, and this lane may not push to main. A `push:` trigger runs from the pushed branch with no
+# default-branch dependency (the mechanism gpu-protfep-vast.yml already uses), so the task is read from
+# research/modalities/nr4a-paralogue-md-task.json and firing a task means committing a change to that file.
+# The path filter is scoped to the task file ALONE, so ordinary code pushes on this branch never fire GPU work,
+# and every run that did fire is a git-auditable commit. Once this file reaches main, dispatch inputs win.
+#
+# LADDER, cheapest-decisive-first — nothing auto-fires:
+#   selftest -> $0   pure-helper checks + a dry-run JobSpec (no rental)
+#   bake     -> $0   build + push docker.io/triskit23/nr4a-metad
+#   smoke    -> ~$0.10  ONE host, toy lengths, the whole chain, proving image + PLUMED + CV mapping + S3
+#   launch   -> the real legs, NR4A1 and NR4A2 CONCURRENTLY (no result from one would cancel the other, so
+#               serialising would be pure wall-clock for zero decision value)
+#   status / collect / analyse / reap / stop -> $0
+
+on:
+  push:
+    branches: [claude/max-effort-2dq11l-paralogue]
+    paths:
+      - research/modalities/nr4a-paralogue-md-task.json
+  workflow_dispatch:
+    inputs:
+      task:
+        description: selftest | bake | smoke | launch | status | watch | collect | analyse | reap | stop
+        type: choice
+        options: [selftest, bake, smoke, launch, status, watch, collect, analyse, reap, stop]
+        default: selftest
+      targets:
+        description: "comma-separated paralogues (default NR4A1,NR4A2)"
+        type: string
+        default: ""
+      vast_image:
+        description: "override the Vast image (blank = docker.io/triskit23/nr4a-metad:latest)"
+        type: string
+        default: ""
+      vast_ckpt_bucket:
+        description: "S3 bucket for results (blank = sagemaker-us-east-2-646605541856)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+# NB concurrency is set PER JOB, keyed by the task, not workflow-wide. A workflow-level group would make a
+# 5-hour `watch` cancel (or block) the ~1-hour `analyse` that has to run alongside it, and neither is a partial
+# mutation of the other. Per task: a new run of the SAME task supersedes the old one; different tasks coexist.
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      task: ${{ steps.p.outputs.task }}
+      targets: ${{ steps.p.outputs.targets }}
+      metad_ns: ${{ steps.p.outputs.metad_ns }}
+      release_ns: ${{ steps.p.outputs.release_ns }}
+      n_rep: ${{ steps.p.outputs.n_rep }}
+      exclude_machines: ${{ steps.p.outputs.exclude_machines }}
+      launch_targets: ${{ steps.p.outputs.launch_targets }}
+      analyse_samples: ${{ steps.p.outputs.analyse_samples }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        name: Resolve the task (dispatch inputs win over the task file)
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          d = json.load(open("research/modalities/nr4a-paralogue-md-task.json"))
+          ev = os.environ.get("GITHUB_EVENT_NAME", "")
+          task = (os.environ.get("IN_TASK") or "").strip() if ev == "workflow_dispatch" else ""
+          task = task or str(d.get("task", "noop"))
+          targets = (os.environ.get("IN_TARGETS") or "").strip() or str(d.get("targets", "NR4A1,NR4A2"))
+          # `launch_targets` lets a relaunch re-rent ONE leg without also re-renting a healthy sibling,
+          # while `targets` keeps the watch/collect/analyse tasks covering the whole set.
+          lt = str(d.get("launch_targets") or "").strip() or targets
+          print(f"task={task}")
+          print(f"targets={targets}")
+          print(f"launch_targets={lt}")
+          print(f"metad_ns={d.get('metad_ns', 60)}")
+          print(f"release_ns={d.get('release_ns', 5)}")
+          print(f"n_rep={d.get('n_rep', 3)}")
+          print(f"exclude_machines={d.get('exclude_machines', '')}")
+          print(f"analyse_samples={d.get('analyse_samples', 500000)}")
+          PY
+          echo "::notice title=LANE13 TASK::$(grep '^task=' "$GITHUB_OUTPUT" | tail -1)"
+        env:
+          IN_TASK: ${{ github.event.inputs.task }}
+          IN_TARGETS: ${{ github.event.inputs.targets }}
+
+  selftest:
+    needs: plan
+    if: ${{ needs.plan.outputs.task == 'selftest' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Workflows still parse, and the lane's pure helpers behave
+        run: |
+          set -euo pipefail
+          python -m pip install -q pyyaml
+          python research/modalities/tests/test_workflows_parse.py | tail -3
+          python research/modalities/tests/test_paralogue_dynamics.py
+      - name: Dry-run JobSpec (no rental, no network)
+        run: |
+          set -euo pipefail
+          python research/modalities/nr4a_paralogue_md_vast_launch.py --dry-run \
+            --targets "${{ needs.plan.outputs.targets }}"
+
+  bake:
+    needs: plan
+    if: ${{ needs.plan.outputs.task == 'bake' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DOCKERHUB_USER: triskit23
+      IMAGE: triskit23/nr4a-metad
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reclaim runner disk (CUDA base + conda solve are multi-GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL "$AGENT_TOOLSDIRECTORY" || true
+          df -h / | tail -1
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
+      - name: Build + push the NR4A metad/release image
+        run: |
+          set -eo pipefail
+          SHA_TAG="${GITHUB_SHA::12}"
+          docker build -f research/compute/Dockerfile.nr4ametad \
+            -t "docker.io/${IMAGE}:latest" -t "docker.io/${IMAGE}:${SHA_TAG}" .
+          docker push "docker.io/${IMAGE}:latest"
+          docker push "docker.io/${IMAGE}:${SHA_TAG}"
+          echo "::notice title=BAKED::docker.io/${IMAGE}:latest (also :${SHA_TAG}) — the Docker Hub repo must be PUBLIC so Vast can pull it."
+
+  run:
+    needs: plan
+    concurrency:
+      group: lane13-run
+      cancel-in-progress: false
+    if: ${{ needs.plan.outputs.task == 'smoke' || needs.plan.outputs.task == 'launch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+      VAST_IMAGE: ${{ github.event.inputs.vast_image }}
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      PDYN_EXCLUDE: ${{ needs.plan.outputs.exclude_machines }}
+      # the watch and collect hand the lane off to the next stage by committing the task file, which is this
+      # workflow's own push trigger — that is what lets watch -> watch -> collect -> analyse finish unattended
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Submit the Vast instance(s)
+        run: |
+          set -eo pipefail
+          python -m pip install -q awscli || true
+          MODE=${{ needs.plan.outputs.task == 'smoke' && 'smoke' || 'real' }}
+          ARGS="--mode $MODE --targets ${{ needs.plan.outputs.launch_targets }}"
+          if [ "$MODE" = "real" ]; then
+            ARGS="$ARGS --metad-ns ${{ needs.plan.outputs.metad_ns }} --release-ns ${{ needs.plan.outputs.release_ns }} --n-rep ${{ needs.plan.outputs.n_rep }}"
+          fi
+          echo "launching: nr4a_paralogue_md_vast_launch.py $ARGS"
+          python research/modalities/nr4a_paralogue_md_vast_launch.py $ARGS
+          echo "::notice title=LANE13 LAUNCHED::$MODE ${{ needs.plan.outputs.targets }} — poll with task=status"
+
+  ops:
+    needs: plan
+    concurrency:
+      group: lane13-ops-${{ needs.plan.outputs.task }}
+      cancel-in-progress: true
+    if: ${{ needs.plan.outputs.task == 'status' || needs.plan.outputs.task == 'watch' || needs.plan.outputs.task == 'collect' || needs.plan.outputs.task == 'analyse' || needs.plan.outputs.task == 'reap' || needs.plan.outputs.task == 'stop' }}
+    runs-on: ubuntu-latest
+    # the analyse task samples the matched placement set at the authoritative scale and then walks every
+    # conformer of three species through it — free CPU, but hours not minutes
+    timeout-minutes: 350
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      TASK: ${{ needs.plan.outputs.task }}
+      TARGETS: ${{ needs.plan.outputs.targets }}
+      # the watch can re-rent a dead leg, so it needs the same code branch and run parameters the launcher used
+      GIT_BRANCH: ${{ github.ref_name }}
+      PDYN_METAD_NS: ${{ needs.plan.outputs.metad_ns }}
+      PDYN_RELEASE_NS: ${{ needs.plan.outputs.release_ns }}
+      PDYN_N_REP: ${{ needs.plan.outputs.n_rep }}
+      PDYN_EXCLUDE: ${{ needs.plan.outputs.exclude_machines }}
+      # the watch and collect hand the lane off to the next stage by committing the task file, which is this
+      # workflow's own push trigger — that is what lets watch -> watch -> collect -> analyse finish unattended
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python -m pip install -q awscli boto3
+
+      - name: Status board (instances + S3 phase + run.log tail)
+        if: ${{ needs.plan.outputs.task == 'status' }}
+        run: python research/modalities/nr4a_paralogue_md_ops.py status --targets "$TARGETS"
+
+      - name: Continuous watch — one CI run that keeps monitoring after this session ends
+        # The repo's Vast watchdog (ternary-vast-watchdog.yml) cannot watch this leg: its relaunch path is
+        # ternary_vast_launch and its watch list lives on main, which this lane may not push to. Rather than
+        # pretend a watchdog is covering it, monitoring is a long-running CI job that polls S3, prints a real
+        # PROGRESS check every 3 min (phase + biased-ns + run.log tail, not 'an instance is up'), reaps
+        # finished hosts, and FAILS on a stall so GitHub's own failure notification fires.
+        if: ${{ needs.plan.outputs.task == 'watch' }}
+        run: python research/modalities/nr4a_paralogue_md_ops.py watch --targets "$TARGETS" --interval-s 180 --max-minutes 330
+
+      - name: Reap finished / terminal / over-backstop instances
+        if: ${{ needs.plan.outputs.task == 'reap' || needs.plan.outputs.task == 'collect' }}
+        run: python research/modalities/nr4a_paralogue_md_ops.py reap --targets "$TARGETS"
+
+      - name: Destroy every nr4a-pdyn instance
+        if: ${{ needs.plan.outputs.task == 'stop' }}
+        run: python research/modalities/nr4a_paralogue_md_ops.py stop
+
+      - name: Pull + unpack the ensembles
+        if: ${{ needs.plan.outputs.task == 'collect' }}
+        run: python research/modalities/nr4a_paralogue_md_ops.py collect --targets "$TARGETS"
+
+      - name: Run the categorical-dynamics analysis
+        if: ${{ needs.plan.outputs.task == 'analyse' }}
+        run: |
+          set -eo pipefail
+          python research/modalities/nr4a_paralogue_dynamics.py --mode all --validate-coverage \
+            --samples "${{ needs.plan.outputs.analyse_samples }}" \
+            --out research/modalities/nr4a-paralogue-dynamics.json 2>&1 | tail -120
+          echo "===================== REPORT ====================="
+          python research/modalities/nr4a_paralogue_report.py
+
+      - name: Commit whatever landed
+        if: ${{ needs.plan.outputs.task == 'collect' || needs.plan.outputs.task == 'analyse' }}
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add -A results/nr4a1-pocket-ensemble results/nr4a2-pocket-ensemble \
+                  research/modalities/nr4a-paralogue-dynamics.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "lane13: ${{ needs.plan.outputs.task }} — paralogue MD ensembles / categorical-dynamics analysis"
+            git pull --rebase origin ${{ github.ref_name }} || true
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+
+      - name: Hand off to the analysis
+        # MUST run AFTER the commit above. set_task does a `git pull --rebase`, which fails outright on a
+        # dirty tree — and immediately after `collect` the tree holds ~200 freshly unpacked frame PDBs. This
+        # step queues the analysis that turns those ensembles into the verdict, so the chain
+        # watch -> collect -> analyse completes with nobody awake.
+        if: ${{ needs.plan.outputs.task == 'collect' }}
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import nr4a_paralogue_md_ops as O
+          O.set_task("analyse", "matched paralogue ensembles collected — running the categorical verdict")
+          PY

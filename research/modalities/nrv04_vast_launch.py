@@ -1482,14 +1482,26 @@ def retro_collect(bucket):
         raw.append({"key": k, "leg": d.get("leg_id"), "seed": d.get("seed")})
         leg_id = d.get("leg_id") or ""
         arm_id, _, mtag = leg_id.partition("__m")
+        # ⚠ THE DRIVER'S KEYS ARE `R1_interface` / `R2_recruitment` / `R3_lys` (nrv04_covalent_md.run_leg's
+        # result dict), NOT `R1` / `R2`. This mapping read `R1`/`R2` until 2026-07-25, which made EVERY
+        # e1_plateau_A None, marked EVERY leg `technical_failure`, and drove the frozen gate to INDETERMINATE
+        # on a panel of 24 flawless legs — verified by a controlled reproduction that fed retro_collect
+        # driver-shaped leg JSONs through a stubbed S3. The failure was silent and, post-hoc, would have looked
+        # like a physics result. The legacy short names are kept as a fallback (no artifact in the bucket uses
+        # them) and the schema check below refuses to let a repeat be silent.
+        r1 = d.get("R1_interface") or d.get("R1") or {}
+        r2 = d.get("R2_recruitment") or d.get("R2") or {}
+        r3 = d.get("R3_lys") or d.get("R3") or {}
         rec = {
             "arm_id": arm_id,
             "cofold_model_seed": int(mtag) if mtag.isdigit() else None,
             "replica": d.get("seed"),
-            "e1_plateau_A": ((d.get("R1") or {}).get("plateau_A")),
-            "e2_stable": ((d.get("R1") or {}).get("stable")),
-            "e3_mean_contacts": ((d.get("R2") or {}).get("mean_contacts")),
-            "technical_failure": bool(d.get("blew_up")) or ((d.get("R1") or {}).get("plateau_A") is None),
+            "e1_plateau_A": r1.get("plateau_A"),
+            "e2_stable": r1.get("stable"),
+            "e3_mean_contacts": r2.get("mean_contacts"),
+            "e4_lys_min_A": r3.get("min_A"),            # prereg §3: E2-E4 reported alongside E1 in every result
+            "blew_up": bool(d.get("blew_up")),
+            "technical_failure": bool(d.get("blew_up")) or (r1.get("plateau_A") is None),
             "source_key": k,
         }
         legs.append(rec)
@@ -1511,8 +1523,23 @@ def retro_collect(bucket):
     missing = sorted(expected - have)
     out = {"n_legs": len(legs), "expected_units": len(expected), "missing_units": missing,
            "panel_complete": not missing, "phases": phases, "legs": legs, "raw_keys": raw}
-    for unit, ph in sorted(phases.items()):
-        print(f"[retro-phase] {unit}: {ph}", flush=True)
+
+    for unit, ph in sorted(phases.items()):          # PROGRESS first: a monitoring check must still print the
+        print(f"[retro-phase] {unit}: {ph}", flush=True)   # phase markers even if the schema guard then fires
+
+    # SCHEMA GUARD. A key-name drift between the driver and this mapping is invisible in the verdict — it
+    # arrives as "every leg technically failed", which reads as a physics/stability result. So: if legs landed,
+    # none blew up, and yet not one produced an E1, that is a SCHEMA mismatch, and it is said out loud.
+    landed = [l for l in legs if not l["blew_up"]]
+    if landed and not any(l["e1_plateau_A"] is not None for l in landed):
+        out["schema_mismatch"] = (
+            "%d leg JSON(s) landed with no blow-up, yet NONE yielded an E1 plateau. That is a leg-JSON schema "
+            "mismatch, not a physics outcome — check that the driver's readout keys (R1_interface / "
+            "R2_recruitment / R3_lys) still match what this collector reads. Verdict suppressed." % len(landed))
+        print("[retro-collect] FATAL " + out["schema_mismatch"], flush=True)
+        out["verdict"] = None
+        json.dump(out, open("nrv04-retro-collect.json", "w"), indent=2)
+        return 1
     if missing:
         out["verdict"] = None
         out["note"] = ("panel INCOMPLETE (%d/%d units) — prereg §4f forbids computing the paralogue contrast "

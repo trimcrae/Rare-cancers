@@ -1,0 +1,37 @@
+{
+  "_what": "Task control file for .github/workflows/gpu-nr4a-paralogue-md-vast.yml (LANE 13).",
+  "_why_a_file_and_not_a_dispatch_input": "A workflow_dispatch can only be dispatched once the workflow file exists on the DEFAULT branch, and this lane may not push to main. A `push:` trigger, by contrast, runs from the pushed branch with no default-branch dependency (the same mechanism gpu-protfep-vast.yml uses). Committing a change to THIS file is therefore how a task is launched from a feature branch, and it leaves a git-auditable record of every run that was fired. Once the workflow reaches main, `workflow_dispatch` inputs override this file.",
+  "_tasks": {
+    "noop": "do nothing (the safe default; a push that only touches unrelated files never fires GPU work)",
+    "bake": "$0 CI. Build + push docker.io/triskit23/nr4a-metad (research/compute/Dockerfile.nr4ametad)",
+    "selftest": "$0 CI. Import + unit checks of the lane's pure helpers, and a dry-run JobSpec",
+    "smoke": "~$0.10. One host, toy lengths, the WHOLE chain metad -> release -> export -> S3",
+    "launch": "the real matched ensembles, one interruptible host each, concurrently. `launch_targets` restricts WHICH legs are rented (a relaunch of one leg must not re-rent a healthy sibling); `targets` still governs watch/collect/analyse.",
+    "status": "$0. Vast instance board + S3 phase markers + the tail of each run.log",
+    "collect": "$0. Pull the frame tarballs from S3, unpack into results/nr4a{1,2}-pocket-ensemble, commit",
+    "analyse": "$0. Run nr4a_paralogue_dynamics.py over whatever ensembles are present and commit the JSON",
+    "reap": "$0. Destroy instances whose result is already in S3, or which are terminal/over the backstop",
+    "stop": "$0. Destroy every nr4a-pdyn instance unconditionally",
+    "watch": "$0. ONE long CI run that polls S3 every 3 min with a real PROGRESS check, nudges a stuck start, destroys a host that answers resources_unavailable, RE-RENTS a leg that died with no deliverable (bounded), reaps finished hosts, and fails on a stall. Monitoring that survives a session death."
+  },
+  "task": "watch",
+  "targets": "NR4A1,NR4A2",
+  "metad_ns": 60,
+  "release_ns": 5,
+  "n_rep": 3,
+  "exclude_machines": "142143",
+  "note": "watch round 1, now self-chaining: at the 5.5 h job cap it re-arms itself, and when both deliverables land it hands off to collect, which hands off to analyse. The previous watch run was cancelled first on purpose -- two concurrent watches could both see a dead leg and both re-rent it. Legs: NR4A1 45853652 and NR4A2 45854620, both RTX 4090, ~143-160 ns/day measured, ETA ~8:15-8:30 AM ET Sunday.",
+  "estimate_usd": {
+    "point": 2.5,
+    "range": [
+      1.5,
+      6.0
+    ],
+    "ceiling_usd": 40,
+    "basis": "smoke leg implied ~234 ns/day on a rented RTX 4090; 75 ns of MD per paralogue (60 ns metad + 3 x 5 ns release); bid $0.136/hr actually paid against a $0.1333 floor; 60 GB at the $0.20/GB/month median storage rate; two hosts concurrently"
+  },
+  "launch_targets": "",
+  "watch_round": 1,
+  "analyse_samples": 2000000,
+  "_analyse_samples_why": "rigid-body samples per (arm x pose) for the matched placement set. A matched placement reaches an NR4A3-unique cysteine in only ~0.1-0.2 % of placements, so the 12-atom gate cell is thin: 500k gave ~5.7k placements and single-digit events. 2M gives ~23k placements at ~2.6 h of free CPU, which is what the gate reading needs to stand on its own rather than only on the 14/16/20-atom profile."
+}

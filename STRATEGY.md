@@ -35,7 +35,117 @@
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 5:30 PM ET**)
+## 📊 WHERE WE ARE — the scoreboard, in plain language
+
+*Read this before the IN FLIGHT table. **Every status line in this file, and every lane report, must be
+expressible as one of: a gate PASSED, a gate FAILED plus the remediation, or a DELIVERABLE done.** If a finding
+cannot be written that way it is a detail, not a headline. trimcrae, 2026-07-26: "a headline should be
+something like *we passed n gates*, or *we failed x gate and need to make y remediation*, or *we have a major
+deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
+underneath one.*
+
+**As of 2026-07-26 · 6 gates passed · 3 failed (all caught before the spend) · 2 deliverables done · $0.74 spent.**
+
+| # | gate | status | what it means in one line |
+|---|---|---|---|
+| Tier 0 | categorical-axis screen | **PASSED** *(narrowed 2026-07-26)* | NR4A3 has chemistry the paralogues lack — but only at the aligned position, and the axis survives on **exposure**, not absence |
+| Tier 1 | differential surface atlas | **PASSED** | there is a surface to steer an E3 against |
+| Tier 2 | basin nomination | **PASSED** — ⚠ **one limb under review** | at least one way to build a selective degrader exists. **Open:** the corrected geometry may have removed every *covalent-route* candidate, leaving only the *lysine* route |
+| RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
+| RUNG 2 | cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
+| RUNG 2b | 4 fs speed test, stage 1 | **PASSED** | every future simulation ~1.56× cheaper; stage 2 in flight |
+| RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7** |
+| RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
+| RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. **~$21 not spent** |
+
+| deliverable | status |
+|---|---|
+| **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
+| **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
+
+**The one thing needing a decision:** whether the covalent design route still has candidates. If it does not,
+one of the two selectivity mechanisms is dead and the reversible-covalent library loses its premise; the lysine
+route continues either way.
+
+---
+
+## 📊 WHERE WE ARE — the scoreboard, in plain language
+
+*Read this before anything else in this file. **Every status line here, and every lane report, must be
+expressible as one of: a gate PASSED, a gate FAILED plus its remediation, or a DELIVERABLE done.** A number
+moving is *evidence*, not a headline. (trimcrae, 2026-07-26, on being handed "term (a) went 7 → 0" as a
+headline: that is incomprehensible — a headline is "we passed n gates", "we failed x and need remediation y",
+or "we have a major deliverable done". Internal shorthand belongs in the evidence, not the summary.)*
+
+**As of 2026-07-26 · 6 gates passed · 3 failed, all caught before the spend · 2 deliverables done ·
+$0.74 spent, ~$35 not spent.**
+
+| gate | status | in one line |
+|---|---|---|
+| Tier 0 — categorical screen | **PASSED** *(narrowed)* | NR4A3 has chemistry the paralogues lack — but only at the aligned position, and it holds because the paralogues' equivalent cysteines are **buried**, not absent |
+| Tier 1 — surface atlas | **PASSED** | there is a surface to steer an E3 against |
+| Tier 2 — basin nomination | **PASSED, both routes intact** | at least one way to build a selective degrader exists — on the lysine route *and*, at a longer linker, the covalent one |
+| RUNG 1 — accuracy control | **PASSED** | the binary free-energy pipeline reproduces a known answer |
+| RUNG 2 — cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
+| RUNG 2b — 4 fs speed test, stage 1 | **PASSED** | every future simulation ~1.56× cheaper; stage 2 in flight |
+| RUNG 2 — **calibration benchmark** | **FAILED** | wrong sign, provably **not** fixable by more replicates. **Remediation:** replacement drafted → refuted by its own free pre-check → second replacement specified at **~$7** |
+| RUNG 3 — **NR-V04 covalent panel** | **FAILED** | the inputs never placed the warhead near its target site. **Remediation:** covalent legs retired, panel re-scoped to non-covalent. **~$6–8 not spent** |
+| RUNG 4 — **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, HELD pending re-check. **~$21 not spent** |
+
+| deliverable | status |
+|---|---|
+| **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
+| **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
+
+### ✅ RESOLVED 2026-07-26 — the covalent design route survives; it missed the gate by ONE ATOM
+
+Correcting a real bug (the reach rule had been crediting the electrophile's pendant with *shortening* the
+linker span, which no pendant can do) dropped the count of basins placing an electrophile within the
+**12-atom** gate from **7 to 0**, which read as "the covalent route is dead". **It is not.** Under the
+corrected rule the shortest modelled reach to **C397 is 13 atoms** — the gate is 12 — with **three** basins at
+13 (`vhl|M2`, `vhl|M6` at 0.75 pose persistence, `vhl|M7`), six more at 14–16, and **174** basin–cysteine
+reach records overall. **So the zero is a threshold artifact, not an absence of reach.**
+
+**The gate stays at 12 and is NOT moved to rescue the count.** Moving a threshold after seeing it fail is the
+retune this program forbids. What changes instead is the **design requirement**, and it now carries a priced
+cost: a covalent construct needs a **13–14 atom** linker rather than ≤12, and by the paralogue-collision
+profile (**0 at 12 atoms, 0.081 at 16, 0.258 at 20**) that buys a **small but non-zero** chance of the linker
+also reaching a paralogue cysteine — bounded between 0 and 0.081, and not worth interpolating more finely than
+that from three points. **Consequence: the covalent route is viable but strictly worse than it looked, and
+every atom of linker length is now a selectivity cost, not just a synthesis cost.** *(Shortest corrected reach
+per residue: C397 **13**, C420 **16**, C559 **31** — C559 is out of contention at any usable length.)*
+
+*Provenance: the successor artifact is the 12-pose / 192-basin run, which matches the published run's scope
+exactly; the 8-pose / 128-basin matched-native run reporting 2 is a narrower staging comparison and is not
+comparable.*
+
+---
+
+### 🌙 OVERNIGHT MONITORING — what is covered by what (2026-07-26, trimcrae asked for hourly)
+
+**Three layers, and they cover different things. Stated explicitly because assumed-but-absent coverage is
+exactly how `ternary-leg-watchdog.yml` sat UNPARSEABLE for days while everyone believed it was watching.**
+
+| layer | covers | acts autonomously? | verified |
+|---|---|---|---|
+| `ternary-vast-watchdog.yml` (cron) | the **4 RUNG 2b legs** (probe, ternary, binary, solvent) | **YES** — relaunches a DIED leg from its last checkpoint; a STALL alerts but does **not** relaunch, because a relaunch would hang the same way and pay for it again | **5 runs, all success, latest 9:14 PM ET.** Cron says `*/15` but GitHub throttles busy repos, so real firings are ~55–65 min apart — i.e. **hourly in practice** |
+| hourly routine → this session | **everything**, incl. the 2 paralogue MD legs, the valB reverse leg, and Lane reports | no — it wakes an agent to judge | fires hourly, persists server-side, survives container restarts |
+| `autoteardown` wrapper | **all** Vast/GCP spend | **YES** — guarantees no idle-GPU billing anywhere | standing |
+
+⚠ **The 2 paralogue MD legs (Vast 45853652 / 45854620, ~$4.3, due ~8:30–10:30 AM ET) are NOT in the cron
+watchdog** and deliberately were not added. Its entry schema is **ternary-specific**
+(`watch_entry(leg_id, seed, direction, mode, timestep_fs, warmup_timestep_fs)`, `unit_id` built from those,
+relaunch dispatching the ternary launcher), so a metad MD leg forced into it would either **invent wrong
+relaunch parameters** or track a **progress scalar that measures nothing** — monitoring that watches nothing,
+which is the defect class this program keeps paying for. **What they actually have:** billing is bounded by
+auto-teardown, and a stall or preemption is caught by the hourly routine rather than auto-recovered. **The
+exposure is therefore wall-clock, not money** — a leg that dies at 2 AM resumes from checkpoint when the
+routine notices, costing hours, not dollars. Generalising the watchdog to non-ternary Vast jobs is the real
+fix and is **not** done.
+
+---
+
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 8:05 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
 is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
@@ -75,7 +185,7 @@ relevant rung below.*
 
 | what | state | ETA | what its result decides |
 |---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4, us-central1) | **RUNNING and advancing** — `warmup/96` of 800 at 5:18 PM ET on VM `gcp-ternary-30175078131`. **Switching to ON-DEMAND** (`provisioning=standard`), authorized by trimcrae 5:30 PM ET: spot ran at **53% efficiency** (55.9 iter/h measured vs 106.2 theoretical) across 3 preemptions, and on-demand also lifts max-run from 7 h to 20 h. Current spot VM deliberately left running so no committed work is discarded; the switch takes effect on the next relaunch | **~Sun 7:30 PM ET** on-demand *(was ~Mon 6 PM on spot)* | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+| **valB_mini rev ternary leg r0** (GPU L4 **ON-DEMAND**, us-central1) | **RUNNING and advancing** — `warmup/296` of 800 at 8:02 PM ET, VM `gcp-ternary-30177970643` live 81 min. **On-demand CONFIRMED BY QUOTA, not inferred:** `NVIDIA_L4_GPUS usage=1.0`, `PREEMPTIBLE usage=0.0`. The watchdog relaunched it unattended at 6:38 PM and that relaunch picked up the switch | **~Mon 3–6 AM ET** *(ETA CORRECTED — see below; the earlier ~Sun 7:30 PM was computed from the THEORETICAL rate, which the leg does not hit)* | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
 
 | **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
 | **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ✅ **Confound RESOLVED 2026-07-25 ($0): the 2 fs baseline is `v2pe`, pre-equilibrated** — the committed r0 `.nc` holds **141,968** particles, the `v2pe` fingerprint (`v1` raw = 146,020). The arms differ in the **timestep alone**, so a NO-GO is now interpretable |
@@ -184,6 +294,25 @@ relevant rung below.*
 > evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
 > inspection of the producing code.
 
+> ### ⏱️ ETA CORRECTED AGAIN — on-demand runs at ~75% of theoretical, not 100%
+> I quoted **~Sun 7:30 PM ET** when authorising on-demand. That was computed from the **theoretical** 106 iter/h
+> (33.91 s/iter) and the leg does not hit it. Two measurements, each stated with its own weakness:
+>
+> | measurement | rate | caveat |
+> |---|---|---|
+> | same VM, 7:44→8:02 PM | **80 iter/h** | ±33% — 24 iterations is exactly 3 commit intervals, so it is quantised |
+> | 5:18→8:02 PM | **73 iter/h** | a **lower bound** — spans the dead gap and a relaunch |
+> | theoretical | 106 iter/h | not observed |
+>
+> On 2504 remaining iterations (504 warmup + 2000 production) that is **31–34 h → ~Mon 3–6 AM ET**. On-demand is
+> still the right call — it lifted efficiency from **53% to ~75%** and removed the ~35-relaunch thrash — but it
+> buys less than the un-preempted arithmetic implied.
+>
+> **A mechanism worth testing rather than assuming:** warmup commits every **8** iterations while production
+> commits every **40**, so per-iteration GCS commit overhead is ~5× heavier in warmup. If that is the gap, the
+> production phase should run materially closer to theoretical and the ETA improves. **Not asserted** — the
+> discriminator is simply the observed rate once production starts, which costs nothing to read.
+
 > ### ✅ ON-DEMAND AUTHORIZED FOR THIS LEG ONLY (trimcrae, 2026-07-25 ~5:30 PM ET)
 > `gpu-ternary-fep-gcp.yml` gates on-demand behind *"ONLY when explicitly authorized for a time-sensitive
 > one-off, e.g. confirming a single valB leg"* — this is that one-off, and the authorization is now given. **It is
@@ -270,6 +399,11 @@ relevant rung below.*
 > resume after a preemption and discard paid GPU hours. The ternary lane opts into strict mode. 28 checks, driven
 > through a fake store so they need no numpy/openmm.
 
+| **LANE 10 · RUNG 5a/5b — reach-rule fix + re-enumeration at exemplar geometry** (CPU, $0) | launched **6:10 PM ET** | ~2–4 h | **Whether Tier-2 still passes.** Every published C397 reach figure is a **lower bound by up to ~5 atoms** (the reach rule credits the pendant with shortening the span, which no pendant can do), and the 7 term-(a) basins sit at reach fractions of only **0.019–0.057** — so the correction could push basins out of the ≤12-atom gate. Also re-enumerates the 21-construct library at the corrected **exemplar** geometry |
+| **LANE 11 · RUNG 4 — NR-V04 retrospective $0 pre-spend audit** (CPU, $0) | launched **6:10 PM ET** | ~2–3 h | Whether the **built-but-unlaunched** retrospective inherits any of the **four** defects found in its sibling panel today — they share a driver — and whether its own frozen criteria contain the **zero-discriminating-power** defect AMENDMENT 1 found. Gate before ~$21 |
+| **LANE 12 · RUNG 6 — fold 2026-07-25 into the manuscript** (CPU, $0) | launched **6:10 PM ET** | ~2–4 h | The paper still carries **pre-basin-search framing**. Folds in the Tier-2 GO, the E3-breadth negative, the 5b library, the transfer-anchor resolution, the C397 one-residue risk, the composed-RING limit and the closure-blindness result — at full strength, under the language discipline |
+| **LANE 13 · Matched NR4A1/NR4A2 MD ensembles** (**Vast**, ≤$40) | launched **6:10 PM ET** | ~3–6 h | **Whether the CATEGORICAL case survives paralogue DYNAMICS.** Uniqueness is a sequence fact and is not in doubt; what has never been tested is whether a paralogue opens a **compensating** nucleophile or lysine in a populated conformer. Everything to date compares **one static conformer per paralogue**, and Tier 2 passed on this axis |
+
 **The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
 are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
 with the GCP lane the reverse leg owns. The rescope-vs-continue decision on valB_mini is still deliberately
@@ -333,7 +467,40 @@ classes:
   **resolvable** difference of **1.12 kcal/mol** (replicate SD 0.7, n = 3) and a method accuracy of ~1.7 kcal/mol
   RMSE — which does not even cover the NAGL ternary lane. Replicates shrink precision, not accuracy. **This axis
   is a confirmation tool operating near its limit, not a discovery tool.**
-- **CATEGORICAL** — the paralogue is structurally *incapable*. NR4A3 carries reactive residues that BOTH
+- **CATEGORICAL** — ⚠ **NARROWED 2026-07-25/26 (Lane 13, $0, before any flagship spend): the paralogue is
+  structurally incapable *AT THE ALIGNED POSITION* — which is NOT the same as "a covalent bond cannot form on
+  it at all", and this file asserted the stronger claim.** The sequence fact is exact and unchanged: NR4A1 and
+  NR4A2 carry no cysteine where NR4A3 has C397. **What does not follow is that they present no reachable
+  nucleophile.** Three measurements:
+  - **Only 4 of NR4A3's 20 enumerated cysteines are unique; 16 are SHARED — and one of the shared ones is
+    inside the design gate.** Term (a) is built from `unique_cysteines` **only** and summarises the conserved
+    set at the 20-atom *sampling ceiling*, never at the 12-atom gate — so *"all 7 term-(a) basins reach C397 and
+    only C397"* is a statement about **{C397, C420, C559}**, not about every cysteine. Scored over **all** of
+    them on the same 75 unbiased conformers, **C496 — whose homologue is NR4A1 C465 / NR4A2 C465 — reaches the
+    ≤12-atom gate in 29/75 = 0.387** (Wilson 0.285–0.500). **What closes it is BURIAL (RSA median 0.023), not
+    geometry.**
+  - **Each paralogue's static opened model presents TWO cysteines inside the same gate**, and **NR4A1 C465 opens
+    at a 6-atom linker against C397's 10** — i.e. *more* geometrically accessible than NR4A3's own handle.
+    (NR4A1 C551, the celastrol site, at 10; NR4A2 C465 at 10, C534 at 12.)
+  - **Matched-construct test** (same placement, warhead exit anchor, E3 anchor and budget; 5,657 placements):
+    P(a paralogue Cys is also reached | an NR4A3-unique one is) = **0 at 12 atoms, 0.081 at 16, 0.258 at 20** —
+    and **16–20 is a range this plan already contemplates** (C420 needs 16, C559 needs 20, `best_linker_atoms`
+    reads 19).
+
+  **★ SO WHAT ACTUALLY HOLDS THE CATEGORICAL AXIS UP IS EXPOSURE, NOT ABSENCE.** Every paralogue cysteine in
+  range sits at RSA **0.011–0.165** against C397's **0.395**, so reach-**and**-exposure still gives **0
+  collisions at every length**. But that is **one number per residue from one conformer**, and RSA is the most
+  conformationally variable quantity in play — C397's own range over its ensemble is **0.108–0.673**. The
+  matched paralogue MD ensembles that turn those single numbers into distributions are **in flight** and the
+  verdict is deliberately marked **`VERDICT_NOT_EVALUABLE`** until they land, rather than reported as a clean
+  pass computed against zero paralogue frames. *(Not reimplementation drift: the same pipeline reproduces the
+  committed handle-ensemble values exactly — C397 0.960 at the gate, C420 0.000, C559 0.000, RSA median 0.416.)*
+  **Consequence for the design: keep the linker SHORT.** The discrimination is clean at 12 atoms and degrades
+  measurably by 16–20 — so a construct that reaches C397 at 11 atoms is not merely more tractable, it is
+  *more selective*, and any design drifting to 16+ atoms trades away the axis it exists to exploit.
+
+  *(Original framing, retained because the sequence fact under it is exact:)* the paralogue is structurally
+  *incapable*. NR4A3 carries reactive residues that BOTH
   paralogues lack, verified from full-length UniProt with two independent aligners
   ([`nr4a_paralogue_unique_residues.py`](research/modalities/nr4a_paralogue_unique_residues.py) →
   [`nr4a-paralogue-unique-residues.json`](research/modalities/nr4a-paralogue-unique-residues.json)):
@@ -447,12 +614,15 @@ allowed to claim.
    using — they bind on every ternary / degradation-geometry step, not just 5a:**
    - **The ubiquitin-transfer distance is 17.1 Å, MEASURED** — nearest of 11 substrate lysines in a *solved*
      CRL4–CRBN assembly. The repo's assumed **10 Å was ~7 Å too strict** and, applied as written, **would have
-     suppressed the term-(b) lysine signal entirely.** Any transfer-zone criterion must use the measured band.
+     been the wrong scale and would have MATERIALLY WEAKENED the term-(b) lysine signal.** ⚠ *Corrected
+     2026-07-25: an earlier "would have suppressed it entirely" is **contradicted by the committed sweep** —
+     84/192 basins still reach rank ≥3 at 10 Å, against 75 at 17 Å.* Any transfer-zone criterion must use the
+     measured band.
    - **⚠ A COMPOSED CRL RING CARRIES ~30–50 Å OF POSITIONAL UNCERTAINTY** *(measured on both arms 2026-07-25:
      **VHL 30.18 Å, CRBN 50.14 Å** — the original 48.6 Å was one arm. **NOT IN FORCE in the authoritative
      Tier-2 run**, which anchors both arms on the observed E2 catalytic cysteine rather than a composed RING.)*
      Original finding:** A known-answer check *falsified its
-     own construction*: a RING composed from a receptor entry + a cullin scaffold — with **both bridges < 1.5 Å**,
+     own construction*: a RING composed from a receptor entry + a cullin scaffold — with **both bridges < 1.5 Å** *(true of the 48.58 Å pair only; CRBN's own-assembly bridge is **1.916 Å** — and CRBN carries two live composed-RING numbers, 48.58 and 50.14, through different bridges, which is a one-fact-one-place hazard)*,
      i.e. each join individually excellent — sat **48.6 Å** from the RING of an intact deposited assembly. This
      is **conformational, not error**: CRLs are genuinely mobile, so a well-fitted composition is still not a
      position. **Consequence: no degradation-geometry claim may rest on a RING or E2 that was COMPOSED rather
@@ -564,6 +734,23 @@ revision](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-
   ternary" claim failing coordinate-level verification. **So the widening delivered less breadth than this
   plan's text implied, and it CONFIRMED the incumbents rather than displacing them — a real, publishable
   negative for the E3-breadth argument, and it must be reported as one rather than quietly absorbed.**
+  ✅ **THE VHL ARM WAS RE-CHECKED AND IT HOLDS (2026-07-26, $0, CI run 30180602564).** The concern was that
+  **9GIO** — the structure the downselect advanced VHL on — is titled *"…with a covalent compound bound to C77
+  of VHL"*, which would mean its ligandability and exit-vector numbers described a **covalent Cys77 site** rather
+  than the VH032-class **hydroxyproline pocket** every VHL PROTAC linker actually leaves from. **Both
+  descriptions are true, of DIFFERENT ligands — and the staging used the right one.** 9GIO carries **two**:
+
+  | ligand | hydroxyproline-pocket residues contacted | contacts Cys77? | nearest Cys77 Sγ |
+  |---|---|---|---|
+  | **`3JF`** — *the one the staging used* | **10** | **no** | **12.35 Å** |
+  | `A1IMD` — the one the title describes | 1 | **yes** | **1.84 Å** |
+
+  `3JF` is `N-acetyl-3-methyl-L-valyl-(4R)-4-hydroxy-N-[4-(4-methyl-1,3-thiazol…]` — the canonical VH032
+  hydroxyproline + methylthiazole handle — sitting in the recruiter pocket, **12.35 Å away from Cys77**. The
+  covalent compound is `A1IMD`, at **1.84 Å** from the Sγ, i.e. essentially exactly a C–S bond length. **So the
+  E3 downselect's VHL row stands, and the attributed fpocket druggability of 0.001 was scored on the wrong
+  ligand's site.** *(A useful side-validation: 1.84 Å is what a real covalent adduct measures — which is
+  precisely the scale that makes the NR-V04 panel's 28–39 Å at C551 unambiguous rather than borderline.)*
   **BIRC2 is the flagged first recruiter to revisit** at $0 (tier-3 verified, best resolution 1.249 Å, openness
   within 0.04 of CRBN) if CRBN/VHL prove geometrically unpromising — it is already fully staged.
   ⚠ **The downselect is BLIND to recruiter-intrinsic pharmacology by construction.** MDM2 and KEAP1 rank well on
@@ -632,7 +819,7 @@ survives causal testing."* The *decision* to commit the flagship is cheap, not a
 
 | tier | test | cost | status |
 |---|---|---|---|
-| **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed) |
+| **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed). ⚠ **NARROWED 2026-07-26: "structurally incapable" holds AT THE ALIGNED POSITION only** — 16 of NR4A3's 20 cysteines are shared, each paralogue presents **two** inside the 12-atom gate (NR4A1 C465 at **6** atoms), and the axis survives on **exposure**, not absence. Clean at 12 atoms; P(paralogue collision) rises to **0.081 at 16** and **0.258 at 20**. See §MECHANISM-FIRST |
 | **1** | **Differential surface atlas.** No E3-reachable divergent surface ⇒ STOP for free | **$0 CPU** | **PASSED** (46 handles) |
 | **2** | **Basin nomination.** No basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ STOP cheaply | **$0 realized** (budget was $0–50; **no GPU used**) | **✅ GO — CONFIRMED on the full 12-pose run** (CI 30169233690, 55 min, 3:11 PM ET). Basis **CATEGORICAL**. 58 meta-basins / 192 basins; **7** exploit term (a), **40** term (b), **28** nominally discriminating. See the block below |
 | **3** | **Pilot ONE causal direction** — the ligand-side double difference `S`, one matched pair, ternary legs in NR4A3 and NR4A1. ⚠ **`S` is NON-COVALENT, so it tests the MARGINAL wedge only. No discrimination ⇒ the marginal wedge is absent and the claim rests on the CATEGORICAL axis alone — STOP only if the categorical axis has ALSO failed** (see the box above; a null is the *likely* outcome for the recommended pair) | **~$12 ($1.6–45)** | pending (RUNG 5a-KS) — **matched pair now DESIGNED**, see RUNG 5b |
@@ -685,7 +872,7 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
 | null: covers *any* NR4A3 lysine | 0.35–0.49 | **0.81–0.96** |
 
 - **The categorical terms fire in a small MINORITY of placements** — 0.5–8 % cover a unique lysine, term (a)
-  reaches gate level in 2–5 % — against a **1–6.5 %** background. **Enrichments, not saturation.**
+  reaches gate level in 2–5 % — against the gate's **unique-lysine null of 1.0–7.5 %** (`term_b_background_null.fraction_unique_covering`, 24 arm×pose nulls). **Enrichments, not saturation.** ⚠ *Corrected 2026-07-25: an earlier "1–6.5 %" was carried over from the PREVIEW run and matched no artifact field; it also contradicted the correct 2–6 % stated above. Do not pair one range with both terms — the reach control is a different quantity, and is zero in 168/192 basins.*
 - ⚠ **RETRACTED SAME DAY (2026-07-25, LANE 7): "CRBN's null is 0.81–0.96, so most of CRBN's term-(b) signal is
   background — the discrimination lives on VHL."** That inference was wrong **twice over**, and it was recorded
   here earlier today, so it is corrected rather than quietly dropped.
@@ -699,6 +886,11 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
   CRBN, 0.027 → 0.026 on VHL), so **the Tier-2 GO and its published enrichments are UNAFFECTED**, and Tier-2
   passes CATEGORICAL on **both** constructions (native marginally stronger: 3 vs 2 term-(a), 26 vs 22
   discriminating). **What falls is only the claim that the discrimination lives on VHL.** Do not repeat it.
+- ⚠ **Term (b)'s discrimination is a RARE JOINT EVENT, not paralogue lysine scarcity (Lane 13, $0).**
+  P(the transfer zone covers *any* lysine) is **NR4A3 0.438 / NR4A1 0.387 / NR4A2 0.363** — i.e. essentially
+  **non-discriminating on the any-lysine measure**, consistent with the committed 0.0–0.032 *joint* statistic.
+  The term earns its signal from the coincidence of covering a *unique* lysine while both paralogue zones stay
+  bare, not from the paralogues having fewer lysines to hit. State it that way; the scarcity reading is wrong.
 - **`term_b_best_rank` is a best-of-N statistic, inflated by construction** (exactly piece 5's winner's-curse
   artifact), so those counts are **upper bounds**; the unbiased mean fractions lead. One CRBN basin reached
   rank 4 while scoring *below* background and was correctly excluded — **without the null it would have counted.**
@@ -1268,8 +1460,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   makes seating *worse* (33.6/36.6/44.7 Å vs ~28 Å ternary, so the ternary arrangement is not the cause), and a
   **steered** co-fold that demonstrably honoured an explicit `max_distance: 6.0` restraint to residue 207
   (~37 → ~15 Å, contacts doubled) **still never satisfied its own 6 Å bound on any of three seeds**, parking
-  celastrol near the buried C505. No predictor produces the pose (7/7 clean models, 4 seeds, 3 prefixes, 2
-  providers) and no deposited celastrol–NR4A1 structure constrains it, so the only route left is a **hand-placed
+  celastrol near the buried C505. **One predictor** (Boltz-2) fails to produce the pose across 7/7 clean models, 4 seeds and 3 prefixes *(the "2 providers" are compute hosts, not two independent predictors — so this is a Boltz-2 result, not a statement about structure prediction in general)* and no deposited celastrol–NR4A1 structure constrains it, so the only route left is a **hand-placed
   pose** — which fixes the *comparison* without supplying the *evidence*. **This is a statement about the
   predictor, not about whether celastrol binds C551**, which is literature-anchored (Zhang 2018,
   doi:10.1039/C8CC06140H). **Retiring them costs little: Leg 0 already did their job for $0** — the reactive Cys
@@ -1281,7 +1472,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   · prior chain forensics
   [nrv04-cofold-chain-forensics-2026-07-24.md](research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
 
-  **★ TWO BUGS FOUND HERE PROPAGATE TO THE UNLAUNCHED NR-V04 RETROSPECTIVE (RUNG 4), WHICH SHARES THIS DRIVER —
+  **★ FOUR BUGS FOUND HERE PROPAGATE TO THE UNLAUNCHED NR-V04 RETROSPECTIVE (RUNG 4), WHICH SHARES THIS DRIVER —
   both are fixed with regression tests, and the retrospective must not launch on the old code.**
   (i) **`_reactive_cys_by_geometry` was chain-blind** — a second live instance of the *same* defect class as the
   chain split; it is now restricted to the identified target chain, raises above an 8 Å preformed-adduct limit on
@@ -1313,7 +1504,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 - **`[x]` TIER-0 · NR4A paralogue-UNIQUE reactive-residue map — DONE 2026-07-24 · $0 · GATE PASS/GO.** Full-length
   UniProt (P22736/P43354/Q92570/Q01844) + dual-aligner agreement + matched-model geometry
   (`nr4a_paralogue_unique_residues.py`, 15 unit tests, run on CI because the sandbox proxy blocks UniProt).
-  **4 NR4A3-unique cysteines** (2 exposed): **C397** — NR4A1 N363 / NR4A2 S363, RSA 0.395, **10.9 Å** from the
+  **4 NR4A3-unique cysteines** (2 exposed) ⚠ *out of **20** enumerated — the other 16 are SHARED, and uniqueness here is enumerated **ONE-WAY only**: the reciprocal handles (both paralogues carry C534 where NR4A3 has S565; NR4A1 carries C551) are absent from the JSON*: **C397** — NR4A1 N363 / NR4A2 S363, RSA 0.395, **10.9 Å** from the
   cryptic pocket (exit-vector reach) — plus C420 (18.3 Å, RSA 0.311), C559 (12.8 Å but RSA 0.095, buried in this
   conformer), C166 (outside the LBD). **4 NR4A3-unique lysines** (3 exposed in the LBD): **K572** (RSA 0.879,
   11.5 Å), **K518** (0.413, 13.4 Å), **K592** (0.506, 16.2 Å), K178 (outside). Reciprocal check reproduces the
@@ -1328,6 +1519,43 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   differential surface exists to steer an E3 against (distinct from the ~70 % pocket hotspot), so the 5a
   orientation-basin search is warranted. *(Optional add-on: matched NR4A1/2 MD ensembles ~$10–40 to test which
   handles survive dynamics.)*
+- **`[!]` NR-V04 retrospective — preregistered holdout — ★ HELD 2026-07-25: IT COULD NOT HAVE RETURNED A
+  VERDICT UNDER ANY PHYSICS, TWICE OVER** — **~$24 ($5.6–78; repriced from ~$21 onto the 2800-iteration basis)
+  · Cum. ~$107.**
+  A **$0** pre-spend audit (`nrv04-retrospective-prespend-audit-2026-07-25.md`) found **two independent, silent
+  blockers**, each of which would have consumed the whole spend and read post-hoc as a result:
+  - **(1) The collector read keys the driver never writes.** `retro_collect` read `d["R1"]`/`d["R2"]`; the
+    driver writes **`R1_interface` / `R2_recruitment` / `R3_lys`**. Controlled reproduction through the *real*
+    collector: **24 flawless legs → every `e1_plateau_A` None → every leg `technical_failure` → every arm
+    underpowered → `tier: INDETERMINATE`.** Corroborated on real artifacts — **19/19 leg JSONs carry
+    `R1_interface`, 0/19 carry `R1`**, and two other in-repo consumers read the correct key. **The existing
+    tests could not catch it**: they feed the gate `e1_plateau_A` directly, so the driver→collector boundary was
+    never crossed. Fixed, with a schema guard that refuses a verdict when legs land, none blow up, and none
+    yield an endpoint.
+  - **(2) The covalent R2 arm is unbuildable — and it BLOCKS R1 rather than merely costing an arm.** AMENDMENT
+    2's finding reproduces on *independent* models: at the preregistered C551, `retro_cov_nr4a1`'s three pinned
+    models measure **34.42 / 29.87 / 39.11 Å** against the 8.0 Å limit, so `build_system` **raises**. The raise
+    happens *before a leg JSON is written*, so those 6 units never land, **`panel_complete` stays False and §4f
+    suppresses the R1 contrast permanently.** The two blockers are **sequential, not alternatives**.
+  **Cleared, and verified rather than assumed:** the nm/Å unit error, the positional chain split and the input
+  contamination are **NOT** inherited — confirmed on **all 9 models**, including the **6 NR4A2/NR4A3 co-folds no
+  prior audit had ever measured** (the earlier allowlist skipped them) which feed **12 of the 18 primary legs**.
+  **★ AMENDMENT 3 APPLIED (trimcrae-delegated):** R2 **retired** (authorized panel = **R1 only, 18 legs**); the
+  §4d extension window corrected from an unreachable `(0.012, 0.05]` to `(0.05, 0.12]`; the **inert** LOMO
+  clause demoted to a reported diagnostic (228,543 configurations reached p ≤ α with correct ordering and
+  **zero** then failed LOMO); and an **MDE registered** — measured leg-to-leg σ **0.855 Å**, 80 % power only at
+  **1.5–2.0 Å**. Non-rescue: **no result exists to flip**, and defects 1/3/4 all tighten while 2 can only add
+  work to already-non-concordant results. **Net, the retrospective can claim LESS than before.**
+  ⚠ **And a limitation that is not a bug:** R1's arms are **not matched in ligand placement, with the asymmetry
+  running against the hypothesis** — warhead↔target contacts at t=0 are NR4A1 **47** vs NR4A2 **106** / NR4A3
+  **73**, i.e. *the spared paralogues start better engaged with their target*, and the designated **pilot leg**
+  (`nrv04-descriptive-v4/nr4a2/seed_1`) starts with a **1.05 Å heavy-atom overlap**. A null R1 remains a
+  registered outcome, but it licenses *"did not resolve a difference of the size this design can detect"* — **not**
+  "selectivity is localised to warhead reactivity", which stands on Leg 0 + Zhang 2018 alone.
+  **Price, two different objects wearing one name:** the ~$21 line was **Arm F (alchemical)**, which the prereg
+  does not authorise and which is blocked — repriced **~$24 ($5.6–78)**. What a GO would actually spend is
+  **Arm E: 18 legs ≈ $7.7** at the measured $0.43/leg.
+  *(Original entry retained below for the frozen gate wording.)*
 - **`[ ]` NR-V04 retrospective — preregistered holdout** — **~$21 ($4.8–67) · Cum. ~$104.** Full ensembles
   through the pipeline, no tuning, epimer control; report directional concordance only. **Gate:** Val B-full +
   NR-V04 feasibility + Step 1 fan-out. **It no longer gates the causal kill-switch** (lever 4).
@@ -1392,7 +1620,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   **Honest expectation, recorded BEFORE the run:** NR4A1 offers *absence*, not a penalty, so the expected effect
   is an **NR4A3 gain bounded by roughly one partly-buried H-bond (~0.5–1.5 kcal/mol) against 1.12 resolvable —
   i.e. A NULL IS LIKELY.** Fallback fully enumerated and RDKit-verified: `vhl|M3` representative, 11 atoms,
-  T407, 10.3 Å — **C₄₇H₅₅N₉O₉S vs C₄₈H₅₆N₈O₉S, identical 66 heavy atoms.**
+  T407, 10.3 Å — **C52H65N9O9S vs C53H66N8O9S** *(per `nr4a3-linker-library-chem.json`; an earlier C₄₇H₅₅N₉O₉S / C₄₈H₅₆N₈O₉S with "66 heavy atoms" disagreed with the artifact and is superseded — the equal-heavy-atom property holds, the formulae were wrong).*
   *Remaining confounds:* modelled rotamer; double conditionality; unmeasured linker-conformer populations. **Evidence grade:** a NO-GO may be taken on
   valB_mini-grade evidence (stopping is the conservative action), but a POSITIVE result stays **exploratory**
   until valB_full passes.

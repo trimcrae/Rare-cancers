@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
@@ -823,6 +823,56 @@ jobs:
             done
           fi
 
+  nrv04_retro_prespend:
+    # LANE 11 / RUNG 4 pre-spend gate. The NR-V04 retrospective is built, preregistered and UNLAUNCHED, and it
+    # SHARES the driver/assembler/readouts with the covalent feasibility panel that was found wrong in four
+    # independent ways on 2026-07-25. This job reads THE ARTIFACTS THE LEGS WOULD ACTUALLY STAGE -- v4's
+    # nr4a2/nr4a3 co-folds (never chain-audited: nrv04_covalent_input_audit skips them, and they feed 12 of the
+    # 18 primary legs), the A1 tether at the FROZEN site for the covalent R2 arm, and the key names on real
+    # committed leg JSONs against what retro_collect actually reads. $0: read-only S3 + CPU. Launches nothing.
+    if: ${{ github.event.inputs.task == 'nrv04_retro_prespend' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3 gemmi numpy rdkit
+      - name: Retrospective pre-spend audit (inputs + collector key contract)
+        run: |
+          python research/modalities/nrv04_retro_prespend_audit.py \
+            --bucket "${VAST_CKPT_BUCKET}" \
+            --out research/modalities/nrv04-retro-prespend-audit.json
+      - name: Frozen-criteria degeneracy + power analysis (pure CPU, no S3)
+        run: |
+          python research/modalities/nrv04_retro_criteria_audit.py \
+            --measured research/modalities/nrv04-retro-prespend-audit.json \
+            --out research/modalities/nrv04-retro-criteria-audit.json
+      - name: Commit the audit JSONs back to the branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nrv04-retro-prespend-audit.json \
+                  research/modalities/nrv04-retro-criteria-audit.json || true
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "NR-V04 retrospective pre-spend audit (auto)"
+            for attempt in 1 2 3 4; do
+              git pull --rebase origin ${{ github.ref_name }} && \
+                git push origin HEAD:${{ github.ref_name }} && break
+              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
+            done
+          fi
+
   nrv04_adduct_build:
     # LANE 8. The co-folds cannot supply an A1-admissible covalent input (every clean model puts the celastrol
     # electrophile 28.4-39.1 A from NR4A1 C551 -- the amendment's 8.99 A is to a DIFFERENT cysteine, C566).
@@ -1488,3 +1538,39 @@ jobs:
                   print(f"    -> skipped (selector {kill!r} does not match)")
           print("done")
           PY
+
+  e3_vhl_recheck:
+    # $0 re-check of the VHL arm's staging structure. The E3 downselect scored VHL on 9GIO; the structural
+    # record describes 9GIO as carrying a covalent compound bound to Cys77 of VHL rather than a
+    # hydroxyproline-pocket handle. Those readings cannot both be right, and the difference decides whether the
+    # ligandability/exit-vector numbers describe the pocket a VHL degrader linker would actually leave from.
+    # 5T35 (MZ1) is the positive control and is the structure the reported basin result actually consumed.
+    if: ${{ github.event.inputs.task == 'e3_vhl_recheck' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Re-check 9GIO's ligand site (RCSB, pure stdlib)
+        working-directory: research/modalities
+        run: python e3_vhl_ligand_recheck.py
+      - name: Commit the result back to the triggering branch
+        run: |
+          set -e
+          git config user.name Claude
+          git config user.email noreply@anthropic.com
+          git add research/modalities/e3-vhl-ligand-recheck.json || true
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "E3 VHL arm re-check: what 9GIO's ligand actually contacts (auto)"
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
+              git push origin HEAD:"${{ github.ref_name }}" && exit 0
+            sleep $((2**i))
+          done
+          echo "push failed after retries" >&2; exit 1
