@@ -368,25 +368,46 @@ def set_task(new_task, note, **fields):
             json.dump(d, fh, indent=2)
             fh.write("\n")
         url = f"https://x-access-token:{tok}@github.com/{repo}"
+        rel_task = os.path.relpath(TASK_FILE, REPO)
         # `git pull --rebase` REFUSES on a dirty tree, and the caller may legitimately have one (the watch job
         # is clean, but a hand-off placed before a commit step would not be). Stash anything unrelated first
         # and restore it, so the hand-off can never be the thing that loses a collected ensemble.
+        #
+        # ⚠ THE TASK FILE MUST BE EXCLUDED FROM THAT STASH, AND THIS IS WHY THE CHAIN NEVER ONCE HANDED OFF
+        # (found 2026-07-26 8:40 AM ET). The write above makes the task file dirty; a bare `git stash push -u`
+        # then stashed THE VERY FILE THIS FUNCTION EXISTS TO COMMIT, so `git add` staged nothing, `git commit`
+        # failed — and the loop below deliberately ignores commit failures — leaving an unchanged HEAD to
+        # push, a `::notice task=…` printed, and `True` returned. Two hand-offs were observed reporting
+        # success and landing nothing: the watch's own 5.5 h re-arm, and collect → analyse. The pathspec
+        # exclusion keeps the task file in the working tree while everything else is set aside.
         dirty = subprocess.run(["git", "status", "--porcelain"], cwd=REPO,
                                capture_output=True).stdout.decode().strip()
         stashed = False
         if dirty:
-            r = subprocess.run(["git", "stash", "push", "-u", "-m", "lane13-handoff"], cwd=REPO,
-                               capture_output=True)
+            r = subprocess.run(["git", "stash", "push", "-u", "-m", "lane13-handoff",
+                                "--", ".", f":(exclude){rel_task}"], cwd=REPO, capture_output=True)
             stashed = r.returncode == 0 and b"No local changes" not in r.stdout
-            print(f"[chain] stashed a dirty tree before the hand-off (stashed={stashed})")
+            print(f"[chain] stashed a dirty tree before the hand-off, task file excluded (stashed={stashed})")
+        # A commit that stages NOTHING is the failure this function used to report as success, so the staged
+        # diff is checked explicitly rather than the commit's exit code being waved through. `git diff
+        # --cached --quiet` exits 1 when something IS staged — that is the outcome we require.
         for cmd in (["git", "config", "user.name", "Claude"],
                     ["git", "config", "user.email", "noreply@anthropic.com"],
-                    ["git", "add", os.path.relpath(TASK_FILE, REPO)],
+                    ["git", "add", rel_task],
+                    ["git", "diff", "--cached", "--quiet", "--", rel_task],
                     ["git", "commit", "-q", "-m", f"lane13 [auto]: hand off to task={new_task}"],
                     ["git", "pull", "--rebase", "-q", url, branch],
                     ["git", "push", "-q", url, f"HEAD:{branch}"]):
             r = subprocess.run(cmd, cwd=REPO, capture_output=True)
-            if r.returncode and cmd[1] != "commit":
+            if cmd[1] == "diff":
+                if r.returncode == 0:
+                    print(f"[chain] NOTHING STAGED for {rel_task} — the hand-off to task={new_task} would "
+                          "have pushed an unchanged HEAD and reported success. Refusing.")
+                    if stashed:
+                        subprocess.run(["git", "stash", "pop"], cwd=REPO, capture_output=True)
+                    return False
+                continue
+            if r.returncode:
                 print(f"[chain] {' '.join(cmd[:2])} failed: {r.stderr.decode()[:200]}")
                 if stashed:
                     subprocess.run(["git", "stash", "pop"], cwd=REPO, capture_output=True)

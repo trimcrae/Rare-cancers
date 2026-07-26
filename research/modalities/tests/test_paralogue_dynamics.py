@@ -244,6 +244,89 @@ if _cen["species_with_no_frames"]:
 else:
     print("  SKIP main() refusal: every species already has conformers committed")
 
+
+print("== the hand-off must actually COMMIT the task file, not report success on an empty commit")
+# THE defect that kept the unattended chain from ever working: set_task writes the new task into the file,
+# then stashed the dirty tree -- INCLUDING that file -- so `git add` staged nothing, the commit failed, and
+# because commit failures were deliberately ignored the function pushed an unchanged HEAD and returned True.
+import subprocess as _sp                                            # noqa: E402
+
+
+def _handoff_repo(extra_dirty=True):
+    """A real git repo with a real task file and (optionally) unrelated dirty files, plus a bare origin."""
+    td = tempfile.mkdtemp()
+    bare, work = os.path.join(td, "origin.git"), os.path.join(td, "work")
+    _sp.run(["git", "init", "-q", "--bare", bare], check=True)
+    _sp.run(["git", "clone", "-q", bare, work], check=True)
+    _sp.run(["git", "-C", work, "config", "user.email", "t@t"], check=True)
+    _sp.run(["git", "-C", work, "config", "user.name", "t"], check=True)
+    tdir = os.path.join(work, "research", "modalities")
+    os.makedirs(tdir)
+    tf = os.path.join(tdir, "nr4a-paralogue-md-task.json")
+    with open(tf, "w") as _fh:      # trailing newline, byte-for-byte how set_task writes it — otherwise the
+        json.dump({"task": "watch", "note": "seed", "watch_round": 1}, _fh, indent=2)   # fixture always
+        _fh.write("\n")                                                                 # differs by one byte
+    _sp.run(["git", "-C", work, "add", "-A"], check=True)
+    _sp.run(["git", "-C", work, "commit", "-qm", "seed"], check=True)
+    _sp.run(["git", "-C", work, "push", "-q", "origin", "HEAD:master"], check=True)
+    if extra_dirty:
+        # exactly the situation a collect leaves behind: a tree full of freshly unpacked frames
+        os.makedirs(os.path.join(work, "results", "nr4a2-pocket-ensemble", "metad", "fp_0"))
+        open(os.path.join(work, "results", "nr4a2-pocket-ensemble", "metad", "fp_0", "frame.pdb"),
+             "w").write("ATOM\nEND\n")
+    return td, work, tf
+
+
+def _run_handoff_note(work, tf, new_task="analyse", note="test hand-off"):
+    saved = (O2.REPO, O2.TASK_FILE, dict(os.environ))
+    try:
+        O2.REPO, O2.TASK_FILE = work, tf
+        os.environ["GITHUB_TOKEN"] = "x"
+        os.environ["GIT_BRANCH"] = "master"
+        os.environ["GITHUB_REPOSITORY"] = "local/local"
+        # set_task builds an https URL from the token; point git at the bare repo instead.
+        _sp.run(["git", "-C", work, "remote", "set-url", "origin",
+                 os.path.join(os.path.dirname(work), "origin.git")], check=True)
+        real = O2.subprocess.run
+
+        def patched(cmd, **kw):
+            cmd = [(os.path.join(os.path.dirname(work), "origin.git")
+                    if isinstance(c, str) and c.startswith("https://x-access-token:") else c) for c in cmd]
+            return real(cmd, **kw)
+        O2.subprocess.run = patched
+        try:
+            return O2.set_task(new_task, note)
+        finally:
+            O2.subprocess.run = real
+    finally:
+        O2.REPO, O2.TASK_FILE = saved[0], saved[1]
+        os.environ.clear(); os.environ.update(saved[2])
+
+
+td, work, tf = _handoff_repo(extra_dirty=True)
+ok = _run_handoff_note(work, tf)
+head = _sp.run(["git", "-C", work, "log", "-1", "--pretty=%s"], capture_output=True).stdout.decode().strip()
+check(ok is True, "a hand-off with a dirty tree (post-collect frames) reports success")
+check("hand off to task=analyse" in head,
+      "...and it ACTUALLY COMMITTED — this is the case that silently pushed an unchanged HEAD")
+check(json.load(open(tf))["task"] == "analyse", "the task file on disk carries the new task after the pop")
+check(os.path.exists(os.path.join(work, "results", "nr4a2-pocket-ensemble", "metad", "fp_0", "frame.pdb")),
+      "the stashed-and-popped frames survive the hand-off — it must never be what loses an ensemble")
+shutil.rmtree(td, ignore_errors=True)
+
+td, work, tf = _handoff_repo(extra_dirty=False)
+ok = _run_handoff_note(work, tf)
+check(ok is True, "a hand-off on a clean tree still works")
+shutil.rmtree(td, ignore_errors=True)
+
+# and the guard itself: a hand-off that would stage nothing must REFUSE rather than report success
+td, work, tf = _handoff_repo(extra_dirty=False)
+# same task AND same note -> set_task rewrites a byte-identical file -> nothing staged. That is precisely
+# the state the old code pushed an unchanged HEAD in while reporting success.
+ok = _run_handoff_note(work, tf, new_task="watch", note="seed")
+check(ok is False, "a hand-off that would stage nothing REFUSES instead of pushing an unchanged HEAD")
+shutil.rmtree(td, ignore_errors=True)
+
 print()
 if fails:
     print(f"FAILED {len(fails)}: {fails}")
