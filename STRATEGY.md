@@ -198,7 +198,7 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 7:37 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 8:36 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
@@ -206,9 +206,9 @@ a window long enough to swamp the 40-iteration commit block** (see the quantisat
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **51.55/60 ns**, up 355 min, GPU 45 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **2.86 ns/h** through metad; its release phase should recover to NR4A2's ~8.2 ns/h once the PLUMED bias is gone | metad ~**10:35 AM**, release ~**12:25 PM** |
-| **NR4A2 paralogue MD** (Vast **45896793**, **RTX 4080S**) | ✅ **metad COMPLETE — `release/7.5` of 15 ns**, up 99 min, **8.18 ns/h**. GPU has climbed **24 % → 74 % → 93 %** across the phase change, which is the PLUMED-CPU diagnosis confirming itself twice over — see [pricing.md §A.1](research/compute/pricing.md) | ~**8:30 AM**. The churn trigger set two checks ago stays withdrawn: the leg fixed itself at the phase boundary |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1320/2000**, up 957 min. **149 iter/h** over the longest window (322 min) | ~**12:10 PM** |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **54.65/60 ns**, up 414 min, GPU 43 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.15 ns/h** through metad; its release phase should recover to NR4A2's ~8.2 ns/h once the PLUMED bias is gone | metad ~**10:20 AM**, release ~**12:10 PM** |
+| ~~NR4A2 paralogue MD~~ (Vast 45896793) | ✅ **DELIVERABLE IN S3, 8:36 AM ET — the paralogue MD pipeline has reached its real success terminus for the first time.** Watch entry disabled. It ran metad on a host whose CPU starved PLUMED (24 % GPU) and finished release on the SAME box at 93 % — the diagnosis in [pricing.md §A.1](research/compute/pricing.md), confirmed twice | landed |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1520/2000**, up 1017 min. **157 iter/h** over the longest window (381 min) | ~**11:40 AM** |
 | ~~RUNG 2b binary edge leg~~ (Vast 45835971) | **✅ DONE 6:37 AM — ΔG_morph 48.1256, no NaN.** Watch entry disabled | landed |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/240` of 2000**, VM up 778 min. ⚠ **First rate measurable on a clean 3-hour production window: 40 iter/h** — against the **68 iter/h** the warmup ran at | ⚠ **~Mon 8:40 PM – Tue 8:40 AM**, not Mon morning. That session's ~Mon 8:40 AM looks extrapolated from **warmup**, and production here costs ~1.7× more per iteration, not less. Flagged rather than silently adopted — **its result keys the calibrator rescope**, and it is not mine to drive |
 
