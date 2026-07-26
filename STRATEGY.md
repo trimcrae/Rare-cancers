@@ -1821,8 +1821,35 @@ explicit go.
    | V100 | ~3.0× | 2.48 | 1.21 | 8.0 |
    | H100 80 GB | ~11× | 11.0 | 1.02 | 6.7 |
 
-   So a faster card **compresses calendar we already have in surplus, at no gain in output** — and V100/H100 would
-   actively *reduce* total science. **No GPU request is worth filing.** ⚠ This also means the quota increase I
+   **★ BUT THE CENSUS CHANGED THE ANSWER, AND NO REQUEST IS NEEDED FOR ANY OF IT.** `GPUS_ALL_REGIONS = 1` caps
+   the **count**; the **per-type** quotas say which card, and several are **already granted at limit 1** —
+   `NVIDIA_V100_GPUS`, `NVIDIA_P100_GPUS`, `NVIDIA_T4_GPUS`, `NVIDIA_P4_GPUS`, `NVIDIA_K80_GPUS` alongside
+   `NVIDIA_L4_GPUS` (A100/H100 are the only ones at 0). Nobody had looked, because the quota check only grepped
+   `L4|G2|GPU` and printed the rows mid-log. Spec-derived against the ~$292:
+
+   | card | quota | ~×L4 | ~$/h | ~$/leg | legs on $292 | science/$ |
+   |---|---|---|---|---|---|---|
+   | L4 (current) | 1 | 1.00 | 0.71 | 31 | 9.4 | 1.41 |
+   | **P100** | **1** | ~2.4 | 1.46 | **26** | **11.1** | **1.67** |
+   | V100 | 1 | ~3.0 | 2.48 | 36 | 8.0 | 1.21 |
+   | T4 | 1 | ~1.1 | 0.35 | 14 | 20.3 | 3.05 |
+
+   So **P100 looks better than L4 on BOTH axes** — faster *and* more science per dollar, i.e. **+18 % more legs
+   from the same money** — and it is available today. That is a different conclusion from "a faster card only
+   compresses calendar", which held only for cards priced in proportion to their speed.
+
+   ⚠ **SPEC-DERIVED, NOT MEASURED — do not plan on these rows yet.** The bandwidth heuristic is validated on
+   exactly one pair (L4 vs 4090, predicted 3.53× to ~5 %) where bandwidth and FP32 scale *together*, so it cannot
+   tell bandwidth-bound from compute-bound. **T4 vs L4 is the discriminating case** (bandwidth 320 vs 300 but FP32
+   8.1 vs 30 TFLOPS) and is therefore the least trustworthy row. This repo has already booked one card-ratio error
+   from spec reasoning. **A ~50-iteration production probe per card measures it for ~$1–2** — worth doing, and it
+   is **not a flag change**: P100/V100/T4 need `n1-*` machine types plus `--accelerator`, while the lane pins
+   L4-only `g2-*`. Details and the full caveat: [gcp-gpu-facts.md §1b](research/compute/gcp-gpu-facts.md).
+   **Sequenced after the reverse leg** — the 1-GPU cap means a probe cannot run beside it, and the leg is the
+   gating result.
+
+   **What stands regardless: no GPU quota REQUEST is worth filing** — not more count (refused, and wouldn't have
+   helped), and not a faster type (we already hold several). ⚠ This also means the quota increase I
    proposed would not have helped **even if Google had granted it**: at 4 GPUs the same $292 is spent 4× faster,
    not turned into 4× the science. That table's central claim was wrong independently of the refusal — see
    [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 20.
