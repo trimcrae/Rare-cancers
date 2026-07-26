@@ -297,3 +297,44 @@ def test_no_sort_into_head_under_pipefail():
         "the producer fails its write, pipefail+`set -e` kill the step, and it only starts happening once the "
         "output outgrows the 64 KB pipe buffer. Use `| awk 'NR<=N'` (reads to EOF, prints the first N) rather "
         "than `|| true`, which would also swallow a real producer error.\n  " + "\n  ".join(offenders))
+
+
+# --- a task allowlist that drifts from its own input options is a SILENT downgrade -----------------------
+#
+# WHY. gpu-ternary-fep-vast.yml validates the dispatched task against a `case` allowlist and falls back to the
+# free `test` task on no match — with a ::warning:: and a GREEN run. So a task present in the `workflow_dispatch`
+# input's `options` but absent from the allowlist is dispatchable, looks like it ran, and does none of the work
+# asked for. Caught while adding `converge` on 2026-07-26: the option was added and the allowlist was not, which
+# would have produced a passing run that analysed nothing — the "reports success while measuring nothing" shape
+# that research/modalities/ternary-lane-guard-audit-2026-07-25.md is entirely about.
+#
+# Checked generically: any workflow whose body contains a task/mode `case` allowlist AND declares matching
+# dispatch options must cover every option.
+def test_vast_task_allowlist_matches_the_input_options():
+    path = os.path.join(WF_DIR, "gpu-ternary-fep-vast.yml")
+    if not os.path.exists(path):
+        print("SKIP: gpu-ternary-fep-vast.yml absent")
+        return
+    text = open(path).read()
+    doc = yaml.safe_load(text)
+    node = None
+    for key in (True, "on", "On", "ON"):
+        if key in doc and isinstance(doc[key], dict):
+            node = doc[key]
+            break
+    options = ((node or {}).get("workflow_dispatch") or {}).get("inputs", {}).get("task", {}).get("options")
+    assert options, "the task input lost its explicit options list — the allowlist can no longer be checked"
+
+    m = re.search(r"case \"\$\{TASK:-test\}\" in\s*\n\s*([^)]+)\)", text)
+    assert m, "could not find the task `case` allowlist — if it was restructured, update this gate"
+    allowed = {t.strip() for t in m.group(1).split("|") if t.strip()}
+
+    missing = [o for o in options if o not in allowed]
+    assert not missing, (
+        f"these dispatch options are NOT in the task allowlist and would SILENTLY fall back to `test` — a green "
+        f"run that does none of the requested work: {missing}. Allowlist has {sorted(allowed)}.")
+    # and the reverse, which is merely dead config but still a lie about what the workflow accepts
+    extra = [a for a in sorted(allowed) if a not in options]
+    assert not extra, (
+        f"these tasks are in the allowlist but not dispatchable via the input options: {extra}. Either add them "
+        f"to `options` or drop them from the `case`.")

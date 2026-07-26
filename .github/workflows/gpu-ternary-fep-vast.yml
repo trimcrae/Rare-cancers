@@ -51,9 +51,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: test | dry-run | prime | smoke | probe | edge | collect | reduce | stop
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, stop]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -102,8 +102,14 @@ jobs:
             # that cannot execute is not a fallback.
             TASK=$(printf '%s' "$MSG" | grep -oE '\[tvast:[a-z-]+\]' | head -1 | sed 's/\[tvast://; s/\]//' || true)
           fi
+          # THIS ALLOWLIST MUST BE KEPT IN SYNC WITH THE `task` INPUT'S OPTIONS. It is a silent downgrade, not an
+          # error: an unlisted task falls back to `test`, which passes, prints a warning nobody reads, and does
+          # none of the work that was asked for. Adding `converge` to the input's options without adding it here
+          # would have produced a green run that analysed nothing — the exact "reports success while measuring
+          # nothing" shape this lane's audit is about. Gated by
+          # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|stop) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -346,6 +352,76 @@ jobs:
           cat /tmp/identity.txt
           echo "reference: the 2 fs r0 cycle gave ddG_coop = -0.534 kcal/mol"
           echo "  (legs binary 48.0046 / ternary 47.4701 / solvent 47.8060 — valB-mini-r0-verdict-2026-07-25.md)"
+
+  # ------------------------------------------------------------------ free: CPU-only trajectory diagnostics
+  # WHY THIS TASK EXISTS. `reduce` fetches the leg JSONs — one ΔG each — and computes ΔΔG_coop. That is the
+  # NUMBER, and it says nothing about whether the trajectory behind it sampled the intended state. The 2 fs r0
+  # cycle's BINARY leg has a confirmed pose failure (its receptor-contacting moiety leaves and does not return in
+  # 8 of 12 replicas, while the ternary leg in the same cycle is 12/12 stable — audit §L.3–L.3c), and RUNG 2b's
+  # 4 fs cycle agrees with r0 to |Δ| = 0.0215 kcal/mol. Two readings of that agreement:
+  #
+  #   2b's binary leg SHARES the departure  -> the agreement is a real timestep reproduction on a shared-broken-arm
+  #                                            basis; the 2b PASS stands as a verdict about 4 fs, and neither
+  #                                            absolute ΔΔG_coop is a valid cooperativity.
+  #   2b's binary leg HOLDS its pose        -> a contaminated arm and a clean one agree to 0.02 kcal/mol, and the
+  #                                            claim that the departure invalidates ΔG_binary needs substantial
+  #                                            softening.
+  #
+  # The second would be evidence AGAINST the r0 finding, which is exactly why it has to be looked at rather than
+  # assumed. $0: free runner, no GPU, no Vast instance — it reads S3 and analyses on CPU.
+  #
+  # PARITY, not just speed: the analysis runs in the SAME image that produced the trajectories, because analysing
+  # an OpenFE trajectory with a different pymbar/openmmtools than PRODUCED it can move the MBAR numbers. The repo
+  # is mounted over the image's baked copy so the analyser that runs is the branch's.
+  converge:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'converge' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
+      TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Pull the newest committed generation per leg from S3
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          mkdir -p /tmp/tconv
+          python research/modalities/ternary_vast_launch.py --mode edge --fetch-trajectories /tmp/tconv 2>&1 | tail -40
+          echo "--- what landed ---"
+          ls -laR /tmp/tconv | tail -40
+      - name: Convergence + contact-moiety pose diagnostics, in the parity image
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/tconv:/tmp/tconv \
+            -e CKPT_DIR=/tmp/tconv -e INPUT_DIR=/tmp/tconv \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/ternary_fep_convergence.py 2>&1 | tail -30
+          sudo chown -R "$(id -u):$(id -g)" /tmp/tconv 2>/dev/null || true
+      - name: Verdict LAST — the 4 fs cycle's pose behaviour beside r0's
+        run: |
+          set +e
+          echo "================ 4 fs CYCLE POSE / CONVERGENCE SUMMARY ================"
+          cat /tmp/tconv/ternary_convergence_summary.txt
+          echo
+          echo "r0 (2 fs) for comparison — binary_vhl: contact_pose max 16.327 / med 4.333 A, 8 of 12 replicas"
+          echo "ending beyond 4.0 A, classes DISPLACED_AND_STAYED 5 / INTERMEDIATE 3 / STABLE 4; ternary_vhl"
+          echo "12/12 STABLE. See research/modalities/ternary-lane-guard-audit-2026-07-25.md sections L.3-L.3c."
+          echo
+          echo "READ IT AS: binary here ALSO displaced -> the |dDDG| = 0.0215 agreement is a timestep result on a"
+          echo "shared broken arm. Binary here STABLE -> the departure barely moves dG_binary and the r0 claim"
+          echo "needs softening. Either way the number to compare is the binary leg's contact_pose line."
 
   stop:
     needs: resolve
