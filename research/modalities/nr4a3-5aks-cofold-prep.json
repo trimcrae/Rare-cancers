@@ -1,0 +1,44 @@
+{
+ "_title": "RUNG 5a-KS \u2014 ternary co-fold inputs for the ligand-side double difference",
+ "_status": "INPUT STAGING. No free energy, no selectivity claim, nothing about efficacy or safety.",
+ "_test": "S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1); ternary legs only (the shared ligand-E3 binary leg and the solvent leg are paralogue-independent and cancel exactly)",
+ "_pair_source": "nr4a3-linker-design.json",
+ "_why_one_cofold_per_species": "Both morph endpoints are staged from ONE pose; the engine re-imposes each endpoint's bond orders and stereo from SMILES. Two independent co-folds would put a pose difference between the endpoints that the alchemical transformation would have to absorb \u2014 not part of the physical question, and it would contaminate S.",
+ "_not_gated_on_rung_2b": "The 4 fs decision changes what the FEP legs cost, not what structure they start from. The ~$12 of ternary legs is the part that waits for that gate.",
+ "matched_pair_check": {
+  "passes": true,
+  "reading": "one-character aromatic C -> N at SMILES index 77"
+ },
+ "wedge_target_residue": {
+  "uniprot_resid": 407,
+  "nr4a3": "T",
+  "nr4a1": "L",
+  "nr4a2": "V",
+  "rsa": 0.279,
+  "nonconservative": true,
+  "branch_k_min": 2,
+  "branch_k_max": 2,
+  "e3_clearance_A": 8.6,
+  "e3_clear_enough_for_a_matched_pair": true
+ },
+ "plan": [
+  {
+   "species": "NR4A3",
+   "system": "CRBN + NR4A3-LBD + construct",
+   "cofold_ligand_smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)COCCOCCOCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "cofold_ligand_role": "d0 (control endpoint) \u2014 the pose BOTH endpoints are staged from",
+   "perturbed_endpoint_smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)COCCOCCOCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "leg_id": "5aks_ternary_nr4a3",
+   "environment": "ternary"
+  },
+  {
+   "species": "NR4A1",
+   "system": "CRBN + NR4A1-LBD + construct",
+   "cofold_ligand_smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)COCCOCCOCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "cofold_ligand_role": "d0 (control endpoint) \u2014 the pose BOTH endpoints are staged from",
+   "perturbed_endpoint_smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)COCCOCCOCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "leg_id": "5aks_ternary_nr4a1",
+   "environment": "ternary"
+  }
+ ]
+}
