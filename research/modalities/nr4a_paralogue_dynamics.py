@@ -431,7 +431,10 @@ def matched_reach_hits_multi(anchors, cysteines, lengths, params=None, min_rsa=0
     budgets = {n: G.contour_length_from_atoms(n, params["linker_rise_per_atom_A"])
                + 2.0 * params["electrophile_arm_A"] for n in lengths}
     big = max(budgets.values()) if budgets else 0.0
-    out = {n: ([0] * len(anchors), {c["label"]: 0 for c in cys}) for n in lengths}
+    # bytearray, not a list of ints: at 2M samples per (arm x pose) the placement set is ~23k, and 226
+    # conformers x 3 species x 4 lengths x 2 variants of a Python list would be ~700 MB of pointers on a
+    # runner that also has to hold the trajectory analysis. A bytearray is one byte per placement.
+    out = {n: (bytearray(len(anchors)), {c["label"]: 0 for c in cys}) for n in lengths}
     cache = {}
     for i, pl in enumerate(anchors):
         row = cache.get(pl["pose"])
@@ -470,7 +473,7 @@ def matched_reach_hits(anchors, cysteines, gate_atoms=None, params=None, min_rsa
     budget = G.contour_length_from_atoms(gate, params["linker_rise_per_atom_A"]) \
         + 2.0 * params["electrophile_arm_A"]
     cys = [c for c in cysteines if c["rsa"] >= min_rsa]
-    hits = [0] * len(anchors)
+    hits = bytearray(len(anchors))
     per_cys = {c["label"]: 0 for c in cys}
     # |SG - a_t| depends only on the POSE, so cache it per (pose, cysteine) instead of recomputing per placement
     cache = {}
