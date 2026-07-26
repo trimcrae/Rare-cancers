@@ -263,14 +263,51 @@ def min_linker_atoms_exact(anchor_a, anchor_b, nucleophile, arm_reach: float,
     """Shortest linker that can BOTH span the anchors AND present a pendant of reach `arm_reach` on the
     nucleophile from an integer backbone position. `None` if no linker up to `n_max` can.
 
-    Monotone in n (growing the linker grows every branch ball), so a linear scan from the span floor is both
-    correct and cheap — and the span floor is where it starts, which is the point.
+    Monotone in n (growing the linker grows every branch ball), so a linear scan is both correct and cheap.
+
+    ★ WHERE THE SCAN STARTS, AND WHY IT IS NOT AN APPROXIMATION. Feasibility at n implies BOTH published
+    necessary conditions, so the scan may skip every n below their maximum without changing a single answer:
+      * the SPAN FLOOR. A witness p obeys |p-a| <= k*rise and |p-b| <= (n-k)*rise, so
+        |a-b| <= |p-a| + |p-b| <= n*rise, i.e. n >= ceil(|a-b|/rise).
+      * the RELAXED (RUNG-5a) BOUND. The same witness obeys |q-a| + |q-b| <= (|p-a| + e) + (|p-b| + e)
+        <= n*rise + 2e, i.e. n >= ceil((|q-a| + |q-b| - 2e)/rise) = `min_linker_atoms_relaxed`.
+    Starting at the larger of the two is therefore EXACT, not a heuristic, and it is what makes this callable
+    ~10^5 times inside the RUNG-5a inner loop instead of only on a handful of exemplars.
+    `tests/test_linker_design.py` pins the identity against a scan that starts at n=2.
     """
-    lo = span_floor_atoms(anchor_a, anchor_b, rise)
+    lo = max(span_floor_atoms(anchor_a, anchor_b, rise),
+             min_linker_atoms_relaxed(anchor_a, anchor_b, nucleophile, arm_reach, rise))
     for n in range(max(2, lo), n_max + 1):
         if branch_position_window(anchor_a, anchor_b, nucleophile, n, arm_reach, rise)["n_feasible"] > 0:
             return n
     return None
+
+
+# ---------------------------------------------------------------------------------------------------------
+# Named pendant building blocks — ONE definition, shared by RUNG 5a's reach gate and RUNG 5b's enumerator
+# ---------------------------------------------------------------------------------------------------------
+
+# `arm_reach` in Angstrom: the through-space distance from the LINKER BACKBONE atom carrying the branch to the
+# target atom being touched, with the branch fully engaged (side chain + any amide + the Michael acceptor + the
+# forming C-S bond). These are NAMED, commercially routine groups, so a sweep over them is a sweep over
+# BUILDING BLOCKS, not over a knob — which is the only reason a sensitivity sweep is admissible under
+# STRATEGY.md load-bearing piece 5 (no tunable scalar).
+#
+# ⚠ `rung5a_convention` (3.0 A) is the PREREGISTERED value the Tier-2 term-(a) gate is read at, and it stays
+# the gate value. It is SHORTER than every real pendant below, i.e. conservative — so the longer entries are a
+# labelled sensitivity, never a rescue. Moving the gate onto a longer pendant after seeing a result would be
+# exactly the tuning the preregistration forbids.
+PENDANT_REACH_A = {
+    "rung5a_convention": 3.0,        # what the RUNG-5a gate used. Kept so the two can be compared.
+    "aryl_direct": 4.0,              # a pyridyl/phenyl bonded straight to a backbone carbon
+    "aryl_branch_residue": 4.5,      # the ring nitrogen of a 3-(3-pyridyl)-L-Ala side chain, measured from
+                                     # the branch alpha-carbon: CA-CB (1.53) + CB-ipso (1.51) + two ring
+                                     # bonds to the meta nitrogen (~2.4), through-space, between the compact
+                                     # and fully extended rotamers
+    "amide_direct": 5.0,             # backbone N-acylated: N-C(=O)-C(alpha)=C(beta)...S
+    "dap_branch": 7.5,               # 2,3-diaminopropanoyl branch + acrylamide: 6 atoms
+    "dab_branch": 8.75,              # 2,4-diaminobutanoyl branch + acrylamide: 7 atoms
+}
 
 
 def pendant_contactable(anchor_a, anchor_b, point, n_atoms: int, arm_reach: float,

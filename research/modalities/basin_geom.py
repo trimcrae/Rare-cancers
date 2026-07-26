@@ -348,12 +348,20 @@ def linker_detour(anchor_a, anchor_b, target_point):
 
 
 def linker_can_visit(anchor_a, anchor_b, target_point, contour_length, arm_reach: float = 0.0) -> bool:
-    """Can a linker of contour length L, tethered at a and b, put a pendant arm of reach `arm_reach` on
-    `target_point`?
+    """⚠ A RELAXATION — NECESSARY BUT NOT SUFFICIENT. Do NOT use it to decide reach; use
+    `linker_design.min_linker_atoms_exact` / `pendant_contactable`.
 
-    Exact necessary condition, and near-sufficient: the chain backbone must pass within `arm_reach` of the
-    point, i.e. there is p with |p - q| <= arm_reach and |p-a| + |p-b| <= L. Minimising the focal sum over the
-    ball of radius arm_reach about q lowers it by at most 2*arm_reach, giving the criterion below.
+    The criterion is: there is p with |p - q| <= arm_reach and |p-a| + |p-b| <= L. Minimising the focal sum
+    over the ball of radius `arm_reach` about q lowers it by at most 2*arm_reach, which gives the inequality
+    below — an outer bound on the feasible set, not the feasible set.
+
+    ★ THE LOOPHOLE, AND WHY IT COST A PUBLISHED NUMBER (2026-07-25). Since |q-a| + |q-b| >= |a-b|, a
+    nucleophile ON the anchor-anchor segment reduces this to `span <= L + 2*arm_reach` — i.e. the pendant is
+    credited with shortening the SPAN. It cannot: the pendant hangs off the backbone and the backbone must
+    still connect a to b, so L >= |a-b| whatever the arm. RUNG 5a's term-(a) numbers were computed with this
+    rule and are therefore LOWER BOUNDS, understated by up to 2*arm_reach (~5 backbone atoms at the 3.0 A gate
+    arm). Kept, tested and named as the relaxation it is, so the two rules can be compared rather than
+    conflated — `nr4a3_basin_search.electrophile_reach` now reports both.
     """
     return linker_visit_sum(anchor_a, anchor_b, target_point) <= contour_length + 2.0 * arm_reach
 

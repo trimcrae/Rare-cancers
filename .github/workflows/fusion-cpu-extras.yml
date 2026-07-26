@@ -241,7 +241,12 @@ jobs:
           SAMPLES: ${{ github.event.inputs.seeds }}
         run: |
           set -e
+          # ★ `seeds` is a SHARED input whose default is the seed LIST "1,2,3", not a sample count, so
+          # `${SAMPLES:-250000}` never fires — the variable is set, just not to a number. A dispatch that
+          # omitted `seeds` therefore ran `--samples 1,2,3` and died in argparse one minute in (2026-07-25,
+          # run 30179151643). Guard on the VALUE, not on emptiness.
           N=${SAMPLES:-250000}
+          case "$N" in ''|*[!0-9]*) echo "seeds='$N' is not a sample count; using 250000"; N=250000;; esac
           echo "matched comparison at $N samples/arm/pose, 8 poses"
           python research/modalities/nr4a3_basin_search.py \
             --registry research/modalities/nr4a3-e3-arm-registry.json \

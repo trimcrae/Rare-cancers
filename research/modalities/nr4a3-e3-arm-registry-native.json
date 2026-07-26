@@ -7,7 +7,7 @@
     "The catalytic-cysteine identification in the E2 geometry step is a geometric proxy, not a sequence-motif assignment.",
     "Nothing here is evidence that any of these recruiters engages NR4A3 \u2014 it is input staging."
   ],
-  "staged_at_utc": "2026-07-25T20:34:48Z",
+  "staged_at_utc": "2026-07-25T23:25:06Z",
   "arms": {
     "vhl": {
       "arm_id": "vhl",
@@ -1035,6 +1035,12 @@
         "anchor_to_ring_A": 59.16,
         "ring_to_cullin_A": 43.98
       },
+      "own_assembly_ring_check": {
+        "composed_ring_source": "8R5H",
+        "observed_ring_source": "8R5H",
+        "composed_vs_observed_RING_A": 0.0,
+        "_reading": "Composed RING vs the RING of THIS arm's own intact assembly, both already in this receptor's frame. Independent of which reference entry the E2 step retrieved, so it is measured for every arm that has an intact assembly \u2014 including arms the single-reference check below cannot evaluate. NOTE this is the uncertainty on the FALLBACK zone model only: where `transfer_anchor.source` is `observed_in_intact_assembly` the search anchors on the observed E2 cysteine and never swings an arc about this RING."
+      },
       "composition_check": {
         "possible": false,
         "reason": "9UUM shares no bridge protein with this arm"
@@ -1738,6 +1744,12 @@
         "anchor_to_ring_A": 45.64,
         "ring_to_cullin_A": 63.39
       },
+      "own_assembly_ring_check": {
+        "composed_ring_source": "9UUM",
+        "observed_ring_source": "9UUM",
+        "composed_vs_observed_RING_A": 0.0,
+        "_reading": "Composed RING vs the RING of THIS arm's own intact assembly, both already in this receptor's frame. Independent of which reference entry the E2 step retrieved, so it is measured for every arm that has an intact assembly \u2014 including arms the single-reference check below cannot evaluate. NOTE this is the uncertainty on the FALLBACK zone model only: where `transfer_anchor.source` is `observed_in_intact_assembly` the search anchors on the observed E2 cysteine and never swings an arc about this RING."
+      },
       "composition_check": {
         "possible": true,
         "reference_pdb": "9UUM",
@@ -1859,6 +1871,8 @@
     "[e3stage]   catalytic Cys85 of UBE2D1 identified by proximity to ubiquitin C-term (res 76): 3.4 A; other Cys [16.4, 17.3, 20.0] A",
     "[e3stage]   RING -> catalytic Cys = 29.3 A",
     "[e3stage]   substrate Lys NZ -> catalytic Cys: nearest 17.1 A (Lys158), n=11, all [17.1, 17.3, 28.2, 31.1, 37.0, 37.1, 38.1, 39.8]",
+    "[e3stage] vhl own-assembly RING check: composed RING (from 8R5H) is 0.0 A from the RING of its own intact assembly 8R5H",
+    "[e3stage] crbn own-assembly RING check: composed RING (from 9UUM) is 0.0 A from the RING of its own intact assembly 9UUM",
     "[e3stage] crbn composition check vs 9UUM: composed RING is 0.0 A from the observed one (bridge 1108 CA @ 0.0 A); anchor->RING composed 45.64 vs observed 45.64 A"
   ]
 }

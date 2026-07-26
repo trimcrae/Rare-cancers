@@ -18,7 +18,11 @@ plus the marginal one:
   (a) ELECTROPHILE-REACH — can a linker tethered at the warhead exit vector and the E3 ligand exit vector route
       a pendant mild electrophile onto an NR4A3-UNIQUE cysteine (C397 / C420 / C559)? None of them sits inside
       the pocket, so this is an electrophile on the exit vector or the linker, which in a degrader is
-      architecturally free. Answered with the exact prolate-spheroid criterion (basin_geom.linker_can_visit).
+      architecturally free. Answered with the EXACT three-ball / integer-branch-position criterion
+      (`linker_design.min_linker_atoms_exact`). ⚠ CORRECTED 2026-07-25: this used the prolate-spheroid
+      RELAXATION (`basin_geom.linker_can_visit`), which credits the pendant with shortening the anchor-anchor
+      SPAN and so understates every linker requirement by up to 2e/rise ~ 5 backbone atoms. See
+      `electrophile_reach` for the derivation and the superseded values, which are carried per record.
       REVERSIBLE-covalent (cyanoacrylamide-type) is the preferred chemistry and the output says so: an
       irreversible adduct makes the degrader stoichiometric and forfeits catalytic turnover.
   (b) TRANSFER-ZONE LYSINE IDENTITY — which lysine does the modelled E2~Ub transfer zone cover? Scored as SET
@@ -74,6 +78,7 @@ REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, HERE)
 
 import basin_geom as G                      # noqa: E402
+import linker_design as LD                  # noqa: E402  (the EXACT reach rule; see `electrophile_reach`)
 import nr4a_differential_atlas as ATLAS     # noqa: E402  (reuse the tested SASA + NW aligner)
 
 # ---------------------------------------------------------------------------------------------------------
@@ -96,7 +101,15 @@ PARAMS = {
     "linker_report_atoms": [6, 8, 10, 12, 14, 16, 20],
     "linker_rise_per_atom_A": 1.25,  # projected rise of an all-anti sp3 chain (basin_geom.contour_length_from_atoms)
     "linker_persistence_length_A": 4.0,   # PEG/alkyl-like; the accessibility term is swept over this
-    "electrophile_arm_A": 3.0,       # a mild pendant electrophile (e.g. a cyanoacrylamide) on a short arm
+    "electrophile_arm_A": 3.0,       # a mild pendant electrophile (e.g. a cyanoacrylamide) on a short arm.
+                                     # ⚠ PREREGISTERED AND UNCHANGED BY THE 2026-07-25 REACH CORRECTION. It is
+                                     # SHORTER than every named building block in the sweep below, so it is
+                                     # the conservative reading; moving the gate onto a longer pendant after
+                                     # seeing that the correction costs basins would be exactly the tuning
+                                     # load-bearing piece 5 forbids. The sweep is reported, never read as the gate.
+    "reach_scan_max_atoms": 60,      # ceiling of the EXACT min-length scan. Beyond a PEG6-diacid-scale
+                                     # backbone (~24) nothing is a design answer; 60 exists only so an
+                                     # unreachable cysteine is reported as unreachable rather than as a number.
 
     # --- steric acceptance (coarse rigid-body; residue-level, stated as such)
     "hard_clash_A": 3.0,             # a CA/CB centre this close to another protein's heavy atom is an overlap
@@ -140,6 +153,11 @@ PARAMS = {
     "pose_min_clearance_A": 3.4,          # ... and not inside the protein
     "pose_min_separation_A": 3.0,         # representative anchors must be this far apart from each other
 }
+
+# The named-pendant SENSITIVITY sweep, imported rather than restated so RUNG 5a's gate and RUNG 5b's enumerator
+# cannot drift apart (CLAUDE.md §1, one fact one place). Read `linker_design.PENDANT_REACH_A` for what each
+# entry is and why a sweep over building blocks is not a tunable knob. The GATE is `electrophile_arm_A`.
+PARAMS["electrophile_pendant_sweep_A"] = dict(LD.PENDANT_REACH_A)
 
 UNIPROT_OFFSET = 372          # NR4A3 LBD local residue 1 == UniProt 373
 HEAVY = ("C", "N", "O", "S", "SE", "P")
@@ -686,27 +704,59 @@ def paralogue_sterics(placement, field, params=PARAMS):
     return {"n_hard": n_hard, "n_soft": n_soft, "n_contact": n_contact}
 
 
-def electrophile_reach(placement, pose, cysteines, params=PARAMS):
+def electrophile_reach(placement, pose, cysteines, params=PARAMS, full=True):
     """TERM (a). For each NR4A3 cysteine: can a linker tethered at (warhead exit vector, E3 ligand exit atom)
     put a pendant electrophile of reach `electrophile_arm_A` on its SG?
 
-    Exact prolate-spheroid criterion. The reported `min_linker_atoms` is the chemistry deliverable: how long
-    the linker has to be for that basin to reach that cysteine at all.
+    ★★ CORRECTED 2026-07-25 — THIS FUNCTION USED THE *RELAXED* RULE AND THAT RULE CREDITS THE PENDANT WITH
+    SHORTENING THE SPAN. The published criterion was the prolate-spheroid relaxation
+
+        |q-a| + |q-b| <= n*rise + 2e      (`basin_geom.linker_can_visit`)
+
+    which is a NECESSARY condition, not a sufficient one. Its loophole is visible in one line: by the triangle
+    inequality |q-a| + |q-b| >= |a-b|, so for a nucleophile ON the anchor-anchor segment it reduces to
+    `span <= n*rise + 2e` — i.e. it lets a pendant arm buy up to 2e/rise = 4.8 -> 5 backbone atoms of SPAN.
+    No pendant can do that: the pendant hangs OFF the backbone, and the backbone still has to connect a to b,
+    so `n*rise >= span` however long the arm is. Every term-(a) figure computed under the old rule is therefore
+    a LOWER BOUND on the length a linker actually needs, understated by up to ~5 atoms.
+
+    The replacement is `linker_design.min_linker_atoms_exact` — the shortest n for which some INTEGER branch
+    position k admits a common point of the three balls B(a, k*rise), B(b, (n-k)*rise), B(q, e). That is the
+    same kernel RUNG 5b hands to a chemist, so after this correction the repo holds **one** reach rule instead
+    of two that disagree, and the number the gate is read on is the number a molecule would be built at.
+    The superseded relaxed value is emitted beside it (`*_relaxed_superseded`) so the correction is auditable
+    per record rather than only in prose.
+
+    `full=False` computes only reachability at the sampling ceiling — used for the conserved-cysteine control
+    set, which needs a fraction, not a length, and is ~10x cheaper.
     """
     a_t = tuple(pose["anchor_xyz"])
     a_e = placement["anchor_e3"]
     arm = params["electrophile_arm_A"]
     rise = params["linker_rise_per_atom_A"]
+    n_ceiling = params["linker_max_atoms"]
+    span = G.dist(a_t, a_e)
+    floor_atoms = int(math.ceil(span / rise))
     out = []
     for c in cysteines:
         s = G.linker_visit_sum(a_t, a_e, c["xyz"])
-        need = max(0.0, s - 2.0 * arm)
+        relaxed = int(math.ceil(max(0.0, s - 2.0 * arm) / rise))
+        if full:
+            exact = LD.min_linker_atoms_exact(a_t, a_e, c["xyz"], arm, rise,
+                                              n_max=params["reach_scan_max_atoms"])
+            reachable = exact is not None and exact <= n_ceiling
+        else:
+            exact = None
+            reachable = LD.pendant_contactable(a_t, a_e, c["xyz"], n_ceiling, arm, rise)
         out.append({
             "uniprot_resid": c["uniprot_resid"], "unique": c.get("unique", True),
             "focal_sum_A": round(s, 2),
             "detour_A": round(G.linker_detour(a_t, a_e, c["xyz"]), 2),
-            "min_linker_atoms": int(math.ceil(need / rise)),
-            "reachable": s <= G.contour_length_from_atoms(params["linker_max_atoms"], rise) + 2.0 * arm,
+            "span_A": round(span, 2),
+            "span_floor_atoms": floor_atoms,
+            "min_linker_atoms": exact,
+            "min_linker_atoms_relaxed_superseded": relaxed,
+            "reachable": reachable,
         })
     return out
 
@@ -853,31 +903,71 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
         reach_unique = [electrophile_reach(m, pose, ctx["reactive"]["unique_cysteines"], params)
                         for m in sample]
         conserved_cys = [c for c in ctx["reactive"]["all_cysteines"] if c["local_resid"] not in unique_cys_ids]
-        reach_conserved = [electrophile_reach(m, pose, conserved_cys, params) for m in sample]
+        reach_conserved = [electrophile_reach(m, pose, conserved_cys, params, full=False) for m in sample]
+        gate_n = params["linker_gate_atoms"]
+        pendant_sweep = params["electrophile_pendant_sweep_A"]
         by_cys = {}
+        a_t_pose = tuple(pose["anchor_xyz"])
         for mi_, row in enumerate(reach_unique):
-            for r in row:
-                b = by_cys.setdefault(r["uniprot_resid"], {"hits": 0, "n": 0, "min_atoms": 10 ** 6,
-                                                           "focal_sums": [], "best_i": None,
-                                                           "best_focal": float("inf")})
+            # zip, not a lookup: `electrophile_reach` returns one record per input cysteine IN ORDER, so the
+            # SG coordinate the pendant sweep needs comes from the same object the record was built from.
+            for r, cobj in zip(row, ctx["reactive"]["unique_cysteines"]):
+                b = by_cys.setdefault(r["uniprot_resid"],
+                                      {"hits": 0, "n": 0, "min_atoms": None,
+                                       "focal_sums": [], "exacts": [], "relaxeds": [],
+                                       "best_i": None, "best_key": None, "best_focal": float("inf"),
+                                       "gate_by_pendant": {k: 0 for k in pendant_sweep}})
                 b["n"] += 1
                 b["hits"] += 1 if r["reachable"] else 0
-                b["min_atoms"] = min(b["min_atoms"], r["min_linker_atoms"])
+                ex = r["min_linker_atoms"]
+                if ex is not None and (b["min_atoms"] is None or ex < b["min_atoms"]):
+                    b["min_atoms"] = ex
                 b["focal_sums"].append(r["focal_sum_A"])
-                if r["focal_sum_A"] < b["best_focal"]:
-                    b["best_focal"], b["best_i"] = r["focal_sum_A"], mi_
+                b["exacts"].append(ex)
+                b["relaxeds"].append(r["min_linker_atoms_relaxed_superseded"])
+                # ★ EXEMPLAR SELECTION IS PART OF THE CORRECTION. The old exemplar was the member with the
+                # smallest FOCAL SUM, which under the relaxed rule was the same thing as the shortest linker.
+                # Under the exact rule it is not: the span enters, so the member closest to the cysteine can
+                # need a LONGER chain than one slightly further away but better placed between the anchors.
+                # The exemplar a chemist should design on is the member with the shortest EXACT requirement,
+                # with the focal sum only breaking ties.
+                key = (ex if ex is not None else 10 ** 6, r["focal_sum_A"])
+                if b["best_key"] is None or key < b["best_key"]:
+                    b["best_key"], b["best_i"], b["best_focal"] = key, mi_, r["focal_sum_A"]
+                for pk, pe in pendant_sweep.items():
+                    if LD.pendant_contactable(a_t_pose, sample[mi_]["anchor_e3"], cobj["xyz"],
+                                              gate_n, pe, params["linker_rise_per_atom_A"]):
+                        b["gate_by_pendant"][pk] += 1
         term_a = {}
         rise, e_arm = params["linker_rise_per_atom_A"], params["electrophile_arm_A"]
         for u, b in by_cys.items():
-            profile = {}
+            profile, profile_old = {}, {}
             for n_at in params["linker_report_atoms"]:
-                budget = G.contour_length_from_atoms(n_at, rise) + 2.0 * e_arm
-                profile[n_at] = round(sum(1 for s in b["focal_sums"] if s <= budget) / len(b["focal_sums"]), 3)
+                # Feasibility is MONOTONE in n (a longer chain grows every branch ball, so any witness at n is
+                # still a witness at n+1), so the whole length profile is read off the per-member minimum —
+                # no second scan, and no chance of the profile and the minimum disagreeing.
+                profile[n_at] = round(sum(1 for e in b["exacts"] if e is not None and e <= n_at)
+                                      / len(b["exacts"]), 3)
+                profile_old[n_at] = round(sum(1 for e in b["relaxeds"] if e <= n_at) / len(b["relaxeds"]), 3)
             term_a[f"C{u}"] = {
                 "fraction_reachable_at_sampling_ceiling": round(b["hits"] / b["n"], 3),
                 "fraction_reachable_by_linker_atoms": profile,
-                "fraction_reachable_at_gate": profile[params["linker_gate_atoms"]],
+                "fraction_reachable_at_gate": profile[gate_n],
                 "min_linker_atoms": b["min_atoms"],
+                "_rule": "EXACT: shortest n with an integer branch position k whose three balls "
+                         "B(a,k*rise), B(b,(n-k)*rise), B(SG,%.1f) share a point "
+                         "(linker_design.min_linker_atoms_exact). null = not reachable within %d atoms."
+                         % (e_arm, params["reach_scan_max_atoms"]),
+                # ★ THE SUPERSEDED RULE, CARRIED PER RECORD (CLAUDE.md §1.3: a corrected number keeps its old
+                # value registered). These are what RUNG 5a published on 2026-07-25; they credit the pendant
+                # with shortening the anchor-anchor SPAN and are LOWER BOUNDS, low by up to 2e/rise ~ 5 atoms.
+                "min_linker_atoms_relaxed_superseded": min(b["relaxeds"]),
+                "fraction_reachable_by_linker_atoms_relaxed_superseded": profile_old,
+                "fraction_reachable_at_gate_relaxed_superseded": profile_old[gate_n],
+                # SENSITIVITY, NOT THE GATE: the same 12-atom question asked with each named building block.
+                "fraction_reachable_at_gate_by_pendant": {
+                    k: round(v / b["n"], 3) for k, v in sorted(b["gate_by_pendant"].items(),
+                                                               key=lambda kv: pendant_sweep[kv[0]])},
                 "median_focal_sum_A": round(sorted(b["focal_sums"])[len(b["focal_sums"]) // 2], 2),
                 # ★ ADDED FOR RUNG 5b (additive only; nothing above is changed). `min_linker_atoms` is a
                 # BEST-OF-N over this basin's sampled members, and the member that achieves it is NOT the
@@ -887,6 +977,7 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
                 # the geometry RUNG 5b builds the covalent constructs on.
                 "exemplar_placement": ({
                     "member_index": b["best_i"],
+                    "exact_atoms": b["best_key"][0] if b["best_key"][0] < 10 ** 6 else None,
                     "focal_sum_A": round(b["best_focal"], 3),
                     "anchor_e3_xyz": [round(c, 3) for c in sample[b["best_i"]]["anchor_e3"]],
                     "span_A": round(sample[b["best_i"]]["span_A"], 3),
@@ -895,11 +986,14 @@ def run_arm_pose(arm, pose, ctx, rng, n_samples, params=PARAMS):
                                  if sample[b["best_i"]]["ring"] else None),
                     "transfer_anchor_xyz": ([round(c, 3) for c in sample[b["best_i"]]["tanchor"]]
                                             if sample[b["best_i"]].get("tanchor") else None),
-                    "_reading": "the sampled member of this basin whose linker path comes CLOSEST to this "
-                                "cysteine. Its landmarks recover the full rigid transform (Horn), so the "
-                                "exit-vector geometry and the exact three-ball branch-position window can "
-                                "be computed on it. It is a best-of-N member, so it is the OPTIMISTIC end "
-                                "of the basin and must be reported as such.",
+                    "_reading": "the sampled member of this basin needing the SHORTEST EXACT linker to this "
+                                "cysteine (focal sum breaks ties). Its landmarks recover the full rigid "
+                                "transform (Horn), so the exit-vector geometry and the exact three-ball "
+                                "branch-position window can be computed on it. It is a best-of-N member, so "
+                                "it is the OPTIMISTIC end of the basin and must be reported as such.",
+                    "_selection_changed_2026_07_25": "was the member with the smallest FOCAL SUM. Under the "
+                                "relaxed rule those coincided; under the exact rule the span enters, so the "
+                                "member nearest the cysteine is not always the one needing the shortest chain.",
                 } if b["best_i"] is not None else None),
             }
         cons_reachable = sum(1 for row in reach_conserved for r in row if r["reachable"])
@@ -1115,22 +1209,41 @@ def marginalise_over_poses(per_pose, params=PARAMS):
             for cys, v in (b["term_a_electrophile_reach"]["unique_cysteines"] or {}).items():
                 cur = term_a_union.setdefault(cys, {"max_fraction_reachable": 0.0,
                                                     "max_fraction_reachable_at_gate": 0.0,
-                                                    "min_linker_atoms": 10 ** 6, "n_poses_reachable": 0})
+                                                    "min_linker_atoms": None,
+                                                    "min_linker_atoms_relaxed_superseded": 10 ** 6,
+                                                    "max_fraction_reachable_at_gate_relaxed_superseded": 0.0,
+                                                    "max_fraction_reachable_at_gate_by_pendant": {},
+                                                    "n_poses_reachable": 0})
                 cur["max_fraction_reachable"] = max(cur["max_fraction_reachable"],
                                                     v["fraction_reachable_at_sampling_ceiling"])
                 cur["max_fraction_reachable_at_gate"] = max(cur["max_fraction_reachable_at_gate"],
                                                             v["fraction_reachable_at_gate"])
-                cur["min_linker_atoms"] = min(cur["min_linker_atoms"], v["min_linker_atoms"])
+                if v["min_linker_atoms"] is not None:
+                    cur["min_linker_atoms"] = (v["min_linker_atoms"] if cur["min_linker_atoms"] is None
+                                               else min(cur["min_linker_atoms"], v["min_linker_atoms"]))
+                cur["min_linker_atoms_relaxed_superseded"] = min(
+                    cur["min_linker_atoms_relaxed_superseded"], v["min_linker_atoms_relaxed_superseded"])
+                cur["max_fraction_reachable_at_gate_relaxed_superseded"] = max(
+                    cur["max_fraction_reachable_at_gate_relaxed_superseded"],
+                    v["fraction_reachable_at_gate_relaxed_superseded"])
+                for pk, pv in v["fraction_reachable_at_gate_by_pendant"].items():
+                    cur["max_fraction_reachable_at_gate_by_pendant"][pk] = max(
+                        cur["max_fraction_reachable_at_gate_by_pendant"].get(pk, 0.0), pv)
                 if v["fraction_reachable_at_gate"] > 0:
                     cur["n_poses_reachable"] += 1
-                # ★ ADDED FOR RUNG 5b: carry the member placement that achieves the union's minimum focal sum,
-                # tagged with the basin and pose it came from — RUNG 5b has to know WHICH pose's exit-vector
-                # anchor its covalent construct is designed against, because that is the pose conditionality
-                # the construct inherits.
+                # ★ ADDED FOR RUNG 5b: carry the member placement that achieves the union's minimum, tagged
+                # with the basin and pose it came from — RUNG 5b has to know WHICH pose's exit-vector anchor
+                # its covalent construct is designed against, because that is the pose conditionality the
+                # construct inherits. Selected on the EXACT requirement since 2026-07-25 (focal sum breaks
+                # ties), matching the per-basin exemplar rule.
                 ex = v.get("exemplar_placement")
-                if ex is not None and ex["focal_sum_A"] < cur.get("_best_focal", float("inf")):
-                    cur["_best_focal"] = ex["focal_sum_A"]
-                    cur["exemplar_placement"] = dict(ex, basin_id=b["basin_id"], pose_id=b["pose_id"])
+                if ex is not None:
+                    key = (ex.get("exact_atoms") if ex.get("exact_atoms") is not None else 10 ** 6,
+                           ex["focal_sum_A"])
+                    if key < cur.get("_best_key", (10 ** 9, 10 ** 9)):
+                        cur["_best_key"] = key
+                        cur["_best_focal"] = ex["focal_sum_A"]
+                        cur["exemplar_placement"] = dict(ex, basin_id=b["basin_id"], pose_id=b["pose_id"])
         tz_ranks = [b["term_b_transfer_zone"]["best_rank"] for b in members if b["term_b_transfer_zone"]]
         uniq_cov = sorted({u for b in members if b["term_b_transfer_zone"]
                            for u in b["term_b_transfer_zone"]["unique_lysines_covered_nr4a3"]})
@@ -1184,11 +1297,17 @@ def term_a_feasibility_envelope(poses, cysteines, field3, rng, params=PARAMS, n_
     Distinguishing them is the difference between "widen the E3 panel" and "this mechanism is closed", and it
     is the sort of thing a negative result has to state to be worth publishing.
 
-    The computation is exact and needs no E3. Fixing the warhead exit anchor `a`, a linker of contour length L
-    with a pendant arm of reach e can put the electrophile on the cysteine SG for an E3 anchor at `b` iff
-    `|SG−a| + |SG−b| <= L + 2e`, and `b` must itself be a spannable, non-overlapping anchor position. The
-    fraction of the reach shell satisfying both is estimated by Monte Carlo, with anchor positions inside the
-    protein rejected exactly as the search rejects them.
+    The computation needs no E3. Fixing the warhead exit anchor `a`, an n-atom linker with a pendant arm of
+    reach e can put the electrophile on the cysteine SG for an E3 anchor at `b` iff some integer branch
+    position k admits a common point of B(a, k*rise), B(b, (n-k)*rise), B(SG, e); and `b` must itself be a
+    spannable, non-overlapping anchor position. The fraction of the reach shell satisfying both is estimated
+    by Monte Carlo, with anchor positions inside the protein rejected exactly as the search rejects them.
+
+    ★ CORRECTED 2026-07-25 alongside `electrophile_reach`. This function used the same relaxed criterion
+    (`|SG-a| + |SG-b| <= L + 2e`). Note that the envelope was ALREADY span-correct in one respect the basin
+    search was not — it draws the E3 anchor at radius r <= L, so it never admitted an anchor further away than
+    the linker is long — which is precisely why the two disagreed and why the disagreement is worth recording:
+    the same rule was written twice and only one copy carried the constraint.
     """
     rise, e_arm = params["linker_rise_per_atom_A"], params["electrophile_arm_A"]
     lo_span = G.contour_length_from_atoms(params["linker_min_atoms"], rise)
@@ -1198,6 +1317,11 @@ def term_a_feasibility_envelope(poses, cysteines, field3, rng, params=PARAMS, n_
         per_len = {}
         for n_at in params["linker_report_atoms"]:
             L = G.contour_length_from_atoms(n_at, rise)
+            # EARLY-OUT ONLY, and deliberately the LOOSE bound: `L + 2e` is weaker than the exact criterion
+            # below, so anything it lets through is still tested properly. Using it here cannot admit a false
+            # positive; it only skips poses that are hopeless on the first leg alone. (The exact necessary
+            # bound would be `n*rise + e`, but tightening a pure early-out buys nothing and would have to be
+            # re-derived if the branch model changed.)
             budget = L + 2.0 * e_arm
             feas_by_pose = []
             for pose in poses:
@@ -1214,7 +1338,7 @@ def term_a_feasibility_envelope(poses, cysteines, field3, rng, params=PARAMS, n_
                     if field3.min_dist(b) - field3.cell_slack < params["pose_min_clearance_A"]:
                         continue                        # an E3 anchor inside the target is not a placement
                     tot += 1
-                    if d_aS + G.dist(sg, b) <= budget:
+                    if LD.pendant_contactable(a, b, sg, n_at, e_arm, rise):
                         hit += 1
                 feas_by_pose.append(hit / tot if tot else 0.0)
             per_len[n_at] = {
@@ -1236,9 +1360,10 @@ def term_a_feasibility_envelope(poses, cysteines, field3, rng, params=PARAMS, n_
         "_what": "E3-INDEPENDENT upper bound on term (a). A basin can only do as well as this; if the envelope "
                  "is empty at a given linker length, no recruiter choice can rescue that cysteine at that "
                  "length, and the failure is a fact about the TARGET rather than about the E3 panel.",
-        "_method": "exact prolate-spheroid criterion |SG-a| + |SG-b| <= L + 2e, Monte-Carlo over E3-anchor "
-                   "positions b in the reach shell, rejecting positions inside the protein exactly as the "
-                   "search does.",
+        "_method": "EXACT three-ball criterion (linker_design.pendant_contactable): some integer branch "
+                   "position k gives B(a,k*rise), B(b,(n-k)*rise), B(SG,e) a common point. Monte-Carlo over "
+                   "E3-anchor positions b in the reach shell, rejecting positions inside the protein exactly "
+                   "as the search does. CORRECTED 2026-07-25 from the relaxed |SG-a| + |SG-b| <= L + 2e.",
         "per_cysteine": out,
     }
 
@@ -1308,7 +1433,15 @@ def main(argv=None):
     ap.add_argument("--struct-dir", default=os.path.join(REPO, "results", "nr4a3-matrix"))
     ap.add_argument("--registry", default=os.path.join(HERE, "nr4a3-e3-arm-registry.json"))
     ap.add_argument("--unique-json", default=os.path.join(HERE, "nr4a-paralogue-unique-residues.json"))
-    ap.add_argument("--out", default=os.path.join(HERE, "nr4a3-orientation-basins.json"))
+    # ★ NOT a plain default. `--self-test` runs a SYNTHETIC E3, and with one shared default path it wrote its
+    # synthetic result straight over the committed production artifact — observed 2026-07-25, twice in one
+    # session, and only caught because `git status` was checked. A lane that ran the self-test and then
+    # committed would have replaced the definitive 12-pose result with synthetic numbers under a filename that
+    # every downstream consumer (RUNG 5b, STRATEGY.md's Tier-2 block) reads without question. So the self-test
+    # gets its own file unless an explicit --out says otherwise.
+    ap.add_argument("--out", default=None,
+                    help="output path (default: nr4a3-orientation-basins.json, or "
+                         "nr4a3-orientation-basins-selftest.json under --self-test)")
     ap.add_argument("--samples", type=int, default=250000, help="rigid-body samples per (arm x pose)")
     ap.add_argument("--n-poses", type=int, default=12, help="size of the warhead exit-vector pose ensemble")
     ap.add_argument("--seed", type=int, default=20260725)
@@ -1316,6 +1449,9 @@ def main(argv=None):
                     help="run against a SYNTHETIC E3 (no registry, no network) to exercise the pipeline")
     ap.add_argument("--arms", default="", help="comma-separated subset of registry arm ids")
     args = ap.parse_args(argv)
+    if args.out is None:
+        args.out = os.path.join(HERE, "nr4a3-orientation-basins-selftest.json" if args.self_test
+                                else "nr4a3-orientation-basins.json")
 
     t0 = time.time()
     rng = random.Random(args.seed)
@@ -1479,7 +1615,10 @@ def main(argv=None):
             "meta_basins_ranked": "pose-marginalised basins across all arms, best first. Per basin: "
                                   "{meta_basin_id, arm_id, pose_surviving_fraction (term (d)), "
                                   "n_poses_present/n_poses_total, total_members, interface_patch_uniprot, "
-                                  "term_a_union{C###: min_linker_atoms, max_fraction_reachable_at_gate}, "
+                                  "term_a_union{C###: min_linker_atoms (EXACT three-ball rule; null = not "
+                                  "reachable within reach_scan_max_atoms), max_fraction_reachable_at_gate, "
+                                  "and the *_relaxed_superseded twins carrying the 2026-07-25-corrected "
+                                  "values so the change is auditable per record}, "
                                   "term_b_best_rank (best-of-N, inflated), "
                                   "term_b_mean_fraction_unique_covering (UNBIASED — read this), "
                                   "term_b_mean_fraction_paralogues_bare, term_b_exceeds_background, "
@@ -1537,7 +1676,10 @@ def main(argv=None):
           f"  nominal {gate['n_nominally_discriminating']}")
     print(f"[basin]   {gate['verdict']}")
     for m in all_metas[:10]:
-        ta = ", ".join("%s:%dat" % (c, v["min_linker_atoms"]) for c, v in sorted(m["term_a_union"].items()))
+        ta = ", ".join("%s:%sat(was %d)" % (c, v["min_linker_atoms"] if v["min_linker_atoms"] is not None
+                                            else ">%d" % PARAMS["reach_scan_max_atoms"],
+                                            v["min_linker_atoms_relaxed_superseded"])
+                       for c, v in sorted(m["term_a_union"].items()))
         print(f"[basin]   {m['meta_basin_id']}: poses {m['n_poses_present']}/{m['n_poses_total']} "
               f"({m['pose_surviving_fraction']:.0%})  members {m['total_members']}  "
               f"term(b) rank {m['term_b_best_rank']} uniqueK {m['term_b_unique_lysines_covered']}  "
