@@ -923,6 +923,8 @@ def _contact_pose_timeseries(reporter, last_ckpt, interval, max_frames=TIMESERIE
     contact_rows = None   # per-replica contact rows, fixed from the reference frame
     used = []
     series = {}           # replica -> [(iteration, rmsd)]
+    lam = {}              # replica -> {iteration: lambda-state index}
+    n_states = None
     for it in iters:
         try:
             states = reporter.read_sampler_states(iteration=it, analysis_particles_only=True)
@@ -942,6 +944,26 @@ def _contact_pose_timeseries(reporter, last_ckpt, interval, max_frames=TIMESERIE
             out["reference_iteration"] = int(it)
             out["n_contact_heavy_per_replica"] = [len(c) for c in contact_rows]
         used.append(int(it))
+        # WHICH λ IS EACH REPLICA AT? Replicas exchange λ, not coordinates, so a replica wanders the ladder and
+        # "replica 7 departed" says nothing on its own about the Hamiltonian it departed under. In an OpenFE
+        # hybrid-topology RBFE BOTH endpoints are physical (state 0 = ligand A fully interacting, state N-1 =
+        # ligand B fully interacting) and the softcore/partially-decoupled region is largest in the INTERIOR. So
+        # the discriminating question is not "weakly coupled or not" but: does the ligand leave at a PHYSICAL
+        # ENDPOINT state (the modelled complex is unstable -> the binary pose/model is wrong) or only in the
+        # alchemical interior (a protocol artifact -> the leg may want a restraint and ΔG may be salvageable)?
+        # Unavailable is recorded as unavailable; nothing is inferred from a missing assignment.
+        try:
+            st_idx = reporter.read_replica_thermodynamic_states(iteration=it)
+        except Exception:  # noqa: BLE001
+            st_idx = None
+        if st_idx is not None:
+            try:
+                seq = [int(v) for v in list(st_idx)]
+                n_states = max(n_states or 0, (max(seq) + 1) if seq else 0)
+                for k, s in enumerate(seq):
+                    lam.setdefault(k, {})[int(it)] = s
+            except Exception:  # noqa: BLE001
+                pass
         for k in range(min(len(ref), len(coords))):
             if not contact_rows[k]:
                 continue
@@ -976,12 +998,54 @@ def _contact_pose_timeseries(reporter, last_ckpt, interval, max_frames=TIMESERIE
         if mx > LIG_RMSD_MAX_A and biggest_gap >= 0.8 * mx:
             cls = "JUMP(" + cls + ")"
         classes[cls] = classes.get(cls, 0) + 1
-        per_replica.append({"replica": k, "n_contact_heavy": len(contact_rows[k]),
-                            "max_A": mx, "iteration_at_max": mi, "final_A": fin,
-                            "largest_single_frame_step_A": round(biggest_gap, 3),
-                            "classification": cls, "series": series[k]})
+        # λ ATTRIBUTION for this replica: the state it was in at the first frame that exceeds the threshold, and
+        # at the end. `None` throughout if the reporter gave no assignment — never guessed.
+        lk = lam.get(k) or {}
+        first_exceed_it = next((i for i, v in series[k] if v > LIG_RMSD_MAX_A), None)
+        rec = {"replica": k, "n_contact_heavy": len(contact_rows[k]),
+               "max_A": mx, "iteration_at_max": mi, "final_A": fin,
+               "largest_single_frame_step_A": round(biggest_gap, 3),
+               "classification": cls, "series": series[k],
+               "lambda_at_first_exceed": (lk.get(first_exceed_it) if first_exceed_it is not None else None),
+               "lambda_at_max": lk.get(mi), "lambda_at_final": lk.get(its[-1]),
+               "lambda_states_visited": (sorted(set(lk.values())) if lk else None)}
+        per_replica.append(rec)
     out["per_replica"] = per_replica
     out["class_counts"] = classes
+    out["n_lambda_states"] = n_states
+    # AGGREGATE THE λ QUESTION. Pool every (replica, frame) whose RMSD exceeds the threshold and ask where on the
+    # ladder those frames sit. Endpoint states (0 and N-1) are the PHYSICAL Hamiltonians in a hybrid-topology
+    # RBFE, so exceedances there cannot be explained away as softcore behaviour.
+    if n_states:
+        endpoints = {0, n_states - 1}
+        at_endpoint = at_interior = 0
+        hist = {}
+        for k in sorted(series):
+            lk = lam.get(k) or {}
+            for i, v in series[k]:
+                if v <= LIG_RMSD_MAX_A:
+                    continue
+                s = lk.get(i)
+                if s is None:
+                    continue
+                hist[s] = hist.get(s, 0) + 1
+                if s in endpoints:
+                    at_endpoint += 1
+                else:
+                    at_interior += 1
+        out["exceedance_lambda_histogram"] = dict(sorted(hist.items()))
+        out["exceedances_at_physical_endpoint_states"] = at_endpoint
+        out["exceedances_at_alchemical_interior_states"] = at_interior
+        out["lambda_verdict"] = (
+            ("no frame exceeds the threshold, so there is nothing to attribute to a λ state"
+             if (at_endpoint + at_interior) == 0 else
+             "%d of %d over-threshold (replica, frame) pairs sit at a PHYSICAL ENDPOINT state (0 or %d) — those "
+             "cannot be attributed to softcore/alchemical softening, so the modelled complex itself is unstable "
+             "there; %d sit in the alchemical interior."
+             % (at_endpoint, at_endpoint + at_interior, n_states - 1, at_interior)))
+    else:
+        out["lambda_verdict"] = ("λ assignments UNAVAILABLE from this reporter — the endpoint-vs-interior question "
+                                 "is unanswered, NOT answered in the benign direction")
     ended_out = sum(1 for r in per_replica if r["final_A"] > LIG_RMSD_MAX_A)
     out["n_replicas"] = len(per_replica)
     out["n_replicas_ending_beyond_threshold"] = ended_out
@@ -1490,6 +1554,17 @@ def analyze_all():
                          % ("", ts.get("n_replicas_ending_beyond_threshold"), LIG_RMSD_MAX_A,
                             ts.get("n_replicas"), ts.get("class_counts"), ts.get("frames_used"),
                             (ts.get("iterations") or ["?"])[0], (ts.get("iterations") or ["?"])[-1]))
+            # WHERE ON THE λ LADDER. Both endpoints are physical in a hybrid-topology RBFE, so exceedances at
+            # state 0 or N-1 cannot be blamed on softcore softening — that is the line between "the leg wants a
+            # restraint" and "the modelled complex is wrong", and it belongs in the summary.
+            ep = ts.get("exceedances_at_physical_endpoint_states")
+            if ep is not None:
+                lines.append("%-34s   lambda: %s over-threshold frames at PHYSICAL ENDPOINT states, %s in the "
+                             "alchemical interior (of %s states) | exceedance histogram %s"
+                             % ("", ep, ts.get("exceedances_at_alchemical_interior_states"),
+                                ts.get("n_lambda_states"), ts.get("exceedance_lambda_histogram")))
+            elif ts.get("lambda_verdict"):
+                lines.append("%-34s   lambda: %s" % ("", str(ts["lambda_verdict"])[:150]))
         elif ts.get("status"):
             lines.append("%-34s   time-resolved: %s" % ("", str(ts.get("status"))[:150]))
     lines.append("ligand-size cross-check: %s" % report["ligand_size_cross_check"].get(

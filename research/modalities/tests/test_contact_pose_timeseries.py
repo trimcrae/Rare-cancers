@@ -207,6 +207,102 @@ def test_the_series_does_NOT_feed_the_pass_fail_path():
         "reading the flag, not an input to it")
 
 
+
+
+# --- λ ATTRIBUTION -----------------------------------------------------------------------------------
+#
+# WHY IT MATTERS. Replicas exchange λ, not coordinates, so "replica 7 departed" says nothing on its own about the
+# Hamiltonian it departed under. In an OpenFE hybrid-topology RBFE BOTH endpoints are physical (state 0 = ligand A
+# fully interacting, state N-1 = ligand B fully interacting) and the softcore region is largest in the INTERIOR.
+# So the question is not "weakly coupled or not" — it is:
+#
+#   exceedances at a PHYSICAL ENDPOINT state -> cannot be blamed on softcore softening. The modelled complex is
+#                                               unstable there, i.e. the binary pose/model is wrong.
+#   exceedances only in the INTERIOR          -> a protocol artifact; the leg may want a restraint and ΔG may be
+#                                               salvageable.
+#
+# Those prescribe different work, so the attribution has to be right, and an UNAVAILABLE assignment must read as
+# unanswered rather than as the benign answer.
+
+class _ReporterL(_Reporter):
+    """Adds a prescribed per-iteration λ-state assignment."""
+
+    def __init__(self, disp_by_iter, lam_by_iter, n_replicas=1, interval=40, fail=False):
+        super().__init__(disp_by_iter, n_replicas=n_replicas, interval=interval)
+        self._lam = lam_by_iter
+        self._fail = fail
+
+    def read_replica_thermodynamic_states(self, iteration=0):
+        if self._fail:
+            raise RuntimeError("not stored")
+        return self._lam[iteration]
+
+
+def _runL(disp, lam, n_replicas=1, interval=40, fail=False):
+    orig = cv._ligand_atoms
+    cv._ligand_atoms = lambda _r: _ident_patch()
+    try:
+        rep = _ReporterL(disp, lam, n_replicas=n_replicas, interval=interval, fail=fail)
+        return cv._contact_pose_timeseries(rep, max(disp), interval)
+    finally:
+        cv._ligand_atoms = orig
+
+
+def test_departure_at_a_physical_endpoint_state_is_attributed_there():
+    """The replica sits at state 0 (ligand A fully interacting) the whole time and still leaves."""
+    d = {i: 1.6 * (i / 400.0) for i in range(0, 401, 40)}
+    lam = {i: [0] for i in range(0, 401, 40)}                   # always the physical endpoint
+    r = _runL(d, lam)
+    assert r["n_lambda_states"] == 1, r["n_lambda_states"]
+    assert r["exceedances_at_physical_endpoint_states"] > 0, r
+    assert r["exceedances_at_alchemical_interior_states"] == 0, r
+    assert "PHYSICAL ENDPOINT" in r["lambda_verdict"], r["lambda_verdict"]
+
+
+def test_departure_only_in_the_alchemical_interior_is_attributed_there():
+    d = {i: 1.6 * (i / 400.0) for i in range(0, 401, 40)}
+    # 12-state ladder; this replica sits at interior state 6 throughout, and state 11 is seen elsewhere so
+    # n_states resolves to 12
+    lam = {i: [6, 11] for i in range(0, 401, 40)}
+    r = _runL(d, lam, n_replicas=2)
+    assert r["n_lambda_states"] == 12, r["n_lambda_states"]
+    # replica 0 is at interior state 6; replica 1 is at endpoint 11 — both displace identically here, so both
+    # buckets fill. What must hold is that the interior frames are NOT counted as endpoint frames.
+    assert r["exceedances_at_alchemical_interior_states"] > 0, r
+    hist = r["exceedance_lambda_histogram"]
+    assert 6 in hist and hist[6] > 0, hist
+    assert set(hist) <= {6, 11}, hist
+
+
+def test_a_stable_replica_contributes_no_exceedances():
+    d = {i: 0.0 for i in range(0, 401, 40)}
+    lam = {i: [0] for i in range(0, 401, 40)}
+    r = _runL(d, lam)
+    assert r["exceedances_at_physical_endpoint_states"] == 0
+    assert r["exceedances_at_alchemical_interior_states"] == 0
+    assert "nothing to attribute" in r["lambda_verdict"], r["lambda_verdict"]
+
+
+def test_per_replica_lambda_fields_are_populated():
+    d = {i: 1.6 * (i / 400.0) for i in range(0, 401, 40)}
+    lam = {i: [0 if i < 200 else 5] for i in range(0, 401, 40)}
+    rec = _runL(d, lam)["per_replica"][0]
+    assert rec["lambda_at_final"] == 5, rec
+    assert rec["lambda_states_visited"] == [0, 5], rec
+    assert rec["lambda_at_first_exceed"] in (0, 5), rec
+
+
+def test_unavailable_lambda_is_UNANSWERED_not_benign():
+    """A reporter that cannot supply assignments must not read as 'no endpoint problem'."""
+    d = {i: 1.6 * (i / 400.0) for i in range(0, 401, 40)}
+    r = _runL(d, {}, fail=True)
+    assert r.get("exceedances_at_physical_endpoint_states") is None, r.get("exceedances_at_physical_endpoint_states")
+    assert "UNAVAILABLE" in r["lambda_verdict"], r["lambda_verdict"]
+    assert "NOT answered in the benign direction" in r["lambda_verdict"], r["lambda_verdict"]
+    # and the pose series itself must still be produced — a missing λ must not kill the whole diagnostic
+    assert r["per_replica"] and r["per_replica"][0]["classification"] == "DISPLACED_AND_STAYED", r["per_replica"]
+
+
 if __name__ == "__main__":
     fails = 0
     for name, fn in sorted(globals().items()):
