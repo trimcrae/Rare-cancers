@@ -1240,8 +1240,18 @@ def fetch_legs(dest, mode="edge", bucket=None, prefix=None, timestep_fs=None, wa
             fh.write(body)
         d = json.loads(body.decode())
         got[leg] = d
+        # ★ PRINT THE ATOM MAP NEXT TO THE ΔG. `protocol_hash` hashes the string "lomap_prefer_element_change"
+        # and NOTHING about the MCS budget, so two legs whose maps differ — i.e. which ran DIFFERENT
+        # alchemical transformations — share a hash and read as one protocol. The map size is the only field
+        # that distinguishes them, and a reduction that does not show it invites a cycle to be formed across
+        # legs that are not comparable. Legs written before the map was recorded print `?`, which is the
+        # honest answer: unmeasured, not fine.
+        _m = d.get("atom_map") or {}
+        _map = ("%s heavy/%s expected @%ss budget" % (_m.get("n_heavy_mapped"), _m.get("expected_heavy_mapped"),
+                                                      _m.get("lomap_time_s"))
+                if _m else "n_mapped=%s, heavy/budget UNRECORDED" % d.get("n_mapped_atoms"))
         print(f"[fetch-legs] {name}: dG_morph={d.get('dg_morph_kcal')} +/- {d.get('mbar_se_kcal')} "
-              f"(MBAR SE) protocol_hash={str(d.get('protocol_hash'))[:12]}")
+              f"(MBAR SE) protocol_hash={str(d.get('protocol_hash'))[:12]} atom_map[{_map}]")
     return got
 
 
