@@ -50,7 +50,7 @@ underneath one.*
 |---|---|---|---|
 | Tier 0 | categorical-axis screen | **PASSED** *(narrowed 2026-07-26)* | NR4A3 has chemistry the paralogues lack — but only at the aligned position, and the axis survives on **exposure**, not absence |
 | Tier 1 | differential surface atlas | **PASSED** | there is a surface to steer an E3 against |
-| Tier 2 | basin nomination | **PASSED** — ⚠ **one limb under review** | at least one way to build a selective degrader exists. **Open:** the corrected geometry may have removed every *covalent-route* candidate, leaving only the *lysine* route |
+| Tier 2 | basin nomination | **PASSED** — *the covalent limb is no longer under review; it CLEARS* | at least one way to build a selective degrader exists, and the corrected geometry leaves **both** routes open — the covalent one included. It was briefly recorded here as possibly closed; the authoritative corrected+matched run says otherwise, and the block below carries the numbers |
 | RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
 | RUNG 2 | cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
 | RUNG 2b | 4 fs speed test, stage 1 | **PASSED** | every future simulation ~1.56× cheaper; stage 2 in flight |
