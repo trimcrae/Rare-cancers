@@ -136,11 +136,14 @@ def test_the_ternary_list_is_still_read_by_the_LEGACY_path():
     assert "_required_run_params_by_kind" not in doc
     assert all("kind" not in e for e in doc["watch"])
     broken = copy.deepcopy(doc)
-    # Mutate an ENABLED entry. This used to hard-code watch[0], which was fine until the probe completed and was
-    # set enabled:false on 2026-07-26 — validate() deliberately skips disabled entries, so the mutation stopped
-    # being observable and the test failed reporting [] instead of the missing key. The point of this test is the
-    # legacy (leg_id, direction) failure SHAPE, not which row happens to sit first, so pick a live row.
-    live = next(i for i, e in enumerate(broken["watch"]) if e.get("enabled"))
+    # This test is about the legacy (leg_id, direction) failure SHAPE, so it must not depend on which units
+    # happen to be running. It first hard-coded watch[0] (broke when the probe completed), then picked the
+    # first ENABLED row (broke on 2026-07-26 when the ternary edge landed and the whole lane went disabled,
+    # leaving StopIteration). validate() deliberately skips disabled entries, so the fix is to FORCE the row
+    # enabled in the throwaway copy rather than to hunt for a live one — the shape is a property of the schema,
+    # not of the lane's operational state.
+    live = 0
+    broken["watch"][live]["enabled"] = True
     del broken["watch"][live]["timestep_fs"]
     problems = wdv.validate(broken, known_kinds=set(vw.KINDS))
     assert problems == [(doc["watch"][live]["leg_id"], doc["watch"][live]["direction"], ["timestep_fs"])]

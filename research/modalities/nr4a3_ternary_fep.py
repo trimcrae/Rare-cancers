@@ -690,7 +690,15 @@ def run_leg():
            "protocol_hash": proto_hash, "protocol_settings": proto_payload,
            "starting_model": starting_model,
            "n_particles": _n_particles, "setup_cache_dir": _setup_cache,
-           "charge_method": os.environ.get("CHARGE_METHOD"),
+           # ⚠ RECORD THE **RESOLVED** CHARGE METHOD, NOT THE RAW ENV. The protocol payload above hashes
+           # `os.environ.get("CHARGE_METHOD", "am1bcc")` — WITH the default — while this line used to write the
+           # bare env, so a run that did not set the variable produced a leg whose protocol_hash commits to
+           # am1bcc and whose identity record says `null`. `ternary_fep_reduce._system_identity_consistency`
+           # then reports the field as UNRECORDED across the whole cycle and, correctly, refuses to call that
+           # agreement — which is exactly what happened to the 4 fs cycle on 2026-07-26: three legs sharing one
+           # protocol hash but with no system identity recorded at all, so comparability rested on a hash that
+           # by construction does not cover the system. One resolved value, written in both places.
+           "charge_method": os.environ.get("CHARGE_METHOD", "am1bcc"),
            "setup_cache_version": os.environ.get("SETUP_CACHE_VERSION")}
     json.dump(out, open(os.path.join(CKPT, "leg_%s_%s_r%d.json" % (LEG_ID, DIRECTION, SEED)), "w"), indent=2)
     _dg = out["dg_morph_kcal"]; _se = out["mbar_se_kcal"]

@@ -53,7 +53,7 @@ underneath one.*
 | Tier 2 | basin nomination | **PASSED** — *the covalent limb is no longer under review; it CLEARS* | at least one way to build a selective degrader exists, and the corrected geometry leaves **both** routes open — the covalent one included. It was briefly recorded here as possibly closed; the authoritative corrected+matched run says otherwise, and the block below carries the numbers |
 | RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
 | RUNG 2 | cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
-| RUNG 2b | 4 fs speed test, stage 1 | **PASSED** | every future simulation ~1.56× cheaper; stage 2 in flight |
+| RUNG 2b | 4 fs speed test | **PASSED — both stages** | every future simulation ~1.56× cheaper. The full cycle reproduces the 2 fs answer to **0.0215 kcal/mol** against a 0.7 tolerance; adopted provisionally at one seed (no replicate-SD, and system identity unrecorded) |
 | RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7** |
 | RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
 | RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. **~$21 not spent** |
@@ -240,15 +240,40 @@ few blocks.** I broke that rule in the same breath as writing it — the ternary
 27-minute window carrying exactly 3 blocks, which is why it is now a range off 82- and 109-minute windows
 instead. *(Withdrawn ETAs are in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 19b.)*
 
-**✅ RUNG 2b IS THREE-QUARTERS LANDED — only the ternary edge is still running.** The **binary edge** leg
-finished at **6:37 AM ET** with ΔG_morph **48.1256**, no NaN (its watch entry is now `enabled: false`, kept in
-the list). The **probe** (ΔG_morph **48.1970**) and the **solvent** leg (ΔG_morph
-**47.7982**) are both **DONE in S3 with no NaN** — so 4 fs has now survived three complete legs, not just the
-probe. Their watch entries are set `enabled: false` (kept in the list, not deleted, so the completed units stay
-on the record). **ΔΔG_coop still cannot be computed — it needs the ternary edge**, so the ratified gate
-(PASS = no NaN **and** |ΔΔG_coop − (−0.534)| ≤ 0.7) remains inapplicable. The reduce runs the moment that leg
-lands, and it carries its own `system_identity_consistency` check, so a cycle assembled from legs describing
-different systems fails loudly rather than producing a number.
+**✅ RUNG 2b — ALL FOUR LEGS LANDED, AND 4 fs REPRODUCES 2 fs.** Reduced 2026-07-26 11:44 AM ET by the
+official reducer, inside the parity image that produced the trajectories (`gpu-ternary-fep-vast.yml task=reduce`,
+run 30208761567) — not by hand.
+
+| leg | ΔG_morph (kcal/mol) | MBAR SE |
+|---|---|---|
+| ternary | 47.6131 | 0.1294 |
+| binary | 48.1256 | 0.1321 |
+| solvent | 47.7982 | 0.1016 |
+| probe | 48.1970 | — |
+
+**ΔΔG_coop(4 fs) = −0.5125** against the 2 fs reference **−0.534** → **|Δ| = 0.0215 kcal/mol**, ~33× inside the
+ratified 0.7 tolerance and far below the 0.35–0.7 "consistent but weakly discriminating" band. **No NaN on any
+leg**, and all three cycle legs share one protocol hash (`35573f24b6c1…`). On the gate's stated terms this is a
+**PASS**, and 4 fs is adopted.
+
+⚠ **TWO QUALIFICATIONS THAT ARE NOT OPTIONAL, both from the reducer's own output.**
+1. **`system_identity_consistency` is UNKNOWN, not clean.** `n_particles`, `charge_method` and
+   `setup_cache_version` are **unrecorded in all three legs**, so the check that the legs describe the same
+   SYSTEM could not be made — comparability rests on `protocol_hash`, which by construction covers the OpenFE
+   settings and **not** the system. This is precisely the hole that let four reverse-leg attempts run a
+   146,020-particle build against a 141,968-particle one on 2026-07-25. The reducer is right to report UNKNOWN
+   rather than agreement. **Root cause found and half-fixed:** the leg record wrote the *raw*
+   `CHARGE_METHOD` env while the protocol payload hashes the same env **with an `am1bcc` default**, so an unset
+   variable produced a hash committing to am1bcc beside an identity record saying `null`; both now write the
+   resolved value. `n_particles` and `setup_cache_version` still need the Vast lane to pass them through.
+2. **The reducer's own valB gates return INDETERMINATE** — "need ≥2 independent replicates for a cycle SD",
+   n_replicates = 1. That is a different question from the timestep test (it asks whether the *calibrator* is
+   certified), but it means **−0.5125 carries no replicate-SD error bar**, and this repo's standard is
+   replicate-SD rather than MBAR-SE.
+
+**So: 4 fs is adopted on a single-seed agreement, and the adoption is provisional in exactly the way the gate's
+own 0.35–0.7 language anticipates — not because the agreement is marginal (it is not) but because one seed
+cannot produce the error bar the standard asks for, and the system-identity check has not yet been made.**
 
 **Why the ternary leg's ETA moved so far:** production runs at roughly **half** warmup's per-iteration cost
 (625 steps at 4 fs against warmup's 1250 at 1 fs), so a leg's finish cannot be extrapolated from its warmup
