@@ -198,21 +198,24 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 11:05 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 1:37 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
-measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
-a window long enough to swamp the 40-iteration commit block** (see the quantisation note below).*
+measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
+block**; the two withdrawn ETAs in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 19b/19c
+are both what happens when that rule is broken.*
+
+**✅ NO GPU IS RUNNING.** Both LANE-13 paralogue legs and all four RUNG 2b legs have reached their deliverables;
+every watch entry in both lists is `enabled: false`. Realised spend for the two lanes is on the order of a few
+dollars against a ~$4.3 projection for LANE 13 alone.
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | ✅ **metad COMPLETE — `release/1.5` of 15 ns**, up 535 min. GPU **37 % → 82 %** at the phase change, on the same host — the third independent confirmation of [pricing.md §A.1](research/compute/pricing.md). Preempted off a 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint | ~**12:20 PM**, and then watch round 4 chains **collect → analyse** over both ensembles on the FIXED hand-off |
-| ~~NR4A2 paralogue MD~~ (Vast 45896793) | ✅ **DELIVERABLE IN S3, 8:36 AM ET — the paralogue MD pipeline has reached its real success terminus for the first time.** Watch entry disabled. It ran metad on a host whose CPU starved PLUMED (24 % GPU) and finished release on the SAME box at 93 % — the diagnosis in [pricing.md §A.1](research/compute/pricing.md), confirmed twice | landed |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1920/2000**, up 1165 min. **166 iter/h** over 87 min; 157 over the longest window (529 min). **80 iterations from done** | ~**11:35 AM** — the LAST leg of the cycle. When it lands, the reduce computes ΔΔG_coop at 4 fs and the ratified gate applies |
-| ~~RUNG 2b binary edge leg~~ (Vast 45835971) | **✅ DONE 6:37 AM — ΔG_morph 48.1256, no NaN.** Watch entry disabled | landed |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/400` of 2000**, VM up 899 min. Production **RAMPED**: 40 → 60 → **79 iter/h** across three consecutive windows, **63.8** over the whole 301 min. My earlier "40 iter/h" was measured on the first hour after the phase change and was not the rate | **~Mon 5:40–10:40 AM** — consistent with that session's ~Mon 8:40 AM, so my "tracking a day later" flag is **withdrawn**. Its result keys the calibrator rescope |
+| **LANE 13 categorical-dynamics analysis** (GitHub runner, $0 CPU) | running since **12:41 PM** — 2 000 000 rigid-body samples per (arm × pose) over the **300 matched conformers** now committed (NR4A3 100 / NR4A1 100 / NR4A2 100, each 25 metad + 3 × 25 release). This is the actual answer to whether paralogue DYNAMICS open a compensating site | ~**1:50 PM** |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/640` of 2000**, VM up 1137 min. Rate over five windows: 40 / 60 / 79 / 60.5, **62.3 iter/h over the whole 539 min** — variable, not a ramp, and settling near 62 | **~Mon 6:50–11:30 AM**, bracketing that session's ~Mon 8:40 AM. Its result keys the calibrator rescope |
 
-⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Three agreeing
+⚠ **WHY NR4A1's REPLACEMENT HOST APPEARED TO STARVE ITS GPU — kept because the diagnosis outlived the leg,
+which finished on that same host.** Three agreeing
 intervals (3.4, 3.14, 3.00, the last over a full hour) put the 4080S at **~3.0–3.4 ns/h** against **~5.5–6.0
 ns/h** for the same job on a 4090 — a ratio of **0.55**, where the cards' own throughput ratio for this class of workload is ~0.83. The utilisation gap says
 the same thing from the other side: **44 % GPU on the 4080S against 75 % on the 4090**, steady across passes.
