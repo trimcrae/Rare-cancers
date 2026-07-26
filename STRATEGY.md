@@ -207,7 +207,7 @@ superposed into the NR4A3 reference frame, carrying a per-frame core-fit residua
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 3:37 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 4:40 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
@@ -219,8 +219,8 @@ legs have reached their deliverables; every watch entry in both of those lists i
 
 | what | state | ETA (ET) | ladder cost |
 |---|---|---|---|
-| **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | **CO-FOLD DONE** (Vast 45935273, RTX 4090, ~14 min, all three predictions rc=0, host reaped). **STAGING DONE**, verified against the real CIFs. **SMOKE LEG FAILED in `preequil`** — root-caused to a missing PDBFixer step, fixed, and the fix is being proved on a **free CPU runner** before anything is re-rented | repro verdict **~4:35 PM ET**; the two legs launch only on a CONFIRMED verdict, and take ~**20 h**, so **S ~Mon midday** | **$0.06 spent** (co-fold $0.04 + smoke $0.02). The two legs remain 5a-KS's **~$12** and are NOT yet bought |
-| **Step 1 fan-out** (LANE 17) — 19 congeneric RBFE edges, resumed from checkpoint | launching: one shakeout unit to a committed ΔΔG, then 18 concurrent | **~5–8 PM Mon**, **→ Tue AM if Vast width caps at 8** as it did in wave 1 | **~$36 ($15–80)** — 19 edges × ~13.7 ref GPU-h. The old ~$91–101 was a **retired bid policy**, not the science |
+| **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | **CO-FOLD DONE** (Vast 45935273, RTX 4090, ~14 min, all three predictions rc=0, host reaped). **STAGING DONE**, verified against the real CIFs. **SMOKE LEG FAILED in `preequil`** — root-caused (the stager wrote the co-fold polymer with no hydrogens and no terminal OXT, so `createSystem` could not match templates), fixed by calling the crystal stager's own `_hydrogenate_pdb`, and the fix is being proved on a **free CPU runner** before anything is re-rented. Gate run 30218400450 is inside *"run both arms in the parity image"*; a second repro (30219215154) was dispatched behind it with a seconds-long template probe first, so a timeout cannot leave zero verdict | repro verdict **~5:00–5:30 PM ET**; the two legs launch **only** on a CONFIRMED verdict, and take ~**20 h**, so **S ~Mon midday** | **$0.06 spent** (co-fold $0.04 + smoke $0.02). The two legs remain 5a-KS's **~$12** and are NOT yet bought |
+| **Step 1 fan-out** (LANE 17) — 19 congeneric RBFE edges, resumed from checkpoint | shakeout unit reached `complex/warmup@260` and was then **PREEMPTED** — routine, and it exposed a real **deadlock in the lane's own launch gate**, which is fixed. Relaunching: live hosts 1 → 2. The other three `leg-complex-running` rows still carry **2026-07-24** checkpoints from wave 1 and are resume targets, not live work | **~5–8 PM Mon**, **→ Tue AM if Vast width caps at 8** as it did in wave 1 | **~$36 ($15–80)** — 19 edges × ~13.7 ref GPU-h. The old ~$91–101 was a **retired bid policy**, not the science |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**) — *driven by the `max-effort-3hgq45` session* | **`production/720` of 2000**, on a NEW VM `gcp-ternary-30215419909` after the 1196-min one ended; **resumed from checkpoint**, nothing lost | **~11 AM – 4 PM Mon** (1280 iters at the measured ~60 iter/h) | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**); realised and ladder spend are separate ledgers |
 | ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Legs, collect and analysis all landed | — | realised **~$4–5** against a ~$4.3 projection |
 
