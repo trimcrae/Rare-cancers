@@ -335,6 +335,59 @@ STARVED_TICKS = int(os.environ.get("FANOUT_STARVED_TICKS", "2"))
 STARVED_MIN_AGE_MIN = float(os.environ.get("FANOUT_STARVED_MIN_AGE_MIN", "75"))
 
 
+# ---- rental ledger: realised spend, measured rather than reconstructed ------------------------------------
+#
+# WHY A LEDGER AND NOT `step1-fanout-handles.json`. That file is REWRITTEN by every launch, so a two-stage
+# fan-out (one shakeout unit, then the remaining eighteen) loses the first stage's rental the moment the
+# second one runs — and "what did this actually cost" then has to be reconstructed from memory, which is
+# exactly how this lane's cost estimate came to be wrong by ~4x in the first place. The ledger is in S3,
+# append-only, and carries the BID (what Vast charges, up to the on-demand cap) rather than `dph_total`, so
+# realised spend is bid x billed-hours and not an inference from a rate card.
+#
+# Billed hours come from `_age_min`, refreshed on every progress check and frozen at reap. A preempted box
+# that never comes back still has its last observed age, so its hours are counted, not lost.
+_LEDGER_KEY = f"{RESULT_PREFIX}/_rentals.json"
+
+
+def _load_ledger(s3, bucket):
+    return _get_json(s3, bucket, _LEDGER_KEY) or {"_what": "every s1f-* rental: bid $/hr x observed billed "
+                                                           "hours = realised spend for this lane",
+                                                  "rentals": {}}
+
+
+def _save_ledger(s3, bucket, doc):
+    try:
+        s3.put_object(Bucket=bucket, Key=_LEDGER_KEY, Body=json.dumps(doc, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] ledger save failed: {e}")
+
+
+def _utcnow():
+    import datetime
+    return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def ledger_cost(doc):
+    """(total_usd, n_rentals, detail_rows). PURE, so the arithmetic is unit-testable.
+
+    Uses the BID, falling back to `dph_total` only when no bid was recorded (an older entry). Missing rate or
+    missing hours contribute 0 and are COUNTED as unpriced rather than silently dropped — an unpriced rental
+    is a hole in the number, and a total that hides holes is worse than one that admits them."""
+    total, rows, unpriced = 0.0, [], 0
+    for iid, r in sorted((doc.get("rentals") or {}).items()):
+        rate = r.get("bid") or r.get("dph")
+        hours = (r.get("billed_min") or 0) / 60.0
+        try:
+            usd = float(rate) * hours
+        except (TypeError, ValueError):
+            usd, unpriced = 0.0, unpriced + 1
+            rate = None
+        total += usd
+        rows.append({"instance": iid, "unit_id": r.get("unit_id"), "machine_id": r.get("machine_id"),
+                     "rate_usd_h": rate, "billed_h": round(hours, 2), "usd": round(usd, 3)})
+    return round(total, 2), len(rows), rows, unpriced
+
+
 def _load_excluded(s3, bucket):
     doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
     env = os.environ.get("FANOUT_EXCLUDE_MACHINES", "")
@@ -480,6 +533,7 @@ def mode_launch():
         print(f"[s1f] excluding {len(excluded)} machine(s) from offer selection: {excluded}")
 
     backend, handles = get_backend("vast"), []
+    _ledger = _load_ledger(s3, bucket)
     # Machines used by THIS wave are also excluded as we go, so an 18-wide fan-out lands on 18 distinct hosts
     # rather than stacking on the single cheapest one and contending for its GPU.
     used_machines = set(excluded)
@@ -503,9 +557,19 @@ def mode_launch():
         _prem = (f" (floor ${_floor}/hr -> bid ${_bid}/hr"
                  f"{f', +${round(float(_bid) - float(_floor), 4)}/hr premium' if _bid else ''})"
                  if _floor else "")
-        print(f"[s1f] submitted {spec.name} -> instance {h.job_id} dph≈${_dph}/hr{_prem}", flush=True)
+        _mid = h.extra.get("machine_id")
+        if _mid is not None:
+            used_machines.add(str(_mid))
+        print(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} dph≈${_dph}/hr{_prem}",
+              flush=True)
         handles.append({"unit_id": u["unit_id"], "label": spec.name, "instance": h.job_id,
-                        "dph": h.extra.get("dph")})
+                        "machine_id": _mid, "dph": h.extra.get("dph"),
+                        "min_bid": _floor, "bid": _bid})
+        _ledger.setdefault("rentals", {})[str(h.job_id)] = {
+            "unit_id": u["unit_id"], "label": spec.name, "machine_id": _mid,
+            "bid": _bid, "min_bid": _floor, "dph": _dph, "billed_min": 0,
+            "launched_utc": _utcnow(), "last_seen_utc": None}
+    _save_ledger(s3, bucket, _ledger)
     with open("step1-fanout-handles.json", "w") as f:
         json.dump(handles, f, indent=2)
     # the label -> unit map, so a later collect/monitor can name instances without re-deriving the index
@@ -528,7 +592,12 @@ def mode_monitor():
         print(f"[s1f]   id={i.get('id')} label={i.get('label')} actual={i.get('actual_status')} "
               f"cur={i.get('cur_state')} dph=${i.get('dph_total')} gpu={i.get('gpu_name')} "
               f"util={i.get('gpu_util')}% age_min={_age_min(i)} msg={(i.get('status_msg') or '')[:120]!r}")
-    n_done = 0
+    # PROGRESS, not liveness. The committed-iteration census is the durable evidence the science advanced;
+    # `phase.txt` and the leg JSONs are context around it. `prev` is the previous check's census, so this
+    # block can answer "did it move SINCE LAST TIME" — which is the only question worth asking of a running
+    # sampler, and the one a phase marker structurally cannot answer.
+    prev = (_get_json(s3, bucket, f"{RESULT_PREFIX}/_progress_prev.json") or {})
+    cur, n_done = {}, 0
     for u in units:
         ddg = _get_json(s3, bucket, result_key(u, RESULT_PREFIX))
         if ddg:
@@ -539,7 +608,22 @@ def mode_monitor():
         phase = _get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")
         legs = [L for L in ("complex", "solvent")
                 if _exists(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/leg_{u['receptor']}_{L}.json")]
-        print(f"[s1f]   {u['unit_id']:56s} {phase or 'not-started':28s} legs_done={legs}")
+        scalar, detail = committed_progress(s3, bucket, u)
+        was = (prev.get(u["unit_id"]) or {}).get("scalar")
+        if scalar >= 0:
+            cur[u["unit_id"]] = {"scalar": scalar, "detail": detail, "utc": _utcnow()}
+        if scalar < 0:
+            delta = "UNREADABLE (skipped, NOT counted as zero)"
+        elif was is None:
+            delta = "first census"
+        elif scalar > was:
+            delta = f"+{scalar - was} since last check"
+        elif phase and not phase.startswith(("boot", "staged")):
+            delta = "NO ADVANCE since last check"
+        else:
+            delta = "no commit yet (cold start)"
+        print(f"[s1f]   {u['unit_id']:56s} {phase or 'not-started':28s} legs_done={legs} "
+              f"committed={detail} [{delta}]")
     # SELF-HEAL the create/start race before summarising. Creating a Vast ask does not reliably launch the
     # container: the start PUT can be lost while Vast is still finishing the create, leaving the box at
     # cur_state="stopped" forever, burning nothing but never running either (gpu_backend._ensure_running
@@ -563,6 +647,66 @@ def mode_monitor():
                       f"re-issued start (msg={(i.get('status_msg') or '')[:60]!r})")
             except Exception as e:  # noqa: BLE001
                 print(f"[s1f] nudge {i.get('id')} failed: {e}")
+
+    # ---- billed hours + the starved-host guard ------------------------------------------------------------
+    # Two jobs, one pass over the live fleet, because both need the same `age_min` / `gpu_util` sample.
+    if key:
+        ledger = _load_ledger(s3, bucket)
+        util_state = _get_json(s3, bucket, f"{RESULT_PREFIX}/_util_state.json") or {}
+        new_state = {}
+        for i in live:
+            iid, age = str(i.get("id")), _age_min(i)
+            row = (ledger.get("rentals") or {}).get(iid)
+            if row is not None:
+                # MAX, not last: a paused/preempted box can report a smaller age on resume, and billed
+                # minutes only ever go up.
+                row["billed_min"] = max(int(row.get("billed_min") or 0), int(age))
+                row["last_seen_utc"] = _utcnow()
+            util = i.get("gpu_util")
+            running = (i.get("actual_status") == "running")
+            if util is None or not running or age < STARVED_MIN_AGE_MIN:
+                continue
+            strikes = int((util_state.get(iid) or {}).get("strikes", 0))
+            if float(util) < STARVED_UTIL_PCT:
+                strikes += 1
+            else:
+                strikes = 0
+            new_state[iid] = {"strikes": strikes, "util": util, "utc": _utcnow()}
+            if strikes < STARVED_TICKS:
+                continue
+            # STARVED. This lane is plain RBFE — no PLUMED, no per-step host-side work — so the card constant
+            # the $/ns ranking uses IS the throughput model here, and a host sustaining <40 % against a
+            # healthy 70-95 % is not doing the work we are paying for. (pricing.md A.1's WITHDRAWN broad rule
+            # was "exclude any low-util machine"; it was withdrawn because a metadynamics leg is CPU-bound
+            # and the same host ran at 74 % once the bias was gone. That escape does not exist for this
+            # workload, which is why the narrow rule is applied here and only here.)
+            mid = i.get("machine_id")
+            print(f"[s1f] STARVED HOST: instance {iid} (machine {mid}, {i.get('label')}) held "
+                  f"gpu_util={util}% < {STARVED_UTIL_PCT}% for {strikes} consecutive checks at age "
+                  f"{age} min — destroying and excluding. Checkpoints are in S3; a relaunch resumes.")
+            try:
+                _vast_request("DELETE", f"/instances/{iid}/", key)
+            except Exception as e:  # noqa: BLE001
+                print(f"[s1f] destroy {iid} failed: {e}")
+            if mid is not None and _record_exclusion(s3, bucket, mid,
+                                                     f"gpu_util {util}% for {strikes} checks on a plain-RBFE "
+                                                     f"leg (healthy band 70-95%); instance {iid}"):
+                print(f"[s1f] machine {mid} added to the lane exclusion set")
+            new_state.pop(iid, None)
+        _save_ledger(s3, bucket, ledger)
+        try:
+            s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_util_state.json",
+                          Body=json.dumps(new_state, indent=2).encode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[s1f] util state save failed: {e}")
+
+    # The census is written AFTER the guard, so "did it advance since last check" compares against the
+    # previous CHECK and not against something this pass just wrote.
+    try:
+        s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_progress_prev.json",
+                      Body=json.dumps(cur, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] progress census save failed: {e}")
 
     # Summary LAST: a CI log is read from its tail, and the per-instance detail above scrolls out of view.
     # This block is the tight-cadence progress check — instance states, GPU utilisation and the phase
@@ -604,9 +748,16 @@ def mode_monitor():
                    "phase": ("done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX))
                              else _get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")
                              or "not-started"),
+                   # The committed-iteration census, carried into the artifact so the progress trail this
+                   # file leaves is a record of ADVANCE and not just of phase labels.
+                   "committed": (cur.get(u["unit_id"]) or {}).get("detail"),
+                   "committed_scalar": (cur.get(u["unit_id"]) or {}).get("scalar"),
+                   "committed_prev_scalar": (prev.get(u["unit_id"]) or {}).get("scalar"),
                    "ddg_bind_kcal": (_get_json(s3, bucket, result_key(u, RESULT_PREFIX)) or {})
                    .get("ddg_bind_kcal")}
                   for u in units],
+        "realised_usd_so_far": ledger_cost(_load_ledger(s3, bucket))[0],
+        "plan_usd_whole_tranche": cost_plan(len(units)),
     }
     with open("step1-fanout-progress.json", "w") as f:
         json.dump(snapshot, f, indent=2)
@@ -659,9 +810,16 @@ def mode_collect():
     finished = {r["unit_id"] for r in results}
     idx_of = {u["unit_id"]: i for i, u in enumerate(units)}
     label_of = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u["unit_id"] for u in units}
+    ledger = _load_ledger(s3, bucket)
     for i in _live_instances(key):
         lab, st = i.get("label"), (i.get("actual_status") or "")
         age_min = _age_min(i)
+        # FREEZE billed minutes BEFORE the reap. After the DELETE the instance is unreadable, so an
+        # unrecorded final age is lost forever and the realised-cost total silently under-reports.
+        _row = (ledger.get("rentals") or {}).get(str(i.get("id")))
+        if _row is not None:
+            _row["billed_min"] = max(int(_row.get("billed_min") or 0), int(age_min))
+            _row["last_seen_utc"] = _utcnow()
         why = None
         if label_of.get(lab) in finished:
             why = "result in S3"

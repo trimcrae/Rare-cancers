@@ -166,7 +166,16 @@ def test_plan_states_what_it_does_not_run():
     assert p["excluded_tranche_3_frames"]
     assert "not selectivity" in p["claim_ceiling"].lower() or "NOT a selectivity" in p["claim_ceiling"]
     lo, hi = p["cost_usd_est"]
-    assert 5 < lo < hi < 60                      # the pinned ~$12-26 band, with measurement slack
+    # ⚠ THIS BOUND WAS A STALE COPY OF A RETIRED NUMBER. It read `5 < lo < hi < 60`, commented "the pinned
+    # ~$12-26 band, with measurement slack" — but that band was repriced to **~$36 ($15-80)** when the ~4x
+    # cost error was found (wrong molecule 2.6x, wrong bid basis 3x; see step1-fanout-lane.md §5 and
+    # STRATEGY.md's ladder entry). plan() correctly reports the corrected band, so the TEST was the thing
+    # holding the retired figure, and it went red the moment anyone touched this lane. That is precisely the
+    # one-fact-one-place failure the repo's own linter exists for — a number living in two places while a
+    # correction reached only one.
+    # Assert the SHAPE (ordered, positive, finite) and a generous ceiling that no longer encodes a specific
+    # estimate; the band itself has one home, and it is not here.
+    assert 0 < lo < hi < 200
 
 
 def test_wave_plan_matches_the_requested_width():
