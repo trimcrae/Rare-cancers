@@ -205,6 +205,13 @@ values — same samples, same poses, same seed, so **the rule is the only differ
    (`term_b_exceeds_background: false`, enrichment 0.0), so they carry the cysteine handle without the lysine
    one.
 
+**The survivors are not new surfaces.** Matched on interface patch (ids are positional, so names cannot be
+used): native `vhl|M0` is the published **`vhl|M2`** patch at Jaccard **0.87**, and native `vhl|M1` matches
+**`crbn|M0`** at 0.69 and **`vhl|M3`** at 0.67 — the same target surface reached by the other recruiter, which
+is exactly what a *target*-surface fingerprint should do. So where the corrected term-(a) limb survives, it
+survives on surfaces the published run had already nominated; nothing is rescued by a basin that appeared for
+the first time under the new rule.
+
 ### 5.2 · The matched 10⁶ 12-pose comparison (the headline run)
 
 ⏳ *pending CI 30179315860.*
