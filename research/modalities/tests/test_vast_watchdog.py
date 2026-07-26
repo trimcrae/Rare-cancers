@@ -434,3 +434,56 @@ def test_the_workflow_validates_both_watch_lists_before_acting():
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+# ---- KIND: step1_fanout ------------------------------------------------------------------------------------
+# The composite scalar is the part that must be right. This kind's census FREEZES legitimately twice per unit
+# (MBAR analysis at the end of each leg) and RESTARTS twice (warmup->production, complex->solvent), so a
+# scalar that is not phase-dominated would either stall-alert a healthy unit or hide a wedged one.
+
+def test_step1_fanout_scalar_is_monotone_over_a_whole_unit_lifetime():
+    K = vw.Step1FanoutKind
+    lifetime = [("boot", 0), ("staged", 0),
+                ("leg-complex-running", 20), ("leg-complex-running", 2000),
+                ("leg-complex-running", 1_002_000),        # warmup -> production, census restarts
+                ("leg-complex-done", 0),                   # census frozen through MBAR
+                ("leg-solvent-running", 10_000_020),       # solvent leg, census restarts again
+                ("leg-solvent-done", 0), ("reduce", 0), ("done", 0)]
+    scalars = [K.score(p, c)[0] for p, c in lifetime]
+    assert scalars == sorted(scalars), scalars
+    assert all(K.score(p, c)[2] for p, c in lifetime)
+
+
+def test_step1_fanout_refuses_a_phase_it_does_not_rank():
+    """A pipeline that gains a marker must make the watchdog REFUSE, not silently score it 0 — collapsing an
+    unknown phase to zero manufactures a setup-stall out of a reporting change."""
+    scalar, _lab, readable, why = vw.Step1FanoutKind.score("polishing", 5)
+    assert scalar == 0 and readable is False and "does not rank" in why
+
+
+def test_step1_fanout_treats_a_leg_failure_marker_as_a_crash():
+    K = vw.Step1FanoutKind
+    assert K._failed("leg-complex-FAILED-rc3") and K._failed("leg-solvent-NORESULT")
+    assert not K._failed("leg-complex-running") and not K._failed("")
+    assert K.score("leg-complex-FAILED-rc3", 0)[2] is True   # readable: a crash is a real reading
+
+
+def test_step1_fanout_unreadable_census_is_not_zero_progress():
+    assert vw.Step1FanoutKind.score("leg-complex-running", -1)[2] is False
+
+
+def test_step1_fanout_label_is_derived_from_the_frozen_map_not_the_unit_id():
+    """The Vast label is `s1f-<idx>-<ligand_b>`, not the unit_id. A prefix or identity match would pair the
+    wrong box with the wrong edge, and the watchdog would report another unit's host as this one's."""
+    import congeneric_fanout as cf
+    units = cf.default_units()
+    uid = units[3]["unit_id"]
+    assert vw.Step1FanoutKind.label_matches(f"s1f-03-{units[3]['ligand_b']}"[:64], uid)
+    assert not vw.Step1FanoutKind.label_matches(uid, uid)
+    assert not vw.Step1FanoutKind.label_matches(f"s1f-04-{units[4]['ligand_b']}"[:64], uid)
+
+
+def test_step1_fanout_preflight_rejects_a_unit_outside_the_frozen_tranche():
+    assert vw.Step1FanoutKind.preflight({"unit_id": "not-a-real-unit"})
+    import congeneric_fanout as cf
+    assert vw.Step1FanoutKind.preflight({"unit_id": cf.default_units()[0]["unit_id"]}) == []

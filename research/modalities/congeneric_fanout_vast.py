@@ -7,23 +7,37 @@ frame). Each instance clones the repo, pulls the pre-staged common-mode poses fr
 legs of its edge through the unchanged OpenFE engine (`nr4a3_rbfe.py`, MODE=splittest, spot-safe S3
 checkpoint/resume), reduces them to ddG_bind, uploads `ddg.json`, and self-stops.
 
-Vast rents INDEPENDENT hosts, so N units are genuinely N-wide with no shared-quota wall. `FANOUT_WIDTH`
-(default 8) is therefore a self-imposed cap on concurrent spend/blast-radius, not a provider quota — `launch`
-tops the fleet UP to that width and is safe to re-run, so the poller drives wave 2 and 3 by calling it again.
+Vast rents INDEPENDENT hosts, so N units are genuinely N-wide with no shared-quota wall. `FANOUT_WIDTH` is
+therefore a self-imposed cap on concurrent spend/blast-radius, not a provider quota — `launch` tops the fleet
+UP to that width and is safe to re-run. The CI workflow sets it to the whole 19-unit tranche, because
+parallel costs the same GPU-dollars as serial and a congeneric map has no result that would cancel the rest.
 
 Modes (env flags, set by the CI workflow):
   PLAN=1      dry plan: which units, cost band, wave shape, what is deliberately excluded. No API calls.
   STAGE=1     run the RDKit pose staging (free CPU on the runner) + upload the staged tree to S3.
   PRECHECK=1  verify the staged tree is in S3 and every unit's two endpoints are present in it. No spend.
   LAUNCH=1    top the fleet up to FANOUT_WIDTH with the next not-yet-finished units.
-  COLLECT=1   pull finished ddg.json's -> map result + cycle closure + ranking; reap terminal/over-age hosts.
-  MONITOR=1   one-line-per-instance liveness + per-unit phase, for the tight-cadence progress checks.
+  COLLECT=1   pull finished ddg.json's -> map result + cycle closure + ranking + REALISED SPEND; reap hosts.
+  MONITOR=1   PROGRESS check: committed-iteration census per unit, GPU utilisation, the starved-host guard.
   DIAG=1      root-cause a failed unit: its S3 leg log + the container stdout pulled off the Vast instance.
   STOP=1      destroy every s1f-* instance (explicit cleanup; never touches other labels).
 
-COST DISCIPLINE. `LAUNCH` refuses to submit unless FANOUT_CONFIRM=1 is set, prints the pinned cost band for
-what it is about to submit, and skips any unit whose ddg.json is already in S3 (so a re-dispatch after a
-preemption resumes the fleet rather than paying for it twice).
+SELECTIVE LAUNCH — `FANOUT_ONLY` (comma-separated unit_id / ligand substrings) launches a NAMED subset. This
+is the shakeout lever, and it exists because of an asymmetry: wave 1 proved this lane SAMPLES (three hosts at
+95-99 % GPU on the real cmpd19/NR4A3 system), but 0 of 19 units has ever produced a ddG, so the TERMINUS —
+reduce both legs, write ddg.json, upload — is unproven. Fanning 19 wide into an unproven terminus risks
+paying 19x for zero results. One deliberately-chosen unit (the most-advanced checkpoint, i.e. the one closest
+to the terminus) runs first; the rest go out together the moment it lands a ddG.
+
+WHAT THE DRIVER NOW KEEPS IN S3, so that a CI run inherits what a previous CI run learned with no agent awake:
+  <results>/_rentals.json            the rental ledger — bid x billed hours = REALISED spend
+  <results>/_excluded_machines.json  machines this lane refuses to re-rent (capacity refusal / starvation)
+  <results>/_progress_prev.json      last check's committed-iteration census, so "did it ADVANCE" is answerable
+  <results>/_util_state.json         consecutive low-utilisation strikes per instance
+
+COST DISCIPLINE. `LAUNCH` refuses to submit unless FANOUT_CONFIRM=1 is set, prints the DERIVED cost of exactly
+what it is about to submit (never a hand-typed constant — see congeneric_fanout's cost block), and skips any
+unit whose ddg.json is already in S3, so a re-dispatch after a preemption resumes rather than paying twice.
 """
 from __future__ import annotations
 
