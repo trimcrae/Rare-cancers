@@ -147,6 +147,38 @@ MODES = {
         "legs": [("calib_hi_to_lo__ternary_vhl", 0, "fwd")],
     },
     # ---------------------------------------------------------------------------------------------------
+    # valB_mini REPLICATES r1 + r2 — the two independent seeds the frozen gate needs before it can return
+    # anything but INDETERMINATE. Seed 0 alone gives n=1, and `calibration_gate` refuses n<2 outright:
+    # "need >=2 independent replicates for a cycle SD."
+    #
+    # ⚠ FOUR LEGS, NOT SIX — AND THE MISSING TWO ARE A CORRECT SAVING, NOT A CORNER CUT. Read
+    # `ternary_fep_reduce.per_replicate_ddg_coop`: it pairs legs BY SEED and forms
+    # ΔΔG_coop(r) = ΔG_ternary(r) − ΔG_binary(r). The solvent morph enters ΔΔG_alch,binary and
+    # ΔΔG_alch,ternary with the SAME sign and therefore cancels EXACTLY inside each replicate's cycle, so a
+    # per-replicate solvent leg contributes nothing to ΔΔG_coop and nothing to the between-replicate cycle SD
+    # the gate reads. One solvent leg already exists at seed 0 for the full-cycle summary (`coop_for_morph`).
+    # Buying two more would be two full rentals spent on a term that algebraically drops out.
+    #
+    # SEEDS ARE GENUINELY INDEPENDENT, not the same trajectory twice. SEED keys three separate things: the
+    # stage cache (`ternary_pdb_stage` sets starting_model_index = seed % n_models, so seeds 1 and 2 start
+    # from DIFFERENT independently relaxed SMARCA2 models), the pre-equilibration cache, and the commit
+    # prefix — and it is one of the fields `rbfe_spot_checkpoint.system_fingerprint` hashes, so a re-used
+    # seed cannot silently resume into another replicate's trajectory.
+    #
+    # RUN IN PARALLEL, ALL FOUR AT ONCE. The litmus test from CLAUDE.md §6 — "is there a result this shard
+    # could return that would make me NOT run the rest?" — answers NO here: the deliverable is a cycle SD
+    # ACROSS seeds, so r1 is not decision-relevant without r2. Serialising would buy zero decision value at
+    # identical GPU-$.
+    "edge_reps": {
+        "prod_iters": "", "warmup_iters": "",          # empty = full derived science length, matched to r0
+        "warmup_ckpt_iters": "64", "prod_ckpt_iters": "40",
+        "max_runtime_s": 20 * 3600,
+        "legs": [("calib_hi_to_lo__ternary_vhl", 1, "fwd"),
+                 ("calib_hi_to_lo__binary_vhl", 1, "fwd"),
+                 ("calib_hi_to_lo__ternary_vhl", 2, "fwd"),
+                 ("calib_hi_to_lo__binary_vhl", 2, "fwd")],
+    },
+    # ---------------------------------------------------------------------------------------------------
     # RUNG 5a-KS — the ligand-side causal kill-switch. S = dG_tern(NR4A3) - dG_tern(NR4A1) over the RUNG-5b
     # matched pair (phenyl d0 -> 3-pyridyl d at T407). TWO ternary legs, and only two: the binary and
     # solvent legs are paralogue-independent and cancel ALGEBRAICALLY out of the double difference
@@ -641,6 +673,17 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         "N_WINDOWS": nwin,
         "RBFE_TIMESTEP_FS": dt,
         "RBFE_WARMUP_TIMESTEP_FS": wdt,
+        # ★ THE MCS BUDGET IS A CORRECTNESS PARAMETER (2026-07-26). `LomapAtomMapper(time=N)` is an MCS
+        # TIMEOUT in seconds and a timed-out MCS returns its best PARTIAL match SILENTLY — so the atom map,
+        # i.e. what the alchemical transformation actually is, was a function of how fast the rented host
+        # happened to be. Measured: one edge mapped 111 atoms on two hosts and 80-with-31-dummies on a third.
+        # Set EXPLICITLY here rather than left to the engine's default so the value is part of the rented
+        # unit's recorded environment, not a property of whichever commit the host's tarball happened to pull.
+        "RBFE_LOMAP_TIME_S": os.environ.get("TVAST_LOMAP_TIME_S") or "300",
+        # ...and fail CLOSED if the map still comes back short. `nr4a3_ternary_fep.assert_map_not_degenerate`
+        # derives the required heavy-atom count from the endpoints' own MCS and aborts before any sampling is
+        # billed. Explicit for calibration legs because their expectation is verified at $0 in CI first.
+        "RBFE_MAP_ASSERT": os.environ.get("TVAST_MAP_ASSERT") or ("1" if leg_id.startswith("calib_") else "0"),
         # 5000, not the engine default 25000: the GCP lane measured 25000 steps spending ~20-60 min at ~0%
         # GPU across 12 replicas for NO NaN benefit (the NaN survives 25000 — see runbook 1b/1c).
         "RBFE_MIN_STEPS": os.environ.get("TVAST_MIN_STEPS") or "5000",
@@ -876,7 +919,8 @@ def leg_records(bucket=None, prefix=None):
     return out
 
 
-def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=None, legs=None):
+def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=None, legs=None,
+           git_branch=None):
     """Rent one instance per unit for this mode, skipping units already done or already running.
 
     SKIPPING HAPPENS BEFORE THE RENTAL. The on-host pipeline has an idempotency check, but it only runs
@@ -884,8 +928,17 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     discover the work was finished. The launcher has S3 access; the cheap check belongs here.
     """
     specs = [(l, s, d) for (l, s, d) in (legs or units_for(mode))]
+    # ★ `git_branch` IS EXPLICIT HERE BECAUSE THE WATCHDOG RELAUNCH HAD NO WAY TO PASS IT (found 2026-07-26).
+    # The host pulls its code as `archive/refs/heads/$GIT_BRANCH.tar.gz`, and the watch list records a
+    # `git_branch` per entry for exactly that reason — but `submit()` took no such argument, so a relaunch
+    # fell through to `os.environ["GIT_BRANCH"]`, which the cron watchdog sets to `github.ref_name` = **main**.
+    # A leg launched from a feature branch would therefore be resumed onto a host running MAIN's code: a
+    # DIFFERENT engine against the same checkpoint. That is not hypothetical today — main still carries
+    # `LomapAtomMapper(time=20)`, the timeout that silently produces a partial atom map, so a relaunch could
+    # quietly finish a leg under a different alchemical transformation than the one it started.
     jobs = [build_jobspec(l, s, d, mode=mode, timestep_fs=timestep_fs,
-                          warmup_timestep_fs=warmup_timestep_fs) for (l, s, d) in specs]
+                          warmup_timestep_fs=warmup_timestep_fs, git_branch=git_branch)
+            for (l, s, d) in specs]
     if dry_run:
         print(json.dumps([{"name": j.name, "image": j.image, "max_runtime_s": j.max_runtime_s,
                            "env": j.env} for j in jobs], indent=2))
@@ -1418,6 +1471,11 @@ def main(argv=None):
     ap.add_argument("--only", metavar="SUBSTRING",
                     help="restrict this launch to units whose LEG ID contains SUBSTRING (e.g. `nr4a3`), so a "
                          "single preempted arm can be recovered without re-renting its sibling")
+    # `--only` filters by LEG id, which cannot separate two replicates of the SAME leg — and `edge_reps`
+    # carries exactly that: ternary at seed 1 and ternary at seed 2. Without a seed filter, recovering one
+    # of them means re-dispatching the mode and (harmlessly but pointlessly) re-listing all four.
+    ap.add_argument("--only-seed", metavar="N", type=int, default=None,
+                    help="restrict this launch to units at SEED N; combines with --only")
     ap.add_argument("--seed-stage-cache", metavar="DIR",
                     help="upload CI-staged leg inputs from DIR/<leg_id>/ into this mode's stage cache, so a "
                          "leg whose inputs cannot be built on the host (a Boltz co-fold) finds them there")
@@ -1448,12 +1506,13 @@ def main(argv=None):
         collect()
     else:
         legs = None
-        if a.only:
-            legs = [u for u in units_for(a.mode) if a.only in u[0]]
+        if a.only or a.only_seed is not None:
+            legs = [u for u in units_for(a.mode)
+                    if (not a.only or a.only in u[0]) and (a.only_seed is None or u[1] == a.only_seed)]
             if not legs:
-                raise SystemExit(f"--only {a.only!r} matched no leg in mode {a.mode!r}; "
-                                 f"available: {[u[0] for u in units_for(a.mode)]}")
-            print(f"[launch] --only {a.only!r} -> {[u[0] for u in legs]}")
+                raise SystemExit(f"--only {a.only!r} --only-seed {a.only_seed!r} matched no unit in mode "
+                                 f"{a.mode!r}; available: {units_for(a.mode)}")
+            print(f"[launch] --only {a.only!r} --only-seed {a.only_seed!r} -> {legs}")
         submit(mode=a.mode, dry_run=a.dry_run, timestep_fs=a.timestep_fs,
                warmup_timestep_fs=a.warmup_timestep_fs, legs=legs)
     return 0

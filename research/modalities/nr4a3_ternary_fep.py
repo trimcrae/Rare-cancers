@@ -614,6 +614,109 @@ def assert_constitutional_edge(smiles_a, smiles_b):
     return {"constitutional_edge": True, "flat_a": flat_a, "flat_b": flat_b}
 
 
+def expected_heavy_map_size(Chem, molA, molB, timeout_s=300):
+    """The number of HEAVY atoms an atom map for this edge MUST contain, derived from the two endpoint
+    molecules themselves. PURE (RDKit only) — unit-testable, no OpenFE.
+
+    ★ WHY THIS EXISTS (2026-07-26). `LomapAtomMapper(time=N)` — `N` is LOMAP's MCS timeout in SECONDS — does
+    not raise when it runs out of time. It returns the best PARTIAL match found so far, silently. That makes
+    the atom map, i.e. WHAT THE ALCHEMICAL TRANSFORMATION ACTUALLY IS, a function of how fast the rented host
+    happened to be. Measured on RUNG 5a-KS: one edge whose endpoints differ by ONE atom mapped 111 atoms on
+    two hosts and 80 atoms with 31 dummies on a third. A short map is not a slow answer — it is a DIFFERENT
+    EXPERIMENT: the atoms that should have mapped 1:1 become dummies that are annihilated and recreated, and
+    the leg then converges and returns a confident ΔG for a perturbation nobody designed.
+    Nothing downstream catches it. `protocol_hash` covers the OpenFE SETTINGS, not the map.
+    `system_identity_consistency` covers particle counts, which a dummy-ised map leaves unchanged. And the
+    5-part gate's item 2 asks for a "real perturbation", which unmapped atoms SATISFY — so a degenerate map
+    makes the pre-spend gate greener, not redder.
+
+    THE EXPECTATION IS DERIVED, NOT TYPED. The maximum common substructure of the two endpoints is computed
+    here with RDKit under deliberately permissive atom comparison (`CompareAny`, so a ring N↔C element change
+    is a MATCH rather than a mismatch) and conservative bond/ring rules, which is exactly the correspondence
+    the production mapper is asked to find with `element_change=True`. For the frozen valB_mini edge (Wurz
+    cmpd1 → cmpd4, a linker pyridine N → benzene CH) both endpoints carry 59 heavy atoms and this returns
+    **59** — a complete 1:1 heavy-atom map with the single N↔C as the alchemical atom. Anything less from
+    LOMAP is a failed search, not a property of the chemistry.
+
+    Returns (n_heavy_expected, detail). `n_heavy_expected` is None when the MCS itself timed out — an
+    unreliable expectation must never be used to abort a leg."""
+    from rdkit.Chem import rdFMCS
+    a, b = Chem.RemoveHs(Chem.Mol(molA)), Chem.RemoveHs(Chem.Mol(molB))
+    res = rdFMCS.FindMCS(
+        [a, b],
+        atomCompare=rdFMCS.AtomCompare.CompareAny,      # a ring N->CH element change is a MATCH, not a break
+        bondCompare=rdFMCS.BondCompare.CompareOrderExact,
+        ringMatchesRingOnly=True,
+        completeRingsOnly=False,
+        timeout=int(timeout_s),
+    )
+    detail = {"mcs_smarts": res.smartsString, "mcs_num_atoms": res.numAtoms, "mcs_num_bonds": res.numBonds,
+              "mcs_timed_out": bool(res.canceled), "heavy_atoms_A": a.GetNumAtoms(),
+              "heavy_atoms_B": b.GetNumAtoms(), "mcs_timeout_s": int(timeout_s)}
+    return (None if res.canceled else int(res.numAtoms)), detail
+
+
+def atom_map_audit(Chem, ligA, ligB, mapping):
+    """Everything about the atom map that a later reader needs in order to know WHICH perturbation a leg ran.
+
+    Recorded on every leg (`out["atom_map"]`), because if an earlier replicate turns out to have run under a
+    short map then that replicate is not comparable to the others, and the only way anyone can tell is if
+    each leg says what its map was and what budget produced it."""
+    molA, molB = ligA.to_rdkit(), ligB.to_rdkit()
+    a2b = dict(mapping.componentA_to_componentB)
+    heavy = sum(1 for ia, ib in a2b.items()
+                if molA.GetAtomWithIdx(ia).GetAtomicNum() > 1 and molB.GetAtomWithIdx(ib).GetAtomicNum() > 1)
+    exp, detail = expected_heavy_map_size(Chem, molA, molB)
+    rec = {
+        "n_mapped_atoms": len(a2b),
+        "n_heavy_mapped": heavy,
+        "expected_heavy_mapped": exp,
+        "n_atoms_A": molA.GetNumAtoms(), "n_atoms_B": molB.GetNumAtoms(),
+        # The MCS budget the map was produced under. `nr4a3_rbfe._mapping` reads this env var; recording the
+        # RESOLVED value (default included) rather than the raw env is the same lesson as charge_method.
+        "lomap_time_s": int(os.environ.get("RBFE_LOMAP_TIME_S", "300")),
+        "degenerate": (exp is not None and heavy < exp),
+        **detail,
+    }
+    return rec
+
+
+def assert_map_not_degenerate(audit, leg_id, hard=None):
+    """Fail CLOSED on a short atom map, before any sampling is paid for.
+
+    `hard` defaults to ON for the frozen calibration legs (`calib_*`), whose expectation is a complete 1:1
+    heavy-atom map and is verified at $0 in CI before launch. It defaults to a LOUD WARNING elsewhere,
+    deliberately: this engine is shared with legs another lane has in flight right now, and introducing a new
+    hard abort underneath a running leg — on an expectation that has not been checked for that edge — would
+    trade a silent wrong answer for a silent lost rental. Override either way with `RBFE_MAP_ASSERT=1|0`."""
+    if hard is None:
+        env = os.environ.get("RBFE_MAP_ASSERT")
+        hard = (env == "1") if env in ("0", "1") else str(leg_id).startswith("calib_")
+    if not audit.get("degenerate"):
+        if audit.get("mcs_timed_out"):
+            print("  [tfep] ⚠ atom-map expectation UNAVAILABLE: the RDKit MCS hit its %ss budget, so the "
+                  "%d-atom LOMAP map (%d heavy) could not be checked against a derived expectation."
+                  % (audit.get("mcs_timeout_s"), audit.get("n_mapped_atoms"), audit.get("n_heavy_mapped")),
+                  flush=True)
+        else:
+            print("  [tfep] atom map OK: %d heavy atoms mapped, %d expected from the endpoint MCS "
+                  "(LOMAP budget %ss)." % (audit["n_heavy_mapped"], audit["expected_heavy_mapped"],
+                                           audit["lomap_time_s"]), flush=True)
+        return audit
+    msg = ("DEGENERATE ATOM MAP on leg %s: LOMAP mapped %d heavy atoms but the endpoints' own MCS says %d "
+           "MUST map (A has %d heavy, B has %d). The %d unmapped heavy atom(s) become dummies that are "
+           "annihilated and recreated, so this leg would run a DIFFERENT perturbation from the designed one "
+           "and would still converge and still return a confident ΔG. Most likely the MCS hit its %ss budget "
+           "(RBFE_LOMAP_TIME_S) — raise it and re-run."
+           % (leg_id, audit["n_heavy_mapped"], audit["expected_heavy_mapped"], audit["heavy_atoms_A"],
+              audit["heavy_atoms_B"], audit["expected_heavy_mapped"] - audit["n_heavy_mapped"],
+              audit["lomap_time_s"]))
+    if hard:
+        raise SystemExit("  ABORT (degenerate-map guard): " + msg)
+    print("  [tfep] ⚠ " + msg, flush=True)
+    return audit
+
+
 def _five_part_gate(Chem, leg, env, ligA, ligB, mapping, protein, endpoints, built, endpoints_ok):
     """Record the reviewer's 5-part $0 pre-spend gate (2026-07-17 Option-1) into the smoke artifact so GPU
     execution is authorized only when every item is satisfiable. Items 1/2/5 are fully in-leg; items 3/4 record
@@ -724,6 +827,11 @@ def run_leg():
     # benzene C); take the near-complete element_change=True map (N<->C alchemical), not the degenerate strict map.
     mapping = rbfe._mapping(openfe, ligA, ligB, prefer_element_change=True)
     n_mapped = len(mapping.componentA_to_componentB)
+    # ★ THE MAP IS THE EXPERIMENT — CHECK IT BEFORE ANY SAMPLING IS PAID FOR. A timed-out LOMAP MCS returns
+    # its best PARTIAL match silently, and no other check in this pipeline can see it: protocol_hash covers
+    # the settings, system-identity covers particle counts (unchanged by dummies), and the 5-part gate's
+    # item 2 actively READS unmapped atoms as evidence of "a real perturbation". See expected_heavy_map_size.
+    map_audit = assert_map_not_degenerate(atom_map_audit(Chem, ligA, ligB, mapping), LEG_ID)
     # Positively confirm the ACTUAL built molecules are the intended endpoints (the LOMAP log alone is
     # unverifiable — the mapper's name string can leak stale globals). Canonicalize the built ligands and the
     # requested SMILES so a smoke definitively shows WHICH chemistry it ran (e.g. PROTAC_2 -> cis-PROTAC_2).
@@ -779,6 +887,7 @@ def run_leg():
         if setup_ok is False:
             gate["all_pass"] = False
         json.dump({"smoke": "ok", "leg": LEG_ID, "environment": env, "n_mapped_atoms": n_mapped,
+                   "atom_map": map_audit,
                    "has_protein": protein is not None,
                    "endpoint_a": a, "endpoint_b": b,
                    "built_smiles_a": built_a, "built_smiles_b": built_b,
@@ -835,6 +944,12 @@ def run_leg():
     out = {"leg_id": LEG_ID, "environment": env, "morph": "%s->%s" % (a, b), "direction": DIRECTION,
            "seed": SEED, "dg_morph_kcal": float(dg_kcal) if dg_kcal is not None else None,
            "mbar_se_kcal": float(unc_kcal) if unc_kcal is not None else None, "n_mapped_atoms": n_mapped,
+           # WHICH PERTURBATION THIS LEG ACTUALLY RAN. `n_mapped_atoms` alone cannot answer that — it has no
+           # expectation to be read against, so a short map and a complete one look identical in the record.
+           # Carrying the derived expectation and the MCS budget alongside it means that if an EARLIER
+           # replicate is later found to have run under a degenerate map, anyone can tell which legs are
+           # comparable to which without re-deriving anything.
+           "atom_map": map_audit,
            "n_windows": N_WINDOWS, "spot_safe": True,
            "protocol_hash": proto_hash, "protocol_settings": proto_payload,
            "starting_model": starting_model,

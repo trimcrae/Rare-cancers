@@ -345,3 +345,59 @@ def test_the_rendered_pipeline_is_valid_bash_and_its_python_heredocs_compile():
     assert len(blocks) == 2, f"expected 2 python heredocs, found {len(blocks)}"
     for i, b in enumerate(blocks):
         compile(b, f"<heredoc{i}>", "exec")
+
+
+# ---------------------------------------------------------------- valB_mini replicates (r1 + r2)
+def test_edge_reps_runs_two_independent_seeds_and_no_solvent_leg():
+    """The replicate mode's shape IS a scientific claim, so it is asserted rather than trusted.
+
+    Two claims, both checkable here:
+      * SEEDS 1 AND 2, not 0 twice. `ternary_fep_reduce.per_replicate_ddg_coop` pairs legs BY SEED, so two
+        legs at one seed are one replicate, not two, and the between-replicate cycle SD the frozen gate
+        needs would not exist. SEED also keys the stage cache (starting_model_index = seed % n_models),
+        the pre-equil cache and the commit prefix, so a re-used seed is not merely uninformative — it can
+        resume into the other replicate's trajectory.
+      * NO SOLVENT LEG. The solvent morph enters ΔΔG_alch,binary and ΔΔG_alch,ternary with the same sign
+        and cancels EXACTLY inside each replicate's cycle, so a per-replicate solvent leg buys a full
+        rental for a term that algebraically drops out.
+    """
+    units = tv.units_for("edge_reps")
+    assert sorted({s for (_l, s, _d) in units}) == [1, 2]
+    assert all(d == "fwd" for (_l, _s, d) in units)
+    assert not any("solvent" in leg for (leg, _s, _d) in units)
+    # exactly one ternary and one binary per seed — the two legs ΔΔG_coop = ternary − binary needs
+    for seed in (1, 2):
+        legs = sorted(leg for (leg, s, _d) in units if s == seed)
+        assert legs == ["calib_hi_to_lo__binary_vhl", "calib_hi_to_lo__ternary_vhl"], legs
+
+
+def test_each_replicate_gets_its_own_seed_keyed_caches_and_commit_prefix():
+    """Two seeds that shared a stage cache would start from the SAME relaxed SMARCA2 model, and the spread
+    this programme uses as its error bar would be sampling noise only — quietly narrower than the truth."""
+    keys = {}
+    for (leg, seed, direction) in tv.units_for("edge_reps"):
+        e = tv.build_jobspec(leg, seed, direction, mode="edge_reps", bucket="b", prefix="p").env
+        keys[(leg, seed)] = (e["STAGE_CACHE"], e["PE_CACHE"], e["COMMIT_S3"], e["UNIT_ID"])
+    assert len(set(keys.values())) == len(keys), "two replicate units share a cache or commit prefix"
+    for leg in ("calib_hi_to_lo__ternary_vhl", "calib_hi_to_lo__binary_vhl"):
+        assert "seed1" in keys[(leg, 1)][0] and "seed2" in keys[(leg, 2)][0]
+
+
+def test_calibration_legs_carry_an_explicit_mcs_budget_and_a_fail_closed_map_assert():
+    """★ THE ONE THAT MATTERS. `LomapAtomMapper(time=N)` is an MCS TIMEOUT in seconds and a timed-out MCS
+    returns its best PARTIAL match SILENTLY — so what the alchemical transformation IS depended on how fast
+    the rented host happened to be (measured: 111 atoms on two hosts, 80-with-31-dummies on a third). A
+    short map is a different experiment that still converges and still returns a confident ΔG, and nothing
+    downstream sees it: protocol_hash covers settings, system identity covers particle counts (unchanged by
+    dummy-isation), and the 5-part gate reads unmapped atoms as evidence of "a real perturbation"."""
+    for (leg, seed, direction) in tv.units_for("edge_reps"):
+        e = tv.build_jobspec(leg, seed, direction, mode="edge_reps", bucket="b", prefix="p").env
+        assert int(e["RBFE_LOMAP_TIME_S"]) >= 300, "the MCS budget must be set explicitly, not inherited"
+        assert e["RBFE_MAP_ASSERT"] == "1", "a calibration leg must fail closed on a short map"
+
+
+def test_only_seed_can_recover_one_replicate_without_re_renting_its_sibling():
+    """`--only` filters by LEG id, which cannot separate two replicates of the SAME leg — and edge_reps
+    carries exactly that. Without a seed filter, recovering one preempted arm means re-listing all four."""
+    sel = [u for u in tv.units_for("edge_reps") if u[1] == 2]
+    assert len(sel) == 2 and {s for (_l, s, _d) in sel} == {2}

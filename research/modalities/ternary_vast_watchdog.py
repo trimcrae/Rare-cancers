@@ -350,8 +350,14 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
             # DELEGATE to the launcher. It already skips finished/in-flight units, excludes blocked
             # machines, spreads one unit per machine, and keys the commit prefix by dt — so a relaunch
             # resumes rather than restarts, and cannot double-book a live unit.
+            # ★ THE ENTRY'S OWN git_branch, NOT THE RUNNER'S. This argument was missing, and its absence made
+            # the watch list's most carefully documented field decorative: `build_jobspec` fell back to
+            # `os.environ["GIT_BRANCH"]`, which this workflow sets from `github.ref_name` — and a `schedule:`
+            # only fires from the DEFAULT branch, so every cron relaunch pulled **main's** code onto a
+            # feature branch's checkpoint. The entry records the branch precisely so that cannot happen.
             handles = tv.submit(mode=e["mode"], timestep_fs=e["timestep_fs"],
                                 warmup_timestep_fs=e["warmup_timestep_fs"],
+                                git_branch=e.get("git_branch"),
                                 legs=[(e["leg_id"], e["seed"], e["direction"])])
             if handles:
                 _write_json_key(b, ckey, {"count": cnt + 1, "unit_id": uid,
