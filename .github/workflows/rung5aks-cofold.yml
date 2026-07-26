@@ -9,10 +9,13 @@ name: RUNG 5a-KS — ternary co-fold staging
 # routes through a runner — the standing "the sandbox is not your execution limit" rule.
 #
 # LADDER, cheapest-decisive-first:
-#   prep -> $0  CPU. Read the matched pair from RUNG 5b's artifact, refuse unless it really is the one-atom
-#                    aza-scan, resolve the LBD sequences, build the Boltz input YAMLs. Commits the record.
-#   run  -> GPU. Boltz-2 inference for the two ternaries. Needs a GPU runner/backend, so it is NOT wired to
-#                this workflow yet; `prep` is what unblocks and is what this file is for.
+#   prep     -> $0  CPU. Read the matched pair from RUNG 5b's artifact, refuse unless it really is the one-atom
+#                        aza-scan, resolve the LBD sequences, build the Boltz input YAMLs. Commits the record.
+#   manifest -> $0  CPU. Print the engine's per-leg input contract (chain roles, endpoints) from the design.
+#   stage    -> $0  CPU. Co-folded CIFs -> <leg>/complex.pdb + <leg>/ligands.sdf, in the ternary-fep image.
+#   reduce   -> $0  CPU. leg_5aks_*.json -> S, in that same image.
+#   (Boltz-2 inference for the two ternaries, and the two ternary FEP legs themselves, are the GPU steps and
+#    live in their own lanes — everything this file does is free.)
 #
 # NOT GATED ON RUNG 2b: the 4 fs decision changes what the FEP legs COST, not what structure they start from.
 # The ~$12 of ternary legs is the part that waits for that gate; this staging does not.
@@ -21,10 +24,18 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "prep = $0 CPU staging (the only mode wired here)"
+        description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs)"
         type: choice
-        options: [prep]
+        options: [prep, manifest, stage, reduce]
         default: prep
+      cofold_dir:
+        description: "stage: directory holding the Boltz co-fold CIFs (blank = research/modalities/5aks_cofold_out)"
+        type: string
+        default: ""
+      legs_dir:
+        description: "reduce: directory holding leg_5aks_*.json (blank = research/modalities/5aks_legs)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -42,16 +53,61 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
 
-      # The planner is pure stdlib and its guards are what stop a mismatched pair reaching a GPU, so they run
-      # first and a failure here stops the job before any sequence is fetched.
-      - name: The matched-pair guards hold
-        run: python3 research/modalities/tests/test_5aks_cofold.py
+      # All three guard suites run before anything else, on every mode: they are what stops a mismatched pair,
+      # a mis-roled chain set or a mis-signed double difference reaching a GPU.
+      - name: The 5a-KS guards hold (pair, staging contract, reduction)
+        run: |
+          set -eo pipefail
+          python3 research/modalities/tests/test_5aks_cofold.py
+          python3 research/modalities/tests/test_5aks_stage.py
+          python3 research/modalities/tests/test_5aks_reduce.py
 
       - name: Stage the co-fold inputs
+        if: ${{ (github.event.inputs.mode || 'prep') == 'prep' }}
         working-directory: research/modalities
         env:
           OUTPUT_DIR: ${{ github.workspace }}/research/modalities/5aks_cofold_out
         run: python3 nr4a3_5aks_cofold.py
+
+      # $0. The engine's per-leg input contract, printed from the committed design. Pure — no co-folds needed.
+      - name: Leg contract (manifest)
+        if: ${{ github.event.inputs.mode == 'manifest' }}
+        working-directory: research/modalities
+        run: python3 nr4a3_5aks_stage.py --manifest
+
+      # $0. Turn the co-folded ternaries into <leg>/complex.pdb + <leg>/ligands.sdf. gemmi + RDKit live in the
+      # ternary-fep image, which is byte-for-byte the env the FEP legs run in — PULL, DO NOT SOLVE. Mount the
+      # checked-out modalities dir so the code that runs is the branch's, not the copy baked at build time.
+      - name: Stage the FEP leg inputs from the co-folds
+        if: ${{ github.event.inputs.mode == 'stage' }}
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          COFOLD="${{ github.event.inputs.cofold_dir }}"
+          COFOLD="${COFOLD:-/work/research/modalities/5aks_cofold_out}"
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_stage.py \
+              --cofold-dir "$COFOLD" --out-dir /work/research/modalities/5aks_fep_inputs
+
+      # $0. The double difference. Runs in the SAME image the legs were produced in, for the same reason the
+      # RUNG 2b reduce does: analysing with a different pymbar/openmmtools than PRODUCED the trajectories can
+      # move the numbers.
+      - name: Reduce to S
+        if: ${{ github.event.inputs.mode == 'reduce' }}
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          LEGS="${{ github.event.inputs.legs_dir }}"
+          LEGS="${LEGS:-/work/research/modalities/5aks_legs}"
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_reduce.py --legs "$LEGS" \
+              --out /work/research/modalities/nr4a3-5aks-reduction.json
 
       # ⚠ THE RECORD IS THE DELIVERABLE, SO ITS ABSENCE IS A FAILURE, NOT A QUIET "nothing to commit".
       # The first version of this step read:
@@ -62,6 +118,7 @@ jobs:
       # commit", and the job went green having produced nothing. Exactly the silent-empty class the LANE-13
       # collect guards were written for the same morning. Assert first, add only what exists, never swallow.
       - name: The staging record actually exists
+        if: ${{ (github.event.inputs.mode || 'prep') == 'prep' }}
         run: |
           set -eo pipefail
           test -s research/modalities/nr4a3-5aks-cofold-prep.json \
@@ -74,8 +131,15 @@ jobs:
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          paths=(research/modalities/nr4a3-5aks-cofold-prep.json)
-          [ -d research/modalities/5aks_cofold_out ] && paths+=(research/modalities/5aks_cofold_out)
+          paths=()
+          for p in research/modalities/nr4a3-5aks-cofold-prep.json \
+                   research/modalities/nr4a3-5aks-reduction.json \
+                   research/modalities/5aks_cofold_out research/modalities/5aks_fep_inputs; do
+            [ -e "$p" ] && paths+=("$p")
+          done
+          if [ ${#paths[@]} -eq 0 ]; then
+            echo "::error::nothing produced to commit"; exit 1
+          fi
           git add -A "${paths[@]}"
           if git diff --cached --quiet; then
             echo "record unchanged since the last run — nothing to commit"
