@@ -1795,28 +1795,28 @@ explicit go.
    smaller fan-out — with a cycle-closure edge moved early, since all three cycles currently close only in the
    last wave. *(Note the price has since fallen to ~$36, so un-halting no longer crosses the >$50 review gate.
    That makes it a cheaper call, not a different one; it is trimcrae's.)*
-5. **`[ ]` OPEN — FOR trimcrae: raise `GPUS_ALL_REGIONS` on the GCP project.** The single highest-leverage
-   action available on that lane, and it is his because it is a change to his cloud account, not something to
-   file from CI.
-   **The situation:** the trial credit expires **2026-10-10** (76 days from 2026-07-26) and is otherwise a
-   stranded asset — unspent credit is a loss, not a saving. But `GPUS_ALL_REGIONS = 1` caps the project at **one
-   concurrent GPU** across all regions and types (confirmed `limit=1.0 usage=1.0`), which is why the regional
-   `PREEMPTIBLE_NVIDIA_L4_GPUS` limit of 3 sits **unused**. So the bottleneck on using the asset is the quota,
-   not our willingness to spend.
-   **What it buys, concretely:**
+5. **`[x]` CLOSED — raising `GPUS_ALL_REGIONS` is NOT available to us.** trimcrae, 2026-07-26: *"We've tried
+   over and over for more quota. They won't give it to a small account like ours."* Repeatedly requested,
+   repeatedly refused. **Do not re-file it, and do not plan around a quota that is not coming.** (I raised it as
+   an ask the same day, quantified at 1→4; withdrawn — see [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 20.)
 
-   | `GPUS_ALL_REGIONS` | max burnable before expiry | closure triangle (4 fresh legs × ~44 h) |
+   **The permanent consequence, which is a planning fact rather than a limitation to keep rediscovering:**
+
+   | | GCP | Vast |
    |---|---|---|
-   | 1 (today) | ~1,824 GPU-h | **7.3 days** serialised |
-   | 2 | ~3,648 GPU-h | 3.7 days |
-   | 4 | ~7,296 GPU-h | **1.8 days** (fully parallel) |
+   | money | **free** (credit expires 2026-10-10) | real $ |
+   | concurrency | **1 GPU, permanently** | many, in parallel |
+   | speed | L4 ~56.5 s/iter | 4090 ~16 s/iter (**~3.5×**) |
+   | a 4-leg cycle (4 × ~44 h) | ~7.3 days, serialised | **~12 h**, parallel, ~$6.8 |
 
-   **The ask:** metric `compute.googleapis.com/gpus_all_regions`, scope *global*, current limit 1 → request 4.
-   **Check first, because it may not be grantable as-is:** GCP commonly gates GPU-quota increases on account
-   type, so if the project is still on the free trial the request may be refused until it is converted to a paid
-   account (the credits carry over and are still spent first). **I have not verified which this project is** —
-   `gcp-quota-check.yml` prints `billingEnabled` and the billing account, so one dispatch answers it before
-   anything is filed.
+   **So the two lanes are not substitutes and choosing between them is not a cost question.**
+   - **GCP is the always-on serial worker.** Its single GPU can absorb at most ~1,824 GPU-h before the credit
+     expires, so **that is the ceiling on the whole asset** — and every idle GCP-GPU minute is expiring credit
+     permanently lost. **Keeping it continuously fed matters more than what it is fed**, which is why a fast
+     relaunch after a VM boundary is worth real effort (see the max-run-duration facts) and why a queue of
+     long-running work behind the current leg is worth maintaining.
+   - **Vast is burst capacity, bought when WALL CLOCK matters** — anything needing parallelism, or a result
+     sooner than a serialised GCP queue can deliver.
 
 6. **`[ ]` OPEN — the valB_mini rescope.** Held until the reverse leg reads out. See RUNG 2, "Recommended next
    steps".
@@ -1854,6 +1854,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 19a | "`vast-watchdog.yml` has NOT yet fired on cron … autonomous coverage of the paralogue legs is claimed only once a `schedule` event appears", and "**honestly not proven live:** `DIED → relaunch`" | Both retired by the same event: the **1:42 AM ET 2026-07-26 `schedule` pass** found `nr4a-pdyn-nr4a1` dead with no instance, relaunched it as **45878836**, and it resumed from its 33.55 ns checkpoint — with no session awake. `FAILED` and `STALL` remain unproven live |
 | 19c | valB_mini reverse leg r0 finish "**~Mon 8:40 PM – Tue 8:40 AM**", flagged as a day later than the `max-effort-3hgq45` session's ~Mon 8:40 AM | Measured on the **first hour after the warmup→production change**, which was a ramp, not the rate: the leg went **40 → 60 → 79 iter/h** across three consecutive windows. The longest window gives 63.8, and the finish lands **~Mon 5:40–10:40 AM** — the sibling session's figure was right and mine was the unrepresentative window, which is the same error this file corrects twice in row 19b |
 | 19b | RUNG 2b **ternary** edge finish "**~1 AM**", then "**~6:00 AM**", then "**~7:45 AM**"; **binary** edge "**~overnight**", then "a possible **2.9× slowdown**"; NR4A1 paralogue metad "~**5:30 AM**", NR4A2 "~**6:00 AM**" (all ET, 2026-07-26) | The ~1 AM figure was carried forward without arithmetic. The ~6:00 AM replacement extrapolated from **warmup**, which costs ~2× per iteration what production does. The ~7:45 AM and the binary "slowdown" were both **commit-block quantisation**: the store advances in blocks of 40 iterations and both came off a 27-min window. Live ETAs now come from windows long enough to span many blocks; NR4A1's slipped when it was preempted onto a host that starves its GPU |
+| 20 | **"Raise `GPUS_ALL_REGIONS` 1 → 4"** as an open action for trimcrae, quantified at ~1,824 → ~7,296 GPU-h of burnable credit and a closure triangle at 1.8 days instead of 7.3 | **Withdrawn the same day it was written.** trimcrae: *"We've tried over and over for more quota. They won't give it to a small account like ours."* Repeatedly requested, repeatedly refused. The arithmetic was right and the action was not available — I proposed a lever that had already been pulled and had already failed, without asking. The 1-GPU cap is **permanent**, and the plan now treats it as a fixed property of the lane rather than a problem to solve: GCP is the always-on serial worker whose idle time is expiring credit, Vast is burst capacity bought when wall clock matters |
 | 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
 
 ---
