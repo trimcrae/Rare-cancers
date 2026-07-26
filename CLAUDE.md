@@ -33,11 +33,19 @@ anything here that restates them is a bug — see rule 1.
   before writing even if the tool emits UTC. *(You keep slipping. This is why it is near the top.)*
 - **⏱️ END-OF-TURN "IN FLIGHT" BOARD (trimcrae, 2026-07-11).** Whenever your final message leaves work running,
   the LAST thing in it is a compact **"In flight:"** board — one scannable line per item (bullet/table, not
-  prose): **what it is · current state · ETA in ET 12-hour** (or an explicit "ETA unknown — why"), plus what
-  you'll do when it lands if non-obvious. **List ONLY real compute** (GPU/CI jobs, subagents doing real work).
+  prose): **what it is · current state · ETA in ET 12-hour · cost** (or an explicit "ETA unknown — why"), plus
+  what you'll do when it lands if non-obvious. **List ONLY real compute** (GPU/CI jobs, subagents doing real work).
   Do **NOT** list your own wake mechanisms (self-timers, pollers, heartbeats) or **scheduled routines** — a
   schedule is not running compute. Nothing running → "Nothing in flight", one line. This REPLACES long status
   narration.
+  - **COST IS PART OF THE FORMAT, NOT AN EXTRA (trimcrae, 2026-07-26 — asked for it twice in one session).**
+    Every in-flight row carries what it costs, on the same line as its ETA: the ladder figure for a priced rung,
+    a stated estimate with its range for anything unpriced, `$0` for CI/analysis, and free credit named as such
+    (**GCP trial credit is a SEPARATE LEDGER — never summed into realized or ladder spend**). An ETA without a
+    cost is an incomplete row. Per rule 1 the figure is not typed fresh here: it POINTS at
+    [`vast-ladder-repricing.json`](./research/modalities/vast-ladder-repricing.json) /
+    [pricing.md](./research/compute/pricing.md), and only a genuinely-unpriced item carries an estimate — which
+    then says it is one.
 - **Language discipline for the manuscript** is in [STRATEGY.md](./STRATEGY.md) → "Honest scope and language
   discipline" and enforced by `lint_claims.py` (R1–R5) in CI. Never imply proteome-wide selectivity, EMC
   efficacy, safety, a therapeutic window, or clinical readiness.
