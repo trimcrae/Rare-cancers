@@ -156,7 +156,40 @@ would be a difference of **two diastereomers in two different proteins**, report
 effect. `stage_from_cofold` now refuses to stage the pair unless both legs resolved it identically, and
 records the shared stereo SMILES. Free to catch at staging; invisible afterwards.
 
-## 5 · `n_particles` — the identity check the RUNG 2b cycle could not make
+## 5 · The smoke leg failed in PRE-EQUILIBRATION — which is exactly what a smoke leg is for
+
+**The plumbing shakeout did its job: the ~$12 pair was not spent.** The smoke cost **~$0.02**, and `collect`
+destroyed the host on the spot (*"unit FAILED — nothing left to produce"*).
+
+**The diagnosis came from `status.json`, not from a story:**
+`{"status":"failed","phase":"preequil","rc":1}`. So the leg cleared the CUDA probe, the repo pull and
+**staging** — the pre-seeded stage cache HIT, which is the whole new mechanism this rung depends on — and
+died in pre-equilibration.
+
+**Cause.** `nr4a3_5aks_stage` wrote the co-fold's polymer straight out and explicitly stripped hydrogens, so
+`complex.pdb` reached OpenMM with **no hydrogens and no terminal OXT**. `ForceField.createSystem` does not
+add protein hydrogens — it fails template matching. This is the **same defect the crystal stager hit on
+2026-07-17**, whose own docstring records *"this ternary-staging path had never carried a real production
+leg before"*. A co-fold-derived leg is a **second entry point into the same wall**, so the fix calls the
+*same* function (`ternary_pdb_stage._hydrogenate_pdb`) rather than growing a second copy that can drift.
+
+**Proved, not asserted.** [`nr4a3_5aks_preequil_repro.py`](nr4a3_5aks_preequil_repro.py) runs the one
+observation that discriminates: the same `ternary_preequil` invocation, in the same parity image, against
+two `complex.pdb` files differing **only** in hydrogenation. It reports **HYPOTHESIS REFUTED** if the
+unfixed arm passes and **FIX INSUFFICIENT** if both fail — and in both cases says *do not re-rent*. It runs
+on CPU because system construction touches no GPU.
+
+### A second, wider bug the diagnosis exposed: the log-preservation block was ordered wrong
+
+The ternary pipeline archives the previous attempt's `run.log` before overwriting it — a guard whose comment
+cites the NR-V04 census as the cost of not having it. **It could not work**: `mark()` uploads `/tmp/run.log`,
+which `exec > >(tee ...)` has just **truncated**, to `$RESULT_S3/run.log`, and `mark start` ran **before** the
+archive block. So the fresh ~170-byte stub overwrote the previous attempt's log in S3, and the archive then
+dutifully copied the stub. Seventeen archived attempts on this leg, **every one 168 bytes**, and the log of
+the attempt that actually failed was gone. Only `status.json` — written by `fail()`, which nothing overwrites
+— made the failure diagnosable at all. The archive now runs before the first `mark`.
+
+## 6 · `n_particles` — the identity check the RUNG 2b cycle could not make
 
 RUNG 2b reached a verdict with `system_identity_consistency` reporting **every** field UNRECORDED, so
 comparability rested on `protocol_hash`, which by construction covers the OpenFE **settings** and not the
@@ -173,7 +206,7 @@ dict, and the Vast lane promotes it into the normalised leg record the reducers 
 
 **So `S` can be identity-checked, which is the one thing a double difference most needs.**
 
-## 6 · Result
+## 7 · Result
 
 *(filled in when the legs land — `nr4a3-5aks-reduction.json` is the machine record and its `S_kcal` is the
 one home for the number)*
