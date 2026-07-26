@@ -37,6 +37,13 @@ def _generic():
         return json.load(fh)
 
 
+def _by_kind(doc, kind):
+    """The shipped list carries several lanes. Assertions select by KIND, never by list position — a
+    positional assertion breaks whenever another lane arms or disarms an entry, which turns a real guard into
+    noise and noise is what gets deleted."""
+    return [e for e in doc["watch"] if e.get("kind") == kind]
+
+
 def _ternary():
     with open(TERNARY_LIST) as fh:
         return json.load(fh)
@@ -89,7 +96,12 @@ def test_a_kind_the_engine_implements_but_the_doc_does_not_declare_is_refused():
 
 
 def test_an_entry_missing_a_relaunch_parameter_aborts_the_pass():
+    # Force the row enabled in the throwaway copy: validate() deliberately skips DISABLED entries, so once a
+    # lane completes and its units are disabled this test would assert against an empty problem list and fail
+    # for a reason that has nothing to do with what it checks. The required-key contract is a property of the
+    # SCHEMA, not of which legs are running. (Same coupling bit the ternary list earlier the same day.)
     doc = _generic()
+    doc["watch"][0]["enabled"] = True
     del doc["watch"][0]["metad_ns"]
     problems = wdv.validate(doc, known_kinds=set(vw.KINDS))
     assert problems and "metad_ns" in problems[0][2]
@@ -149,22 +161,37 @@ def test_the_ternary_list_is_still_read_by_the_LEGACY_path():
     assert problems == [(doc["watch"][live]["leg_id"], doc["watch"][live]["direction"], ["timestep_fs"])]
 
 
-def test_the_four_live_ternary_entries_are_byte_identical_to_what_shipped():
-    """These four units belong to the ternary lane, not to this generalisation, so their exact identities are
-    pinned here — a rename or a dropped row should fail loudly.
+RUNG_2B_UNITS = [
+    "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
+    "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
+    "calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge",
+    "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge",
+]
 
-    `enabled` is deliberately NOT pinned. It is live operational state: a unit is disabled when its leg COMPLETES,
-    and the list keeps the row so the finished unit stays on the record. The probe (ΔG_morph 48.1970) and the
-    solvent leg (ΔG_morph 47.7982) both landed on 2026-07-26 and were correctly set enabled:false, which turned
-    `all(enabled)` into an assertion that the lane must never finish anything. Pinning identities is the real
-    invariant; pinning progress makes the suite go red on success."""
+
+def test_the_rung_2b_ternary_entries_are_byte_identical_to_what_shipped():
+    """The RUNG 2b units are pinned by IDENTITY — a rename or a dropped row must fail loudly.
+
+    TWO THINGS THIS TEST DELIBERATELY DOES NOT PIN, each because pinning it made the suite go red on success:
+
+      * `enabled`. It is live operational state — a unit is disabled when its leg COMPLETES, and the row stays
+        so the finished unit remains on the record. The probe (ΔG_morph 48.1970) and the solvent leg (47.7982)
+        landed on 2026-07-26 and were correctly set false, which turned `all(enabled)` into an assertion that
+        the lane must never finish anything.
+      * THE LENGTH OF THE LIST (2026-07-26, the same failure one level up). Asserting the whole list EQUALS
+        these four says "no other lane may ever be watched", which is the opposite of what the generalised
+        registry is for: RUNG 5a-KS registered its smoke leg — correctly — and the suite went red because a
+        different lane started working. What belongs to RUNG 2b is that ITS four rows are present, in order,
+        unrenamed; what belongs to the registry is that rows stay unique and well-formed.
+
+    Pinning identity is the real invariant. Pinning progress, or pinning that nobody else exists, is not."""
     ids = [e["unit_id"] for e in _ternary()["watch"]]
-    assert ids == [
-        "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
-        "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
-        "calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge",
-        "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge",
-    ]
+    present = [u for u in ids if u in set(RUNG_2B_UNITS)]
+    assert present == RUNG_2B_UNITS, (
+        "a RUNG 2b unit was renamed, dropped or reordered — these four identities are the pinned invariant; "
+        f"found {present}")
+    # A later lane may APPEND, never overwrite: uniqueness is what stops two rows racing one S3 restart set.
+    assert len(ids) == len(set(ids)), f"duplicate unit_id in the ternary watch list: {ids}"
     # every row still carries the flag (present and boolean) — its VALUE is operational
     assert all(isinstance(e.get("enabled"), bool) for e in _ternary()["watch"])
 
@@ -305,13 +332,30 @@ def test_the_shipped_entries_are_exactly_what_the_builder_produces():
     # list, not deleted, per the file's own editing convention, so the completed unit stays on the record.
     # What this test pins is that the shipped entries stay BUILDER-PRODUCED rather than hand-typed; the
     # enabled flag is lifecycle and is expected to move.
+    # BOTH legs completed 2026-07-26 (NR4A2 8:36 AM, NR4A1 by 3:37 PM) and are `enabled: false`, kept on the
+    # record per the file's editing convention. What this pins is that the entries stay BUILDER-PRODUCED
+    # rather than hand-typed; `enabled` and `_disabled_why` are lifecycle and are expected to move.
+    # SCOPED BY KIND, not by position. The list now carries more than one lane, and a positional assertion
+    # would break every time another lane arms or disarms an entry -- turning a real guard into noise that
+    # the next person deletes. What is pinned is unchanged: every shipped entry, of every kind, is BYTE-
+    # IDENTICAL to what its builder produces, so no entry can be hand-typed drift.
     doc = _generic()
+    para = _by_kind(doc, "paralogue_md")
     want = [vw.paralogue_entry("NR4A1", git_branch="claude/max-effort-2dq11l-paralogue",
-                               exclude_machines="142143,17720"),
+                               exclude_machines="142143,17720", enabled=False),
             vw.paralogue_entry("NR4A2", git_branch="claude/max-effort-2dq11l-paralogue",
                                exclude_machines="142143,17720", enabled=False)]
-    want[1]["_disabled_why"] = doc["watch"][1].get("_disabled_why")
-    assert doc["watch"] == want
+    for i in (0, 1):
+        want[i]["_disabled_why"] = para[i].get("_disabled_why")
+    assert para == want
+
+    for e in _by_kind(doc, "step1_fanout"):
+        built = vw.step1_fanout_entry(e["unit_id"], git_branch=e["git_branch"],
+                                      enabled=e["enabled"], why=e.get("_why", ""))
+        assert e == built, "a step1_fanout entry was hand-typed rather than produced by its builder"
+
+    assert len(para) + len(_by_kind(doc, "step1_fanout")) == len(doc["watch"]), \
+        "an entry of an unrecognised kind is in the shipped list and nothing pins it"
 
 
 def test_the_declared_required_keys_match_the_implemented_kinds():
@@ -328,12 +372,12 @@ def test_the_shipped_entries_carry_what_lane13_ACTUALLY_launched():
     trajectory and silently run it to the wrong length. They are read back from LANE 13's own task file."""
     with open(LANE13_TASK) as fh:
         task = json.load(fh)
-    for e in _generic()["watch"]:
+    for e in _by_kind(_generic(), "paralogue_md"):
         assert float(e["metad_ns"]) == float(task["metad_ns"])
         assert float(e["release_ns"]) == float(task["release_ns"])
         assert int(e["n_rep"]) == int(task["n_rep"])
         assert e["exclude_machines"] == task["exclude_machines"]
-    assert {e["target"] for e in _generic()["watch"]} == set(task["targets"].split(","))
+    assert {e["target"] for e in _by_kind(_generic(), "paralogue_md")} == set(task["targets"].split(","))
 
 
 def test_the_shipped_entry_reproduces_the_launchers_own_leg_identity():
@@ -342,7 +386,7 @@ def test_the_shipped_entry_reproduces_the_launchers_own_leg_identity():
     rented a differently-named instance would be invisible to the next pass."""
     import nr4a_paralogue_md_ops as ops
     import nr4a_paralogue_md_vast_launch as L
-    for e in _generic()["watch"]:
+    for e in _by_kind(_generic(), "paralogue_md"):
         spec = L.build_jobspec(e["target"], mode="real", metad_ns=float(e["metad_ns"]),
                                release_ns=float(e["release_ns"]), n_rep=int(e["n_rep"]),
                                git_branch=e["git_branch"], bucket=e["bucket"])
@@ -355,6 +399,25 @@ def test_the_shipped_entry_reproduces_the_launchers_own_leg_identity():
         # and the DONE test reads the key the job actually uploads
         assert ops.result_key(e["unit_id"]) == \
             f"{e['result_prefix']}/{e['unit_id']}/{e['target'].lower()}-pocket-ensemble.tar.gz"
+
+    # ...and the same check for the fan-out kind. This is the one that would have caught a label built from
+    # the unit_id: the Vast label is `s1f-<map index>-<ligand_b>`, so an entry whose identity did not agree
+    # with the launcher's enumeration would relaunch a box the next pass could not find.
+    import congeneric_fanout as cf
+    import congeneric_fanout_vast as fv
+    for e in _by_kind(_generic(), "step1_fanout"):
+        units = cf.default_units()
+        idx = next(i for i, u in enumerate(units) if u["unit_id"] == e["unit_id"])
+        spec = fv.build_jobspec(units[idx], e["git_branch"], e["bucket"], idx)
+        assert vw.Step1FanoutKind.label_matches(spec.name, e["unit_id"]), \
+            "the watch list and the launcher disagree about this unit's instance label"
+        assert spec.image == e["image"]
+        assert spec.env["RESULT_S3"] == f"s3://{e['bucket']}/{e['result_prefix']}/{e['unit_id']}"
+        assert spec.env["GIT_BRANCH"] == e["git_branch"]
+        assert spec.env["N_WINDOWS"] == str(e["n_windows"])
+        # and the DONE test reads the key the unit's reduce step actually uploads
+        assert cf.result_key(units[idx], e["result_prefix"]) == \
+            f"{e['result_prefix']}/{e['unit_id']}/ddg.json"
 
 
 def test_every_shipped_entry_passes_its_kinds_preflight():
@@ -393,14 +456,16 @@ def test_verify_armed_fails_when_the_list_is_present_but_invalid(tmp_path):
 
 
 def test_verify_armed_passes_on_the_shipped_list():
-    # Only the STILL-RUNNING leg is armed; NR4A2 completed and was disabled. verify_armed exists to catch a
-    # live leg going missing from the list, so a finished one must NOT count as armed -- that distinction is
-    # the whole point of the read-back.
-    assert vw.verify_armed(["nr4a-pdyn-nr4a1"], GENERIC_LIST) == ["nr4a-pdyn-nr4a1"]
+    # Both paralogue legs have completed, so NOTHING is armed — and that is the state verify_armed must
+    # report honestly. Its job is to catch a LIVE leg going missing from the list; a finished one must never
+    # count as armed, or "covered" would drift to mean "was covered once".
     # SystemExit, not Exception -- it derives from BaseException, and pytest.raises(Exception) would let the
     # refusal sail through as an uncaught error rather than a passing assertion.
-    with pytest.raises(SystemExit, match="DOES NOT COVER"):
-        vw.verify_armed(["nr4a-pdyn-nr4a2"], GENERIC_LIST)
+    for done_unit in ("nr4a-pdyn-nr4a1", "nr4a-pdyn-nr4a2"):
+        with pytest.raises(SystemExit, match="DOES NOT COVER"):
+            vw.verify_armed([done_unit], GENERIC_LIST)
+    # An empty ask is a legitimate no-op: nothing running, nothing to cover.
+    assert vw.verify_armed([], GENERIC_LIST) == []
 
 
 def test_an_empty_or_missing_list_is_a_legitimate_no_op(tmp_path):
@@ -423,3 +488,56 @@ def test_the_workflow_validates_both_watch_lists_before_acting():
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+# ---- KIND: step1_fanout ------------------------------------------------------------------------------------
+# The composite scalar is the part that must be right. This kind's census FREEZES legitimately twice per unit
+# (MBAR analysis at the end of each leg) and RESTARTS twice (warmup->production, complex->solvent), so a
+# scalar that is not phase-dominated would either stall-alert a healthy unit or hide a wedged one.
+
+def test_step1_fanout_scalar_is_monotone_over_a_whole_unit_lifetime():
+    K = vw.Step1FanoutKind
+    lifetime = [("boot", 0), ("staged", 0),
+                ("leg-complex-running", 20), ("leg-complex-running", 2000),
+                ("leg-complex-running", 1_002_000),        # warmup -> production, census restarts
+                ("leg-complex-done", 0),                   # census frozen through MBAR
+                ("leg-solvent-running", 10_000_020),       # solvent leg, census restarts again
+                ("leg-solvent-done", 0), ("reduce", 0), ("done", 0)]
+    scalars = [K.score(p, c)[0] for p, c in lifetime]
+    assert scalars == sorted(scalars), scalars
+    assert all(K.score(p, c)[2] for p, c in lifetime)
+
+
+def test_step1_fanout_refuses_a_phase_it_does_not_rank():
+    """A pipeline that gains a marker must make the watchdog REFUSE, not silently score it 0 — collapsing an
+    unknown phase to zero manufactures a setup-stall out of a reporting change."""
+    scalar, _lab, readable, why = vw.Step1FanoutKind.score("polishing", 5)
+    assert scalar == 0 and readable is False and "does not rank" in why
+
+
+def test_step1_fanout_treats_a_leg_failure_marker_as_a_crash():
+    K = vw.Step1FanoutKind
+    assert K._failed("leg-complex-FAILED-rc3") and K._failed("leg-solvent-NORESULT")
+    assert not K._failed("leg-complex-running") and not K._failed("")
+    assert K.score("leg-complex-FAILED-rc3", 0)[2] is True   # readable: a crash is a real reading
+
+
+def test_step1_fanout_unreadable_census_is_not_zero_progress():
+    assert vw.Step1FanoutKind.score("leg-complex-running", -1)[2] is False
+
+
+def test_step1_fanout_label_is_derived_from_the_frozen_map_not_the_unit_id():
+    """The Vast label is `s1f-<idx>-<ligand_b>`, not the unit_id. A prefix or identity match would pair the
+    wrong box with the wrong edge, and the watchdog would report another unit's host as this one's."""
+    import congeneric_fanout as cf
+    units = cf.default_units()
+    uid = units[3]["unit_id"]
+    assert vw.Step1FanoutKind.label_matches(f"s1f-03-{units[3]['ligand_b']}"[:64], uid)
+    assert not vw.Step1FanoutKind.label_matches(uid, uid)
+    assert not vw.Step1FanoutKind.label_matches(f"s1f-04-{units[4]['ligand_b']}"[:64], uid)
+
+
+def test_step1_fanout_preflight_rejects_a_unit_outside_the_frozen_tranche():
+    assert vw.Step1FanoutKind.preflight({"unit_id": "not-a-real-unit"})
+    import congeneric_fanout as cf
+    assert vw.Step1FanoutKind.preflight({"unit_id": cf.default_units()[0]["unit_id"]}) == []

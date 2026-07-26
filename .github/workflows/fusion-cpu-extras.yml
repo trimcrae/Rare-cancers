@@ -55,7 +55,7 @@ on:
         description: "cofold mode: comma-sep diffusion seeds = the ternary ensemble per system"
         default: "1,2,3"
       vast_selector:
-        description: "instance id or label substring. diag mode: which instance to dump (blank = every instance on the account, which buries the one you want). stop_all mode: which to DESTROY — BLANK DESTROYS EVERY INSTANCE ON THE ACCOUNT, including other sessions' live work."
+        description: "instance id or label substring. diag mode: which instance to dump (blank = every instance on the account, which buries the one you want). stop_all mode: which to DESTROY — BLANK DESTROYS EVERY INSTANCE ON THE ACCOUNT, including other sessions' live work. step1_fanout launch/launch_confirm: comma-separated unit_id or ligand substrings to launch (blank = every pending unit up to the width) — this is the shakeout lever that runs ONE unit to the unproven ddG terminus before the rest fan out."
         default: ""
       md_mode:
         description: "nrv04_vast_launch pilot/full: smoke (minimize+500 steps, cents) | run (5ns, priced)"
@@ -1218,7 +1218,22 @@ jobs:
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       GIT_BRANCH: ${{ github.ref_name }}
       VAST_GPU_MODEL: ${{ github.event.inputs.vast_gpu }}
-      FANOUT_WIDTH: "8"
+      # WIDTH IS THE TRANCHE, because on Vast it is a self-imposed concurrency cap and not a provider quota,
+      # and CLAUDE.md's litmus test — "is there a result this shard could return that would make me NOT run
+      # the rest?" — answers NO for a congeneric map. Parallel costs the same GPU-dollars as serial, so a
+      # width below the tranche buys nothing but wall-clock. Blast radius is controlled by FANOUT_ONLY (which
+      # names the units to launch) and by FANOUT_CONFIRM, not by throttling the width.
+      FANOUT_WIDTH: "19"
+      # Which units to launch, by unit_id or ligand substring. THE SHAKEOUT LEVER: 0 of 19 units of this lane
+      # has ever produced a ddG, so the reduce/commit/upload TERMINUS is unproven even though sampling is
+      # proven. One named unit runs first; the remaining 18 go out together the moment it lands a ddG.
+      # Blank = every pending unit, up to FANOUT_WIDTH.
+      FANOUT_ONLY: ${{ github.event.inputs.vast_selector }}
+      # Same input, its long-standing diag meaning — diag selects a unit, launch selects units to launch.
+      DIAG_UNIT: ${{ github.event.inputs.vast_selector }}
+      # Machines this lane refuses to re-rent live in S3 (`.../results/_excluded_machines.json`), written by
+      # the monitor's starved-host guard and read at launch — deliberately NOT a workflow input, because an
+      # exclusion learned by one CI run must bind the next one with no agent awake in between.
       PLAN: ${{ github.event.inputs.fanout_mode == 'plan' && '1' || '0' }}
       STAGE: ${{ github.event.inputs.fanout_mode == 'stage' && '1' || '0' }}
       PRECHECK: ${{ github.event.inputs.fanout_mode == 'precheck' && '1' || '0' }}

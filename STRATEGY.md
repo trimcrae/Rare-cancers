@@ -63,39 +63,12 @@ underneath one.*
 | **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
 | **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
 
-**The one thing needing a decision:** whether the covalent design route still has candidates. If it does not,
-one of the two selectivity mechanisms is dead and the reversible-covalent library loses its premise; the lysine
-route continues either way.
+**Nothing on this board is waiting on trimcrae.** The question that used to sit here — whether the covalent
+design route still has candidates — was answered by the corrected+matched Tier 2 run: it **clears**, and the
+Tier 2 row above is the one home for that status. (Retained as a heading only because it was quotable; see
+Appendix A.)
 
 ---
-
-## 📊 WHERE WE ARE — the scoreboard, in plain language
-
-*Read this before anything else in this file. **Every status line here, and every lane report, must be
-expressible as one of: a gate PASSED, a gate FAILED plus its remediation, or a DELIVERABLE done.** A number
-moving is *evidence*, not a headline. (trimcrae, 2026-07-26, on being handed "term (a) went 7 → 0" as a
-headline: that is incomprehensible — a headline is "we passed n gates", "we failed x and need remediation y",
-or "we have a major deliverable done". Internal shorthand belongs in the evidence, not the summary.)*
-
-**As of 2026-07-26 · 6 gates passed · 3 failed, all caught before the spend · 2 deliverables done ·
-$0.74 spent, ~$35 not spent.**
-
-| gate | status | in one line |
-|---|---|---|
-| Tier 0 — categorical screen | **PASSED** *(narrowed)* | NR4A3 has chemistry the paralogues lack — but only at the aligned position, and it holds because the paralogues' equivalent cysteines are **buried**, not absent |
-| Tier 1 — surface atlas | **PASSED** | there is a surface to steer an E3 against |
-| Tier 2 — basin nomination | **PASSED, both routes intact** | at least one way to build a selective degrader exists — on the lysine route **and** the covalent one, which clears the 12-atom gate on **3 basins** (shortest 10 atoms) |
-| RUNG 1 — accuracy control | **PASSED** | the binary free-energy pipeline reproduces a known answer |
-| RUNG 2 — cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
-| RUNG 2b — 4 fs speed test, stage 1 | **PASSED** | every future simulation ~1.56× cheaper; stage 2 in flight |
-| RUNG 2 — **calibration benchmark** | **FAILED** | wrong sign, provably **not** fixable by more replicates. **Remediation:** replacement drafted → refuted by its own free pre-check → second replacement specified at **~$7** |
-| RUNG 3 — **NR-V04 covalent panel** | **FAILED** | the inputs never placed the warhead near its target site. **Remediation:** covalent legs retired, panel re-scoped to non-covalent. **~$6–8 not spent** |
-| RUNG 4 — **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, HELD pending re-check. **~$21 not spent** |
-
-| deliverable | status |
-|---|---|
-| **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
-| **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
 
 ### ✅ PASSED — the covalent design route clears the gate. **3 basins, not 0, and not "missed by one atom".**
 
@@ -234,21 +207,27 @@ superposed into the NR4A3 reference frame, carrying a per-frame core-fit residua
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:49 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 3:37 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
 block**; the two withdrawn ETAs in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 19b/19c
 are both what happens when that rule is broken.*
 
-**✅ NO GPU IS RUNNING.** Both LANE-13 paralogue legs and all four RUNG 2b legs have reached their deliverables;
-every watch entry in both lists is `enabled: false`. Realised spend for the two lanes is on the order of a few
-dollars against a ~$4.3 projection for LANE 13 alone.
+**Two lanes are live: the RUNG 5a-KS co-fold (LANE 16) and the Step 1 fan-out (LANE 17).** Both LANE-13 paralogue legs and all four RUNG 2b
+legs have reached their deliverables; every watch entry in both of those lists is `enabled: false`.
 
-| what | state | ETA (ET) |
-|---|---|---|
-| ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Lane 13 is closed: legs, collect and analysis all landed |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/680` of 2000**, VM up 1196 min. The last 59 min moved exactly **one** 40-iteration block, so no rate is read from it; over the whole **598 min** the leg runs **60.2 iter/h**, agreeing with the 62.3 measured an hour ago | **~Mon 7:20 AM – 12:35 PM**, centre ~noon. That is a few hours later than the `max-effort-3hgq45` session's ~Mon 8:40 AM but well inside the spread of both; its result keys the calibrator rescope |
+| what | state | ETA (ET) | ladder cost |
+|---|---|---|---|
+| **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | **CO-FOLD DONE** (Vast 45935273, RTX 4090, ~14 min, all three predictions rc=0, host reaped). **STAGING DONE**, verified against the real CIFs. **SMOKE LEG FAILED in `preequil`** — root-caused to a missing PDBFixer step, fixed, and the fix is being proved on a **free CPU runner** before anything is re-rented | repro verdict **~4:35 PM ET**; the two legs launch only on a CONFIRMED verdict, and take ~**20 h**, so **S ~Mon midday** | **$0.06 spent** (co-fold $0.04 + smoke $0.02). The two legs remain 5a-KS's **~$12** and are NOT yet bought |
+| **Step 1 fan-out** (LANE 17) — 19 congeneric RBFE edges, resumed from checkpoint | launching: one shakeout unit to a committed ΔΔG, then 18 concurrent | **~5–8 PM Mon**, **→ Tue AM if Vast width caps at 8** as it did in wave 1 | **~$36 ($15–80)** — 19 edges × ~13.7 ref GPU-h. The old ~$91–101 was a **retired bid policy**, not the science |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**) — *driven by the `max-effort-3hgq45` session* | **`production/720` of 2000**, on a NEW VM `gcp-ternary-30215419909` after the 1196-min one ended; **resumed from checkpoint**, nothing lost | **~11 AM – 4 PM Mon** (1280 iters at the measured ~60 iter/h) | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**); realised and ladder spend are separate ledgers |
+| ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Legs, collect and analysis all landed | — | realised **~$4–5** against a ~$4.3 projection |
+
+**Committed if both running lanes complete: ~$48** (5a-KS ~$12 + fan-out ~$36), against a $15–125 band. Every
+figure here is the LADDER's, quoted from the rung entries below — [pricing.md](research/compute/pricing.md)
+owns the per-unit cost evidence and this board owns nothing.
+
 
 ⚠ **WHY NR4A1's REPLACEMENT HOST APPEARED TO STARVE ITS GPU — kept because the diagnosis outlived the leg,
 which finished on that same host.** Three agreeing
@@ -1937,6 +1916,9 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 19c | valB_mini reverse leg r0 finish "**~Mon 8:40 PM – Tue 8:40 AM**", flagged as a day later than the `max-effort-3hgq45` session's ~Mon 8:40 AM | Measured on the **first hour after the warmup→production change**, which was a ramp, not the rate: the leg went **40 → 60 → 79 iter/h** across three consecutive windows. The longest window gives 63.8, and the finish lands **~Mon 5:40–10:40 AM** — the sibling session's figure was right and mine was the unrepresentative window, which is the same error this file corrects twice in row 19b |
 | 19b | RUNG 2b **ternary** edge finish "**~1 AM**", then "**~6:00 AM**", then "**~7:45 AM**"; **binary** edge "**~overnight**", then "a possible **2.9× slowdown**"; NR4A1 paralogue metad "~**5:30 AM**", NR4A2 "~**6:00 AM**" (all ET, 2026-07-26) | The ~1 AM figure was carried forward without arithmetic. The ~6:00 AM replacement extrapolated from **warmup**, which costs ~2× per iteration what production does. The ~7:45 AM and the binary "slowdown" were both **commit-block quantisation**: the store advances in blocks of 40 iterations and both came off a 27-min window. Live ETAs now come from windows long enough to span many blocks; NR4A1's slipped when it was preempted onto a host that starves its GPU |
 | 20 | **"Raise `GPUS_ALL_REGIONS` 1 → 4"** as an open action for trimcrae, quantified at ~1,824 → ~7,296 GPU-h of burnable credit and a closure triangle at 1.8 days instead of 7.3 | **Withdrawn the same day it was written, and WRONG ON ITS OWN TERMS as well as unavailable.** trimcrae: *"We've tried over and over for more quota. They won't give it to a small account like ours."* Repeatedly requested, repeatedly refused. The arithmetic was right and the action was not available — I proposed a lever that had already been pulled and had already failed, without asking. **And the arithmetic was ALSO wrong:** ~1,824 GPU-h is the *wall-clock* ceiling, but the *dollar* ceiling is ~411 L4-h (~$292 remaining at ~$0.71/L4-h), so 1,824 GPU-h was never purchasable and the asset was overstated ~4.4×. At quota 4 the same $292 is simply spent 4× faster — the increase would not have bought more science even if granted. The 1-GPU cap is **permanent** and is now treated as a fixed property of the lane: GCP is the always-on serial worker whose idle time is expiring credit, Vast is burst capacity bought when wall clock matters |
+| 21 | A **SECOND scoreboard** at the top of this file — *"6 gates passed · 3 failed · $0.74 spent, **~$35 not spent**"*, with **Tier 0 as "PASSED *(narrowed)*"** carrying no LANE 13 result and **RUNG 2b as "stage 1 PASSED … stage 2 in flight"** | Two scoreboards, ~30 lines apart, disagreeing about the two gates that moved that day — precisely the failure rule 1 exists to catch, in the file rule 1 points at. The stale copy is **deleted**; the surviving board is the one home. The **~$35 not spent** went with it: it never summed from the rows it summarised (~$6–8 + ~$21 = **~$27–29**), so it was a hand-carried total, and per rule 1.1 a total is derived or it is not written. `lint_consistency.py` did not catch either, because both were self-consistent prose — the duplicate was found by reading the section index |
+| 22 | *"**The one thing needing a decision:** whether the covalent design route still has candidates"* at the head of the scoreboard | Contradicted **by the row four lines above it**, which records Tier 2 as **PASSED, the covalent limb no longer under review**, and by the `### ✅ PASSED` block immediately below. It was a decision presented to trimcrae that had already been answered by the corrected+matched run. Nothing on that board is waiting on him |
+| 23 | Implicit in six consecutive green-except-`tests` builds: that the **guard suite gates the GPU launches** | The suite had been executing **zero tests**. A module-scope `sys.exit(0)` in `test_5aks_pose.py`'s gemmi guard aborts pytest **collection** — `INTERNALERROR> SystemExit: 0`, *"no tests ran in 0.19s"* — so the gate in front of every launch stopped checking anything while still looking like an ordinary red build, and the 5a-KS smoke leg was rented behind it. Fixed as a class (`tests/_skip_guard.py` + an AST test over all guards); the suite now runs **2007** tests |
 | 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
 
 ---

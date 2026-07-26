@@ -166,7 +166,16 @@ def test_plan_states_what_it_does_not_run():
     assert p["excluded_tranche_3_frames"]
     assert "not selectivity" in p["claim_ceiling"].lower() or "NOT a selectivity" in p["claim_ceiling"]
     lo, hi = p["cost_usd_est"]
-    assert 5 < lo < hi < 60                      # the pinned ~$12-26 band, with measurement slack
+    # ⚠ THIS BOUND WAS A STALE COPY OF A RETIRED NUMBER. It read `5 < lo < hi < 60`, commented "the pinned
+    # ~$12-26 band, with measurement slack" — but that band was repriced to **~$36 ($15-80)** when the ~4x
+    # cost error was found (wrong molecule 2.6x, wrong bid basis 3x; see step1-fanout-lane.md §5 and
+    # STRATEGY.md's ladder entry). plan() correctly reports the corrected band, so the TEST was the thing
+    # holding the retired figure, and it went red the moment anyone touched this lane. That is precisely the
+    # one-fact-one-place failure the repo's own linter exists for — a number living in two places while a
+    # correction reached only one.
+    # Assert the SHAPE (ordered, positive, finite) and a generous ceiling that no longer encodes a specific
+    # estimate; the band itself has one home, and it is not here.
+    assert 0 < lo < hi < 200
 
 
 def test_wave_plan_matches_the_requested_width():
@@ -200,3 +209,112 @@ def test_every_unit_gets_a_distinct_instance_label():
     import congeneric_fanout_vast as fv
     names = [fv.build_jobspec(u, "b", "bkt", i).name for i, u in enumerate(cf.default_units())]
     assert len(set(names)) == len(names)
+
+
+# ---- progress census, host exclusion and the cost ledger ---------------------------------------------------
+# These gate the RESUME half of the lane, which is where it has actually failed. Wave 1 proved the lane
+# SAMPLES; 0 of 19 units ever reached a ddG. So what needs testing now is not "does a jobspec build" but
+# "can the driver tell an advancing unit from a wedged one, does it spend on distinct hosts, and does the
+# realised-cost arithmetic hold" — the three things whose absence let a ~4x cost error stand unnoticed.
+
+
+class _FakeS3:
+    """Minimal stand-in for the two S3 calls the census makes. Not a mock of boto3 — just enough shape that
+    the KEY PARSING and the SCALAR ORDERING are exercised on real key strings."""
+
+    def __init__(self, keys, raise_on_list=False):
+        self._keys, self._raise = list(keys), raise_on_list
+
+    def get_paginator(self, _op):
+        outer = self
+
+        class _P:
+            @staticmethod
+            def paginate(Bucket=None, Prefix=""):  # noqa: N803 — boto3's kwarg names
+                if outer._raise:
+                    raise RuntimeError("listing blew up")
+                yield {"Contents": [{"Key": k} for k in outer._keys if k.startswith(Prefix)]}
+        return _P()
+
+
+def _ckpt_key(unit, leg, phase, it, gen="g0", leaf="COMMITTED.json"):
+    import congeneric_fanout_vast as fv
+    return f"{cf.checkpoint_prefix(unit, fv.RESULT_PREFIX)}/{leg}/{phase}/iter-{it:08d}/{gen}/{leaf}"
+
+
+def test_committed_progress_reads_the_furthest_commit():
+    import congeneric_fanout_vast as fv
+    u = cf.default_units()[0]
+    s3 = _FakeS3([_ckpt_key(u, "complex", "warmup", 20), _ckpt_key(u, "complex", "warmup", 40),
+                  _ckpt_key(u, "complex", "production", 80)])
+    scalar, detail = fv.committed_progress(s3, "bkt", u)
+    assert detail == "complex/production@80" and scalar > 0
+
+
+def test_committed_progress_scalar_is_monotone_across_both_transitions():
+    """The two places a naive iteration counter REGRESSES on a healthy unit: warmup->production (the counter
+    restarts) and complex-leg->solvent-leg (it restarts again). Either would read as a stall."""
+    import congeneric_fanout_vast as fv
+    u = cf.default_units()[0]
+    seq = [[_ckpt_key(u, "complex", "warmup", 200)],
+           [_ckpt_key(u, "complex", "warmup", 200), _ckpt_key(u, "complex", "production", 1)],
+           [_ckpt_key(u, "complex", "production", 2000)],
+           [_ckpt_key(u, "complex", "production", 2000), _ckpt_key(u, "solvent", "warmup", 1)],
+           [_ckpt_key(u, "solvent", "production", 1)]]
+    scalars = [fv.committed_progress(_FakeS3(k), "bkt", u)[0] for k in seq]
+    assert scalars == sorted(scalars) and len(set(scalars)) == len(scalars), scalars
+
+
+def test_committed_progress_distinguishes_unreadable_from_zero():
+    """A listing failure must NOT read as 'no progress' — that manufactures a stall out of a network blip."""
+    import congeneric_fanout_vast as fv
+    u = cf.default_units()[0]
+    assert fv.committed_progress(_FakeS3([], raise_on_list=True), "bkt", u)[0] == -1
+    assert fv.committed_progress(_FakeS3([]), "bkt", u)[0] == 0
+
+
+def test_committed_progress_ignores_keys_it_cannot_interpret():
+    import congeneric_fanout_vast as fv
+    u = cf.default_units()[0]
+    junk = [_ckpt_key(u, "complex", "warmup", 10).replace("iter-00000010", "iter-oops"),
+            _ckpt_key(u, "sidecar", "warmup", 10), _ckpt_key(u, "complex", "cooldown", 10),
+            f"{cf.checkpoint_prefix(u, fv.RESULT_PREFIX)}/stray.json"]
+    assert fv.committed_progress(_FakeS3(junk), "bkt", u)[0] == 0
+    assert fv.committed_progress(_FakeS3(junk + [_ckpt_key(u, "complex", "warmup", 10)]),
+                                 "bkt", u)[1] == "complex/warmup@10"
+
+
+def test_ledger_cost_prices_on_the_bid_and_admits_its_holes():
+    """Vast charges the BID (up to the machine's on-demand price), not dph_total, so the bid is what the
+    realised number must use. A rental with no usable rate contributes 0 and is COUNTED — a total that hides
+    holes is worse than one that admits them."""
+    import congeneric_fanout_vast as fv
+    doc = {"rentals": {"1": {"bid": 0.20, "dph": 0.9, "billed_min": 60},
+                       "2": {"dph": 0.10, "billed_min": 30},
+                       "3": {"billed_min": 600}}}
+    total, n, rows, unpriced = fv.ledger_cost(doc)
+    assert total == 0.25 and n == 3 and unpriced == 1
+    assert [r["usd"] for r in rows] == [0.2, 0.05, 0.0]
+
+
+def test_jobspec_exclusions_do_not_leak_between_units():
+    """The fleet loop widens the exclusion set as it goes so 18 units land on 18 hosts. If that were applied
+    to the shared module-level ResourceSpec, every already-built spec would change under it."""
+    import congeneric_fanout_vast as fv
+    units = cf.default_units()
+    a = fv.build_jobspec(units[0], "b", "bkt", 0, exclude_machine_ids={"111"})
+    b = fv.build_jobspec(units[1], "b", "bkt", 1, exclude_machine_ids={"111", "222"})
+    assert a.resources.exclude_machine_ids == ("111",)
+    assert b.resources.exclude_machine_ids == ("111", "222")
+    assert fv.FANOUT_RES.exclude_machine_ids == ()
+
+
+def test_cost_plan_and_band_are_derived_from_the_repriced_ladder():
+    """The stale hand-typed constants (5-6 GPU-h at $0.12-0.25/hr) understated this tranche ~4x. Both are now
+    derived, so the ~$36 in STRATEGY.md and the launcher's own print cannot disagree."""
+    import vast_cost_model as vcm
+    lo, hi = vcm.LADDER_REFERENCE_GPU_H[cf._FANOUT_LADDER_KEY]
+    assert cf.UNIT_GPU_H == (lo / 19, hi / 19)
+    assert 30 <= cf.cost_plan(19) <= 45
+    band = cf.cost_estimate(19)
+    assert band[0] <= cf.cost_plan(19) <= band[1]

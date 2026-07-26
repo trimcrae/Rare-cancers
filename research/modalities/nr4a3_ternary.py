@@ -145,7 +145,21 @@ def main():
                     help="warhead SMILES for BINARY co-folding: NR4A{3,1,2}-LBD + warhead (AF3-class independent "
                          "cross-check of the docked pose + cross-paralogue confidence; NOT the ternary)")
     ap.add_argument("--control", action="store_true", help="no-op; keeps the SageMaker arg list non-empty")
+    # A caller that needs only SOME paralogues should not pay for the others. RUNG 5a-KS is defined on the
+    # NR4A3/NR4A1 pair, so folding NR4A2 as well would be a third ~800-residue Boltz prediction of rented GPU
+    # bought for a leg nobody will run. Default stays the whole family, so every existing caller is unchanged.
+    ap.add_argument("--targets", default=os.environ.get("NR4A_TARGET_SUBSET", ""),
+                    help="comma-separated subset of NR4A3,NR4A1,NR4A2 (blank = all three)")
     args = ap.parse_args()
+
+    global NR4A_TARGETS
+    if args.targets:
+        want = [t.strip().upper() for t in args.targets.split(",") if t.strip()]
+        unknown = [t for t in want if t not in NR4A_TARGETS]
+        if unknown:
+            sys.exit(f"--targets: unknown paralogue(s) {unknown}; known: {sorted(NR4A_TARGETS)}")
+        NR4A_TARGETS = {k: v for k, v in NR4A_TARGETS.items() if k in want}
+        print(f"co-folding a SUBSET of the family: {sorted(NR4A_TARGETS)}", file=sys.stderr)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     out = {"_note": "NR4A–PROTAC–E3 ternary modelling (Boltz-2). Control = CRBN + E3 ligand (known "

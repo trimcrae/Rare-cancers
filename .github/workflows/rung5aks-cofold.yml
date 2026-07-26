@@ -9,10 +9,22 @@ name: RUNG 5a-KS — ternary co-fold staging
 # routes through a runner — the standing "the sandbox is not your execution limit" rule.
 #
 # LADDER, cheapest-decisive-first:
-#   prep -> $0  CPU. Read the matched pair from RUNG 5b's artifact, refuse unless it really is the one-atom
-#                    aza-scan, resolve the LBD sequences, build the Boltz input YAMLs. Commits the record.
-#   run  -> GPU. Boltz-2 inference for the two ternaries. Needs a GPU runner/backend, so it is NOT wired to
-#                this workflow yet; `prep` is what unblocks and is what this file is for.
+#   prep     -> $0  CPU. Read the matched pair from RUNG 5b's artifact, refuse unless it really is the one-atom
+#                        aza-scan, resolve the LBD sequences, build the Boltz input YAMLs. Commits the record.
+#   manifest -> $0  CPU. Print the engine's per-leg input contract (chain roles, endpoints) from the design.
+#   stage    -> $0  CPU. Co-folded CIFs -> <leg>/complex.pdb + <leg>/ligands.sdf, in the ternary-fep image.
+#   reduce   -> $0  CPU. leg_5aks_*.json -> S, in that same image.
+#   cofold_dry -> $0 CPU. Print the exact Vast JobSpec the co-fold WOULD rent. Rents nothing.
+#   cofold   -> ~$0.3-1 GPU. Rent ONE Vast host and run the Boltz-2 inference for the two ternaries.
+#   cofold_collect -> $0. Read the phase marker + list what landed in S3.
+#
+# PROVIDER, NAMED EXPLICITLY: **Vast**, via `nrv04_vast_launch.cofold` — the co-fold lane that already
+# exists, is already parameterised by $TERNARY_SCRIPT, and was built precisely so a co-fold need would stop
+# routing to SageMaker by default (research/compute/provider-deviation-2026-07-24.md). No new engine.
+#
+# The two ternary FEP legs are the OTHER GPU step and live in gpu-ternary-fep-vast.yml
+# (task=5aks-prime -> 5aks-smoke -> 5aks), because they belong to the ternary lane's checkpoint/resume,
+# watchdog and reap machinery and must not be re-implemented here.
 #
 # NOT GATED ON RUNG 2b: the 4 fs decision changes what the FEP legs COST, not what structure they start from.
 # The ~$12 of ternary legs is the part that waits for that gate; this staging does not.
@@ -21,10 +33,22 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "prep = $0 CPU staging (the only mode wired here)"
+        description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs) | cofold_dry ($0, print the JobSpec) | cofold (~$0.3-1, rent one Vast host for Boltz-2) | cofold_collect ($0) | leg_diag ($0, dump a 5a-KS FEP leg's phase/status/log from S3, including the PREVIOUS attempt's) | preequil_repro ($0 CPU, reproduce the preequil failure and prove the fix before re-renting)"
         type: choice
-        options: [prep]
+        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect, leg_diag, preequil_repro]
         default: prep
+      cofold_dir:
+        description: "stage: directory holding the Boltz co-fold CIFs (blank = research/modalities/5aks_cofold_out)"
+        type: string
+        default: ""
+      legs_dir:
+        description: "reduce: directory holding leg_5aks_*.json (blank = research/modalities/5aks_legs)"
+        type: string
+        default: ""
+      cofold_output_prefix:
+        description: "cofold: FRESH S3 prefix for the Boltz outputs (blank = rung5aks-cofold-v1). Never reuse one — a co-fold is a preregistered leg's input."
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -35,6 +59,7 @@ concurrency:
 
 jobs:
   prep:
+    if: ${{ !startsWith(github.event.inputs.mode, 'cofold') }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -42,16 +67,61 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
 
-      # The planner is pure stdlib and its guards are what stop a mismatched pair reaching a GPU, so they run
-      # first and a failure here stops the job before any sequence is fetched.
-      - name: The matched-pair guards hold
-        run: python3 research/modalities/tests/test_5aks_cofold.py
+      # All three guard suites run before anything else, on every mode: they are what stops a mismatched pair,
+      # a mis-roled chain set or a mis-signed double difference reaching a GPU.
+      - name: The 5a-KS guards hold (pair, staging contract, reduction)
+        run: |
+          set -eo pipefail
+          python3 research/modalities/tests/test_5aks_cofold.py
+          python3 research/modalities/tests/test_5aks_stage.py
+          python3 research/modalities/tests/test_5aks_reduce.py
 
       - name: Stage the co-fold inputs
+        if: ${{ (github.event.inputs.mode || 'prep') == 'prep' }}
         working-directory: research/modalities
         env:
           OUTPUT_DIR: ${{ github.workspace }}/research/modalities/5aks_cofold_out
         run: python3 nr4a3_5aks_cofold.py
+
+      # $0. The engine's per-leg input contract, printed from the committed design. Pure — no co-folds needed.
+      - name: Leg contract (manifest)
+        if: ${{ github.event.inputs.mode == 'manifest' }}
+        working-directory: research/modalities
+        run: python3 nr4a3_5aks_stage.py --manifest
+
+      # $0. Turn the co-folded ternaries into <leg>/complex.pdb + <leg>/ligands.sdf. gemmi + RDKit live in the
+      # ternary-fep image, which is byte-for-byte the env the FEP legs run in — PULL, DO NOT SOLVE. Mount the
+      # checked-out modalities dir so the code that runs is the branch's, not the copy baked at build time.
+      - name: Stage the FEP leg inputs from the co-folds
+        if: ${{ github.event.inputs.mode == 'stage' }}
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          COFOLD="${{ github.event.inputs.cofold_dir }}"
+          COFOLD="${COFOLD:-/work/research/modalities/5aks_cofold_out}"
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_stage.py \
+              --cofold-dir "$COFOLD" --out-dir /work/research/modalities/5aks_fep_inputs
+
+      # $0. The double difference. Runs in the SAME image the legs were produced in, for the same reason the
+      # RUNG 2b reduce does: analysing with a different pymbar/openmmtools than PRODUCED the trajectories can
+      # move the numbers.
+      - name: Reduce to S
+        if: ${{ github.event.inputs.mode == 'reduce' }}
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          LEGS="${{ github.event.inputs.legs_dir }}"
+          LEGS="${LEGS:-/work/research/modalities/5aks_legs}"
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_reduce.py --legs "$LEGS" \
+              --out /work/research/modalities/nr4a3-5aks-reduction.json
 
       # ⚠ THE RECORD IS THE DELIVERABLE, SO ITS ABSENCE IS A FAILURE, NOT A QUIET "nothing to commit".
       # The first version of this step read:
@@ -62,6 +132,7 @@ jobs:
       # commit", and the job went green having produced nothing. Exactly the silent-empty class the LANE-13
       # collect guards were written for the same morning. Assert first, add only what exists, never swallow.
       - name: The staging record actually exists
+        if: ${{ (github.event.inputs.mode || 'prep') == 'prep' }}
         run: |
           set -eo pipefail
           test -s research/modalities/nr4a3-5aks-cofold-prep.json \
@@ -74,8 +145,15 @@ jobs:
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          paths=(research/modalities/nr4a3-5aks-cofold-prep.json)
-          [ -d research/modalities/5aks_cofold_out ] && paths+=(research/modalities/5aks_cofold_out)
+          paths=()
+          for p in research/modalities/nr4a3-5aks-cofold-prep.json \
+                   research/modalities/nr4a3-5aks-reduction.json \
+                   research/modalities/5aks_cofold_out research/modalities/5aks_fep_inputs; do
+            [ -e "$p" ] && paths+=("$p")
+          done
+          if [ ${#paths[@]} -eq 0 ]; then
+            echo "::error::nothing produced to commit"; exit 1
+          fi
           git add -A "${paths[@]}"
           if git diff --cached --quiet; then
             echo "record unchanged since the last run — nothing to commit"
@@ -84,3 +162,226 @@ jobs:
             git pull --rebase origin ${{ github.ref_name }} || true
             git push origin HEAD:${{ github.ref_name }}
           fi
+
+  # ---------------------------------------------------------------- the Boltz-2 co-fold itself (Vast GPU)
+  # REUSES `nrv04_vast_launch.cofold`, which is the repo's Vast co-fold lane: torch base image, pinned
+  # boltz==2.2.1, continuous S3 sync every 60 s (so a preemption after prediction N keeps 1..N), a stdout
+  # tee to S3 (the 2026-07-24 shakeout was OOM-killed and only Vast's container log survived), and a 64 GB
+  # host because Boltz-2 on an ~800-residue ternary is HOST-RAM-bound, not VRAM-bound.
+  #
+  # What is 5a-KS-specific is only $TERNARY_SCRIPT: `nr4a3_5aks_cofold.py --run` reads the matched pair from
+  # RUNG 5b's artifact, REFUSES unless it is the preregistered one-atom aza-scan, and co-folds d0 only —
+  # both alchemical endpoints are staged from that ONE pose, because two independent co-folds would put a
+  # pose difference between the endpoints that the alchemy would absorb into S.
+  cofold:
+    if: ${{ github.event.inputs.mode == 'cofold' || github.event.inputs.mode == 'cofold_dry' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: rung5aks-cofold-mutate
+      cancel-in-progress: false
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
+      GIT_BRANCH: ${{ github.ref_name }}
+      COFOLD: "1"
+      DRY_RUN: ${{ github.event.inputs.mode == 'cofold_dry' && '1' || '0' }}
+      TERNARY_SCRIPT: nr4a3_5aks_cofold.py
+      TERNARY_EXTRA_ARGS: ""
+      SEEDS: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: The 5a-KS guards hold before anything is rented
+        run: |
+          set -eo pipefail
+          python3 research/modalities/tests/test_5aks_cofold.py
+          python3 research/modalities/tests/test_5aks_stage.py
+          python3 research/modalities/tests/test_5aks_reduce.py
+      - name: Rent one Vast host and run the Boltz-2 ternary co-folds
+        working-directory: research/modalities
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          export COFOLD_OUTPUT_PREFIX="${{ github.event.inputs.cofold_output_prefix }}"
+          export COFOLD_OUTPUT_PREFIX="${COFOLD_OUTPUT_PREFIX:-rung5aks-cofold-v1}"
+          echo "::notice title=5aKS cofold::prefix=$COFOLD_OUTPUT_PREFIX dry=$DRY_RUN branch=$GIT_BRANCH"
+          python nrv04_vast_launch.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() && github.event.inputs.mode == 'cofold' }}
+        with:
+          name: rung5aks-cofold-handles
+          path: research/modalities/nrv04-cofold-handles.json
+          if-no-files-found: ignore
+
+  cofold_collect:
+    if: ${{ github.event.inputs.mode == 'cofold_collect' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Phase, log tail, and what actually landed
+        run: |
+          set -eo pipefail
+          python3 -m pip install -q awscli boto3 >/dev/null 2>&1 || true
+          P="${{ github.event.inputs.cofold_output_prefix }}"; P="${P:-rung5aks-cofold-v1}"
+          U="s3://sagemaker-us-east-2-646605541856/$P"
+          echo "=== phase ==="; aws s3 cp "$U/phase.txt" - 2>/dev/null || echo "(no phase marker yet)"
+          echo "=== objects (the progress scalar: count, and the newest timestamp) ==="
+          aws s3 ls "$U/" --recursive --human-readable | sort -k1,2 | tail -40 || true
+          N=$(aws s3 ls "$U/" --recursive | wc -l | tr -d ' ')
+          NCIF=$(aws s3 ls "$U/" --recursive | grep -c '\.cif$' || true)
+          echo "OBJECTS=$N  CIFS=$NCIF  (the stager needs one *-ternary-protac_model_0.cif per species = 2)"
+          export NCIF
+          echo "=== run.log tail ==="; aws s3 cp "$U/run.log" - 2>/dev/null | tail -30 || echo "(no log yet)"
+          # ⚠ A PROGRESS CHECK, NOT A LIVENESS PING (standing rule for an unproven pipeline). "The instance is
+          # up" says nothing — a box that pulled its image and then wedged looks identical to one predicting.
+          # The nvidia-smi inside run.log is a SNAPSHOT taken at boot and is NOT a live reading; quoting it as
+          # current GPU utilisation is exactly the mistake this block exists to prevent. So print the three
+          # things that actually MOVE: the phase marker, the newest object's timestamp, and a LIVE gpu_util
+          # straight from the Vast API.
+          #
+          # And a single gpu_util of 0.0 is NOT a stall: Vast's field is an instantaneous poll and catches the
+          # process between kernels or during a write. The durable scalar (phase, object count) is the
+          # authority; a stall needs BOTH frozen across two consecutive checks.
+          python3 - <<'PYEOF'
+          import os, sys, time
+          sys.path.insert(0, "research/modalities")
+          print("=== live instance state ===  (checked %s UTC)" % time.strftime("%H:%M:%S", time.gmtime()))
+          try:
+              from gpu_backend import _vast_request
+              k = os.environ.get("VAST_API_KEY")
+              rows = [i for i in _vast_request("GET", "/instances/", k).get("instances", [])
+                      if "cofold" in (i.get("label") or "")]
+              for i in rows:
+                  print("  id=%s status=%s gpu_util=%s%% cpu_util=%s mem_used=%s dph=%s"
+                        % (i.get("id"), i.get("actual_status"), i.get("gpu_util"), i.get("cpu_util"),
+                           i.get("mem_usage"), i.get("dph_total")))
+                  print("     msg:", str(i.get("status_msg") or "").strip()[:200])
+              if not rows:
+                  print("  (none up — either finished and self-destroyed, or never started)")
+                  print("  -> if no CIFs landed above, that is a FAILED run, not a finished one")
+              # ★ CONTROL-PLANE REAP — THE LAYER THIS LANE WAS MISSING.
+              # Vast teardown is two-layer BY DESIGN (gpu_backend.VastBackend): the host self-STOPS key-free
+              # via an EXIT trap (no VAST_API_KEY is ever put on a community host), and CI — which holds the
+              # key — DESTROYS the exited instance. The ternary lane has that second layer in its `collect`
+              # reap. THIS LANE HAD ONLY THE FIRST, so a co-fold whose trap does not take effect has nothing
+              # to remove it.
+              # Observed 2026-07-26: instance 45935273 finished (phase.txt `done`, written 19:52:00Z) and was
+              # STILL reporting `running` at 20:00:30Z — eight minutes of an idle RTX 4090 on the meter, with
+              # gpu_util 0.0%, cpu_util 0.99% and 0.027 GB resident. Small in dollars here (~$0.03); the
+              # mechanism is what matters, because nothing would have stopped it.
+              # Reap on the RESULT, exactly as the ternary lane does: the CIFs are in S3, so the instance has
+              # no work left whatever its status field says.
+              done = int(os.environ.get("NCIF", "0")) >= 2
+              if rows and done:
+                  for i in rows:
+                      try:
+                          _vast_request("DELETE", "/instances/%s/" % i.get("id"), k)
+                          print("  reaped %s — its co-folds are in S3, so it has no work left" % i.get("id"))
+                      except Exception as e:
+                          print("  WARN could not destroy %s: %s" % (i.get("id"), e))
+              elif rows:
+                  print("  left up: only %s CIF(s) in S3 yet, so the run may still be predicting"
+                        % os.environ.get("NCIF"))
+          except Exception as e:
+              print("could not list instances:", type(e).__name__, e)
+          PYEOF
+
+  # ---------------------------------------------------------------- $0: why did a 5a-KS FEP leg fail?
+  # ⚠ THE FAILING ATTEMPT'S LOG IS NOT `run.log`. Vast re-runs onstart when a container restarts, and the
+  # ternary pipeline's `exec > >(tee /tmp/run.log)` starts a FRESH file — so by the time anyone looks, the
+  # live `run.log` belongs to the RESTART and the evidence for the failure is gone. The pipeline archives the
+  # previous attempt to `attempts/run-<utc>.log` for exactly this reason, and this task reads BOTH, newest
+  # attempt first. Without it the only available reading is "status=failed", which is not a diagnosis.
+  leg_diag:
+    if: ${{ github.event.inputs.mode == 'leg_diag' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dump every 5a-KS leg's phase, status and logs
+        run: |
+          set -eo pipefail
+          python3 -m pip install -q awscli >/dev/null 2>&1 || true
+          B=sagemaker-us-east-2-646605541856
+          for U in $(aws s3 ls "s3://$B/ternary-vast/legs/" | awk '{print $2}' | tr -d '/' | grep '^5aks' || true); do
+            echo "================================================================ $U"
+            P="s3://$B/ternary-vast/legs/$U"
+            echo "--- phase.txt";  aws s3 cp "$P/phase.txt" - 2>/dev/null || echo "(none)"
+            echo "--- status.json (the phase the pipeline's fail() named)"
+            aws s3 cp "$P/status.json" - 2>/dev/null || echo "(none)"
+            echo "--- leg.json"; aws s3 cp "$P/leg.json" - 2>/dev/null | head -60 || echo "(none)"
+            echo "--- objects"; aws s3 ls "$P/" --recursive --human-readable || true
+            # The ARCHIVED attempt first: on a restart it is the only record of why the run ended.
+            A=$(aws s3 ls "$P/attempts/" 2>/dev/null | sort | tail -1 | awk '{print $4}' || true)
+            if [ -n "$A" ]; then
+              echo "--- attempts/$A  (THE FAILING ATTEMPT — tail 200)"
+              aws s3 cp "$P/attempts/$A" - 2>/dev/null | tail -200 || true
+            else
+              echo "--- (no archived attempt)"
+            fi
+            echo "--- run.log (CURRENT attempt — tail 120)"
+            aws s3 cp "$P/run.log" - 2>/dev/null | tail -120 || echo "(none)"
+          done
+
+  # ------------------------------------------------ $0 CPU: reproduce the preequil failure, and prove the fix
+  # The first 5a-KS smoke leg died with `"phase":"preequil"`. The discriminating experiment — same command,
+  # same parity image, two complex.pdb files differing only in hydrogenation — lives in
+  # nr4a3_5aks_preequil_repro.py so it is readable and reusable rather than buried in inline shell.
+  # It runs on CPU because the failure is in system CONSTRUCTION, which touches no GPU.
+  preequil_repro:
+    if: ${{ github.event.inputs.mode == 'preequil_repro' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Re-stage from the co-folds, then run both arms in the parity image
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          B=sagemaker-us-east-2-646605541856
+          mkdir -p /tmp/cofold /tmp/5aks_in /tmp/5aks_repro
+          aws s3 cp "s3://$B/rung5aks-cofold-v1/" /tmp/cofold/ --recursive \
+            --exclude '*' --include '*.cif' --only-show-errors
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/cofold:/tmp/cofold -v /tmp/5aks_in:/tmp/5aks_in -v /tmp/5aks_repro:/tmp/5aks_repro \
+            -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_stage.py --cofold-dir /tmp/cofold --out-dir /tmp/5aks_in
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/5aks_in:/tmp/5aks_in -v /tmp/5aks_repro:/tmp/5aks_repro \
+            -e STAGED_DIR=/tmp/5aks_in -e REPRO_SCRATCH=/tmp/5aks_repro \
+            -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_preequil_repro.py
+      - name: Re-seed the stage cache with the HYDROGENATED tree
+        # The cache the rented host reads still holds the unfixed complex.pdb, so a re-launch without this
+        # would restore the broken inputs and fail identically.
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_vast_launch.py --mode 5aks --seed-stage-cache /tmp/5aks_in

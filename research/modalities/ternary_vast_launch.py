@@ -146,6 +146,38 @@ MODES = {
         "max_runtime_s": 3 * 3600,
         "legs": [("calib_hi_to_lo__ternary_vhl", 0, "fwd")],
     },
+    # ---------------------------------------------------------------------------------------------------
+    # RUNG 5a-KS — the ligand-side causal kill-switch. S = dG_tern(NR4A3) - dG_tern(NR4A1) over the RUNG-5b
+    # matched pair (phenyl d0 -> 3-pyridyl d at T407). TWO ternary legs, and only two: the binary and
+    # solvent legs are paralogue-independent and cancel ALGEBRAICALLY out of the double difference
+    # (nr4a3_5aks_reduce refuses one if it ever appears).
+    #
+    # ⚠ THESE LEGS DO NOT STAGE FROM A CRYSTAL. There is no PDB entry for a CRBN + NR4A-LBD + this-construct
+    # ternary — the whole point of the rung is that it does not exist. Their inputs are built by
+    # `nr4a3_5aks_stage.py` from a Boltz-2 co-fold on a free CI runner and PRE-SEEDED into this lane's
+    # stage cache, so the on-host `stage` phase is a cache HIT and `ternary_pdb_stage.py` (RCSB, crystal
+    # templates, SMARCA2 homology modelling — none of which applies here) is never reached. `template_pdb`
+    # is therefore a CACHE-KEY LABEL, not a PDB id, and `stage_required` makes a cache MISS a hard failure
+    # rather than a silent fall-through into the crystal stager.
+    "5aks": {
+        "prod_iters": "", "warmup_iters": "",          # empty = full derived science length
+        "warmup_ckpt_iters": "64", "prod_ckpt_iters": "40",
+        "max_runtime_s": 20 * 3600,
+        "template_pdb": "boltz5aks",
+        "stage_required": True,
+        "legs": [("5aks_d0_to_d__ternary_nr4a3", 0, "fwd"),
+                 ("5aks_d0_to_d__ternary_nr4a1", 0, "fwd")],
+    },
+    # A 12-iteration end-to-end shakeout of the 5a-KS legs specifically: proves the pre-seeded stage cache,
+    # the co-fold-derived complex.pdb, the aza-scan endpoint build and the commit store all work on a real
+    # host for ~$0.15 before the ~$12 pair is bought. Same plumbing-shakeout ladder as `smoke` -> `edge`.
+    "5aks_smoke": {
+        "prod_iters": "12", "warmup_iters": "8", "warmup_ckpt_iters": "8", "prod_ckpt_iters": "4",
+        "max_runtime_s": 4 * 3600,
+        "template_pdb": "boltz5aks",
+        "stage_required": True,
+        "legs": [("5aks_d0_to_d__ternary_nr4a3", 0, "fwd")],
+    },
 }
 
 DEFAULT_TIMESTEP_FS = "4.0"
@@ -168,8 +200,24 @@ def unit_id(leg_id, seed, direction, timestep_fs, warmup_timestep_fs, mode):
 
 def unit_label(uid):
     """Vast instance label. PURE. Vast caps labels at 60 chars and we match label->unit by re-deriving,
-    never by parsing back — the protfep lane lost a reap to a lossy label that could not round-trip."""
-    return f"{LABEL_PREFIX}-{uid}".replace("_", "-").replace(".", "p").lower()[:60]
+    never by parsing back — the protfep lane lost a reap to a lossy label that could not round-trip.
+
+    ⚠ A BARE `[:60]` TRUNCATION IS ITSELF THE LOSSY ENCODING THIS DOCSTRING WARNS ABOUT, and RUNG 5a-KS
+    walked straight into it: `5aks_d0_to_d__ternary_nr4a3 ... _5aks_smoke` renders to exactly 61 characters
+    and was silently cut to `...-5aks-smok`. Re-deriving still "matched", so the round-trip test passed —
+    but two DIFFERENT units whose labels agree in their first 60 characters then share one label, and
+    `collect` reaps on that match. The consequence is not cosmetic: it either reaps the wrong host or fails
+    to reap the right one, and a GPU then bills until the runtime backstop hours later. The test that caught
+    it is the one asserting a label must NOT match a different unit id.
+
+    So an over-long label ends in a digest of the WHOLE unit id instead of losing its tail. Labels that
+    already fit are returned byte-identical, so no unit that has ever run gets a new label.
+    """
+    lab = f"{LABEL_PREFIX}-{uid}".replace("_", "-").replace(".", "p").lower()
+    if len(lab) <= 60:
+        return lab
+    import hashlib
+    return lab[:51] + "-" + hashlib.sha256(uid.encode()).hexdigest()[:8]
 
 
 def label_matches_unit(label, uid):
@@ -240,23 +288,37 @@ fail() { echo "[tvast] FAILED at $1"
            echo "[tvast] host-side failure ($1) — deliberately NOT writing leg.json so a relaunch picks a different machine"
          fi
          $AWSC s3 cp /tmp/run.log "$RESULT_S3/run.log" >/dev/null 2>&1 || true; exit 1; }
-mark start
-
 # PRESERVE THE PREVIOUS ATTEMPT'S LOG BEFORE OVERWRITING IT. `exec > >(tee /tmp/run.log)` starts a fresh
 # file, and the sync loop then overwrites `$RESULT_S3/run.log` — so on a resume after preemption the only
 # record of WHY the last attempt ended is destroyed by the attempt that replaces it. Lane 3's census of the
 # NR-V04 panel is the cost of that pattern: three analysis defects were uncorrectable because nothing
 # survived. Costs one S3 copy of a text file.
+#
+# ⚠ THIS BLOCK MUST RUN BEFORE THE FIRST `mark`, AND IT DID NOT. `mark()` uploads /tmp/run.log — which the
+# `exec > >(tee ...)` above has just TRUNCATED — to $RESULT_S3/run.log. With `mark start` ordered first, the
+# fresh ~170-byte log overwrote the previous attempt's in S3, and the archive below then dutifully copied
+# the stub. Measured 2026-07-26 on the first 5a-KS smoke: seventeen archived attempts, every one 168 bytes,
+# and the log of the attempt that actually failed was gone. The status.json written by fail() survived and
+# named the phase, which is the only reason the failure was diagnosable at all. Archive first, then mark.
 if $AWSC s3 ls "$RESULT_S3/run.log" >/dev/null 2>&1; then
   $AWSC s3 cp "$RESULT_S3/run.log" "$RESULT_S3/attempts/run-$(date -u +%Y%m%dT%H%M%SZ).log" >/dev/null 2>&1 \
     && echo "[tvast] archived the previous attempt's run.log under attempts/" || true
 fi
+mark start
 
 # IDEMPOTENCY. Vast re-runs onstart when a container restarts, and CI may re-dispatch a unit whose leg
 # already landed. Re-running would overwrite a finished result with a fresh (and, at a different commit
 # generation, possibly worse) one. Checked BEFORE any GPU work.
-if $AWSC s3 ls "$RESULT_S3/leg.json" >/dev/null 2>&1; then
-  echo "[tvast] leg.json already in S3 -> nothing to do (awaiting CI reap)"; exit 0
+# ⚠ A FAILED leg.json MUST NOT BLOCK ITS OWN RETRY. This tested only for EXISTENCE, and `fail()` writes a
+# leg.json with status=failed — so once a leg had failed, every re-dispatch rented a host that immediately
+# exited "nothing to do", produced nothing, and reported green. The 5a-KS smoke leg failed in preequil on
+# 2026-07-26 and left exactly that record, so the very next re-launch after the fix would have been a
+# wasted rental. Short-circuit only on a leg that actually FINISHED.
+if $AWSC s3 cp "$RESULT_S3/leg.json" /tmp/prev_leg.json >/dev/null 2>&1; then
+  if grep -q '"status"[[:space:]]*:[[:space:]]*"done"' /tmp/prev_leg.json; then
+    echo "[tvast] a DONE leg.json is already in S3 -> nothing to do (awaiting CI reap)"; exit 0
+  fi
+  echo "[tvast] previous leg.json is NOT done (a failed attempt) -> re-running rather than exiting"
 fi
 
 # CUDA REALITY CHECK, up front and fatal. OpenMM silently falling back to the CPU platform on a rented
@@ -306,6 +368,10 @@ mark staging
 if $AWSC s3 cp "$STAGE_CACHE" /tmp/stage.tar >/dev/null 2>&1 && tar -C "$IN" -xf /tmp/stage.tar 2>/dev/null; then
   echo "[tvast] stage cache HIT -> $STAGE_CACHE"
 else
+  # STAGE_REQUIRED=1: this leg's inputs were built off-host (a Boltz co-fold staged on CI and pre-seeded
+  # into the cache) and CANNOT be re-derived here. Falling through to the crystal stager would hand it a
+  # leg id it has never heard of and a template label that is not a PDB entry.
+  [ "$STAGE_REQUIRED" = "1" ] && { echo "[tvast] stage cache MISS at $STAGE_CACHE and STAGE_REQUIRED=1 -- this leg stages off-host; seed the cache first"; fail staging; }
   echo "[tvast] stage cache MISS -> staging $LEG_ID from $TEMPLATE_PDB"
   SEED=$SEED python ternary_pdb_stage.py --leg-id "$LEG_ID" --template-pdb "$TEMPLATE_PDB" --out "$IN" || fail staging
   tar -C "$IN" -cf /tmp/stage.tar "$LEG_ID" && $AWSC s3 cp /tmp/stage.tar "$STAGE_CACHE" >/dev/null 2>&1 || true
@@ -431,6 +497,14 @@ rec = {
     "iters_reached": {k: {"iteration": v[0], "target": v[1]} for k, v in reached.items()},
     "dg_morph_kcal": doc.get("dg_morph_kcal"), "mbar_se_kcal": doc.get("mbar_se_kcal"),
     "protocol_hash": doc.get("protocol_hash"), "starting_model": doc.get("starting_model"),
+    # SYSTEM IDENTITY, LIFTED OUT OF engine_record. A cross-leg difference (ddG_coop, and RUNG 5a-KS's S) is
+    # meaningless unless the legs describe the same SYSTEM, and protocol_hash by construction does not cover
+    # the system. The engine records these; this normalised record did not carry them, so every reducer
+    # reading leg.json saw them as UNRECORDED and — correctly — refused to call that agreement. That is the
+    # hole the RUNG 2b cycle reached its verdict through. Promoted, not re-derived: one home, in the engine.
+    "n_particles": doc.get("n_particles"),
+    "setup_cache_version": doc.get("setup_cache_version"),
+    "setup_cache_dir": doc.get("setup_cache_dir"),
     "engine_record": doc or None,
     "status": "done" if (doc.get("dg_morph_kcal") is not None and os.environ.get("RC") == "0") else "failed",
     "updated_utc": __import__("time").strftime("%Y-%m-%dT%H:%M:%SZ", __import__("time").gmtime()),
@@ -516,7 +590,11 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
     branch = git_branch or os.environ.get("GIT_BRANCH") or "main"
     charge = charge_method or os.environ.get("CHARGE_METHOD") or "nagl"
     nwin = str(n_windows or os.environ.get("TVAST_N_WINDOWS") or "12")
-    tpl = template_pdb or os.environ.get("TVAST_TEMPLATE_PDB") or "8G1Q"
+    # A mode that stages from something other than a crystal carries its own cache-key label, and it must
+    # WIN over the env default: `TVAST_TEMPLATE_PDB` is exported lane-wide by the workflow, so an env-first
+    # order would silently key the 5a-KS legs' stage cache to `8G1Q` and, on a miss, hand a Boltz-derived
+    # leg id to the RCSB crystal stager.
+    tpl = template_pdb or sizing.get("template_pdb") or os.environ.get("TVAST_TEMPLATE_PDB") or "8G1Q"
     if not b or not p:
         raise ValueError(
             f"refusing to launch with an incomplete result location (bucket={b!r}, prefix={p!r}). A blank "
@@ -552,6 +630,10 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         "STAGE_CACHE": f"s3://{b}/{p}/stagecache/{leg_id}__{tpl}__seed{seed}__v1.tar",
         # Pre-equil cache is keyed by seed AND charge AND length: all three change the relaxed coordinates.
         "PE_CACHE": f"s3://{b}/{p}/preequilcache/{leg_id}__seed{seed}__{charge}__ns{os.environ.get('TVAST_PREEQUIL_NS') or '0.5'}__v1.tar",
+        # A stage-cache MISS is fatal for a mode whose inputs cannot be re-derived on the host. Without this
+        # the pipeline falls through to `ternary_pdb_stage.py --leg-id 5aks_... --template-pdb boltz5aks`,
+        # which is a crystal stager being handed a label that is not a PDB id.
+        "STAGE_REQUIRED": "1" if sizing.get("stage_required") else "0",
         "NEEDS_PREEQUIL": "0" if solvent else "1",
         "PREEQUIL_NS": os.environ.get("TVAST_PREEQUIL_NS") or "0.5",
         "TEMPLATE_PDB": tpl,
@@ -1242,6 +1324,52 @@ def ddg_coop_identity(legs):
     }
 
 
+def stage_cache_key(leg_id, mode, seed=0, bucket=None, prefix=None):
+    """The S3 URI of one leg's stage cache, DERIVED from the same expression build_jobspec uses. PURE-ish.
+
+    ⚠ THIS FUNCTION IS WHY THE SEEDER CANNOT DRIFT FROM THE CONSUMER. Pre-seeding writes a tar to a key
+    that the on-host pipeline must then find; a hand-copied key that differs by one character produces a
+    silent cache MISS, which for a `stage_required` mode is a failed leg and for any other mode is a
+    wrong-inputs leg that runs to completion. The key is built by calling `build_jobspec` and reading the
+    env it produced, so there is exactly one expression for it in the repo.
+    """
+    spec = build_jobspec(leg_id, seed=seed, mode=mode, bucket=bucket, prefix=prefix)
+    return spec.env["STAGE_CACHE"]
+
+
+def seed_stage_cache(staged_dir, mode="5aks", seed=0, bucket=None, prefix=None, dry_run=False):
+    """Upload CI-staged leg inputs (`<staged_dir>/<leg_id>/{complex.pdb,ligands.sdf,...}`) into this lane's
+    stage cache, in the `tar -C $IN -cf stage.tar <LEG_ID>` shape the on-host extractor expects.
+
+    Refuses to upload a leg whose directory is missing either file the engine mounts: a tar carrying a
+    complex and no ligands would be a cache HIT that skips staging and then dies inside the engine, which
+    is strictly worse than a miss.
+    """
+    import subprocess
+    import tempfile
+    out = []
+    for (leg_id, sd, _dir) in units_for(mode):
+        if sd != seed:
+            continue
+        src = os.path.join(staged_dir, leg_id)
+        need = [f for f in ("complex.pdb", "ligands.sdf") if not os.path.isfile(os.path.join(src, f))]
+        if need:
+            raise SystemExit(f"[seed-stage] {leg_id}: staged dir {src} is missing {need} — refusing to seed a "
+                             f"cache that would HIT and then fail inside the engine")
+        uri = stage_cache_key(leg_id, mode, seed=seed, bucket=bucket, prefix=prefix)
+        tar = os.path.join(tempfile.mkdtemp(), "stage.tar")
+        subprocess.run(["tar", "-C", staged_dir, "-cf", tar, leg_id], check=True)
+        size = os.path.getsize(tar)
+        print(f"[seed-stage] {leg_id}: {size} B -> {uri}")
+        if not dry_run:
+            b, k = _split_uri(uri)
+            _s3().upload_file(tar, b, k)
+        out.append({"leg_id": leg_id, "uri": uri, "bytes": size, "uploaded": not dry_run})
+    if not out:
+        raise SystemExit(f"[seed-stage] mode {mode!r} has no leg at seed {seed} — nothing to seed")
+    return out
+
+
 def _known_unit_ids():
     """Every unit id this module can currently launch — used to pair a live label with a unit before that
     unit has written any record. Without it a freshly launched host has no progress line at all, which is
@@ -1282,11 +1410,16 @@ def main(argv=None):
     ap.add_argument("--fetch-legs", metavar="DIR",
                     help="download this mode's engine leg JSONs into DIR under the reducer's filenames, "
                          "then print the ΔΔG_coop identity as a cross-check")
+    ap.add_argument("--seed-stage-cache", metavar="DIR",
+                    help="upload CI-staged leg inputs from DIR/<leg_id>/ into this mode's stage cache, so a "
+                         "leg whose inputs cannot be built on the host (a Boltz co-fold) finds them there")
     ap.add_argument("--fetch-trajectories", metavar="DIR",
                     help="download each unit's NEWEST committed production generation (.nc/.chk) into DIR as "
                          "<leg>_sim_shared/, ready for ternary_fep_convergence.py")
     a = ap.parse_args(argv)
-    if a.fetch_trajectories:
+    if a.seed_stage_cache:
+        print(json.dumps(seed_stage_cache(a.seed_stage_cache, mode=a.mode, dry_run=a.dry_run), indent=2))
+    elif a.fetch_trajectories:
         got = fetch_trajectories(a.fetch_trajectories, mode=a.mode, timestep_fs=a.timestep_fs,
                                  warmup_timestep_fs=a.warmup_timestep_fs)
         print(json.dumps(got, indent=2))

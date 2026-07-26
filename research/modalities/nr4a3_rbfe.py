@@ -1567,7 +1567,23 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                     unc = float(v); break
                 except Exception:  # noqa: BLE001
                     pass
-    return dg, unc, list(ana_outputs)
+    # ⚠ THIRD RETURN VALUE IS A DICT, NOT A LIST — AND THAT IS THE FIX FOR AN UNANSWERABLE IDENTITY CHECK.
+    # `nr4a3_ternary_fep` writes the leg record with
+    #     _n_particles = _ana_keys.get("n_particles") if isinstance(_ana_keys, dict) else None
+    # and this function used to `return dg, unc, list(ana_outputs)`. A list is not a dict, so `n_particles`
+    # and `setup_cache_dir` were None on EVERY leg that actually ran MD — only the PRIME branch (which
+    # returns a dict and exits before MD) ever populated them. Downstream,
+    # `ternary_fep_reduce._system_identity_consistency` reported the field UNRECORDED across the whole cycle
+    # and correctly refused to call that agreement, which is exactly what happened to the RUNG 2b 4 fs cycle
+    # on 2026-07-26: three legs sharing one protocol_hash, and no system identity recorded at all. The
+    # particle count was sitting in `system` the whole time, one line away.
+    # The analysis output keys are kept under `ana_output_keys` so nothing that wanted them has lost them.
+    try:
+        _npart = int(system.getNumParticles())
+    except Exception:  # noqa: BLE001
+        _npart = None
+    return dg, unc, {"ana_output_keys": list(ana_outputs), "n_particles": _npart,
+                     "cache_dir": cache_dir, "primed": False}
 
 
 def run_splittest():

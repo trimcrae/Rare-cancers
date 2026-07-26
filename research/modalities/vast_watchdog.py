@@ -423,7 +423,189 @@ class ParalogueMdKind:
         return {"instance": h.job_id, "machine_id": h.extra.get("machine_id"), "bid": h.extra.get("bid")}
 
 
-KINDS = {k.name: k for k in (TernaryKind, ParalogueMdKind)}
+# =============================================================================================================
+# KIND: step1_fanout — RUNG 4's cmpd19 congeneric RBFE map (tranche 1: 19 edges, charge-conserving leg,
+# primary frame). One unit = one map edge = one rented GPU running BOTH alchemical legs and reducing them.
+#
+# WHY THIS KIND CAN BE SUPPORTED HONESTLY — every question the shared policy asks has a real answer already
+# written in the lane's own code, so nothing here is invented:
+#   result   -> congeneric_fanout.result_key(unit, prefix), the exact key the unit's reduce step uploads
+#   progress -> congeneric_fanout_vast.committed_progress(), the spot commit store the SAMPLER writes
+#   crash    -> the leg wrapper marks `leg-<L>-FAILED-rc<N>` / `leg-<L>-NORESULT` in phase.txt before exiting
+#   relaunch -> congeneric_fanout_vast.build_jobspec + the Vast backend, i.e. exactly what mode_launch calls;
+#               the checkpoint prefix is keyed by unit_id, so a relaunch RESUMES rather than restarting
+#   instance -> the Vast label IS the JobSpec name, matched EXACTLY
+#
+# THE SCALAR IS COMPOSITE, and it has to be. The commit-store census alone is not monotone across a unit's
+# lifetime for two independent reasons: (1) the iteration counter RESTARTS when the solvent leg begins after
+# the complex leg finishes, and (2) it FREEZES, legitimately, while MBAR analysis runs at the end of each leg
+# and again during the reduce. So the phase marker's rank is the high-order term and the census is the
+# low-order one — phase advance can never read as a regression, and a frozen census inside a phase is still
+# caught.
+# =============================================================================================================
+class Step1FanoutKind:
+    name = "step1_fanout"
+    label_prefix = "s1f-"
+    required_keys = ("kind", "unit_id", "bucket", "result_prefix", "stage_prefix", "image", "n_windows",
+                     "git_branch", "owning_workflow", "max_relaunches_per_day", "enabled")
+    # Cold start is dominated by the ~6 GiB OpenFE image pull (documented 20-40 min on cheap 4090 hosts),
+    # then the staged-pose download, solvate+parameterise of the ~35k-atom hybrid, and minimisation of 12
+    # replicas — all before the first commit. Same 90 min the ternary kind uses; the system here is smaller
+    # but the image pull, which dominates, is the same.
+    setup_grace_min = 90.0
+    # THREE, not two. At `RBFE_PROD_CKPT_ITERS=40` and ~13.6 s/iter a production commit lands every ~9 min,
+    # so two ticks would normally be right — but this kind's scalar legitimately FREEZES during each leg's
+    # MBAR analysis (12 windows) and during the reduce, with no phase change to mask it. A third tick keeps a
+    # long analysis from alerting as a stall. It costs one extra tick of latency on a genuine freeze, and a
+    # STALL only alerts (a relaunch would hang identically), so the trade is one-sided.
+    stall_ticks = 3
+    # fusion-cpu-extras.yml's `launch`/`launch_confirm` mode ALSO re-rents any pending unit, so it is a second
+    # relauncher for this checkpoint prefix. Two hosts syncing one commit store is an interleaved trajectory
+    # that nothing reports, so a relaunch is withheld while that workflow has anything in flight. It
+    # over-blocks (every monitor dispatch counts), and that is the correct direction to be wrong in.
+    owning_workflow = "fusion-cpu-extras.yml"
+
+    # phase.txt vocabulary, in order. Written by the per-instance pipeline's `mark` helper.
+    PHASE_RANK = {"boot": 0, "staged": 1,
+                  "leg-complex-running": 2, "leg-complex-done": 3,
+                  "leg-solvent-running": 4, "leg-solvent-done": 5,
+                  "reduce": 6, "done": 7}
+    # Comfortably above any committed-iteration scalar (leg stride 1e7 + phase stride 1e6 + iterations), so
+    # the phase rank always dominates.
+    PHASE_MULT = 100_000_000
+
+    @staticmethod
+    def _failed(phase):
+        return bool(phase) and ("FAILED" in phase or "NORESULT" in phase)
+
+    @staticmethod
+    def preflight(entry):
+        bad = []
+        uid = str(entry.get("unit_id", ""))
+        try:
+            import congeneric_fanout as cf
+            known = {u["unit_id"] for u in cf.default_units()}
+        except Exception as e:  # noqa: BLE001 — cannot enumerate: refuse rather than watch a guess
+            return [f"could not enumerate tranche-1 units ({type(e).__name__}: {e}); refusing to claim cover"]
+        if uid not in known:
+            bad.append(f"unit_id={uid!r} is not a tranche-1 unit of the frozen map. The unit_id keys the S3 "
+                       f"result AND the checkpoint prefix, so a mismatch watches (and would relaunch) "
+                       f"nothing.")
+        return bad
+
+    @staticmethod
+    def label_matches(label, uid):
+        """The Vast label is `s1f-<idx>-<ligand_b>`, derived from the unit's position in the frozen map — it
+        is NOT the unit_id. Derived here from the same enumeration the launcher uses, so the two cannot
+        disagree about which box belongs to which edge."""
+        import congeneric_fanout as cf
+        units = cf.default_units()
+        for i, u in enumerate(units):
+            if u["unit_id"] == uid:
+                return bool(label) and str(label).strip() == f"s1f-{i:02d}-{u['ligand_b']}"[:64]
+        return False
+
+    @staticmethod
+    def _lane(entry):
+        """Import the lane launcher with THIS entry's environment in place, then prove what it resolved.
+
+        `BUCKET`, `RESULT_PREFIX`, `STAGE_PREFIX`, `FEP_IMAGE` and `N_WINDOWS` are all read at module import
+        time in congeneric_fanout_vast, so a module imported under a different environment answers about a
+        different run — every key it computes would be for the wrong prefix, and a relaunch would rent the
+        wrong thing under this unit's name."""
+        os.environ["VAST_CKPT_BUCKET"] = str(entry["bucket"])
+        os.environ["RESULT_PREFIX"] = str(entry["result_prefix"])
+        os.environ["STAGE_PREFIX"] = str(entry["stage_prefix"])
+        os.environ["FEP_IMAGE"] = str(entry["image"])
+        os.environ["N_WINDOWS"] = str(entry["n_windows"])
+        import congeneric_fanout_vast as L
+        mismatch = {k: (got, want) for k, got, want in
+                    (("RESULT_PREFIX", L.RESULT_PREFIX, str(entry["result_prefix"])),
+                     ("STAGE_PREFIX", L.STAGE_PREFIX, str(entry["stage_prefix"])),
+                     ("FEP_IMAGE", L.FEP_IMAGE, str(entry["image"])),
+                     ("BUCKET", L.BUCKET, str(entry["bucket"])),
+                     ("N_WINDOWS", str(L.N_WINDOWS), str(entry["n_windows"])))
+                    if got != want}
+        if mismatch:
+            raise RuntimeError(f"congeneric_fanout_vast was imported under a different environment: "
+                               f"{mismatch}. Every key it computes would be for another run. Refusing.")
+        return L
+
+    @staticmethod
+    def score(phase, census_scalar):
+        """(scalar, label, readable, note). PURE — the composite-monotonicity argument, unit-testable.
+
+        An UNRANKED phase returns readable=False rather than 0: the pipeline gained a marker this map does
+        not know, and collapsing that to zero would manufacture a stall out of a reporting change."""
+        if census_scalar < 0:
+            return 0, "", False, "commit store unlistable this pass"
+        if not phase:
+            # No marker yet — the host is pulling the image. Scalar 0 is the CORRECT reading (it puts the
+            # unit inside the cold-start grace), not "unreadable", which would skip the entry entirely.
+            return 0, "no phase marker yet (image pull)", True, ""
+        head = phase.split()[0]
+        if Step1FanoutKind._failed(head):
+            return 0, head, True, ""
+        if head not in Step1FanoutKind.PHASE_RANK:
+            return 0, head, False, (f"phase marker says {head!r}, which this kind does not rank — the "
+                                    f"pipeline gained a phase and PHASE_RANK was not updated. Refusing.")
+        return (Step1FanoutKind.PHASE_RANK[head] * Step1FanoutKind.PHASE_MULT + max(0, census_scalar),
+                f"{head}/{census_scalar}", True, "")
+
+    @staticmethod
+    def probe(entry, insts):
+        uid, bucket = entry["unit_id"], entry["bucket"]
+        L = Step1FanoutKind._lane(entry)
+        import congeneric_fanout as cf
+        unit = next((u for u in cf.default_units() if u["unit_id"] == uid), None)
+        if unit is None:
+            return Evidence(readable=False, note=f"{uid} is not in the frozen map")
+        has_result = _key_exists(bucket, cf.result_key(unit, str(entry["result_prefix"])))
+        phase = L._get_text(L._s3(), bucket, f"{entry['result_prefix']}/{uid}/phase.txt")
+        census, _detail = L.committed_progress(L._s3(), bucket, unit)
+        scalar, label, readable, why = Step1FanoutKind.score(phase, census)
+        if not readable:
+            return Evidence(has_result=has_result, readable=False, note=why)
+
+        # An `exited` container has already stopped its own GPU billing and only CI destroys the instance, so
+        # it lingers in the listing. Counting it as alive reads a dead unit as RUNNING and leaves it hostless.
+        mine = [i for i in insts if Step1FanoutKind.label_matches(i.get("label"), uid)]
+        inst = next((i for i in mine if i.get("actual_status") != "exited"), None)
+        note = "an EXITED instance is still listed for this unit; the lane's own collect reaps it" \
+            if any(i.get("actual_status") == "exited" for i in mine) else ""
+        return Evidence(has_result=has_result,
+                        has_failed_record=Step1FanoutKind._failed(phase or ""),
+                        failed_detail=f"phase.txt={phase!r} — the leg wrapper always ships its log to "
+                                      f"{entry['result_prefix']}/{uid}/<leg>.log even on failure",
+                        instance=inst, instance_alive=inst is not None,
+                        instance_age_min=instance_age_min(inst) if inst else 0.0,
+                        scalar=scalar, scalar_label=label, note=note)
+
+    @staticmethod
+    def relaunch(entry, insts):
+        """Re-rent this unit, resuming from its S3 commit store. Delegation, not reimplementation: the same
+        build_jobspec + backend.submit pair mode_launch uses, with the same exclusion discipline (never land
+        back on a machine already holding one of this fleet's instances, nor on one the lane has excluded)."""
+        uid = entry["unit_id"]
+        L = Step1FanoutKind._lane(entry)
+        import congeneric_fanout as cf
+        units = cf.default_units()
+        idx = next(i for i, u in enumerate(units) if u["unit_id"] == uid)
+        excluded = {str(i["machine_id"]) for i in (insts or []) if i.get("machine_id")}
+        excluded |= set(L._load_excluded(L._s3(), str(entry["bucket"]))[0])
+        excluded |= {x.strip() for x in str(entry.get("exclude_machines") or "").split(",") if x.strip()}
+        spec = L.build_jobspec(units[idx], str(entry["git_branch"]), str(entry["bucket"]), idx,
+                               exclude_machine_ids=tuple(sorted(excluded)))
+        if not Step1FanoutKind.label_matches(spec.name, uid):
+            raise RuntimeError(f"relaunch would rent {spec.name!r} while the entry watches {uid!r} — the "
+                               f"watch list and the launcher disagree about this unit's identity, so the "
+                               f"relaunch would be invisible to the next pass.")
+        from gpu_backend import get_backend
+        h = get_backend("vast").submit(spec)
+        return {"instance": h.job_id, "machine_id": h.extra.get("machine_id"), "bid": h.extra.get("bid")}
+
+
+KINDS = {k.name: k for k in (TernaryKind, ParalogueMdKind, Step1FanoutKind)}
 
 
 # =============================================================================================================
@@ -483,6 +665,43 @@ def paralogue_entry(target, *, git_branch, metad_ns=60, release_ns=5, n_rep=3, s
         "max_relaunches_per_day": int(max_relaunches_per_day),
         "enabled": bool(enabled),
     }
+
+
+def step1_fanout_entry(unit_id, *, git_branch, bucket="sagemaker-us-east-2-646605541856",
+                       result_prefix="nr4a3-step1-fanout/results",
+                       stage_prefix="nr4a3-step1-fanout/stage",
+                       image="docker.io/triskit23/nr4a3fep:latest", n_windows=12,
+                       owning_workflow="fusion-cpu-extras.yml", exclude_machines="",
+                       max_relaunches_per_day=6, enabled=True, why=""):
+    """One step1_fanout watch entry. PURE, and the ONLY place a shipped entry may come from.
+
+    The defaults are congeneric_fanout_vast's own module defaults, which is what the launcher runs with when
+    the workflow passes nothing — so an entry built here relaunches the SAME job that was launched. They are
+    recorded on the entry rather than left implicit because every one of them is read at module-import time:
+    a relaunch under different values would resume the right checkpoint and then run it as a different
+    calculation, silently.
+
+    ⚠ An entry is added when its unit is actually LAUNCHED, never in advance. A step1_fanout entry for a unit
+    that was never launched has no phase marker and no instance, so past the cold-start grace the engine
+    classifies it DIED and relaunches it — the watch list would start renting GPUs nobody authorised.
+    """
+    e = {
+        "kind": "step1_fanout",
+        "unit_id": str(unit_id),
+        "bucket": bucket,
+        "result_prefix": result_prefix,
+        "stage_prefix": stage_prefix,
+        "image": image,
+        "n_windows": int(n_windows),
+        "git_branch": git_branch,
+        "owning_workflow": owning_workflow,
+        "exclude_machines": exclude_machines,
+        "max_relaunches_per_day": int(max_relaunches_per_day),
+        "enabled": bool(enabled),
+    }
+    if why:
+        e["_why"] = why
+    return e
 
 
 def verify_armed(unit_ids, path=None):

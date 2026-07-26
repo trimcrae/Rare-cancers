@@ -136,7 +136,24 @@ def test_pipeline_checks_cuda_before_paying_for_setup():
 
 def test_pipeline_is_idempotent_before_any_gpu_work():
     body = tv.build_jobspec("calib_hi_to_lo__ternary_vhl", bucket="b", prefix="p").command[-1]
-    assert body.index("leg.json already in S3") < body.index("run_ternary_leg.sh")
+    assert body.index("DONE leg.json is already in S3") < body.index("run_ternary_leg.sh")
+
+
+def test_a_failed_leg_does_not_block_its_own_retry():
+    """The idempotency check must key on a leg that FINISHED, not on the file existing.
+
+    `fail()` writes a leg.json with status=failed, so an existence test meant that once a leg had failed,
+    every re-dispatch rented a host which immediately exited "nothing to do", produced nothing, and reported
+    green. The 5a-KS smoke leg failed in preequil on 2026-07-26 and left exactly that record, so the next
+    re-launch after the fix would have been a wasted rental.
+    """
+    body = tv.build_jobspec("calib_hi_to_lo__ternary_vhl", bucket="b", prefix="p").command[-1]
+    # it must inspect the CONTENT for a done status, not merely `s3 ls` the key
+    assert '"status"' in body and '"done"' in body
+    assert "NOT done (a failed attempt)" in body, (
+        "the pipeline no longer distinguishes a failed leg.json from a finished one")
+    # and the short-circuit must still come before any billed work
+    assert body.index("DONE leg.json is already in S3") < body.index("mark staging")
 
 
 def test_caches_are_keyed_by_everything_that_changes_the_artifact():

@@ -28,12 +28,14 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from _skip_guard import skip_module    # noqa: E402
 
 try:
     import numpy as np
 except ImportError:  # pragma: no cover
-    print("SKIP: numpy unavailable")
-    sys.exit(0)
+    skip_module("numpy unavailable")
 
 import ternary_fep_convergence as cv
 

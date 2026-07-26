@@ -89,6 +89,27 @@ def expand_pilot_legs():
     return ids + solvent
 
 
+def _extra_leg_map():
+    """Leg registries belonging to experiments OUTSIDE the frozen pilot bundle.
+
+    ⚠ WHY NOT JUST ADD THEM TO `ternary_coop.PILOT_LEG_MAP`. That map is the PREREGISTERED pilot bundle and
+    `load_pilot_legs` cross-checks it against `ternary-coop-frozen.json`, failing closed on any drift. Adding
+    a leg there would either break that guard or silently enlarge a preregistered experiment with legs it
+    never declared — and the guard exists precisely because a bundle that can quietly grow is not frozen.
+    A later experiment therefore brings its OWN registry and this function unions them, read-only.
+
+    Import failures are swallowed on purpose: the pilot legs must keep resolving even if a newer rung's
+    module is missing or broken. A leg id that resolves nowhere still fails closed in `leg_spec`.
+    """
+    out = {}
+    for mod in ("nr4a3_5aks_cofold",):
+        try:
+            out.update(__import__(mod).LEG_MAP)
+        except Exception:  # noqa: BLE001
+            pass
+    return out
+
+
 def leg_spec(leg_id):
     """Resolve a leg id (frozen or derived-solvent) to its assembly/morph spec via ternary_coop_prep. For a
     solvent leg we borrow the morph endpoints of any environment leg of the same pair (the ligands are identical;
@@ -96,6 +117,8 @@ def leg_spec(leg_id):
     env = _environment_of(leg_id)
     if leg_id in tcoop.PILOT_LEG_MAP:
         leg = dict(id=leg_id, **tcoop.PILOT_LEG_MAP[leg_id])
+    elif leg_id in _extra_leg_map():
+        leg = dict(id=leg_id, **_extra_leg_map()[leg_id])
     else:
         # derived solvent leg: clone a sibling environment leg's morph, drop the protein/target
         morph = _morph_key(leg_id)
@@ -181,6 +204,126 @@ def _pyridine_to_benzene_pose(mol, rdkit_chem):
     return out
 
 
+def _pose_matches_target(mol, target_smiles, rdkit_chem):
+    """Does this built pose really BE the target molecule? Two questions, not one.
+
+    Plain canonical-SMILES equality was the original test, and it is right whenever the target SMILES
+    specifies every stereocentre — which the calibration pair does. It is WRONG when the target leaves one
+    open. RUNG 5a-KS's construct is exactly that case: the design draws the glutarimide C-H unassigned (the
+    thalidomide-class centre, drawn unassigned throughout the IMiD literature because it epimerises), while
+    a 3D pose necessarily HAS a configuration and RDKit reads it back off the coordinates. Measured on the
+    real staged ligand: the pose canonicalised to `N([C@H]3CCC(=O)NC3=O)` against the design's
+    `N(C3CCC(=O)NC3=O)`, and the equality test rejected a chemically correct endpoint.
+
+    So:
+      1. CONSTITUTION must be identical — stereo-stripped canonical SMILES.
+      2. Every stereocentre the TARGET SPECIFIES must agree. A chirality-aware substructure match does this
+         exactly: a specified centre must match, an unspecified one matches either configuration.
+    For a fully-specified target the pair is equivalent to the old test, so no existing leg's acceptance
+    changes. WHICH configuration a partly-specified pose resolved to is not lost — the stager records it and
+    REFUSES to stage the two 5a-KS legs unless both resolved it the same way, because a diastereomer
+    difference between the arms would land inside S.
+    """
+    want = _canon_smiles(target_smiles, rdkit_chem)
+    if want is not None and _canon_smiles(mol, rdkit_chem) == want:
+        return True
+    tmpl = rdkit_chem.MolFromSmiles(target_smiles)
+    if tmpl is None or mol is None:
+        return False
+    try:
+        a = rdkit_chem.RemoveHs(rdkit_chem.Mol(mol))
+        b = rdkit_chem.RemoveHs(rdkit_chem.Mol(tmpl))
+        rdkit_chem.RemoveStereochemistry(a)
+        rdkit_chem.RemoveStereochemistry(b)
+        if rdkit_chem.MolToSmiles(a) != rdkit_chem.MolToSmiles(b):
+            return False
+        return bool(rdkit_chem.RemoveHs(rdkit_chem.Mol(mol)).HasSubstructMatch(tmpl, useChirality=True))
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _single_aromatic_element_swap_pose(mol, target_smiles, rdkit_chem):
+    """Build `target_smiles`'s pose from `mol` by changing the element of exactly ONE aromatic ring atom,
+    preserving every coordinate. Returns (pose, n_equivalent_sites) or (None, 0).
+
+    WHY A SEARCH RATHER THAN A RULE. `_pyridine_to_benzene_pose` above encodes one specific, hand-identified
+    perturbation (the calibration edge's linker N->CH) and only works in that direction. RUNG 5a-KS is the
+    mirror image — an aza-scan, phenyl C-H -> 3-pyridyl N — and no third rule should be written for the next
+    one. So instead of naming the atom, this TRIES each aromatic ring atom in turn and keeps the ones whose
+    swap reproduces the target's canonical SMILES exactly. The verification IS the rule: a swap that does not
+    canonicalise to the target is discarded, so the method cannot invent a molecule.
+
+    N-TO-C AND C-TO-N BOTH, because a forward leg and its reverse hysteresis partner morph in opposite
+    directions and must be able to build the same two endpoints.
+
+    TIES ARE REAL AND ARE NOT AN ERROR. A 3-pyridyl can be made from a phenyl at EITHER meta carbon: the two
+    give the identical molecule and differ only in which face of the ring the nitrogen sits on. They are
+    interconverted by a 180-degree flip of a freely rotating benzylic ring, which the MD samples, so the
+    choice is not a physical commitment — but it must be DETERMINISTIC or two replicates would silently
+    start from different structures. Lowest atom index wins, and the count is returned so the leg record can
+    say how many equivalent sites there were rather than leaving a reader to assume there was only one.
+    """
+    if mol is None or rdkit_chem.MolFromSmiles(target_smiles) is None:
+        return None, 0
+    # ⚠ STRIP EXPLICIT HYDROGENS FIRST — this is not tidiness, it is the difference between pyridine and
+    # pyrrole. `_repair_pose` hands back a mol carrying explicit H atoms, and turning an aromatic C into an
+    # N while its explicit H is still bonded produces an aromatic N-H: a pyrrole-type nitrogen, which does
+    # not kekulize in a 6-ring and is a different molecule from the 3-pyridyl the design specifies. Measured
+    # on the real construct: every candidate site failed with "Can't kekulize mol" until the Hs came off.
+    # RemoveHs preserves the heavy-atom conformer, and AddHs(addCoords=True) rebuilds the hydrogens after.
+    try:
+        base = rdkit_chem.RWMol(rdkit_chem.RemoveHs(rdkit_chem.Mol(mol)))
+        rdkit_chem.SanitizeMol(base)
+    except Exception:  # noqa: BLE001
+        try:
+            base = rdkit_chem.RWMol(mol)
+            rdkit_chem.SanitizeMol(base)
+        except Exception:  # noqa: BLE001
+            return None, 0
+    ring_atoms = {i for ring in base.GetRingInfo().AtomRings() for i in ring}
+    hits = []
+    for idx in sorted(ring_atoms):
+        a0 = base.GetAtomWithIdx(idx)
+        if not a0.GetIsAromatic():
+            continue
+        z0, nh0 = a0.GetAtomicNum(), a0.GetTotalNumHs()
+        for z1 in (6, 7):
+            if z1 == z0:
+                continue
+            # C->N only at a ring C-H, and N->C only at a hydrogen-free (pyridine-type) N. A substituted
+            # ring carbon or an N-H would change the substitution pattern as well as the element, which is
+            # a different perturbation from an aza-scan; skipping them also drops ~40 guaranteed-failing
+            # kekulization attempts per call, whose RDKit warnings otherwise bury the real log.
+            if z1 == 7 and nh0 != 1:
+                continue
+            if z1 == 6 and nh0 != 0:
+                continue
+            m = rdkit_chem.RWMol(base)
+            at = m.GetAtomWithIdx(idx)
+            at.SetAtomicNum(z1)
+            at.SetNumExplicitHs(0)
+            at.SetNoImplicit(False)
+            at.SetFormalCharge(0)
+            try:
+                out = m.GetMol()
+                rdkit_chem.SanitizeMol(out)
+                out = rdkit_chem.AddHs(out, addCoords=True)
+            except Exception:  # noqa: BLE001
+                continue
+            # `_pose_matches_target`, not canonical-SMILES equality: the pose carries a resolved
+            # glutarimide stereocentre that the design's SMILES leaves open, so equality rejects the
+            # correct swap. See that function for the measurement.
+            if _pose_matches_target(out, target_smiles, rdkit_chem):
+                hits.append((idx, z0, z1, out))
+    if not hits:
+        return None, 0
+    idx, z0, z1, out = hits[0]
+    print("  [tfep] endpoint pose built by a single aromatic element swap: atom %d %d->%d "
+          "(%d equivalent site(s) matched the target; lowest index taken — they differ only by a ring "
+          "flip the MD samples)" % (idx, z0, z1, len(hits)), flush=True)
+    return out, len(hits)
+
+
 def _endpoint_pose(sdf, name, target_smiles, base_smiles, rdkit_chem):
     """Build the 3D pose for endpoint `name` so it MATCHES target_smiles, starting from the crystal pose (whose
     true identity is base_smiles — the co-crystallized ligand, e.g. Wurz cmpd1). If target == base, bond-order
@@ -190,14 +333,20 @@ def _endpoint_pose(sdf, name, target_smiles, base_smiles, rdkit_chem):
     the wrong molecule (this is the bug the 5-part gate's endpoints_match check caught)."""
     base = rbfe._sdf_mol(sdf, name, base_smiles, rdkit_chem)
     clean = rbfe._repair_pose(base, base_smiles, rdkit_chem)
-    want = _canon_smiles(target_smiles, rdkit_chem)
-    if _canon_smiles(clean, rdkit_chem) == want:
+    if _pose_matches_target(clean, target_smiles, rdkit_chem):
         return clean                                     # target == crystal identity (calib_hi = cmpd1)
     mut = _pyridine_to_benzene_pose(clean, rdkit_chem)   # element-change endpoint (cmpd4 benzene linker)
     if mut is not None:
         mut = rbfe._repair_pose(mut, target_smiles, rdkit_chem)
-        if _canon_smiles(mut, rdkit_chem) == want:
+        if _pose_matches_target(mut, target_smiles, rdkit_chem):
             return mut
+    # GENERAL single-aromatic-atom swap (RUNG 5a-KS: phenyl C-H -> 3-pyridyl N, i.e. the calibration edge's
+    # perturbation run backwards). Tried LAST so it can never change how an existing leg is built.
+    swapped, _n = _single_aromatic_element_swap_pose(clean, target_smiles, rdkit_chem)
+    if swapped is not None:
+        swapped = rbfe._repair_pose(swapped, target_smiles, rdkit_chem)
+        if _pose_matches_target(swapped, target_smiles, rdkit_chem):
+            return swapped
     raise SystemExit("  ABORT: endpoint %s could not be built to match its target SMILES (element-change pose "
                      "mutation failed) — refusing a wrong-molecule leg." % name)
 
@@ -699,7 +848,20 @@ def run_leg():
            # protocol hash but with no system identity recorded at all, so comparability rested on a hash that
            # by construction does not cover the system. One resolved value, written in both places.
            "charge_method": os.environ.get("CHARGE_METHOD", "am1bcc"),
-           "setup_cache_version": os.environ.get("SETUP_CACHE_VERSION")}
+           # Same defect, same fix: `nr4a3_rbfe` keys its setup cache on
+           # `os.environ.get("SETUP_CACHE_VERSION", "v1")`, so a leg that ran without the variable used **v1**
+           # — while this line recorded `null` and the reduce reported the field UNRECORDED across the cycle.
+           # Record what the run RESOLVED, not what happened to be exported.
+           "setup_cache_version": os.environ.get("SETUP_CACHE_VERSION", "v1")}
+    # ⚠ SAY SO AT WRITE TIME. A missing identity field is only discoverable at reduce time otherwise — which is
+    # how the 4 fs cycle reached a verdict with `system_identity_consistency` UNKNOWN across all three legs and
+    # nobody noticing until the reduction was read by hand. `n_particles` comes from the analysis keys and is
+    # None unless the setup was primed, so it is the one that can still go missing.
+    for _k in ("n_particles", "charge_method", "setup_cache_version"):
+        if out.get(_k) in (None, ""):
+            print(f"  [tfep] ⚠ IDENTITY FIELD MISSING: {_k} is unset on leg {LEG_ID}. ddG_coop is a DIFFERENCE "
+                  f"of legs, and protocol_hash does NOT cover the system — a cycle built from legs that cannot "
+                  f"be identity-checked is comparable only by assumption.", flush=True)
     json.dump(out, open(os.path.join(CKPT, "leg_%s_%s_r%d.json" % (LEG_ID, DIRECTION, SEED)), "w"), indent=2)
     _dg = out["dg_morph_kcal"]; _se = out["mbar_se_kcal"]
     print("  [tfep] LEG DONE %s: ΔG_morph=%s ± %s (MBAR SE) [spot-safe]" % (
