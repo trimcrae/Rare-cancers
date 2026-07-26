@@ -309,8 +309,16 @@ mark start
 # IDEMPOTENCY. Vast re-runs onstart when a container restarts, and CI may re-dispatch a unit whose leg
 # already landed. Re-running would overwrite a finished result with a fresh (and, at a different commit
 # generation, possibly worse) one. Checked BEFORE any GPU work.
-if $AWSC s3 ls "$RESULT_S3/leg.json" >/dev/null 2>&1; then
-  echo "[tvast] leg.json already in S3 -> nothing to do (awaiting CI reap)"; exit 0
+# ⚠ A FAILED leg.json MUST NOT BLOCK ITS OWN RETRY. This tested only for EXISTENCE, and `fail()` writes a
+# leg.json with status=failed — so once a leg had failed, every re-dispatch rented a host that immediately
+# exited "nothing to do", produced nothing, and reported green. The 5a-KS smoke leg failed in preequil on
+# 2026-07-26 and left exactly that record, so the very next re-launch after the fix would have been a
+# wasted rental. Short-circuit only on a leg that actually FINISHED.
+if $AWSC s3 cp "$RESULT_S3/leg.json" /tmp/prev_leg.json >/dev/null 2>&1; then
+  if grep -q '"status"[[:space:]]*:[[:space:]]*"done"' /tmp/prev_leg.json; then
+    echo "[tvast] a DONE leg.json is already in S3 -> nothing to do (awaiting CI reap)"; exit 0
+  fi
+  echo "[tvast] previous leg.json is NOT done (a failed attempt) -> re-running rather than exiting"
 fi
 
 # CUDA REALITY CHECK, up front and fatal. OpenMM silently falling back to the CPU platform on a rented
