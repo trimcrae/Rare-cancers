@@ -39,6 +39,41 @@ before diagnosing a GPU provisioning/quota problem.
   on-demand create **failed request-validation** and the leg had NEVER actually run on-demand.
   Both provisioning branches must carry `--instance-termination-action=DELETE`.
 
+## 1b. WE ALREADY HOLD QUOTA FOR SEVERAL GPU TYPES — the cap is on COUNT, not TYPE
+
+- Measured 2026-07-26 (`gcp-quota-check.yml`, now emitting a `GPU TYPES USABLE TODAY` annotation). us-central1
+  metrics with a **non-zero** limit, all at **1.0**:
+  `NVIDIA_L4_GPUS`, **`NVIDIA_V100_GPUS`**, **`NVIDIA_P100_GPUS`**, `NVIDIA_T4_GPUS`, `NVIDIA_P4_GPUS`,
+  `NVIDIA_K80_GPUS`, `COMMITTED_NVIDIA_L4_GPUS`, plus the `_VWS_` variants.
+- **A100 and H100 are absent** (limit 0) and would each need their own request.
+- **So "can we get a faster GPU" needed no request at all.** `GPUS_ALL_REGIONS = 1` caps the COUNT; the per-type
+  quotas above are what say WHICH card, and several are already granted. This was never asked before because the
+  quota check only ever grepped `L4|G2|GPU` and printed the rows mid-log.
+- **Why it might matter a lot:** the L4 is bandwidth-poor (GDDR6, ~300 GB/s) and OpenMM PME on a 142k-particle
+  system is bandwidth-bound. P100 (HBM2, ~732 GB/s) and V100 (HBM2, ~900 GB/s) are 2.4× and 3.0× on that axis.
+  Spec-derived, at approximate list prices, against ~$292 of remaining credit:
+
+  | card | quota | ~×L4 | ~$/h | ~$/leg | legs on $292 | science/$ |
+  |---|---|---|---|---|---|---|
+  | L4 (current) | 1 | 1.00 | 0.71 | 31 | 9.4 | 1.41 |
+  | **P100** | **1** | ~2.4 | 1.46 | **26** | **11.1** | **1.67** |
+  | V100 | 1 | ~3.0 | 2.48 | 36 | 8.0 | 1.21 |
+  | T4 | 1 | ~1.1 | 0.35 | 14 | 20.3 | 3.05 |
+
+- ⚠ **SPEC-DERIVED, NOT MEASURED, AND THE T4 ROW IS THE LEAST TRUSTWORTHY.** The bandwidth heuristic is validated
+  on exactly ONE pair — L4 vs Vast 4090, where it predicted the measured 3.53× to ~5% — and on that pair bandwidth
+  and FP32 scale *together* (3.36× and ~2.8×), so it **cannot distinguish bandwidth-bound from compute-bound.**
+  T4 vs L4 is precisely the discriminating case: near-identical bandwidth (320 vs 300) but **3.7× different FP32**
+  (8.1 vs 30 TFLOPS). If the workload is even partly compute-bound the T4 is much slower than the table implies.
+  This repo has already booked one card-ratio error from spec-style reasoning (the 2.06× that compared a warmup
+  rate to a production rate), so **none of these rows may be used for planning until measured.**
+- **Cheap to settle:** a short production probe (~50 iterations) per card measures s/iter directly for ~$1–2 of
+  credit, and the upside is large — if P100 holds up that is **+18 % more legs from the same money**, and the T4
+  row would be transformative if the workload really is bandwidth-bound.
+- **NOT a flag change.** P100/V100/T4 need `n1-*` machine types plus `--accelerator type=...,count=1`; the lane
+  currently pins `g2-standard-8/12/16`, which are L4-only. Setup is CPU/RAM-bound and needs ≥8 vCPU / 32 GB, and
+  the container's CUDA build has to support the older compute capability. Real work, not a one-line edit.
+
 ## 3b. `max-run-duration` CANNOT be changed on a RUNNING instance — the boundary is fixed
 
 - Measured 2026-07-26 on a **decoy** e2-micro (`gcp-quota-check.yml`), never on a live leg. Create at

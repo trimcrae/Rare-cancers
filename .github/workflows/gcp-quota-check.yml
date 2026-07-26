@@ -104,7 +104,13 @@ jobs:
           echo "--- GPU rows sitting at ZERO (would each need their own quota request) ---"
           printf '%s\n' "$ALLQ" | grep -iE "GPU" | awk '$2+0 == 0 {print "  " $1}' | sort | head -20
           echo "=== [GPU-TYPE SUMMARY] what we could run TODAY inside the 1-GPU cap ==="
-          printf '%s\n' "${NONZERO:-none}" | awk '{printf "  USABLE NOW: %s (limit %s, usage %s)\n", $1, $2, $3}' 
+          printf '%s\n' "${NONZERO:-none}" | awk '{printf "  USABLE NOW: %s (limit %s, usage %s)\n", $1, $2, $3}'
+          # AS AN ANNOTATION, not just an echo. This repo has already paid for burying verdicts in logs
+          # (audit section D: "verdicts readable only by log excavation" — a 24 s cache restore was read as a
+          # passing hypothesis test because the distinguishing evidence sat at an unpredictable log depth). A
+          # summary that costs a 250-line log fetch to read is a summary nobody reads.
+          ONELINE=$(printf '%s\n' "${NONZERO:-none}" | awk '{printf "%s(limit %s) ", $1, $2}')
+          echo "::notice title=GPU TYPES USABLE TODAY::inside the permanent GPUS_ALL_REGIONS=1 cap, the GPU metrics with a NON-ZERO us-central1 limit are: ${ONELINE:-none}. Anything absent would need its own quota request. NB the GCP lane is DOLLAR-bound (~\$292 left, ~411 L4-h), so a faster card compresses calendar without adding science — see STRATEGY.md."
           echo "=== [QUOTA-SUMMARY] (the ones that matter for on-demand L4) ==="
           Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
                 --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
