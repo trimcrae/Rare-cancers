@@ -586,8 +586,22 @@ def mode_monitor():
     bucket, s3 = _require_bucket(), _s3()
     units = default_units()
     key = os.environ.get("VAST_API_KEY")
-    live = _live_instances(key) if key else []
-    print(f"[s1f] live s1f-* instances: {len(live)}")
+    # ⚠ THREE STATES, NOT TWO: N instances, ZERO instances, and COULD-NOT-ASK. Dropping the early `return`
+    # here was right — the committed-iteration census below reads S3 and does not need the Vast key, so a
+    # missing key should not cost us the progress check. But `live = []` then prints "live s1f-* instances: 0",
+    # which reads as "nothing is billing" when it actually means "nothing was measured". Reporting an
+    # unmeasured state as a measured zero is this repo's most expensive defect class, and a false zero on a
+    # RENTAL board is the version of it that costs money. `_live_instances` returning None is likewise
+    # "the API call failed", never "none".
+    live = _live_instances(key) if key else None
+    if live is None:
+        print("[s1f] ⚠ live s1f-* instances: UNKNOWN — "
+              + ("no VAST_API_KEY in this environment" if not key else "the instance list could not be read")
+              + ". This is NOT 'zero': any rental is unobserved here and could still be billing. "
+                "The per-unit progress census below is unaffected — it reads S3.")
+        live = []
+    else:
+        print(f"[s1f] live s1f-* instances: {len(live)}")
     for i in live:
         print(f"[s1f]   id={i.get('id')} label={i.get('label')} actual={i.get('actual_status')} "
               f"cur={i.get('cur_state')} dph=${i.get('dph_total')} gpu={i.get('gpu_name')} "
@@ -805,13 +819,11 @@ def mode_collect():
     print(f"\n[s1f] {len(results)}/{len(units)} units complete -> step1-fanout-map.json")
 
     key = os.environ.get("VAST_API_KEY")
-    if not key:
-        return
     finished = {r["unit_id"] for r in results}
     idx_of = {u["unit_id"]: i for i, u in enumerate(units)}
     label_of = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u["unit_id"] for u in units}
     ledger = _load_ledger(s3, bucket)
-    for i in _live_instances(key):
+    for i in (_live_instances(key) if key else []):
         lab, st = i.get("label"), (i.get("actual_status") or "")
         age_min = _age_min(i)
         # FREEZE billed minutes BEFORE the reap. After the DELETE the instance is unreadable, so an
@@ -832,8 +844,34 @@ def mode_collect():
         try:
             _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
             print(f"[s1f] reaped {i.get('id')} ({lab}): {why}")
+            if _row is not None:
+                _row["reaped_utc"], _row["reaped_why"] = _utcnow(), why
         except Exception as e:  # noqa: BLE001
             print(f"[s1f] reap {i.get('id')} failed: {e}")
+    _save_ledger(s3, bucket, ledger)
+
+    # ---- realised spend against the estimate -------------------------------------------------------------
+    # Reported HERE, at collect, and written into the map artifact — not left to be reconstructed later. The
+    # ~4x cost error this lane already made was possible precisely because the realised number lived only in
+    # a memory of what a few instances had cost.
+    total, n_rent, rows, unpriced = ledger_cost(ledger)
+    plan_all, plan_run = cost_plan(len(units)), cost_plan(max(1, len(results)))
+    print(f"\n[s1f] REALISED SPEND: ${total} over {n_rent} rental(s)"
+          + (f"  ⚠ {unpriced} rental(s) carried no usable rate and contribute 0" if unpriced else ""))
+    print(f"[s1f] against plan: whole 19-unit tranche ${plan_all}; "
+          f"{len(results)} completed unit(s) would plan at ${plan_run}")
+    for r in rows:
+        print(f"[s1f]   {r['instance']:>12} {str(r['unit_id'])[:44]:44s} machine={r['machine_id']} "
+              f"${r['rate_usd_h']}/hr x {r['billed_h']}h = ${r['usd']}")
+    out["realised_usd"] = total
+    out["realised_rentals"] = rows
+    out["plan_usd_whole_tranche"] = plan_all
+    out["cost_note"] = ("realised = recorded BID $/hr x observed billed hours (Vast charges the bid up to the "
+                        "machine's on-demand price). Plan = vast_cost_model.LADDER_REFERENCE_GPU_H repriced "
+                        "at the best-10-mean $/reference-GPU-hour from vast-ladder-repricing.json.")
+    with open("step1-fanout-map.json", "w") as f:
+        json.dump(out, f, indent=2)
+    s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_map.json", Body=json.dumps(out, indent=2).encode())
 
 
 def mode_diag():
