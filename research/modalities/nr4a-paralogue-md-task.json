@@ -14,13 +14,13 @@
     "stop": "$0. Destroy every nr4a-pdyn instance unconditionally",
     "watch": "$0. ONE long CI run that polls S3 every 3 min with a real PROGRESS check, nudges a stuck start, destroys a host that answers resources_unavailable, RE-RENTS a leg that died with no deliverable (bounded), reaps finished hosts, and fails on a stall. Monitoring that survives a session death."
   },
-  "task": "noop",
+  "task": "watch",
   "targets": "NR4A1,NR4A2",
   "metad_ns": 60,
   "release_ns": 5,
   "n_rep": 3,
   "exclude_machines": "142143,17720",
-  "note": "noop. The status board settled the question it was fired for: exactly ONE live instance per leg (45878836 NR4A1, 45896793 NR4A2), so 45896528 was rented and destroyed rather than left running alongside - no two hosts on one checkpoint prefix. Watch round 2 (run 30190578524) is still in flight and remains the only relauncher; a second concurrent watch is the hazard to avoid.",
+  "note": "watch round 3, re-armed BY HAND. Round 2 (run 30190578524) ran its full 5.5 h cap and exited success at 7:41 AM ET, and its self-re-arm did NOT land: the log shows `re-arming watch round 1` and `task=watch`, but no commit from the chain reached the branch and this file still read `noop`. set_task is best-effort by design, it had to stash a dirty tree first, and my own pushes were landing on the same branch in that minute; the precise rejection is not in the captured log, so the mechanism is NOT claimed. What matters operationally is that NR4A2 is minutes from its release terminus and the watch is what chains collect -> analyse when the deliverable appears.",
   "estimate_usd": {
     "point": 2.5,
     "range": [
@@ -31,7 +31,7 @@
     "basis": "smoke leg implied ~234 ns/day on a rented RTX 4090; 75 ns of MD per paralogue (60 ns metad + 3 x 5 ns release); bid $0.136/hr actually paid against a $0.1333 floor; 60 GB at the $0.20/GB/month median storage rate; two hosts concurrently"
   },
   "launch_targets": "",
-  "watch_round": 2,
+  "watch_round": 3,
   "analyse_samples": 2000000,
   "_analyse_samples_why": "rigid-body samples per (arm x pose) for the matched placement set. A matched placement reaches an NR4A3-unique cysteine in only ~0.1-0.2 % of placements, so the 12-atom gate cell is thin: 500k gave ~5.7k placements and single-digit events. 2M gives ~23k placements at ~2.6 h of free CPU, which is what the gate reading needs to stand on its own rather than only on the 14/16/20-atom profile."
 }
