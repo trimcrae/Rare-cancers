@@ -1,9 +1,10 @@
 {
   "n_units": 19,
   "n_complete": 0,
-  "live_instances": 1,
+  "live_instances": 2,
   "instance_states": {
-    "exited": 1
+    "exited": 1,
+    "loading": 1
   },
   "gpu_util": [],
   "phases": {
@@ -21,7 +22,19 @@
       "gpu_util": null,
       "inet_down": 497.8,
       "dph": 0.1446222222222222,
-      "age_min": 41
+      "age_min": 44
+    },
+    {
+      "id": 45938720,
+      "label": "s1f-02-cw_ev_5cooh",
+      "status": "loading",
+      "cur_state": "running",
+      "status_msg": "4f4fb700ef54: Pulling fs layer\n",
+      "gpu": "RTX 3090",
+      "gpu_util": null,
+      "inet_down": 175.7,
+      "dph": 0.06982222222222223,
+      "age_min": 3
     }
   ],
   "units": [
@@ -178,6 +191,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 0.08,
+  "realised_usd_so_far": 0.09,
   "plan_usd_whole_tranche": 35.67
 }
