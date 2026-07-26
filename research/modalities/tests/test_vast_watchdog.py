@@ -136,14 +136,25 @@ def test_the_ternary_list_is_still_read_by_the_LEGACY_path():
     assert "_required_run_params_by_kind" not in doc
     assert all("kind" not in e for e in doc["watch"])
     broken = copy.deepcopy(doc)
-    del broken["watch"][0]["timestep_fs"]
+    # Mutate an ENABLED entry. This used to hard-code watch[0], which was fine until the probe completed and was
+    # set enabled:false on 2026-07-26 — validate() deliberately skips disabled entries, so the mutation stopped
+    # being observable and the test failed reporting [] instead of the missing key. The point of this test is the
+    # legacy (leg_id, direction) failure SHAPE, not which row happens to sit first, so pick a live row.
+    live = next(i for i, e in enumerate(broken["watch"]) if e.get("enabled"))
+    del broken["watch"][live]["timestep_fs"]
     problems = wdv.validate(broken, known_kinds=set(vw.KINDS))
-    assert problems == [("calib_hi_to_lo__ternary_vhl", "fwd", ["timestep_fs"])]
+    assert problems == [(doc["watch"][live]["leg_id"], doc["watch"][live]["direction"], ["timestep_fs"])]
 
 
 def test_the_four_live_ternary_entries_are_byte_identical_to_what_shipped():
-    """These four are watching billed legs right now. Any edit to them belongs to the ternary lane, not to
-    this generalisation, so the exact identities are pinned here."""
+    """These four units belong to the ternary lane, not to this generalisation, so their exact identities are
+    pinned here — a rename or a dropped row should fail loudly.
+
+    `enabled` is deliberately NOT pinned. It is live operational state: a unit is disabled when its leg COMPLETES,
+    and the list keeps the row so the finished unit stays on the record. The probe (ΔG_morph 48.1970) and the
+    solvent leg (ΔG_morph 47.7982) both landed on 2026-07-26 and were correctly set enabled:false, which turned
+    `all(enabled)` into an assertion that the lane must never finish anything. Pinning identities is the real
+    invariant; pinning progress makes the suite go red on success."""
     ids = [e["unit_id"] for e in _ternary()["watch"]]
     assert ids == [
         "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
@@ -151,7 +162,8 @@ def test_the_four_live_ternary_entries_are_byte_identical_to_what_shipped():
         "calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge",
         "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge",
     ]
-    assert all(e["enabled"] for e in _ternary()["watch"])
+    # every row still carries the flag (present and boolean) — its VALUE is operational
+    assert all(isinstance(e.get("enabled"), bool) for e in _ternary()["watch"])
 
 
 def test_the_two_watch_lists_are_disjoint():
