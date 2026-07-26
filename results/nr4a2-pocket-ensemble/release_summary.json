@@ -1,0 +1,208 @@
+{
+  "target": "NR4A2",
+  "seed_mode": "nearest TARGET_RG=0.717",
+  "seed_frame": 13,
+  "seed_Rg_nm": 0.721,
+  "target_rg_nm": 0.717,
+  "metad_Rg_min_nm": 0.657,
+  "metad_Rg_max_nm": 1.246,
+  "cv_residues": [
+    372,
+    373,
+    376,
+    377,
+    380,
+    450,
+    453,
+    454,
+    500,
+    503
+  ],
+  "cv_identities": {
+    "372": "HIS",
+    "373": "VAL",
+    "376": "ASN",
+    "377": "PRO",
+    "380": "THR",
+    "450": "ARG",
+    "453": "TYR",
+    "454": "ARG",
+    "500": "ILE",
+    "503": "PHE"
+  },
+  "ns_per_replica": 5.0,
+  "n_replicas": 3,
+  "replicas": [
+    {
+      "replica": 0,
+      "seed_Rg": 0.721,
+      "end_Rg": 0.824,
+      "mean_Rg": 0.782,
+      "min_Rg": 0.744,
+      "max_Rg": 0.849,
+      "ns_done": 5.0,
+      "frac_time_within_0.1nm_of_seed": 0.94
+    },
+    {
+      "replica": 1,
+      "seed_Rg": 0.721,
+      "end_Rg": 0.817,
+      "mean_Rg": 0.788,
+      "min_Rg": 0.738,
+      "max_Rg": 0.857,
+      "ns_done": 5.0,
+      "frac_time_within_0.1nm_of_seed": 0.9
+    },
+    {
+      "replica": 2,
+      "seed_Rg": 0.721,
+      "end_Rg": 0.777,
+      "mean_Rg": 0.771,
+      "min_Rg": 0.742,
+      "max_Rg": 0.816,
+      "ns_done": 5.0,
+      "frac_time_within_0.1nm_of_seed": 1.0
+    }
+  ],
+  "_matched_to": "the NR4A3 release run: same System object from the metad checkpoint, same integrator/timestep/thermostat, same 50 ps reporting, same seed rule.",
+  "_seed_rg_caveat": "TARGET_RG is the NR4A3 druggable-state CV value. If a paralogue's metad never reaches it, the seed is the NEAREST frame and its Rg is recorded here \u2014 the ensembles are then NOT matched on realised openness and the analysis must say so.",
+  "minimized_Rg_nm": 0.743,
+  "export": {
+    "metad": {
+      "n_frames_available": 1200,
+      "n_exported": 25,
+      "frame_indices": [
+        0,
+        50,
+        100,
+        150,
+        200,
+        250,
+        300,
+        350,
+        400,
+        450,
+        500,
+        550,
+        600,
+        649,
+        699,
+        749,
+        799,
+        849,
+        899,
+        949,
+        999,
+        1049,
+        1099,
+        1149,
+        1199
+      ],
+      "sources": [
+        "nr4a3-lbd-metad.dcd"
+      ]
+    },
+    "release_rep0": {
+      "n_frames_available": 100,
+      "n_exported": 25,
+      "frame_indices": [
+        0,
+        4,
+        8,
+        12,
+        16,
+        21,
+        25,
+        29,
+        33,
+        37,
+        41,
+        45,
+        50,
+        54,
+        58,
+        62,
+        66,
+        70,
+        74,
+        78,
+        82,
+        87,
+        91,
+        95,
+        99
+      ],
+      "sources": [
+        "release_rep0_from0.dcd"
+      ]
+    },
+    "release_rep1": {
+      "n_frames_available": 100,
+      "n_exported": 25,
+      "frame_indices": [
+        0,
+        4,
+        8,
+        12,
+        16,
+        21,
+        25,
+        29,
+        33,
+        37,
+        41,
+        45,
+        50,
+        54,
+        58,
+        62,
+        66,
+        70,
+        74,
+        78,
+        82,
+        87,
+        91,
+        95,
+        99
+      ],
+      "sources": [
+        "release_rep1_from0.dcd"
+      ]
+    },
+    "release_rep2": {
+      "n_frames_available": 100,
+      "n_exported": 25,
+      "frame_indices": [
+        0,
+        4,
+        8,
+        12,
+        16,
+        21,
+        25,
+        29,
+        33,
+        37,
+        41,
+        45,
+        50,
+        54,
+        58,
+        62,
+        66,
+        70,
+        74,
+        78,
+        82,
+        87,
+        91,
+        95,
+        99
+      ],
+      "sources": [
+        "release_rep2_from0.dcd"
+      ]
+    }
+  }
+}

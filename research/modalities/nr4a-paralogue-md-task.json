@@ -14,13 +14,13 @@
     "stop": "$0. Destroy every nr4a-pdyn instance unconditionally",
     "watch": "$0. ONE long CI run that polls S3 every 3 min with a real PROGRESS check, nudges a stuck start, destroys a host that answers resources_unavailable, RE-RENTS a leg that died with no deliverable (bounded), reaps finished hosts, and fails on a stall. Monitoring that survives a session death."
   },
-  "task": "watch",
+  "task": "analyse",
   "targets": "NR4A1,NR4A2",
   "metad_ns": 60,
   "release_ns": 5,
   "n_rep": 3,
   "exclude_machines": "142143,17720",
-  "note": "watch round 4, restarted deliberately to pick up the set_task FIX. Round 3 was started at 7:43 AM, before the hand-off bug was found, so it carries the code that stashes the very task file it commits -- it would have reported a successful chain to `collect` when NR4A1 lands (~10:20 AM) and silently done nothing, for the third time today. Restarting is safe rather than a second concurrent watch: the ops job's concurrency group is lane13-ops-<task> with cancel-in-progress, so a new `watch` SUPERSEDES the running one, and all state lives in S3 and the repo. NR4A2 is already done and disabled in the watch list; this round covers NR4A1 through release and then chains collect -> analyse over both ensembles.",
+  "note": "matched paralogue ensembles collected \u2014 running the categorical verdict",
   "estimate_usd": {
     "point": 2.5,
     "range": [
