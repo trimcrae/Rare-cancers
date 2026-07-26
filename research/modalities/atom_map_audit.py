@@ -46,9 +46,17 @@ _SUFFIX = os.environ.get("MAP_AUDIT_OUT_SUFFIX", "")
 OUT = os.path.join(HERE, "atom-map-audit%s.json" % (("-" + _SUFFIX) if _SUFFIX else ""))
 
 BUCKET = os.environ.get("VAST_CKPT_BUCKET", "sagemaker-us-east-2-646605541856")
-# Every prefix under which this repo has ever archived an alchemical leg produced by `_mapping`.
+# Every prefix under which this repo archives a leg RESULT produced by `_mapping`.
+#
+# ★ THESE ARE THE RESULT SUBPREFIXES, NOT THE LANE ROOTS, AND THAT IS DELIBERATE. `ternary-vast/` also holds
+# `commits/` and `nr4a3-step1-fanout/results/` holds `<unit>/ckpt/` — the per-window sampler checkpoint stores,
+# which run to hundreds of thousands of objects. The first attempt listed the lane roots and spent >25 minutes
+# inside list_objects_v2 without reaching a single leg JSON. The results themselves are a few dozen objects.
 ARCHIVE_PREFIXES = [p for p in (os.environ.get("MAP_AUDIT_PREFIXES") or
-                                "ternary-vast,nr4a3-step1-fanout,nr4a3-rbfe,nrv04-retro").split(",") if p]
+                                "ternary-vast/legs,nr4a3-step1-fanout/results").split(",") if p]
+# A key inside one of these is a sampler checkpoint, never a result — skipped without a GET.
+_SKIP_SEGMENTS = ("/ckpt/", "/commits/", "/shared/", "/scratch/", "checkpoint_lambda")
+MAX_KEYS_PER_PREFIX = int(os.environ.get("MAP_AUDIT_MAX_KEYS", "300000"))
 
 # The MCS floor is computed with LOMAP-COMPATIBLE ring rules on purpose (see _mcs). rdFMCS with the permissive
 # defaults can return a core LOMAP would refuse to use (it will not map a partial ring), which would make the
@@ -311,15 +319,30 @@ class Unreadable(RuntimeError):
 
 
 def _iter_keys(s3, bucket, prefix):
-    tok = None
+    """List a prefix, skipping the sampler checkpoint stores and printing progress.
+
+    The progress print is not decoration: the first version of this sweep ran silently for 25 minutes because
+    it was listing a checkpoint store, and a long-running step with no output is indistinguishable from a hung
+    one — which is exactly the reading the tight-monitoring rule forbids making by assumption."""
+    tok, seen, kept = None, 0, 0
     while True:
         kw = {"Bucket": bucket, "Prefix": prefix, "MaxKeys": 1000}
         if tok:
             kw["ContinuationToken"] = tok
         r = s3.list_objects_v2(**kw)
         for o in r.get("Contents", []) or []:
+            seen += 1
+            if any(seg in o["Key"] for seg in _SKIP_SEGMENTS):
+                continue
+            kept += 1
             yield o["Key"], o["Size"], o["LastModified"]
-        if not r.get("IsTruncated"):
+        if seen and seen % 20000 < 1000:
+            print("[archive]   ... %d listed, %d kept under %s" % (seen, kept, prefix), flush=True)
+        if not r.get("IsTruncated") or seen >= MAX_KEYS_PER_PREFIX:
+            if seen >= MAX_KEYS_PER_PREFIX:
+                print("[archive]   ⚠ hit the %d-key cap under %s — the sweep is INCOMPLETE for this prefix, "
+                      "which makes anything not seen UNVERIFIABLE, not absent" % (MAX_KEYS_PER_PREFIX, prefix),
+                      flush=True)
             return
         tok = r.get("NextContinuationToken")
 
