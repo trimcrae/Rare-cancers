@@ -63,8 +63,12 @@ jobs:
           echo "=== reap: mode=$MODE max_age_min=$MAX_AGE_MIN prefix='$PREFIX' exclude='${EXCLUDE:-<none>}' now=$(date -u) ==="
 
           # name,zone,status,creationTimestamp for every instance (zone is already the short name here).
+          # maxRunDuration is in the listing because it is the ONLY way to see when a VM will actually die, and
+          # because it CANNOT BE CHANGED once the VM is running (gcp-gpu-facts.md §3b) — so it is a fact about the
+          # instance, not a setting. Verifying it against the resource also catches the case where a workflow's log
+          # claims one cap and the instance carries another.
           LIST=$(gcloud compute instances list \
-                   --format="csv[no-heading](name,zone,status,creationTimestamp)" 2>/tmp/lerr) \
+                   --format="csv[no-heading](name,zone,status,creationTimestamp,scheduling.maxRunDuration.seconds)" 2>/tmp/lerr) \
                 || { echo "::error::instances list failed:"; cat /tmp/lerr; exit 1; }
 
           if [ -z "$LIST" ]; then echo "no instances in project — nothing to reap"; fi
@@ -72,7 +76,7 @@ jobs:
           CONSIDERED=0; DELETED=0; SPARED=0; FAILED=0
           DEADRE='STOPPING|STOPPED|TERMINATED|SUSPENDED|SUSPENDING'
           # iterate line by line
-          while IFS=, read -r NAME ZONE STATUS CTS; do
+          while IFS=, read -r NAME ZONE STATUS CTS MAXRUN; do
             [ -z "$NAME" ] && continue
             case "$NAME" in
               ${PREFIX}*) : ;;                       # matches prefix -> consider
@@ -82,7 +86,13 @@ jobs:
             # age in minutes from creationTimestamp (RFC3339 -> epoch; GNU date on the runner)
             CEPOCH=$(date -u -d "$CTS" +%s 2>/dev/null || echo 0)
             AGE_MIN=$(( (NOW - CEPOCH) / 60 ))
-            EXPLAIN="$NAME [$ZONE] status=$STATUS age=${AGE_MIN}m"
+            # remaining life, so a listing answers "when does this die" rather than just "how old is it"
+            REMAIN="cap<unset>"
+            case "${MAXRUN:-}" in
+              ''|*[!0-9]*) : ;;
+              *) REMAIN="cap=$((MAXRUN/60))m dies_in=$(( MAXRUN/60 - AGE_MIN ))m" ;;
+            esac
+            EXPLAIN="$NAME [$ZONE] status=$STATUS age=${AGE_MIN}m $REMAIN"
 
             # excluded names are always spared
             case "$EXCL" in *" $NAME "*) echo "  SPARE  $EXPLAIN (excluded)"; SPARED=$((SPARED+1)); continue ;; esac
