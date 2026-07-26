@@ -652,9 +652,12 @@ distinguish
   ΔΔG_coop = ΔG_ternary − ΔG_binary, hence r0's −0.534; from
 - *the unbound end moved* — the expected physics of the binary state.
 
-**So `tech_fail=True` on the binary leg is neither confirmed nor dismissed by the evidence that produced it.**
-That matters because the r0 result depends on the binary arm, and it must not be quietly discounted *or* quietly
-accepted.
+**So — at the time this section was written — `tech_fail=True` on the binary leg was neither confirmed nor
+dismissed by the evidence that produced it.** That mattered because the r0 result depends on the binary arm and it
+must not be quietly discounted *or* quietly accepted. §L.3a below records the answer, and it is **confirmed, not
+dismissed**: the expectation stated in this section (that the free end was doing the work) is measured FALSE.
+Everything from here to §L.3a is the reasoning that motivated the measurement, kept for that reason; the numbers
+that settle it are in §L.3a.
 
 The discriminating observable now exists: `_contact_ligand_rows` selects the ligand heavy atoms within 0.45 nm of
 the receptor **in the reference frame** (never re-derived at the later frame — an escaping warhead would drop out
@@ -665,10 +668,45 @@ contact moiety at all is **UNMEASURED, never passed**, because a ligand with no 
 a finding. Both numbers appear on the summary line with the flagged one marked, so which observable decides the
 gate is legible without opening the JSON.
 
-**Still open:** the verdict for the binary leg needs a `mode=converge` re-run to produce contact-moiety numbers.
-Until that lands, r0's ΔΔG_coop carries an unresolved flag on its binary arm — recorded here rather than folded
-into a revised verdict, because the rev leg's hysteresis result is also still outstanding and the two together
-are what the valB_mini rescope decision rests on.
+### L.3a THE ANSWER: hypothesis REFUTED. The binary leg's failure is real, and now it is measured on the right observable
+
+The contact-moiety re-run landed (GH run 30202934339) and it says the opposite of what L.3 expected:
+
+| leg | **FLAG** contact-moiety pose RMSD max / med (Å) | n_contact heavy | *info* whole-ligand max / med (Å) | tech_fail |
+|---|---|---|---|---|
+| `binary_vhl` | **16.327 / 4.333** | 30–52 of 59 | 16.636 / 6.987 | **True** |
+| `solvent` | n/a (no receptor) | 0–0 | n/a | False — NOT APPLICABLE |
+| `ternary_vhl` | 2.835 / 1.653 | 51–57 of 59 | 2.765 / 1.644 | False |
+
+**The floppy-free-end explanation is wrong.** Restricting the measurement to the atoms actually in the VHL pocket
+removed almost none of the excursion: 16.636 → 16.327 Å at the max. The atoms *in contact* are themselves moving
+~16 Å in the worst replica. Two further reasons this is not a single-replica artifact or a threshold quibble:
+
+- the **median** contact-moiety RMSD is 4.333 Å — above the 4.0 Å threshold on its own, so it is not one bad
+  replica dragging a max. (It did drop from the whole-ligand median of 6.987, so the free end *was* contributing
+  something — just nowhere near enough to explain the flag.)
+- `n_contact` is **30–52 of 59 heavy atoms**, not the ~half a "one warhead bound, rest in solvent" picture would
+  predict. In the binary state this PROTAC lies substantially against VHL, so there was less free-end leverage
+  available than the hypothesis assumed. That premise was wrong too, and it was checkable — the number was
+  simply never measured before.
+
+So `calib_hi_to_lo__binary_vhl` has a **confirmed** technical failure of the observable the preregistered
+threshold is actually about, and the ternary leg in the same cycle is clean at 2.835 / 1.653 Å with 51–57 atoms
+in contact. **ΔG_binary is not a measurement of the intended binding mode**, and since
+ΔΔG_coop = ΔG_ternary − ΔG_binary, r0's −0.534 rests on a broken arm.
+
+**This is the outcome that makes the change worth having made.** The point of the contact-moiety observable was
+never to clear the binary leg — it was to find out *which* of two indistinguishable explanations was true. It
+returned the one I did not expect, and the guard it feeds is now failing for a reason that is measured rather than
+assumed. Had it come back clean I would have had a pass I could defend; instead I have a failure I can defend,
+which is worth more. Recorded as a flag rather than a revised r0 verdict because the rev leg's hysteresis result
+is still outstanding, and the two together are what the valB_mini rescope decision rests on.
+
+**What it does NOT establish:** *why* the bound moiety moves 16 Å. Candidates worth separating — a genuine
+unbinding event in the binary complex (physics, and arguably the interesting result), versus a setup or
+restraint problem specific to the binary arm — are not distinguished by a two-frame RMSD. The next diagnostic
+should be per-replica time-resolved rather than endpoint-to-endpoint, because `iterations_compared: [0, 2000]`
+cannot tell a drift from a jump and back. Not started; not spent on yet.
 
 ### L.4 One thing deliberately NOT changed mid-flight: `run_analyze()` on the GPU VM
 
