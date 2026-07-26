@@ -250,29 +250,38 @@ But the 2b gate is a **4 fs-vs-2 fs consistency check**, not an accuracy check a
 defect the two timesteps *share* cancels out of the comparison, and the gate stays meaningful **on one condition:
 the 4 fs cycle's binary arm has to carry the same defect as the 2 fs one.**
 
-**★ THAT CONDITION IS NOW THE LIVE QUESTION, AND IT CUTS BOTH WAYS.** RUNG 2b has landed (below) with
-ΔΔG_coop(4 fs) = **−0.5125** against the 2 fs **−0.534**, i.e. **|Δ| = 0.0215 kcal/mol** — a *very* tight
-agreement. Two readings, and they are not equally comfortable:
+**★ THAT CONDITION IS MEASURED, AND SATISFIED — the 4 fs binary arm fails the same way.** Run as a genuine test
+that could have gone the other way (a clean 4 fs arm agreeing with a contaminated 2 fs one to 0.02 kcal/mol would
+have meant the departure barely moves ΔG_binary, and my claim would have needed substantial softening). It did not
+go the other way. GH run 30210676030 (Vast `task=converge`, CPU, $0) vs GH run 30210186711 (GCP, r0):
 
-1. **The 4 fs binary leg shares the departure.** Then the agreement is a genuine *timestep* reproduction on a
-   shared-broken-arm basis: the 2b PASS stands as a verdict about 4 fs, and neither absolute ΔΔG_coop is a valid
-   cooperativity. This is the reading the r0 finding predicts.
-2. **The 4 fs binary leg holds its pose.** Then a contaminated 2 fs binary arm and a clean 4 fs one agree to
-   0.02 kcal/mol — which would mean the departure barely moves ΔG_binary, and my "ΔG_binary is not a free energy
-   of the intended bound state" would need **substantial softening** as a practical claim, whatever the pose data
-   says.
+| | 2 fs (r0) | 4 fs (2b) |
+|---|---|---|
+| binary `contact_pose` max / med (Å) | 16.327 / 4.333 | **17.622 / 5.358** |
+| binary replicas ending beyond 4.0 Å | **8 of 12** | **7 of 12** |
+| binary λ initiation, endpoint / interior | 1 / 7 | **1 / 9** |
+| **ternary** `contact_pose` max / med (Å) | 2.835 / 1.653 | **2.999 / 1.897** |
+| **ternary** replicas beyond 4.0 Å | **0 of 12** | **0 of 12** |
 
-**So this is a real test of the r0 conclusion, not a formality, and it is free.** `mode=converge` now reports the
-per-replica contact-moiety series and its λ attribution for every leg; the 2b legs live in **S3 via the Vast lane**
-rather than GCS, so the diagnostic has to be pointed at them there. **Until it is run, treat the 2b PASS as
-provisional on reading 1** — and note that reading 2 would be evidence *against* my own finding, which is the
-outcome to be most careful not to discount.
+Every feature reproduces — magnitude, replica fraction, class mix, λ signature, and the clean ternary arm — across
+a different timestep, a different provider and GPU, a different commit interval and independent runs (audit §L.3d).
+So:
+
+- **The RUNG 2b timestep PASS STANDS on its own terms.** The gate asks whether 4 fs reproduces 2 fs; it does, and
+  the shared defect cancels from the comparison. **4 fs adoption is not undermined.**
+- **The r0 finding is REINFORCED, not softened** — the departure is a systematic property of the binary leg's
+  setup, not one bad trajectory.
+- **−0.534 and −0.5125 are two precise measurements of the same wrong thing.** Their agreement is evidence of
+  *reproducibility*, which is what the gate claims, and not of correctness, which it does not.
 
 Consequences kept separate, because they are independent:
 - **RUNG 2 was already FAILED** (wrong sign), so this changes no verdict from pass to fail — it supplies a
-  candidate *mechanism*. **HYPOTHESIS, not a finding:** a binary leg sampling a departed/unbound state would bias
-  ΔG_binary, and ΔΔG_coop = ΔG_ternary − ΔG_binary could take the wrong sign from that alone. Untested; it would
-  need a binary re-run that holds its pose, and only then is it worth stating as more than a candidate.
+  candidate *mechanism*, now on much better footing but **still a hypothesis**. The experimental target is
+  **+0.94**; both cycles return ≈ −0.52 to −0.53; both have a reproducibly departed binary arm and a clean ternary
+  arm. That co-occurrence is suggestive and it remains **correlational**. **The test is a restrained binary
+  re-run:** sign flips positive with a held pose → mechanism established; sign stays negative → the wrong sign has
+  another cause and the departure is a separate (real) defect. Do not report the mechanism as settled before that.
+- **BOTH cycles need the binary arm re-run**, not only r0 — the 4 fs arm carries the identical defect.
 - **ΔΔG_coop cannot be reported from the r0 cycle at all** until the binary arm is re-run — a blocker
   *independent* of the reverse leg's hysteresis result, which concerns the (clean) ternary arm.
 - **WHAT TO CHANGE ON THE RE-RUN** (λ attribution, GH run 30210186711, audit §L.3c): the escape is *alchemically

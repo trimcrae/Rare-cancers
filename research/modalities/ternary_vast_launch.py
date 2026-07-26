@@ -1110,6 +1110,101 @@ def fetch_legs(dest, mode="edge", bucket=None, prefix=None, timestep_fs=None, wa
     return got
 
 
+def fetch_trajectories(dest, mode="edge", bucket=None, prefix=None, timestep_fs=None,
+                       warmup_timestep_fs=None):
+    """Download each unit's NEWEST committed MultiState generation into `dest` for convergence analysis.
+
+    WHY THIS EXISTS. `fetch_legs` brings back the leg JSONs — one ΔG each — which is everything the reducer
+    needs and nothing the *pose* diagnostics need. Those read the trajectory: `ternary_fep_convergence.py`
+    computes the MBAR overlap matrix, replica mixing, dG(t) plateau and the contact-moiety pose RMSD from the
+    committed `simulation.nc` / `checkpoint.nc`.
+
+    THE QUESTION IT IS FOR. The 2 fs r0 cycle's BINARY leg has a confirmed pose failure — its
+    receptor-contacting moiety leaves and does not return in 8 of 12 replicas, while the ternary leg in the same
+    cycle is 12/12 stable (audit §L.3–L.3c). RUNG 2b's 4 fs cycle agrees with it to |Δ| = 0.0215 kcal/mol. If 2b's
+    binary leg carries the SAME departure, that agreement is a genuine timestep reproduction on a shared-broken-arm
+    basis. If 2b's binary leg holds its pose, then a contaminated arm and a clean one agree to 0.02 kcal/mol, and
+    the claim that the departure invalidates ΔG_binary needs substantial softening. Either way it is decided by
+    looking, and looking needs the trajectories — hence this.
+
+    LAYOUT-AGNOSTIC ON PURPOSE. It lists everything under `commits/<uid>/` and finds the `simulation.nc` keys
+    rather than constructing a path. A guessed prefix that misses returns "no commits", which is indistinguishable
+    from "the trajectory is gone" — the GCP lane's converge step learned that the expensive way, and the same
+    reasoning applies here.
+
+    Directories are named `<leg_id>_sim_shared` because `ternary_fep_convergence._find_nc_files` keys each leg by
+    its parent directory name minus that suffix, so the report comes out tagged by leg rather than by unit id.
+    """
+    b = bucket or DEFAULT_BUCKET
+    p = (prefix or RESULT_PREFIX).rstrip("/")
+    dt = str(timestep_fs or os.environ.get("TVAST_TIMESTEP_FS") or DEFAULT_TIMESTEP_FS)
+    wdt = str(warmup_timestep_fs or os.environ.get("TVAST_WARMUP_TIMESTEP_FS") or DEFAULT_WARMUP_TIMESTEP_FS)
+    os.makedirs(dest, exist_ok=True)
+    s3 = _s3()
+    out = {}
+    for (leg, seed, direction) in units_for(mode):
+        uid = unit_id(leg, seed, direction, dt, wdt, mode)
+        root = f"{p}/commits/{uid}/"
+        keys = []
+        token = None
+        while True:
+            kw = {"Bucket": b, "Prefix": root}
+            if token:
+                kw["ContinuationToken"] = token
+            try:
+                page = s3.list_objects_v2(**kw)
+            except Exception as e:  # noqa: BLE001
+                print(f"[fetch-traj] LIST FAILED {uid}: {type(e).__name__}: {e}")
+                break
+            keys.extend(o["Key"] for o in page.get("Contents", []) or [])
+            if not page.get("IsTruncated"):
+                break
+            token = page.get("NextContinuationToken")
+        ncs = [k for k in keys if k.endswith("/simulation.nc")]
+        if not ncs:
+            print(f"[fetch-traj] NO simulation.nc under s3://{b}/{root} — nothing to analyse for {leg}")
+            out[leg] = None
+            continue
+
+        def _iter_of(key):
+            m = re.search(r"iter-(\d+)", key)
+            return int(m.group(1)) if m else -1
+
+        # PRODUCTION generations only, and the newest of them. A warmup generation would be analysed as if it
+        # were production and reported without complaint — the phase is part of the identity, not a detail.
+        prod = [k for k in ncs if "/production/" in k]
+        pick_from = prod or ncs
+        if not prod:
+            print(f"[fetch-traj] WARNING {leg}: no /production/ generation; falling back to the newest of ANY "
+                  f"phase, which may be WARMUP — read the report's iterations_compared before trusting it")
+        newest = max(pick_from, key=_iter_of)
+        gen = newest.rsplit("/", 1)[0]
+        dstdir = os.path.join(dest, f"{leg}_sim_shared")
+        os.makedirs(dstdir, exist_ok=True)
+        pulled = []
+        for k in keys:
+            if not k.startswith(gen + "/"):
+                continue
+            name = k.rsplit("/", 1)[-1]
+            if not (name.endswith(".nc") or name.endswith(".chk") or name.endswith(".json")):
+                continue
+            try:
+                s3.download_file(b, k, os.path.join(dstdir, name))
+                pulled.append(name)
+            except Exception as e:  # noqa: BLE001
+                print(f"[fetch-traj] download failed {k}: {type(e).__name__}")
+        out[leg] = {"unit_id": uid, "generation": f"s3://{b}/{gen}", "iteration": _iter_of(newest),
+                    "files": sorted(pulled), "phase": ("production" if prod else "UNKNOWN/warmup")}
+        print(f"[fetch-traj] {leg}: iter {_iter_of(newest)} ({out[leg]['phase']}) -> {dstdir} {sorted(pulled)}")
+        # POSITIONS live in the checkpoint, not in simulation.nc. Without it the pose/ligand-escape diagnostic is
+        # unavailable by construction, so say which case we are in rather than letting the report look complete.
+        if not any("checkpoint" in f.lower() for f in pulled):
+            print(f"[fetch-traj] {leg}: NO checkpoint file in this generation — the pose / contact-moiety "
+                  f"diagnostic will be UNAVAILABLE for this leg (positions are stored separately from "
+                  f"simulation.nc), which is not the same as it passing")
+    return out
+
+
 def ddg_coop_identity(legs):
     """ΔΔG_coop from the legs in hand, by the identity the engine defines. PURE.
 
@@ -1187,8 +1282,22 @@ def main(argv=None):
     ap.add_argument("--fetch-legs", metavar="DIR",
                     help="download this mode's engine leg JSONs into DIR under the reducer's filenames, "
                          "then print the ΔΔG_coop identity as a cross-check")
+    ap.add_argument("--fetch-trajectories", metavar="DIR",
+                    help="download each unit's NEWEST committed production generation (.nc/.chk) into DIR as "
+                         "<leg>_sim_shared/, ready for ternary_fep_convergence.py")
     a = ap.parse_args(argv)
-    if a.fetch_legs:
+    if a.fetch_trajectories:
+        got = fetch_trajectories(a.fetch_trajectories, mode=a.mode, timestep_fs=a.timestep_fs,
+                                 warmup_timestep_fs=a.warmup_timestep_fs)
+        print(json.dumps(got, indent=2))
+        # A leg with no trajectory is a REAL gap in the analysis, not a quiet skip: the pose diagnostic that
+        # motivated this cannot be run for it, and the cycle's verdict would silently rest on fewer legs.
+        missing = [k for k, v in got.items() if not v]
+        if missing:
+            print("::warning title=TVAST CONVERGE INCOMPLETE::no committed trajectory for %s — the convergence "
+                  "and pose diagnostics cannot cover %s of %d legs"
+                  % (",".join(missing), len(missing), len(got)))
+    elif a.fetch_legs:
         legs = fetch_legs(a.fetch_legs, mode=a.mode, timestep_fs=a.timestep_fs,
                           warmup_timestep_fs=a.warmup_timestep_fs)
         print(json.dumps(ddg_coop_identity(legs), indent=2))
