@@ -401,3 +401,18 @@ def test_only_seed_can_recover_one_replicate_without_re_renting_its_sibling():
     carries exactly that. Without a seed filter, recovering one preempted arm means re-listing all four."""
     sel = [u for u in tv.units_for("edge_reps") if u[1] == 2]
     assert len(sel) == 2 and {s for (_l, s, _d) in sel} == {2}
+
+
+def test_strict_provenance_is_on_for_the_fresh_replicate_units_and_off_for_the_rest():
+    """`fingerprint_mismatch_reason` ACCEPTS an unstamped committed generation unless RBFE_STRICT_PROVENANCE
+    is set, because refusing one would make a leg already running with pre-stamping generations throw away
+    paid GPU hours on its next preemption. The replicate units' commit prefixes do not exist yet, so nothing
+    unstamped can ever need resuming and the concession buys nothing — but it must stay OFF elsewhere, where
+    another lane has legs in flight whose generations predate stamping."""
+    for (leg, seed, direction) in tv.units_for("edge_reps"):
+        e = tv.build_jobspec(leg, seed, direction, mode="edge_reps", bucket="b", prefix="p").env
+        assert e["RBFE_STRICT_PROVENANCE"] == "1"
+    for mode in ("edge", "probe", "5aks"):
+        leg, seed, direction = tv.units_for(mode)[0]
+        e = tv.build_jobspec(leg, seed, direction, mode=mode, bucket="b", prefix="p").env
+        assert e["RBFE_STRICT_PROVENANCE"] == "0", f"{mode} must not refuse an unstamped resume"
