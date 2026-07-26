@@ -51,9 +51,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, reps-prime, edge-reps, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -117,7 +117,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|5aks-prime|5aks-smoke|5aks|5aks-reduce) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|reps-prime|edge-reps|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -208,6 +208,106 @@ jobs:
           done
           echo "[prime] done -- every edge host will now restore its stage tree in seconds"
 
+  # ------------------------------------------------ free: valB_mini replicates — stage seeds 1+2 AND
+  #                                                   prove the atom map before anything is rented
+  # WHY THE REPLICATES NEED THEIR OWN PRIME. The `prime` job above hardcodes `seed0` in its cache key, and
+  # that is correct rather than sloppy: `ternary_pdb_stage` sets starting_model_index = seed % n_models, so
+  # seeds 1 and 2 start from DIFFERENT independently relaxed SMARCA2 models and sharing one cache would
+  # silently collapse the replicate spread this programme uses as its error bar. The keys are built by
+  # calling the launcher's own `stage_cache_key`, so there is exactly one expression for them in the repo.
+  #
+  # AND WHY IT ALSO RUNS THE MAP PRE-FLIGHT. `LomapAtomMapper(time=N)` is an MCS TIMEOUT and a timed-out MCS
+  # returns its best PARTIAL match silently, so what the alchemical transformation IS depended on how fast
+  # the rented host happened to be. Deriving the required heavy-atom count from the endpoints and checking
+  # the production mapper against it costs $0 here and is the difference between two replicates and two
+  # artifacts. It runs in the parity image, i.e. the same RDKit/OpenFE the hosts will run.
+  reps_prime:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == 'reps-prime' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: ternary-vast-mutate
+      cancel-in-progress: false
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Stage every replicate unit on CPU and upload the seed-keyed caches
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          mkdir -p /tmp/tin
+          python - <<'PY' > /tmp/units.txt
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import ternary_vast_launch as tv
+          for leg, seed, _d in tv.units_for("edge_reps"):
+              print(leg, seed, tv.stage_cache_key(leg, "edge_reps", seed=seed))
+          PY
+          cat /tmp/units.txt
+          while read -r LEG SEED KEY; do
+            if aws s3 ls "$KEY" >/dev/null 2>&1; then echo "[reps-prime] HIT  $LEG seed=$SEED"; continue; fi
+            echo "[reps-prime] MISS $LEG seed=$SEED -- staging on CPU"
+            rm -rf "/tmp/tin/$LEG"
+            docker run --rm --entrypoint python \
+              -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/tin:/tmp/tin \
+              -e SEED="$SEED" -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+              -w /work/research/modalities \
+              docker.io/triskit23/ternary-fep:latest \
+              /work/research/modalities/ternary_pdb_stage.py \
+                --leg-id "$LEG" --template-pdb 8G1Q --out /tmp/tin 2>&1 | tail -20
+            ls -la "/tmp/tin/$LEG"
+            tar -C /tmp/tin -cf /tmp/stage.tar "$LEG"
+            aws s3 cp /tmp/stage.tar "$KEY"
+            echo "[reps-prime] uploaded $KEY ($(du -h /tmp/stage.tar | cut -f1))"
+          done < /tmp/units.txt
+      - name: $0 ATOM-MAP PRE-FLIGHT — refuse the launch if the map is short
+        # This is the gate the whole replicate spend hangs on. A red step here means the map LOMAP returns
+        # under the production budget is not the map the chemistry admits, i.e. the legs would run a
+        # perturbation nobody designed — and would converge and report it confidently.
+        run: |
+          set -eo pipefail
+          # Any staged leg dir will do: the map is a function of the two SmallMoleculeComponents built from
+          # ligands.sdf, and threed=False makes it explicitly pose-independent (that is why the same map is
+          # valid in the solvent, binary and ternary legs — reviewer item 3).
+          for LEG in calib_hi_to_lo__ternary_vhl calib_hi_to_lo__binary_vhl; do
+            if [ ! -d "/tmp/tin/$LEG" ]; then
+              KEY=$(grep -m1 " $LEG " /tmp/units.txt | awk '{print $3}' || true)
+              KEY=${KEY:-$(awk -v l="$LEG" '$1==l {print $3; exit}' /tmp/units.txt)}
+              aws s3 cp "$KEY" /tmp/stage.tar && tar -C /tmp/tin -xf /tmp/stage.tar
+            fi
+          done
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/tin:/tmp/tin \
+            -e RBFE_LOMAP_TIME_S=300 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_map_preflight.py \
+              --input-dir /tmp/tin \
+              --leg-id calib_hi_to_lo__ternary_vhl \
+              --leg-id calib_hi_to_lo__binary_vhl \
+              --out /tmp/tin/valb-map-preflight.json 2>&1 | tail -30
+          cp /tmp/tin/valb-map-preflight.json research/modalities/valb-map-preflight.json
+      - name: Commit the pre-flight record
+        # The map each leg ran under is the one fact that decides whether replicates are comparable to each
+        # other, and it is not recoverable after the fact from anything else in the artifacts.
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/valb-map-preflight.json
+          if git diff --cached --quiet; then echo "pre-flight record unchanged"; else
+            git commit -m "valB_mini reps: atom-map pre-flight record (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}"
+          fi
+
   # ------------------------------------------------------------ free: RUNG 5a-KS inputs (no crystal exists)
   # WHY 5a-KS NEEDS ITS OWN PRIME. The `prime` job above stages from a crystal (RCSB 8G1Q + a SMARCA2
   # homology model). RUNG 5a-KS has no crystal to stage from — there is no PDB entry for CRBN + an NR4A-LBD
@@ -281,7 +381,7 @@ jobs:
   # ------------------------------------------------------------------ paid: rent hosts
   launch:
     needs: [resolve, test]
-    if: ${{ needs.resolve.outputs.task == 'smoke' || needs.resolve.outputs.task == 'probe' || needs.resolve.outputs.task == 'edge' || needs.resolve.outputs.task == '5aks-smoke' || needs.resolve.outputs.task == '5aks' }}
+    if: ${{ needs.resolve.outputs.task == 'smoke' || needs.resolve.outputs.task == 'probe' || needs.resolve.outputs.task == 'edge' || needs.resolve.outputs.task == 'edge-reps' || needs.resolve.outputs.task == '5aks-smoke' || needs.resolve.outputs.task == '5aks' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     concurrency:
@@ -303,6 +403,45 @@ jobs:
         with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
+      - name: ATOM-MAP GATE — the launch cannot rent until the map is proven complete
+        # ★ STRUCTURAL, NOT REMEMBERED. `reps-prime` already runs this, but a gate that depends on someone
+        # having dispatched the right task first is not a gate. `LomapAtomMapper(time=N)` silently returns a
+        # PARTIAL map when its MCS times out, and a leg under a short map converges and returns a confident
+        # ΔG for a perturbation nobody designed — while `protocol_hash` (settings only), system identity
+        # (particle counts, unchanged by dummy-isation) and the 5-part gate (which reads unmapped atoms as
+        # evidence of "a real perturbation") all report green. This step derives the required heavy-atom
+        # count from the endpoints' own MCS and fails the job BEFORE any rental if the mapper falls short.
+        # Cost: one image pull. Cost of not having it: two full replicate rentals that answer nothing.
+        if: ${{ needs.resolve.outputs.task == 'edge-reps' }}
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          mkdir -p /tmp/tin
+          python - <<'PY' > /tmp/units.txt
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import ternary_vast_launch as tv
+          for leg, seed, _d in tv.units_for("edge_reps"):
+              print(leg, seed, tv.stage_cache_key(leg, "edge_reps", seed=seed))
+          PY
+          # A missing stage cache is a hard stop, not a fall-through: without ligands.sdf the map cannot be
+          # checked at all, and "could not check" must never read as "checked and fine".
+          for LEG in calib_hi_to_lo__ternary_vhl calib_hi_to_lo__binary_vhl; do
+            KEY=$(awk -v l="$LEG" '$1==l {print $3; exit}' /tmp/units.txt)
+            aws s3 cp "$KEY" /tmp/stage.tar || { echo "::error::no stage cache at $KEY — run task=reps-prime first"; exit 1; }
+            tar -C /tmp/tin -xf /tmp/stage.tar
+          done
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/tin:/tmp/tin \
+            -e RBFE_LOMAP_TIME_S=300 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_map_preflight.py \
+              --input-dir /tmp/tin \
+              --leg-id calib_hi_to_lo__ternary_vhl \
+              --leg-id calib_hi_to_lo__binary_vhl 2>&1 | tail -20
+
       - name: Rent one host per unit
         run: |
           set -eo pipefail
@@ -370,9 +509,14 @@ jobs:
           echo "================ TVAST BOARD ================"
           cat /tmp/board.txt
 
+  # `reduce-reps` is the SAME job with one more fetch, deliberately: the replicate reduction differs from the
+  # seed-0 one only in which leg JSONs land in the directory, and the reducer globs that directory. Giving it
+  # a second job would be a second expression of the reduction, and the standing rule here is one fact, one
+  # place — a divergence between "the reduction" and "the replicate reduction" is precisely how a cycle ends
+  # up reported two ways.
   reduce:
     needs: resolve
-    if: ${{ needs.resolve.outputs.task == 'reduce' }}
+    if: ${{ needs.resolve.outputs.task == 'reduce' || needs.resolve.outputs.task == 'reduce-reps' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
@@ -393,6 +537,17 @@ jobs:
           mkdir -p /tmp/tred
           python research/modalities/ternary_vast_launch.py --mode edge --fetch-legs /tmp/tred \
             2>&1 | tee /tmp/identity.txt
+          # THE REPLICATES LAND IN THE SAME DIRECTORY, because that is how the reducer finds them:
+          # `ternary_fep_reduce._find_leg_files` globs `leg_<leg_id>_<direction>_r<seed>.json`, so seeds 0, 1
+          # and 2 of one leg are three files that differ only in their `_r<seed>` suffix, and
+          # `per_replicate_ddg_coop` pairs ternary with binary BY SEED to form one ΔΔG_coop per replicate.
+          # The between-replicate sample SD of those values IS the cycle SD the frozen gate reads — it is a
+          # replicate SD, never an MBAR SE.
+          if [ "${{ needs.resolve.outputs.task }}" = "reduce-reps" ]; then
+            python research/modalities/ternary_vast_launch.py --mode edge_reps --fetch-legs /tmp/tred \
+              2>&1 | tee -a /tmp/identity.txt
+          fi
+          ls -la /tmp/tred
       - name: Official reduction, in the SAME env that produced the trajectories
         # PULL, DO NOT SOLVE. The image carries the exact openfe/openmmtools/pymbar the legs were run with,
         # and analysing an OpenFE trajectory with a different pymbar/openmmtools than PRODUCED it can move

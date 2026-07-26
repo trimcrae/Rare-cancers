@@ -9,6 +9,8 @@ import math
 import os
 import sys
 
+import pytest
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import ternary_coop as tc          # noqa: E402
 import nr4a3_ternary_fep as eng     # noqa: E402
@@ -154,3 +156,60 @@ def test_plan_forecast_reports_cap_fit():
     f = tc.plan(n_windows=16, n_replicas=3, unit_gpu_h=3.0, spot_hourly=0.50)
     assert "fits_cap" in f and "forecast_cost_usd" in f and f["hard_cap_usd"] == 200
     assert f["n_legs"] == 4                                # the frozen bundle drives the cap forecast
+
+
+# ---------------------------------------------------------------- degenerate-atom-map guard (2026-07-26)
+def test_expected_heavy_map_size_is_derived_from_the_frozen_endpoints():
+    """The expectation the guard fires on is DERIVED from the two endpoint molecules, never typed.
+
+    For the frozen valB_mini edge (Wurz cmpd1 -> cmpd4, a linker pyridine N -> benzene CH) both endpoints
+    carry 59 heavy atoms and admit a COMPLETE 1:1 heavy-atom map with the single N<->C as the alchemical
+    atom, so anything under 59 from LOMAP is a failed MCS search rather than a property of the chemistry."""
+    import json
+    from rdkit import Chem
+    frozen = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                         "wurz-calib-frozen.json")))
+    a = Chem.AddHs(Chem.MolFromSmiles(frozen["calib_hi"]["smiles"]))
+    b = Chem.AddHs(Chem.MolFromSmiles(frozen["calib_lo"]["smiles"]))
+    n, detail = eng.expected_heavy_map_size(Chem, a, b)
+    assert detail["heavy_atoms_A"] == detail["heavy_atoms_B"] == 59
+    assert n == 59, f"expected a complete 59-atom heavy map, derived {n}"
+    assert detail["mcs_timed_out"] is False
+
+
+def test_a_short_map_aborts_a_calibration_leg_before_any_sampling():
+    """★ FAIL CLOSED. A timed-out LOMAP MCS returns a PARTIAL map silently; the unmapped atoms become
+    dummies that are annihilated and recreated, and the leg then converges and returns a confident ΔG for a
+    perturbation nobody designed. No other check in the pipeline can see it — protocol_hash covers the
+    OpenFE settings, system identity covers particle counts (which dummy-isation leaves unchanged), and the
+    5-part gate's item 2 reads unmapped atoms as evidence of "a real perturbation", i.e. it goes GREENER."""
+    short = {"n_mapped_atoms": 80, "n_heavy_mapped": 45, "expected_heavy_mapped": 59,
+             "heavy_atoms_A": 59, "heavy_atoms_B": 59, "lomap_time_s": 20,
+             "degenerate": True, "mcs_timed_out": False, "mcs_timeout_s": 300}
+    with pytest.raises(SystemExit) as ex:
+        eng.assert_map_not_degenerate(short, "calib_hi_to_lo__ternary_vhl")
+    assert "DEGENERATE ATOM MAP" in str(ex.value)
+    # complete map -> no abort
+    ok = dict(short, n_heavy_mapped=59, degenerate=False)
+    assert eng.assert_map_not_degenerate(ok, "calib_hi_to_lo__ternary_vhl") is ok
+
+
+def test_the_hard_abort_is_scoped_so_it_cannot_kill_another_lane_s_running_leg():
+    """This engine is shared. Introducing a new hard abort underneath a leg already in flight — on an
+    expectation not yet checked for that edge — would trade a silent wrong answer for a silent lost rental,
+    so a non-calibration leg gets a LOUD WARNING and `RBFE_MAP_ASSERT` makes the choice explicit either way."""
+    short = {"n_mapped_atoms": 80, "n_heavy_mapped": 45, "expected_heavy_mapped": 59,
+             "heavy_atoms_A": 59, "heavy_atoms_B": 59, "lomap_time_s": 20,
+             "degenerate": True, "mcs_timed_out": False, "mcs_timeout_s": 300}
+    prev = os.environ.pop("RBFE_MAP_ASSERT", None)
+    try:
+        assert eng.assert_map_not_degenerate(short, "5aks_d0_to_d__ternary_nr4a3") is short   # warns
+        os.environ["RBFE_MAP_ASSERT"] = "1"
+        with pytest.raises(SystemExit):
+            eng.assert_map_not_degenerate(short, "5aks_d0_to_d__ternary_nr4a3")
+        os.environ["RBFE_MAP_ASSERT"] = "0"
+        assert eng.assert_map_not_degenerate(short, "calib_hi_to_lo__ternary_vhl") is short
+    finally:
+        os.environ.pop("RBFE_MAP_ASSERT", None)
+        if prev is not None:
+            os.environ["RBFE_MAP_ASSERT"] = prev
