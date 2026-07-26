@@ -198,7 +198,7 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 3:37 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 4:43 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
@@ -206,11 +206,11 @@ a window long enough to swamp the 40-iteration commit block** (see the quantisat
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **39.1/60 ns**, up 115 min, GPU 43 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.00 ns/h** over 60 min — third agreeing interval (3.4, 3.14, 3.00), so the slow rate is settled | metad ~**10:35 AM**, release ~**3:35 PM** |
-| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **45.4/60 ns**, up 467 min, GPU 73 %. **5.95 ns/h** over 60 min, agreeing with 6.00, 5.67, 5.9 | metad ~**6:05 AM**, release ~**8:35 AM** |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 720/2000**, up 717 min. **146 iter/h** over 82 min; **176 iter/h** over the longest available window (109 min) | ~**11:00 AM – 12:25 PM** — a range, because the two long windows do not yet agree |
-| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — **production 1400/2000**, up 717 min. **234 iter/h** over 82 min. Faster than the ternary leg, which is expected: a binary system has fewer particles per iteration | ~**6:10 AM** |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **advancing — `warmup/792` of 800 (99 %)**, VM up 514 min. **69.7 iter/h** over 62 min, agreeing with that session's ~68 | warmup done ~**3:21 AM**, then 2000 production iterations; **~Mon 8:40 AM** — its result keys the calibrator rescope |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **42.55/60 ns**, up 181 min, GPU 45 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.15 ns/h** over 60 min — fourth agreeing interval (3.4, 3.14, 3.00, 3.15), so the slow rate is settled | metad ~**10:15 AM**, release ~**3:00 PM** |
+| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **51.95/60 ns**, up 533 min, GPU 71 %. **5.95 ns/h** over 60 min, agreeing with 6.00, 5.67, 5.9 | metad ~**6:05 AM**, release ~**8:35 AM** |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 920/2000**, up 777 min. **169 iter/h** over the longest window (142 min), with the shorter ones bracketing it 146–200 | ~**11:00 AM** |
+| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — **production 1600/2000**, up 777 min. **220 iter/h** over 142 min. Faster than the ternary leg, which is expected: a binary system has fewer particles per iteration | ~**6:25 AM** |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **warmup COMPLETE (800/800) and into `production/80` of 2000**, VM up 598 min. No independent rate yet — the only window available still straddles the warmup→production boundary, and production costs ~half per iteration, so quoting one would repeat the mistake below | **~Mon 8:40 AM**, that session's figure — its result keys the calibrator rescope |
 
 ⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Three agreeing
 intervals (3.4, 3.14, 3.00, the last over a full hour) put the 4080S at **~3.0–3.4 ns/h** against **~5.5–6.0
@@ -218,6 +218,12 @@ ns/h** for the same job on a 4090 — a ratio of **0.55**, where the cards' own 
 the same thing from the other side: **44 % GPU on the 4080S against 75 % on the 4090**, steady across passes.
 A card that is merely slower runs *busy*; one that is fed too slowly runs *idle*, and this one is idle. So the
 cause is **host-side (CPU/PCIe feeding the PLUMED bias), not the card**.
+**A SINGLE `gpu_util = 0.0` IS NOT A STALL — the progress scalar is the authority.** This host has now read 0.0
+twice (05:48 AM during startup, 08:36 AM mid-run) and both times the ns counter kept climbing; a re-read seven
+minutes after the second put it back at 45 %. Vast's utilisation field is an **instantaneous poll**, so it
+catches the process between kernels or during a checkpoint write. The watchdog is right to require the durable
+scalar to ADVANCE rather than the box to look busy — which is exactly why it reported "advancing, leaving it
+alone" through both. A stall needs a **frozen counter** across two passes, not an idle-looking sample.
 **The decision is to leave it alone**, and the reason is arithmetic rather than caution: moving hosts buys
 ~5 h of wall-clock that nothing is waiting on — the analysis is a MATCHED comparison and cannot start without
 NR4A2 either way — at the price of a capacity scramble, whatever progress sits past the last checkpoint, and
