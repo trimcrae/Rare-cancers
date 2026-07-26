@@ -265,8 +265,21 @@ jobs:
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add -A results/nr4a1-pocket-ensemble results/nr4a2-pocket-ensemble \
-                  research/modalities/nr4a-paralogue-dynamics.json 2>/dev/null || true
+          # ⚠ ADD ONLY WHAT EXISTS. `git add` ABORTS ON THE WHOLE PATHSPEC LIST when any one entry matches
+          # nothing, so listing all three unconditionally meant that a collect of ONE species — the other
+          # ensemble directory absent, the dynamics JSON not yet written — staged NOTHING, printed "nothing
+          # to commit", and went green having thrown away the frames it had just unpacked. Observed
+          # 2026-07-26 on a NR4A2-only collect; the `2>/dev/null || true` is what hid the fatal error.
+          paths=()
+          for p in results/nr4a1-pocket-ensemble results/nr4a2-pocket-ensemble \
+                   research/modalities/nr4a-paralogue-dynamics.json; do
+            [ -e "$p" ] && paths+=("$p")
+          done
+          if [ ${#paths[@]} -eq 0 ]; then
+            echo "::error::nothing to stage — collect/analyse produced no ensemble and no dynamics JSON"
+            exit 1
+          fi
+          git add -A "${paths[@]}"
           if git diff --cached --quiet; then
             echo "nothing to commit"
           else
