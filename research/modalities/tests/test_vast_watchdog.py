@@ -10,10 +10,12 @@ seven separate ways; a collector read keys the driver never wrote and would have
 The second thing under test is that generalising did not disturb the ternary lane. Its four entries are
 watching billed legs, so "byte-identical interpretation" is a property, not a hope.
 """
+import calendar
 import copy
 import json
 import os
 import sys
+import time
 
 import pytest
 
@@ -627,3 +629,108 @@ def test_multi_owner_interlock_withholds_if_any_one_is_busy():
     assert a[0] is False and b[0] is True
     # idle + busy must not relaunch: the engine's `break` on the first withhold is what enforces this
     assert any(x[0] for x in (a, b))
+
+
+# ================================================================= CONTAINER START vs. UNIT PROGRESS
+# LANE 21, 2026-07-26. The step 1 shakeout unit was preempted off instance 45936074 at 4:31 PM ET and resumed
+# onto 45938720, which then sat in Vast `actual_status="loading"` for 2 h 57 min pulling the image. The
+# watchdog reported `STALLED ... frozen at leg-complex-running/260` for four consecutive passes. The 260 was
+# the PREVIOUS host's last commit: the new box had not executed one instruction. These tests pin the
+# distinction that was missing — the progress scalar is UNIT-scoped and durable across hosts, so it cannot
+# answer the INSTANCE-scoped question "has this box started?".
+def _inst(start_epoch, **kw):
+    d = {"id": 45938720, "start_date": float(start_epoch), "machine_id": 18857,
+         "actual_status": "loading", "cur_state": "running", "status_msg": "4f4fb700ef54: Pull complete\n"}
+    d.update(kw)
+    return d
+
+
+def test_a_marker_older_than_the_rental_means_this_container_never_started():
+    """THE REGRESSION TEST FOR THE 2 h 57 min BILL. phase.txt said `leg-complex-running 2026-07-26T19:53:38Z`
+    — written by instance 45936074 before it was preempted — while 45938720 had been rented at 20:34Z."""
+    rented = calendar.timegm(time.strptime("2026-07-26T20:34:00Z", "%Y-%m-%dT%H:%M:%SZ"))
+    stale = "leg-complex-running 2026-07-26T19:53:38Z"
+    assert vw.container_started_from_phase(stale, _inst(rented)) is False
+    # ...and the same marker on the box that actually wrote it is a started container.
+    assert vw.container_started_from_phase(stale, _inst(rented - 3600)) is True
+
+
+def test_this_containers_own_boot_mark_counts_as_started():
+    """45938720 finally wrote `boot 2026-07-26T23:31:56Z` at 7:31 PM ET. From that instant the box is a
+    normal running host and the ordinary stall logic applies to it again."""
+    rented = calendar.timegm(time.strptime("2026-07-26T20:34:00Z", "%Y-%m-%dT%H:%M:%SZ"))
+    assert vw.container_started_from_phase("boot 2026-07-26T23:31:56Z", _inst(rented)) is True
+
+
+def test_an_unanswerable_marker_never_accuses_the_box():
+    """This bit can trigger a DESTROY, so every unparseable input fails safe towards 'it started'. The one
+    unambiguous case is a marker that does not exist at all."""
+    rented = calendar.timegm(time.strptime("2026-07-26T20:34:00Z", "%Y-%m-%dT%H:%M:%SZ"))
+    assert vw.container_started_from_phase("leg-complex-running not-a-timestamp", _inst(rented)) is True
+    assert vw.container_started_from_phase("boot", _inst(rented)) is True          # no timestamp field
+    assert vw.container_started_from_phase("boot 2026-07-26T23:31:56Z", _inst(0)) is True   # no start_date
+    assert vw.container_started_from_phase("anything", None) is True               # no instance
+    assert vw.container_started_from_phase("", _inst(rented)) is False             # never marked at all
+
+
+def test_a_resumed_unit_could_not_reach_setup_stall_before_this_fix():
+    """The defect itself, stated as a test: with a durable non-zero scalar the OLD gate (`progress_scalar
+    <= 0`) is unreachable, so an unstarted container could only ever read STALLED — which correctly does not
+    act. Hence ~3 h of billed GPU behind a verdict that was individually right and collectively useless."""
+    old = vw.classify(has_result=False, instance_alive=True, instance_age_min=138,
+                      progress_scalar=200_000_260, prev_scalar=200_000_260, prev_stall=3,
+                      setup_grace_min=90.0, stall_ticks=3)
+    assert old[0] == "STALLED"
+    assert vw.should_relaunch("STALLED", 0, 6)[0] is False, "and STALLED must STAY non-acting"
+    new = vw.classify(has_result=False, instance_alive=True, instance_age_min=138,
+                      progress_scalar=200_000_260, prev_scalar=200_000_260, prev_stall=3,
+                      container_started=False, setup_grace_min=90.0, stall_ticks=3)
+    assert new[0] == "SETUP_STALL"
+
+
+def test_an_unstarted_container_inside_the_grace_is_still_just_cold():
+    """A 20-40 min image pull is documented and normal. The verdict only turns at the grace boundary, so the
+    reaper cannot fire on a host that is merely booting."""
+    v, _ = vw.classify(has_result=False, instance_alive=True, instance_age_min=35,
+                       progress_scalar=200_000_260, prev_scalar=200_000_260, prev_stall=3,
+                       container_started=False, setup_grace_min=90.0, stall_ticks=3)
+    assert v == "RUNNING"
+
+
+def test_container_started_defaults_true_so_no_existing_caller_changes():
+    """Every kind that cannot observe container start must behave exactly as before."""
+    for scalar, prev, stall, age, want in ((5, 5, 3, 120, "STALLED"), (6, 5, 0, 120, "RUNNING"),
+                                           (0, 0, 0, 200, "SETUP_STALL"), (0, 0, 0, 30, "RUNNING")):
+        assert vw.classify(has_result=False, instance_alive=True, instance_age_min=age,
+                           progress_scalar=scalar, prev_scalar=prev, prev_stall=stall,
+                           setup_grace_min=90.0, stall_ticks=3)[0] == want
+
+
+def test_only_died_still_relaunches_after_the_new_verdict_exists():
+    """The reaper must not have become a back-door relaunch: SETUP_STALL still buys no host. It destroys the
+    dead box so the NEXT pass reads DIED and goes out through the existing capped, interlocked path."""
+    for v in ("SETUP_STALL", "STALLED", "FAILED", "DONE", "RUNNING"):
+        assert vw.should_relaunch(v, 0, 6)[0] is False, v
+    assert vw.should_relaunch("DIED", 0, 6)[0] is True
+
+
+def test_the_stall_alert_now_carries_the_container_side_diagnosis():
+    """The alert that cost the 3 h said only 'frozen at leg-complex-running/260'. Vast's own status_msg was
+    in the instance record the whole time and is what names the cause."""
+    ev = vw.Evidence(instance=_inst(0), instance_alive=True, instance_age_min=138.0,
+                     scalar=200_000_260, scalar_label="leg-complex-running/260", container_started=False)
+    d = vw.container_diag(ev)
+    assert "loading" in d and "Pull complete" in d
+    assert "NEVER RUN" in d and "PREDECESSOR" in d
+    started = vw.Evidence(instance=_inst(0, actual_status="running"), instance_alive=True,
+                          instance_age_min=10.0, scalar=1, scalar_label="x", container_started=True)
+    assert "NEVER RUN" not in vw.container_diag(started)
+
+
+def test_the_step1_kind_exposes_a_quarantine_and_the_others_do_not_pretend_to():
+    """Quarantine touches real money (a DELETE against a rented box), so a kind either implements it
+    honestly or does not offer it; the engine only calls it when the attribute exists."""
+    assert callable(getattr(vw.Step1FanoutKind, "quarantine", None))
+    for k in (vw.TernaryKind, vw.ParalogueMdKind):
+        assert not hasattr(k, "quarantine"), (
+            f"{k.__name__} advertises quarantine without an implementation that excludes its own machines")

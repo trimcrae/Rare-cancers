@@ -32,7 +32,7 @@ DEFAULT_STALL_TICKS = int(os.environ.get("TVAST_STALL_TICKS") or "2")
 
 
 def classify(*, has_result, instance_alive, instance_age_min, progress_scalar, prev_scalar, prev_stall,
-             has_failed_record=False,
+             has_failed_record=False, container_started=True,
              setup_grace_min=DEFAULT_SETUP_GRACE_MIN, stall_ticks=DEFAULT_STALL_TICKS):
     """The watchdog's verdict for one entry, and the new stall counter. PURE.
 
@@ -54,6 +54,25 @@ def classify(*, has_result, instance_alive, instance_age_min, progress_scalar, p
     segment that returned non-zero — has a reason it failed, and relaunching it reproduces that reason.
     Collapsing the two would let one NaN buy a full-length rental per attempt, each dying the same way.
     A crash is a diagnosis job.
+
+    ★ `container_started` — WHY A RESUMED UNIT COULD NOT REACH SETUP_STALL, AND WHY THAT COST ~3 h OF GPU
+    (LANE 21, 2026-07-26). SETUP_STALL used to be gated on `progress_scalar <= 0`, i.e. on the UNIT never
+    having progressed — but the scalar is durable in the object store and SURVIVES the host. So a unit that
+    is resumed onto a fresh box after a preemption arrives carrying its predecessor's non-zero scalar, and
+    from that moment the `<= 0` gate can never be true again for it. Its new box therefore reads STALLED
+    however long its container takes to start, and STALLED deliberately does not act.
+
+    That is exactly what happened: instance 45938720 sat in Vast `actual_status="loading"` for 2 h 57 min
+    pulling the ~6 GiB OpenFE image while the watchdog reported `STALLED ... frozen at
+    leg-complex-running/260`. The 260 was the PREVIOUS host's last commit; the new host had not executed one
+    instruction. "Frozen sampler" and "container that never started" are opposite failures with opposite
+    fixes, and the policy could not tell them apart because it was reading a UNIT-scoped scalar to answer an
+    INSTANCE-scoped question.
+
+    So the kind now supplies that instance-scoped bit separately, and it dominates the scalar: a live
+    instance whose container has never run has made no progress ON THIS HOST no matter what the unit's
+    durable counter says. Defaults to True, so any caller that does not (or cannot) answer keeps the old
+    behaviour exactly — a kind that cannot observe container start must never manufacture a fault.
     """
     if has_result:
         return "DONE", 0
@@ -63,6 +82,13 @@ def classify(*, has_result, instance_alive, instance_age_min, progress_scalar, p
         return "DIED", 0
     advanced = progress_scalar > prev_scalar
     new_stall = 0 if advanced else int(prev_stall) + 1
+    if not container_started:
+        # No progress is POSSIBLE on this host yet, so the only question is whether it is still inside the
+        # cold-start grace. Checked before the scalar, because the scalar is about the unit and this is
+        # about the box we are paying for.
+        if instance_age_min >= setup_grace_min:
+            return "SETUP_STALL", new_stall
+        return "RUNNING", new_stall
     if progress_scalar <= 0:
         if instance_age_min >= setup_grace_min:
             return "SETUP_STALL", new_stall
