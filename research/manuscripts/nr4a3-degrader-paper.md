@@ -1357,7 +1357,9 @@ exit vector, and **four NR4A3-unique lysines**, of which **K572, K518 and K592**
 same 11–16 Å band as the conserved ones. Neither handle needs a receptor model on the paralogue side: a
 thiol–Michael adduct cannot form where the aligned position carries no thiol, and a lysine that is not present
 cannot be ubiquitinated. That is the sense in which these are *categorical*, and it is why they are worth
-searching on ahead of an energy difference the method cannot resolve. The same analysis reproduces, from the
+searching on ahead of an energy difference the method cannot resolve.
+
+**The categorical claim's one untested assumption has now been tested against paralogue dynamics, and it holds.** Uniqueness at the *aligned* position is a sequence fact, but a degrader does not care which cysteine it labels: the assumption that actually carries the claim is that no paralogue presents some **other** nucleophile that the same linker path reaches. That had been checked only on one static conformer per paralogue. Repeating it over **300 matched conformers** — NR4A3/NR4A1/NR4A2, 100 each (25 well-tempered metadynamics on the homologous cryptic-pocket CV + 3 × 25 ns unbiased release, identical protocol per species) — against **73,867 matched E3 placements** at the 12-atom gate gives **P(no paralogue cysteine reachable | the construct reaches an NR4A3-unique cysteine) = 1.000 for solvent-exposed cysteines in every scope** (static, unbiased-release and biased), with the mean per-placement probability of reaching *any* exposed NR4A1 or NR4A2 cysteine identically **0.0**. On the all-cysteine measure a small residue appears (0.12 % unbiased, 0.29 % biased) and it is entirely on **buried** paralogue cysteines — reachability without labelability. *Reported as the rare-event statistic it is:* the conditioning event fires in ~0.04 % of placements (**122 hits in 73,867**), so the defensible statement is the exposed column — **zero co-labelling events observed** — not a probability quoted to five figures. This removes a specific structural failure mode; it says nothing about thiol pKa, nucleophilicity, adduct stability or promiscuity, which remain the untested and chemical limits on this axis. The same analysis reproduces, from the
 opposite direction, the residue that most parsimoniously explains the one demonstrated case of NR4A-family
 degradation selectivity: **NR4A1 Cys551 is unique to NR4A1** (NR4A3 Thr579, NR4A2 Tyr), which is both the
 covalent confound in reading NR-V04 (§2.5) and the reciprocal of the handle used here. *Checked and reported
@@ -1978,8 +1980,9 @@ weight, with the following caveats made explicit rather than buried:
    liability, not an upgrade**, and must be reported together with the parent cmpd19 chemotype's own
    **MYC de-repression** — parent-warhead pharmacology is a potential liability, not evidence of benefit.
    *(b) The nominations are rigid-body.* Rigid side chains, no solvation, no induced fit, LBD-only models
-   (hinge, DBD and fusion-partner lysines absent), one static opened conformer per paralogue for the
-   interface, and an ideal semi-flexible-chain strain estimate that is not a force-field energy. A basin is a
+   (hinge, DBD and fusion-partner lysines absent), one static opened conformer per paralogue **for the
+   interface — no longer for the categorical reach test, which now runs over 100 matched conformers per
+   species (§2.10)** — and an ideal semi-flexible-chain strain estimate that is not a force-field energy. A basin is a
    region of orientation space that *admits* a mechanism, not a modelled complex; whether a linker's conformer
    population actually visits the branch position that presents the electrophile is **unmeasured**. *(c) The
    double conditionality is the binding one.* Everything rests on the hypothesized cmpd19 binary pose × the

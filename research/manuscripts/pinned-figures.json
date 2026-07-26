@@ -1,18 +1,18 @@
 {
  "_README": [
-  "Registry for lint_consistency.py — the machine half of CLAUDE.md's ONE-FACT-ONE-PLACE rule.",
+  "Registry for lint_consistency.py \u2014 the machine half of CLAUDE.md's ONE-FACT-ONE-PLACE rule.",
   "",
   "WHY IT EXISTS. On 2026-07-25 a cleanup of STRATEGY.md found the SAME quantity stated at three",
   "different values in one file, a high band that did not sum, a dependency spine whose cumulative",
   "chain disagreed with the ladder it summarised, and a rung recorded as both UNPRICED and PRICED.",
   "Every one of those was a number that lived in several places while a correction reached one of",
-  "them. Prose discipline had already been tried and had already failed — which is the same reason",
+  "them. Prose discipline had already been tried and had already failed \u2014 which is the same reason",
   "lint_claims.py exists. So the discipline is enforced here instead.",
   "",
   "TWO KINDS OF ENTRY, because there are two distinct failure modes:",
-  "  derivations[] — a total that must EQUAL its parts. Catches a wrong CURRENT value (the $544",
+  "  derivations[] \u2014 a total that must EQUAL its parts. Catches a wrong CURRENT value (the $544",
   "                  high band that did not sum; the $128 that came from a table missing a row).",
-  "  superseded[]  — a value that has been replaced. It may still appear (this repo never silently",
+  "  superseded[]  \u2014 a value that has been replaced. It may still appear (this repo never silently",
   "                  drops a correction) but ONLY on a line that marks it as superseded. Catches an",
   "                  OLD value surviving somewhere the fix did not reach.",
   "",
@@ -30,16 +30,17 @@
   "research/manuscripts/degrader-paper-schedule.json",
   "research/manuscripts/nr4a3-degrader-paper.md",
   "research/manuscripts/nr4a3-degrader-paper-SI.md",
-  "research/modalities/nr4a3-nrv04-retrospective-prereg.md"
+  "research/modalities/nr4a3-nrv04-retrospective-prereg.md",
+  "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md"
  ],
  "_marker_note": [
-  "A superseded value is CLEARED when its line — or the two lines above / one below, because markdown prose",
-  "wraps mid-sentence — carries one of these, or when the enclosing heading does, or when the value is",
+  "A superseded value is CLEARED when its line \u2014 or the two lines above / one below, because markdown prose",
+  "wraps mid-sentence \u2014 carries one of these, or when the enclosing heading does, or when the value is",
   "locally negated ('2.10x, NOT 2.42x'). Matched case-insensitively.",
   "",
-  "★ A MARKER MUST MEAN 'THIS VALUE IS NO LONGER CURRENT'. It must NOT merely mean 'something changed here'.",
-  "This list once contained 'REPRICED', 'corrected', 'wrong' and 'refuted' — and an adversarial test on",
-  "2026-07-25 showed that a reintroduced '★ REPRICED → ~$128 mid-range' CLEARED ITSELF, i.e. the linter would",
+  "\u2605 A MARKER MUST MEAN 'THIS VALUE IS NO LONGER CURRENT'. It must NOT merely mean 'something changed here'.",
+  "This list once contained 'REPRICED', 'corrected', 'wrong' and 'refuted' \u2014 and an adversarial test on",
+  "2026-07-25 showed that a reintroduced '\u2605 REPRICED \u2192 ~$128 mid-range' CLEARED ITSELF, i.e. the linter would",
   "have missed the exact bug it was written for. A reprice ASSERTS a new value; it disclaims nothing.",
   "Before adding a marker, ask: could this word appear in a sentence that states the number as CURRENT? If",
   "yes, it is not a marker."
@@ -150,122 +151,122 @@
  "superseded": [
   {
    "id": "ladder_total_390",
-   "pattern": "\\$390\\s*mid|~\\$390\\b|\\$170[–-]610",
-   "current": "~$185 mid (~$51–614)",
+   "pattern": "\\$390\\s*mid|~\\$390\\b|\\$170[\u2013-]610",
+   "current": "~$185 mid (~$51\u2013614)",
    "retired_by": "the 2026-07-25 reprice onto the measured $0.137/ref-GPU-h policy"
   },
   {
    "id": "ladder_total_240",
-   "pattern": "\\$240\\s*mid|\\$90[–-]390",
-   "current": "~$185 mid (~$51–614)",
+   "pattern": "\\$240\\s*mid|\\$90[\u2013-]390",
+   "current": "~$185 mid (~$51\u2013614)",
    "retired_by": "the 2026-07-25 reprice"
   },
   {
    "id": "ladder_total_467",
-   "pattern": "\\$467\\b|\\$249[–-]685",
-   "current": "~$185 mid (~$51–614)",
+   "pattern": "\\$467\\b|\\$249[\u2013-]685",
+   "current": "~$185 mid (~$51\u2013614)",
    "retired_by": "the 2026-07-25 reprice"
   },
   {
    "id": "ladder_total_128",
-   "pattern": "\\$128\\b|\\$36[–-]381",
-   "current": "~$185 mid (~$51–614)",
-   "retired_by": "it was bid-strategy.md §6's table with the 5c row missing — a subset total, never the ladder"
+   "pattern": "\\$128\\b|\\$36[\u2013-]381",
+   "current": "~$185 mid (~$51\u2013614)",
+   "retired_by": "it was bid-strategy.md \u00a76's table with the 5c row missing \u2014 a subset total, never the ladder"
   },
   {
    "id": "ladder_high_band_544",
-   "pattern": "\\$46[–-]544",
-   "current": "~$47–561",
-   "retired_by": "arithmetic — the per-rung rows sum to ~$561, not ~$544"
+   "pattern": "\\$46[\u2013-]544",
+   "current": "~$47\u2013561",
+   "retired_by": "arithmetic \u2014 the per-rung rows sum to ~$561, not ~$544"
   },
   {
    "id": "ternary_edge_3_6",
-   "pattern": "~\\$3[–-]6\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
+   "pattern": "~\\$3[\u2013-]6\\b",
+   "current": "~$8.8 ($3.2\u201322) per ternary edge",
    "retired_by": "it treated 920 iterations (a checkpoint boundary on the BINARY arm) as a full 2400-iteration leg"
   },
   {
    "id": "ternary_edge_4_7",
-   "pattern": "~\\$4[–-]7\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
+   "pattern": "~\\$4[\u2013-]7\\b",
+   "current": "~$8.8 ($3.2\u201322) per ternary edge",
    "retired_by": "same 920-vs-2400 leg-length error"
   },
   {
    "id": "ternary_edge_7_15",
-   "pattern": "\\$7[–-]15\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
+   "pattern": "\\$7[\u2013-]15\\b",
+   "current": "~$8.8 ($3.2\u201322) per ternary edge",
    "retired_by": "it predates the measured $0.137/ref-GPU-h policy"
   },
   {
    "id": "ternary_edge_10_16",
-   "pattern": "~\\$10[–-]16\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
-   "retired_by": "it assumed a ~$0.15–0.25/hr host"
+   "pattern": "~\\$10[\u2013-]16\\b",
+   "current": "~$8.8 ($3.2\u201322) per ternary edge",
+   "retired_by": "it assumed a ~$0.15\u20130.25/hr host"
   },
   {
    "id": "ternary_edge_65_110",
-   "pattern": "\\$65[–-]110\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
+   "pattern": "\\$65[\u2013-]110\\b",
+   "current": "~$8.8 ($3.2\u201322) per ternary edge",
    "retired_by": "it came off the refuted 55-GPU-h AWS anchor (a leg that was ~65 % GPU-idle)"
   },
   {
    "id": "rbfe_edge_tyk2_rate",
-   "pattern": "~?5[–-]6 GPU-h|\\$0\\.6[–-]1\\.4",
-   "current": "~13.7 ref GPU-h ≈ ~$1.9 per RBFE edge",
-   "retired_by": "that rate was measured on public TYK2; the real cmpd19/NR4A3 complex is ~2.6× heavier"
+   "pattern": "~?5[\u2013-]6 GPU-h|\\$0\\.6[\u2013-]1\\.4",
+   "current": "~13.7 ref GPU-h \u2248 ~$1.9 per RBFE edge",
+   "retired_by": "that rate was measured on public TYK2; the real cmpd19/NR4A3 complex is ~2.6\u00d7 heavier"
   },
   {
    "id": "fanout_12_26",
-   "pattern": "\\$12[–-]26\\b",
-   "current": "~$36 ($15–80) for the 19-edge fan-out",
-   "retired_by": "stale on BOTH axes — a TYK2 rate and a single cheap host's $0.122/hr"
+   "pattern": "\\$12[\u2013-]26\\b",
+   "current": "~$36 ($15\u201380) for the 19-edge fan-out",
+   "retired_by": "stale on BOTH axes \u2014 a TYK2 rate and a single cheap host's $0.122/hr"
   },
   {
    "id": "fanout_91_101",
-   "pattern": "\\$91[–-]101\\b",
-   "current": "~$36 ($15–80) for the 19-edge fan-out",
-   "retired_by": "the $0.35–0.39/hr under it was what bidding ×1.5 on a min_bid-ranked offer costs, not the market"
+   "pattern": "\\$91[\u2013-]101\\b",
+   "current": "~$36 ($15\u201380) for the 19-edge fan-out",
+   "retired_by": "the $0.35\u20130.39/hr under it was what bidding \u00d71.5 on a min_bid-ranked offer costs, not the market"
   },
   {
    "id": "endpoint_leg_0_26",
    "pattern": "\\$0\\.26/leg|~\\$0\\.45\\b|~\\$0\\.6/leg",
-   "current": "~1.38 ref GPU-h ≈ ~$0.19 per endpoint-MD leg",
-   "retired_by": "the $0.26 used the withdrawn 2.42× card ratio"
+   "current": "~1.38 ref GPU-h \u2248 ~$0.19 per endpoint-MD leg",
+   "retired_by": "the $0.26 used the withdrawn 2.42\u00d7 card ratio"
   },
   {
    "id": "card_ratio_242",
-   "pattern": "2\\.42\\s*[x×]",
-   "current": "2.10× (4090/3090, validated grid) — and the card is not the decision, the OFFER is",
-   "retired_by": "the withdrawn 2026-07-24 23:08 bench (single 0.9–4.5 s windows; it also ranked a 4080 SUPER above a 4090)"
+   "pattern": "2\\.42\\s*[x\u00d7]",
+   "current": "2.10\u00d7 (4090/3090, validated grid) \u2014 and the card is not the decision, the OFFER is",
+   "retired_by": "the withdrawn 2026-07-24 23:08 bench (single 0.9\u20134.5 s windows; it also ranked a 4080 SUPER above a 4090)"
   },
   {
    "id": "bid_multiple",
-   "pattern": "min_bid\\s*[x×]\\s*1\\.(9|5|25|1)\\b|floor\\s*[x×]\\s*1\\.25|[x×]\\s*1\\.9\\b",
-   "current": "bid = the market floor plus a staleness tick (min_bid × 1.02, min +$0.0005), capped at on-demand",
+   "pattern": "min_bid\\s*[x\u00d7]\\s*1\\.(9|5|25|1)\\b|floor\\s*[x\u00d7]\\s*1\\.25|[x\u00d7]\\s*1\\.9\\b",
+   "current": "bid = the market floor plus a staleness tick (min_bid \u00d7 1.02, min +$0.0005), capped at on-demand",
    "retired_by": "the measured bid ladder: charged = min(bid, on-demand), so a premium is paid on every hour and cannot buy safety from on-demand renters"
   },
   {
    "id": "y29f_single_replicate",
-   "pattern": "[−-]0\\.55\\b|[−-]0\\.552\\b",
-   "current": "Y29F = −0.370 ± 0.175 at full 3 × 3 replication",
-   "retired_by": "−0.552 was the single-replicate value"
+   "pattern": "[\u2212-]0\\.55\\b|[\u2212-]0\\.552\\b",
+   "current": "Y29F = \u22120.370 \u00b1 0.175 at full 3 \u00d7 3 replication",
+   "retired_by": "\u22120.552 was the single-replicate value"
   },
   {
    "id": "y29a_partial_replication",
-   "pattern": "4\\.025\\s*[±+]",
-   "current": "Y29A = +4.424 ± 1.077 at full 3 × 3 replication",
-   "retired_by": "4.025 ± 1.100 was the 2 × 3 partial set"
+   "pattern": "4\\.025\\s*[\u00b1+]",
+   "current": "Y29A = +4.424 \u00b1 1.077 at full 3 \u00d7 3 replication",
+   "retired_by": "4.025 \u00b1 1.100 was the 2 \u00d7 3 partial set"
   },
   {
    "id": "covalent_panel_arms",
    "pattern": "recruiter_active[^.\\n]{0,60}3/3|epimer[^.\\n]{0,40}(only )?1/3|cov_c551a[^.\\n]{0,40}1/3|C551A 1/3",
-   "current": "no per-arm figure — the corrected 14-leg re-run has not been launched",
-   "retired_by": "the driver split E3 from target positionally and scored the Elongin C interface, not VHL↔NR4A1"
+   "current": "no per-arm figure \u2014 the corrected 14-leg re-run has not been launched",
+   "retired_by": "the driver split E3 from target positionally and scored the Elongin C interface, not VHL\u2194NR4A1"
   },
   {
    "id": "xtt_pre_harmonized",
    "pattern": "4/20 (above|conformers)|placed \\*\\*4/20\\*\\*",
-   "current": "19/20 detected, 3 ≥ D* (= 3/19 among detected, 3/20 across all deposited)",
+   "current": "19/20 detected, 3 \u2265 D* (= 3/19 among detected, 3/20 across all deposited)",
    "retired_by": "the harmonized rerun (pinned fpocket build + score-independent matcher)"
   },
   {
@@ -289,13 +290,13 @@
   {
    "id": "ladder_total_194",
    "pattern": "\\$194\\s*mid|~\\$194\\b",
-   "current": "~$185 mid (~$51–614)",
-   "retired_by": "RUNG 5a's basin search completed 2026-07-25 at $0 realized (pure CPU/CI, no GPU; the optional MM-GBSA rescore was recommended against). Its mid moves to realized $0 — the convention valA_mini already uses — so the total drops $25. Low/high bands unchanged, since 5a's $0–50 band is unchanged."
+   "current": "~$185 mid (~$51\u2013614)",
+   "retired_by": "RUNG 5a's basin search completed 2026-07-25 at $0 realized (pure CPU/CI, no GPU; the optional MM-GBSA rescore was recommended against). Its mid moves to realized $0 \u2014 the convention valA_mini already uses \u2014 so the total drops $25. Low/high bands unchanged, since 5a's $0\u201350 band is unchanged."
   },
   {
    "id": "ladder_total_169",
-   "pattern": "\\$169\\s*mid|~\\$169\\b|\\$47[–-]561",
-   "current": "~$185 mid (~$51–614)",
+   "pattern": "\\$169\\s*mid|~\\$169\\b|\\$47[\u2013-]561",
+   "current": "~$185 mid (~$51\u2013614)",
    "retired_by": "The as-run ternary leg is 2800 iterations, not 2400 (verified 2026-07-25 against rbfe_spot_driver._iters_from_time: warmup iterations derive from the WARMUP integrator at 1 fs, so 1 ns of equilibration is 800 iterations of 1250 steps, not 400). Every 2 fs ternary stage was understated ~17%. Net of 5a completing at $0, the total moves 169 -> 185."
   },
   {
@@ -312,21 +313,21 @@
   },
   {
    "id": "nrv04_a1_wrong_cysteine_899_1639",
-   "pattern": "8\\.99[–-]16\\.39|electrophilic carbon \\*\\*8\\.99",
-   "current": "28.42–39.11 Å at the preregistered C551, across every clean co-fold model in the bucket",
-   "retired_by": "AMENDMENT 2 (2026-07-25): the A1 input-admissibility check resolved the NEAREST of the construct's six cysteines, which is C566, not the preregistered site C551 (residue offset 344). The superseded figures made the input look NEARLY admissible — ~9 Å against an 8 Å limit — while the real site sat ~28 Å away, so the correction makes A1 MORE binding, not less. The same root cause also built the covalent restraint onto C566 and made the cov_c551a control mutate C566, i.e. not touch C551 at all."
+   "pattern": "8\\.99[\u2013-]16\\.39|electrophilic carbon \\*\\*8\\.99",
+   "current": "28.42\u201339.11 \u00c5 at the preregistered C551, across every clean co-fold model in the bucket",
+   "retired_by": "AMENDMENT 2 (2026-07-25): the A1 input-admissibility check resolved the NEAREST of the construct's six cysteines, which is C566, not the preregistered site C551 (residue offset 344). The superseded figures made the input look NEARLY admissible \u2014 ~9 \u00c5 against an 8 \u00c5 limit \u2014 while the real site sat ~28 \u00c5 away, so the correction makes A1 MORE binding, not less. The same root cause also built the covalent restraint onto C566 and made the cov_c551a control mutate C566, i.e. not touch C551 at all."
   },
   {
    "id": "ternary_selectivity_does_not_materialize",
    "pattern": "ternary adds no NR4A3 degradation.selectivity|for a representative PROTAC, does not materialize",
    "current": "one representative, arbitrarily-linkered construct did not PROVIDE EVIDENCE FOR an NR4A3-selective ternary geometry",
-   "retired_by": "An overclaim in the NEGATIVE direction, withdrawn 2026-07-25 from main-text Limitations caveat 5 and SI S2. The co-folding classifier fails its own affinity-sensitive stereochemical control (an inactive epimer scored identically to the active construct), and the paper therefore declares it unsuitable for binding, ternary-stability, degradation-selectivity or linker-ranking claims — so it may not conclude ternary selectivity is ABSENT either. What the run supports is absence of evidence at a tier that cannot produce the evidence."
+   "retired_by": "An overclaim in the NEGATIVE direction, withdrawn 2026-07-25 from main-text Limitations caveat 5 and SI S2. The co-folding classifier fails its own affinity-sensitive stereochemical control (an inactive epimer scored identically to the active construct), and the paper therefore declares it unsuitable for binding, ternary-stability, degradation-selectivity or linker-ranking claims \u2014 so it may not conclude ternary selectivity is ABSENT either. What the run supports is absence of evidence at a tier that cannot produce the evidence."
   }
  ],
  "subset_checks": [
   {
    "id": "strategy_spine_cum",
-   "description": "STRATEGY.md's dependency spine restates the ordered plan's cumulative chain. On 2026-07-25 it carried $15/$97/$273/$252 against the ladder's $13/$48/$104/$194. Subset, not equality — the spine legitimately skips rungs it does not draw.",
+   "description": "STRATEGY.md's dependency spine restates the ordered plan's cumulative chain. On 2026-07-25 it carried $15/$97/$273/$252 against the ladder's $13/$48/$104/$194. Subset, not equality \u2014 the spine legitimately skips rungs it does not draw.",
    "file": "STRATEGY.md",
    "superset_name": "the ordered plan's `Cum. ~$N`",
    "superset_pattern": "Cum\\. ~\\$([0-9]+)",
