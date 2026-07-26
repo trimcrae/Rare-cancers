@@ -202,13 +202,35 @@ liveness ping.*
 | **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **16.05/60 ns**, scalar 1013700 → 1016050, stall=0, GPU 69 %, up 168 min. **5.9 ns/h** | metad ~**6:00 AM**, then release legs |
 | **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **warmup 1216/1600**, up 385 min | ⚠ **~6:00 AM, NOT ~1 AM** — see the ETA correction below |
 | **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — production/80, up 385 min | ~overnight |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **advancing — `warmup/640` of 800 (80 %)**, up 380 min, no preemption since 6:40 PM. Rate settled at **~68 iter/h (52.8 s/iter)** across two agreeing baselines (63 min and 190 min). Production (2000 iters) starts ~3:20 AM | **~Mon 8:40 AM** — its result keys the calibrator rescope |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **warmup COMPLETE (800/800); in production.** Live position, per-iteration rate and ETA live in [`ternary-watch.json`](./research/modalities/ternary-watch.json) → `_eta` / `_measured_rate` — **one home, do not restate them here** (this row carried a stale `warmup/640`, a rate of 52.8 s/iter and an ETA of "~Mon 8:40 AM", all three superseded; see that file's `_rate_appendix`) | see `_eta` — its result keys the calibrator rescope |
 
 **✅ RUNG 2b is HALF LANDED.** The **probe** (ΔG_morph **48.1970**) and the **solvent** leg (ΔG_morph
 **47.7982**) are both **DONE in S3 with no NaN** — so 4 fs has now survived two complete legs, not just the
 probe. Their watch entries are set `enabled: false` (kept in the list, not deleted, so the completed units stay
 on the record). **ΔΔG_coop cannot be computed until the ternary and binary legs land**, so the ratified gate
 (PASS = no NaN **and** |ΔΔG_coop − (−0.534)| ≤ 0.7) is not yet applicable.
+
+⚠ **THE −0.534 REFERENCE RESTS ON A BROKEN BINARY ARM — and the 2b gate SURVIVES ANYWAY. Read both halves.**
+Measured 2026-07-26 (GH runs 30202934339, 30209580292; audit §L.3–L.3b): in the r0 **binary** leg the ligand's
+*receptor-contacting* moiety leaves its pose and does not return in **8 of 12 replicas**, while the **ternary** leg
+in the same cycle is **12/12 stable**. So ΔG_binary is not a free energy of the intended bound state, and
+**ΔΔG_coop(r0) = −0.534 is not a valid measurement of cooperativity.**
+
+But the 2b gate is a **4 fs-vs-2 fs consistency check**, not an accuracy check against a trusted value — so a
+defect the two timesteps *share* cancels out of the comparison. **The gate therefore remains meaningful, on one
+condition that must be checked before reading it: the 4 fs cycle's binary arm has to carry the same defect as the
+2 fs one.** If 2b's binary leg is a fresh build that happens to hold its pose, the difference is no longer
+isolating the timestep — it is confounded with the pose failure, and agreement would be as misleading as
+disagreement. **`mode=converge` now reports the per-replica contact-moiety series and its λ attribution for every
+leg, so this is a thing to look at rather than assume.**
+
+Consequences kept separate, because they are independent:
+- **RUNG 2 was already FAILED** (wrong sign), so this changes no verdict from pass to fail — it supplies a
+  candidate *mechanism*. **HYPOTHESIS, not a finding:** a binary leg sampling a departed/unbound state would bias
+  ΔG_binary, and ΔΔG_coop = ΔG_ternary − ΔG_binary could take the wrong sign from that alone. Untested; it would
+  need a binary re-run that holds its pose, and only then is it worth stating as more than a candidate.
+- **ΔΔG_coop cannot be reported from the r0 cycle at all** until the binary arm is re-run — a blocker
+  *independent* of the reverse leg's hysteresis result, which concerns the (clean) ternary arm.
 
 ⚠ **ETA CORRECTION, mine:** I quoted "~1 AM" for the ternary leg. It is still in **warmup** at 385 minutes
 (1216 of 1600), i.e. ~0.317 min/iteration. Remaining warmup ≈ 122 min, then 2000 production iterations which
