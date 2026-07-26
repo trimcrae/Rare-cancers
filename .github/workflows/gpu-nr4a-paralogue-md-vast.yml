@@ -240,18 +240,6 @@ jobs:
         if: ${{ needs.plan.outputs.task == 'collect' }}
         run: python research/modalities/nr4a_paralogue_md_ops.py collect --targets "$TARGETS"
 
-      - name: Hand off to the analysis
-        # collect commits the ensembles below; this queues the analysis that turns them into the verdict, so
-        # the chain watch -> collect -> analyse completes with nobody awake.
-        if: ${{ needs.plan.outputs.task == 'collect' }}
-        run: |
-          python - <<'PY'
-          import sys
-          sys.path.insert(0, "research/modalities")
-          import nr4a_paralogue_md_ops as O
-          O.set_task("analyse", "matched paralogue ensembles collected — running the categorical verdict")
-          PY
-
       - name: Run the categorical-dynamics analysis
         if: ${{ needs.plan.outputs.task == 'analyse' }}
         run: |
@@ -276,3 +264,17 @@ jobs:
             git pull --rebase origin ${{ github.ref_name }} || true
             git push origin HEAD:${{ github.ref_name }}
           fi
+
+      - name: Hand off to the analysis
+        # MUST run AFTER the commit above. set_task does a `git pull --rebase`, which fails outright on a
+        # dirty tree — and immediately after `collect` the tree holds ~200 freshly unpacked frame PDBs. This
+        # step queues the analysis that turns those ensembles into the verdict, so the chain
+        # watch -> collect -> analyse completes with nobody awake.
+        if: ${{ needs.plan.outputs.task == 'collect' }}
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import nr4a_paralogue_md_ops as O
+          O.set_task("analyse", "matched paralogue ensembles collected — running the categorical verdict")
+          PY

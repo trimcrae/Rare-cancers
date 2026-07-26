@@ -339,6 +339,17 @@ def set_task(new_task, note, **fields):
             json.dump(d, fh, indent=2)
             fh.write("\n")
         url = f"https://x-access-token:{tok}@github.com/{repo}"
+        # `git pull --rebase` REFUSES on a dirty tree, and the caller may legitimately have one (the watch job
+        # is clean, but a hand-off placed before a commit step would not be). Stash anything unrelated first
+        # and restore it, so the hand-off can never be the thing that loses a collected ensemble.
+        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=REPO,
+                               capture_output=True).stdout.decode().strip()
+        stashed = False
+        if dirty:
+            r = subprocess.run(["git", "stash", "push", "-u", "-m", "lane13-handoff"], cwd=REPO,
+                               capture_output=True)
+            stashed = r.returncode == 0 and b"No local changes" not in r.stdout
+            print(f"[chain] stashed a dirty tree before the hand-off (stashed={stashed})")
         for cmd in (["git", "config", "user.name", "Claude"],
                     ["git", "config", "user.email", "noreply@anthropic.com"],
                     ["git", "add", os.path.relpath(TASK_FILE, REPO)],
@@ -348,7 +359,11 @@ def set_task(new_task, note, **fields):
             r = subprocess.run(cmd, cwd=REPO, capture_output=True)
             if r.returncode and cmd[1] != "commit":
                 print(f"[chain] {' '.join(cmd[:2])} failed: {r.stderr.decode()[:200]}")
+                if stashed:
+                    subprocess.run(["git", "stash", "pop"], cwd=REPO, capture_output=True)
                 return False
+        if stashed:
+            subprocess.run(["git", "stash", "pop"], cwd=REPO, capture_output=True)
         print(f"::notice title=LANE13 HAND-OFF::task={new_task}")
         return True
     except Exception as e:  # noqa: BLE001
