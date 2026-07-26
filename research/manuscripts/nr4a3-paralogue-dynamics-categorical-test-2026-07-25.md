@@ -186,25 +186,45 @@ the paralogues being short of lysines near the transfer zone.
 
 ---
 
-### 3.5 The matched paralogue ensembles — in flight
+### 3.5 ★ THE MATCHED PARALOGUE ENSEMBLES — LANDED, AND THE ANSWER IS YES (2026-07-26 2:49 PM ET)
 
-| | NR4A1 | NR4A2 |
-|---|---|---|
-| Vast instance | 45853652 (machine 12697) | 45854620 (machine 55559) |
-| card / bid | RTX 4090, $0.136/hr (floor $0.1333) | RTX 4090, $0.1768/hr (floor $0.1733) |
-| protocol | 60 ns well-tempered metad on the homologous Pocket-5 Rg + 3 × 5 ns unbiased release, seeded at the same CV value | identical |
-| measured throughput | **143 ns/day** (five DCD-derived intervals, 23:42–00:06 UTC, spread < 1 %) | **143 ns/day** (three intervals) |
-| health | `StateDataReporter` T = **311.46 K** against the 310 K target at step 1.3 M; GPU 59–72 % | GPU 72 % |
+Both legs reached their deliverables and the analysis ran over the committed ensembles. **300 matched
+conformers** — NR4A3 / NR4A1 / NR4A2, **100 each** (25 well-tempered metadynamics + 3 × 25 unbiased release) —
+against **73 867 matched E3 placements**, at the preregistered **12-atom** gate and an exposure cutoff of
+RSA > 0.25.
 
-Both legs are therefore ~12.5 h of MD each (75 ns at 143 ns/day) plus ~25 min of build, and they run
-concurrently. **Realized cost tracks the $2.5 estimate**: $0.1527/hr all-in on NR4A1 and $0.1935/hr on NR4A2
-× ~12.5 h ≈ **$4.3**, inside the quoted $1.5–6 band and far under the $40 ceiling. The one wasted rental (the
-capacity-refused 3090, ~13 min before it was destroyed) cost under $0.02.
+**P(no paralogue cysteine is reachable | the same construct reaches an NR4A3-unique cysteine):**
 
-A first NR4A2 rental (45853654, machine 142143, RTX 3090 at $0.0451/hr) was **destroyed and its machine
-excluded** after its start PUT answered `{"success": false, "error": "resources_unavailable", "msg":
-"Required resources are currently unavailable, state change queued."}` — the standing capacity-refusal policy,
-executed rather than waited out. That refusal is now handled automatically by the watch.
+| scope | frames / species | all cysteines | **solvent-exposed only** |
+|---|---|---|---|
+| static opened model | 1 | 1.000 | **1.000** |
+| **unbiased release ensemble** | 75 | 0.99876 | **1.000** |
+| metadynamics (biased) | 25 | 0.9971 | **1.000** |
+
+**On exposed cysteines the answer is exactly 1.000 in every scope.** `mean_P_any_EXPOSED_cysteine` is **0.0**
+for NR4A1 and **0.0** for NR4A2 throughout — not small, zero. The non-zero co-labelling on the all-cysteine
+measure (0.12 % unbiased, 0.29 % biased) is entirely on **buried** paralogue cysteines: reachability without
+labelability. NR4A2 is essentially absent on every measure (1 × 10⁻⁶ – 7 × 10⁻⁶); NR4A1 carries what little
+signal there is, and none of it is exposed.
+
+⚠ **REPORT IT AS THE RARE-EVENT STATISTIC IT IS.** The conditioning event is thin *by construction* — a matched
+placement reaches an NR4A3-unique cysteine in only **~0.04 %** of placements, i.e. **122 hit placements out of
+73 867** in the unbiased ensemble. Raising the sampler to 2 000 000 samples per (arm × pose) is what made that
+denominator two orders of magnitude better than the 500 k setting, which returned single-digit events. But 122
+is still a small denominator, and **0.99876 must not be quoted to five figures as though it were tight. The
+defensible statement is the exposed column: zero paralogue co-labelling events observed, not a probability
+estimated near one.**
+
+**What this does and does not settle.** It removes the specific failure mode this lane was built to find: a
+paralogue is not merely missing a cysteine at the aligned position while carrying a reachable one elsewhere.
+Across every populated conformer sampled, where the construct can label NR4A3 it cannot label an exposed
+cysteine on either paralogue. It does **not** establish that a bond forms, that it forms selectively in a cell,
+or anything about efficacy — see §5.
+
+*Artifact:* [`nr4a-paralogue-dynamics.json`](../modalities/nr4a-paralogue-dynamics.json) (`categorical_verdict`).
+*Cost:* the two legs ran ~12.5 h each on rented 4090s/4080Ss at $0.13–0.21/hr, against a $2.5 point estimate,
+a $1.5–6 band and a $40 ceiling. One capacity-refused 3090 rental cost under $0.02 before it was destroyed and
+its machine excluded.
 
 ## 4. What is already established, and what it does to the categorical claim
 
