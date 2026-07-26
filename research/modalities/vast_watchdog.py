@@ -459,11 +459,19 @@ class Step1FanoutKind:
     # long analysis from alerting as a stall. It costs one extra tick of latency on a genuine freeze, and a
     # STALL only alerts (a relaunch would hang identically), so the trade is one-sided.
     stall_ticks = 3
-    # fusion-cpu-extras.yml's `launch`/`launch_confirm` mode ALSO re-rents any pending unit, so it is a second
-    # relauncher for this checkpoint prefix. Two hosts syncing one commit store is an interleaved trajectory
-    # that nothing reports, so a relaunch is withheld while that workflow has anything in flight. It
-    # over-blocks (every monitor dispatch counts), and that is the correct direction to be wrong in.
-    owning_workflow = "fusion-cpu-extras.yml"
+    # EVERY OTHER RELAUNCHER OF THIS PREFIX, comma-separated — not just the first one that existed.
+    # fusion-cpu-extras.yml's `launch`/`launch_confirm` mode re-rents any pending unit, and so does
+    # step1-fanout-autoscale.yml's terminus-gated `launch` step (added 2026-07-26). Two hosts syncing one
+    # commit store is an interleaved trajectory that nothing reports, so a relaunch is withheld while ANY of
+    # them has anything in flight. It over-blocks (every monitor dispatch counts), and that is the correct
+    # direction to be wrong in.
+    #
+    # ⚠ THE LIST IS THE WHOLE POINT AND IT WENT STALE ONCE ALREADY. This was the single string
+    # "fusion-cpu-extras.yml" while step1-fanout-autoscale.yml was launching the same units, so the interlock
+    # was asking about an unrelated workflow and would have answered "idle — I am the only relauncher" while
+    # the autoscale tick was mid-launch. tests/test_vast_watchdog.py now DERIVES the required set from the
+    # workflow files themselves, so adding a launcher without adding it here fails CI.
+    owning_workflow = "fusion-cpu-extras.yml,step1-fanout-autoscale.yml"
 
     # phase.txt vocabulary, in order. Written by the per-instance pipeline's `mark` helper.
     PHASE_RANK = {"boot": 0, "staged": 1,
@@ -671,7 +679,7 @@ def step1_fanout_entry(unit_id, *, git_branch, bucket="sagemaker-us-east-2-64660
                        result_prefix="nr4a3-step1-fanout/results",
                        stage_prefix="nr4a3-step1-fanout/stage",
                        image="docker.io/triskit23/nr4a3fep:latest", n_windows=12,
-                       owning_workflow="fusion-cpu-extras.yml", exclude_machines="",
+                       owning_workflow=Step1FanoutKind.owning_workflow, exclude_machines="",
                        max_relaunches_per_day=6, enabled=True, why=""):
     """One step1_fanout watch entry. PURE, and the ONLY place a shipped entry may come from.
 
@@ -893,12 +901,18 @@ def tick(path=None, dry_run=False):
             continue
 
         # ---- DIED: no result, no instance. Relaunch, capped, and never against a second relauncher. --------
+        # A prefix may have MORE THAN ONE other relauncher (step1_fanout has two), so `owning_workflow` is a
+        # comma-separated list and EVERY name in it must be idle. Withhold on the first that is not: one
+        # busy relauncher is enough to make a second host on this checkpoint prefix possible, and that is the
+        # failure being prevented. A single name still parses as a one-element list, so nothing else changes.
         owning = e.get("owning_workflow") or getattr(kind, "owning_workflow", None)
-        if owning:
-            if owning not in interlock_cache:
-                interlock_cache[owning] = workflow_runs_in_flight(owning)
-            n_live, ok = interlock_cache[owning]
-            withhold, why_interlock = relaunch_withheld(n_live, ok, owning)
+        owners = [w.strip() for w in str(owning).split(",") if w.strip()] if owning else []
+        withheld = False
+        for own in owners:
+            if own not in interlock_cache:
+                interlock_cache[own] = workflow_runs_in_flight(own)
+            n_live, ok = interlock_cache[own]
+            withhold, why_interlock = relaunch_withheld(n_live, ok, own)
             if withhold:
                 alerts += 1
                 _annotate("error", "VAST WATCHDOG DIED — RELAUNCH WITHHELD",
@@ -906,8 +920,11 @@ def tick(path=None, dry_run=False):
                           f"checkpoint prefix means two hosts writing one restart set: an interleaved "
                           f"trajectory that nothing reports. Withholding; the relaunch will be taken on the "
                           f"next pass once that workflow is idle.")
-                continue
+                withheld = True
+                break
             print(f"[interlock] {why_interlock}")
+        if withheld:
+            continue
         ckey = f"{state_prefix}/watchdog/relaunch-{day}-{uid}.json"
         cnt = int((_read_json_key(state_bucket, ckey, {}) or {}).get("count") or 0)
         ok, why = should_relaunch(verdict, cnt, e.get("max_relaunches_per_day", 6))

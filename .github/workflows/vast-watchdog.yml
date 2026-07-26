@@ -119,3 +119,73 @@ jobs:
           # notification, which is the alert path that does not depend on an agent or a session. An
           # ::error:: annotation nobody opens is no better than the silent stall this exists to remove.
           python research/modalities/vast_watchdog.py --tick $ARGS
+
+  # ===========================================================================================================
+  # SECOND TRIGGER FOR THE STEP 1 FAN-OUT TICK — because step1-fanout-autoscale.yml's OWN cron has never fired.
+  #
+  # THE MEASUREMENT THAT MOTIVATES THIS (2026-07-26, LANE 18). step1-fanout-autoscale.yml went on main at
+  # 4:15 PM ET with `schedule: */20`. By 5:23 PM ET it had run 5 times, EVERY one a workflow_dispatch and not
+  # one a `schedule`. Its file parses, it declares both triggers (tests/test_workflows_parse.py PASSes it), and
+  # the API reports `state: active` — so it is registered correctly and simply has not reached its first fire.
+  # That is not speculation: first-schedule latency measured on this repo's own recently-added workflows is
+  # ternary-vast-watchdog 56 min, vast-watchdog 208 min, vast-price-sample 210 min. At 62 min elapsed step1 was
+  # still INSIDE that distribution, so waiting was reasonable — and betting the night on it was not.
+  #
+  # AND EVEN ONCE IT FIRES, `*/20` IS NOT WHAT IT GETS. Measured schedule-to-schedule gaps on this repo today:
+  # vast-watchdog (asks */15) 56-97 min; ternary-leg-watchdog (asks */15) 57-97 min; vast-price-sample (asks
+  # hourly) 85-148 min. GitHub throttles this repo's crons to roughly one run per workflow per hour regardless
+  # of what is requested.
+  #
+  # WHY IT MATTERS TONIGHT. The fan-out gate (FANOUT_REQUIRE_PROVEN_TERMINUS) holds 18 of the 19 edges back
+  # until the shakeout unit commits a ddg.json, expected ~2:00-3:30 AM ET. The release happens on the next tick
+  # after that. If the only tick source is a cron that has never once fired, the lane silently does one
+  # nineteenth of the work overnight — and it LOOKS fine, because the workflow is green every time a human
+  # dispatches it.
+  #
+  # WHY A DISPATCH AND NOT A COPY OF THE TICK. CLAUDE.md rule 1: one fact, one place. The gate, the launcher,
+  # the idempotence and the progress commit all live in step1-fanout-autoscale.yml + congeneric_fanout_vast.py
+  # and are NOT reimplemented here. This job only pulls the trigger. So the two cron paths cannot drift, and
+  # when step1's own cron does start firing the only cost of the overlap is a no-op tick.
+  #
+  # SAFE TO OVER-FIRE, BY CONSTRUCTION. step1-fanout-autoscale.yml has `concurrency: step1-fanout-autoscale`,
+  # and its launcher never re-submits a unit that has a result or a live instance. A tick with nothing to do
+  # costs a CI minute and $0. Under-dispatching costs the entire night, so this errs toward dispatching.
+  #
+  # A SEPARATE JOB, DEPENDING ON NOTHING. The `watch` job deliberately EXITS NON-ZERO on an alert. If this
+  # lived as a step there, the first stalled leg anywhere in the watch list would also stop the fan-out from
+  # ever being released — coupling two unrelated failure domains. It also means `permissions: actions: write`
+  # is scoped to this job alone and the watch job keeps its read-only token.
+  #
+  # REMOVE THIS JOB when the Step 1 congeneric map is complete (all 19 ddg.json landed) — it is a scaffold for
+  # one lane, not a general mechanism.
+  # ===========================================================================================================
+  step1-fanout-tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write        # required to POST a workflow_dispatch; the watch job stays contents:read
+    steps:
+      - name: Dispatch the Step 1 fan-out tick unless one is already in flight
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eo pipefail
+          WF=step1-fanout-autoscale.yml
+          # Skip when a tick is already queued or running. The concurrency group would serialise them anyway,
+          # but `cancel-in-progress: false` means extras QUEUE rather than collapse, and a queue of identical
+          # no-op ticks is noise that makes the real one hard to find in the run list.
+          LIVE=$(gh run list --workflow "$WF" --limit 20 \
+                   --json status --jq '[.[]|select(.status=="queued" or .status=="in_progress")]|length')
+          echo "in-flight ticks: $LIVE"
+          if [ "$LIVE" != "0" ]; then
+            echo "::notice title=STEP1 TICK ALREADY IN FLIGHT::$LIVE run(s) of $WF queued/in-progress — not dispatching a duplicate."
+            exit 0
+          fi
+          # No inputs are passed ON PURPOSE. Every input of that workflow is written
+          # `${{ github.event.inputs.X || '<default>' }}`, so omitting them uses ITS defaults — the fleet
+          # branch, the shakeout unit and the release flag stay single-homed in the workflow that owns them.
+          # --ref main because a workflow_dispatch resolves against the default branch, where that file lives;
+          # the job then checks out the fleet branch itself.
+          gh workflow run "$WF" --ref main --repo "${{ github.repository }}"
+          echo "::notice title=STEP1 FAN-OUT TICK DISPATCHED::$WF dispatched by the vast-watchdog cron (this repo's step1 cron has not fired on schedule; see the header comment)."
