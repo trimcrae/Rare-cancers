@@ -572,12 +572,24 @@ revision](research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-
   ternary" claim failing coordinate-level verification. **So the widening delivered less breadth than this
   plan's text implied, and it CONFIRMED the incumbents rather than displacing them — a real, publishable
   negative for the E3-breadth argument, and it must be reported as one rather than quietly absorbed.**
-  ⚠ **AND A $0 RE-CHECK IS OWED ON THE VHL ARM ITSELF (flagged 2026-07-25, NOT resolved): PDB 9GIO — the
-  structure the E3 downselect advanced VHL on — is described by the structural record as carrying "a covalent
-  compound bound to C77 of VHL", not the VH032-class hydroxyproline-pocket handle the staging doc calls it, and
-  its attributed fpocket druggability is 0.001.** This does **not** touch the reported basin result, which
-  consumed **5T35 / 8R5H** — but it is exactly the class of fact that *decided a downselect*, and it is free to
-  check. **BIRC2 is the flagged first recruiter to revisit** at $0 (tier-3 verified, best resolution 1.249 Å, openness
+  ✅ **THE VHL ARM WAS RE-CHECKED AND IT HOLDS (2026-07-26, $0, CI run 30180602564).** The concern was that
+  **9GIO** — the structure the downselect advanced VHL on — is titled *"…with a covalent compound bound to C77
+  of VHL"*, which would mean its ligandability and exit-vector numbers described a **covalent Cys77 site** rather
+  than the VH032-class **hydroxyproline pocket** every VHL PROTAC linker actually leaves from. **Both
+  descriptions are true, of DIFFERENT ligands — and the staging used the right one.** 9GIO carries **two**:
+
+  | ligand | hydroxyproline-pocket residues contacted | contacts Cys77? | nearest Cys77 Sγ |
+  |---|---|---|---|
+  | **`3JF`** — *the one the staging used* | **10** | **no** | **12.35 Å** |
+  | `A1IMD` — the one the title describes | 1 | **yes** | **1.84 Å** |
+
+  `3JF` is `N-acetyl-3-methyl-L-valyl-(4R)-4-hydroxy-N-[4-(4-methyl-1,3-thiazol…]` — the canonical VH032
+  hydroxyproline + methylthiazole handle — sitting in the recruiter pocket, **12.35 Å away from Cys77**. The
+  covalent compound is `A1IMD`, at **1.84 Å** from the Sγ, i.e. essentially exactly a C–S bond length. **So the
+  E3 downselect's VHL row stands, and the attributed fpocket druggability of 0.001 was scored on the wrong
+  ligand's site.** *(A useful side-validation: 1.84 Å is what a real covalent adduct measures — which is
+  precisely the scale that makes the NR-V04 panel's 28–39 Å at C551 unambiguous rather than borderline.)*
+  **BIRC2 is the flagged first recruiter to revisit** at $0 (tier-3 verified, best resolution 1.249 Å, openness
   within 0.04 of CRBN) if CRBN/VHL prove geometrically unpromising — it is already fully staged.
   ⚠ **The downselect is BLIND to recruiter-intrinsic pharmacology by construction.** MDM2 and KEAP1 rank well on
   geometry while their handles are developed inhibitors of the E3's *own* function. Recorded as a **required
