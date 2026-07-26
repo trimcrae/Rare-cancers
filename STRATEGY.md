@@ -198,7 +198,7 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 7:15 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 7:37 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
@@ -206,11 +206,11 @@ a window long enough to swamp the 40-iteration commit block** (see the quantisat
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **50.5/60 ns**, up 333 min, GPU 38 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.2 ns/h** through metad; its release phase should run at NR4A2's ~8.7 ns/h once the PLUMED bias is gone | metad ~**10:15 AM**, release ~**12:00 PM** |
-| **NR4A2 paralogue MD** (Vast **45896793**, **RTX 4080S**) | ✅ **metad COMPLETE — now `release/4.5` of 15 ns**, GPU **74 %**, up 77 min. Preempted off its 4090 at ~5:50 AM; one live host per leg, verified on the instance board. **The phase change fixed the throughput**: 24–33 % GPU and ~47 ns/day under metadynamics, **74 % and ~209 ns/day** on the same box in release — see [pricing.md §A.1](research/compute/pricing.md) | ~**8:30 AM**. **The churn trigger set at the last check is withdrawn — the leg fixed itself at the phase boundary, and re-renting would have thrown away a host that is fine for this phase** |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1280/2000**, up 936 min. The flat 1200 across two passes **was quantisation, not a stall**: the decisive longer reading moved it 2 blocks. **152 iter/h** over the longest window (300 min) | ~**12:00 PM** |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **51.55/60 ns**, up 355 min, GPU 45 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **2.86 ns/h** through metad; its release phase should recover to NR4A2's ~8.2 ns/h once the PLUMED bias is gone | metad ~**10:35 AM**, release ~**12:25 PM** |
+| **NR4A2 paralogue MD** (Vast **45896793**, **RTX 4080S**) | ✅ **metad COMPLETE — `release/7.5` of 15 ns**, up 99 min, **8.18 ns/h**. GPU has climbed **24 % → 74 % → 93 %** across the phase change, which is the PLUMED-CPU diagnosis confirming itself twice over — see [pricing.md §A.1](research/compute/pricing.md) | ~**8:30 AM**. The churn trigger set two checks ago stays withdrawn: the leg fixed itself at the phase boundary |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **advancing — production 1320/2000**, up 957 min. **149 iter/h** over the longest window (322 min) | ~**12:10 PM** |
 | ~~RUNG 2b binary edge leg~~ (Vast 45835971) | **✅ DONE 6:37 AM — ΔG_morph 48.1256, no NaN.** Watch entry disabled | landed |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **warmup COMPLETE (800/800), `production/120` of 2000**, VM up 658 min. Still **no rate quoted**: the one clean production window carries exactly **one** 40-iteration commit block, which is the same thing that produced this morning's two withdrawn ETAs | **~Mon 8:40 AM**, that session's figure — its result keys the calibrator rescope |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/240` of 2000**, VM up 778 min. ⚠ **First rate measurable on a clean 3-hour production window: 40 iter/h** — against the **68 iter/h** the warmup ran at | ⚠ **~Mon 8:40 PM – Tue 8:40 AM**, not Mon morning. That session's ~Mon 8:40 AM looks extrapolated from **warmup**, and production here costs ~1.7× more per iteration, not less. Flagged rather than silently adopted — **its result keys the calibrator rescope**, and it is not mine to drive |
 
 ⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Three agreeing
 intervals (3.4, 3.14, 3.00, the last over a full hour) put the 4080S at **~3.0–3.4 ns/h** against **~5.5–6.0
