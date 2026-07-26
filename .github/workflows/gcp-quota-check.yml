@@ -143,3 +143,52 @@ jobs:
             echo "::warning title=PREEQUIL MIXED::calib setup-cache entries are mixed ($PE with v2pe, $NOPE without) — determine which one r0 actually restored before reading the 2b verdict."
           fi
           exit 0
+
+      - name: Validate --max-run-duration=144000s is ACCEPTED for a STANDARD VM (cheap, non-GPU)
+        # WHY THIS RUNS AT ALL. The on-demand max-run cap in gpu-ternary-fep-gcp.yml was raised 72000s -> 144000s
+        # (20 h -> 40 h) so the running rev leg hits ONE VM boundary instead of two. That value has never been
+        # sent to GCP's validator. If GCP rejects it, the create fails, and the failure lands at the moment the
+        # current VM expires — unattended, with the watchdog's only recourse being to retry the same rejected
+        # request until it burns the per-day relaunch cap. A leg 14 h in would sit dead.
+        #
+        # So validate it BEFORE it matters, and validate it the only way that actually proves anything: send the
+        # real flag combination to the real API. `gcloud compute instances create` has no --dry-run, and reading
+        # the docs would be an assumption, not a measurement. An e2-micro exercises the identical scheduling
+        # validation path (--max-run-duration + --instance-termination-action are scheduling fields, independent of
+        # machine type or accelerator) for ~$0.0002 and, crucially, WITHOUT touching the single-L4 GPU quota — so
+        # this cannot compete with or disturb the running leg.
+        #
+        # Named distinctly (maxrun-probe-*, not gcp-ternary-*) on purpose: every watchdog, reaper and progress
+        # census in this repo filters on `name~'^gcp-ternary-'`, so this probe is invisible to them and cannot be
+        # mistaken for the leg's VM or reaped as a zombie mid-check.
+        run: |
+          set +e
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          VM="maxrun-probe-$GITHUB_RUN_ID"
+          ZONE=us-central1-c
+          for D in 144000s 72000s; do
+            echo "=== attempting create with --max-run-duration=$D (STANDARD, termination-action=DELETE) ==="
+            gcloud compute instances create "$VM" --project="$PROJECT" --zone="$ZONE" \
+              --machine-type=e2-micro \
+              --provisioning-model=STANDARD --instance-termination-action=DELETE \
+              --max-run-duration="$D" --no-restart-on-failure \
+              --image-family=debian-12 --image-project=debian-cloud --boot-disk-size=10GB 2>/tmp/err
+            RC=$?
+            if [ "$RC" = 0 ]; then
+              echo "::notice title=MAXRUN OK::--max-run-duration=$D ACCEPTED for a STANDARD VM. The 40 h cap in gpu-ternary-fep-gcp.yml will provision."
+              gcloud compute instances delete "$VM" --project="$PROJECT" --zone="$ZONE" --quiet 2>&1 | tail -1
+              echo "probe VM deleted"
+              [ "$D" = 144000s ] && exit 0
+              echo "::error title=MAXRUN 144000s REJECTED but 72000s ACCEPTED::GCP will not take the 40 h cap. REVERT MAXRUN to 72000s in gpu-ternary-fep-gcp.yml before the current VM expires, or the watchdog relaunch will fail repeatedly and burn the per-day cap with the leg dead."
+              exit 1
+            fi
+            echo "--- create FAILED with $D ---"
+            grep -iE "ERROR|invalid|exceed|maximum|duration|must be|quota" /tmp/err | head -5
+            # a quota/capacity failure says nothing about the FLAG, so do not read it as a rejection
+            if grep -qiE "quota|exhausted|ZONE_RESOURCE" /tmp/err; then
+              echo "::warning title=MAXRUN INCONCLUSIVE::the create failed on quota/capacity, not on the duration flag — this probe proved nothing about $D. Re-run it later."
+              exit 0
+            fi
+          done
+          echo "::error title=MAXRUN PROBE FAILED BOTH WAYS::neither 144000s nor 72000s created an e2-micro, and not for quota reasons — the probe itself is wrong (bad flags/permissions), so it says nothing about the ternary lane's cap. See the errors above."
+          exit 1
