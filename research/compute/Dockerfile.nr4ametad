@@ -1,0 +1,56 @@
+# Portable NR4A metadynamics + unbiased-release MD image (Vast / RunPod / Salad / a Slurm node).
+#
+# WHY IT EXISTS. The NR4A3 conformer ensemble the whole categorical-handle argument rests on was produced by
+# well-tempered metadynamics on the Pocket-5 lining Rg followed by unbiased "release" replicas seeded from an
+# opened frame — a PLUMED-coupled OpenMM stack (`nr4a3_metad.py` + `nr4a_paralogue_release.py`). Building the
+# matched NR4A1 / NR4A2 ensembles means running the IDENTICAL protocol on the paralogues, and no existing repo
+# image carries openmm-plumed:
+#   triskit23/ternary-fep  -> openfe/openmm/ambertools, NO plumed, NO mdtraj
+#   triskit23/nrv04vast    -> a conda-pack'd endpoint-MD env, NO plumed
+# Solving this env inside a run would cost ~15-25 min of paid GPU time every leg (CLAUDE.md §6: PULL, DON'T
+# SOLVE), so it is baked once here.
+#
+# PARITY IS THE SCIENTIFIC ARGUMENT, NOT JUST SPEED. The matched-ensemble requirement is that NR4A1/NR4A2 are
+# sampled with the same force field, water model, cutoffs, constraints, thermostat, timestep and CV as NR4A3.
+# The package set below is exactly what `sagemaker_src/entry_metad.py` created on the fly for the NR4A3 run
+# (python=3.11 openmm pdbfixer openmm-plumed plumed biopython) plus mdtraj (the release driver's seed-frame
+# selection and frame export) and numpy/boto3/awscli (checkpoint upload). If you change one, the paralogue
+# ensembles stop being matched to the NR4A3 one — which is the only reason they are worth running.
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+# Bake everything Vast's own boot provisioning would otherwise apt-fetch from the slow ubuntu mirrors
+# (~10-40 min on cheap marketplace hosts; see Dockerfile.nrv04vast for the diagnosis).
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        openssh-server openssh-client openssh-sftp-server \
+        python3 python3-pip git curl wget ca-certificates bzip2 tar gzip \
+        systemd systemd-sysv dbus locales sudo less tmux \
+    && rm -rf /var/lib/apt/lists/*
+
+# The micromamba /latest endpoint serves a bzip2 TARBALL (bin/micromamba inside), NOT a raw binary — writing it
+# straight to a file + chmod yields "Exec format error". Extract the member instead (same fix as Dockerfile.ternaryfep).
+RUN wget -qO /tmp/mm.tar.bz2 https://micro.mamba.pm/api/micromamba/linux-64/latest && \
+    tar -xjf /tmp/mm.tar.bz2 -C /usr/local bin/micromamba && \
+    rm /tmp/mm.tar.bz2 && \
+    /usr/local/bin/micromamba --version
+ENV MAMBA_ROOT_PREFIX=/opt/mamba
+# cuda-version=12.4 matches the base tag; the real driver is mounted from the host by nvidia-container-toolkit,
+# so the pin only needs to be <= the host driver's CUDA.
+RUN micromamba create -y -p /opt/mamba/envs/md -c conda-forge \
+        python=3.11 openmm pdbfixer openmm-plumed plumed mdtraj biopython \
+        numpy scipy boto3 awscli cuda-version=12.4 && \
+    micromamba clean -a -y
+ENV PATH=/opt/mamba/envs/md/bin:$PATH
+
+# Fail the BUILD (free) rather than a leg at $/hr if the stack cannot import.
+RUN python -c "import openmm, mdtraj, pdbfixer, Bio, numpy; from openmmplumed import PlumedForce; \
+print('openmm', openmm.__version__); print('mdtraj', mdtraj.__version__); print('biopython', Bio.__version__)"
+
+WORKDIR /work
+COPY research/modalities/ /work/research/modalities/
+
+# BACKEND selects teardown behaviour; autoteardown wraps the real driver argv and guarantees the GPU is
+# released on completion / failure / timeout, so an unattended overnight leg cannot bill idle.
+ENV BACKEND=vast MAX_RUNTIME_S=72000
+ENTRYPOINT ["python", "/work/research/modalities/autoteardown.py"]
+CMD ["python", "/work/research/modalities/nr4a3_metad.py"]
