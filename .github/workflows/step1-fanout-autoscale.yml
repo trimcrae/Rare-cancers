@@ -89,6 +89,20 @@ jobs:
           MONITOR: "1"
         run: python congeneric_fanout_vast.py
 
+      - name: Collect — assemble the map, reconcile realised spend, reap dead hosts
+        # BEFORE the launch, so a unit that finished this tick frees its slot in the same pass.
+        #
+        # AND BECAUSE NOTHING ELSE DESTROYS AN INSTANCE. Vast teardown is two-layer and only the first layer
+        # is automatic: the onstart EXIT trap + autoteardown halt the GPU meter on completion or crash
+        # (key-free, because VAST_API_KEY must never sit on a community host), but DESTROYING the exited
+        # instance is control-plane only and needs the key, which lives here. Without a scheduled collect a
+        # finished fleet would sit exited — GPU meter off, so not the expensive failure, but still nineteen
+        # undestroyed rentals holding disk and nothing assembling the result they produced.
+        working-directory: research/modalities
+        env:
+          COLLECT: "1"
+        run: python congeneric_fanout_vast.py
+
       - name: Terminus-gated fan-out
         if: ${{ github.event.inputs.release_fanout != '0' }}
         working-directory: research/modalities
@@ -107,7 +121,9 @@ jobs:
           # Added INDEPENDENTLY: `git add A B` fails atomically if either pathspec matches nothing, so one
           # absent file would stage neither and the step would report "nothing to commit" while swallowing it.
           staged=0
-          for f in research/modalities/step1-fanout-progress.json research/modalities/vast-watch.json; do
+          for f in research/modalities/step1-fanout-progress.json \
+                   research/modalities/step1-fanout-map.json \
+                   research/modalities/vast-watch.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
           done
           [ "$staged" = 1 ] || { echo "nothing to stage"; exit 0; }

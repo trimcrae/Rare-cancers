@@ -35,13 +35,21 @@ from _skip_guard import skip_module    # noqa: E402
 
 try:
     import gemmi
+    import pdbfixer                                         # noqa: F401 - the STAGER needs it, not this file
     from rdkit import Chem
     from rdkit.Chem import AllChem
     from rdkit import RDLogger
 except ImportError as e:                                    # pragma: no cover - env probe
     # NOT a bare sys.exit(0): raised at module scope it aborts pytest COLLECTION and the whole
     # modalities suite reports "no tests ran". gemmi is absent from tests.yml, so this path is live.
-    skip_module(f"needs gemmi + RDKit (run inside triskit23/ternary-fep): {e}")
+    #
+    # pdbfixer is in this list even though nothing below imports it, because it is what
+    # `stage_from_cofold` writes the protein with. A PARTIAL environment — gemmi and RDKit present,
+    # pdbfixer absent, which is exactly this dev sandbox — passed the guard, failed staging with
+    # "protein write failed: No module named 'pdbfixer'", and then hit an unguarded open() on a
+    # manifest that was never written. Same outcome as the sys.exit: collection aborted, whole suite
+    # gone. A guard must name every dependency of the code under test, not of the test file.
+    skip_module(f"needs gemmi + RDKit + pdbfixer (run inside triskit23/ternary-fep): {e}")
 
 RDLogger.DisableLog("rdApp.*")
 
@@ -148,6 +156,12 @@ for leg_id in sorted(K.LEG_MAP):
     d = os.path.join(out, leg_id)
     check(os.path.isfile(os.path.join(d, "complex.pdb")), f"{leg_id}/complex.pdb exists")
     check(os.path.isfile(os.path.join(d, "ligands.sdf")), f"{leg_id}/ligands.sdf exists")
+    # If staging did not produce this leg the checks above have already FAILED and said so. Reading on
+    # would raise at module scope, which under pytest is a collection abort that takes the whole suite
+    # with it — a failing test must fail, not delete the other 2000.
+    if not os.path.isfile(os.path.join(d, "staging_manifest.json")):
+        check(False, f"{leg_id}: staging produced no manifest — the checks below cannot be evaluated")
+        continue
     man = json.load(open(os.path.join(d, "staging_manifest.json")))
     check(man["source"] == "boltz2_cofold" and man["limitation"],
           f"{leg_id} records that it started from a PREDICTION, with the limitation stated")
