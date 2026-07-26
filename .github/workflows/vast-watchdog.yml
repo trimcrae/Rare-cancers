@@ -1,0 +1,121 @@
+name: Vast job watchdog — any kind (session-independent)
+
+# WHY THIS EXISTS ALONGSIDE ternary-vast-watchdog.yml, RATHER THAN REPLACING IT.
+# That workflow watches the four RUNG 2b ternary legs and it works. Its watch-list schema, though, is
+# ternary-specific to the bone — watch_entry(leg_id, seed, direction, mode, timestep_fs, warmup_timestep_fs),
+# a unit_id built from exactly those, and a relaunch that dispatches the ternary launcher. Forcing a
+# metadynamics MD leg into it would either invent relaunch parameters the leg was never launched with (the
+# schema has nowhere to put metad_ns) or track a progress scalar that measures nothing (a metad leg writes no
+# OpenFE commit store, so the ternary census reads 0 forever and the leg looks permanently stalled).
+# Monitoring that watches nothing is this repo's most expensive defect class, so the generalisation lives here
+# as a KIND REGISTRY over the one shared decision policy, and a kind the engine does not implement is REFUSED
+# at validation time rather than silently "covered".
+#
+# THE TWO WATCH LISTS ARE DISJOINT ON PURPOSE. ternary-vast-watch.json keeps its own watchdog; this one reads
+# vast-watch.json. Two relaunchers for one unit is the hazard, not the fix — tests/test_vast_watchdog.py
+# asserts no unit_id appears in both.
+#
+# Per enabled entry, per its kind:
+#   result artifact in the object store          -> DONE     (disable the entry)
+#   an instance up AND the scalar went UP        -> RUNNING  (emit progress)
+#   a RECORDED crash and no instance             -> FAILED   (alert; a relaunch reproduces the reason)
+#   alive but frozen                             -> STALL    (alert; a relaunch hangs the same way)
+#   neither                                      -> DIED     (relaunch from the last checkpoint, capped)
+#
+# "Alive" is deliberately not enough. A rented Vast box can sit up with a dead container or an idle GPU, so
+# RUNNING requires ADVANCE in a durable, phase-monotone scalar — not the existence of an instance.
+#
+# A capacity refusal (`resources_unavailable`) is handled by each lane's own launcher policy — destroy, add
+# the machine to the exclusion set, pick another host; never wait, never raise the bid. It is DELEGATED to,
+# not duplicated, so there is only one of it.
+#
+# SAFETY: a per-UTC-day relaunch counter in S3 caps runaway re-dispatch; the pass is a no-op on an empty or
+# all-disabled list; only a DIED entry relaunches; a DIED entry whose lane has its OWN relaunching workflow in
+# flight withholds the relaunch (two hosts writing one restart set is an interleaved trajectory nothing
+# reports); and if the Vast instance list cannot be read the pass REFUSES to act. All state is in the repo +
+# S3, so it survives container restarts with no agent awake.
+#
+# NB a `schedule:` trigger only fires from the DEFAULT BRANCH, so this file must be on main to run at all.
+# Until then, exercise it with workflow_dispatch (an on-main workflow dispatched with ref=<branch> runs THAT
+# branch's version of the file and its code).
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"    # GitHub throttles schedules on busy repos, so this really lands ~55-65 min
+                              # apart. That is expected and is REPORTED by the heartbeat gap, not "fixed":
+                              # the legs this covers advance ~5-6 ns/h, so an hour is a large, unambiguous
+                              # advance and a genuinely frozen leg is caught within two passes.
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "1 = report what it WOULD do without relaunching or incrementing the counter"
+        default: "0"
+        required: false
+      verify_armed:
+        description: "comma-separated unit_ids that MUST be present, enabled and valid (read-back check)"
+        default: ""
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  # Read-modify-write of the relaunch counter is racy in principle; one watchdog at a time makes it safe in
+  # practice, and it also guarantees two passes can never both relaunch the same dead unit.
+  group: vast-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      # Read-only, and only used to ask whether a lane's own workflow has a run in flight before relaunching.
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GIT_BRANCH: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: The watchdog itself is alive and parsing
+        # MAKE "IT RAN AT ALL" OBSERVABLE. On 2026-07-25 the GCP watchdog was given an inline `python3 -c`
+        # guard whose lines sat at column 0; that dedents them out of the `run: |` block and makes the whole
+        # workflow INVALID YAML. GitHub's symptom is a 422 about a MISSING TRIGGER, and a `schedule:` cron on
+        # an unparseable file simply never fires — so the guard meant to stop the watchdog acting on bad
+        # config stopped the watchdog running at all, silently, for days. This step re-parses every workflow
+        # (the shared test, reused not rewritten), validates BOTH watch lists against the KIND REGISTRY the
+        # running code actually implements, and emits a heartbeat annotation so a green tick means "it ran",
+        # not "it existed".
+        run: |
+          set -eo pipefail
+          python -m pip install -q pyyaml
+          python research/modalities/tests/test_workflows_parse.py | tail -3
+          python research/modalities/watchdog_validate.py research/modalities/vast-watch.json
+          python research/modalities/watchdog_validate.py research/modalities/ternary-vast-watch.json
+          python research/modalities/vast_watchdog.py --kinds
+          echo "::notice title=VAST WATCHDOG ALIVE::pass starting at $(date -u +%FT%TZ) on ${{ github.ref_name }} — workflows parse, both watch lists valid against the implemented kinds."
+      - name: Read-back — the units that must be covered really are
+        # Only meaningful on demand, right after arming. The config guard cannot catch a vanished entry,
+        # because an EMPTY list is a legitimate state (nothing running) and must stay a no-op; only something
+        # that knows which units are supposed to be covered can tell "nothing to watch" from "what I was
+        # watching went missing". That happened on 2026-07-25 and a billed leg ran unwatched.
+        if: ${{ github.event.inputs.verify_armed != '' }}
+        run: |
+          set -eo pipefail
+          python research/modalities/vast_watchdog.py --verify-armed "${{ github.event.inputs.verify_armed }}"
+      - name: One watchdog pass
+        run: |
+          set -eo pipefail
+          # boto3 is load-bearing: every kind's progress signal and the relaunch counters are in S3. Without
+          # it the watchdog cannot tell advancing from stalled and must not act.
+          python -m pip install -q boto3
+          ARGS=""
+          [ "${{ github.event.inputs.dry_run }}" = "1" ] && ARGS="--dry-run"
+          # A non-zero exit is the point on an alert: it makes GitHub send its own workflow-failure
+          # notification, which is the alert path that does not depend on an agent or a session. An
+          # ::error:: annotation nobody opens is no better than the silent stall this exists to remove.
+          python research/modalities/vast_watchdog.py --tick $ARGS

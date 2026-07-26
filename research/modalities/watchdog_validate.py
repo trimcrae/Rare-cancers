@@ -46,26 +46,83 @@ def required_params(doc):
     return doc.get("_required_run_params") or doc.get("_prefix_keying_params") or []
 
 
-def validate(doc):
-    """Return a list of (leg_id, direction, [missing keys]) for enabled entries that are incomplete."""
+def required_params_by_kind(doc):
+    """{kind: [required keys]} for a MULTI-KIND watch list, or {} for a legacy single-kind one.
+
+    ADDED 2026-07-26 when the watchdog was generalised past the ternary lane. The presence of this key is what
+    switches the validator into strict multi-kind mode, so the ternary list -- which does not have it -- is
+    validated by exactly the code path it always was. A schema migration that silently reinterpreted a live
+    entry would be the worst possible outcome here: those four entries are watching billed legs right now.
+    """
+    m = doc.get("_required_run_params_by_kind")
+    return m if isinstance(m, dict) else {}
+
+
+def validate(doc, known_kinds=None):
+    """Return a list of (leg_id, direction, [problem strings]) for enabled entries that are incomplete.
+
+    Legacy (single-kind) list: unchanged -- every enabled entry must carry every key in `_required_run_params`.
+
+    Multi-kind list (`_required_run_params_by_kind` present): an enabled entry must ALSO declare a `kind`, that
+    kind must appear in the map, and -- when `known_kinds` is supplied by the caller -- the running code must
+    actually implement it. THE POINT OF THAT LAST CHECK: an entry naming a kind the engine has never heard of
+    would otherwise be skipped with a shrug while the watch list still claimed to cover it. Monitoring that
+    watches nothing is this program's most expensive defect class (a GCP watchdog sat unparseable for days; a
+    gating diagnostic returned success while measuring nothing seven ways), so an unknown kind is a LOUD
+    REFUSAL that aborts the pass, never a silent skip.
+    """
     required = required_params(doc)
+    by_kind = required_params_by_kind(doc)
     problems = []
     for entry in doc.get("watch", []):
         if not entry.get("enabled"):
             continue
+        # Legacy identity tuple, preserved EXACTLY: the ternary list's messages must not change.
+        who = (entry.get("leg_id", "?"), entry.get("direction", "?"))
+        if by_kind:
+            who = (entry.get("unit_id") or entry.get("leg_id") or "?", entry.get("kind") or "?")
+            kind = entry.get("kind")
+            if not kind:
+                problems.append((who[0], who[1], ["kind (this list is multi-kind; an entry with no kind "
+                                                  "cannot be relaunched by anything)"]))
+                continue
+            if kind not in by_kind:
+                problems.append((who[0], kind, [f"kind={kind!r} is not declared in "
+                                                f"_required_run_params_by_kind {sorted(by_kind)}"]))
+                continue
+            if known_kinds is not None and kind not in known_kinds:
+                problems.append((who[0], kind, [f"kind={kind!r} is NOT IMPLEMENTED by this watchdog "
+                                                f"(known: {sorted(known_kinds)}) — refusing to claim coverage "
+                                                f"it does not have"]))
+                continue
+            required = list(by_kind.get(kind) or [])
         missing = [k for k in required if k not in entry]
         if missing:
-            problems.append((entry.get("leg_id", "?"), entry.get("direction", "?"), missing))
+            problems.append((who[0], who[1], missing))
     return problems
+
+
+def known_kinds():
+    """The job kinds the RUNNING CODE implements, or None if the registry cannot be imported.
+
+    Imported lazily inside the function on purpose: `vast_watchdog` imports THIS module at module level, so a
+    top-level import here would be a cycle. Returning None (rather than an empty set) when the import fails
+    keeps this file usable standalone -- an empty set would fail every multi-kind entry for the wrong reason.
+    """
+    try:
+        import vast_watchdog  # noqa: PLC0415 — deliberate: see docstring
+        return set(vast_watchdog.KINDS)
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def main(argv):
     if len(argv) != 2:
-        print("usage: watchdog_validate.py <ternary-watch.json>", file=sys.stderr)
+        print("usage: watchdog_validate.py <watch-list.json>", file=sys.stderr)
         return 2
     with open(argv[1]) as fh:
         doc = json.load(fh)
-    problems = validate(doc)
+    problems = validate(doc, known_kinds=known_kinds())
     for leg, direction, missing in problems:
         print(
             "::error title=WATCHDOG CONFIG INVALID::%s dir=%s is missing prefix-keying param(s) %s "

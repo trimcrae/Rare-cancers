@@ -58,77 +58,26 @@ import ternary_vast_launch as tv  # noqa: E402
 import watchdog_validate as wdv  # noqa: E402
 from gpu_backend import _vast_request  # noqa: E402
 
+# THE DECISION POLICY LIVES IN watchdog_policy AND IS RE-EXPORTED HERE, UNCHANGED.
+# It was written here and it was right, but not one clause of it is ternary-specific — every clause takes its
+# evidence as an argument. Generalising the watchdog to non-ternary Vast jobs (vast_watchdog.py) therefore
+# meant either importing this policy or writing a second copy, and two monitors that can disagree about
+# whether a leg is dead is strictly worse than one. `from ... import` rather than a wrapper so that
+# `ternary_vast_watchdog.classify` IS `watchdog_policy.classify` — there is nothing to drift.
+from watchdog_policy import classify, should_relaunch  # noqa: E402,F401  (re-exported: callers + tests use these)
+import watchdog_policy as _wp  # noqa: E402
+
 WATCH_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ternary-vast-watch.json")
 
 # Grace before "zero committed iterations" is called a stall rather than a slow start. A cold unit does
 # stage (~15 min) -> pre-equilibrate (~10 min) -> solvate+parameterise the ~146k-atom hybrid (~8-40 min)
 # -> minimise 12 replicas, all before its first commit. 90 min is comfortably past a healthy cold start and
-# far short of an hour wasted on a hang.
-SETUP_GRACE_MIN = float(os.environ.get("TVAST_SETUP_GRACE_MIN") or "90")
+# far short of an hour wasted on a hang. Same value, same TVAST_* env override, now sourced from the policy
+# module so the ternary lane and the generic engine cannot drift apart on it.
+SETUP_GRACE_MIN = _wp.DEFAULT_SETUP_GRACE_MIN
 # Consecutive no-advance ticks before a frozen counter is a stall. At a 15-min cron and a 40-iteration
 # production commit interval (~10 min of MD at 4 fs), 2 ticks is one missed interval, not noise.
-STALL_TICKS = int(os.environ.get("TVAST_STALL_TICKS") or "2")
-
-
-# =============================================================================================================
-# decision logic — PURE. This is the part that must be right, so it is separated from every I/O call and
-# unit-tested. Each function answers one question and takes the evidence as arguments.
-# =============================================================================================================
-def classify(*, has_result, instance_alive, instance_age_min, progress_scalar, prev_scalar, prev_stall,
-             has_failed_record=False,
-             setup_grace_min=SETUP_GRACE_MIN, stall_ticks=STALL_TICKS):
-    """The watchdog's verdict for one entry, and the new stall counter. PURE.
-
-    Returns (verdict, new_stall) where verdict is one of:
-        DONE          the result artifact exists — nothing to do
-        FAILED        the leg RAN and recorded a failure — alert, do NOT relaunch
-        RUNNING       an instance is up and the committed iteration ADVANCED this tick
-        SETUP_STALL   an instance is up, has committed NOTHING, and is past the cold-start grace
-        STALLED       an instance is up, has committed something, and has not advanced for `stall_ticks`
-        DIED          no result and no instance — relaunch
-
-    Note what is NOT here: "an instance exists" never on its own yields RUNNING. That is the whole
-    correction over a liveness ping.
-
-    And note why FAILED is separated from DIED, which is the difference between a preemption and a crash.
-    A preempted host is killed mid-run and writes NO record, so it correctly reads DIED and resuming from
-    the checkpoint is exactly right. A leg that RAN and recorded `status: failed` — a warmup NaN, say — has
-    a reason it failed, and relaunching it reproduces that reason. Collapsing the two would let one NaN buy
-    up to eight full-length rentals a day, each dying the same way. A crash is a diagnosis job.
-    """
-    if has_result:
-        return "DONE", 0
-    if has_failed_record and not instance_alive:
-        return "FAILED", 0
-    if not instance_alive:
-        return "DIED", 0
-    advanced = progress_scalar > prev_scalar
-    new_stall = 0 if advanced else int(prev_stall) + 1
-    if progress_scalar <= 0:
-        if instance_age_min >= setup_grace_min:
-            return "SETUP_STALL", new_stall
-        return "RUNNING", new_stall
-    if new_stall >= stall_ticks:
-        return "STALLED", new_stall
-    return "RUNNING", new_stall
-
-
-def should_relaunch(verdict, count_today, cap):
-    """Is a relaunch authorised? PURE.
-
-    Only DIED relaunches. A STALL does NOT — a relaunch would hang the same way and pay for it again;
-    a stall is a diagnosis job, not a retry job. That distinction is inherited from the GCP watchdog and it
-    is the reason a stall annotation is an ::error:: rather than a silent re-dispatch.
-    """
-    if verdict != "DIED":
-        return False, ("only a DIED entry relaunches; %s needs diagnosis, not a retry" % verdict)
-    try:
-        n, c = int(count_today), int(cap)
-    except (TypeError, ValueError):
-        return False, "unparseable relaunch counter or cap — refusing to relaunch blind"
-    if n >= c:
-        return False, f"relaunch cap reached ({n}/{c} today) — something is failing repeatedly"
-    return True, f"attempt {n + 1}/{c} today"
+STALL_TICKS = _wp.DEFAULT_STALL_TICKS
 
 
 def enabled_entries(doc):

@@ -189,3 +189,56 @@ def test_workflow_dispatch_inputs_within_github_cap():
         f"(GitHub allows {GITHUB_WORKFLOW_DISPATCH_INPUT_CAP}): {offenders}. "
         "Remove an input before adding one; a 26th makes the whole file 422 with a zero-job run."
     )
+
+
+# --- every watch list a workflow guards on must EXIST and VALIDATE -------------------------------------
+#
+# WHY THIS SITS HERE, next to the parse gate, rather than in a watchdog-specific test file. The two failures
+# are the same failure seen from opposite ends. A watchdog whose FILE does not parse never fires and reports
+# nothing; a watchdog whose WATCH LIST does not validate fires, aborts on the config guard, and also protects
+# nothing -- and in both cases the observable symptom is a repo that believes a leg is covered. The parse gate
+# above catches the first. This catches the second, generically: any workflow that invokes
+# `watchdog_validate.py <path>` is asserting that <path> is a real, valid watch list, so CI holds it to that
+# on every push instead of discovering it at 3 AM on a billed leg.
+#
+# Note what is deliberately NOT asserted: that a list is non-empty. An empty or all-disabled list is a
+# legitimate state -- nothing is running -- and a watchdog must be a no-op on it. Proving a specific unit is
+# covered is a different question with a different tool (`--verify-armed`), because only something that knows
+# which units were just launched can tell "nothing to watch" from "what I was watching went missing".
+def test_every_watch_list_named_by_a_workflow_exists_and_validates():
+    import glob
+    import json as _json
+
+    sys.path.insert(0, os.path.join(ROOT, "research", "modalities"))
+    import watchdog_validate as wdv
+
+    try:
+        import vast_watchdog
+        kinds = set(vast_watchdog.KINDS)
+    except Exception:  # noqa: BLE001 — the registry is optional for this gate
+        kinds = None
+
+    referenced, problems = [], []
+    for path in sorted(glob.glob(os.path.join(WF_DIR, "*.yml"))):
+        text = open(path).read()
+        for m in re.finditer(r"watchdog_validate\.py\s+(\S+\.json)", text):
+            rel = m.group(1)
+            referenced.append((os.path.basename(path), rel))
+            full = os.path.join(ROOT, rel)
+            if not os.path.exists(full):
+                problems.append(f"{os.path.basename(path)} guards on {rel}, which DOES NOT EXIST -- the guard "
+                                f"step fails every pass, so the watchdog never reaches its tick")
+                continue
+            try:
+                doc = _json.load(open(full))
+            except Exception as exc:  # noqa: BLE001
+                problems.append(f"{rel} is not parseable JSON ({type(exc).__name__}) -- every pass aborts")
+                continue
+            bad = wdv.validate(doc, known_kinds=kinds)
+            if bad:
+                problems.append(f"{rel} does not validate: {bad}. The watchdog refuses to act on it, so "
+                                f"anything it claims to cover is in fact uncovered.")
+
+    assert referenced, ("no workflow references watchdog_validate.py at all -- either the watchdogs lost "
+                       "their config guard or this check is looking in the wrong place")
+    assert not problems, "\n".join(problems)

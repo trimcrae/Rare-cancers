@@ -39,6 +39,10 @@ on:
         description: "1 = report what it WOULD do without relaunching or incrementing the counter"
         default: "0"
         required: false
+      generic_shakeout:
+        description: "1 = ALSO run vast_watchdog.py (the generic multi-kind engine) in DRY-RUN, read-only"
+        default: "0"
+        required: false
 
 permissions:
   contents: read
@@ -89,3 +93,25 @@ jobs:
           # notification, which is the alert path that does not depend on an agent or a session. An
           # ::error:: annotation nobody opens is no better than the silent stall this exists to remove.
           python research/modalities/ternary_vast_watchdog.py --tick $ARGS
+      - name: Shakeout hook — exercise the GENERIC multi-kind engine, read-only
+        # WHY THIS HOOK LIVES IN THIS FILE. vast-watchdog.yml is the generic engine's own workflow, but a NEW
+        # workflow on a feature branch cannot be dispatched at all (dispatch requires the file on the default
+        # branch, and a `schedule:` only fires from there too), so it is inert until merged. The repo's
+        # standing escape hatch is to dispatch an ALREADY-ON-MAIN workflow with ref=<branch>, which runs that
+        # branch's version of the file and its code. This is that hatch, and this is the only on-main workflow
+        # that already holds both VAST_API_KEY and the AWS credentials the generic tick needs.
+        #
+        # IT CANNOT AFFECT THE LIVE TERNARY LEGS. The step is gated on a workflow_dispatch input that the CRON
+        # never supplies (`github.event.inputs.*` is empty on a schedule event), and it is hard-wired to
+        # --dry-run: no relaunch, no counter increment, no state write. It reads S3 and the Vast instance list
+        # and prints verdicts. It is also `continue-on-error`, so a generic-engine problem can never fail the
+        # ternary watchdog's own job or mask its verdict.
+        #
+        # Keeping it permanently is deliberate: "unproven until you have watched it reach its real success
+        # terminus at least once" applies to every new KIND added to the generic engine, not just the first.
+        if: ${{ github.event.inputs.generic_shakeout == '1' }}
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python research/modalities/vast_watchdog.py --kinds
+          python research/modalities/vast_watchdog.py --tick --dry-run
