@@ -267,7 +267,7 @@ Everything below is wired and dispatchable; nothing here needs new code.
 |---|---|---|---|
 | 1 | ~~`rung5aks-cofold.yml` `mode=preequil_repro`~~ | $0 CPU | ✅ **CONFIRMED** (run 30218400450), and it re-seeded the stage cache with the hydrogenated tree |
 | 2 | ~~`gpu-ternary-fep-vast.yml` `task=5aks-smoke`~~ | ~$0.05 realized | ✅ **PASSED** — `production/12`, leg record written, host reaped |
-| 3 | ~~`gpu-ternary-fep-vast.yml` `task=5aks`~~ | ~$3.06 est. | ✅ **LAUNCHED** 2026-07-26 5:21 PM ET, both units armed and `verify-armed` clean |
+| 3 | ~~`gpu-ternary-fep-vast.yml` `task=5aks`~~ | ~$3.6 est. | ✅ **BOTH LEGS RUNNING** from 5:21 PM ET — **NR4A3** `45941659`/m117843/4090/$0.2348h, **NR4A1** `45941913`/m114101/4090/$0.2237h. NR4A1's first host (m26910) answered `resources_unavailable`; the lane destroyed it and relaunched elsewhere rather than queueing or raising the bid — the standing Vast rule executing itself |
 | 4 | `gpu-ternary-fep-vast.yml` **`task=5aks-reduce`** | $0 | computes `S` in the parity image and commits `nr4a3-5aks-reduction.json` |
 | 5 | fold `S` into paper **§2.10(d)** and the **Tier-3 row of §5's ladder**, and into §6 below | $0 | §2.10(d) currently reads *"The causal test has not been run"*; that sentence and the ladder row `priced, **not run** / pending` are what this rung retires |
 
