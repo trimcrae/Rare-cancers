@@ -179,6 +179,59 @@ two `complex.pdb` files differing **only** in hydrogenation. It reports **HYPOTH
 unfixed arm passes and **FIX INSUFFICIENT** if both fail — and in both cases says *do not re-rent*. It runs
 on CPU because system construction touches no GPU.
 
+**The verdict it returned, verbatim** (GH run 30218400450, 2026-07-26 4:39 PM ET):
+
+```
+================ VERDICT ================
+  ARM A (no hydrogens) rc=1   ARM B (hydrogenated) rc=0
+  CONFIRMED: hydrogenation is the cause. The unfixed complex fails and the fixed one does not,
+  with nothing else differing between the two runs.
+  ARM A failed on a force-field TEMPLATE error: True
+```
+
+The hydrogens are physically present, not merely reported: the re-seeded stage-cache tars went
+**471,040 B → 921,600 B** per leg. That delta *is* the added hydrogens and terminal atoms.
+
+### ★ The rung's central claim, verified inside OpenFE rather than in our own harness
+
+ARM B ran far enough to build the alchemical mapping, and the engine's **own** endpoint verification is the
+strongest evidence in this lane that `S` measures what it is supposed to:
+
+```
+[preequil] endpoint map (lomap_element_change): 111 mapped atoms A->B (ligA 111, ligB 111)
+[preequil] endpoint verification: {"mapped_max_displacement_ang": 0.0, "graph_identical": true,
+  "chirality_not_inverted": true, "net_charge_conserved": true, "n_mapped": 111, "n_dummy_B": 0,
+  "dummy_bond_lengths_ok": true, "min_pair_distance_ang": 1.023, "no_clash": true, "ok": true}
+```
+
+Read what those two numbers mean together. **`n_dummy_B = 0`** — the perturbation creates and destroys *no*
+atoms, so it is a pure element change and not a fragment being grown; that is the definition of an aza-scan.
+**`mapped_max_displacement_ang = 0.0`** — every mapped atom sits at *identical* coordinates in both
+endpoints, which is the "one pose, two endpoints" requirement holding exactly, measured by the engine that
+will run the leg rather than asserted by the stager that wrote it. `chirality_not_inverted` and
+`net_charge_conserved` close the two remaining ways a one-atom edit could have smuggled a second difference
+into `S`.
+
+### The smoke leg then reached its real success terminus
+
+Re-launched after the fix as instance **45939256** (machine 55559, RTX 4090, $0.1935/hr):
+
+```
+status=done  dG=-9.2369  se=0.4319  NaN=False  prod_s_per_iter=7.9
+committed=production/12   up=exited   -> destroying 45939256 (unit done)
+```
+
+The ΔG is **meaningless by construction** at 12 production iterations — the smoke's deliverable is the
+*terminus*, and the whole chain now has one: hydrogenated stage-cache hit → pre-equilibration → setup →
+warmup → production → leg record → upload → reap, on a real host. Per the repo's rule, the pipeline is
+"proven" only now, and monitoring can relax from every-few-minutes to a heartbeat.
+
+**A real rate falls out of it: 7.9 s/iter of production**, against 17.0 for the calibration ternary — this
+system is ~2.2× cheaper per iteration. Feeding the measured rate to `ternary_cost_model` gives **~7.9 h and
+~$1.53 per leg, ~$3.06 for the pair** at the observed $0.1935/hr, comfortably inside the ladder's ~$12
+(28–144 ref GPU-h). *The warmup term uses the model's 400-iteration default, so this is an estimate anchored
+on a measured production rate, not a measurement of the whole leg.*
+
 ### A second, wider bug the diagnosis exposed: the log-preservation block was ordered wrong
 
 The ternary pipeline archives the previous attempt's `run.log` before overwriting it — a guard whose comment
@@ -212,9 +265,9 @@ Everything below is wired and dispatchable; nothing here needs new code.
 
 | # | command | cost | gate |
 |---|---|---|---|
-| 1 | `rung5aks-cofold.yml` **`mode=preequil_repro`** | $0 CPU | must print **CONFIRMED**. It also **re-seeds the stage cache with the hydrogenated tree** — without that step a re-launch restores the broken `complex.pdb` and fails identically |
-| 2 | `gpu-ternary-fep-vast.yml` **`task=5aks-smoke`** | ~$0.15 | must reach `production` and write a leg record. **Only run this if step 1 said CONFIRMED** |
-| 3 | `gpu-ternary-fep-vast.yml` **`task=5aks`** | the two legs | fans out both arms; `collect` reaps, and the cron watchdog relaunches a DIED leg from its checkpoint |
+| 1 | ~~`rung5aks-cofold.yml` `mode=preequil_repro`~~ | $0 CPU | ✅ **CONFIRMED** (run 30218400450), and it re-seeded the stage cache with the hydrogenated tree |
+| 2 | ~~`gpu-ternary-fep-vast.yml` `task=5aks-smoke`~~ | ~$0.05 realized | ✅ **PASSED** — `production/12`, leg record written, host reaped |
+| 3 | ~~`gpu-ternary-fep-vast.yml` `task=5aks`~~ | ~$3.6 est. | ✅ **BOTH LEGS RUNNING** from 5:21 PM ET — **NR4A3** `45941659`/m117843/4090/$0.2348h, **NR4A1** `45941913`/m114101/4090/$0.2237h. NR4A1's first host (m26910) answered `resources_unavailable`; the lane destroyed it and relaunched elsewhere rather than queueing or raising the bid — the standing Vast rule executing itself |
 | 4 | `gpu-ternary-fep-vast.yml` **`task=5aks-reduce`** | $0 | computes `S` in the parity image and commits `nr4a3-5aks-reduction.json` |
 | 5 | fold `S` into paper **§2.10(d)** and the **Tier-3 row of §5's ladder**, and into §6 below | $0 | §2.10(d) currently reads *"The causal test has not been run"*; that sentence and the ladder row `priced, **not run** / pending` are what this rung retires |
 

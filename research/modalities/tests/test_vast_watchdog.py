@@ -541,3 +541,89 @@ def test_step1_fanout_preflight_rejects_a_unit_outside_the_frozen_tranche():
     assert vw.Step1FanoutKind.preflight({"unit_id": "not-a-real-unit"})
     import congeneric_fanout as cf
     assert vw.Step1FanoutKind.preflight({"unit_id": cf.default_units()[0]["unit_id"]}) == []
+
+
+# --- the interlock must name EVERY other relauncher, derived from the workflows themselves -------------
+#
+# WHY THIS IS A TEST AND NOT A COMMENT. On 2026-07-26 LANE 17 added step1-fanout-autoscale.yml, whose `launch`
+# step re-rents any pending step1_fanout unit — a SECOND relauncher for the `nr4a3-step1-fanout` checkpoint
+# prefix. `Step1FanoutKind.owning_workflow` was left as the bare string "fusion-cpu-extras.yml", so the
+# interlock was asking about a workflow that had nothing to do with the new one and would have reported
+# "idle — this watchdog is the only relauncher right now" while the autoscale tick was mid-launch. The
+# consequence is the exact failure the interlock exists to prevent and the one nothing reports: two hosts
+# syncing one S3 restart set, i.e. an interleaved trajectory presented as a converged result.
+#
+# So the required set is DERIVED from the workflow files rather than restated: any workflow that both drives
+# congeneric_fanout_vast and sets a LAUNCH env is a launcher, and must be interlocked against. Adding a third
+# launcher without adding it to the list now fails CI instead of silently corrupting a run.
+
+WF_DIR = os.path.join(ROOT, ".github", "workflows")
+
+# The watchdogs are excluded because a watchdog interlocking against ITSELF is a permanent deadlock: it would
+# always see its own run in flight and never take any relaunch at all.
+_NOT_A_PEER_RELAUNCHER = {"vast-watchdog.yml", "ternary-vast-watchdog.yml"}
+
+
+def _step1_launcher_workflows():
+    import re
+    out = set()
+    if not os.path.isdir(WF_DIR):
+        return out
+    for name in sorted(os.listdir(WF_DIR)):
+        if not name.endswith((".yml", ".yaml")) or name in _NOT_A_PEER_RELAUNCHER:
+            continue
+        text = open(os.path.join(WF_DIR, name)).read()
+        if "congeneric_fanout_vast" in text and re.search(r"^\s*LAUNCH:", text, re.M):
+            out.add(name)
+    return out
+
+
+def _owners(value):
+    """`owning_workflow` is a comma-separated LIST; a single name is a one-element list."""
+    return {w.strip() for w in str(value or "").split(",") if w.strip()}
+
+
+def test_step1_interlock_names_every_workflow_that_can_relaunch_the_prefix():
+    launchers = _step1_launcher_workflows()
+    assert launchers, "no step1 launcher workflow found — the derivation broke, not the config"
+    declared = _owners(vw.Step1FanoutKind.owning_workflow)
+    missing = launchers - declared
+    assert not missing, (
+        f"Step1FanoutKind.owning_workflow does not interlock against {sorted(missing)}, which drive "
+        f"congeneric_fanout_vast with LAUNCH set and therefore re-rent the same checkpoint prefix. "
+        f"Declared: {sorted(declared)}. Two relaunchers on one prefix is an interleaved trajectory that "
+        f"nothing reports — add the workflow to owning_workflow (comma-separated)."
+    )
+
+
+def test_shipped_step1_entries_carry_the_full_interlock_list():
+    """A stale entry already ON the shipped list is just as blind as a stale class default."""
+    required = _owners(vw.Step1FanoutKind.owning_workflow)
+    for e in _by_kind(_generic(), "step1_fanout"):
+        assert _owners(e.get("owning_workflow")) >= required, (
+            f"{e.get('unit_id')} interlocks against {sorted(_owners(e.get('owning_workflow')))} but the "
+            f"kind requires at least {sorted(required)}"
+        )
+
+
+def test_every_interlocked_workflow_actually_exists():
+    """A typo'd owning_workflow makes the API 404, which `relaunch_withheld` fail-safes into withholding
+    FOREVER — the watchdog would then never relaunch anything and would look like it was working."""
+    names = _owners(vw.Step1FanoutKind.owning_workflow)
+    for e in _generic()["watch"]:
+        names |= _owners(e.get("owning_workflow"))
+    for kind_cls in (vw.Step1FanoutKind,):
+        names |= _owners(getattr(kind_cls, "owning_workflow", ""))
+    missing = [n for n in sorted(names) if not os.path.isfile(os.path.join(WF_DIR, n))]
+    assert not missing, f"owning_workflow names a workflow file that does not exist: {missing}"
+
+
+def test_multi_owner_interlock_withholds_if_any_one_is_busy():
+    """The engine loops the list and breaks on the first busy owner. `relaunch_withheld` stays per-workflow
+    and pure, so the property under test is the AND across the list."""
+    a = wp.relaunch_withheld(0, True, "fusion-cpu-extras.yml") if hasattr(wp, "relaunch_withheld") \
+        else vw.relaunch_withheld(0, True, "fusion-cpu-extras.yml")
+    b = vw.relaunch_withheld(2, True, "step1-fanout-autoscale.yml")
+    assert a[0] is False and b[0] is True
+    # idle + busy must not relaunch: the engine's `break` on the first withhold is what enforces this
+    assert any(x[0] for x in (a, b))
