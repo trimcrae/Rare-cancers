@@ -3,10 +3,12 @@
 # be exercised somewhere cheaper than a dispatched CI run against a live GPU VM.
 #
 # It answers two questions and this test pins both:
-#   PHASE lines  -- warmup vs production per-iteration cost (the 33.91 s/iter on record was a WARMUP measurement,
-#                   extrapolated to a whole leg whose production phase measures ~66 s/iter from GCS markers)
-#   BLOCK lines  -- whether production cost is CONSTANT or RISING with accumulated iterations, which is what makes
-#                   an ETA computed from a current rate sound or optimistic
+#   SEGMENT lines -- whether per-iteration cost is CONSTANT or RISING with accumulated iterations. This is what
+#                    makes an ETA computed from a current rate sound or optimistic, and it is phase-FREE, which is
+#                    why it is the line to trust (see case 7).
+#   PHASE lines   -- warmup vs production cost. These are DERIVED FROM A LAGGING STREAM and can be wrong; case 7
+#                    reproduces the real failure and pins that the profile says so out loud rather than presenting
+#                    a buffer artifact as a phase boundary. The authoritative phase source is the GCS census.
 #
 # It also pins the delivery path. The program is base64'd into `gcloud compute ssh --command` because embedding
 # it literally cannot work: that argument is single-quoted, so the program could contain no single quote at all,
@@ -99,6 +101,44 @@ chk "C5 a log with no timing lines is reported explicitly (silence would read as
 printf '[spot-driver] PRODUCTION created from warmup\n2026-07-26 08:00:00 INFO mpiplus: Iteration took 66.0s.\n' > "$TD/prefixed.log"
 chk "C6 a differently-prefixed timing line still parses to 66.00s" \
     "$(awk -f "$PROG" "$TD/prefixed.log" | grep -c 'PHASE production .*mean= 66.00s')" "1"
+
+# --- CASE 7: THE BUFFERING LAG, reproduced from the real log ------------------------------------------
+# rbfe_spot_driver logged via bare `print`, block-buffered into the `| tee` pipe, while openmmtools' per-iteration
+# lines go through `logging` and flush per record. On the live rev leg (GH run 30202433547) the result was 448
+# timing lines before the first driver phase marker ever appeared, and no production marker at all -- while GCS
+# held production at 320/2000. So the profile split at 448 and labelled 320 production iterations "warmup".
+# The driver default is fixed, but logs already written still carry it, so the profile must SAY SO rather than
+# present the artifact as a phase boundary.
+{
+  for i in $(seq 1 448); do echo "Iteration took 46.5s."; done
+  echo "[spot-driver] WARMUP from iter 200 -> 800 (interval=8)"
+  for i in $(seq 1 490); do echo "Iteration took 56.5s."; done
+} > "$TD/lag.log"
+OUT7=$(awk -f "$PROG" "$TD/lag.log" | sort)
+chk "C7 the buffering lag is called out, not presented as a pre-phase" \
+    "$(printf '%s\n' "$OUT7" | grep -c 'WARNING buffering-lag: 448 timing lines')" "1"
+chk "C7 a missing production marker is called out too" \
+    "$(printf '%s\n' "$OUT7" | grep -c 'WARNING no production marker')" "1"
+# The SEGMENT lines are the trustworthy view: phase-free ordinal blocks that show the drift regardless of labels.
+chk "C7 SEGMENT blocks span the whole log independently of phase labels" \
+    "$(printf '%s\n' "$OUT7" | grep -c '^SEGMENT')" "10"
+chk "C7 SEGMENT shows the early cost (46.50s)" \
+    "$(printf '%s\n' "$OUT7" | grep -c 'SEGMENT iters 00000-00099 .*mean= 46.50s')" "1"
+chk "C7 SEGMENT shows the later cost (56.50s)" \
+    "$(printf '%s\n' "$OUT7" | grep -c 'SEGMENT iters 00800-00899 .*mean= 56.50s')" "1"
+# and a clean log must NOT cry wolf
+chk "C7 a clean log (marker first) raises NO buffering warning" \
+    "$(awk -f "$PROG" "$TD/const.log" | grep -c 'WARNING buffering-lag')" "0"
+chk "C7 a log WITH a production marker raises no missing-production warning" \
+    "$(awk -f "$PROG" "$TD/const.log" | grep -c 'WARNING no production marker')" "0"
+
+# --- the driver default must be a FLUSHING log, or every future log has the same artifact ---------------
+chk "rbfe_spot_driver defaults log to the flushing wrapper, not bare print" \
+    "$(grep -c 'log=_flushing_log' rbfe_spot_driver.py)" "1"
+chk "no bare 'log=print' default remains" \
+    "$(grep -c 'log=print' rbfe_spot_driver.py)" "0"
+chk "the flushing wrapper actually sets flush" \
+    "$(grep -c 'kwargs.setdefault("flush", True)' rbfe_spot_driver.py)" "1"
 
 if [ "$fail" = 0 ]; then echo; echo "ALL CHECKS PASS"; else echo; echo "SOME CHECKS FAILED"; fi
 exit "$fail"

@@ -555,3 +555,117 @@ failure; re-inlining it without does not.
 
 **The transferable rule:** when a value crosses into a templated context, its *size* becomes a correctness
 property, not just its content — and the cheapest fix is to stop it crossing at all.
+
+---
+
+## L. §B#2 twice more in one morning, and a pocket-escape threshold applied for the third time to atoms with no pocket
+
+Three findings from 2026-07-26, all the same class as §B#2 — *a key, guard or fallback that ignores a dimension
+the data varies along, and returns a confident answer about the wrong thing.* Two of them were in code I wrote
+the same morning, and one of those was in the diagnostic built to investigate the other.
+
+### L.1 `mode=converge` analysed whichever direction had run longest
+
+The discovery was `grep -a "$LEG" /tmp/lane.txt | grep -aE "/simulation\.nc$"`, then "take the highest
+`iter-N`". The commit prefix carries the direction as a `_dir<dir>` suffix, so **both** directions' trajectories
+are in that match set and the rule reduces to *whichever leg has run longest* — always the forward one. The
+download directory was then named `${LEG}_sim_shared`, dropping the direction, so nothing downstream could tell.
+
+Observed live: a `mode=converge` run dispatched for `direction=rev` reported `iterations_compared: [0, 2000]`
+while the rev leg it was dispatched for sat at production ~300 (GH run 30201372471).
+
+That last part is what made it dangerous rather than merely wrong. `ternary_fep_reduce.py` reads exactly this
+`ternary_convergence.json` for `diagnostics_ok`, and the watchdog auto-dispatches `mode=converge` then
+`mode=reduce` when a leg lands — so **the rev leg's hysteresis verdict would have rested on the forward leg's own
+convergence.**
+
+Fixed: direction-keyed selection, a direction-tagged report directory (fwd keeps its historical untagged name so
+existing fwd reports stay comparable), and the cycle's fwd-only shared arms (`binary`, `solvent`) **skipped with
+an explicit annotation** on a rev pass rather than silently substituted. The checkpoint fallback had the same
+defect one level down and worse — `simulation.nc` does not carry positions, so pairing a rev trajectory with the
+fwd checkpoint would have fed the pose-RMSD diagnostic coordinates from a different trajectory — so its search
+root is now derived from the selected path's own commit prefix. `tests/test_converge_direction.sh` extracts the
+real loop body from the workflow and drives it against a synthetic lane; reinstating the direction-blind grep
+fails 6 checks and reinstating the lane-wide checkpoint grep fails 4.
+
+### L.2 The phase labels in a brand-new timing diagnostic were a buffer artifact
+
+`ternary-watch.json` carried **33.91 s/iter** as the leg's per-iteration cost and extrapolated the whole leg from
+it. That was a *warmup* measurement, and the step count says warmup and production must cost the same: OpenFE
+fixes the move's `n_steps` once from the **production** timestep (2.5 ps `time_per_iteration` / 2.0 fs = 1250
+steps) and `rbfe_spot_driver` builds the warmup move as a **copy** with only `.timestep` changed, so warmup runs
+the same 1250 MD steps at 1.0 fs. So a 1.95× gap against the GCS-marker rate was unexplained and needed a real
+diagnostic, not a story. Two candidate mechanisms were killed by reading the source: the autostop convergence
+check does run full MBAR per checkpoint boundary, but it is opt-in, off here, and would not engage until 40% of
+the cap; and warmup checkpoints *more* often than production (every 8 vs 40), so commit overhead would make
+warmup the slower phase, not the faster one.
+
+The diagnostic (`iter_timing_profile.awk`, `mode=tail`, CPU-only, $0) then reported phases `pre-warmup` (n=448,
+46.52 s) and `warmup` (n=490, 53.58 s) and **no production phase at all** — while GCS showed production at
+320/2000 for the same VM. Root cause, from the driver's own lines rather than inference:
+
+```
+[spot-driver] warmup_target=800 (ci=8) prod_target=2000 (ci=40)
+[spot-driver] restore -> warmup@iter 200
+[spot-driver] WARMUP from iter 200 -> 800 (interval=8)
+```
+…and then nothing; newest `[barrier]` line `iteration 640/800`; 938 timing lines.
+
+`run_spot_safe` defaulted `log=print`, and the VM runs the engine as `( ... ) | tee /tmp/tfep_run.log`, so
+Python's stdout is **block-buffered** — while openmmtools' per-iteration progress goes through `logging`, whose
+StreamHandler flushes every record. **Two differently-buffered writers into one pipe.** The driver's lines land
+thousands of iterations late; openmmtools' are current. So the "pre-warmup/warmup" split at iteration 448 was
+purely the buffer lag, the real phase change was invisible, and 320 production iterations were labelled warmup.
+
+Fixed at the source (`log` defaults to a flushing print) and in the reader, which now emits phase-**free**
+ordinal `SEGMENT` blocks as the trustworthy view, prints the GCS object census as the authoritative phase source,
+and **warns out loud** when many timing lines precede the first phase marker or when a production marker is
+absent. Logs already written — including the leg running now — still carry the artifact, which is why the warning
+matters and not just the flush.
+
+What the corrected reading actually says: per-iteration cost **rises** 45.3 s → 56.5 s over ~900 iterations and
+plateaus, and end-to-end from GCS markers is **60.5 s/iter**. Every duration derived from 33.91 s was ~44% too
+short. Figures corrected in `ternary-watch.json` with the superseded values registered in its `_rate_appendix`.
+
+**The lesson worth keeping:** my diagnostic's own output window hid the evidence twice — first because a
+`tail -60` filled with ~80 per-checkpoint `[barrier]` lines, then because the phase markers it keyed on were on a
+lagging stream. *A diagnostic must ship the evidence for its own labels.* It now prints the driver lines in full,
+the barriers collapsed to count+first+last, and the GCS census beside the profile.
+
+### L.3 The binary leg's `technical_failure` is not established — a pocket threshold on atoms with no pocket, a third time
+
+`LIG_RMSD_MAX_A` (4 Å) is a **pocket-escape** threshold, and `ternary_fep_convergence.py` has now had to stop
+applying it to atoms that have no pocket three separate times:
+
+| # | what it was applied to | reading | run |
+|---|---|---|---|
+| 1 | the whole 146 k-particle system | 78.94 Å, dominated by bulk water | 30156744299 |
+| 2 | the SOLVENT leg's internal RMSD | `technical_failure=TRUE`; a free PROTAC in water is *supposed* to explore | 30167976061 |
+| 3 | the BINARY leg's whole-ligand pose RMSD | `technical_failure=TRUE`, max 16.636 Å / med 6.987 Å | 30201372471 |
+
+In the same cycle the ternary leg read max 2.765 / med 1.644 Å. A PROTAC in a **binary** complex has one warhead
+bound; the linker and the distal warhead are in solvent **by construction**, because the second protein is
+absent. So a whole-ligand RMSD over all 59 heavy atoms is dominated by the free end moving, and it cannot
+distinguish
+
+- *the bound warhead left its pocket* — real, and it would invalidate ΔG_binary and with it
+  ΔΔG_coop = ΔG_ternary − ΔG_binary, hence r0's −0.534; from
+- *the unbound end moved* — the expected physics of the binary state.
+
+**So `tech_fail=True` on the binary leg is neither confirmed nor dismissed by the evidence that produced it.**
+That matters because the r0 result depends on the binary arm, and it must not be quietly discounted *or* quietly
+accepted.
+
+The discriminating observable now exists: `_contact_ligand_rows` selects the ligand heavy atoms within 0.45 nm of
+the receptor **in the reference frame** (never re-derived at the later frame — an escaping warhead would drop out
+of a frame-B contact set and erase its own evidence), and the flag is the contact-moiety pose RMSD. Not a
+loosening, and `tests/test_contact_moiety_pose_rmsd.py` pins all three directions: a flailing free end passes
+*while its large whole-ligand value stays in the record*; a bound warhead displaced 1 nm still **fails**; and no
+contact moiety at all is **UNMEASURED, never passed**, because a ligand with no receptor contact at t₀ is itself
+a finding. Both numbers appear on the summary line with the flagged one marked, so which observable decides the
+gate is legible without opening the JSON.
+
+**Still open:** the verdict for the binary leg needs a `mode=converge` re-run to produce contact-moiety numbers.
+Until that lands, r0's ΔΔG_coop carries an unresolved flag on its binary arm — recorded here rather than folded
+into a revised verdict, because the rev leg's hysteresis result is also still outstanding and the two together
+are what the valB_mini rescope decision rests on.
