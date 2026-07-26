@@ -215,7 +215,7 @@ jobs:
   #
   # It runs in triskit23/ternary-fep for the standing parity reason: the RDKit that assigns the ligand's
   # bond orders here is the one the FEP leg will read that SDF with.
-  5aks-prime:
+  prime_5aks:
     needs: [resolve, test]
     if: ${{ needs.resolve.outputs.task == '5aks-prime' }}
     runs-on: ubuntu-latest
@@ -457,7 +457,7 @@ jobs:
   # The double difference is computed by the OFFICIAL reducer inside the parity image, never by hand. The
   # reducer refuses a binary or solvent 5a-KS leg outright: the binary and solvent legs cancel ALGEBRAICALLY
   # out of S, so including one adds noise at best and computes a different quantity at worst.
-  5aks-reduce:
+  reduce_5aks:
     needs: resolve
     if: ${{ needs.resolve.outputs.task == '5aks-reduce' }}
     runs-on: ubuntu-latest

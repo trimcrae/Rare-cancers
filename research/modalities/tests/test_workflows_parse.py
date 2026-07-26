@@ -338,3 +338,28 @@ def test_vast_task_allowlist_matches_the_input_options():
     assert not extra, (
         f"these tasks are in the allowlist but not dispatchable via the input options: {extra}. Either add them "
         f"to `options` or drop them from the `case`.")
+
+
+def test_job_ids_are_valid_github_identifiers():
+    """A workflow whose YAML parses can still be UNDISPATCHABLE, and the failure only shows at dispatch time.
+
+    GitHub requires every job id to match `[A-Za-z_][A-Za-z0-9_-]*`. `yaml.safe_load` does not care, so a job
+    named `5aks-prime` parsed cleanly here, passed every local check, and then the dispatch API answered
+    HTTP 422 `The identifier '5aks-prime' is invalid` — for the WHOLE FILE, taking every other task in it
+    down with it. Cost when this fired (2026-07-26): the RUNG 5a-KS legs could not be launched at all, on a
+    workflow that looked green.
+    """
+    bad = []
+    for fn in sorted(os.listdir(WF_DIR)):
+        if not fn.endswith((".yml", ".yaml")):
+            continue
+        try:
+            doc = yaml.safe_load(open(os.path.join(WF_DIR, fn)).read())
+        except Exception:
+            continue                      # malformed YAML is the other tests' problem, not this one's
+        for jid in ((doc or {}).get("jobs") or {}):
+            if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_-]*", str(jid)):
+                bad.append(f"{fn}:{jid}")
+    assert not bad, (
+        f"these job ids are not valid GitHub identifiers, so their workflow is UNDISPATCHABLE (422) even "
+        f"though the YAML parses: {bad}")
