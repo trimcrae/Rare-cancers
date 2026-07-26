@@ -308,6 +308,53 @@ two-arm discipline that settled the hydrogenation question. Do **not** re-rent N
 failure is deterministic for this pose and a re-rental would reproduce it at full pre-equilibration cost.
 **NR4A3 can be relaunched independently** — its defect was the host, not the science.
 
+## 6c · ★ THE ATOM MAP WAS HOST-SPEED-DEPENDENT — the most consequential defect this lane found
+
+**Both hypotheses I preregistered were wrong, and so was my "deterministic for this pose" claim.** The $0
+reproduction ran the *same NR4A1 leg* that aborted on Vast and it **passed cleanly** — 111 mapped, 0 dummies,
+`graph_identical: true`, `min_pair_distance_ang` 1.023, identical to the NR4A3 arm.
+
+| where | element_change=True | element_change=False | verdict |
+|---|---|---|---|
+| NR4A3 leg, Vast host | 111 mapped | 111 mapped | ok |
+| NR4A1 leg, CPU runner | **111 mapped** | **111 mapped** | **ok** |
+| NR4A1 leg, Vast host | **80 mapped, 31 dummies** | **80 mapped** | **ABORTED** |
+
+**The cause is `LomapAtomMapper(time=20, threed=False)`.** `time` is the MCS timeout **in seconds**, and a
+timed-out MCS returns its best **partial** match — silently. Three things make this the explanation rather
+than a candidate:
+
+1. **`threed=False` makes the map pose-independent.** Neither the MD length, nor CUDA-vs-CPU, nor the
+   generated `ligB` conformer can change it. That refutes *both* the "0.5 ns relaxation distorted the indole"
+   and "the `ligB` rebuild loses aromaticity" hypotheses outright.
+2. **The short map came back at `element_change` BOTH True and False.** A genuine element-change asymmetry
+   *separates* those two settings — that is the entire reason `_mapping` computes both and takes the larger.
+   Both collapsing to the same smaller number is a budget signature, not a chemistry signature.
+3. **The two ligands differ by one atom**, so a complete 111-atom 1:1 map provably exists. A shorter map is a
+   failed search, not a property of the molecules.
+
+**Why this matters far beyond 5a-KS.** A partial map is not a slow answer, it is **a different experiment**:
+31 atoms that should map 1:1 instead become dummies that are annihilated and recreated. It converges, it
+produces tight statistics, and it returns a confident ΔG for a perturbation nobody designed. Every lane
+through this mapper was exposed — including the calibration legs.
+
+**Fix** (`nr4a3_rbfe._mapping`): budget raised to **300 s**, env-overridable via `RBFE_LOMAP_TIME_S` so the
+old value stays reachable for an exact re-run. A longer search can only find an equal-or-larger MCS, so it
+cannot make a previously-correct map worse. Plus a loud **`DEGENERATE MAP`** warning emitted *at the point
+the map is produced* whenever both endpoints have the same atom count and the map is short — because
+downstream, only `ternary_endpoint_align.verify_endpoints` catches this, and only on lanes that run it.
+
+**⚠ Carried forward, not closed:** the RUNG 2b calibration legs ran under `time=20`. Their maps were never
+printed against an expected count, so whether any of them used a degenerate map is **unverified**. That is a
+$0 check against their archived logs and it is owed before those numbers are relied on further.
+
+### This is the second time the endpoint verification earned its place
+
+It refused a leg that would otherwise have run to completion and returned a converged number. The guard was
+added as "reviewer condition 1" and could easily have been treated as ceremony; on its second outing it
+caught a defect that no other check in the pipeline — not `protocol_hash`, not the system-identity fields,
+not the reducer — is positioned to see. **A guard that only ever passes is untested. This one is not.**
+
 ## 7 · What runs next, in order
 
 Everything below is wired and dispatchable; nothing here needs new code.
