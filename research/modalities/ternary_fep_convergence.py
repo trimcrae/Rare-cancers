@@ -809,6 +809,44 @@ def _kabsch_rmsd(A, B, fit_rows, meas_rows):
     return float(np.sqrt(((ma - mb) ** 2).sum(axis=1).mean()) * 10.0)   # nm -> Å
 
 
+CONTACT_CUTOFF_NM = 0.45       # ligand heavy atom within this of any receptor heavy atom at t0 = "in the pocket"
+
+
+def _contact_ligand_rows(A, lig_rows, prot_rows, cutoff_nm=CONTACT_CUTOFF_NM):
+    """The ligand heavy-atom rows that are IN CONTACT with the receptor in reference frame `A`.
+
+    WHY THIS EXISTS -- the third instance of one reasoning error. LIG_RMSD_MAX_A (4 Å) is a POCKET-ESCAPE
+    threshold, and this file has already had to retract applying it to atoms that have no pocket twice: once on
+    the whole 146 k-particle system (79 Å, dominated by bulk water) and once on the SOLVENT leg's internal RMSD
+    (a free PROTAC in water is supposed to explore conformations, so the check was made NOT APPLICABLE rather
+    than failed). The BINARY leg is the same error a third time. A PROTAC in a binary complex has ONE warhead in
+    the receptor; the linker and the distal warhead are in solvent by construction, because the second protein is
+    absent. A whole-ligand pose RMSD over all 59 heavy atoms is then dominated by the free end moving, which is
+    the expected physics of the binary state -- not an escape.
+
+    Measured on the real r0 cycle (GH run 30201372471): binary_vhl pose_rmsd max 16.636 Å / median 6.987 Å ->
+    technical_failure=TRUE, against ternary_vhl at max 2.765 / median 1.644 in the SAME cycle. The whole-ligand
+    observable cannot tell "the bound warhead left its pocket" (a real failure that would invalidate ΔG_binary,
+    and with it ΔΔG_coop = ΔG_ternary - ΔG_binary) from "the unbound end moved" (physics). This restricts the
+    measurement to the atoms the threshold is actually about.
+
+    Contacts are taken from the REFERENCE frame only, never re-derived at the later frame: a warhead that leaves
+    its pocket would drop out of a frame-B contact set and the escape would erase its own evidence. Frame A fixes
+    "which atoms were in the pocket to begin with", and the RMSD then answers "are they still where they were".
+    """
+    import numpy as np
+    if not lig_rows or not prot_rows:
+        return []
+    L = A[lig_rows]
+    P = A[prot_rows]
+    # chunked to keep the (n_lig x n_prot) distance block small; n_prot is ~thousands of heavy atoms
+    keep = np.zeros(len(lig_rows), dtype=bool)
+    for i in range(0, len(P), 4096):
+        d = np.linalg.norm(L[:, None, :] - P[None, i:i + 4096, :], axis=2)
+        keep |= (d.min(axis=1) <= cutoff_nm)
+    return [lig_rows[i] for i in range(len(lig_rows)) if keep[i]]
+
+
 def _replica_coords(state):
     import numpy as np
     p = getattr(state, "positions", None)
@@ -890,17 +928,21 @@ def _ligand_pose_block(reporter, iter_a, iter_b):
     except Exception as e:  # noqa: BLE001
         out["independent_distance_check"] = {"status": "%s: %s" % (type(e).__name__, e)}
 
-    per_replica, pose_vals, internal_vals = [], [], []
+    per_replica, pose_vals, internal_vals, contact_vals = [], [], [], []
     for k in range(min(len(sa), len(sb))):
         A, _ = _replica_coords(sa[k])
         B, M = _replica_coords(sb[k])
         if A is None or B is None:
             continue
         B, applied = _min_image(A, B, M)
+        contact_rows = _contact_ligand_rows(A, lig_rows, prot_rows)
         pose = _kabsch_rmsd(A, B, prot_rows, lig_rows)
+        contact = _kabsch_rmsd(A, B, prot_rows, contact_rows)
         internal = _kabsch_rmsd(A, B, lig_rows, lig_rows)
         per_chain = [_kabsch_rmsd(A, B, cr, lig_rows) for cr in chain_rows if cr]
         rec = {"replica": k, "pose_rmsd_A": pose, "internal_rmsd_A": internal,
+               "contact_pose_rmsd_A": contact,
+               "n_contact_heavy": len(contact_rows),
                "per_chain_pose_rmsd_A": [None if v is None else round(v, 3) for v in per_chain],
                "min_over_chains_A": (min([v for v in per_chain if v is not None]) if any(
                    v is not None for v in per_chain) else None),
@@ -908,6 +950,8 @@ def _ligand_pose_block(reporter, iter_a, iter_b):
         per_replica.append(rec)
         if pose is not None:
             pose_vals.append(pose)
+        if contact is not None:
+            contact_vals.append(contact)
         if internal is not None:
             internal_vals.append(internal)
     # ⚠ THE SOLVENT LEG HAS NO POSE CHECK AT ALL, AND FLAGGING ANYTHING THERE MANUFACTURES A FAILURE.
@@ -926,17 +970,48 @@ def _ligand_pose_block(reporter, iter_a, iter_b):
         return out
     if solvent_leg:
         out["check_applicable"] = False
-    flagged = None if solvent_leg else float(max(pose_vals))
+    # THE FLAG IS THE CONTACT-MOIETY POSE RMSD, not the whole-ligand one. See _contact_ligand_rows for why: the
+    # whole-ligand observable cannot distinguish a bound warhead leaving its pocket (a real failure) from the
+    # distal warhead of a PROTAC moving in a BINARY complex (the expected physics of a state with only one
+    # protein), and it flagged the r0 binary leg at 16.636 Å for the second reason. Both numbers are reported; the
+    # threshold is applied to the one it was written for.
+    #
+    # NOT A LOOSENING. Three things keep this from being a way to make a failure disappear:
+    #   (1) it still takes the WORST replica, so a single escaping replica fails the leg;
+    #   (2) if no contact moiety can be determined the check is UNMEASURED, never passed — an empty contact set
+    #       means the ligand had no receptor contact in the reference frame at all, which is itself a finding and
+    #       must not read as "stable";
+    #   (3) the whole-ligand max/median stay in the record, so a large value is still visible and still has to be
+    #       explained, it just no longer *silently* decides a gate it cannot decide correctly.
+    contact_flag = None if solvent_leg else (float(max(contact_vals)) if contact_vals else None)
+    n_contact = [r["n_contact_heavy"] for r in per_replica if r.get("n_contact_heavy") is not None]
+    contact_unmeasured = (not solvent_leg) and contact_flag is None
+    flagged = None if solvent_leg else contact_flag
     out.update({
         "status": ("NOT APPLICABLE — solvent leg: no receptor, so there is no pose to collapse and no pocket to "
                    "escape. The ligand's internal RMSD over %d replicas is reported as information and is NOT "
                    "compared to LIG_RMSD_MAX_A (a free PROTAC exploring conformations in water is physics)."
                    % len(internal_vals)) if solvent_leg else
-                  ("ok — ligand-only heavy-atom pose RMSD, receptor-superposed, over %d replicas" % len(pose_vals)),
-        "flagged_observable": "none (not applicable)" if solvent_leg else "receptor_superposed_pose_rmsd",
+                  ("UNMEASURED — no ligand heavy atom is within %.2f nm of the receptor in the reference frame, "
+                   "so there is no contact moiety whose displacement the escape threshold could be about. NOT "
+                   "passed: a ligand with no receptor contact at t0 is itself a finding."
+                   % CONTACT_CUTOFF_NM) if contact_unmeasured else
+                  ("ok — CONTACT-MOIETY heavy-atom pose RMSD (receptor-superposed) over %d replicas; the "
+                   "whole-ligand value is reported alongside as information" % len(contact_vals)),
+        "flagged_observable": ("none (not applicable)" if solvent_leg else
+                              "none (no contact moiety)" if contact_unmeasured else
+                              "receptor_superposed_contact_moiety_pose_rmsd"),
         "iterations_compared": [int(iter_a), int(iter_b)],
         "n_replicas": len(internal_vals if solvent_leg else pose_vals),
         "ligand_rmsd_A": flagged,                        # the flag: worst replica (conservative)
+        "contact_pose_rmsd_max_A": (float(max(contact_vals)) if contact_vals else None),
+        "contact_pose_rmsd_median_A": (float(np.median(contact_vals)) if contact_vals else None),
+        "n_contact_heavy_min": (int(min(n_contact)) if n_contact else None),
+        "n_contact_heavy_max": (int(max(n_contact)) if n_contact else None),
+        "contact_cutoff_nm": CONTACT_CUTOFF_NM,
+        "whole_ligand_note": ("pose_rmsd_* below are over ALL ligand heavy atoms and are INFORMATION, not the "
+                              "flag. In a binary complex they are expected to be large: only one warhead is "
+                              "bound, so the linker and distal warhead are in solvent by construction."),
         "pose_rmsd_max_A": (float(max(pose_vals)) if pose_vals else None),
         "pose_rmsd_median_A": (float(np.median(pose_vals)) if pose_vals else None),
         "pose_rmsd_min_A": (float(min(pose_vals)) if pose_vals else None),
@@ -1248,14 +1323,22 @@ def analyze_all():
         lg = (st.get("ligand") or {})
         ident = (lg.get("identification") or {})
         xc = (ident.get("frozen_heavy_atom_cross_check") or {})
+        def _r(key):
+            v = lg.get(key)
+            return round(v, 3) if v is not None else "n/a"
+        # BOTH observables on the line, with the FLAGGED one first and the whole-ligand one explicitly marked as
+        # information. Printing only the flagged value would hide a 16 Å whole-ligand excursion; printing only
+        # the whole-ligand value is what made the r0 binary leg read as a technical failure. Which number the
+        # threshold is applied to has to be legible from the summary itself.
         lines.append("%-34s complete=%-5s tech_fail=%-5s | ligand n=%s heavy=%s H_mass=%s | "
-                     "pose_rmsd max=%s med=%s (%s) | frozen-heavy-xcheck=%s"
+                     "FLAG contact_pose max=%s med=%s (n_contact=%s-%s) | info whole_ligand_pose max=%s med=%s | "
+                     "flagged=%s | frozen-heavy-xcheck=%s"
                      % (leg.get("tag"), leg.get("diagnostics_complete"), leg.get("technical_failure"),
                         ident.get("n_ligand_atoms"), ident.get("n_ligand_heavy_atoms"),
                         ident.get("hydrogen_mass_da"),
-                        (round(lg["pose_rmsd_max_A"], 3) if lg.get("pose_rmsd_max_A") is not None else "n/a"),
-                        (round(lg["pose_rmsd_median_A"], 3) if lg.get("pose_rmsd_median_A") is not None
-                         else "n/a"),
+                        _r("contact_pose_rmsd_max_A"), _r("contact_pose_rmsd_median_A"),
+                        lg.get("n_contact_heavy_min", "n/a"), lg.get("n_contact_heavy_max", "n/a"),
+                        _r("pose_rmsd_max_A"), _r("pose_rmsd_median_A"),
                         lg.get("flagged_observable"), xc.get("verdict", "n/a")))
     lines.append("ligand-size cross-check: %s" % report["ligand_size_cross_check"].get(
         "verdict", report["ligand_size_cross_check"].get("status")))

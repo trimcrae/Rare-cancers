@@ -242,3 +242,58 @@ def test_every_watch_list_named_by_a_workflow_exists_and_validates():
     assert referenced, ("no workflow references watchdog_validate.py at all -- either the watchdogs lost "
                        "their config guard or this check is looking in the wrong place")
     assert not problems, "\n".join(problems)
+
+
+# --- `sort | head` under `set -e` + pipefail is a latent step-killer -------------------------------------
+#
+# WHY. `producer | head -N` makes `head` exit after N lines and close the pipe. The producer then dies on the
+# write, `pipefail` propagates that non-zero status, and `set -e` kills the step. It is SIZE-DEPENDENT and so it
+# does not show up in testing: while the producer's whole output fits in the 64 KB pipe buffer it finishes before
+# `head` exits and nothing errors. Once the data grows past that, it does.
+#
+# It bit for real on 2026-07-26 (GH run 30202753766): mode=converge printed its lane path-shape listing, which
+# looked complete, and then the step died with exit 2 because the lane had grown past 64 KB of sorted output. The
+# exact status varies by coreutils build (2 on the runner, 141 reproducing locally) which makes it read like an
+# unrelated failure. Reproduce: `set -eo pipefail; seq 1 200000 | sort -u | head -40 >/dev/null` -> 141.
+#
+# The fix is `| awk 'NR<=N'`, which reads to EOF and prints the first N, so there is no early close to fail on.
+# NOT `|| true`, which would also swallow a genuine producer error.
+#
+# SCOPE, deliberately narrow, because a gate that cries wolf is worse than no gate — and the first draft of this
+# one did exactly that. It matched the producer as a bare substring, so `--sort-by=~creationTimestamp` matched
+# "sort" and it flagged four unrelated `gcloud ... list | head -1` lines in gcp-smoke.yml, gpu-bench-gcp.yml and
+# gpu-rbfe-gcp.yml. Those are not the defect: the producer there emits a handful of image families, far under the
+# 64 KB pipe buffer, and on multi-line pipelines the real producer is not even on the flagged line.
+#
+# So the match is on `sort` as a COMMAND TOKEN (start of line, after a pipe, or opening a substitution), which is
+# the one producer measured to do this and the one that just cost a run. Only flagged when the step actually sets
+# `pipefail`, and never when the pipeline already guards itself with `|| `.
+_SIGPIPE_PRODUCER_RE = re.compile(r"(?:^|\||\$\(|&&|;)\s*sort(?:\s|$)")
+
+
+def test_no_sort_into_head_under_pipefail():
+    import glob
+
+    offenders = []
+    for path in sorted(glob.glob(os.path.join(WF_DIR, "*.yml"))):
+        lines = open(path).read().split("\n")
+        # crude but sufficient: pipefail anywhere in the file means at least one step sets it, and these
+        # workflows set it per-step at the top of each `run:` block.
+        if not any("pipefail" in l for l in lines):
+            continue
+        for i, l in enumerate(lines, 1):
+            if "| head -" not in l and "|head -" not in l:
+                continue
+            if "|| " in l:                      # already guarded
+                continue
+            if l.lstrip().startswith("#"):      # a comment describing the hazard, not the hazard
+                continue
+            if not _SIGPIPE_PRODUCER_RE.search(l):
+                continue
+            offenders.append("%s:%d  %s" % (os.path.basename(path), i, l.strip()[:120]))
+
+    assert not offenders, (
+        "`<producer> | head -N` under `set -e` + pipefail is a size-dependent step-killer: head closes the pipe, "
+        "the producer fails its write, pipefail+`set -e` kill the step, and it only starts happening once the "
+        "output outgrows the 64 KB pipe buffer. Use `| awk 'NR<=N'` (reads to EOF, prints the first N) rather "
+        "than `|| true`, which would also swallow a real producer error.\n  " + "\n  ".join(offenders))

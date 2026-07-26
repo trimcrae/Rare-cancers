@@ -294,9 +294,35 @@ def _diagnose_nan_dir(shared, system, log):
                 log(f"[nan-diag] {Path(f).name}: no positions ({e})")
 
 
+def _flushing_log(*args, **kwargs):
+    """`print` with flush=True, and the default for this module's `log` for a measured reason.
+
+    THE BUG THIS FIXES (2026-07-26). The default was bare `print`. On the VM the driver runs as
+    `( ... python nr4a3_ternary_fep.py ) | tee /tmp/tfep_run.log`, and Python's stdout is BLOCK-buffered when it
+    is a pipe rather than a tty — while openmmtools' per-iteration progress goes through the `logging` module,
+    whose StreamHandler flushes every record. Two differently-buffered writers into one pipe, so the driver's own
+    lines land in the log THOUSANDS of iterations late while openmmtools' lines are current.
+
+    MEASURED, on the live rev leg (gcp-ternary-30177970643, GH run 30202433547): GCS held warmup complete at
+    800/800 and production at 320/2000, and the log held 938 timing lines — consistent with the ~920 iterations
+    that implies — yet the newest [barrier] line said `iteration 640/800` and there was NO
+    "PRODUCTION created from warmup" line at all. The production phase had been running for 320 iterations and
+    the log did not say so.
+
+    WHY IT MATTERS BEYOND TIDINESS: every phase/lifecycle statement in that log is on the lagging stream, so
+    anything that reads it to decide WHICH PHASE a leg is in gets a stale answer that looks current. It made the
+    iteration-timing profile split its output at iteration 448 and label it "pre-warmup vs warmup" — a boundary
+    that was purely the buffer lag, with the real phase change invisible. A diagnostic reporting a confident
+    phase attribution from unflushed output is the same defect class as the direction-blind keys in
+    ternary-lane-guard-audit-2026-07-25.md: a reading that ignores a dimension the data varies along.
+    """
+    kwargs.setdefault("flush", True)
+    print(*args, **kwargs)
+
+
 def run_spot_safe(*, unit, protocol, system, positions, selection_indices, shared_basepath,
                   scratch_basepath, commit_store,
-                  warmup_checkpoint_iters=10, production_checkpoint_iters=20, log=print):
+                  warmup_checkpoint_iters=10, production_checkpoint_iters=20, log=_flushing_log):
     """Drive the leg spot-safely. `unit` is a HybridTopologyMultiStateSimulationUnit (used only
     for its static/instance builders); `protocol` is the OpenFE protocol (for .settings).
     `commit_store` is an rbfe_spot_checkpoint CommitStore. Builds settings/lambdas/platform via

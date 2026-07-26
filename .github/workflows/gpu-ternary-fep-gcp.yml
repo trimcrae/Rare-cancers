@@ -247,6 +247,72 @@ jobs:
           else
             echo "::notice title=TERNARY-PROGRESS ok::$LEG_ID dir=${DIRECTION:-fwd} seed=$SEED — $SUMMARY (NB committed-iters are leg-wide ACROSS SALTS, so they may reflect a DIFFERENT direction's legs, not this one)"
           fi
+
+      # PER-PHASE ITERATION TIMING PROFILE (mode=tail; CPU/runner-only, no GPU/VM created — it SSHes into the
+      # already-running VM and reads a file).
+      #
+      # WHY THIS EXISTS. ternary-watch.json carried 33.91 s/iter as *the* per-iteration cost and extrapolated the
+      # whole remaining leg from it. That number was measured during WARMUP. Production is measured (from the GCS
+      # commit-marker series) at ~66 s/iter — 1.95x — and the step count does NOT explain the gap: OpenFE sets
+      # `n_steps` once from the PRODUCTION timestep, and rbfe_spot_driver builds the warmup move as a COPY with
+      # only `.timestep` changed, so both phases run 1250 MD steps per iteration and should cost the same.
+      #
+      # Two candidate mechanisms were killed by reading the code rather than guessing: the autostop convergence
+      # check (a full MBAR per checkpoint boundary) is opt-in and OFF here, and would not engage until 40% of the
+      # 2000-iteration cap anyway; and warmup checkpoints MORE often (every 8 vs every 40), so commit overhead
+      # would make warmup the slower phase, not the faster one. That leaves a mechanism I cannot establish from
+      # the source, so this reads the ONE artifact that settles it: this VM's own run log, which contains both
+      # phases' timing lines for the SAME machine, GPU and system.
+      #
+      # The per-100-iteration blocks are the second question and the more important one: a CONSTANT production
+      # cost means 66 s/iter is simply the right number and the ETA follows from it, while a RISING one means the
+      # cost grows with accumulated iterations and every ETA computed from a current rate is optimistic.
+      #
+      # The awk program lives in research/modalities/iter_timing_profile.awk (see the note at its top: as a
+      # heredoc, its column-0 terminator dedented out of this block scalar and broke the YAML) and is shipped to
+      # the VM base64'd rather than quoted into --command. `gcloud compute ssh --command '...'` is a
+      # single-quoted string, so an awk program inside it cannot use single quotes at all, and $0/$1/NF would be
+      # eaten by the remote shell if double-quoted. Encoding sidesteps both: one token, no quotes, no escaping.
+      - name: Per-phase iteration timing profile (mode=tail — CPU/runner-only, no GPU/VM)
+        if: ${{ github.event.inputs.mode == 'tail' }}
+        run: |
+          set +e   # DIAGNOSTIC step: a missing VM / no-match grep must not fail the job.
+          TVM_IN="${{ github.event.inputs.leg_id }}"
+          case "$TVM_IN" in
+            gcp-ternary-*) TVM="$TVM_IN" ;;
+            *) TVM=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null | head -1) ;;
+          esac
+          if [ -z "$TVM" ]; then
+            echo "no live gcp-ternary VM — nothing to profile (the run log lives on the VM, not in GCS)"
+            exit 0
+          fi
+          TZONE=$(gcloud compute instances list --filter="name=$TVM" --format="value(zone.basename())" 2>/dev/null | head -1)
+          B64=$(base64 -w0 < research/modalities/iter_timing_profile.awk)
+          echo "=== per-phase iteration timing on $TVM ($TZONE) ==="
+          # ALSO print the driver's own phase-transition lines, unfiltered. Without them a phase label is
+          # unfalsifiable: the first run of this profile reported warmup and "pre-warmup" phases and NO production
+          # phase at all, while GCS showed production/280 committed — so either the driver logged a transition this
+          # awk does not key on, or the phases are not what the label says. A profile whose attribution cannot be
+          # checked against the driver's own log is exactly the "confident answer about the wrong thing" this lane
+          # keeps producing, so the evidence for the labelling ships next to the labels.
+          # The [barrier] commit lines are one per checkpoint (every 8 warmup iterations), so by iteration 640
+          # there are ~80 of them and a `tail -60` window shows NOTHING BUT barrier lines — which is how the
+          # first run of this profile hid the single most important line in the log (the phase target). Collapse
+          # them to a count plus the newest one, and show the [spot-driver] phase lines in full.
+          timeout 120 gcloud compute ssh "$TVM" --zone="$TZONE" --quiet \
+            --command "echo $B64 | base64 -d > /tmp/prof.awk; L=/tmp/tfep_run.log; C=/tmp/clean.log; sed -e 's/\x1b\[[0-9;]*m//g' \$L > \$C 2>/dev/null; echo '--- [spot-driver] phase lines IN FULL (the evidence for the phase labels) ---'; grep -aE 'spot-driver|autostop' \$C | tail -40; echo '--- [barrier] commits: count, first, last (collapsed: one per checkpoint floods any tail window) ---'; grep -ac 'barrier. committed' \$C; grep -aE 'barrier. committed' \$C | head -1; grep -aE 'barrier. committed' \$C | tail -1; echo '--- total timing lines ---'; grep -ac 'took' \$C; echo '--- profile ---'; awk -f /tmp/prof.awk \$C | sort" \
+            2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|WARNING:|^$"
+          echo "=== GCS objects under THIS leg's own direction+salt prefix (which phase has committed what) ==="
+          # The watchdog census reported production/280 for this entry while the driver's barrier lines said
+          # warmup 640/800. Both cannot describe the same trajectory, so list the prefix itself rather than
+          # believing either reading: the object paths are the arbiter.
+          CPFX="gs://${PROJECT}-rbfe-ckpt/valB-6hax/commits/${{ github.event.inputs.leg_id }}"
+          gcloud storage ls --recursive "$CPFX/" 2>/dev/null \
+            | sed -E 's#^.*/commits/##; s#/(warmup|production)/iter-#|\1|#' \
+            | awk -F'|' 'NF>=3{split($3,a,"/"); key=$1"|"$2; n=a[1]+0; if(n>mx[key])mx[key]=n; cnt[key]++} END{for(k in mx) printf "  %-70s furthest=%-8d objects=%d\n", k, mx[k], cnt[k]}' \
+            | sort
+          echo "=== [TIMING] read the PHASE lines for warmup-vs-production, the BLOCK lines for drift ==="
+
       - name: Set up openmmtools for forensic ckpt probe (mode=forensic)
         if: ${{ github.event.inputs.mode == 'forensic' }}
         uses: mamba-org/setup-micromamba@v2
@@ -272,8 +338,13 @@ jobs:
           ALL=$(gcloud storage ls --recursive "$CB/" 2>/dev/null | grep -aE "/production/iter-[0-9]+/[0-9a-f]+/COMMITTED.json$" || true)
           if [ -z "$ALL" ]; then echo "(no production COMMITTED.json found under $CB — leg may be warmup-only)"; exit 0; fi
           # newest N distinct generation dirs by iteration
+          # `awk NR<=n`, not `head -n`: `head` closes the pipe and `sort` then dies on the write, which pipefail
+          # + `set -e` turn into a dead step. Size-dependent, so it lies dormant until the lane outgrows the 64 KB
+          # pipe buffer — which is exactly how it killed mode=converge in GH run 30202753766. Gated by
+          # tests/test_workflows_parse.py::test_no_sort_into_head_under_pipefail, which is what found this second
+          # instance after the first was fixed.
           SEL=$(printf '%s\n' "$ALL" | sort -t/ -k1 | awk -F'/production/iter-' '{print $2}' \
-                | sed -E 's#/COMMITTED.json$##' | sort -t/ -k1 -rn | head -n "$NEWEST")
+                | sed -E 's#/COMMITTED.json$##' | sort -t/ -k1 -rn | awk -v n="$NEWEST" 'NR<=n')
           mkdir -p /tmp/forensic
           i=0
           while IFS= read -r rel; do
@@ -440,8 +511,20 @@ jobs:
           gcloud storage ls --recursive "gs://$BUCKET/valB-6hax/" 2>/dev/null > /tmp/lane.txt || true
           echo "objects: $(wc -l < /tmp/lane.txt)"
           echo "--- distinct path shapes (digits/hashes collapsed) ---"
+          # `| awk 'NR<=40'`, NOT `| head -40`. THIS LINE KILLED THE STEP (GH run 30202753766, exit 2). `head`
+          # exits after its 40th line and closes the pipe; `sort` then dies on the write. The exact status varies
+          # by coreutils build — measured 2 on the runner and 141 (SIGPIPE) reproducing it locally — and either
+          # way `pipefail` propagates it and `set -e` kills the step, right after printing a listing that looks
+          # complete. Reproduced: `set -eo pipefail; seq 1 200000 | sort -u | head -40 >/dev/null` exits 141.
+          #
+          # It is SIZE-DEPENDENT, which is why it ran fine for weeks and then did not. While sort's whole output
+          # fits in the 64 KB pipe buffer it finishes writing before `head` exits and nothing errors; once the
+          # lane grew past that (the rev leg added ~540 objects and new path shapes) it does not. A truncating
+          # `head` in a diagnostic is a latent step-killer that arms itself as the data grows.
+          # awk reads its input to EOF and prints only the first 40, so there is no early close to fail on — the
+          # failure mode is removed rather than masked with `|| true`, which would have hidden a real sort error.
           sed -E 's#/[0-9a-f]{8,}/#/<hash>/#g; s#iter-[0-9]+#iter-N#g; s#/[0-9]+/#/<n>/#g' /tmp/lane.txt \
-            | sed -E "s#^gs://$BUCKET/valB-6hax/##" | sort -u | head -40
+            | sed -E "s#^gs://$BUCKET/valB-6hax/##" | sort -u | awk 'NR<=40'
           echo "--- every simulation.nc / .chk in the lane ---"
           grep -aE "\.nc$|\.chk$" /tmp/lane.txt | head -30 || echo "(NONE — no sampler trajectory survives in the lane)"
           echo "--- COMMITTED.json markers ---"
@@ -471,7 +554,7 @@ jobs:
               continue
             fi
             NEW=$(printf '%s\n' "$ALL" | sed -E 's#/simulation\.nc$##' \
-                  | awk -F'iter-' '{printf "%d\t%s\n", (NF>1?$NF+0:0), $0}' | sort -k1,1rn | head -1 | cut -f2)
+                  | awk -F'iter-' '{printf "%d\t%s\n", (NF>1?$NF+0:0), $0}' | sort -k1,1rn | awk 'NR==1' | cut -f2)
             echo "newest: $NEW"
             # _find_nc_files keys each leg by its parent dir name minus the _sim_shared suffix, so name the
             # download dir after the leg to get a readable tag in the report.
@@ -848,15 +931,32 @@ jobs:
           # ONLY when explicitly authorized for a time-sensitive one-off. GCP REQUIRES --instance-termination-action
           # whenever --max-run-duration is set, so BOTH branches include it (STANDARD supports it too; the old
           # "spot-only" claim was wrong and silently broke on-demand — every on-demand create failed validation and
-          # got mislabeled "stocked out"; fixed 2026-07-22). MAXRUN caps VM wall-clock: on-demand gets 20h so it
-          # spans the WHOLE run uninterrupted — a 7h cap SILENTLY TERMINATED the ternary calib leg mid-run at iter
-          # ~1560 (GCE killed the on-demand VM at exactly --max-run-duration=25200s; NOT a preemption). Spot keeps
-          # 7h: it resumes from the per-block checkpoint on any kill, so a short cap only bounds waste on a wedged
-          # VM. On-demand L4 can ALSO stock out in us-central1 (our only L4 region), so it waits out capacity like
-          # spot (PROV_ROUNDS=22). 20h is still a cost backstop (EXIT-trap + reaper are the primary teardown).
+          # got mislabeled "stocked out"; fixed 2026-07-22). MAXRUN caps VM wall-clock: a 7h cap SILENTLY
+          # TERMINATED the ternary calib leg mid-run at iter ~1560 (GCE killed the on-demand VM at exactly
+          # --max-run-duration=25200s; NOT a preemption). Spot keeps 7h: it resumes from the per-block checkpoint
+          # on any kill, so a short cap only bounds waste on a wedged VM. On-demand L4 can ALSO stock out in
+          # us-central1 (our only L4 region), so it waits out capacity like spot (PROV_ROUNDS=22).
+          #
+          # ON-DEMAND: 40h, RAISED FROM 20h 2026-07-26, because 20h did not do the job it was chosen for. The
+          # comment here used to say 20h "spans the WHOLE run uninterrupted"; it does not, and could not. A full
+          # leg is ~400 warmup iterations plus 2000 production ones (5.0 ns production / 2.5 ps per iteration),
+          # and at the MEASURED production cost of ~66 s/iter that is ~40 h of MD — so a 20h cap guarantees at
+          # least two VM lifetimes for every leg. The 20h figure was derived from a 33.91 s/iter rate that had
+          # been measured during WARMUP and then applied to production (see the ternary-watch.json appendix).
+          #
+          # WHY THE BOUNDARY IS EXPENSIVE, and so why this is worth changing: recovery depends on the watchdog
+          # cron, and GitHub delivers this repo's crons at ~2-4 h intervals regardless of the requested */15
+          # (measured 2026-07-26, and reproduced on an unrelated cron in the same window). So each VM boundary
+          # costs 2-4 h of dead wall clock plus a setup cycle, and nothing about a tighter cron expression fixes
+          # it. Going 20h -> 40h removes one whole boundary from the running rev leg.
+          #
+          # The cost exposure of a larger cap is bounded elsewhere, which is what makes this safe: the EXIT trap
+          # and self-delete are the primary teardown, gcp-reap-vms.yml is the project-wide backstop, and the
+          # watchdog's stall detector (STALL_PASSES) reaps a VM whose committed iteration stops advancing. MAXRUN
+          # is the last of four guards, not the first, so doubling it does not double any realistic waste.
           if [ "$PROVISIONING" = standard ]; then
-            PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=72000s
-            echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; waits out on-demand-capacity like spot; 20h max-run cap)"
+            PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=144000s
+            echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; waits out on-demand-capacity like spot; 40h max-run cap)"
           else
             PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=25200s
           fi
