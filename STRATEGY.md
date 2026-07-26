@@ -198,7 +198,7 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 1:49 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:36 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
@@ -211,8 +211,8 @@ dollars against a ~$4.3 projection for LANE 13 alone.
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **LANE 13 categorical-dynamics analysis** (GitHub runner, $0 CPU) | running since **12:41 PM**, 68 min in — 2 000 000 rigid-body samples per (arm × pose) over the **300 matched conformers** now committed (NR4A3 100 / NR4A1 100 / NR4A2 100, each 25 metad + 3 × 25 release). This is the actual answer to whether paralogue DYNAMICS open a compensating site | ~**3:15 PM or later** — the task file's own `_analyse_samples_why` prices 2M samples at **~2.6 h of free CPU** for term (b) alone, with term (a) over 300 conformers on top. My earlier "~1:50 PM" was quoted without arithmetic and is withdrawn. The ops job's 350-min timeout leaves ample room |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/640` of 2000**, VM up 1137 min. Rate over five windows: 40 / 60 / 79 / 60.5, **62.3 iter/h over the whole 539 min** — variable, not a ramp, and settling near 62 | **~Mon 6:50–11:30 AM**, bracketing that session's ~Mon 8:40 AM. Its result keys the calibrator rescope |
+| **LANE 13 categorical-dynamics analysis** (GitHub runner, $0 CPU) | running since **12:41 PM**, 115 min in — 2 000 000 rigid-body samples per (arm × pose) over the **300 matched conformers** now committed (NR4A3 100 / NR4A1 100 / NR4A2 100, each 25 metad + 3 × 25 release). This is the actual answer to whether paralogue DYNAMICS open a compensating site | ~**3:15 PM or later** — the task file's own `_analyse_samples_why` prices 2M samples at **~2.6 h of free CPU** for term (b) alone, with term (a) over 300 conformers on top. My earlier "~1:50 PM" was quoted without arithmetic and is withdrawn. The ops job's 350-min timeout leaves ample room |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/680` of 2000**, VM up 1196 min. The last 59 min moved exactly **one** 40-iteration block, so no rate is read from it; over the whole **598 min** the leg runs **60.2 iter/h**, agreeing with the 62.3 measured an hour ago | **~Mon 7:20 AM – 12:35 PM**, centre ~noon. That is a few hours later than the `max-effort-3hgq45` session's ~Mon 8:40 AM but well inside the spread of both; its result keys the calibrator rescope |
 
 ⚠ **WHY NR4A1's REPLACEMENT HOST APPEARED TO STARVE ITS GPU — kept because the diagnosis outlived the leg,
 which finished on that same host.** Three agreeing
