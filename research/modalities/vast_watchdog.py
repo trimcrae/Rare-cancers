@@ -667,6 +667,43 @@ def paralogue_entry(target, *, git_branch, metad_ns=60, release_ns=5, n_rep=3, s
     }
 
 
+def step1_fanout_entry(unit_id, *, git_branch, bucket="sagemaker-us-east-2-646605541856",
+                       result_prefix="nr4a3-step1-fanout/results",
+                       stage_prefix="nr4a3-step1-fanout/stage",
+                       image="docker.io/triskit23/nr4a3fep:latest", n_windows=12,
+                       owning_workflow="fusion-cpu-extras.yml", exclude_machines="",
+                       max_relaunches_per_day=6, enabled=True, why=""):
+    """One step1_fanout watch entry. PURE, and the ONLY place a shipped entry may come from.
+
+    The defaults are congeneric_fanout_vast's own module defaults, which is what the launcher runs with when
+    the workflow passes nothing — so an entry built here relaunches the SAME job that was launched. They are
+    recorded on the entry rather than left implicit because every one of them is read at module-import time:
+    a relaunch under different values would resume the right checkpoint and then run it as a different
+    calculation, silently.
+
+    ⚠ An entry is added when its unit is actually LAUNCHED, never in advance. A step1_fanout entry for a unit
+    that was never launched has no phase marker and no instance, so past the cold-start grace the engine
+    classifies it DIED and relaunches it — the watch list would start renting GPUs nobody authorised.
+    """
+    e = {
+        "kind": "step1_fanout",
+        "unit_id": str(unit_id),
+        "bucket": bucket,
+        "result_prefix": result_prefix,
+        "stage_prefix": stage_prefix,
+        "image": image,
+        "n_windows": int(n_windows),
+        "git_branch": git_branch,
+        "owning_workflow": owning_workflow,
+        "exclude_machines": exclude_machines,
+        "max_relaunches_per_day": int(max_relaunches_per_day),
+        "enabled": bool(enabled),
+    }
+    if why:
+        e["_why"] = why
+    return e
+
+
 def verify_armed(unit_ids, path=None):
     """Assert that every named unit is present AND enabled AND passes validation. Raises otherwise.
 

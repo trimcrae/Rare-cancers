@@ -54,6 +54,7 @@
       "enabled"
     ]
   },
+  "_step1_fanout_entries_are_added_as_units_are_launched": "NOT all 19 up front. A step1_fanout entry for a unit that has never been launched is a phantom: it has no phase marker and no instance, so after the cold-start grace the engine would classify it DIED and RELAUNCH it \u2014 i.e. the watch list would start renting GPUs nobody authorised. Entries go in when the unit goes out, and flip to enabled=false when its ddg.json lands.",
   "watch": [
     {
       "kind": "paralogue_md",
@@ -94,6 +95,21 @@
       "max_relaunches_per_day": 6,
       "enabled": false,
       "_disabled_why": "result artifact is in S3; the watchdog reported DONE 2026-07-26 8:36 AM ET. Kept in the list rather than deleted so the completed unit stays on the record."
+    },
+    {
+      "kind": "step1_fanout",
+      "unit_id": "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
+      "bucket": "sagemaker-us-east-2-646605541856",
+      "result_prefix": "nr4a3-step1-fanout/results",
+      "stage_prefix": "nr4a3-step1-fanout/stage",
+      "image": "docker.io/triskit23/nr4a3fep:latest",
+      "n_windows": 12,
+      "git_branch": "claude/max-effort-2dq11l",
+      "owning_workflow": "fusion-cpu-extras.yml",
+      "exclude_machines": "",
+      "max_relaunches_per_day": 6,
+      "enabled": true,
+      "_why": "THE TERMINUS SHAKEOUT UNIT. This lane samples well and has produced nothing: 0 of 19 units has ever reached a ddG, so reduce->commit->upload is unproven. This is the most-advanced checkpoint of the four that survived wave 1 (complex/warmup@160 of a 400-iteration warmup), i.e. the cheapest available proof of the terminus. The other 18 are launched, and added here, once it lands one."
     }
   ]
 }

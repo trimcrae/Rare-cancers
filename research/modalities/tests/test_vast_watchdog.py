@@ -37,6 +37,13 @@ def _generic():
         return json.load(fh)
 
 
+def _by_kind(doc, kind):
+    """The shipped list carries several lanes. Assertions select by KIND, never by list position — a
+    positional assertion breaks whenever another lane arms or disarms an entry, which turns a real guard into
+    noise and noise is what gets deleted."""
+    return [e for e in doc["watch"] if e.get("kind") == kind]
+
+
 def _ternary():
     with open(TERNARY_LIST) as fh:
         return json.load(fh)
@@ -313,14 +320,27 @@ def test_the_shipped_entries_are_exactly_what_the_builder_produces():
     # BOTH legs completed 2026-07-26 (NR4A2 8:36 AM, NR4A1 by 3:37 PM) and are `enabled: false`, kept on the
     # record per the file's editing convention. What this pins is that the entries stay BUILDER-PRODUCED
     # rather than hand-typed; `enabled` and `_disabled_why` are lifecycle and are expected to move.
+    # SCOPED BY KIND, not by position. The list now carries more than one lane, and a positional assertion
+    # would break every time another lane arms or disarms an entry -- turning a real guard into noise that
+    # the next person deletes. What is pinned is unchanged: every shipped entry, of every kind, is BYTE-
+    # IDENTICAL to what its builder produces, so no entry can be hand-typed drift.
     doc = _generic()
+    para = _by_kind(doc, "paralogue_md")
     want = [vw.paralogue_entry("NR4A1", git_branch="claude/max-effort-2dq11l-paralogue",
                                exclude_machines="142143,17720", enabled=False),
             vw.paralogue_entry("NR4A2", git_branch="claude/max-effort-2dq11l-paralogue",
                                exclude_machines="142143,17720", enabled=False)]
     for i in (0, 1):
-        want[i]["_disabled_why"] = doc["watch"][i].get("_disabled_why")
-    assert doc["watch"] == want
+        want[i]["_disabled_why"] = para[i].get("_disabled_why")
+    assert para == want
+
+    for e in _by_kind(doc, "step1_fanout"):
+        built = vw.step1_fanout_entry(e["unit_id"], git_branch=e["git_branch"],
+                                      enabled=e["enabled"], why=e.get("_why", ""))
+        assert e == built, "a step1_fanout entry was hand-typed rather than produced by its builder"
+
+    assert len(para) + len(_by_kind(doc, "step1_fanout")) == len(doc["watch"]), \
+        "an entry of an unrecognised kind is in the shipped list and nothing pins it"
 
 
 def test_the_declared_required_keys_match_the_implemented_kinds():
@@ -337,12 +357,12 @@ def test_the_shipped_entries_carry_what_lane13_ACTUALLY_launched():
     trajectory and silently run it to the wrong length. They are read back from LANE 13's own task file."""
     with open(LANE13_TASK) as fh:
         task = json.load(fh)
-    for e in _generic()["watch"]:
+    for e in _by_kind(_generic(), "paralogue_md"):
         assert float(e["metad_ns"]) == float(task["metad_ns"])
         assert float(e["release_ns"]) == float(task["release_ns"])
         assert int(e["n_rep"]) == int(task["n_rep"])
         assert e["exclude_machines"] == task["exclude_machines"]
-    assert {e["target"] for e in _generic()["watch"]} == set(task["targets"].split(","))
+    assert {e["target"] for e in _by_kind(_generic(), "paralogue_md")} == set(task["targets"].split(","))
 
 
 def test_the_shipped_entry_reproduces_the_launchers_own_leg_identity():
@@ -351,7 +371,7 @@ def test_the_shipped_entry_reproduces_the_launchers_own_leg_identity():
     rented a differently-named instance would be invisible to the next pass."""
     import nr4a_paralogue_md_ops as ops
     import nr4a_paralogue_md_vast_launch as L
-    for e in _generic()["watch"]:
+    for e in _by_kind(_generic(), "paralogue_md"):
         spec = L.build_jobspec(e["target"], mode="real", metad_ns=float(e["metad_ns"]),
                                release_ns=float(e["release_ns"]), n_rep=int(e["n_rep"]),
                                git_branch=e["git_branch"], bucket=e["bucket"])
@@ -364,6 +384,25 @@ def test_the_shipped_entry_reproduces_the_launchers_own_leg_identity():
         # and the DONE test reads the key the job actually uploads
         assert ops.result_key(e["unit_id"]) == \
             f"{e['result_prefix']}/{e['unit_id']}/{e['target'].lower()}-pocket-ensemble.tar.gz"
+
+    # ...and the same check for the fan-out kind. This is the one that would have caught a label built from
+    # the unit_id: the Vast label is `s1f-<map index>-<ligand_b>`, so an entry whose identity did not agree
+    # with the launcher's enumeration would relaunch a box the next pass could not find.
+    import congeneric_fanout as cf
+    import congeneric_fanout_vast as fv
+    for e in _by_kind(_generic(), "step1_fanout"):
+        units = cf.default_units()
+        idx = next(i for i, u in enumerate(units) if u["unit_id"] == e["unit_id"])
+        spec = fv.build_jobspec(units[idx], e["git_branch"], e["bucket"], idx)
+        assert vw.Step1FanoutKind.label_matches(spec.name, e["unit_id"]), \
+            "the watch list and the launcher disagree about this unit's instance label"
+        assert spec.image == e["image"]
+        assert spec.env["RESULT_S3"] == f"s3://{e['bucket']}/{e['result_prefix']}/{e['unit_id']}"
+        assert spec.env["GIT_BRANCH"] == e["git_branch"]
+        assert spec.env["N_WINDOWS"] == str(e["n_windows"])
+        # and the DONE test reads the key the unit's reduce step actually uploads
+        assert cf.result_key(units[idx], e["result_prefix"]) == \
+            f"{e['result_prefix']}/{e['unit_id']}/ddg.json"
 
 
 def test_every_shipped_entry_passes_its_kinds_preflight():
