@@ -260,6 +260,27 @@ def _age_min(inst):
         return 0
 
 
+def _gpu_util(inst):
+    """GPU utilisation %, or None if the host is not reporting it.
+
+    READ BOTH SPELLINGS. The Vast instance payload carries the live figure as `gpu_util` on some responses and
+    `cur_gpu_util` on others (`nrv04_vast_launch`'s field list names the latter). Reading only one silently
+    yields None on the other, and a starved-host guard that always sees None is a guard that watches nothing —
+    which is exactly the defect class this repo keeps paying for. Observed on instance 45936074 at 7 min in:
+    `gpu_util` absent while the box was demonstrably up.
+
+    None is NOT zero and must never be treated as an idle GPU: 'the host is not telling us' and 'the GPU is
+    idle' are different facts, and only the second is evidence of a problem."""
+    for k in ("gpu_util", "cur_gpu_util"):
+        v = inst.get(k)
+        if v is not None:
+            try:
+                return float(v)
+            except (TypeError, ValueError):
+                continue
+    return None
+
+
 def _require_bucket():
     if not BUCKET:
         raise SystemExit("[s1f] VAST_CKPT_BUCKET is required")
@@ -619,7 +640,7 @@ def mode_monitor():
     for i in live:
         print(f"[s1f]   id={i.get('id')} label={i.get('label')} actual={i.get('actual_status')} "
               f"cur={i.get('cur_state')} dph=${i.get('dph_total')} gpu={i.get('gpu_name')} "
-              f"util={i.get('gpu_util')}% age_min={_age_min(i)} msg={(i.get('status_msg') or '')[:120]!r}")
+              f"util={_gpu_util(i)}% age_min={_age_min(i)} msg={(i.get('status_msg') or '')[:120]!r}")
     # PROGRESS, not liveness. The committed-iteration census is the durable evidence the science advanced;
     # `phase.txt` and the leg JSONs are context around it. `prev` is the previous check's census, so this
     # block can answer "did it move SINCE LAST TIME" — which is the only question worth asking of a running
@@ -690,7 +711,7 @@ def mode_monitor():
                 # minutes only ever go up.
                 row["billed_min"] = max(int(row.get("billed_min") or 0), int(age))
                 row["last_seen_utc"] = _utcnow()
-            util = i.get("gpu_util")
+            util = _gpu_util(i)
             running = (i.get("actual_status") == "running")
             if util is None or not running or age < STARVED_MIN_AGE_MIN:
                 continue
@@ -742,8 +763,8 @@ def mode_monitor():
     states, utils = {}, []
     for i in live:
         states[i.get("actual_status") or "?"] = states.get(i.get("actual_status") or "?", 0) + 1
-        if i.get("gpu_util") is not None:
-            utils.append(i.get("gpu_util"))
+        if _gpu_util(i) is not None:
+            utils.append(_gpu_util(i))
     phases = {}
     for u in units:
         p = "done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX)) else \
@@ -768,7 +789,7 @@ def mode_monitor():
         # "loading". Without it, "loading for 29 minutes" is unreadable either way.
         "instances": [{"id": i.get("id"), "label": i.get("label"), "status": i.get("actual_status"),
                        "cur_state": i.get("cur_state"), "status_msg": (i.get("status_msg") or "")[:200],
-                       "gpu": i.get("gpu_name"), "gpu_util": i.get("gpu_util"),
+                       "gpu": i.get("gpu_name"), "gpu_util": _gpu_util(i),
                        "inet_down": i.get("inet_down"),
                        "dph": i.get("dph_total"), "age_min": _age_min(i)}
                       for i in live],
