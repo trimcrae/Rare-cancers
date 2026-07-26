@@ -37,7 +37,7 @@ Verified end-to-end 2026-07-26 (runs **30218758883**, **30218885472**): every st
 three cycles incomplete and naming their missing edges.
 
 **The four wave-1 survivors, by committed iteration** (census over the spot commit store, 2026-07-26 3:47 PM
-ET). Warmup target is 400 iterations, production 2000:
+ET):
 
 | unit | committed |
 |---|---|
@@ -47,6 +47,17 @@ ET). Warmup target is 400 iterations, production 2000:
 | `…cw_ev_5ch2nh2…` | complex/warmup@60 |
 
 The other 15 units are cold and start from staging.
+
+> **⚠ The warmup and production iteration TARGETS are deliberately not quoted here, because nothing in this
+> repo has measured them for this leg and a derived one would be quotable within the hour.** They are
+> `equilibration_length / time_per_iteration` and `production_length / time_per_iteration` — the lengths are
+> set in `nr4a3_rbfe.py` (1.0 ns / 5.0 ns), but `time_per_iteration` is an inherited OpenFE default this lane
+> has never read off a real build, and the repo carries an unreconciled 2.5 ps/iteration figure elsewhere. The
+> authoritative value is the driver's own `[spot-driver] warmup_target=… prod_target=…` line, which ships to
+> S3 with the leg log when the leg ends; the commit-store census also reveals the warmup target for free the
+> moment a unit crosses to `complex/production@…`. **Until one of those lands, any ETA built on an iteration
+> count is arithmetic on an assumption** — which is the exact defect STRATEGY.md's correction table row 19b
+> records four times over.
 
 ### The bid, and what it says about the retracted $91–101
 
