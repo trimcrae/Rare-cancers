@@ -92,6 +92,22 @@ jobs:
               REAP=1; REASON="dead (holds quota+name, cannot resume)"
             elif [ "$AGE_MIN" -ge "$MAX_AGE_MIN" ]; then
               REAP=1; REASON="orphan (age ${AGE_MIN}m >= ${MAX_AGE_MIN}m)"
+              # ⚠ THE AGE HEURISTIC INVERTS FOR LONG LEGS, and with the default max_age_min=20 it inverts for
+              # EVERY real leg. A healthy ternary leg legitimately runs for tens of hours — the on-demand cap is
+              # 40 h — so "old" is evidence it is WORKING, not evidence it is orphaned. Observed 2026-07-26: a
+              # dry_run listed gcp-ternary-30177970643 as WOULD-DELETE at age 860m while it was mid-production
+              # (iteration 320/2000) with 14 h of committed sampling behind it. A `mode=reap` with defaults would
+              # have destroyed the leg the whole lane is waiting on.
+              #
+              # Deliberately NOT changed to spare it automatically: this workflow's stated job includes reaping a
+              # RUNNING VM whose leg has crashed (a billing zombie holding the single L4), and that case is also
+              # "RUNNING and old". Age genuinely cannot separate the two — only committed-iteration progress can,
+              # which is the watchdog's job and not this one's. So the semantics stay, and the hazard becomes
+              # LOUD instead of implicit.
+              if [ "$STATUS" = RUNNING ]; then
+                REASON="$REASON ⚠ RUNNING — age alone cannot tell a healthy long leg from a crashed zombie"
+                echo "::warning title=REAP WOULD KILL A RUNNING VM::$NAME is RUNNING at age ${AGE_MIN}m and would be deleted on mode=reap. A ternary leg legitimately runs up to 40 h, so age is NOT evidence it is orphaned. CHECK PROGRESS FIRST — dispatch gpu-ternary-fep-gcp.yml mode=tail (or read the ternary-leg-watchdog annotations) and confirm the committed iteration is NOT advancing before reaping. To spare it, pass exclude=$NAME."
+              fi
             else
               echo "  SPARE  $EXPLAIN (younger than ${MAX_AGE_MIN}m — likely a live leg)"; SPARED=$((SPARED+1)); continue
             fi
