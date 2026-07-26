@@ -1,12 +1,67 @@
-# STEP 1 FAN-OUT — the cmpd19 congeneric RBFE lane (built 2026-07-24; run HALTED on cost)
+# STEP 1 FAN-OUT — the cmpd19 congeneric RBFE lane (built 2026-07-24; RESUMED 2026-07-26)
 
-**Status: BUILT and proven to sample; HALTED by trimcrae before any result.** 0 of 19 units produced a ΔΔG,
-so there is **no scientific output from this run** — do not cite anything from it. What it produced was a
-measurement that repriced the rung by ~4×, and four infrastructure defects found and fixed.
+**Status: RUNNING (wave 2, resumed 2026-07-26 ~3:53 PM ET).** Wave 1 was halted on cost before any result and
+produced **no scientific output** — do not cite anything from it. What it produced was a measurement that
+repriced the rung by ~4×, four infrastructure defects, and partial checkpoints that wave 2 **resumes from**.
 
 Schedule entry: `step1_fanout_cmpd19` in
-[degrader-paper-schedule.json](../manuscripts/degrader-paper-schedule.json) (status back to `pending`).
-Live prices: [research/compute/pricing.md](../compute/pricing.md) §A.
+[degrader-paper-schedule.json](../manuscripts/degrader-paper-schedule.json).
+Live prices: [research/compute/pricing.md](../compute/pricing.md) §A. Bid policy:
+[bid-strategy.md](../compute/bid-strategy.md) §7.
+
+---
+
+## 0. Wave 2 — the resume (2026-07-26)
+
+**The shape of the run, and why it is not 19-wide from the first minute.** CLAUDE.md's litmus test — *is
+there a result this shard could return that would make me NOT run the rest?* — answers **NO** for a congeneric
+map, so there is no decision value in serialising and parallel costs the same GPU-dollars. But wave 1 left an
+asymmetry that the litmus test does not cover: it proved the lane **SAMPLES** (three hosts at 95–99 % GPU on
+the real cmpd19/NR4A3 system) and **0 of 19 units ever reached a ΔΔG**, so the *terminus* — reduce both legs,
+write `ddg.json`, upload — has never once been observed. Fanning 19 wide into an unproven terminus risks
+paying 19× for zero results, which is this lane's existing failure record, not a hypothetical.
+
+So: **one unit first, chosen as the most-advanced checkpoint** (closest to the terminus ⇒ cheapest proof of
+it), then **all 18 remaining at once**. That is maximum parallelism subject to proving the terminus once, and
+it costs ~1 unit of wall-clock against the risk of 19 wasted rentals. `FANOUT_ONLY` is the lever; without it
+"one unit" would have meant unit 00 rather than the one that is furthest along.
+
+**The four wave-1 survivors, by committed iteration** (census over the spot commit store, 2026-07-26 3:47 PM
+ET). Warmup target is 400 iterations, production 2000:
+
+| unit | committed |
+|---|---|
+| **`…cw_ev_5cooh…neutral_acid`** ← **shakeout unit** | complex/warmup@**160** |
+| `…cw_ev_5pegamine…` | complex/warmup@140 |
+| `…cw_ev_5alkyne…` | complex/warmup@120 |
+| `…cw_ev_5ch2nh2…` | complex/warmup@60 |
+
+The other 15 units are cold and start from staging.
+
+### The bid, and what it says about the retracted $91–101
+
+Wave 2's first rental: Vast **45936074**, RTX 4090, **$0.1446/hr** — against wave 1's **$0.35–0.39/hr** for
+the same card class on the same market days later. That gap is the retired `×1.9` bid multiplier, not the
+market, exactly as §6 reconstructs. At ~13.7 reference-GPU-h per unit that is **~$1.98/unit ⇒ ~$37.6 for the
+19-unit tranche**, which lands on STRATEGY.md's **~$36** planning figure rather than the retracted $91–101.
+
+### Timestep — 4 fs here is NOT an import from the ternary lane
+
+RUNG 2b's 4 fs adoption passed on 2026-07-26 on the **ternary VHL calibration system**, and it is deliberately
+**not** what justifies 4 fs here. This lane's timestep is settled **on this system, by its own evidence**, and
+predates that result:
+
+1. **The RUNG 2 pilot ran clean at 4 fs on an edge of this very series** (`cmpd19 → cw_ev_5nh2`) and converged
+   (ΔΔG_bind = +1.84 ± 0.36 kcal/mol). A converged, NaN-free production run *is* the stability test.
+2. **A force census on a real hybrid build of that same edge** —
+   [`congeneric-edge-timestep-table.json`](./congeneric-edge-timestep-table.json), `ANCHOR_pilot_5Br_to_5NH2`
+   — records `constraints_setting: "hbonds"`, `hydrogen_mass_setting: "3.0"`, `xh_unconstrained: 0` against
+   1771 total constraints, and therefore `max_stable_timestep_fs: 4.0`. Nothing is left flexible to cap the
+   timestep. This was measured with **no MD and no GPU**.
+
+`nr4a3_rbfe.py` sets no timestep at all — it inherits OpenFE's protocol default, which is what both the pilot
+and wave 1 ran under, and wave 2 changes nothing. **There is no extrapolation to price**, and the ternary
+result is not load-bearing for this lane in either direction.
 
 ---
 
@@ -214,6 +269,42 @@ check now re-issues the start for any `s1f-*` at `cur_state=stopped` whose unit 
 and a finished unit is never restarted.
 
 ---
+
+## 7b. What wave 2 added around the sampler (2026-07-26)
+
+Wave 1's gap was never the sampler. It was everything around it: nothing could tell an *advancing* unit from a
+*wedged* one, nothing stopped the fleet stacking on one host, and nothing recorded what was actually spent.
+All three are why a ~4× cost error stood unnoticed for two days.
+
+- **Committed-iteration census.** `phase.txt` says which phase; it structurally cannot say whether that phase
+  is moving, and a rented box can sit up with a wedged container reporting `leg-complex-running` forever. The
+  spot commit store can, so `monitor` now censuses it and **diffs against the previous check**. The scalar is
+  leg- and phase-ranked because it legitimately **restarts twice** per unit (warmup→production,
+  complex→solvent) and **freezes twice more** (MBAR at the end of each leg); tests walk a whole unit lifetime
+  and assert monotonicity. An unlistable store returns **−1, never 0** — reading a network blip as zero
+  progress manufactures a stall.
+- **Cost is derived, never typed.** `UNIT_GPU_H` and `VAST_4090_USD_PER_H` were hand-carried and both wrong,
+  in the same direction, at the same time. They now come from `vast_cost_model.LADDER_REFERENCE_GPU_H` and the
+  `vast-ladder-repricing.json` market snapshot, so STRATEGY.md's ~$36 and the launcher's own print cannot
+  disagree.
+- **Rental ledger** (`…/results/_rentals.json`). `step1-fanout-handles.json` is rewritten by every launch, so
+  a two-stage fan-out loses the first stage's rental — the exact way the last cost figure became a memory
+  instead of a measurement. The ledger is append-only in S3, prices on the **bid** (what Vast charges), and
+  **freezes billed minutes before the reap**, because after the DELETE the instance is unreadable.
+- **Host exclusion in S3** (`…/results/_excluded_machines.json`), not in a process, so a launch inherits what
+  a previous run's monitor learned with no agent awake. `$/ns` ranking multiplies a **card constant**, so it
+  is blind to a host slower than its card exactly as it is blind to one that never starts.
+  **⚠ Scope deliberately narrow.** pricing.md §A.1 proposed "exclude any low-`gpu_util` machine" and then
+  **withdrew** it: the low utilisation there was PLUMED's CPU-side metadynamics bias, and the same host ran at
+  74 % on the next unbiased phase. That escape does not exist for this workload — plain RBFE, no bias, no
+  per-step host-side work — so the card constant *is* the throughput model here and the narrow rule applies.
+  The withdrawn broad rule is not being re-adopted.
+- **Watchdog coverage.** A `step1_fanout` kind in `vast_watchdog.py`, so units are covered
+  session-independently. Every question the shared policy asks is answered from this lane's own code — result
+  key, commit store, the leg wrapper's own `FAILED`/`NORESULT` markers, `build_jobspec` for the relaunch.
+  **Entries are armed as units are launched, never in advance:** an entry for an unlaunched unit has no phase
+  marker and no instance, so past the cold-start grace the engine calls it DIED and relaunches it — the watch
+  list would start renting GPUs nobody authorised.
 
 ## 8. Operational notes for whoever resumes
 
