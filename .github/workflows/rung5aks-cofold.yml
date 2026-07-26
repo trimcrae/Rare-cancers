@@ -1,0 +1,68 @@
+name: RUNG 5a-KS — ternary co-fold staging
+
+# The ligand-side double difference S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1) needs one co-folded
+# ternary per species (CRBN + NR4A{3,1}-LBD + the RUNG-5b construct) before any FEP leg can be staged. This
+# workflow produces it.
+#
+# WHY IT RUNS HERE AND NOT IN THE DEV SANDBOX. The prep resolves each LBD sequence from AFDB/UniProt, and the
+# sandbox's egress proxy answers those hosts with 403 at CONNECT. CI has unrestricted internet, so the $0 prep
+# routes through a runner — the standing "the sandbox is not your execution limit" rule.
+#
+# LADDER, cheapest-decisive-first:
+#   prep -> $0  CPU. Read the matched pair from RUNG 5b's artifact, refuse unless it really is the one-atom
+#                    aza-scan, resolve the LBD sequences, build the Boltz input YAMLs. Commits the record.
+#   run  -> GPU. Boltz-2 inference for the two ternaries. Needs a GPU runner/backend, so it is NOT wired to
+#                this workflow yet; `prep` is what unblocks and is what this file is for.
+#
+# NOT GATED ON RUNG 2b: the 4 fs decision changes what the FEP legs COST, not what structure they start from.
+# The ~$12 of ternary legs is the part that waits for that gate; this staging does not.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "prep = $0 CPU staging (the only mode wired here)"
+        type: choice
+        options: [prep]
+        default: prep
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rung5aks-cofold-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      # The planner is pure stdlib and its guards are what stop a mismatched pair reaching a GPU, so they run
+      # first and a failure here stops the job before any sequence is fetched.
+      - name: The matched-pair guards hold
+        run: python3 research/modalities/tests/test_5aks_cofold.py
+
+      - name: Stage the co-fold inputs
+        working-directory: research/modalities
+        env:
+          OUTPUT_DIR: ${{ github.workspace }}/research/modalities/5aks_cofold_out
+        run: python3 nr4a3_5aks_cofold.py
+
+      - name: Commit the staging record
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add -A research/modalities/nr4a3-5aks-cofold-prep.json \
+                     research/modalities/5aks_cofold_out 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "RUNG 5a-KS: ternary co-fold staging record (CI)"
+            git pull --rebase origin ${{ github.ref_name }} || true
+            git push origin HEAD:${{ github.ref_name }}
+          fi
