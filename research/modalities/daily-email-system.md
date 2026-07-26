@@ -1,6 +1,8 @@
-# Daily status email + weekly newsletter — how it works, and the one remaining step
+# Status email + weekly newsletter — how it works
 
 Automated emails to trimcrae (trimcrae@gmail.com). All times **US Eastern, 12-hour AM/PM**.
+**As of 2026-07-26 the only email on a schedule is the weekly Friday newsletter**; the degrader status
+email is dispatch-only.
 
 ## What's live (merged to `main`)
 - **Daily status email — ⛔ RETIRED 2026-07-26, no longer sends on a schedule.** Its `schedule:` cron was
@@ -17,34 +19,26 @@ Automated emails to trimcrae (trimcrae@gmail.com). All times **US Eastern, 12-ho
   `research/modalities/mailer.py` (`send_email` + `llm_summarize`).
 
 ## Summary source — priority order (in `daily_status_email.py::build_bodies`)
-1. **Claude-written override** — `email-outbox:daily-summary.md` if dated **today** (the cron fetches it).
+1. **Claude-written override** — `email-outbox:daily-summary.md` if dated **today**. The workflow step that
+   fetches it is deliberately KEPT, so a session that writes a fresh one before a manual `mode=send` still
+   gets used. **The file itself was deleted 2026-07-26** (it had been stale since 2026-07-18); with nothing
+   writing it, this tier is dormant and the step degrades cleanly to (2)/(3).
 2. **Anthropic API** — if secret `ANTHROPIC_API_KEY` is set (`llm_summarize`, model `claude-haiku-4-5`).
 3. **Deterministic fallback** — always works; concise headline + bullets.
 
-So an email always sends; it just gets nicer prose when (1) or (2) is available.
+So a dispatched send always produces an email; it just gets nicer prose when (1) or (2) is available.
 
-## Option B — a scheduled Claude session writes the summary (no API key) — ✅ LIVE (2026-07-15)
-trimcrae chose Option B ("you're Claude, write it yourself"). A **Routine** (scheduled trigger) wakes a
-fresh Claude session each morning, writes the summary, and commits it to `email-outbox/daily-summary.md`;
-the send cron then picks it up.
+## Daily summary-writer Routine — ⛔ RETIRED 2026-07-26
+Ran 2026-07-15 → ~2026-07-18: a Routine woke a fresh Claude session each morning, wrote the summary and
+committed it to `email-outbox:daily-summary.md`, which the send cron picked up. It is **gone** — trimcrae
+confirmed 2026-07-26 that the only Routines still scheduled are the weekly newsletter's, and the daily send
+cron it fed has itself been removed (see the appendix). Its setup parameters and prompt were deleted with
+it rather than left looking live; recover them from this file's history (`git log -- <this file>`) if the
+daily cadence is ever revived. The one lesson worth keeping is immediately below, because it governs the
+weekly Routine and any future one.
 
-> **⚠️ 2026-07-17 — send moved to 6:00 AM ET, so the writer Routine must move to 5:00 AM ET (`0 9 * * *`).**
-> The send cron is now `0 10 * * *` (6:00 AM ET). The live writer Routine (`Daily degrader paper status`,
-> `trig_01PxGLz3puh6Rh9Lsew16Fvk`) currently fires at `0 10 * * *` (6:00 AM ET) — that now **collides with
-> the send**, so the 6:00 AM email would go out before today's summary is written and fall back to stale
-> prose. **Action (trimcrae, claude.ai Routines UI):** change that Routine's schedule to `0 9 * * *`
-> (5:00 AM ET). It was created via `http_api`, so an agent's `update_trigger` cannot edit it — only the UI
-> can. (Its prompt still says "7:00 AM ET cron"; that text is cosmetic — the file-handoff mechanism is
-> time-agnostic — but update it too if editing anyway.)
-
-**STATUS: created + verified working end-to-end 2026-07-15.** The Routine (`Daily degrader ...`, connector
-`Claude_Code_Remote`, source repo `trimcrae/Rare-cancers` attached, daily 6:00 AM EDT) ran via "Run now":
-it dispatched the `daily-degrader-email.yml` dry-run, read the FACTS log, and committed a correctly-shaped
-summary to `email-outbox:daily-summary.md` (commit "Daily status summary for 2026-07-15"). No further
-setup needed.
-
-**⚠️ MUST be created from the claude.ai Routines UI, NOT via the `create_trigger` MCP tool (verified
-2026-07-15).** A session CAN create the Routine via `create_trigger`, and it fires — BUT the fired
+## ⚠️ Routines MUST be created from the claude.ai Routines UI, not `create_trigger`
+**(verified 2026-07-15.)** A session CAN create the Routine via `create_trigger`, and it fires — BUT the fired
 fresh sessions run **without any `mcp__github__*` connector tools**: `create_trigger` only passes
 through connectors the *calling* session holds *and* that are marked passable, and the GitHub grant is
 not passable. So a Routine created that way spins up a session every morning that has no way to dispatch
@@ -53,50 +47,9 @@ test fire dispatched no run and left `daily-summary.md` untouched). **Fix: creat
 claude.ai Routines UI and ATTACH the repo `trimcrae/Rare-cancers` as a source** — that repo source (NOT
 anything in the "Connectors" dropdown, which shows "No more connectors available") is what grants the
 fired sessions the `mcp__github__*` tools. Verified: a UI Routine with the repo attached dispatched the
-workflow and committed the summary successfully. Use the exact name / cron / prompt below.
+workflow and committed the summary successfully.
 
-### Create it with these exact parameters (`create_trigger`)
-- **name**: `Daily degrader-paper summary writer`
-- **cron_expression**: `30 10 * * *`  (10:30 UTC = 6:30 AM ET; before the 7:00 AM send cron)
-- **create_new_session_on_fire**: `true`
-- **prompt**:
-
-```
-You are a scheduled Claude session. Your ONE job: write today's bite-sized status summary for Tristan
-(trimcrae)'s NR4A3 PROTAC-degrader paper and save it so the 7:00 AM ET email cron picks it up. Work fully
-autonomously — do not ask questions, do not stop to report progress.
-
-Repo: trimcrae/rare-cancers (use the GitHub MCP tools, prefixed mcp__github__). All times US Eastern, 12-hour AM/PM.
-
-Steps:
-1. Dispatch workflow `daily-degrader-email.yml` on ref `main` with input mode=dry_run
-   (mcp__github__actions_run_trigger, method run_workflow). This computes the current status facts and SENDS NOTHING.
-2. Poll the public Actions API until that run completes:
-   curl "https://api.github.com/repos/trimcrae/rare-cancers/actions/workflows/daily-degrader-email.yml/runs?per_page=1"
-   ; wait ~15s between polls (background bash sleep — foreground short sleeps are blocked); up to ~5 minutes.
-   When status=completed, read that run's job log with mcp__github__get_job_logs (return_content=true, large
-   tail_lines). The log contains a "Full detail"/"FACTS" block: what SageMaker jobs finished in ~30h, what is
-   running now (with spot slots), and the optimistic schedule with dates + a projected paper-completion date.
-3. From ONLY those facts, WRITE a bite-sized summary Tristan can read at a glance on his phone. Use EXACTLY this shape:
-   - One headline line: whether things are on track + the optimistic completion date.
-   - A line "**Since yesterday**" then 1-4 short bullets on what finished; if a job FAILED or looks stalled, say so FIRST.
-   - A line "**Running now**" then short bullets, or "Nothing running."
-   - A line "**Path to done**" then one or two sentences of prose timeline naming the next few milestones with
-     their optimistic dates, ending at the projected completion date.
-   Under ~170 words. Plain prose + short bullets. Bold sparingly. NO tables. Do not invent numbers.
-4. Save it: write file `daily-summary.md` on branch `email-outbox` using mcp__github__create_or_update_file
-   (first mcp__github__get_file_contents for daily-summary.md on branch email-outbox to get its sha, pass that
-   sha to update). Content = your summary. Commit message: "daily summary <today's date>".
-5. Stop. Do NOT send any email — the 7:00 AM ET cron reads daily-summary.md and sends it. Do NOT modify any
-   other file or branch. If you cannot get the facts after retries, do NOT write daily-summary.md (the cron
-   falls back). End with a one-line result.
-```
-
-### After it's created
-- Fire it once to test (`fire_trigger`), then check `email-outbox:daily-summary.md` updated + the next
-  daily email uses it.
-
-## Weekly newsletter Option B — ✅ CODE WIRED (2026-07-17); needs the Friday Routine created
+## Weekly newsletter Option B — ✅ LIVE (code wired 2026-07-17; Routine confirmed running 2026-07-24)
 The newsletter now uses the **same LLM-filter mechanism as the daily email** — a scheduled Claude session
 reads the raw method-watch digest, drops the keyword-collision noise (e.g. "ASO Author Reflections" where
 ASO = Annals of Surgical Oncology, not antisense; unrelated NR4A3 case reports), and commits a readable
@@ -111,10 +64,12 @@ summary that the newsletter send picks up. Without it, the newsletter falls back
   dispatches to get a fresh digest to summarize); and (b) a "Pick up Claude-written newsletter summary"
   step that fetches `email-outbox:newsletter-summary.md` and uses it if ≤2 days old.
 
-**Action (trimcrae) — create the Friday Routine in the claude.ai Routines UI**, attaching repo
-`trimcrae/Rare-cancers` as a source (that repo source is what grants the fired session the `mcp__github__*`
-tools — an agent-created `create_trigger` Routine does NOT get them, see the ⚠️ above). Do this **after this
-branch merges to `main`** (the `mode=dry_run` input must exist on `main` to be dispatchable).
+**Routine side — DONE, and verified firing.** It was created in the claude.ai Routines UI with repo
+`trimcrae/Rare-cancers` attached as a source (that repo source is what grants the fired session the
+`mcp__github__*` tools — an agent-created `create_trigger` Routine does NOT get them, see the ⚠️ above).
+Evidence it works: `email-outbox:newsletter-summary.md` was committed at **6:10 AM ET on Friday
+2026-07-24**, 50 minutes before that morning's 7:00 AM send, and the send (run `30092329992`) succeeded.
+**This is now the only Claude Routine in the system — keep it.** Parameters kept for re-creation:
 - **name**: `Weekly method-watch newsletter summary writer`
 - **cron_expression**: `0 10 * * 5`  (10:00 UTC = **6:00 AM ET Friday**, one hour before the 7:00 AM send)
 - **create_new_session_on_fire**: `true`
@@ -175,5 +130,7 @@ Steps:
   Already gone — trimcrae confirmed 2026-07-26 that the only Claude Routines still scheduled are the weekly
   newsletter's. That is *why* the daily email kept arriving on generated prose rather than a Claude summary,
   and it is also why deleting a Routine could never have stopped it: **the send was a GitHub `schedule:` cron,
-  not a Routine.** `email-outbox:daily-summary.md` is now a dead file read by nothing.
-  The weekly newsletter's own summary-writer Routine is separate and must be KEPT.
+  not a Routine.** `email-outbox:daily-summary.md` was left orphaned by this and was **deleted from the
+  `email-outbox` branch on 2026-07-26** (last written 2026-07-18; recoverable from that branch's history).
+  The weekly newsletter's own summary-writer Routine and `email-outbox:newsletter-summary.md` are separate,
+  still live, and must be KEPT.
