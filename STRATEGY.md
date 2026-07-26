@@ -241,14 +241,20 @@ measured over the stated interval, and **only quoted off a window long enough to
 block**; the two withdrawn ETAs in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 19b/19c
 are both what happens when that rule is broken.*
 
-**One GPU is running: the RUNG 5a-KS co-fold (LANE 16).** Both LANE-13 paralogue legs and all four RUNG 2b
+**Two lanes are live: the RUNG 5a-KS co-fold (LANE 16) and the Step 1 fan-out (LANE 17).** Both LANE-13 paralogue legs and all four RUNG 2b
 legs have reached their deliverables; every watch entry in both of those lists is `enabled: false`.
 
-| what | state | ETA (ET) |
-|---|---|---|
-| **RUNG 5a-KS ternary co-fold** (LANE 16) — Boltz-2, CRBN + NR4A{3,1}-LBD + the RUNG-5b construct. Vast instance **45935273**, RTX 4090 | **PROGRESSING** — deps installed and the GPU probe passed at **3:42 PM ET**; next phase is the two predictions. Unproven pipeline, so checks are ~4 min apart and read the phase marker, not liveness | first co-fold ~**4:15–4:45 PM ET** |
-| ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Lane 13 is closed: legs, collect and analysis all landed |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**) — *driven by the `max-effort-3hgq45` session* | **`production/720` of 2000**. ⚠ **On a NEW VM — `gcp-ternary-30215419909`, up 49 min** — the 1196-min `gcp-ternary-30177970643` is gone. It **resumed from checkpoint** (720 > the 680 it had reached), so nothing was lost; a max-run-duration expiry or a preemption, and that session's lane recovered either way. No rate is read from this window: it spans the restart AND moves exactly one 40-iteration block | **~Mon**, on that session's clock — its result keys the calibrator rescope |
+| what | state | ETA (ET) | ladder cost |
+|---|---|---|---|
+| **RUNG 5a-KS ternary co-fold** (LANE 16) — Boltz-2, CRBN + NR4A{3,1}-LBD + the RUNG-5b construct. Vast **45935273**, RTX 4090 | **PROGRESSING** — deps installed, GPU probe passed | co-fold ~**1 h**; the two ternary legs that follow ~**20 h**, so **S ~4–8 PM Mon** | part of 5a-KS's **~$12 ($1.6–45)**; the co-fold itself is **<$0.50** |
+| **Step 1 fan-out** (LANE 17) — 19 congeneric RBFE edges, resumed from checkpoint | launching: one shakeout unit to a committed ΔΔG, then 18 concurrent | **~5–8 PM Mon**, **→ Tue AM if Vast width caps at 8** as it did in wave 1 | **~$36 ($15–80)** — 19 edges × ~13.7 ref GPU-h. The old ~$91–101 was a **retired bid policy**, not the science |
+| **valB_mini reverse leg r0** (GCP L4 **on-demand**) — *driven by the `max-effort-3hgq45` session* | **`production/720` of 2000**, on a NEW VM `gcp-ternary-30215419909` after the 1196-min one ended; **resumed from checkpoint**, nothing lost | **~11 AM – 4 PM Mon** (1280 iters at the measured ~60 iter/h) | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**); realised and ladder spend are separate ledgers |
+| ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Legs, collect and analysis all landed | — | realised **~$4–5** against a ~$4.3 projection |
+
+**Committed if both running lanes complete: ~$48** (5a-KS ~$12 + fan-out ~$36), against a $15–125 band. Every
+figure here is the LADDER's, quoted from the rung entries below — [pricing.md](research/compute/pricing.md)
+owns the per-unit cost evidence and this board owns nothing.
+
 
 ⚠ **WHY NR4A1's REPLACEMENT HOST APPEARED TO STARVE ITS GPU — kept because the diagnosis outlived the leg,
 which finished on that same host.** Three agreeing
