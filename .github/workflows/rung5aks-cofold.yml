@@ -50,7 +50,7 @@ on:
         type: string
         default: ""
       leg_filter:
-        description: "leg_diag: only units whose id contains this substring (blank = all). The smoke unit alone has 60+ archived attempts, which buries the unit you care about."
+        description: "leg_diag: only units whose id contains this substring (blank = all). ALSO preequil_repro: the exact LEG ID to reproduce (blank = the NR4A3 arm)."
         type: string
         default: ""
 
@@ -382,6 +382,7 @@ jobs:
             -v "$PWD/research/modalities:/work/research/modalities" \
             -v /tmp/5aks_in:/tmp/5aks_in -v /tmp/5aks_repro:/tmp/5aks_repro \
             -e STAGED_DIR=/tmp/5aks_in -e REPRO_SCRATCH=/tmp/5aks_repro \
+            -e REPRO_LEG="${{ github.event.inputs.leg_filter }}" \
             -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
             -w /work/research/modalities \
             docker.io/triskit23/ternary-fep:latest \

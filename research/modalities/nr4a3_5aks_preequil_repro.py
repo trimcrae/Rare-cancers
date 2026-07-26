@@ -30,7 +30,9 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
-LEG = "5aks_d0_to_d__ternary_nr4a3"
+# Which leg to reproduce. Defaults to the NR4A3 arm (the hydrogenation question); set REPRO_LEG to the
+# NR4A1 arm to chase the endpoint-verification abort, which is pose-specific and does NOT reproduce on NR4A3.
+LEG = os.environ.get("REPRO_LEG") or "5aks_d0_to_d__ternary_nr4a3"
 
 
 def count_atoms(pdb):
