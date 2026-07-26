@@ -33,9 +33,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs) | cofold_dry ($0, print the JobSpec) | cofold (~$0.3-1, rent one Vast host for Boltz-2) | cofold_collect ($0)"
+        description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs) | cofold_dry ($0, print the JobSpec) | cofold (~$0.3-1, rent one Vast host for Boltz-2) | cofold_collect ($0) | leg_diag ($0, dump a 5a-KS FEP leg's phase/status/log from S3, including the PREVIOUS attempt's)"
         type: choice
-        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect]
+        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect, leg_diag]
         default: prep
       cofold_dir:
         description: "stage: directory holding the Boltz co-fold CIFs (blank = research/modalities/5aks_cofold_out)"
@@ -297,3 +297,43 @@ jobs:
               print("could not list instances:", type(e).__name__, e)
           PYEOF
 
+  # ---------------------------------------------------------------- $0: why did a 5a-KS FEP leg fail?
+  # ⚠ THE FAILING ATTEMPT'S LOG IS NOT `run.log`. Vast re-runs onstart when a container restarts, and the
+  # ternary pipeline's `exec > >(tee /tmp/run.log)` starts a FRESH file — so by the time anyone looks, the
+  # live `run.log` belongs to the RESTART and the evidence for the failure is gone. The pipeline archives the
+  # previous attempt to `attempts/run-<utc>.log` for exactly this reason, and this task reads BOTH, newest
+  # attempt first. Without it the only available reading is "status=failed", which is not a diagnosis.
+  leg_diag:
+    if: ${{ github.event.inputs.mode == 'leg_diag' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dump every 5a-KS leg's phase, status and logs
+        run: |
+          set -eo pipefail
+          python3 -m pip install -q awscli >/dev/null 2>&1 || true
+          B=sagemaker-us-east-2-646605541856
+          for U in $(aws s3 ls "s3://$B/ternary-vast/legs/" | awk '{print $2}' | tr -d '/' | grep '^5aks' || true); do
+            echo "================================================================ $U"
+            P="s3://$B/ternary-vast/legs/$U"
+            echo "--- phase.txt";  aws s3 cp "$P/phase.txt" - 2>/dev/null || echo "(none)"
+            echo "--- status.json (the phase the pipeline's fail() named)"
+            aws s3 cp "$P/status.json" - 2>/dev/null || echo "(none)"
+            echo "--- leg.json"; aws s3 cp "$P/leg.json" - 2>/dev/null | head -60 || echo "(none)"
+            echo "--- objects"; aws s3 ls "$P/" --recursive --human-readable || true
+            # The ARCHIVED attempt first: on a restart it is the only record of why the run ended.
+            A=$(aws s3 ls "$P/attempts/" 2>/dev/null | sort | tail -1 | awk '{print $4}' || true)
+            if [ -n "$A" ]; then
+              echo "--- attempts/$A  (THE FAILING ATTEMPT — tail 200)"
+              aws s3 cp "$P/attempts/$A" - 2>/dev/null | tail -200 || true
+            else
+              echo "--- (no archived attempt)"
+            fi
+            echo "--- run.log (CURRENT attempt — tail 120)"
+            aws s3 cp "$P/run.log" - 2>/dev/null | tail -120 || echo "(none)"
+          done
