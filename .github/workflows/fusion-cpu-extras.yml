@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
@@ -1533,3 +1533,39 @@ jobs:
                   print(f"    -> skipped (selector {kill!r} does not match)")
           print("done")
           PY
+
+  e3_vhl_recheck:
+    # $0 re-check of the VHL arm's staging structure. The E3 downselect scored VHL on 9GIO; the structural
+    # record describes 9GIO as carrying a covalent compound bound to Cys77 of VHL rather than a
+    # hydroxyproline-pocket handle. Those readings cannot both be right, and the difference decides whether the
+    # ligandability/exit-vector numbers describe the pocket a VHL degrader linker would actually leave from.
+    # 5T35 (MZ1) is the positive control and is the structure the reported basin result actually consumed.
+    if: ${{ github.event.inputs.task == 'e3_vhl_recheck' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Re-check 9GIO's ligand site (RCSB, pure stdlib)
+        working-directory: research/modalities
+        run: python e3_vhl_ligand_recheck.py
+      - name: Commit the result back to the triggering branch
+        run: |
+          set -e
+          git config user.name Claude
+          git config user.email noreply@anthropic.com
+          git add research/modalities/e3-vhl-ligand-recheck.json || true
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "E3 VHL arm re-check: what 9GIO's ligand actually contacts (auto)"
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
+              git push origin HEAD:"${{ github.ref_name }}" && exit 0
+            sleep $((2**i))
+          done
+          echo "push failed after retries" >&2; exit 1
