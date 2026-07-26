@@ -236,25 +236,39 @@ jobs:
           P="${{ github.event.inputs.cofold_output_prefix }}"; P="${P:-rung5aks-cofold-v1}"
           U="s3://sagemaker-us-east-2-646605541856/$P"
           echo "=== phase ==="; aws s3 cp "$U/phase.txt" - 2>/dev/null || echo "(no phase marker yet)"
-          echo "=== objects ==="; aws s3 ls "$U/" --recursive --human-readable | tail -40 || true
-          echo "=== CIFs (what the stager needs) ==="
-          aws s3 ls "$U/" --recursive | grep -c '\.cif$' || echo 0
+          echo "=== objects (the progress scalar: count, and the newest timestamp) ==="
+          aws s3 ls "$U/" --recursive --human-readable | sort -k1,2 | tail -40 || true
+          N=$(aws s3 ls "$U/" --recursive | wc -l | tr -d ' ')
+          NCIF=$(aws s3 ls "$U/" --recursive | grep -c '\.cif$' || true)
+          echo "OBJECTS=$N  CIFS=$NCIF  (the stager needs one *-ternary-protac_model_0.cif per species = 2)"
           echo "=== run.log tail ==="; aws s3 cp "$U/run.log" - 2>/dev/null | tail -30 || echo "(no log yet)"
-          # A LIVE INSTANCE IS NOT A RESULT, AND A DEAD ONE WITH NO RESULT IS A FAILURE. Print both so the
-          # board cannot say "running" about a box that is gone.
+          # ⚠ A PROGRESS CHECK, NOT A LIVENESS PING (standing rule for an unproven pipeline). "The instance is
+          # up" says nothing — a box that pulled its image and then wedged looks identical to one predicting.
+          # The nvidia-smi inside run.log is a SNAPSHOT taken at boot and is NOT a live reading; quoting it as
+          # current GPU utilisation is exactly the mistake this block exists to prevent. So print the three
+          # things that actually MOVE: the phase marker, the newest object's timestamp, and a LIVE gpu_util
+          # straight from the Vast API.
+          #
+          # And a single gpu_util of 0.0 is NOT a stall: Vast's field is an instantaneous poll and catches the
+          # process between kernels or during a write. The durable scalar (phase, object count) is the
+          # authority; a stall needs BOTH frozen across two consecutive checks.
           python3 - <<'PYEOF'
-          import os, sys
+          import os, sys, time
           sys.path.insert(0, "research/modalities")
+          print("=== live instance state ===  (checked %s UTC)" % time.strftime("%H:%M:%S", time.gmtime()))
           try:
               from gpu_backend import _vast_request
               k = os.environ.get("VAST_API_KEY")
               rows = [i for i in _vast_request("GET", "/instances/", k).get("instances", [])
                       if "cofold" in (i.get("label") or "")]
-              print("=== live cofold instances ===")
               for i in rows:
-                  print(" ", i.get("id"), i.get("label"), i.get("actual_status"), i.get("status_msg"))
+                  print("  id=%s status=%s gpu_util=%s%% cpu_util=%s mem_used=%s dph=%s"
+                        % (i.get("id"), i.get("actual_status"), i.get("gpu_util"), i.get("cpu_util"),
+                           i.get("mem_usage"), i.get("dph_total")))
+                  print("     msg:", str(i.get("status_msg") or "").strip()[:200])
               if not rows:
                   print("  (none up — either finished and self-destroyed, or never started)")
+                  print("  -> if no CIFs landed above, that is a FAILED run, not a finished one")
           except Exception as e:
               print("could not list instances:", type(e).__name__, e)
           PYEOF
