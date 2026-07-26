@@ -49,6 +49,10 @@ on:
         description: "cofold: FRESH S3 prefix for the Boltz outputs (blank = rung5aks-cofold-v1). Never reuse one — a co-fold is a preregistered leg's input."
         type: string
         default: ""
+      leg_filter:
+        description: "leg_diag: only units whose id contains this substring (blank = all). The smoke unit alone has 60+ archived attempts, which buries the unit you care about."
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -318,14 +322,17 @@ jobs:
           set -eo pipefail
           python3 -m pip install -q awscli >/dev/null 2>&1 || true
           B=sagemaker-us-east-2-646605541856
-          for U in $(aws s3 ls "s3://$B/ternary-vast/legs/" | awk '{print $2}' | tr -d '/' | grep '^5aks' || true); do
+          F="${{ github.event.inputs.leg_filter }}"
+          for U in $(aws s3 ls "s3://$B/ternary-vast/legs/" | awk '{print $2}' | tr -d '/' | grep '^5aks' | grep -- "${F:-}" || true); do
             echo "================================================================ $U"
             P="s3://$B/ternary-vast/legs/$U"
             echo "--- phase.txt";  aws s3 cp "$P/phase.txt" - 2>/dev/null || echo "(none)"
             echo "--- status.json (the phase the pipeline's fail() named)"
             aws s3 cp "$P/status.json" - 2>/dev/null || echo "(none)"
             echo "--- leg.json"; aws s3 cp "$P/leg.json" - 2>/dev/null | head -60 || echo "(none)"
-            echo "--- objects"; aws s3 ls "$P/" --recursive --human-readable || true
+            echo "--- objects (result files + the 8 newest attempts)"
+            aws s3 ls "$P/" --recursive --human-readable | grep -v '/attempts/' || true
+            aws s3 ls "$P/attempts/" --human-readable 2>/dev/null | sort | tail -8 || true
             # The ARCHIVED attempt first: on a restart it is the only record of why the run ended.
             A=$(aws s3 ls "$P/attempts/" 2>/dev/null | sort | tail -1 | awk '{print $4}' || true)
             if [ -n "$A" ]; then
