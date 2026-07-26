@@ -53,14 +53,32 @@ jobs:
           OUTPUT_DIR: ${{ github.workspace }}/research/modalities/5aks_cofold_out
         run: python3 nr4a3_5aks_cofold.py
 
+      # ⚠ THE RECORD IS THE DELIVERABLE, SO ITS ABSENCE IS A FAILURE, NOT A QUIET "nothing to commit".
+      # The first version of this step read:
+      #     git add -A <record> <out_dir> 2>/dev/null || true
+      # and `5aks_cofold_out` does not exist when the prep runs without --run. `git add` ABORTS ON THE WHOLE
+      # PATHSPEC LIST when any one entry matches nothing — verified: `git add -A real.txt missing_dir` leaves
+      # real.txt UNSTAGED — so the record was never staged, `git diff --cached --quiet` said "nothing to
+      # commit", and the job went green having produced nothing. Exactly the silent-empty class the LANE-13
+      # collect guards were written for the same morning. Assert first, add only what exists, never swallow.
+      - name: The staging record actually exists
+        run: |
+          set -eo pipefail
+          test -s research/modalities/nr4a3-5aks-cofold-prep.json \
+            || { echo "::error::prep produced no staging record"; exit 1; }
+          python3 -c "import json,sys; d=json.load(open('research/modalities/nr4a3-5aks-cofold-prep.json')); \
+            sys.exit(0 if d.get('plan') and d.get('matched_pair_check',{}).get('passes') else 1)" \
+            || { echo "::error::staging record has no plan, or the matched-pair check did not pass"; exit 1; }
+
       - name: Commit the staging record
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add -A research/modalities/nr4a3-5aks-cofold-prep.json \
-                     research/modalities/5aks_cofold_out 2>/dev/null || true
+          paths=(research/modalities/nr4a3-5aks-cofold-prep.json)
+          [ -d research/modalities/5aks_cofold_out ] && paths+=(research/modalities/5aks_cofold_out)
+          git add -A "${paths[@]}"
           if git diff --cached --quiet; then
-            echo "nothing to commit"
+            echo "record unchanged since the last run — nothing to commit"
           else
             git commit -m "RUNG 5a-KS: ternary co-fold staging record (CI)"
             git pull --rebase origin ${{ github.ref_name }} || true
