@@ -134,6 +134,23 @@ def test_contacts_come_from_the_reference_frame_not_the_later_one():
     assert cv._kabsch_rmsd(A, B, p, from_a) > cv.LIG_RMSD_MAX_A, "frame-A contacts must still catch the escape"
 
 
+def test_the_call_site_passes_the_REFERENCE_frame():
+    """The test above pins the HELPER's behaviour; this pins the CALL SITE, which is where the mistake lives.
+
+    Verified necessary: swapping `_contact_ligand_rows(A, ...)` to `(B, ...)` inside _ligand_pose_block left all
+    the other tests in this file green, because they call the helper directly and never exercise the call site.
+    A frame-B contact set drops the atoms that have just escaped, so the flag would be computed over whatever
+    stayed put -- or be empty and read as UNMEASURED -- and either way the escape erases its own evidence. There
+    is no cheap way to drive _ligand_pose_block without an openmmtools reporter, so this asserts on the source.
+    """
+    import inspect
+    src = inspect.getsource(cv._ligand_pose_block)
+    calls = [l.strip() for l in src.splitlines() if "_contact_ligand_rows(" in l]
+    assert len(calls) == 1, f"expected exactly one contact-row call in _ligand_pose_block, found {calls}"
+    assert calls[0].startswith("contact_rows = _contact_ligand_rows(A,"), (
+        f"the contact set MUST be derived from the reference frame A, got: {calls[0]}")
+
+
 def test_rigid_body_motion_of_the_whole_complex_is_not_an_escape():
     """Superposition is on the receptor, so translating everything together must read ~0 on both observables."""
     A, B, p, l = _system()
