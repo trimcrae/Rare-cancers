@@ -343,6 +343,46 @@ def collect(targets):
 TASK_FILE = os.path.join(HERE, "nr4a-paralogue-md-task.json")
 
 
+WORKFLOW_FILE = "gpu-nr4a-paralogue-md-vast.yml"
+
+
+def _dispatch_next(new_task, branch, repo, tok):
+    """Start the next stage EXPLICITLY, because committing the task file is not enough to start it.
+
+    ⚠ THE SECOND HALF OF WHY THE CHAIN NEVER RAN (found 2026-07-26 12:40 PM ET). Fixing the stash bug made the
+    hand-off commit land — `04a6ff41 lane13 [auto]: hand off to task=collect` is on the branch, the branch is in
+    this workflow's `push:` list, and the path filter matches — and **no run started**. GitHub does not create
+    workflow runs for pushes made with the Actions `GITHUB_TOKEN`; that is a deliberate anti-recursion rule, and
+    it makes a `push:`-triggered self-chain structurally impossible no matter how correct the commit is.
+
+    `workflow_dispatch` through the REST API is NOT subject to that rule, so the hand-off commits (keeping the
+    sequence git-auditable, which was the point of using a file) and then dispatches. Needs `actions: write` on
+    the job, and the workflow file must exist on the DEFAULT branch — both true here.
+
+    Best-effort like the rest of the hand-off: a failed dispatch is reported with the task to re-fire by hand,
+    and never aborts the run in progress.
+    """
+    import urllib.error
+    import urllib.request
+    body = json.dumps({"ref": branch, "inputs": {"task": new_task}}).encode()
+    req = urllib.request.Request(
+        f"https://api.github.com/repos/{repo}/actions/workflows/{WORKFLOW_FILE}/dispatches",
+        data=body, method="POST",
+        headers={"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json",
+                 "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            if resp.status in (201, 204):
+                return True
+            print(f"[chain] dispatch returned HTTP {resp.status} — re-fire task={new_task} by hand")
+    except urllib.error.HTTPError as e:
+        detail = e.read().decode(errors="replace")[:200]
+        print(f"[chain] dispatch FAILED HTTP {e.code}: {detail} — re-fire task={new_task} by hand")
+    except Exception as e:  # noqa: BLE001
+        print(f"[chain] dispatch FAILED: {e} — re-fire task={new_task} by hand")
+    return False
+
+
 def set_task(new_task, note, **fields):
     """Chain the lane's next stage by committing the task file — which IS this workflow's push trigger.
 
@@ -414,7 +454,8 @@ def set_task(new_task, note, **fields):
                 return False
         if stashed:
             subprocess.run(["git", "stash", "pop"], cwd=REPO, capture_output=True)
-        print(f"::notice title=LANE13 HAND-OFF::task={new_task}")
+        dispatched = _dispatch_next(new_task, branch, repo, tok)
+        print(f"::notice title=LANE13 HAND-OFF::task={new_task} dispatched={dispatched}")
         return True
     except Exception as e:  # noqa: BLE001
         print(f"[chain] hand-off failed: {e}")

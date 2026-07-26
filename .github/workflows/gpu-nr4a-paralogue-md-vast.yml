@@ -56,8 +56,14 @@ on:
         type: string
         default: ""
 
+# `actions: write` is what lets the hand-off DISPATCH the next stage. Committing the task file is not enough:
+# GitHub does not create workflow runs for pushes made with the Actions GITHUB_TOKEN (anti-recursion), so a
+# `push:`-triggered self-chain can never start itself no matter how correct the commit is — verified
+# 2026-07-26, commit 04a6ff41 landed on a listed branch with a matching path filter and started nothing.
+# workflow_dispatch through the REST API is not subject to that rule.
 permissions:
   contents: write
+  actions: write
 
 # NB concurrency is set PER JOB, keyed by the task, not workflow-wide. A workflow-level group would make a
 # 5-hour `watch` cancel (or block) the ~1-hour `analyse` that has to run alongside it, and neither is a partial
