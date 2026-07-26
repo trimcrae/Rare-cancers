@@ -31,5 +31,7 @@
     "basis": "smoke leg implied ~234 ns/day on a rented RTX 4090; 75 ns of MD per paralogue (60 ns metad + 3 x 5 ns release); bid $0.136/hr actually paid against a $0.1333 floor; 60 GB at the $0.20/GB/month median storage rate; two hosts concurrently"
   },
   "launch_targets": "",
-  "watch_round": 1
+  "watch_round": 1,
+  "analyse_samples": 2000000,
+  "_analyse_samples_why": "rigid-body samples per (arm x pose) for the matched placement set. A matched placement reaches an NR4A3-unique cysteine in only ~0.1-0.2 % of placements, so the 12-atom gate cell is thin: 500k gave ~5.7k placements and single-digit events. 2M gives ~23k placements at ~2.6 h of free CPU, which is what the gate reading needs to stand on its own rather than only on the 14/16/20-atom profile."
 }

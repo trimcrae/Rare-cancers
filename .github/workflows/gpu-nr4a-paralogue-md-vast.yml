@@ -65,6 +65,7 @@ jobs:
       n_rep: ${{ steps.p.outputs.n_rep }}
       exclude_machines: ${{ steps.p.outputs.exclude_machines }}
       launch_targets: ${{ steps.p.outputs.launch_targets }}
+      analyse_samples: ${{ steps.p.outputs.analyse_samples }}
     steps:
       - uses: actions/checkout@v4
       - id: p
@@ -88,6 +89,7 @@ jobs:
           print(f"release_ns={d.get('release_ns', 5)}")
           print(f"n_rep={d.get('n_rep', 3)}")
           print(f"exclude_machines={d.get('exclude_machines', '')}")
+          print(f"analyse_samples={d.get('analyse_samples', 500000)}")
           PY
           echo "::notice title=LANE13 TASK::$(grep '^task=' "$GITHUB_OUTPUT" | tail -1)"
         env:
@@ -255,7 +257,7 @@ jobs:
         run: |
           set -eo pipefail
           python research/modalities/nr4a_paralogue_dynamics.py --mode all --validate-coverage \
-            --samples "${PDYN_SAMPLES:-500000}" \
+            --samples "${{ needs.plan.outputs.analyse_samples }}" \
             --out research/modalities/nr4a-paralogue-dynamics.json 2>&1 | tail -120
           echo "===================== REPORT ====================="
           python research/modalities/nr4a_paralogue_report.py
