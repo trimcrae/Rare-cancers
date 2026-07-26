@@ -198,7 +198,7 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 6:19 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 6:37 AM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval between two watchdog passes, not assumed, and **a FEP rate is only quoted off
@@ -206,10 +206,10 @@ a window long enough to swamp the 40-iteration commit block** (see the quantisat
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **47.6/60 ns**, up 277 min, GPU 44 %. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.07 ns/h** over 43 min — sixth agreeing interval | metad ~**10:05 AM**, release ~**2:45 PM** |
-| **NR4A2 paralogue MD** (Vast **45896793**, **RTX 4080S**) | **advancing** — metad **59.25/60 ns**. ⚠ **Preempted off its 4090 at ~5:50 AM** after 586 min and re-rented; **one live host per leg, verified on the instance board** (45896528 was rented ~5:54 AM and destroyed, not left running). Its own run.log reports **47.3 ns/day at 33 % GPU**, a **3× drop** from the 141 ns/day it held on the 4090 — see [pricing.md §A.1](research/compute/pricing.md) | metad ~**6:45 AM**; release **~3:00 PM at the new host's rate**, against ~8:40 AM had it kept the 4090 |
-| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **production 1200/2000**, up 880 min. **167 iter/h** over the longest window (244 min) | ~**11:10 AM** |
-| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | **production 2000/2000 — the full count is reached**, up 880 min. The watchdog still reports it RUNNING, i.e. `leg.json` is not in S3 yet, so it is writing out rather than done | **landing now** |
+| **NR4A1 paralogue MD** (Vast **45878836**, **RTX 4080S**) | **advancing** — metad **48.5/60 ns**, up 295 min. Preempted off the 4090 and **relaunched autonomously by the cron watchdog at 1:42 AM**, resuming from its 33.55 ns checkpoint. **3.18 ns/h** — seventh agreeing interval | metad ~**10:20 AM**, release ~**3:00 PM** |
+| **NR4A2 paralogue MD** (Vast **45896793**, **RTX 4080S**) | **advancing** — metad **59.75/60 ns**, minutes from the release phase. ⚠ **Preempted off its 4090 at ~5:50 AM** after 586 min; **one live host per leg, verified on the instance board** (45896528 was rented ~5:54 AM and destroyed, not left running). Realised **47 ns/day**, a **3× drop** from the 141 ns/day it held on the 4090, and **GPU utilisation is still falling — 33 % → 24 %** ([pricing.md §A.1](research/compute/pricing.md)) | release ~**3:15 PM at the current rate**, against ~8:40 AM had it kept the 4090. **Churn trigger, named in advance so it is not a judgement call later: if the realised rate drops below ~1.5 ns/h — release past ~5 PM, i.e. materially beyond NR4A1 — re-rent it.** Above that, moving hosts buys nothing, because NR4A1 is the critical path |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | **production 1200/2000**, up 897 min. ⚠ **The counter has not moved across two consecutive passes** (10:19Z and 10:36Z). At 167 iter/h a 40-iteration commit block takes ~14 min, so 17 min of no new block is *within* quantisation and is **not yet** a stall — the decisive reading is the next pass, where a third identical 1200 would be one | ~**11:10 AM** if it is advancing |
+| ~~RUNG 2b binary edge leg~~ (Vast 45835971) | **✅ DONE 6:37 AM — ΔG_morph 48.1256, no NaN.** Watch entry disabled | landed |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **warmup COMPLETE (800/800), `production/120` of 2000**, VM up 658 min. Still **no rate quoted**: the one clean production window carries exactly **one** 40-iteration commit block, which is the same thing that produced this morning's two withdrawn ETAs | **~Mon 8:40 AM**, that session's figure — its result keys the calibrator rescope |
 
 ⚠ **NR4A1's REPLACEMENT HOST IS STARVING ITS GPU — diagnosed, and deliberately NOT churned.** Three agreeing
@@ -240,11 +240,15 @@ few blocks.** I broke that rule in the same breath as writing it — the ternary
 27-minute window carrying exactly 3 blocks, which is why it is now a range off 82- and 109-minute windows
 instead. *(Withdrawn ETAs are in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 19b.)*
 
-**✅ RUNG 2b is HALF LANDED.** The **probe** (ΔG_morph **48.1970**) and the **solvent** leg (ΔG_morph
-**47.7982**) are both **DONE in S3 with no NaN** — so 4 fs has now survived two complete legs, not just the
+**✅ RUNG 2b IS THREE-QUARTERS LANDED — only the ternary edge is still running.** The **binary edge** leg
+finished at **6:37 AM ET** with ΔG_morph **48.1256**, no NaN (its watch entry is now `enabled: false`, kept in
+the list). The **probe** (ΔG_morph **48.1970**) and the **solvent** leg (ΔG_morph
+**47.7982**) are both **DONE in S3 with no NaN** — so 4 fs has now survived three complete legs, not just the
 probe. Their watch entries are set `enabled: false` (kept in the list, not deleted, so the completed units stay
-on the record). **ΔΔG_coop cannot be computed until the ternary and binary legs land**, so the ratified gate
-(PASS = no NaN **and** |ΔΔG_coop − (−0.534)| ≤ 0.7) is not yet applicable.
+on the record). **ΔΔG_coop still cannot be computed — it needs the ternary edge**, so the ratified gate
+(PASS = no NaN **and** |ΔΔG_coop − (−0.534)| ≤ 0.7) remains inapplicable. The reduce runs the moment that leg
+lands, and it carries its own `system_identity_consistency` check, so a cycle assembled from legs describing
+different systems fails loudly rather than producing a number.
 
 **Why the ternary leg's ETA moved so far:** production runs at roughly **half** warmup's per-iteration cost
 (625 steps at 4 fs against warmup's 1250 at 1 fs), so a leg's finish cannot be extrapolated from its warmup
