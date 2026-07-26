@@ -186,7 +186,48 @@ the paralogues being short of lysines near the transfer zone.
 
 ---
 
-## 4. Honest scope
+### 3.5 The matched paralogue ensembles — in flight
+
+| | NR4A1 | NR4A2 |
+|---|---|---|
+| Vast instance | 45853652 (machine 12697) | 45854620 (machine 55559) |
+| card / bid | RTX 4090, $0.136/hr (floor $0.1333) | RTX 4090, $0.1768/hr (floor $0.1733) |
+| protocol | 60 ns well-tempered metad on the homologous Pocket-5 Rg + 3 × 5 ns unbiased release, seeded at the same CV value | identical |
+| measured throughput | **~143 ns/day** (four DCD-derived points, 23:42–23:56 UTC) | same card class |
+
+A first NR4A2 rental (45853654, machine 142143, RTX 3090 at $0.0451/hr) was **destroyed and its machine
+excluded** after its start PUT answered `{"success": false, "error": "resources_unavailable", "msg":
+"Required resources are currently unavailable, state change queued."}` — the standing capacity-refusal policy,
+executed rather than waited out. That refusal is now handled automatically by the watch.
+
+## 4. What is already established, and what it does to the categorical claim
+
+**The claim as STRATEGY.md states it is: the paralogues "have no nucleophile at the aligned position, so a
+covalent bond *cannot form* on them at all."** The first clause is true and is not in dispute. **The second
+does not follow, and three measurements now say so:**
+
+1. **NR4A3's categorical cysteines are 3 of 7; the other 4 are shared with both paralogues** — and one of the
+   shared ones, **C496, is inside the 12-atom gate in 38.7 % of unbiased NR4A3 conformers**. The committed
+   pipeline scores term (a) on the unique set only and summarises the conserved set at the 20-atom sampling
+   ceiling, so this was invisible, not absent.
+2. **Each paralogue presents two cysteines inside the same gate**, and NR4A1's C465 opens at a **6-atom**
+   linker against C397's 10. On the reach criterion the program itself uses, the paralogues are in range.
+3. **On the matched-construct test the collision probability is length-dependent and large**: 0 at 12 atoms,
+   **0.081 at 16**, **0.258 at 20** — and 16–20 atoms is exactly the range the program already contemplates
+   (C420 needs 16, C559 needs 20, `best_linker_atoms` reads 19).
+
+**What still holds the axis up is a single quantity: solvent exposure.** Every paralogue cysteine inside the
+gate sits at RSA 0.011–0.165 against C397's 0.395, so on a reach-**and**-exposure criterion the collision
+probability is 0.000 at every length. But that is **one number per residue from one conformer**, and RSA is
+the most conformationally variable quantity in this whole analysis (C397's own range is 0.108–0.673). The
+matched ensembles exist to turn those four single-frame numbers into distributions.
+
+> **Verdict as of the $0 stage: the categorical chemistry axis is NARROWER than the record states — it is not
+> "a covalent bond cannot form on the paralogues", it is "at a 12-atom linker, and only because the paralogue
+> cysteines that ARE in range are partially buried in the one conformer we looked at." Whether that survives
+> paralogue dynamics is measured, not assumed, by the run now in flight.**
+
+## 5. Honest scope
 
 - Reach and exposure are **necessary, not sufficient**. Nothing here tests thiol pKa, intrinsic
   nucleophilicity, local electrostatics, adduct stability or electrophile promiscuity; the last needs
@@ -197,3 +238,75 @@ the paralogues being short of lysines near the transfer zone.
   with the unbiased release frames, and are read only as an adversarial upper bound on how far each pocket opens.
 - Every model is **LBD-only**, as everywhere in this program.
 - No efficacy, safety, therapeutic-window or clinical claim is made or implied.
+
+---
+
+## 6. Exact STRATEGY.md deltas proposed by this lane
+
+*This lane does not edit STRATEGY.md.* All four deltas below are supported by the $0 stage alone; §3.5's
+result will either sharpen D1 or add a fifth.
+
+**D1 — §MECHANISM-FIRST: the CATEGORICAL bullet's second clause is not established, and must be narrowed.**
+Current text: *"**CATEGORICAL** — the paralogue is structurally *incapable*. NR4A3 carries reactive residues
+that BOTH paralogues lack …"*, and the Tier-0 row: *"No paralogue-unique nucleophile within tether range …
+⇒ PASSED — GO on both axes (C397 at 10.9 Å exit-vector reach …)"*. Both read as claims about the MOLECULE.
+Add, immediately after the C397 sentence:
+
+> **⚠ NARROWED 2026-07-25 (LANE 13, $0). "Structurally incapable" is established for the ALIGNED POSITION,
+> not for the molecule.** Scored over EVERY cysteine rather than the three NR4A3-unique ones — which the
+> committed search never does, because `run_arm_pose` builds term (a) from `unique_cysteines` and summarises
+> the conserved set only at the 20-atom SAMPLING CEILING — the same E3-independent envelope that puts C397
+> inside the 12-atom gate also puts **NR4A1 C465 there at a 6-atom linker** (shorter than C397's 10),
+> **NR4A1 C551** (the celastrol/NR-V04 site, no aligned NR4A3 residue) at 10, **NR4A2 C465** at 10 and
+> **NR4A2 C534** (NR4A3 has S565) at 12. On the matched-construct test — same placement, same warhead exit
+> anchor, same E3 anchor, same budget — P(a paralogue cysteine is also reached | an NR4A3-unique one is) is
+> 0 at 12 atoms but **0.081 at 16 and 0.258 at 20**, and 16–20 atoms is the range the program already
+> contemplates (C420 needs 16, C559 needs 20, `best_linker_atoms` reads 19). **The axis therefore survives on
+> EXPOSURE, not on the absence of a nucleophile:** every paralogue cysteine inside the gate sits at RSA
+> 0.011–0.165 against C397's 0.395, so requiring RSA ≥ 0.25 as well as reach returns 0 collisions at every
+> length. That exposure margin is currently **one number per residue from one conformer**, and RSA is the most
+> conformationally variable quantity in the analysis (C397's own range over 75 frames is 0.108–0.673). Matched
+> NR4A1/NR4A2 ensembles are what turn it into a distribution.
+
+**D2 — NR4A3's own CONSERVED C496 is inside the gate in 38.7 % of unbiased conformers, and the record does not
+say so.** STRATEGY currently carries *"★ But the chemistry axis is ONE RESIDUE DEEP: C420 and C559 reach the
+gate in 0/75 unbiased frames."* That is correct and should stay, but it is a statement about the three
+**unique** cysteines. Add:
+
+> **C496 — CONSERVED, and present in both paralogues as C465 — reaches the ≤12-atom gate in 29/75 = 0.387 of
+> unbiased frames (Wilson 0.285–0.500), and 0.68 of the biased metadynamics frames.** Median shortest linker
+> 14 atoms. What closes it is **burial, not geometry**: RSA median 0.023 against C397's 0.416. So "one residue
+> deep" understates the risk in one direction (there is a second NR4A3 cysteine the linker can reach) and
+> overstates the selectivity in another (that second one is shared with both paralogues, so an electrophile
+> that finds it is non-discriminating). Report both.
+
+**D3 — the E2~Ub transfer term's discrimination comes from a rare JOINT event, not from paralogue lysine
+scarcity.** Over one matched placement set at the measured 17.09 Å transfer distance, the probability that the
+zone covers *any* lysine of the species is **NR4A3 0.438 (pooled over 75 unbiased conformers), NR4A1 0.387,
+NR4A2 0.363** — statistically indistinguishable. This is consistent with, and does not contradict, the
+committed `fraction_members_unique_and_paralogues_bare` of 0.0–0.032; it simply names where the
+discrimination comes from. Add one line to the Tier-2 block so the term is not read as "the paralogues have
+no lysines there."
+
+**D4 — record the reciprocal handles, which the Tier-0 artifact enumerates in only one direction.**
+`nr4a-paralogue-unique-residues.json` lists NR4A3-unique residues and mentions NR4A1 Cys551 in prose. The
+symmetric fact is: **both paralogues carry C534 at a position where NR4A3 has Ser565**, and NR4A1 carries
+C551 with no aligned NR4A3 residue at all. That matters twice over — it is the reciprocal of the program's
+own mechanism (and the most parsimonious explanation of NR-V04's selectivity, which STRATEGY already leans
+on), and it is a candidate compensating site for exactly the failure mode this lane tests.
+
+---
+
+## 7. Reproducing this
+
+```bash
+# $0, ~25 min on one core — the static models plus whatever ensembles are present
+python research/modalities/nr4a_paralogue_dynamics.py --mode all --validate-coverage --samples 500000
+python research/modalities/nr4a_paralogue_report.py
+python research/modalities/tests/test_paralogue_dynamics.py
+```
+
+The GPU half is fired by committing a task to
+[`nr4a-paralogue-md-task.json`](../modalities/nr4a-paralogue-md-task.json); the ladder is
+`selftest → bake → smoke → launch → watch → collect → analyse`, and after `launch` the lane chains itself to
+completion.
