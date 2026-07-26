@@ -125,6 +125,28 @@ real (either meta carbon of the phenyl gives 3-pyridyl); it takes the lowest ind
 records the count, because the two differ only by a 180° flip of a freely rotating benzylic ring that the MD
 samples.
 
+### What the real Boltz output then showed — the shakeout earned its keep twice
+
+The co-fold ran on Vast (instance **45935273**, RTX 4090) and all three predictions returned rc = 0. Staging
+against the **real** CIFs then passed **first time**, and two of its details are worth recording because both
+were live risks rather than hypotheticals:
+
+| leg | co-fold CIF | chains | residues | ligand chain/residue |
+|---|---|---|---|---|
+| `5aks_d0_to_d__ternary_nr4a3` | `nr4a3-ternary-protac_model_0.cif` | A, B | **A = 254** (LBD), **B = 442** (CRBN) | `L` / **`LIG1`** |
+| `5aks_d0_to_d__ternary_nr4a1` | `nr4a1-ternary-protac_model_0.cif` | A, B | **A = 254**, **B = 442** | `L` / **`LIG1`** |
+
+1. **Boltz names the ligand residue `LIG1`, not `LIG`.** An extractor keyed on the residue name would have
+   found nothing and reported "the construct did not co-fold" on a co-fold that was perfectly good. It was
+   found by the *"residue name is not in the standard polymer set"* criterion — which is exactly why
+   `_candidate_ligand_residues` ORs three independent criteria instead of trusting any one of them.
+2. **Both species resolved the free stereocentre the SAME way** — `[C@H]3CCC(=O)NC3=O` in both — so the
+   guard below passed. That was a genuine coin flip, not a formality: nothing in the co-fold couples the two
+   predictions' choice at that centre.
+
+The residue counts are their own check: 254 is the LBD by `nr4a3_ternary.LBD_LEN` and 442 is CRBN, so the
+"exactly two chains" guard is confirmed against the sequence lengths rather than against a file name.
+
 ### The cross-leg stereo guard, which nothing else would have caught
 
 Because the glutarimide centre is unspecified, **Boltz resolves it independently in each species' co-fold and
