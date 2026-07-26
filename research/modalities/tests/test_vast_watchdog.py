@@ -734,3 +734,42 @@ def test_the_step1_kind_exposes_a_quarantine_and_the_others_do_not_pretend_to():
     for k in (vw.TernaryKind, vw.ParalogueMdKind):
         assert not hasattr(k, "quarantine"), (
             f"{k.__name__} advertises quarantine without an implementation that excludes its own machines")
+
+
+# ================================================================= AN EXITED BOX IS NOT PROVABLY DEAD
+def test_a_relaunch_reaps_an_exited_instance_of_the_same_unit_first():
+    """Instance 45938720 read actual_status="exited" at 7:49 PM ET and was re-marking `boot` two minutes
+    later on the same id. `probe` treats exited as not-alive, so that unit reads DIED and DIED relaunches —
+    two hosts on one checkpoint prefix, by a route the owning_workflow interlock cannot see. The reaper
+    destroys the ambiguous box before renting the replacement."""
+    import congeneric_fanout as cf
+    uid = "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid"
+    idx = next(i for i, u in enumerate(cf.default_units()) if u["unit_id"] == uid)
+    label = f"s1f-{idx:02d}-{cf.default_units()[idx]['ligand_b']}"[:64]
+    seen = []
+    entry = {"unit_id": uid}
+    insts = [{"id": 45938720, "label": label, "actual_status": "exited", "machine_id": 1},
+             {"id": 999, "label": label, "actual_status": "running", "machine_id": 2},
+             {"id": 111, "label": "s1f-00-somethingelse", "actual_status": "exited", "machine_id": 3}]
+    orig_key, os.environ["VAST_API_KEY"] = os.environ.get("VAST_API_KEY"), "x"
+    orig_req = vw._vast_request
+    try:
+        vw._vast_request = lambda m, p, k, **kw: seen.append((m, p))
+        gone = vw.Step1FanoutKind.reap_exited(entry, insts)
+    finally:
+        vw._vast_request = orig_req
+        if orig_key is None:
+            os.environ.pop("VAST_API_KEY", None)
+        else:
+            os.environ["VAST_API_KEY"] = orig_key
+    assert gone == [45938720], "only the EXITED instance of THIS unit"
+    assert seen == [("DELETE", "/instances/45938720/")]
+
+
+def test_the_reaper_is_a_no_op_without_a_vast_key_rather_than_a_silent_success():
+    orig = os.environ.pop("VAST_API_KEY", None)
+    try:
+        assert vw.Step1FanoutKind.reap_exited({"unit_id": "x"}, [{"actual_status": "exited"}]) == []
+    finally:
+        if orig is not None:
+            os.environ["VAST_API_KEY"] = orig

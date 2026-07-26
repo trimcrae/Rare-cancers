@@ -727,7 +727,12 @@ def mode_launch():
         try:
             h = backend.submit(spec)
         except Exception as e:  # noqa: BLE001 — one host shortage must not abort the wave
-            _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}", flush=True)
+            # Same `flush=True`-to-`_lprint` defect as the submit-success line below, and worse here: this
+            # handler's entire job is to keep the wave going through a Vast capacity refusal
+            # ({"success": false, "error": "resources_unavailable"}), which CLAUDE.md records as routine.
+            # Raising TypeError from inside the except block turned "skip this host, try the next" into
+            # "abort the whole wave", on the most-expected failure this launcher has.
+            _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}")
             continue
         # Print the FLOOR, the BID and the premium separately. The fan-out's cost estimate was built from a
         # single instance's realized $/hr with no visibility into how much of that was our own bid premium.
@@ -744,8 +749,15 @@ def mode_launch():
         _mid = h.extra.get("machine_id")
         if _mid is not None:
             used_machines.add(str(_mid))
-        _lprint(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} dph≈${_dph}/hr{_prem}",
-              flush=True)
+        # NO `flush=True` HERE. `_lprint` is not `print` — it flushes internally — and passing print's kwarg
+        # to it raised TypeError on the FIRST SUCCESSFUL SUBMISSION, i.e. only ever on the money path.
+        # Observed 2026-07-26 7:54 PM ET (autoscale run 30226203566): instance 45951628 was rented and the
+        # process then died on this line, BEFORE the rental ledger entry, before `_save_ledger`, before
+        # `_arm_watchdog` and before the launch readout. So the box billed while being absent from realised
+        # spend and absent from the watch list. Fanned 19 wide it would have submitted exactly one unit per
+        # tick, none of them ledgered or watched. tests/test_congeneric_fanout.py now binds every internal
+        # call in this module against its callee's signature, statically, so this class cannot recur.
+        _lprint(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} dph≈${_dph}/hr{_prem}")
         handles.append({"unit_id": u["unit_id"], "label": spec.name, "instance": h.job_id,
                         "machine_id": _mid, "dph": h.extra.get("dph"),
                         "min_bid": _floor, "bid": _bid})
@@ -860,9 +872,35 @@ def mode_monitor():
         ledger = _load_ledger(s3, bucket)
         util_state = _get_json(s3, bucket, f"{RESULT_PREFIX}/_util_state.json") or {}
         new_state = {}
+        # Recomputed here rather than borrowed from the nudge block above: the backfill below needs it, and a
+        # name that only exists because an earlier `if key:` block happened to run is a NameError waiting for
+        # someone to move a block.
+        _idx = {u["unit_id"]: n for n, u in enumerate(units)}
+        label_to_unit = {f"{LABEL_PREFIX}{_idx[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in units}
         for i in live:
             iid, age = str(i.get("id")), _age_min(i)
             row = (ledger.get("rentals") or {}).get(iid)
+            if row is None:
+                # ★ BACKFILL — A LIVE RENTAL MISSING FROM THE LEDGER IS BILLING INVISIBLY (2026-07-26).
+                # The ledger row is written by `mode_launch` immediately after `backend.submit`, so anything
+                # that kills the launcher between the two leaves a rented, running, BILLING host that
+                # realised-spend arithmetic cannot see — and, because the update above is gated on the row
+                # already existing, could never later see. That is not hypothetical: the `_lprint(...,
+                # flush=True)` TypeError did exactly this to instance 45951628 at 7:54 PM ET.
+                # `monitor` is the one mode that meets every live instance on every pass, so it is where the
+                # ledger is reconciled against reality. Priced from the LIVE listing (dph is what Vast is
+                # charging now), and flagged, because a backfilled row is a repair and its bid/floor
+                # provenance is genuinely unknown — an honest gap beats a fabricated one.
+                row = {"unit_id": (label_to_unit.get(i.get("label") or "") or {}).get("unit_id"),
+                       "label": i.get("label"), "machine_id": i.get("machine_id"),
+                       "bid": None, "min_bid": None, "dph": i.get("dph_total"), "billed_min": 0,
+                       "launched_utc": None, "last_seen_utc": None,
+                       "_backfilled": "not recorded at launch (launcher died between submit and ledger "
+                                      "write); reconciled from the live Vast listing by monitor"}
+                ledger.setdefault("rentals", {})[iid] = row
+                print(f"[s1f] LEDGER BACKFILL: instance {iid} ({i.get('label')}) was billing at "
+                      f"${i.get('dph_total')}/hr with no ledger row — realised spend was under-reporting "
+                      f"it. Row created; bid/floor unknown for this rental.")
             if row is not None:
                 # MAX, not last: a paused/preempted box can report a smaller age on resume, and billed
                 # minutes only ever go up.
@@ -1177,8 +1215,64 @@ def mode_stop():
             print(f"[s1f] destroy {i.get('id')} failed: {e}")
 
 
+def mode_reap():
+    """CONDEMN a host: destroy the selected s1f-* instance(s) AND blacklist their machines for this lane.
+
+    WHY THIS IS NOT `stop`. `stop` is cleanup — it destroys and says nothing about the machine, so the very
+    next `launch` is free to rent the same box back. That is correct for "I am done spending" and wrong for
+    "this host is bad", and the difference is the whole content of CLAUDE.md's Vast rule: a host that never
+    starts (or never advances) has infinite realised $/ns, is therefore invisible to $/ns ranking, and
+    without an explicit exclusion keeps winning selection and keeps failing. The lane already has the
+    exclusion set and `launch` already consults it; what was missing was any way for an operator who has
+    just diagnosed a bad host to put one in it. Only the starved-host guard could, and only for the single
+    symptom it measures.
+
+    WHAT THIS DOES NOT DO: relaunch. Reaping and re-renting are deliberately two dispatches so the exclusion
+    is durable in S3 *before* anything picks a host, and so a reap can never be the thing that silently
+    starts spending. Follow it with `launch_confirm`.
+
+    SELECTOR IS MANDATORY. `stop`'s blank-means-everything default is a documented footgun on a shared
+    account; a mode that also writes a permanent blacklist must not inherit it.
+    """
+    key = os.environ.get("VAST_API_KEY")
+    if not key:
+        raise SystemExit("[s1f] VAST_API_KEY required to reap")
+    want = (os.environ.get("DIAG_UNIT") or os.environ.get("FANOUT_ONLY") or "").strip()
+    if not want:
+        raise SystemExit("[s1f-reap] refusing a blank selector: name the instance id or a label substring. "
+                         "Blank would condemn every host this lane is running and blacklist their machines.")
+    why = (os.environ.get("REAP_REASON") or "").strip()
+    if not why:
+        raise SystemExit("[s1f-reap] REAP_REASON is required — an exclusion with no recorded cause is a "
+                         "machine nobody can ever justify un-excluding.")
+    bucket, s3 = _require_bucket(), _s3()
+    live = _live_instances(key) or []
+    sel = [i for i in live if want == str(i.get("id")) or want in (i.get("label") or "")]
+    if not sel:
+        print(f"[s1f-reap] nothing matches {want!r} among {[i.get('label') for i in live]} — no action")
+        return
+    for i in sel:
+        iid, mid = i.get("id"), i.get("machine_id")
+        try:
+            _vast_request("DELETE", f"/instances/{iid}/", key)
+            print(f"[s1f-reap] destroyed {iid} ({i.get('label')}) on machine {mid}")
+        except Exception as e:  # noqa: BLE001
+            print(f"[s1f-reap] destroy {iid} failed: {e} — NOT recording an exclusion for a box that may "
+                  f"still be billing; fix the destroy first")
+            continue
+        if mid is None:
+            print(f"[s1f-reap] {iid} has no machine_id in the listing — destroyed, but nothing to exclude")
+        elif _record_exclusion(s3, bucket, mid, why):
+            print(f"[s1f-reap] machine {mid} added to the lane exclusion set: {why}")
+        else:
+            print(f"[s1f-reap] machine {mid} was already excluded (or the write failed) — see the log above")
+    print(f"[s1f-reap] reaped {len(sel)} instance(s). Re-rent with launch_confirm; the exclusion is in S3 "
+          f"and binds it with no agent awake.")
+
+
 _MODES = [("PLAN", mode_plan), ("STAGE", mode_stage), ("PRECHECK", mode_precheck), ("LAUNCH", mode_launch),
-          ("COLLECT", mode_collect), ("MONITOR", mode_monitor), ("DIAG", mode_diag), ("STOP", mode_stop)]
+          ("COLLECT", mode_collect), ("MONITOR", mode_monitor), ("DIAG", mode_diag), ("REAP", mode_reap),
+          ("STOP", mode_stop)]
 
 
 def main():

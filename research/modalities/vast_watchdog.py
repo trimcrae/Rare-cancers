@@ -669,6 +669,38 @@ class Step1FanoutKind:
                         scalar=scalar, scalar_label=label, note=note)
 
     @staticmethod
+    def reap_exited(entry, insts):
+        """Destroy any EXITED instance still listed for this unit. Returns a list of destroyed ids.
+
+        ★ AN `exited` VAST INSTANCE IS NOT PROVABLY DEAD (LANE 21, 2026-07-26 — observed, not theorised).
+        `probe` skips exited instances when deciding `instance_alive`, on the reasoning that an exited
+        container has already stopped billing and merely lingers until CI reaps it. That reasoning has a hole:
+        instance 45938720 read `actual_status="exited"` at 7:49 PM ET and its container was back up and
+        re-marking `boot 2026-07-26T23:50:49Z` two minutes later, on the same instance id — running -> exited
+        -> running. The container stdout carries both boot sequences, so this is the box's own record of it.
+
+        A unit in that state reads DIED, and DIED relaunches. That is a SECOND host on one checkpoint prefix
+        — precisely the interleaved-trajectory failure the owning_workflow interlock exists to prevent,
+        arriving by a route the interlock does not cover (no workflow is in flight; the duplicate comes from
+        the instance itself).
+
+        So the relaunch destroys the ambiguous box FIRST. After a successful DELETE it cannot come back, and
+        the replacement is provably the only writer. If the DELETE fails we do NOT relaunch — one host that
+        might restart beats two that certainly conflict.
+        """
+        key = os.environ.get("VAST_API_KEY")
+        if not key:
+            return []
+        uid = entry["unit_id"]
+        gone = []
+        for i in insts or []:
+            if i.get("actual_status") != "exited" or not Step1FanoutKind.label_matches(i.get("label"), uid):
+                continue
+            _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+            gone.append(i.get("id"))
+        return gone
+
+    @staticmethod
     def quarantine(entry, inst):
         """Destroy an instance whose container never started, and refuse its machine for this lane. Returns
         a human-readable outcome, or "" if the kind declines / cannot act.
@@ -1071,6 +1103,22 @@ def tick(path=None, dry_run=False):
             _annotate("notice", "VAST WATCHDOG would-relaunch",
                       f"{uid} — died (no result, no instance), {why}. dry_run=1 so taking no action.")
             continue
+        # An `exited` box for this unit is destroyed BEFORE the replacement is rented — it is not provably
+        # dead until it is gone (Step1FanoutKind.reap_exited). A failure here withholds the relaunch rather
+        # than risking two hosts on one checkpoint prefix.
+        if hasattr(kind, "reap_exited"):
+            try:
+                for gone in kind.reap_exited(e, insts):
+                    print(f"[reap] destroyed exited instance {gone} before relaunching {uid} — an exited "
+                          f"Vast box has been observed coming back up, which would make two writers")
+            except Exception as ex:  # noqa: BLE001
+                alerts += 1
+                _annotate("error", "VAST WATCHDOG RELAUNCH WITHHELD — COULD NOT REAP",
+                          f"{uid} — an exited instance is still listed and destroying it raised "
+                          f"{type(ex).__name__}: {ex}. NOT relaunching: an exited Vast box can come back "
+                          f"(observed 2026-07-26 on 45938720), and a replacement alongside it would put two "
+                          f"hosts on one checkpoint prefix.")
+                continue
         print(f"relaunching {uid} ({why}) — resumes from its last checkpoint")
         try:
             h = kind.relaunch(e, insts)

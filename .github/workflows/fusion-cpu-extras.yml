@@ -17,9 +17,9 @@ on:
         options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit]
         default: fusion
       fanout_mode:
-        description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | stop"
+        description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad host) | stop"
         type: choice
-        options: [plan, stage, precheck, launch, launch_confirm, collect, monitor, diag, stop]
+        options: [plan, stage, precheck, launch, launch_confirm, collect, monitor, diag, reap, stop]
         default: plan
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -1242,6 +1242,11 @@ jobs:
       COLLECT: ${{ github.event.inputs.fanout_mode == 'collect' && '1' || '0' }}
       MONITOR: ${{ github.event.inputs.fanout_mode == 'monitor' && '1' || '0' }}
       DIAG: ${{ github.event.inputs.fanout_mode == 'diag' && '1' || '0' }}
+      # REAP = destroy a named host AND blacklist its machine for this lane, so `launch` cannot rent it back.
+      # Distinct from `stop`, which destroys and says nothing about the machine. Requires both a selector and
+      # a reason; the script refuses a blank either way.
+      REAP: ${{ github.event.inputs.fanout_mode == 'reap' && '1' || '0' }}
+      REAP_REASON: ${{ github.event.inputs.ternary_extra_args }}
       STOP: ${{ github.event.inputs.fanout_mode == 'stop' && '1' || '0' }}
     steps:
       - uses: actions/checkout@v4
