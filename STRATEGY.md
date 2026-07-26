@@ -191,298 +191,37 @@ path is the same `build_jobspec` + `submit` the lane already uses.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 8:05 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 10:45 PM ET**)
 
-*Keep this section current. It is the first thing a fresh session should read to know what is executing, what
-is blocked, and what a returning result will decide. Delete a row when it lands and fold the result into the
-relevant rung below.*
+*Checked hourly overnight. Every row is a PROGRESS reading — the counter moved since the previous pass — not a
+liveness ping.*
 
-> ### ★★ STANDING DIRECTIVE (trimcrae, 2026-07-25 1:15 PM ET): **ALL TESTS RUN ON VAST.**
-> Every new GPU run goes on **Vast** under the existing pricing strategy — RTX 4090 default, RTX 3090 fallback,
-> offers ranked by all-in **`$/ns`** (never headline `$/hr`), bid = market floor + a staleness tick **capped at
-> that machine's on-demand price** (the `×1.5` / `×1.9` multipliers are retired). Provenance:
-> [pricing.md](research/compute/pricing.md) · [bid-strategy.md](research/compute/bid-strategy.md).
-> **This supersedes the "spend the expiring GCP free credit first" preference** recorded in §GPU economics and
-> §Bid policy for *new* work. It does **not** retroactively kill the valB_mini reverse leg already running on
-> GCP L4 — killing a leg mid-flight to change provider would forfeit its progress for nothing.
->
-> **⚠ THIS CARVE-OUT WAS SUPERSEDED THE SAME AFTERNOON — READ THE RULING BELOW BEFORE APPLYING THIS PARAGRAPH.**
-> An earlier version of this block read *"no new GCP / SageMaker / Modal run may be started"*, full stop. That is
-> **no longer the operative rule for the valB session**: trimcrae ruled at **2:10 PM ET** that *that* session stays
-> on GCP **in full**, so the exempted unit is the **leg, not the VM**, and its relaunches are correct. The
-> all-Vast default still governs **every other session and every new program-level lane** — LANE 4 builds the
-> Vast ternary lane, and a future session wanting GCP needs its own ruling. See
-> "✅ RULED BY trimcrae, 2026-07-25 2:10 PM ET" below, which is authoritative on scope.
-> The GCP trial (closes 2026-10-10) is otherwise a stranded asset, not a routing preference.
->
-> **⚠ CONSEQUENCE FOUND IMMEDIATELY — THE SESSION-INDEPENDENT WATCHDOG DOES NOT COVER VAST (2026-07-25 1:30 PM ET).**
-> [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml) is **GCP-only by construction**: it
-> authenticates to GCP via WIF, reads its state from **GCS**, asks "is a `gcp-ternary` **VM** up?", and its sole
-> recovery action is to re-dispatch **`gpu-ternary-fep-gcp.yml`**. Registering a Vast leg with it yields
-> monitoring that *silently watches nothing* — the exact defect class that produced seven false-success
-> diagnostics on this lane earlier the same day. So the directive above creates a real gap: **as of now no
-> GPU run the program makes has durable, out-of-session monitoring.** A Vast-capable watchdog is being built
-> alongside the Vast ternary lane. Two things the GCP version has no analogue for and which must not be
-> dropped: (1) on Vast **"alive" is not "advancing"** — a rented box can sit up with a dead container or an idle
-> GPU, so the check must require the committed-iteration count to have *increased* since the previous tick;
-> (2) a **capacity refusal is not a preemption** — `resources_unavailable` means destroy, exclude the machine
-> id, and pick another host, never wait and never raise the bid. Note a `schedule:` trigger only fires from the
-> **default branch**, so any such watchdog is inert until merged to `main`.
+| what | state | ETA (ET) |
+|---|---|---|
+| **NR4A1 paralogue MD** (Vast 45853652, RTX 4090) | **advancing** — metad **17.8/60 ns**, scalar 1015350 → 1017800, stall=0, GPU 59 %, up 181 min. **6.1 ns/h** measured across two watchdog passes | metad ~**5:30 AM**, then release legs |
+| **NR4A2 paralogue MD** (Vast 45854620, RTX 4090) | **advancing** — metad **16.05/60 ns**, scalar 1013700 → 1016050, stall=0, GPU 69 %, up 168 min. **5.9 ns/h** | metad ~**6:00 AM**, then release legs |
+| **RUNG 2b ternary edge leg** (Vast 45835957, RTX 4090) | advancing — **warmup 1216/1600**, up 385 min | ⚠ **~6:00 AM, NOT ~1 AM** — see the ETA correction below |
+| **RUNG 2b binary edge leg** (Vast 45835971, RTX 4080S) | advancing — production/80, up 385 min | ~overnight |
+| *(sibling session)* valB_mini reverse leg, GCP L4 | not mine to drive; its result keys the calibrator rescope | ~this morning |
 
-| what | state | ETA | what its result decides |
-|---|---|---|---|
-| **valB_mini rev ternary leg r0** (GPU L4 **ON-DEMAND**, us-central1) | **RUNNING and advancing** — `warmup/296` of 800 at 8:02 PM ET, VM `gcp-ternary-30177970643` live 81 min. **On-demand CONFIRMED BY QUOTA, not inferred:** `NVIDIA_L4_GPUS usage=1.0`, `PREEMPTIBLE usage=0.0`. The watchdog relaunched it unattended at 6:38 PM and that relaunch picked up the switch | **~Mon 3–6 AM ET** *(ETA CORRECTED — see below; the earlier ~Sun 7:30 PM was computed from the THEORETICAL rate, which the leg does not hit)* | **\|ΔG_fwd + ΔG_rev\| — the preregistered antisymmetry/hysteresis check, still `null`.** ≈0 ⇒ the r0 systematic is in the MODEL or the REFERENCE DATA ⇒ rescope the calibrator. Large ⇒ interface substates / alchemical path ⇒ the rescope design itself must change first |
+**✅ RUNG 2b is HALF LANDED.** The **probe** (ΔG_morph **48.1970**) and the **solvent** leg (ΔG_morph
+**47.7982**) are both **DONE in S3 with no NaN** — so 4 fs has now survived two complete legs, not just the
+probe. Their watch entries are set `enabled: false` (kept in the list, not deleted, so the completed units stay
+on the record). **ΔΔG_coop cannot be computed until the ternary and binary legs land**, so the ratified gate
+(PASS = no NaN **and** |ΔΔG_coop − (−0.534)| ≤ 0.7) is not yet applicable.
 
-| **LANE 3 · RUNG 3 — NR-V04 covalent chain-fix recovery** ($0 first, Vast ≤$15 only if forced) | running — testing whether the corrected R1/R2/R3 can be recomputed from the **already-committed** trajectories, since the defect is in the analysis (which chain is "target"), not the physics | ~1–2 h for the $0 verdict | Whether RUNG 3's **withdrawn GO** is recoverable for **$0**. If yes, ~$6–8 of re-run is avoided outright; if no, one pilot leg proves the chain split before any fan-out |
-| **RUNG 2b · 4 fs probe + matched edge** (**Vast**, $0.34 spent of a $25 ceiling) | **Probe: 4 fs SURVIVES** — warmup 48/48 and production 160/200 committed, **zero NaN**, 4× the runbook's entire prior 4 fs evidence, through both recorded NaN risk points and **two preemptions with a resume across a different GPU model**. Stage-2 edge running 3-wide (ternary/binary/solvent) | probe **~4:15 PM ET**; edge legs **~7:00 PM / ~11:00 PM / ~1:00 AM ET** | **Whether 4 fs is adopted for every downstream ternary leg (~1.56× cheaper, ladder has ≥6).** ✅ **Confound RESOLVED 2026-07-25 ($0): the 2 fs baseline is `v2pe`, pre-equilibrated** — the committed r0 `.nc` holds **141,968** particles, the `v2pe` fingerprint (`v1` raw = 146,020). The arms differ in the **timestep alone**, so a NO-GO is now interpretable |
+⚠ **ETA CORRECTION, mine:** I quoted "~1 AM" for the ternary leg. It is still in **warmup** at 385 minutes
+(1216 of 1600), i.e. ~0.317 min/iteration. Remaining warmup ≈ 122 min, then 2000 production iterations which
+run at roughly half the per-iteration cost (625 steps at 4 fs against warmup's 1250 at 1 fs) ≈ 317 min.
+**Realistic finish ~6:00 AM ET.** The original figure was a guess carried forward without arithmetic.
 
-> **⚠ NAMING CORRECTED (2026-07-25 1:50 PM ET) — these were first written as "5a-1…5a-5", which was wrong and
-> actively misleading: it read as though all five were sub-parts of RUNG 5a, and it invited the reasonable
-> question "didn't 5a-KS already run?". Only LANES 1–2 are RUNG 5a. The five span rungs 2, 2b, 3 and 5a, which
-> is exactly *why* they parallelise.**
->
-> **And 5a-KS has NOT run.** What ran on 2026-07-25 is the **known-answer qualification benchmark for its
-> CONFIRMATORY second line** (pmx + GROMACS on barnase–barstar Y29A/Y29F — both within ±1.5, ordering correct).
-> That validates the **engine**, not the wedge: it is barnase–barstar, not NR4A. The rung's **PRIMARY** test —
-> the ligand-side double difference `S = ΔΔG_coop(d₀→d|NR4A3) − ΔΔG_coop(d₀→d|NR4A1)` — **has never run and
-> cannot yet**, because it needs a candidate *d* and matched control *d₀*, and those molecules do not exist
-> until 5b enumerates them from the basins LANE 2 is nominating now. 5a-KS is therefore **downstream** of
-> LANES 1–2, not a blocker on them. Its confirmatory line is now **PROJECTED at ~$4.6 (3 rep)** rather than
-> unpriced — but that figure is **particle-count-scaled** from the ~25.7k-particle benchmark to NR4A sizes, an
-> assumption and not a measurement, so it may not be quoted as a rate and stays excluded from the ladder total.
+⚠ **`vast-watchdog.yml` has NOT yet fired on cron** — every run so far is `workflow_dispatch`. The trigger
+block parses (`schedule: [{cron: "*/15 * * * *"}]`) and the workflow is on `main`, so this reads as GitHub's
+normal registration lag for a newly-added schedule, **but it has not proven itself**, so autonomous coverage of
+the paralogue legs is **claimed only once a `schedule` event appears**. Until then those legs rest on the
+hourly routine plus auto-teardown. *(The ternary watchdog's own cron is also stretching — 60 → 65 → 93 min
+gaps — consistent with GitHub throttling a busy repo.)*
 
-> ### ✅ RULED BY trimcrae, 2026-07-25 2:10 PM ET: **THIS SESSION STAYS ON GCP IN FULL.**
-> The 1:15 PM ET directive exempts "the valB_mini reverse leg **already running** on GCP L4" but forbids starting
-> any **new** GCP run. The 12:34 PM attempt then died on a warmup NaN with **zero committed iterations**, and it
-> was relaunched on GCP at 1:37 PM. That is deliberately inside the carve-out, on this reading: **the exempted
-> unit is the LEG, not the VM.** A spot leg is *expected* to lose and re-acquire VMs — if the exemption expired
-> with the first VM it could never have applied to a spot leg at all. Two honest qualifications: (1) the
-> exemption's stated rationale ("killing a leg mid-flight would forfeit its progress for nothing") is **weaker
-> here than it looks**, because a crash at warmup iteration 1 forfeits nothing; (2) the counter-argument is
-> therefore real, and the only reason it does not decide the matter is that **the Vast ternary lane does not yet
-> exist** (LANE 4 is building it), so the alternative is not "run it on Vast" but "do not run the one test that
-> gates the entire valB_mini rescope decision." Cost of proceeding: **$0 cash** (expiring GCP trial credit).
->
-> **trimcrae ruled on exactly this, verbatim: _"You should keep this whole session on GCP."_** So the question is
-> settled and must not be re-litigated: **the exempted unit is the LEG, not the VM**, and the exemption extends to
-> **all of this session's GPU work**, not just the leg that happened to be mid-flight at 1:15 PM. Relaunching the
-> rev leg on GCP after each of today's failures was correct, and any further relaunch of it goes on GCP too.
->
-> **Scope of the ruling — do not over-read it.** It governs **this session**. It does **not** reverse the all-Vast
-> directive for other sessions or for new lanes: LANE 4 continues building the Vast ternary lane, and a *new*
-> program-level GPU run outside this session still defaults to Vast per §GPU economics. If a future session wants
-> GCP it needs its own ruling; this line is not that ruling.
->
-> **One welcome consequence:** the "no GPU run has durable out-of-session monitoring" gap recorded above **does not
-> apply to this session at all.** [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml) is
-> GCP-only by construction, and this session is entirely GCP — so its legs are the ones that *are* fully covered
-> (progress-not-liveness, crash detection, auto-reap, job-failure notification). The gap is LANE 4's to close for
-> Vast.
->
-> ### ✅ THE GCP WATCHDOG GAP NAMED ABOVE IS NOW CLOSED — and the Vast version should PORT it, not reinvent it
-> The block above records that the watchdog "silently watches nothing" beyond GCP and names two properties a
-> Vast watchdog must not drop. Both are now **implemented and unit-tested** in
-> [`ternary-leg-watchdog.yml`](.github/workflows/ternary-leg-watchdog.yml), so LANE 4 should lift them:
-> 1. **"Alive" is not "advancing."** The RUNNING branch compares the furthest **committed iteration** against the
->    previous tick (state in GCS, so it survives restarts). Two alarms with different graces — **SETUP STALL**
->    (zero commits, VM older than 75 min) and **STALLED** (frozen ≥2 ticks, ~30 min). Neither relaunches; both
->    **fail the job**, so GitHub's own failure notification is the out-of-band alert. This is not theoretical:
->    all three of the day's silent stalls presented as a healthy RUNNING VM.
-> 2. **A dead leg can look alive.** Because the in-VM self-delete trap cannot fire (the VM's compute SA lacks
->    `compute.instances.delete`), a crash leaves a **RUNNING billing zombie**. The watchdog now detects it by
->    comparing the **post-mortem object's epoch against the VM's own creation time** — newer ⇒ *this* run
->    crashed, while the previous attempt's post-mortem is older and correctly ignored. Existence alone would be
->    wrong, since after any fixed relaunch there is always an older one.
->
-> Three further defects were found *inside* the watchdog while building it, all the same class the lane was
-> audited for, all now covered by `research/modalities/tests/test_watchdog_census.sh` (16 checks, extracted from
-> the workflow at run time so it cannot pass against a stale copy): the step ran under an inherited **`bash -e`**
-> that made its own "NOT -e" comment false; zero-padded `iter-00000520` parsed as **octal**; and the watch file
-> omitted **`warmup_timestep_fs`**, which keys the commit prefix — so a relaunch would have resumed a *different*
-> trajectory. The watch list is now **validated against `_prefix_keying_params` every pass** and refuses to act
-> on an incomplete entry. Full write-up: §F–G of
-> [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
->
-> ### 🛑 CRITICAL — A REV LEG WAS RESUMING THE **FORWARD** TRAJECTORY (found 2026-07-25 1:41 PM ET)
-> **The most serious defect this lane has produced, and it was recorded as *already fixed*.** The reverse leg
-> restored the **forward** leg's committed production trajectory at iteration 2000, because its commit prefix
-> came out as `…_wu1.0_v2pe` with **no `_dirrev`**. It failed *only* because the fwd and rev hybrid Systems have
-> different particle counts, so OpenFE's `assert_multistate_system_equality` refused the restore
-> (*"Stored checkpoint System particles do not match those of the simulated System"*). **Had the counts matched,
-> the rev leg would have resumed forward sampling and reported it as reverse** — i.e. a fabricated
-> `|ΔG_fwd + ΔG_rev|`, the very number this leg exists to produce. A third-party library's sanity check was the
-> only thing between that and a published result; nothing in this repo caught it. *No data was corrupted:* the
-> failure is in `_get_sampler`, before `run_to_target`, so nothing was committed into the forward prefix —
-> verified from the absence of commit lines in the run log, not assumed.
->
-> **Mechanism — a variable set in one shell and read in another.** The VM startup script is built with an
-> *unquoted* heredoc, so unescaped `$VAR` is expanded by the **runner** while `\$VAR` survives to the **VM**.
-> `DIRSUF` was assigned *inside* the heredoc (executing on the VM) but consumed as `${DIRSUF}` *unescaped*
-> (expanded by the runner, where it had never been assigned) → empty string, suffix gone, no error. Every other
-> prefix component (`SEED`, `TIMESTEP_FS`, `CONSTRAIN_LIG`, `WARMUP_TS`, `SALT`) is a runner-level `env:` var,
-> which is exactly why `DIRSUF` was the only one lost.
->
-> **Why it hid for hours:** (1) the workflow's own echo stopped at `$SEED` and never printed the suffix — true
-> and useless; the real prefix appeared only in the Python's line inside a detached VM. (2) It needed a second
-> condition to surface — the first rev attempt used no warmup override, so its prefix was `wu` while the forward
-> data sits under `wu1.0`; no collision, and it died on the unrelated NaN instead. **Setting
-> `warmup_timestep_fs=1.0` to fix that NaN is what aligned the prefixes and exposed this.**
->
-> **Fixed** runner-side (nothing about the prefix deferred to the VM's shell), with an **assertion that runs
-> before a GPU is provisioned** — if `direction != fwd` and the prefix does not end in `_dir<direction>` it
-> errors and exits — the echo now printing the full prefix, and
-> `research/modalities/tests/test_commit_prefix_direction.sh` (10 checks, **verified to fail 6 ways** on the
-> restored pre-fix arrangement) wired into CI. Full write-up: **§H** of
-> [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
->
-> **★ The standing lesson, which generalises past this repo: a fix that "reads correctly" is not a fix.** Where
-> a value crosses a boundary — two shells, generation-time vs run-time, runner vs VM — the only acceptable
-> evidence is an **assertion on the produced artifact**, added in the same commit as the fix. Never an
-> inspection of the producing code.
-
-> ### ⏱️ ETA CORRECTED AGAIN — on-demand runs at ~75% of theoretical, not 100%
-> I quoted **~Sun 7:30 PM ET** when authorising on-demand. That was computed from the **theoretical** 106 iter/h
-> (33.91 s/iter) and the leg does not hit it. Two measurements, each stated with its own weakness:
->
-> | measurement | rate | caveat |
-> |---|---|---|
-> | same VM, 7:44→8:02 PM | **80 iter/h** | ±33% — 24 iterations is exactly 3 commit intervals, so it is quantised |
-> | 5:18→8:02 PM | **73 iter/h** | a **lower bound** — spans the dead gap and a relaunch |
-> | theoretical | 106 iter/h | not observed |
->
-> On 2504 remaining iterations (504 warmup + 2000 production) that is **31–34 h → ~Mon 3–6 AM ET**. On-demand is
-> still the right call — it lifted efficiency from **53% to ~75%** and removed the ~35-relaunch thrash — but it
-> buys less than the un-preempted arithmetic implied.
->
-> **A mechanism worth testing rather than assuming:** warmup commits every **8** iterations while production
-> commits every **40**, so per-iteration GCS commit overhead is ~5× heavier in warmup. If that is the gap, the
-> production phase should run materially closer to theoretical and the ETA improves. **Not asserted** — the
-> discriminator is simply the observed rate once production starts, which costs nothing to read.
-
-> ### ✅ ON-DEMAND AUTHORIZED FOR THIS LEG ONLY (trimcrae, 2026-07-25 ~5:30 PM ET)
-> `gpu-ternary-fep-gcp.yml` gates on-demand behind *"ONLY when explicitly authorized for a time-sensitive
-> one-off, e.g. confirming a single valB leg"* — this is that one-off, and the authorization is now given. **It is
-> a deliberate, recorded reversal of the standing "DEFAULT EVERY GPU RUN TO SPOT" rule, scoped to THIS leg**; new
-> work still defaults to spot, and reverting is one line in
-> [ternary-watch.json](research/modalities/ternary-watch.json).
->
-> **Measured basis, not a guess.** Spot delivered **96 warmup iterations in 103 min** across 3 preemptions and 3
-> setup cycles = **55.9 iter/h**, against **106.2 iter/h** theoretical at the measured 33.91 s/iter — **53%
-> efficiency**. The remaining 2704 iterations:
->
-> | | throughput | remaining | lands |
-> |---|---|---|---|
-> | spot | 55.9 iter/h | **48.4 h** | ~Mon 6 PM ET |
-> | on-demand | 106.2 iter/h | **25.5 h** | **~Sun 7:30 PM ET** |
->
-> Spot also caps `max-run` at 25200 s (7 h) where standard gets 72000 s (20 h): **~2 VM lifetimes instead of
-> ~35**, which additionally removes the dependence on GitHub's cron for recovery — measured **silent for 44 min**
-> while the leg sat dead. **Cost: ~$10 of GCP trial credit**, which expires 2026-10-10 and is otherwise a
-> stranded asset — **$0 cash**. NB [pricing.md](research/compute/pricing.md) still forbids quoting the
-> L4-on-demand figure as a go-forward **cost basis** for the program; spending stranded credit on one gating leg
-> is a different question from pricing the ladder.
-
-> ### ⏱️ ETA CORRECTED FROM A MEASURED RATE — ~26 h of MD, not the ~10–20 h previously quoted
-> The leg logs **33.91 s/iteration**, which is exactly the L4 rate [pricing.md](research/compute/pricing.md)
-> records ("L4's ~33"), so the GPU is at spec and this is not a slowness problem — the earlier estimate was simply
-> not derived from a measurement. The targets are **warmup 800** + **production 2000** iterations, and those are
-> the counts **fwd actually committed** (`warmup_committed_iter=00000800`, `production_committed_iter=00002000`),
-> so they are required for comparability and must not be trimmed.
->
-> | | iterations | at 33.91 s/iter |
-> |---|---|---|
-> | warmup (1.0 fs) | 800 | **7.5 h** |
-> | production (2.0 fs) | 2000 | **18.8 h** |
-> | **total pure MD** | 2800 | **26.4 h** |
->
-> The VM carries a **7 h max-run backstop**, so this spans **~4 VM lifetimes**. That is expected and self-driving:
-> each expiry deletes the VM → the watchdog sees DIED → it relaunches → the leg **resumes from its last committed
-> checkpoint**, and the setup-cache precondition now passes because the `v2pe` cache exists. The per-day relaunch
-> cap of 8 comfortably covers the ~4 needed. **ETA ~Sun 6 PM ET** including restore overhead.
->
-> **Not doing:** `autostop_convergence=1` would likely end production early and save hours, but fwd ran to the
-> full 2000, so enabling it for rev alone would make the two legs different calculations and void the very
-> antisymmetry test this leg exists to produce. Cost is not a reason to break the comparison.
-
-> ### 🔬 THE WARMUP NaN — ROOT-CAUSED, and the cause was already written down
-> All four rev attempts died at **warmup iteration 1** — at 2.0 fs (replica 0, state 1) and at 1.0 fs (replica 0,
-> **state 7**). Halving the timestep moved *which* λ window blew up and **not the iteration**: the signature of
-> something other than a timestep ceiling. `nr4a3_ternary_fep.py` already recorded the answer, with a measurement
-> behind it:
->
-> > *"the instability is the softcore alchemical (dis)appearing region in a large, rough homology-built assembly,
-> > and there is NO static predictor of the ternary timestep. **The fix that WORKS is NOT a smaller timestep**:
-> > relax the fully-interacting physical complex with plain MD BEFORE the alchemy (`use_preequil=1`). With the
-> > relaxed structure the calib leg ran warmup 48/48 → production 40/40 with zero NaN, **where every prior run
-> > died at warmup iter 1.**"*
->
-> **The rev runs were started from the raw `v1` setup.** They passed `commit_salt=v2pe` while leaving
-> `use_preequil` at its **default 0**, so `SETUP_VER` stayed `v1` and the restored cache was
-> `…_rev_r0__nagl__v1`. The salt *said* pre-equilibrated; the setup was not. And fwd's prefix
-> (`…_wu1.0_v2pe`) carries that salt because **fwd genuinely ran with `use_preequil=1`** — `SETUP_VER=v2pe` is set
-> only by that flag. So pre-equilibration is **not a deviation from fwd; it is a correction of rev back into
-> agreement with fwd**, which fixes the crash *and* preserves comparability for the hysteresis test. A salt is a
-> human-maintained label, not a key — which is exactly how this hid.
->
-> Two false leads, measured and refuted, recorded so they are not re-run: the edge has **no morphing X-H**
-> (`xh_total=0` with 4997 constraints; the alchemical valence force holds 28 bonds, none an X-H), so the N→CH
-> perturbation does **not** cap the timestep; and the `[hmr-diag]` line that prints *"NO unconstrained X-H bonds
-> found → 4 fs is safe"* is **misleading but not broken** — with `constraints=hbonds` every X-H is a *constraint*
-> rather than a stretch term, yet it displays `constrained=0` when the truth is "all of them", and its
-> disambiguating companion (`count_morphing_xh`) runs only under `RBFE_HMRDIAG_ONLY=1`, i.e. never during a real
-> leg. Full write-up: **§J** of
-> [ternary-lane-guard-audit-2026-07-25.md](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
->
-> ### 🛡️ NEW GUARD — commit-manifest provenance, covering what OpenFE cannot
-> Chasing the above found a hazard **worse** than §H's: `SETUP_CACHE_VERSION`, `CHARGE_METHOD` and `N_WINDOWS` all
-> change the physics and are **absent from the commit prefix**, so two different calculations share one. §H's
-> fwd/rev mismatch was caught only because the hybrid systems had different **particle counts**; pre-equilibration
-> *moves coordinates without changing the atom set*, so counts match and
-> `assert_multistate_system_equality` **cannot fire at all**. Every commit manifest now carries a
-> `system_fingerprint` over those params, checked in `restore_latest` **against the manifest alone, before any
-> download**. A stamped mismatch is refused unconditionally; an **unstamped** one warns and is allowed unless
-> `RBFE_STRICT_PROVENANCE=1` — because failing closed there would make *another session's running leg* refuse to
-> resume after a preemption and discard paid GPU hours. The ternary lane opts into strict mode. 28 checks, driven
-> through a fake store so they need no numpy/openmm.
-
-| **LANE 10 · RUNG 5a/5b — reach-rule fix + re-enumeration at exemplar geometry** (CPU, $0) | launched **6:10 PM ET** | ~2–4 h | **Whether Tier-2 still passes.** Every published C397 reach figure is a **lower bound by up to ~5 atoms** (the reach rule credits the pendant with shortening the span, which no pendant can do), and the 7 term-(a) basins sit at reach fractions of only **0.019–0.057** — so the correction could push basins out of the ≤12-atom gate. Also re-enumerates the 21-construct library at the corrected **exemplar** geometry |
-| **LANE 11 · RUNG 4 — NR-V04 retrospective $0 pre-spend audit** (CPU, $0) | launched **6:10 PM ET** | ~2–3 h | Whether the **built-but-unlaunched** retrospective inherits any of the **four** defects found in its sibling panel today — they share a driver — and whether its own frozen criteria contain the **zero-discriminating-power** defect AMENDMENT 1 found. Gate before ~$21 |
-| **LANE 12 · RUNG 6 — fold 2026-07-25 into the manuscript** (CPU, $0) | launched **6:10 PM ET** | ~2–4 h | The paper still carries **pre-basin-search framing**. Folds in the Tier-2 GO, the E3-breadth negative, the 5b library, the transfer-anchor resolution, the C397 one-residue risk, the composed-RING limit and the closure-blindness result — at full strength, under the language discipline |
-| **LANE 13 · Matched NR4A1/NR4A2 MD ensembles** (**Vast**, ≤$40) | launched **6:10 PM ET** | ~3–6 h | **Whether the CATEGORICAL case survives paralogue DYNAMICS.** Uniqueness is a sequence fact and is not in doubt; what has never been tested is whether a paralogue opens a **compensating** nucleophile or lysine in a populated conformer. Everything to date compares **one static conformer per paralogue**, and Tier 2 passed on this axis |
-
-**The five LANES above are this session's, and are disjoint from the reverse leg by construction** — four
-are $0 CPU/CI and the one GPU lane runs on **Vast**, so none can dispatch into, cancel, or share checkpoints
-with the GCP lane the reverse leg owns. The rescope-vs-continue decision on valB_mini is still deliberately
-**held** until the reverse leg reads out — it is the one cheap test that can falsify the "systematic, not
-sampling" conclusion the current recommendation rests on — but the *design* for both of its outcomes is being
-built in parallel (lane 5) rather than after it.
-
-*Landed 11:55 AM ET, hence off the board:* the **rev setup prime** (CPU, `ternary-setup-prime-cpu.yml`, run
-30163606577) **succeeded** — the first primer run since the `setupcache/` IAM 403 was granted, so the write half
-of that fix is proven end-to-end. **Not yet verified:** that a leg actually *restored* from that cache rather
-than rebuilding — the restore happens inside the detached VM, and the discriminator is step duration, not status
-(trap 2). Confirm it on the next tail; it matters because the unprotected rebuild window is what killed the
-*first* rev attempt (VM `gcp-ternary-30162403453`, spot-preempted 11:02 AM ET, 12 min in, mid-build).
-
-**⚠ The rev leg has now been launched three times (11:57 AM, then 12:30 PM ET), and WHY the second attempt
-ended is not established here — do not assume preemption.** A concurrent session landed a fix on
-`claude/max-effort-3hgq45` for a **direction-blind idempotent skip** — *"the rev leg found the FWD result and
-reported success"* — which would make a rev launch exit early having matched the forward leg's output. That is
-a **candidate** explanation with the right shape, not a diagnosis: it has not been checked against this leg's
-log. Whoever picks this up owns that check before reading any rev result, because a rev leg that silently
-reported the forward answer would make the antisymmetry test meaningless rather than merely absent.
-
-### ⚠ Reading the ternary lane's monitoring output — two traps
-
-1. **`warmup_committed_iter` / `production_committed_iter` in `[PROGRESS-SUMMARY]` are LEG-WIDE ACROSS SALTS.**
-   They can report a *different direction's* legs. A rev-leg check showing `production_committed_iter=2000` was
-   the **forward** leg's count, not progress. Misread three times on 2026-07-25.
-2. **Step DURATION, not status, is what distinguishes these outcomes** — all at the same step, all "step 7":
-   `~0.4 min + success` = a **cache restore that ran no build** (a hypothesis test built on this was silently
-   void); `~0.5 min + failure` = the endpoint-construction radical; `~11.5 min + failure` = a real, complete
-   build that failed only on the cache upload.
-
----
 
 ## Program and thesis
 
