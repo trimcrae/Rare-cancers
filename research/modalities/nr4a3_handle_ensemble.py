@@ -272,6 +272,17 @@ def main(argv=None):
                                                              if ls else None),
                     "n_frames_never_open_within_20": len(ls) - len(opened),
                     "distribution": quantiles([float(x) for x in opened]),
+                    "_MC_CONVERGENCE": (
+                        "⚠ `n_frames_open_at_or_below_gate_12` / `frac_...` ARE converged; "
+                        "`n_frames_never_open_within_20` and `distribution` ARE NOT at the default n_mc and "
+                        "must not be quoted as physical fractions. The envelope estimates a FRACTION OF "
+                        "ANCHOR SPACE by Monte Carlo, and the exact three-ball rule admits a strictly smaller "
+                        "set than the relaxed one it replaced, so the same budget resolves a rarer event. "
+                        "Measured on one fixed frame over n_mc in {12000, 48000, 150000} x two seeds "
+                        "(2026-07-25): C397 reads 10 atoms in every run and its feasible fraction at 12 atoms "
+                        "is 0.041-0.064, never zero -- the GATE verdict is robust. But C559 reads CLOSED at "
+                        "12000 on both seeds and 20 atoms at 48000 and above, and C420 reads 20 at one 12000 "
+                        "draw and 16 everywhere else. Raise --n-mc before quoting anything past the gate."),
                 }
                 summary[lab]["min_exit_anchor_to_SG_A"] = quantiles(
                     [r["handles"][lab]["min_exit_anchor_to_SG_A"] for r in rows
@@ -298,6 +309,17 @@ def main(argv=None):
                                                          if ls else None),
                 "n_frames_never_open_within_20": len(ls) - len(opened),
                 "distribution": quantiles([float(x) for x in opened]),
+                "_MC_CONVERGENCE": (
+                    "⚠ `n_frames_open_at_or_below_gate_12` / `frac_...` ARE converged; "
+                    "`n_frames_never_open_within_20` and `distribution` ARE NOT at the default n_mc and "
+                    "must not be quoted as physical fractions. The envelope estimates a FRACTION OF "
+                    "ANCHOR SPACE by Monte Carlo, and the exact three-ball rule admits a strictly smaller "
+                    "set than the relaxed one it replaced, so the same budget resolves a rarer event. "
+                    "Measured on one fixed frame over n_mc in {12000, 48000, 150000} x two seeds "
+                    "(2026-07-25): C397 reads 10 atoms in every run and its feasible fraction at 12 atoms "
+                    "is 0.041-0.064, never zero -- the GATE verdict is robust. But C559 reads CLOSED at "
+                    "12000 on both seeds and 20 atoms at 48000 and above, and C420 reads 20 at one 12000 "
+                    "draw and 16 everywhere else. Raise --n-mc before quoting anything past the gate."),
             }
     res["pooled_unbiased"] = {"_what": "the 3 unbiased release replicas pooled; the metadynamics ensemble is "
                                        "deliberately excluded because it is biased along the pocket CV",
