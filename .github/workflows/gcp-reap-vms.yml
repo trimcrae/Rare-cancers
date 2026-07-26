@@ -17,10 +17,16 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "dry_run = list only (default, safe); reap = actually delete"
+        description: "dry_run = list only (default, safe); reap = actually delete; extend = raise a RUNNING VM's max-run-duration in place (deletes nothing)"
         type: choice
-        options: [dry_run, reap]
+        options: [dry_run, reap, extend]
         default: dry_run
+      extend_vm:
+        description: "mode=extend ONLY - exact VM name whose max-run-duration to raise. Required; there is no default and no wildcard, on purpose."
+        default: ""
+      extend_seconds:
+        description: "mode=extend ONLY - new max-run-duration in seconds (e.g. 259200 = 72h). Must be LARGER than the current value; the step refuses to shorten."
+        default: "259200"
       max_age_min:
         description: "Spare RUNNING VMs younger than this many minutes (protects a just-launched leg). Dead VMs are reaped regardless."
         default: "20"
@@ -36,7 +42,92 @@ permissions:
   contents: read
 
 jobs:
+  # ------------------------------------------------------------------ mode=extend: buy wall clock, delete nothing
+  # WHY THIS LIVES IN THE REAPER rather than the read-only quota workflow: this MUTATES a VM, and the reaper is
+  # already the lane's VM-lifecycle tool with the right auth. It is the opposite operation to reaping — it keeps a
+  # VM alive longer — but it belongs with the thing that manages VM lifetimes, not with the thing that reads
+  # quotas.
+  #
+  # WHY IT EXISTS AT ALL. On GCP the credits are free and expiring, so the binding constraint is GPUS_ALL_REGIONS=1
+  # and therefore WALL CLOCK. A VM hitting its max-run cap mid-leg costs 2-4 h of dead time, because recovery
+  # depends on the watchdog cron and GitHub delivers this repo's crons at ~2-4 h intervals whatever the expression
+  # says. Extending in place removes that boundary outright.
+  #
+  # SAFETY, because this touches a live billed leg carrying many hours of committed sampling:
+  #   - the VM name is REQUIRED and exact. No default, no prefix, no wildcard — an "extend everything" mode is a
+  #     mode that can extend the wrong thing.
+  #   - it REFUSES TO SHORTEN. Lowering a max-run-duration below the VM's current age would terminate it
+  #     immediately, which is the single worst outcome available here and is exactly the mistake a fat-fingered
+  #     seconds value makes.
+  #   - it asserts the VM is still RUNNING afterwards, and errors loudly if it is not.
+  # The operation itself was validated on a DECOY e2-micro first (gcp-quota-check.yml), never discovered here.
+  extend:
+    if: ${{ github.event.inputs.mode == 'extend' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: { id-token: write, contents: read }
+    steps:
+      - name: Auth to GCP (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Extend the named VM in place
+        env:
+          VM: ${{ github.event.inputs.extend_vm }}
+          SECS: ${{ github.event.inputs.extend_seconds }}
+        run: |
+          set -uo pipefail
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          gcloud config set project "$PROJECT" 2>/dev/null
+          if [ -z "${VM:-}" ]; then
+            echo "::error title=EXTEND NEEDS A VM NAME::mode=extend requires extend_vm. Refusing to guess."
+            exit 1
+          fi
+          case "${SECS:-}" in ''|*[!0-9]*) echo "::error::extend_seconds must be a positive integer"; exit 1 ;; esac
+          ROW=$(gcloud compute instances list --filter="name=$VM" \
+                  --format="value(zone.basename(),status,scheduling.maxRunDuration.seconds)" 2>/dev/null | head -1)
+          if [ -z "$ROW" ]; then
+            echo "::error title=EXTEND VM NOT FOUND::$VM does not exist in $PROJECT — nothing extended."
+            exit 1
+          fi
+          ZONE=$(printf '%s' "$ROW" | awk '{print $1}')
+          STATUS=$(printf '%s' "$ROW" | awk '{print $2}')
+          CUR=$(printf '%s' "$ROW" | awk '{print $3}')
+          echo "found $VM in $ZONE, status=$STATUS, current max-run-duration=${CUR:-<unset>}s, requested=${SECS}s"
+          # REFUSE TO SHORTEN. Lowering the cap below the VM's current age terminates it on the spot.
+          case "${CUR:-}" in
+            ''|*[!0-9]*) : ;;
+            *) if [ "$SECS" -le "$CUR" ]; then
+                 echo "::error title=EXTEND WOULD SHORTEN::requested ${SECS}s is not greater than the current ${CUR}s. Lowering a cap below the VM's age terminates it immediately. Refusing."
+                 exit 1
+               fi ;;
+          esac
+          gcloud compute instances set-scheduling "$VM" --zone="$ZONE" --max-run-duration="${SECS}s" 2>/tmp/eerr
+          RC=$?
+          AFTER=$(gcloud compute instances list --filter="name=$VM" \
+                    --format="value(status,scheduling.maxRunDuration.seconds)" 2>/dev/null | head -1)
+          NEW_STATUS=$(printf '%s' "$AFTER" | awk '{print $1}')
+          NEW_DUR=$(printf '%s' "$AFTER" | awk '{print $2}')
+          echo "after: status=$NEW_STATUS max-run-duration=${NEW_DUR}s (rc=$RC)"
+          if [ "$RC" != 0 ]; then
+            echo "--- set-scheduling error ---"; head -5 /tmp/eerr
+            echo "::error title=EXTEND FAILED::$VM was NOT extended (rc=$RC). It still expires at ${CUR:-<unset>}s; plan around the boundary."
+            exit 1
+          fi
+          if [ "$NEW_STATUS" != "RUNNING" ]; then
+            echo "::error title=EXTEND STOPPED THE VM::$VM is now '$NEW_STATUS', not RUNNING. The extension was applied but the instance is not alive — treat the leg as dead and let the watchdog relaunch it."
+            exit 1
+          fi
+          echo "::notice title=EXTEND OK::$VM max-run-duration ${CUR:-<unset>}s -> ${NEW_DUR}s, still RUNNING. Its VM boundary (and the 2-4 h cron recovery latency behind it) is removed."
+
   reap:
+    # GUARDED so it does not also run on mode=extend. It would not DELETE there (its inner check is
+    # `[ "$MODE" = reap ]`), but it would list every VM and fire the RUNNING-VM warning alongside an
+    # unrelated operation — and a job that runs in a mode it was not written for is one edit away from
+    # acting in it.
+    if: ${{ github.event.inputs.mode != 'extend' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

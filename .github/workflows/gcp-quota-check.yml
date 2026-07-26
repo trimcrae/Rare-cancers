@@ -192,3 +192,53 @@ jobs:
           done
           echo "::error title=MAXRUN PROBE FAILED BOTH WAYS::neither 144000s nor 72000s created an e2-micro, and not for quota reasons — the probe itself is wrong (bad flags/permissions), so it says nothing about the ternary lane's cap. See the errors above."
           exit 1
+
+      - name: Can a RUNNING VM's max-run-duration be EXTENDED in place? (decoy first, never the real leg)
+        # WHY THIS MATTERS NOW. On GCP the credits are free and expiring, so the binding constraint is not money —
+        # it is `GPUS_ALL_REGIONS = 1` and therefore WALL CLOCK. A VM boundary costs 2-4 h of dead time, because
+        # recovery depends on the watchdog cron and GitHub delivers this repo's crons at ~2-4 h intervals whatever
+        # the expression says. Extending a running VM's cap in place would remove a boundary outright.
+        #
+        # I declined to try this earlier for a good reason: a botched scheduling update could TERMINATE the VM and
+        # cost the very boundary it was meant to save. That reasoning has not changed — which is why this probes a
+        # DECOY e2-micro and never touches a gcp-ternary-* instance. If the operation is rejected, or is accepted
+        # but stops the decoy, we learn that for ~$0.0002 instead of on a leg carrying 18 h of committed sampling.
+        #
+        # Named maxrun-ext-* so every watchdog/reaper filter (`name~'^gcp-ternary-'`) still cannot see it.
+        run: |
+          set +e
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          VM="maxrun-ext-$GITHUB_RUN_ID"
+          ZONE=us-central1-c
+          echo "=== create a decoy with a SHORT cap (7200s) ==="
+          gcloud compute instances create "$VM" --project="$PROJECT" --zone="$ZONE" \
+            --machine-type=e2-micro \
+            --provisioning-model=STANDARD --instance-termination-action=DELETE \
+            --max-run-duration=7200s --no-restart-on-failure \
+            --image-family=debian-12 --image-project=debian-cloud --boot-disk-size=10GB 2>/tmp/cerr
+          if [ $? -ne 0 ]; then
+            echo "::warning title=EXT PROBE INCONCLUSIVE::could not create the decoy, so nothing was learned:"
+            grep -iE "ERROR|quota|exhausted" /tmp/cerr | head -3
+            exit 0
+          fi
+          BEFORE=$(gcloud compute instances describe "$VM" --zone="$ZONE" --format="value(scheduling.maxRunDuration.seconds,status)" 2>/dev/null)
+          echo "before: $BEFORE"
+          echo "=== attempt to EXTEND to 259200s (72 h) on the RUNNING instance ==="
+          gcloud compute instances set-scheduling "$VM" --project="$PROJECT" --zone="$ZONE" \
+            --max-run-duration=259200s 2>/tmp/eerr
+          RC=$?
+          AFTER=$(gcloud compute instances describe "$VM" --zone="$ZONE" --format="value(scheduling.maxRunDuration.seconds,status)" 2>/dev/null)
+          echo "after:  $AFTER  (set-scheduling rc=$RC)"
+          [ "$RC" != 0 ] && { echo "--- set-scheduling error ---"; head -5 /tmp/eerr; }
+          STATUS_AFTER=$(printf '%s' "$AFTER" | awk '{print $2}')
+          DUR_AFTER=$(printf '%s' "$AFTER" | awk '{print $1}')
+          if [ "$RC" = 0 ] && [ "$DUR_AFTER" = "259200" ] && [ "$STATUS_AFTER" = "RUNNING" ]; then
+            echo "::notice title=EXT PROBE OK::a RUNNING VM's max-run-duration CAN be extended in place (7200s -> 259200s, still RUNNING). Safe to apply to the live ternary leg to remove its VM boundary."
+          elif [ "$RC" = 0 ] && [ "$STATUS_AFTER" != "RUNNING" ]; then
+            echo "::error title=EXT PROBE DANGEROUS::set-scheduling succeeded but the instance is now '$STATUS_AFTER', not RUNNING. DO NOT apply this to a live leg — it would kill it."
+          else
+            echo "::warning title=EXT PROBE REFUSED::a RUNNING VM's max-run-duration cannot be extended in place (rc=$RC, duration now '$DUR_AFTER'). The boundary is unavoidable; plan around it instead."
+          fi
+          gcloud compute instances delete "$VM" --project="$PROJECT" --zone="$ZONE" --quiet 2>&1 | tail -1
+          echo "decoy deleted"
+          exit 0
