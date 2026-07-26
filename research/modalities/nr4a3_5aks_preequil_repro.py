@@ -55,6 +55,38 @@ def strip_hydrogens(src, dst):
             fout.write(line)
 
 
+def template_probe(pdb, label):
+    """THE FAST DISCRIMINATOR: can OpenMM's amber14 build a system from this protein AT ALL?
+
+    Runs FIRST and takes seconds, because the failure under investigation is a force-field TEMPLATE
+    mismatch and that is decided the moment `createSystem` sees the topology — long before solvation, NAGL
+    charges or a single MD step. The full `ternary_preequil` arms below are the confirmation that the whole
+    phase works; this is the observation that identifies the cause.
+
+    Ordering matters for a reason that is not stylistic: the first version of this script ran only the full
+    arms, and a solvated ~700-residue complex plus NAGL on a CPU runner can outlast the job's timeout — in
+    which case a timed-out job would have produced NO verdict at all. A probe that answers in seconds cannot
+    be starved by the arm that follows it.
+
+    Returns (ok, message).
+    """
+    try:
+        from openmm import app
+    except Exception as e:  # noqa: BLE001
+        return None, f"openmm unavailable: {e}"
+    try:
+        pdbf = app.PDBFile(pdb)
+        ff = app.ForceField("amber14-all.xml", "amber14/tip3pfb.xml")
+        ff.createSystem(pdbf.topology)
+        n = pdbf.topology.getNumAtoms()
+        print(f"[probe] {label}: createSystem OK on {n} atoms", flush=True)
+        return True, f"OK ({n} atoms)"
+    except Exception as e:  # noqa: BLE001
+        msg = f"{type(e).__name__}: {e}"
+        print(f"[probe] {label}: createSystem FAILED — {msg[:400]}", flush=True)
+        return False, msg
+
+
 def run_preequil(input_dir, output_dir, label):
     """One arm. Returns (rc, tail_of_output). Never raises — a failing arm IS the measurement."""
     env = dict(os.environ)
@@ -94,6 +126,24 @@ def main():
     if h == 0:
         raise SystemExit("[repro] the staged pdb has NO hydrogens — the stager's PDBFixer step did not run, "
                          "so there is nothing to compare and the fix is not in this image's code")
+
+    # ---- the fast discriminator, before anything slow ----
+    print("\n---------------- TEMPLATE PROBE (seconds, decisive on the CAUSE) ----------------", flush=True)
+    ok_b, msg_b = template_probe(fixed_pdb, "FIXED   (hydrogenated)")
+    ok_a, msg_a = template_probe(os.path.join(arm_a, LEG, "complex.pdb"), "UNFIXED (no hydrogens)")
+    print("\n---------------- PROBE VERDICT ----------------", flush=True)
+    if ok_a is False and ok_b is True:
+        print("  CAUSE CONFIRMED: amber14 cannot build a system from the UNHYDROGENATED complex and CAN "
+              "from the\n  hydrogenated one. Nothing else differs between them.", flush=True)
+        print(f"  unfixed error: {msg_a[:300]}", flush=True)
+    elif ok_a is True:
+        print("  ⚠ PROBE REFUTES THE HYPOTHESIS: the unhydrogenated complex builds fine, so missing "
+              "hydrogens are\n  NOT what killed the leg.", flush=True)
+    elif ok_b is False:
+        print("  ⚠ PROBE SAYS THE FIX IS NOT SUFFICIENT: even the hydrogenated complex fails to build.\n"
+              f"  fixed error: {msg_b[:300]}", flush=True)
+    else:
+        print("  probe inconclusive (openmm unavailable) — falling through to the full arms", flush=True)
 
     rc_a, out_a = run_preequil(arm_a, os.path.join(scratch, "outA"), "ARM A (UNFIXED — expected to FAIL)")
     rc_b, out_b = run_preequil(staged, os.path.join(scratch, "outB"), "ARM B (FIXED — expected to PASS)")
