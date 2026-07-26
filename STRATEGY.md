@@ -35,6 +35,92 @@
 
 ---
 
+## 📊 WHERE WE ARE — the scoreboard, in plain language
+
+*Read this before the IN FLIGHT table. **Every status line in this file, and every lane report, must be
+expressible as one of: a gate PASSED, a gate FAILED plus the remediation, or a DELIVERABLE done.** If a finding
+cannot be written that way it is a detail, not a headline. trimcrae, 2026-07-26: "a headline should be
+something like *we passed n gates*, or *we failed x gate and need to make y remediation*, or *we have a major
+deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
+underneath one.*
+
+**As of 2026-07-26 · 6 gates passed · 3 failed (all caught before the spend) · 2 deliverables done · $0.74 spent.**
+
+| # | gate | status | what it means in one line |
+|---|---|---|---|
+| Tier 0 | categorical-axis screen | **PASSED** *(narrowed 2026-07-26)* | NR4A3 has chemistry the paralogues lack — but only at the aligned position, and the axis survives on **exposure**, not absence |
+| Tier 1 | differential surface atlas | **PASSED** | there is a surface to steer an E3 against |
+| Tier 2 | basin nomination | **PASSED** — ⚠ **one limb under review** | at least one way to build a selective degrader exists. **Open:** the corrected geometry may have removed every *covalent-route* candidate, leaving only the *lysine* route |
+| RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
+| RUNG 2 | cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
+| RUNG 2b | 4 fs speed test, stage 1 | **PASSED** | every future simulation ~1.56× cheaper; stage 2 in flight |
+| RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7** |
+| RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
+| RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. **~$21 not spent** |
+
+| deliverable | status |
+|---|---|
+| **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
+| **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
+
+**The one thing needing a decision:** whether the covalent design route still has candidates. If it does not,
+one of the two selectivity mechanisms is dead and the reversible-covalent library loses its premise; the lysine
+route continues either way.
+
+---
+
+## 📊 WHERE WE ARE — the scoreboard, in plain language
+
+*Read this before anything else in this file. **Every status line here, and every lane report, must be
+expressible as one of: a gate PASSED, a gate FAILED plus its remediation, or a DELIVERABLE done.** A number
+moving is *evidence*, not a headline. (trimcrae, 2026-07-26, on being handed "term (a) went 7 → 0" as a
+headline: that is incomprehensible — a headline is "we passed n gates", "we failed x and need remediation y",
+or "we have a major deliverable done". Internal shorthand belongs in the evidence, not the summary.)*
+
+**As of 2026-07-26 · 6 gates passed · 3 failed, all caught before the spend · 2 deliverables done ·
+$0.74 spent, ~$35 not spent.**
+
+| gate | status | in one line |
+|---|---|---|
+| Tier 0 — categorical screen | **PASSED** *(narrowed)* | NR4A3 has chemistry the paralogues lack — but only at the aligned position, and it holds because the paralogues' equivalent cysteines are **buried**, not absent |
+| Tier 1 — surface atlas | **PASSED** | there is a surface to steer an E3 against |
+| Tier 2 — basin nomination | **PASSED, both routes intact** | at least one way to build a selective degrader exists — on the lysine route *and*, at a longer linker, the covalent one |
+| RUNG 1 — accuracy control | **PASSED** | the binary free-energy pipeline reproduces a known answer |
+| RUNG 2 — cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
+| RUNG 2b — 4 fs speed test, stage 1 | **PASSED** | every future simulation ~1.56× cheaper; stage 2 in flight |
+| RUNG 2 — **calibration benchmark** | **FAILED** | wrong sign, provably **not** fixable by more replicates. **Remediation:** replacement drafted → refuted by its own free pre-check → second replacement specified at **~$7** |
+| RUNG 3 — **NR-V04 covalent panel** | **FAILED** | the inputs never placed the warhead near its target site. **Remediation:** covalent legs retired, panel re-scoped to non-covalent. **~$6–8 not spent** |
+| RUNG 4 — **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, HELD pending re-check. **~$21 not spent** |
+
+| deliverable | status |
+|---|---|
+| **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
+| **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
+
+### ✅ RESOLVED 2026-07-26 — the covalent design route survives; it missed the gate by ONE ATOM
+
+Correcting a real bug (the reach rule had been crediting the electrophile's pendant with *shortening* the
+linker span, which no pendant can do) dropped the count of basins placing an electrophile within the
+**12-atom** gate from **7 to 0**, which read as "the covalent route is dead". **It is not.** Under the
+corrected rule the shortest modelled reach to **C397 is 13 atoms** — the gate is 12 — with **three** basins at
+13 (`vhl|M2`, `vhl|M6` at 0.75 pose persistence, `vhl|M7`), six more at 14–16, and **174** basin–cysteine
+reach records overall. **So the zero is a threshold artifact, not an absence of reach.**
+
+**The gate stays at 12 and is NOT moved to rescue the count.** Moving a threshold after seeing it fail is the
+retune this program forbids. What changes instead is the **design requirement**, and it now carries a priced
+cost: a covalent construct needs a **13–14 atom** linker rather than ≤12, and by the paralogue-collision
+profile (**0 at 12 atoms, 0.081 at 16, 0.258 at 20**) that buys a **small but non-zero** chance of the linker
+also reaching a paralogue cysteine — bounded between 0 and 0.081, and not worth interpolating more finely than
+that from three points. **Consequence: the covalent route is viable but strictly worse than it looked, and
+every atom of linker length is now a selectivity cost, not just a synthesis cost.** *(Shortest corrected reach
+per residue: C397 **13**, C420 **16**, C559 **31** — C559 is out of contention at any usable length.)*
+
+*Provenance: the successor artifact is the 12-pose / 192-basin run, which matches the published run's scope
+exactly; the 8-pose / 128-basin matched-native run reporting 2 is a narrower staging comparison and is not
+comparable.*
+
+---
+
 ## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-25 8:05 PM ET**)
 
 *Keep this section current. It is the first thing a fresh session should read to know what is executing, what
