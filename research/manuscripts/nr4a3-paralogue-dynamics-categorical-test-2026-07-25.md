@@ -193,7 +193,13 @@ the paralogues being short of lysines near the transfer zone.
 | Vast instance | 45853652 (machine 12697) | 45854620 (machine 55559) |
 | card / bid | RTX 4090, $0.136/hr (floor $0.1333) | RTX 4090, $0.1768/hr (floor $0.1733) |
 | protocol | 60 ns well-tempered metad on the homologous Pocket-5 Rg + 3 × 5 ns unbiased release, seeded at the same CV value | identical |
-| measured throughput | **~143 ns/day** (four DCD-derived points, 23:42–23:56 UTC) | same card class |
+| measured throughput | **143 ns/day** (five DCD-derived intervals, 23:42–00:06 UTC, spread < 1 %) | **143 ns/day** (three intervals) |
+| health | `StateDataReporter` T = **311.46 K** against the 310 K target at step 1.3 M; GPU 59–72 % | GPU 72 % |
+
+Both legs are therefore ~12.5 h of MD each (75 ns at 143 ns/day) plus ~25 min of build, and they run
+concurrently. **Realized cost tracks the $2.5 estimate**: $0.1527/hr all-in on NR4A1 and $0.1935/hr on NR4A2
+× ~12.5 h ≈ **$4.3**, inside the quoted $1.5–6 band and far under the $40 ceiling. The one wasted rental (the
+capacity-refused 3090, ~13 min before it was destroyed) cost under $0.02.
 
 A first NR4A2 rental (45853654, machine 142143, RTX 3090 at $0.0451/hr) was **destroyed and its machine
 excluded** after its start PUT answered `{"success": false, "error": "resources_unavailable", "msg":
