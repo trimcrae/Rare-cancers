@@ -318,6 +318,27 @@ jobs:
             docker.io/triskit23/ternary-fep:latest \
             /work/research/modalities/nr4a3_ternary_fep.py 2>&1 | tail -60
           ls -la /tmp/tred
+      # ⚠ SYSTEM IDENTITY, NOT JUST PROTOCOL IDENTITY. `protocol_hash` covers the OpenFE SETTINGS and says
+      # nothing about the SYSTEM, and ΔΔG_coop is a DIFFERENCE of legs — so three legs can share one hash and
+      # still describe different solvated systems. That is not hypothetical here: on 2026-07-25 four reverse-leg
+      # attempts ran a 146,020-particle `v1` build against a 141,968-particle `v2pe` forward leg, and no check
+      # in the repo reported it. The reducer computes `system_identity_consistency` over n_particles /
+      # charge_method / setup_cache_version, with unrecorded fields reported as UNKNOWN rather than folded in as
+      # agreement — but nothing printed it, so the gate was being read off the hash alone.
+      - name: System identity across the cycle (the check protocol_hash cannot make)
+        run: |
+          set -eo pipefail
+          python3 - <<'PY'
+          import json
+          d = json.load(open("/tmp/tred/ternary_coop_reduction.json"))
+          si = d.get("system_identity_consistency")
+          print("================ SYSTEM IDENTITY ================")
+          print(json.dumps(si, indent=1) if si else "(absent from the reduction — reducer version mismatch?)")
+          for k in ("valB_calibration_gate", "valB_calibration_decision"):
+              if k in d:
+                  print(f"--- {k} ---"); print(json.dumps(d[k], indent=1))
+          PY
+
       - name: Verdict LAST
         run: |
           set -eo pipefail
