@@ -260,6 +260,80 @@ def _age_min(inst):
         return 0
 
 
+# Expected sampler throughput, from the MEASURED cmpd19/NR4A3 rate: three independent wave-1 hosts at
+# 12.76 / 13.70 / 14.42 s per HREX iteration (all 12 windows advanced 2.5 ps) => ~250-282 iterations/hour.
+EXPECTED_ITER_PER_H = 3600.0 / 13.6
+
+
+def _iter_rate(prev_entry, scalar):
+    """Realised committed-iterations/hour since the previous check, or None if not computable.
+
+    ★ THIS, NOT `gpu_util`, IS THE THROUGHPUT SIGNAL THAT ACTUALLY BINDS. `$/ns` ranking is blind to a host
+    slower than its card because it multiplies a CARD CONSTANT (pricing.md A.1), and the obvious fix —
+    watching `gpu_util` — turns out to depend on a field the Vast payload does not always carry (observed
+    None on instance 45936074 at 20 minutes in, under BOTH spellings, while the box was demonstrably up and
+    advancing). A monitor whose only health signal can silently go absent is a monitor that watches nothing.
+
+    The committed-iteration rate has neither weakness: it comes from OUR OWN object store rather than the
+    provider's telemetry, and it measures the realised throughput of THIS workload rather than a proxy for it.
+    A host at half the expected rate is half as good per dollar whatever its `gpu_util` says.
+
+    Deliberately reports rather than acts. Any single interval can be depressed by a legitimate freeze — MBAR
+    analysis at the end of a leg, a phase transition, a checkpoint sync — so a rate is evidence for the
+    stall/starvation judgement, not the judgement itself."""
+    if not prev_entry or scalar < 0:
+        return None
+    was, when = prev_entry.get("scalar"), prev_entry.get("utc")
+    if was is None or when is None or scalar <= was:
+        return None
+    try:
+        import datetime
+        t0 = datetime.datetime.strptime(when, "%Y-%m-%dT%H:%M:%SZ")
+        hours = (datetime.datetime.utcnow() - t0).total_seconds() / 3600.0
+    except (TypeError, ValueError):
+        return None
+    if hours <= 0:
+        return None
+    return round((scalar - was) / hours)
+
+
+def _arm_watchdog(unit_ids, branch):
+    """Add a watch entry for each unit this launch actually rented, so nothing is billed unwatched.
+
+    WHY THIS IS DONE BY THE LAUNCHER AND NOT BY HAND. The fan-out can now fire from a cron the moment the
+    terminus is proven, with no agent awake — and an 18-unit wave that arms nothing would put eighteen billed
+    GPUs beyond any monitoring. The launcher is the only thing that knows what it just rented, so it is the
+    only thing that can arm correctly. Entries are built by `vast_watchdog.step1_fanout_entry`, never
+    hand-shaped, and the pass is idempotent: re-launching a unit already in the list re-enables it rather than
+    duplicating it (two entries for one unit means two relaunchers on one checkpoint prefix).
+
+    Failure here is logged, never raised: an arming problem must not abort a launch that has already spent
+    money, and the CI step that commits the file reports an unchanged file plainly.
+    """
+    try:
+        import vast_watchdog as vw
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vast-watch.json")
+        with open(path) as fh:
+            doc = json.load(fh)
+        by_uid = {e.get("unit_id"): e for e in doc.get("watch", [])}
+        added, rearmed = [], []
+        for uid in unit_ids:
+            if uid in by_uid:
+                by_uid[uid]["enabled"] = True
+                by_uid[uid].pop("_disabled_why", None)
+                rearmed.append(uid)
+            else:
+                doc["watch"].append(vw.step1_fanout_entry(uid, git_branch=branch))
+                added.append(uid)
+        with open(path, "w") as fh:
+            json.dump(doc, fh, indent=2)
+        print(f"[s1f] watchdog armed: +{len(added)} new, {len(rearmed)} re-enabled "
+              f"({len(doc['watch'])} entries total)")
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] ⚠ COULD NOT ARM THE WATCHDOG ({type(e).__name__}: {e}) — the units above are running "
+              f"UNWATCHED. Add them to vast-watch.json by hand.")
+
+
 def _gpu_util(inst):
     """GPU utilisation %, or None if the host is not reporting it.
 
@@ -541,6 +615,24 @@ def mode_launch():
                              f"something other than what was asked for")
         todo = matched
 
+    # ---- the terminus gate --------------------------------------------------------------------------------
+    # THE WHOLE POINT OF THE ONE-THEN-EIGHTEEN SHAPE, expressed as a machine condition rather than as an
+    # agent remembering to come back. `FANOUT_REQUIRE_PROVEN_TERMINUS=1` refuses to submit until at least one
+    # unit's ddg.json exists in S3 — i.e. until reduce->commit->upload has actually been observed once.
+    #
+    # WHY IT IS A GATE AND NOT A DECISION I MAKE LATER. A gate can be put on a cron, so the fan-out fires the
+    # MINUTE the terminus is proven instead of the next time somebody looks. That is strictly more parallel
+    # than waiting for a human or an agent, and strictly safer than launching early, which is the combination
+    # the shakeout rule is actually asking for. Serialising costs wall-clock and buys nothing else.
+    if os.environ.get("FANOUT_REQUIRE_PROVEN_TERMINUS") == "1":
+        proven = [u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))]
+        if not proven:
+            print("[s1f] TERMINUS NOT YET PROVEN — no unit has a ddg.json in S3, so reduce/commit/upload has "
+                  "never been observed on this lane. Holding the fan-out. (This is not an error: the gate is "
+                  "designed to no-op until the shakeout unit lands, then let the next tick fan out.)")
+            return
+        print(f"[s1f] terminus PROVEN by {len(proven)} unit(s) ({proven[0]}) — fan-out released")
+
     slots = max(0, WIDTH - len(live))
     batch = todo[:slots]
 
@@ -605,6 +697,7 @@ def mode_launch():
             "bid": _bid, "min_bid": _floor, "dph": _dph, "billed_min": 0,
             "launched_utc": _utcnow(), "last_seen_utc": None}
     _save_ledger(s3, bucket, _ledger)
+    _arm_watchdog([h["unit_id"] for h in handles], os.environ.get("GIT_BRANCH", "main"))
     with open("step1-fanout-handles.json", "w") as f:
         json.dump(handles, f, indent=2)
     # the label -> unit map, so a later collect/monitor can name instances without re-deriving the index
@@ -661,18 +754,24 @@ def mode_monitor():
         was = (prev.get(u["unit_id"]) or {}).get("scalar")
         if scalar >= 0:
             cur[u["unit_id"]] = {"scalar": scalar, "detail": detail, "utc": _utcnow()}
+        rate = _iter_rate(prev.get(u["unit_id"]), scalar)
         if scalar < 0:
             delta = "UNREADABLE (skipped, NOT counted as zero)"
         elif was is None:
             delta = "first census"
         elif scalar > was:
-            delta = f"+{scalar - was} since last check"
+            delta = f"+{scalar - was} since last check" + (f", {rate} iter/h" if rate else "")
         elif phase and not phase.startswith(("boot", "staged")):
             delta = "NO ADVANCE since last check"
         else:
             delta = "no commit yet (cold start)"
+        slow = (rate is not None and rate < 0.5 * EXPECTED_ITER_PER_H
+                and (phase or "").startswith("leg-"))
         print(f"[s1f]   {u['unit_id']:56s} {phase or 'not-started':28s} legs_done={legs} "
-              f"committed={detail} [{delta}]")
+              f"committed={detail} [{delta}]"
+              + (f"  <-- {rate} iter/h is under half the measured {EXPECTED_ITER_PER_H:.0f}; "
+                 f"if it holds across checks and is not an end-of-leg MBAR pause, this host is slower than "
+                 f"its card and should be re-rented elsewhere" if slow else ""))
     # SELF-HEAL the create/start race before summarising. Creating a Vast ask does not reliably launch the
     # container: the start PUT can be lost while Vast is still finishing the create, leaving the box at
     # cur_state="stopped" forever, burning nothing but never running either (gpu_backend._ensure_running

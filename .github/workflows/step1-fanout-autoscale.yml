@@ -1,0 +1,120 @@
+name: STEP 1 fan-out — progress check + terminus-gated fan-out
+
+# WHAT THIS IS FOR, in one sentence: it makes "fan out the moment the terminus is proven" a MACHINE condition
+# instead of an agent remembering to come back.
+#
+# THE SHAPE OF THE RUN AND WHY IT NEEDS THIS. CLAUDE.md's litmus test — "is there a result this shard could
+# return that would make me NOT run the rest?" — answers NO for a congeneric map, so serialising the 19 edges
+# buys no decision value and parallel costs the same GPU-dollars. But wave 1 left an asymmetry the litmus test
+# does not cover: it proved the lane SAMPLES (three hosts at 95-99 % GPU on the real cmpd19/NR4A3 system) and
+# 0 of 19 units ever reached a ddG, so reduce -> commit -> upload has never once been observed. Fanning 19
+# wide into an unproven terminus risks paying 19x for nothing.
+#
+# The resolution is not to pick one side. It is to run ONE deliberately-chosen unit (the most-advanced
+# checkpoint, hence the cheapest proof of the terminus) and let a cron release the other eighteen the MINUTE
+# its ddg.json lands. That is strictly more parallel than waiting for a human or an agent to notice, and
+# strictly safer than launching early — which is exactly the combination the shakeout rule is asking for.
+# The gate itself lives in congeneric_fanout_vast.mode_launch under FANOUT_REQUIRE_PROVEN_TERMINUS, so the
+# condition is enforced by the launcher and not by this file's scheduling.
+#
+# EVERY TICK DOES TWO THINGS, IN THIS ORDER:
+#   1. monitor — a PROGRESS check, not a liveness ping: the committed-iteration census per unit, diffed
+#      against the previous tick, plus realised iterations/hour and the starved-host guard. Committed back to
+#      the branch, because a CI job log is only readable from its tail and the tail is runner boilerplate.
+#   2. launch  — gated. A no-op that prints "TERMINUS NOT YET PROVEN" until a ddg.json exists; the full
+#      remaining tranche the moment one does. It is idempotent (a unit with a result, or with a live
+#      instance, is never re-submitted), so a tick after the fan-out costs nothing.
+#
+# ⚠ A `schedule:` trigger only fires from the DEFAULT BRANCH, so this file is inert until merged to main.
+# Until then, exercise it with workflow_dispatch — an on-main workflow dispatched with ref=<branch> runs THAT
+# branch's version of the file and its code.
+#
+# ⚠ AND THE BRANCH THE FLEET RUNS IS NOT `github.ref_name`. A scheduled run's ref is the default branch, but
+# each rented instance pulls `$GIT_BRANCH.tar.gz` for its code, so a schedule that passed its own ref would
+# silently run main's code against a feature branch's checkpoints. `fleet_branch` is therefore an explicit
+# input with an explicit default, and it is the ONLY thing that sets GIT_BRANCH.
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"   # GitHub throttles schedules on busy repos, so this really lands further apart.
+                             # That is fine and is visible in the committed progress trail rather than
+                             # assumed: a unit commits every 20 (warmup) or 40 (production) iterations, i.e.
+                             # every ~5-9 minutes, so any real interval sees an unambiguous advance.
+  workflow_dispatch:
+    inputs:
+      fleet_branch:
+        description: "branch whose code the rented instances run (NOT the workflow's own ref)"
+        default: "claude/max-effort-2dq11l"
+      release_fanout:
+        description: "1 = also attempt the terminus-gated fan-out; 0 = progress check only"
+        default: "1"
+
+permissions:
+  contents: write
+
+concurrency:
+  # One tick at a time. Two concurrent ticks could both pass the terminus gate and both submit the remaining
+  # units — the launcher's own live-instance check narrows that window but does not close it, and two hosts
+  # syncing one commit prefix is an interleaved trajectory that nothing reports.
+  group: step1-fanout-autoscale
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
+      GIT_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+      FANOUT_WIDTH: "19"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Check out the FLEET's branch, not the schedule's. A scheduled run is on main; the lane's code,
+          # its watch list and its committed progress trail all live on the feature branch.
+          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -q boto3 pytest
+      - name: Gate on the fan-out unit tests (a broken unit list must never reach a GPU)
+        run: python -m pytest research/modalities/tests/test_congeneric_fanout.py -q
+
+      - name: Progress check
+        working-directory: research/modalities
+        env:
+          MONITOR: "1"
+        run: python congeneric_fanout_vast.py
+
+      - name: Terminus-gated fan-out
+        if: ${{ github.event.inputs.release_fanout != '0' }}
+        working-directory: research/modalities
+        env:
+          LAUNCH: "1"
+          FANOUT_CONFIRM: "1"
+          FANOUT_REQUIRE_PROVEN_TERMINUS: "1"
+        run: python congeneric_fanout_vast.py
+
+      - name: Commit the progress readout and any newly-armed watch entries
+        if: ${{ always() }}
+        run: |
+          set -e
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          # Added INDEPENDENTLY: `git add A B` fails atomically if either pathspec matches nothing, so one
+          # absent file would stage neither and the step would report "nothing to commit" while swallowing it.
+          staged=0
+          for f in research/modalities/step1-fanout-progress.json research/modalities/vast-watch.json; do
+            if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
+          done
+          [ "$staged" = 1 ] || { echo "nothing to stage"; exit 0; }
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "step1 fan-out autoscale tick ($(date -u +%FT%TZ))"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "$GIT_BRANCH" && git push origin "HEAD:$GIT_BRANCH" && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the tick readout"
