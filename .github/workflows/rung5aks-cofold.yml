@@ -33,9 +33,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs) | cofold_dry ($0, print the JobSpec) | cofold (~$0.3-1, rent one Vast host for Boltz-2) | cofold_collect ($0) | leg_diag ($0, dump a 5a-KS FEP leg's phase/status/log from S3, including the PREVIOUS attempt's) | preequil_repro ($0 CPU, reproduce the preequil failure and prove the fix before re-renting)"
+        description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs) | cofold_dry ($0, print the JobSpec) | cofold (~$0.3-1, rent one Vast host for Boltz-2) | cofold_collect ($0) | leg_diag ($0, dump a 5a-KS FEP leg's phase/status/log from S3, including the PREVIOUS attempt's) | preequil_repro ($0 CPU, reproduce the preequil failure and prove the fix before re-renting) | ligand_diag ($0 CPU, compare the two legs' staged ligands.sdf record-for-record)"
         type: choice
-        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect, leg_diag, preequil_repro]
+        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect, leg_diag, preequil_repro, ligand_diag]
         default: prep
       cofold_dir:
         description: "stage: directory holding the Boltz co-fold CIFs (blank = research/modalities/5aks_cofold_out)"
@@ -392,3 +392,38 @@ jobs:
         run: |
           set -eo pipefail
           python research/modalities/ternary_vast_launch.py --mode 5aks --seed-stage-cache /tmp/5aks_in
+
+  # ------------------------------- $0 CPU: why did NR4A1's endpoint verification fail when NR4A3's passed?
+  # Same construct, same staged SMILES, opposite verdicts (111 mapped / 0 dummy vs 80 mapped / 31 dummy).
+  # This reads BOTH legs' staged ligands.sdf out of the stage cache the RENTED HOSTS actually read, in the
+  # parity image, and compares them record-for-record. It answers exactly one question: is the difference in
+  # the FILES (staging defect, fix upstream) or in their PERCEPTION (fix how the SDF is written)?
+  ligand_diag:
+    if: ${{ github.event.inputs.mode == 'ligand_diag' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pull BOTH legs' stage caches and compare their ligands
+        run: |
+          set -eo pipefail
+          python3 -m pip install -q awscli >/dev/null 2>&1 || true
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          B=sagemaker-us-east-2-646605541856
+          mkdir -p /tmp/5aks_legs_in
+          for L in 5aks_d0_to_d__ternary_nr4a3 5aks_d0_to_d__ternary_nr4a1; do
+            aws s3 cp "s3://$B/ternary-vast/stagecache/${L}__boltz5aks__seed0__v1.tar" /tmp/$L.tar
+            tar -C /tmp/5aks_legs_in -xf /tmp/$L.tar
+          done
+          find /tmp/5aks_legs_in -type f -printf '  %s B  %p\n'
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/5aks_legs_in:/tmp/5aks_legs_in \
+            -e STAGED_ROOT=/tmp/5aks_legs_in \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/nr4a3_5aks_ligand_diag.py
