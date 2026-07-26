@@ -290,10 +290,27 @@ Consequences kept separate, because they are independent:
   small.* Both outcomes are informative, and the second argues against my own reading — if `R_binary` is also
   small, the departure's bias is a per-endpoint state function, telescopes out of any cycle, and therefore largely
   cancels from ΔΔG_coop too. **Run the pose diagnostic on the triangle's legs when they land** (`mode=converge` /
-  `task=converge`, $0) and do not interpret `R_binary` without it. **Open and NOT decided here:** whether those
-  binary legs should be run **restrained** — restrained makes `R_binary` a clean path-error measurement,
-  unrestrained makes it a measurement of the departure. Different experiments; that choice changes what the $6
-  buys and is trimcrae's.
+  `task=converge`, $0) and do not interpret `R_binary` without it.
+- **★ DECIDED 2026-07-26 (trimcrae delegated: "it's your call"): run the triangle's binary legs UNRESTRAINED.**
+  Three reasons, the first on its own decisive:
+  1. **Comparability.** The triangle's economy is **r0 reused as T1** — `price_triangle` buys **4 legs, not 6**
+     (**$6.83** at n=1). Restrained T2/T3 in a cycle with an unrestrained T1 makes `R` measure the
+     *protocol difference*, not path error. To restrain you must re-buy T1 restrained: 6 legs, **~$10.25 (+50 %)**,
+     and the reuse that justified the design is gone.
+  2. **It answers a question the restrained version cannot** — whether the departure's bias is path-dependent or a
+     state function. That determines whether r0's and 2b's **existing** ΔΔG_coop numbers are salvageable at all,
+     which is worth far more than $6.
+  3. **Sequencing, by this repo's own litmus test** (§"serialize only when one result could cancel the rest"):
+     *is there a result this run could return that would make me not run the rest?* **Yes** — if `R_binary` is
+     small at low σ_leg, the bias telescopes out of cycles and largely cancels from ΔΔG_coop, making a restrained
+     re-run unnecessary *for the cooperativity number*. So unrestrained-first is strictly correct ordering, and a
+     restrained binary leg becomes a **separate, later** experiment whose value is conditional on this result.
+  **Registered in code, before any leg is bought:** `valb_triangle_closure.binary_departure_prereg()` states the
+  prediction, classifies the four outcomes, and — the part that matters — reports **UNDERPOWERED** rather than
+  "cancellation" when neither closure resolves at high σ_leg, because σ_leg is known only to a factor of ~15 and at
+  σ_leg = 0.5 the power to resolve an r0-sized effect is **~0.22**. 8 tests pin the branch logic, including both
+  branches that would count *against* the r0 reading.
+  **Still HELD** until the reverse leg reads out, per the rescope hold — the decision is made, the spend is not.
 - **ΔΔG_coop cannot be reported from the r0 cycle at all** until the binary arm is re-run — a blocker
   *independent* of the reverse leg's hysteresis result, which concerns the (clean) ternary arm.
 - **WHAT TO CHANGE ON THE RE-RUN** (λ attribution, GH run 30210186711, audit §L.3c): the escape is *alchemically
