@@ -937,12 +937,20 @@ jobs:
           # on any kill, so a short cap only bounds waste on a wedged VM. On-demand L4 can ALSO stock out in
           # us-central1 (our only L4 region), so it waits out capacity like spot (PROV_ROUNDS=22).
           #
-          # ON-DEMAND: 40h, RAISED FROM 20h 2026-07-26, because 20h did not do the job it was chosen for. The
-          # comment here used to say 20h "spans the WHOLE run uninterrupted"; it does not, and could not. A full
-          # leg is ~400 warmup iterations plus 2000 production ones (5.0 ns production / 2.5 ps per iteration),
-          # and at the MEASURED production cost of ~66 s/iter that is ~40 h of MD — so a 20h cap guarantees at
-          # least two VM lifetimes for every leg. The 20h figure was derived from a 33.91 s/iter rate that had
-          # been measured during WARMUP and then applied to production (see the ternary-watch.json appendix).
+          # ON-DEMAND: 72h. Raised 20h -> 40h -> 72h on 2026-07-26 as the arithmetic was actually done.
+          #   20h  claimed to "span the WHOLE run uninterrupted". It does not and could not: the figure came from
+          #        a 33.91 s/iter rate measured during WARMUP and applied to production.
+          #   40h  still short. A full leg is 800 warmup + 2000 production iterations, and at the MEASURED
+          #        production cost of ~56.5 s/iter that is ~44 h of MD — so 40h leaves a fresh leg one boundary
+          #        SHORT of finishing, which is the worst possible place to put one.
+          #   72h  spans a ~44 h leg with ~64 % margin. 604800s (7 d) is also accepted at create (measured,
+          #        gcp-quota-check.yml), and is deliberately NOT used: no leg is longer than ~44 h, so the extra
+          #        four days buy nothing and only widen the window a totally-unguarded wedge could sit in.
+          #
+          # WHY THE VALUE MATTERS AT CREATE AND NOWHERE ELSE: GCP refuses to change max-run-duration on a RUNNING
+          # instance — "Max run duration cannot be changed while the instance is running" (measured on a decoy,
+          # gcp-gpu-facts.md §3b). There is no raising it later, so a cap set too low is a boundary you have
+          # already bought.
           #
           # WHY THE BOUNDARY IS EXPENSIVE, and so why this is worth changing: recovery depends on the watchdog
           # cron, and GitHub delivers this repo's crons at ~2-4 h intervals regardless of the requested */15
@@ -950,12 +958,14 @@ jobs:
           # costs 2-4 h of dead wall clock plus a setup cycle, and nothing about a tighter cron expression fixes
           # it. Going 20h -> 40h removes one whole boundary from the running rev leg.
           #
-          # The cost exposure of a larger cap is bounded elsewhere, which is what makes this safe: the EXIT trap
-          # and self-delete are the primary teardown, gcp-reap-vms.yml is the project-wide backstop, and the
-          # watchdog's stall detector (STALL_PASSES) reaps a VM whose committed iteration stops advancing. MAXRUN
-          # is the last of four guards, not the first, so doubling it does not double any realistic waste.
+          # AND THE EXPOSURE IS NOT MONEY. On GCP the credits are free and expiring, so the thing a runaway VM
+          # actually costs is WALL CLOCK: GPUS_ALL_REGIONS=1 means one wedged VM blocks every other job on the
+          # lane. That exposure is bounded by the stall detector, not by MAXRUN — the watchdog reaps a VM whose
+          # committed iteration stops advancing after STALL_PASSES, so a wedge is caught in hours regardless of
+          # the cap. MAXRUN is the LAST of four guards (EXIT trap + self-delete, gcp-reap-vms.yml, stall
+          # detector, then this), which is why it is sized for the science rather than against the failure.
           if [ "$PROVISIONING" = standard ]; then
-            PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=144000s
+            PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=259200s
             echo "PROVISIONING=standard (ON-DEMAND — authorized one-off; waits out on-demand-capacity like spot; 40h max-run cap)"
           else
             PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=25200s

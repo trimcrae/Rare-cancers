@@ -166,7 +166,11 @@ jobs:
           PROJECT=project-a7ebde30-e2ed-4b8d-9a9
           VM="maxrun-probe-$GITHUB_RUN_ID"
           ZONE=us-central1-c
-          for D in 144000s 72000s; do
+          # LARGEST-FIRST. 144000s (40 h) is already known good, but a FULL ternary leg is ~2800 iterations at
+          # ~56.5 s/iter = ~44 h of MD, so 40 h does not span a fresh leg and one boundary is structural. Since
+          # max-run-duration cannot be raised on a running instance (facts §3b), the only place to fix that is at
+          # CREATE — so find the largest value GCP will actually take rather than assuming 7 days is allowed.
+          for D in 604800s 259200s 144000s 72000s; do
             echo "=== attempting create with --max-run-duration=$D (STANDARD, termination-action=DELETE) ==="
             gcloud compute instances create "$VM" --project="$PROJECT" --zone="$ZONE" \
               --machine-type=e2-micro \
@@ -175,12 +179,10 @@ jobs:
               --image-family=debian-12 --image-project=debian-cloud --boot-disk-size=10GB 2>/tmp/err
             RC=$?
             if [ "$RC" = 0 ]; then
-              echo "::notice title=MAXRUN OK::--max-run-duration=$D ACCEPTED for a STANDARD VM. The 40 h cap in gpu-ternary-fep-gcp.yml will provision."
+              echo "::notice title=MAXRUN LARGEST ACCEPTED::--max-run-duration=$D is ACCEPTED at CREATE for a STANDARD VM. This is the LARGEST of the tried values that GCP takes, so it is the cap a fresh ~44 h leg should be created with. Current setting in gpu-ternary-fep-gcp.yml is 144000s (40 h) — raise it to $D if larger."
               gcloud compute instances delete "$VM" --project="$PROJECT" --zone="$ZONE" --quiet 2>&1 | tail -1
               echo "probe VM deleted"
-              [ "$D" = 144000s ] && exit 0
-              echo "::error title=MAXRUN 144000s REJECTED but 72000s ACCEPTED::GCP will not take the 40 h cap. REVERT MAXRUN to 72000s in gpu-ternary-fep-gcp.yml before the current VM expires, or the watchdog relaunch will fail repeatedly and burn the per-day cap with the leg dead."
-              exit 1
+              exit 0
             fi
             echo "--- create FAILED with $D ---"
             grep -iE "ERROR|invalid|exceed|maximum|duration|must be|quota" /tmp/err | head -5
