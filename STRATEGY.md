@@ -48,7 +48,7 @@ underneath one.*
 
 | # | gate | status | what it means in one line |
 |---|---|---|---|
-| Tier 0 | categorical-axis screen | **PASSED** *(narrowed 2026-07-26)* | NR4A3 has chemistry the paralogues lack — but only at the aligned position, and the axis survives on **exposure**, not absence |
+| Tier 0 | categorical-axis screen | **PASSED — and now TESTED against paralogue DYNAMICS** | NR4A3 has chemistry the paralogues lack. The narrowing stands (the axis survives on **exposure**, not absence) and LANE 13 has now shown that exposure holds across 300 matched conformers: where the construct reaches an NR4A3-unique cysteine, **no EXPOSED paralogue cysteine is reachable in any scope** |
 | Tier 1 | differential surface atlas | **PASSED** | there is a surface to steer an E3 against |
 | Tier 2 | basin nomination | **PASSED** — *the covalent limb is no longer under review; it CLEARS* | at least one way to build a selective degrader exists, and the corrected geometry leaves **both** routes open — the covalent one included. It was briefly recorded here as possibly closed; the authoritative corrected+matched run says otherwise, and the block below carries the numbers |
 | RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
@@ -198,7 +198,43 @@ the fact that they share `classify()` with the path above.
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:36 PM ET**)
+## ✅ LANE 13 — DOES THE CATEGORICAL CASE SURVIVE PARALOGUE DYNAMICS? **YES.** (2026-07-26 2:49 PM ET)
+
+The assumption Tier 2 passed on was never that NR4A3's cysteines are unique — that is a sequence fact and was
+never in doubt. It was that a paralogue does not present some OTHER nucleophile that the SAME linker path
+reaches. A degrader does not care which cysteine it labels. That had only ever been checked on one static
+conformer per paralogue; this lane checked it on **300 matched conformers** (NR4A3 / NR4A1 / NR4A2, 100 each:
+25 metadynamics + 3 × 25 unbiased release) against **73 867 matched E3 placements**.
+
+**P(no paralogue cysteine reachable | the construct reaches an NR4A3-unique cysteine)**, at the preregistered
+**12-atom** gate:
+
+| scope | all cysteines | **solvent-exposed only** (RSA > 0.25) |
+|---|---|---|
+| static opened model | 1.000 | **1.000** |
+| **unbiased release ensemble** | 0.99876 | **1.000** |
+| metadynamics (biased) | 0.9971 | **1.000** |
+
+**On exposed cysteines the answer is exactly 1.000 in every scope** — `mean_P_any_EXPOSED_cysteine` is **0.0**
+for NR4A1 and **0.0** for NR4A2 throughout. The small non-zero co-labelling on the all-cysteine measure
+(0.12–0.29 %) is entirely on **buried** paralogue cysteines, which is reachability without labelability.
+NR4A2 is essentially absent on every measure (1 × 10⁻⁶ to 7 × 10⁻⁶).
+
+⚠ **STATE IT AS THE RARE-EVENT STATISTIC IT IS.** The conditioning event is thin by construction: a matched
+placement reaches an NR4A3-unique cysteine in **~0.04 %** of placements, i.e. **122 hit placements out of
+73 867** in the unbiased ensemble. That is what the 2 000 000-sample setting was bought for — 500 k gave
+single-digit events — but 122 is a small denominator and the ratio should not be quoted to five figures as
+though it were tight. **The defensible claim is the EXPOSED column: zero paralogue co-labelling events, not a
+probability estimated near one.**
+
+**Limits, from the artifact's own `_limits`:** reachability and exposure are necessary, not sufficient — no
+thiol pKa, nucleophilicity, adduct stability or promiscuity is modelled; each species' conformers are
+correlated within a replica, so the effective n is smaller than the frame count; and paralogue conformers are
+superposed into the NR4A3 reference frame, carrying a per-frame core-fit residual.
+
+---
+
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-26 2:49 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
@@ -211,7 +247,7 @@ dollars against a ~$4.3 projection for LANE 13 alone.
 
 | what | state | ETA (ET) |
 |---|---|---|
-| **LANE 13 categorical-dynamics analysis** (GitHub runner, $0 CPU) | running since **12:41 PM**, 115 min in — 2 000 000 rigid-body samples per (arm × pose) over the **300 matched conformers** now committed (NR4A3 100 / NR4A1 100 / NR4A2 100, each 25 metad + 3 × 25 release). This is the actual answer to whether paralogue DYNAMICS open a compensating site | ~**3:15 PM or later** — the task file's own `_analyse_samples_why` prices 2M samples at **~2.6 h of free CPU** for term (b) alone, with term (a) over 300 conformers on top. My earlier "~1:50 PM" was quoted without arithmetic and is withdrawn. The ops job's 350-min timeout leaves ample room |
+| ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Lane 13 is closed: legs, collect and analysis all landed |
 | **valB_mini reverse leg r0** (GCP L4 **on-demand**, VM `gcp-ternary-30177970643`) — *driven by the `max-effort-3hgq45` session* | **`production/680` of 2000**, VM up 1196 min. The last 59 min moved exactly **one** 40-iteration block, so no rate is read from it; over the whole **598 min** the leg runs **60.2 iter/h**, agreeing with the 62.3 measured an hour ago | **~Mon 7:20 AM – 12:35 PM**, centre ~noon. That is a few hours later than the `max-effort-3hgq45` session's ~Mon 8:40 AM but well inside the spread of both; its result keys the calibrator rescope |
 
 ⚠ **WHY NR4A1's REPLACEMENT HOST APPEARED TO STARVE ITS GPU — kept because the diagnosis outlived the leg,
