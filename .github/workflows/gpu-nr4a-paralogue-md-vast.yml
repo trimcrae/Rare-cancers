@@ -21,9 +21,19 @@ name: NR4A paralogue MD ensembles (Vast) — LANE 13
 #               serialising would be pure wall-clock for zero decision value)
 #   status / collect / analyse / reap / stop -> $0
 
+# WHY TWO BRANCHES ARE LISTED BELOW. The chain watch -> collect -> analyse is a sequence of ordinary commits
+# to the task file, so it can only continue on a branch this trigger accepts. The lane branch is where the
+# legs were launched from; the second entry is the branch carrying the guards that stop an EMPTY ensemble
+# becoming a verdict (`collect` raising on a 0-frame unpack, `ensemble_census` refusing --mode ensembles).
+# A push trigger is evaluated against the workflow file AT THE PUSHED COMMIT, so listing the branch here is
+# what makes a hand-off committed on it fire at all — and the hand-off has to run the guarded code, not the
+# code that would have queued an analysis over an empty tree. The path filter is unchanged: only a change to
+# the task file fires anything, so ordinary code pushes on either branch never start GPU work.
 on:
   push:
-    branches: [claude/max-effort-2dq11l-paralogue]
+    branches:
+      - claude/max-effort-2dq11l-paralogue
+      - claude/max-effort-2dq11l
     paths:
       - research/modalities/nr4a-paralogue-md-task.json
   workflow_dispatch:
