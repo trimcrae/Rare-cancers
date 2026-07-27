@@ -159,18 +159,35 @@ def stage_smoke(s3, bucket):
 
 def stage_leg(s3, bucket):
     """The real ONSTART composition, three times. The archive must count container starts in a shape the
-    guard parses, and the crash-loop brake must trip on the third rather than on a legitimate resume."""
-    from gpu_backend import _VAST_CRASHLOOP_BRAKE, _VAST_SELFSTOP
+    guard parses, and the crash-loop brake must trip on the third rather than on a legitimate resume.
+
+    ★ BUILT BY `_vast_onstart` ITSELF, from a real JobSpec, with only the pipeline BODY stubbed. A first
+    version of this pasted the brake, the trap and the pipeline into ONE shell — and that is not the
+    production topology: `_vast_onstart` ends with `bash -lc '<pipeline>'`, a CHILD process. The difference
+    is not cosmetic. In one shell the pipeline's own `trap s1f_stop_heartbeat EXIT` REPLACES
+    `trap ct_selfstop EXIT`, silently removing the job-kill — a harness that models it that way would be
+    testing a composition that never runs, and would have hidden exactly the trap collision it exists to
+    rule out. (That collision is separately pinned in tests/test_step1_liveness.py.)"""
+    from gpu_backend import JobSpec, ResourceSpec, _VAST_CRASHLOOP_BRAKE, _vast_onstart, VastBackend
     hold = max(6.0, SYNC_S * 2)
     starts_file = "/tmp/s1f_smoke_starts"
     try:
         os.remove(starts_file)
     except OSError:
         pass
+    spec = JobSpec(name="s1f-liveness-shakeout", command=["bash", "-lc", _stub_pipeline(hold)],
+                   image="unused-in-this-harness", resources=ResourceSpec(gpu="rtx4090"),
+                   checkpoint_uri=f"s3://{bucket}/{SMOKE_PREFIX.rstrip('/')}/ckpt",
+                   env={"RESULT_S3": _result_s3(), "BUCKET": bucket, "STAGE_PREFIX": cfv.STAGE_PREFIX,
+                        "RECEPTOR": "nr4a3", "S1F_SYNC_S": str(SYNC_S)})
+    body = _vast_onstart(spec, VastBackend().self_terminate_cmd())
     # The brake HOLDS IDLE forever when it trips — correct on a rental, useless in a test — so that one line
-    # becomes an observable exit. Everything else, including the trap and its ordering, is verbatim.
-    brake = _VAST_CRASHLOOP_BRAKE.replace("while true; do sleep 3600; done", "echo BRAKE_TRIPPED; exit 0")
-    body = "\n".join([brake, _VAST_SELFSTOP, "trap ct_selfstop EXIT", _stub_pipeline(hold)])
+    # becomes an observable exit. Everything else, including the traps and their ordering, is verbatim.
+    hold_line = _VAST_CRASHLOOP_BRAKE.split("\n")[-2]
+    if hold_line not in body:
+        raise SystemExit(f"[s1f-smoke] the brake's hold line {hold_line!r} is not in the onstart — the "
+                         f"substitution is stale and this would hang for an hour. Fix it, do not skip it.")
+    body = body.replace(hold_line, "  echo BRAKE_TRIPPED; exit 0")
     runs = []
     for i in range(3):
         r = _run(body, {"CT_STARTS": starts_file, "CT_WIN": "900", "CT_MAX": "3"})
@@ -219,6 +236,24 @@ def stage_verdict(s3, bucket):
 
 _STAGES = {"smoke": stage_smoke, "leg": stage_leg, "verdict": stage_verdict}
 
+# ★★ WHAT EACH STAGE MUST HAVE PROVEN, OR THE JOB GOES RED.
+#
+# The first shakeout run returned rc=127 with an empty S3 listing and reported the job GREEN, because the
+# script had written its record and exited 0 — "the plumbing did not throw" rendered as "the fleet was
+# measured". Those two must mean the same thing or the readout is worthless. A shakeout that cannot fail is
+# the same defect as a guard that cannot condemn.
+_MUST_HOLD = {
+    "smoke": [("rc", lambda d: d["rc"] == 0),
+              ("run_log_present", lambda d: d["run_log_present"]),
+              ("advanced_during_a_silent_phase", lambda d: d["advanced_during_a_silent_phase"])],
+    "leg": [("every_attempt_key_parses", lambda d: d["every_attempt_key_parses"]),
+            ("at least one container start recorded", lambda d: bool(d["start_ages_min"])),
+            ("brake_tripped_on_the_third_start_only", lambda d: d["brake_tripped_on_the_third_start_only"]),
+            ("the selfstop trap ran on the runs that reached it",
+             lambda d: any(r["selfstop_ran"] for r in d["runs"]))],
+    "verdict": [("both_directions_work", lambda d: d["both_directions_work"])],
+}
+
 
 def main():
     _guard_the_prefix()
@@ -243,6 +278,23 @@ def main():
         json.dump(prev, f, indent=2, default=str)
     print(json.dumps(doc, indent=2, default=str), flush=True)
     print(f"[s1f-smoke] wrote {OUT}", flush=True)
+
+    failed = []
+    for name, check in _MUST_HOLD[stage]:
+        try:
+            ok = bool(check(doc))
+        except Exception as e:  # noqa: BLE001 — a criterion that cannot be evaluated has not been met
+            ok, name = False, f"{name} (unevaluable: {type(e).__name__}: {e})"
+        if not ok:
+            failed.append(name)
+    prev[stage]["_criteria_failed"] = failed
+    with open(OUT, "w") as f:
+        json.dump(prev, f, indent=2, default=str)
+    if failed:
+        raise SystemExit(f"[s1f-smoke] STAGE {stage} DID NOT PROVE WHAT IT EXISTS TO PROVE: "
+                         + "; ".join(failed)
+                         + ". The record above is written and committed — do NOT wire the guard on this.")
+    print(f"[s1f-smoke] stage {stage}: every criterion met", flush=True)
     return 0
 
 

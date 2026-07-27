@@ -768,9 +768,49 @@ def mode_precheck():
     print("[s1f] PRECHECK OK — every unit's endpoints are staged from the common anchor pose")
 
 
-def _pending(s3, bucket, units):
-    """Units with no ddg.json in S3 yet, in map order."""
-    return [u for u in units if not _exists(s3, bucket, result_key(u, RESULT_PREFIX))]
+_BLOCKED_KEY_SUFFIX = "_blocked_units.json"
+
+
+def _load_blocked(s3, bucket):
+    """Units this lane will NOT rent a host for, with the reason and the evidence. Durable, in S3.
+
+    ★★ WHY THIS EXISTS (2026-07-27, s1f-09 cw_bio_nmethyl_amide). `_pending` meant "no ddg.json yet", and a
+    unit that CANNOT produce one never leaves it — so every launch tick rented a fresh host, the leg aborted
+    in minutes on the same defect, and the next tick rented another. It had already happened twice by the
+    time it was diagnosed (12:55 and 13:12 ET). An unbounded loop of short rentals is not a large bill per
+    attempt and is unbounded in time, which is the worst shape a spend can have.
+
+    IN S3, NOT IN A PROCESS OR A CONSTANT, for the same reason the machine exclusion is: a fact learned by
+    one CI run must bind the next one with no agent awake in between, and a code constant would not bind a
+    tick running the previous commit.
+
+    ⚠ A BLOCK IS NEVER SILENT. CLAUDE.md §6 names "holding silently" as a failure mode worse than the problem
+    — a fleet that never launches must not look like one that finished. `_pending` prints every block it
+    applies, `collect` writes them into the map artifact, and the entry carries `why` + `evidence` so the
+    paper can state exactly which edges were not computed and on what grounds.
+    """
+    doc = _get_json(s3, bucket, f"{RESULT_PREFIX}/{_BLOCKED_KEY_SUFFIX}") or {}
+    out = {k: v for k, v in (doc.get("units") or {}).items()}
+    for uid in (u.strip() for u in os.environ.get("FANOUT_BLOCK_UNITS", "").split(",")):
+        if uid:
+            out.setdefault(uid, {"why": "FANOUT_BLOCK_UNITS env override", "evidence": None})
+    return out
+
+
+def _pending(s3, bucket, units, blocked=None):
+    """Units with no ddg.json in S3 yet AND not blocked, in map order. Blocks are announced, never silent."""
+    blocked = _load_blocked(s3, bucket) if blocked is None else blocked
+    out = []
+    for u in units:
+        if _exists(s3, bucket, result_key(u, RESULT_PREFIX)):
+            continue
+        b = blocked.get(u["unit_id"])
+        if b:
+            print(f"[s1f] BLOCKED, not launching {u['unit_id']}: {b.get('why')}"
+                  + (f" (evidence: {b.get('evidence')})" if b.get("evidence") else ""))
+            continue
+        out.append(u)
+    return out
 
 
 _LAUNCH_LOG = []
@@ -1768,6 +1808,11 @@ def mode_collect():
                           "not established here — it rests on valA_mini + OpenFE's published benchmark for "
                           "this protocol.",
         "n_units": len(units), "n_complete": len(results),
+        # ★ EDGES THAT WILL NEVER COMPLETE, NAMED WITH THEIR REASON. This lane already keeps the
+        # charge-changing legs enumerable "so the paper can state exactly which species were NOT computed and
+        # why"; a blocked edge is the same obligation. A map that is silently 18 of 19 is a map nobody can
+        # grade.
+        "blocked_units": _load_blocked(s3, bucket),
         "results": sorted(results, key=lambda r: r["unit_id"]),
         "cycle_closure": closure,
         "cycle_closure_note": "Internal consistency only: a closed cycle does not make the map accurate, but "
@@ -1977,6 +2022,59 @@ def mode_diag():
     print(f"[s1f-diag] wrote step1-fanout-diag.txt ({len(out_lines)} blocks)")
 
 
+def mode_block():
+    """BLOCK a unit from ever being launched again, with a mandatory reason. Rents nothing, destroys nothing.
+
+    THE DIFFERENCE FROM `reap`, which is the whole point: `reap` condemns a HOST — this machine is bad, rent
+    another. `block` condemns a UNIT — no host will help, stop buying them. Applying the wrong one costs
+    real money in opposite directions: reaping a host for a unit-level defect rents a fresh box to fail
+    identically, and blocking a unit for a host-level defect abandons a perfectly good edge.
+
+    The first user is `e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral`, whose complex leg aborts
+    rc=1 on a provably-degenerate atom map that no available mapper can fix (LOMAP element_change=False 17,
+    element_change=True 19, Kartograf 18, against a provable floor of 20; both LOMAP budgets identical at
+    0.01 s, so the MCS timeout is measured NOT to be the mechanism — step1-map-diag.json). That is a fact
+    about the mappers on that edge, not about any rented host, so it is a block and not a reap.
+
+    UNBLOCKING IS DELIBERATE AND MANUAL (`FANOUT_UNBLOCK=1`): if a mapper ever reaches the floor for this
+    edge, the block should be lifted by someone who has seen that measurement, not by a tick that forgot."""
+    bucket, s3 = _require_bucket(), _s3()
+    uid = (os.environ.get("BLOCK_UNIT") or "").strip()
+    why = (os.environ.get("BLOCK_REASON") or "").strip()
+    if not uid:
+        raise SystemExit("[s1f] BLOCK_UNIT is required (a unit_id, or a substring matching exactly one)")
+    known = [u["unit_id"] for u in default_units()]
+    # A SUBSTRING IS ACCEPTED ONLY WHEN IT IS UNAMBIGUOUS. The workflow's selector input is a substring
+    # everywhere else, so demanding the full id here would be a trap; but resolving an ambiguous one to
+    # "the first match" would block an edge nobody named. Exact match wins outright.
+    if uid not in known:
+        hits = [k for k in known if uid in k]
+        if len(hits) != 1:
+            raise SystemExit(f"[s1f] {uid!r} matches {len(hits)} fan-out units ({hits[:5]}); refusing to "
+                             f"guess which edge to stop computing")
+        print(f"[s1f] {uid!r} -> {hits[0]}")
+        uid = hits[0]
+    doc = _get_json(s3, bucket, f"{RESULT_PREFIX}/{_BLOCKED_KEY_SUFFIX}") or {"units": {}}
+    doc.setdefault("units", {})
+    if os.environ.get("FANOUT_UNBLOCK") == "1":
+        removed = doc["units"].pop(uid, None)
+        print(f"[s1f] unblocked {uid} (was: {removed})")
+    else:
+        if not why:
+            raise SystemExit("[s1f] BLOCK_REASON is required — a block with no stated reason is an edge that "
+                             "silently vanishes from the map, which is the failure mode this guards against")
+        doc["units"][uid] = {"why": why, "evidence": os.environ.get("BLOCK_EVIDENCE") or None,
+                             "utc": _utcnow()}
+        print(f"[s1f] blocked {uid}: {why}")
+    doc["_what"] = ("units this lane will NOT rent a host for. A block is about the UNIT (no host can help); "
+                    "an exclusion in _excluded_machines.json is about the HOST. Both are durable in S3 so a "
+                    "tick with no agent awake inherits them.")
+    s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/{_BLOCKED_KEY_SUFFIX}",
+                  Body=json.dumps(doc, indent=2).encode())
+    print(json.dumps(doc, indent=2))
+    return 0
+
+
 def mode_stop():
     key = os.environ.get("VAST_API_KEY")
     if not key:
@@ -2048,7 +2146,7 @@ def mode_reap():
 
 _MODES = [("PLAN", mode_plan), ("STAGE", mode_stage), ("PRECHECK", mode_precheck), ("LAUNCH", mode_launch),
           ("COLLECT", mode_collect), ("MONITOR", mode_monitor), ("DIAG", mode_diag), ("REAP", mode_reap),
-          ("STOP", mode_stop)]
+          ("BLOCK", mode_block), ("STOP", mode_stop)]
 
 
 def main():

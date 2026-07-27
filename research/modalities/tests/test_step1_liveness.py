@@ -56,6 +56,19 @@ def _stub_aws(tmp_path):
     return str(aws), log
 
 
+def _can_unshare():
+    """Can this host actually build a private PID namespace?
+
+    ⚠ A FUNCTIONAL PROBE, NOT `which unshare`. The binary is present on a GitHub runner and the syscall is
+    NOT permitted there (`unshare: unshare failed: Operation not permitted` — unprivileged user namespaces
+    are disabled), so a which-based skip turned a capability gap into a red build. The dev sandbox does allow
+    it, which is where this reproduction is actually run."""
+    if shutil.which("unshare") is None:
+        return False
+    return subprocess.run(["unshare", "-fp", "--mount-proc", "true"],
+                          capture_output=True).returncode == 0
+
+
 def _run(script, tmp_path, timeout=30, **env):
     e = {**os.environ, "RESULT_S3": "s3://bucket/prefix", **env}
     return subprocess.run(["bash", "-c", script], capture_output=True, text=True, timeout=timeout, env=e,
@@ -96,6 +109,35 @@ def test_mark_refreshes_the_heartbeat_so_a_phase_change_is_never_a_silent_gap():
     p = cfv._PREAMBLE
     mark = p[p.index("mark() {"):p.index("# --- container-start archive")]
     assert '"$RESULT_S3/run.log"' in mark
+
+
+def test_the_pipelines_EXIT_trap_cannot_replace_the_onstarts():
+    """★★ TWO EXIT TRAPS, AND THEY MUST NOT BE IN THE SAME SHELL.
+
+    The onstart arms `trap ct_selfstop EXIT`; the pipeline now arms `trap s1f_stop_heartbeat EXIT`. In bash a
+    second `trap ... EXIT` in the SAME shell REPLACES the first — so if the pipeline ever ran inline rather
+    than as a child, arming the heartbeat's cleanup would silently delete ct_selfstop, and the job would stop
+    being killed on exit. Nothing would report it: both traps run, both print, and the missing one is the one
+    that never ran.
+
+    It is safe because `_vast_onstart`'s last line is `bash -lc '<pipeline>'` — a CHILD process with its own
+    trap table. That is a property of the composition, not of the pipeline text, so it is pinned here.
+
+    This was found the expensive-ish way: the first liveness shakeout harness pasted the brake, the trap and
+    the pipeline into one shell, and its `selfstop_ran` column read False.
+    """
+    from gpu_backend import _vast_onstart, VastBackend
+    units = cfv.default_units()
+    spec = cfv.build_jobspec(units[0], "some-branch", "some-bucket", 0)
+    s = _vast_onstart(spec, VastBackend().self_terminate_cmd())
+    # The pipeline is invoked as a quoted argument to a NEW bash, not spliced into this script.
+    tail = s[s.index("trap ct_selfstop EXIT"):]
+    assert tail.count("trap ct_selfstop EXIT") == 1
+    body = tail.split("\n", 1)[1]
+    assert body.startswith("bash -lc "), body[:80]
+    # ...and the heartbeat's own trap lives inside that quoted argument, i.e. in the child.
+    assert "trap s1f_stop_heartbeat EXIT" in body
+    assert "trap s1f_stop_heartbeat EXIT" not in tail.split("\n", 1)[0]
 
 
 def test_the_whole_onstart_including_the_heartbeat_is_valid_bash():
@@ -206,7 +248,9 @@ def test_the_heartbeat_has_a_hard_ttl_past_the_units_own_runtime_cap(tmp_path):
 # 4. THE EXIT-TRAP INTERACTION, reproduced in the topology Vast actually runs
 # ---------------------------------------------------------------------------------------------------------
 
-@pytest.mark.skipif(shutil.which("unshare") is None, reason="needs unshare to build the PID namespace")
+@pytest.mark.skipif(not _can_unshare(),
+                    reason="this host cannot create a private PID namespace (GitHub runners disable "
+                           "unprivileged user namespaces); the reproduction runs in the dev sandbox")
 def test_the_heartbeat_does_not_break_or_outlive_the_onstart_EXIT_trap(tmp_path):
     """★★ THE TEST THE PREVIOUS LANE STOPPED FOR, RUN RATHER THAN REASONED ABOUT.
 

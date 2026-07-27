@@ -17,9 +17,9 @@ on:
         options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, s1f_liveness]
         default: fusion
       fanout_mode:
-        description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad host) | stop"
+        description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
         type: choice
-        options: [plan, stage, precheck, launch, launch_confirm, collect, monitor, diag, reap, stop]
+        options: [plan, stage, precheck, launch, launch_confirm, collect, monitor, diag, reap, block, stop]
         default: plan
       vast_launch:
         description: "vast_smoke only: actually rent+destroy a GPU (spends a few cents)"
@@ -1323,6 +1323,14 @@ jobs:
       # Distinct from `stop`, which destroys and says nothing about the machine. Requires both a selector and
       # a reason; the script refuses a blank either way.
       REAP: ${{ github.event.inputs.fanout_mode == 'reap' && '1' || '0' }}
+      # BLOCK = stop launching a UNIT (no host can fix it), as opposed to REAP which condemns a HOST.
+      # Applying the wrong one costs money in opposite directions: reaping for a unit-level defect rents a
+      # fresh box to fail identically; blocking for a host-level defect abandons a good edge. Reuses the
+      # existing selector/args inputs because workflow_dispatch caps at 25 and this file is at the cap.
+      BLOCK: ${{ github.event.inputs.fanout_mode == 'block' && '1' || '0' }}
+      BLOCK_UNIT: ${{ github.event.inputs.vast_selector }}
+      BLOCK_REASON: ${{ github.event.inputs.ternary_extra_args }}
+      BLOCK_EVIDENCE: ${{ github.event.inputs.cofold_output_prefix }}
       REAP_REASON: ${{ github.event.inputs.ternary_extra_args }}
       STOP: ${{ github.event.inputs.fanout_mode == 'stop' && '1' || '0' }}
     steps:
@@ -1735,23 +1743,26 @@ jobs:
         run: |
           python -m pip install -q pytest boto3 rdkit
           python -m pytest research/modalities/tests/test_step1_liveness.py -q
-      # Runs on the RUNNER, not in the image: what is under test is a bash loop plus `aws s3 cp`, and the
-      # runner has both. The image adds nothing here and costs a pull. (`map_diag` needs the image because
-      # openfe's mapper is the thing being measured; this does not.)
-      - name: Install the aws CLI the pipeline calls
-        run: pip install -q awscli
-      - name: STAGE 1 — smoke (does the heartbeat survive a silent phase?)
-        working-directory: research/modalities
-        env: { SMOKE_STAGE: smoke }
-        run: python step1_liveness_smoke.py
-      - name: STAGE 2 — one real onstart, three container starts
-        working-directory: research/modalities
-        env: { SMOKE_STAGE: leg }
-        run: python step1_liveness_smoke.py
-      - name: STAGE 3 — the guard's verdict on the real evidence, both directions
-        working-directory: research/modalities
-        env: { SMOKE_STAGE: verdict }
-        run: python step1_liveness_smoke.py
+      # ⚠ INSIDE THE PARITY IMAGE, AND THIS IS NOT A STYLE CHOICE. The first version of this job ran the
+      # stages on the bare runner, reasoning that "a bash loop plus `aws s3 cp`" needs no image. It came back
+      # rc=127 with nothing in S3: `_PREAMBLE` hard-codes `/opt/mamba/envs/rbfe/bin/{python,aws}` and runs
+      # under `set -eo pipefail`, so on a host without them the script dies on its first command and the
+      # shakeout measures nothing while reporting a completed run. The shakeout caught it, which is the
+      # entire argument for having one.
+      - name: Shakeout — smoke, then one real onstart, then the guard's verdict (parity image)
+        run: |
+          set -eo pipefail
+          IMG="${S1F_LIVENESS_IMAGE:-triskit23/nr4a3fep}"
+          for stage in smoke leg verdict; do
+            echo "::group::STAGE $stage"
+            docker run --rm --entrypoint python \
+              -v "$PWD/research/modalities:/work/research/modalities" \
+              -w /work/research/modalities \
+              -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION \
+              -e VAST_CKPT_BUCKET -e SMOKE_SYNC_S -e SMOKE_STAGE="$stage" \
+              "docker.io/$IMG:latest" step1_liveness_smoke.py
+            echo "::endgroup::"
+          done
       - name: Commit the shakeout record back to the triggering branch
         if: ${{ always() }}
         run: |

@@ -48,7 +48,7 @@ def health_check(pe, ke, n_atoms, n_constraints):
     return temp_k, bool(finite and 150.0 < temp_k < 450.0)
 
 
-def _bench(edge_nm, steps, warmup, dt_fs):
+def _bench(edge_nm, steps, warmup, dt_fs, minimize_iters=200):
     import openmm as mm
     import openmm.app as app
     import openmm.unit as u
@@ -106,7 +106,7 @@ def _bench(edge_nm, steps, warmup, dt_fs):
 
     sim = app.Simulation(modeller.topology, system, integrator, platform, props)
     sim.context.setPositions(modeller.positions)
-    sim.minimizeEnergy(maxIterations=200)
+    sim.minimizeEnergy(maxIterations=minimize_iters)
     sim.context.setVelocitiesToTemperature(300 * u.kelvin)
 
     sim.step(warmup)                      # exclude JIT + equilibration transient
@@ -162,7 +162,32 @@ def _bench(edge_nm, steps, warmup, dt_fs):
         pass
     return dict(atoms=n_atoms, platform=plat_name, device=dev, wall_s=wall_s,
                 ns_per_day=ns_per_day, steps=total_steps, blocks=blocks,
-                block_ns_day=block_ns_day, sd=sd, cv=cv, temp_k=temp_k, pe=pe, healthy=healthy)
+                block_ns_day=block_ns_day, sd=sd, cv=cv, temp_k=temp_k, pe=pe, healthy=healthy,
+                minimize_iters=minimize_iters)
+
+
+# ★★ THE NaN RETRY LADDER, AND WHY IT DOES NOT CHANGE THE MEASURED QUANTITY (2026-07-27).
+#
+# OBSERVED: 5 of ~21 calibration rentals died with `OpenMMException: Particle coordinate is NaN` during
+# minimise/warmup, producing no measurement at all — one of them the RTX 5090, the single highest-value
+# unbenched card on the board. Each failure costs a whole rental.
+#
+# ROOT CAUSE, with the observation that DISCRIMINATES rather than a story: machine 117850 NaN'd on one run and
+# succeeded on the next, same code, same image, same card. So the failure is STOCHASTIC, not host-specific and
+# not card-specific. The stochastic input is `setVelocitiesToTemperature`, which is unseeded — a fresh velocity
+# draw each run — landing on a box that has had only 200 minimisation iterations after `addSolvent` and is then
+# integrated at 4 fs with HMR. Occasionally a residual clash survives and blows up.
+#
+# WHY THE FIX IS A RETRY LADDER AND NOT SIMPLY "MINIMISE HARDER":
+#   * The first attempt is BYTE-FOR-BYTE the protocol the anchors were measured on. A run that succeeds is
+#     therefore unchanged — the protocol only differs where it previously produced NOTHING.
+#   * Minimisation is a PREPARATION step. Steady-state ns/day is set by particle count, cutoff, PME grid and
+#     integrator, none of which it touches; the timed blocks begin after a further 1000 warmup steps and a
+#     probe. A better-minimised box integrates at exactly the same rate.
+#   * That neutrality is checkable rather than asserted: `minimize_iters` and `attempt` travel on the result
+#     line, so any number produced after a retry is visible and can be compared against the same card's
+#     first-attempt cluster.
+_MINIMIZE_LADDER = (200, 2000, 20000)
 
 
 def main():
@@ -171,10 +196,21 @@ def main():
     warmup = int(os.environ.get("BENCH_WARMUP", "1000"))
     dt_fs = float(os.environ.get("BENCH_DT_FS", "4.0"))
     tag = os.environ.get("BENCH_TAG", "bench")
-    try:
-        r = _bench(edge_nm, steps, warmup, dt_fs)
-    except Exception as e:  # noqa: BLE001
-        print(f"BENCH_RESULT tag={tag} status=ERROR err={type(e).__name__}:{e}", flush=True)
+    ladder = _MINIMIZE_LADDER[:max(1, int(os.environ.get("BENCH_MAX_ATTEMPTS", str(len(_MINIMIZE_LADDER)))))]
+    r, last, attempt = None, None, 0
+    for attempt, mi in enumerate(ladder, start=1):
+        try:
+            r = _bench(edge_nm, steps, warmup, dt_fs, minimize_iters=mi)
+            break
+        except Exception as e:  # noqa: BLE001
+            last = e
+            print(f"[bench] attempt {attempt}/{len(ladder)} at minimize_iters={mi} FAILED "
+                  f"({type(e).__name__}: {e}); retrying with a harder minimisation" if attempt < len(ladder)
+                  else f"[bench] attempt {attempt}/{len(ladder)} at minimize_iters={mi} FAILED "
+                       f"({type(e).__name__}: {e}); no attempts left", flush=True)
+    if r is None:
+        print(f"BENCH_RESULT tag={tag} status=ERROR attempts={len(ladder)} "
+              f"err={type(last).__name__}:{last}", flush=True)
         sys.exit(1)
     # Single parsable line the launcher scrapes from the serial console. The launcher parses it by
     # `line.split()` then `kv.split("=", 1)`, so ANY VALUE CONTAINING A SPACE IS SILENTLY TRUNCATED at the first
@@ -187,6 +223,7 @@ def main():
           f"steps={r['steps']} dt_fs={dt_fs} wall_s={r['wall_s']:.1f} "
           f"ns_per_day={r['ns_per_day']:.2f} sd={r['sd']:.2f} cv={r['cv']:.4f} blocks={r['blocks']} "
           f"blocks_ns_day={','.join('%.2f' % x for x in r['block_ns_day'])} "
+          f"attempt={attempt} minimize_iters={r['minimize_iters']} "
           f"final_temp_k={r['temp_k']:.1f} healthy={r['healthy']}", flush=True)
 
 
