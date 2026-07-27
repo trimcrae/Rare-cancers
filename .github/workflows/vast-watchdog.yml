@@ -81,6 +81,28 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
+      # ★★ THE ENGINE IS MAIN'S; THE WATCH LIST IS THE LAUNCHER'S. A `schedule:` only fires from the default
+      # branch and the checkout above is bare, so this job runs MAIN's vast-watch.json — while
+      # congeneric_fanout_vast._arm_watchdog writes that file inside a CI job that commits to the FLEET
+      # BRANCH. Arming therefore lands somewhere this tick never looks: the single shakeout entry is on main
+      # only because a lane happened to merge, and the eighteen units the terminus gate releases would not be.
+      # Fold the fleet branch's list in first. Every failure path leaves the checked-out file byte-untouched,
+      # so the fallback is exactly the previous behaviour — and the validate step below still runs on the
+      # merged file, so a malformed branch list ABORTS the pass rather than steering it. The logic lives in
+      # the tested module, never inline: an inline `python3 -c` at column 0 is what made this repo's other
+      # watchdog file invalid YAML, and a cron on an unparseable file simply never fires.
+      - name: Fold in the fleet branch's watch list (arming happens there, not on main)
+        run: |
+          set -eo pipefail
+          FLEET=$(python - <<'PY'
+          import re
+          s = open(".github/workflows/step1-fanout-autoscale.yml").read()
+          m = re.search(r"fleet_branch \|\| '([^']+)'", s)
+          print(m.group(1) if m else "")
+          PY
+          )
+          echo "fleet branch resolved from step1-fanout-autoscale.yml: '$FLEET'"
+          python research/modalities/vast_watchdog.py --merge-branch-list "$FLEET"
       - name: The watchdog itself is alive and parsing
         # MAKE "IT RAN AT ALL" OBSERVABLE. On 2026-07-25 the GCP watchdog was given an inline `python3 -c`
         # guard whose lines sat at column 0; that dedents them out of the `run: |` block and makes the whole

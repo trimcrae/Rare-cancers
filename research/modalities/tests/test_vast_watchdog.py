@@ -773,3 +773,56 @@ def test_the_reaper_is_a_no_op_without_a_vast_key_rather_than_a_silent_success()
     finally:
         if orig is not None:
             os.environ["VAST_API_KEY"] = orig
+
+
+# ================================================================= WHERE THE WATCH LIST ACTUALLY LIVES
+# LANE 21, 2026-07-26. `_arm_watchdog` exists so that "an 18-unit wave that arms nothing would put eighteen
+# billed GPUs beyond any monitoring". It writes vast-watch.json inside a CI job that commits to the FLEET
+# BRANCH; vast-watchdog.yml fires from `schedule`, which only fires from the default branch, and checks out
+# main. So the arming lands where the tick never looks. The single shakeout entry is on main only because a
+# lane happened to merge.
+def test_an_unreachable_branch_leaves_the_checked_out_list_byte_identical():
+    """The fallback has to be exactly today's behaviour — this sits in front of a scheduled job whose
+    documented worst failure mode is not running at all."""
+    import hashlib
+    before = hashlib.sha256(open(vw.WATCH_FILE, "rb").read()).hexdigest()
+    msg = vw.merge_branch_watch_list("no/such/branch/lane21")
+    after = hashlib.sha256(open(vw.WATCH_FILE, "rb").read()).hexdigest()
+    assert before == after, "a failed fetch must not touch the file"
+    assert "could not read" in msg and "UNWATCHED" in msg, msg
+
+
+def test_an_empty_branch_name_is_a_no_op_not_a_crash():
+    msg = vw.merge_branch_watch_list("")
+    assert "unchanged" in msg
+
+
+def test_merging_a_real_branch_leaves_a_valid_watch_list():
+    """Whatever it does, the result must still pass the same validation the tick gates on."""
+    import hashlib
+    before = open(vw.WATCH_FILE, "rb").read()
+    try:
+        msg = vw.merge_branch_watch_list("main")
+        assert "⚠" not in msg or "could not read" in msg, msg
+        doc = json.load(open(vw.WATCH_FILE))
+        assert isinstance(doc.get("watch"), list) and doc["watch"]
+        assert not wdv.validate(doc, known_kinds=set(vw.KINDS))
+    finally:
+        with open(vw.WATCH_FILE, "wb") as fh:
+            fh.write(before)
+    assert hashlib.sha256(open(vw.WATCH_FILE, "rb").read()).hexdigest() == \
+        hashlib.sha256(before).hexdigest()
+
+
+def test_the_workflow_folds_the_branch_list_in_before_it_validates_or_ticks():
+    """Order is the whole point: merge, then validate the merged file, then act on it. Validating main's copy
+    and then ticking on a merged one would be a guard on the wrong bytes."""
+    import yaml
+    with open(os.path.join(WF_DIR, "vast-watchdog.yml")) as fh:
+        wf = yaml.safe_load(fh)
+    names = [str(s.get("name", "")) for s in wf["jobs"]["watch"]["steps"]]
+    runs = [str(s.get("run", "")) for s in wf["jobs"]["watch"]["steps"]]
+    i_merge = next(i for i, r in enumerate(runs) if "--merge-branch-list" in r)
+    i_valid = next(i for i, r in enumerate(runs) if "watchdog_validate.py research/modalities/vast-watch.json" in r)
+    i_tick = next(i for i, r in enumerate(runs) if "--tick" in r)
+    assert i_merge < i_valid < i_tick, names
