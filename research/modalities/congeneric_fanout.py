@@ -325,6 +325,71 @@ def cost_plan(n_units, gpu_h=None):
     return round(n_units * (gpu_h[0] + gpu_h[1]) / 2 * _usd_per_ref_gpu_h()[1], 2)
 
 
+def reference_ns_per_unit(gpu_h=None):
+    """Delivered nanoseconds of MD per unit, on the reference card. PURE.
+
+    The bridge between the ladder (which is denominated in reference GPU-HOURS) and the market guard (which
+    must reason in $/ns, because that is the only figure that compares a cheap slow card against an expensive
+    fast one). Both terms are derived: the GPU-hours from `vast_cost_model.LADDER_REFERENCE_GPU_H`, the ns/h
+    from the validated card table. Nothing here is typed."""
+    gpu_h = gpu_h if gpu_h is not None else UNIT_GPU_H
+    return (gpu_h[0] + gpu_h[1]) / 2.0 * _vcm.REFERENCE_NS_PER_H
+
+
+def basis_usd_per_ns():
+    """The rung's OWN $/ns basis — what the ladder figure everybody quotes was actually bought at. PURE.
+
+    ★ WHY THE LADDER BASIS AND NOT A NIGHT'S OBSERVATIONS (LANE 21, 2026-07-27). Three reasons, and the
+    second is the one that matters:
+      1. The **authorisation** ($15-80 for this tranche) was granted against the ladder. A guard whose job is
+         "do not spend past what was authorised" has to measure against the thing that was authorised.
+      2. Anchoring to recent observations is **self-ratcheting**: a bad night raises the ceiling, so the guard
+         comes to permit exactly the market it exists to refuse. Tonight's $0.333/hr median floor would
+         quietly become tomorrow's normal, and the rule would decay into a rubber stamp within a week.
+      3. It is not stale-by-construction anyway — `plan_usd_per_reference_gpu_h` is regenerated from a real
+         snapshot by `vast_cost_model.py`, so the basis does move with the market. It moves when a human runs
+         the repricing, which is the point: the market may not raise its own ceiling automatically.
+    """
+    return _usd_per_ref_gpu_h()[1] / _vcm.REFERENCE_NS_PER_H
+
+
+def projected_tranche_usd(usd_per_ns, n_units):
+    """What `n_units` would cost at an achievable $/ns. PURE. The guard's headline number.
+
+    Deliberately expressed in DOLLARS rather than as a $/ns ratio: the authorisation is a dollar band, and
+    "$87 against an $80 ceiling" is a sentence somebody can act on at 3 AM. A ratio is not."""
+    if usd_per_ns is None:
+        return None
+    return round(float(usd_per_ns) * reference_ns_per_unit() * int(n_units), 2)
+
+
+def market_ceiling_usd(n_units):
+    """The most `n_units` may cost before a launch is refused. PURE, and DERIVED — never typed.
+
+    It is the TOP OF THE RUNG'S OWN BAND, `cost_estimate(n)[1]`, i.e. the same number STRATEGY.md publishes
+    as the high edge of $15-80. Choosing the band top rather than a hand-picked multiple means the guard
+    enforces exactly the authorisation and nothing of its own invention, and it re-derives itself whenever
+    the ladder is repriced.
+
+    It also lands where the instruction did, which is a check rather than a coincidence: the band top is
+    ~2.26x the plan figure, and trimcrae's phrasing was "pay double per ns"."""
+    return cost_estimate(n_units)[1]
+
+
+def market_verdict(best_usd_per_ns, n_units):
+    """(ok, projected_usd, ceiling_usd, ratio_vs_basis) for a fleet of `n_units`. PURE.
+
+    `best_usd_per_ns=None` means the board offered nothing we can price — no benched card, or no offer at
+    all. That is a HOLD, not a launch: an unpriceable market is the one case where guessing is worst."""
+    ceiling = market_ceiling_usd(n_units)
+    if best_usd_per_ns is None:
+        return False, None, ceiling, None
+    projected = projected_tranche_usd(best_usd_per_ns, n_units)
+    basis = basis_usd_per_ns()
+    ratio = round(float(best_usd_per_ns) / basis, 3) if basis > 0 else None
+    return (projected <= ceiling), projected, ceiling, ratio
+
+
 def wave_plan(n_units, width=8, unit_h=None):
     """Wall-clock shape of running n units `width`-wide. Vast rents independent hosts, so `width` is a
     self-imposed concurrency cap (cost/blast-radius control), not a provider quota."""

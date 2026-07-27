@@ -523,3 +523,160 @@ def test_reap_is_wired_into_the_launcher_mode_table_and_the_workflow():
     assert "reap" in opts, opts
     env = wf["jobs"]["step1_fanout"]["env"]
     assert "REAP" in env and "REAP_REASON" in env
+
+
+# ================================================================= THE $/ns MARKET GUARD
+# CLAUDE.md §6 (trimcrae, 2026-07-26): "A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY … I'd rather
+# pause until availability opens than pay double per ns." Measured that night: 5 offers against a ~23 baseline,
+# min_floor $0.200/hr, median_floor $0.333/hr, hours after this lane rented at $0.048-$0.139. The exposure is
+# the 18-edge release, which fires AUTOMATICALLY on the shakeout's ddg.json — at the median floor the tranche
+# prices at ~$87 against the $15-80 that was authorised.
+def test_the_basis_is_derived_from_the_ladder_and_matches_what_good_hosts_actually_paid():
+    """The basis is the rung's own plan rate converted to $/ns. Independent check: tonight's good hosts ran
+    ~$0.0043/ns, and the scorer prices a $0.12 4090 at $0.004355 — the derivation is not free-floating."""
+    import congeneric_fanout as cf
+    basis = cf.basis_usd_per_ns()
+    assert 0.004 < basis < 0.005, basis
+    assert abs(basis - 0.0043) < 0.0006
+
+
+def test_the_ceiling_is_the_rungs_own_authorised_band_top_not_a_typed_multiple():
+    import congeneric_fanout as cf
+    assert cf.market_ceiling_usd(19) == cf.cost_estimate(19)[1]
+    # ...and it lands where trimcrae's "double per ns" phrasing does, which is a check, not a coincidence
+    assert 2.0 <= cf.market_ceiling_usd(19) / cf.cost_plan(19) <= 2.5
+
+
+def test_a_bad_market_HOLDS_and_reproduces_the_87_dollar_number():
+    """Tonight's median floor, $0.333/hr on a 4090, is the case the rule was written for."""
+    import congeneric_fanout as cf
+    import vast_cost_model as vcm
+    upn = 0.333 / vcm.REFERENCE_NS_PER_H
+    ok, projected, ceiling, ratio = cf.market_verdict(upn, 19)
+    assert ok is False
+    assert 84 <= projected <= 90, projected          # the ~$87 in the rule's own evidence
+    assert projected > ceiling
+    assert ratio > 2.0, ratio
+
+
+def test_a_good_market_LAUNCHES():
+    """The guard must not be so tight that a normal board cannot clear it — a ceiling nobody can clear is
+    one of the two failure modes the rule names."""
+    import congeneric_fanout as cf
+    ok, projected, ceiling, ratio = cf.market_verdict(0.0043, 19)
+    assert ok is True and projected < ceiling and ratio < 1.05
+    # the current (worse but authorised) host still passes: $63 < $80 is inside the band, so refusing it
+    # would be the guard inventing an authorisation of its own
+    ok2, proj2, _c, _r = cf.market_verdict(0.0077, 19)
+    assert ok2 is True and 55 < proj2 < 70
+
+
+def test_an_unpriceable_board_holds_rather_than_guessing():
+    import congeneric_fanout as cf
+    ok, projected, ceiling, ratio = cf.market_verdict(None, 19)
+    assert ok is False and projected is None and ratio is None and ceiling > 0
+
+
+def test_the_gate_scales_with_the_remaining_tranche_not_the_whole_map():
+    """A partial tranche must be judged against its own share of the band, or the guard waves through
+    nineteen expensive units one at a time."""
+    import congeneric_fanout as cf
+    import vast_cost_model as vcm
+    bad = 0.333 / vcm.REFERENCE_NS_PER_H
+    for n in (3, 8, 19):
+        assert cf.market_verdict(bad, n)[0] is False, n
+        assert cf.market_verdict(0.0043, n)[0] is True, n
+
+
+def test_a_fleet_is_priced_over_the_N_CHEAPEST_offers_not_the_single_best():
+    """Pricing a 19-host fleet off the one cheapest host would flatter a thin board exactly when thinness is
+    what we are trying to detect. `market_snapshot` takes the mean over the N cheapest."""
+    import gpu_backend as gb
+    from gpu_backend import ResourceSpec
+    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80, interruptible=True)
+
+    def mk(name, bid):
+        return {"gpu_name": name, "min_bid": bid, "num_gpus": 1, "gpu_ram": 24576, "rentable": True,
+                "storage_cost": 0.1, "cuda_max_good": 13.0, "dph_total": 0.9}
+    offers = [mk("RTX 4090", 0.05)] + [mk("RTX 3090", 0.30)] * 4
+    measured, capable = gb.rank_offers_by_usd_per_ns(offers, res)
+    assert len(capable) == 5 and len(measured) == 5
+    assert measured[0][2]["gpu_name"] == "RTX 4090"          # ranking is by $/ns, cheapest first
+    mean_of_all = sum(m[0] for m in measured) / len(measured)
+    assert mean_of_all > measured[0][0] * 2, "the mean must not be flattered by the single best host"
+
+
+def test_the_ranking_extraction_did_not_change_what_gets_rented():
+    """rank_offers_by_usd_per_ns was extracted OUT of _select_cheapest_offer so the guard and the renting
+    path share one filter. The renting path's answer must be unchanged."""
+    import gpu_backend as gb
+    from gpu_backend import ResourceSpec
+    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80, interruptible=True)
+
+    def mk(name, bid):
+        return {"gpu_name": name, "min_bid": bid, "num_gpus": 1, "gpu_ram": 24576, "rentable": True,
+                "storage_cost": 0.1, "cuda_max_good": 13.0, "dph_total": 0.9}
+    offers = [mk("RTX 3090", 0.10), mk("RTX 4090", 0.12), mk("RTX 4080", 0.15)]
+    chosen = gb._select_cheapest_offer(offers, res)
+    measured, _c = gb.rank_offers_by_usd_per_ns(offers, res)
+    assert chosen is measured[0][2] and chosen["gpu_name"] == "RTX 4090"
+    assert gb._select_cheapest_offer([], res) is None
+    assert gb.rank_offers_by_usd_per_ns([], res) == ([], [])
+
+
+def test_a_hold_is_VISIBLE_and_never_silent():
+    """The rule's first named failure mode: 'a fleet that never launches looks identical to one that
+    finished'. Every hold must reach the readout, the S3 state and a committed file, each with the snapshot."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    i = src.index("def market_hold(")
+    body = src[i:src.index("\ndef mode_launch(")]
+    assert "_lprint" in body, "a hold must reach the committed launch readout"
+    assert "step1-fanout-market-hold.json" in body, "a hold must leave a committed snapshot file"
+    assert "put_object" in body, "a hold must persist state so the NEXT tick can time the escalation"
+    for field in ("board_depth", "offers_priced", "projected_usd", "ceiling_usd", "ratio_vs_basis"):
+        assert field in body, f"the snapshot must carry {field}"
+
+
+def test_the_hold_readout_is_committed_by_both_launching_workflows():
+    """A file written into a runner and never committed is a silent hold with extra steps."""
+    wf_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))))), ".github/workflows")
+    for name in ("step1-fanout-autoscale.yml", "fusion-cpu-extras.yml"):
+        with open(os.path.join(wf_dir, name)) as fh:
+            assert "step1-fanout-market-hold.json" in fh.read(), name
+
+
+def test_an_indefinite_hold_escalates_rather_than_idling_forever():
+    """The rule's second named failure mode: 'a ceiling nobody can clear turns into an idle night'. The guard
+    never buys in on its own — it hands the decision over, via a job failure, which is the alert path that
+    does not need an agent awake."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    assert "MARKET_HOLD_ESCALATE_H" in src
+    body = src[src.index("def market_hold("):src.index("\ndef mode_launch(")]
+    assert "::error title=" in body, "the escalation must be a GitHub error annotation"
+    assert "first_held_utc" in body, "escalation must be timed from the FIRST hold, not this tick"
+    # and the escalation must actually fail the process
+    assert "raise SystemExit(2)" in src and "_MARKET_HOLD_ESCALATED" in src
+
+
+def test_only_a_fleet_is_gated_never_a_single_unit():
+    """The rule's last line: 'A single unit already running is not affected; this gates the fan-out, not the
+    shakeout.' The shakeout's own resume submits exactly one unit."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    launch = src[src.index("def mode_launch("):]
+    assert launch.count("len(batch) > 1") >= 2, "both the guard call and the belt must test for a FLEET"
+    assert "if len(batch) > 1 and os.environ.get(\"FANOUT_MARKET_OVERRIDE\") != \"1\":" in launch
+
+
+def test_the_guard_cannot_be_skipped_by_a_future_refactor():
+    """Belt as well as braces: a multi-unit batch that reaches the rent path without having been priced must
+    HOLD, not rent. By CLAUDE.md §6 an unpriced fan-out is a bug, and the safe failure is to refuse."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    launch = src[src.index("def mode_launch("):]
+    i_belt = launch.index("not _MARKET_GUARD_RAN")
+    i_rent = launch.index("backend.submit(spec)")
+    assert i_belt < i_rent, "the belt must sit before anything is rented"

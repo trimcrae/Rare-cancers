@@ -1269,7 +1269,12 @@ jobs:
       # A job log is only readable from its tail, and the tail is always runner boilerplate — so the readout
       # that matters is committed back to the branch instead. Also leaves a timestamped trail of the fleet.
       - name: Commit the progress / map readout back to the branch
-        if: ${{ always() && (github.event.inputs.fanout_mode == 'monitor' || github.event.inputs.fanout_mode == 'collect' || github.event.inputs.fanout_mode == 'diag') }}
+        # `launch` and `launch_confirm` are here because the $/ns market guard writes
+        # step1-fanout-market-hold.json on EVERY pass, and CLAUDE.md §6's first named failure mode is a
+        # SILENT hold — 'a fleet that never launches looks identical to one that finished'. A hold that
+        # exists only inside a runner is exactly that. The autoscale already commits it; a hand-dispatched
+        # launch must too, or the one path a human drives is the one path with no record.
+        if: ${{ always() && (github.event.inputs.fanout_mode == 'monitor' || github.event.inputs.fanout_mode == 'collect' || github.event.inputs.fanout_mode == 'diag' || github.event.inputs.fanout_mode == 'launch' || github.event.inputs.fanout_mode == 'launch_confirm') }}
         run: |
           set -e
           cd "$GITHUB_WORKSPACE"
@@ -1279,7 +1284,7 @@ jobs:
           # a monitor run (which writes progress.json but not map.json) staged nothing at all and reported
           # "no readout change" while silently swallowing the error.
           staged=0
-          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt; do
+          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt step1-fanout-market-hold.json step1-fanout-launch-readout.txt; do
             if [ -f "research/modalities/$f" ]; then
               git add -f "research/modalities/$f"; staged=1; echo "staged $f"
             else
