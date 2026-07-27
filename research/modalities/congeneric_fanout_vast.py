@@ -1604,8 +1604,21 @@ def mode_monitor():
                         print(f"[s1f] condemn {iid} failed: {e} — leaving the strike in place, will retry")
                         new_start_state[iid] = {"strikes": strikes, "age_min": age, "utc": _utcnow()}
                         continue
-                    if mid is not None and _record_exclusion(s3, bucket, mid, why):
-                        print(f"[s1f] machine {mid} added to the lane exclusion set: {why}")
+                    # ★★ HOST SCOPE, NOT LANE SCOPE (2026-07-27, after machine 1569 took TEN relaunches).
+                    # "cur_state=stopped with an empty status_msg — the container never executed" is the
+                    # textbook host-scoped verdict: `vast_machine_blacklist.__doc__` names "a container that
+                    # never executes" as its own example of a fact that transfers without an argument.
+                    # Nothing about THIS workload enters the judgement — the box did not get as far as our
+                    # image. Left at the default `lane`, every other lane pays its own rental to rediscover
+                    # the same dead host, which is the precise gap the shared set was created to close.
+                    #
+                    # WHAT THIS IS NOT: the starved-host rule below (sustained gpu_util shortfall) stays
+                    # LANE-scoped, because pricing.md A.1 withdrew exactly that reasoning once — a
+                    # metadynamics leg's low utilisation turned out to be PLUMED's CPU-side bias and the same
+                    # host ran at 74 % on the next phase. A never-started box has no such ambiguity.
+                    if mid is not None and _record_exclusion(s3, bucket, mid, why, scope="host"):
+                        print(f"[s1f] machine {mid} added to the lane exclusion set AND published to the "
+                              f"cross-lane shared set (host-scoped: it never started): {why}")
                     continue                   # condemned: drop its strike row entirely
                 new_start_state[iid] = {"strikes": strikes, "age_min": age, "utc": _utcnow()}
                 print(f"[s1f] STUCK-START strike {strikes}/{STUCK_START_STRIKES} on {iid} ({i.get('label')}) "
