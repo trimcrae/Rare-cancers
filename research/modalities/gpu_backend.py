@@ -795,6 +795,41 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
     return min(capable, key=lambda po: po[0])[1]
 
 
+# ★★ THE STATUSES IN WHICH AN INSTANCE STILL HOLDS ITS UNIT'S SLOT — the ONE home for that question
+# (CLAUDE.md §1), because at least three call sites need it and each one that re-typed a status comparison
+# has been wrong in a different way.
+#
+#   * `running` — obviously occupied.
+#   * `queued`  — a FRESH RENTAL whose image is still pulling reads `actual_status=loading` /
+#                 `cur_state=stopped` for as long as 2 h 57 min on this account. Counting that as free is
+#                 how a launcher rents a SECOND GPU for work it has already paid to start, so `queued`
+#                 counts as occupied and the conservative direction is preserved exactly where it belongs.
+#
+# Everything else — `completed` (Vast's `exited`/`finished`), `failed`, `stopped` (offline/destroyed) — is a
+# box that will never do more work. It is still an instance RECORD, and still billing for its volume, but it
+# is not a host: the unit it was rented for has nobody working on it.
+VAST_OCCUPYING_STATUSES = ("running", "queued")
+
+
+def vast_instance_occupies_slot(inst) -> bool:
+    """Does this instance record still hold its unit's slot — i.e. is a host actually working on that unit?
+
+    ★★ WHY THIS EXISTS: "EXISTS" AND "RUNNING" ARE DIFFERENT QUESTIONS AND THE LANE KEPT ANSWERING THE FIRST
+    (measured 2026-07-27, twice in one day). `ternary_vast_watchdog.classify` was handed
+    `instance_alive = inst is not None` and reassured about four hosts whose GPUs had already been reclaimed,
+    for 85 minutes. Hours later `ternary_vast_launch.live_unit_hosts` — a different file, the same mistake —
+    counted three `exited` boxes as occupied slots, so `gate_for_mode` reported "4 already running" over a
+    cohort with ONE live leg, declined to price the market at all, and left three RUNG 2b replicates dead
+    indefinitely. Both sites had a comment explaining why the conservative reading was safe; neither had a
+    predicate, so neither could be corrected once.
+
+    PURE, and `None` (no record at all) is FALSE — a unit with no instance is unambiguously unhosted.
+    """
+    if not inst:
+        return False
+    return _vast_status(inst.get("actual_status"), inst.get("cur_state")) in VAST_OCCUPYING_STATUSES
+
+
 def _vast_status(actual: str, cur_state: str = None) -> str:
     """Map Vast's instance status to our vocabulary: queued | running | completed | failed | stopped."""
     a = (actual or cur_state or "").lower()
