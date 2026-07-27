@@ -416,6 +416,34 @@ def observed_started_machines(live):
                    if i.get("machine_id") is not None and (i.get("status_msg") or "").strip()})
 
 
+# The terminal container states, at module level so the DISTINCTNESS rule and the SLOT rule cannot disagree
+# about which instances exist. `mode_launch` keeps its own local `_TERMINAL` (a test pins its literal text);
+# `test_the_two_terminal_state_tuples_never_drift` fails if the two ever stop being the same tuple, which is
+# the only way this split can hurt.
+_TERMINAL_STATES = ("exited", "offline", "error")
+
+
+def distinct_host_machines(live):
+    """(machines_actually_held, machines_holding_only_a_corpse) from a live listing. PURE -> unit-tested.
+
+    The host-distinctness rule exists so an N-wide wave lands on N distinct hosts: two units on one machine
+    contend for one GPU, and when that machine is bad it takes both down together. What it must NOT do is
+    keep avoiding a machine whose container has already EXITED — that box holds no GPU of ours, and Vast
+    teardown is two-layer (the container's EXIT trap halts the work key-free, but only CI can DESTROY the
+    instance), so a corpse LINGERS in the listing for at least a tick after it stops being a host.
+
+    Returning the corpse set as well, rather than just filtering it away, is deliberate: these machines are
+    the ones most likely to be re-rented on the very next pass, and a readout must be able to say we CHOSE to
+    re-offer them instead of leaving it to look like a missing exclusion."""
+    held, corpses = set(), set()
+    for i in (live or []):
+        mid = i.get("machine_id")
+        if mid is None:
+            continue
+        (corpses if (i.get("actual_status") or "") in _TERMINAL_STATES else held).add(str(mid))
+    return held, sorted(corpses - held)
+
+
 def _load_started_machines(s3, bucket):
     doc = _get_json(s3, bucket, f"{RESULT_PREFIX}/{_STARTED_MACHINES_KEY_SUFFIX}") or {}
     return {str(m) for m in (doc.get("machine_ids") or [])}
@@ -2128,12 +2156,46 @@ def mode_launch():
     # set — a machine we are happily running on is a GOOD machine, and it becomes selectable again the moment
     # its instance goes away. It is a within-fleet distinctness rule, not a verdict.
     used_machines = set(excluded)
-    _already_on = {str(i.get("machine_id")) for i in live if i.get("machine_id") is not None}
+    # ★★ A CORPSE IS NOT A HOST — DISTINCTNESS MUST USE THE SAME LIVENESS TEST THE SLOT ACCOUNTING DOES
+    #    (2026-07-27, 6:32 PM ET tick). This seed read the RAW `live` listing, so a machine whose container
+    #    had already EXITED was still "a machine we are already renting" and was refused for the rest of the
+    #    tick. The launcher contradicted itself inside one readout: the same run printed
+    #        "3 instance(s) in a terminal state do NOT hold their unit's slot: [s1f-01, s1f-03, s1f-04]"
+    #    and then
+    #        "host distinctness: also avoiding 5 machine(s) ... ['138147','28904','43159','50143','89294']"
+    #    — machines 43159, 50143 and 28904 are exactly those three corpses. Three of the five avoided
+    #    machines held nothing at all.
+    #
+    #    WHY IT BITES HARDEST AT EXACTLY THE WRONG MOMENT. These are not random hosts. A terminal s1f box is
+    #    overwhelmingly a PREEMPTED one — a machine that pulled our ~6 GiB image and ran our container, which
+    #    is the strongest evidence we ever get that a host is good, and it is cheap (that is why $/ns ranking
+    #    picked it in the first place). So the set this silently withheld is the proven-cheap head of the
+    #    board, and it withheld it on the tick after a preemption, i.e. precisely when the fleet is short.
+    #    On the 6:32 PM board only ONE offer of 83 priceable sat under the $0.006539/ns buy line, so removing
+    #    three proven 4090/5090 machines from selection is not a rounding error against that supply.
+    #
+    #    ⚠ THIS IS NOT A LOOSENING OF THE DISTINCTNESS RULE, WHICH STAYS EXACTLY AS STRONG. Two units on one
+    #    machine still contend for one GPU and still share that machine's fate — every host that is actually
+    #    running is still avoided, unchanged. The rule simply now agrees with `live_labels`
+    #    (defined above with this same `_TERMINAL` test) about which instances exist. A machine becomes
+    #    selectable again when its instance stops working, not when CI finally gets round to DESTROYing it —
+    #    and those two moments are minutes to a whole tick apart, because the reaper deliberately requires a
+    #    terminal state on TWO consecutive ticks before it believes it.
+    #
+    #    Same defect class as 6c996cca ("the gate counted corpses as hosts") on the ternary replicate lane;
+    #    this is the fan-out's copy of it, in the distinctness seed rather than the placement gate.
+    _already_on, _corpse_machines = distinct_host_machines(live)
     if _already_on:
         used_machines |= _already_on
         _lprint(f"[s1f] host distinctness: also avoiding {len(_already_on)} machine(s) this lane is ALREADY "
                 f"renting ({sorted(_already_on)}) — a second unit on a machine we already hold contends for "
                 f"one GPU, and shares that machine's fate if it is bad.")
+    if _corpse_machines:
+        # Named out loud, because "we chose to re-offer these" and "we forgot to exclude these" must not
+        # look the same in a readout — and because these are the machines most likely to be re-rented next.
+        _lprint(f"[s1f] host distinctness: {len(_corpse_machines)} machine(s) {_corpse_machines} carry a "
+                f"TERMINAL s1f instance and are NOT avoided — the container has exited, so the machine holds "
+                f"no GPU of ours. It ran our image, which makes it proven-good and re-rentable right now.")
 
     # ★★ ONE BOARD READ FOR THE WHOLE WAVE — the change that makes the ramp raise concurrency and LOWER API
     # pressure at the same time (2026-07-27). Rationale and the safety argument: `gpu_backend
