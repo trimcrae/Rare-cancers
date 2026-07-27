@@ -152,7 +152,7 @@ class TestSpendCeilings(unittest.TestCase):
         # H200 NVL rather than RTX 5090: the 5090 was benched on 2026-07-27, and these cases need a card the
         # planner still has something to buy for.
         offers = [_offer("H200 NVL", min_bid=5.0)]
-        rows = sweep.plan_sweep(offers, max_usd_per_card=0.20, max_usd_total=10.0)
+        rows = sweep.plan_sweep(offers, max_usd_per_card=0.20, max_usd_total=10.0, max_runtime_s=1800)
         self.assertEqual(len(rows), 1)
         self.assertFalse(rows[0]["admit"])
         self.assertIn("per-card cap", rows[0]["reason"])
@@ -161,7 +161,7 @@ class TestSpendCeilings(unittest.TestCase):
         offers = [_offer("H200 NVL", min_bid=0.30, oid=1, mid="1"),
                   _offer("L40S", min_bid=0.31, oid=2, mid="2"),
                   _offer("H100 NVL", min_bid=0.32, oid=3, mid="3")]
-        rows = sweep.plan_sweep(offers, max_usd_per_card=1.0, max_usd_total=0.35)
+        rows = sweep.plan_sweep(offers, max_usd_per_card=1.0, max_usd_total=0.35, max_runtime_s=1800)
         self.assertTrue(rows[0]["admit"])
         held = [r for r in rows if not r["admit"]]
         self.assertTrue(held)
@@ -190,19 +190,19 @@ class TestSpendCeilings(unittest.TestCase):
 
 class TestJobspec(unittest.TestCase):
     def test_the_card_is_a_HARD_constraint(self):
-        spec = sweep.build_jobspec("RTX 5090", "branch", "bucket")
+        spec = sweep.build_jobspec("RTX 5090", "branch", "bucket", wave="", max_runtime_s=1800)
         self.assertTrue(spec.resources.require_gpu,
                         "without require_gpu a 5090 bench lands on a 4090 and is filed under the 5090")
         self.assertEqual(spec.resources.gpu, "RTX 5090")
 
     def test_the_protocol_env_is_the_anchors_protocol(self):
-        spec = sweep.build_jobspec("RTX 5090", "branch", "bucket")
+        spec = sweep.build_jobspec("RTX 5090", "branch", "bucket", wave="", max_runtime_s=1800)
         self.assertEqual(spec.env["BENCH_EDGE_NM"], sweep.BENCH_EDGE_NM)
         self.assertEqual(float(spec.env["BENCH_DT_FS"]), sweep.BENCH_DT_FS)
         self.assertEqual(int(spec.env["BENCH_BLOCKS"]), sweep.BENCH_BLOCKS)
 
     def test_the_runtime_cap_bounds_the_bill(self):
-        spec = sweep.build_jobspec("RTX 5090", "branch", "bucket")
+        spec = sweep.build_jobspec("RTX 5090", "branch", "bucket", wave="", max_runtime_s=1800)
         self.assertLessEqual(spec.max_runtime_s, 3600)
 
     def test_it_runs_on_the_image_the_science_runs_on(self):
@@ -239,17 +239,17 @@ class TestReplicatesMeasureDIFFERENTHosts(unittest.TestCase):
     made the 2026-07-24 host-variance control return a single number."""
 
     def test_each_replicate_gets_its_own_result_key(self):
-        a = sweep.build_jobspec("RTX 4090", "b", "k", replicate=1)
-        b = sweep.build_jobspec("RTX 4090", "b", "k", replicate=2)
+        a = sweep.build_jobspec("RTX 4090", "b", "k", replicate=1, wave="")
+        b = sweep.build_jobspec("RTX 4090", "b", "k", replicate=2, wave="")
         self.assertNotEqual(a.env["RESULT_S3"], b.env["RESULT_S3"])
         self.assertNotEqual(a.name, b.name)
         self.assertNotEqual(a.env["BENCH_TAG"], b.env["BENCH_TAG"])
 
     def test_the_first_replicate_keeps_the_plain_tag(self):
-        self.assertEqual(sweep.build_jobspec("RTX 4090", "b", "k").env["BENCH_TAG"], "rtx4090")
+        self.assertEqual(sweep.build_jobspec("RTX 4090", "b", "k", wave="").env["BENCH_TAG"], "rtx4090")
 
     def test_a_replicate_can_exclude_the_machine_its_sibling_took(self):
-        spec = sweep.build_jobspec("RTX 4090", "b", "k", exclude_machine_ids=("12345",), replicate=2)
+        spec = sweep.build_jobspec("RTX 4090", "b", "k", exclude_machine_ids=("12345",), replicate=2, wave="")
         self.assertEqual(spec.resources.exclude_machine_ids, ("12345",))
 
     def test_an_already_measured_card_is_re_benchable_when_asked(self):
@@ -325,3 +325,41 @@ class TestDeviceNameEquivalences(unittest.TestCase):
         vals = list(sweep.DEVICE_NAME_EQUIVALENCES.values())
         self.assertEqual(len(vals), len(set(vals)) + vals.count("A100PCIE") - 1,
                          "only the A100 capacity variants may share a key")
+
+
+class TestTheSpendGateIsNotProcessDependent(unittest.TestCase):
+    """⛔ THE BUG THE CI GATE CAUGHT BEFORE IT COULD SPEND (2026-07-27).
+
+    `plan_sweep` / `worst_case_usd` / `build_jobspec` are documented PURE, but they fell back to module
+    constants read from `os.environ` at import. Under the launch job's env (`BENCH_MAX_RUNTIME_S=1200`,
+    `BENCH_WAVE=w2`) the very same call returned a different worst-case cost and a different S3 tag than in a
+    bare shell. For functions that decide what to RENT that is disqualifying — the ceiling that was tested is
+    then not the ceiling that runs, and the tag that was unique is not the tag that gets written. Given
+    explicit arguments the answer must not depend on the process."""
+
+    def _run(self, env):
+        old = {k: os.environ.get(k) for k in env}
+        os.environ.update(env)
+        try:
+            offers = [_offer("H200 NVL", min_bid=0.30, oid=1, mid="1"),
+                      _offer("L40S", min_bid=0.31, oid=2, mid="2"),
+                      _offer("H100 NVL", min_bid=0.32, oid=3, mid="3")]
+            rows = sweep.plan_sweep(offers, max_usd_per_card=1.0, max_usd_total=0.35, max_runtime_s=1800)
+            tag = sweep.build_jobspec("RTX 4090", "b", "k", wave="", max_runtime_s=1800).env["BENCH_TAG"]
+            return [(r["gpu_name"], r["admit"], r["worst_case_usd"]) for r in rows], tag
+        finally:
+            for k, v in old.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+
+    def test_identical_arguments_give_identical_answers_under_different_env(self):
+        bare = self._run({"BENCH_MAX_RUNTIME_S": "1800", "BENCH_WAVE": ""})
+        launch = self._run({"BENCH_MAX_RUNTIME_S": "1200", "BENCH_WAVE": "w2"})
+        self.assertEqual(bare, launch)
+
+    def test_and_the_cap_still_holds_somebody_back(self):
+        rows, _tag = self._run({"BENCH_MAX_RUNTIME_S": "1200", "BENCH_WAVE": "w2"})
+        self.assertTrue(any(not admit for _n, admit, _c in rows),
+                        "the sweep cap must HOLD a unit, not admit everything")

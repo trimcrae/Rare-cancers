@@ -492,7 +492,8 @@ RECORD=1 BENCH_LINE_FILE=/tmp/bench.line BENCH_OUT_FILE=/tmp/bench.out AWSCLI="$
 """
 
 
-def build_jobspec(gpu_name, branch, bucket, exclude_machine_ids=(), replicate=1):
+def build_jobspec(gpu_name, branch, bucket, exclude_machine_ids=(), replicate=1, wave=None,
+                  max_runtime_s=None):
     """PURE: the JobSpec for ONE card's calibration bench.
 
     `require_gpu=True` is the load-bearing flag: without it `_select_cheapest_offer` returns the best MEASURED
@@ -514,7 +515,13 @@ def build_jobspec(gpu_name, branch, bucket, exclude_machine_ids=(), replicate=1)
     # `wave` closes the third case: it scopes the tag to the launch, so a later sweep ACCUMULATES hosts instead
     # of replacing them. That is load-bearing for a median-of-N estimator, which is only as good as the number
     # of independent hosts that survive in the store.
-    wave = (os.environ.get("BENCH_WAVE") or "").strip().lower()
+    # ⛔ ENV IS A DEFAULT, NEVER A HIDDEN INPUT (2026-07-27). This read used to be inline
+    # `os.environ.get("BENCH_WAVE")`, which made a function documented as PURE depend on the process it ran
+    # in — and the CI gate caught it the only way that matters: the same call returned `rtx4090-w2` under the
+    # launch job's env and `rtx4090` in a bare shell. For a SPEND gate that is disqualifying: `plan_sweep`
+    # and `worst_case_usd` decide what to rent, so an env-dependent answer means the ceiling that was tested
+    # is not the ceiling that runs. Every such value is now an explicit parameter whose default is the env.
+    wave = ((os.environ.get("BENCH_WAVE") if wave is None else wave) or "").strip().lower()
     suffix = (f"-{wave}" if wave else "") + (f"-r{replicate}" if replicate > 1 else "")
     tag = f"{base}{suffix}"
     label = f"{LABEL_PREFIX}{tag}"[:64]
@@ -533,7 +540,8 @@ def build_jobspec(gpu_name, branch, bucket, exclude_machine_ids=(), replicate=1)
     }
     return JobSpec(name=label, command=["bash", "-lc", _PIPELINE.replace("{repo}", REPO)],
                    image=FEP_IMAGE, checkpoint_uri="", resume=False, resources=res,
-                   max_runtime_s=MAX_RUNTIME_S, env=env)
+                   max_runtime_s=(MAX_RUNTIME_S if max_runtime_s is None else int(max_runtime_s)),
+                   env=env)
 
 
 # =============================================================================================================
