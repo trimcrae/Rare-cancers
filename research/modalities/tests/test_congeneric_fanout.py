@@ -661,14 +661,26 @@ def test_an_indefinite_hold_escalates_rather_than_idling_forever():
     assert "raise SystemExit(2)" in src and "_MARKET_HOLD_ESCALATED" in src
 
 
-def test_only_a_fleet_is_gated_never_a_single_unit():
-    """The rule's last line: 'A single unit already running is not affected; this gates the fan-out, not the
-    shakeout.' The shakeout's own resume submits exactly one unit."""
+def test_a_single_unit_launch_is_gated_too_just_on_a_different_ceiling():
+    """★ RETIRED AND REPLACED (2026-07-27). This test used to assert the OPPOSITE — that only a fleet is
+    gated — pinning CLAUDE.md §6's original last line, "a single unit already running is not affected".
+
+    That exemption was cut on the wrong axis and trimcrae caught it: *"Why are there so many high $/ns rows
+    that are flagged but you're still paying for them?"* A resume onto a NEW HOST is a NEW PURCHASE — the old
+    host is gone and the market is quoted afresh — so the shakeout unit's overnight relaunches all went
+    unpriced at 1.76x the ladder basis, `⚠ DRIFT` on the board, while the fan-out at 2.05x was refused.
+
+    The right axis is "would waiting lose work?", and for a checkpointed unit it would not. So BOTH paths are
+    gated; only the CEILING differs — a tranche gets its authorised dollar band, a single host gets the rate
+    (the drift line), because a resume re-enters a leg at an unknown fraction of its work and any dollar
+    projection for it would be the whole unit's cost."""
     import congeneric_fanout_vast as cfv
     src = open(cfv.__file__).read()
     launch = src[src.index("def mode_launch("):]
-    assert launch.count("len(batch) > 1") >= 2, "both the guard call and the belt must test for a FLEET"
-    assert "if len(batch) > 1 and os.environ.get(\"FANOUT_MARKET_OVERRIDE\") != \"1\":" in launch
+    assert "relaunch_market_gate" in launch, "the single-host path must consult the $/ns gate"
+    assert "elif len(batch) > 1:" in launch, "the FLEET keeps its own dollar-band ceiling"
+    # No path may reach the rent loop unpriced: the belt now covers every non-empty batch, not just a fleet.
+    assert "if batch and not _MARKET_GUARD_RAN:" in launch
 
 
 def test_the_guard_cannot_be_skipped_by_a_future_refactor():

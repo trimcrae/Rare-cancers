@@ -509,16 +509,33 @@ def ledger_cost(doc):
 
 
 def _load_excluded(s3, bucket):
+    """This lane's exclusions ∪ the SHARED cross-lane set of hosts that refuse to start.
+
+    ⚠ THE UNION IS THE POINT (2026-07-27). Before it, this lane's set held exactly one machine while the 5a-KS
+    lane knew nine — so the 6:37 AM tick resumed the shakeout onto machine 46392, which that lane had already
+    condemned. A host that never starts has infinite realised $/ns and is invisible to $/ns ranking, so each
+    lane was paying a rental to rediscover what the other already knew. See `vast_machine_blacklist` for what
+    is shared (host-scoped only) and what deliberately is not.
+    """
     doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
     env = os.environ.get("FANOUT_EXCLUDE_MACHINES", "")
     ids = {str(m) for m in (doc.get("machine_ids") or [])}
     ids |= {m.strip() for m in env.split(",") if m.strip()}
-    return sorted(ids), doc
+    import vast_machine_blacklist as vmb
+    return vmb.union(ids, s3, bucket), doc
 
 
-def _record_exclusion(s3, bucket, machine_id, why):
+def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
+    """Record a machine this lane will not re-rent. `scope="host"` ALSO publishes it cross-lane.
+
+    The default is `lane` on purpose: a verdict that mixes this workload with the machine (the starved-host
+    rule below) must not be exported, because `pricing.md` A.1 withdrew exactly that reasoning once already.
+    Only a failure that is about the MACHINE — it refuses starts, its container never executes — is shared."""
     ids, doc = _load_excluded(s3, bucket)
     mid = str(machine_id)
+    if scope == "host":
+        import vast_machine_blacklist as vmb
+        vmb.publish(s3, bucket, mid, why, lane="step1_fanout")
     if mid in ids:
         return False
     hist = doc.get("history") or []
@@ -857,30 +874,61 @@ def mode_launch():
         _lprint("[s1f] nothing to submit (fleet already at width, or all units done)")
         _write_launch_readout()
         return
-    # ⛔ THE $/ns MARKET GUARD (CLAUDE.md §6). A FLEET launch — never a single unit — must clear it.
+    # ⛔ THE $/ns MARKET GUARD (CLAUDE.md §6). EVERY launch must clear a price gate — fleet or single unit.
     #
     # Placed here, AFTER the batch is known and BEFORE `FANOUT_CONFIRM`, for two reasons. It needs the batch
     # size to know what it is pricing; and putting it before the confirm check means a DRY run exercises the
     # guard and prints its snapshot without renting anything, so the readout can be inspected on demand.
     #
-    # `len(batch) > 1` is the fan-out test, and it is what keeps the rule's last line true: a single unit
-    # already running (or resuming) is unaffected. The shakeout unit's own resume passes straight through.
+    # ★★ WHY `len(batch) > 1` IS NO LONGER THE TEST (trimcrae, 2026-07-27: *"Why are there so many high $/ns
+    # rows that are flagged but you're still paying for them?"*). The rule's original last line exempted "a
+    # single unit already running", and this branch was where that exemption was cashed — so the shakeout
+    # unit's resume passed through unpriced every time spot churn killed its host, and it was running at
+    # **1.76x the ladder basis with `⚠ DRIFT` on the board** while the eighteen-edge fan-out at 2.05x was
+    # correctly refused. The exemption was cut on the wrong axis: a RESUME ONTO A NEW HOST IS A NEW PURCHASE.
+    # The right axis is "would waiting lose work?", and for a checkpointed unit it does not — the host is
+    # already gone and the commit store is a durable S3 object. So both paths are gated, with the ceiling each
+    # one deserves:
+    #   * a FLEET buys a whole tranche at once, so it is measured against that tranche's authorised DOLLAR
+    #     band (`market_hold` -> `congeneric_fanout.market_ceiling_usd`);
+    #   * a SINGLE HOST re-enters a leg at an unknown fraction of its work, so a dollar projection would be
+    #     the full unit's cost and meaningless. It is measured against the RATE instead — the drift line the
+    #     board already prints (`relaunch_market_gate`, CLAUDE.md §1's 1.5x).
     _excluded_for_guard, _ = _load_excluded(s3, bucket)
-    if len(batch) > 1 and os.environ.get("FANOUT_MARKET_OVERRIDE") != "1":
-        if market_hold(len(batch), len(pending), bucket, s3, key, _excluded_for_guard):
-            _write_launch_readout()
-            return
-    elif len(batch) > 1:
+    if os.environ.get("FANOUT_MARKET_OVERRIDE") == "1":
         _lprint("[s1f] ⚠ FANOUT_MARKET_OVERRIDE=1 — the $/ns guard is BYPASSED for this launch. That is a "
                 "deliberate, recorded choice to spend outside the rung's authorised band.")
         _MARKET_GUARD_RAN = True
+    elif len(batch) > 1:
+        if market_hold(len(batch), len(pending), bucket, s3, key, _excluded_for_guard):
+            _write_launch_readout()
+            return
+    else:
+        import relaunch_market_gate as rmg
+        _held, _gdoc = rmg.gate("step1_fanout", batch[0]["unit_id"], FANOUT_RES, key=key,
+                                excluded=_excluded_for_guard, s3=s3, state_bucket=bucket,
+                                state_prefix=RESULT_PREFIX)
+        _MARKET_GUARD_RAN = True
+        for _ln in (f"[s1f] SINGLE-HOST $/ns GATE: {'⛔ HELD' if _held else '✅ CLEAR'} — {_gdoc['reason']}",
+                    f"[s1f]   board={json.dumps(_gdoc.get('board_depth'))} "
+                    f"priced={json.dumps(_gdoc.get('offers_priced'))}"):
+            _LAUNCH_LOG.append(_ln)
+        if _held:
+            _lprint("[s1f] Nothing was rented and no unit was dropped; the checkpoint is untouched in S3 and "
+                    "the next scheduled tick re-checks.")
+            if _gdoc.get("escalated"):
+                # A ceiling nobody can clear must become trimcrae's decision, not an idle night. Reuse the
+                # lane's existing escalation flag rather than inventing a second exit path.
+                globals()["_MARKET_HOLD_ESCALATED"] = True
+            _write_launch_readout()
+            return
 
-    # BELT, not braces. If a future edit ever routes a multi-unit batch past the block above, this refuses
-    # rather than renting: by CLAUDE.md §6 a fan-out that has not consulted the market is a bug, and the safe
-    # failure is to hold.
-    if len(batch) > 1 and not _MARKET_GUARD_RAN:
-        _lprint(f"[s1f] ⛔ FLEET LAUNCH HELD ({len(batch)} units) — the $/ns market guard did not run. "
-                f"Refusing to rent a fleet that was never priced.")
+    # BELT, not braces. If a future edit ever routes a batch past the block above, this refuses rather than
+    # renting: by CLAUDE.md §6 a rental that has not consulted the market is a bug, and the safe failure is
+    # to hold. Widened from `len(batch) > 1` with the exemption it was protecting.
+    if batch and not _MARKET_GUARD_RAN:
+        _lprint(f"[s1f] ⛔ LAUNCH HELD ({len(batch)} unit(s)) — the $/ns market guard did not run. "
+                f"Refusing to rent what was never priced.")
         _write_launch_readout()
         return
 

@@ -54,6 +54,7 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import relaunch_market_gate as rmg  # noqa: E402  the ONE $/ns gate every single-host rental consults
 import ternary_vast_launch as tv  # noqa: E402
 import watchdog_validate as wdv  # noqa: E402
 from gpu_backend import _vast_request  # noqa: E402
@@ -344,6 +345,15 @@ def _s3():
     return boto3.client("s3")
 
 
+def _s3_or_none():
+    """An S3 client, or None if boto3/credentials are unavailable. The $/ns gate needs S3 only for its
+    ESCALATION CLOCK, so it must degrade to "gate still enforced, clock cannot run" rather than raising."""
+    try:
+        return _s3()
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def _read_json_key(bucket, key, default=None):
     try:
         return json.loads(_s3().get_object(Bucket=bucket, Key=key)["Body"].read().decode())
@@ -527,6 +537,31 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
         if dry_run:
             _annotate("notice", "TVAST WATCHDOG would-relaunch",
                       f"{uid} — died (no result, no instance), {why}. dry_run=1 so taking no action.")
+            continue
+
+        # ---- ⛔ THE $/ns GATE. A RELAUNCH IS A NEW PURCHASE, NOT A CONTINUATION. ---------------------------
+        # (trimcrae, 2026-07-27.) This is the path that re-rented the two 5a-KS legs through the night of
+        # 2026-07-26/27 on ordinary spot churn. Each of those was a fresh decision to rent at the market's
+        # current price, and none of them was priced: the live NR4A3 leg was sitting at 1.51x the ladder
+        # basis with `⚠ DRIFT` on the board while a fan-out at 2.05x was correctly refused.
+        #
+        # THE UNIT IS NOT RUNNING HERE — it DIED, its host is gone, and `tv.submit` below rents a new one. The
+        # only surviving state is the S3 commit store, which does not expire while the gate thinks, so holding
+        # defers the rental and loses nothing. The gate is DELEGATED to, never duplicated: it prices against
+        # this lane's own `resource_spec()` so it cannot grade a market this lane could not buy from.
+        _held, _gdoc = rmg.gate("ternary", uid, tv.resource_spec(),
+                                excluded=tv.blocked_machine_ids(bucket=b, prefix=p),
+                                s3=_s3_or_none(), state_bucket=b, state_prefix=p,
+                                checkpoint_expires_utc=e.get("checkpoint_expires_utc"))
+        if _held:
+            # NOT an alert. A routine pause on a thin market is expected behaviour (CLAUDE.md §6) and failing
+            # this job every tick would train the notification to be ignored. `gate` has already printed a
+            # `::notice::` carrying the snapshot, written it to S3 and to the committed readout, and will
+            # escalate to a job-failing `::error::` on its own once the hold outlives its window.
+            if _gdoc.get("escalated"):
+                # A ceiling nobody can clear must reach a human. Counting it as an alert is what makes this
+                # job exit non-zero, which is the session-independent notification path.
+                alerts += 1
             continue
         print(f"relaunching {uid} ({why}) — resumes from the last committed checkpoint")
         try:

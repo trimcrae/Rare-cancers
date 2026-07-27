@@ -36,3 +36,11 @@ jobs:
             exit 1
           fi
           python research/modalities/verify_metad_outputs.py
+      - name: TEMPORARY (LANE 22) — checkpoint durability probe
+        # Read-only evidence for the relaunch $/ns gate's premise ("waiting cannot destroy a checkpoint").
+        # Dispatched with ref=<branch> per CLAUDE.md §6; REVERTED before this branch merges to main.
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ inputs.region }}
+        run: python research/modalities/relaunch_market_gate.py --durability-probe
