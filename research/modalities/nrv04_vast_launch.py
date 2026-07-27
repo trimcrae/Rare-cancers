@@ -535,10 +535,17 @@ def _bench_flags(d):
         return ["errored"]
     if str(d.get("healthy", "True")).lower() == "false":
         flags.append("unphysical")
+    # WRONG-CARD CHECK, on the MARKETPLACE name when the leg recorded one (`market_gpu_name`, forwarded from
+    # the rented offer). The CUDA device string is a different vocabulary from the model we request —
+    # `rtxpro6000ws` never appears inside "NVIDIA RTX PRO 6000 Blackwell Workstation Edition" — so comparing
+    # the request against `device` false-flags every card whose driver name is not a superstring of its
+    # marketplace name, and would reject the very benches this exists to collect. Older legs carry no
+    # `market_gpu_name`, so they keep the device comparison.
     req = str(d.get("gpu_requested") or d.get("gpu") or "").lower().replace(" ", "")
-    dev = _raw_device(d).lower().replace(" ", "")
-    if req and dev and dev != "unknown" and req not in dev:
-        flags.append(f"wrong_card(got_{_raw_device(d).replace(' ', '_')})")
+    mkt = str(d.get("market_gpu_name") or "").lower().replace(" ", "")
+    got = mkt or _raw_device(d).lower().replace(" ", "")
+    if req and got and got != "unknown" and req not in got:
+        flags.append(f"wrong_card(got_{(d.get('market_gpu_name') or _raw_device(d)).replace(' ', '_')})")
     try:
         if float(d.get("wall_s") or 0) < _BENCH_MIN_WALL_S:
             flags.append("window_too_short")
@@ -740,6 +747,11 @@ d["_raw"] = line
 # fallback-to-Quadro leg get reported as an A10 (2026-07-24).
 d["gpu_requested"] = os.environ.get("VAST_GPU_MODEL", "")
 d["gpu"] = d["gpu_requested"]  # back-compat for already-written bench.json files
+# THE MARKETPLACE NAME OF THE CARD WE ACTUALLY RENTED, forwarded by gpu_backend.submit from the offer. This
+# is the string the throughput tables are keyed on (`vast_cost_model.card_of`), and it is the only field that
+# can tie a measured ns/day back to the offer that produced it: `gpu_requested` is what we ASKED for and
+# `device` is the CUDA driver's own spelling, which differs from both.
+d["market_gpu_name"] = os.environ.get("VAST_OFFER_GPU_NAME", "")
 d["edge_nm"] = os.environ.get("BENCH_EDGE_NM", "")
 json.dump(d, open("/tmp/bench.json", "w"), indent=2)
 PYEOF
@@ -773,7 +785,12 @@ def build_bench_jobspec(tag, branch, bucket, env_tarball_url=None):
         # VRAM floor is overridable so a 16 GB card can be BENCHED. Default unchanged at 24. Without this the
         # RTX 4080 (16 GB) — currently the only live candidate that might beat the 4090 on $/ns — is silently
         # filtered out of its own benchmark, which is how a card decision gets made on a proxy forever.
-        resources=ResourceSpec(gpu=gpu, min_vram_gb=int(os.environ.get("BENCH_MIN_VRAM_GB", "24")),
+        # ★ require_gpu=True: for a bench the card is the QUESTION, not a preference. Without it
+        # `_select_cheapest_offer` hands back the best MEASURED offer first, so `BENCH_GRID=rtx5090:9.5`
+        # would rent a 4090 and file its throughput under "rtx5090". An unavailable card must fail the
+        # submit, not quietly measure something else.
+        resources=ResourceSpec(gpu=gpu, require_gpu=True,
+                               min_vram_gb=int(os.environ.get("BENCH_MIN_VRAM_GB", "24")),
                                vcpus=4, ram_gb=16, disk_gb=40, interruptible=True),
         max_runtime_s=int(os.environ.get("BENCH_MAX_RUNTIME_S", "2400")),
         env=env,

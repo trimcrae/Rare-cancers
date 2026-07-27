@@ -89,6 +89,167 @@ def breakeven_ns_per_day(target_usd_per_ns, compute_usd_h, storage_usd_h, **kw):
     return None if v is None else v * 24.0
 
 
+# =============================================================================================================
+# ★★ RULE-OUT vs RULE-IN — they need OPPOSITE bounds, and conflating them is how a wrong number gets ranked
+# =============================================================================================================
+# trimcrae, 2026-07-27: *"What are the other GPU cards we don't have priced? Could they be reasonably
+# competitive in $/ns or can we rule them out with heuristics?"*
+#
+#   * To rule a card **OUT** you need an UPPER bound on its ns/h. If even the most generous plausible
+#     throughput leaves `price / ns_per_h` worse than what the fleet can already buy, the card is dead
+#     whatever a benchmark would say — and establishing that costs **$0**.
+#   * To rule a card **IN** you need a LOWER bound, which no spec sheet can honestly supply. That is where a
+#     measurement is genuinely required, and it is the only thing the bench spend buys.
+#
+# So the sweep below is deliberately one-directional: it produces `RULED_OUT` and `CANNOT_RULE_OUT`, never
+# `competitive`. Nothing here ever enters a ranking, and no card acquires a throughput from it.
+#
+# ⚠ THE BOUND IS ANCHORED ON THREE BENCHED CARDS, so it is weakest exactly where it matters most — on silicon
+# FASTER than an RTX 4090 (RTX 5090, RTX PRO 6000, A100/H100/H200, L40S). Those are flagged as their own class
+# and are NOT ruled out by extrapolation; they are the cards a short calibration run is actually for.
+#
+# HOW THE UPPER BOUND IS BUILT, and why each step errs generous:
+#   1. Three candidate predictors (manufacturer FP32, manufacturer memory bandwidth, Vast's own `dlperf`),
+#      each fitted as a one-parameter proportional law `ns_day = k*x` on ALL THREE benched cards.
+#   2. Each predictor is inflated by `U_p`, its WORST leave-one-out UNDER-prediction ratio over those cards.
+#      Under-prediction is the only direction that can wrongly exclude a good card, so that is the tail the
+#      inflation is taken from.
+#   3. The bound is the MAXIMUM over predictors, not the minimum and not an average — the most generous of
+#      three disagreeing heuristics.
+#   4. A further `RULE_OUT_MARGIN` is required on top before anything is declared dead, so a spec figure that
+#      is wrong in the tight direction still cannot rule a card out.
+# The result rules out only cards that are dead by a wide margin under the friendliest reading available.
+#
+# Manufacturer specs are SPECIFICATIONS, not measurements of MD throughput; they appear here solely to build a
+# ceiling. `fp32` is omitted where the public figure is not something we can state with confidence (the
+# Blackwell RTX PRO 4000/4500/5000 line), and the bandwidth predictor carries those alone — which is the
+# generous direction, so the omission cannot wrongly rule a card out.
+RULE_OUT_MARGIN = 1.25
+
+CANDIDATE_SPECS = {
+    # normalised gpu_name : (fp32 TFLOPS or None, memory bandwidth GB/s or None)
+    "RTX5090":      (104.8, 1792.0),
+    "RTX4090D":     (73.5, 1008.0),     # cut-down 4090 SKU — unbenched since 2026-07-27, see vast_cost_model
+    "RTXPRO6000WS": (125.0, 1792.0),
+    "RTXPRO6000S":  (125.0, 1792.0),    # server variant priced against the workstation figure = generous
+    "RTXPRO5000":   (None, 1344.0),
+    "RTXPRO4500":   (None, 896.0),
+    "RTXPRO4000":   (None, 672.0),
+    "A100SXM4":     (19.5, 2039.0),     # 80 GB HBM2e figure used for BOTH SXM4 SKUs = generous
+    "A100PCIE":     (19.5, 1935.0),
+    "A800PCIE":     (19.5, 1935.0),
+    "H100SXM":      (67.0, 3350.0),
+    "H100PCIE":     (51.0, 2000.0),
+    "H100NVL":      (60.0, 3900.0),
+    "H200":         (67.0, 4800.0),
+    "H200NVL":      (60.0, 4800.0),
+    "B200":         (80.0, 8000.0),
+    "L40S":         (91.6, 864.0),
+    "L40":          (90.5, 864.0),
+    "RTX6000ADA":   (91.1, 960.0),
+    "RTX5880ADA":   (69.3, 960.0),
+    "RTX5000ADA":   (65.3, 576.0),
+    "RTX4000ADA":   (26.7, 360.0),
+    "RTXA6000":     (38.7, 768.0),
+    "RTXA5000":     (27.8, 768.0),
+    "TESLAV100":    (15.7, 900.0),
+    "QRTX8000":     (16.3, 672.0),
+    "TITANRTX":     (16.3, 672.0),
+    "TESLAP100":    (9.5, 732.0),
+    "TESLAP40":     (11.8, 346.0),
+    "RTX3080":      (29.8, 760.0),
+}
+
+# The predictor value for each BENCHED card, i.e. the training set the laws are fitted on. Kept next to
+# CANDIDATE_SPECS so a reader can see that the same quantity is being read for training and prediction.
+_BENCHED_SPECS = {
+    "RTX4090": (82.6, 1008.0),
+    "RTX4080": (48.7, 716.8),
+    "RTX3090": (35.6, 936.2),
+}
+
+
+def _fit_and_inflate(train):
+    """(k, U) for `ns_day = k*x`: k fitted on all of `train`, U = worst LOO UNDER-prediction ratio. PURE.
+
+    `train` is [(card, x, measured_ns_day)]. U is `max(measured/predicted)` over the leave-one-out fits and is
+    therefore >= 1 whenever the law ever under-predicts; it is clamped at 1.0 so a law that never
+    under-predicts is not allowed to SHRINK the bound. Returns (None, None) if the fit is degenerate."""
+    den = sum(x * x for _c, x, _y in train)
+    if den <= 0 or len(train) < 2:
+        return None, None
+    k = sum(x * y for _c, x, y in train) / den
+    worst = 1.0
+    for i in range(len(train)):
+        rest = [t for j, t in enumerate(train) if j != i]
+        d = sum(x * x for _c, x, _y in rest)
+        if d <= 0:
+            continue
+        ki = sum(x * y for _c, x, y in rest) / d
+        pred = ki * train[i][1]
+        if pred > 0:
+            worst = max(worst, train[i][2] / pred)
+    return k, worst
+
+
+def throughput_ceilings(dlperf_by_card=None):
+    """{predictor: {'k':, 'U':, 'loo':}} — the fitted laws and their generosity inflation. PURE-ish."""
+    dl = dlperf_by_card or {}
+    out = {}
+    for label, x_of in (("fp32_tflops", lambda c: _BENCHED_SPECS.get(c, (None, None))[0]),
+                        ("mem_bandwidth_gb_s", lambda c: _BENCHED_SPECS.get(c, (None, None))[1]),
+                        ("vast_dlperf", lambda c: dl.get(c))):
+        train = [(c, x_of(c), y) for c, y in _vcm.MEASURED_NS_PER_DAY_84K.items() if x_of(c)]
+        if len(train) < 2:
+            continue
+        k, u = _fit_and_inflate(train)
+        if k is None:
+            continue
+        out[label] = {"k": k, "under_prediction_inflation": round(u, 4),
+                      "loo": proxy_loo(train), "x_by_card": {c: x for c, x, _y in train}}
+    return out
+
+
+def upper_bound_ns_per_day(gpu_name, ceilings, dlperf=None):
+    """The MOST GENEROUS defensible ceiling on this card's ns/day, and which predictor gave it. PURE.
+
+    Returns (bound, detail) or (None, {}) when no predictor has an input for this card — in which case the
+    card CANNOT be ruled out, because a missing spec is not evidence of slowness."""
+    n = _vcm.normalise_gpu_name(gpu_name)
+    fp32, bw = CANDIDATE_SPECS.get(n, (None, None))
+    xs = {"fp32_tflops": fp32, "mem_bandwidth_gb_s": bw, "vast_dlperf": dlperf}
+    best, best_point, detail = None, None, {}
+    for label, c in ceilings.items():
+        x = xs.get(label)
+        if not x:
+            continue
+        point = c["k"] * float(x)                      # the law's own prediction, uninflated
+        v = point * c["under_prediction_inflation"]    # ...made generous, which is what a rule-out needs
+        detail[label] = round(v, 1)
+        if best is None or v > best:
+            best = v
+        if best_point is None or point > best_point:
+            best_point = point
+    # `point_prediction` is reported ONLY so the "is this card faster than anything we have benched" question
+    # can be asked of the laws' own estimate rather than of the inflated ceiling — every ceiling clears the
+    # reference by construction, so flagging off the ceiling would mark the whole board as fast.
+    if best_point is not None:
+        detail["point_prediction"] = round(best_point, 1)
+    return best, detail
+
+
+def rule_out(breakeven_nsd, bound_nsd, margin=RULE_OUT_MARGIN):
+    """('RULED_OUT'|'CANNOT_RULE_OUT', headroom) for one card. PURE.
+
+    RULED_OUT requires the break-even to exceed the generous ceiling by a further `margin`, so a spec figure
+    that is wrong in the tight direction still cannot kill a card. `headroom` is break-even / bound: below 1
+    the card is comfortably alive, above `margin` it is dead."""
+    if breakeven_nsd is None or not bound_nsd:
+        return "CANNOT_RULE_OUT", None
+    h = float(breakeven_nsd) / float(bound_nsd)
+    return ("RULED_OUT" if h > margin else "CANNOT_RULE_OUT"), round(h, 3)
+
+
 def plausibility(breakeven_nsd, reference_ns_per_day=None):
     """A LABEL for a break-even, expressed as a multiple of the reference card. PURE. Never a throughput.
 
@@ -146,6 +307,25 @@ def census(offers, res, job=None, n_units=19, top_target=None):
     for _p, o in capable:
         groups.setdefault(str(o.get("gpu_name") or "?"), []).append(o)
 
+    # Board-median `dlperf` per model: the one predictor input that comes from the board itself rather than a
+    # spec sheet, so it exists for cards whose manufacturer figures we would otherwise have to guess at.
+    dl_by_name, dl_by_card = {}, {}
+    for name, offs in groups.items():
+        vals = []
+        for o in offs:
+            try:
+                v = float(o.get("dlperf") or 0)
+            except (TypeError, ValueError):
+                continue
+            if v > 0:
+                vals.append(v)
+        if vals:
+            dl_by_name[name] = st.median(vals)
+            c = _vcm.card_of(name)
+            if c and _vcm.throughput_provenance(name)[0] == "measured":
+                dl_by_card[c] = st.median(vals)
+    ceilings = throughput_ceilings(dl_by_card)
+
     rows = []
     for name, offs in groups.items():
         card = _vcm.card_of(name)
@@ -179,8 +359,16 @@ def census(offers, res, job=None, n_units=19, top_target=None):
             "median_all_in_usd_h": round(st.median(allin), 4),
         }
         if upns:
+            prov, base, note = _vcm.throughput_provenance(name)
             row["best_usd_per_ns"] = round(min(upns), 6)
             row["median_usd_per_ns"] = round(st.median(upns), 6)
+            # A priceable row must say WHERE its ns/h came from: a conservative alias is a one-sided derived
+            # bound, and a reader who cannot tell it from a measurement is exactly the failure the alias
+            # allow-list exists to prevent.
+            row["throughput_provenance"] = prov
+            row["throughput_base_card"] = base
+            if prov != "measured":
+                row["throughput_note"] = note
         else:
             bid = _vast_bid_price(cheap_off) or min(floors)
             s = _vcm.storage_usd_per_h(cheap_off.get("storage_cost"), job.disk_gb)
@@ -189,7 +377,7 @@ def census(offers, res, job=None, n_units=19, top_target=None):
             lab, mult = plausibility(be)
             row["breakeven_ns_per_day_vs_fleet_mean"] = (None if be is None else round(be, 1))
             row["breakeven_x_reference_card"] = mult
-            row["verdict"] = lab
+            row["plausibility"] = lab
             # The same question asked against the ladder basis rather than today's achievable mean: a card that
             # clears THIS is one that would end the hold outright, not merely improve the mean.
             from congeneric_fanout import basis_usd_per_ns
@@ -197,6 +385,24 @@ def census(offers, res, job=None, n_units=19, top_target=None):
                                        restart_h=job.restart_h, downtime_h=job.downtime_h)
             row["breakeven_ns_per_day_vs_ladder_basis"] = (None if beb is None else round(beb, 1))
             row["breakeven_x_reference_card_vs_basis"] = plausibility(beb)[1]
+            # --- the $0 rule-out sweep -------------------------------------------------------------------
+            bound, detail = upper_bound_ns_per_day(name, ceilings, dl_by_name.get(name))
+            verdict, headroom = rule_out(be, bound)
+            row["upper_bound_ns_per_day"] = (None if bound is None else round(bound, 1))
+            row["upper_bound_by_predictor"] = detail
+            row["upper_bound_x_reference_card"] = (None if bound is None else
+                                                   round(bound / _vcm.MEASURED_NS_PER_DAY_84K[
+                                                       _vcm.REFERENCE_CARD], 2))
+            row["headroom_breakeven_over_bound"] = headroom
+            row["verdict"] = verdict
+            # ⚠ The bound is anchored on three cards all SLOWER than or equal to the reference. A candidate
+            # whose ceiling lands above the reference is being extrapolated, and that is precisely the class
+            # a spec heuristic cannot settle — flagged so a rule-out there is never taken on trust.
+            row["faster_than_reference_class"] = bool(
+                detail.get("point_prediction", 0) > _vcm.MEASURED_NS_PER_DAY_84K[_vcm.REFERENCE_CARD])
+            if bound is None:
+                row["verdict_note"] = ("no predictor input for this model — a missing spec is not evidence of "
+                                       "slowness, so it cannot be ruled out")
         rows.append(row)
 
     rows.sort(key=lambda r: (r["priceable"], -r["n_offers"]))
@@ -212,17 +418,36 @@ def census(offers, res, job=None, n_units=19, top_target=None):
         "qualifying_offers_unpriceable": n_unpriced,
         "unpriceable_fraction": (round(n_unpriced / max(1, n_price + n_unpriced), 3)),
         "by_gpu_model": rows,
-        # The whole point of the census: ranked by supply added, restricted to models the break-even says are
-        # worth a bench. This is the bench shortlist, and nothing else in the repo should be inventing one.
+        "throughput_ceilings": {k: {"k": round(v["k"], 5),
+                                    "under_prediction_inflation": v["under_prediction_inflation"],
+                                    "max_abs_loo_rel_err": v["loo"]["max_abs_rel_err"],
+                                    "x_by_card": v["x_by_card"]}
+                                for k, v in ceilings.items()},
+        "rule_out_margin": RULE_OUT_MARGIN,
+        # RULED OUT AT $0 — dead by a wide margin under the friendliest reading of three disagreeing
+        # heuristics. No bench is warranted and no measurement would change the answer.
+        "ruled_out": [
+            {"gpu_name": r["gpu_name"], "n_offers": r["n_offers"],
+             "cheapest_all_in_usd_h": r["cheapest_all_in_usd_h"],
+             "breakeven_ns_per_day": r.get("breakeven_ns_per_day_vs_fleet_mean"),
+             "upper_bound_ns_per_day": r.get("upper_bound_ns_per_day"),
+             "headroom": r.get("headroom_breakeven_over_bound")}
+            for r in sorted((x for x in rows if not x["priceable"] and x.get("verdict") == "RULED_OUT"),
+                            key=lambda x: -x["n_offers"])],
+        # CANNOT BE RULED OUT — the only list a bench spend may be aimed at, ranked by the gradeable supply
+        # each would add. `faster_than_reference` marks the ones the bound is extrapolating on and therefore
+        # cannot settle either way.
         "bench_shortlist": [
             {"gpu_name": r["gpu_name"], "n_offers": r["n_offers"], "vram_gb": r["vram_gb"],
              "cheapest_all_in_usd_h": r["cheapest_all_in_usd_h"],
              "breakeven_ns_per_day": r.get("breakeven_ns_per_day_vs_fleet_mean"),
              "breakeven_x_reference_card": r.get("breakeven_x_reference_card"),
-             "verdict": r.get("verdict")}
-            for r in sorted((x for x in rows if not x["priceable"]), key=lambda x: -x["n_offers"])
-            if str(r.get("verdict", "")).startswith("BENCH")
-        ],
+             "upper_bound_ns_per_day": r.get("upper_bound_ns_per_day"),
+             "headroom": r.get("headroom_breakeven_over_bound"),
+             "faster_than_reference": r.get("faster_than_reference_class"),
+             "plausibility": r.get("plausibility")}
+            for r in sorted((x for x in rows if not x["priceable"] and x.get("verdict") != "RULED_OUT"),
+                            key=lambda x: (x.get("headroom_breakeven_over_bound") or 9e9, -x["n_offers"]))],
     }
 
 
@@ -351,17 +576,32 @@ def _main(argv=None):
     print(f"\n{'gpu_name':20s} {'n':>4} {'VRAM':>5} {'cheap $/hr':>11} {'med $/hr':>9}  status")
     for r in doc["by_gpu_model"]:
         if r["priceable"]:
-            statx = f"PRICEABLE as {r['benched_as']} — best $/ns {r.get('best_usd_per_ns')}"
+            statx = (f"PRICEABLE as {r['benched_as']} [{r.get('throughput_provenance')}] — "
+                     f"best $/ns {r.get('best_usd_per_ns')}")
         else:
-            statx = (f"unpriceable — needs {r.get('breakeven_ns_per_day_vs_fleet_mean')} ns/day "
-                     f"({r.get('breakeven_x_reference_card')}x ref) : {r.get('verdict')}")
+            statx = (f"{r.get('verdict')} — needs {r.get('breakeven_ns_per_day_vs_fleet_mean')} ns/day, "
+                     f"ceiling {r.get('upper_bound_ns_per_day')} (headroom "
+                     f"{r.get('headroom_breakeven_over_bound')})"
+                     + ("  ★faster-than-reference class" if r.get("faster_than_reference_class") else ""))
         print(f"{r['gpu_name']:20s} {r['n_offers']:4d} {r['vram_gb']:5.0f} "
               f"{r['cheapest_all_in_usd_h']:11.4f} {r['median_all_in_usd_h']:9.4f}  {statx}")
+    if doc["ruled_out"]:
+        n = sum(r["n_offers"] for r in doc["ruled_out"])
+        print(f"\n=== RULED OUT AT $0 ({len(doc['ruled_out'])} models, {n} offers) — dead even at the most "
+              f"generous ceiling three disagreeing heuristics can defend, x{doc['rule_out_margin']} margin ===")
+        for r in doc["ruled_out"]:
+            print(f"  {r['gpu_name']:20s} {r['n_offers']:3d} offers @ ${r['cheapest_all_in_usd_h']:.4f}/hr  "
+                  f"needs {r['breakeven_ns_per_day']} ns/day vs a ceiling of {r['upper_bound_ns_per_day']} "
+                  f"({r['headroom']}x too slow)")
     if doc["bench_shortlist"]:
-        print("\n=== BENCH SHORTLIST (ranked by gradeable supply it would add) ===")
+        n = sum(r["n_offers"] for r in doc["bench_shortlist"])
+        print(f"\n=== CANNOT BE RULED OUT ({len(doc['bench_shortlist'])} models, {n} offers) — a measurement "
+              f"is the only thing that settles these ===")
         for r in doc["bench_shortlist"]:
             print(f"  {r['gpu_name']:20s} +{r['n_offers']:3d} offers  @ ${r['cheapest_all_in_usd_h']:.4f}/hr  "
-                  f"needs {r['breakeven_ns_per_day']} ns/day ({r['breakeven_x_reference_card']}x ref)")
+                  f"needs {r['breakeven_ns_per_day']} ns/day ({r['breakeven_x_reference_card']}x ref), "
+                  f"ceiling {r['upper_bound_ns_per_day']}"
+                  + ("  ★faster-than-reference" if r.get("faster_than_reference") else ""))
     if a.proxy_audit:
         print("\n=== PROXY AUDIT (leave-one-out over the benched cards) ===")
         for k, v in doc["proxy_audit"].items():

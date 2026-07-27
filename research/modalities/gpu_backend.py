@@ -59,6 +59,15 @@ class ResourceSpec:
     # rather than to queue — see the 2026-07-24 reservation-price retraction, "you do not wait for a
     # price, you pick a host".
     exclude_machine_ids: tuple = ()
+    # ★ `gpu` AS A HARD CONSTRAINT, NOT A PREFERENCE (2026-07-27). Normally the model is a hint: selection
+    # ranks by $/ns and takes whatever wins, because "the card is not the decision — the offer is". But a
+    # THROUGHPUT BENCH is the one job whose entire output is "how fast is card X", and for it the default
+    # behaviour is actively wrong: `_select_cheapest_offer` returns the best MEASURED offer first, so a request
+    # to bench an RTX 5090 lands on a 4090 or 3090 and the result is filed under the card we asked for. That is
+    # not hypothetical — it is the 2026-07-24 incident in which a leg fell back to a Quadro RTX 8000 and was
+    # tabulated as an A10, which is part of why that whole grid was withdrawn. With this set, an unavailable
+    # card fails the submit cleanly instead of quietly measuring something else.
+    require_gpu: bool = False
     min_cuda: float = 13.0        # host DRIVER's cuda_max_good must be >= this so OpenMM's CUDA-plugin PTX can JIT.
                                   # RAISED 12.6 -> 13.0 on 2026-07-23: DIAG PROOF that the `cuda-version=12.6` env
                                   # pin did NOT actually take — the baked env's PTX is CUDA-13-class, so legs that
@@ -224,6 +233,20 @@ _VAST_GPU_SUBSTR = {
 }
 
 
+def _gpu_match_substr(gpu):
+    """The normalised substring an offer's `gpu_name` must contain to count as this model. PURE.
+
+    Falls back to the normalised request itself when the model is not in the hand-written map, so a card the
+    census puts on the bench shortlist (`RTX PRO 6000 WS`, `RTX 5090`, ...) is benchable WITHOUT anyone having
+    to remember to add a map entry first. Normalisation is shared with the throughput tables
+    (`vast_cost_model.normalise_gpu_name`), so `RTX PRO 6000 S` and `RTX PRO 6000 WS` stay distinguishable —
+    `RTXPRO6000S` is not a substring of `RTXPRO6000WS`."""
+    g = str(gpu or "").strip()
+    if not g or g.lower() == "any":
+        return None
+    return _VAST_GPU_SUBSTR.get(g.lower()) or _vcm.normalise_gpu_name(g)
+
+
 def _vast_request(method: str, path: str, api_key: str, params=None, body=None, _hops: int = 0):
     """Thin JSON client for the Vast REST API. Isolated so tests monkeypatch it; the callers' logic is pure.
     SELF-HEALING against Vast's v0->v1 migration: on a 410 `deprecated_endpoint` the body names the replacement
@@ -366,12 +389,15 @@ _MEASURED_NS_PER_DAY_84K = _vcm.MEASURED_NS_PER_DAY_84K
 
 
 def measured_ns_per_day(gpu_name):
-    """Benched throughput for this card at the ternary size, or None if we have never measured it. PURE."""
-    n = str(gpu_name or "").replace(" ", "").upper()
-    for k in sorted(_MEASURED_NS_PER_DAY_84K, key=len, reverse=True):
-        if k in n:
-            return _MEASURED_NS_PER_DAY_84K[k]
-    return None
+    """Throughput this card may use at the ternary size, or None if it may not borrow a benched figure. PURE.
+
+    ★ THE NAME-MATCHING NOW LIVES IN ONE PLACE (`vast_cost_model.card_of`), 2026-07-27. This function used to
+    carry its OWN longest-first substring sweep — a second implementation of the very thing the shared table
+    exists to prevent. Both copies gave `RTX 4090D`, a cut-down SKU, the full RTX 4090 figure. Deferring means
+    the allow-list argument (and the refusal of anti-conservative aliases) cannot be true in one file and
+    false in the other. For an alias entry the value is a LOWER BOUND; ask `_vcm.throughput_provenance`."""
+    c = _vcm.card_of(gpu_name)
+    return None if c is None else _MEASURED_NS_PER_DAY_84K[c]
 
 
 def offer_usd_per_ns(gpu_name, usd_per_hour):
@@ -423,6 +449,17 @@ def rank_offers_by_usd_per_ns(offers, res: ResourceSpec, max_hourly_usd=None):
         if res.exclude_machine_ids and str(o.get("machine_id")) in {
                 str(m) for m in res.exclude_machine_ids}:
             continue                                              # host known to refuse starts (see ResourceSpec)
+        if res.require_gpu:
+            # A HARD card constraint, applied with the other hard filters rather than as a ranking preference.
+            # Only a throughput bench sets it (ResourceSpec.require_gpu): for that job, landing on a different
+            # card does not make the run cheaper, it makes the RESULT WRONG and files it under the card we
+            # asked for.
+            # SUFFIX-anchored, the same rule `vast_cost_model._model_key` uses, so "give me an rtx4090" cannot
+            # be satisfied by the cut-down `RTX 4090D` and "rtxpro6000s" cannot be satisfied by the
+            # workstation `RTX PRO 6000 WS`. A vendor prefix is still free.
+            want = _vcm.normalise_gpu_name(res.gpu)
+            if want and not _vcm.normalise_gpu_name(o.get("gpu_name")).endswith(want):
+                continue
         if ngpu != 1:                                             # one GPU per leg (multi-GPU costs more, no gain)
             continue
         if _vast_gpu_ram_gb(o) + 0.5 < res.min_vram_gb:          # 0.5 GB slack for reporting rounding
@@ -570,26 +607,83 @@ def s3_checkpoint_uri(job_name: str, bucket: str = None, prefix: str = "vast") -
     return f"s3://{bucket}/{prefix}/{job_name}/ckpt"
 
 
-# Self-STOP on ANY exit, KEY-FREE (2026-07-24, trimcrae: never share VAST_API_KEY with community hosts): a bash
-# EXIT trap that halts THIS instance's GPU billing WITHOUT any API key on the host, by exiting its own container
-# — Vast bills the GPU only while the container runs, so powering the container off / killing its init (PID 1)
-# stops the GPU meter immediately on completion, crash, or `set -e` abort. We deliberately do NOT forward
-# VAST_API_KEY to the rented host (a real exposure: the key can spend the account's credit). Stopping billing is
-# not the same as DESTROYING the instance (an exited instance still holds cheap disk); the guaranteed DESTROY is
-# CONTROL-PLANE only — the CI-side collect reap (result-in-S3 / terminal-state / 240-min backstop) + stop_all,
-# where the key never leaves CI. So: host self-stops the GPU key-free, CI destroys the exited instance.
-_VAST_SELFDESTROY = (
-    'ct_selfdestroy(){ rc=$?; '
-    'poweroff 2>/dev/null || shutdown -h now 2>/dev/null || kill -9 -1 2>/dev/null || kill -9 1 2>/dev/null || true; '
+# Best-effort self-STOP on ANY exit, KEY-FREE (2026-07-24, trimcrae: never share VAST_API_KEY with community
+# hosts). VAST_API_KEY is deliberately NOT forwarded to a rented host (a real exposure: the key can spend the
+# account's credit), so the host's only lever is to end its own container — Vast bills the GPU while the
+# container runs.
+#
+# ⛔ CORRECTED 2026-07-27 — THIS IS BEST-EFFORT, NOT A GUARANTEE, AND THE OLD TEXT SAID OTHERWISE.
+# The previous version of this comment (and CLAUDE.md §6) claimed "the auto-teardown wrapper guarantees no
+# idle-GPU billing anywhere". It does not, and the failure is silent. MEASURED by controlled reproduction in
+# a private PID namespace (`unshare -fp --mount-proc`, a child shell playing the onstart script exactly as
+# Vast runs it — see `tests/test_vast_idle_guard.py::test_the_selfstop_chain_cannot_end_a_container`):
+#
+#     poweroff        -> "System has not been booted with systemd as init system (PID 1). Can't operate."
+#     shutdown -h now -> the same
+#     kill -9 1       -> returns SUCCESS and PID 1 SURVIVES. A PID-namespace init ignores any signal it has
+#                        no handler for, and SIGKILL cannot be handled (kernel SIGNAL_UNKILLABLE). This is
+#                        why the failure was invisible: the chain's `||` never advanced past a "success".
+#     kill -9 -1      -> kills every other process AND the caller, and PID 1 SURVIVES
+#                        (`man 2 kill`: pid == -1 signals every permitted process "except for process 1")
+#
+# So on an unprivileged container the chain kills the JOB and leaves the CONTAINER up: `actual_status`
+# stays `running` and the GPU keeps billing. Observed exactly that on 2026-07-27, both 5a-KS legs, for
+# ~53 min. `kill -9 1` is dropped here because it is provably a no-op that returns 0.
+# ⇒ THE GUARANTEE IS CONTROL-PLANE ONLY: `ternary_vast_launch.collect` (result-in-S3 / recorded-failure /
+#   runtime backstop / `vast_idle_guard` verdict) + stop_all, where the key never leaves CI. What the host
+#   can still usefully do is stop DOING the work and say, loudly and in the log the control plane reads,
+#   that it could not stop the meter.
+_VAST_SELFSTOP = (
+    'ct_selfstop(){ rc=$?; '
+    'echo "[selfstop] job exited rc=$rc; attempting container self-stop"; '
+    'poweroff 2>/dev/null; shutdown -h now 2>/dev/null; sleep 2; '
+    'echo "[selfstop] STILL UP: poweroff/shutdown need privileges this container does not have, and no '
+    'signal can reach PID 1 from inside its own namespace. THE GPU IS STILL BILLING until the CI reap '
+    'destroys this instance (vast_idle_guard). Killing the job now so it at least stops working."; '
+    'kill -9 -1 2>/dev/null; '
     'return $rc; }'
+)
+
+# ★ THE CRASH-LOOP BRAKE, and why it is a COUNTER rather than a flag. When the onstart script exits, Vast
+# re-runs it; if whatever killed it is a property of the RENTAL rather than of the attempt (a dead
+# credential, a missing stage cache, a host with no CUDA), the next attempt dies the same way and the box
+# spins. Measured 2026-07-27: a ~13-30 s loop — stage cache MISS -> `FAILED at staging` -> `Killed` -> repeat
+# — on two instances at once, billing throughout; and on 2026-07-26 the same shape left seventeen 168-byte
+# archived attempts on the first 5a-KS smoke.
+#
+# A one-shot "already ran, refuse" FLAG would be wrong and would cost a whole leg: a spot preemption stops
+# the instance, `collect` nudges it back to `running`, the container restarts and the leg is SUPPOSED to
+# resume from its checkpoint. That legitimate restart and a crash-loop differ only in RATE, so the brake
+# counts starts in a window: three inside CT_WIN is not something a healthy leg does, while a resume hours
+# later starts from an empty window. Holding idle (rather than exiting) is deliberate — an exit just gets
+# re-fired, whereas a quiet hold stops the churn, stops re-doing the same failing work, and lets the log go
+# silent, which is exactly the WEDGED signal `vast_idle_guard` reaps on.
+_VAST_CRASHLOOP_BRAKE = (
+    'CT_STARTS=${CT_STARTS:-/root/.vast_starts}; CT_WIN=${CT_WIN:-900}; CT_MAX=${CT_MAX:-3}\n'
+    'ct_t=$(date +%s); echo "$ct_t" >> "$CT_STARTS" 2>/dev/null || true\n'
+    'ct_n=$(awk -v t=$((ct_t-CT_WIN)) \'$1+0>=t\' "$CT_STARTS" 2>/dev/null | wc -l)\n'
+    'echo "[selfstop] container start ${ct_n:-?} within the last ${CT_WIN}s"\n'
+    'if [ "${ct_n:-0}" -ge "$CT_MAX" ]; then\n'
+    '  echo "[selfstop] CRASH-LOOP BRAKE: ${ct_n} container starts in ${CT_WIN}s. This rental keeps '
+    'restarting into the same failure, so re-running the job would burn GPU and produce nothing. Holding '
+    'idle and letting the log go silent so the CI idle guard reaps this instance."\n'
+    '  while true; do sleep 3600; done\n'
+    'fi'
 )
 
 
 def _vast_onstart(spec: JobSpec, self_terminate_argv, extra_env=None) -> str:
-    """Build the instance onstart script, arm a KEY-FREE self-stop EXIT trap so the instance halts its GPU
-    billing (exits its container) on completion/crash/stop (never idles on the meter — the #1 gotcha), then run
-    the job command. The guaranteed DESTROY is control-plane (CI reap). `extra_env` is merged UNDER spec.env
-    (spec.env wins). PURE (no I/O) -> unit-tested.
+    """Build the instance onstart script: arm the crash-loop brake, arm the KEY-FREE best-effort self-stop
+    EXIT trap, then run the job command. `extra_env` is merged UNDER spec.env (spec.env wins). PURE (no I/O)
+    -> unit-tested.
+
+    ⛔ WHAT THE TRAP DOES AND DOES NOT DO. This docstring used to say the trap "halts its GPU billing (exits
+    its container) ... never idles on the meter". That was measured false on 2026-07-27 — an unprivileged
+    container cannot end itself, `kill -9 1` returns 0 while doing nothing, and two 5a-KS legs billed for
+    ~53 min in a crash-loop with `actual_status: running` and `gpu_util: 0.0`. See the comment above
+    `_VAST_SELFSTOP` for the controlled reproduction. The trap stops the JOB and says loudly that it could
+    not stop the METER; the brake stops a rental re-running a job that keeps failing the same way; **the
+    destroy is control-plane only** (`ternary_vast_launch.collect` + `vast_idle_guard`).
 
     ⚠ WHAT THIS SCRIPT EXPOSES, STATED PLAINLY. Everything below is written into the rental's onstart field
     IN CLEARTEXT and is readable by the host's operator, by anyone who can see the Vast instance record, and
@@ -611,6 +705,11 @@ def _vast_onstart(spec: JobSpec, self_terminate_argv, extra_env=None) -> str:
     teardown is key-free (the trap below) with the control-plane destroy staying in CI. The earlier version
     of this docstring named that withholding and nothing else, which read as reassurance while the AWS key
     went out in the clear. It is one item on the list, not the list.
+
+    ★ ORDER IS LOAD-BEARING. The brake runs BEFORE the trap is armed and before the job: its whole job is to
+    decide whether this rental should run the command at all, and once the trap is armed any exit tries to
+    kill the shell that would have made that decision. And the trap is armed BEFORE the command so a
+    `set -e`/signal death on the very first line is still covered.
     """
     cmd = " ".join(shlex.quote(a) for a in spec.command)
     env = {**(extra_env or {}), **spec.env}
@@ -619,7 +718,7 @@ def _vast_onstart(spec: JobSpec, self_terminate_argv, extra_env=None) -> str:
              f"export RESUME={'1' if spec.resume else '0'}",
              f"export SELF_LABEL={shlex.quote(spec.name)}"]      # the trap finds this instance by its label
     lines += [f"export {k}={shlex.quote(str(v))}" for k, v in env.items()]
-    lines += [_VAST_SELFDESTROY, "trap ct_selfdestroy EXIT", cmd]
+    lines += [_VAST_CRASHLOOP_BRAKE, _VAST_SELFSTOP, "trap ct_selfstop EXIT", cmd]
     return "\n".join(lines)
 
 
@@ -630,11 +729,21 @@ class VastBackend(Backend):
     bottleneck. On our MD/FEP workload (memory-bandwidth-bound PME) the marketplace's RTX 4090s (1008 GB/s) are
     the a-priori cheapest $/ns. The catch is the PROVIDER not the card: community hosts are interruptible and can
     vanish, and — the #1 gotcha — a finished job that leaves its instance UP bleeds money on an idle GPU, so the
-    instance MUST stop billing. Teardown is KEY-FREE + two-layer (VAST_API_KEY is NEVER put on a community host):
-    (1) HOST self-STOP — autoteardown's finally+watchdog + the onstart EXIT trap exit the container (poweroff /
-    kill PID 1), halting the GPU meter with no API key; (2) CONTROL-PLANE DESTROY — the CI collect reap
-    (result-in-S3 / terminal / 240-min backstop) + stop_all fully remove the exited instance, key staying in CI.
-    The host can stop its own GPU billing but only CI (the key-holder) can destroy the instance.
+    instance MUST stop billing.
+
+    ⛔ WHO CAN ACTUALLY STOP THE METER (corrected 2026-07-27; this said "two-layer" and the first layer does
+    not work). VAST_API_KEY is NEVER put on a community host, so the host has no way to destroy anything, and
+    — measured, not assumed — an UNPRIVILEGED CONTAINER CANNOT END ITSELF EITHER: `poweroff`/`shutdown` need
+    an init this container does not have, `kill -9 -1` excludes PID 1 by definition and kills the caller, and
+    `kill -9 1` RETURNS SUCCESS while being ignored. So:
+      (1) HOST, BEST-EFFORT — the onstart EXIT trap and autoteardown's finally+watchdog stop the JOB (no more
+          GPU work, no more churn) and record that they could not stop the BILLING; the crash-loop brake
+          stops a rental re-running a job that keeps failing. None of this ends the rental.
+      (2) CONTROL-PLANE, THE ONLY GUARANTEE — the CI collect reap (result-in-S3 / recorded-failure / runtime
+          backstop / the `vast_idle_guard` verdict on a box that is up and doing nothing) + stop_all, with
+          the key staying in CI.
+    Anything that claims the host halts its own billing is wrong, and cost ~53 min of billed idle on two
+    5a-KS legs on 2026-07-27 before it was measured.
 
     NOTE (must smoke before a fleet): the exact Vast REST endpoints/query schema drift between API versions; the
     LOAD-BEARING logic — cheapest-verified-offer selection and the key-free-self-stop onstart — is factored
@@ -643,10 +752,14 @@ class VastBackend(Backend):
     name = "vast"
 
     def self_terminate_cmd(self):
-        # KEY-FREE self-stop: exit this container so Vast halts GPU billing, with NO API key on the host.
-        # The guaranteed DESTROY of the (now-exited) instance is control-plane — the CI collect reap + stop_all,
-        # where VAST_API_KEY never leaves CI. (Was `vastai destroy` — needed the key on the host; removed.)
-        return ["bash", "-c", "poweroff 2>/dev/null || shutdown -h now 2>/dev/null || kill -9 1 2>/dev/null || true"]
+        # KEY-FREE, BEST-EFFORT self-stop: try to exit this container, with NO API key on the host. On an
+        # unprivileged container none of this can succeed (see the class docstring and the comment above
+        # `_VAST_SELFSTOP`) — it is kept because it costs nothing and DOES work where the container is
+        # privileged, and because `kill -9 -1` at least stops the job from doing more GPU work. The
+        # guaranteed DESTROY is control-plane — the CI collect reap + stop_all, key never leaving CI.
+        # (`kill -9 1` removed: measured to return 0 while doing nothing, which is worse than useless
+        # because it makes an `||` chain report success.)
+        return ["bash", "-c", "poweroff 2>/dev/null; shutdown -h now 2>/dev/null; kill -9 -1 2>/dev/null; true"]
 
     def submit(self, spec: JobSpec) -> Handle:
         key = os.environ.get("VAST_API_KEY")
@@ -667,6 +780,13 @@ class VastBackend(Backend):
         # gets decided in ONE place, `_object_store_env` — scoped `vast-leg-s3` when configured, else the broad
         # CI key with the exposure that implies. Say which, on the record, without printing any part of it.
         extra = dict(_object_store_env())
+        # WHAT THE MARKETPLACE SAID WE RENTED, forwarded so the container can record it next to its own result.
+        # The throughput tables are keyed on `gpu_name`, but a leg can only see the CUDA DEVICE name, and the
+        # two differ ("RTX 4090" vs "NVIDIA GeForce RTX 4090"; "RTX PRO 6000 WS" vs the full Blackwell string).
+        # Without this a bench result cannot be matched back to the offer that produced it except by string
+        # guessing — which is precisely how a leg that fell back to a Quadro RTX 8000 was tabulated as an A10
+        # and helped get the 2026-07-24 grid withdrawn.
+        extra["VAST_OFFER_GPU_NAME"] = str(offer.get("gpu_name") or "")
         mode = object_store_cred_mode()
         print(f"  [cred] object-store credential: {mode}"
               + ("" if mode == "scoped" else "  ** BROAD CI KEY — see research/compute/"
