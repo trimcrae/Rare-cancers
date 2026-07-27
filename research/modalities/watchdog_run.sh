@@ -99,6 +99,47 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
 
     # 1. DONE? the leg's own direction-keyed result object is the only authority on completion.
     if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" >/dev/null 2>&1; then
+      # ===== FIRST: A DONE LEG MUST NOT LEAVE A VM HOLDING THE ONLY GPU =====
+      #
+      # MEASURED 2026-07-27, gcp-ternary-30215419909 (us-central1-a). The leg finished cleanly --
+      # "[barrier] committed checkpoint at iteration 2000/2000", then
+      # "[tfep] LEG DONE calib_hi_to_lo__ternary_vhl: ΔG_morph=-47.79 ± 0.09 (MBAR SE)" -- the startup
+      # script reached its end and its EXIT trap DID run, and the trap's delete FAILED:
+      #
+      #   === SELF-DELETE (trap on EXIT): deleting gcp-ternary-30215419909 in us-central1-a ===
+      #   ERROR: (gcloud.compute.instances.delete) Could not fetch resource:
+      #    - Required 'compute.instances.delete' permission for
+      #      'projects/project-a7ebde30-e2ed-4b8d-9a9/zones/us-central1-a/instances/gcp-ternary-30215419909'
+      #   self-delete no-op (already gone / no perm)
+      #   startup-script exit status 0
+      #
+      # so a finished, idle VM sat RUNNING and held GPUS_ALL_REGIONS=1 -- which blocks EVERY other GCP GPU
+      # job on the account -- until a human noticed. THE HOST CANNOT DELETE ITSELF; ONLY THE CONTROL PLANE
+      # CAN. That is the same rule this repo already paid to learn on Vast (CLAUDE.md §6), and this branch
+      # IS the control plane. It used to `continue` past a live VM without ever looking at one: the reap
+      # lived only in the CRASHED branch below, which a DONE leg can never reach.
+      #
+      # SAFE BY CONSTRUCTION, and this is why it belongs here rather than in gcp-reap-vms.yml. The
+      # condition of this branch is that the leg's own direction-keyed result JSON is ALREADY in GCS, so
+      # there is no sampling left for a VM to do and nothing at risk in deleting it. gcp-reap-vms.yml can
+      # only ask "how old is it", and age cannot tell a healthy 40 h leg from a wedged one -- which is
+      # exactly why that workflow is manual-only and must stay that way.
+      if [ "$NVM" -gt 0 ]; then
+        for _dvm in $(printf '%s\n' "$VMS" | awk '{print $1}' | sed '/^$/d'); do
+          _dz=$(gcloud compute instances list --filter="name=$_dvm" --format="value(zone.basename())" 2>/dev/null | head -1)
+          [ -z "$_dz" ] && continue
+          if [ "$DRY" = "1" ]; then
+            echo "::warning title=WATCHDOG DONE + LIVE VM::$TAG — dry_run=1: would DELETE $_dvm ($_dz). The leg's result JSON is in GCS, so the VM is idle and holding the single GPU."
+          # stderr is KEPT. Sending it to /dev/null is how the in-VM trap's failure stayed unreadable for
+          # ~2 h: one message, "no perm / already gone", covering two opposite outcomes and naming neither.
+          elif gcloud compute instances delete "$_dvm" --zone="$_dz" --quiet 2>/tmp/wd-reap-err; then
+            echo "::warning title=WATCHDOG REAPED A FINISHED LEG'S VM::$TAG — deleted $_dvm ($_dz). The result JSON was already in GCS, so this VM was idle and holding GPUS_ALL_REGIONS=1. Its presence also means the in-VM self-delete did NOT fire successfully — see gcp-gpu-facts.md §6."
+          else
+            echo "::error title=WATCHDOG REAP FAILED::$TAG — $_dvm ($_dz) is up with the leg already finished, and delete failed: $(tail -2 /tmp/wd-reap-err | tr '\n' ' '). It is holding the ONLY GPU and every other GCP job is blocked until it is removed by hand (gcp-reap-vms.yml mode=reap)."
+            echo "DONE-REAP FAILED for $_dvm ($TAG)" >> "$ALERT"
+          fi
+        done
+      fi
       # A finished leg is not a finished RESULT. The leg JSON holds one ΔG; the deliverable is
       # ΔΔG_coop, the gate verdict, and |ΔG_fwd + ΔG_rev| — all produced by mode=converge (diagnostics)
       # and mode=reduce (the cycle + gate). Both are CPU-only, $0, no GPU. Without this the number sits

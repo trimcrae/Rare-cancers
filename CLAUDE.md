@@ -412,8 +412,12 @@ When in doubt: do it and show it.
   means a provision failure is real capacity or a bad request. **(3) On-demand create MUST pass
   `--instance-termination-action` whenever `--max-run-duration` is set** (true for standard too, not spot-only) —
   omitting it silently broke on-demand for months, mislabelled "stocked out". **(4) Spot working while on-demand
-  fails is backwards** → a broken command, not capacity. **(5) VMs self-delete on exit**, so a dead leg shows
-  `live_vms=0`; `gcp-reap-vms.yml` is the backstop.
+  fails is backwards** → a broken command, not capacity. **(5) ⚠ VMs DO NOT self-delete — the in-VM trap runs
+  and GCE REFUSES it** (`Required 'compute.instances.delete' permission`, measured 2026-07-27), so a finished
+  leg leaves a RUNNING VM holding the single GPU; the reap is the CONTROL PLANE's job (the ternary watchdog's
+  DONE branch), and `gcp-reap-vms.yml` is **not** a backstop — it has no `schedule:` and never fires by itself.
+  **Superseded, retained:** "VMs self-delete on exit, so a dead leg shows `live_vms=0`; `gcp-reap-vms.yml` is
+  the backstop." Evidence and the whole correction: [gcp-gpu-facts.md](./research/compute/gcp-gpu-facts.md) §6/§6b.
 
 ### Environment noise to ignore
 

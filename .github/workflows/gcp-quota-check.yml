@@ -22,6 +22,35 @@ jobs:
           workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v2
+      - name: Self-delete probe — does the VM's SA actually hold compute.instances.delete?
+        # WHY: from 2026-07-22 to 2026-07-27 gcp-gpu-facts.md §6 asserted that the default compute SA had been
+        # granted compute.instances.delete "so VMs now self-delete on graceful exit". Nothing ever checked, and
+        # it was false: on 2026-07-27 gcp-ternary-30215419909 finished its leg, ran its EXIT trap, and GCE
+        # refused the delete ("Required 'compute.instances.delete' permission for .../gcp-ternary-30215419909").
+        # The VM then held GPUS_ALL_REGIONS=1 — every GCP GPU job on the account — until a human looked.
+        # A belief about a permission that nothing measures will drift again, so it is measured here, for free,
+        # every time anyone asks what this project can do. Read-only: it lists bindings, it grants nothing.
+        run: |
+          set +e
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          SA=878095411563-compute@developer.gserviceaccount.com
+          echo "=== IAM bindings for the VMs' own SA ($SA) ==="
+          POL=$(gcloud projects get-iam-policy "$PROJECT" --flatten="bindings[].members" \
+                  --filter="bindings.members:$SA" --format="value(bindings.role)" 2>/tmp/iamerr)
+          RC=$?
+          if [ "$RC" != 0 ]; then
+            echo "  (could not read the policy as gpu-runner@ — this is expected if it lacks"
+            echo "   resourcemanager.projects.getIamPolicy; it does NOT mean the compute SA is fine)"
+            tail -2 /tmp/iamerr | sed 's/^/  /'
+            echo "::notice title=SELF-DELETE PROBE INCONCLUSIVE::gpu-runner@ cannot read the project IAM policy, so this probe cannot confirm or deny compute.instances.delete on $SA. The MEASURED answer as of 2026-07-27 is that it does NOT hold it (gcp-gpu-facts.md §6). Teardown must not be planned around the in-VM trap."
+          else
+            printf '%s\n' "${POL:-  (no bindings found for this member)}" | sed 's/^/  role: /'
+            if printf '%s' "$POL" | grep -q .; then
+              echo "  NB a role name is not a permission. Confirm compute.instances.delete is IN the role"
+              echo "  before believing self-delete works, and prefer the live check: the TEARDOWN FORENSIC"
+              echo "  block in gpu-rbfe-gcp-tail.yml runs testIamPermissions as the VM's own identity."
+            fi
+          fi
       - name: GCS write probe — can gpu-runner@ create objects under the cache prefixes?
         # WHY: the CPU setup-primer's whole purpose is to write the OpenFE setup cache, and on 2026-07-25 it could
         # not — gpu-runner@ got 403 storage.objects.create on valB-6hax/setupcache/ while succeeding on
