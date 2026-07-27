@@ -10,7 +10,7 @@
       "leg": "complex",
       "edge": "zaienne_cmpd19->cw_bio_primary_amide",
       "n_mapped_atoms": 17,
-      "wall_s": 87.9,
+      "wall_s": 69.5,
       "n_particles": 112955,
       "force_census": [
         {
@@ -115,13 +115,13 @@
           {
             "group": 7,
             "force": "NonbondedForce",
-            "energy_kj_mol": -1087026.4244802059,
+            "energy_kj_mol": -1091042.4044722975,
             "finite": true
           },
           {
             "group": 8,
             "force": "CustomNonbondedForce",
-            "energy_kj_mol": -97.25264322289678,
+            "energy_kj_mol": -97.29436680488396,
             "finite": true
           },
           {
@@ -131,10 +131,15 @@
             "finite": true
           }
         ],
-        "verdict": "\u2705 every force term is FINITE at the input coordinates (max |E| = 1.08703e+06 kJ/mol, total = -1.05749e+06 kJ/mol). The NaN was produced DURING minimisation, not by the system as built \u2014 RETRY candidate, not a block candidate."
+        "verdict": "\u2705 every force term is FINITE at the input coordinates (max |E| = 1.09104e+06 kJ/mol, total = -1.06151e+06 kJ/mol). The NaN was produced DURING minimisation, not by the system as built \u2014 RETRY candidate, not a block candidate."
+      },
+      "minimize_repro": {
+        "outcome": "completed",
+        "detail": "[spot-driver] RBFE_SETUP_ONLY=1 \u2014 sampler.setup() (incl. its pre-MD LocalEnergyMinimizer over every lambda state) COMPLETED WITHOUT A NaN on this platform. Exiting before any MD; nothing was sampled and nothing was committed.",
+        "wall_s": 988.2
       },
       "decision": "RETRY",
-      "why": "every force term is finite at the coordinates handed to setup() (max |E| = 1.08703e+06 kJ/mol) on a host-independent CPU build, so the staged system is not the fault; the NaN arose inside the minimisation trajectory and the edge is a retry candidate"
+      "why": "the production `sampler.setup()`, including its pre-MD LocalEnergyMinimizer over every lambda state, COMPLETED WITHOUT A NaN on a host-independent CPU build of the same staged system (988.2s), and every force term is finite at the handed-over coordinates (max |E| = 1.09104e+06 kJ/mol). The edge is not the fault, so this is a retry candidate and not a block"
     }
   ],
   "summary": {

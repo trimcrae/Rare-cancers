@@ -1249,3 +1249,138 @@ def test_the_double_booked_floor_is_DERIVED_from_the_one_home_and_is_shorter():
     src = inspect.getsource(fv.mode_monitor)
     assert "_floor = stuck_start_min_for(" in src and "age >= _floor" in src, \
         "the condemn test must use the derived per-class floor, not the bare constant"
+
+def test_a_machine_that_HAS_run_our_container_can_never_be_condemned_as_never_starting():
+    """★ THE VERDICT MUST NOT DEPEND ON WHAT WAS CLEANED UP (2026-07-27, observed within 7 minutes).
+    46031788 was correctly `double_booked` behind our own 46031535 on machine 53989. The collect reaped
+    46031535 for being terminal, 46031788 became the oldest thing we held there, and the SAME instance
+    re-classified as `host_fault` — one strike from publishing 53989 cross-lane and permanently, though it
+    had just run two of this lane's containers to 94-99 % GPU."""
+    import congeneric_fanout_vast as fv
+    incumbent = _inst(1, "s1f-12-x", "53989", "success, running img", age_h=0.75)
+    dupe = _inst(2, "s1f-15-y", "53989", "", age_h=0.7)
+    assert fv.never_started_cohort([incumbent, dupe])["never_started"][0]["klass"] == "double_booked"
+    # incumbent reaped, nothing else changed, and WITHOUT the durable set it would flip to host_fault
+    assert fv.never_started_cohort([dupe])["never_started"][0]["klass"] == "host_fault"
+    # ...with it, the machine is proven and cannot be condemned
+    c = fv.never_started_cohort([dupe], known_good={"53989"})
+    (row,) = c["never_started"]
+    assert row["klass"] == "stopped_on_a_proven_machine" and row["machine_has_run_our_container"]
+    assert c["host_fault_machines"] == [] and c["n_host_fault"] == 0
+    assert c["n_stopped_on_a_proven_machine"] == 1
+
+
+def test_the_proven_set_is_read_off_a_non_empty_status_msg():
+    """Whatever the message says, the box got as far as running our image — which is the exact claim a
+    'never starts' verdict denies."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-a", "111", "success, running docker.io/triskit23/nr4a3fep_latest/ssh"),
+            _inst(2, "s1f-b", "222", "#7 5.55 Get:5 http://archive.ubuntu.com/ubuntu jammy/main"),
+            _inst(3, "s1f-c", "333", ""), _inst(4, "s1f-d", "444", "   ")]
+    assert fv.observed_started_machines(live) == ["111", "222"]
+
+
+def test_the_condemn_path_never_publishes_a_proven_machine():
+    """The safety property, pinned as source: a cross-lane exclusion must be unreachable from both the
+    duplicate branch and the proven-machine branch."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    i_proven = src.index('if stuck_sig and i.get("id") in _proven:')
+    i_dupe = src.index('elif stuck_sig and i.get("id") in _dupes:')
+    i_host = src.index('_scope = "host"')
+    assert i_proven < i_dupe < i_host, "both no-exclusion branches must be tested before the host verdict"
+    # the proven set must be built from the DURABLE store, not only from the current listing
+    assert "_load_started_machines(s3, bucket)" in src and "_save_started_machines(s3, bucket, _good)" in src
+
+# ---- withdrawing an exclusion that the evidence refutes -----------------------------------------------------
+# Added 2026-07-27 after three machines that had run this lane's legs at 94-99 % GPU were condemned
+# host-scoped by the unstable verdict, and the very next tick excluded 38 machines against a 152-offer board
+# and lost 4 of 5 authorised placements to `no rentable verified offer`.
+
+class _DictS3:
+    """S3 stand-in over a dict of key -> bytes, with just get_object/put_object."""
+
+    def __init__(self, objs=None):
+        self.objs = dict(objs or {})
+
+    def get_object(self, Bucket=None, Key=None):  # noqa: N803
+        import io
+        if Key not in self.objs:
+            raise KeyError(Key)
+        return {"Body": io.BytesIO(self.objs[Key])}
+
+    def put_object(self, Bucket=None, Key=None, Body=None):  # noqa: N803
+        self.objs[Key] = Body
+
+
+def _excl_doc(entries):
+    import json
+    return json.dumps({"machine_ids": sorted({m for m, _ in entries}),
+                       "history": [{"machine_id": m, "why": w} for m, w in entries]}).encode()
+
+
+def test_a_never_starts_exclusion_is_withdrawn_by_evidence_that_it_started():
+    import json
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("53989", "never started: cur_state=stopped with an empty status_msg"),
+                             ("1569", "never started: create/start race")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"53989"}) == ["53989"]
+    doc = json.loads(s3.objs[f"{fv.RESULT_PREFIX}/_excluded_machines.json"])
+    assert doc["machine_ids"] == ["1569"], "only the refuted entry goes; the unrefuted one stays"
+    assert any(h.get("action") == "withdraw" for h in doc["history"]), "the withdrawal must be recorded"
+
+
+def test_an_exclusion_for_a_DIFFERENT_reason_survives_evidence_that_it_started():
+    """The lane-scoped throughput verdict is about the machine PAIRED WITH THIS WORKLOAD. A host that starts
+    fine and then sustains 12 % GPU is exactly what it describes, so starting refutes nothing."""
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("777", "gpu_util 12.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%)")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"777"}) == []
+
+
+def test_withdrawal_is_not_an_ageing_policy():
+    """Nothing is withdrawn for being old — only for positive contrary evidence. A machine never observed
+    running must survive untouched however long it has sat in the set."""
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("1569", "never started: create/start race")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", set()) == []
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"999"}) == []
+
+
+def test_the_shared_set_refuses_to_overrule_another_lanes_entry():
+    import json
+    import vast_machine_blacklist as vmb
+    s3 = _DictS3({vmb.SHARED_KEY: json.dumps(
+        {"machine_ids": ["46392"],
+         "history": [{"machine_id": "46392", "why": "never started", "lane": "rung5aks"}]}).encode()})
+    assert vmb.withdraw(s3, "bkt", "46392", "we saw it run", lane="step1_fanout") is False
+    assert json.loads(s3.objs[vmb.SHARED_KEY])["machine_ids"] == ["46392"]
+    # ...but its own entry it may withdraw
+    assert vmb.withdraw(s3, "bkt", "46392", "we saw it run", lane="rung5aks") is True
+    assert json.loads(s3.objs[vmb.SHARED_KEY])["machine_ids"] == []
+
+
+def test_the_repair_runs_before_the_condemn_block():
+    """Otherwise a machine could be withdrawn and re-condemned inside a single tick, which is a loop, not a
+    repair."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    assert src.index("withdraw_wrong_exclusions(s3, bucket, _good)") < src.index("_cohort_now =")
+
+def test_a_submit_starved_by_OUR_OWN_filters_does_not_read_as_a_capacity_refusal():
+    """`no rentable verified offer` is emitted both when the market has nothing and when our exclusion set
+    plus host-distinctness have eaten the board. Opposite remedies — withdraw a wrong exclusion vs wait for
+    prices — so the readout must name which. Measured: 38 machines excluded against 152 offers lost 4 of 5
+    authorised placements, every one printing as if the market had refused us."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_launch)
+    assert '"no rentable verified offer" in str(e)' in src
+    assert "NOT a capacity refusal" in src
+    # and it must break the count down into the two causes, since only one of them is actionable here
+    assert "_n_excl, _n_held = len(excluded), len(used_machines) - len(excluded)" in src

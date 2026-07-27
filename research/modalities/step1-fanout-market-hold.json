@@ -1,56 +1,50 @@
 {
-  "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY tick \u2014 including the ticks that rent nothing \u2014 because a stale timestamp must only ever mean the tick did not run.",
-  "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. A hold is a correct outcome; a SILENT hold is the bug.",
-  "utc": "2026-07-27T19:51:30Z",
-  "decision": "placement_disabled",
-  "decision_why": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 5 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
-  "decision_meaning": "this tick was asked to measure only \u2014 no placement was attempted",
+  "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a finished fleet \u2014 and a partial launch that reports only what it launched is the same failure wearing a better number.",
+  "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. Per-unit since 2026-07-27 (trimcrae): if 5 GPUs are cheap enough and the rest are not, run 5.",
+  "utc": "2026-07-27T20:04:55Z",
+  "decision": "placed",
+  "decision_meaning": "units were rented this tick",
+  "decision_why": null,
   "held": true,
-  "n_withheld": 5,
-  "n_launching_now": 0,
+  "n_withheld": 7,
+  "n_launching_now": 2,
   "n_held": 5,
-  "placed_usd_per_ns": [],
-  "placed_x_basis": [],
-  "spend_authorised_now_usd": 0.0,
-  "ceiling_for_that_spend_usd": 0.0,
-  "binding_gate": "placement_disabled",
-  "binding_gate_why": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 5 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
-  "binding_gate_scope": "all 5 withheld unit(s)",
-  "price_blocks_every_unit": false,
-  "first_held_utc": null,
-  "held_hours": 0.0,
-  "held_reason": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 5 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
-  "basis_usd_per_ns": 0.003412,
   "unit_usd_per_ns_ceiling": 0.006539,
   "unit_ceiling_x_basis": 1.917,
   "unit_dollar_ceiling_usd_per_ns": 0.008594,
   "unit_rate_line_usd_per_ns": 0.006539,
   "which_ceiling_binds": "rate line ($0.006539/ns = 1.92x basis)",
+  "placed_usd_per_ns": [
+    0.005534,
+    0.006537
+  ],
+  "placed_x_basis": [
+    1.62,
+    1.92
+  ],
+  "basis_usd_per_ns": 0.003412,
+  "spend_authorised_now_usd": 5.99,
+  "ceiling_for_that_spend_usd": 7.88,
+  "held_reason": null,
   "board_depth": {
-    "offers_returned": 155,
-    "qualifying": 147,
-    "priceable": 90,
-    "needed": 5,
-    "used_for_mean": 5
+    "offers_returned": 156,
+    "qualifying": 146,
+    "priceable": 87,
+    "needed": 7,
+    "used_for_mean": 7
   },
   "offers_priced": [
     {
       "gpu": "RTX 5090",
-      "machine_id": 19492,
-      "min_bid": 0.204,
-      "usd_per_ns": 0.005486
+      "machine_id": 140286,
+      "min_bid": 0.2133333,
+      "usd_per_ns": 0.005534
     },
     {
       "gpu": "RTX 5090",
-      "machine_id": 29711,
-      "min_bid": 0.204,
-      "usd_per_ns": 0.005486
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 54458,
-      "min_bid": 0.2266667,
-      "usd_per_ns": 0.006214
+      "machine_id": 138147,
+      "min_bid": 0.24,
+      "usd_per_ns": 0.006537
     },
     {
       "gpu": "RTX 3090",
@@ -63,7 +57,30 @@
       "machine_id": 32560,
       "min_bid": 0.104,
       "usd_per_ns": 0.006866
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 142441,
+      "min_bid": 0.227,
+      "usd_per_ns": 0.006933
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 49598,
+      "min_bid": 0.26666666666666666,
+      "usd_per_ns": 0.007006
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 114102,
+      "min_bid": 0.18666666666666668,
+      "usd_per_ns": 0.007204
     }
   ],
-  "board_unreadable": null
+  "binding_gate": "price",
+  "binding_gate_why": null,
+  "binding_gate_scope": "5 of 7 withheld unit(s) \u2014 the other 2 were placed this tick",
+  "price_blocks_every_unit": false,
+  "first_held_utc": null,
+  "held_hours": 0.0
 }

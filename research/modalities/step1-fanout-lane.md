@@ -549,6 +549,81 @@ the WEDGED channel arms itself for them.
 `s1f-09` no longer appears in the fleet, and `blocked_units` in the map artifact carries its reason and
 evidence — so the edge is neither being re-rented nor silently missing.
 
+## 7e. Most of the "dead fleet" was the lane double-booking its own machines (2026-07-27, 3:44 PM ET)
+
+**The reading that was wrong.** Eight of nineteen live hosts sat `cur_state=stopped` with an **empty
+`status_msg`** — the documented never-started signature — and the obvious conclusion was that the board had
+turned bad. It had not. No committed artifact carried `machine_id`, so "eight bad hosts" and "a few bad
+machines rented repeatedly" were indistinguishable; adding that one field to the progress snapshot changed
+the diagnosis completely.
+
+**The discriminating observation** (CLAUDE.md §4), grouping the same nineteen hosts by machine:
+
+| placement | started |
+|---|---|
+| the ONLY `s1f-*` instance this lane held on that machine | **8 of 10** |
+| placed on a machine this lane was **already renting** | **0 of 7** |
+
+Zero of seven. A Vast machine rents out a fixed number of GPUs, so a second container on a box whose GPU we
+already hold has none to take: it sits `stopped` with an empty `status_msg` — **the same signature as a
+genuine create/start race, reached by our own double-booking.** Five of the machines involved (19492, 31035,
+31036, 53989, 24573) were at that moment running this lane's own legs at 76–98 % GPU.
+
+**Why it started happening now.** `mode_launch`'s `used_machines` began as a copy of the exclusion set and
+grew only from *this process's* submissions. That made a single wave land on distinct hosts and said nothing
+about hosts the lane was already renting. Before the ramp that was invisible, because ticks placed one unit
+and were hours apart. The ramp places to width every tick, so waves now arrive minutes apart — ten units went
+out in two waves four minutes apart — and wave 2 began having forgotten every host wave 1 had just taken,
+reading a board that was substantially the same board with the same offers ranked first. The board-read cache
+sharpens this rather than causing it: within a wave one snapshot serves every unit, so only
+`exclude_machine_ids` separates them.
+
+**Fixed:** `mode_launch` seeds host-distinctness with the machines the lane is already renting. These are
+*not* written to the exclusion set — a machine we are happily running on is a good machine, and it becomes
+selectable again the moment its instance ends.
+
+### ⚠ The remedies are opposite, so the classifier has four classes, not one
+
+A blanket "never started ⇒ host-scoped exclusion" would have published five healthy, cheap machines to the
+**permanent, cross-lane** set (`vast_machine_blacklist` ages nothing out) for a fault that was ours — the
+expensive direction of the trade that module's own docstring names. `never_started_cohort` now returns:
+
+| class | evidence | remedy |
+|---|---|---|
+| `double_booked` | never started; an OLDER instance of ours is on that machine | destroy the duplicate, record **nothing** against the machine |
+| `stopped_on_a_proven_machine` | never started; that machine has **run our container before** | destroy, re-price through the market gate, **never** condemn |
+| `host_fault` | never started; sole rental, machine never ran our image | destroy **and** publish HOST-scoped |
+| `preempted` | non-empty `status_msg` — it ran and exited | resume; excluding its machine retires healthy supply |
+
+**And the verdict must be stable.** Observed within seven minutes: instance 46031788 was correctly
+`double_booked` behind our 46031535 on machine 53989; the collect reaped 46031535 for being terminal,
+46031788 became the oldest thing we held there, and the *same instance* re-classified as `host_fault` — one
+strike from condemning a machine that had just run two of our containers to 94–99 % GPU. A classification
+that changes because the other instance was cleaned up is not a classification. `_started_machines.json`
+accumulates every machine watched running one of our containers and is written **before** the reap that
+destroys the evidence.
+
+### The threshold, and the one that must not move
+
+`STUCK_START_MIN` (45 min) buys exactly one thing — patience for a cheap host legitimately spending 20–40 min
+pulling the ~6 GiB image. A duplicate with no GPU to pull onto has no pull to protect, so
+`stuck_start_min_for()` derives its floor as `STUCK_START_MIN/3`; the cost of waiting is not the rental but
+the **slot**, and these held 8 of the lane's 19. The **two-consecutive-strike** rule is unchanged for every
+class: what it guards — an API blip, a listing caught mid-transition — is just as possible here, and this
+path destroys a rental. Corroboration that age alone must never condemn: `s1f-00` carried the empty-msg
+signature at 34 min and was *running* by 42.
+
+### The exclusion set IS reaching the selector
+
+Checked, because the opposite conclusion would have meant no amount of further excluding could help. The
+launcher prints `excluding N machine(s) from offer selection` immediately before each wave, and that list
+grew 1 → 11 → 13 → **21** across the day as the cross-lane union filled in. **None** of the never-started
+machines (19499, 144071, 53989, 31036, 31035, 19492) was in the list printed for its own wave. Machine 144071
+entered the set *after* this lane rented it — another lane reaching the same verdict independently, which is
+corroboration of a host fault, **not** evidence of a selector bug. That distinction is now enforced: the
+field is `machines_excluded_since`, and the only thing that could support the stronger claim is the
+launcher's own `excluding …` line for the wave that placed the host.
+
 ## 8. Operational notes for whoever resumes
 
 - **A CI job log is only readable from its tail, and the tail is always runner boilerplate.** `monitor`,

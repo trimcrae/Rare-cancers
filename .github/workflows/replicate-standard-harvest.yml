@@ -1,0 +1,132 @@
+name: Replicate-standard harvest (free CI, no GPU)
+
+# Answers "what IS the field standard for a congeneric RBFE screening ladder" with sources rather
+# than recollection. Two independent evidence streams, neither runnable from the dev sandbox
+# (its egress proxy 403s docs.openfree.energy, livecomsjournal, RSC, Nature, and GitHub's API):
+#
+#   1. openfe  -- read protocol_repeats and the repeat-combination logic off the INSTALLED package
+#                 in the pre-baked image, so the "OpenFE's own default" claim is byte-level truth
+#                 rather than a doc snippet. Per CLAUDE.md the stack is PULLED, never solved.
+#   2. harvest -- Crossref DOI verification (a MISS means the DOI does not exist and must not be
+#                 cited: the golden rule's fabrication guard) plus open-access full-text capture.
+#
+# Push-triggered on the working branch: a NEW workflow file cannot be workflow_dispatch'd from a
+# feature branch (dispatch resolves the file on the default branch), but push triggers fire from
+# any branch. Outputs land on the replicate-standard-cache branch, never on the working branch,
+# so this cannot collide with the lanes running there.
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [claude/max-effort-2dq11l]
+    paths:
+      - .github/workflows/replicate-standard-harvest.yml
+      - research/modalities/replicate_standard_harvest.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: replicate-standard-harvest
+  cancel-in-progress: false
+
+jobs:
+  openfe:
+    name: Read OpenFE's own replicate default off the installed package
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Docker login (required even for public images -- anonymous pulls share the runner IP)
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+
+      - name: Introspect RelativeHybridTopologyProtocol
+        run: |
+          set -o pipefail
+          mkdir -p out
+          cat > introspect.py <<'PY'
+          import inspect, json, sys
+          import openfe
+          from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocol as P
+
+          rep = {"openfe_version": getattr(openfe, "__version__", "?")}
+          s = P.default_settings()
+          for attr in ("protocol_repeats", "n_repeats"):
+              rep[f"default_{attr}"] = getattr(s, attr, "<absent>")
+          try:
+              rep["default_lambda_windows"] = s.lambda_settings.lambda_windows
+          except Exception as e:
+              rep["default_lambda_windows"] = f"<{e}>"
+          try:
+              rep["default_n_replicas"] = s.simulation_settings.n_replicas
+          except Exception as e:
+              rep["default_n_replicas"] = f"<{e}>"
+          # the field's own docstring for the knob -- this is the sentence we are allowed to quote
+          try:
+              fld = type(s).model_fields["protocol_repeats"]
+              rep["protocol_repeats_field_description"] = fld.description
+          except Exception as e:
+              rep["protocol_repeats_field_description"] = f"<{e}>"
+          rep["settings_class_doc"] = inspect.getdoc(type(s))
+          print(json.dumps(rep, indent=1, default=str))
+          with open("out/openfe-defaults.json", "w") as fh:
+              json.dump(rep, fh, indent=1, default=str)
+
+          # How are multiple repeats combined into an estimate + uncertainty?
+          import openfe.protocols.openmm_rfe.equil_rfe_method as M
+          src = inspect.getsource(M)
+          with open("out/equil_rfe_method.py.txt", "w") as fh:
+              fh.write(src)
+          with open("out/equil_rfe_settings.py.txt", "w") as fh:
+              import openfe.protocols.openmm_rfe.equil_rfe_settings as S
+              fh.write(inspect.getsource(S))
+          PY
+          docker run --rm --entrypoint python \
+            -v "$PWD:/w" -w /w \
+            docker.io/triskit23/ternary-fep:latest /w/introspect.py 2>&1 | tee out/introspect.log
+
+      - name: Show how repeats become the reported estimate and error
+        run: |
+          echo "=== get_estimate / get_uncertainty / _gather ==="
+          grep -n -A 30 "def get_estimate\|def get_uncertainty\|def _gather" out/equil_rfe_method.py.txt || true
+          echo "=== protocol_repeats in settings ==="
+          grep -n -B 6 -A 14 "protocol_repeats" out/equil_rfe_settings.py.txt || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: openfe-introspect
+          path: out/
+          if-no-files-found: warn
+
+  harvest:
+    name: Crossref verification + open-access capture
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Harvest (pure stdlib -- no pip, no solve)
+        env:
+          HARVEST_OUT: research/modalities/_replicate_standard
+        run: python research/modalities/replicate_standard_harvest.py 2>&1 | tee harvest.log
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: replicate-standard-harvest
+          path: research/modalities/_replicate_standard/
+          if-no-files-found: warn
+
+      - name: Publish capture to replicate-standard-cache branch
+        run: |
+          set -e
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git checkout -B replicate-standard-cache
+          mv harvest.log research/modalities/_replicate_standard/ || true
+          git add -f research/modalities/_replicate_standard/ || true
+          git commit -m "replicate-standard harvest: Crossref verification + open-access capture" \
+            || echo "nothing to commit"
+          for i in 1 2 3 4; do git push -f origin replicate-standard-cache && break || sleep $((2**i)); done

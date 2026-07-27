@@ -403,7 +403,37 @@ def stuck_start_min_for(double_booked):
     return STUCK_START_MIN / 3.0 if double_booked else STUCK_START_MIN
 
 
-def never_started_cohort(live, excluded=()):
+_STARTED_MACHINES_KEY_SUFFIX = "_started_machines.json"
+
+
+def observed_started_machines(live):
+    """machine_ids on which one of OUR containers has demonstrably executed, from this listing. PURE.
+
+    A non-empty `status_msg` is the evidence: `'success, running docker.io/triskit23/nr4a3fep…'`, or an
+    apt line from the image build. Whatever it says, the box got as far as running our image, which is the
+    exact thing a "never starts" verdict denies."""
+    return sorted({str(i.get("machine_id")) for i in (live or [])
+                   if i.get("machine_id") is not None and (i.get("status_msg") or "").strip()})
+
+
+def _load_started_machines(s3, bucket):
+    doc = _get_json(s3, bucket, f"{RESULT_PREFIX}/{_STARTED_MACHINES_KEY_SUFFIX}") or {}
+    return {str(m) for m in (doc.get("machine_ids") or [])}
+
+
+def _save_started_machines(s3, bucket, ids):
+    try:
+        s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/{_STARTED_MACHINES_KEY_SUFFIX}",
+                      Body=json.dumps({"_what": "Vast machine_ids observed RUNNING one of this lane's "
+                                                "containers. A machine on this list can never be condemned "
+                                                "as 'never starts' — see never_started_cohort.",
+                                       "machine_ids": sorted(ids), "updated_utc": _utcnow()},
+                                      indent=2).encode())
+    except Exception as e:  # noqa: BLE001 — an optimisation that must never block a tick
+        print(f"[s1f] started-machine set save failed: {e}")
+
+
+def never_started_cohort(live, excluded=(), known_good=()):
     """Classify every STOPPED s1f-* host into the THREE classes that have three different remedies. PURE.
 
     ★★★ THE MEASUREMENT THAT FORCED A THIRD CLASS (2026-07-27, 3:44 PM ET). Eight of nineteen live hosts
@@ -434,6 +464,19 @@ def never_started_cohort(live, excluded=()):
       * **preempted** — stopped with a NON-empty `status_msg` (`'success, running <image>'`). The box RAN
         and exited; CLAUDE.md §6 calls this routine. Resume it, and never exclude its machine.
 
+    ⚠⚠ `known_good` IS WHAT KEEPS THE VERDICT STABLE, and it was added because the verdict was NOT
+       (observed within 7 minutes on 2026-07-27). Instance 46031788 was correctly `double_booked` behind
+       our own 46031535 on machine 53989; the collect then reaped 46031535 for being terminal, 46031788
+       became the oldest thing we had there, and the SAME instance re-classified as `host_fault` — one
+       strike away from publishing 53989 cross-lane and permanently. Machine 53989 had by then RUN two of
+       this lane's containers (both reached 94-99 % GPU before exiting), so the verdict would have been
+       flatly contradicted by our own evidence.
+
+       A classification that changes because the OTHER instance was cleaned up is not a classification of
+       anything. `observed_started_machines` accumulates, in S3, every machine we have watched run one of
+       our containers, and a machine on that list can never be a host fault — "it refuses to start" is not
+       a claim that survives having started.
+
     ⚠ `machine_excluded_now` IS NOT "we rented an excluded machine". It compares against the exclusion set
       AS IT IS NOW, and the set grows — another lane can publish a machine minutes after we rented it (144071
       was published between the 3:39 and 3:44 PM ticks, which is corroboration of a host fault, not proof of
@@ -442,6 +485,9 @@ def never_started_cohort(live, excluded=()):
       this field into that claim.
     """
     excl = {str(m) for m in (excluded or ())}
+    # Union with THIS listing: a machine running our container right now is proven good even on the very
+    # first pass, before the durable set has ever been written.
+    good = {str(m) for m in (known_good or ())} | set(observed_started_machines(live))
     stopped = [i for i in (live or []) if (i.get("cur_state") or "") == "stopped"]
     # The OLDEST live instance on a machine is the incumbent; anything younger on the same machine is a
     # duplicate WE placed. Ages come from the same listing, so this is an ordering, not a clock comparison.
@@ -464,16 +510,27 @@ def never_started_cohort(live, excluded=()):
             continue
         incumbent = oldest_on.get(mid or "")
         row["double_booked_behind"] = (incumbent[1] if incumbent and incumbent[1] != i.get("id") else None)
-        row["klass"] = "double_booked" if row["double_booked_behind"] else "host_fault"
-        row["remedy"] = ("destroy the duplicate; the machine is NOT at fault and must NOT be excluded"
-                         if row["klass"] == "double_booked" else
-                         "destroy and publish the machine HOST-scoped: it never executed our container")
+        row["machine_has_run_our_container"] = mid in good
+        if row["double_booked_behind"]:
+            row["klass"] = "double_booked"
+            row["remedy"] = "destroy the duplicate; the machine is NOT at fault and must NOT be excluded"
+        elif mid in good:
+            # Not a host fault, and not our double-booking either — the box has run our image before, so
+            # whatever stopped it this time is not "it refuses to start". Destroy and re-price elsewhere;
+            # claiming more than the evidence supports is what a permanent shared exclusion would do.
+            row["klass"] = "stopped_on_a_proven_machine"
+            row["remedy"] = ("destroy and let the market gate re-price it; this machine has RUN our "
+                             "container, so it cannot be condemned as one that never starts")
+        else:
+            row["klass"] = "host_fault"
+            row["remedy"] = "destroy and publish the machine HOST-scoped: it never executed our container"
         row["machine_excluded_now"] = mid in excl
         never.append(row)
     by_machine = {}
     for r in never:
         by_machine.setdefault(r["machine_id"] or "unknown", []).append(r["label"])
     host_fault = [r for r in never if r["klass"] == "host_fault"]
+    proven = [r for r in never if r["klass"] == "stopped_on_a_proven_machine"]
     return {
         "never_started": never,
         "preempted": preempted,
@@ -482,7 +539,8 @@ def never_started_cohort(live, excluded=()):
         # >1 means one machine took several units down together.
         "max_units_on_one_machine": max([len(v) for v in by_machine.values()] or [0]),
         "n_never_started": len(never), "n_preempted": len(preempted),
-        "n_double_booked": len(never) - len(host_fault), "n_host_fault": len(host_fault),
+        "n_double_booked": len(never) - len(host_fault) - len(proven), "n_host_fault": len(host_fault),
+        "n_stopped_on_a_proven_machine": len(proven),
         # The ONLY machines that earn a permanent cross-lane exclusion.
         "host_fault_machines": sorted({r["machine_id"] for r in host_fault if r["machine_id"]}),
         # Machines we hold a never-started rental on that SOMEONE has since excluded. Corroboration, not
@@ -946,6 +1004,56 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
         print(f"[s1f] could not persist exclusion of machine {mid}: {e}")
         return False
     return True
+
+
+def withdraw_wrong_exclusions(s3, bucket, proven_machines):
+    """Remove machines from the exclusion sets that this lane condemned as "never starts" and has since been
+    OBSERVED to run its container. Returns the withdrawn ids.
+
+    ⚠⚠ WHY THIS HAD TO EXIST WITHIN AN HOUR OF THE SETS BEING UNIONED (2026-07-27). The condemnation verdict
+    was unstable — a duplicate re-classified as a host fault the moment the reap removed the instance it was
+    behind — and three machines that had run this lane's legs at 94-99 % GPU (53989, 31035, 24573) were
+    condemned host-scoped, which is PERMANENT and CROSS-LANE. The consequence was immediate and measured:
+    the very next tick excluded 38 machines against a 152-offer board and **4 of 5 authorised placements
+    failed with `no rentable verified offer`**. The exclusion set, not the market, had become the binding
+    constraint — precisely the "permanent and only grows" hazard `vast_machine_blacklist.__doc__` parks.
+
+    ★ THIS IS NOT AN AGEING POLICY, AND MUST NEVER BECOME ONE. Nothing is withdrawn for being old; that
+    question stays open for want of a measurement, and a guessed TTL would re-admit the hosts the set exists
+    to refuse. A withdrawal needs POSITIVE CONTRARY EVIDENCE of the exact recorded claim: we watched the
+    machine run our container. Entries recorded for any other reason (the lane-scoped throughput shortfall)
+    are untouched, because start evidence does not contradict them.
+    """
+    import vast_machine_blacklist as vmb
+    doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
+    ids = {str(m) for m in (doc.get("machine_ids") or [])}
+    hist = list(doc.get("history") or [])
+    withdrawn = []
+    for mid in sorted({str(m) for m in (proven_machines or ())} & ids):
+        rows = [h for h in hist if str(h.get("machine_id")) == mid and h.get("action") != "withdraw"]
+        if rows and not any(vmb.is_never_started_reason(h.get("why")) for h in rows):
+            continue                       # excluded for a reason that starting does not refute
+        ids.discard(mid)
+        hist.append({"machine_id": mid, "action": "withdraw",
+                     "why": "WITHDRAWN: this machine has been observed RUNNING this lane's container, which "
+                            "directly contradicts the never-starts verdict it was excluded on",
+                     "utc": _utcnow()})
+        withdrawn.append(mid)
+        vmb.withdraw(s3, bucket, mid,
+                     "observed running the step 1 fan-out's container after being condemned as never-starting",
+                     lane="step1_fanout")
+    if withdrawn:
+        try:
+            s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY,
+                          Body=json.dumps({**doc, "machine_ids": sorted(ids), "history": hist},
+                                          indent=2).encode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[s1f] could not persist the exclusion withdrawal: {e}")
+            return []
+        print(f"[s1f] ⚖ WITHDREW {len(withdrawn)} WRONG exclusion(s) {withdrawn}: each machine was "
+              f"condemned as 'never starts' and has since been watched RUNNING this lane's container. An "
+              f"over-grown set is not neutral — it reads as an unaffordable market and blocks placements.")
+    return withdrawn
 
 
 # ---- modes ------------------------------------------------------------------------------------------------
@@ -2059,7 +2167,21 @@ def mode_launch():
             # ({"success": false, "error": "resources_unavailable"}), which CLAUDE.md records as routine.
             # Raising TypeError from inside the except block turned "skip this host, try the next" into
             # "abort the whole wave", on the most-expected failure this launcher has.
-            _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}")
+            # ★ NAME WHICH SHORTAGE IT WAS (2026-07-27). "no rentable verified offer" is emitted both when
+            # the MARKET has nothing and when OUR OWN filters have eaten everything, and the two have
+            # opposite remedies — wait for the board vs. withdraw a wrong exclusion. Measured that evening:
+            # 38 machines excluded against a 152-offer board lost 4 of 5 authorised placements, and every
+            # one of them printed as if the market had refused us. `vast_machine_blacklist.__doc__` names
+            # this exact confusion ("an over-grown set surfaces as an unaffordable market") as the reason
+            # `relaunch_market_gate` reports `exclusions_or_spec_not_price`; the fan-out had no equivalent.
+            _n_excl, _n_held = len(excluded), len(used_machines) - len(excluded)
+            _why_short = ""
+            if "no rentable verified offer" in str(e):
+                _why_short = (f"  <-- NOT a capacity refusal: our own filter removed {len(used_machines)} "
+                              f"machine(s) ({_n_excl} excluded + {_n_held} we already hold or just rented "
+                              f"this wave) before ranking. Remedy is to widen supply (withdraw a wrong "
+                              f"exclusion, or wait for the fleet to shrink), not to wait for prices.")
+            _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}{_why_short}")
             continue
         # Print the FLOOR, the BID and the premium separately. The fan-out's cost estimate was built from a
         # single instance's realized $/hr with no visibility into how much of that was our own bid premium.
@@ -2218,6 +2340,16 @@ def mode_monitor():
               f"actual={i.get('actual_status')} "
               f"cur={i.get('cur_state')} dph=${i.get('dph_total')} gpu={i.get('gpu_name')} "
               f"util={_gpu_util(i)}% age_min={_age_min(i)} msg={(i.get('status_msg') or '')[:120]!r}")
+    # ★ THE PROVEN-MACHINE SET, ACCUMULATED FIRST AND PERSISTED, because the evidence it holds is destroyed
+    # by the very reap that runs later in this tick. A machine that has RUN one of our containers can never
+    # be condemned as one that never starts, and without this the proof dies with the instance — see
+    # `never_started_cohort`, `known_good`.
+    _good = _load_started_machines(s3, bucket) | set(observed_started_machines(live))
+    _save_started_machines(s3, bucket, _good)
+    # ...and repair any exclusion this lane wrote that the same evidence now refutes. Runs BEFORE the
+    # condemn block below, so a machine cannot be withdrawn and re-condemned inside one tick.
+    withdraw_wrong_exclusions(s3, bucket, _good)
+
     # PROGRESS, not liveness. The committed-iteration census is the durable evidence the science advanced;
     # `phase.txt` and the leg JSONs are context around it. `prev` is the previous check's census, so this
     # block can answer "did it move SINCE LAST TIME" — which is the only question worth asking of a running
@@ -2299,8 +2431,11 @@ def mode_monitor():
         # and their machines were running our work at 76-98 % GPU. Both are destroyed; only the host fault
         # earns the permanent, cross-lane exclusion. Computed once, outside the loop, because it needs the
         # WHOLE fleet to decide any single row.
-        _dupes = {r["instance"] for r in never_started_cohort(live)["never_started"]
-                  if r["klass"] == "double_booked"}
+        _cohort_now = never_started_cohort(live, (), _good)
+        _dupes = {r["instance"] for r in _cohort_now["never_started"] if r["klass"] == "double_booked"}
+        # Machines proven to run our container: destroyed like any other dead box, but NEVER condemned.
+        _proven = {r["instance"] for r in _cohort_now["never_started"]
+                   if r["klass"] == "stopped_on_a_proven_machine"}
         for i in live:
             u = label_to_unit.get(i.get("label") or "")
             if not u or i.get("cur_state") != "stopped":
@@ -2337,7 +2472,15 @@ def mode_monitor():
                     # LANE-scoped only. Wrongly publishing a healthy host to the shared set permanently
                     # removes cheap supply for everybody — and the cheapest capacity on this board is
                     # exactly these 5090s — so the shared set stays reserved for the unambiguous signature.
-                    if stuck_sig and i.get("id") in _dupes:
+                    if stuck_sig and i.get("id") in _proven:
+                        # Destroyed like any other box that cannot make progress, but NOT condemned: this
+                        # machine has demonstrably run our image, so "it never starts" is contradicted by
+                        # our own record. The unit is re-priced through the market gate like any other.
+                        why = (f"stopped with an empty status_msg for {age} min across {strikes} "
+                               f"consecutive checks on machine {i.get('machine_id')} — but that machine has "
+                               f"RUN this lane's container before, so this is NOT a never-starts verdict")
+                        _scope = None
+                    elif stuck_sig and i.get("id") in _dupes:
                         # ⚠⚠ DESTROY, EXCLUDE NOTHING. This container never executed because WE were already
                         # renting that machine's GPU, not because the machine refuses to start — measured
                         # 2026-07-27: 0 of 7 double-booked instances started, while 8 of 10 single-booked
@@ -2382,12 +2525,11 @@ def mode_monitor():
                     # metadynamics leg's low utilisation turned out to be PLUMED's CPU-side bias and the same
                     # host ran at 74 % on the next phase. A never-started box has no such ambiguity.
                     if _scope is None:
-                        # The duplicate is gone and that is the WHOLE remedy. Writing anything against this
-                        # machine would condemn a box for our own double-booking, and the shared set has no
-                        # expiry — see the `_dupes` note above.
-                        print(f"[s1f] machine {mid} deliberately NOT excluded: the fault was this lane "
-                              f"double-booking it, not the host. It stays selectable, and mode_launch now "
-                              f"avoids machines we already hold so the duplicate is not placed again.")
+                        # The dead instance is gone and that is the WHOLE remedy. Writing anything against
+                        # this machine would condemn a box on evidence that does not support it, and the
+                        # shared set has no expiry — see the `_dupes` / `_proven` notes above.
+                        print(f"[s1f] machine {mid} deliberately NOT excluded — {why}. It stays selectable "
+                              f"and is re-priced by the market gate like any other offer.")
                     elif mid is not None and _record_exclusion(s3, bucket, mid, why, scope=_scope):
                         print(f"[s1f] machine {mid} added to the lane exclusion set"
                               + (" AND published to the cross-lane shared set (host-scoped: it never "
@@ -2523,12 +2665,14 @@ def mode_monitor():
     # exited" and stops there — which is the reading that let a never-started cohort and two routine
     # preemptions sit in one bucket. This names which is which and, crucially, whether they share a machine.
     _excl_now, _ = _load_excluded(s3, bucket)
-    cohort = never_started_cohort(live, _excl_now)
+    cohort = never_started_cohort(live, _excl_now, _good)
     if cohort["n_never_started"] or cohort["n_preempted"]:
         print(f"[s1f] STOPPED-HOST ADJUDICATION: {cohort['n_host_fault']} host-fault "
-              f"(never started, sole rental -> destroy + HOST-scoped exclusion) | "
-              f"{cohort['n_double_booked']} DOUBLE-BOOKED (never started because we already hold that "
-              f"machine's GPU -> destroy the duplicate, machine NOT at fault) | "
+              f"(never started, sole rental, machine never ran our image -> destroy + HOST-scoped "
+              f"exclusion) | {cohort['n_double_booked']} DOUBLE-BOOKED (never started because we already "
+              f"hold that machine's GPU -> destroy the duplicate, machine NOT at fault) | "
+              f"{cohort['n_stopped_on_a_proven_machine']} stopped on a PROVEN machine (it has run our "
+              f"container before -> destroy and re-price, never condemn) | "
               f"{cohort['n_preempted']} preempted (ran and exited -> resume, never exclude)")
         for r in cohort["never_started"]:
             print(f"[s1f]   {r['klass'].upper():14s} {r['instance']} ({r['label']}) machine "
