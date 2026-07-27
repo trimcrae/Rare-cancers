@@ -1,18 +1,25 @@
 {
-  "utc": "2026-07-27T14:33:34Z",
-  "n_records": 18,
+  "utc": "2026-07-27T15:12:29Z",
+  "n_records": 40,
   "admitted": {
     "A100PCIE": 523.82,
-    "RTX3090TI": 481.78,
-    "RTX4080": 703.87,
-    "RTX4090": 808.96,
-    "RTX5060TI": 387.78,
-    "RTX5080": 793.79,
-    "RTX5090": 1067.8,
-    "RTXA4000": 242.2,
-    "RTXPRO4000": 482.34
+    "RTX3090": 460.91,
+    "RTX3090TI": 481.87,
+    "RTX4080": 693.35,
+    "RTX4090": 804.06,
+    "RTX5060TI": 389.16,
+    "RTX5080": 752.32,
+    "RTX5090": 1034.58,
+    "RTXA4000": 246.3,
+    "RTXPRO4000": 471.63
   },
   "refused": [
+    {
+      "card": "A100 PCIE",
+      "reasons": [
+        "card identity disagrees across {'device': 'NVIDIAA100PCIE40GB', 'offer_gpu_name': 'A100PCIE', 'gpu_requested': 'A100PCIE'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
+      ]
+    },
     {
       "card": "RTX 3090",
       "reasons": [
@@ -39,6 +46,12 @@
         "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
         "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
         "non-positive throughput None"
+      ]
+    },
+    {
+      "card": "RTX 3090 Ti",
+      "reasons": [
+        "mean block 4.8s < 10.0s \u2014 at that duration you measure boost-clock ramp and kernel launches (the WITHDRAWN 2026-07-24 grid)"
       ]
     },
     {
@@ -82,7 +95,7 @@
       ]
     }
   ],
-  "realised_usd": 1.0911,
+  "realised_usd": 1.7407,
   "instances": [
     {
       "instance": 46008409,
@@ -143,6 +156,42 @@
       "inet_down": 423.2,
       "gpu_util": null,
       "machine_id": 5855
+    },
+    {
+      "instance": 46012075,
+      "label": "cal-rtx3090-w2",
+      "hours": 0.4682,
+      "dph": 0.08900740740740741,
+      "usd": 0.0417,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 5858.0,
+      "gpu_util": 0.0,
+      "machine_id": 37216
+    },
+    {
+      "instance": 46012076,
+      "label": "cal-rtx3090-w2-r2",
+      "hours": 0.4676,
+      "dph": 0.12287407407407407,
+      "usd": 0.0575,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 523.9,
+      "gpu_util": 0.0,
+      "machine_id": 24039
+    },
+    {
+      "instance": 46012078,
+      "label": "cal-rtx3090-w2-r3",
+      "hours": 0.4671,
+      "dph": 0.14340740740740743,
+      "usd": 0.067,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 7175.4,
+      "gpu_util": 0.0,
+      "machine_id": 42830
     },
     {
       "instance": 46008508,
@@ -277,6 +326,42 @@
       "machine_id": 48149
     },
     {
+      "instance": 46012059,
+      "label": "cal-rtx5060ti-w2",
+      "hours": 0.4712,
+      "dph": 0.0655111111111111,
+      "usd": 0.0309,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 7542.0,
+      "gpu_util": 0.0,
+      "machine_id": 48149
+    },
+    {
+      "instance": 46012062,
+      "label": "cal-rtx5060ti-w2-r2",
+      "hours": 0.4708,
+      "dph": 0.07339629629629629,
+      "usd": 0.0346,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 1658.2,
+      "gpu_util": 0.0,
+      "machine_id": 117091
+    },
+    {
+      "instance": 46012063,
+      "label": "cal-rtx5060ti-w2-r3",
+      "hours": 0.4702,
+      "dph": 0.12825185185185184,
+      "usd": 0.0603,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 2114.2,
+      "gpu_util": 0.0,
+      "machine_id": 13124
+    },
+    {
       "instance": 46008203,
       "label": "cal-rtx5070ti",
       "hours": 0.3548,
@@ -311,6 +396,30 @@
       "inet_down": 635.1,
       "gpu_util": 0.0,
       "machine_id": 97383
+    },
+    {
+      "instance": 46012079,
+      "label": "cal-rtx5080-w2",
+      "hours": 0.4666,
+      "dph": 0.15451851851851853,
+      "usd": 0.0721,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 274.0,
+      "gpu_util": 0.0,
+      "machine_id": 32125
+    },
+    {
+      "instance": 46012144,
+      "label": "cal-rtx5080-w2-r2",
+      "hours": 0.4516,
+      "dph": 0.18912592592592595,
+      "usd": 0.0854,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 3943.6,
+      "gpu_util": 0.0,
+      "machine_id": 141939
     },
     {
       "instance": 46008354,
@@ -349,6 +458,42 @@
       "machine_id": 125779
     },
     {
+      "instance": 46012068,
+      "label": "cal-rtxa4000-w2",
+      "hours": 0.4697,
+      "dph": 0.09271111111111112,
+      "usd": 0.0435,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 909.5,
+      "gpu_util": 0.0,
+      "machine_id": 14016
+    },
+    {
+      "instance": 46012070,
+      "label": "cal-rtxa4000-w2-r2",
+      "hours": 0.4692,
+      "dph": 0.07911111111111112,
+      "usd": 0.0371,
+      "status": "loading",
+      "status_msg": "9c2e2d4b2327: Retrying in 1 second\n",
+      "inet_down": 0.8,
+      "gpu_util": null,
+      "machine_id": 43398
+    },
+    {
+      "instance": 46012073,
+      "label": "cal-rtxa4000-w2-r3",
+      "hours": 0.4687,
+      "dph": 0.10631111111111112,
+      "usd": 0.0498,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 484.8,
+      "gpu_util": 0.0,
+      "machine_id": 11183
+    },
+    {
       "instance": 46008302,
       "label": "cal-rtxpro4000",
       "hours": 0.326,
@@ -359,6 +504,18 @@
       "inet_down": 906.0,
       "gpu_util": 0.0,
       "machine_id": 59339
+    },
+    {
+      "instance": 46012146,
+      "label": "cal-rtxpro4000-w2",
+      "hours": 0.451,
+      "dph": 0.15451851851851853,
+      "usd": 0.0697,
+      "status": "exited",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 8701.5,
+      "gpu_util": 98.999908,
+      "machine_id": 55891
     },
     {
       "instance": 46008461,
@@ -410,6 +567,40 @@
     }
   ],
   "records": [
+    {
+      "tag": "a100pcie-w2-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA A100-PCIE-40GB",
+      "steps": 89016,
+      "dt_fs": 4.0,
+      "wall_s": 59.5,
+      "ns_per_day": 517.39,
+      "sd": 2.36,
+      "cv": 0.0046,
+      "blocks": 3,
+      "blocks_ns_day": [
+        519.45,
+        517.9,
+        514.81
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 300.9,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=a100pcie-w2-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_A100-PCIE-40GB steps=89016 dt_fs=4.0 wall_s=59.5 ns_per_day=517.39 sd=2.36 cv=0.0046 blocks=3 blocks_ns_day=519.45,517.90,514.81 attempt=2 minimize_iters=2000 final_temp_k=300.9 healthy=True",
+      "gpu_requested": "A100 PCIE",
+      "offer_gpu_name": "A100 PCIE",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:05:17Z",
+      "admitted": false,
+      "admission_reasons": [
+        "card identity disagrees across {'device': 'NVIDIAA100PCIE40GB', 'offer_gpu_name': 'A100PCIE', 'gpu_requested': 'A100PCIE'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
+      ],
+      "proposed_entry": null
+    },
     {
       "tag": "a100pcie",
       "status": "OK",
@@ -489,6 +680,180 @@
         "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
         "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
         "non-positive throughput None"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "rtx3090-w2-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 3090",
+      "steps": 82383,
+      "dt_fs": 4.0,
+      "wall_s": 60.4,
+      "ns_per_day": 471.18,
+      "sd": 1.44,
+      "cv": 0.0031,
+      "blocks": 3,
+      "blocks_ns_day": [
+        471.14,
+        472.64,
+        469.77
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 299.9,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx3090-w2-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090 steps=82383 dt_fs=4.0 wall_s=60.4 ns_per_day=471.18 sd=1.44 cv=0.0031 blocks=3 blocks_ns_day=471.14,472.64,469.77 attempt=2 minimize_iters=2000 final_temp_k=299.9 healthy=True",
+      "gpu_requested": "RTX 3090",
+      "offer_gpu_name": "RTX 3090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:48:22Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX3090",
+        "ns_per_day": 471.18
+      }
+    },
+    {
+      "tag": "rtx3090-w2-r3",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 3090",
+      "steps": 74814,
+      "dt_fs": 4.0,
+      "wall_s": 60.6,
+      "ns_per_day": 426.51,
+      "sd": 1.7,
+      "cv": 0.004,
+      "blocks": 3,
+      "blocks_ns_day": [
+        428.23,
+        426.48,
+        424.82
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 303.2,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx3090-w2-r3 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090 steps=74814 dt_fs=4.0 wall_s=60.6 ns_per_day=426.51 sd=1.70 cv=0.0040 blocks=3 blocks_ns_day=428.23,426.48,424.82 attempt=1 minimize_iters=200 final_temp_k=303.2 healthy=True",
+      "gpu_requested": "RTX 3090",
+      "offer_gpu_name": "RTX 3090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:49:00Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX3090",
+        "ns_per_day": 426.51
+      }
+    },
+    {
+      "tag": "rtx3090-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 3090",
+      "steps": 51696,
+      "dt_fs": 4.0,
+      "wall_s": 38.8,
+      "ns_per_day": 460.9,
+      "sd": 3.59,
+      "cv": 0.0078,
+      "blocks": 3,
+      "blocks_ns_day": [
+        464.76,
+        460.31,
+        457.65
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 300.5,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx3090-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090 steps=51696 dt_fs=4.0 wall_s=38.8 ns_per_day=460.90 sd=3.59 cv=0.0078 blocks=3 blocks_ns_day=464.76,460.31,457.65 attempt=1 minimize_iters=200 final_temp_k=300.5 healthy=True",
+      "gpu_requested": "RTX 3090",
+      "offer_gpu_name": "RTX 3090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:57:05Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX3090",
+        "ns_per_day": 460.91
+      }
+    },
+    {
+      "tag": "rtx3090ti-w2-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 3090 Ti",
+      "steps": 83685,
+      "dt_fs": 4.0,
+      "wall_s": 60.0,
+      "ns_per_day": 481.96,
+      "sd": 0.61,
+      "cv": 0.0013,
+      "blocks": 3,
+      "blocks_ns_day": [
+        482.52,
+        482.05,
+        481.32
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 301.9,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx3090ti-w2-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090_Ti steps=83685 dt_fs=4.0 wall_s=60.0 ns_per_day=481.96 sd=0.61 cv=0.0013 blocks=3 blocks_ns_day=482.52,482.05,481.32 attempt=1 minimize_iters=200 final_temp_k=301.9 healthy=True",
+      "gpu_requested": "RTX 3090 Ti",
+      "offer_gpu_name": "RTX 3090 Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:51:13Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX3090TI",
+        "ns_per_day": 481.96
+      }
+    },
+    {
+      "tag": "rtx3090ti-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 3090 Ti",
+      "steps": 22656,
+      "dt_fs": 4.0,
+      "wall_s": 14.4,
+      "ns_per_day": 542.99,
+      "sd": 2.14,
+      "cv": 0.0039,
+      "blocks": 3,
+      "blocks_ns_day": [
+        545.42,
+        541.4,
+        542.15
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 303.1,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx3090ti-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090_Ti steps=22656 dt_fs=4.0 wall_s=14.4 ns_per_day=542.99 sd=2.14 cv=0.0039 blocks=3 blocks_ns_day=545.42,541.40,542.15 attempt=1 minimize_iters=200 final_temp_k=303.1 healthy=True",
+      "gpu_requested": "RTX 3090 Ti",
+      "offer_gpu_name": "RTX 3090 Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:50:03Z",
+      "admitted": false,
+      "admission_reasons": [
+        "mean block 4.8s < 10.0s \u2014 at that duration you measure boost-clock ramp and kernel launches (the WITHDRAWN 2026-07-24 grid)"
       ],
       "proposed_entry": null
     },
@@ -581,6 +946,76 @@
       "proposed_entry": {
         "card": "RTX4080",
         "ns_per_day": 703.87
+      }
+    },
+    {
+      "tag": "rtx4080-w2-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4080",
+      "steps": 118647,
+      "dt_fs": 4.0,
+      "wall_s": 60.7,
+      "ns_per_day": 675.74,
+      "sd": 0.45,
+      "cv": 0.0007,
+      "blocks": 3,
+      "blocks_ns_day": [
+        676.26,
+        675.53,
+        675.42
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 300.4,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4080-w2-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4080 steps=118647 dt_fs=4.0 wall_s=60.7 ns_per_day=675.74 sd=0.45 cv=0.0007 blocks=3 blocks_ns_day=676.26,675.53,675.42 attempt=1 minimize_iters=200 final_temp_k=300.4 healthy=True",
+      "gpu_requested": "RTX 4080",
+      "offer_gpu_name": "RTX 4080",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:02:23Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4080",
+        "ns_per_day": 675.74
+      }
+    },
+    {
+      "tag": "rtx4080-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4080",
+      "steps": 122874,
+      "dt_fs": 4.0,
+      "wall_s": 61.2,
+      "ns_per_day": 694.18,
+      "sd": 1.14,
+      "cv": 0.0016,
+      "blocks": 3,
+      "blocks_ns_day": [
+        695.49,
+        693.66,
+        693.4
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 300.7,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4080-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4080 steps=122874 dt_fs=4.0 wall_s=61.2 ns_per_day=694.18 sd=1.14 cv=0.0016 blocks=3 blocks_ns_day=695.49,693.66,693.40 attempt=2 minimize_iters=2000 final_temp_k=300.7 healthy=True",
+      "gpu_requested": "RTX 4080",
+      "offer_gpu_name": "RTX 4080",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:03:00Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4080",
+        "ns_per_day": 694.18
       }
     },
     {
@@ -708,6 +1143,111 @@
       }
     },
     {
+      "tag": "rtx4090-w2-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4090",
+      "steps": 135669,
+      "dt_fs": 4.0,
+      "wall_s": 59.1,
+      "ns_per_day": 792.69,
+      "sd": 1.08,
+      "cv": 0.0014,
+      "blocks": 3,
+      "blocks_ns_day": [
+        793.83,
+        792.58,
+        791.68
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 301.3,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4090-w2-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4090 steps=135669 dt_fs=4.0 wall_s=59.1 ns_per_day=792.69 sd=1.08 cv=0.0014 blocks=3 blocks_ns_day=793.83,792.58,791.68 attempt=2 minimize_iters=2000 final_temp_k=301.3 healthy=True",
+      "gpu_requested": "RTX 4090",
+      "offer_gpu_name": "RTX 4090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:59:00Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4090",
+        "ns_per_day": 792.7
+      }
+    },
+    {
+      "tag": "rtx4090-w2-r3",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4090",
+      "steps": 143454,
+      "dt_fs": 4.0,
+      "wall_s": 61.2,
+      "ns_per_day": 810.37,
+      "sd": 2.17,
+      "cv": 0.0027,
+      "blocks": 3,
+      "blocks_ns_day": [
+        812.6,
+        810.23,
+        808.27
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 301.2,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4090-w2-r3 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4090 steps=143454 dt_fs=4.0 wall_s=61.2 ns_per_day=810.37 sd=2.17 cv=0.0027 blocks=3 blocks_ns_day=812.60,810.23,808.27 attempt=1 minimize_iters=200 final_temp_k=301.2 healthy=True",
+      "gpu_requested": "RTX 4090",
+      "offer_gpu_name": "RTX 4090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:00:06Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4090",
+        "ns_per_day": 810.37
+      }
+    },
+    {
+      "tag": "rtx4090-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4090",
+      "steps": 134619,
+      "dt_fs": 4.0,
+      "wall_s": 59.9,
+      "ns_per_day": 777.03,
+      "sd": 1.86,
+      "cv": 0.0024,
+      "blocks": 3,
+      "blocks_ns_day": [
+        778.63,
+        777.48,
+        774.98
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 302.4,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4090-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4090 steps=134619 dt_fs=4.0 wall_s=59.9 ns_per_day=777.03 sd=1.86 cv=0.0024 blocks=3 blocks_ns_day=778.63,777.48,774.98 attempt=2 minimize_iters=2000 final_temp_k=302.4 healthy=True",
+      "gpu_requested": "RTX 4090",
+      "offer_gpu_name": "RTX 4090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:57:04Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4090",
+        "ns_per_day": 777.03
+      }
+    },
+    {
       "tag": "rtx4090",
       "status": "OK",
       "atoms": 84534,
@@ -738,6 +1278,111 @@
       "proposed_entry": {
         "card": "RTX4090",
         "ns_per_day": 799.15
+      }
+    },
+    {
+      "tag": "rtx5060ti-w2-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5060 Ti",
+      "steps": 67923,
+      "dt_fs": 4.0,
+      "wall_s": 60.9,
+      "ns_per_day": 385.4,
+      "sd": 1.0,
+      "cv": 0.0026,
+      "blocks": 3,
+      "blocks_ns_day": [
+        386.34,
+        385.53,
+        384.34
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 301.9,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5060ti-w2-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5060_Ti steps=67923 dt_fs=4.0 wall_s=60.9 ns_per_day=385.40 sd=1.00 cv=0.0026 blocks=3 blocks_ns_day=386.34,385.53,384.34 attempt=1 minimize_iters=200 final_temp_k=301.9 healthy=True",
+      "gpu_requested": "RTX 5060 Ti",
+      "offer_gpu_name": "RTX 5060 Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:49:05Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5060TI",
+        "ns_per_day": 385.4
+      }
+    },
+    {
+      "tag": "rtx5060ti-w2-r3",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5060 Ti",
+      "steps": 69072,
+      "dt_fs": 4.0,
+      "wall_s": 59.7,
+      "ns_per_day": 400.01,
+      "sd": 0.98,
+      "cv": 0.0024,
+      "blocks": 3,
+      "blocks_ns_day": [
+        401.12,
+        399.65,
+        399.27
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 300.8,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5060ti-w2-r3 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5060_Ti steps=69072 dt_fs=4.0 wall_s=59.7 ns_per_day=400.01 sd=0.98 cv=0.0024 blocks=3 blocks_ns_day=401.12,399.65,399.27 attempt=1 minimize_iters=200 final_temp_k=300.8 healthy=True",
+      "gpu_requested": "RTX 5060 Ti",
+      "offer_gpu_name": "RTX 5060 Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:48:40Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5060TI",
+        "ns_per_day": 400.01
+      }
+    },
+    {
+      "tag": "rtx5060ti-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5060 Ti",
+      "steps": 68676,
+      "dt_fs": 4.0,
+      "wall_s": 60.8,
+      "ns_per_day": 390.55,
+      "sd": 2.13,
+      "cv": 0.0054,
+      "blocks": 3,
+      "blocks_ns_day": [
+        388.78,
+        389.96,
+        392.91
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 302.6,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5060ti-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5060_Ti steps=68676 dt_fs=4.0 wall_s=60.8 ns_per_day=390.55 sd=2.13 cv=0.0054 blocks=3 blocks_ns_day=388.78,389.96,392.91 attempt=1 minimize_iters=200 final_temp_k=302.6 healthy=True",
+      "gpu_requested": "RTX 5060 Ti",
+      "offer_gpu_name": "RTX 5060 Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:48:40Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5060TI",
+        "ns_per_day": 390.55
       }
     },
     {
@@ -774,6 +1419,76 @@
       }
     },
     {
+      "tag": "rtx5080-w2-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5080",
+      "steps": 128583,
+      "dt_fs": 4.0,
+      "wall_s": 59.1,
+      "ns_per_day": 752.32,
+      "sd": 0.26,
+      "cv": 0.0003,
+      "blocks": 3,
+      "blocks_ns_day": [
+        752.56,
+        752.04,
+        752.36
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 302.4,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5080-w2-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5080 steps=128583 dt_fs=4.0 wall_s=59.1 ns_per_day=752.32 sd=0.26 cv=0.0003 blocks=3 blocks_ns_day=752.56,752.04,752.36 attempt=2 minimize_iters=2000 final_temp_k=302.4 healthy=True",
+      "gpu_requested": "RTX 5080",
+      "offer_gpu_name": "RTX 5080",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:51:14Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5080",
+        "ns_per_day": 752.32
+      }
+    },
+    {
+      "tag": "rtx5080-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5080",
+      "steps": 113619,
+      "dt_fs": 4.0,
+      "wall_s": 57.5,
+      "ns_per_day": 683.12,
+      "sd": 3.08,
+      "cv": 0.0045,
+      "blocks": 3,
+      "blocks_ns_day": [
+        686.58,
+        682.09,
+        680.69
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 301.5,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5080-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5080 steps=113619 dt_fs=4.0 wall_s=57.5 ns_per_day=683.12 sd=3.08 cv=0.0045 blocks=3 blocks_ns_day=686.58,682.09,680.69 attempt=2 minimize_iters=2000 final_temp_k=301.5 healthy=True",
+      "gpu_requested": "RTX 5080",
+      "offer_gpu_name": "RTX 5080",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:08:17Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5080",
+        "ns_per_day": 683.12
+      }
+    },
+    {
       "tag": "rtx5080",
       "status": "OK",
       "atoms": 84534,
@@ -804,6 +1519,76 @@
       "proposed_entry": {
         "card": "RTX5080",
         "ns_per_day": 793.79
+      }
+    },
+    {
+      "tag": "rtx5090-w2-r3",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5090",
+      "steps": 182892,
+      "dt_fs": 4.0,
+      "wall_s": 61.1,
+      "ns_per_day": 1034.58,
+      "sd": 0.98,
+      "cv": 0.0009,
+      "blocks": 3,
+      "blocks_ns_day": [
+        1035.69,
+        1034.24,
+        1033.82
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 301.6,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5090-w2-r3 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5090 steps=182892 dt_fs=4.0 wall_s=61.1 ns_per_day=1034.58 sd=0.98 cv=0.0009 blocks=3 blocks_ns_day=1035.69,1034.24,1033.82 attempt=2 minimize_iters=2000 final_temp_k=301.6 healthy=True",
+      "gpu_requested": "RTX 5090",
+      "offer_gpu_name": "RTX 5090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:56:32Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5090",
+        "ns_per_day": 1034.58
+      }
+    },
+    {
+      "tag": "rtx5090-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5090",
+      "steps": 172779,
+      "dt_fs": 4.0,
+      "wall_s": 59.5,
+      "ns_per_day": 1003.24,
+      "sd": 4.41,
+      "cv": 0.0044,
+      "blocks": 3,
+      "blocks_ns_day": [
+        1006.86,
+        1004.54,
+        998.33
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 300.1,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5090-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5090 steps=172779 dt_fs=4.0 wall_s=59.5 ns_per_day=1003.24 sd=4.41 cv=0.0044 blocks=3 blocks_ns_day=1006.86,1004.54,998.33 attempt=2 minimize_iters=2000 final_temp_k=300.1 healthy=True",
+      "gpu_requested": "RTX 5090",
+      "offer_gpu_name": "RTX 5090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:53:34Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5090",
+        "ns_per_day": 1003.24
       }
     },
     {
@@ -842,6 +1627,76 @@
       }
     },
     {
+      "tag": "rtxa4000-w2-r3",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA RTX A4000",
+      "steps": 44232,
+      "dt_fs": 4.0,
+      "wall_s": 62.1,
+      "ns_per_day": 246.3,
+      "sd": 3.28,
+      "cv": 0.0133,
+      "blocks": 3,
+      "blocks_ns_day": [
+        249.78,
+        245.87,
+        243.26
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 302.3,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtxa4000-w2-r3 status=OK atoms=84534 platform=CUDA device=NVIDIA_RTX_A4000 steps=44232 dt_fs=4.0 wall_s=62.1 ns_per_day=246.30 sd=3.28 cv=0.0133 blocks=3 blocks_ns_day=249.78,245.87,243.26 attempt=2 minimize_iters=2000 final_temp_k=302.3 healthy=True",
+      "gpu_requested": "RTX A4000",
+      "offer_gpu_name": "RTX A4000",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:51:07Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTXA4000",
+        "ns_per_day": 246.3
+      }
+    },
+    {
+      "tag": "rtxa4000-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA RTX A4000",
+      "steps": 44853,
+      "dt_fs": 4.0,
+      "wall_s": 61.4,
+      "ns_per_day": 252.33,
+      "sd": 3.14,
+      "cv": 0.0124,
+      "blocks": 3,
+      "blocks_ns_day": [
+        255.64,
+        251.96,
+        249.39
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 300.6,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtxa4000-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_RTX_A4000 steps=44853 dt_fs=4.0 wall_s=61.4 ns_per_day=252.33 sd=3.14 cv=0.0124 blocks=3 blocks_ns_day=255.64,251.96,249.39 attempt=1 minimize_iters=200 final_temp_k=300.6 healthy=True",
+      "gpu_requested": "RTX A4000",
+      "offer_gpu_name": "RTX A4000",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:50:12Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTXA4000",
+        "ns_per_day": 252.33
+      }
+    },
+    {
       "tag": "rtxa4000",
       "status": "OK",
       "atoms": 84534,
@@ -872,6 +1727,76 @@
       "proposed_entry": {
         "card": "RTXA4000",
         "ns_per_day": 242.2
+      }
+    },
+    {
+      "tag": "rtxpro4000-w2-r3",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA RTX PRO 4000 Blackwell",
+      "steps": 81603,
+      "dt_fs": 4.0,
+      "wall_s": 60.7,
+      "ns_per_day": 464.55,
+      "sd": 7.16,
+      "cv": 0.0154,
+      "blocks": 3,
+      "blocks_ns_day": [
+        472.37,
+        462.93,
+        458.33
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 301.3,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtxpro4000-w2-r3 status=OK atoms=84534 platform=CUDA device=NVIDIA_RTX_PRO_4000_Blackwell steps=81603 dt_fs=4.0 wall_s=60.7 ns_per_day=464.55 sd=7.16 cv=0.0154 blocks=3 blocks_ns_day=472.37,462.93,458.33 attempt=1 minimize_iters=200 final_temp_k=301.3 healthy=True",
+      "gpu_requested": "RTX PRO 4000",
+      "offer_gpu_name": "RTX PRO 4000",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:52:16Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTXPRO4000",
+        "ns_per_day": 464.54
+      }
+    },
+    {
+      "tag": "rtxpro4000-w2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA RTX PRO 4000 Blackwell",
+      "steps": 80112,
+      "dt_fs": 4.0,
+      "wall_s": 58.7,
+      "ns_per_day": 471.63,
+      "sd": 7.37,
+      "cv": 0.0156,
+      "blocks": 3,
+      "blocks_ns_day": [
+        479.56,
+        470.33,
+        465.01
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 300.8,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtxpro4000-w2 status=OK atoms=84534 platform=CUDA device=NVIDIA_RTX_PRO_4000_Blackwell steps=80112 dt_fs=4.0 wall_s=58.7 ns_per_day=471.63 sd=7.37 cv=0.0156 blocks=3 blocks_ns_day=479.56,470.33,465.01 attempt=2 minimize_iters=2000 final_temp_k=300.8 healthy=True",
+      "gpu_requested": "RTX PRO 4000",
+      "offer_gpu_name": "RTX PRO 4000",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:09:27Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTXPRO4000",
+        "ns_per_day": 471.63
       }
     },
     {

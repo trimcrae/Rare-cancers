@@ -233,8 +233,8 @@
     "selection_bias_check": "A NaN aborts during minimise/warmup, before any timed block, and warmup is a fixed STEP count rather than a fixed wall time \u2014 so failure probability is not a function of card speed, and the surviving population is not biased toward fast or slow hosts. The two failures were on different card models, consistent with that."
   },
   "rtx5090_two_independent_hosts_and_the_retry_neutrality_check": {
-    "what": "Two RTX 5090 rentals on different hosts measured 1070.44 (blocks 1071.98/1070.04/1069.31, CV 0.13%) and 1067.80 (blocks 1068.94/1067.94/1066.51, CV 0.11%) — agreeing to 0.25%. The table carries the first; the second is in host_observations.",
-    "why_it_matters_twice": "(1) It is the tightest cross-host agreement in this sweep, so unlike the RTX 4090 there is no host-sampling ambiguity in the 5090 figure. (2) The 1070.44 run needed the NaN retry ladder (`attempt=2`, minimize_iters=2000) while the 1067.80 run succeeded first time (`attempt=1`, minimize_iters=200). They agree to 0.25%, which is the CHECK on the claim that a harder minimisation cannot move steady-state throughput — asserted when the ladder was written, demonstrated here.",
+    "what": "Two RTX 5090 rentals on different hosts measured 1070.44 (blocks 1071.98/1070.04/1069.31, CV 0.13%) and 1067.80 (blocks 1068.94/1067.94/1066.51, CV 0.11%) \u2014 agreeing to 0.25%. The table carries the first; the second is in host_observations.",
+    "why_it_matters_twice": "(1) It is the tightest cross-host agreement in this sweep, so unlike the RTX 4090 there is no host-sampling ambiguity in the 5090 figure. (2) The 1070.44 run needed the NaN retry ladder (`attempt=2`, minimize_iters=2000) while the 1067.80 run succeeded first time (`attempt=1`, minimize_iters=200). They agree to 0.25%, which is the CHECK on the claim that a harder minimisation cannot move steady-state throughput \u2014 asserted when the ladder was written, demonstrated here.",
     "a_defect_this_exposed": "Both wrote the same S3 key, because the tag is (card, replicate) and both were replicate 1 from two different LAUNCHES. The replicate suffix prevents a collision within one launch but not across launches, so the second silently overwrote the first. Only reading both values before the overwrite preserved the pair. Same failure shape as the 2026-07-24 same-tag control and as the deterministic bench key that destroyed the validated grid's raw artifacts."
   },
   "tesla_v100_stays_unknown_and_that_is_the_right_answer": {
@@ -456,6 +456,346 @@
       "final_temp_k": 299.5,
       "wall_s": 60.7,
       "utc": "2026-07-27T14:18:02Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX3090",
+      "tag": "rtx3090-w2-r2",
+      "ns_per_day": 471.18,
+      "blocks_ns_per_day": [
+        471.14,
+        472.64,
+        469.77
+      ],
+      "cv": 0.0031,
+      "cuda_device": "NVIDIA GeForce RTX 3090",
+      "gpu_name_as_offered": "RTX 3090",
+      "final_temp_k": 299.9,
+      "wall_s": 60.4,
+      "utc": "2026-07-27T14:48:22Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX3090",
+      "tag": "rtx3090-w2-r3",
+      "ns_per_day": 426.51,
+      "blocks_ns_per_day": [
+        428.23,
+        426.48,
+        424.82
+      ],
+      "cv": 0.004,
+      "cuda_device": "NVIDIA GeForce RTX 3090",
+      "gpu_name_as_offered": "RTX 3090",
+      "final_temp_k": 303.2,
+      "wall_s": 60.6,
+      "utc": "2026-07-27T14:49:00Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX3090",
+      "tag": "rtx3090-w2",
+      "ns_per_day": 460.91,
+      "blocks_ns_per_day": [
+        464.76,
+        460.31,
+        457.65
+      ],
+      "cv": 0.0078,
+      "cuda_device": "NVIDIA GeForce RTX 3090",
+      "gpu_name_as_offered": "RTX 3090",
+      "final_temp_k": 300.5,
+      "wall_s": 38.8,
+      "utc": "2026-07-27T14:57:05Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX3090TI",
+      "tag": "rtx3090ti-w2-r2",
+      "ns_per_day": 481.96,
+      "blocks_ns_per_day": [
+        482.52,
+        482.05,
+        481.32
+      ],
+      "cv": 0.0013,
+      "cuda_device": "NVIDIA GeForce RTX 3090 Ti",
+      "gpu_name_as_offered": "RTX 3090 Ti",
+      "final_temp_k": 301.9,
+      "wall_s": 60.0,
+      "utc": "2026-07-27T14:51:13Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX4080",
+      "tag": "rtx4080-w2-r2",
+      "ns_per_day": 675.74,
+      "blocks_ns_per_day": [
+        676.26,
+        675.53,
+        675.42
+      ],
+      "cv": 0.0007,
+      "cuda_device": "NVIDIA GeForce RTX 4080",
+      "gpu_name_as_offered": "RTX 4080",
+      "final_temp_k": 300.4,
+      "wall_s": 60.7,
+      "utc": "2026-07-27T15:02:23Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX4080",
+      "tag": "rtx4080-w2",
+      "ns_per_day": 694.18,
+      "blocks_ns_per_day": [
+        695.49,
+        693.66,
+        693.4
+      ],
+      "cv": 0.0016,
+      "cuda_device": "NVIDIA GeForce RTX 4080",
+      "gpu_name_as_offered": "RTX 4080",
+      "final_temp_k": 300.7,
+      "wall_s": 61.2,
+      "utc": "2026-07-27T15:03:00Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX4090",
+      "tag": "rtx4090-w2-r2",
+      "ns_per_day": 792.7,
+      "blocks_ns_per_day": [
+        793.83,
+        792.58,
+        791.68
+      ],
+      "cv": 0.0014,
+      "cuda_device": "NVIDIA GeForce RTX 4090",
+      "gpu_name_as_offered": "RTX 4090",
+      "final_temp_k": 301.3,
+      "wall_s": 59.1,
+      "utc": "2026-07-27T14:59:00Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX4090",
+      "tag": "rtx4090-w2-r3",
+      "ns_per_day": 810.37,
+      "blocks_ns_per_day": [
+        812.6,
+        810.23,
+        808.27
+      ],
+      "cv": 0.0027,
+      "cuda_device": "NVIDIA GeForce RTX 4090",
+      "gpu_name_as_offered": "RTX 4090",
+      "final_temp_k": 301.2,
+      "wall_s": 61.2,
+      "utc": "2026-07-27T15:00:06Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX4090",
+      "tag": "rtx4090-w2",
+      "ns_per_day": 777.03,
+      "blocks_ns_per_day": [
+        778.63,
+        777.48,
+        774.98
+      ],
+      "cv": 0.0024,
+      "cuda_device": "NVIDIA GeForce RTX 4090",
+      "gpu_name_as_offered": "RTX 4090",
+      "final_temp_k": 302.4,
+      "wall_s": 59.9,
+      "utc": "2026-07-27T14:57:04Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5060TI",
+      "tag": "rtx5060ti-w2-r2",
+      "ns_per_day": 385.4,
+      "blocks_ns_per_day": [
+        386.34,
+        385.53,
+        384.34
+      ],
+      "cv": 0.0026,
+      "cuda_device": "NVIDIA GeForce RTX 5060 Ti",
+      "gpu_name_as_offered": "RTX 5060 Ti",
+      "final_temp_k": 301.9,
+      "wall_s": 60.9,
+      "utc": "2026-07-27T14:49:05Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5060TI",
+      "tag": "rtx5060ti-w2-r3",
+      "ns_per_day": 400.01,
+      "blocks_ns_per_day": [
+        401.12,
+        399.65,
+        399.27
+      ],
+      "cv": 0.0024,
+      "cuda_device": "NVIDIA GeForce RTX 5060 Ti",
+      "gpu_name_as_offered": "RTX 5060 Ti",
+      "final_temp_k": 300.8,
+      "wall_s": 59.7,
+      "utc": "2026-07-27T14:48:40Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5060TI",
+      "tag": "rtx5060ti-w2",
+      "ns_per_day": 390.55,
+      "blocks_ns_per_day": [
+        388.78,
+        389.96,
+        392.91
+      ],
+      "cv": 0.0054,
+      "cuda_device": "NVIDIA GeForce RTX 5060 Ti",
+      "gpu_name_as_offered": "RTX 5060 Ti",
+      "final_temp_k": 302.6,
+      "wall_s": 60.8,
+      "utc": "2026-07-27T14:48:40Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5080",
+      "tag": "rtx5080-w2-r2",
+      "ns_per_day": 752.32,
+      "blocks_ns_per_day": [
+        752.56,
+        752.04,
+        752.36
+      ],
+      "cv": 0.0003,
+      "cuda_device": "NVIDIA GeForce RTX 5080",
+      "gpu_name_as_offered": "RTX 5080",
+      "final_temp_k": 302.4,
+      "wall_s": 59.1,
+      "utc": "2026-07-27T14:51:14Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5080",
+      "tag": "rtx5080-w2",
+      "ns_per_day": 683.12,
+      "blocks_ns_per_day": [
+        686.58,
+        682.09,
+        680.69
+      ],
+      "cv": 0.0045,
+      "cuda_device": "NVIDIA GeForce RTX 5080",
+      "gpu_name_as_offered": "RTX 5080",
+      "final_temp_k": 301.5,
+      "wall_s": 57.5,
+      "utc": "2026-07-27T15:08:17Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5090",
+      "tag": "rtx5090-w2-r3",
+      "ns_per_day": 1034.58,
+      "blocks_ns_per_day": [
+        1035.69,
+        1034.24,
+        1033.82
+      ],
+      "cv": 0.0009,
+      "cuda_device": "NVIDIA GeForce RTX 5090",
+      "gpu_name_as_offered": "RTX 5090",
+      "final_temp_k": 301.6,
+      "wall_s": 61.1,
+      "utc": "2026-07-27T14:56:32Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5090",
+      "tag": "rtx5090-w2",
+      "ns_per_day": 1003.24,
+      "blocks_ns_per_day": [
+        1006.86,
+        1004.54,
+        998.33
+      ],
+      "cv": 0.0044,
+      "cuda_device": "NVIDIA GeForce RTX 5090",
+      "gpu_name_as_offered": "RTX 5090",
+      "final_temp_k": 300.1,
+      "wall_s": 59.5,
+      "utc": "2026-07-27T14:53:34Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTXA4000",
+      "tag": "rtxa4000-w2-r3",
+      "ns_per_day": 246.3,
+      "blocks_ns_per_day": [
+        249.78,
+        245.87,
+        243.26
+      ],
+      "cv": 0.0133,
+      "cuda_device": "NVIDIA RTX A4000",
+      "gpu_name_as_offered": "RTX A4000",
+      "final_temp_k": 302.3,
+      "wall_s": 62.1,
+      "utc": "2026-07-27T14:51:07Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTXA4000",
+      "tag": "rtxa4000-w2",
+      "ns_per_day": 252.33,
+      "blocks_ns_per_day": [
+        255.64,
+        251.96,
+        249.39
+      ],
+      "cv": 0.0124,
+      "cuda_device": "NVIDIA RTX A4000",
+      "gpu_name_as_offered": "RTX A4000",
+      "final_temp_k": 300.6,
+      "wall_s": 61.4,
+      "utc": "2026-07-27T14:50:12Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTXPRO4000",
+      "tag": "rtxpro4000-w2-r3",
+      "ns_per_day": 464.54,
+      "blocks_ns_per_day": [
+        472.37,
+        462.93,
+        458.33
+      ],
+      "cv": 0.0154,
+      "cuda_device": "NVIDIA RTX PRO 4000 Blackwell",
+      "gpu_name_as_offered": "RTX PRO 4000",
+      "final_temp_k": 301.3,
+      "wall_s": 60.7,
+      "utc": "2026-07-27T14:52:16Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTXPRO4000",
+      "tag": "rtxpro4000-w2",
+      "ns_per_day": 471.63,
+      "blocks_ns_per_day": [
+        479.56,
+        470.33,
+        465.01
+      ],
+      "cv": 0.0156,
+      "cuda_device": "NVIDIA RTX PRO 4000 Blackwell",
+      "gpu_name_as_offered": "RTX PRO 4000",
+      "final_temp_k": 300.8,
+      "wall_s": 58.7,
+      "utc": "2026-07-27T15:09:27Z",
       "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
     }
   ]
