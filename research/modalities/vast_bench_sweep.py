@@ -815,9 +815,15 @@ def realised_spend(key=None):
         except (TypeError, ValueError):
             h, usd = 0.0, 0.0
         total += usd
+        # ★ THE FIELDS THAT DISCRIMINATE A SLOW IMAGE PULL FROM A WEDGED BOX (2026-07-27). Three 4090
+        # rentals sat at `loading` for >11 min while three siblings on the identical image finished. A bare
+        # status cannot tell those apart; `status_msg` says which layer the container is on, `inet_down` says
+        # whether bytes are actually arriving, and `gpu_util` says whether anything is running yet.
         rows.append({"instance": i.get("id"), "label": i.get("label"), "hours": round(h, 4),
                      "dph": i.get("dph_total"), "usd": round(usd, 4),
-                     "status": i.get("actual_status") or i.get("cur_state")})
+                     "status": i.get("actual_status") or i.get("cur_state"),
+                     "status_msg": i.get("status_msg"), "inet_down": i.get("inet_down"),
+                     "gpu_util": i.get("gpu_util"), "machine_id": i.get("machine_id")})
     return round(total, 4), rows
 
 
