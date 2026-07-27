@@ -384,59 +384,90 @@ STUCK_START_HARD_MIN = float(os.environ.get("STUCK_START_HARD_MIN", str(3 * 45))
 
 
 def never_started_cohort(live, excluded=()):
-    """Group the NEVER-STARTED hosts by machine_id, and separate them from PREEMPTIONS. PURE.
+    """Classify every STOPPED s1f-* host into the THREE classes that have three different remedies. PURE.
 
-    ★★ THE TWO CLASSES HAVE OPPOSITE REMEDIES, AND CONFLATING THEM COSTS MONEY IN BOTH DIRECTIONS
-       (2026-07-27, 3:28 PM ET, when five of fifteen hosts were stopped and two more looked identical in
-       every readout the lane produced).
+    ★★★ THE MEASUREMENT THAT FORCED A THIRD CLASS (2026-07-27, 3:44 PM ET). Eight of nineteen live hosts
+        carried the never-started signature and the obvious reading — "the board is full of bad hosts" — was
+        WRONG. Grouping them by `machine_id` for the first time showed the discriminating fact:
 
-      * **never started** — `cur_state == "stopped"` with an EMPTY `status_msg`: the create/start race, the
-        container never executed. Nothing about our workload enters the judgement, so the verdict is
-        HOST-SCOPED: destroy, and publish the machine cross-lane. Leaving it un-excluded is not neutral —
-        a host that never starts has INFINITE realised `$/ns`, which is invisible to `$/ns` ranking, so it
-        keeps winning selection and keeps failing (machine 1569 took ten relaunches to learn this once).
-      * **preempted** — stopped with a NON-empty `status_msg` such as `'success, running <image>'`: the box
-        RAN and exited. CLAUDE.md §6 calls this routine. The remedy is to resume it, and excluding its
-        machine would retire healthy, cheap supply for a fault that was never the host's.
+            hosts that were the ONLY s1f-* instance on their machine   started 8 of 10
+            hosts placed on a machine this lane was ALREADY renting    started 0 of 7
 
-    WHY GROUPING BY MACHINE IS THE POINT rather than a nicety. Five never-started hosts on five machines is
-    five independent capacity refusals — bad luck on a thin board. Five on ONE machine is a single
-    1569-class box that won selection five times, and the remedy is one exclusion, not five. The counts are
-    identical in every other readout the lane emits, which is exactly why this has to be computed and
-    committed rather than eyeballed.
+        Zero of seven. A Vast machine rents out a fixed number of GPUs; a second container on a box whose
+        GPU we already hold has none to take, so it sits `stopped` with an empty `status_msg` — the SAME
+        signature as a genuine create/start race, arrived at by our own double-booking. So most of the
+        "dead hosts" were self-inflicted, and five of the machines involved (19492, 31035, 31036, 53989,
+        24573) were at that moment RUNNING this lane's work at 76-98 % GPU.
 
-    `already_excluded` is the third thing this answers, and it is a question about OUR CODE, not the market:
-    a never-started host whose machine was ALREADY in the exclusion set at the moment it was rented proves
-    the set is not reaching the selector, which is a defect no amount of further excluding will fix.
+    ⚠⚠ WHICH IS WHY THE REMEDY MUST SPLIT. Host-scoped exclusion is PERMANENT and CROSS-LANE — nothing ages
+       an entry out (`vast_machine_blacklist.__doc__`). Condemning the double-booked cohort as "never
+       starts" would have published five healthy, cheap machines to every lane in the repo, for a fault
+       that was ours. That is the exact failure that module names as the expensive direction of the trade.
+
+      * **double-booked** — never started, and an OLDER s1f-* instance of ours sits on the same machine.
+        DESTROY the duplicate (it is billing and can never run), and record NOTHING against the machine.
+        The machine becomes selectable again by itself once our other instance ends.
+      * **host fault** — never started, and it is the only/oldest thing we have on that machine. Nothing
+        about our workload enters the judgement, so this is HOST-SCOPED: destroy and publish cross-lane.
+        Leaving it is not neutral — a host that never starts has INFINITE realised `$/ns`, invisible to
+        `$/ns` ranking, so it keeps winning selection and keeps failing (machine 1569 took ten relaunches).
+      * **preempted** — stopped with a NON-empty `status_msg` (`'success, running <image>'`). The box RAN
+        and exited; CLAUDE.md §6 calls this routine. Resume it, and never exclude its machine.
+
+    ⚠ `machine_excluded_now` IS NOT "we rented an excluded machine". It compares against the exclusion set
+      AS IT IS NOW, and the set grows — another lane can publish a machine minutes after we rented it (144071
+      was published between the 3:39 and 3:44 PM ticks, which is corroboration of a host fault, not proof of
+      a selector bug). The ONLY evidence that the set failed to reach the selector is the launcher's own
+      `excluding N machine(s)` line printed in the readout of the wave that placed the host. Do not upgrade
+      this field into that claim.
     """
     excl = {str(m) for m in (excluded or ())}
-    never, preempted = [], []
+    stopped = [i for i in (live or []) if (i.get("cur_state") or "") == "stopped"]
+    # The OLDEST live instance on a machine is the incumbent; anything younger on the same machine is a
+    # duplicate WE placed. Ages come from the same listing, so this is an ordering, not a clock comparison.
+    oldest_on = {}
     for i in (live or []):
-        if (i.get("cur_state") or "") != "stopped":
+        mid = None if i.get("machine_id") is None else str(i.get("machine_id"))
+        age = _age_min(i)
+        if mid is None or age is None:
             continue
-        row = {"instance": i.get("id"), "label": i.get("label"),
-               "machine_id": (None if i.get("machine_id") is None else str(i.get("machine_id"))),
+        if mid not in oldest_on or age > oldest_on[mid][0]:
+            oldest_on[mid] = (age, i.get("id"))
+    never, preempted = [], []
+    for i in stopped:
+        mid = None if i.get("machine_id") is None else str(i.get("machine_id"))
+        row = {"instance": i.get("id"), "label": i.get("label"), "machine_id": mid,
                "gpu": i.get("gpu_name"), "age_min": _age_min(i),
                "status_msg": (i.get("status_msg") or "")[:120]}
         if (i.get("status_msg") or "").strip():
             preempted.append(row)
-        else:
-            row["already_excluded_when_rented"] = row["machine_id"] in excl
-            never.append(row)
+            continue
+        incumbent = oldest_on.get(mid or "")
+        row["double_booked_behind"] = (incumbent[1] if incumbent and incumbent[1] != i.get("id") else None)
+        row["klass"] = "double_booked" if row["double_booked_behind"] else "host_fault"
+        row["remedy"] = ("destroy the duplicate; the machine is NOT at fault and must NOT be excluded"
+                         if row["klass"] == "double_booked" else
+                         "destroy and publish the machine HOST-scoped: it never executed our container")
+        row["machine_excluded_now"] = mid in excl
+        never.append(row)
     by_machine = {}
     for r in never:
         by_machine.setdefault(r["machine_id"] or "unknown", []).append(r["label"])
+    host_fault = [r for r in never if r["klass"] == "host_fault"]
     return {
         "never_started": never,
         "preempted": preempted,
         "never_started_by_machine": {k: sorted(v) for k, v in sorted(by_machine.items())},
-        # The headline: how much of the never-started population is ONE box. 1 means five separate hosts;
-        # 5 means one machine took the whole cohort down with it.
+        # The headline: how much of the never-started population is ONE box. 1 means N separate hosts;
+        # >1 means one machine took several units down together.
         "max_units_on_one_machine": max([len(v) for v in by_machine.values()] or [0]),
         "n_never_started": len(never), "n_preempted": len(preempted),
-        # A non-empty list here is a bug in the lane, not in the market — see the docstring.
-        "rented_despite_exclusion": sorted({r["machine_id"] for r in never
-                                            if r.get("already_excluded_when_rented")}),
+        "n_double_booked": len(never) - len(host_fault), "n_host_fault": len(host_fault),
+        # The ONLY machines that earn a permanent cross-lane exclusion.
+        "host_fault_machines": sorted({r["machine_id"] for r in host_fault if r["machine_id"]}),
+        # Machines we hold a never-started rental on that SOMEONE has since excluded. Corroboration, not
+        # an accusation — see the docstring.
+        "machines_excluded_since": sorted({r["machine_id"] for r in never if r.get("machine_excluded_now")}),
     }
 
 
@@ -2243,6 +2274,13 @@ def mode_monitor():
         label_to_unit = {f"{LABEL_PREFIX}{idx[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in units}
         start_state = _get_json(s3, bucket, f"{RESULT_PREFIX}/_start_state.json") or {}
         new_start_state = {}
+        # ★★ WHICH NEVER-STARTS ARE OURS. `never_started_cohort` separates a genuine host fault from a
+        # DUPLICATE this lane placed on a machine it already holds — 7 of 8 on 2026-07-27 were the latter,
+        # and their machines were running our work at 76-98 % GPU. Both are destroyed; only the host fault
+        # earns the permanent, cross-lane exclusion. Computed once, outside the loop, because it needs the
+        # WHOLE fleet to decide any single row.
+        _dupes = {r["instance"] for r in never_started_cohort(live)["never_started"]
+                  if r["klass"] == "double_booked"}
         for i in live:
             u = label_to_unit.get(i.get("label") or "")
             if not u or i.get("cur_state") != "stopped":
@@ -2278,7 +2316,19 @@ def mode_monitor():
                     # LANE-scoped only. Wrongly publishing a healthy host to the shared set permanently
                     # removes cheap supply for everybody — and the cheapest capacity on this board is
                     # exactly these 5090s — so the shared set stays reserved for the unambiguous signature.
-                    if stuck_sig:
+                    if stuck_sig and i.get("id") in _dupes:
+                        # ⚠⚠ DESTROY, EXCLUDE NOTHING. This container never executed because WE were already
+                        # renting that machine's GPU, not because the machine refuses to start — measured
+                        # 2026-07-27: 0 of 7 double-booked instances started, while 8 of 10 single-booked
+                        # ones did. A host-scoped exclusion is permanent and cross-lane, so publishing these
+                        # would have retired five machines that were running this lane's own legs at
+                        # 76-98 % GPU. The fix for this class is in `mode_launch` (seed host-distinctness
+                        # from the live fleet), never in the blacklist.
+                        why = (f"DOUBLE-BOOKED: never started in {age} min across {strikes} consecutive "
+                               f"checks because this lane already holds a GPU on machine "
+                               f"{i.get('machine_id')} — self-inflicted, the machine is not at fault")
+                        _scope = None
+                    elif stuck_sig:
                         why = (f"never started: cur_state=stopped with an empty status_msg for {age} min "
                                f"across {strikes} consecutive checks (create/start race, not an image pull)")
                         _scope = "host"
@@ -2310,7 +2360,14 @@ def mode_monitor():
                     # LANE-scoped, because pricing.md A.1 withdrew exactly that reasoning once — a
                     # metadynamics leg's low utilisation turned out to be PLUMED's CPU-side bias and the same
                     # host ran at 74 % on the next phase. A never-started box has no such ambiguity.
-                    if mid is not None and _record_exclusion(s3, bucket, mid, why, scope=_scope):
+                    if _scope is None:
+                        # The duplicate is gone and that is the WHOLE remedy. Writing anything against this
+                        # machine would condemn a box for our own double-booking, and the shared set has no
+                        # expiry — see the `_dupes` note above.
+                        print(f"[s1f] machine {mid} deliberately NOT excluded: the fault was this lane "
+                              f"double-booking it, not the host. It stays selectable, and mode_launch now "
+                              f"avoids machines we already hold so the duplicate is not placed again.")
+                    elif mid is not None and _record_exclusion(s3, bucket, mid, why, scope=_scope):
                         print(f"[s1f] machine {mid} added to the lane exclusion set"
                               + (" AND published to the cross-lane shared set (host-scoped: it never "
                                  "started)" if _scope == "host" else
@@ -2446,21 +2503,31 @@ def mode_monitor():
     _excl_now, _ = _load_excluded(s3, bucket)
     cohort = never_started_cohort(live, _excl_now)
     if cohort["n_never_started"] or cohort["n_preempted"]:
-        print(f"[s1f] STOPPED-HOST ADJUDICATION: {cohort['n_never_started']} never-started "
-              f"(empty status_msg -> HOST-scoped exclusion) | {cohort['n_preempted']} preempted "
-              f"(ran and exited -> resume, do NOT exclude)")
-        for mid, labels in cohort["never_started_by_machine"].items():
-            print(f"[s1f]   never-started machine {mid}: {len(labels)} unit(s) {labels}"
-                  + ("   <-- ONE MACHINE took several units down together" if len(labels) > 1 else ""))
+        print(f"[s1f] STOPPED-HOST ADJUDICATION: {cohort['n_host_fault']} host-fault "
+              f"(never started, sole rental -> destroy + HOST-scoped exclusion) | "
+              f"{cohort['n_double_booked']} DOUBLE-BOOKED (never started because we already hold that "
+              f"machine's GPU -> destroy the duplicate, machine NOT at fault) | "
+              f"{cohort['n_preempted']} preempted (ran and exited -> resume, never exclude)")
+        for r in cohort["never_started"]:
+            print(f"[s1f]   {r['klass'].upper():14s} {r['instance']} ({r['label']}) machine "
+                  f"{r['machine_id']} age {r['age_min']} min"
+                  + (f" — BEHIND our own instance {r['double_booked_behind']} on the same machine"
+                     if r["double_booked_behind"] else "")
+                  + f" -> {r['remedy']}")
         for r in cohort["preempted"]:
-            print(f"[s1f]   preempted {r['instance']} ({r['label']}) machine {r['machine_id']} "
+            print(f"[s1f]   PREEMPTED      {r['instance']} ({r['label']}) machine {r['machine_id']} "
                   f"age {r['age_min']} min — resume, machine NOT excluded")
-    if cohort["rented_despite_exclusion"]:
-        # This is a code fault, not a market one: an exclusion that does not reach the selector is a set
-        # nobody is consulting, and adding more entries to it cannot help.
-        print(f"::error title=STEP1 FAN-OUT: EXCLUSION SET NOT REACHING THE SELECTOR::machine(s) "
-              f"{cohort['rented_despite_exclusion']} were ALREADY excluded and were rented anyway. "
-              f"Excluding them again will not fix this — the selector is not consulting the set.")
+    if cohort["n_double_booked"]:
+        # Not a market fact and not a host fact — a placement fact, and the only one of the three whose fix
+        # is in our own code (`mode_launch` seeds host-distinctness from the live fleet).
+        print(f"::warning title=STEP1 FAN-OUT: SELF-INFLICTED NEVER-STARTS::{cohort['n_double_booked']} of "
+              f"{cohort['n_never_started']} never-started host(s) are duplicates this lane placed on a "
+              f"machine it was already renting. Their machines are NOT bad and must not be excluded.")
+    if cohort["machines_excluded_since"]:
+        print(f"[s1f] note: machine(s) {cohort['machines_excluded_since']} carrying a never-started rental "
+              f"of ours are in the exclusion set NOW. That is corroboration (another lane reached the same "
+              f"verdict), NOT evidence the set failed to reach the selector — the launcher prints the set "
+              f"it actually applied on every wave, and that readout is the only thing that can show a miss.")
 
     # Written to disk (and committed back to the branch by CI) because a GitHub job log is only readable from
     # its tail, and the tail is always the runner's own post-job boilerplate. A committed progress file is the

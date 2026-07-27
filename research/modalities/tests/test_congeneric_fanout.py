@@ -1149,11 +1149,45 @@ def test_never_started_and_preempted_are_separated_by_the_status_msg_signature()
     assert [r["label"] for r in c["never_started"]] == ["s1f-00-a"]
     assert [r["label"] for r in c["preempted"]] == ["s1f-01-b"]
     assert c["n_never_started"] == 1 and c["n_preempted"] == 1
+    assert c["never_started"][0]["klass"] == "host_fault"        # sole rental on 7001
+
+
+def test_a_duplicate_on_a_machine_we_already_hold_is_NOT_a_bad_host():
+    """★ THE MEASUREMENT (2026-07-27): 0 of 7 double-booked instances started, 8 of 10 single-booked ones
+    did. A Vast machine rents a fixed number of GPUs, so a second container on a box whose GPU we already
+    hold sits stopped with an empty status_msg — the SAME signature as a genuine create/start race. Host
+    exclusions are PERMANENT and CROSS-LANE, so misfiling this class retires healthy machines that are
+    running our own work."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-05-incumbent", "19492", "success, running img", cur="running", age_h=1.0),
+            _inst(2, "s1f-01-dupe", "19492", "", age_h=0.25)]
+    c = fv.never_started_cohort(live)
+    (dupe,) = c["never_started"]
+    assert dupe["klass"] == "double_booked" and dupe["double_booked_behind"] == 1
+    assert "NOT be excluded" in dupe["remedy"]
+    assert c["n_double_booked"] == 1 and c["n_host_fault"] == 0
+    # and the machine must NOT appear in the set that earns a permanent cross-lane exclusion
+    assert c["host_fault_machines"] == []
+
+
+def test_the_OLDEST_instance_on_a_bad_machine_is_the_host_fault_and_the_rest_are_duplicates():
+    """Machine 19499 took three never-starts. The first was a real refusal (nothing of ours was on it); the
+    two placed after it are our own duplicates. One exclusion, not three — and the exclusion must come from
+    the instance that actually evidences a host fault."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-08-a", "19499", "", age_h=0.82),
+            _inst(2, "s1f-14-b", "19499", "", age_h=0.73),
+            _inst(3, "s1f-01-c", "19499", "", age_h=0.15)]
+    c = fv.never_started_cohort(live)
+    klass = {r["instance"]: r["klass"] for r in c["never_started"]}
+    assert klass == {1: "host_fault", 2: "double_booked", 3: "double_booked"}
+    assert c["host_fault_machines"] == ["19499"]
+    assert c["max_units_on_one_machine"] == 3
 
 
 def test_the_headline_is_how_many_units_ONE_machine_took_down():
-    """Five never-starts on five machines is a thin board; five on ONE machine is a 1569-class box that won
-    selection five times and needs exactly one exclusion. Only this number tells them apart."""
+    """N never-starts on N machines is a thin board; N on ONE machine is a 1569-class box that won selection
+    N times and needs exactly one exclusion. Only this number tells them apart."""
     import congeneric_fanout_vast as fv
     spread = [_inst(i, f"s1f-{i:02d}-x", str(8000 + i), "") for i in range(5)]
     assert fv.never_started_cohort(spread)["max_units_on_one_machine"] == 1
@@ -1163,14 +1197,30 @@ def test_the_headline_is_how_many_units_ONE_machine_took_down():
     assert c["never_started_by_machine"] == {"1569": sorted(f"s1f-{i:02d}-x" for i in range(5))}
 
 
-def test_a_never_started_host_on_an_ALREADY_excluded_machine_is_reported_as_a_code_fault():
-    """Renting a machine that was already in the exclusion set proves the set is not reaching the selector.
-    Adding it again cannot fix that, so it must surface as its own finding rather than as more exclusions."""
+def test_an_exclusion_added_AFTER_we_rented_is_corroboration_not_a_selector_bug():
+    """Machine 144071 entered the shared set between two ticks, minutes after this lane rented it. Reading
+    that as 'the selector ignored the exclusion set' would accuse our own code on evidence that cannot
+    support it — the only thing that can is the `excluding N machine(s)` line of the wave that placed it."""
     import congeneric_fanout_vast as fv
-    live = [_inst(1, "s1f-00-a", "1569", ""), _inst(2, "s1f-01-b", "9999", "")]
-    c = fv.never_started_cohort(live, excluded={"1569"})
-    assert c["rented_despite_exclusion"] == ["1569"]
-    assert fv.never_started_cohort(live, excluded=())["rented_despite_exclusion"] == []
+    live = [_inst(1, "s1f-03-a", "144071", "")]
+    c = fv.never_started_cohort(live, excluded={"144071"})
+    assert c["machines_excluded_since"] == ["144071"]
+    assert "rented_despite_exclusion" not in c, "must not make a claim the data cannot support"
+    assert fv.never_started_cohort(live)["machines_excluded_since"] == []
+
+
+def test_the_condemn_path_excludes_a_host_fault_and_never_a_duplicate():
+    """The safety property with the money on it: a permanent, cross-lane exclusion must be reachable ONLY
+    from the host-fault branch. Pinned as source because the branch sits inside `mode_monitor`, behind a
+    Vast key, an S3 client and a live board."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    assert 'if stuck_sig and i.get("id") in _dupes:' in src, "the duplicate branch must be tested FIRST"
+    assert "_scope = None" in src and "if _scope is None:" in src, \
+        "a duplicate must reach a branch that writes NO exclusion"
+    # the host-scoped publish must still exist for the genuine case
+    assert '_scope = "host"' in src
 
 
 def test_the_launch_wave_avoids_machines_the_lane_is_ALREADY_renting():
