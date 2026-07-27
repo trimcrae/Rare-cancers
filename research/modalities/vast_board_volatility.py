@@ -21,6 +21,37 @@ least three mechanisms that produce that observation and imply completely differ
       be *gradeable* swings hard: the same snapshots show `priceable` moving 9 → 52 out of a stable ~46–63
       `qualifying`.  Fix: read the whole board and widen the bench table — cadence is irrelevant.
 
+===============================================================================================================
+★★ THE ANSWER (measured 2026-07-27, runs 30294964932 + 30295566972 — read-only, $0, rented nothing)
+===============================================================================================================
+**It was H3, with H2 on top. H1 — the one the question assumed — is the smallest term of the three.**
+
+  * **H3 dominated.** Vast's `/search/asks/` defaults to **64 rows**; the qualifying board is **~225**. Paired
+    reads of the same board in the same second: `limit=512` → 225 offers / 143-147 priceable; no limit → 64 /
+    28-29. Because the query orders by `$/hr` while we rank by `$/ns`, the cut removes the BENCHED cards
+    preferentially (RTX 4090 30 offers → 5; RTX 3090 21 → 3), so the truncated read priced the same market
+    **+26.3 % higher for a 4-unit fleet and +57 % for a 19-unit one** — the penalty grows with fleet size,
+    which is why the 19-edge fan-out held hardest. FIXED: `gpu_backend._VAST_SEARCH_LIMIT`.
+
+  * **H2 is real and large, and it is a SAMPLING effect, not noise in the market.** Even at `limit=512` one
+    read is a ~38 % sample: P(present, then absent 20 s later) = **0.245**, and cumulative distinct machines
+    across 60 reads reached **711**. Any per-offer tracking must divide this out — see `churn_by_lag`, and see
+    `gpu_backend.sample_board` for the ~5 % price it is worth to merge two reads.
+
+  * **H1 is modest.** With the sampler divided out, the residence half-life of an offer AT OR BELOW the buy
+    line is **~68 minutes** (survival 92 % @ 5 min, 88 % @ 10, 81 % @ 20, 68 % @ 40). Individual cheap hosts
+    do turn over — trimcrae's instinct was right about that — but they are replaced as fast as they go, so
+    **35-41 offers sat under the line at every single tick and a fleet of 4 (and of 19) cleared at 100 % of
+    them.** There is no window to miss.
+
+  * **So the cadence is worth $0.00/day.** Every cadence from 1 min to 60 min buys at the same mean $/ns with
+    zero wait and zero misses. HOURLY IS ENOUGH — and the money was never in the cadence, it was in reading
+    28 % of the board.
+
+  * Not a constraint either: the route reports **`x-ratelimit-limit: 500` per 60 s** and this repo's whole
+    usage sat at 3-4. What actually bites is the edge's BURST throttle, which is why `sample_board` defaults
+    to one read rather than doubling `submit`'s ~8-call burst.
+
 This module's job is to DISCRIMINATE, then to price the answer. It has three parts and each is separable:
 
   `--collect`   the measurement. A read-only, $0, rents-nothing sampler that runs inside ONE CI job and takes
