@@ -288,6 +288,18 @@ def gate(lane, unit_id, res, *, key=None, excluded=(), max_ratio=None, s3=None,
     if doc.get("board_error"):
         reason = (f"could not read the board ({doc['board_error']}) — an unreadable market is not a cheap "
                   f"one, and this gate exists precisely for the case where nobody is awake to check")
+    elif hold and best is None and depth["offers_returned"] and not depth["qualifying"] and excluded:
+        # ⚠ NOT A PRICE PROBLEM, AND IT MUST NOT BE REPORTED AS ONE. The shared host blacklist is permanent
+        # by design (a host that refuses starts keeps refusing), so it only ever grows — and a set large
+        # enough to disqualify the whole board would make this gate hold forever while the readout blamed the
+        # market. That misdiagnosis would cost a night, so the two causes are separated here by the one
+        # observation that discriminates: the board RETURNED offers and NONE survived the filter.
+        reason = (f"NOT A PRICE HOLD — the board returned {depth['offers_returned']} offer(s) and none "
+                  f"survived the host filter while {len(excluded)} machine(s) are excluded "
+                  f"({sorted(excluded)[:12]}). Either the exclusion set has outgrown the market or the "
+                  f"ResourceSpec is unsatisfiable; re-pricing will not fix either. Review the exclusions "
+                  f"(vast_machine_blacklist) before touching the ceiling.")
+        doc["hold_cause"] = "exclusions_or_spec_not_price"
     doc.update({"hold": hold, "reason": reason, "best_usd_per_ns": (round(best, 6) if best else None),
                 "basis_usd_per_ns": round(basis, 6), "ratio_vs_basis": ratio,
                 "usd_per_ns_at_max_ratio": round(doc["max_ratio_vs_basis"] * basis, 6),
