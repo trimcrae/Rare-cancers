@@ -8,45 +8,6 @@
   ],
   "rows": [
     {
-      "unit_id": "e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
-      "edge_id": "e_zaienne_cmpd19__cw_ev_5nh2",
-      "edge": "zaienne_cmpd19->cw_ev_5nh2",
-      "ligand_a": "zaienne_cmpd19",
-      "ligand_b": "cw_ev_5nh2",
-      "n_atoms_a": 22,
-      "n_atoms_b": 24,
-      "provable_floor": 19,
-      "complete_map": 22,
-      "matrix": {
-        "ec0_t20": {
-          "n_mapped": 21,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec0_t300": {
-          "n_mapped": 21,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec1_t20": {
-          "n_mapped": 22,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec1_t300": {
-          "n_mapped": 22,
-          "wall_s": 0.01,
-          "error": null
-        }
-      },
-      "production_n_mapped": 21,
-      "production_error": null,
-      "production_wall_s": 0.01,
-      "production_clears_floor": true,
-      "verdict": "CLEAN",
-      "why": "production mapped 21 >= provable floor 19"
-    },
-    {
       "unit_id": "e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral",
       "edge_id": "e_zaienne_cmpd19__cw_bio_nmethyl_amide",
       "edge": "zaienne_cmpd19->cw_bio_nmethyl_amide",
@@ -56,6 +17,9 @@
       "n_atoms_b": 23,
       "provable_floor": 20,
       "complete_map": 22,
+      "kartograf_n_mapped": 18,
+      "kartograf_error": null,
+      "kartograf_wall_s": 0.01,
       "matrix": {
         "ec0_t20": {
           "n_mapped": 17,
@@ -82,95 +46,12 @@
       "production_error": null,
       "production_wall_s": 0.01,
       "production_clears_floor": false,
-      "verdict": "UNEXPLAINED",
-      "why": "neither the timeout nor the element-change signature fits \u2014 this needs a human before any GPU is rented for this edge"
-    },
-    {
-      "unit_id": "e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral",
-      "edge_id": "e_zaienne_cmpd19__cw_bio_tetrazole",
-      "edge": "zaienne_cmpd19->cw_bio_tetrazole",
-      "ligand_a": "zaienne_cmpd19",
-      "ligand_b": "cw_bio_tetrazole",
-      "n_atoms_a": 22,
-      "n_atoms_b": 21,
-      "provable_floor": 10,
-      "complete_map": null,
-      "matrix": {
-        "ec0_t20": {
-          "n_mapped": 15,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec0_t300": {
-          "n_mapped": 15,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec1_t20": {
-          "n_mapped": 15,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec1_t300": {
-          "n_mapped": 15,
-          "wall_s": 0.01,
-          "error": null
-        }
-      },
-      "production_n_mapped": 15,
-      "production_error": null,
-      "production_wall_s": 0.01,
-      "production_clears_floor": true,
-      "verdict": "CLEAN",
-      "why": "production mapped 15 >= provable floor 10"
-    },
-    {
-      "unit_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
-      "edge_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester",
-      "edge": "cw_ev_5nh2->cw_ms_5acetamido_ester",
-      "ligand_a": "cw_ev_5nh2",
-      "ligand_b": "cw_ms_5acetamido_ester",
-      "n_atoms_a": 24,
-      "n_atoms_b": 29,
-      "provable_floor": 14,
-      "complete_map": null,
-      "matrix": {
-        "ec0_t20": {
-          "n_mapped": 23,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec0_t300": {
-          "n_mapped": 23,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec1_t20": {
-          "n_mapped": 24,
-          "wall_s": 0.01,
-          "error": null
-        },
-        "ec1_t300": {
-          "n_mapped": 24,
-          "wall_s": 0.01,
-          "error": null
-        }
-      },
-      "production_n_mapped": 23,
-      "production_error": null,
-      "production_wall_s": 0.01,
-      "production_clears_floor": true,
-      "verdict": "CLEAN",
-      "why": "production mapped 23 >= provable floor 14"
+      "verdict": "MAPPER_CANNOT_REACH_FLOOR",
+      "why": "the budget is NOT binding (identical maps at t20 and t300) and the best map any available mapper returns is 19, still under the provable floor 20. This is a statement about the MAPPERS on this edge, not about a rented host: a retry would abort identically and buy nothing, so this edge is not a retry candidate until a mapper reaches 20"
     }
   ],
   "summary": {
-    "CLEAN": [
-      "zaienne_cmpd19->cw_ev_5nh2",
-      "zaienne_cmpd19->cw_bio_tetrazole",
-      "cw_ev_5nh2->cw_ms_5acetamido_ester"
-    ],
-    "UNEXPLAINED": [
+    "MAPPER_CANNOT_REACH_FLOOR": [
       "zaienne_cmpd19->cw_bio_nmethyl_amide"
     ]
   }
