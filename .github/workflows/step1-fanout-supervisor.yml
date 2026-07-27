@@ -24,9 +24,9 @@
 #     purchasing path, which is precisely the shape this repo keeps paying for.
 #   * It does not replace the cron. `schedule:` stays on the autoscale workflow as the cold-start path — when
 #     no supervisor is alive, a throttled tick is still far better than none, and it is what restarts this.
-#   * It does not self-restart. Not because it cannot - github.token DOES dispatch here, which is how the
-#     ternary market gate fires its own launch - but because a chain whose last link fails leaves no
-#     supervisor and no signal. The final step prints the relaunch command and warns that cover has ended.
+#   * It DOES self-restart, and verifies the successor exists rather than assuming the dispatch worked. The
+#     6 h job ceiling means a window always ends; the fan-out runs for days. A chain that is checked is the
+#     only way the cadence survives that without a human in the loop.
 #
 # COST: $0. GitHub-hosted minutes are free on a public repo, and this job is asleep almost all of its life.
 name: step1 fan-out supervisor (cadence that does not depend on cron)
@@ -111,10 +111,44 @@ jobs:
             exit 1
           fi
 
-      - name: Name the successor
+      - name: Hand off to a successor
         if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          HOURS: ${{ github.event.inputs.hours || '5.0' }}
+          EVERY: ${{ github.event.inputs.tick_every_min || '8' }}
+          FLEET_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          RELEASE_FANOUT: ${{ github.event.inputs.release_fanout || '1' }}
         run: |
-          # No self-chain: a GITHUB_TOKEN-authenticated `workflow run` does not create a run, so a
-          # A chain whose last link fails leaves no supervisor AND no signal, so the end of the window is
-          # announced rather than papered over.
-          echo "::warning title=SUPERVISOR WINDOW ENDED::the self-owned cadence has stopped. Until another is started, tick delivery falls back to GitHub's throttled schedule (MEASURED 141-220 min gaps on 2026-07-27). Relaunch: gh workflow run step1-fanout-supervisor.yml --ref main"
+          set -uo pipefail
+          # WHY THIS CHAINS, having previously refused to. The first version of this file asserted that a
+          # GITHUB_TOKEN-authenticated dispatch cannot create a workflow run, and declined to self-restart on
+          # that basis. THAT WAS FALSE — gpu-ternary-fep-vast.yml:329 dispatches its own launch with
+          # github.token and those launches really rented hosts. A remembered platform rule was written into
+          # a comment and then used to justify a design decision, in the one file whose job is to stop
+          # unsupervised billing.
+          #
+          # The job ceiling is 6 h and cannot be raised, so a window ALWAYS ends. The fan-out runs for days.
+          # Without a chain the cadence dies mid-run and re-placement silently reverts to a cron measured at
+          # 141-220 min gaps — which is the exact loss this workflow exists to prevent, arriving on a timer.
+          #
+          # The honest objection to chaining is that a chain whose last link fails leaves no supervisor AND
+          # no signal. That is answered by VERIFYING the successor exists rather than assuming the dispatch
+          # worked, and shouting if it does not.
+          gh workflow run step1-fanout-supervisor.yml --ref main \
+             -f hours="${HOURS}" -f tick_every_min="${EVERY}" \
+             -f fleet_branch="${FLEET_BRANCH}" -f release_fanout="${RELEASE_FANOUT}" 2>/tmp/h || true
+          sleep 25   # the dispatch is async; a run does not appear in the API instantly
+          # Confirm from the API that a successor actually EXISTS and is not this same run. A dispatch that
+          # returns 0 and creates nothing is precisely how the first supervisor "ran" for six minutes while
+          # dispatching zero ticks.
+          SUCC=$(gh run list --workflow=step1-fanout-supervisor.yml --limit 5 \
+                   --json databaseId,status \
+                   --jq "[.[] | select(.databaseId != ${{ github.run_id }}) | select(.status==\"queued\" or .status==\"in_progress\")] | length" 2>/dev/null || echo 0)
+          if [ "${SUCC:-0}" -ge 1 ]; then
+            echo "::notice title=SUPERVISOR HANDED OFF::a successor is queued or running - the cadence continues without a human."
+          else
+            echo "::error title=SUPERVISOR CHAIN BROKEN::no successor exists, so tick delivery has just fallen back to GitHub's throttled schedule (MEASURED 141-220 min gaps, against this job's 8 min). The fan-out is still billing. Relaunch: gh workflow run step1-fanout-supervisor.yml --ref main"
+            exit 1
+          fi
