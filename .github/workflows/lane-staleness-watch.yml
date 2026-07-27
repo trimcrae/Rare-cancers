@@ -55,8 +55,14 @@ on:
     - cron: "23 * * * *"
 
 permissions:
-  contents: write     # the census history is committed back to the fleet branch
-  actions: read       # so the run-history reads are AUTHENTICATED — anonymous limits are per shared runner IP
+  contents: write     # the census history and the work ledger are committed back to the fleet branch
+  # `write`, up from `read`, so the WORK LEDGER can dispatch the next action itself (trimcrae's 2026-07-27
+  # ruling: auto-assign everything, never escalate). Two things make that safe and neither is a promise:
+  # the ledger may only name a workflow in its own allowlist, and it is structurally incapable of passing a
+  # price, a bid, a ceiling or a ratio (`work_ledger.DISPATCHABLE` + `_FORBIDDEN_INPUT_TOKENS`, asserted by
+  # `tests/test_work_ledger.py`). Every dispatch therefore lands in a lane's OWN launcher, behind that
+  # lane's §6 market gate. This job still carries NO Vast key and NO object-store credential.
+  actions: write
 
 concurrency:
   group: lane-staleness-watch
@@ -115,6 +121,84 @@ jobs:
             echo '</details>'
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # THE WORK LEDGER — the strictly larger question: is there anything, anywhere, that NOBODY is carrying?
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # ★ IT RUNS HERE RATHER THAN IN A NEW WORKFLOW, and that is the design, not convenience. This job is
+      # already reached by TWO INDEPENDENT DISPATCHERS that are not the cron (the supervisor's in-job loop,
+      # and `step1-fanout-autoscale.yml`'s `if: always()` tail, which fires even when the tick itself
+      # fails), plus the cold-start cron above. A new workflow would have had to earn that, and CLAUDE.md §6
+      # is explicit that a `schedule:` cannot be the cadence for anything that supervises spend.
+      #
+      # ⚠ `always()`, because the step above EXITS NON-ZERO when a lane is red — which is precisely the run
+      # on which knowing what is unowned matters most. Without it the ledger would go silent exactly when
+      # something has gone wrong, which is the defect it exists to remove.
+      - name: Work ledger — every open item, its owner, and what advances it
+        if: ${{ always() }}
+        id: ledger
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          python3 research/modalities/work_ledger.py \
+            --root research/modalities \
+            --ledger research/modalities/work-ledger.json \
+            --board --write \
+            --json /tmp/work-ledger.json \
+            --emit-dispatch /tmp/work-ledger-dispatch.json \
+            | tee /tmp/work-ledger.log
+          echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      # ★★ THE DISPATCH. Auto-assign, never escalate — so this fires the next action itself instead of
+      # telling trimcrae about it. Everything that bounds the risk he named ("a genuinely broken item could
+      # loop indefinitely and burn rentals while looking busy") has already happened by the time this step
+      # runs, in the module: the plan is DEDUPLICATED (nineteen stalled units produce ONE tick, not
+      # nineteen), CAPPED per run, and empty for any item whose bounded retry budget is spent or which is
+      # resting on a §6 price hold. This step only executes what survived all of that.
+      #
+      # ⚠ IT PASSES NO INPUTS OF ITS OWN. Whatever the module wrote is what is sent, and the module cannot
+      # write a price. A failed dispatch is a WARNING, not a failure: the entry keeps its recorded attempt
+      # and comes back next tick, which is the same path a lost run already takes.
+      - name: Dispatch what the ledger says nobody is carrying
+        if: ${{ always() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -uo pipefail
+          [ -s /tmp/work-ledger-dispatch.json ] || { echo "no dispatch plan file"; exit 0; }
+          python3 - <<'PY' > /tmp/dispatch.sh
+          import json, shlex
+          rows = json.load(open("/tmp/work-ledger-dispatch.json"))
+          for r in rows:
+              if r.get("capped"):
+                  print(f"echo '::notice title=LEDGER DISPATCH CAPPED::{r['workflow']} held back this run'")
+                  continue
+              args = " ".join(f"-f {shlex.quote(k)}={shlex.quote(str(v))}"
+                              for k, v in (r.get("inputs") or {}).items())
+              print(f"gh workflow run {shlex.quote(r['workflow'])} --ref main {args} "
+                    f"&& echo '::notice title=LEDGER DISPATCHED::{r['workflow']} for "
+                    f"{len(r['serves'])} entr(ies)' "
+                    f"|| echo '::warning title=LEDGER DISPATCH FAILED::{r['workflow']} — the entries keep "
+                    f"their recorded attempt and return next tick'")
+          PY
+          if [ ! -s /tmp/dispatch.sh ]; then
+            echo "::notice title=LEDGER HAS NOTHING TO DISPATCH::every open item is advancing, resting on a gate, done, or blocked with its budget spent"
+            exit 0
+          fi
+          bash /tmp/dispatch.sh
+
+      - name: IN FLIGHT board (generated from the ledger — no entry, no row)
+        if: ${{ always() }}
+        run: |
+          {
+            echo '### Work ledger + IN FLIGHT board'
+            echo ''
+            echo '```'
+            cat /tmp/work-ledger.log 2>/dev/null || echo 'THE LEDGER ITSELF FAILED — no board was produced. Every open item is unwatched until this is fixed.'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       # The census history is the ONLY state this workflow keeps, and it is used for one thing: knowing how
       # long a committed-iteration census has been bit-identical. A failed push is SAFE BY CONSTRUCTION and
       # deliberately does not fail the job — see `update_history`'s docstring and
@@ -126,15 +210,21 @@ jobs:
           set -uo pipefail
           BR="${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}"
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          # Staged INDEPENDENTLY: `git add A B` fails atomically if one pathspec matches nothing, which
+          # would drop the ledger whenever the history had not been written yet.
           git add research/modalities/lane-staleness-history.json 2>/dev/null || true
-          if git diff --cached --quiet; then echo "census history unchanged"; exit 0; fi
-          git commit -m "lane staleness watch: census history (CI)" || exit 0
+          # ★ THE LEDGER MUST LAND, because its `_stale_after_utc` is how anyone detects that the supervisor
+          # chain has stopped WITHOUT running anything. An unpushed ledger is a ledger frozen at its last
+          # commit — which reads, correctly, as a stopped supervisor. It fails loud rather than quiet.
+          git add research/modalities/work-ledger.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "census history and work ledger unchanged"; exit 0; fi
+          git commit -m "lane staleness watch: census history + work ledger (CI)" || exit 0
           for i in 1 2 3; do
             git pull --rebase --autostash origin "$BR" && git push origin "HEAD:$BR" && exit 0
             echo "push attempt $i lost a race with a lane's own commit; retrying"
             sleep $((i * 7))
           done
-          echo "::warning title=CENSUS HISTORY NOT PERSISTED::the history could not be pushed. This CANNOT cause a false alarm (a stale history only under-reports flatness), but the flat-census signal is weaker until it lands."
+          echo "::warning title=CENSUS HISTORY / WORK LEDGER NOT PERSISTED::neither could be pushed. A stale census history CANNOT cause a false alarm (it only under-reports flatness). A stale WORK LEDGER is different: its \`_stale_after_utc\` will pass and readers will correctly conclude the supervisor chain has stopped, because from outside this run that is indistinguishable from the truth."
 
       # ⚠ SES MAY STILL BE SANDBOXED ON THIS ACCOUNT. Say so rather than assuming delivery: a notification
       # channel believed to work and silently not working is worse than none, because it buys false comfort.
