@@ -233,3 +233,142 @@ def test_verify_armed_fails_when_an_entry_is_merely_disabled(tmp_path):
     import pytest
     with pytest.raises(SystemExit):
         wd.verify_armed("probe", path=str(p))
+
+
+# ============================================================ SETUP_STALL MUST EXPLAIN ITSELF
+# LANE 21, 2026-07-27. The 9:17 PM ET pass emitted, for a leg 146 min old with scalar=0:
+#   "Setup is hung, not slow: check the CUDA probe, the charge cache, minimise steps and GPU utilisation."
+# Every suggested cause was wrong. The container was running a full 0.5 ns pre-equilibration on CUDA (~26 min
+# per cycle) and aborting at the END of it. Pre-equilibration commits no FEP iterations BY CONSTRUCTION — the
+# commit store is only written by the sampler, which starts at `md-running` — so `scalar=0` was the correct
+# reading of a leg doing real work, and the hint list pointed away from the only real explanation. Same shape
+# as the vast_watchdog defect fixed the same night: a verdict computed from a counter that cannot answer the
+# question being asked. There, unit-scoped vs instance-scoped; here, FEP-iteration-scoped vs phase-scoped.
+def _diag(**kw):
+    base = dict(phase_text="preequil 2026-07-27T00:30:00Z", marker_age_min=120.0, log_age_min=1.0,
+                log_lines=["[tvast] pre-equil cache MISS -> running ternary_preequil.py (0.5 ns)"],
+                container_started=True, instance_age_min=146.0)
+    base.update(kw)
+    return wd.setup_stall_diagnosis(**base)
+
+
+def test_the_9_17pm_preequil_alert_no_longer_blames_setup():
+    """THE REGRESSION TEST FOR THE HOUR THIS COST. A non-committing phase must be NAMED as such."""
+    head, hints = _diag()
+    assert "COMMITS NO FEP ITERATIONS BY CONSTRUCTION" in head
+    assert "preequil" in head
+    assert "`scalar=0` is the CORRECT reading" in hints
+    # and it must actively steer AWAY from the three wrong causes, not merely omit them
+    assert "Ignore the CUDA probe and the charge cache" in hints
+    assert "Setup is hung" not in head and "Setup is hung" not in hints
+    # the phase's real progress signal is named
+    assert "phase marker written" in hints and "run.log last written" in hints
+
+
+def test_every_non_committing_phase_gets_the_same_protection():
+    for ph in wd.NON_COMMITTING_PHASES:
+        head, _h = _diag(phase_text=f"{ph} 2026-07-27T00:30:00Z")
+        assert "COMMITS NO FEP ITERATIONS BY CONSTRUCTION" in head, ph
+
+
+def test_a_committing_phase_that_commits_nothing_keeps_the_original_hints():
+    """The ONLY case the historical text ever fitted. It must survive intact — the fix is about telling the
+    truth, not about deleting the hints where they are true."""
+    head, hints = _diag(phase_text="md-running 2026-07-27T00:30:00Z")
+    assert "WHICH DOES COMMIT, AND HAS COMMITTED NOTHING" in head
+    for expected in ("CUDA probe", "charge cache", "minimise step", "warmup NaN"):
+        assert expected in hints, expected
+
+
+def test_a_container_that_never_started_is_named_before_anything_else():
+    """A 2 h 57 min image pull looks identical to a hung leg from outside; it is the first thing ruled out."""
+    head, hints = _diag(container_started=False)
+    assert "NEVER RUN" in head
+    assert "previous host" in hints and "actual_status" in hints
+    assert "Do NOT diagnose the CUDA probe" in hints
+
+
+def test_a_stale_log_is_distinguished_from_a_merely_long_phase():
+    """The two present identically through a zero counter and are fixed differently: a fresh log means the
+    phase is long, a stale one means the container or its uploader stopped."""
+    _h, fresh = _diag(log_age_min=1.0)
+    assert "fresh, so the container is alive" in fresh
+    _h, stale = _diag(log_age_min=45.0)
+    assert "STALE" in stale and "CONTAINER or its uploader stopped" in stale
+    _h, unknown = _diag(log_age_min=None)
+    assert "run.log last written unknown" in unknown
+
+
+def test_an_unclassified_phase_refuses_to_guess_a_cause():
+    head, hints = _diag(phase_text="tica 2026-07-27T00:30:00Z")
+    assert "UNRECOGNISED PHASE" in head
+    assert "will NOT guess" in hints
+
+
+def test_the_phase_map_matches_the_marks_the_launcher_actually_emits():
+    """The map is only trustworthy if it tracks `ternary_vast_launch`. Adding a `mark` without classifying it
+    here must FAIL CI rather than silently produce a confident wrong hint for the new phase."""
+    import re
+    import ternary_vast_launch as tv
+    src = open(tv.__file__).read()
+    emitted = set(re.findall(r"^mark ([a-z0-9-]+)$", src, flags=re.M))
+    assert emitted, "could not find any `mark <phase>` in ternary_vast_launch — the parser has rotted"
+    classified = set(wd.NON_COMMITTING_PHASES) | set(wd.COMMITTING_PHASES) | set(wd.TERMINAL_PHASES)
+    assert emitted <= classified, f"phases emitted but not classified: {sorted(emitted - classified)}"
+
+
+def test_the_committing_phase_is_the_one_that_starts_the_sampler():
+    """`md-running` is marked immediately before run_ternary_leg.sh, which is the only thing that writes the
+    commit store. If that ever stops being true the whole diagnosis inverts, so it is pinned."""
+    import ternary_vast_launch as tv
+    src = open(tv.__file__).read()
+    i_mark = src.index("mark md-running")
+    assert "run_ternary_leg.sh" in src[i_mark:i_mark + 2000]
+    assert "RBFE_SPOT_COMMIT_S3" in src[i_mark:i_mark + 2000], \
+        "the commit store is passed to the sampler here; if it moved, NON_COMMITTING_PHASES is wrong"
+    assert wd.COMMITTING_PHASES == ("md-running",)
+
+
+def test_phase_head_survives_every_marker_shape():
+    assert wd.phase_head("preequil 2026-07-27T00:30:00Z") == "preequil"
+    assert wd.phase_head("preequil") == "preequil"
+    assert wd.phase_head("") == "" and wd.phase_head(None) == ""
+
+
+def test_setup_stall_still_never_relaunches():
+    """The refusal was right both times it fired. This change is about the explanation, not the action."""
+    assert wd.should_relaunch("SETUP_STALL", 0, 8)[0] is False
+    assert wd.should_relaunch("STALLED", 0, 8)[0] is False
+    assert wd.should_relaunch("DIED", 0, 8)[0] is True
+
+
+def test_the_ternary_lane_now_shares_the_container_start_check_rather_than_copying_it():
+    """Both lanes write their marker with the same `mark()` helper, so 'did this box ever run' is one
+    question with one answer. Two copies is the thing this repo keeps paying for."""
+    import vast_watchdog as vw
+    import watchdog_policy as wp
+    assert wd.container_started_from_phase is wp.container_started_from_phase
+    assert vw.container_started_from_phase is wp.container_started_from_phase
+
+
+def test_a_committing_phase_younger_than_the_grace_is_flagged_as_possibly_premature():
+    """THE SAME MISMATCH ONE LEVEL DEEPER, caught live on the first pass after the fix shipped: `classify`
+    compares the RENTAL's age against the grace, but "has it committed yet" is a question about the PHASE.
+    Instance 45947762 was 176 min old with a 20-min-old `md-running` marker — past grace on the box, five
+    checkpoint-intervals short on the phase. The alert must not assert a hang it cannot support."""
+    _h, hints = _diag(phase_text="md-running 2026-07-27T01:27:33Z", marker_age_min=20.0,
+                      instance_age_min=176.0)
+    assert "ONLY BEEN IN A COMMITTING PHASE FOR 20 MIN" in hints
+    assert "measured on the RENTAL, not on the phase" in hints
+    assert "there is nothing wrong" in hints
+    # ...and a leg that HAS been committing-phase-resident past the grace gets no such excuse
+    _h, old = _diag(phase_text="md-running 2026-07-27T01:27:33Z", marker_age_min=200.0,
+                    instance_age_min=210.0)
+    assert "ONLY BEEN IN A COMMITTING PHASE" not in old
+    assert "CUDA probe" in old
+
+
+def test_the_premature_caveat_never_fires_without_a_readable_marker_age():
+    _h, hints = _diag(phase_text="md-running 2026-07-27T01:27:33Z", marker_age_min=None,
+                      instance_age_min=176.0)
+    assert "ONLY BEEN IN A COMMITTING PHASE" not in hints

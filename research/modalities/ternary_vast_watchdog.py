@@ -64,10 +64,45 @@ from gpu_backend import _vast_request  # noqa: E402
 # meant either importing this policy or writing a second copy, and two monitors that can disagree about
 # whether a leg is dead is strictly worse than one. `from ... import` rather than a wrapper so that
 # `ternary_vast_watchdog.classify` IS `watchdog_policy.classify` — there is nothing to drift.
-from watchdog_policy import classify, should_relaunch  # noqa: E402,F401  (re-exported: callers + tests use these)
+from watchdog_policy import (  # noqa: E402,F401  (re-exported: callers + tests use these)
+    classify, container_started_from_phase, should_relaunch)
 import watchdog_policy as _wp  # noqa: E402
 
 WATCH_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ternary-vast-watch.json")
+
+# =============================================================================================================
+# ★★ WHICH PHASES CAN COMMIT AN FEP ITERATION AT ALL — and why the answer has to be written down
+# (LANE 21, 2026-07-27, after a SETUP_STALL alert sent two readers after the wrong cause in three hours).
+#
+# `committed_progress` counts objects under `commits/<uid>/{warmup,production}/iter-N/`. Those are written by
+# the sampler inside `run_ternary_leg.sh`, which the driver invokes ONLY after `mark md-running`. So for the
+# whole of start / cloned / staging / preequil the committed-iteration counter is ZERO **by construction** —
+# not because nothing is happening, but because nothing that happens in those phases is an FEP iteration.
+#
+# The 9:17 PM ET pass read `scalar=0 age=146min` and emitted "Setup is hung, not slow: check the CUDA probe,
+# the charge cache, minimise steps and GPU utilisation." Every one of those was wrong. The container was
+# running a full 0.5 ns pre-equilibration on CUDA (~26 min per cycle) and aborting at the END of it — real
+# work, real GPU spend, and a counter that cannot see any of it. The hint list actively pointed away from the
+# only available explanation.
+#
+# This is the same shape as the defect fixed in `vast_watchdog` the same night: a verdict computed from a
+# counter that cannot answer the question being asked. There it was unit-scoped vs instance-scoped; here it
+# is FEP-iteration-scoped vs phase-scoped. **`scalar == 0` is evidence of "nothing happening" only inside a
+# phase that commits iterations.** So the phase is consulted BEFORE any hint text is written.
+#
+# Kept as data rather than prose because it must track `ternary_vast_launch`'s `mark` calls; the test suite
+# asserts this map against the marks that module actually emits, so adding a phase without classifying it
+# fails CI rather than silently producing a confident wrong hint.
+# =============================================================================================================
+# Phases before the sampler exists. A zero counter here is CORRECT and expected.
+NON_COMMITTING_PHASES = ("start", "cloned", "staging", "preequil")
+# The only phase that can move the committed-iteration counter.
+COMMITTING_PHASES = ("md-running",)
+# After the MD has finished; the deliverable path, not a sampling phase.
+TERMINAL_PHASES = ("md-done", "done")
+# The log uploader (`mark`, plus a 2-min sync loop) pushes run.log continuously. A log materially older than
+# that interval means the UPLOADER stopped, which is a different and worse fact than "this phase is long".
+LOG_STALE_MIN = 8.0
 
 # Grace before "zero committed iterations" is called a stall rather than a slow start. A cold unit does
 # stage (~15 min) -> pre-equilibrate (~10 min) -> solvate+parameterise the ~146k-atom hybrid (~8-40 min)
@@ -78,6 +113,99 @@ SETUP_GRACE_MIN = _wp.DEFAULT_SETUP_GRACE_MIN
 # Consecutive no-advance ticks before a frozen counter is a stall. At a 15-min cron and a 40-iteration
 # production commit interval (~10 min of MD at 4 fs), 2 ticks is one missed interval, not noise.
 STALL_TICKS = _wp.DEFAULT_STALL_TICKS
+
+
+def phase_head(phase_text):
+    """The bare phase name out of a `<phase> <ISO8601Z>` marker. '' when there is no marker at all."""
+    return (phase_text or "").strip().split()[0] if (phase_text or "").strip() else ""
+
+
+def setup_stall_diagnosis(*, phase_text, marker_age_min, log_age_min, log_lines,
+                          container_started, instance_age_min, grace_min=None):
+    """(headline, hints) for a SETUP_STALL — the CAUSE, not a list of guesses. PURE, hence unit-tested.
+
+    ★ THE RULE THIS ENCODES: a zero committed-iteration counter only means "nothing is happening" inside a
+    phase that commits iterations. Three cases, and the old alert emitted the third one's hint list for all
+    of them — which is how a healthy-but-long pre-equilibration was reported as a hung CUDA probe.
+
+      1. NO CONTAINER YET — the phase marker predates this rental (or there is none). The box is pulling its
+         image or failing to start it, and nothing inside the leg is wrong. Verified elsewhere on this
+         account at 2 h 57 min for a 2.91 GiB image, so this is not a corner case.
+      2. IN A NON-COMMITTING PHASE — stage / pre-equilibrate / clone. Real work, real GPU, zero FEP
+         iterations BY CONSTRUCTION. The progress signal here is the phase marker's age and the log's own
+         mtime, and the alert says so instead of naming the sampler's failure modes.
+      3. IN A COMMITTING PHASE AND NOT COMMITTING — `md-running` with the counter still at zero past the
+         grace. This is the ONLY case the historical hint text ever fitted, and it keeps it.
+
+    Log staleness is reported in every case because it separates the two things that look identical from
+    outside: a phase that is legitimately long (log fresh, work ongoing) from a container that has wedged or
+    died with its uploader (log stale). `gpu_util` is deliberately not consulted — LANE 17 established it
+    reads `None` on this lane while a box is demonstrably advancing, so it can only mislead.
+    """
+    grace = SETUP_GRACE_MIN if grace_min is None else grace_min
+    head = phase_head(phase_text)
+    tail = " | ".join(str(x) for x in (log_lines or [])[-4:])[:600] or "(no run.log in S3 yet)"
+
+    def _age(v, what):
+        return f"{what} {v:.0f} min ago" if isinstance(v, (int, float)) else f"{what} unknown"
+
+    freshness = _age(log_age_min, "run.log last written")
+    if isinstance(log_age_min, (int, float)) and log_age_min > LOG_STALE_MIN:
+        freshness += (f" — STALE (>{LOG_STALE_MIN:.0f} min). The driver pushes the log continuously, so a "
+                      f"stale log means the CONTAINER or its uploader stopped, not that a phase is slow")
+    elif isinstance(log_age_min, (int, float)):
+        freshness += " — fresh, so the container is alive and writing"
+
+    if not container_started:
+        return ("THE CONTAINER ON THIS INSTANCE HAS NEVER RUN",
+                f"the phase marker {head or '(absent)'!r} predates this rental, so it was written by a "
+                f"previous host — this box has not executed one instruction and there is nothing wrong "
+                f"inside the leg. It is pulling its image or failing to start it (a 2.91 GiB pull has taken "
+                f"2 h 57 min on this account). Check the Vast instance's actual_status/status_msg, not the "
+                f"leg. Do NOT diagnose the CUDA probe, the charge cache or minimise steps.")
+
+    if head in NON_COMMITTING_PHASES:
+        return (f"NOT STALLED ON THE COUNTER — phase {head!r} COMMITS NO FEP ITERATIONS BY CONSTRUCTION",
+                f"`scalar=0` is the CORRECT reading here and is not evidence of a hang: the committed-"
+                f"iteration store is only written by the sampler, which starts at `md-running`. This leg is "
+                f"still in {head!r} after {instance_age_min:.0f} min (grace {grace:.0f} min). The progress "
+                f"signal for THIS phase is the marker's age and the log, not the counter: "
+                f"{_age(marker_age_min, 'phase marker written')}; {freshness}. Read the log tail below and "
+                f"ask whether {head!r} is advancing or repeating — a 0.5 ns pre-equilibration is ~26 min per "
+                f"cycle and a leg that aborts at the END of one looks exactly like this. Ignore the CUDA "
+                f"probe and the charge cache unless the log names them. Log: {tail}")
+
+    if head in TERMINAL_PHASES:
+        return (f"PAST THE MD — phase {head!r} with no committed iteration",
+                f"the leg reached {head!r}, which is the deliverable path, yet nothing was ever committed. "
+                f"That is an MD that produced no checkpoint at all, so look at the leg record and the log "
+                f"tail rather than at setup: {freshness}. Log: {tail}")
+
+    if head in COMMITTING_PHASES:
+        # ★ THE GRACE IS MEASURED ON THE RENTAL, AND THE QUESTION IS PHASE-SCOPED — the same mismatch as the
+        # bug above, one level deeper. `classify` compares `instance_age_min` against the grace, so a leg
+        # that spent two hours in a legitimately long pre-equilibration and entered `md-running` five minutes
+        # ago arrives here already "past grace" with a counter that has had no time to move. Observed live on
+        # the first pass after this change shipped: instance 45947762, box 176 min old, marker 20 min old.
+        # Flagged rather than silently swallowed, because the alert must not assert a hang it cannot support
+        # — and flagged rather than fixed in `classify`, because suppressing the alert would risk hiding a
+        # real one, and the reader can weigh 20 min against a checkpoint interval perfectly well once told.
+        premature = (isinstance(marker_age_min, (int, float)) and marker_age_min < grace)
+        caveat = (f" ⚠ BUT IT HAS ONLY BEEN IN A COMMITTING PHASE FOR {marker_age_min:.0f} MIN against a "
+                  f"{grace:.0f} min grace — and the grace is measured on the RENTAL, not on the phase. This "
+                  f"leg may simply have entered {head!r} after a long non-committing phase and not yet "
+                  f"reached its first checkpoint interval, in which case there is nothing wrong. Judge it on "
+                  f"the marker age and the checkpoint interval before acting." if premature else "")
+        return (f"IN {head!r}, WHICH DOES COMMIT, AND HAS COMMITTED NOTHING",
+                f"the sampler is the thing that is not producing, so setup really is the suspect here: "
+                f"check the CUDA probe, the charge cache, the minimise step count and whether a warmup NaN "
+                f"aborted before the first checkpoint interval. {_age(marker_age_min, 'phase marker written')}; "
+                f"{freshness}.{caveat} Log: {tail}")
+
+    return (f"UNRECOGNISED PHASE {head!r}" if head else "NO PHASE MARKER, BUT THE CONTAINER APPEARS STARTED",
+            f"this engine does not classify {head!r} as committing or non-committing, so it will NOT guess "
+            f"at a cause — adding a `mark` to ternary_vast_launch without classifying it here is what this "
+            f"branch catches. {_age(marker_age_min, 'phase marker written')}; {freshness}. Log: {tail}")
 
 
 def enabled_entries(doc):
@@ -282,16 +410,33 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
                       f"{uid} — could not list the commit store this pass; leaving the counters alone.")
             continue
 
+        # THE PHASE MARKER AND THE LOG, read on every pass and not only when something looks wrong. They are
+        # what turn `scalar=0` from an ambiguous number into an answerable question: the counter is only
+        # meaningful inside a phase that commits, and `phase_and_log` is the only thing that knows which
+        # phase the leg is actually in. Failure here must never abort the entry — an unreadable marker is a
+        # missing diagnosis, not a missing verdict.
+        try:
+            marker, marker_age, log_lines, log_age = tv.phase_and_log(uid, b, p)
+        except Exception as ex:  # noqa: BLE001
+            marker, marker_age, log_lines, log_age = None, None, [], None
+            print(f"[diag] phase/log unreadable for {uid}: {type(ex).__name__}: {ex}")
+        started = container_started_from_phase(marker, inst)
+
         pkey = f"{p}/watchdog/progress-{uid}.json"
         prev = _read_json_key(b, pkey, {}) or {}
         verdict, stall = classify(
             has_result=has_result, has_failed_record=has_failed,
             instance_alive=inst is not None, instance_age_min=age_min,
+            container_started=started,
             progress_scalar=scalar, prev_scalar=int(prev.get("scalar") or 0),
             prev_stall=int(prev.get("stall") or 0))
         pstr = f"{phase}/{it}" if phase else "none (stage/pre-equil/setup/minimise)"
         print(f"verdict={verdict} progress={pstr} scalar={scalar} prev={prev.get('scalar')} "
               f"stall={stall} instance={inst.get('id') if inst else None} age={age_min:.0f}min")
+        if inst is not None:
+            print(f"  phase_marker={marker!r} marker_age="
+                  f"{f'{marker_age:.0f}min' if marker_age is not None else 'n/a'} log_age="
+                  f"{f'{log_age:.0f}min' if log_age is not None else 'n/a'} container_started={started}")
         if not dry_run:
             _write_json_key(b, pkey, {"scalar": scalar, "stall": stall,
                                       "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -318,18 +463,33 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
             continue
         if verdict == "SETUP_STALL":
             alerts += 1
+            # THE ALERT CARRIES ITS OWN DIAGNOSIS. It used to carry a guess list — "check the CUDA probe,
+            # the charge cache, minimise steps and GPU utilisation" — emitted identically whatever the leg
+            # was actually doing, and on 2026-07-27 every item on it was wrong for the leg it fired on. The
+            # refusal to auto-relaunch is unchanged and deliberate; only the explanation is now derived.
+            headline, hints = setup_stall_diagnosis(
+                phase_text=marker, marker_age_min=marker_age, log_age_min=log_age, log_lines=log_lines,
+                container_started=started, instance_age_min=age_min)
             _annotate("error", "TVAST WATCHDOG SETUP STALL",
-                      f"{uid} — instance {inst.get('id')} up {age_min:.0f} min with ZERO committed "
-                      f"iterations (grace {SETUP_GRACE_MIN:.0f} min). Setup is hung, not slow: check the "
-                      f"CUDA probe, the charge cache, minimise steps and GPU utilisation. NOT relaunching "
-                      f"— a relaunch would hang the same way.")
+                      f"{uid} — instance {inst.get('id')} up {age_min:.0f} min with ZERO committed FEP "
+                      f"iterations (grace {SETUP_GRACE_MIN:.0f} min). {headline}. {hints} NOT relaunching "
+                      f"— a relaunch would hit the same thing and pay for it again.")
             continue
         if verdict == "STALLED":
             alerts += 1
+            # STALLED implies scalar > 0, so this leg HAS committed and is therefore in a committing phase —
+            # the guess list genuinely fits here, which is why it survives. What is added is the log's own
+            # freshness, because "the sampler is wedged" and "the container died with its uploader" present
+            # identically through a frozen counter and are fixed differently.
+            stale = (isinstance(log_age, (int, float)) and log_age > LOG_STALE_MIN)
             _annotate("error", "TVAST WATCHDOG STALLED",
                       f"{uid} — instance {inst.get('id')} is up but the committed iteration has been "
-                      f"frozen at {pstr} for {stall} consecutive passes. The MD is not advancing. NOT "
-                      f"relaunching — diagnose (GPU util, NaN, run log) before spending more.")
+                      f"frozen at {pstr} for {stall} consecutive passes. The MD is not advancing. Phase "
+                      f"marker {phase_head(marker)!r}; run.log last written "
+                      f"{f'{log_age:.0f} min ago' if log_age is not None else 'unknown'}"
+                      + (" — STALE, so suspect the container/uploader rather than the sampler"
+                         if stale else " — fresh, so the container is alive and the sampler is the suspect")
+                      + f". NOT relaunching — diagnose (NaN, run log) before spending more.")
             continue
 
         # DIED: no result, no instance. Relaunch, capped.

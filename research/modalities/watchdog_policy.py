@@ -21,7 +21,9 @@ evidence must be REFUSED at validation time, not given a private definition of "
 
 from __future__ import annotations
 
+import calendar
 import os
+import time
 
 # Grace before "zero progress" is called a stall rather than a slow start. Kind-specific in practice, so the
 # engine passes it explicitly; these are the ternary lane's historical values and stay the defaults so that
@@ -29,6 +31,51 @@ import os
 DEFAULT_SETUP_GRACE_MIN = float(os.environ.get("TVAST_SETUP_GRACE_MIN") or "90")
 # Consecutive no-advance ticks before a frozen counter is a stall.
 DEFAULT_STALL_TICKS = int(os.environ.get("TVAST_STALL_TICKS") or "2")
+
+
+def container_started_from_phase(phase_text, inst):
+    """Has THIS instance's container ever executed? PURE apart from its two arguments.
+
+    THE EVIDENCE. Every one of these pipelines writes a phase marker as its first act, and the marker carries
+    the UTC time of its own write (`mark` emits "<phase> <ISO8601Z>"). So the marker's timestamp against the
+    instance's `start_date` answers an INSTANCE-scoped question that the progress scalar — which lives in the
+    object store and outlives the host — structurally cannot: a marker older than this box was written by a
+    previous box, which means this box has not run.
+
+    WHY IT MATTERS (LANE 21, 2026-07-26). Vast instance 45938720 was rented at 4:34 PM ET to resume the step 1
+    shakeout unit and sat at `actual_status="loading"` until 7:31 PM ET, pulling the nr4a3fep image — 2 h 57
+    min of billed GPU with the container not yet started. The unit's durable scalar said 260 the whole time
+    (its predecessor's last commit), so the watchdog read STALLED and correctly declined to relaunch a
+    "hung sampler" that was in fact a box that had never started one. Measured pull rate over that window:
+    2.91 GiB (the tag's compressed `full_size`) in 177 min = ~2.4 Mbit/s, against the offer's advertised
+    `inet_down` of 142.4 Mbit/s — a ~60x shortfall, which is also why an advertised-bandwidth floor at
+    selection time would NOT have prevented it. The observed time-to-container-start is the only signal that
+    separates the two, so it is the one recorded here.
+
+    FAIL-SAFE IN THE DIRECTION OF DOING NOTHING. Anything unparseable or absent returns True ("assume it
+    started"), because this bit can trigger a destroy; a missing timestamp must never manufacture one. The
+    single exception is an ENTIRELY absent phase marker, which is unambiguous — nothing has ever marked this
+    unit — and which the `progress_scalar <= 0` path already treated the same way.
+    """
+    if not inst:
+        return True
+    txt = (phase_text or "").strip()
+    if not txt:
+        return False                       # nothing has ever marked this unit at all
+    parts = txt.split()
+    if len(parts) < 2:
+        return True                        # marker with no timestamp — cannot answer, so do not accuse
+    try:
+        marked = calendar.timegm(time.strptime(parts[-1], "%Y-%m-%dT%H:%M:%SZ"))
+    except (ValueError, TypeError):
+        return True
+    try:
+        started = float(inst.get("start_date") or 0)
+    except (TypeError, ValueError):
+        return True
+    if started <= 0:
+        return True
+    return marked >= started
 
 
 def classify(*, has_result, instance_alive, instance_age_min, progress_scalar, prev_scalar, prev_stall,
