@@ -865,9 +865,13 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
   **So the strongest basin is among the MOST tractable, not the least**, and the inversion was an artifact of
   comparing a best-of-N length against a typical placement. Both are now emitted — exemplar (optimistic),
   representative (typical) — and neither may be quoted without saying which.
-- ⚠ **Every reported C397 reach figure is a LOWER BOUND, by up to ~5 atoms.** RUNG 5a's reach rule credits the
-  pendant with shortening the **span**, which no pendant can do. All 576 records were audited and **none is
-  internally impossible** — so this is a bound, not an error, but the numbers must be quoted as bounds.
+- ✅ **CORRECTED 2026-07-26 (LANE 10) — the C397 reach figures are no longer lower bounds.** They previously
+  were, by up to ~5 atoms: RUNG 5a's reach rule credited the pendant with shortening the **span**, which no
+  pendant can do (all 576 records were audited and none was internally impossible, so it was a bound, not an
+  error). The exact three-ball kernel has since replaced it and every figure was recomputed on the matched
+  **10⁶** run. **The correction moved term (a) 7 → 3 and left term (b) 40 and the nominal limb 28
+  bit-identical** — the values and the gate verdict are stated once, in the §WHERE WE ARE "the covalent design
+  route clears the gate" block above. Quote them from there, not as bounds.
 - ⚠ **`best_linker_atoms = 19` on 188/192 basins is the scan's LAST GRID POINT**, not an optimum. Do not read it
   as a converged optimum in either direction.
 - **Exit vectors never let the linker run taut** — α = 33–100°, costing 1–3 backbone atoms of detour at minimum.
@@ -1555,11 +1559,15 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   Discrimination ⇒ extend to NR4A2 and to a second design element.
 
   **★ THE MATCHED PAIR IS DESIGNED (RUNG 5b, 2026-07-25, $0) — 5a-KS is now buildable.**
-  **`crbn|M0` at its term-(a) exemplar**, 15 backbone atoms (1.1 kT), wedge **3-(3-pyridyl)-L-Ala (*d*) vs
+  **`crbn|M0` at its term-(a) exemplar**, wedge **3-(3-pyridyl)-L-Ala (*d*) vs
   L-Phe (*d₀*)** at **Thr407** — Leu in NR4A1, Val in NR4A2, so the H-bond **donor is removed in BOTH**
-  paralogues. **8.6 Å of E3 clearance**, which matters mechanically: it keeps the wedge off the E3 interface, so
-  the shared **binary and solvent legs still cancel exactly** and only **ternary** legs are needed. The same
-  geometry reaches C397 at 11 atoms, so the wedge pair and the covalent series share **one** placement.
+  paralogues. Backbone length, chain strain, E3 clearance and heavy-atom count are stated **once**, in the
+  §WHERE WE ARE 5b block above ("The pair stands; the shared-LENGTH reading does not"); the mechanical point
+  here is only that the clearance keeps the wedge **off the E3 interface**, so the shared **binary and solvent
+  legs still cancel exactly** and only **ternary** legs are needed. ⚠ **The wedge pair and the covalent series
+  do NOT share one molecule** — the placement hosts both, but the covalent series sits at 14 backbone atoms and
+  the wedge pair at 19, and a single chain carrying both needs 16, which the segment grid cannot build
+  (LANE 14 delta L14-7).
   *Differs only in the wedge element:* one atom (C–H→N), identical formal charge, heavy-atom count, rotatable
   bonds and (S) centre.
   **A geometry-only pick would have been wrong**, and the preregistered rule that replaced it is worth keeping:
