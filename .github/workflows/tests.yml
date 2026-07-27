@@ -25,7 +25,14 @@ jobs:
       # pyyaml backs test_workflows_parse.py, which catches an unparseable workflow. GitHub reports
       # that as a MISSING TRIGGER rather than a syntax error, and a cron on such a file silently
       # never fires — so without this gate a broken workflow looks like a workflow with nothing to do.
-      - run: pip install pytest numpy scipy pymbar rdkit pyyaml
+      # boto3 is NOT optional here, and a skip would have been the wrong fix. `test_congeneric_fanout.py`'s
+      # credential pre-flight test monkeypatches `boto3.client` to prove the launcher FAILS CLOSED on a dead
+      # object-store credential — the guard standing between a rented GPU and a leg that cannot write its
+      # checkpoints. Without the package that test errored on import and main stayed red, and a red main is
+      # not cosmetic: on 2026-07-27 another lane's red assertions took the whole step-1 supervision tick down
+      # with them (the tick gated on pytest before it measured). The test CAN run anywhere — it needs no
+      # credentials and touches no network — so the fix is to install the dependency, not to skip the test.
+      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
       # failing step named after the linter, not a traceback buried in ~1500 tests.

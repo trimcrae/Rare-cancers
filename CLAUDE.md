@@ -244,6 +244,18 @@ When in doubt: do it and show it.
   branch), but an **already-on-main** workflow dispatched with `ref=<branch>` runs **that branch's version of the
   file and its code**. So: edit an existing on-main workflow on your branch (or pass `git_ref=<branch>` to a job
   that clones), then dispatch with `ref=<branch>`. No merge to main required.
+- **★★ A `schedule:` CRON DOES NOT SUPERVISE A BILLING FLEET — AN AGENT HAS BEEN DOING IT BY HAND (measured
+  2026-07-27).** State this plainly to trimcrae rather than letting "there's a cron for it" stand: on the day
+  it was measured, **25 of the last 30** step-1 autoscale runs were `workflow_dispatch`, not `schedule`. GitHub
+  throttles this repo's schedules to a small fraction of what the cron asks for, so the automation is **not
+  self-sustaining** — the gap between scheduled ticks has in practice been covered by an agent remembering to
+  dispatch, and when the agent stopped, supervision stopped and nothing said so. Consequences, all binding:
+  **(1)** never plan a fleet's safety around a cron interval, and never reassure from one; **(2)** a
+  `*/N`-minute cron comment is a REQUEST, not a cadence — the delivered gaps are MEASURED and printed by
+  [`fleet-supervision-alarm.yml`](.github/workflows/fleet-supervision-alarm.yml), which is their one home
+  (per rule 1, do not re-type a remembered figure into a workflow comment — that is exactly how a stale
+  "~55-65 min" survived into two files and made a normal silence look like an outage); **(3)** while any fleet
+  is billing, **you** are the supervisor — dispatch the tick yourself on the cadence the work needs.
 - **Self-wake = a BACKGROUND-BASH POLLER, not cron** (verified 2026-06-30; a sibling session ran 48 h this way).
   Launch the loop with `run_in_background: true`; its exit delivers a `<task-notification>` that re-invokes you —
   that completion *is* the wake-up, with no user message. Poll the public Actions API (no auth for a public repo,

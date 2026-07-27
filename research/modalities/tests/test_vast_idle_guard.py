@@ -246,6 +246,29 @@ def test_the_selfstop_chain_cannot_end_a_container():
       sleep 0.4
       [ -d /proc/1 ] && echo SURVIVED_KILL_ALL
     """
+    # ⚠ SKIP ONLY WHEN THE ENVIRONMENT CANNOT HOST THE EXPERIMENT — NEVER TO QUIET A FAILURE.
+    # This test needs an unprivileged PID namespace with its own /proc. The GitHub runner does not provide
+    # one (`unshare -fp --mount-proc` returns EMPTY stdout there), so the assertion below was failing for a
+    # reason that has nothing to do with the claim being tested, and main stayed red. A red main is not
+    # cosmetic — on 2026-07-27 another lane's red assertions took the whole step-1 supervision tick down with
+    # them, because the tick gated on pytest before it measured a billing fleet. So an untestable
+    # environment must SKIP, with the reason stated, and never fail and never be deleted.
+    #
+    # ★ THE PROBE IS DELIBERATELY NARROW so it cannot mask a real regression: it asserts only that a
+    # namespace can be created AND that PID 1 exists inside it — the preconditions, not the behaviour. If
+    # the probe succeeds and the assertions below then fail, that is a GENUINE finding about the self-stop
+    # chain and it still turns the build red, which is the whole point of the test.
+    probe = subprocess.run(["unshare", "-fp", "--mount-proc", "bash", "-c",
+                            "[ -d /proc/1 ] && echo PIDNS_PROBE_OK"],
+                           capture_output=True, text=True, timeout=60)
+    if "PIDNS_PROBE_OK" not in probe.stdout:
+        pytest.skip(
+            "unprivileged PID namespaces are not usable in this environment, so the container topology this "
+            "test recreates cannot be built here (probe `unshare -fp --mount-proc` -> "
+            f"rc={probe.returncode}, stdout={probe.stdout!r}, stderr={probe.stderr.strip()[:200]!r}). "
+            "The claim under test is unaffected and is exercised wherever PID namespaces work; this is an "
+            "environment limitation, NOT a passing result.")
+
     out = subprocess.run(["unshare", "-fp", "--mount-proc", "bash", "-c", script],
                          capture_output=True, text=True, timeout=60).stdout
     assert "SURVIVED_KILL_1" in out, out          # kill -9 1 did not end the namespace init
