@@ -1263,6 +1263,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      small, charge-neutral and mappable may not exist in the public literature** — large cooperativity
      differences are *produced by* large chemical changes.
   5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE, RE-SCOPED BY ITS OWN $0 PRE-GATE.**
+     **`[x]` BUILT AND RUNNABLE 2026-07-27 (LANE 19).** It was fully costed and fully argued and could not be
+     *run*: no leg id, no third endpoint, no launcher mode, no reducer. It now has all four —
+     [`valb_triangle_legs.py`](research/modalities/valb_triangle_legs.py) (the 4 new legs plus the derived
+     third vertex, frozen in [`valb-triangle-frozen.json`](research/modalities/valb-triangle-frozen.json)),
+     `MODES['triangle']` in [`ternary_vast_launch.py`](research/modalities/ternary_vast_launch.py), and
+     [`valb_triangle_reduce.py`](research/modalities/valb_triangle_reduce.py) → `R`. Venue **Vast**; GCP was
+     declined deliberately — its scarce quantity is **GPU-days, not dollars**, and this rung would cost
+     ~7.3 SERIAL days of the only GPU to save the plan figure below.
+     **Three invariants are enforced in code, not remembered**, because each silently turns `R` from a
+     path-error detector into a *protocol-difference* detector: **2 fs** (a mode-level pin that beats the
+     lane-wide 4 fs export — r0 is 2 fs and r0 *is* T1), **seed 0** on every leg, and **UNRESTRAINED** binary
+     legs matching r0. *(The restrained binary re-run is a DIFFERENT experiment; the two must never be
+     conflated or their legs mixed in one reduction.)*
      T1 = cmpd1→cmpd4 **is r0, reused** at coefficient +1 (verified: the triangle closes in T1's as-run
      direction, no sign flip). Evidence:
      [valb-closure-triangle-pregate-2026-07-25.md](research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md)

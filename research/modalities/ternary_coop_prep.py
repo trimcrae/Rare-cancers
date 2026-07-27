@@ -151,6 +151,38 @@ def _morph_endpoints(leg, resolve_smiles=False):
     return {"endpoint_a": a, "endpoint_b": b, "smiles_a": smiles_a, "smiles_b": smiles_b, "status": status}
 
 
+def crystal_ligand_smiles(leg):
+    """The SMILES of the ligand ACTUALLY PRESENT in this leg's staged crystal — or None if not known.
+
+    ⛔ WHY THIS IS NOT "endpoint A". Both alchemical endpoints are built from the SAME crystal pose, and
+    `nr4a3_ternary_fep._endpoint_pose` needs the crystal ligand's true identity to assign bond orders before
+    mutating anything. The engine inferred that identity from the morph's UNSWAPPED endpoint A, which is
+    correct for every leg whose morph HAPPENS to start at the co-crystallised compound — and every calib leg
+    did, until the closure triangle.
+
+    The triangle's T2 edge is `calib_lo -> calib_lo2`: it starts at cmpd4, which is DERIVED and exists in no
+    crystal. Under the old rule `_repair_pose` would have been handed cmpd4 as the template for cmpd1's
+    coordinates — bond orders assigned against a molecule whose linker ring differs by N->CH. That is not a
+    hypothetical failure mode on this lane, it is the RECORDED one: it is exactly what broke the first
+    reverse leg, where the thiazole lost its aromatic C-H and NAGL rejected the molecule with
+    `RadicalsNotSupportedError` ~30 s into charge assignment. The engine's own comment documents that
+    incident and fixes the DIRECTION half of it; this fixes the ORIGIN half.
+
+    So the crystal ligand is resolved from the STRUCTURE, not from the morph. Every calib-family leg stages
+    from 8G1Q, whose ligand (CCD YHB) is `calib_hi` = Wurz cmpd1 — for T1, T2 and T3 alike. Returns None for
+    families where the caller's existing inference is already right (5a-KS stages from a co-fold whose ligand
+    IS endpoint A; NR-V04 likewise), so no existing leg changes by one byte.
+    """
+    morph = str(leg.get("morph", ""))
+    parts = [s.strip() for s in morph.split("->")]
+    if not any(p.startswith("calib_") for p in parts):
+        return None
+    frozen = _load_calib_frozen()
+    if not frozen:
+        return None
+    return frozen["calib_hi"]["smiles"]
+
+
 def assembly_for_leg(leg, resolve_smiles=False):
     """Full component-assembly spec for one pilot morph leg: environment, protein components (E3 [+ target if
     ternary]), the ligand morph endpoints, and the coop-cycle role."""
