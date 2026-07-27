@@ -56,9 +56,27 @@ def leg_id(species):
     return f"{MORPH}__ternary_{species.lower()}"
 
 
+class AmbiguousLegError(Exception):
+    """Two records claim the same (leg_id, seed) but are not the same calculation."""
+
+
 def load_legs(leg_dir):
-    """Every `leg_5aks_*.json` in `leg_dir`, keyed by (leg_id, seed). Fabricates nothing."""
-    out = {}
+    """Every `leg_5aks_*.json` in `leg_dir`, keyed by (leg_id, seed). Fabricates nothing.
+
+    ⚠ THE KEY IS (leg_id, seed) AND THE MODE IS NOT IN IT. `unit_id` carries the mode — `..._5aks` vs
+    `..._5aks_smoke` — but `leg_id` does not, and neither does the filename `fetch_legs` writes
+    (`leg_<leg_id>_<direction>_r<seed>.json`). So the 12-iteration SMOKE record and the 2000-iteration
+    PRODUCTION record of the same leg are indistinguishable here: they collide on one key, and whichever the
+    glob yields last silently wins. A smoke leg's ΔG is meaningless BY CONSTRUCTION and converges to a
+    plausible-looking number, so `S` would come out well-formed, correctly signed, fully provenance-checked —
+    and wrong.
+
+    Nothing reaches this today (`fetch_legs` reconstructs the unit id from `units_for("5aks")`, so it never
+    downloads the smoke unit), but the protection is one directory listing away from being defeated by a human
+    pointing `--legs` at a mixed folder. Every other silent-difference path in this module is refused rather
+    than warned about; this one is no different. **Differing records for one key REFUSE.**
+    """
+    out, by_key = {}, {}
     for path in sorted(glob.glob(os.path.join(leg_dir, "leg_*.json"))):
         try:
             with open(path) as fh:
@@ -67,8 +85,25 @@ def load_legs(leg_dir):
             continue
         if not str(d.get("leg_id", "")).startswith(MORPH):
             continue
-        out[(d["leg_id"], d.get("seed", 0))] = d
+        key = (d["leg_id"], d.get("seed", 0))
+        if key in by_key:
+            prev_path, prev = by_key[key]
+            if _leg_identity(prev) != _leg_identity(d):
+                raise AmbiguousLegError(
+                    "two DIFFERENT records claim leg_id=%s seed=%s, so one would silently overwrite the "
+                    "other: %s %s vs %s %s. Reduce from a directory holding exactly one record per leg — "
+                    "a smoke leg's dG is meaningless by construction but reduces to a plausible number."
+                    % (key[0], key[1], prev_path, _leg_identity(prev), path, _leg_identity(d)))
+            continue
+        by_key[key] = (path, d)
+        out[key] = d
     return out
+
+
+def _leg_identity(d):
+    """The fields that make two records the same calculation rather than the same leg NAME."""
+    return {k: d.get(k) for k in ("unit_id", "mode", "prod_iters", "n_iterations",
+                                  "protocol_hash", "dg_morph_kcal")}
 
 
 def refuse_non_ternary(legs):
@@ -178,7 +213,20 @@ def main(argv=None):
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a3-5aks-reduction.json"))
     args = ap.parse_args(argv)
 
-    legs = load_legs(args.legs)
+    # An ambiguous input is a REFUSAL that still has to leave the deliverable behind — the workflow treats a
+    # missing reduction.json as a build failure with no explanation in it, and a traceback in a job log is the
+    # worst possible place for the one fact anyone needs.
+    try:
+        legs = load_legs(args.legs)
+    except AmbiguousLegError as e:
+        res = {"decision": "REFUSED", "reason": str(e),
+               "_title": "RUNG 5a-KS — ligand-side double difference S",
+               "system_identity_problems": [{"field": "*", "kind": "AMBIGUOUS_LEGS", "why": str(e)}]}
+        with open(args.out, "w") as fh:
+            json.dump(res, fh, indent=1)
+            fh.write("\n")
+        print(f"[5aks-reduce] REFUSED: {e}", flush=True)
+        return 1
     print(f"[5aks-reduce] {len(legs)} matching leg record(s) in {args.legs}", flush=True)
     res = reduce_S(legs)
     res["system_identity_problems"] = identity_problems(legs) if legs else [

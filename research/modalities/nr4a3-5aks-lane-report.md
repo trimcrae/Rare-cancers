@@ -389,6 +389,87 @@ added as "reviewer condition 1" and could easily have been treated as ceremony; 
 caught a defect that no other check in the pipeline — not `protocol_hash`, not the system-identity fields,
 not the reducer — is positioned to see. **A guard that only ever passes is untested. This one is not.**
 
+## 6d · ★ THE "~15–20 MINUTE DEATH CADENCE" WAS AN ARTIFACT OF THE SAMPLING INTERVAL, NOT A FAULT
+
+For most of one night this lane was run on the belief that both 5a-KS ternary legs were dying and restarting
+every ~15–20 minutes, at ~3.5× overhead, on a lane that was somehow uniquely afflicted. **All three parts of
+that were wrong**, and every one of them was refutable for $0 from artifacts that already existed. What made
+the belief durable is that it was assembled entirely from *hourly reads of phase markers and commit counters* —
+a sampling process whose period was of the same order as the thing being measured.
+
+**The measurement that settled it.** An attempt's `run.log` is archived under `attempts/` **by the next
+container's start**, so the S3 `LastModified` times of the archived logs are the death series, and consecutive
+gaps are the per-attempt lifetimes. That is one `aws s3 ls` per unit. It is now the CROSS-LANE RESTART TABLE in
+`rung5aks-cofold.yml mode=leg_diag` (run 30248149894, $0), which reports it for **every unit in the lane**, not
+just this rung's — because the claim under test was comparative and could not be checked from the 5a-KS legs
+alone.
+
+| unit | per-attempt lifetimes (min) | sub-minute relaunch loops |
+|---|---|---|
+| `5aks_…__ternary_nr4a3_…_5aks` | **408, 23, 84** | 0 |
+| `5aks_…__ternary_nr4a1_…_5aks` | **76, *14*, *14*, 103, *11*, 112, 35, 143, 63** | 0 |
+| `calib_hi_to_lo__ternary_vhl_…_probe` | 131, 43, 12, 26, 16, 41, 6, 30, 23, 3, 65, 43, 20, 24 | 4807 |
+| `calib_hi_to_lo__ternary_vhl_…_edge` | 134, 217, 84, 22, 240, 20, 180, 2, 7, 40, 143, 101 | 972 |
+| `calib_hi_to_lo__binary_vhl_…_edge` | 135, 64, 108, 303, 280 | 931 |
+| `calib_hi_to_lo__solvent_…_edge` | 47, 86, 17 | 5766 |
+
+*Italicised* NR4A1 entries are the three deterministic pre-equilibration aborts of §5/§6c — a different,
+already-fixed failure, and the only one in the whole table that wrote a `[tvast] FAILED at preequil` line.
+
+Read across the table:
+
+1. **There is no ~15–20 minute period anywhere in the 5a-KS legs.** Excluding the pre-equilibration aborts,
+   post-warmup lifetimes run 23–408 min. One NR4A3 attempt ran **6.8 h unbroken** and completed the entire
+   1600-iteration warmup in a single sitting.
+2. **The comparison lane was never a control.** The `probe` unit — same repo, same image, same machinery, and
+   the lane cited as "has run for hours without this" — restarted **fourteen** times with attempts of 3, 6, 12
+   and 16 minutes. The closest thing to a 15-minute cadence in the entire dataset is on the lane assumed to be
+   immune. **The 5a-KS legs are not anomalous; they are among the better-behaved units in the lane.**
+3. **The 3.5× overhead does not reproduce.** Re-measured on the current attempts: NR4A3 restored at production
+   iteration 160, committed 200 and 240, and reached iteration 250 in 32.6 min — **90 iterations, 21.7 s/iter
+   effective against an in-run raw rate of 18.7–19.3 s/iter, ≈1.15×**, container start and setup-cache restore
+   included. The 3.5× came from one 35-minute window that happened to contain a restart.
+4. **The deaths are the host going away, not the process faulting.** Neither leg has ever written a
+   `status.json` or `leg.json` for a post-pre-equilibration death, and every such archived log ends *mid-
+   iteration* with no traceback and no `[tvast] FAILED at <phase>` line. The failure path demonstrably works —
+   it fired for all three pre-equilibration aborts — so its silence is evidence, and it rules out in-process
+   crash, NaN, and an OOM kill of the Python process alike (a `SIGKILL` still leaves the wrapper's `EXIT` trap
+   to write the record). This is **ordinary spot churn**, which CLAUDE.md §6 says to mention lightly and not
+   investigate.
+5. **Two populations were being conflated, and only one is a defect.** The `loop<1m` column counts *sub-minute*
+   relaunches — hundreds to thousands on every finished calibration unit. Those are not MD deaths; they are the
+   post-completion relaunch loop, a host restarting a container that exits immediately because the unit is
+   already `done`. Both 5a-KS legs show **zero**, which is the done-only idempotency and result-based reap of
+   §6b working. Mixing that column into the lifetime series is what made one unit print 5770 entries and hid
+   the dozen numbers that mattered.
+
+**The methodological lesson, and it is the expensive one.** Repo rules already require root-causing with a real
+diagnostic rather than a plausible story, and I followed that for the pre-equilibration abort and for the atom
+map (§6c) — both real defects, both correctly caught. Then I spent a night characterising the *period* of a
+phenomenon using observations taken at roughly that same period, and every refinement of the story ("NR4A3
+hides it", "ci=40 vs ci=64 explains which one looks stalled") made it more explanatory and no more tested.
+**A hypothesis that explains the sampling artifact as well as it explains the fault is not evidence for the
+fault.** The check that broke it was not clever: it was measuring the quantity directly instead of inferring it,
+on the comparator as well as the subject, and it cost one $0 CI run.
+
+### The queued mitigation (`TVAST_WARMUP_CKPT_ITERS=16`) is a NO-OP on a leg already in warmup
+
+Shortening the warmup commit interval was queued as a mitigation while the cadence was still believed real. It
+was worth checking before applying, and the check kills it twice over.
+
+**Mechanically it cannot take effect.** `rbfe_spot_driver` enforces a *single-interval invariant*: on a resume
+the effective interval is read back out of the existing warmup `.nc` — `spot.read_checkpoint_interval(...)` —
+and **explicitly overrides the environment**, logging `RESUME warmup: committed-file checkpoint_interval=64
+OVERRIDES env warmup_checkpoint_iters=16`. That is not an oversight; it is the 2026-07-21 root-cause fix for
+`resume iteration 520 != expected 540`, because openmmtools fixes the cadence when the `.nc` is *created* and a
+driver running off a different grid than the file corrupts the resume. So the knob only binds on a **fresh**
+warmup — which for NR4A1 means discarding the 320 committed warmup iterations it has already paid for.
+
+**And the arithmetic no longer supports it.** Expected loss per death is half the interval ≈ **8 min**, against
+measured attempt lifetimes of 23–408 min. That is single-digit-percent overhead, bought at 4× the commit
+frequency, to mitigate a fault the census says is not there. `TVAST_WARMUP_CKPT_ITERS` stays available for a
+fresh launch; it is not applied here, and the reason is a measurement rather than a preference.
+
 ## 7 · What runs next, in order
 
 Everything below is wired and dispatchable; nothing here needs new code.
@@ -428,5 +509,12 @@ one home for the number)*
   point of the rung — so their inputs are pre-seeded into the FEP lane's stage cache and `STAGE_REQUIRED=1`
   makes a cache miss an immediate, explicit failure instead of a silent fall-through into the RCSB crystal
   stager with a leg id it has never heard of.
+- **The reducer keys on `(leg_id, seed)`, and the MODE is not in that key.** `5aks_…__ternary_nr4a3` is the
+  leg id of both the ~$12 production leg and the ~$0.15 smoke leg — the mode lives only in `unit_id`, and
+  `fetch_legs` writes both to the same `leg_<leg_id>_<direction>_r<seed>.json`. A smoke leg's ΔG is meaningless
+  by construction *and perfectly well-formed*, so a silent overwrite yields an `S` that passes the
+  non-ternary refusal, the provenance checks and the sign convention, and is simply wrong. `load_legs` now
+  raises `AmbiguousLegError` when two differing records claim one key (identical ones are still just a
+  duplicate download), and the CLI writes `decision: REFUSED` with the reason **in** the deliverable.
 - **A one-chain "ternary" leg is a binary leg nobody labelled**, and it would give `S ≈ 0` — which looks
   exactly like the preregistered null. The stager refuses it.
