@@ -62,6 +62,15 @@ CANDIDATE_DOIS = {
     # openfe / open-source stack
     "gowers2023_openfe": "10.1021/acs.jcim.3c01438",
     "hahn2024_openfe": "10.26434/chemrxiv-2024-6h4vd",
+    # --- round 2: DOIs recovered from the round-1 Crossref search and from cinnabar's own source ---
+    # cinnabar cites this for its cc_per_edge (cycle closure / sqrt(cycle length)) normalisation
+    "baumann2023_cycleclosure": "10.1021/acs.jctc.3c00282",
+    # the round-1 recollection 10.1021/acs.jctc.1c00669 resolved to a DIFFERENT paper; this is the real one
+    "bhati2022_largescale_real": "10.1021/acs.jctc.1c01288",
+    "bhati2021_largescale_preprint": "10.26434/chemrxiv-2021-zdzng",
+    "uq_alchemical": "10.1021/acs.jctc.7b01143",
+    "ties20": "10.1021/acs.jcim.2c01596",
+    "hysteresis1993": "10.1080/08927029308022167",
 }
 
 # ---------------------------------------------------------------------------

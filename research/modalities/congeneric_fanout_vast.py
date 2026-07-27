@@ -1006,6 +1006,45 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
     return True
 
 
+def started_machines_from_snapshot_history(max_snapshots=200, path="step1-fanout-progress.json"):
+    """Machines proven to have run our container, mined from the COMMITTED progress snapshots. Returns {}
+    on any git failure — a seeding aid must never be able to fail a tick.
+
+    ⚠⚠ WHY THIS IS NEEDED AT ALL, AND WHY IT IS NOT A HACK (2026-07-27). `_started_machines.json` is written
+    forward, from the live listing, so on the tick it was introduced it was EMPTY — and by then the
+    instances that proved machines 19492, 24573, 31035 and 53989 good had already been destroyed by the
+    reap. The repair therefore had nothing to work with on exactly the four machines it existed to rescue,
+    which is the same forward-only gap `vast_machine_blacklist.backfill` was written for one lane earlier.
+
+    The evidence was never lost, only unindexed: every committed `step1-fanout-progress.json` carries the
+    per-instance `status_msg`, and now `machine_id` beside it. A non-empty `status_msg` on a given machine
+    IS the observation "our container ran there" — the same test `observed_started_machines` applies live.
+    Reading it out of git is a DERIVATION from the lane's own audit trail, not a remembered fact typed in.
+
+    Cheap and self-limiting: the seed runs only when the durable set does not yet exist.
+    """
+    import subprocess
+    try:
+        shas = subprocess.run(["git", "log", "--format=%H", f"-{int(max_snapshots)}", "--", f"./{path}"],
+                              capture_output=True, text=True, timeout=60).stdout.split()
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] snapshot-history seed skipped ({type(e).__name__}: {e})")
+        return {}
+    out = {}
+    for sha in shas:
+        try:
+            doc = json.loads(subprocess.run(["git", "show", f"{sha}:./{path}"],
+                                            capture_output=True, text=True, timeout=30).stdout or "{}")
+        except Exception:  # noqa: BLE001 — a snapshot that predates a field is simply skipped
+            continue
+        for i in doc.get("instances") or []:
+            mid = i.get("machine_id")
+            if mid is not None and (i.get("status_msg") or "").strip():
+                out.setdefault(str(mid), {"instance": i.get("id"), "at": doc.get("_generated_et"),
+                                          "status_msg": (i.get("status_msg") or "")[:80]})
+    return out
+
+
 def withdraw_wrong_exclusions(s3, bucket, proven_machines):
     """Remove machines from the exclusion sets that this lane condemned as "never starts" and has since been
     OBSERVED to run its container. Returns the withdrawn ids.
@@ -2344,7 +2383,17 @@ def mode_monitor():
     # by the very reap that runs later in this tick. A machine that has RUN one of our containers can never
     # be condemned as one that never starts, and without this the proof dies with the instance — see
     # `never_started_cohort`, `known_good`.
-    _good = _load_started_machines(s3, bucket) | set(observed_started_machines(live))
+    _good = _load_started_machines(s3, bucket)
+    if not _good:
+        # FIRST RUN ONLY. The set is written forward, so on the tick it appears it is empty — and the
+        # instances proving the machines it exists to rescue have usually already been reaped. Mine the
+        # lane's own committed snapshots once to close that gap, then never again.
+        _seed = started_machines_from_snapshot_history()
+        if _seed:
+            print(f"[s1f] seeding the proven-machine set from {len(_seed)} machine(s) found in the "
+                  f"committed snapshot history: {sorted(_seed)}")
+            _good |= set(_seed)
+    _good |= set(observed_started_machines(live))
     _save_started_machines(s3, bucket, _good)
     # ...and repair any exclusion this lane wrote that the same evidence now refutes. Runs BEFORE the
     # condemn block below, so a machine cannot be withdrawn and re-condemned inside one tick.

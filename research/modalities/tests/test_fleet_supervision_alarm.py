@@ -28,8 +28,8 @@ def _run(minutes_ago, event="schedule", conclusion="success"):
     return {"run_started_at": t.strftime("%Y-%m-%dT%H:%M:%SZ"), "event": event, "conclusion": conclusion}
 
 
-def _c(progress, runs, stale=240.0, absent=240.0):
-    return fsa.classify(progress, runs, NOW, stale, absent)
+def _c(progress, runs, stale=240.0, absent=240.0, fetch_error=None):
+    return fsa.classify(progress, runs, NOW, stale, absent, fetch_error=fetch_error)
 
 
 def test_a_recently_measured_fleet_is_green():
@@ -86,6 +86,79 @@ def test_unreadable_actions_api_is_NOT_reported_as_a_dead_scheduler():
     — the measured-zero defect class this repo keeps paying for."""
     v = _c(_prog(300), None)
     assert v["verdict"] == "STALE-CAUSE-UNKNOWN" and v["ok"] is False
+
+
+# ── 2026-07-27, 4:18 PM ET: the alarm manufactured the outage it exists to report ────────────────────────
+# The tick job was fully green (measure, reap, place, commit) and had written the artifact 2.8 min earlier.
+# The alarm's own job then failed with:
+#     FLEET UNSUPERVISED [ABSENT] — no run of step1-fanout-autoscale.yml has started in ever
+#         (artifact 3 min old) — the SCHEDULER is not delivering
+# ...inside a run of that very workflow. The guard above existed but carried `and age > stale_min`, so it
+# only ever covered a STALE artifact; a FRESH one fell through to the `since_start is None` test.
+
+def test_THE_REAL_INCIDENT_unreadable_api_over_a_FRESH_artifact_is_not_ABSENT():
+    """★ THE REGRESSION TEST FOR 4:18 PM ET. This is the exact input that produced the false alarm: the API
+    unreadable while the artifact is 2.8 min old. ABSENT here is a lie — it accuses the scheduler in a run
+    the scheduler delivered, and it sends someone to fix a tick that is working."""
+    v = _c(_prog(2.8), None)
+    assert v["verdict"] != "ABSENT"
+    assert v["verdict"] == "FRESH-API-UNREADABLE" and v["ok"] is True
+    assert "not a dead scheduler" in v["detail"]
+
+
+def test_the_unreadable_guard_covers_EVERY_age_not_just_stale_ones():
+    """The defect was an ORDERING/CONDITION bug, not a missing branch — the branch was there and was skipped
+    for fresh artifacts. So sweep the whole age range: `runs=None` must never once reach a verdict that
+    claims something about run history."""
+    for age in (0, 1, 30, 120, 239, 240.5, 600):
+        v = _c(_prog(age), None)
+        assert v["verdict"] in ("FRESH-API-UNREADABLE", "STALE-CAUSE-UNKNOWN"), (age, v["verdict"])
+        assert v["verdict"] not in ("ABSENT", "FAILING", "STALE-BUT-RUNS-GREEN")
+
+
+def test_an_HONEST_empty_history_still_reports_ABSENT():
+    """The counterpart guard: making `None` safe must not also blind the alarm to a genuinely dead scheduler.
+    `[]` is a MEASURED zero — the API answered and said there are no runs — and must still fire."""
+    v = _c(_prog(300), [])
+    assert v["verdict"] == "ABSENT" and v["ok"] is False
+
+
+def test_the_verdict_records_that_the_history_was_unreadable_and_why():
+    """The 4:18 PM log was identical whether the API 403'd, timed out, or honestly returned zero runs, so the
+    cause had to be reconstructed from a sibling run. Whatever happens, the verdict must now say which."""
+    v = _c(_prog(5), None, fetch_error="HTTP 403 Forbidden — rate limit")
+    assert v["runs_readable"] is False
+    assert "403" in v["fetch_error"] and "403" in v["detail"]
+    assert "RUN HISTORY UNREADABLE" in fsa.render(v)
+    ok = _c(_prog(5), [_run(8)])
+    assert ok["runs_readable"] is True and ok["fetch_error"] is None
+    assert "RUN HISTORY UNREADABLE" not in fsa.render(ok)
+
+
+def test_fetch_runs_returns_a_reason_and_never_a_bare_None():
+    """`fetch_runs` must hand back `(runs, error)`: a swallowed exception is what made this undiagnosable.
+    Point it at a workflow that does not exist — a real 404 through the real code path, no network stubbing."""
+    runs, err = fsa.fetch_runs("trimcrae/Rare-cancers", "definitely-not-a-workflow.yml", attempts=1)
+    assert runs is None
+    assert err and "404" in err
+    # And the sentence it produces must name whether it was authenticated, since anonymous limits are the
+    # exposure that motivated the retry ladder.
+    assert "token=" in err
+
+
+def test_a_200_with_no_workflow_runs_key_is_unreadable_not_empty():
+    """The one door the retry ladder cannot see through. A malformed 200 must NOT become `[]`, or the
+    measured-zero bug returns via a path that looks like a successful read."""
+    import io
+    import urllib.request as ur
+
+    real = ur.urlopen
+    ur.urlopen = lambda *a, **k: io.BytesIO(b'{"total_count": 3}')  # no `workflow_runs` key
+    try:
+        runs, err = fsa.fetch_runs("o/r", "w.yml", attempts=1)
+    finally:
+        ur.urlopen = real
+    assert runs is None and "workflow_runs" in err
 
 
 def test_a_missing_or_undatable_artifact_is_fatal_never_a_pass():
