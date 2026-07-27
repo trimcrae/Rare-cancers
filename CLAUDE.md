@@ -322,8 +322,19 @@ When in doubt: do it and show it.
   Two failure modes this must avoid, both worse than the problem: **holding silently** (a fleet that never
   launches looks identical to one that finished — every hold must be visible in the readout with the snapshot
   that caused it), and **a ceiling nobody can clear** (if the market stays bad, that is a decision for trimcrae,
-  so surface it rather than idling forever). A single unit already running is not affected; this gates the
-  *fan-out*, not the shakeout.
+  so surface it rather than idling forever).
+- **★★ A RELAUNCH IS A NEW PURCHASE, NOT A CONTINUATION — SO IT FACES THE SAME CEILING (trimcrae, 2026-07-27:
+  *"Why are there so many high `$/ns` rows that are flagged but you're still paying for them? The whole point
+  is to pause the test if it gets that expensive."*).** The gate above is **not** scoped to fan-outs. The test
+  is **"would waiting actually lose work?"** — and for a checkpointed unit it would not: by the time a relaunch
+  is considered the host is already gone, and the only surviving state is a durable object store. So **every
+  rental of a new host is gated, resume and cold single unit included.** A single host is judged on the **§1
+  drift line** (a rate) rather than a tranche's dollar band, because a resume re-enters a leg at an unknown
+  fraction of its work and any dollar projection would be the whole unit's cost — which also means **a row that
+  prints `⚠ DRIFT` is exactly a row the gate would refuse to buy.** One implementation:
+  [`relaunch_market_gate.py`](./research/modalities/relaunch_market_gate.py), whose `EXEMPTIONS` is the complete
+  list of cases where waiting genuinely does lose work. **Work already executing is never touched** — the gate
+  acts at the moment of renting and must never be given reach over a live host.
 - **★ SPOT PREEMPTIONS ARE ROUTINE — MENTION LIGHTLY (trimcrae, 2026-07-16).** A preempted VM is expected
   behaviour and routine self-doable recovery: re-dispatch to resume from checkpoint, re-arm the check-in. A
   one-line note is fine; **no alarm, no `AskUserQuestion`, no write-up**, even if it repeats. Reserve real

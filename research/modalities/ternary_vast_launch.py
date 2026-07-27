@@ -809,19 +809,30 @@ def _split_uri(uri):
 
 
 def blocked_machine_ids(bucket=None, prefix=None):
-    """Machines observed refusing starts with `resources_unavailable`. [] if unavailable.
+    """Machines observed refusing starts, THIS lane's ∪ the SHARED cross-lane set. [] if unavailable.
 
     Recorded by collect() and consumed by submit() so a host that cannot schedule us stops winning
     selection. It is the availability term the $/ns ranking cannot express: a machine that never starts has
     infinite realised cost per ns yet reads as the cheapest offer on the board.
+
+    ⚠ THE UNION WAS ADDED 2026-07-27, after the step 1 fan-out rented machine 46392 — already on THIS lane's
+    list — because the two lanes kept separate sets and neither could see the other's. A capacity refusal is a
+    property of the machine, so every lane may act on it; see `vast_machine_blacklist` for the scope split.
     """
     b = bucket or DEFAULT_BUCKET
     p = (prefix or RESULT_PREFIX).rstrip("/")
+    local, s3 = [], None
     try:
-        st = json.loads(_s3().get_object(Bucket=b, Key=f"{p}/_lane_state.json")["Body"].read())
-        return [str(m) for m in (st.get("_blocked_machines") or [])]
-    except Exception:  # noqa: BLE001 — no state yet, or unreadable; exclude nothing
-        return []
+        s3 = _s3()
+        st = json.loads(s3.get_object(Bucket=b, Key=f"{p}/_lane_state.json")["Body"].read())
+        local = [str(m) for m in (st.get("_blocked_machines") or [])]
+    except Exception:  # noqa: BLE001 — no state yet, or unreadable; fall through to the shared set alone
+        pass
+    try:
+        import vast_machine_blacklist as vmb
+        return vmb.union(local, s3, b)
+    except Exception:  # noqa: BLE001 — the shared set is an optimisation and must never block a launch
+        return local
 
 
 def committed_progress(uid, bucket=None, prefix=None):
@@ -1150,7 +1161,12 @@ def rung_band_usd(n_units, entry="ternary_4fs_recalibration (1 matched edge)", l
 # (a 3090 at $0.0643/hr) and improved 3.16x -> 2.05x in three hours unaided. Waiting is cheap HERE
 # specifically — the calibrator gates spend on valB_full, and r0's reverse leg does not land until Monday
 # midday, so nothing downstream can move in the meantime.
-MARKET_MAX_RATIO_VS_BASIS = float(os.environ.get("TVAST_MAX_RATIO_VS_BASIS") or "1.5")
+# IMPORTED, NOT TYPED (rule 1, tightened 2026-07-27 when the relaunch gate became the third caller of the
+# same number). `inflight_usd_per_ns.DRIFT_MULTIPLE` is the drift line's one home; a literal here would be a
+# second copy free to disagree with the board that reports against it.
+from inflight_usd_per_ns import DRIFT_MULTIPLE as _DRIFT_MULTIPLE  # noqa: E402
+
+MARKET_MAX_RATIO_VS_BASIS = float(os.environ.get("TVAST_MAX_RATIO_VS_BASIS") or _DRIFT_MULTIPLE)
 
 
 def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max_ratio=None):
@@ -1353,6 +1369,13 @@ def collect(bucket=None, prefix=None, autostop=True):
         elif i.get("cur_state") == "stopped":
             # A stopped box has two causes that demand OPPOSITE actions, and only the start response
             # separates them. Re-issue the start (idempotent) and read the reply.
+            #
+            # ⚠ THIS NUDGE IS DELIBERATELY NOT $/ns-GATED, and that is the ONE genuine exemption the relaunch
+            # gate names (`relaunch_market_gate.EXEMPTIONS["already_held_instance"]`). Re-starting an instance
+            # this account ALREADY HOLDS is not a purchase: the rate was fixed when the instance was created
+            # and cannot move under us, and a stopped Vast box is billing for its disk in the meantime — so
+            # holding here would cost money and save none. Everything that RENTS A NEW HOST is gated; this
+            # resumes one we are already paying for.
             err = None
             try:
                 resp = _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
@@ -1367,6 +1390,15 @@ def collect(bucket=None, prefix=None, autostop=True):
                 # changed nothing. Record the machine, destroy, pick another.
                 blocked.add(str(i.get("machine_id")))
                 print(f"    (machine {i.get('machine_id')} has no free GPU and no bid fixes it — blocked)")
+                # scope="host": nothing about OUR workload enters this verdict, so every lane may act on it.
+                # Publishing here is what stops the fan-out paying its own rental to rediscover the same box.
+                try:
+                    import vast_machine_blacklist as vmb
+                    vmb.publish(s3, b, i.get("machine_id"),
+                                f"resources_unavailable on start (instance {iid}, {i.get('gpu_name')})",
+                                lane="ternary")
+                except Exception as _e:  # noqa: BLE001 — a monitoring aid must never fail a collect
+                    print(f"    (shared blacklist publish failed: {_e})")
                 print(f"    -> destroying {iid}: picking another host beats queueing on this one")
                 try:
                     _vast_request("DELETE", f"/instances/{iid}/", key)

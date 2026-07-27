@@ -66,6 +66,7 @@ import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import relaunch_market_gate as rmg  # noqa: E402  the ONE $/ns gate every single-host rental consults
 import watchdog_validate as wdv  # noqa: E402
 from gpu_backend import _vast_request  # noqa: E402
 # `container_started_from_phase` lives in the shared policy module, not here: BOTH Vast lanes write
@@ -114,6 +115,16 @@ class Evidence:
 def _s3():
     import boto3
     return boto3.client("s3")
+
+
+def _s3_or_none():
+    """An S3 client, or None if boto3/credentials are unavailable. The $/ns gate uses S3 only for its
+    ESCALATION CLOCK, so it must degrade to "gate still enforced, clock cannot run" rather than raising —
+    a price ceiling that stops working when the state store does would be a ceiling nobody can rely on."""
+    try:
+        return _s3()
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def _read_json_key(bucket, key, default=None):
@@ -251,6 +262,11 @@ class TernaryKind:
     @staticmethod
     def preflight(entry):
         return []
+
+    @staticmethod
+    def relaunch_resource_spec(entry, insts):
+        import ternary_vast_launch as tv
+        return tv.resource_spec()
 
     @staticmethod
     def probe(entry, insts):
@@ -421,6 +437,11 @@ class ParalogueMdKind:
                         instance=inst, instance_alive=inst is not None,
                         instance_age_min=instance_age_min(inst) if inst else 0.0,
                         scalar=scalar, scalar_label=label, note=note)
+
+    @staticmethod
+    def relaunch_resource_spec(entry, insts):
+        import nr4a_paralogue_md_vast_launch as L
+        return L.resources()
 
     @staticmethod
     def relaunch(entry, insts):
@@ -681,12 +702,19 @@ class Step1FanoutKind:
         _vast_request("DELETE", f"/instances/{iid}/", key)
         out = f"destroyed instance {iid}"
         mid = (inst or {}).get("machine_id")
+        # scope="host": a container that never executes is a property of the MACHINE, not of this workload, so
+        # it transfers to every lane without an argument (vast_machine_blacklist). The alternative is each
+        # lane paying its own rental to rediscover the same dead host.
         if mid is not None and L._record_exclusion(
                 L._s3(), str(entry["bucket"]), mid,
                 f"container never started: {instance_age_min(inst):.0f} min from rental with no phase mark "
-                f"of its own (instance {iid})"):
-            out += f"; machine {mid} added to the lane exclusion set"
+                f"of its own (instance {iid})", scope="host"):
+            out += f"; machine {mid} added to the lane + shared exclusion sets"
         return out
+
+    @staticmethod
+    def relaunch_resource_spec(entry, insts):
+        return Step1FanoutKind._lane(entry).FANOUT_RES
 
     @staticmethod
     def relaunch(entry, insts):
@@ -1062,6 +1090,56 @@ def tick(path=None, dry_run=False):
             _annotate("notice", "VAST WATCHDOG would-relaunch",
                       f"{uid} — died (no result, no instance), {why}. dry_run=1 so taking no action.")
             continue
+
+        # ---- ⛔ THE $/ns GATE. A RELAUNCH IS A NEW PURCHASE, NOT A CONTINUATION. ---------------------------
+        # (trimcrae, 2026-07-27: *"Why are there so many high $/ns rows that are flagged but you're still
+        # paying for them? The whole point is to pause the test if it gets that expensive."*)
+        #
+        # This is the exact hole CLAUDE.md §6's first cut left open. Its fleet gate exempted "a single unit
+        # already running" — but by the time this branch is reached the unit is NOT running: it DIED, its host
+        # is gone, and the line below rents a brand-new host at whatever the market is charging this minute.
+        # Overnight on 2026-07-26/27 that path fired repeatedly on spot churn, and every rental went unpriced
+        # while a fan-out at 2.05x basis was correctly held.
+        #
+        # PLACED HERE, LAST, ON PURPOSE. After the interlock and the daily cap (so a board read is only spent
+        # when a relaunch would otherwise happen) and after `dry_run` (so a dry pass never touches the market
+        # API); BEFORE the reap, so a hold destroys nothing at all. Holding costs nothing: the checkpoint is a
+        # durable S3 object, the ladder has no deadline, and the next tick re-checks.
+        try:
+            spec = kind.relaunch_resource_spec(e, insts)
+        except Exception as ex:  # noqa: BLE001
+            spec = None
+            print(f"[relaunch-gate] {uid} — could not build this kind's ResourceSpec ({type(ex).__name__}: "
+                  f"{ex}); the gate cannot price a host the launcher would buy.")
+        if spec is None:
+            # A kind that cannot say what it would rent cannot be priced, and an unpriceable rental is exactly
+            # what this gate refuses. `KINDS` is a closed registry and every member implements the method
+            # (pinned by tests/test_relaunch_market_gate.py), so reaching here means a NEW kind skipped the
+            # contract — which must surface as a hold, not as a silent bypass.
+            alerts += 1
+            _annotate("error", "VAST WATCHDOG RELAUNCH HELD — KIND CANNOT BE PRICED",
+                      f"{uid} — kind {kind.name} did not supply a relaunch ResourceSpec, so the $/ns gate "
+                      f"cannot price the host it would rent. Refusing to rent unpriced (CLAUDE.md §6).")
+            continue
+        _held, _gdoc = rmg.gate(
+            kind.name, uid, spec,
+            excluded={x.strip() for x in str(e.get("exclude_machines") or "").split(",") if x.strip()},
+            s3=_s3_or_none(), state_bucket=state_bucket, state_prefix=state_prefix,
+            checkpoint_expires_utc=e.get("checkpoint_expires_utc"))
+        if _held:
+            # NOT an alert: a routine pause on a thin market is expected behaviour (CLAUDE.md §6), and failing
+            # the job on every tick of a bad market would train the notification to be ignored. `gate` already
+            # printed a `::notice::` with the snapshot, escalates to `::error::` on its own after
+            # RELAUNCH_ESCALATE_H, and wrote the snapshot to S3 + the committed readout — so the hold is
+            # legible without being alarming. The verdict is recorded so the pass summary cannot read as
+            # "nothing to do".
+            verdicts[uid] = f"{verdict}/HELD_ON_PRICE"
+            if _gdoc.get("escalated"):
+                # A ceiling nobody can clear must reach a human. Counting it as an alert is what makes this
+                # job exit non-zero, which is the session-independent notification path.
+                alerts += 1
+            continue
+
         # An `exited` box for this unit is destroyed BEFORE the replacement is rented — it is not provably
         # dead until it is gone (Step1FanoutKind.reap_exited). A failure here withholds the relaunch rather
         # than risking two hosts on one checkpoint prefix.
