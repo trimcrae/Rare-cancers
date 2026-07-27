@@ -654,22 +654,38 @@ def truncation(records):
             by_tick[(r.get("run", 0), r["tick"])][r["slot"]] = r
     full_n, dflt_n, d4, better = [], [], [], 0
     cmp_n = 0
+    pr_full, pr_dflt, gpu_full, gpu_dflt = [], [], defaultdict(int), defaultdict(int)
     for _t, d in sorted(by_tick.items()):
         if "R1" not in d or "R3" not in d:
             continue
         f, g = d["R1"], d["R3"]
         full_n.append(f.get("n_offers") or 0)
         dflt_n.append(g.get("n_offers") or 0)
+        pr_full.append(f.get("priceable") or 0)
+        pr_dflt.append(g.get("priceable") or 0)
+        # THE MECHANISM, per card. Ordering by `dph_total asc` and cutting at the default 64 removes the
+        # BENCHED workhorses preferentially, because they are not the cheapest per hour — measured on the
+        # first tick, RTX 4090 went 30 offers (full) -> 5 (default) and RTX 3090 21 -> 3. That is why a
+        # shorter page prices the fleet higher even though the market has not moved.
+        for r in f.get("rows", []):
+            gpu_full[r.get("gpu")] += 1
+        for r in g.get("rows", []):
+            gpu_dflt[r.get("gpu")] += 1
         bf, bg = best_n_mean(f.get("rows", []), 4), best_n_mean(g.get("rows", []), 4)
         if bf and bg:
             cmp_n += 1
             d4.append((bg - bf) / bf)
             if bf < bg - 1e-9:
                 better += 1
+    keep = sorted(set(list(gpu_full) + list(gpu_dflt)),
+                  key=lambda k: -(gpu_full.get(k, 0)))[:10]
     return {"ticks_compared": cmp_n,
             "n_offers_full": _stats(full_n), "n_offers_default": _stats(dflt_n),
+            "priceable_full": _stats(pr_full), "priceable_default": _stats(pr_dflt),
             "default_best4_excess_frac": _stats(d4),
-            "full_board_strictly_better_frac": round(better / cmp_n, 4) if cmp_n else None}
+            "full_board_strictly_better_frac": round(better / cmp_n, 4) if cmp_n else None,
+            "offers_by_gpu_full_vs_default": {str(k): [gpu_full.get(k, 0), gpu_dflt.get(k, 0)]
+                                              for k in keep}}
 
 
 def rate_limit(records):

@@ -470,7 +470,11 @@ def _vast_ondemand_base_by_machine(key, res: ResourceSpec = None) -> dict:
     try:
         spec = ResourceSpec(**{**vars(res or ResourceSpec()), "interruptible": False})
         q = _vast_offer_query(spec)
-        q["limit"] = 512
+        # The query now carries `_VAST_SEARCH_LIMIT` itself. This line stays only so the intent is explicit at
+        # the call site, and it references the CONSTANT rather than repeating the literal 512 that used to sit
+        # here — a second copy of the number is how the two reads drift apart, and for a year this was the
+        # only caller that asked for the whole board while the one that decides purchases did not.
+        q["limit"] = _VAST_SEARCH_LIMIT
         data = _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}) or {}
         out = {}
         for o in data.get("offers", []):
