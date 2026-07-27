@@ -96,7 +96,12 @@ def test_window_boundary(tmp_path, age, ok_expected):
 
 
 def test_main_exit_codes(tmp_path, capsys):
-    good = _write(tmp_path, {"_generated_utc": _stamp(0.2)})
+    # ⚠ WALL-CLOCK, NOT THE FROZEN `NOW`. `main()` takes no injectable clock, so a fixture stamp built from
+    # the module-level NOW passes only while real time happens to sit inside the window and starts failing
+    # once it does not — which is exactly what this test did, going red 11 minutes after it first went green.
+    # A freshness gate whose own suite is time-dependent is the joke writing itself; the stamp must be real.
+    real_now = datetime.datetime.now(datetime.timezone.utc)
+    good = _write(tmp_path, {"_generated_utc": real_now.strftime("%Y-%m-%dT%H:%M:%SZ")})
     assert apf.main([good]) == 0
     stale = tmp_path / "stale.json"
     stale.write_text(json.dumps({"_generated_utc": "2026-01-01T00:00:00Z"}))
