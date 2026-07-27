@@ -1,0 +1,1325 @@
+SOURCE URL: https://arxiv.org/pdf/1906.08599v2
+FINAL URL: https://arxiv.org/pdf/1906.08599v2
+HTTP: 200
+CONTENT-TYPE: application/pdf
+======================================================================
+arXiv:1906.08599v2  [stat.ME]  10 Oct 2019
+Optimal measurement network of pairwise diﬀerences
+Huafeng Xu ∗
+Unaﬃliated; Current address: Silicon Therapeutics, Bosto n, MA 02210, USA
+When both the diﬀerence between two quantities and their ind ividual values can be measured
+or computational predicted, multiple quantities can be det ermined from the measurements or pre-
+dictions of select individual quantities and select pairwi se diﬀerences. These measurements and
+predictions form a network connecting the quantities throu gh their diﬀerences. Here, I analyze the
+optimization of such networks, where the trace ( A-optimal), the largest eigenvalue ( E-optimal),
+or the determinant ( D-optimal) of the covariance matrix associated with the esti mated quantities
+are minimized with respect to the allocation of the measurem ent (or computational) cost to dif-
+ferent measurements (or predictions). My statistical anal ysis of the performance of such optimal
+measurement networks–based on large sets of simulated data –suggests that they substantially ac-
+celerate the determination of the quantities, and that they may be useful in applications such as
+the computational prediction of binding free energies of ca ndidate drug molecules.
+I. INTRODUCTION
+It is quite common in a scientiﬁc study that multiple
+quantities are to be determined from the measurements
+of their individual values and their pairwise diﬀerences.
+(I will refer to both experimental measurements and com-
+putational predictions as measurements unless otherwise
+distinguished.) Compared to measuring only the individ-
+ual quantities, including measurements of pairwise diﬀer-
+ences may substantially improve the statistical precision
+in the estimated quantities. This is especially true when
+the statistical uncertainties in the measurements of the
+diﬀerences are much lower than that in the measurements
+of the individual quantities, e.g., when the diﬀerential
+value between two quantities lies within the detection
+range of the experimental technique but the individual
+values are outside the detection limit.
+The statistical uncertainty associated with measuring
+a quantity or a pairwise diﬀerence depends on the re-
+sources allocated to the measurement, i.e. the number
+of repetitions in the case of experimental measurements
+or the number of uncorrelated data points sampled in the
+case of computational predictions. Given ﬁxed total mea-
+surement resources ( i.e. cost), optimal allocation of the
+resources to diﬀerent measurements may substantially
+improve the overall statistical precision–characterized by
+the covariance matrix–of the estimated quantities [1, 2].
+An important example that may beneﬁt from such op-
+timal resource allocations is the computational predic-
+tion of the binding aﬃnities of a set of molecules for a
+target receptor of pharmaceutical interest. Binding free
+energy calculations have demonstrated suﬃcient accu-
+racy [3] and are increasingly adopted in the pharmaceu-
+tical industry as an eﬀective method to rank and select
+candidate molecules in many drug discovery projects [4].
+The binding free energy of an individual molecule can
+be computed by the technique of absolute binding free
+energy calculations [5–8], and the diﬀerence between the
+∗ Correspondence to huafeng@gmail.com
+binding free energies of any two molecules can be com-
+puted by the technique of relative binding free energy
+calculations [4, 9–11]. Optimal estimators for individual
+absolute or relative binding free energy calculations have
+been developed [12, 13]. At ﬁxed computational cost, the
+statistical errors of free energy calculations are bound by
+the thermodynamic length between the thermodynamic
+end states [14]. Typically, the end states are more dis-
+similar in absolute binding free energy calculations than
+in relative binding free energy calculations. As a result,
+the statistical errors in the former are often substantially
+larger than those in the latter given the same amount of
+computational cost.
+The binding free energies of all the molecules in the
+set can be estimated from the appropriate combinations
+of the predicted individual values and the predicted pair-
+wise diﬀerences (see below). Optimal allocation of com-
+putational resources to diﬀerent absolute and relative
+binding free energy calculations may lead to improved
+eﬃciency in predicting the binding free energies of a set
+of molecules. Past eﬀort aimed at providing redundancy
+and consistency checks in the calculations [15]. How to
+minimize the overall statistical error in the estimated
+binding free energies, however, remains an unaddressed
+question.
+Here, I apply the mathematical results from optimal
+experimental designs [1, 2] to the special case of opti-
+mizing the allocations of measurement resources to the
+measurements of individual quantities and their pairwise
+diﬀerences, so as to minimize the overall statistical error
+in the estimated quantities. Speciﬁcally, I consider three
+types of optimization: 1) the A-optimal, which minimizes
+trace of the covariance matrix and hence the total vari-
+ance, 2) the D-optimal, which minimizes the determinant
+of the covariance matrix and hence the volume of the con-
+ﬁdence ellipsoid for a ﬁxed conﬁdence level, and 3) the E-
+optimal, which minimizes the largest eigenvalue of the co-
+variance matrix and hence the diameter of the conﬁdence
+ellipsoid. The A-optimal and the D-optimal are found
+by iterative numerical minimization. For the E-optimal,
+I present a new mathematical theorem that enables the
+minimization to be solved by construction. I characterize
+
+2
+the statistical performance of such optimizations in terms
+of the reduction in the statistical error in the estimated
+quantities at ﬁxed total measurement cost. My results
+suggest that optimal designs of the measurements can
+substantially reduce the statistical error in the estimated
+quantities, allowing the same statistical precision (char-
+acterized by the total statistical error) to be achieved
+at–on average–less than half the measurement cost when
+compared to naive allocations. The Python code for gen-
+erating the optimal designs is made available as free open
+source software (https://github.com/forceﬁeld/DiﬀNet).
+II. THEOR Y
+Suppose that we want to measure a set of quantities
+{xi=1, 2,...,m }. We can either measure each individual
+quantity xi with the estimator ˆxi = xi + σi, or the dif-
+ference between any pair of quantities xi and xj with the
+estimator ˆxij = xi − xj + σij, where σi and σij are the
+respective statistical errors in the measurements. For
+each measurement e ∈ { i|i = 1 , 2, ..., m} ∪ { (i, j)|i, j =
+1, 2, . . . , m, i ̸= j}, the statistical variance of the es-
+timate decreases with ne–the resource allocated to the
+measurement–as
+σ2
+e = s2
+e/ne (1)
+where se is the statistical ﬂuctuation in the corresponding
+experimental measurement or computer sampling.
+The quantities and the measurements form a network–
+which I will refer to as the diﬀerence network–represented
+by a graph G of m + 1 vertices and m(m + 1)/2 edges,
+where the vertices i = 1 , 2, . . . , m stand for the m quan-
+tities {xi}, the edge between vertices i ̸= j > 0 stands
+for the diﬀerence measurement ˆxij, and the edge between
+vertices 0 and i > 0 stands for the individual measure-
+ment ˆxi. Two weighted graphs can be derived from G: 1)
+Gs, in which the weight assigned to each edge is the cor-
+responding ﬂuctuation se, and 2) Gn, in which the weight
+is the corresponding number of samples ne. I will denote
+si, 0 = s0,i = si and ni, 0 = n0,i = ni.
+For a given set of {ne} and the corresponding {σe}
+per Eq. 1, the maximum likelihood estimator for {xi}
+is [1, 2, 16] (assuming that the statistical errors in the
+measurements follow the normal distribution; see Ap-
+pendix A for a derivation)
+F · ⃗ x= ⃗ z (2)
+where
+zi = σ−2
+i ˆxi +
+∑
+j̸=i
+σ−2
+ij ˆxij, (3)
+and F is the Fisher information matrix:
+Fij =
+{ σ−2
+i +∑
+k̸=i σ−2
+ik if i = j
+−σ−2
+ij if i ̸= j . (4)
+The covariance in the estimates of {xi} is given by the
+inverse of the Fisher information matrix:
+C = F−1 (5)
+In the classic theory of optimal design of experi-
+ments [2], three objectives of minimizations of statistical
+errors with respect to {ne} are commonly sought:
+• A-optimal: minimize tr( C),
+• D-optimal: minimize ln det( C),
+• E-optimal: minimize ||C||2,
+where tr( C) denotes the trace of the matrix C, det( C)
+denotes the determinant of C, and ||C||2 denotes the
+spectral norm–or, equivalently, the largest eigenvalue–of
+C, subject to the constraints of non-negativity
+ne ≥ 0, (6)
+and of total ﬁxed measurement cost
+∑
+e
+ne =
+∑
+i
+ni +
+∑
+i<j
+nij = N. (7)
+Although {ne} are integers, the above minimizations
+are more conveniently performed if {ne} are allowed to
+be real numbers. They can then be rounded to integers
+(see Appendix. B). This is a reasonable approximation
+when N ≫ m(m + 1)/2. This condition is usually sat-
+isﬁed in sampling-based computational predictions such
+as binding free energy calculations, because in such cases
+N is the total number of independent sampling points,
+which can be in the range of tens of millions. Automated
+experiments permitting large numbers of repetitions may
+also satisfy this condition.
+All three objectives are convex functions of {ne} (see
+Appendix C), and the minimization can be performed
+by standard algorithms in convex optimization [1]. For
+the A-optimal design, the minimization can be solved
+as a semideﬁnite programming problem (SDP) (see Ap-
+pendix D).
+For the E-optimal design, the minimization can be sim-
+ilarly cast as an SDP. But for the diﬀerence network, I
+present the following theorem (see Appendix E for proof),
+which allows the minimization problem to be solved by
+construction, with a ﬁxed time complexity of O(m2) and
+space complexity of O(m), and which, to my knowledge,
+has not appeared in any previously publication.
+Theorem 1 Let Ei be the shortest path from vertex 0 to
+vertex i in the graph Gs (i.e., the path with the smallest∑
+e∈Ei se), and E = ∪iEi be the tree rooted at vertex 0
+from the resulting union. (A tree is a connected acyclic
+undirected graph.) Denoting a0 = 0 and
+ai =
+∑
+e∈Ei
+se for i > 0, (8)
+
+3
+||C({ne})||2 is minimized by the following set of {ne}:
+niµ i = N siµ i
+∑
+j∈Ti
+aj
+( ∑
+i
+a2
+i
+) −1
+(9)
+where Ti ⊂ E is the subtree rooted at vertex i, and µi is
+the vertex immediately preceding i in the path Ei from 0
+to i.
+The shortest paths {Ei} can be constructed by
+the single-source-multiple-desitination Dijkstra algo-
+rithm (see, e.g., Ref. 17), which guarantees that E =
+∪iEi is a tree. The E-optimal by construction is sub-
+stantially faster than by minimization using SDP: for
+random {se} drawn uniformly in the interval (1 , 5), the
+speedup of the former over the latter (implemented in
+CVXOPT [18]) is ∼ 400× for m = 10 and ∼ 3700× for
+m = 50. In Appendix F, I suggest a special class of diﬀer-
+ence networks in which the A- and the D-optimals may
+also be solved by construction.
+Often, there is a cost τe associated with generating
+each sampling point in the estimator ˆ xe, and the total
+cost is ∑
+e neτe = N . We can, however, introduce n†
+e =
+neτe, and s†
+e = seτ 1/ 2
+e , and solve the same problem as
+above for n†
+e, with the parameters s†
+e.
+III. RESULTS
+I ﬁrst illustrate the optimal diﬀerence networks using
+the example of the calculation of the binding free ener-
+gies of m = 8 inhibitors for the COX-2 protein [19]. The
+optimals depend on the statistical ﬂuctuations {se} =
+{si|i = 1 , 2, . . . , m} ∪ { sij|i, j = 1 , 2, . . . , m, i < j }. For
+illustrative purpose, I set {se} such that si in the abso-
+lute binding free energy calculations is si = ζ√
+hi, where
+hi is the number of heavy atoms in molecule i and ζ is a
+constant, and that sij in the relative binding free energy
+calculations is sij = ζ
+√
+max(hij, hji), where hij is the
+number of heavy atoms in molecule i that do not trans-
+form into atoms in molecule j in the relative binding free
+energy calculation of molecules i and j. The correspond-
+ing Gs is shown in Fig. 1 A. In real binding free energy
+calculations, the {se} depends on both the thermody-
+namic length between the end states [14] and the ratio
+of the relaxation time of relevant motions to the length
+of the simulation; they have to be determined (approx-
+imately) during iterative rounds of binding free energy
+calculations. The optimal allocations corresponding to
+my hypothetical {se} are shown in Fig. 1 B.
+In a typical drug discovery projects, there will be a few
+molecules whose binding free energies have already been
+experimentally determined, and, using these molecules as
+references, relative binding free energy calculations can
+be used to predict the binding free energies for other sim-
+ilar molecules. The D-, A-, and E-optimals for such rela-
+tive binding free energy calculations are shown in Fig. 1 C
+for the COX-2 inhibitors, using Celecoxib and Rofe-
+coxib as the reference molecules. Because the {se} val-
+ues above reﬂects the assummption that relative binding
+free energy calculations have substantially lower statisti-
+cal errors than absolute binding free energy calculations,
+this network of relative binding free energy calculations–
+taking advantage of the known binding free energies of
+the reference molecules–yield much lower overall statisti-
+cal errors than the previous network in Fig. 1 B.
+Next, I characterize the statistical performance of
+the optimal diﬀerence networks in comparison to naive
+choices of {ne}. The A-, D-, E-optimals and various
+other naive allocations are applied to randomly gener-
+ated sets of {se}, and the resulting covariance matrices
+are compared in terms of their traces, determinants, and
+spectral norms.
+For the sets of random {se} drawn uniformly from the
+interval of (1 , 5), the A-optimal outperforms all tested
+schemes of naive allocations by all three criteria (tr( C),
+||C||2, and det( C); it also yields a ||C||2 close to that of
+the E-optimal and a ln(det( C)) close to that of the D-
+optimal (Fig. 2). Compared to the D-optimal, which has
+the second lowest average tr( C), the A-optimal reduces
+tr(C) by a factor of 0 .791 ± 0.005 (i.e. the ratio of tr( C)
+for the A-optimal to that for the D-optimal is 0 .791);
+compared to the naive allocation ne ∝ se, which has the
+lowest average tr( C) among the tested naive allocations,
+the A-optimal reduces tr( C) by a factor of 0 .402 ± 0.001.
+These observations suggest that the A-optimal–which has
+the simple interpretation of minimizing the total variance
+of the measured quantities–may be a good default choice
+in designing diﬀerence networks.
+The A-optimal enables substantial improvements in
+statistical precision for diﬀerence networks with other
+distributions of {se} as well. For example, in the case
+where si = sij = constant and m = 30, the A-optimal
+reduces tr( C) by a factor of 0.664 compared to the naive
+allocation ne ∝ se; in the case where the relative error
+is constant (such that sij = |si − sj|; see Appendix F)
+and m = 30 values of si are drawn randomly from the
+interval (0, 1), the corresponding reduction is by a factor
+of 0 .470 ± 0.001.
+It is desirable that the measurement networks are 2-
+connected–a k-edge-connected subgraph is one that does
+not become disconnected unless k edges are removed–
+such that for any two quantities, there are two paths
+through which their diﬀerences can be computed. This
+allows a self-consistency check: the diﬀerences computed
+both ways should be approximately equal. Such checks
+can reveal potential measurement errors and outliers.
+The majority (98.5%) of the A-optimal networks are 2-
+connected, and all of them become 2-connected with the
+addition of at most 1 edge (Fig. 3). This property of
+the A-optimal allocation also makes it a good choice in
+designing diﬀerence networks.
+The A- and D-optimal networks may be densely con-
+nected (the E-optimal is a tree hence sparsely con-
+nected). For example, in the A-optimal allocations for
+
+4
+OO
+NH₂
+S
+S
+O O
+O
+ON
+N
+CF₃
+A
+B
+C
+Celecoxib 
+Rofecoxib A
+B
+C
+A B C
+FIG. 1. Optimal allocation of computational sampling to the binding free energy calculations for COX-2 inhibitors. A The
+8 inhibitors are generated by diﬀerent combinations of 3 rin gs, with 2 diﬀerent options for each ring. The weighted graph Gs
+is shown. Each ﬁlled vertex represents an inhibitor. The edg e between any two such vertices i and j represents the relative
+binding free energy calculation between inhibitors i and j, and the thickness of the edge is proportional to the corresp onding
+sij. The edge between the unﬁlled vertex at the bottom and a verte x i represents the absolute binding free energy calculation
+of inhibitor i, and its thickness is proportional to si. B The D-, A-, and E-optimals of the corresponding diﬀerence network,
+where the thickness of each edge is proportional ne according to the optimal allocations. C The optimals when the binding
+free energies of Celecoxib and Rofecoxib are known and used a s references, and only relative binding free energy calcula tions
+are used to computed the binding free energies of the other 6 i nhibitors. For comparison, the minimum spanning tree (MST)
+of Gs is also shown, where ne is constant for each edge in the tree.
+the above randomly generated sets of {se}, on average in-
+dividual measurements are applied to 11.8 of the m = 30
+individual quantities, and diﬀerence measurements are
+applied to 86.7 of the m(m − 1)/2 = 435 pairs (Fig. 3).
+The A- and D-optimal diﬀerence networks for the COX-2
+binding free energy calculations (Fig. 1) are also clearly
+dense. As suggested in Appendix F, however, the A- and
+D-optimal networks are trees when sij = |si − sj|.
+Practical considerations–such as the minimum num-
+ber of samples required in an individual binding free en-
+ergy calculation to derive meaningful free energy esti-
+mates, and how many measurements can be executed in
+parallel–often make it desirable to limit the number of
+measurements to include in the diﬀerence network, i.e.
+to limit the number of edges in Gn. Appendix H outlines
+a heuristic approach to designing near-optimal diﬀerence
+networks given the required edge-connectedness k and
+the number of measurements M (the number of edges in
+the Gn with ne > 0). The resulting network, Gk,M , can be
+further pruned to eliminate any edge with ne/N < ǫ/M
+(e.g., to avoid impractically short binding free energy
+calculations; ǫ is a parameter that speciﬁes the cutoﬀ).
+When applied to the A-optimal of the example diﬀerence
+network with randomly generated ﬂuctuations (described
+in Fig. 2), the tr( C) of the near-optimal allocation gener-
+ated by this approach, with k = 2, M = 3m, and ǫ = 0.1,
+is on average only 1 .10 ± 0.03 times that of the true op-
+timal.
+Design of the optimal diﬀerence network requires as in-
+put the statistical ﬂuctuations {se} associated with each
+measurement, which is usually unknown a priori . Thus
+the application of the optimal diﬀerence networks needs
+to proceed in an iterative manner. Starting with an ini-
+tial guess of {se} (e.g. the statistical ﬂuctuation in rel-
+ative or absolute binding free energy calculations may
+be predicted by a machine-learning model trained on a
+collection of past free energy calculations), the quantities
+can be measured with the corresponding optimal network
+at a small total measurement cost; For any measurement
+e performed, update se by the actual statistical variance
+of the measurement, and re-optimize the network accord-
+ingly; Repeat this process at increasingly larger total cost
+until suﬃciently precise estimates of the quantities are
+reached.
+Fig. 4 illustrates this iterative process in the con-
+struction of the A-optimal for a diﬀerence network. In
+the beginning, {se} were initialized to be random num-
+bers drawn uniformly from the interval of (0 , 1). In
+each iteration, se was updated to be the actual es-
+timate of the ﬂuctuation for any performed measure-
+ment e (i.e. ne > 0), or to be a random number
+drawn uniformly between the minimum and the maxi-
+mum of all the estimated ﬂuctuations ( i.e. in the interval
+(mine′|ne′ >0({se′ }), maxe′|ne′ >0({se′})) if measurement e
+has not yet been performed ( i.e. ne = 0). In each itera-
+tion, a prescribed total of ∆ N =∑
+e ∆ ne additional sam-
+ples are allocated so as to optimize tr( C) with respect to
+∆ ne (see Appendix G), and ∆ ne are rounded to integers
+according to Appendix B. In a few iterations the allo-
+cation {ne(N )} becomes close to the optimal allocation,
+
+5
+1
+2
+tr(C)
+tr(Cref)
+0
+5
+||C||2
+||Cref||2
+A-optimalD-optimalE-optimal
+n
+e
+∝
+s
+2 e
+n
+e
+∝
+se
+n
+e
+=
+const
+n
+e
+∝
+s
+2 e (MST)
+n
+e
+∝
+se (MST)
+ref: 
+n
+e
+=
+const
+ (MST)
+0
+20ln(
+det(C))
+det(Cref))
+FIG. 2. Statistical performance of diﬀerent allocations. H ere
+m = 30, {sij} and {si} are uniformly disitrbuted between 1
+and 5. As the reference, I chose ne = const for e ∈ MST(Gs),
+where MST( Gs) is the minimum spanning tree (MST) of the
+weighted graph Gs. The covariances of the various alloca-
+tions are computed for T = 200 randomly generated sets of
+{se}, and the ratios of tr( C), ||C||2, and det( C) to the cor-
+responding reference values are shown here in boxplots, wit h
+the median ratios and the quartiles indicated.
+{ne(∞)}, according to the true ﬂuctuations {s∞
+e }. The
+Kullback-Leiber divergence from {ne(N )} to {ne(∞)}
+DKL[ne(N )||ne(∞)] =
+∑
+e
+ne(N )
+N ln ne(N )
+ne(∞) (10)
+decreases in each iteration. Correspondingly, the total
+statistical error in the estimated quantities approaches
+the true minimum at suﬃciently large N .
+IV. DISCUSSIONS
+This work explored the application of optimal exper-
+imental design to the determination of multiple quanti-
+ties by the measurements of select individual quantities
+and select pairwise diﬀerences, such as in the computa-
+tional prediction of binding free energies for candidate
+drug molecules. A related work was recently published
+by Yang et al. [20], in which the authors proposed using
+discrete A- or D-optimals to select the pairs of relative
+0.0
+0.5
+1.0
+A-optimal
+(∅,i)
+(i,j> i)
+0.0
+0.5
+1.0Fraction of edges
+E-optimal
+Fraction of net orks
+10−4 10 −2 10 0 10 2
+(ne/se)/(N /∑
+e
+se)
+0.0
+0.5
+1.0
+D -optimal
+0 10 20
+|Edges to 2-connectivity|
+FIG. 3. Statistical distributions of {ne} in the optimal allo-
+cations, for the same random sets of {se} as in Fig. 2. The
+fractions of edges in the weighted graph Gn with diﬀerent
+ne/se ratios are shown on the left. The right panels show the
+distributions of the minimum number of edges that need to be
+added to the graph Gn–after eliminating the edges with negli-
+gible allocations (determined by ne/se/(N/ ∑
+e se) < 10− 2)–
+to make it 2-connected ( i.e. there are at least 2 distinct paths
+connecting any two vertices in Gn). The majority of the A-
+optimal networks are 2-connected.
+binding free energy calculations for predicting the bind-
+ing free energies of a set of molecules. Whereas Yang
+et al. addressed the question of between which pairs of
+molecules relative binding free energy calculations should
+be performed, given a ﬁxed number of calculations (i.e.
+ne = 0, 1, under the constraint ∑
+e ne = N , N being the
+total number of calculations), I addressed here the ques-
+tion of how much sampling should be allocated to the
+relative binding free energy calculations between each
+possible pair of molecules, given a ﬁxed total amount
+of sampling (i.e. 0 ≤ ne ≤ N , under the constraint∑
+e ne = N , N being the total number of samples in all
+the calculations). The expanded domain of {ne} in the
+latter allows additional control in the design of the cal-
+culations, which further reduces the resulting statistical
+errors.
+The optimal diﬀerence network may help accelerate a
+variety of scientiﬁc inquiries. Improving the statistical
+precision of binding free energy predictions, for instance,
+allows better selection of candidate drug molecules in
+drug discovery projects, as suggested by Yang et al. [20].
+The optimal diﬀerence network may ﬁnd immediate use
+in the parameterization of computational models, where
+the same set of quantities are computed repeatedly in
+search for the values of the model parameters that best
+ﬁt benchmark data. For example, binding free energy
+
+6
+2
+4
+6D KL[ne(N)||ne(∞)]
+10−1
+100
+101
+102
+tr(C)
+MST (ne ∝ const. )
+A-opt
+Iterative
+10 3 10 4
+N
+10 −1
+100
+101
+102
+m
+∑
+i
+(/uni0394G i(N ) − /uni0394G i(∞))2
+FIG. 4. Iterative A-optimization of the diﬀerence network.
+Here, the diﬀerence network corresponds to that of binding
+free energy calculations for the eight COX-2 inhibitors, an d
+the true ﬂuctuations {s∞
+e } are taken to be the same as given
+in Fig. 1 A. Top: The Kullback-Leibler divergence, DKL, be-
+tween the allocation in each iteration ne(N ) and the optimal
+allocation ne(∞ ) according to the true {s∞
+e } at diﬀerent to-
+tal number of samples N after each iteration. Middle: tr( C)
+versus N for the iterative optimization, compared to that for
+the true A-optimal and the minimal spanning tree allocation
+according to {s∞
+e }. Bottom: The square deviation of the es-
+timated free energies ∆ Gi(N ) after each iteration from the
+true free energies ∆ Gi(∞ ). No actual free energy calcula-
+tions were performed. Instead, ∆∆ Gij and their ﬂuctuations
+sij are calculated as the average and standard deviations of
+nij random numbers drawn from a normal distribution with
+the mean ∆ Gi(∞ )− ∆ Gj(∞ ) and the standard deviation s∞
+ij .
+∆ Gi are estimated from ∆∆ Gij and s2
+ij/nij using Eq. 2. It-
+erative optimization quickly approaches the true optimal; at
+N = 10 4, tr(C) of the iteratively optimized diﬀerence network
+is practically indistiguishable from that of the true A-optimal,
+and it is 0 .249± 0.004 times that of the minimal spanning tree
+allocation.
+calculations for sets of inhibitors binding to their recep-
+tor targets [3] and solvation free energy calculations for a
+large number of solutes [21] are routinely used to test the
+accuracy of molecular force ﬁelds. The increased statisti-
+cal eﬃciency conferred by the optimal diﬀerence networks
+will allow faster assessment of the quantitative accuracy
+of the models and thus shorten their development cycles.
+Appendix A: Derivation of the estimator and the
+covariance in the diﬀerence network
+The set of quantities {xi} can be estimated from the
+measurements {ˆxe} by the maximum likelihood (ML) es-
+timator. Let the σ2
+e = s2
+e/ne be the variance for the mea-
+surement e, the likelihood that the measurements pro-
+duce the set of values {ˆxe}, given the true values of the
+quantities {xi}, is
+L =
+∏
+i
+(
+√
+2πσi)−1 exp
+(
+− (xi − ˆxi)2
+2σ2
+i
+)
+·
+∏
+i<j
+(
+√
+2πσij)−1 exp
+(
+− (xi − xj − ˆxij)2
+2σ2
+ij
+)
+(A1)
+The above assumes that the samples in the measurements
+are independent.
+Maximizing L with respect to {xi} yields Eq. 2-4. The
+convariance matrix for the ML estimator is given by the
+inverse of the Fisher information matrix, hence Eq. 5.
+Appendix B: Rounding ne to integers
+In practice ne need to be rounded to integers that sum
+to N . Let E+ = {e|ne > 0} be the set of measurements
+requiring samples, and |E+| be the size (or cardinality)
+of E+. One can sort E+ by increasing values of ne (such
+that nej is the jth lowest value), and round up the lowest
+k values and round down the highest |E+| − k values of
+∆ ne to the nearest integers. k is chosen such that
+k∑
+j=1
+⌈nej ⌉ +
+|E+|∑
+j=k+1
+⌊nej ⌋ = N, (B1)
+which yields
+k = N −
+∑
+e∈E+
+⌈ne⌉ − |E+|. (B2)
+Appendix C: Proof of convexity of tr(C) and ||C||2
+The objective functions tr( C), det( C), and ||C||2 have
+all been previously shown to be convex functions of
+{ne} [1]. Here I include simple proofs for the convex-
+ity of tr( C) and ||C||2.
+The Fisher information matrix F = C−1 is a linear
+function of {ne}. Both F and C are symmetric and posi-
+tive deﬁnite. Consider a perturbation qA to F, where A
+is an arbitrary symmetric matrix. The perturbed covari-
+ance matrix satisﬁes
+C(q) · (F + qA) = ( F + qA) · C(q) = I (C1)
+where I is the identity matrix. Diﬀerentiating Eq. C1
+with respect to q twice, we have
+d2
+dq2 C(q) = 2( A · C(q))t · C(q) · (A · C(q)) (C2)
+
+7
+which is positive deﬁnite.
+Thus
+d2
+dq2 tr(C(q)) = tr
+( d2
+dq2 C(q)
+)
+> 0 (C3)
+proving the convexity of tr( C) in {ne}.
+To prove that ||C||2 is convex in {ne}, note that
+||C||2 = λ1(F)−1 (C4)
+where λ1(F) ≡ min{eig(F)} is the smallest eigenvalue of
+F.
+According to the second-order perturbation theory, for
+the perturbed matrix F + qA, the corresponding λ1(q) is
+λ1(q) = λ1(F) +qvt
+1 · A · v1 + q2
+m∑
+k=2
+(vt
+k · A · vk)2
+λ1 − λk
++ O(q3)
+(C5)
+where λk is the k’th eigenvalue of F (k = 1 , 2, . . . , m),
+and vk is the corresponding normalized eigenvector. The
+second derivative of λ1 is
+d2
+dq2 λ1 =
+m∑
+k=2
+(vt
+k · A · vk)2
+λ1 − λk
+≤ 0 (C6)
+because λ1 ≤ λk,
+Thus
+d2
+dq2 ||C||2 = 2 (dλ1/dq)2 − λ1d2λ1/dq2
+λ3
+1
+≥ 0 (C7)
+proving the convexity of ||C||2 in {ne}.
+Appendix D: Semideﬁnite programming for
+A-optimal design
+For the A-optimal design, the minimization can be
+cast by duality as a semideﬁnite programming problem
+(SDP):
+minimize
+m∑
+i=1
+ui
+subject to
+(
+F({ne}) I
+I diag({ui=1, 2,...,m })
+)
+⪰ 0,
+ne ≥ 0 for all e, and
+∑
+e
+ne = N, (D1)
+where M ⪰ 0 signiﬁes that the symmetric matrix M is
+positive semideﬁnite, and diag( {ui}) is the m × m diag-
+onal matrix with the diagonal elements ui=1, 2,...,m .
+Appendix E: Proof that Eq. 9 is the E-optimal
+The largest eigenvalue of C is the inverse of the small-
+est eigenvalue of F (Eq. C4), so the problem of min-
+imizing ||C||2 is equivalent to maximizing the smallest
+eigenvalue of F:
+max
+{ne}
+min{eig(F)} (E1)
+The smallest eigenvalue λmin of F satisﬁes
+λmin ≤ ⃗ at · F · ⃗ a (E2)
+for all normal vectors ⃗ a,|a|2 = 1; the equality holds if and
+only if ⃗ ais the eigenvector of F corresponding to λmin.
+Our problem is thus to ﬁnd
+max
+{ne}
+min
+|a|2=1
+⃗ at · F · ⃗ a (E3)
+I have
+⃗ at · F · ⃗ a=
+∑
+i
+σ−2
+i a2
+i +
+∑
+j̸=i
+σ−2
+ij a2
+i −
+∑
+j̸=i
+σ−2
+ij aiaj
+=
+∑
+i
+σ−2
+i a2
+i +
+∑
+i<j
+σ−2
+ij (ai − aj)2. (E4)
+Plugging in σ2
+e = s2
+e/ne, I have
+⃗ at · F · ⃗ a=
+∑
+i
+nia2
+i
+s2
+i
++
+∑
+i<j
+nij(ai − aj)2
+s2
+ij
+. (E5)
+Given any vector ⃗ a, eq. E5 is maximized with respect
+to {ne} when the only non-zero ne’s are the ones corre-
+sponding to the largest value of a2
+i /s2
+i or ( ai − aj)2/s2
+ij.
+There may be degenerate set of E = {e} with the largest
+values:
+ai
+si
+⏐
+⏐
+⏐
+⏐
+i∈E
+= |ai − aj|
+sij
+⏐
+⏐
+⏐
+⏐
+ij∈E
+= Rm ≥ ai
+si
+⏐
+⏐
+⏐
+⏐
+i̸∈E
+, |ai − aj|
+sij
+⏐
+⏐
+⏐
+⏐
+ij̸∈E
+(E6)
+and
+max
+{ne}
+⃗ at · F · ⃗ a=
+∑
+e
+neRm = N Rm (E7)
+The maximimum can be achieved by diﬀerent values of
+{ne}, so long as ne ̸= 0 only if e ∈ E.
+If I can determine a set E and a set of {n∗
+e} such that
+n∗
+e ̸= 0 ⇐ ⇒ e ∈ E, and the corresponding Fisher
+information matrix F({n∗
+e}) has an eigenvector ⃗ aof the
+lowest eigenvalue satisfying eq. E6, I have
+⃗ at · F({n∗
+e}) · ⃗ a≥ ⃗ at · F({ne}) · ⃗ a≥ min
+|a′|2=1
+⃗ a′t · F({ne}) · ⃗ a′
+(E8)
+Such a set of {n∗
+e} would thus be a solution of eq. E3.
+There may be degenerate solutions of eq. E3 and to our
+problem.
+Next I show how to construct such a set of {ne} by
+constructing its corresponding eigenvector ⃗ athat satisﬁes
+eq. E6.
+Consider a complete graph Gs consisting of N + 1 ver-
+tices, indexed as 0 , 1, 2, . . . , m. The edge between the ver-
+tex i and the vertex 0 is assigned weight si, and the edge
+between the vertex i and the vertex j is assigned weight
+
+8
+sij. For each vertex i ̸= 0, ﬁnd the shortest path Ei from
+0 (i.e., with the smallest sum ai =∑
+e∈Ei se). We also
+denote a0 = 0, si, 0 = s0,i = si, and ni, 0 = n0,i = ni. I
+will show that the vector ⃗ a= {ai=1, 2,...,m } is the sought
+eigenvector, and that E comprises the edges of a tree–
+rooted at vertex 0–that is the union of the shortest path
+to each vertex i > 0.
+Consider the union of {Ei}: E′ = ∪iEi. If there is
+any loop in E′, an arbitrary edge in the loop can be
+removed and the resulting graph will still contain the
+shortest path from 0 to every vertex i. Thus the tree E
+can be constructed by removing all the loops in ∪iEi. In
+fact, if {Ei} are found by the Dijkstra’s algorithm, ∪iEi
+will not contain any loops. This is taken to be the case
+below.
+First, I prove that ⃗ aand the corresponding E satisfy
+eq. E6. Clearly
+|ai − aj|
+sij
+⏐
+⏐
+⏐
+⏐
+ij∈E
+= 1 (E9)
+If there exists a pair i, j such that ( ai − aj)/sij > 1, it
+implies that the shortest path to i is Ej followed by edge
+ji, with the sum aj + sij < a i, which is a contradiction.
+I can now construct the set {ne} so that ⃗ ais the eigen-
+vector of F({ne}), i.e.,
+F({ne})⃗ a= λ⃗ a. (E10)
+Note that ne ̸= 0 only if e ∈ E. Denote the set of
+vertices whose edge to vertex i are in E as Ji (which may
+include the vertex 0), the elements of F can be written
+as
+Fii =
+∑
+j∈Ji
+nij
+s2
+ij
+(E11)
+and
+Fij =
+{ − nij
+s2
+ij
+if j ∈ Ji
+0 otherwise (E12)
+and Eq. E10 becomes
+λai = Fiiai +
+∑
+j̸=i, j> 0
+Fijaj
+=
+∑
+j∈Ji
+nij
+s2
+ij
+ai −
+∑
+j∈Ji\{0}
+nij
+s2
+ij
+aj
+(∵ a0 = 0)
+=
+∑
+j∈Ji
+nij
+s2
+ij
+(ai − aj)
+(∵ j ∈ Ji ⇐ ⇒ (i, j) ∈ E ⇒ |ai − aj| = sij)
+=
+∑
+j∈Ji
+nij
+sij
+sgn(ai − aj) (E13)
+Let µi be the vertex immediately preceding i in the
+path Ei connecting 0 to i. j = µi is the only vertex in
+Ji for which ai > a j. Otherwise, let j′ be another vertex
+such that ai > a j′ , which implies that the edge ( ij′)
+cannot be part of Ej′ , and thus both Ei and Ej′ ∪ (ij′)
+are paths connecting 0 to i, in contradiction to the fact
+that E is without any loop. Another corollary is that
+the edge ( iµi) must be in the path Ej for every j in the
+subtree Ti ⊂ E rooted at vertex i.
+I can write
+niµ i
+siµ i
+= λai +
+∑
+j∈Ji\{µ i}
+nij
+sij
+(E14)
+Eq. E14 can be solved by starting from the leaves of
+the tree E and working backwards toward vertex 0. The
+solution is
+niµ i
+siµ i
+= λ
+∑
+j∈Ti
+aj (E15)
+where the sum runs over the set of vertices in the subtree
+Ti rooted at i, including i itself.
+The eigenvalue λ can be determined by applying the
+constraint∑
+e ne =∑
+i niµ i = N .
+∑
+i
+niµ i = λ
+∑
+i
+siµ i
+∑
+j∈Ti
+aj
+= λ
+∑
+i
+(ai − aµ i )
+
+ai +
+∑
+j∈Ti \{i}
+aj
+
+
+= λ
+
+∑
+i
+a2
+i +
+∑
+i
+ai
+∑
+j∈Ti\{i}
+aj −
+∑
+i
+aµ i
+
+ai +
+∑
+j∈Ti\{i}
+aj
+
+
+
+ (E16)
+In both ∑
+i ai
+∑
+j∈Ti\{i} aj and ∑
+i aµ i (ai +∑
+j∈Ti\{i} aj), the product aiaj̸=i appears once and
+only once if and only if j is in the subtree of Ti or i is in
+the subtree of Tj. This implies that the two sums are
+equal, and I have
+N =
+∑
+i
+niµ i = λ
+∑
+i
+a2
+i (E17)
+
+9
+or
+λ = N
+( ∑
+i
+a2
+i
+) −1
+(E18)
+To prove that this λ in eq. E18 is the smallest eigen-
+value of F, I show that it is the largest eigenvalue of the
+corresponding covariance matrix C = F−1.
+xi is estimated–because E is a tree rooted at 0–by
+xi =
+∑
+e∈Ei
+ˆxe (E19)
+thus the covariance between xi and xj is
+Cij =
+∑
+e∈Ei,e ′∈Ej
+cov(ˆxe, ˆxe′ )
+=
+∑
+e∈Ei∩Ej
+σ2
+e =
+∑
+e∈Ei∩Ej
+s2
+e
+ne
+(E20)
+Without loss of generality, let’s assume that within E
+vertices 1 , 2, . . . , b have edges to 0. C can be rearranged
+into block diagonal form where each block Bk=1, 2,...,b cor-
+responds to the covariances between pairs of vertices both
+within the subtree Tk. Any eigenvalue C must be the
+eigenvalue of Bk. Since Cij > 0 for any two vertices
+sharing edges in Ei and Ej, each Bk is a positive ma-
+trix, and by Perron-Frobenius theorem it has only one
+eigenvector with all positive components, and the corre-
+sponding eigenvalue has the largest magnitude. Since ⃗ a
+is an eigenvector of C with all positive components, its
+corresponding eigenvalue (∑
+i a2
+i )/N must be the eigen-
+value of the largest magnitude for each Bk, thus be the
+eigenvalue of the largest magnitude for C. Q.E.D.
+Appendix F: The special case of constant relative
+error
+In the special case where the relative error for any mea-
+surement is the same, i.e., se/ˆxe is a constant, D- and
+A-optimals may also be solved by construction. With-
+out loss of generality, the quantities can be ordered by
+x1 ≤ x2 ≤ · · · ≤ xm (which is often easily done by qual-
+itative comparison without quantitative measurement),
+and it is apparent that sij = sj − si for j > i . I conjec-
+ture that in such cases of constant relative error, the D-
+and A-optimals can be solved by the following construc-
+tion:
+Conjecture 1 If si ≤ sj and sij = sj − si for i < j ,
+det(C) is minimized by
+n1 = N/m
+ni>1 = 0
+ni i+1 = N/m
+nij = 0 if |j − i| > 1 (F1)
+ni i+ 1 = const
+D
+ni i+ 1 ∝ √ m − i⋅ (si+ 1 − si)
+A
+0
+si
+ni∝ s2
+i
+E
+FIG. 5. The D-, A-, and E-optimals of diﬀerence networks
+where the relative errors in the measurements are a constant .
+The width of each edge e in the Gn is proportional to the
+allocation ne.
+Conjecture 2 If si ≤ sj and sij = sj − si for i < j ,
+tr(C) is minimized by
+n1 = λ√m · s1
+ni>1 = 0
+ni i+1 = λ
+√
+m − i · (si+1 − si)
+nij = 0, if |j − i| > 1 (F2)
+where λ = N
+( ∑ m
+i=1
+( √
+m + 1 − i − √m − i
+)
+si
+) −1
+. The
+minimum value is
+min
+{ne}
+tr(C) = N −1
+( m∑
+i=1
+( √
+m + 1 − i −
+√
+m − i
+)
+si
+) 2
+.
+(F3)
+In the A- and D-optimals, the subgraph of Gn consist-
+ing of only the edges with weights ne ̸= 0 is the minimum
+spanning tree (MST) of Gs, connecting vertices i and i+1,
+for i = 0 , 1, . . . , m− 1 (Fig. 5). The above conjectures
+have been corroborated by comparing the constructive
+solutions with the results of numerical minimizations for
+many sets of randomly generated {se}, but their rigorous
+proofs have so far deﬁed me.
+Appendix G: Iterative optimization of the diﬀerence
+network
+Better estimates of {se} are obtained as measurements
+proceed, which can be used to derive improved alloca-
+tions {ne}. Such a measurement-allocation cycle can be
+
+10
+iterated so that the resulting allocations in the diﬀerence
+network approach the true optimal.
+Let {ne} be the resources already spent to perform
+the measurements, and {se} be the current estimates of
+the ﬂuctuations. A total of ∆ N new resources are to
+be allocated to the measurements in the next iteration.
+It is straigthforward to optimize the objective functions
+(e.g. tr(C) in the A-optimal) with respect to {∆ ne},
+where ∆ ne is the additional resource to be allocated to
+measurement e, under the constraints
+∆ ne ≥ 0 for all e, and
+∑
+e
+∆ ne = ∆ N. (G1)
+For A-optimal, this minimization can again be cast as
+an SDP, replacing F({ne}) in Eq. D1 with F({ne+∆ ne}).
+Appendix H: Sparse diﬀerence network
+The following outlines a heuristic approach to de-
+signing a sparse, near-optimal diﬀerence network, which
+is k-edge-connected and entails M measurements, i.e.
+|edges(Gn)| = M , where |edges(Gn)| is the number of
+edges with ne > 0 in the diﬀerence network Gn.
+1. Find the k-edge-connected spanning subgraph Gk
+of Gs, such that the set of selected edges E =
+edges(Gk) minimizes ∑
+e∈E se. For k ≤ 2, this
+problem can be solved in polynomial time; for
+k > 2, an approximate solution can be found in
+polynomial time [22].
+2. Augment Gk with M − | edges(Gk)| edges in
+edges(Gs) \ edges(Gk) with the largest se values,
+where edges(Gs)\edges(Gk) denotes the set of edges
+that are in Gs but not in Gk. The resulting graph
+Gk,M has M edges and is k-edge-connected.
+3. Setting ne = 0 for e ̸∈ edges(Gk,M ), optimize
+the objective function with respect to {ne|e ∈
+edges(Gk,M )}.
+[1] Stephen Boyd, L. V. Convex optimization ; Cambridge
+University Press, 2004, Chapter 7.
+[2] Pukelsheim, F. Optimal design of experiments ; Classics
+in Applied Mathematics; SIAM, 2006, Vol. 50.
+[3] Harder, E. et al. OPLS3: A Force Field Providing Broad
+Coverage of Drug-like Small Molecules and Proteins. J.
+Chem. Theory Comput. 2016, 12, 281–296.
+[4] Wang, L. et al. Accurate and Reliable Prediction of Rel-
+ative Ligand Binding Potency in Prospective Drug Dis-
+covery by Way of a Modern Free-Energy Calculation Pro-
+tocol and Force Field. J. Am. Chem. Soc. 2015, 137,
+2695–2703.
+[5] Boresch, S., Tettinger, F., Leitgeb, M., and Karplus, M.
+Absolute Binding Free Energies: A Quantitative Ap-
+proach for Their Calculation. J. Phys. Chem. B 2003,
+107, 9535–9551.
+[6] Mobley, D. L., Graves, A. P., Chodera, J. D.,
+McReynolds, A. C., Shoichet, B. K., and Dill, K. A. Pre-
+dicting Absolute Ligand Binding Free Energies to a Sim-
+ple Model Site. J. Mol. Biol. 2007, 371, 1118–1134.
+[7] Woo, H.-J., and Roux, B. Calculation of absolute protein -
+ligand binding free energy from computer simulations.
+Proc. Natl. Acad. Sci. U.S.A. 2005, 102, 6825–6830.
+[8] Aldeghi, M., Heifetz, A., Bodkin, M. J., Knapp, S., and
+Biggin, P. C. Accurate calculation of the absolute free
+energy of binding for drug molecules. Chem. Sci. 2015,
+7, 207–218.
+[9] Cournia, Z., Allen, B., and Sherman, W. Relative Bind-
+ing Free Energy Calculations in Drug Discovery: Recent
+Advances and Practical Considerations. J. Chem. Inf.
+Model. 2017, 57, 2911-2937
+[10] Tembre, B. L., and Cammon, J. M. Ligand-receptor in-
+teractions. Comput. Chem. 1984, 8, 281–283.
+[11] Radmer, R. J., and Kollman, P. A. Free energy calcu-
+lation methods: A theoretical and empirical comparison
+of numerical errors and a new method qualitative esti-
+mates of free energy changes. J. Comput. Chem. 1997,
+18, 902–919.
+[12] Bennett, C. H. Eﬃcient estimation of free energy diﬀer-
+ences from Monte Carlo data. J. Comput. Phys. 1976,
+22, 245–268.
+[13] Shirts, M. R., and Chodera, J. D. Statistically optimal
+analysis of samples from multiple equilibrium states. J.
+Chem. Phys. 2008, 129, 124105.
+[14] Shenfeld, D. K., Xu, H., Eastwood, M. P., Dror, R. O.,
+and Shaw, D. E. Minimizing thermodynamic length to se-
+lect intermediate states for free-energy calculations and
+replica-exchange simulations. Phys. Rev. E 2009, 80,
+046705.
+[15] Liu, S., Wu, Y., Lin, T., Abel, R., Redmann, J. P.,
+Summa, C. M., Jaber, V. R., Lim, N. M., and Mob-
+ley, D. L. Lead optimization mapper: automating free en-
+ergy calculations for lead optimization. J. Comput. Aid.
+Mol. Des. 2013, 27, 755–70.
+[16] Wang, L., Deng, Y., Knight, J. L., Wu, Y., Kim, B.,
+Sherman, W., Shelley, J. C., Lin, T., and Abel, R. Model-
+ing Local Structural Rearrangements Using FEP/REST:
+Application to Relative Binding Aﬃnity Predictions of
+CDK2 Inhibitors. J. Chem. Theory Comput. 2013, 9,
+1282–93.
+[17] Kurt Mehlhorn, P. S. Algorithms and Data Structures ;
+Springer, Berlin, Heidelberg, 2008, Chapter 10.
+[18] Andersen, M., Dahl, J., and Vandenberghe, L. CVXOPT.
+www.cvxopt.org.
+[19] Yamakawa, N., Suzuki, K., Yamashita, Y., Katsu, T.,
+Hanaya, K., Shoji, M., Sugai, T., and Mizushima, T.
+Structure-activity relationship of celecoxib and rofecox ib
+for the membrane permeabilizing activity. Bioorg. Med.
+Chem. 2014, 22, 2529–2534.
+[20] Yang, Q., Burchett, W. W., Steeno, G. S., Mob-
+ley, D. L., and Hou, X. Optimal Designs of Pair-
+wise Calculation: an Application to Free Energy Per-
+
+11
+turbation in Minimizing Prediction Variability. 2019,
+http://dx.doi.org/10.26434/chemrxiv.7965140.v1
+[21] Mobley, D. L., and Guthrie, J. P. FreeSolv: a database
+of experimental and calculated hydration free energies,
+with input ﬁles. J. Comput. Aid. Mol. Des. 2014, 28,
+711–720.
+[22] Czumaj, A., and Lingas, A. On Approximability of the
+Minimum-cost K-connected Spanning Subgraph Prob-
+lem. Proceedings of the Tenth Annual ACM-SIAM Sym-
+posium on Discrete Algorithms. Philadelphia, PA, USA,
+1999, pp 281–290.
