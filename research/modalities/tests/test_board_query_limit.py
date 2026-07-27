@@ -69,3 +69,58 @@ def test_the_limit_does_not_disturb_the_hard_filters():
     assert q["num_gpus"] == {"eq": 1}
     assert q["reliability2"]["gte"] == pytest.approx(0.90)
     assert q["order"] == [["dph_total", "asc"]]
+
+
+# =============================================================================================================
+# MULTI-SAMPLE MERGE — the endpoint returns a rotating sample, so one read is not the board
+# =============================================================================================================
+def test_sample_board_defaults_to_one_read_and_changes_nothing():
+    # The default must be a no-op. `submit` already bursts ~8 searches for a 4-unit launch and the Vast edge
+    # throttle fires on bursts, so doubling that by default would trade a ~5 % price gain for launches that
+    # rent nothing. Opting in is a caller's decision, made where the burst maths is known.
+    import inspect
+    sig = inspect.signature(gb.sample_board)
+    assert sig.parameters["samples"].default == 1
+
+
+def test_sample_board_keeps_the_cheapest_sighting_per_machine(monkeypatch):
+    # Merging must be monotone: a merged board can only be cheaper than either read alone, never worse.
+    reads = [{"offers": [{"machine_id": 1, "min_bid": 0.30}, {"machine_id": 2, "min_bid": 0.10}]},
+             {"offers": [{"machine_id": 1, "min_bid": 0.20}, {"machine_id": 3, "min_bid": 0.50}]}]
+    calls = {"n": 0}
+
+    def fake(_m, _p, _k, params=None, body=None, _hops=0, **_kw):
+        calls["n"] += 1
+        return reads[min(calls["n"] - 1, len(reads) - 1)]
+
+    monkeypatch.setattr(gb, "_vast_request", fake)
+    offers, n = gb.sample_board("k", gb.ResourceSpec(), samples=2, gap_s=0)
+    assert n == 2
+    by = {str(o["machine_id"]): o["min_bid"] for o in offers}
+    assert by == {"1": 0.20, "2": 0.10, "3": 0.50}, "machine 1 must keep its CHEAPER sighting"
+
+
+def test_sample_board_keeps_what_it_has_when_a_later_read_fails(monkeypatch):
+    # A failed EXTRA read must not discard a board already in hand — that would turn an optimisation into an
+    # outage, failing a gate that had a perfectly good board.
+    state = {"n": 0}
+
+    def flaky(_m, _p, _k, params=None, body=None, _hops=0, **_kw):
+        state["n"] += 1
+        if state["n"] == 1:
+            return {"offers": [{"machine_id": 7, "min_bid": 0.11}]}
+        raise RuntimeError("vast API GET /search/asks/ -> 403")
+
+    monkeypatch.setattr(gb, "_vast_request", flaky)
+    offers, n = gb.sample_board("k", gb.ResourceSpec(), samples=3, gap_s=0)
+    assert n == 1 and len(offers) == 1
+
+
+def test_sample_board_raises_if_the_very_first_read_fails(monkeypatch):
+    # No board at all is a HOLD, not an empty market. CLAUDE.md §6: an unreadable market is not a cheap one.
+    def dead(_m, _p, _k, params=None, body=None, _hops=0, **_kw):
+        raise RuntimeError("403")
+
+    monkeypatch.setattr(gb, "_vast_request", dead)
+    with pytest.raises(RuntimeError):
+        gb.sample_board("k", gb.ResourceSpec(), samples=2, gap_s=0)

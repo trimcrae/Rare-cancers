@@ -93,7 +93,13 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
       GIT_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
-      FANOUT_WIDTH: "19"
+      # ⚠ `FANOUT_WIDTH` IS DELIBERATELY NOT SET HERE ANY MORE (2026-07-27, the ramp).
+      # It was `"19"` in this file, `"19"` again in fusion-cpu-extras.yml and `8` as the code default,
+      # while the viable set is 18 (cw_bio_nmethyl_amide is permanently blocked). One knob, three typed
+      # homes, none of them right — CLAUDE.md rule 1. The width is now DERIVED from the map by
+      # `congeneric_fanout_vast.fanout_width()`, which is its one home; setting it here would restore
+      # exactly the copy that drifted. Set it ONLY to narrow the fleet deliberately (a shakeout), never
+      # to restate the default.
     steps:
       - uses: actions/checkout@v4
         with:
