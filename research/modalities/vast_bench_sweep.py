@@ -302,7 +302,7 @@ def worst_case_usd(bid_usd_h, storage_usd_h, max_runtime_s=None):
 
 
 def plan_sweep(offers, cards=None, job=None, max_usd_per_card=None, max_usd_total=None,
-               max_runtime_s=None, target_usd_per_ns=None):
+               max_runtime_s=None, target_usd_per_ns=None, include_measured=False):
     """PURE: which cards to bench, on which offer, at what worst-case cost, and where the sweep stops.
 
     Ranks candidate cards by the CHEAPEST worst-case bench cost, so the sweep's budget buys the most cards —
@@ -322,7 +322,8 @@ def plan_sweep(offers, cards=None, job=None, max_usd_per_card=None, max_usd_tota
         name = str(o.get("gpu_name") or "").strip()
         if not name:
             continue
-        if _vcm.card_of(name) is not None and _vcm.throughput_provenance(name)[0] == "measured":
+        if (not include_measured) and _vcm.card_of(name) is not None \
+                and _vcm.throughput_provenance(name)[0] == "measured":
             continue                                   # already a measured entry — nothing to buy
         if cards and _vcm.normalise_gpu_name(name) not in {_vcm.normalise_gpu_name(c) for c in cards}:
             continue
@@ -407,14 +408,18 @@ RECORD=1 BENCH_LINE_FILE=/tmp/bench.line BENCH_OUT_FILE=/tmp/bench.out AWSCLI="$
 """
 
 
-def build_jobspec(gpu_name, branch, bucket, exclude_machine_ids=()):
+def build_jobspec(gpu_name, branch, bucket, exclude_machine_ids=(), replicate=1):
     """PURE: the JobSpec for ONE card's calibration bench.
 
     `require_gpu=True` is the load-bearing flag: without it `_select_cheapest_offer` returns the best MEASURED
     offer, so a request to bench an RTX 5090 lands on a 4090 and the result is filed under the 5090. With it,
     an unavailable card fails the submit cleanly instead of quietly measuring something else."""
     import dataclasses
-    tag = _vcm.normalise_gpu_name(gpu_name).lower() or "unknown"
+    base = _vcm.normalise_gpu_name(gpu_name).lower() or "unknown"
+    # A REPLICATE MUST GET ITS OWN S3 KEY. On 2026-07-24 two same-card legs were given one tag, so both wrote
+    # the same object and one silently overwrote the other: the host-variance control returned a single number
+    # and could not answer the question it was launched to answer. Same failure, same fix.
+    tag = base if replicate <= 1 else f"{base}-r{replicate}"
     label = f"{LABEL_PREFIX}{tag}"[:64]
     res = dataclasses.replace(BENCH_RES, gpu=gpu_name,
                               exclude_machine_ids=tuple(sorted(str(m) for m in exclude_machine_ids)))
@@ -513,7 +518,10 @@ def mode_launch():
         return 2
     branch = os.environ.get("GIT_BRANCH", "claude/max-effort-2dq11l")
     offers = _live_offers(key)
-    rows = plan_sweep(offers, cards=_env_cards(), target_usd_per_ns=_target_usd_per_ns(offers))
+    include_measured = os.environ.get("BENCH_INCLUDE_MEASURED") == "1"
+    replicates = max(1, int(os.environ.get("BENCH_REPLICATES", "1")))
+    rows = plan_sweep(offers, cards=_env_cards(), target_usd_per_ns=_target_usd_per_ns(offers),
+                      include_measured=include_measured)
     admitted = [r for r in rows if r["admit"]]
     if not admitted:
         print("[cal] nothing admitted — the plan is the readout; NOT a silent no-op", flush=True)
@@ -523,20 +531,33 @@ def mode_launch():
     be = get_backend("vast")
     launched, committed = [], 0.0
     for r in admitted:
-        spec = build_jobspec(r["gpu_name"], branch, bucket)
-        try:
-            h = be.submit(spec)
-        except Exception as e:  # noqa: BLE001
-            # §6: a capacity refusal means pick another host, not wait. At sweep scale the simplest correct
-            # response is to record it and move on — the next tick re-plans against a fresh board.
-            print(f"[cal] {r['gpu_name']}: submit refused ({type(e).__name__}: {e})", flush=True)
-            r["submit_error"] = f"{type(e).__name__}: {e}"
-            continue
-        committed += r["worst_case_usd"]
-        launched.append({"gpu_name": r["gpu_name"], "instance": h.job_id, "dph": h.extra.get("dph"),
-                         "worst_case_usd": r["worst_case_usd"]})
-        print(f"[cal] {r['gpu_name']}: instance {h.job_id} dph=${h.extra.get('dph')}/hr "
-              f"worst case ${r['worst_case_usd']:.3f}", flush=True)
+        # DISTINCT HOSTS PER REPLICATE. A replicate that lands on the same machine measures the same host
+        # twice and answers nothing about host variance — which is the entire question a replicate exists for.
+        excluded = set()
+        for rep in range(1, replicates + 1):
+            if committed + r["worst_case_usd"] > MAX_USD_TOTAL:
+                print(f"[cal] sweep cap ${MAX_USD_TOTAL:.2f} reached — HOLDING {r['gpu_name']} r{rep}",
+                      flush=True)
+                break
+            spec = build_jobspec(r["gpu_name"], branch, bucket, exclude_machine_ids=tuple(excluded),
+                                 replicate=rep)
+            try:
+                h = be.submit(spec)
+            except Exception as e:  # noqa: BLE001
+                # §6: a capacity refusal means pick another host, not wait. At sweep scale the simplest
+                # correct response is to record it and move on — the next tick re-plans on a fresh board.
+                print(f"[cal] {r['gpu_name']} r{rep}: submit refused ({type(e).__name__}: {e})", flush=True)
+                r.setdefault("submit_errors", []).append(f"r{rep}: {type(e).__name__}: {e}")
+                continue
+            mid = (h.extra or {}).get("machine_id")
+            if mid is not None:
+                excluded.add(str(mid))
+            committed += r["worst_case_usd"]
+            launched.append({"gpu_name": r["gpu_name"], "replicate": rep, "instance": h.job_id,
+                             "machine_id": mid, "dph": h.extra.get("dph"),
+                             "worst_case_usd": r["worst_case_usd"]})
+            print(f"[cal] {r['gpu_name']} r{rep}: instance {h.job_id} machine {mid} "
+                  f"dph=${h.extra.get('dph')}/hr worst case ${r['worst_case_usd']:.3f}", flush=True)
     print(f"[cal] launched {len(launched)}/{len(admitted)}; worst-case committed ${committed:.3f}", flush=True)
     with open("vast-bench-sweep-launched.json", "w") as f:
         json.dump({"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -831,6 +852,27 @@ def mode_collect():
             print(head + "  -> REFUSED", flush=True)
             for x in reasons:
                 print(f"       - {x}", flush=True)
+    # ★ THE HOST DISTRIBUTION PER CARD, when replicates exist — the thing two points cannot give you.
+    # A card constant is a CAPABILITY. Every confounder a rental can carry (power cap, thermal throttle,
+    # co-tenant, a host CPU too slow to feed kernel launches) is ONE-SIDED DOWNWARD, and none of them raises a
+    # reading. A tight CV proves the host was STEADY, not that it was unthrottled — a power-limited card runs
+    # steadily slow. So the spread across independent hosts is the only evidence that separates "this card is
+    # this fast" from "this rental was this fast", and it is printed rather than silently averaged away.
+    by_card = {}
+    for r in recs:
+        ok, _w, e = admit(r)
+        if ok:
+            by_card.setdefault(e[0], []).append((e[1], r.get("tag")))
+    for card, vals in sorted(by_card.items()):
+        if len(vals) < 2:
+            continue
+        xs = sorted(v for v, _t in vals)
+        print(f"\n[cal] {card} HOST DISTRIBUTION over {len(xs)} independent hosts: "
+              f"min {xs[0]:.2f} / median {xs[len(xs) // 2]:.2f} / max {xs[-1]:.2f} ns/day "
+              f"(spread {100 * (xs[-1] - xs[0]) / xs[-1]:.1f}% below the best)", flush=True)
+        for v, t in sorted(vals, reverse=True):
+            print(f"       {t}: {v:.2f}", flush=True)
+
     if entries:
         print("\n[cal] PROPOSED entries for vast_cost_model.MEASURED_NS_PER_DAY_84K "
               "(paste them there; nothing else may hold a throughput):", flush=True)
@@ -858,8 +900,7 @@ def mode_collect():
     if os.environ.get("BENCH_NO_REAP") != "1":
         # A box whose record is already in S3 has delivered everything it will; anything else gets the age
         # gate, so a collect run can never destroy a sibling that is still timing its blocks.
-        done = {LABEL_PREFIX + _vcm.normalise_gpu_name(r.get("gpu_requested")).lower()
-                for r in recs if r.get("gpu_requested")}
+        done = {LABEL_PREFIX + str(r.get("tag")) for r in recs if r.get("tag")}
         reap(max_age_min=int(os.environ.get("BENCH_REAP_AGE_MIN", "25")), done_labels=done)
     return 0
 

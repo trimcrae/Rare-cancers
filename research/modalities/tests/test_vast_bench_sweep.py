@@ -229,3 +229,30 @@ def _offer(gpu, min_bid=0.20, storage=0.20, vram_gb=32, rel=0.99, cuda=13.5, mid
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestReplicatesMeasureDIFFERENTHosts(unittest.TestCase):
+    """A replicate exists to answer 'is this the CARD or was it this RENTAL?'. It answers nothing if it lands
+    on the same machine, and it answers nothing if it overwrites its sibling's S3 key — the exact failure that
+    made the 2026-07-24 host-variance control return a single number."""
+
+    def test_each_replicate_gets_its_own_result_key(self):
+        a = sweep.build_jobspec("RTX 4090", "b", "k", replicate=1)
+        b = sweep.build_jobspec("RTX 4090", "b", "k", replicate=2)
+        self.assertNotEqual(a.env["RESULT_S3"], b.env["RESULT_S3"])
+        self.assertNotEqual(a.name, b.name)
+        self.assertNotEqual(a.env["BENCH_TAG"], b.env["BENCH_TAG"])
+
+    def test_the_first_replicate_keeps_the_plain_tag(self):
+        self.assertEqual(sweep.build_jobspec("RTX 4090", "b", "k").env["BENCH_TAG"], "rtx4090")
+
+    def test_a_replicate_can_exclude_the_machine_its_sibling_took(self):
+        spec = sweep.build_jobspec("RTX 4090", "b", "k", exclude_machine_ids=("12345",), replicate=2)
+        self.assertEqual(spec.resources.exclude_machine_ids, ("12345",))
+
+    def test_an_already_measured_card_is_re_benchable_when_asked(self):
+        """Re-measuring an ANCHOR is the whole point when its value is in question."""
+        offers = [_offer("RTX 4090", min_bid=0.14)]
+        self.assertEqual(sweep.plan_sweep(offers), [])
+        rows = sweep.plan_sweep(offers, include_measured=True)
+        self.assertEqual([r["gpu_name"] for r in rows], ["RTX 4090"])
