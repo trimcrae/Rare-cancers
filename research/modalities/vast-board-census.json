@@ -1,0 +1,548 @@
+{
+ "board_depth": {
+  "offers_returned": 48,
+  "qualifying": 48,
+  "priceable": 11,
+  "needed": 19,
+  "used_for_mean": 11
+ },
+ "fleet_mean_usd_per_ns": 0.013246,
+ "screening_target_usd_per_ns": 0.013246,
+ "qualifying_offers_priceable": 11,
+ "qualifying_offers_unpriceable": 37,
+ "unpriceable_fraction": 0.771,
+ "by_gpu_model": [
+  {
+   "gpu_name": "RTX 5090",
+   "n_offers": 6,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 31.8,
+   "min_floor_usd_h": 0.2,
+   "median_floor_usd_h": 0.3133,
+   "cheapest_all_in_usd_h": 0.2259,
+   "median_all_in_usd_h": 0.4,
+   "breakeven_ns_per_day_vs_fleet_mean": 420.8,
+   "breakeven_x_reference_card": 0.557,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 1278.8,
+   "breakeven_x_reference_card_vs_basis": 1.693
+  },
+  {
+   "gpu_name": "A100 SXM4",
+   "n_offers": 4,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 40.0,
+   "min_floor_usd_h": 0.4,
+   "median_floor_usd_h": 0.7,
+   "cheapest_all_in_usd_h": 0.4226,
+   "median_all_in_usd_h": 0.7527,
+   "breakeven_ns_per_day_vs_fleet_mean": 786.0,
+   "breakeven_x_reference_card": 1.041,
+   "verdict": "marginal \u2014 needs to beat the reference card",
+   "breakeven_ns_per_day_vs_ladder_basis": 2388.4,
+   "breakeven_x_reference_card_vs_basis": 3.162
+  },
+  {
+   "gpu_name": "RTX PRO 6000 WS",
+   "n_offers": 4,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 95.6,
+   "min_floor_usd_h": 0.5333,
+   "median_floor_usd_h": 0.9019,
+   "cheapest_all_in_usd_h": 0.5542,
+   "median_all_in_usd_h": 0.9382,
+   "breakeven_ns_per_day_vs_fleet_mean": 1030.4,
+   "breakeven_x_reference_card": 1.364,
+   "verdict": "marginal \u2014 needs to beat the reference card",
+   "breakeven_ns_per_day_vs_ladder_basis": 3131.0,
+   "breakeven_x_reference_card_vs_basis": 4.145
+  },
+  {
+   "gpu_name": "B200",
+   "n_offers": 3,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 179.1,
+   "min_floor_usd_h": 5.625,
+   "median_floor_usd_h": 5.8,
+   "cheapest_all_in_usd_h": 5.758,
+   "median_all_in_usd_h": 6.0119,
+   "breakeven_ns_per_day_vs_fleet_mean": 10701.1,
+   "breakeven_x_reference_card": 14.167,
+   "verdict": "skip \u2014 would have to be far faster than anything we have benched",
+   "breakeven_ns_per_day_vs_ladder_basis": 32516.9,
+   "breakeven_x_reference_card_vs_basis": 43.048
+  },
+  {
+   "gpu_name": "A100 PCIE",
+   "n_offers": 2,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 80.0,
+   "min_floor_usd_h": 0.1333,
+   "median_floor_usd_h": 0.3333,
+   "cheapest_all_in_usd_h": 0.1579,
+   "median_all_in_usd_h": 0.3568,
+   "breakeven_ns_per_day_vs_fleet_mean": 294.5,
+   "breakeven_x_reference_card": 0.39,
+   "verdict": "BENCH \u2014 clears at under half the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 894.8,
+   "breakeven_x_reference_card_vs_basis": 1.185
+  },
+  {
+   "gpu_name": "RTX PRO 5000",
+   "n_offers": 2,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 47.8,
+   "min_floor_usd_h": 0.16,
+   "median_floor_usd_h": 0.4759,
+   "cheapest_all_in_usd_h": 0.2143,
+   "median_all_in_usd_h": 0.5183,
+   "breakeven_ns_per_day_vs_fleet_mean": 400.7,
+   "breakeven_x_reference_card": 0.53,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 1217.5,
+   "breakeven_x_reference_card_vs_basis": 1.612
+  },
+  {
+   "gpu_name": "RTX PRO 4500",
+   "n_offers": 2,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 31.9,
+   "min_floor_usd_h": 0.2667,
+   "median_floor_usd_h": 0.2667,
+   "cheapest_all_in_usd_h": 0.2939,
+   "median_all_in_usd_h": 0.3012,
+   "breakeven_ns_per_day_vs_fleet_mean": 547.2,
+   "breakeven_x_reference_card": 0.724,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 1662.8,
+   "breakeven_x_reference_card_vs_basis": 2.201
+  },
+  {
+   "gpu_name": "RTX PRO 6000 S",
+   "n_offers": 2,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 95.6,
+   "min_floor_usd_h": 0.8,
+   "median_floor_usd_h": 0.9333,
+   "cheapest_all_in_usd_h": 0.8452,
+   "median_all_in_usd_h": 0.9812,
+   "breakeven_ns_per_day_vs_fleet_mean": 1572.0,
+   "breakeven_x_reference_card": 2.081,
+   "verdict": "skip \u2014 would have to be far faster than anything we have benched",
+   "breakeven_ns_per_day_vs_ladder_basis": 4776.9,
+   "breakeven_x_reference_card_vs_basis": 6.324
+  },
+  {
+   "gpu_name": "H100 NVL",
+   "n_offers": 2,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 93.6,
+   "min_floor_usd_h": 0.9333,
+   "median_floor_usd_h": 0.9749,
+   "cheapest_all_in_usd_h": 0.9739,
+   "median_all_in_usd_h": 1.0492,
+   "breakeven_ns_per_day_vs_fleet_mean": 1810.8,
+   "breakeven_x_reference_card": 2.397,
+   "verdict": "skip \u2014 would have to be far faster than anything we have benched",
+   "breakeven_ns_per_day_vs_ladder_basis": 5502.5,
+   "breakeven_x_reference_card_vs_basis": 7.285
+  },
+  {
+   "gpu_name": "Titan RTX",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 24.0,
+   "min_floor_usd_h": 0.129,
+   "median_floor_usd_h": 0.129,
+   "cheapest_all_in_usd_h": 0.1608,
+   "median_all_in_usd_h": 0.1608,
+   "breakeven_ns_per_day_vs_fleet_mean": 300.2,
+   "breakeven_x_reference_card": 0.397,
+   "verdict": "BENCH \u2014 clears at under half the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 912.3,
+   "breakeven_x_reference_card_vs_basis": 1.208
+  },
+  {
+   "gpu_name": "RTX 6000Ada",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 48.0,
+   "min_floor_usd_h": 0.1333,
+   "median_floor_usd_h": 0.1333,
+   "cheapest_all_in_usd_h": 0.1944,
+   "median_all_in_usd_h": 0.1944,
+   "breakeven_ns_per_day_vs_fleet_mean": 364.1,
+   "breakeven_x_reference_card": 0.482,
+   "verdict": "BENCH \u2014 clears at under half the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 1106.2,
+   "breakeven_x_reference_card_vs_basis": 1.465
+  },
+  {
+   "gpu_name": "Tesla V100",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 32.0,
+   "min_floor_usd_h": 0.2,
+   "median_floor_usd_h": 0.2,
+   "cheapest_all_in_usd_h": 0.2259,
+   "median_all_in_usd_h": 0.2259,
+   "breakeven_ns_per_day_vs_fleet_mean": 420.8,
+   "breakeven_x_reference_card": 0.557,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 1278.8,
+   "breakeven_x_reference_card_vs_basis": 1.693
+  },
+  {
+   "gpu_name": "RTX PRO 4000",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 23.9,
+   "min_floor_usd_h": 0.2,
+   "median_floor_usd_h": 0.2,
+   "cheapest_all_in_usd_h": 0.2274,
+   "median_all_in_usd_h": 0.2274,
+   "breakeven_ns_per_day_vs_fleet_mean": 423.6,
+   "breakeven_x_reference_card": 0.561,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 1287.2,
+   "breakeven_x_reference_card_vs_basis": 1.704
+  },
+  {
+   "gpu_name": "RTX 5000Ada",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 32.0,
+   "min_floor_usd_h": 0.32,
+   "median_floor_usd_h": 0.32,
+   "cheapest_all_in_usd_h": 0.3483,
+   "median_all_in_usd_h": 0.3483,
+   "breakeven_ns_per_day_vs_fleet_mean": 648.3,
+   "breakeven_x_reference_card": 0.858,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate",
+   "breakeven_ns_per_day_vs_ladder_basis": 1969.9,
+   "breakeven_x_reference_card_vs_basis": 2.608
+  },
+  {
+   "gpu_name": "L40S",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 45.0,
+   "min_floor_usd_h": 0.4,
+   "median_floor_usd_h": 0.4,
+   "cheapest_all_in_usd_h": 0.4299,
+   "median_all_in_usd_h": 0.4299,
+   "breakeven_ns_per_day_vs_fleet_mean": 799.9,
+   "breakeven_x_reference_card": 1.059,
+   "verdict": "marginal \u2014 needs to beat the reference card",
+   "breakeven_ns_per_day_vs_ladder_basis": 2430.7,
+   "breakeven_x_reference_card_vs_basis": 3.218
+  },
+  {
+   "gpu_name": "L40",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 45.0,
+   "min_floor_usd_h": 0.4667,
+   "median_floor_usd_h": 0.4667,
+   "cheapest_all_in_usd_h": 0.5198,
+   "median_all_in_usd_h": 0.5198,
+   "breakeven_ns_per_day_vs_fleet_mean": 968.0,
+   "breakeven_x_reference_card": 1.282,
+   "verdict": "marginal \u2014 needs to beat the reference card",
+   "breakeven_ns_per_day_vs_ladder_basis": 2941.5,
+   "breakeven_x_reference_card_vs_basis": 3.894
+  },
+  {
+   "gpu_name": "H100 SXM",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 79.6,
+   "min_floor_usd_h": 1.15,
+   "median_floor_usd_h": 1.15,
+   "cheapest_all_in_usd_h": 1.2022,
+   "median_all_in_usd_h": 1.2022,
+   "breakeven_ns_per_day_vs_fleet_mean": 2235.4,
+   "breakeven_x_reference_card": 2.959,
+   "verdict": "skip \u2014 would have to be far faster than anything we have benched",
+   "breakeven_ns_per_day_vs_ladder_basis": 6792.7,
+   "breakeven_x_reference_card_vs_basis": 8.993
+  },
+  {
+   "gpu_name": "H200 NVL",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 140.4,
+   "min_floor_usd_h": 2.2533,
+   "median_floor_usd_h": 2.2533,
+   "cheapest_all_in_usd_h": 2.3203,
+   "median_all_in_usd_h": 2.3203,
+   "breakeven_ns_per_day_vs_fleet_mean": 4312.8,
+   "breakeven_x_reference_card": 5.71,
+   "verdict": "skip \u2014 would have to be far faster than anything we have benched",
+   "breakeven_ns_per_day_vs_ladder_basis": 13105.2,
+   "breakeven_x_reference_card_vs_basis": 17.35
+  },
+  {
+   "gpu_name": "H200",
+   "n_offers": 1,
+   "priceable": false,
+   "benched_as": null,
+   "vram_gb": 140.4,
+   "min_floor_usd_h": 3.8158,
+   "median_floor_usd_h": 3.8158,
+   "cheapest_all_in_usd_h": 3.9065,
+   "median_all_in_usd_h": 3.9065,
+   "breakeven_ns_per_day_vs_fleet_mean": 7260.1,
+   "breakeven_x_reference_card": 9.611,
+   "verdict": "skip \u2014 would have to be far faster than anything we have benched",
+   "breakeven_ns_per_day_vs_ladder_basis": 22061.0,
+   "breakeven_x_reference_card_vs_basis": 29.206
+  },
+  {
+   "gpu_name": "RTX 4090",
+   "n_offers": 6,
+   "priceable": true,
+   "benched_as": "RTX4090",
+   "vram_gb": 24.0,
+   "min_floor_usd_h": 0.1333,
+   "median_floor_usd_h": 0.3333,
+   "cheapest_all_in_usd_h": 0.1579,
+   "median_all_in_usd_h": 0.3729,
+   "best_usd_per_ns": 0.005164,
+   "median_usd_per_ns": 0.012178
+  },
+  {
+   "gpu_name": "RTX 3090",
+   "n_offers": 3,
+   "priceable": true,
+   "benched_as": "RTX3090",
+   "vram_gb": 24.0,
+   "min_floor_usd_h": 0.1067,
+   "median_floor_usd_h": 0.159,
+   "cheapest_all_in_usd_h": 0.138,
+   "median_all_in_usd_h": 0.1768,
+   "best_usd_per_ns": 0.009504,
+   "median_usd_per_ns": 0.012136
+  },
+  {
+   "gpu_name": "RTX 4080S",
+   "n_offers": 1,
+   "priceable": true,
+   "benched_as": "RTX4080",
+   "vram_gb": 32.0,
+   "min_floor_usd_h": 0.1867,
+   "median_floor_usd_h": 0.1867,
+   "cheapest_all_in_usd_h": 0.2123,
+   "median_all_in_usd_h": 0.2123,
+   "best_usd_per_ns": 0.007448,
+   "median_usd_per_ns": 0.007448
+  },
+  {
+   "gpu_name": "RTX 3090 Ti",
+   "n_offers": 1,
+   "priceable": true,
+   "benched_as": "RTX3090",
+   "vram_gb": 24.0,
+   "min_floor_usd_h": 0.36,
+   "median_floor_usd_h": 0.36,
+   "cheapest_all_in_usd_h": 0.4403,
+   "median_all_in_usd_h": 0.4403,
+   "best_usd_per_ns": 0.030282,
+   "median_usd_per_ns": 0.030282
+  }
+ ],
+ "bench_shortlist": [
+  {
+   "gpu_name": "RTX 5090",
+   "n_offers": 6,
+   "vram_gb": 31.8,
+   "cheapest_all_in_usd_h": 0.2259,
+   "breakeven_ns_per_day": 420.8,
+   "breakeven_x_reference_card": 0.557,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate"
+  },
+  {
+   "gpu_name": "A100 PCIE",
+   "n_offers": 2,
+   "vram_gb": 80.0,
+   "cheapest_all_in_usd_h": 0.1579,
+   "breakeven_ns_per_day": 294.5,
+   "breakeven_x_reference_card": 0.39,
+   "verdict": "BENCH \u2014 clears at under half the reference card's measured rate"
+  },
+  {
+   "gpu_name": "RTX PRO 5000",
+   "n_offers": 2,
+   "vram_gb": 47.8,
+   "cheapest_all_in_usd_h": 0.2143,
+   "breakeven_ns_per_day": 400.7,
+   "breakeven_x_reference_card": 0.53,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate"
+  },
+  {
+   "gpu_name": "RTX PRO 4500",
+   "n_offers": 2,
+   "vram_gb": 31.9,
+   "cheapest_all_in_usd_h": 0.2939,
+   "breakeven_ns_per_day": 547.2,
+   "breakeven_x_reference_card": 0.724,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate"
+  },
+  {
+   "gpu_name": "Titan RTX",
+   "n_offers": 1,
+   "vram_gb": 24.0,
+   "cheapest_all_in_usd_h": 0.1608,
+   "breakeven_ns_per_day": 300.2,
+   "breakeven_x_reference_card": 0.397,
+   "verdict": "BENCH \u2014 clears at under half the reference card's measured rate"
+  },
+  {
+   "gpu_name": "RTX 6000Ada",
+   "n_offers": 1,
+   "vram_gb": 48.0,
+   "cheapest_all_in_usd_h": 0.1944,
+   "breakeven_ns_per_day": 364.1,
+   "breakeven_x_reference_card": 0.482,
+   "verdict": "BENCH \u2014 clears at under half the reference card's measured rate"
+  },
+  {
+   "gpu_name": "Tesla V100",
+   "n_offers": 1,
+   "vram_gb": 32.0,
+   "cheapest_all_in_usd_h": 0.2259,
+   "breakeven_ns_per_day": 420.8,
+   "breakeven_x_reference_card": 0.557,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate"
+  },
+  {
+   "gpu_name": "RTX PRO 4000",
+   "n_offers": 1,
+   "vram_gb": 23.9,
+   "cheapest_all_in_usd_h": 0.2274,
+   "breakeven_ns_per_day": 423.6,
+   "breakeven_x_reference_card": 0.561,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate"
+  },
+  {
+   "gpu_name": "RTX 5000Ada",
+   "n_offers": 1,
+   "vram_gb": 32.0,
+   "cheapest_all_in_usd_h": 0.3483,
+   "breakeven_ns_per_day": 648.3,
+   "breakeven_x_reference_card": 0.858,
+   "verdict": "BENCH \u2014 clears below the reference card's measured rate"
+  }
+ ],
+ "_what": "Why a qualifying Vast board cannot be priced, broken down by GPU model, with the break-even ns/day each unbenched model would need to be worth benching. A break-even is a SCREEN, never a throughput.",
+ "source": "live",
+ "utc": "2026-07-27T12:29:41Z",
+ "proxy_audit": {
+  "fp32_tflops": {
+   "per_card": [
+    {
+     "card": "RTX4090",
+     "measured_ns_day": 755.36,
+     "predicted_ns_day": 1068.05,
+     "rel_err": 0.414
+    },
+    {
+     "card": "RTX4080",
+     "measured_ns_day": 703.51,
+     "predicted_ns_day": 452.6,
+     "rel_err": -0.3567
+    },
+    {
+     "card": "RTX3090",
+     "measured_ns_day": 359.36,
+     "predicted_ns_day": 374.23,
+     "rel_err": 0.0414
+    }
+   ],
+   "max_abs_rel_err": 0.414,
+   "mean_abs_rel_err": 0.2707,
+   "x_by_card": {
+    "RTX4090": 82.6,
+    "RTX4080": 48.7,
+    "RTX3090": 35.6
+   }
+  },
+  "mem_bandwidth_gb_s": {
+   "per_card": [
+    {
+     "card": "RTX4090",
+     "measured_ns_day": 755.36,
+     "predicted_ns_day": 609.55,
+     "rel_err": -0.193
+    },
+    {
+     "card": "RTX4080",
+     "measured_ns_day": 703.51,
+     "predicted_ns_day": 415.81,
+     "rel_err": -0.409
+    },
+    {
+     "card": "RTX3090",
+     "measured_ns_day": 359.36,
+     "predicted_ns_day": 774.53,
+     "rel_err": 1.1553
+    }
+   ],
+   "max_abs_rel_err": 1.1553,
+   "mean_abs_rel_err": 0.5858,
+   "x_by_card": {
+    "RTX4090": 1008.0,
+    "RTX4080": 716.8,
+    "RTX3090": 936.2
+   }
+  },
+  "vast_dlperf": {
+   "per_card": [
+    {
+     "card": "RTX4090",
+     "measured_ns_day": 755.36,
+     "predicted_ns_day": 1019.98,
+     "rel_err": 0.3503
+    },
+    {
+     "card": "RTX4080",
+     "measured_ns_day": 703.51,
+     "predicted_ns_day": 462.7,
+     "rel_err": -0.3423
+    },
+    {
+     "card": "RTX3090",
+     "measured_ns_day": 359.36,
+     "predicted_ns_day": 396.84,
+     "rel_err": 0.1043
+    }
+   ],
+   "max_abs_rel_err": 0.3503,
+   "mean_abs_rel_err": 0.2656,
+   "x_by_card": {
+    "RTX4090": 97.05132790594831,
+    "RTX4080": 59.08599187121503,
+    "RTX3090": 44.597777893119
+   }
+  },
+  "_verdict_rule": "A derived ns/day may only be used if its leave-one-out error is small enough that a mis-ranking is impossible at the price spreads on the board. The board's best and worst gradeable offers differ by ~4x in $/ns, so an error above ~15-20% can invert a ranking and the route is dead."
+ }
+}
