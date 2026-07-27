@@ -58,7 +58,11 @@ def output_schema():
         "leg_id": "str", "environment": "binary|ternary",
         "ddg_alch_kcal": "float (the leg's relative alchemical free energy)",
         "ci95_half_width_kcal": "float", "n_replicas": "int>=3",
-        "hysteresis_kcal": "float", "converged": "bool",
+        # "float|null" deliberately, matching ternary_coop_gate.results_schema(): null = NOT MEASURED (the leg has
+        # no DIRECTION=rev partner). Declaring it a bare "float" is what invited a producer to coerce the absent
+        # value to 0.0 — which reads as PERFECT antisymmetry and silently disarmed the gate. Never coerce it.
+        "hysteresis_kcal": "float|null (null = NOT MEASURED — no rev leg; MUST NOT be coerced to 0.0)",
+        "converged": "bool", "hysteresis_measured": "bool (optional; false <=> hysteresis_kcal is null)",
         "unit_gpu_h_observed": "float (>0; STUB value forbidden in execution mode)",
         "cost_usd_observed": "float (>0; STUB value forbidden in execution mode)",
         "system_hash": "sha256", "ligand_hash": "sha256",
@@ -120,6 +124,23 @@ def validate_result(result, mode="execution"):
         reasons.append("n_replicas must be int >= 3")
     if not isinstance(result.get("converged"), bool):
         reasons.append("converged must be an explicit bool")
+    # CROSS-FIELD INVARIANT: `converged` is a CLAIM and hysteresis_kcal is part of its EVIDENCE, so the two cannot
+    # be validated independently. hysteresis_kcal may legitimately be null (no rev leg = not measured), but then no
+    # producer may also assert converged — that is the "success on no measurement" shape this lane keeps growing.
+    # Checked here rather than in the producer because a schema is what a future producer reads.
+    if "hysteresis_kcal" in result:
+        h_raw = result.get("hysteresis_kcal")
+        hys = _num(h_raw)
+        if h_raw is not None and hys is None:
+            reasons.append("hysteresis_kcal=%r is neither null nor a finite number" % (h_raw,))
+        elif hys is not None and hys < 0:
+            reasons.append("hysteresis_kcal=%g is negative (it is |dG_fwd + dG_rev|, so >= 0)" % hys)
+        if h_raw is None and result.get("converged") is True:
+            reasons.append("converged=True with hysteresis_kcal=null — the fwd/rev check was NOT MEASURED, and an "
+                           "unmeasured criterion does not satisfy convergence (do not coerce null to 0.0)")
+        if "hysteresis_measured" in result and result["hysteresis_measured"] != (h_raw is not None):
+            reasons.append("hysteresis_measured=%r contradicts hysteresis_kcal=%r"
+                           % (result["hysteresis_measured"], h_raw))
     # sign/unit invariant: if a coupling alpha is asserted, dG_coop must match -RT ln(alpha) in sign
     if "implied_alpha" in result:
         a = _num(result.get("implied_alpha"))
