@@ -1341,6 +1341,15 @@ jobs:
           python -m pip install -q boto3
           python research/modalities/ternary_reps_diag.py --mode edge_reps \
             --out research/modalities/ternary-reps-diag.json 2>&1 | tee /tmp/diag.txt
+      - name: Are the seeds' staged inputs even the same kind of thing? — structural census across seeds
+        # $0 and ~30 s. `ternary_pdb_stage` takes starting_model_index = seed % n_models with n_models=2, so
+        # seed 2 is NOMINALLY the same relaxed SMARCA2 model as seed 0 — the leg that ran to completion. If
+        # seed 2's staged tree does not match seed 0's, the seed keying is not doing what its comment says.
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_reps_diag.py --mode edge_reps --compare-stage \
+            --leg calib_hi_to_lo__ternary_vhl \
+            --out research/modalities/ternary-reps-stage-census.json 2>&1 | tee /tmp/census.txt
       - name: The discriminator — container memory vs its limit across the window the ternary legs die in
         # `watch_minutes` blank = skip. The forensic above says the ternary legs die deterministically at
         # HybridTopologyFactory and that the kill takes the WHOLE CONTAINER (bash never reaches the
@@ -1357,9 +1366,10 @@ jobs:
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/ternary-reps-diag.json \
-                  research/modalities/ternary-reps-memory-trace.json 2>/dev/null || \
-            git add research/modalities/ternary-reps-diag.json
+          git add research/modalities/ternary-reps-diag.json
+          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json; do
+            [ -f "research/modalities/$f" ] && git add "research/modalities/$f" || true
+          done
           if ! git diff --cached --quiet; then
             git commit -m "ternary replicate forensic: what the containers themselves said (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -1370,6 +1380,7 @@ jobs:
           set -eo pipefail
           echo "================ TERNARY REPS DIAG ================"
           cat /tmp/diag.txt
+          [ -f /tmp/census.txt ] && { echo "======== STAGED INPUT CENSUS BY SEED ========"; cat /tmp/census.txt; } || true
           [ -f /tmp/mem.txt ] && { echo "======== CONTAINER MEMORY TRACE ========"; cat /tmp/mem.txt; } || true
 
   # ------------------------------------------- free: the CONTROLLED REPRODUCTION of the ternary setup death
