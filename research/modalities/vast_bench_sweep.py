@@ -580,7 +580,95 @@ def mode_record():
     return 0
 
 
-def reap(key=None, max_age_min=None):
+def board_impact(offers, extra_entries=None, n_units=19, min_vram_gb=24, disk_gb=80):
+    """BEFORE/AFTER on a real board: priceable count, best single `$/ns`, best fleet `$/ns` for `n_units`.
+
+    THE NUMBER THAT SAYS WHETHER THE SWEEP WAS WORTH DOING, so it is computed with the SAME machinery that
+    rents — `gpu_backend.rank_offers_by_usd_per_ns` and `congeneric_fanout.place_units` — rather than a
+    parallel scorer that would be free to flatter the result.
+
+    `extra_entries` is a `{card: ns_per_day}` overlay applied to the throughput table for the AFTER pass.
+    Mutating the module table temporarily (and restoring it in a `finally`) is deliberate: the alternative is
+    a second scoring path that could disagree with the one that actually buys, and rule 1 forbids that. The
+    overlay never persists — a card only becomes permanently priceable by being edited into the table with a
+    passing provenance test."""
+    import copy
+    import dataclasses
+    from gpu_backend import rank_offers_by_usd_per_ns
+    import congeneric_fanout as _cf
+
+    res = dataclasses.replace(BENCH_RES, gpu="any", require_gpu=False,
+                              min_vram_gb=min_vram_gb, disk_gb=disk_gb)
+
+    def _snapshot(label):
+        measured, capable = rank_offers_by_usd_per_ns(offers, res)
+        ranked = [m[0] for m in measured]
+        ceiling = _cf.unit_usd_per_ns_ceiling()
+        n_placed, placed, _held = _cf.place_units(ranked, n_units, ceiling)
+        fleet = (sum(placed) / len(placed)) if placed else None
+        basis = _cf.basis_usd_per_ns()
+        return {"label": label, "qualifying": len(capable), "priceable": len(measured),
+                "unpriceable": len(capable) - len(measured),
+                "best_usd_per_ns": (round(ranked[0], 6) if ranked else None),
+                "best_x_basis": (round(ranked[0] / basis, 3) if ranked and basis else None),
+                "n_units_placeable": n_placed,
+                "fleet_mean_usd_per_ns_of_placed": (round(fleet, 6) if fleet else None),
+                "fleet_x_basis": (round(fleet / basis, 3) if fleet and basis else None),
+                "per_unit_ceiling_usd_per_ns": round(ceiling, 6), "basis_usd_per_ns": round(basis, 6)}
+
+    before = _snapshot("before — table as committed")
+    if not extra_entries:
+        return {"before": before, "after": None, "n_units": n_units, "min_vram_gb": min_vram_gb}
+    saved = copy.deepcopy(_vcm.MEASURED_NS_PER_DAY_84K)
+    try:
+        _vcm.MEASURED_NS_PER_DAY_84K.update(extra_entries)
+        after = _snapshot("after — with this sweep's admitted entries")
+    finally:
+        _vcm.MEASURED_NS_PER_DAY_84K.clear()
+        _vcm.MEASURED_NS_PER_DAY_84K.update(saved)
+    return {"before": before, "after": after, "n_units": n_units, "min_vram_gb": min_vram_gb,
+            "added": dict(extra_entries)}
+
+
+def mode_impact():
+    """Live before/after. `BENCH_IMPACT_ENTRIES` is a JSON `{card: ns_per_day}` overlay (blank = read the
+    admitted entries out of `vast-bench-sweep-results.json`)."""
+    key = os.environ.get("VAST_API_KEY")
+    src = os.environ.get("BENCH_OFFERS_JSON")
+    offers = json.load(open(src)) if src else (_live_offers(key) if key else [])
+    raw = (os.environ.get("BENCH_IMPACT_ENTRIES") or "").strip()
+    if raw:
+        extra = json.loads(raw)
+    else:
+        try:
+            extra = json.load(open("vast-bench-sweep-results.json")).get("admitted") or {}
+        except (OSError, ValueError):
+            extra = {}
+    out = {}
+    for vram in (int(os.environ.get("BENCH_IMPACT_VRAM", "24")), 16):
+        out[f"min_vram_{vram}gb"] = board_impact(offers, extra, min_vram_gb=vram)
+    doc = {"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "n_offers": len(offers),
+           "added": extra, "views": out,
+           "_what": "What widening MEASURED_NS_PER_DAY_84K does to a real board. Computed with the SAME "
+                    "rank_offers_by_usd_per_ns + place_units the launcher uses, so it cannot flatter itself. "
+                    "The overlay is temporary and never persists."}
+    for name, v in out.items():
+        b, a = v["before"], v["after"]
+        print(f"--- {name} ({v['n_units']} units) ---", flush=True)
+        for s in (b, a):
+            if not s:
+                continue
+            print(f"  {s['label']:<42} qualifying {s['qualifying']:<3} priceable {s['priceable']:<3} "
+                  f"best $/ns {s['best_usd_per_ns']} ({s['best_x_basis']}x basis)  placeable "
+                  f"{s['n_units_placeable']}/{v['n_units']}  fleet $/ns "
+                  f"{s['fleet_mean_usd_per_ns_of_placed']} ({s['fleet_x_basis']}x)", flush=True)
+    with open("vast-bench-board-impact.json", "w") as f:
+        json.dump(doc, f, indent=2)
+    print("[cal] wrote vast-bench-board-impact.json", flush=True)
+    return 0
+
+
+def reap(key=None, max_age_min=None, done_labels=()):
     """DESTROY every `cal-*` instance. The only guaranteed way the meter stops.
 
     ⛔ NOT OPTIONAL, and not something the host can do for itself. Measured 2026-07-27: an unprivileged
@@ -589,14 +677,18 @@ def reap(key=None, max_age_min=None):
     destroy is control-plane only. A calibration sweep that forgets this converts a $0.05 measurement into an
     open-ended rental, which is the single most expensive mistake available in this lane.
 
-    Age-based, deliberately: a bench is minutes, so ANY `cal-*` box older than `max_age_min` has either
-    finished (and its record is in S3) or wedged, and both cases want the same action. Nothing here can touch
-    another lane's instance — the label prefix is checked, not the age alone."""
+    TWO INDEPENDENT REASONS TO DESTROY, and a box needs only one: (a) its record is already in S3, so the
+    rental has delivered everything it will ever deliver; or (b) it is older than `max_age_min`, which for a
+    minutes-long bench means it finished without uploading or it wedged — both wanting the same action.
+    Keeping (a) separate from (b) is what lets a collect run reap a finished bench IMMEDIATELY without also
+    killing a sibling that is still timing its blocks. Nothing here can touch another lane's instance — the
+    label prefix is checked, never the age alone."""
     key = key or os.environ.get("VAST_API_KEY")
     if not key:
         print("[cal-reap] no VAST_API_KEY — cannot destroy; the meter is still running", flush=True)
         return []
     age = int(os.environ.get("BENCH_REAP_AGE_MIN", "0") if max_age_min is None else max_age_min)
+    done = {str(x) for x in done_labels}
     insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
     killed = []
     now = time.time()
@@ -608,8 +700,9 @@ def reap(key=None, max_age_min=None):
         except (TypeError, ValueError):
             started = 0
         age_min = (now - started) / 60.0 if started else 1e9
-        if age_min < age:
-            print(f"[cal-reap] keep {i.get('id')} ({i.get('label')}) age {age_min:.1f} min < {age}", flush=True)
+        if age_min < age and str(i.get("label")) not in done:
+            print(f"[cal-reap] keep {i.get('id')} ({i.get('label')}) age {age_min:.1f} min < {age} "
+                  f"and no record yet — still measuring", flush=True)
             continue
         try:
             _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
@@ -705,7 +798,11 @@ def mode_collect():
                    "records": recs}, f, indent=2)
     print("[cal] wrote vast-bench-sweep-results.json", flush=True)
     if os.environ.get("BENCH_NO_REAP") != "1":
-        reap()
+        # A box whose record is already in S3 has delivered everything it will; anything else gets the age
+        # gate, so a collect run can never destroy a sibling that is still timing its blocks.
+        done = {LABEL_PREFIX + _vcm.normalise_gpu_name(r.get("gpu_requested")).lower()
+                for r in recs if r.get("gpu_requested")}
+        reap(max_age_min=int(os.environ.get("BENCH_REAP_AGE_MIN", "25")), done_labels=done)
     return 0
 
 
@@ -744,6 +841,8 @@ def main(argv=None):
     if os.environ.get("REAP") == "1":
         reap()
         return 0
+    if os.environ.get("IMPACT") == "1":
+        return mode_impact()
     if os.environ.get("LAUNCH") == "1":
         return mode_launch()
     if os.environ.get("COLLECT") == "1":
