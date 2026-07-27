@@ -774,7 +774,14 @@ jobs:
           mkdir -p /tmp/nc
           for pfx in $(gcloud storage ls "gs://$BUCKET/valB-6hax/commits/" 2>/dev/null); do
             for sub in $(gcloud storage ls "$pfx" 2>/dev/null); do
-              NC=$(gcloud storage ls --recursive "$sub" 2>/dev/null | grep -aE '\.nc$' | head -1)
+              # `awk NR<=1`, NOT `head -1`. `head` closes the pipe, `grep` dies on the write, and pipefail +
+              # the runner's default `bash -e` turn that into a dead step — which is exactly what killed the
+              # first run of this step (GH run 30312344869: "grep: write error: Broken pipe", exit 2). It is
+              # SIZE-DEPENDENT, so it lies dormant until the listing outgrows the 64 KB pipe buffer, and a
+              # RECURSIVE bucket listing crosses that easily. The identical trap is documented a few hundred
+              # lines above for mode=forensic; the existing lint only knew `sort` as a producer, so `grep`
+              # walked straight through it. Lint widened in the same commit.
+              NC=$(gcloud storage ls --recursive "$sub" 2>/dev/null | grep -aE '\.nc$' | awk 'NR<=1')
               [ -n "$NC" ] || continue
               SAFE=$(printf '%s' "$sub" | sed 's#gs://##; s#[/*]#_#g')
               gcloud storage cp "$NC" "/tmp/nc/${SAFE}.nc" 2>/dev/null || true
