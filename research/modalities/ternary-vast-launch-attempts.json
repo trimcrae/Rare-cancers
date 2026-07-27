@@ -260,6 +260,28 @@
         "used_for_mean": 4
       },
       "reason": "task=edge-reps; job status success"
+    },
+    {
+      "utc": "2026-07-27T17:07:28Z",
+      "et": "1:07 PM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30287781565",
+      "gate_ratio_vs_basis": 1.289,
+      "gate_mean_usd_per_ns": 0.004397,
+      "gate_projected_usd": 9.43,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $9.43 within this rung's ceiling $20.74 AND 1.29x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 64,
+        "qualifying": 62,
+        "priceable": 49,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "reason": "board cleared both ceilings; dispatching task=edge-reps"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."

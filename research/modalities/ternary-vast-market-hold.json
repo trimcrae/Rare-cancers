@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB_mini replicates",
-  "utc": "2026-07-27T16:35:34Z",
+  "utc": "2026-07-27T17:07:28Z",
   "n_units": 4,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 7.32,
@@ -8,45 +8,45 @@
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 4 legs",
   "breakeven_usd_per_ns": 0.009673,
   "depth": {
-    "offers_returned": 49,
-    "qualifying": 48,
-    "priceable": 22,
+    "offers_returned": 64,
+    "qualifying": 62,
+    "priceable": 49,
     "needed": 4,
     "used_for_mean": 4
   },
   "offers": [
     {
+      "gpu": "RTX PRO 4000",
+      "machine_id": 57342,
+      "min_bid_usd_h": 0.054,
+      "usd_per_ns": 0.003755
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 51546,
+      "min_bid_usd_h": 0.136,
+      "usd_per_ns": 0.003861
+    },
+    {
+      "gpu": "RTX 3090",
+      "machine_id": 48605,
+      "min_bid_usd_h": 0.06666667,
+      "usd_per_ns": 0.004831
+    },
+    {
       "gpu": "RTX 4090",
       "machine_id": 53989,
       "min_bid_usd_h": 0.148,
       "usd_per_ns": 0.005139
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 8914,
-      "min_bid_usd_h": 0.259,
-      "usd_per_ns": 0.006687
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 114104,
-      "min_bid_usd_h": 0.18666666666666668,
-      "usd_per_ns": 0.006861
-    },
-    {
-      "gpu": "RTX 3090",
-      "machine_id": 40934,
-      "min_bid_usd_h": 0.10666666666666667,
-      "usd_per_ns": 0.00701
     }
   ],
-  "mean_usd_per_ns": 0.006424,
-  "ratio_vs_basis": 1.883,
-  "projected_usd": 13.77,
+  "mean_usd_per_ns": 0.004397,
+  "ratio_vs_basis": 1.289,
+  "projected_usd": 9.43,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $13.77 within this rung's ceiling $20.74 AND 1.88x basis is within the 1.92x drift line"
+  "reason": "projected $9.43 within this rung's ceiling $20.74 AND 1.29x basis is within the 1.92x drift line"
 }
