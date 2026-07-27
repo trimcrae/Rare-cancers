@@ -425,6 +425,66 @@ All three are why a ~4× cost error stood unnoticed for two days.
   marker and no instance, so past the cold-start grace the engine calls it DIED and relaunches it — the watch
   list would start renting GPUs nobody authorised.
 
+## 7c. `cw_bio_nmethyl_amide` — the one edge that will NOT be computed, and why (2026-07-27)
+
+**Unit `e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral` (label `s1f-09`) is BLOCKED. It is a
+scientific result about that edge, not a retry candidate.** 18 of 19 tranche-1 edges remain live; no
+cycle-closure edge is affected (the three are units 16–18).
+
+**The symptom.** `phase.txt` read `leg-complex-FAILED-rc1` at **9:12 AM ET** (and once before, at 8:55 AM ET
+— it had already re-rented itself once). `rc1` is a bare exit code and says nothing; the leg log, which this
+lane now ships unconditionally, carries the actual abort:
+
+```
+[rbfe] LOMAP element_change=False: 17 mapped atoms for zaienne_cmpd19->cw_bio_nmethyl_amide
+  ABORT: DEGENERATE atom map — mapped 17 atoms ... below the PROVABLE floor 20 (a complete map of 22
+  atoms exists) ... Most likely the LOMAP MCS hit its 300s budget (RBFE_LOMAP_TIME_S); raise it and re-run.
+```
+
+**That last sentence is the abort message guessing about itself, and it is wrong.** The chemistry is a single
+mid-chain heavy-atom substitution — `zaienne_cmpd19` is the methyl **ester** `COC(=O)c1c[nH]c2ccc(Br)cc12`,
+`cw_bio_nmethyl_amide` the N-methyl **amide** `CNC(=O)…`, i.e. O→N. A strict-element MCS cannot cross it and
+loses everything beyond: the O, the methyl C and its 3 H — exactly 5 atoms, and 22 − 5 = 17.
+
+**Measured, on the PRODUCTION staged components** (`step1-map-diag.json`, not `atom_map_audit.maps`, whose
+own docstring disclaims its fresh-ETKDG harness as not evidence about this lane):
+
+| mapper / setting | mapped | wall |
+|---|---|---|
+| LOMAP `element_change=False` | 17 | 0.01 s at **both** t20 and t300 |
+| LOMAP `element_change=True` | 19 | 0.01 s at **both** t20 and t300 |
+| Kartograf (geometric) | 18 | — |
+| **provable floor** | **20** | complete map = 22 |
+
+Identical maps at 20 s and 300 s in 0.01 s is the observation that **refutes the timeout hypothesis**: the
+budget is nowhere near binding. What separates the two settings is the element change, exactly as
+`_mapping`'s own docstring predicts ("a real element-change asymmetry moves the two settings apart").
+
+**Two things were fixed, and one deliberately was not.**
+
+1. **`_mapping` now escalates** to `element_change=True` when — and only when — the strict map is below the
+   provable floor. Scoped that tightly because a running leg has already passed `_check_mapping_sane` at or
+   above the same floor, so the clause is unreachable for every unit in flight and their mappings are
+   byte-identical; changing a mid-flight leg's perturbation would be a silent protocol deviation. Swept all
+   19 edges: exactly one sits below its floor, and a test pins that, because a second would invalidate the
+   argument.
+2. **`block` (a UNIT) is now distinct from `reap` (a HOST).** `_pending` meant "no ddg.json yet", so an edge
+   that *cannot* produce one never left it and every tick rented a fresh host to fail identically — small per
+   attempt, unbounded in time. Blocks are durable in S3, announced by `_pending`, and named in the map
+   artifact.
+3. **NOT fixed: the edge itself.** The escalation takes it 17 → 19 and it still aborts at 20. No available
+   mapper reaches the floor, so it is not runnable at the current field-standard settings and no rental will
+   change that. **⚠ A CORRECTION REGISTERED, not dropped:** the first write-up of this said element_change=True
+   "maps all 22" — that was an rdkit-MCS number read as a LOMAP prediction. LOMAP returns 19.
+
+**Second-order finding, recorded and deliberately NOT acted on mid-flight.** On every bioisostere edge the
+strict map is 3–5 atoms smaller than the element-agnostic one (tetrazole 16 vs 21, hydroxamic 17 vs 20,
+acylsulfonamide 17 vs 22 by rdkit MCS). Those clear their own — lower, non-provable — floors and so *run*,
+with a strict map that annihilates and recreates atoms an element-agnostic map would have mapped 1:1.
+`atom_map_audit` already classifies these edges `prefer_element_change: true`, and production never passes
+that flag (`nr4a3_rbfe.py:662` and `:784` call `_mapping` positionally). Plumbing it through would change the
+perturbation of legs that are currently sampling, so it is a **post-fleet** change, not a live one.
+
 ## 8. Operational notes for whoever resumes
 
 - **A CI job log is only readable from its tail, and the tail is always runner boilerplate.** `monitor`,

@@ -111,6 +111,35 @@ def test_mark_refreshes_the_heartbeat_so_a_phase_change_is_never_a_silent_gap():
     assert '"$RESULT_S3/run.log"' in mark
 
 
+def test_the_pipelines_EXIT_trap_cannot_replace_the_onstarts():
+    """★★ TWO EXIT TRAPS, AND THEY MUST NOT BE IN THE SAME SHELL.
+
+    The onstart arms `trap ct_selfstop EXIT`; the pipeline now arms `trap s1f_stop_heartbeat EXIT`. In bash a
+    second `trap ... EXIT` in the SAME shell REPLACES the first — so if the pipeline ever ran inline rather
+    than as a child, arming the heartbeat's cleanup would silently delete ct_selfstop, and the job would stop
+    being killed on exit. Nothing would report it: both traps run, both print, and the missing one is the one
+    that never ran.
+
+    It is safe because `_vast_onstart`'s last line is `bash -lc '<pipeline>'` — a CHILD process with its own
+    trap table. That is a property of the composition, not of the pipeline text, so it is pinned here.
+
+    This was found the expensive-ish way: the first liveness shakeout harness pasted the brake, the trap and
+    the pipeline into one shell, and its `selfstop_ran` column read False.
+    """
+    from gpu_backend import _vast_onstart, VastBackend
+    units = cfv.default_units()
+    spec = cfv.build_jobspec(units[0], "some-branch", "some-bucket", 0)
+    s = _vast_onstart(spec, VastBackend().self_terminate_cmd())
+    # The pipeline is invoked as a quoted argument to a NEW bash, not spliced into this script.
+    tail = s[s.index("trap ct_selfstop EXIT"):]
+    assert tail.count("trap ct_selfstop EXIT") == 1
+    body = tail.split("\n", 1)[1]
+    assert body.startswith("bash -lc "), body[:80]
+    # ...and the heartbeat's own trap lives inside that quoted argument, i.e. in the child.
+    assert "trap s1f_stop_heartbeat EXIT" in body
+    assert "trap s1f_stop_heartbeat EXIT" not in tail.split("\n", 1)[0]
+
+
 def test_the_whole_onstart_including_the_heartbeat_is_valid_bash():
     """A syntax error here does not break one unit, it breaks every unit in the fleet at once."""
     from gpu_backend import _vast_onstart, VastBackend

@@ -1743,23 +1743,26 @@ jobs:
         run: |
           python -m pip install -q pytest boto3 rdkit
           python -m pytest research/modalities/tests/test_step1_liveness.py -q
-      # Runs on the RUNNER, not in the image: what is under test is a bash loop plus `aws s3 cp`, and the
-      # runner has both. The image adds nothing here and costs a pull. (`map_diag` needs the image because
-      # openfe's mapper is the thing being measured; this does not.)
-      - name: Install the aws CLI the pipeline calls
-        run: pip install -q awscli
-      - name: STAGE 1 — smoke (does the heartbeat survive a silent phase?)
-        working-directory: research/modalities
-        env: { SMOKE_STAGE: smoke }
-        run: python step1_liveness_smoke.py
-      - name: STAGE 2 — one real onstart, three container starts
-        working-directory: research/modalities
-        env: { SMOKE_STAGE: leg }
-        run: python step1_liveness_smoke.py
-      - name: STAGE 3 — the guard's verdict on the real evidence, both directions
-        working-directory: research/modalities
-        env: { SMOKE_STAGE: verdict }
-        run: python step1_liveness_smoke.py
+      # ⚠ INSIDE THE PARITY IMAGE, AND THIS IS NOT A STYLE CHOICE. The first version of this job ran the
+      # stages on the bare runner, reasoning that "a bash loop plus `aws s3 cp`" needs no image. It came back
+      # rc=127 with nothing in S3: `_PREAMBLE` hard-codes `/opt/mamba/envs/rbfe/bin/{python,aws}` and runs
+      # under `set -eo pipefail`, so on a host without them the script dies on its first command and the
+      # shakeout measures nothing while reporting a completed run. The shakeout caught it, which is the
+      # entire argument for having one.
+      - name: Shakeout — smoke, then one real onstart, then the guard's verdict (parity image)
+        run: |
+          set -eo pipefail
+          IMG="${S1F_LIVENESS_IMAGE:-triskit23/nr4a3fep}"
+          for stage in smoke leg verdict; do
+            echo "::group::STAGE $stage"
+            docker run --rm --entrypoint python \
+              -v "$PWD/research/modalities:/work/research/modalities" \
+              -w /work/research/modalities \
+              -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION \
+              -e VAST_CKPT_BUCKET -e SMOKE_SYNC_S -e SMOKE_STAGE="$stage" \
+              "docker.io/$IMG:latest" step1_liveness_smoke.py
+            echo "::endgroup::"
+          done
       - name: Commit the shakeout record back to the triggering branch
         if: ${{ always() }}
         run: |
