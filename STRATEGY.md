@@ -1659,7 +1659,10 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   expressed" as the reason.** Matched 3-paralogue scoring **over the warhead-pose ensemble**; cluster into ~3–8
   basins/ligase; score with the two **categorical** terms (a) and (b) above, then the cheap counterfactual screen
   to nominate marginal wedges.
-- **`[ ]` 5a-KS · Wedge confirmation — pilot-first KILL-SWITCH + causal RESULT** — **~$12 ($1.6–45) · Cum. ~$141.**
+- **`[~]` 5a-KS · Wedge confirmation — pilot-first KILL-SWITCH + causal RESULT** — **~$12 ($1.6–45) · Cum. ~$141.**
+  **`[~]`, not `[ ]`: both ternary legs HAVE run and their checkpoints are durable** (NR4A3 `production/800` of
+  2000, NR4A1 `warmup/640` of 1600). They are **PARKED, not finished** — see the IN FLIGHT board for why, and
+  for the price condition that re-enables them. `[ ]` would say no work exists; it does, and it is banked.
   **PRIMARY: the ligand-side double difference.** Pilot ONE matched pair first:
   `S = ΔΔG_coop(d₀→d | NR4A3) − ΔΔG_coop(d₀→d | NR4A1)`, ternary legs only (lever 2), on the lane Val B
   calibrates. ⚠ **"No discrimination ⇒ STOP" is SUPERSEDED — see the Tier-3 semantics box under §The hard
