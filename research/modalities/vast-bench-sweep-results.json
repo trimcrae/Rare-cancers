@@ -1,18 +1,206 @@
 {
-  "utc": "2026-07-27T13:10:54Z",
-  "n_records": 0,
-  "admitted": {},
-  "refused": [],
-  "realised_usd": 0.008,
+  "utc": "2026-07-27T13:24:47Z",
+  "n_records": 4,
+  "admitted": {
+    "RTX4080": 703.87
+  },
+  "refused": [
+    {
+      "card": "RTX 3090 Ti",
+      "reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ]
+    },
+    {
+      "card": "RTX 4090",
+      "reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ]
+    }
+  ],
+  "realised_usd": 0.1208,
   "instances": [
     {
       "instance": 46005353,
       "label": "cal-rtx3090ti",
-      "hours": 0.0461,
+      "hours": 0.2776,
       "dph": 0.1743111111111111,
-      "usd": 0.008,
+      "usd": 0.0484,
+      "status": "running"
+    },
+    {
+      "instance": 46006128,
+      "label": "cal-rtx4090",
+      "hours": 0.1014,
+      "dph": 0.1743111111111111,
+      "usd": 0.0177,
       "status": "loading"
+    },
+    {
+      "instance": 46006224,
+      "label": "cal-rtx4090-r2",
+      "hours": 0.0869,
+      "dph": 0.21262222222222224,
+      "usd": 0.0185,
+      "status": "running"
+    },
+    {
+      "instance": 46006226,
+      "label": "cal-rtx4090-r3",
+      "hours": 0.0865,
+      "dph": 0.1471111111111111,
+      "usd": 0.0127,
+      "status": "loading"
+    },
+    {
+      "instance": 46006277,
+      "label": "cal-rtx4090-r4",
+      "hours": 0.0718,
+      "dph": 0.1879111111111111,
+      "usd": 0.0135,
+      "status": "loading"
+    },
+    {
+      "instance": 46006355,
+      "label": "cal-rtx4080",
+      "hours": 0.0572,
+      "dph": 0.1751851851851852,
+      "usd": 0.01,
+      "status": "running"
     }
   ],
-  "records": []
+  "records": [
+    {
+      "tag": "rtx3090ti",
+      "status": "ERROR",
+      "err": "OpenMMException:Particle",
+      "healthy": false,
+      "_raw": "BENCH_RESULT tag=rtx3090ti status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "gpu_requested": "RTX 3090 Ti",
+      "offer_gpu_name": "RTX 3090 Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:17:27Z",
+      "admitted": false,
+      "admission_reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "rtx4080-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4080",
+      "steps": 70428,
+      "dt_fs": 4.0,
+      "wall_s": 34.6,
+      "ns_per_day": 703.87,
+      "sd": 0.96,
+      "cv": 0.0014,
+      "blocks": 3,
+      "blocks_ns_day": [
+        704.68,
+        704.13,
+        702.81
+      ],
+      "final_temp_k": 301.4,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4080-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4080 steps=70428 dt_fs=4.0 wall_s=34.6 ns_per_day=703.87 sd=0.96 cv=0.0014 blocks=3 blocks_ns_day=704.68,704.13,702.81 final_temp_k=301.4 healthy=True",
+      "gpu_requested": "RTX 4080",
+      "offer_gpu_name": "RTX 4080",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:24:31Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4080",
+        "ns_per_day": 703.87
+      }
+    },
+    {
+      "tag": "rtx4080",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4080",
+      "steps": 64482,
+      "dt_fs": 4.0,
+      "wall_s": 32.2,
+      "ns_per_day": 692.51,
+      "sd": 0.75,
+      "cv": 0.0011,
+      "blocks": 3,
+      "blocks_ns_day": [
+        693.25,
+        692.55,
+        691.74
+      ],
+      "final_temp_k": 301.3,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4080 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4080 steps=64482 dt_fs=4.0 wall_s=32.2 ns_per_day=692.51 sd=0.75 cv=0.0011 blocks=3 blocks_ns_day=693.25,692.55,691.74 final_temp_k=301.3 healthy=True",
+      "gpu_requested": "RTX 4080",
+      "offer_gpu_name": "RTX 4080",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:24:35Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4080",
+        "ns_per_day": 692.51
+      }
+    },
+    {
+      "tag": "rtx4090-r2",
+      "status": "ERROR",
+      "err": "OpenMMException:Particle",
+      "healthy": false,
+      "_raw": "BENCH_RESULT tag=rtx4090-r2 status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "gpu_requested": "RTX 4090",
+      "offer_gpu_name": "RTX 4090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:23:21Z",
+      "admitted": false,
+      "admission_reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ],
+      "proposed_entry": null
+    }
+  ]
 }
