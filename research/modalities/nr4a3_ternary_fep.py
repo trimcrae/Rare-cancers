@@ -102,7 +102,7 @@ def _extra_leg_map():
     module is missing or broken. A leg id that resolves nowhere still fails closed in `leg_spec`.
     """
     out = {}
-    for mod in ("nr4a3_5aks_cofold",):
+    for mod in ("nr4a3_5aks_cofold", "valb_triangle_legs"):
         try:
             out.update(__import__(mod).LEG_MAP)
         except Exception:  # noqa: BLE001
@@ -324,6 +324,91 @@ def _single_aromatic_element_swap_pose(mol, target_smiles, rdkit_chem):
     return out, len(hits)
 
 
+def _double_aromatic_element_swap_pose(mol, target_smiles, rdkit_chem, max_pairs=4000):
+    """The same search as `_single_aromatic_element_swap_pose`, over PAIRS of aromatic ring atoms.
+
+    WHY A SECOND SWAP IS NEEDED AT ALL, AND WHY IT IS NOT A LOOSENING. The valB closure triangle's third
+    vertex, cmpd4", differs from the crystal ligand cmpd1 by a nitrogen 1,2-SHIFT within the linker ring:
+    the ring N becomes a C-H and a neighbouring C-H becomes an N. Both endpoints of every leg are built from
+    the SAME cmpd1 crystal pose (`_build_components`), so the closing edge T3 (cmpd1 -> cmpd4") cannot be
+    built by any single-atom swap, and `_endpoint_pose` would raise "refusing a wrong-molecule leg" — which
+    is the correct behaviour of the old code and exactly the gap this fills.
+
+    IT CANNOT INVENT A MOLECULE, for the same structural reason the single-swap search cannot: a candidate is
+    kept ONLY if it reproduces `target_smiles` under `_pose_matches_target`. The search is a way of FINDING a
+    construction of a molecule that is already specified; the verification is the rule. Widening from one
+    swap to two therefore widens what can be BUILT, never what can be ACCEPTED.
+
+    ORDERED PAIRS, DISTINCT ATOMS, AND THE SAME PER-ATOM ELIGIBILITY as the single-swap search: C->N only at
+    a ring C-H (an aza-substitution at a substituted position would make a quaternary aromatic N+ and change
+    the formal charge) and N->C only at a hydrogen-free pyridine-type N. `max_pairs` bounds the work; the
+    Wurz ligand has ~25 aromatic ring atoms, so the real cost is a few hundred sanitize calls, but an
+    unbounded double loop on a larger ligand is the kind of thing that silently turns into a stall on a
+    rented host.
+
+    Returns (pose, n_equivalent_pairs) or (None, 0). Deterministic: lowest (i, j) index pair wins, and the
+    count is returned so the leg record can say how many equivalent constructions existed.
+    """
+    if mol is None or rdkit_chem.MolFromSmiles(target_smiles) is None:
+        return None, 0
+    try:
+        base = rdkit_chem.RWMol(rdkit_chem.RemoveHs(rdkit_chem.Mol(mol)))
+        rdkit_chem.SanitizeMol(base)
+    except Exception:  # noqa: BLE001
+        return None, 0
+    ring_atoms = sorted({i for ring in base.GetRingInfo().AtomRings() for i in ring})
+
+    def _targets(idx):
+        """Which element this ring atom may legally become, under the aza-scan eligibility rule."""
+        a = base.GetAtomWithIdx(idx)
+        if not a.GetIsAromatic():
+            return ()
+        z, nh = a.GetAtomicNum(), a.GetTotalNumHs()
+        if z == 6 and nh == 1:
+            return (7,)
+        if z == 7 and nh == 0:
+            return (6,)
+        return ()
+
+    cand = [(i, z) for i in ring_atoms for z in _targets(i)]
+    hits = []
+    tried = 0
+    for ai in range(len(cand)):
+        for bi in range(ai + 1, len(cand)):
+            i, zi = cand[ai]
+            j, zj = cand[bi]
+            if i == j:
+                continue
+            tried += 1
+            if tried > max_pairs:
+                break
+            m = rdkit_chem.RWMol(base)
+            for idx, z in ((i, zi), (j, zj)):
+                at = m.GetAtomWithIdx(idx)
+                at.SetAtomicNum(z)
+                at.SetNumExplicitHs(0)
+                at.SetNoImplicit(False)
+                at.SetFormalCharge(0)
+            try:
+                out = m.GetMol()
+                rdkit_chem.SanitizeMol(out)
+                out = rdkit_chem.AddHs(out, addCoords=True)
+            except Exception:  # noqa: BLE001
+                continue
+            if _pose_matches_target(out, target_smiles, rdkit_chem):
+                hits.append((i, j, out))
+        if tried > max_pairs:
+            break
+    if not hits:
+        return None, 0
+    i, j, out = hits[0]
+    print("  [tfep] endpoint pose built by a DOUBLE aromatic element swap: atoms %d and %d "
+          "(%d equivalent pair(s) matched the target; lowest index pair taken). This is the closure "
+          "triangle's ring-nitrogen 1,2-shift — two atoms, one ring, zero heavy dummies."
+          % (i, j, len(hits)), flush=True)
+    return out, len(hits)
+
+
 def _endpoint_pose(sdf, name, target_smiles, base_smiles, rdkit_chem):
     """Build the 3D pose for endpoint `name` so it MATCHES target_smiles, starting from the crystal pose (whose
     true identity is base_smiles — the co-crystallized ligand, e.g. Wurz cmpd1). If target == base, bond-order
@@ -347,6 +432,14 @@ def _endpoint_pose(sdf, name, target_smiles, base_smiles, rdkit_chem):
         swapped = rbfe._repair_pose(swapped, target_smiles, rdkit_chem)
         if _pose_matches_target(swapped, target_smiles, rdkit_chem):
             return swapped
+    # DOUBLE aromatic swap, tried after the single one so it can never change how any existing leg is built.
+    # This is the closure triangle's closing edge: cmpd1 -> cmpd4" is a ring-nitrogen 1,2-SHIFT, and both
+    # endpoints are built from the same cmpd1 crystal pose, so one swap cannot reach it.
+    swapped2, _n2 = _double_aromatic_element_swap_pose(clean, target_smiles, rdkit_chem)
+    if swapped2 is not None:
+        swapped2 = rbfe._repair_pose(swapped2, target_smiles, rdkit_chem)
+        if _pose_matches_target(swapped2, target_smiles, rdkit_chem):
+            return swapped2
     raise SystemExit("  ABORT: endpoint %s could not be built to match its target SMILES (element-change pose "
                      "mutation failed) — refusing a wrong-molecule leg." % name)
 

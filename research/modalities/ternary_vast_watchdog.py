@@ -284,9 +284,12 @@ def arm(mode, path=None, timestep_fs=None, warmup_timestep_fs=None):
     Called by the launch job immediately after renting, because the watch list is the ONLY input the cron
     watchdog reads — a launch that does not register its units is a launch nobody is watching.
     """
-    dt = str(timestep_fs or os.environ.get("TVAST_TIMESTEP_FS") or tv.DEFAULT_TIMESTEP_FS)
-    wdt = str(warmup_timestep_fs or os.environ.get("TVAST_WARMUP_TIMESTEP_FS")
-              or tv.DEFAULT_WARMUP_TIMESTEP_FS)
+    # ★ THROUGH THE LAUNCHER'S OWN RESOLVER, so a mode that PINS its timestep is armed at the unit ids
+    # that were actually rented. `triangle` pins 2 fs (it must match r0, which is its T1 edge) while
+    # this lane's default is 4 fs — and an env-only derivation here would compute 4 fs unit ids for
+    # 2 fs legs, so `--verify-armed` would fail a correct launch and, worse, the cron watchdog would
+    # watch four units that do not exist while four billed ones ran unwatched.
+    dt, wdt = tv.resolve_timesteps(mode, timestep_fs, warmup_timestep_fs)
     doc = load_watch(path)
     doc.setdefault("watch", [])
     by_id = {w.get("unit_id"): w for w in doc["watch"] if isinstance(w, dict)}
@@ -325,9 +328,12 @@ def verify_armed(mode, path=None, timestep_fs=None, warmup_timestep_fs=None):
     stay a no-op. Only something that knows which units were just launched can tell "nothing to watch" from
     "the thing I am watching went missing". That is this function, and it belongs in the launch path.
     """
-    dt = str(timestep_fs or os.environ.get("TVAST_TIMESTEP_FS") or tv.DEFAULT_TIMESTEP_FS)
-    wdt = str(warmup_timestep_fs or os.environ.get("TVAST_WARMUP_TIMESTEP_FS")
-              or tv.DEFAULT_WARMUP_TIMESTEP_FS)
+    # ★ THROUGH THE LAUNCHER'S OWN RESOLVER, so a mode that PINS its timestep is armed at the unit ids
+    # that were actually rented. `triangle` pins 2 fs (it must match r0, which is its T1 edge) while
+    # this lane's default is 4 fs — and an env-only derivation here would compute 4 fs unit ids for
+    # 2 fs legs, so `--verify-armed` would fail a correct launch and, worse, the cron watchdog would
+    # watch four units that do not exist while four billed ones ran unwatched.
+    dt, wdt = tv.resolve_timesteps(mode, timestep_fs, warmup_timestep_fs)
     doc = load_watch(path)
     armed = {w.get("unit_id") for w in enabled_entries(doc)}
     want = {tv.unit_id(l, s, d, dt, wdt, mode) for (l, s, d) in tv.units_for(mode)}
