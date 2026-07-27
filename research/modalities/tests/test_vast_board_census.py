@@ -39,8 +39,12 @@ import vast_cost_model as vcm  # noqa: E402
 # 1. the anchor
 # =============================================================================================================
 def test_the_three_benched_figures_are_untouched():
-    """Exact equality, deliberately. These are measurements; a 'harmless' re-round is a silent re-basing."""
-    assert vcm.MEASURED_NS_PER_DAY_84K == {"RTX4090": 755.36, "RTX4080": 703.51, "RTX3090": 359.36}
+    """Exact equality PER ANCHOR, deliberately. These are measurements; a 'harmless' re-round is a silent
+    re-basing. Written as a subset check rather than whole-dict equality because GROWING the table is the
+    point of the calibration lane — what must never move is the three figures the whole repo was priced
+    against (2026-07-27: six measured cards added by `vast_bench_sweep`)."""
+    for card, ns in {"RTX4090": 755.36, "RTX4080": 703.51, "RTX3090": 359.36}.items():
+        assert vcm.MEASURED_NS_PER_DAY_84K[card] == ns
     assert vcm.REFERENCE_CARD == "RTX4090"
 
 
@@ -73,13 +77,15 @@ def test_an_alias_never_changes_a_measured_card():
     # a VENDOR PREFIX is free: the marketplace says `RTX 4090`, the CUDA driver says the long form, and both
     # have to reach the same measurement or a bench cannot be matched to the offer that produced it
     ("NVIDIA GeForce RTX 4090", "RTX4090"), ("NVIDIA GeForce RTX 3090", "RTX3090"),
-    ("NVIDIA GeForce RTX 3090 Ti", "RTX3090"),
+    # MEASURED 2026-07-27, so it no longer borrows the RTX 3090's figure — a measurement always wins over
+    # the alias that stood in for it, and this one came in ~34% above the number it was borrowing.
+    ("NVIDIA GeForce RTX 3090 Ti", "RTX3090TI"),
     # ...but a TRAILING qualifier is fatal unless it is on the allow-list — that is what marks a different SKU
     ("NVIDIA GeForce RTX 4090 Laptop GPU", None),
     # allow-listed strict spec supersets — the borrowed figure is a LOWER bound, so $/ns is an UPPER bound
-    ("RTX 3090 Ti", "RTX3090"), ("RTX 4080S", "RTX4080"), ("RTX 4080 SUPER", "RTX4080"),
+    ("RTX 3090 Ti", "RTX3090TI"), ("RTX 4080S", "RTX4080"), ("RTX 4080 SUPER", "RTX4080"),
     # everything else, including the cut-down SKU that used to inherit the reference card
-    ("RTX 4090D", None), ("RTX 5090", None), ("RTX PRO 6000 WS", None), ("A100 SXM4", None),
+    ("RTX 4090D", None), ("RTX PRO 6000 WS", None), ("A100 SXM4", None),
     ("H100 SXM", None), ("Titan RTX", None), ("Q RTX 8000", None), ("", None), (None, None),
 ])
 def test_card_of_is_an_allow_list_not_a_substring_sweep(name, expect):
@@ -97,8 +103,10 @@ def test_the_cut_down_4090_no_longer_borrows_the_reference_figure():
 def test_provenance_distinguishes_a_measurement_from_a_borrowed_bound():
     assert vcm.throughput_provenance("RTX 4090")[0] == "measured"
     assert vcm.throughput_provenance("RTX 4080S")[0] == "conservative_alias"
-    assert vcm.throughput_provenance("RTX 3090 Ti")[1] == "RTX3090"
-    assert vcm.throughput_provenance("RTX 5090")[0] == "unbenched"
+    # RTX 3090 Ti graduated from alias to measurement on 2026-07-27; the pair below keeps both states covered.
+    assert vcm.throughput_provenance("RTX 3090 Ti")[0] == "measured"
+    assert vcm.throughput_provenance("RTX 3090 Ti")[1] == "RTX3090TI"
+    assert vcm.throughput_provenance("H200 NVL")[0] == "unbenched"
     # An alias must SAY which way it errs, so nobody reads it as a measurement.
     assert "LOWER" in vcm.throughput_provenance("RTX 4080S")[2]
 
@@ -106,7 +114,7 @@ def test_provenance_distinguishes_a_measurement_from_a_borrowed_bound():
 # =============================================================================================================
 # 3. one matcher
 # =============================================================================================================
-@pytest.mark.parametrize("name", ["RTX 4090", "RTX 4090D", "RTX 3090 Ti", "RTX 4080S", "RTX 5090",
+@pytest.mark.parametrize("name", ["RTX 4090", "RTX 4090D", "RTX 3090 Ti", "RTX 4080S", "H200 NVL",
                                   "RTX PRO 6000 WS", "Q RTX 8000"])
 def test_backend_and_cost_model_agree_on_every_awkward_name(name):
     c = vcm.card_of(name)
