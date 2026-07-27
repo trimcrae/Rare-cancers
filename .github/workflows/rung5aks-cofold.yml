@@ -35,7 +35,7 @@ on:
       mode:
         description: "prep ($0 staging record) | manifest ($0 leg contract) | stage ($0, needs co-folds) | reduce ($0, needs leg JSONs) | cofold_dry ($0, print the JobSpec) | cofold (~$0.3-1, rent one Vast host for Boltz-2) | cofold_collect ($0) | leg_diag ($0, dump a 5a-KS FEP leg's phase/status/log from S3, including the PREVIOUS attempt's) | preequil_repro ($0 CPU, reproduce the preequil failure and prove the fix before re-renting) | ligand_diag ($0 CPU, compare the two legs' staged ligands.sdf record-for-record)"
         type: choice
-        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect, leg_diag, preequil_repro, ligand_diag]
+        options: [prep, manifest, stage, reduce, cofold_dry, cofold, cofold_collect, leg_diag, preequil_repro, ligand_diag, vast_diag]
         default: prep
       cofold_dir:
         description: "stage: directory holding the Boltz co-fold CIFs (blank = research/modalities/5aks_cofold_out)"
@@ -433,3 +433,21 @@ jobs:
             -w /work/research/modalities \
             docker.io/triskit23/ternary-fep:latest \
             /work/research/modalities/nr4a3_5aks_ligand_diag.py
+
+  # ------------------------------- $0: the container's EXIT REASON and the host's RAM (OOM or something else)
+  # `collect` reports the RENTAL's status, which said "success, running ..." for a container that had died.
+  # The fix depends entirely on which this is: an OOM kill needs a BIGGER HOST, anything else may be fixed by
+  # a shorter commit interval. Read-only; spends nothing.
+  vast_diag:
+    if: ${{ github.event.inputs.mode == 'vast_diag' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      VAST_DIAG_SELECT: ${{ github.event.inputs.leg_filter }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Dump the full Vast instance record
+        run: python3 research/modalities/nr4a3_5aks_vast_diag.py
