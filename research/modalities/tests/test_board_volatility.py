@@ -285,6 +285,53 @@ def test_a_spell_is_not_bridged_across_an_observation_gap():
     assert max(s["ticks"] for s in sp) == 2
 
 
+# =============================================================================================================
+# ROTATING-SAMPLE CORRECTION — the confound that made the first survival curve meaningless
+# =============================================================================================================
+def test_miss_probability_measures_the_sampler_not_the_market():
+    # Two identical reads, 20 s apart: A is in both, B only in the first, C only in the second. The endpoint
+    # omitted one of two machines each way, so p = 0.5 symmetrised.
+    recs = [_rec(0, "R1", {"A": 0.003, "B": 0.003}), _rec(0, "R2", {"A": 0.003, "C": 0.003})]
+    assert vbv.miss_probability(vbv.annotate(recs)) == pytest.approx(0.5)
+
+
+def test_miss_probability_is_zero_for_a_stable_endpoint():
+    recs = [_rec(0, "R1", {"A": 0.003}), _rec(0, "R2", {"A": 0.003})]
+    assert vbv.miss_probability(vbv.annotate(recs)) == 0.0
+
+
+@pytest.mark.parametrize("p,expected", [(0.0, 1), (0.245, 3), (0.5, 6)])
+def test_tolerance_is_derived_from_the_measured_miss_rate(p, expected):
+    # Never hand-picked. At the measured p=0.245, three consecutive misses put the false-"gone" rate at
+    # 0.245**3 = 1.5 %, under the 2 % target; two would leave it at 6 %.
+    assert vbv.tolerance_for(p) == expected
+
+
+def test_a_single_missed_read_does_not_end_a_spell():
+    # A is cheap throughout; the endpoint simply fails to list it at tick 1. With tolerance 2 that is one
+    # spell of 4 ticks, not two spells of 1 and 2 — and the difference is the whole survival result.
+    ser = _ser([{"A": 0.003}, {}, {"A": 0.003}, {"A": 0.003}])
+    sp = vbv.spells(ser, line=LINE, miss_tolerance=2)
+    assert len(sp) == 1
+    assert sp[0]["ticks"] == 4
+
+
+def test_the_naive_rule_splits_that_same_spell_which_is_why_it_understates_survival():
+    ser = _ser([{"A": 0.003}, {}, {"A": 0.003}, {"A": 0.003}])
+    sp = vbv.spells(ser, line=LINE, miss_tolerance=1)
+    assert len(sp) == 2
+    assert max(s["ticks"] for s in sp) == 2
+
+
+def test_tolerance_dates_the_end_at_the_last_SIGHTING_not_the_last_tolerated_tick():
+    # A vanishes for good after tick 0. With tolerance 3 the spell closes at tick 3, but its length must be
+    # 1 tick — otherwise the tolerance would inflate exactly the lifetime it exists to protect.
+    ser = _ser([{"A": 0.003}, {}, {}, {}, {}])
+    sp = [s for s in vbv.spells(ser, line=LINE, miss_tolerance=3) if s["machine"] == "A"]
+    assert len(sp) == 1
+    assert sp[0]["ticks"] == 1
+
+
 def test_the_module_takes_its_buy_line_from_the_one_place_that_owns_it():
     from inflight_usd_per_ns import APPROVED_USD_PER_NS
     assert vbv._line() == APPROVED_USD_PER_NS

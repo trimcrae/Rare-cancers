@@ -405,7 +405,53 @@ def series(records, slot="R1"):
     return dedup
 
 
-def spells(ser, line=None, tick_s=60):
+def miss_probability(records):
+    """P(a machine present in one read is ABSENT from an IDENTICAL read seconds later). PURE.
+
+    ★★ THE NUMBER THAT DECIDES WHETHER A SURVIVAL CURVE MEANS ANYTHING (measured 2026-07-27: **0.245**).
+
+    `/search/asks/` does not return the board — it returns a ROTATING SAMPLE of it. Two identical queries 20 s
+    apart each returned ~225 offers with only ~174 in common, and the cumulative distinct machines seen across
+    30 reads grew to **591** and was still climbing. So a machine vanishing between consecutive ticks is, about
+    a quarter of the time, nothing but the sampler having looked elsewhere.
+
+    This is why the naive survival estimate is worthless and had to be caught: at p=0.245 a
+    "gone the moment it is missing" rule declares ~24 % of the board rented EVERY TICK, which manufactures a
+    ~1-minute median lifetime out of a market that has not moved at all. The measured p is what justifies the
+    `miss_tolerance` in `spells` — the tolerance is DERIVED from this, never picked to make a curve look right.
+    """
+    by_tick = defaultdict(dict)
+    for r in records:
+        if r.get("status") == 200 and r.get("slot") in ("R1", "R2"):
+            by_tick[(r.get("run", 0), r["tick"])][r["slot"]] = r
+    ps = []
+    for _k, d in by_tick.items():
+        if "R1" in d and "R2" in d:
+            a = {x["m"] for x in d["R1"].get("rows", [])}
+            b = {x["m"] for x in d["R2"].get("rows", [])}
+            if a:
+                ps.append(len(a - b) / len(a))
+            if b:
+                ps.append(len(b - a) / len(b))
+    return (sum(ps) / len(ps)) if ps else 0.0
+
+
+def tolerance_for(p, target=0.02, cap=6):
+    """How many CONSECUTIVE misses to require before calling a machine gone, so the false-"gone" rate < target.
+
+    Misses are treated as independent across reads, which is the conservative direction: if the sampler's
+    omissions are correlated, this tolerance is too SMALL and survival is still under-estimated. Derived, so a
+    change in the measured `p` moves the tolerance instead of silently invalidating the curve.
+    """
+    if p <= 0:
+        return 1
+    k = 1
+    while p ** k > target and k < cap:
+        k += 1
+    return k
+
+
+def spells(ser, line=None, tick_s=60, miss_tolerance=1):
     """Every maximal run of consecutive ticks in which a machine sits AT OR BELOW the buy line.
 
     Returns [{machine, start, end, ticks, minutes, censored_left, censored_right, ended_by}]. `ended_by`
@@ -446,16 +492,25 @@ def spells(ser, line=None, tick_s=60):
         prev_t = t
         for m in list(seen):
             if m not in under:
-                sp = seen.pop(m)
-                done.append({"machine": m, "start": sp["start"], "end": sp["last"],
-                             "ticks": sp["last"] - sp["start"] + 1,
-                             "ended_by": "repriced" if m in allm else "taken",
-                             "censored_left": sp["start"] == first_t, "censored_right": False})
+                # ★ A SINGLE MISS IS NOT A DEPARTURE. `/search/asks/` returns a rotating sample and omits
+                # ~24.5 % of the board on any given read (`miss_probability`), so ending a spell on one
+                # absence measures the SAMPLER, not the market — it produced a ~1-minute median lifetime for
+                # a board whose cheap end is demonstrably stable for hours. Require `miss_tolerance`
+                # CONSECUTIVE misses, and date the spell's end at the last tick the machine was actually
+                # SEEN, so the tolerance does not inflate the lifetime it is protecting.
+                seen[m]["misses"] = seen[m].get("misses", 0) + 1
+                if seen[m]["misses"] >= miss_tolerance:
+                    sp = seen.pop(m)
+                    done.append({"machine": m, "start": sp["start"], "end": sp["last"],
+                                 "ticks": sp["last"] - sp["start"] + 1,
+                                 "ended_by": "repriced" if m in allm else "taken",
+                                 "censored_left": sp["start"] == first_t, "censored_right": False})
         for m in under:
             if m not in seen:
-                seen[m] = {"start": t, "last": t}
+                seen[m] = {"start": t, "last": t, "misses": 0}
             else:
                 seen[m]["last"] = t
+                seen[m]["misses"] = 0
     for m, sp in seen.items():
         done.append({"machine": m, "start": sp["start"], "end": sp["last"],
                      "ticks": sp["last"] - sp["start"] + 1, "ended_by": "still_open",
@@ -822,11 +877,25 @@ def main(argv=None):
         recs = annotate(load(a.analyse), tick_s=a.tick_s)
         ser = series(recs, "R1")
         cad = [float(x) for x in a.cadences.split(",") if x.strip()]
-        sp = spells(ser, tick_s=a.tick_s)
+        # The tolerance is DERIVED from the measured per-read miss rate, never chosen. Both curves are
+        # reported: the naive one is kept visible precisely because it is the wrong answer, and a reader who
+        # sees only the corrected number cannot tell how large the correction was.
+        p_miss = miss_probability(recs)
+        tol = tolerance_for(p_miss)
+        sp = spells(ser, tick_s=a.tick_s, miss_tolerance=tol)
+        sp_naive = spells(ser, tick_s=a.tick_s, miss_tolerance=1)
         rep = {"_what": "Vast cheap-end volatility: does poll cadence matter, and what does hourly cost?",
                "buy_line_usd_per_ns": _line(),
                "reads": len(recs), "ticks_analysed": len(ser),
                "tick_seconds": a.tick_s, "fleet_units": a.units,
+               "read_sampling": {
+                   "_what": "the API returns a ROTATING SAMPLE, not the board — this is the correction that "
+                            "makes the survival curve meaningful rather than a measurement of the sampler",
+                   "per_read_miss_probability": round(p_miss, 4),
+                   "miss_tolerance_ticks_used": tol,
+                   "distinct_machines_seen": len({x["m"] for s in ser for x in s["rows"]}),
+                   "offers_per_read": _stats([s["n_offers"] for s in ser])},
+               "offer_survival_km_NAIVE_one_miss_is_gone": kaplan_meier(sp_naive, tick_s=a.tick_s),
                "read_noise_floor": read_noise(recs),
                "truncation_default_vs_full_board": truncation(recs),
                "availability": availability(ser),
