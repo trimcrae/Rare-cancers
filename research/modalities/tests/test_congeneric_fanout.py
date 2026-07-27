@@ -1235,3 +1235,17 @@ def test_the_launch_wave_avoids_machines_the_lane_is_ALREADY_renting():
         "mode_launch must seed host-distinctness with the machines it is already renting"
     # and it must NOT write them to the durable exclusion set — a machine we are happily running on is good
     assert "_record_exclusion(s3, bucket, _already_on" not in src
+
+def test_the_double_booked_floor_is_DERIVED_from_the_one_home_and_is_shorter():
+    """`STUCK_START_MIN` buys image-pull protection and nothing else, and a container with no GPU to pull
+    onto has none to protect. The floor must be a FRACTION of that single home so the two cannot drift, and
+    the two-strike rule must not move for either class."""
+    import congeneric_fanout_vast as fv
+    assert fv.stuck_start_min_for(False) == fv.STUCK_START_MIN
+    assert fv.stuck_start_min_for(True) == fv.STUCK_START_MIN / 3.0
+    assert fv.stuck_start_min_for(True) < fv.stuck_start_min_for(False)
+    assert fv.STUCK_START_STRIKES >= 2, "consecutive-observation discipline is never relaxed (CLAUDE.md §4)"
+    import inspect
+    src = inspect.getsource(fv.mode_monitor)
+    assert "_floor = stuck_start_min_for(" in src and "age >= _floor" in src, \
+        "the condemn test must use the derived per-class floor, not the bare constant"

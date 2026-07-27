@@ -383,6 +383,26 @@ STUCK_START_STRIKES = int(os.environ.get("STUCK_START_STRIKES", "2"))
 STUCK_START_HARD_MIN = float(os.environ.get("STUCK_START_HARD_MIN", str(3 * 45)))
 
 
+def stuck_start_min_for(double_booked):
+    """The age floor before a stopped, empty-`status_msg` host starts taking strikes. DERIVED, not typed.
+
+    ★ WHY A DOUBLE-BOOKED DUPLICATE WAITS A THIRD AS LONG. `STUCK_START_MIN` is not a general patience
+    setting — it buys exactly ONE thing, protection for a cheap host legitimately spending 20-40 min pulling
+    the ~6 GiB image. That protection is meaningless for a container placed on a machine whose GPU this lane
+    already holds: it is not pulling slowly, it has nothing to pull onto. Measured 2026-07-27 — 0 of 7 such
+    instances ever started, at ages from 9 to 44 minutes, while 8 of 10 single-booked ones did.
+
+    The cost of waiting is not the rental, it is the SLOT: these held 8 of the lane's 19 places, so real
+    units could not be placed while containers that can never run occupied the fleet.
+
+    ⚠ WHAT IS *NOT* RELAXED: the two-consecutive-strike rule (§4) is untouched for both classes, because the
+    thing it guards against — a single API blip or a listing caught mid-transition — is just as possible
+    here, and this path destroys a rental. And the floor is a fraction of the ONE home for the number, so a
+    change to `STUCK_START_MIN` moves both together instead of leaving a second copy to drift.
+    """
+    return STUCK_START_MIN / 3.0 if double_booked else STUCK_START_MIN
+
+
 def never_started_cohort(live, excluded=()):
     """Classify every STOPPED s1f-* host into the THREE classes that have three different remedies. PURE.
 
@@ -2305,7 +2325,8 @@ def mode_monitor():
             # message claims, a box that has NOT reached running well over two hours after rental is not
             # pulling an image.
             hard_stop = age is not None and age >= STUCK_START_HARD_MIN
-            if (stuck_sig and age is not None and age >= STUCK_START_MIN) or hard_stop:
+            _floor = stuck_start_min_for(i.get("id") in _dupes)
+            if (stuck_sig and age is not None and age >= _floor) or hard_stop:
                 strikes = int((start_state.get(iid) or {}).get("strikes", 0)) + 1
                 if strikes >= STUCK_START_STRIKES:
                     mid = i.get("machine_id")
@@ -2377,8 +2398,9 @@ def mode_monitor():
                     continue                   # condemned: drop its strike row entirely
                 new_start_state[iid] = {"strikes": strikes, "age_min": age, "utc": _utcnow()}
                 print(f"[s1f] STUCK-START strike {strikes}/{STUCK_START_STRIKES} on {iid} ({i.get('label')}) "
-                      f"— stopped with an empty status_msg for {age} min; condemned at "
-                      f"{STUCK_START_STRIKES} strikes")
+                      f"— stopped with an empty status_msg for {age} min (floor {_floor:.0f} min"
+                      + (", DOUBLE-BOOKED: no image-pull to protect" if i.get("id") in _dupes else "")
+                      + f"); condemned at {STUCK_START_STRIKES} strikes")
             try:
                 _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
                 print(f"[s1f] NUDGED {iid} ({i.get('label')}) — cur_state=stopped, no result yet; "
