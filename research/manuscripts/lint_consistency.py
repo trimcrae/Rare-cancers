@@ -28,6 +28,9 @@ WHAT IT CHECKS
 --------------
   D  derivations       -- a total must EQUAL its parts, recomputed from the machine JSON
                           the cost model emits. Catches a wrong CURRENT value.
+  A  artifact figures  -- a doc that quotes a machine-written number must quote THAT
+                          number. Catches a hand-typed figure with no machine behind it:
+                          the scoreboard's "$0.74 spent" beside a $20.11 rental ledger.
   T  table completeness -- a repriced-ladder table must carry EVERY stage the cost model
                           prices, its printed rows must sum to its printed total, and that
                           total must match the tool. The exact shape of the $128 bug: one
@@ -225,6 +228,76 @@ def check_derivations(reg, repo=REPO):
 
 
 # ---------------------------------------------------------------------------
+# A: artifact figures -- a doc quoting a machine-written number must quote THAT number
+#
+# WHY THIS RULE WAS ADDED (2026-07-27). The scoreboard headline read "$0.74 spent" while
+# the step 1 fan-out's own ledger stood at $20.11 -- a hand-typed realised total, ~27x
+# low, understating spend while three lanes were billing. D/T/X/S could not see it: it
+# was not a ladder total, not a table row, not a summary of another table, and not a
+# superseded value. It was simply a number in prose with no machine behind it.
+#
+# The fix is the same shape as D: name the artifact, name the key, and require every doc
+# that quotes it to quote the artifact's value.
+#
+# ★ IT CHECKS THE COMMITTED SNAPSHOT, NOT A LIVE RECOMPUTATION, and that is deliberate.
+# The lanes bill continuously, so a live figure moves several times an hour; a rule
+# demanding the doc track that would be red almost always, and an always-red linter is
+# the failure lint_claims.py's founding lesson warns about. The snapshot moves only when
+# someone runs `realised_spend.py --write` -- so this fires exactly when a refresh
+# happened and the doc was not updated in the same commit, which is the real failure mode.
+# ---------------------------------------------------------------------------
+def check_artifact_figures(reg, repo=REPO):
+    out = []
+    for a in reg.get("artifact_figures", []):
+        path = os.path.join(repo, a["artifact"])
+        if not os.path.exists(path):
+            out.append(_finding("A-artifact-missing", "ERROR", a["artifact"], 0,
+                                f"{a['id']}: the artifact this figure is derived from is missing",
+                                a.get("regenerate", "")))
+            continue
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        try:
+            value = float(_dig_json(doc, a["key"]))
+        except Exception as e:  # noqa: BLE001
+            out.append(_finding("A-key-missing", "ERROR", a["artifact"], 0,
+                                f"{a['id']}: cannot read key {a['key']!r} ({type(e).__name__})",
+                                a.get("regenerate", "")))
+            continue
+        shown = a.get("format", "${:.2f}").format(value)
+        tol = a.get("tolerance", 0.005)
+        for rel in a.get("must_appear_in", []):
+            lines = _read_lines(repo, rel)
+            if lines is None:
+                out.append(_finding("A-target-missing", "ERROR", rel, 0, "declared target file not found"))
+                continue
+            hits = [(i, ln) for i, ln in enumerate(lines, 1) if re.search(a["context"], ln)]
+            if not hits:
+                out.append(_finding(
+                    "A-figure-not-stated", "ERROR", rel, 0,
+                    f"{a['id']}: no line matches the declared context /{a['context']}/, so the "
+                    f"figure this doc is supposed to carry ({shown}) is not there at all",
+                    a.get("regenerate", "")))
+                continue
+            for ln_no, ln in hits:
+                quoted = _nums(ln)
+                if not any(abs(q - value) <= tol for q in quoted):
+                    out.append(_finding(
+                        "A-figure-mismatch", "ERROR", rel, ln_no,
+                        f"{a['id']}: this line quotes {quoted} but {a['artifact']}:{a['key']} "
+                        f"is {shown}",
+                        a.get("regenerate", "")))
+    return out
+
+
+def _dig_json(doc, dotted):
+    cur = doc
+    for part in dotted.split("."):
+        cur = cur[part]
+    return cur
+
+
+# ---------------------------------------------------------------------------
 # T: table completeness -- a subset total masquerading as a whole
 # ---------------------------------------------------------------------------
 def _section_lines(lines, header):
@@ -380,7 +453,8 @@ def check_superseded(reg, repo=REPO, targets=None):
 # ---------------------------------------------------------------------------
 def lint(repo=REPO, registry_path=REGISTRY):
     reg = load_registry(registry_path)
-    return (check_derivations(reg, repo) + check_table_completeness(reg, repo)
+    return (check_derivations(reg, repo) + check_artifact_figures(reg, repo)
+            + check_table_completeness(reg, repo)
             + check_subsets(reg, repo) + check_superseded(reg, repo))
 
 

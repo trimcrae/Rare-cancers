@@ -44,7 +44,19 @@ something like *we passed n gates*, or *we failed x gate and need to make y reme
 deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
 underneath one.*
 
-**As of 2026-07-27 · 7 gates passed · 3 failed (all caught before the spend) · 2 deliverables done · $0.74 spent.**
+**As of 2026-07-27 5:57 PM ET · 7 gates passed · 3 failed (all caught before the spend) · 1 gate in flight ·
+2 deliverables done · realised spend $23.60 machine-ledgered.**
+
+*That spend figure is **DERIVED, never typed** — it is a reading of
+[`realised-spend.json`](research/modalities/realised-spend.json), which sums each lane's own rental ledger
+(`python3 research/modalities/realised_spend.py`). Two things it deliberately keeps apart. **(a)** A further
+**+$2.31 attested** is real money **no machine ledger counts**, because the ternary Vast lane has never had
+one — so the ledgered figure is a **FLOOR**, the best estimate is **$25.91**, and the artifact carries the
+remediation that deletes the gap. **(b) GCP trial credit is a SEPARATE LEDGER and is never summed into
+either** (CLAUDE.md §6): it buys wall clock, not headroom. `lint_consistency.py` rule A now holds this line
+to the artifact, so the figure cannot drift back into prose. **Superseded, retained: `$0.74 spent`** — a
+hand-carried total that stood while the fan-out lane alone had realised twenty times it
+([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 39).*
 
 | # | gate | status | what it means in one line |
 |---|---|---|---|
@@ -54,10 +66,12 @@ underneath one.*
 | RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
 | RUNG 2 | cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
 | RUNG 2b | 4 fs speed test | **PASSED — both stages** | every future simulation ~1.56× cheaper. The full cycle reproduces the 2 fs answer to **0.0215 kcal/mol** against a 0.7 tolerance; adopted provisionally at one seed (no replicate-SD, and system identity unrecorded) |
-| RUNG 2 · closure | **cycle closure — fwd/rev hysteresis** | **PASSED (2026-07-27)** | the calibrator's ternary leg closes on itself: abs(ΔG_fwd + ΔG_rev) = **0.325** against a preregistered **1.0** ceiling. First time the criterion had both its inputs; a PATH-CLOSURE check, not an accuracy one, so it does not touch the wrong-sign FAIL below |
-| RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7** |
+| RUNG 2 · closure | **cycle closure — fwd/rev hysteresis** | **PASSED (2026-07-27)** | the calibrator's ternary leg closes on itself, comfortably inside its preregistered ceiling. First time the criterion had both its inputs; a PATH-CLOSURE check, not an accuracy one, so it does not touch the wrong-sign FAIL below. **The numbers live once**, in the §THE FIRST FORWARD/REVERSE HYSTERESIS block below — this row deliberately does not restate them |
+| RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7**. ⚠ **The 4 replicate legs now running do NOT convert this to a PASS** — see the row below |
+| RUNG 2 · replicates | **valB_mini r1+r2 — is the FAIL quantified?** | **IN FLIGHT — and the outcome it is buying is a better-characterised FAIL, not a PASS** | 4 legs rented 4:00 PM ET. When they reduce at n=3 the gate **fails hard on the wrong sign BEFORE the replicate SD is ever consulted**, so what they buy is **INDETERMINATE → FAIL-with-an-error-bar**. A reader expecting these legs to rescue RUNG 2 would be misled; what they rescue is the *reportability* of the failure |
 | RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
 | RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. **~$21 not spent** |
+| RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **IN PROGRESS — NO GATE REACHED YET.** Not a pass, not a fail, and it is the largest live thing in the programme | **1 edge complete** (`cw_ev_5cooh`, ΔΔG **0.688 kcal/mol**) · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it) · **17 placed and sampling.** The gate is the map, and the map needs the edges: nothing here can be graded until enough of the 17 return a ΔΔG. Live state, cost and $/ns are in the IN FLIGHT board below |
 
 | deliverable | status |
 |---|---|
