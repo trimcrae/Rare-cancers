@@ -916,11 +916,15 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
 
 **All production runs go on Vast.** GCP L4 / SageMaker / Modal are not the go-forward basis. **The card is not
 the decision — the OFFER is.** Rank live offers by all-in **`$/ns`** (bid + storage ÷ measured throughput) and
-take whatever wins; the top 10 routinely contain both 4090s and 3090s. Validated throughput @84,534 particles is
-**4090 755.36 / 4080 703.51 / 3090 359.36 ns/day** (4090/3090 = **2.10×**), while the cheapest 3090 floor was
-**$0.0147/hr** against **$0.1310** for the cheapest 4090 — an **8.8×** price spread that more than covers being
-2.10× slower. VRAM is never the constraint (≥24 GB is ample). A 3090 does need 2.10× the wall clock, so a leg
-with a hard continuity requirement is 2.10× more exposed on it — scaled and flagged per card, not ignored.
+take whatever wins; the top 10 routinely contain both 4090s and 3090s. Measured throughput @84,534 particles is
+**4090 804.06 / 4080 693.35 / 3090 460.91 ns/day** (4090/3090 = **1.745×**) — table of record
+`vast_cost_model.MEASURED_NS_PER_DAY_84K`, re-anchored 2026-07-27 onto a median over N≥3 independent hosts
+(pricing.md → Appendix T). The cheapest 3090 floor was **$0.0147/hr** against **$0.1310** for the cheapest 4090
+— an **8.8×** price spread that more than covers the throughput gap. VRAM is never the constraint (≥24 GB is
+ample). A 3090 does need **1.745×** the wall clock, so a leg with a hard continuity requirement is
+proportionally more exposed on it — scaled and flagged per card, not ignored.
+*(Superseded, retained: the single-host figures **4090 755.36 / 4080 703.51 / 3090 359.36** and the
+**2.10×** ratio derived from them. Appendix T says what retired them.)*
 
 - **★ PLANNING RATE: $0.137 per reference (4090) GPU-hour** — best-10-offer mean on the live board; range
   $0.057 (best offer) to $0.309 (median). Against the **$0.35–0.39/hr `step1_fanout` actually paid**, that is
@@ -951,7 +955,7 @@ bottom-up estimate rather than a total.
 |---|---|---|
 | **RBFE binary edge** (complex+solvent, ~35k atoms) | **~13.7 ref GPU-h ≈ ~$1.9** | Live-diagnosed per-iteration rate on the **real cmpd19/NR4A3** complex — 12.76 / 13.70 / 14.42 s/iter on three independent Vast 4090 hosts (16 samples each) — × the hardcoded 2400-iteration leg. A clean end-to-end ΔG was **not** captured (both spot instances preempted), so this is an extrapolated rate, not a completed-edge measurement |
 | **Ternary cooperativity edge** (3 replicas, ~146k particles, 12 windows) | **~$8.8 ($3.2–22)**, 56–72 ref GPU-h | Rate **measured directly on a Vast 4090** (firm leg via `run_ternary_leg.sh`, self-staged 8G1Q, 146,284 particles): warmup clean, production steady at **~14–18 s/iter (median ~16)**. Leg length **confirmed at 2400 iterations** (400 equil + 2000 production at 2.5 ps/iter, `nr4a3_ternary_fep.py:343-344`) — and now *observed*: valB_mini's ternary seed 0 reached **2000/2000** production iterations. 2400 × 16 s ≈ **~10.7 GPU-h/leg** × 2 legs × 3 replicas ≈ **~64 GPU-h/edge** |
-| **Endpoint-MD leg** (~466k atoms) | **~$0.19**, ~1.38 ref GPU-h | Backed out of the **completed** 18-leg NR-V04 covalent panel: ~$0.43/leg realized on a 3090 at ~$0.10–0.21/hr ÷ the validated 2.102× card ratio. The one basis resting on a completed multi-leg ledger; the 4090 conversion itself is inferred |
+| **Endpoint-MD leg** (~466k atoms) | **~$0.19**, ~1.38 ref GPU-h | Backed out of the **completed** 18-leg NR-V04 covalent panel: ~$0.43/leg realized on a 3090 at ~$0.10–0.21/hr ÷ the card ratio *(computed with the then-current **2.102×**, superseded 2026-07-27 — pricing.md Appendix T; the conversion is due a refresh at the next reprice)*. The one basis resting on a completed multi-leg ledger; the 4090 conversion itself is inferred |
 
 **Two live transferability warnings.** (i) The ternary rate was measured on the **SMARCA2/VHL 8G1Q** assembly
 and is being used to price **NR4A** ternaries — the *same* move that cost 2.6× on the binary lane when the real

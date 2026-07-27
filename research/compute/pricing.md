@@ -21,12 +21,15 @@ session; will be updated on completion) · `ESTIMATED` (derived/extrapolated —
 mislabelled Quadro RTX 8000 as cheapest per ns) and on the assumption that the two cards cost about the same per
 hour. Neither survives:
 
-- **Validated throughput @84,534 particles** (3 × ~20 s independent blocks, physics-checked, CV < 1.4%):
-  **4090 = 755.36**, **4080 = 703.51**, **3090 = 359.36** ns/day. So 4090/3090 = **2.10×, not 2.42×**, and the
-  4080 is within **7 %** of a 4090 — not 40 % behind.
+- **Measured throughput @84,534 particles.** Table of record: `vast_cost_model.MEASURED_NS_PER_DAY_84K`,
+  re-anchored 2026-07-27 onto a **median over N≥3 independent hosts** — see Appendix T below. Current:
+  **4090 = 804.06**, **4080 = 693.35**, **3090 = 460.91** ns/day, so **4090/3090 = 1.745×** and the 4080 is
+  ~**14 %** behind a 4090. *(Superseded, retained for the record: the single-host figures **4090 = 755.36**,
+  **4080 = 703.51**, **3090 = 359.36**, from which the retired **2.10×** ratio and the retired claim that the
+  4080 is within **7 %** of a 4090 were derived. Appendix T says what retired them.)*
 - **Prices are nowhere near equal.** Live board 2026-07-25 (445 interruptible offers; 148 pass our launch
   filters): cheapest 3090 floor **$0.0147/hr** against **$0.1310/hr** for the cheapest 4090 — **8.8×**, which
-  more than covers being 2.10× slower.
+  more than covers being slower (the ratio itself is superseded — see Appendix T).
 
 > **The card is not the decision — the OFFER is.** Rank on all-in `$/ns` and take whatever wins; the top 10
 > offers routinely contain both cards. Hard-coding a card is how you pay 2.6× to run on the "faster" one.
@@ -51,8 +54,9 @@ is **42 % of all-in cost**; asking for 20 GB instead cuts all-in cost **21 %**.
 
 **Honest limits:** the validated grid covers **one system size** (84,534 particles) — card *ratios* are far more
 size-stable than absolute rates, so ranking is sound, but an absolute ns/day at 146k or 466k is **not** measured.
-A 3090 also needs **2.10× the wall clock**, so a leg with a hard continuity requirement is 2.10× more exposed on
-it (`JobProfile.min_uninterrupted_h` scales that per card and flags it).
+A 3090 also needs **1.745× the wall clock**, so a leg with a hard continuity requirement is proportionally more
+exposed on it (`JobProfile.min_uninterrupted_h` scales that per card and flags it). *(The **2.10×** this line
+carried is superseded — Appendix T.)*
 
 ### ⚠ A.1 — `$/ns` RANKING CANNOT SEE A WORKLOAD WHOSE THROUGHPUT DEPENDS ON THE HOST CPU (2026-07-26)
 
@@ -67,7 +71,8 @@ Four LANE-13 metadynamics legs, each reporting its own ns/day in `run.log`, alon
 | 45896793 | RTX 4080S | 33 % | **~47** | 0.207 |
 
 **ns/day tracks `gpu_util`, not the card.** Per utilisation-point the four legs give 1.88 / 2.06 / 1.75 / 1.42
-ns/day-per-%, i.e. roughly one constant, whereas the benched card ratio (4080 within **7 %** of a 4090, above)
+ns/day-per-%, i.e. roughly one constant, whereas the benched card ratio *(as it stood then: 4080 within
+**7 %** of a 4090 — that figure is superseded, Appendix T)*
 would predict the two 4080S rows to land near the 4090 rows and they land **1.8–3.0× below**. So this is not the
 card ratio failing to transfer to a PLUMED workload — it is **hosts handing the job a fraction of their GPU**.
 
@@ -193,7 +198,8 @@ acquire a `$/ns` from them.** They appear only inside the one-sided rule-out cei
 > **withdrawn** 2.42× ratio. Neither generalises: the validated ratio is **2.10×**, and across the live board
 > the cheapest 3090 floor is **8.8×** below the cheapest 4090 while the spread *within* the 4090 class alone is
 > 2.3×. **Neither card is the answer — rank live offers on all-in `$/ns` (§A).** What survives is the wall-clock
-> caveat: a 3090 needs 2.10× the time, so a leg with a hard continuity requirement is 2.10× more exposed on it.
+> caveat: a 3090 needs proportionally more time, so a leg with a hard continuity requirement is more exposed on
+> it. *(The **2.10×** stated here is superseded — Appendix T.)*
 > ⚠ **CORRECTION 2026-07-26 — the L4→4090 card ratio of "~2.06× (33 → 16 s/iter)" compares a WARMUP rate against
 > a PRODUCTION rate.** The 33 s/iter figure is the 33.91 s/iter measured during **warmup** on a spot L4; the
 > 4090's 16 s/iter is a **production** median. Production-to-production, measured in-log and flat over 600
@@ -469,3 +475,58 @@ defaults; the code of record is `research/modalities/gpu_backend.py` (`VAST_BID_
 
 *Maintenance: when a `firm`/`bench` run completes, update the matching row here (MEASURING → MEASURED, with the
 run id + the realized number) and reconcile the STRATEGY.md economics summary to it.*
+
+---
+
+## Appendix T — the throughput table's re-anchoring (2026-07-27)
+
+*Corrections live here, not inline. The live text above carries only current values.*
+
+**What changed.** `vast_cost_model.MEASURED_NS_PER_DAY_84K` was re-measured onto a single estimator — the
+**median over N ≥ 3 independent hosts**, all on the anchors' own protocol (`gpu_md_bench.py`, 84,534-particle
+TIP3P/PME box, 4 fs HMR, CUDA, 3 timed blocks ≈ 60 s) and all through `vast_bench_sweep.py`'s admission gate.
+
+| card | retired | current | estimator |
+|---|---|---|---|
+| RTX 4090 (reference) | 755.36 *(retired)* | **804.06** | median of 6 hosts |
+| RTX 4080 | 703.51 *(retired)* | **693.35** | median of 4 hosts |
+| RTX 3090 | 359.36 *(retired)* | **460.91** | median of 3 hosts |
+
+`REFERENCE_NS_PER_H` is derived from the reference card's entry, so it moves with it: **31.473 → 33.503
+ns/reference-GPU-hour**. Six cards benched earlier the same day as *single hosts* (RTX 5090, RTX 5080,
+RTX PRO 4000, RTX 3090 Ti, RTX 5060 Ti, RTX A4000) were re-measured onto the same estimator in the same pass;
+their single-host values are registered in [`pinned-figures.json`](../manuscripts/pinned-figures.json).
+
+**Why — two independent causes, and the second is larger for one card.**
+
+1. **The old figures were not the same statistic.** Each was ONE host. Measured host spread on the identical
+   protocol: RTX 5080 **14 %**, RTX 3090 **9.5 %**, RTX 4090 **4.1 %**, RTX 4080 **4.0 %**. By accident the old
+   RTX 4080 host sat within 0.3 % of the best of four while the old RTX 4090 host sat 6.7 % below the best of
+   five — so every card *ratio* carried that sampling difference. The retired table said 4090/4080 = 1.074;
+   the median-of-N measurement says **1.160**.
+2. **They measured a stack we no longer run.** The retired figures come from the conda-pack'd `md`
+   environment; the current ones from the `nr4a3fep` image's `rbfe` environment, which is what the production
+   lanes execute. The gap is **not uniform** (RTX 4080 ≈ unchanged, RTX 4090 +6 %, RTX 3090 **+28 %**), so it
+   is not a scale factor and cannot be corrected for. A bench must measure the CUDA/OpenMM build the science
+   runs on, or its ns/day prices a stack nobody uses.
+
+**Two entries are honestly under-sampled** and say so in the table itself: **A100 PCIe** (1 host) and
+**RTX 3090 Ti** (2 hosts) — the board carried only two qualifying offers of each. An under-sampled entry errs
+conservatively: every rental confounder is one-sided downward, so it understates throughput and therefore
+*overstates* `$/ns`, and we under-buy rather than over-buy.
+
+**What this does NOT license.** It is not a claim that ~804 is the RTX 4090's peak. A median is deliberately
+not a maximum: a max over hosts ratchets upward with every host added and drifts anti-conservative. It is the
+throughput of a *typical healthy rental*, which is the quantity the `$/ns` ranking actually needs.
+
+**How the loss of the original evidence was found.** The disagreement surfaced as an S3 bench record reading
+726.79 ns/day against the then-anchor's 755.36. Those were never two readings of one object:
+`nrv04_vast_launch.bench()` names its result by a **deterministic** key, so a re-run overwrote the validated
+2026-07-24 grid's raw artifacts in place. The grid's per-block values survive only because they were copied
+into [`throughput-bench-provenance.json`](../modalities/throughput-bench-provenance.json). `vast_bench_sweep`
+scopes every result key by wave and replicate for exactly this reason.
+
+**Reproduce:** `vast-bench-sweep.yml` → `mode=launch` (`replicates≥3`, `include_measured=1`, a fresh `wave`),
+then `mode=collect` (prints the per-card host distribution and the estimator), then `mode=ladder` (regenerates
+[`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json) from a fresh market snapshot).
+Total GPU cost of the re-anchoring: **≈$1.74**.

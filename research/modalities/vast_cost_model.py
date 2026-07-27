@@ -132,39 +132,50 @@ from dataclasses import dataclass, field
 # `vast_bid_optimizer.MEASURED_NS_PER_DAY` (which still carried the withdrawn 669 ns/day figure) both defer
 # here, so the repo cannot disagree with itself about how fast a card is.
 #
-# ★ WIDENED 2026-07-27 by `vast_bench_sweep.py`, same protocol, same admission bar. Six cards added, each one
-# a single host that passed protocol identity, device identity, the physics check and CV<5%, exactly as the
-# three anchors did. Per-block values and full provenance: `throughput-bench-provenance.json`; the numbers
-# below are DERIVED from those blocks and `tests/test_throughput_provenance.py` recomputes every one.
+# ★★ RE-ANCHORED 2026-07-27 — ONE ESTIMATOR FOR EVERY ENTRY: THE MEDIAN OVER N INDEPENDENT HOSTS.
 #
-# ⚠ AND A SINGLE-HOST FIGURE IS A LOWER BOUND, WHICH THE SAME SWEEP MEASURED RATHER THAN ASSUMED. Five
-# independent RTX 4090 hosts spanned 10.3% (three fresh ones agreeing to 1.3% at ~806, well ABOVE this
-# table's 4090 entry), while four RTX 4080 hosts spanned only 1.85%. So a one-host bench samples an unknown
-# point of an unknown-width distribution. Every confounder is one-sided DOWNWARD, so each entry understates
-# its card and therefore OVERSTATES its `$/ns` — we under-buy, never over-buy, which is the safe direction
-# and the same one `CONSERVATIVE_ALIASES` relies on. The reconciliation, and the case for re-anchoring on a
-# median-of-N-hosts protocol, are in `throughput-bench-provenance.json` →
-# `reconciliation_2026_07_27_the_rtx4090_anchor`. **That change is NOT applied here**: REFERENCE_NS_PER_H is
-# derived from the RTX 4090 entry and sets the basis for every multiple in the repo, so moving it is a
-# pinned-figure change and trimcrae's call.
+# ⛔ WHAT WAS WRONG BEFORE, AND IT WAS NOT A 4090 PROBLEM. The previous three figures were ONE HOST EACH, and
+# by accident they sampled different parts of their own distributions: the RTX 4080's host sat within 0.3 % of
+# the best of four, while the RTX 4090's sat 6.7 % below the best of five. **They were therefore not the same
+# statistic**, and every card RATIO in this repo inherited that: the old table said 4090/4080 = 1.074 while a
+# same-tool, same-environment, multi-host measurement says 1.160. A single-host bench is one draw from a
+# distribution whose width nobody had measured — and the widths are not small or uniform (RTX 5080 spans 14 %,
+# RTX 3090 9.5 %, RTX 4090 4.1 %, RTX 4080 4.0 %).
+#
+# The estimator is `vast_bench_sweep.median_over_hosts` — MEDIAN, not max (which ratchets upward with every
+# host added and drifts anti-conservative) and not mean (dragged by the throttled tail). N >= 3 makes it
+# robust to one bad host. Two entries below could not reach N >= 3 on the board that day and SAY SO rather
+# than pretending: an under-sampled entry errs conservatively (confounders are one-sided downward, so it
+# understates throughput and OVERSTATES `$/ns`, and we under-buy).
+#
+# ★ AND A SECOND, INDEPENDENT CAUSE THAT IS LARGER THAN HOST SAMPLING FOR ONE CARD. The retired figures were
+# measured in the conda-pack'd `md` environment; these are measured in the `nr4a3fep` image's `rbfe`
+# environment — **the one the production lanes actually run**. The gap is not uniform across cards
+# (RTX 4080 unchanged, RTX 4090 +6 %, RTX 3090 +28 %), so it is not a simple scale factor and cannot be
+# corrected for. The rule that resolves it is the one this lane was built on: *a bench must measure the
+# CUDA/OpenMM build the SCIENCE runs on, or its ns/day prices a stack we do not use.* The old numbers priced
+# a stack we no longer run.
+#
+# Full evidence, including the retired values and the reconciliation that produced this change:
+# `throughput-bench-provenance.json`. Old values are registered in
+# `research/manuscripts/pinned-figures.json`; the correction is an APPENDIX line in
+# `research/compute/pricing.md`, and `vast-ladder-repricing.json` was REGENERATED, never hand-edited.
 MEASURED_NS_PER_DAY_84K = {
-    "RTX4090": 755.36,   # CV 0.14%   blocks 756.55 / 754.56 / 754.98
-    "RTX4080": 703.51,   # CV 0.18%   blocks 702.93 / 704.93 / 702.66
-    "RTX3090": 359.36,   # CV 1.31%   blocks 364.02 / 359.45 / 354.62
-    # --- added 2026-07-27 (vast_bench_sweep calibration rentals, ~$1 of GPU in total) -----------------------
-    "RTX5090": 1070.44,  # CV 0.13%   blocks 1071.98 / 1070.04 / 1069.31 — 1.42x the reference card, and it
-    #                      rented CHEAPER than the 4090s beside it. The single biggest widening of the cheap
-    #                      end this sweep found, and it only exists because the NaN retry ladder let a rental
-    #                      that would otherwise have died deliver a number (`attempt=2`).
-    "RTX5080": 793.79,   # CV 0.20%   blocks 793.33 / 792.46 / 795.59   — within 2% of an RTX 4090
-    "A100PCIE": 523.82,  # CV 0.02%   blocks 523.76 / 523.76 / 523.93   — the fast tier, and it is NOT fast here
-    "RTXPRO4000": 482.34,  # CV 0.63% blocks 478.99 / 484.89 / 483.15
-    "RTX3090TI": 481.78,  # CV 0.03%  blocks 481.84 / 481.88 / 481.61   — 34% above the 3090 it used to alias
-    "RTX5060TI": 387.78,  # CV 0.22%  blocks 388.73 / 387.12 / 387.49
-    "RTXA4000": 242.20,  # CV 2.58%   blocks 249.09 / 240.61 / 236.90
+    # card            ns/day     estimator                 the independent hosts it is the median of
+    "RTX5090":       1034.58,  # median of 3 hosts         1003.24 / 1034.58 / 1067.80
+    "RTX4090":        804.06,  # median of 6 hosts          777.03 / 792.70 / 799.15 / 808.96 / 809.82 / 810.37
+    "RTX5080":        752.32,  # median of 3 hosts          683.12 / 752.32 / 793.79
+    "RTX4080":        693.35,  # median of 4 hosts          675.74 / 692.51 / 694.18 / 703.87
+    "A100PCIE":       523.82,  # ** SINGLE HOST **          523.82        <- under-sampled, see below
+    "RTX3090TI":      481.87,  # ** 2 hosts, provisional ** 481.78 / 481.96
+    "RTXPRO4000":     471.63,  # median of 3 hosts          464.54 / 471.63 / 482.34
+    "RTX3090":        460.91,  # median of 3 hosts          426.51 / 460.91 / 471.18
+    "RTX5060TI":      389.16,  # median of 4 hosts          385.40 / 387.78 / 390.55 / 400.01
+    "RTXA4000":       246.30,  # median of 3 hosts          242.20 / 246.30 / 252.33
 }
 REFERENCE_CARD = "RTX4090"
-REFERENCE_NS_PER_H = MEASURED_NS_PER_DAY_84K[REFERENCE_CARD] / 24.0   # 31.47 ns per reference GPU-hour
+# DERIVED, never typed: whatever the reference card's entry says, divided by 24.
+REFERENCE_NS_PER_H = MEASURED_NS_PER_DAY_84K[REFERENCE_CARD] / 24.0
 
 # =============================================================================================================
 # ★★ VARIANT SKUs — THREE BENCHED CARDS, AND AN ALLOW-LIST OF WHO MAY BORROW THEIR NUMBER (2026-07-27)

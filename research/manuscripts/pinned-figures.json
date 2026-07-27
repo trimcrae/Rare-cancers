@@ -328,6 +328,42 @@
    "pattern": "\\$0\\.00612/ns|1\\.41× basis|1\\.41x basis",
    "current": "$0.00644/ns · 1.48× basis on 46000463 — the BILLED rate (bid + the real 80 GB disk line), read off the live instance record",
    "retired_by": "The $0.00612/ns · 1.41× figure was computed from the launcher's `dph≈` line, which is the OFFER's dph_total — the market FLOOR plus the disk line the search priced at 8 GB — not what the instance is billed (our BID plus the disk line for the 80 GB actually allocated). Measured $0 read-only 2026-07-27 (`vast_rate_forensics.py --probe`, run 30265697399): on instance 46000463 the offer quoted $0.17922/hr and the instance is billed $0.20272/hr, a $0.0235/hr gap that decomposes exactly into $0.0035 floor→bid plus $0.0200 of disk line, a 10.0× under-quote of storage. An offer-quote multiple is therefore a LOWER BOUND and `inflight_usd_per_ns.row()` now marks it as one. This is also what made the same host look like it rose from 1.41× to 1.82× — STRATEGY.md Appendix A 36."
+  },
+  {
+   "id": "card_rtx4090_755_36",
+   "pattern": "755\\.36|31\\.47\\s*ns per reference|REFERENCE_NS_PER_H.{0,20}31\\.47",
+   "current": "RTX 4090 = 804.06 ns/day (median of 6 hosts); REFERENCE_NS_PER_H = 804.06/24 = 33.5025",
+   "retired_by": "the 2026-07-27 re-anchoring onto a median-of-N-independent-hosts estimator (the single-host figure was one draw from a 4.1%-wide distribution, and was additionally measured in the retired conda-pack `md` environment rather than the `rbfe` environment the production lanes run)"
+  },
+  {
+   "id": "card_rtx4080_703_51",
+   "pattern": "703\\.51",
+   "current": "RTX 4080 = 693.35 ns/day (median of 4 hosts)",
+   "retired_by": "the 2026-07-27 re-anchoring onto the median-of-N estimator"
+  },
+  {
+   "id": "card_rtx3090_359_36",
+   "pattern": "359\\.36",
+   "current": "RTX 3090 = 460.91 ns/day (median of 3 hosts)",
+   "retired_by": "the 2026-07-27 re-anchoring; the +28% jump is dominated by the environment change (conda-pack `md` -> the `rbfe` env the science runs in), not by host sampling"
+  },
+  {
+   "id": "card_ratio_4090_over_3090_2_10",
+   "pattern": "2\\.10\\s*[x×]|2\\.102",
+   "current": "RTX 4090 / RTX 3090 = 1.745x on the median-of-N estimator",
+   "retired_by": "the 2026-07-27 re-anchoring (the retired 2.10x itself replaced a withdrawn 2.42x)"
+  },
+  {
+   "id": "card_ratio_4090_over_4080_within_7pct",
+   "pattern": "4080 is within \\*{0,2}7\\s*%|within \\*{0,2}7 %\\*{0,2} of a 4090",
+   "current": "RTX 4090 / RTX 4080 = 1.160x on the median-of-N estimator (the 4080 is ~14% behind, not ~7%)",
+   "retired_by": "the 2026-07-27 re-anchoring — the old 7% compared a 4080 host near the top of its distribution with a 4090 host mid-pack"
+  },
+  {
+   "id": "single_host_new_card_figures_2026_07_27",
+   "pattern": "1070\\.44|793\\.79\\b|482\\.34|481\\.78|387\\.78|242\\.20\\b",
+   "current": "the median-of-N entries in vast_cost_model.MEASURED_NS_PER_DAY_84K",
+   "retired_by": "published for ~1 hour on 2026-07-27 as SINGLE-HOST measurements, then superseded the same day by the median-of-N re-anchoring; retained here because a single-host figure is one draw from a distribution up to 14% wide"
   }
  ],
  "subset_checks": [
