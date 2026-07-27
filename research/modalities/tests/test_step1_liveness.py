@@ -56,6 +56,19 @@ def _stub_aws(tmp_path):
     return str(aws), log
 
 
+def _can_unshare():
+    """Can this host actually build a private PID namespace?
+
+    ⚠ A FUNCTIONAL PROBE, NOT `which unshare`. The binary is present on a GitHub runner and the syscall is
+    NOT permitted there (`unshare: unshare failed: Operation not permitted` — unprivileged user namespaces
+    are disabled), so a which-based skip turned a capability gap into a red build. The dev sandbox does allow
+    it, which is where this reproduction is actually run."""
+    if shutil.which("unshare") is None:
+        return False
+    return subprocess.run(["unshare", "-fp", "--mount-proc", "true"],
+                          capture_output=True).returncode == 0
+
+
 def _run(script, tmp_path, timeout=30, **env):
     e = {**os.environ, "RESULT_S3": "s3://bucket/prefix", **env}
     return subprocess.run(["bash", "-c", script], capture_output=True, text=True, timeout=timeout, env=e,
@@ -206,7 +219,9 @@ def test_the_heartbeat_has_a_hard_ttl_past_the_units_own_runtime_cap(tmp_path):
 # 4. THE EXIT-TRAP INTERACTION, reproduced in the topology Vast actually runs
 # ---------------------------------------------------------------------------------------------------------
 
-@pytest.mark.skipif(shutil.which("unshare") is None, reason="needs unshare to build the PID namespace")
+@pytest.mark.skipif(not _can_unshare(),
+                    reason="this host cannot create a private PID namespace (GitHub runners disable "
+                           "unprivileged user namespaces); the reproduction runs in the dev sandbox")
 def test_the_heartbeat_does_not_break_or_outlive_the_onstart_EXIT_trap(tmp_path):
     """★★ THE TEST THE PREVIOUS LANE STOPPED FOR, RUN RATHER THAN REASONED ABOUT.
 
