@@ -232,20 +232,63 @@ SYSTEM_FINGERPRINT_ENV = (
     "RBFE_CONSTRAIN_LIGAND_CH",
 )
 
+# ---- ADDITIVE fields, appended to the hash payload ONLY when non-default ---------------------------------
+# WHY A SECOND TUPLE INSTEAD OF JUST EXTENDING THE FIRST (2026-07-27). Appending a name to
+# SYSTEM_FINGERPRINT_ENV changes the hash of EVERY configuration, including ones whose physics did not change
+# -- so every generation already committed would fail `fingerprint_mismatch_reason` and every live leg would
+# refuse to resume after a preemption. That is the same "correct-looking choice that throws away another
+# session's paid GPU hours" the unstamped branch below was written to avoid, and here it would be self-inflicted.
+#
+# So an additive field enters the payload only when it is set to something other than its default. A run with
+# RBFE_RESTRAIN unset/0 hashes BYTE-IDENTICALLY to how it hashed before this field existed -- the same
+# discipline as `fwd` getting no `_dir` suffix in the commit prefix -- while a restrained run gets a different
+# fingerprint from an unrestrained one and the two can never restore into each other.
+#
+# WHAT IS HERE AND WHY. RBFE_RESTRAIN adds a flat-bottom CustomCentroidBondForce (ternary_restraint.py): a
+# DIFFERENT HAMILTONIAN with an IDENTICAL PARTICLE COUNT, so OpenFE's assert_multistate_system_equality -- the
+# check that caught the fwd/rev collision by luck -- provably cannot catch it. The commit prefix carries `_rst`
+# and is the primary guard (gpu-ternary-fep-gcp.yml); this is the second one, and it is the one that still
+# holds if a prefix is reused by hand or by a lane that builds its own. TOL_NM and K are here for the same
+# reason at one remove: they are not workflow inputs, so nothing else would record that a leg ran with a
+# non-default well width or wall stiffness.
+SYSTEM_FINGERPRINT_ENV_ADDITIVE = {
+    "RBFE_RESTRAIN": ("", "0", "false", "no", "off"),
+    "RBFE_RESTRAIN_TOL_NM": ("",),
+    "RBFE_RESTRAIN_K": ("",),
+}
+
+
+def _additive_active(env):
+    """The additive fields whose value is non-default, in declared order. Empty on every legacy configuration,
+    which is what makes the legacy hash byte-stable."""
+    out = []
+    for k, defaults in SYSTEM_FINGERPRINT_ENV_ADDITIVE.items():
+        v = str(env.get(k, ""))
+        if v.strip().lower() not in defaults:
+            out.append(k)
+    return out
+
 
 def system_fingerprint_fields(env=None):
     """The raw {name: value} the fingerprint is computed over. Missing vars record as '' so an absent var and an
     empty one hash identically -- the alternative (omitting the key) would make the hash depend on which vars
-    happened to be exported, which is not a property of the system."""
+    happened to be exported, which is not a property of the system.
+
+    Additive fields are ALWAYS reported here (so the mismatch message can name them) even though they only enter
+    the HASH when non-default -- a diagnostic that hides the field it is diagnosing is no use."""
     env = os.environ if env is None else env
-    return {k: str(env.get(k, "")) for k in SYSTEM_FINGERPRINT_ENV}
+    fields = {k: str(env.get(k, "")) for k in SYSTEM_FINGERPRINT_ENV}
+    fields.update({k: str(env.get(k, "")) for k in SYSTEM_FINGERPRINT_ENV_ADDITIVE})
+    return fields
 
 
 def system_fingerprint(env=None):
     """Short stable hash of `system_fingerprint_fields`. Stable across processes and machines: it hashes a
     sorted, explicitly-ordered JSON rendering, never a dict repr or a Python hash()."""
+    env = os.environ if env is None else env
     fields = system_fingerprint_fields(env)
-    payload = json.dumps([[k, fields[k]] for k in SYSTEM_FINGERPRINT_ENV], separators=(",", ":"))
+    names = list(SYSTEM_FINGERPRINT_ENV) + _additive_active(env)
+    payload = json.dumps([[k, fields[k]] for k in names], separators=(",", ":"))
     return hashlib.sha256(payload.encode()).hexdigest()[:16], fields
 
 
@@ -287,8 +330,17 @@ def fingerprint_mismatch_reason(manifest, env=None, strict_unstamped=None):
     if got == want:
         return None
     got_fields = (manifest or {}).get("system_fingerprint_fields") or {}
-    diffs = [f"{k}: committed={got_fields.get(k, '?')!r} running={want_fields[k]!r}"
-             for k in SYSTEM_FINGERPRINT_ENV if got_fields.get(k, None) != want_fields[k]]
+    # Additive fields are included in the DIFF as well as the core ones, otherwise a restraint mismatch -- the
+    # case OpenFE's particle check provably cannot see -- would report "(fields not recorded on the manifest)"
+    # and name nothing. A manifest written before an additive field existed simply does not carry the key; that
+    # is not a difference, it is the field's default, so it is compared as '' rather than as missing.
+    diffs = []
+    for k in SYSTEM_FINGERPRINT_ENV:
+        if got_fields.get(k, None) != want_fields[k]:
+            diffs.append(f"{k}: committed={got_fields.get(k, '?')!r} running={want_fields[k]!r}")
+    for k in SYSTEM_FINGERPRINT_ENV_ADDITIVE:
+        if got_fields.get(k, "") != want_fields[k]:
+            diffs.append(f"{k}: committed={got_fields.get(k, '')!r} running={want_fields[k]!r}")
     return ("system fingerprint MISMATCH (committed=%s running=%s) -- this generation was produced by a "
             "different configuration, so restoring it would report one calculation's sampling as another's. "
             "Differing: %s" % (got, want, "; ".join(diffs) or "(fields not recorded on the manifest)"))

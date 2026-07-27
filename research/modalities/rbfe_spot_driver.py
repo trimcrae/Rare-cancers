@@ -355,6 +355,24 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
         gpu_device_index=settings["engine_settings"].gpu_device_index,
         restrict_cpu_count=restrict_cpu)
 
+    # BINARY-ARM POCKET RESTRAINT (RBFE_RESTRAIN=1; default OFF, so every existing lane is unchanged).
+    # Added HERE, before any integrator or sampler is built, because every λ state's ThermodynamicState is
+    # constructed from this System — adding it once up front is exactly what makes the restraint λ-INDEPENDENT,
+    # which is the property the cancellation argument rests on (ternary_restraint's docstring, choice 2).
+    # Why the binary arm needs it: its ligand left the pocket in 8 of 12 replicas in BOTH cycles, so ΔG_binary
+    # was not a free energy of the intended bound state (audit §L.3a–L.3d). It is flat-bottomed, so a leg that
+    # behaves like the measured-clean ternary arm never feels it.
+    try:
+        import ternary_restraint as _restr
+        _rrep = _restr.add_flat_bottom_restraint(system, positions, log=log)
+        if _rrep.get("applied"):
+            import json as _json
+            (shared / "restraint.json").write_text(_json.dumps(_rrep, indent=2))
+    except Exception as _re:  # noqa: BLE001
+        # A restraint failure must never kill a leg mid-flight: unrestrained is a KNOWN state that the
+        # convergence gate still catches, whereas an exception here costs the whole 44 h run.
+        log(f"[restraint] WARN restraint step failed ({type(_re).__name__}: {_re}); running UNRESTRAINED")
+
     integrator = unit._get_integrator(integrator_settings=integ_s, simulation_settings=sim_s,
                                       system=system)
     # REDUCED-TIMESTEP WARMUP (2026-07-19). A large, rough (homology-built) ternary assembly can NaN during the
