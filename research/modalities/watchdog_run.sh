@@ -92,13 +92,74 @@ ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
 # "explicitly authorized for a time-sensitive one-off", so the VALUE is a human decision, but the PLUMBING
 # should not also require a code change. This was the third hardcoded value found in this dispatch after
 # DIRECTION and use_preequil.
-python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('use_preequil','0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('provisioning','spot'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
-| while IFS='|' read -r LEG SEED DIR SALT DT WUDT UPE CHG NWIN TPL PROV MAXRL; do
-    TAG="$LEG dir=$DIR seed=$SEED"
+# `restrain` is read here for the same reason, and it is the FOURTH hardcoded value found in this dispatch.
+# It is not cosmetic: `restrain=1` adds a flat-bottom pocket restraint, which is a DIFFERENT HAMILTONIAN, and
+# it keys BOTH the spot commit prefix (`_rst`) and the leg result file. A watchdog that does not carry it
+# fails in two directions at once on a restrained leg:
+#   * the DONE check below would `ls` the UNRESTRAINED result -- which, for the r0 binary arm, is ALREADY IN
+#     THE BUCKET -- and declare a leg done that had not started, chaining converge+reduce off a stale file;
+#   * a relaunch would dispatch restrain=0, i.e. an UNRESTRAINED leg at an UNRESTRAINED prefix, so it would
+#     not resume the restrained trajectory it was supposed to rescue -- it would quietly start a different
+#     calculation and the watch entry would report it as the same leg.
+# Defaults to '0', so every existing entry behaves byte-identically.
+# ===== CAPABILITY HANDSHAKE: A WATCHDOG THAT CANNOT HONOUR THIS CONFIG MUST REFUSE, NOT IMPROVISE =====
+# WHAT IT DEFENDS AGAINST, stated precisely so nobody over-trusts it. `actions/checkout@v4` in
+# ternary-leg-watchdog.yml takes NO `ref`, so this script and ternary-watch.json are ALWAYS checked out
+# together from one ref -- a config-new/code-old pair cannot arise from a normal run. The paths that CAN
+# produce one are (a) a selective merge that forwards the JSON without the script, and (b) the divergent
+# private copies this repo already knows about (ternary-watch.json's own `_required_keys_are_enforced` note
+# warns that another session may hold an older watchdog_validate.py).
+#
+# The danger in those cases is specific and expensive: an older watchdog reads an entry it does not
+# understand, silently drops the field, and then measures the WRONG ARTIFACT -- for restrain=1 it would `ls`
+# the UNRESTRAINED result, which for the r0 binary arm is already in the bucket, and report a green DONE for
+# a leg that never ran while leaving its VM holding GPUS_ALL_REGIONS=1.
+#
+# HONEST LIMIT: this cannot protect against a watchdog older than the handshake itself, because such a copy
+# does not read the key. It closes the window from here forward, which is the only thing a handshake can do.
+# The python below is deliberately ONE LINE. A multi-line `python3 -c "..."` here is indentation-fragile in
+# both directions and this file has been bitten by that class twice: watchdog_validate.py exists at all
+# because inline python at column 0 dedented out of a YAML block scalar and made the workflow unparseable
+# (GitHub then reports a MISSING TRIGGER, so the cron silently never fires), and the first cut of this very
+# block was re-indented by the test that extracts it and died with IndentationError. A single line cannot be
+# re-indented into invalidity by anything that quotes it.
+WATCHDOG_FEATURES="restraint_keyed_result_v1"
+MISSING=$(python3 -c "import json;d=json.load(open('$CFG'));have=set('$WATCHDOG_FEATURES'.split());print(' '.join(f for f in (d.get('_requires_watchdog_features') or []) if f not in have))") || { echo "::error title=WATCHDOG CONFIG UNREADABLE::could not parse $CFG for its feature requirements — refusing to act on a config this script cannot read."; exit 1; }
+if [ -n "$MISSING" ]; then
+  echo "::error title=WATCHDOG TOO OLD FOR THIS CONFIG::$CFG requires watchdog feature(s) '$MISSING' that this copy of watchdog_run.sh does not implement (it provides '$WATCHDOG_FEATURES'). REFUSING to act. Acting anyway would measure the wrong artifact — e.g. without restraint_keyed_result_v1 a restrain=1 entry resolves the UNRESTRAINED result key, which for the r0 binary arm already exists, and reports a green DONE for a leg that never ran while its VM keeps holding the single GPU. Fix: run the watchdog from a ref whose watchdog_run.sh matches this watch list."
+  exit 1
+fi
+
+python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('use_preequil','0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('provisioning','spot'),w.get('max_relaunches_per_day',8),w.get('restrain','0'))) for w in d['watch'] if w.get('enabled')]" \
+| while IFS='|' read -r LEG SEED DIR SALT DT WUDT UPE CHG NWIN TPL PROV MAXRL RST; do
+    # Every downstream use is `${RST:-0}` / `${RSTTAG:-}`, NOT a bare `$RST`. Two of this file's branches
+    # are EXTRACTED and executed in isolation by tests (tests/test_watchdog_done_reaps_vm.sh runs the DONE
+    # branch under `set -u` against stubbed gcloud/gh), so the loop header that assigns these is not in
+    # scope there and a bare reference is an unbound-variable abort. It aborts inside a command
+    # substitution, which swallows it into an empty string -- so the symptom is a test reporting
+    # "got ''" rather than an error, and the shell dying outright on the first call made outside one.
+    # The defaults are also the correct values, so this is not merely defensive syntax.
+    RSTTAG=""; [ "$RST" = "1" ] && RSTTAG="_rst"
+    TAG="$LEG dir=$DIR seed=$SEED${RSTTAG:+ restrained}"
     echo "=============== $TAG ==============="
 
-    # 1. DONE? the leg's own direction-keyed result object is the only authority on completion.
-    if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" >/dev/null 2>&1; then
+    # ===== THE DONE VERDICT MUST PROVE IT RESOLVED THE RIGHT ARTIFACT =====
+    # The handshake above catches a STALE watchdog. This catches the other half: a FUTURE EDIT to this file
+    # that drops the restraint component while leaving everything looking correct. It asserts the property
+    # rather than the spelling -- a restrained entry's result key must actually carry `_rst` -- so it fires
+    # inside the very code that has the bug, before any DONE verdict, reap or converge/reduce chain.
+    # A mismatch is refused LOUDLY and the entry is SKIPPED: not-verified must never render as done.
+    RESULT_KEY="$RESULTS/leg_${LEG}_${DIR}_r${SEED}${RSTTAG:-}.json"
+    if [ "${RST:-0}" = "1" ]; then
+      case "$RESULT_KEY" in
+        *_rst.json) : ;;
+        *) echo "::error title=WATCHDOG RESULT KEY LOST THE RESTRAINT::$TAG declares restrain=1 but this pass resolved '$RESULT_KEY', which carries no _rst component. That key points at the UNRESTRAINED result — already in the bucket for the r0 binary arm — so trusting it would report a green DONE for a leg that never ran and leave its VM holding the single GPU. SKIPPING this entry rather than measuring the wrong artifact."
+           continue ;;
+      esac
+    fi
+
+    # 1. DONE? the leg's own direction- AND restraint-keyed result object is the only authority on completion.
+    if gcloud storage ls "$RESULT_KEY" >/dev/null 2>&1; then
       # ===== FIRST: A DONE LEG MUST NOT LEAVE A VM HOLDING THE ONLY GPU =====
       #
       # MEASURED 2026-07-27, gcp-ternary-30215419909 (us-central1-a). The leg finished cleanly --
@@ -138,7 +199,11 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
       # definition a different run and is never touched. Anything unparseable fails SAFE (spare, and say so) —
       # the cost of sparing a zombie is one more watchdog pass, the cost of reaping a live leg is hours of MD.
       RESEP=0
-      _rj=$(gcloud storage ls -l "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" 2>/dev/null | awk 'NF>=3 && $3 ~ /^gs:/ {print $2}' | head -1)
+      # ${RSTTAG} here too, and it is load-bearing: this timestamp is what decides whether a live VM PREDATES
+      # the result (idle zombie -> reap) or POSTDATES it (a newer leg -> spare). Reading the UNRESTRAINED
+      # result's write time while watching a RESTRAINED leg compares the running VM against a different
+      # calculation's clock, which is a coin toss dressed up as evidence.
+      _rj=$(gcloud storage ls -l "$RESULTS/leg_${LEG}_${DIR}_r${SEED}${RSTTAG:-}.json" 2>/dev/null | awk 'NF>=3 && $3 ~ /^gs:/ {print $2}' | head -1)
       if [ -n "${_rj:-}" ]; then
         _rs=$(date -u -d "$_rj" +%s 2>/dev/null | tr -dc '0-9'); [ -n "$_rs" ] && RESEP=$((10#$_rs))
       fi
@@ -187,7 +252,7 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
         elif gh workflow run gpu-ternary-fep-gcp.yml --ref "${WATCH_REF}" \
                -f mode=converge -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
                -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" \
-               -f use_preequil="$UPE" 2>&1; then
+               -f use_preequil="$UPE" -f restrain="${RST:-0}" 2>&1; then
           gcloud storage cp /tmp/marker.txt "$CVM" >/dev/null 2>&1 || echo "::warning::converge marker write failed — it may re-dispatch next pass"
           echo "::notice title=WATCHDOG DONE -> CONVERGE::$TAG — result JSON present; dispatched mode=converge (CPU, \$0) for the convergence diagnostics. mode=reduce follows on the next pass, once the report exists."
         else
@@ -365,7 +430,7 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
          -f mode=run -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
          -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" \
          -f use_preequil="$UPE" -f charge_method="$CHG" \
-         -f n_windows="$NWIN" -f template_pdb="$TPL" \
+         -f n_windows="$NWIN" -f template_pdb="$TPL" -f restrain="${RST:-0}" \
          -f refuse_if_vm_live=1 -f provisioning="$PROV" 2>&1; then
       printf '%s' "$((CNT+1))" > /tmp/cnt.txt
       gcloud storage cp /tmp/cnt.txt "$CNTOBJ" >/dev/null 2>&1 \

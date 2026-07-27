@@ -63,11 +63,34 @@ OUTCOMES = {
     "board-unreadable": "the market could not be read at all (provider API/auth/rate-limit) — a FAULT: we "
                         "never learned what the board cost",
     "submit-failed":    "the board was read but the provider refused the rentals — a FAULT",
+    # ★★ THE WORD WHOSE ABSENCE MADE A DOCKER TIMEOUT READ AS A SCIENTIFIC REFUSAL (2026-07-27, 6:01 PM ET).
+    # `task=triangle-smoke` (run 30309074338) died inside the step NAMED "ATOM-MAP GATE — the launch cannot
+    # rent until the map is proven complete", and the ledger filed it as `failed`, reason "job status
+    # failure". Both are true and neither is informative, so the row was read as "the gate measured the map
+    # and refused" — when in fact `docker login` had timed out 15.5 s in and the gate never ran at all. The
+    # four maps had measured COMPLETE three hours earlier (`valb-triangle-map-preflight.json`, 59/59 heavy
+    # atoms on all four legs). A whole diagnostic turn was spent on an edge that was never in question.
+    #
+    # ⚠ THE TWO CASES ARE OPPOSITES AND MUST NEVER SHARE A WORD. A refusal means the map is genuinely short:
+    # a RESULT about that edge, nothing rented, and re-running changes nothing — the remedy is chemistry.
+    # A gate that could not RUN means we learned nothing about the map: the remedy is to retry. Filing the
+    # first as the second wastes a rung; filing the second as the first is how a green edge gets abandoned.
+    # This is the same rule the gate's own shell already states about the stage cache — "could not check"
+    # must never read as "checked and fine" — applied to the other direction: "could not check" must never
+    # read as "checked and REFUSED".
+    #
+    # NOT a fault, deliberately, and for the same reason `refused-on-price` is not one: the guard doing its
+    # job is not the pipeline breaking. It is decision-relevant, which is a different thing, and the
+    # `reason` carries which leg fell how far short.
+    "map-gate-refused": "the atom-map pre-flight RAN and measured a SHORT map — the guard working on the "
+                        "science, nothing rented, nothing billing. Re-running will not help; the edge "
+                        "itself is the finding (see `reason`).",
     "failed":           "the launch died before the rental was attempted (see `reason`)",
 }
 
 # The outcomes that mean something is WRONG, as opposed to the market being expensive. Callers use this
 # rather than re-deciding per site, so "is this a fault?" has one answer in the repo.
+# `map-gate-refused` is excluded on purpose — see its entry above.
 FAULTS = {"board-unreadable", "submit-failed", "failed"}
 
 
@@ -214,7 +237,16 @@ def summary_line(path=LEDGER):
         return "[ledger] no launch attempt recorded yet"
     # The verdict word comes FIRST, before the timestamp, because this line is read at a glance in a CI log
     # and "is anything wrong?" is the only question most readers have. ⛔ = go look; ✅/⏸ = nothing to do.
-    mark = "⛔ FAULT" if e["outcome"] in FAULTS else ("⏸ held" if e["outcome"] == "refused-on-price" else "✅")
+    #
+    # ★ AND A MAP REFUSAL GETS ITS OWN GLYPH, because the other two would both be lies about it (2026-07-27).
+    # It is not a FAULT — nothing is broken, the guard measured the map and did its job — but it is emphatically
+    # not ✅ either, and it is not ⏸ `held`: a price hold self-heals on the next tick, whereas a short map will
+    # be exactly as short an hour later. Rendering it ✅ would be the same glyph as a healthy launch, which is
+    # CLAUDE.md §1's rule that a row we are paying and a row the gate refused must never render alike; ⏸ would
+    # promise a retry that cannot help. 🔬 = the pipeline is fine and the CHEMISTRY is the finding — go read it.
+    mark = ("⛔ FAULT" if e["outcome"] in FAULTS else
+            "🔬 MAP REFUSED" if e["outcome"] == "map-gate-refused" else
+            "⏸ held" if e["outcome"] == "refused-on-price" else "✅")
     bits = ["[ledger] %s — last attempt %s (%s): %s" % (mark, e.get("et", "?"), e.get("utc", "?"),
                                                         e["outcome"])]
     if e.get("stage"):

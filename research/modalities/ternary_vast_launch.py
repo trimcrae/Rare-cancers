@@ -1190,27 +1190,46 @@ def supersede_failed_record(match, bucket=None, prefix=None, dry_run=False):
 # for the gate to ask the same question the launcher asks, from the same code.
 #
 # So: ONE home for "which units still need renting" (CLAUDE.md §1), consulted by both.
-def live_unit_hosts(uids, key=None):
-    """{unit_id: instance record} for every unit that already holds a Vast instance. Read-only.
+def unit_hosts(uids, key=None):
+    """{"live": {uid: inst}, "dead": {uid: inst}} — every labelled instance for these units, SPLIT on whether
+    it is still working. Read-only, one API call.
 
-    ⚠ ANY labelled instance counts as occupied, whatever state it is in. That is deliberately the
-    CONSERVATIVE direction: mistaking a dead host for a live one costs a delayed relaunch, while mistaking a
-    live one for dead RENTS A SECOND GPU for work already running — and this lane bills by the hour. A host
-    that has genuinely exited is freed by `collect`'s reap, which reads the commit store and therefore knows
-    something this label check cannot.
+    ★★ THE SPLIT IS THE WHOLE POINT, AND ITS ABSENCE COST THREE RUNG 2b REPLICATES A NIGHT (measured
+    2026-07-27). This function used to return one dict, into which ANY labelled instance went "whatever state
+    it is in", justified as the conservative direction: mistaking a dead host for a live one merely delays a
+    relaunch, while mistaking a live one for dead rents a second GPU. That trade is real and the second half
+    of it is still honoured (see `vast_instance_occupies_slot`: a fresh rental still pulling its image counts
+    as occupied). The first half is what was wrong — the "delay" has no upper bound. At 6:17 PM ET
+    `task=collect` printed `up=exited` for three of four replicate hosts; at 6:12 PM the gate in front of it
+    had already declined to price the market at all, on the grounds that "4 already running". Nothing in the
+    loop would ever have re-placed those three: the count that decides whether to look at the board was made
+    from instance EXISTENCE, and an exited instance exists forever until something destroys it.
+
+    A `stopped` box also bills its volume at a HIGHER rate than a running one, so the dead half is not inert —
+    which is why it is returned rather than dropped. `submit` destroys the dead host of any unit it is about
+    to re-place, so the fix cannot produce the duplicate the old comment feared.
     """
     key = key or os.environ.get("VAST_API_KEY")
     if not key:
-        return {}
-    out = {}
+        return {"live": {}, "dead": {}}
+    # IMPORTED, NOT RE-TYPED (CLAUDE.md §1). A local `!= "stopped"` here would be a fourth private copy of
+    # "is this box working", free to disagree with the watchdog's and the collector's — and disagreeing
+    # copies of exactly this predicate are what produced both of today's incidents.
+    from gpu_backend import vast_instance_occupies_slot
+    live, dead = {}, {}
     for i in _vast_request("GET", "/instances/", key).get("instances", []) or []:
         lab = i.get("label") or ""
         if not str(lab).startswith(LABEL_PREFIX):
             continue
         for uid in uids:
             if label_matches_unit(lab, uid):
-                out[uid] = i
-    return out
+                (live if vast_instance_occupies_slot(i) else dead)[uid] = i
+    return {"live": live, "dead": dead}
+
+
+def live_unit_hosts(uids, key=None):
+    """{unit_id: instance record} for every unit whose host is still WORKING. Thin view over `unit_hosts`."""
+    return unit_hosts(uids, key=key)["live"]
 
 
 def rented_usd_per_ns(inst):
@@ -1265,19 +1284,26 @@ def rented_rate_row(uid, inst):
 def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None, key=None):
     """Which of this mode's units still need a host — the ONE answer both the gate and `submit` use.
 
-    Returns {"needed": [...], "done": [...], "live": [...], "live_hosts": {uid: record}}. `needed` is what a
-    launch would actually rent, so `len(needed) == 0` means a launch is pointless and the gate in front of it
-    must not fire one.
+    Returns {"needed": [...], "done": [...], "live": [...], "live_hosts": {uid: record},
+             "dead_hosts": {uid: record}}. `needed` is what a launch would actually rent, so
+    `len(needed) == 0` means a launch is pointless and the gate in front of it must not fire one.
+
+    ★ A UNIT WHOSE HOST HAS EXITED IS `needed`, AND ITS CORPSE IS RETURNED ALONGSIDE. Before 2026-07-27 a
+    dead instance kept its unit out of `needed` forever (see `unit_hosts`), which is how three replicates sat
+    unreplaced. `dead_hosts` carries the instance records that no longer occupy a slot so `submit` can destroy
+    them at the moment it re-places the unit — the reap and the re-place have to be the same decision, or the
+    lane is briefly paying for two instances on one unit.
     """
     specs = list(legs or units_for(mode))
     jobs = [build_jobspec(l, s, d, mode=mode, timestep_fs=timestep_fs,
                           warmup_timestep_fs=warmup_timestep_fs) for (l, s, d) in specs]
     uids = [j.env["UNIT_ID"] for j in jobs]
     done = {u for u, d in leg_records().items() if d.get("status") == "done"}
-    live_hosts = {}
+    live_hosts, dead_hosts = {}, {}
     listing_error = None
     try:
-        live_hosts = live_unit_hosts(uids, key=key)
+        hosts = unit_hosts(uids, key=key)
+        live_hosts, dead_hosts = hosts["live"], hosts["dead"]
     except Exception as e:  # noqa: BLE001 — reported, not swallowed; callers must FAIL CLOSED on it
         listing_error = f"{type(e).__name__}: {e}"
         print(f"[launch] could not list live instances ({listing_error}); "
@@ -1286,6 +1312,7 @@ def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None
             "done": [u for u in uids if u in done],
             "live": [u for u in uids if u in live_hosts and u not in done],
             "live_hosts": live_hosts,
+            "dead_hosts": {u: i for u, i in dead_hosts.items() if u not in done and u not in live_hosts},
             # ★★ THE FIELD EVERY CALLER MUST CHECK BEFORE RENTING. `needed` is only trustworthy when the
             # instance list was actually read: on a listing failure NOTHING looks live, so `needed` silently
             # becomes "every unit" — and renting on that is how this lane would genuinely double-buy on top
@@ -1361,11 +1388,12 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
 
     done = {u for u, d in leg_records().items() if d.get("status") == "done"}
     inflight = set()
-    live_hosts = {}
+    live_hosts, dead_hosts = {}, {}
     key = os.environ.get("VAST_API_KEY")
     if key:
         try:
-            live_hosts = live_unit_hosts([j.env["UNIT_ID"] for j in jobs], key=key)
+            _hosts = unit_hosts([j.env["UNIT_ID"] for j in jobs], key=key)
+            live_hosts, dead_hosts = _hosts["live"], _hosts["dead"]
             inflight = set(live_hosts)
         except Exception as e:  # noqa: BLE001
             # ⛔ FAIL CLOSED — DO NOT RENT WHEN WE CANNOT SEE WHAT WE ALREADY HOLD (2026-07-27).
@@ -1412,6 +1440,27 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     # change so every existing caller and test keeps working.
     submit.last_requested = len(keep)
     submit.last_failure_kind = None
+    # ⚰ REAP THE CORPSE OF ANY UNIT WE ARE ABOUT TO RE-PLACE, BEFORE WE RE-PLACE IT.
+    #
+    # This is the safety half of counting only WORKING hosts as occupied. The old count treated an `exited`
+    # instance as a host, which never double-bought and never re-placed either; the new one re-places, so it
+    # has to clear the record it is stepping over. Two reasons it must happen here rather than being left to
+    # `collect`: a `stopped` Vast box bills its VOLUME at a higher rate than a running one, so a corpse we
+    # have decided to abandon is a live cost; and `collect`'s dedupe keeps the OLDEST instance per label,
+    # which after a re-place is precisely the dead one — it would destroy the replacement we just paid for.
+    # Failure to destroy is logged and does NOT abort the launch: an undead box costs cents, an unreplaced
+    # RUNG 2b replicate costs the calibration verdict.
+    reaped = [u for u in dead_hosts if u in {j.env["UNIT_ID"] for j in keep}]
+    for u in reaped:
+        i = dead_hosts[u]
+        print(f"[launch] re-placing {u}: its host {i.get('id')} (machine {i.get('machine_id')}, "
+              f"{i.get('gpu_name')}) reads actual_status={i.get('actual_status')!r} / "
+              f"cur_state={i.get('cur_state')!r} — not working, and billing its volume. Destroying it first.")
+        try:
+            _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+        except Exception as e:  # noqa: BLE001 — a failed reap must never block the re-place
+            print(f"[launch]   destroy {i.get('id')} failed ({type(e).__name__}: {e}); "
+                  "renting the replacement anyway — collect will retry the reap")
     if not keep:
         print("[launch] every unit for this mode is already done or running — nothing to rent")
         # ★★ SAY SO IN A FILE, NOT ONLY IN A LOG LINE (2026-07-27). This branch is the one the 12:29 PM and
@@ -1780,7 +1829,17 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
     hold, readout = market_gate(n, key=key, excluded=excluded, max_ratio=max_ratio, mode=mode)
     readout.update({"mode": mode, "nothing_to_launch": False,
                     "units_done": out["done"], "units_live": out["live"],
-                    "units_needing_host": out["needed"]})
+                    "units_needing_host": out["needed"],
+                    # ★ NAME THE UNITS THAT ARE ONLY FOR SALE BECAUSE THEIR LAST HOST DIED. Without this the
+                    # snapshot cannot distinguish "this cohort was never launched" from "this cohort was
+                    # launched and three of its hosts are corpses", and those want different reactions from
+                    # whoever reads it. Each row carries the state that condemned the box, so the judgement is
+                    # auditable rather than asserted.
+                    "units_replacing_a_dead_host": [
+                        {"unit_id": u, "dead_instance": i.get("id"), "machine_id": i.get("machine_id"),
+                         "gpu": i.get("gpu_name"), "actual_status": i.get("actual_status"),
+                         "cur_state": i.get("cur_state")}
+                        for u, i in sorted((out.get("dead_hosts") or {}).items())]})
     return ("hold" if hold else "clear"), readout
 
 
@@ -1850,15 +1909,24 @@ def collect(bucket=None, prefix=None, autostop=True):
     new_state, blocked = {}, set()
 
     # DEDUPE before anything else: two instances on one unit write the same S3 keys, do the same work and
-    # bill twice. Keep the oldest (most progress, checkpoints already committed).
+    # bill twice. Keep the oldest (most progress, checkpoints already committed) — but a WORKING host beats an
+    # older dead one every time.
+    #
+    # ⚠ "OLDEST" ALONE BECAME WRONG THE MOMENT THE LAUNCHER STARTED RE-PLACING DEAD UNITS (2026-07-27). The
+    # ordering was written when a corpse kept its unit off the launch list forever, so a duplicate could only
+    # ever be two live boxes. Now a unit whose host has `exited` is re-placed, and for the seconds or minutes
+    # before the reap lands there are two records under one label — with the OLDEST being the dead one. Sorting
+    # on age alone would destroy the replacement that was just paid for and leave the corpse, which is the
+    # failure this whole change exists to end, arriving through the cleanup path instead.
     if key and mine:
+        from gpu_backend import vast_instance_occupies_slot
         by_label = {}
         for i in mine:
             by_label.setdefault(i.get("label") or "", []).append(i)
         for lab, group in by_label.items():
             if len(group) < 2:
                 continue
-            group.sort(key=lambda x: float(x.get("start_date") or 0))
+            group.sort(key=lambda x: (not vast_instance_occupies_slot(x), float(x.get("start_date") or 0)))
             print(f"  DUPLICATE {lab}: {len(group)} instances; keeping {group[0].get('id')}, "
                   f"destroying {[g.get('id') for g in group[1:]]}")
             for d_ in group[1:]:

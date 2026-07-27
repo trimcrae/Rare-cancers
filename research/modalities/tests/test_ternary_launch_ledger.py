@@ -222,3 +222,46 @@ def test_the_receipt_supplies_the_counts_so_the_shell_need_not_guess(ledger):
     e = tll.record("launched", path=ledger,
                    receipt={"n_requested": 4, "n_rented": 4, "rented": [{"unit_id": "u", "usd_per_ns": 0.003}]})
     assert e["n_requested"] == 4 and e["n_rented"] == 4
+
+
+def test_a_gate_that_could_not_run_is_not_a_gate_that_refused(ledger):
+    """★★ THE 2026-07-27 6:01 PM ET MISREPORT, in one test. `task=triangle-smoke` (run 30309074338) died
+    inside the step named "ATOM-MAP GATE — the launch cannot rent until the map is proven complete" and was
+    filed as `failed` / "job status failure". Nothing in the row could tell that from the mapper having come
+    up short on T3's closing edge, so it was read as a chemistry result. It was a Docker Hub login timeout;
+    the four maps had measured 59/59 heavy atoms complete three hours earlier.
+
+    The two must be separately nameable, and — the part that matters for how the row is acted on — a
+    measured refusal must NOT be a fault, while a gate that never ran must be one. Same red job, opposite
+    remedies: one is a finding about the edge, the other is a retry."""
+    refused = tll.record("map-gate-refused", path=ledger,
+                         reason="task=triangle; atom-map gate: refused: cmpd1->cmpd4prime 17/20 heavy mapped")
+    could_not = tll.record("failed", path=ledger,
+                           reason="task=triangle-smoke; atom-map gate: could-not-run: docker login")
+    assert refused["outcome"] != could_not["outcome"]
+    # The refusal is the guard working on the science, not the pipeline breaking — so it must not be swept
+    # into the fault bucket that callers use to decide "is something wrong?".
+    assert "map-gate-refused" not in tll.FAULTS
+    assert "failed" in tll.FAULTS
+    # ...and each row must explain itself without opening the run.
+    assert "SHORT map" in refused["what_that_means"]
+    assert "Re-running will not help" in refused["what_that_means"]
+    assert "17/20 heavy mapped" in refused["reason"]
+    assert "docker login" in could_not["reason"]
+
+
+def test_the_three_zero_rental_outcomes_do_not_render_alike(ledger):
+    """CLAUDE.md §1: a row we are paying and a row the gate refused must never render alike — one glyph, one
+    meaning. All three of these rented nothing and spent $0, and each calls for a DIFFERENT next action:
+    a price hold self-heals on the next tick, a launched row is normal green, and a map refusal will be
+    exactly as short an hour later and needs a person to read the chemistry. Three glyphs."""
+    marks = {}
+    for outcome, kw in (("refused-on-price", {"n_requested": 4, "n_rented": 0}),
+                        ("map-gate-refused", {"n_requested": 4, "n_rented": 0}),
+                        ("failed", {})):
+        tll.record(outcome, path=ledger, **kw)
+        marks[outcome] = tll.summary_line(ledger).split("—")[0]
+    assert len(set(marks.values())) == 3, marks
+    assert "🔬" in marks["map-gate-refused"]
+    assert "✅" not in marks["map-gate-refused"], "a blocked edge must not wear the healthy-launch glyph"
+    assert "⏸" not in marks["map-gate-refused"], "held promises a retry that cannot help a short map"
