@@ -226,6 +226,31 @@ def _endpoint_map_a2b(molA_r, molB_r):
     transplant uses is IDENTICAL to the one the RBFE re-derives from the written SDF); fall back to a pure-RDKit
     MCS map only if OpenFE is unavailable. Returns (a2b, source)."""
     import ternary_endpoint_align as align
+
+    # ★ IF THE TWO ENDPOINTS ARE THE SAME MOLECULE, THE MAP IS THE IDENTITY — DO NOT ASK AN MCS.
+    # `_load_ligands` takes the SDF's two records VERBATIM, and a lane may legitimately write ONE pose twice
+    # (RUNG 5a-KS does: the engine re-imposes each endpoint's bond orders from SMILES later, so at
+    # pre-equilibration time ligA and ligB are byte-identical molblocks). Asking LOMAP to map a molecule onto
+    # ITSELF then makes a trivially-known answer depend on an MCS search — and on 2026-07-26 that search
+    # returned 80 of 111 atoms at a 20 s budget and 110 of 111 at 300 s, on a host where the same inputs
+    # mapped 111/111 elsewhere. There is no chemical reason for a self-map to be incomplete; every one of
+    # those shortfalls was a search artifact that turned identical atoms into dummies and aborted the leg.
+    # An exact full-molecule substructure match is deterministic, has no timeout, and cannot be perturbed by
+    # host speed or aromatic perception.
+    try:
+        from rdkit import Chem as _C
+        if molA_r.GetNumAtoms() == molB_r.GetNumAtoms():
+            _a = _C.MolToSmiles(_C.Mol(molA_r))
+            _b = _C.MolToSmiles(_C.Mol(molB_r))
+            if _a == _b:
+                m = molB_r.GetSubstructMatch(molA_r, useChirality=True)
+                if len(m) == molA_r.GetNumAtoms():
+                    log(f"  [preequil] endpoints are the SAME molecule ({molA_r.GetNumAtoms()} atoms) — using "
+                        f"the exact identity map, not an MCS search")
+                    return {i: int(j) for i, j in enumerate(m)}, "identity_same_molecule"
+    except Exception as e:  # noqa: BLE001 — never let the fast path break the general one
+        log(f"  [preequil] same-molecule check unavailable ({type(e).__name__}: {e}); using the mapper")
+
     try:
         import openfe  # noqa: F401
         from openfe import SmallMoleculeComponent
