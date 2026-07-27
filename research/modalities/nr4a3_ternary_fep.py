@@ -144,8 +144,17 @@ def _morph_endpoints(leg):
     # the crystal ligand was cmpd4, so bond orders were assigned against a template whose linker ring differs by
     # N->CH, the thiazole lost its aromatic C-H, and NAGL rejected the molecule with
     # RadicalsNotSupportedError ("Found 1 radical electrons") ~30 s into charge assignment.
+    # ⛔ ...AND IT IS NOT ALWAYS ENDPOINT A EITHER. Taking the UNSWAPPED `smiles_a` fixes the DIRECTION half
+    # of the bug above, and it is right for every leg whose morph HAPPENS to start at the co-crystallised
+    # compound — which every calib leg did, until the closure triangle. Its T2 edge is
+    # `calib_lo -> calib_lo2`: it STARTS at cmpd4, a DERIVED molecule that exists in no crystal. Under the
+    # old rule `_repair_pose` would have received cmpd4 as the bond-order template for cmpd1's coordinates —
+    # the IDENTICAL failure above, reached by a different route, and it would have taken out both T2 legs.
+    # The crystal ligand is a property of the STAGED STRUCTURE, so it is resolved from there
+    # (`prep.crystal_ligand_smiles`); endpoint A stays the fallback for the families where it is genuinely
+    # correct (5a-KS stages from a co-fold whose ligand IS endpoint A), so no existing leg changes.
     global CRYSTAL_SMILES
-    CRYSTAL_SMILES = m["smiles_a"]
+    CRYSTAL_SMILES = prep.crystal_ligand_smiles(leg) or m["smiles_a"]
     if sa is None or sb is None:
         raise SystemExit("  ABORT: unresolved morph endpoints for %s (status=%s). Calibration endpoints are "
                          "PENDING the frozen Layer-1 calib pair; NR-V04 needs network SMILES resolution."

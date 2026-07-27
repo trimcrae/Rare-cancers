@@ -387,3 +387,37 @@ def test_reducer_refuses_a_leg_whose_record_declares_a_restraint():
         r = tred.reduce_triangle(d)
     assert r["decision"] in ("REFUSED", "INCOMPLETE")
     assert "restrained" in r["reason"] or "missing" in r["reason"]
+
+
+# ---------------------------------------------------------------------------------------------------------
+# 5. the crystal ligand is a property of the STRUCTURE, not of the morph
+# ---------------------------------------------------------------------------------------------------------
+def test_every_calib_leg_names_cmpd1_as_the_crystal_ligand():
+    """⛔ THE ONE THAT WOULD HAVE KILLED BOTH T2 LEGS. Both endpoints are built from the same crystal pose,
+    and `_repair_pose` needs the crystal ligand's TRUE identity to assign bond orders before anything is
+    mutated. The engine inferred it from the morph's endpoint A — correct for every leg whose morph starts at
+    the co-crystallised compound, which every calib leg did until T2 (`calib_lo -> calib_lo2`) started at
+    cmpd4, a DERIVED molecule that exists in no crystal. Assigning cmpd1's coordinates against a cmpd4
+    template is the RECORDED failure on this lane: the thiazole loses its aromatic C-H and NAGL rejects the
+    molecule with RadicalsNotSupportedError."""
+    import ternary_coop_prep as prep
+    import ternary_coop as tcoop
+    hi = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                     "wurz-calib-frozen.json")))["calib_hi"]["smiles"]
+    for lid in list(tlegs.NEW_LEG_IDS) + ["calib_hi_to_lo__ternary_vhl", "calib_hi_to_lo__binary_vhl"]:
+        leg, _env = eng.leg_spec(lid)
+        assert prep.crystal_ligand_smiles(leg) == hi, lid
+    # T2 is the case that regressed: its endpoint A is cmpd4, and it must NOT be taken as the crystal ligand
+    t2, _ = eng.leg_spec(tlegs.TRIANGLE_LEGS["T2"]["ternary"])
+    m = prep._morph_endpoints(t2, resolve_smiles=True)
+    assert m["smiles_a"] != hi, "T2's endpoint A is cmpd4 — this test is meaningless if that ever changes"
+
+
+def test_other_families_keep_the_endpoint_a_fallback():
+    """The fix must not reach legs where endpoint A genuinely IS the staged ligand — 5a-KS stages from a
+    co-fold built around its own endpoint A."""
+    import ternary_coop_prep as prep
+    for lid, spec in eng._extra_leg_map().items():
+        if lid in tlegs.LEG_MAP:
+            continue
+        assert prep.crystal_ligand_smiles(dict(spec, id=lid)) is None, lid
