@@ -390,6 +390,73 @@ def market_verdict(best_usd_per_ns, n_units):
     return (projected <= ceiling), projected, ceiling, ratio
 
 
+def unit_usd_per_ns_ceiling():
+    """The most ONE unit may cost per nanosecond and still sit inside this rung's authorisation. PURE.
+
+    ★ DERIVED FROM THE EXISTING CEILING, NOT A NEW CONSTANT (rule 1). Both sides of `market_verdict` are
+    LINEAR in the unit count — `market_ceiling_usd(n) = n · gpu_h_hi · usd_per_h_hi` and
+    `projected_tranche_usd(u, n) = u · reference_ns_per_unit · n` — so the whole `n` cancels and the
+    tranche test was only ever a per-unit test wearing a tranche's clothes:
+
+        projected(u, n) <= ceiling(n)   <=>   u <= ceiling(1) / reference_ns_per_unit
+
+    That identity is what makes per-unit placement legitimate rather than a loosening: a unit admitted here
+    is admitted on exactly the authorisation the tranche test enforced, just evaluated against the offer it
+    will actually occupy instead of against a mean it will not.
+
+    ⚠ IT IS NOT THE §1 DRIFT LINE, and the two must not be confused. CLAUDE.md §1's 1.5x is a REPORTING
+    threshold — "a row must SAY it is drifting rather than leaving the reader to divide", explicitly "not a
+    hard gate — the fleet-launch gate in the launcher is that". This is that hard gate, and it currently
+    sits near 2.25x basis because the rung's own band top does (the band top is ~2.26x the plan figure,
+    which is where trimcrae's "pay double per ns" landed). Rows between the two still print `⚠ DRIFT`;
+    they are inside the authorisation and flagged, which is what §1 asks for.
+    """
+    return market_ceiling_usd(1) / reference_ns_per_unit()
+
+
+def place_units(ranked_usd_per_ns, n_wanted, ceiling_usd_per_ns=None):
+    """(n_placed, placed, held_reason) — how many of `n_wanted` units the board can take RIGHT NOW. PURE.
+
+    ★★ WHY PER-UNIT AND NOT A FLEET MEAN (trimcrae, 2026-07-27: *"The fanout fleet doesn't all have to run
+    at the same time. If 5 GPUs are cheap enough and the rest aren't, only run 5."*). The mean was always
+    the wrong statistic for an all-or-nothing decision. On the board that prompted this, two offers sat at
+    1.71x and 1.77x basis — cheaper than plenty this lane has happily rented — and were refused because
+    offers 8, 9 and 10 at 4.44x, 4.63x and 6.95x dragged the mean to 3.25x. That is declining cheap capacity
+    because expensive capacity exists beside it, and CLAUDE.md §6 exists to stop us PAYING a bad rate, not
+    to stop us TAKING a good one.
+
+    Splitting is scientifically free here and that is checked, not assumed: every unit has its own S3
+    result key (`result_key`) and its own checkpoint prefix (`checkpoint_prefix`), both keyed on `unit_id`;
+    the launcher carries no barrier or dependency between units and is already a top-up loop bounded by free
+    slots; `cycle_closure` reports a cycle with a missing edge as `incomplete` rather than fabricating one;
+    and the only shared object is the read-only staged pose tree, written once and unchanged between ticks —
+    which is exactly what keeps the ddG values mutually comparable no matter WHEN each edge runs.
+
+    The ladder cost is therefore unchanged by splitting: identical GPU-hours, spread over more ticks, and a
+    tick costs $0. So a partial launch is strictly better than a hold — same science, sooner, at rates that
+    pass — and the only thing it may never do is lose the remainder. `place_units` never drops: it returns a
+    count, and the caller's pending set is recomputed from S3 every tick, so held units come back by
+    construction.
+
+    One unit per offer: two units on one host contend for its GPU, which is why the launcher widens its
+    exclusion set as it goes. So the count is capped by how many offers clear, not by how cheap the best is.
+    """
+    ceiling = unit_usd_per_ns_ceiling() if ceiling_usd_per_ns is None else float(ceiling_usd_per_ns)
+    placed = [u for u in ranked_usd_per_ns if u is not None and u <= ceiling][:max(0, int(n_wanted))]
+    if placed:
+        return len(placed), placed, None
+    if not ranked_usd_per_ns:
+        return 0, [], ("the board offered nothing this lane can price — an unpriceable market is the one "
+                       "case where guessing is worst")
+    best = min(u for u in ranked_usd_per_ns if u is not None) if any(
+        u is not None for u in ranked_usd_per_ns) else None
+    if best is None:
+        return 0, [], "no offer on the board carries a benched card, so none can be priced"
+    return 0, [], (f"the cheapest offer on the board is ${best:.6f}/ns "
+                   f"({best / basis_usd_per_ns():.2f}x basis), above the ${ceiling:.6f}/ns "
+                   f"({ceiling / basis_usd_per_ns():.2f}x) a single unit is authorised to cost")
+
+
 def wave_plan(n_units, width=8, unit_h=None):
     """Wall-clock shape of running n units `width`-wide. Vast rents independent hosts, so `width` is a
     self-imposed concurrency cap (cost/blast-radius control), not a provider quota."""

@@ -58,6 +58,7 @@ from congeneric_fanout import (  # noqa: E402
 # is unit-tested without a Vast key and cannot drift from the ladder figures it is derived from.
 from congeneric_fanout import (  # noqa: E402
     basis_usd_per_ns as market_basis, market_verdict as cost_verdict)
+import congeneric_fanout as _cf  # noqa: E402  place_units / unit_usd_per_ns_ceiling / the cost block
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
@@ -65,7 +66,7 @@ BUCKET = os.environ.get("VAST_CKPT_BUCKET", "")
 STAGE_PREFIX = os.environ.get("STAGE_PREFIX", "nr4a3-step1-fanout/stage")
 RESULT_PREFIX = os.environ.get("RESULT_PREFIX", "nr4a3-step1-fanout/results")
 LABEL_PREFIX = "s1f-"
-# Set True by `market_hold()` once it has actually taken a snapshot and decided. The interim belt in
+# Set True by `market_gate()` once it has actually taken a snapshot and decided. The interim belt in
 # `mode_launch` refuses any multi-unit launch that reaches it with this still False.
 _MARKET_GUARD_RAN = False
 _MARKET_HOLD_ESCALATED = False
@@ -664,11 +665,32 @@ def market_snapshot(key, n_units, excluded=()):
     return best, depth, rows
 
 
-def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
-    """Decide whether a fleet launch may proceed. Returns True to HOLD.
+def binding_gate(gates):
+    """The FIRST gate that is refusing, or None if price is the only thing left. PURE -> unit-tested.
+
+    `gates` is an ordered [(name, clear, why)] of every gate evaluated BEFORE price. Order matters only for
+    which name is reported when several are shut; all of them appear in the readout regardless.
+    """
+    for name, clear, why in gates:
+        if not clear:
+            return name, why
+    return None
+
+
+def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
+    """HOW MANY of `n_withheld` units may be rented right now. 0 = a full hold; n_withheld = launch all.
 
     ⛔ CLAUDE.md §6: *"A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY."* trimcrae, 2026-07-26:
     *"I'd rather pause until availability opens than pay double per ns."*
+
+    ★★ AND IT PAUSES PER UNIT, NOT PER FLEET (trimcrae, 2026-07-27: *"The fanout fleet doesn't all have to
+    run at the same time. If 5 GPUs are cheap enough and the rest aren't, only run 5."*). This used to take
+    a MEAN over the N cheapest offers and hold all-or-nothing, which refused cheap capacity because
+    expensive capacity existed beside it: on the board that prompted the change, offers at 1.71x and 1.77x
+    basis were declined because three at 4.44x/4.63x/6.95x dragged the mean to 3.25x. §6 exists to stop us
+    PAYING a bad rate, not to stop us TAKING a good one, and the mean was never the right statistic for an
+    all-or-nothing decision. The placement arithmetic is `congeneric_fanout.place_units`, which also carries
+    the proof that splitting is scientifically free and costs the ladder nothing.
 
     The exposure this exists for is not a single host — it is the 18-edge release, which fires AUTOMATICALLY
     on the shakeout unit's ddg.json. On the night the rule was written the board had thinned to 5 offers from
@@ -687,48 +709,117 @@ def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
         same session-independent alert path the watchdogs already rely on, so it reaches trimcrae with no
         agent awake. The guard never buys in on its own; the escalation hands him the decision.
 
-    The gate is evaluated on the REMAINING TRANCHE, not on this tick's batch, because the authorisation is a
-    tranche-level band and a per-batch test would wave through nineteen expensive units one at a time.
+    ★★ THE ESCALATION ONLY FIRES WHEN PRICE IS THE **BINDING** CONSTRAINT (2026-07-27, after this escalated
+    "held 9.9 h on a bad market" while the TERMINUS was unmet — so the eighteen units could not have launched
+    at any price, and the 9.9 h measured a window in which this gate was never what was stopping them).
+    That is crying wolf, and it is the same class of error as the 4 AM escalation that read `first_held_utc`
+    as a duration: an alert that fires on a hold price did not cause trains everyone to ignore the alerts
+    that matter.
+
+    So `gates` carries every gate evaluated BEFORE price, and:
+      * if any of them is shut, this still HOLDS and still writes its snapshot — the price reading is real
+        and worth recording — but it does NOT escalate, and it **clears `first_held_utc` so the clock is not
+        merely paused but not running at all.** A clock that keeps ticking through a terminus block would
+        escalate the instant the terminus cleared, with a duration nobody could interpret.
+      * only when every other gate is CLEAR does the clock start, from that moment.
+    The readout NAMES the binding gate either way, so a reader cannot repeat the misreading.
+
+    ⚠ HOW THIS LANE ACTUALLY PRODUCED THE FALSE ALARM, because the shape matters: the terminus gate is
+    applied only under `FANOUT_REQUIRE_PROVEN_TERMINUS=1`, which the autoscale tick sets and a manual
+    `fanout_mode=launch` dispatch does not. The hold clock lives in S3 and is SHARED by both paths, so one
+    dispatch that ignored the terminus poisoned the timer for the path that honours it. Passing the terminus
+    in as a gate — computed from `done`, which the caller already has, at zero extra S3 cost — makes the
+    clock independent of which entry point wrote it.
+
+    `n_withheld` is the number of units this hold is actually REFUSING TO BUY, and it is deliberately
+    neither of its two neighbours. Not `len(batch)`: that is slot-limited, so a narrow tick would price a
+    slice and wave a tranche through a few units at a time — the salami the tranche-level test exists to
+    stop. Not `len(pending)`: that counts units already rented and running, whose cost is already committed,
+    which is how a 19-unit ceiling ($80.44) got quoted against an 18-unit hold ($76.21) and made the hold
+    look worse than it was. It is the pending units with no live instance — the set that would go out if
+    this gate said yes.
     """
     global _MARKET_GUARD_RAN
     hkey = f"{RESULT_PREFIX}/{_MARKET_HOLD_KEY_SUFFIX.lstrip('_')}"
     prev = _get_json(s3, bucket, hkey) or {}
+    blocking = binding_gate(gates)
     try:
-        best, depth, rows = market_snapshot(key, n_pending, excluded)
+        _best_mean, depth, rows = market_snapshot(key, n_withheld, excluded)
     except Exception as e:  # noqa: BLE001
         # A board we could not READ is not a board we may assume is cheap. Same discipline as the watchdog's
         # "unreadable is not zero": refuse, and say the refusal was for lack of evidence.
         _MARKET_GUARD_RAN = True
-        _lprint(f"[s1f] ⛔ MARKET GUARD COULD NOT READ THE BOARD ({type(e).__name__}: {e}) — HOLDING. An "
-                f"unreadable market is not a cheap one, and this gate exists precisely for the case where "
-                f"nobody is awake to check.")
-        return True
-
-    ok, projected, ceiling, ratio = cost_verdict(best, n_pending)
+        _lprint(f"[s1f] ⛔ MARKET GUARD COULD NOT READ THE BOARD ({type(e).__name__}: {e}) — HOLDING 0/"
+                f"{n_withheld}. An unreadable market is not a cheap one, and this gate exists precisely for "
+                f"the case where nobody is awake to check.")
+        return 0
     _MARKET_GUARD_RAN = True
     basis = market_basis()
-    head = (f"[s1f] MARKET GUARD ($/ns, CLAUDE.md §6): board {depth['offers_returned']} offers -> "
-            f"{depth['qualifying']} qualifying, {depth['priceable']} priceable; mean $/ns over the "
-            f"{depth['used_for_mean']} cheapest = "
-            + (f"${best:.6f}" if best is not None else "UNPRICEABLE")
-            + f" against a rung basis of ${basis:.6f}"
-            + (f" ({ratio}x)" if ratio is not None else "")
-            + f". Projected for the {n_pending} remaining unit(s): "
-            + (f"${projected}" if projected is not None else "n/a")
-            + f" against a ceiling of ${ceiling} (the TOP of this rung's own authorised band, derived from "
-              f"cost_estimate — not a number typed here).")
-    _lprint(head)
+    unit_ceiling = _cf.unit_usd_per_ns_ceiling()
 
-    doc = {"_what": "Why the step 1 fan-out did or did not launch, priced in $/ns. Written on EVERY guard "
-                    "pass, because a silent hold is indistinguishable from a finished fleet.",
-           "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay.",
-           "utc": _utcnow(), "held": (not ok), "n_pending": n_pending,
-           "mean_usd_per_ns_over_fleet": (round(best, 6) if best is not None else None),
-           "basis_usd_per_ns": round(basis, 6), "ratio_vs_basis": ratio,
-           "projected_usd": projected, "ceiling_usd": ceiling,
+    # PER-UNIT PLACEMENT. Each unit is judged on the offer it would actually occupy, one unit per offer
+    # (two on one host contend for its GPU). `rows` is already ranked ascending by the SAME
+    # rank_offers_by_usd_per_ns the renting path uses, so the gate cannot admit an offer the launcher
+    # would not buy.
+    ranked = [r["usd_per_ns"] for r in rows]
+    n_place, placed, why_none = _cf.place_units(ranked, n_withheld, unit_ceiling)
+    n_held = max(0, int(n_withheld) - n_place)
+    spend_now = _cf.projected_tranche_usd(max(placed), n_place) if placed else 0.0
+    ceiling_now = _cf.market_ceiling_usd(n_place) if n_place else 0.0
+
+    _lprint(f"[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board {depth['offers_returned']} offers -> "
+            f"{depth['qualifying']} qualifying, {depth['priceable']} priceable. A single unit is authorised "
+            f"up to ${unit_ceiling:.6f}/ns ({unit_ceiling / basis:.2f}x the rung basis ${basis:.6f}/ns) — "
+            f"DERIVED from market_ceiling_usd(1) / reference_ns_per_unit, not typed here.")
+    # ★ THE LINE THE RULE ACTUALLY REQUIRES. §6 forbids both a silent hold and a silently dropped unit, and
+    # a PARTIAL launch is where those are easiest to commit: a tick that launches 5 of 19 and says nothing
+    # about the 14 is precisely the failure. So both halves are always printed, with the price the held
+    # units are waiting for.
+    _lprint(f"[s1f] PLACEMENT: {n_place} unit(s) LAUNCHING NOW, {n_held} HELD for a better board "
+            f"(of {n_withheld} withheld this tick).")
+    for u in placed:
+        _lprint(f"[s1f]   launch @ ${u:.6f}/ns · {u / basis:.2f}x basis"
+                + ("  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)"
+                   if u / basis >= 1.5 else ""))
+    if n_held:
+        _lprint(f"[s1f]   HELD {n_held} unit(s): waiting for an offer at or below ${unit_ceiling:.6f}/ns "
+                f"({unit_ceiling / basis:.2f}x basis). "
+                + (why_none or f"the board had only {n_place} offer(s) that cheap this pass.")
+                + " They are NOT dropped — the pending set is recomputed from S3 every tick, so they go out "
+                  "automatically as the board improves.")
+    if n_place:
+        _lprint(f"[s1f]   spend authorised THIS TICK: ${spend_now} against ${ceiling_now} — the ceiling for "
+                f"the {n_place} unit(s) actually being BOUGHT, not for the notional full tranche.")
+
+    doc = {"_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in "
+                    "$/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a "
+                    "finished fleet — and a partial launch that reports only what it launched is the same "
+                    "failure wearing a better number.",
+           "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay. Per-unit "
+                    "since 2026-07-27 (trimcrae): if 5 GPUs are cheap enough and the rest are not, run 5.",
+           "utc": _utcnow(), "held": (n_held > 0), "n_withheld": n_withheld,
+           "n_launching_now": n_place, "n_held": n_held,
+           "unit_usd_per_ns_ceiling": round(unit_ceiling, 6),
+           "unit_ceiling_x_basis": round(unit_ceiling / basis, 3),
+           "placed_usd_per_ns": [round(u, 6) for u in placed],
+           "placed_x_basis": [round(u / basis, 2) for u in placed],
+           "basis_usd_per_ns": round(basis, 6),
+           "spend_authorised_now_usd": spend_now, "ceiling_for_that_spend_usd": ceiling_now,
+           "held_reason": why_none,
            "board_depth": depth, "offers_priced": rows,
-           "first_held_utc": (prev.get("first_held_utc") if (not ok and prev.get("held")) else
-                              (_utcnow() if not ok else None))}
+           "binding_gate": (blocking[0] if blocking else ("price" if n_held else None)),
+           "binding_gate_why": (blocking[1] if blocking else None)}
+
+    # ★★ THE HOLD CLOCK RUNS ONLY WHILE PRICE IS THE BINDING CONSTRAINT.
+    #
+    # Cleared — not paused — whenever another gate is shut, and whenever at least one unit could be placed.
+    # With per-unit launching, "price is binding" means the strictly stronger thing that NOT ONE unit could
+    # be bought; a tick that placed 3 of 18 is a market that works, just slowly, and escalating on it would
+    # be the same cry-wolf in a new costume.
+    price_is_binding = (blocking is None) and n_place == 0 and n_held > 0
+    doc["price_is_binding"] = price_is_binding
+    doc["first_held_utc"] = (prev.get("first_held_utc") if (price_is_binding and prev.get("price_is_binding"))
+                             else (_utcnow() if price_is_binding else None))
 
     held_h = 0.0
     if doc["first_held_utc"]:
@@ -738,6 +829,10 @@ def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
         except (ValueError, TypeError):
             held_h = 0.0
     doc["held_hours"] = round(held_h, 2)
+
+    if blocking:
+        _lprint(f"[s1f] BINDING GATE: {blocking[0]} — {blocking[1]}. The price reading above is recorded but "
+                f"is NOT what is stopping these units, so the price-escalation clock is NOT running.")
 
     try:
         s3.put_object(Bucket=bucket, Key=hkey, Body=json.dumps(doc, indent=2).encode())
@@ -749,25 +844,21 @@ def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
     except Exception as e:  # noqa: BLE001
         _lprint(f"[s1f] market-hold readout not written: {e}")
 
-    if ok:
-        _lprint(f"[s1f] MARKET GUARD PASSED — the fleet is buyable inside the authorised band. Launching.")
-        return False
-
-    _lprint(f"[s1f] ⛔ FLEET LAUNCH HELD ON PRICE. Nothing was rented and no unit was silently dropped; the "
-            f"next scheduled tick re-checks. Offers priced this pass: {json.dumps(rows)}")
-    if held_h >= MARKET_HOLD_ESCALATE_H:
+    if price_is_binding and held_h >= MARKET_HOLD_ESCALATE_H:
         # The escalation. Not a decision the guard is allowed to make for him — a notification that one is
-        # now needed. `::error::` also fails the job, which is what actually reaches a phone.
-        print(f"::error title=STEP1 FAN-OUT HELD {held_h:.1f} H ON A BAD MARKET::The $/ns guard has refused "
-              f"the 18-edge release for {held_h:.1f} h (since {doc['first_held_utc']}). Best achievable is "
-              f"{ratio}x the rung basis, projecting ${projected} against a ${ceiling} ceiling. The guard will "
-              f"NOT buy in on its own — this needs a decision: wait longer, re-price the ladder against a "
-              f"changed market, or authorise the higher spend. Snapshot: step1-fanout-market-hold.json.",
-              flush=True)
-        _lprint(f"[s1f] ESCALATED — held {held_h:.1f} h (> {MARKET_HOLD_ESCALATE_H:.0f} h). This is now "
-                f"trimcrae's call, not the guard's; the job fails so GitHub notifies.")
+        # now needed. `::error::` also fails the job, which is what actually reaches a phone. Gated on
+        # `price_is_binding` so it can only fire when every other gate is clear AND not one unit was
+        # placeable: the 2026-07-27 false alarm escalated "held 9.9 h on a bad market" while the terminus
+        # was unmet, i.e. during a window in which this gate was never what stopped anything.
+        print(f"::error title=STEP1 FAN-OUT: NOT ONE UNIT PLACEABLE FOR {held_h:.1f} H::Every other gate is "
+              f"clear and the $/ns guard still cannot place a SINGLE one of {n_withheld} unit(s) — for "
+              f"{held_h:.1f} h (since {doc['first_held_utc']}). {why_none} The guard will NOT buy in on its "
+              f"own: this needs a decision — wait longer, re-price the ladder against a changed market, or "
+              f"authorise the higher spend. Snapshot: step1-fanout-market-hold.json.", flush=True)
+        _lprint(f"[s1f] ESCALATED — price has been the BINDING constraint for {held_h:.1f} h "
+                f"(> {MARKET_HOLD_ESCALATE_H:.0f} h) with zero units placeable. trimcrae's call now.")
         globals()["_MARKET_HOLD_ESCALATED"] = True
-    return True
+    return n_place
 
 
 def object_store_preflight(bucket=None, prefix=None):
@@ -894,6 +985,18 @@ def mode_launch():
     # unit whose entire job is to produce that ddg.json. The cron would have ticked all night launching
     # nothing. So while the terminus is unproven the gate NARROWS to the shakeout unit instead of returning:
     # the fifteen cold units stay held, and the unit that is already paid for keeps going.
+    # ★ COMPUTED UNCONDITIONALLY, not inside the branch below, and at ZERO extra S3 cost — `done` already
+    # counts the units whose ddg.json exists, because `pending` was built from exactly that test. The price
+    # gate needs it as an INPUT (see `market_gate`'s `gates`): the terminus is enforced only under
+    # FANOUT_REQUIRE_PROVEN_TERMINUS=1, which the autoscale tick sets and a manual `fanout_mode=launch`
+    # dispatch does not — and the two share one hold clock in S3, so on 2026-07-27 a manual dispatch that
+    # ignored the terminus escalated "held 9.9 h on a bad market" for a window in which price was never what
+    # stopped anything. Passing it in makes the escalation independent of which entry point wrote the clock.
+    terminus_proven = done > 0
+    _terminus_why = ("at least one unit has a production ddg.json" if terminus_proven else
+                     "no unit has a ddg.json — reduce/commit/upload has never been observed on this lane, so "
+                     "these units cannot launch at ANY price")
+
     if os.environ.get("FANOUT_REQUIRE_PROVEN_TERMINUS") == "1":
         proven = [u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))]
         if proven:
@@ -968,8 +1071,10 @@ def mode_launch():
     # It HOLDS rather than fails: same discipline as the market gate, and for the same reason — a hold is
     # recoverable and visible, nothing is dropped, the commit store is untouched, and the next tick re-checks
     # and launches by itself the moment the credential works again.
+    _preflight_ok, _preflight_why = True, "skipped (FANOUT_SKIP_CRED_PREFLIGHT=1)"
     if os.environ.get("FANOUT_SKIP_CRED_PREFLIGHT") != "1":
         ok, why = object_store_preflight()
+        _preflight_ok, _preflight_why = ok, why
         _lprint(f"[s1f] CREDENTIAL PRE-FLIGHT: {'✅ CLEAR' if ok else '⛔ HELD'} — {why}")
         if not ok:
             _lprint(f"[s1f] ⛔ LAUNCH HELD ({len(batch)} unit(s)) — the object-store credential this rental "
@@ -1006,7 +1111,20 @@ def mode_launch():
                 "deliberate, recorded choice to spend outside the rung's authorised band.")
         _MARKET_GUARD_RAN = True
     elif len(batch) > 1:
-        if market_hold(len(batch), len(pending), bucket, s3, key, _excluded_for_guard):
+        # PER-UNIT PLACEMENT (trimcrae, 2026-07-27): the gate returns HOW MANY units the board can take at a
+        # rate inside the rung's authorisation, not an all-or-nothing verdict on a fleet mean. The batch is
+        # truncated to that count; the remainder is not recorded anywhere as "dropped" because it does not
+        # need to be — `pending` is recomputed from S3 on every tick, so a held unit is simply pending again
+        # next tick and goes out the moment an offer clears for it.
+        #
+        # `gates` is what makes the price-escalation honest: the terminus is passed in so a hold caused by an
+        # unmet terminus can never be reported, or escalated, as a hold caused by price.
+        _n_allowed = market_gate(len(batch), bucket, s3, key, _excluded_for_guard,
+                                 gates=(("terminus", terminus_proven, _terminus_why),
+                                        ("credential pre-flight", _preflight_ok, _preflight_why)))
+        batch = batch[:_n_allowed]
+        if not batch:
+            _lprint("[s1f] nothing rented this tick. No unit was dropped; the next tick re-prices.")
             _write_launch_readout()
             return
     else:

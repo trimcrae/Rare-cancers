@@ -629,13 +629,19 @@ def test_a_hold_is_VISIBLE_and_never_silent():
     finished'. Every hold must reach the readout, the S3 state and a committed file, each with the snapshot."""
     import congeneric_fanout_vast as cfv
     src = open(cfv.__file__).read()
-    i = src.index("def market_hold(")
+    i = src.index("def market_gate(")
     body = src[i:src.index("\ndef mode_launch(")]
     assert "_lprint" in body, "a hold must reach the committed launch readout"
     assert "step1-fanout-market-hold.json" in body, "a hold must leave a committed snapshot file"
     assert "put_object" in body, "a hold must persist state so the NEXT tick can time the escalation"
-    for field in ("board_depth", "offers_priced", "projected_usd", "ceiling_usd", "ratio_vs_basis"):
+    for field in ("board_depth", "offers_priced", "spend_authorised_now_usd",
+                  "ceiling_for_that_spend_usd", "unit_usd_per_ns_ceiling", "binding_gate"):
         assert field in body, f"the snapshot must carry {field}"
+    # ★ A PARTIAL LAUNCH IS WHERE "never silent" is easiest to break: a tick that launches 5 of 19 and says
+    # nothing about the 14 is exactly the failure §6 names. Both halves must always be reported.
+    for field in ("n_launching_now", "n_held", "held_reason"):
+        assert field in body, f"a partial launch must record {field}"
+    assert "HELD" in body and "LAUNCHING NOW" in body, "both halves must reach the readout"
 
 
 def test_the_hold_readout_is_committed_by_both_launching_workflows():
@@ -654,9 +660,11 @@ def test_an_indefinite_hold_escalates_rather_than_idling_forever():
     import congeneric_fanout_vast as cfv
     src = open(cfv.__file__).read()
     assert "MARKET_HOLD_ESCALATE_H" in src
-    body = src[src.index("def market_hold("):src.index("\ndef mode_launch(")]
+    body = src[src.index("def market_gate("):src.index("\ndef mode_launch(")]
     assert "::error title=" in body, "the escalation must be a GitHub error annotation"
     assert "first_held_utc" in body, "escalation must be timed from the FIRST hold, not this tick"
+    assert "price_is_binding and held_h >=" in body, \
+        "the escalation must fire ONLY when price is the binding constraint"
     # and the escalation must actually fail the process
     assert "raise SystemExit(2)" in src and "_MARKET_HOLD_ESCALATED" in src
 
@@ -774,3 +782,103 @@ def test_credential_preflight_runs_before_anything_is_rented():
     i_price = launch.index("THE $/ns MARKET GUARD")
     i_rent = launch.index("backend.submit(spec)")
     assert i_pre < i_price < i_rent, "pre-flight -> price gate -> rent"
+
+
+# ================================================================= PER-UNIT PLACEMENT
+# trimcrae, 2026-07-27: *"The fanout fleet doesn't all have to run at the same time. If 5 GPUs are cheap
+# enough and the rest aren't, only run 5."* The gate used to take a MEAN over the N cheapest offers and hold
+# all-or-nothing, so cheap capacity was refused because expensive capacity existed beside it.
+
+def _mult(u):
+    import congeneric_fanout as cf
+    return u / cf.basis_usd_per_ns()
+
+
+def test_two_cheap_among_eight_expensive_launches_two_and_holds_the_rest():
+    """The board that prompted the redesign, in miniature. The old mean would have refused all ten."""
+    import congeneric_fanout as cf
+    ceil = cf.unit_usd_per_ns_ceiling()
+    cheap = [ceil * 0.75, ceil * 0.8]
+    dear = [ceil * m for m in (1.5, 1.6, 1.9, 2.0, 2.1, 2.4, 2.7, 3.1)]
+    n, placed, why = cf.place_units(sorted(cheap + dear), 18)
+    assert n == 2, (n, placed)
+    assert placed == sorted(cheap)
+    assert why is None
+    # and the mean over all ten would have failed, which is the whole point
+    mean = sum(cheap + dear) / 10
+    assert mean > ceil, "the fixture must reproduce the mean-drags-it-over failure"
+
+
+def test_a_board_where_nothing_clears_launches_zero_and_still_says_why():
+    import congeneric_fanout as cf
+    ceil = cf.unit_usd_per_ns_ceiling()
+    n, placed, why = cf.place_units([ceil * 1.2, ceil * 5], 18)
+    assert n == 0 and placed == []
+    assert why and "cheapest offer" in why and "authorised" in why, why
+
+
+def test_a_board_where_everything_clears_launches_everything():
+    import congeneric_fanout as cf
+    ceil = cf.unit_usd_per_ns_ceiling()
+    n, placed, why = cf.place_units([ceil * 0.5] * 6, 6)
+    assert n == 6 and why is None
+    # never more units than offers: one unit per host, because two on one host contend for its GPU
+    assert cf.place_units([ceil * 0.5] * 3, 19)[0] == 3
+
+
+def test_an_empty_or_unpriceable_board_is_a_hold_not_a_guess():
+    import congeneric_fanout as cf
+    n, placed, why = cf.place_units([], 5)
+    assert n == 0 and why and "unpriceable" in why
+
+
+def test_the_per_unit_ceiling_is_derived_from_the_tranche_ceiling_not_typed():
+    """★ The identity that makes per-unit placement a re-expression of the authorisation rather than a
+    loosening of it: both sides of market_verdict are linear in n, so the tranche test WAS a per-unit test."""
+    import congeneric_fanout as cf
+    ceil = cf.unit_usd_per_ns_ceiling()
+    assert abs(ceil - cf.market_ceiling_usd(1) / cf.reference_ns_per_unit()) < 1e-12
+    for n in (1, 3, 5, 18, 19):
+        # a unit priced just under the per-unit ceiling keeps ANY tranche size inside its own dollar band
+        ok, projected, ceiling, _r = cf.market_verdict(ceil * 0.99, n)
+        assert ok, (n, projected, ceiling)
+        assert not cf.market_verdict(ceil * 1.05, n)[0], n
+    src = open(cf.__file__).read()
+    fn = src[src.index("def unit_usd_per_ns_ceiling("):src.index("def place_units(")]
+    assert "market_ceiling_usd(1)" in fn, "must be DERIVED from the rung's own band, never typed"
+
+
+def test_a_terminus_blocked_hold_does_not_escalate_on_price():
+    """★ THE CRY-WOLF FIX (2026-07-27). This escalated 'held 9.9 h on a bad market' while the terminus was
+    unmet — a window in which the 18 units could not have launched at any price, so price was never what
+    stopped them. An alert that fires on a hold price did not cause trains everyone to ignore the alerts
+    that matter."""
+    import congeneric_fanout_vast as cfv
+    # the pure half: which gate is binding
+    assert cfv.binding_gate((("terminus", False, "no ddg.json"),)) == ("terminus", "no ddg.json")
+    assert cfv.binding_gate((("terminus", True, "ok"), ("pre-flight", True, "ok"))) is None
+    assert cfv.binding_gate(())is None
+    # first shut gate wins the name, and a later clear one cannot mask it
+    assert cfv.binding_gate((("terminus", False, "a"), ("pre-flight", True, "b")))[0] == "terminus"
+
+    src = open(cfv.__file__).read()
+    body = src[src.index("def market_gate("):src.index("\ndef object_store_preflight(")]
+    # the clock must be CLEARED, not merely unread, while another gate is shut
+    assert "price_is_binding = (blocking is None)" in body
+    assert 'else (_utcnow() if price_is_binding else None)' in body, \
+        "first_held_utc must be cleared while price is not binding, not left ticking"
+    # with per-unit launching, 'price is binding' means NOT ONE unit could be placed
+    assert "n_place == 0" in body, "a tick that placed some units is not a price-bound tick"
+
+
+def test_the_terminus_is_passed_to_the_price_gate_from_the_launcher():
+    """The false alarm was possible because the terminus is enforced only under
+    FANOUT_REQUIRE_PROVEN_TERMINUS=1 while the hold clock in S3 is shared by every entry point."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    launch = src[src.index("def mode_launch("):]
+    assert "terminus_proven = done > 0" in launch, "computed unconditionally, at zero extra S3 cost"
+    i_term = launch.index("terminus_proven = done > 0")
+    i_gate = launch.index("market_gate(")
+    assert i_term < i_gate, "the terminus must be known before the price gate is consulted"
+    assert '("terminus", terminus_proven' in launch, "and actually handed to it"
