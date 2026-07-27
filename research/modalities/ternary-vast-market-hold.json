@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB_mini replicates",
-  "utc": "2026-07-27T12:42:39Z",
+  "utc": "2026-07-27T13:13:04Z",
   "n_units": 4,
   "basis_usd_per_ns": 0.004359,
   "plan_usd": 8.78,
@@ -8,45 +8,45 @@
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 4 legs",
   "breakeven_usd_per_ns": 0.011061,
   "depth": {
-    "offers_returned": 47,
-    "qualifying": 46,
-    "priceable": 10,
+    "offers_returned": 64,
+    "qualifying": 60,
+    "priceable": 31,
     "needed": 4,
     "used_for_mean": 4
   },
   "offers": [
     {
-      "gpu": "RTX 4090",
-      "machine_id": 51777,
-      "min_bid_usd_h": 0.18666666666666668,
-      "usd_per_ns": 0.006754
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 12227,
-      "min_bid_usd_h": 0.187,
-      "usd_per_ns": 0.006764
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 114268,
-      "min_bid_usd_h": 0.18666666666666668,
-      "usd_per_ns": 0.007669
-    },
-    {
       "gpu": "RTX 3090",
-      "machine_id": 24039,
-      "min_bid_usd_h": 0.10666666666666667,
-      "usd_per_ns": 0.008914
+      "machine_id": 29304,
+      "min_bid_usd_h": 0.048,
+      "usd_per_ns": 0.004511
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 24573,
+      "min_bid_usd_h": 0.149,
+      "usd_per_ns": 0.005685
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 28905,
+      "min_bid_usd_h": 0.15866666666666665,
+      "usd_per_ns": 0.005822
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 11892,
+      "min_bid_usd_h": 0.163,
+      "usd_per_ns": 0.005968
     }
   ],
-  "mean_usd_per_ns": 0.007525,
-  "ratio_vs_basis": 1.726,
-  "projected_usd": 15.16,
+  "mean_usd_per_ns": 0.005497,
+  "ratio_vs_basis": 1.261,
+  "projected_usd": 11.07,
   "max_ratio_vs_basis": 1.5,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": true,
-  "hold": true,
-  "reason": "1.73x the ladder basis exceeds the 1.50x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns"
+  "fails_ratio_ceiling": false,
+  "hold": false,
+  "reason": "projected $11.07 within this rung's ceiling $22.28 AND 1.26x basis is within the 1.50x drift line"
 }
