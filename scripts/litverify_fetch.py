@@ -12,6 +12,7 @@ import re
 import subprocess
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "litverify"
@@ -48,6 +49,10 @@ SOURCES = {
             "https://pubs.acs.org/doi/pdf/10.1021/acs.jctc.6b00979",
             "https://discovery.ucl.ac.uk/id/eprint/1534399/",
             "https://discovery.ucl.ac.uk/1534399/9/Bhati_final_si.pdf",
+            "https://discovery.ucl.ac.uk/1534399/1/Bhati_final.pdf",
+            "https://discovery.ucl.ac.uk/1534399/7/Bhati_final.pdf",
+            "https://discovery.ucl.ac.uk/1534399/8/Bhati_final.pdf",
+            "https://www.osti.gov/pages/biblio/2470031",
             "https://pmc.ncbi.nlm.nih.gov/articles/PMC5379244/",
         ],
     },
@@ -159,8 +164,15 @@ def main():
         meta.update(up_meta)
         meta["unpaywall_urls"] = up_urls
         text, used, attempts = "", None, []
-        for url in spec["urls"] + up_urls:
-            if used and len(text) > 20000:
+        variants = {}
+        queue = list(spec["urls"]) + list(up_urls)
+        seen = set()
+        while queue:
+            url = queue.pop(0)
+            if url in seen:
+                continue
+            seen.add(url)
+            if used and len(text) > 60000:
                 break
             try:
                 body, ctype, final = get(url)
@@ -169,21 +181,37 @@ def main():
                 continue
             attempts.append({"url": url, "final": final, "ctype": ctype,
                              "bytes": len(body)})
+            t, vs = "", {}
             if body[:5] == b"%PDF-" or "pdf" in ctype.lower():
                 p = os.path.join(OUT, name + ".pdf")
                 with open(p, "wb") as f:
                     f.write(body)
-                try:
-                    t = subprocess.run(["pdftotext", "-layout", p, "-"],
-                                       capture_output=True, timeout=180).stdout
-                    t = t.decode("utf-8", "replace")
-                except Exception as e:  # noqa: BLE001
-                    attempts[-1]["pdftotext_error"] = repr(e)[:200]
-                    t = ""
+                for mode, suffix in (([], ""), (["-layout"], ".layout"),
+                                     (["-raw"], ".raw")):
+                    try:
+                        o = subprocess.run(["pdftotext"] + mode + [p, "-"],
+                                           capture_output=True,
+                                           timeout=180).stdout
+                        o = o.decode("utf-8", "replace")
+                    except Exception as e:  # noqa: BLE001
+                        attempts[-1]["pdftotext_error" + suffix] = repr(e)[:200]
+                        continue
+                    vs[suffix] = o
+                    if not suffix:
+                        t = o
             else:
                 t = html_to_text(body)
+                for href in re.findall(rb'href="([^"]+?\.pdf[^"]*)"', body,
+                                       re.I)[:10]:
+                    h = urllib.parse.urljoin(final, href.decode("latin-1"))
+                    if h not in seen:
+                        queue.append(h)
             if len(t) > len(text):
-                text, used = t, final
+                text, used, variants = t, final, vs
+        for suffix, o in variants.items():
+            if suffix:
+                with open(os.path.join(OUT, name + suffix + ".txt"), "w") as f:
+                    f.write(o)
         meta["used_url"] = used
         meta["attempts"] = attempts
         meta["text_chars"] = len(text)
