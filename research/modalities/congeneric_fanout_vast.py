@@ -2167,7 +2167,21 @@ def mode_launch():
             # ({"success": false, "error": "resources_unavailable"}), which CLAUDE.md records as routine.
             # Raising TypeError from inside the except block turned "skip this host, try the next" into
             # "abort the whole wave", on the most-expected failure this launcher has.
-            _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}")
+            # ★ NAME WHICH SHORTAGE IT WAS (2026-07-27). "no rentable verified offer" is emitted both when
+            # the MARKET has nothing and when OUR OWN filters have eaten everything, and the two have
+            # opposite remedies — wait for the board vs. withdraw a wrong exclusion. Measured that evening:
+            # 38 machines excluded against a 152-offer board lost 4 of 5 authorised placements, and every
+            # one of them printed as if the market had refused us. `vast_machine_blacklist.__doc__` names
+            # this exact confusion ("an over-grown set surfaces as an unaffordable market") as the reason
+            # `relaunch_market_gate` reports `exclusions_or_spec_not_price`; the fan-out had no equivalent.
+            _n_excl, _n_held = len(excluded), len(used_machines) - len(excluded)
+            _why_short = ""
+            if "no rentable verified offer" in str(e):
+                _why_short = (f"  <-- NOT a capacity refusal: our own filter removed {len(used_machines)} "
+                              f"machine(s) ({_n_excl} excluded + {_n_held} we already hold or just rented "
+                              f"this wave) before ranking. Remedy is to widen supply (withdraw a wrong "
+                              f"exclusion, or wait for the fleet to shrink), not to wait for prices.")
+            _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}{_why_short}")
             continue
         # Print the FLOOR, the BID and the premium separately. The fan-out's cost estimate was built from a
         # single instance's realized $/hr with no visibility into how much of that was our own bid premium.

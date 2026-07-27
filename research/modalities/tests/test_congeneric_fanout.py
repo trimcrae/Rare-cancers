@@ -1371,3 +1371,16 @@ def test_the_repair_runs_before_the_condemn_block():
     import congeneric_fanout_vast as fv
     src = inspect.getsource(fv.mode_monitor)
     assert src.index("withdraw_wrong_exclusions(s3, bucket, _good)") < src.index("_cohort_now =")
+
+def test_a_submit_starved_by_OUR_OWN_filters_does_not_read_as_a_capacity_refusal():
+    """`no rentable verified offer` is emitted both when the market has nothing and when our exclusion set
+    plus host-distinctness have eaten the board. Opposite remedies — withdraw a wrong exclusion vs wait for
+    prices — so the readout must name which. Measured: 38 machines excluded against 152 offers lost 4 of 5
+    authorised placements, every one printing as if the market had refused us."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_launch)
+    assert '"no rentable verified offer" in str(e)' in src
+    assert "NOT a capacity refusal" in src
+    # and it must break the count down into the two causes, since only one of them is actionable here
+    assert "_n_excl, _n_held = len(excluded), len(used_machines) - len(excluded)" in src
