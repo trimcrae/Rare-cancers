@@ -744,19 +744,34 @@ jobs:
           gcloud storage ls "$RESULTS/leg_*.json" 2>/dev/null || echo "(none)"
           gcloud storage cp "$RESULTS/leg_*.json" /tmp/prov/ 2>/dev/null || true
           gcloud storage cp "$RESULTS/restraint_*.json" /tmp/prov/ 2>/dev/null || true
+          # SECOND SOURCE, and for older legs the ONLY one that can settle it. The leg record only gained
+          # `setup_cache_dir`/`n_particles` on 2026-07-25, so every leg that landed before that carries
+          # neither. The COMMIT MANIFESTS do: rbfe_spot_checkpoint stamps `system_fingerprint_fields` into
+          # every COMMITTED.json, and that dict holds SETUP_CACHE_VERSION verbatim. Fetch the newest manifest
+          # per commit prefix.
+          for pfx in $(gcloud storage ls "gs://$BUCKET/valB-6hax/commits/" 2>/dev/null); do
+            for sub in $(gcloud storage ls "$pfx" 2>/dev/null); do
+              M=$(gcloud storage ls "$sub**/COMMITTED.json" 2>/dev/null | tail -1)
+              [ -n "$M" ] || continue
+              SAFE=$(printf '%s' "$sub" | sed 's#gs://##; s#[/*]#_#g')
+              gcloud storage cp "$M" "/tmp/prov/MANIFEST__${SAFE}.json" 2>/dev/null || true
+            done
+          done
           echo "=== [LEG-PROVENANCE] ==="
           python3 - <<'PY'
           import glob, json, os
+          UNREC = 'UNRECORDED'
           rows = []
           for f in sorted(glob.glob('/tmp/prov/leg_*.json')):
               try:
                   d = json.load(open(f))
               except Exception as e:
                   print("  %-52s UNREADABLE (%s)" % (os.path.basename(f), e)); continue
-              cache = d.get('cache_dir') or ''
-              # the setup version is the LAST __-delimited field of the cache dir; report UNRECORDED rather
-              # than guessing, because a guess here is the whole defect this step exists to stop.
-              ver = cache.rstrip('/').split('__')[-1] if cache else 'UNRECORDED'
+              # THE FIELD IS `setup_cache_dir`. The first cut of this read `cache_dir` -- the name used only in
+              # the PRIME marker -- and so reported UNRECORDED for every leg while looking like it had checked.
+              # Both are accepted; neither is guessed at.
+              cache = d.get('setup_cache_dir') or d.get('cache_dir') or ''
+              ver = cache.rstrip('/').split('__')[-1] if cache else UNREC
               rows.append((os.path.basename(f), ver, d.get('n_particles'), d.get('protocol_hash'),
                            d.get('n_windows'), cache))
           if not rows:
@@ -764,13 +779,49 @@ jobs:
           for name, ver, npart, ph, nw, cache in rows:
               print("  %-52s setup=%-12s particles=%-10s windows=%-4s protocol_hash=%s"
                     % (name, ver, npart, nw, ph))
-              print("      cache_dir=%s" % (cache or '(unrecorded)'))
-          # THE COMPARABILITY QUESTION, answered rather than left to the reader: do the legs that would be
-          # combined into one cycle agree on setup version and particle count?
-          vers = {r[1] for r in rows}
-          if len(vers) > 1:
-              print("::warning title=LEG SETUP VERSIONS DIFFER::%s — legs built from different setups must not be "
-                    "combined into one ΔΔG_coop without justification (audit J.2-J.5)." % sorted(vers))
+              print("      setup_cache_dir=%s" % (cache or '(unrecorded)'))
+
+          print("=== [COMMIT-MANIFEST PROVENANCE] (the decisive record for legs older than the leg-record field) ===")
+          man_rows = []
+          for f in sorted(glob.glob('/tmp/prov/MANIFEST__*.json')):
+              try:
+                  m = json.load(open(f))
+              except Exception as e:
+                  print("  %-58s UNREADABLE (%s)" % (os.path.basename(f), e)); continue
+              fields = m.get('system_fingerprint_fields') or {}
+              pretty = os.path.basename(f)[len('MANIFEST__'):-len('.json')]
+              sv = fields.get('SETUP_CACHE_VERSION') or UNREC
+              man_rows.append((pretty, sv, fields.get('RBFE_RESTRAIN', ''), m.get('schema')))
+              print("  %-58s SETUP_CACHE_VERSION=%-8s RBFE_RESTRAIN=%-4s schema=%s"
+                    % (pretty, sv, fields.get('RBFE_RESTRAIN', '(absent)'), m.get('schema')))
+          if not man_rows:
+              print("  (no commit manifests found)")
+
+          # ===== THE COMPARABILITY VERDICT IS TRI-STATE, AND ABSENCE IS NOT AGREEMENT =====
+          # The first cut computed `set(versions)` and warned only when len > 1. With every leg UNRECORDED that
+          # set is the single value {UNRECORDED}, so the check PASSED — silently, on no evidence. That is the
+          # exact "absent rendered as a legal good value" defect this whole step was added to stop, reproduced
+          # inside the tool meant to stop it. Absence now reports as NOT VERIFIED, loudly, and never as agreement.
+          known = {r[1] for r in rows if r[1] != UNREC}
+          unknown = [r[0] for r in rows if r[1] == UNREC]
+          mknown = {r[1] for r in man_rows if r[1] != UNREC}
+          if len(known | mknown) > 1:
+              print("::error title=LEG SETUP VERSIONS DIFFER::%s — legs built from different setups must NOT be "
+                    "combined into one ΔΔG_coop (audit J.2-J.5)." % sorted(known | mknown))
+          elif unknown and not mknown:
+              print("::warning title=LEG SETUP VERSION NOT VERIFIED::%d leg(s) record no setup_cache_dir and no "
+                    "commit manifest carries SETUP_CACHE_VERSION: %s. This is NOT a pass — it means the question "
+                    "cannot be answered from these artifacts. Do NOT infer the version from which setup caches "
+                    "happen to exist; an absence is not a measurement. Settle it from the committed trajectory's "
+                    "particle count (mode=forensic) before combining these legs."
+                    % (len(unknown), ', '.join(unknown)))
+          elif unknown:
+              print("::warning title=LEG SETUP VERSION PARTIALLY VERIFIED::%d leg record(s) are silent (%s); the "
+                    "commit manifests agree on %s. Treat the leg-record silence as unverified, not as agreement."
+                    % (len(unknown), ', '.join(unknown), sorted(mknown)))
+          elif known or mknown:
+              print("[provenance] all legs agree on setup version %s — VERIFIED from the artifacts."
+                    % sorted(known | mknown))
           print("=== [RESTRAINT REPORTS] ===")
           rp = sorted(glob.glob('/tmp/prov/restraint_*.json'))
           if not rp:
