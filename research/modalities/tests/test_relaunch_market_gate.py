@@ -285,17 +285,19 @@ def test_every_watchdog_kind_supplies_a_relaunch_resource_spec():
             f"kind {name} cannot be priced by the $/ns gate, so its relaunches would all be held"
 
 
-def test_the_step1_kind_can_price_the_entry_that_is_actually_armed(monkeypatch):
-    """`hasattr` proves the method exists; this proves it RESOLVES for the live watch entry. The step 1 kind
-    reaches into the lane launcher, which reads its bucket/prefix/image from the environment at import time,
-    so this is the member most likely to raise in production rather than in a stub."""
-    watch = json.load(open(os.path.join(MOD, "vast-watch.json")))
-    entry = next((e for e in watch["watch"] if e.get("kind") == "step1_fanout"), None)
-    if entry is None:
-        pytest.skip("no step1_fanout entry currently armed")
-    for k in ("VAST_CKPT_BUCKET", "RESULT_PREFIX", "STAGE_PREFIX", "FEP_IMAGE", "N_WINDOWS"):
-        monkeypatch.setenv(k, os.environ.get(k, ""))     # restored by monkeypatch after the test
-    spec = vw.KINDS["step1_fanout"].relaunch_resource_spec(entry, [])
+def test_the_step1_kind_prices_the_lanes_own_spec(monkeypatch):
+    """The step 1 kind must hand the gate the LANE'S `FANOUT_RES`, not a spec of the watchdog's invention.
+
+    ⚠ WHY THIS IS MOCKED AT `_lane` RATHER THAN DRIVEN THROUGH IT. `congeneric_fanout_vast` reads BUCKET /
+    RESULT_PREFIX / FEP_IMAGE at IMPORT time, and `_lane` deliberately REFUSES if the already-imported module
+    resolved a different environment — a guard that is right in production (a fresh CI process) and makes the
+    call untestable in a pytest session where some earlier test imported the module first. Asserting identity
+    with `FANOUT_RES` tests the thing that could actually be wrong (a hand-written spec drifting from the one
+    the launcher rents against) without asserting the import guard away."""
+    import congeneric_fanout_vast as cfv
+    monkeypatch.setattr(vw.Step1FanoutKind, "_lane", staticmethod(lambda entry: cfv))
+    spec = vw.KINDS["step1_fanout"].relaunch_resource_spec({"bucket": "b"}, [])
+    assert spec is cfv.FANOUT_RES
     assert spec.min_vram_gb >= 24 and spec.interruptible is True
 
 

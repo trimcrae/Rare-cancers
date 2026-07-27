@@ -29,20 +29,60 @@ and the run's logs endpoint now returns **HTTP 404**.
 
 ## NOT contained — requires trimcrae
 
-**Rotate the key.** Log deletion closes the window; it is not a rotation, and the key must be
-treated as compromised. It lives in repo secrets `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` and
-has S3 write access to `sagemaker-us-east-2-646605541856` — which holds **every leg's checkpoints
-and results** for this program. Write access to that bucket is write access to the evidence base.
+**Rotate the key**, and create the scoped one that replaces it on hosts. Both steps, in order, are
+[scoped-s3-credential-runbook.md](./scoped-s3-credential-runbook.md) — the policy JSON is in it,
+ready to paste. Log deletion closes the window; it is not a rotation, and the key must be treated
+as compromised.
 
 ## The larger issue this exposed, which the incident did not cause
 
 `gpu_backend._vast_onstart` forwards these AWS credentials **in plaintext to every rented Vast
-community host, by design**. Its docstring promises only that `VAST_API_KEY` is withheld.
+community host, by design**. Its docstring promised only that `VAST_API_KEY` is withheld.
 
 So **every Vast host operator this repo has ever rented from could already read that key.** The
-leak widened the audience; it did not create the exposure. That is a standing design decision and
-deserves its own call — scoped or temporary credentials per rental, or accepting it knowingly —
-independently of this incident.
+leak widened the audience; it did not create the exposure.
+
+**And the exposure is wider than the first version of this note recorded.** That note said the key
+"has S3 write access to `sagemaker-us-east-2-646605541856`". Checked against the artifact rather
+than assumed: the key is `nr4a3-ci-submitter`, and
+[`deploy/aws-sagemaker.cfn.yaml`](../../deploy/aws-sagemaker.cfn.yaml) lines 31–47 grant it
+
+- `s3:CreateBucket, PutObject, GetObject, ListBucket, GetBucketLocation` on **`Resource: "*"`** —
+  every bucket in the account, not one prefix;
+- `sagemaker:CreateProcessingJob` on `"*"`, plus `iam:PassRole` onto `nr4a3-sagemaker-exec`, which
+  carries `AmazonSageMakerFullAccess`.
+
+So a host operator holding it can read and overwrite anything in the account and **launch SageMaker
+jobs at trimcrae's expense**. It has no `s3:DeleteObject`, which is the one thing that limits it.
+
+**trimcrae's call (2026-07-27, asked directly): SCOPE THE CREDENTIALS.** Implemented — a dedicated
+`vast-leg-s3` identity restricted to six S3 actions on the lane prefixes a leg actually touches,
+with shared inputs read-only, generated from
+[`s3_scoped_policy.py`](../modalities/s3_scoped_policy.py) and selected at one choke point
+(`gpu_backend._object_store_env`). The code is transition-safe: with no scoped secret it forwards
+the old key exactly as before, so the legs live when it landed were never at risk of losing their
+upload path. Guards: `tests/test_s3_scoped_policy.py`. Remaining AWS steps are the runbook's.
+
+## Audited and deliberately left alone
+
+Checked every other path a credential could take out of CI, so "Vast-specific" is a finding and not
+an assumption:
+
+- **GCP** — clean, and clean on purpose. The GCE startup scripts export no `AWS_*` at all; every
+  store operation is `gs://`, authenticated keylessly by the VM's own service account. Putting AWS
+  creds in GCE metadata was explicitly rejected (cheap-gpu-plan.md).
+- **SageMaker** — correct. The job assumes `nr4a3-sagemaker-exec` via `SAGEMAKER_ROLE_ARN`; no keys
+  are injected into the container. The `AWS_*` in those workflows is the runner's own, and it stays
+  on the runner.
+- **RunPod / Salad / Slurm** — `NotImplementedError` stubs; nothing runs, nothing forwards.
+- **Modal — the one other real egress, left as-is with reasons.** `nr4a3_rbfe_modal.py`,
+  `modal_s3_smoke.py` and `modal_openmm_smoke.py` pass the same broad key into
+  `modal.Secret.from_dict`. Different trust model (a named vendor under contract, not an anonymous
+  host operator), and the lane is dormant since the monthly grant was exhausted — but the wiring is
+  live and `modal-rbfe.yml` still fires its smoke on push. It is **not** routed through the scoped
+  credential because its prefixes (`nr4a3-congeneric-dock/…`, `nr4a3-step1-pilot-rbfe`) are outside
+  the Vast lanes, and widening the leg policy to cover a dormant lane would loosen the thing this
+  change exists to tighten. Revisit if Modal is ever reactivated.
 
 ## The rule
 

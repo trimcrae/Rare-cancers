@@ -495,20 +495,69 @@ def _vast_status(actual: str, cur_state: str = None) -> str:
 
 # Env forwarded into a rented instance so its job container can read/write the checkpoint bucket. For "reuse
 # S3" this carries the AWS keys + region; if OBJECT_STORE_ENDPOINT is set (R2/B2) it rides along too, so the
-# same code path serves any S3-compatible store. SECURITY: a rented community host is UNTRUSTED — set these
-# from a **bucket-scoped IAM key** (s3:GetObject/PutObject/ListBucket on just the checkpoint prefix), never a
-# broad/admin AWS key. See cheap-gpu-plan.md.
+# same code path serves any S3-compatible store.
+#
+# SECURITY — THIS IS THE ONE PLACE THE CREDENTIAL IS CHOSEN. A rented community host is UNTRUSTED and the
+# credential goes into its onstart script in PLAINTEXT (there is no secret-injection mechanism on Vast), so
+# the host's operator can read it. Until 2026-07-27 what went out was the repo's general CI key, which can
+# write anywhere in sagemaker-us-east-2-<acct> — every leg's checkpoints and results, i.e. the evidence base
+# for the whole program. See research/compute/credential-exposure-2026-07-27.md and the runbook it links.
+#
+# The fix is a DEDICATED credential whose IAM policy allows only the six S3 actions a leg performs, on only
+# the lane prefixes it touches (rendered from s3_scoped_policy.py). It arrives in its own env vars so that
+# CI keeps its broad key for SageMaker/analysis and the host gets only the narrow one:
+#
+#     VAST_S3_ACCESS_KEY_ID / VAST_S3_SECRET_ACCESS_KEY [/ VAST_S3_SESSION_TOKEN]
+#
+# TRANSITION-SAFE, DELIBERATELY. If those are unset the old AWS_* pair is forwarded exactly as before, so
+# lanes in flight when this landed keep running and trimcrae can create the scoped user whenever he gets to
+# it. If they ARE set, the broad AWS_* credential is NOT forwarded at all — the point is exclusivity, not
+# preference. The host still sees standard AWS_* names, so no pipeline changes.
 _OBJECT_STORE_ENV_KEYS = (
     "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "AWS_SESSION_TOKEN", "AWS_DEFAULT_REGION",
     "OBJECT_STORE_ENDPOINT", "OBJECT_STORE_REGION",
 )
+# The credential triple, and where the scoped credential supplies each member. Anything not in this map
+# (region, endpoint) is plain configuration, carries no secret, and passes through in either mode.
+_SCOPED_CRED_ALIASES = {
+    "AWS_ACCESS_KEY_ID": "VAST_S3_ACCESS_KEY_ID",
+    "AWS_SECRET_ACCESS_KEY": "VAST_S3_SECRET_ACCESS_KEY",
+    "AWS_SESSION_TOKEN": "VAST_S3_SESSION_TOKEN",
+}
+
+
+def object_store_cred_mode(source_env=None) -> str:
+    """'scoped' if the dedicated leg credential is configured, else 'inherited' (the broad CI key).
+
+    Reported by the launchers so the readout says which credential a rental was given WITHOUT printing any
+    part of it — the whole incident began with a diagnostic that printed values it had not named."""
+    env = source_env if source_env is not None else os.environ
+    return "scoped" if (env.get("VAST_S3_ACCESS_KEY_ID") and env.get("VAST_S3_SECRET_ACCESS_KEY")) \
+        else "inherited"
 
 
 def _object_store_env(source_env=None) -> dict:
-    """Collect the checkpoint-store credentials/config present in the environment, to forward into the instance
-    so its job container can reach the bucket (reuse-S3 = the AWS keys). PURE (reads a dict) -> unit-tested."""
+    """Collect the checkpoint-store credential/config to forward into a rented instance.
+
+    Prefers the DEDICATED leg credential (VAST_S3_*) and, when it is present, forwards ONLY that — the broad
+    CI key must never ride along beside it. Falls back to the AWS_* pair when no scoped credential is
+    configured, so nothing breaks before trimcrae creates the IAM user. Shape-agnostic: a long-lived scoped
+    key and an STS triple both work, because the session token is just another member of the same map.
+    PURE (reads a dict) -> unit-tested."""
     env = source_env if source_env is not None else os.environ
-    return {k: env[k] for k in _OBJECT_STORE_ENV_KEYS if env.get(k)}
+    scoped = object_store_cred_mode(env) == "scoped"
+    out = {}
+    for k in _OBJECT_STORE_ENV_KEYS:
+        alias = _SCOPED_CRED_ALIASES.get(k)
+        if alias is None:                                   # region/endpoint: configuration, not a secret
+            v = env.get(k)
+        elif scoped:
+            v = env.get(alias)                              # scoped mode: the CI value is NOT a fallback
+        else:
+            v = env.get(k)
+        if v:
+            out[k] = v
+    return out
 
 
 def s3_checkpoint_uri(job_name: str, bucket: str = None, prefix: str = "vast") -> str:
@@ -537,11 +586,32 @@ _VAST_SELFDESTROY = (
 
 
 def _vast_onstart(spec: JobSpec, self_terminate_argv, extra_env=None) -> str:
-    """Build the instance onstart script: export the resume/checkpoint context (+ forwarded object-store creds;
-    NO VAST_API_KEY — never on a community host), arm a KEY-FREE self-stop EXIT trap so the instance halts its GPU
+    """Build the instance onstart script, arm a KEY-FREE self-stop EXIT trap so the instance halts its GPU
     billing (exits its container) on completion/crash/stop (never idles on the meter — the #1 gotcha), then run
     the job command. The guaranteed DESTROY is control-plane (CI reap). `extra_env` is merged UNDER spec.env
-    (spec.env wins). PURE (no I/O) -> unit-tested."""
+    (spec.env wins). PURE (no I/O) -> unit-tested.
+
+    ⚠ WHAT THIS SCRIPT EXPOSES, STATED PLAINLY. Everything below is written into the rental's onstart field
+    IN CLEARTEXT and is readable by the host's operator, by anyone who can see the Vast instance record, and
+    by anything that prints that record (which is exactly how the 2026-07-27 leak happened). Vast has no
+    secret-injection mechanism, so this is not a bug to fix but a boundary to scope. What crosses it:
+
+      * the object-store credential from `_object_store_env()` — the ONLY secret here, and the reason that
+        function exists as the single choke point. It must be the DEDICATED, prefix-scoped `vast-leg-s3`
+        credential (VAST_S3_* -> the policy in `s3_scoped_policy.py`), NOT the broad CI key. Until the
+        scoped secret exists it falls back to AWS_*, and while it does, every rented host sees a key that
+        can write any bucket in the account and launch SageMaker jobs — see the module comment above
+        `_OBJECT_STORE_ENV_KEYS` and `research/compute/scoped-s3-credential-runbook.md`.
+      * `spec.env` — lane configuration (bucket/prefix URIs, sampling parameters, git branch). Launchers
+        must never put a secret in it; a presigned URL (short-lived, one object) is the right way to hand a
+        host something private, as `nrv04_vast_launch` does for the packed MD env.
+      * CHECKPOINT_URI / RESUME / SELF_LABEL, and the job command itself.
+
+    WHAT IS WITHHELD: `VAST_API_KEY` — never on a community host, because it can spend the account's credit;
+    teardown is key-free (the trap below) with the control-plane destroy staying in CI. The earlier version
+    of this docstring named that withholding and nothing else, which read as reassurance while the AWS key
+    went out in the clear. It is one item on the list, not the list.
+    """
     cmd = " ".join(shlex.quote(a) for a in spec.command)
     env = {**(extra_env or {}), **spec.env}
     lines = ["#!/bin/bash", "set -o pipefail",
@@ -591,10 +661,31 @@ class VastBackend(Backend):
                                        max_hourly_usd=(max_hr * 2.0 if max_hr else None))
         if offer is None:
             raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} offers)")
-        # Forward ONLY the checkpoint-store creds (reuse-S3 = bucket-scoped AWS keys) into the rented host — the
-        # science needs S3, not Vast. VAST_API_KEY is deliberately NOT forwarded (never expose the account key to a
-        # community host); the host tears down key-free by exiting its container, and CI destroys it (2026-07-24).
+        # Forward ONLY the checkpoint-store credential into the rented host — the science needs S3, not Vast.
+        # VAST_API_KEY is deliberately NOT forwarded (never expose the account key to a community host); the host
+        # tears down key-free by exiting its container, and CI destroys it (2026-07-24). Which credential that is
+        # gets decided in ONE place, `_object_store_env` — scoped `vast-leg-s3` when configured, else the broad
+        # CI key with the exposure that implies. Say which, on the record, without printing any part of it.
         extra = dict(_object_store_env())
+        mode = object_store_cred_mode()
+        print(f"  [cred] object-store credential: {mode}"
+              + ("" if mode == "scoped" else "  ** BROAD CI KEY — see research/compute/"
+                                             "scoped-s3-credential-runbook.md **"), flush=True)
+        if mode == "scoped":
+            # A scoped key that does not cover this lane's prefix produces a leg that runs for hours and then
+            # 403s on upload — the one outcome worse than the exposure. Warn at LAUNCH, where it is cheap to
+            # see. Both targets are checked because they diverge: on the NR-V04 lanes `checkpoint_uri` is the
+            # `vast/<name>/ckpt` default that nothing reads, while every real write goes to `RESULT_S3`.
+            # Non-fatal on purpose: a wrong guess here must never be able to stop a fleet.
+            try:
+                from s3_scoped_policy import covers            # local import: keeps gpu_backend dependency-free
+                for target in {spec.checkpoint_uri, (spec.env or {}).get("RESULT_S3")}:
+                    if target and not covers(target):
+                        print(f"  [cred] WARNING: {target} is not covered by the scoped policy — register "
+                              f"its prefix in s3_scoped_policy.LANE_PREFIXES or this leg cannot upload",
+                              flush=True)
+            except Exception:  # noqa: BLE001 — an advisory check must not be able to abort a launch
+                pass
         onstart = _vast_onstart(spec, self.self_terminate_cmd(), extra_env=extra)
         # Rent the chosen ask: PUT /asks/{id}/ is Vast's canonical create-instance endpoint (POST /instances/
         # 404s). On success the body carries new_contract = the instance id.
