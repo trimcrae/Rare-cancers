@@ -642,5 +642,40 @@ def rank_by_ddg(ddg_by_edge, anchor="zaienne_cmpd19", map_path=MAP_JSON):
     return sorted(rows, key=lambda r: r["ddg_bind_kcal"])
 
 
+def fanout_width():
+    """The concurrency target: DERIVED from the map, not typed (CLAUDE.md rule 1).
+
+    ★★ THIS NUMBER HAD THREE HOMES AND ALL THREE DISAGREED (2026-07-27, during the ramp trimcrae asked
+    for: *"ramp up that parallel usage"*). It was `8` here, `"19"` in `step1-fanout-autoscale.yml`, `"19"`
+    again in `fusion-cpu-extras.yml`, and the truth on the ground was **18** — `cw_bio_nmethyl_amide` is
+    permanently blocked because no mapper reaches the 20-atom provable floor. So the one knob that decides
+    how parallel this lane runs was a hand-carried constant in three files, and the code default was less
+    than half the intended width: ANY entry point that forgot to set the env var silently capped the fleet
+    at 8 hosts while the workflow's readout talked about 19. That is precisely the drift rule 1 exists to
+    stop, and here it was throttling the ramp.
+
+    The derivation. Vast rents INDEPENDENT hosts — there is no shared quota wall, and CLAUDE.md §6's litmus
+    test ("is there a result this shard could return that would make me NOT run the rest?") answers NO for a
+    congeneric map — so there is no reason for this lane to impose a concurrency cap BELOW its own map. The
+    width is therefore the size of the map, and the units that must not be rented are excluded where that
+    fact actually lives: `_pending` drops finished units (a ddg.json in S3) and blocked ones (`_load_blocked`,
+    also S3). Width is the ceiling; those two are the filter. A blocked unit can never consume a slot, so
+    deriving from `len(default_units())` cannot over-rent — it only stops the cap from binding below what
+    the lane is allowed to place.
+
+    ⚠ THIS IS NOT "MORE PARALLEL AT ANY PRICE". Width does not buy anything: every unit still has to clear
+    the per-unit $/ns gate (`market_gate` -> `congeneric_fanout.place_units`), so raising the cap can only
+    let a unit through that the PRICE gate already approved. trimcrae authorised more concurrency, not a
+    higher rate, and the rate line is untouched by this.
+
+    `FANOUT_WIDTH` still overrides, for a deliberate narrowing (a shakeout, a blast-radius limit). An
+    explicit env var is a choice; a stale constant is not.
+    """
+    env = (os.environ.get("FANOUT_WIDTH") or "").strip()
+    if env:
+        return int(env)
+    return len(default_units())
+
+
 if __name__ == "__main__":
-    print(json.dumps(plan(width=int(os.environ.get("FANOUT_WIDTH", "8"))), indent=2))
+    print(json.dumps(plan(width=fanout_width()), indent=2))

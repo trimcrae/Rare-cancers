@@ -1300,7 +1300,10 @@ jobs:
       # the rest?" — answers NO for a congeneric map. Parallel costs the same GPU-dollars as serial, so a
       # width below the tranche buys nothing but wall-clock. Blast radius is controlled by FANOUT_ONLY (which
       # names the units to launch) and by FANOUT_CONFIRM, not by throttling the width.
-      FANOUT_WIDTH: "19"
+      # ⚠ SO THE NUMBER IS NOT TYPED HERE ANY MORE (2026-07-27). It was `"19"` here, `"19"` in
+      # step1-fanout-autoscale.yml and `8` as the code default, against a viable set of 18 — three homes,
+      # none correct (CLAUDE.md rule 1). `congeneric_fanout_vast.fanout_width()` derives it from the map
+      # and is its one home; the reasoning above is exactly why the derived default is the full map.
       # Which units to launch, by unit_id or ligand substring. THE SHAKEOUT LEVER: 0 of 19 units of this lane
       # has ever produced a ddG, so the reduce/commit/upload TERMINUS is unproven even though sampling is
       # proven. One named unit runs first; the remaining 18 go out together the moment it lands a ddG.
