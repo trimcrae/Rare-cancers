@@ -882,3 +882,82 @@ def test_the_terminus_is_passed_to_the_price_gate_from_the_launcher():
     i_gate = launch.index("market_gate(")
     assert i_term < i_gate, "the terminus must be known before the price gate is consulted"
     assert '("terminus", terminus_proven' in launch, "and actually handed to it"
+
+
+# ================================================================= THE GATE MUST BIND ON WHAT IS BOUGHT
+# 2026-07-27, rate-forensics lane: the market gate takes its OWN board snapshot and decides; `submit` then
+# calls `_select_cheapest_offer` against a SECOND, independently-fetched board. Measured that morning: the
+# gate cleared on machine 11892 at 1.388x basis and the launcher rented machine 55559 at 1.479x. Both were
+# under the line so nothing was lost, but the number in front of the decision was not the number paid — the
+# same class as the quote-vs-billed defect. It bites hardest under a PER-UNIT gate, whose whole premise is
+# "buy from the top of the ranking", because the top is exactly where a resources_unavailable sends us to a
+# fallback that is by definition worse than what was approved.
+
+def _capped_res(cap):
+    import gpu_backend as gb
+    return gb.ResourceSpec(gpu="rtx4090", min_vram_gb=16, min_cuda=13.0, max_usd_per_ns=cap)
+
+
+def _offer(name, bid, mid, storage=0.1):
+    return {"gpu_name": name, "min_bid": bid, "num_gpus": 1, "gpu_ram": 24576, "rentable": True,
+            "storage_cost": storage, "cuda_max_good": 13.0, "dph_total": bid, "machine_id": mid,
+            "id": mid, "reliability2": 0.99}
+
+
+def test_the_price_ceiling_travels_with_the_spec_into_selection():
+    """A cap on the spec must remove non-clearing offers from the RANKING, so the launcher cannot buy what
+    the gate refused — including on the fallback after a capacity refusal."""
+    import gpu_backend as gb
+    offers = [_offer("RTX 4090", 0.12, 1), _offer("RTX 4090", 0.90, 2)]
+    uncapped, _c = gb.rank_offers_by_usd_per_ns(offers, _capped_res(None))
+    assert len(uncapped) == 2, "with no cap the gate must SEE the expensive offer in order to report it"
+    cap = uncapped[0][0] * 1.05                      # admits the cheap one only
+    capped, _c2 = gb.rank_offers_by_usd_per_ns(offers, _capped_res(cap))
+    assert [o["machine_id"] for _u, _p, o in capped] == [1]
+    assert gb._select_cheapest_offer(offers, _capped_res(cap))["machine_id"] == 1
+
+
+def test_a_cap_that_nothing_clears_refuses_rather_than_falling_back():
+    """The fallback exists for a board where nothing is benched. Under a cap it must be unreachable: taking
+    an unpriceable card would wave through exactly the spend the cap refuses."""
+    import gpu_backend as gb
+    offers = [_offer("RTX 4090", 0.90, 1), _offer("RTX 4090", 1.20, 2)]
+    assert gb._select_cheapest_offer(offers, _capped_res(1e-9)) is None
+    # unbenched cards must not sneak through the cap either
+    assert gb._select_cheapest_offer([_offer("Totally Unknown GPU", 0.01, 3)], _capped_res(1e-9)) is None
+    # ...but with NO cap the unbenched fallback still works, which is the behaviour it is there for
+    assert gb._select_cheapest_offer([_offer("Totally Unknown GPU", 0.01, 3)], _capped_res(None)) is not None
+
+
+def test_the_fanout_actually_sets_the_cap_on_every_job_it_submits():
+    import congeneric_fanout as cf
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    fn = src[src.index("def build_jobspec("):src.index("# ---- S3 helpers")]
+    assert "max_usd_per_ns=_cf.unit_usd_per_ns_ceiling()" in fn, \
+        "every submitted spec must carry the same ceiling the gate cleared on"
+    assert cf.unit_usd_per_ns_ceiling() > 0
+
+
+def test_the_readout_reports_the_rate_ACTUALLY_rented_not_the_one_that_cleared():
+    """A readout quoting the cleared figure describes a purchase that did not happen. And it must be priced
+    off dph_total (what Vast bills, storage included), never the quote — forensics measured quotes as
+    understating the true rate by 9.05-26.41 % with no constant offset."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    fn = src[src.index("def _rented_usd_per_ns("):src.index("def mode_launch(")]
+    assert 'handle.extra.get("dph")' in fn, "must price the offer we got, off the billed rate"
+    assert 'handle.extra.get("min_bid")' not in fn and 'extra["min_bid"]' not in fn, \
+        "must NOT be derived from the quote"
+    loop = src[src.index("for u in batch:"):]
+    assert "_rented_usd_per_ns(h)" in loop and "RENTED AT" in loop
+
+    class _H:
+        extra = {"dph": 0.1384, "gpu_name": "RTX 4090"}
+    upn, cell = cfv._rented_usd_per_ns(_H())
+    assert upn and "x basis" in cell and "ABOVE THE" not in cell, cell
+
+    class _Unknown:
+        extra = {"dph": 0.5, "gpu_name": "Totally Unknown GPU"}
+    upn2, cell2 = cfv._rented_usd_per_ns(_Unknown())
+    assert upn2 is None and "UNKNOWN" in cell2, "an ungradeable rental must say so, not invent a figure"

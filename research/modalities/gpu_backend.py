@@ -59,6 +59,27 @@ class ResourceSpec:
     # rather than to queue — see the 2026-07-24 reservation-price retraction, "you do not wait for a
     # price, you pick a host".
     exclude_machine_ids: tuple = ()
+    # ★★ THE PRICE THE GATE CLEARED, MADE BINDING ON THE OFFER ACTUALLY BOUGHT (2026-07-27).
+    #
+    # The defect this closes: a launcher's market gate takes its OWN board snapshot, decides, and then
+    # `submit` calls `_select_cheapest_offer` against a SECOND, independently-fetched board. Two reads,
+    # two different objects — so the figure in front of the decision is not the figure we pay. Measured on
+    # the step 1 lane at 8:00 AM ET: the gate cleared on machine 11892 at 1.388x basis and the launcher
+    # rented machine 55559 at 1.479x. Harmless there (both under the line), unbounded in principle.
+    #
+    # It bites hardest exactly where a per-unit gate lives, because such a gate's whole premise is "buy from
+    # the top of the ranking" — and the top is where offers evaporate. A `resources_unavailable` on the best
+    # host is routine on Vast, and the fallback is BY DEFINITION worse than what was approved.
+    #
+    # So the ceiling travels WITH the spec into the selection, rather than being re-checked beside it. A
+    # non-clearing offer is then never selected in the first place — including on every fallback after a
+    # capacity refusal — which is strictly stronger than re-checking one chosen offer, and it cannot drift
+    # from the gate because both sides call `rank_offers_by_usd_per_ns`.
+    #
+    # None = unset, which is what every gate/reporting caller wants: the gate must SEE the expensive offers
+    # in order to report them and to say how far above the line the cheapest one sits. Only the spec handed
+    # to `submit` carries the cap.
+    max_usd_per_ns: float = None
     # ★ `gpu` AS A HARD CONSTRAINT, NOT A PREFERENCE (2026-07-27). Normally the model is a hint: selection
     # ranks by $/ns and takes whatever wins, because "the card is not the decision — the offer is". But a
     # THROUGHPUT BENCH is the one job whose entire output is "how fast is card X", and for it the default
@@ -487,6 +508,18 @@ def rank_offers_by_usd_per_ns(offers, res: ResourceSpec, max_hourly_usd=None):
               for p, o in capable]
     measured = sorted(((s.usd_per_ns, p, o) for s, p, o in scored if s is not None),
                       key=lambda t: (t[0], t[1]))
+    # THE BINDING CEILING (see ResourceSpec.max_usd_per_ns). Applied to the SCORED figure — storage priced at
+    # the job's real disk, on the rate we are actually billed — never to the quote, which the rate forensics
+    # measured as understating the true rate by 9.05-26.41 % with no constant offset (it scales with each
+    # machine's own storage_cost, which varies ~4.5x across a single board).
+    if res.max_usd_per_ns is not None:
+        cap = float(res.max_usd_per_ns)
+        measured = [t for t in measured if t[0] <= cap]
+        # And an UNPRICEABLE offer cannot be shown to clear, so once a cap is set the unmeasured fallback in
+        # `_select_cheapest_offer` must not be reachable: taking a card we have never benched would wave
+        # through exactly the spend the cap exists to refuse. Emptying `capable` makes that structural.
+        if not measured:
+            capable = []
     return measured, capable
 
 
@@ -839,6 +872,9 @@ class VastBackend(Backend):
                       # resources_unavailable for each.
                       extra={"offer": offer["id"], "dph": offer.get("dph_total"),
                              "machine_id": offer.get("machine_id"),
+                             # Carried so a caller can price the offer it ACTUALLY got: $/ns needs the card,
+                             # and without it a launcher can only report the quote it was shown.
+                             "gpu_name": offer.get("gpu_name"),
                              "min_bid": offer.get("min_bid"), "bid": body.get("price"),
                              "resume": spec.resume})
 

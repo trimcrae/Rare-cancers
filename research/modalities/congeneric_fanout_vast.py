@@ -202,8 +202,12 @@ def build_jobspec(unit, branch, bucket, idx, exclude_machine_ids=()):
     already-built spec change under it."""
     import dataclasses
     label = f"{LABEL_PREFIX}{idx:02d}-{unit['ligand_b']}"[:64]
+    # The per-unit price ceiling travels WITH the spec, so the offer the launcher actually rents is bound by
+    # the same number `market_gate` cleared on — see ResourceSpec.max_usd_per_ns. Without this the gate
+    # prices one board and `submit` buys off another.
     res = dataclasses.replace(FANOUT_RES, exclude_machine_ids=tuple(sorted(str(m) for m in
-                                                                          exclude_machine_ids)))
+                                                                          exclude_machine_ids)),
+                              max_usd_per_ns=_cf.unit_usd_per_ns_ceiling())
     result_s3 = f"s3://{bucket}/{RESULT_PREFIX}/{unit['unit_id']}"
     ckpt = checkpoint_prefix(unit, RESULT_PREFIX)
     pipeline = (_PREAMBLE + _LEG + _REDUCE).replace("{repo}", REPO)
@@ -918,6 +922,34 @@ def object_store_preflight(bucket=None, prefix=None):
     return True, f"the {mode} credential can read s3://{bucket}/{prefix}/ (the leg's first command)"
 
 
+def _rented_usd_per_ns(handle):
+    """(usd_per_ns, printable) for the offer a submit ACTUALLY took. None when the card is not benched.
+
+    Priced off `dph_total` — the rate Vast bills, storage included — which is the same quantity
+    `vast_cost_model.score_offer` feeds the gate, so the reported figure and the gate's are commensurable.
+    It is deliberately NOT derived from the `dph≈`/`min_bid` quote: the rate forensics measured quotes as
+    understating the true billed rate by 9.05 % / 12.94 % / 26.41 % (min/median/max) with NO constant offset,
+    because the gap scales with each machine's own `storage_cost` — which varies ~4.5x across one board. A
+    quote-derived multiple would make every unit look cheaper than it is.
+    """
+    import vast_cost_model as _vcm
+    dph = handle.extra.get("dph")
+    gpu = handle.extra.get("gpu_name") or handle.extra.get("gpu")
+    nsh = _vcm.ns_per_hour(gpu) if gpu else None
+    if not nsh or dph is None:
+        return None, (f"$/ns UNKNOWN — {gpu or 'card'} is not in the throughput table, so this rental "
+                      f"cannot be graded")
+    upn = float(dph) / nsh
+    basis = market_basis()
+    ceiling = _cf.unit_usd_per_ns_ceiling()
+    cell = f"${upn:.6f}/ns · {upn / basis:.2f}x basis"
+    if upn > ceiling:
+        cell += f"  ⛔ ABOVE THE ${ceiling:.6f}/ns CEILING THE GATE CLEARED — this must not happen"
+    elif upn / basis >= 1.5:
+        cell += "  ⚠ DRIFT"
+    return upn, cell
+
+
 def mode_launch():
     global _MARKET_GUARD_RAN
     bucket, s3 = _require_bucket(), _s3()
@@ -1209,7 +1241,16 @@ def mode_launch():
         # spend and absent from the watch list. Fanned 19 wide it would have submitted exactly one unit per
         # tick, none of them ledgered or watched. tests/test_congeneric_fanout.py now binds every internal
         # call in this module against its callee's signature, statically, so this class cannot recur.
-        _lprint(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} dph≈${_dph}/hr{_prem}")
+        # ★ REPORT THE $/ns OF THE OFFER ACTUALLY RENTED, not the one the gate cleared on (2026-07-27).
+        # Those were never the same object — the gate reads one board, `submit` selects off another — so a
+        # readout quoting the cleared figure describes a purchase that did not happen. `_rented_usd_per_ns`
+        # prices the offer we got, and flags it against both lines: the §1 1.5x reporting line and the
+        # binding per-unit ceiling. `⛔ ABOVE CEILING` should now be unreachable (ResourceSpec.max_usd_per_ns
+        # makes it so) and is printed anyway, because a guard that cannot report its own failure is how this
+        # lane keeps discovering things late.
+        _upn, _cell = _rented_usd_per_ns(h)
+        _lprint(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} "
+                f"dph≈${_dph}/hr{_prem} | RENTED AT {_cell}")
         handles.append({"unit_id": u["unit_id"], "label": spec.name, "instance": h.job_id,
                         "machine_id": _mid, "dph": h.extra.get("dph"),
                         "min_bid": _floor, "bid": _bid})
