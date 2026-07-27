@@ -244,6 +244,9 @@ def main():
         # tranche-level dollar band, so a per-batch price would wave nineteen expensive units through one
         # at a time.
         n_release = max(1, len([u for u in unit_ids if not verdicts[u]["has_ddg"]]))
+        # The buy line and its derived multiple come from the module that OWNS them, so this readout and the
+        # launcher's refusal can never drift apart (tests/test_buy_line_invariant.py pins that).
+        import inflight_usd_per_ns as inf
         try:
             m = market_block(n_release)
             say(f"  board depth      : {m['offers_returned']} offers visible "
@@ -253,10 +256,21 @@ def main():
             say(f"  best fleet $/ns  : ${m['best_fleet_usd_per_ns']}/ns  ·  "
                 f"{m['ratio_vs_basis']}× basis (basis ${m['basis_usd_per_ns']}/ns)")
             say(f"  projected        : ${m['projected_usd']} against a ${m['ceiling_usd']} ceiling")
-            if m["ratio_vs_basis"] is not None and m["ratio_vs_basis"] >= 1.5:
-                say("  ⚠ DRIFT — ≥1.5× basis. A release into this board would be HELD on price.")
-            elif m["ratio_vs_basis"] is not None:
-                say("  OK — under the 1.5× drift line; a release would clear the price gate.")
+            # ★★ THE LINE IS THE ABSOLUTE RATE, NOT A HARDCODED 1.5× (CLAUDE.md §1, re-expression ruling).
+            # This block used to test `ratio_vs_basis >= 1.5`. After the 2026-07-27 throughput re-anchor the
+            # basis fell 22 % ($0.004359 -> $0.003412/ns) while NO PRICE MOVED, so a bare 1.5 became a much
+            # STRICTER rule than the one agreed: at 1:41 PM ET this printed "⚠ DRIFT ... would be HELD on
+            # price" for a board at 1.73× basis = $0.005908/ns — comfortably UNDER the $0.006539/ns buy line
+            # the launcher actually enforces. A readout that reports a refusal the gate would not make is the
+            # same defect class as one that hides a refusal it would. Both must be the same number, so the
+            # threshold is imported and the multiple is DERIVED, never typed.
+            _best, _line = m["best_fleet_usd_per_ns"], inf.APPROVED_USD_PER_NS
+            if _best is not None and _best >= _line:
+                say(f"  ⚠ DRIFT — ${_best}/ns is at or above the ${_line:.6f}/ns buy line "
+                    f"(≈{inf.drift_multiple():.2f}× basis). A release into this board would be HELD on price.")
+            elif _best is not None:
+                say(f"  OK — under the ${_line:.6f}/ns buy line (≈{inf.drift_multiple():.2f}× basis); "
+                    f"a release would clear the price gate.")
             for r in m["rows"]:
                 say(f"    {str(r['gpu']):10s} m{r['machine_id']:<8} ${r['min_bid_usd_h']:.4f}/hr  "
                     f"${r['usd_per_ns']:.5f}/ns · {r['multiple_of_basis']:.2f}× basis")

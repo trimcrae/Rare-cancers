@@ -248,3 +248,55 @@ jobs:
             sleep $((2**i))
           done
           echo "::warning::could not push the tick readout"
+
+  # ★★ THE ALARM RIDES THE TICK, BECAUSE ITS OWN CRON IS NOT A DELIVERY CHANNEL (2026-07-27, 1:21 PM ET).
+  #
+  # THE GAP THIS CLOSES. `fleet-supervision-alarm.yml` was armed at 12:30 PM ET and, measured at 1:45 PM, had
+  # run EXACTLY ONCE — that manual dispatch. Its hourly `schedule:` had delivered nothing, which is the same
+  # throttling documented in that file's own header. So when the 1:21 PM tick died on a transient Vast 403
+  # and left `step1-fanout-progress.json` stamped 12:42 PM while 11 rentals kept billing, the alarm built for
+  # precisely that case never ran. An alarm nobody runs is indistinguishable from an alarm that found nothing.
+  #
+  # WHY HERE. The tick is the one thing in this repo that reliably executes — 25 of the last 30 runs were
+  # hand-dispatched — so hanging the alarm off it lends the alarm the only cadence that actually works,
+  # without pretending a cron will save us.
+  #
+  # `needs: tick` + `if: always()` IS THE WHOLE POINT: a SEPARATE job still runs when `tick` FAILS, which is
+  # exactly the 1:21 PM shape (tick red, artifact stale, nothing said so). A final step inside `tick` could
+  # not do this job, because the thing being graded is the tick's own failure to re-measure.
+  #
+  # ⚠ IT STILL SHARES NO CODE WITH THE LANE. No boto3, no Vast key, no import of congeneric_fanout* — the
+  # failure it reports is a shared-dependency failure, so an alarm that imports the cost model dies with it.
+  # It rents, prices and destroys nothing. This job is a second COPY of the trigger, not a second alarm.
+  #
+  # ⚠ AND IT GRADES THE PREVIOUS COMPLETED TICK, NOT THIS ONE — this run has not finished, so there is no
+  # verdict to give about it yet. That is the correct semantic ("has supervision stopped?") and it means a
+  # failed tick is caught by the NEXT tick rather than by itself. The emailing channel remains the scheduled
+  # run of fleet-supervision-alarm.yml; this copy buys visibility and frequency, not the email.
+  supervision-alarm:
+    needs: tick
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      # No `pip install` — see the sibling workflow. A dependency is a way for this to fail for a reason
+      # unrelated to the fleet, and a supervision alarm that fails for unrelated reasons is noise.
+      - name: Has supervision actually been happening?
+        working-directory: research/modalities
+        run: |
+          python3 fleet_supervision_alarm.py \
+            --progress step1-fanout-progress.json \
+            --json /tmp/fleet-supervision-verdict.json
+      - name: Verdict (readable on a red run too)
+        if: ${{ always() }}
+        run: |
+          echo '### Fleet supervision verdict' >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"
+          cat /tmp/fleet-supervision-verdict.json >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || \
+            echo '{"verdict": "ALARM ITSELF FAILED — the check did not produce a verdict file"}' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
