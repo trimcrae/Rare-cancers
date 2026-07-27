@@ -903,3 +903,46 @@ two causes (the departure, or ordinary path error) and the pose data is what sep
 **restrained** (§L.3c's remedy, with the standard restraint correction) rather than as-is. Restrained legs would
 make `R_binary` a clean path-error measurement; unrestrained legs make it a measurement of the departure. Those
 are different experiments and the choice is trimcrae's, not mine — it changes what the ~$6 buys.
+
+### L.5 The keying fix exposed the SAME flaw one level out — and then a sweep found no third instance
+
+Caught 2026-07-27 8:00 AM, ~4 h before it would have fired unattended. §L.1 made `mode=converge`'s *analysis*
+direction-aware and left its *output* keyed on nothing:
+
+```
+gcloud storage cp /tmp/conv/ternary_convergence.json "$RESULTS/ternary_convergence.json"
+```
+
+One filename, both directions. Because a rev pass now correctly covers **only** the rev ternary leg (binary and
+solvent are the cycle's fwd-only shared arms and are skipped), uploading it under the bare name would have
+**overwritten the fwd cycle's three-leg report** — the file `ternary_fep_reduce` reads for `diagnostics_ok`. The fwd
+binary and ternary diagnostics would have vanished, `diagnostics_complete` would have gone False, and the gate
+would have routed to BORDERLINE *on data it previously had*. It would also have destroyed the §L.3–L.3d pose
+findings; regenerable, but only by someone noticing they were gone.
+
+**Fixed:** fwd keeps the bare name (the reducer and every existing reader are untouched), rev writes
+`ternary_convergence_rev.json`, and a notice states that the fwd report was not touched and that the rev report
+covers the ternary arm only. Four checks in `tests/test_converge_direction.sh`, verified to fail on the bare-name
+upload.
+
+**THE TRANSFERABLE RULE, and it is the one that generalises past this repo:** *fixing a keying bug is not done
+until you have asked what ELSE is keyed on the same nothing.* The direction-blind key was fixed in the commit
+prefix (§H), then in the analysis (§L.1), then in the output name (here) — three layers, each exposed only by
+fixing the one before it.
+
+**So the sweep was done rather than assumed, and it comes back CLEAN.** Every artifact the GCP lane writes to
+`$RESULTS/`:
+
+| artifact | keyed by direction? | verdict |
+|---|---|---|
+| `ternary_convergence*.json` | now yes | fixed here |
+| `ternary_coop_reduction.json` | no — **correctly** | there is ONE cycle: the reducer builds it from fwd legs and consumes rev only for hysteresis, and the watchdog dispatches `mode=reduce` with no direction, so `DIRECTION` is always `fwd`. A second name would imply a second cycle that does not exist |
+| `ternary_convergence_summary.txt` | n/a | never uploaded — written to the runner's `CKPT` and `cat` into the log |
+| `leg_<id>_<dir>_r<seed>.json` | yes | §A#5 |
+| `postmortem/<leg>_<dir>_seed<n>_<epoch>.log` | yes | §C |
+| commit prefix, setup cache, watchdog GCS markers | yes | §H, §J.2, §F |
+
+**Known and deliberate gap, recorded so it is not mistaken for an oversight:** nothing reads
+`ternary_convergence_rev.json`. The rev leg's own convergence diagnostics are therefore *informational* — they do
+not gate the hysteresis result. Wiring them in would mean deciding what a rev-leg diagnostic failure should do to
+a hysteresis number, which is a design question, not a bug fix.
