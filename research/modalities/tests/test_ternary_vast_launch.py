@@ -416,3 +416,70 @@ def test_strict_provenance_is_on_for_the_fresh_replicate_units_and_off_for_the_r
         leg, seed, direction = tv.units_for(mode)[0]
         e = tv.build_jobspec(leg, seed, direction, mode=mode, bucket="b", prefix="p").env
         assert e["RBFE_STRICT_PROVENANCE"] == "0", f"{mode} must not refuse an unstamped resume"
+
+
+def test_supersede_refuses_a_done_record_and_archives_a_failed_one():
+    """A stale `status=failed` leg.json is not untidy, it is dangerous: `classify` returns FAILED only when
+    `has_failed_record AND not instance_alive`, so a relaunch SUPPRESSES the record rather than clearing it.
+    When the new attempt exits without a leg.json the old record fires again — an alert pointing at a cause
+    already fixed — and the watchdog's refusal-to-relaunch-a-failed-unit then blocks the very recovery it
+    exists to trigger, overnight, with nobody awake.
+
+    Two properties are load-bearing and are pinned here without touching S3:
+      * a `status=done` record is REFUSED (this must never be able to destroy a result);
+      * a `status=failed` record is ARCHIVED, not deleted, so the forensic trail survives.
+    """
+    import types
+    calls = {"copied": [], "deleted": []}
+
+    class _FakeS3:
+        def head_object(self, **kw):
+            return {}
+
+        def copy_object(self, **kw):
+            calls["copied"].append((kw["CopySource"]["Key"], kw["Key"]))
+
+        def delete_object(self, **kw):
+            calls["deleted"].append(kw["Key"])
+
+    recs = {
+        "unit_FAILED": {"unit_id": "unit_FAILED", "status": "failed", "rc": 1, "phase": "preequil"},
+        "unit_DONE": {"unit_id": "unit_DONE", "status": "done", "dg_morph_kcal": -1.0},
+    }
+    orig_s3, orig_recs = tv._s3, tv.leg_records
+    try:
+        tv._s3 = lambda: _FakeS3()
+        tv.leg_records = lambda **kw: recs
+        out = tv.supersede_failed_record("unit_", bucket="b", prefix="p")
+    finally:
+        tv._s3, tv.leg_records = orig_s3, orig_recs
+
+    cleared = [c["unit_id"] for c in out["cleared"]]
+    assert cleared == ["unit_FAILED"], f"only the failed record may be cleared, got {cleared}"
+    assert any("done" in s["why"] and s["unit_id"] == "unit_DONE" for s in out["skipped"]), \
+        "a status=done record must be refused by name, not silently skipped"
+    # archived before deleted, and to a superseded/ key that keeps the evidence
+    assert calls["copied"], "the record must be ARCHIVED, not just deleted"
+    assert all("/superseded/" in dest for _src, dest in calls["copied"]), calls["copied"]
+    assert all("unit_DONE" not in k for k in calls["deleted"]), "a result was deleted"
+
+
+def test_supersede_dry_run_touches_nothing():
+    class _FakeS3:
+        def head_object(self, **kw):
+            return {}
+
+        def copy_object(self, **kw):
+            raise AssertionError("dry run must not copy")
+
+        def delete_object(self, **kw):
+            raise AssertionError("dry run must not delete")
+
+    orig_s3, orig_recs = tv._s3, tv.leg_records
+    try:
+        tv._s3 = lambda: _FakeS3()
+        tv.leg_records = lambda **kw: {"u": {"unit_id": "u", "status": "failed", "rc": 1}}
+        out = tv.supersede_failed_record("u", bucket="b", prefix="p", dry_run=True)
+    finally:
+        tv._s3, tv.leg_records = orig_s3, orig_recs
+    assert out["dry_run"] and [c["unit_id"] for c in out["cleared"]] == ["u"]
