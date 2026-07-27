@@ -24,6 +24,7 @@ import os
 
 import ternary_coop as tcoop
 import ternary_coop_io as tio
+import ternary_coop_gate as tcg   # the prereg's frozen thresholds live there; never re-type one here (rule 1)
 import nr4a3_ternary_fep as eng
 
 IN = os.environ.get("INPUT_DIR", "/opt/ml/processing/input")
@@ -126,28 +127,66 @@ def _welch_satterthwaite(mean_t, sd_t, n_t, mean_b, sd_b, n_b):
             "n_ternary": n_t, "n_binary": n_b}
 
 
+def hysteresis_max_kcal(path=None):
+    """The preregistered fwd/rev ceiling, |ΔG_fwd + ΔG_rev| <= this. ONE HOME: `nr4a3-ternary-coop-prereg.json`
+    → retrospective_bar.technical_convergence.cycle_closure_or_hysteresis_kcal_max, the same field
+    `ternary_coop_gate.gate_technical_convergence` reads. It was typed as a bare `1.0` here, i.e. a second home
+    for a frozen threshold — the exact shape rule 1 exists to stop. Reading it means the two consumers cannot
+    disagree about what the prereg says."""
+    bar = tcg.load_bar(path) if path else tcg.load_bar()
+    return float(bar["technical_convergence"]["cycle_closure_or_hysteresis_kcal_max"])
+
+
+def hysteresis_fields(ternary_agg, binary_agg):
+    """The preregistered fwd/rev criterion as a TRI-STATE, from the leg aggregates alone. ONE HOME for it.
+
+    ★ WHY THIS IS ITS OWN FUNCTION, CALLED BEFORE EVERY EARLY RETURN (2026-07-27). `calibration_decision`
+    computed the hysteresis only AFTER the Welch–Satterthwaite CI succeeded, so a cycle with <2 replicates per
+    environment returned `{decision, reason, n_ternary, n_binary}` and NOTHING about the hysteresis. But the two
+    criteria have different data requirements: |mean(ΔG_fwd) + mean(ΔG_rev)| needs ONE replicate per direction
+    and no replicate spread at all, so it is measurable in precisely the case where the CI is not. The first
+    hysteresis this program ever measured (0.3246 kcal/mol on the r0 ternary leg, 2026-07-27) was therefore
+    dropped on the floor by a guard belonging to a different criterion, and the verdict annotation printed
+    "NOT MEASURED (no reverse leg reduced)" about a leg that had run for 2000 iterations. Same bug class as
+    everything else in §L.6 — an absent representation that is also what a real state looks like — reached this
+    time not by a coercion but by a control-flow path that never computes the value.
+
+    Returns three fields, and `None` is reserved for NOT MEASURED in each: `hysteresis_kcal` (the worst leg's
+    |fwd+rev|, so a single bad leg cannot hide behind a good one), `hysteresis_ok`, `hysteresis_measured`."""
+    aggs = [a for a in (ternary_agg, binary_agg) if a]
+    hys = [h for a in aggs for h in (a.get("hysteresis_kcal"),) if h is not None]
+    # `if hys else True` DEFAULTED A PREREGISTERED CRITERION TO PASS. hysteresis_kcal is None whenever no rev leg
+    # exists, and no rev leg had EVER run (the workflow hardcoded DIRECTION=fwd), so "no unresolved forward/reverse
+    # disagreement" was satisfied by never having measured it — the same shape as _diagnostics_ok() returning True
+    # on an absent report. Absent is now reported as UNMEASURED, distinct from measured-and-fine.
+    return {"hysteresis_kcal": (max(hys) if hys else None),
+            "hysteresis_ok": (all(h <= hysteresis_max_kcal() for h in hys) if hys else None),
+            "hysteresis_measured": bool(hys),
+            "hysteresis_max_kcal": hysteresis_max_kcal()}
+
+
 def calibration_decision(ternary_agg, binary_agg, target_kcal, restraint_dominated=None):
     """Apply the FROZEN valB_mini decision rule (wurz-calib-frozen.json decision_rule_valB_mini) to the
     Welch–Satterthwaite ΔΔG_coop vs the experimental calibration target (+0.944 kcal/mol). Returns
     PASS / NO-GO / INDETERMINATE with the exact criterion that fired. The retired ±1.0 acceptance band is NOT
-    used — the sub-1-kcal experimental separation means we require zero-EXCLUSION, not a tolerance window."""
+    used — the sub-1-kcal experimental separation means we require zero-EXCLUSION, not a tolerance window.
+
+    EVERY return path carries the `hysteresis_*` fields (see `hysteresis_fields`), because they are what the
+    verdict annotation reports and they do not depend on the replicate count the early returns are about."""
+    hyf = hysteresis_fields(ternary_agg, binary_agg)
     if ternary_agg is None or binary_agg is None:
-        return {"decision": "INDETERMINATE", "reason": "missing a required environment leg (ternary/binary)."}
+        return {"decision": "INDETERMINATE", "reason": "missing a required environment leg (ternary/binary).",
+                **hyf}
     ws = _welch_satterthwaite(ternary_agg["mean_dg_morph_kcal"], ternary_agg["replicate_sd_kcal"],
                               ternary_agg["n_replicas"], binary_agg["mean_dg_morph_kcal"],
                               binary_agg["replicate_sd_kcal"], binary_agg["n_replicas"])
     if ws is None:
         return {"decision": "INDETERMINATE",
                 "reason": "insufficient replicates for a between-replicate SE (need n>=2 per environment).",
-                "n_ternary": ternary_agg["n_replicas"], "n_binary": binary_agg["n_replicas"]}
+                "n_ternary": ternary_agg["n_replicas"], "n_binary": binary_agg["n_replicas"], **hyf}
     lo, hi, ddg = ws["ci95_low"], ws["ci95_high"], ws["ddg_coop_kcal"]
-    hys = [h for h in (ternary_agg.get("hysteresis_kcal"), binary_agg.get("hysteresis_kcal")) if h is not None]
-    # `if hys else True` DEFAULTED A PREREGISTERED CRITERION TO PASS. hysteresis_kcal is None whenever no rev leg
-    # exists, and no rev leg had EVER run (the workflow hardcoded DIRECTION=fwd), so "no unresolved forward/reverse
-    # disagreement" was satisfied by never having measured it — the same shape as _diagnostics_ok() returning True
-    # on an absent report. Absent is now reported as UNMEASURED, distinct from measured-and-fine.
-    hysteresis_measured = bool(hys)
-    hysteresis_ok = all(h <= 1.0 for h in hys) if hys else None
+    hysteresis_measured = hyf["hysteresis_measured"]
+    hysteresis_ok = hyf["hysteresis_ok"]
     excludes_zero = lo > 0.0                       # resolved POSITIVE cooperativity change (correct sign)
     ci_includes_zero = lo <= 0.0 <= hi
     target_in_ci = lo <= target_kcal <= hi
@@ -176,7 +215,7 @@ def calibration_decision(ternary_agg, binary_agg, target_kcal, restraint_dominat
     else:
         decision, reason = "INDETERMINATE", "one or more PASS criteria unmet; see checks."
     return {"decision": decision, "reason": reason, "target_kcal": target_kcal,
-            "welch_satterthwaite": ws, "checks": checks,
+            "welch_satterthwaite": ws, "checks": checks, **hyf,
             "adaptive_action": ("extend to 5 replicates/environment and re-reduce"
                                 if decision == "INDETERMINATE" else None)}
 
@@ -220,6 +259,21 @@ def _sign(x):
     return 0 if x == 0 else (1 if x > 0 else -1)
 
 
+def _diagnostics_fields(diagnostics_ok):
+    """The convergence tri-state, rendered for a machine reader. ONE HOME, used on EVERY return of
+    `calibration_gate`.
+
+    TRI-STATE, EMITTED AS ONE (fixed 2026-07-27). `diagnostics_ok` was `bool(diagnostics_ok)`, which mapped both
+    False (a MEASURED convergence failure) and None (a mandated check NEVER COMPUTED) onto the same reported
+    `false`. The decision logic distinguishes them correctly — FAIL vs BORDERLINE — so the collapse was purely in
+    what got RECORDED: no machine reader of the verdict JSON could tell a broken leg from an unexamined one, and
+    only the prose `reason` carried it. `diagnostics_state` is the third state made explicit; an ABSENT key is
+    not an acceptable substitute for it, because `.get()` renders absence as None = NOT_VERIFIED."""
+    return {"diagnostics_ok": (None if diagnostics_ok is None else bool(diagnostics_ok)),
+            "diagnostics_state": ("CLEAN" if diagnostics_ok is True else
+                                  "MEASURED_FAILURE" if diagnostics_ok is False else "NOT_VERIFIED")}
+
+
 def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, extended=False, anti_null=None):
     """AUTHORITATIVE valB_mini calibration verdict — reviewer condition 6 (2026-07-19), three-tier PASS /
     BORDERLINE / FAIL against a FIXED accuracy margin, using the BETWEEN-REPLICATE cycle SD (condition 3), NOT
@@ -237,14 +291,24 @@ def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, exte
     vals = [v for v in (ddg_coop_replicates or []) if v is not None and math.isfinite(v)]
     n = len(vals)
     if n < 2:
+        # ★ THE TRI-STATE WAS COMPUTED AND THEN THROWN AWAY (fixed 2026-07-27). `_diagnostics_ok()` is evaluated
+        # at the CALL SITE and handed in, so by the time control reaches here the answer is already known — and
+        # this return dropped it. A machine reader of the verdict then saw no `diagnostics_ok` key at all, and
+        # `.get()` on the missing key yields None, i.e. NOT_VERIFIED. On the r0 cycle that printed
+        # "diagnostics_ok=None" for a state that was a MEASURED FAILURE (both convergence reports carry
+        # technical_failure), understating a broken leg as an unexamined one. That is bug §L.6#4 exactly — the
+        # collapse of "measured failure" and "never computed" — reappearing one control-flow branch out, which
+        # is why the fix is to emit the diagnostics fields from ONE place on EVERY path.
         return {"decision": "INDETERMINATE", "reason": "need >=2 independent replicates for a cycle SD.",
-                "n_replicates": n}
+                "n_replicates": n, "per_replicate_ddg_coop_kcal": vals,
+                **_diagnostics_fields(diagnostics_ok)}
     mean = _mean(vals)
     sd = _sample_sd(vals)
     abs_err = abs(mean - target_kcal)
     ci = _ci_halfwidth(sd, n)
     correct_sign = _sign(mean) == _sign(target_kcal)
-    metrics = {"n_replicates": n, "mean_ddg_coop_kcal": mean, "cycle_sd_kcal": sd,
+    metrics = {"n_replicates": n, "per_replicate_ddg_coop_kcal": vals,
+               "mean_ddg_coop_kcal": mean, "cycle_sd_kcal": sd,
                "abs_error_kcal": abs_err, "target_kcal": target_kcal,
                # TRI-STATE, EMITTED AS ONE (fixed 2026-07-27). This was bool(diagnostics_ok), which mapped both
                # False (a MEASURED convergence failure) and None (a mandated check NEVER COMPUTED) onto the same
@@ -252,9 +316,7 @@ def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, exte
                # the collapse was purely in what got RECORDED: no machine reader of the verdict JSON could tell a
                # broken leg from an unexamined one, and only the prose `reason` carried it. Emit the third state.
                "t_ci95_half_width_kcal": ci, "correct_sign": correct_sign,
-               "diagnostics_ok": (None if diagnostics_ok is None else bool(diagnostics_ok)),
-               "diagnostics_state": ("CLEAN" if diagnostics_ok is True else
-                                     "MEASURED_FAILURE" if diagnostics_ok is False else "NOT_VERIFIED"),
+               **_diagnostics_fields(diagnostics_ok),
                "thresholds": {"abs_err_pass": GATE_ABS_ERR_PASS, "abs_err_fail": GATE_ABS_ERR_FAIL,
                               "cycle_sd_pass": GATE_CYCLE_SD_PASS, "cycle_sd_extend": GATE_CYCLE_SD_EXTEND}}
 
@@ -436,7 +498,10 @@ def _diff(mean_a, ci_a, mean_b, ci_b):
 
 
 # condition-8 audit thresholds
-AUDIT_ANTISYM_MAX_KCAL = 1.0       # |mean_fwd + mean_rev| above this = A->B/B->A antisymmetry broken (bad cycle)
+# |mean_fwd + mean_rev| above this = A->B/B->A antisymmetry broken (bad cycle). SAME preregistered ceiling as the
+# calibration decision's hysteresis criterion, so it is DERIVED from the prereg JSON rather than re-typed: two
+# copies of `1.0` in one file is how a threshold silently drifts apart from the rule it implements (rule 1).
+AUDIT_ANTISYM_MAX_KCAL = hysteresis_max_kcal()
 AUDIT_SD_INFLATION_MAX = 1.5       # ddG_coop SD > this * quadrature(leg SDs) = anomalous non-cancelling variance
 
 
@@ -686,7 +751,8 @@ def reduce_all():
             reps, n_paired = per_replicate_ddg_coop(calib["morph"])
             calib_gate = calibration_gate(reps, target, diagnostics_ok=_diagnostics_ok())
             calib_gate["morph"] = calib["morph"]
-            calib_gate["per_replicate_ddg_coop_kcal"] = reps
+            # per_replicate_ddg_coop_kcal is emitted by calibration_gate itself (it IS the gate's input), so it
+            # is not re-attached here: a field written in two places is a field that can disagree with itself.
             calib_gate["n_seeds_paired"] = n_paired
     except Exception as e:  # noqa: BLE001
         calib_gate = {"decision": "INDETERMINATE", "reason": "calibration gate not computed: %s" % e}
