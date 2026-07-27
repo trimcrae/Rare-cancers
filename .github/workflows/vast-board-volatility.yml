@@ -1,0 +1,122 @@
+name: Vast board volatility (read-only, $0 — how fast does the cheap end move?)
+
+# ★ THE QUESTION (trimcrae, 2026-07-27): *"Is checking hourly enough? I would think the cheap machines get
+# gobbled up quick and would need to be acted on quickly."*
+#
+# Answering it needs an EVEN-CADENCE sample of the board, which this repo has never had. Every price
+# observation so far was taken at the instant a lane wanted to launch — an irregular, self-selected sample
+# that can bound persistence from below and cannot measure survival at all (`--mine-git` says so in its own
+# `sufficient: false` field). So this job takes a paired board read every minute for a few hours.
+#
+# ⛔ READ-ONLY, $0, RENTS NOTHING. Every call is `GET /search/asks/`. No instance is created or destroyed and
+# no bid is placed. `vast_board_volatility.py` imports no launcher entry point that could.
+#
+# WHY ITS OWN WORKFLOW FILE rather than another `mode:` on `vast-price-sample.yml`: that workflow's
+# concurrency group is `vast-price-sample` with `cancel-in-progress: false`, and it carries the HOURLY rate
+# forensics that guards CLAUDE.md §6's "the rate you rent at is the rate you pay". A 3-hour job in that group
+# would queue every hourly forensics run behind it — i.e. this measurement would silently suspend a
+# supervision check. Separate group, no interference.
+#
+# LOAD: 3 requests/minute, spaced 20 s apart, never bursted. The Vast edge throttle that has bitten this repo
+# twice (nginx HTML 403, 11:08-11:10 AM and 1:21 PM ET on 2026-07-27) fires on BURSTS — a single 4-unit launch
+# issues ~8 `/search/asks/` in seconds. This is two orders of magnitude gentler in burst terms, and the
+# sampler additionally backs off (doubling, capped at 8 min) the moment it sees a 403, so it cannot prolong a
+# throttle that the live lanes sit behind.
+
+on:
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: "how long to sample for (minutes). Job timeout is set well above this."
+        default: "180"
+      tick_s:
+        description: "seconds between ticks (each tick = 3 spaced reads)"
+        default: "60"
+      units:
+        description: "fleet size the cadence model prices (4 = valB ternary, 19 = step-1 fan-out)"
+        default: "4"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: vast-board-volatility
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    # Above the sample window with room for the final analysis + commit. GitHub's hosted-runner ceiling is
+    # 360 min; anything longer must become several runs appending to the same series on modalities-cache.
+    timeout-minutes: 330
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Free first pass — mine the ALREADY-COMMITTED snapshots (no API call at all)
+        working-directory: research/modalities
+        run: python vast_board_volatility.py --mine-git
+
+      - name: Sample the live board (read-only, $0, rents nothing)
+        working-directory: research/modalities
+        run: |
+          # Seed from the accumulated series so repeated runs EXTEND it rather than restarting it. Guarded
+          # the same way vast-price-sample.yml learned to guard it: write to a temp first and only adopt a
+          # NON-EMPTY seed, because `cmd > file` truncates the target before cmd runs and `|| true` then
+          # hides the fact that the series was zeroed.
+          git fetch origin modalities-cache || true
+          if git show origin/modalities-cache:research/modalities/vast-board-volatility.jsonl \
+               > "$RUNNER_TEMP/seed.jsonl" 2>/dev/null && [ -s "$RUNNER_TEMP/seed.jsonl" ]; then
+            cp "$RUNNER_TEMP/seed.jsonl" vast-board-volatility.jsonl
+            echo "seeded from modalities-cache: $(wc -l < vast-board-volatility.jsonl) reads"
+          fi
+          python vast_board_volatility.py --collect \
+            --minutes "${{ github.event.inputs.minutes || '180' }}" \
+            --tick-s "${{ github.event.inputs.tick_s || '60' }}" \
+            --out "$PWD/vast-board-volatility.jsonl" \
+            --push-branch modalities-cache
+
+      - name: Analyse — noise floor, survival, cadence value, rate-limit headroom
+        if: always()
+        working-directory: research/modalities
+        run: |
+          # `if: always()` is load-bearing: a timeout or a cancelled run must still be analysed, because the
+          # JSONL is checkpointed continuously and the partial series IS the deliverable (CLAUDE.md §6).
+          python vast_board_volatility.py --analyse vast-board-volatility.jsonl \
+            --units "${{ github.event.inputs.units || '4' }}" \
+            --tick-s "${{ github.event.inputs.tick_s || '60' }}" \
+            || echo "::warning::analysis failed — the raw series is still on modalities-cache"
+
+      - name: Upload the raw series
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vast-board-volatility
+          path: |
+            research/modalities/vast-board-volatility.jsonl
+            research/modalities/vast-board-volatility.json
+          if-no-files-found: warn
+
+      - name: Commit the verdict back to this branch (the JSONL stays on modalities-cache)
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Only the ANALYSIS lands on the working branch. The raw series is megabytes and belongs on the
+          # cache branch, where the sampler has already been pushing it every 10 minutes.
+          git checkout -- research/modalities/vast-board-volatility.jsonl 2>/dev/null || true
+          rm -f research/modalities/vast-board-volatility.jsonl
+          git add -f research/modalities/vast-board-volatility.json \
+                    research/modalities/vast-board-volatility-gitmine.json 2>/dev/null || true
+          git commit -m "vast board volatility: $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${{ github.ref_name }}" && \
+              git push origin HEAD:${{ github.ref_name }} && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the volatility readout"
