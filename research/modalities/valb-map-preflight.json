@@ -1,0 +1,45 @@
+{
+  "_what": "atom-map pre-flight for the valB_mini calibration edge (Wurz cmpd1 -> cmpd4)",
+  "_why": "LomapAtomMapper(time=N) silently returns a PARTIAL map on MCS timeout; a short map is a different alchemical transformation that still converges and still returns a confident dG. protocol_hash does not cover the map and the 5-part gate reads unmapped atoms as evidence of a real perturbation.",
+  "lomap_time_s": 300,
+  "legs": [
+    {
+      "n_mapped_atoms": 109,
+      "n_heavy_mapped": 59,
+      "expected_heavy_mapped": 59,
+      "n_atoms_A": 109,
+      "n_atoms_B": 110,
+      "lomap_time_s": 300,
+      "degenerate": false,
+      "mcs_smarts": "[#6]1(-&!@[#6&!R](=&!@[#8&!R])-&!@[#7&!R]-&!@[#6&!R](-&!@[#6]2:&@[#6]:&@[#6]:&@[#6](:&@[#6]:&@[#6]:&@2)-&!@[#6]2:&@[#6](-&!@[#6&!R]):&@[#7]:&@[#6]:&@[#16]:&@2)-&!@[#6&!R])-&@[#7](-&!@[#6&!R](-&!@[#6&!R](-&!@[#7&!R]-&!@[#6&!R](-&!@[#6]2:&@[#6]:&@[#6]:&@[#7,#6]:&@[#6](:&@[#6]:&@2)-&!@[#7]2-&@[#6]-&@[#6]-&@[#7](-&@[#6]-&@[#6]-&@2)-&!@[#6]2:&@[#6](-&!@[#7&!R]):&@[#7]:&@[#7]:&@[#6](:&@[#6]:&@2)-&!@[#6]2:&@[#6]:&@[#6]:&@[#6]:&@[#6]:&@[#6]:&@2-&!@[#8&!R])=&!@[#8&!R])-&!@[#6&!R](-&!@[#6&!R])(-&!@[#6&!R])-&!@[#6&!R])=&!@[#8&!R])-&@[#6]-&@[#6](-&@[#6]-&@1)-&!@[#8&!R]",
+      "mcs_num_atoms": 59,
+      "mcs_num_bonds": 65,
+      "mcs_timed_out": false,
+      "heavy_atoms_A": 59,
+      "heavy_atoms_B": 59,
+      "mcs_timeout_s": 300,
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "morph": "calib_hi->calib_lo"
+    },
+    {
+      "n_mapped_atoms": 109,
+      "n_heavy_mapped": 59,
+      "expected_heavy_mapped": 59,
+      "n_atoms_A": 109,
+      "n_atoms_B": 110,
+      "lomap_time_s": 300,
+      "degenerate": false,
+      "mcs_smarts": "[#6]1(-&!@[#6&!R](=&!@[#8&!R])-&!@[#7&!R]-&!@[#6&!R](-&!@[#6]2:&@[#6]:&@[#6]:&@[#6](:&@[#6]:&@[#6]:&@2)-&!@[#6]2:&@[#6](-&!@[#6&!R]):&@[#7]:&@[#6]:&@[#16]:&@2)-&!@[#6&!R])-&@[#7](-&!@[#6&!R](-&!@[#6&!R](-&!@[#7&!R]-&!@[#6&!R](-&!@[#6]2:&@[#6]:&@[#6]:&@[#7,#6]:&@[#6](:&@[#6]:&@2)-&!@[#7]2-&@[#6]-&@[#6]-&@[#7](-&@[#6]-&@[#6]-&@2)-&!@[#6]2:&@[#6](-&!@[#7&!R]):&@[#7]:&@[#7]:&@[#6](:&@[#6]:&@2)-&!@[#6]2:&@[#6]:&@[#6]:&@[#6]:&@[#6]:&@[#6]:&@2-&!@[#8&!R])=&!@[#8&!R])-&!@[#6&!R](-&!@[#6&!R])(-&!@[#6&!R])-&!@[#6&!R])=&!@[#8&!R])-&@[#6]-&@[#6](-&@[#6]-&@1)-&!@[#8&!R]",
+      "mcs_num_atoms": 59,
+      "mcs_num_bonds": 65,
+      "mcs_timed_out": false,
+      "heavy_atoms_A": 59,
+      "heavy_atoms_B": 59,
+      "mcs_timeout_s": 300,
+      "leg_id": "calib_hi_to_lo__binary_vhl",
+      "morph": "calib_hi->calib_lo"
+    }
+  ],
+  "blocking": [],
+  "pass": true
+}

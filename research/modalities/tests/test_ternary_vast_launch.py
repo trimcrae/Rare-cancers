@@ -483,3 +483,65 @@ def test_supersede_dry_run_touches_nothing():
     finally:
         tv._s3, tv.leg_records = orig_s3, orig_recs
     assert out["dry_run"] and [c["unit_id"] for c in out["cleared"]] == ["u"]
+
+
+# ---------------------------------------------------------------- market gate ($/ns), CLAUDE.md §6
+def test_the_market_ceiling_is_this_rungs_own_band_not_a_fleet_sized_one():
+    """The guard must enforce THIS rung's authorisation. LANE 21's fan-out ceiling is the top of a $15-80
+    band for nineteen edges; pricing two replicates against that — or against any fixed fleet-sized
+    threshold — would refuse a small authorised spend for a reason that does not apply to it. Both the plan
+    and the ceiling are DERIVED from the ladder artifact, so they re-derive themselves on a repricing."""
+    plan1, ceil1 = tv.rung_band_usd(1)
+    plan4, ceil4 = tv.rung_band_usd(4)
+    # proportional in the unit count (each figure is rounded to the cent, so allow that much per unit)
+    assert plan4 == pytest.approx(plan1 * 4, abs=0.04) and ceil4 == pytest.approx(ceil1 * 4, abs=0.04)
+    assert plan4 < ceil4, "the ceiling must be the TOP of the band, above the plan figure"
+    # the four-leg replicate pair, against the figure STRATEGY publishes for this edge
+    assert plan4 == pytest.approx(8.78, abs=0.05)
+    assert ceil4 == pytest.approx(22.28, abs=0.05)
+
+
+def test_the_gate_holds_above_breakeven_and_clears_below_it():
+    """Arithmetic only — no board read. The break-even is the $/ns at which the projected cost equals the
+    rung's ceiling; anything above it must HOLD and anything below must CLEAR, so the guard cannot be
+    accidentally inverted or made unreachable."""
+    n = 4
+    ns_unit = tv.rung_ns_per_unit()
+    _plan, ceiling = tv.rung_band_usd(n)
+    breakeven = ceiling / (ns_unit * n)
+    assert round(breakeven * ns_unit * n, 2) == pytest.approx(ceiling, abs=0.01)
+    assert breakeven * 1.01 * ns_unit * n > ceiling     # just above -> hold
+    assert breakeven * 0.99 * ns_unit * n < ceiling     # just below -> clear
+
+
+def test_the_gate_prices_against_this_lanes_own_host_filter():
+    """`market_snapshot` in the fan-out lane ranks against the fan-out's ResourceSpec. A ternary leg needs
+    32 GB RAM / 8 vCPU / 24 GB VRAM — setup is CPU+RAM bound and a 16 GB box measured 4x slower — so pricing
+    this fleet against a different spec would price hosts the launcher would never actually rent."""
+    res = tv.resource_spec()
+    assert res.ram_gb >= 32 and res.vcpus >= 8 and res.min_vram_gb >= 24
+
+
+def test_the_ratio_ceiling_binds_even_when_the_dollar_ceiling_passes():
+    """★ THE CASE THAT DECIDED THE LAUNCH ON 2026-07-27. Four legs at 2.05x basis projected $17.99 against a
+    $22.28 authorisation: it CLEARED the dollars and was still double per ns. trimcrae's stated preference —
+    "I'd rather pause until availability opens than pay double per ns" — is a different test from "do not
+    spend past what was approved", and a guard with only the dollar test would have bought.
+
+    1.5 is the repo's own number: CLAUDE.md §1 already calls >=1.5x basis drift and requires every in-flight
+    row to say so, so buying at a multiple the reporting rules classify as drift contradicts the same
+    document twice on one line."""
+    from congeneric_fanout import basis_usd_per_ns
+    basis = basis_usd_per_ns()
+    n, ns_unit = 4, tv.rung_ns_per_unit()
+    _plan, ceiling = tv.rung_band_usd(n)
+    at_205 = 2.048 * basis
+    assert round(at_205 * ns_unit * n, 2) <= ceiling, "the night's board did clear the DOLLAR ceiling"
+    assert 2.048 > tv.MARKET_MAX_RATIO_VS_BASIS, "...and must still be refused on the RATIO ceiling"
+    assert tv.MARKET_MAX_RATIO_VS_BASIS == 1.5
+
+
+def test_the_ratio_ceiling_is_reachable_and_not_a_permanent_refusal():
+    """A ceiling nobody can clear turns into an idle night, so the threshold must sit above what the board
+    has actually delivered. It ran ~1.0x basis earlier the same evening (a 3090 at $0.0643/hr)."""
+    assert tv.MARKET_MAX_RATIO_VS_BASIS > 1.0

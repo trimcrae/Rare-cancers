@@ -35,6 +35,17 @@ name: Ternary cooperativity FEP — Vast lane (RUNG 2b, 4 fs)
 # bootstrapped and validated on a feature branch. Once the file is on main, use workflow_dispatch.
 
 on:
+  # ⏰ The market re-check. A `schedule:` fires ONLY from the default branch, so this covers main; it resolves
+  # to `market-gate`, which either holds (committing the snapshot) or dispatches the launch itself.
+  #
+  # ⚠ THIS IS A BACKSTOP, NOT THE PRIMARY, AND THAT IS A MEASURED CALL RATHER THAN CAUTION. GitHub's
+  # scheduled-event delivery to this repo STOPPED at 10:04 PM on 2026-07-26 — no `schedule` event on any
+  # workflow after that, while `workflow_dispatch` kept working and all three watchdogs went green when
+  # dispatched by hand. So a cron-only re-check would have been a gate that never re-checks, which is the
+  # same "reports success while measuring nothing" shape this lane keeps paying for. The primary re-check is
+  # a Claude-side Routine that dispatches this task; this cron takes over automatically if delivery resumes.
+  schedule:
+    - cron: "17 * * * *"
   push:
     branches:
       - main
@@ -53,7 +64,7 @@ on:
       task:
         description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, reps-prime, edge-reps, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, reps-prime, edge-reps, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -101,6 +112,13 @@ jobs:
           # `test` (free). The default is deliberately the $0 one: a push must never be able to rent a GPU
           # by accident, which is the spend-gated ladder's first rule.
           TASK="${DISPATCH_TASK:-}"
+          # A SCHEDULE fires the market re-check, not `test`. `github.event.inputs.*` is empty on a schedule
+          # event and there is no head_commit message either, so without this branch the cron would resolve
+          # to the free `test` and re-check nothing — a scheduled gate that silently never runs, which is
+          # strictly worse than having no schedule at all because it looks like coverage.
+          if [ -z "$TASK" ] && [ "${{ github.event_name }}" = "schedule" ]; then
+            TASK=market-gate
+          fi
           if [ -z "$TASK" ]; then
             # `|| true` IS LOAD-BEARING. grep exits 1 when it matches nothing, and under `set -eo pipefail`
             # (plus the runner's own `bash -e`) that failure propagates out of the command substitution and
@@ -117,7 +135,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|reps-prime|edge-reps|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -208,6 +226,72 @@ jobs:
           done
           echo "[prime] done -- every edge host will now restore its stage tree in seconds"
 
+  # ------------------------------------------------------------------ free: price the fan-out, rent nothing
+  # Answers "would the market let us buy this right now, and at what number" WITHOUT renting anything, so a
+  # hold can be reported with a live snapshot instead of an extrapolation from someone's earlier reading.
+  # Same code path the launch job's gate uses — not a second opinion that is free to disagree with it.
+  market_gate:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == 'market-gate' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # `actions: write` is what lets this job dispatch the launch itself when the board clears — the
+    # difference between a gate that reports and a gate that acts.
+    permissions:
+      contents: write
+      actions: write
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Price 4 legs, and LAUNCH THEM the moment the board clears
+        # ★ SELF-CHAINING, BECAUSE AN AGENT IS NOT COVERAGE. The lesson from 7:47 PM is that a backgrounded
+        # watcher does not survive the agent stopping, so "I have a poller armed" is not a plan. This step
+        # does not report that the market cleared — it DISPATCHES the launch itself. The only thing anyone
+        # (or any scheduler) has to do is re-run this task; whether that produces a hold or four rented
+        # hosts is decided here, with no session in the loop.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          RC=0
+          python research/modalities/ternary_vast_launch.py --market-gate 4 \
+            --gate-out research/modalities/ternary-vast-market-hold.json || RC=$?
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/ternary-vast-market-hold.json
+          if ! git diff --cached --quiet; then
+            git commit -m "tvast market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) for valB_mini r1+r2 (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}" || true
+          fi
+          echo "market-gate exit=$RC (0 = clear to rent, 1 = hold)"
+
+          if [ "$RC" = 0 ]; then
+            echo "::notice title=TVAST MARKET CLEAR::board is within both ceilings — dispatching edge-reps."
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=edge-reps
+            exit 0
+          fi
+
+          # ⏰ A HOLD IS ROUTINE UNTIL 7:00 AM ET (11:00 UTC); AFTER THAT IT IS trimcrae's DECISION, NOT AN
+          # INDEFINITE WAIT. Escalating by FAILING the job is deliberate: that fires GitHub's own
+          # workflow-failure notification, which is the one alert path that does not need an agent awake —
+          # and the whole reason this lane went silent for five hours is that the paths which did need one
+          # all failed at once.
+          NOW_H=$(date -u +%H)
+          if [ "$NOW_H" -ge 11 ] && [ "$NOW_H" -lt 20 ]; then
+            echo "::error title=TVAST MARKET HOLD PAST 7 AM ET::valB_mini r1+r2 still held on price. This is now a decision for trimcrae: wait longer, accept the higher \$/ns, or rescope. Snapshot: research/modalities/ternary-vast-market-hold.json."
+            exit 1
+          fi
+          echo "::warning title=TVAST MARKET HOLD::valB_mini r1+r2 held on price — see research/modalities/ternary-vast-market-hold.json. Re-checks until 7:00 AM ET, then escalates."
+          exit 0
+
   # ------------------------------------------------ free: valB_mini replicates — stage seeds 1+2 AND
   #                                                   prove the atom map before anything is rented
   # WHY THE REPLICATES NEED THEIR OWN PRIME. The `prime` job above hardcodes `seed0` in its cache key, and
@@ -255,18 +339,41 @@ jobs:
           while read -r LEG SEED KEY; do
             if aws s3 ls "$KEY" >/dev/null 2>&1; then echo "[reps-prime] HIT  $LEG seed=$SEED"; continue; fi
             echo "[reps-prime] MISS $LEG seed=$SEED -- staging on CPU"
-            rm -rf "/tmp/tin/$LEG"
+            # ⚠ ONE STAGING DIRECTORY PER SEED, AND NEVER A DELETE. This loop first tried `rm -rf` on a
+            # shared /tmp/tin/<leg> before restaging the next seed, and it FAILED THE WHOLE JOB at 7:47 PM
+            # on 2026-07-26 (run 30225138660): the container writes as root into the bind mount, so the
+            # staged tree is root-owned (`-rw-r--r-- 1 root root` in the job's own `ls -la`), the runner
+            # user cannot remove it, `rm` exits 1 and `set -eo pipefail` kills the step. Both seed-1 units
+            # had already staged and uploaded, so the failure was purely the cleanup between seeds.
+            # `sudo rm -rf` would also work and is strictly worse: a per-seed directory removes the need to
+            # delete anything, which means there is no ownership question and no half-deleted tree to
+            # restage on top of.
+            SDIR="/tmp/stage_seed${SEED}"
+            mkdir -p "$SDIR"
             docker run --rm --entrypoint python \
-              -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/tin:/tmp/tin \
+              -v "$PWD/research/modalities:/work/research/modalities" -v "$SDIR:/tmp/tin" \
               -e SEED="$SEED" -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
               -w /work/research/modalities \
               docker.io/triskit23/ternary-fep:latest \
               /work/research/modalities/ternary_pdb_stage.py \
                 --leg-id "$LEG" --template-pdb 8G1Q --out /tmp/tin 2>&1 | tail -20
-            ls -la "/tmp/tin/$LEG"
-            tar -C /tmp/tin -cf /tmp/stage.tar "$LEG"
-            aws s3 cp /tmp/stage.tar "$KEY"
-            echo "[reps-prime] uploaded $KEY ($(du -h /tmp/stage.tar | cut -f1))"
+            ls -la "$SDIR/$LEG"
+            # The staged tree MUST carry the seed's own SMARCA2 model. seed s -> model (s % n_models), so
+            # seed 1 and seed 2 are different starting structures and a tar built from the wrong directory
+            # would silently collapse the replicate spread this programme uses as its error bar.
+            python3 - "$SDIR/$LEG/staging_manifest.json" "$SEED" <<'PY'
+          import json, sys
+          m = json.load(open(sys.argv[1])); want = int(sys.argv[2])
+          sm = (m.get("starting_model") or {})
+          got = sm.get("seed", m.get("seed"))
+          if got is not None and int(got) != want:
+              raise SystemExit(f"staged manifest says seed={got}, expected {want} — wrong tree")
+          print(f"  [reps-prime] manifest ok: seed={got} model_index={sm.get('starting_model_index')} "
+                f"of {sm.get('n_models_available')}")
+          PY
+            tar -C "$SDIR" -cf "/tmp/stage_${LEG}_${SEED}.tar" "$LEG"
+            aws s3 cp "/tmp/stage_${LEG}_${SEED}.tar" "$KEY"
+            echo "[reps-prime] uploaded $KEY ($(du -h /tmp/stage_${LEG}_${SEED}.tar | cut -f1))"
           done < /tmp/units.txt
       - name: $0 ATOM-MAP PRE-FLIGHT — refuse the launch if the map is short
         # This is the gate the whole replicate spend hangs on. A red step here means the map LOMAP returns
@@ -274,16 +381,18 @@ jobs:
         # perturbation nobody designed — and would converge and report it confidently.
         run: |
           set -eo pipefail
-          # Any staged leg dir will do: the map is a function of the two SmallMoleculeComponents built from
-          # ligands.sdf, and threed=False makes it explicitly pose-independent (that is why the same map is
-          # valid in the solvent, binary and ternary legs — reviewer item 3).
-          for LEG in calib_hi_to_lo__ternary_vhl calib_hi_to_lo__binary_vhl; do
-            if [ ! -d "/tmp/tin/$LEG" ]; then
-              KEY=$(grep -m1 " $LEG " /tmp/units.txt | awk '{print $3}' || true)
-              KEY=${KEY:-$(awk -v l="$LEG" '$1==l {print $3; exit}' /tmp/units.txt)}
-              aws s3 cp "$KEY" /tmp/stage.tar && tar -C /tmp/tin -xf /tmp/stage.tar
-            fi
-          done
+          # ALWAYS FROM S3, never from whatever the staging step happened to leave on disk. The map is a
+          # function of the two SmallMoleculeComponents built from ligands.sdf, and threed=False makes it
+          # explicitly pose-independent — which is why one map is valid in the solvent, binary and ternary
+          # legs (reviewer item 3). Reading the cache the HOSTS will read means this checks the bytes that
+          # will actually be simulated, not a local copy that happens to agree.
+          mkdir -p /tmp/tin
+          while read -r LEG SEED KEY; do
+            [ "$SEED" = "1" ] || continue
+            aws s3 cp "$KEY" /tmp/pf.tar || { echo "::error::no stage cache at $KEY"; exit 1; }
+            tar -C /tmp/tin -xf /tmp/pf.tar
+          done < /tmp/units.txt
+          ls -la /tmp/tin
           docker run --rm --entrypoint python \
             -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/tin:/tmp/tin \
             -e RBFE_LOMAP_TIME_S=300 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
@@ -441,6 +550,38 @@ jobs:
               --input-dir /tmp/tin \
               --leg-id calib_hi_to_lo__ternary_vhl \
               --leg-id calib_hi_to_lo__binary_vhl 2>&1 | tail -20
+
+      - name: MARKET GATE ($/ns) — pause rather than pay double, and SAY SO
+        # ⛔ CLAUDE.md §6, trimcrae 2026-07-26: "I'd rather pause until availability opens than pay double
+        # per ns." This gates the FAN-OUT (4 units), which is exactly what the rule covers.
+        #
+        # THE CEILING IS THIS RUNG'S OWN, NOT A FLEET-SIZED ONE. It is the top of valB's ladder band scaled
+        # to the units being bought ($22.28 for 4 legs against a $8.78 plan), derived from
+        # vast-ladder-repricing.json rather than typed. A guard that priced two replicates against the STEP 1
+        # fan-out's nineteen-edge authorisation would refuse a small authorised spend for a reason that does
+        # not apply to it, which is the opposite of what the rule is for.
+        #
+        # AND THE HOLD IS COMMITTED, not merely printed: a silent hold is indistinguishable from a finished
+        # fleet, so the readout lands in git with the snapshot that caused it — board depth, the offers that
+        # were priced, the projected cost, the ceiling and the break-even $/ns.
+        if: ${{ needs.resolve.outputs.task == 'edge-reps' }}
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          RC=0
+          python research/modalities/ternary_vast_launch.py --market-gate 4 \
+            --gate-out research/modalities/ternary-vast-market-hold.json || RC=$?
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/ternary-vast-market-hold.json
+          if ! git diff --cached --quiet; then
+            git commit -m "tvast market gate: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) for valB_mini r1+r2 (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}" || true
+          fi
+          if [ "$RC" != 0 ]; then
+            echo "::error title=TVAST MARKET HOLD::valB_mini r1+r2 NOT launched — the board prices this rung above its own ceiling. Snapshot committed to research/modalities/ternary-vast-market-hold.json."
+            exit "$RC"
+          fi
 
       - name: Rent one host per unit
         run: |
