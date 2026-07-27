@@ -128,6 +128,28 @@
       "n_requested": 4,
       "n_rented": 0,
       "reclassified": "recorded as the retired outcome `rented-nothing`, which named two possibilities and therefore neither \u2014 the defect this row caused. Reclassified from the job log of run 30278451510: every Vast call answered a bare nginx 403 (board read 11:08:18 AM ET; /instances/ and all four /search/asks/ at 11:10:50 AM ET). A collect on the same key at 11:13:56 AM ET listed instances normally, so the 403 was transient throttling, not authorisation. 0/4 rented, nothing orphaned. Fixed by retrying 403 on idempotent GETs, and by copying the gate's own `reason` into this row."
+    },
+    {
+      "utc": "2026-07-27T16:08:05Z",
+      "et": "12:08 PM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30283225625",
+      "gate_ratio_vs_basis": 1.286,
+      "gate_mean_usd_per_ns": 0.004389,
+      "gate_projected_usd": 9.41,
+      "gate_max_ratio_vs_basis": 1.5,
+      "gate_hold": false,
+      "gate_reason": "projected $9.41 within this rung's ceiling $20.74 AND 1.29x basis is within the 1.50x drift line",
+      "gate_board_depth": {
+        "offers_returned": 64,
+        "qualifying": 63,
+        "priceable": 52,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "reason": "board cleared both ceilings; dispatching task=edge-reps"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."
