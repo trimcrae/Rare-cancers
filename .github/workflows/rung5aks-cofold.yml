@@ -360,8 +360,15 @@ jobs:
             for SUP in $(aws s3 ls "$P/superseded/" 2>/dev/null | awk '{print $4}' | sort | tail -4); do
               echo "--- superseded/$SUP"; aws s3 cp "$P/superseded/$SUP" - 2>/dev/null || true; echo
             done
-            echo "--- run.log (CURRENT attempt — tail 120)"
-            aws s3 cp "$P/run.log" - 2>/dev/null | tail -120 || echo "(none)"
+            # ⚠ FILTER THE ITERATION SPAM. OpenFE prints 4 lines per iteration, so an unfiltered tail is
+            # ~thousands of lines of `Iteration N/M` and banner asterisks — which pushed the ATTEMPT CENSUS
+            # above out of every readable window and made the tool useless for the question it was built for.
+            # Keep the last few iteration lines (the death position) and everything that is not routine.
+            echo "--- run.log (CURRENT attempt — last iterations + all non-routine lines)"
+            aws s3 cp "$P/run.log" - 2>/dev/null > /tmp/cur.log || true
+            grep -E "Iteration [0-9]+/" /tmp/cur.log | tail -3 | sed 's/^/  ITER: /' || true
+            grep -vE "^INFO:\s+(Iteration [0-9]+/|\*{20,}|Iteration took|Estimated completion|Preset charges)" /tmp/cur.log \
+              | tail -40 || echo "(none)"
           done
 
   # ------------------------------------------------ $0 CPU: reproduce the preequil failure, and prove the fix
