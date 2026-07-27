@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 8:04 AM ET Jul 27, 2026
+[s1f-terminus] read at 8:22 AM ET Jul 27, 2026
 
-[s1f-terminus] 348 object(s) under the results prefix
+[s1f-terminus] 360 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
   (none) — no unit has written a ddg.json, so reduce -> commit -> upload has never been observed on this lane.
@@ -10,7 +10,7 @@
     smoke ceiling = production@4; production target = warmup@400 + production@2000 per leg
   e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral             ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral              ddg=no  NO-TERMINUS        no commits
-  e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@200, solvent/warmup@400
+  e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@360, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=no  NO-TERMINUS        complex/warmup@120
   e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=no  NO-TERMINUS        complex/warmup@60
   e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=no  NO-TERMINUS        no commits
@@ -32,18 +32,19 @@
   ⛔ NOT MET — no ddg.json anywhere under the results prefix. The 18 edges stay held; the shakeout unit is the only thing that may be rented.
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 48 offers visible (baseline ~23), 48 qualifying, 10 priceable, 19 needed
-  floors           : min $0.1067/hr, median $0.2933/hr
-  best fleet $/ns  : $0.0137/ns  ·  3.14× basis (basis $0.004359/ns)
-  projected        : $112.11 against a $80.44 ceiling
+  board depth      : 47 offers visible (baseline ~23), 47 qualifying, 11 priceable, 19 needed
+  floors           : min $0.047/hr, median $0.2533/hr
+  best fleet $/ns  : $0.012172/ns  ·  2.79× basis (basis $0.004359/ns)
+  projected        : $99.61 against a $80.44 ceiling
   ⚠ DRIFT — ≥1.5× basis. A release into this board would be HELD on price.
-    RTX 4090   m11892    $0.1600/hr  $0.00605/ns · 1.39× basis
-    RTX 4090   m44906    $0.2000/hr  $0.00772/ns · 1.77× basis
+    RTX 3090   m29304    $0.0470/hr  $0.00482/ns · 1.11× basis
+    RTX 4090   m12227    $0.1333/hr  $0.00516/ns · 1.18× basis
     RTX 4080S  m29668    $0.2000/hr  $0.00787/ns · 1.81× basis
-    RTX 3090   m24039    $0.1067/hr  $0.00940/ns · 2.16× basis
+    RTX 4090   m138228   $0.2667/hr  $0.00960/ns · 2.20× basis
+    RTX 3090 Ti m55693    $0.1467/hr  $0.01179/ns · 2.70× basis
     RTX 4090   m50289    $0.3333/hr  $0.01181/ns · 2.71× basis
-    RTX 4090   m52976    $0.3333/hr  $0.01206/ns · 2.77× basis
-    RTX 4090   m55267    $0.3333/hr  $0.01230/ns · 2.82× basis
+    RTX 3090   m8966     $0.1590/hr  $0.01214/ns · 2.78× basis
+    RTX 4090   m12599    $0.3467/hr  $0.01226/ns · 2.81× basis
+    RTX 4090   m44762    $0.5333/hr  $0.01895/ns · 4.35× basis
     RTX 3090   m122589   $0.2533/hr  $0.01934/ns · 4.44× basis
     RTX 4090   m57250    $0.5333/hr  $0.02017/ns · 4.63× basis
-    RTX 3090 Ti m141336   $0.3600/hr  $0.03028/ns · 6.95× basis
