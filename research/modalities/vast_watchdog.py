@@ -1183,8 +1183,13 @@ def merge_branch_watch_list(branch, path=None, repo_root=None):
     if not branch:
         return "[watch-merge] no fleet branch given — using the checked-out list unchanged"
     try:
-        subprocess.run(["git", "fetch", "--depth", "1", "origin", branch], cwd=root,
-                       check=True, capture_output=True, timeout=120)
+        # NO `--depth 1`. On the CI runner the checkout is already shallow and a plain fetch stays that
+        # way, so the flag bought nothing there — but run in a full DEVELOPER clone (which the unit test
+        # below does, deliberately, because a mocked git proves nothing about git) it WRITES .git/shallow and
+        # silently truncates that clone's history. The next `git merge` in it then dies with "refusing to
+        # merge unrelated histories". A diagnostic helper must not be able to damage the repo it is run in.
+        subprocess.run(["git", "fetch", "origin", branch], cwd=root,
+                       check=True, capture_output=True, timeout=180)
         raw = subprocess.run(["git", "show", f"origin/{branch}:{rel}"], cwd=root,
                              check=True, capture_output=True, timeout=60).stdout
         theirs = json.loads(raw.decode())
