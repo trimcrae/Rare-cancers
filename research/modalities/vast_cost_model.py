@@ -131,10 +131,33 @@ from dataclasses import dataclass, field
 # THIS IS THE ONLY THROUGHPUT TABLE. `gpu_backend._MEASURED_NS_PER_DAY_84K` and the retracted
 # `vast_bid_optimizer.MEASURED_NS_PER_DAY` (which still carried the withdrawn 669 ns/day figure) both defer
 # here, so the repo cannot disagree with itself about how fast a card is.
+#
+# ★ WIDENED 2026-07-27 by `vast_bench_sweep.py`, same protocol, same admission bar. Six cards added, each one
+# a single host that passed protocol identity, device identity, the physics check and CV<5%, exactly as the
+# three anchors did. Per-block values and full provenance: `throughput-bench-provenance.json`; the numbers
+# below are DERIVED from those blocks and `tests/test_throughput_provenance.py` recomputes every one.
+#
+# ⚠ AND A SINGLE-HOST FIGURE IS A LOWER BOUND, WHICH THE SAME SWEEP MEASURED RATHER THAN ASSUMED. Five
+# independent RTX 4090 hosts spanned 10.3% (three fresh ones agreeing to 1.3% at ~806, well ABOVE this
+# table's 4090 entry), while four RTX 4080 hosts spanned only 1.85%. So a one-host bench samples an unknown
+# point of an unknown-width distribution. Every confounder is one-sided DOWNWARD, so each entry understates
+# its card and therefore OVERSTATES its `$/ns` — we under-buy, never over-buy, which is the safe direction
+# and the same one `CONSERVATIVE_ALIASES` relies on. The reconciliation, and the case for re-anchoring on a
+# median-of-N-hosts protocol, are in `throughput-bench-provenance.json` →
+# `reconciliation_2026_07_27_the_rtx4090_anchor`. **That change is NOT applied here**: REFERENCE_NS_PER_H is
+# derived from the RTX 4090 entry and sets the basis for every multiple in the repo, so moving it is a
+# pinned-figure change and trimcrae's call.
 MEASURED_NS_PER_DAY_84K = {
     "RTX4090": 755.36,   # CV 0.14%   blocks 756.55 / 754.56 / 754.98
     "RTX4080": 703.51,   # CV 0.18%   blocks 702.93 / 704.93 / 702.66
     "RTX3090": 359.36,   # CV 1.31%   blocks 364.02 / 359.45 / 354.62
+    # --- added 2026-07-27 (vast_bench_sweep calibration rentals, ~$1 of GPU in total) -----------------------
+    "RTX5080": 793.79,   # CV 0.20%   blocks 793.33 / 792.46 / 795.59   — within 2% of an RTX 4090
+    "A100PCIE": 523.82,  # CV 0.02%   blocks 523.76 / 523.76 / 523.93   — the fast tier, and it is NOT fast here
+    "RTXPRO4000": 482.34,  # CV 0.63% blocks 478.99 / 484.89 / 483.15
+    "RTX3090TI": 481.78,  # CV 0.03%  blocks 481.84 / 481.88 / 481.61   — 34% above the 3090 it used to alias
+    "RTX5060TI": 387.78,  # CV 0.22%  blocks 388.73 / 387.12 / 387.49
+    "RTXA4000": 242.20,  # CV 2.58%   blocks 249.09 / 240.61 / 236.90
 }
 REFERENCE_CARD = "RTX4090"
 REFERENCE_NS_PER_H = MEASURED_NS_PER_DAY_84K[REFERENCE_CARD] / 24.0   # 31.47 ns per reference GPU-hour
@@ -183,7 +206,12 @@ REFERENCE_NS_PER_H = MEASURED_NS_PER_DAY_84K[REFERENCE_CARD] / 24.0   # 31.47 ns
 # error impossible to be in our favour. Deleting it would be caution pointed at the wrong risk.
 CONSERVATIVE_ALIASES = {
     # variant  : (benched base, why the base is a LOWER bound on this SKU's throughput)
-    "RTX3090TI": ("RTX3090", "same GA102 die, strict superset: 10752 vs 10496 CUDA cores, 1008 vs 936 GB/s"),
+    # ★ `RTX3090TI` WAS HERE AND HAS BEEN RETIRED BY A MEASUREMENT (2026-07-27) — which is the hand-off this
+    # block's own text describes ("both entries below are on the bench shortlist so the alias is a bridge
+    # rather than a resting place"). `vast_bench_sweep` benched it at the anchors' protocol and it is now a
+    # MEASURED entry above. The retirement also VALIDATES the alias's central claim: the borrowed RTX 3090
+    # figure was a genuine lower bound, and the real card is ~34% faster than the number it was borrowing.
+    # An alias and a measurement for the same key must never coexist — the measurement wins, always.
     "RTX4080S":  ("RTX4080", "same AD103 die, strict superset: 10240 vs 9728 CUDA cores, 736.3 vs 716.8 GB/s"),
 }
 # Known-unsafe substrings, recorded so the removal cannot be undone by someone re-adding a substring match
