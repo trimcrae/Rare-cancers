@@ -905,8 +905,10 @@ two causes (the departure, or ordinary path error) and the pose data is what sep
 **And the open design question, stated but NOT decided here:** whether the triangle's binary legs should be run
 **restrained** (§L.3c's remedy — see §L.3f for why no standard-state correction attaches to it) rather than
 as-is. Restrained legs would make `R_binary` a clean path-error measurement; unrestrained legs make it a
-measurement of the departure. Those are different experiments and the choice is trimcrae's, not mine — it
-changes what the ~$6 buys.
+measurement of the departure. Those are different experiments — it changes what the ~$6 buys.
+**→ DECIDED 2026-07-26: UNRESTRAINED. The decision and its three reasons live in
+[STRATEGY.md](../../STRATEGY.md) (one home; not restated here).** Note it is a **different question** from
+§L.3f's, which governs the r0 / 2b cycles' own binary and ternary **arms**, not the triangle's legs.
 
 ### L.3f THE RE-RUN'S TWO RULINGS: no standard-state correction, and the ternary arm is NOT re-run restrained
 
