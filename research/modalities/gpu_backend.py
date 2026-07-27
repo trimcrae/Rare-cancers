@@ -894,10 +894,25 @@ class VastBackend(Backend):
         `intended_status=stopped` once provisioning finishes. So the exit condition is satisfied by a value
         that has not converged yet, and the "ROBUST EXPLICIT START" comment above overstates what this does.
 
-        Deliberately NOT changed here. The obvious fix — keep polling until a TERMINAL state rather than
-        returning on the first optimistic read — lengthens every submit on every lane, and this was diagnosed
-        with 18 step-1 fan-out units live on this same code path. It needs to land with that lane, not
-        underneath it. The recovery in the meantime is the nudge the collectors already do
+        JUDGED BY THE STEP-1 LANE, 2026-07-27, and the census lane's instinct not to fix it here was right —
+        but for a sharper reason than submit latency. The observed settle-back to `intended_status=stopped`
+        happens AFTER provisioning finishes, i.e. MINUTES after create (12:55 -> 13:00 ET above). **No
+        bounded submit-time loop can observe it at all**, so "poll to a terminal state" does not close this
+        race either — it just adds minutes per unit across a fleet and still returns before the settle-back.
+        The race is not closeable at submit time; it is only detectable later.
+
+        So what is fixed here is the HONESTY of the exit, at zero latency cost: `actual == "running"` is
+        evidence and returns silently; `intended == "running"` alone is an echo of the PUT we just issued and
+        now returns with an explicit "ACCEPTED, not yet confirmed" line, so a caller can no longer read an
+        optimistic echo as a live box. Recovery stays where it already works — the per-tick collector nudge
+        (`PUT /instances/{id}/ {"state":"running"}`), which `relaunch_market_gate.EXEMPTIONS` correctly
+        treats as restarting a host we already hold rather than as a new purchase.
+
+        THE REAL FIX, and it belongs with the idle-guard work: a host that never reaches `actual=running`
+        after N nudges must be DESTROYED AND ITS MACHINE EXCLUDED. It bills while producing no throughput,
+        which is infinite realised $/ns — precisely the case `exclude_machine_ids` exists for and precisely
+        the case $/ns ranking is structurally blind to, so without an explicit exclusion such a host keeps
+        winning selection and keeps failing. The recovery in the meantime is the nudge the collectors already do
         (`PUT /instances/{id}/ {"state":"running"}`), which `relaunch_market_gate.EXEMPTIONS` correctly treats
         as restarting a host we already hold rather than as a new purchase."""
         import time
@@ -910,7 +925,20 @@ class VastBackend(Backend):
                          .get("instances", []) if str(x.get("id")) == str(inst_id)), None)
             intended, actual = (inst or {}).get("intended_status"), (inst or {}).get("actual_status")
             print(f"[vast] start {inst_id} attempt {i + 1}: intended={intended} actual={actual}", flush=True)
-            if intended == "running" or actual == "running":
+            if actual == "running":
+                return                                            # EVIDENCE: the container is up.
+            if intended == "running":
+                # NOT evidence — an echo of the request we just made. Returning here is still correct
+                # (see the judgement in the docstring: the settle-back to intended=stopped happens MINUTES
+                # later, so no bounded submit-time loop can observe it, and polling to a terminal state
+                # would add minutes per unit across a fleet). What was wrong is that the caller could not
+                # TELL the two apart, so a rental with an optimistic echo read exactly like a live box.
+                print(f"[vast] start {inst_id}: intended=running but actual={actual!r} — start ACCEPTED, "
+                      f"not yet confirmed running. Vast reports intended optimistically on a fresh create "
+                      f"and may settle it back to 'stopped' after provisioning; the per-tick collector nudge "
+                      f"is what recovers that, and a host that never reaches actual=running should be "
+                      f"destroyed and excluded (infinite realised $/ns is invisible to $/ns ranking).",
+                      flush=True)
                 return
             time.sleep(delay_s)
         print(f"[vast] WARN {inst_id} did not reach intended=running after {attempts} attempts", flush=True)
