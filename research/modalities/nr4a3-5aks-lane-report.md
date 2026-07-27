@@ -452,6 +452,24 @@ hides it", "ci=40 vs ci=64 explains which one looks stalled") made it more expla
 fault.** The check that broke it was not clever: it was measuring the quantity directly instead of inferring it,
 on the comparator as well as the subject, and it cost one $0 CI run.
 
+### The queued mitigation (`TVAST_WARMUP_CKPT_ITERS=16`) is a NO-OP on a leg already in warmup
+
+Shortening the warmup commit interval was queued as a mitigation while the cadence was still believed real. It
+was worth checking before applying, and the check kills it twice over.
+
+**Mechanically it cannot take effect.** `rbfe_spot_driver` enforces a *single-interval invariant*: on a resume
+the effective interval is read back out of the existing warmup `.nc` — `spot.read_checkpoint_interval(...)` —
+and **explicitly overrides the environment**, logging `RESUME warmup: committed-file checkpoint_interval=64
+OVERRIDES env warmup_checkpoint_iters=16`. That is not an oversight; it is the 2026-07-21 root-cause fix for
+`resume iteration 520 != expected 540`, because openmmtools fixes the cadence when the `.nc` is *created* and a
+driver running off a different grid than the file corrupts the resume. So the knob only binds on a **fresh**
+warmup — which for NR4A1 means discarding the 320 committed warmup iterations it has already paid for.
+
+**And the arithmetic no longer supports it.** Expected loss per death is half the interval ≈ **8 min**, against
+measured attempt lifetimes of 23–408 min. That is single-digit-percent overhead, bought at 4× the commit
+frequency, to mitigate a fault the census says is not there. `TVAST_WARMUP_CKPT_ITERS` stays available for a
+fresh launch; it is not applied here, and the reason is a measurement rather than a preference.
+
 ## 7 · What runs next, in order
 
 Everything below is wired and dispatchable; nothing here needs new code.
