@@ -531,3 +531,51 @@ scopes every result key by wave and replicate for exactly this reason.
 then `mode=collect` (prints the per-card host distribution and the estimator), then `mode=ladder` (regenerates
 [`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json) from a fresh market snapshot).
 Total GPU cost of the re-anchoring: **≈$1.74**.
+
+---
+
+## Appendix U — the buy line re-expressed (2026-07-27)
+
+*Corrections live here, not inline.*
+
+**What changed, and what did not.** Nothing about the spending decision. The line trimcrae approved is an
+absolute rate — **`$0.006539` per nanosecond** — and it is unchanged. Only its *expression* moved, because the
+denominator it was written against was corrected:
+
+| | basis `$/ns` | line as a multiple | line as an absolute rate |
+|---|---|---|---|
+| as ruled, morning of 2026-07-27 | 0.004359 *(superseded)* | 1.5× *(superseded)* | **$0.006539/ns** |
+| after the throughput re-anchoring | **0.003412** | **≈1.92×** | **$0.006539/ns** |
+
+**Why the basis fell 22 %, decomposed** (same offers file, so the market is held constant except where noted):
+
+| factor | effect on basis | detail |
+|---|---|---|
+| market snapshot moved | ×1.039 | plan rate $0.1372 → $0.1426/ref-GPU-h on the newer board |
+| **throughput table widened** | **×0.802** | plan rate $0.1426 → $0.1143 — gradeable offers went **132 → 229**, and newly-priceable cheap supply entered the best-10 mean (mix went `{3090×5, 4090×5}` → `{3090×5, RTX PRO 4000×3, 5090×1, 4090×1}`) |
+| reference anchor re-measured | ×0.939 | `REFERENCE_NS_PER_H` 31.473 → 33.503 |
+| **net** | **×0.783** | the superseded $0.004359 → $0.003412/ns |
+
+**The reference CARD did not change** — it is still the RTX 4090. The anchor correction accounts for only
+**6.1 %** of the 22 %; the dominant term is that the widened table let the planning rate see supply it
+previously could not price. The basis is defined as the best-10 mean `$/reference-GPU-hour`, i.e. *what a
+policy that always takes a top-10 offer achieves* — a measure of purchasing **capability**, not of prices. So
+it fell for a real reason: we can now buy things we previously could not grade.
+
+**The consequence, stated plainly so nobody has to infer it.** Because the basis is the denominator, a smaller
+basis makes every multiple LARGER. Expressed as a multiple, the line therefore had to move from 1.5× to ≈1.92×
+*to stay the same rule*. Had it been left at 1.5×, the approved rate would have silently tightened by 22 % and
+every board seen that day would have failed a line it had been passing.
+
+**The trap this creates, and how it is closed.** §1's threshold is both the buy line and the ⚠ DRIFT reporting
+flag, and trimcrae's earlier ruling is that they are the same number (*"Why are there so many high `$/ns` rows
+that are flagged but you're still paying for them?"*). If the buy line moved to ≈1.92× and the flag stayed at
+1.5×, rows would print ⚠ DRIFT **and be bought** — the original complaint, recreated by the fix. Both now read
+one derived value, and [`tests/test_buy_line_invariant.py`](../modalities/tests/test_buy_line_invariant.py)
+sweeps the rate axis across the line and fails if the flag and the refusal ever disagree at any point.
+
+**Where the invariant lives:** [`inflight_usd_per_ns.APPROVED_USD_PER_NS`](../modalities/inflight_usd_per_ns.py)
+(the absolute rate, derived from the two constants that defined it at the moment of the ruling) and
+`drift_multiple()` (the multiple, derived against the current basis). `congeneric_fanout`,
+`relaunch_market_gate` and `ternary_vast_launch` all import it rather than carrying a copy. **A future basis
+correction re-derives the multiple instead of silently changing the rule — which is the entire point.**

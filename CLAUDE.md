@@ -52,16 +52,31 @@ anything here that restates them is a bug — see rule 1.
     `$0.0077/ns · 1.8× basis`. **The multiple is the point**; a bare `$/ns` is a number nobody can grade at 3 AM.
     Basis = the `$/ref-GPU-h` planning rate in [pricing.md](./research/compute/pricing.md) ÷ the reference card's
     ns/h, and per rule 1 it is DERIVED from the validated card ratios there, never typed fresh — a row quoting a
-    ratio the cost model does not produce is the bug. **≳1.5× basis is drift and says so on the row**; that is
-    what the fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
+    ratio the cost model does not produce is the bug. **The drift line is an ABSOLUTE rate — `$0.006539/ns`,
+    which is ≈1.92× the current basis — and a row at or above it is drift and says so**; that is what the
+    fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
     rather than a fabricated figure.
-    - **★★ THE DRIFT LINE **IS** THE BUY LINE — 1.5× IS A HARD GATE, NOT JUST A LABEL (trimcrae, 2026-07-27,
+    - **★★ THE LINE IS AN ABSOLUTE `$/ns`, NOT A MULTIPLE — `$0.006539/ns` ≈ **1.92× basis** (trimcrae,
+      2026-07-27, re-expression ruling).** ⚠ **≈1.92× IS NOT A LOOSENING OF THE 1.5× STATED EARLIER THE SAME
+      DAY. IT IS THE SAME DOLLARS PER NANOSECOND.** The throughput table was re-anchored that afternoon; the
+      ladder basis fell 22 % (from a now-**superseded** `$0.004359/ns` to `$0.003412/ns`) because the reference card's measured throughput
+      rose and the widened table admitted 97 more gradeable offers — **no price moved, the yardstick did.**
+      `1.5 ×` the superseded `$0.004359` and `1.92 × $0.003412` are both `$0.006539/ns`. Pinning the rule to a multiple of a
+      correctable denominator silently turned it into a much stricter rule than the one agreed (every board
+      that day failed a line it had been passing), so the **invariant is now the absolute rate** and the
+      multiple is DERIVED from it — [`inflight_usd_per_ns.APPROVED_USD_PER_NS`](./research/modalities/inflight_usd_per_ns.py)
+      and `drift_multiple()`. A future basis change re-derives the multiple instead of breaking the rule.
+      **The flag and the refusal must remain the same number** — if the buy line moved and the ⚠ DRIFT
+      threshold did not, rows would print drift and still be bought, which is the very complaint below.
+      [`tests/test_buy_line_invariant.py`](./research/modalities/tests/test_buy_line_invariant.py) fails if
+      they ever diverge. Superseded, retained: the **1.5×** expression and the **$0.004359/ns** basis.
+    - **★★ THE DRIFT LINE **IS** THE BUY LINE — A HARD GATE, NOT JUST A LABEL (trimcrae, 2026-07-27,
       ruling on the step 1 fan-out's per-unit ceiling after being shown the derived alternative).** Reason, in
       his words from earlier the same day: ***"What's the point of tracking that if we don't act on it?"***
       So **a row that prints `⚠ DRIFT` is a row we do not buy** — the flag and the refusal are the same
       number, and the gap between "we noticed" and "we declined" is closed. A rental must clear **BOTH** its
-      rung's derived **dollar** ceiling (*is this inside the money that was authorised*) **and** the 1.5×
-      **rate** line (*is this a rate we will pay at all*); the effective ceiling is the lower, and a refusal
+      rung's derived **dollar** ceiling (*is this inside the money that was authorised*) **and** the
+      **rate** line above (*is this a rate we will pay at all*); the effective ceiling is the lower, and a refusal
       must NAME which one it hit — conflating them is what made an earlier round of hold readouts unreadable.
       **SUPERSEDED, retained for the record:** until this ruling 1.5× was *reporting only* — the framing "not
       a hard gate — the fleet-launch gate in the launcher is that" (`inflight_usd_per_ns.py`) — under which
