@@ -68,6 +68,12 @@ from protfep_vast_launch import (  # noqa: E402
     _record_is_newer_than_instance,
     stall_minutes,
 )
+# The anti-idle verdict and the "has this box's container ever run" bit, both imported rather than
+# re-derived here. `collect` is the only place with the evidence AND the API key, so it is where the verdict
+# gets acted on; the reasoning for the verdict itself lives in one module so a second lane cannot grow a
+# second, disagreeing definition of "this rental is doing nothing".
+import vast_idle_guard as vig                                   # noqa: E402
+from watchdog_policy import container_started_from_phase        # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
 
@@ -830,6 +836,14 @@ def blocked_machine_ids(bucket=None, prefix=None):
         pass
     try:
         import vast_machine_blacklist as vmb
+        # SEED THE SHARED SET FROM THIS LANE'S HISTORY, not just from future refusals. `publish` only fires at
+        # the moment a refusal is observed, so on the day the union landed the shared key was EMPTY while this
+        # lane already knew nine machines — and a sibling lane reading `local ∪ shared` still could not see
+        # them. Every id on `_blocked_machines` is a start refusal, i.e. host-scoped by construction, so
+        # promoting them is scope-correct (see `vast_machine_blacklist.backfill` for why the fan-out's own
+        # mixed-scope list is NOT treated this way). Idempotent: a no-op once seeded.
+        if local:
+            vmb.backfill(s3, b, local, lane="rung5a_ks")
         return vmb.union(local, s3, b)
     except Exception:  # noqa: BLE001 — the shared set is an optimisation and must never block a launch
         return local
@@ -1322,6 +1336,7 @@ def collect(bucket=None, prefix=None, autostop=True):
               f"dph=${i.get('dph_total')} spent~${cost:.2f} gpu={i.get('gpu_name')}")
 
         # PROGRESS, not liveness.
+        idle_verdict, idle_why = vig.UNKNOWN, "no unit could be mapped to this instance's label"
         if uid:
             phase, it, scalar = committed_progress(uid, b, p)
             prev = (prev_state.get(f"prog:{uid}") or [0, 0])
@@ -1340,6 +1355,18 @@ def collect(bucket=None, prefix=None, autostop=True):
                   + (f", log {log_age:.1f} min old" if log_age is not None else ", no log yet") + ")")
             for ln in tail:
                 print(f"      | {ln[:170]}")
+            # ANTI-IDLE VERDICT. Everything it needs has just been read, so this costs one extra S3 LIST.
+            # It is the ONLY clause in this function that can act on a box that is `running` and looks
+            # healthy — see vast_idle_guard for why GPU idleness alone is never allowed to condemn one.
+            idle_verdict, idle_why = vig.classify_idle(
+                instance_running=(i.get("actual_status") == "running"),
+                container_started=container_started_from_phase(mark, i),
+                gpu_util=i.get("gpu_util"),
+                progress_advanced=(scalar > pprog),
+                log_age_min=log_age,
+                start_ages_min=vig.start_ages_min(s3, b, f"{p}/legs/{uid}/attempts/"),
+                instance_age_min=up_h * 60.0)
+            print(f"      idle-guard: {idle_verdict} — {idle_why}")
 
         msg = str(i.get("status_msg") or "").strip()
         frozen_min, new_state[str(iid)] = stall_minutes(prev_state, iid, msg, time.time())
@@ -1350,9 +1377,15 @@ def collect(bucket=None, prefix=None, autostop=True):
         finished = uid in done
         crashed = bool(uid and uid in other and other[uid].get("status") == "failed"
                        and _record_is_newer_than_instance(other[uid], i))
-        if autostop and (finished or crashed or up_h > MAX_INSTANCE_HOURS):
-            why = ("unit done" if finished else
-                   "unit FAILED — nothing left to produce" if crashed else "runtime backstop")
+        # WHY THE IDLE VERDICT IS LAST IN THIS CHAIN. `finished` and `crashed` are stronger facts about the
+        # same box — a leg that landed its result stops writing its log by design, so on the very next poll
+        # it would ALSO read WEDGED. Ordering them first keeps the destroy REASON honest ("unit done", not
+        # "the host went quiet"), which is what a reader of this board is actually trying to learn.
+        why = ("unit done" if finished else
+               "unit FAILED — nothing left to produce" if crashed else
+               "runtime backstop" if up_h > MAX_INSTANCE_HOURS else
+               f"idle guard: {idle_verdict} — {idle_why}" if vig.should_destroy(idle_verdict) else None)
+        if autostop and why:
             print(f"    -> destroying {iid} ({why})")
             try:
                 _vast_request("DELETE", f"/instances/{iid}/", key)

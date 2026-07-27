@@ -842,3 +842,43 @@ def test_an_advancing_counter_can_never_be_reaped_as_a_never_started_container()
     assert vw.classify(has_result=False, instance_alive=True, instance_age_min=400,
                        progress_scalar=200_000_260, prev_scalar=200_000_260, prev_stall=5,
                        container_started=False, setup_grace_min=90.0, stall_ticks=3)[0] == "SETUP_STALL"
+
+
+def test_a_running_verdict_with_a_frozen_counter_must_not_be_announced_as_advancing():
+    """The notice and the log line must not contradict each other.
+
+    Measured 2026-07-27 7:29 AM ET on the 5a-KS NR4A1 leg: the job's own stdout read
+    `verdict=RUNNING progress=warmup/640 scalar=640 prev=640 stall=1` — the committed counter had NOT
+    moved — while the ::notice:: on the very next line said "advancing at warmup/640". `classify`
+    was right (it tolerates `stall_ticks - 1` frozen passes so a resume, which re-does the work since
+    its last commit, does not trip a false alert). The WORDING was wrong, and "reports success while
+    measuring nothing" is this program's most expensive defect class, so it is pinned here.
+
+    This asserts the property that makes the two agree: RUNNING can carry a non-zero stall, therefore
+    the annotation must branch on `stall` rather than on the verdict alone.
+    """
+    # A frozen counter inside the tolerance is still RUNNING — that is the tolerated case that must not
+    # be described as advancing.
+    v, stall = vw.classify(has_result=False, instance_alive=True, instance_age_min=400,
+                           progress_scalar=640, prev_scalar=640, prev_stall=0,
+                           container_started=True, setup_grace_min=90.0, stall_ticks=2)
+    assert (v, stall) == ("RUNNING", 1), "one frozen pass is tolerated, and it is NOT advancement"
+
+    # One more frozen pass must trip STALLED, so the countdown the notice prints is real.
+    assert vw.classify(has_result=False, instance_alive=True, instance_age_min=400,
+                       progress_scalar=640, prev_scalar=640, prev_stall=1,
+                       container_started=True, setup_grace_min=90.0, stall_ticks=2)[0] == "STALLED"
+
+    # A counter that DID move is advancement and resets the stall.
+    assert vw.classify(has_result=False, instance_alive=True, instance_age_min=400,
+                       progress_scalar=704, prev_scalar=640, prev_stall=1,
+                       container_started=True, setup_grace_min=90.0, stall_ticks=2) == ("RUNNING", 0)
+
+    # Both watchdogs must actually branch their RUNNING notice on the stall counter, not just the verdict.
+    for mod in ("vast_watchdog.py", "ternary_vast_watchdog.py"):
+        with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), mod)) as fh:
+            src = fh.read()
+        assert "HOLDING at" in src, f"{mod} must have a non-advancing wording for a frozen RUNNING pass"
+        i_adv = src.index("— advancing at")
+        assert "if not stall else" in src[i_adv - 400:i_adv + 400], (
+            f"{mod}'s 'advancing' notice must be guarded by the stall counter")

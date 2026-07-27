@@ -133,6 +133,22 @@ jobs:
           FANOUT_SHAKEOUT_UNIT: ${{ github.event.inputs.shakeout_unit || 'e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid' }}
         run: python congeneric_fanout_vast.py
 
+      # ★ EVIDENCE, NOT SUMMARY. Everything above reports the launcher's own view of the terminus: map.json
+      # says `n_complete: 0`, the launch readout says "TERMINUS NOT PROVEN". CLAUDE.md §4 asks for the
+      # observation that DISCRIMINATES, and there is a specific thing to discriminate here — `ddg.json` has
+      # one name whatever wrote it, and the reducer's record keys on (leg_id, seed), which a RBFE_TINY smoke
+      # and a production leg SHARE. So a 12-iteration smoke ddG can sit on the exact key the release gate
+      # watches. This step prints the raw object store and grades every ddg.json by ITERATION COUNT from the
+      # spot commit store (smoke ceiling 4 iters vs a 2000-iter production leg), plus the $/ns board the
+      # release would have to clear. It reads and rents NOTHING.
+      #
+      # LAST, and `always()`, on purpose: evidence must never be able to block the tick that does the work,
+      # and it must still run when a step above failed — that is exactly when someone needs it.
+      - name: Terminus evidence — raw S3 artifacts + iteration-count grading + market snapshot
+        if: ${{ always() }}
+        working-directory: research/modalities
+        run: python step1_terminus_evidence.py
+
       - name: Commit the progress readout and any newly-armed watch entries
         if: ${{ always() }}
         run: |
@@ -146,6 +162,7 @@ jobs:
                    research/modalities/step1-fanout-map.json \
                    research/modalities/step1-fanout-launch-readout.txt \
                    research/modalities/step1-fanout-market-hold.json \
+                   research/modalities/step1-terminus-evidence.txt \
                    research/modalities/relaunch-market-hold.json \
                    research/modalities/vast-watch.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi

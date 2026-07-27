@@ -1,0 +1,95 @@
+{
+  "utc": "2026-07-27T13:22:14Z",
+  "launched": [
+    {
+      "gpu_name": "RTX 4090",
+      "replicate": 1,
+      "instance": "46006128",
+      "machine_id": 11892,
+      "dph": 0.1622222222222222,
+      "worst_case_usd": 0.0726
+    },
+    {
+      "gpu_name": "RTX 4090",
+      "replicate": 2,
+      "instance": "46006224",
+      "machine_id": 117850,
+      "dph": 0.19111111111111112,
+      "worst_case_usd": 0.0726
+    },
+    {
+      "gpu_name": "RTX 4090",
+      "replicate": 3,
+      "instance": "46006226",
+      "machine_id": 12227,
+      "dph": 0.1355555222222222,
+      "worst_case_usd": 0.0726
+    },
+    {
+      "gpu_name": "RTX 4090",
+      "replicate": 4,
+      "instance": "46006277",
+      "machine_id": 55559,
+      "dph": 0.1755555222222222,
+      "worst_case_usd": 0.0726
+    },
+    {
+      "gpu_name": "RTX 4080",
+      "replicate": 1,
+      "instance": "46006355",
+      "machine_id": 55547,
+      "dph": 0.1677037037037037,
+      "worst_case_usd": 0.073
+    },
+    {
+      "gpu_name": "RTX 4080",
+      "replicate": 2,
+      "instance": "46006357",
+      "machine_id": 136800,
+      "dph": 0.2555555555555556,
+      "worst_case_usd": 0.073
+    }
+  ],
+  "plan": [
+    {
+      "gpu_name": "RTX 4090",
+      "offer_id": 45658449,
+      "machine_id": 11892,
+      "min_bid": 0.16,
+      "bid": 0.1632,
+      "storage_usd_h": 0.01096,
+      "all_in_usd_h": 0.17416,
+      "worst_case_usd": 0.0726,
+      "n_offers": 5,
+      "vram_gb": 24.0,
+      "breakeven_ns_per_day": 736.5,
+      "breakeven_x_reference": 0.975,
+      "breakeven_label": "BENCH \u2014 clears below the reference card's measured rate",
+      "admit": true,
+      "reason": "admitted",
+      "committed_usd_after": 0.0726
+    },
+    {
+      "gpu_name": "RTX 4080",
+      "offer_id": 45253020,
+      "machine_id": 55547,
+      "min_bid": 0.16667,
+      "bid": 0.17,
+      "storage_usd_h": 0.00511,
+      "all_in_usd_h": 0.17511,
+      "worst_case_usd": 0.073,
+      "n_offers": 1,
+      "vram_gb": 16.0,
+      "breakeven_ns_per_day": 739.9,
+      "breakeven_x_reference": 0.98,
+      "breakeven_label": "BENCH \u2014 clears below the reference card's measured rate",
+      "admit": true,
+      "reason": "admitted",
+      "committed_usd_after": 0.1456,
+      "submit_errors": [
+        "r3: RuntimeError: vast: no rentable verified offer for ResourceSpec(gpu='RTX 4080', min_vram_gb=16, vcpus=4, ram_gb=16, disk_gb=40, min_reliability=0.9, interruptible=True, exclude_machine_ids=('136800', '55547'), max_usd_per_ns=None, require_gpu=True, min_cuda=13.0) (of 64 offers)",
+        "r4: RuntimeError: vast: no rentable verified offer for ResourceSpec(gpu='RTX 4080', min_vram_gb=16, vcpus=4, ram_gb=16, disk_gb=40, min_reliability=0.9, interruptible=True, exclude_machine_ids=('136800', '55547'), max_usd_per_ns=None, require_gpu=True, min_cuda=13.0) (of 64 offers)"
+      ]
+    }
+  ]
+}

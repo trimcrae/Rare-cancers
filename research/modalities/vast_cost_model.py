@@ -139,6 +139,59 @@ MEASURED_NS_PER_DAY_84K = {
 REFERENCE_CARD = "RTX4090"
 REFERENCE_NS_PER_H = MEASURED_NS_PER_DAY_84K[REFERENCE_CARD] / 24.0   # 31.47 ns per reference GPU-hour
 
+# =============================================================================================================
+# ★★ VARIANT SKUs — THREE BENCHED CARDS, AND AN ALLOW-LIST OF WHO MAY BORROW THEIR NUMBER (2026-07-27)
+# =============================================================================================================
+# THE DEFECT THIS REPLACES. `card_of` used to be a LONGEST-FIRST SUBSTRING match over the three keys above, so
+# any marketplace name containing one of them silently inherited that card's throughput. Verified at source:
+#
+#     RTX 3090 Ti -> RTX3090 (14.973 ns/h)   RTX 4080S -> RTX4080 (29.313)   RTX 4090D -> RTX4090 (31.473)
+#
+# That is worse than being unpriceable. An UNKNOWN is visibly absent from the ranking; a substitution produces
+# a confident-looking `$/ns` that is wrong and that nothing downstream can distinguish from a measurement. It
+# is the same failure shape as a fabricated constant, arriving through string normalisation instead of through
+# a typed number — and the repo has already retracted two rankings built on guessed throughput.
+#
+# ★ AND THE ACCIDENT WAS NOT EVEN CONSISTENT IN DIRECTION. That is what settles the design:
+#
+#   * `RTX 3090 Ti` is a STRICT SPEC SUPERSET of the 3090 (same GA102: 10752 vs 10496 CUDA cores, 1008 vs
+#     936 GB/s, higher TGP). Borrowing the 3090's number therefore UNDERSTATES its throughput, which
+#     OVERSTATES its `$/ns`. We under-buy it. Safe direction.
+#   * `RTX 4080 SUPER` is likewise a strict superset of the 4080 (same AD103: 10240 vs 9728 cores, 736.3 vs
+#     716.8 GB/s). Same safe direction — and it matters today, because the cheapest gradeable offer on the
+#     2026-07-27 board is a 4080S, i.e. exactly the offer a per-unit gate would place FIRST. The rate we
+#     think we are buying is a conservative one; the rate we get can only be better.
+#   * `RTX 4090D` is the CUT-DOWN China SKU of the 4090 (14592 vs 16384 CUDA cores, ~11 % fewer). Borrowing
+#     the 4090's number OVERSTATES its throughput and UNDERSTATES its `$/ns` — it makes a slower card look
+#     like the reference and lures a rental in. **Unsafe direction, and it was on the live board.**
+#
+# THE RULE. A variant may borrow a benched figure ONLY IF it is a strict spec superset of that base SKU, so
+# the borrowed value is a LOWER BOUND on its true throughput and the resulting `$/ns` is an UPPER BOUND on its
+# true cost. Then the estimate can only ever make a card look WORSE than it is; it can never lure us into a
+# bad rental, only cause us to skip a good one. Anything else — a cut-down SKU, a different die, a card we
+# simply have not benched — resolves to None and is excluded from ranking exactly like an RTX 5090.
+#
+# ⚠ A CONSERVATIVE ALIAS IS A DERIVED FIGURE, NOT A MEASUREMENT. `throughput_provenance()` says which, every
+# caller that reports a rate is expected to carry it, and both entries below are on the bench shortlist so the
+# alias is a bridge rather than a resting place. The bound is one-sided and the size is small — the spec
+# deltas above cap the understatement at roughly 5-10 % — but it is not zero and must not be quoted as one.
+#
+# WHY NOT SIMPLY None FOR EVERYTHING UNBENCHED (the strictly-honest option)? Because it would delete the
+# CHEAP END of an already-thin board: on the 2026-07-27 8:29 AM ET board it drops `priceable` from 11 to 9 and
+# removes the single cheapest gradeable offer, at the exact moment a per-unit gate needs cheap gradeable
+# supply to place units against. A one-sided, labelled, spec-argued bound keeps that supply while making the
+# error impossible to be in our favour. Deleting it would be caution pointed at the wrong risk.
+CONSERVATIVE_ALIASES = {
+    # variant  : (benched base, why the base is a LOWER bound on this SKU's throughput)
+    "RTX3090TI": ("RTX3090", "same GA102 die, strict superset: 10752 vs 10496 CUDA cores, 1008 vs 936 GB/s"),
+    "RTX4080S":  ("RTX4080", "same AD103 die, strict superset: 10240 vs 9728 CUDA cores, 736.3 vs 716.8 GB/s"),
+}
+# Known-unsafe substrings, recorded so the removal cannot be undone by someone re-adding a substring match
+# without reading the argument above. Purely documentation for a test to assert against.
+ANTI_CONSERVATIVE_VARIANTS = {
+    "RTX4090D": ("RTX4090", "CUT-DOWN China SKU: 14592 vs 16384 CUDA cores — the base OVERSTATES it"),
+}
+
 HOURS_PER_MONTH = 730.0
 
 # Priors, flagged as such wherever they surface. See section 4.
@@ -158,18 +211,69 @@ BID_STALENESS_EPS = 0.02
 BID_MIN_TICK_USD = 0.0005
 
 
-def card_of(gpu_name):
-    """Longest-first match of an offer's gpu_name against the benched cards. None if never benched. PURE."""
-    n = str(gpu_name or "").replace(" ", "").replace("_", "").upper()
-    n = n.replace("SUPER", "S")
-    for k in sorted(MEASURED_NS_PER_DAY_84K, key=len, reverse=True):
-        if k in n:
+def normalise_gpu_name(gpu_name):
+    """A marketplace `gpu_name` reduced to the form the tables are keyed on. PURE."""
+    return str(gpu_name or "").replace(" ", "").replace("_", "").replace("-", "").upper().replace("SUPER", "S")
+
+
+def _model_key(gpu_name):
+    """The table key this name resolves to (a benched key or an alias key), or None. PURE.
+
+    SUFFIX-ANCHORED, longest key first — the one rule that gets every real name right:
+
+      * a VENDOR PREFIX is free, because the same card is called `RTX 4090` on the marketplace and
+        `NVIDIA GeForce RTX 4090` by the CUDA driver, and both must resolve to the same measurement;
+      * a TRAILING QUALIFIER is fatal, because that is exactly what distinguishes a different SKU —
+        `RTX 4090D` (cut-down), `RTX 3090 Ti` (faster), `RTX 4080 SUPER` (faster), a laptop part. Those may
+        only resolve through the explicit `CONSERVATIVE_ALIASES` allow-list, never by falling off the end of
+        a substring sweep.
+
+    The old rule was an unanchored substring match, which is how `RTX 4090D` came to be priced as a full
+    RTX 4090 — understating its `$/ns` in the direction that BUYS."""
+    n = normalise_gpu_name(gpu_name)
+    if not n:
+        return None
+    for k in sorted(set(MEASURED_NS_PER_DAY_84K) | set(CONSERVATIVE_ALIASES), key=len, reverse=True):
+        if n.endswith(k):
             return k
     return None
 
 
+def card_of(gpu_name):
+    """The benched card whose throughput this offer may use, or None. PURE.
+
+    See the block above `CONSERVATIVE_ALIASES`: a variant may borrow a benched figure only when it is a strict
+    spec superset of that base SKU, so the borrowed value is a LOWER bound and the resulting `$/ns` an UPPER
+    bound. Everything else is unbenched and excluded from ranking."""
+    k = _model_key(gpu_name)
+    if k is None:
+        return None
+    if k in MEASURED_NS_PER_DAY_84K:
+        return k
+    return CONSERVATIVE_ALIASES[k][0]
+
+
+def throughput_provenance(gpu_name):
+    """('measured'|'conservative_alias'|'unbenched', base_card, note) for this offer's throughput. PURE.
+
+    Exists so that no caller can report a `$/ns` without being able to say where its ns/h came from. A
+    conservative alias is a DERIVED figure with a known one-sided direction (it can only overstate cost), and
+    the whole reason the allow-list is safe is that everybody downstream can see it is an alias."""
+    k = _model_key(gpu_name)
+    if k in MEASURED_NS_PER_DAY_84K:
+        return "measured", k, "validated 2026-07-24 grid @84,534 particles"
+    if k in CONSERVATIVE_ALIASES:
+        base, why = CONSERVATIVE_ALIASES[k]
+        return ("conservative_alias", base,
+                f"DERIVED lower bound: borrows {base} because {why}; true $/ns can only be LOWER")
+    return "unbenched", None, "never benched — excluded from $/ns ranking rather than guessed at"
+
+
 def ns_per_hour(gpu_name):
-    """Measured ns/hr for this card at the ternary system size, or None if never benched. PURE."""
+    """ns/hr for this card at the ternary system size, or None if it may not borrow a benched figure. PURE.
+
+    For a `CONSERVATIVE_ALIASES` entry this is a LOWER BOUND, not a measurement — ask `throughput_provenance`
+    before quoting it as a rate."""
     c = card_of(gpu_name)
     return None if c is None else MEASURED_NS_PER_DAY_84K[c] / 24.0
 

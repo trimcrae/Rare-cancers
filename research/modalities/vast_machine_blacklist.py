@@ -106,6 +106,32 @@ def publish(s3, bucket, machine_id, why, lane, key=None):
     return True
 
 
+def backfill(s3, bucket, machine_ids, lane, why=None, key=None):
+    """Promote a lane's ALREADY-KNOWN host-scoped ids into the shared set. Returns the ids newly added.
+
+    ⚠ THE GAP THIS CLOSES, and it is the one that made the union look like it worked when it did not. `union`
+    and `publish` are both FORWARD-only: a lane publishes a host at the moment it observes the refusal, and
+    reads the union thereafter. Neither does anything about the hosts a lane condemned BEFORE the shared set
+    existed — which on 2026-07-27 was the entire population that mattered: the 5a-KS lane knew nine machines,
+    the fan-out knew one, and the shared key was empty. A fan-out reading `local ∪ shared` still could not see
+    machine 46392, so the exact rental the union was written to prevent would have happened again.
+
+    ★ ONLY A LIST THAT IS HOST-SCOPED BY CONSTRUCTION MAY BE BACKFILLED. `ternary_vast_launch`'s
+    `_blocked_machines` qualifies — every entry on it is a start refusal, which is a property of the machine.
+    The step 1 fan-out's own exclusion file does NOT: it mixes those with the sustained-`gpu_util` verdict,
+    which is a property of the machine PAIRED WITH THAT WORKLOAD and which `pricing.md` A.1 already withdrew
+    the broad version of. Backfilling that one wholesale would re-adopt the withdrawn rule for every lane —
+    so the caller passes the ids and owns the judgement, exactly as `publish` requires.
+
+    Best-effort and idempotent: already-shared ids are skipped, and any failure is reported and swallowed,
+    because seeding an optimisation must never be able to stop a launch."""
+    added = []
+    for mid in (machine_ids or []):
+        if publish(s3, bucket, mid, why or f"backfilled from {lane}'s refuse-to-start list", lane, key):
+            added.append(str(mid))
+    return added
+
+
 def main(argv=None):
     """`python vast_machine_blacklist.py [BUCKET]` — print the shared set. Read-only, $0."""
     import sys

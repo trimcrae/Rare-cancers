@@ -629,13 +629,19 @@ def test_a_hold_is_VISIBLE_and_never_silent():
     finished'. Every hold must reach the readout, the S3 state and a committed file, each with the snapshot."""
     import congeneric_fanout_vast as cfv
     src = open(cfv.__file__).read()
-    i = src.index("def market_hold(")
+    i = src.index("def market_gate(")
     body = src[i:src.index("\ndef mode_launch(")]
     assert "_lprint" in body, "a hold must reach the committed launch readout"
     assert "step1-fanout-market-hold.json" in body, "a hold must leave a committed snapshot file"
     assert "put_object" in body, "a hold must persist state so the NEXT tick can time the escalation"
-    for field in ("board_depth", "offers_priced", "projected_usd", "ceiling_usd", "ratio_vs_basis"):
+    for field in ("board_depth", "offers_priced", "spend_authorised_now_usd",
+                  "ceiling_for_that_spend_usd", "unit_usd_per_ns_ceiling", "binding_gate"):
         assert field in body, f"the snapshot must carry {field}"
+    # ★ A PARTIAL LAUNCH IS WHERE "never silent" is easiest to break: a tick that launches 5 of 19 and says
+    # nothing about the 14 is exactly the failure §6 names. Both halves must always be reported.
+    for field in ("n_launching_now", "n_held", "held_reason"):
+        assert field in body, f"a partial launch must record {field}"
+    assert "HELD" in body and "LAUNCHING NOW" in body, "both halves must reach the readout"
 
 
 def test_the_hold_readout_is_committed_by_both_launching_workflows():
@@ -654,9 +660,11 @@ def test_an_indefinite_hold_escalates_rather_than_idling_forever():
     import congeneric_fanout_vast as cfv
     src = open(cfv.__file__).read()
     assert "MARKET_HOLD_ESCALATE_H" in src
-    body = src[src.index("def market_hold("):src.index("\ndef mode_launch(")]
+    body = src[src.index("def market_gate("):src.index("\ndef mode_launch(")]
     assert "::error title=" in body, "the escalation must be a GitHub error annotation"
     assert "first_held_utc" in body, "escalation must be timed from the FIRST hold, not this tick"
+    assert "price_is_binding and held_h >=" in body, \
+        "the escalation must fire ONLY when price is the binding constraint"
     # and the escalation must actually fail the process
     assert "raise SystemExit(2)" in src and "_MARKET_HOLD_ESCALATED" in src
 
@@ -692,3 +700,310 @@ def test_the_guard_cannot_be_skipped_by_a_future_refactor():
     i_belt = launch.index("not _MARKET_GUARD_RAN")
     i_rent = launch.index("backend.submit(spec)")
     assert i_belt < i_rent, "the belt must sit before anything is rented"
+
+
+# ================================================================= THE CREDENTIAL PRE-FLIGHT
+# 2026-07-27: instance 45996071 was rented healthy and cheap, resumed the shakeout unit's complex leg to
+# production@2000, and then spent over an hour boot -> openfe import -> nvidia-smi -> `InvalidAccessKeyId` on
+# the staging copy -> `Killed`, on a ~15-60 s loop, at $0.2497/hr with 0 % GPU. Every existing guard passed
+# it: the $/ns gate prices the board (the board was fine), the starved-host exclusion needs commits to compare
+# (a host that dies before `s3 cp` produces none), and `phase.txt` still read `leg-solvent-running` because
+# the phase marker is only written forward. A rental whose credential cannot read the staged inputs is
+# worthless at any price, so the launcher asks that question FIRST.
+
+def test_credential_preflight_fails_closed_on_every_unusable_outcome():
+    """No credential, a rejected credential, and an empty staging prefix must ALL hold — and a resolver that
+    itself blows up must hold too, because "we could not check" is not "it works"."""
+    import congeneric_fanout_vast as cfv
+
+    class _Boom:
+        def list_objects_v2(self, **kw):
+            err = Exception("nope")
+            err.response = {"Error": {"Code": "InvalidAccessKeyId"}}
+            raise err
+
+    class _Empty:
+        def list_objects_v2(self, **kw):
+            return {"KeyCount": 0}
+
+    class _Ok:
+        def list_objects_v2(self, **kw):
+            return {"KeyCount": 1}
+
+    import gpu_backend
+    real_env, real_mode = gpu_backend._object_store_env, gpu_backend.object_store_cred_mode
+    import boto3
+    real_client = boto3.client
+    try:
+        gpu_backend.object_store_cred_mode = lambda *a, **k: "inherited"
+
+        gpu_backend._object_store_env = lambda *a, **k: {}
+        ok, why = cfv.object_store_preflight(bucket="b", prefix="p")
+        assert not ok and "no object-store credential" in why, why
+
+        gpu_backend._object_store_env = lambda *a, **k: {"AWS_ACCESS_KEY_ID": "AKIA_FAKE",
+                                                         "AWS_SECRET_ACCESS_KEY": "sekrit"}
+        boto3.client = lambda *a, **k: _Boom()
+        ok, why = cfv.object_store_preflight(bucket="b", prefix="p")
+        assert not ok and "InvalidAccessKeyId" in why, why
+        # The probe must never leak the credential it was handed into the reason string.
+        assert "AKIA_FAKE" not in why and "sekrit" not in why, why
+
+        boto3.client = lambda *a, **k: _Empty()
+        ok, why = cfv.object_store_preflight(bucket="b", prefix="p")
+        assert not ok and "EMPTY" in why, why
+
+        boto3.client = lambda *a, **k: _Ok()
+        ok, why = cfv.object_store_preflight(bucket="b", prefix="p")
+        assert ok, why
+    finally:
+        gpu_backend._object_store_env, gpu_backend.object_store_cred_mode = real_env, real_mode
+        boto3.client = real_client
+
+
+def test_credential_preflight_tests_the_FORWARDED_credential_not_the_runners():
+    """The whole point: on the day this was written the CI runner's own key listed the bucket fine minutes
+    either side of the host's rejection, so a probe built on `os.environ` would have passed while every
+    rental crash-looped. It must resolve through `gpu_backend._object_store_env`."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    fn = src[src.index("def object_store_preflight("):src.index("def mode_launch(")]
+    assert "_object_store_env" in fn, "the probe must test the credential the HOST is given"
+    assert "os.environ.get(\"AWS_ACCESS_KEY_ID\")" not in fn, "must not fall back to the runner's own key"
+
+
+def test_credential_preflight_runs_before_anything_is_rented():
+    """Ordering is the guarantee. It must sit before the price gate (cheaper question, decided first) and,
+    above all, before the rent call."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    launch = src[src.index("def mode_launch("):]
+    i_pre = launch.index("object_store_preflight()")
+    i_price = launch.index("THE $/ns MARKET GUARD")
+    i_rent = launch.index("backend.submit(spec)")
+    assert i_pre < i_price < i_rent, "pre-flight -> price gate -> rent"
+
+
+# ================================================================= PER-UNIT PLACEMENT
+# trimcrae, 2026-07-27: *"The fanout fleet doesn't all have to run at the same time. If 5 GPUs are cheap
+# enough and the rest aren't, only run 5."* The gate used to take a MEAN over the N cheapest offers and hold
+# all-or-nothing, so cheap capacity was refused because expensive capacity existed beside it.
+
+def _mult(u):
+    import congeneric_fanout as cf
+    return u / cf.basis_usd_per_ns()
+
+
+def test_two_cheap_among_eight_expensive_launches_two_and_holds_the_rest():
+    """The board that prompted the redesign, in miniature. The old mean would have refused all ten."""
+    import congeneric_fanout as cf
+    ceil = cf.unit_usd_per_ns_ceiling()
+    cheap = [ceil * 0.75, ceil * 0.8]
+    dear = [ceil * m for m in (1.5, 1.6, 1.9, 2.0, 2.1, 2.4, 2.7, 3.1)]
+    n, placed, why = cf.place_units(sorted(cheap + dear), 18)
+    assert n == 2, (n, placed)
+    assert placed == sorted(cheap)
+    assert why is None
+    # and the mean over all ten would have failed, which is the whole point
+    mean = sum(cheap + dear) / 10
+    assert mean > ceil, "the fixture must reproduce the mean-drags-it-over failure"
+
+
+def test_a_board_where_nothing_clears_launches_zero_and_still_says_why():
+    import congeneric_fanout as cf
+    ceil = cf.unit_usd_per_ns_ceiling()
+    n, placed, why = cf.place_units([ceil * 1.2, ceil * 5], 18)
+    assert n == 0 and placed == []
+    assert why and "cheapest offer" in why and "refused on the" in why, why
+
+
+def test_a_board_where_everything_clears_launches_everything():
+    import congeneric_fanout as cf
+    ceil = cf.unit_usd_per_ns_ceiling()
+    n, placed, why = cf.place_units([ceil * 0.5] * 6, 6)
+    assert n == 6 and why is None
+    # never more units than offers: one unit per host, because two on one host contend for its GPU
+    assert cf.place_units([ceil * 0.5] * 3, 19)[0] == 3
+
+
+def test_an_empty_or_unpriceable_board_is_a_hold_not_a_guess():
+    import congeneric_fanout as cf
+    n, placed, why = cf.place_units([], 5)
+    assert n == 0 and why and "unpriceable" in why
+
+
+def test_the_DOLLAR_ceiling_is_derived_from_the_tranche_ceiling_not_typed():
+    """★ The identity that makes per-unit placement a re-expression of the authorisation rather than a
+    loosening of it: both sides of market_verdict are linear in n, so the tranche test WAS a per-unit test.
+    Retained after trimcrae's 1.5x ruling because it is still what the DOLLAR ceiling means — the rate line
+    binds on top of it, it does not replace it."""
+    import congeneric_fanout as cf
+    dollar = cf._unit_dollar_ceiling_usd_per_ns()
+    assert abs(dollar - cf.market_ceiling_usd(1) / cf.reference_ns_per_unit()) < 1e-12
+    for n in (1, 3, 5, 18, 19):
+        # a unit priced just under the DOLLAR ceiling keeps ANY tranche size inside its own dollar band
+        ok, projected, ceiling, _r = cf.market_verdict(dollar * 0.99, n)
+        assert ok, (n, projected, ceiling)
+        assert not cf.market_verdict(dollar * 1.05, n)[0], n
+    src = open(cf.__file__).read()
+    fn = src[src.index("def _unit_dollar_ceiling_usd_per_ns("):src.index("# ★★ THE DRIFT LINE IS THE BUY")]
+    assert "market_ceiling_usd(1)" in fn, "must be DERIVED from the rung's own band, never typed"
+
+
+def test_the_drift_line_IS_the_buy_line_and_binds_on_top_of_the_dollar_ceiling():
+    """★ trimcrae, 2026-07-27: *"What's the point of tracking that if we don't act on it?"* A unit must clear
+    BOTH. Today the rate line is the lower, so nothing that prints ⚠ DRIFT can be bought."""
+    import congeneric_fanout as cf
+    b = cf.basis_usd_per_ns()
+    dollar, rate, eff, which = cf.unit_ceiling_components()
+    assert abs(rate - 1.5 * b) < 1e-12, "the rate line is 1.5x basis, derived not typed"
+    assert eff == min(dollar, rate), "a unit must clear BOTH constraints"
+    assert cf.unit_usd_per_ns_ceiling() == eff
+    # at today's basis the rate line is the binding one, and the readout must say so
+    assert rate < dollar and "rate line" in which, (rate, dollar, which)
+    # nothing at or above 1.5x can be placed any more
+    assert cf.place_units([1.49 * b, 1.51 * b, 2.0 * b], 5)[0] == 1
+    # and the refusal names which constraint it hit
+    assert "rate line" in cf.place_units([1.6 * b], 5)[2]
+
+
+def test_a_terminus_blocked_hold_does_not_escalate_on_price():
+    """★ THE CRY-WOLF FIX (2026-07-27). This escalated 'held 9.9 h on a bad market' while the terminus was
+    unmet — a window in which the 18 units could not have launched at any price, so price was never what
+    stopped them. An alert that fires on a hold price did not cause trains everyone to ignore the alerts
+    that matter."""
+    import congeneric_fanout_vast as cfv
+    # the pure half: which gate is binding
+    assert cfv.binding_gate((("terminus", False, "no ddg.json"),)) == ("terminus", "no ddg.json")
+    assert cfv.binding_gate((("terminus", True, "ok"), ("pre-flight", True, "ok"))) is None
+    assert cfv.binding_gate(())is None
+    # first shut gate wins the name, and a later clear one cannot mask it
+    assert cfv.binding_gate((("terminus", False, "a"), ("pre-flight", True, "b")))[0] == "terminus"
+
+    src = open(cfv.__file__).read()
+    body = src[src.index("def market_gate("):src.index("\ndef object_store_preflight(")]
+    # the clock must be CLEARED, not merely unread, while another gate is shut
+    assert "price_is_binding = (blocking is None)" in body
+    assert 'else (_utcnow() if price_is_binding else None)' in body, \
+        "first_held_utc must be cleared while price is not binding, not left ticking"
+    # with per-unit launching, 'price is binding' means NOT ONE unit could be placed
+    assert "n_place == 0" in body, "a tick that placed some units is not a price-bound tick"
+
+
+def test_the_terminus_is_passed_to_the_price_gate_from_the_launcher():
+    """The false alarm was possible because the terminus is enforced only under
+    FANOUT_REQUIRE_PROVEN_TERMINUS=1 while the hold clock in S3 is shared by every entry point."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    launch = src[src.index("def mode_launch("):]
+    assert "terminus_proven = done > 0" in launch, "computed unconditionally, at zero extra S3 cost"
+    i_term = launch.index("terminus_proven = done > 0")
+    i_gate = launch.index("market_gate(")
+    assert i_term < i_gate, "the terminus must be known before the price gate is consulted"
+    assert '("terminus", terminus_proven' in launch, "and actually handed to it"
+
+
+# ================================================================= THE GATE MUST BIND ON WHAT IS BOUGHT
+# 2026-07-27, rate-forensics lane: the market gate takes its OWN board snapshot and decides; `submit` then
+# calls `_select_cheapest_offer` against a SECOND, independently-fetched board. Measured that morning: the
+# gate cleared on machine 11892 at 1.388x basis and the launcher rented machine 55559 at 1.479x. Both were
+# under the line so nothing was lost, but the number in front of the decision was not the number paid — the
+# same class as the quote-vs-billed defect. It bites hardest under a PER-UNIT gate, whose whole premise is
+# "buy from the top of the ranking", because the top is exactly where a resources_unavailable sends us to a
+# fallback that is by definition worse than what was approved.
+
+def _capped_res(cap):
+    import gpu_backend as gb
+    return gb.ResourceSpec(gpu="rtx4090", min_vram_gb=16, min_cuda=13.0, max_usd_per_ns=cap)
+
+
+def _offer(name, bid, mid, storage=0.1):
+    return {"gpu_name": name, "min_bid": bid, "num_gpus": 1, "gpu_ram": 24576, "rentable": True,
+            "storage_cost": storage, "cuda_max_good": 13.0, "dph_total": bid, "machine_id": mid,
+            "id": mid, "reliability2": 0.99}
+
+
+def test_the_price_ceiling_travels_with_the_spec_into_selection():
+    """A cap on the spec must remove non-clearing offers from the RANKING, so the launcher cannot buy what
+    the gate refused — including on the fallback after a capacity refusal."""
+    import gpu_backend as gb
+    offers = [_offer("RTX 4090", 0.12, 1), _offer("RTX 4090", 0.90, 2)]
+    uncapped, _c = gb.rank_offers_by_usd_per_ns(offers, _capped_res(None))
+    assert len(uncapped) == 2, "with no cap the gate must SEE the expensive offer in order to report it"
+    cap = uncapped[0][0] * 1.05                      # admits the cheap one only
+    capped, _c2 = gb.rank_offers_by_usd_per_ns(offers, _capped_res(cap))
+    assert [o["machine_id"] for _u, _p, o in capped] == [1]
+    assert gb._select_cheapest_offer(offers, _capped_res(cap))["machine_id"] == 1
+
+
+def test_a_cap_that_nothing_clears_refuses_rather_than_falling_back():
+    """The fallback exists for a board where nothing is benched. Under a cap it must be unreachable: taking
+    an unpriceable card would wave through exactly the spend the cap refuses."""
+    import gpu_backend as gb
+    offers = [_offer("RTX 4090", 0.90, 1), _offer("RTX 4090", 1.20, 2)]
+    assert gb._select_cheapest_offer(offers, _capped_res(1e-9)) is None
+    # unbenched cards must not sneak through the cap either
+    assert gb._select_cheapest_offer([_offer("Totally Unknown GPU", 0.01, 3)], _capped_res(1e-9)) is None
+    # ...but with NO cap the unbenched fallback still works, which is the behaviour it is there for
+    assert gb._select_cheapest_offer([_offer("Totally Unknown GPU", 0.01, 3)], _capped_res(None)) is not None
+
+
+def test_the_fanout_actually_sets_the_cap_on_every_job_it_submits():
+    import congeneric_fanout as cf
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    fn = src[src.index("def build_jobspec("):src.index("# ---- S3 helpers")]
+    assert "max_usd_per_ns=_cf.unit_usd_per_ns_ceiling()" in fn, \
+        "every submitted spec must carry the same ceiling the gate cleared on"
+    assert cf.unit_usd_per_ns_ceiling() > 0
+
+
+def test_the_readout_reports_the_rate_ACTUALLY_rented_not_the_one_that_cleared():
+    """A readout quoting the cleared figure describes a purchase that did not happen. And it must be priced
+    off dph_total (what Vast bills, storage included), never the quote — forensics measured quotes as
+    understating the true rate by 9.05-26.41 % with no constant offset."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    fn = src[src.index("def _rented_usd_per_ns("):src.index("def mode_launch(")]
+    assert 'handle.extra.get("dph")' in fn, "must price the offer we got, off the billed rate"
+    assert 'handle.extra.get("min_bid")' not in fn and 'extra["min_bid"]' not in fn, \
+        "must NOT be derived from the quote"
+    loop = src[src.index("for u in batch:"):]
+    assert "_rented_usd_per_ns(h)" in loop and "RENTED AT" in loop
+
+    class _H:
+        extra = {"dph": 0.1384, "gpu_name": "RTX 4090"}
+    upn, cell = cfv._rented_usd_per_ns(_H())
+    assert upn and "x basis" in cell and "ABOVE THE" not in cell, cell
+
+    class _Unknown:
+        extra = {"dph": 0.5, "gpu_name": "Totally Unknown GPU"}
+    upn2, cell2 = cfv._rented_usd_per_ns(_Unknown())
+    assert upn2 is None and "UNKNOWN" in cell2, "an ungradeable rental must say so, not invent a figure"
+
+
+def test_the_dollar_ceiling_branch_is_REACHABLE_not_just_written():
+    """★ `unit_ceiling_components()` returns the derived dollar ceiling as binding whenever it is the lower
+    of the two. Today the rate line is lower, so that branch is dormant — and a dormant branch in the gate
+    that decides purchases is not somewhere to discover a bug. A repricing that pushed the rung's band top
+    below 1.5x basis would make it live, so it is exercised here against a stubbed band."""
+    import congeneric_fanout as cf
+    b = cf.basis_usd_per_ns()
+    real = cf.market_ceiling_usd
+    try:
+        # a band top low enough that the DOLLAR ceiling bites first (0.5x basis per unit)
+        cf.market_ceiling_usd = lambda n: 0.5 * b * cf.reference_ns_per_unit() * n
+        dollar, rate, eff, which = cf.unit_ceiling_components()
+        assert dollar < rate, (dollar, rate)
+        assert eff == dollar and "dollar ceiling" in which, which
+        assert cf.unit_usd_per_ns_ceiling() == dollar
+        # a unit under the 1.5x rate line but OVER the squeezed dollar ceiling must be refused, and the
+        # refusal must name the dollar ceiling rather than the rate line
+        n, _placed, why = cf.place_units([1.2 * b], 5)
+        assert n == 0 and "dollar ceiling" in why and "rate line" not in why, why
+        # ...and one under both still places
+        assert cf.place_units([0.4 * b], 5)[0] == 1
+    finally:
+        cf.market_ceiling_usd = real
+    # restored: the rate line binds again
+    assert "rate line" in cf.unit_ceiling_components()[3]

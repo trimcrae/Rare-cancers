@@ -58,6 +58,7 @@ from congeneric_fanout import (  # noqa: E402
 # is unit-tested without a Vast key and cannot drift from the ladder figures it is derived from.
 from congeneric_fanout import (  # noqa: E402
     basis_usd_per_ns as market_basis, market_verdict as cost_verdict)
+import congeneric_fanout as _cf  # noqa: E402  place_units / unit_usd_per_ns_ceiling / the cost block
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
@@ -65,7 +66,7 @@ BUCKET = os.environ.get("VAST_CKPT_BUCKET", "")
 STAGE_PREFIX = os.environ.get("STAGE_PREFIX", "nr4a3-step1-fanout/stage")
 RESULT_PREFIX = os.environ.get("RESULT_PREFIX", "nr4a3-step1-fanout/results")
 LABEL_PREFIX = "s1f-"
-# Set True by `market_hold()` once it has actually taken a snapshot and decided. The interim belt in
+# Set True by `market_gate()` once it has actually taken a snapshot and decided. The interim belt in
 # `mode_launch` refuses any multi-unit launch that reaches it with this still False.
 _MARKET_GUARD_RAN = False
 _MARKET_HOLD_ESCALATED = False
@@ -201,8 +202,12 @@ def build_jobspec(unit, branch, bucket, idx, exclude_machine_ids=()):
     already-built spec change under it."""
     import dataclasses
     label = f"{LABEL_PREFIX}{idx:02d}-{unit['ligand_b']}"[:64]
+    # The per-unit price ceiling travels WITH the spec, so the offer the launcher actually rents is bound by
+    # the same number `market_gate` cleared on — see ResourceSpec.max_usd_per_ns. Without this the gate
+    # prices one board and `submit` buys off another.
     res = dataclasses.replace(FANOUT_RES, exclude_machine_ids=tuple(sorted(str(m) for m in
-                                                                          exclude_machine_ids)))
+                                                                          exclude_machine_ids)),
+                              max_usd_per_ns=_cf.unit_usd_per_ns_ceiling())
     result_s3 = f"s3://{bucket}/{RESULT_PREFIX}/{unit['unit_id']}"
     ckpt = checkpoint_prefix(unit, RESULT_PREFIX)
     pipeline = (_PREAMBLE + _LEG + _REDUCE).replace("{repo}", REPO)
@@ -664,11 +669,32 @@ def market_snapshot(key, n_units, excluded=()):
     return best, depth, rows
 
 
-def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
-    """Decide whether a fleet launch may proceed. Returns True to HOLD.
+def binding_gate(gates):
+    """The FIRST gate that is refusing, or None if price is the only thing left. PURE -> unit-tested.
+
+    `gates` is an ordered [(name, clear, why)] of every gate evaluated BEFORE price. Order matters only for
+    which name is reported when several are shut; all of them appear in the readout regardless.
+    """
+    for name, clear, why in gates:
+        if not clear:
+            return name, why
+    return None
+
+
+def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
+    """HOW MANY of `n_withheld` units may be rented right now. 0 = a full hold; n_withheld = launch all.
 
     ⛔ CLAUDE.md §6: *"A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY."* trimcrae, 2026-07-26:
     *"I'd rather pause until availability opens than pay double per ns."*
+
+    ★★ AND IT PAUSES PER UNIT, NOT PER FLEET (trimcrae, 2026-07-27: *"The fanout fleet doesn't all have to
+    run at the same time. If 5 GPUs are cheap enough and the rest aren't, only run 5."*). This used to take
+    a MEAN over the N cheapest offers and hold all-or-nothing, which refused cheap capacity because
+    expensive capacity existed beside it: on the board that prompted the change, offers at 1.71x and 1.77x
+    basis were declined because three at 4.44x/4.63x/6.95x dragged the mean to 3.25x. §6 exists to stop us
+    PAYING a bad rate, not to stop us TAKING a good one, and the mean was never the right statistic for an
+    all-or-nothing decision. The placement arithmetic is `congeneric_fanout.place_units`, which also carries
+    the proof that splitting is scientifically free and costs the ladder nothing.
 
     The exposure this exists for is not a single host — it is the 18-edge release, which fires AUTOMATICALLY
     on the shakeout unit's ddg.json. On the night the rule was written the board had thinned to 5 offers from
@@ -687,48 +713,126 @@ def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
         same session-independent alert path the watchdogs already rely on, so it reaches trimcrae with no
         agent awake. The guard never buys in on its own; the escalation hands him the decision.
 
-    The gate is evaluated on the REMAINING TRANCHE, not on this tick's batch, because the authorisation is a
-    tranche-level band and a per-batch test would wave through nineteen expensive units one at a time.
+    ★★ THE ESCALATION ONLY FIRES WHEN PRICE IS THE **BINDING** CONSTRAINT (2026-07-27, after this escalated
+    "held 9.9 h on a bad market" while the TERMINUS was unmet — so the eighteen units could not have launched
+    at any price, and the 9.9 h measured a window in which this gate was never what was stopping them).
+    That is crying wolf, and it is the same class of error as the 4 AM escalation that read `first_held_utc`
+    as a duration: an alert that fires on a hold price did not cause trains everyone to ignore the alerts
+    that matter.
+
+    So `gates` carries every gate evaluated BEFORE price, and:
+      * if any of them is shut, this still HOLDS and still writes its snapshot — the price reading is real
+        and worth recording — but it does NOT escalate, and it **clears `first_held_utc` so the clock is not
+        merely paused but not running at all.** A clock that keeps ticking through a terminus block would
+        escalate the instant the terminus cleared, with a duration nobody could interpret.
+      * only when every other gate is CLEAR does the clock start, from that moment.
+    The readout NAMES the binding gate either way, so a reader cannot repeat the misreading.
+
+    ⚠ HOW THIS LANE ACTUALLY PRODUCED THE FALSE ALARM, because the shape matters: the terminus gate is
+    applied only under `FANOUT_REQUIRE_PROVEN_TERMINUS=1`, which the autoscale tick sets and a manual
+    `fanout_mode=launch` dispatch does not. The hold clock lives in S3 and is SHARED by both paths, so one
+    dispatch that ignored the terminus poisoned the timer for the path that honours it. Passing the terminus
+    in as a gate — computed from `done`, which the caller already has, at zero extra S3 cost — makes the
+    clock independent of which entry point wrote it.
+
+    `n_withheld` is the number of units this hold is actually REFUSING TO BUY, and it is deliberately
+    neither of its two neighbours. Not `len(batch)`: that is slot-limited, so a narrow tick would price a
+    slice and wave a tranche through a few units at a time — the salami the tranche-level test exists to
+    stop. Not `len(pending)`: that counts units already rented and running, whose cost is already committed,
+    which is how a 19-unit ceiling ($80.44) got quoted against an 18-unit hold ($76.21) and made the hold
+    look worse than it was. It is the pending units with no live instance — the set that would go out if
+    this gate said yes.
     """
     global _MARKET_GUARD_RAN
     hkey = f"{RESULT_PREFIX}/{_MARKET_HOLD_KEY_SUFFIX.lstrip('_')}"
     prev = _get_json(s3, bucket, hkey) or {}
+    blocking = binding_gate(gates)
     try:
-        best, depth, rows = market_snapshot(key, n_pending, excluded)
+        _best_mean, depth, rows = market_snapshot(key, n_withheld, excluded)
     except Exception as e:  # noqa: BLE001
         # A board we could not READ is not a board we may assume is cheap. Same discipline as the watchdog's
         # "unreadable is not zero": refuse, and say the refusal was for lack of evidence.
         _MARKET_GUARD_RAN = True
-        _lprint(f"[s1f] ⛔ MARKET GUARD COULD NOT READ THE BOARD ({type(e).__name__}: {e}) — HOLDING. An "
-                f"unreadable market is not a cheap one, and this gate exists precisely for the case where "
-                f"nobody is awake to check.")
-        return True
-
-    ok, projected, ceiling, ratio = cost_verdict(best, n_pending)
+        _lprint(f"[s1f] ⛔ MARKET GUARD COULD NOT READ THE BOARD ({type(e).__name__}: {e}) — HOLDING 0/"
+                f"{n_withheld}. An unreadable market is not a cheap one, and this gate exists precisely for "
+                f"the case where nobody is awake to check.")
+        return 0
     _MARKET_GUARD_RAN = True
     basis = market_basis()
-    head = (f"[s1f] MARKET GUARD ($/ns, CLAUDE.md §6): board {depth['offers_returned']} offers -> "
-            f"{depth['qualifying']} qualifying, {depth['priceable']} priceable; mean $/ns over the "
-            f"{depth['used_for_mean']} cheapest = "
-            + (f"${best:.6f}" if best is not None else "UNPRICEABLE")
-            + f" against a rung basis of ${basis:.6f}"
-            + (f" ({ratio}x)" if ratio is not None else "")
-            + f". Projected for the {n_pending} remaining unit(s): "
-            + (f"${projected}" if projected is not None else "n/a")
-            + f" against a ceiling of ${ceiling} (the TOP of this rung's own authorised band, derived from "
-              f"cost_estimate — not a number typed here).")
-    _lprint(head)
+    unit_ceiling = _cf.unit_usd_per_ns_ceiling()
 
-    doc = {"_what": "Why the step 1 fan-out did or did not launch, priced in $/ns. Written on EVERY guard "
-                    "pass, because a silent hold is indistinguishable from a finished fleet.",
-           "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay.",
-           "utc": _utcnow(), "held": (not ok), "n_pending": n_pending,
-           "mean_usd_per_ns_over_fleet": (round(best, 6) if best is not None else None),
-           "basis_usd_per_ns": round(basis, 6), "ratio_vs_basis": ratio,
-           "projected_usd": projected, "ceiling_usd": ceiling,
+    # PER-UNIT PLACEMENT. Each unit is judged on the offer it would actually occupy, one unit per offer
+    # (two on one host contend for its GPU). `rows` is already ranked ascending by the SAME
+    # rank_offers_by_usd_per_ns the renting path uses, so the gate cannot admit an offer the launcher
+    # would not buy.
+    ranked = [r["usd_per_ns"] for r in rows]
+    n_place, placed, why_none = _cf.place_units(ranked, n_withheld, unit_ceiling)
+    n_held = max(0, int(n_withheld) - n_place)
+    spend_now = _cf.projected_tranche_usd(max(placed), n_place) if placed else 0.0
+    ceiling_now = _cf.market_ceiling_usd(n_place) if n_place else 0.0
+
+    _dollar_ceil, _rate_line, _eff_ceil, _which_binds = _cf.unit_ceiling_components()
+    _lprint(f"[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board {depth['offers_returned']} offers -> "
+            f"{depth['qualifying']} qualifying, {depth['priceable']} priceable. A unit must clear BOTH the "
+            f"dollar ceiling ${_dollar_ceil:.6f}/ns ({_dollar_ceil / basis:.2f}x, derived from "
+            f"market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.5x drift line "
+            f"${_rate_line:.6f}/ns — effective ${unit_ceiling:.6f}/ns "
+            f"({unit_ceiling / basis:.2f}x), binding on the {_which_binds}. "
+            f"(trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)")
+    # ★ THE LINE THE RULE ACTUALLY REQUIRES. §6 forbids both a silent hold and a silently dropped unit, and
+    # a PARTIAL launch is where those are easiest to commit: a tick that launches 5 of 19 and says nothing
+    # about the 14 is precisely the failure. So both halves are always printed, with the price the held
+    # units are waiting for.
+    _lprint(f"[s1f] PLACEMENT: {n_place} unit(s) LAUNCHING NOW, {n_held} HELD for a better board "
+            f"(of {n_withheld} withheld this tick).")
+    for u in placed:
+        # ⚠ DRIFT is now UNREACHABLE on a placed unit — the drift line and the buy line are the same number
+        # since trimcrae's ruling. Printed anyway: a guard that cannot report its own failure is how this
+        # lane keeps finding things late.
+        _lprint(f"[s1f]   launch @ ${u:.6f}/ns · {u / basis:.2f}x basis"
+                + ("  ⛔ DRIFT ABOVE THE BUY LINE — this must not happen" if u / basis >= 1.5 else ""))
+    if n_held:
+        _lprint(f"[s1f]   HELD {n_held} unit(s) on the {_which_binds}: waiting for an offer at or below "
+                f"${unit_ceiling:.6f}/ns ({unit_ceiling / basis:.2f}x basis). "
+                + (why_none or f"the board had only {n_place} offer(s) that cheap this pass.")
+                + " They are NOT dropped — the pending set is recomputed from S3 every tick, so they go out "
+                  "automatically as the board improves.")
+    if n_place:
+        _lprint(f"[s1f]   spend authorised THIS TICK: ${spend_now} against ${ceiling_now} — the ceiling for "
+                f"the {n_place} unit(s) actually being BOUGHT, not for the notional full tranche.")
+
+    doc = {"_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in "
+                    "$/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a "
+                    "finished fleet — and a partial launch that reports only what it launched is the same "
+                    "failure wearing a better number.",
+           "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay. Per-unit "
+                    "since 2026-07-27 (trimcrae): if 5 GPUs are cheap enough and the rest are not, run 5.",
+           "utc": _utcnow(), "held": (n_held > 0), "n_withheld": n_withheld,
+           "n_launching_now": n_place, "n_held": n_held,
+           "unit_usd_per_ns_ceiling": round(unit_ceiling, 6),
+           "unit_ceiling_x_basis": round(unit_ceiling / basis, 3),
+           "unit_dollar_ceiling_usd_per_ns": round(_dollar_ceil, 6),
+           "unit_rate_line_usd_per_ns": round(_rate_line, 6),
+           "which_ceiling_binds": _which_binds,
+           "placed_usd_per_ns": [round(u, 6) for u in placed],
+           "placed_x_basis": [round(u / basis, 2) for u in placed],
+           "basis_usd_per_ns": round(basis, 6),
+           "spend_authorised_now_usd": spend_now, "ceiling_for_that_spend_usd": ceiling_now,
+           "held_reason": why_none,
            "board_depth": depth, "offers_priced": rows,
-           "first_held_utc": (prev.get("first_held_utc") if (not ok and prev.get("held")) else
-                              (_utcnow() if not ok else None))}
+           "binding_gate": (blocking[0] if blocking else ("price" if n_held else None)),
+           "binding_gate_why": (blocking[1] if blocking else None)}
+
+    # ★★ THE HOLD CLOCK RUNS ONLY WHILE PRICE IS THE BINDING CONSTRAINT.
+    #
+    # Cleared — not paused — whenever another gate is shut, and whenever at least one unit could be placed.
+    # With per-unit launching, "price is binding" means the strictly stronger thing that NOT ONE unit could
+    # be bought; a tick that placed 3 of 18 is a market that works, just slowly, and escalating on it would
+    # be the same cry-wolf in a new costume.
+    price_is_binding = (blocking is None) and n_place == 0 and n_held > 0
+    doc["price_is_binding"] = price_is_binding
+    doc["first_held_utc"] = (prev.get("first_held_utc") if (price_is_binding and prev.get("price_is_binding"))
+                             else (_utcnow() if price_is_binding else None))
 
     held_h = 0.0
     if doc["first_held_utc"]:
@@ -738,6 +842,10 @@ def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
         except (ValueError, TypeError):
             held_h = 0.0
     doc["held_hours"] = round(held_h, 2)
+
+    if blocking:
+        _lprint(f"[s1f] BINDING GATE: {blocking[0]} — {blocking[1]}. The price reading above is recorded but "
+                f"is NOT what is stopping these units, so the price-escalation clock is NOT running.")
 
     try:
         s3.put_object(Bucket=bucket, Key=hkey, Body=json.dumps(doc, indent=2).encode())
@@ -749,25 +857,106 @@ def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
     except Exception as e:  # noqa: BLE001
         _lprint(f"[s1f] market-hold readout not written: {e}")
 
-    if ok:
-        _lprint(f"[s1f] MARKET GUARD PASSED — the fleet is buyable inside the authorised band. Launching.")
-        return False
-
-    _lprint(f"[s1f] ⛔ FLEET LAUNCH HELD ON PRICE. Nothing was rented and no unit was silently dropped; the "
-            f"next scheduled tick re-checks. Offers priced this pass: {json.dumps(rows)}")
-    if held_h >= MARKET_HOLD_ESCALATE_H:
+    if price_is_binding and held_h >= MARKET_HOLD_ESCALATE_H:
         # The escalation. Not a decision the guard is allowed to make for him — a notification that one is
-        # now needed. `::error::` also fails the job, which is what actually reaches a phone.
-        print(f"::error title=STEP1 FAN-OUT HELD {held_h:.1f} H ON A BAD MARKET::The $/ns guard has refused "
-              f"the 18-edge release for {held_h:.1f} h (since {doc['first_held_utc']}). Best achievable is "
-              f"{ratio}x the rung basis, projecting ${projected} against a ${ceiling} ceiling. The guard will "
-              f"NOT buy in on its own — this needs a decision: wait longer, re-price the ladder against a "
-              f"changed market, or authorise the higher spend. Snapshot: step1-fanout-market-hold.json.",
-              flush=True)
-        _lprint(f"[s1f] ESCALATED — held {held_h:.1f} h (> {MARKET_HOLD_ESCALATE_H:.0f} h). This is now "
-                f"trimcrae's call, not the guard's; the job fails so GitHub notifies.")
+        # now needed. `::error::` also fails the job, which is what actually reaches a phone. Gated on
+        # `price_is_binding` so it can only fire when every other gate is clear AND not one unit was
+        # placeable: the 2026-07-27 false alarm escalated "held 9.9 h on a bad market" while the terminus
+        # was unmet, i.e. during a window in which this gate was never what stopped anything.
+        print(f"::error title=STEP1 FAN-OUT: NOT ONE UNIT PLACEABLE FOR {held_h:.1f} H::Every other gate is "
+              f"clear and the $/ns guard still cannot place a SINGLE one of {n_withheld} unit(s) — for "
+              f"{held_h:.1f} h (since {doc['first_held_utc']}). {why_none} The guard will NOT buy in on its "
+              f"own: this needs a decision — wait longer, re-price the ladder against a changed market, or "
+              f"authorise the higher spend. Snapshot: step1-fanout-market-hold.json.", flush=True)
+        _lprint(f"[s1f] ESCALATED — price has been the BINDING constraint for {held_h:.1f} h "
+                f"(> {MARKET_HOLD_ESCALATE_H:.0f} h) with zero units placeable. trimcrae's call now.")
         globals()["_MARKET_HOLD_ESCALATED"] = True
-    return True
+    return n_place
+
+
+def object_store_preflight(bucket=None, prefix=None):
+    """(ok, reason) — can the credential a RENTED HOST would be given actually read the staging prefix?
+
+    Tested with `gpu_backend._object_store_env()` rather than with the CI process's own environment, and that
+    distinction is the entire point: `_object_store_env` is the single place the forwarded credential is
+    chosen (scoped `vast-leg-s3` when configured, else the broad CI key), so asking IT means this check can
+    never drift from what the host receives. Testing `os.environ` instead would have passed happily on
+    2026-07-27 while every rental crash-looped, because the RUNNER's key listed the same bucket fine minutes
+    either side of the host's `InvalidAccessKeyId`.
+
+    The probe mirrors the leg's own first command — the `$AWS s3 cp "s3://$BUCKET/$STAGE_PREFIX/" ...` in
+    `_PREAMBLE` — as a `list_objects_v2` with `MaxKeys=1`, so a pass means the thing that actually failed now
+    works, not merely that some S3 call succeeds. `KeyCount == 0` is a FAILURE: the credential authenticated
+    but the staged tree is not there, and a leg would die on the `test -s` guard immediately after.
+
+    PURE-ish: reads env + does one S3 GET. Never prints, logs or returns any part of a credential — the
+    exposure incident this lane is already carrying began with a diagnostic that printed values it had not
+    named (research/compute/credential-exposure-2026-07-27.md).
+    """
+    bucket = bucket or _require_bucket()
+    prefix = (prefix or STAGE_PREFIX).strip("/")
+    try:
+        import boto3
+        from gpu_backend import _object_store_env, object_store_cred_mode
+    except Exception as e:  # noqa: BLE001
+        return False, f"could not load the credential resolver: {type(e).__name__}: {e}"
+    env = _object_store_env()
+    mode = object_store_cred_mode()
+    if not env.get("AWS_ACCESS_KEY_ID") or not env.get("AWS_SECRET_ACCESS_KEY"):
+        return False, (f"no object-store credential would be forwarded at all (mode={mode}) — a host cannot "
+                       f"read the staged inputs without one")
+    try:
+        cli = boto3.client(
+            "s3",
+            region_name=env.get("AWS_DEFAULT_REGION") or os.environ.get("AWS_DEFAULT_REGION", "us-east-2"),
+            aws_access_key_id=env["AWS_ACCESS_KEY_ID"],
+            aws_secret_access_key=env["AWS_SECRET_ACCESS_KEY"],
+            aws_session_token=env.get("AWS_SESSION_TOKEN"),
+        )
+        r = cli.list_objects_v2(Bucket=bucket, Prefix=f"{prefix}/", MaxKeys=1)
+    except Exception as e:  # noqa: BLE001
+        # The error CODE is the actionable half and carries nothing secret; the message may echo a key id, so
+        # only the code and the exception type are reported.
+        code = ""
+        try:
+            code = e.response["Error"]["Code"]  # type: ignore[attr-defined]
+        except Exception:  # noqa: BLE001
+            code = type(e).__name__
+        return False, (f"the {mode} credential was REJECTED by S3 ({code}) listing "
+                       f"s3://{bucket}/{prefix}/ — this is the leg's first command, so every rental would "
+                       f"crash-loop on it")
+    if not r.get("KeyCount"):
+        return False, (f"the {mode} credential works but s3://{bucket}/{prefix}/ is EMPTY — a leg would pass "
+                       f"the copy and then die on its `test -s` staged-input guard")
+    return True, f"the {mode} credential can read s3://{bucket}/{prefix}/ (the leg's first command)"
+
+
+def _rented_usd_per_ns(handle):
+    """(usd_per_ns, printable) for the offer a submit ACTUALLY took. None when the card is not benched.
+
+    Priced off `dph_total` — the rate Vast bills, storage included — which is the same quantity
+    `vast_cost_model.score_offer` feeds the gate, so the reported figure and the gate's are commensurable.
+    It is deliberately NOT derived from the `dph≈`/`min_bid` quote: the rate forensics measured quotes as
+    understating the true billed rate by 9.05 % / 12.94 % / 26.41 % (min/median/max) with NO constant offset,
+    because the gap scales with each machine's own `storage_cost` — which varies ~4.5x across one board. A
+    quote-derived multiple would make every unit look cheaper than it is.
+    """
+    import vast_cost_model as _vcm
+    dph = handle.extra.get("dph")
+    gpu = handle.extra.get("gpu_name") or handle.extra.get("gpu")
+    nsh = _vcm.ns_per_hour(gpu) if gpu else None
+    if not nsh or dph is None:
+        return None, (f"$/ns UNKNOWN — {gpu or 'card'} is not in the throughput table, so this rental "
+                      f"cannot be graded")
+    upn = float(dph) / nsh
+    basis = market_basis()
+    ceiling = _cf.unit_usd_per_ns_ceiling()
+    cell = f"${upn:.6f}/ns · {upn / basis:.2f}x basis"
+    if upn > ceiling:
+        cell += f"  ⛔ ABOVE THE ${ceiling:.6f}/ns CEILING THE GATE CLEARED — this must not happen"
+    elif upn / basis >= 1.5:
+        cell += "  ⚠ DRIFT"
+    return upn, cell
 
 
 def mode_launch():
@@ -837,6 +1026,18 @@ def mode_launch():
     # unit whose entire job is to produce that ddg.json. The cron would have ticked all night launching
     # nothing. So while the terminus is unproven the gate NARROWS to the shakeout unit instead of returning:
     # the fifteen cold units stay held, and the unit that is already paid for keeps going.
+    # ★ COMPUTED UNCONDITIONALLY, not inside the branch below, and at ZERO extra S3 cost — `done` already
+    # counts the units whose ddg.json exists, because `pending` was built from exactly that test. The price
+    # gate needs it as an INPUT (see `market_gate`'s `gates`): the terminus is enforced only under
+    # FANOUT_REQUIRE_PROVEN_TERMINUS=1, which the autoscale tick sets and a manual `fanout_mode=launch`
+    # dispatch does not — and the two share one hold clock in S3, so on 2026-07-27 a manual dispatch that
+    # ignored the terminus escalated "held 9.9 h on a bad market" for a window in which price was never what
+    # stopped anything. Passing it in makes the escalation independent of which entry point wrote the clock.
+    terminus_proven = done > 0
+    _terminus_why = ("at least one unit has a production ddg.json" if terminus_proven else
+                     "no unit has a ddg.json — reduce/commit/upload has never been observed on this lane, so "
+                     "these units cannot launch at ANY price")
+
     if os.environ.get("FANOUT_REQUIRE_PROVEN_TERMINUS") == "1":
         proven = [u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))]
         if proven:
@@ -874,6 +1075,57 @@ def mode_launch():
         _lprint("[s1f] nothing to submit (fleet already at width, or all units done)")
         _write_launch_readout()
         return
+
+    # ⛔ CREDENTIAL PRE-FLIGHT, BEFORE THE PRICE GATE — a rental that cannot read S3 is worthless at ANY
+    # price, so this is the cheaper question and it is asked first.
+    #
+    # MEASURED, 2026-07-27 (this is not a hypothetical). Instance 45996071 was rented at 7:02 AM ET, resumed
+    # the shakeout unit's complex leg to production@2000 and its solvent leg to production@200 — then from
+    # ~7:50 AM ET every container restart died on the FIRST line of real work, the staging copy in
+    # `_PREAMBLE`:
+    #     fatal error: An error occurred (InvalidAccessKeyId) when calling the ListObjectsV2 operation:
+    #     The AWS Access Key Id you provided does not exist in our records.
+    #     Killed
+    # boot -> openfe import -> nvidia-smi -> InvalidAccessKeyId -> Killed, on a ~15-60 s loop, for over an
+    # hour, at $0.2497/hr on a 4090 with 0 % GPU utilisation and not one further committed iteration.
+    #
+    # WHY THE EXISTING GUARDS ALL MISSED IT, which is the reason this needs its own check rather than a
+    # tweak to one of them:
+    #   * the $/ns gate prices the BOARD. The host was cheap and healthy; the credential was the broken part.
+    #   * the starved-host exclusion keys on realised throughput, which needs commits to compare — a host
+    #     that never gets past `s3 cp` produces none, so it is invisible to the ranking (the same blind spot
+    #     `exclude_machine_ids` exists for).
+    #   * `phase.txt` still said `leg-solvent-running`, because the phase marker is only ever written FORWARD
+    #     and nothing rewrites it when the container dies. The committed-iteration census is what caught it
+    #     — flat across three consecutive ticks with an idle GPU (CLAUDE.md §4).
+    #   * blacklisting the machine would have been the WRONG repair: the host is fine, and the next host
+    #     would have crash-looped identically. The failure is not per-host, so a per-host remedy just pays
+    #     the same bill somewhere else.
+    #
+    # WHAT THIS DOES AND DELIBERATELY DOES NOT DO. It asks the ONE question that decides whether a rental can
+    # work: using EXACTLY the credential `gpu_backend._object_store_env()` would forward — scoped or
+    # inherited, whichever is configured, so this cannot drift from what the host actually receives — can we
+    # list the staging prefix the leg's first command reads? It does not inspect, name, print, repair or
+    # rotate any credential; diagnosing an IAM key is not the launcher's job. It only refuses to BUY into one
+    # that does not work, and says so with the error S3 returned.
+    #
+    # It HOLDS rather than fails: same discipline as the market gate, and for the same reason — a hold is
+    # recoverable and visible, nothing is dropped, the commit store is untouched, and the next tick re-checks
+    # and launches by itself the moment the credential works again.
+    _preflight_ok, _preflight_why = True, "skipped (FANOUT_SKIP_CRED_PREFLIGHT=1)"
+    if os.environ.get("FANOUT_SKIP_CRED_PREFLIGHT") != "1":
+        ok, why = object_store_preflight()
+        _preflight_ok, _preflight_why = ok, why
+        _lprint(f"[s1f] CREDENTIAL PRE-FLIGHT: {'✅ CLEAR' if ok else '⛔ HELD'} — {why}")
+        if not ok:
+            _lprint(f"[s1f] ⛔ LAUNCH HELD ({len(batch)} unit(s)) — the object-store credential this rental "
+                    f"would be given cannot read s3://{_require_bucket()}/{STAGE_PREFIX}/, which is the "
+                    f"first thing every leg does. Renting would buy a container that boots, fails that copy "
+                    f"and is Killed, on a loop, while billing. Nothing was rented and no unit was dropped; "
+                    f"the checkpoints are untouched in S3 and the next tick re-checks automatically.")
+            _write_launch_readout()
+            return
+
     # ⛔ THE $/ns MARKET GUARD (CLAUDE.md §6). EVERY launch must clear a price gate — fleet or single unit.
     #
     # Placed here, AFTER the batch is known and BEFORE `FANOUT_CONFIRM`, for two reasons. It needs the batch
@@ -900,7 +1152,20 @@ def mode_launch():
                 "deliberate, recorded choice to spend outside the rung's authorised band.")
         _MARKET_GUARD_RAN = True
     elif len(batch) > 1:
-        if market_hold(len(batch), len(pending), bucket, s3, key, _excluded_for_guard):
+        # PER-UNIT PLACEMENT (trimcrae, 2026-07-27): the gate returns HOW MANY units the board can take at a
+        # rate inside the rung's authorisation, not an all-or-nothing verdict on a fleet mean. The batch is
+        # truncated to that count; the remainder is not recorded anywhere as "dropped" because it does not
+        # need to be — `pending` is recomputed from S3 on every tick, so a held unit is simply pending again
+        # next tick and goes out the moment an offer clears for it.
+        #
+        # `gates` is what makes the price-escalation honest: the terminus is passed in so a hold caused by an
+        # unmet terminus can never be reported, or escalated, as a hold caused by price.
+        _n_allowed = market_gate(len(batch), bucket, s3, key, _excluded_for_guard,
+                                 gates=(("terminus", terminus_proven, _terminus_why),
+                                        ("credential pre-flight", _preflight_ok, _preflight_why)))
+        batch = batch[:_n_allowed]
+        if not batch:
+            _lprint("[s1f] nothing rented this tick. No unit was dropped; the next tick re-prices.")
             _write_launch_readout()
             return
     else:
@@ -985,7 +1250,16 @@ def mode_launch():
         # spend and absent from the watch list. Fanned 19 wide it would have submitted exactly one unit per
         # tick, none of them ledgered or watched. tests/test_congeneric_fanout.py now binds every internal
         # call in this module against its callee's signature, statically, so this class cannot recur.
-        _lprint(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} dph≈${_dph}/hr{_prem}")
+        # ★ REPORT THE $/ns OF THE OFFER ACTUALLY RENTED, not the one the gate cleared on (2026-07-27).
+        # Those were never the same object — the gate reads one board, `submit` selects off another — so a
+        # readout quoting the cleared figure describes a purchase that did not happen. `_rented_usd_per_ns`
+        # prices the offer we got, and flags it against both lines: the §1 1.5x reporting line and the
+        # binding per-unit ceiling. `⛔ ABOVE CEILING` should now be unreachable (ResourceSpec.max_usd_per_ns
+        # makes it so) and is printed anyway, because a guard that cannot report its own failure is how this
+        # lane keeps discovering things late.
+        _upn, _cell = _rented_usd_per_ns(h)
+        _lprint(f"[s1f] submitted {spec.name} -> instance {h.job_id} machine {_mid} "
+                f"dph≈${_dph}/hr{_prem} | RENTED AT {_cell}")
         handles.append({"unit_id": u["unit_id"], "label": spec.name, "instance": h.job_id,
                         "machine_id": _mid, "dph": h.extra.get("dph"),
                         "min_bid": _floor, "bid": _bid})

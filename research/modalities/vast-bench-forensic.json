@@ -1,0 +1,114 @@
+{
+  "utc": "2026-07-27T13:13:44Z",
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "artifacts": [
+    {
+      "key": "vast-bench-results/bench-a10-9p5nm/bench.json",
+      "size": 388,
+      "last_modified": "2026-07-24T23:15:37+00:00",
+      "body": "{\n  \"tag\": \"bench-a10-9p5nm\",\n  \"status\": \"OK\",\n  \"atoms\": \"84534\",\n  \"platform\": \"CUDA\",\n  \"device\": \"'Quadro\",\n  \"steps\": \"4000\",\n  \"dt_fs\": \"4.0\",\n  \"wall_s\": \"4.2\",\n  \"ns_per_day\": \"332.50\",\n  \"_raw\": \"BENCH_RESULT tag=bench-a10-9p5nm status=OK atoms=84534 platform=CUDA device='Quadro RTX 8000' steps=4000 dt_fs=4.0 wall_s=4.2 ns_per_day=332.50\",\n  \"gpu\": \"a10\",\n  \"edge_nm\": \"9.5\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-a10-9p5nm/bench.out",
+      "size": 1107,
+      "last_modified": "2026-07-24T23:15:38+00:00",
+      "body": "[bench] plugins didn't auto-load; reloaded from ['/opt/mamba/envs/md/lib/plugins']\n[bench] platforms=['Reference', 'CPU', 'CUDA']\n[bench] plugin_load_failures=['Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMRPMDHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMDrudeHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMAmoebaHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory']\nBENCH_RESULT tag=bench-a10-9p5nm status=OK atoms=84534 platform=CUDA device='Quadro RTX 8000' steps=4000 dt_fs=4.0 wall_s=4.2 ns_per_day=332.50\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    },
+    {
+      "key": "vast-bench-results/bench-l4-9p5nm/bench.json",
+      "size": 646,
+      "last_modified": "2026-07-27T10:36:42+00:00",
+      "body": "{\n  \"tag\": \"bench-l4-9p5nm\",\n  \"status\": \"OK\",\n  \"atoms\": \"84534\",\n  \"platform\": \"CUDA\",\n  \"device\": \"NVIDIA_L4\",\n  \"steps\": \"49533\",\n  \"dt_fs\": \"4.0\",\n  \"wall_s\": \"65.5\",\n  \"ns_per_day\": \"262.30\",\n  \"sd\": \"20.83\",\n  \"cv\": \"0.0794\",\n  \"blocks\": \"3\",\n  \"blocks_ns_day\": \"285.11,257.47,244.31\",\n  \"final_temp_k\": \"301.0\",\n  \"healthy\": \"True\",\n  \"_raw\": \"BENCH_RESULT tag=bench-l4-9p5nm status=OK atoms=84534 platform=CUDA device=NVIDIA_L4 steps=49533 dt_fs=4.0 wall_s=65.5 ns_per_day=262.30 sd=20.83 cv=0.0794 blocks=3 blocks_ns_day=285.11,257.47,244.31 final_temp_k=301.0 healthy=True\",\n  \"gpu_requested\": \"l4\",\n  \"gpu\": \"l4\",\n  \"edge_nm\": \"9.5\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-l4-9p5nm/bench.out",
+      "size": 1464,
+      "last_modified": "2026-07-27T10:36:43+00:00",
+      "body": "[bench] plugins didn't auto-load; reloaded from ['/opt/mamba/envs/md/lib/plugins']\n[bench] platforms=['Reference', 'CPU', 'CUDA']\n[bench] plugin_load_failures=['Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMRPMDHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMDrudeHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMAmoebaHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory']\n[bench] block 1/3: 16511 steps in 20.0s -> 285.11 ns/day\n[bench] block 2/3: 16511 steps in 22.2s -> 257.47 ns/day\n[bench] block 3/3: 16511 steps in 23.4s -> 244.31 ns/day\n[bench] mean 262.30 ns/day  sd 20.83  cv 7.9%  final_T 301.0K  PE -1.126e+06 kJ/mol  healthy=True\nBENCH_RESULT tag=bench-l4-9p5nm status=OK atoms=84534 platform=CUDA device=NVIDIA_L4 steps=49533 dt_fs=4.0 wall_s=65.5 ns_per_day=262.30 sd=20.83 cv=0.0794 blocks=3 blocks_ns_day=285.11,257.47,244.31 final_temp_k=301.0 healthy=True\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx3090-16p5nm/bench.json",
+      "size": 413,
+      "last_modified": "2026-07-23T21:34:40+00:00",
+      "body": "{\n  \"tag\": \"bench-rtx3090-16p5nm\",\n  \"status\": \"OK\",\n  \"atoms\": \"443856\",\n  \"platform\": \"CUDA\",\n  \"device\": \"'NVIDIA\",\n  \"steps\": \"4000\",\n  \"dt_fs\": \"4.0\",\n  \"wall_s\": \"19.0\",\n  \"ns_per_day\": \"72.93\",\n  \"_raw\": \"BENCH_RESULT tag=bench-rtx3090-16p5nm status=OK atoms=443856 platform=CUDA device='NVIDIA GeForce RTX 3090' steps=4000 dt_fs=4.0 wall_s=19.0 ns_per_day=72.93\",\n  \"gpu\": \"rtx3090\",\n  \"edge_nm\": \"16.5\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx3090-16p5nm/bench.out",
+      "size": 1121,
+      "last_modified": "2026-07-23T21:34:41+00:00",
+      "body": "[bench] plugins didn't auto-load; reloaded from ['/opt/mamba/envs/md/lib/plugins']\n[bench] platforms=['Reference', 'CPU', 'CUDA']\n[bench] plugin_load_failures=['Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMRPMDHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMDrudeHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMAmoebaHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory']\nBENCH_RESULT tag=bench-rtx3090-16p5nm status=OK atoms=443856 platform=CUDA device='NVIDIA GeForce RTX 3090' steps=4000 dt_fs=4.0 wall_s=19.0 ns_per_day=72.93\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx3090-7p1nm/bench.json",
+      "size": 335,
+      "last_modified": "2026-07-23T19:58:21+00:00",
+      "body": "{\n  \"tag\": \"bench-rtx3090-7p1nm\",\n  \"status\": \"ERROR\",\n  \"err\": \"RuntimeError:CUDA\",\n  \"platforms\": \"['Reference'];\",\n  \"failures\": \"[]\",\n  \"_raw\": \"BENCH_RESULT tag=bench-rtx3090-7p1nm status=ERROR err=RuntimeError:CUDA platform REQUIRED but unavailable. platforms=['Reference']; failures=[]\",\n  \"gpu\": \"rtx3090\",\n  \"edge_nm\": \"7.1\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx3090-7p1nm/bench.out",
+      "size": 376,
+      "last_modified": "2026-07-23T19:58:22+00:00",
+      "body": "[bench] platforms=['Reference']\nBENCH_RESULT tag=bench-rtx3090-7p1nm status=ERROR err=RuntimeError:CUDA platform REQUIRED but unavailable. platforms=['Reference']; failures=[]\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx3090-9p5nm/bench.json",
+      "size": 692,
+      "last_modified": "2026-07-27T02:02:49+00:00",
+      "body": "{\n  \"tag\": \"bench-rtx3090-9p5nm\",\n  \"status\": \"OK\",\n  \"atoms\": \"84534\",\n  \"platform\": \"CUDA\",\n  \"device\": \"NVIDIA_GeForce_RTX_3090\",\n  \"steps\": \"64467\",\n  \"dt_fs\": \"4.0\",\n  \"wall_s\": \"60.7\",\n  \"ns_per_day\": \"366.87\",\n  \"sd\": \"5.37\",\n  \"cv\": \"0.0146\",\n  \"blocks\": \"3\",\n  \"blocks_ns_day\": \"372.25,366.84,361.51\",\n  \"final_temp_k\": \"301.3\",\n  \"healthy\": \"True\",\n  \"_raw\": \"BENCH_RESULT tag=bench-rtx3090-9p5nm status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090 steps=64467 dt_fs=4.0 wall_s=60.7 ns_per_day=366.87 sd=5.37 cv=0.0146 blocks=3 blocks_ns_day=372.25,366.84,361.51 final_temp_k=301.3 healthy=True\",\n  \"gpu_requested\": \"rtx3090\",\n  \"gpu\": \"rtx3090\",\n  \"edge_nm\": \"9.5\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx3090-9p5nm/bench.out",
+      "size": 1481,
+      "last_modified": "2026-07-27T02:02:52+00:00",
+      "body": "[bench] plugins didn't auto-load; reloaded from ['/opt/mamba/envs/md/lib/plugins']\n[bench] platforms=['Reference', 'CPU', 'CUDA']\n[bench] plugin_load_failures=['Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMRPMDHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMDrudeHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMAmoebaHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory']\n[bench] block 1/3: 21489 steps in 20.0s -> 372.25 ns/day\n[bench] block 2/3: 21489 steps in 20.2s -> 366.84 ns/day\n[bench] block 3/3: 21489 steps in 20.5s -> 361.51 ns/day\n[bench] mean 366.87 ns/day  sd 5.37  cv 1.5%  final_T 301.3K  PE -1.127e+06 kJ/mol  healthy=True\nBENCH_RESULT tag=bench-rtx3090-9p5nm status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090 steps=64467 dt_fs=4.0 wall_s=60.7 ns_per_day=366.87 sd=5.37 cv=0.0146 blocks=3 blocks_ns_day=372.25,366.84,361.51 final_temp_k=301.3 healthy=True\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx4080-9p5nm/bench.json",
+      "size": 694,
+      "last_modified": "2026-07-27T11:28:10+00:00",
+      "body": "{\n  \"tag\": \"bench-rtx4080-9p5nm\",\n  \"status\": \"OK\",\n  \"atoms\": \"84534\",\n  \"platform\": \"CUDA\",\n  \"device\": \"NVIDIA_GeForce_RTX_4080\",\n  \"steps\": \"120681\",\n  \"dt_fs\": \"4.0\",\n  \"wall_s\": \"59.1\",\n  \"ns_per_day\": \"705.58\",\n  \"sd\": \"2.33\",\n  \"cv\": \"0.0033\",\n  \"blocks\": \"3\",\n  \"blocks_ns_day\": \"702.89,706.74,707.10\",\n  \"final_temp_k\": \"299.8\",\n  \"healthy\": \"True\",\n  \"_raw\": \"BENCH_RESULT tag=bench-rtx4080-9p5nm status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4080 steps=120681 dt_fs=4.0 wall_s=59.1 ns_per_day=705.58 sd=2.33 cv=0.0033 blocks=3 blocks_ns_day=702.89,706.74,707.10 final_temp_k=299.8 healthy=True\",\n  \"gpu_requested\": \"rtx4080\",\n  \"gpu\": \"rtx4080\",\n  \"edge_nm\": \"9.5\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx4080-9p5nm/bench.out",
+      "size": 1482,
+      "last_modified": "2026-07-27T11:28:10+00:00",
+      "body": "[bench] plugins didn't auto-load; reloaded from ['/opt/mamba/envs/md/lib/plugins']\n[bench] platforms=['Reference', 'CPU', 'CUDA']\n[bench] plugin_load_failures=['Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMRPMDHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMDrudeHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMAmoebaHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory']\n[bench] block 1/3: 40227 steps in 19.8s -> 702.89 ns/day\n[bench] block 2/3: 40227 steps in 19.7s -> 706.74 ns/day\n[bench] block 3/3: 40227 steps in 19.7s -> 707.10 ns/day\n[bench] mean 705.58 ns/day  sd 2.33  cv 0.3%  final_T 299.8K  PE -1.127e+06 kJ/mol  healthy=True\nBENCH_RESULT tag=bench-rtx4080-9p5nm status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4080 steps=120681 dt_fs=4.0 wall_s=59.1 ns_per_day=705.58 sd=2.33 cv=0.0033 blocks=3 blocks_ns_day=702.89,706.74,707.10 final_temp_k=299.8 healthy=True\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx4090-16p5nm/bench.json",
+      "size": 413,
+      "last_modified": "2026-07-23T21:05:10+00:00",
+      "body": "{\n  \"tag\": \"bench-rtx4090-16p5nm\",\n  \"status\": \"OK\",\n  \"atoms\": \"443856\",\n  \"platform\": \"CUDA\",\n  \"device\": \"'NVIDIA\",\n  \"steps\": \"4000\",\n  \"dt_fs\": \"4.0\",\n  \"wall_s\": \"7.9\",\n  \"ns_per_day\": \"175.64\",\n  \"_raw\": \"BENCH_RESULT tag=bench-rtx4090-16p5nm status=OK atoms=443856 platform=CUDA device='NVIDIA GeForce RTX 4090' steps=4000 dt_fs=4.0 wall_s=7.9 ns_per_day=175.64\",\n  \"gpu\": \"rtx4090\",\n  \"edge_nm\": \"16.5\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx4090-16p5nm/bench.out",
+      "size": 1121,
+      "last_modified": "2026-07-23T21:05:11+00:00",
+      "body": "[bench] plugins didn't auto-load; reloaded from ['/opt/mamba/envs/md/lib/plugins']\n[bench] platforms=['Reference', 'CPU', 'CUDA']\n[bench] plugin_load_failures=['Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMRPMDHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMDrudeHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMAmoebaHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory']\nBENCH_RESULT tag=bench-rtx4090-16p5nm status=OK atoms=443856 platform=CUDA device='NVIDIA GeForce RTX 4090' steps=4000 dt_fs=4.0 wall_s=7.9 ns_per_day=175.64\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx4090-7p1nm/bench.json",
+      "size": 410,
+      "last_modified": "2026-07-23T20:48:00+00:00",
+      "body": "{\n  \"tag\": \"bench-rtx4090-7p1nm\",\n  \"status\": \"OK\",\n  \"atoms\": \"35211\",\n  \"platform\": \"CUDA\",\n  \"device\": \"'NVIDIA\",\n  \"steps\": \"4000\",\n  \"dt_fs\": \"4.0\",\n  \"wall_s\": \"0.9\",\n  \"ns_per_day\": \"1549.08\",\n  \"_raw\": \"BENCH_RESULT tag=bench-rtx4090-7p1nm status=OK atoms=35211 platform=CUDA device='NVIDIA GeForce RTX 4090' steps=4000 dt_fs=4.0 wall_s=0.9 ns_per_day=1549.08\",\n  \"gpu\": \"rtx4090\",\n  \"edge_nm\": \"7.1\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx4090-7p1nm/bench.out",
+      "size": 1120,
+      "last_modified": "2026-07-23T20:48:01+00:00",
+      "body": "[bench] plugins didn't auto-load; reloaded from ['/opt/mamba/envs/md/lib/plugins']\n[bench] platforms=['Reference', 'CPU', 'CUDA']\n[bench] plugin_load_failures=['Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMRPMDHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMDrudeHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMAmoebaHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory']\nBENCH_RESULT tag=bench-rtx4090-7p1nm status=OK atoms=35211 platform=CUDA device='NVIDIA GeForce RTX 4090' steps=4000 dt_fs=4.0 wall_s=0.9 ns_per_day=1549.08\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx4090-9p5nm/bench.json",
+      "size": 694,
+      "last_modified": "2026-07-27T11:28:00+00:00",
+      "body": "{\n  \"tag\": \"bench-rtx4090-9p5nm\",\n  \"status\": \"OK\",\n  \"atoms\": \"84534\",\n  \"platform\": \"CUDA\",\n  \"device\": \"NVIDIA_GeForce_RTX_4090\",\n  \"steps\": \"120390\",\n  \"dt_fs\": \"4.0\",\n  \"wall_s\": \"57.2\",\n  \"ns_per_day\": \"726.79\",\n  \"sd\": \"1.98\",\n  \"cv\": \"0.0027\",\n  \"blocks\": \"3\",\n  \"blocks_ns_day\": \"727.19,724.64,728.53\",\n  \"final_temp_k\": \"299.8\",\n  \"healthy\": \"True\",\n  \"_raw\": \"BENCH_RESULT tag=bench-rtx4090-9p5nm status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4090 steps=120390 dt_fs=4.0 wall_s=57.2 ns_per_day=726.79 sd=1.98 cv=0.0027 blocks=3 blocks_ns_day=727.19,724.64,728.53 final_temp_k=299.8 healthy=True\",\n  \"gpu_requested\": \"rtx4090\",\n  \"gpu\": \"rtx4090\",\n  \"edge_nm\": \"9.5\"\n}"
+    },
+    {
+      "key": "vast-bench-results/bench-rtx4090-9p5nm/bench.out",
+      "size": 1482,
+      "last_modified": "2026-07-27T11:28:01+00:00",
+      "body": "[bench] plugins didn't auto-load; reloaded from ['/opt/mamba/envs/md/lib/plugins']\n[bench] platforms=['Reference', 'CPU', 'CUDA']\n[bench] plugin_load_failures=['Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMRPMDHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMDrudeHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory', 'Error loading library /opt/mamba/envs/md/lib/plugins/libOpenMMAmoebaHIP.so: libhiprtc.so.6: cannot open shared object file: No such file or directory']\n[bench] block 1/3: 40130 steps in 19.1s -> 727.19 ns/day\n[bench] block 2/3: 40130 steps in 19.1s -> 724.64 ns/day\n[bench] block 3/3: 40130 steps in 19.0s -> 728.53 ns/day\n[bench] mean 726.79 ns/day  sd 1.98  cv 0.3%  final_T 299.8K  PE -1.126e+06 kJ/mol  healthy=True\nBENCH_RESULT tag=bench-rtx4090-9p5nm status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4090 steps=120390 dt_fs=4.0 wall_s=57.2 ns_per_day=726.79 sd=1.98 cv=0.0027 blocks=3 blocks_ns_day=727.19,724.64,728.53 final_temp_k=299.8 healthy=True\n[teardown] releasing GPU via mock-terminate self (job-exit)\n[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!\n"
+    }
+  ]
+}

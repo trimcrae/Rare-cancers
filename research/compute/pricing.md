@@ -108,6 +108,51 @@ is not fed back into selection.** The correct rule is therefore narrower than th
 constant is not a throughput model, and host CPU has to enter selection.** For plain-MD legs the existing
 ranking is fine.
 
+### ⚠ A.2 — THE TABLE HOLDS **THREE** CARDS, AND VARIANT SKUs USED TO BORROW THEIR NUMBER BY ACCIDENT (2026-07-27)
+
+`card_of` matched an offer's `gpu_name` by **unanchored substring**, so any name containing a benched key
+inherited that card's throughput. Three live cases, and the direction was **not** consistent:
+
+| marketplace name | inherited | direction | effect on `$/ns` |
+|---|---|---|---|
+| `RTX 3090 Ti` | RTX 3090 | strict spec **superset** (10752 vs 10496 cores, 1008 vs 936 GB/s) | overstated → we **under-buy**. Safe |
+| `RTX 4080 SUPER` | RTX 4080 | strict spec **superset** (10240 vs 9728 cores, 736.3 vs 716.8 GB/s) | overstated → safe, and load-bearing: a 4080S was the cheapest gradeable offer on this board |
+| `RTX 4090D` | RTX 4090 | **cut-down** China SKU (14592 vs 16384 cores) | **understated → lures a rental in. Unsafe** |
+
+**Rule now in force:** matching is **suffix-anchored** (a vendor prefix is free, a trailing qualifier is fatal)
+plus an explicit `vast_cost_model.CONSERVATIVE_ALIASES` allow-list admitting **only strict spec supersets**, for
+which the borrowed figure is a **lower bound** and the resulting `$/ns` an **upper bound** — the estimate can
+only ever make a card look worse than it is. `throughput_provenance()` labels an alias as **derived**, and both
+aliased variants are on the bench shortlist so this is a bridge, not a resting place. Everything else resolves
+to `None` and is excluded from ranking. **The three measured figures and `REFERENCE_NS_PER_H` are unchanged**
+(pinned by `tests/test_vast_board_census.py`). A second copy of the matcher lived in
+`gpu_backend.measured_ns_per_day` and now defers.
+
+**Why a labelled one-sided bound rather than refusing the aliases outright:** refusing drops the 8:29 AM ET
+board from 11 priceable to 9 and deletes the single cheapest gradeable offer, exactly when a per-unit gate
+needs cheap gradeable supply to place units against.
+
+### A.3 — WHY MOST OF A QUALIFYING BOARD IS UNPRICEABLE, AND WHICH CARDS CAN BE RULED OUT FOR $0
+
+The 2026-07-27 8:00 AM ET fan-out snapshot read **48 qualifying → 10 priceable against 19 needed**: every
+dropped offer cleared the hard filters and fell at the `$/ns` step for want of a benched `ns/h`. Regenerate the
+breakdown with `python research/modalities/vast_board_census.py` (read-only, `$0`; CI route
+`vast-price-sample.yml mode=census`) → [`vast-board-census.json`](../modalities/vast-board-census.json).
+
+The census answers **rule-out** and **rule-in** separately, because they need opposite bounds:
+
+- **Rule OUT** needs an **upper** bound on `ns/h`, and costs `$0`. Three predictors (manufacturer FP32,
+  manufacturer memory bandwidth, Vast's `dlperf`) are each fitted proportionally on the benched cards, inflated
+  by their own **worst leave-one-out under-prediction**, and the **maximum** is taken — the friendliest reading
+  three disagreeing heuristics can defend — then a further ×1.25 margin is required before anything is called
+  dead.
+- **Rule IN** needs a **lower** bound, which no spec sheet supplies. That is the only thing a bench buys.
+
+**The derived-throughput route is refuted, not merely distrusted** (`--proxy-audit`, leave-one-out over the
+benched cards, n=3 so each fit is on two): worst error **FP32 +41%**, **bandwidth +116%**, **`dlperf` +28%** —
+against a board whose gradeable offers span ~4× in `$/ns`, so any of these can invert a ranking. **No card may
+acquire a `$/ns` from them.** They appear only inside the one-sided rule-out ceiling.
+
 ---
 
 ## B. COST BASES — the per-unit anchors everything else is priced from

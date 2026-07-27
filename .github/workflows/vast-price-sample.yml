@@ -23,7 +23,7 @@ on:
         description: "gpu_name substring to sample"
         default: "rtx4090"
       mode:
-        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | bidsem (pay-your-bid probe, <$0.01)"
+        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | bidsem (pay-your-bid probe, <$0.01) | forensics (read-only: does a LIVE rental's rate move after rental?)"
         default: "sample"
 
 permissions:
@@ -123,6 +123,49 @@ jobs:
           git commit -m "vast market intel pull $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}
 
+  census:
+    # ★ READ-ONLY ($0). WHY A QUALIFYING BOARD CANNOT BE PRICED.
+    #
+    # The 2026-07-27 8:00 AM ET step-1 fan-out snapshot read `48 qualifying -> 10 priceable, 19 needed`:
+    # every offer cleared the launcher's hard filters and 79% were still dropped, because `$/ns` needs a
+    # BENCHED ns/h and the throughput table holds three cards. `vast_board_census.py` breaks the loss down by
+    # GPU model and prints, for each unbenched model, the BREAK-EVEN ns/day at which its cheapest offer would
+    # match what the fleet can already achieve — a screen that decides whether a few cents of bench is worth
+    # spending, without inventing a throughput for anybody.
+    #
+    # Also runs `--proxy-audit`: the leave-one-out error of every derived-throughput route (fp32 TFLOPS,
+    # memory bandwidth, Vast's own `dlperf`) against the benched cards, so the "just scale it off the specs"
+    # proposal is refuted with a number rather than an opinion.
+    if: ${{ github.event.inputs.mode == 'census' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Census the live board (read-only, rents nothing)
+        working-directory: research/modalities
+        # Fleet size the break-even screen is judged against. 19 = the step-1 fan-out's remaining tranche,
+        # which is the board that raised the question. `units` is read from the `gpu` input ONLY when it is a
+        # bare integer, so this job needs no new workflow input (dispatch validates inputs against the
+        # workflow definition, and a new input is one more thing that can differ between a branch and main).
+        run: |
+          U="${{ github.event.inputs.gpu }}"
+          case "$U" in (''|*[!0-9]*) U=19 ;; esac
+          python vast_board_census.py --units "$U" --proxy-audit
+      - name: Commit the census back to this branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/vast-board-census.json 2>/dev/null || true
+          git commit -m "vast board census $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          git push origin HEAD:${{ github.ref_name }}
+
   bidsem:
     # The one experiment that DOES rent: settle whether an interruptible rental is billed at your bid or at a
     # clearing price. Rents the cheapest box on the market for ~2 minutes (<$0.01) and destroys it twice over.
@@ -159,3 +202,55 @@ jobs:
                   research/modalities/vast-bid-semantics-probe-cap.json 2>/dev/null || true
           git commit -m "vast bid-semantics probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}
+
+  forensics:
+    # ★ READ-ONLY ($0). The premise behind CLAUDE.md §6's "work already executing is never touched" is that the
+    # rate you rent at is the rate you pay. The board appeared to contradict it (a shakeout at 1.41x basis
+    # reported at 1.82x 43 min later), and that premise is load-bearing enough to measure rather than argue
+    # about. `vast_rate_forensics.py` splits every LIVE instance's `dph_total` into its GPU / storage / inet
+    # lines and compares the GPU line with the bid the lane's rental ledger recorded at rental time.
+    #
+    # It rents nothing, destroys nothing and never touches a running host: GET /instances/ plus one S3 read.
+    # Also on the HOURLY schedule, not only on demand. The premise it guards is a fact about VAST'S
+    # BILLING, not about our code, so it can stop being true with nobody touching this repo — and the
+    # rule it licenses (§6: never re-check a live host) is the one that would then be silently wrong.
+    if: ${{ github.event.inputs.mode == 'forensics' || github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3
+      - name: Does a live rental's charged rate move? (read-only, $0)
+        working-directory: research/modalities
+        run: python vast_rate_forensics.py --probe
+      - name: Is the offer-quote under-read in front of the PURCHASE DECISION? (read-only, $0)
+        # The more serious half. A wrong number in a readout is a reporting defect; the same wrong number
+        # inside the $/ns market gate would mean every rental was approved against a rate ~11-36 % below its
+        # true one. Prices the whole live board both ways and puts them side by side.
+        if: always()
+        working-directory: research/modalities
+        run: python vast_rate_forensics.py --reprice
+      - name: Commit the evidence back to this branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/vast-rate-forensics.json \
+                    research/modalities/vast-board-reprice.json 2>/dev/null || true
+          git commit -m "vast rate forensics $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${{ github.ref_name }}" && \
+              git push origin HEAD:${{ github.ref_name }} && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the forensics readout"

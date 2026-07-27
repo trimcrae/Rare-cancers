@@ -55,6 +55,27 @@ anything here that restates them is a bug — see rule 1.
     ratio the cost model does not produce is the bug. **≳1.5× basis is drift and says so on the row**; that is
     what the fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
     rather than a fabricated figure.
+    - **★★ THE DRIFT LINE **IS** THE BUY LINE — 1.5× IS A HARD GATE, NOT JUST A LABEL (trimcrae, 2026-07-27,
+      ruling on the step 1 fan-out's per-unit ceiling after being shown the derived alternative).** Reason, in
+      his words from earlier the same day: ***"What's the point of tracking that if we don't act on it?"***
+      So **a row that prints `⚠ DRIFT` is a row we do not buy** — the flag and the refusal are the same
+      number, and the gap between "we noticed" and "we declined" is closed. A rental must clear **BOTH** its
+      rung's derived **dollar** ceiling (*is this inside the money that was authorised*) **and** the 1.5×
+      **rate** line (*is this a rate we will pay at all*); the effective ceiling is the lower, and a refusal
+      must NAME which one it hit — conflating them is what made an earlier round of hold readouts unreadable.
+      **SUPERSEDED, retained for the record:** until this ruling 1.5× was *reporting only* — the framing "not
+      a hard gate — the fleet-launch gate in the launcher is that" (`inflight_usd_per_ns.py`) — under which
+      the fan-out's hard gate was its derived band top alone, ≈2.25× basis. That framing no longer stands and
+      must not be quoted. Live rule and arithmetic:
+      [`congeneric_fanout.unit_ceiling_components`](./research/modalities/congeneric_fanout.py).
+    - **★★ A ROW WE ARE PAYING AND A ROW THE GATE REFUSED MUST NEVER RENDER ALIKE (trimcrae, 2026-07-27:
+      *"the `$/ns` column still shows several rows over 1.5×. Why? Are we not stopping those runs?"*).** Held
+      lanes at 3.25× and 1.96× printed the same `⚠` as legs actually being billed at 1.51× and 1.82×, so a
+      guard doing its job read as a guard being ignored. **`⚠ PAYING OVER THE …× LINE` = money going out;
+      `⛔ REFUSED at … — $0 spent` = the multiple is what we DECLINED.** One glyph, one meaning.
+      Rendered by [`inflight_usd_per_ns.py`](./research/modalities/inflight_usd_per_ns.py) — **never typed, and
+      never off a launcher's `dph≈` line**, which is the market floor plus the search's disk line and so reads
+      LOW against the rate the instance is actually billed (`vast_rate_forensics.py`).
 - **Language discipline for the manuscript** is in [STRATEGY.md](./STRATEGY.md) → "Honest scope and language
   discipline" and enforced by `lint_claims.py` (R1–R5) in CI. Never imply proteome-wide selectivity, EMC
   efficacy, safety, a therapeutic window, or clinical readiness.
@@ -297,7 +318,17 @@ When in doubt: do it and show it.
   [cheap-gpu-plan.md](./research/compute/cheap-gpu-plan.md)), so this is config, not a rewrite. **Production runs
   go on Vast**; the one standing exception is **spending expiring free credit** (the GCP trial closes
   **2026-10-10**), which means **realized spend and ladder spend are different ledgers** — track them separately.
-  The auto-teardown wrapper guarantees no idle-GPU billing anywhere.
+- **★★ THE HOST CANNOT STOP ITS OWN BILLING — ONLY THE CONTROL PLANE CAN (measured 2026-07-27; this rule
+  previously said "the auto-teardown wrapper guarantees no idle-GPU billing anywhere", and that was false).**
+  An unprivileged container cannot end itself: `poweroff`/`shutdown` need an init it does not have, `kill -9 -1`
+  excludes PID 1 and kills the caller, and `kill -9 1` **returns success while being ignored** — which is why
+  the failure was silent. Reproduced under `unshare`; pinned by `tests/test_vast_idle_guard.py`. So the EXIT
+  trap and `autoteardown.py` stop the JOB, not the METER, and a container that **crash-loops never returns at
+  all**, so neither ever fires — two 5a-KS legs billed ~53 min at `gpu_util: 0.0` while `actual_status:
+  running`. **The guarantee is [`vast_idle_guard.py`](./research/modalities/vast_idle_guard.py) acting from CI**,
+  where the key lives: a box that is up and producing no evidence of work (log silent, or restart churn) is
+  destroyed in ~15 min instead of hours. Its one inviolable rule — **GPU idleness NEVER condemns a box** —
+  is what stops it reaping a legitimately CPU-bound staging phase; only a measured absence of *writes* does.
 - **★ ON VAST, A CAPACITY REFUSAL MEANS PICK ANOTHER HOST — DO NOT WAIT IT OUT (trimcrae, 2026-07-25; replaces
   the old AWS wait-out rule).** On `{"success": false, "error": "resources_unavailable"}` that machine's GPU is
   taken: **destroy the instance and launch elsewhere — do not queue, do not raise the bid.** Both alternatives
@@ -334,7 +365,9 @@ When in doubt: do it and show it.
   prints `⚠ DRIFT` is exactly a row the gate would refuse to buy.** One implementation:
   [`relaunch_market_gate.py`](./research/modalities/relaunch_market_gate.py), whose `EXEMPTIONS` is the complete
   list of cases where waiting genuinely does lose work. **Work already executing is never touched** — the gate
-  acts at the moment of renting and must never be given reach over a live host.
+  acts at the moment of renting and must never be given reach over a live host. That boundary rests on
+  *the rate you rent at is the rate you pay*, which is **measured, not assumed**: `vast_rate_forensics.py`
+  reads the live instance record and the lane's rental ledger, and a rented rate has never moved.
 - **★ SPOT PREEMPTIONS ARE ROUTINE — MENTION LIGHTLY (trimcrae, 2026-07-16).** A preempted VM is expected
   behaviour and routine self-doable recovery: re-dispatch to resume from checkpoint, re-arm the check-in. A
   one-line note is fine; **no alarm, no `AskUserQuestion`, no write-up**, even if it repeats. Reserve real

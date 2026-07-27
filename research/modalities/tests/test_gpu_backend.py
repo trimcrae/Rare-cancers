@@ -280,8 +280,8 @@ def test_vast_onstart_always_self_destroys():
     # the anti-idle guard: an EXIT trap self-STOPS the instance on completion/crash/stop (not just a trailing
     # line that a `set -e` abort would skip), KEY-FREE — it exits the container (poweroff / kill PID 1) to halt
     # the GPU meter, with NO API key on the host. The guaranteed destroy is control-plane (CI reap).
-    assert "trap ct_selfdestroy EXIT" in script
-    assert "ct_selfdestroy()" in script and "poweroff" in script
+    assert "trap ct_selfstop EXIT" in script
+    assert "ct_selfstop()" in script and "poweroff" in script
     # SECURITY: the account API key must NEVER reach a community host (trimcrae, 2026-07-24). The onstart script
     # must not carry VAST_API_KEY or call the Vast API to self-destroy.
     assert "VAST_API_KEY" not in script
@@ -305,7 +305,7 @@ def test_vast_onstart_forwards_s3_creds_for_reuse():
     assert "export AWS_SECRET_ACCESS_KEY=sek" in script
     assert "export CHECKPOINT_URI=s3://bkt/vast/edgeB/ckpt" in script
     assert "export MODE=real" in script
-    assert "trap ct_selfdestroy EXIT" in script                    # still self-destroys, now on ANY exit
+    assert "trap ct_selfstop EXIT" in script                    # still arms the best-effort self-stop, on ANY exit
 
 
 def test_vast_onstart_spec_env_overrides_forwarded():

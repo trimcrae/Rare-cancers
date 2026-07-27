@@ -43,7 +43,15 @@ on:
   # workflow after that, while `workflow_dispatch` kept working and all three watchdogs went green when
   # dispatched by hand. So a cron-only re-check would have been a gate that never re-checks, which is the
   # same "reports success while measuring nothing" shape this lane keeps paying for. The primary re-check is
-  # a Claude-side Routine that dispatches this task; this cron takes over automatically if delivery resumes.
+  # a Claude-side Routine that dispatches this task; this cron is the second channel, not the only one.
+  #
+  # ⚠ THAT ROUTINE DID NOT EXIST UNTIL 2026-07-27 8:05 AM ET, though this comment already claimed it did.
+  # The cost of the gap is measurable rather than hypothetical: over the 12 h to 7:46 AM ET this workflow saw
+  # exactly TWO market re-checks — a `schedule` at 6:10 AM and a hand `workflow_dispatch` at 7:46 AM — with a
+  # 277-MINUTE BLIND WINDOW from 1:32 AM to 6:10 AM. `push` events do not re-check: without a [tvast:...]
+  # marker they resolve to the free `test`, so the busy push traffic at 7:08/7:24/7:28 AM priced nothing. A
+  # held fleet is only correct while something is still looking for the price to fall, and for those 4.6 h
+  # nothing was. The Routine now fires hourly at :05 independently of GitHub's scheduled-event delivery.
   schedule:
     - cron: "17 * * * *"
   push:

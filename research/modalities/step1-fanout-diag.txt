@@ -1,127 +1,115 @@
 
-[s1f-diag] ===== e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid (label s1f-02-cw_ev_5cooh) phase=leg-complex-running 2026-07-27T00:12:09Z vast_status=running =====
-[s1f-diag] --- Vast container stdout for instance 45951628 ---
- (1.9.9-1ubuntu2.6).
-tmux is already the newest version (3.2a-4ubuntu0.2).
-wget is already the newest version (1.21.2-2ubuntu1.4).
-Some packages could not be installed. This may mean that you have
-requested an impossible situation or if you are using the unstable
-distribution that some required packages have not yet been created
-or been moved out of Incoming.
-The following information may help to resolve the situation:
-
-The following packages have unmet dependencies:
- software-properties-common : Depends: gir1.2-glib-2.0 but it is not installable
-                              Depends: gir1.2-packagekitglib-1.0 (>= 1.1.0-2) but it is not going to be installed
-                              Depends: packagekit but it is not going to be installed
-                              Depends: python3-dbus but it is not installable
-                              Depends: python3-gi but it is not going to be installed
-                              Depends: python3-software-properties (= 0.99.22.9) but it is not going to be installed
-E: Unable to correct problems, you have held broken packages.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-curl is already the newest version (7.81.0-1ubuntu1.25).
-less is already the newest version (590-1ubuntu0.22.04.3).
-locales is already the newest version (2.35-0ubuntu3.13).
-openssh-server is already the newest version (1:8.9p1-3ubuntu0.16).
-sudo is already the newest version (1.9.9-1ubuntu2.6).
-tmux is already the newest version (3.2a-4ubuntu0.2).
-wget is already the newest version (1.21.2-2ubuntu1.4).
-Some packages could not be installed. This may mean that you have
-requested an impossible situation or if you are using the unstable
-distribution that some required packages have not yet been created
-or been moved out of Incoming.
-The following information may help to resolve the situation:
-
-The following packages have unmet dependencies:
- software-properties-common : Depends: gir1.2-glib-2.0 but it is not installable
-                              Depends: gir1.2-packagekitglib-1.0 (>= 1.1.0-2) but it is not going to be installed
-                              Depends: packagekit but it is not going to be installed
-                              Depends: python3-dbus but it is not installable
-                              Depends: python3-gi but it is not going to be installed
-                              Depends: python3-software-properties (= 0.99.22.9) but it is not going to be installed
-E: Unable to correct problems, you have held broken packages.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-git is already the newest version (1:2.34.1-1ubuntu1.17).
-Some packages could not be installed. This may mean that you have
-requested an impossible situation or if you are using the unstable
-distribution that some required packages have not yet been created
-or been moved out of Incoming.
-The following information may help to resolve the situation:
-
-The following packages have unmet dependencies:
- rsync : Depends: libpopt0 (>= 1.14) but it is not installable
-E: Unable to correct problems, you have held broken packages.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-git is already the newest version (1:2.34.1-1ubuntu1.17).
-Some packages could not be installed. This may mean that you have
-requested an impossible situation or if you are using the unstable
-distribution that some required packages have not yet been created
-or been moved out of Incoming.
-The following information may help to resolve the situation:
-
-The following packages have unmet dependencies:
- rsync : Depends: libpopt0 (>= 1.14) but it is not installable
-E: Unable to correct problems, you have held broken packages.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-git is already the newest version (1:2.34.1-1ubuntu1.17).
-Some packages could not be installed. This may mean that you have
-requested an impossible situation or if you are using the unstable
-distribution that some required packages have not yet been created
-or been moved out of Incoming.
-The following information may help to resolve the situation:
-
-The following packages have unmet dependencies:
- rsync : Depends: libpopt0 (>= 1.14) but it is not installable
-E: Unable to correct problems, you have held broken packages.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-git is already the newest version (1:2.34.1-1ubuntu1.17).
-Some packages could not be installed. This may mean that you have
-requested an impossible situation or if you are using the unstable
-distribution that some required packages have not yet been created
-or been moved out of Incoming.
-The following information may help to resolve the situation:
-
-The following packages have unmet dependencies:
- rsync : Depends: libpopt0 (>= 1.14) but it is not installable
-E: Unable to correct problems, you have held broken packages.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-git is already the newest version (1:2.34.1-1ubuntu1.17).
-Some packages could not be installed. This may mean that you have
-requested an impossible situation or if you are using the unstable
-distribution that some required packages have not yet been created
-or been moved out of Incoming.
-The following information may help to resolve the situation:
-
-The following packages have unmet dependencies:
- rsync : Depends: libpopt0 (>= 1.14) but it is not installable
-E: Unable to correct problems, you have held broken packages.
-rm: cannot remove '/etc/forward_port2': No such file or directory
-Server listening on 0.0.0.0 port 22.
-Server listening on :: port 22.
-Mon Jul 27 00:11:39 UTC 2026
+[s1f-diag] ===== e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral (label s1f-09-cw_bio_nmethyl_amide) phase=leg-complex-FAILED-rc1 2026-07-27T13:12:21Z vast_status=exited =====
+[s1f-diag] --- S3 complex.log (tail) ---
+[rbfe] aligned cw_bio_nmethyl_amide->zaienne_cmpd19 on 12 MCS atoms (RMSD 0.00 Å); scaffold now co-located for the morph
+[rbfe] LOMAP element_change=False: 17 mapped atoms for zaienne_cmpd19->cw_bio_nmethyl_amide
+  [rbfe] nr4a3/complex: mapped 17 atoms A->B (zaienne_cmpd19->cw_bio_nmethyl_amide)
+  ABORT: DEGENERATE atom map — mapped 17 atoms for zaienne_cmpd19->cw_bio_nmethyl_amide, below the PROVABLE floor 20 (a complete map of 22 atoms exists). the endpoints are the SAME heavy-atom graph up to 1 element substitution(s), so a map of all 22 atoms of A provably exists (complete = 22, with 1 dummy on B). Enforceable floor 20 = 22 atoms of A minus the 1 mismatched heavy atom(s), the 0 H they carry, and the 1 atom count difference — a floor a strict-element map still satisfies. 3 atom(s) that must map would instead be annihilated and recreated, so this leg would run a DIFFERENT perturbation from the designed one — and it would still converge and still report a confident ΔG. Most likely the LOMAP MCS hit its 300s budget (RBFE_LOMAP_TIME_S); raise it and re-run. Do NOT spend MD on this map.
+[s1f-diag] --- Vast container stdout for instance 46004069 ---
+2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:13:49 UTC 2026
 Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Fontconfig error: Cannot load default config file: File not found
-[s1f] openfe 1.12.0 plats ['Reference', 'CPU', 'CUDA']
-NVIDIA GeForce RTX 4080 SUPER, 32760 MiB, 595.58.03
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:13:53 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:13:56 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:00 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:03 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:07 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:10 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:14 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:17 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:21 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:24 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:28 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:31 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:35 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:38 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:42 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:45 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:49 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:52 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:55 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:14:59 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:02 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:06 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:09 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:13 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:17 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:20 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:23 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:27 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:30 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:34 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:37 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:41 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:44 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+Error: remote port forwarding failed for listen port 14068
+Mon Jul 27 13:15:47 UTC 2026
+Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
 
-
-[s1f-diag] ===== e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral (label s1f-03-cw_ev_5alkyne) phase=leg-complex-running 2026-07-24T20:59:57Z vast_status=gone =====
-[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)
-
-[s1f-diag] ===== e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine (label s1f-04-cw_ev_5ch2nh2) phase=leg-complex-running 2026-07-24T20:35:55Z vast_status=gone =====
-[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)
-
-[s1f-diag] ===== e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine (label s1f-07-cw_ev_5pegamine) phase=leg-complex-running 2026-07-24T20:23:19Z vast_status=gone =====
-[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)

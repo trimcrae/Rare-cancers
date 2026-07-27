@@ -26,6 +26,7 @@ warmup->production transition mechanics are already CPU-validated in rbfe_spot_c
 from __future__ import annotations
 
 import os
+import time
 from pathlib import Path
 
 import rbfe_spot_checkpoint as spot
@@ -432,9 +433,67 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     restored_phase = restored[0] if restored else None
     log(f"[spot-driver] restore -> {('%s@iter %d' % (restored[0], restored[1])) if restored else 'none (fresh)'}")
 
+    # ★ A FAILED COMMIT STILL KILLS THIS DRIVER — DELIBERATELY. It just no longer does it SILENTLY.
+    #
+    # This callback had no try/except at all, and on 2026-07-27 that was the proximate cause of two 5a-KS
+    # legs billing for ~53 min while producing nothing: an exposed key was rotated, the boto3 client (built
+    # once at process start and never re-reading the environment) kept the dead credential, and the first
+    # commit after 7:27 AM ET raised and killed the driver mid-leg.
+    #
+    # THE CASE FOR CATCHING AND CONTINUING WAS CONSIDERED AND REJECTED. A leg that keeps sampling after its
+    # commits stop is computing into a void: nothing is durable, a preemption or the end of the rental
+    # discards every iteration since the last good commit, and the loudest possible symptom — the process
+    # dying — is replaced by a green-looking run that produces no result. Swallowing here would convert a
+    # 53-minute loss into a 15-hour one. Crashing on a failed commit is right.
+    #
+    # WHAT WAS ACTUALLY WRONG WAS THAT THE CRASH WAS INVISIBLE, and the fix is aimed at exactly that:
+    #   1. RETRY FIRST, so a transient blip cannot end a 15 h leg. boto3 retries 5xx/throttling internally
+    #      but does NOT retry a credential rejection, and the two are indistinguishable from here — so a
+    #      short bounded retry costs ~15 s in the permanent case and saves the whole leg in the transient
+    #      one. `engineering is free; only GPU dollars are a cost`.
+    #   2. NAME THE RESUME POINT IN THE DEATH MESSAGE. The durable state is intact up to the last committed
+    #      boundary, and that boundary is the only thing a relaunch needs. On 2026-07-27 it had to be
+    #      reconstructed from an S3 listing after the fact; it should be the last line the driver prints.
+    #   3. RECORD IT OFF THE CHANNEL THAT JUST FAILED. `status.json` is itself an object in the store that
+    #      just refused a write, so it cannot be the record — which is why `fail()` could not report this
+    #      either. The channels that survive are the local log (`/tmp/run.log`, tee'd, and archived to
+    #      `attempts/` by the next container start if the store ever comes back), a local breadcrumb, and —
+    #      the one that needs nothing from the host at all — the host going QUIET, which is precisely the
+    #      WEDGED signal `vast_idle_guard` reaps on from CI. The independent record is the CI destroy line.
+    _COMMIT_RETRIES = int(os.environ.get("RBFE_COMMIT_RETRIES") or "3")
+    # The last boundary the store ACCEPTED. Seeded from the RESTORED snapshot so the resume point is
+    # correct even when the very first commit of this attempt is the one that fails — which is exactly
+    # the 2026-07-27 shape (the host resumed fine, then lost the credential before its next boundary).
+    _last_ok = [restored[0] if restored else None, restored[1] if restored else 0]
+
     def _commit(phase, nc_name, chk_name, ci):
         def _cb(it):
-            commit_store.commit(phase, it, shared / nc_name, shared / chk_name, ci)
+            for attempt in range(1, _COMMIT_RETRIES + 1):
+                try:
+                    commit_store.commit(phase, it, shared / nc_name, shared / chk_name, ci)
+                    break
+                except Exception as e:  # noqa: BLE001 — re-raised below; this exists to make it legible
+                    last = f"{type(e).__name__}: {e}"
+                    log(f"[spot-driver] COMMIT FAILED ({phase}@iter {it}) attempt {attempt}/"
+                        f"{_COMMIT_RETRIES}: {last}")
+                    if attempt == _COMMIT_RETRIES:
+                        resume = (f"{_last_ok[0]}@{_last_ok[1]}" if _last_ok[0]
+                                  else (f"{restored[0]}@{restored[1]}" if restored else "nothing committed"))
+                        msg = (f"[spot-driver] ABORT: the commit store rejected {_COMMIT_RETRIES} writes of "
+                               f"{phase}@iter {it} ({last}). Durable state is INTACT up to {resume} — that "
+                               f"is the resume point. Every iteration after it is lost, so continuing "
+                               f"without a durable store would only make the loss bigger. This host cannot "
+                               f"record the failure in the store that just refused it; the CI idle guard "
+                               f"will see the log go silent and destroy the instance.")
+                        log(msg)
+                        try:
+                            with open("/tmp/commit-failure.txt", "w") as fh:
+                                fh.write(msg + "\n")
+                        except Exception:  # noqa: BLE001 — a breadcrumb must never mask the real error
+                            pass
+                        raise
+                    time.sleep(2 ** attempt)
+            _last_ok[0], _last_ok[1] = phase, it
             _commits[0] += 1
             if kill_after and _commits[0] >= kill_after:
                 log(f"[spot-driver] RBFE_SPOT_KILL_AFTER={kill_after} reached "
