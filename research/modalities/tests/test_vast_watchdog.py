@@ -826,3 +826,19 @@ def test_the_workflow_folds_the_branch_list_in_before_it_validates_or_ticks():
     i_valid = next(i for i, r in enumerate(runs) if "watchdog_validate.py research/modalities/vast-watch.json" in r)
     i_tick = next(i for i, r in enumerate(runs) if "--tick" in r)
     assert i_merge < i_valid < i_tick, names
+
+
+def test_an_advancing_counter_can_never_be_reaped_as_a_never_started_container():
+    """The false-positive my own fix opened, closed. `container_started` reads the phase marker, and the
+    pipeline's `mark` helper swallows its own upload failure (`s3 cp - … || true`) — so one S3 hiccup at boot
+    leaves the PREVIOUS host's marker while the new host samples happily, since the sampler's commit store is
+    a different path from phase.txt. Without the advance guard that box reads SETUP_STALL at the grace
+    boundary and `quarantine` DESTROYS it mid-leg. Measured work must outrank every inference about the box."""
+    v, stall = vw.classify(has_result=False, instance_alive=True, instance_age_min=400,
+                           progress_scalar=200_000_280, prev_scalar=200_000_260, prev_stall=5,
+                           container_started=False, setup_grace_min=90.0, stall_ticks=3)
+    assert (v, stall) == ("RUNNING", 0), "an advancing counter is proof the GPU is working"
+    # ...and a counter that did NOT move still reaches the new verdict.
+    assert vw.classify(has_result=False, instance_alive=True, instance_age_min=400,
+                       progress_scalar=200_000_260, prev_scalar=200_000_260, prev_stall=5,
+                       container_started=False, setup_grace_min=90.0, stall_ticks=3)[0] == "SETUP_STALL"

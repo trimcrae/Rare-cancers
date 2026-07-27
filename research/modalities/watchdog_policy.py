@@ -82,6 +82,17 @@ def classify(*, has_result, instance_alive, instance_age_min, progress_scalar, p
         return "DIED", 0
     advanced = progress_scalar > prev_scalar
     new_stall = 0 if advanced else int(prev_stall) + 1
+    if advanced:
+        # ★ MEASURED WORK BEATS EVERY INFERENCE ABOUT THE BOX, and this guard is here because the
+        # `container_started` clause below can now trigger a DESTROY. `container_started` is derived from the
+        # phase marker, and `mark` swallows its own upload failures (`| $AWS s3 cp - … || true`) — so one S3
+        # hiccup at boot leaves the PREVIOUS host's marker in place while the new host samples perfectly
+        # happily, because the sampler commits to the object store on a different path from `phase.txt`.
+        # Without this line that box reads "container never started" at the grace boundary and gets reaped
+        # mid-leg. A counter that went UP is direct evidence the GPU did the work; nothing inferred may
+        # overrule it. (No behaviour change for any pre-existing caller: an advanced scalar is > 0 and resets
+        # the stall counter, so every one of them already fell through to RUNNING here.)
+        return "RUNNING", 0
     if not container_started:
         # No progress is POSSIBLE on this host yet, so the only question is whether it is still inside the
         # cold-start grace. Checked before the scalar, because the scalar is about the unit and this is

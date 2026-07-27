@@ -4,26 +4,27 @@
   "n_complete": 0,
   "live_instances": 1,
   "instance_states": {
-    "loading": 1
+    "running": 1
   },
-  "gpu_util": [],
+  "gpu_util": [
+    99.999908
+  ],
   "phases": {
     "not-started": 15,
-    "boot": 1,
-    "leg-complex-running": 3
+    "leg-complex-running": 4
   },
   "instances": [
     {
       "id": 45951628,
       "label": "s1f-02-cw_ev_5cooh",
-      "status": "loading",
+      "status": "running",
       "cur_state": "running",
-      "status_msg": "#6 220.5 Err:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease\n#6 220.5   Temporary failure resolving 'archive.ubuntu.com'\n",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 4080S",
-      "gpu_util": null,
+      "gpu_util": 99.999908,
       "inet_down": 271.4,
       "dph": 0.22474074074074074,
-      "age_min": 10
+      "age_min": 26
     }
   ],
   "units": [
@@ -45,7 +46,7 @@
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
-      "phase": "boot 2026-07-26T23:50:49Z",
+      "phase": "leg-complex-running 2026-07-27T00:12:09Z",
       "committed": "complex/warmup@260",
       "committed_scalar": 260,
       "committed_prev_scalar": 260,
@@ -180,6 +181,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 0.29,
+  "realised_usd_so_far": 0.35,
   "plan_usd_whole_tranche": 35.67
 }

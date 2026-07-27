@@ -447,3 +447,79 @@ def test_the_arity_check_actually_catches_the_bug_it_was_written_for():
     finally:
         inspect.getsource = orig
     assert len(bad) == 1 and "_lprint" in bad[0] and "flush" in bad[0], bad
+
+
+# ================================================================= THE REAP MODE'S REFUSALS
+# `reap` destroys a host AND writes a permanent machine blacklist. `stop`'s blank-means-everything default is
+# already a documented footgun on a shared Vast account; a mode that also blacklists must not inherit it.
+def _reap_env(**kw):
+    import os
+    keep = {k: os.environ.get(k) for k in
+            ("REAP", "DIAG_UNIT", "FANOUT_ONLY", "REAP_REASON", "VAST_API_KEY", "VAST_CKPT_BUCKET")}
+    for k, v in kw.items():
+        if v is None:
+            os.environ.pop(k, None)
+        else:
+            os.environ[k] = v
+    return keep
+
+
+def _reap_restore(keep):
+    import os
+    for k, v in keep.items():
+        if v is None:
+            os.environ.pop(k, None)
+        else:
+            os.environ[k] = v
+
+
+def test_reap_refuses_a_blank_selector_because_blank_would_condemn_the_whole_fleet():
+    import pytest
+    import congeneric_fanout_vast as cfv
+    keep = _reap_env(VAST_API_KEY="x", DIAG_UNIT="", FANOUT_ONLY="", REAP_REASON="anything")
+    try:
+        with pytest.raises(SystemExit) as e:
+            cfv.mode_reap()
+        assert "blank selector" in str(e.value)
+    finally:
+        _reap_restore(keep)
+
+
+def test_reap_refuses_without_a_recorded_reason():
+    """An exclusion with no cause is a machine nobody can ever justify un-excluding."""
+    import pytest
+    import congeneric_fanout_vast as cfv
+    keep = _reap_env(VAST_API_KEY="x", DIAG_UNIT="45938720", FANOUT_ONLY=None, REAP_REASON="")
+    try:
+        with pytest.raises(SystemExit) as e:
+            cfv.mode_reap()
+        assert "REAP_REASON is required" in str(e.value)
+    finally:
+        _reap_restore(keep)
+
+
+def test_reap_refuses_without_a_vast_key_rather_than_reporting_success():
+    import pytest
+    import congeneric_fanout_vast as cfv
+    keep = _reap_env(VAST_API_KEY=None, DIAG_UNIT="45938720", REAP_REASON="why")
+    try:
+        with pytest.raises(SystemExit) as e:
+            cfv.mode_reap()
+        assert "VAST_API_KEY required" in str(e.value)
+    finally:
+        _reap_restore(keep)
+
+
+def test_reap_is_wired_into_the_launcher_mode_table_and_the_workflow():
+    import yaml
+    import congeneric_fanout_vast as cfv
+    assert "REAP" in [flag for flag, _fn in cfv._MODES]
+    with open(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))))), ".github/workflows/fusion-cpu-extras.yml")) as fh:
+        wf = yaml.safe_load(fh)
+    # PyYAML resolves a bare `on:` key to the BOOLEAN True (YAML 1.1 truthy), not the string "on".
+    trig = wf.get("on", wf.get(True))
+    opts = trig["workflow_dispatch"]["inputs"]["fanout_mode"]["options"]
+    assert "reap" in opts, opts
+    env = wf["jobs"]["step1_fanout"]["env"]
+    assert "REAP" in env and "REAP_REASON" in env
