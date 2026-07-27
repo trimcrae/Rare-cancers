@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB_mini replicates",
-  "utc": "2026-07-27T16:08:05Z",
+  "utc": "2026-07-27T16:26:19Z",
   "n_units": 4,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 7.32,
@@ -8,24 +8,18 @@
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 4 legs",
   "breakeven_usd_per_ns": 0.009673,
   "depth": {
-    "offers_returned": 64,
-    "qualifying": 63,
-    "priceable": 52,
+    "offers_returned": 50,
+    "qualifying": 48,
+    "priceable": 21,
     "needed": 4,
     "used_for_mean": 4
   },
   "offers": [
     {
-      "gpu": "RTX 3090",
-      "machine_id": 29304,
-      "min_bid_usd_h": 0.04666666666666667,
-      "usd_per_ns": 0.003442
-    },
-    {
       "gpu": "RTX PRO 4000",
       "machine_id": 57342,
-      "min_bid_usd_h": 0.05333333333333334,
-      "usd_per_ns": 0.003719
+      "min_bid_usd_h": 0.055,
+      "usd_per_ns": 0.003807
     },
     {
       "gpu": "RTX 4090",
@@ -35,18 +29,24 @@
     },
     {
       "gpu": "RTX 5090",
-      "machine_id": 140160,
-      "min_bid_usd_h": 0.19999999999999998,
+      "machine_id": 36511,
+      "min_bid_usd_h": 0.2,
       "usd_per_ns": 0.005255
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 114101,
+      "min_bid_usd_h": 0.18666666666666668,
+      "usd_per_ns": 0.006861
     }
   ],
-  "mean_usd_per_ns": 0.004389,
-  "ratio_vs_basis": 1.286,
-  "projected_usd": 9.41,
-  "max_ratio_vs_basis": 1.5,
-  "usd_per_ns_at_max_ratio": 0.005118,
+  "mean_usd_per_ns": 0.005266,
+  "ratio_vs_basis": 1.543,
+  "projected_usd": 11.29,
+  "max_ratio_vs_basis": 1.9166094031192507,
+  "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $9.41 within this rung's ceiling $20.74 AND 1.29x basis is within the 1.50x drift line"
+  "reason": "projected $11.29 within this rung's ceiling $20.74 AND 1.54x basis is within the 1.92x drift line"
 }
