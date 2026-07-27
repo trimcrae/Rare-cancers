@@ -1636,20 +1636,26 @@ jobs:
           python -m pytest research/modalities/tests/test_atom_map_audit.py -q
       - name: ARCHIVE SWEEP — every archived leg's recorded map size
         run: python research/modalities/atom_map_audit.py archive
-      - name: BOUNDS + MAPS — provable floors, then the production mapper at 20 s and 300 s (parity image)
+      - name: BOUNDS — provable floors per edge (rdkit only, no container)
+        run: python research/modalities/atom_map_audit.py bounds
+      - name: Verdict table (archive actuals vs provable floors)
+        run: python research/modalities/atom_map_audit.py verdict
+      # OPT-IN, because it is the slow half and it must never cost the audit its result. Re-deriving the
+      # production map at BOTH budgets over 21 edges in two containers overran the 60-min job on 2026-07-26
+      # and took the commit-back step down with it — so the cheap, decisive half (archive actuals vs provable
+      # floors) now lands first and this runs only when asked, in ONE image.
+      - name: MAPS — re-derive the production map at 20 s and 300 s (parity image; vast_launch=true)
+        if: ${{ github.event.inputs.vast_launch == 'true' }}
+        timeout-minutes: 25
         run: |
           set -eo pipefail
           # The image supplies the ENV; the checked-out repo supplies the CODE. Mount research/modalities or
           # the container silently runs the copy baked at build time — i.e. the OLD time=20 mapper.
-          for IMG in triskit23/ternary-fep triskit23/nr4a3fep; do
-            echo "================ $IMG ================"
-            docker run --rm --entrypoint python \
-              -v "$PWD/research/modalities:/work/research/modalities" \
-              -e MAP_AUDIT_OUT_SUFFIX="$(basename $IMG)" \
-              "docker.io/$IMG:latest" /work/research/modalities/atom_map_audit.py maps || echo "[map-audit] $IMG failed"
-          done
-      - name: Verdict table
-        run: python research/modalities/atom_map_audit.py verdict
+          IMG="${MAP_AUDIT_IMAGE:-triskit23/ternary-fep}"
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -e MAP_AUDIT_OUT_SUFFIX=maps \
+            "docker.io/$IMG:latest" /work/research/modalities/atom_map_audit.py maps
       - name: Commit the audit back to the triggering branch
         run: |
           set -e
