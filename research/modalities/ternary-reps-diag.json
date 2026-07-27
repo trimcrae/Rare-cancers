@@ -1,0 +1,326 @@
+{
+  "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
+  "mode": "edge_reps",
+  "utc": "2026-07-27T22:35:36Z",
+  "units": {
+    "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps": {
+      "arm": "ternary",
+      "leg_record_status": null,
+      "committed": {
+        "phase": null,
+        "iteration": 0,
+        "scalar": 0
+      },
+      "phase_marker": "md-running 2026-07-27T20:58:58Z",
+      "phase_marker_age_min": 96.62364060878754,
+      "log_age_min": 93.87616629203161,
+      "n_attempts_archived": 1,
+      "attempts": [
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/run.log",
+          "utc": "2026-07-27T21:01:45Z",
+          "bytes": 22265,
+          "n_lines": 350,
+          "last_line": "INFO:\tNo CMAPTorsionForce found. Skipping adding force."
+        }
+      ],
+      "instance": {
+        "id": 46049021,
+        "machine_id": 139040,
+        "label": "tvast-calib-hi-to-lo--ternary-vhl-r1-dt4p0fs-wu1p0-edge-reps",
+        "actual_status": "loading",
+        "cur_state": "running",
+        "intended_status": "running",
+        "status_msg": "ed090066e06c: Pull complete\n",
+        "gpu_name": "RTX 3090",
+        "num_gpus": 1,
+        "gpu_ram": 24576,
+        "cpu_ram": 128784,
+        "cpu_cores_effective": 80.0,
+        "disk_space": 60.0,
+        "disk_util": -1,
+        "mem_usage": null,
+        "mem_limit": null,
+        "gpu_util": null,
+        "dph_total": 0.10045555555555555,
+        "start_date": 1785191032.6587725,
+        "image_uuid": "docker.io/triskit23/ternary-fep:latest"
+      },
+      "instance_is_working": true,
+      "console_last_line": "Error response from daemon: No such container: C.46049021",
+      "console_tail": [
+        "Error response from daemon: No such container: C.46049021"
+      ]
+    },
+    "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps": {
+      "arm": "binary",
+      "leg_record_status": null,
+      "committed": {
+        "phase": "warmup",
+        "iteration": 1024,
+        "scalar": 1024
+      },
+      "phase_marker": "md-running 2026-07-27T21:38:59Z",
+      "phase_marker_age_min": 56.70868982871374,
+      "log_age_min": 1.996516184012095,
+      "n_attempts_archived": 8,
+      "attempts": [
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T164026Z.log",
+          "utc": "2026-07-27T16:40:29Z",
+          "bytes": 1750,
+          "n_lines": 21,
+          "last_line": "[preequil] platform=CUDA; minimizing\u2026"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T172411Z.log",
+          "utc": "2026-07-27T17:24:15Z",
+          "bytes": 1928,
+          "n_lines": 24,
+          "last_line": "[preequil] NPT equilibrate (restrained) 100000 steps\u2026"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T173321Z.log",
+          "utc": "2026-07-27T17:33:25Z",
+          "bytes": 1814,
+          "n_lines": 22,
+          "last_line": "[preequil] platform=CUDA; minimizing\u2026"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T181523Z.log",
+          "utc": "2026-07-27T18:15:25Z",
+          "bytes": 850,
+          "n_lines": 12,
+          "last_line": "-rw-r--r-- 1 root root    198 Jul 26 23:47 staging_manifest.json"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T201848Z.log",
+          "utc": "2026-07-27T20:18:50Z",
+          "bytes": 219104,
+          "n_lines": 3171,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T203058Z.log",
+          "utc": "2026-07-27T20:31:00Z",
+          "bytes": 9408,
+          "n_lines": 108,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T213830Z.log",
+          "utc": "2026-07-27T21:38:33Z",
+          "bytes": 438,
+          "n_lines": 5,
+          "last_line": "[tvast] recipe+engine sha256[:12]=8dc0782c7185 branch=main image=docker.io/triskit23/ternary-fep:latest"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps/run.log",
+          "utc": "2026-07-27T22:33:44Z",
+          "bytes": 183415,
+          "n_lines": 2616,
+          "last_line": "INFO:\t********************************************************************************"
+        }
+      ],
+      "instance": {
+        "id": 46040514,
+        "machine_id": 41716,
+        "label": "tvast-calib-hi-to-lo--binary-vhl-r1-dt4p0fs-wu1p0-edge-reps",
+        "actual_status": "running",
+        "cur_state": "running",
+        "intended_status": "running",
+        "status_msg": "success, running docker.io/triskit23/ternary-fep_latest/ssh",
+        "gpu_name": "RTX 5090",
+        "num_gpus": 1,
+        "gpu_ram": 32607,
+        "cpu_ram": 64142,
+        "cpu_cores_effective": 16.0,
+        "disk_space": 60.0,
+        "disk_util": 1.2999999523162842,
+        "mem_usage": 1.464860672,
+        "mem_limit": 63.05087488,
+        "gpu_util": 92.999908,
+        "dph_total": 0.22066666666666665,
+        "start_date": 1785185344.1000996,
+        "image_uuid": "docker.io/triskit23/ternary-fep:latest"
+      },
+      "instance_is_working": true,
+      "console_last_line": "INFO:\t********************************************************************************",
+      "console_tail": [
+        "INFO:\tIteration took 5.966s.",
+        "INFO:\tEstimated completion in 0:06:04.972084, at 2026-Jul-27-22:41:06 (consuming total wall clock time 1:46:44.671402).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1027/1088",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 5.999s.",
+        "INFO:\tEstimated completion in 0:06:01.371744, at 2026-Jul-27-22:41:09 (consuming total wall clock time 1:47:25.450114).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1028/1088",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 5.972s.",
+        "INFO:\tEstimated completion in 0:05:56.173031, at 2026-Jul-27-22:41:10 (consuming total wall clock time 1:47:38.604301).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1029/1088",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 5.978s.",
+        "INFO:\tEstimated completion in 0:05:50.737950, at 2026-Jul-27-22:41:10 (consuming total wall clock time 1:47:47.845587).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1030/1088",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 5.939s.",
+        "INFO:\tEstimated completion in 0:05:44.741184, at 2026-Jul-27-22:41:10 (consuming total wall clock time 1:47:46.869113).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1031/1088",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 6.032s.",
+        "INFO:\tEstimated completion in 0:05:39.515844, at 2026-Jul-27-22:41:11 (consuming total wall clock time 1:48:00.583121).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1032/1088",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 5.892s.",
+        "INFO:\tEstimated completion in 0:05:33.112791, at 2026-Jul-27-22:41:10 (consuming total wall clock time 1:47:51.905655).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1033/1088",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 6.026s.",
+        "INFO:\tEstimated completion in 0:05:27.637089, at 2026-Jul-27-22:41:11 (consuming total wall clock time 1:48:01.257321).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1034/1088",
+        "INFO:\t********************************************************************************"
+      ]
+    },
+    "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps": {
+      "arm": "ternary",
+      "leg_record_status": null,
+      "committed": {
+        "phase": null,
+        "iteration": 0,
+        "scalar": 0
+      },
+      "phase_marker": "md-running 2026-07-27T22:01:10Z",
+      "phase_marker_age_min": 34.645363144079845,
+      "log_age_min": 32.76348261435827,
+      "n_attempts_archived": 2,
+      "attempts": [
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T220040Z.log",
+          "utc": "2026-07-27T22:00:42Z",
+          "bytes": 22187,
+          "n_lines": 348,
+          "last_line": "INFO:\tSetting force field terms"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log",
+          "utc": "2026-07-27T22:03:05Z",
+          "bytes": 20454,
+          "n_lines": 332,
+          "last_line": "INFO:\tNo CMAPTorsionForce found. Skipping adding force."
+        }
+      ],
+      "instance": {
+        "id": 46049098,
+        "machine_id": 51045,
+        "label": "tvast-calib-hi-to-lo--ternary-vhl-r2-dt4p0fs-wu1p0-edge-reps",
+        "actual_status": "loading",
+        "cur_state": "stopped",
+        "intended_status": "stopped",
+        "status_msg": null,
+        "gpu_name": "RTX 5090",
+        "num_gpus": 1,
+        "gpu_ram": 32607,
+        "cpu_ram": 64127,
+        "cpu_cores_effective": 12.0,
+        "disk_space": 60.0,
+        "disk_util": -1,
+        "mem_usage": null,
+        "mem_limit": null,
+        "gpu_util": null,
+        "dph_total": 0.22066666666666665,
+        "start_date": 1785191087.1474912,
+        "image_uuid": "docker.io/triskit23/ternary-fep:latest"
+      },
+      "instance_is_working": true,
+      "console_last_line": "Error response from daemon: No such container: C.46049098",
+      "console_tail": [
+        "Error response from daemon: No such container: C.46049098"
+      ]
+    },
+    "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps": {
+      "arm": "binary",
+      "leg_record_status": null,
+      "committed": {
+        "phase": "warmup",
+        "iteration": 256,
+        "scalar": 256
+      },
+      "phase_marker": "md-running 2026-07-27T20:53:14Z",
+      "phase_marker_age_min": 102.6836112856865,
+      "log_age_min": 96.80267844597499,
+      "n_attempts_archived": 5,
+      "attempts": [
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T165554Z.log",
+          "utc": "2026-07-27T16:55:56Z",
+          "bytes": 25711,
+          "n_lines": 380,
+          "last_line": "[spot-driver] warmup minimize"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T170554Z.log",
+          "utc": "2026-07-27T17:05:55Z",
+          "bytes": 18829,
+          "n_lines": 244,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T200212Z.log",
+          "utc": "2026-07-27T20:02:14Z",
+          "bytes": 74265,
+          "n_lines": 1044,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T205246Z.log",
+          "utc": "2026-07-27T20:52:48Z",
+          "bytes": 40198,
+          "n_lines": 552,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log",
+          "utc": "2026-07-27T20:59:09Z",
+          "bytes": 22276,
+          "n_lines": 294,
+          "last_line": "INFO:\t********************************************************************************"
+        }
+      ],
+      "instance": {
+        "id": 46049147,
+        "machine_id": 30974,
+        "label": "tvast-calib-hi-to-lo--binary-vhl-r2-dt4p0fs-wu1p0-edge-reps",
+        "actual_status": "created",
+        "cur_state": "stopped",
+        "intended_status": "stopped",
+        "status_msg": "Successfully loaded docker.io/triskit23/ternary-fep:latest",
+        "gpu_name": "RTX 3090",
+        "num_gpus": 1,
+        "gpu_ram": 24576,
+        "cpu_ram": 128645,
+        "cpu_cores_effective": 18.0,
+        "disk_space": 60.0,
+        "disk_util": -1,
+        "mem_usage": null,
+        "mem_limit": null,
+        "gpu_util": null,
+        "dph_total": 0.057466666666666666,
+        "start_date": 1785191141.576736,
+        "image_uuid": "docker.io/triskit23/ternary-fep:latest"
+      },
+      "instance_is_working": true,
+      "console_last_line": "(logs not ready after polling)",
+      "console_tail": [
+        "(logs not ready after polling)"
+      ]
+    }
+  }
+}
