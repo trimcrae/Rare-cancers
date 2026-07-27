@@ -1128,15 +1128,23 @@ def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None
     uids = [j.env["UNIT_ID"] for j in jobs]
     done = {u for u, d in leg_records().items() if d.get("status") == "done"}
     live_hosts = {}
+    listing_error = None
     try:
         live_hosts = live_unit_hosts(uids, key=key)
-    except Exception as e:  # noqa: BLE001 — never block on a listing failure; see submit()
-        print(f"[launch] could not list live instances ({type(e).__name__}: {e}); "
-              "cannot skip in-flight units, duplicates are possible")
+    except Exception as e:  # noqa: BLE001 — reported, not swallowed; callers must FAIL CLOSED on it
+        listing_error = f"{type(e).__name__}: {e}"
+        print(f"[launch] could not list live instances ({listing_error}); "
+              "cannot tell which units already hold a host")
     return {"needed": [u for u in uids if u not in done and u not in live_hosts],
             "done": [u for u in uids if u in done],
             "live": [u for u in uids if u in live_hosts and u not in done],
-            "live_hosts": live_hosts}
+            "live_hosts": live_hosts,
+            # ★★ THE FIELD EVERY CALLER MUST CHECK BEFORE RENTING. `needed` is only trustworthy when the
+            # instance list was actually read: on a listing failure NOTHING looks live, so `needed` silently
+            # becomes "every unit" — and renting on that is how this lane would genuinely double-buy on top
+            # of four running hosts. Not hypothetical: the provider answered 403 on `/search/asks/` at
+            # 11:10 AM ET today (`board-unreadable`), and the instance endpoint is the same API.
+            "listing_ok": listing_error is None, "listing_error": listing_error}
 
 
 RECEIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ternary-vast-rental-receipt.json")
@@ -1212,9 +1220,34 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
         try:
             live_hosts = live_unit_hosts([j.env["UNIT_ID"] for j in jobs], key=key)
             inflight = set(live_hosts)
-        except Exception as e:  # noqa: BLE001 — never block a launch on a listing failure
-            print(f"[launch] could not list live instances ({type(e).__name__}: {e}); "
-                  "cannot skip in-flight units, duplicates are possible")
+        except Exception as e:  # noqa: BLE001
+            # ⛔ FAIL CLOSED — DO NOT RENT WHEN WE CANNOT SEE WHAT WE ALREADY HOLD (2026-07-27).
+            #
+            # This used to print "duplicates are possible" and rent anyway. That is the ONE path by which
+            # this lane could genuinely over-buy, and it is not hypothetical: an unreadable instance list
+            # makes the skip set empty, so every unit looks unhosted and a four-unit mode re-rents all four
+            # ON TOP of four already running. The provider answered 403 on the sibling `/search/asks/`
+            # endpoint at 11:10 AM ET the same day, so "the API refuses us sometimes" is measured, not
+            # imagined — and the tick that follows would have been the one paying for it.
+            #
+            # Refusing costs a delayed launch that the next tick recovers from checkpoints at no loss.
+            # Proceeding costs a duplicate GPU-hour bill for work already in flight. §6's whole framing is
+            # that waiting is cheap here and buying twice is not.
+            msg = f"{type(e).__name__}: {e}"
+            print(f"[launch] could not list live instances ({msg}) — REFUSING TO RENT. Every unit would "
+                  f"look unhosted, so a launch now could double-buy on top of running legs. "
+                  f"Nothing rented, nothing billing; the next tick re-checks.")
+            print("::error title=TVAST LAUNCHER FAULT::could not read the live instance list "
+                  f"({msg}), so the launcher cannot tell which units already hold a host. Refused to rent "
+                  "rather than risk renting duplicates on top of running legs.")
+            submit.last_requested = len(jobs)
+            submit.last_failure_kind = "fault"
+            submit.last_live_rates = []
+            write_rental_receipt(mode, requested=[j.env["UNIT_ID"] for j in jobs], submitted=[],
+                                 failed=[{"unit_id": j.env["UNIT_ID"], "error": msg,
+                                          "kind": "fault"} for j in jobs],
+                                 note="instance list unreadable — refused to rent (would risk duplicates)")
+            return []
     busy = done | inflight
     keep = [j for j in jobs if j.env["UNIT_ID"] not in busy]
     # ★ WHAT THE UNITS WE ARE *NOT* RENTING ALREADY COST US, priced off the LIVE INSTANCE RECORD. Without
@@ -1499,6 +1532,22 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
     A launch is dispatched on `"clear"` and on nothing else.
     """
     out = outstanding_units(mode, legs=legs, key=key)
+    # ⛔ FAIL CLOSED WHEN WE CANNOT SEE WHAT WE ALREADY HOLD. An unreadable instance list makes every unit
+    # look unhosted, so clearing the gate on it would dispatch a launch that re-rents units already running.
+    # Filed as a HOLD (do not dispatch) rather than "nothing to launch", because something almost certainly
+    # DOES need attention — we just cannot say what. Same discipline as the market gate's own
+    # "an unreadable market is not a cheap one": the one case where guessing is worst is the case where
+    # nobody is awake to check.
+    if not out["listing_ok"]:
+        return "hold", {
+            "_what": "ternary lane $/ns market gate (CLAUDE.md §6) for the valB_mini replicates",
+            "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "mode": mode, "hold": True, "nothing_to_launch": False,
+            "reason": ("could not list live instances (%s) — so we cannot tell which units already hold a "
+                       "host, and every unit would look unhosted. Refusing to dispatch: renting on this "
+                       "would double-buy on top of running legs. The next tick re-checks."
+                       % out["listing_error"]),
+        }
     n = len(out["needed"])
     if n == 0:
         readout = {

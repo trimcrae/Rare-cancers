@@ -932,3 +932,62 @@ def test_the_rate_row_never_leaks_a_credential():
     blob = _json.dumps(row)
     for leaked in ("SECRET", "1.2.3.4", "jupyter_token", "ssh_host", "public_ipaddr"):
         assert leaked not in blob, f"{leaked} must never reach a committed artifact"
+
+
+# =============================================================================================================
+# ⛔ THE ONE PATH BY WHICH THIS LANE COULD GENUINELY OVER-RENT — fail closed on an unreadable instance list
+# =============================================================================================================
+# The 2026-07-27 alarm was that three `launched` rows in 25 minutes might mean 12 hosts for a 4-leg job. They
+# did not: the launcher lists live instances and skips units that already hold one. But that skip depends on a
+# provider API call, and when it FAILED the launcher printed "duplicates are possible" and rented anyway —
+# which is exactly the 12-hosts-for-4-legs outcome, arriving through the error path instead of the happy one.
+# Not hypothetical: the sibling `/search/asks/` endpoint 403'd at 11:10 AM ET the same day.
+def test_the_gate_refuses_to_dispatch_when_the_instance_list_cannot_be_read(monkeypatch):
+    import ternary_vast_launch as tv
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+
+    def _403(*a, **k):
+        raise RuntimeError("vast API GET /instances/ -> 403")
+    monkeypatch.setattr(tv, "live_unit_hosts", _403)
+    monkeypatch.setattr(tv, "market_gate", lambda *a, **k: (_ for _ in ()).throw(
+        AssertionError("must not price, let alone clear, on an unreadable instance list")))
+
+    action, readout = tv.gate_for_mode("edge_reps")
+    assert action == "hold", "an unreadable instance list must never clear the gate"
+    assert readout["hold"] is True and readout["nothing_to_launch"] is False
+    assert "403" in readout["reason"] and "double-buy" in readout["reason"]
+
+
+def test_outstanding_units_reports_that_it_could_not_read_the_list(monkeypatch):
+    """`needed` is only trustworthy when `listing_ok` — on a failure everything looks unhosted."""
+    import ternary_vast_launch as tv
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+    monkeypatch.setattr(tv, "live_unit_hosts",
+                        lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
+    out = tv.outstanding_units("edge_reps")
+    assert out["listing_ok"] is False and "boom" in out["listing_error"]
+    # the trap: every unit looks like it needs a host, which is why callers must check listing_ok
+    assert len(out["needed"]) == 4
+
+
+def test_submit_refuses_to_rent_when_it_cannot_see_what_it_already_holds(monkeypatch, capsys):
+    """Refusing costs a delayed launch the next tick recovers from checkpoints. Proceeding costs a duplicate
+    GPU-hour bill for work already in flight."""
+    import ternary_vast_launch as tv
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+    monkeypatch.setattr(tv, "live_unit_hosts",
+                        lambda *a, **k: (_ for _ in ()).throw(RuntimeError("403 Forbidden")))
+
+    def _never(*a, **k):
+        raise AssertionError("submit must not reach the backend when the instance list is unreadable")
+    monkeypatch.setattr(tv, "get_backend", _never)
+
+    got = tv.submit(mode="edge_reps")
+    assert got == [], "nothing may be rented"
+    # and it must be a FAULT, not the benign price-hold word — we never learned what we already hold
+    assert tv.submit.last_failure_kind == "fault"
+    assert tv.submit.last_requested == 4, "renting zero of four wanted units must read as a shortfall"
+    out = capsys.readouterr().out
+    assert "REFUSING TO RENT" in out and "TVAST LAUNCHER FAULT" in out
+    assert "duplicates are possible" not in out, "the old rent-anyway wording must not come back"
