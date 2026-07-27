@@ -46,6 +46,11 @@ on:
       release_fanout:
         description: "1 = ticks may place units; 0 = progress check only. Passed through unchanged."
         default: "1"
+      watch_every_ticks:
+        description: "dispatch the CROSS-LANE staleness watch every Nth tick (0 = never). THIS LOOP IS THAT
+          WATCH'S REAL CADENCE - its own `schedule:` is a cold-start path only, because a cron does not
+          supervise a billing fleet (CLAUDE.md section 6). $0, and it covers the four lanes this tick does not."
+        default: "2"
 
 # Never let two supervisors hold the same cadence - they would double the dispatch rate into the one Vast
 # API key that returned an nginx 403 to a four-unit launch on 2026-07-27.
@@ -74,6 +79,7 @@ jobs:
           EVERY: ${{ github.event.inputs.tick_every_min || '8' }}
           FLEET_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
           RELEASE_FANOUT: ${{ github.event.inputs.release_fanout || '1' }}
+          WATCH_EVERY: ${{ github.event.inputs.watch_every_ticks || '2' }}
         run: |
           set -uo pipefail
           # Coerce in BASH, not in a GitHub-expression comparison. An optional input is null on a non-dispatch event
@@ -99,6 +105,24 @@ jobs:
               # supervisor that still has hours of useful life. It is recorded and the loop continues.
               echo "::warning title=SUPERVISOR TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/e | tr '\n' ' ')"
             fi
+            # --- and, every Nth tick, the CROSS-LANE staleness watch ------------------------------------
+            # WHY IT RIDES THIS LOOP RATHER THAN ITS OWN CRON. The autoscale tick measures ONE lane. Four
+            # others can bill or stall - the valB replicates, the closure triangle, 5a-KS, the GCP watch list
+            # - and on 2026-07-27 every one of them failed in a way the tick could not see, including a
+            # triangle that sat idle ~3 h with no host at all. This loop already owns a cadence GitHub's
+            # scheduler does not, so the cheapest way to give the other four the same cadence is to dispatch
+            # from here. It costs $0 and it dispatches a REPORT-ONLY workflow: the watch rents, destroys and
+            # reaps nothing, so nothing about the supervisor's "it does not buy" property changes.
+            if [ "${WATCH_EVERY}" -gt 0 ] 2>/dev/null && [ $(( n % WATCH_EVERY )) -eq 0 ]; then
+              if gh workflow run lane-staleness-watch.yml --ref main \
+                   -f fleet_branch="${FLEET_BRANCH}" 2>/tmp/w; then
+                echo "[$(date -u '+%H:%M:%SZ')] cross-lane staleness watch dispatched (tick ${n})"
+              else
+                # Never fatal, and never silent: a supervisor that quietly stopped dispatching the watch
+                # would leave four lanes unwatched while still looking healthy - the exact shape being fixed.
+                echo "::warning title=STALENESS WATCH DISPATCH FAILED::tick ${n}: $(head -2 /tmp/w | tr '\n' ' ')"
+              fi
+            fi
             # Stop early rather than sleep past the deadline and be killed mid-iteration.
             [ $(( $(date +%s) + SLEEP )) -ge "$END" ] && break
             sleep "${SLEEP}"
@@ -120,6 +144,7 @@ jobs:
           EVERY: ${{ github.event.inputs.tick_every_min || '8' }}
           FLEET_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
           RELEASE_FANOUT: ${{ github.event.inputs.release_fanout || '1' }}
+          WATCH_EVERY: ${{ github.event.inputs.watch_every_ticks || '2' }}
         run: |
           set -uo pipefail
           # WHY THIS CHAINS, having previously refused to. The first version of this file asserted that a
@@ -138,7 +163,8 @@ jobs:
           # worked, and shouting if it does not.
           gh workflow run step1-fanout-supervisor.yml --ref main \
              -f hours="${HOURS}" -f tick_every_min="${EVERY}" \
-             -f fleet_branch="${FLEET_BRANCH}" -f release_fanout="${RELEASE_FANOUT}" 2>/tmp/h || true
+             -f fleet_branch="${FLEET_BRANCH}" -f release_fanout="${RELEASE_FANOUT}" \
+             -f watch_every_ticks="${WATCH_EVERY}" 2>/tmp/h || true
           sleep 25   # the dispatch is async; a run does not appear in the API instantly
           # Confirm from the API that a successor actually EXISTS and is not this same run. A dispatch that
           # returns 0 and creates nothing is precisely how the first supervisor "ran" for six minutes while
