@@ -173,6 +173,14 @@ MODES = {
         "prod_iters": "", "warmup_iters": "",          # empty = full derived science length, matched to r0
         "warmup_ckpt_iters": "64", "prod_ckpt_iters": "40",
         "max_runtime_s": 20 * 3600,
+        # STRICT PROVENANCE, and only here. `fingerprint_mismatch_reason` accepts an UNSTAMPED committed
+        # generation unless this is set, because refusing one would make any leg ALREADY RUNNING with
+        # pre-stamping generations throw away paid GPU hours on its next preemption. These units' commit
+        # prefixes do not exist yet, so every generation they ever restore will have been written by the
+        # same configuration that stamps it — the concession has nothing to buy here, and turning it off
+        # closes the "resume silently accepted a generation from another configuration" hole for free.
+        # Scoped per-mode rather than lane-wide precisely so it cannot refuse another lane's live resume.
+        "strict_provenance": True,
         "legs": [("calib_hi_to_lo__ternary_vhl", 1, "fwd"),
                  ("calib_hi_to_lo__binary_vhl", 1, "fwd"),
                  ("calib_hi_to_lo__ternary_vhl", 2, "fwd"),
@@ -680,6 +688,8 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         # Set EXPLICITLY here rather than left to the engine's default so the value is part of the rented
         # unit's recorded environment, not a property of whichever commit the host's tarball happened to pull.
         "RBFE_LOMAP_TIME_S": os.environ.get("TVAST_LOMAP_TIME_S") or "300",
+        # See the note on the mode: only safe where no unstamped generation can need resuming.
+        "RBFE_STRICT_PROVENANCE": "1" if sizing.get("strict_provenance") else "0",
         # ...and fail CLOSED if the map still comes back short. `nr4a3_ternary_fep.assert_map_not_degenerate`
         # derives the required heavy-atom count from the endpoints' own MCS and aborts before any sampling is
         # billed. Explicit for calibration legs because their expectation is verified at $0 in CI first.

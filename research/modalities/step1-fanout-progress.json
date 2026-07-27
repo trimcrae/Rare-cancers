@@ -9,20 +9,21 @@
   "gpu_util": [],
   "phases": {
     "not-started": 15,
-    "leg-complex-running": 4
+    "boot": 1,
+    "leg-complex-running": 3
   },
   "instances": [
     {
-      "id": 45938720,
+      "id": 45951628,
       "label": "s1f-02-cw_ev_5cooh",
       "status": "loading",
       "cur_state": "running",
-      "status_msg": "4f4fb700ef54: Pull complete\n",
-      "gpu": "RTX 3090",
+      "status_msg": "79436a159dbf: Pull complete\n",
+      "gpu": "RTX 4080S",
       "gpu_util": null,
-      "inet_down": 142.4,
-      "dph": 0.06982222222222223,
-      "age_min": 138
+      "inet_down": 271.4,
+      "dph": 0.22474074074074074,
+      "age_min": 2
     }
   ],
   "units": [
@@ -44,7 +45,7 @@
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
-      "phase": "leg-complex-running 2026-07-26T19:53:38Z",
+      "phase": "boot 2026-07-26T23:50:49Z",
       "committed": "complex/warmup@260",
       "committed_scalar": 260,
       "committed_prev_scalar": 260,
@@ -179,6 +180,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 0.2,
+  "realised_usd_so_far": 0.25,
   "plan_usd_whole_tranche": 35.67
 }

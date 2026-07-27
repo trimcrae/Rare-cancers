@@ -374,3 +374,76 @@ def test_the_terminus_gate_cannot_deadlock_the_shakeout_unit():
     # those words would make this assertion pass or fail on the wording rather than on the code.
     code = [ln for ln in gate.splitlines() if ln.strip() and not ln.strip().startswith("#")]
     assert sum(1 for ln in code if ln.strip() == "return") == 1
+
+
+# ================================================================= INTERNAL CALL ARITY
+# LANE 21, 2026-07-26. `mode_launch` called `_lprint(msg, flush=True)`. `_lprint` is not `print` — it takes
+# one argument — so the call raised TypeError on the FIRST SUCCESSFUL SUBMISSION and nowhere else: the smoke
+# path, the dry path and every no-op tick sail past it. Autoscale run 30226203566 rented Vast instance
+# 45951628 and died on that line before the rental ledger entry, before `_save_ledger`, before
+# `_arm_watchdog` and before the launch readout — a box billing while invisible to realised spend and to the
+# watch list. Fanned 19 wide it would have submitted one unit per tick, none ledgered, none watched.
+#
+# The general defect is a call to a MODULE-LOCAL helper that does not match its signature and is only
+# reachable when money is being spent. That is statically decidable, so it is decided here rather than in
+# production: every call in these modules to a function they define themselves is bound against the real
+# signature. Positional arguments are only counted (values are irrelevant to arity); *args/**kwargs callees
+# accept anything, as they should.
+def _arity_violations(mod):
+    import ast
+    import inspect
+    src = inspect.getsource(mod)
+    tree = ast.parse(src)
+    defs = {n.name: n for n in ast.walk(tree)
+            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    bad = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name):
+            continue
+        target = getattr(mod, node.func.id, None)
+        if node.func.id not in defs or not callable(target):
+            continue
+        if any(isinstance(a, ast.Starred) for a in node.args) or any(k.arg is None for k in node.keywords):
+            continue                                   # f(*a) / f(**kw) — arity is not static
+        try:
+            sig = inspect.signature(target)
+        except (TypeError, ValueError):
+            continue
+        try:
+            sig.bind(*[None] * len(node.args), **{k.arg: None for k in node.keywords})
+        except TypeError as e:
+            bad.append(f"line {node.lineno}: {node.func.id}(...) does not match {node.func.id}{sig} — {e}")
+    return bad
+
+
+def test_every_internal_call_in_the_vast_launcher_matches_its_signature():
+    import congeneric_fanout_vast as cfv
+    bad = _arity_violations(cfv)
+    assert not bad, "congeneric_fanout_vast.py:\n  " + "\n  ".join(bad)
+
+
+def test_every_internal_call_in_the_pure_core_matches_its_signature():
+    import congeneric_fanout as cf
+    bad = _arity_violations(cf)
+    assert not bad, "congeneric_fanout.py:\n  " + "\n  ".join(bad)
+
+
+def test_the_arity_check_actually_catches_the_bug_it_was_written_for():
+    """A guard that cannot fail is not a guard. Reproduce the exact 2026-07-26 defect in a throwaway module
+    and assert the checker names it."""
+    import ast
+    import inspect
+    import types
+    mod = types.ModuleType("shim")
+    src = ("def _lprint(msg):\n    print(msg, flush=True)\n\n"
+           "def mode_launch():\n    _lprint('x', flush=True)\n")
+    exec(compile(src, "shim", "exec"), mod.__dict__)
+    mod.__dict__["__source__"] = src
+    orig = inspect.getsource
+    try:
+        inspect.getsource = lambda m: src if m is mod else orig(m)
+        ast.parse(src)                                   # sanity: the shim is valid python
+        bad = _arity_violations(mod)
+    finally:
+        inspect.getsource = orig
+    assert len(bad) == 1 and "_lprint" in bad[0] and "flush" in bad[0], bad

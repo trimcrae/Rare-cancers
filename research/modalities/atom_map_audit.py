@@ -50,8 +50,15 @@ BUCKET = os.environ.get("VAST_CKPT_BUCKET", "sagemaker-us-east-2-646605541856")
 #
 # ★ THESE ARE THE RESULT SUBPREFIXES, NOT THE LANE ROOTS, AND THAT IS DELIBERATE. `ternary-vast/` also holds
 # `commits/` and `nr4a3-step1-fanout/results/` holds `<unit>/ckpt/` — the per-window sampler checkpoint stores,
-# which run to hundreds of thousands of objects. The first attempt listed the lane roots and spent >25 minutes
-# inside list_objects_v2 without reaching a single leg JSON. The results themselves are a few dozen objects.
+# which run to hundreds of thousands of objects. The first attempt listed the lane roots and had not reached a
+# single leg JSON when it was cancelled. The results themselves are a few dozen objects.
+#
+# ⚠ CORRECTION TO MY OWN COMMIT MESSAGE (fd04bc55): it says that attempt spent ">25 min" in list_objects_v2.
+# THAT NUMBER IS WRONG. The step started 2026-07-26T23:16:02Z and was cancelled ~23:20:30Z — about 4.5
+# minutes. I wrote an elapsed time from my sense of how long the turn had taken instead of subtracting the two
+# timestamps I already had, which is the same failure the withdrawn ETAs in STRATEGY.md Appendix A 19b/19c are
+# there for. The narrowing below is still right — listing a checkpoint store to find a leg JSON is wasteful
+# whatever it costs — but it was NOT established that the sweep would have failed to finish.
 ARCHIVE_PREFIXES = [p for p in (os.environ.get("MAP_AUDIT_PREFIXES") or
                                 "ternary-vast/legs,nr4a3-step1-fanout/results").split(",") if p]
 # A key inside one of these is a sampler checkpoint, never a result — skipped without a GET.

@@ -57,6 +57,7 @@ until merged to main.
 from __future__ import annotations
 
 import argparse
+import calendar
 import json
 import os
 import sys
@@ -89,7 +90,7 @@ class Evidence:
 
     def __init__(self, *, has_result=False, has_failed_record=False, failed_detail="",
                  instance=None, instance_alive=False, instance_age_min=0.0,
-                 scalar=0, scalar_label="", readable=True, note=""):
+                 scalar=0, scalar_label="", readable=True, note="", container_started=True):
         self.has_result = has_result
         self.has_failed_record = has_failed_record
         self.failed_detail = failed_detail
@@ -100,6 +101,10 @@ class Evidence:
         self.scalar_label = scalar_label
         self.readable = readable
         self.note = note
+        # Has the container ON THIS INSTANCE ever executed? Distinct from `scalar`, which is unit-scoped and
+        # durable across hosts — see watchdog_policy.classify's `container_started` note. Defaults True so a
+        # kind that cannot observe it is unchanged.
+        self.container_started = container_started
 
 
 def _s3():
@@ -140,6 +145,76 @@ def instance_age_min(inst):
         return (time.time() - float(inst.get("start_date") or time.time())) / 60.0
     except (TypeError, ValueError):
         return 0.0
+
+
+def container_started_from_phase(phase_text, inst):
+    """Has THIS instance's container ever executed? PURE apart from its two arguments.
+
+    THE EVIDENCE. Every one of these pipelines writes a phase marker as its first act, and the marker carries
+    the UTC time of its own write (`mark` emits "<phase> <ISO8601Z>"). So the marker's timestamp against the
+    instance's `start_date` answers an INSTANCE-scoped question that the progress scalar — which lives in the
+    object store and outlives the host — structurally cannot: a marker older than this box was written by a
+    previous box, which means this box has not run.
+
+    WHY IT MATTERS (LANE 21, 2026-07-26). Vast instance 45938720 was rented at 4:34 PM ET to resume the step 1
+    shakeout unit and sat at `actual_status="loading"` until 7:31 PM ET, pulling the nr4a3fep image — 2 h 57
+    min of billed GPU with the container not yet started. The unit's durable scalar said 260 the whole time
+    (its predecessor's last commit), so the watchdog read STALLED and correctly declined to relaunch a
+    "hung sampler" that was in fact a box that had never started one. Measured pull rate over that window:
+    2.91 GiB (the tag's compressed `full_size`) in 177 min = ~2.4 Mbit/s, against the offer's advertised
+    `inet_down` of 142.4 Mbit/s — a ~60x shortfall, which is also why an advertised-bandwidth floor at
+    selection time would NOT have prevented it. The observed time-to-container-start is the only signal that
+    separates the two, so it is the one recorded here.
+
+    FAIL-SAFE IN THE DIRECTION OF DOING NOTHING. Anything unparseable or absent returns True ("assume it
+    started"), because this bit can trigger a destroy; a missing timestamp must never manufacture one. The
+    single exception is an ENTIRELY absent phase marker, which is unambiguous — nothing has ever marked this
+    unit — and which the `progress_scalar <= 0` path already treated the same way.
+    """
+    if not inst:
+        return True
+    txt = (phase_text or "").strip()
+    if not txt:
+        return False                       # nothing has ever marked this unit at all
+    parts = txt.split()
+    if len(parts) < 2:
+        return True                        # marker with no timestamp — cannot answer, so do not accuse
+    try:
+        marked = calendar.timegm(time.strptime(parts[-1], "%Y-%m-%dT%H:%M:%SZ"))
+    except (ValueError, TypeError):
+        return True
+    try:
+        started = float(inst.get("start_date") or 0)
+    except (TypeError, ValueError):
+        return True
+    if started <= 0:
+        return True
+    return marked >= started
+
+
+def container_diag(ev):
+    """The one-line CONTAINER-SIDE diagnosis that belongs beside every stall alert.
+
+    An alert that says only "frozen at leg-complex-running/260" sends a reader to look for a hung sampler, a
+    NaN or a broken upload path. Vast's own `actual_status` and `status_msg` answer a prior question — is the
+    container even running, and if not what is it doing — and they were sitting in the instance record the
+    whole time the 2026-07-26 stall was being reported without them. The cost of not printing them was ~3 h
+    of billed GPU and a human-equivalent having to go and read the docker layer messages by hand.
+    """
+    inst = ev.instance or {}
+    if not inst:
+        return "no instance record"
+    msg = " ".join(str(inst.get("status_msg") or "").split())[:140]
+    bits = [f"vast actual_status={inst.get('actual_status')!r}",
+            f"cur_state={inst.get('cur_state')!r}",
+            f"status_msg={msg!r}",
+            f"gpu={inst.get('gpu_name')}",
+            f"age={ev.instance_age_min:.0f}min"]
+    if not ev.container_started:
+        bits.append("⚠ THE CONTAINER ON THIS INSTANCE HAS NEVER RUN — the phase marker predates the rental, "
+                    "so the frozen counter is its PREDECESSOR's last commit and no sampler is hung here. "
+                    "status_msg above is what the box is actually doing (a docker layer line = image pull)")
+    return "; ".join(bits)
 
 
 # =============================================================================================================
@@ -587,7 +662,72 @@ class Step1FanoutKind:
                                       f"{entry['result_prefix']}/{uid}/<leg>.log even on failure",
                         instance=inst, instance_alive=inst is not None,
                         instance_age_min=instance_age_min(inst) if inst else 0.0,
+                        # The unit's scalar is durable and outlives its host; this bit is about the BOX. A
+                        # resumed unit carries a non-zero scalar onto a fresh instance, which is precisely
+                        # how a 2 h 57 min image pull reported itself as a frozen sampler on 2026-07-26.
+                        container_started=container_started_from_phase(phase, inst),
                         scalar=scalar, scalar_label=label, note=note)
+
+    @staticmethod
+    def reap_exited(entry, insts):
+        """Destroy any EXITED instance still listed for this unit. Returns a list of destroyed ids.
+
+        ★ AN `exited` VAST INSTANCE IS NOT PROVABLY DEAD (LANE 21, 2026-07-26 — observed, not theorised).
+        `probe` skips exited instances when deciding `instance_alive`, on the reasoning that an exited
+        container has already stopped billing and merely lingers until CI reaps it. That reasoning has a hole:
+        instance 45938720 read `actual_status="exited"` at 7:49 PM ET and its container was back up and
+        re-marking `boot 2026-07-26T23:50:49Z` two minutes later, on the same instance id — running -> exited
+        -> running. The container stdout carries both boot sequences, so this is the box's own record of it.
+
+        A unit in that state reads DIED, and DIED relaunches. That is a SECOND host on one checkpoint prefix
+        — precisely the interleaved-trajectory failure the owning_workflow interlock exists to prevent,
+        arriving by a route the interlock does not cover (no workflow is in flight; the duplicate comes from
+        the instance itself).
+
+        So the relaunch destroys the ambiguous box FIRST. After a successful DELETE it cannot come back, and
+        the replacement is provably the only writer. If the DELETE fails we do NOT relaunch — one host that
+        might restart beats two that certainly conflict.
+        """
+        key = os.environ.get("VAST_API_KEY")
+        if not key:
+            return []
+        uid = entry["unit_id"]
+        gone = []
+        for i in insts or []:
+            if i.get("actual_status") != "exited" or not Step1FanoutKind.label_matches(i.get("label"), uid):
+                continue
+            _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+            gone.append(i.get("id"))
+        return gone
+
+    @staticmethod
+    def quarantine(entry, inst):
+        """Destroy an instance whose container never started, and refuse its machine for this lane. Returns
+        a human-readable outcome, or "" if the kind declines / cannot act.
+
+        THIS IS NOT A RELAUNCH, AND THAT SEPARATION IS THE WHOLE DESIGN. `should_relaunch` still authorises
+        only DIED, because a STALLED unit relaunched is a hung sampler re-hung at full price. A box that has
+        never executed its container is the other thing entirely — CLAUDE.md's Vast rule for a host that
+        never starts: destroy it, exclude the machine, take another host. Quarantine performs only the first
+        two. The unit then reads DIED on the NEXT pass and goes out through the existing capped,
+        interlocked relaunch path, with the bad machine already in the exclusion set that path consults.
+        Nothing new is authorised to spend; a provable non-scientific host failure is simply converted into
+        the case the policy already knows how to handle.
+        """
+        key = os.environ.get("VAST_API_KEY")
+        iid = (inst or {}).get("id")
+        if not key or iid is None:
+            return ""
+        L = Step1FanoutKind._lane(entry)
+        _vast_request("DELETE", f"/instances/{iid}/", key)
+        out = f"destroyed instance {iid}"
+        mid = (inst or {}).get("machine_id")
+        if mid is not None and L._record_exclusion(
+                L._s3(), str(entry["bucket"]), mid,
+                f"container never started: {instance_age_min(inst):.0f} min from rental with no phase mark "
+                f"of its own (instance {iid})"):
+            out += f"; machine {mid} added to the lane exclusion set"
+        return out
 
     @staticmethod
     def relaunch(entry, insts):
@@ -841,6 +981,7 @@ def tick(path=None, dry_run=False):
         verdict, stall = classify(
             has_result=ev.has_result, has_failed_record=ev.has_failed_record,
             instance_alive=ev.instance_alive, instance_age_min=ev.instance_age_min,
+            container_started=ev.container_started,
             progress_scalar=ev.scalar, prev_scalar=int(prev.get("scalar") or 0),
             prev_stall=int(prev.get("stall") or 0),
             setup_grace_min=float(e.get("setup_grace_min") or kind.setup_grace_min),
@@ -849,6 +990,8 @@ def tick(path=None, dry_run=False):
         iid = ev.instance.get("id") if ev.instance else None
         print(f"verdict={verdict} progress={ev.scalar_label} scalar={ev.scalar} prev={prev.get('scalar')} "
               f"stall={stall} instance={iid} age={ev.instance_age_min:.0f}min {ev.note}")
+        if ev.instance_alive:
+            print(f"  container: {container_diag(ev)}")
         if not dry_run:
             wrote = _write_json_key(state_bucket, pkey,
                                     {"scalar": ev.scalar, "stall": stall, "kind": kind.name,
@@ -879,25 +1022,48 @@ def tick(path=None, dry_run=False):
                       f"Diagnose, then clear the record or disable the entry.")
             continue
         if verdict == "RUNNING":
+            # ⚠ "RUNNING" with a container that has not started means STILL IN COLD START, not advancing —
+            # say so, or the notice reads as progress that is not happening.
             _annotate("notice", "VAST WATCHDOG RUNNING",
-                      f"{uid} — advancing at {ev.scalar_label} on instance {iid} "
-                      f"({(ev.instance or {}).get('gpu_name')}, up {ev.instance_age_min:.0f} min, "
-                      f"gpu_util={(ev.instance or {}).get('gpu_util')}). Leaving it alone.")
+                      (f"{uid} — instance {iid} is inside its cold-start grace and its container has NOT "
+                       f"started yet, so nothing is sampling. {container_diag(ev)}. Leaving it alone until "
+                       f"the grace expires."
+                       if not ev.container_started else
+                       f"{uid} — advancing at {ev.scalar_label} on instance {iid} "
+                       f"({(ev.instance or {}).get('gpu_name')}, up {ev.instance_age_min:.0f} min, "
+                       f"gpu_util={(ev.instance or {}).get('gpu_util')}). Leaving it alone."))
             continue
         if verdict == "SETUP_STALL":
             alerts += 1
+            # THE ONE CASE THAT SELF-RECOVERS, because it is the one case where the diagnosis is already
+            # complete and is not about the science. See Step1FanoutKind.quarantine for why this does not
+            # weaken "only DIED relaunches".
+            quarantined = ""
+            if not ev.container_started and not dry_run and hasattr(kind, "quarantine"):
+                try:
+                    quarantined = kind.quarantine(e, ev.instance) or ""
+                except Exception as ex:  # noqa: BLE001 — a failed reap must not abandon the other entries
+                    quarantined = f"quarantine raised {type(ex).__name__}: {ex} — the box is STILL BILLING"
             _annotate("error", "VAST WATCHDOG SETUP STALL",
                       f"{uid} — instance {iid} up {ev.instance_age_min:.0f} min with NO progress at all "
                       f"(grace {e.get('setup_grace_min') or kind.setup_grace_min:.0f} min). Setup is hung, not "
-                      f"slow: check the image pull, the checkpoint sync and GPU utilisation. NOT relaunching "
-                      f"— a relaunch would hang the same way.")
+                      f"slow. CONTAINER: {container_diag(ev)}. "
+                      + (f"REAPED: {quarantined} — it had made no progress ON THIS HOST, so there is no "
+                         f"sampler state to lose; the unit reads DIED next pass and the existing capped "
+                         f"relaunch path re-rents it elsewhere."
+                         if quarantined else
+                         "NOT relaunching — a relaunch would hang the same way; check the image pull, the "
+                         "checkpoint sync and GPU utilisation."))
             continue
         if verdict == "STALLED":
             alerts += 1
             _annotate("error", "VAST WATCHDOG STALLED",
                       f"{uid} — instance {iid} is up but progress has been frozen at {ev.scalar_label} for "
                       f"{stall} consecutive passes. The science is not advancing. NOT relaunching — diagnose "
-                      f"(GPU util, NaN, run log) before spending more.")
+                      f"before spending more. CONTAINER: {container_diag(ev)}. The container IS running and "
+                      f"its counter is not moving, so the live hypotheses are a hung window, a swallowed "
+                      f"exception/NaN, or a broken commit-upload path — read "
+                      f"{e.get('result_prefix')}/{uid}/<leg>.log and the container stdout, not the box state.")
             continue
 
         # ---- DIED: no result, no instance. Relaunch, capped, and never against a second relauncher. --------
@@ -937,6 +1103,22 @@ def tick(path=None, dry_run=False):
             _annotate("notice", "VAST WATCHDOG would-relaunch",
                       f"{uid} — died (no result, no instance), {why}. dry_run=1 so taking no action.")
             continue
+        # An `exited` box for this unit is destroyed BEFORE the replacement is rented — it is not provably
+        # dead until it is gone (Step1FanoutKind.reap_exited). A failure here withholds the relaunch rather
+        # than risking two hosts on one checkpoint prefix.
+        if hasattr(kind, "reap_exited"):
+            try:
+                for gone in kind.reap_exited(e, insts):
+                    print(f"[reap] destroyed exited instance {gone} before relaunching {uid} — an exited "
+                          f"Vast box has been observed coming back up, which would make two writers")
+            except Exception as ex:  # noqa: BLE001
+                alerts += 1
+                _annotate("error", "VAST WATCHDOG RELAUNCH WITHHELD — COULD NOT REAP",
+                          f"{uid} — an exited instance is still listed and destroying it raised "
+                          f"{type(ex).__name__}: {ex}. NOT relaunching: an exited Vast box can come back "
+                          f"(observed 2026-07-26 on 45938720), and a replacement alongside it would put two "
+                          f"hosts on one checkpoint prefix.")
+                continue
         print(f"relaunching {uid} ({why}) — resumes from its last checkpoint")
         try:
             h = kind.relaunch(e, insts)
