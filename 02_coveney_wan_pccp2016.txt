@@ -1,0 +1,429 @@
+                                                            Volume 18 Number 44 28 November 2016 Pages 30207–30880
+
+
+
+
+PCCP
+Physical Chemistry Chemical Physics
+www.rsc.org/pccp
+
+
+
+
+Themed issue: Insights from advanced methods in molecular dynamics
+                             ISSN 1463-9076
+
+
+
+
+                             COMMUNICATION
+                             Peter V. Coveney and Shunzhou Wan
+                             On the calculation of equilibrium thermodynamic properties from
+                             molecular dynamics
+                                                                                                PCCP
+                                                                                                                                                                                                                          View Article Online
+                                                                                                  COMMUNICATION                                                                                                           View Journal | View Issue
+
+
+
+
+                                                                                                                                         On the calculation of equilibrium thermodynamic
+          This article is licensed under a Creative Commons Attribution 3.0 Unported Licence.
+
+
+
+
+                                                                                                                                         properties from molecular dynamics
+                                                                                                Cite this: Phys. Chem. Chem. Phys.,
+Open Access Article. Published on 03 May 2016. Downloaded on 09/12/2016 10:24:02.
+
+
+
+
+                                                                                                2016, 18, 30236
+                                                                                                                                         Peter V. Coveney* and Shunzhou Wan
+                                                                                                Received 8th April 2016,
+                                                                                                Accepted 3rd May 2016
+
+                                                                                                DOI: 10.1039/c6cp02349e
+
+                                                                                                www.rsc.org/pccp
+
+
+                                                                                                The purpose of statistical mechanics is to provide a route to the                the molecules comprising the systems governed by thermo-
+                                                                                                calculation of macroscopic properties of matter from their constituent           dynamics, then we are obliged to reconcile these seemingly
+                                                                                                microscopic components. It is well known that the macrostates                    incompatible representations of matter.
+                                                                                                emerge as ensemble averages of microstates. However, this is more
+                                                                                                often stated than implemented in computer simulation studies. Here
+                                                                                                we consider foundational aspects of statistical mechanics which are
+                                                                                                                                                                                 Dynamical systems, ergodic theory and
+                                                                                                overlooked in most textbooks and research articles that purport to               the approach to equilibrium
+                                                                                                compute macroscopic behaviour from microscopic descriptions based
+                                                                                                                                                                                 In this article, we shall only consider classical systems. Our aim
+                                                                                                on classical mechanics and show how due attention to these issues
+                                                                                                                                                                                 is to discuss the use of classical molecular dynamics for the
+                                                                                                leads in directions which have not been widely appreciated in the field
+                                                                                                                                                                                 determination of macroscopic properties, in particular the Gibbs
+                                                                                                of molecular dynamics simulation.
+                                                                                                                                                                                 free energy for systems at equilibrium. While the formulation of
+                                                                                                                                                                                 classical mechanics typically presented in expositions of molecular
+                                                                                                                                                                                 dynamics found in textbooks of molecular dynamics is based on
+                                                                                                                                                                                 Newton’s equations of motion (and their equivalent Hamiltonian
+                                                                                                Introduction                                                                     and Lagrangian formulations), there is a further probabilistic
+                                                                                                There are a few fundamental questions in science. While the                      representation to which relatively scant regard is paid. However,
+                                                                                                discussion of and attempted resolution of these questions are                    it is important to always keep this representation in mind,
+                                                                                                of widespread interest, not only to scientists but also to the                   especially when considering statistical mechanics. Instead of
+                                                                                                general public, they rarely appear to aﬀect the day to day work                  working with Newton’s equations of motion, in the probabilistic
+                                                                                                of jobbing scientists.                                                           representation we employ the Liouville equation
+                                                                                                    One such question concerns the nature of time, in particular                                             qtrt = Lrt                               (1)
+                                                                                                how to make sense of the fact that while the microscopic
+                                                                                                                                                                                                              XN                   
+                                                                                                description of matter is time-reversal symmetric, macroscopic                                                       @H @rt @H @rt
+                                                                                                                                                                                             Lrt ¼ fH; rt g ¼                                        (2)
+                                                                                                behaviour is temporally asymmetric.† Thermodynamic systems                                                    i¼1
+                                                                                                                                                                                                                    @pi @qi @pi @qi
+                                                                                                are observed to approach equilibrium; they do not retreat from it.
+                                                                                                Conventional attempts to explain this time asymmetry frequently                  where rt is the (6N + 1)-dimensional probability distribution
+                                                                                                proceed from the paradoxical assumption that the reversible                      function defined on the phase space, qt = q/qt, L is the Liouville
+                                                                                                microscopic world, which we cannot directly apprehend, is the                    operator (i.e. the Poisson-bracket of the classical Hamiltonian
+                                                                                                true one; while the observable irreversible macroscopic world is an              acting on rt) and N is the number of particles in the system.
+                                                                                                illusion, however persistent. That such an interpretation does not                  Macroscopic averages are given by ensemble averages of
+                                                                                                stand up to scientific scrutiny has been pointed out by numerous                 dynamical observables, G, denoted hGit. Thus
+                                                                                                                                                                                                              ð
+                                                                                                authors of scientific and philosophical works.1–7
+                                                                                                                                                                                                        hGit ¼ GðxÞrt ðxÞdm                   (3)
+                                                                                                    In short, if one regards the concept of equilibrium as being
+                                                                                                as valid as the quantum mechanical or classical description of
+                                                                                                                                                                                 where x denotes the 6N phase space variables and m is the
+                                                                                                Centre for Computational Science, Department of Chemistry,
+                                                                                                                                                                                 invariant measure associated with it.
+                                                                                                University College London, London WC1H 0AJ, UK. E-mail: p.v.coveney@ucl.ac.uk;      Despite the frequent assertion that the Newtonian, trajectory
+                                                                                                Tel: +44 (0)2076791560                                                           based, formulation and the probabilistic description are equivalent,
+
+
+
+                                                                                                30236 | Phys. Chem. Chem. Phys., 2016, 18, 30236--30240                                                         This journal is © the Owner Societies 2016
+                                                                                                                                                                                                                              View Article Online
+
+                                                                                                Communication                                                                                                                            PCCP
+
+                                                                                                the two representations of dynamics cannot always be used                  link between dynamics and thermodynamic equilibrium. Ergodic
+                                                                                                interchangeably. In particular, this is the case in discussing the         systems are ones that pass through every available point in
+                                                                                                approach to equilibrium and, indeed, the very concept of                   phase space (given suﬃcient time), but ergodicity is not a
+                                                                                                equilibrium itself. To see this, one can use the inverse Laplace           suﬃcient condition: such systems do not display an approach
+                                                                                                transform to show that the solution of the Liouville equation              to equilibrium. A greater degree of instability in the dynamics is
+                                                                                                may be written as                                                          required. As noted above, mixing systems are ergodic and they
+                                                                                                                               ð                                           also display an approach to equilibrium. Kolmogorov and
+                                                                                                                            1         ezt
+                                                                                                                      rt ¼       dz       r                  (4)           Bernoulli systems manifest even greater dynamical instabilities
+                                                                                                                           2pi g z  L 0
+                                                                                                                                                                           than mixing flows; they too display an approach to equilibrium
+          This article is licensed under a Creative Commons Attribution 3.0 Unported Licence.
+
+
+
+
+                                                                                                where the contour g avoids any singularities in the complex                and are, of course, also ergodic.
+                                                                                                z-plane. Thus the long time behaviour of a dynamical system is                The key point is this. From ergodic theory, we know that if
+Open Access Article. Published on 03 May 2016. Downloaded on 09/12/2016 10:24:02.
+
+
+
+
+                                                                                                governed by the spectrum of L. A system possesses an equilibrium           a system is going to exhibit an equilibrium state, it must
+                                                                                                state if the solution of this equation asymptotically approaches a         be at least mixing. There is, however, an important additional
+                                                                                                time-independent state re:                                                 requirement for these properties to be relevant to statistical
+                                                                                                                                 lim rt ¼ re                      (5)      mechanics. That is, in thermodynamics we are dealing with
+                                                                                                                                t!1                                        systems with very large numbers of atoms and molecules. In
+                                                                                                We are primarily concerned with equilibrium states of matter here,         particular, statistical mechanics works because, in the thermo-
+                                                                                                so the equilibrium value of G, denoted hGieq, is of considerable           dynamic limit (large N and large volume V, such that the
+                                                                                                interest. Thus                                                             density (N/V) is constant), ensemble averages converge to the
+                                                                                                                          ð                ð                               same behaviour as the average properties of a single system,
+                                                                                                    hGieq ¼ lim hGit ¼ lim GðxÞrt ðxÞdm ¼ GðxÞre ðxÞdm (6)                 since the fluctuations become negligible.§
+                                                                                                             t!1          t!1
+
+                                                                                                Thus an equilibrium state will exist if one is able to interchange
+                                                                                                the limit with the integral in eqn (6), which follows from                 Classical molecular dynamics
+                                                                                                Lebesgue’s dominated convergence theorem and so holds                      As noted, many textbooks and research papers in the domain of
+                                                                                                almost everywhere, except possibly for a set of zero measure.‡             interest here pay no attention to the foregoing discussion.
+                                                                                                Mathematically, it is well known that, for an equilibrium                  Instead, they advocate the calculation of ‘‘statistical averages’’
+                                                                                                distribution to exist (eqn (5)), the dynamics must be at least             from molecular dynamics by reference to the ‘‘ergodic theorem’’
+                                                                                                that of a mixing flow in the language of ergodic theory. A mixing          (and the associated ‘‘ergodic hypothesis’’). In short, they assume
+                                                                                                system is one for which                                                    that it is possible to perform a suﬃciently long single micro-
+                                                                                                                                mðAt \ BÞ                                  scopic trajectory calculation such that, in the long time limit,
+                                                                                                                          lim             ¼ mðAÞ                  (7)
+                                                                                                                          t!1     mðBÞ                                     one may replace the ensemble averages hGi which are fundamental
+                                                                                                                                                                           in statistical mechanics by time averages:
+                                                                                                where m(A) is the measure of an initial region of phase space A,
+                                                                                                and m(At) the same at time t. This property means that the                                                   ðT
+                                                                                                                                                                                                         1
+                                                                                                dynamical system exhibits sensitivity to initial conditions, such                               G ¼ lim          Gðxt Þ dt               (8)
+                                                                                                                                                                                                    T!1 T     0
+                                                                                                that the late time behaviour of the system is totally uncorrelated
+                                                                                                                                                                                                                               
+                                                                                                with its early time properties. That is to say, the system possesses       since the ergodic theorem holds that hGieq = G. Thus, for
+                                                                                                at least one positive definite Lyapunov exponent or, in more               example, one reads in Understanding molecular simulation that
+                                                                                                colloquial language, the system is ‘‘chaotic’’. This result is of          molecular dynamics is concerned with time averaging.13 The
+                                                                                                fundamental significance here.                                             problem with eqn (8), however, is obvious. The equation is valid
+                                                                                                    Mixing systems are one class of dynamical systems in the               in the infinite time limit; in practice this has been taken to
+                                                                                                classification provided by ergodic theory8,9 rooted in the probabilistic   mean that one runs a simulation for as long as is possible,
+                                                                                                description of dynamical systems governed by the Liouville equation.       computes its time averaged properties, and then claims that the
+                                                                                                Ergodic theory has grown out of the relationship between the global        values reported represent the macroscopic thermodynamic
+                                                                                                properties of dynamical systems and statistical mechanics.10–12            properties of the system. More fundamentally, such an approach
+                                                                                                Unfortunately, due to the level of mathematical rigour involved in         to computing macroscopic averages lacks the generality one seeks
+                                                                                                the subject, it has become rather detached from workaday research          in statistical mechanics. It is manifestly restricted to the case
+                                                                                                in statistical mechanics and computer simulation. In a nutshell, the       of systems in equilibrium; it cannot be employed for non-
+                                                                                                ergodic hierarchy embraces (i) ergodic; (ii) mixing; (iii) Kolmogorov;     equilibrium systems where the system’s properties depend
+                                                                                                and (iv) Bernoulli dynamical systems, whose distinct properties are        explicitly on time.
+                                                                                                governed by the nature of the spectrum of L. These systems display             What is more or less universally ignored is the requirement,
+                                                                                                an increasing level of dynamical instability, each implying the            if an equilibrium state is to be reached, that the probabilistic
+                                                                                                properties of the level before it, but not being implied by it.            dynamics must be at least mixing. Neighbouring trajectories
+                                                                                                    In many textbooks on statistical mechanics and molecular               in the ‘‘underlying’’ phase space diverge exponentially fast. A
+                                                                                                simulation, attention is focused on ergodicity to provide the              single trajectory will never capture such behaviour since on the
+
+
+
+                                                                                                This journal is © the Owner Societies 2016                                            Phys. Chem. Chem. Phys., 2016, 18, 30236--30240 | 30237
+                                                                                                                                                                                                                              View Article Online
+
+                                                                                                PCCP                                                                                                                         Communication
+
+                                                                                                Newtonian trajectory level of representation each instant in           what role is played by the thermodynamic limit? The answer to
+                                                                                                time is equivalent to every other. Indeed, in this representation      the first is established by numerical simulation; the thermo-
+                                                                                                the very concept of equilibrium has no meaning.                        dynamic limit is simply attained by the same process – a
+                                                                                                   Rather than pursue such a tenuous approach to determine             macroscopic system of this kind would just have of order one
+                                                                                                equilibrium properties based on single trajectories—no matter          mole of ligand and protein present. Since there are no significant
+                                                                                                how ‘‘long’’ they be—we prefer to embrace the tenets of                interactions between the individual ligand–protein complexes, we
+                                                                                                statistical mechanics and directly compute ensemble averages           can access the thermodynamic limit directly by aggregating the
+                                                                                                by running suﬃciently large numbers of replicas of the system          properties of the replicas in the ensemble.
+                                                                                                of interest.                                                               Our extensive studies of numerous protein–ligand systems
+          This article is licensed under a Creative Commons Attribution 3.0 Unported Licence.
+
+
+
+
+                                                                                                   None of the foregoing theory tells us anything about whether        show that such ensembles require no more than 4 nanosecond
+                                                                                                the systems under investigation in molecular dynamics simulation       duration simulation and no fewer than 25 replicas in order to
+Open Access Article. Published on 03 May 2016. Downloaded on 09/12/2016 10:24:02.
+
+
+
+
+                                                                                                fulfil the mixing or higher instability properties in the ergodic      return errors on the free energy predictions of around 1 kcal mol1
+                                                                                                hierarchy. Nor does that theory say anything about the rate at         or less. The free energies are computed by two classes of method,
+                                                                                                which equilibrium is approached, or the number of replicas one         known as ESMACS19,20 and TIES.20,21 One can control the errors in
+                                                                                                needs to include in an ensemble. As regards the first of these         these free energy calculations through a combination of the
+                                                                                                questions, it is known that rigorous proofs aiming to show that        duration in time of each molecular dynamics simulation and
+                                                                                                real systems reside in a specific class within the ergodic hierarchy   the number of replicas used. Errors at this level, which for one
+                                                                                                are almost impossible to establish; but since these properties are     of our methods of free energy determination (TIES) are certainly
+                                                                                                the ones known to guarantee equilibrium behaviour, one must            less than experimental values, are also reproducible. Accuracy,
+                                                                                                assume them to be at least mixing unless they are proved not to be     precision and reproducibility of binding free energy predictions
+                                                                                                so.¶ It is the central purpose of non-equilibrium statistical          are all hallmarks of these ensemble based methods, while being
+                                                                                                mechanics to calculate kinetic descriptions that describe the rate     notoriously elusive in the history of the use of molecular dynamics
+                                                                                                at which equilibrium is attained.11 However, the existing rigorous     to predict these quantities.
+                                                                                                theories are again restricted to idealized and often abstract              What emerges from these studies is that the properties one
+                                                                                                dynamical systems.14–16 Both the first and the second question         computes from individual molecular dynamics trajectories are
+                                                                                                therefore need to be investigated by computational means. And          well described by Gaussian random processes. That is, they can
+                                                                                                this is precisely the programme we have pursued.                       be thought of as stochastic processes with mean and standard
+                                                                                                                                                                       deviation conforming to a Gaussian distribution (Fig. 1a).9 This
+                                                                                                                                                                       in turn makes it possible to reinterpret numerous equations
+                                                                                                The ensemble approach to free energy                                   and calculational routes in statistical mechanics as stochastic
+                                                                                                determination using molecular                                          integrals (of which just one example are the equations for relative
+                                                                                                dynamics computer simulation                                           free energy changes in terms of thermodynamic integration over
+                                                                                                                                                                       alchemically combined pairs of distinct molecular states), thereby
+                                                                                                Although the use of ensemble simulations in molecular dynamics         allowing us to draw on the theory of stochastic calculus to compute
+                                                                                                was first proposed some time ago,17,18 the approach was not            relevant properties reliably.9
+                                                                                                systematically investigated. We focus here on the calculation of           The use of these ensemble simulations can be compared to
+                                                                                                the Gibbs free energy of binding of a ligand to a protein in           what happens when one performs a ‘‘long time duration’’ single
+                                                                                                water. Assuredly these systems display experimentally observed         trajectory simulation. Our work demonstrates compellingly that
+                                                                                                equilibrium states, and one can measure the Gibbs free energy          such long simulations (in cases we have studied, these have
+                                                                                                of binding. It follows from this that the system, if faithfully        been run for up to a couple of microseconds or longer) produce
+                                                                                                described by classical molecular dynamics, is at least a mixing        predictions that are no better than those of a single replica
+                                                                                                system with trajectories that diverge exponentially in time, no        taken from a 25-member ensemble, even though the former is
+                                                                                                matter how close they are initially.                                   several times longer in temporal duration than the entire
+                                                                                                    We start, therefore, from a suitably selected ensemble of          ensemble simulation (Fig. 1).19,22 Our free energy studies show
+                                                                                                initial conditions, working within the probabilistic interpretation    that binding aﬃnities obtained from two independent simulations
+                                                                                                of the dynamical behaviour. As noted earlier, statistical mechanical   of the same molecular system, diﬀering only in initially assigned
+                                                                                                theory provides no guide as to how large such ensembles should         atomic velocities, can vary by up to 10 kcal mol1 in the small
+                                                                                                be, while we must also keep an eye on the thermodynamic limit.         molecule–protein complexes,23,24 and by up to 43 kcal mol1 in the
+                                                                                                Starting, for example, from an initial structure provided by X-ray     peptide–MHC (major histocompatibility complex) systems.19
+                                                                                                diﬀraction, we build models with the ligand docked into the            These variations are much larger than the experimentally observed
+                                                                                                active site of the protein. Once the models are constructed and        maximum binding free energy difference of the inhibitors under
+                                                                                                ready for molecular dynamics analysis, a suﬃciently large              investigation.
+                                                                                                number of replicas are created, which diﬀer only by the random             We use bootstrapping analysis to quantify convergence and
+                                                                                                number seed that assigns them the diﬀering velocities of all the       deduce errors in these ensemble simulations for a given number
+                                                                                                atoms at the initial time when the simulations kick oﬀ. Two            of replicas and simulation duration.24 A very large number of
+                                                                                                issues arise. First, how many replicas are required, and second        bootstrap samples are generated, drawing with replacement
+
+
+
+                                                                                                30238 | Phys. Chem. Chem. Phys., 2016, 18, 30236--30240                                               This journal is © the Owner Societies 2016
+                                                                                                                                                                                                                                   View Article Online
+
+                                                                                                Communication                                                                                                                                 PCCP
+
+                                                                                                                                                                               of interest, then one must ensure they are targeted by inclusion
+                                                                                                                                                                               of ensembles of initial conditions that guarantee there is an
+                                                                                                                                                                               appreciable probability for these processes to occur. One-off
+                                                                                                                                                                               (single replica) simulations do not have any reliability owing to
+                                                                                                                                                                               the random nature of molecular dynamics trajectories.
+                                                                                                                                                                                   When the kinetics of conformational transitions and/or ligand
+                                                                                                                                                                               binding is of interest, much longer molecular simulations, usually
+                                                                                                                                                                               on the microsecond timescale,25,26 will be required than those
+                                                                                                                                                                               recommended in our studies for equilibrium binding aﬃnities.
+          This article is licensed under a Creative Commons Attribution 3.0 Unported Licence.
+
+
+
+
+                                                                                                                                                                               The kinetic information, as well as equilibrium properties, can
+                                                                                                                                                                               be reconstructed from studies with so-called ‘‘enhanced
+Open Access Article. Published on 03 May 2016. Downloaded on 09/12/2016 10:24:02.
+
+
+
+
+                                                                                                                                                                               sampling techniques’’ which are usually based on tempering
+                                                                                                                                                                               the system, modifying the underlying potential energy surface,
+                                                                                                                                                                               or a combination of both. Such enhanced sampling methods
+                                                                                                                                                                               may be required to obtain relevant metastable states for computing
+                                                                                                                                                                               equilibrium properties if barriers are suﬃciently high between these
+                                                                                                                                                                               states. However, attempts made to report kinetics from single
+                                                                                                                                                                               simulations are likely to be just as error prone as single
+                                                                                                                                                                               simulation based attempts to calculate free energies. Extreme
+                                                                                                                                                                               caution must be exercised in seeking to make general inferences
+                                                                                                                                                                               about a system’s behaviour based on these, no matter how long
+                                                                                                                                                                               the simulated time is reported to be.
+                                                                                                                                                                                   Previous molecular dynamics studies have demonstrated
+                                                                                                                                                                               that protein systems can get trapped in one or a few conformations
+                                                                                                                                                                               even in a relatively long time duration simulation. The epidermal
+                                                                                                                                                                               growth factor receptor (EGFR), for example, may25 or may not25,27
+                                                                                                                                                                               overcome the energy barrier between its active and inactive states
+                                                                                                Fig. 1 Comparison of ensemble and single trajectory simulations of four
+                                                                                                peptide–MHC complexes. Results for one peptide sequence, AAAKTPVIV
+                                                                                                                                                                               in the course of molecular dynamics simulations on a time scale of
+                                                                                                (9 amino acid residues in single-character notation), are shown here as an     10 ms or longer. Even if the transition does occur, a probabilistic
+                                                                                                example. All others exhibit similar behaviour. (a) The Gaussian distribution   description cannot be meaningfully constructed because of the
+                                                                                                of free energies from ensemble simulation, comprising 50 independent           rare nature of the events concerned.
+                                                                                                replicas each of 4 ns duration, has a larger spread than from any individual
+                                                                                                                                                                                   The increasing speed of modern computers is largely determined
+                                                                                                replica; single microsecond trajectories (red line), five times longer than
+                                                                                                the aggregated length of all replicas in the ensemble, behave like 4 ns
+                                                                                                                                                                               by the number of cores and accelerators available on them. This
+                                                                                                replicas.19 (b) The ensemble simulations correctly predict the ranking of      development in computer architectures is well aligned with the
+                                                                                                the binding energies for the four peptides considered (black circles and       need articulated here to perform ensemble-based molecular
+                                                                                                dashed line), while single long trajectories produce rankings which are        dynamics studies since, in the elapsed time needed to perform
+                                                                                                anti-correlated with those observed (red circles and dashed line).
+                                                                                                                                                                               one such simulation, we can do all of them if the machine is
+                                                                                                                                                                               large enough. The ability to perform such calculations fast – in a
+                                                                                                                                                                               few hours – and reliably will have an important impact on the
+                                                                                                from the population of the original data set. The standard                     use of such methods in areas such as drug discovery and clinical
+                                                                                                deviation of the bootstrap samples provides an estimate of the                 decision making.20,28
+                                                                                                error in the original data set. The magnitude of the estimated
+                                                                                                error decreases by increasing the number of replicas in an ensemble
+                                                                                                simulation, directly providing information on convergence of                   Conclusions
+                                                                                                the results.
+                                                                                                   Thus, the success of such ensemble based simulation studies                 We started by recalling known properties of dynamical systems
+                                                                                                is due to a highly eﬀective exploration of the relevant parts of               which approach and reside in equilibrium states. The central
+                                                                                                phase space. One can of course envisage situations when there                  property, largely overlooked in discussions of statistical mechanics
+                                                                                                may be multiple minima pertaining to diﬀerent ligand–protein                   and molecular simulation methods designed to compute
+                                                                                                bound states, or even simply a number of separate rotameric                    equilibrium properties from the microscopic level, is that of
+                                                                                                states of (say) the ligand, which may not be accessible from the               ‘‘mixing’’ in the ergodic hierarchy which classifies the types of
+                                                                                                initial ensemble within the timeframe of 4 ns. The absence of                  global behaviours leading to thermodynamic equilibrium states
+                                                                                                active–inactive transitions and the lack of sampling of inactive               under dynamical evolution.
+                                                                                                conformations do not make a significant contribution to the                       Basing the determination of equilibrium properties on ergodic
+                                                                                                free energies of binding. If such transitions (translating into                theory in this manner ensures that we compute ensemble-
+                                                                                                so-called ‘‘on’’ and ‘‘off’’ rates) and additional bound states are            averaged behaviour in a manner which is truly consistent with
+
+
+
+                                                                                                This journal is © the Owner Societies 2016                                                Phys. Chem. Chem. Phys., 2016, 18, 30236--30240 | 30239
+                                                                                                                                                                                                                                     View Article Online
+
+                                                                                                PCCP                                                                                                                                Communication
+
+                                                                                                the methods of statistical mechanics. We indeed find that                    1 P. V. Coveney and R. Highfield, The arrow of time: a voyage
+                                                                                                neighbouring trajectories diverge very rapidly in phase space.                 through science to solve time’s greatest mystery, W. H. Allen,
+                                                                                                Properties derived from these show all the hallmarks of Gaussian               London, 1990.
+                                                                                                random processes.                                                            2 P. Baert, Time in contemporary intellectual thought, North
+                                                                                                    Calculating macroscopic properties in this manner from                     Holland, Amsterdam, 1st edn, 2000.
+                                                                                                classical molecular dynamics provides the means to report                    3 S. Hawking, A brief history of time: from the big bang to black
+                                                                                                reproducible results including errors intrinsic to the method.                 holes, Bantam Books, Toronto, 1988.
+                                                                                                The errors are under the direct control of the person performing             4 O. Penrose, Rep. Prog. Phys., 1979, 42, 1937–2006.
+                                                                                                the calculations through the choice of number of replicas and                5 R. Penrose, The road to reality: a complete guide to the laws of
+          This article is licensed under a Creative Commons Attribution 3.0 Unported Licence.
+
+
+
+
+                                                                                                duration of the molecular dynamics simulation time.                            the universe, Jonathan Cape, London, 2004.
+                                                                                                    In several respects, this approach to molecular dynamics                 6 I. Prigogine, From being to becoming: time and complexity in
+Open Access Article. Published on 03 May 2016. Downloaded on 09/12/2016 10:24:02.
+
+
+
+
+                                                                                                calculations is analogous to weather forecasting. To predict                   the physical sciences, W. H. Freeman, San Francisco, 1980.
+                                                                                                tomorrow’s weather today, meteorologists do not run a single                 7 H. Reichenbach, The direction of time, University of California
+                                                                                                simulation. They recognise that they will never know exactly the               Press, Berkeley, 1956.
+                                                                                                initial conditions that are required to perform a single fluid               8 R. Frigg, J. Berkovitz and F. Kronz, in The Stanford Encyclopedia
+                                                                                                dynamics based calculation, in a system of Navier–Stokes                       of Philosophy, ed. E. N. Zalta, Summer 2014 edn, 2014.
+                                                                                                equations known to exhibit dynamical chaos. So they perform                  9 A. Klenke, Probability theory: a comprehensive course, Springer,
+                                                                                                many simulations with slightly varying initial conditions—i.e.                 London, 2008.
+                                                                                                they compute the behaviour of ensembles—in order to make                    10 V. I. Arnold and A. Avez, Ergodic problems of classical mechanics,
+                                                                                                reliable probabilistic predictions of what the weather will look               Benjamin, New York, 1968.
+                                                                                                like the next day. Speed too is of the essence here as it is there.         11 R. Balescu, Equilibrium and nonequilibrium statistical mechanics,
+                                                                                                Just as the public wishes to know tomorrow’s weather today,                    Wiley, New York, 1975.
+                                                                                                not in three weeks time, for the application of free energy                 12 D. Ruelle, Thermodynamic formalism: the mathematical structure
+                                                                                                calculations in drug development and clinically based personalised             of equilibrium statistical mechanics, Cambridge University Press,
+                                                                                                medicine28 we must be able to deliver accurate and reliable results            Cambridge, 2nd edn, 2004.
+                                                                                                within hours to drive decision making.                                      13 D. Frenkel and B. Smit, Understanding molecular simulation:
+                                                                                                                                                                               from algorithms to applications, Academic Press, San Diego,
+                                                                                                                                                                               2nd edn, 2002, p. 17.
+                                                                                                Acknowledgements                                                            14 P. V. Coveney and O. Penrose, J. Phys. A: Math. Gen., 1992,
+                                                                                                                                                                               25, 4947–4966.
+                                                                                                The authors thank EPSRC for its support via the 2020 Science
+                                                                                                                                                                            15 O. Penrose and P. V. Coveney, Proc. R. Soc. A, 1994, 447, 631–646.
+                                                                                                Programme (EP/I017909/1), the EU Framework Programme 7
+                                                                                                                                                                            16 P. V. Coveney and A. K. Evans, J. Stat. Phys., 1994, 77, 229–258.
+                                                                                                p-medicine (ICT-2009.5.3), the EU Horizon 2020 ComPat
+                                                                                                                                                                            17 A. Elofsson and L. Nilsson, J. Mol. Biol., 1993, 233, 766–780.
+                                                                                                project (671564), the VPH-SHARE (FP7-ICT 269978) projects,
+                                                                                                                                                                            18 L. S. D. Caves, J. D. Evanseck and M. Karplus, Protein Sci.,
+                                                                                                the Qatar National Research Fund (7-1083-1-191), MRC for a
+                                                                                                                                                                               1998, 7, 649–666.
+                                                                                                Medical Bioinformatics Grant (MR/L016311/1), and funding
+                                                                                                                                                                            19 S. Wan, B. Knapp, D. W. Wright, C. M. Deane and P. V.
+                                                                                                from the UCL Provost. We made use of ARCHER to which
+                                                                                                                                                                               Coveney, J. Chem. Theory Comput., 2015, 11, 3346–3356.
+                                                                                                access was provided through the EPSRC 2020 Science programme,
+                                                                                                                                                                            20 S. Wan, A. P. Bhati, S. J. Zasada and P. V. Coveney, Rapid,
+                                                                                                and SuperMUC to which access was funded by the Gauss Centre
+                                                                                                                                                                               accurate, precise and reproducible ligand-protein binding free
+                                                                                                for Supercomputing.
+                                                                                                                                                                               energy prediction, 2016, submitted.
+                                                                                                                                                                            21 T. D. Bunney, S. Wan, N. Thiyagarajan, L. Sutto, S. V. Williams,
+                                                                                                Notes and references                                                           P. Ashford, H. Koss, M. A. Knowles, F. L. Gervasio, P. V. Coveney
+                                                                                                † We are excluding the strange decays of the long-lived kaon, which            and M. Katan, EBioMedicine, 2015, 2, 194–204.
+                                                                                                violate time-reversal symmetry.                                             22 S. K. Sadiq, D. W. Wright, O. A. Kenway and P. V. Coveney,
+                                                                                                ‡ The computable numbers form a set of zero measure so it is possible          J. Chem. Inf. Model., 2010, 50, 890–905.
+                                                                                                that computer generated molecular dynamics trajectories will behave
+                                                                                                pathologically.                                                             23 S. Wan and P. V. Coveney, J. R. Soc., Interface, 2011, 8, 1114–1127.
+                                                                                                § An important issue here is whether or not the limits t - N and            24 D. W. Wright, B. A. Hall, O. A. Kenway, S. Jha and P. V.
+                                                                                                N - N commute, which is assumed here. There is good reason to                  Coveney, J. Chem. Theory Comput., 2014, 10, 1228–1241.
+                                                                                                believe that they do not commute for some systems. One way in which
+                                                                                                the commutativity of these limits can break down is if the system           25 Y. B. Shan, A. Arkhipov, E. T. Kim, A. C. Pan and D. E. Shaw,
+                                                                                                becomes trapped in a ‘‘metastable’’ state and stays there for a very long      Proc. Natl. Acad. Sci. U. S. A., 2013, 110, 7270–7275.
+                                                                                                time (cf. the later discussion on metastable states).                       26 A. C. Pan, D. W. Borhani, R. O. Dror and D. E. Shaw, Drug
+                                                                                                ¶ There exist dynamical systems that are neither ergodic nor integrable,
+                                                                                                the so-called non-integrable systems, to which the KAM theorem is              Discovery Today, 2013, 18, 667–673.
+                                                                                                applicable. However, the general view on these systems, to which we         27 S. Wan, D. W. Wright and P. V. Coveney, Mol. Cancer Ther.,
+                                                                                                subscribe, is that the measure of phase space in which regular motion          2012, 11, 2394–2400.
+                                                                                                takes place tends to zero in the thermodynamic limit; at which point
+                                                                                                these systems are all members of the ergodic hierarchy with instabilities   28 D. W. Wright, S. Wan, N. Shublaq, S. J. Zasada and P. V.
+                                                                                                at least of the mixing variety.                                                Coveney, Wiley Interdiscip. Rev.: Syst. Biol. Med., 2012, 4, 585–598.
+
+
+
+                                                                                                30240 | Phys. Chem. Chem. Phys., 2016, 18, 30236--30240                                                      This journal is © the Owner Societies 2016
+
