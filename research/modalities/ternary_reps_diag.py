@@ -331,10 +331,38 @@ def watch_memory(mode="edge_reps", minutes=25, every_s=20, bucket=None, prefix=N
     return out
 
 
+def fetch_stage(dest, mode="edge_reps", seed=1, legs=("calib_hi_to_lo__ternary_vhl",
+                                                     "calib_hi_to_lo__binary_vhl")):
+    """Unpack each arm's staged tree from THE SAME cache key the rented hosts read, into `dest`.
+
+    ⚠ THE SAME KEY, NOT A FRESH STAGE. The controlled reproduction is only worth running if it starts from the
+    identical structures the legs died on; re-staging locally would build a different SMARCA2 homology model
+    and measure a different system. `stage_cache_key` is the one home for that key (it is `build_jobspec`'s
+    own `STAGE_CACHE`), so this cannot drift from what the host fetches.
+    """
+    import io
+    import tarfile
+    os.makedirs(dest, exist_ok=True)
+    got = {}
+    for leg in legs:
+        uri = tv.stage_cache_key(leg, mode, seed=seed)
+        b, k = uri[len("s3://"):].split("/", 1)
+        body = tv._s3().get_object(Bucket=b, Key=k)["Body"].read()
+        tarfile.open(fileobj=io.BytesIO(body)).extractall(dest)
+        inner = os.path.join(dest, leg)
+        got[leg] = {"uri": uri, "bytes": len(body),
+                    "files": sorted(os.listdir(inner)) if os.path.isdir(inner) else []}
+        print(f"[rss] staged {leg} seed {seed} from {uri} ({len(body)} B): {got[leg]['files']}", flush=True)
+    return got
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--mode", default="edge_reps")
+    ap.add_argument("--fetch-stage", metavar="DIR", default=None,
+                    help="unpack both arms' staged trees from the hosts' own stage cache into DIR")
+    ap.add_argument("--seed", type=int, default=1, help="which replicate's stage cache to fetch")
     ap.add_argument("--out", default=None, help="write the structured record here (committed by CI)")
     ap.add_argument("--no-console", action="store_true",
                     help="S3 evidence only — skip the provider round trip")
@@ -343,6 +371,9 @@ def main(argv=None):
                          "minutes — the measurement that separates an OOM kill from a provider stop")
     ap.add_argument("--every", type=int, default=20, help="seconds between polls of the memory trace")
     a = ap.parse_args(argv)
+    if a.fetch_stage:
+        print(json.dumps(fetch_stage(a.fetch_stage, mode=a.mode, seed=a.seed), indent=2))
+        return 0
     if a.watch_memory:
         doc = watch_memory(mode=a.mode, minutes=a.watch_memory, every_s=a.every)
     else:
