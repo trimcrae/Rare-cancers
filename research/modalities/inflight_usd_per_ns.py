@@ -54,7 +54,57 @@ import vast_cost_model as vcm    # noqa: E402  the single source for throughput 
 # SUPERSEDED, retained for the record: this constant was previously documented here as "not a hard gate
 # — the fleet-launch gate in the launcher is that". That framing no longer stands. It remains the point at
 # which a row must SAY it is drifting rather than leaving the reader to divide.
-DRIFT_MULTIPLE = 1.5
+# ★★ THE APPROVED RATE IS AN ABSOLUTE $/ns. THE MULTIPLE IS DERIVED FROM IT (trimcrae, 2026-07-27).
+#
+# WHAT WENT WRONG, and it is the failure mode this constant now exists to prevent. The buy line was typed as
+# a MULTIPLE of the ladder basis. On 2026-07-27 the basis moved — the reference card's throughput was
+# re-measured and the widened throughput table admitted 97 more gradeable offers, so the best-10 mean rate
+# fell — and the basis dropped 22 % ($0.004359 -> $0.003412/ns). **No price moved. The yardstick did.** A
+# multiple pinned to a moving denominator silently became a much stricter rule than the one agreed: every
+# board seen that day failed a line it had been passing.
+#
+# So the invariant is the thing trimcrae actually approved — an absolute dollars-per-nanosecond — and the
+# multiple falls out of it. A future basis change now RE-DERIVES the multiple instead of silently changing
+# the rule, which is the whole point of the fix.
+#
+# ⚠ ≈1.92x IS NOT A LOOSENING OF "1.5x". It is the same dollars per nanosecond expressed against a corrected
+# basis: 1.5 x $0.004359 and 1.92 x $0.003412 are both $0.006539/ns. Anyone reading the multiple alone will
+# reach the wrong conclusion, which is why both expressions and the basis change travel together everywhere
+# this number is printed.
+#
+# The approved rate is itself DERIVED (rule 1) from the two constants that defined it at the moment of
+# approval. Those are retired as CURRENT values and registered in pinned-figures.json; they are kept here
+# only as the historical definition of the approved rate, which is a fact about the approval and does not
+# change when the throughput table does.
+_APPROVAL_PLAN_USD_PER_REF_GPU_H = 0.1372     # the ladder's planning rate at the time of the ruling
+_APPROVAL_REFERENCE_NS_PER_H = 31.473333333333333  # the RETIRED reference rate, ns per reference GPU-hour
+#                                                   (kept in ns/h form: this module must contain no card
+#                                                    throughput figure — vast_cost_model is the only table)
+_APPROVAL_MULTIPLE = 1.5                      # "1.5x basis", as the ruling stated it
+
+#: THE INVARIANT — the absolute rate per nanosecond that was approved. Everything else derives from it.
+APPROVED_USD_PER_NS = _APPROVAL_MULTIPLE * (_APPROVAL_PLAN_USD_PER_REF_GPU_H / _APPROVAL_REFERENCE_NS_PER_H)
+
+
+def drift_multiple():
+    """The buy/drift line as a multiple of the CURRENT ladder basis. DERIVED, never typed.
+
+    Read the block above before concluding the rule was loosened: the multiple moves only because the basis
+    was corrected, and the product is invariant."""
+    from congeneric_fanout import basis_usd_per_ns
+    b = basis_usd_per_ns()
+    return (APPROVED_USD_PER_NS / b) if b > 0 else _APPROVAL_MULTIPLE
+
+
+def __getattr__(name):
+    """`DRIFT_MULTIPLE` survives as a NAME for the modules that import it, but is re-derived on every read.
+
+    A module-level float would freeze the multiple against whatever basis the ladder artifact held at import
+    — the same staleness bug one level down. NOTE: PEP 562 module `__getattr__` does not cover global name
+    lookup inside THIS module, so code here calls `drift_multiple()` directly."""
+    if name == "DRIFT_MULTIPLE":
+        return drift_multiple()
+    raise AttributeError(name)
 
 # The two stances a priced row can have. There is no third: either money is going out at this rate or it is
 # not, and every row on the board is one or the other.
@@ -94,7 +144,16 @@ def row(gpu_name, dph_total, planning_usd_per_ref_gpu_h, storage_usd_h=0.0,
     pn = vcm.usd_per_ns(float(dph_total), float(storage_usd_h), nsh)
     basis = basis_usd_per_ns(planning_usd_per_ref_gpu_h)
     mult = pn / basis
-    over = mult >= DRIFT_MULTIPLE
+    # Called directly: PEP 562's module `__getattr__` does not cover global lookup inside this module. It
+    # also re-derives per row, which is the point — the flag and the buy line must be the same number at the
+    # same instant.
+    line_x = drift_multiple()
+    # ★ THE COMPARISON IS ON THE ABSOLUTE RATE, NOT ON THE MULTIPLE. `mult` is computed against the CALLER's
+    # `planning_usd_per_ref_gpu_h`, while `line_x` is derived from the LADDER's basis — comparing them is
+    # apples to oranges whenever a caller passes its own planning rate, and would make the flag depend on an
+    # argument rather than on the rule. The approved rate is a dollars-per-nanosecond, so that is what the
+    # flag tests; the multiple is presentation.
+    over = pn >= APPROVED_USD_PER_NS
     if stance == REFUSED:
         # The multiple is what we DECLINED. `$0 spent` sits on the same line deliberately: the reader must not
         # have to remember which lanes were held in order to know whether the number in front of them is a bill.
@@ -103,7 +162,9 @@ def row(gpu_name, dph_total, planning_usd_per_ref_gpu_h, storage_usd_h=0.0,
     else:
         cell = f"${pn:.5f}/ns · {mult:.2f}× basis"
         if over:
-            cell += f" ⚠ PAYING OVER THE {DRIFT_MULTIPLE:.1f}× LINE"
+            cell += (f" ⚠ PAYING OVER THE {line_x:.2f}× LINE "
+                     f"(= ${APPROVED_USD_PER_NS:.6f}/ns, the approved rate — same dollars as the "
+                     f"original 1.5× line, re-expressed against a corrected basis)")
     if rate_basis == RATE_FROM_OFFER:
         # Not cosmetic. An offer quote is the market floor plus the disk line the search priced, so this
         # multiple is a LOWER BOUND on what the rental will be graded at once the instance exists.

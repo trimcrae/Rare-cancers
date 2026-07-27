@@ -426,12 +426,27 @@ def _unit_dollar_ceiling_usd_per_ns():
 # launcher is that" (CLAUDE.md §1 now carries the ruling that replaced it) —
 # and the fan-out's hard gate was the derived band top alone, ~2.25x basis. Both framings are quotable from
 # the history, so the live rule is stated once, here: **a unit must clear BOTH lines.**
-DRIFT_BUY_LINE_X_BASIS = 1.5
+# ★★ THE BUY LINE AND THE ⚠ DRIFT FLAG ARE ONE NUMBER, AND IT IS AN ABSOLUTE RATE (trimcrae, 2026-07-27).
+# Imported, never re-typed — `inflight_usd_per_ns.APPROVED_USD_PER_NS` is the rate actually approved and the
+# multiple is derived against the CURRENT basis. Two failures this closes:
+#   1. A multiple pinned to a moving denominator silently changes the rule. The basis fell 22 % when the
+#      throughput table was corrected — no price moved — and a typed 1.5x would have failed every board.
+#   2. The flag and the refusal must stay the same number (*"Why are there so many high $/ns rows that are
+#      flagged but you're still paying for them?"*). If the buy line moved and the flag did not, rows would
+#      print ⚠ DRIFT and be bought — the original complaint, recreated by the fix. tests/
+#      test_buy_line_invariant.py fails if they ever diverge.
+def drift_buy_line_x_basis():
+    """The buy line as a multiple of the CURRENT basis. DERIVED — see `inflight_usd_per_ns.drift_multiple`."""
+    from inflight_usd_per_ns import drift_multiple
+    return drift_multiple()
 
 
 def unit_rate_line_usd_per_ns():
-    """The §1 drift line as an absolute rate. DERIVED from the basis, never typed as a dollar figure."""
-    return DRIFT_BUY_LINE_X_BASIS * basis_usd_per_ns()
+    """The §1 drift line as an ABSOLUTE rate — the form that was approved and the form that is invariant
+    under a basis correction. Returned straight from the approved constant so no rounding can separate the
+    rate line from the multiple the board prints."""
+    from inflight_usd_per_ns import APPROVED_USD_PER_NS
+    return APPROVED_USD_PER_NS
 
 
 def unit_ceiling_components():
@@ -445,7 +460,7 @@ def unit_ceiling_components():
     dollar = _unit_dollar_ceiling_usd_per_ns()
     rate = unit_rate_line_usd_per_ns()
     if rate <= dollar:
-        return dollar, rate, rate, "rate line (1.5x basis)"
+        return dollar, rate, rate, f"rate line (${rate:.6f}/ns = {drift_buy_line_x_basis():.2f}x basis)"
     return dollar, rate, dollar, "dollar ceiling (the rung's authorised band)"
 def unit_usd_per_ns_ceiling():
     """The EFFECTIVE per-unit buy ceiling: the lower of the derived dollar ceiling and the 1.5x rate line.

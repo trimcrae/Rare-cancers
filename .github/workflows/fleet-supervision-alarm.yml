@@ -1,0 +1,94 @@
+name: Fleet supervision alarm — is anything actually watching the billing GPUs?
+
+# WHAT THIS IS FOR, in one sentence: it is the thing that notices when the thing that watches the fleet has
+# stopped watching the fleet.
+#
+# WHY IT IS A SEPARATE WORKFLOW AND NOT A STEP. `assert_progress_fresh.py` already refuses to let a tick go
+# green without re-measuring — but it runs INSIDE the tick, so it cannot fire when the tick does not run, and
+# it cannot fire when the tick dies BEFORE reaching it. Both happened on 2026-07-27:
+#
+#   11:23 AM ET  another lane re-anchored the ladder basis ($0.004359 -> $0.003412/ns)
+#   11:37 AM ET  the tick's FIRST step (cost-model unit tests) went red on that change and the run died there
+#                — before the progress check, before the freshness gate, before the reap
+#   11:38 AM ET  the `always()` steps still committed, so the commit trail kept moving while
+#                step1-fanout-progress.json stayed stamped 10:06 AM
+#   ~12:00 PM ET 16 rentals live, and NOTHING in the artifacts distinguished "the tick failed" from
+#                "the tick never ran"
+#
+# ⚠ AND THE THING THIS ALARM MUST NOT BE: a second copy of the tick. It shares NO code with the fan-out lane
+# (pure stdlib — no boto3, no Vast key, no import of congeneric_fanout*), because the failure it exists to
+# report is precisely a shared-dependency failure. An alarm that imports the cost model dies with the cost
+# model. It also rents, prices, nudges and destroys nothing: recovery belongs to the tick and to
+# vast-watchdog.yml, which hold the credentials and the reviewed paths.
+#
+# ★★ WHAT IT DOES **NOT** FIX, STATED PLAINLY SO NOBODY MISREADS IT. A second `schedule:` buys independence
+# from CODE, not from GitHub's scheduler. Measured delivery on 2026-07-27 — both workflows, same day:
+#     step1-fanout-autoscale (*/20) : 12:52 AM, 4:19 AM, 7:44 AM, 10:05 AM ET -> gaps 220, 208, 205, 141 min
+#     vast-watchdog          (*/15) : 1:59 AM, 5:56 AM, 8:53 AM, 11:37 AM ET  -> gaps 235, 238, 177, 164 min
+# Both files' comments still claim GitHub lands them "~55-65 min apart". That was true on 2026-07-26 and is
+# off by ~3x now. So the honest position is: the real cadence is 2.5-4 h, the gap between scheduled ticks has
+# in practice been covered by an agent hand-dispatching (25 of the last 30 autoscale runs were
+# workflow_dispatch), and THIS ALARM CANNOT RESTORE THAT CADENCE. It can only make its absence loud. The
+# alarm prints the measured delivery gaps on every run so the stale "~55-65 min" figure cannot be re-quoted
+# from memory, and so a genuinely dead scheduler is visible rather than assumed.
+#
+# WHY IT FAILS THE RUN RATHER THAN JUST PRINTING. A non-zero exit on a SCHEDULED workflow makes GitHub email
+# the repository owner. That is the only channel here that reaches a human who is not already looking at the
+# Actions tab — which, during the incident, nobody was.
+
+on:
+  schedule:
+    # Deliberately HOURLY, not */15. Asking for a high frequency on a throttled repo does not get you one (see
+    # the measurements above); it just adds queue pressure to the same pool the tick is competing for. The
+    # verdict this produces is not time-sensitive to the minute — it is "has supervision stopped", which is a
+    # question worth asking once an hour.
+    - cron: "0 * * * *"
+  workflow_dispatch:
+    inputs:
+      fleet_branch:
+        description: "branch carrying the fleet's progress artifact (same meaning as in step1-fanout-autoscale.yml)"
+        default: "claude/max-effort-2dq11l"
+      stale_min:
+        description: "artifact age (min) that counts as unsupervised when nothing else explains it"
+        default: "240"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fleet-supervision-alarm
+  cancel-in-progress: false
+
+jobs:
+  alarm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The fleet's artifact lives on the FLEET branch, never on the ref this runs from. Reading main and
+          # concluding the fleet is dead is the exact mistake that was made at 9:37 AM ET on 2026-07-27.
+          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      # NO `pip install`. Not an optimisation — a dependency is a way for this to fail for a reason unrelated
+      # to the fleet, and a supervision alarm that can fail for unrelated reasons is noise.
+      - name: Is anything measuring the fleet?
+        working-directory: research/modalities
+        run: |
+          python3 fleet_supervision_alarm.py \
+            --progress step1-fanout-progress.json \
+            --stale-min "${{ github.event.inputs.stale_min || '240' }}" \
+            --json /tmp/fleet-supervision-verdict.json
+
+      # ★ ALWAYS, and AFTER the check: the verdict must be readable whether or not the alarm fired, otherwise
+      # the alarm has the same "silence is ambiguous" defect it was built to remove.
+      - name: Verdict (readable on a red run too)
+        if: ${{ always() }}
+        run: |
+          echo '### Fleet supervision verdict' >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"
+          cat /tmp/fleet-supervision-verdict.json >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || \
+            echo '{"verdict": "ALARM ITSELF FAILED — the check did not produce a verdict file"}' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"

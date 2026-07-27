@@ -36,10 +36,20 @@ name: STEP 1 fan-out — progress check + terminus-gated fan-out
 
 on:
   schedule:
-    - cron: "*/20 * * * *"   # GitHub throttles schedules on busy repos, so this really lands further apart.
-                             # That is fine and is visible in the committed progress trail rather than
-                             # assumed: a unit commits every 20 (warmup) or 40 (production) iterations, i.e.
-                             # every ~5-9 minutes, so any real interval sees an unambiguous advance.
+    - cron: "*/20 * * * *"   # ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
+                             # REMEMBERED NUMBER HERE. GitHub throttles schedules on busy repos. MEASURED
+                             # delivery of THIS workflow on 2026-07-27: 12:52 AM, 4:19 AM, 7:44 AM, 10:05 AM
+                             # ET -> gaps of 220, 208, 205 and 141 MINUTES, against a nominal 20. So a
+                             # 100-minute silence is normal here and is NOT evidence of a fault, while a
+                             # genuinely dead scheduler looks the same as a healthy one for hours.
+                             # (The old comment here implied a ~1 h cadence. It was read as a guarantee, and
+                             # on 2026-07-27 that misread cost ~1 h 45 m of believing 16 rentals were being
+                             # watched when nothing was watching them.)
+                             # The live figure is MEASURED, never remembered: fleet-supervision-alarm.yml
+                             # prints the real delivery gaps on every run — that is the one home for it.
+                             # What the progress trail DOES prove independently of cadence: a unit commits
+                             # every 20 (warmup) or 40 (production) iterations, i.e. every ~5-9 min, so any
+                             # real interval sees an unambiguous advance in the committed scalar.
   workflow_dispatch:
     inputs:
       fleet_branch:
@@ -51,6 +61,9 @@ on:
       shakeout_unit:
         description: "unit the gate keeps alive (resumes) while the terminus is unproven; ignored once a ddg.json exists"
         default: "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid"
+      stuck_start_min:
+        description: "age (min) at which a host stopped with an EMPTY status_msg starts taking strikes; 45 = the calibrated default, lower ONLY with per-host evidence that it never started"
+        default: "45"
 
 permissions:
   contents: write
@@ -95,17 +108,42 @@ jobs:
       # the terminus release of the 18 held edges could never fire. It passed locally only because the dev
       # sandbox happens to have PyYAML.
       - run: pip install -q boto3 pytest pyyaml
-      - name: Gate on the fan-out unit tests (a broken unit list must never reach a GPU)
-        # test_assert_progress_fresh.py is here too: the freshness gate below is the thing standing between
-        # "the tick went green" and "the fleet was actually measured", so a regression in IT must stop the
-        # tick just as surely as a broken unit list must.
-        run: python -m pytest research/modalities/tests/test_congeneric_fanout.py
-             research/modalities/tests/test_assert_progress_fresh.py -q
+
+      # ★★ MEASUREMENT COMES BEFORE THE LAUNCH GATE, AND THAT ORDER IS THE WHOLE POINT (2026-07-27, 12 PM ET).
+      #
+      # THE INCIDENT. At 11:37 AM ET this tick died on its FIRST step — `test_congeneric_fanout.py` was red
+      # because ANOTHER lane had just re-anchored the ladder basis ($0.004359 -> $0.003412/ns at 11:23 AM),
+      # leaving four assertions pinned to the old numbers. Those four tests are about PRICE. They stopped the
+      # progress check, the freshness gate and the reap from running at all, so 16 rentals went unmeasured and
+      # unreaped while the artifact sat at its 10:06 AM value. The lane's own cost model took its own
+      # supervision down with it.
+      #
+      # THE PRINCIPLE. The gate's stated job is "a broken unit list must never reach a GPU" — that is a
+      # precondition for RENTING, not for LOOKING. Monitoring, the freshness assertion and the reap rent
+      # nothing and destroy only what is already dead; blocking them on a price assertion inverts the safety
+      # property, because it removes supervision from a fleet that is ALREADY BILLING. Supervision must be the
+      # LAST thing a tick loses, never the first.
+      #
+      # So the pytest gate is split by what it actually guards:
+      #   * the freshness tests run HERE, because they guard the measurement's own evidence gate;
+      #   * the unit-list / cost-model tests move to just before the fan-out, where the renting happens.
+      # A red cost model now holds LAUNCHES (correct — it is a price gate) and can no longer blind the watch.
+      - name: Gate on the freshness tests (the measurement's own evidence gate must be sound)
+        # Deliberately NOT alongside the cost-model tests: this file imports nothing from the pricing path, so
+        # it cannot be taken down by a ladder re-anchor. That independence is the fix.
+        run: python -m pytest research/modalities/tests/test_assert_progress_fresh.py
+             research/modalities/tests/test_fleet_supervision_alarm.py -q
 
       - name: Progress check
         working-directory: research/modalities
         env:
           MONITOR: "1"
+          # Exposed so a DIAGNOSED batch of never-started hosts can be condemned on the evidence rather than
+          # waiting out a threshold calibrated for a different case. The default is unchanged at 45 min (the
+          # measured cases that set it sat stopped for 49-53 min), and the two other safeguards are NOT
+          # overridable here: the empty-status_msg signature still discriminates against a healthy image
+          # pull, and two consecutive strikes are still required before anything is destroyed.
+          STUCK_START_MIN: ${{ github.event.inputs.stuck_start_min || '45' }}
         run: python congeneric_fanout_vast.py
 
       # ★★ THE TICK MUST PROVE IT RE-MEASURED (2026-07-27). Immediately after the progress check, so the
@@ -136,6 +174,16 @@ jobs:
         env:
           COLLECT: "1"
         run: python congeneric_fanout_vast.py
+
+      # ★ THE LAUNCH GATE, in the only place it belongs: immediately before the step that spends money.
+      # This is the half of the old combined gate that really is about renting — the unit list and the
+      # derived cost/ceiling model. Red here must stop the fan-out and nothing else; everything above has
+      # already measured and reaped. `pyyaml` is needed by this file (it parses THIS workflow to prove `reap`
+      # is wired into the launcher's mode table), which is another reason it does not belong in front of the
+      # progress check: a missing parser once blocked every tick.
+      - name: Gate on the fan-out unit tests (a broken unit list or cost model must never reach a GPU)
+        if: ${{ github.event.inputs.release_fanout != '0' }}
+        run: python -m pytest research/modalities/tests/test_congeneric_fanout.py -q
 
       - name: Terminus-gated fan-out
         if: ${{ github.event.inputs.release_fanout != '0' }}

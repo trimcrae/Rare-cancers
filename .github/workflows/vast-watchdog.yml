@@ -41,10 +41,17 @@ name: Vast job watchdog — any kind (session-independent)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"    # GitHub throttles schedules on busy repos, so this really lands ~55-65 min
-                              # apart. That is expected and is REPORTED by the heartbeat gap, not "fixed":
-                              # the legs this covers advance ~5-6 ns/h, so an hour is a large, unambiguous
-                              # advance and a genuinely frozen leg is caught within two passes.
+    - cron: "*/15 * * * *"    # ⚠ THE "~55-65 min" THAT USED TO BE WRITTEN HERE IS RETIRED — IT WAS A
+                              # ONE-DAY OBSERVATION QUOTED AS A CONSTANT. It held on 2026-07-26; MEASURED
+                              # delivery of THIS workflow on 2026-07-27 was 1:59 AM, 5:56 AM, 8:53 AM and
+                              # 11:37 AM ET -> gaps of 235, 238, 177 and 164 MINUTES. Planning against the
+                              # retired figure means assuming a leg is checked hourly when it is really
+                              # checked every 3-4 h, which is how 16 rentals went unwatched that morning.
+                              # Per CLAUDE.md §1 the number is not re-typed here: it is MEASURED and printed
+                              # on every run of fleet-supervision-alarm.yml, which is its one home.
+                              # Still true, and independent of cadence: the legs this covers advance
+                              # ~5-6 ns/h, so a pass at ANY of these intervals sees an unambiguous advance
+                              # and a genuinely frozen leg is caught within two passes.
   workflow_dispatch:
     inputs:
       dry_run:

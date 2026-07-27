@@ -52,17 +52,27 @@ check("UNKNOWN" in r["cell"] and "cannot be graded" in r["cell"],
       "...and the cell says so rather than rendering a blank that reads as fine")
 
 print("== the drift flag fires at the threshold the rule names, and not below it")
-check(R.DRIFT_MULTIPLE == 1.5, "threshold is the 1.5x the CLAUDE.md rule states")
+# ⚠ THE THRESHOLD IS AN ABSOLUTE RATE, NOT A MULTIPLE (trimcrae, 2026-07-27). It was `R.DRIFT_MULTIPLE == 1.5`
+# here. When the throughput table was re-anchored the basis fell 22% WITHOUT ANY PRICE MOVING, so a typed
+# multiple silently became a stricter rule than the one approved. The invariant is the approved $/ns; the
+# multiple is derived from it and now reads ~1.92x — the SAME dollars. See tests/test_buy_line_invariant.py.
+import congeneric_fanout as _cf   # noqa: E402  the ladder basis the multiple is expressed against
+check(R.APPROVED_USD_PER_NS == 1.5 * (0.1372 / 31.473333333333333),
+      "the approved absolute rate is exactly what 1.5x the basis-of-record meant at the time of the ruling")
+check(abs(R.drift_multiple() * _cf.basis_usd_per_ns() - R.APPROVED_USD_PER_NS) < 1e-12,
+      "and the derived multiple reproduces that same absolute rate against the LADDER basis")
 basis = R.basis_usd_per_ns(plan)
 nsh = vcm.ns_per_hour("RTX 4090")
-# Construct rates that land either side of the threshold, from the basis itself rather than by guessing.
-just_under = R.row("RTX 4090", basis * 1.40 * nsh, plan)
-just_over = R.row("RTX 4090", basis * 1.60 * nsh, plan)
-check(not just_under["drifting"] and "⚠" not in just_under["cell"], "1.40x basis is not flagged")
-# The marker's WORDING changed on 2026-07-27 (bare `⚠ DRIFT` -> `⚠ PAYING OVER THE 1.5× LINE`) so that a row
-# we are being charged cannot render identically to one the gate refused. The threshold did not move.
+# Either side of the threshold, derived FROM THE APPROVED ABSOLUTE RATE, which is what the flag tests.
+just_under = R.row("RTX 4090", R.APPROVED_USD_PER_NS * 0.93 * nsh, plan)
+just_over = R.row("RTX 4090", R.APPROVED_USD_PER_NS * 1.07 * nsh, plan)
+check(not just_under["drifting"] and "⚠" not in just_under["cell"], "just under the line is not flagged")
+# The marker's WORDING changed on 2026-07-27 (bare `⚠ DRIFT` -> `⚠ PAYING OVER THE ...× LINE`) so that a row
+# we are being charged cannot render identically to one the gate refused.
 check(just_over["drifting"] and "⚠" in just_over["cell"] and "OVER" in just_over["cell"],
-      "1.60x basis IS flagged, and the flag says money is going out over the line")
+      "just over the line IS flagged, and the flag says money is going out over the line")
+check("approved rate" in just_over["cell"],
+      "...and it states the ABSOLUTE approved rate, so the multiple cannot be misread as a loosening")
 
 print("== the multiple is present on every priced row — it is the gradeable part")
 for card, dph in (("RTX 4090", 0.1391), ("RTX 4080S", 0.1307), ("RTX 3090", 0.0643)):
@@ -86,7 +96,7 @@ print("== ★ PAYING AND REFUSING MUST NOT RENDER THE SAME (trimcrae, 2026-07-27
 # that could not tell the two apart.
 paying = R.row("RTX 4090", 0.2497, plan, stance=R.PAYING)          # the shakeout host, 1.82x
 refused = R.row("RTX 4090", 0.4459, plan, stance=R.REFUSED)        # the 19-edge fan-out, 3.25x
-check(paying["multiple"] > R.DRIFT_MULTIPLE and refused["multiple"] > R.DRIFT_MULTIPLE,
+check(paying["usd_per_ns"] > R.APPROVED_USD_PER_NS and refused["usd_per_ns"] > R.APPROVED_USD_PER_NS,
       "both rows are over the drift line — which is why the OLD format made them identical")
 check(paying["cell"] != refused["cell"], "the two cells are not the same string")
 check("⚠" in paying["cell"] and "⚠" not in refused["cell"],
@@ -105,7 +115,7 @@ check(paying["drifting"] and refused["drifting"],
 
 print("== a row held for a reason that is NOT price says so")
 held_cheap = R.row("RTX 4090", 0.1300, plan, stance=R.REFUSED)
-check(held_cheap["multiple"] < R.DRIFT_MULTIPLE and "not on price" in held_cheap["cell"],
+check(held_cheap["usd_per_ns"] < R.APPROVED_USD_PER_NS and "not on price" in held_cheap["cell"],
       "a hold at a sane rate is not labelled a price refusal — it would misdirect the reader to the market")
 check("$0 spent" in held_cheap["cell"], "...and it still says nothing is being spent")
 
