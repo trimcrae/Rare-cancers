@@ -880,7 +880,26 @@ class VastBackend(Backend):
 
     def _ensure_running(self, inst_id, key, attempts=8, delay_s=6):
         """Re-issue PUT state=running until the instance's intended_status/actual_status is 'running' (fixes the
-        create/start race that leaves bid instances stuck 'stopped'). Bounded; logs the final state."""
+        create/start race that leaves bid instances stuck 'stopped'). Bounded; logs the final state.
+
+        ⚠ **THIS DOES NOT ACTUALLY CLOSE THE RACE — MEASURED 2026-07-27, NOT INFERRED.** Instance 46003951
+        (`bench-rtx5090-9p5nm`) exited this loop on ATTEMPT 1 with `intended=running actual=None`, ~2 s after
+        the create. Two `diag` reads afterwards:
+
+            12:55 ET  actual=loading  cur_state=stopped  intended=stopped  msg="#7 Building dependency tree..."
+            13:00 ET  actual=created  cur_state=stopped  intended=stopped  msg="Successfully loaded ...:latest"
+
+        The image pull SUCCEEDED and the box still never ran: Vast reports `intended_status=running`
+        optimistically on a fresh create, this loop takes that as done, and Vast settles the instance to
+        `intended_status=stopped` once provisioning finishes. So the exit condition is satisfied by a value
+        that has not converged yet, and the "ROBUST EXPLICIT START" comment above overstates what this does.
+
+        Deliberately NOT changed here. The obvious fix — keep polling until a TERMINAL state rather than
+        returning on the first optimistic read — lengthens every submit on every lane, and this was diagnosed
+        with 18 step-1 fan-out units live on this same code path. It needs to land with that lane, not
+        underneath it. The recovery in the meantime is the nudge the collectors already do
+        (`PUT /instances/{id}/ {"state":"running"}`), which `relaunch_market_gate.EXEMPTIONS` correctly treats
+        as restarting a host we already hold rather than as a new purchase."""
         import time
         for i in range(attempts):
             try:
