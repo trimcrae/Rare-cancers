@@ -737,18 +737,42 @@ def board_impact(offers, extra_entries=None, n_units=19, min_vram_gb=24, disk_gb
                 "fleet_x_basis": (round(fleet / basis, 3) if fleet and basis else None),
                 "per_unit_ceiling_usd_per_ns": round(ceiling, 6), "basis_usd_per_ns": round(basis, 6)}
 
-    before = _snapshot("before — table as committed")
+    # ★ THE BASELINE IS THE TABLE **MINUS** THIS SWEEP'S ADDITIONS, NOT THE TABLE AS IT SITS.
+    #
+    # Got this wrong once and it produced a flat, meaningless answer: by the time the impact runs, the new
+    # entries are already committed, so "before = table as committed" IS the after and the comparison shows
+    # nothing. The honest baseline is reconstructed by removing exactly what the sweep added — and by
+    # restoring the CONSERVATIVE_ALIAS that a measurement retired, because deleting the measurement without
+    # putting its stand-in back would overstate the gain by counting a card that was already priceable.
+    after = _snapshot("after — table with this sweep's measurements")
     if not extra_entries:
-        return {"before": before, "after": None, "n_units": n_units, "min_vram_gb": min_vram_gb}
+        return {"before": None, "after": after, "n_units": n_units, "min_vram_gb": min_vram_gb}
     saved = copy.deepcopy(_vcm.MEASURED_NS_PER_DAY_84K)
+    saved_alias = copy.deepcopy(_vcm.CONSERVATIVE_ALIASES)
     try:
-        _vcm.MEASURED_NS_PER_DAY_84K.update(extra_entries)
-        after = _snapshot("after — with this sweep's admitted entries")
+        for k in extra_entries:
+            _vcm.MEASURED_NS_PER_DAY_84K.pop(k, None)
+        for k, v in (RETIRED_ALIASES_FOR_BASELINE or {}).items():
+            if k not in _vcm.MEASURED_NS_PER_DAY_84K and v[0] in _vcm.MEASURED_NS_PER_DAY_84K:
+                _vcm.CONSERVATIVE_ALIASES[k] = v
+        before = _snapshot("before — table without this sweep")
     finally:
         _vcm.MEASURED_NS_PER_DAY_84K.clear()
         _vcm.MEASURED_NS_PER_DAY_84K.update(saved)
+        _vcm.CONSERVATIVE_ALIASES.clear()
+        _vcm.CONSERVATIVE_ALIASES.update(saved_alias)
     return {"before": before, "after": after, "n_units": n_units, "min_vram_gb": min_vram_gb,
             "added": dict(extra_entries)}
+
+
+# The alias state a measurement retired, kept ONLY so the before/after baseline is honest. Never read by any
+# ranking path — `vast_cost_model.CONSERVATIVE_ALIASES` is the live allow-list.
+RETIRED_ALIASES_FOR_BASELINE = {
+    "RTX3090TI": ("RTX3090", "conservative alias retired 2026-07-27 when the card was measured"),
+}
+# The cards this sweep put in the table that were NOT there before. A re-measurement of an existing entry
+# (RTX 4090, RTX 4080) is not a widening and must not be counted as one.
+ADDED_BY_THIS_SWEEP = ("RTX5090", "RTX5080", "A100PCIE", "RTXPRO4000", "RTX3090TI", "RTX5060TI", "RTXA4000")
 
 
 def mode_impact():
@@ -765,6 +789,9 @@ def mode_impact():
             extra = json.load(open("vast-bench-sweep-results.json")).get("admitted") or {}
         except (OSError, ValueError):
             extra = {}
+    # Only the cards this sweep ADDED define the baseline; a re-measurement of a card that was already in the
+    # table (RTX 4090, RTX 4080) was priceable before and after, so removing it would invent a gain.
+    extra = {k: v for k, v in extra.items() if k in ADDED_BY_THIS_SWEEP}
     out = {}
     for vram in (int(os.environ.get("BENCH_IMPACT_VRAM", "24")), 16):
         out[f"min_vram_{vram}gb"] = board_impact(offers, extra, min_vram_gb=vram)
