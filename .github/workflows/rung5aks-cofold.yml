@@ -336,8 +336,10 @@ jobs:
             # The ARCHIVED attempt first: on a restart it is the only record of why the run ended.
             A=$(aws s3 ls "$P/attempts/" 2>/dev/null | sort | tail -1 | awk '{print $4}' || true)
             if [ -n "$A" ]; then
-              echo "--- attempts/$A  (THE FAILING ATTEMPT — tail 200)"
-              aws s3 cp "$P/attempts/$A" - 2>/dev/null | tail -200 || true
+              echo "--- attempts/$A  (THE FAILING ATTEMPT — tail 60, iteration spam filtered)"
+              aws s3 cp "$P/attempts/$A" - 2>/dev/null \
+                | grep -vE "^INFO:\s+(Iteration [0-9]+/|\*{20,}|Iteration took|Estimated completion|Preset charges)" \
+                | tail -60 || true
             else
               echo "--- (no archived attempt)"
             fi
@@ -346,15 +348,25 @@ jobs:
             # dataset is not the newest attempt but ALL of them: for each, when it started, how long it
             # survived, and what the last thing it said was. That is what turns "it keeps dying" into a
             # period and a death position that can be correlated with commits, bids or wall clock.
-            echo "--- ATTEMPT CENSUS (start -> last line, per archived attempt)"
-            for A in $(aws s3 ls "$P/attempts/" 2>/dev/null | awk '{print $4}' | sort | tail -12); do
-              SZ=$(aws s3 ls "$P/attempts/$A" | awk '{print $3}')
-              echo "  == $A  (${SZ} B)"
+            # The ARCHIVE TIME is the load-bearing column: an attempt is archived by the NEXT container start,
+            # so the gaps between consecutive archive timestamps ARE the death period. Everything else in the
+            # census (size, last iteration, tail) says where in the run it died; only this says how often.
+            echo "--- ATTEMPT CENSUS (archive time UTC | bytes | last progress | tail), oldest first"
+            aws s3 ls "$P/attempts/" 2>/dev/null | sort -k1,2 | tail -16 > /tmp/att.ls || true
+            PREV=""
+            while read -r D T SZ A; do
+              [ -n "$A" ] || continue
+              GAP=""
+              if [ -n "$PREV" ]; then
+                GAP=$(python3 -c 'import datetime,sys; f=datetime.datetime.fromisoformat; print("  (+%.1f min)" % ((f(sys.argv[2])-f(sys.argv[1])).total_seconds()/60.0))' "$PREV" "${D}T${T}" 2>/dev/null || true)
+              fi
+              PREV="${D}T${T}"
+              echo "  == ${D} ${T}Z  ${SZ} B  $A${GAP}"
               aws s3 cp "$P/attempts/$A" - 2>/dev/null > /tmp/att.log || true
-              grep -E "^\[tvast\].*start unit=" /tmp/att.log | head -1 | sed 's/^/     START: /' || true
-              grep -E "Iteration [0-9]+/|barrier|committed checkpoint" /tmp/att.log | tail -2 | sed 's/^/     LAST : /' || true
-              tail -3 /tmp/att.log | sed 's/^/     TAIL : /' || true
-            done
+              grep -E "Iteration [0-9]+/|committed|checkpoint|barrier" /tmp/att.log | tail -2 | sed 's/^/     LAST : /' || true
+              grep -vE "^INFO:\s+(Iteration [0-9]+/|\*{20,}|Iteration took|Estimated completion|Preset charges)" \
+                /tmp/att.log | tail -4 | sed 's/^/     TAIL : /' || true
+            done < /tmp/att.ls
             # SUPERSEDED records: a failed leg.json that was archived-and-cleared. Reading them back is the
             # whole point of archiving rather than deleting — a cleared record must still be answerable for.
             for SUP in $(aws s3 ls "$P/superseded/" 2>/dev/null | awk '{print $4}' | sort | tail -4); do
