@@ -3,8 +3,29 @@
   "_scope": "19 map edges at their charge-conserving microstate leg, on the PRIMARY nr4a3_design druggable frame. Charge-changing microstate legs and the conformer/paralogue frame axis are separate tranches and were NOT run \u2014 see congeneric_fanout.plan().",
   "_claim_ceiling": "CONDITIONAL relative free energies given a HYPOTHESIZED cmpd19 pose (no solved NR4A3 cocrystal) in ONE modeled opened conformer, single replicate per edge. NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is not established here \u2014 it rests on valA_mini + OpenFE's published benchmark for this protocol.",
   "n_units": 19,
-  "n_complete": 0,
-  "results": [],
+  "n_complete": 1,
+  "results": [
+    {
+      "unit_id": "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5cooh",
+      "leg_id": "neutral__neutral_acid",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "zaienne_cmpd19",
+      "ligand_b": "cw_ev_5cooh",
+      "ddg_bind_kcal": 0.688,
+      "ddg_bind_unc_kcal": 0.197,
+      "dg_complex_morph_kcal": -37.34246311754319,
+      "complex_unc_kcal": 0.1328809571071061,
+      "dg_solvent_morph_kcal": -38.03048774793776,
+      "solvent_unc_kcal": 0.14552597006116563,
+      "n_mapped_atoms": 21,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    }
+  ],
   "cycle_closure": [
     {
       "cycle_id": "cycle_exitvector_aniline",
@@ -38,9 +59,18 @@
     }
   ],
   "cycle_closure_note": "Internal consistency only: a closed cycle does not make the map accurate, but an open one means at least one of its edges is unconverged or mis-mapped and its ddG must not be quoted.",
-  "ranking": [],
+  "ranking": [
+    {
+      "node": "cw_ev_5cooh",
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5cooh",
+      "ddg_bind_kcal": 0.688,
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "perturbation": "5-Br -> 5-COOH (amide-coupling vector; ionizable)"
+    }
+  ],
   "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this modeled conformer, conditional on the pose hypothesis.",
-  "realised_usd": 3.22,
+  "realised_usd": 3.26,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -87,8 +117,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
       "machine_id": 55559,
       "rate_usd_h": 0.1805,
-      "billed_h": 0.57,
-      "usd": 0.102
+      "billed_h": 0.75,
+      "usd": 0.135
     }
   ],
   "plan_usd_whole_tranche": 35.67,

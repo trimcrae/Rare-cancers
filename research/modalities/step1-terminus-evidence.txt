@@ -1,16 +1,16 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 8:37 AM ET Jul 27, 2026
+[s1f-terminus] read at 8:53 AM ET Jul 27, 2026
 
-[s1f-terminus] 441 object(s) under the results prefix
+[s1f-terminus] 493 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
-  (none) — no unit has written a ddg.json, so reduce -> commit -> upload has never been observed on this lane.
+      1007 B  8:48 AM ET Jul 27, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid/ddg.json
 
 === PER-UNIT CENSUS — furthest committed iteration per (leg, phase), from the spot commit store ===
     smoke ceiling = production@4; production target = warmup@400 + production@2000 per leg
   e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral             ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral              ddg=no  NO-TERMINUS        no commits
-  e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@1440, solvent/warmup@400
+  e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=no  NO-TERMINUS        complex/warmup@120
   e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=no  NO-TERMINUS        complex/warmup@60
   e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=no  NO-TERMINUS        no commits
@@ -29,23 +29,45 @@
   e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neu ddg=no  NO-TERMINUS        no commits
 
 === TERMINUS ===
-  ⛔ NOT MET — no ddg.json anywhere under the results prefix. The 18 edges stay held; the shakeout unit is the only thing that may be rented.
+  ✅ MET — at least one unit has a ddg.json whose BOTH legs committed real production sampling.
+     e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
+     ddg.json:
+       {
+         "unit_id": "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
+         "edge_id": "e_zaienne_cmpd19__cw_ev_5cooh",
+         "leg_id": "neutral__neutral_acid",
+         "receptor": "nr4a3",
+         "frame": "nr4a3_design:top_druggable_frame_1",
+         "ligand_a": "zaienne_cmpd19",
+         "ligand_b": "cw_ev_5cooh",
+         "ddg_bind_kcal": 0.688,
+         "ddg_bind_unc_kcal": 0.197,
+         "dg_complex_morph_kcal": -37.34246311754319,
+         "complex_unc_kcal": 0.1328809571071061,
+         "dg_solvent_morph_kcal": -38.03048774793776,
+         "solvent_unc_kcal": 0.14552597006116563,
+         "n_mapped_atoms": 21,
+         "n_windows": 12,
+         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+       }
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 64 offers visible (baseline ~23), 64 qualifying, 36 priceable, 19 needed
-  floors           : min $0.0467/hr, median $0.1867/hr
-  best fleet $/ns  : $0.007262/ns  ·  1.67× basis (basis $0.004359/ns)
-  projected        : $59.43 against a $80.44 ceiling
+  board depth      : 64 offers visible (baseline ~23), 64 qualifying, 34 priceable, 18 needed
+  floors           : min $0.048/hr, median $0.1867/hr
+  best fleet $/ns  : $0.00724/ns  ·  1.66× basis (basis $0.004359/ns)
+  projected        : $56.13 against a $76.21 ceiling
   ⚠ DRIFT — ≥1.5× basis. A release into this board would be HELD on price.
-    RTX 4090   m24573    $0.1067/hr  $0.00452/ns · 1.04× basis
-    RTX 4090   m18857    $0.1200/hr  $0.00472/ns · 1.08× basis
-    RTX 3090   m29304    $0.0467/hr  $0.00480/ns · 1.10× basis
-    RTX 4090   m12697    $0.1333/hr  $0.00516/ns · 1.18× basis
-    RTX 3090   m28164    $0.0507/hr  $0.00528/ns · 1.21× basis
+    RTX 4090   m18857    $0.1220/hr  $0.00479/ns · 1.10× basis
+    RTX 3090   m29304    $0.0480/hr  $0.00490/ns · 1.12× basis
+    RTX 4090   m12697    $0.1360/hr  $0.00525/ns · 1.20× basis
+    RTX 4090   m24573    $0.1490/hr  $0.00593/ns · 1.36× basis
+    RTX 4090   m31036    $0.1620/hr  $0.00612/ns · 1.40× basis
+    RTX 4090   m55559    $0.1770/hr  $0.00661/ns · 1.52× basis
     RTX 4090   m56108    $0.1730/hr  $0.00673/ns · 1.54× basis
-    RTX 4090   m55559    $0.1810/hr  $0.00675/ns · 1.55× basis
     RTX 4090   m51777    $0.1867/hr  $0.00694/ns · 1.59× basis
     RTX 4090   m12227    $0.1870/hr  $0.00695/ns · 1.59× basis
-    RTX 4090   m26628    $0.2000/hr  $0.00738/ns · 1.69× basis
     RTX 4080S  m46392    $0.1867/hr  $0.00745/ns · 1.71× basis
-    RTX 4080S  m29668    $0.2000/hr  $0.00787/ns · 1.81× basis
+    RTX 4090   m26628    $0.2040/hr  $0.00751/ns · 1.72× basis
+    RTX 4090   m117852   $0.1867/hr  $0.00767/ns · 1.76× basis

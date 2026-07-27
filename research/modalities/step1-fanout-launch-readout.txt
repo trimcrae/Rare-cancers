@@ -1,5 +1,63 @@
-[s1f] TERMINUS NOT PROVEN — no unit has a ddg.json, so reduce/commit/upload has never been observed on this lane. Holding 18 unit(s); RESUMING the shakeout unit (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) if it needs it: 0 to submit.
-[s1f] units=19 done=0 pending=19 live=1 free_slots=18 -> submitting 0
-[s1f] cost of THIS submission (0 units): plan $0.0 (band $0.0-0.0) | whole remaining tranche (19 units): plan $35.67 (band $14.82-80.44)
-[s1f] wave shape: {"n_units": 19, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f] nothing to submit (fleet already at width, or all units done)
+[s1f] terminus PROVEN by 1 unit(s) (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) — fan-out released
+[s1f] units=19 done=1 pending=18 live=0 free_slots=19 -> submitting 18
+[s1f] cost of THIS submission (18 units): plan $33.79 (band $14.04-76.21) | whole remaining tranche (18 units): plan $33.79 (band $14.04-76.21)
+[s1f] wave shape: {"n_units": 18, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5nh2, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5oh, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5alkyne, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5ch2nh2, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5opropargyl, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5piperazine, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5pegamine, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_primary_amide, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_nmethyl_amide, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral  (zaienne_cmpd19 -> cw_bio_tetrazole, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_acylsulfonamide, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral  (zaienne_cmpd19 -> cw_bio_hydroxamic, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid  (zaienne_cmpd19 -> cw_ms_free_acid, microstate_variant)
+[s1f]   queue e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral  (zaienne_cmpd19 -> cw_ms_carbinol, microstate_variant)
+[s1f]   queue e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral  (zaienne_cmpd19 -> cw_ms_5acetamido_ester, microstate_variant)
+[s1f]   queue e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral  (cw_ev_5nh2 -> cw_ms_5acetamido_ester, cycle_closure)
+[s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
+[s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
+[s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
+[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 64 offers -> 64 qualifying, 34 priceable. A single unit is authorised up to $0.009822/ns (2.25x the rung basis $0.004359/ns) — DERIVED from market_ceiling_usd(1) / reference_ns_per_unit, not typed here.
+[s1f] PLACEMENT: 18 unit(s) LAUNCHING NOW, 0 HELD for a better board (of 18 withheld this tick).
+[s1f]   launch @ $0.004522/ns · 1.04x basis
+[s1f]   launch @ $0.004721/ns · 1.08x basis
+[s1f]   launch @ $0.005164/ns · 1.18x basis
+[s1f]   launch @ $0.006710/ns · 1.54x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.006728/ns · 1.54x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.006728/ns · 1.54x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.006937/ns · 1.59x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.006947/ns · 1.59x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007380/ns · 1.69x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007380/ns · 1.69x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007448/ns · 1.71x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007770/ns · 1.78x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007871/ns · 1.81x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.008157/ns · 1.87x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.008368/ns · 1.92x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.008806/ns · 2.02x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.009402/ns · 2.16x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.009596/ns · 2.20x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   spend authorised THIS TICK: $74.39 against $76.21 — the ceiling for the 18 unit(s) actually being BOUGHT, not for the notional full tranche.
+[s1f] excluding 1 machine(s) from offer selection: ['28164']
+[s1f] submitted s1f-00-cw_ev_5nh2 -> instance 46003946 machine 24573 dph≈$0.10962962962962963/hr (floor $0.10666666666666667/hr -> bid $0.1088/hr, +$0.0021/hr premium)
+[s1f] submitted s1f-01-cw_ev_5oh -> instance 46004009 machine 18857 dph≈$0.12222222222222222/hr (floor $0.12/hr -> bid $0.1224/hr, +$0.0024/hr premium)
+[s1f] submitted s1f-03-cw_ev_5alkyne -> instance 46004010 machine 12697 dph≈$0.13555555555555554/hr (floor $0.13333333333333333/hr -> bid $0.136/hr, +$0.0027/hr premium)
+[s1f] submitted s1f-04-cw_ev_5ch2nh2 -> instance 46004011 machine 35778 dph≈$0.16088888888888886/hr (floor $0.15866666666666665/hr -> bid $0.1618/hr, +$0.0031/hr premium)
+[s1f] submitted s1f-05-cw_ev_5opropargyl -> instance 46004012 machine 55559 dph≈$0.17555555555555555/hr (floor $0.17333333333333334/hr -> bid $0.1768/hr, +$0.0035/hr premium)
+[s1f] submitted s1f-06-cw_ev_5piperazine -> instance 46004013 machine 31036 dph≈$0.16088888888888886/hr (floor $0.15866666666666665/hr -> bid $0.1618/hr, +$0.0031/hr premium)
+[s1f] submitted s1f-07-cw_ev_5pegamine -> instance 46004015 machine 30113 dph≈$0.1608889222222222/hr (floor $0.1586667/hr -> bid $0.1618/hr, +$0.0031/hr premium)
+[s1f] submitted s1f-08-cw_bio_primary_amide -> instance 46004016 machine 48605 dph≈$0.06962963296296296/hr (floor $0.06666667/hr -> bid $0.068/hr, +$0.0013/hr premium)
+[s1f] submitted s1f-09-cw_bio_nmethyl_amide -> instance 46004069 machine 29304 dph≈$0.04888888888888889/hr (floor $0.04666666666666667/hr -> bid $0.0476/hr, +$0.0009/hr premium)
+[s1f] submitted s1f-10-cw_bio_tetrazole -> instance 46004070 machine 137610 dph≈$0.16814814814814813/hr (floor $0.16666666666666666/hr -> bid $0.17/hr, +$0.0033/hr premium)
+[s1f] submitted s1f-11-cw_bio_acylsulfonamide -> instance 46004071 machine 31035 dph≈$0.16088888888888886/hr (floor $0.15866666666666665/hr -> bid $0.1618/hr, +$0.0031/hr premium)
+[s1f] submitted s1f-12-cw_bio_hydroxamic -> instance 46004072 machine 11892 dph≈$0.1622222222222222/hr (floor $0.16/hr -> bid $0.1632/hr, +$0.0032/hr premium)
+[s1f] submitted s1f-13-cw_ms_free_acid -> instance 46004074 machine 51777 dph≈$0.18888888888888888/hr (floor $0.18666666666666668/hr -> bid $0.1904/hr, +$0.0037/hr premium)
+[s1f] submitted s1f-14-cw_ms_carbinol -> instance 46004077 machine 8328 dph≈$0.17596296296296296/hr (floor $0.173/hr -> bid $0.1765/hr, +$0.0035/hr premium)
+[s1f] submitted s1f-15-cw_ms_5acetamido_ester -> instance 46004150 machine 12227 dph≈$0.1892222222222222/hr (floor $0.187/hr -> bid $0.1907/hr, +$0.0037/hr premium)
+[s1f] submitted s1f-16-cw_ms_5acetamido_ester -> instance 46004211 machine 56108 dph≈$0.17596296296296296/hr (floor $0.173/hr -> bid $0.1765/hr, +$0.0035/hr premium)
+[s1f] submitted s1f-17-cw_ev_5opropargyl -> instance 46004271 machine 4590 dph≈$0.17596296296296296/hr (floor $0.173/hr -> bid $0.1765/hr, +$0.0035/hr premium)
+[s1f] submitted s1f-18-cw_bio_primary_amide -> instance 46004340 machine 26628 dph≈$0.2022222222222222/hr (floor $0.19999999999999998/hr -> bid $0.204/hr, +$0.004/hr premium)

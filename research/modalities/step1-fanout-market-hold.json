@@ -1,7 +1,7 @@
 {
   "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a finished fleet \u2014 and a partial launch that reports only what it launched is the same failure wearing a better number.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. Per-unit since 2026-07-27 (trimcrae): if 5 GPUs are cheap enough and the rest are not, run 5.",
-  "utc": "2026-07-27T12:36:23Z",
+  "utc": "2026-07-27T12:48:27Z",
   "held": false,
   "n_withheld": 18,
   "n_launching_now": 18,
@@ -11,41 +11,41 @@
   "placed_usd_per_ns": [
     0.004522,
     0.004721,
-    0.004799,
     0.005164,
-    0.006005,
-    0.006748,
+    0.00671,
+    0.006728,
+    0.006728,
     0.006937,
     0.006947,
-    0.00738,
     0.00738,
     0.00738,
     0.007448,
     0.00777,
     0.007871,
     0.008157,
-    0.009504,
-    0.009504,
+    0.008368,
+    0.008806,
+    0.009402,
     0.009596
   ],
   "placed_x_basis": [
     1.04,
     1.08,
-    1.1,
     1.18,
-    1.38,
-    1.55,
+    1.54,
+    1.54,
+    1.54,
     1.59,
     1.59,
-    1.69,
     1.69,
     1.69,
     1.71,
     1.78,
     1.81,
     1.87,
-    2.18,
-    2.18,
+    1.92,
+    2.02,
+    2.16,
     2.2
   ],
   "basis_usd_per_ns": 0.004359,
@@ -54,8 +54,8 @@
   "held_reason": null,
   "board_depth": {
     "offers_returned": 64,
-    "qualifying": 63,
-    "priceable": 31,
+    "qualifying": 64,
+    "priceable": 34,
     "needed": 18,
     "used_for_mean": 18
   },
@@ -73,28 +73,28 @@
       "usd_per_ns": 0.004721
     },
     {
-      "gpu": "RTX 3090",
-      "machine_id": 29304,
-      "min_bid": 0.04666666666666667,
-      "usd_per_ns": 0.004799
-    },
-    {
       "gpu": "RTX 4090",
       "machine_id": 12697,
       "min_bid": 0.13333333333333333,
       "usd_per_ns": 0.005164
     },
     {
-      "gpu": "RTX 4090",
-      "machine_id": 31036,
-      "min_bid": 0.15866666666666665,
-      "usd_per_ns": 0.006005
+      "gpu": "RTX 3090",
+      "machine_id": 48605,
+      "min_bid": 0.06666667,
+      "usd_per_ns": 0.00671
     },
     {
       "gpu": "RTX 4090",
-      "machine_id": 55559,
-      "min_bid": 0.181,
-      "usd_per_ns": 0.006748
+      "machine_id": 56108,
+      "min_bid": 0.173,
+      "usd_per_ns": 0.006728
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 8328,
+      "min_bid": 0.173,
+      "usd_per_ns": 0.006728
     },
     {
       "gpu": "RTX 4090",
@@ -121,12 +121,6 @@
       "usd_per_ns": 0.00738
     },
     {
-      "gpu": "RTX 4090",
-      "machine_id": 28080,
-      "min_bid": 0.19999999999999998,
-      "usd_per_ns": 0.00738
-    },
-    {
       "gpu": "RTX 4080S",
       "machine_id": 46392,
       "min_bid": 0.18666666666666668,
@@ -141,36 +135,42 @@
     {
       "gpu": "RTX 4080S",
       "machine_id": 29668,
-      "min_bid": 0.2,
+      "min_bid": 0.19999999999999998,
       "usd_per_ns": 0.007871
     },
     {
       "gpu": "RTX 4090",
-      "machine_id": 114209,
+      "machine_id": 117849,
       "min_bid": 0.18666666666666668,
       "usd_per_ns": 0.008157
     },
     {
-      "gpu": "RTX 3090",
-      "machine_id": 40935,
-      "min_bid": 0.10666666666666667,
-      "usd_per_ns": 0.009504
+      "gpu": "RTX 4090",
+      "machine_id": 142576,
+      "min_bid": 0.24,
+      "usd_per_ns": 0.008368
     },
     {
       "gpu": "RTX 3090",
-      "machine_id": 26018,
+      "machine_id": 32560,
+      "min_bid": 0.104,
+      "usd_per_ns": 0.008806
+    },
+    {
+      "gpu": "RTX 3090",
+      "machine_id": 24039,
       "min_bid": 0.10666666666666667,
-      "usd_per_ns": 0.009504
+      "usd_per_ns": 0.009402
     },
     {
       "gpu": "RTX 4090",
-      "machine_id": 19205,
+      "machine_id": 112441,
       "min_bid": 0.26666666666666666,
       "usd_per_ns": 0.009596
     }
   ],
-  "binding_gate": "terminus",
-  "binding_gate_why": "no unit has a ddg.json \u2014 reduce/commit/upload has never been observed on this lane, so these units cannot launch at ANY price",
+  "binding_gate": null,
+  "binding_gate_why": null,
   "price_is_binding": false,
   "first_held_utc": null,
   "held_hours": 0.0
