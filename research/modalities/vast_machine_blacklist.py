@@ -29,6 +29,16 @@ than "share everything".
 WRITES STAY WHERE THEY WERE. Each lane keeps owning its own list and its own history — this module only adds
 a second, additive destination for host-scoped entries and a union on read. A failure to reach the shared set
 NEVER blocks a launch: the lane falls back to exactly its previous behaviour.
+
+⚠ KNOWN AND DELIBERATELY NOT SOLVED HERE: THE SET IS PERMANENT AND ONLY GROWS. A machine that refused a start
+in July is still excluded in September even if its GPU freed up the next hour, and a union across lanes makes
+that accumulate faster than a single lane's list did. Nothing here ages an entry out, because "how long is a
+capacity refusal true for" is a question with no measurement behind it yet and a wrong TTL would silently
+re-admit the hosts this exists to refuse. What IS done is to make the failure mode legible rather than
+mysterious: `relaunch_market_gate.gate` detects "the board returned offers and none survived the filter while
+N machines are excluded" and reports it as `hold_cause: exclusions_or_spec_not_price`, so an over-grown set
+surfaces as itself instead of as an unaffordable market. Revisit with a measured re-test policy when the set
+is large enough to matter against the ~23-host board.
 """
 import json
 import os

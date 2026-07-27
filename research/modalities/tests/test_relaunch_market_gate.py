@@ -100,6 +100,22 @@ def test_an_unreadable_or_unpriceable_board_holds(tmp_path):
 # =============================================================================================================
 # 3 — the boundary: renting is gated, RUNNING work is not
 # =============================================================================================================
+def test_a_board_emptied_by_exclusions_is_not_reported_as_a_price_hold(tmp_path):
+    """The shared blacklist only grows, so a set large enough to disqualify the whole board would hold this
+    gate forever while the readout blamed the market. The discriminating observation is that the board
+    RETURNED offers and none survived the filter — that must be named, or a night is spent re-pricing a
+    ceiling that was never the problem."""
+    offers = [_offer("46392", _usd_h_at_ratio(0.5)), _offer("28164", _usd_h_at_ratio(0.6))]
+    hold, doc = rmg.gate("ternary", "u", RES, offers=offers, excluded=["46392", "28164"],
+                         readout_path=str(tmp_path / "r.json"))
+    assert hold is True
+    assert doc.get("hold_cause") == "exclusions_or_spec_not_price"
+    assert "NOT A PRICE HOLD" in doc["reason"]
+    # ...and the same board WITHOUT the exclusions clears, which is what proves the diagnosis.
+    hold2, _ = rmg.gate("ternary", "u", RES, offers=offers, readout_path=str(tmp_path / "r2.json"))
+    assert hold2 is False
+
+
 def test_a_running_leg_is_never_reached_by_the_gate(monkeypatch):
     """THE BOUNDARY. Both watchdogs consult the gate only on the DIED branch — the branch where the host is
     already gone. A RUNNING verdict must reach `continue` without the gate being consulted at all, because a
