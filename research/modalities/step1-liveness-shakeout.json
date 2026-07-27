@@ -1,14 +1,31 @@
 {
   "smoke": {
-    "rc": 127,
+    "rc": 0,
     "sync_s": 5.0,
     "silent_phase_s": 20.0,
-    "run_log_present": false,
-    "phase_txt_present": false,
-    "distinct_run_log_mtimes_during_the_run": 0,
-    "mtimes": [],
-    "advanced_during_a_silent_phase": false,
-    "keys": []
+    "run_log_present": true,
+    "phase_txt_present": true,
+    "distinct_run_log_mtimes_during_the_run": 12,
+    "mtimes": [
+      "2026-07-27T14:01:29+00:00",
+      "2026-07-27T14:01:33+00:00",
+      "2026-07-27T14:01:37+00:00",
+      "2026-07-27T14:01:39+00:00",
+      "2026-07-27T14:01:45+00:00",
+      "2026-07-27T14:01:50+00:00",
+      "2026-07-27T14:01:56+00:00",
+      "2026-07-27T14:02:00+00:00",
+      "2026-07-27T14:02:02+00:00",
+      "2026-07-27T14:02:08+00:00",
+      "2026-07-27T14:02:13+00:00",
+      "2026-07-27T14:02:19+00:00"
+    ],
+    "advanced_during_a_silent_phase": true,
+    "keys": [
+      "nr4a3-step1-fanout/liveness-shakeout/shakeout_unit/phase.txt",
+      "nr4a3-step1-fanout/liveness-shakeout/shakeout_unit/run.log"
+    ],
+    "_criteria_failed": []
   },
   "_what": "step 1 liveness shakeout \u2014 smoke -> one real onstart -> guard verdict (CLAUDE.md \u00a76), against a SCRATCH S3 prefix that cannot touch a live unit",
   "_scratch_prefix": "s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/liveness-shakeout/shakeout_unit",
@@ -16,17 +33,17 @@
     "runs": [
       {
         "n": 1,
-        "rc": 127,
+        "rc": 0,
         "brake_tripped": false,
-        "selfstop_ran": false,
-        "archived_previous_attempt": false
+        "selfstop_ran": true,
+        "archived_previous_attempt": true
       },
       {
         "n": 2,
-        "rc": 127,
+        "rc": 0,
         "brake_tripped": false,
-        "selfstop_ran": false,
-        "archived_previous_attempt": false
+        "selfstop_ran": true,
+        "archived_previous_attempt": true
       },
       {
         "n": 3,
@@ -36,29 +53,40 @@
         "archived_previous_attempt": false
       }
     ],
-    "attempt_keys": [],
-    "every_attempt_key_parses": false,
-    "start_ages_min": [],
-    "brake_tripped_on_the_third_start_only": true
+    "attempt_keys": [
+      "nr4a3-step1-fanout/liveness-shakeout/shakeout_unit/attempts/run-20260727T140225Z.log",
+      "nr4a3-step1-fanout/liveness-shakeout/shakeout_unit/attempts/run-20260727T140303Z.log"
+    ],
+    "every_attempt_key_parses": true,
+    "start_ages_min": [
+      1.2681023796399435,
+      0.6347690463066101
+    ],
+    "brake_tripped_on_the_third_start_only": true,
+    "_criteria_failed": []
   },
   "verdict": {
-    "log_age_min": null,
-    "start_ages_min": [],
+    "log_age_min": 0.04964376666666667,
+    "start_ages_min": [
+      1.2829773624738057,
+      0.6496440291404724
+    ],
     "fresh_heartbeat": {
-      "verdict": "UNKNOWN",
-      "why": "the container has started but no run.log has ever been uploaded \u2014 no evidence to judge on, so leaving it alone",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 0 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "spared": true
     },
     "if_it_went_silent": {
-      "verdict": "UNKNOWN",
-      "why": "the container has started but no run.log has ever been uploaded \u2014 no evidence to judge on, so leaving it alone",
-      "condemned": false
+      "verdict": "WEDGED",
+      "why": "run.log last written 16 min ago (>= 15) with no committed progress \u2014 the host has lost its write path, so it cannot checkpoint and nothing it is doing can be recovered",
+      "condemned": true
     },
     "observed_restart_churn": {
-      "verdict": "UNKNOWN",
-      "why": "the container has started but no run.log has ever been uploaded \u2014 no evidence to judge on, so leaving it alone",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 0 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "condemned": false
     },
-    "both_directions_work": false
+    "both_directions_work": true,
+    "_criteria_failed": []
   }
 }
