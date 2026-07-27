@@ -1543,10 +1543,19 @@ def mode_monitor():
     # destroyed on a blind read.
     live, unreadable = None, None
     if key:
+        # ⛔ DO NOT "SIMPLIFY" THIS TRY AWAY — IT IS THE ONLY THING THAT MAKES THE `live is None` BRANCH BELOW
+        #    REACHABLE WHEN THE API FAILS. `_live_instances` RAISES; it never returns None. Delete this catch
+        #    and the handler below silently narrows to "no key configured", which is precisely the state this
+        #    code was in during the 1:21 PM ET incident: a branch whose comment claimed to cover an API
+        #    failure, which could not fire for one. Do not trust the handler's existence as proof the case is
+        #    handled — the pairing IS the mechanism, and `tests/test_monitor_survives_unreadable_board.py`
+        #    exercises it end-to-end rather than reading this prose back.
         try:
             live = _live_instances(key)
         except Exception as e:  # noqa: BLE001 — any read failure is the same "could not ask" state
             unreadable = f"{type(e).__name__}: {e}"[:300]
+    # Reached in TWO ways, and they mean different things: no key (never asked) or the catch above (asked,
+    # refused). Both are "could not ask"; neither is "asked and the answer was none".
     if live is None:
         print("[s1f] ⚠ live s1f-* instances: UNKNOWN — "
               + ("no VAST_API_KEY in this environment" if not key else
@@ -1861,9 +1870,15 @@ def mode_monitor():
         "_generated_utc": _utcnow(),
         "_generated_et": _et_now(),
         "n_units": len(units), "n_complete": n_done,
-        # ★ NULL, NOT ZERO, WHEN THE BOARD COULD NOT BE READ. A consumer that does arithmetic on this should
-        # break loudly rather than quietly conclude "nothing is billing" — see the block at the top of this
-        # function. `_vast_unreadable` carries the reason so the distinction survives into the artifact.
+        # ★★ NULL, NOT ZERO — AND THE REASON LIVES HERE BECAUSE 0 IS A LEGAL GOOD VALUE AND null IS NOT.
+        # This is the absent-vs-good-value collapse this repo has now hit five times. `0` is a REAL, correct
+        # reading (a finished fleet with everything reaped is genuinely 0 live instances), so a reader — human
+        # or code — has no way to tell a measured 0 from a fabricated one. There is no in-band value that can
+        # carry "unmeasured", which is exactly why it must go out of band as null.
+        # ⛔ Never "tidy" this to `len(live)`: above, `live` is degraded to `[]` on a blind read purely so the
+        # S3 census can proceed, so `len(live)` would render a board we never saw as a confident zero — the
+        # single most expensive shape of this bug, because a false zero on a RENTAL board reads as
+        # "nothing is billing" and invites shutting off supervision on a fleet that is still charging.
         "live_instances": None if (unreadable or not key) else len(live),
         "_vast_unreadable": unreadable,
         "instance_states": states,

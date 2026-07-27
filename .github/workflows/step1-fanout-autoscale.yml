@@ -300,3 +300,58 @@ jobs:
           cat /tmp/fleet-supervision-verdict.json >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || \
             echo '{"verdict": "ALARM ITSELF FAILED — the check did not produce a verdict file"}' >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      # ★★ A DELIVERY PATH THAT DOES NOT GO THROUGH GITHUB'S SCHEDULER (2026-07-27).
+      #
+      # THE GAP THIS CLOSES, STATED EXACTLY. Attaching the alarm to every tick bought FREQUENCY, because the
+      # tick is agent-dispatched. It did NOT buy a PUSH: the verdict landed in a step summary, and GitHub's
+      # only "email a human" behaviour is a failed run of a SCHEDULED workflow — and this repo's schedules
+      # delivered nothing all day (fleet-supervision-alarm.yml ran once in its first 90 minutes, that once
+      # being a manual dispatch). So a red alarm on a hand-dispatched tick reached nobody.
+      #
+      # SES needs no scheduler and no new secret: `mailer.send_email` uses the SAME AWS credentials this
+      # workflow already holds, so the notification rides the tick's own cadence. That is the whole point —
+      # the alert is delivered by the thing that actually runs, not by the thing that is supposed to.
+      #
+      # ⚠ `if: failure()` — ONLY on a real FAILING/STALE verdict, never on a healthy tick. An alarm that
+      # emails on success trains the reader to ignore it, which is the same end state as no alarm.
+      #
+      # ⚠ `continue-on-error` IS LOAD-BEARING, NOT LAZINESS. The alarm's red must stand on the alarm's own
+      # finding. If SES is still sandboxed (MAIL_TO unverified — see daily-degrader-email.yml, mode=verify)
+      # or the send fails for any other reason, that must NOT overwrite the verdict with a mailer error, and
+      # must not turn a detected outage into a mysterious one. The send is best-effort ON TOP OF a signal
+      # that is already recorded; the job is red either way.
+      # ⚠ AND THE PIP INSTALL LIVES HERE, NOT ABOVE, so the CHECK stays dependency-free: a supervision alarm
+      # that can fail for reasons unrelated to the fleet is noise. By this point the check has already run.
+      - name: Push the verdict to a human (SES — independent of GitHub's scheduler)
+        if: ${{ failure() }}
+        continue-on-error: true
+        working-directory: research/modalities
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-2
+          MAIL_TO: ${{ vars.MAIL_TO }}
+          MAIL_FROM: ${{ vars.MAIL_FROM }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          pip install -q boto3
+          python3 - <<'PY'
+          import json, os, pathlib
+          from mailer import send_email
+          p = pathlib.Path("/tmp/fleet-supervision-verdict.json")
+          v = json.loads(p.read_text()) if p.exists() else {
+              "verdict": "ALARM ITSELF FAILED", "detail": "the check produced no verdict file"}
+          body = (f"FLEET SUPERVISION ALARM — {v.get('verdict')}\n\n"
+                  f"{v.get('detail')}\n\n"
+                  f"artifact generated : {v.get('artifact_generated_et')} "
+                  f"({v.get('artifact_age_min')} min old)\n"
+                  f"fleet at last measurement: live_instances={v.get('live_instances')} "
+                  f"realised=${v.get('realised_usd_so_far')}\n\n"
+                  f"Run: {os.environ.get('RUN_URL')}\n\n"
+                  f"This means the step-1 fan-out may be BILLING WITHOUT SUPERVISION. "
+                  f"Dispatch step1-fanout-autoscale.yml and read the progress artifact on the fleet branch.")
+          print(body)
+          print(send_email(f"[step1 fan-out] supervision {v.get('verdict')}", body,
+                           "<pre>" + body.replace("&", "&amp;").replace("<", "&lt;") + "</pre>"))
+          PY

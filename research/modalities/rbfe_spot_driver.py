@@ -631,6 +631,29 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
                                    integrator=warmup_integrator, reporter=wrep, simulation_settings=sim_s,
                                    thermo_settings=thermo_s, alchem_settings=alchem_s,
                                    platform=platform, restart=False, dry=False)
+    except Exception as e:  # noqa: BLE001 — diagnose then RE-RAISE; this never swallows a failure
+        # ★★ THE SETUP MINIMISER CAN NaN TOO, AND UNTIL NOW THAT PATH PRODUCED NO EVIDENCE AT ALL
+        #    (2026-07-27, unit e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral).
+        #
+        # The leg died with `openmm.OpenMMException: Particle coordinate is NaN` raised INSIDE
+        # `_get_sampler` -> `sampler.setup()` -> `multistate.minimize()` — i.e. before any MD, in the small
+        # minimisation `setup()` performs. The NaN instrumentation 40 lines below covers only
+        # `SimulationNaNError` from the WARMUP MD loop, so this failure surfaced as a bare rc=1 traceback
+        # with no clash report and no saved-state analysis. The one question that decides whether the edge
+        # is retryable — is there a real force-bearing contact, or did a coordinate blow up? — had no
+        # answer, and CLAUDE.md §4 forbids guessing it.
+        #
+        # ⚠ RE-RAISE IS MANDATORY. This is an evidence hook, NOT a recovery path: a leg that NaNs during
+        # setup has produced nothing and must still fail loudly. Swallowing it would turn a hard failure
+        # into a silent one, which is the defect class this repo keeps paying for.
+        if "NaN" in str(e) or type(e).__name__ == "SimulationNaNError":
+            log(f"[nan-diag] caught {type(e).__name__} during SAMPLER SETUP (pre-MD minimisation): {e}")
+            log("[nan-diag] the positions below are the ones handed to setup(), so a force-bearing contact "
+                "here is a STAGING/geometry fault (retry on a fresh host will reproduce it), whereas clean "
+                "contacts point at a parameterisation or coordinate fault.")
+            _clash_report(positions, system, log, "setup_nan")
+            _diagnose_nan_dir(shared, system, log)
+        raise
     _set_caches(warmup, platform)
     if not warmup_restart and spot._sampler_iteration(warmup) == 0:
         # the big minimization (setup() already did a tiny 100-step one); still fast/non-resumable.

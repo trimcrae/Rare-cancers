@@ -221,22 +221,56 @@ def workflow_runs_in_flight(workflow_file, repo=None):
     except (urllib.error.URLError, OSError, ValueError) as e:
         print(f"[interlock] could not read runs of {workflow_file}: {type(e).__name__}: {e}")
         return None, False
-    live = [r for r in doc.get("workflow_runs", [])
+    runs = doc.get("workflow_runs", [])
+    live = [r for r in runs
             if r.get("status") in ("queued", "in_progress", "waiting", "requested", "pending")]
-    return len(live), True
+    return len(live), True, owner_last_completed_failed(runs)
 
 
-def relaunch_withheld(n_live, ok, owning):
+def owner_last_completed_failed(runs):
+    """Did the owning workflow's most recent COMPLETED run FAIL? PURE. None = no completed run to judge.
+
+    Deliberately the last COMPLETED run and not "any recent failure": the question the interlock needs
+    answered is "is the workflow I am deferring to actually discharging its duty right now", and a failure
+    three runs ago that has since been fixed does not bear on that.
+    """
+    for r in runs:                                     # the API returns newest-first
+        if r.get("status") == "completed":
+            return r.get("conclusion") == "failure"
+    return None
+
+
+def relaunch_withheld(n_live, ok, owning, owner_failed=None):
     """(withhold?, reason). PURE — the fail-safe half of the interlock, separated so it is unit-testable.
 
     Withhold when the owning workflow has anything in flight, AND when the question could not be answered at
     all. Refusing to relaunch a leg that is already dead costs wall-clock; relaunching next to another
     relauncher costs the run.
+
+    ★★ `owner_failed` DOES NOT CHANGE THE DECISION — IT CHANGES WHAT THE DECISION IS ALLOWED TO CLAIM
+    (2026-07-27, 1:21 PM ET). The withhold reason asserts "that workflow re-rents dead legs itself". On that
+    tick it did not: `step1-fanout-autoscale` was in flight, so this watchdog withheld ELEVEN relaunches
+    citing that premise — and that very run then died on a Vast 403 at its progress check, skipping its
+    collect and its reap. Responsibility was handed to a workflow that silently dropped it, and one failure
+    became two: the tick's, and eleven legs nobody relaunched.
+    ⚠ THE FIX IS NOT TO RELAUNCH ANYWAY. Two relaunchers on one checkpoint prefix is an interleaved
+    trajectory that nothing reports — strictly worse than a late relaunch, and that hazard is unchanged by
+    the owner's health. So the withhold STANDS; what changes is that a deferral to a FAILING owner is no
+    longer reported in the same words as a deferral to a healthy one. A hand-off predicated on another
+    workflow's liveness must notice when that workflow is not alive in the sense that matters, or the
+    interlock quietly converts a supervision outage into a silent one.
     """
     if not ok:
         return True, (f"{owning} could not be queried, and that workflow re-rents dead legs itself — "
                       f"refusing to relaunch on an unanswerable question")
     if n_live:
+        if owner_failed:
+            return True, (f"{owning} has {n_live} run(s) in flight, BUT ITS LAST COMPLETED RUN FAILED — so "
+                          f"the usual premise for withholding ('that workflow re-rents dead legs itself') is "
+                          f"NOT established here. Still withholding, because two relaunchers on one "
+                          f"checkpoint prefix corrupts the trajectory and that risk is unchanged — but this "
+                          f"is a SUPERVISION FAULT in {owning}, not a routine deferral: fix that workflow, "
+                          f"because nothing is relaunching these legs until it runs green")
         return True, f"{owning} has {n_live} run(s) in flight, and that workflow re-rents dead legs itself"
     return False, f"{owning} is idle — this watchdog is the only relauncher right now"
 
@@ -1079,11 +1113,13 @@ def tick(path=None, dry_run=False):
         for own in owners:
             if own not in interlock_cache:
                 interlock_cache[own] = workflow_runs_in_flight(own)
-            n_live, ok = interlock_cache[own]
-            withhold, why_interlock = relaunch_withheld(n_live, ok, own)
+            n_live, ok, own_failed = interlock_cache[own]
+            withhold, why_interlock = relaunch_withheld(n_live, ok, own, owner_failed=own_failed)
             if withhold:
                 alerts += 1
-                _annotate("error", "VAST WATCHDOG DIED — RELAUNCH WITHHELD",
+                _annotate("error",
+                          "VAST WATCHDOG DIED — RELAUNCH WITHHELD, AND THE OWNER IS FAILING"
+                          if own_failed else "VAST WATCHDOG DIED — RELAUNCH WITHHELD",
                           f"{uid} — no result and no instance, but {why_interlock}. Two relaunchers on one "
                           f"checkpoint prefix means two hosts writing one restart set: an interleaved "
                           f"trajectory that nothing reports. Withholding; the relaunch will be taken on the "
