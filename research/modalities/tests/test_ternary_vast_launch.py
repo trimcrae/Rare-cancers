@@ -483,3 +483,40 @@ def test_supersede_dry_run_touches_nothing():
     finally:
         tv._s3, tv.leg_records = orig_s3, orig_recs
     assert out["dry_run"] and [c["unit_id"] for c in out["cleared"]] == ["u"]
+
+
+# ---------------------------------------------------------------- market gate ($/ns), CLAUDE.md §6
+def test_the_market_ceiling_is_this_rungs_own_band_not_a_fleet_sized_one():
+    """The guard must enforce THIS rung's authorisation. LANE 21's fan-out ceiling is the top of a $15-80
+    band for nineteen edges; pricing two replicates against that — or against any fixed fleet-sized
+    threshold — would refuse a small authorised spend for a reason that does not apply to it. Both the plan
+    and the ceiling are DERIVED from the ladder artifact, so they re-derive themselves on a repricing."""
+    plan1, ceil1 = tv.rung_band_usd(1)
+    plan4, ceil4 = tv.rung_band_usd(4)
+    # proportional in the unit count (each figure is rounded to the cent, so allow that much per unit)
+    assert plan4 == pytest.approx(plan1 * 4, abs=0.04) and ceil4 == pytest.approx(ceil1 * 4, abs=0.04)
+    assert plan4 < ceil4, "the ceiling must be the TOP of the band, above the plan figure"
+    # the four-leg replicate pair, against the figure STRATEGY publishes for this edge
+    assert plan4 == pytest.approx(8.78, abs=0.05)
+    assert ceil4 == pytest.approx(22.28, abs=0.05)
+
+
+def test_the_gate_holds_above_breakeven_and_clears_below_it():
+    """Arithmetic only — no board read. The break-even is the $/ns at which the projected cost equals the
+    rung's ceiling; anything above it must HOLD and anything below must CLEAR, so the guard cannot be
+    accidentally inverted or made unreachable."""
+    n = 4
+    ns_unit = tv.rung_ns_per_unit()
+    _plan, ceiling = tv.rung_band_usd(n)
+    breakeven = ceiling / (ns_unit * n)
+    assert round(breakeven * ns_unit * n, 2) == pytest.approx(ceiling, abs=0.01)
+    assert breakeven * 1.01 * ns_unit * n > ceiling     # just above -> hold
+    assert breakeven * 0.99 * ns_unit * n < ceiling     # just below -> clear
+
+
+def test_the_gate_prices_against_this_lanes_own_host_filter():
+    """`market_snapshot` in the fan-out lane ranks against the fan-out's ResourceSpec. A ternary leg needs
+    32 GB RAM / 8 vCPU / 24 GB VRAM — setup is CPU+RAM bound and a 16 GB box measured 4x slower — so pricing
+    this fleet against a different spec would price hosts the launcher would never actually rent."""
+    res = tv.resource_spec()
+    assert res.ram_gb >= 32 and res.vcpus >= 8 and res.min_vram_gb >= 24

@@ -1093,6 +1093,98 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     return handles
 
 
+# =============================================================================================================
+# market gate ($/ns) — CLAUDE.md §6, applied to THIS rung's own band
+# =============================================================================================================
+# ⛔ *"A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY"* (trimcrae, 2026-07-26: "I'd rather pause
+# until availability opens than pay double per ns"). LANE 21 implemented this for the STEP 1 fan-out. This is
+# the SAME rule on the ternary lane, and the two things that must not be duplicated are imported, not copied:
+#
+#   * `gpu_backend.rank_offers_by_usd_per_ns` — the qualify+score filter, which is literally the one the
+#     renting path uses, so the guard cannot price a fleet the launcher would not actually buy; and
+#   * `congeneric_fanout.basis_usd_per_ns` — the ladder basis, which is a property of the MARKET, not of a
+#     rung, and is deliberately the ladder's rather than a recent night's (anchoring to observations is
+#     self-ratcheting: a bad night raises the ceiling until the guard permits the market it exists to refuse).
+#
+# WHAT IS *NOT* SHARED, AND WHY THAT MATTERS HERE. LANE 21's `market_snapshot` prices against the fan-out's
+# ResourceSpec and its `market_ceiling_usd` against the fan-out's per-unit GPU-hours and its $15-80 band. Both
+# are wrong for this lane: a ternary leg needs 32 GB RAM / 8 vCPU / 24 GB VRAM (setup is CPU+RAM bound and a
+# 16 GB box measured 4x slower), and its band is valB's, not STEP 1's. Reusing those numbers would price two
+# replicates against a nineteen-edge authorisation — a guard that refuses a small authorised spend for a
+# reason that does not apply to it. So the SPEC and the BAND are this lane's, and both are DERIVED from the
+# ladder artifact rather than typed.
+def rung_ns_per_unit(entry="ternary_4fs_recalibration (1 matched edge)", legs_in_entry=3):
+    """Reference-GPU nanoseconds in one leg of this rung. DERIVED from the ladder, never typed."""
+    import vast_cost_model as _vcm
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "vast-ladder-repricing.json")) as fh:
+        e = json.load(fh)["ladder"][entry]
+    lo, hi = e["ref_gpu_h"]
+    return (lo + hi) / 2.0 / float(legs_in_entry) * _vcm.REFERENCE_NS_PER_H
+
+
+def rung_band_usd(n_units, entry="ternary_4fs_recalibration (1 matched edge)", legs_in_entry=3):
+    """(plan, ceiling) dollars for `n_units` legs of this rung. The ceiling is the TOP OF THE RUNG'S OWN
+    BAND — the same number the ladder publishes — so the guard enforces exactly the authorisation and
+    nothing of its own invention, and it re-derives itself whenever the ladder is repriced."""
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "vast-ladder-repricing.json")) as fh:
+        e = json.load(fh)["ladder"][entry]
+    per_leg_plan = e["plan_usd"] / float(legs_in_entry)
+    per_leg_hi = e["range_usd"][1] / float(legs_in_entry)
+    return round(per_leg_plan * n_units, 2), round(per_leg_hi * n_units, 2)
+
+
+def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3):
+    """(hold, readout) for renting `n_units` legs of this rung right now. Reads the LIVE board.
+
+    An UNREADABLE or UNPRICEABLE board is a HOLD, not a launch: the one case where guessing is worst is the
+    case where nobody is awake to check."""
+    from congeneric_fanout import basis_usd_per_ns
+    from gpu_backend import _vast_offer_query, rank_offers_by_usd_per_ns
+    kw = {} if entry is None else {"entry": entry}
+    ns_unit = rung_ns_per_unit(legs_in_entry=legs_in_entry, **kw)
+    plan_usd, ceiling = rung_band_usd(n_units, legs_in_entry=legs_in_entry, **kw)
+    basis = basis_usd_per_ns()
+    res = resource_spec()
+    if excluded:
+        res.exclude_machine_ids = tuple(str(m) for m in excluded)
+    out = {"_what": "ternary lane $/ns market gate (CLAUDE.md §6) for the valB_mini replicates",
+           "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "n_units": n_units,
+           "basis_usd_per_ns": round(basis, 6), "plan_usd": plan_usd, "ceiling_usd": ceiling,
+           "ceiling_basis": "top of this rung's OWN ladder band, scaled to %d legs" % n_units,
+           "breakeven_usd_per_ns": round(ceiling / (ns_unit * n_units), 6)}
+    try:
+        offers = _vast_request("GET", "/search/asks/", key or os.environ["VAST_API_KEY"],
+                               params={"q": json.dumps(_vast_offer_query(res))}).get("offers", [])
+        measured, capable = rank_offers_by_usd_per_ns(offers, res)
+    except Exception as e:  # noqa: BLE001
+        out.update({"hold": True, "reason": "could not read the board (%s: %s) — an unreadable market is "
+                                            "not a cheap one" % (type(e).__name__, e)})
+        return True, out
+    take = measured[:max(1, int(n_units))]
+    # The MEAN over the n cheapest, not the single best: a fleet of n buys the n best offers, and pricing it
+    # off the one cheapest host would flatter a thin board exactly when thinness is what we are detecting.
+    best = (sum(u for u, _p, _o in take) / len(take)) if take else None
+    out["depth"] = {"offers_returned": len(offers), "qualifying": len(capable),
+                    "priceable": len(measured), "needed": n_units, "used_for_mean": len(take)}
+    out["offers"] = [{"gpu": o.get("gpu_name"), "machine_id": o.get("machine_id"),
+                      "min_bid_usd_h": p, "usd_per_ns": round(u, 6)} for u, p, o in take]
+    if best is None:
+        out.update({"hold": True, "reason": "board offered nothing priceable (no benched card, or no offer)"})
+        return True, out
+    projected = round(best * ns_unit * n_units, 2)
+    out.update({"mean_usd_per_ns": round(best, 6), "ratio_vs_basis": round(best / basis, 3),
+                "projected_usd": projected})
+    hold = projected > ceiling
+    out["hold"] = hold
+    out["reason"] = ("projected $%.2f for %d leg(s) exceeds this rung's own ceiling $%.2f (%.2fx the ladder "
+                     "basis $/ns)" % (projected, n_units, ceiling, best / basis)) if hold else (
+                    "projected $%.2f is within this rung's ceiling $%.2f (%.2fx basis)"
+                    % (projected, ceiling, best / basis))
+    return hold, out
+
+
 def collect(bucket=None, prefix=None, autostop=True):
     """Status board + PROGRESS check + anti-idle reap. Returns (n_instances_up, n_done).
 
@@ -1563,6 +1655,14 @@ def main(argv=None):
     # of them means re-dispatching the mode and (harmlessly but pointlessly) re-listing all four.
     ap.add_argument("--only-seed", metavar="N", type=int, default=None,
                     help="restrict this launch to units at SEED N; combines with --only")
+    # The gate is a SEPARATE, VISIBLE step rather than something buried inside submit(), for the reason the
+    # rule itself names: a silent hold is indistinguishable from a finished fleet. It prints the snapshot and
+    # writes it to a file CI commits, so a reader at 3 AM gets the projected cost, the ceiling, the board
+    # depth and the offers that were priced — not "nothing to submit".
+    ap.add_argument("--market-gate", metavar="N", type=int, default=None,
+                    help="price N units against this rung's own ladder ceiling and exit 1 to HOLD")
+    ap.add_argument("--gate-out", metavar="FILE", default=None,
+                    help="write the market-gate readout here (committed by CI so a hold is never silent)")
     ap.add_argument("--seed-stage-cache", metavar="DIR",
                     help="upload CI-staged leg inputs from DIR/<leg_id>/ into this mode's stage cache, so a "
                          "leg whose inputs cannot be built on the host (a Boltz co-fold) finds them there")
@@ -1570,6 +1670,15 @@ def main(argv=None):
                     help="download each unit's NEWEST committed production generation (.nc/.chk) into DIR as "
                          "<leg>_sim_shared/, ready for ternary_fep_convergence.py")
     a = ap.parse_args(argv)
+    if a.market_gate is not None:
+        hold, readout = market_gate(a.market_gate, excluded=blocked_machine_ids())
+        print(json.dumps(readout, indent=2))
+        if a.gate_out:
+            with open(a.gate_out, "w") as fh:
+                json.dump(readout, fh, indent=2)
+                fh.write("\n")
+        print("[market-gate] %s — %s" % ("⛔ HOLD" if hold else "✅ CLEAR", readout["reason"]))
+        return 1 if hold else 0
     if a.supersede_failed:
         print(json.dumps(supersede_failed_record(a.supersede_failed, dry_run=a.dry_run), indent=1))
     elif a.seed_stage_cache:
