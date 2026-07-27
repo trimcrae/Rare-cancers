@@ -96,7 +96,11 @@ jobs:
       # sandbox happens to have PyYAML.
       - run: pip install -q boto3 pytest pyyaml
       - name: Gate on the fan-out unit tests (a broken unit list must never reach a GPU)
-        run: python -m pytest research/modalities/tests/test_congeneric_fanout.py -q
+        # test_assert_progress_fresh.py is here too: the freshness gate below is the thing standing between
+        # "the tick went green" and "the fleet was actually measured", so a regression in IT must stop the
+        # tick just as surely as a broken unit list must.
+        run: python -m pytest research/modalities/tests/test_congeneric_fanout.py
+             research/modalities/tests/test_assert_progress_fresh.py -q
 
       - name: Progress check
         working-directory: research/modalities

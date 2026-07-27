@@ -374,12 +374,23 @@ jobs:
           mkdir -p /tmp/legs
           echo "=== pulling leg result JSONs from $RESULTS ==="
           gcloud storage cp "$RESULTS/leg_*.json" /tmp/legs/ 2>/tmp/cperr || { echo "no leg JSONs found (honest empty reduce):"; cat /tmp/cperr; }
-          # Pull the convergence report too, if mode=converge has produced one: the reducer's _diagnostics_ok()
-          # returns True when the report is ABSENT, so without this the gate's "all diagnostics pass" requirement
-          # is satisfied by never having measured it.
-          gcloud storage cp "$RESULTS/ternary_convergence.json" /tmp/legs/ 2>/dev/null \
-            && echo "[reduce] convergence report present — diagnostics_ok is MEASURED" \
-            || echo "[reduce] NO convergence report — diagnostics_ok DEFAULTS to True (unmeasured, not verified)"
+          # Pull EVERY convergence report mode=converge has produced — ternary_convergence.json (fwd) AND any
+          # direction-suffixed sibling such as ternary_convergence_rev.json. The glob is the point: this copied the
+          # fwd name literally, which was correct only while converge wrote one file. Once converge became
+          # direction-keyed the rev report existed in the bucket and was never downloaded, so the reducer — which
+          # now reads it — would see "rev leg ran, no rev report" and route the whole verdict to BORDERLINE
+          # (NOT_VERIFIED) for a purely logistical reason. Fourth layer of the same keying bug: commit prefix,
+          # then the analysis, then the output name, now the fetch. Anything keyed on direction has to be keyed
+          # EVERYWHERE the artifact travels.
+          # NB the reducer no longer defaults an absent report to True (fixed 2026-07-25) — absent is NOT_VERIFIED,
+          # which routes to BORDERLINE, never PASS. The old message below claimed the opposite.
+          gcloud storage cp "$RESULTS/ternary_convergence*.json" /tmp/legs/ 2>/dev/null || true
+          CONVGOT=$(ls -1 /tmp/legs/ternary_convergence*.json 2>/dev/null | xargs -r -n1 basename | tr '\n' ' ')
+          if [ -n "$CONVGOT" ]; then
+            echo "[reduce] convergence report(s) present: $CONVGOT — diagnostics_ok is MEASURED from these"
+          else
+            echo "[reduce] NO convergence report — diagnostics_ok is NOT_VERIFIED (routes to BORDERLINE, not PASS)"
+          fi
           echo "=== leg JSONs present ==="; ls -1 /tmp/legs/ 2>/dev/null || echo "(none)"
           echo "=== running reducer (CPU) ==="
           ( cd research/modalities && CKPT_DIR=/tmp/legs INPUT_DIR=/tmp/legs python3 ternary_fep_reduce.py )
@@ -611,8 +622,23 @@ jobs:
           cat /tmp/conv/ternary_convergence.json
           # Upload beside the leg results so the NEXT mode=reduce picks it up and its diagnostics_ok stops
           # defaulting to True (the reducer looks for ternary_convergence.json in CKPT_DIR/INPUT_DIR).
-          gcloud storage cp /tmp/conv/ternary_convergence.json "$RESULTS/ternary_convergence.json" 2>/dev/null \
-            && echo "[converge] uploaded report to $RESULTS/" || true
+          #
+          # ⚠ THE FILENAME IS DIRECTION-KEYED, AND IT HAS TO BE. Fixing the *analysis* to be direction-aware left
+          # the *output* keyed on nothing: a rev pass analyses only the rev ternary leg (binary and solvent are the
+          # cycle's fwd-only shared arms and are skipped), so writing it to the bare name OVERWRITES the fwd
+          # cycle's three-leg report — the one the reducer reads for `diagnostics_ok`. The fwd binary and ternary
+          # diagnostics would vanish, `diagnostics_complete` would go False, and the gate would route to BORDERLINE
+          # on missing data it used to have. Same §B#2 shape as the analysis bug, one level further out, and it
+          # would have fired UNATTENDED when the watchdog auto-dispatched converge on the rev leg's landing.
+          #
+          # fwd keeps the bare name so the reducer and every existing reader are untouched; rev gets a suffix.
+          CONVNAME=ternary_convergence.json
+          [ "$DIRECTION" != fwd ] && CONVNAME="ternary_convergence_${DIRECTION}.json"; true
+          gcloud storage cp /tmp/conv/ternary_convergence.json "$RESULTS/$CONVNAME" 2>/dev/null \
+            && echo "[converge] uploaded report to $RESULTS/$CONVNAME (direction=$DIRECTION)" || true
+          if [ "$DIRECTION" != fwd ]; then
+            echo "::notice title=CONVERGE report is direction-suffixed::direction=$DIRECTION wrote $CONVNAME and did NOT touch ternary_convergence.json, so the fwd cycle's report (which the reducer reads for diagnostics_ok) is intact. This report covers the $DIRECTION ternary leg ONLY — the cycle's binary and solvent arms are fwd-only and were skipped."
+          fi
           # LAST, so it is the tail of the job log. The JSON above is ~2500 lines and the handful of numbers
           # that decide anything were being hunted for by eye halfway up it.
           echo "=== [CONVERGE-SUMMARY] ==="

@@ -76,6 +76,45 @@ def _residues(model):
     return res
 
 
+def cofold_call(ordered_iface, inter_pae):
+    """The co-fold decision, as a pure function of (ordered contact patch, mean inter-block PAE). Returns
+    (folds_together, verdict) where folds_together is TRI-STATE.
+
+    ⚠ A MISSING PAE USED TO SATISFY THE PLACEMENT CRITERION (fixed 2026-07-27). Inline in analyse(), this was
+
+        coupled = inter_pae is not None and inter_pae < PAE_COUPLED
+        folds_together = ordered_iface and (coupled if inter_pae is not None else True)
+
+    so when a prediction carried no usable PAE matrix, the "confident relative placement" half of the call
+    defaulted to TRUE and folds_together rested on the contact patch alone — while the verdict string went on to
+    name confident relative placement as one of the two things observed. Note `coupled` is ALREADY False when
+    inter_pae is None, so that trailing conditional existed for no purpose except to flip the unmeasured case from
+    fail to pass. A co-fold call is what sends an interface on to fpocket, so asserting it from an unmeasured
+    criterion is the expensive direction to be wrong in.
+
+    Same shape as the ternary lane's `hysteresis_kcal or 0.0` and `bool(diagnostics_ok)` (audit §L.6): a default
+    that makes "not measured" indistinguishable from "measured and fine". Pulled out of analyse() so the rule is
+    testable without gemmi — it previously had no test at all.
+
+      True  = ordered patch AND confidently placed (both measured)
+      False = measured, and at least one criterion not met
+      None  = no usable PAE, so the placement half CANNOT BE ASSESSED
+    """
+    if inter_pae is None:
+        detail = (" (the contact patch itself IS ordered, which is necessary but not sufficient)" if ordered_iface
+                  else " (and the contact patch is small or low-confidence)")
+        return None, ("CO-FOLD NOT ASSESSED — no usable inter-block PAE, so the relative placement of the two "
+                      "halves was never measured" + detail
+                      + "; re-run with PAE output before treating this construct either way")
+    coupled = inter_pae < PAE_COUPLED
+    if ordered_iface and coupled:
+        return True, ("COMPOSITE INTERFACE PREDICTED — halves fold together (ordered contact patch + confident "
+                      "relative placement); fpocket the interface next")
+    return False, ("NO CO-FOLD — halves are independent/floppy (small or low-confidence contact patch"
+                   + (f", inter-block PAE {inter_pae:.1f} Å high" if not coupled else "")
+                   + "); no composite junction pocket at this construct")
+
+
 def analyse(model, pae, boundary):
     """boundary = number of leading (EWS) residues; the rest are the NR4A3 block."""
     import numpy as np
@@ -124,14 +163,7 @@ def analyse(model, pae, boundary):
         inter_pae = float(np.nanmean(block))
 
     ordered_iface = (len(iface_ews) >= MIN_IFACE_RES and iface_plddt >= PLDDT_ORDERED)
-    coupled = inter_pae is not None and inter_pae < PAE_COUPLED
-    folds_together = ordered_iface and (coupled if inter_pae is not None else True)
-    verdict = ("COMPOSITE INTERFACE PREDICTED — halves fold together (ordered contact patch + confident "
-               "relative placement); fpocket the interface next"
-               if folds_together else
-               "NO CO-FOLD — halves are independent/floppy (small or low-confidence contact patch"
-               + (f", inter-block PAE {inter_pae:.1f} Å high" if inter_pae is not None else "")
-               + "); no composite junction pocket at this construct")
+    folds_together, verdict = cofold_call(ordered_iface, inter_pae)
     return {
         "n_residues": n,
         "ews_block_plddt": round(float(np.nanmean(plddt[ews])), 1),
@@ -140,6 +172,8 @@ def analyse(model, pae, boundary):
         "n_interface_ews_residues": len(iface_ews),
         "interface_plddt": round(iface_plddt, 1) if iface_ews else None,
         "folds_together": folds_together,
+        "placement_assessed": inter_pae is not None,
+        "ordered_interface": ordered_iface,
         "verdict": verdict,
     }
 

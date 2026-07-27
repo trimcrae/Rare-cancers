@@ -246,7 +246,15 @@ def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, exte
     correct_sign = _sign(mean) == _sign(target_kcal)
     metrics = {"n_replicates": n, "mean_ddg_coop_kcal": mean, "cycle_sd_kcal": sd,
                "abs_error_kcal": abs_err, "target_kcal": target_kcal,
-               "t_ci95_half_width_kcal": ci, "correct_sign": correct_sign, "diagnostics_ok": bool(diagnostics_ok),
+               # TRI-STATE, EMITTED AS ONE (fixed 2026-07-27). This was bool(diagnostics_ok), which mapped both
+               # False (a MEASURED convergence failure) and None (a mandated check NEVER COMPUTED) onto the same
+               # reported `false`. The decision logic below distinguishes them correctly — FAIL vs BORDERLINE — so
+               # the collapse was purely in what got RECORDED: no machine reader of the verdict JSON could tell a
+               # broken leg from an unexamined one, and only the prose `reason` carried it. Emit the third state.
+               "t_ci95_half_width_kcal": ci, "correct_sign": correct_sign,
+               "diagnostics_ok": (None if diagnostics_ok is None else bool(diagnostics_ok)),
+               "diagnostics_state": ("CLEAN" if diagnostics_ok is True else
+                                     "MEASURED_FAILURE" if diagnostics_ok is False else "NOT_VERIFIED"),
                "thresholds": {"abs_err_pass": GATE_ABS_ERR_PASS, "abs_err_fail": GATE_ABS_ERR_FAIL,
                               "cycle_sd_pass": GATE_CYCLE_SD_PASS, "cycle_sd_extend": GATE_CYCLE_SD_EXTEND}}
 
@@ -342,15 +350,19 @@ def per_replicate_ddg_coop(morph_key):
     return [tern[s] - bina[s] for s in seeds], len(seeds)
 
 
-def _diagnostics_ok():
-    """True unless the committed convergence report (ternary_fep_convergence) flags a technical failure on ANY
-    leg (reviewer condition 4/6: persistent overlap/drift/structural failure -> gate FAIL).
+def convergence_report_name(direction="fwd"):
+    """Filename ternary_fep_convergence writes for a given direction. ONE HOME for this name: the workflow's
+    mode=converge upload keys off the same rule, and when it did not, a rev run overwrote the fwd cycle's report."""
+    return "ternary_convergence.json" if direction == "fwd" else "ternary_convergence_%s.json" % direction
 
-    TRI-STATE: True = every leg measured and clean; False = a MEASURED failure; None = not verified, which
-    covers both a leg with an uncomputed diagnostic AND an absent report entirely. None routes to BORDERLINE,
-    never to PASS."""
+
+def _convergence_verdict(direction="fwd"):
+    """Tri-state read of ONE direction's committed convergence report.
+
+    True = every leg measured and clean; False = a MEASURED failure; None = not verified, covering both a leg with
+    an uncomputed diagnostic and an absent/unparseable report."""
     for base in (CKPT, IN):
-        p = os.path.join(base, "ternary_convergence.json")
+        p = os.path.join(base, convergence_report_name(direction))
         if os.path.isfile(p):
             try:
                 rep = json.load(open(p))
@@ -375,6 +387,42 @@ def _diagnostics_ok():
     # Strictly stricter, and it changes no recorded verdict: r0 is INDETERMINATE at n=1, which is returned before
     # diagnostics are consulted at all.
     return None
+
+
+def _rev_leg_present():
+    """Does ANY leg of the cycle have a DIRECTION=rev replicate on disk?
+
+    This decides whether a REV convergence report is REQUIRED. It has to be conditional: demanding one
+    unconditionally would leave every forward-only cycle permanently unverified, which is a different way of
+    being wrong."""
+    try:
+        return any(_find_leg_files(lid, "rev") for lid in eng.expand_pilot_legs())
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _diagnostics_ok():
+    """True unless a committed convergence report (ternary_fep_convergence) flags a technical failure on ANY leg
+    (reviewer condition 4/6: persistent overlap/drift/structural failure -> gate FAIL). Tri-state as above.
+
+    ⚠ THE REVERSE LEG'S REPORT IS PART OF THIS (added 2026-07-27). This read only ternary_convergence.json — the
+    FORWARD report — so once mode=converge became direction-keyed, ternary_convergence_rev.json was written and
+    then consulted by NOBODY. That matters because the rev leg's whole purpose is the preregistered hysteresis
+    |dG_fwd + dG_rev| <= 1.0, and a rev leg whose ligand left its pocket or whose MBAR overlap collapsed produces
+    a hysteresis that is not a measurement of path error at all. Unchecked, a SMALL hysteresis off a broken rev leg
+    would have read as a clean cycle — success asserted from an unexamined input, the same shape as every other
+    defect in this function's history. The failure was found precisely BY this convergence analysis on the binary
+    arm, so running its own output past the gate unread was not a hypothetical gap.
+
+    A MEASURED failure in either direction -> False. Unverified in either -> None -> BORDERLINE, never PASS."""
+    verdicts = [_convergence_verdict("fwd")]
+    if _rev_leg_present():
+        verdicts.append(_convergence_verdict("rev"))
+    if any(v is False for v in verdicts):
+        return False
+    if any(v is None for v in verdicts):
+        return None
+    return True
 
 
 def _diff(mean_a, ci_a, mean_b, ci_b):
@@ -476,12 +524,25 @@ def leg_output_record(leg_agg, morph_summary):
            else morph_summary.get("ddg_alch_binary_kcal") if env == "binary"
            else leg_agg["mean_dg_morph_kcal"])
     ci = leg_agg["ci95_half_width_kcal"]
+    # ⚠ AN UNMEASURED HYSTERESIS IS NOT A ZERO ONE (fixed 2026-07-27). Both halves of this were wrong, and they
+    # compounded: `hysteresis_kcal is None or ... <= 1.0` let a leg with NO reverse leg claim converged=True, and
+    # `hysteresis_kcal or 0.0` then wrote that absent measurement OUT as the literal value 0.0 — i.e. as PERFECT
+    # A->B/B->A antisymmetry. The second is the damaging one, because ternary_coop_gate.evaluate() was written to
+    # catch exactly this: it declares hysteresis_kcal "float|null" and FAILS a leg whose value is null
+    # (ternary_coop_gate.py:188-192, via _num -> None). Handing it 0.0 instead of null meant that gate could never
+    # fire — an unmeasured criterion arrived pre-satisfied, and the reviewer's cycle-closure check was inert for
+    # every leg in the lane, since until DIRECTION=rev was unlocked NO leg had a reverse partner at all.
+    # calibration_decision() above already routes an unmeasured hysteresis to INDETERMINATE with that exact
+    # reasoning; this record contradicted it one function away. Same lane signature: success reported on no
+    # measurement. Null now propagates, and `converged` is a claim that has to be earned.
+    hys = leg_agg["hysteresis_kcal"]
     conv = bool(leg_agg["n_replicas"] >= 3 and ci is not None and ci <= 1.5
-                and (leg_agg["hysteresis_kcal"] is None or leg_agg["hysteresis_kcal"] <= 1.0))
+                and hys is not None and hys <= 1.0)
     rec = {
         "schema_version": tio.SCHEMA_VERSION, "leg_id": leg_agg["leg_id"], "environment": env,
         "ddg_alch_kcal": ddg, "ci95_half_width_kcal": ci if ci and ci > 0 else 1e-6,
-        "n_replicas": leg_agg["n_replicas"], "hysteresis_kcal": leg_agg["hysteresis_kcal"] or 0.0,
+        "n_replicas": leg_agg["n_replicas"], "hysteresis_kcal": hys,
+        "hysteresis_measured": hys is not None,
         "converged": conv, "unit_gpu_h_observed": None, "cost_usd_observed": None,
         "system_hash": "0" * 64, "ligand_hash": "0" * 64,
         "artifacts": tio.expected_artifact_manifest(leg_agg["leg_id"]),
