@@ -611,8 +611,23 @@ jobs:
           cat /tmp/conv/ternary_convergence.json
           # Upload beside the leg results so the NEXT mode=reduce picks it up and its diagnostics_ok stops
           # defaulting to True (the reducer looks for ternary_convergence.json in CKPT_DIR/INPUT_DIR).
-          gcloud storage cp /tmp/conv/ternary_convergence.json "$RESULTS/ternary_convergence.json" 2>/dev/null \
-            && echo "[converge] uploaded report to $RESULTS/" || true
+          #
+          # ⚠ THE FILENAME IS DIRECTION-KEYED, AND IT HAS TO BE. Fixing the *analysis* to be direction-aware left
+          # the *output* keyed on nothing: a rev pass analyses only the rev ternary leg (binary and solvent are the
+          # cycle's fwd-only shared arms and are skipped), so writing it to the bare name OVERWRITES the fwd
+          # cycle's three-leg report — the one the reducer reads for `diagnostics_ok`. The fwd binary and ternary
+          # diagnostics would vanish, `diagnostics_complete` would go False, and the gate would route to BORDERLINE
+          # on missing data it used to have. Same §B#2 shape as the analysis bug, one level further out, and it
+          # would have fired UNATTENDED when the watchdog auto-dispatched converge on the rev leg's landing.
+          #
+          # fwd keeps the bare name so the reducer and every existing reader are untouched; rev gets a suffix.
+          CONVNAME=ternary_convergence.json
+          [ "$DIRECTION" != fwd ] && CONVNAME="ternary_convergence_${DIRECTION}.json"; true
+          gcloud storage cp /tmp/conv/ternary_convergence.json "$RESULTS/$CONVNAME" 2>/dev/null \
+            && echo "[converge] uploaded report to $RESULTS/$CONVNAME (direction=$DIRECTION)" || true
+          if [ "$DIRECTION" != fwd ]; then
+            echo "::notice title=CONVERGE report is direction-suffixed::direction=$DIRECTION wrote $CONVNAME and did NOT touch ternary_convergence.json, so the fwd cycle's report (which the reducer reads for diagnostics_ok) is intact. This report covers the $DIRECTION ternary leg ONLY — the cycle's binary and solvent arms are fwd-only and were skipped."
+          fi
           # LAST, so it is the tail of the job log. The JSON above is ~2500 lines and the handful of numbers
           # that decide anything were being hunted for by eye halfway up it.
           echo "=== [CONVERGE-SUMMARY] ==="

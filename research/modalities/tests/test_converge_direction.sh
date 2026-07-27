@@ -133,7 +133,22 @@ chk "the checkpoint grep is anchored on CPFX (fixed-string), not on a lane-wide 
 chk "the old lane-wide leg-keyed checkpoint grep is gone" \
     "$(grep -cE 'grep -aiE "\$LEG\.\*checkpoint' "$WF")" "0"
 
-# 6. no duplicated header (an earlier edit left the locating line twice)
+# 6. THE UPLOADED REPORT FILENAME must be direction-keyed too, or a rev pass DESTROYS the fwd cycle's report.
+#    Fixing the analysis left the OUTPUT keyed on nothing: a rev pass covers only the rev ternary leg (binary and
+#    solvent are fwd-only shared arms, skipped), so writing it to the bare `ternary_convergence.json` overwrites
+#    the fwd three-leg report that ternary_fep_reduce reads for `diagnostics_ok` — the fwd binary/ternary
+#    diagnostics vanish and the gate routes to BORDERLINE on data it used to have. Caught before the watchdog
+#    auto-dispatched converge on the rev leg's landing, which would have done it unattended.
+chk "the uploaded report name is direction-keyed" \
+    "$(grep -cE 'CONVNAME="ternary_convergence_\$\{DIRECTION\}\.json"' "$WF")" "1"
+chk "fwd still writes the BARE name (the reducer and every existing reader depend on it)" \
+    "$(grep -cE '^\s*CONVNAME=ternary_convergence\.json\s*$' "$WF")" "1"
+chk "the upload uses the keyed variable, never the bare literal path" \
+    "$(grep -c 'cp /tmp/conv/ternary_convergence.json "$RESULTS/$CONVNAME"' "$WF")" "1"
+chk "no upload writes the bare \$RESULTS/ternary_convergence.json literal any more" \
+    "$(grep -c 'cp /tmp/conv/ternary_convergence.json "$RESULTS/ternary_convergence.json"' "$WF")" "0"
+
+# 7. no duplicated header (an earlier edit left the locating line twice)
 chk "the 'locating newest' header appears once per leg, not twice" \
     "$(grep -c 'locating newest committed simulation.nc' "$WF")" "1"
 
