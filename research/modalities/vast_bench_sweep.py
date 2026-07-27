@@ -428,6 +428,7 @@ def plan_sweep(offers, cards=None, job=None, max_usd_per_card=None, max_usd_tota
                           "min_bid": round(floor, 5), "bid": round(bid, 5),
                           "storage_usd_h": round(stor, 5), "all_in_usd_h": round(bid + stor, 5),
                           "worst_case_usd": round(cost, 4),
+                          "already_measured": (_vcm.throughput_provenance(name)[0] == "measured"),
                           "n_offers": 0, "vram_gb": round(_vram_gb(o), 1)}
     for o in offers:
         n = str(o.get("gpu_name") or "").strip()
@@ -450,10 +451,18 @@ def plan_sweep(offers, cards=None, job=None, max_usd_per_card=None, max_usd_tota
         elif spent + row["worst_case_usd"] > total_cap:
             row.update(admit=False, reason=f"sweep cap ${total_cap:.2f} reached (committed "
                                            f"${spent:.3f}) — HELD, not dropped")
-        elif label.startswith("skip"):
+        elif label.startswith("skip") and not row["already_measured"]:
             # The census's OWN screen, imported not re-derived: at this price the card would have to be far
             # faster than anything we have ever benched. Five cents is cheap, but buying information that
             # cannot change a decision is still waste.
+            #
+            # ⚠ AND IT DOES NOT APPLY TO A RE-MEASUREMENT, which is why `already_measured` exempts it. The
+            # screen asks "is this unknown card worth DISCOVERING at today's price". A card already in the
+            # table is not being discovered — it is being moved onto the same estimator as every other entry,
+            # and that value does not depend on whether its price is attractive this minute. Observed
+            # 2026-07-27: this screen silently refused to re-bench the RTX 4090, RTX 4080 and A100 PCIe, i.e.
+            # it would have left the reference card itself on the old one-host statistic — the exact
+            # inconsistency the re-measurement exists to remove. The dollar caps still apply.
             row.update(admit=False, reason=f"break-even {be:.0f} ns/day ({mult:.2f}x the reference card) — "
                                            f"{label}")
         else:

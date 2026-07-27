@@ -363,3 +363,37 @@ class TestTheSpendGateIsNotProcessDependent(unittest.TestCase):
         rows, _tag = self._run({"BENCH_MAX_RUNTIME_S": "1200", "BENCH_WAVE": "w2"})
         self.assertTrue(any(not admit for _n, admit, _c in rows),
                         "the sweep cap must HOLD a unit, not admit everything")
+
+
+class TestReMeasuringAnAnchorIsNotSubjectToTheDiscoveryScreen(unittest.TestCase):
+    """OBSERVED 2026-07-27: the plausibility screen silently refused to re-bench the RTX 4090, RTX 4080 and
+    A100 PCIe — i.e. it would have left the REFERENCE CARD on the old one-host statistic, which is precisely
+    the inconsistency the re-measurement exists to remove.
+
+    The screen answers 'is this unknown card worth DISCOVERING at today's price'. A card already in the table
+    is not being discovered; it is being moved onto the same estimator as every other entry, and that value
+    does not depend on whether its price is attractive this minute."""
+
+    def test_an_already_measured_card_survives_a_skip_verdict(self):
+        # priced so the break-even lands far above the reference card -> `skip` for an unknown card
+        offers = [_offer("RTX 4090", min_bid=0.55, oid=1, mid="1")]
+        rows = sweep.plan_sweep(offers, include_measured=True, target_usd_per_ns=0.0005,
+                                max_usd_per_card=1.0, max_usd_total=10.0, max_runtime_s=1800)
+        self.assertEqual(len(rows), 1)
+        self.assertTrue(rows[0]["already_measured"])
+        self.assertTrue(rows[0]["admit"], rows[0]["reason"])
+
+    def test_an_unknown_card_at_the_same_price_is_still_skipped(self):
+        offers = [_offer("H200 NVL", min_bid=0.55, oid=1, mid="1")]
+        rows = sweep.plan_sweep(offers, include_measured=True, target_usd_per_ns=0.0005,
+                                max_usd_per_card=1.0, max_usd_total=10.0, max_runtime_s=1800)
+        self.assertFalse(rows[0]["admit"])
+        self.assertIn("skip", rows[0]["reason"])
+
+    def test_the_dollar_caps_still_bind_a_re_measurement(self):
+        """Exempting the discovery screen must not exempt the spend ceiling."""
+        offers = [_offer("RTX 4090", min_bid=5.0, oid=1, mid="1")]
+        rows = sweep.plan_sweep(offers, include_measured=True, max_usd_per_card=0.20,
+                                max_usd_total=10.0, max_runtime_s=1800)
+        self.assertFalse(rows[0]["admit"])
+        self.assertIn("per-card cap", rows[0]["reason"])
