@@ -67,6 +67,12 @@ jobs:
       # nothing, and an unkeyed upload overwrites the unrestrained dG_binary the r0 cycle is built on.
       - name: Generated VM startup script parses, and the leg result is restraint-keyed
         run: python3 research/modalities/tests/test_startup_script_renders.py
+      # A watchdog that cannot honour its watch list must REFUSE, not improvise. Without the restraint key a
+      # restrain=1 entry resolves the UNRESTRAINED result — already in the bucket for the r0 binary arm — and
+      # reports a green DONE for a leg that never ran while its VM keeps holding the project's only GPU.
+      # Both guards are EXTRACTED from the real watchdog_run.sh and executed, not restated.
+      - name: Watchdog refuses a watch list it cannot honour (restraint capability + result key)
+        run: bash research/modalities/tests/test_watchdog_restraint_guards.sh
       # Generalises that fix: in an UNQUOTED heredoc, a variable assigned inside it lives in the VM's shell,
       # so referencing it unescaped asks the RUNNER for a value it never had and silently yields "". The file
       # already warned about this trap in a comment (for STAGE_CACHE) and DIRSUF broke it anyway -- prose is

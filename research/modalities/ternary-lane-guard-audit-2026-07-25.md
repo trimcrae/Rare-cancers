@@ -1026,6 +1026,20 @@ means the cheap proxy has run out and the restraint's own force group has to be 
 (`ternary_restraint.restraint_energy_kj`, which exists precisely so that this is possible — a restraint you
 cannot measure is a restraint you cannot defend).
 
+#### 3 · SEQUENCING: the rest of the re-run is HELD until the closure triangle's residual `R` lands
+
+**Ruled 2026-07-27, and the reason is scientific, not budgetary.** One restrained binary leg is running; the
+remaining seeds and the 4 fs cycle's arm are **not** dispatched. The closure triangle is running on Vast and it
+decides whether the valB edge's miss is **path error at all**: `R` is provably **zero for any endpoint-STATE
+error** and non-zero only for **PATH error**. If `R` comes back materially non-zero, the premise the full binary
+re-run rests on changes — and a multi-day commitment of the only GCP GPU would have been spent on a design that
+wanted revisiting first.
+
+This is the §"serialize only when one result could cancel the rest" litmus test answering **YES**: there is a
+result the triangle could return that would make us not run the rest. The single leg already launched is the
+right amount of exposure until it lands. **Waiting costs nothing** — the work is checkpointed, and the credit
+does not expire until 2026-10-10.
+
 **Where this is enforced.** `restrain` is a `workflow_dispatch` input on `gpu-ternary-fep-gcp.yml`, default `0`,
 and it **keys the commit prefix** (`_rst`, placed before `_dir<dir>` so the direction stays terminal) and the
 commit-manifest system fingerprint. Both directions are asserted before a GPU is provisioned. That keying is not
