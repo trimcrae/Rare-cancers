@@ -298,6 +298,23 @@ When in doubt: do it and show it.
   right there and wrong here. Implemented in `protfep_vast_launch.collect` + `ResourceSpec.exclude_machine_ids`
   — a host that never starts has infinite realised $/ns, invisible to $/ns ranking, so without the exclusion it
   keeps winning selection and keeps failing.
+- **★★ A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY — GATE EVERY FLEET LAUNCH ON $/ns
+  (trimcrae, 2026-07-26: *"I'd rather pause until availability opens than pay double per ns"*).** The rule above
+  says a *capacity refusal* on one host is never worth waiting out, because the floor is flat and another host
+  costs the same. **That premise fails when the whole board thins.** Measured that night: **5 offers visible
+  against the ~23 baseline, `min_floor` $0.200/hr and `median_floor` $0.333/hr**, hours after the same lane
+  rented at **$0.048–$0.139**. Selection was working correctly and still could only reach ~1.8× the $/ns it had
+  been getting.
+  So before any **multi-unit fan-out**, take a market snapshot and compare the **best achievable `$/ns`** — not
+  `$/hr`, and not the bid — against the rung's own basis. If the fleet cannot be bought at a sane `$/ns`, the
+  launcher **HOLDS and says why**, and the next scheduled tick re-checks; it does **not** buy in and it does
+  **not** silently drop units. Waiting costs nothing here — the work is checkpointed, the ladder has no
+  deadline, and an hour of a flat market is cheaper than a tranche bought at double.
+  Two failure modes this must avoid, both worse than the problem: **holding silently** (a fleet that never
+  launches looks identical to one that finished — every hold must be visible in the readout with the snapshot
+  that caused it), and **a ceiling nobody can clear** (if the market stays bad, that is a decision for trimcrae,
+  so surface it rather than idling forever). A single unit already running is not affected; this gates the
+  *fan-out*, not the shakeout.
 - **★ SPOT PREEMPTIONS ARE ROUTINE — MENTION LIGHTLY (trimcrae, 2026-07-16).** A preempted VM is expected
   behaviour and routine self-doable recovery: re-dispatch to resume from checkpoint, re-arm the check-in. A
   one-line note is fine; **no alarm, no `AskUserQuestion`, no write-up**, even if it repeats. Reserve real
