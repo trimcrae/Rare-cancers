@@ -41,6 +41,21 @@ jobs:
         run: python3 research/manuscripts/lint_consistency.py
       - name: Manuscript language discipline
         run: python3 research/manuscripts/lint_claims.py
+      # Same standalone-step reasoning, for the two CI-shape linters. Both exist because a guard
+      # that fails OPEN leaves no trace: a `skipped` step and a silently-loosened threshold both
+      # render as a green tick, so the only place they can be caught is before they merge.
+      #   - optional-input guards: `if: ${{ github.event.inputs.x != '0' }}` is FALSE on a
+      #     `schedule:` (null casts to 0), which is how the step-1 fan-out stopped placing units
+      #     for 1 h 47 m across seven green ticks on 2026-07-27.
+      #   - derived thresholds: a gate typed as a MULTIPLE of a correctable denominator silently
+      #     changes meaning when that denominator is re-anchored (§1: the invariant is the
+      #     absolute $/ns; the multiple is derived).
+      # Both parse (YAML AST / Python AST) rather than grep, so the incident write-ups that quote
+      # the broken forms as evidence do not trip them.
+      - name: Optional-input guards (a null inputs context must not switch a guard off)
+        run: python3 research/modalities/lint_optional_input_guards.py
+      - name: Derived thresholds (no typed multiple of a moving basis)
+        run: python3 research/modalities/lint_derived_thresholds.py
       # Shell-based tests pytest cannot collect. The watchdog census test EXTRACTS its logic from
       # .github/workflows/ternary-leg-watchdog.yml at run time, so it fails loudly if the workflow's
       # markers move rather than passing against a stale copy.
