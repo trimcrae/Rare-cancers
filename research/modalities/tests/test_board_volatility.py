@@ -238,6 +238,53 @@ def test_rate_limit_counts_edge_html_403s_separately_from_vast_json_errors():
 # =============================================================================================================
 # the buy line is IMPORTED, never typed (CLAUDE.md §1)
 # =============================================================================================================
+# =============================================================================================================
+# APPENDED SERIES — the two ways a resumed collection corrupts its own analysis
+# =============================================================================================================
+def test_annotate_separates_runs_so_a_restart_cannot_be_read_as_market_noise():
+    # The series is appended across runs and `tick` restarts at 0 each time. Grouping on tick alone pairs
+    # run 0's R1 with run 1's R2 — eight minutes apart — and reports it as a 20-second read-to-read gap.
+    recs = [{"tick": 0, "slot": "R1", "utc": "2026-07-27T12:00:00Z", "status": 200, "rows": []},
+            {"tick": 0, "slot": "R2", "utc": "2026-07-27T12:00:20Z", "status": 200, "rows": []},
+            {"tick": 0, "slot": "R1", "utc": "2026-07-27T12:30:00Z", "status": 200, "rows": []},
+            {"tick": 0, "slot": "R2", "utc": "2026-07-27T12:30:20Z", "status": 200, "rows": []}]
+    out = vbv.annotate(recs)
+    assert [r["run"] for r in out] == [0, 0, 1, 1]
+
+
+def test_read_noise_pairs_within_a_run_not_across_runs():
+    # Two runs, each internally identical. Cross-run pairing would compare run 0's cheap board with run 1's
+    # expensive one and report enormous "noise"; correct pairing reports none.
+    recs = vbv.annotate([
+        _rec(0, "R1", {"A": 0.003}), _rec(0, "R2", {"A": 0.003}),
+        {**_rec(0, "R1", {"Z": 0.030}), "utc": "2026-07-27T13:00:00Z"},
+        {**_rec(0, "R2", {"Z": 0.030}), "utc": "2026-07-27T13:00:20Z"}])
+    rn = vbv.read_noise(recs)
+    assert rn["pairs"] == 2
+    assert rn["jaccard"]["mean"] == 1.0
+    assert rn["d_best4_frac"]["max"] == 0.0
+
+
+def test_series_indexes_on_the_wall_clock_so_two_runs_do_not_collide():
+    recs = vbv.annotate([_rec(0, "R1", {"A": 0.003}),
+                         {**_rec(0, "R1", {"B": 0.003}), "utc": "2026-07-27T13:00:00Z"}])
+    ts = [s["t"] for s in vbv.series(recs, "R1")]
+    assert len(set(ts)) == 2, "a per-run tick counter would fold both onto index 0"
+
+
+def test_a_spell_is_not_bridged_across_an_observation_gap():
+    # Machine A is cheap before a 30-minute blackout and cheap after it. We did not watch the gap, so this is
+    # NOT one 32-minute spell — crediting it as one invents survival we never observed.
+    ser = [{"t": 0, "utc": "x", "rows": [{"m": "A", "u": 0.003}]},
+           {"t": 1, "utc": "x", "rows": [{"m": "A", "u": 0.003}]},
+           {"t": 31, "utc": "x", "rows": [{"m": "A", "u": 0.003}]},
+           {"t": 32, "utc": "x", "rows": [{"m": "A", "u": 0.003}]}]
+    sp = vbv.spells(ser, line=LINE)
+    assert len(sp) == 2
+    assert {s["ended_by"] for s in sp} == {"gone_dark", "still_open"}
+    assert max(s["ticks"] for s in sp) == 2
+
+
 def test_the_module_takes_its_buy_line_from_the_one_place_that_owns_it():
     from inflight_usd_per_ns import APPROVED_USD_PER_NS
     assert vbv._line() == APPROVED_USD_PER_NS
