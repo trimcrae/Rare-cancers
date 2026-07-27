@@ -71,8 +71,8 @@ jobs:
           RELEASE_FANOUT: ${{ github.event.inputs.release_fanout || '1' }}
         run: |
           set -uo pipefail
-          # Coerce in BASH, not in a `${{ }}` comparison. An optional input is null on a non-dispatch event
-          # and GitHub casts null -> 0 when the operands differ in type, so `inputs.x != '0'` reads FALSE in
+          # Coerce in BASH, not in a GitHub-expression comparison. An optional input is null on a non-dispatch event
+          # and GitHub casts null -> 0 when the operands differ in type, so an `inputs.x != '0'` expression reads FALSE in
           # exactly the case it was written to allow. That defect skipped placement on seven green ticks on
           # 2026-07-27 and decayed the fleet 18 -> 5 while the board was clearing at 1.03x-1.29x basis.
           END=$(( $(date +%s) + $(python3 -c "print(int(float('${HOURS}')*3600))") ))
