@@ -1,0 +1,179 @@
+name: Cross-lane staleness watch — has any lane gone stale, and is that expected?
+
+# WHAT THIS IS, in one sentence: the thing that notices when ANY billing lane stops producing evidence —
+# including the lanes with no host at all, which every liveness check reads as "nothing to watch".
+#
+# WHY IT EXISTS. `fleet-supervision-alarm.yml` already asks "has supervision stopped" — but only for the
+# step-1 fan-out, and only about ONE artifact. On 2026-07-27 five lanes failed in four different shapes and
+# only one of them was in that workflow's field of view:
+#
+#   ~ 85 min  a valB cohort DEAD while its cron watchdog printed "advancing at warmup/512 … Leaving it alone"
+#   ~ 2 h     the step-1 fan-out decayed 18 -> 5 hosts across SEVEN GREEN TICKS (a guard inverted on a null)
+#   ~ 53 min  two 5a-KS legs crash-looping at 0 % GPU on a dead credential — the host cannot stop its own bill
+#   ~ 3 h     ⚠ the closure triangle IDLE after `triangle-prime` succeeded, because the lane that would
+#             dispatch the next step ended its turn. NO LIVE INSTANCE AT ALL. Nothing detects this today.
+#
+# ⚠ AND WHAT IT MUST NOT BE. It never rents, destroys, reaps, nudges or prices anything — every destructive
+# act stays in the lanes' own `collect` paths, which read the start response that separates "outbid,
+# restartable" from "GPU gone, destroy it". A watcher that could also act would be a second unreviewed
+# control path. It also carries NO Vast key, NO S3 credential and NO pip install for the verdict itself: a
+# supervision alarm that can fail for reasons unrelated to the fleet is noise, and a dead credential is one
+# of the failures it exists to report.
+#
+# ★★ DELIVERY DOES NOT DEPEND ON GITHUB'S SCHEDULER, AND THAT IS THE WHOLE POINT (CLAUDE.md §6: a `schedule:`
+# cron does not supervise a billing fleet). Measured 2026-07-27: scheduled delivery on this repo ran at
+# 141-238 min against a requested */15-*/20, and 25 of the last 30 step-1 autoscale runs were an AGENT
+# hand-dispatching. So the REAL cadence here comes from two dispatchers that are not the cron:
+#
+#   1. `step1-fanout-supervisor.yml` — a long-lived job whose in-process loop owns its own interval and
+#      dispatches this workflow every `watch_every_ticks` ticks. That loop is the cadence.
+#   2. `step1-fanout-autoscale.yml`, at the tail, under `if: always()` — SO IT ALSO FIRES WHEN THE TICK
+#      FAILS. That is exactly when supervision is most likely to be down: on 2026-07-27 the 11:37 AM tick
+#      died on its FIRST step and measured nothing, while its `always()` steps kept the commit trail moving.
+#
+# The `schedule:` below is a COLD-START path only — when no supervisor is alive, a throttled check is still
+# better than none, and it is what gets a human's attention if both dispatchers have stopped. It is NOT the
+# cadence and must never be described as one.
+#
+# COST: $0. GitHub-hosted minutes are free on a public repo and this job is a few seconds of stdlib Python.
+
+on:
+  workflow_dispatch:
+    inputs:
+      fleet_branch:
+        description: "branch carrying the lanes' artifacts (same meaning as in step1-fanout-autoscale.yml)"
+        default: "claude/max-effort-2dq11l"
+      write_history:
+        description: "1 = persist the census history so the next run can age a flat census; 0 = read only"
+        default: "1"
+      email_on_fail:
+        description: "1 = also try SES on a failing verdict (see the mail step's caveat); 0 = log only"
+        default: "1"
+  schedule:
+    # COLD START ONLY — see the header. Deliberately hourly, not */15: asking for a high frequency on a
+    # throttled repo does not get you one, it only adds queue pressure to the same pool the ticks compete in.
+    - cron: "23 * * * *"
+
+permissions:
+  contents: write     # the census history is committed back to the fleet branch
+  actions: read       # so the run-history reads are AUTHENTICATED — anonymous limits are per shared runner IP
+
+concurrency:
+  group: lane-staleness-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The lanes' artifacts live on the FLEET branch, never on the ref this runs from. Reading main and
+          # concluding a lane is dead is the exact mistake made at 9:37 AM ET on 2026-07-27.
+          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      # NO `pip install` here. Not an optimisation — a dependency is a way for this to fail for a reason
+      # unrelated to the lanes, and the module imports nothing outside the stdlib (asserted by
+      # tests/test_lane_staleness_watch.py, which also asserts it imports nothing from the lanes it watches).
+      - name: Is any lane stale, and is that expected?
+        id: watch
+        working-directory: research/modalities
+        env:
+          # A token is a HEADER, not a dependency: the zero-install property above is untouched, and the
+          # module still falls back to an anonymous read plus a retry ladder if this is ever absent.
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          python3 lane_staleness_watch.py \
+            --json /tmp/lane-staleness-verdict.json \
+            $([ "${{ github.event.inputs.write_history || '1' }}" = "1" ] && echo --write-history) \
+            | tee /tmp/lane-staleness.log
+          echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      # ★ ALWAYS, and AFTER the check: the verdict must be readable whether or not anything fired, otherwise
+      # this alarm has the same "silence is ambiguous" defect it was built to remove.
+      - name: Verdict (readable on a red run too)
+        if: ${{ always() }}
+        run: |
+          {
+            echo '### Cross-lane staleness verdict'
+            echo ''
+            echo '```'
+            cat /tmp/lane-staleness.log 2>/dev/null || echo 'THE WATCH ITSELF FAILED — no verdict was produced.'
+            echo '```'
+            echo ''
+            echo '<details><summary>full JSON</summary>'
+            echo ''
+            echo '```json'
+            cat /tmp/lane-staleness-verdict.json 2>/dev/null || echo '{"verdict": "WATCH ITSELF FAILED"}'
+            echo '```'
+            echo ''
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # The census history is the ONLY state this workflow keeps, and it is used for one thing: knowing how
+      # long a committed-iteration census has been bit-identical. A failed push is SAFE BY CONSTRUCTION and
+      # deliberately does not fail the job — see `update_history`'s docstring and
+      # `test_a_stale_history_under_reports_flatness_rather_than_inventing_it`: a stale history can only
+      # UNDER-report flatness, never invent it. Warn, do not die.
+      - name: Persist the census history
+        if: ${{ always() && (github.event.inputs.write_history || '1') == '1' }}
+        run: |
+          set -uo pipefail
+          BR="${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/lane-staleness-history.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "census history unchanged"; exit 0; fi
+          git commit -m "lane staleness watch: census history (CI)" || exit 0
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$BR" && git push origin "HEAD:$BR" && exit 0
+            echo "push attempt $i lost a race with a lane's own commit; retrying"
+            sleep $((i * 7))
+          done
+          echo "::warning title=CENSUS HISTORY NOT PERSISTED::the history could not be pushed. This CANNOT cause a false alarm (a stale history only under-reports flatness), but the flat-census signal is weaker until it lands."
+
+      # ⚠ SES MAY STILL BE SANDBOXED ON THIS ACCOUNT. Say so rather than assuming delivery: a notification
+      # channel believed to work and silently not working is worse than none, because it buys false comfort.
+      # The NON-ZERO EXIT below is the channel that is known to reach a human — GitHub emails the repository
+      # owner when a scheduled workflow fails — and this mail is belt-and-braces on top of it.
+      - name: Mail the failing verdict (best effort)
+        if: ${{ always() && steps.watch.outputs.rc != '0' && (github.event.inputs.email_on_fail || '1') == '1' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+          MAIL_TO: trimcrae@gmail.com
+        run: |
+          set +e
+          pip install boto3 >/dev/null 2>&1
+          python3 - <<'PY'
+          import json, os, sys
+          sys.path.insert(0, "research/modalities")
+          try:
+              v = json.load(open("/tmp/lane-staleness-verdict.json"))
+          except Exception as e:
+              print(f"no verdict file to mail ({e})"); raise SystemExit(0)
+          bad = [l for l in v["lanes"] if not l["ok"]]
+          subj = f"[lane-watch] {len(bad)} lane(s) need attention — {', '.join(l['lane'] for l in bad)}"
+          body = "\n\n".join(f"{l['verdict']}  {l['lane']} ({l['label']})\n{l['detail']}" for l in bad)
+          body += f"\n\nread at {v['now_et']}\nrun: {os.environ.get('GITHUB_SERVER_URL','')}/{os.environ.get('GITHUB_REPOSITORY','')}/actions/runs/{os.environ.get('GITHUB_RUN_ID','')}"
+          try:
+              import mailer
+              print(mailer.send_email(subj, body, "<pre>" + body + "</pre>"))
+          except Exception as e:
+              print(f"::warning title=LANE-WATCH MAIL NOT DELIVERED::{type(e).__name__}: {e}. SES may still be "
+                    f"sandboxed on this account; the run's non-zero exit is the channel that does reach a human.")
+          PY
+          exit 0
+
+      # The non-zero exit is deliberate and is the last step: GitHub emails the repository owner when a
+      # SCHEDULED workflow fails, and a red run is visible in the Actions list without anyone opening it.
+      - name: Fail the run if any lane needs attention
+        if: ${{ always() && steps.watch.outputs.rc != '0' }}
+        run: |
+          echo "::error title=A LANE NEEDS ATTENTION::see the job summary for the per-lane verdict"
+          exit 1
