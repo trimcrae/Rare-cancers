@@ -936,12 +936,14 @@ def scan_lanes(lane_report: dict | None, err: str | None) -> tuple[list[Entry], 
             cost_points_at=("step1-fanout-progress.json:realised_usd_so_far" if key == "step1-fanout"
                             else "ternary-vast-market-hold.json:plan_usd" if key == "ternary-valb-reps"
                             else None),
-            # Its OWN snapshot, never a sibling's. `ternary-vast-market-hold.json` is stamped with the MODE
-            # it describes, so it prices the replicate lane and nothing else; the triangle's own snapshot
-            # (`valb-triangle-market-hold.json`) does not currently exist, so that lane prices as `—` rather
-            # than borrowing one.
+            # ★ ITS OWN SNAPSHOT, NEVER A SIBLING'S. `ternary-vast-market-hold.json` is stamped with the
+            # MODE it describes, so it prices the replicate lane and nothing else; the triangle writes its
+            # own `valb-triangle-market-hold.json` (the `triangle-gate` task's `--gate` output). A lane with
+            # no snapshot of its own prices as `—` and borrows nothing — reading a neighbour's would
+            # attribute one lane's health to a lane nobody measured.
             price_points_at=("step1-fanout-market-hold.json" if key == "step1-fanout"
                              else "ternary-vast-market-hold.json" if key == "ternary-valb-reps"
+                             else "valb-triangle-market-hold.json" if key == "closure-triangle"
                              else None),
             hosts_points_at=("step1-fanout-progress.json:instances" if key == "step1-fanout" else None),
             notes=[str(v.get("detail"))[:400]],
@@ -1487,7 +1489,19 @@ def _cost_cell(entries: list[dict], root: str) -> str:
         v, err = _read_pointer(root, ptr)
         label = ptr.split(":", 1)[0]
         if err:
-            out.append(f"cost UNREADABLE ({err})")
+            # ★★ "THE KEY IS MISSING" AND "THE GATE HAD NOTHING TO PRICE" ARE DIFFERENT FACTS, and only one
+            # of them is a defect. CAUGHT ON THE REAL BOARD after a merge: the ternary gate writes TWO
+            # shapes — a full priced snapshot when it evaluated a board, and a short `nothing_to_launch`
+            # one when every unit was already done or hosted, which carries no `plan_usd` at all. A fixed
+            # pointer cannot be right for both, so the SHAPE is read rather than assumed. Reporting the
+            # short form as UNREADABLE would cry wolf on a gate doing exactly the right thing; reporting it
+            # as `$0` with no explanation would hide a genuine schema break behind a plausible number.
+            v2, _ = _read_pointer(root, f"{label}:nothing_to_launch")
+            n2, _ = _read_pointer(root, f"{label}:n_units")
+            if v2 is True or n2 == 0:
+                out.append(f"$0 this pass — the gate had nothing to buy (`nothing_to_launch`) [{label}]")
+            else:
+                out.append(f"cost UNREADABLE ({err})")
         elif isinstance(v, list) and len(v) == 2:
             out.append(f"${float(v[0]):.2f}-${float(v[1]):.2f} [{label}]")
         else:

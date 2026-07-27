@@ -598,6 +598,27 @@ def test_the_board_renders_PAYING_and_REFUSED_distinctly(tmp_path):
     assert "$0 spent" in board, "the refused side must say so on the same line"
 
 
+def test_a_gate_with_NOTHING_TO_BUY_is_not_an_unreadable_cost(tmp_path):
+    """CAUGHT ON THE REAL BOARD after a merge. The ternary gate writes TWO shapes: a full priced snapshot,
+    and a short `nothing_to_launch` one carrying no `plan_usd` at all. Reporting the short form as
+    UNREADABLE cries wolf on a gate doing exactly the right thing; reporting it as a bare `$0` would hide a
+    genuine schema break behind a plausible number. The shape is READ, not assumed."""
+    short = {"utc": _ago(5), "mode": "edge_reps", "hold": False, "nothing_to_launch": True,
+             "n_units": 0, "units_live": [], "units_done": [], "reason": "every unit already done or hosted"}
+    doc, root = _build(tmp_path, watch=_watch([_entry("edge_reps", True)]), thold=short)
+    board = wl.render_board(doc, root, NOW)
+    assert "nothing to buy" in board, board
+    assert "cost UNREADABLE" not in board, board
+
+
+def test_a_GENUINE_schema_break_still_reads_UNREADABLE(tmp_path):
+    """The other direction: a priced snapshot that lost its cost key is a real defect and must say so."""
+    broken = {"utc": _ago(5), "mode": "edge_reps", "hold": False, "nothing_to_launch": False,
+              "n_units": 3, "units_live": [], "units_done": [], "reason": "x"}
+    doc, root = _build(tmp_path, watch=_watch([_entry("edge_reps", True)]), thold=broken)
+    assert "cost UNREADABLE" in wl.render_board(doc, root, NOW)
+
+
 def test_a_non_GPU_row_carries_an_em_dash_not_a_fabricated_figure(tmp_path):
     doc, root = _build(tmp_path, schedule=_schedule(("a", "pending", [])))
     board = wl.render_board(doc, root, NOW)
@@ -612,7 +633,8 @@ def test_ONE_LANES_SNAPSHOT_NEVER_PRICES_ANOTHER(tmp_path):
     doc, root = _build(tmp_path, fhold=_fanout_hold(held=True, n_held=9),
                        ledger=_ledger((300, "triangle-prime", "success", "task=triangle-prime")))
     tri = _by_id(doc)["lane:closure-triangle"]
-    assert tri["price_points_at"] is None, "the triangle has no snapshot of its own and must borrow none"
+    assert tri["price_points_at"] == "valb-triangle-market-hold.json", \
+        "the triangle prices from its OWN gate snapshot, never the fan-out's"
     board = wl.render_board(doc, root, NOW)
     tri_line = [ln for ln in board.splitlines() if "closure triangle" in ln]
     assert tri_line, board
