@@ -849,9 +849,15 @@ jobs:
                     "particle count (mode=forensic) before combining these legs."
                     % (len(unknown), ', '.join(unknown)))
           elif unknown:
-              print("::warning title=LEG SETUP VERSION PARTIALLY VERIFIED::%d leg record(s) are silent (%s); the "
-                    "commit manifests agree on %s. Treat the leg-record silence as unverified, not as agreement."
-                    % (len(unknown), ', '.join(unknown), sorted(mknown)))
+              # PRINT THE PER-LEG MAP, NOT THE POOLED SET. Saying the manifests "agree on ['v1','v2pe']" reads
+              # as if two versions had been agreed on, in the one message whose entire job is precision about
+              # what was and was not established. Each leg agrees with ITSELF; that is the claim.
+              print("::warning title=LEG SETUP VERSION PARTIALLY VERIFIED::%d leg record(s) are silent (%s). The "
+                    "commit manifests DO record a version, and each leg is self-consistent: %s. Treat the "
+                    "leg-record silence as unverified, not as agreement — and note a leg absent from that map "
+                    "has no recorded version anywhere."
+                    % (len(unknown), ', '.join(unknown),
+                       {k: sorted(v) for k, v in sorted(per_leg.items())}))
           elif known or mknown:
               print("[provenance] all legs agree on setup version %s — VERIFIED from the artifacts."
                     % sorted(known | mknown))
