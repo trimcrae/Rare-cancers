@@ -82,6 +82,69 @@ consecutive ~10-min windows, and only the multi-block window gives 261. This is 
 quantisation that produced three wrong ETAs in STRATEGY.md's correction table (row 19b) — it is a property of
 the checkpoint interval, not of the host.
 
+### ⚠ The 2 h 57 min that looked like a hung sampler and was an image pull (2026-07-26, LANE 21)
+
+The shakeout unit was preempted off Vast **45936074** at 4:31 PM ET at `complex/warmup@260` and auto-resumed
+onto **45938720**. `vast-watchdog` then reported the same verdict four passes running —
+`STALLED … frozen at leg-complex-running/260` — and correctly declined to relaunch. The verdict was right and
+useless: **the 260 was 45936074's last commit, and 45938720 had not executed one instruction.**
+
+**The evidence, three independent records agreeing.** (1) Vast `actual_status` read `loading` on every
+autoscale tick from 4:39 PM to 6:52 PM ET, with `status_msg` cycling docker layer lines
+(`Pulling fs layer` → `79436a159dbf: Pull complete` → `4f4fb700ef54: Pull complete`) — the trail is in this
+lane's own committed `step1-fanout-progress.json` history. (2) The container's stdout begins
+`Sun Jul 26 23:31:48 UTC 2026`, i.e. **7:31 PM ET**, its first line. (3) `phase.txt`'s first write from that
+box is `boot 2026-07-26T23:31:56Z`, eight seconds later — which incidentally proves the S3 upload path was
+never the problem. Container start therefore lagged the rental by **2 h 57 min**, all of it billed.
+
+That rules out every MD-level hypothesis at once — a dead sampler, a swallowed NaN, a hung resume, a broken
+commit/upload path, a per-window stall in warmup. **None of them can happen on a container that has not run.**
+
+**The rate, measured rather than assumed.** `triskit23/nr4a3fep:latest` is **2.91 GiB** compressed (the tag's
+own `full_size`), so 177 min of pull is **~2.4 Mbit/s** — against the offer's advertised `inet_down` of
+**142.4 Mbit/s**, a **~60× shortfall**. So an advertised-bandwidth floor in offer selection would **not** have
+caught this: 142 Mbit/s passes any sane threshold. The only signal that separates a slow host from a normal
+20–40 min pull is the **observed time to container start**, which is why that, and not `inet_down`, is what
+the watchdog now measures. (`gpu_util` is likewise no help: it read `None` throughout the pull, then
+`99.99 %` ninety seconds into boot, then `0.0` — LANE 17's finding that this field is not usable here holds.)
+
+**Why the watchdog structurally could not say this.** `classify()` reached `SETUP_STALL` only via
+`progress_scalar <= 0`. The scalar is **unit-scoped and durable in the object store**, so it survives the
+host — a resumed unit arrives on a fresh box carrying its predecessor's number, and that gate is unreachable
+for it ever after. The policy was reading a unit-scoped counter to answer an instance-scoped question. Fixed
+by `watchdog_policy.classify(container_started=…)` + `vast_watchdog.container_started_from_phase()`, which
+derives the bit from the phase marker's own timestamp against the rental's `start_date`, and by
+`container_diag()`, which puts Vast's `actual_status`/`status_msg` **beside every stall alert** — those
+fields were in the instance record the whole time.
+
+**What now self-recovers.** A never-started container past the cold-start grace is `SETUP_STALL`, and
+`Step1FanoutKind.quarantine()` destroys the box and adds its machine to the lane exclusion set. That is
+**not** a relaunch — `should_relaunch` still authorises `DIED` alone, and a test pins it. The unit reads
+`DIED` on the next pass and goes out through the existing capped, interlocked path, with the bad machine
+already excluded: CLAUDE.md's rule for a Vast host that never starts, executed without a human.
+
+**Two further defects the same incident exposed.**
+- **An `exited` Vast instance is not provably dead.** 45938720 read `actual_status="exited"` at 7:49 PM ET
+  and was re-marking `boot` on the **same instance id** two minutes later; the container stdout carries both
+  boot sequences. `probe` treats `exited` as not-alive, so that unit reads `DIED`, and `DIED` relaunches —
+  two hosts on one checkpoint prefix, arriving by a route the `owning_workflow` interlock cannot see.
+  `Step1FanoutKind.reap_exited()` now destroys the ambiguous box **before** renting the replacement, and a
+  failed destroy withholds the relaunch rather than risking two writers.
+- **`mode_launch` crashed on its own success line.** `_lprint(…, flush=True)` — `_lprint` is not `print` —
+  raised `TypeError` on the **first successful submission**, reachable only when money was being spent. In
+  autoscale run **30226203566** it rented instance 45951628 and died *before* the rental-ledger write,
+  `_arm_watchdog` and the launch readout: a host billing while invisible to realised spend **and** to the
+  watch list. A second copy sat in the submit-**failure** handler, whose entire job is to survive a Vast
+  capacity refusal. Both fixed; `tests/test_congeneric_fanout.py` now binds every internal call in these
+  modules against its callee's signature statically, and `mode_monitor` **backfills** a live rental that has
+  no ledger row.
+
+**Realised cost of the stalled window: $0.159** (45938720, 3.33 h at $0.0476/hr, from the lane's own
+`_rentals.json`), against $0.09 for the productive 45936074 rental. The lane's `STARVED HOST` guard finally
+condemned 45938720 at 7:53 PM ET on `gpu_util=0.0 %` and excluded machine **28164** — the right outcome, but
+reached through a field that reads `None` on other hosts, which is precisely why the container-start signal
+above does not depend on provider telemetry.
+
 ### Timestep — 4 fs here is NOT an import from the ternary lane
 
 RUNG 2b's 4 fs adoption passed on 2026-07-26 on the **ternary VHL calibration system**, and it is deliberately
