@@ -259,6 +259,53 @@ def _mapping(openfe, ligA, ligB, prefer_element_change=False):
                 print(f"[rbfe] LOMAP element_change=False gave a DEGENERATE {nmap}-atom map; trying "
                       f"element_change=True before accepting", flush=True)
                 continue
+            # ★★ A STRICT MAP BELOW ITS PROVABLE FLOOR IS ESCALATED, NOT ACCEPTED (2026-07-27, root-causing
+            # the step 1 fan-out's `leg-complex-FAILED-rc1` on s1f-09 cw_bio_nmethyl_amide).
+            #
+            # WHAT WENT WRONG. The loop above returns the FIRST setting that yields any mapping, and that is
+            # element_change=False by design — correct for a pure append. But `zaienne_cmpd19` is a methyl
+            # ESTER (`COC(=O)c1c[nH]c2ccc(Br)cc12`) and `cw_bio_nmethyl_amide` is the N-methyl AMIDE
+            # (`CNC(=O)…`): one heavy-atom O->N substitution, MID-CHAIN. A strict-element MCS cannot cross it,
+            # and severing there also strands everything beyond — the ester O, the methyl C and its 3 H, i.e.
+            # exactly 5 atoms. Measured with rdkit alone: element-exact MCS = 17 atoms, element-agnostic = 22,
+            # `canceled=False` on both in milliseconds. 22 - 5 = 17, and 17 < the provable floor of 20, so
+            # `_check_mapping_sane` aborted the leg rc=1 — correctly, on a map this function never had to
+            # settle for, because element_change=True maps all 22 and the ec=True branch was never reached.
+            #
+            # WHY THIS IS NOT THE TIMEOUT the abort message used to guess at. A timed-out MCS moves BOTH
+            # settings together and burns its budget; this separates them and returns instantly. The budget
+            # was never binding — `atom_map_audit.maps` measured t20 == t300 in 0.0-1.4 s on all 19 congeneric
+            # edges. `step1_map_diag.py` runs the 2x2 {element_change} x {budget} matrix on the PRODUCTION
+            # staged components for the record.
+            #
+            # ⚠ WHY THIS IS SAFE TO LAND UNDER A LIVE FLEET, which is the only reason it is written this way.
+            # The clause is reachable ONLY when the strict map is BELOW the provable floor — and any leg that
+            # is running has already passed `_check_mapping_sane`, i.e. its map is AT OR ABOVE that same
+            # floor. So for every edge currently in flight this is dead code and the returned mapping is
+            # byte-identical. Swept across all 19 fan-out edges (2026-07-27): exactly one, this one, has a
+            # strict map below its floor. Changing the map of a leg that is mid-flight would be a silent
+            # protocol deviation, and this cannot do it.
+            if ec is False:
+                floor, complete, _n = _provable_map_floor(ligA, ligB)
+                if floor is not None and nmap < floor:
+                    print(f"[rbfe] element_change=False mapped {nmap} atoms, BELOW the provable floor {floor}"
+                          + (f" (a complete map of {complete} atoms exists)" if complete else "")
+                          + f" for {nA}->{nB} — a strict-element MCS cannot cross an element substitution, so "
+                            f"trying element_change=True before accepting this map", flush=True)
+                    try:
+                        m_ec = _suggest(True)
+                        n_ec = len(m_ec.componentA_to_componentB)
+                        print(f"[rbfe] LOMAP element_change=True: {n_ec} mapped atoms for {nA}->{nB} "
+                              f"(provable-floor escalation)", flush=True)
+                        if n_ec > nmap:
+                            print(f"[rbfe] floor escalation -> using the {n_ec}-atom element_change=True map "
+                                  f"for {nA}->{nB}", flush=True)
+                            return m_ec
+                        print(f"[rbfe] element_change=True is no larger ({n_ec} <= {nmap}); keeping the strict "
+                              f"map and letting the floor guard judge it", flush=True)
+                    except StopIteration:
+                        print(f"[rbfe] element_change=True returned NO mapping for {nA}->{nB}; keeping the "
+                              f"{nmap}-atom strict map and letting the floor guard judge it", flush=True)
             return m
         except StopIteration:
             continue
@@ -632,9 +679,17 @@ def _check_mapping_sane(mapping, ligA, ligB, n_mapped):
                + (f" (a complete map of {complete} atoms exists)" if complete else "")
                + f". {note} {provable - n_mapped} atom(s) that must map would instead be annihilated and "
                  f"recreated, so this leg would run a DIFFERENT perturbation from the designed one — and it "
-                 f"would still converge and still report a confident ΔG. Most likely the LOMAP MCS hit its "
-                 f"{os.environ.get('RBFE_LOMAP_TIME_S', '300')}s budget (RBFE_LOMAP_TIME_S); raise it and "
-                 f"re-run. Do NOT spend MD on this map.")
+                 f"would still converge and still report a confident ΔG. Do NOT spend MD on this map. TWO "
+                 f"mechanisms produce this and they need OPPOSITE fixes — run `step1_map_diag.py` (CPU, $0) "
+                 f"to tell them apart rather than guessing: (a) the MCS hit its "
+                 f"{os.environ.get('RBFE_LOMAP_TIME_S', '300')}s budget (RBFE_LOMAP_TIME_S) — the map then "
+                 f"GROWS with the budget and the search burns it; raise it and re-run; (b) an ELEMENT "
+                 f"substitution the strict map cannot cross — the two element_change settings then separate "
+                 f"and both return instantly, and `_mapping` escalates to element_change=True by itself, so "
+                 f"seeing this abort means even that map is short. "
+                 f"⚠ THIS MESSAGE USED TO ASSERT (a) AS 'most likely'; on the one edge that ever raised it "
+                 f"(zaienne_cmpd19->cw_bio_nmethyl_amide, 2026-07-27) the cause was (b) and the budget was "
+                 f"never binding.")
         if os.environ.get("RBFE_MAP_FLOOR_FATAL", "1") == "1":
             raise SystemExit(msg)
         print("  [rbfe] ⚠ (RBFE_MAP_FLOOR_FATAL=0, continuing anyway)" + msg, flush=True)
