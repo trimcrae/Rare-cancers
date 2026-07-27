@@ -897,6 +897,26 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 A PRICE GATE THAT CLEARS BUT CANNOT BUY IS WORTH NOTHING — DECIDE THE PURCHASE ONCE (2026-07-27).**
+  The ternary lane priced its fan-out **twice** for one purchase: the `market-gate` job read the board,
+  cleared, and dispatched the launch — and the `launch` job then re-read the board and re-decided, *behind* a
+  2 m 35 s image pull for the atom-map preflight. On 2026-07-27 that lost both of the day's cheap windows:
+  **9:13:04 AM ET CLEAR at 1.261× basis → 9:16:28 AM ET HOLD at 2.436×, exit 1**, and **9:23:16 AM ET CLEAR
+  at 1.455× → 9:26:36 AM ET HOLD at 1.904×**. Neither gate was wrong; a launch simply needed two independent
+  board reads 3 m 24 s apart to both clear the same line, and this board doubles inside that window.
+  **Fix, and why it is stronger rather than weaker:** the refusal moved from a board *mean* beside the rental
+  to a per-offer line **inside** it — `ResourceSpec.max_usd_per_ns` = 1.5× basis, carried by the JobSpec into
+  `rank_offers_by_usd_per_ns`, so no over-line offer is visible to selection on any path (first pick,
+  post-capacity-refusal fallback, or a watchdog resume). A mean under the line could always contain an offer
+  over it; a per-offer line cannot. Renting **zero** units is now a red job, never a green no-op.
+- **🛑 AND THE FAILURE WAS INVISIBLE, WHICH IS WHY IT GOT MISREPORTED.** The dead launch's HOLD snapshot
+  overwrote the gate's CLEAR **in the same file** (`96d4a19d→d502f9cd`, `a1bd1487→9c4dded0`), the watch list
+  was empty, and S3's `_last_launch.json` was hours stale because the launcher never ran — i.e. a
+  cleared-then-died launch was byte-identical to an ordinary hold. **Never diagnose this lane from
+  `ternary-vast-market-hold.json` alone.** The append-only
+  [`ternary-vast-launch-attempts.json`](./ternary-vast-launch-attempts.json) now records every dispatch and
+  its outcome (`ternary_launch_ledger.py`, printed by `--collect`), and the launch writes its own board file
+  instead of overwriting the gate's.
 - **🛑 VAST: `duration` IS THE HOST'S UPTIME, NOT YOUR RENTAL AGE — an age-based reaper WILL destroy a healthy
   fleet (2026-07-24, step1_fanout).** A Vast instance object's `duration` is the **host machine's** uptime; on a
   long-lived community host it reads in the hundreds of thousands of minutes. Freshly-rented boxes reported
