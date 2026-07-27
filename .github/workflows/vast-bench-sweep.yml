@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "plan | launch (SPENDS) | collect (validate + reap) | reap | forensic | impact"
+        description: "plan | launch (SPENDS) | collect (validate + reap) | reap | forensic | impact | ladder"
         type: choice
-        options: [plan, launch, collect, reap, forensic, impact]
+        options: [plan, launch, collect, reap, forensic, impact, ladder]
         default: plan
       fleet_branch:
         description: "branch whose code the rented instances run (NOT the workflow's own ref)"
@@ -36,7 +36,7 @@ on:
         description: "label scoping this launch's S3 result keys. WITHOUT IT a later sweep OVERWRITES the hosts an earlier one paid for — which has destroyed evidence three times."
         default: ""
       exclude_machines:
-        description: "comma-separated Vast machine_ids to never rent. A host that will not deliver has infinite realised $/ns, which the ranking cannot see, so it keeps winning selection and keeps failing."
+        description: "comma-separated Vast machine_ids to never rent."
         default: ""
 
 permissions:
@@ -71,8 +71,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
-          # FULL HISTORY, NOT DEPTH 1. throughput_harvest reads the committed progress trail through git log;
-          # on a shallow clone every census number comes back zero, which reads exactly like its conclusion.
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
@@ -93,6 +91,15 @@ jobs:
         env:
           FORENSIC: "1"
         run: python vast_bench_sweep.py
+      - name: Ladder — fresh market snapshot, then reprice the whole ladder from it
+        if: ${{ github.event.inputs.mode == 'ladder' }}
+        working-directory: research/modalities
+        run: |
+          python vast_market_intel.py --out-dir . --skip-docs --gpus \
+            "rtx4090,rtx3090,rtx4080,rtx4080s,rtx5090,rtx5080,rtx3090ti,rtx5060ti,a4000,a100,rtx pro 4000" \
+            || true
+          python vast_cost_model.py --offers vast-market-offers-raw.json \
+            --json-out vast-ladder-repricing.json
       - name: Board impact
         if: ${{ github.event.inputs.mode == 'impact' }}
         working-directory: research/modalities
@@ -100,7 +107,7 @@ jobs:
           IMPACT: "1"
         run: python vast_bench_sweep.py
       - name: Plan
-        if: ${{ github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'impact' }}
+        if: ${{ github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'impact' && github.event.inputs.mode != 'ladder' }}
         working-directory: research/modalities
         run: python vast_bench_sweep.py
       - name: Launch
@@ -136,7 +143,10 @@ jobs:
                    research/modalities/vast-bench-forensic.json \
                    research/modalities/vast-bench-board-impact.json \
                    research/modalities/vast-bench-spend-ledger.json \
-                   research/modalities/throughput-bench-provenance.json; do
+                   research/modalities/throughput-bench-provenance.json \
+                   research/modalities/vast-ladder-repricing.json \
+                   research/modalities/vast-market-offers-raw.json \
+                   research/modalities/vast-market-intel.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
           done
           [ "$staged" = 1 ] || { echo "nothing to stage"; exit 0; }
