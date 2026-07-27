@@ -232,19 +232,11 @@ _VAST_GPU_SUBSTR = {
     "rtx8000": "8000", "a6000": "A6000", "a5000": "A5000",   # 24-48GB alternates for the $/ns bench
 }
 
-
-def _gpu_match_substr(gpu):
-    """The normalised substring an offer's `gpu_name` must contain to count as this model. PURE.
-
-    Falls back to the normalised request itself when the model is not in the hand-written map, so a card the
-    census puts on the bench shortlist (`RTX PRO 6000 WS`, `RTX 5090`, ...) is benchable WITHOUT anyone having
-    to remember to add a map entry first. Normalisation is shared with the throughput tables
-    (`vast_cost_model.normalise_gpu_name`), so `RTX PRO 6000 S` and `RTX PRO 6000 WS` stay distinguishable —
-    `RTXPRO6000S` is not a substring of `RTXPRO6000WS`."""
-    g = str(gpu or "").strip()
-    if not g or g.lower() == "any":
-        return None
-    return _VAST_GPU_SUBSTR.get(g.lower()) or _vcm.normalise_gpu_name(g)
+# NB: this map is the SOFT preference only (`_select_cheapest_offer`, used when nothing measured qualifies).
+# The HARD `require_gpu` constraint deliberately does NOT consult it: its entries are loose substrings ("4090"
+# matches the cut-down `RTX 4090D` too), and a bench that lands on a near-miss produces a number for a card
+# that never ran. That path uses the same suffix rule as `vast_cost_model._model_key`, so any card the census
+# shortlists is benchable without anyone remembering to add a map entry first.
 
 
 def _vast_request(method: str, path: str, api_key: str, params=None, body=None, _hops: int = 0):
