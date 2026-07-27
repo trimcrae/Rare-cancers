@@ -182,11 +182,25 @@ def setup_stall_diagnosis(*, phase_text, marker_age_min, log_age_min, log_lines,
                 f"tail rather than at setup: {freshness}. Log: {tail}")
 
     if head in COMMITTING_PHASES:
+        # ★ THE GRACE IS MEASURED ON THE RENTAL, AND THE QUESTION IS PHASE-SCOPED — the same mismatch as the
+        # bug above, one level deeper. `classify` compares `instance_age_min` against the grace, so a leg
+        # that spent two hours in a legitimately long pre-equilibration and entered `md-running` five minutes
+        # ago arrives here already "past grace" with a counter that has had no time to move. Observed live on
+        # the first pass after this change shipped: instance 45947762, box 176 min old, marker 20 min old.
+        # Flagged rather than silently swallowed, because the alert must not assert a hang it cannot support
+        # — and flagged rather than fixed in `classify`, because suppressing the alert would risk hiding a
+        # real one, and the reader can weigh 20 min against a checkpoint interval perfectly well once told.
+        premature = (isinstance(marker_age_min, (int, float)) and marker_age_min < grace)
+        caveat = (f" ⚠ BUT IT HAS ONLY BEEN IN A COMMITTING PHASE FOR {marker_age_min:.0f} MIN against a "
+                  f"{grace:.0f} min grace — and the grace is measured on the RENTAL, not on the phase. This "
+                  f"leg may simply have entered {head!r} after a long non-committing phase and not yet "
+                  f"reached its first checkpoint interval, in which case there is nothing wrong. Judge it on "
+                  f"the marker age and the checkpoint interval before acting." if premature else "")
         return (f"IN {head!r}, WHICH DOES COMMIT, AND HAS COMMITTED NOTHING",
                 f"the sampler is the thing that is not producing, so setup really is the suspect here: "
                 f"check the CUDA probe, the charge cache, the minimise step count and whether a warmup NaN "
                 f"aborted before the first checkpoint interval. {_age(marker_age_min, 'phase marker written')}; "
-                f"{freshness}. Log: {tail}")
+                f"{freshness}.{caveat} Log: {tail}")
 
     return (f"UNRECOGNISED PHASE {head!r}" if head else "NO PHASE MARKER, BUT THE CONTAINER APPEARS STARTED",
             f"this engine does not classify {head!r} as committing or non-committing, so it will NOT guess "

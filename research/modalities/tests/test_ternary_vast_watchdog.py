@@ -349,3 +349,26 @@ def test_the_ternary_lane_now_shares_the_container_start_check_rather_than_copyi
     import watchdog_policy as wp
     assert wd.container_started_from_phase is wp.container_started_from_phase
     assert vw.container_started_from_phase is wp.container_started_from_phase
+
+
+def test_a_committing_phase_younger_than_the_grace_is_flagged_as_possibly_premature():
+    """THE SAME MISMATCH ONE LEVEL DEEPER, caught live on the first pass after the fix shipped: `classify`
+    compares the RENTAL's age against the grace, but "has it committed yet" is a question about the PHASE.
+    Instance 45947762 was 176 min old with a 20-min-old `md-running` marker — past grace on the box, five
+    checkpoint-intervals short on the phase. The alert must not assert a hang it cannot support."""
+    _h, hints = _diag(phase_text="md-running 2026-07-27T01:27:33Z", marker_age_min=20.0,
+                      instance_age_min=176.0)
+    assert "ONLY BEEN IN A COMMITTING PHASE FOR 20 MIN" in hints
+    assert "measured on the RENTAL, not on the phase" in hints
+    assert "there is nothing wrong" in hints
+    # ...and a leg that HAS been committing-phase-resident past the grace gets no such excuse
+    _h, old = _diag(phase_text="md-running 2026-07-27T01:27:33Z", marker_age_min=200.0,
+                    instance_age_min=210.0)
+    assert "ONLY BEEN IN A COMMITTING PHASE" not in old
+    assert "CUDA probe" in old
+
+
+def test_the_premature_caveat_never_fires_without_a_readable_marker_age():
+    _h, hints = _diag(phase_text="md-running 2026-07-27T01:27:33Z", marker_age_min=None,
+                      instance_age_min=176.0)
+    assert "ONLY BEEN IN A COMMITTING PHASE" not in hints
