@@ -323,6 +323,24 @@ jobs:
           python3 -m pip install -q awscli >/dev/null 2>&1 || true
           B=sagemaker-us-east-2-646605541856
           F="${{ github.event.inputs.leg_filter }}"
+
+          # ★ CROSS-LANE RESTART TABLE — EVERY unit in the lane, not just 5a-KS. The question "why do the
+          # 5a-KS legs restart more than the fan-out shakeout does" cannot be answered from the 5a-KS legs
+          # alone; it needs the SAME measurement on the units that are said not to have the problem. One
+          # compact line per unit: how many attempts, and the lifetime of each (the gap between consecutive
+          # archive timestamps, because an attempt's log is archived by the NEXT container's start).
+          echo "################ CROSS-LANE RESTART TABLE (all units, oldest attempt first)"
+          for U in $(aws s3 ls "s3://$B/ternary-vast/legs/" | awk '{print $2}' | tr -d '/' || true); do
+            aws s3 ls "s3://$B/ternary-vast/legs/$U/attempts/" 2>/dev/null | sort -k1,2 > /tmp/x.ls || true
+            N=$(wc -l < /tmp/x.ls)
+            [ "$N" -gt 0 ] || continue
+            PH=$(aws s3 cp "s3://$B/ternary-vast/legs/$U/phase.txt" - 2>/dev/null || echo "-")
+            # NB one-liner, not a heredoc: a heredoc body must sit at column 0, which breaks the enclosing
+            # `run: |` block scalar and makes GitHub report the whole workflow as having no trigger.
+            python3 -c 'import sys,datetime; f=datetime.datetime.fromisoformat; ts=[f(p[0]+"T"+p[1]) for p in (l.split() for l in sys.stdin) if len(p)>=4]; g=[(b-a).total_seconds()/60.0 for a,b in zip(ts,ts[1:])]; print("  %-62s attempts=%-3s lifetimes(min)=[%s] | since-last %.0fm | phase=%s" % (sys.argv[1], sys.argv[2], ",".join("%.0f"%x for x in g), (datetime.datetime.utcnow()-ts[-1]).total_seconds()/60.0 if ts else -1, " ".join(sys.argv[3:]).strip()))' "$U" "$N" "$PH" < /tmp/x.ls || true
+          done
+          echo "################"
+
           for U in $(aws s3 ls "s3://$B/ternary-vast/legs/" | awk '{print $2}' | tr -d '/' | grep '^5aks' | grep -- "${F:-}" || true); do
             echo "================================================================ $U"
             P="s3://$B/ternary-vast/legs/$U"
