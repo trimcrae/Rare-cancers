@@ -323,6 +323,29 @@ jobs:
           python3 -m pip install -q awscli >/dev/null 2>&1 || true
           B=sagemaker-us-east-2-646605541856
           F="${{ github.event.inputs.leg_filter }}"
+
+          # ★ CROSS-LANE RESTART TABLE — EVERY unit in the lane, not just 5a-KS. The question "why do the
+          # 5a-KS legs restart more than the fan-out shakeout does" cannot be answered from the 5a-KS legs
+          # alone; it needs the SAME measurement on the units that are said not to have the problem. One
+          # compact line per unit: how many attempts, and the lifetime of each (the gap between consecutive
+          # archive timestamps, because an attempt's log is archived by the NEXT container's start).
+          echo "################ CROSS-LANE RESTART TABLE (all units, oldest attempt first)"
+          for U in $(aws s3 ls "s3://$B/ternary-vast/legs/" | awk '{print $2}' | tr -d '/' || true); do
+            aws s3 ls "s3://$B/ternary-vast/legs/$U/attempts/" 2>/dev/null | sort -k1,2 > /tmp/x.ls || true
+            N=$(wc -l < /tmp/x.ls)
+            [ "$N" -gt 0 ] || continue
+            PH=$(aws s3 cp "s3://$B/ternary-vast/legs/$U/phase.txt" - 2>/dev/null | tr -s ' \n' ' ' || echo "-")
+            ST=$(aws s3 cp "s3://$B/ternary-vast/legs/$U/leg.json" - 2>/dev/null | python3 -c 'import sys,json; d=json.load(sys.stdin); print("%s/rc%s" % (d.get("status","?"), d.get("rc","?")))' 2>/dev/null || echo "no-leg.json")
+            # SEPARATE THE TWO POPULATIONS. A sub-minute gap is not an MD death — it is the container
+            # exiting immediately and being relaunched (the 12-second loop). Mixing them into one list made
+            # the table unreadable (one unit printed 5770 entries) AND made the real lifetimes invisible.
+            # Report the sub-minute ones as a COUNT and list only the attempts that actually ran.
+            # NB one-liner, not a heredoc: a heredoc body must sit at column 0, which breaks the enclosing
+            # `run: |` block scalar and makes GitHub report the whole workflow as having no trigger.
+            python3 -c 'import sys,datetime; f=datetime.datetime.fromisoformat; ts=[f(p[0]+"T"+p[1]) for p in (l.split() for l in sys.stdin) if len(p)>=4]; g=[(b-a).total_seconds()/60.0 for a,b in zip(ts,ts[1:])]; r=[x for x in g if x>=1.0]; print("  %-58s attempts=%-5s ran(min)=[%s] loop<1m=%-5s since-last=%.0fm %-14s phase=%s" % (sys.argv[1], sys.argv[2], ",".join("%.0f"%x for x in r[-20:]), len(g)-len(r), (datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)-ts[-1]).total_seconds()/60.0 if ts else -1, sys.argv[3], " ".join(sys.argv[4:]).strip()))' "$U" "$N" "$ST" "$PH" < /tmp/x.ls || true
+          done
+          echo "################"
+
           for U in $(aws s3 ls "s3://$B/ternary-vast/legs/" | awk '{print $2}' | tr -d '/' | grep '^5aks' | grep -- "${F:-}" || true); do
             echo "================================================================ $U"
             P="s3://$B/ternary-vast/legs/$U"
@@ -336,18 +359,51 @@ jobs:
             # The ARCHIVED attempt first: on a restart it is the only record of why the run ended.
             A=$(aws s3 ls "$P/attempts/" 2>/dev/null | sort | tail -1 | awk '{print $4}' || true)
             if [ -n "$A" ]; then
-              echo "--- attempts/$A  (THE FAILING ATTEMPT — tail 200)"
-              aws s3 cp "$P/attempts/$A" - 2>/dev/null | tail -200 || true
+              echo "--- attempts/$A  (THE FAILING ATTEMPT — tail 60, iteration spam filtered)"
+              aws s3 cp "$P/attempts/$A" - 2>/dev/null \
+                | grep -vE "^INFO:\s+(Iteration [0-9]+/|\*{20,}|Iteration took|Estimated completion|Preset charges)" \
+                | tail -60 || true
             else
               echo "--- (no archived attempt)"
             fi
+            # ★ THE ATTEMPT CENSUS. Both 5a-KS ternary legs die every ~15-20 min and restart; which one LOOKS
+            # stalled is an artifact of commit-interval vs crash-period, not of leg health. So the useful
+            # dataset is not the newest attempt but ALL of them: for each, when it started, how long it
+            # survived, and what the last thing it said was. That is what turns "it keeps dying" into a
+            # period and a death position that can be correlated with commits, bids or wall clock.
+            # The ARCHIVE TIME is the load-bearing column: an attempt is archived by the NEXT container start,
+            # so the gaps between consecutive archive timestamps ARE the death period. Everything else in the
+            # census (size, last iteration, tail) says where in the run it died; only this says how often.
+            echo "--- ATTEMPT CENSUS (archive time UTC | bytes | last progress | tail), oldest first"
+            aws s3 ls "$P/attempts/" 2>/dev/null | sort -k1,2 | tail -16 > /tmp/att.ls || true
+            PREV=""
+            while read -r D T SZ A; do
+              [ -n "$A" ] || continue
+              GAP=""
+              if [ -n "$PREV" ]; then
+                GAP=$(python3 -c 'import datetime,sys; f=datetime.datetime.fromisoformat; print("  (+%.1f min)" % ((f(sys.argv[2])-f(sys.argv[1])).total_seconds()/60.0))' "$PREV" "${D}T${T}" 2>/dev/null || true)
+              fi
+              PREV="${D}T${T}"
+              echo "  == ${D} ${T}Z  ${SZ} B  $A${GAP}"
+              aws s3 cp "$P/attempts/$A" - 2>/dev/null > /tmp/att.log || true
+              grep -E "Iteration [0-9]+/|committed|checkpoint|barrier" /tmp/att.log | tail -2 | sed 's/^/     LAST : /' || true
+              grep -vE "^INFO:\s+(Iteration [0-9]+/|\*{20,}|Iteration took|Estimated completion|Preset charges)" \
+                /tmp/att.log | tail -4 | sed 's/^/     TAIL : /' || true
+            done < /tmp/att.ls
             # SUPERSEDED records: a failed leg.json that was archived-and-cleared. Reading them back is the
             # whole point of archiving rather than deleting — a cleared record must still be answerable for.
             for SUP in $(aws s3 ls "$P/superseded/" 2>/dev/null | awk '{print $4}' | sort | tail -4); do
               echo "--- superseded/$SUP"; aws s3 cp "$P/superseded/$SUP" - 2>/dev/null || true; echo
             done
-            echo "--- run.log (CURRENT attempt — tail 120)"
-            aws s3 cp "$P/run.log" - 2>/dev/null | tail -120 || echo "(none)"
+            # ⚠ FILTER THE ITERATION SPAM. OpenFE prints 4 lines per iteration, so an unfiltered tail is
+            # ~thousands of lines of `Iteration N/M` and banner asterisks — which pushed the ATTEMPT CENSUS
+            # above out of every readable window and made the tool useless for the question it was built for.
+            # Keep the last few iteration lines (the death position) and everything that is not routine.
+            echo "--- run.log (CURRENT attempt — last iterations + all non-routine lines)"
+            aws s3 cp "$P/run.log" - 2>/dev/null > /tmp/cur.log || true
+            grep -E "Iteration [0-9]+/" /tmp/cur.log | tail -3 | sed 's/^/  ITER: /' || true
+            grep -vE "^INFO:\s+(Iteration [0-9]+/|\*{20,}|Iteration took|Estimated completion|Preset charges)" /tmp/cur.log \
+              | tail -40 || echo "(none)"
           done
 
   # ------------------------------------------------ $0 CPU: reproduce the preequil failure, and prove the fix
