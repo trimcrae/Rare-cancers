@@ -485,6 +485,70 @@ with a strict map that annihilates and recreates atoms an element-agnostic map w
 that flag (`nr4a3_rbfe.py:662` and `:784` call `_mapping` positionally). Plumbing it through would change the
 perturbation of legs that are currently sampling, so it is a **post-fleet** change, not a live one.
 
+## 7d. The anti-idle guard is now wired to step 1 — and here is the evidence it rests on (2026-07-27)
+
+**Why it could not be wired before.** `vast_idle_guard` keys on two signals and step 1 emitted **neither**:
+`phase.txt` moves only at phase boundaries, and the leg log was uploaded once, at leg end. Between those, a
+wedged box was indistinguishable from a healthy one — which is how instance **45996071 crash-looped on a dead
+credential for over an hour at $0.2497/hr with 0 % GPU** while every existing guard passed it.
+
+**What the pipeline emits now**, in the ternary lane's shapes unchanged, so one guard reads one convention:
+
+- `$RESULT_S3/run.log`, re-PUT every `S1F_SYNC_S` (default 120 s) during **every** phase, plus at each `mark`.
+  The engine's stdout goes to `/tmp/$L.log`, so run.log is legitimately silent for hours — the PUT refreshes
+  the object's **mtime**, which is what the guard reads.
+- `$RESULT_S3/attempts/run-<UTC>.log`, archived at container start **before** the first `mark` (the ordering
+  the ternary lane paid seventeen 168-byte stubs to learn).
+
+**The hazard this was designed against, and why it is not the obvious one.** A heartbeat that outlives its job
+does not merely leak a process — it keeps run.log fresh forever, so the WEDGED clause never fires and the box
+bills to the age backstop. **Strictly worse than having no heartbeat.** Three nets, failing differently: the
+pipeline's EXIT trap; a **parent-death poll** (SIGKILL runs no trap, and `Killed` is exactly what the
+2026-07-27 crash-loop logged — this is the one that matters); a hard TTL.
+
+**The EXIT-trap interaction, reproduced rather than reasoned about** (`unshare -fp --mount-proc`, the same
+method that caught `kill -9 1` returning 0): the onstart shell reaches `ct_selfstop` despite the background
+child, and the PUT stream is already frozen before the trap could clean up after it. *Runs in the dev sandbox;
+GitHub runners disable unprivileged user namespaces, so CI skips it on a functional probe.*
+
+**Shakeout, in the §6 order, $0 — `step1-liveness-shakeout.json`:**
+
+| stage | what it proved |
+|---|---|
+| smoke | rc 0; run.log + phase.txt in S3; **12 distinct `LastModified` values** observed from outside the container across two 20 s phases that produced **no output at all** (5 s interval). The false-positive question, answered by execution. |
+| leg | the real `_vast_onstart` composition, 3 container starts: 2 archived attempts, **both keys parse under `_ATTEMPT_RE`**, `start_ages_min` → `[1.27, 0.64]` min; the crash-loop brake tripped on the **third** start only. |
+| verdict | **both directions.** Fresh log (0.05 min) → `WATCHING`, spared. Same box at 16 min → `WEDGED`, **condemned**. A guard that can only spare is a guard that measures nothing. |
+
+**Two defects the shakeout found in itself**, which is the argument for having one. (1) The first run went on
+the bare runner and returned **rc=127 with an empty S3 listing** — `_PREAMBLE` hard-codes
+`/opt/mamba/envs/rbfe/bin/{python,aws}` under `set -eo pipefail`. It now runs in `triskit23/nr4a3fep`. (2) It
+reported that run **green**, because the script wrote its record and exited 0; each stage now declares what it
+must have proven and exits non-zero otherwise. (3) Stage 2 originally pasted the brake, the trap and the
+pipeline into **one shell** — but `_vast_onstart` ends with `bash -lc '<pipeline>'`, a **child**. In one shell
+the pipeline's `trap s1f_stop_heartbeat EXIT` **replaces** `trap ct_selfstop EXIT`, silently deleting the
+job-kill; its `selfstop_ran` column reading False is how that surfaced. The child-shell property is now pinned
+by its own test.
+
+**Where it acts:** one clause in `mode_collect`'s reap loop, after the cheaper `result in S3` / terminal-state
+/ age clauses. Reaction time on a wedge goes from the 15 h age backstop to ~15 min of silence. **GPU idleness
+never condemns** — only a measured absence of writes does, because a complex leg is legitimately at 0 % GPU
+for its whole stage → parameterise → minimise cold start. The guard's `progress_advanced` reads a
+**guard-owned** census (`_idle_prev.json`), never monitor's `_progress_prev.json`, which monitor overwrites
+with the current census as its last act — sharing it would have compared every healthy leg against itself and
+permanently disarmed the one clause that overrides every condemnation.
+
+**First live pass, MEASURED not predicted** (`collect`, 10:05 AM ET, `step1-fanout-map.json → idle_guard`):
+**12 live units observed, 0 condemned.** `log_age_min` is `null` on every row — the units pulled their code
+before the heartbeat existed — so the log-silence channel correctly reports *no evidence* rather than *silent
+for a long time*. Ten rows returned `WORKING` off the GPU-busy reprieve (85–100 % util; the fleet is genuinely
+sampling) and two returned `UNKNOWN` (`gpu_util` 0.0 and `null`) — **left alone, because GPU idleness never
+condemns.** `collect` prints a loud warning when *no* live unit has a readable run.log, precisely so
+"measuring nothing" cannot pass for "all clear". Units pick the heartbeat up as they restart, at which point
+the WEDGED channel arms itself for them.
+
+`s1f-09` no longer appears in the fleet, and `blocked_units` in the map artifact carries its reason and
+evidence — so the edge is neither being re-rented nor silently missing.
+
 ## 8. Operational notes for whoever resumes
 
 - **A CI job log is only readable from its tail, and the tail is always runner boilerplate.** `monitor`,
