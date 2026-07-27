@@ -1,0 +1,91 @@
+{
+  "_status": "FROZEN",
+  "_what": "the third vertex of the valB synthetic closure triangle -- cmpd4\", the aza-scan analogue of the Wurz linker ring. DERIVED (no crystal exists), by two independent routes that agree.",
+  "_provenance": "derived from wurz-calib-frozen.json's calib_hi (RCSB 8G1Q, CCD YHB) by valb_triangle_legs.derive() inside docker.io/triskit23/ternary-fep -- the production mapper's own container. No SMILES in this file was typed by hand.",
+  "_topology": "valb-closure-triangle-pregate-2026-07-25.md section 2d (aza-scan at the linker ring), which REPLACED the design's four named candidates because each made T3 a double mutation that rbfe_map.validate_map() forbids on a closing edge.",
+  "calib_lo2": {
+    "role": "calib_lo2",
+    "name": "Wurz_cmpd4_aza",
+    "smiles": "Cc1ncsc1-c1ccc([C@H](C)NC(=O)[C@@H]2C[C@@H](O)CN2C(=O)[C@@H](NC(=O)c2cncc(N3CCN(c4cc(-c5ccccc5O)nnc4N)CC3)c2)C(C)(C)C)cc1",
+    "modeled_from": "8G1Q (cmpd1 crystal pose; no separate crystal exists)",
+    "derivation": {
+      "transform": "linker ring aza-scan: the free C-H most remote from both ring substituents becomes an aromatic N",
+      "route_A": "frozen calib_lo (cmpd4) --(C->N at ring atom 29)--> cmpd4\"",
+      "route_B": "frozen calib_hi (cmpd1) --(N->C at ring atom 35, C->N at ring atom 34)--> cmpd4\"",
+      "routes_agree": true,
+      "linker_ring_atom_idx_in_cmpd4": [
+        27,
+        28,
+        29,
+        30,
+        31,
+        52
+      ],
+      "substituted_ring_positions_in_cmpd4": [
+        27,
+        31
+      ],
+      "site_selection_cmpd4": {
+        "atom_idx": 29,
+        "min_ring_distance_to_a_substituent": 2,
+        "n_eligible_free_CH": 4,
+        "n_tied_at_max_distance": 1,
+        "unique_by_topology": true
+      },
+      "site_selection_cmpd1": {
+        "atom_idx": 34,
+        "min_ring_distance_to_a_substituent": 1,
+        "n_eligible_free_CH": 3,
+        "n_tied_at_max_distance": 3,
+        "unique_by_topology": false
+      },
+      "site_rule": "the eligible free ring C-H with the greatest minimum ring-bond distance to any substituted ring atom; ties by RDKit canonical rank. Topological, so it is invariant to atom ordering and to a canonical-rank implementation change.",
+      "cmpd4_redderived_from_cmpd1_matches_frozen": true
+    },
+    "formal_charges": {
+      "calib_hi": 0,
+      "calib_lo": 0,
+      "calib_lo2": 0
+    },
+    "perturbed_heavy_atoms_by_edge": {
+      "T1 (calib_hi -> calib_lo)": 25,
+      "T2 (calib_lo -> calib_lo2)": 25,
+      "T3 (calib_hi -> calib_lo2)": 25
+    },
+    "heavy_dummy_atoms_by_edge": {
+      "T1 (calib_hi -> calib_lo)": 0,
+      "T2 (calib_lo -> calib_lo2)": 0,
+      "T3 (calib_hi -> calib_lo2)": 0
+    },
+    "heavy_dummy_basis": "every edge is a pure aromatic ELEMENT change (N<->C), which maps 1:1 and creates no appearing/disappearing heavy atom. This is the property that keeps the softcore region -- the runbook's own root cause for this lane's warmup NaNs -- exactly the size it already is.",
+    "note": "DERIVED, not observed. The 5-part gate re-checks built-vs-frozen identity at leg time, and the endpoint pose is built from cmpd1's crystal coordinates by a two-atom aromatic element swap that preserves every coordinate."
+  },
+  "triangle": {
+    "T1": {
+      "morph": "calib_hi -> calib_lo",
+      "coefficient": 1,
+      "status": "ALREADY RUN as valB_mini r0 (seed 0, 2 fs) -- reused, not re-bought"
+    },
+    "T2": {
+      "morph": "calib_lo -> calib_lo2",
+      "coefficient": 1,
+      "legs": [
+        "calib_lo_to_lo2__ternary_vhl",
+        "calib_lo_to_lo2__binary_vhl"
+      ]
+    },
+    "T3": {
+      "morph": "calib_hi -> calib_lo2",
+      "coefficient": -1,
+      "legs": [
+        "calib_hi_to_lo2__ternary_vhl",
+        "calib_hi_to_lo2__binary_vhl"
+      ]
+    },
+    "seed": 0,
+    "seed_requirement": "ALL THREE EDGES AT SEED 0. Ternary seed s selects the s%n-th independently relaxed SMARCA2 model, so a mixed-seed triangle is computed on different Hamiltonians and |R| stops being a closure residual.",
+    "binary_legs": "UNRESTRAINED, matching r0. Restraining them would make R measure the protocol difference rather than the path error, and would forfeit the r0-as-T1 reuse.",
+    "timestep_fs": 2.0,
+    "timestep_requirement": "2 fs production / 1 fs warmup, matching r0. The lane's 4 fs default is RUNG 2b's and must not reach this mode."
+  }
+}
