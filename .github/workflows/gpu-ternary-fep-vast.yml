@@ -1377,8 +1377,11 @@ jobs:
   # replicate forensic shows the ternary legs dying at HybridTopologyFactory construction, deterministically,
   # on every host; the live memory trace watches a rented box through that window. Both depend on catching a
   # box at the right moment. This does not: it runs the SAME `HybridTopologySetupUnit` the leg dies inside —
-  # `nr4a3_ternary_fep.py` with MODE=smoke executes it explicitly, on CPU, with no MD — under `/usr/bin/time`,
-  # for the ternary AND the matched binary leg, and prints the peak resident set of each.
+  # `nr4a3_ternary_fep.py` with MODE=smoke executes it explicitly, on CPU, with no MD — under `peak_rss.py`,
+  # for the ternary AND the matched binary leg, printing every new high-water mark AS IT IS REACHED. That last
+  # part is not a detail: the process under test may be SIGKILLed, and a meter that only reports at exit
+  # (`/usr/bin/time -v`, `resource.getrusage`) reports nothing at all about the run that was killed. `time` is
+  # also not in this image — the first attempt printed `bash: /usr/bin/time: No such file or directory`.
   #
   # ⚠ ITS FAILURE MODE IS ALSO AN ANSWER. A GitHub runner has ~16 GB. If the ternary setup needs more than
   # that the step is killed here too, which is a REPRODUCTION on hardware nobody is billing us for, and a far
@@ -1418,7 +1421,8 @@ jobs:
           for LEG in calib_hi_to_lo__binary_vhl calib_hi_to_lo__ternary_vhl; do
             echo "================ $LEG ================"
             # `|| true`: the ternary arm is EXPECTED to die here. An abort would discard the very measurement
-            # this job exists to take, and `/usr/bin/time` prints its report even for a killed child.
+            # this job exists to take — and `peak_rss.py` prints each new high-water mark AS IT IS REACHED,
+            # so a child that is SIGKILLed still leaves its peak in the log.
             docker run --rm --entrypoint bash \
               -v "$PWD/research/modalities:/work/research/modalities" \
               -v /tmp/tin:/tmp/tin -v /tmp/tout:/tmp/tout \
@@ -1426,11 +1430,11 @@ jobs:
               -e INPUT_DIR=/tmp/tin -e OUTPUT_DIR=/tmp/tout -e CKPT_DIR=/tmp/tout \
               -e CHARGE_METHOD=nagl -e N_WINDOWS=12 -e RBFE_TIMESTEP_FS=4.0 \
               docker.io/triskit23/ternary-fep:latest \
-              -c "cd /work/research/modalities && /usr/bin/time -v python nr4a3_ternary_fep.py" \
+              -c "cd /work/research/modalities && python peak_rss.py python nr4a3_ternary_fep.py" \
               2>&1 | tee "/tmp/rss-$LEG.txt" || true
             echo "---- PEAK RSS, $LEG ----"
-            grep -E "Maximum resident set size|Exit status|Command terminated" "/tmp/rss-$LEG.txt" || \
-              echo "  (no /usr/bin/time report — the child was killed before it could print one, which is itself the finding)"
+            grep -E "\[peak-rss\]" "/tmp/rss-$LEG.txt" | tail -6 || \
+              echo "  (no [peak-rss] line at all — the sampler itself never ran; read the tail above)"
           done
       - name: Summary LAST — the two arms' peaks side by side
         run: |
