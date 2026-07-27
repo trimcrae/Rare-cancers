@@ -1292,3 +1292,82 @@ def test_the_condemn_path_never_publishes_a_proven_machine():
     assert i_proven < i_dupe < i_host, "both no-exclusion branches must be tested before the host verdict"
     # the proven set must be built from the DURABLE store, not only from the current listing
     assert "_load_started_machines(s3, bucket)" in src and "_save_started_machines(s3, bucket, _good)" in src
+
+# ---- withdrawing an exclusion that the evidence refutes -----------------------------------------------------
+# Added 2026-07-27 after three machines that had run this lane's legs at 94-99 % GPU were condemned
+# host-scoped by the unstable verdict, and the very next tick excluded 38 machines against a 152-offer board
+# and lost 4 of 5 authorised placements to `no rentable verified offer`.
+
+class _DictS3:
+    """S3 stand-in over a dict of key -> bytes, with just get_object/put_object."""
+
+    def __init__(self, objs=None):
+        self.objs = dict(objs or {})
+
+    def get_object(self, Bucket=None, Key=None):  # noqa: N803
+        import io
+        if Key not in self.objs:
+            raise KeyError(Key)
+        return {"Body": io.BytesIO(self.objs[Key])}
+
+    def put_object(self, Bucket=None, Key=None, Body=None):  # noqa: N803
+        self.objs[Key] = Body
+
+
+def _excl_doc(entries):
+    import json
+    return json.dumps({"machine_ids": sorted({m for m, _ in entries}),
+                       "history": [{"machine_id": m, "why": w} for m, w in entries]}).encode()
+
+
+def test_a_never_starts_exclusion_is_withdrawn_by_evidence_that_it_started():
+    import json
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("53989", "never started: cur_state=stopped with an empty status_msg"),
+                             ("1569", "never started: create/start race")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"53989"}) == ["53989"]
+    doc = json.loads(s3.objs[f"{fv.RESULT_PREFIX}/_excluded_machines.json"])
+    assert doc["machine_ids"] == ["1569"], "only the refuted entry goes; the unrefuted one stays"
+    assert any(h.get("action") == "withdraw" for h in doc["history"]), "the withdrawal must be recorded"
+
+
+def test_an_exclusion_for_a_DIFFERENT_reason_survives_evidence_that_it_started():
+    """The lane-scoped throughput verdict is about the machine PAIRED WITH THIS WORKLOAD. A host that starts
+    fine and then sustains 12 % GPU is exactly what it describes, so starting refutes nothing."""
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("777", "gpu_util 12.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%)")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"777"}) == []
+
+
+def test_withdrawal_is_not_an_ageing_policy():
+    """Nothing is withdrawn for being old — only for positive contrary evidence. A machine never observed
+    running must survive untouched however long it has sat in the set."""
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("1569", "never started: create/start race")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", set()) == []
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"999"}) == []
+
+
+def test_the_shared_set_refuses_to_overrule_another_lanes_entry():
+    import json
+    import vast_machine_blacklist as vmb
+    s3 = _DictS3({vmb.SHARED_KEY: json.dumps(
+        {"machine_ids": ["46392"],
+         "history": [{"machine_id": "46392", "why": "never started", "lane": "rung5aks"}]}).encode()})
+    assert vmb.withdraw(s3, "bkt", "46392", "we saw it run", lane="step1_fanout") is False
+    assert json.loads(s3.objs[vmb.SHARED_KEY])["machine_ids"] == ["46392"]
+    # ...but its own entry it may withdraw
+    assert vmb.withdraw(s3, "bkt", "46392", "we saw it run", lane="rung5aks") is True
+    assert json.loads(s3.objs[vmb.SHARED_KEY])["machine_ids"] == []
+
+
+def test_the_repair_runs_before_the_condemn_block():
+    """Otherwise a machine could be withdrawn and re-condemned inside a single tick, which is a loop, not a
+    repair."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    assert src.index("withdraw_wrong_exclusions(s3, bucket, _good)") < src.index("_cohort_now =")

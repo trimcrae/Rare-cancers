@@ -1006,6 +1006,56 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
     return True
 
 
+def withdraw_wrong_exclusions(s3, bucket, proven_machines):
+    """Remove machines from the exclusion sets that this lane condemned as "never starts" and has since been
+    OBSERVED to run its container. Returns the withdrawn ids.
+
+    ⚠⚠ WHY THIS HAD TO EXIST WITHIN AN HOUR OF THE SETS BEING UNIONED (2026-07-27). The condemnation verdict
+    was unstable — a duplicate re-classified as a host fault the moment the reap removed the instance it was
+    behind — and three machines that had run this lane's legs at 94-99 % GPU (53989, 31035, 24573) were
+    condemned host-scoped, which is PERMANENT and CROSS-LANE. The consequence was immediate and measured:
+    the very next tick excluded 38 machines against a 152-offer board and **4 of 5 authorised placements
+    failed with `no rentable verified offer`**. The exclusion set, not the market, had become the binding
+    constraint — precisely the "permanent and only grows" hazard `vast_machine_blacklist.__doc__` parks.
+
+    ★ THIS IS NOT AN AGEING POLICY, AND MUST NEVER BECOME ONE. Nothing is withdrawn for being old; that
+    question stays open for want of a measurement, and a guessed TTL would re-admit the hosts the set exists
+    to refuse. A withdrawal needs POSITIVE CONTRARY EVIDENCE of the exact recorded claim: we watched the
+    machine run our container. Entries recorded for any other reason (the lane-scoped throughput shortfall)
+    are untouched, because start evidence does not contradict them.
+    """
+    import vast_machine_blacklist as vmb
+    doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
+    ids = {str(m) for m in (doc.get("machine_ids") or [])}
+    hist = list(doc.get("history") or [])
+    withdrawn = []
+    for mid in sorted({str(m) for m in (proven_machines or ())} & ids):
+        rows = [h for h in hist if str(h.get("machine_id")) == mid and h.get("action") != "withdraw"]
+        if rows and not any(vmb.is_never_started_reason(h.get("why")) for h in rows):
+            continue                       # excluded for a reason that starting does not refute
+        ids.discard(mid)
+        hist.append({"machine_id": mid, "action": "withdraw",
+                     "why": "WITHDRAWN: this machine has been observed RUNNING this lane's container, which "
+                            "directly contradicts the never-starts verdict it was excluded on",
+                     "utc": _utcnow()})
+        withdrawn.append(mid)
+        vmb.withdraw(s3, bucket, mid,
+                     "observed running the step 1 fan-out's container after being condemned as never-starting",
+                     lane="step1_fanout")
+    if withdrawn:
+        try:
+            s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY,
+                          Body=json.dumps({**doc, "machine_ids": sorted(ids), "history": hist},
+                                          indent=2).encode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[s1f] could not persist the exclusion withdrawal: {e}")
+            return []
+        print(f"[s1f] ⚖ WITHDREW {len(withdrawn)} WRONG exclusion(s) {withdrawn}: each machine was "
+              f"condemned as 'never starts' and has since been watched RUNNING this lane's container. An "
+              f"over-grown set is not neutral — it reads as an unaffordable market and blocks placements.")
+    return withdrawn
+
+
 # ---- modes ------------------------------------------------------------------------------------------------
 
 def mode_plan():
@@ -2282,6 +2332,9 @@ def mode_monitor():
     # `never_started_cohort`, `known_good`.
     _good = _load_started_machines(s3, bucket) | set(observed_started_machines(live))
     _save_started_machines(s3, bucket, _good)
+    # ...and repair any exclusion this lane wrote that the same evidence now refutes. Runs BEFORE the
+    # condemn block below, so a machine cannot be withdrawn and re-condemned inside one tick.
+    withdraw_wrong_exclusions(s3, bucket, _good)
 
     # PROGRESS, not liveness. The committed-iteration census is the durable evidence the science advanced;
     # `phase.txt` and the leg JSONs are context around it. `prev` is the previous check's census, so this

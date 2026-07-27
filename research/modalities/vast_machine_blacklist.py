@@ -106,6 +106,71 @@ def publish(s3, bucket, machine_id, why, lane, key=None):
     return True
 
 
+NEVER_STARTED_MARKERS = ("never started", "never executed", "never reached running",
+                         "resources_unavailable", "refuse", "create/start race")
+
+
+def is_never_started_reason(why):
+    """Does this recorded reason say the machine FAILED TO START? PURE.
+
+    The shared set's whole contract is "fails to start for anybody". A reason that says something else —
+    a throughput shortfall, a lane-specific judgement — is not withdrawable on start evidence, because
+    start evidence does not contradict it."""
+    w = str(why or "").lower()
+    return any(m in w for m in NEVER_STARTED_MARKERS)
+
+
+def withdraw(s3, bucket, machine_id, why, lane, key=None, only_lane=True):
+    """Remove a machine from the shared set because it has been OBSERVED to start. Returns True if removed.
+
+    ⚠⚠ THE GAP THIS CLOSES, AND THE HARM THAT FORCED IT (2026-07-27, within one hour of the union going in).
+    This module's own docstring flags that the set is PERMANENT AND ONLY GROWS, and parks the question of a
+    re-test policy for want of a measurement. That is fine while entries are correct. It is not fine when an
+    entry is WRONG: the step 1 fan-out condemned machines 53989, 31035 and 24573 as "never starts" on a
+    verdict that flipped when an unrelated instance was reaped, and every one of them had demonstrably run
+    that lane's container (94-99 % GPU). One tick later, 38 machines were excluded against a 152-offer board
+    and **4 of 5 authorised placements failed with `no rentable verified offer`** — the exclusion set, not
+    price, had become the binding constraint. An unremovable wrong entry is a permanent capacity loss.
+
+    ★ THIS IS NOT A TTL AND IT IS NOT AN AGEING POLICY. Nothing is withdrawn because it is old — that is the
+    question this module deliberately leaves open, and a guessed TTL would silently re-admit the hosts the
+    set exists to refuse. A withdrawal requires POSITIVE CONTRARY EVIDENCE of exactly the claim recorded:
+    the machine ran our container. "It refuses to start" is not a claim that survives having started.
+
+    ⚠ `only_lane` (default True) restricts withdrawal to entries THIS lane published. Another lane's entry
+    rests on evidence we cannot see, and overriding it from here would be the mirror of the bug above.
+    """
+    if s3 is None or not bucket or machine_id is None:
+        return False
+    ids, doc = load(s3, bucket, key)
+    mid = str(machine_id)
+    if mid not in ids:
+        return False
+    hist = list(doc.get("history") or [])
+    mine = [h for h in hist if str(h.get("machine_id")) == mid]
+    if only_lane and mine and not any(h.get("lane") == lane for h in mine):
+        print(f"[blacklist] NOT withdrawing machine {mid}: it was published by "
+              f"{sorted({h.get('lane') for h in mine})}, not by {lane}. Their evidence is not ours to "
+              f"overrule.", flush=True)
+        return False
+    if mine and not any(is_never_started_reason(h.get("why")) for h in mine):
+        print(f"[blacklist] NOT withdrawing machine {mid}: the recorded reason is not a failure-to-start "
+              f"verdict, so evidence that it started does not contradict it.", flush=True)
+        return False
+    hist.append({"machine_id": mid, "why": f"WITHDRAWN: {why}", "lane": lane, "utc": _utcnow(),
+                 "action": "withdraw"})
+    try:
+        s3.put_object(Bucket=bucket, Key=key or SHARED_KEY,
+                      Body=json.dumps({"_what": _WHAT, "_scope": "host — fails to start for anybody",
+                                       "machine_ids": sorted(set(ids) - {mid}),
+                                       "history": hist}, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[blacklist] could not withdraw machine {mid}: {type(e).__name__}: {e}", flush=True)
+        return False
+    print(f"[blacklist] machine {mid} WITHDRAWN from the SHARED set by {lane}: {why}", flush=True)
+    return True
+
+
 def backfill(s3, bucket, machine_ids, lane, why=None, key=None):
     """Promote a lane's ALREADY-KNOWN host-scoped ids into the shared set. Returns the ids newly added.
 
