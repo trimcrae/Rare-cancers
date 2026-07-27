@@ -1049,6 +1049,50 @@ fwd/rev collision in §H by luck, **provably cannot fire here**. See `tests/test
 which extracts the workflow's real `DIRSUF`/`RSTSUF`/`COMMIT_PREFIX` lines and its refusal block and evaluates
 them rather than restating the rule and agreeing with itself.
 
+### L.3g The `use_preequil` question, SETTLED from the trajectory — and a ternary particle-count spread it surfaced
+
+The restrained binary re-run's comparability rested on an inference from an **absence** ("only a `__v1` binary
+setup cache exists, so the original leg must be v1"). That is not a measurement, and §J.2–J.5 is the record of
+what such inferences cost. It is now measured, by `mode=provenance` (GH run 30312683166, $0, CPU-only) reading
+each committed trajectory's own `atom` dimension via `nc_particle_probe.py` in the parity image.
+
+| commit prefix | stored atoms | recorded `SETUP_CACHE_VERSION` |
+|---|---|---|
+| `binary_vhl … _wu1.0_v2pe` — the ORIGINAL unrestrained leg | **5,384** | unrecorded (schema 1) |
+| `binary_vhl … _wu_rst` — the NEW restrained leg | **5,384** | **v1** (schema 2) |
+
+**SETTLED: the two binary trajectories are the same system.** The restrained re-run is v1, confirmed from its
+own manifest, and the original leg's trajectory has the identical stored-atom count — so the restrained
+ΔG_binary is comparable to the arm it replaces, and the block on folding it into a cycle is lifted on *this*
+ground. ⚠ **`5,384` is the ANALYSIS SUBSET the `.nc` stores (`output_indices`), not the solvated system.** The
+solvated count for this build is `94,142` (the live leg's own `[spot-safe] SOLVATED SYSTEM` line). Both are real
+and they are not interchangeable — quoting one where the other belongs is how a fingerprint stops fingerprinting.
+
+**AND AN UNEXPECTED READING, recorded because nobody was looking for it.** The same table shows the *ternary*
+leg's trajectories at **three** different stored-atom counts:
+
+| ternary prefix | stored atoms |
+|---|---|
+| `… _dt2.0fs_clig0_wu1.0_v2pe` (r0 fwd) | **7,388** |
+| `… _dt2.0fs_clig0_wu1.0_v2pe_dirrev` (r0 rev) | **7,388** |
+| `… _dt4.0fs_clig0_wu1.0` (RUNG 2b) | **7,398** |
+| `… _dt4.0fs_clig0_wu1.0_pe1` | **7,392** |
+| `… _dt2.0fs_clig0_` (bare) | **7,398** |
+
+**The pair that had to match does match**: r0's fwd and rev are both 7,388, which is what the preregistered
+hysteresis (|ΔG_fwd + ΔG_rev| = 0.325, PASS) rests on. **What is new is that RUNG 2b's 4 fs ternary arm is a
+10-atom-different system from r0's 2 fs one.** §L.3d compares those two cycles and concludes 4 fs reproduces
+2 fs to |Δ(ΔΔG_coop)| = 0.0215 — a comparison whose stated premise is that the cycles differ in the *timestep*.
+They also differ here.
+
+**NOT ADJUDICATED, deliberately.** Whether a 10-atom difference invalidates that comparison, or is an innocuous
+staging difference (different protonation or a different starting model between the GCP and Vast stagings), is
+a question for whoever owns the 2b verdict — it is outside the restrained-re-run ruling above and this section
+does not rule on it. It is recorded so the next person to quote "4 fs reproduces 2 fs" knows to check it first.
+The probe prints the counts and **groups** them; it does not decide which pairs are supposed to match, because
+that is a per-cycle judgement and a gate that guesses it would cry wolf on every healthy cycle — which the
+first cut of the per-leg verdict did, and which is fixed.
+
 ### L.5 The keying fix exposed the SAME flaw one level out — and then a sweep found no third instance
 
 Caught 2026-07-27 8:00 AM, ~4 h before it would have fired unattended. §L.1 made `mode=converge`'s *analysis*
