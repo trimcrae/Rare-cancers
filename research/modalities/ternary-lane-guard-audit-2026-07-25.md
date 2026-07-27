@@ -946,3 +946,87 @@ fixing the one before it.
 `ternary_convergence_rev.json`. The rev leg's own convergence diagnostics are therefore *informational* — they do
 not gate the hysteresis result. Wiring them in would mean deciding what a rev-leg diagnostic failure should do to
 a hysteresis number, which is a design question, not a bug fix.
+→ **CLOSED the same day — see §L.6, which also found the FOURTH layer of the keying bug and two more instances of
+the lane's signature defect. The sweep above was clean about artifact *names* and I read that as the question being
+settled; it was clean about names and silent about *readers*, and the paragraph above is where I said so and moved
+on anyway.**
+
+### L.6 A FOURTH layer of the same keying bug, and two more instances of the signature defect
+
+Found 2026-07-27 9:15 AM, tracing what would actually happen when the rev leg lands and the watchdog chains
+`converge → reduce`. §L.5's sweep asked *"what else is keyed on the same nothing?"* and answered it for artifact
+**names**. It never asked the adjacent question — *who **reads** these?* — and every finding below sits in that gap.
+
+**1 · The fetch (fourth layer).** `mode=reduce` downloaded the report with a literal:
+
+```
+gcloud storage cp "$RESULTS/ternary_convergence.json" /tmp/legs/
+```
+
+Correct while `converge` wrote one file; wrong the moment §L.5 made it write two. The rev report would sit in the
+bucket and never reach the reducer. Now a glob, so every direction's report travels. The sequence is now **commit
+prefix (§H) → analysis (§L.1) → output name (§L.5) → fetch (here)**, four layers, each exposed only by fixing the
+one before. The rule generalises further than §L.5 stated it: *anything keyed on a dimension must be keyed
+**everywhere the artifact travels** — produced, named, stored, fetched, and read.*
+
+**2 · The rev report was read by nobody — gap closed.** §L.5 parked this as "a design question, not a bug fix".
+That framing was wrong in a specific way: it treated *what to do about a failing rev leg* as unresolved, when the
+module had already answered it three times over. `_diagnostics_ok()` is a **tri-state** — measured-and-clean /
+measured-failure / not-verified — precisely so "we did not check" never reports as "it is fine". The rev leg
+existed for one purpose, the preregistered hysteresis |ΔG_fwd + ΔG_rev| ≤ 1.0, and a rev leg whose ligand left its
+pocket produces a number that is **not a measurement of path error at all** — so a *small* hysteresis off a broken
+rev leg reads as a *clean cycle*. That the ligand-departure failure in §L.3a–L.3d was found **by this very
+convergence analysis** makes it concrete rather than hypothetical: the lane's one demonstrated structural failure
+mode is exactly what an unread rev report hides.
+
+`_diagnostics_ok()` now consults both directions: a measured failure in either → FAIL, unverified in either →
+BORDERLINE. Conditional on a rev leg actually existing, because demanding a rev report from a forward-only cycle
+would pin every one of them at NOT_VERIFIED — a different way of being wrong, and pinned as its own test.
+
+**3 · `hysteresis_kcal or 0.0` — an unmeasured criterion arriving pre-satisfied, across a module boundary.**
+The worst of the three, because it defeated a gate written specifically to catch it. `leg_output_record` built:
+
+```python
+"hysteresis_kcal": leg_agg["hysteresis_kcal"] or 0.0
+conv = bool(... and (leg_agg["hysteresis_kcal"] is None or leg_agg["hysteresis_kcal"] <= 1.0))
+```
+
+`hysteresis_kcal` is `None` whenever a leg has no `DIRECTION=rev` partner — which, until rev was unlocked, was
+**every leg in the lane**. So "no reverse leg ran" was written out as the literal value **0.0**: *perfect*
+forward/reverse antisymmetry. And `ternary_coop_gate.gate_technical_convergence` — the reviewer's cycle-closure
+check — declares `hysteresis_kcal` as `"float|null"` and **fails a leg whose value is null**
+(`ternary_coop_gate.py:188`). Handing it `0.0` meant that branch could never fire. The criterion was inert for the
+whole lane, and the gate's own author had anticipated the exact case.
+
+Sharpest detail: `calibration_decision` in the **same file** already routes an unmeasured hysteresis to
+INDETERMINATE, and carries a comment explaining why an unmeasured criterion does not satisfy a frozen rule. The
+per-leg record contradicted it one function away. Null now propagates, `converged` has to be earned, and
+`ternary_coop_io.validate_result` gained the cross-field invariant — *`converged=True` beside a null hysteresis is
+a schema failure* — because the schema is what a future producer reads. The end-to-end test asserts the gate
+**really does** fire on null and **really does** pass a measured 0.0, across the module boundary, rather than
+arguing it.
+
+**4 · A tri-state flattened on the way out.** `calibration_gate` reported `"diagnostics_ok": bool(diagnostics_ok)`,
+mapping *measured failure* and *never computed* onto the same `false`. The decision logic distinguished them
+correctly (FAIL vs BORDERLINE); only the record did not, so no machine reader of the verdict JSON could tell a
+broken leg from an unexamined one — only the prose `reason` carried it. Now emitted faithfully, plus an explicit
+`diagnostics_state` of `CLEAN` / `MEASURED_FAILURE` / `NOT_VERIFIED`.
+
+**What ties 2, 3 and 4 together** is not the keying bug — it is bug class **§B#2's sibling**: *a default, coercion
+or cast that turns "not measured" into a value indistinguishable from "measured and fine".* `or 0.0`, `bool(None)`,
+the absent-report `return True` of 2026-07-25, `if hys else True`, and `_diagnostics_ok` ignoring a whole file are
+five instances of one shape. **The generalisation worth carrying:** every place a measurement can be absent needs a
+representation for absent that is not also a legal *good* value — and `0.0`, `False` and `True` are all legal good
+values somewhere. Where the type cannot carry it, the invariant belongs in the validator.
+
+**Verification.** 21 new tests across `tests/test_hysteresis_null_is_not_zero.py` (10) and
+`tests/test_rev_convergence_report_is_read.py` (11), plus 7 checks added to `tests/test_converge_direction.sh`
+(28 total). Every one pins **both** directions, because the cheap way to "fix" each of these is to loosen the gate
+or to over-tighten it into uselessness. The workflow's bash filename rule is now **extracted from the YAML** and
+asserted equal to `ternary_fep_reduce.convergence_report_name()` — a retyped copy would have proved only that the
+copy agreed with Python and would have passed any edit to the workflow. Both new workflow checks were verified to
+**fail** when the fix is reverted. Full suite: 1,945 pass, 14 pre-existing sandbox failures (`pymbar`/`scipy`/`rdkit`
+absent), `lint_consistency` 0 errors.
+
+**Timing.** All four landed before the rev leg's ~12:10 PM ET readout, so the first hysteresis this program has
+ever measured gets computed by code that checks the leg it came from.

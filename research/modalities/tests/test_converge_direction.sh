@@ -148,6 +148,42 @@ chk "the upload uses the keyed variable, never the bare literal path" \
 chk "no upload writes the bare \$RESULTS/ternary_convergence.json literal any more" \
     "$(grep -c 'cp /tmp/conv/ternary_convergence.json "$RESULTS/ternary_convergence.json"' "$WF")" "0"
 
+# 6b. THE FETCH in mode=reduce must be keyed too — the FOURTH layer of this same bug. Writing the rev report to a
+#     direction-keyed name is useless if the reduce step still downloads only the bare fwd name: the reducer now
+#     READS ternary_convergence_rev.json, so a rev leg present with its report never fetched makes the whole
+#     verdict NOT_VERIFIED -> BORDERLINE for a purely logistical reason. Sequence to date: commit prefix (§H),
+#     the analysis (§L.1), the output name (§L.5), the fetch (here). Anything keyed on direction must be keyed
+#     everywhere the artifact travels.
+chk "mode=reduce fetches ALL convergence reports, not just the bare fwd name" \
+    "$(grep -c 'cp "$RESULTS/ternary_convergence\*.json" /tmp/legs/' "$WF")" "1"
+chk "the single-file fwd-only fetch is gone" \
+    "$(grep -c 'cp "$RESULTS/ternary_convergence.json" /tmp/legs/' "$WF")" "0"
+chk "the stale 'DEFAULTS to True' message is gone (absent has been NOT_VERIFIED since 2026-07-25)" \
+    "$(grep -c 'diagnostics_ok DEFAULTS to True' "$WF")" "0"
+
+# 6c. ONE HOME FOR THE FILENAME RULE. The workflow builds the name in bash and ternary_fep_reduce builds it in
+#     Python; per CLAUDE.md rule 1 the duplicate is only safe if something proves the two agree. This asserts the
+#     bash rule reproduces convergence_report_name() for both directions, so a change to either side breaks CI
+#     rather than silently splitting the fwd writer from the rev reader.
+PYFWD=$(cd research/modalities && python3 -c 'import ternary_fep_reduce as r;print(r.convergence_report_name("fwd"))')
+PYREV=$(cd research/modalities && python3 -c 'import ternary_fep_reduce as r;print(r.convergence_report_name("rev"))')
+# EXTRACTED from the workflow, not retyped. A hand-copied duplicate of the rule would only prove the copy agrees
+# with Python and would sail through any edit to the workflow itself — the vacuous-assertion trap. Pulling the two
+# real CONVNAME lines out of the YAML means an edit there is what breaks this.
+grep -oE 'CONVNAME=(ternary_convergence\.json|"[^"]*")' "$WF" > "$TD/convname.sh"
+chk "extracted exactly the two CONVNAME assignments from the workflow" "$(wc -l < "$TD/convname.sh" | tr -d ' ')" "2"
+bashname() {
+  local DIRECTION="$1"
+  # shellcheck disable=SC1090
+  eval "$(sed -n 1p "$TD/convname.sh")"
+  [ "$DIRECTION" != fwd ] && eval "$(sed -n 2p "$TD/convname.sh")"
+  printf '%s' "$CONVNAME"
+}
+chk "bash and Python agree on the fwd report name" "$(bashname fwd)" "$PYFWD"
+chk "bash and Python agree on the rev report name" "$(bashname rev)" "$PYREV"
+chk "the two names differ (a collision is the original data-destroying bug)" \
+    "$([ "$PYFWD" != "$PYREV" ] && echo differ || echo same)" "differ"
+
 # 7. no duplicated header (an earlier edit left the locating line twice)
 chk "the 'locating newest' header appears once per leg, not twice" \
     "$(grep -c 'locating newest committed simulation.nc' "$WF")" "1"
