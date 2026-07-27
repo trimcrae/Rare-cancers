@@ -1,87 +1,44 @@
 {
-  "utc": "2026-07-27T15:00:12Z",
+  "utc": "2026-07-27T15:18:13Z",
   "launched": [
     {
-      "gpu_name": "RTX 4090",
+      "gpu_name": "A100 PCIE",
       "replicate": 1,
-      "instance": "46012699",
-      "machine_id": 117850,
-      "dph": 0.19111111111111112,
-      "worst_case_usd": 0.0708
-    },
-    {
-      "gpu_name": "RTX 4090",
-      "replicate": 2,
-      "instance": "46012768",
-      "machine_id": 114274,
-      "dph": 0.1925925925925926,
-      "worst_case_usd": 0.0708
-    },
-    {
-      "gpu_name": "RTX 4090",
-      "replicate": 3,
-      "instance": "46012842",
-      "machine_id": 117852,
-      "dph": 0.19111111111111112,
-      "worst_case_usd": 0.0708
-    },
-    {
-      "gpu_name": "RTX 4080",
-      "replicate": 1,
-      "instance": "46012904",
-      "machine_id": 35189,
-      "dph": 0.2022222222222222,
-      "worst_case_usd": 0.0717
-    },
-    {
-      "gpu_name": "RTX 4080",
-      "replicate": 2,
-      "instance": "46012963",
-      "machine_id": 115926,
-      "dph": 0.2555555555555556,
+      "instance": "46014321",
+      "machine_id": 56748,
+      "dph": 0.13555555555555554,
       "worst_case_usd": 0.0717
     },
     {
       "gpu_name": "A100 PCIE",
-      "replicate": 1,
-      "instance": "46013005",
+      "replicate": 2,
+      "instance": "46014425",
+      "machine_id": 77866,
+      "dph": 0.4644059259259259,
+      "worst_case_usd": 0.0717
+    },
+    {
+      "gpu_name": "A100 PCIE",
+      "replicate": 3,
+      "instance": "46014544",
       "machine_id": 56760,
       "dph": 0.2022222222222222,
-      "worst_case_usd": 0.0853
+      "worst_case_usd": 0.0717
     },
     {
-      "gpu_name": "A100 PCIE",
-      "replicate": 2,
-      "instance": "46013066",
-      "machine_id": 141396,
-      "dph": 0.4026666666666666,
-      "worst_case_usd": 0.0853
+      "gpu_name": "RTX 3090 Ti",
+      "replicate": 1,
+      "instance": "46014594",
+      "machine_id": 141336,
+      "dph": 0.23407410740740742,
+      "worst_case_usd": 0.0892
     }
   ],
   "plan": [
     {
-      "gpu_name": "RTX 4090",
-      "offer_id": 39214850,
-      "machine_id": 137562,
-      "min_bid": 0.18667,
-      "bid": 0.1904,
-      "storage_usd_h": 0.02192,
-      "all_in_usd_h": 0.21232,
-      "worst_case_usd": 0.0708,
-      "already_measured": true,
-      "n_offers": 5,
-      "vram_gb": 24.0,
-      "breakeven_ns_per_day": 1226.3,
-      "breakeven_x_reference": 1.623,
-      "breakeven_label": "skip \u2014 would have to be far faster than anything we have benched",
-      "admit": true,
-      "reason": "admitted",
-      "committed_usd_after": 0.0708
-    },
-    {
-      "gpu_name": "RTX 4080",
-      "offer_id": 46011820,
-      "machine_id": 35189,
+      "gpu_name": "A100 PCIE",
+      "offer_id": 45716573,
+      "machine_id": 56760,
       "min_bid": 0.2,
       "bid": 0.204,
       "storage_usd_h": 0.01096,
@@ -89,37 +46,35 @@
       "worst_case_usd": 0.0717,
       "already_measured": true,
       "n_offers": 2,
-      "vram_gb": 16.0,
-      "breakeven_ns_per_day": 1239.9,
-      "breakeven_x_reference": 1.642,
+      "vram_gb": 80.0,
+      "breakeven_ns_per_day": 2111.0,
+      "breakeven_x_reference": 2.795,
       "breakeven_label": "skip \u2014 would have to be far faster than anything we have benched",
       "admit": true,
       "reason": "admitted",
-      "committed_usd_after": 0.1425,
-      "submit_errors": [
-        "r3: RuntimeError: vast: no rentable verified offer for ResourceSpec(gpu='RTX 4080', min_vram_gb=16, vcpus=4, ram_gb=16, disk_gb=40, min_reliability=0.9, interruptible=True, exclude_machine_ids=('115926', '11892', '12227', '35189', '55559'), max_usd_per_ns=None, require_gpu=True, min_cuda=13.0) (of 64 offers)"
-      ]
+      "committed_usd_after": 0.0717
     },
     {
-      "gpu_name": "A100 PCIE",
-      "offer_id": 45716572,
-      "machine_id": 56760,
-      "min_bid": 0.24,
-      "bid": 0.2448,
-      "storage_usd_h": 0.01096,
-      "all_in_usd_h": 0.25576,
-      "worst_case_usd": 0.0853,
+      "gpu_name": "RTX 3090 Ti",
+      "offer_id": 45443827,
+      "machine_id": 141336,
+      "min_bid": 0.22667,
+      "bid": 0.2312,
+      "storage_usd_h": 0.03653,
+      "all_in_usd_h": 0.26773,
+      "worst_case_usd": 0.0892,
       "already_measured": true,
-      "n_offers": 2,
-      "vram_gb": 80.0,
-      "breakeven_ns_per_day": 1475.0,
-      "breakeven_x_reference": 1.953,
+      "n_offers": 1,
+      "vram_gb": 24.0,
+      "breakeven_ns_per_day": 2634.8,
+      "breakeven_x_reference": 3.488,
       "breakeven_label": "skip \u2014 would have to be far faster than anything we have benched",
       "admit": true,
       "reason": "admitted",
-      "committed_usd_after": 0.2278,
+      "committed_usd_after": 0.1609,
       "submit_errors": [
-        "r3: RuntimeError: vast: no rentable verified offer for ResourceSpec(gpu='A100 PCIE', min_vram_gb=16, vcpus=4, ram_gb=16, disk_gb=40, min_reliability=0.9, interruptible=True, exclude_machine_ids=('11892', '12227', '141396', '55559', '56760'), max_usd_per_ns=None, require_gpu=True, min_cuda=13.0) (of 64 offers)"
+        "r2: RuntimeError: vast: no rentable verified offer for ResourceSpec(gpu='RTX 3090 Ti', min_vram_gb=16, vcpus=4, ram_gb=16, disk_gb=40, min_reliability=0.9, interruptible=True, exclude_machine_ids=('11892', '12227', '141336', '55559'), max_usd_per_ns=None, require_gpu=True, min_cuda=13.0) (of 64 offers)",
+        "r3: RuntimeError: vast: no rentable verified offer for ResourceSpec(gpu='RTX 3090 Ti', min_vram_gb=16, vcpus=4, ram_gb=16, disk_gb=40, min_reliability=0.9, interruptible=True, exclude_machine_ids=('11892', '12227', '141336', '55559'), max_usd_per_ns=None, require_gpu=True, min_cuda=13.0) (of 64 offers)"
       ]
     }
   ]
