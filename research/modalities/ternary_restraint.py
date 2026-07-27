@@ -26,6 +26,12 @@ explicit that the data does not support the latter and it is not claimed here.
     bound fluctuation is one the ternary leg would essentially never touch. The same restraint definition can
     therefore be applied to both arms of a cycle without changing what the ternary arm samples — a plain
     harmonic tether would bias every frame of both.
+    ⚠ WHETHER IT *SHOULD* BE APPLIED TO BOTH ARMS IS A SEPARATE QUESTION, AND IT IS DECIDED ELSEWHERE.
+    "The same restraint definition CAN sit on both arms" is a property of the flat bottom, not a
+    recommendation. The standing ruling is that **only the BINARY arm is re-run restrained**, and its
+    reasoning — including the rev leg's one 4.737 Å excursion, which does exceed this well and is
+    nevertheless the wrong thing to restrain because it initiates at a *physical* endpoint — lives in
+    `ternary-lane-guard-audit-2026-07-25.md` §L.3f. ONE HOME; do not restate the numbers here.
 
 2 · λ-INDEPENDENT, ON MAPPED CORE ATOMS → IT CANCELS, SO THERE IS NO STANDARD-STATE CORRECTION.
     This is an RBFE, not an ABFE. The ligand is NEVER decoupled from the receptor here — both endpoints have a
