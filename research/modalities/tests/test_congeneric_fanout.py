@@ -814,7 +814,7 @@ def test_a_board_where_nothing_clears_launches_zero_and_still_says_why():
     ceil = cf.unit_usd_per_ns_ceiling()
     n, placed, why = cf.place_units([ceil * 1.2, ceil * 5], 18)
     assert n == 0 and placed == []
-    assert why and "cheapest offer" in why and "authorised" in why, why
+    assert why and "cheapest offer" in why and "refused on the" in why, why
 
 
 def test_a_board_where_everything_clears_launches_everything():
@@ -832,20 +832,39 @@ def test_an_empty_or_unpriceable_board_is_a_hold_not_a_guess():
     assert n == 0 and why and "unpriceable" in why
 
 
-def test_the_per_unit_ceiling_is_derived_from_the_tranche_ceiling_not_typed():
+def test_the_DOLLAR_ceiling_is_derived_from_the_tranche_ceiling_not_typed():
     """★ The identity that makes per-unit placement a re-expression of the authorisation rather than a
-    loosening of it: both sides of market_verdict are linear in n, so the tranche test WAS a per-unit test."""
+    loosening of it: both sides of market_verdict are linear in n, so the tranche test WAS a per-unit test.
+    Retained after trimcrae's 1.5x ruling because it is still what the DOLLAR ceiling means — the rate line
+    binds on top of it, it does not replace it."""
     import congeneric_fanout as cf
-    ceil = cf.unit_usd_per_ns_ceiling()
-    assert abs(ceil - cf.market_ceiling_usd(1) / cf.reference_ns_per_unit()) < 1e-12
+    dollar = cf._unit_dollar_ceiling_usd_per_ns()
+    assert abs(dollar - cf.market_ceiling_usd(1) / cf.reference_ns_per_unit()) < 1e-12
     for n in (1, 3, 5, 18, 19):
-        # a unit priced just under the per-unit ceiling keeps ANY tranche size inside its own dollar band
-        ok, projected, ceiling, _r = cf.market_verdict(ceil * 0.99, n)
+        # a unit priced just under the DOLLAR ceiling keeps ANY tranche size inside its own dollar band
+        ok, projected, ceiling, _r = cf.market_verdict(dollar * 0.99, n)
         assert ok, (n, projected, ceiling)
-        assert not cf.market_verdict(ceil * 1.05, n)[0], n
+        assert not cf.market_verdict(dollar * 1.05, n)[0], n
     src = open(cf.__file__).read()
-    fn = src[src.index("def unit_usd_per_ns_ceiling("):src.index("def place_units(")]
+    fn = src[src.index("def _unit_dollar_ceiling_usd_per_ns("):src.index("# ★★ THE DRIFT LINE IS THE BUY")]
     assert "market_ceiling_usd(1)" in fn, "must be DERIVED from the rung's own band, never typed"
+
+
+def test_the_drift_line_IS_the_buy_line_and_binds_on_top_of_the_dollar_ceiling():
+    """★ trimcrae, 2026-07-27: *"What's the point of tracking that if we don't act on it?"* A unit must clear
+    BOTH. Today the rate line is the lower, so nothing that prints ⚠ DRIFT can be bought."""
+    import congeneric_fanout as cf
+    b = cf.basis_usd_per_ns()
+    dollar, rate, eff, which = cf.unit_ceiling_components()
+    assert abs(rate - 1.5 * b) < 1e-12, "the rate line is 1.5x basis, derived not typed"
+    assert eff == min(dollar, rate), "a unit must clear BOTH constraints"
+    assert cf.unit_usd_per_ns_ceiling() == eff
+    # at today's basis the rate line is the binding one, and the readout must say so
+    assert rate < dollar and "rate line" in which, (rate, dollar, which)
+    # nothing at or above 1.5x can be placed any more
+    assert cf.place_units([1.49 * b, 1.51 * b, 2.0 * b], 5)[0] == 1
+    # and the refusal names which constraint it hit
+    assert "rate line" in cf.place_units([1.6 * b], 5)[2]
 
 
 def test_a_terminus_blocked_hold_does_not_escalate_on_price():
@@ -961,3 +980,30 @@ def test_the_readout_reports_the_rate_ACTUALLY_rented_not_the_one_that_cleared()
         extra = {"dph": 0.5, "gpu_name": "Totally Unknown GPU"}
     upn2, cell2 = cfv._rented_usd_per_ns(_Unknown())
     assert upn2 is None and "UNKNOWN" in cell2, "an ungradeable rental must say so, not invent a figure"
+
+
+def test_the_dollar_ceiling_branch_is_REACHABLE_not_just_written():
+    """★ `unit_ceiling_components()` returns the derived dollar ceiling as binding whenever it is the lower
+    of the two. Today the rate line is lower, so that branch is dormant — and a dormant branch in the gate
+    that decides purchases is not somewhere to discover a bug. A repricing that pushed the rung's band top
+    below 1.5x basis would make it live, so it is exercised here against a stubbed band."""
+    import congeneric_fanout as cf
+    b = cf.basis_usd_per_ns()
+    real = cf.market_ceiling_usd
+    try:
+        # a band top low enough that the DOLLAR ceiling bites first (0.5x basis per unit)
+        cf.market_ceiling_usd = lambda n: 0.5 * b * cf.reference_ns_per_unit() * n
+        dollar, rate, eff, which = cf.unit_ceiling_components()
+        assert dollar < rate, (dollar, rate)
+        assert eff == dollar and "dollar ceiling" in which, which
+        assert cf.unit_usd_per_ns_ceiling() == dollar
+        # a unit under the 1.5x rate line but OVER the squeezed dollar ceiling must be refused, and the
+        # refusal must name the dollar ceiling rather than the rate line
+        n, _placed, why = cf.place_units([1.2 * b], 5)
+        assert n == 0 and "dollar ceiling" in why and "rate line" not in why, why
+        # ...and one under both still places
+        assert cf.place_units([0.4 * b], 5)[0] == 1
+    finally:
+        cf.market_ceiling_usd = real
+    # restored: the rate line binds again
+    assert "rate line" in cf.unit_ceiling_components()[3]

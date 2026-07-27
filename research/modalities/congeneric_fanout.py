@@ -390,7 +390,7 @@ def market_verdict(best_usd_per_ns, n_units):
     return (projected <= ceiling), projected, ceiling, ratio
 
 
-def unit_usd_per_ns_ceiling():
+def _unit_dollar_ceiling_usd_per_ns():
     """The most ONE unit may cost per nanosecond and still sit inside this rung's authorisation. PURE.
 
     ★ DERIVED FROM THE EXISTING CEILING, NOT A NEW CONSTANT (rule 1). Both sides of `market_verdict` are
@@ -412,6 +412,51 @@ def unit_usd_per_ns_ceiling():
     they are inside the authorisation and flagged, which is what §1 asks for.
     """
     return market_ceiling_usd(1) / reference_ns_per_unit()
+
+
+# ★★ THE DRIFT LINE IS THE BUY LINE (trimcrae, 2026-07-27, ruling directly on this ceiling).
+#
+# He was shown the derived-ceiling algebra below and chose to bind the RATE line on top of it anyway, for the
+# reason he had already given that morning about flagged-but-still-purchased rows: *"What's the point of
+# tracking that if we don't act on it?"* So a row that prints ⚠ DRIFT is now a row we do not buy — the flag
+# and the refusal are the same number, and the gap between "we noticed" and "we declined" is closed.
+#
+# SUPERSEDED (rule 1, registered rather than deleted): until this ruling, 1.5x was a REPORTING threshold only.
+# `inflight_usd_per_ns.py` said so in as many words — "Not a hard gate — the fleet-launch gate in the
+# launcher is that" (CLAUDE.md §1 now carries the ruling that replaced it) —
+# and the fan-out's hard gate was the derived band top alone, ~2.25x basis. Both framings are quotable from
+# the history, so the live rule is stated once, here: **a unit must clear BOTH lines.**
+DRIFT_BUY_LINE_X_BASIS = 1.5
+
+
+def unit_rate_line_usd_per_ns():
+    """The §1 drift line as an absolute rate. DERIVED from the basis, never typed as a dollar figure."""
+    return DRIFT_BUY_LINE_X_BASIS * basis_usd_per_ns()
+
+
+def unit_ceiling_components():
+    """(dollar_ceiling, rate_line, effective, which_binds). PURE.
+
+    Two DIFFERENT constraints, kept separate on purpose — conflating them is what made the last round of
+    hold readouts unreadable. The dollar ceiling asks *"does this stay inside the money the rung was
+    authorised"*; the rate line asks *"is this a rate we are willing to pay at all"*. A unit must clear BOTH,
+    so the effective ceiling is the lower, and a refusal names which one it hit.
+    """
+    dollar = _unit_dollar_ceiling_usd_per_ns()
+    rate = unit_rate_line_usd_per_ns()
+    if rate <= dollar:
+        return dollar, rate, rate, "rate line (1.5x basis)"
+    return dollar, rate, dollar, "dollar ceiling (the rung's authorised band)"
+def unit_usd_per_ns_ceiling():
+    """The EFFECTIVE per-unit buy ceiling: the lower of the derived dollar ceiling and the 1.5x rate line.
+
+    `_unit_dollar_ceiling_usd_per_ns` keeps the algebra that showed the tranche test was a per-unit test in
+    disguise, and it still binds as the DOLLAR ceiling. Since trimcrae's 2026-07-27 ruling the rate line
+    binds on top of it, and at the current basis the rate line is the lower of the two — so this is 1.5x
+    basis today, and would revert to the derived figure if a repricing ever pushed the band top below it.
+    """
+    return unit_ceiling_components()[2]
+
 
 
 def place_units(ranked_usd_per_ns, n_wanted, ceiling_usd_per_ns=None):
@@ -452,9 +497,15 @@ def place_units(ranked_usd_per_ns, n_wanted, ceiling_usd_per_ns=None):
         u is not None for u in ranked_usd_per_ns) else None
     if best is None:
         return 0, [], "no offer on the board carries a benched card, so none can be priced"
-    return 0, [], (f"the cheapest offer on the board is ${best:.6f}/ns "
-                   f"({best / basis_usd_per_ns():.2f}x basis), above the ${ceiling:.6f}/ns "
-                   f"({ceiling / basis_usd_per_ns():.2f}x) a single unit is authorised to cost")
+    # NAME WHICH CONSTRAINT REFUSED IT. The dollar ceiling and the rate line are different questions —
+    # "past the money the rung was authorised" vs "a rate we decline to pay at all" — and a reader who
+    # cannot tell them apart cannot tell a repricing problem from a market problem.
+    b = basis_usd_per_ns()
+    _dollar, _rate, _eff, which = unit_ceiling_components()
+    return 0, [], (f"the cheapest offer on the board is ${best:.6f}/ns ({best / b:.2f}x basis), above the "
+                   f"${ceiling:.6f}/ns ({ceiling / b:.2f}x) a single unit may cost — refused on the "
+                   f"{which}" + (f", which binds below the dollar ceiling of ${_dollar:.6f}/ns "
+                                 f"({_dollar / b:.2f}x)" if abs(_eff - _rate) < 1e-12 else ""))
 
 
 def wave_plan(n_units, width=8, unit_h=None):

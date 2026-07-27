@@ -55,6 +55,19 @@ anything here that restates them is a bug — see rule 1.
     ratio the cost model does not produce is the bug. **≳1.5× basis is drift and says so on the row**; that is
     what the fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
     rather than a fabricated figure.
+    - **★★ THE DRIFT LINE **IS** THE BUY LINE — 1.5× IS A HARD GATE, NOT JUST A LABEL (trimcrae, 2026-07-27,
+      ruling on the step 1 fan-out's per-unit ceiling after being shown the derived alternative).** Reason, in
+      his words from earlier the same day: ***"What's the point of tracking that if we don't act on it?"***
+      So **a row that prints `⚠ DRIFT` is a row we do not buy** — the flag and the refusal are the same
+      number, and the gap between "we noticed" and "we declined" is closed. A rental must clear **BOTH** its
+      rung's derived **dollar** ceiling (*is this inside the money that was authorised*) **and** the 1.5×
+      **rate** line (*is this a rate we will pay at all*); the effective ceiling is the lower, and a refusal
+      must NAME which one it hit — conflating them is what made an earlier round of hold readouts unreadable.
+      **SUPERSEDED, retained for the record:** until this ruling 1.5× was *reporting only* — the framing "not
+      a hard gate — the fleet-launch gate in the launcher is that" (`inflight_usd_per_ns.py`) — under which
+      the fan-out's hard gate was its derived band top alone, ≈2.25× basis. That framing no longer stands and
+      must not be quoted. Live rule and arithmetic:
+      [`congeneric_fanout.unit_ceiling_components`](./research/modalities/congeneric_fanout.py).
     - **★★ A ROW WE ARE PAYING AND A ROW THE GATE REFUSED MUST NEVER RENDER ALIKE (trimcrae, 2026-07-27:
       *"the `$/ns` column still shows several rows over 1.5×. Why? Are we not stopping those runs?"*).** Held
       lanes at 3.25× and 1.96× printed the same `⚠` as legs actually being billed at 1.51× and 1.82×, so a

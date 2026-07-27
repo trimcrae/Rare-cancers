@@ -47,7 +47,12 @@ sys.path.insert(0, __file__.rsplit("/", 1)[0])
 
 import vast_cost_model as vcm    # noqa: E402  the single source for throughput and cost
 
-# ≳1.5× the basis is drift. Not a hard gate — the fleet-launch gate in the launcher is that — but the point at
+# ≳1.5× the basis is drift — and since trimcrae's 2026-07-27 ruling it is also the HARD BUY LINE, not
+# only the point at which a row must say it is drifting: *"What's the point of tracking that if we don't
+# act on it?"* A row that prints ⚠ DRIFT is a row the launcher refuses to rent (the effective ceiling is
+# the lower of this and the rung's derived dollar ceiling — congeneric_fanout.unit_ceiling_components).
+# SUPERSEDED, retained for the record: this constant was previously documented here as "not a hard gate
+# — the fleet-launch gate in the launcher is that". That framing no longer stands. It remains the point at
 # which a row must SAY it is drifting rather than leaving the reader to divide.
 DRIFT_MULTIPLE = 1.5
 

@@ -771,10 +771,14 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
     spend_now = _cf.projected_tranche_usd(max(placed), n_place) if placed else 0.0
     ceiling_now = _cf.market_ceiling_usd(n_place) if n_place else 0.0
 
+    _dollar_ceil, _rate_line, _eff_ceil, _which_binds = _cf.unit_ceiling_components()
     _lprint(f"[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board {depth['offers_returned']} offers -> "
-            f"{depth['qualifying']} qualifying, {depth['priceable']} priceable. A single unit is authorised "
-            f"up to ${unit_ceiling:.6f}/ns ({unit_ceiling / basis:.2f}x the rung basis ${basis:.6f}/ns) — "
-            f"DERIVED from market_ceiling_usd(1) / reference_ns_per_unit, not typed here.")
+            f"{depth['qualifying']} qualifying, {depth['priceable']} priceable. A unit must clear BOTH the "
+            f"dollar ceiling ${_dollar_ceil:.6f}/ns ({_dollar_ceil / basis:.2f}x, derived from "
+            f"market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.5x drift line "
+            f"${_rate_line:.6f}/ns — effective ${unit_ceiling:.6f}/ns "
+            f"({unit_ceiling / basis:.2f}x), binding on the {_which_binds}. "
+            f"(trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)")
     # ★ THE LINE THE RULE ACTUALLY REQUIRES. §6 forbids both a silent hold and a silently dropped unit, and
     # a PARTIAL launch is where those are easiest to commit: a tick that launches 5 of 19 and says nothing
     # about the 14 is precisely the failure. So both halves are always printed, with the price the held
@@ -782,12 +786,14 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
     _lprint(f"[s1f] PLACEMENT: {n_place} unit(s) LAUNCHING NOW, {n_held} HELD for a better board "
             f"(of {n_withheld} withheld this tick).")
     for u in placed:
+        # ⚠ DRIFT is now UNREACHABLE on a placed unit — the drift line and the buy line are the same number
+        # since trimcrae's ruling. Printed anyway: a guard that cannot report its own failure is how this
+        # lane keeps finding things late.
         _lprint(f"[s1f]   launch @ ${u:.6f}/ns · {u / basis:.2f}x basis"
-                + ("  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)"
-                   if u / basis >= 1.5 else ""))
+                + ("  ⛔ DRIFT ABOVE THE BUY LINE — this must not happen" if u / basis >= 1.5 else ""))
     if n_held:
-        _lprint(f"[s1f]   HELD {n_held} unit(s): waiting for an offer at or below ${unit_ceiling:.6f}/ns "
-                f"({unit_ceiling / basis:.2f}x basis). "
+        _lprint(f"[s1f]   HELD {n_held} unit(s) on the {_which_binds}: waiting for an offer at or below "
+                f"${unit_ceiling:.6f}/ns ({unit_ceiling / basis:.2f}x basis). "
                 + (why_none or f"the board had only {n_place} offer(s) that cheap this pass.")
                 + " They are NOT dropped — the pending set is recomputed from S3 every tick, so they go out "
                   "automatically as the board improves.")
@@ -805,6 +811,9 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
            "n_launching_now": n_place, "n_held": n_held,
            "unit_usd_per_ns_ceiling": round(unit_ceiling, 6),
            "unit_ceiling_x_basis": round(unit_ceiling / basis, 3),
+           "unit_dollar_ceiling_usd_per_ns": round(_dollar_ceil, 6),
+           "unit_rate_line_usd_per_ns": round(_rate_line, 6),
+           "which_ceiling_binds": _which_binds,
            "placed_usd_per_ns": [round(u, 6) for u in placed],
            "placed_x_basis": [round(u / basis, 2) for u in placed],
            "basis_usd_per_ns": round(basis, 6),
