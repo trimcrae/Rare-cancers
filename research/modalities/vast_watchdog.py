@@ -1147,8 +1147,84 @@ def tick(path=None, dry_run=False):
     return alerts
 
 
+def merge_branch_watch_list(branch, path=None, repo_root=None):
+    """Fold a FLEET BRANCH's `vast-watch.json` into the checked-out (main) one. Returns a report string.
+
+    ★★ THE ENGINE IS MAIN'S; THE WATCH LIST IS THE LAUNCHER'S (LANE 21, 2026-07-26).
+    `_arm_watchdog` exists so that "an 18-unit wave that arms nothing would put eighteen billed GPUs beyond
+    any monitoring" cannot happen — its own docstring. But it writes `vast-watch.json` inside a CI job whose
+    commit step pushes to the FLEET BRANCH, while this workflow runs from a `schedule`, which only fires from
+    the default branch, with a bare `actions/checkout` — so the tick reads MAIN's copy. The arming is real and
+    lands somewhere the watchdog never looks. Tonight's single shakeout entry is on main only because a lane
+    happened to merge; the eighteen that the terminus gate releases would not be, and would run unwatched at
+    roughly $0.2/hr each for up to ~13.7 h.
+
+    The split is the right one and is kept: the ENGINE must be main's reviewed code, because that is what
+    makes it session-independent; the LIST is live operational state that only the launcher can write. So the
+    list is fetched from where it is written and merged over main's.
+
+    MERGE RULES, and why each is the safe direction:
+      * union by unit_id, the BRANCH copy winning — it is the live writer, so its `enabled` and its
+        parameters are the current ones;
+      * an entry that exists only on main is KEPT, never dropped — main carries finished units flipped to
+        `enabled: false` for the record, and other lanes' kinds;
+      * ANY failure (branch absent, file absent, unparseable, not the expected shape) leaves the working-tree
+        file byte-untouched and returns a warning. The fallback is therefore exactly today's behaviour, which
+        is what makes this safe to put in front of a scheduled job whose documented worst failure is not
+        running at all.
+    The merged file still goes through `watchdog_validate` before anything acts on it, so a malformed branch
+    list aborts the pass rather than steering it.
+    """
+    import subprocess
+    path = path or WATCH_FILE
+    root = repo_root or os.path.dirname(os.path.dirname(HERE))
+    rel = os.path.relpath(path, root)
+    branch = (branch or "").strip()
+    if not branch:
+        return "[watch-merge] no fleet branch given — using the checked-out list unchanged"
+    try:
+        subprocess.run(["git", "fetch", "--depth", "1", "origin", branch], cwd=root,
+                       check=True, capture_output=True, timeout=120)
+        raw = subprocess.run(["git", "show", f"origin/{branch}:{rel}"], cwd=root,
+                             check=True, capture_output=True, timeout=60).stdout
+        theirs = json.loads(raw.decode())
+        assert isinstance(theirs.get("watch"), list)
+    except Exception as e:  # noqa: BLE001
+        return (f"[watch-merge] ⚠ could not read {rel} from origin/{branch} ({type(e).__name__}: {e}) — "
+                f"using the checked-out list unchanged. Any unit armed only on that branch is UNWATCHED.")
+    try:
+        with open(path) as fh:
+            ours = json.load(fh)
+    except Exception as e:  # noqa: BLE001
+        return f"[watch-merge] ⚠ could not read the checked-out {rel} ({type(e).__name__}: {e}) — no merge"
+    mine = {e.get("unit_id"): e for e in ours.get("watch", [])}
+    added, replaced = [], []
+    for entry in theirs["watch"]:
+        uid = entry.get("unit_id")
+        if uid is None:
+            continue
+        if uid in mine:
+            if mine[uid] != entry:
+                replaced.append(uid)
+            mine[uid] = entry
+        else:
+            mine[uid] = entry
+            added.append(uid)
+    if not added and not replaced:
+        return f"[watch-merge] origin/{branch} agrees with the checked-out list ({len(mine)} entries)"
+    ours["watch"] = list(mine.values())
+    with open(path, "w") as fh:
+        json.dump(ours, fh, indent=2)
+    n_on = sum(1 for e in ours["watch"] if e.get("enabled"))
+    return (f"[watch-merge] took the list from origin/{branch}: +{len(added)} new {added}, "
+            f"{len(replaced)} updated {replaced}; {len(ours['watch'])} entries, {n_on} enabled")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Session-independent watchdog for any Vast job kind")
+    ap.add_argument("--merge-branch-list", metavar="BRANCH", default=None,
+                    help="fold that branch's vast-watch.json into the checked-out one before acting; any "
+                         "failure leaves the checked-out list untouched")
     ap.add_argument("--tick", action="store_true", help="run one watchdog pass")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--watch-file", default=None)
@@ -1158,6 +1234,9 @@ def main(argv=None):
                          "otherwise. Run it after arming, and in CI.")
     ap.add_argument("--disable", metavar="UNIT_ID", help="set enabled=false for one entry")
     a = ap.parse_args(argv)
+    if a.merge_branch_list:
+        print(merge_branch_watch_list(a.merge_branch_list, a.watch_file))
+        return 0
     if a.kinds:
         for n, k in sorted(KINDS.items()):
             print(f"{n}: label_prefix={k.label_prefix} grace={k.setup_grace_min:.0f}min "
