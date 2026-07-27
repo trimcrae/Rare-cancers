@@ -137,6 +137,53 @@ moved, doc = F.verdict(bogus, LEDGER_46000463["bid"])
 check(moved is None and "UNKNOWN" in doc["verdict"],
       "an unexplained total yields UNKNOWN — no drift conclusion is drawn from a number that does not close")
 
+print("== ★ THE UNDER-QUOTE MUST NOT REACH THE PURCHASE DECISION")
+# The serious version of the same defect. A wrong rate in a readout misleads a reader; the same rate inside
+# the $/ns gate would approve every rental against a number below its true one. These offers are shaped like
+# the live board of 2026-07-27 12:45 PM UTC: a cheap-storage host and an expensive-storage one, where the
+# quote's fixed-size disk line hides a per-machine storage cost that differs by 4.5x.
+try:
+    import congeneric_fanout_vast as _cfv                      # noqa: E402
+    _RES = _cfv.FANOUT_RES
+except ImportError:                                            # pragma: no cover
+    _RES = None
+
+if _RES is None:
+    check(True, "(skipped: congeneric_fanout_vast not importable in this env)")
+else:
+    def _offer(mid, min_bid, storage_cost):
+        # dph_total as the SEARCH quotes it: the floor plus a disk line for a disk we do not rent.
+        return dict(id=mid, machine_id=mid, gpu_name="RTX 4090", num_gpus=1, gpu_ram=24600, rentable=True,
+                    reliability2=0.99, cuda_max_good=13.0, min_bid=min_bid, dph_base=min_bid,
+                    dph_total=round(min_bid + storage_cost * 8 / 720.0, 6), storage_cost=storage_cost,
+                    disk_space=200, cpu_ram=64000, cpu_cores=16)
+
+    board = [_offer(101, 0.16, 0.20), _offer(102, 0.19, 0.90)]
+    rp = F.reprice(res=_RES, n_fleet=2, offers=board, readout_path=os.devnull)
+    check(all(r["gate_usd_per_ns"] > r["quote_usd_per_ns"] for r in rp["rows"]),
+          "the gate's $/ns is ABOVE the quote's on every offer — it is not consuming the quote")
+    check("NOT READING THE QUOTE" in rp["verdict"], "and the verdict says so in those terms")
+    check(rp["quote_understates_gate_by_pct"]["max"] > rp["quote_understates_gate_by_pct"]["min"],
+          "the under-read is NOT a constant offset — it scales with the machine's own storage_cost, "
+          "which is why a flat correction would not have fixed it")
+    # The row that matters: cheap GPU, expensive disk. The quote says buyable, the true rate says no.
+    expensive_disk = [r for r in rp["rows"] if r["machine_id"] == 102][0]
+    check(expensive_disk["understated_by_pct"] > 30,
+          "a high-storage_cost host is understated by >30 % — the worst case, and invisible on the quote")
+
+print("== ...and a board with nothing priceable is UNKNOWN, not a clean bill of health")
+if _RES is not None:
+    empty = F.reprice(res=_RES, n_fleet=2, offers=[], readout_path=os.devnull)
+    check("UNKNOWN" in empty["verdict"] and "not a clean bill of health" in empty["verdict"],
+          "no priceable offer cannot be reported as 'the gate is fine' — the same discipline the gate "
+          "applies to an unreadable market")
+
+print("== a short fleet says it is short rather than quoting a mean whose name is a lie")
+if _RES is not None:
+    short = F.reprice(res=_RES, n_fleet=19, offers=board, readout_path=os.devnull)
+    check("fleet_mean_is_short" in short["gate_derived"],
+          "2 priceable offers against 19 units is flagged, not averaged into a 'best19 mean'")
+
 print()
 if fails:
     print(f"FAILED {len(fails)}: {fails}")

@@ -357,11 +357,19 @@ def reprice(res=None, n_fleet=19, key=None, offers=None, readout_path=None):
         if not vals:
             return {"n": 0}
         fleet = vals[:n_fleet]
-        return {"n": len(vals), "best_usd_per_ns": round(vals[0], 6),
-                "best_multiple": round(vals[0] / basis, 3),
-                f"best{n_fleet}_mean_usd_per_ns": round(sum(fleet) / len(fleet), 6),
-                f"best{n_fleet}_mean_multiple": round((sum(fleet) / len(fleet)) / basis, 3),
-                f"n_under_{DRIFT_MULTIPLE}x": sum(1 for v in vals if v / basis <= DRIFT_MULTIPLE)}
+        out = {"n": len(vals), "best_usd_per_ns": round(vals[0], 6),
+               "best_multiple": round(vals[0] / basis, 3),
+               f"best{n_fleet}_mean_usd_per_ns": round(sum(fleet) / len(fleet), 6),
+               f"best{n_fleet}_mean_multiple": round((sum(fleet) / len(fleet)) / basis, 3),
+               f"n_under_{DRIFT_MULTIPLE}x": sum(1 for v in vals if v / basis <= DRIFT_MULTIPLE)}
+        if len(vals) < n_fleet:
+            # ⚠ NOT A FLEET MEAN. With fewer priceable offers than units, this is the mean of everything
+            # available and the fleet CANNOT BE FILLED at any price — a different and more important fact
+            # than an expensive mean. Saying so beats quoting a number whose name is a lie.
+            out["fleet_mean_is_short"] = (
+                f"only {len(vals)} priceable offer(s) for {n_fleet} unit(s) — this mean is over "
+                f"{len(vals)}, NOT {n_fleet}, and the fleet cannot be filled from this board at all")
+        return out
 
     q_all = [r["quote_usd_per_ns"] for r in rows]
     g_all = [r["gate_usd_per_ns"] for r in rows]
