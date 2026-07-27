@@ -1725,8 +1725,31 @@ def mode_launch():
             "unit_id": u["unit_id"], "label": spec.name, "machine_id": _mid,
             "bid": _bid, "min_bid": _floor, "dph": _dph, "billed_min": 0,
             "launched_utc": _utcnow(), "last_seen_utc": None}
-    _save_ledger(s3, bucket, _ledger)
-    _arm_watchdog([h["unit_id"] for h in handles], os.environ.get("GIT_BRANCH", "main"))
+        # ★★ SAVE AFTER **EACH** RENTAL, NOT AFTER THE LOOP (2026-07-27, measured). CLAUDE.md's checkpoint
+        # rule — "checkpoint after each unit of work and upload as it is written; a default end-of-job
+        # upload loses ALL partial work on a timeout" — applies to the RENTAL LEDGER exactly as it does to a
+        # trajectory, and this loop was violating it.
+        #
+        # THE MEASUREMENT, AND THE MARGIN. A submit is not instant: Vast reports `intended=stopped` on a
+        # fresh create and the backend polls up to 8 times before giving up, so a unit costs ~15-70 s.
+        # Timed from the step boundaries of two consecutive ticks on 2026-07-27 — run 30296004080,
+        # 18:58:10Z -> 19:01:22Z, and run 30296390447, 19:02:41Z -> 19:05:48Z — five submits each, i.e.
+        # **~37 s per unit**. At the lane's `FANOUT_WIDTH` of 19 that projects to ~12 min inside ONE step,
+        # against the job's `timeout-minutes: 25`. Not a comfortable margin: the poll is bounded by attempts,
+        # not by time, so a wave where many hosts sit in `loading` runs at the slow end of that range.
+        #
+        # ⚠ AND DO NOT REPEAT THE MISREAD THAT PROMPTED THIS. The same step was first believed to have taken
+        # **18 minutes**, from polling the jobs API while the run was live — that endpoint lags, reporting a
+        # finished step as `in_progress` for many minutes. The real figure came from the step's own
+        # `started_at`/`completed_at` after completion. Time a CI step from the completed record, never from
+        # a live poll.
+        #
+        # If the loop ever does hit the timeout, every box rented so far bills while absent from the
+        # realised-spend ledger and absent from the watch list — the 2026-07-26 instance-45951628 shape
+        # reached by a different route. An extra S3 PUT per rental is free; a box that bills invisibly is not.
+        _save_ledger(s3, bucket, _ledger)
+        _arm_watchdog([u["unit_id"]], os.environ.get("GIT_BRANCH", "main"))
+        _write_launch_readout()
     with open("step1-fanout-handles.json", "w") as f:
         json.dump(handles, f, indent=2)
     # the label -> unit map, so a later collect/monitor can name instances without re-deriving the index
