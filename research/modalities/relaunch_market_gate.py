@@ -19,6 +19,13 @@ lease, it is an object. So for a checkpointed leg the answer is essentially alwa
 face the same ceiling as a fan-out. `EXEMPTIONS` below is the complete list of the cases where the answer is
 genuinely *yes*, each with its reason; anything not on that list is gated.
 
+**And that premise is measured, not assumed** (`--durability-probe`, 2026-07-27). The direct read is refused —
+the CI identity has no `s3:GetLifecycleConfiguration` — so the probe asks the data instead and the argument
+closes on a property of S3 rather than on the sample: **lifecycle expiration is expressed in DAYS with a
+minimum of 1**, so the shortest possible rule is 24 h, while a hold becomes trimcrae's decision at
+`RELAUNCH_ESCALATE_H`. A hold therefore cannot straddle an expiry boundary. The listing separately excludes any
+1–2 day rule and any storage-class transition.
+
 ★ THE CEILING IS A RATIO, NOT A DOLLAR BAND — and that is a deliberate difference from the fan-out gate.
   1. **A dollar band is a TRANCHE authorisation.** `congeneric_fanout.market_ceiling_usd` scales the rung's
      approved band by unit count, which is the right test for a tranche you are about to buy whole. A resume
@@ -433,13 +440,27 @@ def durability_probe(bucket=None, s3=None):
             out["verdict"] = ("UNKNOWN — neither the lifecycle configuration nor the checkpoint objects could "
                               "be read, so the premise 'waiting cannot destroy a checkpoint' is UNVERIFIED.")
         else:
+            # ★ THE ARGUMENT THAT ACTUALLY CLOSES, and it is NOT "the objects look old enough".
+            # Measured 2026-07-27: the oldest checkpoint object is only ~2.6 days old, which on its own would
+            # NOT exclude a 7- or 30-day TTL — these lanes are young. What closes the question is the
+            # combination with a fact about S3 itself: **lifecycle expiration is expressed in DAYS, with a
+            # minimum of 1**, so the shortest rule that can exist is 24 h. A hold here is bounded by
+            # RELAUNCH_ESCALATE_H before it stops being the gate's decision and becomes trimcrae's, and that
+            # window is a small fraction of the shortest possible TTL. So a hold cannot straddle an expiry
+            # boundary that this listing does not already exclude — and any rule long enough to be invisible
+            # here is far longer than any hold the gate is allowed to sustain unattended.
+            out["escalation_window_h"] = RELAUNCH_ESCALATE_H
             out["verdict"] = (
-                f"NO RULE IS BITING: the oldest checkpoint object is {oldest} days old and every listed "
-                f"object is in {classes} — an expiration rule would have deleted it and a transition rule "
-                f"would have moved it. Holding a relaunch therefore defers the rental without losing work. "
-                f"WEAKER THAN READING THE POLICY, and deliberately stated as such: this shows no rule acting "
-                f"today, not that none exists. `EXEMPTIONS['checkpoint_expiring']` stays a parameter for "
-                f"exactly that residual.")
+                f"HOLDING IS SAFE, and not because {oldest} days looks old — these lanes are young enough "
+                f"that {oldest} days alone would not exclude a 7- or 30-day TTL. It is safe because S3 "
+                f"lifecycle expiration is expressed in DAYS with a MINIMUM OF 1, so the shortest rule that "
+                f"can exist is 24 h, while a hold escalates to a human at {RELAUNCH_ESCALATE_H:.0f} h — a "
+                f"fraction of that floor. The listing independently excludes any 1- or 2-day rule (objects "
+                f"{oldest} days old survive) and any transition rule (every listed object is in {classes}; a "
+                f"checkpoint tiered to GLACIER is still there but no longer resumable on demand, which would "
+                f"be an expiry in every sense that counts here). WEAKER THAN READING THE POLICY and stated "
+                f"as such: this shows no rule acting today. `EXEMPTIONS['checkpoint_expiring']` stays a "
+                f"parameter for exactly that residual.")
     elif out["has_expiry_rule"]:
         out["verdict"] = ("A checkpoint on this bucket has a hard expiry — the `checkpoint_expiring` "
                           "exemption is LIVE and every lane must set `checkpoint_expires_utc`.")

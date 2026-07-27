@@ -158,6 +158,25 @@ def test_a_pass_that_clears_is_also_written(tmp_path):
     assert written["units"]["unit-B"]["held"] is False
 
 
+def test_both_fanout_workflows_commit_the_single_host_hold_readout():
+    """A readout written into a runner and never committed is a silent hold with extra steps. The two
+    workflows that can drive a single-unit launch must both carry the file back to the branch."""
+    wf = os.path.join(os.path.dirname(os.path.dirname(MOD)), ".github/workflows")
+    for name in ("step1-fanout-autoscale.yml", "fusion-cpu-extras.yml"):
+        with open(os.path.join(wf, name)) as fh:
+            assert rmg.STATE_BASENAME in fh.read(), f"{name} does not commit {rmg.STATE_BASENAME}"
+
+
+def test_the_watchdogs_surface_a_hold_without_needing_write_access():
+    """The two watchdogs are `permissions: contents: read` BY DESIGN — a relauncher that can push is a
+    relauncher that can rewrite the trail it is judged on. So their holds are surfaced through GitHub
+    annotations and the S3 snapshot instead, and the gate must emit both."""
+    src = open(rmg.__file__).read()
+    assert "::notice title=RELAUNCH HELD ON PRICE::" in src, "a routine hold must still be visible"
+    assert "::error title=RELAUNCH HELD" in src, "an escalated hold must fail the job"
+    assert "_save_state" in src and "state_prefix" in src, "the snapshot must also land in S3"
+
+
 def test_the_escalation_clock_runs_off_persisted_state(tmp_path):
     """A ceiling nobody can clear must become trimcrae's decision rather than an idle night. The clock is
     per-unit and lives in S3, because a CI job has no memory between ticks."""
