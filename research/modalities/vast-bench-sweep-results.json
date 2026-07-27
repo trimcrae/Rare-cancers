@@ -1,13 +1,51 @@
 {
-  "utc": "2026-07-27T13:40:08Z",
-  "n_records": 7,
+  "utc": "2026-07-27T14:03:35Z",
+  "n_records": 18,
   "admitted": {
+    "RTX3090TI": 481.78,
     "RTX4080": 703.87,
-    "RTX4090": 808.96
+    "RTX4090": 808.96,
+    "RTX5060TI": 387.78,
+    "RTX5080": 793.79,
+    "RTXA4000": 242.2
   },
   "refused": [
     {
-      "card": "RTX 3090 Ti",
+      "card": "A100 PCIE",
+      "reasons": [
+        "card identity disagrees across {'device': 'NVIDIAA10080GBPCIE', 'offer_gpu_name': 'A100PCIE', 'gpu_requested': 'A100PCIE'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
+      ]
+    },
+    {
+      "card": "RTX 3090",
+      "reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ]
+    },
+    {
+      "card": "RTX 3090",
+      "reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ]
+    },
+    {
+      "card": "RTX 4070S Ti",
       "reasons": [
         "particle count None != 84534 \u2014 a different system, not a different host",
         "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
@@ -33,10 +71,103 @@
         "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
         "non-positive throughput None"
       ]
+    },
+    {
+      "card": "RTX 5090",
+      "reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ]
+    },
+    {
+      "card": "RTX PRO 4000",
+      "reasons": [
+        "card identity disagrees across {'device': 'NVIDIARTXPRO4000BLACKWELL', 'offer_gpu_name': 'RTXPRO4000', 'gpu_requested': 'RTXPRO4000'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
+      ]
+    },
+    {
+      "card": "Tesla V100",
+      "reasons": [
+        "card identity disagrees across {'device': 'TESLAV100FHHL16GB', 'offer_gpu_name': 'TESLAV100', 'gpu_requested': 'TESLAV100'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn",
+        "CV 27.6% > 5% \u2014 contended or throttled host; re-bench elsewhere"
+      ]
+    },
+    {
+      "card": "Titan RTX",
+      "reasons": [
+        "CV 10.1% > 5% \u2014 contended or throttled host; re-bench elsewhere"
+      ]
     }
   ],
-  "realised_usd": 0.1691,
+  "realised_usd": 0.5549,
   "instances": [
+    {
+      "instance": 46007826,
+      "label": "cal-rtx3090",
+      "hours": 0.3705,
+      "dph": 0.06732222222222223,
+      "usd": 0.0249,
+      "status": "loading",
+      "status_msg": null,
+      "inet_down": 933.8,
+      "gpu_util": null,
+      "machine_id": 142143
+    },
+    {
+      "instance": 46007901,
+      "label": "cal-rtx3090-r2",
+      "hours": 0.3549,
+      "dph": 0.09271111111111112,
+      "usd": 0.0329,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 943.9,
+      "gpu_util": 0.0,
+      "machine_id": 136720
+    },
+    {
+      "instance": 46007907,
+      "label": "cal-rtx3090-r3",
+      "hours": 0.3543,
+      "dph": 0.12287407407407407,
+      "usd": 0.0435,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 523.9,
+      "gpu_util": 0.0,
+      "machine_id": 24039
+    },
+    {
+      "instance": 46007912,
+      "label": "cal-rtx3090-r4",
+      "hours": 0.3537,
+      "dph": 0.10011851851851852,
+      "usd": 0.0354,
+      "status": "created",
+      "status_msg": "Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: unable to retrieve OCI runtime error (open /run/containerd/io.containerd.runtime.v2.task/moby/f9f62186572c99dfadccbd2c49e6f310d59cc050e8bb3773e0c49c296ebf3036/log.json: no such file or directory): fork/exec /var/lib/vastai_kaalia/latest/kaalia_docker_shim: exec format error\nfailed to start containers: C.46007912\n",
+      "inet_down": 423.2,
+      "gpu_util": null,
+      "machine_id": 5855
+    },
+    {
+      "instance": 46008126,
+      "label": "cal-rtx4070sti",
+      "hours": 0.3019,
+      "dph": 0.10631111111111112,
+      "usd": 0.0321,
+      "status": "exited",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 1576.5,
+      "gpu_util": 0.0,
+      "machine_id": 142662
+    },
     {
       "instance": 46006128,
       "label": "cal-rtx4090",
@@ -80,12 +211,12 @@
     {
       "instance": 46007324,
       "label": "cal-rtx4090-r3",
-      "hours": 0.1028,
+      "hours": 0.4936,
       "dph": 0.1712111111111111,
-      "usd": 0.0176,
+      "usd": 0.0845,
       "status": "loading",
       "status_msg": null,
-      "inet_down": 932.3,
+      "inet_down": 909.7,
       "gpu_util": null,
       "machine_id": 12697
     },
@@ -120,20 +251,207 @@
       "inet_down": 16456.7,
       "gpu_util": 94.999908,
       "machine_id": 117843
+    },
+    {
+      "instance": 46008125,
+      "label": "cal-rtx5060ti",
+      "hours": 0.3022,
+      "dph": 0.0655111111111111,
+      "usd": 0.0198,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 7542.0,
+      "gpu_util": 0.0,
+      "machine_id": 48149
+    },
+    {
+      "instance": 46008203,
+      "label": "cal-rtx5070ti",
+      "hours": 0.2868,
+      "dph": 0.11991111111111111,
+      "usd": 0.0344,
+      "status": "loading",
+      "status_msg": "79436a159dbf: Pull complete\n",
+      "inet_down": 1372.2,
+      "gpu_util": null,
+      "machine_id": 98953
+    },
+    {
+      "instance": 46008127,
+      "label": "cal-rtx5080",
+      "hours": 0.3016,
+      "dph": 0.07200370370370371,
+      "usd": 0.0217,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 635.1,
+      "gpu_util": 0.0,
+      "machine_id": 97383
+    },
+    {
+      "instance": 46008054,
+      "label": "cal-rtxa4000",
+      "hours": 0.317,
+      "dph": 0.05011851851851852,
+      "usd": 0.0159,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 5506.2,
+      "gpu_util": 0.0,
+      "machine_id": 125779
+    },
+    {
+      "instance": 46008124,
+      "label": "cal-teslav100",
+      "hours": 0.3025,
+      "dph": 0.0655111111111111,
+      "usd": 0.0198,
+      "status": "exited",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 6551.5,
+      "gpu_util": 0.0,
+      "machine_id": 58499
+    },
+    {
+      "instance": 46008252,
+      "label": "cal-titanrtx",
+      "hours": 0.2725,
+      "dph": 0.14131481481481478,
+      "usd": 0.0385,
+      "status": "exited",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 858.4,
+      "gpu_util": null,
+      "machine_id": 57982
     }
   ],
   "records": [
     {
-      "tag": "rtx3090ti",
+      "tag": "a100pcie",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA A100 80GB PCIe",
+      "steps": 91743,
+      "dt_fs": 4.0,
+      "wall_s": 60.5,
+      "ns_per_day": 523.81,
+      "sd": 0.1,
+      "cv": 0.0002,
+      "blocks": 3,
+      "blocks_ns_day": [
+        523.76,
+        523.76,
+        523.93
+      ],
+      "final_temp_k": 300.2,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=a100pcie status=OK atoms=84534 platform=CUDA device=NVIDIA_A100_80GB_PCIe steps=91743 dt_fs=4.0 wall_s=60.5 ns_per_day=523.81 sd=0.10 cv=0.0002 blocks=3 blocks_ns_day=523.76,523.76,523.93 final_temp_k=300.2 healthy=True",
+      "gpu_requested": "A100 PCIE",
+      "offer_gpu_name": "A100 PCIE",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:54:04Z",
+      "admitted": false,
+      "admission_reasons": [
+        "card identity disagrees across {'device': 'NVIDIAA10080GBPCIE', 'offer_gpu_name': 'A100PCIE', 'gpu_requested': 'A100PCIE'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "rtx3090-r2",
       "status": "ERROR",
       "err": "OpenMMException:Particle",
       "healthy": false,
-      "_raw": "BENCH_RESULT tag=rtx3090ti status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "_raw": "BENCH_RESULT tag=rtx3090-r2 status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "gpu_requested": "RTX 3090",
+      "offer_gpu_name": "RTX 3090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:47:33Z",
+      "admitted": false,
+      "admission_reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "rtx3090-r3",
+      "status": "ERROR",
+      "err": "OpenMMException:Particle",
+      "healthy": false,
+      "_raw": "BENCH_RESULT tag=rtx3090-r3 status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "gpu_requested": "RTX 3090",
+      "offer_gpu_name": "RTX 3090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:46:20Z",
+      "admitted": false,
+      "admission_reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "rtx3090ti",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 3090 Ti",
+      "steps": 81993,
+      "dt_fs": 4.0,
+      "wall_s": 58.8,
+      "ns_per_day": 481.78,
+      "sd": 0.14,
+      "cv": 0.0003,
+      "blocks": 3,
+      "blocks_ns_day": [
+        481.84,
+        481.88,
+        481.61
+      ],
+      "final_temp_k": 301.2,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx3090ti status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090_Ti steps=81993 dt_fs=4.0 wall_s=58.8 ns_per_day=481.78 sd=0.14 cv=0.0003 blocks=3 blocks_ns_day=481.84,481.88,481.61 final_temp_k=301.2 healthy=True",
       "gpu_requested": "RTX 3090 Ti",
       "offer_gpu_name": "RTX 3090 Ti",
       "edge_nm": "9.5",
       "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
-      "utc": "2026-07-27T13:17:27Z",
+      "utc": "2026-07-27T13:56:53Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX3090TI",
+        "ns_per_day": 481.78
+      }
+    },
+    {
+      "tag": "rtx4070sti",
+      "status": "ERROR",
+      "err": "OpenMMException:Particle",
+      "healthy": false,
+      "_raw": "BENCH_RESULT tag=rtx4070sti status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "gpu_requested": "RTX 4070S Ti",
+      "offer_gpu_name": "RTX 4070S Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:54:53Z",
       "admitted": false,
       "admission_reasons": [
         "particle count None != 84534 \u2014 a different system, not a different host",
@@ -337,6 +655,227 @@
         "card": "RTX4090",
         "ns_per_day": 799.15
       }
+    },
+    {
+      "tag": "rtx5060ti",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5060 Ti",
+      "steps": 68283,
+      "dt_fs": 4.0,
+      "wall_s": 60.9,
+      "ns_per_day": 387.78,
+      "sd": 0.84,
+      "cv": 0.0022,
+      "blocks": 3,
+      "blocks_ns_day": [
+        388.73,
+        387.12,
+        387.49
+      ],
+      "final_temp_k": 303.3,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5060ti status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5060_Ti steps=68283 dt_fs=4.0 wall_s=60.9 ns_per_day=387.78 sd=0.84 cv=0.0022 blocks=3 blocks_ns_day=388.73,387.12,387.49 final_temp_k=303.3 healthy=True",
+      "gpu_requested": "RTX 5060 Ti",
+      "offer_gpu_name": "RTX 5060 Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:51:40Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5060TI",
+        "ns_per_day": 387.78
+      }
+    },
+    {
+      "tag": "rtx5080",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 5080",
+      "steps": 95967,
+      "dt_fs": 4.0,
+      "wall_s": 41.8,
+      "ns_per_day": 793.79,
+      "sd": 1.62,
+      "cv": 0.002,
+      "blocks": 3,
+      "blocks_ns_day": [
+        793.33,
+        792.46,
+        795.59
+      ],
+      "final_temp_k": 299.9,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx5080 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5080 steps=95967 dt_fs=4.0 wall_s=41.8 ns_per_day=793.79 sd=1.62 cv=0.0020 blocks=3 blocks_ns_day=793.33,792.46,795.59 final_temp_k=299.9 healthy=True",
+      "gpu_requested": "RTX 5080",
+      "offer_gpu_name": "RTX 5080",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:52:21Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX5080",
+        "ns_per_day": 793.79
+      }
+    },
+    {
+      "tag": "rtx5090",
+      "status": "ERROR",
+      "err": "OpenMMException:Particle",
+      "healthy": false,
+      "_raw": "BENCH_RESULT tag=rtx5090 status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "gpu_requested": "RTX 5090",
+      "offer_gpu_name": "RTX 5090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:55:31Z",
+      "admitted": false,
+      "admission_reasons": [
+        "particle count None != 84534 \u2014 a different system, not a different host",
+        "timestep None fs != 4.0 fs \u2014 ns/day is not comparable across dt",
+        "platform None != 'CUDA' \u2014 an OpenCL or CPU run prices a stack we never use",
+        "0 timed block(s) < 3 \u2014 a single window cannot separate a steady host from a contended one",
+        "physics check FAILED (final T None K) \u2014 a diverged system integrates fast and reports a large, entirely fake ns/day",
+        "status 'ERROR' != 'OK'",
+        "no block-to-block CV \u2014 the number arrived without the evidence that it is trustworthy",
+        "per-block values missing \u2014 the table entry must be derivable from them, not asserted",
+        "non-positive throughput None"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "rtxa4000",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA RTX A4000",
+      "steps": 44493,
+      "dt_fs": 4.0,
+      "wall_s": 63.5,
+      "ns_per_day": 242.2,
+      "sd": 6.25,
+      "cv": 0.0258,
+      "blocks": 3,
+      "blocks_ns_day": [
+        249.09,
+        240.61,
+        236.9
+      ],
+      "final_temp_k": 300.8,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtxa4000 status=OK atoms=84534 platform=CUDA device=NVIDIA_RTX_A4000 steps=44493 dt_fs=4.0 wall_s=63.5 ns_per_day=242.20 sd=6.25 cv=0.0258 blocks=3 blocks_ns_day=249.09,240.61,236.90 final_temp_k=300.8 healthy=True",
+      "gpu_requested": "RTX A4000",
+      "offer_gpu_name": "RTX A4000",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:59:43Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTXA4000",
+        "ns_per_day": 242.2
+      }
+    },
+    {
+      "tag": "rtxpro4000",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA RTX PRO 4000 Blackwell",
+      "steps": 82845,
+      "dt_fs": 4.0,
+      "wall_s": 59.4,
+      "ns_per_day": 482.34,
+      "sd": 3.03,
+      "cv": 0.0063,
+      "blocks": 3,
+      "blocks_ns_day": [
+        478.99,
+        484.89,
+        483.15
+      ],
+      "final_temp_k": 301.8,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtxpro4000 status=OK atoms=84534 platform=CUDA device=NVIDIA_RTX_PRO_4000_Blackwell steps=82845 dt_fs=4.0 wall_s=59.4 ns_per_day=482.34 sd=3.03 cv=0.0063 blocks=3 blocks_ns_day=478.99,484.89,483.15 final_temp_k=301.8 healthy=True",
+      "gpu_requested": "RTX PRO 4000",
+      "offer_gpu_name": "RTX PRO 4000",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:52:29Z",
+      "admitted": false,
+      "admission_reasons": [
+        "card identity disagrees across {'device': 'NVIDIARTXPRO4000BLACKWELL', 'offer_gpu_name': 'RTXPRO4000', 'gpu_requested': 'RTXPRO4000'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "teslav100",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "Tesla V100-FHHL-16GB",
+      "steps": 51498,
+      "dt_fs": 4.0,
+      "wall_s": 79.0,
+      "ns_per_day": 238.93,
+      "sd": 65.88,
+      "cv": 0.2757,
+      "blocks": 3,
+      "blocks_ns_day": [
+        296.15,
+        253.73,
+        166.91
+      ],
+      "final_temp_k": 302.3,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=teslav100 status=OK atoms=84534 platform=CUDA device=Tesla_V100-FHHL-16GB steps=51498 dt_fs=4.0 wall_s=79.0 ns_per_day=238.93 sd=65.88 cv=0.2757 blocks=3 blocks_ns_day=296.15,253.73,166.91 final_temp_k=302.3 healthy=True",
+      "gpu_requested": "Tesla V100",
+      "offer_gpu_name": "Tesla V100",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:51:34Z",
+      "admitted": false,
+      "admission_reasons": [
+        "card identity disagrees across {'device': 'TESLAV100FHHL16GB', 'offer_gpu_name': 'TESLAV100', 'gpu_requested': 'TESLAV100'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn",
+        "CV 27.6% > 5% \u2014 contended or throttled host; re-bench elsewhere"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "titanrtx",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA TITAN RTX",
+      "steps": 21186,
+      "dt_fs": 4.0,
+      "wall_s": 72.6,
+      "ns_per_day": 101.54,
+      "sd": 10.23,
+      "cv": 0.1008,
+      "blocks": 3,
+      "blocks_ns_day": [
+        112.28,
+        100.45,
+        91.9
+      ],
+      "final_temp_k": 301.8,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=titanrtx status=OK atoms=84534 platform=CUDA device=NVIDIA_TITAN_RTX steps=21186 dt_fs=4.0 wall_s=72.6 ns_per_day=101.54 sd=10.23 cv=0.1008 blocks=3 blocks_ns_day=112.28,100.45,91.90 final_temp_k=301.8 healthy=True",
+      "gpu_requested": "Titan RTX",
+      "offer_gpu_name": "Titan RTX",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T14:00:06Z",
+      "admitted": false,
+      "admission_reasons": [
+        "CV 10.1% > 5% \u2014 contended or throttled host; re-bench elsewhere"
+      ],
+      "proposed_entry": null
     }
   ]
 }

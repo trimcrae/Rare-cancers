@@ -76,6 +76,82 @@
       "utc": "2026-07-24T00:00:00Z",
       "source": "validated 2026-07-24 Vast grid (nrv04_vast_launch vast_launch_mode=bench_grid); raw bench.json under s3://sagemaker-us-east-2-646605541856/vast-bench-results/",
       "note": "4090/3090 = 2.10x, NOT the 2.42x of the withdrawn grid. Any figure derived from 2.42x is stale."
+    },
+    {
+      "card": "RTX3090TI",
+      "gpu_name_as_offered": "RTX 3090 Ti",
+      "cuda_device": "NVIDIA GeForce RTX 3090 Ti",
+      "blocks_ns_per_day": [
+        481.84,
+        481.88,
+        481.61
+      ],
+      "cv": 0.0003,
+      "final_temp_k": 301.2,
+      "atoms": 84534,
+      "dt_fs": 4.0,
+      "blocks": 3,
+      "wall_s": 58.8,
+      "platform": "CUDA",
+      "utc": "2026-07-27T13:56:53Z",
+      "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
+    },
+    {
+      "card": "RTX5060TI",
+      "gpu_name_as_offered": "RTX 5060 Ti",
+      "cuda_device": "NVIDIA GeForce RTX 5060 Ti",
+      "blocks_ns_per_day": [
+        388.73,
+        387.12,
+        387.49
+      ],
+      "cv": 0.0022,
+      "final_temp_k": 303.3,
+      "atoms": 84534,
+      "dt_fs": 4.0,
+      "blocks": 3,
+      "wall_s": 60.9,
+      "platform": "CUDA",
+      "utc": "2026-07-27T13:51:40Z",
+      "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
+    },
+    {
+      "card": "RTX5080",
+      "gpu_name_as_offered": "RTX 5080",
+      "cuda_device": "NVIDIA GeForce RTX 5080",
+      "blocks_ns_per_day": [
+        793.33,
+        792.46,
+        795.59
+      ],
+      "cv": 0.002,
+      "final_temp_k": 299.9,
+      "atoms": 84534,
+      "dt_fs": 4.0,
+      "blocks": 3,
+      "wall_s": 41.8,
+      "platform": "CUDA",
+      "utc": "2026-07-27T13:52:21Z",
+      "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
+    },
+    {
+      "card": "RTXA4000",
+      "gpu_name_as_offered": "RTX A4000",
+      "cuda_device": "NVIDIA RTX A4000",
+      "blocks_ns_per_day": [
+        249.09,
+        240.61,
+        236.9
+      ],
+      "cv": 0.0258,
+      "final_temp_k": 300.8,
+      "atoms": 84534,
+      "dt_fs": 4.0,
+      "blocks": 3,
+      "wall_s": 63.5,
+      "platform": "CUDA",
+      "utc": "2026-07-27T13:59:43Z",
+      "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
     }
   ],
   "reconciliation_2026_07_27_the_rtx4090_anchor": {
