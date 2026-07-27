@@ -102,6 +102,28 @@ got = R.load_legs(td)
 check(len(got) == 1 and list(got)[0][0] == R.leg_id("NR4A3"),
       "another lane's leg and an unparseable file are both ignored rather than mixed in")
 
+print("== a SMOKE record cannot silently displace the production record it shares a key with")
+# The key is (leg_id, seed) and the mode lives only in unit_id, so these two collide. A smoke leg runs 12
+# production iterations; its dG is meaningless by construction yet perfectly well-formed, so a silent
+# overwrite yields an S that passes every other check in this module.
+td2 = tempfile.mkdtemp()
+prod = leg("NR4A3", dg=1.0); prod["unit_id"] = "5aks_..._5aks";       prod["mode"] = "5aks"
+smoke = leg("NR4A3", dg=9.9); smoke["unit_id"] = "5aks_..._5aks_smoke"; smoke["mode"] = "5aks_smoke"
+json.dump(prod, open(os.path.join(td2, "leg_a_prod.json"), "w"))
+json.dump(smoke, open(os.path.join(td2, "leg_b_smoke.json"), "w"))
+try:
+    R.load_legs(td2)
+    check(False, "two differing records for one key are REFUSED, not silently deduplicated")
+except R.AmbiguousLegError as e:
+    check("5aks_smoke" in str(e) and "silently overwrite" in str(e),
+          "two differing records for one key are REFUSED, and the message names both")
+
+td3 = tempfile.mkdtemp()
+json.dump(prod, open(os.path.join(td3, "leg_a.json"), "w"))
+json.dump(dict(prod), open(os.path.join(td3, "leg_a_copy.json"), "w"))
+check(len(R.load_legs(td3)) == 1,
+      "...but an identical record twice is a duplicate download, not an ambiguity")
+
 print()
 if fails:
     print(f"FAILED {len(fails)}: {fails}")
