@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, s1f_liveness]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad host) | stop"
@@ -1692,6 +1692,82 @@ jobs:
             sleep $((2**i))
           done
           echo "push failed after retries" >&2; exit 1
+
+  s1f_liveness:
+    # STEP 1 LIVENESS SHAKEOUT ($0 — no GPU, no Vast rental, a SCRATCH S3 prefix).
+    #
+    # CLAUDE.md §6's sequence, run in order in one job because each stage is the input to the next:
+    #   smoke   — the real `_PREAMBLE` with only its network lines stubbed. Polls run.log's LastModified from
+    #             OUTSIDE the container while the pipeline sits in a phase that emits nothing, which is the
+    #             false-positive question: if the heartbeat stopped there the guard would destroy a healthy
+    #             leg, a self-inflicted copy of the incident it exists to prevent.
+    #   leg     — the real ONSTART composition (brake -> ct_selfstop EXIT trap -> command), three times, so
+    #             the `attempts/` archive is measured as a real container-start counter and the crash-loop
+    #             brake is measured tripping on the third start rather than on a resume.
+    #   verdict — the real evidence through the lane's own helpers into `vast_idle_guard.classify_idle`,
+    #             BOTH directions. A guard that only ever spares is a guard that measures nothing.
+    #
+    # ⚠ IT MUST NEVER TOUCH A LIVE UNIT. The pipeline's first act is `mark boot`, a PUT to
+    # $RESULT_S3/phase.txt; aimed at the production prefix that overwrites a running unit's phase marker.
+    # `step1_liveness_smoke._guard_the_prefix` refuses to run if SMOKE_PREFIX sits inside the production
+    # namespace, before anything is written.
+    if: ${{ github.event.inputs.task == 's1f_liveness' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      SMOKE_SYNC_S: "5"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Docker Hub login (anonymous pulls share the runner IP and get rate-limited)
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+      - name: Unit tests — the heartbeat's timing, its three termination nets, the EXIT-trap topology
+        run: |
+          python -m pip install -q pytest boto3 rdkit
+          python -m pytest research/modalities/tests/test_step1_liveness.py -q
+      # Runs on the RUNNER, not in the image: what is under test is a bash loop plus `aws s3 cp`, and the
+      # runner has both. The image adds nothing here and costs a pull. (`map_diag` needs the image because
+      # openfe's mapper is the thing being measured; this does not.)
+      - name: Install the aws CLI the pipeline calls
+        run: pip install -q awscli
+      - name: STAGE 1 — smoke (does the heartbeat survive a silent phase?)
+        working-directory: research/modalities
+        env: { SMOKE_STAGE: smoke }
+        run: python step1_liveness_smoke.py
+      - name: STAGE 2 — one real onstart, three container starts
+        working-directory: research/modalities
+        env: { SMOKE_STAGE: leg }
+        run: python step1_liveness_smoke.py
+      - name: STAGE 3 — the guard's verdict on the real evidence, both directions
+        working-directory: research/modalities
+        env: { SMOKE_STAGE: verdict }
+        run: python step1_liveness_smoke.py
+      - name: Commit the shakeout record back to the triggering branch
+        if: ${{ always() }}
+        run: |
+          set -e
+          git config user.name Claude
+          git config user.email noreply@anthropic.com
+          [ -f research/modalities/step1-liveness-shakeout.json ] || { echo "no record"; exit 0; }
+          git add -f research/modalities/step1-liveness-shakeout.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "step1 liveness shakeout record (auto)"
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
+              git push origin HEAD:"${{ github.ref_name }}" && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the shakeout record"
 
   map_diag:
     # WHY DID A STEP 1 LEG ABORT rc=1? — the atom-map matrix on the PRODUCTION staged components ($0, CPU).
