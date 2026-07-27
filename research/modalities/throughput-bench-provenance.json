@@ -152,6 +152,44 @@
       "platform": "CUDA",
       "utc": "2026-07-27T13:59:43Z",
       "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
+    },
+    {
+      "card": "A100PCIE",
+      "gpu_name_as_offered": "A100 PCIE",
+      "cuda_device": "NVIDIA A100 80GB PCIe",
+      "blocks_ns_per_day": [
+        523.76,
+        523.76,
+        523.93
+      ],
+      "cv": 0.0002,
+      "final_temp_k": 300.2,
+      "atoms": 84534,
+      "dt_fs": 4.0,
+      "blocks": 3,
+      "wall_s": 60.5,
+      "platform": "CUDA",
+      "utc": "2026-07-27T13:54:04Z",
+      "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
+    },
+    {
+      "card": "RTXPRO4000",
+      "gpu_name_as_offered": "RTX PRO 4000",
+      "cuda_device": "NVIDIA RTX PRO 4000 Blackwell",
+      "blocks_ns_per_day": [
+        478.99,
+        484.89,
+        483.15
+      ],
+      "cv": 0.0063,
+      "final_temp_k": 301.8,
+      "atoms": 84534,
+      "dt_fs": 4.0,
+      "blocks": 3,
+      "wall_s": 59.4,
+      "platform": "CUDA",
+      "utc": "2026-07-27T13:52:29Z",
+      "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
     }
   ],
   "reconciliation_2026_07_27_the_rtx4090_anchor": {
@@ -269,6 +307,74 @@
       "final_temp_k": 299.6,
       "wall_s": 59.4,
       "utc": "2026-07-27T13:39:18Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX3090TI",
+      "tag": "rtx3090ti",
+      "ns_per_day": 481.78,
+      "blocks_ns_per_day": [
+        481.84,
+        481.88,
+        481.61
+      ],
+      "cv": 0.0003,
+      "cuda_device": "NVIDIA GeForce RTX 3090 Ti",
+      "gpu_name_as_offered": "RTX 3090 Ti",
+      "final_temp_k": 301.2,
+      "wall_s": 58.8,
+      "utc": "2026-07-27T13:56:53Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5060TI",
+      "tag": "rtx5060ti",
+      "ns_per_day": 387.78,
+      "blocks_ns_per_day": [
+        388.73,
+        387.12,
+        387.49
+      ],
+      "cv": 0.0022,
+      "cuda_device": "NVIDIA GeForce RTX 5060 Ti",
+      "gpu_name_as_offered": "RTX 5060 Ti",
+      "final_temp_k": 303.3,
+      "wall_s": 60.9,
+      "utc": "2026-07-27T13:51:40Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTX5080",
+      "tag": "rtx5080",
+      "ns_per_day": 793.79,
+      "blocks_ns_per_day": [
+        793.33,
+        792.46,
+        795.59
+      ],
+      "cv": 0.002,
+      "cuda_device": "NVIDIA GeForce RTX 5080",
+      "gpu_name_as_offered": "RTX 5080",
+      "final_temp_k": 299.9,
+      "wall_s": 41.8,
+      "utc": "2026-07-27T13:52:21Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTXA4000",
+      "tag": "rtxa4000",
+      "ns_per_day": 242.2,
+      "blocks_ns_per_day": [
+        249.09,
+        240.61,
+        236.9
+      ],
+      "cv": 0.0258,
+      "cuda_device": "NVIDIA RTX A4000",
+      "gpu_name_as_offered": "RTX A4000",
+      "final_temp_k": 300.8,
+      "wall_s": 63.5,
+      "utc": "2026-07-27T13:59:43Z",
       "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
     }
   ]
