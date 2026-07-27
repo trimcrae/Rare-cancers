@@ -875,15 +875,22 @@ def test_the_drift_line_IS_the_buy_line_and_binds_on_top_of_the_dollar_ceiling()
     import congeneric_fanout as cf
     b = cf.basis_usd_per_ns()
     dollar, rate, eff, which = cf.unit_ceiling_components()
-    assert abs(rate - 1.5 * b) < 1e-12, "the rate line is 1.5x basis, derived not typed"
+    # The rate line is the APPROVED ABSOLUTE $/ns (trimcrae, 2026-07-27 re-expression). It was
+    # `1.5 * basis`; when the basis was corrected that expression silently changed the rule, so the invariant
+    # is now the rate and the multiple is derived from it. Both forms must agree exactly.
+    import inflight_usd_per_ns as _iu
+    assert rate == _iu.APPROVED_USD_PER_NS, "the rate line IS the approved absolute rate"
+    assert abs(rate - cf.drift_buy_line_x_basis() * b) < 1e-12, "and the multiple reproduces it"
     assert eff == min(dollar, rate), "a unit must clear BOTH constraints"
     assert cf.unit_usd_per_ns_ceiling() == eff
     # at today's basis the rate line is the binding one, and the readout must say so
     assert rate < dollar and "rate line" in which, (rate, dollar, which)
-    # nothing at or above 1.5x can be placed any more
-    assert cf.place_units([1.49 * b, 1.51 * b, 2.0 * b], 5)[0] == 1
+    # nothing at or above the LINE can be placed any more — expressed against the derived multiple, because
+    # a typed 1.5x stopped being the line when the basis was corrected (2026-07-27 re-expression).
+    x = cf.drift_buy_line_x_basis()
+    assert cf.place_units([(x - 0.01) * b, (x + 0.01) * b, (x + 0.5) * b], 5)[0] == 1
     # and the refusal names which constraint it hit
-    assert "rate line" in cf.place_units([1.6 * b], 5)[2]
+    assert "rate line" in cf.place_units([(x + 0.1) * b], 5)[2]
 
 
 def test_a_terminus_blocked_hold_does_not_escalate_on_price():

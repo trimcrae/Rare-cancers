@@ -543,7 +543,9 @@ def test_the_ratio_ceiling_binds_even_when_the_dollar_ceiling_passes():
     at_205 = 2.048 * basis
     assert round(at_205 * ns_unit * n, 2) <= ceiling, "the night's board did clear the DOLLAR ceiling"
     assert 2.048 > tv.MARKET_MAX_RATIO_VS_BASIS, "...and must still be refused on the RATIO ceiling"
-    assert tv.MARKET_MAX_RATIO_VS_BASIS == 1.5
+    # DERIVED from the approved absolute rate, not typed (2026-07-27 re-expression).
+    import inflight_usd_per_ns as _iu
+    assert tv.MARKET_MAX_RATIO_VS_BASIS == pytest.approx(_iu.drift_multiple(), rel=1e-9)
 
 
 def test_the_ratio_ceiling_is_reachable_and_not_a_permanent_refusal():
@@ -588,7 +590,8 @@ def test_the_buy_line_is_the_drift_line_times_the_ladder_basis_and_is_never_type
     assert tv.buy_ceiling_usd_per_ns() == pytest.approx(
         tv.MARKET_MAX_RATIO_VS_BASIS * basis_usd_per_ns())
     # and it is the SAME line the gate publishes as its own break-even-at-max-ratio
-    assert tv.buy_ceiling_usd_per_ns() == pytest.approx(1.5 * basis_usd_per_ns())
+    import inflight_usd_per_ns as _iu
+    assert tv.buy_ceiling_usd_per_ns() == pytest.approx(_iu.APPROVED_USD_PER_NS)
 
 
 def test_the_gate_still_sees_the_expensive_offers_it_exists_to_report():

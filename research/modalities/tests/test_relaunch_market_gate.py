@@ -247,7 +247,10 @@ def test_without_persistence_the_gate_still_holds_but_says_the_clock_is_dead(tmp
 # 5 — one fact, one place
 # =============================================================================================================
 def test_the_ceiling_is_the_repos_own_drift_line_not_a_new_number():
-    assert rmg.RELAUNCH_MAX_RATIO_VS_BASIS == iu.DRIFT_MULTIPLE == 1.5
+    # DERIVED, not 1.5: the buy line is an absolute $/ns and the multiple falls out of the current basis
+    # (2026-07-27 re-expression). What must hold is that this gate uses the SAME line as the drift flag.
+    assert rmg.RELAUNCH_MAX_RATIO_VS_BASIS == pytest.approx(iu.drift_multiple(), rel=1e-9)
+    assert iu.drift_multiple() * cf.basis_usd_per_ns() == pytest.approx(iu.APPROVED_USD_PER_NS)
     import ternary_vast_launch as tv
     assert tv.MARKET_MAX_RATIO_VS_BASIS == iu.DRIFT_MULTIPLE, \
         "the ternary lane's fleet gate and the relaunch gate must quote ONE drift line"
