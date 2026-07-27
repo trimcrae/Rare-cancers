@@ -358,10 +358,93 @@ def fetch_stage(dest, mode="edge_reps", seed=1, legs=("calib_hi_to_lo__ternary_v
     return got
 
 
+def pdb_census(path):
+    """Atom/chain/residue census of a PDB. PURE, pure-stdlib — no gemmi, no rdkit, so it runs anywhere.
+
+    Column positions are the PDB fixed-format standard: chain id at 21, residue name 17:20, residue seq 22:26.
+    """
+    n_atom = n_het = 0
+    chains, residues, resnames = {}, set(), {}
+    try:
+        with open(path, errors="replace") as fh:
+            for line in fh:
+                if not line.startswith(("ATOM", "HETATM")):
+                    continue
+                n_atom += 1
+                n_het += line.startswith("HETATM")
+                ch = line[21:22]
+                chains[ch] = chains.get(ch, 0) + 1
+                rn = line[17:20].strip()
+                residues.add((ch, line[22:27]))
+                if line.startswith("HETATM"):
+                    resnames[rn] = resnames.get(rn, 0) + 1
+    except OSError as e:
+        return {"error": str(e)}
+    return {"atoms": n_atom, "hetatms": n_het, "chains": dict(sorted(chains.items())),
+            "n_chains": len(chains), "n_residues": len(residues),
+            "het_resnames": dict(sorted(resnames.items(), key=lambda kv: -kv[1])[:12])}
+
+
+def compare_stage(mode="edge_reps", leg="calib_hi_to_lo__ternary_vhl", seeds=(0, 1, 2), workdir="/tmp/cmpstage"):
+    """Structural diff of ONE leg's staged inputs ACROSS SEEDS — the follow-on question to the setup matrix.
+
+    ★ WHY THIS IS THE RIGHT NEXT MEASUREMENT IF SEED 0 PASSES WHERE SEEDS 1 AND 2 DIE. That result would say
+    the ternary system is not too big for the memory it gets — the same system ran to completion at seed 0 —
+    and would move the whole question onto what `reps-prime` actually built for the other two. `ternary_pdb_stage`
+    takes `starting_model_index = seed % n_models` with n_models=2, so seed 1 is a DIFFERENT relaxed SMARCA2
+    model and seed 2 is nominally the SAME model as seed 0. If seed 2's tree differs from seed 0's, the seed
+    keying is not doing what its own comment says, and no amount of memory fixes that.
+
+    $0, pure-stdlib after the S3 fetch: atom/chain/residue census per seed, printed side by side.
+    """
+    out = {"_what": "structural census of one leg's staged inputs across seeds — is what reps-prime built for "
+                    "seeds 1 and 2 the same KIND of thing it built for seed 0?",
+           "leg": leg, "mode": mode, "seeds": {}}
+    for s in seeds:
+        d = os.path.join(workdir, f"seed{s}")
+        try:
+            got = fetch_stage(d, mode=mode, seed=s, legs=(leg,))
+        except Exception as e:  # noqa: BLE001 — a missing seed is a finding, not a crash
+            out["seeds"][s] = {"error": f"{type(e).__name__}: {e}"}
+            print(f"  seed {s}: NO STAGE CACHE — {type(e).__name__}: {e}")
+            continue
+        inner = os.path.join(d, leg)
+        rec = {"tar_bytes": got[leg]["bytes"], "uri": got[leg]["uri"], "files": got[leg]["files"],
+               "complex_pdb": pdb_census(os.path.join(inner, "complex.pdb"))}
+        man = os.path.join(inner, "staging_manifest.json")
+        if os.path.exists(man):
+            try:
+                rec["staging_manifest"] = json.load(open(man))
+            except Exception as e:  # noqa: BLE001
+                rec["staging_manifest_error"] = str(e)
+        for extra in ("ligands.sdf", "ligand.sdf"):
+            p = os.path.join(inner, extra)
+            if os.path.exists(p):
+                rec[extra + "_bytes"] = os.path.getsize(p)
+        out["seeds"][s] = rec
+    print("---- STAGED INPUT CENSUS BY SEED ----")
+    for s, rec in out["seeds"].items():
+        if rec.get("error"):
+            print(f"  seed {s}: {rec['error']}")
+            continue
+        c = rec["complex_pdb"]
+        sm = (rec.get("staging_manifest") or {}).get("starting_model") or {}
+        print(f"  seed {s}: tar={rec['tar_bytes']} B  complex.pdb atoms={c.get('atoms')} "
+              f"het={c.get('hetatms')} chains={c.get('n_chains')} residues={c.get('n_residues')}")
+        print(f"      chains: {c.get('chains')}")
+        print(f"      het resnames: {c.get('het_resnames')}")
+        print(f"      starting_model_index={sm.get('starting_model_index')} "
+              f"of n_models_available={sm.get('n_models_available')}  files={rec['files']}")
+    print("---- END STAGED INPUT CENSUS ----")
+    return out
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--mode", default="edge_reps")
+    ap.add_argument("--compare-stage", action="store_true",
+                    help="structural census of one leg's staged inputs across seeds 0/1/2")
     ap.add_argument("--fetch-stage", metavar="DIR", default=None,
                     help="unpack both arms' staged trees from the hosts' own stage cache into DIR")
     ap.add_argument("--seed", type=int, default=1, help="which replicate's stage cache to fetch")
@@ -375,6 +458,14 @@ def main(argv=None):
                          "minutes — the measurement that separates an OOM kill from a provider stop")
     ap.add_argument("--every", type=int, default=20, help="seconds between polls of the memory trace")
     a = ap.parse_args(argv)
+    if a.compare_stage:
+        doc = compare_stage(mode=a.mode, leg=(a.leg or ["calib_hi_to_lo__ternary_vhl"])[0])
+        if a.out:
+            with open(a.out, "w") as fh:
+                json.dump(doc, fh, indent=2, default=str)
+                fh.write("\n")
+            print(f"[diag] wrote {a.out}")
+        return 0
     if a.fetch_stage:
         kw = {"legs": tuple(a.leg)} if a.leg else {}
         print(json.dumps(fetch_stage(a.fetch_stage, mode=a.mode, seed=a.seed, **kw), indent=2))
