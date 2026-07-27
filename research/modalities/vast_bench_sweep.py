@@ -533,7 +533,14 @@ def mode_launch():
     for r in admitted:
         # DISTINCT HOSTS PER REPLICATE. A replicate that lands on the same machine measures the same host
         # twice and answers nothing about host variance — which is the entire question a replicate exists for.
-        excluded = set()
+        #
+        # BENCH_EXCLUDE_MACHINES seeds the set with hosts already known to be a waste of a rental. §6: a host
+        # that will not deliver has infinite realised $/ns, which the $/ns ranking cannot see, so it keeps
+        # winning selection and keeps failing. Observed 2026-07-27: three 4090 rentals sat at `loading` past
+        # 13 minutes while three siblings on the identical image finished in five — slow-downlink hosts, and
+        # the right answer on Vast is another host, not a longer wait.
+        excluded = {m.strip() for m in (os.environ.get("BENCH_EXCLUDE_MACHINES") or "").split(",")
+                    if m.strip()}
         for rep in range(1, replicates + 1):
             if committed + r["worst_case_usd"] > MAX_USD_TOTAL:
                 print(f"[cal] sweep cap ${MAX_USD_TOTAL:.2f} reached — HOLDING {r['gpu_name']} r{rep}",
@@ -849,7 +856,8 @@ def _merge_spend_ledger(rows, path=None):
         k = str(r["instance"])
         prev = inst.get(k)
         if prev is None or float(r.get("usd") or 0) >= float(prev.get("usd") or 0):
-            inst[k] = {kk: r[kk] for kk in ("instance", "label", "hours", "dph", "usd", "status") if kk in r}
+            inst[k] = dict(r)          # keep every diagnostic field; a whitelist here silently dropped the
+            #                            status_msg/inet_down/gpu_util added to diagnose a stuck rental
     total = round(sum(float(v.get("usd") or 0) for v in inst.values()), 4)
     led["cumulative_usd"] = total
     led["utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())

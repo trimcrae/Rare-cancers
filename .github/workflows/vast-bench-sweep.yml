@@ -48,6 +48,9 @@ on:
       include_measured:
         description: "1 = also bench cards already in the table. Re-measuring an ANCHOR is exactly what you want when its value is in question."
         default: "0"
+      exclude_machines:
+        description: "comma-separated Vast machine_ids to never rent. A host that will not deliver has infinite realised $/ns, which the ranking cannot see, so it keeps winning selection and keeps failing."
+        default: ""
 
 permissions:
   contents: write
@@ -77,6 +80,7 @@ jobs:
       BENCH_MAX_RUNTIME_S: ${{ github.event.inputs.max_runtime_s || '1800' }}
       BENCH_REPLICATES: ${{ github.event.inputs.replicates || '1' }}
       BENCH_INCLUDE_MEASURED: ${{ github.event.inputs.include_measured || '0' }}
+      BENCH_EXCLUDE_MACHINES: ${{ github.event.inputs.exclude_machines }}
     steps:
       - uses: actions/checkout@v4
         with:
