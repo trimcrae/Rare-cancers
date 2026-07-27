@@ -305,7 +305,17 @@ When in doubt: do it and show it.
   [cheap-gpu-plan.md](./research/compute/cheap-gpu-plan.md)), so this is config, not a rewrite. **Production runs
   go on Vast**; the one standing exception is **spending expiring free credit** (the GCP trial closes
   **2026-10-10**), which means **realized spend and ladder spend are different ledgers** — track them separately.
-  The auto-teardown wrapper guarantees no idle-GPU billing anywhere.
+- **★★ THE HOST CANNOT STOP ITS OWN BILLING — ONLY THE CONTROL PLANE CAN (measured 2026-07-27; this rule
+  previously said "the auto-teardown wrapper guarantees no idle-GPU billing anywhere", and that was false).**
+  An unprivileged container cannot end itself: `poweroff`/`shutdown` need an init it does not have, `kill -9 -1`
+  excludes PID 1 and kills the caller, and `kill -9 1` **returns success while being ignored** — which is why
+  the failure was silent. Reproduced under `unshare`; pinned by `tests/test_vast_idle_guard.py`. So the EXIT
+  trap and `autoteardown.py` stop the JOB, not the METER, and a container that **crash-loops never returns at
+  all**, so neither ever fires — two 5a-KS legs billed ~53 min at `gpu_util: 0.0` while `actual_status:
+  running`. **The guarantee is [`vast_idle_guard.py`](./research/modalities/vast_idle_guard.py) acting from CI**,
+  where the key lives: a box that is up and producing no evidence of work (log silent, or restart churn) is
+  destroyed in ~15 min instead of hours. Its one inviolable rule — **GPU idleness NEVER condemns a box** —
+  is what stops it reaping a legitimately CPU-bound staging phase; only a measured absence of *writes* does.
 - **★ ON VAST, A CAPACITY REFUSAL MEANS PICK ANOTHER HOST — DO NOT WAIT IT OUT (trimcrae, 2026-07-25; replaces
   the old AWS wait-out rule).** On `{"success": false, "error": "resources_unavailable"}` that machine's GPU is
   taken: **destroy the instance and launch elsewhere — do not queue, do not raise the bid.** Both alternatives

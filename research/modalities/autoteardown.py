@@ -3,7 +3,25 @@
 Auto-teardown wrapper — the provider-agnostic equivalent of "SageMaker auto-kills the instance when the job
 ends." On rented-GPU providers (RunPod/Vast) an instance keeps billing until it is EXPLICITLY destroyed, so a
 finished (or crashed, or hung) job that doesn't tear itself down bleeds money on an idle GPU. This wrapper
-GUARANTEES the instance is released on completion, failure, OR timeout, on every provider.
+CALLS the backend's release path on completion, failure, OR timeout, on every provider.
+
+⛔ WHAT THIS DOES **NOT** GUARANTEE, corrected 2026-07-27. The header said "GUARANTEES the instance is
+released", and CLAUDE.md §6 repeated it as "the auto-teardown wrapper guarantees no idle-GPU billing
+anywhere". Two independent reasons that was false on Vast, both measured that day:
+
+  1. **The wrapper is not in the path.** On Vast the release is a bash EXIT trap armed inside the onstart
+     script (`gpu_backend._VAST_SELFSTOP`), not this Python. The ternary lane's container runs
+     `run_ternary_leg.sh` directly.
+  2. **The release path cannot succeed anyway.** An unprivileged container cannot end itself: `poweroff` and
+     `shutdown` need an init it does not have, `kill -9 -1` excludes PID 1 and kills the caller, and
+     `kill -9 1` returns SUCCESS while being ignored (kernel SIGNAL_UNKILLABLE). Reproduced under
+     `unshare -fp --mount-proc`; pinned by `tests/test_vast_idle_guard.py`.
+
+Both failures share one blind spot this wrapper structurally cannot cover: **it fires when the wrapped
+process RETURNS.** A container that crash-loops never returns, so nothing here ever runs — which is exactly
+what billed two 5a-KS legs for ~53 min at `gpu_util: 0.0`. The guarantee is control-plane
+(`vast_idle_guard` + `ternary_vast_launch.collect`), and the honest description of this file is
+"stops the job and asks nicely".
 
 Two mechanisms, belt-and-braces:
   1. finally-block teardown  — runs the backend's self_terminate command no matter how the job exits (return,

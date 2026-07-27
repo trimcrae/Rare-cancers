@@ -62,16 +62,66 @@ key.** Never deactivate blind and discover the strandings afterwards. If drainin
 in-flight legs deliberately and accept the checkpoint as the deliverable — a planned stop at a known iteration
 beats an unplanned one nobody can see.
 
-### The autoteardown hole this exposed
+### The autoteardown hole this exposed — ROOT-CAUSED, then closed
 
 `autoteardown.py`'s `run_with_teardown` fires `terminate_fn` when its wrapped subprocess **returns**. But on
-Vast the real mechanism is a bash **EXIT trap** armed inside the onstart script (`gpu_backend.py:645-649`,
-`_VAST_SELFDESTROY`: `poweroff || shutdown -h now || kill -9 -1 || kill -9 1`) — the Python wrapper is not in
-that path at all. Both instances stayed `actual_status: running` across every read, because the onstart
-content kept re-firing rather than the container exiting. **The docstring's belt-and-braces assumes killing
-PID 1 ends billing; on this failure path the container was never observed to exit.** The 240-minute
-collect-reap backstop would have caught it eventually, which is ~4 h of waste per incident — far too slow for
-a crash-loop.
+Vast the real mechanism is a bash **EXIT trap** armed inside the onstart script (`gpu_backend._VAST_SELFSTOP`,
+formerly `_VAST_SELFDESTROY`: `poweroff || shutdown -h now || kill -9 -1 || kill -9 1`) — the Python wrapper is
+not in that path at all. Both instances stayed `actual_status: running` across every read.
+
+**The first version of this note stopped at "the container was never observed to exit", which is an
+observation, not a mechanism.** Getting the mechanism took one controlled reproduction (`unshare -fp
+--mount-proc`, building exactly the topology Vast runs: an init as PID 1 of its own namespace, a CHILD shell
+playing the onstart script). The whole chain fails, and for reasons that are properties of the kernel rather
+than of one image:
+
+| step | result |
+|---|---|
+| `poweroff` | `System has not been booted with systemd as init system (PID 1). Can't operate.` |
+| `shutdown -h now` | the same |
+| `kill -9 1` | **returns SUCCESS and PID 1 survives.** A PID-namespace init ignores any signal it has no handler for, and SIGKILL cannot be handled (`SIGNAL_UNKILLABLE`) |
+| `kill -9 -1` | kills every other process **and the caller**, and PID 1 survives (`man 2 kill`: pid == −1 signals every permitted process *"except for process 1"*) |
+
+So the chain kills the **job** and leaves the **container** up, with the GPU still on the meter — and the
+`kill -9 1` returning 0 is exactly why the failure was silent: an `||` chain cannot distinguish "worked" from
+"was ignored". **There is no unprivileged in-container action that ends a Vast rental.** Pinned by
+`tests/test_vast_idle_guard.py::test_the_selfstop_chain_cannot_end_a_container`, which runs the reproduction
+rather than asserting the conclusion.
+
+**What changed as a result.**
+
+1. **The claim.** CLAUDE.md §6 said "the auto-teardown wrapper guarantees no idle-GPU billing anywhere". It is
+   now a rule saying the opposite, with the measurement — a standing rule asserting a guarantee the code does
+   not provide is worse than no rule. The three docstrings that repeated it (`autoteardown`, `VastBackend`,
+   `_vast_onstart`) are corrected too, and `kill -9 1` is deleted as a provable no-op.
+2. **The guarantee moved to the control plane**, which is the only side that holds `VAST_API_KEY`.
+   [`vast_idle_guard.py`](../modalities/vast_idle_guard.py) classifies a live instance from evidence
+   `ternary_vast_launch.collect` already gathers, and `collect` destroys on CRASH_LOOP or WEDGED. The
+   discriminator is deliberately **not** "GPU idle for N minutes" — a ternary leg is legitimately at 0 % GPU
+   for its whole stage/parameterise/minimise cold start, and reaping that would be a self-inflicted copy of
+   this incident. It is the absence of *writes*: log silence ≥ 15 min (which catches this failure, where
+   nothing could be written at all) or ≥ 3 container starts in 15 min read off the `attempts/` archive keys
+   (which catches a crash-loop whose S3 still works). Each channel covers the other's blind spot; a measured
+   advance of the commit scalar overrides both.
+3. **The host stops making it worse.** A crash-loop brake in the onstart counts container starts in a window
+   and, on the third, holds idle instead of re-running the job — a counter rather than a flag, so a genuine
+   post-preemption resume hours later is unaffected. It cannot stop the meter; it stops the churn and lets the
+   log go silent, which is the signal CI reaps on.
+
+Reaction time goes from the 22 h runtime backstop (the clause that would actually have caught this) to the
+first poll after ~15 min of silence.
+
+### The two legs this stranded are PARKED, not abandoned
+
+`production/800` of 2000 (nr4a3) and `warmup/640` of 1600 (nr4a1) are durable and the work should finish. Both
+entries in [`ternary-vast-watch.json`](../modalities/ternary-vast-watch.json) are `enabled: false` with a
+`_parked_why` / `_resume_point` / `_re_enable_when` — deliberately NOT the `_disabled_why` key, which means
+"finished, leave alone". They are off the watch list because the watchdog's recovery for a DIED unit is to
+**rent a new host**, and that is a new purchase facing the `$/ns` gate: nr4a3 was already flagged at 1.51×
+basis when it died, against a board whose cheapest gradeable offer that day was 1.71×. Leaving them enabled
+would have re-rented them at exactly the price the gate exists to refuse, up to eight times a day.
+[`vast-watch.json`](../modalities/vast-watch.json) carries a pointer to them so the question "what is being
+watched?" surfaces them rather than hiding them.
 
 ## The larger issue this exposed, which the incident did not cause
 

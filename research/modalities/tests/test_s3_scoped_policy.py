@@ -113,7 +113,7 @@ def test_onstart_still_withholds_the_vast_account_key():
     script = _vast_onstart(spec, VastBackend().self_terminate_cmd(),
                            extra_env=_object_store_env(SCOPED))
     assert "VAST_API_KEY" not in script
-    assert "trap ct_selfdestroy EXIT" in script                 # and the anti-idle guard survives the edit
+    assert "trap ct_selfstop EXIT" in script                 # and the anti-idle guard survives the edit
 
 
 def test_onstart_carries_the_scoped_key_and_not_the_broad_one():
