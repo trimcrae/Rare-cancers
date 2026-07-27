@@ -808,7 +808,9 @@ control that says these numbers are measuring something real.
   nowhere near a rate, and it must not be quoted as one. The `initiation_note` field carries this caveat with the
   number so it cannot be separated from it.
 - ❌ **It does not establish that a restraint would be sufficient**, only that it addresses the observed
-  initiation channel. Adding one changes the Hamiltonian and needs the standard restraint-correction treatment.
+  initiation channel. Adding one **changes the Hamiltonian**, so it must key the commit prefix and the system
+  fingerprint (§L.3f) — but in this RBFE it carries **no standard-state correction**, and importing ABFE's would
+  be wrong rather than conservative. Ruling and physics: **§L.3f**.
 
 **Net for the r0 cycle, unchanged from §L.3b:** ΔG_binary is not a free energy of the intended bound state, so
 ΔΔG_coop(r0) = −0.534 is not a valid measurement of cooperativity, and the binary arm needs re-running rather than
@@ -857,7 +859,8 @@ runs**.
    binary re-run: if the sign flips positive with a held pose, the mechanism is established; if it does not, the
    wrong sign has another cause and the departure is a separate (real) defect.
 5. **Both cycles need the binary arm re-run**, not just r0 — with a restraint on the receptor-contacting moiety
-   and the standard restraint correction (§L.3c). Extending either trajectory is useless: they are contaminated,
+   (§L.3c), **and no standard-state correction: see §L.3f**, which also rules that **only the binary arm is
+   re-run** and the clean ternary arm is not. Extending either trajectory is useless: they are contaminated,
    not under-converged.
 
 **And note what made this checkable at all:** the diagnostic had to be pointed at a *different lane's* storage
@@ -900,9 +903,98 @@ leg, so this costs a dispatch. **Do not interpret `R_binary` without it** — a 
 two causes (the departure, or ordinary path error) and the pose data is what separates them.
 
 **And the open design question, stated but NOT decided here:** whether the triangle's binary legs should be run
-**restrained** (§L.3c's remedy, with the standard restraint correction) rather than as-is. Restrained legs would
-make `R_binary` a clean path-error measurement; unrestrained legs make it a measurement of the departure. Those
-are different experiments and the choice is trimcrae's, not mine — it changes what the ~$6 buys.
+**restrained** (§L.3c's remedy — see §L.3f for why no standard-state correction attaches to it) rather than
+as-is. Restrained legs would make `R_binary` a clean path-error measurement; unrestrained legs make it a
+measurement of the departure. Those are different experiments and the choice is trimcrae's, not mine — it
+changes what the ~$6 buys.
+
+### L.3f THE RE-RUN'S TWO RULINGS: no standard-state correction, and the ternary arm is NOT re-run restrained
+
+Both of these were left open above. Both are decided here, because a re-run cannot be dispatched without them and
+"not deciding" is the one answer that costs a GPU-day to discover.
+
+#### 1 · There is NO standard-state correction, and adding one would be WRONG — not conservative
+
+**This is an RBFE, not an ABFE.** The ligand is never decoupled: both alchemical endpoints have a fully
+interacting ligand in the pocket and only the perturbed atoms change. The restraint
+(`ternary_restraint.add_flat_bottom_restraint`) is added to the `System` **once, before the integrator**, so every
+λ state's `ThermodynamicState` is built from it and it is never scaled by λ. An identical, never-scaled term
+contributes the same amount at both endpoints and **cancels exactly from ΔG(A→B)**.
+
+The Boresch-style analytic release term in `nr4a3_abfe.boresch_standard_state_correction` exists because ABFE's
+decoupled endpoint holds a *non-interacting* ligand confined to a restrained volume that must be released to 1 M.
+**No such endpoint exists in this calculation.** Importing that term here would not be a safe over-correction —
+it would add a spurious few kcal/mol to a quantity from which the restraint has already cancelled, and it would
+do so on the *binary* arm only, i.e. directly into ΔΔG_coop. It is pinned by an **AST** test
+(`test_ternary_restraint.test_the_module_never_imports_the_abfe_correction` — AST because the first cut grepped
+the text and fired on the module's own docstring explaining why the term does not apply), and
+`restraint_standard_state_dg` is deliberately never emitted so `abfe_xtag_guard` cannot be tripped into demanding
+it.
+
+The cancellation has one precondition and it is checked rather than assumed: the restrained atoms must exist at
+both endpoints. The restraint is built only from the ligand's **contact moiety**, and `restraint_report` records
+`unmapped_contact_atoms` — any restrained atom that is alchemically perturbed — so the assumption is auditable
+per leg.
+
+> **SUPERSEDED, retained for the record (rule 1.2).** §L.3c, §L.3d#5 and §L.3e each said the restrained re-run
+> needs "the standard restraint correction". **That statement is withdrawn and must not be quoted.** It imported
+> ABFE reasoning into an RBFE lane. The physics is as stated in this section; the three sites now point here.
+
+#### 2 · The ternary arm is **NOT** re-run restrained. Only the binary arm is. ⟵ THE RULING
+
+The re-run is: **binary arm, restrained (`restrain=1`), both cycles.** The ternary arm keeps its existing
+committed trajectories, unrestrained. Four reasons, in decreasing order of how much they would survive a
+reviewer:
+
+1. **"The same restraint on both arms" is not actually available.** The restraint is constructed *per leg from
+   that leg's own starting frame*: its ligand group is whichever contact-moiety atoms sit within 4.5 Å of a
+   receptor in **that** environment, its anchor group is those receptor atoms, and `r0` is **that** leg's centroid
+   separation. In the ternary complex the PROTAC contacts *two* proteins, so `select_restraint_groups` would pool
+   anchors across SMARCA2 **and** VCB and take in both warheads — a **different restraint on different atoms with
+   a different r0**. Symmetry between the arms is therefore cosmetic, not formal. What makes the restraint safe is
+   that it cancels **within each leg**, between that leg's own A and B endpoints, and that holds for the binary arm
+   whether or not the ternary arm has one. **The restraint is not a term in ΔΔG_coop at all** — neither arm's is.
+2. **On the ternary arm the restraint would be almost exactly zero, so it can only add unquantified risk.** The
+   well is flat (force identically zero) out to `r0 + 0.30 nm`, and only *outward* motion is ever restrained.
+   The ternary arm's worst receptor-superposed contact-moiety pose RMSD, over all replicas and frames, is
+   **2.835 Å (2 fs) and 2.999 Å (4 fs)** — §L.3d — against a **3.0 Å** half-width. A group centroid's displacement
+   is bounded above by that group's RMSD, so the dominant term is below the well edge at the single worst
+   frame measured, and typical frames (median 1.65 / 1.90 Å) are nowhere near it. *(Not "provably zero": the
+   receptor anchor centroid also drifts slightly under superposition and that term is not measured. The claim is
+   that engagement would be marginal at worst, which is what the numbers support.)* A restraint that is
+   essentially never felt cannot improve a clean arm; it can only introduce an effect nobody has quantified.
+3. **The arm has no defect to fix.** §L.3b–§L.3d: **0 of 12** replicas beyond the 4.0 Å threshold, in both cycles
+   and in both directions (12/12 STABLE fwd, 11/12 rev). The binary arms are **contaminated**; the ternary arms are
+   **clean**. You re-run what is broken. CLAUDE.md §5 — *deepening a test past its field standard defaults to NO* —
+   points the same way, and "more rigorous" is explicitly not a reason.
+4. **It would cost the scarcest resource in the program and re-open a settled gate.** The ternary leg is the
+   expensive one (146k atoms, 12 λ windows) and `GPUS_ALL_REGIONS = 1` forces every leg **sequential**, so
+   re-running the ternary arm roughly doubles the re-run in GPU-days against a credit that expires
+   **2026-10-10**. It would also change the ternary protocol underneath the RUNG 2b timestep PASS, whose whole
+   content is that the 4 fs and 2 fs **ternary** legs agree (|Δ(ΔΔG_coop)| = 0.0215 kcal/mol, §L.3d#2).
+
+**THE HONEST CAVEAT, stated because it is the reviewer's first question.** ΔG_binary(restrained) is the morph's
+free energy in a bound-state-restricted ensemble; ΔG_ternary is the morph's free energy in an unrestricted one.
+They are comparable **to the extent the ternary arm never visits the region its own restraint would have
+excluded** — which is measured (reason 2), not assumed. This is not free of assumption and the paper must say so
+in those words.
+
+**THE FALSIFIABLE CONDITION THAT REOPENS THIS RULING, and it costs $0.** The restraint sits in its **own OpenMM
+force group** precisely so its energy can be read back separately (`ternary_restraint.restraint_energy_kj`), and
+`restraint.json` records the groups, `r0_nm` and `r_flat_nm` for the leg. **If the restrained binary leg's
+restraint energy is materially non-zero across a large fraction of production frames**, then the restrained
+ensemble is genuinely narrower than a free bound state, reason 2's symmetry argument weakens, and the ternary arm
+must be re-run restrained after all. Read it when the leg lands — a restraint you cannot measure is a restraint
+you cannot defend, and this one is measurable by construction.
+
+**Where this is enforced.** `restrain` is a `workflow_dispatch` input on `gpu-ternary-fep-gcp.yml`, default `0`,
+and it **keys the commit prefix** (`_rst`, placed before `_dir<dir>` so the direction stays terminal) and the
+commit-manifest system fingerprint. Both directions are asserted before a GPU is provisioned. That keying is not
+bookkeeping: restrained and unrestrained systems are **identical in composition** — same atoms, same particle
+count, one extra `CustomCentroidBondForce` — so `assert_multistate_system_equality`, the check that caught the
+fwd/rev collision in §H by luck, **provably cannot fire here**. See `tests/test_commit_prefix_restraint.sh`,
+which extracts the workflow's real `DIRSUF`/`RSTSUF`/`COMMIT_PREFIX` lines and its refusal block and evaluates
+them rather than restating the rule and agreeing with itself.
 
 ### L.5 The keying fix exposed the SAME flaw one level out — and then a sweep found no third instance
 

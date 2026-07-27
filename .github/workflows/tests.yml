@@ -51,6 +51,14 @@ jobs:
       # and read in the runner's. Only OpenFE's particle-count check stopped it becoming a published number.
       - name: Spot commit prefix carries the direction (no silent fwd/rev resume)
         run: bash research/modalities/tests/test_commit_prefix_direction.sh
+      # The same keying bug with NO safety net underneath it. A restrained and an unrestrained leg are different
+      # HAMILTONIANS but IDENTICAL IN COMPOSITION -- same atoms, same particle count, one extra
+      # CustomCentroidBondForce -- so OpenFE's assert_multistate_system_equality, the check that caught the
+      # fwd/rev collision by luck, provably cannot fire. This test EXTRACTS the workflow's real DIRSUF/RSTSUF/
+      # COMMIT_PREFIX lines and its refusal block and evaluates them, rather than restating the rule and then
+      # agreeing with itself.
+      - name: Spot commit prefix carries the restraint state (no restrained/unrestrained cross-resume)
+        run: bash research/modalities/tests/test_commit_prefix_restraint.sh
       # Generalises that fix: in an UNQUOTED heredoc, a variable assigned inside it lives in the VM's shell,
       # so referencing it unescaped asks the RUNNER for a value it never had and silently yields "". The file
       # already warned about this trap in a comment (for STAGE_CACHE) and DIRSUF broke it anyway -- prose is

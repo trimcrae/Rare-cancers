@@ -81,6 +81,23 @@ pointing you back here. There is no "recommended" — priming is mandatory.
      GPU-idle stall on 2026-07-19).
    - **Timestep:** production `timestep_fs=4.0` with `warmup_timestep_fs=1.0` (reduced-dt warmup relaxes the rough
      ternary start; equilibration is discarded so it does not affect ΔG). See §1b.
+   - **`restrain=1` — the flat-bottom pocket restraint. FOR THE BINARY ARM ONLY.** Default `0`; every existing
+     lane is byte-identical without it. The binary leg's ligand left its pocket in **8 of 12** replicas in **both**
+     cycles, so ΔG_binary was not a free energy of the bound state and ΔΔG_coop was not a cooperativity — audit
+     §L.3a–§L.3d. Three things to know before you use it, all settled in **audit §L.3f**:
+     - **Only the binary arm is re-run restrained.** The ternary arm is measured clean (0/12 displaced, both
+       cycles, both directions) and keeps its existing trajectories. That is a **ruling**, with the falsifiable
+       condition that reopens it stated there.
+     - **No standard-state correction.** This is RBFE, not ABFE: the ligand is never decoupled, the restraint is
+       λ-independent, and it cancels from ΔG(A→B). Importing ABFE's Boresch release term would be **wrong**, not
+       conservative. Pinned by an AST test.
+     - **It changes the Hamiltonian, so it keys the commit prefix (`_rst`) and the system fingerprint.** A
+       restrained leg can never resume an unrestrained trajectory and vice versa — and unlike the fwd/rev
+       collision, **a particle-count mismatch could not catch this**: the two systems are identical in
+       composition. Do **not** hand-edit a prefix around it.
+     - **Do NOT extend the existing binary trajectories** — they are *contaminated*, not under-converged
+       (§L.3c: the departure is irreversible on this timescale and unbound configurations enter MBAR at physical
+       λ). Use a fresh `restrain=1` prefix, which is what the `_rst` key gives you automatically.
    - Escape hatch: `allow_gpu_setup_build=1` lets the GPU build setup anyway (only for the very first prime of a
      brand-new leg/charge when no CPU prime has run).
 3. **Monitor** — `mode=tail leg_id=<leg>` (SSHes the VM: nvidia-smi + `/tmp/tfep_run.log` + GCS commit census +
