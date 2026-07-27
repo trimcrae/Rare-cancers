@@ -1,115 +1,53 @@
 
-[s1f-diag] ===== e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral (label s1f-09-cw_bio_nmethyl_amide) phase=leg-complex-FAILED-rc1 2026-07-27T13:12:21Z vast_status=exited =====
+[s1f-diag] ===== e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral (label s1f-08-cw_bio_primary_amide) phase=leg-complex-FAILED-rc1 2026-07-27T17:41:18Z vast_status=gone =====
 [s1f-diag] --- S3 complex.log (tail) ---
-[rbfe] aligned cw_bio_nmethyl_amide->zaienne_cmpd19 on 12 MCS atoms (RMSD 0.00 Å); scaffold now co-located for the morph
-[rbfe] LOMAP element_change=False: 17 mapped atoms for zaienne_cmpd19->cw_bio_nmethyl_amide
-  [rbfe] nr4a3/complex: mapped 17 atoms A->B (zaienne_cmpd19->cw_bio_nmethyl_amide)
-  ABORT: DEGENERATE atom map — mapped 17 atoms for zaienne_cmpd19->cw_bio_nmethyl_amide, below the PROVABLE floor 20 (a complete map of 22 atoms exists). the endpoints are the SAME heavy-atom graph up to 1 element substitution(s), so a map of all 22 atoms of A provably exists (complete = 22, with 1 dummy on B). Enforceable floor 20 = 22 atoms of A minus the 1 mismatched heavy atom(s), the 0 H they carry, and the 1 atom count difference — a floor a strict-element map still satisfies. 3 atom(s) that must map would instead be annihilated and recreated, so this leg would run a DIFFERENT perturbation from the designed one — and it would still converge and still report a confident ΔG. Most likely the LOMAP MCS hit its 300s budget (RBFE_LOMAP_TIME_S); raise it and re-run. Do NOT spend MD on this map.
-[s1f-diag] --- Vast container stdout for instance 46004069 ---
-2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:13:49 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:13:53 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:13:56 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:00 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:03 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:07 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:10 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:14 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:17 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:21 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:24 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:28 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:31 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:35 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:38 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:42 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:45 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:49 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:52 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:55 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:14:59 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:02 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:06 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:09 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:13 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:17 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:20 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:23 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:27 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:30 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:34 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:37 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:41 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:44 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
-Error: remote port forwarding failed for listen port 14068
-Mon Jul 27 13:15:47 UTC 2026
-Warning: Permanently added 'ssh2.vast.ai' (ED25519) to the list of known hosts.
+etupUnit:1, HybridTopologyMultiStateSimulationUnit:1, HybridTopologyMultiStateAnalysisUnit:1}
+  [rbfe][watchdog] armed: fires only AFTER production .nc starts advancing, then if it stalls >= 45 min (equilibration never trips it)
+INFO:	Found credentials in environment variables.
+  [spot-safe] commit store: s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral/ckpt/complex
+[clash-diag:initial] atoms=112955 nonfinite_atoms=0 coords>1000nm_atoms=0
+[clash-diag:initial] non-bonded pairs < 0.90 A: 0 force-bearing (REAL) + 1 zeroed-exception (hybrid A/B, benign); closest non-bonded = 0.000 A
+[clash-diag:initial]   non-bonded pair (4052,4054) d=0.000 A  [EXCLUDED-hybrid(benign)]
+[clash-diag:initial]   non-bonded pair (4044,4043) d=1.375 A  [EXCLUDED-hybrid(benign)]
+[clash-diag:initial]   non-bonded pair (4041,4042) d=1.386 A  [EXCLUDED-hybrid(benign)]
+[clash-diag:initial]   non-bonded pair (4047,4046) d=1.391 A  [EXCLUDED-hybrid(benign)]
+[clash-diag:initial]   non-bonded pair (4050,4044) d=1.399 A  [EXCLUDED-hybrid(benign)]
+[clash-diag:initial]   non-bonded pair (112848,29040) d=1.582 A  [FORCE-BEARING(real clash)]
+[clash-diag:initial]   non-bonded pair (112805,88779) d=1.589 A  [FORCE-BEARING(real clash)]
+[clash-diag:initial]   non-bonded pair (112903,74475) d=1.606 A  [FORCE-BEARING(real clash)]
+[spot-driver] trajectory persistence: positions every 0 iteration(s), velocities every 0 — output_indices='not water'  ** NO POSITIONS WILL BE STORED — this leg will not be re-analysable **
+[spot-driver] warmup_target=400 (ci=20) prod_target=2000 (ci=40)
+[spot-driver] restore -> none (fresh)
+WARNING:	Warning: The openmmtools.multistate API is experimental and may change in future releases
+WARNING:	Warning: The openmmtools.multistate API is experimental and may change in future releases
+Traceback (most recent call last):
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1839, in <module>
+    main()
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1755, in main
+    return run_splittest()
+           ^^^^^^^^^^^^^^^
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1742, in run_splittest
+    run_simulate()
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1015, in run_simulate
+    return _run_simulate_spot_safe(proto, byname, setup_outputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 997, in _run_simulate_spot_safe
+    outputs = drv.run_spot_safe(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/rbfe_spot_driver.py", line 608, in run_spot_safe
+    warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openfe/protocols/openmm_rfe/hybridtop_units.py", line 1156, in _get_sampler
+    sampler.setup(
+  File "/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openfe/protocols/openmm_rfe/_rfe_utils/multistate.py", line 136, in setup
+    minimize(compound_thermostate_copy, sampler_state,
+  File "/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openfe/protocols/openmm_rfe/_rfe_utils/multistate.py", line 345, in minimize
+    openmm.LocalEnergyMinimizer.minimize(
+  File "/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openmm/openmm.py", line 16337, in minimize
+    return _openmm.LocalEnergyMinimizer_minimize(context, tolerance, maxIterations, reporter)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openmm.OpenMMException: Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan
+[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)
 
+[s1f-diag] ===== e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral (label s1f-18-cw_bio_primary_amide) phase=leg-complex-running 2026-07-27T12:56:02Z vast_status=gone =====
+[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)

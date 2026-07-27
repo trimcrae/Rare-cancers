@@ -8,15 +8,15 @@
   ],
   "rows": [
     {
-      "unit_id": "e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral",
-      "edge_id": "e_zaienne_cmpd19__cw_bio_nmethyl_amide",
-      "edge": "zaienne_cmpd19->cw_bio_nmethyl_amide",
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "edge": "zaienne_cmpd19->cw_bio_primary_amide",
       "ligand_a": "zaienne_cmpd19",
-      "ligand_b": "cw_bio_nmethyl_amide",
+      "ligand_b": "cw_bio_primary_amide",
       "n_atoms_a": 22,
-      "n_atoms_b": 23,
-      "provable_floor": 20,
-      "complete_map": 22,
+      "n_atoms_b": 20,
+      "provable_floor": 12,
+      "complete_map": null,
       "kartograf_n_mapped": 18,
       "kartograf_error": null,
       "kartograf_wall_s": 0.01,
@@ -32,27 +32,70 @@
           "error": null
         },
         "ec1_t20": {
-          "n_mapped": 19,
+          "n_mapped": 18,
           "wall_s": 0.01,
           "error": null
         },
         "ec1_t300": {
-          "n_mapped": 19,
+          "n_mapped": 18,
           "wall_s": 0.01,
           "error": null
         }
       },
-      "production_n_mapped": 19,
+      "production_n_mapped": 17,
       "production_error": null,
       "production_wall_s": 0.01,
-      "production_clears_floor": false,
-      "verdict": "MAPPER_CANNOT_REACH_FLOOR",
-      "why": "the budget is NOT binding (identical maps at t20 and t300) and the best map any available mapper returns is 19, still under the provable floor 20. This is a statement about the MAPPERS on this edge, not about a rented host: a retry would abort identically and buy nothing, so this edge is not a retry candidate until a mapper reaches 20"
+      "production_clears_floor": true,
+      "verdict": "CLEAN",
+      "why": "production mapped 17 >= provable floor 12"
+    },
+    {
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "edge_id": "e_cw_ms_free_acid__cw_bio_primary_amide",
+      "edge": "cw_ms_free_acid->cw_bio_primary_amide",
+      "ligand_a": "cw_ms_free_acid",
+      "ligand_b": "cw_bio_primary_amide",
+      "n_atoms_a": 19,
+      "n_atoms_b": 20,
+      "provable_floor": 17,
+      "complete_map": 19,
+      "kartograf_n_mapped": 19,
+      "kartograf_error": null,
+      "kartograf_wall_s": 0.01,
+      "matrix": {
+        "ec0_t20": {
+          "n_mapped": 17,
+          "wall_s": 0.01,
+          "error": null
+        },
+        "ec0_t300": {
+          "n_mapped": 17,
+          "wall_s": 0.01,
+          "error": null
+        },
+        "ec1_t20": {
+          "n_mapped": 18,
+          "wall_s": 0.01,
+          "error": null
+        },
+        "ec1_t300": {
+          "n_mapped": 18,
+          "wall_s": 0.01,
+          "error": null
+        }
+      },
+      "production_n_mapped": 17,
+      "production_error": null,
+      "production_wall_s": 0.01,
+      "production_clears_floor": true,
+      "verdict": "CLEAN",
+      "why": "production mapped 17 >= provable floor 17"
     }
   ],
   "summary": {
-    "MAPPER_CANNOT_REACH_FLOOR": [
-      "zaienne_cmpd19->cw_bio_nmethyl_amide"
+    "CLEAN": [
+      "zaienne_cmpd19->cw_bio_primary_amide",
+      "cw_ms_free_acid->cw_bio_primary_amide"
     ]
   }
 }
