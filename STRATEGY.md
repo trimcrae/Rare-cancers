@@ -44,7 +44,7 @@ something like *we passed n gates*, or *we failed x gate and need to make y reme
 deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
 underneath one.*
 
-**As of 2026-07-26 · 6 gates passed · 3 failed (all caught before the spend) · 2 deliverables done · $0.74 spent.**
+**As of 2026-07-27 · 7 gates passed · 3 failed (all caught before the spend) · 2 deliverables done · $0.74 spent.**
 
 | # | gate | status | what it means in one line |
 |---|---|---|---|
@@ -54,6 +54,7 @@ underneath one.*
 | RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
 | RUNG 2 | cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
 | RUNG 2b | 4 fs speed test | **PASSED — both stages** | every future simulation ~1.56× cheaper. The full cycle reproduces the 2 fs answer to **0.0215 kcal/mol** against a 0.7 tolerance; adopted provisionally at one seed (no replicate-SD, and system identity unrecorded) |
+| RUNG 2 · closure | **cycle closure — fwd/rev hysteresis** | **PASSED (2026-07-27)** | the calibrator's ternary leg closes on itself: abs(ΔG_fwd + ΔG_rev) = **0.325** against a preregistered **1.0** ceiling. First time the criterion had both its inputs; a PATH-CLOSURE check, not an accuracy one, so it does not touch the wrong-sign FAIL below |
 | RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7** |
 | RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
 | RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. **~$21 not spent** |
@@ -222,7 +223,7 @@ legs have reached their deliverables; every watch entry in both of those lists i
 | **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | **Both legs advancing, 0 alerts — confirmed 7:29 AM ET 2026-07-27 from the watchdog's own annotations.** NR4A1 **`warmup/640`** (from 448) on instance `45974679` (RTX 4090, up 326 min); NR4A3 **`production/800`** (from 240) on `45972721` (RTX 4090, up 362 min). Both verdicts RUNNING, i.e. the committed iteration count ROSE — not merely that the box is up. Restarts are **ordinary spot churn** and are noted lightly per CLAUDE.md §6 — the cadence story is retracted (Appendix A 33): measured attempt lifetimes are **408/23/84 min** for NR4A3 and **76/103/112/35/143/63** for NR4A1, one of them **6.8 h unbroken**, and the lane I had called the healthy comparator restarted **14 times**. Real overhead **≈1.15×**, not 3.5× | NR4A1 warmup **≈4.8 h** remaining → ~**9:30 AM** plus churn; NR4A3 production has **no reliable ETA** while spot churn sets the wall clock | 5a-KS realised **~$1.5** of ~$12. **$/ns (PAYING — money is going out at these):** NR4A3 $0.00658 · **1.51× basis ⚠ PAYING OVER THE 1.5× LINE**; NR4A1 $0.00562 · 1.29× basis |
 | **Step 1 fan-out** (LANE 17/21) — 19 congeneric RBFE edges | Shakeout **`complex/production@1960`** (from @1840). Its host died and the tick resumed it onto **45994479** — routine churn. **⚠ CROSS-LANE BLACKLIST GAP, newly observed:** the fan-out rented **machine 46392**, which is on the **5a-KS lane's refuse-to-start list**. The two lanes keep **separate** exclusion sets — the fan-out excluded only `['28164']` while 5a-KS excludes nine including 46392 — so a machine known to refuse starts for one lane is freely rentable by another. Not yet a loss (the rental may serve a different image fine), but it is a real gap: the whole point of `exclude_machine_ids` is that a host which never starts has infinite realised $/ns and is invisible to $/ns ranking. **RESOLVED 7:05 AM ET: 45994479 never ran** — it sat `exited`/`stopped` at 24 min old with its log still in `apt-get`, so the 7:02 AM tick destroyed it and re-rented onto **`45996071`, machine 114268, $0.1926/hr**. The unit resumed from `complex/production@1960`, losing nothing | **terminus possibly ~1 commit block away** *if* the target is 2000 — still a conditional, the fan-out's own target is unread. The first `ddg.json` releases the 18 into the price gate | ladder **~$36 ($15–80)**, realised **$0.35** | shakeout **$0.00644/ns · 1.48× basis** (PAYING) on `46000463`, the BILLED rate — bid + the real 80 GB disk line, read off the live instance record. **The 1.41× previously carried here was an offer QUOTE** (market floor + the search's 8 GB disk line) and read ~10 % low; see [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 36 |
 | ✅ **GITHUB CRON DELIVERY HAS RESUMED** — was stopped overnight, affects every watchdog | **RESOLVED, measured 2026-07-27 7:40–7:50 AM ET.** The overnight outage was real (no `schedule` event on any workflow after 10:04 PM, `workflow_dispatch` unaffected, all workflows `state: active` — so it was GitHub's scheduled-event delivery, not the repo). It is over: `schedule` events fired today at **4:46 AM** (ternary-vast-watchdog), **5:59 and 5:56 AM** (vast-watchdog) and **6:10 AM** (the ternary lane's market re-check), all success. **Consequence that mattered and no longer does:** the market guard's re-check fires *from the tick*, so a dead cron meant no unattended re-check; that path is live again. Cadence remains ~55–65 min, so treat a single missed hour as throttling, not an outage | — | **$0** | — |
-| **valB_mini reverse leg r0** (GCP L4 **on-demand**) — *driven by the `max-effort-3hgq45` session* | **`production/720` of 2000**, on a NEW VM `gcp-ternary-30215419909` after the 1196-min one ended; **resumed from checkpoint**, nothing lost | **~11 AM – 4 PM Mon** (1280 iters at the measured ~60 iter/h) | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**); realised and ladder spend are separate ledgers |
+| ~~**valB_mini reverse leg r0**~~ (GCP L4 **on-demand**) | ✅ **LANDED — `production/2000` of 2000, and the hysteresis it unlocked is MEASURED. See the block below for the verdict.** | — | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**); realised and ladder spend are separate ledgers |
 | **valB_mini r1+r2** (4 ternary legs, Vast) — **LAUNCHED 12:14 PM ET, no longer held** | ✅ **The board cleared at 1.069× basis and the gate dispatched itself; all 4 legs were rented in ONE launch at 12:14 PM ET 2026-07-27.** Census from the live instance records (`vast-rate-forensics.json`, 1:12 PM ET): **exactly 4 `tvast-` instances for 4 units — one per unit, zero duplicates.** ⚠ **Three later ticks (12:29, 12:39, 1:11 PM ET) are recorded as `launched` and rented NOTHING** — the launcher correctly skipped every already-hosted unit, so **$0** was added; the mislabel is a ledger defect, now fixed and the three rows annotated ([`ternary-vast-launch-attempts.json`](research/modalities/ternary-vast-launch-attempts.json)). **The 12:39 row's `2.032× basis` is a BOARD snapshot, not a rate paid** (CLAUDE.md §1) | legs running; no deadline — checkpointed | **PAYING, per host, off the live instance record:** ternary r1 **$0.002730/ns · 0.80×**, binary r1 **$0.003576/ns · 1.05×**, ternary r2 **$0.003652/ns · 1.07×**, binary r2 **$0.003696/ns · 1.08×** — **every host under the $0.006539/ns buy line**; against a **$20.74** rung ceiling |
 | ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Legs, collect and analysis all landed | — | realised **~$4–5** against a ~$4.3 projection |
 
@@ -387,6 +388,58 @@ rate. The table's figure is measured on **production** iterations directly. *(Th
 the pass that recovered NR4A1 (above). Autonomous coverage of the paralogue legs is therefore claimed, on the
 evidence rather than on the trigger block parsing. *(The ternary watchdog's own cron is stretching far worse than that — it fired 9:17 PM then **not for 3h40m**. **"Busy repo" is measurably NOT the cause:** repo Actions load had fallen to **~2 runs/h** in that window. Ruled out with evidence — the file parses, its `run:` block is 368 chars, its registered `state` is `active`, and manual dispatch works every time. The proof it is repo-wide rather than a defect in either watchdog is **`vast-price-sample.yml`**, an unrelated cron, showing the same pattern in the same window: **7:15 PM → 9:01 PM (106 min) → 12:46 AM (225 min)**. So a newly-added `schedule:` proving itself is necessary but **not sufficient** — this repo's crons deliver ~2–4 h regardless of the expression, and no cron expression changes that.)*
 
+
+## ✅ THE FIRST FORWARD/REVERSE HYSTERESIS THIS PROGRAM HAS EVER MEASURED — **GATE PASSED** (2026-07-27 2:14 PM ET)
+
+**|ΔG_fwd + ΔG_rev| = 0.325 kcal/mol against the preregistered ceiling of 1.0 → PASS.** The `calib_hi_to_lo`
+ternary leg is now complete in both directions, which is what made the criterion measurable at all; every prior
+reduction in this lane reported it as unmeasured because no reverse leg had ever run.
+
+| leg (`calib_hi_to_lo__ternary_vhl`, seed 0) | ΔG_morph (kcal/mol) | MBAR SE |
+|---|---|---|
+| forward | **+47.470131** | 0.110758 |
+| reverse | **−47.794736** | 0.086487 |
+| **abs(fwd + rev)** | **0.324605** | vs ceiling **1.0** → **PASS** |
+
+⚠ **THE ERROR BARS ABOVE ARE MBAR SEs AND ARE THEREFORE NOT THIS REPO'S STANDARD.** They are quoted because
+they are what a single replicate can produce, and they are a **provenance** label, not a magnitude claim: this
+program's uncertainty is the **replicate SD**, and at `n_replicates = 1` **there is none** — the reduction
+reports `cycle_sd_kcal: null`, not a small number. The hysteresis itself is a *path-closure* check on one
+replicate and does not need a replicate SD to be well-posed; the **calibration** verdict does, and it is
+INDETERMINATE for exactly that reason.
+
+**Verified to be a genuine reverse run before the number was read**, because the failure mode it guards against
+produces the best-looking possible answer: a reverse leg that silently re-reported the forward trajectory
+sign-flipped would give a hysteresis of **exactly 0.000**. Four discriminators, all from the artifact — the
+opened `.nc` holds **141,968 particles** (`v2pe`, the *same* system as fwd, **not** the 146,020-particle `v1`
+build that killed four earlier attempts), the ΔG is **−47.794736** rather than −47.470131, the MBAR SE differs,
+and the per-replica pose statistics differ. Full table:
+[audit §L.7a](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
+
+**What this does and does not change.** It closes one preregistered criterion and nothing else:
+
+- **RUNG 2 (valB_mini) is still FAILED** on the wrong sign, and the calibration gate is still **INDETERMINATE**
+  at `n_replicates = 1` — the hysteresis is a *cycle-closure* check, not an accuracy check.
+- **ΔΔG_coop still cannot be reported from the r0 cycle**, for the reason already on this board: the binary arm
+  is broken and must be re-run. That blocker is independent of this result and is untouched by it.
+- **The convergence state is now reported as `MEASURED_FAILURE`, not as unexamined** — the first time the lane
+  has said that out loud. It is driven by `ligand_stable_ok` in both directions.
+
+**★ AND THE REVERSE LEG IS THE CONTROL THAT MAKES THE BINARY ARM'S FAILURE SPECIFIC.** The rev leg passes every
+health flag — overlap, connectivity, equilibration, mixing, within-leg fwd/rev, plateau, quarter-block — except
+`ligand_stable_ok`, at contact-pose max **4.737 Å** against a 4.0 threshold, median **2.529**, **11 of 12
+replicas STABLE**, and the single departure **initiating at λ state 11, a physical endpoint**. Set against the
+**binary** arm's **8 of 12** replicas departing at **16.6 Å**, a ternary arm that is 12/12 clean forward and
+11/12 clean reverse says the departure is **specific to the binary arm's missing second protein**, not a
+protocol-wide defect. Clean in *both* directions is what makes that a comparison rather than an assertion.
+
+**How this was nearly lost, and what changed:** the reducer computed 0.325 and the verdict annotation printed
+*"NOT MEASURED (no reverse leg reduced)"* — two further layers of the direction-keying/absent-value defect, one
+a replicate-count guard suppressing a criterion that needs no replicates, one a reader naming a field the
+producer never emitted. Both fixed, 21 tests, the key sweep extracted from the YAML by AST rather than retyped:
+[audit §L.7](research/modalities/ternary-lane-guard-audit-2026-07-25.md).
+
+---
 
 ## Program and thesis
 
