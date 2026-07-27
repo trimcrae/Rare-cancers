@@ -600,7 +600,15 @@ jobs:
       - name: Derive cmpd4" by two independent routes, in the production mapper's own container
         run: |
           set -eo pipefail
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          # ⏱ RETRY THE LOGIN. Measured on run 30293740988: `docker login` failed with
+          # `Get "https://registry-1.docker.io/v2/": context deadline exceeded` — a Docker Hub connect
+          # timeout on the runner, nothing to do with this lane's code. It killed a $0 job that had
+          # already checked out and set up Python. Three spaced attempts cost seconds and remove a
+          # whole class of red builds that say nothing about the science.
+          for i in 1 2 3; do
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin && break
+            echo "[docker] login attempt $i failed — retrying in 20s"; sleep 20
+          done
           docker run --rm --entrypoint python \
             -v "$PWD/research/modalities:/work/research/modalities" \
             -w /work/research/modalities \
@@ -670,7 +678,15 @@ jobs:
         run: |
           set -eo pipefail
           python -m pip install -q boto3
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          # ⏱ RETRY THE LOGIN. Measured on run 30293740988: `docker login` failed with
+          # `Get "https://registry-1.docker.io/v2/": context deadline exceeded` — a Docker Hub connect
+          # timeout on the runner, nothing to do with this lane's code. It killed a $0 job that had
+          # already checked out and set up Python. Three spaced attempts cost seconds and remove a
+          # whole class of red builds that say nothing about the science.
+          for i in 1 2 3; do
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin && break
+            echo "[docker] login attempt $i failed — retrying in 20s"; sleep 20
+          done
           mkdir -p /tmp/tin
           python - <<'PY' > /tmp/units.txt
           import sys
@@ -842,7 +858,15 @@ jobs:
       - name: Reduce to R, in the SAME env that produced the trajectories
         run: |
           set -eo pipefail
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          # ⏱ RETRY THE LOGIN. Measured on run 30293740988: `docker login` failed with
+          # `Get "https://registry-1.docker.io/v2/": context deadline exceeded` — a Docker Hub connect
+          # timeout on the runner, nothing to do with this lane's code. It killed a $0 job that had
+          # already checked out and set up Python. Three spaced attempts cost seconds and remove a
+          # whole class of red builds that say nothing about the science.
+          for i in 1 2 3; do
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin && break
+            echo "[docker] login attempt $i failed — retrying in 20s"; sleep 20
+          done
           docker run --rm --entrypoint python \
             -v "$PWD/research/modalities:/work/research/modalities" \
             -v /tmp/tri:/tmp/tri \
