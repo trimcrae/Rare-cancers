@@ -1,501 +1,2384 @@
-                      Supporting information for:
-  Rapid, accurate, precise and reliable relative
-  free energy prediction using ensemble based
-                      thermodynamic integration
 
-   Agastya P. Bhati, Shunzhou Wan, David W. Wright, and Peter V. Coveney∗
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ Day-and-night glycaemic control with closed-loop insulin delivery versus conventional insulin pump therapy in free-living adults with well controlled type 1 diabetes: an open-label, randomised, crossover study - PMC
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
- Centre for Computational Science, Department of Chemistry, University College London,
-                     20 Gordon Street, London WC1H 0AJ, United Kingdom
+ 
+ 
+ 
+ 
+ Skip to main content
+ 
+
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
-                                   E-mail: p.v.coveney@ucl.ac.uk
+ 
+ 
+ An official website of the United States government
+ 
+ Here's how you know 
+ 
+
+ 
 
 
-      In the main article, we have described our approach which we refer to as thermodynamic
-integration with enhanced sampling (TIES) to rapidly calculate accurate, precise and repro-
-ducible relative binding affinities of ligand-protein complexes. All our results along with the
-quantification of their accuracy and precision are detailed there. In the Supporting Infor-
-mation, we provide additional details for our results. Figures S1 to S5 shows the chemical
-structures and experimental binding affinities of all the ligands used in our calculations for
-the five target proteins. The structures are downloaded from the Supporting Information
-of an open access article. S1 The experimental binding affinities for thrombin are taken from
-the reported ITC experiments, S2 while for other targets they are calculated with equation
-1 using the reported IC50 or Ki values. S3–S7 Tables S1 to S5 provide the predicted and ex-
-perimental ∆∆G values for all the 55 transformations studied, while Figure S6 shows the
-  ∗
-      To whom correspondence should be addressed
 
 
 
-                                                   S1
-correlation between TIES-predictions and the experimental data for each biomolecular sys-
-tem separately. The ∆∆GT IES and σT IES are calculated as described in Section 3.3 of the
-main article.
 
 
-                                    ∆Gexp = RT ln Ki
-                                                                                           (1)
-                                    ∆Gexp ≈ RT ln(IC50 )
 
 
-where T=297 K and R is the gas constant.Figure S7 shows the variation of the mean energy
-derivative with the simulation length for one of the transformations studied providing a
-justification to our choice of 2 ns long equilibration phase. Thereafter, we provide a more
-detailed discussion of selected ligand-protein interactions of note. In particular, we discuss
-how to compute relative binding affinities in situations where there is a significant change in
-the charge distribution within the pair of ligands studied. Figure S10 displays a comparison
-of the relative binding affinity predictions from TIES with those from Wang et al. using
-FEP method S1 for the 18 transformations found common in both the studies. Table S6 lists
-the set of ligands forming closed cycles in the transformations studied and the corresponding
-values of hysteresis. Figure S11 shows the variation of the uncertainties in TIES-predictions
-with the size of perturbation for the transformations in ligands binding with PTP1B.
 
 
 
 
-                                              S2
-   L1Q; ∆Gexp =-8.18      LI9; ∆Gexp =-9.74     L17; ∆Gexp =-7.04     L20; ∆Gexp =-8.72
 
 
 
 
-   L21; ∆Gexp =-7.83      L26; ∆Gexp =-8.43     L29; ∆Gexp =-9.88
 
-Figure S1: Chemical structures and experimental binding affinities (kcal/mol) of
-CDK2 ligands. No errors are available on the values used in this study as quoted
-above.
 
+ 
+ 
+ 
+ 
 
+ 
+ Here's how you know 
+ 
 
+ 
+ 
+ 
+ 
+ 
 
-                                         S3
-       L1; ∆Gexp =-8.24             L2; ∆Gexp =-6.66            L3; ∆Gexp =-6.88
 
+ 
+ 
 
+ 
+ 
+ 
+ 
+ 
+ 
+ Official websites use .gov 
+ 
+ A
+ .gov website belongs to an official
+ government organization in the United States.
+ 
+ 
+ 
 
+ 
+ 
 
-       L4; ∆Gexp =-7.60             L5; ∆Gexp =-8.81            L6; ∆Gexp =-7.92
+ 
+ 
+ Secure .gov websites use HTTPS 
+ 
+ A lock (
+ 
+ 
+ Lock 
+ 
+ Locked padlock icon
+ 
+ 
+ 
+ ) or https:// means you've safely
+ connected to the .gov website. Share sensitive
+ information only on official, secure websites.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
+ 
 
+ 
+ 
+ 
+ 
 
+ 
+ 
 
-       L8; ∆Gexp =-7.69             L9; ∆Gexp =-6.58            L12; ∆Gexp =-9.33
 
-Figure S2: Chemical structures and experimental binding affinities (kcal/mol) of
-MCL1 ligands. No errors are available on the values used in this study as quoted
-above.
 
+ 
+ 
+ 
+ 
+ 
+ 
 
+ 
+ 
 
 
-                                       S4
-       L13; ∆Gexp =-6.62           L16; ∆Gexp =-8.95            L17; ∆Gexp =-7.85
 
 
 
 
-       L18; ∆Gexp =-9.78           L32; ∆Gexp =-5.78            L34; ∆Gexp =-9.26
 
 
 
 
-       L35; ∆Gexp =-9.96           L38; ∆Gexp =-8.95            L39; ∆Gexp =-8.90
 
-Figure S2: Chemical structures and experimental binding affinities (kcal/mol) of
-MCL1 ligands (continued). No errors are available on the values used in this
-study as quoted above.
 
 
 
 
-                                      S5
-                    L41; ∆Gexp =-6.87                L42; ∆Gexp =-7.03
 
-Figure S2: Chemical structures and experimental binding affinities (kcal/mol) of
-MCL1 ligands (continued). No errors are available on the values used in this
-study as quoted above.
 
 
 
+ 
+ 
+ 
+ 
 
-       L1; ∆Gexp =-8.46                 L2; ∆Gexp =-8.25                 L3; ∆Gexp =-7.86
+ 
+ 
+ 
+ 
+ 
 
-Figure S3: Chemical structures and experimental binding affinities (kcal/mol) of
-thrombin ligands. No errors are available on the values used in this study as
-quoted above.
+ 
+ 
+ 
+ 
+ 
 
 
 
+ 
+ 
+ 
+ 
+ 
+ 
 
-                                           S6
-       L4; ∆Gexp =-7.48             L5; ∆Gexp =-9.18            L6; ∆Gexp =-8.22
 
 
 
 
-       L7; ∆Gexp =-8.32             L8; ∆Gexp =-7.58            L9; ∆Gexp =-8.89
 
 
 
 
-       L10; ∆Gexp =-8.91           L11; ∆Gexp =-8.56
 
-Figure S3: Chemical structures and experimental binding affinities (kcal/mol) of
-thrombin ligands (continued). No errors are available on the values used in this
-study as quoted above.
 
 
 
 
-                                       S7
-       L1; ∆Gexp =-7.72             L2; ∆Gexp =-8.65            L3; ∆Gexp =-9.11
 
 
 
 
-       L4; ∆Gexp =-8.72            L6; ∆Gexp =-12.47            L7; ∆Gexp =-8.61
 
+ 
+ 
+ 
+ 
 
+ 
+ 
 
 
-       L8; ∆Gexp =-10.01           L10; ∆Gexp =-8.39            L11; ∆Gexp =-9.08
 
-Figure S4: Chemical structures and experimental binding affinities (kcal/mol) of
-PTP1B ligands. No errors are available on the values used in this study as
-quoted above.
+ 
 
 
+ Search
+ 
 
+ 
+ 
+ 
+ 
+ 
 
-                                       S8
-       L12; ∆Gexp =-7.75           L13; ∆Gexp =-8.72           L14; ∆Gexp =-11.42
 
+ 
 
+ 
+ 
+ 
+ 
 
 
-       L19; ∆Gexp =-7.85           L20; ∆Gexp =-9.41            L22; ∆Gexp =-9.14
 
 
 
 
-      L23; ∆Gexp =-10.12
 
-Figure S4: Chemical structures and experimental binding affinities (kcal/mol) of
-PTP1B ligands (continued). No errors are available on the values used in this
-study as quoted above.
 
 
 
 
-                                      S9
-       L1; ∆Gexp =-9.54             L3; ∆Gexp =-8.98            L5; ∆Gexp =-9.21
 
 
 
 
-       L6; ∆Gexp =-8.26             L8; ∆Gexp =-7.75            L10; ∆Gexp =-7.42
 
 
 
 
-      L11; ∆Gexp =-11.28           L15; ∆Gexp =-9.78           L16; ∆Gexp =-10.53
+ 
+ 
+ 
+ 
 
-Figure S5: Chemical structures and experimental binding affinities (kcal/mol) of
-TYK2 ligands. No errors are available on the values used in this study as quoted
-above.
+ 
+ 
 
 
 
+ 
 
-                                      S10
-Table S1: ∆∆GT IES for CDK2. All values are in kcal/mol. No errors are available on the
-experimental data.
 
-                   Transformation     ∆∆GTIES     σTIES   ∆∆Gexp
-                      L1Q-LI9           1.96       0.26     1.56
-                      L1Q-L20           0.59       0.23     0.54
-                      L1Q-L21          -1.33       0.15    -0.35
-                       L20-L21         -1.90       0.26    -0.89
-                      L1Q-L26           1.20       0.19     0.25
-                      L1Q-L29           2.49       0.25     1.70
-                      L1Q-L17          -0.17       0.16    -1.14
 
+ Log in 
 
+ 
+ 
 
 
-Table S2: ∆∆GT IES for MCL1. All values are in kcal/mol. No errors are available on the
-experimental data.
 
-                   Transformation     ∆∆GTIES     σTIES   ∆∆Gexp
-                        L2-L4           2.97       0.31     0.94
-                       L6-L41          -0.03       0.23    -1.05
-                        L3-L5           1.21       0.21     1.93
-                       L3-L16           2.92       0.17     2.07
-                       L16-L34         -0.33       0.69    0.31
-                       L12-L35          2.57       0.82     0.63
-                       L2-L32           1.77       0.26    -0.88
-                       L32-L42          1.45       0.37     1.25
-                       L38-L42         -3.33       0.29    -1.92
-                       L32-L38          3.59       0.33     3.17
-                       L39-L42         -2.40       0.21    -1.87
-                       L18-L39         -3.50       0.71    -0.88
-                        L1-L8           0.09       0.79    -0.55
-                       L8-L18           3.83       0.69     2.09
-                       L17-L9          -0.17       0.24    -1.27
-                       L13-L17          0.60       0.32     1.23
+ 
 
 
 
+ 
+ 
 
-                                         S11
-Table S3: ∆∆GT IES for thrombin. All values are in kcal/mol. No errors are available on
-the experimental data.
 
-                   Transformation     ∆∆GTIES     σTIES   ∆∆Gexp
-                       L8-L1            1.04       0.24    0.88
-                       L1-L8           -0.61       0.24    -0.88
-                       L6-L7           -0.48       0.26     0.10
-                       L3-L5            2.25       0.23    1.32
-                       L5-L6           -2.12       0.21    -0.96
-                       L1-L4           -1.75       0.35    -0.98
-                       L2-L5            0.38       0.23    0.93
-                       L4-L11           2.18       0.28     1.08
-                       L7-L3            0.41       0.27    -0.46
-                       L1-L9            1.08       0.25    0.43
-                       L4-L10           2.42       0.24     1.43
 
+ 
 
 
+ 
 
-Table S4: ∆∆GT IES for TYK2. All values are in kcal/mol. No errors are available on the
-experimental data.
+ 
+ 
+ 
+ 
+ 
 
-                   Transformation     ∆∆GTIES     σTIES   ∆∆Gexp
-                        L1-L3           0.11       0.07    -0.56
-                        L1-L6          -1.38       0.09    -1.28
-                       L6-L11           2.28       0.28     3.02
-                       L6-L10          -1.15       0.14    -0.84
-                       L15-L16          1.08       0.21     0.75
-                        L1-L8          -0.94       0.08    -1.79
-                       L5-L16           0.19       0.16     1.32
-                       L1-L15           0.07       0.06    -0.33
-                       L15-L6          -1.51       0.09    -1.52
-                       L1-L10          -2.21       0.21    -2.12
-                       L15-L10         -2.59       0.10    -2.36
 
 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
-                                         S12
-Table S5: ∆∆GT IES for PTP1B. All values are in kcal/mol. No errors are available on the
-experimental data.
 
-                    Transformation     ∆∆GTIES      σTIES   ∆∆Gexp
-                         L1-L2           1.54        0.33     0.93
-                        L10-L12         -0.14        0.51    -0.64
-                        L19-L3           1.19        0.29     1.26
-                         L3-L7           0.04        0.15    -0.50
-                        L3-L23           0.80        0.32     1.01
-                        L11-L23          1.54        0.15     1.04
-                        L13-L20          0.68        0.24     0.69
-                        L6-L14          -0.81        0.44    -1.05
-                        L8-L14           1.40        0.34     1.41
-                        L4-L22          -0.61        0.23     0.42
 
 
 
 
-Figure S6: Correlation between TIES-predicted binding affinities and the experimental data
-for each biomolecular system shown separately. The uncertainties in the TIES predictions
-are included as error bars. The dashed line is the regression line in each case.
 
 
+ 
+ 
 
-                                           S13
-Figure S7: Variation of h∂V /∂λi with the simulation length (including both equilibration
-and production phases) for all five replicas at four different λ windows in the case of the
-transformation from ligand L1 to L4 binding to thrombin. It is clearly visible that all replicas
-converge at about 2 ns which is the length of the equilibration run in our existing protocol.
-The variation in the final converged values of h∂V /∂λi for different replicas at a given λ
-window as shown above emphasises the advantage of performing ensemble simulation.
+ 
+ Dashboard
+ 
 
+ 
+ 
 
-Discussion of selected ligand-protein interactions
-   As noted in the main text in the intermediate λ-windows of TIES calculations the elec-
-trostatic interactions are weakly scaled which can result in larger fluctuations of ∂V /∂λ (due
-to loss or gain of strong electrostatic interactions). This results in larger variation in the
-stochastic integral (equation 2 in the main article) and hence less precise prediction of ∆∆G
-using the standard TIES protocol as mentioned in section 3.2 of the main article. In this
-study, 5 out of the 16 transformations of MCL1 ligands have a charged carboxylate group in
-the perturbing region, with the uncertainties of their ∆∆G predictions lying in the range of
 
+ 
+ 
+ 
+ 
+ 
 
-                                              S14
-0.7-0.8 kcal/mol, while the uncertainties of the remaining 11 predictions for MCL1 ligands
-lie within the range of 0.2-0.4 kcal/mol (see Table 1). In such cases, one can modify the
-standard protocol described here by, for example, increasing the ensemble size at various
-λ-windows and/or excluding the charged group from the alchemically mutating part of the
-ligands to further emphasise this point. In the following paragraph we describe one such
-case including a comparison of its results with and without charged groups in the perturbing
-region of the ligand.
 
 
 
 
-Figure S8: Two different conformations of the flexible carboxylate group of ligand L14 inside
-the binding pocket of PTP1B taken from the same molecular dynamics simulation. Due
-to three adjacent rotatable bonds through which the carboxylate group is attached to the
-ligand, the corresponding dihedral angle changes substantially inside the binding pocket
-when the electrostatic interactions are scaled to small values. The protein is shown in grey
-ribbon and ligand atoms are colored by element; hydrogen in white, carbon in cyan, oxygen
-in red and nitrogen in blue.
 
 
 
-  The ligands studied with PTP1B all have two carboxylate groups present in the active
-site of the protein. One of them is attached to the thiophene ring through three rotatable
-bonds and the binding pocket provides it with enough space to move around. Because of
-this, the carboxylate group is highly flexible. Figure S8 shows a transformation (L6 to L14)
-where this carboxylate group forms part of the perturbing region of the ligand within a
-TIES calculation. Two different conformations of this flexible carboxylate group are shown
-at an intermediate λ-window where the electrostatic interactions are scaled down to very
-small values. It is clear that, in the absence of strong electrostatic interactions, such a
 
+ 
+ 
 
-                                            S15
-charged group is highly flexible, leading to a diminution in both the accuracy and precision
-of our predictions. In this case, ∆∆GT IES = 0.6 ± 1.7 kcal/mol while the corresponding
-experimental value is -1.0 kcal/mol. This problem can be dealt with by excluding the charged
-species from the perturbing region of the ligand. Performing the TIES calculation again for
-this transformation, after excluding the carboxylate groups from the perturbing regions of
-the ligand, substantially improves the accuracy and precision of our prediction, yielding a
-new value of ∆∆GT IES = −0.8±0.4 kcal/mol very close to the experimental relative binding
-affinity.
+ 
+ Publications
+ 
 
+ 
+ 
 
 
+ 
+ 
+ 
+ 
+ 
 
-Figure S9: The generic structure of MCL1 ligands with the four membered linker joining the
-two ends of the ligand containing different functional groups. One end of the ligand is bound
-to the lower pocket (LP) of the protein and is relatively rigid, while the other end of the ligand
-is bound to the upper pocket (UP) of the protein and is quite flexible. The carboxylate group
-present at the second end of the ligand interacts with the side chain of the arginine residue
-of the protein (R263). The protein surface is shown in grey, the arginine residue (R263) is
-shown in colored electrostatic surface and ligand atoms are colored by element; hydrogen in
-white, carbon in cyan, oxygen in red and nitrogen in blue. All non-polar hydrogens have
-been excluded for clarity.
 
 
 
-  It is evident from Table 1 and Figure 5 in the main document that the TIES predictions
-for MCL1 have larger deviations from the experimental results, with the largest RMSE and
-MAE. Such behavior can be attributed to the highly flexible nature of the ligand. Figure
-S9 shows the structure of one of the MCL1 ligands. Generically, they contain a 4-membered
-linker which connects the two ends of the ligand. One end of the ligand is a hydrophobic
 
-                                               S16
-aromatic system which is buried deep into the lower pocket (LP) of the protein (Figure S9).
-Another end of the ligand is a 6,5-fused heterocyclic carboxylic acid which is held at the
-upper pocket (UP) (Figure S9). The latter interacts with the positively charged side chain
-of the arginine residue (R263). Since the linker chain has four rotatable bonds, the two
-ends of the ligand are free to move with respect to each other. The end located in LP is
-rigid as compared to the other end. Its interaction with R263 becomes too weak to hold
-it in a stable position at intermediate λ-windows due to the scaling down of electrostatic
-interactions. This accounts for why the least accurate results occur for the MCL1 predictions
-as compared to the other targets.
 
 
 
 
-Figure S10: A comparison between the 18 ligand transformations which are common between
-the ones studied here and those studied by Wang et al. using their FEP methodology. S1
-Results from the FEP methodology are shown on the left, while those from TIES are shown
-on the right. TIES exhibits marginally better accuracy with slightly smaller RMSE and MAE
-and slightly larger Pearson’s r and Spearman’s ρ. Only one of the 18 TIES predictions lies
-outside the 1 kcal/mol window from the experimental data and one directionally disagrees
-with the experimental value; the corresponding numbers for the FEP predictions are three
-and two respectively.
+ 
+ 
 
+ 
+ Account settings
+ 
 
+ 
+ 
 
 
-                                            S17
-Table S6: Hysteresis in the TIES predictions for the closed cycles formed by the ligand
-transformations studied.
+ 
+ 
+ 
+ 
 
-         Protein    Ligands forming closed cycles        Hysteresis (kcal/mol)
-          CDK2               L1Q,L20,L21                         0.02
-          MCL1               L32,L42,L38                         1.19
-                            L1,L6,L10,L15                        0.01
-                              L1,L6,L10                          0.32
-          TYK2
-                              L1,L10,L15                         0.31
-                              L1,L15,L6                          0.06
 
 
 
 
-Figure S11: Variation of uncertainties in the TIES-predictions with the size of the pertur-
-bation (measured in terms of the number of appearing or disappearing atoms) for the trans-
-formations of ligands binding with PTP1B. In this case, and more generally, we observe no
-clear dependence of the uncertainty on the size of the perturbation.
 
 
 
 
-Bibliography
 
-(S1) Wang, L.; Wu, Y.; Deng, Y.; Kim, B.; Pierce, L.; Krilov, G.; Lupyan, D.; Robin-
-     son, S.; Dahlgren, M. K.; Greenwood, J.; Romero, D. L.; Masse, C.; Knight, J. L.;
-     Steinbrecher, T.; Beuming, T.; Damm, W.; Harder, E.; Sherman, W.; Brewer, M.;
-     Wester, R.; Murcko, M.; Frye, L.; Farid, R.; Lin, T.; Mobley, D. L.; Jorgensen, W. L.;
-     Berne, B. J.; Friesner, R. A.; R., A. Accurate and reliable prediction of relative lig-
-     and binding potency in prospective drug discovery by way of a modern free-energy
-     calculation protocol and force field. J. Am. Chem. Soc. 2015, 137, 2695.
 
-                                            S18
-(S2) Baum, B.; Mohamed, M.; Zayed, M.; Gerlach, C.; Heine, A.; Hangauer, D.; Klebe, G.
-     More than a simple lipophilic contact: A detailed thermodynamic analysis of nonbasic
-     residues in the S1 pocket of thrombin. J. Mol. Biol. 2009, 390, 56.
 
-(S3) Hardcastle, I. R.; Arris, C. E.; Bentley, J.; Boyle, F. T.; Chen, Y.; Curtin, N. J.; En-
-     dicott, J. A.; Gibson, A. E.; Golding, B. T.; Griffin, R. J.; Jewsbury, P.; Menyerol, J.;
-     Mesguiche, V.; Newell, D. R.; Noble, M. E. M.; Pratt, D. J.; Wang, L.-Z.; ; Whit-
-     field, H. J. N2-substituted O6-cyclohexylmethylguanine derivatives: Potent inhibitors
-     of cyclin-dependent kinases 1 and 2. J. Med. Chem. 2004, 47, 3710, PMID: 15239650.
 
-(S4) Liang, J.;   Tsui, V.;   Abbema, A. V.;        Bao, L.;   Barrett, K.;    Beresini, M.;
-     Berezhkovskiy, L.; Blair, W. S.; Chang, C.; Driscoll, J.; Eigenbrot, C.; Ghilardi, N.;
-     Gibbons, P.; Halladay, J.; Johnson, A.; Kohli, P. B.; Lai, Y.; Liimatta, M.; Mantik, P.;
-     Menghrajani, K.; Murray, J.; Sambrone, A.; Xiao, Y.; Shia, S.; Shin, Y.; Smith, J.;
-     Sohn, S.; Stanley, M.; Ultsch, M.; Zhang, B.; Wu, L. C.; Magnuson, S. Lead identifica-
-     tion of novel and selective TYK2 inhibitors. Eur. J. Med. Chem. 2013, 67, 175.
 
-(S5) Liang, J.; van Abbema, A.; Balazs, M.; Barrett, K.; Berezhkovsky, L.; Blair, W.;
-     Chang, C.; Delarosa, D.; DeVoss, J.; Driscoll, J.; Eigenbrot, C.; Ghilardi, N.; Gib-
-     bons, P.; Halladay, J.; Johnson, A.; Kohli, P. B.; Lai, Y.; Liu, Y.; Lyssikatos, J.;
-     Mantik, P.; Menghrajani, K.; Murray, J.; Peng, I.; Sambrone, A.; Shia, S.; Shin, Y.;
-     Smith, J.; Sohn, S.; Tsui, V.; Ultsch, M.; Wu, L. C.; Xiao, Y.; Yang, W.; Young, J.;
-     Zhang, B.; Zhu, B.-y.; Magnuson, S. Lead optimization of a 4-aminopyridine benzamide
-     scaffold to identify potent, selective, and orally bioavailable TYK2 Inhibitors. J. Med.
-     Chem. 2013, 56, 4521, PMID: 23668484.
 
-(S6) Wilson, D. P.; Wan, Z.-K.; Xu, W.-X.; Kirincich, S. J.; Follows, B. C.; Joseph-
-     McCarthy, D.; Foreman, K.; Moretto, A.; Wu, J.; Zhu, M.; Binnun, E.; Zhang, Y.-L.;
-     Tam, M.; Erbe, D. V.; Tobin, J.; Xu, X.; Leung, L.; Shilling, A.; Tam, S. Y.; Man-
-     sour, T. S.; Lee, J. Structure-based optimization of protein tyrosine phosphatase 1B
 
-                                            S19
-     inhibitors: From the active site to the second phosphotyrosine binding site. J. Med.
-     Chem. 2007, 50, 4681, PMID: 17705360.
 
-(S7) Friberg, A.; Vigil, D.; Zhao, B.; Daniels, R. N.; Burke, J. P.; Garcia-Barrantes, P. M.;
-     Camper, D.; Chauder, B. A.; Lee, T.; Olejniczak, E. T.; Fesik, S. W. Discovery of
-     potent myeloid cell leukemia 1 (Mcl-1) inhibitors using fragment-based methods and
-     structure-based design. J. Med. Chem. 2013, 56, 15, PMID: 23244564.
 
 
+ 
+ 
+ 
+ 
 
+ Log out
 
-                                            S20
-
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ Search…
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Search NCBI
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Primary site navigation
+ 
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+
+
+ 
+ 
+ 
+ 
+ Search
+ 
+
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ Logged in as:
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ Dashboard
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ Publications
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ Account settings
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+ Log in
+
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ Search PMC Full-Text Archive 
+ 
+ 
+ 
+ 
+ Search in PMC 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Journal List
+ 
+ 
+ 
+ 
+ 
+ 
+ User Guide
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+
+ 
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ PERMALINK 
+ 
+ 
+ 
+ 
+ Copy 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ As a library, NLM provides access to scientific literature. Inclusion in an NLM database does not imply endorsement of, or agreement with,
+ the contents by NLM or the National Institutes of Health. 
+ Learn more:
+ PMC Disclaimer 
+ |
+ 
+ PMC Copyright Notice
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Lancet Diabetes Endocrinol . 2017 Apr;5(4):261–270. doi: 10.1016/S2213-8587(17)30001-3 
+ 
+ 
+ Search in PMC 
+ Search in PubMed 
+ View in NLM Catalog 
+ Add to search 
+ 
+ Day-and-night glycaemic control with closed-loop insulin delivery versus conventional insulin pump therapy in free-living adults with well controlled type 1 diabetes: an open-label, randomised, crossover study 
+ Lia Bally 
+ 
+ Lia Bally , MD 
+ 
+ 
+ a Wellcome Trust–Medical Research Council Institute of Metabolic Science, University of Cambridge, Cambridge, UK 
+ 
+ c Department of Diabetes & Endocrinology, Cambridge University Hospitals National Health Service Foundation Trust, Cambridge, UK 
+ 
+ d Department of Diabetes, Endocrinology, Clinical Nutrition & Metabolism, Inselspital, Bern University Hospital, University of Bern, Bern, Switzerland 
+ Find articles by Lia Bally 
+ 
+ 
+ a, c, d, † , Hood Thabit 
+ 
+ Hood Thabit , PhD 
+ 
+ 
+ a Wellcome Trust–Medical Research Council Institute of Metabolic Science, University of Cambridge, Cambridge, UK 
+ 
+ c Department of Diabetes & Endocrinology, Cambridge University Hospitals National Health Service Foundation Trust, Cambridge, UK 
+ Find articles by Hood Thabit 
+ 
+ 
+ a, c, † , Harald Kojzar 
+ 
+ Harald Kojzar , BSc 
+ 
+ 
+ e Department of Internal Medicine, Division of Endocrinology & Diabetology, Medical University of Graz, Graz, Austria 
+ Find articles by Harald Kojzar 
+ 
+ 
+ e , Julia K Mader 
+ 
+ Julia K Mader , MD 
+ 
+ 
+ e Department of Internal Medicine, Division of Endocrinology & Diabetology, Medical University of Graz, Graz, Austria 
+ Find articles by Julia K Mader 
+ 
+ 
+ e , Jehona Qerimi-Hyseni 
+ 
+ Jehona Qerimi-Hyseni , BSc 
+ 
+ 
+ e Department of Internal Medicine, Division of Endocrinology & Diabetology, Medical University of Graz, Graz, Austria 
+ Find articles by Jehona Qerimi-Hyseni 
+ 
+ 
+ e , Sara Hartnell 
+ 
+ Sara Hartnell , BSc 
+ 
+ 
+ c Department of Diabetes & Endocrinology, Cambridge University Hospitals National Health Service Foundation Trust, Cambridge, UK 
+ Find articles by Sara Hartnell 
+ 
+ 
+ c , Martin Tauschmann 
+ 
+ Martin Tauschmann , MD 
+ 
+ 
+ a Wellcome Trust–Medical Research Council Institute of Metabolic Science, University of Cambridge, Cambridge, UK 
+ 
+ b Department of Paediatrics, University of Cambridge, Cambridge, UK 
+ Find articles by Martin Tauschmann 
+ 
+ 
+ a, b , Janet M Allen 
+ 
+ Janet M Allen , RN 
+ 
+ 
+ a Wellcome Trust–Medical Research Council Institute of Metabolic Science, University of Cambridge, Cambridge, UK 
+ 
+ b Department of Paediatrics, University of Cambridge, Cambridge, UK 
+ Find articles by Janet M Allen 
+ 
+ 
+ a, b , Malgorzata E Wilinska 
+ 
+ Malgorzata E Wilinska , PhD 
+ 
+ 
+ a Wellcome Trust–Medical Research Council Institute of Metabolic Science, University of Cambridge, Cambridge, UK 
+ 
+ b Department of Paediatrics, University of Cambridge, Cambridge, UK 
+ Find articles by Malgorzata E Wilinska 
+ 
+ 
+ a, b , Thomas R Pieber 
+ 
+ Thomas R Pieber , MD 
+ 
+ 
+ e Department of Internal Medicine, Division of Endocrinology & Diabetology, Medical University of Graz, Graz, Austria 
+ Find articles by Thomas R Pieber 
+ 
+ 
+ e , Mark L Evans 
+ 
+ Mark L Evans , MD 
+ 
+ 
+ a Wellcome Trust–Medical Research Council Institute of Metabolic Science, University of Cambridge, Cambridge, UK 
+ 
+ c Department of Diabetes & Endocrinology, Cambridge University Hospitals National Health Service Foundation Trust, Cambridge, UK 
+ Find articles by Mark L Evans 
+ 
+ 
+ a, c , Roman Hovorka 
+ 
+ Roman Hovorka , Dr, PhD 
+ 
+ 
+ a Wellcome Trust–Medical Research Council Institute of Metabolic Science, University of Cambridge, Cambridge, UK 
+ 
+ b Department of Paediatrics, University of Cambridge, Cambridge, UK 
+ Find articles by Roman Hovorka 
+ 
+ 
+ a, b, * 
+ 
+ 
+ Author information 
+ Copyright and License information 
+ 
+ 
+ 
+ 
+ a Wellcome Trust–Medical Research Council Institute of Metabolic Science, University of Cambridge, Cambridge, UK 
+ 
+ b Department of Paediatrics, University of Cambridge, Cambridge, UK 
+ 
+ c Department of Diabetes & Endocrinology, Cambridge University Hospitals National Health Service Foundation Trust, Cambridge, UK 
+ 
+ d Department of Diabetes, Endocrinology, Clinical Nutrition & Metabolism, Inselspital, Bern University Hospital, University of Bern, Bern, Switzerland 
+ 
+ e Department of Internal Medicine, Division of Endocrinology & Diabetology, Medical University of Graz, Graz, Austria 
+ 
+ 
+ * Correspondence to: Dr Roman Hovorka, University of Cambridge Metabolic Research Laboratories and UK National Institute for Health Research Cambridge Biomedical Research Centre, Wellcome Trust–Medical Research Council Institute of Metabolic Science, Box 289, Addenbrooke's Hospital, Hills Road, Cambridge CB2 0QQ, UKCorrespondence to: Dr Roman HovorkaUniversity of Cambridge Metabolic Research Laboratories and UK National Institute for Health Research Cambridge Biomedical Research CentreWellcome Trust–Medical Research Council Institute of Metabolic ScienceAddenbrooke's HospitalBox 289Hills RoadCambridgeCB2 0QQUK rh347@cam.ac.uk 
+ 
+ 
+ † Contributed equally 
+ 
+ 
+ 
+ 
+ © 2017 The Author(s). Published by Elsevier Ltd. This is an Open Access article under the CC BY license 
+ This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/). 
+ PMC Copyright notice 
+ 
+ 
+ PMCID: PMC5379244  PMID: 28094136 
+ 
+ See " The artificial pancreas-ready for prime time? " with doi: 10.1016/S2213-8587(17)30008-6. 
+ Summary 
+ Background 
+ Tight control of blood glucose concentration in people with type 1 diabetes predisposes to hypoglycaemia. We aimed to investigate whether day-and-night hybrid closed-loop insulin delivery can improve glucose control while alleviating the risk of hypoglycaemia in adults with HbA 1c below 7·5% (58 mmol/mol). Methods 
+ In this open-label, randomised, crossover study, we recruited adults (aged ≥18 years) with type 1 diabetes and HbA 1c below 7·5% from Addenbrooke's Hospital (Cambridge, UK) and Medical University of Graz (Graz, Austria). After a 2–4 week run-in period, participants were randomly assigned (1:1), using web-based randomly permuted blocks of four, to receive insulin via the day-and-night hybrid closed-loop system or usual pump therapy for 4 weeks, followed by a 2–4 week washout period and then the other intervention for 4 weeks. Treatment interventions were unsupervised and done under free-living conditions. During the closed-loop period, a model-predictive control algorithm directed insulin delivery, and prandial insulin delivery was calculated with a standard bolus wizard. The primary outcome was the proportion of time when sensor glucose concentration was in target range (3·9–10·0 mmol/L) over the 4 week study period. Analyses were by intention to treat. This study is registered with ClinicalTrials.gov , number NCT02727231 , and is completed. Findings 
+ Between March 21 and June 24, 2016, we recruited 31 participants, of whom 29 were randomised. One participant withdrew during the first closed-loop period because of dissatisfaction with study devices and glucose control. The proportion of time when sensor glucose concentration was in target range was 10·5 percentage points higher (95% CI 7·6–13·4; p<0·0001) during closed-loop delivery compared with usual pump therapy (65·6% [SD 8·1] when participants used usual pump therapy vs 76·2% [6·4] when they used closed-loop). Compared with usual pump therapy, closed-loop delivery also reduced the proportion of time spent in hypoglycaemia: the proportion of time with glucose concentration below 3·5 mmol/L was reduced by 65% (53–74, p<0·0001) and below 2·8 mmol/L by 76% (59–86, p<0·0001). No episodes of serious hypoglycaemia or other serious adverse events occurred. Interpretation 
+ Use of day-and-night hybrid closed-loop insulin delivery under unsupervised, free-living conditions for 4 weeks in adults with type 1 diabetes and HbA 1c below 7·5% is safe and well tolerated, improves glucose control, and reduces hypoglycaemia burden. Larger and longer studies are warranted. Funding 
+ Swiss National Science Foundation (P1BEP3_165297), JDRF, UK National Institute for Health Research Cambridge Biomedical Research Centre, and Wellcome Strategic Award (100574/Z/12/Z). Introduction 
+ Intensive insulin therapy is the standard of care in the management of type 1 diabetes. 1 Although modern insulin therapy has led to a reduction in the frequency of severe hypoglycaemic events, 2 tight glycaemic control remains a predisposing factor to hypoglycaemia and its effect is amplified by duration of the disease. 3 Recurrent exposure to hypoglycaemia might lead to attenuated counter-regulatory response to subsequent hypoglycaemic events and, ultimately, impaired hypoglycaemia awareness. 4 Frequent hypoglycaemic episodes might have a profound effect on behaviour and diabetes self-management, adversely affecting quality of life. 5 
+ The advent of continuous glucose monitoring (CGM) has led to improved glycaemic control and reduced exposure to hypoglycaemia, including severe hypoglycaemia. 6 , 7 The benefits of hypoglycaemia reduction are enhanced in hypoglycaemia-prone individuals when CGM is integrated with the threshold suspend feature of insulin pumps, which allows insulin delivery to be suspended automatically for up to 2 h when the pre-set glucose threshold is reached 8 or predicted. 9 Although these technologies have been shown to reduce the incidence of severe hypoglycaemic events, including those leading to hypoglycaemic seizure or coma, 10 they do not address the issue of variability in insulin requirements, 11 which remains an unmet need in patients with type 1 diabetes. 
+ Research in context. 
+ Evidence before this study 
+ We searched PubMed from database inception until Oct 24, 2016, using the search terms “type 1 diabetes” AND (“artificial pancreas” OR “closed-loop”) AND (“home” OR “outpatient”), for reports of randomised controlled trials published in English only. We identified 14 randomised trials assessing the use of closed-loop insulin delivery outside hospital settings. In two randomised home studies in participants with mean HbA 1c above 7·5% (58 mmol/mol), long-term (>4 week) use of closed-loop insulin delivery led to a significant decrease in HbA 1c and improvement in mean glucose and proportion of time spent within, below, and above the glucose target range (3·9–10·0 mmol/L). However, no studies have so far assessed closed-loop use in non-pregnant adults with HbA 1c below 7·5%. 
+ Added value of this study 
+ To our knowledge, this study is the first randomised controlled study in free-living adults with type 1 diabetes whose HbA 1c is below 7·5%. We showed that, compared with usual insulin pump therapy, day-and-night closed-loop insulin delivery significantly improved overall glycaemic control while reducing the burden of hypoglycaemia. Beneficial effects on glycaemic outcomes included increased time with glucose concentration in target range, reduced time with glucose concentration below and above target range, and decreased mean glucose concentration and glycaemic variability. The findings of increased time in target range and reduced overall hypoglycaemia risks and sensor glucose variability were similarly observed and consistent during night-time and daytime periods of closed-loop use. These outcomes were achieved without change in total insulin delivered. Closed-loop application thereby provides a novel therapeutic approach to optimise glycaemic control in hypoglycaemia-prone adults with HbA 1c below 7·5%. Closed-loop application was well tolerated in this population with advanced self-management skills, and might provide clinically significant benefits to their overall diabetes care. 
+ Implications of all the available evidence 
+ The use of day-and-night closed-loop insulin delivery might further improve glycaemic control while reducing the risk and burden of hypoglycaemia in adults with type 1 diabetes whose HbA 1c is below 7·5%. Results from our study, together with those from previous studies in different target groups, support the benefits of closed-loop insulin delivery in a broad population with type 1 diabetes. Closed-loop insulin delivery—also known as the artificial pancreas—is a therapeutic approach that is progressing quickly. Closed-loop delivery differs from conventional pump therapy and threshold suspend technology; it has a control algorithm that autonomously increases and decreases subcutaneous insulin delivery in response to real-time sensor glucose levels. 12 Results from randomised trials 13 , 14 , 15 , 16 of day-and-night closed-loop use during unsupervised free-living conditions in children, adolescents, and adults have shown improved glycaemic outcomes, reduced risk of non-severe hypoglycaemic events, and positive user experience. However, outside of pregnancy, 15 none of the studies have focused specifically on patients with well controlled diabetes (HbA 1c <7·5% [58 mmol/mol]) who might have a heightened, but masked, risk of hypoglycaemia and glucose variability. In this study, we aimed to investigate whether day-and-night hybrid closed-loop insulin delivery—in which manual administration of prandial bolus was implemented by the user—under free-living conditions in adults with HbA 1c below 7·5% can improve glucose control while alleviating the risk of hypoglycaemia, thus informing whether the use and reimbursement of closed-loop systems is justified in this particular population. Methods 
+ Study design and participants 
+ In this open-label, randomised, crossover study, we recruited adults (aged ≥18 years) attending diabetes clinics at Addenbrooke's Hospital (Cambridge, UK) and Medical University of Graz (Graz, Austria). Patients were eligible if they had type 1 diabetes (defined according to WHO criteria), non-hypoglycaemic C-peptide concentration less than 100 pmol/L, and HbA 1c less than 7·5%; had been using insulin pump therapy for at least 6 months; had knowledge of insulin self-adjustment; and had been self-monitoring their blood glucose concentration at least six times per day. Exclusion criteria included established nephropathy, neuropathy, or proliferative retinopathy; total daily insulin dose of 2·0 U/kg or more; hypoglycaemia unawareness (determined by Gold score ≥4 on the basis of pre-study clinical records); severe visual or hearing impairment; pregnancy; or breastfeeding (see appendix for the full list of inclusion and exclusion criteria). 
+ The study was approved by the local ethics committees and national competent authorities in the UK and Austria, and the protocol (phase 2 of APhome04 study) is shown in the appendix . All participants provided written informed consent before the start of study-related procedures. Randomisation and masking 
+ Participants were randomly assigned (1:1) to receive either day-and-night closed-loop insulin delivery followed by usual pump therapy with blinded CGM, or vice versa. Following the run-in period, the order of the two study periods was randomly determined with an automated web-based programme with locally stratified, randomly permuted blocks of four. Participants and investigators analysing study data were not masked to treatment allocation. Procedures 
+ After screening, all participants underwent a 2–4 week run-in period, during which they were trained to use the study insulin pump and CGM device, and calibrated the real-time CGM device according to manufacturer's instructions. Compliance assessment after the run-in period was based on at least 10 days of CGM use in the past 2 weeks. 
+ Participants then received insulin via the day-and-night closed-loop system (closed-loop period) for 4 weeks and via usual pump therapy with blinded CGM (control period) for 4 weeks, in the order assigned at randomisation, with a 2–4 week washout period in between. During the washout period, participants returned to their usual care and did not use the study CGM device. Identical study insulin pumps and CGM devices were used during the two treatment periods. Participants used rapid-acting insulin analogue normally applied in their usual clinical care. The built-in bolus wizard of the study insulin pump was used by participants during both treatment periods to calculate insulin boluses at mealtimes and when administering correction boluses. The study was done under free-living conditions without direct or remote supervision by clinical investigators. Participants were not restricted in their dietary intake or daily activities. Support was available at all times to assist participants in case of clinical or technical issues that arose during the study. Standard local hypoglycaemia and hyperglycaemia treatment guidelines were followed. 
+ The FlorenceD2A closed-loop system (University of Cambridge, Cambridge, UK) comprised a model-predictive control algorithm on a smartphone (Galaxy S4, Samsung, South Korea), which communicated wirelessly with a purpose-made translator unit (Triteq, Hungerford, UK) and the study pump (DANA-R Diabecare, Sooil, Seoul, South Korea) through a Bluetooth communication protocol ( appendix ). The CGM receiver (FreeStyle Navigator II, Abbott Diabetes Care, Alameda, CA, USA) was inserted into the translator, which translated a serial USB protocol into a Bluetooth communication protocol. The calculations used a compartment model of glucose kinetics 17 describing the effect of rapid-acting insulin and the carbohydrate content of meals on glucose levels. We applied a hybrid closed-loop approach in which participants were required to count carbohydrates and use a standard bolus calculator for pre-meal boluses according to usual practice. The bolus calculations provided by the study pump's built-in bolus calculator took into account carbohydrate content of meals, insulin on board, and entered capillary blood glucose readings. The algorithm was initialised by pre-programmed basal insulin rates downloaded from the study pump. Participants' bodyweight and total daily insulin dose were entered at set-up. During closed-loop operation, the algorithm adapted itself to a particular participant. The treat-to-target control algorithm aimed to achieve glucose concentrations of 5·8–7·3 mmol/L, and adjusted the actual concentration depending on fasting versus postprandial status and the accuracy of model-based glucose predictions. Control Algorithm version 0.3.46 was used (University of Cambridge, Cambridge, UK) which, compared with that used in our previous study, 13 included enhanced adaptation of insulin needs based on analysis of past performance and identification of the time of day when insulin needs are consistently lower or higher. Participants were trained to perform a calibration check before breakfast and evening meal. If sensor glucose was above capillary glucose by more than 3 mmol/L, participants were advised to recalibrate the CGM device. These instructions resulted from in-silico assessment of hypoglycaemia and hyperglycaemia risks using the validated Cambridge simulator. 18 Safety rules limited maximum insulin infusion and suspended insulin delivery at sensor glucose at or less than 4·3 mmol/L, or when sensor glucose was rapidly decreasing. 
+ During the control period, the display of the study CGM device was masked. Participants were allowed to use their own glucose monitoring devices (CGM or flash glucose monitoring 19 ) if they were part of their pre-study usual care. The control intervention was chosen according to existing clinical practice and participants' preferences. 20 The rationale for the control period was to reflect usual clinical practice and national reimbursement policies, and to compare the incremental benefits gained by closed-loop insulin delivery with the therapeutic modality followed by the participants in a pragmatic study design. 
+ At the start of the closed-loop period, participants were admitted to the local clinical research facility for a training session, which covered starting and stopping of the closed-loop system and troubleshooting of technical issues. If sensor glucose readings became unavailable, or in case of other system failures, participants were alerted by an audible alarm and the system restarted the participant's usual insulin delivery rate within 30–60 min to mitigate the risk of insulin under-delivery and over-delivery. 21 Participants were instructed to have the low-glucose alarm audible at all times. The sensor glucose alarm threshold for hypoglycaemia was initially set at 3·5 mmol/L, but these settings could be later modified by the participants. A user feedback questionnaire was completed by participants at the end of the closed-loop period. 
+ Blood samples for HbA 1c and C-peptide measurements were taken after enrolment. Plasma C-peptide was measured with chemiluminescence immunoassays (Diasorin Liaison XL [Deutschland GmbH, Dietzenbach, Germany] used in Cambridge; ADVIA Centaur [Siemens Healthcare Diagnostics, USA] used in Graz). HbA 1c was measured with ion exchange high-performance liquid chromatography, compliant with the International Federation of Clinical Chemistry and Laboratory Medicine, at study centres (G8 HPLC Analyzer [Tosoh Bioscience, South San Francisco, CA, USA] in Cambridge; Menarini HA-8160 HbA 1c auto-analyser [Menarini Diagnostics, Florence, Italy] in Graz). Outcomes 
+ The primary outcome was the proportion of time during the whole study when sensor glucose concentration was in the target range of 3·9–10·0 mmol/L. Secondary efficacy outcomes were proportion of time with sensor glucose concentration above and below target range; time with glucose concentration below 3·5 mmol/L, 3·3 mmol/L (post hoc), and 2·8 mmol/L, and above 13·9 mmol/L (post hoc) and 16·7 mmol/L; the number of nights and mean duration when sensor glucose was below 3·5 mmol/L for at least 20 min; hypoglycaemia burden (ie, area under the curve when sensor glucose concentration was less than 3·5 mmol/L; post hoc); mean, SD, and coefficient of variation (post hoc) of sensor glucose; total daily, basal, and bolus insulin dose; and weekly trends in glucose control and insulin delivery. The between-day coefficient of variation of sensor glucose was calculated from daily mean glucose values (midnight to midnight). To limit multiple comparison, daytime (0601 h to 2359 h) and night-time (0000 h to 0600 h) endpoints were calculated with data from the respective periods for a subset of outcomes—proportion of time with glucose concentration in target range, above and below target range, below 3·5 mmol/L, and below 2·8 mmol/L; SD of sensor glucose concentration; between-day and between-night coefficient of variation of sensor glucose concentration; and area under the curve when sensor glucose concentration was less than 3·5 mmol/L. 
+ Of note, two prespecified secondary outcomes will not be reported. We will not report time spent in target glucose range (3·9–10·0 mmol/L) based on subcutaneous glucose monitoring adjusted for sensor error during the entire home stay because the general consensus is that outcomes based on unadjusted CGM values should be reported. 22 Additionally, low blood glucose index will not be reported since it is not generally well understood by non-specialists and is highly correlated with time with glucose concentration below 3·9 mmol/L. 23 
+ Safety outcomes were severe hypoglycaemic events, significant ketonaemia (>3·0 mmol/L), and other adverse and serious adverse events. We also assessed the frequency and duration of use of the closed-loop system at home as a measure of utility outcome. Statistical analysis 
+ The power calculation was based on improvements in time spent in glucose concentration target range. Assuming an SD of 18% and mean improvement of time spent in target range of 10%, 13 , 24 31 participants were needed at the desired 80% power and α level of 0·05 (two-tailed). If the mean improvement was 12%, the required sample size was reduced to 20. We planned to recruit up to 34 participants, aiming for 24 participants to complete the study to allow for dropouts (anticipated dropout rate of 25% based on the investigators' experience and expectation). Participants who dropped out of the study during the run-in period and within the first 2 weeks of the first treatment period were allowed to be replaced. 
+ We agreed on the statistical analysis plan following completion of the last patient's last visit but before the final dataset was reviewed and analysed. The analyses were done by intention to treat. Efficacy and safety data from all randomised participants, including those who dropped out, were included in the analysis. We compared the respective measurements obtained during the closed-loop period and the control period using a regression model that accounts for period effect. Log-transformed analyses were used for highly skewed endpoints. Values were presented as mean (SD) or median (IQR) for each study period. A 5% significance level was used to declare statistical significance for all comparisons. Outcomes were calculated with GStat software (University of Cambridge, Cambridge, UK), version 2.2.4, and statistical analyses were done with SPSS (IBM Software, Hampshire, UK), version 23. 
+ This study is registered with ClinicalTrials.gov , number NCT02727231 . Role of the funding source 
+ The funders of the study had no role in the study design, data collection, data analysis, data interpretation, or writing of the report. Abbott Diabetes Care read the manuscript before submission. The corresponding author had full access to all the data in the study and had final responsibility for the decision to submit for publication. Results 
+ Between March 21 and June 24, 2016, we recruited 31 participants ( figure 1 ). Two participants withdrew during the run-in period because of issues associated with use of the study pump. 29 eligible participants (17 from Cambridge and 12 from Graz) were randomly assigned. One participant dropped out during the first closed-loop period because of dissatisfaction with study devices and glycaemic control. Of 29 randomised participants, five (17%) used real-time CGM and six (21%) used flash glucose monitoring as part of their usual care ( table 1 ; appendix ). 
+ Figure 1. 
+ 
+ Open in a new tab 
+ Trial profile Table 1. 
+ Baseline characteristics 
+ 
+ 
+ 
+ 
+ Data (n=29) 
+ 
+ 
+ Sex 
+ 
+ 
+ Female 
+ 15 (52%) 
+ 
+ 
+ 
+ Male 
+ 14 (48%) 
+ 
+ 
+ Age (years) 
+ 41 (13) 
+ 
+ 
+ Bodyweight (kg) 
+ 72·9 (13·0) 
+ 
+ 
+ BMI (kg/m 2 ) 
+ 25·1 (3·0) 
+ 
+ 
+ HbA 1c (%) 
+ 6·9 (0·5) 
+ 
+ 
+ HbA 1c (mmol/mol) 
+ 51·7 (4·8) 
+ 
+ 
+ Duration of diabetes (years) 
+ 24 (12) 
+ 
+ 
+ Duration using pump (years) 
+ 6 (4) 
+ 
+ 
+ Total daily insulin (U/kg/day) 
+ 0·5 (0·1) 
+ 
+ Glucose sensor use 
+ 
+ 
+ No previous glucose sensor use 
+ 18 (62%) 
+ 
+ 
+ 
+ Real-time continuous glucose monitoring 
+ 5 (17%) 
+ 
+ 
+ 
+ Flash glucose monitoring 
+ 6 (21%) 
+ 
+ 
+ 
+ Open in a new tab 
+ Data are mean (SD) or n (%). The primary outcome of the study—the proportion of time during the whole study period when sensor glucose concentration was in the target range (3·9–10·0 mmol/L)—was 10·5 percentage points higher (95% CI 7·6–13·4; p<0·0001) during the closed-loop period than during the control period (65·6% [SD 8·1] when participants were using usual pump therapy vs 76·2% [6·4] when they used closed-loop; table 2 ). 24 h sensor glucose and insulin delivery profiles are shown in figure 2 . The proportion of time sensor glucose concentration was in the target range seemed unchanged over the 4 week intervention periods ( appendix ). 
+ Table 2. 
+ Overall day-and-night glucose control during closed-loop and control periods based on sensor glucose measurements 
+ 
+ 
+ 
+ 
+ Closed-loop period (n=29) 
+ Control period (n=28) 
+ 
+ Paired difference * or paired ratio † (95% CI) 
+ 
+ p value 
+ 
+ 
+ Proportion of time with glucose concentration in range (%) 
+ 
+ 
+ 3·9–10·0 mmol/L ‡ 
+ 
+ 76·2% (6·4) 
+ 65·6% (8·1) 
+ 10·5 (7·6 to 13·4) 
+ <0·0001 
+ 
+ 
+ 
+ >10·0 mmol/L 
+ 20·4% (6·3) 
+ 27·4% (9·6) 
+ −6·9 (−10·2 to −3·5) 
+ 0·0003 
+ 
+ 
+ 
+ >13·9 mmol/L 
+ 3·8% (2·6) 
+ 6·9% (3·9) 
+ −3·0 (−4·4 to −1·6) 
+ 0·0002 
+ 
+ 
+ 
+ >16·7 mmol/L 
+ 0·9% (0·8) 
+ 2·1% (1·8) 
+ −1·2 (−1·9 to −0·6) 
+ 0·0009 
+ 
+ 
+ 
+ <3·9 mmol/L 
+ 2·9% (2·3 to 4·0) 
+ 5·3% (3·5 to 10·0) 
+ 0·50 (0·41 to 0·63) † 
+ 
+ <0·0001 
+ 
+ 
+ 
+ <3·5 mmol/L 
+ 1·3% (0·8 to 2·3) 
+ 3·4% (1·9 to 7·2) 
+ 0·35 (0·26 to 0·47) † 
+ 
+ <0·0001 
+ 
+ 
+ 
+ <3·3 mmol/L 
+ 0·9% (0·5 to 1·7) 
+ 2·6% (1·3 to 5·5) 
+ 0·30 (0·22 to 0·43) † 
+ 
+ <0·0001 
+ 
+ 
+ 
+ <2·8 mmol/L 
+ 0·3% (0·1 to 0·5) 
+ 1·0% (0·5 to 2·6) 
+ 0·24 (0·14 to 0·41) † 
+ 
+ <0·0001 
+ 
+ 
+ AUC day <3·5 mmol/L (min × mmol/L) 
+ 9·1 (3·7 to 18·2) 
+ 26·7 (13·1 to 65·5) 
+ 0·27 (0·18 to 0·41) † 
+ 
+ <0·0001 
+ 
+ 
+ Mean glucose concentration (mmol/L) 
+ 7·9 (0·5) 
+ 8·3 (0·9) 
+ −0·4 (−0·7 to −0·1) 
+ 0·0226 
+ 
+ 
+ SD of glucose concentration (mmol/L) 
+ 2·8 (0·4) 
+ 3·3 (0·5) 
+ −0·5 (−0·7 to −0·3) 
+ <0·0001 
+ 
+ Coefficient of variation of glucose concentration 
+ 
+ 
+ Within days (%) 
+ 35·3 (3·0) 
+ 40·3 (5·1) 
+ −5·0 (−7·1 to −3·0) 
+ <0·0001 
+ 
+ 
+ 
+ Between days (%) 
+ 12·8 (3·3) 
+ 20·2 (4·6) 
+ −7·5 (−9·7 to −5·3) 
+ <0·0001 
+ 
+ Sensor glucose concentration <3·5 mmol/L for at least 20 min 
+ 
+ 
+ Number of nights 
+ 2·1 (1·0) 
+ 5·6 (3·5) 
+ −3·6 (−4·9 to −2·2) 
+ <0·0001 
+ 
+ 
+ 
+ Mean duration of each episode (min) 
+ 45 (13) 
+ 75 (25) 
+ −29 (−38 to −20) 
+ <0·0001 
+ 
+ 
+ 
+ Open in a new tab 
+ 
+ Data are mean (SD) or median (IQR), unless otherwise stated. No significant period effect was observed. AUC day =sensor glucose area under the curve per day. 
+ 
+ * Unless specified otherwise, data are normally distributed and presented as mean difference of closed-loop period minus control period, with 95% CI for mean; a positive value indicates that the measurement was higher during the closed-loop period than in the control period. 
+ 
+ 
+ † Non-normally distributed data are presented as ratio of closed-loop data over control data, with 95% CI for ratio; a value greater than unity indicates that the measurement was higher in the closed-loop period than in the control period. 
+ 
+ 
+ ‡ Primary outcome. 
+ 
+ Figure 2. 
+ 
+ Open in a new tab 
+ Median sensor glucose and insulin delivery for the 24 h duration over the study period 
+ Median (IQR) sensor glucose concentration (A) and insulin delivery (B) during closed-loop period (solid red line and red shaded area) and control period (dashed black line and grey shaded area) for the 24 h duration. The horizontal dashed lines show the lower and upper limits of the glucose target range (3·9–10·0 mmol/L). Day-and-night closed-loop insulin delivery reduced mean glucose concentration by 0·4 mmol/L (0·1–0·7, p=0·0226) compared with usual pump therapy ( table 2 , figure 3 ). Compared with the control period, day-and-night closed-loop insulin delivery reduced the proportion of time with glucose concentration below 3·9 mmol/L by 50% (37–59, p<0·0001), below 3·5 mmol/L by 65% (53–74, p<0·0001), below 3·3 mmol/L by 70% (57–78, p<0·0001), and below 2·8 mmol/L by 76% (59–86, p<0·0001), as well as the burden of hypoglycaemia (ie, area under the curve when sensor glucose concentration was less than 3·5 mmol/L) by 73% (59–82, p<0·0001). Closed-loop insulin delivery also reduced the number of nights when glucose concentration was below 3·5 mmol/L for at least 20 min as well as the mean duration of such periods ( table 2 ). Compared with usual pump therapy, closed-loop insulin delivery reduced the proportion of time with glucose concentration above the target range (ie, >10 mmol/L) by 6·9 percentage points (3·5–10·2, p=0·0003), above 13·9 mmol/L by 3·0 percentage points (1·6–4·4, p=0·0002) and above 16·7 mmol/L by 1·2 percentage points (0·6–1·9, p=0·0009; table 2 ). Moreover, all measures of glycaemic variability were significantly lower in the closed-loop period than in the control period: SD of sensor glucose was 0·5 mmol/L (0·3–0·7) lower (p<0·0001), coefficient of variation of sensor glucose within days was 5·0% (3·0–7·1) lower (p<0·0001), and coefficient of variation of sensor glucose between days was 7·5% (5·3–9·7) lower (p<0·0001; table 2 ). Total daily insulin was similar between study periods ( table 3 ). Weekly trends in glucose control and insulin delivery are shown in the appendix (p 3) . 
+ Figure 3. 
+ 
+ Open in a new tab 
+ Individual values of mean sensor glucose and proportion of time spent with glucose concentration below the target range for the whole study 
+ The size of the circles denotes the proportion of time spent with low glucose (<3·5 mmol/L). Table 3. 
+ Insulin delivery over 24 h period 
+ 
+ 
+ 
+ Closed-loop period (n=29) 
+ Control period (n=28) 
+ 
+ Paired difference * (95% CI) 
+ 
+ p value 
+ 
+ 
+ 
+ Total daily insulin (U/day) 
+ 37·5 (13·8) 
+ 37·4 (12·6) 
+ 0·8 (−1·0 to 2·6) 
+ 0·36 
+ 
+ 
+ Total bolus insulin (U/day) 
+ 18·6 (7·9) 
+ 20·2 (8·4) 
+ −1·1 (−2·4 to 0·2) 
+ 0·11 
+ 
+ 
+ Total basal insulin (U/day) 
+ 18·9 (7·8) 
+ 17·2 (5·7) 
+ 1·9 (0·7 to 3·1) 
+ 0·0038 
+ 
+ 
+ 
+ Open in a new tab 
+ 
+ Data are mean (SD), unless otherwise stated. 
+ 
+ * Normally distributed data are presented as mean difference of closed-loop period minus control period, with 95% CI for mean; a positive value indicates that the measurement was higher in the closed-loop period than in the control period. 
+ 
+ Outcomes at night time (0000 h to 0600 h) and daytime (0601 h to 2359 h) were in concordance with outcomes from the combined day-and-night period ( table 4 ). Night-time use of closed-loop insulin delivery significantly increased the proportion of time with glucose concentration in target range by 17·2 percentage points (95% CI 12·0–22·4, p<0·0001), reduced mean glucose concentration by 0·4 mmol/L (0·1–0·8, p=0·0211), and decreased the burden of hypoglycaemia by 89% (80–94, p<0·0001) compared with the control period. SD and between-night coefficient of variation of sensor glucose were significantly reduced by closed-loop insulin delivery ( table 4 ). Daytime use of closed-loop insulin delivery increased time spent with glucose concentration in the target range by 8·1 percentage points (95% CI 5·3–11·0, p<0·0001) and reduced the burden of hypoglycaemia by 61% (14–75, p=0·0001). Closed-loop insulin delivery significantly reduced the SD and between-day coefficient of variation of sensor glucose ( table 4 ), in line with measured outcomes of night-time glycaemic variability. 
+ Table 4. 
+ Night-time and daytime glucose control during closed-loop and control periods based on sensor glucose measurements 
+ 
+ 
+ 
+ 
+ Closed-loop period (n=29) 
+ Control period (n=28) 
+ 
+ Paired difference * or paired ratio † (95% CI) 
+ 
+ p value 
+ 
+ 
+ Night time (0000 h to 0600 h) 
+ Proportion of time with glucose concentration in range (%) 
+ 
+ 
+ 3·9–10·0 mmol/L 
+ 82·0% (9·7) 
+ 64·5% (11·5) 
+ 17·2 (12·0 to 22·4) 
+ <0·0001 
+ 
+ 
+ 
+ >10·0 mmol/L 
+ 14·9% (8·5) 
+ 25·4% (11·8) 
+ −10·2 (−15·4 to −5·1) 
+ 0·0004 
+ 
+ 
+ 
+ <3·9 mmol/L 
+ 3·2% (1·6 to 4·0) 
+ 9·0% (4·6 to 15·7) 
+ 0·33 (0·24 to 0·45) † 
+ 
+ <0·0001 
+ 
+ 
+ 
+ <3·5 mmol/L 
+ 1·1% (0·4 to 2·2) 
+ 5·4% (2·9 to 11·4) 
+ 0·19 (0·12 to 0·28) † 
+ 
+ <0·0001 
+ 
+ 
+ 
+ <2·8 mmol/L 
+ 0·1% (0·0 to 0·6) 
+ 1·7% (0·9 to 5·7) 
+ 0·14 (0·08 to 0·26) † 
+ 
+ <0·0001 
+ 
+ 
+ AUC day <3·5 mmol/L (mmol/L × min) 
+ 5·1 (1·4 to 15·5) 
+ 41·5 (21·5 to 122·8) 
+ 0·11 (0·06 to 0·20) † 
+ 
+ <0·0001 
+ 
+ 
+ Mean glucose concentration (mmol/L) 
+ 7·5 (0·6) 
+ 8·0 (1·0) 
+ −0·4 (−0·8 to −0·1) 
+ 0·0211 
+ 
+ 
+ SD of glucose concentration (mmol/L) 
+ 2·5 (0·6) 
+ 3·2 (0·6) 
+ −0·7 (−1·0 to −0·4) 
+ <0·0001 
+ 
+ 
+ Coefficient of variation of glucose concentration between nights (%) 
+ 24·9 (7·1) 
+ 34·4 (6·4) 
+ −9·6 (−13·2 to −5·9) 
+ <0·0001 
+ 
+ Daytime (0601 h to 2359 h) 
+ Proportion of time with glucose concentration in range (%) 
+ 
+ 
+ 3·9–10·0 mmol/L 
+ 74·3% (6·9) 
+ 66·1% (8·8) 
+ 8·1 (5·3 to 11·0) 
+ <0·0001 
+ 
+ 
+ 
+ >10·0 mmol/L 
+ 22·2% (7·2) 
+ 27·9% (10·4) 
+ −5·6 (−8·9 to −2·3) 
+ 0·0023 
+ 
+ 
+ 
+ <3·9 mmol/L 
+ 2·7% (1·9 to 4·5) 
+ 4·4% (2·8 to 8·6) 
+ 0·61 (0·49 to 0·76) † 
+ 
+ 0·0001 
+ 
+ 
+ 
+ <3·5 mmol/L 
+ 1·2% (0·7 to 2·2) 
+ 2·3% (1·4 to 6·0) 
+ 0·47 (0·35 to 0·64) † 
+ 
+ <0·0001 
+ 
+ 
+ 
+ <2·8 mmol/L 
+ 0·2% (0·1 to 0·5) 
+ 0·5% (0·2 to 1·3) 
+ 0·48 (0·29 to 0·80) † 
+ 
+ 0·0076 
+ 
+ 
+ AUC day <3·5 mmol/L (mmol/L × min) 
+ 8·3 (3·4 to 14·3) 
+ 15·9 (7·5 to 45·7) 
+ 0·39 (0·25 to 0·86) † 
+ 
+ 0·0001 
+ 
+ 
+ Mean glucose concentration (mmol/L) 
+ 8·0 (0·6) 
+ 8·4 (1·0) 
+ −0·3 (−0·6 to 0·0) 
+ 0·0498 
+ 
+ 
+ SD of glucose concentration (mmol/L) 
+ 2·9 (0·4) 
+ 3·3 (0·6) 
+ −0·5 (−0·7 to −0·2) 
+ 0·0002 
+ 
+ 
+ Coefficient of variation of glucose concentration between days (%) 
+ 13·8 (3·0) 
+ 20·6 (5·1) 
+ −6·8 (−9·1 to −4·6) 
+ <0·0001 
+ 
+ 
+ 
+ Open in a new tab 
+ 
+ Data are presented as mean (SD) or median (IQR), unless otherwise stated. No significant period effect was observed. AUC day =sensor glucose area under the curve per day. 
+ 
+ * Unless specified otherwise, data are normally distributed and presented as mean difference of closed-loop period minus control period, with 95% CI for mean; a positive value indicates that the measurement was higher in the closed-loop period than in the control period. 
+ 
+ 
+ † Non-normally distributed data are presented as ratio of closed-loop data over control data, with 95% CI for ratio; a value greater than unity indicates that the measurement was higher in the closed-loop period than in the control period. 
+ 
+ Overall mean absolute relative deviation of sensor glucose, using capillary glucose as the reference, was 15·3% (SD 18·2) and median absolute relative deviation was 10·1% (IQR 4·7–19·3), on the basis of 8447 paired capillary-CGM values. Sensor alarm settings were not altered by participants during closed-loop intervention. 
+ No significant difference was seen in sensor glucose availability between study periods (97% [IQR 95–99] in closed-loop period vs 96% [91–97] in control period; p=0·10). Day-and-night closed-loop delivery was used for 90% (95% CI 78–89) of the closed-loop period. The user feedback questionnaire was fully completed by 26 participants, and four of the six questions were answered by all participants ( appendix ). 27 (93%) of 29 participants were happy to have their glucose levels automatically controlled by the closed-loop system. 20 (69%) participants stated that they spent less time managing their diabetes while using the closed-loop system, but seven (24%) disagreed with this statement. 18 (62%) expressed fewer concerns about their glycaemic control while using the closed-loop system. 14 (48%) participants reported improved sleep during the closed-loop period. 23 (88%) of 26 participants reported feeling safe while using the closed-loop system, and 26 (96%) of 27 would recommend it to others. 
+ No serious adverse events, episodes of severe hypoglycaemia, or episodes of hyperglycaemia with ketosis were reported. Skin irritations related to sensor use occurred in four participants. Two participants had mild respiratory tract infections (one during the run-in period and one during the control period). One participant had cystitis during the closed-loop period and one reported allergic rhinoconjunctivitis during the control period. All reported adverse events were resolved without sequelae. Discussion 
+ In this two-centre, open-label, randomised, crossover trial, we showed that, in adults with type 1 diabetes and HbA 1c below 7·5%, day-and-night hybrid closed-loop insulin delivery significantly improved overall glucose control while reducing hypoglycaemia progressively by 50–75% at lower glucose thresholds compared with usual insulin pump therapy. Beneficial effects on glycaemic outcomes included increased time spent with glucose concentration in target range (3·9–10·0 mmol/L), reduced time with glucose concentration above and below the target range, and decreased mean glucose concentration and glycaemic variability. The findings of increased time spent in the glucose concentration target range, reduced hypoglycaemia, and decreased glycaemic variability were similarly observed during night-time and daytime periods. These outcomes were achieved without change in total insulin delivery. 
+ Hypoglycaemia is associated with increased morbidity and mortality in patients with type 1 diabetes. 25 A reduction of at least 30% in risk of hypoglycaemia, as observed in our study, is considered clinically relevant. 26 Threshold and predictive low-glucose suspend insulin delivery systems 8 , 9 , 10 cannot step-up insulin delivery and thus do not address the issue of hyperglycaemia. The advantage of a closed-loop system such as ours is the responsive, graduated modulation of insulin delivery, both below and above the pre-set pump regimen. This notion is supported by findings from our study, which showed that reduction in mean glucose concentration was accompanied by significant reduction in all the measured hypoglycaemia parameters. The multiplicity of beneficial outcomes—including increased time with optimum glucose control (in target range) and reduced time below and above target range, which were consistently observed during both night-time and daytime periods—suggests that the benefits of the closed-loop system can be accrued irrespective of the time of day in adults with HbA 1c below 7·5%. The control algorithm used in our study had enhanced adaptive features and coped safely with variations in insulin requirements, trading variability in insulin delivery for consistency in glucose concentrations. Several studies have shown that increased glycaemic variability is associated with the burden of hypoglycaemia. 27 Glycaemic variability 28 and hypoglycaemia 25 have both been associated with adverse clinical outcomes. We hypothesise that the significant reductions in glucose variability and hypoglycaemia by closed-loop insulin delivery in our study might have implications for clinical outcomes, although this hypothesis will need confirmation by longer and larger studies. 
+ Compared with previous unsupervised home-based studies, 13 , 16 our study revealed new findings, specifically in relation to the improvements of CGM-derived hypoglycaemia parameters. Compared with Thabit and colleagues' study of closed-loop insulin delivery versus sensor-augmented pump therapy in patients with type 1 diabetes and HbA 1c between 7·5% and 10·0% (58–86 mmol/mol), 13 our study had more pronounced relative reductions in the proportion of time with glucose concentration below 3·9 mmol/L (19% vs 50%) and hypoglycaemia burden (39% vs 73%). These differences might have been attributable to the use of an enhanced adaptive control algorithm and tight glycaemic control at baseline in the present study (mean screening HbA 1c 6·9% vs 8·5% in Thabit and colleagues' study 13 ), as well as differences in the control therapies between the two studies. The proportion of time spent with glucose concentration below the target range (ie, 3·9 mmol/L) during usual pump therapy (5·3%, IQR 3·5–10·0) was notably higher in our study than that in Thabit and colleagues' study (3·0%, 1·8–6·1) 13 but still lower than that in a study in adults with a mean baseline HbA 1c of 6·7% (mean proportion of time spent with sensor glucose below target range 14% [SD 11]). 19 Another study 15 assessed the use of closed-loop insulin delivery during night time in pregnant women with type 1 diabetes, using a control algorithm with a lower glucose setpoint to accommodate lower glucose targets (3·5–7·8 mmol/L) for this group of patients. In this study, 15 use of the closed-loop system increased the primary endpoint (time in target range overnight) by 15 percentage points compared with sensor-augmented pump therapy. The difference between this study 15 and ours is the overnight-only use of closed-loop in the former, and the difference in the comparator between the two studies (sensor-augmented pump therapy vs usual pump therapy). Comparability between both studies is also challenging because this specific group of women with type 1 diabetes is highly motivated, albeit over a short time period (ie, during pregnancy), and received intensive dietetic, education, and clinical support. 
+ The additional benefit of closed-loop insulin delivery in individuals with well controlled type 1 diabetes (ie, HbA 1c <7·5%) is the reduction of the residual risk of complications, hypoglycaemia, and glycaemic variability, as well as the burden of self-management. Reduction of hypoglycaemic burden has benefits such as improved quality of life and reduced societal cost. 5 , 29 Existing reimbursement criteria in several countries for CGM are still predominantly focused on HbA 1c and might exclude patients with HbA 1c below 7·5% because of the dearth of evidence showing efficacy. However, results from our study show efficacy in terms of both improved glycaemic control and reduced risk of hypoglycaemia. Thus, reimbursement of closed-loop technology in patients with HbA 1c below 7·5% could be considered justifiable. 
+ The reduction in hypoglycaemic burden in our study was almost identical to that in Russell and colleagues' study, 30 which compared 5 day use of a bihormonal (insulin and glucagon) closed-loop system with usual pump therapy in adults with type 1 diabetes. Participants in Russell and colleagues' study had a baseline HbA 1c of 7·1% (SD 0·8), and lower mean glucose concentration and risk of hypoglycaemia during the closed-loop period than during usual pump therapy. The study was done under direct supervision during the closed-loop period but not during the control period. The incremental reduction in hypoglycaemia achieved by bihormonal versus single-hormone closed-loop systems needs to be further assessed in longer, unsupervised, head-to-head, randomised studies to justify the increased complexity and cost. A single-hormone hybrid closed-loop system was approved in September, 2016, by the US Food and Drug Administration on the basis of results from a 3 month study 31 in adolescents and adults with mean HbA 1c of 7·4% (SD 0·9) at screening. However, this study was non-randomised and did not have a control group, and the length of study periods was not matched (2 week run-in phase, which was used as baseline comparator for a 3 month intervention). 
+ Results from participants' feedback indicate a high level of trust in the closed-loop system autonomously modulating their glucose concentrations, with the majority agreeing that the time spent on management of diabetes was reduced during the closed-loop period. However, seven (24%) of 29 participants disagreed with this statement, reflecting that user input is still needed for a hybrid closed-loop system. CGM alarms and connectivity issues, especially at night, might have negatively affected participants' experience of the closed-loop system. One participant withdrew from the study because of recurrent technical issues related to the closed-loop system. However, an overall positive endorsement of the closed-loop system was observed, since most participants were willing to recommend the closed-loop system to others. 
+ The strengths of this study include the randomised, two-centre, two-country, crossover design. So far, none of the home-based studies of closed-loop insulin delivery have focused specifically on patients with HbA 1c below 7·5% who might be early adopters of closed-loop technologies striving to further improve control of their diabetes. We did not use remote monitoring or direct supervision, so as to adhere to real-world conditions. Additionally, we did not restrict the participants' dietary habits, activity level, and geographical movements. However, we acknowledge that our study has several limitations. The relatively short study duration might have been insufficient to assess long-term compliance. We excluded participants with hypoglycaemia unawareness, therefore restricting assessment of the closed-loop system in those who might benefit greatly. The prototype nature of the closed-loop system and the number of devices might have increased the participants' device burden and negatively affected some aspects of user feedback. The heterogeneity of sensor use in the control period might have confounded the reported glycaemic outcomes. However, the individualised therapy approaches used in the control period reflect present clinical strategies adopted by this population to achieve their baseline HbA 1c , and do not diminish the incremental effects of closed-loop use. 20 
+ To conclude, day-and-night closed-loop insulin delivery in adults with type 1 diabetes and HbA 1c below 7·5% significantly improved glycaemic control while reducing the risk of hypoglycaemia. Thus, in adults who are actively engaged with self-management, closed-loop insulin delivery might provide additional benefits, justifying its use in this particular population. The overall positive feedback from participants reflected the acceptance of closed-loop technology during daily diabetes management, albeit with some limitations to its use, which might affect user adherence and experience. Larger and longer studies are needed to validate our findings. Acknowledgments 
+ Acknowledgments 
+ LB received support from the Swiss National Science Foundation (P1BEP3_165297). Additional support for the artificial pancreas work was from JDRF, National Institute for Health Research Cambridge Biomedical Research Centre, and Wellcome Strategic Award (100574/Z/12/Z). Abbott Diabetes Care supplied discounted CGM devices, sensors, and details of communication protocol to facilitate real-time connectivity. We thank study volunteers for their participation and acknowledge support by the staff at the Addenbrooke's Wellcome Trust Clinical Research Facility. Jasdip Mangat (University Hospitals of Leicester, National Health Service Trust, Leicester, UK) supported development and validation of the closed-loop system. Josephine Hayes (University of Cambridge) provided administrative support. Biochemical assays were done by Keith Burling (UK National Institute for Health Research Cambridge Biomedical Research Centre, Core Biochemical Assay Laboratory). Contributors 
+ RH coordinated the study. RH, MLE, TRP, HT, LB, and MEW designed the study. LB, HT, SH, HK, JQ-H, and JKM screened and enrolled participants and arranged informed consent from the participants. LB, HT, SH, HK, JQ-H, JKM, MT, and JMA provided patient care and took samples. MEW managed randomisation. LB, HT, MEW, and RH did or supported data analyses, including the statistical analyses. RH designed and implemented the glucose controller. LB, HT, MT, MLE, TRP, and RH interpreted the results. LB, HT, and RH wrote the manuscript. All authors critically reviewed the report. No writing assistance was provided. LB, HT, and RH had full access to all of the data in the study and take responsibility for the integrity of the data and the accuracy of the data analyses. Declaration of interests 
+ SH is a consultant for Novo-Nordisk and the ONSET group, and received speaker and training honoraria from Medtronic. MLE received speaker honoraria from Abbott Diabetes Care, Novo Nordisk, and Animas; and is on advisory panels for Novo Nordisk, Abbott Diabetes Care, Medtronic, Roche, and Cellnovo. RH received speaker honoraria from Eli Lilly and Novo Nordisk and license fees from B Braun and Medtronic; is on advisory panels for Eli Lilly and Novo Nordisk; has served as a consultant to B Braun; and reports patents and patent applications. MEW received license fees from Becton Dickinson, has served as a consultant to Beckton Dickinson, and reports patents and patent applications. MT received speaker honoraria from Novo Nordisk. JKM is a member in the advisory board of Sanofi, Eli Lilly, and Boehringer Ingelheim, and received speaker honoraria from Abbott Diabetes Care, Astra Zeneca, Eli Lilly, Nintamed, Novo Nordisk, Roche Diabetes Care, Servier, and Takeda. TRP is an advisory board member of Novo Nordisk and a consultant for Roche Diabetes Care, Novo Nordisk, Eli Lilly, Infineon, and Carnegie Bank, and is on the speaker's bureau of Novo Nordisk and Astra Zeneca. LB, HT, HK JQ-H, and JMA declare no competing interests. Supplementary Material 
+ Supplementary appendix 
+ 
+ mmc1.pdf (2.3MB, pdf) 
+ References 
+ 
+ 
+ 1. American Diabetes Association Approaches to glycemic treatment. Diabetes Care. 2016;39(suppl 1):S52–S59. doi: 10.2337/dc16-S010. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 2. Pedersen-Bjergaard U, Kristensen PL, Beck-Nielsen H. Effect of insulin analogues on risk of severe hypoglycaemia in patients with type 1 diabetes prone to recurrent severe hypoglycaemia (HypoAna trial): a prospective, randomised, open-label, blinded-endpoint crossover trial. Lancet Diabetes Endocrinol. 2014;2:553–561. doi: 10.1016/S2213-8587(14)70073-7. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 3. UK Hypoglycaemia Study Group Risk of hypoglycaemia in types 1 and 2 diabetes: effects of treatment modalities and their duration. Diabetologia. 2007;50:1140–1147. doi: 10.1007/s00125-007-0599-y. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 4. Cryer PE. Diverse causes of hypoglycemia-associated autonomic failure in diabetes. N Engl J Med. 2004;350:2272–2279. doi: 10.1056/NEJMra031354. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 5. Frier BM. Hypoglycaemia in diabetes mellitus: epidemiology and clinical implications. Nat Rev Endocrinol. 2014;10:711–722. doi: 10.1038/nrendo.2014.170. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 6. Battelino T, Conget I, Olsen B. The use and efficacy of continuous glucose monitoring in type 1 diabetes treated with insulin pump therapy: a randomised controlled trial. Diabetologia. 2012;55:3155–3162. doi: 10.1007/s00125-012-2708-9. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 7. van Beers CA, DeVries JH, Kleijer SJ. Continuous glucose monitoring for patients with type 1 diabetes and impaired awareness of hypoglycaemia (IN CONTROL): a randomised, open-label, crossover trial. Lancet Diabetes Endocrinol. 2016;4:893–901. doi: 10.1016/S2213-8587(16)30193-0. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 8. Bergenstal RM, Klonoff DC, Garg SK. Threshold-based insulin-pump interruption for reduction of hypoglycemia. N Engl J Med. 2013;369:224–232. doi: 10.1056/NEJMoa1303576. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 9. Maahs DM, Calhoun P, Buckingham BA. A randomized trial of a home system to reduce nocturnal hypoglycemia in type 1 diabetes. Diabetes Care. 2014;37:1885–1891. doi: 10.2337/dc13-2159. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 10. Ly TT, Nicholas JA, Retterath A, Lim EM, Davis EA, Jones TW. Effect of sensor-augmented insulin pump therapy and automated insulin suspension vs standard insulin pump therapy on hypoglycemia in patients with type 1 diabetes: a randomized clinical trial. JAMA. 2013;310:1240–1247. doi: 10.1001/jama.2013.277818. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 11. Ruan Y, Thabit H, Leelarathna L. Variability of insulin requirements over 12 weeks of closed-loop insulin delivery in adults with type 1 diabetes. Diabetes Care. 2016;39:830–832. doi: 10.2337/dc15-2623. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 12. Thabit H, Hovorka R. Coming of age: the artificial pancreas for type 1 diabetes. Diabetologia. 2016;59:1795–1805. doi: 10.1007/s00125-016-4022-4. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 13. Thabit H, Tauschmann M, Allen JM. Home use of an artificial beta cell in type 1 diabetes. N Engl J Med. 2015;373:2129–2140. doi: 10.1056/NEJMoa1509351. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 14. Tauschmann M, Allen JM, Wilinska ME. Day-and-night hybrid closed-loop insulin delivery in adolescents with type 1 diabetes: a free-living, randomized clinical trial. Diabetes Care. 2016;39:2019–2025. doi: 10.2337/dc15-2078. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 15. Stewart ZA, Wilinska ME, Hartnell S. Closed-loop insulin delivery during pregnancy in women with type 1 diabetes. N Engl J Med. 2016;375:644–654. doi: 10.1056/NEJMoa1602494. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 16. Kropff J, Del Favero S, Place J. 2 month evening and night closed-loop glucose control in patients with type 1 diabetes under free-living conditions: a randomised crossover trial. Lancet Diabetes Endocrinol. 2015;3:939–947. doi: 10.1016/S2213-8587(15)00335-6. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 17. Hovorka R, Shojaee-Moradie F, Carroll PV. Partitioning glucose distribution/transport, disposal, and endogenous production during IVGTT. Am J Physiol Endocrinol Metab. 2002;282:E992–1007. doi: 10.1152/ajpendo.00304.2001. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 18. Wilinska ME, Chassin LJ, Acerini CL, Allen JM, Dunger DB, Hovorka R. Simulation environment to evaluate closed-loop insulin delivery systems in type 1 diabetes. J Diabetes Sci Technol. 2010;4:132–144. doi: 10.1177/193229681000400117. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 19. Bolinder J, Antuna R, Geelhoed-Duijvestijn P, Kröger J, Weitgasser R. Novel glucose-sensing technology and hypoglycaemia in type 1 diabetes: a multicentre, non-masked, randomised controlled trial. Lancet. 2016;388:2254–2263. doi: 10.1016/S0140-6736(16)31535-5. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 20. Russell SJ, Beck RW. Design considerations for artificial pancreas pivotal studies. Diabetes Care. 2016;39:1161–1167. doi: 10.2337/dc15-2449. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 21. Wilinska ME, Budiman ES, Taub MB. Overnight closed-loop insulin delivery with model predictive control: assessment of hypoglycemia and hyperglycemia risk using simulation studies. J Diabetes Sci Technol. 2009;3:1109–1120. doi: 10.1177/193229680900300514. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 22. Maahs DM, Buckingham BA, Castle JR. Outcome measures for artificial pancreas clinical trials: a consensus report. Diabetes Care. 2016;39:1175–1179. doi: 10.2337/dc15-2716. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 23. Kovatchev BP, Cox DJ, Gonder-Frederick LA, Young-Hyman D, Schlundt D, Clarke W. Assessment of risk for severe hypoglycemia among adults with IDDM: validation of the low blood glucose index. Diabetes Care. 1998;21:1870–1875. doi: 10.2337/diacare.21.11.1870. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 24. Leelarathna L, Dellweg S, Mader JK. Day and night home closed-loop insulin delivery in adults with type 1 diabetes: three-center randomized crossover study. Diabetes Care. 2014;37:1931–1937. doi: 10.2337/dc13-2911. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 25. Khunti K, Davies M, Majeed A, Thorsted BL, Wolden ML, Paul SK. Hypoglycemia and risk of cardiovascular disease and all-cause mortality in insulin-treated people with type 1 and type 2 diabetes: a cohort study. Diabetes Care. 2015;38:316–322. doi: 10.2337/dc14-0920. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 26. Workgroup on Hypoglycemia American Diabetes Association Defining and reporting hypoglycemia in diabetes: a report from the American Diabetes Association Workgroup on Hypoglycemia. Diabetes Care. 2005;28:1245–1249. doi: 10.2337/diacare.28.5.1245. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 27. Kilpatrick ES, Rigby AS, Goode K, Atkin SL. Relating mean blood glucose and glucose variability to the risk of multiple episodes of hypoglycaemia in type 1 diabetes. Diabetologia. 2007;50:2553–2561. doi: 10.1007/s00125-007-0820-z. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 28. Schisano B, Tripathi G, McGee K, McTernan PG, Ceriello A. Glucose oscillations, more than constant high glucose, induce p53 activation and a metabolic memory in human endothelial cells. Diabetologia. 2011;54:1219–1226. doi: 10.1007/s00125-011-2049-0. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 29. Foos V, Varol N, Curtis BH. Economic impact of severe and non-severe hypoglycemia in patients with type 1 and type 2 diabetes in the United States. J Med Econ. 2015;18:420–432. doi: 10.3111/13696998.2015.1006730. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ 
+ 30. Russell SJ, El-Khatib FH, Sinha M. Outpatient glycemic control with a bionic pancreas in type 1 diabetes. N Engl J Med. 2014;371:313–325. doi: 10.1056/NEJMoa1314474. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ] 
+ 
+ 31. Bergenstal RM, Garg S, Weinzimer SA. Safety of a hybrid closed-loop insulin delivery system in patients with type 1 diabetes. JAMA. 2016;316:1407–1408. doi: 10.1001/jama.2016.11708. [ DOI ] [ PubMed ] [ Google Scholar ] 
+ Associated Data 
+ This section collects any data citations, data availability statements, or supplementary materials included in this article. 
+ Supplementary Materials 
+ Supplementary appendix 
+ 
+ mmc1.pdf (2.3MB, pdf) 
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ACTIONS 
+ 
+ 
+ 
+ 
+ 
+ View on publisher site 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ PDF (557.7 KB) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Cite 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ Collections 
+ 
+ 
+ 
+ 
+ 
+ Permalink 
+ 
+ 
+
+ 
+ 
+ PERMALINK 
+ 
+ 
+ 
+ 
+ Copy 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ RESOURCES 
+ 
+ 
+ 
+ 
+ Similar articles
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Cited by other articles
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Links to NCBI Databases
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+ 
+
+ 
+ 
+ 
+ Cite 
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ Copy 
+ 
+ 
+ 
+ 
+ 
+ Download .nbib 
+ .nbib 
+ 
+ 
+ 
+ 
+
+ 
+ Format: 
+ 
+ 
+ 
+ AMA
+ 
+ 
+ 
+ APA
+ 
+ 
+ 
+ MLA
+ 
+ 
+ 
+ NLM
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ Add to Collections 
+ 
+ 
+ 
+
+
+ 
+
+ 
+
+ 
+ 
+ 
+ Create a new collection 
+ 
+ 
+ 
+ Add to an existing collection 
+ 
+ 
+
+ 
+ 
+ 
+ Name your collection
+ * 
+ 
+ 
+ 
+ 
+ 
+ Choose a collection
+ 
+ 
+ 
+ 
+ Unable to load your collection due to an error 
+ Please try again 
+ 
+ 
+ 
+
+ 
+ 
+ Add
+ 
+ 
+ Cancel
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+ 
+ 
+
+
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ Follow NCBI
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ NCBI on X (formerly known as Twitter) 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ NCBI on Facebook 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ NCBI on LinkedIn 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ NCBI on GitHub 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ NCBI RSS feed 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ Connect with NLM
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ NLM on X (formerly known as Twitter) 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ NLM on Facebook 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ NLM on YouTube 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ National Library of Medicine
+ 8600 Rockville Pike Bethesda, MD 20894 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ Web Policies
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ FOIA
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ HHS Vulnerability Disclosure
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ Help
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ Accessibility
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ Careers
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ NLM
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ NIH
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ HHS
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ USA.gov
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+
+ 
+ Back to Top 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
