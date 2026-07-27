@@ -1249,3 +1249,46 @@ def test_the_double_booked_floor_is_DERIVED_from_the_one_home_and_is_shorter():
     src = inspect.getsource(fv.mode_monitor)
     assert "_floor = stuck_start_min_for(" in src and "age >= _floor" in src, \
         "the condemn test must use the derived per-class floor, not the bare constant"
+
+def test_a_machine_that_HAS_run_our_container_can_never_be_condemned_as_never_starting():
+    """★ THE VERDICT MUST NOT DEPEND ON WHAT WAS CLEANED UP (2026-07-27, observed within 7 minutes).
+    46031788 was correctly `double_booked` behind our own 46031535 on machine 53989. The collect reaped
+    46031535 for being terminal, 46031788 became the oldest thing we held there, and the SAME instance
+    re-classified as `host_fault` — one strike from publishing 53989 cross-lane and permanently, though it
+    had just run two of this lane's containers to 94-99 % GPU."""
+    import congeneric_fanout_vast as fv
+    incumbent = _inst(1, "s1f-12-x", "53989", "success, running img", age_h=0.75)
+    dupe = _inst(2, "s1f-15-y", "53989", "", age_h=0.7)
+    assert fv.never_started_cohort([incumbent, dupe])["never_started"][0]["klass"] == "double_booked"
+    # incumbent reaped, nothing else changed, and WITHOUT the durable set it would flip to host_fault
+    assert fv.never_started_cohort([dupe])["never_started"][0]["klass"] == "host_fault"
+    # ...with it, the machine is proven and cannot be condemned
+    c = fv.never_started_cohort([dupe], known_good={"53989"})
+    (row,) = c["never_started"]
+    assert row["klass"] == "stopped_on_a_proven_machine" and row["machine_has_run_our_container"]
+    assert c["host_fault_machines"] == [] and c["n_host_fault"] == 0
+    assert c["n_stopped_on_a_proven_machine"] == 1
+
+
+def test_the_proven_set_is_read_off_a_non_empty_status_msg():
+    """Whatever the message says, the box got as far as running our image — which is the exact claim a
+    'never starts' verdict denies."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-a", "111", "success, running docker.io/triskit23/nr4a3fep_latest/ssh"),
+            _inst(2, "s1f-b", "222", "#7 5.55 Get:5 http://archive.ubuntu.com/ubuntu jammy/main"),
+            _inst(3, "s1f-c", "333", ""), _inst(4, "s1f-d", "444", "   ")]
+    assert fv.observed_started_machines(live) == ["111", "222"]
+
+
+def test_the_condemn_path_never_publishes_a_proven_machine():
+    """The safety property, pinned as source: a cross-lane exclusion must be unreachable from both the
+    duplicate branch and the proven-machine branch."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    i_proven = src.index('if stuck_sig and i.get("id") in _proven:')
+    i_dupe = src.index('elif stuck_sig and i.get("id") in _dupes:')
+    i_host = src.index('_scope = "host"')
+    assert i_proven < i_dupe < i_host, "both no-exclusion branches must be tested before the host verdict"
+    # the proven set must be built from the DURABLE store, not only from the current listing
+    assert "_load_started_machines(s3, bucket)" in src and "_save_started_machines(s3, bucket, _good)" in src
