@@ -370,7 +370,12 @@ def run_archive():
         print("[archive] s3://%s/%s -> %d objects" % (BUCKET, prefix, len(keys)), flush=True)
         for key, size, mtime in keys:
             base = os.path.basename(key)
-            is_json = base.endswith(".json") and (base.startswith("leg") or base == "ddg.json")
+            # ★ MATCH ON "IS THIS A LEG RESULT", NOT ON A PREFIX. The first version required the basename to
+            # START WITH "leg", and every RUNG 2b / valB_mini leg JSON on the Vast lane is written as
+            # `legs/<unit_id>/engine_leg.json` — so the sweep skipped exactly the objects the audit existed to
+            # read, and reported them as absent. Absence produced by the reader's own filter is the worst kind:
+            # it looks like a clean result. Hence a substring test plus the names actually in use.
+            is_json = base.endswith(".json") and ("leg" in base or base in ("ddg.json", "smoke.json"))
             is_log = base.endswith(".log")
             if not (is_json or is_log) or size > 40 * 1024 * 1024:
                 continue
