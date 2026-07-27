@@ -1,65 +1,75 @@
 {
-  "utc": "2026-07-27T13:35:04Z",
+  "utc": "2026-07-27T13:42:22Z",
   "launched": [
     {
-      "gpu_name": "RTX 4090",
+      "gpu_name": "RTX 3090",
       "replicate": 1,
-      "instance": "46007321",
-      "machine_id": 114244,
-      "dph": 0.1925925925925926,
-      "worst_case_usd": 0.0857
+      "instance": "46007826",
+      "machine_id": 142143,
+      "dph": 0.04865644444444445,
+      "worst_case_usd": 0.0279
     },
     {
-      "gpu_name": "RTX 4090",
+      "gpu_name": "RTX 3090",
       "replicate": 2,
-      "instance": "46007322",
-      "machine_id": 117850,
-      "dph": 0.19111111111111112,
-      "worst_case_usd": 0.0857
+      "instance": "46007901",
+      "machine_id": 136720,
+      "dph": 0.08222222222222222,
+      "worst_case_usd": 0.0279
     },
     {
-      "gpu_name": "RTX 4090",
+      "gpu_name": "RTX 3090",
       "replicate": 3,
-      "instance": "46007324",
-      "machine_id": 12697,
-      "dph": 0.1592222222222222,
-      "worst_case_usd": 0.0857
+      "instance": "46007907",
+      "machine_id": 24039,
+      "dph": 0.10948148148148149,
+      "worst_case_usd": 0.0279
     },
     {
-      "gpu_name": "RTX 4090",
+      "gpu_name": "RTX 3090",
       "replicate": 4,
-      "instance": "46007389",
-      "machine_id": 26487,
-      "dph": 0.2022222222222222,
-      "worst_case_usd": 0.0857
-    },
-    {
-      "gpu_name": "RTX 4090",
-      "replicate": 5,
-      "instance": "46007393",
-      "machine_id": 117843,
-      "dph": 0.1925925925925926,
-      "worst_case_usd": 0.0857
+      "instance": "46007912",
+      "machine_id": 5855,
+      "dph": 0.08370370370370371,
+      "worst_case_usd": 0.0279
     }
   ],
   "plan": [
     {
-      "gpu_name": "RTX 4090",
-      "offer_id": 44093666,
-      "machine_id": 12227,
-      "min_bid": 0.191,
-      "bid": 0.1948,
-      "storage_usd_h": 0.01096,
-      "all_in_usd_h": 0.20576,
-      "worst_case_usd": 0.0857,
+      "gpu_name": "RTX 3090",
+      "offer_id": 45609635,
+      "machine_id": 142143,
+      "min_bid": 0.04421,
+      "bid": 0.0451,
+      "storage_usd_h": 0.02192,
+      "all_in_usd_h": 0.06702,
+      "worst_case_usd": 0.0279,
       "n_offers": 6,
       "vram_gb": 24.0,
-      "breakeven_ns_per_day": 806.4,
-      "breakeven_x_reference": 1.068,
-      "breakeven_label": "marginal \u2014 needs to beat the reference card",
+      "breakeven_ns_per_day": 350.4,
+      "breakeven_x_reference": 0.464,
+      "breakeven_label": "BENCH \u2014 clears at under half the reference card's measured rate",
       "admit": true,
       "reason": "admitted",
-      "committed_usd_after": 0.0857
+      "committed_usd_after": 0.0279
+    },
+    {
+      "gpu_name": "RTX 4080",
+      "offer_id": 39750750,
+      "machine_id": 115926,
+      "min_bid": 0.25333,
+      "bid": 0.2584,
+      "storage_usd_h": 0.01096,
+      "all_in_usd_h": 0.26936,
+      "worst_case_usd": 0.1122,
+      "n_offers": 1,
+      "vram_gb": 16.0,
+      "breakeven_ns_per_day": 1398.3,
+      "breakeven_x_reference": 1.851,
+      "breakeven_label": "skip \u2014 would have to be far faster than anything we have benched",
+      "admit": false,
+      "reason": "break-even 1398 ns/day (1.85x the reference card) \u2014 skip \u2014 would have to be far faster than anything we have benched",
+      "committed_usd_after": 0.0279
     }
   ]
 }
