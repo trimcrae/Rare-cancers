@@ -111,6 +111,26 @@ def test_every_key_the_annotation_reads_is_emitted_by_its_producer():
             "was the string 'NOT MEASURED'. Emitted keys: %s" % (phantom, obj, sorted(emitted[obj])))
 
 
+def test_the_gate_schema_is_CONSTANT_across_replicate_counts():
+    """ABSENT and null must mean different things, so absence cannot also mean "not defined on this path".
+
+    The corrected 2026-07-27 annotation read `mean_ddG_coop=KEY ABSENT | target=KEY ABSENT | cycle_SD=KEY ABSENT`
+    at n=1. Two of those are genuinely undefined with one replicate — but `target_kcal` is a frozen constant
+    handed straight into the call and discarded, the same shape as the diagnostics tri-state. And rendering
+    "undefined here" the same way as "the reader and producer disagree about the field name" hands back the
+    ambiguity the sentinel exists to remove, when a phantom key is what started all this. So the gate emits the
+    SAME key set on every path, with explicit nulls where a quantity is not defined, and KEY ABSENT is reserved
+    for a schema mismatch."""
+    full = set(red.calibration_gate([0.9, 1.0, 1.1], 0.944, diagnostics_ok=True))
+    thin = red.calibration_gate([-0.534], 0.944, diagnostics_ok=False)
+    missing = sorted(k for k in full - set(thin) if k not in ("thresholds", "authorizes", "adaptive_action",
+                                                             "anti_null_checks", "anti_null_rule_applied"))
+    assert not missing, "n=1 drops keys the n>=2 path emits: %s" % missing
+    assert thin["target_kcal"] == 0.944, "the frozen target is an INPUT — it cannot be unknown on any path"
+    for k in ("mean_ddg_coop_kcal", "cycle_sd_kcal", "abs_error_kcal"):
+        assert thin[k] is None, "%s is undefined at n=1 and must say so as an explicit null, not by absence" % k
+
+
 def test_the_hysteresis_and_diagnostics_keys_are_on_EVERY_producer_path():
     """Presence on *some* path is the phantom-key floor; these specific fields must never be absent, because an
     absent key and a measured-None are indistinguishable to the reader and one of the three states IS None."""

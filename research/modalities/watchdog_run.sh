@@ -124,10 +124,37 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
       # there is no sampling left for a VM to do and nothing at risk in deleting it. gcp-reap-vms.yml can
       # only ask "how old is it", and age cannot tell a healthy 40 h leg from a wedged one -- which is
       # exactly why that workflow is manual-only and must stay that way.
-      if [ "$NVM" -gt 0 ]; then
+      #
+      # ⚠ AND IT MUST NOT REAP SOMEBODY ELSE'S LEG. $VMS is the LANE-WIDE listing (name~'^gcp-ternary-'),
+      # and a VM name carries a dispatch run id, not a leg id — so "this entry is DONE" says nothing about
+      # which leg the live VM is running. Caught by a dry_run on 2026-07-27 at 2:22 PM ET, which reported it
+      # WOULD delete gcp-ternary-30293029231 — a leg another session had launched six minutes earlier. That
+      # is bug class B#2 of ternary-lane-guard-audit-2026-07-25.md ("a guard that ignores a dimension the data
+      # varies along") reintroduced by the fix for a different bug, and on a live GPU it would have destroyed
+      # real sampling.
+      #
+      # THE DISCRIMINATOR IS TIME, and it is exact rather than heuristic: only a VM created BEFORE this leg's
+      # result object was written can be the VM that produced it. A VM created after that instant is by
+      # definition a different run and is never touched. Anything unparseable fails SAFE (spare, and say so) —
+      # the cost of sparing a zombie is one more watchdog pass, the cost of reaping a live leg is hours of MD.
+      RESEP=0
+      _rj=$(gcloud storage ls -l "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" 2>/dev/null | awk 'NF>=3 && $3 ~ /^gs:/ {print $2}' | head -1)
+      if [ -n "${_rj:-}" ]; then
+        _rs=$(date -u -d "$_rj" +%s 2>/dev/null | tr -dc '0-9'); [ -n "$_rs" ] && RESEP=$((10#$_rs))
+      fi
+      if [ "$NVM" -gt 0 ] && [ "$RESEP" = 0 ]; then
+        echo "::warning title=WATCHDOG DONE — REAP SKIPPED::$TAG — a VM is live but the result object's write time could not be read, so this pass cannot prove the VM predates it. Sparing it; re-checked next pass."
+      fi
+      if [ "$NVM" -gt 0 ] && [ "$RESEP" -gt 0 ]; then
         for _dvm in $(printf '%s\n' "$VMS" | awk '{print $1}' | sed '/^$/d'); do
           _dz=$(gcloud compute instances list --filter="name=$_dvm" --format="value(zone.basename())" 2>/dev/null | head -1)
           [ -z "$_dz" ] && continue
+          _dc=$(gcloud compute instances describe "$_dvm" --zone="$_dz" --format="value(creationTimestamp)" 2>/dev/null | head -1)
+          _de=0; [ -n "${_dc:-}" ] && { _dx=$(date -u -d "$_dc" +%s 2>/dev/null | tr -dc '0-9'); [ -n "$_dx" ] && _de=$((10#$_dx)); }
+          if [ "$_de" = 0 ] || [ "$_de" -ge "$RESEP" ]; then
+            echo "::notice title=WATCHDOG SPARED A NEWER VM::$TAG — $_dvm ($_dz) was created at ${_dc:-<unreadable>}, not before this leg's result object (${_rj}). It is a DIFFERENT run, so it is not this leg's orphan and is left alone."
+            continue
+          fi
           if [ "$DRY" = "1" ]; then
             echo "::warning title=WATCHDOG DONE + LIVE VM::$TAG — dry_run=1: would DELETE $_dvm ($_dz). The leg's result JSON is in GCS, so the VM is idle and holding the single GPU."
           # stderr is KEPT. Sending it to /dev/null is how the in-VM trap's failure stayed unreadable for

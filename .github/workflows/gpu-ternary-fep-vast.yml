@@ -70,9 +70,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, reps-prime, edge-reps, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, reps-prime, edge-reps, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -143,7 +143,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -561,10 +561,341 @@ jobs:
             git push origin HEAD:"${{ github.ref_name }}"
           fi
 
+
+  # ============================================================================================ THE TRIANGLE
+  # ★ WHAT THIS RUNG BUYS, because a reader six months from now will otherwise price it as "another edge".
+  # The closure residual R = ddG_coop(T1) + ddG_coop(T2) - ddG_coop(T3) is IDENTICALLY ZERO for any error
+  # that is a function of the endpoint STATE — force field, the SMARCA4->SMARCA2 homology substitution, NAGL
+  # charges, protonation — because each is a per-endpoint bias and sum_cycle [eps(B)-eps(A)] telescopes to
+  # exactly zero. R is non-zero ONLY for PATH error. So R decides whether r0's 1.478 kcal/mol miss is fixable
+  # by sampling AT ALL: R ~ 0 says it is not (the miss is in the model or the reference data, where closure is
+  # provably blind), R materially non-zero says it is. That is a discriminating experiment, which is the whole
+  # reason 4 legs are worth buying — and it is 4, not 6, because r0 IS the T1 edge and is reused unaltered.
+  #
+  # THE THREE INVARIANTS, all of which turn R from a path-error detector into a protocol-difference detector
+  # if broken, and every one of them is enforced in code rather than remembered:
+  #   * 2 fs / 1 fs   — pinned by `MODES['triangle']`, because r0 is a 2 fs leg and this lane defaults to 4 fs.
+  #   * SEED 0        — ternary seed s selects the s%n-th relaxed SMARCA2 model; mixed seeds are different
+  #                     Hamiltonians and |R| would measure homology-model sensitivity instead.
+  #   * UNRESTRAINED binary legs — matching r0. A separate lane is concurrently building a RESTRAINED binary
+  #                     re-run for a DIFFERENT purpose; the two must never be conflated or their legs mixed.
+
+  # ---------------------------------------------------------- free: derive the third vertex, once, and freeze it
+  # cmpd4" exists in no crystal. It is DERIVED — exactly as cmpd4 itself is in `wurz-calib-frozen.json` — and
+  # frozen here so that what was simulated is recoverable from git rather than recomputed by whatever RDKit
+  # happens to be installed later. Two INDEPENDENT routes (edit the frozen cmpd4; edit the frozen cmpd1 twice)
+  # must produce the identical canonical SMILES: that agreement is the closure PREREQUISITE, because if the
+  # two constructions disagree the three edges do not share endpoints and R is not a closure residual at all.
+  # Runs in the parity image: the RDKit that derives the molecule is the RDKit the legs will read it with.
+  triangle_freeze:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == 'triangle-freeze' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Derive cmpd4" by two independent routes, in the production mapper's own container
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_triangle_legs.py --derive
+          sudo chown "$(id -u):$(id -g)" research/modalities/valb-triangle-frozen.json 2>/dev/null || true
+      - name: Re-derive and refuse any drift
+        # `derive()` succeeding is not the same as the freeze on disk matching it — the same discipline
+        # `ternary_coop.load_pilot_legs` applies to the pilot bundle. A freeze that no longer re-derives is a
+        # silent scientific drift, and this is the last moment it costs nothing to catch.
+        run: |
+          set -eo pipefail
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_triangle_legs.py --verify
+      - name: Commit the freeze — the molecule that will be simulated must be in git BEFORE it is simulated
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/valb-triangle-frozen.json
+          if git diff --cached --quiet; then echo "freeze unchanged"; else
+            git commit -m "valB closure triangle: freeze cmpd4\" (two independent routes agree) (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}"
+          fi
+
+  # ------------------------------------------------- free: stage all four legs on CPU AND prove both new maps
+  # Two wins, both real: it removes ~8-15 min of GPU-idle staging from EACH paid host, and it discovers a
+  # first-time staging failure for two brand-new leg ids at $0 instead of on a 4090.
+  #
+  # AND THE ATOM-MAP PRE-FLIGHT IS THE GATE THE WHOLE SPEND HANGS ON. `LomapAtomMapper(time=N)` is an MCS
+  # TIMEOUT, and a timed-out MCS returns its best PARTIAL match SILENTLY — so a leg can converge and report a
+  # confident ΔG for a perturbation nobody designed. That risk is HIGHER here than on any previous rung,
+  # because T3 (cmpd1 -> cmpd4") is a ring-nitrogen 1,2-SHIFT: two changed atoms rather than one, and the
+  # first perturbation on this lane that no single-atom pose mutation can build.
+  triangle_prime:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == 'triangle-prime' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: ternary-vast-mutate
+      cancel-in-progress: false
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: The freeze must exist BEFORE anything is staged
+        # Without it `ternary_coop_prep._morph_endpoints` returns calib_lo2 unresolved, and the stager would
+        # fail deep inside a container with a message about a missing SMILES. Failing here says what to do.
+        run: |
+          set -eo pipefail
+          test -s research/modalities/valb-triangle-frozen.json \
+            || { echo "::error::no valb-triangle-frozen.json — run task=triangle-freeze first"; exit 1; }
+          python3 -c "import json;d=json.load(open('research/modalities/valb-triangle-frozen.json'));print('calib_lo2 =', d['calib_lo2']['smiles'])"
+      - name: Stage every triangle leg on CPU and upload the caches
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          mkdir -p /tmp/tin
+          python - <<'PY' > /tmp/units.txt
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import ternary_vast_launch as tv
+          for leg, seed, _d in tv.units_for("triangle"):
+              print(leg, seed, tv.stage_cache_key(leg, "triangle", seed=seed))
+          PY
+          cat /tmp/units.txt
+          while read -r LEG SEED KEY; do
+            if aws s3 ls "$KEY" >/dev/null 2>&1; then echo "[triangle-prime] HIT  $LEG seed=$SEED"; continue; fi
+            echo "[triangle-prime] MISS $LEG seed=$SEED -- staging on CPU"
+            # One directory per leg and NEVER a delete: the container writes as root into the bind mount, so a
+            # shared directory cannot be cleaned up by the runner user and `rm` would fail the whole job under
+            # `set -eo pipefail` (measured on the reps-prime job, 2026-07-26, run 30225138660).
+            SDIR="/tmp/stage_${LEG}"
+            mkdir -p "$SDIR"
+            docker run --rm --entrypoint python \
+              -v "$PWD/research/modalities:/work/research/modalities" -v "$SDIR:/tmp/tin" \
+              -e SEED="$SEED" -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+              -w /work/research/modalities \
+              docker.io/triskit23/ternary-fep:latest \
+              /work/research/modalities/ternary_pdb_stage.py \
+                --leg-id "$LEG" --template-pdb 8G1Q --out /tmp/tin 2>&1 | tail -20
+            ls -la "$SDIR/$LEG"
+            tar -C "$SDIR" -cf "/tmp/stage_${LEG}_${SEED}.tar" "$LEG"
+            aws s3 cp "/tmp/stage_${LEG}_${SEED}.tar" "$KEY"
+            echo "[triangle-prime] uploaded $KEY ($(du -h /tmp/stage_${LEG}_${SEED}.tar | cut -f1))"
+          done < /tmp/units.txt
+      - name: $0 ATOM-MAP PRE-FLIGHT — refuse the launch if either new map is short
+        run: |
+          set -eo pipefail
+          mkdir -p /tmp/pf
+          while read -r LEG SEED KEY; do
+            aws s3 cp "$KEY" /tmp/pf.tar || { echo "::error::no stage cache at $KEY"; exit 1; }
+            tar -C /tmp/pf -xf /tmp/pf.tar
+          done < /tmp/units.txt
+          ls -la /tmp/pf
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/pf:/tmp/pf \
+            -e RBFE_LOMAP_TIME_S=300 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_map_preflight.py \
+              --input-dir /tmp/pf \
+              --leg-id calib_lo_to_lo2__ternary_vhl \
+              --leg-id calib_lo_to_lo2__binary_vhl \
+              --leg-id calib_hi_to_lo2__ternary_vhl \
+              --leg-id calib_hi_to_lo2__binary_vhl \
+              --out /tmp/pf/valb-triangle-map-preflight.json 2>&1 | tail -40
+          cp /tmp/pf/valb-triangle-map-preflight.json research/modalities/valb-triangle-map-preflight.json
+      - name: Commit the pre-flight record
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/valb-triangle-map-preflight.json
+          if git diff --cached --quiet; then echo "pre-flight record unchanged"; else
+            git commit -m "valB closure triangle: atom-map pre-flight for T2 and T3 (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}"
+          fi
+
+  # ------------------------------------------------ free: price the 4 legs, rent nothing, and self-dispatch
+  # Same code path the launch job's board snapshot uses — not a second opinion free to disagree with it. The
+  # dollar ceiling here is the TRIANGLE's own costed range (`valb_triangle_closure.price_triangle`), not the
+  # ladder's 4 fs recalibration band: judging one experiment's spend against another's authorisation is how a
+  # guard comes to refuse a small approved purchase for a reason that does not apply to it.
+  triangle_gate:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == 'triangle-gate' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: write
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
+      AWS_DEFAULT_REGION: us-east-2
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Price the triangle, and LAUNCH it the moment the board clears
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          RC=0
+          python research/modalities/ternary_vast_launch.py --mode triangle --gate-for-mode \
+            --gate-out research/modalities/valb-triangle-market-hold.json || RC=$?
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          if [ "$RC" = 0 ]; then
+            python research/modalities/ternary_launch_ledger.py --record dispatched \
+              --stage triangle-gate --gate research/modalities/valb-triangle-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "board cleared both ceilings; dispatching task=triangle" || true
+          elif [ "$RC" = 3 ]; then
+            python research/modalities/ternary_launch_ledger.py --record nothing-to-launch \
+              --stage triangle-gate --gate research/modalities/valb-triangle-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "every triangle leg already done or hosted; no launch dispatched, no rental attempted" || true
+          fi
+          # ⛔ THE SNAPSHOT IS COMMITTED ON EVERY EVALUATION, CLEAR OR HOLD. CLAUDE.md §6's one prohibition on
+          # a gate that declines to buy is that declining must never be SILENT: a fleet that never launched
+          # looks identical to one that finished, and the only thing that tells them apart is a hold readout
+          # carrying the market snapshot that caused it.
+          git add research/modalities/valb-triangle-market-hold.json \
+                  research/modalities/ternary-vast-launch-attempts.json
+          if ! git diff --cached --quiet; then
+            git commit -m "valB triangle market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}" || true
+          fi
+          echo "triangle-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host)"
+          if [ "$RC" = 0 ]; then
+            echo "::notice title=TRIANGLE MARKET CLEAR::board is within BOTH the triangle's own dollar ceiling and the \$/ns buy line — dispatching task=triangle."
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=triangle
+            exit 0
+          fi
+          if [ "$RC" = 3 ]; then
+            echo "::notice title=TRIANGLE NOTHING TO LAUNCH::every triangle leg is already done or already hosted — no launch dispatched, no rental attempted."
+            exit 0
+          fi
+          # A HOLD IS A NORMAL, GREEN, VISIBLE STATE — never a red build. The snapshot is committed above,
+          # which is what makes it visible; failing the job would only add recurring noise to a decision that
+          # is already recorded. Never raise a bid to clear it, and never launch past the ceiling.
+          echo "::warning title=TRIANGLE MARKET HOLD::the valB closure triangle is HELD on price. Snapshot (with the offers that caused it): research/modalities/valb-triangle-market-hold.json. Re-checks on the next tick and launches itself the moment it clears."
+          exit 0
+
+  # ------------------------------------------------------------------------ free: the closure residual R
+  # R is computed from SIX leg records: the four bought here plus r0's ternary and binary, which are FETCHED
+  # rather than re-run — that reuse is the whole economy of the design. The reducer REFUSES a mixed seed, a
+  # mixed direction, a solvent leg, a duplicate record or a missing leg, because each of those computes a
+  # different quantity while looking identical.
+  triangle_reduce:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'triangle-reduce' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Pull the four triangle legs AND r0's two (T1 is reused, never re-run)
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          mkdir -p /tmp/tri
+          python research/modalities/ternary_vast_launch.py --mode triangle --fetch-legs /tmp/tri 2>&1 | tail -20
+          # T1 = r0 = the `edge` mode's seed-0 legs at 2 fs. `--fetch-legs` reconstructs unit ids from the
+          # mode's own parameters, so the timestep must be stated: r0 is 2 fs and this lane's default is 4 fs.
+          python research/modalities/ternary_vast_launch.py --mode edge --fetch-legs /tmp/tri \
+            --timestep-fs 2.0 --warmup-timestep-fs 1.0 2>&1 | tail -20
+          ls -la /tmp/tri
+      - name: Reduce to R, in the SAME env that produced the trajectories
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/tri:/tmp/tri \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_triangle_reduce.py --legs /tmp/tri \
+              --out /work/research/modalities/valb-triangle-reduction.json
+          sudo chown "$(id -u):$(id -g)" research/modalities/valb-triangle-reduction.json 2>/dev/null || true
+      - name: The residual is the DELIVERABLE, so its absence is a failure
+        run: |
+          set -eo pipefail
+          F=research/modalities/valb-triangle-reduction.json
+          test -s "$F" || { echo "::error::no reduction written"; exit 1; }
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("research/modalities/valb-triangle-reduction.json"))
+          print(json.dumps(d, indent=1)[:6000])
+          dec = d.get("decision")
+          if dec in ("REFUSED", "INCOMPLETE"):
+              print(f"::error::the reduction returned {dec}: {d.get('reason')}")
+              sys.exit(1)
+          print("::notice title=valB CLOSURE TRIANGLE::R = %s (R_ternary = %s, R_binary = %s) -> %s"
+                % (d.get("R_kcal"), d.get("R_ternary_kcal"), d.get("R_binary_kcal"), dec))
+          PY
+      - name: Verdict LAST — and both closures, never R alone
+        run: |
+          set +e
+          echo "================ valB CLOSURE TRIANGLE ================"
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/valb-triangle-reduction.json"))
+          print("R_ternary = %s   R_binary = %s   R = %s" % (d.get("R_ternary_kcal"), d.get("R_binary_kcal"), d.get("R_kcal")))
+          print("decision  =", d.get("decision"))
+          print()
+          print(d.get("reading", ""))
+          print()
+          print("HONEST LIMIT:", d.get("honest_limit", ""))
+          PY
+      - name: Commit the reduction
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/valb-triangle-reduction.json
+          if git diff --cached --quiet; then echo "reduction unchanged"; else
+            git commit -m "valB closure triangle: the residual R (CI, parity image)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}"
+          fi
+
   # ------------------------------------------------------------------ paid: rent hosts
   launch:
     needs: [resolve, test]
-    if: ${{ needs.resolve.outputs.task == 'smoke' || needs.resolve.outputs.task == 'probe' || needs.resolve.outputs.task == 'edge' || needs.resolve.outputs.task == 'edge-reps' || needs.resolve.outputs.task == '5aks-smoke' || needs.resolve.outputs.task == '5aks' }}
+    if: ${{ needs.resolve.outputs.task == 'smoke' || needs.resolve.outputs.task == 'probe' || needs.resolve.outputs.task == 'edge' || needs.resolve.outputs.task == 'edge-reps' || needs.resolve.outputs.task == '5aks-smoke' || needs.resolve.outputs.task == '5aks' || needs.resolve.outputs.task == 'triangle-smoke' || needs.resolve.outputs.task == 'triangle' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     concurrency:
@@ -642,7 +973,14 @@ jobs:
         run: |
           set -eo pipefail
           python -m pip install -q boto3
-          python research/modalities/ternary_vast_launch.py --mode edge_reps --gate-for-mode \
+          # ★ THE MODE BEING LAUNCHED, NOT A HARDCODED ONE. `--gate-for-mode` derives the unit count from
+          # the units that still need a host, but the MODE decides which units those are AND which
+          # authorisation the dollars are judged against — the triangle's band is `price_triangle()`'s, not
+          # the ladder's 4 fs recalibration band. Pricing a triangle launch as edge_reps would put a board
+          # reading for a purchase that is not happening beside the word `launched`, which is exactly the
+          # 12:39 PM ET defect this step already carries a note about.
+          MODE=$(printf '%s' "${{ needs.resolve.outputs.task }}" | tr '-' '_')
+          python research/modalities/ternary_vast_launch.py --mode "$MODE" --gate-for-mode \
             --gate-out /tmp/launch-board.json || true
 
       - name: ATOM-MAP GATE — the launch cannot rent until the map is proven complete
@@ -654,22 +992,28 @@ jobs:
         # evidence of "a real perturbation") all report green. This step derives the required heavy-atom
         # count from the endpoints' own MCS and fails the job BEFORE any rental if the mapper falls short.
         # Cost: one image pull. Cost of not having it: two full replicate rentals that answer nothing.
-        if: ${{ needs.resolve.outputs.task == 'edge-reps' }}
+        if: ${{ needs.resolve.outputs.task == 'edge-reps' || needs.resolve.outputs.task == 'triangle' || needs.resolve.outputs.task == 'triangle-smoke' }}
         run: |
           set -eo pipefail
           python -m pip install -q boto3
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
           mkdir -p /tmp/tin
-          python - <<'PY' > /tmp/units.txt
+          # ★ THE MODE'S OWN UNITS AND ITS OWN CACHE KEYS. `stage_cache_key` is keyed by (leg, mode, seed),
+          # so reading `edge_reps` keys while launching `triangle` would check maps in caches the triangle
+          # hosts will never read — a gate passing on the wrong bytes.
+          MODE=$(printf '%s' "${{ needs.resolve.outputs.task }}" | tr '-' '_')
+          python - "$MODE" <<'PY' > /tmp/units.txt
           import sys
           sys.path.insert(0, "research/modalities")
           import ternary_vast_launch as tv
-          for leg, seed, _d in tv.units_for("edge_reps"):
-              print(leg, seed, tv.stage_cache_key(leg, "edge_reps", seed=seed))
+          mode = sys.argv[1]
+          for leg, seed, _d in tv.units_for(mode):
+              print(leg, seed, tv.stage_cache_key(leg, mode, seed=seed))
           PY
+          cat /tmp/units.txt
           # A missing stage cache is a hard stop, not a fall-through: without ligands.sdf the map cannot be
           # checked at all, and "could not check" must never read as "checked and fine".
-          for LEG in calib_hi_to_lo__ternary_vhl calib_hi_to_lo__binary_vhl; do
+          for LEG in $(awk '{print $1}' /tmp/units.txt | sort -u); do
             KEY=$(awk -v l="$LEG" '$1==l {print $3; exit}' /tmp/units.txt)
             aws s3 cp "$KEY" /tmp/stage.tar || { echo "::error::no stage cache at $KEY — run task=reps-prime first"; exit 1; }
             tar -C /tmp/tin -xf /tmp/stage.tar
@@ -681,8 +1025,7 @@ jobs:
             docker.io/triskit23/ternary-fep:latest \
             /work/research/modalities/valb_map_preflight.py \
               --input-dir /tmp/tin \
-              --leg-id calib_hi_to_lo__ternary_vhl \
-              --leg-id calib_hi_to_lo__binary_vhl 2>&1 | tail -20
+              $(awk '{print "--leg-id", $1}' /tmp/units.txt | sort -u | tr '\n' ' ') 2>&1 | tail -30
 
       - name: Rent one host per unit
         id: rent

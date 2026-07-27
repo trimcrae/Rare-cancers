@@ -299,8 +299,19 @@ def calibration_gate(ddg_coop_replicates, target_kcal, diagnostics_ok=True, exte
         # technical_failure), understating a broken leg as an unexamined one. That is bug §L.6#4 exactly — the
         # collapse of "measured failure" and "never computed" — reappearing one control-flow branch out, which
         # is why the fix is to emit the diagnostics fields from ONE place on EVERY path.
+        # ★ AN ABSENT KEY AND AN EXPLICIT null MUST MEAN DIFFERENT THINGS, so the SCHEMA is constant across paths.
+        # The 2026-07-27 verdict printed "mean_ddG_coop=KEY ABSENT | target=KEY ABSENT | cycle_SD=KEY ABSENT" — and
+        # for the two derived quantities that was honest (with one replicate there IS no replicate mean and no
+        # cycle SD), but `target_kcal` was a FROZEN CONSTANT handed straight into this call and thrown away, the
+        # same discard as `diagnostics_ok` above. Worse, sharing the "key absent" rendering between "genuinely not
+        # defined here" and "the reader and the producer disagree about the field name" gives back exactly the
+        # ambiguity the sentinel was added to remove — and a phantom key is what started this. So: a quantity that
+        # is undefined at n<2 is emitted as an explicit null (null is not a legal good value for a mean, an SD or
+        # an error), and a MISSING key is reserved for one meaning only — a schema mismatch worth shouting about.
         return {"decision": "INDETERMINATE", "reason": "need >=2 independent replicates for a cycle SD.",
                 "n_replicates": n, "per_replicate_ddg_coop_kcal": vals,
+                "mean_ddg_coop_kcal": None, "cycle_sd_kcal": None, "abs_error_kcal": None,
+                "t_ci95_half_width_kcal": None, "correct_sign": None, "target_kcal": target_kcal,
                 **_diagnostics_fields(diagnostics_ok)}
     mean = _mean(vals)
     sd = _sample_sd(vals)

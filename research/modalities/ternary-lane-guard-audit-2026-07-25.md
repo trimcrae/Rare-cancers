@@ -1202,3 +1202,137 @@ Suite after this: **2,111 pass**, 15 sandbox-only failures — the 14 pre-existi
 plus one that arrived from a concurrent session's 2026-07-26 push (`test_expected_heavy_map_size...`, an unguarded
 `from rdkit import Chem`). All green in CI, which has the stack; left alone rather than edited, since it is another
 session's live file.
+
+### L.7 THE ONE THAT MATTERED: the first hysteresis this program ever measured was reported as NOT MEASURED
+
+Found 2026-07-27 ~1:55 PM ET, minutes after dispatching the `mode=reduce` that §L.6 had been racing to make
+correct in time. The reverse leg landed (production 2000/2000, GCP L4, flat 56.65 s/iter, no NaN), so for the
+first time the preregistered criterion **|ΔG_fwd + ΔG_rev| ≤ 1.0 kcal/mol** had both of its inputs:
+
+| | leg | ΔG_morph (kcal/mol) | MBAR SE |
+|---|---|---|---|
+| forward | `calib_hi_to_lo__ternary_vhl` `dir=fwd` `seed=0` | **+47.470131055401** | 0.11075836689255258 |
+| reverse | `calib_hi_to_lo__ternary_vhl` `dir=rev` `seed=0` | **−47.79473620121289** | 0.08648735348921666 |
+
+**|ΔG_fwd + ΔG_rev| = 0.32460514581189415 kcal/mol against the 1.0 ceiling → PASS.** The reducer computed it —
+it is in `morph_summaries[0].legs` and in `leg_algebra_audit` as `antisymmetry_ok: true` — and the
+`[REDUCE-VERDICT]` annotation, the artifact §D of this document exists to guarantee, said:
+
+```
+fwd/rev hysteresis: NOT MEASURED (no reverse leg reduced)
+```
+
+**Two independent defects produced that sentence, and either alone was sufficient.** Neither is a coercion, so
+neither would have been caught by §L.6a's sweep — this is the same bug class arriving by two new routes.
+
+**1 · A guard belonging to a DIFFERENT criterion suppressed this one.** `calibration_decision()` computed the
+hysteresis only *after* the Welch–Satterthwaite CI succeeded. With one replicate per environment
+`_welch_satterthwaite` returns None and the function returned early carrying `{decision, reason, n_ternary,
+n_binary}` — nothing about the hysteresis at all. But the two criteria have **different data requirements**:
+`|mean(ΔG_fwd) + mean(ΔG_rev)|` needs one replicate per **direction** and no replicate spread whatever, so it is
+measurable in **precisely** the case where the CI is not. Not `or 0.0` and not `bool(None)` this time, but a
+**control-flow path that never computes the value** — which renders as the same None, and None is a legal
+"not measured".
+
+**2 · The reader named a field the producer does not have.** The annotation read `dec.get('hysteresis_ok')`.
+`calibration_decision` emitted no such key on **any** path; it emitted `checks.hysteresis_resolved`. `.get()` on
+an absent key is None, and None was mapped to the string "NOT MEASURED". **The sentence was hardwired**, and no
+amount of measuring could have changed it. The reciprocal is worse: `quiet = (verdict == 'PASS' and hy is True)`
+could never be True, so a genuine PASS would have been annotated `::error` with *"GATE PASSED BUT THE
+PREREGISTERED FWD/REV CRITERION DID NOT"* — naming as unmeasured a criterion that had been measured and passed.
+That is **`report_cofold.py` (§L.6a) reflected**: there an unmeasured criterion was named as observed, here an
+observed one is named as unmeasured. The common root is not the direction — it is a **verdict string decoupled
+from the measurement it claims to report**.
+
+**3 · And §L.6#4 again, one control-flow branch out.** `calibration_gate`'s `n < 2` return dropped
+`diagnostics_ok` — a value `_diagnostics_ok()` had *already computed at the call site* and handed in. The three
+states then produced **byte-identical key sets**:
+
+```
+PRE-FIX gate diagnostics_ok=True  -> keys ['decision', 'n_replicates', 'reason']
+PRE-FIX gate diagnostics_ok=False -> keys ['decision', 'n_replicates', 'reason']
+PRE-FIX gate diagnostics_ok=None  -> keys ['decision', 'n_replicates', 'reason']
+```
+
+so the annotation printed `diagnostics_ok=None` — NOT_VERIFIED — for a state that is a **MEASURED FAILURE**.
+`diagnostics_state`, invented the same morning so a machine reader could tell those apart, was absent in exactly
+the case the lane was in. **An absent key is not an acceptable third state, because `.get()` renders absence as
+None and None is one of the three states.**
+
+**Fixes.** `hysteresis_fields()` and `_diagnostics_fields()` are single homes emitted on **every** return path;
+`per_replicate_ddg_coop_kcal` moves into the gate that owns it instead of being attached by the caller; the
+`1.0` ceiling is **read from `nr4a3-ternary-coop-prereg.json`** (it was typed twice in this file, and
+`ternary_coop_gate` already reads that same field — rule 1); the annotation reports the measured **value** and
+the threshold, prints `diagnostics_state`, prints the single-replicate point estimate rather than only `None`,
+and distinguishes **KEY ABSENT** from a measured null with a sentinel.
+
+**One more turn of the same screw, found by the fix's own output.** The corrected annotation printed
+`mean_ddG_coop=KEY ABSENT | target=KEY ABSENT | cycle_SD=KEY ABSENT`. Two of those are honest — with one
+replicate there is no replicate mean and no cycle SD — but `target_kcal` is a **frozen constant handed straight
+into the call and discarded**, the identical discard as `diagnostics_ok`. And sharing one rendering between
+*"undefined on this path"* and *"the reader and the producer disagree about the field name"* hands back the very
+ambiguity the sentinel was added to remove. So the gate now emits a **constant schema**: explicit `null` where a
+quantity is undefined, and **KEY ABSENT reserved for one meaning only — a schema mismatch**.
+
+**Verification, 21 checks over two new files.** The phantom-key sweep **EXTRACTS** every `<obj>.get('<key>')`
+from the workflow YAML **by AST** and requires each key to be emitted by some branch of the real producer — a
+retyped key list would prove only that the copy agrees with itself (§L.6), and a text grep false-positives on
+its own docstring (§L.6a). The annotation script itself is extracted and **exec'd** against real reducer output.
+Both halves were verified to fail when reverted.
+
+**An honest limit, recorded because it is the interesting part.** A repo-wide sweep of every workflow heredoc
+that `json.load`s a repo artifact, flagging any `.get()` key whose name appears nowhere in the repo's Python or
+JSON, returns **zero candidates** — and it **would not have caught this one**: `hysteresis_ok` existed as a
+*local variable one line above the dict literal that omitted it*, so the name was in the corpus. **A
+name-occurrence sweep cannot see a phantom key whose name is real somewhere else**; only calling the producer
+and comparing key sets can. That is what the test does, and it is why "run the claim as a search" (§L.5) needs
+the search to be run against the *producer*, not against the *text*.
+
+**End-to-end confirmation on the real data**, `mode=reduce` GH run **30293870930** (the constant-schema pass; run 30292846577 was the first post-fix pass and is the one whose `KEY ABSENT` output prompted the constant-schema change described above):
+
+```
+valB_mini reduce — decision=INDETERMINATE | mean_ddG_coop=None | per_replicate_ddG_coop=[-0.534] |
+target=0.944 | abs_err=None | cycle_SD(replicate-SD, NOT MBAR-SE)=None | n_replicates=1 |
+diagnostics=MEASURED_FAILURE | fwd/rev hysteresis: MEASURED |dG_fwd+dG_rev| = 0.325 <= 1.000 (PASS).
+reason: need >=2 independent replicates for a cycle SD.
+```
+
+`diagnostics=MEASURED_FAILURE` is itself a result rather than a restatement: it is the first time the lane's
+convergence state has been *reported* as measured-and-bad rather than as unexamined, and it is driven by
+`ligand_stable_ok` in **both** directions' reports (§L.3a–L.3d for fwd, and the rev report below).
+
+#### L.7a Before trusting the number: PROOF the reverse leg ran in reverse
+
+The value above is worthless if the rev leg silently reported the forward answer under a reverse label — the
+§H failure, where a direction-blind commit prefix let a rev attempt resume the *forward* trajectory. Under the
+reducer's `|mean_fwd + mean_rev|` that failure mode does not announce itself: a sign-flipped copy of the forward
+number gives **exactly 0.000**, i.e. perfect antisymmetry, the best-looking result the criterion can produce.
+So the check was made **before** the number was read, from the artifact rather than from the label. Four
+independent discriminators, all from `mode=converge` GH run 30287379531 and the leg records:
+
+| discriminator | forward leg | reverse leg | reads as |
+|---|---|---|---|
+| `n_atoms_total` in the opened `.nc` | 141,968 (`v2pe`) | **141,968** | the **same system** as fwd, i.e. `v2pe` — **not** the 146,020-particle `v1` build that killed the four attempts of 2026-07-25 (§J.2, §J.5) |
+| ΔG_morph | +47.470131055401 | **−47.79473620121289** | not a sign-flipped copy; a copy would give −47.470131055401 and a hysteresis of **exactly 0.000** |
+| MBAR SE | 0.11075836689255258 | **0.08648735348921666** | different sampling, so a different trajectory |
+| contact-pose max / median (Å) | 2.835 / 1.653 | **4.737 / 2.529** | different per-replica structural history — a re-reported forward trajectory would reproduce the forward statistics exactly |
+
+The leg record also now carries `setup_cache_version: v2pe` and `charge_method: nagl` for the rev leg (the §J.5
+fields), and all four legs share one `protocol_hash` `a5ad9520f912…` at `n_windows` 12. Cross-leg
+`system_identity_consistency` still reports **UNKNOWN**, correctly: `n_particles` is recorded by *no* leg record,
+and the three forward legs pre-date the §J.5 fields entirely — so the fwd/rev system match above rests on the
+**convergence analysis reading the `.nc` directly** plus the two `v2pe` primes of §J.5, not on the leg records.
+That gap is the §J.5 to-do that is still open on the GCP lane.
+
+**The rev leg's own convergence report** (`ternary_convergence_rev.json`, now actually read by the reducer per
+§L.6#2): every health flag passes — `overlap_ok`, `overlap_connected_ok`, `equilibrated_ok`, `mixing_ok`,
+`forward_reverse_ok`, `plateau_full_vs_half_ok`, `quarter_block_ok` — **except `ligand_stable_ok`**:
+contact-pose max **4.737 Å** against the 4.0 threshold, median **2.529**, **11 of 12 replicas STABLE**, one
+`DISPLACED_AND_STAYED`, and the single departure **initiating at λ state 11 — a physical endpoint**, so it
+cannot be attributed to alchemical softening.
+
+**That is the control doing its job, and it is the load-bearing reading.** Against the **binary** arm's
+**8 of 12** replicas departing at **16.6 Å** (§L.3a–L.3b), a ternary arm that is 12/12 clean forward and 11/12
+clean in reverse — with the single reverse exceedance a marginal 4.737 against a 4.0 line — says the departure
+is **specific to the binary arm's missing second protein**, not a protocol-wide defect. The ternary arm being
+clean in *both* directions is what makes that a comparison rather than an assertion.

@@ -124,6 +124,22 @@ def _morph_endpoints(leg, resolve_smiles=False):
                 status = "smiles_unresolved (network)"
         else:
             status = "nrv04_endpoints_available_lazy"
+    elif a == "calib_lo2" or b == "calib_lo2":
+        # THE CLOSURE TRIANGLE'S THIRD VERTEX. cmpd4" is DERIVED (no crystal exists) and frozen by
+        # `valb_triangle_legs.derive()` inside the parity image, exactly as cmpd4 itself is — see
+        # `valb-triangle-frozen.json`. Resolved through that module's own accessor rather than by reading the
+        # file here, so the triangle's chemistry has ONE home; and cmpd1/cmpd4 still come from the WURZ
+        # freeze, never from a copy, so the two new edges and the already-run T1 cannot drift apart at the
+        # endpoints they share. A missing freeze is `pending`, not a guess: an unresolved endpoint aborts the
+        # leg in `nr4a3_ternary_fep._morph_endpoints` rather than silently morphing to the wrong molecule.
+        try:
+            import valb_triangle_legs as _tri
+            by_role = _tri.smiles_by_role()
+            smiles_a, smiles_b = by_role.get(a), by_role.get(b)
+            status = ("resolved_triangle_aza" if (smiles_a and smiles_b)
+                      else "pending_triangle_endpoint_freeze")
+        except Exception as e:  # noqa: BLE001
+            status = f"triangle_endpoint_unresolved ({type(e).__name__}: {e})"
     else:  # calibration hi/lo — resolve from the frozen reviewer-approved Wurz cmpd1->cmpd4 edge (no fabrication)
         frozen = _load_calib_frozen()
         if frozen:
