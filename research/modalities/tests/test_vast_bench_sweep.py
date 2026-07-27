@@ -149,14 +149,16 @@ class TestSpendCeilings(unittest.TestCase):
         self.assertAlmostEqual(sweep.worst_case_usd(0.20, 0.01, 1800), 0.105, places=6)
 
     def test_a_dear_card_is_held_by_the_per_card_cap(self):
-        offers = [_offer("RTX 5090", min_bid=5.0)]
+        # H200 NVL rather than RTX 5090: the 5090 was benched on 2026-07-27, and these cases need a card the
+        # planner still has something to buy for.
+        offers = [_offer("H200 NVL", min_bid=5.0)]
         rows = sweep.plan_sweep(offers, max_usd_per_card=0.20, max_usd_total=10.0)
         self.assertEqual(len(rows), 1)
         self.assertFalse(rows[0]["admit"])
         self.assertIn("per-card cap", rows[0]["reason"])
 
     def test_the_sweep_cap_HOLDS_rather_than_drops(self):
-        offers = [_offer("RTX 5090", min_bid=0.30, oid=1, mid="1"),
+        offers = [_offer("H200 NVL", min_bid=0.30, oid=1, mid="1"),
                   _offer("L40S", min_bid=0.31, oid=2, mid="2"),
                   _offer("H100 NVL", min_bid=0.32, oid=3, mid="3")]
         rows = sweep.plan_sweep(offers, max_usd_per_card=1.0, max_usd_total=0.35)
@@ -166,8 +168,8 @@ class TestSpendCeilings(unittest.TestCase):
         self.assertIn("HELD, not dropped", held[0]["reason"])
 
     def test_a_card_already_measured_is_not_re_bought(self):
-        rows = sweep.plan_sweep([_offer("RTX 4090"), _offer("RTX 5090", oid=2, mid="2")])
-        self.assertEqual([r["gpu_name"] for r in rows], ["RTX 5090"])
+        rows = sweep.plan_sweep([_offer("RTX 4090"), _offer("H200 NVL", oid=2, mid="2")])
+        self.assertEqual([r["gpu_name"] for r in rows], ["H200 NVL"])
 
     def test_a_conservative_alias_IS_still_worth_measuring(self):
         """`RTX 4080S` borrows the 4080's figure as a LOWER BOUND. That is a bridge, not a resting place —
@@ -176,13 +178,13 @@ class TestSpendCeilings(unittest.TestCase):
         self.assertEqual([r["gpu_name"] for r in rows], ["RTX 4080S"])
 
     def test_the_cheapest_card_is_planned_first_so_the_budget_buys_breadth(self):
-        rows = sweep.plan_sweep([_offer("RTX 5090", min_bid=0.40, oid=1, mid="1"),
+        rows = sweep.plan_sweep([_offer("H200 NVL", min_bid=0.40, oid=1, mid="1"),
                                  _offer("Titan RTX", min_bid=0.05, oid=2, mid="2")])
         self.assertEqual(rows[0]["gpu_name"], "Titan RTX")
 
     def test_a_host_that_fails_the_production_filters_is_never_benched(self):
         """A number measured on a host we could not rent for real work prices a machine we cannot buy."""
-        rows = sweep.plan_sweep([_offer("RTX 5090", cuda=12.0)])
+        rows = sweep.plan_sweep([_offer("H200 NVL", cuda=12.0)])
         self.assertEqual(rows, [])
 
 

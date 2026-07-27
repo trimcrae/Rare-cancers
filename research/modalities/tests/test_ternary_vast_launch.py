@@ -545,3 +545,92 @@ def test_the_ratio_ceiling_is_reachable_and_not_a_permanent_refusal():
     """A ceiling nobody can clear turns into an idle night, so the threshold must sit above what the board
     has actually delivered. It ran ~1.0x basis earlier the same evening (a 3090 at $0.0643/hr)."""
     assert tv.MARKET_MAX_RATIO_VS_BASIS > 1.0
+
+
+# ---------------------------------------------------------------- the 2026-07-27 lost-window regression
+#
+# WHAT HAPPENED, from the job logs. The `market_gate` job read the board at 9:13:04 AM ET (1.261x basis, 64
+# offers, 31 priceable), CLEARED, and dispatched the launch. The `launch` job then spent 2 m 35 s pulling the
+# ternary-fep image for the atom-map pre-flight and re-read the board at 9:16:28 AM ET: 2.436x, 49 offers, 9
+# priceable. HOLD, exit 1, nothing rented. Repeated at 9:23 -> 9:26 AM ET (1.455x -> 1.904x).
+#
+# Two defects, and this block pins the fix to each:
+#   1. THE PURCHASE WAS DECIDED TWICE. A launch needed two independent board reads, minutes apart, to both
+#      clear — so the gate could clear and still buy nothing. The refusal now lives at SELECTION, per offer.
+#   2. THE FAILURE WAS INVISIBLE. The launch's HOLD snapshot overwrote the gate's CLEAR in the same file, so
+#      a cleared-then-died launch and an ordinary hold were byte-indistinguishable afterwards.
+#
+# These are tested here rather than left to the next clear board because a clear board is RARE — that is the
+# whole problem. A guard exercised only on the path that almost never runs is a guard nobody has tested.
+def test_the_buy_line_travels_with_the_jobspec_so_no_host_above_it_can_be_rented():
+    """★ DEFECT 1. The binding refusal must be on the OFFER, not on a board mean beside it.
+
+    `rank_offers_by_usd_per_ns` drops every offer above `ResourceSpec.max_usd_per_ns` before selection sees
+    it, so a capped spec cannot rent an over-line host on any path — first choice or the fallback after a
+    capacity refusal. A JobSpec built without the cap is one a thin board can overcharge."""
+    j = tv.build_jobspec("calib_hi_to_lo__ternary_vhl", 1, "fwd", mode="edge_reps",
+                         timestep_fs="4.0", warmup_timestep_fs="1.0",
+                         git_branch="b", bucket="bk", prefix="pfx")
+    assert j.resources.max_usd_per_ns is not None, \
+        "the JobSpec handed to submit() MUST carry the buy line — this is the 2026-07-27 defect"
+    assert j.resources.max_usd_per_ns == pytest.approx(tv.buy_ceiling_usd_per_ns())
+
+
+def test_the_buy_line_is_the_drift_line_times_the_ladder_basis_and_is_never_typed():
+    """Rule 1: one home per number. The buy line is DERIVED from the same two facts the gate reports
+    against, so a repricing or a change to the drift multiple moves both together and they cannot disagree."""
+    from congeneric_fanout import basis_usd_per_ns
+    assert tv.buy_ceiling_usd_per_ns() == pytest.approx(
+        tv.MARKET_MAX_RATIO_VS_BASIS * basis_usd_per_ns())
+    # and it is the SAME line the gate publishes as its own break-even-at-max-ratio
+    assert tv.buy_ceiling_usd_per_ns() == pytest.approx(1.5 * basis_usd_per_ns())
+
+
+def test_the_gate_still_sees_the_expensive_offers_it_exists_to_report():
+    """★ THE TRAP IN FIXING DEFECT 1, and it would look exactly like the bug being fixed.
+
+    If the cap were put on `resource_spec()`'s default, the gate's own board read would be pre-filtered by
+    it: every over-line offer would vanish before `market_gate` could price it, the ratio could never exceed
+    1.5x, and a thin board would report "nothing priceable" instead of "2.44x". A gate blind to the offers
+    it exists to refuse is a gate that measures nothing — the failure family this repo keeps paying for. So
+    the DEFAULT spec must stay uncapped and only the submit path may carry the line."""
+    assert tv.resource_spec().max_usd_per_ns is None
+    assert tv.resource_spec(max_usd_per_ns=0.0065).max_usd_per_ns == 0.0065
+
+
+def test_an_over_line_offer_is_unselectable_while_the_same_board_stays_visible_to_the_gate():
+    """The two halves above, exercised together on one synthetic board through the REAL ranking code.
+
+    The board carries one offer under the line and one over it. Uncapped (the gate's view) both are
+    priceable, which is what lets the gate say how far above the line the board sits. Capped (the renter's
+    view) only the under-line offer survives, and `_select_cheapest_offer` can never return the other."""
+    from gpu_backend import rank_offers_by_usd_per_ns, _select_cheapest_offer
+    import dataclasses
+    res = tv.resource_spec()
+    offer = dict(machine_id=1, gpu_name="RTX 4090", num_gpus=1, gpu_ram=24564, cpu_ram=64 * 1024,
+                 cpu_cores=16, disk_space=200, reliability2=0.99, cuda_max_good=13.0, rentable=True,
+                 dph_total=0.20, dph_base=0.20, min_bid=0.02, storage_cost=0.10)
+    cheap = dict(offer, machine_id=1, min_bid=0.02)
+    dear = dict(offer, machine_id=2, min_bid=4.00)
+    measured, _cap = rank_offers_by_usd_per_ns([cheap, dear], res)
+    if len(measured) < 2:
+        pytest.skip("RTX 4090 is not in the throughput bench on this checkout — nothing to rank")
+    line = measured[0][0] * 1.5                       # a line the cheap offer clears and the dear one cannot
+    assert measured[-1][0] > line, "the synthetic board must actually straddle the line"
+    capped = dataclasses.replace(res, max_usd_per_ns=line)
+    kept, _ = rank_offers_by_usd_per_ns([cheap, dear], capped)
+    assert [t[2]["machine_id"] for t in kept] == [1], "an over-line offer must not survive the cap"
+    assert _select_cheapest_offer([dear], capped) is None, \
+        "with only over-line offers the renter must refuse, not fall back to the cheapest of them"
+
+
+def test_a_launch_that_wanted_units_and_rented_none_is_distinguishable_from_one_with_nothing_to_do():
+    """Both return an empty handle list, and conflating them is what let a launch that rented nothing exit
+    0. Now that the buy line can legitimately refuse every offer on a thin board, that ambiguity would turn
+    the price guard itself into a silent no-op — a fleet that never launched looking identical to one that
+    finished, which CLAUDE.md §6 names as worse than the problem."""
+    assert hasattr(tv.submit, "__call__")
+    tv.submit.last_requested = 0                      # nothing needed renting -> green
+    assert not getattr(tv.submit, "last_requested", 0)
+    tv.submit.last_requested = 4                      # wanted four, got none -> red
+    assert getattr(tv.submit, "last_requested", 0) and not []

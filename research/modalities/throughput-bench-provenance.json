@@ -232,6 +232,12 @@
     "what_protected_the_table": "vast_bench_sweep.admit() refused both records on nine independent grounds, starting with status != OK and including the absent particle count, timestep, blocks and physics check. A failed rental is exactly where a fabricated throughput would be easiest to produce and hardest to notice; tests/test_vast_bench_sweep.py::TestAFailedBenchProducesNoNumber pins the refusal.",
     "selection_bias_check": "A NaN aborts during minimise/warmup, before any timed block, and warmup is a fixed STEP count rather than a fixed wall time \u2014 so failure probability is not a function of card speed, and the surviving population is not biased toward fast or slow hosts. The two failures were on different card models, consistent with that."
   },
+  "tesla_v100_stays_unknown_and_that_is_the_right_answer": {
+    "what_happened": "Two Tesla V100 rentals, both requested as the marketplace name 'Tesla V100', reported DIFFERENT CUDA devices and wildly different throughput: 'Tesla V100-FHHL-16GB' gave 238.93 ns/day at CV 27.6% (refused on CV), and 'Tesla V100-SXM2-32GB' gave 369.07 at CV 0.13% (a clean measurement).",
+    "why_it_is_not_admitted": "These are two genuinely different SKUs — SXM2 32GB (~900 GB/s HBM2) versus the FHHL 16GB PCIe card — and the marketplace name 'Tesla V100' does not say which one an offer is. Admitting either measurement under the key 'TESLAV100' would mean the ranking prices a rental it cannot identify in advance, in the direction that BUYS whenever the fast SKU's figure is applied to a slow offer.",
+    "so_the_refusal_is_the_feature": "A card whose marketplace name does not determine its silicon cannot have a card constant. It stays UNKNOWN and is excluded from ranking, which is correct behaviour rather than a gap to close. Closing it would require the offer query to carry the SKU, which the board does not provide.",
+    "contrast_with_the_admitted_equivalences": "vast_bench_sweep.DEVICE_NAME_EQUIVALENCES maps 'NVIDIA A100 80GB PCIe' to 'A100 PCIE' because there the extra tokens are naming convention, not a different part — the marketplace name already pins the SKU. Here it does not."
+  },
   "rejected_at_measurement_time": [
     {
       "what": "a host whose three blocks scattered at CV 18.5%",

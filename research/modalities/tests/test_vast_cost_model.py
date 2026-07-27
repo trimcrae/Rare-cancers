@@ -31,7 +31,9 @@ class TestCardTable(unittest.TestCase):
 
     def test_unbenched_card_returns_none_rather_than_a_guess(self):
         # The whole point: an unmeasured card gets NO throughput, so it cannot be ranked on a proxy.
-        for name in ("RTX 5090", "A10", "L4", "H100 SXM", "Tesla P4", ""):
+        # RTX 5090 was the canonical example here until it was benched on 2026-07-27; the point of the
+        # test is a card with NO measurement, so it moves to one that still has none.
+        for name in ("H200 NVL", "A10", "L4", "H100 SXM", "Tesla P4", ""):
             self.assertIsNone(vcm.card_of(name), name)
             self.assertIsNone(vcm.ns_per_hour(name), name)
 
@@ -166,7 +168,7 @@ class TestSelection(unittest.TestCase):
         self.assertEqual(ranked[0].offer_id, "a")
 
     def test_unbenched_cards_are_excluded_not_guessed(self):
-        ranked = vcm.rank_offers([offer(gpu="RTX 5090", min_bid=0.001, oid="ghost"),
+        ranked = vcm.rank_offers([offer(gpu="H200 NVL", min_bid=0.001, oid="ghost"),
                                   offer(gpu="RTX 4090", min_bid=0.50, oid="real")], vcm.JobProfile())
         self.assertEqual([r.offer_id for r in ranked], ["real"])
 
