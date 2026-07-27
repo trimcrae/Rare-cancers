@@ -938,9 +938,18 @@ both endpoints. The restraint is built only from the ligand's **contact moiety**
 `unmapped_contact_atoms` — any restrained atom that is alchemically perturbed — so the assumption is auditable
 per leg.
 
-> **SUPERSEDED, retained for the record (rule 1.2).** §L.3c, §L.3d#5 and §L.3e each said the restrained re-run
-> needs "the standard restraint correction". **That statement is withdrawn and must not be quoted.** It imported
-> ABFE reasoning into an RBFE lane. The physics is as stated in this section; the three sites now point here.
+> **SUPERSEDED, retained for the record (rule 1.2).**
+> **(a)** §L.3c, §L.3d#5 and §L.3e each said the restrained re-run needs "the standard restraint correction".
+> **That statement is withdrawn and must not be quoted.** It imported ABFE reasoning into an RBFE lane. The
+> physics is as stated in this section; the three sites now point here.
+> **(b)** The first draft of ruling 2 below justified itself with "**0 of 12** replicas beyond the 4.0 Å
+> threshold, in both cycles and **in both directions**". **Withdrawn — it was wrong for the reverse leg**, whose
+> converge pass reads **1 of 12** departing to **4.737 Å**, i.e. *past* the flat-bottom half-width, so the claim
+> that the restraint could never engage on the ternary arm was an overstatement. The ruling is unchanged and the
+> reasoning is now stronger rather than weaker: see reason 3, where the λ signature of that single excursion —
+> initiating at a **physical endpoint**, not in the alchemical interior — is what disqualifies it from being a
+> restraint's business at all. Recorded because a ruling defended by a number that turns out to be wrong is a
+> ruling that has to be re-derived, not quietly re-worded.
 
 #### 2 · The ternary arm is **NOT** re-run restrained. Only the binary arm is. ⟵ THE RULING
 
@@ -956,19 +965,34 @@ reviewer:
    a different r0**. Symmetry between the arms is therefore cosmetic, not formal. What makes the restraint safe is
    that it cancels **within each leg**, between that leg's own A and B endpoints, and that holds for the binary arm
    whether or not the ternary arm has one. **The restraint is not a term in ΔΔG_coop at all** — neither arm's is.
-2. **On the ternary arm the restraint would be almost exactly zero, so it can only add unquantified risk.** The
-   well is flat (force identically zero) out to `r0 + 0.30 nm`, and only *outward* motion is ever restrained.
-   The ternary arm's worst receptor-superposed contact-moiety pose RMSD, over all replicas and frames, is
-   **2.835 Å (2 fs) and 2.999 Å (4 fs)** — §L.3d — against a **3.0 Å** half-width. A group centroid's displacement
-   is bounded above by that group's RMSD, so the dominant term is below the well edge at the single worst
-   frame measured, and typical frames (median 1.65 / 1.90 Å) are nowhere near it. *(Not "provably zero": the
-   receptor anchor centroid also drifts slightly under superposition and that term is not measured. The claim is
-   that engagement would be marginal at worst, which is what the numbers support.)* A restraint that is
-   essentially never felt cannot improve a clean arm; it can only introduce an effect nobody has quantified.
-3. **The arm has no defect to fix.** §L.3b–§L.3d: **0 of 12** replicas beyond the 4.0 Å threshold, in both cycles
-   and in both directions (12/12 STABLE fwd, 11/12 rev). The binary arms are **contaminated**; the ternary arms are
-   **clean**. You re-run what is broken. CLAUDE.md §5 — *deepening a test past its field standard defaults to NO* —
-   points the same way, and "more rigorous" is explicitly not a reason.
+2. **On the FORWARD ternary legs — the ones that enter ΔΔG_coop — the restraint would be almost exactly zero, so
+   it can only add unquantified risk.** The well is flat (force identically zero) out to `r0 + 0.30 nm`, and only
+   *outward* motion is ever restrained. The fwd ternary arm's worst receptor-superposed contact-moiety pose RMSD,
+   over all replicas and frames, is **2.835 Å (2 fs) and 2.999 Å (4 fs)** — §L.3d — against a **3.0 Å** half-width.
+   A group centroid's displacement is bounded above by that group's RMSD, so the dominant term is below the well
+   edge at the single worst frame measured, and typical frames (median 1.65 / 1.90 Å) are nowhere near it.
+   *(Not "provably zero": the receptor anchor centroid also drifts slightly under superposition and that term is
+   not measured. The claim is that engagement would be marginal at worst, which is what the numbers support.)*
+   A restraint that is essentially never felt cannot improve a clean arm; it can only introduce an effect nobody
+   has quantified.
+3. **The one ternary excursion that DOES exceed the well is exactly the kind a restraint must not remove.** The
+   REVERSE ternary leg's converge pass clears every health flag except `ligand_stable_ok`: **1 of 12** replicas
+   departs, to a contact-pose max of **4.737 Å** — past the 4.0 Å threshold and therefore past the 3.0 Å flat
+   half-width, so a restraint **would** have engaged there. That is not an argument for restraining it, and here
+   is why: **the departure initiates at λ state 11 — a PHYSICAL endpoint.** The restraint exists to close an
+   *alchemically facilitated* escape channel (§L.3c: 7 of 8 binary departures initiate in the alchemical
+   interior, skewed to upper λ where the softcore region is largest). An excursion that begins at a
+   fully-interacting physical endpoint is not that channel; it is the physical Hamiltonian's own sampling.
+   Restraining it would **suppress physical sampling and call the result a fix**, which is a worse error than the
+   one being repaired — and it would do it inside the leg whose only job is the preregistered fwd/rev hysteresis,
+   changing what that number measures.
+4. **The arm has no defect the remedy addresses — and the contrast IS the control.** Binary: **8 of 12** replicas
+   out, max **16.6 Å**, initiation **7 of 8 in the alchemical interior**. Ternary: **0 of 12** out in both fwd
+   cycles, **1 of 12** at 4.737 Å in rev, that one initiating at a **physical endpoint**. Same alchemy, same
+   ligand, same E3 — the arms differ only in whether the second protein is present. So the departure is
+   **specific to the binary arm's missing second protein**, which is both why the remedy belongs there and why it
+   does not belong on the ternary arm. You re-run what is broken. CLAUDE.md §5 — *deepening a test past its field
+   standard defaults to NO* — points the same way, and "more rigorous" is explicitly not a reason.
 4. **It would cost the scarcest resource in the program and re-open a settled gate.** The ternary leg is the
    expensive one (146k atoms, 12 λ windows) and `GPUS_ALL_REGIONS = 1` forces every leg **sequential**, so
    re-running the ternary arm roughly doubles the re-run in GPU-days against a credit that expires
@@ -1001,6 +1025,20 @@ ruling stands. A **large** value does **not** settle it the other way and must n
 means the cheap proxy has run out and the restraint's own force group has to be read directly
 (`ternary_restraint.restraint_energy_kj`, which exists precisely so that this is possible — a restraint you
 cannot measure is a restraint you cannot defend).
+
+#### 3 · SEQUENCING: the rest of the re-run is HELD until the closure triangle's residual `R` lands
+
+**Ruled 2026-07-27, and the reason is scientific, not budgetary.** One restrained binary leg is running; the
+remaining seeds and the 4 fs cycle's arm are **not** dispatched. The closure triangle is running on Vast and it
+decides whether the valB edge's miss is **path error at all**: `R` is provably **zero for any endpoint-STATE
+error** and non-zero only for **PATH error**. If `R` comes back materially non-zero, the premise the full binary
+re-run rests on changes — and a multi-day commitment of the only GCP GPU would have been spent on a design that
+wanted revisiting first.
+
+This is the §"serialize only when one result could cancel the rest" litmus test answering **YES**: there is a
+result the triangle could return that would make us not run the rest. The single leg already launched is the
+right amount of exposure until it lands. **Waiting costs nothing** — the work is checkpointed, and the credit
+does not expire until 2026-10-10.
 
 **Where this is enforced.** `restrain` is a `workflow_dispatch` input on `gpu-ternary-fep-gcp.yml`, default `0`,
 and it **keys the commit prefix** (`_rst`, placed before `_dir<dir>` so the direction stays terminal) and the

@@ -232,17 +232,32 @@ def _ring_distance(ring, i, j):
     return min(d, n - d)
 
 
-def _aza_site(mol, ring, substituted, Chem):
+def _aza_site(mol, ring, substituted, Chem, exclude=()):
     """Which ring atom becomes the new nitrogen. Deterministic, topological, charge-safe. See the module
     docstring for why each of those three words is load-bearing.
 
-    Eligible: a ring atom that is a CARBON bearing EXACTLY ONE hydrogen. Ranked by (-min ring distance to any
-    substituted ring atom, canonical rank), so the winner is the most remote free C-H and ties -- if the ring
-    were symmetric enough to produce one -- resolve reproducibly rather than by iteration order.
+    Eligible: a ring atom that is a CARBON bearing EXACTLY ONE hydrogen, and not in `exclude`. Ranked by
+    (-min ring distance to any substituted ring atom, canonical rank), so the winner is the most remote free
+    C-H and ties -- if the ring were symmetric enough to produce one -- resolve reproducibly rather than by
+    iteration order.
+
+    ⚠ `exclude` EXISTS BECAUSE REMOVING AN ATOM FROM `ring` IS NOT THE SAME AS EXCLUDING IT, and the first
+    version of this code did the former. `_ring_distance` treats `ring` as a CYCLE and measures the shorter
+    arc around it; hand it five atoms of a six-ring and every distance is computed on a five-membered
+    pseudo-ring that does not exist. Measured on the real molecule (run 30293841260): route B then reported
+    `min_ring_distance_to_a_substituent: 1` with THREE atoms tied, i.e. the topological rule had degenerated
+    into "whatever the canonical rank happened to prefer". The two routes still agreed that time, so the
+    freeze passed -- which is exactly what makes it worth fixing: agreement reached by luck looks identical
+    to agreement reached by construction, right up until an RDKit version reorders the tie and the design
+    dies for a reason that has nothing to do with the chemistry. Excluding a CANDIDATE while keeping the ring
+    intact makes both routes select the same position for the same stated reason, uniquely.
     """
     ranks = list(Chem.CanonicalRankAtoms(mol, breakTies=True))
+    skip = set(exclude)
     elig = []
     for i in ring:
+        if i in skip:
+            continue
         a = mol.GetAtomWithIdx(i)
         if a.GetSymbol() != "C" or a.GetTotalNumHs() != 1:
             continue
@@ -323,9 +338,20 @@ def derive(calib_path=CALIB_FROZEN):
 
     # --- the aza site, chosen on cmpd4 (the molecule route A edits) ---------------------------------------
     site_lo = _aza_site(lo, ring_lo, subst_lo, Chem)
-    # ...and independently on cmpd1, EXCLUDING its existing ring N, which is a carbon in cmpd4 and must not be
-    # re-selected (that would just rebuild cmpd1).
-    site_hi = _aza_site(hi, [i for i in ring_hi if i != ns_hi[0]], subst_hi, Chem)
+    # ...and independently on cmpd1, EXCLUDING its existing ring N as a CANDIDATE (re-selecting it would just
+    # rebuild cmpd1) while keeping the ring itself intact, so the distance rule is measured on the real
+    # six-cycle. See `_aza_site` for the measured consequence of getting this wrong.
+    site_hi = _aza_site(hi, ring_hi, subst_hi, Chem, exclude=(ns_hi[0],))
+    # BOTH routes must select by the RULE, not by a tiebreak. A tied selection is not wrong chemistry, but it
+    # is a selection the rule did not make — and a rule that does not decide cannot be relied on to decide
+    # the same way twice.
+    for tag, site in (("cmpd4 (route A)", site_lo), ("cmpd1 (route B)", site_hi)):
+        if not site["unique_by_topology"]:
+            raise SystemExit("[triangle] the aza site on %s is not uniquely selected by the distance rule "
+                             "(%d atoms tied at distance %d) — it would be decided by a canonical rank that a "
+                             "future RDKit may reorder. Refusing to freeze a molecule chosen by a tiebreak."
+                             % (tag, site["n_tied_at_max_distance"],
+                                site["min_ring_distance_to_a_substituent"]))
 
     # --- route A: cmpd4 --(C->N at the site)--> cmpd4" ----------------------------------------------------
     route_a = _set_ring_element(lo, site_lo["atom_idx"], 7, Chem)
@@ -357,20 +383,29 @@ def derive(calib_path=CALIB_FROZEN):
                          "change needs a correction this lane does not have, and it is what blocks 8 legs of "
                          "step1_fanout." % charges)
 
-    # PERTURBED HEAVY ATOMS PER EDGE, measured rather than asserted, by the same rdFMCS settings
-    # `valb_pseries_chem.py` used -- so these numbers are directly comparable to the 58-80 that refuted the
-    # P-series and the 2 of the edge already running.
-    from rdkit.Chem import rdFMCS
-    def _perturbed(m1, m2):
-        r = rdFMCS.FindMCS([m1, m2], timeout=60, ringMatchesRingOnly=True, completeRingsOnly=True)
-        core = r.numAtoms
-        return max(m1.GetNumHeavyAtoms(), m2.GetNumHeavyAtoms()) - core
-
-    edges = {
-        "T1 (calib_hi -> calib_lo)": _perturbed(hi, lo),
-        "T2 (calib_lo -> calib_lo2)": _perturbed(lo, route_a),
-        "T3 (calib_hi -> calib_lo2)": _perturbed(hi, route_a),
+    # ---------------------------------------------------------------------------------------------------
+    # HOW BIG IS EACH EDGE. Reported as the number of ring atoms whose ELEMENT changes, which is exact by
+    # construction here -- these molecules are built by changing exactly those atoms and nothing else.
+    #
+    # ⚠ AND *NOT* AS AN rdFMCS "perturbed heavy atoms" COUNT, WHICH IS THE WRONG INSTRUMENT FOR THIS EDGE AND
+    # WAS MEASURED TO BE (run 30293841260). rdFMCS returns a CONNECTED common substructure, and this linker
+    # ring sits in the MIDDLE of the molecule -- so an element change there does not cost one atom of MCS, it
+    # splits the molecule in two and the MCS keeps only the larger half. On the real pair that gives an MCS of
+    # 34 of 59 heavy atoms for T1: an edge that changes exactly ONE atom scores 25 (or 50 under
+    # `valb_pseries_chem`'s symmetric ha+hb-2*nm form). Both are honest numbers about connected substructure
+    # and neither is a perturbation size, so recording either under that name would put a quotable wrong
+    # figure in a frozen artifact -- the exact failure CLAUDE.md rule 1 exists to stop. The P-series numbers
+    # (58-80) were comparisons of DIFFERENT molecules, where the metric does mean what it says.
+    #
+    # The authoritative measure of what the alchemical transformation actually IS remains the production atom
+    # map, measured by `valb_map_preflight.py` on the real staged ligands in the `triangle-prime` job. That is
+    # LOMAP at version parity, i.e. the mapper the legs themselves will call -- not a second opinion.
+    mutated = {
+        "T1 (calib_hi -> calib_lo)": 1,          # remove the ring N
+        "T2 (calib_lo -> calib_lo2)": 1,         # add a ring N at the aza site
+        "T3 (calib_hi -> calib_lo2)": 2,         # move it: one N->C and one C->N, on one ring
     }
+    edges = mutated
 
     return {
         "_status": "FROZEN",
@@ -405,7 +440,15 @@ def derive(calib_path=CALIB_FROZEN):
                 "cmpd4_redderived_from_cmpd1_matches_frozen": True,
             },
             "formal_charges": charges,
-            "perturbed_heavy_atoms_by_edge": edges,
+            "mutated_ring_atoms_by_edge": edges,
+            "mutated_ring_atoms_basis": "EXACT by construction — these molecules are built by changing "
+                                        "exactly these ring atoms and nothing else. Deliberately NOT an "
+                                        "rdFMCS 'perturbed heavy atoms' count: rdFMCS returns a CONNECTED "
+                                        "substructure and this ring is mid-molecule, so a one-atom element "
+                                        "change splits the molecule and scores 25 (max-form) or 50 "
+                                        "(symmetric form) rather than 1. The production LOMAP map, measured "
+                                        "on the real staged ligands by valb_map_preflight.py, is the "
+                                        "authoritative statement of what the transformation is.",
             "heavy_dummy_atoms_by_edge": {k: 0 for k in edges},
             "heavy_dummy_basis": "every edge is a pure aromatic ELEMENT change (N<->C), which maps 1:1 and "
                                  "creates no appearing/disappearing heavy atom. This is the property that "

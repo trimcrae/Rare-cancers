@@ -32,7 +32,15 @@ chk() { if [ "$2" = "$3" ]; then echo "PASS $1"; else echo "FAIL $1:"; echo "   
 python3 - "$WF" > "$TD/done.sh" <<'PY'
 import sys, textwrap
 t = open(sys.argv[1]).read()
-guard = 'if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json"'
+# The extraction now starts at the RESULT_KEY assignment rather than at the `ls` line, for a reason worth
+# keeping: `restrain` keys the leg result file (a restrained leg is a different Hamiltonian, and the
+# UNRESTRAINED r0 binary result is ALREADY in the bucket, so an unkeyed check declares a restrained leg
+# finished that never started). Binding that key ONCE and reusing it keeps one home for the expression, and
+# starting the slice at the assignment means RESULT_KEY is defined inside the extracted block — this test runs
+# it under `set -u`, where anything assigned in the loop header above is unbound. It also pulls the
+# restraint-mismatch guard into the extracted region, so the block under test is the whole decision, not just
+# its tail. The ${RSTTAG:-} / ${RST:-0} forms exist for the same `set -u` reason.
+guard = 'RESULT_KEY="$RESULTS/leg_${LEG}_${DIR}_r${SEED}${RSTTAG:-}.json"'
 i = t.index(guard); i = t.rfind('\n', 0, i) + 1
 # anchor on the branch's OWN closing `continue` (exactly 6 spaces after a newline). Matching the bare
 # string would also match a deeper-indented `continue` inside the reap loop and silently truncate the

@@ -20,7 +20,7 @@ name: GCP GPU — Ternary cooperativity FEP on L4 (valB_mini PROTAC 2->cis; WIF 
 on:
   workflow_dispatch:
     inputs:
-      mode:        { description: "smoke | run | reduce | calibchem (CPU/runner-only: fetch the Ciulli P-series ligand chemistry from RCSB + RDKit MCS mappability/charge check - the $0 blocker on the valB calibrator rescope; $0, no VM) | converge (CPU/runner-only: the reviewer's required-change-#1 convergence analysis of the committed .nc for ALL THREE legs of the cycle — MBAR overlap matrix + bottleneck, dG(t) plateau, fwd/rev, replica mixing, N_eff, structural drift; writes ternary_convergence.json beside the leg results so the reducer's diagnostics_ok stops defaulting to True. $0, no VM) | tail | forensic (CPU/runner-only: open the newest committed (.nc,.chk) production generations with openmmtools + print checkpoint_interval / analysis-vs-checkpoint last iteration / torn-pair flag — confirms the interval-mismatch root cause, $0, no VM) | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
+      mode:        { description: "smoke | run | reduce | calibchem (CPU/runner-only: fetch the Ciulli P-series ligand chemistry from RCSB + RDKit MCS mappability/charge check - the $0 blocker on the valB calibrator rescope; $0, no VM) | converge (CPU/runner-only: the reviewer's required-change-#1 convergence analysis of the committed .nc for ALL THREE legs of the cycle — MBAR overlap matrix + bottleneck, dG(t) plateau, fwd/rev, replica mixing, N_eff, structural drift; writes ternary_convergence.json beside the leg results so the reducer's diagnostics_ok stops defaulting to True. $0, no VM) | provenance (CPU/runner-only, $0, NO VM: prints what SYSTEM each landed leg actually ran -- setup version from its own recorded cache_dir, n_particles, protocol_hash -- plus any restraint reports. Use it to SETTLE comparability from the artifact instead of inferring a leg's setup version from the ABSENCE of a cache directory, which is not a measurement and is audit J.2-J.5's exact defect. Warns if the legs that would be combined into one cycle disagree.) | tail | forensic (CPU/runner-only: open the newest committed (.nc,.chk) production generations with openmmtools + print checkpoint_interval / analysis-vs-checkpoint last iteration / torn-pair flag — confirms the interval-mismatch root cause, $0, no VM) | preequil (plain-MD relax the physical complex -> preequilcache, then run RBFE with use_preequil=1) | endpoint_smoke (exact-Hamiltonian physical-endpoint stability test per ligand, reviewer condition 2/3 step 3)", default: "smoke", required: true }
       preequil_smoke: { description: "1 = PREEQUIL_SMOKE (system-build + 200-step relax sanity, no full ns) for mode=preequil", default: "0", required: false }
       preequil_ns: { description: "production ns after restrained relaxation for mode=preequil", default: "0.5", required: false }
       use_preequil: { description: "1 = for mode=run, restore the pre-equilibrated (relaxed) complex.pdb/ligands.sdf from preequilcache instead of the raw stage cache, and use a pre-equil-keyed setup cache. Requires a prior mode=preequil run.", default: "0", required: false }
@@ -721,8 +721,160 @@ jobs:
             sleep $((i * 5))
           done
           echo "::error::calibchem artifact could not be pushed after 3 rebase+push attempts"; exit 1
+      - name: Leg provenance — what SYSTEM did each landed leg actually run? (mode=provenance — CPU/runner-only, NO GPU/VM)
+        # WHY THIS EXISTS. ΔΔG_coop is a DIFFERENCE of legs, so it is meaningless if the legs describe different
+        # systems — and the lane has already shipped that exact defect: four rev attempts ran a 146,020-particle
+        # v1 build against a fwd leg built at 141,968 and nothing reported it (audit §J.2–J.5).
+        #
+        # THE HABIT THIS REPLACES is the one that made this step necessary: inferring a leg's setup version from
+        # the ABSENCE of a cache directory. An absence is not a measurement — it is the same "absent rendered as
+        # a legal good value" shape the lane keeps hitting. The DECISIVE field is the leg's OWN record:
+        # `cache_dir` names the setup cache it restored (…__v1 vs …__v2pe) and `n_particles` is its physical
+        # fingerprint. Both are already written into every leg_*.json; nothing could read them back without
+        # downloading the file by hand, so nobody did.
+        #
+        # $0, no VM, read-only. Safe to run at any time, including while a leg is billing.
+        if: ${{ github.event.inputs.mode == 'provenance' }}
+        run: |
+          set -uo pipefail
+          BUCKET="${PROJECT}-rbfe-ckpt"
+          RESULTS="gs://$BUCKET/valB-6hax/results"
+          mkdir -p /tmp/prov
+          echo "=== leg results in $RESULTS ==="
+          gcloud storage ls "$RESULTS/leg_*.json" 2>/dev/null || echo "(none)"
+          gcloud storage cp "$RESULTS/leg_*.json" /tmp/prov/ 2>/dev/null || true
+          gcloud storage cp "$RESULTS/restraint_*.json" /tmp/prov/ 2>/dev/null || true
+          # SECOND SOURCE, and for older legs the ONLY one that can settle it. The leg record only gained
+          # `setup_cache_dir`/`n_particles` on 2026-07-25, so every leg that landed before that carries
+          # neither. The COMMIT MANIFESTS do: rbfe_spot_checkpoint stamps `system_fingerprint_fields` into
+          # every COMMITTED.json, and that dict holds SETUP_CACHE_VERSION verbatim. Fetch the newest manifest
+          # per commit prefix.
+          for pfx in $(gcloud storage ls "gs://$BUCKET/valB-6hax/commits/" 2>/dev/null); do
+            for sub in $(gcloud storage ls "$pfx" 2>/dev/null); do
+              M=$(gcloud storage ls "$sub**/COMMITTED.json" 2>/dev/null | tail -1)
+              [ -n "$M" ] || continue
+              SAFE=$(printf '%s' "$sub" | sed 's#gs://##; s#[/*]#_#g')
+              gcloud storage cp "$M" "/tmp/prov/MANIFEST__${SAFE}.json" 2>/dev/null || true
+            done
+          done
+          echo "=== [LEG-PROVENANCE] ==="
+          python3 - <<'PY'
+          import glob, json, os
+          UNREC = 'UNRECORDED'
+          rows = []
+          for f in sorted(glob.glob('/tmp/prov/leg_*.json')):
+              try:
+                  d = json.load(open(f))
+              except Exception as e:
+                  print("  %-52s UNREADABLE (%s)" % (os.path.basename(f), e)); continue
+              # THE FIELD IS `setup_cache_dir`. The first cut of this read `cache_dir` -- the name used only in
+              # the PRIME marker -- and so reported UNRECORDED for every leg while looking like it had checked.
+              # Both are accepted; neither is guessed at.
+              cache = d.get('setup_cache_dir') or d.get('cache_dir') or ''
+              ver = cache.rstrip('/').split('__')[-1] if cache else UNREC
+              rows.append((os.path.basename(f), ver, d.get('n_particles'), d.get('protocol_hash'),
+                           d.get('n_windows'), cache))
+          if not rows:
+              print("  (no leg results downloaded)")
+          for name, ver, npart, ph, nw, cache in rows:
+              print("  %-52s setup=%-12s particles=%-10s windows=%-4s protocol_hash=%s"
+                    % (name, ver, npart, nw, ph))
+              print("      setup_cache_dir=%s" % (cache or '(unrecorded)'))
+
+          print("=== [COMMIT-MANIFEST PROVENANCE] (the decisive record for legs older than the leg-record field) ===")
+          man_rows = []
+          for f in sorted(glob.glob('/tmp/prov/MANIFEST__*.json')):
+              try:
+                  m = json.load(open(f))
+              except Exception as e:
+                  print("  %-58s UNREADABLE (%s)" % (os.path.basename(f), e)); continue
+              fields = m.get('system_fingerprint_fields') or {}
+              pretty = os.path.basename(f)[len('MANIFEST__'):-len('.json')]
+              sv = fields.get('SETUP_CACHE_VERSION') or UNREC
+              # WHICH LEG this prefix belongs to. The comparison below is only meaningful WITHIN one leg, so
+              # the leg id has to come out of the prefix rather than be pooled away.
+              _lid = pretty.split('_commits_')[-1]
+              for _k in ('__binary_vhl', '__solvent', '__ternary_vhl'):
+                  if _k in _lid:
+                      _lid = _lid[:_lid.index(_k) + len(_k)]
+                      break
+              man_rows.append((pretty, sv, fields.get('RBFE_RESTRAIN', ''), m.get('schema'), _lid))
+              print("  %-58s SETUP_CACHE_VERSION=%-8s RBFE_RESTRAIN=%-4s schema=%s"
+                    % (pretty, sv, fields.get('RBFE_RESTRAIN', '(absent)'), m.get('schema')))
+          if not man_rows:
+              print("  (no commit manifests found)")
+
+          # ===== THE COMPARABILITY VERDICT IS TRI-STATE, AND ABSENCE IS NOT AGREEMENT =====
+          # The first cut computed `set(versions)` and warned only when len > 1. With every leg UNRECORDED that
+          # set is the single value {UNRECORDED}, so the check PASSED — silently, on no evidence. That is the
+          # exact "absent rendered as a legal good value" defect this whole step was added to stop, reproduced
+          # inside the tool meant to stop it. Absence now reports as NOT VERIFIED, loudly, and never as agreement.
+          #
+          # AND IT IS A PER-LEG COMPARISON, NOT A POOLED ONE. The first cut pooled every version into one set
+          # and errored if it held more than one value. That is WRONG and it cried wolf on its own first real
+          # run: the binary arm is v1 and the ternary arm is v2pe, and that is not a defect — the arms are
+          # DIFFERENT SYSTEMS by construction (the ternary carries a whole extra protein; demanding one
+          # particle count across arms is a category error). The mismatch audit J.2-J.5 is about is WITHIN one
+          # leg — fwd v2pe against rev v1 of the SAME ternary leg, where the systems are supposed to be
+          # identical. A gate that fires on every healthy cycle gets ignored, which is worse than no gate.
+          def _legid(name):
+              b = name[len('leg_'):] if name.startswith('leg_') else name
+              for k in ('__binary_vhl', '__solvent', '__ternary_vhl'):
+                  if k in b:
+                      return b[:b.index(k) + len(k)]
+              return b
+          per_leg = {}
+          for r in rows:
+              if r[1] != UNREC:
+                  per_leg.setdefault(_legid(r[0]), set()).add(r[1])
+          for r in man_rows:
+              if r[1] != UNREC:
+                  per_leg.setdefault(r[4], set()).add(r[1])
+          conflicts = {k: sorted(v) for k, v in per_leg.items() if len(v) > 1}
+          known = {r[1] for r in rows if r[1] != UNREC}
+          unknown = [r[0] for r in rows if r[1] == UNREC]
+          mknown = {r[1] for r in man_rows if r[1] != UNREC}
+          if per_leg:
+              print("[provenance] recorded setup version PER LEG: %s"
+                    % {k: sorted(v) for k, v in sorted(per_leg.items())})
+          if conflicts:
+              print("::error title=ONE LEG BUILT FROM TWO DIFFERENT SETUPS::%s — the SAME leg has runs from "
+                    "different setup versions. Their systems are supposed to be identical, so these runs must "
+                    "NOT be combined or resumed into one another (audit J.2-J.5)." % conflicts)
+          elif unknown and not mknown:
+              print("::warning title=LEG SETUP VERSION NOT VERIFIED::%d leg(s) record no setup_cache_dir and no "
+                    "commit manifest carries SETUP_CACHE_VERSION: %s. This is NOT a pass — it means the question "
+                    "cannot be answered from these artifacts. Do NOT infer the version from which setup caches "
+                    "happen to exist; an absence is not a measurement. Settle it from the committed trajectory's "
+                    "particle count (mode=forensic) before combining these legs."
+                    % (len(unknown), ', '.join(unknown)))
+          elif unknown:
+              # PRINT THE PER-LEG MAP, NOT THE POOLED SET. Saying the manifests "agree on ['v1','v2pe']" reads
+              # as if two versions had been agreed on, in the one message whose entire job is precision about
+              # what was and was not established. Each leg agrees with ITSELF; that is the claim.
+              print("::warning title=LEG SETUP VERSION PARTIALLY VERIFIED::%d leg record(s) are silent (%s). The "
+                    "commit manifests DO record a version, and each leg is self-consistent: %s. Treat the "
+                    "leg-record silence as unverified, not as agreement — and note a leg absent from that map "
+                    "has no recorded version anywhere."
+                    % (len(unknown), ', '.join(unknown),
+                       {k: sorted(v) for k, v in sorted(per_leg.items())}))
+          elif known or mknown:
+              print("[provenance] all legs agree on setup version %s — VERIFIED from the artifacts."
+                    % sorted(known | mknown))
+          print("=== [RESTRAINT REPORTS] ===")
+          rp = sorted(glob.glob('/tmp/prov/restraint_*.json'))
+          if not rp:
+              print("  (none — no restrained leg has landed yet)")
+          for f in rp:
+              d = json.load(open(f))
+              sel = d.get('selection') or {}
+              print("  %-52s applied=%s r0_nm=%s r_flat_nm=%s lig=%s prot=%s ss_correction_required=%s"
+                    % (os.path.basename(f), d.get('applied'), d.get('r0_nm'), d.get('r_flat_nm'),
+                       sel.get('n_contact_ligand_atoms'), sel.get('n_anchor_receptor_atoms'),
+                       d.get('standard_state_correction_required')))
+          PY
       - name: Reset committed checkpoints (fresh start on timestep change)
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.reset_commits == '1' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.mode != 'provenance' && github.event.inputs.reset_commits == '1' }}
         run: |
           set -eo pipefail
           BUCKET="${PROJECT}-rbfe-ckpt"
@@ -730,7 +882,7 @@ jobs:
           echo "reset_commits=1 -> wiping $CB (a new-timestep run must not resume a stale-dt trajectory)"
           gcloud storage rm --recursive "$CB/" 2>/dev/null && echo "commits wiped" || echo "(no commits to wipe)"
       - name: Provision Spot L4 VM + run ternary-FEP
-        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' }}
+        if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.mode != 'provenance' }}
         run: |
           set -eo pipefail
           VM="gcp-ternary-${GITHUB_RUN_ID}"
@@ -778,6 +930,20 @@ jobs:
           # existing prefix stays byte-identical and keeps resuming — the same discipline as fwd getting no
           # _dir suffix.
           RSTSUF=""; [ "$RESTRAIN" = 1 ] && RSTSUF="_rst"
+          # ===== AND THE SAME KEY ON THE RESULT FILE — §L.5/§L.6's transferable rule, applied BEFORE it bit =====
+          # "Fixing a keying bug is not done until you have asked what ELSE is keyed on the same nothing." The
+          # answer here is the leg RESULT, `leg_<leg>_<dir>_r<seed>.json`, which has no restraint component. Two
+          # separate failures follow from that, and the second is the destructive one:
+          #   1. The idempotent-skip below `ls`es exactly that name. The UNRESTRAINED r0 binary result is
+          #      already in the bucket, so a restrained re-run would find it, print
+          #      "status=OK (idempotent-skip)", exit after ~37 s having computed nothing, and report success.
+          #   2. If it did run, the upload would land under the SAME NAME and OVERWRITE the unrestrained
+          #      ΔG_binary — the number the whole r0 cycle is built on — with a different Hamiltonian's result,
+          #      leaving no trace that they were ever different calculations.
+          # Same discipline as the prefix: restrain=0 keeps the byte-identical name so every existing reader
+          # (ternary_fep_reduce, the watchdog's done-check) is untouched; restrain=1 gets its own file.
+          RSTTAG="$RSTSUF"
+          echo "leg result key: leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json"
           COMMIT_PREFIX="gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT}${RSTSUF}${DIRSUF}"
           # ASSERT the direction survived into the prefix, and do it BEFORE provisioning a GPU. This is the check
           # whose absence let the bug above ship: the fix "looked right" and nothing ever verified the result.
@@ -884,8 +1050,10 @@ jobs:
           # while computing nothing -- and because the VM cannot self-delete (its SA lacks
           # compute.instances.delete) it then sat as an idle billing zombie holding the single-GPU quota.
           # The result file is leg_<id>_<direction>_r<seed>.json, so the check must name the direction.
-          if [ "$MODE" = run ] && [ "$FORCE_RERUN" != 1 ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}.json >/dev/null 2>&1; then
-            echo "leg ${LEG_ID} dir=${DIRECTION} seed $SEED already in GCS — idempotent skip"
+          # RESTRAINT-KEYED TOO (see the RSTTAG note in the runner block above): without ${RSTTAG} a restrained
+          # re-run finds the UNRESTRAINED result, declares itself done and exits having computed nothing.
+          if [ "$MODE" = run ] && [ "$FORCE_RERUN" != 1 ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json >/dev/null 2>&1; then
+            echo "leg ${LEG_ID} dir=${DIRECTION} seed $SEED restrain=$RESTRAIN already in GCS — idempotent skip"
             for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} dir=${DIRECTION} (idempotent-skip) ###END###"; sleep 3; done
             exit 0
           fi
@@ -1020,7 +1188,15 @@ jobs:
           elif ls \$OUT/leg_${LEG_ID}_*.json >/dev/null 2>&1; then
             LJ=\$(ls \$OUT/leg_${LEG_ID}_*.json | head -1)
             LINE=\$(\$PY -c "import json;d=json.load(open('\$LJ'));print('TFEP_RESULT status=OK run leg=%s dg_morph=%.3f se=%.3f'%(d.get('leg_id'),d.get('dg_morph_kcal',0),d.get('mbar_se_kcal',0)))")
-            gcloud storage cp \$LJ $RESULTS/ 2>&1 | tail -1 || true
+            # RESTRAINED legs upload under their OWN name so they cannot overwrite the unrestrained ΔG_binary
+            # the r0 cycle is built on. Unrestrained keeps the bare `cp … $RESULTS/` it has always used, so the
+            # existing path is byte-identical and no reader changes.
+            if [ -n "$RSTTAG" ]; then
+              gcloud storage cp \$LJ "$RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json" 2>&1 | tail -1 || true
+              echo "::notice title=RESTRAINED LEG RESULT IS A SEPARATE FILE::uploaded as leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json, NOT over the unrestrained result. ternary_fep_reduce reads the unsuffixed names, so this leg is deliberately NOT folded into the existing cycle automatically — mixing a restrained arm into an unrestrained cycle is a decision, not a default. See ternary-lane-guard-audit-2026-07-25.md L.3f."
+            else
+              gcloud storage cp \$LJ $RESULTS/ 2>&1 | tail -1 || true
+            fi
             # THE RESTRAINT REPORT MUST LEAVE THE VM. rbfe_spot_driver writes restraint.json into the sim
             # unit's SHARED dir, which lives on the instance and dies with it — and the run log is only
             # uploaded on NORESULT, so on a SUCCESSFUL restrained leg the report would be destroyed by the
@@ -1193,7 +1369,7 @@ jobs:
           echo "TFEP RESULT: $RES"
 
       - name: Teardown (skip for detached — the VM must keep running)
-        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.mode != 'provenance' }}
         run: |
           # "tail deletes when done" was also untrue: gpu-rbfe-gcp-tail only deletes when a human passes
           # delete=1. Name the thing that actually reaps a finished leg, so nobody plans around a phantom.
@@ -1202,7 +1378,7 @@ jobs:
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi
       - name: Result summary
-        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' }}
+        if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.mode != 'provenance' }}
         run: |
           echo "mode=$MODE leg=$LEG_ID"
           if [ "${DETACHED:-0}" = 1 ]; then echo "🚀 DETACHED: $VM running the leg independently -> GCS; monitor via gpu-rbfe-gcp-tail vm=$VM"; exit 0; fi
