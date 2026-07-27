@@ -82,7 +82,12 @@ jobs:
           ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - run: pip install -q boto3 pytest
+      # pyyaml is NOT optional here. The gate below parses THIS workflow to prove `reap` is wired into
+      # the launcher's mode table, and a missing parser makes the gate fail on its own dependency rather
+      # than on the thing it guards — which on 2026-07-27 blocked every tick, so no readout committed and
+      # the terminus release of the 18 held edges could never fire. It passed locally only because the dev
+      # sandbox happens to have PyYAML.
+      - run: pip install -q boto3 pytest pyyaml
       - name: Gate on the fan-out unit tests (a broken unit list must never reach a GPU)
         run: python -m pytest research/modalities/tests/test_congeneric_fanout.py -q
 

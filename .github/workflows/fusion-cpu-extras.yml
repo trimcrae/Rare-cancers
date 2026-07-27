@@ -1259,7 +1259,9 @@ jobs:
           if [ "${{ github.event.inputs.fanout_mode }}" = "stage" ]; then pip install -q rdkit; fi
       - name: Gate on the fan-out unit tests (a broken unit list must never reach a GPU)
         run: |
-          pip install -q pytest
+          # pyyaml because the suite parses workflow YAML to prove `reap` is wired into the launcher's
+          # mode table. Without it the GATE fails on its own dependency instead of on what it guards.
+          pip install -q pytest pyyaml
           python -m pytest research/modalities/tests/test_congeneric_fanout.py -q
       - name: Step 1 fan-out — ${{ github.event.inputs.fanout_mode }}
         working-directory: research/modalities
