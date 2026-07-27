@@ -327,6 +327,30 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None, 
             time.sleep(2.0 * (_hops + 1))                         # 2,4,6,8,10 s -> ~30 s of patience total
             return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1)
         raise RuntimeError(f"vast API {method} {path} -> {e.code}: {detail[:400]}") from e
+    # ★★ A CONNECTION THAT NEVER COMPLETED GOT **NO** RETRY AT ALL, WHICH IS BACKWARDS
+    #    (2026-07-27, 2:20 PM ET, run 30292566268).
+    #
+    # The handler above retries a 403/5xx — an answer we did not like — but it only catches `HTTPError`. A
+    # TIMEOUT or a refused/reset connection raises `URLError` (or a bare `TimeoutError`), which is NOT an
+    # HTTPError, so it fell straight through and killed the caller on the FIRST attempt. That is exactly
+    # inverted: a request that got no answer at all is MORE obviously transient than one that got a 403.
+    #
+    # It cost the collect step of the 2:20 PM tick: `mode_collect` -> `_live_instances` -> here ->
+    # `urllib.error.URLError: <urlopen error timed out>`, so the reap did not run. Same shape as the 1:21 PM
+    # incident, different transport — the board was slow rather than forbidden (the same tick's S3 listing
+    # took 5 minutes, so the runner's egress was degraded generally).
+    #
+    # ⚠ GET ONLY, for the identical reason as above: retrying a POST that already created an instance would
+    # double-rent, and a timeout is precisely the case where the request may have succeeded server-side while
+    # the response was lost. A read is idempotent; a write is not, so a write still fails fast and loudly.
+    # `URLError` must be caught AFTER `HTTPError` — HTTPError SUBCLASSES URLError, so the reverse order would
+    # silently swallow every HTTP status and lose the provider's error body.
+    except (urllib.error.URLError, TimeoutError, OSError) as e:
+        if method == "GET" and _hops < 5:
+            import time
+            time.sleep(2.0 * (_hops + 1))                         # same 2,4,6,8,10 s ladder as the 403 path
+            return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1)
+        raise RuntimeError(f"vast API {method} {path} -> unreachable: {type(e).__name__}: {e}") from e
 
 
 def _vast_offer_query(res: ResourceSpec) -> dict:
