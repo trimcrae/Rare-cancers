@@ -85,6 +85,56 @@ jobs:
             printf '%s' "$OUT" | grep -aE "$FILT" | tail -40 || echo "(no progress markers yet — still in env build?)"
             echo "=================== RAW SERIAL TAIL (last 20) ==================="
             printf '%s' "$OUT" | tail -20 || true
+            # ===== TEARDOWN FORENSIC: did the in-VM EXIT trap run, and if so why did its delete fail? =====
+            # Added 2026-07-27 after gcp-ternary-30215419909 held the project's ONLY GPU for ~22 h with its leg
+            # already finished. The trap DID run and printed the fallback "self-delete no-op (already gone /
+            # no perm)"; the gcloud error that caused it was invisible because EVERY progress filter in this
+            # repo greps case-sensitively for "error|Error", and gcloud prints "ERROR:" in caps. A guard whose
+            # failure message is unreadable is a guard nobody can act on, so the forensic is now part of the
+            # tail rather than something to be reconstructed after the fact.
+            echo "=================== TEARDOWN FORENSIC (did self-delete run? why did it fail?) ==================="
+            echo "--- create-time guards actually on the instance (scheduling + SA + scopes) ---"
+            gcloud compute instances describe "$VM" --zone="$ZONE" \
+              --format="yaml(status,creationTimestamp,scheduling,serviceAccounts)" 2>&1 | head -30 || true
+            echo "--- trap markers, CASE-INSENSITIVE (this is the line the old filters dropped) ---"
+            printf '%s' "$OUT" | grep -aiE "SELF-DELETE|self-delete no-op|TFEP-DONE|ERROR:|denied|forbidden|not authorized|Required .+ permission|insufficient" | tail -25 \
+              || echo "(no trap/teardown markers in the serial buffer)"
+            echo "--- raw serial window around the self-delete attempt (the gcloud error verbatim) ---"
+            SDL=$(printf '%s' "$OUT" | grep -an "self-delete no-op" | tail -1 | cut -d: -f1)
+            if [ -n "$SDL" ]; then
+              S0=$SDL; [ "$S0" -gt 14 ] && S0=$((SDL-14)) || S0=1
+              printf '%s' "$OUT" | sed -n "${S0},$((SDL+4))p"
+            else
+              echo "(no 'self-delete no-op' line — either the trap has not fired yet or the delete succeeded)"
+            fi
+            # DEFINITIVE, NON-DESTRUCTIVE PERMISSION TEST. compute.instances.testIamPermissions answers
+            # "does the caller hold compute.instances.delete on THIS instance" without deleting anything, so
+            # it settles a self-delete failure by measurement rather than by reading an IAM doc that may be
+            # stale. Run it as the VM'S OWN service account (over SSH), because that -- not the CI runner's
+            # gpu-runner@ -- is the identity the EXIT trap uses.
+            echo "--- testIamPermissions as the VM's OWN service account (the identity the trap uses) ---"
+            timeout 150 gcloud compute ssh "$VM" --zone="$ZONE" --quiet --command '
+              MD=http://metadata.google.internal/computeMetadata/v1/instance
+              N=$(curl -s -H "Metadata-Flavor: Google" $MD/name)
+              Z=$(curl -s -H "Metadata-Flavor: Google" $MD/zone | awk -F/ "{print \$NF}")
+              P=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/project/project-id)
+              echo "  instance=$N zone=$Z project=$P"
+              echo "  SA:     $(curl -s -H "Metadata-Flavor: Google" $MD/service-accounts/default/email)"
+              echo "  scopes: $(curl -s -H "Metadata-Flavor: Google" $MD/service-accounts/default/scopes | tr "\n" " ")"
+              echo "  gcloud on PATH: $(command -v gcloud || echo NO)"
+              TOK=$(curl -s -H "Metadata-Flavor: Google" $MD/service-accounts/default/token | sed -nE "s/.*\"access_token\":\"([^\"]+)\".*/\\1/p")
+              echo "  --- testIamPermissions(compute.instances.delete, .get, .stop) ---"
+              curl -s -X POST -H "Authorization: Bearer $TOK" -H "Content-Type: application/json" \
+                -d "{\"permissions\":[\"compute.instances.delete\",\"compute.instances.get\",\"compute.instances.stop\"]}" \
+                "https://compute.googleapis.com/compute/v1/projects/$P/zones/$Z/instances/$N/testIamPermissions"
+              echo
+              echo "  --- startup-script service state (did the script exit at all?) ---"
+              systemctl is-active google-startup-scripts.service 2>/dev/null || true
+              systemctl show -p ExecMainStatus -p Result -p ActiveState google-startup-scripts.service 2>/dev/null || true
+              echo "  --- processes alive longest (is the leg python still running?) ---"
+              ps -eo pid,etimes,pcpu,stat,comm --sort=-etimes 2>/dev/null | head -6 || true
+            ' 2>&1 | grep -vE "Warning: Permanently added|Updating project ssh|Waiting for SSH key|^WARNING:|^$" | tail -30 \
+              || echo "(ssh probe failed — see above)"
           fi
           # The REAL liveness signal (the leg run captures MD output into a shell var, so serial goes quiet mid-run):
           # the spot-safe driver commits a checkpoint to GCS every ~20 iterations. Latest COMMITTED.json + its
@@ -120,7 +170,23 @@ jobs:
           fi
           if [ "$DELETE_IN" = 1 ] && [ -n "$VM" ]; then
             echo "--- DELETE requested: tearing down $VM in $ZONE ---"
-            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete failed / already gone"
+            # NEVER 2>/dev/null a teardown. That is exactly how the in-VM trap's failure stayed invisible for
+            # ~22 h: "delete failed / already gone" conflates two opposite outcomes and prints no reason.
+            if gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/tmp/delerr; then
+              echo "deleted $VM"
+            else
+              echo "::error title=DELETE FAILED::$VM in $ZONE — $(tail -2 /tmp/delerr | tr '\n' ' ')"
+            fi
+            # QUOTA IS THE ZOMBIE TEST (gcp-gpu-facts.md #2): a VM absent from `instances list` while
+            # NVIDIA_L4_GPUS usage stays >=1 means something still holds the GPU. Confirm from the quota
+            # endpoint, not from the delete call's own exit status.
+            echo "--- post-delete quota (usage must return to 0, else something still holds the GPU) ---"
+            Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
+                  --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
+            for M in NVIDIA_L4_GPUS PREEMPTIBLE_NVIDIA_L4_GPUS; do
+              printf '%s\n' "$Q" | awk -v m="$M" '$1==m{printf "  %s: limit=%s usage=%s\n", $1,$2,$3}'
+            done
+            gcloud compute instances list --format="table(name,zone.basename(),status)" 2>&1 | head -10 || true
           fi
           # ===== CHECKPOINT TIMING PROBE: interval between commits = MD + commit overhead per 20 iters =====
           echo "=================== CHECKPOINT TIMING PROBE (complex/production) ==================="
