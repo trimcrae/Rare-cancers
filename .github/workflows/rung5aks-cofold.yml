@@ -341,6 +341,11 @@ jobs:
             else
               echo "--- (no archived attempt)"
             fi
+            # SUPERSEDED records: a failed leg.json that was archived-and-cleared. Reading them back is the
+            # whole point of archiving rather than deleting — a cleared record must still be answerable for.
+            for SUP in $(aws s3 ls "$P/superseded/" 2>/dev/null | awk '{print $4}' | sort | tail -4); do
+              echo "--- superseded/$SUP"; aws s3 cp "$P/superseded/$SUP" - 2>/dev/null || true; echo
+            done
             echo "--- run.log (CURRENT attempt — tail 120)"
             aws s3 cp "$P/run.log" - 2>/dev/null | tail -120 || echo "(none)"
           done
