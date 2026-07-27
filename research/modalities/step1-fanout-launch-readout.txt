@@ -1,18 +1,24 @@
 [s1f] terminus PROVEN by 1 unit(s) (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) — fan-out released
-[s1f] units=19 done=2 pending=17 live=14 free_slots=5 -> submitting 3
-[s1f] cost of THIS submission (3 units): plan $4.69 (band $1.94-11.83) | whole remaining tranche (17 units): plan $26.59 (band $11.0-67.02)
+[s1f] units=19 done=2 pending=17 live=7 free_slots=12 -> submitting 10
+[s1f] cost of THIS submission (10 units): plan $15.64 (band $6.47-39.42) | whole remaining tranche (17 units): plan $26.59 (band $11.0-67.02)
 [s1f] wave shape: {"n_units": 17, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5nh2, exit_vector_sub)
 [s1f]   queue e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5oh, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5opropargyl, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5alkyne, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5ch2nh2, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_primary_amide, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral  (zaienne_cmpd19 -> cw_bio_tetrazole, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral  (zaienne_cmpd19 -> cw_ms_carbinol, microstate_variant)
+[s1f]   queue e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral  (zaienne_cmpd19 -> cw_ms_5acetamido_ester, microstate_variant)
+[s1f]   queue e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral  (cw_ev_5nh2 -> cw_ms_5acetamido_ester, cycle_closure)
+[s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
+[s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
 [s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
-[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 64 offers -> 63 qualifying, 52 priceable. A unit must clear BOTH the dollar ceiling $0.008594/ns (2.52x, derived from market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.5x drift line $0.005118/ns — effective $0.005118/ns (1.50x), binding on the rate line (1.5x basis). (trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)
-[s1f] PLACEMENT: 3 unit(s) LAUNCHING NOW, 0 HELD for a better board (of 3 withheld this tick).
-[s1f]   launch @ $0.003593/ns · 1.05x basis
-[s1f]   launch @ $0.003742/ns · 1.10x basis
-[s1f]   launch @ $0.004012/ns · 1.18x basis
-[s1f]   spend authorised THIS TICK: $5.52 against $11.83 — the ceiling for the 3 unit(s) actually being BOUGHT, not for the notional full tranche.
-[s1f] excluding 11 machine(s) from offer selection: ['117843', '12697', '140043', '18857', '26910', '28164', '29668', '29770', '46392', '48605', '56108']
-[s1f] submitted s1f-00-cw_ev_5nh2 -> instance 46019202 machine 132368 dph≈$0.09522222222222222/hr (floor $0.093/hr -> bid $0.0949/hr, +$0.0019/hr premium) | RENTED AT $0.002842/ns · 0.83x basis
-[s1f] submitted s1f-01-cw_ev_5oh -> instance 46019280 machine 29304 dph≈$0.04888888888888889/hr (floor $0.04666666666666667/hr -> bid $0.0476/hr, +$0.0009/hr premium) | RENTED AT $0.002546/ns · 0.75x basis
-[s1f] submitted s1f-05-cw_ev_5opropargyl -> instance 46019285 machine 57342 dph≈$0.05555555555555556/hr (floor $0.05333333333333334/hr -> bid $0.0544/hr, +$0.0011/hr premium) | RENTED AT $0.002827/ns · 0.83x basis
+[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 49 offers -> 47 qualifying, 22 priceable. A unit must clear BOTH the dollar ceiling $0.008594/ns (2.52x, derived from market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.5x drift line $0.006539/ns — effective $0.006539/ns (1.92x), binding on the rate line ($0.006539/ns = 1.92x basis). (trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)
+[s1f] PLACEMENT: 2 unit(s) LAUNCHING NOW, 8 HELD for a better board (of 10 withheld this tick).
+[s1f]   launch @ $0.005388/ns · 1.58x basis  ⛔ DRIFT ABOVE THE BUY LINE — this must not happen
+[s1f]   launch @ $0.005779/ns · 1.69x basis  ⛔ DRIFT ABOVE THE BUY LINE — this must not happen
+[s1f]   HELD 8 unit(s) on the rate line ($0.006539/ns = 1.92x basis): waiting for an offer at or below $0.006539/ns (1.92x basis). the board had only 2 offer(s) that cheap this pass. They are NOT dropped — the pending set is recomputed from S3 every tick, so they go out automatically as the board improves.
+[s1f]   spend authorised THIS TICK: $5.3 against $7.88 — the ceiling for the 2 unit(s) actually being BOUGHT, not for the notional full tranche.
+[s1f] excluding 13 machine(s) from offer selection: ['117843', '12697', '140043', '1569', '18857', '26910', '28164', '29668', '29770', '35778', '46392', '48605', '56108']
+[s1f] submitted s1f-01-cw_ev_5oh -> instance 46021208 machine 140160 dph≈$0.20222222222222222/hr (floor $0.2/hr -> bid $0.204/hr, +$0.004/hr premium) | RENTED AT $0.004691/ns · 1.38x basis
+[s1f] submitted s1f-03-cw_ev_5alkyne -> instance 46021261 machine 11892 dph≈$0.16522222222222221/hr (floor $0.163/hr -> bid $0.1663/hr, +$0.0033/hr premium) | RENTED AT $0.004932/ns · 1.45x basis

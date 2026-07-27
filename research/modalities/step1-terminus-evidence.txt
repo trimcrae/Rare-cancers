@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 12:34 PM ET Jul 27, 2026
+[s1f-terminus] read at 12:37 PM ET Jul 27, 2026
 
-[s1f-terminus] 1388 object(s) under the results prefix
+[s1f-terminus] 1391 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1007 B  8:48 AM ET Jul 27, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid/ddg.json
@@ -14,7 +14,7 @@
   e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=no  NO-TERMINUS        complex/warmup@140
   e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=no  NO-TERMINUS        complex/production@280, complex/warmup@400
   e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@200, complex/warmup@400
-  e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@160, complex/warmup@400
+  e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@200, complex/warmup@400
   e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=no  NO-TERMINUS        complex/production@520, complex/warmup@400
   e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
@@ -55,19 +55,19 @@
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
   board depth      : 49 offers visible (baseline ~23), 49 qualifying, 23 priceable, 18 needed
-  floors           : min $0.1067/hr, median $0.28/hr
-  best fleet $/ns  : $0.010383/ns  ·  3.04× basis (basis $0.003412/ns)
-  projected        : $85.68 against a $70.96 ceiling
+  floors           : min $0.1067/hr, median $0.2667/hr
+  best fleet $/ns  : $0.009832/ns  ·  2.88× basis (basis $0.003412/ns)
+  projected        : $81.13 against a $70.96 ceiling
   ⚠ DRIFT — ≥1.5× basis. A release into this board would be HELD on price.
-    RTX 5090   m29711    $0.2000/hr  $0.00539/ns · 1.58× basis
-    RTX 4090   m11892    $0.1630/hr  $0.00578/ns · 1.69× basis
-    RTX 4090   m117852   $0.1867/hr  $0.00720/ns · 2.11× basis
-    RTX 3090   m40935    $0.1067/hr  $0.00741/ns · 2.17× basis
-    A100 PCIE  m56748    $0.1333/hr  $0.00744/ns · 2.18× basis
-    RTX 5090   m140078   $0.2667/hr  $0.00790/ns · 2.31× basis
+    RTX 4090   m53989    $0.1480/hr  $0.00531/ns · 1.56× basis
+    RTX 5090   m140160   $0.2000/hr  $0.00539/ns · 1.58× basis
+    RTX 5090   m8914     $0.2590/hr  $0.00682/ns · 2.00× basis
+    RTX 4090   m114240   $0.1867/hr  $0.00720/ns · 2.11× basis
+    RTX 4090   m101699   $0.2000/hr  $0.00725/ns · 2.13× basis
+    RTX 3090   m45778    $0.1067/hr  $0.00741/ns · 2.17× basis
+    RTX 5090   m45729    $0.2667/hr  $0.00754/ns · 2.21× basis
     RTX 4080S  m29668    $0.2000/hr  $0.00799/ns · 2.34× basis
     RTX 3090   m8966     $0.1333/hr  $0.00806/ns · 2.36× basis
-    RTX 5090   m52214    $0.3333/hr  $0.00862/ns · 2.53× basis
-    RTX 5090   m38941    $0.3333/hr  $0.00969/ns · 2.84× basis
+    RTX 5090   m139921   $0.3067/hr  $0.00976/ns · 2.86× basis
     RTX 5090   m138419   $0.4000/hr  $0.01099/ns · 3.22× basis
-    RTX 4090   m25798    $0.3600/hr  $0.01207/ns · 3.54× basis
+    RTX 4090   m50289    $0.3333/hr  $0.01110/ns · 3.25× basis
