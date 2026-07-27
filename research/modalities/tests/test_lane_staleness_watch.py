@@ -335,15 +335,29 @@ def test_the_lanes_own_admission_that_it_could_not_read_the_board_is_honoured():
     assert _c(st)["verdict"] == "UNKNOWN"
 
 
-def test_a_gate_snapshot_older_than_the_lanes_last_rental_is_not_a_host_count():
-    """MEASURED while building this module: the gate snapshot read `units_live: []` at 3:38 PM ET and the
-    ledger recorded a successful rental for the same lane at 4:00 PM ET. Believing the snapshot announces
-    four freshly-rented hosts as IDLE-UNEXPECTED — a false alarm on the verdict this module exists to make
-    trustworthy. A superseded count is UNREADABLE, not zero."""
+def test_a_snapshot_superseded_by_a_SUCCESSFUL_RENTAL_is_a_lower_bound_not_an_unknown():
+    """★ CAUGHT BY THE FIRST CI DISPATCH (6:42 PM ET 2026-07-27). The gate snapshot read `units_live: []` at
+    6:20 PM ET and the ledger recorded a successful rental at 6:25 PM ET — the lane had JUST RENTED, the
+    healthiest thing it can do, and the watcher announced it could not tell billing from idle. Every rental
+    would have produced a red window until the next gate evaluation: the cry-wolf failure this module exists
+    to avoid. A rental is POSITIVE evidence of a host, so the count is a lower bound."""
     st = lsw.read_ternary_family(
         REPS, _watch([_entry("edge_reps", True)]), None,
         _ternary_hold(minutes_old=140, live=0), None,
         _ledger((20, "rent (steps.rent.outcome=success)", "launched", "task=edge-reps; job status success")),
+        None, False)
+    assert st.live_hosts == 1 and "live_hosts" not in st.unreadable
+    v = _c(st)
+    assert v["ok"] is True and v["verdict"] == "ADVANCING", v
+
+
+def test_a_snapshot_superseded_by_something_that_is_NOT_a_rental_stays_unreadable():
+    """The other direction. A failed stage after the snapshot could mean a teardown, so the count really is
+    superseded and really is unknown — and a lane whose host count is unknown cannot be graded either way."""
+    st = lsw.read_ternary_family(
+        REPS, _watch([_entry("edge_reps", True)]), None,
+        _ternary_hold(minutes_old=140, live=4), None,
+        _ledger((20, "rent (steps.rent.outcome=skipped)", "failed", "task=edge-reps; job status failure")),
         None, False)
     assert st.live_hosts is None and "superseded" in st.unreadable["live_hosts"]
     v = _c(st)

@@ -480,7 +480,7 @@ def read_ternary_family(spec: dict, watch: dict | None, watch_err: str | None,
     # `gpu-ternary-fep-vast.yml` serves all three of these lanes, and a triangle run must not vouch for the
     # replicate lane's silence.
     tokens = [t.lower() for t in (spec.get("ledger_tokens") or [])]
-    ledger_seen = False
+    ledger_seen, newest_outcome = False, ""
     if ledger is None:
         st.unreadable["ledger"] = ledger_err or "unknown"
     else:
@@ -499,6 +499,7 @@ def read_ternary_family(spec: dict, watch: dict | None, watch_err: str | None,
                 if t and (best is None or t > best):
                     best, best_e = t, a
             ledger_seen = best is not None
+            newest_outcome = str((best_e or {}).get("outcome") or "").lower()
             if best and (st.last_evidence_utc is None or best > st.last_evidence_utc):
                 st.last_evidence_utc = best
                 st.last_evidence_what = (f"launch ledger: stage={best_e.get('stage')!r} "
@@ -517,12 +518,28 @@ def read_ternary_family(spec: dict, watch: dict | None, watch_err: str | None,
     # else here, applied to staleness rather than to absence.
     if (gate_utc is not None and st.live_hosts is not None
             and st.last_evidence_utc is not None and st.last_evidence_utc > gate_utc):
-        st.unreadable["live_hosts"] = (
-            f"the gate snapshot giving the host count is stamped {_et(gate_utc)}, but this lane produced "
-            f"newer evidence at {_et(st.last_evidence_utc)} ({st.last_evidence_what}) — a rental or a "
-            f"teardown happened after the snapshot, so its `units_live` is superseded and is NOT a current "
-            f"host count")
-        st.live_hosts = None
+        if newest_outcome in ("launched", "dispatched"):
+            # ★ THE SNAPSHOT WAS SUPERSEDED **UPWARD**, AND THAT IS NOT AN ABSENCE OF KNOWLEDGE. A
+            # successful rental is the strongest positive evidence of a host there is — so the count is a
+            # LOWER BOUND, not an unknown, and the lane is billing whatever the exact number.
+            #
+            # CAUGHT BY RUNNING IT (first CI dispatch, 6:42 PM ET 2026-07-27): the replicate lane went red
+            # because its gate snapshot was stamped 6:20 PM and its ledger recorded a successful rental at
+            # 6:25 PM. It had JUST RENTED FOUR HOSTS — the healthiest thing a lane can do — and the watcher
+            # announced that it could not tell billing from idle. Every rental would have produced a red
+            # window until the next gate evaluation, which is exactly the cry-wolf failure this module is
+            # supposed to avoid. Being loud about a genuine unknown is the rule; manufacturing one is not.
+            st.live_hosts = max(st.live_hosts, 1)
+            st.notes.append(f"host count is a LOWER BOUND: the gate snapshot ({_et(gate_utc)}) predates a "
+                            f"successful rental at {_et(st.last_evidence_utc)}, so there are at least this "
+                            f"many hosts and possibly more — enough to know the lane is billing")
+        else:
+            st.unreadable["live_hosts"] = (
+                f"the gate snapshot giving the host count is stamped {_et(gate_utc)}, but this lane produced "
+                f"newer evidence at {_et(st.last_evidence_utc)} ({st.last_evidence_what}, outcome="
+                f"{newest_outcome or 'unknown'!r}) — something changed after the snapshot and it was not a "
+                f"rental, so `units_live` is superseded and is NOT a current host count")
+            st.live_hosts = None
 
     # `terminal_present` is tri-state on purpose: None means "the caller could not check", which is not the
     # same as "the lane has not finished".
