@@ -48,6 +48,9 @@ on:
       include_measured:
         description: "1 = also bench cards already in the table. Re-measuring an ANCHOR is exactly what you want when its value is in question."
         default: "0"
+      wave:
+        description: "label scoping this launch's S3 result keys. WITHOUT IT a later sweep OVERWRITES the hosts an earlier one paid for — which has destroyed evidence three times. A median-of-N estimator is only as good as the hosts that survive in the store."
+        default: ""
       exclude_machines:
         description: "comma-separated Vast machine_ids to never rent. A host that will not deliver has infinite realised $/ns, which the ranking cannot see, so it keeps winning selection and keeps failing."
         default: ""
@@ -81,6 +84,7 @@ jobs:
       BENCH_REPLICATES: ${{ github.event.inputs.replicates || '1' }}
       BENCH_INCLUDE_MEASURED: ${{ github.event.inputs.include_measured || '0' }}
       BENCH_EXCLUDE_MACHINES: ${{ github.event.inputs.exclude_machines }}
+      BENCH_WAVE: ${{ github.event.inputs.wave }}
     steps:
       - uses: actions/checkout@v4
         with:

@@ -327,6 +327,55 @@ def _vram_gb(offer):
     return ram / 1024.0 if ram > 1000 else ram
 
 
+# ★★ THE ESTIMATOR — MEDIAN OVER N INDEPENDENT HOSTS, AND WHY THE TABLE MUST USE ONE STATISTIC
+#
+# THE FINDING THAT FORCED THIS (2026-07-27). Five independent RTX 4090 hosts spanned 10.3 %; four RTX 4080
+# hosts spanned 1.85 %. The original anchors were ONE HOST EACH, and by luck the 4080's sat near the top of
+# its distribution while the 4090's sat mid-pack. **So the two anchors were not the same statistic**, and
+# every card RATIO in the repo inherited that: the table said 4090/4080 = 1.074 while an internally consistent
+# same-env, same-day, fresh-host measurement said 1.145. A 7 % error, and not in a direction anyone chose.
+#
+# That is not a 4090 problem. It is an INCONSISTENT-ESTIMATOR problem, and the only fix is that every entry is
+# the same function of the same kind of sample.
+#
+# WHY THE MEDIAN AND NOT THE MAX OR THE MEAN:
+#   * MAX would be "the best host ever seen", which RATCHETS — it rises every time another host is added, so
+#     the table would never converge and would drift anti-conservative (over-stating throughput under-states
+#     `$/ns`, which is the direction that BUYS).
+#   * MEAN is dragged by the low tail, and the low tail is exactly the population of throttled/co-tenanted
+#     hosts we would not knowingly keep. One bad host moves a 3-sample mean by a third of its deficit.
+#   * MEDIAN over N>=3 is robust to a single bad host, does not ratchet, and converges. It answers the
+#     question the ranking actually asks: what does a typical healthy rental of this card deliver?
+MIN_HOSTS_FOR_MEDIAN = 3
+
+
+def median_over_hosts(values):
+    """The table estimator. PURE. `values` is one number per INDEPENDENT host."""
+    xs = sorted(float(v) for v in values)
+    if not xs:
+        return None
+    n = len(xs)
+    return xs[n // 2] if n % 2 else round((xs[n // 2 - 1] + xs[n // 2]) / 2.0, 2)
+
+
+def estimator_for(values, min_hosts=MIN_HOSTS_FOR_MEDIAN):
+    """(value, estimator_label, n_hosts). PURE.
+
+    A card with fewer than `min_hosts` does NOT silently get a median of two — it is labelled `single_host`
+    or `provisional_n<N>` so that no consumer can mistake it for the same statistic as a properly sampled
+    entry. That labelling is the whole point: a mixed table is tolerable ONLY while the mixture is visible,
+    and an under-sampled entry errs conservatively anyway (every rental confounder is one-sided downward, so
+    a small sample under-states throughput and therefore OVER-states `$/ns` — we under-buy, never over-buy)."""
+    xs = [float(v) for v in values]
+    if not xs:
+        return None, "none", 0
+    n = len(xs)
+    v = median_over_hosts(xs)
+    if n >= min_hosts:
+        return v, f"median_of_{n}_hosts", n
+    return (v, "single_host" if n == 1 else f"provisional_median_of_{n}_hosts", n)
+
+
 def worst_case_usd(bid_usd_h, storage_usd_h, max_runtime_s=None):
     """The most this rental can cost: it self-terminates at `max_runtime_s`. PURE.
 
@@ -451,10 +500,23 @@ def build_jobspec(gpu_name, branch, bucket, exclude_machine_ids=(), replicate=1)
     an unavailable card fails the submit cleanly instead of quietly measuring something else."""
     import dataclasses
     base = _vcm.normalise_gpu_name(gpu_name).lower() or "unknown"
-    # A REPLICATE MUST GET ITS OWN S3 KEY. On 2026-07-24 two same-card legs were given one tag, so both wrote
-    # the same object and one silently overwrote the other: the host-variance control returned a single number
-    # and could not answer the question it was launched to answer. Same failure, same fix.
-    tag = base if replicate <= 1 else f"{base}-r{replicate}"
+    # ★★ EVERY MEASUREMENT MUST GET ITS OWN S3 KEY — AND "EVERY" INCLUDES ACROSS LAUNCHES.
+    #
+    # This has now bitten three times in one day, each time destroying evidence that had already been paid for:
+    #   1. 2026-07-24: two same-card bench legs shared one tag, so the host-variance control returned a single
+    #      number and could not answer the question it was launched for;
+    #   2. `nrv04_vast_launch.bench()`'s deterministic `bench-<gpu>-<edge>nm` key, which is how a re-run on
+    #      2026-07-27 OVERWROTE the validated 2026-07-24 grid's raw artifacts — the reason the 726.79-vs-anchor
+    #      disagreement could never be reconciled as two readings of one object, because one object was gone;
+    #   3. two RTX 5090 rentals from two different LAUNCHES were both `replicate=1`, so the per-launch suffix
+    #      did not save them and the second overwrote the first.
+    #
+    # `wave` closes the third case: it scopes the tag to the launch, so a later sweep ACCUMULATES hosts instead
+    # of replacing them. That is load-bearing for a median-of-N estimator, which is only as good as the number
+    # of independent hosts that survive in the store.
+    wave = (os.environ.get("BENCH_WAVE") or "").strip().lower()
+    suffix = (f"-{wave}" if wave else "") + (f"-r{replicate}" if replicate > 1 else "")
+    tag = f"{base}{suffix}"
     label = f"{LABEL_PREFIX}{tag}"[:64]
     res = dataclasses.replace(BENCH_RES, gpu=gpu_name,
                               exclude_machine_ids=tuple(sorted(str(m) for m in exclude_machine_ids)))
@@ -948,14 +1010,15 @@ def mode_collect():
             except Exception as e:  # noqa: BLE001
                 print(f"[cal] unreadable {o['Key']}: {e}", flush=True)
     print(f"[cal] {len(recs)} bench record(s) under s3://{bucket}/{RESULT_PREFIX}/", flush=True)
-    entries, refused = {}, []
+    entries, refused, admitted_by_card = {}, [], {}
     for r in sorted(recs, key=lambda x: str(x.get("tag"))):
         ok, reasons, entry = admit(r)
+        if ok:
+            admitted_by_card.setdefault(entry[0], []).append((entry[1], r.get("tag")))
         head = (f"  {str(r.get('gpu_requested') or r.get('tag')):<18} device={r.get('device')!r} "
                 f"atoms={r.get('atoms')} ns/day={r.get('ns_per_day')} cv={r.get('cv')} "
                 f"blocks={r.get('blocks_ns_day')}")
         if ok:
-            entries[entry[0]] = entry[1]
             print(head + "  -> ADMIT", flush=True)
         else:
             refused.append((r.get("gpu_requested") or r.get("tag"), reasons))
@@ -968,28 +1031,26 @@ def mode_collect():
     # reading. A tight CV proves the host was STEADY, not that it was unthrottled — a power-limited card runs
     # steadily slow. So the spread across independent hosts is the only evidence that separates "this card is
     # this fast" from "this rental was this fast", and it is printed rather than silently averaged away.
-    by_card = {}
-    for r in recs:
-        ok, _w, e = admit(r)
-        if ok:
-            by_card.setdefault(e[0], []).append((e[1], r.get("tag")))
+    by_card = admitted_by_card
+    print("\n[cal] === THE ESTIMATOR: median over independent hosts (see `median_over_hosts`) ===", flush=True)
     for card, vals in sorted(by_card.items()):
-        if len(vals) < 2:
-            continue
         xs = sorted(v for v, _t in vals)
-        print(f"\n[cal] {card} HOST DISTRIBUTION over {len(xs)} independent hosts: "
-              f"min {xs[0]:.2f} / median {xs[len(xs) // 2]:.2f} / max {xs[-1]:.2f} ns/day "
-              f"(spread {100 * (xs[-1] - xs[0]) / xs[-1]:.1f}% below the best)", flush=True)
+        val, label, n = estimator_for(xs)
+        entries[card] = val
+        spread = (100 * (xs[-1] - xs[0]) / xs[-1]) if len(xs) > 1 and xs[-1] else 0.0
+        flag = "" if n >= MIN_HOSTS_FOR_MEDIAN else "   ** UNDER-SAMPLED — not the same statistic **"
+        print(f"  {card:<12} {val:>8.2f}  {label:<22} n={n}  "
+              f"min {xs[0]:.2f} / max {xs[-1]:.2f}  spread {spread:.1f}%{flag}", flush=True)
         for v, t in sorted(vals, reverse=True):
             print(f"       {t}: {v:.2f}", flush=True)
 
     if entries:
         print("\n[cal] PROPOSED entries for vast_cost_model.MEASURED_NS_PER_DAY_84K "
               "(paste them there; nothing else may hold a throughput):", flush=True)
-        for k, v in sorted(entries.items()):
-            r = next(x for x in recs if admit(x)[2] and admit(x)[2][0] == k)
-            print(f'    "{k}": {v},   # blocks {" / ".join("%.2f" % b for b in r["blocks_ns_day"])}',
-                  flush=True)
+        for k, v in sorted(entries.items(), key=lambda kv: -kv[1]):
+            xs = sorted(x for x, _t in by_card[k])
+            _v, label, n = estimator_for(xs)
+            print(f'    "{k}": {v},   # {label}  hosts {" / ".join("%.2f" % x for x in xs)}', flush=True)
     _write_provenance(recs)
 
     # REALISED SPEND, then the reap — in that order, because a destroyed instance vanishes from the API and
