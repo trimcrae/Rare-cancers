@@ -1,21 +1,20 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-27T23:43:26Z",
-  "_generated_et": "7:43 PM ET Jul 27, 2026",
+  "_generated_utc": "2026-07-27T23:44:34Z",
+  "_generated_et": "7:44 PM ET Jul 27, 2026",
   "n_units": 19,
   "n_complete": 1,
-  "live_instances": 9,
+  "live_instances": 8,
   "_vast_unreadable": null,
   "instance_states": {
     "running": 5,
-    "exited": 2,
-    "loading": 2
+    "loading": 2,
+    "exited": 1
   },
   "gpu_util": [
-    0.0,
+    98.999908,
     75.999931,
     92.999908,
-    0.0,
     98.999908
   ],
   "phases": {
@@ -32,10 +31,10 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 5090",
-      "gpu_util": 0.0,
+      "gpu_util": 98.999908,
       "inet_down": 530.2,
       "dph": 0.27442962962962963,
-      "age_min": 119
+      "age_min": 120
     },
     {
       "id": 46047752,
@@ -48,7 +47,7 @@
       "gpu_util": 75.999931,
       "inet_down": 882.8,
       "dph": 0.18402222222222223,
-      "age_min": 95
+      "age_min": 96
     },
     {
       "id": 46049694,
@@ -61,7 +60,7 @@
       "gpu_util": 92.999908,
       "inet_down": 694.0,
       "dph": 0.2670222222222222,
-      "age_min": 71
+      "age_min": 72
     },
     {
       "id": 46050235,
@@ -74,20 +73,7 @@
       "gpu_util": null,
       "inet_down": 880.4,
       "dph": 0.18402222222222223,
-      "age_min": 63
-    },
-    {
-      "id": 46051235,
-      "label": "s1f-10-cw_bio_tetrazole",
-      "machine_id": 7118,
-      "status": "exited",
-      "cur_state": "stopped",
-      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
-      "gpu": "RTX 3090",
-      "gpu_util": 0.0,
-      "inet_down": 617.6,
-      "dph": 0.11917037037037037,
-      "age_min": 50
+      "age_min": 64
     },
     {
       "id": 46051455,
@@ -100,7 +86,7 @@
       "gpu_util": null,
       "inet_down": 925.6,
       "dph": 0.19902222222222224,
-      "age_min": 47
+      "age_min": 48
     },
     {
       "id": 46051592,
@@ -113,7 +99,7 @@
       "gpu_util": null,
       "inet_down": 884.8,
       "dph": 0.09022222222222223,
-      "age_min": 44
+      "age_min": 46
     },
     {
       "id": 46053845,
@@ -126,7 +112,7 @@
       "gpu_util": null,
       "inet_down": 3467.6,
       "dph": 0.1375222222222222,
-      "age_min": 15
+      "age_min": 16
     },
     {
       "id": 46053881,
@@ -139,7 +125,7 @@
       "gpu_util": 98.999908,
       "inet_down": 849.2,
       "dph": 0.22722222222222221,
-      "age_min": 14
+      "age_min": 16
     }
   ],
   "stopped_host_adjudication": {
@@ -149,7 +135,7 @@
         "label": "s1f-11-cw_bio_acylsulfonamide",
         "machine_id": "144135",
         "gpu": "RTX 5090",
-        "age_min": 47,
+        "age_min": 48,
         "status_msg": "",
         "double_booked_behind": null,
         "machine_has_run_our_container": true,
@@ -162,7 +148,7 @@
         "label": "s1f-12-cw_bio_hydroxamic",
         "machine_id": "12708",
         "gpu": "RTX 3090",
-        "age_min": 44,
+        "age_min": 46,
         "status_msg": "",
         "double_booked_behind": null,
         "machine_has_run_our_container": false,
@@ -173,19 +159,11 @@
     ],
     "preempted": [
       {
-        "instance": 46051235,
-        "label": "s1f-10-cw_bio_tetrazole",
-        "machine_id": "7118",
-        "gpu": "RTX 3090",
-        "age_min": 50,
-        "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh"
-      },
-      {
         "instance": 46053845,
         "label": "s1f-01-cw_ev_5oh",
         "machine_id": "35115",
         "gpu": "RTX 5090",
-        "age_min": 15,
+        "age_min": 16,
         "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh"
       }
     ],
@@ -199,7 +177,7 @@
     },
     "max_units_on_one_machine": 1,
     "n_never_started": 2,
-    "n_preempted": 2,
+    "n_preempted": 1,
     "n_double_booked": 0,
     "n_host_fault": 1,
     "n_stopped_on_a_proven_machine": 1,
@@ -214,7 +192,7 @@
       "phase": "leg-complex-running 2026-07-27T22:38:38Z",
       "committed": "complex/production@920",
       "committed_scalar": 1000920,
-      "committed_prev_scalar": 1000880,
+      "committed_prev_scalar": 1000920,
       "ddg_bind_kcal": null
     },
     {
@@ -222,7 +200,7 @@
       "phase": "leg-complex-running 2026-07-27T23:29:48Z",
       "committed": "complex/production@120",
       "committed_scalar": 1000120,
-      "committed_prev_scalar": 1000080,
+      "committed_prev_scalar": 1000120,
       "ddg_bind_kcal": null
     },
     {
@@ -238,7 +216,7 @@
       "phase": "leg-complex-running 2026-07-27T23:30:04Z",
       "committed": "complex/production@360",
       "committed_scalar": 1000360,
-      "committed_prev_scalar": 1000320,
+      "committed_prev_scalar": 1000360,
       "ddg_bind_kcal": null
     },
     {
@@ -246,7 +224,7 @@
       "phase": "leg-complex-running 2026-07-27T22:34:40Z",
       "committed": "complex/production@800",
       "committed_scalar": 1000800,
-      "committed_prev_scalar": 1000760,
+      "committed_prev_scalar": 1000800,
       "ddg_bind_kcal": null
     },
     {
@@ -254,7 +232,7 @@
       "phase": "leg-complex-running 2026-07-27T21:46:59Z",
       "committed": "complex/production@1520",
       "committed_scalar": 1001520,
-      "committed_prev_scalar": 1001480,
+      "committed_prev_scalar": 1001520,
       "ddg_bind_kcal": null
     },
     {
@@ -262,7 +240,7 @@
       "phase": "leg-complex-running 2026-07-27T22:41:58Z",
       "committed": "complex/production@1320",
       "committed_scalar": 1001320,
-      "committed_prev_scalar": 1001280,
+      "committed_prev_scalar": 1001320,
       "ddg_bind_kcal": null
     },
     {
@@ -362,6 +340,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 23.13,
+  "realised_usd_so_far": 23.15,
   "plan_usd_whole_tranche": 29.72
 }
