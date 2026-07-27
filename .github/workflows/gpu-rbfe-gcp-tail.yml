@@ -100,7 +100,9 @@ jobs:
             printf '%s' "$OUT" | grep -aiE "SELF-DELETE|self-delete no-op|TFEP-DONE|ERROR:|denied|forbidden|not authorized|Required .+ permission|insufficient" | tail -25 \
               || echo "(no trap/teardown markers in the serial buffer)"
             echo "--- raw serial window around the self-delete attempt (the gcloud error verbatim) ---"
-            SDL=$(printf '%s' "$OUT" | grep -an "self-delete no-op" | tail -1 | cut -d: -f1)
+            # `set -eo pipefail` is in force: an unguarded assignment whose pipeline finds nothing would
+            # kill the step BEFORE the delete branch. A diagnostic must never be able to abort the teardown.
+            SDL=$(printf '%s' "$OUT" | grep -an "self-delete no-op" | tail -1 | cut -d: -f1 || true)
             if [ -n "$SDL" ]; then
               S0=$SDL; [ "$S0" -gt 14 ] && S0=$((SDL-14)) || S0=1
               printf '%s' "$OUT" | sed -n "${S0},$((SDL+4))p"
@@ -182,7 +184,7 @@ jobs:
             # endpoint, not from the delete call's own exit status.
             echo "--- post-delete quota (usage must return to 0, else something still holds the GPU) ---"
             Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
-                  --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
+                  --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null || true)
             for M in NVIDIA_L4_GPUS PREEMPTIBLE_NVIDIA_L4_GPUS; do
               printf '%s\n' "$Q" | awk -v m="$M" '$1==m{printf "  %s: limit=%s usage=%s\n", $1,$2,$3}'
             done
