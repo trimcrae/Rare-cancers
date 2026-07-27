@@ -33,8 +33,8 @@ anything here that restates them is a bug — see rule 1.
   before writing even if the tool emits UTC. *(You keep slipping. This is why it is near the top.)*
 - **⏱️ END-OF-TURN "IN FLIGHT" BOARD (trimcrae, 2026-07-11).** Whenever your final message leaves work running,
   the LAST thing in it is a compact **"In flight:"** board — one scannable line per item (bullet/table, not
-  prose): **what it is · current state · ETA in ET 12-hour · cost** (or an explicit "ETA unknown — why"), plus
-  what you'll do when it lands if non-obvious. **List ONLY real compute** (GPU/CI jobs, subagents doing real work).
+  prose): **what it is · current state · ETA in ET 12-hour · cost · $/ns** (or an explicit "ETA unknown — why"),
+  plus what you'll do when it lands if non-obvious. **List ONLY real compute** (GPU/CI jobs, subagents doing real work).
   Do **NOT** list your own wake mechanisms (self-timers, pollers, heartbeats) or **scheduled routines** — a
   schedule is not running compute. Nothing running → "Nothing in flight", one line. This REPLACES long status
   narration.
@@ -46,6 +46,15 @@ anything here that restates them is a bug — see rule 1.
     [`vast-ladder-repricing.json`](./research/modalities/vast-ladder-repricing.json) /
     [pricing.md](./research/compute/pricing.md), and only a genuinely-unpriced item carries an estimate — which
     then says it is one.
+  - **AND `$/ns`, AGAINST ITS BASIS, ON EVERY GPU ROW (trimcrae, 2026-07-26: *"so that's easier to catch in the
+    future if it drifts"*).** `$/hr` cannot show drift — a cheap slow card and an expensive fast one look the
+    same — so every row on a GPU carries **`$/ns` and the multiple of the ladder basis** it represents, e.g.
+    `$0.0077/ns · 1.8× basis`. **The multiple is the point**; a bare `$/ns` is a number nobody can grade at 3 AM.
+    Basis = the `$/ref-GPU-h` planning rate in [pricing.md](./research/compute/pricing.md) ÷ the reference card's
+    ns/h, and per rule 1 it is DERIVED from the validated card ratios there, never typed fresh — a row quoting a
+    ratio the cost model does not produce is the bug. **≳1.5× basis is drift and says so on the row**; that is
+    what the fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
+    rather than a fabricated figure.
 - **Language discipline for the manuscript** is in [STRATEGY.md](./STRATEGY.md) → "Honest scope and language
   discipline" and enforced by `lint_claims.py` (R1–R5) in CI. Never imply proteome-wide selectivity, EMC
   efficacy, safety, a therapeutic window, or clinical readiness.
