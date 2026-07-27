@@ -520,3 +520,28 @@ def test_the_gate_prices_against_this_lanes_own_host_filter():
     this fleet against a different spec would price hosts the launcher would never actually rent."""
     res = tv.resource_spec()
     assert res.ram_gb >= 32 and res.vcpus >= 8 and res.min_vram_gb >= 24
+
+
+def test_the_ratio_ceiling_binds_even_when_the_dollar_ceiling_passes():
+    """★ THE CASE THAT DECIDED THE LAUNCH ON 2026-07-27. Four legs at 2.05x basis projected $17.99 against a
+    $22.28 authorisation: it CLEARED the dollars and was still double per ns. trimcrae's stated preference —
+    "I'd rather pause until availability opens than pay double per ns" — is a different test from "do not
+    spend past what was approved", and a guard with only the dollar test would have bought.
+
+    1.5 is the repo's own number: CLAUDE.md §1 already calls >=1.5x basis drift and requires every in-flight
+    row to say so, so buying at a multiple the reporting rules classify as drift contradicts the same
+    document twice on one line."""
+    from congeneric_fanout import basis_usd_per_ns
+    basis = basis_usd_per_ns()
+    n, ns_unit = 4, tv.rung_ns_per_unit()
+    _plan, ceiling = tv.rung_band_usd(n)
+    at_205 = 2.048 * basis
+    assert round(at_205 * ns_unit * n, 2) <= ceiling, "the night's board did clear the DOLLAR ceiling"
+    assert 2.048 > tv.MARKET_MAX_RATIO_VS_BASIS, "...and must still be refused on the RATIO ceiling"
+    assert tv.MARKET_MAX_RATIO_VS_BASIS == 1.5
+
+
+def test_the_ratio_ceiling_is_reachable_and_not_a_permanent_refusal():
+    """A ceiling nobody can clear turns into an idle night, so the threshold must sit above what the board
+    has actually delivered. It ran ~1.0x basis earlier the same evening (a 3090 at $0.0643/hr)."""
+    assert tv.MARKET_MAX_RATIO_VS_BASIS > 1.0

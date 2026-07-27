@@ -35,6 +35,17 @@ name: Ternary cooperativity FEP — Vast lane (RUNG 2b, 4 fs)
 # bootstrapped and validated on a feature branch. Once the file is on main, use workflow_dispatch.
 
 on:
+  # ⏰ The market re-check. A `schedule:` fires ONLY from the default branch, so this covers main; it resolves
+  # to `market-gate`, which either holds (committing the snapshot) or dispatches the launch itself.
+  #
+  # ⚠ THIS IS A BACKSTOP, NOT THE PRIMARY, AND THAT IS A MEASURED CALL RATHER THAN CAUTION. GitHub's
+  # scheduled-event delivery to this repo STOPPED at 10:04 PM on 2026-07-26 — no `schedule` event on any
+  # workflow after that, while `workflow_dispatch` kept working and all three watchdogs went green when
+  # dispatched by hand. So a cron-only re-check would have been a gate that never re-checks, which is the
+  # same "reports success while measuring nothing" shape this lane keeps paying for. The primary re-check is
+  # a Claude-side Routine that dispatches this task; this cron takes over automatically if delivery resumes.
+  schedule:
+    - cron: "17 * * * *"
   push:
     branches:
       - main
@@ -101,6 +112,13 @@ jobs:
           # `test` (free). The default is deliberately the $0 one: a push must never be able to rent a GPU
           # by accident, which is the spend-gated ladder's first rule.
           TASK="${DISPATCH_TASK:-}"
+          # A SCHEDULE fires the market re-check, not `test`. `github.event.inputs.*` is empty on a schedule
+          # event and there is no head_commit message either, so without this branch the cron would resolve
+          # to the free `test` and re-check nothing — a scheduled gate that silently never runs, which is
+          # strictly worse than having no schedule at all because it looks like coverage.
+          if [ -z "$TASK" ] && [ "${{ github.event_name }}" = "schedule" ]; then
+            TASK=market-gate
+          fi
           if [ -z "$TASK" ]; then
             # `|| true` IS LOAD-BEARING. grep exits 1 when it matches nothing, and under `set -eo pipefail`
             # (plus the runner's own `bash -e`) that failure propagates out of the command substitution and
@@ -217,6 +235,11 @@ jobs:
     if: ${{ needs.resolve.outputs.task == 'market-gate' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # `actions: write` is what lets this job dispatch the launch itself when the board clears — the
+    # difference between a gate that reports and a gate that acts.
+    permissions:
+      contents: write
+      actions: write
     env:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -227,7 +250,14 @@ jobs:
         with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - name: Price 4 legs against this rung's own ceiling
+      - name: Price 4 legs, and LAUNCH THEM the moment the board clears
+        # ★ SELF-CHAINING, BECAUSE AN AGENT IS NOT COVERAGE. The lesson from 7:47 PM is that a backgrounded
+        # watcher does not survive the agent stopping, so "I have a poller armed" is not a plan. This step
+        # does not report that the market cleared — it DISPATCHES the launch itself. The only thing anyone
+        # (or any scheduler) has to do is re-run this task; whether that produces a hold or four rented
+        # hosts is decided here, with no session in the loop.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -eo pipefail
           python -m pip install -q boto3
@@ -242,6 +272,25 @@ jobs:
             git push origin HEAD:"${{ github.ref_name }}" || true
           fi
           echo "market-gate exit=$RC (0 = clear to rent, 1 = hold)"
+
+          if [ "$RC" = 0 ]; then
+            echo "::notice title=TVAST MARKET CLEAR::board is within both ceilings — dispatching edge-reps."
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=edge-reps
+            exit 0
+          fi
+
+          # ⏰ A HOLD IS ROUTINE UNTIL 7:00 AM ET (11:00 UTC); AFTER THAT IT IS trimcrae's DECISION, NOT AN
+          # INDEFINITE WAIT. Escalating by FAILING the job is deliberate: that fires GitHub's own
+          # workflow-failure notification, which is the one alert path that does not need an agent awake —
+          # and the whole reason this lane went silent for five hours is that the paths which did need one
+          # all failed at once.
+          NOW_H=$(date -u +%H)
+          if [ "$NOW_H" -ge 11 ] && [ "$NOW_H" -lt 20 ]; then
+            echo "::error title=TVAST MARKET HOLD PAST 7 AM ET::valB_mini r1+r2 still held on price. This is now a decision for trimcrae: wait longer, accept the higher \$/ns, or rescope. Snapshot: research/modalities/ternary-vast-market-hold.json."
+            exit 1
+          fi
+          echo "::warning title=TVAST MARKET HOLD::valB_mini r1+r2 held on price — see research/modalities/ternary-vast-market-hold.json. Re-checks until 7:00 AM ET, then escalates."
+          exit 0
 
   # ------------------------------------------------ free: valB_mini replicates — stage seeds 1+2 AND
   #                                                   prove the atom map before anything is rented

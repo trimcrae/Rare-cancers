@@ -1135,11 +1135,30 @@ def rung_band_usd(n_units, entry="ternary_4fs_recalibration (1 matched edge)", l
     return round(per_leg_plan * n_units, 2), round(per_leg_hi * n_units, 2)
 
 
-def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3):
+# ★ TWO CEILINGS, AND THE RATIO ONE BINDS FIRST (2026-07-27).
+# The dollar ceiling is the rung's own authorisation — "do not spend past what was approved". The RATIO
+# ceiling is trimcrae's stated preference, in his words: *"I'd rather pause until availability opens than pay
+# double per ns."* Those are different tests, and on the night this was written the difference decided the
+# launch: 4 legs at 2.05x basis projected $17.99 against a $22.28 authorisation, i.e. it CLEARED the dollars
+# and was still double per ns.
+#
+# 1.5 is the repo's own number, not one invented for this gate — CLAUDE.md §1 already calls ">=1.5x basis"
+# drift and requires every in-flight row to say so. A guard that buys at a multiple the reporting rules
+# classify as drift would be contradicting the same document twice on one line.
+#
+# It is also demonstrably reachable rather than aspirational: the board ran ~1.0x earlier the same evening
+# (a 3090 at $0.0643/hr) and improved 3.16x -> 2.05x in three hours unaided. Waiting is cheap HERE
+# specifically — the calibrator gates spend on valB_full, and r0's reverse leg does not land until Monday
+# midday, so nothing downstream can move in the meantime.
+MARKET_MAX_RATIO_VS_BASIS = float(os.environ.get("TVAST_MAX_RATIO_VS_BASIS") or "1.5")
+
+
+def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max_ratio=None):
     """(hold, readout) for renting `n_units` legs of this rung right now. Reads the LIVE board.
 
-    An UNREADABLE or UNPRICEABLE board is a HOLD, not a launch: the one case where guessing is worst is the
-    case where nobody is awake to check."""
+    HOLDS unless BOTH tests pass: projected dollars within the rung's own band top, AND the achievable $/ns
+    within `MARKET_MAX_RATIO_VS_BASIS` of the ladder basis. An UNREADABLE or UNPRICEABLE board is a HOLD, not
+    a launch: the one case where guessing is worst is the case where nobody is awake to check."""
     from congeneric_fanout import basis_usd_per_ns
     from gpu_backend import _vast_offer_query, rank_offers_by_usd_per_ns
     kw = {} if entry is None else {"entry": entry}
@@ -1174,14 +1193,30 @@ def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3):
         out.update({"hold": True, "reason": "board offered nothing priceable (no benched card, or no offer)"})
         return True, out
     projected = round(best * ns_unit * n_units, 2)
-    out.update({"mean_usd_per_ns": round(best, 6), "ratio_vs_basis": round(best / basis, 3),
-                "projected_usd": projected})
-    hold = projected > ceiling
+    ratio = best / basis
+    cap = MARKET_MAX_RATIO_VS_BASIS if max_ratio is None else float(max_ratio)
+    over_dollars = projected > ceiling
+    over_ratio = ratio > cap
+    out.update({"mean_usd_per_ns": round(best, 6), "ratio_vs_basis": round(ratio, 3),
+                "projected_usd": projected, "max_ratio_vs_basis": cap,
+                "usd_per_ns_at_max_ratio": round(cap * basis, 6),
+                "fails_dollar_ceiling": over_dollars, "fails_ratio_ceiling": over_ratio})
+    hold = over_dollars or over_ratio
     out["hold"] = hold
-    out["reason"] = ("projected $%.2f for %d leg(s) exceeds this rung's own ceiling $%.2f (%.2fx the ladder "
-                     "basis $/ns)" % (projected, n_units, ceiling, best / basis)) if hold else (
-                    "projected $%.2f is within this rung's ceiling $%.2f (%.2fx basis)"
-                    % (projected, ceiling, best / basis))
+    if not hold:
+        out["reason"] = ("projected $%.2f within this rung's ceiling $%.2f AND %.2fx basis is within the %.2fx "
+                         "drift line" % (projected, ceiling, ratio, cap))
+    else:
+        why = []
+        if over_dollars:
+            why.append("projected $%.2f exceeds this rung's own ceiling $%.2f" % (projected, ceiling))
+        if over_ratio:
+            # Named explicitly, because "it was inside the dollar band" is exactly the argument that would
+            # otherwise buy at double per ns while pointing at a green authorisation.
+            why.append("%.2fx the ladder basis exceeds the %.2fx drift line (CLAUDE.md §1) — trimcrae, "
+                       "2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; "
+                       "need <= $%.6f/ns" % (ratio, cap, cap * basis))
+        out["reason"] = "; ".join(why)
     return hold, out
 
 
