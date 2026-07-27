@@ -34,6 +34,45 @@ and the run's logs endpoint now returns **HTTP 404**.
 ready to paste. Log deletion closes the window; it is not a rotation, and the key must be treated
 as compromised.
 
+## The rotation's own cost — ROTATING A KEY STRANDS EVERY HOST THAT ALREADY BAKED IT
+
+Not a hypothetical, and not obvious in advance: it was missed when the rotation was recommended.
+
+Credentials are resolved **once**, at process start. `nr4a3_rbfe.py:927` builds `S3CommitStore` before the
+multi-hour loop; `rbfe_spot_checkpoint.py:423-424` builds one `boto3.client("s3")` and reuses it for every
+later `.commit()`. boto3 caches static env credentials at client construction and never re-reads the
+environment. `_object_store_env` likewise resolves at container start. **So a host running when the key
+rotates keeps the dead key for the rest of its life, and there is no route to the new one short of a restart.**
+
+Worse, the commit callback (`rbfe_spot_driver.py:436-437`) has **no try/except**, so the first commit after
+the credential died raised and killed the driver. That death is invisible: `status.json` is itself an S3
+object, so `fail()` could not record it either.
+
+Observed, 2026-07-27. Two 5a-KS ternary legs kept their S3 writes frozen from **7:27 AM ET** while still
+billing, and were destroyed at **8:20 AM ET** — GPU utilisation `0.0` on reads 28 minutes apart, and the
+console showing both containers in a **~13–30 s crash-loop**: stage cache MISS (an S3 *read*, also on the dead
+key) → `FAILED at staging` → `Killed` → repeat, on the same rental. ~53 min of combined billing bought
+nothing, ≈$0.35. The dollars are trivial; the mechanism is not.
+
+Durable state at destroy, which is exactly what a relaunch resumes from: nr4a3 `production/800` of 2000,
+nr4a1 `warmup/640` of 1600.
+
+**MITIGATION, for the next rotation: drain or re-credential every running host BEFORE deactivating the old
+key.** Never deactivate blind and discover the strandings afterwards. If draining is not possible, destroy the
+in-flight legs deliberately and accept the checkpoint as the deliverable — a planned stop at a known iteration
+beats an unplanned one nobody can see.
+
+### The autoteardown hole this exposed
+
+`autoteardown.py`'s `run_with_teardown` fires `terminate_fn` when its wrapped subprocess **returns**. But on
+Vast the real mechanism is a bash **EXIT trap** armed inside the onstart script (`gpu_backend.py:645-649`,
+`_VAST_SELFDESTROY`: `poweroff || shutdown -h now || kill -9 -1 || kill -9 1`) — the Python wrapper is not in
+that path at all. Both instances stayed `actual_status: running` across every read, because the onstart
+content kept re-firing rather than the container exiting. **The docstring's belt-and-braces assumes killing
+PID 1 ends billing; on this failure path the container was never observed to exit.** The 240-minute
+collect-reap backstop would have caught it eventually, which is ~4 h of waste per incident — far too slow for
+a crash-loop.
+
 ## The larger issue this exposed, which the incident did not cause
 
 `gpu_backend._vast_onstart` forwards these AWS credentials **in plaintext to every rented Vast
