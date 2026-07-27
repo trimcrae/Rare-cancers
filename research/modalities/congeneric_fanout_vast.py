@@ -770,6 +770,63 @@ def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
     return True
 
 
+def object_store_preflight(bucket=None, prefix=None):
+    """(ok, reason) — can the credential a RENTED HOST would be given actually read the staging prefix?
+
+    Tested with `gpu_backend._object_store_env()` rather than with the CI process's own environment, and that
+    distinction is the entire point: `_object_store_env` is the single place the forwarded credential is
+    chosen (scoped `vast-leg-s3` when configured, else the broad CI key), so asking IT means this check can
+    never drift from what the host receives. Testing `os.environ` instead would have passed happily on
+    2026-07-27 while every rental crash-looped, because the RUNNER's key listed the same bucket fine minutes
+    either side of the host's `InvalidAccessKeyId`.
+
+    The probe mirrors the leg's own first command — the `$AWS s3 cp "s3://$BUCKET/$STAGE_PREFIX/" ...` in
+    `_PREAMBLE` — as a `list_objects_v2` with `MaxKeys=1`, so a pass means the thing that actually failed now
+    works, not merely that some S3 call succeeds. `KeyCount == 0` is a FAILURE: the credential authenticated
+    but the staged tree is not there, and a leg would die on the `test -s` guard immediately after.
+
+    PURE-ish: reads env + does one S3 GET. Never prints, logs or returns any part of a credential — the
+    exposure incident this lane is already carrying began with a diagnostic that printed values it had not
+    named (research/compute/credential-exposure-2026-07-27.md).
+    """
+    bucket = bucket or _require_bucket()
+    prefix = (prefix or STAGE_PREFIX).strip("/")
+    try:
+        import boto3
+        from gpu_backend import _object_store_env, object_store_cred_mode
+    except Exception as e:  # noqa: BLE001
+        return False, f"could not load the credential resolver: {type(e).__name__}: {e}"
+    env = _object_store_env()
+    mode = object_store_cred_mode()
+    if not env.get("AWS_ACCESS_KEY_ID") or not env.get("AWS_SECRET_ACCESS_KEY"):
+        return False, (f"no object-store credential would be forwarded at all (mode={mode}) — a host cannot "
+                       f"read the staged inputs without one")
+    try:
+        cli = boto3.client(
+            "s3",
+            region_name=env.get("AWS_DEFAULT_REGION") or os.environ.get("AWS_DEFAULT_REGION", "us-east-2"),
+            aws_access_key_id=env["AWS_ACCESS_KEY_ID"],
+            aws_secret_access_key=env["AWS_SECRET_ACCESS_KEY"],
+            aws_session_token=env.get("AWS_SESSION_TOKEN"),
+        )
+        r = cli.list_objects_v2(Bucket=bucket, Prefix=f"{prefix}/", MaxKeys=1)
+    except Exception as e:  # noqa: BLE001
+        # The error CODE is the actionable half and carries nothing secret; the message may echo a key id, so
+        # only the code and the exception type are reported.
+        code = ""
+        try:
+            code = e.response["Error"]["Code"]  # type: ignore[attr-defined]
+        except Exception:  # noqa: BLE001
+            code = type(e).__name__
+        return False, (f"the {mode} credential was REJECTED by S3 ({code}) listing "
+                       f"s3://{bucket}/{prefix}/ — this is the leg's first command, so every rental would "
+                       f"crash-loop on it")
+    if not r.get("KeyCount"):
+        return False, (f"the {mode} credential works but s3://{bucket}/{prefix}/ is EMPTY — a leg would pass "
+                       f"the copy and then die on its `test -s` staged-input guard")
+    return True, f"the {mode} credential can read s3://{bucket}/{prefix}/ (the leg's first command)"
+
+
 def mode_launch():
     global _MARKET_GUARD_RAN
     bucket, s3 = _require_bucket(), _s3()
@@ -874,6 +931,55 @@ def mode_launch():
         _lprint("[s1f] nothing to submit (fleet already at width, or all units done)")
         _write_launch_readout()
         return
+
+    # ⛔ CREDENTIAL PRE-FLIGHT, BEFORE THE PRICE GATE — a rental that cannot read S3 is worthless at ANY
+    # price, so this is the cheaper question and it is asked first.
+    #
+    # MEASURED, 2026-07-27 (this is not a hypothetical). Instance 45996071 was rented at 7:02 AM ET, resumed
+    # the shakeout unit's complex leg to production@2000 and its solvent leg to production@200 — then from
+    # ~7:50 AM ET every container restart died on the FIRST line of real work, the staging copy in
+    # `_PREAMBLE`:
+    #     fatal error: An error occurred (InvalidAccessKeyId) when calling the ListObjectsV2 operation:
+    #     The AWS Access Key Id you provided does not exist in our records.
+    #     Killed
+    # boot -> openfe import -> nvidia-smi -> InvalidAccessKeyId -> Killed, on a ~15-60 s loop, for over an
+    # hour, at $0.2497/hr on a 4090 with 0 % GPU utilisation and not one further committed iteration.
+    #
+    # WHY THE EXISTING GUARDS ALL MISSED IT, which is the reason this needs its own check rather than a
+    # tweak to one of them:
+    #   * the $/ns gate prices the BOARD. The host was cheap and healthy; the credential was the broken part.
+    #   * the starved-host exclusion keys on realised throughput, which needs commits to compare — a host
+    #     that never gets past `s3 cp` produces none, so it is invisible to the ranking (the same blind spot
+    #     `exclude_machine_ids` exists for).
+    #   * `phase.txt` still said `leg-solvent-running`, because the phase marker is only ever written FORWARD
+    #     and nothing rewrites it when the container dies. The committed-iteration census is what caught it
+    #     — flat across three consecutive ticks with an idle GPU (CLAUDE.md §4).
+    #   * blacklisting the machine would have been the WRONG repair: the host is fine, and the next host
+    #     would have crash-looped identically. The failure is not per-host, so a per-host remedy just pays
+    #     the same bill somewhere else.
+    #
+    # WHAT THIS DOES AND DELIBERATELY DOES NOT DO. It asks the ONE question that decides whether a rental can
+    # work: using EXACTLY the credential `gpu_backend._object_store_env()` would forward — scoped or
+    # inherited, whichever is configured, so this cannot drift from what the host actually receives — can we
+    # list the staging prefix the leg's first command reads? It does not inspect, name, print, repair or
+    # rotate any credential; diagnosing an IAM key is not the launcher's job. It only refuses to BUY into one
+    # that does not work, and says so with the error S3 returned.
+    #
+    # It HOLDS rather than fails: same discipline as the market gate, and for the same reason — a hold is
+    # recoverable and visible, nothing is dropped, the commit store is untouched, and the next tick re-checks
+    # and launches by itself the moment the credential works again.
+    if os.environ.get("FANOUT_SKIP_CRED_PREFLIGHT") != "1":
+        ok, why = object_store_preflight()
+        _lprint(f"[s1f] CREDENTIAL PRE-FLIGHT: {'✅ CLEAR' if ok else '⛔ HELD'} — {why}")
+        if not ok:
+            _lprint(f"[s1f] ⛔ LAUNCH HELD ({len(batch)} unit(s)) — the object-store credential this rental "
+                    f"would be given cannot read s3://{_require_bucket()}/{STAGE_PREFIX}/, which is the "
+                    f"first thing every leg does. Renting would buy a container that boots, fails that copy "
+                    f"and is Killed, on a loop, while billing. Nothing was rented and no unit was dropped; "
+                    f"the checkpoints are untouched in S3 and the next tick re-checks automatically.")
+            _write_launch_readout()
+            return
+
     # ⛔ THE $/ns MARKET GUARD (CLAUDE.md §6). EVERY launch must clear a price gate — fleet or single unit.
     #
     # Placed here, AFTER the batch is known and BEFORE `FANOUT_CONFIRM`, for two reasons. It needs the batch

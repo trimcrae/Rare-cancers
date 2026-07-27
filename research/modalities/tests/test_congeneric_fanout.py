@@ -692,3 +692,85 @@ def test_the_guard_cannot_be_skipped_by_a_future_refactor():
     i_belt = launch.index("not _MARKET_GUARD_RAN")
     i_rent = launch.index("backend.submit(spec)")
     assert i_belt < i_rent, "the belt must sit before anything is rented"
+
+
+# ================================================================= THE CREDENTIAL PRE-FLIGHT
+# 2026-07-27: instance 45996071 was rented healthy and cheap, resumed the shakeout unit's complex leg to
+# production@2000, and then spent over an hour boot -> openfe import -> nvidia-smi -> `InvalidAccessKeyId` on
+# the staging copy -> `Killed`, on a ~15-60 s loop, at $0.2497/hr with 0 % GPU. Every existing guard passed
+# it: the $/ns gate prices the board (the board was fine), the starved-host exclusion needs commits to compare
+# (a host that dies before `s3 cp` produces none), and `phase.txt` still read `leg-solvent-running` because
+# the phase marker is only written forward. A rental whose credential cannot read the staged inputs is
+# worthless at any price, so the launcher asks that question FIRST.
+
+def test_credential_preflight_fails_closed_on_every_unusable_outcome():
+    """No credential, a rejected credential, and an empty staging prefix must ALL hold — and a resolver that
+    itself blows up must hold too, because "we could not check" is not "it works"."""
+    import congeneric_fanout_vast as cfv
+
+    class _Boom:
+        def list_objects_v2(self, **kw):
+            err = Exception("nope")
+            err.response = {"Error": {"Code": "InvalidAccessKeyId"}}
+            raise err
+
+    class _Empty:
+        def list_objects_v2(self, **kw):
+            return {"KeyCount": 0}
+
+    class _Ok:
+        def list_objects_v2(self, **kw):
+            return {"KeyCount": 1}
+
+    import gpu_backend
+    real_env, real_mode = gpu_backend._object_store_env, gpu_backend.object_store_cred_mode
+    import boto3
+    real_client = boto3.client
+    try:
+        gpu_backend.object_store_cred_mode = lambda *a, **k: "inherited"
+
+        gpu_backend._object_store_env = lambda *a, **k: {}
+        ok, why = cfv.object_store_preflight(bucket="b", prefix="p")
+        assert not ok and "no object-store credential" in why, why
+
+        gpu_backend._object_store_env = lambda *a, **k: {"AWS_ACCESS_KEY_ID": "AKIA_FAKE",
+                                                         "AWS_SECRET_ACCESS_KEY": "sekrit"}
+        boto3.client = lambda *a, **k: _Boom()
+        ok, why = cfv.object_store_preflight(bucket="b", prefix="p")
+        assert not ok and "InvalidAccessKeyId" in why, why
+        # The probe must never leak the credential it was handed into the reason string.
+        assert "AKIA_FAKE" not in why and "sekrit" not in why, why
+
+        boto3.client = lambda *a, **k: _Empty()
+        ok, why = cfv.object_store_preflight(bucket="b", prefix="p")
+        assert not ok and "EMPTY" in why, why
+
+        boto3.client = lambda *a, **k: _Ok()
+        ok, why = cfv.object_store_preflight(bucket="b", prefix="p")
+        assert ok, why
+    finally:
+        gpu_backend._object_store_env, gpu_backend.object_store_cred_mode = real_env, real_mode
+        boto3.client = real_client
+
+
+def test_credential_preflight_tests_the_FORWARDED_credential_not_the_runners():
+    """The whole point: on the day this was written the CI runner's own key listed the bucket fine minutes
+    either side of the host's rejection, so a probe built on `os.environ` would have passed while every
+    rental crash-looped. It must resolve through `gpu_backend._object_store_env`."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    fn = src[src.index("def object_store_preflight("):src.index("def mode_launch(")]
+    assert "_object_store_env" in fn, "the probe must test the credential the HOST is given"
+    assert "os.environ.get(\"AWS_ACCESS_KEY_ID\")" not in fn, "must not fall back to the runner's own key"
+
+
+def test_credential_preflight_runs_before_anything_is_rented():
+    """Ordering is the guarantee. It must sit before the price gate (cheaper question, decided first) and,
+    above all, before the rent call."""
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    launch = src[src.index("def mode_launch("):]
+    i_pre = launch.index("object_store_preflight()")
+    i_price = launch.index("THE $/ns MARKET GUARD")
+    i_rent = launch.index("backend.submit(spec)")
+    assert i_pre < i_price < i_rent, "pre-flight -> price gate -> rent"
