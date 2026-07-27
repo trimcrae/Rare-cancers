@@ -82,30 +82,30 @@
       "instance": 46004011,
       "label": "s1f-04-cw_ev_5ch2nh2",
       "verdict": "WORKING",
-      "why": "gpu_util=97.9999% >= 5% and the host is still writing \u2014 GPU busy",
+      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 97.999908,
-        "progress_advanced": false,
+        "gpu_util": 0.0,
+        "progress_advanced": true,
         "log_age_min": null,
         "start_ages_min": [],
-        "instance_age_min": 210
+        "instance_age_min": 226
       }
     },
     {
       "instance": 46004013,
       "label": "s1f-06-cw_ev_5piperazine",
       "verdict": "WORKING",
-      "why": "gpu_util=88.9999% >= 5% and the host is still writing \u2014 GPU busy",
+      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 88.999916,
-        "progress_advanced": false,
+        "gpu_util": 70.999931,
+        "progress_advanced": true,
         "log_age_min": null,
         "start_ages_min": [],
-        "instance_age_min": 210
+        "instance_age_min": 226
       }
     },
     {
@@ -116,74 +116,56 @@
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 90.999916,
+        "gpu_util": 83.999924,
         "progress_advanced": true,
         "log_age_min": null,
         "start_ages_min": [],
-        "instance_age_min": 210
+        "instance_age_min": 226
       }
     },
     {
       "instance": 46004071,
       "label": "s1f-11-cw_bio_acylsulfonamide",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": null,
-        "progress_advanced": true,
-        "log_age_min": null,
-        "start_ages_min": [],
-        "instance_age_min": 209
-      }
-    },
-    {
-      "instance": 46004072,
-      "label": "s1f-12-cw_bio_hydroxamic",
       "verdict": "UNKNOWN",
       "why": "the container has started but no run.log has ever been uploaded \u2014 no evidence to judge on, so leaving it alone",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 0.0,
+        "gpu_util": null,
         "progress_advanced": false,
         "log_age_min": null,
         "start_ages_min": [],
-        "instance_age_min": 209
+        "instance_age_min": 225
+      }
+    },
+    {
+      "instance": 46004072,
+      "label": "s1f-12-cw_bio_hydroxamic",
+      "verdict": "WORKING",
+      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
+      "evidence": {
+        "instance_running": true,
+        "container_started": true,
+        "gpu_util": 99.999908,
+        "progress_advanced": true,
+        "log_age_min": null,
+        "start_ages_min": [],
+        "instance_age_min": 225
       }
     },
     {
       "instance": 46004074,
       "label": "s1f-13-cw_ms_free_acid",
       "verdict": "WORKING",
-      "why": "gpu_util=98.9999% >= 5% and the host is still writing \u2014 GPU busy",
+      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 98.999908,
-        "progress_advanced": false,
+        "gpu_util": 0.0,
+        "progress_advanced": true,
         "log_age_min": null,
         "start_ages_min": [],
-        "instance_age_min": 209
-      }
-    },
-    {
-      "instance": 46016816,
-      "label": "s1f-14-cw_ms_carbinol",
-      "verdict": "WORKING",
-      "why": "gpu_util=98.9999% >= 5% and the host is still writing \u2014 GPU busy",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": 98.999908,
-        "progress_advanced": false,
-        "log_age_min": 0.34777616666666666,
-        "start_ages_min": [
-          15.147776393095652,
-          0.9977763930956522
-        ],
-        "instance_age_min": 38
+        "instance_age_min": 225
       }
     },
     {
@@ -198,26 +180,28 @@
         "progress_advanced": false,
         "log_age_min": null,
         "start_ages_min": [],
-        "instance_age_min": 12
+        "instance_age_min": 27
       }
     },
     {
       "instance": 46019285,
       "label": "s1f-05-cw_ev_5opropargyl",
-      "verdict": "UNKNOWN",
-      "why": "instance is not `running`; the stopped/frozen clauses own this box, not the idle guard",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 0 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "evidence": {
-        "instance_running": false,
-        "container_started": false,
-        "gpu_util": null,
+        "instance_running": true,
+        "container_started": true,
+        "gpu_util": 0.0,
         "progress_advanced": false,
-        "log_age_min": 38.21689345,
-        "start_ages_min": [],
-        "instance_age_min": 11
+        "log_age_min": 0.39056085,
+        "start_ages_min": [
+          0.6905610998471577
+        ],
+        "instance_age_min": 26
       }
     }
   ],
-  "realised_usd": 9.63,
+  "realised_usd": 9.98,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -296,8 +280,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
       "machine_id": 35778,
       "rate_usd_h": 0.1618,
-      "billed_h": 3.5,
-      "usd": 0.566
+      "billed_h": 3.77,
+      "usd": 0.609
     },
     {
       "instance": "46004012",
@@ -312,16 +296,16 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
       "machine_id": 31036,
       "rate_usd_h": 0.1618,
-      "billed_h": 3.5,
-      "usd": 0.566
+      "billed_h": 3.77,
+      "usd": 0.609
     },
     {
       "instance": "46004015",
       "unit_id": "e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
       "machine_id": 30113,
       "rate_usd_h": 0.1618,
-      "billed_h": 3.5,
-      "usd": 0.566
+      "billed_h": 3.77,
+      "usd": 0.609
     },
     {
       "instance": "46004016",
@@ -352,24 +336,24 @@
       "unit_id": "e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral",
       "machine_id": 31035,
       "rate_usd_h": 0.1618,
-      "billed_h": 3.48,
-      "usd": 0.564
+      "billed_h": 3.75,
+      "usd": 0.607
     },
     {
       "instance": "46004072",
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "machine_id": 11892,
       "rate_usd_h": 0.1632,
-      "billed_h": 3.48,
-      "usd": 0.568
+      "billed_h": 3.75,
+      "usd": 0.612
     },
     {
       "instance": "46004074",
       "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid",
       "machine_id": 51777,
       "rate_usd_h": 0.1904,
-      "billed_h": 3.48,
-      "usd": 0.663
+      "billed_h": 3.75,
+      "usd": 0.714
     },
     {
       "instance": "46004077",
@@ -456,8 +440,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "machine_id": 1569,
       "rate_usd_h": 0.16602222222222224,
-      "billed_h": 0.63,
-      "usd": 0.105
+      "billed_h": 0.88,
+      "usd": 0.147
     },
     {
       "instance": "46016928",
@@ -496,8 +480,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
       "machine_id": 132368,
       "rate_usd_h": 0.0949,
-      "billed_h": 0.2,
-      "usd": 0.019
+      "billed_h": 0.45,
+      "usd": 0.043
     },
     {
       "instance": "46019280",
@@ -512,8 +496,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
       "machine_id": 57342,
       "rate_usd_h": 0.0544,
-      "billed_h": 0.18,
-      "usd": 0.01
+      "billed_h": 0.43,
+      "usd": 0.024
     }
   ],
   "plan_usd_whole_tranche": 29.72,
