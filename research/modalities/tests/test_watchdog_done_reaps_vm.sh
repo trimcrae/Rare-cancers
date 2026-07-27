@@ -34,7 +34,10 @@ import sys, textwrap
 t = open(sys.argv[1]).read()
 guard = 'if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json"'
 i = t.index(guard); i = t.rfind('\n', 0, i) + 1
-j = t.index('\n', t.index('      continue\n', i))
+# anchor on the branch's OWN closing `continue` (exactly 6 spaces after a newline). Matching the bare
+# string would also match a deeper-indented `continue` inside the reap loop and silently truncate the
+# extraction just before the delete — which looks identical to "the fix is missing".
+j = t.index('\n', t.index('\n      continue\n', i) + 1)
 block = textwrap.dedent(t[i:j])
 print('done_branch() {')
 print('\n'.join('  ' + l for l in block.split('\n')))
@@ -50,12 +53,19 @@ cat > "$TD/bin/gcloud" <<'STUB'
 #!/usr/bin/env bash
 case "$1 $2" in
   "storage ls")
+    # `ls -l` is the timestamped form the reap guard reads: "<size>  <RFC3339>  gs://..."
+    if [ "$3" = "-l" ]; then
+      # RESULT_TS=NONE models "the object is there but its write time could not be read"
+      [ "$RESULT_TS" = NONE ] && exit 1
+      for k in $GCS_PRESENT; do case "$4" in *"$k"*) echo "     42  $RESULT_TS  $4"; exit 0;; esac; done; exit 1
+    fi
     for k in $GCS_PRESENT; do case "$3" in *"$k"*) exit 0;; esac; done; exit 1 ;;
   "storage cp") exit 0 ;;
   "compute instances")
     case "$3" in
-      list)   echo "$STUB_ZONE" ;;
-      delete) echo "$4" >> "$DELETED"; [ "${DELETE_RC:-0}" = 0 ] || { echo "ERROR: forced" >&2; exit 1; }; exit 0 ;;
+      list)     echo "$STUB_ZONE" ;;
+      describe) echo "$VM_CREATED" ;;
+      delete)   echo "$4" >> "$DELETED"; [ "${DELETE_RC:-0}" = 0 ] || { echo "ERROR: forced" >&2; exit 1; }; exit 0 ;;
     esac ;;
 esac
 exit 0
@@ -70,6 +80,8 @@ PATH="$TD/bin:$PATH"; export PATH
 run_case() {
   DELETED="$TD/deleted"; : > "$DELETED"; export DELETED
   export STUB_ZONE=us-central1-a DELETE_RC="${DELETE_RC:-0}"
+  # the VM predates the result object by default (i.e. it IS the VM that produced it)
+  export RESULT_TS="${RESULT_TS:-2026-07-27T16:03:19Z}" VM_CREATED="${VM_CREATED:-2026-07-26T18:47:59Z}"
   RESULTS=gs://bkt/valB-6hax/results WDIR=gs://bkt/valB-6hax/watchdog
   LEG=calib_hi_to_lo__ternary_vhl SEED=0 DIR=rev SALT=v2pe DT=2.0 WUDT=1.0 UPE=1
   TAG="$LEG dir=$DIR seed=$SEED" WATCH_REF=main ALERT="$TD/alert"; : > "$ALERT"
@@ -111,5 +123,24 @@ d, c = t.index('instances delete'), t.index('mode=converge')
 print("PASS reap precedes the converge dispatch" if d < c else "FAIL reap must precede the converge dispatch")
 sys.exit(0 if d < c else 1)
 PY
+
+# 6. ⚠ THE DEFECT THIS FIX ITSELF INTRODUCED, caught by a live dry_run at 2:22 PM ET 2026-07-27.
+#    $VMS is the LANE-WIDE listing and a VM name carries a dispatch run id, not a leg id — so a VM belonging
+#    to a DIFFERENT, freshly-launched leg was reported as this entry's orphan. On a real pass that would have
+#    destroyed live sampling (gcp-ternary-30293029231, launched 6 min earlier by another session).
+#    Only a VM created BEFORE this leg's result object was written can be the VM that produced it.
+chk "a VM created AFTER the result object is a different run -> spared" \
+    "$(RESULT_TS=2026-07-27T16:03:19Z VM_CREATED=2026-07-27T18:16:32Z DELETE_RC=0 \
+       run_case 'gcp-ternary-30293029231 RUNNING' 0 'leg_calib_hi_to_lo__ternary_vhl_rev_r0.json')" "0"
+
+chk "a VM created BEFORE the result object is this leg's orphan -> reaped" \
+    "$(RESULT_TS=2026-07-27T16:03:19Z VM_CREATED=2026-07-26T18:47:59Z DELETE_RC=0 \
+       run_case 'gcp-ternary-30215419909 RUNNING' 0 'leg_calib_hi_to_lo__ternary_vhl_rev_r0.json')" "1"
+
+# 7. FAIL SAFE. If the result object's write time cannot be read, the guard cannot prove the VM predates it,
+#    so it must spare rather than guess. Sparing a zombie costs one more pass; reaping a live leg costs hours.
+chk "unreadable result timestamp -> spare, never guess" \
+    "$(RESULT_TS=NONE VM_CREATED=2026-07-26T18:47:59Z DELETE_RC=0 \
+       run_case 'gcp-ternary-30215419909 RUNNING' 0 'leg_calib_hi_to_lo__ternary_vhl_rev_r0.json')" "0"
 
 exit $fail
