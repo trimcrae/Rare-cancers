@@ -24,9 +24,9 @@
 #     purchasing path, which is precisely the shape this repo keeps paying for.
 #   * It does not replace the cron. `schedule:` stays on the autoscale workflow as the cold-start path — when
 #     no supervisor is alive, a throttled tick is still far better than none, and it is what restarts this.
-#   * It does not self-restart. A `GITHUB_TOKEN`-authenticated dispatch does NOT create a new workflow run
-#     (GitHub blocks that to prevent recursion), so a self-chain would fail silently and look like coverage.
-#     Rather than pretend, the final step prints the exact command to relaunch and the alarm reports the gap.
+#   * It does not self-restart. Not because it cannot - github.token DOES dispatch here, which is how the
+#     ternary market gate fires its own launch - but because a chain whose last link fails leaves no
+#     supervisor and no signal. The final step prints the relaunch command and warns that cover has ended.
 #
 # COST: $0. GitHub-hosted minutes are free on a public repo, and this job is asleep almost all of its life.
 name: step1 fan-out supervisor (cadence that does not depend on cron)
@@ -65,6 +65,11 @@ jobs:
       - name: Hold the cadence
         env:
           GH_TOKEN: ${{ github.token }}
+          # gh needs a repo to act on. With no actions/checkout step there is no git remote to
+          # infer one from, so `gh workflow run` fails with "not a git repository" on EVERY
+          # iteration - a supervisor that looks alive and dispatches nothing. GH_REPO supplies it
+          # without paying for a checkout this job does not otherwise need.
+          GH_REPO: ${{ github.repository }}
           HOURS: ${{ github.event.inputs.hours || '5.5' }}
           EVERY: ${{ github.event.inputs.tick_every_min || '8' }}
           FLEET_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
@@ -110,6 +115,6 @@ jobs:
         if: always()
         run: |
           # No self-chain: a GITHUB_TOKEN-authenticated `workflow run` does not create a run, so a
-          # self-restart would fail silently and read as coverage. The honest alternative is to say plainly
-          # that the cadence has ended and how to resume it.
+          # A chain whose last link fails leaves no supervisor AND no signal, so the end of the window is
+          # announced rather than papered over.
           echo "::warning title=SUPERVISOR WINDOW ENDED::the self-owned cadence has stopped. Until another is started, tick delivery falls back to GitHub's throttled schedule (MEASURED 141-220 min gaps on 2026-07-27). Relaunch: gh workflow run step1-fanout-supervisor.yml --ref main"
