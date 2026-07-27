@@ -33,8 +33,8 @@ anything here that restates them is a bug — see rule 1.
   before writing even if the tool emits UTC. *(You keep slipping. This is why it is near the top.)*
 - **⏱️ END-OF-TURN "IN FLIGHT" BOARD (trimcrae, 2026-07-11).** Whenever your final message leaves work running,
   the LAST thing in it is a compact **"In flight:"** board — one scannable line per item (bullet/table, not
-  prose): **what it is · current state · ETA in ET 12-hour · cost** (or an explicit "ETA unknown — why"), plus
-  what you'll do when it lands if non-obvious. **List ONLY real compute** (GPU/CI jobs, subagents doing real work).
+  prose): **what it is · current state · ETA in ET 12-hour · cost · $/ns** (or an explicit "ETA unknown — why"),
+  plus what you'll do when it lands if non-obvious. **List ONLY real compute** (GPU/CI jobs, subagents doing real work).
   Do **NOT** list your own wake mechanisms (self-timers, pollers, heartbeats) or **scheduled routines** — a
   schedule is not running compute. Nothing running → "Nothing in flight", one line. This REPLACES long status
   narration.
@@ -46,6 +46,15 @@ anything here that restates them is a bug — see rule 1.
     [`vast-ladder-repricing.json`](./research/modalities/vast-ladder-repricing.json) /
     [pricing.md](./research/compute/pricing.md), and only a genuinely-unpriced item carries an estimate — which
     then says it is one.
+  - **AND `$/ns`, AGAINST ITS BASIS, ON EVERY GPU ROW (trimcrae, 2026-07-26: *"so that's easier to catch in the
+    future if it drifts"*).** `$/hr` cannot show drift — a cheap slow card and an expensive fast one look the
+    same — so every row on a GPU carries **`$/ns` and the multiple of the ladder basis** it represents, e.g.
+    `$0.0077/ns · 1.8× basis`. **The multiple is the point**; a bare `$/ns` is a number nobody can grade at 3 AM.
+    Basis = the `$/ref-GPU-h` planning rate in [pricing.md](./research/compute/pricing.md) ÷ the reference card's
+    ns/h, and per rule 1 it is DERIVED from the validated card ratios there, never typed fresh — a row quoting a
+    ratio the cost model does not produce is the bug. **≳1.5× basis is drift and says so on the row**; that is
+    what the fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
+    rather than a fabricated figure.
 - **Language discipline for the manuscript** is in [STRATEGY.md](./STRATEGY.md) → "Honest scope and language
   discipline" and enforced by `lint_claims.py` (R1–R5) in CI. Never imply proteome-wide selectivity, EMC
   efficacy, safety, a therapeutic window, or clinical readiness.
@@ -298,6 +307,23 @@ When in doubt: do it and show it.
   right there and wrong here. Implemented in `protfep_vast_launch.collect` + `ResourceSpec.exclude_machine_ids`
   — a host that never starts has infinite realised $/ns, invisible to $/ns ranking, so without the exclusion it
   keeps winning selection and keeps failing.
+- **★★ A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY — GATE EVERY FLEET LAUNCH ON $/ns
+  (trimcrae, 2026-07-26: *"I'd rather pause until availability opens than pay double per ns"*).** The rule above
+  says a *capacity refusal* on one host is never worth waiting out, because the floor is flat and another host
+  costs the same. **That premise fails when the whole board thins.** Measured that night: **5 offers visible
+  against the ~23 baseline, `min_floor` $0.200/hr and `median_floor` $0.333/hr**, hours after the same lane
+  rented at **$0.048–$0.139**. Selection was working correctly and still could only reach ~1.8× the $/ns it had
+  been getting.
+  So before any **multi-unit fan-out**, take a market snapshot and compare the **best achievable `$/ns`** — not
+  `$/hr`, and not the bid — against the rung's own basis. If the fleet cannot be bought at a sane `$/ns`, the
+  launcher **HOLDS and says why**, and the next scheduled tick re-checks; it does **not** buy in and it does
+  **not** silently drop units. Waiting costs nothing here — the work is checkpointed, the ladder has no
+  deadline, and an hour of a flat market is cheaper than a tranche bought at double.
+  Two failure modes this must avoid, both worse than the problem: **holding silently** (a fleet that never
+  launches looks identical to one that finished — every hold must be visible in the readout with the snapshot
+  that caused it), and **a ceiling nobody can clear** (if the market stays bad, that is a decision for trimcrae,
+  so surface it rather than idling forever). A single unit already running is not affected; this gates the
+  *fan-out*, not the shakeout.
 - **★ SPOT PREEMPTIONS ARE ROUTINE — MENTION LIGHTLY (trimcrae, 2026-07-16).** A preempted VM is expected
   behaviour and routine self-doable recovery: re-dispatch to resume from checkpoint, re-arm the check-in. A
   one-line note is fine; **no alarm, no `AskUserQuestion`, no write-up**, even if it repeats. Reserve real

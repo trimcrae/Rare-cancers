@@ -58,6 +58,9 @@ BUCKET = os.environ.get("VAST_CKPT_BUCKET", "")
 STAGE_PREFIX = os.environ.get("STAGE_PREFIX", "nr4a3-step1-fanout/stage")
 RESULT_PREFIX = os.environ.get("RESULT_PREFIX", "nr4a3-step1-fanout/results")
 LABEL_PREFIX = "s1f-"
+# Set True by `market_hold()` once it has actually taken a snapshot and decided. The interim belt in
+# `mode_launch` refuses any multi-unit launch that reaches it with this still False.
+_MARKET_GUARD_RAN = False
 WIDTH = int(os.environ.get("FANOUT_WIDTH", "8"))
 N_WINDOWS = int(os.environ.get("N_WINDOWS", "12"))
 
@@ -704,6 +707,19 @@ def mode_launch():
         _lprint("[s1f] nothing to submit (fleet already at width, or all units done)")
         _write_launch_readout()
         return
+    # ⛔ INTERIM MARKET HOLD (LANE 21, 2026-07-27 ~2:05 AM UTC / 10:05 PM ET) — the cheapest thing that
+    # cannot fire into tonight's market, landed BEFORE the derived guard below it was written, because the
+    # shakeout unit is already at complex/production@40 and the 18-edge release is AUTOMATIC on its ddg.json.
+    # Superseded in the same session by `market_hold()`; kept as the outer belt because a multi-unit launch
+    # that reaches this line without having consulted the market is, by CLAUDE.md's new Vast rule, a bug.
+    if len(batch) > 1 and os.environ.get("FANOUT_MARKET_OVERRIDE") != "1":
+        if not _MARKET_GUARD_RAN:
+            _lprint(f"[s1f] ⛔ FLEET LAUNCH HELD ({len(batch)} units) — the $/ns market guard did not run, "
+                    f"and CLAUDE.md requires every multi-unit fan-out to clear one. Set "
+                    f"FANOUT_MARKET_OVERRIDE=1 to launch anyway (a deliberate, recorded choice).")
+            _write_launch_readout()
+            return
+
     if os.environ.get("FANOUT_CONFIRM") != "1":
         _lprint("[s1f] DRY — set FANOUT_CONFIRM=1 to actually rent instances")
         _write_launch_readout()
