@@ -367,7 +367,12 @@ def test_the_terminus_gate_cannot_deadlock_the_shakeout_unit():
     cron would tick all night launching nothing. It must NARROW to the shakeout unit instead of returning."""
     import congeneric_fanout_vast as fv
     src = open(fv.__file__).read()
-    gate = src[src.index("FANOUT_REQUIRE_PROVEN_TERMINUS"):]
+    # ⚠ SLICE FROM THE `if`, NOT FROM THE FIRST MENTION OF THE NAME. This used to start at the first
+    # occurrence anywhere in the file — which is inside `market_gate`'s DOCSTRING — so the "exactly one
+    # return" assertion below was really counting the returns of market_gate's tail, object_store_preflight,
+    # _rented_usd_per_ns AND the first half of mode_launch. It passed by luck, and broke the moment a
+    # placement decision was recorded before the gate. The gate is the `if`.
+    gate = src[src.index('if os.environ.get("FANOUT_REQUIRE_PROVEN_TERMINUS")'):]
     gate = gate[:gate.index("slots = max(")]
     assert "FANOUT_SHAKEOUT_UNIT" in gate, "the gate has no way to keep the shakeout unit alive"
     assert "todo = keep" in gate, "the gate discards rather than narrows"
@@ -651,8 +656,14 @@ def test_a_hold_is_VISIBLE_and_never_silent():
     i = src.index("def market_gate(")
     body = src[i:src.index("\ndef mode_launch(")]
     assert "_lprint" in body, "a hold must reach the committed launch readout"
-    assert "step1-fanout-market-hold.json" in body, "a hold must leave a committed snapshot file"
-    assert "put_object" in body, "a hold must persist state so the NEXT tick can time the escalation"
+    # ★ THE WRITE MOVED TO ONE WRITER (2026-07-27) — assert the writer is REACHED and that the writer does
+    # both halves. This used to look for `put_object` literally inside `market_gate`, which forbade exactly
+    # the refactor the staleness incident required: `market_gate` was the ONLY writer of the snapshot, so
+    # every launcher path that never reached pricing left the artifact carrying an old timestamp.
+    assert "_write_market_hold(" in body, "a hold must be routed through the single snapshot writer"
+    writer = src[src.index("def _write_market_hold("):src.index("def record_no_placement(")]
+    assert "step1-fanout-market-hold.json" in writer, "a hold must leave a committed snapshot file"
+    assert "put_object" in writer, "a hold must persist state so the NEXT tick can time the escalation"
     for field in ("board_depth", "offers_priced", "spend_authorised_now_usd",
                   "ceiling_for_that_spend_usd", "unit_usd_per_ns_ceiling", "binding_gate"):
         assert field in body, f"the snapshot must carry {field}"
@@ -661,6 +672,75 @@ def test_a_hold_is_VISIBLE_and_never_silent():
     for field in ("n_launching_now", "n_held", "held_reason"):
         assert field in body, f"a partial launch must record {field}"
     assert "HELD" in body and "LAUNCHING NOW" in body, "both halves must reach the readout"
+
+
+def test_every_exit_from_mode_launch_records_a_named_placement_decision():
+    """★★ THE 1 H 47 M REGRESSION GUARD (2026-07-27, 12:44 PM -> 2:31 PM ET).
+
+    `step1-fanout-market-hold.json` kept a 12:43 PM timestamp through SEVEN green ticks while the fleet
+    decayed 11 -> 5 and ten checkpointed units sat with no host, because the artifact's only writer was the
+    price gate — a code path most no-op ticks never reach. "We held on price", "there was nothing to place",
+    "placement was switched off" and "the launch step never ran" were therefore indistinguishable, and the
+    last of those was the truth for 1 h 47 m.
+
+    So the invariant is not "holds are logged" but the strictly stronger *every* exit from `mode_launch`
+    leaves a NAMED decision behind, and a stale `utc` can only ever mean the tick itself did not run.
+    """
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    body = src[src.index("def mode_launch("):src.index("\ndef mode_monitor(")]
+    lines = body.splitlines()
+    # Every `return`/`SystemExit` that leaves the launcher WITHOUT having rented must be preceded by a
+    # decision record. Walk backwards from each exit to the nearest recorder or submit loop.
+    unguarded = []
+    for n, ln in enumerate(lines):
+        s = ln.strip()
+        if s != "return" and not s.startswith("raise SystemExit"):
+            continue
+        window = "\n".join(lines[max(0, n - 30):n])
+        if "record_no_placement(" in window or "market_gate(" in window or "backend.submit" in window \
+                or "rmg.gate(" in window:
+            continue
+        unguarded.append((n + 1, s))
+    assert not unguarded, ("these exits from mode_launch leave no placement decision behind, so the "
+                          f"snapshot goes stale and nobody can tell why nothing was placed: {unguarded}")
+    for code in ("placement_disabled", "nothing_pending", "fleet_at_width", "terminus_hold",
+                 "credential_hold", "cost_model_red", "measurement_failed", "price_hold", "placed"):
+        assert code in cfv.PLACEMENT_DECISIONS, f"{code} must be a documented decision"
+        assert code in src, f"{code} is documented but never actually recorded"
+
+
+def test_the_launch_step_is_not_gated_on_a_null_prone_inputs_expression():
+    """★★ THE ROOT CAUSE, PINNED (2026-07-27).
+
+    Both money-spending steps were guarded by `if: ${{ github.event.inputs.release_fanout != '0' }}`. A
+    `schedule:` event carries NO `inputs` context, so that operand is `null`; GitHub Actions casts both
+    operands to a NUMBER when their types differ and `null` casts to `0`, making the condition `0 != 0` —
+    FALSE. Every scheduled tick silently skipped the launch (3 of 3 that day, jobs API runs 30273407468,
+    30285319719, 30292476003), while the SAME runs resolved `${{ …fleet_branch || '…' }}` to its fallback
+    correctly — the observation that discriminates.
+
+    The repair is not a better expression. A YAML `if:` decides with implicit coercion and leaves `skipped`
+    as its only trace; the switch belongs in the launcher, which names and records what it decided.
+    """
+    import yaml
+    wf = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))))), ".github/workflows/step1-fanout-autoscale.yml")
+    with open(wf) as fh:
+        raw = fh.read()
+    doc = yaml.safe_load(raw)
+    steps = doc["jobs"]["tick"]["steps"]
+    launch = [s for s in steps if s.get("env", {}).get("LAUNCH") == "1"]
+    assert launch, "the tick must still have a launch step"
+    for s in launch:
+        cond = str(s.get("if", ""))
+        assert "github.event.inputs" not in cond, (
+            "the launch step must NOT be gated on the inputs context — it is null on a schedule and null "
+            f"casts to 0, so `!= '0'` is FALSE and the step silently skips. Found: {cond!r}")
+        assert "always()" in cond, ("the launch step must run on every tick so the market snapshot cannot "
+                                    "go stale; the DECISION is the launcher's, not the YAML's")
+        assert s["env"].get("FANOUT_PLACEMENT_ENABLED"), \
+            "the resolved flag must be handed to the launcher rather than decided in YAML"
 
 
 def test_the_hold_readout_is_committed_by_both_launching_workflows():
