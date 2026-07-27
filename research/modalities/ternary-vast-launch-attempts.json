@@ -93,6 +93,41 @@
       },
       "n_requested": 4,
       "n_rented": 0
+    },
+    {
+      "utc": "2026-07-27T15:07:21Z",
+      "et": "11:07 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30278376557",
+      "gate_ratio_vs_basis": 1.483,
+      "gate_mean_usd_per_ns": 0.006463,
+      "gate_projected_usd": 13.02,
+      "gate_max_ratio_vs_basis": 1.5,
+      "gate_hold": false,
+      "gate_board_depth": {
+        "offers_returned": 54,
+        "qualifying": 53,
+        "priceable": 21,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "reason": "board cleared both ceilings; dispatching task=edge-reps"
+    },
+    {
+      "utc": "2026-07-27T15:10:50Z",
+      "et": "11:10 AM ET",
+      "outcome": "board-unreadable",
+      "what_that_means": "the market could not be read at all (provider API/auth/rate-limit) \u2014 a FAULT: we never learned what the board cost",
+      "stage": "rent (steps.rent.outcome=failure)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30278451510",
+      "gate_hold": true,
+      "reason": "task=edge-reps; job status failure",
+      "gate_reason": "could not read the board (RuntimeError: vast API GET /search/asks/ -> 403: <html> <head><title>403 Forbidden</title></head> <body> <center><h1>403 Forbidden</h1></center> </body> </html>) \u2014 an unreadable market is not a cheap one",
+      "n_requested": 4,
+      "n_rented": 0,
+      "reclassified": "recorded as the retired outcome `rented-nothing`, which named two possibilities and therefore neither \u2014 the defect this row caused. Reclassified from the job log of run 30278451510: every Vast call answered a bare nginx 403 (board read 11:08:18 AM ET; /instances/ and all four /search/asks/ at 11:10:50 AM ET). A collect on the same key at 11:13:56 AM ET listed instances normally, so the 403 was transient throttling, not authorisation. 0/4 rented, nothing orphaned. Fixed by retrying 403 on idempotent GETs, and by copying the gate's own `reason` into this row."
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."
