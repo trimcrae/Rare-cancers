@@ -1125,3 +1125,127 @@ def test_the_dollar_ceiling_branch_is_REACHABLE_not_just_written():
         cf.market_ceiling_usd = real
     # restored: the rate line binds again
     assert "rate line" in cf.unit_ceiling_components()[3]
+
+
+# ---- the stopped-host adjudication: never-started vs preempted, and the machine that took several down ------
+# Added 2026-07-27 after five of fifteen hosts sat stopped and NO committed artifact carried `machine_id`,
+# so "five bad hosts" and "one bad machine rented five times" were indistinguishable. The two readings have
+# opposite remedies, so a classifier that cannot separate them is not a classifier.
+
+def _inst(iid, label, machine, msg, cur="stopped", age_h=0.5):
+    import time
+    return {"id": iid, "label": label, "machine_id": machine, "status_msg": msg, "cur_state": cur,
+            "gpu_name": "RTX 5090", "start_date": time.time() - age_h * 3600}
+
+
+def test_never_started_and_preempted_are_separated_by_the_status_msg_signature():
+    """A container that never executed is HOST-scoped (destroy + share the machine). A box that ran and
+    exited is a routine preemption (resume; excluding its machine retires healthy cheap supply)."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-00-a", "7001", ""),
+            _inst(2, "s1f-01-b", "7002", "success, running docker.io/triskit23/nr4a3fep_latest/ssh"),
+            _inst(3, "s1f-02-c", "7003", "", cur="running")]      # running: not stopped, not adjudicated
+    c = fv.never_started_cohort(live)
+    assert [r["label"] for r in c["never_started"]] == ["s1f-00-a"]
+    assert [r["label"] for r in c["preempted"]] == ["s1f-01-b"]
+    assert c["n_never_started"] == 1 and c["n_preempted"] == 1
+    assert c["never_started"][0]["klass"] == "host_fault"        # sole rental on 7001
+
+
+def test_a_duplicate_on_a_machine_we_already_hold_is_NOT_a_bad_host():
+    """★ THE MEASUREMENT (2026-07-27): 0 of 7 double-booked instances started, 8 of 10 single-booked ones
+    did. A Vast machine rents a fixed number of GPUs, so a second container on a box whose GPU we already
+    hold sits stopped with an empty status_msg — the SAME signature as a genuine create/start race. Host
+    exclusions are PERMANENT and CROSS-LANE, so misfiling this class retires healthy machines that are
+    running our own work."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-05-incumbent", "19492", "success, running img", cur="running", age_h=1.0),
+            _inst(2, "s1f-01-dupe", "19492", "", age_h=0.25)]
+    c = fv.never_started_cohort(live)
+    (dupe,) = c["never_started"]
+    assert dupe["klass"] == "double_booked" and dupe["double_booked_behind"] == 1
+    assert "NOT be excluded" in dupe["remedy"]
+    assert c["n_double_booked"] == 1 and c["n_host_fault"] == 0
+    # and the machine must NOT appear in the set that earns a permanent cross-lane exclusion
+    assert c["host_fault_machines"] == []
+
+
+def test_the_OLDEST_instance_on_a_bad_machine_is_the_host_fault_and_the_rest_are_duplicates():
+    """Machine 19499 took three never-starts. The first was a real refusal (nothing of ours was on it); the
+    two placed after it are our own duplicates. One exclusion, not three — and the exclusion must come from
+    the instance that actually evidences a host fault."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-08-a", "19499", "", age_h=0.82),
+            _inst(2, "s1f-14-b", "19499", "", age_h=0.73),
+            _inst(3, "s1f-01-c", "19499", "", age_h=0.15)]
+    c = fv.never_started_cohort(live)
+    klass = {r["instance"]: r["klass"] for r in c["never_started"]}
+    assert klass == {1: "host_fault", 2: "double_booked", 3: "double_booked"}
+    assert c["host_fault_machines"] == ["19499"]
+    assert c["max_units_on_one_machine"] == 3
+
+
+def test_the_headline_is_how_many_units_ONE_machine_took_down():
+    """N never-starts on N machines is a thin board; N on ONE machine is a 1569-class box that won selection
+    N times and needs exactly one exclusion. Only this number tells them apart."""
+    import congeneric_fanout_vast as fv
+    spread = [_inst(i, f"s1f-{i:02d}-x", str(8000 + i), "") for i in range(5)]
+    assert fv.never_started_cohort(spread)["max_units_on_one_machine"] == 1
+    stacked = [_inst(i, f"s1f-{i:02d}-x", "1569", "") for i in range(5)]
+    c = fv.never_started_cohort(stacked)
+    assert c["max_units_on_one_machine"] == 5
+    assert c["never_started_by_machine"] == {"1569": sorted(f"s1f-{i:02d}-x" for i in range(5))}
+
+
+def test_an_exclusion_added_AFTER_we_rented_is_corroboration_not_a_selector_bug():
+    """Machine 144071 entered the shared set between two ticks, minutes after this lane rented it. Reading
+    that as 'the selector ignored the exclusion set' would accuse our own code on evidence that cannot
+    support it — the only thing that can is the `excluding N machine(s)` line of the wave that placed it."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-03-a", "144071", "")]
+    c = fv.never_started_cohort(live, excluded={"144071"})
+    assert c["machines_excluded_since"] == ["144071"]
+    assert "rented_despite_exclusion" not in c, "must not make a claim the data cannot support"
+    assert fv.never_started_cohort(live)["machines_excluded_since"] == []
+
+
+def test_the_condemn_path_excludes_a_host_fault_and_never_a_duplicate():
+    """The safety property with the money on it: a permanent, cross-lane exclusion must be reachable ONLY
+    from the host-fault branch. Pinned as source because the branch sits inside `mode_monitor`, behind a
+    Vast key, an S3 client and a live board."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    assert 'if stuck_sig and i.get("id") in _dupes:' in src, "the duplicate branch must be tested FIRST"
+    assert "_scope = None" in src and "if _scope is None:" in src, \
+        "a duplicate must reach a branch that writes NO exclusion"
+    # the host-scoped publish must still exist for the genuine case
+    assert '_scope = "host"' in src
+
+
+def test_the_launch_wave_avoids_machines_the_lane_is_ALREADY_renting():
+    """The wave-local `used_machines` only remembered THIS process's submissions, so a second wave minutes
+    later could stack a unit onto a machine the first wave had just rented — two units contending for one
+    GPU, and one bad machine taking both down together. Pinned as source, because the seeding happens deep
+    inside `mode_launch` (Vast key, S3 and a live board) and the property is a one-line invariant."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_launch)
+    assert "_already_on" in src and "used_machines |= _already_on" in src, \
+        "mode_launch must seed host-distinctness with the machines it is already renting"
+    # and it must NOT write them to the durable exclusion set — a machine we are happily running on is good
+    assert "_record_exclusion(s3, bucket, _already_on" not in src
+
+def test_the_double_booked_floor_is_DERIVED_from_the_one_home_and_is_shorter():
+    """`STUCK_START_MIN` buys image-pull protection and nothing else, and a container with no GPU to pull
+    onto has none to protect. The floor must be a FRACTION of that single home so the two cannot drift, and
+    the two-strike rule must not move for either class."""
+    import congeneric_fanout_vast as fv
+    assert fv.stuck_start_min_for(False) == fv.STUCK_START_MIN
+    assert fv.stuck_start_min_for(True) == fv.STUCK_START_MIN / 3.0
+    assert fv.stuck_start_min_for(True) < fv.stuck_start_min_for(False)
+    assert fv.STUCK_START_STRIKES >= 2, "consecutive-observation discipline is never relaxed (CLAUDE.md §4)"
+    import inspect
+    src = inspect.getsource(fv.mode_monitor)
+    assert "_floor = stuck_start_min_for(" in src and "age >= _floor" in src, \
+        "the condemn test must use the derived per-class floor, not the bare constant"

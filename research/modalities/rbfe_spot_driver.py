@@ -842,6 +842,24 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
             _diagnose_nan_dir(shared, system, log)
         raise
     _set_caches(warmup, platform)
+    if os.environ.get("RBFE_SETUP_ONLY") == "1":
+        # ★★ THE CONTROLLED REPRODUCTION OF A `setup()` NaN, WITH NO HOST IN THE LOOP (2026-07-27).
+        # `_get_sampler` has just returned, which means `sampler.setup()` — and the
+        # `LocalEnergyMinimizer.minimize` inside it — completed. That is the ENTIRE question a leg
+        # that died at `multistate.py:345` poses, so a free CPU runner can answer it by running this
+        # far and stopping: reach here and the minimiser is fine on this system; NaN before here and
+        # the instrumented `except` above has already named the force and the geometry.
+        #
+        # WHY THIS AND NOT THE ENERGY PROBE ALONE. The probe evaluates the system at the coordinates
+        # as handed over, with the alchemical global parameters as built. `setup()` minimises EVERY
+        # thermodynamic state in the lambda schedule, applying that state's parameters first — so a
+        # softcore term that is finite at the built lambda and divergent at an intermediate one is
+        # invisible to a single-point reading. All-finite energies therefore rule OUT one mechanism;
+        # only running the real minimiser rules out the other.
+        raise SystemExit("[spot-driver] RBFE_SETUP_ONLY=1 — sampler.setup() (incl. its pre-MD "
+                         "LocalEnergyMinimizer over every lambda state) COMPLETED WITHOUT A NaN on "
+                         "this platform. Exiting before any MD; nothing was sampled and nothing "
+                         "was committed.")
     if not warmup_restart and spot._sampler_iteration(warmup) == 0:
         # the big minimization (setup() already did a tiny 100-step one); still fast/non-resumable.
         log("[spot-driver] warmup minimize")

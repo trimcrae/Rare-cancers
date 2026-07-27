@@ -1642,12 +1642,37 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                 _n_morph, _morph = None, [{"error": "%s: %s" % (type(_me).__name__, _me)}]
             print("  [hmr-diag] MORPHING X-H (edge-discriminating) = %s | %s"
                   % (_n_morph, json.dumps(_morph[:6])), flush=True)
+            # ★★ THE SETUP-NaN PROBE (2026-07-27, RBFE_ENERGY_PROBE=1). Step 1 fan-out unit
+            # `e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral` lost its complex leg to
+            # `Particle coordinate is NaN` raised by LocalEnergyMinimizer inside `sampler.setup()`,
+            # i.e. before any MD. Deciding whether to BLOCK that unit or RETRY it turns entirely on
+            # whether the fault is in the STAGED SYSTEM (deterministic — every host reproduces it) or
+            # incidental to the machine, and the only way that had been available to find out was to
+            # rent another host and watch. The system is built here on a FREE CPU runner, and this is
+            # the same `system`/`positions` pair handed to `drv.run_spot_safe` below, so a per-force
+            # single-point energy answers it for $0 and independently of any GPU.
+            _eprobe = None
+            if os.environ.get("RBFE_ENERGY_PROBE") == "1":
+                try:
+                    import rbfe_spot_driver as _drv
+                    _plog = lambda _m: print("  " + str(_m), flush=True)  # noqa: E731
+                    _eprobe_rows = _drv._force_energy_probe(system, positions, _plog, "hmrdiag")
+                    _drv._clash_report(positions, system, _plog, "hmrdiag")
+                    _etot = sum(r["energy_kj_mol"] for r in _eprobe_rows) if _eprobe_rows else 0.0
+                    _eprobe = {"rows": _eprobe_rows,
+                               "verdict": _drv.energy_probe_verdict(_eprobe_rows, _etot)}
+                except Exception as _pe:  # noqa: BLE001 — an evidence hook must never break the build
+                    _eprobe = {"error": "%s: %s" % (type(_pe).__name__, _pe)}
+                print("  [hmr-diag] ENERGY PROBE: %s"
+                      % (_eprobe.get("verdict") or _eprobe.get("error")), flush=True)
             print("  [hmr-diag] RBFE_HMRDIAG_ONLY=1 -> exiting after the constraint verdict (no MD).", flush=True)
             return None, None, {"hmrdiag_only": True, "xh_total": _xh_total,
                                 "xh_unconstrained": _xh_unconstrained, "unconstrained": _unc, "hmasses": _hmasses,
                                 "total_constraints": _tot_cons, "constraints_setting": str(_cons_set),
                                 "hydrogen_mass_setting": str(_hmass_set), "constrain_diag": _constrain_diag,
-                                "force_census": _census, "n_morphing_xh": _n_morph, "morphing_xh": _morph}
+                                "force_census": _census, "n_morphing_xh": _n_morph, "morphing_xh": _morph,
+                                "n_particles": (int(system.getNumParticles()) if system is not None else None),
+                                "energy_probe": _eprobe}
     except Exception as _e:  # noqa: BLE001
         print("  [hmr-diag] failed: %s: %s" % (type(_e).__name__, _e), flush=True)
         if os.environ.get("RBFE_HMRDIAG_ONLY") == "1":
