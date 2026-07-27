@@ -279,17 +279,18 @@ jobs:
             exit 0
           fi
 
-          # ⏰ A HOLD IS ROUTINE UNTIL 7:00 AM ET (11:00 UTC); AFTER THAT IT IS trimcrae's DECISION, NOT AN
-          # INDEFINITE WAIT. Escalating by FAILING the job is deliberate: that fires GitHub's own
-          # workflow-failure notification, which is the one alert path that does not need an agent awake —
-          # and the whole reason this lane went silent for five hours is that the paths which did need one
-          # all failed at once.
-          NOW_H=$(date -u +%H)
-          if [ "$NOW_H" -ge 11 ] && [ "$NOW_H" -lt 20 ]; then
-            echo "::error title=TVAST MARKET HOLD PAST 7 AM ET::valB_mini r1+r2 still held on price. This is now a decision for trimcrae: wait longer, accept the higher \$/ns, or rescope. Snapshot: research/modalities/ternary-vast-market-hold.json."
-            exit 1
-          fi
-          echo "::warning title=TVAST MARKET HOLD::valB_mini r1+r2 held on price — see research/modalities/ternary-vast-market-hold.json. Re-checks until 7:00 AM ET, then escalates."
+          # ⏰ NO TIME-BASED ESCALATION. An earlier version failed this job once the hold passed 7:00 AM ET,
+          # to fire GitHub's own notification without an agent awake. That was right while the hold was
+          # still an open question, and is wrong now: the fork WAS surfaced to trimcrae on 2026-07-27 with
+          # the numbers (gate CLEAR at $17.99 against a $22.28 ceiling, 2.05x basis, 12 h idle) and he chose
+          # to keep holding until <=1.5x. Re-raising a question he has already answered is noise, and a
+          # recurring red build is the most persistent kind of noise there is.
+          #
+          # So the hold is now a NORMAL, GREEN, VISIBLE state: the snapshot is committed on every single
+          # evaluation, which is what makes it visible, and the job stays green because nothing is wrong.
+          # Surface again only on a material CHANGE — the board clears and the launch fires (a ::notice::
+          # above, plus the rented instances), or the 1.5x line turns out to be unreachable on this rung.
+          echo "::warning title=TVAST MARKET HOLD::valB_mini r1+r2 held on price by trimcrae's <=1.5x-basis decision (2026-07-27). Snapshot: research/modalities/ternary-vast-market-hold.json. Re-checks hourly; launches itself the moment it clears."
           exit 0
 
   # ------------------------------------------------ free: valB_mini replicates — stage seeds 1+2 AND
