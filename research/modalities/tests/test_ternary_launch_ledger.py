@@ -29,14 +29,14 @@ def test_a_dispatched_launch_and_its_outcome_are_two_distinguishable_rows(ledger
     and "and then it died" two separate, explicit, still-present facts."""
     tll.record("dispatched", stage="market-gate", path=ledger,
                gate={"ratio_vs_basis": 1.261, "hold": False})
-    tll.record("rented-nothing", stage="rent", path=ledger,
+    tll.record("refused-on-price", stage="rent", path=ledger,
                gate={"ratio_vs_basis": 2.436, "hold": True}, n_requested=4, n_rented=0)
     rows = tll.load(ledger)["attempts"]
-    assert [r["outcome"] for r in rows] == ["dispatched", "rented-nothing"]
+    assert [r["outcome"] for r in rows] == ["dispatched", "refused-on-price"]
     assert rows[0]["gate_ratio_vs_basis"] == 1.261, "the CLEAR that authorised it must survive"
     assert rows[1]["gate_ratio_vs_basis"] == 2.436
     # and the row explains itself without a second lookup
-    assert "rented no host" in rows[1]["what_that_means"]
+    assert "the guard working" in rows[1]["what_that_means"]
 
 
 def test_the_outcome_vocabulary_is_closed_so_a_typo_cannot_invent_a_state(ledger):
@@ -78,10 +78,10 @@ def test_times_are_us_eastern_12_hour_not_utc(ledger):
 def test_the_summary_line_says_what_happened_without_opening_the_file(ledger):
     """`collect` prints this. If it did not carry the outcome and the board it faced, a reader would still
     have to know the ledger exists and go find it — which is the same failure one indirection further out."""
-    tll.record("rented-nothing", stage="rent", path=ledger, n_requested=4, n_rented=0,
+    tll.record("refused-on-price", stage="rent", path=ledger, n_requested=4, n_rented=0,
                gate={"ratio_vs_basis": 1.904}, reason="every offer above the buy line")
     s = tll.summary_line(ledger)
-    assert "rented-nothing" in s and "0/4 rented" in s and "1.904x basis" in s and "ET" in s
+    assert "refused-on-price" in s and "0/4 rented" in s and "1.904x basis" in s and "ET" in s
 
 
 def test_an_empty_or_corrupt_ledger_reports_that_rather_than_crashing(tmp_path):
@@ -106,3 +106,47 @@ def test_the_committed_ledger_is_valid_and_records_the_lost_windows():
     assert {r["et"] for r in lost} == {"9:16 AM ET", "9:26 AM ET"}
     assert all(r.get("reconstructed_from_job_log") for r in lost), \
         "a retroactively reconstructed row must SAY it was reconstructed, never pass as live telemetry"
+
+
+# ---------------------------------------------------------------- the 11:10 AM ET ledger defect
+def test_the_gates_own_sentence_is_copied_because_it_carries_the_diagnosis(ledger):
+    """★★ THE DEFECT THIS FILE'S OWN AUTHOR SHIPPED (2026-07-27, 11:10 AM ET).
+
+    The gate readout handed to that row contained, verbatim, "could not read the board (RuntimeError: vast
+    API GET /search/asks/ -> 403 ...) — an unreadable market is not a cheap one". The ledger copied the
+    numeric fields and `hold` and dropped `reason` — the only field that was prose and the only one that
+    said WHY. The row therefore recorded `gate_hold: true` with no ratio beside it, and answering "was this
+    the price guard or a broken launcher?" still required the job log. That is the exact failure the ledger
+    exists to prevent, one level in."""
+    gate = {"hold": True,
+            "reason": "could not read the board (RuntimeError: vast API GET /search/asks/ -> 403: "
+                      "<html>403 Forbidden</html>) — an unreadable market is not a cheap one"}
+    e = tll.record("board-unreadable", stage="rent", path=ledger, gate=gate, n_requested=4, n_rented=0)
+    assert "403" in e["gate_reason"], "the sentence that carries the diagnosis must survive into the row"
+    s = tll.summary_line(ledger)
+    assert "403" in s and "⛔ FAULT" in s, "and must be legible in the one line collect prints"
+    assert "\n" not in s, "a multi-line provider error page must not break the summary line"
+
+
+def test_no_outcome_names_two_possibilities(ledger):
+    """`rented-nothing` used to mean "every offer above the buy line, OR creates failed". An outcome that
+    names two causes names neither, and it was the only thing the ledger said about the 403. Every value is
+    now a single fact — enforced, so the disjunction cannot come back by a well-meaning merge."""
+    for outcome, meaning in tll.OUTCOMES.items():
+        assert " or " not in meaning.lower().replace("authorisation", ""), \
+            f"{outcome!r} describes more than one situation: {meaning!r}"
+    assert "rented-nothing" not in tll.OUTCOMES
+
+
+def test_a_price_hold_is_not_a_fault_but_an_unreadable_board_is(ledger):
+    """The distinction the CI signal now turns on. Nothing affordable = wait, the work is checkpointed and
+    the next tick re-checks. Board unreadable = we never learned what the market cost, so a cleared window
+    can be lost without anyone noticing — which is what happened."""
+    tll.record("refused-on-price", path=ledger)
+    assert not tll.is_fault(ledger)
+    assert "⏸ held" in tll.summary_line(ledger)
+    tll.record("board-unreadable", path=ledger)
+    assert tll.is_fault(ledger)
+    assert "⛔ FAULT" in tll.summary_line(ledger)
+    tll.record("launched", path=ledger, n_requested=4, n_rented=4)
+    assert not tll.is_fault(ledger) and "✅" in tll.summary_line(ledger)

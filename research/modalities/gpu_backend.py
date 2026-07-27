@@ -39,6 +39,20 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vast_cost_model as _vcm  # noqa: E402
 
 
+class NoQualifyingOffer(RuntimeError):
+    """The board was read successfully and had nothing this spec could buy.
+
+    ★★ WHY THIS IS A TYPE AND NOT JUST A MESSAGE (2026-07-27). "The market had nothing under our price line"
+    and "the provider API returned 403" both ended as a bare RuntimeError inside the launcher's per-unit
+    `except`, so both printed `0/N unit(s) submitted` and failed the job identically. On the morning this was
+    written that ambiguity was live in CI: the run list showed a red launch, and the only way to learn whether
+    the price guard had worked correctly or the launcher was broken was to read the job log.
+
+    They need OPPOSITE responses. Nothing affordable is the guard doing its job — wait for the board, the
+    work is checkpointed, nothing is wrong. A provider fault is a real defect that costs a cleared window and
+    must be loud. Subclassing RuntimeError keeps every existing `except RuntimeError` working unchanged."""
+
+
 # ---- job / resource spec ----------------------------------------------------------------------------------
 
 @dataclass
@@ -285,6 +299,32 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None, 
         if e.code == 429 and _hops < 6:                           # rate limit (Vast DELETE threshold ~3 req/s): a
             import time                                           # burst teardown/collect 429s partway -> back off
             time.sleep(1.5 * (_hops + 1))                         # (1.5,3,4.5,...s) and retry so we drain the loop
+            return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1)
+        # ★★ A BARE 403 FROM THE EDGE IS TRANSIENT, AND NOT RETRYING IT COST A CLEARED WINDOW
+        #    (2026-07-27, 11:08-11:10 AM ET, run 30278451510).
+        #
+        # WHAT HAPPENED. The market gate read the board fine at 11:06 AM ET (54 offers, 1.483x basis, CLEAR)
+        # and dispatched. Two minutes later the launch's every call answered `403 Forbidden` — the board
+        # read, `/instances/`, and all four `/search/asks/` inside submit — so it rented 0/4. Three minutes
+        # after THAT, a `collect` on the same key listed instances normally. Same key, same endpoints, works
+        # either side of the failure: transient, not an authorisation problem.
+        #
+        # HOW WE KNOW IT IS THE EDGE AND NOT VAST'S APP. The body is nginx's HTML error page
+        # (`<html><head><title>403 Forbidden</title></head>`). Vast's own errors are JSON envelopes
+        # (`{"success": false, "error": "resources_unavailable"}`), and a revoked key answers in JSON too. An
+        # HTML 403 is a proxy/WAF verdict, which is a throttle in every case we have observed.
+        #
+        # WHY IT FIRES AT ALL: this account drives several lanes from ONE key, and a single 4-unit launch
+        # alone issues ~8 `/search/asks/` calls in a burst (one per unit in `submit`, plus one per unit in
+        # `_vast_ondemand_base_by_machine`) on top of the gate's. Bursting is the trigger, so backing off is
+        # the remedy.
+        #
+        # ⚠ GET ONLY — NEVER A MUTATION. Retrying a POST that created an instance would double-rent, and a
+        # 403 arriving AFTER the create was accepted is exactly the case where that happens. A read is
+        # idempotent, so this is safe; a write is not, so it still fails fast and loudly.
+        if e.code in (403, 500, 502, 503, 504) and method == "GET" and _hops < 5:
+            import time
+            time.sleep(2.0 * (_hops + 1))                         # 2,4,6,8,10 s -> ~30 s of patience total
             return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1)
         raise RuntimeError(f"vast API {method} {path} -> {e.code}: {detail[:400]}") from e
 
@@ -798,7 +838,11 @@ class VastBackend(Backend):
         offer = _select_cheapest_offer(offers, res,
                                        max_hourly_usd=(max_hr * 2.0 if max_hr else None))
         if offer is None:
-            raise RuntimeError(f"vast: no rentable verified offer for {res} (of {len(offers)} offers)")
+            # TYPED, because the caller must tell this apart from a fault (see `NoQualifyingOffer`). The board
+            # was READ — `len(offers)` proves it — and simply had nothing buyable within the spec. That is the
+            # price guard working, not a broken launcher, and the two must not produce the same CI signal.
+            raise NoQualifyingOffer(
+                f"vast: no rentable verified offer for {res} (of {len(offers)} offers)")
         # Forward ONLY the checkpoint-store credential into the rented host — the science needs S3, not Vast.
         # VAST_API_KEY is deliberately NOT forwarded (never expose the account key to a community host); the host
         # tears down key-free by exiting its container, and CI destroys it (2026-07-24). Which credential that is

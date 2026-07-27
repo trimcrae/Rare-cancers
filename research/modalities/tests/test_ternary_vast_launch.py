@@ -634,3 +634,153 @@ def test_a_launch_that_wanted_units_and_rented_none_is_distinguishable_from_one_
     assert not getattr(tv.submit, "last_requested", 0)
     tv.submit.last_requested = 4                      # wanted four, got none -> red
     assert getattr(tv.submit, "last_requested", 0) and not []
+
+
+# ---------------------------------------------------------------- the 11:06 AM ET provider-403 regression
+#
+# The morning's SECOND lost window, and a different cause from the first. The gate cleared at 11:07 AM ET
+# (1.483x basis, 54 offers) and dispatched. The launch's every Vast call then answered a bare nginx
+# `403 Forbidden` — the board read at 11:08:18, `/instances/`, and all four `/search/asks/` inside submit at
+# 11:10:50 — so it rented 0/4. A `collect` on the same key at 11:13:56 listed instances normally, which is
+# what proves the 403 transient rather than an authorisation problem.
+#
+# Two defects, both pinned below:
+#   1. `_vast_request` retried 410 and 429 but NOT 403, so a throttle aborted the launch on the first try.
+#   2. The launcher reported "every offer above the buy line OR every create failed" — one red job meaning
+#      either "the guard worked" or "the launcher is broken", which is exactly the alert everyone learns to
+#      ignore.
+def test_a_transient_403_on_a_read_is_retried_rather_than_losing_the_window():
+    """★ DEFECT 1. A bare 403 from the edge is a throttle; the same key worked either side of it."""
+    import gpu_backend as gb
+    import urllib.error
+    calls = []
+
+    def flaky(req, timeout=None):
+        calls.append(req.full_url)
+        if len(calls) < 3:                                 # 403 twice, then serve
+            raise urllib.error.HTTPError(req.full_url, 403, "Forbidden", {},
+                                         __import__("io").BytesIO(b"<html>403 Forbidden</html>"))
+        class R:
+            def read(self): return b'{"offers": [1, 2]}'
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+        return R()
+
+    orig_open, orig_sleep = gb.urllib.request.urlopen, __import__("time").sleep
+    try:
+        gb.urllib.request.urlopen = flaky
+        __import__("time").sleep = lambda *_a: None        # don't actually wait out the backoff
+        out = gb._vast_request("GET", "/search/asks/", "k")
+    finally:
+        gb.urllib.request.urlopen = orig_open
+        __import__("time").sleep = orig_sleep
+    assert out == {"offers": [1, 2]}, "a retried read must return the eventual success"
+    assert len(calls) == 3, "it must actually have retried, not swallowed the error"
+
+
+def test_a_403_on_a_MUTATION_is_never_retried_because_that_could_double_rent():
+    """The safety limit on the retry above, and the reason it is scoped to GET. A 403 arriving after Vast
+    accepted an instance create would, on retry, buy a SECOND host — paying twice for one unit and leaving
+    an instance no watch list knows about. A read is idempotent; a create is not."""
+    import gpu_backend as gb
+    import urllib.error
+    calls = []
+
+    def always403(req, timeout=None):
+        calls.append(req.get_method())
+        raise urllib.error.HTTPError(req.full_url, 403, "Forbidden", {},
+                                     __import__("io").BytesIO(b"<html>403 Forbidden</html>"))
+
+    orig_open, orig_sleep = gb.urllib.request.urlopen, __import__("time").sleep
+    try:
+        gb.urllib.request.urlopen = always403
+        __import__("time").sleep = lambda *_a: None
+        with pytest.raises(RuntimeError):
+            gb._vast_request("PUT", "/instances/1/", "k", body={"state": "running"})
+    finally:
+        gb.urllib.request.urlopen = orig_open
+        __import__("time").sleep = orig_sleep
+    assert len(calls) == 1, "a mutation must fail on the FIRST 403, never be retried"
+
+
+def test_nothing_affordable_and_a_provider_fault_are_different_types():
+    """★ DEFECT 2, at its root. Both used to be a bare RuntimeError, so both printed `0/N submitted` and
+    failed the job identically. `NoQualifyingOffer` is raised only when the board was READ and had nothing
+    buyable — the guard working — and it stays a RuntimeError so existing handlers are unaffected."""
+    from gpu_backend import NoQualifyingOffer
+    assert issubclass(NoQualifyingOffer, RuntimeError)
+    assert not isinstance(RuntimeError("vast API GET /search/asks/ -> 403"), NoQualifyingOffer)
+
+
+def test_a_clear_board_actually_rents_and_a_capped_board_holds_without_erroring():
+    """★★ THE SYNTHETIC CLEAR BOARD. Real clear boards are rare — that is the whole problem with this lane —
+    so the path that runs only on one is exercised here instead of waiting for the market.
+
+    Same four units, same launcher, two boards. Under the line: four hosts rented, exit 0, no hold warning.
+    Above the line: zero rented, and the launcher must report a HOLD (green, the guard working) rather than
+    a FAULT. Getting this backwards in either direction is the bug the 2026-07-27 signal fix addresses."""
+    import gpu_backend as gb
+
+    class FakeBackend:
+        def __init__(self, affordable): self.affordable, self.n = affordable, 0
+        def submit(self, spec):
+            if not self.affordable:
+                raise gb.NoQualifyingOffer("vast: no rentable verified offer for <spec> (of 40 offers)")
+            self.n += 1
+            return type("H", (), {"job_id": "i%d" % self.n,
+                                  "extra": {"machine_id": self.n, "min_bid": 0.05, "bid": 0.05, "dph": 0.06}})()
+
+    def run(affordable):
+        # cwd -> a scratch dir: `submit` writes `ternary-vast-handles.json` beside the process, and a test
+        # that drops artifacts into the repo root is a test that edits the repo. Found immediately — the
+        # file turned up in `git status` on the first run.
+        import os as _os, tempfile
+        orig = (tv.get_backend, tv.leg_records, tv._vast_request, tv._s3)
+        cwd = _os.getcwd()
+        tmp = tempfile.mkdtemp()
+        _os.chdir(tmp)
+        try:
+            tv.get_backend = lambda _n: FakeBackend(affordable)
+            tv.leg_records = lambda *a, **k: {}
+            tv._vast_request = lambda *a, **k: {"instances": []}
+            tv._s3 = lambda: type("S", (), {"put_object": lambda self, **kw: None})()
+            got = tv.submit(mode="edge_reps")
+            return got, tv.submit.last_requested, tv.submit.last_failure_kind
+        finally:
+            _os.chdir(cwd)
+            tv.get_backend, tv.leg_records, tv._vast_request, tv._s3 = orig
+
+    got, wanted, kind = run(True)
+    assert wanted == 4 and len(got) == 4 and kind is None, "a clear board must rent every unit"
+    assert len({h["machine_id"] for h in got}) == 4, "one unit per machine, not four on the cheapest"
+
+    got, wanted, kind = run(False)
+    assert wanted == 4 and got == [] and kind == "market", \
+        "an unaffordable board is a MARKET hold, never a fault"
+
+
+def test_one_provider_fault_among_price_refusals_still_reports_a_fault():
+    """A launch is only entitled to say "the market refused us" if it got a clean answer from the market. If
+    any unit died on a 403 we never learned what the board cost, so the benign classification would be a
+    claim we cannot support — and it would hide a real defect behind an expected one."""
+    import gpu_backend as gb
+
+    class MixedBackend:
+        def __init__(self): self.n = 0
+        def submit(self, spec):
+            self.n += 1
+            if self.n == 1:
+                raise RuntimeError("vast API GET /search/asks/ -> 403: <html>403 Forbidden</html>")
+            raise gb.NoQualifyingOffer("vast: no rentable verified offer (of 40 offers)")
+
+    orig = (tv.get_backend, tv.leg_records, tv._vast_request, tv._s3)
+    try:
+        tv.get_backend = lambda _n: MixedBackend()
+        tv.leg_records = lambda *a, **k: {}
+        tv._vast_request = lambda *a, **k: {"instances": []}
+        tv._s3 = lambda: type("S", (), {"put_object": lambda self, **kw: None})()
+        got = tv.submit(mode="edge_reps")
+    finally:
+        tv.get_backend, tv.leg_records, tv._vast_request, tv._s3 = orig
+    assert got == [] and tv.submit.last_failure_kind == "fault", \
+        "one fault among three price refusals must dominate the verdict"

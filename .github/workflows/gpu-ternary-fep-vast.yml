@@ -667,8 +667,20 @@ jobs:
           MODE=$(printf '%s' "${{ needs.resolve.outputs.task }}" | tr '-' '_')
           echo "MODE=$MODE" >> "$GITHUB_ENV"
           ONLY="${{ github.event.inputs.leg_only }}"
-          python research/modalities/ternary_vast_launch.py --mode "$MODE" ${ONLY:+--only "$ONLY"}
-          echo "::notice title=TVAST launched::task=${{ needs.resolve.outputs.task }} (mode=$MODE) — poll with task=collect."
+          # Tee'd so the NEXT step can read which of the two zero-rental outcomes this was. `pipefail` is set,
+          # so tee cannot mask the launcher's exit code.
+          python research/modalities/ternary_vast_launch.py --mode "$MODE" ${ONLY:+--only "$ONLY"} 2>&1 | tee /tmp/rent.log
+          if grep -q "TVAST HELD ON PRICE" /tmp/rent.log; then
+            # ⚠ AND SAY SO AS A STEP OUTPUT. Making a correct refusal GREEN means the steps after this one now
+            # run on a launch that rented nothing — which they never did before, because the old fatal price
+            # gate made that case red. Arming a watchdog for units that do not exist would be a fresh bug
+            # introduced by the signal fix, so the hold is published for the arm step to skip on.
+            echo "held=true" >> "$GITHUB_OUTPUT"
+            echo "::notice title=TVAST held::task=${{ needs.resolve.outputs.task }} rented nothing — correctly refused on price, not a fault. Next tick re-checks."
+          else
+            echo "held=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=TVAST launched::task=${{ needs.resolve.outputs.task }} (mode=$MODE) — poll with task=collect."
+          fi
 
       - name: Record this launch attempt in the ledger — SUCCESS OR NOT
         # ★★ THE STEP WHOSE ABSENCE CAUSED A MISREPORT (2026-07-27). When this job died at its old price
@@ -685,11 +697,26 @@ jobs:
         run: |
           set -eo pipefail
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          case "${{ steps.rent.outcome }}" in
-            success)  OUTCOME=launched ;;
-            skipped)  OUTCOME=failed ;;     # died before the rental was even attempted
-            *)        OUTCOME=rented-nothing ;;
-          esac
+          # ★ THE OUTCOME WORD IS DECIDED BY THE LAUNCHER, NOT BY THE STEP'S EXIT CODE (2026-07-27).
+          # `steps.rent.outcome` only knows pass/fail, and on 11:10 AM ET that produced `rented-nothing` for
+          # what was actually a provider 403 — an outcome that named two possibilities and therefore neither.
+          # The launcher now exits 0 with `TVAST HELD ON PRICE` for a correct refusal and 1 with
+          # `TVAST LAUNCHER FAULT` for anything else, so the annotation it emitted is the discriminator.
+          # Falling back to `submit-failed` (a FAULT) when neither marker is present is deliberate: an
+          # unrecognised failure must never be filed as the benign outcome.
+          if [ "${{ steps.rent.outcome }}" = success ]; then
+            if grep -q "TVAST HELD ON PRICE" /tmp/rent.log 2>/dev/null; then
+              OUTCOME=refused-on-price
+            else
+              OUTCOME=launched
+            fi
+          elif [ "${{ steps.rent.outcome }}" = skipped ]; then
+            OUTCOME=failed                  # died before the rental was even attempted
+          elif grep -q "could not read the board" /tmp/launch-board.json 2>/dev/null; then
+            OUTCOME=board-unreadable        # the gate could not price the market either — same root cause
+          else
+            OUTCOME=submit-failed
+          fi
           python research/modalities/ternary_launch_ledger.py --record "$OUTCOME" \
             --stage "rent (steps.rent.outcome=${{ steps.rent.outcome }})" \
             --gate /tmp/launch-board.json --run-url "$RUN_URL" \
@@ -706,6 +733,11 @@ jobs:
       - name: Arm the session-independent watchdog for this task
         # The watch list is the ONLY input the cron watchdog reads, so a launch that does not register its
         # units is a launch nobody is watching. Committed to the branch so it survives this runner.
+        #
+        # SKIPPED ON A PRICE HOLD: there is nothing to watch, and `--verify-armed` would fail the job for a
+        # launch that correctly chose not to buy — turning the benign outcome red again and undoing the whole
+        # point of separating the two signals.
+        if: ${{ steps.rent.outputs.held != 'true' }}
         run: |
           set -eo pipefail
           python research/modalities/ternary_vast_watchdog.py --arm "$MODE"

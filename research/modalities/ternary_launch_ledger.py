@@ -37,13 +37,25 @@ MAX_ATTEMPTS = 60
 
 # The outcomes worth distinguishing. Kept a closed set so a typo cannot invent a state that no reader
 # recognises — the whole point of the file is that its states are unambiguous.
+# ⚠ EVERY VALUE HERE IS A SINGLE FACT. `rented-nothing` used to read "every offer above the buy line, OR
+# creates failed" and that disjunction was a real defect: on 2026-07-27 at 11:10 AM ET it was the ONLY thing
+# the ledger said about a launch that had died on a provider 403, so the file could not answer the one
+# question it exists to answer — did the price guard work, or is the launcher broken? An outcome that names
+# two possibilities names neither. Split, and never re-merged.
 OUTCOMES = {
     "dispatched":       "the gate cleared and fired the launch workflow",
     "launched":         "hosts were actually rented",
-    "rented-nothing":   "the launcher ran and rented no host (every offer above the buy line, or creates failed)",
-    "refused-on-price": "a price check inside the launch refused it after the gate had cleared",
-    "failed":           "the launch died for a non-price reason (see `reason`)",
+    "refused-on-price": "the board was read and NOTHING on it was within the buy line — the guard working, "
+                        "nothing rented, nothing billing, next tick re-checks",
+    "board-unreadable": "the market could not be read at all (provider API/auth/rate-limit) — a FAULT: we "
+                        "never learned what the board cost",
+    "submit-failed":    "the board was read but the provider refused the rentals — a FAULT",
+    "failed":           "the launch died before the rental was attempted (see `reason`)",
 }
+
+# The outcomes that mean something is WRONG, as opposed to the market being expensive. Callers use this
+# rather than re-deciding per site, so "is this a fault?" has one answer in the repo.
+FAULTS = {"board-unreadable", "submit-failed", "failed"}
 
 
 def _et(utc_struct=None):
@@ -95,7 +107,15 @@ def record(outcome, run_url=None, stage=None, reason=None, gate=None,
         e["stage"] = stage
     if run_url:
         e["run_url"] = run_url
-    for k in ("ratio_vs_basis", "mean_usd_per_ns", "projected_usd", "max_ratio_vs_basis", "hold"):
+    # ★★ `reason` IS IN THIS LIST BECAUSE LEAVING IT OUT COST AN ANSWER (2026-07-27, 11:10 AM ET).
+    # The gate readout handed to that row contained, verbatim:
+    #     "could not read the board (RuntimeError: vast API GET /search/asks/ -> 403 ...) —
+    #      an unreadable market is not a cheap one"
+    # ...which is the complete diagnosis. The ledger copied the NUMBERS and `hold`, and dropped the one
+    # field that was prose — so the row recorded `gate_hold: true` with no ratio beside it and a reader had
+    # to INFER "the board was unreadable" from the absence of a number. A ledger that requires inference to
+    # read is the failure it was built to prevent. Copy the sentence.
+    for k in ("ratio_vs_basis", "mean_usd_per_ns", "projected_usd", "max_ratio_vs_basis", "hold", "reason"):
         if isinstance(gate, dict) and k in gate:
             e["gate_" + k] = gate[k]
     if isinstance(gate, dict) and isinstance(gate.get("depth"), dict):
@@ -125,16 +145,30 @@ def summary_line(path=LEDGER):
     e = last(path)
     if not e:
         return "[ledger] no launch attempt recorded yet"
-    bits = ["[ledger] last attempt %s (%s): %s" % (e.get("et", "?"), e.get("utc", "?"), e["outcome"])]
+    # The verdict word comes FIRST, before the timestamp, because this line is read at a glance in a CI log
+    # and "is anything wrong?" is the only question most readers have. ⛔ = go look; ✅/⏸ = nothing to do.
+    mark = "⛔ FAULT" if e["outcome"] in FAULTS else ("⏸ held" if e["outcome"] == "refused-on-price" else "✅")
+    bits = ["[ledger] %s — last attempt %s (%s): %s" % (mark, e.get("et", "?"), e.get("utc", "?"),
+                                                        e["outcome"])]
     if e.get("stage"):
         bits.append("at %s" % e["stage"])
     if e.get("gate_ratio_vs_basis") is not None:
         bits.append("board %.3fx basis" % e["gate_ratio_vs_basis"])
     if e.get("n_requested") is not None:
         bits.append("%s/%s rented" % (e.get("n_rented", 0), e["n_requested"]))
+    # The gate's own sentence, which is where an unreadable board actually explains itself. Collapsed to one
+    # line because a provider's HTML error page is multi-line and would otherwise break the summary.
+    if e.get("gate_reason"):
+        bits.append("| board: %s" % " ".join(str(e["gate_reason"]).split())[:220])
     if e.get("reason"):
         bits.append("— %s" % e["reason"])
     return " ".join(bits)
+
+
+def is_fault(path=LEDGER):
+    """True when the most recent attempt failed for a reason that needs a human. A price hold does not."""
+    e = last(path)
+    return bool(e) and e["outcome"] in FAULTS
 
 
 def main(argv=None):

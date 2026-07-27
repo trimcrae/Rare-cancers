@@ -1079,6 +1079,7 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     # is what let a launch that rented nothing report success. A function attribute rather than a signature
     # change so every existing caller and test keeps working.
     submit.last_requested = len(keep)
+    submit.last_failure_kind = None
     if not keep:
         print("[launch] every unit for this mode is already done or running — nothing to rent")
         return []
@@ -1107,8 +1108,21 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
             handles.append({"unit_id": j.env["UNIT_ID"], "instance": h.job_id,
                             "machine_id": mid, "bid": h.extra.get("bid"), "dph": h.extra.get("dph")})
         except Exception as e:  # noqa: BLE001 — one unrentable unit must not abort the rest
-            print(f"[launch] {j.name}: SUBMIT FAILED {type(e).__name__}: {e}")
-            failures.append({"unit_id": j.env["UNIT_ID"], "error": f"{type(e).__name__}: {e}"[:400]})
+            # ★ CLASSIFY AT THE POINT OF FAILURE, where the exception type is still available. Upstream this
+            # collapsed to one string and the caller had to guess between "the market had nothing under our
+            # line" and "the provider 403'd us" — the ambiguity that made a correct refusal and a broken
+            # launcher produce identical CI output on 2026-07-27.
+            from gpu_backend import NoQualifyingOffer
+            market = isinstance(e, NoQualifyingOffer)
+            print(f"[launch] {j.name}: {'NOTHING AFFORDABLE' if market else 'SUBMIT FAILED'} "
+                  f"{type(e).__name__}: {e}")
+            failures.append({"unit_id": j.env["UNIT_ID"], "error": f"{type(e).__name__}: {e}"[:400],
+                             "kind": "market" if market else "fault"})
+    # WHY THIS LAUNCH CAME UP SHORT, in one word, for the caller's exit code and the ledger. A single FAULT
+    # dominates: if any unit died on a provider error we cannot claim the market refused us, because we never
+    # got a clean answer from it. Only when every shortfall is "nothing affordable" is this the guard working.
+    if failures:
+        submit.last_failure_kind = "fault" if any(f["kind"] == "fault" for f in failures) else "market"
     if handles:
         json.dump(handles, open("ternary-vast-handles.json", "w"), indent=2)
     print(f"[launch] {len(handles)}/{len(keep)} unit(s) submitted -> "
@@ -1865,10 +1879,23 @@ def main(argv=None):
         # per-offer buy line can legitimately refuse EVERY offer on a thin board, that ambiguity would turn
         # the price guard itself into a silent no-op. A launch that wanted units and got none is red.
         if getattr(submit, "last_requested", 0) and not got:
-            print("::error title=TVAST RENTED NOTHING::the launcher wanted units and rented none — either "
-                  "every offer priced above the buy line (research/compute/pricing.md basis x "
-                  "%.2f = $%.6f/ns) or every create failed. See the [launch] lines above."
-                  % (MARKET_MAX_RATIO_VS_BASIS, buy_ceiling_usd_per_ns()))
+            # ★★ TWO OUTCOMES, TWO SIGNALS (2026-07-27, after one red run meant both on the same morning).
+            # An "either X or Y" error message trains everyone to ignore the alert, which is precisely how
+            # the 9:13 AM miss went unnoticed for an hour. The launcher knows which it was, so it says so.
+            kind = getattr(submit, "last_failure_kind", None)
+            if kind == "market":
+                # The guard WORKING. Green, like the market_gate job's hold — a correct refusal is a normal
+                # state of this lane, and a recurring red build is the most persistent kind of noise there
+                # is. The ledger row and this warning are what make it visible instead of silent.
+                print("::warning title=TVAST HELD ON PRICE::correctly refused — no offer on the board was "
+                      "within the buy line ($%.6f/ns = %.2fx the ladder basis). Nothing was rented and "
+                      "nothing is billing. This is the price guard doing its job; the next tick re-checks."
+                      % (buy_ceiling_usd_per_ns(), MARKET_MAX_RATIO_VS_BASIS))
+                return 0
+            print("::error title=TVAST LAUNCHER FAULT::the launcher wanted %d unit(s) and rented none, and "
+                  "at least one failed on a PROVIDER/CODE error rather than on price — so we never got a "
+                  "clean answer from the market. This is a real defect, not a hold. See the [launch] lines "
+                  "above for the exception." % getattr(submit, "last_requested", 0))
             return 1
     return 0
 

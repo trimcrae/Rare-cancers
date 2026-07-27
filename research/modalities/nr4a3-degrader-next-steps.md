@@ -897,6 +897,21 @@ the family metad (in flight) is the fix.
 5. **Handle-facing confirmation** — done (Step 0); rerun on each paralogue's opened ensemble for symmetry.
 
 ## Infra gotchas a fresh session MUST know
+- **🛑 VAST ANSWERS A THROTTLE WITH A BARE HTML `403`, NOT A `429` — AND AN UNRETRIED 403 LOSES THE WINDOW
+  (2026-07-27, 11:06–11:13 AM ET).** The gate read the board fine at 11:06 AM ET (54 offers, 1.483× basis,
+  CLEAR) and dispatched. Two minutes later *every* Vast call in the launch answered `403 Forbidden` — the
+  board read at 11:08:18, `/instances/`, and all four `/search/asks/` inside `submit` at 11:10:50 — so it
+  rented 0/4. A `collect` on the **same key** at 11:13:56 AM ET listed instances normally. Same key, same
+  endpoints, working either side: **transient, not authorisation.**
+  **Telling them apart:** the body is nginx's HTML error page (`<html><head><title>403 Forbidden</title>`),
+  whereas Vast's own errors — including a revoked key — are JSON envelopes
+  (`{"success": false, "error": ...}`). **An HTML 403 is a proxy/WAF verdict, i.e. a throttle.**
+  **Why we trip it:** one API key drives every lane, and a single 4-unit launch issues ~8 `/search/asks/`
+  calls in a burst (one per unit in `submit`, plus one per unit in `_vast_ondemand_base_by_machine`) on top
+  of the gate's. `_vast_request` retried 410 and 429 but **not** 403, so the first throttle killed the
+  launch. It now backs off on 403/5xx — **for `GET` only**: retrying a POST that Vast had already accepted
+  would double-rent. *(Still open, and worth doing: fetch the board ONCE per launch and share it across
+  units, which cuts the burst ~8× and makes the priced board and the bought board the same object.)*
 - **🛑 A PRICE GATE THAT CLEARS BUT CANNOT BUY IS WORTH NOTHING — DECIDE THE PURCHASE ONCE (2026-07-27).**
   The ternary lane priced its fan-out **twice** for one purchase: the `market-gate` job read the board,
   cleared, and dispatched the launch — and the `launch` job then re-read the board and re-decided, *behind* a
