@@ -348,6 +348,40 @@ downstream, only `ternary_endpoint_align.verify_endpoints` catches this, and onl
 printed against an expected count, so whether any of them used a degenerate map is **unverified**. That is a
 $0 check against their archived logs and it is owed before those numbers are relied on further.
 
+### ⚠ CORRECTION — the timeout was a contributing cause, not the cause
+
+The budget fix above is real but it was **not sufficient**, and the diagnosis it rested on was incomplete.
+With `RBFE_LOMAP_TIME_S=300` the NR4A1 leg mapped **110 of 111** and aborted again. The residual 1 was not a
+budget artifact, and chasing it found the actual mechanism:
+
+**At pre-equilibration time `ligA` and `ligB` are THE SAME MOLECULE.** `ternary_preequil._load_ligands` takes
+the SDF's two records verbatim, and this rung writes **one pose twice** — the endpoint rebuild from the
+committed SMILES happens later, in the FEP engine. `nr4a3_5aks_ligand_diag` had already reported both records
+as `C44H47N7O13`; the significance was mine to see and I did not.
+
+So LOMAP was being asked to map a molecule **onto itself**:
+
+| budget | self-map result | outcome |
+|---|---|---|
+| `time=20` | 80 of 111 (31 dummies) | ABORT |
+| `time=300` | 110 of 111 (1 dummy) | ABORT |
+| same inputs, other hosts | 111 of 111 | ok |
+
+**There is no chemical reason for a self-map to be incomplete**, so every shortfall was a search artifact
+turning identical atoms into dummies. It also explains the Kekulé-vs-aromatic indole in
+`smiles_in`/`smiles_out`: one molecule re-perceived differently across a transplant it never needed.
+
+**Fix** (`_endpoint_map_a2b`): when both endpoints have the same atom count *and* the same canonical SMILES,
+use an exact full-molecule substructure match — deterministic, no timeout, immune to host speed and to
+aromatic perception. Verified on the real construct: **111/111, exact identity permutation**,
+`source=identity_same_molecule`. The 300 s budget stays, because it is still right for genuinely different
+endpoints, but it is **no longer load-bearing for this class**.
+
+**Confirmed independently (LANE 19 audit):** valB_mini r0 is CLEAN — all three legs 109/109 under one
+protocol hash — and RUNG 2b's four 4 fs legs are 109 too. **So no validated result was corrupted by this, the
+wrong sign in RUNG 2 is real and not a map artifact, and the defect is specific to a lane that writes one pose
+twice.** The `⚠ DEGENERATE MAP` warning stays regardless: it is what made the residual 1 visible at all.
+
 ### This is the second time the endpoint verification earned its place
 
 It refused a leg that would otherwise have run to completion and returned a converged number. The guard was
