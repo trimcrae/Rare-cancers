@@ -79,6 +79,13 @@ jobs:
       # NOT a pass. The verdict logic is extracted from the real workflow and executed.
       - name: Leg-provenance verdict — absence is NOT agreement
         run: python3 research/modalities/tests/test_provenance_absence_is_not_agreement.py
+      # A relaunch that drops `restrain` is a SILENT STALL, not a wrong answer: the launcher's own prefix
+      # assertion refuses to provision, so there is no leg, no VM, and the watchdog still logs "RELAUNCHED".
+      # It only executes on the DIED branch, so no happy-path test touches it — and restrained vs unrestrained
+      # are identical in composition, so OpenFE's particle check provably cannot catch it either. The dispatch
+      # is extracted from the real script and run against a stubbed `gh` that records its argv.
+      - name: Watchdog relaunch reproduces the run it is rescuing (restrain + every keying param)
+        run: bash research/modalities/tests/test_watchdog_relaunch_passes_restrain.sh
       # Generalises that fix: in an UNQUOTED heredoc, a variable assigned inside it lives in the VM's shell,
       # so referencing it unescaped asks the RUNNER for a value it never had and silently yields "". The file
       # already warned about this trap in a comment (for STAGE_CACHE) and DIRSUF broke it anyway -- prose is
