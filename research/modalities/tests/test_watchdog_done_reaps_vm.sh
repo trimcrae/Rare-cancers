@@ -32,7 +32,12 @@ chk() { if [ "$2" = "$3" ]; then echo "PASS $1"; else echo "FAIL $1:"; echo "   
 python3 - "$WF" > "$TD/done.sh" <<'PY'
 import sys, textwrap
 t = open(sys.argv[1]).read()
-guard = 'if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json"'
+# The guard gained a ${RSTTAG:-} component on 2026-07-27: `restrain` keys the leg result file, because a
+# restrained leg is a different Hamiltonian and the UNRESTRAINED r0 binary result is already in the bucket —
+# without it the DONE check would declare a restrained leg finished that had never started. The `:-` form is
+# what lets this extraction keep working: the loop header that assigns RSTTAG is not part of the extracted
+# block, so a bare ${RSTTAG} would be unbound here.
+guard = 'if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}${RSTTAG:-}.json"'
 i = t.index(guard); i = t.rfind('\n', 0, i) + 1
 # anchor on the branch's OWN closing `continue` (exactly 6 spaces after a newline). Matching the bare
 # string would also match a deeper-indented `continue` inside the reap loop and silently truncate the

@@ -27,10 +27,28 @@
       "n_windows": "12",
       "template_pdb": "8G1Q",
       "provisioning": "standard",
+      "max_relaunches_per_day": 40,
+      "restrain": "0"
+    },
+    {
+      "enabled": true,
+      "note": "RESTRAINED binary re-run, shakeout step 2 of 3 (smoke -> ONE real leg -> the rest). WHY: this leg's ligand left its pocket in 8 of 12 replicas in BOTH the 2 fs and 4 fs cycles (audit L.3a-L.3d), so dG_binary was not a free energy of the intended bound state and ddG_coop was not a cooperativity. Do NOT extend the old trajectory -- it is CONTAMINATED, not under-converged. restrain=1 adds a flat-bottom, lambda-INDEPENDENT pocket restraint that cancels from dG(A->B), so there is NO standard-state correction (this is RBFE, not ABFE -- the ligand is never decoupled). It writes to its own _rst commit prefix and its own leg_..._r0_rst.json, so it can neither resume nor overwrite the unrestrained r0 result. ONLY the binary arm is re-run restrained; the ternary arm is measured clean and keeps its trajectories -- ruling and reasoning in ternary-lane-guard-audit-2026-07-25.md L.3f. provisioning=standard per the _gcp_cost_frame ruling that on-demand is the GCP default (no preemption, 72 h cap, so a fresh leg finishes without a VM boundary). use_preequil=0 -> SETUP_VER=v1, which is the only primed binary cache that exists (calib_hi_to_lo__binary_vhl_fwd_r0__nagl__v1) and matches what the original binary leg ran.",
+      "leg_id": "calib_hi_to_lo__binary_vhl",
+      "seed": "0",
+      "direction": "fwd",
+      "commit_salt": "",
+      "timestep_fs": "2.0",
+      "warmup_timestep_fs": "",
+      "use_preequil": "0",
+      "restrain": "1",
+      "charge_method": "nagl",
+      "n_windows": "12",
+      "template_pdb": "8G1Q",
+      "provisioning": "standard",
       "max_relaunches_per_day": 40
     }
   ],
-  "_required_run_params_note": "Every parameter the watchdog must REPRODUCE on a relaunch; `_required_run_params` below is the authoritative list. Two classes, both mandatory. (1) PREFIX-KEYING: the spot commit prefix is <seed>_dt<timestep_fs>fs_clig0_wu<warmup_timestep_fs>[_<commit_salt>][_dir<direction>], so omitting one makes the watchdog resume a DIFFERENT trajectory than the one it is watching. (2) NOT prefix-keying but SYSTEM-CHANGING: use_preequil selects whether the alchemy starts from the plain-MD-relaxed physical complex (SETUP_VER=v2pe) or the raw one (v1). CORRECTED 2026-07-25 -- an earlier version of this note claimed pre-equilibration 'only moves coordinates' so 'the particle counts are IDENTICAL' and OpenFE could not catch a v1/v2pe cross-restore. That was never measured and it is FALSE: the prime markers give v1 = 146,020 particles and v2pe = 141,968, because the pre-equilibrated complex is RE-SOLVATED, so assert_multistate_system_equality WOULD reject a cross-restore. Reproducing use_preequil is mandatory for a stronger reason: the setup-cache key carries the version (..._r0__nagl__v1 vs ..._r0__nagl__v2pe), so getting it wrong runs a DIFFERENT SYSTEM, not merely a bad resume. That is what happened: four rev attempts ran the 146,020-particle v1 system against a fwd leg built at 141,968, and all four died at warmup iteration 1. See sections J-J.5 of ternary-lane-guard-audit-2026-07-25.md.",
+  "_required_run_params_note": "Every parameter the watchdog must REPRODUCE on a relaunch; `_required_run_params` below is the authoritative list. Two classes, both mandatory. (1) PREFIX-KEYING: the spot commit prefix is <seed>_dt<timestep_fs>fs_clig0_wu<warmup_timestep_fs>[_<commit_salt>][_dir<direction>], so omitting one makes the watchdog resume a DIFFERENT trajectory than the one it is watching. (2) NOT prefix-keying but SYSTEM-CHANGING: use_preequil selects whether the alchemy starts from the plain-MD-relaxed physical complex (SETUP_VER=v2pe) or the raw one (v1). CORRECTED 2026-07-25 -- an earlier version of this note claimed pre-equilibration 'only moves coordinates' so 'the particle counts are IDENTICAL' and OpenFE could not catch a v1/v2pe cross-restore. That was never measured and it is FALSE: the prime markers give v1 = 146,020 particles and v2pe = 141,968, because the pre-equilibrated complex is RE-SOLVATED, so assert_multistate_system_equality WOULD reject a cross-restore. Reproducing use_preequil is mandatory for a stronger reason: the setup-cache key carries the version (..._r0__nagl__v1 vs ..._r0__nagl__v2pe), so getting it wrong runs a DIFFERENT SYSTEM, not merely a bad resume. That is what happened: four rev attempts ran the 146,020-particle v1 system against a fwd leg built at 141,968, and all four died at warmup iteration 1. See sections J-J.5 of ternary-lane-guard-audit-2026-07-25.md. ADDED 2026-07-27 -- `restrain`. It is BOTH classes at once, which is why it is mandatory rather than optional: it keys the spot commit prefix (`_rst`) AND the leg result file, and it selects a DIFFERENT HAMILTONIAN (a flat-bottom pocket restraint, ternary_restraint.py). A watchdog that did not carry it would fail twice over on a restrained leg -- the DONE check would `ls` the UNRESTRAINED result, which for the r0 binary arm is ALREADY IN THE BUCKET, and declare a leg finished that had not started; and a relaunch would dispatch restrain=0, quietly starting a different calculation at a different prefix while reporting it as the same leg. Every pre-existing entry was given the explicit default '0' in the same commit, which is what they have always run, so nothing changed behaviourally and no entry was left failing validation.",
   "_required_run_params": [
     "leg_id",
     "seed",
@@ -38,7 +56,8 @@
     "commit_salt",
     "timestep_fs",
     "warmup_timestep_fs",
-    "use_preequil"
+    "use_preequil",
+    "restrain"
   ],
   "_relaunch_cap_note": "max_relaunches_per_day was 8 and that is a HARD BLOCKER at the observed spot preemption rate. Measured 2026-07-25: two consecutive L4 spot VMs on this leg lasted ~30 min and <=62 min (mean ~45 min). Against 26.4 h of remaining MD that is ~35 VM lifetimes, so a cap of 8 would stop the watchdog relaunching on day one and the leg would sit dead with no GPU running and only a CAPPED annotation to show it. Raised to 40. RAISING IT IS SAFE ONLY BECAUSE the crash detector now separates the two cases: a leg that DIED (no VM, no post-mortem -- preemption) is relaunched and resumes from its last committed checkpoint, while a leg that CRASHED (post-mortem newer than its VM) is reaped and explicitly NOT relaunched. So a deterministic failure cannot spin the counter; only preemptions consume it, and each one resumes rather than restarts. Before the crash detector existed, a low cap was the only thing standing between a repeating crash and a runaway.",
   "_provisioning_note": "standard (= ON-DEMAND). **AUTHORIZED BY trimcrae 2026-07-25 ~5:30 PM ET**, which is the authorization gpu-ternary-fep-gcp.yml requires: 'Use standard ONLY when explicitly authorized for a time-sensitive one-off, e.g. confirming a single valB leg'. This is that one-off -- the leg gates the entire valB_mini rescope decision. It is a deliberate, recorded reversal of the standing DEFAULT EVERY GPU RUN TO SPOT rule, and it applies to THIS leg only; new work still defaults to spot. The decision (on-demand beats spot for this leg) is UNCHANGED by the corrections in _rate_appendix below -- a slower true per-iteration cost makes the leg longer, which makes preemption-free wall clock worth MORE, not less. TO REVERT: set this back to 'spot'; the switch takes effect on the next relaunch. NB pricing.md still forbids quoting the L4-on-demand figure as a go-forward COST BASIS for the program; spending stranded credit on one gating leg is a different question from pricing the ladder.",

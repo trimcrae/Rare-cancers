@@ -92,13 +92,31 @@ ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
 # "explicitly authorized for a time-sensitive one-off", so the VALUE is a human decision, but the PLUMBING
 # should not also require a code change. This was the third hardcoded value found in this dispatch after
 # DIRECTION and use_preequil.
-python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('use_preequil','0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('provisioning','spot'),w.get('max_relaunches_per_day',8))) for w in d['watch'] if w.get('enabled')]" \
-| while IFS='|' read -r LEG SEED DIR SALT DT WUDT UPE CHG NWIN TPL PROV MAXRL; do
-    TAG="$LEG dir=$DIR seed=$SEED"
+# `restrain` is read here for the same reason, and it is the FOURTH hardcoded value found in this dispatch.
+# It is not cosmetic: `restrain=1` adds a flat-bottom pocket restraint, which is a DIFFERENT HAMILTONIAN, and
+# it keys BOTH the spot commit prefix (`_rst`) and the leg result file. A watchdog that does not carry it
+# fails in two directions at once on a restrained leg:
+#   * the DONE check below would `ls` the UNRESTRAINED result -- which, for the r0 binary arm, is ALREADY IN
+#     THE BUCKET -- and declare a leg done that had not started, chaining converge+reduce off a stale file;
+#   * a relaunch would dispatch restrain=0, i.e. an UNRESTRAINED leg at an UNRESTRAINED prefix, so it would
+#     not resume the restrained trajectory it was supposed to rescue -- it would quietly start a different
+#     calculation and the watch entry would report it as the same leg.
+# Defaults to '0', so every existing entry behaves byte-identically.
+python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('use_preequil','0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('provisioning','spot'),w.get('max_relaunches_per_day',8),w.get('restrain','0'))) for w in d['watch'] if w.get('enabled')]" \
+| while IFS='|' read -r LEG SEED DIR SALT DT WUDT UPE CHG NWIN TPL PROV MAXRL RST; do
+    # Every downstream use is `${RST:-0}` / `${RSTTAG:-}`, NOT a bare `$RST`. Two of this file's branches
+    # are EXTRACTED and executed in isolation by tests (tests/test_watchdog_done_reaps_vm.sh runs the DONE
+    # branch under `set -u` against stubbed gcloud/gh), so the loop header that assigns these is not in
+    # scope there and a bare reference is an unbound-variable abort. It aborts inside a command
+    # substitution, which swallows it into an empty string -- so the symptom is a test reporting
+    # "got ''" rather than an error, and the shell dying outright on the first call made outside one.
+    # The defaults are also the correct values, so this is not merely defensive syntax.
+    RSTTAG=""; [ "$RST" = "1" ] && RSTTAG="_rst"
+    TAG="$LEG dir=$DIR seed=$SEED${RSTTAG:+ restrained}"
     echo "=============== $TAG ==============="
 
-    # 1. DONE? the leg's own direction-keyed result object is the only authority on completion.
-    if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" >/dev/null 2>&1; then
+    # 1. DONE? the leg's own direction- AND restraint-keyed result object is the only authority on completion.
+    if gcloud storage ls "$RESULTS/leg_${LEG}_${DIR}_r${SEED}${RSTTAG:-}.json" >/dev/null 2>&1; then
       # ===== FIRST: A DONE LEG MUST NOT LEAVE A VM HOLDING THE ONLY GPU =====
       #
       # MEASURED 2026-07-27, gcp-ternary-30215419909 (us-central1-a). The leg finished cleanly --
@@ -138,7 +156,11 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
       # definition a different run and is never touched. Anything unparseable fails SAFE (spare, and say so) —
       # the cost of sparing a zombie is one more watchdog pass, the cost of reaping a live leg is hours of MD.
       RESEP=0
-      _rj=$(gcloud storage ls -l "$RESULTS/leg_${LEG}_${DIR}_r${SEED}.json" 2>/dev/null | awk 'NF>=3 && $3 ~ /^gs:/ {print $2}' | head -1)
+      # ${RSTTAG} here too, and it is load-bearing: this timestamp is what decides whether a live VM PREDATES
+      # the result (idle zombie -> reap) or POSTDATES it (a newer leg -> spare). Reading the UNRESTRAINED
+      # result's write time while watching a RESTRAINED leg compares the running VM against a different
+      # calculation's clock, which is a coin toss dressed up as evidence.
+      _rj=$(gcloud storage ls -l "$RESULTS/leg_${LEG}_${DIR}_r${SEED}${RSTTAG:-}.json" 2>/dev/null | awk 'NF>=3 && $3 ~ /^gs:/ {print $2}' | head -1)
       if [ -n "${_rj:-}" ]; then
         _rs=$(date -u -d "$_rj" +%s 2>/dev/null | tr -dc '0-9'); [ -n "$_rs" ] && RESEP=$((10#$_rs))
       fi
@@ -187,7 +209,7 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
         elif gh workflow run gpu-ternary-fep-gcp.yml --ref "${WATCH_REF}" \
                -f mode=converge -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
                -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" \
-               -f use_preequil="$UPE" 2>&1; then
+               -f use_preequil="$UPE" -f restrain="${RST:-0}" 2>&1; then
           gcloud storage cp /tmp/marker.txt "$CVM" >/dev/null 2>&1 || echo "::warning::converge marker write failed — it may re-dispatch next pass"
           echo "::notice title=WATCHDOG DONE -> CONVERGE::$TAG — result JSON present; dispatched mode=converge (CPU, \$0) for the convergence diagnostics. mode=reduce follows on the next pass, once the report exists."
         else
@@ -365,7 +387,7 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
          -f mode=run -f leg_id="$LEG" -f seed="$SEED" -f direction="$DIR" \
          -f commit_salt="$SALT" -f timestep_fs="$DT" -f warmup_timestep_fs="$WUDT" \
          -f use_preequil="$UPE" -f charge_method="$CHG" \
-         -f n_windows="$NWIN" -f template_pdb="$TPL" \
+         -f n_windows="$NWIN" -f template_pdb="$TPL" -f restrain="${RST:-0}" \
          -f refuse_if_vm_live=1 -f provisioning="$PROV" 2>&1; then
       printf '%s' "$((CNT+1))" > /tmp/cnt.txt
       gcloud storage cp /tmp/cnt.txt "$CNTOBJ" >/dev/null 2>&1 \
