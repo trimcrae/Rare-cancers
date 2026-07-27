@@ -1264,7 +1264,7 @@ name-occurrence sweep cannot see a phantom key whose name is real somewhere else
 and comparing key sets can. That is what the test does, and it is why "run the claim as a search" (§L.5) needs
 the search to be run against the *producer*, not against the *text*.
 
-**End-to-end confirmation on the real data**, `mode=reduce` GH run 30292846577 after the fix:
+**End-to-end confirmation on the real data**, `mode=reduce` GH run **30293870930** (the constant-schema pass; run 30292846577 was the first post-fix pass and is the one whose `KEY ABSENT` output prompted the constant-schema change described above):
 
 ```
 valB_mini reduce — decision=INDETERMINATE | mean_ddG_coop=None | per_replicate_ddG_coop=[-0.534] |
