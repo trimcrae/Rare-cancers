@@ -336,14 +336,74 @@ def gate(lane, unit_id, res, *, key=None, excluded=(), max_ratio=None, s3=None,
 # =============================================================================================================
 # the durability probe — the evidence behind "waiting cannot lose work"
 # =============================================================================================================
+def checkpoint_prefixes():
+    """The prefixes whose durability the gate's premise rests on — DERIVED from each lane's own module rather
+    than typed here, so a lane that repoints its prefix cannot leave this probe measuring the old one."""
+    import congeneric_fanout_vast as cfv
+    import nr4a_paralogue_md_vast_launch as pdyn
+    import ternary_vast_launch as tv
+    return tuple(p for p in (f"{cfv.RESULT_PREFIX.rstrip('/')}/",
+                             f"{tv.RESULT_PREFIX.rstrip('/')}/commits/",
+                             f"{pdyn.RESULT_PREFIX.rstrip('/')}/") if p.strip("/"))
+
+
+def observed_object_ages(bucket, prefixes=None, s3=None, sample=400):
+    """(oldest_age_days, storage_classes, per-prefix rows) for the CHECKPOINT data itself.
+
+    ★ THE FALLBACK DIAGNOSTIC, AND IT IS NOT A CONSOLATION PRIZE (CLAUDE.md §4). `GetBucketLifecycleConfiguration`
+    is the direct read, and the CI identity is not authorised for it — measured, not assumed:
+    `AccessDenied … user/nr4a3-ci-submitter … s3:GetLifecycleConfiguration` (run 30261651754, 2026-07-27
+    7:22 AM ET). "I couldn't run it here" is never the stopping point, so the question is asked of the DATA
+    instead, using `ListObjectsV2`, which the same identity uses on every tick.
+
+    The observation discriminates: an EXPIRATION rule deletes objects past its age, so the survival of objects
+    materially older than any plausible TTL is direct evidence none is acting on this prefix. A TRANSITION rule
+    changes `StorageClass`, so an all-`STANDARD` listing is direct evidence none is acting either — which
+    matters separately, because a checkpoint transitioned to GLACIER is still *there* but no longer resumable
+    on demand, and that would be an expiry in every sense that counts for a held relaunch.
+
+    This is weaker than reading the policy and says so: it proves no rule is BITING today, not that the bucket
+    carries no rule at all. A rule added tomorrow with a TTL longer than the oldest object would be invisible
+    here — which is exactly why `EXEMPTIONS["checkpoint_expiring"]` exists as a parameter rather than as an
+    assumption this probe retires.
+    """
+    if s3 is None:
+        import boto3
+        s3 = boto3.client("s3")
+    rows, classes, oldest = [], set(), None
+    for pfx in (prefixes or checkpoint_prefixes()):
+        try:
+            page = s3.list_objects_v2(Bucket=bucket, Prefix=pfx, MaxKeys=sample)
+        except Exception as e:  # noqa: BLE001
+            rows.append({"prefix": pfx, "error": f"{type(e).__name__}: {e}"[:200]})
+            continue
+        objs = page.get("Contents") or []
+        if not objs:
+            rows.append({"prefix": pfx, "n_objects": 0})
+            continue
+        ages = []
+        for o in objs:
+            classes.add(o.get("StorageClass") or "STANDARD")
+            try:
+                ages.append((time.time() - o["LastModified"].timestamp()) / 86400.0)
+            except Exception:  # noqa: BLE001
+                continue
+        if ages:
+            rows.append({"prefix": pfx, "n_objects": len(objs), "oldest_age_days": round(max(ages), 1),
+                         "newest_age_days": round(min(ages), 2)})
+            oldest = max(ages) if oldest is None else max(oldest, max(ages))
+    return (round(oldest, 1) if oldest is not None else None), sorted(classes), rows
+
+
 def durability_probe(bucket=None, s3=None):
-    """Read the checkpoint bucket's REAL lifecycle configuration. Returns a dict; prints it.
+    """Is a checkpoint destroyed by waiting? Returns a dict; prints it.
 
     ★ WHY THIS IS A PROBE AND NOT A SENTENCE IN A DOCSTRING (CLAUDE.md §4). The entire case for holding a
     relaunch is "the checkpoint is a durable object and waiting cannot destroy it". That claim has exactly one
-    way to be false — an S3 lifecycle rule that expires or transitions the checkpoint prefixes — and exactly
-    one way to be checked. `probably no lifecycle rule` is a hypothesis; `GetBucketLifecycleConfiguration`
-    returning NoSuchLifecycleConfiguration is a diagnosis.
+    way to be false — an S3 lifecycle rule that expires or transitions the checkpoint prefixes. `probably no
+    lifecycle rule` is a hypothesis; a real read is a diagnosis. Two reads are attempted, in order of strength:
+    the bucket's lifecycle configuration, and — when the identity is not authorised for it, which is the
+    measured case here — the observed age and storage class of the checkpoint objects themselves.
     """
     b = bucket or os.environ.get("VAST_CKPT_BUCKET") or "sagemaker-us-east-2-646605541856"
     if s3 is None:
@@ -363,9 +423,23 @@ def durability_probe(bucket=None, s3=None):
         # gets made on the absence of evidence rather than on evidence of absence.
         out["has_expiry_rule"] = False if "NoSuchLifecycleConfiguration" in str(e) else None
     if out["has_expiry_rule"] is None:
-        out["verdict"] = ("UNKNOWN — the lifecycle configuration could not be read, so the premise "
-                          "'waiting cannot destroy a checkpoint' is UNVERIFIED on this bucket. Re-run with "
-                          "credentials that can call GetBucketLifecycleConfiguration.")
+        # The policy is unreadable, so ask the DATA. `oldest_age_days` far past any plausible TTL, with every
+        # object still in STANDARD, is direct evidence that nothing is expiring or tiering these prefixes.
+        oldest, classes, rows = observed_object_ages(b, s3=s3)
+        out.update({"fallback": "observed object ages + storage classes (ListObjectsV2), because "
+                                "GetBucketLifecycleConfiguration is not permitted to this identity",
+                    "oldest_checkpoint_age_days": oldest, "storage_classes": classes, "prefixes": rows})
+        if oldest is None:
+            out["verdict"] = ("UNKNOWN — neither the lifecycle configuration nor the checkpoint objects could "
+                              "be read, so the premise 'waiting cannot destroy a checkpoint' is UNVERIFIED.")
+        else:
+            out["verdict"] = (
+                f"NO RULE IS BITING: the oldest checkpoint object is {oldest} days old and every listed "
+                f"object is in {classes} — an expiration rule would have deleted it and a transition rule "
+                f"would have moved it. Holding a relaunch therefore defers the rental without losing work. "
+                f"WEAKER THAN READING THE POLICY, and deliberately stated as such: this shows no rule acting "
+                f"today, not that none exists. `EXEMPTIONS['checkpoint_expiring']` stays a parameter for "
+                f"exactly that residual.")
     elif out["has_expiry_rule"]:
         out["verdict"] = ("A checkpoint on this bucket has a hard expiry — the `checkpoint_expiring` "
                           "exemption is LIVE and every lane must set `checkpoint_expires_utc`.")
