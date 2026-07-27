@@ -138,6 +138,7 @@ jobs:
           for f in research/modalities/step1-fanout-progress.json \
                    research/modalities/step1-fanout-map.json \
                    research/modalities/step1-fanout-launch-readout.txt \
+                   research/modalities/step1-fanout-market-hold.json \
                    research/modalities/vast-watch.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
           done

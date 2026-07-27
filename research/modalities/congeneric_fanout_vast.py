@@ -41,9 +41,12 @@ unit whose ddg.json is already in S3, so a re-dispatch after a preemption resume
 """
 from __future__ import annotations
 
+import calendar
+import dataclasses
 import json
 import os
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -51,6 +54,10 @@ from congeneric_fanout import (  # noqa: E402
     PRIMARY_FRAME, PRIMARY_RECEPTOR, checkpoint_prefix, cost_estimate, cost_plan, cycle_closure,
     default_units, plan, rank_by_ddg, result_key, unit_env, wave_plan,
 )
+# The market guard's arithmetic is PURE and lives in the core module with the rest of the cost block, so it
+# is unit-tested without a Vast key and cannot drift from the ladder figures it is derived from.
+from congeneric_fanout import (  # noqa: E402
+    basis_usd_per_ns as market_basis, market_verdict as cost_verdict)
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
@@ -61,6 +68,7 @@ LABEL_PREFIX = "s1f-"
 # Set True by `market_hold()` once it has actually taken a snapshot and decided. The interim belt in
 # `mode_launch` refuses any multi-unit launch that reaches it with this still False.
 _MARKET_GUARD_RAN = False
+_MARKET_HOLD_ESCALATED = False
 WIDTH = int(os.environ.get("FANOUT_WIDTH", "8"))
 N_WINDOWS = int(os.environ.get("N_WINDOWS", "12"))
 
@@ -604,7 +612,149 @@ def _write_launch_readout():
         print(f"[s1f] could not write the launch readout: {e}")
 
 
+_MARKET_HOLD_KEY_SUFFIX = "_market_hold.json"
+# How long a hold may persist before it stops being a routine pause and becomes trimcrae's decision.
+# ★ ELAPSED TIME, NOT A TICK COUNT, and that is deliberate: this repo's crons are throttled to roughly one
+# run per workflow per hour whatever they ask for (measured 56-97 min for a */15), so "3 ticks" is not a
+# knowable duration and a tick-based escalation would fire anywhere between 30 min and 5 hours.
+MARKET_HOLD_ESCALATE_H = float(os.environ.get("FANOUT_MARKET_ESCALATE_H", "6"))
+
+
+def market_snapshot(key, n_units, excluded=()):
+    """(best_usd_per_ns, depth, rows) for a fleet of `n_units` from a LIVE Vast board read.
+
+    `best_usd_per_ns` is the MEAN over the `n_units` cheapest qualifying offers, not the single best one —
+    a fleet of 19 buys the 19 best offers, and pricing it off the one cheapest host would flatter a thin
+    board exactly when the board being thin is the thing we are trying to detect. If fewer than `n_units`
+    qualify, the mean is over what exists and `depth` records the shortfall, because a board that cannot
+    fill the fleet is decision-relevant on its own even when its prices look fine.
+
+    Ranking is delegated to `gpu_backend.rank_offers_by_usd_per_ns`, which is the same filter+score the
+    renting path uses, so the guard cannot price a fleet the launcher would not actually buy."""
+    from gpu_backend import _vast_offer_query, rank_offers_by_usd_per_ns
+    res = FANOUT_RES
+    if excluded:
+        res = dataclasses.replace(res, exclude_machine_ids=tuple(str(m) for m in excluded))
+    offers = _vast_request("GET", "/search/asks/", key,
+                           params={"q": json.dumps(_vast_offer_query(res))}).get("offers", [])
+    measured, capable = rank_offers_by_usd_per_ns(offers, res)
+    take = measured[:max(1, int(n_units))]
+    rows = [{"gpu": o.get("gpu_name"), "machine_id": o.get("machine_id"),
+             "min_bid": p, "usd_per_ns": round(upn, 6)} for upn, p, o in take]
+    depth = {"offers_returned": len(offers), "qualifying": len(capable), "priceable": len(measured),
+             "needed": int(n_units), "used_for_mean": len(take)}
+    best = (sum(r["usd_per_ns"] for r in rows) / len(rows)) if rows else None
+    return best, depth, rows
+
+
+def market_hold(n_units, n_pending, bucket, s3, key, excluded=()):
+    """Decide whether a fleet launch may proceed. Returns True to HOLD.
+
+    ⛔ CLAUDE.md §6: *"A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY."* trimcrae, 2026-07-26:
+    *"I'd rather pause until availability opens than pay double per ns."*
+
+    The exposure this exists for is not a single host — it is the 18-edge release, which fires AUTOMATICALLY
+    on the shakeout unit's ddg.json. On the night the rule was written the board had thinned to 5 offers from
+    a ~23 baseline at a $0.333/hr median floor, which prices this tranche at ~$87 against the $15-80 that was
+    authorised. An automatic release into that market would have spent past its own authorisation with nobody
+    choosing to.
+
+    TWO FAILURE MODES THE RULE NAMES, both worse than the problem, and how each is answered here:
+      * **A silent hold is indistinguishable from a finished fleet.** So every hold is written to the launch
+        readout AND to `<results>/_market_hold.json` AND to a committed `step1-fanout-market-hold.json`, each
+        carrying the snapshot that caused it. A reader at 3 AM gets the projected cost, the ceiling, the
+        board depth and the offers that were priced — not "nothing to submit".
+      * **A ceiling nobody can clear turns into an idle night.** The first hold records `first_held_utc`; once
+        the hold has persisted past `MARKET_HOLD_ESCALATE_H` the readout stops being a notice and becomes a
+        hard `::error::` that FAILS the job, which fires GitHub's own workflow-failure notification — the
+        same session-independent alert path the watchdogs already rely on, so it reaches trimcrae with no
+        agent awake. The guard never buys in on its own; the escalation hands him the decision.
+
+    The gate is evaluated on the REMAINING TRANCHE, not on this tick's batch, because the authorisation is a
+    tranche-level band and a per-batch test would wave through nineteen expensive units one at a time.
+    """
+    global _MARKET_GUARD_RAN
+    hkey = f"{RESULT_PREFIX}/{_MARKET_HOLD_KEY_SUFFIX.lstrip('_')}"
+    prev = _get_json(s3, bucket, hkey) or {}
+    try:
+        best, depth, rows = market_snapshot(key, n_pending, excluded)
+    except Exception as e:  # noqa: BLE001
+        # A board we could not READ is not a board we may assume is cheap. Same discipline as the watchdog's
+        # "unreadable is not zero": refuse, and say the refusal was for lack of evidence.
+        _MARKET_GUARD_RAN = True
+        _lprint(f"[s1f] ⛔ MARKET GUARD COULD NOT READ THE BOARD ({type(e).__name__}: {e}) — HOLDING. An "
+                f"unreadable market is not a cheap one, and this gate exists precisely for the case where "
+                f"nobody is awake to check.")
+        return True
+
+    ok, projected, ceiling, ratio = cost_verdict(best, n_pending)
+    _MARKET_GUARD_RAN = True
+    basis = market_basis()
+    head = (f"[s1f] MARKET GUARD ($/ns, CLAUDE.md §6): board {depth['offers_returned']} offers -> "
+            f"{depth['qualifying']} qualifying, {depth['priceable']} priceable; mean $/ns over the "
+            f"{depth['used_for_mean']} cheapest = "
+            + (f"${best:.6f}" if best is not None else "UNPRICEABLE")
+            + f" against a rung basis of ${basis:.6f}"
+            + (f" ({ratio}x)" if ratio is not None else "")
+            + f". Projected for the {n_pending} remaining unit(s): "
+            + (f"${projected}" if projected is not None else "n/a")
+            + f" against a ceiling of ${ceiling} (the TOP of this rung's own authorised band, derived from "
+              f"cost_estimate — not a number typed here).")
+    _lprint(head)
+
+    doc = {"_what": "Why the step 1 fan-out did or did not launch, priced in $/ns. Written on EVERY guard "
+                    "pass, because a silent hold is indistinguishable from a finished fleet.",
+           "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay.",
+           "utc": _utcnow(), "held": (not ok), "n_pending": n_pending,
+           "mean_usd_per_ns_over_fleet": (round(best, 6) if best is not None else None),
+           "basis_usd_per_ns": round(basis, 6), "ratio_vs_basis": ratio,
+           "projected_usd": projected, "ceiling_usd": ceiling,
+           "board_depth": depth, "offers_priced": rows,
+           "first_held_utc": (prev.get("first_held_utc") if (not ok and prev.get("held")) else
+                              (_utcnow() if not ok else None))}
+
+    held_h = 0.0
+    if doc["first_held_utc"]:
+        try:
+            t0 = calendar.timegm(time.strptime(doc["first_held_utc"], "%Y-%m-%dT%H:%M:%SZ"))
+            held_h = max(0.0, (time.time() - t0) / 3600.0)
+        except (ValueError, TypeError):
+            held_h = 0.0
+    doc["held_hours"] = round(held_h, 2)
+
+    try:
+        s3.put_object(Bucket=bucket, Key=hkey, Body=json.dumps(doc, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        _lprint(f"[s1f] market-hold state not persisted: {e}")
+    try:
+        with open("step1-fanout-market-hold.json", "w") as fh:
+            json.dump(doc, fh, indent=2)
+    except Exception as e:  # noqa: BLE001
+        _lprint(f"[s1f] market-hold readout not written: {e}")
+
+    if ok:
+        _lprint(f"[s1f] MARKET GUARD PASSED — the fleet is buyable inside the authorised band. Launching.")
+        return False
+
+    _lprint(f"[s1f] ⛔ FLEET LAUNCH HELD ON PRICE. Nothing was rented and no unit was silently dropped; the "
+            f"next scheduled tick re-checks. Offers priced this pass: {json.dumps(rows)}")
+    if held_h >= MARKET_HOLD_ESCALATE_H:
+        # The escalation. Not a decision the guard is allowed to make for him — a notification that one is
+        # now needed. `::error::` also fails the job, which is what actually reaches a phone.
+        print(f"::error title=STEP1 FAN-OUT HELD {held_h:.1f} H ON A BAD MARKET::The $/ns guard has refused "
+              f"the 18-edge release for {held_h:.1f} h (since {doc['first_held_utc']}). Best achievable is "
+              f"{ratio}x the rung basis, projecting ${projected} against a ${ceiling} ceiling. The guard will "
+              f"NOT buy in on its own — this needs a decision: wait longer, re-price the ladder against a "
+              f"changed market, or authorise the higher spend. Snapshot: step1-fanout-market-hold.json.",
+              flush=True)
+        _lprint(f"[s1f] ESCALATED — held {held_h:.1f} h (> {MARKET_HOLD_ESCALATE_H:.0f} h). This is now "
+                f"trimcrae's call, not the guard's; the job fails so GitHub notifies.")
+        globals()["_MARKET_HOLD_ESCALATED"] = True
+    return True
+
+
 def mode_launch():
+    global _MARKET_GUARD_RAN
     bucket, s3 = _require_bucket(), _s3()
     key = os.environ.get("VAST_API_KEY")
     if not key:
@@ -707,18 +857,32 @@ def mode_launch():
         _lprint("[s1f] nothing to submit (fleet already at width, or all units done)")
         _write_launch_readout()
         return
-    # ⛔ INTERIM MARKET HOLD (LANE 21, 2026-07-27 ~2:05 AM UTC / 10:05 PM ET) — the cheapest thing that
-    # cannot fire into tonight's market, landed BEFORE the derived guard below it was written, because the
-    # shakeout unit is already at complex/production@40 and the 18-edge release is AUTOMATIC on its ddg.json.
-    # Superseded in the same session by `market_hold()`; kept as the outer belt because a multi-unit launch
-    # that reaches this line without having consulted the market is, by CLAUDE.md's new Vast rule, a bug.
+    # ⛔ THE $/ns MARKET GUARD (CLAUDE.md §6). A FLEET launch — never a single unit — must clear it.
+    #
+    # Placed here, AFTER the batch is known and BEFORE `FANOUT_CONFIRM`, for two reasons. It needs the batch
+    # size to know what it is pricing; and putting it before the confirm check means a DRY run exercises the
+    # guard and prints its snapshot without renting anything, so the readout can be inspected on demand.
+    #
+    # `len(batch) > 1` is the fan-out test, and it is what keeps the rule's last line true: a single unit
+    # already running (or resuming) is unaffected. The shakeout unit's own resume passes straight through.
+    _excluded_for_guard, _ = _load_excluded(s3, bucket)
     if len(batch) > 1 and os.environ.get("FANOUT_MARKET_OVERRIDE") != "1":
-        if not _MARKET_GUARD_RAN:
-            _lprint(f"[s1f] ⛔ FLEET LAUNCH HELD ({len(batch)} units) — the $/ns market guard did not run, "
-                    f"and CLAUDE.md requires every multi-unit fan-out to clear one. Set "
-                    f"FANOUT_MARKET_OVERRIDE=1 to launch anyway (a deliberate, recorded choice).")
+        if market_hold(len(batch), len(pending), bucket, s3, key, _excluded_for_guard):
             _write_launch_readout()
             return
+    elif len(batch) > 1:
+        _lprint("[s1f] ⚠ FANOUT_MARKET_OVERRIDE=1 — the $/ns guard is BYPASSED for this launch. That is a "
+                "deliberate, recorded choice to spend outside the rung's authorised band.")
+        _MARKET_GUARD_RAN = True
+
+    # BELT, not braces. If a future edit ever routes a multi-unit batch past the block above, this refuses
+    # rather than renting: by CLAUDE.md §6 a fan-out that has not consulted the market is a bug, and the safe
+    # failure is to hold.
+    if len(batch) > 1 and not _MARKET_GUARD_RAN:
+        _lprint(f"[s1f] ⛔ FLEET LAUNCH HELD ({len(batch)} units) — the $/ns market guard did not run. "
+                f"Refusing to rent a fleet that was never priced.")
+        _write_launch_readout()
+        return
 
     if os.environ.get("FANOUT_CONFIRM") != "1":
         _lprint("[s1f] DRY — set FANOUT_CONFIRM=1 to actually rent instances")
@@ -1294,7 +1458,14 @@ _MODES = [("PLAN", mode_plan), ("STAGE", mode_stage), ("PRECHECK", mode_precheck
 def main():
     for flag, fn in _MODES:
         if os.environ.get(flag) == "1":
-            return fn()
+            rc = fn()
+            # A HELD-TOO-LONG fan-out exits NON-ZERO on purpose. `::error::` alone is an annotation nobody
+            # opens; a failed job is what fires GitHub's own workflow-failure notification, which is the
+            # alert path that does not depend on an agent or a session. Only the ESCALATED hold does this —
+            # a routine hold is a normal, expected outcome and stays green.
+            if _MARKET_HOLD_ESCALATED:
+                raise SystemExit(2)
+            return rc
     return mode_plan()
 
 

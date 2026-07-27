@@ -390,11 +390,16 @@ def offer_usd_per_ns(gpu_name, usd_per_hour):
     return p / (ns / 24.0)
 
 
-def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
-    """PURE: cheapest single-GPU, rentable offer meeting the VRAM (and optional price) constraint, preferring the
-    requested GPU model (client-side substring) but FALLING BACK to any capable card if that model isn't offered.
-    Ranked by the price we'd actually PAY: the interruptible bid floor (min_bid) when res.interruptible, else the
-    on-demand total. Returns the chosen offer dict, or None if nothing qualifies."""
+def rank_offers_by_usd_per_ns(offers, res: ResourceSpec, max_hourly_usd=None):
+    """PURE: (measured, capable) where `measured` is every qualifying offer SORTED by expected $/ns.
+
+    Extracted from `_select_cheapest_offer` — which now calls it — so that "which offers qualify and what do
+    they cost per ns" has exactly ONE implementation. The market guard needs the whole ranked list (a fleet
+    of N units buys the N best offers, not the single best one N times), and a second copy of this filter
+    would be free to disagree with the one that actually rents.
+
+    `measured` is [(usd_per_ns, price, offer)] ascending; `capable` is [(price, offer)] for everything that
+    passed the hard filters, including cards that were never benched and therefore have no $/ns."""
     capable = []
     for o in offers:
         try:
@@ -432,7 +437,7 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
             continue
         capable.append((price, o))
     if not capable:
-        return None
+        return [], []
     # RANK BY $/ns, NOT $/hr — and on the price we will actually be BILLED, storage included.
     #
     # Measured on the live board (2026-07-25, 148 qualifying offers): the spread from the best offer to the
@@ -451,9 +456,21 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
     # would actually be charged rather than letting it derive a bid that nobody would pay.
     scored = [(_vcm.score_offer(o, job, billed_usd_h=(None if res.interruptible else p)), p, o)
               for p, o in capable]
-    measured = [(s.usd_per_ns, p, o) for s, p, o in scored if s is not None]
+    measured = sorted(((s.usd_per_ns, p, o) for s, p, o in scored if s is not None),
+                      key=lambda t: (t[0], t[1]))
+    return measured, capable
+
+
+def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
+    """PURE: cheapest single-GPU, rentable offer meeting the VRAM (and optional price) constraint, preferring the
+    requested GPU model (client-side substring) but FALLING BACK to any capable card if that model isn't offered.
+    Ranked by the price we'd actually PAY: the interruptible bid floor (min_bid) when res.interruptible, else the
+    on-demand total. Returns the chosen offer dict, or None if nothing qualifies."""
+    measured, capable = rank_offers_by_usd_per_ns(offers, res, max_hourly_usd)
+    if not capable:
+        return None
     if measured:
-        return min(measured, key=lambda t: (t[0], t[1]))[2]
+        return measured[0][2]
     substr = _VAST_GPU_SUBSTR.get(res.gpu)                        # nothing benched -> prefer the requested model
     if substr:
         preferred = [(p, o) for p, o in capable
