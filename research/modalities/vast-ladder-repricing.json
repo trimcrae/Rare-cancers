@@ -1,23 +1,25 @@
 {
  "market": {
-  "n_offers": 148,
-  "best_usd_per_ns": 0.001811,
-  "best10_mean_usd_per_ns": 0.004359,
-  "median_usd_per_ns": 0.009829,
-  "best_usd_per_reference_gpu_h": 0.057,
-  "best10_mean_usd_per_reference_gpu_h": 0.1372,
-  "median_usd_per_reference_gpu_h": 0.3094,
-  "spread_best_to_median": 5.43,
+  "n_offers": 229,
+  "best_usd_per_ns": 0.001412,
+  "best10_mean_usd_per_ns": 0.003412,
+  "median_usd_per_ns": 0.0086,
+  "best_usd_per_reference_gpu_h": 0.0473,
+  "best10_mean_usd_per_reference_gpu_h": 0.1143,
+  "median_usd_per_reference_gpu_h": 0.2881,
+  "spread_best_to_median": 6.09,
   "cards_in_top10": [
    "RTX3090",
-   "RTX4090"
+   "RTX4090",
+   "RTX5090",
+   "RTXPRO4000"
   ],
   "hazard_is_prior": true
  },
- "plan_usd_per_reference_gpu_h": 0.1372,
+ "plan_usd_per_reference_gpu_h": 0.1143,
  "range_usd_per_reference_gpu_h": [
-  0.057,
-  0.3094
+  0.0473,
+  0.2881
  ],
  "ladder": {
   "step1_pilot (1-2 RBFE edges)": {
@@ -25,10 +27,10 @@
     13.7,
     27.4
    ],
-   "plan_usd": 2.8194599999999994,
+   "plan_usd": 2.3488649999999995,
    "range_usd": [
-    0.7809,
-    8.47756
+    0.64801,
+    7.893940000000001
    ]
   },
   "step1_fanout (19 RBFE edges @ ~13.7 GPU-h)": {
@@ -36,10 +38,10 @@
     260.0,
     260.0
    ],
-   "plan_usd": 35.672,
+   "plan_usd": 29.718,
    "range_usd": [
-    14.82,
-    80.444
+    12.298,
+    74.906
    ]
   },
   "valB_mini (1 ternary edge, 3 replicas)": {
@@ -47,10 +49,10 @@
     65.3,
     84.0
    ],
-   "plan_usd": 10.24198,
+   "plan_usd": 8.532495,
    "range_usd": [
-    3.7221,
-    25.9896
+    3.08869,
+    24.200400000000002
    ]
   },
   "valB_full (2-3 ternary edges + CRL-MD)": {
@@ -58,10 +60,10 @@
     130.7,
     252.0
    ],
-   "plan_usd": 26.253219999999995,
+   "plan_usd": 21.871305,
    "range_usd": [
-    7.4498999999999995,
-    77.9688
+    6.18211,
+    72.6012
    ]
   },
   "nrv04_retrospective (3 ternary legs + shared binary/solvent)": {
@@ -69,10 +71,10 @@
     98.0,
     252.0
    ],
-   "plan_usd": 24.009999999999998,
+   "plan_usd": 20.0025,
    "range_usd": [
-    5.586,
-    77.9688
+    4.6354,
+    72.6012
    ]
   },
   "ternary_4fs_recalibration (1 matched edge)": {
@@ -80,10 +82,10 @@
     42.0,
     54.0
    ],
-   "plan_usd": 6.5855999999999995,
+   "plan_usd": 5.4864,
    "range_usd": [
-    2.394,
-    16.7076
+    1.9866000000000001,
+    15.557400000000001
    ]
   },
   "5a-KS primary (ligand-side double difference)": {
@@ -91,10 +93,10 @@
     32.7,
     168.0
    ],
-   "plan_usd": 13.768019999999998,
+   "plan_usd": 11.470004999999999,
    "range_usd": [
-    1.8639000000000003,
-    51.9792
+    1.5467100000000003,
+    48.400800000000004
    ]
   },
   "5c ensemble refinement (24-200 endpoint-MD legs)": {
@@ -102,10 +104,10 @@
     33.12,
     276.0
    ],
-   "plan_usd": 21.205631999999998,
+   "plan_usd": 17.666208,
    "range_usd": [
-    1.88784,
-    85.3944
+    1.566576,
+    79.5156
    ]
   },
   "local within-basin FEP (3-6 ternary comparisons)": {
@@ -113,16 +115,16 @@
     65.3,
     303.3
    ],
-   "plan_usd": 25.28596,
+   "plan_usd": 21.06549,
    "range_usd": [
-    3.7221,
-    93.84102
+    3.08869,
+    87.38073000000001
    ]
   }
  },
- "total_plan_usd": 165.84187199999997,
+ "total_plan_usd": 138.161268,
  "total_range_usd": [
-  42.22673999999999,
-  518.77098
+  35.040786000000004,
+  483.05727
  ]
 }
