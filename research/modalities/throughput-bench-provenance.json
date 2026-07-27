@@ -190,6 +190,25 @@
       "platform": "CUDA",
       "utc": "2026-07-27T13:52:29Z",
       "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
+    },
+    {
+      "card": "RTX5090",
+      "gpu_name_as_offered": "RTX 5090",
+      "cuda_device": "NVIDIA GeForce RTX 5090",
+      "blocks_ns_per_day": [
+        1071.98,
+        1070.04,
+        1069.31
+      ],
+      "cv": 0.0013,
+      "final_temp_k": 301.0,
+      "atoms": 84534,
+      "dt_fs": 4.0,
+      "blocks": 3,
+      "wall_s": 31.6,
+      "platform": "CUDA",
+      "utc": "2026-07-27T14:16:27Z",
+      "source": "vast_bench_sweep.py calibration rental (Vast interruptible)"
     }
   ],
   "reconciliation_2026_07_27_the_rtx4090_anchor": {
@@ -375,6 +394,40 @@
       "final_temp_k": 300.8,
       "wall_s": 63.5,
       "utc": "2026-07-27T13:59:43Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "A100PCIE",
+      "tag": "a100pcie",
+      "ns_per_day": 523.82,
+      "blocks_ns_per_day": [
+        523.76,
+        523.76,
+        523.93
+      ],
+      "cv": 0.0002,
+      "cuda_device": "NVIDIA A100 80GB PCIe",
+      "gpu_name_as_offered": "A100 PCIE",
+      "final_temp_k": 300.2,
+      "wall_s": 60.5,
+      "utc": "2026-07-27T13:54:04Z",
+      "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
+    },
+    {
+      "card": "RTXPRO4000",
+      "tag": "rtxpro4000",
+      "ns_per_day": 482.34,
+      "blocks_ns_per_day": [
+        478.99,
+        484.89,
+        483.15
+      ],
+      "cv": 0.0063,
+      "cuda_device": "NVIDIA RTX PRO 4000 Blackwell",
+      "gpu_name_as_offered": "RTX PRO 4000",
+      "final_temp_k": 301.8,
+      "wall_s": 59.4,
+      "utc": "2026-07-27T13:52:29Z",
       "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host spread, NOT an input to the table entry."
     }
   ]
