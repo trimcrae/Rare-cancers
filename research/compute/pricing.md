@@ -574,6 +574,21 @@ that are flagged but you're still paying for them?"*). If the buy line moved to 
 one derived value, and [`tests/test_buy_line_invariant.py`](../modalities/tests/test_buy_line_invariant.py)
 sweeps the rate axis across the line and fails if the flag and the refusal ever disagree at any point.
 
+**The effect, on the board of 2026-07-27 (339 offers, 18 viable fan-out units).** This is the number that
+shows the re-expression preserved trimcrae's intent rather than changing it:
+
+| ceiling used | units placeable | fleet mean `$/ns` of the placed units |
+|---|---|---|
+| **re-expressed line** (`$0.006539/ns` = the approved rate) | **18 / 18** | 0.004560 |
+| if `1.5×` had been left typed against the new basis | 9 / 18 | 0.003810 |
+
+Leaving the multiple typed would have halved the tranche the same authorisation was meant to buy. **valB's
+4-leg replicate pair clears both ceilings** — best board rate `$0.002012/ns` (0.59× basis) against the 1.92×
+rate line, and a projected `$4.31` against the rung's `$20.74` dollar ceiling.
+
+*(18, not 19: `cw_bio_nmethyl_amide` — a methyl ester → N-methyl amide O→N substitution — is permanently
+BLOCKED because no available mapper maps it above the 20-atom provable floor.)*
+
 **Where the invariant lives:** [`inflight_usd_per_ns.APPROVED_USD_PER_NS`](../modalities/inflight_usd_per_ns.py)
 (the absolute rate, derived from the two constants that defined it at the moment of the ruling) and
 `drift_multiple()` (the multiple, derived against the current basis). `congeneric_fanout`,
