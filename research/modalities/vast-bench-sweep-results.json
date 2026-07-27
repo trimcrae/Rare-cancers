@@ -1,5 +1,5 @@
 {
-  "utc": "2026-07-27T14:17:54Z",
+  "utc": "2026-07-27T14:29:22Z",
   "n_records": 18,
   "admitted": {
     "A100PCIE": 523.82,
@@ -8,7 +8,7 @@
     "RTX4090": 808.96,
     "RTX5060TI": 387.78,
     "RTX5080": 793.79,
-    "RTX5090": 1070.44,
+    "RTX5090": 1067.8,
     "RTXA4000": 242.2,
     "RTXPRO4000": 482.34
   },
@@ -812,33 +812,33 @@
       "atoms": 84534,
       "platform": "CUDA",
       "device": "NVIDIA GeForce RTX 5090",
-      "steps": 98010,
+      "steps": 187602,
       "dt_fs": 4.0,
-      "wall_s": 31.6,
-      "ns_per_day": 1070.44,
-      "sd": 1.38,
-      "cv": 0.0013,
+      "wall_s": 60.7,
+      "ns_per_day": 1067.8,
+      "sd": 1.22,
+      "cv": 0.0011,
       "blocks": 3,
       "blocks_ns_day": [
-        1071.98,
-        1070.04,
-        1069.31
+        1068.94,
+        1067.94,
+        1066.51
       ],
-      "attempt": "2",
-      "minimize_iters": "2000",
-      "final_temp_k": 301.0,
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 299.5,
       "healthy": true,
-      "_raw": "BENCH_RESULT tag=rtx5090 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5090 steps=98010 dt_fs=4.0 wall_s=31.6 ns_per_day=1070.44 sd=1.38 cv=0.0013 blocks=3 blocks_ns_day=1071.98,1070.04,1069.31 attempt=2 minimize_iters=2000 final_temp_k=301.0 healthy=True",
+      "_raw": "BENCH_RESULT tag=rtx5090 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_5090 steps=187602 dt_fs=4.0 wall_s=60.7 ns_per_day=1067.80 sd=1.22 cv=0.0011 blocks=3 blocks_ns_day=1068.94,1067.94,1066.51 attempt=1 minimize_iters=200 final_temp_k=299.5 healthy=True",
       "gpu_requested": "RTX 5090",
       "offer_gpu_name": "RTX 5090",
       "edge_nm": "9.5",
       "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
-      "utc": "2026-07-27T14:16:27Z",
+      "utc": "2026-07-27T14:18:02Z",
       "admitted": true,
       "admission_reasons": [],
       "proposed_entry": {
         "card": "RTX5090",
-        "ns_per_day": 1070.44
+        "ns_per_day": 1067.8
       }
     },
     {
