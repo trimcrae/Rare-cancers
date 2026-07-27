@@ -1,10 +1,10 @@
 {
-  "utc": "2026-07-27T15:12:29Z",
-  "n_records": 40,
+  "utc": "2026-07-27T15:27:59Z",
+  "n_records": 43,
   "admitted": {
-    "A100PCIE": 523.82,
+    "A100PCIE": 524.43,
     "RTX3090": 460.91,
-    "RTX3090TI": 481.87,
+    "RTX3090TI": 481.96,
     "RTX4080": 693.35,
     "RTX4090": 804.06,
     "RTX5060TI": 389.16,
@@ -14,6 +14,12 @@
     "RTXPRO4000": 471.63
   },
   "refused": [
+    {
+      "card": "A100 PCIE",
+      "reasons": [
+        "card identity disagrees across {'device': 'NVIDIAA100PCIE40GB', 'offer_gpu_name': 'A100PCIE', 'gpu_requested': 'A100PCIE'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
+      ]
+    },
     {
       "card": "A100 PCIE",
       "reasons": [
@@ -95,7 +101,7 @@
       ]
     }
   ],
-  "realised_usd": 1.7407,
+  "realised_usd": 3.4911,
   "instances": [
     {
       "instance": 46008409,
@@ -107,6 +113,18 @@
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "inet_down": 9200.6,
       "gpu_util": 0.0,
+      "machine_id": 56760
+    },
+    {
+      "instance": 46013005,
+      "label": "cal-a100pcie-w2",
+      "hours": 0.496,
+      "dph": 0.2151111111111111,
+      "usd": 0.1067,
+      "status": "loading",
+      "status_msg": null,
+      "inet_down": 9200.6,
+      "gpu_util": null,
       "machine_id": 56760
     },
     {
@@ -206,6 +224,30 @@
       "machine_id": 141336
     },
     {
+      "instance": 46012231,
+      "label": "cal-rtx3090ti-w2",
+      "hours": 0.6936,
+      "dph": 0.1743111111111111,
+      "usd": 0.1209,
+      "status": "exited",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 742.1,
+      "gpu_util": 0.0,
+      "machine_id": 145221
+    },
+    {
+      "instance": 46012294,
+      "label": "cal-rtx3090ti-w2-r2",
+      "hours": 0.6784,
+      "dph": 0.26823703703703705,
+      "usd": 0.182,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 787.5,
+      "gpu_util": 0.0,
+      "machine_id": 141336
+    },
+    {
       "instance": 46008126,
       "label": "cal-rtx4070sti",
       "hours": 0.3019,
@@ -228,6 +270,30 @@
       "inet_down": 1576.5,
       "gpu_util": 0.0,
       "machine_id": 142662
+    },
+    {
+      "instance": 46012904,
+      "label": "cal-rtx4080-w2",
+      "hours": 0.5287,
+      "dph": 0.2151111111111111,
+      "usd": 0.1137,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 524.7,
+      "gpu_util": 0.0,
+      "machine_id": 35189
+    },
+    {
+      "instance": 46012963,
+      "label": "cal-rtx4080-w2-r2",
+      "hours": 0.5124,
+      "dph": 0.26951111111111115,
+      "usd": 0.1381,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 913.3,
+      "gpu_util": 0.0,
+      "machine_id": 115926
     },
     {
       "instance": 46006128,
@@ -312,6 +378,42 @@
       "inet_down": 16456.7,
       "gpu_util": 94.999908,
       "machine_id": 117843
+    },
+    {
+      "instance": 46012699,
+      "label": "cal-rtx4090-w2",
+      "hours": 0.5781,
+      "dph": 0.21262222222222224,
+      "usd": 0.1229,
+      "status": "exited",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 10401.0,
+      "gpu_util": 0.0,
+      "machine_id": 117850
+    },
+    {
+      "instance": 46012768,
+      "label": "cal-rtx4090-w2-r2",
+      "hours": 0.5614,
+      "dph": 0.22002962962962963,
+      "usd": 0.1235,
+      "status": "exited",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 20155.6,
+      "gpu_util": 0.0,
+      "machine_id": 114274
+    },
+    {
+      "instance": 46012842,
+      "label": "cal-rtx4090-w2-r3",
+      "hours": 0.545,
+      "dph": 0.21262222222222224,
+      "usd": 0.1159,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 16367.3,
+      "gpu_util": 0.0,
+      "machine_id": 117852
     },
     {
       "instance": 46008125,
@@ -446,6 +548,42 @@
       "machine_id": 1569
     },
     {
+      "instance": 46012359,
+      "label": "cal-rtx5090-w2",
+      "hours": 0.6633,
+      "dph": 0.2426111111111111,
+      "usd": 0.1609,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 3819.2,
+      "gpu_util": null,
+      "machine_id": 8914
+    },
+    {
+      "instance": 46012419,
+      "label": "cal-rtx5090-w2-r2",
+      "hours": 0.6482,
+      "dph": 0.2942222222222222,
+      "usd": 0.1907,
+      "status": "created",
+      "status_msg": "Successfully loaded docker.io/triskit23/nr4a3fep:latest",
+      "inet_down": 14140.3,
+      "gpu_util": null,
+      "machine_id": 117844
+    },
+    {
+      "instance": 46012486,
+      "label": "cal-rtx5090-w2-r3",
+      "hours": 0.6329,
+      "dph": 0.35111111111111115,
+      "usd": 0.2222,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 486.9,
+      "gpu_util": 0.0,
+      "machine_id": 23556
+    },
+    {
       "instance": 46008054,
       "label": "cal-rtxa4000",
       "hours": 0.317,
@@ -516,6 +654,18 @@
       "inet_down": 8701.5,
       "gpu_util": 98.999908,
       "machine_id": 55891
+    },
+    {
+      "instance": 46012147,
+      "label": "cal-rtxpro4000-w2-r3",
+      "hours": 0.7086,
+      "dph": 0.21585185185185185,
+      "usd": 0.1529,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 6872.1,
+      "gpu_util": 0.0,
+      "machine_id": 58310
     },
     {
       "instance": 46008461,
@@ -600,6 +750,75 @@
         "card identity disagrees across {'device': 'NVIDIAA100PCIE40GB', 'offer_gpu_name': 'A100PCIE', 'gpu_requested': 'A100PCIE'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
       ],
       "proposed_entry": null
+    },
+    {
+      "tag": "a100pcie-w3-r2",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA A100-PCIE-40GB",
+      "steps": 53364,
+      "dt_fs": 4.0,
+      "wall_s": 35.6,
+      "ns_per_day": 517.63,
+      "sd": 2.66,
+      "cv": 0.0051,
+      "blocks": 3,
+      "blocks_ns_day": [
+        520.44,
+        517.29,
+        515.14
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 300.1,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=a100pcie-w3-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_A100-PCIE-40GB steps=53364 dt_fs=4.0 wall_s=35.6 ns_per_day=517.63 sd=2.66 cv=0.0051 blocks=3 blocks_ns_day=520.44,517.29,515.14 attempt=2 minimize_iters=2000 final_temp_k=300.1 healthy=True",
+      "gpu_requested": "A100 PCIE",
+      "offer_gpu_name": "A100 PCIE",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:19:35Z",
+      "admitted": false,
+      "admission_reasons": [
+        "card identity disagrees across {'device': 'NVIDIAA100PCIE40GB', 'offer_gpu_name': 'A100PCIE', 'gpu_requested': 'A100PCIE'} \u2014 this is the fallback-to-another-card failure that got the 2026-07-24 grid withdrawn"
+      ],
+      "proposed_entry": null
+    },
+    {
+      "tag": "a100pcie-w3-r3",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA A100 80GB PCIe",
+      "steps": 90354,
+      "dt_fs": 4.0,
+      "wall_s": 59.5,
+      "ns_per_day": 525.05,
+      "sd": 0.19,
+      "cv": 0.0004,
+      "blocks": 3,
+      "blocks_ns_day": [
+        525.11,
+        524.83,
+        525.2
+      ],
+      "attempt": "2",
+      "minimize_iters": "2000",
+      "final_temp_k": 301.9,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=a100pcie-w3-r3 status=OK atoms=84534 platform=CUDA device=NVIDIA_A100_80GB_PCIe steps=90354 dt_fs=4.0 wall_s=59.5 ns_per_day=525.05 sd=0.19 cv=0.0004 blocks=3 blocks_ns_day=525.11,524.83,525.20 attempt=2 minimize_iters=2000 final_temp_k=301.9 healthy=True",
+      "gpu_requested": "A100 PCIE",
+      "offer_gpu_name": "A100 PCIE",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:19:56Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "A100PCIE",
+        "ns_per_day": 525.05
+      }
     },
     {
       "tag": "a100pcie",
@@ -856,6 +1075,41 @@
         "mean block 4.8s < 10.0s \u2014 at that duration you measure boost-clock ramp and kernel launches (the WITHDRAWN 2026-07-24 grid)"
       ],
       "proposed_entry": null
+    },
+    {
+      "tag": "rtx3090ti-w3",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 3090 Ti",
+      "steps": 91893,
+      "dt_fs": 4.0,
+      "wall_s": 59.9,
+      "ns_per_day": 530.19,
+      "sd": 2.88,
+      "cv": 0.0054,
+      "blocks": 3,
+      "blocks_ns_day": [
+        533.19,
+        529.95,
+        527.45
+      ],
+      "attempt": "1",
+      "minimize_iters": "200",
+      "final_temp_k": 302.2,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx3090ti-w3 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_3090_Ti steps=91893 dt_fs=4.0 wall_s=59.9 ns_per_day=530.19 sd=2.88 cv=0.0054 blocks=3 blocks_ns_day=533.19,529.95,527.45 attempt=1 minimize_iters=200 final_temp_k=302.2 healthy=True",
+      "gpu_requested": "RTX 3090 Ti",
+      "offer_gpu_name": "RTX 3090 Ti",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T15:20:59Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX3090TI",
+        "ns_per_day": 530.2
+      }
     },
     {
       "tag": "rtx3090ti",
