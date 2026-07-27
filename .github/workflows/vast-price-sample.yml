@@ -232,13 +232,21 @@ jobs:
       - name: Does a live rental's charged rate move? (read-only, $0)
         working-directory: research/modalities
         run: python vast_rate_forensics.py --probe
+      - name: Is the offer-quote under-read in front of the PURCHASE DECISION? (read-only, $0)
+        # The more serious half. A wrong number in a readout is a reporting defect; the same wrong number
+        # inside the $/ns market gate would mean every rental was approved against a rate ~11-36 % below its
+        # true one. Prices the whole live board both ways and puts them side by side.
+        if: always()
+        working-directory: research/modalities
+        run: python vast_rate_forensics.py --reprice
       - name: Commit the evidence back to this branch
         if: always()
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/vast-rate-forensics.json 2>/dev/null || true
+          git add -f research/modalities/vast-rate-forensics.json \
+                    research/modalities/vast-board-reprice.json 2>/dev/null || true
           git commit -m "vast rate forensics $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           for i in 1 2 3 4; do
             git pull --rebase origin "${{ github.ref_name }}" && \

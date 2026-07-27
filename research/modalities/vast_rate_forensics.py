@@ -55,6 +55,11 @@ SAFE_FIELDS = (
 RATE_EPS_USD_H = 1e-4
 
 
+def _utcnow():
+    import time
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
+
 def safe_row(inst):
     """The allow-listed view of one instance record. PURE.
 
@@ -285,8 +290,128 @@ def probe(key=None, bucket=None, s3=None, readout_path=None):
     return out
 
 
+# =============================================================================================================
+# the re-pricing — is the UNDER-QUOTE in front of the purchase decision, or only in the readout?
+# =============================================================================================================
+# ⛔ THE QUESTION THIS ANSWERS, AND WHY IT IS THE MORE SERIOUS ONE. The offer-quote under-read was found in a
+# board row, which is a reporting defect. But if the `$/ns` MARKET GATE ranked and thresholded offers on that
+# same quote, then every purchase decision would have been optimistic — approving rentals at true rates above
+# what it believed, on a ~11 % error. That is not a reporting defect, it is buying blind.
+#
+# So this prices EVERY offer on the live board TWICE and puts the two side by side:
+#   quote-derived — `offer["dph_total"] / ns_per_h`, i.e. what a reader of the launcher's `dph≈` line computes;
+#   gate-derived  — `gpu_backend.rank_offers_by_usd_per_ns`, i.e. what the gate ACTUALLY consumes.
+# If the two agree, the gate was reading the quote and the exposure is real. If the gate's figure is uniformly
+# higher, the gate was already pricing the disk we allocate and only the human-facing readout was wrong.
+REPRICE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vast-board-reprice.json")
+
+
+def quote_usd_per_ns(offer):
+    """What a reader of the launcher's `dph≈` line would compute for this offer. PURE.
+
+    Deliberately the NAIVE calculation, because reproducing the mistake is the point: `dph_total` straight off
+    a search result, divided by the card's benched throughput. No bid, no disk correction.
+    """
+    import vast_cost_model as vcm
+    nsph = vcm.ns_per_hour(offer.get("gpu_name"))
+    try:
+        dph = float(offer.get("dph_total"))
+    except (TypeError, ValueError):
+        return None
+    return (dph / nsph) if (nsph and dph > 0) else None
+
+
+def reprice(res=None, n_fleet=19, key=None, offers=None, readout_path=None):
+    """Both pricings of the live board, plus what each would have gated. Rents nothing."""
+    import congeneric_fanout as cf
+    from gpu_backend import rank_offers_by_usd_per_ns
+    from inflight_usd_per_ns import DRIFT_MULTIPLE
+    if res is None:
+        import congeneric_fanout_vast as cfv
+        res = cfv.FANOUT_RES
+    if offers is None:
+        from gpu_backend import _vast_offer_query, _vast_request
+        api = key or os.environ.get("VAST_API_KEY")
+        if not api:
+            raise RuntimeError("no VAST_API_KEY — the board cannot be read")
+        offers = (_vast_request("GET", "/search/asks/", api,
+                                params={"q": json.dumps(_vast_offer_query(res))}) or {}).get("offers", [])
+    basis = cf.basis_usd_per_ns()
+    measured, capable = rank_offers_by_usd_per_ns(offers, res)
+    gate_by_machine = {str(o.get("machine_id")): u for u, _p, o in measured}
+
+    rows = []
+    for u, price, o in measured:
+        q = quote_usd_per_ns(o)
+        rows.append({"machine_id": o.get("machine_id"), "gpu": o.get("gpu_name"),
+                     "min_bid_usd_h": o.get("min_bid"), "offer_dph_total_usd_h": o.get("dph_total"),
+                     "storage_cost_usd_gb_month": o.get("storage_cost"),
+                     "quote_usd_per_ns": (round(q, 6) if q else None),
+                     "gate_usd_per_ns": round(u, 6),
+                     "quote_multiple": (round(q / basis, 3) if q else None),
+                     "gate_multiple": round(u / basis, 3),
+                     "understated_by_pct": (round(100.0 * (u - q) / u, 2) if q else None)})
+
+    def _summary(vals):
+        vals = sorted(v for v in vals if v)
+        if not vals:
+            return {"n": 0}
+        fleet = vals[:n_fleet]
+        return {"n": len(vals), "best_usd_per_ns": round(vals[0], 6),
+                "best_multiple": round(vals[0] / basis, 3),
+                f"best{n_fleet}_mean_usd_per_ns": round(sum(fleet) / len(fleet), 6),
+                f"best{n_fleet}_mean_multiple": round((sum(fleet) / len(fleet)) / basis, 3),
+                f"n_under_{DRIFT_MULTIPLE}x": sum(1 for v in vals if v / basis <= DRIFT_MULTIPLE)}
+
+    q_all = [r["quote_usd_per_ns"] for r in rows]
+    g_all = [r["gate_usd_per_ns"] for r in rows]
+    # ★ THE ROWS THAT MATTER: an offer the QUOTE calls buyable that the GATE's true rate does not. If the gate
+    # had been reading the quote, these are precisely the hosts it would have bought at a refused rate.
+    flipped = [r for r in rows if r["quote_multiple"] and r["quote_multiple"] <= DRIFT_MULTIPLE
+               < r["gate_multiple"]]
+    out = {"_what": "Every live offer priced BOTH ways — as the launcher's `dph≈` quote reads it, and as the "
+                    "$/ns market gate actually consumes it — to establish whether the offer-quote under-read "
+                    "reaches the PURCHASE DECISION or only the readout.",
+           "utc": _utcnow(), "basis_usd_per_ns": round(basis, 6), "drift_multiple": DRIFT_MULTIPLE,
+           "board_depth": {"offers_returned": len(offers), "qualifying": len(capable),
+                           "priceable": len(measured)},
+           "quote_derived": _summary(q_all), "gate_derived": _summary(g_all),
+           "n_offers_quote_clears_but_gate_refuses": len(flipped),
+           "offers_quote_clears_but_gate_refuses": flipped[:20],
+           "rows": rows[:40], "n_fleet": n_fleet}
+    med = sorted(r["understated_by_pct"] for r in rows if r["understated_by_pct"] is not None)
+    out["quote_understates_gate_by_pct"] = {
+        "min": (med[0] if med else None), "median": (med[len(med) // 2] if med else None),
+        "max": (med[-1] if med else None)}
+    if not med:
+        # No priceable offer is NOT evidence either way, and must never render as the reassuring answer.
+        # Same discipline as the gate's "an unreadable market is not a cheap one".
+        out["verdict"] = ("UNKNOWN — no offer on this board could be priced both ways, so nothing is shown "
+                          "about where the under-read lands. This is not a clean bill of health.")
+    elif med[0] > 0:
+        out["verdict"] = (
+            "THE GATE IS NOT READING THE QUOTE. Its $/ns is uniformly ABOVE the quote-derived figure, because "
+            "`vast_cost_model.score_offer` prices `recommended_bid(min_bid)` plus storage at the disk THIS "
+            "LANE allocates, and never reads `dph_total`. The under-read reached the human-facing board only.")
+    else:
+        out["verdict"] = (
+            "⚠ THE GATE'S FIGURE DOES NOT EXCEED THE QUOTE ON EVERY OFFER — the under-read may be in front of "
+            "the purchase decision, which would make gate verdicts optimistic. Inspect `rows` before renting.")
+    try:
+        with open(readout_path or REPRICE_PATH, "w") as fh:
+            json.dump(out, fh, indent=2, default=str)
+            fh.write("\n")
+    except OSError as e:
+        print(f"[rate-forensics] reprice readout not written: {e}", flush=True)
+    print(json.dumps(out, indent=2, default=str))
+    return out
+
+
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+    if "--reprice" in argv:
+        reprice()
+        return 0
     if "--probe" in argv:
         out = probe()
         # Non-zero ONLY when a rate has actually moved. An ungradeable rental (no recorded bid) is not a
