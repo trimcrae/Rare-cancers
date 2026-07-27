@@ -792,3 +792,143 @@ def test_one_provider_fault_among_price_refusals_still_reports_a_fault():
         tv.get_backend, tv.leg_records, tv._vast_request, tv._s3 = orig
     assert got == [] and tv.submit.last_failure_kind == "fault", \
         "one fault among three price refusals must dominate the verdict"
+
+
+# =============================================================================================================
+# ★★ A GATE THAT RE-BOUGHT A SATISFIED LANE EVERY TICK (2026-07-27)
+# =============================================================================================================
+# The workflow called `--market-gate 4`. That 4 was the size of the MODE, not of the purchase, so it stayed 4
+# after all four units were rented — and the gate went on pricing a four-unit fleet, clearing, and dispatching
+# a launch that could only print "nothing to rent". It did so at 12:08, 12:26 and 12:35 PM ET. Left alone it
+# would have re-dispatched on every future tick forever.
+#
+# `submit()` was never the bug: it lists live instances and skips units that already have a host, which is why
+# $0 was actually spent. The bug was that the gate IN FRONT of it had no such notion, so the two disagreed
+# about how many units were for sale — and a ledger row saying `launched` at 2.032x basis was the result.
+def _fake_inst(uid, **kw):
+    import ternary_vast_launch as tv
+    d = {"id": 1, "machine_id": 9, "label": tv.unit_label(uid), "gpu_name": "RTX 5090",
+         "num_gpus": 1, "dph_total": 0.1177, "dph_base": 0.101, "cur_state": "running",
+         "actual_status": "running"}
+    d.update(kw)
+    return d
+
+
+def test_outstanding_units_excludes_units_that_already_hold_a_host(monkeypatch):
+    """The shared question both the gate and the launcher must ask, from the same code."""
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {x: _fake_inst(x) for x in uids[:3]})
+    out = tv.outstanding_units("edge_reps")
+    assert len(out["live"]) == 3 and len(out["needed"]) == 1
+    assert out["needed"] == [uids[3]]
+
+
+def test_a_lane_whose_units_are_all_hosted_is_not_a_launch_candidate(monkeypatch):
+    """The exact 12:29/12:39 PM ET state: four units, four live hosts. The gate must NOT dispatch."""
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {x: _fake_inst(x) for x in uids})
+
+    def _boom(*a, **k):
+        raise AssertionError("the market must not even be priced when nothing needs a host")
+    monkeypatch.setattr(tv, "market_gate", _boom)
+
+    action, readout = tv.gate_for_mode("edge_reps")
+    assert action == "nothing-to-launch"
+    # ⚠ AND IT IS NOT A HOLD. Filing it as one would run the price-escalation clock and fire the hold
+    # warning for a lane that is working perfectly, which is the mirror-image false alarm.
+    assert readout["hold"] is False and readout["nothing_to_launch"] is True
+    assert "NOT a price hold" in readout["reason"]
+    # the rate we are ALREADY paying is the only $/ns that means anything on a tick that is not buying
+    assert len(readout["live_host_rates"]) == 4
+    assert all(r["usd_per_ns"] for r in readout["live_host_rates"])
+
+
+def test_a_completed_unit_is_not_a_launch_candidate_either(monkeypatch):
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {u: {"status": "done"} for u in uids})
+    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {})
+    action, readout = tv.gate_for_mode("edge_reps")
+    assert action == "nothing-to-launch" and len(readout["units_done"]) == 4
+
+
+def test_the_gate_prices_only_the_units_that_still_need_a_host(monkeypatch):
+    """A partially-hosted lane must be priced for the REMAINDER, not for the whole mode."""
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {x: _fake_inst(x) for x in uids[:3]})
+    seen = {}
+
+    def _gate(n, **kw):
+        seen["n"] = n
+        return False, {"reason": "ok", "hold": False}
+    monkeypatch.setattr(tv, "market_gate", _gate)
+    action, _ = tv.gate_for_mode("edge_reps")
+    assert action == "clear" and seen["n"] == 1, "must price 1 unit, not the mode's 4"
+
+
+def test_nothing_to_launch_has_its_own_exit_code_so_the_caller_cannot_dispatch(monkeypatch):
+    """0 = dispatch, 1 = hold, 3 = nothing to launch. A shared code would put the satisfied lane back on the
+    dispatch path (exit 0) or on the hold path (exit 1); both are wrong and one of them re-buys."""
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {x: _fake_inst(x) for x in uids})
+    monkeypatch.setattr(tv, "blocked_machine_ids", lambda *a, **k: [])
+    assert tv.main(["--mode", "edge_reps", "--gate-for-mode"]) == 3
+
+
+def test_the_workflow_gate_derives_its_unit_count_instead_of_hardcoding_four():
+    """The literal `--market-gate 4` is what could not notice that the lane was already satisfied."""
+    import os
+    wf = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))))), ".github", "workflows", "gpu-ternary-fep-vast.yml")
+    body = open(wf).read()
+    assert "--gate-for-mode" in body
+    # Comments stripped: the fix's own rationale quotes the retired flag, and a test that could not tell an
+    # explanation from a call site would forbid writing down why the change was made.
+    live = "\n".join(l for l in body.splitlines() if not l.lstrip().startswith("#"))
+    assert "--market-gate 4" not in live, \
+        "a hardcoded unit count cannot tell a satisfied lane from an empty one"
+    assert 'RC" = 3' in body, "the workflow must handle 'nothing to launch' as its own, non-dispatching state"
+
+
+# =============================================================================================================
+# ★ WHAT WE PAID vs WHAT THE BOARD COST — two different quantities that must never be substituted
+# =============================================================================================================
+def test_rented_usd_per_ns_prices_the_instance_not_the_offer():
+    """CLAUDE.md §1: a launcher's `dph≈` line reads LOW and must not be used. The instance's `dph_total` is
+    bid + the real volume's disk line, i.e. what Vast actually charges."""
+    import ternary_vast_launch as tv
+    import vast_cost_model as vcm
+    inst = _fake_inst("x", gpu_name="RTX 5090", dph_total=0.11766666666666667)
+    got = tv.rented_usd_per_ns(inst)
+    assert got == pytest.approx(0.11766666666666667 / vcm.ns_per_hour("RTX 5090"))
+    # an ungradeable card must return None, never a fabricated zero in a price field
+    assert tv.rented_usd_per_ns(_fake_inst("x", gpu_name="NOT A CARD")) is None
+    assert tv.rented_usd_per_ns(_fake_inst("x", dph_total=0)) is None
+
+
+def test_the_rate_row_flags_a_host_over_the_buy_line():
+    import ternary_vast_launch as tv
+    cheap = tv.rented_rate_row("u", _fake_inst("u", gpu_name="RTX 5090", dph_total=0.1177))
+    assert cheap["over_buy_line"] is False and cheap["x_basis"] < 1.9166
+    dear = tv.rented_rate_row("u", _fake_inst("u", gpu_name="RTX 5090", dph_total=1.5))
+    assert dear["over_buy_line"] is True
+
+
+def test_the_rate_row_never_leaks_a_credential():
+    """It gets COMMITTED to a public repo, and a Vast instance record carries jupyter_token / ssh_host /
+    public_ipaddr. Allow-list, not redaction-list — same discipline as vast_rate_forensics.SAFE_FIELDS."""
+    import ternary_vast_launch as tv
+    import json as _json
+    row = tv.rented_rate_row("u", _fake_inst(
+        "u", jupyter_token="SECRET", ssh_host="1.2.3.4", ssh_port=22, public_ipaddr="1.2.3.4"))
+    blob = _json.dumps(row)
+    for leaked in ("SECRET", "1.2.3.4", "jupyter_token", "ssh_host", "public_ipaddr"):
+        assert leaked not in blob, f"{leaked} must never reach a committed artifact"

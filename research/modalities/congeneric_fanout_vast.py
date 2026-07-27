@@ -1029,18 +1029,36 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
            "held_reason": why_none,
            "board_depth": depth, "offers_priced": rows,
            "binding_gate": (blocking[0] if blocking else ("price" if n_held else None)),
-           "binding_gate_why": (blocking[1] if blocking else None)}
+           "binding_gate_why": (blocking[1] if blocking else None),
+           # ★★ WHICH UNITS `binding_gate` IS TALKING ABOUT — added 2026-07-27 because without it the record
+           # read as a flat self-contradiction. A snapshot carried `binding_gate: "price"` and
+           # `price_is_binding: false` at the same instant, and no reader could tell that those two fields
+           # were answering DIFFERENT QUESTIONS rather than disagreeing about one. They were: 2 of 9 units
+           # had just been placed and 7 were withheld on price, so price was indeed what stopped the 7
+           # (`binding_gate`) and was equally NOT stopping the fleet as a whole (the escalation test). Both
+           # were correct; the naming was not. The scope says out loud how many units the verdict covers.
+           "binding_gate_scope": (None if (blocking is None and not n_held) else
+                                  ("all %d withheld unit(s)" % n_withheld if n_place == 0 else
+                                   "%d of %d withheld unit(s) — the other %d were placed this tick"
+                                   % (n_held, n_withheld, n_place)))}
 
-    # ★★ THE HOLD CLOCK RUNS ONLY WHILE PRICE IS THE BINDING CONSTRAINT.
+    # ★★ THE HOLD CLOCK RUNS ONLY WHILE PRICE IS BLOCKING *EVERY* UNIT.
     #
     # Cleared — not paused — whenever another gate is shut, and whenever at least one unit could be placed.
-    # With per-unit launching, "price is binding" means the strictly stronger thing that NOT ONE unit could
-    # be bought; a tick that placed 3 of 18 is a market that works, just slowly, and escalating on it would
-    # be the same cry-wolf in a new costume.
-    price_is_binding = (blocking is None) and n_place == 0 and n_held > 0
-    doc["price_is_binding"] = price_is_binding
-    doc["first_held_utc"] = (prev.get("first_held_utc") if (price_is_binding and prev.get("price_is_binding"))
-                             else (_utcnow() if price_is_binding else None))
+    # With per-unit launching, the escalation condition is the strictly stronger thing that NOT ONE unit
+    # could be bought; a tick that placed 3 of 18 is a market that works, just slowly, and escalating on it
+    # would be the same cry-wolf in a new costume.
+    #
+    # ⚠ NAMED `price_blocks_every_unit`, NOT `price_is_binding` (2026-07-27). The old name asserted the same
+    # English as `binding_gate: "price"` while meaning something strictly stronger, so a perfectly consistent
+    # record — price binding on the 7 units it withheld, not binding on the fleet — read as the file
+    # contradicting itself. Same value, same behaviour, a name that states the quantifier.
+    # SUPERSEDED, retained for the record: the key `price_is_binding`.
+    price_blocks_every_unit = (blocking is None) and n_place == 0 and n_held > 0
+    doc["price_blocks_every_unit"] = price_blocks_every_unit
+    _was = prev.get("price_blocks_every_unit", prev.get("price_is_binding"))
+    doc["first_held_utc"] = (prev.get("first_held_utc") if (price_blocks_every_unit and _was)
+                             else (_utcnow() if price_blocks_every_unit else None))
 
     held_h = 0.0
     if doc["first_held_utc"]:
@@ -1065,10 +1083,10 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
     except Exception as e:  # noqa: BLE001
         _lprint(f"[s1f] market-hold readout not written: {e}")
 
-    if price_is_binding and held_h >= MARKET_HOLD_ESCALATE_H:
+    if price_blocks_every_unit and held_h >= MARKET_HOLD_ESCALATE_H:
         # The escalation. Not a decision the guard is allowed to make for him — a notification that one is
         # now needed. `::error::` also fails the job, which is what actually reaches a phone. Gated on
-        # `price_is_binding` so it can only fire when every other gate is clear AND not one unit was
+        # `price_blocks_every_unit` so it can only fire when every other gate is clear AND not one unit was
         # placeable: the 2026-07-27 false alarm escalated "held 9.9 h on a bad market" while the terminus
         # was unmet, i.e. during a window in which this gate was never what stopped anything.
         print(f"::error title=STEP1 FAN-OUT: NOT ONE UNIT PLACEABLE FOR {held_h:.1f} H::Every other gate is "
