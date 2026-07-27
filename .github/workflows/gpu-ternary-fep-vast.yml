@@ -704,13 +704,22 @@ jobs:
             # `set -eo pipefail` (measured on the reps-prime job, 2026-07-26, run 30225138660).
             SDIR="/tmp/stage_${LEG}"
             mkdir -p "$SDIR"
+            T0=$(date +%s)
+            # ⏱ STREAM IT, WITH TIMESTAMPS — DO NOT `| tail -20`. Measured on run 30295025398: this step sat
+            # on its FIRST leg for 20+ minutes emitting NOTHING, because `tail` cannot print until the
+            # container exits. A staging phase that is genuinely slow and one that has hung are then
+            # indistinguishable, which is exactly the "liveness, not progress" trap CLAUDE.md §4 is about —
+            # and it cost a cancellation decision made without evidence. `-u` and `PYTHONUNBUFFERED` are both
+            # set because the stager's own prints are block-buffered into a pipe otherwise.
             docker run --rm --entrypoint python \
               -v "$PWD/research/modalities:/work/research/modalities" -v "$SDIR:/tmp/tin" \
-              -e SEED="$SEED" -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+              -e SEED="$SEED" -e PYTHONUNBUFFERED=1 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
               -w /work/research/modalities \
-              docker.io/triskit23/ternary-fep:latest \
+              docker.io/triskit23/ternary-fep:latest -u \
               /work/research/modalities/ternary_pdb_stage.py \
-                --leg-id "$LEG" --template-pdb 8G1Q --out /tmp/tin 2>&1 | tail -20
+                --leg-id "$LEG" --template-pdb 8G1Q --out /tmp/tin 2>&1 \
+              | while IFS= read -r line; do printf '%s [stage %s] %s\n' "$(date -u +%H:%M:%SZ)" "$LEG" "$line"; done
+            echo "[triangle-prime] $LEG staged in $(( $(date +%s) - T0 ))s"
             ls -la "$SDIR/$LEG"
             tar -C "$SDIR" -cf "/tmp/stage_${LEG}_${SEED}.tar" "$LEG"
             aws s3 cp "/tmp/stage_${LEG}_${SEED}.tar" "$KEY"
