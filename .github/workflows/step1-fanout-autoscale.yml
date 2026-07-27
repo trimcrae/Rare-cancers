@@ -93,7 +93,13 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
       GIT_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
-      FANOUT_WIDTH: "19"
+      # ⚠ `FANOUT_WIDTH` IS DELIBERATELY NOT SET HERE ANY MORE (2026-07-27, the ramp).
+      # It was `"19"` in this file, `"19"` again in fusion-cpu-extras.yml and `8` as the code default,
+      # while the viable set is 18 (cw_bio_nmethyl_amide is permanently blocked). One knob, three typed
+      # homes, none of them right — CLAUDE.md rule 1. The width is now DERIVED from the map by
+      # `congeneric_fanout_vast.fanout_width()`, which is its one home; setting it here would restore
+      # exactly the copy that drifted. Set it ONLY to narrow the fleet deliberately (a shakeout), never
+      # to restate the default.
     steps:
       - uses: actions/checkout@v4
         with:
@@ -135,6 +141,7 @@ jobs:
              research/modalities/tests/test_fleet_supervision_alarm.py -q
 
       - name: Progress check
+        id: measure
         working-directory: research/modalities
         env:
           MONITOR: "1"
@@ -162,6 +169,7 @@ jobs:
         run: python3 assert_progress_fresh.py step1-fanout-progress.json
 
       - name: Collect — assemble the map, reconcile realised spend, reap dead hosts
+        id: collect
         # BEFORE the launch, so a unit that finished this tick frees its slot in the same pass.
         #
         # AND BECAUSE NOTHING ELSE DESTROYS AN INSTANCE. Vast teardown is two-layer and only the first layer
@@ -175,23 +183,95 @@ jobs:
           COLLECT: "1"
         run: python congeneric_fanout_vast.py
 
+      # ★★★ THE STEP THAT PROVES WHY NOTHING WAS PLACED FOR 1 H 47 M (2026-07-27, 2:31 PM ET). ★★★
+      #
+      # THE INCIDENT. Between 12:44 PM and 2:31 PM ET seven ticks ran, all green, and not one unit was
+      # placed while the fleet decayed 11 -> 5 and ten checkpointed units sat with no host. The jobs API
+      # shows the same two lines on every one of them, INCLUDING the 2:09 PM `schedule` tick (run
+      # 30292476003) whose own evidence step printed "✅ MET" for the terminus and "OK — under the
+      # $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate":
+      #     9  skipped  Gate on the fan-out unit tests …
+      #     10 skipped  Terminus-gated fan-out
+      #
+      # THE MECHANISM. Both were guarded by `if: ${{ github.event.inputs.release_fanout != '0' }}`. A
+      # `schedule:` event carries NO `inputs` context, so that operand is `null`; GitHub Actions performs a
+      # LOOSE comparison and casts both operands to a number when their types differ, and `null` casts to
+      # `0`. The condition is `0 != 0` -> FALSE. The money-spending step is skipped on precisely the trigger
+      # meant to run unattended — 3 of 3 schedule ticks that day. The discriminating observation is in the
+      # SAME run: `GIT_BRANCH: ${{ github.event.inputs.fleet_branch || '…' }}` resolved to its fallback and
+      # printed `claude/max-effort-2dq11l`, so the inputs context was indeed null and `||` coped where `!=`
+      # did not. This step records that comparison on every run so the claim never has to be re-derived.
+      #
+      # ⚠ DO NOT "FIX" THIS BY REWRITING THE EXPRESSION. A YAML `if:` decides in a language with implicit
+      # coercion, leaves `skipped` as its only trace, and cannot write an artifact — so "held on price",
+      # "nothing to place" and "placement switched off" all rendered as a green tick with no launch. That
+      # indistinguishability is what let this run for 1 h 47 m. The flag is resolved HERE, in bash, where
+      # empty is empty; the DECISION is made in the launcher, which names and records it.
+      - name: Resolve the placement flag — and record what the inputs context actually held
+        id: place
+        # `always()`: this step is pure echo and costs nothing, and its output is what the launcher reads.
+        # If it could be skipped by an upstream failure the launcher would fall back to its own default and
+        # the run would carry no record of what the inputs context held — which is the evidence this exists
+        # to preserve.
+        if: ${{ always() }}
+        env:
+          RAW_RELEASE_FANOUT: ${{ github.event.inputs.release_fanout }}
+          RAW_INPUTS_JSON: ${{ toJSON(github.event.inputs) }}
+          # The expression that failed, evaluated and printed rather than trusted.
+          OLD_EXPRESSION_RESULT: ${{ github.event.inputs.release_fanout != '0' }}
+        run: |
+          set -eu
+          echo "event_name                                  = ${{ github.event_name }}"
+          echo "github.event.inputs (raw)                   = ${RAW_INPUTS_JSON}"
+          echo "github.event.inputs.release_fanout          = '${RAW_RELEASE_FANOUT}'"
+          echo "OLD  if: (…release_fanout != '0')           = ${OLD_EXPRESSION_RESULT}   <-- false on a schedule: null casts to 0"
+          v="${RAW_RELEASE_FANOUT}"
+          # ABSENT IS NOT ZERO. The workflow-level default below is the single home for the value; this line
+          # only says what "absent" means, and it must never be read as a second copy of that default.
+          [ -n "$v" ] || v="1"
+          echo "RESOLVED release_fanout                     = ${v}"
+          echo "release_fanout=${v}" >> "$GITHUB_OUTPUT"
+
       # ★ THE LAUNCH GATE, in the only place it belongs: immediately before the step that spends money.
       # This is the half of the old combined gate that really is about renting — the unit list and the
       # derived cost/ceiling model. Red here must stop the fan-out and nothing else; everything above has
       # already measured and reaped. `pyyaml` is needed by this file (it parses THIS workflow to prove `reap`
       # is wired into the launcher's mode table), which is another reason it does not belong in front of the
       # progress check: a missing parser once blocked every tick.
+      #
+      # ⚠ `continue-on-error` IS NOT A SOFTENING. The refusal moved INTO the launcher, which records
+      # `decision: cost_model_red` in the committed snapshot and then exits non-zero — so the job is still
+      # red and nothing is rented, but the reason is now written down instead of being a `skipped` badge.
       - name: Gate on the fan-out unit tests (a broken unit list or cost model must never reach a GPU)
-        if: ${{ github.event.inputs.release_fanout != '0' }}
+        id: costgate
+        # `always()` so a red upstream cannot turn a REAL cost-model verdict into `skipped`, which the
+        # launcher would then have to interpret. It reports; the launcher decides.
+        if: ${{ always() }}
+        continue-on-error: true
         run: python -m pytest research/modalities/tests/test_congeneric_fanout.py -q
 
-      - name: Terminus-gated fan-out
-        if: ${{ github.event.inputs.release_fanout != '0' }}
+      # ⚠ `always()` ON PURPOSE, AND IT IS THE OTHER HALF OF THE REPAIR. This step is the ONLY writer of
+      # `step1-fanout-market-hold.json`, so any condition that can skip it is a condition under which the
+      # artifact silently keeps an old timestamp — which is exactly how a two-hour outage looked identical
+      # to a healthy fleet. It now runs on every tick and always records a NAMED decision (placed /
+      # price_hold / nothing_pending / fleet_at_width / terminus_hold / credential_hold /
+      # placement_disabled / cost_model_red), refreshing the board snapshot even when it rents nothing.
+      - name: Terminus-gated fan-out — always runs; a tick that places nothing must SAY why
+        if: ${{ always() }}
         working-directory: research/modalities
         env:
           LAUNCH: "1"
           FANOUT_CONFIRM: "1"
           FANOUT_REQUIRE_PROVEN_TERMINUS: "1"
+          FANOUT_PLACEMENT_ENABLED: ${{ steps.place.outputs.release_fanout }}
+          # Compared to the literal 'success' in Python — no expression-language coercion involved.
+          FANOUT_COST_MODEL_OUTCOME: ${{ steps.costgate.outcome }}
+          # ⚠ `always()` above means this step also runs when the MEASUREMENT failed — and renting more
+          # hosts onto a fleet nobody just measured or reaped is the wrong direction. So the two upstream
+          # outcomes are passed in as gates: the snapshot is still refreshed (that is the point), the
+          # decision is recorded as `measurement_failed`, and nothing is bought.
+          FANOUT_MEASURE_OUTCOME: ${{ steps.measure.outcome }}
+          FANOUT_COLLECT_OUTCOME: ${{ steps.collect.outcome }}
           # The unit the gate keeps ALIVE while it holds the other eighteen back. Without this the gate is a
           # deadlock: it would refuse to launch anything until a ddg.json exists, including the one unit whose
           # whole job is to produce that ddg.json — so a preemption (which happened at 4:31 PM ET on

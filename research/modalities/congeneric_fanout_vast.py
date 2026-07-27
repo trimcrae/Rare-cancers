@@ -42,6 +42,7 @@ unit whose ddg.json is already in S3, so a re-dispatch after a preemption resume
 from __future__ import annotations
 
 import calendar
+import contextlib
 import dataclasses
 import json
 import os
@@ -52,7 +53,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from congeneric_fanout import (  # noqa: E402
     PRIMARY_FRAME, PRIMARY_RECEPTOR, checkpoint_prefix, cost_estimate, cost_plan, cycle_closure,
-    default_units, plan, rank_by_ddg, result_key, unit_env, wave_plan,
+    default_units, fanout_width, plan, rank_by_ddg, result_key, unit_env, wave_plan,
 )
 # The market guard's arithmetic is PURE and lives in the core module with the rest of the cost block, so it
 # is unit-tested without a Vast key and cannot drift from the ladder figures it is derived from.
@@ -63,7 +64,7 @@ import congeneric_fanout as _cf  # noqa: E402  place_units / unit_usd_per_ns_cei
 # only the evidence its own artifacts carry (`_idle_evidence`). One policy, two lanes; that is the whole
 # reason the step 1 pipeline now emits the ternary lane's signal SHAPES rather than inventing its own.
 import vast_idle_guard as _vig  # noqa: E402
-from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
+from gpu_backend import JobSpec, ResourceSpec, _vast_request, board_read_cache, get_backend  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
 BUCKET = os.environ.get("VAST_CKPT_BUCKET", "")
@@ -74,7 +75,6 @@ LABEL_PREFIX = "s1f-"
 # `mode_launch` refuses any multi-unit launch that reaches it with this still False.
 _MARKET_GUARD_RAN = False
 _MARKET_HOLD_ESCALATED = False
-WIDTH = int(os.environ.get("FANOUT_WIDTH", "8"))
 N_WINDOWS = int(os.environ.get("N_WINDOWS", "12"))
 
 # The OpenFE image (openfe>=1.12 + ambertools/am1bcc + lomap/kartograf + OpenMM CUDA + awscli), built by the
@@ -582,6 +582,36 @@ def _load_ledger(s3, bucket):
                                                   "rentals": {}}
 
 
+def load_ledger_strict(s3, bucket):
+    """The rental ledger, or a raise. The SPEND CAP's reader — `_load_ledger` is unsafe for that job.
+
+    ⚠⚠ AN UNREADABLE LEDGER MUST FAIL **CLOSED** (2026-07-27, caught while verifying the cap's live
+    reading). `_get_json` returns `None` on ANY exception, so `_load_ledger` cannot tell "this lane has
+    never rented anything" from "S3 refused the read". For every other caller that is harmless. For the
+    spend cap it is the worst possible defect: a credential problem or an S3 blip would make realised
+    spend read **$0**, the cap would report full headroom, and the lane would rent freely for exactly as
+    long as the outage lasted. A gate that opens when its evidence disappears is worse than no gate,
+    because it fails silently and only under stress.
+
+    This was not hypothetical when it was found: an `InvalidAccessKeyId` on this very bucket produced a
+    confident "realised $0.0, headroom $74.91, breached=False" — a fabricated all-clear. It is the same
+    discipline the market guard already applies to an unreadable board ("an unreadable market is not a
+    cheap one"), and the same InvalidAccessKeyId that already has its own launch pre-flight.
+
+    A genuinely ABSENT object is not an error — a lane that has never rented has no ledger — so
+    `NoSuchKey`/404 returns the empty doc. Everything else raises.
+    """
+    try:
+        raw = s3.get_object(Bucket=bucket, Key=_LEDGER_KEY)["Body"].read()
+    except Exception as e:  # noqa: BLE001
+        code = getattr(getattr(e, "response", None), "get", lambda *_a: {})("Error", {}).get("Code", "")
+        if code in ("NoSuchKey", "404", "NoSuchBucket") or e.__class__.__name__ == "NoSuchKey":
+            return {"rentals": {}}
+        raise RuntimeError(f"rental ledger unreadable ({type(e).__name__}: {str(e)[:200]}) — the spend "
+                           f"cap has no evidence, so nothing may be rented") from e
+    return json.loads(raw)
+
+
 def _save_ledger(s3, bucket, doc):
     try:
         s3.put_object(Bucket=bucket, Key=_LEDGER_KEY, Body=json.dumps(doc, indent=2).encode())
@@ -625,6 +655,88 @@ def ledger_cost(doc):
         rows.append({"instance": iid, "unit_id": r.get("unit_id"), "machine_id": r.get("machine_id"),
                      "rate_usd_h": rate, "billed_h": round(hours, 2), "usd": round(usd, 3)})
     return round(total, 2), len(rows), rows, unpriced
+
+
+def ledger_cost_accrued(doc, live_ids=(), now_epoch=None, max_hours=None):
+    """(total_usd, rows, n_accruing) — realised spend INCLUDING rentals not yet reconciled. PURE.
+
+    ★★ WHY `ledger_cost` ALONE CANNOT BACK A SPEND CAP (2026-07-27, added with the cap itself).
+    `billed_min` is written as **0** at launch and only becomes a real number when a later `collect`
+    reconciles it against the instance's age. So a box rented by THIS tick contributes **$0** to
+    `ledger_cost` until the next tick looks — and with placement self-replenishing under `always()`, the
+    newly-rented units are exactly the ones a cap needs to see. A cap fed an undercounted total is worse
+    than no cap at all, because it reads green while the lane is over: it converts a spend problem into a
+    spend problem nobody is told about. The same undercount is why the rental ledger is now saved after
+    EACH rental rather than after the wave — a mid-loop timeout used to leave rented boxes missing from
+    realised spend entirely.
+
+    THE RULE, and why it cannot run away in either direction:
+      * a rental is OPEN if it has never been reconciled (`last_seen_utc` is None) or its instance is in
+        `live_ids`. Open rentals accrue WALL-CLOCK from `launched_utc` to now, and the figure used is
+        `max(recorded, accrued)` — never less than what was measured, never blind to what has not been.
+      * a rental that has been reconciled and is no longer live is CLOSED: its `billed_min` was frozen
+        before the reap (that freeze exists because a destroyed instance is unreadable afterwards), so it
+        is authoritative and must NOT keep accruing. Without this a finished fleet would inflate forever
+        and wedge the lane against its own ceiling.
+      * accrual is capped at `max_hours` — the lane's own `MAX_RUNTIME_S`, derived, not typed. A rental
+        whose box died without ever being reconciled would otherwise accrue without bound, and the failure
+        mode of an unbounded over-count is a permanently-held lane, which §6 names as its own bug.
+
+    Over-counting inside those bounds is the SAFE direction and is deliberate: a cap that errs must err
+    toward holding, because holding is recoverable and an unnoticed overspend is not.
+    """
+    now = time.time() if now_epoch is None else now_epoch
+    live = {str(i) for i in (live_ids or ())}
+    cap_h = (MAX_RUNTIME_S / 3600.0) if max_hours is None else float(max_hours)
+    total, rows, n_accruing = 0.0, [], 0
+    for iid, r in sorted((doc.get("rentals") or {}).items()):
+        rate = r.get("bid") or r.get("dph")
+        recorded_h = (r.get("billed_min") or 0) / 60.0
+        open_rental = (r.get("last_seen_utc") is None) or (str(iid) in live)
+        accrued_h = 0.0
+        if open_rental and r.get("launched_utc"):
+            try:
+                t0 = calendar.timegm(time.strptime(r["launched_utc"], "%Y-%m-%dT%H:%M:%SZ"))
+                accrued_h = min(cap_h, max(0.0, (now - t0) / 3600.0))
+            except (ValueError, TypeError):
+                accrued_h = 0.0
+        hours = max(recorded_h, accrued_h)
+        try:
+            usd = float(rate) * hours
+        except (TypeError, ValueError):
+            usd, rate = 0.0, None
+        if open_rental and accrued_h > recorded_h:
+            n_accruing += 1
+        total += usd
+        rows.append({"instance": iid, "unit_id": r.get("unit_id"), "rate_usd_h": rate,
+                     "recorded_h": round(recorded_h, 2), "accrued_h": round(accrued_h, 2),
+                     "open": open_rental, "usd": round(usd, 3)})
+    return round(total, 2), rows, n_accruing
+
+
+def spend_cap_state(ledger, live_ids=(), n_units=None, now_epoch=None):
+    """(realised_usd, ceiling_usd, headroom_usd, breached, detail) — the lane's cumulative spend gate.
+
+    ★★ WHY THIS EXISTS AT ALL (2026-07-27). Until now the ONLY thing gating this lane was the per-unit
+    RATE line ($/ns). Realised spend was tracked and printed, and nothing ever refused on it. That gap was
+    tolerable while the fleet was small and hand-placed; it stopped being tolerable the moment placement
+    became self-replenishing under `always()`, because the lane will now keep re-renting to target width
+    indefinitely and a rate check is passed *individually* by every cheap host. Fifteen hosts each
+    comfortably under the line is precisely the shape that drains a budget while every row reads green —
+    the rate line answers "is this a rate we will pay?", and nothing was answering "have we now spent the
+    money that was authorised?"
+
+    THE CEILING IS DERIVED, NEVER TYPED (CLAUDE.md rule 1). It is the authorised band top for the tranche —
+    `congeneric_fanout.market_ceiling_usd(n_units)`, the same function the per-tick gate already prices
+    against — so a ladder re-anchor moves the cap with it instead of leaving a stale constant behind. That
+    figure already existed as the authorised band; this makes it BINDING rather than decorative.
+    """
+    n = len(default_units()) if n_units is None else int(n_units)
+    ceiling = float(_cf.market_ceiling_usd(n))
+    realised, rows, n_accruing = ledger_cost_accrued(ledger, live_ids=live_ids, now_epoch=now_epoch)
+    return (realised, round(ceiling, 2), round(ceiling - realised, 2), realised >= ceiling,
+            {"n_units_authorised": n, "n_rentals": len(rows), "n_accruing_unreconciled": n_accruing,
+             "rows": rows})
 
 
 # ---- the anti-idle guard: evidence gathering for `vast_idle_guard.classify_idle` ---------------------------
@@ -731,9 +843,10 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
 # ---- modes ------------------------------------------------------------------------------------------------
 
 def mode_plan():
-    p = plan(width=WIDTH)
+    _w = fanout_width()
+    p = plan(width=_w)
     print(json.dumps(p, indent=2))
-    print(f"\n[s1f] {p['n_units']} units, {WIDTH}-wide -> {p['waves']['waves']} waves "
+    print(f"\n[s1f] {p['n_units']} units, {_w}-wide -> {p['waves']['waves']} waves "
           f"(~{p['waves']['wall_clock_h_est']} h wall-clock), ${p['cost_usd_est'][0]}-{p['cost_usd_est'][1]}")
 
 
@@ -848,6 +961,116 @@ _MARKET_HOLD_KEY_SUFFIX = "_market_hold.json"
 # run per workflow per hour whatever they ask for (measured 56-97 min for a */15), so "3 ticks" is not a
 # knowable duration and a tick-based escalation would fire anywhere between 30 min and 5 hours.
 MARKET_HOLD_ESCALATE_H = float(os.environ.get("FANOUT_MARKET_ESCALATE_H", "6"))
+
+# ★★ THE SEVEN THINGS A TICK CAN DECIDE ABOUT PLACEMENT, and every one of them is written down.
+#
+# WHY THIS ENUM EXISTS (2026-07-27, 2:31 PM ET). `step1-fanout-market-hold.json` sat stamped 12:43 PM ET for
+# 1 h 47 m while SEVEN autoscale ticks reported `success` and the fleet decayed 11 -> 5 with ten checkpointed
+# units sitting hostless. Every one of those ticks was green. The artifact was stale because the ONLY writer
+# of it was the price gate, and the price gate is reached only on the paths that get as far as pricing —
+# so "we held on price", "there was nothing to place", "placement was switched off" and "the launch step
+# never executed at all" were all indistinguishable from the outside. They are opposite facts.
+#
+# So the placement decision is now a NAMED value written on EVERY tick, and a stale `utc` can only ever mean
+# the tick itself did not run. trimcrae's framing in §6: a hold is a correct outcome, a SILENT hold is the bug.
+PLACEMENT_DECISIONS = {
+    "placed":            "units were rented this tick",
+    "price_hold":        "the $/ns gate refused some or all of them — snapshot attached",
+    "nothing_pending":   "every unit has a ddg.json or is blocked; there is nothing left to place",
+    "fleet_at_width":    "every pending unit already has a live instance, or the fleet is at FANOUT_WIDTH",
+    "terminus_hold":     "reduce/commit/upload has never been observed, so the fan-out is not released yet",
+    "credential_hold":   "the object-store credential a rental would be given cannot read the staged inputs",
+    "spend_cap_hold":    "the lane's REALISED cumulative spend has reached its derived authorised ceiling — "
+                         "distinct from price_hold, which is about the RATE of one offer and clears when the "
+                         "board improves. This one does not clear on its own: it is trimcrae's call",
+    "placement_disabled": "this tick was asked to measure only — no placement was attempted",
+    "cost_model_red":    "the unit-list / cost-model tests failed, so nothing may be rented",
+    "measurement_failed": "this tick's progress check or collect did not succeed, so the fleet was neither "
+                          "measured nor reaped — adding hosts to it is the wrong direction",
+}
+
+
+def _write_market_hold(doc, s3=None, bucket=None):
+    """The ONE writer of the placement record — S3 for durability, working tree for the commit step.
+
+    Factored out of `market_gate` because being reachable only from the pricing path is exactly what made
+    the artifact stale through seven green ticks. Every exit from `mode_launch` now goes through here.
+    """
+    if s3 is not None and bucket:
+        try:
+            s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/{_MARKET_HOLD_KEY_SUFFIX.lstrip('_')}",
+                          Body=json.dumps(doc, indent=2).encode())
+        except Exception as e:  # noqa: BLE001
+            _lprint(f"[s1f] market-hold state not persisted: {e}")
+    try:
+        with open("step1-fanout-market-hold.json", "w") as fh:
+            json.dump(doc, fh, indent=2)
+    except Exception as e:  # noqa: BLE001
+        _lprint(f"[s1f] market-hold readout not written: {e}")
+
+
+def record_no_placement(decision, why, *, s3=None, bucket=None, key=None, n_withheld=0, excluded=()):
+    """Write a refreshed placement record for a tick that rented nothing, and LOOK AT THE BOARD anyway.
+
+    ★ THE BOARD READ IS THE POINT, not a decoration. The requirement this implements is *"refresh the market
+    snapshot on EVERY tick even when nothing is placed, so a stale timestamp can never again mean 'we did not
+    look'"*. If the reason for not placing is `nothing_pending`, the price of the board is irrelevant to THIS
+    tick — but its freshness is the only thing that distinguishes a healthy quiet lane from a dead one, and
+    that distinction is what cost 1 h 47 m of fleet decay. A failed board read is recorded as
+    `board_unreadable`, never silently omitted: §6's fail-closed discipline says an unreadable market is not
+    a cheap one, and here it is not an absent one either.
+
+    The escalation clock is CLEARED on every one of these paths — not paused. Price is not what is stopping
+    these units, so a clock that kept running would escalate the instant price became the binding gate, with
+    a duration nobody could interpret. Same rule `market_gate` already applies when another gate is shut.
+    """
+    doc = {"_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in "
+                    "$/ns. Written on EVERY tick — including the ticks that rent nothing — because a stale "
+                    "timestamp must only ever mean the tick did not run.",
+           "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay. A hold is a "
+                    "correct outcome; a SILENT hold is the bug.",
+           "utc": _utcnow(), "decision": decision,
+           "decision_why": why,
+           "decision_meaning": PLACEMENT_DECISIONS.get(decision, "unrecognised decision code"),
+           "held": decision not in ("placed", "nothing_pending", "fleet_at_width"),
+           "n_withheld": int(n_withheld), "n_launching_now": 0, "n_held": int(n_withheld),
+           "placed_usd_per_ns": [], "placed_x_basis": [],
+           "spend_authorised_now_usd": 0.0, "ceiling_for_that_spend_usd": 0.0,
+           "binding_gate": decision, "binding_gate_why": why,
+           "binding_gate_scope": ("all %d withheld unit(s)" % int(n_withheld)) if n_withheld else None,
+           # The clock is cleared, not paused — see the docstring.
+           "price_blocks_every_unit": False, "first_held_utc": None, "held_hours": 0.0,
+           "held_reason": why}
+    try:
+        basis = market_basis()
+        _dollar_ceil, _rate_line, _eff, _which = _cf.unit_ceiling_components()
+        doc.update({"basis_usd_per_ns": round(basis, 6),
+                    "unit_usd_per_ns_ceiling": round(_eff, 6),
+                    "unit_ceiling_x_basis": round(_eff / basis, 3),
+                    "unit_dollar_ceiling_usd_per_ns": round(_dollar_ceil, 6),
+                    "unit_rate_line_usd_per_ns": round(_rate_line, 6),
+                    "which_ceiling_binds": _which})
+    except Exception as e:  # noqa: BLE001
+        doc["ceiling_unreadable"] = f"{type(e).__name__}: {e}"
+    if key:
+        try:
+            _mean, depth, rows = market_snapshot(key, max(1, int(n_withheld) or 1), excluded)
+            doc["board_depth"] = depth
+            doc["offers_priced"] = rows
+            doc["board_unreadable"] = None
+        except Exception as e:  # noqa: BLE001
+            doc["board_depth"], doc["offers_priced"] = None, []
+            doc["board_unreadable"] = f"{type(e).__name__}: {e}"
+            _lprint(f"[s1f] board snapshot unreadable this tick ({type(e).__name__}: {e}) — recorded as "
+                    f"unreadable, NOT as absent.")
+    _lprint(f"[s1f] PLACEMENT DECISION: {decision} — {why}")
+    if doc.get("offers_priced"):
+        best = doc["offers_priced"][0]
+        _lprint(f"[s1f]   board looked at anyway: {doc['board_depth']['offers_returned']} offers, best "
+                f"${best['usd_per_ns']:.6f}/ns on {best['gpu']} m{best['machine_id']}. Snapshot refreshed, "
+                f"so a stale timestamp on this file can only mean the TICK did not run.")
+    _write_market_hold(doc, s3, bucket)
+    return doc
 
 
 def market_snapshot(key, n_units, excluded=()):
@@ -964,6 +1187,11 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
         _lprint(f"[s1f] ⛔ MARKET GUARD COULD NOT READ THE BOARD ({type(e).__name__}: {e}) — HOLDING 0/"
                 f"{n_withheld}. An unreadable market is not a cheap one, and this gate exists precisely for "
                 f"the case where nobody is awake to check.")
+        # Still write the record: an unreadable board is a DECISION, and the one thing that must never
+        # happen is this file keeping yesterday's timestamp while the fleet drains.
+        record_no_placement("price_hold", f"the Vast board could not be read ({type(e).__name__}: {e}) — "
+                                          f"fail-closed, nothing rented",
+                            s3=s3, bucket=bucket, key=None, n_withheld=n_withheld)
         return 0
     _MARKET_GUARD_RAN = True
     basis = market_basis()
@@ -983,7 +1211,8 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
     _lprint(f"[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board {depth['offers_returned']} offers -> "
             f"{depth['qualifying']} qualifying, {depth['priceable']} priceable. A unit must clear BOTH the "
             f"dollar ceiling ${_dollar_ceil:.6f}/ns ({_dollar_ceil / basis:.2f}x, derived from "
-            f"market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.5x drift line "
+            f"market_ceiling_usd(1) / reference_ns_per_unit) AND the "
+            f"{_cf.drift_buy_line_x_basis():.2f}x drift line "
             f"${_rate_line:.6f}/ns — effective ${unit_ceiling:.6f}/ns "
             f"({unit_ceiling / basis:.2f}x), binding on the {_which_binds}. "
             f"(trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)")
@@ -997,8 +1226,13 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
         # ⚠ DRIFT is now UNREACHABLE on a placed unit — the drift line and the buy line are the same number
         # since trimcrae's ruling. Printed anyway: a guard that cannot report its own failure is how this
         # lane keeps finding things late.
+        # ⚠ THE TEST IS THE ABSOLUTE RATE, NOT `>= 1.5x` (CLAUDE.md §1). Typed as a multiple, this printed
+        # "⛔ DRIFT ABOVE THE BUY LINE — this must not happen" against a unit at 1.72x that the gate had
+        # just CORRECTLY cleared (12:44 PM ET 2026-07-27, instance 46021708), because the basis moved under
+        # the constant. A guard that cries wolf on its own passing rows is how a real refusal gets ignored.
         _lprint(f"[s1f]   launch @ ${u:.6f}/ns · {u / basis:.2f}x basis"
-                + ("  ⛔ DRIFT ABOVE THE BUY LINE — this must not happen" if u / basis >= 1.5 else ""))
+                + ("  ⛔ DRIFT ABOVE THE BUY LINE — this must not happen"
+                   if u >= _cf.unit_rate_line_usd_per_ns() else ""))
     if n_held:
         _lprint(f"[s1f]   HELD {n_held} unit(s) on the {_which_binds}: waiting for an offer at or below "
                 f"${unit_ceiling:.6f}/ns ({unit_ceiling / basis:.2f}x basis). "
@@ -1009,13 +1243,17 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
         _lprint(f"[s1f]   spend authorised THIS TICK: ${spend_now} against ${ceiling_now} — the ceiling for "
                 f"the {n_place} unit(s) actually being BOUGHT, not for the notional full tranche.")
 
+    _decision = "placed" if n_place else ("price_hold" if n_held else "nothing_pending")
     doc = {"_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in "
                     "$/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a "
                     "finished fleet — and a partial launch that reports only what it launched is the same "
                     "failure wearing a better number.",
            "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay. Per-unit "
                     "since 2026-07-27 (trimcrae): if 5 GPUs are cheap enough and the rest are not, run 5.",
-           "utc": _utcnow(), "held": (n_held > 0), "n_withheld": n_withheld,
+           "utc": _utcnow(), "decision": _decision,
+           "decision_meaning": PLACEMENT_DECISIONS.get(_decision),
+           "decision_why": (why_none if n_held else None),
+           "held": (n_held > 0), "n_withheld": n_withheld,
            "n_launching_now": n_place, "n_held": n_held,
            "unit_usd_per_ns_ceiling": round(unit_ceiling, 6),
            "unit_ceiling_x_basis": round(unit_ceiling / basis, 3),
@@ -1073,15 +1311,7 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
         _lprint(f"[s1f] BINDING GATE: {blocking[0]} — {blocking[1]}. The price reading above is recorded but "
                 f"is NOT what is stopping these units, so the price-escalation clock is NOT running.")
 
-    try:
-        s3.put_object(Bucket=bucket, Key=hkey, Body=json.dumps(doc, indent=2).encode())
-    except Exception as e:  # noqa: BLE001
-        _lprint(f"[s1f] market-hold state not persisted: {e}")
-    try:
-        with open("step1-fanout-market-hold.json", "w") as fh:
-            json.dump(doc, fh, indent=2)
-    except Exception as e:  # noqa: BLE001
-        _lprint(f"[s1f] market-hold readout not written: {e}")
+    _write_market_hold(doc, s3, bucket)
 
     if price_blocks_every_unit and held_h >= MARKET_HOLD_ESCALATE_H:
         # The escalation. Not a decision the guard is allowed to make for him — a notification that one is
@@ -1180,8 +1410,12 @@ def _rented_usd_per_ns(handle):
     cell = f"${upn:.6f}/ns · {upn / basis:.2f}x basis"
     if upn > ceiling:
         cell += f"  ⛔ ABOVE THE ${ceiling:.6f}/ns CEILING THE GATE CLEARED — this must not happen"
-    elif upn / basis >= 1.5:
-        cell += "  ⚠ DRIFT"
+    elif upn >= _cf.unit_rate_line_usd_per_ns():
+        # ★ THE LINE IS THE ABSOLUTE RATE, NOT A TYPED MULTIPLE (CLAUDE.md §1, trimcrae 2026-07-27). This
+        # read `upn / basis >= 1.5` — a multiple of a denominator that moved 22 % that same morning — so
+        # after the re-anchoring it flagged everything from 1.50x upward while the approved line sat at
+        # 1.92x. Same dollars per nanosecond, a much stricter rule than the one agreed.
+        cell += f"  ⚠ DRIFT (≥ ${_cf.unit_rate_line_usd_per_ns():.6f}/ns)"
     return upn, cell
 
 
@@ -1190,7 +1424,52 @@ def mode_launch():
     bucket, s3 = _require_bucket(), _s3()
     key = os.environ.get("VAST_API_KEY")
     if not key:
+        # Recorded before raising, like every other exit: a missing key is a REASON nothing was placed, and
+        # an unrecorded reason is what made a two-hour outage look like a healthy quiet lane.
+        record_no_placement("credential_hold", "VAST_API_KEY is not set in this environment — the board "
+                                               "cannot be read and nothing can be rented",
+                            s3=s3, bucket=bucket, key=None)
         raise SystemExit("[s1f] VAST_API_KEY required to launch")
+
+    # ★★ THE PLACEMENT SWITCH LIVES HERE, NOT IN A WORKFLOW `if:` (2026-07-27, 2:31 PM ET). ★★
+    #
+    # THE INCIDENT, QUOTED FROM THE EVIDENCE. Between 12:44 PM and 2:31 PM ET, SEVEN autoscale ticks ran and
+    # reported `success`; the fleet decayed 11 -> 5 while ten checkpointed units sat with no host, and
+    # `step1-fanout-market-hold.json` never moved off 12:43 PM. The GitHub jobs API shows the cause on every
+    # one of them, including the 2:09 PM SCHEDULE tick (run 30292476003):
+    #     9  skipped  Gate on the fan-out unit tests (a broken unit list or cost model must never reach a GPU)
+    #     10 skipped  Terminus-gated fan-out
+    # while that same tick's own evidence step printed "✅ MET" for the terminus and
+    # "OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate."
+    # Nothing was wrong with the terminus, the price, the credential or the board. The LAUNCH STEP DID NOT RUN.
+    #
+    # THE MECHANISM. Both steps were guarded by `if: ${{ github.event.inputs.release_fanout != '0' }}`. A
+    # `schedule:` event has NO `inputs` context, so that operand is `null`; GitHub Actions performs LOOSE
+    # comparison and casts both sides to a number when the types differ, and `null` casts to `0`. The
+    # condition is therefore `0 != 0` -> FALSE, and the step that spends money is skipped on exactly the
+    # trigger that is supposed to be unattended. All three of the day's schedule ticks skipped it, 3 of 3;
+    # the sibling expression `${{ github.event.inputs.fleet_branch || '...' }}` in the SAME run resolved
+    # correctly to the fallback, which is the observation that discriminates: the inputs context was null and
+    # `||` coped where `!=` did not.
+    #
+    # WHY THE REPAIR IS NOT "FIX THE EXPRESSION". A YAML `if:` decides in a language with implicit coercion,
+    # leaves `skipped` as its only trace, and cannot write an artifact. The three states "held on price",
+    # "nothing to place" and "placement switched off" all rendered as a green tick with no launch — which is
+    # precisely why this ran for 1 h 47 m unnoticed. So the switch is READ here, as a string, with an
+    # explicit default, and every outcome is NAMED and RECORDED by `record_no_placement`. The workflow's job
+    # is now to hand the flag over, not to decide with it.
+    _placement = (os.environ.get("FANOUT_PLACEMENT_ENABLED") or "1").strip()
+    # The cost-model gate moved in here for the same reason: as a workflow `if:` it could only skip, and a
+    # skip is invisible. Now a red cost model is a NAMED refusal in the artifact and still stops the renting.
+    _cost_outcome = (os.environ.get("FANOUT_COST_MODEL_OUTCOME") or "success").strip()
+    # ⚠ The launch step now runs under `always()` so the snapshot can never go stale — which means it also
+    # runs when the progress check or the collect FAILED. Renting more hosts onto a fleet that was neither
+    # measured nor reaped this tick is the wrong direction, so those outcomes gate placement too. The
+    # snapshot is still written; only the buying is held.
+    _upstream = {k: (os.environ.get(f"FANOUT_{k}_OUTCOME") or "success").strip()
+                 for k in ("MEASURE", "COLLECT")}
+    _upstream_bad = {k: v for k, v in _upstream.items() if v != "success"}
+
     units = default_units()
     idx_of = {u["unit_id"]: i for i, u in enumerate(units)}
     pending = _pending(s3, bucket, units)
@@ -1215,6 +1494,40 @@ def mode_launch():
     todo = [u for u in pending if f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
             not in live_labels]
 
+    # ---- the two switches, each with a NAMED, RECORDED outcome ------------------------------------------
+    # Both write the snapshot before returning, so the artifact's timestamp advances on every tick and can
+    # only ever go stale by the tick itself not running. That is the whole repair.
+    _excl_for_snapshot, _ = _load_excluded(s3, bucket)
+    if _placement == "0":
+        record_no_placement(
+            "placement_disabled",
+            f"FANOUT_PLACEMENT_ENABLED={_placement!r} — this tick was asked to measure, collect and reap "
+            f"only. {len(todo)} unit(s) are pending with no live host and were NOT dropped; the next tick "
+            f"with placement enabled sends them out.",
+            s3=s3, bucket=bucket, key=key, n_withheld=len(todo), excluded=_excl_for_snapshot)
+        _write_launch_readout()
+        return
+    if _upstream_bad:
+        record_no_placement(
+            "measurement_failed",
+            f"upstream step outcome(s) {_upstream_bad!r} — the fleet was not measured and/or not reaped this "
+            f"tick, so {len(todo)} pending unit(s) are held rather than rented onto an unmeasured fleet. "
+            f"Nothing was dropped; the next healthy tick places them.",
+            s3=s3, bucket=bucket, key=key, n_withheld=len(todo), excluded=_excl_for_snapshot)
+        _write_launch_readout()
+        return
+    if _cost_outcome != "success":
+        record_no_placement(
+            "cost_model_red",
+            f"the fan-out unit-list / cost-model tests came back {_cost_outcome!r} — a broken unit list or "
+            f"cost model must never reach a GPU, so {len(todo)} pending unit(s) are held. Nothing was "
+            f"dropped; fix the tests and the next tick places them.",
+            s3=s3, bucket=bucket, key=key, n_withheld=len(todo), excluded=_excl_for_snapshot)
+        print("::error title=STEP1 FAN-OUT: COST MODEL RED::the unit-list/cost-model tests failed, so no "
+              "unit may be rented this tick. Snapshot: step1-fanout-market-hold.json", flush=True)
+        _write_launch_readout()
+        raise SystemExit(1)
+
     # ---- FANOUT_ONLY: launch a NAMED subset, not "the next N in map order" --------------------------------
     # THE SHAKEOUT RULE NEEDS THIS. 0 of 19 units of this lane has ever produced a ddG: sampling is proven
     # (three hosts at 95-99 % GPU on the real system in wave 1) but the TERMINUS — reduce both legs, write
@@ -1224,6 +1537,9 @@ def mode_launch():
     # unproven terminus risks paying 19x for zero results. So exactly ONE unit runs first, and it is chosen
     # DELIBERATELY (the most-advanced checkpoint, i.e. the one closest to the terminus, so the proof costs the
     # least wall-clock) rather than by map position. Without this flag "one unit" would mean unit 00.
+    # Set by any gate below that NARROWS `todo` — (decision, why, n_withheld). Read by the empty-batch
+    # readout, which otherwise re-derives a reason from slot arithmetic that was never the cause.
+    _narrowed = None
     only = [t.strip() for t in (os.environ.get("FANOUT_ONLY") or "").split(",") if t.strip()]
     if only:
         matched = [u for u in todo if any(t in u["unit_id"] or t in u["ligand_b"] for t in only)]
@@ -1274,17 +1590,35 @@ def mode_launch():
                 _lprint("[s1f] TERMINUS NOT PROVEN and no FANOUT_SHAKEOUT_UNIT named — holding everything. "
                       "Set FANOUT_SHAKEOUT_UNIT so the gate can keep the shakeout unit alive while it holds "
                       "the other units back.")
+                record_no_placement("terminus_hold", _terminus_why + ", and no FANOUT_SHAKEOUT_UNIT is named",
+                                    s3=s3, bucket=bucket, key=key, n_withheld=len(todo),
+                                    excluded=_excl_for_snapshot)
                 _write_launch_readout()
                 return
             keep = [u for u in todo if shakeout in u["unit_id"] or shakeout in u["ligand_b"]]
             _lprint(f"[s1f] TERMINUS NOT PROVEN — no unit has a ddg.json, so reduce/commit/upload has never "
                   f"been observed on this lane. Holding {len(todo) - len(keep)} unit(s); RESUMING the "
                   f"shakeout unit ({shakeout}) if it needs it: {len(keep)} to submit.")
+            # ★★ REMEMBER *WHY* `todo` SHRANK, or the empty-batch readout below tells a lie (2026-07-27,
+            # found while ramping). The narrowing here can empty `todo` outright — when the shakeout unit
+            # already has a live host, `keep` is `[]` — and the empty-batch branch then had no way to know
+            # that, so it fell through to its last `else` and recorded `fleet_at_width`, "all N pending
+            # unit(s) already have a live instance", with `n_withheld=0`. Every clause of that is false: the
+            # units are held by the TERMINUS, most of them have no host, and they are very much being
+            # withheld. That is the same defect class as the seven green ticks — a tick that places nothing
+            # and misnames the reason is only marginally better than one that says nothing at all, because
+            # the wrong name sends the next reader to the wrong gate. So the reason travels with the
+            # narrowing instead of being re-guessed downstream.
+            _narrowed = ("terminus_hold",
+                         _terminus_why + f" — the fan-out is narrowed to the shakeout unit "
+                                         f"({shakeout}), which needs no new host this tick",
+                         len(todo) - len(keep))
             todo = keep
 
     # Slots count only instances actually DOING something, for the same reason live_labels does: a fleet of
     # exited corpses would otherwise report zero free slots and silently launch nothing.
     _busy = [i for i in live if (i.get("actual_status") or "") not in _TERMINAL]
+    WIDTH = fanout_width()
     slots = max(0, WIDTH - len(_busy))
     batch = todo[:slots]
 
@@ -1299,6 +1633,29 @@ def mode_launch():
         _lprint(f"[s1f]   queue {u['unit_id']}  ({u['ligand_a']} -> {u['ligand_b']}, {u['edge_class']})")
     if not batch:
         _lprint("[s1f] nothing to submit (fleet already at width, or all units done)")
+        # ⚠ THESE ARE DIFFERENT FACTS AND THE OLD ONE-LINER CONFLATED THEM. "All 19 edges are finished"
+        # and "every free slot is taken" are opposite states of the lane — one means STOP, the other means
+        # KEEP WATCHING — and for 1 h 47 m the readout said neither because it never got here at all.
+        _n_withheld = 0
+        if _narrowed:
+            # An EARLIER gate emptied `todo`; it knows why and this branch does not. Checked FIRST, because
+            # every test below is about slots and finished units and would answer confidently about the
+            # wrong question. `n_withheld` is the count that gate held, not 0 — a held unit that reports
+            # zero withheld is invisible in exactly the readout built to make holds visible.
+            _dec, _why, _n_withheld = _narrowed
+        elif not pending:
+            _dec, _why = "nothing_pending", ("every unit has a ddg.json in S3 or is on the blocked list — "
+                                             "there is nothing left for this lane to place")
+        elif slots <= 0:
+            _dec, _why = "fleet_at_width", (f"{len(_busy)} live instance(s) against a DERIVED width of "
+                                            f"{WIDTH} (fanout_width(): the map size, so the cap never binds "
+                                            f"below what the lane may place) — no free slot. "
+                                            f"{len(pending)} unit(s) still pending.")
+        else:
+            _dec, _why = "fleet_at_width", (f"all {len(pending)} pending unit(s) already have a live "
+                                            f"instance; {slots} slot(s) free but nothing to put in them")
+        record_no_placement(_dec, _why, s3=s3, bucket=bucket, key=key,
+                            n_withheld=_n_withheld, excluded=_excl_for_snapshot)
         _write_launch_readout()
         return
 
@@ -1349,8 +1706,84 @@ def mode_launch():
                     f"first thing every leg does. Renting would buy a container that boots, fails that copy "
                     f"and is Killed, on a loop, while billing. Nothing was rented and no unit was dropped; "
                     f"the checkpoints are untouched in S3 and the next tick re-checks automatically.")
+            record_no_placement("credential_hold", why, s3=s3, bucket=bucket, key=key,
+                                n_withheld=len(batch), excluded=_excl_for_snapshot)
             _write_launch_readout()
             return
+
+    # ⛔⛔ THE CUMULATIVE SPEND CAP — THE GATE THIS LANE DID NOT HAVE (2026-07-27, added with the ramp).
+    #
+    # THE GAP, STATED PLAINLY. Every other guard in this function asks a question about ONE rental: is this
+    # rate acceptable, can this host read S3, is this unit already running. Not one of them asks whether the
+    # lane has spent the money it was authorised. Realised spend was measured and printed on every tick and
+    # nothing ever refused on it. That was survivable while the fleet was small and hand-placed. It stopped
+    # being survivable the moment placement became self-replenishing: the tick now re-rents to target width
+    # on every pass, forever, and a per-unit rate line is passed *individually* by every cheap host. Fifteen
+    # hosts each comfortably under $0.006539/ns is exactly the shape that drains a budget while every row in
+    # the readout reads green — nothing was wrong with any single purchase, and the total was nobody's job.
+    #
+    # WHY IT SITS HERE: after the credential pre-flight, before the price gate. It costs no board read, so
+    # it is the cheapest question; and it is a different QUESTION from price, not a stricter version of it.
+    # Price asks "is this a rate we will pay at all"; this asks "is there authorised money left". Conflating
+    # them is what CLAUDE.md §1 warns about — a refusal must NAME which ceiling it hit, because the remedies
+    # are opposite: a price hold clears by itself when the board improves, and this one never does.
+    #
+    # ⚠ IT HOLDS. IT DOES NOT DESTROY. The gate acts at the MOMENT OF RENTING and has no reach over a live
+    # host — the same boundary `relaunch_market_gate` keeps. Work already executing keeps executing and
+    # keeps banking checkpoints; what stops is BUYING MORE. Killing running legs to save money would throw
+    # away GPU-hours already paid for, which makes the overspend worse, not better.
+    #
+    # ⚠ AND IT IS SURFACED, NOT IDLED. §6 names a silent hold as worse than the problem, and a cap that
+    # cannot be cleared by waiting is the case where that matters most: unlike a thin market, this will look
+    # identical tomorrow. So when the cap binds with units still pending it raises a hard `::error::`, which
+    # fails the job and fires GitHub's own notification — the same session-independent path the market
+    # escalation uses. That is a decision for trimcrae: re-price the tranche, authorise more, or stop.
+    #
+    # ⚠ AND IT READS ITS LEDGER STRICTLY. `_load_ledger` swallows every S3 error into an empty doc, which
+    # for a spend cap means an outage reports realised $0 and full headroom — a fabricated all-clear that
+    # opens the gate exactly when evidence is missing. `load_ledger_strict` raises instead, and the raise
+    # HOLDS. Same rule as the unreadable board.
+    try:
+        _cap_realised, _cap_ceiling, _cap_headroom, _cap_breached, _cap_detail = spend_cap_state(
+            load_ledger_strict(s3, bucket), live_ids=[i.get("id") for i in live], n_units=len(units))
+    except Exception as e:  # noqa: BLE001
+        _lprint(f"[s1f] ⛔ SPEND CAP HAS NO EVIDENCE ({type(e).__name__}: {e}) — HOLDING {len(batch)} "
+                f"unit(s). An unreadable ledger is not a zero one. Nothing rented, nothing dropped, "
+                f"nothing running touched; the next tick re-reads.")
+        record_no_placement("spend_cap_hold",
+                            f"the rental ledger could not be read ({type(e).__name__}: {str(e)[:200]}) — "
+                            f"realised spend is unknown, so the cap fails CLOSED and {len(batch)} unit(s) "
+                            f"are held rather than rented against evidence we do not have",
+                            s3=s3, bucket=bucket, key=key, n_withheld=len(batch),
+                            excluded=_excl_for_snapshot)
+        _write_launch_readout()
+        return
+    _lprint(f"[s1f] SPEND CAP: realised ${_cap_realised} against a DERIVED ceiling of ${_cap_ceiling} "
+            f"(market_ceiling_usd({_cap_detail['n_units_authorised']}) — the authorised band top, "
+            f"regenerated from the cost model, never typed) -> ${_cap_headroom} headroom. "
+            f"{_cap_detail['n_rentals']} rental(s) counted, of which "
+            f"{_cap_detail['n_accruing_unreconciled']} are accruing wall-clock because no collect has "
+            f"reconciled them yet (a cap that cannot see those reads green while the lane is over).")
+    if _cap_breached:
+        _lprint(f"[s1f] ⛔⛔ SPEND CAP REACHED — realised ${_cap_realised} >= ${_cap_ceiling}. "
+                f"HOLDING all {len(batch)} unit(s). Nothing was rented, nothing was dropped and NOTHING "
+                f"RUNNING WAS TOUCHED: the {len(live)} live host(s) keep working and keep checkpointing. "
+                f"This is NOT a price hold — the board is irrelevant to it and waiting will not clear it.")
+        record_no_placement(
+            "spend_cap_hold",
+            f"realised cumulative spend ${_cap_realised} has reached the derived authorised ceiling "
+            f"${_cap_ceiling} for {_cap_detail['n_units_authorised']} units; {len(batch)} unit(s) held. "
+            f"Live work continues untouched. Clearing this needs a decision, not a better board.",
+            s3=s3, bucket=bucket, key=key, n_withheld=len(batch), excluded=_excl_for_snapshot)
+        if pending:
+            print(f"::error title=STEP1 FAN-OUT: SPEND CAP REACHED::realised ${_cap_realised} against the "
+                  f"derived authorised ceiling ${_cap_ceiling}, with {len(pending)} unit(s) still pending. "
+                  f"Placement is HELD; running legs are untouched. This does not clear on its own — it "
+                  f"needs a decision: re-price the tranche against the current market, authorise more, or "
+                  f"stop the lane here. Snapshot: step1-fanout-market-hold.json", flush=True)
+            globals()["_MARKET_HOLD_ESCALATED"] = True
+        _write_launch_readout()
+        return
 
     # ⛔ THE $/ns MARKET GUARD (CLAUDE.md §6). EVERY launch must clear a price gate — fleet or single unit.
     #
@@ -1407,6 +1840,11 @@ def mode_launch():
         if _held:
             _lprint("[s1f] Nothing was rented and no unit was dropped; the checkpoint is untouched in S3 and "
                     "the next scheduled tick re-checks.")
+            # The single-host gate has its own artifact (`relaunch-market-hold.json`), but a reader watching
+            # the fan-out watches THIS file — and if only the sibling moves, this one goes stale and once
+            # again means nothing legible. Both are refreshed.
+            record_no_placement("price_hold", f"single-host gate: {_gdoc['reason']}", s3=s3, bucket=bucket,
+                                key=key, n_withheld=1, excluded=_excluded_for_guard)
             if _gdoc.get("escalated"):
                 # A ceiling nobody can clear must become trimcrae's decision, not an idle night. Reuse the
                 # lane's existing escalation flag rather than inventing a second exit path.
@@ -1420,11 +1858,22 @@ def mode_launch():
     if batch and not _MARKET_GUARD_RAN:
         _lprint(f"[s1f] ⛔ LAUNCH HELD ({len(batch)} unit(s)) — the $/ns market guard did not run. "
                 f"Refusing to rent what was never priced.")
+        record_no_placement("price_hold", "the $/ns market guard did not run at all — refusing to rent what "
+                                          "was never priced (belt guard)",
+                            s3=s3, bucket=bucket, key=key, n_withheld=len(batch),
+                            excluded=_excluded_for_guard)
         _write_launch_readout()
         return
 
     if os.environ.get("FANOUT_CONFIRM") != "1":
         _lprint("[s1f] DRY — set FANOUT_CONFIRM=1 to actually rent instances")
+        # ⚠ OVERWRITE the gate's `decision: placed`. The gate ran and cleared these units, but a dry run
+        # rents nothing — leaving "placed" in the artifact would report a purchase that never happened.
+        record_no_placement("placement_disabled",
+                            f"FANOUT_CONFIRM is not 1 — dry run. The $/ns gate cleared {len(batch)} unit(s) "
+                            f"but nothing was rented.",
+                            s3=s3, bucket=bucket, key=key, n_withheld=len(batch),
+                            excluded=_excluded_for_guard)
         _write_launch_readout()
         return
 
@@ -1440,6 +1889,28 @@ def mode_launch():
     # Machines used by THIS wave are also excluded as we go, so an 18-wide fan-out lands on 18 distinct hosts
     # rather than stacking on the single cheapest one and contending for its GPU.
     used_machines = set(excluded)
+
+    # ★★ ONE BOARD READ FOR THE WHOLE WAVE — the change that makes the ramp raise concurrency and LOWER API
+    # pressure at the same time (2026-07-27). Rationale and the safety argument: `gpu_backend
+    # .board_read_cache`. In short, `submit` reads `/search/asks/` once per unit and
+    # `_vast_ondemand_base_by_machine` reads it again, so placement cost 2 calls per unit — 37 in a burst at
+    # this lane's full width, against a shared key that already answered an nginx HTML 403 to a FOUR-unit
+    # launch today and rented 0/4. The per-unit exclusions that make the wave land on distinct hosts are
+    # applied client-side, so every one of those reads was fetching identical rows.
+    #
+    # THE TTL IS DERIVED FROM THE MEASURED SUBMIT RATE, not picked. A submit takes ~37 s (timed from the
+    # completed step records of runs 30296004080 and 30296390447 — see the ledger note below), so at full
+    # width a wave spans ~11 min. A 180 s snapshot therefore expires ~4 times across it: the wave costs
+    # ~4 board reads instead of ~36, and no unit is ever placed against a board older than 3 minutes. Both
+    # halves matter — an unbounded cache would rent the whole fleet against one stale snapshot, and no cache
+    # throttles the key exactly when the fleet gets wide.
+    _board_ttl = float(os.environ.get("FANOUT_BOARD_CACHE_TTL_S", "180"))
+    # ExitStack rather than a `with` block only so the loop below keeps its indentation and this diff stays
+    # readable next to the other lane's edits in the same function; `close()` at the end of the wave does
+    # exactly what leaving the block would. The cache is process-local and TTL-bounded, so even the path
+    # where an exception escapes the loop cannot leak it past this process.
+    _board_stack = contextlib.ExitStack()
+    _board_stats = _board_stack.enter_context(board_read_cache(ttl_s=_board_ttl))
     for u in batch:
         spec = build_jobspec(u, os.environ.get("GIT_BRANCH", "main"), bucket, idx_of[u["unit_id"]],
                              exclude_machine_ids=used_machines)
@@ -1493,8 +1964,37 @@ def mode_launch():
             "unit_id": u["unit_id"], "label": spec.name, "machine_id": _mid,
             "bid": _bid, "min_bid": _floor, "dph": _dph, "billed_min": 0,
             "launched_utc": _utcnow(), "last_seen_utc": None}
-    _save_ledger(s3, bucket, _ledger)
-    _arm_watchdog([h["unit_id"] for h in handles], os.environ.get("GIT_BRANCH", "main"))
+        # ★★ SAVE AFTER **EACH** RENTAL, NOT AFTER THE LOOP (2026-07-27, measured). CLAUDE.md's checkpoint
+        # rule — "checkpoint after each unit of work and upload as it is written; a default end-of-job
+        # upload loses ALL partial work on a timeout" — applies to the RENTAL LEDGER exactly as it does to a
+        # trajectory, and this loop was violating it.
+        #
+        # THE MEASUREMENT, AND THE MARGIN. A submit is not instant: Vast reports `intended=stopped` on a
+        # fresh create and the backend polls up to 8 times before giving up, so a unit costs ~15-70 s.
+        # Timed from the step boundaries of two consecutive ticks on 2026-07-27 — run 30296004080,
+        # 18:58:10Z -> 19:01:22Z, and run 30296390447, 19:02:41Z -> 19:05:48Z — five submits each, i.e.
+        # **~37 s per unit**. At the lane's `FANOUT_WIDTH` of 19 that projects to ~12 min inside ONE step,
+        # against the job's `timeout-minutes: 25`. Not a comfortable margin: the poll is bounded by attempts,
+        # not by time, so a wave where many hosts sit in `loading` runs at the slow end of that range.
+        #
+        # ⚠ AND DO NOT REPEAT THE MISREAD THAT PROMPTED THIS. The same step was first believed to have taken
+        # **18 minutes**, from polling the jobs API while the run was live — that endpoint lags, reporting a
+        # finished step as `in_progress` for many minutes. The real figure came from the step's own
+        # `started_at`/`completed_at` after completion. Time a CI step from the completed record, never from
+        # a live poll.
+        #
+        # If the loop ever does hit the timeout, every box rented so far bills while absent from the
+        # realised-spend ledger and absent from the watch list — the 2026-07-26 instance-45951628 shape
+        # reached by a different route. An extra S3 PUT per rental is free; a box that bills invisibly is not.
+        _save_ledger(s3, bucket, _ledger)
+        _arm_watchdog([u["unit_id"]], os.environ.get("GIT_BRANCH", "main"))
+        _write_launch_readout()
+    # MEASURED, not asserted (CLAUDE.md §4). If this ever reports ~0 saved calls on a multi-unit wave the
+    # cache is not doing its job and the ramp is back to burst-reading the shared key once per unit.
+    _board_stack.close()
+    _lprint(f"[s1f] board-read cache over the wave: {_board_stats['hits']} hit(s), "
+            f"{_board_stats['misses']} real read(s) — {_board_stats['saved_calls']} Vast "
+            f"/search/asks/ call(s) NOT made against the shared key (TTL {_board_ttl:.0f}s).")
     with open("step1-fanout-handles.json", "w") as f:
         json.dump(handles, f, indent=2)
     # the label -> unit map, so a later collect/monitor can name instances without re-deriving the index

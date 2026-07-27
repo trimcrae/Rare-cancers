@@ -238,6 +238,100 @@ def test_rate_limit_counts_edge_html_403s_separately_from_vast_json_errors():
 # =============================================================================================================
 # the buy line is IMPORTED, never typed (CLAUDE.md §1)
 # =============================================================================================================
+# =============================================================================================================
+# APPENDED SERIES — the two ways a resumed collection corrupts its own analysis
+# =============================================================================================================
+def test_annotate_separates_runs_so_a_restart_cannot_be_read_as_market_noise():
+    # The series is appended across runs and `tick` restarts at 0 each time. Grouping on tick alone pairs
+    # run 0's R1 with run 1's R2 — eight minutes apart — and reports it as a 20-second read-to-read gap.
+    recs = [{"tick": 0, "slot": "R1", "utc": "2026-07-27T12:00:00Z", "status": 200, "rows": []},
+            {"tick": 0, "slot": "R2", "utc": "2026-07-27T12:00:20Z", "status": 200, "rows": []},
+            {"tick": 0, "slot": "R1", "utc": "2026-07-27T12:30:00Z", "status": 200, "rows": []},
+            {"tick": 0, "slot": "R2", "utc": "2026-07-27T12:30:20Z", "status": 200, "rows": []}]
+    out = vbv.annotate(recs)
+    assert [r["run"] for r in out] == [0, 0, 1, 1]
+
+
+def test_read_noise_pairs_within_a_run_not_across_runs():
+    # Two runs, each internally identical. Cross-run pairing would compare run 0's cheap board with run 1's
+    # expensive one and report enormous "noise"; correct pairing reports none.
+    recs = vbv.annotate([
+        _rec(0, "R1", {"A": 0.003}), _rec(0, "R2", {"A": 0.003}),
+        {**_rec(0, "R1", {"Z": 0.030}), "utc": "2026-07-27T13:00:00Z"},
+        {**_rec(0, "R2", {"Z": 0.030}), "utc": "2026-07-27T13:00:20Z"}])
+    rn = vbv.read_noise(recs)
+    assert rn["pairs"] == 2
+    assert rn["jaccard"]["mean"] == 1.0
+    assert rn["d_best4_frac"]["max"] == 0.0
+
+
+def test_series_indexes_on_the_wall_clock_so_two_runs_do_not_collide():
+    recs = vbv.annotate([_rec(0, "R1", {"A": 0.003}),
+                         {**_rec(0, "R1", {"B": 0.003}), "utc": "2026-07-27T13:00:00Z"}])
+    ts = [s["t"] for s in vbv.series(recs, "R1")]
+    assert len(set(ts)) == 2, "a per-run tick counter would fold both onto index 0"
+
+
+def test_a_spell_is_not_bridged_across_an_observation_gap():
+    # Machine A is cheap before a 30-minute blackout and cheap after it. We did not watch the gap, so this is
+    # NOT one 32-minute spell — crediting it as one invents survival we never observed.
+    ser = [{"t": 0, "utc": "x", "rows": [{"m": "A", "u": 0.003}]},
+           {"t": 1, "utc": "x", "rows": [{"m": "A", "u": 0.003}]},
+           {"t": 31, "utc": "x", "rows": [{"m": "A", "u": 0.003}]},
+           {"t": 32, "utc": "x", "rows": [{"m": "A", "u": 0.003}]}]
+    sp = vbv.spells(ser, line=LINE)
+    assert len(sp) == 2
+    assert {s["ended_by"] for s in sp} == {"gone_dark", "still_open"}
+    assert max(s["ticks"] for s in sp) == 2
+
+
+# =============================================================================================================
+# ROTATING-SAMPLE CORRECTION — the confound that made the first survival curve meaningless
+# =============================================================================================================
+def test_miss_probability_measures_the_sampler_not_the_market():
+    # Two identical reads, 20 s apart: A is in both, B only in the first, C only in the second. The endpoint
+    # omitted one of two machines each way, so p = 0.5 symmetrised.
+    recs = [_rec(0, "R1", {"A": 0.003, "B": 0.003}), _rec(0, "R2", {"A": 0.003, "C": 0.003})]
+    assert vbv.miss_probability(vbv.annotate(recs)) == pytest.approx(0.5)
+
+
+def test_miss_probability_is_zero_for_a_stable_endpoint():
+    recs = [_rec(0, "R1", {"A": 0.003}), _rec(0, "R2", {"A": 0.003})]
+    assert vbv.miss_probability(vbv.annotate(recs)) == 0.0
+
+
+@pytest.mark.parametrize("p,expected", [(0.0, 1), (0.245, 3), (0.5, 6)])
+def test_tolerance_is_derived_from_the_measured_miss_rate(p, expected):
+    # Never hand-picked. At the measured p=0.245, three consecutive misses put the false-"gone" rate at
+    # 0.245**3 = 1.5 %, under the 2 % target; two would leave it at 6 %.
+    assert vbv.tolerance_for(p) == expected
+
+
+def test_a_single_missed_read_does_not_end_a_spell():
+    # A is cheap throughout; the endpoint simply fails to list it at tick 1. With tolerance 2 that is one
+    # spell of 4 ticks, not two spells of 1 and 2 — and the difference is the whole survival result.
+    ser = _ser([{"A": 0.003}, {}, {"A": 0.003}, {"A": 0.003}])
+    sp = vbv.spells(ser, line=LINE, miss_tolerance=2)
+    assert len(sp) == 1
+    assert sp[0]["ticks"] == 4
+
+
+def test_the_naive_rule_splits_that_same_spell_which_is_why_it_understates_survival():
+    ser = _ser([{"A": 0.003}, {}, {"A": 0.003}, {"A": 0.003}])
+    sp = vbv.spells(ser, line=LINE, miss_tolerance=1)
+    assert len(sp) == 2
+    assert max(s["ticks"] for s in sp) == 2
+
+
+def test_tolerance_dates_the_end_at_the_last_SIGHTING_not_the_last_tolerated_tick():
+    # A vanishes for good after tick 0. With tolerance 3 the spell closes at tick 3, but its length must be
+    # 1 tick — otherwise the tolerance would inflate exactly the lifetime it exists to protect.
+    ser = _ser([{"A": 0.003}, {}, {}, {}, {}])
+    sp = [s for s in vbv.spells(ser, line=LINE, miss_tolerance=3) if s["machine"] == "A"]
+    assert len(sp) == 1
+    assert sp[0]["ticks"] == 1
+
+
 def test_the_module_takes_its_buy_line_from_the_one_place_that_owns_it():
     from inflight_usd_per_ns import APPROVED_USD_PER_NS
     assert vbv._line() == APPROVED_USD_PER_NS

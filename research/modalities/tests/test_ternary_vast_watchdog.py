@@ -398,3 +398,60 @@ def test_the_log_excerpt_falls_back_to_the_tail_when_there_were_no_hits():
     assert "e" in wd._log_excerpt(["a", "b", "c", "d", "e"])
     assert wd._log_excerpt([]) == "(no run.log in S3 yet)"
     assert wd._log_excerpt(None) == "(no run.log in S3 yet)"
+
+
+# ------------------------------------------------- a `stopped` box is billing, not merely slow (2026-07-27)
+#
+# The incident these pin: all four valB_mini r1+r2 hosts were reclaimed by their machines, and because
+# `classify` is handed `instance_alive = inst is not None` and never reads `cur_state`, two consecutive cron
+# ticks printed "advancing at warmup/512 ... Leaving it alone" and "HOLDING ... Leaving it alone" across
+# 85 minutes while ~$0.58/hr drained. `task=collect` then nudged all four and got `resources_unavailable` on
+# every one. The verdicts were true about the counter and useless about the money.
+
+def _inst(**kw):
+    base = {"id": 46027730, "machine_id": 68109, "gpu_name": "RTX 3090",
+            "cur_state": "stopped", "actual_status": "loading"}
+    base.update(kw)
+    return base
+
+
+def test_a_stopped_box_past_the_reap_line_is_flagged():
+    assert wd.stopped_and_billing(_inst(), "RUNNING", 85.0)
+
+
+def test_a_stopped_box_that_is_still_pulling_its_image_is_not_flagged():
+    """A fresh rental reads stopped/loading while the ~multi-GB image lands — 2 h 57 min has been observed
+    on this account. Alerting there would fire on every launch, and an alarm that always fires is off."""
+    assert not wd.stopped_and_billing(_inst(), "RUNNING", 10.0)
+
+
+def test_the_line_is_the_collectors_own_number_not_a_second_copy():
+    """CLAUDE.md §1: the threshold has ONE home — the collector that acts on it. If someone re-types it here
+    the two can drift, and the watchdog would then alert about boxes the collector leaves alone (or, worse,
+    stay silent about boxes it destroys)."""
+    import ternary_vast_launch as tv
+    assert not wd.stopped_and_billing(_inst(), "RUNNING", tv.MAX_STOPPED_MIN)
+    assert wd.stopped_and_billing(_inst(), "RUNNING", tv.MAX_STOPPED_MIN + 0.1)
+
+
+def test_a_running_box_is_never_flagged_by_this_clause():
+    """This clause must not become a second stall detector. A `running` box that is frozen is `classify`'s
+    business, and the two verdicts answer different questions."""
+    assert not wd.stopped_and_billing(_inst(cur_state="running", actual_status="running"), "RUNNING", 500.0)
+
+
+def test_a_finished_legs_lingering_host_is_the_reap_working_not_a_leak():
+    for verdict in ("DONE", "FAILED"):
+        assert not wd.stopped_and_billing(_inst(), verdict, 500.0)
+
+
+def test_no_instance_is_not_a_stopped_instance():
+    """DIED (no result, no instance) is the relaunch path and must stay reachable — swallowing it here would
+    turn a recoverable leg into a silent alert."""
+    assert not wd.stopped_and_billing(None, "DIED", 500.0)
+
+
+def test_an_unreadable_age_never_manufactures_an_alert():
+    """Fail-safe direction, same as everywhere else in this lane: ignorance resolves to doing nothing."""
+    assert not wd.stopped_and_billing(_inst(), "RUNNING", None)
+    assert not wd.stopped_and_billing(_inst(), "RUNNING", "n/a")

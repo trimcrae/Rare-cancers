@@ -232,6 +232,45 @@ def setup_stall_diagnosis(*, phase_text, marker_age_min, log_age_min, log_lines,
             f"branch catches. {_age(marker_age_min, 'phase marker written')}; {freshness}. Log: {tail}")
 
 
+def stopped_and_billing(inst, verdict, instance_age_min, max_stopped_min=None):
+    """Is this box `stopped`, past the collector's reap line, and therefore burning money for nothing? PURE.
+
+    ★★ WHY THIS PREDICATE EXISTS — THE WATCHDOG REASSURED ABOUT A DEAD COHORT (measured 2026-07-27, the
+    valB_mini r1+r2 replicates). `classify` is handed `instance_alive = inst is not None`, i.e. the EXISTENCE
+    of an instance record; it never reads `cur_state`. When all four replicate hosts were reclaimed by their
+    machines, two consecutive cron ticks printed "advancing at warmup/512 ... Leaving it alone" and
+    "HOLDING ... Leaving it alone" across 85 minutes while ~$0.58/hr drained into boxes whose GPUs were
+    already gone. `task=collect` then nudged all four and got `resources_unavailable` on every one — they had
+    been unrecoverable the whole time. The counter-based verdicts were not wrong about the counter; they were
+    answering a question ("is the science moving?") that had stopped being the relevant one, and a frozen
+    counter on a stopped box is a CONSEQUENCE, not a stall.
+
+    WHY THIS ONLY REPORTS. The nudge-then-reap policy, the capacity-refusal branch and the cross-lane
+    blacklist live in `ternary_vast_launch.collect`, which reads the start response that separates "outbid,
+    restartable" from "GPU gone, destroy it". Duplicating any of that here would give one fact two homes free
+    to disagree. What was missing was never a second actor — it was that the thing on a cron said everything
+    was fine.
+
+    WHY THE THRESHOLD IS IMPORTED, NOT CHOSEN. A fresh rental legitimately reads
+    `cur_state=stopped, actual_status=loading` while its image pulls (2 h 57 min observed on this account),
+    so alerting on first sight of `stopped` would be noise at every launch. `MAX_STOPPED_MIN` is the line
+    past which the collector destroys the box, so it is exactly the line past which it is worth waking
+    someone — and reading it from there means the two cannot drift apart (CLAUDE.md §1).
+
+    DONE and FAILED are excluded because a finished leg's host lingering `stopped` is the reap working, not
+    a leak; the collector destroys it on `unit done` and the alert would be pure noise.
+    """
+    if inst is None or verdict in ("DONE", "FAILED"):
+        return False
+    if inst.get("cur_state") != "stopped":
+        return False
+    line = tv.MAX_STOPPED_MIN if max_stopped_min is None else float(max_stopped_min)
+    try:
+        return float(instance_age_min) > line
+    except (TypeError, ValueError):
+        return False
+
+
 def enabled_entries(doc):
     """The entries this pass should act on. PURE. An absent/!dict/empty list is a legitimate no-op."""
     if not isinstance(doc, dict):
@@ -495,6 +534,26 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
                       f"would fail the same way and, uncapped, would buy a full-length rental per attempt. "
                       f"Diagnose, then clear the record or disable the entry. Last log lines: {tail}")
             continue
+        # A `stopped` BOX IS NOT A SLOW BOX — IT IS A DEAD BOX THAT IS STILL BILLING. The whole argument,
+        # and the incident that produced it, is in `stopped_and_billing`'s docstring; it is checked BEFORE
+        # the counter verdicts because on a stopped box the frozen counter is a consequence, not a stall,
+        # and an "advancing / HOLDING ... Leaving it alone" notice is actively misleading there.
+        # An alert also makes `--tick` exit non-zero, which is the notification path that does not depend on
+        # an agent being awake.
+        if stopped_and_billing(inst, verdict, age_min):
+            alerts += 1
+            _annotate("error", "TVAST WATCHDOG INSTANCE STOPPED",
+                      f"{uid} — instance {inst.get('id')} (machine {inst.get('machine_id')}, "
+                      f"{inst.get('gpu_name')}) reads cur_state=stopped / actual_status="
+                      f"{inst.get('actual_status')!r} at {age_min:.0f} min old, past the "
+                      f"{tv.MAX_STOPPED_MIN:.0f} min the collector would destroy it at. It is BILLING and "
+                      f"cannot run: committed progress is frozen at {pstr} by consequence, not by a stall. "
+                      f"This watchdog does not nudge or reap — dispatch "
+                      f"`gpu-ternary-fep-vast.yml task=collect`, which re-issues the start and, on "
+                      f"`resources_unavailable`, blacklists the machine and destroys the instance. "
+                      f"Relaunching afterwards is a NEW PURCHASE and goes through the $/ns gate.")
+            continue
+
         if verdict == "RUNNING":
             # ⚠ RUNNING IS NOT ALWAYS "ADVANCING", AND THE NOTICE MUST NOT SAY IT IS.
             # `classify` tolerates `stall_ticks - 1` frozen passes before calling STALLED, precisely so a

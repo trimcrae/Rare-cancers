@@ -1300,7 +1300,10 @@ jobs:
       # the rest?" — answers NO for a congeneric map. Parallel costs the same GPU-dollars as serial, so a
       # width below the tranche buys nothing but wall-clock. Blast radius is controlled by FANOUT_ONLY (which
       # names the units to launch) and by FANOUT_CONFIRM, not by throttling the width.
-      FANOUT_WIDTH: "19"
+      # ⚠ SO THE NUMBER IS NOT TYPED HERE ANY MORE (2026-07-27). It was `"19"` here, `"19"` in
+      # step1-fanout-autoscale.yml and `8` as the code default, against a viable set of 18 — three homes,
+      # none correct (CLAUDE.md rule 1). `congeneric_fanout_vast.fanout_width()` derives it from the map
+      # and is its one home; the reasoning above is exactly why the derived default is the full map.
       # Which units to launch, by unit_id or ligand substring. THE SHAKEOUT LEVER: 0 of 19 units of this lane
       # has ever produced a ddG, so the reduce/commit/upload TERMINUS is unproven even though sampling is
       # proven. One named unit runs first; the remaining 18 go out together the moment it lands a ddG.
@@ -1930,3 +1933,48 @@ jobs:
             sleep $((2**i))
           done
           echo "push failed after retries" >&2; exit 1
+
+  # ★★ WHAT A `type: boolean` INPUT ACTUALLY HOLDS IN `github.event.inputs` — MEASURED, NOT ASSUMED.
+  #
+  # WHY THIS JOB EXISTS. `vast_launch` is declared `type: boolean` and is read at two sites as
+  # `github.event.inputs.vast_launch == 'true'` (the `VAST_SMOKE_LAUNCH` env above, and the guard on the
+  # step that actually rents a GPU). `gpu-protfep-vast.yml` reads `forensic` the same way. If that context
+  # delivers a real JSON boolean rather than the string "true", the comparison is `true == 'true'` —
+  # operands of different types, so GitHub casts both to Number, `'true'` casts to NaN, and the result is
+  # FALSE **however the box is ticked**. The guard could then never turn on, silently.
+  #
+  # That is the same coercion family as the `null != '0'` defect that stopped the step-1 fan-out placing
+  # units for 1 h 47 m across seven green ticks on 2026-07-27, and the repo-wide AST sweep that followed
+  # flagged these two as the only cases it could not settle from the source alone. CLAUDE.md §4: a
+  # plausible story is a HYPOTHESIS. The docs are unreachable from the sandbox (the egress proxy 403s
+  # github.com/docs) and no run in the last 100 discriminates, because every `vast_smoke` job was skipped
+  # for an unrelated reason. So the answer is MEASURED here, once, and recorded where it cannot be lost.
+  #
+  # It rents nothing, reads nothing and costs ~10 s of free runner. It runs on every dispatch on purpose:
+  # gating it on an input would make its own evidence depend on the mechanism under test.
+  input_coercion_probe:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: "What does a type-boolean input actually hold?"
+        env:
+          RAW_INPUTS: ${{ toJSON(github.event.inputs) }}
+          RAW_VAST_LAUNCH: ${{ github.event.inputs.vast_launch }}
+          # The two expressions under test, EVALUATED by Actions and printed rather than reasoned about.
+          CMP_EVENT_INPUTS: ${{ github.event.inputs.vast_launch == 'true' }}
+          CMP_INPUTS_CTX: ${{ inputs.vast_launch }}
+          # The control: a comparison whose operands are unambiguously both strings.
+          CMP_CONTROL: ${{ github.event.inputs.task == 'vast_smoke' }}
+        run: |
+          set -eu
+          echo "github.event.inputs (raw JSON)              = ${RAW_INPUTS}"
+          echo "github.event.inputs.vast_launch             = '${RAW_VAST_LAUNCH}'"
+          echo "  -> (…vast_launch == 'true')               = ${CMP_EVENT_INPUTS}"
+          echo "inputs.vast_launch (the OTHER context)      = '${CMP_INPUTS_CTX}'"
+          echo "control (…task == 'vast_smoke')             = ${CMP_CONTROL}"
+          echo
+          echo "READ IT LIKE THIS: if the raw JSON shows \"vast_launch\": \"true\" (QUOTED) then the"
+          echo "== 'true' comparison is string-to-string and the two guards are sound. If it shows an"
+          echo "UNQUOTED true, the comparison is number-vs-NaN, prints false above even when ticked, and"
+          echo "both guards must move to the bash-resolution pattern used by step1-fanout-autoscale.yml."

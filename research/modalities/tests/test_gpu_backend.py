@@ -492,3 +492,60 @@ def test_price_ceiling_governs_the_billed_rate_not_the_floor():
     od = ResourceSpec(gpu="rtx4090", min_vram_gb=24, interruptible=False)
     assert _select_cheapest_offer([{"id": 5, "num_gpus": 1, "gpu_ram": 24576, "dph_total": 0.55,
                                     "gpu_name": "RTX 4090"}], od, max_hourly_usd=cap)["id"] == 5
+
+
+# ============================================================ transient-network retry on the Vast board read
+# 2026-07-27, 2:20 PM ET, run 30292566268. `_vast_request` retried a 403/5xx — an answer we did not like —
+# but its only handler was `except HTTPError`. A TIMEOUT raises `URLError`, which is NOT an HTTPError, so it
+# fell through and killed the caller on the FIRST attempt. Inverted: a request that got no answer at all is
+# more obviously transient than one that got a 403. It cost that tick its collect, hence its reap.
+
+def test_a_timed_out_GET_is_retried_not_fatal(monkeypatch):
+    """The board read must survive a transient timeout the same way it survives a transient 403."""
+    import io
+    import urllib.error
+    import gpu_backend as gb
+    calls = []
+
+    class _Resp(io.BytesIO):
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def fake_urlopen(req, timeout=60):
+        calls.append(req.full_url)
+        if len(calls) < 3:                                          # two timeouts, then the board answers
+            raise urllib.error.URLError(TimeoutError("timed out"))
+        return _Resp(b'{"instances":[]}')
+
+    monkeypatch.setattr(gb.urllib.request, "urlopen", fake_urlopen)
+    import time as _t
+    monkeypatch.setattr(_t, "sleep", lambda *_a: None)
+    assert gb._vast_request("GET", "/instances/", "k", params={"owner": "me"}) == {"instances": []}
+    assert len(calls) == 3, "it must actually have retried, not swallowed the error"
+
+
+def test_a_timed_out_WRITE_is_NEVER_retried(monkeypatch):
+    """A create may have succeeded server-side with only the RESPONSE lost — retrying would double-rent.
+
+    This is the whole reason the retry is GET-only, and it is the expensive direction to get wrong.
+    """
+    import urllib.error
+    import gpu_backend as gb
+    calls = []
+
+    def fake_urlopen(req, timeout=60):
+        calls.append(req.full_url)
+        raise urllib.error.URLError(TimeoutError("timed out"))
+
+    monkeypatch.setattr(gb.urllib.request, "urlopen", fake_urlopen)
+    import time as _t
+    monkeypatch.setattr(_t, "sleep", lambda *_a: None)
+    try:
+        gb._vast_request("PUT", "/asks/123/", "k", body={"price": 1})
+        raise AssertionError("a timed-out write must fail loudly, never retry")
+    except RuntimeError as e:
+        assert "unreachable" in str(e)
+    assert len(calls) == 1, "a write must be attempted exactly once"

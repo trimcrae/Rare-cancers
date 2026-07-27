@@ -540,9 +540,16 @@ def test_the_ratio_ceiling_binds_even_when_the_dollar_ceiling_passes():
     basis = basis_usd_per_ns()
     n, ns_unit = 4, tv.rung_ns_per_unit()
     _plan, ceiling = tv.rung_band_usd(n)
+    # 2.048 is a HISTORICAL BOARD READING — a measurement from the night this case documents — so it is
+    # correctly typed. What must NOT be typed is the ceiling it is compared against, and the margin between
+    # them is now only ~0.13x: another upward correction of the basis would flip this silently. So the
+    # relationship is asserted against the DERIVED cap, and the fixture is pinned as what it is.
     at_205 = 2.048 * basis
     assert round(at_205 * ns_unit * n, 2) <= ceiling, "the night's board did clear the DOLLAR ceiling"
     assert 2.048 > tv.MARKET_MAX_RATIO_VS_BASIS, "...and must still be refused on the RATIO ceiling"
+    assert tv.MARKET_MAX_RATIO_VS_BASIS < 2.048, ("if a basis correction ever lifts the derived cap past "
+                                                  "this historical reading, this case stops testing a "
+                                                  "REFUSAL and starts silently testing an approval")
     # DERIVED from the approved absolute rate, not typed (2026-07-27 re-expression).
     import inflight_usd_per_ns as _iu
     assert tv.MARKET_MAX_RATIO_VS_BASIS == pytest.approx(_iu.drift_multiple(), rel=1e-9)
@@ -917,7 +924,13 @@ def test_rented_usd_per_ns_prices_the_instance_not_the_offer():
 def test_the_rate_row_flags_a_host_over_the_buy_line():
     import ternary_vast_launch as tv
     cheap = tv.rented_rate_row("u", _fake_inst("u", gpu_name="RTX 5090", dph_total=0.1177))
-    assert cheap["over_buy_line"] is False and cheap["x_basis"] < 1.9166
+    # ⚠ DERIVED, NOT TYPED. This read `< 1.9166` — the drift multiple, hand-carried. That is the exact
+    # shape that went stale when the ladder basis was re-anchored on 2026-07-27 ($0.004359 -> $0.003412/ns:
+    # no price moved, the yardstick did), and it is the third instance of the pattern found that day. The
+    # invariant is the ABSOLUTE rate; the multiple is derived from it (CLAUDE.md §1), so the assertion must
+    # ask the cost model rather than remember a number the cost model can correct underneath it.
+    import congeneric_fanout as _cf
+    assert cheap["over_buy_line"] is False and cheap["x_basis"] < _cf.drift_buy_line_x_basis()
     dear = tv.rented_rate_row("u", _fake_inst("u", gpu_name="RTX 5090", dph_total=1.5))
     assert dear["over_buy_line"] is True
 

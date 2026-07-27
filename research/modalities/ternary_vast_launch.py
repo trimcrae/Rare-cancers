@@ -171,11 +171,57 @@ MODES = {
     # the gate reads. One solvent leg already exists at seed 0 for the full-cycle summary (`coop_for_morph`).
     # Buying two more would be two full rentals spent on a term that algebraically drops out.
     #
-    # SEEDS ARE GENUINELY INDEPENDENT, not the same trajectory twice. SEED keys three separate things: the
-    # stage cache (`ternary_pdb_stage` sets starting_model_index = seed % n_models, so seeds 1 and 2 start
-    # from DIFFERENT independently relaxed SMARCA2 models), the pre-equilibration cache, and the commit
-    # prefix — and it is one of the fields `rbfe_spot_checkpoint.system_fingerprint` hashes, so a re-used
-    # seed cannot silently resume into another replicate's trajectory.
+    # ⚠⚠ AND FOUR LEGS, NOT TWO — THE MATCHED BINARY LEGS ARE LOAD-BEARING, NOT OPTIONAL (2026-07-27, ruling
+    # on the proposal to buy TERNARY-ONLY replicates because the binary arm is contaminated).
+    #
+    # The proposal was reasonable on its face: audit §L.3c shows the unrestrained binary arm's ligand departs
+    # irreversibly (8 of 12 replicas at 16.6 Å, 7 of 8 initiating in the interior), a restrained re-run is
+    # already live, and replicating a number we have decided is bad looks like waste. It is refused anyway,
+    # for a reason that is in the code rather than in a judgement call:
+    #
+    #   `ternary_fep_reduce.per_replicate_ddg_coop` computes `seeds = set(ternary) & set(binary)` and returns
+    #   ΔΔG_coop(r) = ΔG_ternary(r) − ΔG_binary(r) over that INTERSECTION. Drop the binary legs and the
+    #   intersection stays {0}, n_paired = 1, and `calibration_gate` returns the SAME
+    #   "need >=2 independent replicates for a cycle SD" INDETERMINATE it returns today. **A ternary-only
+    #   replicate set does not move the verdict one step.** The gate's quantity is the CYCLE, not the arm.
+    #
+    # And the SD a ternary-only set would produce is not merely insufficient, it is BIASED LOW in the one
+    # direction that matters: for independent seeds σ_cycle² = σ_ternary² + σ_binary², and the arm expected to
+    # dominate σ is precisely the contaminated one — a ligand that leaves in 8 of 12 replicas is a large
+    # seed-to-seed variance term. Reporting σ_ternary as though it were the cycle's error bar is the
+    # fake-tight-SD failure wearing different clothes.
+    #
+    # What the matched pair BUYS, stated so it is not mistaken for replicating a bad number: the deliverable
+    # is σ_cycle, not another ΔΔG_coop point estimate. σ_cycle is the direct measurement of σ_leg, which
+    # `valb_triangle_closure.binary_departure_prereg` currently knows only to a factor of ~15 and on which its
+    # own power statement (~0.22 at σ_leg = 0.5) depends. One lane's error bar is another lane's power
+    # analysis. The point estimate remains uninterpretable until the restrained re-run lands, and nothing here
+    # claims otherwise.
+    #
+    # SEEDS ARE INDEPENDENT TRAJECTORIES — AND THE HOMOLOGY POSE IS NOT FULLY RESAMPLED AT n=3. MEASURED,
+    # 2026-07-27, because this comment previously asserted the strong form and the strong form is false.
+    # SEED keys four things: the sampler (`nr4a3_ternary_fep` sets simulation/integrator `random_seed` =
+    # SEED, so 0/1/2 are genuinely different velocity/sampler streams), the pre-equilibration cache, the
+    # commit prefix, and `rbfe_spot_checkpoint.SYSTEM_FINGERPRINT_ENV` — which LISTS "SEED", so a re-used seed
+    # cannot silently resume into another replicate's trajectory. That much holds for every leg, both arms.
+    #
+    # ⚠ BUT the stage cache is the exception, and it is a REAL limitation of the n=3 cycle SD.
+    # `ternary_pdb_stage` builds the SMARCA2 homology ensemble with **n_models=2** and takes
+    # `starting_model_index = seed % len(model_pdbs)`. So: seed 0 -> model 0, seed 1 -> model 1,
+    # **seed 2 -> model 0 again, the same relaxed pose r0 started from.** Reviewer condition #3 ("each ternary
+    # REPLICATE uses an INDEPENDENTLY relaxed SMARCA2 model, so a coop result is not an artifact of one
+    # homology pose") is therefore met for 2 of the 3 ternary replicates and not the third, and the cycle SD
+    # UNDERSTATES the homology-model component of the variance. Note the binary arm is untouched by this —
+    # it stages E3 machinery only, with no SMARCA2 model at all, so its three seeds differ by sampler stream
+    # and nothing else.
+    #
+    # NOT FIXED IN FLIGHT, deliberately. Rebuilding with n_models=3 re-relaxes the ensemble, so "model 0"
+    # would no longer be the pose r0 and r1 were computed on — the fix would break comparability with the two
+    # replicates that already exist in order to improve the third. It is recorded here, reported with the SD,
+    # and pinned by `tests/test_edge_reps_seed_independence.py` so the claim cannot silently drift back to the
+    # strong form. It becomes decision-relevant only if `calibration_gate` returns BORDERLINE and takes its
+    # "extend to 5 replicates" branch, at which point seeds 3 and 4 would land on models 1 and 0 and the
+    # ensemble genuinely does need widening BEFORE that round is bought.
     #
     # RUN IN PARALLEL, ALL FOUR AT ONCE. The litmus test from CLAUDE.md §6 — "is there a result this shard
     # could return that would make me NOT run the rest?" — answers NO here: the deliverable is a cycle SD
