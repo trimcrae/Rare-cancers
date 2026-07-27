@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 9:47 AM ET Jul 27, 2026
+[s1f-terminus] read at 9:50 AM ET Jul 27, 2026
 
-[s1f-terminus] 815 object(s) under the results prefix
+[s1f-terminus] 828 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1007 B  8:48 AM ET Jul 27, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid/ddg.json
@@ -14,18 +14,18 @@
   e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=no  NO-TERMINUS        complex/warmup@140
   e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=no  NO-TERMINUS        complex/warmup@180
   e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=no  NO-TERMINUS        complex/warmup@240
-  e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=no  NO-TERMINUS        complex/warmup@60
-  e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=no  NO-TERMINUS        complex/warmup@320
+  e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=no  NO-TERMINUS        complex/warmup@80
+  e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=no  NO-TERMINUS        complex/warmup@340
   e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral       ddg=no  NO-TERMINUS        complex/warmup@140
-  e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral ddg=no  NO-TERMINUS        complex/warmup@80
+  e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral ddg=no  NO-TERMINUS        complex/warmup@100
   e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral      ddg=no  NO-TERMINUS        complex/warmup@240
   e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid   ddg=no  NO-TERMINUS        complex/warmup@200
   e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral         ddg=no  NO-TERMINUS        complex/warmup@160
-  e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        complex/warmup@220
+  e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        complex/warmup@240
   e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral     ddg=no  NO-TERMINUS        no commits
-  e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=no  NO-TERMINUS        complex/warmup@140
+  e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=no  NO-TERMINUS        complex/warmup@160
   e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neu ddg=no  NO-TERMINUS        complex/warmup@200
 
 === TERMINUS ===
@@ -55,19 +55,19 @@
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
   board depth      : 51 offers visible (baseline ~23), 51 qualifying, 14 priceable, 18 needed
-  floors           : min $0.077/hr, median $0.2133/hr
-  best fleet $/ns  : $0.014164/ns  ·  3.25× basis (basis $0.004359/ns)
-  projected        : $109.8 against a $76.21 ceiling
+  floors           : min $0.1067/hr, median $0.24/hr
+  best fleet $/ns  : $0.015146/ns  ·  3.47× basis (basis $0.004359/ns)
+  projected        : $117.42 against a $76.21 ceiling
   ⚠ DRIFT — ≥1.5× basis. A release into this board would be HELD on price.
     RTX 4090   m53989    $0.1467/hr  $0.00561/ns · 1.29× basis
-    RTX 4090   m51777    $0.1900/hr  $0.00705/ns · 1.62× basis
     RTX 4080S  m29668    $0.2000/hr  $0.00787/ns · 1.81× basis
     RTX 4090   m114274   $0.1867/hr  $0.00816/ns · 1.87× basis
-    RTX 3090   m67901    $0.0770/hr  $0.00820/ns · 1.88× basis
+    RTX 3090   m26018    $0.1067/hr  $0.00950/ns · 2.18× basis
     RTX 3090   m25813    $0.1067/hr  $0.00950/ns · 2.18× basis
     RTX 3090   m8966     $0.1333/hr  $0.01034/ns · 2.37× basis
-    RTX 4090   m57191    $0.4000/hr  $0.01574/ns · 3.61× basis
+    RTX 4090   m25798    $0.3600/hr  $0.01285/ns · 2.95× basis
     RTX 3090   m122589   $0.2533/hr  $0.01934/ns · 4.44× basis
     RTX 3090   m46769    $0.2667/hr  $0.01986/ns · 4.56× basis
-    RTX 4090   m42995    $0.6000/hr  $0.02068/ns · 4.74× basis
+    RTX 4090   m61353    $0.5333/hr  $0.02017/ns · 4.63× basis
     RTX 3090 Ti m141336   $0.2267/hr  $0.02097/ns · 4.81× basis
+    RTX 4090   m20082    $0.6133/hr  $0.02161/ns · 4.96× basis
