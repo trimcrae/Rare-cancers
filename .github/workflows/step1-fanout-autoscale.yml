@@ -104,6 +104,21 @@ jobs:
           MONITOR: "1"
         run: python congeneric_fanout_vast.py
 
+      # ★★ THE TICK MUST PROVE IT RE-MEASURED (2026-07-27). Immediately after the progress check, so the
+      # failure is attributed to the step that actually failed to produce evidence rather than to something
+      # downstream. Rationale in full: research/modalities/assert_progress_fresh.py.
+      #
+      # The incident: 18 GPUs billing, the only readable progress artifact 45 minutes stale and carrying NO
+      # generation timestamp, and a tick dispatched to refresh it reporting `success` in 36 seconds. Every
+      # step had "succeeded" — so green meant "the plumbing did not throw", while the operator read it as
+      # "the fleet was measured". Those two must mean the same thing or the readout is worthless.
+      #
+      # ⚠ NEVER "FIX" A RED HERE BY SKIPPING OR SOFTENING THE CHECK. A red means this tick did not refresh its
+      # own evidence, which is precisely the condition that made 18 billing GPUs unprovable. Fix the writer.
+      - name: Freshness gate — fail loudly if this tick did not actually re-measure
+        working-directory: research/modalities
+        run: python3 assert_progress_fresh.py step1-fanout-progress.json
+
       - name: Collect — assemble the map, reconcile realised spend, reap dead hosts
         # BEFORE the launch, so a unit that finished this tick frees its slot in the same pass.
         #
@@ -155,6 +170,12 @@ jobs:
           set -e
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
+          # ★ SAY WHERE THE READOUT LANDS, LOUDLY (2026-07-27). The tick's artifacts go to `fleet_branch`,
+          # NEVER to the ref the workflow was dispatched on — both the checkout and GIT_BRANCH derive from
+          # that input. Dispatching with ref=main therefore commits to the FEATURE branch, and an operator
+          # who then reads origin/main sees an artifact that never moves and concludes the fleet is dead.
+          # That happened at 9:37 AM ET with 18 GPUs billing. One echo removes the entire ambiguity.
+          echo "::notice::Tick readout is being written to '$GIT_BRANCH' (the fleet_branch input) — NOT to the ref this run was dispatched on (${{ github.ref_name }}). Read origin/$GIT_BRANCH for the fresh progress artifact."
           # Added INDEPENDENTLY: `git add A B` fails atomically if either pathspec matches nothing, so one
           # absent file would stage neither and the step would report "nothing to commit" while swallowing it.
           staged=0

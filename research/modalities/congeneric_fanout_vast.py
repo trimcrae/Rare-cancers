@@ -363,6 +363,18 @@ def _age_min(inst):
 # 12.76 / 13.70 / 14.42 s per HREX iteration (all 12 windows advanced 2.5 ps) => ~250-282 iterations/hour.
 EXPECTED_ITER_PER_H = 3600.0 / 13.6
 
+# ---- the stuck-start (create/start race) condemnation thresholds --------------------------------------------
+# Chosen ABOVE the documented image-pull window, not below it. A cheap 4090 host legitimately spends 20-40 min
+# pulling the ~6 GiB image and shows `loading` throughout, so an age cut inside that band would reap healthy
+# hosts. 45 min sits past the top of it, and the empty-`status_msg` signature already excludes a host that is
+# genuinely pulling — the two conditions together are what make this safe. Measured cases that motivated the
+# number: s1f-00 (53 min), s1f-08 (52 min) and s1f-16 (49 min), all stopped with an empty status_msg, all
+# nudged every tick since 8:53 AM ET, none ever starting.
+STUCK_START_MIN = float(os.environ.get("STUCK_START_MIN", "45"))
+# Two consecutive checks, per CLAUDE.md §4 — one sample can be an API blip or a listing caught mid-transition,
+# and this action destroys a rental and writes a permanent machine exclusion. Never set to 1.
+STUCK_START_STRIKES = int(os.environ.get("STUCK_START_STRIKES", "2"))
+
 
 def _iter_rate(prev_entry, scalar):
     """Realised committed-iterations/hour since the previous check, or None if not computable.
@@ -573,6 +585,18 @@ def _save_ledger(s3, bucket, doc):
 def _utcnow():
     import datetime
     return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _et_now():
+    """Now as US-Eastern 12-hour text. CLAUDE.md §1: the ONLY time format this repo reports in.
+
+    Paired with `_utcnow` on purpose. The UTC stamp is what machines diff (`assert_progress_fresh`); this one
+    is what a human reads at 3 AM without doing arithmetic, which is precisely the moment the arithmetic gets
+    done wrong. Both go into every progress snapshot.
+    """
+    import datetime
+    et = datetime.timezone(datetime.timedelta(hours=-4))          # EDT, as in step1_terminus_evidence.ET
+    return datetime.datetime.now(datetime.timezone.utc).astimezone(et).strftime("%-I:%M %p ET %b %-d, %Y")
 
 
 def ledger_cost(doc):
@@ -1489,21 +1513,75 @@ def mode_monitor():
     # instances that were also "loading" but whose status_msg showed an image pull in progress.
     # Re-issuing the start is idempotent, so this runs on every progress check. A unit whose ddg.json is
     # already in S3 is never restarted — that box is finished, not stalled.
+    #
+    # ★★ AND THE NUDGE ESCALATES (2026-07-27). As first written this block re-issued the start forever, which
+    # is the Vast rule inverted: CLAUDE.md §6 says a host that will not deliver means PICK ANOTHER HOST, do
+    # not wait it out. Measured that morning: s1f-00, s1f-08 and s1f-16 sat cur_state="stopped" with an EMPTY
+    # status_msg for 49-53 minutes, nudged on every tick, never starting. They burned no GPU meter — but they
+    # HELD THEIR UNIT'S SLOT, so three of nineteen edges could not be rented anywhere else for the better part
+    # of an hour while the operator watched a fleet that looked 18-wide and was really 15-wide. An unbounded
+    # retry against a box that has already refused is indistinguishable from waiting it out, which is the
+    # thing the rule forbids.
+    #
+    # So the nudge now keeps score. Two independent conditions must BOTH hold before a host is condemned:
+    #   * the STUCK SIGNATURE — cur_state "stopped" with an empty status_msg. A host still pulling the ~6 GiB
+    #     image is also "loading" but advertises the pull in status_msg, and pulls legitimately run 20-40 min
+    #     on cheap hosts. Condemning on age alone would reap healthy slow pulls.
+    #   * TWO CONSECUTIVE CHECKS past STUCK_START_MIN — §4's discipline, so a single unlucky sample (an API
+    #     blip, a listing mid-transition) can never destroy a rental. Strikes live in S3 because each tick is
+    #     a fresh process with no memory of the last one.
+    # Only then: destroy AND exclude the machine, via the same durable exclusion `mode_reap` writes — a host
+    # that never starts has infinite realised $/ns, so it is invisible to $/ns ranking and would otherwise
+    # keep winning selection and keep failing. Freeing the slot lets the next tick re-price that unit through
+    # the market gate, which is exactly where the buy decision belongs.
     if key:
         idx = {u["unit_id"]: i for i, u in enumerate(units)}
         label_to_unit = {f"{LABEL_PREFIX}{idx[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in units}
+        start_state = _get_json(s3, bucket, f"{RESULT_PREFIX}/_start_state.json") or {}
+        new_start_state = {}
         for i in live:
             u = label_to_unit.get(i.get("label") or "")
             if not u or i.get("cur_state") != "stopped":
                 continue
             if _exists(s3, bucket, result_key(u, RESULT_PREFIX)):
                 continue                       # finished, not stalled
+            iid, age = str(i.get("id")), _age_min(i)
+            # An empty status_msg is the discriminator against a legitimate in-progress image pull.
+            stuck_sig = not (i.get("status_msg") or "").strip()
+            if stuck_sig and age is not None and age >= STUCK_START_MIN:
+                strikes = int((start_state.get(iid) or {}).get("strikes", 0)) + 1
+                if strikes >= STUCK_START_STRIKES:
+                    mid = i.get("machine_id")
+                    why = (f"never started: cur_state=stopped with an empty status_msg for {age} min across "
+                           f"{strikes} consecutive checks (create/start race, not an image pull)")
+                    try:
+                        _vast_request("DELETE", f"/instances/{iid}/", key)
+                        print(f"[s1f] CONDEMNED {iid} ({i.get('label')}) — {why}. Destroyed; the unit's slot "
+                              f"is freed and the next tick re-prices it through the market gate.")
+                    except Exception as e:  # noqa: BLE001
+                        # Do NOT record an exclusion for a box that may still exist — same discipline as
+                        # mode_reap. Keep the strike so the next tick tries the destroy again.
+                        print(f"[s1f] condemn {iid} failed: {e} — leaving the strike in place, will retry")
+                        new_start_state[iid] = {"strikes": strikes, "age_min": age, "utc": _utcnow()}
+                        continue
+                    if mid is not None and _record_exclusion(s3, bucket, mid, why):
+                        print(f"[s1f] machine {mid} added to the lane exclusion set: {why}")
+                    continue                   # condemned: drop its strike row entirely
+                new_start_state[iid] = {"strikes": strikes, "age_min": age, "utc": _utcnow()}
+                print(f"[s1f] STUCK-START strike {strikes}/{STUCK_START_STRIKES} on {iid} ({i.get('label')}) "
+                      f"— stopped with an empty status_msg for {age} min; condemned at "
+                      f"{STUCK_START_STRIKES} strikes")
             try:
-                _vast_request("PUT", f"/instances/{i.get('id')}/", key, body={"state": "running"})
-                print(f"[s1f] NUDGED {i.get('id')} ({i.get('label')}) — cur_state=stopped, no result yet; "
+                _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
+                print(f"[s1f] NUDGED {iid} ({i.get('label')}) — cur_state=stopped, no result yet; "
                       f"re-issued start (msg={(i.get('status_msg') or '')[:60]!r})")
             except Exception as e:  # noqa: BLE001
-                print(f"[s1f] nudge {i.get('id')} failed: {e}")
+                print(f"[s1f] nudge {iid} failed: {e}")
+        try:
+            s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_start_state.json",
+                          Body=json.dumps(new_start_state, indent=2).encode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[s1f] stuck-start state save failed: {e}")
 
     # ---- billed hours + the starved-host guard ------------------------------------------------------------
     # Two jobs, one pass over the live fleet, because both need the same `age_min` / `gpu_util` sample.
@@ -1623,6 +1701,17 @@ def mode_monitor():
         # the launch had not run yet. A second snapshot after the launch would be more current but would
         # destroy the advance diff, since _progress_prev.json would be overwritten seconds after it was set.
         "_snapshot_point": "START of the tick — before this tick's collect, nudge and launch",
+        # ★ WHEN, NOT JUST WHERE (2026-07-27). `_snapshot_point` says where in the tick this was taken and
+        # said nothing about WHEN, so a reader holding this file could not distinguish "measured a moment ago"
+        # from "measured 45 minutes ago and never refreshed". That is exactly what happened at 9:40 AM ET:
+        # 18 GPUs were billing, the only readable artifact showed `0 of 19 units advanced`, and because the
+        # file was UNDATABLE that single reading was compatible with both "normal cold start three minutes in"
+        # and "fleet-wide stall". The fleet was in fact advancing fine. An evidence artifact that cannot be
+        # dated cannot be graded, and an ungradable artifact is worse than none — it invites the wrong
+        # inference with the confidence of a measurement. These two fields are what `assert_progress_fresh`
+        # in the autoscale workflow gates on, so a tick that goes green without re-measuring now fails loudly.
+        "_generated_utc": _utcnow(),
+        "_generated_et": _et_now(),
         "n_units": len(units), "n_complete": n_done,
         "live_instances": len(live), "instance_states": states,
         "gpu_util": utils, "phases": phases,
