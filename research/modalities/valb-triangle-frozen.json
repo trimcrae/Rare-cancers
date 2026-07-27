@@ -34,10 +34,10 @@
       },
       "site_selection_cmpd1": {
         "atom_idx": 34,
-        "min_ring_distance_to_a_substituent": 1,
+        "min_ring_distance_to_a_substituent": 2,
         "n_eligible_free_CH": 3,
-        "n_tied_at_max_distance": 3,
-        "unique_by_topology": false
+        "n_tied_at_max_distance": 1,
+        "unique_by_topology": true
       },
       "site_rule": "the eligible free ring C-H with the greatest minimum ring-bond distance to any substituted ring atom; ties by RDKit canonical rank. Topological, so it is invariant to atom ordering and to a canonical-rank implementation change.",
       "cmpd4_redderived_from_cmpd1_matches_frozen": true
@@ -47,11 +47,12 @@
       "calib_lo": 0,
       "calib_lo2": 0
     },
-    "perturbed_heavy_atoms_by_edge": {
-      "T1 (calib_hi -> calib_lo)": 25,
-      "T2 (calib_lo -> calib_lo2)": 25,
-      "T3 (calib_hi -> calib_lo2)": 25
+    "mutated_ring_atoms_by_edge": {
+      "T1 (calib_hi -> calib_lo)": 1,
+      "T2 (calib_lo -> calib_lo2)": 1,
+      "T3 (calib_hi -> calib_lo2)": 2
     },
+    "mutated_ring_atoms_basis": "EXACT by construction \u2014 these molecules are built by changing exactly these ring atoms and nothing else. Deliberately NOT an rdFMCS 'perturbed heavy atoms' count: rdFMCS returns a CONNECTED substructure and this ring is mid-molecule, so a one-atom element change splits the molecule and scores 25 (max-form) or 50 (symmetric form) rather than 1. The production LOMAP map, measured on the real staged ligands by valb_map_preflight.py, is the authoritative statement of what the transformation is.",
     "heavy_dummy_atoms_by_edge": {
       "T1 (calib_hi -> calib_lo)": 0,
       "T2 (calib_lo -> calib_lo2)": 0,
