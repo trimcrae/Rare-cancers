@@ -207,39 +207,62 @@ def collect(out_path, minutes=180, tick_s=60, pair_gap_s=20, push_branch=None, p
 
 
 def _push(path, branch):
-    """Best-effort checkpoint of the series to a cache branch, via a SEPARATE clone.
+    """Checkpoint the series to a cache branch from a GIT WORKTREE of the job's own checkout.
 
-    Never touches the job's own working tree. `vast-price-sample.yml` records what happens when a sampler
-    checks out another branch on top of a modified tracked file: git refuses the switch and every run fails at
-    the persist step. A throwaway clone cannot hit that, and a push failure must never end the collection.
+    ★ WHY A WORKTREE AND NOT A FRESH CLONE (measured 2026-07-27, run 30293786776, and it cost a blind hour).
+    The first version of this function cloned the origin URL into a temp directory and pushed from there. The
+    clone succeeds — the repo is public — and the PUSH silently fails, because `actions/checkout` stores its
+    credentials as an `http.<url>.extraheader` in **that checkout's** `.git/config`, not globally. A fresh
+    clone has no such header and no token. Every subprocess here was `check=False`, so the function then
+    printed `[checkpoint] pushed ...` while nothing had been pushed: a silent failure wearing a success
+    message, which is the exact anti-pattern this repo keeps paying for.
+
+    A `git worktree` of the existing checkout SHARES its `.git` directory, and therefore its credentials. It
+    also cannot hit the failure `vast-price-sample.yml` documents (git refusing to switch branches on top of a
+    modified tracked file), because the worktree is a separate directory with its own index.
+
+    Best-effort by design — a push failure must never end a 3-hour collection — but it now REPORTS the
+    failure, with git's own stderr, instead of claiming success.
     """
     work = os.path.join(os.environ.get("RUNNER_TEMP", "/tmp"), "volpush")
+
+    def git(*a, cwd=HERE):
+        return subprocess.run(["git", "-C", cwd, *a], capture_output=True, text=True)
+
     try:
-        if not os.path.isdir(os.path.join(work, ".git")):
-            url = subprocess.run(["git", "-C", HERE, "remote", "get-url", "origin"],
-                                 capture_output=True, text=True).stdout.strip()
-            subprocess.run(["git", "clone", "--depth", "1", "--branch", branch, url, work],
-                           capture_output=True, text=True, check=False)
-            if not os.path.isdir(os.path.join(work, ".git")):
-                subprocess.run(["git", "clone", "--depth", "1", url, work],
-                               capture_output=True, text=True, check=False)
-                subprocess.run(["git", "-C", work, "checkout", "--orphan", branch],
-                               capture_output=True, text=True, check=False)
-                subprocess.run(["git", "-C", work, "rm", "-rf", "."], capture_output=True, text=True)
+        if not os.path.exists(os.path.join(work, ".git")):
+            git("fetch", "origin", branch)
+            # `-f` because a previous cancelled run may have left the worktree registered but absent.
+            r = git("worktree", "add", "-f", "--detach", work, f"origin/{branch}")
+            if not os.path.exists(os.path.join(work, ".git")):
+                # The cache branch does not exist yet: start it as an empty orphan in the worktree.
+                r = git("worktree", "add", "-f", "--detach", work, "HEAD")
+                if not os.path.exists(os.path.join(work, ".git")):
+                    print(f"  [checkpoint] worktree add failed: {r.stderr.strip()[:200]}", flush=True)
+                    return
+                git("checkout", "--orphan", branch, cwd=work)
+                git("rm", "-rf", ".", cwd=work)
         dst = os.path.join(work, "research", "modalities")
         os.makedirs(dst, exist_ok=True)
         subprocess.run(["cp", path, os.path.join(dst, os.path.basename(path))], check=False)
-        for cmd in (["git", "-C", work, "config", "user.name", "github-actions[bot]"],
-                    ["git", "-C", work, "config", "user.email",
-                     "41898282+github-actions[bot]@users.noreply.github.com"],
-                    ["git", "-C", work, "add", "-A"],
-                    ["git", "-C", work, "commit", "-m",
-                     f"vast board volatility sample {time.strftime('%FT%TZ', time.gmtime())}"],
-                    ["git", "-C", work, "push", "origin", f"HEAD:{branch}"]):
-            subprocess.run(cmd, capture_output=True, text=True, check=False)
-        print(f"  [checkpoint] pushed {os.path.basename(path)} to {branch}", flush=True)
+        git("config", "user.name", "github-actions[bot]", cwd=work)
+        git("config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com", cwd=work)
+        git("add", "-A", cwd=work)
+        c = git("commit", "-m",
+                f"vast board volatility sample {time.strftime('%FT%TZ', time.gmtime())}", cwd=work)
+        if c.returncode != 0 and "nothing to commit" in (c.stdout + c.stderr):
+            print("  [checkpoint] nothing new to commit", flush=True)
+            return
+        p = git("push", "origin", f"HEAD:{branch}", cwd=work)
+        if p.returncode == 0:
+            n = sum(1 for _ in open(path))
+            print(f"  [checkpoint] pushed {n} reads to {branch}", flush=True)
+        else:
+            # Say so LOUDLY. A checkpoint that is not landing must never look like one that is.
+            print(f"  [checkpoint] PUSH FAILED rc={p.returncode}: "
+                  f"{(p.stderr or p.stdout).strip()[:300]}", flush=True)
     except Exception as e:  # noqa: BLE001
-        print(f"  [checkpoint] push failed ({e}) — collection continues", flush=True)
+        print(f"  [checkpoint] push failed ({type(e).__name__}: {e}) — collection continues", flush=True)
 
 
 # =============================================================================================================
@@ -692,6 +715,8 @@ def main(argv=None):
     ap.add_argument("--pair-gap-s", type=float, default=20)
     ap.add_argument("--out", default=os.path.join(HERE, "vast-board-volatility.jsonl"))
     ap.add_argument("--push-branch", default=None)
+    ap.add_argument("--push-every-s", type=float, default=600,
+                    help="checkpoint interval for the raw series (CLAUDE.md §6: upload as written)")
     ap.add_argument("--analyse", metavar="JSONL", default=None)
     ap.add_argument("--mine-git", action="store_true")
     ap.add_argument("--units", type=int, default=4, help="fleet size the cadence model prices")
@@ -703,7 +728,7 @@ def main(argv=None):
 
     if a.collect:
         collect(a.out, minutes=a.minutes, tick_s=a.tick_s, pair_gap_s=a.pair_gap_s,
-                push_branch=a.push_branch)
+                push_branch=a.push_branch, push_every_s=a.push_every_s)
         return 0
 
     if a.mine_git:
