@@ -821,6 +821,40 @@ def realised_spend(key=None):
     return round(total, 4), rows
 
 
+SPEND_LEDGER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 "vast-bench-spend-ledger.json")
+
+
+def _merge_spend_ledger(rows, path=None):
+    """(cumulative_usd, merged_rows). Keyed on instance id, keeping the LARGEST cost ever seen for each.
+
+    A destroyed Vast instance is gone from the API, so a live snapshot silently forgets every rental the
+    previous reap destroyed — which is precisely the money already spent. Max-per-instance is the right merge:
+    the last reading before a box vanished is its final cost, and a re-read of a live box only ever grows."""
+    path = path or SPEND_LEDGER_PATH
+    try:
+        led = json.load(open(path))
+    except (OSError, ValueError):
+        led = {"_what": "Cumulative realised spend on cal-* calibration rentals, keyed on instance id. A "
+                        "destroyed instance vanishes from the Vast API, so a live snapshot under-reports; "
+                        "this keeps the largest cost ever observed for each rental.", "instances": {}}
+    inst = led.setdefault("instances", {})
+    for r in rows:
+        k = str(r["instance"])
+        prev = inst.get(k)
+        if prev is None or float(r.get("usd") or 0) >= float(prev.get("usd") or 0):
+            inst[k] = {kk: r[kk] for kk in ("instance", "label", "hours", "dph", "usd", "status") if kk in r}
+    total = round(sum(float(v.get("usd") or 0) for v in inst.values()), 4)
+    led["cumulative_usd"] = total
+    led["utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    try:
+        with open(path, "w") as f:
+            json.dump(led, f, indent=2)
+    except OSError:
+        pass
+    return total, sorted(inst.values(), key=lambda v: str(v.get("label")))
+
+
 def mode_collect():
     bucket = BUCKET or os.environ.get("VAST_CKPT_BUCKET") or ""
     if not bucket:
@@ -888,7 +922,12 @@ def mode_collect():
     for r in rows:
         print(f"[cal-spend] {r['instance']} {r['label']} {r['status']} {r['hours']:.2f} h x "
               f"${r['dph']}/hr = ${r['usd']:.4f}", flush=True)
-    print(f"[cal-spend] REALISED so far on cal-* rentals: ${usd:.4f} "
+    # ★ CUMULATIVE, NOT A SNAPSHOT. A DESTROYED INSTANCE DISAPPEARS FROM THE VAST API, so `realised_spend`
+    # alone under-reports by exactly the rentals the previous collect reaped — i.e. it forgets the money it
+    # just finished spending. The ledger is keyed on instance id and keeps the LARGEST cost ever seen for
+    # each, which is the last reading before it vanished.
+    usd, rows = _merge_spend_ledger(rows)
+    print(f"[cal-spend] REALISED CUMULATIVE across every cal-* rental ever seen: ${usd:.4f} "
           f"(sweep cap ${MAX_USD_TOTAL:.2f})", flush=True)
     with open("vast-bench-sweep-results.json", "w") as f:
         json.dump({"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),

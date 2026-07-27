@@ -159,6 +159,7 @@ jobs:
                    research/modalities/throughput-harvest.json \
                    research/modalities/vast-bench-forensic.json \
                    research/modalities/vast-bench-board-impact.json \
+                   research/modalities/vast-bench-spend-ledger.json \
                    research/modalities/throughput-bench-provenance.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
           done
