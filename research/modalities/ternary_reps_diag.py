@@ -304,7 +304,10 @@ def watch_memory(mode="edge_reps", minutes=25, every_s=20, bucket=None, prefix=N
                 frac = "  (%.0f%% of limit)" % (100.0 * float(row["mem_usage_gb"]) / float(row["mem_limit_gb"]))
             except (TypeError, ValueError, ZeroDivisionError):
                 pass
-            print(f"[watch] {et}  {u.split('__')[-1][:34]:<34} ({arm_of(u)[:7]:<7}) "
+            # `or '?'` is load-bearing: `arm_of` returns None for a unit id it does not recognise, and a
+            # TypeError here would end a 35-minute trace at its first poll — losing the measurement in order
+            # to complain about a cosmetic label.
+            print(f"[watch] {et}  {u.split('__')[-1][:34]:<34} ({(arm_of(u) or '?')[:7]:<7}) "
                   f"{str(row['actual_status']):<9}/{str(row['cur_state']):<8} "
                   f"mem={row['mem_usage_gb']}/{row['mem_limit_gb']}{frac}  gpu={row['gpu_util']}  "
                   f"disk={row['disk_util']}  phase={str(marker)[:22]!r}  log_lines={n_lines}")
