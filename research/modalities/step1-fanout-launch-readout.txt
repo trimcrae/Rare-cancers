@@ -1,13 +1,12 @@
+[s1f] 1 instance(s) in a terminal state do NOT hold their unit's slot (collect destroys them; their checkpoints are in S3 and a relaunch resumes): ['s1f-07-cw_ev_5pegamine']
 [s1f] terminus PROVEN by 1 unit(s) (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) — fan-out released
-[s1f] units=19 done=2 pending=17 live=5 free_slots=14 -> submitting 12
-[s1f] cost of THIS submission (12 units): plan $18.77 (band $7.77-47.31) | whole remaining tranche (17 units): plan $26.59 (band $11.0-67.02)
+[s1f] units=19 done=2 pending=17 live=8 free_slots=12 -> submitting 10
+[s1f] cost of THIS submission (10 units): plan $15.64 (band $6.47-39.42) | whole remaining tranche (17 units): plan $26.59 (band $11.0-67.02)
 [s1f] wave shape: {"n_units": 17, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5piperazine, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5oh, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5alkyne, exit_vector_sub)
 [s1f]   queue e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5pegamine, exit_vector_sub)
 [s1f]   queue e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_primary_amide, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral  (zaienne_cmpd19 -> cw_bio_tetrazole, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_acylsulfonamide, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral  (zaienne_cmpd19 -> cw_bio_hydroxamic, bioisostere)
 [s1f]   queue e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid  (zaienne_cmpd19 -> cw_ms_free_acid, microstate_variant)
 [s1f]   queue e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral  (zaienne_cmpd19 -> cw_ms_carbinol, microstate_variant)
 [s1f]   queue e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral  (zaienne_cmpd19 -> cw_ms_5acetamido_ester, microstate_variant)
@@ -15,13 +14,13 @@
 [s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
 [s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
 [s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
-[s1f] SPEND CAP: realised $21.63 against a DERIVED ceiling of $74.91 (market_ceiling_usd(19) — the authorised band top, regenerated from the cost model, never typed) -> $53.28 headroom. 80 rental(s) counted, of which 2 are accruing wall-clock because no collect has reconciled them yet (a cap that cannot see those reads green while the lane is over).
-[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 167 offers -> 159 qualifying, 89 priceable. A unit must clear BOTH the dollar ceiling $0.008594/ns (2.52x, derived from market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.92x drift line $0.006539/ns — effective $0.006539/ns (1.92x), binding on the rate line ($0.006539/ns = 1.92x basis). (trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)
-[s1f] PLACEMENT: 1 unit(s) LAUNCHING NOW, 11 HELD for a better board (of 12 withheld this tick).
-[s1f]   launch @ $0.004741/ns · 1.39x basis
-[s1f]   HELD 11 unit(s) on the rate line ($0.006539/ns = 1.92x basis): waiting for an offer at or below $0.006539/ns (1.92x basis). the board had only 1 offer(s) that cheap this pass. They are NOT dropped — the pending set is recomputed from S3 every tick, so they go out automatically as the board improves.
-[s1f]   spend authorised THIS TICK: $2.17 against $3.94 — the ceiling for the 1 unit(s) actually being BOUGHT, not for the notional full tranche.
-[s1f] excluding 41 machine(s) from offer selection: ['110782', '11158', '117843', '11892', '12697', '132368', '136811', '139040', '140043', '140160', '144071', '145142', '1569', '18857', '19492', '19499', '24573', '26910', '28164', '29304', '29668', '29711', '29770', '31036', '34646', '35778', '41716', '43159', '46392', '48605', '51546', '51777', '53989', '54458', '56108', '57342', '67860', '68109', '68556', '8914', '89294']
-[s1f] host distinctness: also avoiding 5 machine(s) this lane is ALREADY renting (['138147', '28904', '43159', '50143', '51045']) — a second unit on a machine we already hold contends for one GPU, and shares that machine's fate if it is bad.
-[s1f] submitted s1f-06-cw_ev_5piperazine -> instance 46050235 machine 31035 dph≈$0.16088888888888886/hr (floor $0.15866666666666665/hr -> bid $0.1618/hr, +$0.0031/hr premium) | RENTED AT $0.004802/ns · 1.41x basis
-[s1f] board-read cache over the wave: 0 hit(s), 2 real read(s) — 0 Vast /search/asks/ call(s) NOT made against the shared key (TTL 180s).
+[s1f] SPEND CAP: realised $22.62 against a DERIVED ceiling of $74.91 (market_ceiling_usd(19) — the authorised band top, regenerated from the cost model, never typed) -> $52.29 headroom. 86 rental(s) counted, of which 2 are accruing wall-clock because no collect has reconciled them yet (a cap that cannot see those reads green while the lane is over).
+[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 177 offers -> 171 qualifying, 97 priceable. A unit must clear BOTH the dollar ceiling $0.008594/ns (2.52x, derived from market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.92x drift line $0.006539/ns — effective $0.006539/ns (1.92x), binding on the rate line ($0.006539/ns = 1.92x basis). (trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)
+[s1f] PLACEMENT: 1 unit(s) LAUNCHING NOW, 9 HELD for a better board (of 10 withheld this tick).
+[s1f]   launch @ $0.003278/ns · 0.96x basis
+[s1f]   HELD 9 unit(s) on the rate line ($0.006539/ns = 1.92x basis): waiting for an offer at or below $0.006539/ns (1.92x basis). the board had only 1 offer(s) that cheap this pass. They are NOT dropped — the pending set is recomputed from S3 every tick, so they go out automatically as the board improves.
+[s1f]   spend authorised THIS TICK: $1.5 against $3.94 — the ceiling for the 1 unit(s) actually being BOUGHT, not for the notional full tranche.
+[s1f] excluding 41 machine(s) from offer selection: ['110782', '11158', '117843', '11892', '12697', '132368', '136811', '139040', '140043', '140160', '144071', '145142', '1569', '18857', '19492', '19499', '24573', '26910', '28164', '29304', '29668', '29711', '29770', '31036', '34646', '35778', '41716', '43159', '46392', '48605', '50143', '51546', '51777', '53989', '54458', '56108', '57342', '67860', '68109', '68556', '8914']
+[s1f] host distinctness: also avoiding 8 machine(s) this lane is ALREADY renting (['12708', '138147', '144135', '28904', '31035', '35115', '51045', '7118']) — a second unit on a machine we already hold contends for one GPU, and shares that machine's fate if it is bad.
+[s1f] SUBMIT FAILED e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral: vast: no rentable verified offer for ResourceSpec(gpu='rtx4090', min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80, min_reliability=0.9, interruptible=True, exclude_machine_ids=('110782', '11158', '117843', '11892', '12697', '12708', '132368', '136811', '138147', '139040', '140043', '140160', '144071', '144135', '145142', '1569', '18857', '19492', '19499', '24573', '26910', '28164', '28904', '29304', '29668', '29711', '29770', '31035', '31036', '34646', '35115', '35778', '41716', '43159', '46392', '48605', '50143', '51045', '51546', '51777', '53989', '54458', '56108', '57342', '67860', '68109', '68556', '7118', '8914'), max_usd_per_ns=0.006538868883711077, require_gpu=False, min_cuda=13.0) (of 177 offers)  <-- NOT a capacity refusal: our own filter removed 49 machine(s) (41 excluded + 8 we already hold or just rented this wave) before ranking. Remedy is to widen supply (withdraw a wrong exclusion, or wait for the fleet to shrink), not to wait for prices.
+[s1f] board-read cache over the wave: 0 hit(s), 1 real read(s) — 0 Vast /search/asks/ call(s) NOT made against the shared key (TTL 180s).
