@@ -1,23 +1,5 @@
-[s1f] units=19 done=0 pending=19 live=1 free_slots=18 -> submitting 18
-[s1f] cost of THIS submission (18 units): plan $33.79 (band $14.04-76.21) | whole remaining tranche (19 units): plan $35.67 (band $14.82-80.44)
+[s1f] TERMINUS NOT PROVEN — no unit has a ddg.json, so reduce/commit/upload has never been observed on this lane. Holding 18 unit(s); RESUMING the shakeout unit (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) if it needs it: 0 to submit.
+[s1f] units=19 done=0 pending=19 live=1 free_slots=18 -> submitting 0
+[s1f] cost of THIS submission (0 units): plan $0.0 (band $0.0-0.0) | whole remaining tranche (19 units): plan $35.67 (band $14.82-80.44)
 [s1f] wave shape: {"n_units": 19, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5nh2, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5oh, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5alkyne, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5ch2nh2, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5opropargyl, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5piperazine, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5pegamine, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_primary_amide, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_nmethyl_amide, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral  (zaienne_cmpd19 -> cw_bio_tetrazole, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_acylsulfonamide, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral  (zaienne_cmpd19 -> cw_bio_hydroxamic, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid  (zaienne_cmpd19 -> cw_ms_free_acid, microstate_variant)
-[s1f]   queue e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral  (zaienne_cmpd19 -> cw_ms_carbinol, microstate_variant)
-[s1f]   queue e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral  (zaienne_cmpd19 -> cw_ms_5acetamido_ester, microstate_variant)
-[s1f]   queue e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral  (cw_ev_5nh2 -> cw_ms_5acetamido_ester, cycle_closure)
-[s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
-[s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
-[s1f] MARKET GUARD ($/ns, CLAUDE.md §6): board 54 offers -> 54 qualifying, 12 priceable; mean $/ns over the 12 cheapest = $0.013774 against a rung basis of $0.004359 (3.16x). Projected for the 19 remaining unit(s): $112.71 against a ceiling of $80.44 (the TOP of this rung's own authorised band, derived from cost_estimate — not a number typed here).
-[s1f] ⛔ FLEET LAUNCH HELD ON PRICE. Nothing was rented and no unit was silently dropped; the next scheduled tick re-checks. Offers priced this pass: [{"gpu": "RTX 4090", "machine_id": 114207, "min_bid": 0.18666666666666668, "usd_per_ns": 0.007669}, {"gpu": "RTX 4080S", "machine_id": 29668, "min_bid": 0.19999999999999998, "usd_per_ns": 0.007871}, {"gpu": "RTX 3090", "machine_id": 24039, "min_bid": 0.10666666666666667, "usd_per_ns": 0.009402}, {"gpu": "RTX 3090", "machine_id": 8966, "min_bid": 0.13333333333333333, "usd_per_ns": 0.010342}, {"gpu": "RTX 4090", "machine_id": 38546, "min_bid": 0.3333333333333333, "usd_per_ns": 0.012056}, {"gpu": "RTX 4090", "machine_id": 55267, "min_bid": 0.3333333333333333, "usd_per_ns": 0.0123}, {"gpu": "RTX 4090", "machine_id": 67876, "min_bid": 0.38666666666666666, "usd_per_ns": 0.013585}, {"gpu": "RTX 3090", "machine_id": 38353, "min_bid": 0.16, "usd_per_ns": 0.013744}, {"gpu": "RTX 4090", "machine_id": 44762, "min_bid": 0.5333333333333333, "usd_per_ns": 0.018948}, {"gpu": "RTX 3090", "machine_id": 122589, "min_bid": 0.25333333333333335, "usd_per_ns": 0.019341}, {"gpu": "RTX 3090", "machine_id": 46769, "min_bid": 0.26666666666666666, "usd_per_ns": 0.019862}, {"gpu": "RTX 4090", "machine_id": 61353, "min_bid": 0.5333333333333333, "usd_per_ns": 0.020168}]
+[s1f] nothing to submit (fleet already at width, or all units done)
