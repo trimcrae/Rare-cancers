@@ -965,6 +965,9 @@ def tick(path=None, dry_run=False):
 
         pkey = f"{state_prefix}/watchdog/progress-{uid}.json"
         prev = _read_json_key(state_bucket, pkey, {}) or {}
+        # Resolved ONCE and reused by the annotation below, so the "N more frozen passes trips STALLED"
+        # countdown can never quote a threshold different from the one classify() actually applied.
+        eff_stall_ticks = int(e.get("stall_ticks") or kind.stall_ticks)
         verdict, stall = classify(
             has_result=ev.has_result, has_failed_record=ev.has_failed_record,
             instance_alive=ev.instance_alive, instance_age_min=ev.instance_age_min,
@@ -972,7 +975,7 @@ def tick(path=None, dry_run=False):
             progress_scalar=ev.scalar, prev_scalar=int(prev.get("scalar") or 0),
             prev_stall=int(prev.get("stall") or 0),
             setup_grace_min=float(e.get("setup_grace_min") or kind.setup_grace_min),
-            stall_ticks=int(e.get("stall_ticks") or kind.stall_ticks))
+            stall_ticks=eff_stall_ticks)
         verdicts[uid] = verdict
         iid = ev.instance.get("id") if ev.instance else None
         print(f"verdict={verdict} progress={ev.scalar_label} scalar={ev.scalar} prev={prev.get('scalar')} "
@@ -1016,9 +1019,21 @@ def tick(path=None, dry_run=False):
                        f"started yet, so nothing is sampling. {container_diag(ev)}. Leaving it alone until "
                        f"the grace expires."
                        if not ev.container_started else
+                       # ⚠ AND "RUNNING" WITH A FROZEN COUNTER IS NOT ADVANCING EITHER — same lesson as the
+                       # cold-start branch above, same fix. classify() tolerates `stall_ticks - 1` frozen
+                       # passes so a resume (which re-does the work since its last commit) does not trip a
+                       # false alert; that tolerance is correct, but calling it "advancing" makes the notice
+                       # contradict the `stall=` on the very next line of this job's own log.
                        f"{uid} — advancing at {ev.scalar_label} on instance {iid} "
                        f"({(ev.instance or {}).get('gpu_name')}, up {ev.instance_age_min:.0f} min, "
-                       f"gpu_util={(ev.instance or {}).get('gpu_util')}). Leaving it alone."))
+                       f"gpu_util={(ev.instance or {}).get('gpu_util')}). Leaving it alone."
+                       if not stall else
+                       f"{uid} — HOLDING at {ev.scalar_label} on instance {iid} "
+                       f"({(ev.instance or {}).get('gpu_name')}, up {ev.instance_age_min:.0f} min, "
+                       f"gpu_util={(ev.instance or {}).get('gpu_util')}): the progress scalar has NOT moved "
+                       f"for {stall} consecutive pass(es) (scalar={ev.scalar}). Still RUNNING because a "
+                       f"resume legitimately re-does the work since its last commit, but "
+                       f"{eff_stall_ticks - stall} more frozen pass(es) trips STALLED. Leaving it alone."))
             continue
         if verdict == "SETUP_STALL":
             alerts += 1

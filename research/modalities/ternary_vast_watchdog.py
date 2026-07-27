@@ -490,9 +490,23 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
                       f"Diagnose, then clear the record or disable the entry. Last log lines: {tail}")
             continue
         if verdict == "RUNNING":
+            # ⚠ RUNNING IS NOT ALWAYS "ADVANCING", AND THE NOTICE MUST NOT SAY IT IS.
+            # `classify` tolerates `stall_ticks - 1` frozen passes before calling STALLED, precisely so a
+            # resume (which re-does the work since its last commit) does not trip an alert. That tolerance
+            # is right. Saying "advancing" during it is not: on 2026-07-27 7:29 AM ET this line printed
+            # "advancing at warmup/640" for the 5a-KS NR4A1 leg whose own log on the same line read
+            # `scalar=640 prev=640 stall=1` — the counter had not moved. A reader who trusts the notice
+            # sees progress; a reader who opens the log sees a freeze. That is the "reports success while
+            # measuring nothing" failure this lane keeps paying for, so the two now cannot disagree.
             _annotate("notice", "TVAST WATCHDOG RUNNING",
-                      f"{uid} — advancing at {pstr} on instance {inst.get('id')} "
-                      f"({inst.get('gpu_name')}, up {age_min:.0f} min). Leaving it alone.")
+                      (f"{uid} — advancing at {pstr} on instance {inst.get('id')} "
+                       f"({inst.get('gpu_name')}, up {age_min:.0f} min). Leaving it alone."
+                       if not stall else
+                       f"{uid} — HOLDING at {pstr} on instance {inst.get('id')} "
+                       f"({inst.get('gpu_name')}, up {age_min:.0f} min): the committed counter has NOT "
+                       f"moved for {stall} consecutive pass(es) (scalar={scalar}). Still RUNNING because a "
+                       f"resume legitimately re-does the work since its last commit, but {STALL_TICKS - stall} "
+                       f"more frozen pass(es) trips STALLED. Leaving it alone."))
             continue
         if verdict == "SETUP_STALL":
             alerts += 1
