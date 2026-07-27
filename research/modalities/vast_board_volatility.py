@@ -58,6 +58,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import subprocess
 import sys
@@ -549,6 +550,71 @@ def kaplan_meier(spell_list, tick_s=60):
             "curve": curve}
 
 
+def churn_by_lag(ser, line=None, tick_s=60, lags=(1, 2, 5, 10, 20, 40, 60), sampling_floor=None):
+    """★★ THE HEADLINE ESTIMATOR: how long an offer really stays on the board, with the sampler divided out.
+
+    THE PROBLEM IT SOLVES. `/search/asks/` omits ~23 % of the board on any given read, so every per-offer
+    lifetime estimate is contaminated by a constant "disappearance" that has nothing to do with the market.
+    Kaplan-Meier on raw sightings inherits it and reports a lifetime of minutes for offers the committed
+    history shows sitting under the buy line for 3-7 HOURS.
+
+    THE DISCRIMINATOR. Sampling noise does not care how much time has passed; real churn does. So measure the
+    miss fraction as a function of LAG and look at the shape:
+
+        lag   20 s   0.228        <- the sampling FLOOR: the market cannot move meaningfully in 20 s
+        lag   60 s   0.235
+        lag  300 s   0.281
+        lag 2400 s   0.423        <- floor + real churn
+
+    A flat curve would have meant pure sampling and no churn at all; a curve rising from a non-zero intercept
+    means both, and the intercept is exactly the correction. So
+
+        S(lag) = (1 - miss(lag)) / (1 - floor)
+
+    reads as: OF THE OFFERS THE SAMPLER WOULD HAVE SHOWN US ANYWAY, what fraction are still there? That ratio
+    is the survival curve the question actually asks for, and the half-life is fitted from it.
+
+    `sampling_floor` defaults to the shortest measurable lag, which is the paired read — the reason the
+    collector takes one. Passing it explicitly is for tests.
+    """
+    line = _line() if line is None else line
+    sets = {s["t"]: {r["m"] for r in s["rows"] if r.get("u") is not None and r["u"] <= line} for s in ser}
+    ts = sorted(sets)
+    out = []
+    for L in lags:
+        ps = [len(sets[t] - sets[t + L]) / len(sets[t])
+              for t in ts if (t + L) in sets and sets[t]]
+        if len(ps) >= 5:
+            out.append({"lag_min": round(L * tick_s / 60.0, 2), "miss": round(sum(ps) / len(ps), 4),
+                        "n": len(ps)})
+    floor = sampling_floor
+    if floor is None and out:
+        floor = out[0]["miss"]
+    res = {"_what": "miss fraction vs lag — a flat curve is pure sampling, a rising one is real churn",
+           "sampling_floor_miss": round(floor, 4) if floor is not None else None,
+           "by_lag": out}
+    if floor is not None and floor < 1:
+        surv = []
+        for row in out:
+            s = (1 - row["miss"]) / (1 - floor)
+            surv.append((row["lag_min"], round(min(1.0, s), 4)))
+        res["churn_only_survival"] = surv
+        # Half-life by log-linear fit through the origin: ln S = -lam * t. Points at S>=1 (the floor lag
+        # itself, and any lag where noise put S above 1) carry no information about decay and are dropped
+        # rather than being allowed to drag the fit toward "infinite".
+        pts = [(t, s) for t, s in surv if 0 < s < 1]
+        if pts:
+            num = sum(t * -math.log(s) for t, s in pts)
+            den = sum(t * t for t, _s in pts)
+            lam = num / den if den else 0.0
+            res["decay_per_min"] = round(lam, 6)
+            res["half_life_min"] = round(math.log(2) / lam, 1) if lam > 0 else None
+            res["_half_life_note"] = (
+                "residence half-life of an offer AT OR BELOW the buy line, sampler divided out. Fitted over "
+                "the observed lag range only — extrapolating far beyond it is not supported by this data.")
+    return res
+
+
 def availability(ser, line=None, needs=(1, 4, 19)):
     """How often the board carries at least k offers at or below the line, and what the best-k mean is."""
     line = _line() if line is None else line
@@ -895,6 +961,15 @@ def main(argv=None):
                    "miss_tolerance_ticks_used": tol,
                    "distinct_machines_seen": len({x["m"] for s in ser for x in s["rows"]}),
                    "offers_per_read": _stats([s["n_offers"] for s in ser])},
+               # THE HEADLINE. Kaplan-Meier on raw sightings inherits the sampler's ~23 % omission rate no
+               # matter how the tolerance is set; the lag decomposition divides it out instead, because
+               # sampling noise is flat in lag and real churn is not. Both are reported, KM second.
+               # The floor is the PAIRED-read miss rate (20 s apart), not the shortest single-slot lag (60 s).
+               # The 60 s figure already contains a minute of real churn, so using it would divide out more
+               # than the sampler contributed and report a half-life that is too LONG — flattering exactly the
+               # conclusion under test. Passing the 20 s floor is the conservative choice.
+               "offer_residence_lag_decomposition": churn_by_lag(ser, tick_s=a.tick_s,
+                                                                sampling_floor=p_miss),
                "offer_survival_km_NAIVE_one_miss_is_gone": kaplan_meier(sp_naive, tick_s=a.tick_s),
                "read_noise_floor": read_noise(recs),
                "truncation_default_vs_full_board": truncation(recs),

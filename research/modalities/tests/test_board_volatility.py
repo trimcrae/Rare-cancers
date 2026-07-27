@@ -344,3 +344,57 @@ def test_mine_git_declares_itself_insufficient_for_survival():
     rep = vbv.mine_git()
     assert rep["sufficient"] is False
     assert "self-selected" in rep["why_not_sufficient"].lower()
+
+
+# =============================================================================================================
+# LAG DECOMPOSITION — the headline estimator, and the only one that can divide the sampler out
+# =============================================================================================================
+def test_a_flat_miss_curve_means_pure_sampling_and_no_churn():
+    # Construct a board where the SAME 10 machines are always present, but each read randomly omits some.
+    # A curve that is flat in lag is the signature of sampling: nothing has left the market, so survival must
+    # come out at 1.0 and the half-life must not be reported as finite.
+    import random
+    rnd = random.Random(7)
+    pool = [f"M{i}" for i in range(40)]
+    ser = []
+    for t in range(60):
+        shown = {m: 0.003 for m in pool if rnd.random() > 0.25}
+        ser.append({"t": t, "utc": "x", "rows": [{"m": m, "u": u} for m, u in shown.items()]})
+    out = vbv.churn_by_lag(ser, line=LINE, tick_s=60)
+    surv = dict(out["churn_only_survival"])
+    assert min(surv.values()) > 0.9, "a stable pool must not decay once the sampler is divided out"
+
+
+def test_real_churn_shows_up_as_a_curve_rising_above_the_floor():
+    # Same 25 % sampling omission, but now machines genuinely retire: each tick a machine is permanently
+    # replaced with probability 0.05. The estimator must recover a finite, sane half-life rather than
+    # attributing the decay to the sampler.
+    import random
+    rnd = random.Random(11)
+    live = [f"M{i}" for i in range(60)]
+    nxt = [60]
+    ser = []
+    for t in range(80):
+        live = [m if rnd.random() > 0.05 else f"M{nxt.__setitem__(0, nxt[0] + 1) or nxt[0]}" for m in live]
+        shown = {m: 0.003 for m in live if rnd.random() > 0.25}
+        ser.append({"t": t, "utc": "x", "rows": [{"m": m, "u": u} for m, u in shown.items()]})
+    out = vbv.churn_by_lag(ser, line=LINE, tick_s=60, sampling_floor=0.25)
+    assert out["half_life_min"] is not None
+    # True per-tick survival 0.95 => half-life ln2/-ln(0.95) ~= 13.5 min. Generous band: the point is that
+    # the estimator lands in the right ORDER, not that it nails a noisy fit.
+    assert 6 < out["half_life_min"] < 30
+
+
+def test_the_floor_is_divided_out_not_ignored():
+    # Identical data, two floors. A larger assumed floor attributes more of the disappearance to the sampler
+    # and must therefore report LONGER survival — the direction matters, because getting it backwards would
+    # let read noise masquerade as churn.
+    ser = [{"t": t, "utc": "x",
+            "rows": [{"m": f"M{i}", "u": 0.003} for i in range(40) if (i + t) % 5]}
+           for t in range(40)]
+    lo = vbv.churn_by_lag(ser, line=LINE, tick_s=60, sampling_floor=0.05)
+    hi = vbv.churn_by_lag(ser, line=LINE, tick_s=60, sampling_floor=0.30)
+    s_lo = dict(lo["churn_only_survival"])
+    s_hi = dict(hi["churn_only_survival"])
+    common = set(s_lo) & set(s_hi)
+    assert all(s_hi[k] >= s_lo[k] - 1e-9 for k in common)
