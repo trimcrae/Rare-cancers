@@ -286,8 +286,20 @@ MODES = {
     # per-endpoint bias eps(x) and sum_cycle [eps(B)-eps(A)] telescopes to exactly zero
     # (`valb_triangle_closure.state_function_blindness`, demonstrated to 3.6e-15 over 2000 draws). R is
     # non-zero ONLY for PATH error. So R decides whether r0's 1.478 kcal/mol miss is fixable by sampling at
-    # all — R ~ 0 says the miss is path error and therefore fixable by sampling; R materially non-zero says
-    # otherwise. That is a discriminating experiment, not a confirmation, which is why it is worth buying.
+    # all.
+    #
+    # ⚠ AND THE MAPPING RUNS THE OTHER WAY FROM WHAT THIS COMMENT USED TO SAY (corrected 2026-07-27; the
+    # retired sentence was "R ~ 0 says the miss is path error and therefore fixable by sampling; R materially
+    # non-zero says otherwise", which contradicted the three lines directly above it):
+    #
+    #   * R ~ 0                  -> the error is a function of the endpoint STATE. It telescopes out of any
+    #                               cycle, so it is invisible to R *because* it is not a path error, and
+    #                               MORE SAMPLING WILL NOT FIX THE MISS.
+    #   * R materially non-zero  -> a PATH error, the one thing R can see, and therefore the case where the
+    #                               miss IS fixable by the protocol changes that address it.
+    #
+    # That is a discriminating experiment, not a confirmation, which is why it is worth buying. One home for
+    # the mapping in prose: STRATEGY.md's IN FLIGHT board, "WHAT R DECIDES"; the retraction is Appendix A 41.
     #
     # ⚠ 2 fs / 1 fs, PINNED BY THE MODE, NOT INHERITED FROM THE LANE. r0 is a 2 fs leg and this lane's
     # default is RUNG 2b's 4 fs. `build_jobspec` resolves the timestep mode-first for exactly this reason:
