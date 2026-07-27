@@ -36,6 +36,26 @@ the setup thrown away. **So `gpu_util` here can only ever SAVE a box, never cond
 exactly one clause, and that clause is checked LAST — after the log-silence test, because a busy GPU on a
 host that can no longer write is not work, it is work being computed into a void.
 
+★★ THAT IS NOT A DESIGN ASSERTION — IT IS A MEASURED FACT, AND HERE IS THE COUNTEREXAMPLE (step 1 fan-out,
+12:34 PM ET 2026-07-27). Two boxes read **`gpu_util = 0.0`** in the SAME snapshot in which their units
+committed real production sampling:
+
+    s1f-13-cw_ms_free_acid   gpu_util 0.0   complex/production@360 -> @440   (+80 iterations)
+    s1f-04-cw_ev_5ch2nh2     gpu_util 0.0   complex/production@280 -> @320   (+40 iterations)
+
+Both were advancing at the 40-iteration production commit interval WHILE REPORTING ZERO GPU. Vast's
+`gpu_util` is an instantaneous sample from host-side telemetry that can be stale or caught between kernels,
+so **a 0.0 reading is not evidence of idleness on this lane — it is frequently no evidence at all.** Had the
+tempting rule been in force, both of those boxes would have been destroyed mid-production and their sampling
+thrown away.
+
+⚠ SO DO NOT "IMPROVE" THIS MODULE BY MAKING IDLENESS CONDEMNING. The next reader will be tempted, because a
+fleet-wide column of 0.0 looks damning at a glance. It is not. **The committed-iteration census is the only
+trustworthy forward-motion signal on this lane**, and `progress_advanced` is checked before `gpu_util` for
+exactly that reason — verified against this code path on the live shape above, where
+`(gpu_util=0.0, progress_advanced=True)` returns WORKING and `(gpu_util=0.0, log_age_min=None,
+progress_advanced=False)` returns UNKNOWN rather than WEDGED.
+
 What condemns a box is the absence of any POSITIVE evidence of forward motion, and there are two channels,
 each covering the other's blind spot. Both are durable (they live in the object store, not on the host) and
 both are SELF-TIMESTAMPING, so a verdict needs one poll and no history:

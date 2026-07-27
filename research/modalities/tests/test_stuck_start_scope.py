@@ -33,15 +33,38 @@ def test_the_default_scope_is_lane_so_sharing_is_always_a_deliberate_act():
 
 
 def test_a_host_that_NEVER_STARTED_is_published_cross_lane():
+    """The empty-status_msg branch — a container that never executed — must set host scope."""
     src = _monitor_src()
-    marker = "never started"
-    assert marker in src, "the condemn reason no longer says 'never started' — re-point this test"
-    # The condemn site is the one whose `why` is built from the never-started signature.
-    idx = src.index(marker)
-    window = src[idx:idx + 2600]
-    assert 'scope="host"' in window, (
+    assert "if stuck_sig:" in src, "the scope branch was restructured — re-point this test"
+    idx = src.index("if stuck_sig:")
+    window = src[idx:idx + 700]
+    assert "never started" in window and '_scope = "host"' in window, (
         "the never-started condemn must publish HOST-scoped so every lane sees it — machine 1569 took ten "
         "relaunches because it did not")
+    assert "_record_exclusion(s3, bucket, mid, why, scope=_scope)" in src
+
+
+def test_the_HARD_BACKSTOP_condemns_but_stays_LANE_scoped():
+    """A box that reported activity and merely never finished is weaker evidence than a never-executed
+    container. Wrongly publishing a healthy host permanently removes cheap supply for every lane, and the
+    cheapest capacity on this board is exactly these cards — so the shared set stays reserved."""
+    src = _monitor_src()
+    # Anchor on the WHY STRING, not the explanatory comment above it, or the window lands in prose.
+    idx = src.index("hard backstop {STUCK_START_HARD_MIN")
+    window = src[idx:idx + 600]
+    assert '_scope = "lane"' in window, "the hard backstop must NOT be shared cross-lane"
+
+
+def test_the_backstop_bounds_the_OTHER_signature_so_no_stopped_box_is_nudged_forever():
+    """The strike system fixed an unbounded nudge for EMPTY status_msg only. `s1f-00-cw_ev_5nh2` sat stopped
+    carrying 'Successfully loaded <image>', which dodges that test and could never escalate. Both signatures
+    must now have a ceiling."""
+    import congeneric_fanout_vast as cfv
+    assert cfv.STUCK_START_HARD_MIN > cfv.STUCK_START_MIN, "the backstop must be looser than the primary test"
+    # Far beyond any real image pull (a ~6 GiB pull runs 20-40 min on a cheap host), so it cannot reap one.
+    assert cfv.STUCK_START_HARD_MIN >= 120, cfv.STUCK_START_HARD_MIN
+    src = _monitor_src()
+    assert "or hard_stop" in src, "the condemn condition no longer admits the backstop"
 
 
 def test_a_merely_SLOW_host_stays_lane_scoped():

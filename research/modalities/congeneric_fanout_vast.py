@@ -374,6 +374,13 @@ STUCK_START_MIN = float(os.environ.get("STUCK_START_MIN", "45"))
 # Two consecutive checks, per CLAUDE.md §4 — one sample can be an API blip or a listing caught mid-transition,
 # and this action destroys a rental and writes a permanent machine exclusion. Never set to 1.
 STUCK_START_STRIKES = int(os.environ.get("STUCK_START_STRIKES", "2"))
+# The BACKSTOP ceiling for a stopped box whose status_msg is NOT empty, so the empty-msg escalation above
+# never sees it. Deliberately ~3x STUCK_START_MIN: a ~6 GiB image pull legitimately runs 20-40 min on a cheap
+# host, and the empty-msg discriminator exists precisely to protect those, so this must sit far beyond any
+# plausible pull. It says only "whatever the message claims, this box has not reached running in well over
+# two hours". Without it a box reporting e.g. 'Successfully loaded <image>' is re-nudged forever with no
+# ceiling — the same unbounded retry the strike system already fixed once, for the other signature.
+STUCK_START_HARD_MIN = float(os.environ.get("STUCK_START_HARD_MIN", str(3 * 45)))
 
 
 def _iter_rate(prev_entry, scalar):
@@ -1588,12 +1595,42 @@ def mode_monitor():
             iid, age = str(i.get("id")), _age_min(i)
             # An empty status_msg is the discriminator against a legitimate in-progress image pull.
             stuck_sig = not (i.get("status_msg") or "").strip()
-            if stuck_sig and age is not None and age >= STUCK_START_MIN:
+            # ★★ THE SECOND CEILING — BECAUSE THE FIRST ONE ONLY BOUNDS *ONE* SIGNATURE (2026-07-27, 12:38 PM
+            # ET). The escalation above fixed an unbounded nudge, but only for boxes with an EMPTY
+            # status_msg. A box stopped with a NON-empty message was still re-nudged on every tick forever
+            # with no strike and no ceiling — the identical bug, one signature narrower. Found by
+            # adjudicating `s1f-00-cw_ev_5nh2`: cur_state=stopped for 28 min carrying
+            # `'Successfully loaded docker.io/triskit23/nr4a3fep:latest'`, which correctly dodges the
+            # empty-msg test and therefore could never escalate no matter how long it sat.
+            #
+            # WHY A SEPARATE, MUCH LONGER NUMBER rather than relaxing the discriminator: the empty-msg test
+            # earns its keep by protecting a genuine ~6 GiB image pull, which legitimately runs 20-40 min on
+            # a cheap host. Weakening it would reap healthy slow starts — the exact false positive that is
+            # worse than the bug. So the pull protection is untouched, and this only says: whatever the
+            # message claims, a box that has NOT reached running well over two hours after rental is not
+            # pulling an image.
+            hard_stop = age is not None and age >= STUCK_START_HARD_MIN
+            if (stuck_sig and age is not None and age >= STUCK_START_MIN) or hard_stop:
                 strikes = int((start_state.get(iid) or {}).get("strikes", 0)) + 1
                 if strikes >= STUCK_START_STRIKES:
                     mid = i.get("machine_id")
-                    why = (f"never started: cur_state=stopped with an empty status_msg for {age} min across "
-                           f"{strikes} consecutive checks (create/start race, not an image pull)")
+                    # ⚠ THE TWO CASES GET DIFFERENT EXCLUSION SCOPES, ON PURPOSE. An empty status_msg is the
+                    # unambiguous create/start race — the container never executed, which is host-scoped and
+                    # safe to share with every lane. The hard backstop is weaker evidence: the box did
+                    # something (it reported loading an image) and merely never finished, so it is recorded
+                    # LANE-scoped only. Wrongly publishing a healthy host to the shared set permanently
+                    # removes cheap supply for everybody — and the cheapest capacity on this board is
+                    # exactly these 5090s — so the shared set stays reserved for the unambiguous signature.
+                    if stuck_sig:
+                        why = (f"never started: cur_state=stopped with an empty status_msg for {age} min "
+                               f"across {strikes} consecutive checks (create/start race, not an image pull)")
+                        _scope = "host"
+                    else:
+                        why = (f"never reached running in {age} min across {strikes} consecutive checks "
+                               f"(hard backstop {STUCK_START_HARD_MIN:.0f} min) despite status_msg "
+                               f"{(i.get('status_msg') or '')[:80]!r} — far past any image pull, but the box "
+                               f"did report activity, so this is LANE-scoped and not shared")
+                        _scope = "lane"
                     try:
                         _vast_request("DELETE", f"/instances/{iid}/", key)
                         print(f"[s1f] CONDEMNED {iid} ({i.get('label')}) — {why}. Destroyed; the unit's slot "
@@ -1616,9 +1653,13 @@ def mode_monitor():
                     # LANE-scoped, because pricing.md A.1 withdrew exactly that reasoning once — a
                     # metadynamics leg's low utilisation turned out to be PLUMED's CPU-side bias and the same
                     # host ran at 74 % on the next phase. A never-started box has no such ambiguity.
-                    if mid is not None and _record_exclusion(s3, bucket, mid, why, scope="host"):
-                        print(f"[s1f] machine {mid} added to the lane exclusion set AND published to the "
-                              f"cross-lane shared set (host-scoped: it never started): {why}")
+                    if mid is not None and _record_exclusion(s3, bucket, mid, why, scope=_scope):
+                        print(f"[s1f] machine {mid} added to the lane exclusion set"
+                              + (" AND published to the cross-lane shared set (host-scoped: it never "
+                                 "started)" if _scope == "host" else
+                                 " ONLY (lane-scoped: the hard backstop is weaker evidence than a never-"
+                                 "executed container, so it is not shared)")
+                              + f": {why}")
                     continue                   # condemned: drop its strike row entirely
                 new_start_state[iid] = {"strikes": strikes, "age_min": age, "utc": _utcnow()}
                 print(f"[s1f] STUCK-START strike {strikes}/{STUCK_START_STRIKES} on {iid} ({i.get('label')}) "
