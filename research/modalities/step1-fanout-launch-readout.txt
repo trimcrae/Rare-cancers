@@ -1,21 +1,2 @@
-[s1f] terminus PROVEN by 1 unit(s) (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) — fan-out released
-[s1f] units=19 done=2 pending=17 live=13 free_slots=6 -> submitting 4
-[s1f] cost of THIS submission (4 units): plan $6.26 (band $2.59-15.77) | whole remaining tranche (17 units): plan $26.59 (band $11.0-67.02)
-[s1f] wave shape: {"n_units": 17, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f]   queue e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral  (zaienne_cmpd19 -> cw_ms_5acetamido_ester, microstate_variant)
-[s1f]   queue e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral  (cw_ev_5nh2 -> cw_ms_5acetamido_ester, cycle_closure)
-[s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
-[s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
-[s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
-[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 64 offers -> 56 qualifying, 44 priceable. A unit must clear BOTH the dollar ceiling $0.008594/ns (2.52x, derived from market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.92x drift line $0.006539/ns — effective $0.006539/ns (1.92x), binding on the rate line ($0.006539/ns = 1.92x basis). (trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)
-[s1f] PLACEMENT: 4 unit(s) LAUNCHING NOW, 0 HELD for a better board (of 4 withheld this tick).
-[s1f]   launch @ $0.005372/ns · 1.57x basis
-[s1f]   launch @ $0.005412/ns · 1.59x basis
-[s1f]   launch @ $0.005486/ns · 1.61x basis
-[s1f]   launch @ $0.006359/ns · 1.86x basis
-[s1f]   spend authorised THIS TICK: $11.66 against $15.77 — the ceiling for the 4 unit(s) actually being BOUGHT, not for the notional full tranche.
-[s1f] excluding 21 machine(s) from offer selection: ['117843', '11892', '12697', '132368', '140043', '140160', '1569', '18857', '26910', '28164', '29304', '29668', '29770', '35778', '46392', '48605', '51546', '51777', '56108', '57342', '8914']
-[s1f] submitted s1f-15-cw_ms_5acetamido_ester -> instance 46031788 machine 53989 dph≈$0.1522222222222222/hr (floor $0.15/hr -> bid $0.153/hr, +$0.003/hr premium) | RENTED AT $0.004544/ns · 1.33x basis
-[s1f] submitted s1f-16-cw_ms_5acetamido_ester -> instance 46031866 machine 50143 dph≈$0.2022222222222222/hr (floor $0.19999999999999998/hr -> bid $0.204/hr, +$0.004/hr premium) | RENTED AT $0.004691/ns · 1.38x basis
-[s1f] submitted s1f-17-cw_ev_5opropargyl -> instance 46031874 machine 145142 dph≈$0.2022222222222222/hr (floor $0.19999999999999998/hr -> bid $0.204/hr, +$0.004/hr premium) | RENTED AT $0.004691/ns · 1.38x basis
-[s1f] submitted s1f-18-cw_bio_primary_amide -> instance 46031924 machine 31036 dph≈$0.1608889222222222/hr (floor $0.1586667/hr -> bid $0.1618/hr, +$0.0031/hr premium) | RENTED AT $0.004802/ns · 1.41x basis
+[s1f] PLACEMENT DECISION: placement_disabled — FANOUT_PLACEMENT_ENABLED='0' — this tick was asked to measure, collect and reap only. 2 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.
+[s1f]   board looked at anyway: 64 offers, best $0.005372/ns on RTX 4090 m53989. Snapshot refreshed, so a stale timestamp on this file can only mean the TICK did not run.
