@@ -145,6 +145,20 @@ condemned 45938720 at 7:53 PM ET on `gpu_util=0.0 %` and excluded machine **2816
 reached through a field that reads `None` on other hosts, which is precisely why the container-start signal
 above does not depend on provider telemetry.
 
+**Recovered, and confirmed past the resume point** — the test that matters, because a relaunch that returns to
+260 and stops again is the same bug, not a recovery. Third host **45951628** (RTX 4080S, **$0.2247/hr**)
+started its container in **21 min** against 45938720's 177, marked `leg-complex-running` at **8:12 PM ET**,
+and the watchdog read **`leg-complex-running/300`, prev 260, stall 0** at **8:29 PM ET**. Two commit blocks
+past the resume point ⇒ **~200 iter/h**, a ratio of ~0.77 against the 4090's measured ~261, which is about
+what the cards' own throughput ratio predicts — so this host is running at card rate.
+
+⚠ **The tranche projection needs re-deriving before it is quoted again.** `~$31.9` was built on the
+**$0.1224/hr** the first wave-2 host was charged; this host bills **$0.2247/hr**, ~1.8× that, because machine
+28164's exclusion pushed selection onto a higher floor. One unit is not a market, so nothing is restated here
+— but if the 18 land in that band the tranche is ~**$58**, over the ladder's **~$36**. Re-run
+`vast_cost_model.py` off the real `_rentals.json` once the fan-out has a few hosts, and do not carry $31.9
+forward on this evidence.
+
 ### Timestep — 4 fs here is NOT an import from the ternary lane
 
 RUNG 2b's 4 fs adoption passed on 2026-07-26 on the **ternary VHL calibration system**, and it is deliberately
