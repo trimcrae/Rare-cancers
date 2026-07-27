@@ -285,7 +285,14 @@ jobs:
           set -eo pipefail
           python -m pip install -q boto3
           RC=0
-          python research/modalities/ternary_vast_launch.py --market-gate 4 \
+          # ★★ `--gate-for-mode`, NOT `--market-gate 4` (2026-07-27). The literal 4 was the size of the
+          # MODE, not of the purchase, so it stayed 4 after all four units were rented — and this gate went
+          # on pricing a four-unit fleet, clearing, and dispatching a launch that could only rent nothing.
+          # It did so at 12:08, 12:26 and 12:35 PM ET; the 12:39 PM rent row then recorded a 2.032x board
+          # reading beside the word `launched`, which reads as buying over trimcrae's line. Nothing was
+          # bought. The gate now derives the count from the units that actually still need a host, and
+          # exit 3 means "nothing to launch" — a state that must NOT dispatch and is NOT a price hold.
+          python research/modalities/ternary_vast_launch.py --mode edge_reps --gate-for-mode \
             --gate-out research/modalities/ternary-vast-market-hold.json || RC=$?
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           # ★ RECORD THE AUTHORISATION ITSELF, BEFORE DISPATCHING (2026-07-27). This is the moment a launch
@@ -298,6 +305,15 @@ jobs:
               --stage market-gate --gate research/modalities/ternary-vast-market-hold.json \
               --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
               --reason "board cleared both ceilings; dispatching task=edge-reps" || true
+          elif [ "$RC" = 3 ]; then
+            # ⏭ NOTHING TO LAUNCH. Recorded — not silent — because CLAUDE.md §6's one prohibition on a gate
+            # that declines to act is that declining must be VISIBLE. But recorded as its own word: this is
+            # not a price hold (the board was never consulted) and it must not run the hold clock or fire
+            # the hold warning, both of which exist for an expensive market rather than a working lane.
+            python research/modalities/ternary_launch_ledger.py --record nothing-to-launch \
+              --stage market-gate --gate research/modalities/ternary-vast-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "every unit already done or hosted; no launch dispatched, no rental attempted" || true
           fi
           git add research/modalities/ternary-vast-market-hold.json \
                   research/modalities/ternary-vast-launch-attempts.json
@@ -306,11 +322,19 @@ jobs:
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
             git push origin HEAD:"${{ github.ref_name }}" || true
           fi
-          echo "market-gate exit=$RC (0 = clear to rent, 1 = hold)"
+          echo "market-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host)"
 
           if [ "$RC" = 0 ]; then
             echo "::notice title=TVAST MARKET CLEAR::board is within both ceilings — dispatching edge-reps."
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=edge-reps
+            exit 0
+          fi
+
+          if [ "$RC" = 3 ]; then
+            # ⏭ THE SATISFIED-LANE PATH, AND THE WHOLE POINT OF THIS FIX: no dispatch. A launch here could
+            # only print "nothing to rent", and three of them in 25 minutes is what made a working lane look
+            # like a lane repeatedly buying over the buy line. Green, because nothing is wrong.
+            echo "::notice title=TVAST NOTHING TO LAUNCH::every valB_mini unit is already done or already hosted — no launch dispatched and no rental attempted. The rates the lane is ALREADY paying are in research/modalities/ternary-vast-market-hold.json under live_host_rates."
             exit 0
           fi
 
@@ -607,11 +631,18 @@ jobs:
         # the launch must never overwrite `ternary-vast-market-hold.json`, because on 2026-07-27 doing
         # exactly that erased the CLEAR snapshot that had authorised the dispatch and left the lane looking
         # like an ordinary hold.
+        #
+        # ⚠ AND IT PRICES THE UNITS THIS LAUNCH WILL ACTUALLY RENT, NOT A FIXED FOUR (2026-07-27). This step
+        # is where the 12:39 PM ET row's `gate_ratio_vs_basis: 2.032` came from. It was a mean over the four
+        # cheapest offers on the board — for a launch that went on to rent NOTHING, because all four units
+        # were already running. A board mean for a purchase that never happens is not "the board it faced";
+        # it is a number with no referent, and it sat in the ledger beside the word `launched` reading as a
+        # 2.03x buy. With `--gate-for-mode` a zero-rental tick records "nothing to launch" instead.
         continue-on-error: true
         run: |
           set -eo pipefail
           python -m pip install -q boto3
-          python research/modalities/ternary_vast_launch.py --market-gate 4 \
+          python research/modalities/ternary_vast_launch.py --mode edge_reps --gate-for-mode \
             --gate-out /tmp/launch-board.json || true
 
       - name: ATOM-MAP GATE — the launch cannot rent until the map is proven complete
@@ -717,11 +748,22 @@ jobs:
           else
             OUTCOME=submit-failed
           fi
+          # ★★ AND THE RENTAL RECEIPT DECIDES WHETHER `launched` IS EVEN LEGAL FOR THIS ROW (2026-07-27).
+          # The word above still comes from the launcher's annotations, which is right for telling a price
+          # refusal from a fault — but it CANNOT tell "rented four hosts" from "found all four already
+          # running and rented nothing", because both exit 0 with no marker. That is exactly how 12:29 PM
+          # and 12:39 PM ET were both filed as `launched` ("hosts were actually rented") having rented zero,
+          # and how a 2.032x board reading came to sit beside the word. `submit()` writes what it actually
+          # rented, per host, at the rate the INSTANCE is billed; `record()` reclassifies a zero-rental
+          # `launched` and copies those rates in, so the row carries what we PAID and not just what the
+          # board cost. The receipt is also what puts `n_rented` in the summary line.
           python research/modalities/ternary_launch_ledger.py --record "$OUTCOME" \
             --stage "rent (steps.rent.outcome=${{ steps.rent.outcome }})" \
             --gate /tmp/launch-board.json --run-url "$RUN_URL" \
+            --receipt research/modalities/ternary-vast-rental-receipt.json \
             --reason "task=${{ needs.resolve.outputs.task }}; job status ${{ job.status }}"
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add -f research/modalities/ternary-vast-rental-receipt.json 2>/dev/null || true
           git add research/modalities/ternary-vast-launch-attempts.json
           if ! git diff --cached --quiet -- research/modalities/ternary-vast-launch-attempts.json; then
             git commit -m "tvast launch attempt: $OUTCOME (CI)"

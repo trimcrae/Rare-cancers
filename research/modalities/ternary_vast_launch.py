@@ -1026,6 +1026,158 @@ def supersede_failed_record(match, bucket=None, prefix=None, dry_run=False):
     return {"cleared": cleared, "skipped": skipped, "dry_run": dry_run}
 
 
+# =============================================================================================================
+# WHICH UNITS STILL NEED A HOST — one definition, used by the launcher AND by the gate in front of it
+# =============================================================================================================
+# ★★ WHY THIS IS A FUNCTION AND NOT TWO COPIES (2026-07-27; it cost three launches and a false alarm).
+#
+# `submit()` has always skipped units that are already done or already running — correctly, and it is why the
+# 12:29 PM and 12:39 PM ET ticks rented NOTHING. But the MARKET GATE in front of it had no such notion: the
+# workflow called `--market-gate 4` with a hardcoded 4, so once all four units were live the gate went on
+# pricing a four-unit purchase every tick, clearing, and DISPATCHING a launch whose only possible outcome was
+# "nothing to rent". Three launch jobs in 25 minutes, each recorded `launched`.
+#
+# That is not merely wasteful CI. It put a board reading of 2.032x basis — over trimcrae's buy line — directly
+# beside the word `launched` in the lane's own ledger, which reads as "we bought at 2.032x". We did not; we
+# bought nothing. But a ledger that has to be disbelieved is worse than no ledger, and the only durable fix is
+# for the gate to ask the same question the launcher asks, from the same code.
+#
+# So: ONE home for "which units still need renting" (CLAUDE.md §1), consulted by both.
+def live_unit_hosts(uids, key=None):
+    """{unit_id: instance record} for every unit that already holds a Vast instance. Read-only.
+
+    ⚠ ANY labelled instance counts as occupied, whatever state it is in. That is deliberately the
+    CONSERVATIVE direction: mistaking a dead host for a live one costs a delayed relaunch, while mistaking a
+    live one for dead RENTS A SECOND GPU for work already running — and this lane bills by the hour. A host
+    that has genuinely exited is freed by `collect`'s reap, which reads the commit store and therefore knows
+    something this label check cannot.
+    """
+    key = key or os.environ.get("VAST_API_KEY")
+    if not key:
+        return {}
+    out = {}
+    for i in _vast_request("GET", "/instances/", key).get("instances", []) or []:
+        lab = i.get("label") or ""
+        if not str(lab).startswith(LABEL_PREFIX):
+            continue
+        for uid in uids:
+            if label_matches_unit(lab, uid):
+                out[uid] = i
+    return out
+
+
+def rented_usd_per_ns(inst):
+    """The $/ns a LIVE instance is actually being billed. PURE (given the record). None if ungradeable.
+
+    ★★ THIS — NOT A BOARD MEAN, AND NOT THE LAUNCHER'S `dph≈` LINE — IS THE NUMBER THAT ANSWERS "what are we
+    paying?" (CLAUDE.md §1). The `dph≈` printed at rental is the OFFER's `dph_total`: the market floor plus
+    the disk line the *search* priced, which reads LOW against the rate the instance is actually billed
+    (`vast_rate_forensics.py`). A gate's `mean_usd_per_ns` is a different thing again — the mean over the n
+    cheapest offers on the board at some instant, which is a property of the MARKET and not of any purchase.
+    Filing either one next to an outcome of `launched` is how a lane comes to report a rate it never paid.
+
+    The instance's own `dph_total` is bid + the real volume's disk line, i.e. what Vast charges per hour, so
+    dividing it by the card's benched throughput gives the rate we are truly paying per nanosecond.
+    """
+    import vast_cost_model as vcm
+    try:
+        nsph = vcm.ns_per_hour(inst.get("gpu_name"))
+        dph = float(inst.get("dph_total"))
+    except (TypeError, ValueError, KeyError):
+        return None
+    if not nsph or dph <= 0:
+        return None
+    return dph / (nsph * max(1, int(inst.get("num_gpus") or 1)))
+
+
+def rented_rate_row(uid, inst):
+    """One allow-listed 'what this host actually costs' row for the ledger. PURE.
+
+    Allow-listed for the same reason `vast_rate_forensics.SAFE_FIELDS` is: a Vast instance record carries
+    `jupyter_token`, `ssh_host` and `public_ipaddr`, and this row gets COMMITTED to a public repo. Field
+    names are evidence; several field values are credentials.
+    """
+    import congeneric_fanout as cf
+    upn = rented_usd_per_ns(inst)
+    basis = cf.basis_usd_per_ns()
+    row = {"unit_id": uid, "instance": inst.get("id"), "machine_id": inst.get("machine_id"),
+           "gpu": inst.get("gpu_name"), "dph_total_usd_h": inst.get("dph_total"),
+           "dph_base_usd_h": inst.get("dph_base"), "cur_state": inst.get("cur_state"),
+           "actual_status": inst.get("actual_status")}
+    if upn is None:
+        # Never a fabricated zero in a PRICE field — the failure mode this repo keeps paying for.
+        row["usd_per_ns"] = None
+        row["verdict"] = "UNGRADEABLE — no benched throughput for this card, or no rate on the record"
+        return row
+    row["usd_per_ns"] = round(upn, 6)
+    row["x_basis"] = round(upn / basis, 3)
+    row["over_buy_line"] = upn > buy_ceiling_usd_per_ns()
+    return row
+
+
+def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None, key=None):
+    """Which of this mode's units still need a host — the ONE answer both the gate and `submit` use.
+
+    Returns {"needed": [...], "done": [...], "live": [...], "live_hosts": {uid: record}}. `needed` is what a
+    launch would actually rent, so `len(needed) == 0` means a launch is pointless and the gate in front of it
+    must not fire one.
+    """
+    specs = list(legs or units_for(mode))
+    jobs = [build_jobspec(l, s, d, mode=mode, timestep_fs=timestep_fs,
+                          warmup_timestep_fs=warmup_timestep_fs) for (l, s, d) in specs]
+    uids = [j.env["UNIT_ID"] for j in jobs]
+    done = {u for u, d in leg_records().items() if d.get("status") == "done"}
+    live_hosts = {}
+    try:
+        live_hosts = live_unit_hosts(uids, key=key)
+    except Exception as e:  # noqa: BLE001 — never block on a listing failure; see submit()
+        print(f"[launch] could not list live instances ({type(e).__name__}: {e}); "
+              "cannot skip in-flight units, duplicates are possible")
+    return {"needed": [u for u in uids if u not in done and u not in live_hosts],
+            "done": [u for u in uids if u in done],
+            "live": [u for u in uids if u in live_hosts and u not in done],
+            "live_hosts": live_hosts}
+
+
+RECEIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ternary-vast-rental-receipt.json")
+
+
+def receipt_path():
+    """Where the rental receipt goes. Overridable via `TVAST_RECEIPT_PATH`.
+
+    ⚠ READ AT CALL TIME, NOT IMPORT TIME, and it exists because the first version of this file made the test
+    suite write a real receipt into the working tree — a test that mutates the repo it is testing is how a
+    fabricated artifact gets committed by accident. `conftest.py` redirects it per-session.
+    """
+    return os.environ.get("TVAST_RECEIPT_PATH") or RECEIPT_PATH
+
+
+def write_rental_receipt(mode, requested, submitted, failed, live_rates=(), note=None, path=None):
+    """What this launch ACTUALLY rented, and at what rate per host. Written on every path.
+
+    ⛔ THE FILE THAT DECIDES THE LEDGER'S OUTCOME WORD. Before it existed, the workflow inferred the word
+    from `steps.rent.outcome`, so "the rent step exited 0" produced `launched` — "hosts were actually
+    rented" — for a tick that rented nothing at all. The rental is a fact the launcher knows and the shell
+    does not; writing it down is what stops the shell guessing.
+    """
+    doc = {"_what": "what the last ternary launch actually rented, per host, at the rate the instance is "
+                    "billed — NOT a board mean and NOT the launcher's `dph≈` line (both read low or price a "
+                    "market rather than a purchase). This is the number that answers 'what are we paying?'",
+           "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "mode": mode,
+           "n_requested": len(requested), "n_rented": len(submitted),
+           "requested": list(requested), "rented": list(submitted), "failed": list(failed),
+           "already_live": list(live_rates)}
+    if note:
+        doc["note"] = note
+    try:
+        with open(path or receipt_path(), "w") as fh:
+            json.dump(doc, fh, indent=2, default=str)
+            fh.write("\n")
+    except OSError as e:
+        print(f"[launch] rental receipt not written: {e}", flush=True)
+    return doc
+
+
 def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=None, legs=None,
            git_branch=None):
     """Rent one instance per unit for this mode, skipping units already done or already running.
@@ -1054,21 +1206,21 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
 
     done = {u for u, d in leg_records().items() if d.get("status") == "done"}
     inflight = set()
+    live_hosts = {}
     key = os.environ.get("VAST_API_KEY")
     if key:
         try:
-            for i in _vast_request("GET", "/instances/", key).get("instances", []):
-                lab = i.get("label") or ""
-                if not lab.startswith(LABEL_PREFIX):
-                    continue
-                for j in jobs:
-                    if label_matches_unit(lab, j.env["UNIT_ID"]):
-                        inflight.add(j.env["UNIT_ID"])
+            live_hosts = live_unit_hosts([j.env["UNIT_ID"] for j in jobs], key=key)
+            inflight = set(live_hosts)
         except Exception as e:  # noqa: BLE001 — never block a launch on a listing failure
             print(f"[launch] could not list live instances ({type(e).__name__}: {e}); "
                   "cannot skip in-flight units, duplicates are possible")
     busy = done | inflight
     keep = [j for j in jobs if j.env["UNIT_ID"] not in busy]
+    # ★ WHAT THE UNITS WE ARE *NOT* RENTING ALREADY COST US, priced off the LIVE INSTANCE RECORD. Without
+    # this, a tick that rents nothing has nothing to say about money at all, and the only $/ns figure
+    # anywhere near it is a board mean — the substitution that made 12:39 PM ET read as a 2.032x purchase.
+    submit.last_live_rates = [rented_rate_row(u, live_hosts[u]) for u in sorted(live_hosts)]
     for j in jobs:
         if j.env["UNIT_ID"] in done:
             print(f"[launch] skipping (already done, no rental): {j.env['UNIT_ID']}")
@@ -1082,6 +1234,14 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     submit.last_failure_kind = None
     if not keep:
         print("[launch] every unit for this mode is already done or running — nothing to rent")
+        # ★★ SAY SO IN A FILE, NOT ONLY IN A LOG LINE (2026-07-27). This branch is the one the 12:29 PM and
+        # 12:39 PM ET ticks took, and because it left no artifact the ledger step downstream could only see
+        # "the rent step exited 0" — which it filed as `launched`, meaning "hosts were actually rented".
+        # Zero were. The receipt is what lets the outcome word be derived from the RENTAL rather than from
+        # an exit code, and it is written on every path so its ABSENCE is itself diagnostic.
+        write_rental_receipt(mode, requested=[], submitted=[], failed=[],
+                             live_rates=getattr(submit, "last_live_rates", []),
+                             note="every unit for this mode is already done or running — no rental attempted")
         return []
 
     bad = set(blocked_machine_ids())
@@ -1123,6 +1283,24 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     # got a clean answer from it. Only when every shortfall is "nothing affordable" is this the guard working.
     if failures:
         submit.last_failure_kind = "fault" if any(f["kind"] == "fault" for f in failures) else "market"
+    # ★★ READ BACK WHAT WE JUST BOUGHT, AT THE RATE THE INSTANCE IS BILLED. The `dph` in `h.extra` above is
+    # the OFFER's figure — market floor plus the disk line the SEARCH priced — and CLAUDE.md §1 is explicit
+    # that it reads LOW against the real charge. One GET turns a quote into the actual rate, and the ledger
+    # then records a number nobody has to caveat.
+    if handles:
+        try:
+            back = live_unit_hosts([h["unit_id"] for h in handles], key=key)
+            for h in handles:
+                inst = back.get(h["unit_id"])
+                if inst is not None:
+                    h.update({k: v for k, v in rented_rate_row(h["unit_id"], inst).items()
+                              if k in ("usd_per_ns", "x_basis", "over_buy_line", "gpu",
+                                       "dph_total_usd_h", "dph_base_usd_h")})
+        except Exception as e:  # noqa: BLE001 — a missing rate must never fail a launch that succeeded
+            print(f"[launch] could not read back the rented rates ({type(e).__name__}: {e}); "
+                  "the receipt will carry the offer quote only")
+    write_rental_receipt(mode, requested=[j.env["UNIT_ID"] for j in keep], submitted=handles,
+                         failed=failures, live_rates=getattr(submit, "last_live_rates", []))
     if handles:
         json.dump(handles, open("ternary-vast-handles.json", "w"), indent=2)
     print(f"[launch] {len(handles)}/{len(keep)} unit(s) submitted -> "
@@ -1297,6 +1475,51 @@ def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max
                        "need <= $%.6f/ns" % (ratio, cap, cap * basis))
         out["reason"] = "; ".join(why)
     return hold, out
+
+
+def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
+    """(action, readout) — price ONLY the units of `mode` that still need a host.
+
+    ★★ THE FIX FOR A GATE THAT RE-BOUGHT A SATISFIED LANE EVERY TICK (2026-07-27).
+
+    The workflow used to call `market_gate(4)` with a literal 4. That number was the SIZE OF THE MODE, not
+    the size of the purchase, so it stayed 4 after all four units were rented — and the gate went on pricing
+    a four-unit fleet, clearing, and dispatching a launch that could only print "nothing to rent". Between
+    12:08 and 12:39 PM ET it did that three times, and the third one recorded a 2.032x board reading beside
+    the word `launched`, which is how a lane comes to look like it bought over trimcrae's buy line when it
+    bought nothing at all.
+
+    `action` is one of:
+      * `"nothing-to-launch"` — every unit is done or already hosted. NOT a hold (the market was never the
+        obstacle, and filing it as one would corrupt the hold clock and the hold readout), and NOT a clear:
+        the caller must not dispatch a launch. This is the state the lane is in whenever it is working.
+      * `"hold"`  — units need renting and the board is too expensive or unreadable.
+      * `"clear"` — units need renting and the board is within both ceilings.
+
+    A launch is dispatched on `"clear"` and on nothing else.
+    """
+    out = outstanding_units(mode, legs=legs, key=key)
+    n = len(out["needed"])
+    if n == 0:
+        readout = {
+            "_what": "ternary lane $/ns market gate (CLAUDE.md §6) for the valB_mini replicates",
+            "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "mode": mode, "n_units": 0, "nothing_to_launch": True, "hold": False,
+            "units_done": out["done"], "units_live": out["live"],
+            # The rate we are ALREADY PAYING on the hosts this lane holds — the only $/ns figure that means
+            # anything on a tick that is not buying. A board mean here would be pricing a market we have no
+            # intention of entering, which is precisely the number that got misread as a purchase.
+            "live_host_rates": [rented_rate_row(u, out["live_hosts"][u]) for u in out["live"]],
+            "reason": ("no unit of mode %s needs a host — %d done, %d already running. The market was not "
+                       "consulted because nothing is for sale to us right now; this is NOT a price hold."
+                       % (mode, len(out["done"]), len(out["live"]))),
+        }
+        return "nothing-to-launch", readout
+    hold, readout = market_gate(n, key=key, excluded=excluded, max_ratio=max_ratio)
+    readout.update({"mode": mode, "nothing_to_launch": False,
+                    "units_done": out["done"], "units_live": out["live"],
+                    "units_needing_host": out["needed"]})
+    return ("hold" if hold else "clear"), readout
 
 
 def collect(bucket=None, prefix=None, autostop=True):
@@ -1821,6 +2044,13 @@ def main(argv=None):
     # depth and the offers that were priced — not "nothing to submit".
     ap.add_argument("--market-gate", metavar="N", type=int, default=None,
                     help="price N units against this rung's own ladder ceiling and exit 1 to HOLD")
+    # ★ PREFER THIS OVER `--market-gate N` IN ANY AUTOMATED CALLER. `N` is a number someone typed once; this
+    # derives it from the units that actually still need a host, so a satisfied lane cannot keep clearing the
+    # gate and dispatching launches that rent nothing (2026-07-27 — it did exactly that three times).
+    # Exit codes: 0 = CLEAR (dispatch), 1 = HOLD (do not dispatch), 3 = NOTHING TO LAUNCH (do not dispatch,
+    # and it is not a hold — the market was never asked).
+    ap.add_argument("--gate-for-mode", action="store_true",
+                    help="price ONLY this mode's units that still need a host; exit 3 when none do")
     ap.add_argument("--gate-out", metavar="FILE", default=None,
                     help="write the market-gate readout here (committed by CI so a hold is never silent)")
     ap.add_argument("--seed-stage-cache", metavar="DIR",
@@ -1830,6 +2060,16 @@ def main(argv=None):
                     help="download each unit's NEWEST committed production generation (.nc/.chk) into DIR as "
                          "<leg>_sim_shared/, ready for ternary_fep_convergence.py")
     a = ap.parse_args(argv)
+    if a.gate_for_mode:
+        action, readout = gate_for_mode(a.mode, excluded=blocked_machine_ids())
+        print(json.dumps(readout, indent=2))
+        if a.gate_out:
+            with open(a.gate_out, "w") as fh:
+                json.dump(readout, fh, indent=2)
+                fh.write("\n")
+        mark = {"clear": "✅ CLEAR", "hold": "⛔ HOLD", "nothing-to-launch": "⏭ NOTHING TO LAUNCH"}[action]
+        print("[market-gate] %s — %s" % (mark, readout["reason"]))
+        return {"clear": 0, "hold": 1, "nothing-to-launch": 3}[action]
     if a.market_gate is not None:
         hold, readout = market_gate(a.market_gate, excluded=blocked_machine_ids())
         print(json.dumps(readout, indent=2))

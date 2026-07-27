@@ -682,8 +682,8 @@ def test_an_indefinite_hold_escalates_rather_than_idling_forever():
     body = src[src.index("def market_gate("):src.index("\ndef mode_launch(")]
     assert "::error title=" in body, "the escalation must be a GitHub error annotation"
     assert "first_held_utc" in body, "escalation must be timed from the FIRST hold, not this tick"
-    assert "price_is_binding and held_h >=" in body, \
-        "the escalation must fire ONLY when price is the binding constraint"
+    assert "price_blocks_every_unit and held_h >=" in body, \
+        "the escalation must fire ONLY when price is blocking EVERY unit"
     # and the escalation must actually fail the process
     assert "raise SystemExit(2)" in src and "_MARKET_HOLD_ESCALATED" in src
 
@@ -909,9 +909,21 @@ def test_a_terminus_blocked_hold_does_not_escalate_on_price():
     src = open(cfv.__file__).read()
     body = src[src.index("def market_gate("):src.index("\ndef object_store_preflight(")]
     # the clock must be CLEARED, not merely unread, while another gate is shut
-    assert "price_is_binding = (blocking is None)" in body
-    assert 'else (_utcnow() if price_is_binding else None)' in body, \
-        "first_held_utc must be cleared while price is not binding, not left ticking"
+    assert "price_blocks_every_unit = (blocking is None)" in body
+    assert 'else (_utcnow() if price_blocks_every_unit else None)' in body, \
+        "first_held_utc must be cleared while price is not blocking every unit, not left ticking"
+    # ★ AND THE RECORD MUST NOT READ AS A SELF-CONTRADICTION (2026-07-27). A snapshot carrying
+    # `binding_gate: "price"` beside `price_is_binding: false` was two DIFFERENT questions answered
+    # correctly under names that claimed to be one question. The scope field is what disambiguates them.
+    assert "binding_gate_scope" in body, \
+        "binding_gate must say how many units its verdict covers, or it reads as contradicting the " \
+        "fleet-level escalation flag"
+    # The superseded key must not be WRITTEN again (reading a previous tick's copy is how the hold clock
+    # survives the rename, so `prev.get("price_is_binding")` is legitimate and deliberately still allowed).
+    assert 'doc["price_is_binding"]' not in body, \
+        "the superseded key must not be emitted into the snapshot again"
+    assert 'prev.get("price_is_binding")' in body, \
+        "a rename must not silently restart the hold clock — read the old key as a fallback"
     # with per-unit launching, 'price is binding' means NOT ONE unit could be placed
     assert "n_place == 0" in body, "a tick that placed some units is not a price-bound tick"
 

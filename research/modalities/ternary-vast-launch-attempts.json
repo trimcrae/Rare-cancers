@@ -215,7 +215,11 @@
         "needed": 4,
         "used_for_mean": 4
       },
-      "reason": "task=edge-reps; job status success"
+      "reason": "task=edge-reps; job status success",
+      "reclassified": "RECLASSIFIED 2026-07-27 \u2014 this row is `launched` (\"hosts were actually rented\") but it rented NOTHING. The job log shows all 4 units skipped as `already running` and `every unit for this mode is already done or running \u2014 nothing to rent`; the watchdog arm step added `0 new entr(ies)`; and the live-instance census taken at 1:12 PM ET found exactly FOUR tvast instances for four units \u2014 one per unit, all rented by the 12:14 PM ET launch. $0 was spent by this attempt. The word came from the rent step's exit code, which cannot see a rental; the `gate_*` fields are the launch job's own advisory BOARD snapshot (a mean over the 4 cheapest offers), not a rate paid. Fixed at source: `submit()` now writes a rental receipt, `record()` refuses to file `launched` with zero rentals, and the outcome `nothing-to-launch` names this state. Left in place, not rewritten \u2014 the ledger is append-only.",
+      "n_requested": 0,
+      "n_rented": 0,
+      "gate_fields_are_the_board_not_the_purchase": "this is the BOARD's mean $/ns at the moment of an advisory snapshot, NOT a rate this lane paid. Nothing was bought on this row."
     },
     {
       "utc": "2026-07-27T16:35:35Z",
@@ -259,7 +263,11 @@
         "needed": 4,
         "used_for_mean": 4
       },
-      "reason": "task=edge-reps; job status success"
+      "reason": "task=edge-reps; job status success",
+      "reclassified": "RECLASSIFIED 2026-07-27 \u2014 this row is `launched` (\"hosts were actually rented\") but it rented NOTHING. The job log shows all 4 units skipped as `already running` and `every unit for this mode is already done or running \u2014 nothing to rent`; the watchdog arm step added `0 new entr(ies)`; and the live-instance census taken at 1:12 PM ET found exactly FOUR tvast instances for four units \u2014 one per unit, all rented by the 12:14 PM ET launch. $0 was spent by this attempt. The word came from the rent step's exit code, which cannot see a rental; the `gate_*` fields are the launch job's own advisory BOARD snapshot (a mean over the 4 cheapest offers), not a rate paid. Fixed at source: `submit()` now writes a rental receipt, `record()` refuses to file `launched` with zero rentals, and the outcome `nothing-to-launch` names this state. Left in place, not rewritten \u2014 the ledger is append-only.",
+      "n_requested": 0,
+      "n_rented": 0,
+      "gate_fields_are_the_board_not_the_purchase": "this is the BOARD's mean $/ns at the moment of an advisory snapshot, NOT a rate this lane paid. Nothing was bought on this row."
     },
     {
       "utc": "2026-07-27T17:07:28Z",
@@ -303,7 +311,11 @@
         "needed": 4,
         "used_for_mean": 4
       },
-      "reason": "task=edge-reps; job status success"
+      "reason": "task=edge-reps; job status success",
+      "reclassified": "RECLASSIFIED 2026-07-27 \u2014 this row is `launched` (\"hosts were actually rented\") but it rented NOTHING. The job log shows all 4 units skipped as `already running` and `every unit for this mode is already done or running \u2014 nothing to rent`; the watchdog arm step added `0 new entr(ies)`; and the live-instance census taken at 1:12 PM ET found exactly FOUR tvast instances for four units \u2014 one per unit, all rented by the 12:14 PM ET launch. $0 was spent by this attempt. The word came from the rent step's exit code, which cannot see a rental; the `gate_*` fields are the launch job's own advisory BOARD snapshot (a mean over the 4 cheapest offers), not a rate paid. Fixed at source: `submit()` now writes a rental receipt, `record()` refuses to file `launched` with zero rentals, and the outcome `nothing-to-launch` names this state. Left in place, not rewritten \u2014 the ledger is append-only.",
+      "n_requested": 0,
+      "n_rented": 0,
+      "gate_fields_are_the_board_not_the_purchase": "this is the BOARD's mean $/ns at the moment of an advisory snapshot, NOT a rate this lane paid. Nothing was bought on this row."
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."
