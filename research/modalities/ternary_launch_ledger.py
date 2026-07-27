@@ -237,7 +237,16 @@ def summary_line(path=LEDGER):
         return "[ledger] no launch attempt recorded yet"
     # The verdict word comes FIRST, before the timestamp, because this line is read at a glance in a CI log
     # and "is anything wrong?" is the only question most readers have. ⛔ = go look; ✅/⏸ = nothing to do.
-    mark = "⛔ FAULT" if e["outcome"] in FAULTS else ("⏸ held" if e["outcome"] == "refused-on-price" else "✅")
+    #
+    # ★ AND A MAP REFUSAL GETS ITS OWN GLYPH, because the other two would both be lies about it (2026-07-27).
+    # It is not a FAULT — nothing is broken, the guard measured the map and did its job — but it is emphatically
+    # not ✅ either, and it is not ⏸ `held`: a price hold self-heals on the next tick, whereas a short map will
+    # be exactly as short an hour later. Rendering it ✅ would be the same glyph as a healthy launch, which is
+    # CLAUDE.md §1's rule that a row we are paying and a row the gate refused must never render alike; ⏸ would
+    # promise a retry that cannot help. 🔬 = the pipeline is fine and the CHEMISTRY is the finding — go read it.
+    mark = ("⛔ FAULT" if e["outcome"] in FAULTS else
+            "🔬 MAP REFUSED" if e["outcome"] == "map-gate-refused" else
+            "⏸ held" if e["outcome"] == "refused-on-price" else "✅")
     bits = ["[ledger] %s — last attempt %s (%s): %s" % (mark, e.get("et", "?"), e.get("utc", "?"),
                                                         e["outcome"])]
     if e.get("stage"):

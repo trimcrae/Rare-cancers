@@ -248,3 +248,20 @@ def test_a_gate_that_could_not_run_is_not_a_gate_that_refused(ledger):
     assert "Re-running will not help" in refused["what_that_means"]
     assert "17/20 heavy mapped" in refused["reason"]
     assert "docker login" in could_not["reason"]
+
+
+def test_the_three_zero_rental_outcomes_do_not_render_alike(ledger):
+    """CLAUDE.md §1: a row we are paying and a row the gate refused must never render alike — one glyph, one
+    meaning. All three of these rented nothing and spent $0, and each calls for a DIFFERENT next action:
+    a price hold self-heals on the next tick, a launched row is normal green, and a map refusal will be
+    exactly as short an hour later and needs a person to read the chemistry. Three glyphs."""
+    marks = {}
+    for outcome, kw in (("refused-on-price", {"n_requested": 4, "n_rented": 0}),
+                        ("map-gate-refused", {"n_requested": 4, "n_rented": 0}),
+                        ("failed", {})):
+        tll.record(outcome, path=ledger, **kw)
+        marks[outcome] = tll.summary_line(ledger).split("—")[0]
+    assert len(set(marks.values())) == 3, marks
+    assert "🔬" in marks["map-gate-refused"]
+    assert "✅" not in marks["map-gate-refused"], "a blocked edge must not wear the healthy-launch glyph"
+    assert "⏸" not in marks["map-gate-refused"], "held promises a retry that cannot help a short map"
