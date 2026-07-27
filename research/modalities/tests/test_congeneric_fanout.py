@@ -1386,59 +1386,47 @@ def test_a_submit_starved_by_OUR_OWN_filters_does_not_read_as_a_capacity_refusal
     assert "_n_excl, _n_held = len(excluded), len(used_machines) - len(excluded)" in src
 
 
-# ---- host distinctness must not count corpses (2026-07-27, 6:32 PM ET tick) --------------------------------
+# ---- host distinctness vs the SLOT rule: they disagree ON PURPOSE (2026-07-27, 6:32 -> 6:53 PM ET) --------
 
-def _dinst(mid, status, label="s1f-00-x"):
-    return {"machine_id": mid, "actual_status": status, "label": label}
+def test_a_terminal_instance_still_makes_its_machine_off_limits():
+    """THE TRAP, PINNED SO IT IS NOT "FIXED" AGAIN. `live_labels` deliberately does not let an `exited`
+    instance hold its unit's SLOT, so the seed here — which avoids every machine in the listing — reads like
+    the 6c996cca defect ("the gate counted corpses as hosts"). It is not, and the repo has the measurement:
+    the three machines the 6:32 PM tick called corpses (43159, 50143, 28904) were all `running` again 21 min
+    later, and the committed-iteration census proves they never stopped working (cw_ev_5oh went warmup@380 ->
+    production@40; cw_ev_5alkyne added 80 iterations). `exited` is routinely a TRANSIENT status.
 
-
-def test_a_terminal_instance_does_not_make_its_machine_off_limits():
-    """THE 6:32 PM DEFECT. The distinctness seed read the RAW listing, so a machine whose container had
-    EXITED was still 'a machine we are already renting'. The same readout printed both halves of the
-    contradiction: '3 instance(s) in a terminal state do NOT hold their unit's slot [s1f-01, s1f-03, s1f-04]'
-    and 'also avoiding 5 machine(s) ... [138147, 28904, 43159, 50143, 89294]' — 43159/50143/28904 being
-    exactly those three. Three of five avoided machines held nothing."""
-    import congeneric_fanout_vast as fv
-    live = [_dinst("138147", "running"), _dinst("89294", "loading"),
-            _dinst("43159", "exited"), _dinst("50143", "exited"), _dinst("28904", "exited")]
-    held, corpses = fv.distinct_host_machines(live)
-    assert held == {"138147", "89294"}
-    assert corpses == ["28904", "43159", "50143"]
-
-
-def test_distinctness_is_not_weakened_for_hosts_that_are_actually_running():
-    """The repair must only re-admit corpses. A machine we are genuinely on is still refused — two units on
-    one machine contend for one GPU and share its fate."""
-    import congeneric_fanout_vast as fv
-    held, corpses = fv.distinct_host_machines([_dinst("111", "running"), _dinst("222", "loading"),
-                                               _dinst("333", "created")])
-    assert held == {"111", "222", "333"} and corpses == []
-
-
-def test_a_machine_running_one_unit_and_a_corpse_of_another_stays_avoided():
-    """Same machine, two instances, one alive: it IS still held, so it must not appear as a re-offerable
-    corpse. Otherwise the repair would re-stack a second unit onto a busy GPU — the exact contention the
-    distinctness rule exists to stop."""
-    import congeneric_fanout_vast as fv
-    held, corpses = fv.distinct_host_machines([_dinst("777", "exited"), _dinst("777", "running")])
-    assert held == {"777"} and corpses == []
-
-
-def test_the_two_terminal_state_tuples_never_drift():
-    """`mode_launch` keeps a local `_TERMINAL` for the SLOT rule and the module keeps `_TERMINAL_STATES` for
-    the DISTINCTNESS rule. The whole point of the repair is that those two agree about which instances
-    exist, so a future edit to one and not the other re-opens the defect silently."""
+    The two rules ask different questions with different costs of being wrong: re-submitting a unit needlessly
+    costs one rental against an S3 checkpoint, while double-booking a machine lands a second unit on a GPU our
+    own leg is still using — measured today at 0 of 7 double-booked instances ever starting."""
     import inspect
     import congeneric_fanout_vast as fv
     src = inspect.getsource(fv.mode_launch)
-    assert f'_TERMINAL = {fv._TERMINAL_STATES!r}'.replace("'", '"') in src.replace("'", '"')
+    seed = '_already_on = {str(i.get("machine_id")) for i in live if i.get("machine_id") is not None}'
+    assert seed in src, "the distinctness seed must span the WHOLE listing, terminal instances included"
+    # and it must not have been narrowed by the terminal-state test the SLOT rule uses
+    assert '_already_on = {str(i.get("machine_id")) for i in live\n' not in src
+    assert "_TERMINAL" not in src.split(seed)[1].split("used_machines |= _already_on")[0]
 
 
-def test_the_launcher_reports_the_corpses_it_chose_to_re_offer():
-    """'we chose to re-offer these' and 'we forgot to exclude these' must never render alike — and these are
-    the machines most likely to be rented next, so a silent re-admission is unreadable at 3 AM."""
+def test_the_launcher_says_out_loud_that_a_terminal_status_does_not_free_a_machine():
+    """A reader comparing the two lines in one readout will otherwise conclude the launcher contradicts
+    itself — which is exactly the wrong conclusion that got acted on once already."""
     import inspect
     import congeneric_fanout_vast as fv
     src = inspect.getsource(fv.mode_launch)
-    assert "_already_on, _corpse_machines = distinct_host_machines(live)" in src
-    assert "are NOT avoided" in src
+    assert "A TERMINAL status does not free a" in src
+    assert "`exited` is routinely transient" in src
+
+
+def test_the_reaper_still_requires_two_consecutive_terminal_observations():
+    """This is the same fact from the other side, and it is what makes the distinctness rule above correct:
+    the lane does not believe a single terminal reading anywhere. If this ever became a one-shot reap, the
+    transient-`exited` argument would need re-measuring rather than assuming."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_collect) if hasattr(fv, "mode_collect") else ""
+    if not src:
+        import pytest
+        pytest.skip("mode_collect not present under this name")
+    assert "if seen < 2:" in src
