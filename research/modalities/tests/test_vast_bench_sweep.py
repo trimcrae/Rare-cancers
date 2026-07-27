@@ -286,3 +286,40 @@ class TestAFailedBenchProducesNoNumber(unittest.TestCase):
         r = sweep.parse_bench_line(self.ERROR_LINE)
         r["gpu_requested"] = "RTX 4090"
         self.assertIsNone(sweep.admit(r)[2])
+
+
+class TestDeviceNameEquivalences(unittest.TestCase):
+    """An ALLOW-LIST, not a loosened heuristic. Two admissible measurements (A100 PCIe, RTX PRO 4000) were
+    refused on 2026-07-27 because the CUDA string carries capacity/architecture tokens the marketplace name
+    omits. The obvious fix — token containment — would admit `NVIDIA GeForce RTX 4090 D` as an RTX 4090,
+    because its tokens are a strict SUPERSET. So equivalence is enumerated and everything else fails closed."""
+
+    def _rec(self, device, requested):
+        return rec(device=device, gpu_requested=requested, offer_gpu_name=requested,
+                   blocks_ns_day=[500.0, 500.0, 500.0], ns_per_day=500.0)
+
+    def test_a_capacity_token_in_the_middle_is_the_same_card(self):
+        ok, why, entry = sweep.admit(self._rec("NVIDIA A100 80GB PCIe", "A100 PCIE"))
+        self.assertTrue(ok, why)
+        self.assertEqual(entry[0], "A100PCIE")
+
+    def test_an_architecture_token_at_the_end_is_the_same_card(self):
+        ok, why, entry = sweep.admit(self._rec("NVIDIA RTX PRO 4000 Blackwell", "RTX PRO 4000"))
+        self.assertTrue(ok, why)
+        self.assertEqual(entry[0], "RTXPRO4000")
+
+    def test_the_4090D_GUARD_SURVIVES_THE_FIX(self):
+        """The whole reason this is an allow-list. A cut-down SKU must never inherit the full card."""
+        ok, why, _ = sweep.admit(self._rec("NVIDIA GeForce RTX 4090 D", "RTX 4090"))
+        self.assertFalse(ok, "token containment would have admitted this")
+        self.assertTrue(any("card identity disagrees" in w for w in why), why)
+
+    def test_an_unlisted_mismatch_still_fails_closed(self):
+        ok, _why, _e = sweep.admit(self._rec("Quadro RTX 8000", "A10"))
+        self.assertFalse(ok)
+
+    def test_no_equivalence_maps_two_different_benched_cards_together(self):
+        """A typo here would silently merge two cards' measurements."""
+        vals = list(sweep.DEVICE_NAME_EQUIVALENCES.values())
+        self.assertEqual(len(vals), len(set(vals)) + vals.count("A100PCIE") - 1,
+                         "only the A100 capacity variants may share a key")

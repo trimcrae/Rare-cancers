@@ -185,10 +185,45 @@ def parse_bench_line(line):
     return out
 
 
+# ★★ DEVICE-NAME EQUIVALENCES — an ALLOW-LIST, because the alternative loosens the 4090D guard (2026-07-27)
+#
+# THE FALSE NEGATIVE. The identity check requires the marketplace name, the requested model and the CUDA
+# device string to resolve to one card by a SUFFIX-anchored match (a vendor PREFIX is free, a trailing
+# qualifier is a different SKU). That is right for `RTX 4090` vs `RTX 4090 D`, and wrong for these:
+#
+#     requested "A100 PCIE"     CUDA device "NVIDIA A100 80GB PCIe"       <- capacity token in the MIDDLE
+#     requested "RTX PRO 4000"  CUDA device "NVIDIA RTX PRO 4000 Blackwell" <- architecture token at the END
+#
+# Both are the same silicon under two naming conventions, and both were refused — costing two admissible
+# measurements, including the A100, which is exactly the fast-tier card the sweep exists to settle.
+#
+# WHY NOT A SMARTER HEURISTIC. The obvious fix is token containment: accept when every token of the requested
+# name appears in the device name. It is wrong, and dangerously so — NVIDIA's own string for the cut-down SKU
+# is "NVIDIA GeForce RTX 4090 D", whose tokens are a strict SUPERSET of "RTX 4090". Token containment would
+# admit a 4090D as a 4090, which is the precise anti-conservative failure the suffix rule was written to stop.
+#
+# So the equivalence is an explicit, human-checked allow-list keyed on the exact normalised CUDA string, in the
+# same spirit as `vast_cost_model.CONSERVATIVE_ALIASES`. Anything not listed FAILS CLOSED and is refused.
+DEVICE_NAME_EQUIVALENCES = {
+    # normalised CUDA device string : the normalised marketplace/table key it names
+    "NVIDIAA10080GBPCIE": "A100PCIE",           # A100 80GB PCIe — capacity+bus tokens, same GA100 part
+    "NVIDIAA10040GBPCIE": "A100PCIE",           # the 40GB PCIe variant reports the same way
+    "NVIDIARTXPRO4000BLACKWELL": "RTXPRO4000",  # marketplace drops the architecture word
+    "NVIDIARTXPRO4500BLACKWELL": "RTXPRO4500",
+    "NVIDIARTXPRO5000BLACKWELL": "RTXPRO5000",
+    "NVIDIARTXPRO6000BLACKWELLWORKSTATIONEDITION": "RTXPRO6000WS",
+}
+
+
 def _card_keys(rec):
     """Every name in the record that claims to say WHICH CARD ran, normalised. PURE."""
-    return {k: _vcm.normalise_gpu_name(rec.get(k)) for k in
-            ("device", "offer_gpu_name", "gpu_requested") if rec.get(k)}
+    out = {}
+    for k in ("device", "offer_gpu_name", "gpu_requested"):
+        if not rec.get(k):
+            continue
+        n = _vcm.normalise_gpu_name(rec.get(k))
+        out[k] = DEVICE_NAME_EQUIVALENCES.get(n, n)
+    return out
 
 
 def admit(rec):
