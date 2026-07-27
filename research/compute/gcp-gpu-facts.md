@@ -113,14 +113,89 @@ before diagnosing a GPU provisioning/quota problem.
 - This project has L4/G2 quota **only in us-central1**. Diversify across zones a/b/c/f for
   spot-capacity resilience; never add other regions (they have no quota → wasted attempts).
 
-## 6. VMs self-delete on exit (IAM granted 2026-07-22)
+## 6. ★★ VMs do NOT self-delete — the delete is REFUSED. Only the CONTROL PLANE can reap a GCP VM
 
-- The default compute SA (`878095411563-compute@developer.gserviceaccount.com`) was granted
-  a custom role with `compute.instances.delete` + `compute.instances.get`, so VMs now
-  self-delete on graceful exit → a finished/dead leg shows `live_vms=0` (no zombie left).
-- Backstops if self-delete ever fails: `--max-run-duration=25200s` (7h auto-DELETE) +
-  `gcp-reap-vms.yml` (project-wide universal killer; `mode=reap` deletes dead VMs always and
-  RUNNING VMs older than `max_age_min`; `mode=dry_run` lists only).
+⚠ **CORRECTED 2026-07-27, 2:04 PM ET.** This section previously asserted that the default compute SA had been
+granted `compute.instances.delete` on 2026-07-22 "so VMs now self-delete on graceful exit → a finished/dead leg
+shows `live_vms=0` (no zombie left)". **That is false, and it was never measured.** The superseded claim is
+retained here because it is what the lane planned around for five days.
+
+**THE MEASUREMENT.** `gcp-ternary-30215419909` (us-central1-a, g2-standard-16, on-demand), the valB_mini
+`calib_hi_to_lo__ternary_vhl` dir=rev seed=0 leg. It finished its science normally — `[barrier] committed
+checkpoint at iteration 2000/2000`, then `[tfep] LEG DONE calib_hi_to_lo__ternary_vhl: ΔG_morph=-47.79 ± 0.09
+(MBAR SE)` at ~**12:03 PM ET on 2026-07-27** — and the startup script ran to its end and fired its EXIT trap.
+Serial console, verbatim (kernel uptime seconds in brackets), read via `gpu-rbfe-gcp-tail.yml` run
+`30291739779` at **2:00 PM ET**:
+
+```
+[76535.256985] startup-script: === TFEP-DONE TFEP_RESULT status=OK run leg=calib_hi_to_lo__ternary_vhl dg_morph=-47.795 se=0.086 ===
+[76535.257198] startup-script: result in GCS; EXIT trap will delete the VM (avoid idle billing)
+[76535.274394] startup-script: === SELF-DELETE (trap on EXIT): deleting gcp-ternary-30215419909 in us-central1-a ===
+[76536.643544] startup-script: ERROR: (gcloud.compute.instances.delete) Could not fetch resource:
+[76536.643690] startup-script:  - Required 'compute.instances.delete' permission for 'projects/project-a7ebde30-e2ed-4b8d-9a9/zones/us-central1-a/instances/gcp-ternary-30215419909'
+[76536.838903] startup-script: self-delete no-op (already gone / no perm)
+[76536.839063] startup-script exit status 0
+[76536.839118] Finished running startup scripts.
+```
+
+Three independent corroborations from the same run, so this is not one ambiguous log line:
+
+- **`testIamPermissions` as the VM's own identity** (non-destructive) returned **403**:
+  `Required 'compute.instances.list' permission for 'projects/project-a7ebde30-e2ed-4b8d-9a9'` — the SA cannot
+  even *ask* what it may do.
+- **It is not a scope problem.** The VM reports SA `878095411563-compute@developer.gserviceaccount.com` with
+  scopes `https://www.googleapis.com/auth/cloud-platform`, and `gcloud` is on PATH at `/snap/bin/gcloud`. The
+  same script's `gcloud storage cp` calls all succeeded. Storage yes, compute no.
+- **It is not a crashed or hung script.** `google-startup-scripts.service` = `inactive`, `Result=success`,
+  `ExecMainStatus=0`; no leg process alive. The script exited cleanly *after* the delete was refused.
+
+**WHY IT WAS INVISIBLE.** `gcloud` prints `ERROR:` in capitals, and every progress filter in this repo greps
+case-sensitively for `error|Error` — so the one line naming the cause matched nothing and never reached a
+readout. The trap's own fallback string, `self-delete no-op (already gone / no perm)`, then covered two
+opposite outcomes and named neither. Fixed: `gpu-rbfe-gcp-tail.yml` now carries a TEARDOWN FORENSIC block
+(case-insensitive trap grep, the raw serial window around the failed delete, the `testIamPermissions` probe),
+and its own delete branch keeps stderr instead of `2>/dev/null`.
+
+**THE RULE.** This is the GCP instance of a rule the repo already paid to learn on Vast (CLAUDE.md §6, *"THE
+HOST CANNOT STOP ITS OWN BILLING — ONLY THE CONTROL PLANE CAN"*). The mechanism differs — on Vast an
+unprivileged container cannot end its own machine; here the API call is simply refused — but the consequence
+and the remedy are identical: **never plan a GCP leg's teardown around the in-VM EXIT trap.** Treat
+`_self_delete` as best-effort only.
+
+**WHAT ACTUALLY REAPS A FINISHED LEG NOW:** the ternary watchdog's DONE branch
+(`research/modalities/watchdog_run.sh`), acting from CI where the key lives. It is safe without any age
+heuristic because its condition is that the leg's own direction-keyed result JSON is already in GCS, so there
+is no sampling left to lose. Pinned by `tests/test_watchdog_done_reaps_vm.sh`, which extracts the branch and
+drives it against a stubbed `gcloud`.
+
+**COST OF THE GAP:** the GPU sat idle and held from ~12:03 PM to 2:04 PM ET. On GCP the loss is not dollars —
+it is `GPUS_ALL_REGIONS = 1` (#1), so for those ~2 h *every* GCP GPU job on the account was blocked, against
+credit that expires 2026-10-10.
+
+## 6b. The backstops behind it, and which of them are real
+
+- **`--max-run-duration` + `--instance-termination-action=DELETE`** — real, but sized for the science, not
+  against this failure: spot `25200s` (7 h), on-demand `259200s` (72 h). It cannot be raised on a running
+  instance (§3b). ⚠ Every operator-facing message in `gpu-ternary-fep-gcp.yml` used to say "7h max-run
+  backstop" regardless of branch, so on 2026-07-26 the launcher told the operator this 72 h VM would
+  self-destruct within 7 h. Fixed: `MAXRUN` is published to `$GITHUB_ENV` and every message interpolates it;
+  `tests/test_gcp_create_flags.py` extracts the create command and the emitted messages from the YAML and
+  fails if a cap is hardcoded again, or if a branch sets `--max-run-duration` without
+  `--instance-termination-action` (§3).
+- **`gcp-reap-vms.yml` is NOT a backstop — it is a manual tool.** ⚠ **It has no `schedule:` trigger at all.**
+  Measured 2026-07-27: **all 33 of its runs to date are `workflow_dispatch`, zero are `schedule`.** It did not
+  fail to catch this zombie; it has no way to fire. And it must stay manual: its only automatic criterion is
+  age, and a healthy ternary leg legitimately runs ~44 h, so age cannot tell a working leg from a wedged one
+  (its own file records a dry_run that would have killed a mid-production leg at age 860 min). Progress, not
+  age, is the safe discriminator — which is why the automatic reap lives in the watchdog.
+- **A `schedule:` cron is not a safety mechanism here.** `ternary-leg-watchdog.yml` requests `*/15`; the gaps
+  actually delivered across this incident were **125, 148, 177, 217 and 222 min** (measured 2026-07-27 from
+  the run list). Anything whose safety depends on cadence is not a backstop — see CLAUDE.md §6.
+- **The watchdog fired and still missed it, which is the real lesson.** Scheduled run `30287320911` at
+  **1:00 PM ET 2026-07-27** — 57 min after the leg finished, with the VM still RUNNING — emitted a green
+  `::notice title=WATCHDOG DONE -> CONVERGE`. It saw the leg was done, dispatched the analysis, and never
+  looked at the VM list: the reap existed only in the CRASHED branch, which a DONE leg can never reach. A
+  guard can be scheduled, running, and green while the thing it exists to prevent is happening.
 
 ## Quick command reference (all via GitHub Actions, WIF auth)
 
