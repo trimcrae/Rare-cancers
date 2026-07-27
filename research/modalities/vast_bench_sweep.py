@@ -780,7 +780,7 @@ def mode_forensic():
     return 0
 
 
-def board_impact(offers, extra_entries=None, n_units=19, min_vram_gb=24, disk_gb=80):
+def board_impact(offers, extra_entries=None, n_units=None, min_vram_gb=24, disk_gb=80):
     """BEFORE/AFTER on a real board: priceable count, best single `$/ns`, best fleet `$/ns` for `n_units`.
 
     THE NUMBER THAT SAYS WHETHER THE SWEEP WAS WORTH DOING, so it is computed with the SAME machinery that
@@ -796,6 +796,12 @@ def board_impact(offers, extra_entries=None, n_units=19, min_vram_gb=24, disk_gb
     import dataclasses
     from gpu_backend import rank_offers_by_usd_per_ns
     import congeneric_fanout as _cf
+
+    # ★ 18, NOT 19 (2026-07-27). `cw_bio_nmethyl_amide` — a methyl ester -> N-methyl amide O->N substitution —
+    # is permanently BLOCKED: no available mapper can map it above the 20-atom provable floor. A board
+    # arithmetic that keeps asking for 19 placements is asking for a unit that will never run, which makes the
+    # fleet look permanently one short of a target it can never reach.
+    n_units = int(os.environ.get("BENCH_IMPACT_UNITS", "18")) if n_units is None else int(n_units)
 
     res = dataclasses.replace(BENCH_RES, gpu="any", require_gpu=False,
                               min_vram_gb=min_vram_gb, disk_gb=disk_gb)
