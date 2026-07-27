@@ -1,5 +1,5 @@
 {
-  "_what": "The EVIDENCE behind every entry in vast_cost_model.MEASURED_NS_PER_DAY_84K. Each entry is the MEDIAN over N independent hosts (vast_bench_sweep.median_over_hosts); this file records the host set, and tests/test_throughput_provenance.py recomputes the median from it and asserts it equals the table. No derived value is typed here. This is NOT a second throughput table \u2014 vast_cost_model is THE table.",
+  "_what": "The EVIDENCE behind every entry in vast_cost_model.MEASURED_NS_PER_DAY_84K. Each entry is the MEDIAN over N independent hosts (vast_bench_sweep.median_over_hosts); this file records the host set, and tests/test_throughput_provenance.py recomputes the median from it and asserts it equals the table. No derived value is typed here. This is NOT a second throughput table — vast_cost_model is THE table.",
   "protocol": {
     "engine": "research/modalities/gpu_md_bench.py",
     "system": "cubic TIP3P water box, amber14/tip3p.xml, built in-process by openmm.app.Modeller.addSolvent",
@@ -37,7 +37,7 @@
         1067.8
       ],
       "spread_pct": 6.05,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
@@ -55,7 +55,7 @@
         810.37
       ],
       "spread_pct": 4.11,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
@@ -70,7 +70,7 @@
         793.79
       ],
       "spread_pct": 13.94,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
@@ -86,34 +86,36 @@
         703.87
       ],
       "spread_pct": 4.0,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
     {
       "card": "A100PCIE",
-      "ns_per_day": 523.82,
-      "estimator": "single_host",
-      "n_hosts": 1,
+      "ns_per_day": 524.43,
+      "estimator": "provisional_median_of_2_hosts",
+      "n_hosts": 2,
       "hosts_ns_per_day": [
-        523.82
+        523.82,
+        525.05
       ],
-      "spread_pct": 0.0,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "spread_pct": 0.23,
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
     {
       "card": "RTX3090TI",
-      "ns_per_day": 481.87,
-      "estimator": "provisional_median_of_2_hosts",
-      "n_hosts": 2,
+      "ns_per_day": 481.96,
+      "estimator": "median_of_3_hosts",
+      "n_hosts": 3,
       "hosts_ns_per_day": [
         481.78,
-        481.96
+        481.96,
+        530.2
       ],
-      "spread_pct": 0.04,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "spread_pct": 9.13,
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
@@ -128,7 +130,7 @@
         482.34
       ],
       "spread_pct": 3.69,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
@@ -143,7 +145,7 @@
         471.18
       ],
       "spread_pct": 9.48,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
@@ -159,7 +161,7 @@
         400.01
       ],
       "spread_pct": 3.65,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     },
@@ -174,42 +176,42 @@
         252.33
       ],
       "spread_pct": 4.01,
-      "environment": "nr4a3fep image, `rbfe` env \u2014 the environment the production lanes run",
+      "environment": "nr4a3fep image, `rbfe` env — the environment the production lanes run",
       "source": "vast_bench_sweep.py calibration rentals, 2026-07-27",
       "per_host_detail": "see host_observations for each host's blocks, CV, CUDA device and tag"
     }
   ],
   "reconciliation_2026_07_27_the_rtx4090_anchor": {
     "question": "S3 vast-bench-results/bench-rtx4090-9p5nm/bench.json reads 726.79 ns/day (blocks 727.19/724.64/728.53, CV 0.27%), about 3.9% BELOW the RTX 4090 anchor in the table. REFERENCE_NS_PER_H is derived from that anchor, so it sets the basis every $/ns multiple is judged against, including the 1.5x buy line. Which figure is of record?",
-    "observation_1_THE_S3_OBJECT_IS_NOT_THE_2026_07_24_GRID": "S3 LastModified on that key is 2026-07-27T11:28:00Z \u2014 TODAY, not 2026-07-24. nrv04_vast_launch.bench() names its result object by a DETERMINISTIC tag, `bench-<gpu>-<edge>nm`, and its own comment says 'a stale same-tag bench.json is overwritten'. So a re-run today overwrote the validated grid's raw records at the same keys. The 2026-07-24 raw artifacts no longer exist in S3; their per-block values survive ONLY in this file and in the comment above the table. The two figures were never two readings of one object \u2014 they are two different runs, ~3 days apart, and the older one's artifact is gone.",
+    "observation_1_THE_S3_OBJECT_IS_NOT_THE_2026_07_24_GRID": "S3 LastModified on that key is 2026-07-27T11:28:00Z — TODAY, not 2026-07-24. nrv04_vast_launch.bench() names its result object by a DETERMINISTIC tag, `bench-<gpu>-<edge>nm`, and its own comment says 'a stale same-tag bench.json is overwritten'. So a re-run today overwrote the validated grid's raw records at the same keys. The 2026-07-24 raw artifacts no longer exist in S3; their per-block values survive ONLY in this file and in the comment above the table. The two figures were never two readings of one object — they are two different runs, ~3 days apart, and the older one's artifact is gone.",
     "observation_2_A_PROTOCOL_OR_BUILD_CHANGE_IS_REFUTED": "The same re-run measured all three benched cards, same code, same conda-pack'd env (/opt/mamba/envs/md), same 84,534 particles, same 4 fs, same 3 x ~20 s blocks, same CUDA platform, identical plugin-load warnings. RTX 4080 came back 705.58 (+0.29% vs its anchor) and RTX 3090 came back 366.87 (+2.09%), while RTX 4090 came back 726.79 (-3.78%). A changed build, a changed box or a changed protocol would move all three the same way. It moved one, and in the opposite direction to the other two. So the cause is specific to that 4090 rental, not to the measurement.",
-    "observation_3_THE_4090D_HYPOTHESIS_IS_REFUTED_ON_DIRECTION_AND_ON_THE_DEVICE_STRING": "A cut-down RTX 4090D would be SLOWER than a 4090, so it could only explain a figure that is too LOW \u2014 it cannot explain an anchor that is too HIGH, which is what would have to be wrong for 726.79 to be of record. Separately, today's record's CUDA device string is 'NVIDIA GeForce RTX 4090', not a D variant, so the low reading is not a 4090D either.",
-    "observation_4_A_TIGHT_CV_DOES_NOT_MEAN_AN_UNTHROTTLED_CARD": "Both figures are internally tight (CV 0.14% and 0.27%). CV measures STEADINESS across the three timed blocks, not headroom. A power-limited or thermally-capped RTX 4090 runs steadily slow and reports a small CV. Every confounder a rental can carry \u2014 power cap, thermal cap, a co-tenant, a host CPU too slow to feed kernel launches \u2014 is ONE-SIDED DOWNWARD; none of them can raise a reading. So the two numbers are not symmetric candidates: a high clean reading cannot be manufactured, a low clean one can.",
+    "observation_3_THE_4090D_HYPOTHESIS_IS_REFUTED_ON_DIRECTION_AND_ON_THE_DEVICE_STRING": "A cut-down RTX 4090D would be SLOWER than a 4090, so it could only explain a figure that is too LOW — it cannot explain an anchor that is too HIGH, which is what would have to be wrong for 726.79 to be of record. Separately, today's record's CUDA device string is 'NVIDIA GeForce RTX 4090', not a D variant, so the low reading is not a 4090D either.",
+    "observation_4_A_TIGHT_CV_DOES_NOT_MEAN_AN_UNTHROTTLED_CARD": "Both figures are internally tight (CV 0.14% and 0.27%). CV measures STEADINESS across the three timed blocks, not headroom. A power-limited or thermally-capped RTX 4090 runs steadily slow and reports a small CV. Every confounder a rental can carry — power cap, thermal cap, a co-tenant, a host CPU too slow to feed kernel launches — is ONE-SIDED DOWNWARD; none of them can raise a reading. So the two numbers are not symmetric candidates: a high clean reading cannot be manufactured, a low clean one can.",
     "the_decisive_test": "Two points cannot settle a host-variance question, so the answer is measured rather than argued: bench several INDEPENDENT RTX 4090 hosts on the identical protocol and read the distribution. If the population reaches the anchor, the anchor is the card's capability and the low reading was a slow rental. If every independent host caps near the low reading and none approaches the anchor, the anchor is the outlier and it must move. Run with BENCH_REPLICATES on distinct machine_ids; the per-host values land in `host_observations` below and are deliberately NOT averaged into `records`.",
-    "verdict": "NEITHER FIGURE IS THE CARD'S THROUGHPUT \u2014 and the answer was not on the menu. Five independent RTX 4090 hosts, all on the identical 84,534-particle / 4 fs / CUDA protocol and all passing the admission gate: 726.79, 755.36 (the anchor), 799.15, 808.96, 809.82. THREE FRESH HOSTS AGREE TO WITHIN 1.3% AT ~806 ns/day, and both older readings sit 5.5-10% BELOW that cluster. A tight cluster of independent hosts is the signature of the card's actual capability; an isolated low reading is a slow rental. So 726.79 is not of record, and neither is 755.36 \u2014 the anchor is about 6.7% BELOW what a healthy RTX 4090 delivers.",
-    "the_environment_confounder_was_CONTROLLED_not_assumed_away": "The two low readings came from the conda-pack'd `md` env; the three high ones from the nr4a3fep image's `rbfe` env. That is a real difference and it would be the obvious explanation \u2014 except the same sweep benched RTX 4080 hosts through the SAME `rbfe` env and got 692.51 and 703.87 against that card's `md`-env readings of 703.51 and 705.58. The rbfe env therefore produces 4080 numbers at or slightly BELOW the md env, so it cannot explain 4090 numbers 7% ABOVE it. The control was built into the sweep rather than argued afterwards.",
-    "why_this_matters_more_than_the_original_question": "The RTX 4080's four host observations span 1.85% and its anchor sits within 0.3% of the best. The RTX 4090's five span 10.3% and its anchor sits 6.7% below the best. So the two anchors are NOT the same statistic: one samples the top of its distribution, the other the middle. Every card RATIO in the repo inherits that sampling difference \u2014 the table says 4090/4080 = 1.074 while the internally consistent same-env, same-day, fresh-host measurement says 1.145. A single-host bench is not a card constant; it is one draw from a distribution whose width nobody had measured.",
-    "recommendation_NOT_APPLIED": "Re-anchor the table on a MEDIAN-OF-N-INDEPENDENT-HOSTS protocol (N>=3), which costs roughly $0.1 per card and is the only way the three constants become comparable to each other. This is deliberately NOT done unilaterally: REFERENCE_NS_PER_H is derived from the RTX 4090 entry, so it sets the basis every $/ns multiple is judged against \u2014 including the 1.5x buy line \u2014 and moving it is a pinned-figure change that requires the old value in pinned-figures.json in the same commit, an appendix line rather than an inline edit, and a REGENERATED ladder. It is trimcrae's call, and the evidence for it is here.",
-    "what_was_NOT_concluded": "That the anchor is 'wrong' in the sense of being mismeasured. Its blocks are internally tight and its protocol is correct. It is UNDER-DETERMINED: one draw from a 10%-wide distribution, reported as a constant. Nothing here licenses quoting ~806 as the RTX 4090's throughput either \u2014 three hosts is a sample, not a capability proof, and the max over hosts ratchets upward with every host added, which is why the recommendation is a median over a fixed N and not 'the best we have seen'.",
+    "verdict": "NEITHER FIGURE IS THE CARD'S THROUGHPUT — and the answer was not on the menu. Five independent RTX 4090 hosts, all on the identical 84,534-particle / 4 fs / CUDA protocol and all passing the admission gate: 726.79, 755.36 (the anchor), 799.15, 808.96, 809.82. THREE FRESH HOSTS AGREE TO WITHIN 1.3% AT ~806 ns/day, and both older readings sit 5.5-10% BELOW that cluster. A tight cluster of independent hosts is the signature of the card's actual capability; an isolated low reading is a slow rental. So 726.79 is not of record, and neither is 755.36 — the anchor is about 6.7% BELOW what a healthy RTX 4090 delivers.",
+    "the_environment_confounder_was_CONTROLLED_not_assumed_away": "The two low readings came from the conda-pack'd `md` env; the three high ones from the nr4a3fep image's `rbfe` env. That is a real difference and it would be the obvious explanation — except the same sweep benched RTX 4080 hosts through the SAME `rbfe` env and got 692.51 and 703.87 against that card's `md`-env readings of 703.51 and 705.58. The rbfe env therefore produces 4080 numbers at or slightly BELOW the md env, so it cannot explain 4090 numbers 7% ABOVE it. The control was built into the sweep rather than argued afterwards.",
+    "why_this_matters_more_than_the_original_question": "The RTX 4080's four host observations span 1.85% and its anchor sits within 0.3% of the best. The RTX 4090's five span 10.3% and its anchor sits 6.7% below the best. So the two anchors are NOT the same statistic: one samples the top of its distribution, the other the middle. Every card RATIO in the repo inherits that sampling difference — the table says 4090/4080 = 1.074 while the internally consistent same-env, same-day, fresh-host measurement says 1.145. A single-host bench is not a card constant; it is one draw from a distribution whose width nobody had measured.",
+    "recommendation_NOT_APPLIED": "Re-anchor the table on a MEDIAN-OF-N-INDEPENDENT-HOSTS protocol (N>=3), which costs roughly $0.1 per card and is the only way the three constants become comparable to each other. This is deliberately NOT done unilaterally: REFERENCE_NS_PER_H is derived from the RTX 4090 entry, so it sets the basis every $/ns multiple is judged against — including the 1.5x buy line — and moving it is a pinned-figure change that requires the old value in pinned-figures.json in the same commit, an appendix line rather than an inline edit, and a REGENERATED ladder. It is trimcrae's call, and the evidence for it is here.",
+    "what_was_NOT_concluded": "That the anchor is 'wrong' in the sense of being mismeasured. Its blocks are internally tight and its protocol is correct. It is UNDER-DETERMINED: one draw from a 10%-wide distribution, reported as a constant. Nothing here licenses quoting ~806 as the RTX 4090's throughput either — three hosts is a sample, not a capability proof, and the max over hosts ratchets upward with every host added, which is why the recommendation is a median over a fixed N and not 'the best we have seen'.",
     "operational_defect_found_on_the_way": "A deterministic result key means every bench re-run DESTROYS its predecessor's raw artifact. That is how the validated grid's evidence was lost. vast_bench_sweep gives each replicate its own key (`<card>-r<n>`) and this file now carries the per-block values, so the evidence survives outside S3."
   },
   "bench_engine_fragility_2026_07_27": {
     "observed": "2 of 6 calibration rentals (cal-rtx3090ti, cal-rtx4090-r2) died with OpenMMException 'Particle coordinate is NaN' during minimise/warmup and produced status=ERROR with no measurement.",
     "mechanism": "gpu_md_bench builds the box with addSolvent, minimises for only 200 iterations, then calls setVelocitiesToTemperature WITHOUT a fixed seed and steps 1000 warmup steps at 4 fs with HMR. The velocity draw is different every run, so a residual clash that survives 200 minimisation iterations occasionally blows up. The failure is stochastic, not host-specific: it hit one RTX 3090 Ti and one RTX 4090 while four other rentals on the identical code succeeded.",
-    "why_it_was_not_silently_fixed": "Raising the minimisation iteration count would make the run more robust and would NOT change steady-state ns/day for a stable TIP3P box \u2014 but the anchors were measured at 200, and 'use the same protocol' is the only reason a new card's number is comparable to them. A change is therefore a protocol change that must be argued and re-validated against an anchor card, not slipped in mid-sweep. Until then a NaN is a cheap retry (~$0.02).",
+    "why_it_was_not_silently_fixed": "Raising the minimisation iteration count would make the run more robust and would NOT change steady-state ns/day for a stable TIP3P box — but the anchors were measured at 200, and 'use the same protocol' is the only reason a new card's number is comparable to them. A change is therefore a protocol change that must be argued and re-validated against an anchor card, not slipped in mid-sweep. Until then a NaN is a cheap retry (~$0.02).",
     "what_protected_the_table": "vast_bench_sweep.admit() refused both records on nine independent grounds, starting with status != OK and including the absent particle count, timestep, blocks and physics check. A failed rental is exactly where a fabricated throughput would be easiest to produce and hardest to notice; tests/test_vast_bench_sweep.py::TestAFailedBenchProducesNoNumber pins the refusal.",
-    "selection_bias_check": "A NaN aborts during minimise/warmup, before any timed block, and warmup is a fixed STEP count rather than a fixed wall time \u2014 so failure probability is not a function of card speed, and the surviving population is not biased toward fast or slow hosts. The two failures were on different card models, consistent with that."
+    "selection_bias_check": "A NaN aborts during minimise/warmup, before any timed block, and warmup is a fixed STEP count rather than a fixed wall time — so failure probability is not a function of card speed, and the surviving population is not biased toward fast or slow hosts. The two failures were on different card models, consistent with that."
   },
   "rtx5090_two_independent_hosts_and_the_retry_neutrality_check": {
-    "what": "Two RTX 5090 rentals on different hosts measured 1070.44 (blocks 1071.98/1070.04/1069.31, CV 0.13%) and 1067.80 (blocks 1068.94/1067.94/1066.51, CV 0.11%) \u2014 agreeing to 0.25%. The table carries the first; the second is in host_observations.",
-    "why_it_matters_twice": "(1) It is the tightest cross-host agreement in this sweep, so unlike the RTX 4090 there is no host-sampling ambiguity in the 5090 figure. (2) The 1070.44 run needed the NaN retry ladder (`attempt=2`, minimize_iters=2000) while the 1067.80 run succeeded first time (`attempt=1`, minimize_iters=200). They agree to 0.25%, which is the CHECK on the claim that a harder minimisation cannot move steady-state throughput \u2014 asserted when the ladder was written, demonstrated here.",
+    "what": "Two RTX 5090 rentals on different hosts measured 1070.44 (blocks 1071.98/1070.04/1069.31, CV 0.13%) and 1067.80 (blocks 1068.94/1067.94/1066.51, CV 0.11%) — agreeing to 0.25%. The table carries the first; the second is in host_observations.",
+    "why_it_matters_twice": "(1) It is the tightest cross-host agreement in this sweep, so unlike the RTX 4090 there is no host-sampling ambiguity in the 5090 figure. (2) The 1070.44 run needed the NaN retry ladder (`attempt=2`, minimize_iters=2000) while the 1067.80 run succeeded first time (`attempt=1`, minimize_iters=200). They agree to 0.25%, which is the CHECK on the claim that a harder minimisation cannot move steady-state throughput — asserted when the ladder was written, demonstrated here.",
     "a_defect_this_exposed": "Both wrote the same S3 key, because the tag is (card, replicate) and both were replicate 1 from two different LAUNCHES. The replicate suffix prevents a collision within one launch but not across launches, so the second silently overwrote the first. Only reading both values before the overwrite preserved the pair. Same failure shape as the 2026-07-24 same-tag control and as the deterministic bench key that destroyed the validated grid's raw artifacts."
   },
   "tesla_v100_stays_unknown_and_that_is_the_right_answer": {
     "what_happened": "Two Tesla V100 rentals, both requested as the marketplace name 'Tesla V100', reported DIFFERENT CUDA devices and wildly different throughput: 'Tesla V100-FHHL-16GB' gave 238.93 ns/day at CV 27.6% (refused on CV), and 'Tesla V100-SXM2-32GB' gave 369.07 at CV 0.13% (a clean measurement).",
-    "why_it_is_not_admitted": "These are two genuinely different SKUs \u2014 SXM2 32GB (~900 GB/s HBM2) versus the FHHL 16GB PCIe card \u2014 and the marketplace name 'Tesla V100' does not say which one an offer is. Admitting either measurement under the key 'TESLAV100' would mean the ranking prices a rental it cannot identify in advance, in the direction that BUYS whenever the fast SKU's figure is applied to a slow offer.",
+    "why_it_is_not_admitted": "These are two genuinely different SKUs — SXM2 32GB (~900 GB/s HBM2) versus the FHHL 16GB PCIe card — and the marketplace name 'Tesla V100' does not say which one an offer is. Admitting either measurement under the key 'TESLAV100' would mean the ranking prices a rental it cannot identify in advance, in the direction that BUYS whenever the fast SKU's figure is applied to a slow offer.",
     "so_the_refusal_is_the_feature": "A card whose marketplace name does not determine its silicon cannot have a card constant. It stays UNKNOWN and is excluded from ranking, which is correct behaviour rather than a gap to close. Closing it would require the offer query to carry the SKU, which the board does not provide.",
-    "contrast_with_the_admitted_equivalences": "vast_bench_sweep.DEVICE_NAME_EQUIVALENCES maps 'NVIDIA A100 80GB PCIe' to 'A100 PCIE' because there the extra tokens are naming convention, not a different part \u2014 the marketplace name already pins the SKU. Here it does not."
+    "contrast_with_the_admitted_equivalences": "vast_bench_sweep.DEVICE_NAME_EQUIVALENCES maps 'NVIDIA A100 80GB PCIe' to 'A100 PCIE' because there the extra tokens are naming convention, not a different part — the marketplace name already pins the SKU. Here it does not."
   },
   "rejected_at_measurement_time": [
     {
@@ -802,7 +804,7 @@
     }
   ],
   "retired_2026_07_24_single_host_md_env_grid": {
-    "_what": "The three ORIGINAL anchors: one host each, measured in the conda-pack'd `md` environment. Retired 2026-07-27 by the median-of-N re-anchoring (pricing.md Appendix T). Kept because a superseded number is never silently dropped, and because their per-block values are the ONLY surviving copy \u2014 nrv04_vast_launch.bench()'s deterministic S3 key let a later re-run overwrite the raw artifacts in place.",
+    "_what": "The three ORIGINAL anchors: one host each, measured in the conda-pack'd `md` environment. Retired 2026-07-27 by the median-of-N re-anchoring (pricing.md Appendix T). Kept because a superseded number is never silently dropped, and because their per-block values are the ONLY surviving copy — nrv04_vast_launch.bench()'s deterministic S3 key let a later re-run overwrite the raw artifacts in place.",
     "records": [
       {
         "card": "RTX4090",
@@ -836,7 +838,7 @@
         "platform": "CUDA",
         "utc": "2026-07-24T00:00:00Z",
         "source": "validated 2026-07-24 Vast grid (nrv04_vast_launch vast_launch_mode=bench_grid); raw bench.json under s3://sagemaker-us-east-2-646605541856/vast-bench-results/",
-        "note": "Within 7% of the RTX 4090 \u2014 the fact that retired the 'RTX 4090 default, 3090 fallback' rule."
+        "note": "Within 7% of the RTX 4090 — the fact that retired the 'RTX 4090 default, 3090 fallback' rule."
       },
       {
         "card": "RTX3090",

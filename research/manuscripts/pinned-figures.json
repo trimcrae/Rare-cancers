@@ -115,9 +115,9 @@
     ]
    },
    "_non_tool_note": "[low, mid, high]. valA_mini's mid is its REALIZED ~$0 on GCP credit, not the midpoint of its 0-15 band; step0 uses the midpoint of 1-2.",
-   "expect_mid": 185,
-   "expect_low": 51,
-   "expect_high": 614,
+   "expect_mid": 158,
+   "expect_low": 44,
+   "expect_high": 578,
    "tolerance_usd": 1.0,
    "must_appear_in": [
     "STRATEGY.md",
@@ -364,6 +364,30 @@
    "pattern": "1070\\.44|793\\.79\\b|482\\.34|481\\.78|387\\.78|242\\.20\\b",
    "current": "the median-of-N entries in vast_cost_model.MEASURED_NS_PER_DAY_84K",
    "retired_by": "published for ~1 hour on 2026-07-27 as SINGLE-HOST measurements, then superseded the same day by the median-of-N re-anchoring; retained here because a single-host figure is one draw from a distribution up to 14% wide"
+  },
+  {
+   "id": "card_a100pcie_and_3090ti_first_pass_medians",
+   "pattern": "523\\.82|481\\.87",
+   "current": "A100 PCIe = 524.43 (provisional median of 2 hosts); RTX 3090 Ti = 481.96 (median of 3 hosts)",
+   "retired_by": "the same-day top-up wave that added a third host to each card's sample (the A100 PCIe could still only reach 2 — the board carried two qualifying offers of it all day)"
+  },
+  {
+   "id": "ladder_total_185",
+   "pattern": "\\$185\\s*mid|~\\$185\\b|\\$51[–-]614",
+   "current": "~$158 mid (~$44–578)",
+   "retired_by": "the 2026-07-27 re-anchoring of the throughput table (pricing.md Appendix T) and the ladder regeneration that followed it — the GPU-hours are unchanged, the $/reference-GPU-hour moved"
+  },
+  {
+   "id": "bid_strategy_tool_total_166",
+   "pattern": "~\\$166\\b|\\$42[–-]519",
+   "current": "~$138 ($35–483) for the stages the cost model prices",
+   "retired_by": "the same 2026-07-27 ladder regeneration"
+  },
+  {
+   "id": "valb_rung_band_8_78_22_28",
+   "pattern": "8\\.78|22\\.28",
+   "current": "valB 4-leg replicate pair: plan $7.32, ceiling $20.74 (ternary_vast_launch.rung_band_usd(4))",
+   "retired_by": "the 2026-07-27 throughput re-anchoring and the ladder regeneration that followed it — pricing.md Appendix T; the GPU-hours are unchanged, only the $/reference-GPU-hour moved"
   }
  ],
  "subset_checks": [

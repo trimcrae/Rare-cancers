@@ -1483,10 +1483,12 @@ def test_the_runtime_backstop_still_applies_to_a_capacity_wait(monkeypatch):
 # ------------------------------------------------------------- value-bounded rebidding ($/ns)
 def test_value_ceiling_is_the_price_where_the_other_card_wins():
     """Bid up to where this card's $/ns equals the best alternative's, and no further."""
-    # A 3090 does 359.36 ns/day; against a 0.004731 $/ns alternative that is $0.0708/hr.
+    # DERIVED from the table, not typed: the ceiling is `alt_$/ns x this card's ns/h`. (The 0.0708 that stood
+    # here assumed the retired single-host 3090 figure of 359.36 ns/day — re-anchored 2026-07-27, Appendix T.)
+    import vast_cost_model as _vcm
+    ns3090 = _vcm.MEASURED_NS_PER_DAY_84K["RTX3090"]
     got = pv.value_ceiling_bid("RTX 3090", 0.004731)
-    assert got == pytest.approx(0.004731 * 359.36 / 24.0)
-    assert got == pytest.approx(0.0708, abs=0.001)
+    assert got == pytest.approx(0.004731 * ns3090 / 24.0)
     # At exactly the ceiling the two are equal; a hair above and the alternative is cheaper per ns.
     import gpu_backend as gb
     assert gb.offer_usd_per_ns("RTX 3090", got) == pytest.approx(0.004731, rel=1e-6)
@@ -1508,10 +1510,13 @@ def test_best_alternative_excludes_the_instance_s_own_machine():
         {"machine_id": 2, "gpu_name": "RTX 4090", "min_bid": 0.14889, "num_gpus": 1},
     ]
     # Excluding machine 1 leaves only the 4090.
-    assert pv.best_alternative_usd_per_ns(offers, exclude_machine_id=1) == pytest.approx(0.004731,
-                                                                                        abs=1e-5)
+    import vast_cost_model as _vcm
+    expect_4090 = 0.14889 / (_vcm.MEASURED_NS_PER_DAY_84K["RTX4090"] / 24.0)
+    assert pv.best_alternative_usd_per_ns(offers, exclude_machine_id=1) == pytest.approx(expect_4090,
+                                                                                         abs=1e-5)
     # Including it, the cheap 3090 wins and the "alternative" is itself.
-    assert pv.best_alternative_usd_per_ns(offers) == pytest.approx(0.002953, abs=1e-5)
+    assert pv.best_alternative_usd_per_ns(offers) == pytest.approx(
+        0.044212 / (_vcm.MEASURED_NS_PER_DAY_84K["RTX3090"] / 24.0), abs=1e-5)
 
 
 def test_best_alternative_skips_unrentable_and_multi_gpu_offers():
@@ -1520,7 +1525,9 @@ def test_best_alternative_skips_unrentable_and_multi_gpu_offers():
         {"machine_id": 4, "gpu_name": "RTX 4090", "min_bid": 0.02, "num_gpus": 4},
         {"machine_id": 5, "gpu_name": "RTX 4090", "min_bid": 0.14889, "num_gpus": 1},
     ]
-    assert pv.best_alternative_usd_per_ns(offers) == pytest.approx(0.004731, abs=1e-5)
+    import vast_cost_model as _vcm
+    assert pv.best_alternative_usd_per_ns(offers) == pytest.approx(
+        0.14889 / (_vcm.MEASURED_NS_PER_DAY_84K["RTX4090"] / 24.0), abs=1e-5)
 
 
 def _rebid_with(monkeypatch, inst, offers, mult=1.9, dry_run=False):
@@ -1541,14 +1548,23 @@ def _rebid_with(monkeypatch, inst, offers, mult=1.9, dry_run=False):
 
 
 def test_rebid_is_capped_by_value_not_by_the_multiple(monkeypatch, capsys):
-    """1.9x the floor would be $0.084 — past the point where the 4090 is cheaper per ns."""
+    """A multiple past the point where the alternative card is cheaper per ns must be clamped to the value.
+
+    ⚠ The multiple here was 1.9x, chosen because 1.9 x $0.044212 = $0.084 then exceeded the 3090's value
+    ceiling. The 2026-07-27 re-anchoring raised the RTX 3090's measured throughput (pricing.md Appendix T),
+    which RAISES its value ceiling to ~$0.085 — so 1.9x no longer reaches it and the multiple, not the value,
+    would bind. The test's point is the CLAMP, so the multiple is raised to keep the clamp the binding
+    constraint; both bounds are derived below rather than typed."""
     inst = {"id": 100, "label": pv.LABEL_PREFIX + "-x", "gpu_name": "RTX 3090",
             "min_bid": 0.044212, "machine_id": 1, "cur_state": "stopped",
             "actual_status": "loading"}
     offers = [{"machine_id": 2, "gpu_name": "RTX 4090", "min_bid": 0.14889, "num_gpus": 1}]
-    calls = _rebid_with(monkeypatch, inst, offers, mult=1.9)
+    calls = _rebid_with(monkeypatch, inst, offers, mult=2.5)
     put = next(b for m, p, b in calls if m == "PUT" and "bid_price" in p)
-    assert put["price"] == pytest.approx(0.0708, abs=0.001), "must stop at the value ceiling"
+    import vast_cost_model as _vcm
+    alt = 0.14889 / (_vcm.MEASURED_NS_PER_DAY_84K["RTX4090"] / 24.0)
+    ceiling = pv.value_ceiling_bid("RTX 3090", alt)
+    assert put["price"] == pytest.approx(ceiling, abs=0.001), "must stop at the value ceiling"
     assert "value ceiling" in capsys.readouterr().out
 
 

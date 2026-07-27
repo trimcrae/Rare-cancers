@@ -5,6 +5,7 @@ Centerpiece: teardown fires EXACTLY ONCE on success, failure, exception, and wat
 
 Pure stdlib. Run: python -m pytest research/modalities/tests/test_gpu_backend.py
 """
+import pytest
 import os
 import sys
 import time
@@ -388,11 +389,15 @@ if __name__ == "__main__":
 
 
 def test_offer_usd_per_ns_uses_measured_throughput_only():
-    """$/hr cannot rank hosts carrying different cards. Measured 2026-07-24: a $0.103/hr 3090 is 45% MORE
-    expensive per ns than a $0.149/hr 4090 (359 vs 755 ns/day)."""
+    """$/hr cannot rank hosts carrying different cards — a cheap slow card and a dear fast one look the same.
+
+    Reads the throughput from the table rather than re-typing it: the values were re-anchored 2026-07-27 onto
+    a median over N>=3 hosts (pricing.md Appendix T), and this test is about the ARITHMETIC, not the constants
+    (which tests/test_throughput_provenance.py pins against their evidence)."""
+    import vast_cost_model as _vcm
     from gpu_backend import measured_ns_per_day, offer_usd_per_ns
-    assert measured_ns_per_day("NVIDIA GeForce RTX 4090") == 755.36
-    assert measured_ns_per_day("NVIDIA GeForce RTX 4080 SUPER") == 703.51
+    assert measured_ns_per_day("NVIDIA GeForce RTX 4090") == _vcm.MEASURED_NS_PER_DAY_84K["RTX4090"]
+    assert measured_ns_per_day("NVIDIA GeForce RTX 4080 SUPER") == _vcm.MEASURED_NS_PER_DAY_84K["RTX4080"]
     # never benched -> no number is invented for it
     assert measured_ns_per_day("NVIDIA L4") is None
     assert measured_ns_per_day("Quadro RTX 8000") is None
@@ -400,8 +405,10 @@ def test_offer_usd_per_ns_uses_measured_throughput_only():
 
     a = offer_usd_per_ns("NVIDIA GeForce RTX 4090", 0.148889)
     b = offer_usd_per_ns("NVIDIA GeForce RTX 3090", 0.102963)
-    assert round(a, 5) == 0.00473 and round(b, 5) == 0.00688
-    assert b > a                      # the cheaper $/hr host is the more expensive one per ns
+    # Derived from the table, not typed: `$/hr ÷ (ns_day/24)`.
+    assert a == pytest.approx(0.148889 / (_vcm.MEASURED_NS_PER_DAY_84K["RTX4090"] / 24.0))
+    assert b == pytest.approx(0.102963 / (_vcm.MEASURED_NS_PER_DAY_84K["RTX3090"] / 24.0))
+    assert b > a                      # the cheaper $/hr host is still the dearer one per ns
 
 
 def test_selection_prefers_cheaper_per_ns_over_cheaper_per_hour():

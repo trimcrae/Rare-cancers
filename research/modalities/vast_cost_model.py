@@ -166,8 +166,8 @@ MEASURED_NS_PER_DAY_84K = {
     "RTX4090":        804.06,  # median of 6 hosts          777.03 / 792.70 / 799.15 / 808.96 / 809.82 / 810.37
     "RTX5080":        752.32,  # median of 3 hosts          683.12 / 752.32 / 793.79
     "RTX4080":        693.35,  # median of 4 hosts          675.74 / 692.51 / 694.18 / 703.87
-    "A100PCIE":       523.82,  # ** SINGLE HOST **          523.82        <- under-sampled, see below
-    "RTX3090TI":      481.87,  # ** 2 hosts, provisional ** 481.78 / 481.96
+    "A100PCIE":       524.43,  # ** 2 hosts, provisional ** 523.82 / 525.05   <- board has only 2 offers
+    "RTX3090TI":      481.96,  # median of 3 hosts          481.78 / 481.96 / 530.20
     "RTXPRO4000":     471.63,  # median of 3 hosts          464.54 / 471.63 / 482.34
     "RTX3090":        460.91,  # median of 3 hosts          426.51 / 460.91 / 471.18
     "RTX5060TI":      389.16,  # median of 4 hosts          385.40 / 387.78 / 390.55 / 400.01

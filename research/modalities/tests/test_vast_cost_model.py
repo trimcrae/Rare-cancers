@@ -37,17 +37,22 @@ class TestCardTable(unittest.TestCase):
             self.assertIsNone(vcm.card_of(name), name)
             self.assertIsNone(vcm.ns_per_hour(name), name)
 
-    def test_measured_values_match_the_validated_2026_07_24_grid(self):
-        # If these drift, a bench was overwritten by an unvalidated one — the exact failure that produced the
-        # retracted 669 ns/day figure still sitting in vast_bid_optimizer.
-        self.assertAlmostEqual(vcm.MEASURED_NS_PER_DAY_84K["RTX4090"], 755.36)
-        self.assertAlmostEqual(vcm.MEASURED_NS_PER_DAY_84K["RTX4080"], 703.51)
-        self.assertAlmostEqual(vcm.MEASURED_NS_PER_DAY_84K["RTX3090"], 359.36)
+    def test_measured_values_match_the_provenance_file(self):
+        """The table is DERIVED from its evidence, so this asserts agreement rather than re-typing numbers.
 
-    def test_4090_beats_3090_by_2_10x_not_2_42x(self):
-        # pricing.md quoted 2.42x from the WITHDRAWN grid. The validated ratio is 2.10.
+        Re-anchored 2026-07-27 onto a median over N>=3 independent hosts (pricing.md Appendix T); the
+        single-host 755.36 / 703.51 / 359.36 are registered in pinned-figures.json. The exact-value pins now
+        live in tests/test_throughput_provenance.py, which recomputes each median from its host set — this
+        file only checks the two never disagree."""
+        import json as _json
+        prov = _json.load(open(os.path.join(HERE, "..", "throughput-bench-provenance.json")))
+        for rec in prov["records"]:
+            self.assertAlmostEqual(vcm.MEASURED_NS_PER_DAY_84K[rec["card"]], rec["ns_per_day"], places=2)
+
+    def test_the_4090_3090_ratio_is_the_measured_one_not_a_retired_figure(self):
+        """Retired: 2.42x (withdrawn grid), then 2.10x (single-host grid). Current: the median-of-N ratio."""
         r = vcm.MEASURED_NS_PER_DAY_84K["RTX4090"] / vcm.MEASURED_NS_PER_DAY_84K["RTX3090"]
-        self.assertAlmostEqual(r, 2.102, places=2)
+        self.assertAlmostEqual(r, 1.745, places=2)
 
 
 class TestStorage(unittest.TestCase):

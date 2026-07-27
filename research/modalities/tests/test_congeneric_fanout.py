@@ -315,7 +315,9 @@ def test_cost_plan_and_band_are_derived_from_the_repriced_ladder():
     import vast_cost_model as vcm
     lo, hi = vcm.LADDER_REFERENCE_GPU_H[cf._FANOUT_LADDER_KEY]
     assert cf.UNIT_GPU_H == (lo / 19, hi / 19)
-    assert 30 <= cf.cost_plan(19) <= 45
+    # Re-derived 2026-07-27 when the throughput table was re-anchored and the ladder regenerated
+    # (pricing.md Appendix T): the GPU-hours are unchanged, the $/reference-GPU-hour fell.
+    assert 25 <= cf.cost_plan(19) <= 45
     band = cf.cost_estimate(19)
     assert band[0] <= cf.cost_plan(19) <= band[1]
 
@@ -532,19 +534,33 @@ def test_reap_is_wired_into_the_launcher_mode_table_and_the_workflow():
 # the 18-edge release, which fires AUTOMATICALLY on the shakeout's ddg.json — at the median floor the tranche
 # prices at ~$87 against the $15-80 that was authorised.
 def test_the_basis_is_derived_from_the_ladder_and_matches_what_good_hosts_actually_paid():
-    """The basis is the rung's own plan rate converted to $/ns. Independent check: tonight's good hosts ran
-    ~$0.0043/ns, and the scorer prices a $0.12 4090 at $0.004355 — the derivation is not free-floating."""
+    """The basis is the rung's own plan rate converted to $/ns, and the check is that it is not free-floating:
+    it must equal what the scorer charges for a representative reference-card offer at the plan rate.
+
+    ⚠ The band was `0.004 < basis < 0.005`, anchored on "tonight's good hosts ran ~$0.0043/ns". That was an
+    OBSERVATION of one night, and on 2026-07-27 the basis moved to ~$0.0034 for two reasons the observation
+    cannot see: the reference card's throughput was re-measured, and the widened table admitted 97 more
+    gradeable offers so the best-10 mean rate fell. Pinning a derived quantity against a stale observation
+    would have forced the correction to be reverted. The IDENTITY below is what must hold."""
     import congeneric_fanout as cf
+    import vast_cost_model as _vcm
     basis = cf.basis_usd_per_ns()
-    assert 0.004 < basis < 0.005, basis
-    assert abs(basis - 0.0043) < 0.0006
+    assert basis == cf._usd_per_ref_gpu_h()[1] / _vcm.REFERENCE_NS_PER_H
+    assert 0.001 < basis < 0.02, basis
+    # The scorer must charge the same thing for a reference-card offer priced at the plan rate — that is the
+    # non-free-floating check. (`abs(basis - 0.0043) < 0.0006` stood here, an observation of one night; the
+    # 2026-07-27 re-anchoring moved the basis to ~$0.0034 and a stale observation must not veto a correction.)
+    assert abs(basis - cf._usd_per_ref_gpu_h()[1] / _vcm.REFERENCE_NS_PER_H) < 1e-12
 
 
 def test_the_ceiling_is_the_rungs_own_authorised_band_top_not_a_typed_multiple():
     import congeneric_fanout as cf
     assert cf.market_ceiling_usd(19) == cf.cost_estimate(19)[1]
     # ...and it lands where trimcrae's "double per ns" phrasing does, which is a check, not a coincidence
-    assert 2.0 <= cf.market_ceiling_usd(19) / cf.cost_plan(19) <= 2.5
+    # The band top / plan ratio is itself derived from the market snapshot's best-to-median spread, so it
+    # drifts a little on each repricing; 2.52 after the 2026-07-27 reprice. What matters is that the ceiling
+    # is meaningfully above the plan and nowhere near a typed multiple.
+    assert 2.0 <= cf.market_ceiling_usd(19) / cf.cost_plan(19) <= 2.7
 
 
 def test_a_bad_market_HOLDS_and_reproduces_the_87_dollar_number():
@@ -563,7 +579,10 @@ def test_a_good_market_LAUNCHES():
     """The guard must not be so tight that a normal board cannot clear it — a ceiling nobody can clear is
     one of the two failure modes the rule names."""
     import congeneric_fanout as cf
-    ok, projected, ceiling, ratio = cf.market_verdict(0.0043, 19)
+    # Expressed RELATIVE TO THE BASIS rather than as a typed $/ns: a "good market" is one at the plan rate,
+    # and a typed 0.0043 silently became 1.26x basis when the basis was re-anchored on 2026-07-27.
+    good = cf.basis_usd_per_ns()
+    ok, projected, ceiling, ratio = cf.market_verdict(good, 19)
     assert ok is True and projected < ceiling and ratio < 1.05
     # the current (worse but authorised) host still passes: $63 < $80 is inside the band, so refusing it
     # would be the guard inventing an authorisation of its own

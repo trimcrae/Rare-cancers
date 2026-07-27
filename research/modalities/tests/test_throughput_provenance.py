@@ -37,14 +37,16 @@ PROV = json.load(open(os.path.join(_MOD, "throughput-bench-provenance.json")))
 # pricing.md, and a REGENERATED vast-ladder-repricing.json — all in the SAME commit.
 PINNED = {
     "RTX5090": 1034.58, "RTX4090": 804.06, "RTX5080": 752.32, "RTX4080": 693.35,
-    "A100PCIE": 523.82, "RTX3090TI": 481.87, "RTXPRO4000": 471.63, "RTX3090": 460.91,
+    "A100PCIE": 524.43, "RTX3090TI": 481.96, "RTXPRO4000": 471.63, "RTX3090": 460.91,
     "RTX5060TI": 389.16, "RTXA4000": 246.30,
 }
 PINNED_REFERENCE_NS_PER_H = 804.06 / 24.0
 
 # Cards the board could not supply 3 distinct hosts for. They may be a different statistic ONLY because they
 # say so out loud; an entry that is under-sampled and SILENT is the bug.
-KNOWN_UNDER_SAMPLED = {"A100PCIE", "RTX3090TI"}
+# RTX 3090 Ti reached N=3 on the top-up wave and left this set; the A100 PCIe could not — the board
+# carried only two qualifying offers of it all day.
+KNOWN_UNDER_SAMPLED = {"A100PCIE"}
 
 
 class TestTheCurrentValuesAreBitIdentical(unittest.TestCase):

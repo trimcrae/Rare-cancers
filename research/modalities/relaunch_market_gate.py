@@ -174,7 +174,12 @@ def verdict(best_usd_per_ns, max_ratio=None):
     ratio = float(best_usd_per_ns) / basis if basis > 0 else None
     if ratio is None:
         return True, None, basis, "the ladder basis is not positive, so no ratio can be formed"
-    if ratio > cap:
+    # ⚠ RELATIVE EPSILON, NOT A BARE `>` (2026-07-27). `ratio` is a DIVISION, so a rental priced exactly at
+    # the line — `best = cap * basis`, which is precisely how the boundary test constructs it — can land at
+    # 1.5000000000000002 and be refused. Whether a spend gate admits the boundary case must not depend on the
+    # bit pattern of the current basis: with the retired basis `(1.5*b)/b` was exactly 1.5 and this passed by
+    # luck; the re-anchored basis exposed it. The documented rule is "at the line it CLEARS".
+    if ratio > cap * (1.0 + 1e-9):
         return True, round(ratio, 3), basis, (
             f"{ratio:.2f}x the ladder basis exceeds the {cap:.2f}x drift line (CLAUDE.md §1). A relaunch is a "
             f"NEW PURCHASE, not a continuation: the host is already gone and the checkpoint is a durable S3 "

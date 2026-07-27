@@ -43,23 +43,32 @@ def test_the_three_benched_figures_are_untouched():
     re-basing. Written as a subset check rather than whole-dict equality because GROWING the table is the
     point of the calibration lane — what must never move is the three figures the whole repo was priced
     against (2026-07-27: six measured cards added by `vast_bench_sweep`)."""
-    for card, ns in {"RTX4090": 755.36, "RTX4080": 703.51, "RTX3090": 359.36}.items():
+    # Re-anchored 2026-07-27 onto a median over N>=3 independent hosts (pricing.md Appendix T). The
+    # single-host 755.36 / 703.51 / 359.36 are registered in pinned-figures.json. Exact-value pins live in
+    # tests/test_throughput_provenance.py, which recomputes each median from its recorded host set.
+    for card, ns in {"RTX4090": 804.06, "RTX4080": 693.35, "RTX3090": 460.91}.items():
         assert vcm.MEASURED_NS_PER_DAY_84K[card] == ns
     assert vcm.REFERENCE_CARD == "RTX4090"
 
 
 def test_reference_ns_per_h_is_bit_identical():
-    assert vcm.REFERENCE_NS_PER_H == 755.36 / 24.0
-    assert vcm.ns_per_hour("RTX 4090") == 755.36 / 24.0
-    assert vcm.ns_per_hour("RTX 4080") == 703.51 / 24.0
-    assert vcm.ns_per_hour("RTX 3090") == 359.36 / 24.0
+    assert vcm.REFERENCE_NS_PER_H == 804.06 / 24.0
+    assert vcm.ns_per_hour("RTX 4090") == 804.06 / 24.0
+    assert vcm.ns_per_hour("RTX 4080") == 693.35 / 24.0
+    assert vcm.ns_per_hour("RTX 3090") == 460.91 / 24.0
 
 
-def test_the_ladder_basis_does_not_move():
-    """The basis every gate compares against is `plan $/ref-GPU-h / REFERENCE_NS_PER_H`. Widening the pool
-    must not touch it — a gate whose threshold moves with the fix is not the same gate."""
+def test_the_ladder_basis_is_derived_from_the_reference_entry_not_typed():
+    """The basis every gate compares against is `plan $/ref-GPU-h / REFERENCE_NS_PER_H`.
+
+    ⚠ THIS TEST USED TO SAY 'does not move', with 755.36 typed in. That was right while the pool was being
+    WIDENED — adding cards must not move the yardstick — and wrong once the REFERENCE ENTRY ITSELF was
+    re-measured (2026-07-27). Correcting the reference card's throughput necessarily moves the basis, and
+    pinning it against a retired constant would have forced the fix to be reverted rather than propagated.
+    What must hold is the IDENTITY: the basis is derived from the table's own reference entry."""
     import congeneric_fanout as cf
-    assert cf.basis_usd_per_ns() == cf._usd_per_ref_gpu_h()[1] / (755.36 / 24.0)
+    assert cf.basis_usd_per_ns() == cf._usd_per_ref_gpu_h()[1] / vcm.REFERENCE_NS_PER_H
+    assert vcm.REFERENCE_NS_PER_H == vcm.MEASURED_NS_PER_DAY_84K[vcm.REFERENCE_CARD] / 24.0
 
 
 def test_an_alias_never_changes_a_measured_card():

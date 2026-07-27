@@ -1676,7 +1676,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   NR4A1/2/3; separate accessibility from stability; robust constraint-satisfaction filtering → **~4–8 constructs**
   nondominated under scenario + model uncertainty. Add a constraint: **which lysine the ubiquitin actually
   reaches**, reported per construct as a distribution over unique-vs-conserved sites, not just "a lysine is near".
-- **`[ ]` 5d · Local ternary FEP** — **~$25 ($3.7–94; 3–6 ternary comparisons) · Cum. ~$185.** Alchemy **only**
+- **`[ ]` 5d · Local ternary FEP** — **~$21 ($3.1–87; 3–6 ternary comparisons) · Cum. ~$158.** Alchemy **only**
   within a retained basin (both endpoints plausibly bound, modest congeneric change). Refines the matched final
   series → **~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL/CRBN only where both survive,
   explicit negative controls. **Deliverable** = the prioritized, structure-defined, retrosynthetically annotated
@@ -1701,7 +1701,9 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 
 ## Spend summary
 
-**PINNED TOTAL: ~$185 mid-range (~$51–614)**, GO at every gate, priceable stages only.
+**PINNED TOTAL: ~$158 mid-range (~$44–578)**, GO at every gate, priceable stages only.
+*(Superseded, retained: **~$185 mid (~$51–614)** — retired 2026-07-27 when the throughput table was re-anchored
+and the ladder regenerated; the GPU-hours did not change, the `$/reference-GPU-hour` did. pricing.md Appendix T.)*
 
 **How it is built** — regenerate the alchemical/MD stages with `python research/modalities/vast_cost_model.py`
 (JSON: [`vast-ladder-repricing.json`](research/modalities/vast-ladder-repricing.json)); the tool prices 9 stages
@@ -1709,7 +1711,7 @@ at **$149.4 ($38.2–466.4)** on the measured **$0.137/ref-GPU-h** policy. The l
 tool does not cover: step0 ~$1–2 (mid $1.5), valA_mini ~$0–15 (**realized ~$0** on GCP credit), the ~$8 measured
 covalent panel, 5a basin ~$0–50 (mid $25), 5b linker ~$0–20 (mid $10). `149.4 + 1.5 + 0 + 8 + 25 + 10 ≈ 194`;
 low `38.2 + 1 + 0 + 8 + 0 + 0 ≈ 47`; high `466.4 + 2 + 15 + 8 + 50 + 20 ≈ 561`. The per-step `Cum.` chain above
-ends on the same ~$185, and [pricing.md §C](research/compute/pricing.md) carries the same chain — all three must
+ends on the same ~$158, and [pricing.md §C](research/compute/pricing.md) carries the same chain — all three must
 agree.
 
 **Excluded from the total:** (a) the 5a-KS **confirmatory** protein-mutation wedge and its reciprocal cycle —
@@ -1739,7 +1741,7 @@ absolute, but that spending it on an axis needing ~2.0 kcal/mol when the method 
 | 3 · Val B cube (SMARCA2/4 module) + NR-V04 feas. (DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$22.5 + ~$8 (range $14–75) | ~$48 |
 | 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | **~$36** + ~$21 (range $20–147) | ~$104 |
 | 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference | ~$0–50 + ~$12 (range $2–95) | ~$141 |
-| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$21) + within-basin FEP (~$22) | ~$57 (range $6–199) | ~$185 |
+| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$18) + within-basin FEP (~$21) | ~$49 (range $5–187) | ~$158 |
 | Confirmatory protein-mutation cycle (optional) | 1–3 mutation directions | **~$4.6 PROJECTED** | *(excl.)* |
 | Optional ΔG_open / ABFE (HELD) | — | +$200–500 | *(excl.)* |
 
@@ -1782,7 +1784,7 @@ RUNG5  basin_search($0–50, multi-E3, pose-marginalised, CATEGORICAL terms)    
           │           claim to resolve a paralogue-scale difference. It does NOT gate
           │           the ladder — the ligand-side double difference does.
           │
-       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep         (Cum ~$185)
+       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep         (Cum ~$158)
           │
 RUNG6  fold ──► redteam ──► post/submit                                             ($0)
 
@@ -1907,7 +1909,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 
 | # | superseded claim | what retired it |
 |---|---|---|
-| 1 | Ladder total **~$390 (~$170–610)**, then **~$240 (~$90–390)**, then **~$467 (~$249–685)**, then a stray **~$128 (~$36–381)** | Successively: the six cost levers; the measured per-edge work correction; the measured bid/selection policy. The **$128** was `bid-strategy.md` §6's table with the **5c row missing** — fixed there; the pinned total is **~$185 (~$51–614)** |
+| 1 | Ladder total **~$390 (~$170–610)**, then **~$240 (~$90–390)**, then **~$467 (~$249–685)**, then a stray **~$128 (~$36–381)** | Successively: the six cost levers; the measured per-edge work correction; the measured bid/selection policy. The **$128** was `bid-strategy.md` §6's table with the **5c row missing** — fixed there; the pinned total is **~$158 (~$44–578)**; the intermediate **~$185 (~$51–614)** was retired 2026-07-27 by the throughput re-anchoring (pricing.md Appendix T) |
 | 2 | "The 4090 wins $/ns at every size (1549 / 669 / 175.6 vs 3090 72.5 @444k; 2.42× for ~9 % more $/hr)" — a **card** rule | The 23:08 2026-07-24 bench was **withdrawn** (single 0.9–4.5 s windows; it also ranked a 4080 SUPER above a 4090). Validated grid: 4090 755.36 / 4080 703.51 / 3090 359.36 ns/day → **2.10×**, and the cheapest 3090 floor is **8.8×** below the cheapest 4090. **Rank offers on all-in `$/ns`; the card is not the decision** |
 | 3 | Bid = `min_bid × 1.1` / `× 1.5` / `× 1.9` / `× 1.25`; and a `P* = clamp(max(no-churn floor, √(m̂·d) or UCB_q), ≤ on-demand)` reservation-price/adaptive-UCB scheme | All four multipliers were live at once. The measured bid ladder showed `charged = min(bid, on-demand)`, so a premium is paid on **every** hour and cannot buy safety from on-demand renters; the ~20-min reload that justified `×1.9` was **self-inflicted** (our reaper DELETEd paused instances). The UCB scheme never reached the launch path. Current rule: **floor + staleness tick, capped at on-demand** ([bid-strategy.md](research/compute/bid-strategy.md) §7) |
 | 4 | RBFE binary edge ≈ **5–6 GPU-h ≈ $0.6–1.4**; `step1_fanout` **$12–26**, then **$91–101** | The 5–6 GPU-h was a **public TYK2** rate (~5.2 s/iter) applied to the ~2.6× heavier cmpd19/NR4A3 complex (~13.6 s/iter on three hosts). Unit is **~13.7 ref GPU-h**. The $91–101 then used the **$0.35–0.39/hr** realized, which was a consequence of bidding `×1.5` on a `min_bid`-ranked offer, not the market. Current: **~$1.9/edge, ~$36 fan-out** |

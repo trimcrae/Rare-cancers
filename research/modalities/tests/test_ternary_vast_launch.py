@@ -496,9 +496,14 @@ def test_the_market_ceiling_is_this_rungs_own_band_not_a_fleet_sized_one():
     # proportional in the unit count (each figure is rounded to the cent, so allow that much per unit)
     assert plan4 == pytest.approx(plan1 * 4, abs=0.04) and ceil4 == pytest.approx(ceil1 * 4, abs=0.04)
     assert plan4 < ceil4, "the ceiling must be the TOP of the band, above the plan figure"
-    # the four-leg replicate pair, against the figure STRATEGY publishes for this edge
-    assert plan4 == pytest.approx(8.78, abs=0.05)
-    assert ceil4 == pytest.approx(22.28, abs=0.05)
+    # The four-leg replicate pair, against the figure STRATEGY publishes for this edge.
+    # ⚠ REPRICED 2026-07-27 (was 8.78 / 22.28): the throughput table was re-anchored onto a median-of-N-hosts
+    # estimator and the ladder REGENERATED from it — pricing.md Appendix T. The GPU-hours are unchanged; only
+    # the $/reference-GPU-hour moved, so these figures move with the artifact exactly as the docstring says
+    # they should ("both the plan and the ceiling are DERIVED from the ladder artifact, so they re-derive
+    # themselves on a repricing"). Re-pinning them is the correct response to a repricing, not a loosening.
+    assert plan4 == pytest.approx(7.32, abs=0.05)
+    assert ceil4 == pytest.approx(20.74, abs=0.05)
 
 
 def test_the_gate_holds_above_breakeven_and_clears_below_it():
