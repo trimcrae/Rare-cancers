@@ -819,12 +819,20 @@ jobs:
           #!/bin/bash
           exec > >(tee /var/log/tfep.log) 2>&1
           set +e
-          # BULLETPROOF SELF-DELETE: a trap on EXIT deletes this VM on EVERY exit path — clean finish, NaN, a
-          # set-e/pipefail bail, an idempotent-skip exit, or an env-build failure. The startup script runs the leg
-          # SYNCHRONOUSLY in the foreground, so EXIT fires only once the leg is truly done — the trap can never kill
-          # a still-running leg. This replaces the old "delete only on the happy path at the end" logic (a hard bail
-          # before that line left the VM up, idle-billing + blocking the single-GPU quota until the 7h max-run). The
-          # max-run-duration + the reap workflow (gcp-reap-vms.yml) are the remaining backstops if even this fails.
+          # BEST-EFFORT SELF-DELETE — ⚠ IT DOES NOT WORK, AND NOTHING MAY BE PLANNED AROUND IT.
+          # The trap itself is right: it fires on EVERY exit path (clean finish, NaN, a set-e/pipefail bail, an
+          # idempotent-skip exit, an env-build failure), and because the leg runs SYNCHRONOUSLY in the foreground
+          # it can never kill a still-running leg. What fails is the API call inside it. Measured 2026-07-27 on
+          # gcp-ternary-30215419909: the trap ran and GCE refused it —
+          #   ERROR: (gcloud.compute.instances.delete) Could not fetch resource:
+          #    - Required 'compute.instances.delete' permission for '.../instances/gcp-ternary-30215419909'
+          # It is not a scopes problem (the VM has cloud-platform) and not a crash (ExecMainStatus=0); the SA
+          # simply does not hold the permission, contrary to what gcp-gpu-facts.md §6 claimed from 2026-07-22.
+          # So a finished leg leaves a RUNNING, idle VM holding GPUS_ALL_REGIONS=1, which blocks every other GCP
+          # GPU job on the account. The trap is KEPT because it costs nothing and would start working the moment
+          # the IAM binding exists — but THE REAP IS THE CONTROL PLANE'S JOB: ternary-leg-watchdog's DONE branch
+          # (research/modalities/watchdog_run.sh) deletes the VM once the leg result lands in GCS. Full evidence
+          # and the superseded claim: gcp-gpu-facts.md §6 / §6b.
           _self_delete() {
             local _N _Z
             _N=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
@@ -1013,6 +1021,22 @@ jobs:
             LJ=\$(ls \$OUT/leg_${LEG_ID}_*.json | head -1)
             LINE=\$(\$PY -c "import json;d=json.load(open('\$LJ'));print('TFEP_RESULT status=OK run leg=%s dg_morph=%.3f se=%.3f'%(d.get('leg_id'),d.get('dg_morph_kcal',0),d.get('mbar_se_kcal',0)))")
             gcloud storage cp \$LJ $RESULTS/ 2>&1 | tail -1 || true
+            # THE RESTRAINT REPORT MUST LEAVE THE VM. rbfe_spot_driver writes restraint.json into the sim
+            # unit's SHARED dir, which lives on the instance and dies with it — and the run log is only
+            # uploaded on NORESULT, so on a SUCCESSFUL restrained leg the report would be destroyed by the
+            # EXIT trap and the ruling in audit L.3f would rest on a file nobody can read. It carries the
+            # groups, r0_nm and r_flat_nm, which is exactly what the post-hoc "was the restraint ever
+            # engaged?" check needs against the committed trajectory. Direction- and seed-keyed like every
+            # other artifact in this lane (L.5/L.6: anything keyed on a dimension must be keyed everywhere
+            # the artifact travels).
+            RJ=\$(ls \$OUT/*_sim_shared/restraint.json 2>/dev/null | head -1)
+            if [ -n "\$RJ" ]; then
+              gcloud storage cp "\$RJ" "$RESULTS/restraint_${LEG_ID}_${DIRECTION}_r${SEED}.json" 2>&1 | tail -1 \
+                || echo "::warning::restraint report upload FAILED — the only copy dies with this VM"
+              echo "--- restraint.json ---"; cat "\$RJ"
+            elif [ "$RESTRAIN" = 1 ]; then
+              echo "::warning title=RESTRAIN=1 BUT NO RESTRAINT REPORT::no restraint.json under \$OUT/*_sim_shared/. Either the restraint declined to apply (it fails soft and logs why) or the driver hook did not run. This leg ran at an _rst prefix; check the run log before treating it as a restrained result."
+            fi
           else
             LINE="TFEP_RESULT status=NORESULT leg=$LEG_ID tail=\$(grep -iE 'error|abort|Traceback|missing' /tmp/tfep_run.log | tail -1 | cut -c1-140)"
           fi
@@ -1078,6 +1102,15 @@ jobs:
           else
             PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=25200s
           fi
+          # PUBLISH THE CAP, DO NOT LET LATER STEPS REMEMBER IT. Every operator-facing message about the
+          # detached VM said "7h max-run backstop" — hardcoded, and correct only on the spot branch. The
+          # on-demand branch has been 72 h since 2026-07-26, so on 2026-07-26 the launcher told the operator
+          # that gcp-ternary-30215419909 would self-destruct within 7 h when its real cap was 259200s. When
+          # its self-delete then failed (no compute.instances.delete on the VM's SA — gcp-gpu-facts.md §6),
+          # the exposure everyone believed was bounded at 7 h was actually bounded at 72 h, and the VM held
+          # the project's only GPU until a human looked. ONE FACT, ONE PLACE: MAXRUN is assigned here and
+          # every message downstream reads it. tests/test_gcp_create_flags.py fails if one hardcodes a cap again.
+          echo "MAXRUN=$MAXRUN" >> "$GITHUB_ENV"
           provision() {
             local round M Z
             for round in $(seq 1 $PROV_ROUNDS); do   # spot: ~55 min capacity-probe (wait it out); on-demand: fail fast on quota
@@ -1107,9 +1140,13 @@ jobs:
           }
 
           # DETACHED launcher (default for mode=run — real legs are multi-hour, past the 90-min GH job): provision
-          # ONCE and EXIT; the VM runs independently (7h max-run backstop), streams to serial, writes the leg JSON
-          # to GCS results/ on completion. Monitor with gpu-rbfe-gcp-tail (vm=gcp-ternary-<runid>); re-dispatch to
+          # ONCE and EXIT; the VM runs independently under the $MAXRUN cap set above (spot 25200s, on-demand
+          # 259200s — read it from the log, never from memory), streams to serial, writes the leg JSON to GCS
+          # results/ on completion. Monitor with gpu-rbfe-gcp-tail (vm=gcp-ternary-<runid>); re-dispatch to
           # resume (idempotent GCS skip above). Teardown is skipped so the VM keeps running.
+          # WHAT ACTUALLY REMOVES THE VM WHEN THE LEG FINISHES is the ternary-leg-watchdog's DONE branch
+          # (research/modalities/watchdog_run.sh), acting from CI. NOT the in-VM EXIT trap: that trap runs and
+          # its delete is REFUSED (measured 2026-07-27, gcp-gpu-facts.md §6).
           DO_DETACH="$DETACH"; [ "$MODE" = run ] && DO_DETACH=1
           if [ "$DO_DETACH" = 1 ]; then
             # FAILOVER GUARD: refuse to provision while another ternary VM is alive, so an on-demand RESUME poll can
@@ -1125,7 +1162,7 @@ jobs:
             fi
             provision || { echo "::error::no L4 Spot capacity — re-dispatch later (idempotent GCS skip)"; exit 1; }
             echo "DETACHED=1" >> "$GITHUB_ENV"
-            echo "DETACHED: $VM launched in $ZONE (7h backstop). Result -> $RESULTS/. Monitor: gpu-rbfe-gcp-tail vm=$VM. This job EXITS now."
+            echo "DETACHED: $VM launched in $ZONE (max-run cap ${MAXRUN}). Result -> $RESULTS/. Monitor: gpu-rbfe-gcp-tail vm=$VM. This job EXITS now."
             exit 0
           fi
 
@@ -1158,7 +1195,9 @@ jobs:
       - name: Teardown (skip for detached — the VM must keep running)
         if: ${{ always() && github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' }}
         run: |
-          if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (7h max-run backstop; tail deletes when done)"; exit 0; fi
+          # "tail deletes when done" was also untrue: gpu-rbfe-gcp-tail only deletes when a human passes
+          # delete=1. Name the thing that actually reaps a finished leg, so nobody plans around a phantom.
+          if [ "${DETACHED:-0}" = 1 ]; then echo "detached — leaving $VM up (max-run cap ${MAXRUN:-<unset>}; reaped by ternary-leg-watchdog's DONE branch when the leg result lands, or by hand via gpu-rbfe-gcp-tail delete=1 / gcp-reap-vms mode=reap)"; exit 0; fi
           if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
             gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
           fi

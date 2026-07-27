@@ -1,8 +1,20 @@
 name: GCP reap VMs (kill orphan gpu VMs, project-wide)
 
-# ROBUST, UNIVERSAL VM KILLER. One dispatch deletes every orphaned GCP GPU VM in the project — no need to know
-# VM names or zones. This is the belt-and-braces backstop behind the in-VM self-delete trap + the max-run-duration
-# on each GPU job: however a VM orphans (self-delete trap failed, max-run misconfigured, a half-provisioned VM, a
+# ROBUST, UNIVERSAL VM KILLER — BUT A MANUAL TOOL, NOT A BACKSTOP. ⚠ THIS WORKFLOW HAS NO `schedule:` TRIGGER.
+# Measured 2026-07-27: all 33 of its runs to date are `workflow_dispatch`, zero are `schedule`. So when
+# gcp-ternary-30215419909 held the project's only GPU on 2026-07-27 with its leg already finished, this workflow
+# did not "fail to catch it" — it has no way to fire. Anyone reading the old header ("the belt-and-braces
+# backstop behind the in-VM self-delete trap") was relying on something that never runs unless a human runs it.
+#
+# AND IT MUST STAY MANUAL. Its only automatic criterion is AGE, and a healthy ternary leg legitimately runs ~44 h,
+# so age cannot separate a working leg from a wedged one — see the ⚠ block at the age heuristic below, where a
+# dry_run would have destroyed a mid-production leg at age 860 min. PROGRESS is the safe discriminator, and the
+# component that knows it is the ternary watchdog: its DONE branch (research/modalities/watchdog_run.sh) deletes
+# a VM once that leg's result JSON is in GCS, which cannot destroy work by construction. This workflow remains
+# what it is good at: one dispatch that mops up every orphan project-wide when a human has decided to.
+#
+# One dispatch deletes every orphaned GCP GPU VM in the project — no need to know VM names or zones. However a VM
+# orphans (self-delete trap REFUSED — gcp-gpu-facts.md §6 — max-run misconfigured, a half-provisioned VM, a
 # STOPPING spot instance that never got cleaned), a single `mode=reap` run mops it up.
 #
 # SAFE BY DEFAULT: mode=dry_run just LISTS what would be deleted (deletes nothing). Flip to mode=reap to act.

@@ -905,8 +905,10 @@ two causes (the departure, or ordinary path error) and the pose data is what sep
 **And the open design question, stated but NOT decided here:** whether the triangle's binary legs should be run
 **restrained** (§L.3c's remedy — see §L.3f for why no standard-state correction attaches to it) rather than
 as-is. Restrained legs would make `R_binary` a clean path-error measurement; unrestrained legs make it a
-measurement of the departure. Those are different experiments and the choice is trimcrae's, not mine — it
-changes what the ~$6 buys.
+measurement of the departure. Those are different experiments — it changes what the ~$6 buys.
+**→ DECIDED 2026-07-26: UNRESTRAINED. The decision and its three reasons live in
+[STRATEGY.md](../../STRATEGY.md) (one home; not restated here).** Note it is a **different question** from
+§L.3f's, which governs the r0 / 2b cycles' own binary and ternary **arms**, not the triangle's legs.
 
 ### L.3f THE RE-RUN'S TWO RULINGS: no standard-state correction, and the ternary arm is NOT re-run restrained
 
@@ -979,13 +981,26 @@ They are comparable **to the extent the ternary arm never visits the region its 
 excluded** — which is measured (reason 2), not assumed. This is not free of assumption and the paper must say so
 in those words.
 
-**THE FALSIFIABLE CONDITION THAT REOPENS THIS RULING, and it costs $0.** The restraint sits in its **own OpenMM
-force group** precisely so its energy can be read back separately (`ternary_restraint.restraint_energy_kj`), and
-`restraint.json` records the groups, `r0_nm` and `r_flat_nm` for the leg. **If the restrained binary leg's
-restraint energy is materially non-zero across a large fraction of production frames**, then the restrained
-ensemble is genuinely narrower than a free bound state, reason 2's symmetry argument weakens, and the ternary arm
-must be re-run restrained after all. Read it when the leg lands — a restraint you cannot measure is a restraint
-you cannot defend, and this one is measurable by construction.
+**THE FALSIFIABLE CONDITION THAT REOPENS THIS RULING, and it costs $0.** *If the restrained binary leg spends a
+material fraction of its production frames OUTSIDE the flat region*, then the restraint is doing real work, the
+restrained ensemble is genuinely narrower than a free bound state, reason 2's symmetry argument weakens, and the
+ternary arm must be re-run restrained after all.
+
+**How it is evaluated, concretely, so this is not an aspiration.** The leg writes `restraint.json` (groups,
+`r0_nm`, `r_flat_nm`) and `gpu-ternary-fep-gcp.yml` uploads it to
+`…/valB-6hax/results/restraint_<leg>_<dir>_r<seed>.json` — it had to be uploaded explicitly, because the driver
+writes it into the VM's shared dir and the run log is only preserved on NORESULT, so on a *successful* leg the
+report would have died with the instance. Against that, `mode=converge`'s existing contact-moiety pose series
+gives the per-replica, per-frame displacement over the committed trajectory, at $0 on CPU.
+
+**Read the comparison honestly: it is an UPPER BOUND, and only decisive in one direction.** The restraint acts on
+the *centroid separation*; the pose series reports a *receptor-superposed RMSD*, which upper-bounds the centroid
+displacement. So "fraction of frames with contact RMSD > `r_flat` − `r0`" **over**-estimates the fraction of
+restrained frames. A **small** value therefore settles it — the restraint was essentially never engaged, and the
+ruling stands. A **large** value does **not** settle it the other way and must not be reported as if it did; it
+means the cheap proxy has run out and the restraint's own force group has to be read directly
+(`ternary_restraint.restraint_energy_kj`, which exists precisely so that this is possible — a restraint you
+cannot measure is a restraint you cannot defend).
 
 **Where this is enforced.** `restrain` is a `workflow_dispatch` input on `gpu-ternary-fep-gcp.yml`, default `0`,
 and it **keys the commit prefix** (`_rst`, placed before `_dir<dir>` so the direction stays terminal) and the
