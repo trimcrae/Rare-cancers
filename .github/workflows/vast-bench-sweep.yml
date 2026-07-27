@@ -23,9 +23,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "plan (read-only) | launch (SPENDS, minutes each) | collect (validate + reap) | reap"
+        description: "plan (read-only) | launch (SPENDS, minutes each) | collect (validate + reap) | reap | forensic (read-only) | impact (read-only)"
         type: choice
-        options: [plan, launch, collect, reap]
+        options: [plan, launch, collect, reap, forensic, impact]
         default: plan
       fleet_branch:
         description: "branch whose code the rented instances run (NOT the workflow's own ref)"
@@ -92,7 +92,24 @@ jobs:
         working-directory: research/modalities
         run: python throughput_harvest.py --json throughput-harvest.json
 
+      # ★ READ-ONLY, AND IT RUNS BEFORE ANY SPEND. The anchor's own evidence: every bench artifact ever
+      # written, with the fields that could explain two tight runs of the same protocol disagreeing.
+      - name: Forensic — every bench artifact, with the conditions that could differ
+        if: ${{ github.event.inputs.mode == 'forensic' }}
+        working-directory: research/modalities
+        env:
+          FORENSIC: "1"
+        run: python vast_bench_sweep.py
+
+      - name: Board impact — before/after on the live board
+        if: ${{ github.event.inputs.mode == 'impact' }}
+        working-directory: research/modalities
+        env:
+          IMPACT: "1"
+        run: python vast_bench_sweep.py
+
       - name: Plan
+        if: ${{ github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'impact' }}
         working-directory: research/modalities
         run: python vast_bench_sweep.py
 
@@ -132,6 +149,8 @@ jobs:
                    research/modalities/vast-bench-sweep-launched.json \
                    research/modalities/vast-bench-sweep-results.json \
                    research/modalities/throughput-harvest.json \
+                   research/modalities/vast-bench-forensic.json \
+                   research/modalities/vast-bench-board-impact.json \
                    research/modalities/throughput-bench-provenance.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
           done

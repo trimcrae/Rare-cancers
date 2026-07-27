@@ -580,6 +580,64 @@ def mode_record():
     return 0
 
 
+LEGACY_PREFIX = os.environ.get("BENCH_LEGACY_PREFIX", "vast-bench-results")
+
+
+def mode_forensic():
+    """READ-ONLY: dump EVERY bench artifact ever written, with the fields that could explain a disagreement.
+
+    ★ WHY THIS EXISTS (2026-07-27). S3 `vast-bench-results/bench-rtx4090-9p5nm/bench.json` reads 726.79 ns/day
+    at CV 0.27 % — about 3.9 % BELOW the RTX 4090 anchor in the table, which is itself internally tight. Two
+    runs of the same nominal protocol, both stable, disagreeing. `REFERENCE_NS_PER_H` is derived from the
+    anchor, so it sets the basis every `$/ns` multiple in the repo is judged against, including the 1.5x buy
+    line. An error there is systematic and points the same way everywhere.
+
+    CLAUDE.md §4 forbids a "probably" here, so this prints the observations that DISCRIMINATE rather than a
+    story: the CUDA device string (a 4090D is a cut-down SKU and would explain a deficit), `nvidia-smi`'s
+    reported name/driver, the OpenMM platform and plugin-load failures, the particle count, the timestep, the
+    per-block spread, the wall time per block, and the object's own S3 LastModified. It rents nothing."""
+    bucket = BUCKET or os.environ.get("VAST_CKPT_BUCKET") or ""
+    if not bucket:
+        print("[forensic] needs VAST_CKPT_BUCKET", flush=True)
+        return 2
+    s3 = _s3()
+    pag = s3.get_paginator("list_objects_v2")
+    out = []
+    for prefix in (LEGACY_PREFIX, RESULT_PREFIX):
+        for page in pag.paginate(Bucket=bucket, Prefix=f"{prefix}/"):
+            for o in page.get("Contents", []):
+                k = o["Key"]
+                if not (k.endswith(".json") or k.endswith(".out")):
+                    continue
+                try:
+                    body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
+                except Exception as e:  # noqa: BLE001
+                    print(f"[forensic] unreadable {k}: {e}", flush=True)
+                    continue
+                out.append({"key": k, "size": o["Size"], "last_modified": o["LastModified"].isoformat(),
+                            "body": body})
+    print(f"[forensic] {len(out)} artifact(s) under {LEGACY_PREFIX}/ and {RESULT_PREFIX}/", flush=True)
+    for a in sorted(out, key=lambda x: x["key"]):
+        print("=" * 110, flush=True)
+        print(f"{a['key']}   {a['size']} B   {a['last_modified']}", flush=True)
+        if a["key"].endswith(".json"):
+            print(a["body"][:4000], flush=True)
+        else:
+            # The .out carries nvidia-smi (real card name + driver), the OpenMM platform list, any
+            # plugin-load failure, and every timed block — i.e. every condition that could differ.
+            lines = [ln for ln in a["body"].splitlines() if ln.strip()]
+            keep = [ln for ln in lines if any(t in ln for t in
+                    ("bench]", "BENCH_RESULT", "NVIDIA", "GeForce", "RTX", "Driver", "CUDA", "MiB",
+                     "plugin", "platform", "Error", "error", "WARN"))]
+            for ln in (keep or lines)[:80]:
+                print("   " + ln[:200], flush=True)
+    with open("vast-bench-forensic.json", "w") as f:
+        json.dump({"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                   "bucket": bucket, "artifacts": out}, f, indent=2)
+    print("[forensic] wrote vast-bench-forensic.json", flush=True)
+    return 0
+
+
 def board_impact(offers, extra_entries=None, n_units=19, min_vram_gb=24, disk_gb=80):
     """BEFORE/AFTER on a real board: priceable count, best single `$/ns`, best fleet `$/ns` for `n_units`.
 
@@ -843,6 +901,8 @@ def main(argv=None):
         return 0
     if os.environ.get("IMPACT") == "1":
         return mode_impact()
+    if os.environ.get("FORENSIC") == "1":
+        return mode_forensic()
     if os.environ.get("LAUNCH") == "1":
         return mode_launch()
     if os.environ.get("COLLECT") == "1":
