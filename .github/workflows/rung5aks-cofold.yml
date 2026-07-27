@@ -334,10 +334,15 @@ jobs:
             aws s3 ls "s3://$B/ternary-vast/legs/$U/attempts/" 2>/dev/null | sort -k1,2 > /tmp/x.ls || true
             N=$(wc -l < /tmp/x.ls)
             [ "$N" -gt 0 ] || continue
-            PH=$(aws s3 cp "s3://$B/ternary-vast/legs/$U/phase.txt" - 2>/dev/null || echo "-")
+            PH=$(aws s3 cp "s3://$B/ternary-vast/legs/$U/phase.txt" - 2>/dev/null | tr -s ' \n' ' ' || echo "-")
+            ST=$(aws s3 cp "s3://$B/ternary-vast/legs/$U/leg.json" - 2>/dev/null | python3 -c 'import sys,json; d=json.load(sys.stdin); print("%s/rc%s" % (d.get("status","?"), d.get("rc","?")))' 2>/dev/null || echo "no-leg.json")
+            # SEPARATE THE TWO POPULATIONS. A sub-minute gap is not an MD death — it is the container
+            # exiting immediately and being relaunched (the 12-second loop). Mixing them into one list made
+            # the table unreadable (one unit printed 5770 entries) AND made the real lifetimes invisible.
+            # Report the sub-minute ones as a COUNT and list only the attempts that actually ran.
             # NB one-liner, not a heredoc: a heredoc body must sit at column 0, which breaks the enclosing
             # `run: |` block scalar and makes GitHub report the whole workflow as having no trigger.
-            python3 -c 'import sys,datetime; f=datetime.datetime.fromisoformat; ts=[f(p[0]+"T"+p[1]) for p in (l.split() for l in sys.stdin) if len(p)>=4]; g=[(b-a).total_seconds()/60.0 for a,b in zip(ts,ts[1:])]; print("  %-62s attempts=%-3s lifetimes(min)=[%s] | since-last %.0fm | phase=%s" % (sys.argv[1], sys.argv[2], ",".join("%.0f"%x for x in g), (datetime.datetime.utcnow()-ts[-1]).total_seconds()/60.0 if ts else -1, " ".join(sys.argv[3:]).strip()))' "$U" "$N" "$PH" < /tmp/x.ls || true
+            python3 -c 'import sys,datetime; f=datetime.datetime.fromisoformat; ts=[f(p[0]+"T"+p[1]) for p in (l.split() for l in sys.stdin) if len(p)>=4]; g=[(b-a).total_seconds()/60.0 for a,b in zip(ts,ts[1:])]; r=[x for x in g if x>=1.0]; print("  %-58s attempts=%-5s ran(min)=[%s] loop<1m=%-5s since-last=%.0fm %-14s phase=%s" % (sys.argv[1], sys.argv[2], ",".join("%.0f"%x for x in r[-20:]), len(g)-len(r), (datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)-ts[-1]).total_seconds()/60.0 if ts else -1, sys.argv[3], " ".join(sys.argv[4:]).strip()))' "$U" "$N" "$ST" "$PH" < /tmp/x.ls || true
           done
           echo "################"
 
