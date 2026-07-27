@@ -148,9 +148,14 @@ above does not depend on provider telemetry.
 **Recovered, and confirmed past the resume point** — the test that matters, because a relaunch that returns to
 260 and stops again is the same bug, not a recovery. Third host **45951628** (RTX 4080S, **$0.2247/hr**)
 started its container in **21 min** against 45938720's 177, marked `leg-complex-running` at **8:12 PM ET**,
-and the watchdog read **`leg-complex-running/300`, prev 260, stall 0** at **8:29 PM ET**. Two commit blocks
-past the resume point ⇒ **~200 iter/h**, a ratio of ~0.77 against the 4090's measured ~261, which is about
-what the cards' own throughput ratio predicts — so this host is running at card rate.
+and the watchdog read **`leg-complex-running/300`, prev 260, stall 0** at **8:29 PM ET** — two commit blocks
+past the resume point, on a host whose GPU read 0 % → 81 % → 100 % as the sampler spun up.
+
+**No iter/h is quoted for this host, and that is deliberate.** 40 iterations is TWO commit blocks, and §0
+above records that the same healthy host reads 109 and 300 iter/h across consecutive short windows purely
+from block quantisation; the window also contains an unknown amount of OpenFE resume setup. A rate off it
+would be the row-19b defect again. What the two points DO establish is the only thing that was in question:
+**the counter cleared 260**, so this is a recovery and not the same failure re-run.
 
 ⚠ **The tranche projection needs re-deriving before it is quoted again.** `~$31.9` was built on the
 **$0.1224/hr** the first wave-2 host was charged; this host bills **$0.2247/hr**, ~1.8× that, because machine
