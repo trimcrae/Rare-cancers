@@ -419,6 +419,81 @@ def _annotate(level, title, msg):
     print(f"::{level} title={title}::{msg}")
 
 
+# =============================================================================================================
+# ★★ A LANDED LEG DISABLES ITS OWN WATCH ENTRY — THE SYSTEM MUST NOT ASK A HUMAN TO TYPE AN ANSWER IT ALREADY
+# HAS (2026-07-27, 7:45 PM ET, after the closure triangle read IDLE-UNEXPECTED for 79 minutes while being
+# entirely finished).
+#
+# THE DEFECT. `tick()`'s DONE branch printed a notice ending "Set enabled=false for this entry." and moved on.
+# Nothing else in the repo sets it. So a finished unit stayed `enabled: true` forever, and every consumer of
+# the watch list read the lane as having an unfinished unit:
+#
+#   * `lane_staleness_watch` scored the closure triangle IDLE-UNEXPECTED — NO HOSTS, 1 unit unfinished, no
+#     price hold, no parked reason — and went red on every pass. The lane was not stalled. Its smoke had
+#     landed at 6:56 PM ET with `status=done dG=44.807 se=0.582 NaN=False`, and `collect` had already
+#     destroyed the host with the reason "unit done". Every fact needed was in hand; only the write was
+#     missing.
+#   * That is the alarm-fatigue failure mode, and it is worse than no alarm: a watcher that is permanently
+#     red for a lane that is permanently fine teaches its reader to skip the lane that is genuinely broken.
+#
+# WHY THIS IS A REAP AND NOT A PARK. `_disabled_why` is the established key meaning "finished, leave alone"
+# (`lane_staleness_watch` → `_parked_is_not_finished` documents the contrast: `_parked_why` means NOT
+# finished). A landed leg is the former, so it gets `_disabled_why` naming the artifact that proves it —
+# never `_parked_why`, which would make a completed unit look abandoned.
+#
+# WHY NO VAST_API_KEY. A `status=done` leg.json is a COMPLETE fact on its own: the science is in S3 and the
+# on-host idempotency check in `ternary_vast_launch` already refuses to redo a done leg ("a DONE leg.json is
+# already in S3 -> nothing to do"). Liveness cannot change that, so this must NOT inherit `tick()`'s
+# refuse-when-blind rule — the reap has to keep working on exactly the passes where the instance list is
+# unreadable, which are the passes most likely to leave stale entries behind.
+#
+# WHY IT IS SAFE. It only ever moves `enabled: true -> false`, and only on a `status == "done"` record. It
+# cannot arm anything, cannot rent anything, and cannot silence a unit that has not produced its result.
+# =============================================================================================================
+def reap_landed(path=None, bucket=None, prefix=None, dry_run=False, recs=None):
+    """Disable every enabled watch entry whose leg has already landed a done result in S3.
+
+    Returns the list of unit ids reaped. Writes the watch file only when something actually changed, so a
+    steady state produces no commit and no churn.
+    """
+    b = bucket or tv.DEFAULT_BUCKET
+    p = (prefix or tv.RESULT_PREFIX).rstrip("/")
+    doc = load_watch(path)
+    if recs is None:
+        try:
+            recs = tv.leg_records(b, p)
+        except Exception as e:  # noqa: BLE001 — an unreadable store is "no evidence", never "reap it"
+            print(f"::warning title=TVAST REAP SKIPPED::could not read the leg records "
+                  f"({type(e).__name__}: {e}) — leaving every watch entry exactly as it is.")
+            return []
+
+    reaped = []
+    for w in enabled_entries(doc):
+        uid = w.get("unit_id")
+        rec = (recs or {}).get(uid) or {}
+        if rec.get("status") != "done":
+            continue
+        reaped.append(uid)
+        w["enabled"] = False
+        w["_disabled_why"] = (
+            f"LANDED {rec.get('updated_utc') or time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}: "
+            f"leg.json status=done in s3://{b}/{p}/legs/{uid}/ "
+            f"(dG_morph={rec.get('dg_morph_kcal')}, NaN={rec.get('nan_seen')}). "
+            f"Auto-reaped by ternary_vast_watchdog.reap_landed — this unit is FINISHED, not parked.")
+
+    if not reaped:
+        return []
+    if dry_run:
+        print(f"[reap] DRY RUN — would disable {len(reaped)} landed entr(ies): {', '.join(reaped)}")
+        return reaped
+    save_watch(doc, path)
+    for uid in reaped:
+        _annotate("notice", "TVAST WATCHDOG REAPED A LANDED UNIT",
+                  f"{uid} — its result is in S3, so its watch entry is now enabled=false. The lane no "
+                  f"longer reads as having an unfinished unit.")
+    return reaped
+
+
 def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
     """One watchdog pass over the enabled entries. Returns the number of alerts raised."""
     b = bucket or tv.DEFAULT_BUCKET
@@ -521,9 +596,12 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
                                       "phase": pstr, "verdict": verdict})
 
         if verdict == "DONE":
+            # The disable itself happens ONCE after the loop (see `reap_landed`), not here: mutating the
+            # watch document mid-iteration while `entries` is a live view of it is how a reaper skips the
+            # entry after the one it just changed.
             _annotate("notice", "TVAST WATCHDOG DONE",
                       f"{uid} — leg.json is in S3 (dG_morph={rec.get('dg_morph_kcal')}, "
-                      f"NaN={rec.get('nan_seen')}). Set enabled=false for this entry.")
+                      f"NaN={rec.get('nan_seen')}). Its watch entry is reaped at the end of this pass.")
             continue
         if verdict == "FAILED":
             alerts += 1
@@ -672,6 +750,11 @@ def tick(path=None, dry_run=False, bucket=None, prefix=None, ref=None):
             alerts += 1
             _annotate("error", "TVAST WATCHDOG RELAUNCH FAILED",
                       f"{uid} — died AND the relaunch raised {type(ex).__name__}: {ex}. Needs a human.")
+    # AFTER the loop, and reusing the records this pass already read (no second S3 sweep). A landed unit's
+    # entry is retired here so the next pass — and every cross-lane reader of this file — stops counting it
+    # as unfinished work.
+    reap_landed(path=path, bucket=b, prefix=p, dry_run=dry_run, recs=recs)
+
     print(f"watchdog pass complete; {alerts} alert(s)")
     return alerts
 
@@ -682,12 +765,20 @@ def main(argv=None):
     ap.add_argument("--tick", action="store_true", help="run one watchdog pass")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--disable", metavar="UNIT_ID", help="set enabled=false for one entry")
+    ap.add_argument("--reap-landed", action="store_true",
+                    help="disable every enabled entry whose leg already landed a done result in S3. Needs "
+                         "S3 only, NOT VAST_API_KEY — cheap enough to run from the frequently-dispatched "
+                         "collect path, which is the point: the cron watchdog is throttled.")
     ap.add_argument("--verify-armed", metavar="MODE",
                     help="assert every unit of MODE is present and enabled in the watch list; exit non-zero "
                          "otherwise. Run it in the launch path, AFTER the commit.")
     a = ap.parse_args(argv)
     if a.verify_armed:
         verify_armed(a.verify_armed)
+        return 0
+    if a.reap_landed:
+        done = reap_landed(dry_run=a.dry_run)
+        print(f"[reap] {len(done)} landed entr(ies) retired" if done else "[reap] nothing to retire")
         return 0
     if a.arm:
         arm(a.arm)

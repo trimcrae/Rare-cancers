@@ -1304,6 +1304,30 @@ jobs:
           set -eo pipefail
           python -m pip install -q boto3
           python research/modalities/ternary_vast_launch.py --collect 2>&1 | tee /tmp/board.txt
+      # ★★ RETIRE THE WATCH ENTRY OF ANY LEG THAT HAS ALREADY LANDED (2026-07-27, 7:45 PM ET).
+      #
+      # WHY HERE AND NOT ONLY IN THE CRON WATCHDOG. `ternary-vast-watchdog.yml`'s schedule is throttled the
+      # same way every schedule in this repo is (CLAUDE.md §6: 25 of 30 step-1 ticks were hand-dispatched),
+      # so hanging the reap off it alone means a finished unit can stay `enabled: true` for hours. `collect`
+      # is dispatched constantly by whoever is supervising, which makes it the path with a real cadence.
+      #
+      # WHAT IT COSTS: one S3 listing, no GPU, no Vast call. It can only move enabled true -> false, and
+      # only on a leg.json that says status=done — it cannot arm, rent, or silence unfinished work.
+      - name: Reap the watch entries of legs that already landed
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_vast_watchdog.py --reap-landed 2>&1 | tee /tmp/reap.txt
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/ternary-vast-watch.json
+          if git diff --cached --quiet; then echo "no landed entry to retire"; exit 0; fi
+          git commit -m "ternary watch: retire the entries of legs that have landed (CI)"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" \
+              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
+            sleep $((i * 7))
+          done
+          # A lost race is not a failure of the reap — the next collect re-derives the same answer from S3.
+          echo "::warning title=REAP NOT PUSHED::the retirement could not be pushed; the next collect redoes it"
       - name: Summary LAST
         # A CI log is read from its TAIL, so whatever a monitor needs must be the last thing printed.
         run: |
