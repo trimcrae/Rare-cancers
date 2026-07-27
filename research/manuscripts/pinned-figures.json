@@ -435,6 +435,18 @@
    "pattern": "0\\.004359|\\$0\\.0043593",
    "current": "basis $0.003412/ns (congeneric_fanout.basis_usd_per_ns())",
    "retired_by": "the 2026-07-27 throughput re-anchoring plus the ladder regeneration — pricing.md Appendix T"
+  },
+  {
+   "id": "scoreboard_realised_0_74",
+   "pattern": "\\$0\\.74 spent|realised spend \\$0\\.74|~\\$35 not spent",
+   "current": "realised spend is DERIVED in research/modalities/realised-spend.json (realised_spend.py) and quoted by STRATEGY.md's scoreboard under lint rule A",
+   "retired_by": "2026-07-27: a hand-carried total that stood at $0.74 while the step 1 fan-out's own rental ledger read $20.11 and the bench sweep's read $3.49. Rule 1.1 - a total is DERIVED, never typed. STRATEGY.md Appendix A row 39"
+  },
+  {
+   "id": "ternary_lane_valb_cohort3_rates",
+   "pattern": "1\\.528\\s*[x×]|1\\.574\\s*[x×]|\\$0\\.005214/ns|\\$0\\.005369/ns",
+   "current": "valB_mini cohort 4, rented 4:51 PM ET: 1.500x / 1.500x / 1.859x / 1.649x basis (ternary-vast-rental-receipt.json)",
+   "retired_by": "the 4:00 PM cohort 3 was reclaimed and re-rented at 4:51 PM ET. On this lane a per-host rate has a half-life of about two hours - STRATEGY.md Appendix A row 38"
   }
  ],
  "subset_checks": [
