@@ -339,10 +339,26 @@ def _sh(cmd):
     return subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout
 
 
+def is_shallow():
+    """True when this checkout has no history to read. PURE-ish (one git call).
+
+    ⛔ WHY THIS IS NOT A DETAIL. `actions/checkout` clones at depth 1 by default, so in CI `git log` over the
+    progress artifact returns NOTHING and every number here comes back zero — which reads exactly like
+    'no production leg has ever run on an unbenched card', the very conclusion this module exists to support.
+    A silent zero that agrees with your hypothesis is the worst possible failure. Observed 2026-07-27: the
+    first CI run of the census reported 0 snapshots, 0 cards, 0 spans, and looked entirely plausible.
+    The fix is `fetch-depth: 0` on the checkout; this function is the alarm for when it is missing."""
+    return _sh("git rev-parse --is-shallow-repository").strip() == "true"
+
+
 def load_snapshots(path=PROGRESS_FILE, all_refs=True):
     """Every committed version of the progress artifact, oldest first. Reads git only."""
     refs = "--all " if all_refs else ""
     log = _sh(f"git log --reverse {refs}--format='%H %cI' -- {path}").strip()
+    if not log.strip() and is_shallow():
+        raise RuntimeError(
+            "SHALLOW CHECKOUT: git history is absent, so the harvest would report zero of everything and "
+            "that zero would look like a finding. Re-run with `fetch-depth: 0` on actions/checkout.")
     out = []
     for line in log.split("\n"):
         if not line.strip():
