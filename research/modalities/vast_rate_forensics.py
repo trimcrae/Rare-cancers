@@ -67,10 +67,16 @@ def safe_row(inst):
 def decompose(inst):
     """Split an instance's `dph_total` into the lines Vast bills separately. PURE.
 
-    `residual` is `dph_total - (gpu + storage + inet)`. A residual near zero means the reported total is fully
-    explained by the named lines, which is what lets the verdict below attribute a gap to storage rather than
-    to a price move. A residual that is NOT near zero is itself a finding — it would mean Vast is charging
-    something this decomposition does not name, and no conclusion about drift could be drawn from the total.
+    ★ `dph_total` IS `dph_base + storage_total_cost`, AND THE `inet_*_cost` PAIR IS NOT IN IT — measured, not
+    assumed. The first pass of this probe summed the inet lines in too and every one of six live instances came
+    back "residual = exactly minus the inet lines", which is not a coincidence but the answer: those fields are
+    per-transfer prices, not an hourly charge. Left as an explicit `inet_usd_h` line reported ALONGSIDE the
+    total rather than deleted, because "we checked and it is not in there" is worth more than silence.
+
+    `residual` is `dph_total - (gpu + storage)`. Near zero means the total is fully explained by the two hourly
+    lines, which is what lets the verdict attribute a gap to storage rather than to a price move. A residual
+    that is NOT near zero is itself a finding — Vast would be charging something this split does not name, and
+    no conclusion about drift could be drawn from the total.
     """
     def f(key):
         try:
@@ -79,9 +85,55 @@ def decompose(inst):
             return 0.0
     gpu, storage = f("dph_base"), f("storage_total_cost")
     inet, total = f("inet_up_cost") + f("inet_down_cost"), f("dph_total")
-    return {"gpu_usd_h": gpu, "storage_usd_h": storage, "inet_usd_h": inet, "all_in_usd_h": total,
-            "residual_usd_h": round(total - (gpu + storage + inet), 8),
-            "explained": abs(total - (gpu + storage + inet)) <= RATE_EPS_USD_H}
+    return {"gpu_usd_h": gpu, "storage_usd_h": storage, "all_in_usd_h": total,
+            "inet_usd_h_not_in_total": inet,
+            "residual_usd_h": round(total - (gpu + storage), 8),
+            "explained": abs(total - (gpu + storage)) <= RATE_EPS_USD_H}
+
+
+def offer_vs_instance(inst, ledger_row):
+    """Why an offer's `dph_total` and an instance's `dph_total` are different numbers for the same rental. PURE.
+
+    ★ THIS IS THE ACTUAL MECHANISM behind the apparent rise, and it is arithmetic. The launcher prints
+    `dph≈$X/hr` at submit from the OFFER, where Vast quotes `dph_total = min_bid + a disk line for the disk the
+    SEARCH priced`. The instance then reports `dph_total = our BID + the disk line for the volume we actually
+    allocated`. Both are called "$/hr" and neither is the other:
+
+        offer    dph_total  =  market FLOOR   +  disk line at the search's disk size
+        instance dph_total  =  our agreed BID +  disk line at the REQUESTED disk size
+
+    Two substitutions, both upward, neither a price move. `disk_line_ratio` is the size of the second one.
+    """
+    d = decompose(inst)
+    out = {"offer_dph_total_usd_h": (ledger_row or {}).get("dph"),
+           "offer_min_bid_usd_h": (ledger_row or {}).get("min_bid"),
+           "bid_usd_h": (ledger_row or {}).get("bid"),
+           "instance_dph_total_usd_h": d["all_in_usd_h"],
+           "instance_disk_line_usd_h": d["storage_usd_h"],
+           "instance_disk_gb": inst.get("disk_space")}
+    try:
+        offer_disk_line = float(out["offer_dph_total_usd_h"]) - float(out["offer_min_bid_usd_h"])
+        out["offer_disk_line_usd_h"] = round(offer_disk_line, 8)
+        if offer_disk_line > 0:
+            out["disk_line_ratio_instance_over_offer"] = round(d["storage_usd_h"] / offer_disk_line, 4)
+            # The disk size the offer's line implies, at the machine's own $/GB/month. If this is far below
+            # `instance_disk_gb`, the search priced a volume we never rented.
+            out["offer_disk_gb_implied"] = (
+                round(float(inst.get("disk_space") or 0) / out["disk_line_ratio_instance_over_offer"], 2)
+                if out["disk_line_ratio_instance_over_offer"] else None)
+    except (TypeError, ValueError):
+        pass
+    try:
+        out["apparent_rise_usd_h"] = round(d["all_in_usd_h"] - float(out["offer_dph_total_usd_h"]), 8)
+        out["explained_by"] = {
+            "floor_to_bid_usd_h": round(float(out["bid_usd_h"]) - float(out["offer_min_bid_usd_h"]), 8),
+            "disk_line_growth_usd_h": round(d["storage_usd_h"] - out["offer_disk_line_usd_h"], 8)}
+        out["fully_explained"] = abs(out["apparent_rise_usd_h"]
+                                     - out["explained_by"]["floor_to_bid_usd_h"]
+                                     - out["explained_by"]["disk_line_growth_usd_h"]) <= RATE_EPS_USD_H
+    except (TypeError, ValueError, KeyError):
+        pass
+    return out
 
 
 def verdict(inst, ledger_bid, eps=RATE_EPS_USD_H):
@@ -93,6 +145,9 @@ def verdict(inst, ledger_bid, eps=RATE_EPS_USD_H):
     d = decompose(inst)
     doc = {"instance": inst.get("id"), "machine_id": inst.get("machine_id"),
            "is_bid": inst.get("is_bid"), "ledger_bid_usd_h": ledger_bid, "lines": d,
+           # ★ THE SECOND, INDEPENDENT DISCRIMINATOR. If the charged rate tracked the market, a live instance
+           # whose `min_bid` has moved since rental would show `dph_base` moving with it. Reported on every row
+           # so the reader can check the two against each other without taking this module's word for it.
            "live_min_bid_usd_h": inst.get("min_bid")}
     if ledger_bid in (None, ""):
         doc["verdict"] = ("UNKNOWN — no bid on record for this instance, so the rate it is being charged "
@@ -104,21 +159,20 @@ def verdict(inst, ledger_bid, eps=RATE_EPS_USD_H):
         doc["verdict"] = f"UNKNOWN — the recorded bid {ledger_bid!r} is not a number."
         return None, doc
     if not d["explained"]:
-        doc["verdict"] = (f"UNKNOWN — dph_total ${d['all_in_usd_h']:.6f}/hr is NOT the sum of the GPU, "
-                          f"storage and inet lines (residual ${d['residual_usd_h']:.6f}/hr). Vast is "
-                          f"reporting a charge this decomposition does not name, so no conclusion about a "
-                          f"rate move can be drawn from the total.")
+        doc["verdict"] = (f"UNKNOWN — dph_total ${d['all_in_usd_h']:.6f}/hr is NOT the sum of the GPU and "
+                          f"storage lines (residual ${d['residual_usd_h']:.6f}/hr). Vast is reporting a "
+                          f"charge this decomposition does not name, so no conclusion about a rate move can "
+                          f"be drawn from the total.")
         return None, doc
     delta = d["gpu_usd_h"] - bid
     doc["gpu_minus_bid_usd_h"] = round(delta, 8)
     if abs(delta) <= eps:
         doc.update({"verdict": (
             f"NO MOVE. The GPU line is ${d['gpu_usd_h']:.6f}/hr against a bid of ${bid:.6f}/hr agreed at "
-            f"rental — identical within ${eps:.0e}/hr. The whole gap to the ${d['all_in_usd_h']:.6f}/hr "
-            f"all-in figure is the storage line (${d['storage_usd_h']:.6f}/hr) plus inet "
-            f"(${d['inet_usd_h']:.6f}/hr), both of which were fixed when the volume was allocated. A rate "
-            f"quoted from `dph_total` and compared against an offer's `dph_total` is comparing a rented "
-            f"{inst.get('disk_space')} GB volume against whatever disk the search quoted."),
+            f"rental — identical within ${eps:.0e}/hr, while the market floor for this machine now stands at "
+            f"${inst.get('min_bid')}/hr. The whole gap to the ${d['all_in_usd_h']:.6f}/hr all-in figure is "
+            f"the storage line (${d['storage_usd_h']:.6f}/hr) for the {inst.get('disk_space')} GB volume, "
+            f"fixed when that volume was allocated."),
             "hypothesis_supported": "H2 (two different quantities)"})
         return False, doc
     doc.update({"verdict": (
@@ -140,8 +194,8 @@ def live_instances(key=None):
     return (_vast_request("GET", "/instances/", api, params={"owner": "me"}) or {}).get("instances") or []
 
 
-def ledger_bids(bucket=None, s3=None, keys=None):
-    """instance_id -> the bid recorded when it was rented, across every lane ledger that keeps one.
+def ledger_rows(bucket=None, s3=None, keys=None):
+    """instance_id -> the rental row recorded at rental (bid, min_bid, offer dph), across every lane ledger.
 
     DERIVED from each lane's own module rather than typed here (CLAUDE.md §1), so a lane that repoints its
     result prefix cannot leave this probe reading a stale key.
@@ -165,46 +219,80 @@ def ledger_bids(bucket=None, s3=None, keys=None):
             print(f"[rate-forensics] ledger {k} unreadable ({type(e).__name__}: {e})", flush=True)
             continue
         for iid, r in (doc.get("rentals") or {}).items():
-            if r.get("bid") is not None:
-                out[str(iid)] = r["bid"]
+            out[str(iid)] = r
     return out
 
 
-def probe(key=None, bucket=None, s3=None):
-    """The whole diagnostic: every live rental, its allow-listed record, its line split and its verdict."""
+READOUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vast-rate-forensics.json")
+
+
+def probe(key=None, bucket=None, s3=None, readout_path=None):
+    """The whole diagnostic: every live rental, its allow-listed record, its line split and its verdict.
+
+    Written to a COMMITTED artifact as well as printed, for the reason every other guard in this lane is:
+    a finding that exists only in a CI job log is a finding nobody will find — GitHub truncates a log from
+    the tail and the tail is always runner boilerplate.
+    """
     insts = live_instances(key)
-    bids = {}
+    led = {}
     try:
-        bids = ledger_bids(bucket, s3)
+        led = ledger_rows(bucket, s3)
     except Exception as e:  # noqa: BLE001
-        print(f"[rate-forensics] no ledger bids available ({type(e).__name__}: {e})", flush=True)
+        print(f"[rate-forensics] no ledger rows available ({type(e).__name__}: {e})", flush=True)
     rows = []
     for i in insts:
-        moved, doc = verdict(i, bids.get(str(i.get("id"))))
-        rows.append({"record": safe_row(i), "moved": moved, **doc})
+        lr = led.get(str(i.get("id")))
+        moved, doc = verdict(i, (lr or {}).get("bid"))
+        rows.append({"record": safe_row(i), "moved": moved, **doc,
+                     "offer_vs_instance": offer_vs_instance(i, lr)})
     out = {"_what": "Read-only forensics: does a Vast rental's CHARGED GPU rate move after rental, or is the "
                     "apparent rise the storage line in `dph_total`?",
            "_fields": ("allow-listed — see SAFE_FIELDS. Field NAMES are evidence; token/ssh/address VALUES "
                        "are credentials and never appear here."),
            "n_instances": len(insts), "instances": rows}
     moved_any = [r for r in rows if r.get("moved") is True]
+    graded = [r for r in rows if r.get("moved") is not None]
     unknown = [r for r in rows if r.get("moved") is None]
     out["summary"] = (
-        f"{len(moved_any)} of {len(rows)} live rental(s) show a GPU line differing from the bid agreed at "
-        f"rental ({len(unknown)} could not be graded). "
+        f"{len(moved_any)} of {len(graded)} gradeable live rental(s) show a GPU line differing from the bid "
+        f"agreed at rental ({len(unknown)} of {len(rows)} carry no recorded bid and cannot be graded). "
         + ("A live rental's rate DOES move — the relaunch gate's 'never touch a running host' premise fails."
            if moved_any else
-           "No live rental's GPU rate has moved from its bid. An apparent rise on the board is `dph_total` "
-           "(GPU + storage) being compared against an offer's `dph_total` (floor + the search's disk line)."))
+           "No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an "
+           "INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` "
+           "(market floor + the disk line the search priced) — two different quantities, not a price move."))
+    try:
+        with open(readout_path or READOUT_PATH, "w") as fh:
+            json.dump(out, fh, indent=2, default=str)
+            fh.write("\n")
+    except OSError as e:
+        print(f"[rate-forensics] readout not written: {e}", flush=True)
     print(json.dumps(out, indent=2, default=str))
+    if moved_any:
+        # ★ THIS IS THE WHOLE POINT OF RUNNING IT ON A SCHEDULE. CLAUDE.md §6 lets the relaunch gate ignore
+        # live hosts because a rented rate cannot change. That is TRUE TODAY and measured, but it is a fact
+        # about Vast's billing rather than about our code, so it can stop being true without anyone touching
+        # this repo. `::error::` fails the job, and a failed job is the session-independent alert path the
+        # watchdogs already rely on — a finding in a JSON nobody opens is not an alert.
+        print(f"::error title=A LIVE VAST RENTAL'S CHARGED RATE HAS MOVED::"
+              f"{len(moved_any)} live rental(s) are being billed a GPU rate that differs from the bid agreed "
+              f"at rental: "
+              + "; ".join(f"instance {r['instance']} ${r['lines']['gpu_usd_h']:.6f}/hr vs bid "
+                          f"${r['ledger_bid_usd_h']}/hr" for r in moved_any)
+              + ". CLAUDE.md §6's live-host boundary ('the gate acts at the moment of renting and must never "
+                "be given reach over a live host') rests on this NOT happening. Re-open that rule before "
+                "trusting any in-flight $/ns row. Snapshot: vast-rate-forensics.json.", flush=True)
     return out
 
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     if "--probe" in argv:
-        probe()
-        return 0
+        out = probe()
+        # Non-zero ONLY when a rate has actually moved. An ungradeable rental (no recorded bid) is not a
+        # failure — most instances in this account were rented by lanes that keep no ledger, and failing on
+        # those would turn the guard into noise, which is how a guard stops being read.
+        return 1 if any(r.get("moved") is True for r in out["instances"]) else 0
     print(__doc__)
     print("usage: vast_rate_forensics.py --probe")
     return 2

@@ -58,8 +58,11 @@ nsh = vcm.ns_per_hour("RTX 4090")
 # Construct rates that land either side of the threshold, from the basis itself rather than by guessing.
 just_under = R.row("RTX 4090", basis * 1.40 * nsh, plan)
 just_over = R.row("RTX 4090", basis * 1.60 * nsh, plan)
-check(not just_under["drifting"] and "DRIFT" not in just_under["cell"], "1.40x basis is not flagged")
-check(just_over["drifting"] and "DRIFT" in just_over["cell"], "1.60x basis IS flagged")
+check(not just_under["drifting"] and "⚠" not in just_under["cell"], "1.40x basis is not flagged")
+# The marker's WORDING changed on 2026-07-27 (bare `⚠ DRIFT` -> `⚠ PAYING OVER THE 1.5× LINE`) so that a row
+# we are being charged cannot render identically to one the gate refused. The threshold did not move.
+check(just_over["drifting"] and "⚠" in just_over["cell"] and "OVER" in just_over["cell"],
+      "1.60x basis IS flagged, and the flag says money is going out over the line")
 
 print("== the multiple is present on every priced row — it is the gradeable part")
 for card, dph in (("RTX 4090", 0.1391), ("RTX 4080S", 0.1307), ("RTX 3090", 0.0643)):
@@ -75,6 +78,66 @@ check(hi["drifting"] and not lo["drifting"],
       "the $0.2247 4080S flags while the $0.0643 3090 does not — the case $/hr alone could not distinguish")
 check(hi["multiple"] > lo["multiple"] * 1.5,
       "and the gap is large, which is why $/hr made them look like an ordinary spread")
+
+print("== ★ PAYING AND REFUSING MUST NOT RENDER THE SAME (trimcrae, 2026-07-27)")
+# The defect, exactly as it appeared: on that morning's board the fan-out at 3.25x and valB at 1.96x were
+# HELD ($0 out) while the 5a-KS leg at 1.51x and the shakeout at 1.82x were money leaving the account. All
+# four printed `⚠ DRIFT`. The question "are we not stopping those runs?" was the correct reading of a board
+# that could not tell the two apart.
+paying = R.row("RTX 4090", 0.2497, plan, stance=R.PAYING)          # the shakeout host, 1.82x
+refused = R.row("RTX 4090", 0.4459, plan, stance=R.REFUSED)        # the 19-edge fan-out, 3.25x
+check(paying["multiple"] > R.DRIFT_MULTIPLE and refused["multiple"] > R.DRIFT_MULTIPLE,
+      "both rows are over the drift line — which is why the OLD format made them identical")
+check(paying["cell"] != refused["cell"], "the two cells are not the same string")
+check("⚠" in paying["cell"] and "⚠" not in refused["cell"],
+      "⚠ appears on the PAYING row only — it means money is going out")
+check("⛔" in refused["cell"] and "⛔" not in paying["cell"],
+      "⛔ appears on the REFUSED row only — it means money is NOT going out")
+check("$0 spent" in refused["cell"],
+      "the refused row states $0 on its own line, so the multiple cannot be read as a bill")
+check("REFUSED" in refused["cell"] and "PAYING OVER" in paying["cell"],
+      "each row names its own stance in words, not only in a glyph")
+check(paying["paying_over_line"] and not refused["paying_over_line"],
+      "`paying_over_line` is true only when we are actually being charged over the line")
+check(refused["refused"] and not paying["refused"], "`refused` is the machine-readable half of the same fact")
+check(paying["drifting"] and refused["drifting"],
+      "`drifting` still means only 'this rate is over the line', so existing callers are unaffected")
+
+print("== a row held for a reason that is NOT price says so")
+held_cheap = R.row("RTX 4090", 0.1300, plan, stance=R.REFUSED)
+check(held_cheap["multiple"] < R.DRIFT_MULTIPLE and "not on price" in held_cheap["cell"],
+      "a hold at a sane rate is not labelled a price refusal — it would misdirect the reader to the market")
+check("$0 spent" in held_cheap["cell"], "...and it still says nothing is being spent")
+
+print("== the default is PAYING — an un-stanced row is money until proven otherwise")
+check(R.row("RTX 4090", 0.2497, plan)["cell"] == paying["cell"],
+      "omitting the stance renders the paying form, the safe direction for a spend report")
+
+print("== an unrecognised stance RAISES rather than guessing")
+try:
+    R.row("RTX 4090", 0.2497, plan, stance="maybe")
+    check(False, "a bogus stance must not be silently accepted")
+except ValueError:
+    check(True, "a bogus stance raises ValueError instead of defaulting into one of the two meanings")
+
+print("== a rate taken from an OFFER quote is marked as a lower bound, not passed off as the billed rate")
+# Measured 2026-07-27 (vast_rate_forensics, instance 46000463): the offer quoted $0.17922/hr and the instance
+# is billed $0.20272/hr. Reporting the first as if it were the second is what made one host read 1.41x at
+# rental and 1.82x while running, and look like a price rise.
+quote = R.row("RTX 4090", 0.1792222222222222, plan, rate_basis=R.RATE_FROM_OFFER)
+billed = R.row("RTX 4090", 0.20272222222222222, plan)
+check("LOWER BOUND" in quote["cell"] and "offer quote" in quote["cell"],
+      "the quote-derived row says what it is")
+check("LOWER BOUND" not in billed["cell"], "the billed row carries no such caveat")
+check(billed["multiple"] > quote["multiple"],
+      "and the billed multiple really is the larger of the two, which is why the caveat is not decorative")
+
+print("== the parsed CLI spec carries the stance, because one board mixes both")
+check(R.parse_spec("RTX 4090=0.4459:refused") == ("RTX 4090", "0.4459", R.REFUSED, R.RATE_FROM_INSTANCE),
+      "`gpu=dph:refused` parses to a refused row")
+check(R.parse_spec("RTX 4090=0.2497") == ("RTX 4090", "0.2497", R.PAYING, R.RATE_FROM_INSTANCE),
+      "a bare `gpu=dph` parses to a paying row on the billed rate")
+check(R.parse_spec("RTX 4090=0.1792@offer")[3] == R.RATE_FROM_OFFER, "`@offer` marks the rate's provenance")
 
 print()
 if fails:

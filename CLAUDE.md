@@ -55,6 +55,14 @@ anything here that restates them is a bug — see rule 1.
     ratio the cost model does not produce is the bug. **≳1.5× basis is drift and says so on the row**; that is
     what the fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
     rather than a fabricated figure.
+    - **★★ A ROW WE ARE PAYING AND A ROW THE GATE REFUSED MUST NEVER RENDER ALIKE (trimcrae, 2026-07-27:
+      *"the `$/ns` column still shows several rows over 1.5×. Why? Are we not stopping those runs?"*).** Held
+      lanes at 3.25× and 1.96× printed the same `⚠` as legs actually being billed at 1.51× and 1.82×, so a
+      guard doing its job read as a guard being ignored. **`⚠ PAYING OVER THE …× LINE` = money going out;
+      `⛔ REFUSED at … — $0 spent` = the multiple is what we DECLINED.** One glyph, one meaning.
+      Rendered by [`inflight_usd_per_ns.py`](./research/modalities/inflight_usd_per_ns.py) — **never typed, and
+      never off a launcher's `dph≈` line**, which is the market floor plus the search's disk line and so reads
+      LOW against the rate the instance is actually billed (`vast_rate_forensics.py`).
 - **Language discipline for the manuscript** is in [STRATEGY.md](./STRATEGY.md) → "Honest scope and language
   discipline" and enforced by `lint_claims.py` (R1–R5) in CI. Never imply proteome-wide selectivity, EMC
   efficacy, safety, a therapeutic window, or clinical readiness.
@@ -334,7 +342,9 @@ When in doubt: do it and show it.
   prints `⚠ DRIFT` is exactly a row the gate would refuse to buy.** One implementation:
   [`relaunch_market_gate.py`](./research/modalities/relaunch_market_gate.py), whose `EXEMPTIONS` is the complete
   list of cases where waiting genuinely does lose work. **Work already executing is never touched** — the gate
-  acts at the moment of renting and must never be given reach over a live host.
+  acts at the moment of renting and must never be given reach over a live host. That boundary rests on
+  *the rate you rent at is the rate you pay*, which is **measured, not assumed**: `vast_rate_forensics.py`
+  reads the live instance record and the lane's rental ledger, and a rented rate has never moved.
 - **★ SPOT PREEMPTIONS ARE ROUTINE — MENTION LIGHTLY (trimcrae, 2026-07-16).** A preempted VM is expected
   behaviour and routine self-doable recovery: re-dispatch to resume from checkpoint, re-arm the check-in. A
   one-line note is fine; **no alarm, no `AskUserQuestion`, no write-up**, even if it repeats. Reserve real

@@ -211,7 +211,10 @@ jobs:
     # lines and compares the GPU line with the bid the lane's rental ledger recorded at rental time.
     #
     # It rents nothing, destroys nothing and never touches a running host: GET /instances/ plus one S3 read.
-    if: ${{ github.event.inputs.mode == 'forensics' }}
+    # Also on the HOURLY schedule, not only on demand. The premise it guards is a fact about VAST'S
+    # BILLING, not about our code, so it can stop being true with nobody touching this repo — and the
+    # rule it licenses (§6: never re-check a live host) is the one that would then be silently wrong.
+    if: ${{ github.event.inputs.mode == 'forensics' || github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
