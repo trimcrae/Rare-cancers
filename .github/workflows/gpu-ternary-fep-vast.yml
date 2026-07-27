@@ -90,6 +90,10 @@ on:
         description: "5aks-prime: S3 prefix holding the Boltz co-fold CIFs (blank = rung5aks-cofold-v1)"
         type: string
         default: ""
+      watch_minutes:
+        description: "reps-diag: also TRACE container memory vs its limit for this many minutes (blank = skip). Must be running while a ternary leg is in setup — that trace is what separates an OOM kill from a provider stop."
+        type: string
+        default: ""
       leg_only:
         description: "launch: restrict to units whose LEG ID contains this substring (e.g. `nr4a3`). Recovers ONE preempted arm without re-renting a sibling that has a known deterministic defect."
         type: string
@@ -1318,7 +1322,7 @@ jobs:
     needs: resolve
     if: ${{ needs.resolve.outputs.task == 'reps-diag' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     permissions:
       contents: write
     env:
@@ -1337,11 +1341,25 @@ jobs:
           python -m pip install -q boto3
           python research/modalities/ternary_reps_diag.py --mode edge_reps \
             --out research/modalities/ternary-reps-diag.json 2>&1 | tee /tmp/diag.txt
+      - name: The discriminator — container memory vs its limit across the window the ternary legs die in
+        # `watch_minutes` blank = skip. The forensic above says the ternary legs die deterministically at
+        # HybridTopologyFactory and that the kill takes the WHOLE CONTAINER (bash never reaches the
+        # deliverable path it runs unconditionally). It cannot say whether that is an out-of-memory kill on
+        # the ~142k-particle system or a provider-side stop — and the remedies are opposite, so this measures
+        # it rather than guessing. Needs to be running WHILE a ternary leg is in setup.
+        if: ${{ github.event.inputs.watch_minutes != '' }}
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_reps_diag.py --mode edge_reps \
+            --watch-memory "${{ github.event.inputs.watch_minutes }}" --every 20 \
+            --out research/modalities/ternary-reps-memory-trace.json 2>&1 | tee /tmp/mem.txt
       - name: Commit the forensic — evidence nobody has to re-derive from a job log GitHub will expire
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/ternary-reps-diag.json
+          git add research/modalities/ternary-reps-diag.json \
+                  research/modalities/ternary-reps-memory-trace.json 2>/dev/null || \
+            git add research/modalities/ternary-reps-diag.json
           if ! git diff --cached --quiet; then
             git commit -m "ternary replicate forensic: what the containers themselves said (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -1352,6 +1370,7 @@ jobs:
           set -eo pipefail
           echo "================ TERNARY REPS DIAG ================"
           cat /tmp/diag.txt
+          [ -f /tmp/mem.txt ] && { echo "======== CONTAINER MEMORY TRACE ========"; cat /tmp/mem.txt; } || true
 
   # `reduce-reps` is the SAME job with one more fetch, deliberately: the replicate reduction differs from the
   # seed-0 one only in which leg JSONs land in the directory, and the reducer globs that directory. Giving it

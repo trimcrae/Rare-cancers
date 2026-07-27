@@ -241,6 +241,96 @@ def diagnose(mode="edge_reps", bucket=None, prefix=None, key=None, want_console=
     return doc
 
 
+def watch_memory(mode="edge_reps", minutes=25, every_s=20, bucket=None, prefix=None, key=None):
+    """Trace each unit's CONTAINER MEMORY against its limit, through the phase where the ternary legs die.
+
+    ★★ THIS IS THE OBSERVATION THAT DISCRIMINATES, AND IT IS WHY THE STORY ABOVE IS NOT YET A DIAGNOSIS
+    (CLAUDE.md §4). What the attempts archive proves is that the ternary legs die DETERMINISTICALLY, at
+    `HybridTopologyFactory` construction ("Creating hybrid system / Setting force field terms / Adding forces
+    / No CMAPTorsionForce found"), ~2 min into `md-running`, on every host and in every cohort, while the
+    matched binary legs sail past the same point. It also proves the death takes the WHOLE CONTAINER and not
+    just the Python process: `_vast_onstart` runs the MD under `timeout` with `set +e` and then unconditionally
+    walks the deliverable path — `mark md-done`, write `leg.json`, upload `run.log`. A Python process killed on
+    its own leaves that record. There is no such record for any ternary replicate, and `phase.txt` is still
+    `md-running`, so bash itself never got another instruction. A cgroup-wide kill is what does that.
+
+    What it does NOT prove is WHICH cgroup-wide kill: an out-of-memory kill on the ~142k-particle ternary
+    system (the binary's is ~94k, and HTF construction is the most allocation-heavy step in the pipeline) and
+    a provider-side stop look identical from outside. The remedies are opposite — the first is a SPEC problem
+    that `resource_spec` must fix by asking for more RAM, and no number of retries touches it; the second is
+    churn. So: poll `mem_usage` against `mem_limit` across the window in which the leg dies. Memory climbing
+    into the limit at the moment the container disappears is an OOM and says so; a container that vanishes at a
+    few GB of a 60+ GB limit rules OOM out and sends the search elsewhere.
+
+    $0 and read-only — it polls the same instance list `collect` already polls, and touches nothing.
+    """
+    import time as _t
+    b = bucket or tv.DEFAULT_BUCKET
+    p = (prefix or tv.RESULT_PREFIX).rstrip("/")
+    key = key or os.environ.get("VAST_API_KEY")
+    uids = [tv.build_jobspec(l, s, d, mode=mode).env["UNIT_ID"] for (l, s, d) in tv.units_for(mode)]
+    trace = {u: [] for u in uids}
+    deadline = _t.monotonic() + minutes * 60
+    print(f"[watch] tracing container memory for {len(uids)} unit(s) every {every_s}s for up to {minutes} min")
+    print("[watch]   t_et   unit(arm)  status/cur  mem_usage/mem_limit GB  gpu_util  disk_util  phase  log_lines")
+    while _t.monotonic() < deadline:
+        try:
+            hosts = tv.unit_hosts(uids, key=key)
+        except Exception as e:  # noqa: BLE001 — a transient provider error must not end the trace
+            print(f"[watch] instance list unreadable ({type(e).__name__}: {e}); retrying")
+            _t.sleep(every_s)
+            continue
+        listed = dict(hosts["dead"])
+        listed.update(hosts["live"])
+        et = _t.strftime("%I:%M:%S %p", _t.localtime(_t.time() - 4 * 3600))  # ET = UTC-4 (EDT), CLAUDE.md §1
+        for u in uids:
+            i = listed.get(u)
+            marker, _ma, _tail, _la = tv.phase_and_log(u, b, p)
+            n_lines = None
+            try:
+                n_lines = len(tv._s3().get_object(Bucket=b, Key=f"{p}/legs/{u}/run.log")["Body"]
+                              .read().decode(errors="replace").splitlines())
+            except Exception:  # noqa: BLE001 — no log yet
+                pass
+            row = {"et": et, "utc": _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime()),
+                   "listed": i is not None,
+                   "actual_status": (i or {}).get("actual_status"), "cur_state": (i or {}).get("cur_state"),
+                   "mem_usage_gb": (i or {}).get("mem_usage"), "mem_limit_gb": (i or {}).get("mem_limit"),
+                   "gpu_util": (i or {}).get("gpu_util"), "disk_util": (i or {}).get("disk_util"),
+                   "phase_marker": marker, "run_log_lines": n_lines}
+            trace[u].append(row)
+            frac = ""
+            try:
+                frac = "  (%.0f%% of limit)" % (100.0 * float(row["mem_usage_gb"]) / float(row["mem_limit_gb"]))
+            except (TypeError, ValueError, ZeroDivisionError):
+                pass
+            print(f"[watch] {et}  {u.split('__')[-1][:34]:<34} ({arm_of(u)[:7]:<7}) "
+                  f"{str(row['actual_status']):<9}/{str(row['cur_state']):<8} "
+                  f"mem={row['mem_usage_gb']}/{row['mem_limit_gb']}{frac}  gpu={row['gpu_util']}  "
+                  f"disk={row['disk_util']}  phase={str(marker)[:22]!r}  log_lines={n_lines}")
+        _t.sleep(every_s)
+
+    out = {"_what": "container memory against its limit through the window in which the ternary replicate "
+                    "legs die — the observation that separates an OOM kill from a provider-side stop, which "
+                    "have opposite remedies (CLAUDE.md §4)",
+           "mode": mode, "poll_every_s": every_s, "minutes": minutes, "trace": trace, "peak": {}}
+    print("---- PEAK CONTAINER MEMORY PER UNIT (the discriminator) ----")
+    for u in uids:
+        seen = [r for r in trace[u] if isinstance(r.get("mem_usage_gb"), (int, float))]
+        peak = max((r["mem_usage_gb"] for r in seen), default=None)
+        lim = next((r["mem_limit_gb"] for r in reversed(seen)
+                    if isinstance(r.get("mem_limit_gb"), (int, float))), None)
+        pct = (100.0 * peak / lim) if (peak is not None and lim) else None
+        out["peak"][u] = {"arm": arm_of(u), "peak_mem_usage_gb": peak, "mem_limit_gb": lim,
+                          "pct_of_limit": None if pct is None else round(pct, 1),
+                          "n_polls_with_a_reading": len(seen)}
+        print(f"  {arm_of(u):<8} {u}")
+        print(f"      peak {peak} GB of limit {lim} GB"
+              + ("" if pct is None else f" = {pct:.1f}%") + f"  ({len(seen)} poll(s) with a reading)")
+    print("---- END PEAK CONTAINER MEMORY ----")
+    return out
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description=__doc__)
@@ -248,8 +338,15 @@ def main(argv=None):
     ap.add_argument("--out", default=None, help="write the structured record here (committed by CI)")
     ap.add_argument("--no-console", action="store_true",
                     help="S3 evidence only — skip the provider round trip")
+    ap.add_argument("--watch-memory", type=float, metavar="MIN", default=None,
+                    help="instead of a one-shot forensic, TRACE container memory vs its limit for MIN "
+                         "minutes — the measurement that separates an OOM kill from a provider stop")
+    ap.add_argument("--every", type=int, default=20, help="seconds between polls of the memory trace")
     a = ap.parse_args(argv)
-    doc = diagnose(mode=a.mode, want_console=not a.no_console)
+    if a.watch_memory:
+        doc = watch_memory(mode=a.mode, minutes=a.watch_memory, every_s=a.every)
+    else:
+        doc = diagnose(mode=a.mode, want_console=not a.no_console)
     if a.out:
         with open(a.out, "w") as fh:
             json.dump(doc, fh, indent=2, default=str)
