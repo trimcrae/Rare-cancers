@@ -67,6 +67,8 @@ on:
 
 permissions:
   contents: write
+  # For the supervision-alarm job's authenticated run-history read — see the note on that step.
+  actions: read
 
 concurrency:
   # One tick at a time. Two concurrent ticks could both pass the terminus gate and both submit the remaining
@@ -366,8 +368,16 @@ jobs:
         with: { python-version: "3.11" }
       # No `pip install` — see the sibling workflow. A dependency is a way for this to fail for a reason
       # unrelated to the fleet, and a supervision alarm that fails for unrelated reasons is noise.
+      # ⚠ AND THE RUN-HISTORY READ IS AUTHENTICATED — THIS COPY IS THE HEAVY USER. It fires on EVERY tick
+      # (~30 dispatches on 2026-07-27), each an anonymous GitHub API call from a runner IP whose rate limit is
+      # shared with every other tenant on that runner. At 4:18 PM ET that read failed and the alarm called it
+      # "the SCHEDULER is not delivering" — inside a green run of the very workflow it said had never run,
+      # over an artifact that run had written 2.8 min earlier. `classify` no longer draws a scheduler verdict
+      # from an unreadable API at any artifact age; the token stops the read failing in the first place.
       - name: Has supervision actually been happening?
         working-directory: research/modalities
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           python3 fleet_supervision_alarm.py \
             --progress step1-fanout-progress.json \
