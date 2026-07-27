@@ -70,9 +70,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, reps-prime, edge-reps, reps-diag, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -88,6 +88,10 @@ on:
         default: ""
       cofold_prefix:
         description: "5aks-prime: S3 prefix holding the Boltz co-fold CIFs (blank = rung5aks-cofold-v1)"
+        type: string
+        default: ""
+      watch_minutes:
+        description: "reps-diag: also TRACE container memory vs its limit for this many minutes (blank = skip). Must be running while a ternary leg is in setup — that trace is what separates an OOM kill from a provider stop."
         type: string
         default: ""
       leg_only:
@@ -143,7 +147,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -1318,7 +1322,7 @@ jobs:
     needs: resolve
     if: ${{ needs.resolve.outputs.task == 'reps-diag' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     permissions:
       contents: write
     env:
@@ -1337,11 +1341,35 @@ jobs:
           python -m pip install -q boto3
           python research/modalities/ternary_reps_diag.py --mode edge_reps \
             --out research/modalities/ternary-reps-diag.json 2>&1 | tee /tmp/diag.txt
+      - name: Are the seeds' staged inputs even the same kind of thing? — structural census across seeds
+        # $0 and ~30 s. `ternary_pdb_stage` takes starting_model_index = seed % n_models with n_models=2, so
+        # seed 2 is NOMINALLY the same relaxed SMARCA2 model as seed 0 — the leg that ran to completion. If
+        # seed 2's staged tree does not match seed 0's, the seed keying is not doing what its comment says.
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_reps_diag.py --mode edge_reps --compare-stage \
+            --leg calib_hi_to_lo__ternary_vhl \
+            --out research/modalities/ternary-reps-stage-census.json 2>&1 | tee /tmp/census.txt
+      - name: The discriminator — container memory vs its limit across the window the ternary legs die in
+        # `watch_minutes` blank = skip. The forensic above says the ternary legs die deterministically at
+        # HybridTopologyFactory and that the kill takes the WHOLE CONTAINER (bash never reaches the
+        # deliverable path it runs unconditionally). It cannot say whether that is an out-of-memory kill on
+        # the ~142k-particle system or a provider-side stop — and the remedies are opposite, so this measures
+        # it rather than guessing. Needs to be running WHILE a ternary leg is in setup.
+        if: ${{ github.event.inputs.watch_minutes != '' }}
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_reps_diag.py --mode edge_reps \
+            --watch-memory "${{ github.event.inputs.watch_minutes }}" --every 20 \
+            --out research/modalities/ternary-reps-memory-trace.json 2>&1 | tee /tmp/mem.txt
       - name: Commit the forensic — evidence nobody has to re-derive from a job log GitHub will expire
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/ternary-reps-diag.json
+          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json; do
+            [ -f "research/modalities/$f" ] && git add "research/modalities/$f" || true
+          done
           if ! git diff --cached --quiet; then
             git commit -m "ternary replicate forensic: what the containers themselves said (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -1352,6 +1380,107 @@ jobs:
           set -eo pipefail
           echo "================ TERNARY REPS DIAG ================"
           cat /tmp/diag.txt
+          [ -f /tmp/census.txt ] && { echo "======== STAGED INPUT CENSUS BY SEED ========"; cat /tmp/census.txt; } || true
+          [ -f /tmp/mem.txt ] && { echo "======== CONTAINER MEMORY TRACE ========"; cat /tmp/mem.txt; } || true
+
+  # ------------------------------------------- free: the CONTROLLED REPRODUCTION of the ternary setup death
+  # ★★ THE MEASUREMENT §4 ASKS FOR — instrument the code and reproduce it, rather than explain it. The
+  # replicate forensic shows the ternary legs dying at HybridTopologyFactory construction, deterministically,
+  # on every host; the live memory trace watches a rented box through that window. Both depend on catching a
+  # box at the right moment. This does not: it runs the SAME `HybridTopologySetupUnit` the leg dies inside —
+  # `nr4a3_ternary_fep.py` with MODE=smoke executes it explicitly, on CPU, with no MD — under `peak_rss.py`,
+  # for the ternary AND the matched binary leg, printing every new high-water mark AS IT IS REACHED. That last
+  # part is not a detail: the process under test may be SIGKILLed, and a meter that only reports at exit
+  # (`/usr/bin/time -v`, `resource.getrusage`) reports nothing at all about the run that was killed. `time` is
+  # also not in this image — the first attempt printed `bash: /usr/bin/time: No such file or directory`.
+  #
+  # ⚠ ITS FAILURE MODE IS ALSO AN ANSWER. A GitHub runner has ~16 GB. If the ternary setup needs more than
+  # that the step is killed here too, which is a REPRODUCTION on hardware nobody is billing us for, and a far
+  # cleaner one than a rented box that also happens to be preemptible.
+  #
+  # PARITY, NOT CONVENIENCE (CLAUDE.md §6): it runs in `triskit23/ternary-fep`, the byte-for-byte image the
+  # legs run in, with the repo mounted over the baked copy. A different openfe/openmm would measure a
+  # different allocation and answer a question nobody asked.
+  reps_setup_rss:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'reps-setup-rss' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+      - name: How much memory this runner actually has — the number the result is judged against
+        run: |
+          free -g; echo "---"; df -h /; echo "---"; nproc
+      - name: Build every cell's hybrid system in the parity image, under a meter that survives a SIGKILL
+        # ★★ THE MATRIX IS THE EXPERIMENT, NOT THE MEMORY NUMBER. The ternary arm has a POSITIVE CONTROL that
+        # nobody had used: `calib_hi_to_lo__ternary_vhl` at SEED 0 ran to completion on a rented host
+        # (dG_morph = 47.61 +/- 0.13, 17.0 s/iter) at the same 4 fs, in the same image, on the same ~142k
+        # particles. Seeds 1 and 2 die. So running seed 0 and seed 1 BACK TO BACK ON ONE RUNNER, with one
+        # memory limit and one openfe, separates the two families of cause outright:
+        #
+        #   * seed 0 passes and seed 1 dies  -> the system SIZE is not the cause and neither is the host.
+        #                                       What differs is the SEED-KEYED STAGED INPUT that `reps-prime`
+        #                                       built, and the fix is in staging, not in `resource_spec`.
+        #   * both die at ~the same peak     -> it is the ternary system itself against the memory available,
+        #                                       i.e. the SPEC problem, and more retries can never help.
+        #
+        # The binary seed-1 cell is the third leg of the comparison: it is the arm that DOES commit today.
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          mkdir -p /tmp/tout
+          # unit_id : leg : seed : what we expect, stated BEFORE the run so the result can contradict it
+          CELLS="binary1:calib_hi_to_lo__binary_vhl:1:PASS-today-on-a-real-host
+          ternary0:calib_hi_to_lo__ternary_vhl:0:PASS-completed-on-a-real-host-dG-47.61
+          ternary1:calib_hi_to_lo__ternary_vhl:1:FAIL-dies-on-every-host
+          ternary2:calib_hi_to_lo__ternary_vhl:2:FAIL-dies-on-every-host"
+          for CELL in $CELLS; do
+            NAME="${CELL%%:*}"; REST="${CELL#*:}"; LEG="${REST%%:*}"; REST="${REST#*:}"
+            SEED="${REST%%:*}"; EXPECT="${REST#*:}"
+            IN="/tmp/tin-$NAME"
+            echo "================ $NAME  leg=$LEG seed=$SEED  (expected: $EXPECT) ================"
+            # Per-cell input dir: two seeds of one leg unpack to the SAME <leg_id>/ subdirectory, so a shared
+            # one would silently have the last seed's structures under every cell's name — a matrix that
+            # compares one input against itself and reports agreement.
+            rm -rf "$IN"; mkdir -p "$IN"
+            python research/modalities/ternary_reps_diag.py --mode edge_reps --seed "$SEED" \
+              --leg "$LEG" --fetch-stage "$IN" || { echo "  (no stage cache for $LEG seed $SEED — skipping)"; continue; }
+            docker run --rm --entrypoint bash \
+              -v "$PWD/research/modalities:/work/research/modalities" \
+              -v "$IN:$IN" -v /tmp/tout:/tmp/tout \
+              -e MODE=smoke -e LEG_ID="$LEG" -e SEED="$SEED" -e DIRECTION=fwd \
+              -e INPUT_DIR="$IN" -e OUTPUT_DIR=/tmp/tout -e CKPT_DIR=/tmp/tout \
+              -e CHARGE_METHOD=nagl -e N_WINDOWS=12 -e RBFE_TIMESTEP_FS=4.0 \
+              docker.io/triskit23/ternary-fep:latest \
+              -c "cd /work/research/modalities && python peak_rss.py python nr4a3_ternary_fep.py" \
+              2>&1 | tee "/tmp/rss-$NAME.txt" || true
+            echo "---- $NAME ----"
+            grep -E "\[peak-rss\]" "/tmp/rss-$NAME.txt" | tail -4 || \
+              echo "  (no [peak-rss] line at all — the sampler itself never ran; read the tail above)"
+          done
+      - name: Summary LAST — every cell's verdict, peak and last line, in one block
+        run: |
+          set -eo pipefail
+          echo "================ HYBRID-SYSTEM SETUP BY CELL ================"
+          free -g | sed -n 2p
+          for NAME in binary1 ternary0 ternary1 ternary2; do
+            [ -f "/tmp/rss-$NAME.txt" ] || { echo "-- $NAME: not run"; continue; }
+            echo "-- $NAME"
+            grep -E "\[peak-rss\] EXIT" "/tmp/rss-$NAME.txt" || echo "   no EXIT line — the sampler's parent died too"
+            echo "   last line: $(grep -v '^\[peak-rss\]' "/tmp/rss-$NAME.txt" | grep -v '^$' | tail -1 | cut -c1-160)"
+          done
+          echo "================ FULL TAILS ================"
+          for NAME in binary1 ternary0 ternary1 ternary2; do
+            [ -f "/tmp/rss-$NAME.txt" ] && { echo "-- $NAME"; tail -18 "/tmp/rss-$NAME.txt"; } || true
+          done
 
   # `reduce-reps` is the SAME job with one more fetch, deliberately: the replicate reduction differs from the
   # seed-0 one only in which leg JSONs land in the directory, and the reducer globs that directory. Giving it

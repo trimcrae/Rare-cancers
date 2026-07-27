@@ -445,3 +445,47 @@ jobs:
           print(send_email(f"[step1 fan-out] supervision {v.get('verdict')}", body,
                            "<pre>" + body.replace("&", "&amp;").replace("<", "&lt;") + "</pre>"))
           PY
+
+  # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+  # The CROSS-LANE staleness watch, dispatched from here under `if: always()`.
+  #
+  # ★ WHY FROM THE TICK, AND WHY `always()`. `step1-fanout-supervisor.yml`'s loop is the watch's normal
+  # cadence, but a supervisor whose chain has broken dispatches nothing — and the tick's own `schedule:` is
+  # the cold-start path that survives that. More importantly, the moment supervision is MOST likely to be
+  # down is the moment a tick FAILS: on 2026-07-27 the 11:37 AM tick died on its FIRST step and measured
+  # nothing, while its `always()` steps kept the commit trail moving so the artifacts could not tell a failed
+  # tick from an absent one. `always()` here means the cross-lane verdict is produced on exactly those runs.
+  #
+  # ⚠ SEPARATE JOB, SEPARATE TOKEN, ON PURPOSE. `actions: write` is needed to dispatch, and the tick job must
+  # NOT gain it — that job holds the Vast key and the object-store credentials, and widening its token to
+  # also create workflow runs enlarges the blast radius of the one job in this repo that can rent GPUs. Job
+  # permissions override the workflow default, so this asks for exactly what it needs and nothing else.
+  #
+  # The dispatched workflow is REPORT-ONLY: it rents, destroys, reaps and prices nothing. Dispatching it can
+  # therefore never turn a failed tick into a purchase.
+  cross-lane-staleness-watch:
+    needs: tick
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch the cross-lane staleness watch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # With no actions/checkout there is no git remote to infer a repo from, and `gh workflow run` then
+          # fails with "not a git repository" on every invocation — a step that looks alive and dispatches
+          # nothing. That defect cost the supervisor a whole run; GH_REPO supplies it without a checkout.
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -uo pipefail
+          BR="${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}"
+          if gh workflow run lane-staleness-watch.yml --ref main -f fleet_branch="$BR"; then
+            echo "::notice title=CROSS-LANE WATCH DISPATCHED::verdict for all five lanes will appear in lane-staleness-watch.yml"
+          else
+            # Not fatal to this tick, and never silent — a dispatch that fails quietly leaves four lanes
+            # unwatched while everything still looks green.
+            echo "::warning title=CROSS-LANE WATCH NOT DISPATCHED::the other four lanes were not checked on this tick"
+          fi

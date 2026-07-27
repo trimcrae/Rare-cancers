@@ -241,15 +241,259 @@ def diagnose(mode="edge_reps", bucket=None, prefix=None, key=None, want_console=
     return doc
 
 
+def watch_memory(mode="edge_reps", minutes=25, every_s=20, bucket=None, prefix=None, key=None):
+    """Trace each unit's CONTAINER MEMORY against its limit, through the phase where the ternary legs die.
+
+    ★★ THIS IS THE OBSERVATION THAT DISCRIMINATES, AND IT IS WHY THE STORY ABOVE IS NOT YET A DIAGNOSIS
+    (CLAUDE.md §4). What the attempts archive proves is that the ternary legs die DETERMINISTICALLY, at
+    `HybridTopologyFactory` construction ("Creating hybrid system / Setting force field terms / Adding forces
+    / No CMAPTorsionForce found"), ~2 min into `md-running`, on every host and in every cohort, while the
+    matched binary legs sail past the same point. It also proves the death takes the WHOLE CONTAINER and not
+    just the Python process: `_vast_onstart` runs the MD under `timeout` with `set +e` and then unconditionally
+    walks the deliverable path — `mark md-done`, write `leg.json`, upload `run.log`. A Python process killed on
+    its own leaves that record. There is no such record for any ternary replicate, and `phase.txt` is still
+    `md-running`, so bash itself never got another instruction. A cgroup-wide kill is what does that.
+
+    What it does NOT prove is WHICH cgroup-wide kill: an out-of-memory kill on the ~142k-particle ternary
+    system (the binary's is ~94k, and HTF construction is the most allocation-heavy step in the pipeline) and
+    a provider-side stop look identical from outside. The remedies are opposite — the first is a SPEC problem
+    that `resource_spec` must fix by asking for more RAM, and no number of retries touches it; the second is
+    churn. So: poll `mem_usage` against `mem_limit` across the window in which the leg dies. Memory climbing
+    into the limit at the moment the container disappears is an OOM and says so; a container that vanishes at a
+    few GB of a 60+ GB limit rules OOM out and sends the search elsewhere.
+
+    $0 and read-only — it polls the same instance list `collect` already polls, and touches nothing.
+    """
+    import time as _t
+    b = bucket or tv.DEFAULT_BUCKET
+    p = (prefix or tv.RESULT_PREFIX).rstrip("/")
+    key = key or os.environ.get("VAST_API_KEY")
+    uids = [tv.build_jobspec(l, s, d, mode=mode).env["UNIT_ID"] for (l, s, d) in tv.units_for(mode)]
+    trace = {u: [] for u in uids}
+    deadline = _t.monotonic() + minutes * 60
+    print(f"[watch] tracing container memory for {len(uids)} unit(s) every {every_s}s for up to {minutes} min")
+    print("[watch]   t_et   unit(arm)  status/cur  mem_usage/mem_limit GB  gpu_util  disk_util  phase  log_lines")
+    while _t.monotonic() < deadline:
+        try:
+            hosts = tv.unit_hosts(uids, key=key)
+        except Exception as e:  # noqa: BLE001 — a transient provider error must not end the trace
+            print(f"[watch] instance list unreadable ({type(e).__name__}: {e}); retrying")
+            _t.sleep(every_s)
+            continue
+        listed = dict(hosts["dead"])
+        listed.update(hosts["live"])
+        et = _t.strftime("%I:%M:%S %p", _t.localtime(_t.time() - 4 * 3600))  # ET = UTC-4 (EDT), CLAUDE.md §1
+        for u in uids:
+            i = listed.get(u)
+            marker, _ma, _tail, _la = tv.phase_and_log(u, b, p)
+            n_lines = None
+            try:
+                n_lines = len(tv._s3().get_object(Bucket=b, Key=f"{p}/legs/{u}/run.log")["Body"]
+                              .read().decode(errors="replace").splitlines())
+            except Exception:  # noqa: BLE001 — no log yet
+                pass
+            row = {"et": et, "utc": _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime()),
+                   "listed": i is not None,
+                   "actual_status": (i or {}).get("actual_status"), "cur_state": (i or {}).get("cur_state"),
+                   "mem_usage_gb": (i or {}).get("mem_usage"), "mem_limit_gb": (i or {}).get("mem_limit"),
+                   "gpu_util": (i or {}).get("gpu_util"), "disk_util": (i or {}).get("disk_util"),
+                   "phase_marker": marker, "run_log_lines": n_lines}
+            trace[u].append(row)
+            frac = ""
+            try:
+                frac = "  (%.0f%% of limit)" % (100.0 * float(row["mem_usage_gb"]) / float(row["mem_limit_gb"]))
+            except (TypeError, ValueError, ZeroDivisionError):
+                pass
+            # `or '?'` is load-bearing: `arm_of` returns None for a unit id it does not recognise, and a
+            # TypeError here would end a 35-minute trace at its first poll — losing the measurement in order
+            # to complain about a cosmetic label.
+            print(f"[watch] {et}  {u.split('__')[-1][:34]:<34} ({(arm_of(u) or '?')[:7]:<7}) "
+                  f"{str(row['actual_status']):<9}/{str(row['cur_state']):<8} "
+                  f"mem={row['mem_usage_gb']}/{row['mem_limit_gb']}{frac}  gpu={row['gpu_util']}  "
+                  f"disk={row['disk_util']}  phase={str(marker)[:22]!r}  log_lines={n_lines}")
+        _t.sleep(every_s)
+
+    out = {"_what": "container memory against its limit through the window in which the ternary replicate "
+                    "legs die — the observation that separates an OOM kill from a provider-side stop, which "
+                    "have opposite remedies (CLAUDE.md §4)",
+           "mode": mode, "poll_every_s": every_s, "minutes": minutes, "trace": trace, "peak": {}}
+    print("---- PEAK CONTAINER MEMORY PER UNIT (the discriminator) ----")
+    for u in uids:
+        seen = [r for r in trace[u] if isinstance(r.get("mem_usage_gb"), (int, float))]
+        peak = max((r["mem_usage_gb"] for r in seen), default=None)
+        lim = next((r["mem_limit_gb"] for r in reversed(seen)
+                    if isinstance(r.get("mem_limit_gb"), (int, float))), None)
+        pct = (100.0 * peak / lim) if (peak is not None and lim) else None
+        out["peak"][u] = {"arm": arm_of(u), "peak_mem_usage_gb": peak, "mem_limit_gb": lim,
+                          "pct_of_limit": None if pct is None else round(pct, 1),
+                          "n_polls_with_a_reading": len(seen)}
+        print(f"  {arm_of(u):<8} {u}")
+        print(f"      peak {peak} GB of limit {lim} GB"
+              + ("" if pct is None else f" = {pct:.1f}%") + f"  ({len(seen)} poll(s) with a reading)")
+    print("---- END PEAK CONTAINER MEMORY ----")
+    return out
+
+
+def fetch_stage(dest, mode="edge_reps", seed=1, legs=("calib_hi_to_lo__ternary_vhl",)):
+    """Unpack each arm's staged tree from THE SAME cache key the rented hosts read, into `dest`.
+
+    ⚠ THE SAME KEY, NOT A FRESH STAGE. The controlled reproduction is only worth running if it starts from the
+    identical structures the legs died on; re-staging locally would build a different SMARCA2 homology model
+    and measure a different system. `stage_cache_key` is the one home for that key (it is `build_jobspec`'s
+    own `STAGE_CACHE`), so this cannot drift from what the host fetches.
+    """
+    import hashlib
+    import io
+    import tarfile
+    os.makedirs(dest, exist_ok=True)
+    got = {}
+    for leg in legs:
+        uri = tv.stage_cache_key(leg, mode, seed=seed)
+        b, k = uri[len("s3://"):].split("/", 1)
+        body = tv._s3().get_object(Bucket=b, Key=k)["Body"].read()
+        tarfile.open(fileobj=io.BytesIO(body)).extractall(dest)
+        inner = os.path.join(dest, leg)
+        # ★ A HASH, NOT JUST A SIZE. The first census reported all three seeds' tars at exactly 1402880 B with
+        # identical atom, chain and residue counts — which is consistent with "the same structure" and equally
+        # consistent with "three different structures of the same topology", because tar pads to 512 B blocks
+        # and an atom count says nothing about coordinates. Those two readings support opposite conclusions
+        # about whether the staged input can be the cause, so the difference has to be measured rather than
+        # inferred from a coincidence of sizes.
+        got[leg] = {"uri": uri, "bytes": len(body), "sha256": hashlib.sha256(body).hexdigest()[:16],
+                    "files": sorted(os.listdir(inner)) if os.path.isdir(inner) else []}
+        print(f"[rss] staged {leg} seed {seed} from {uri} ({len(body)} B): {got[leg]['files']}", flush=True)
+    return got
+
+
+def pdb_census(path):
+    """Atom/chain/residue census of a PDB. PURE, pure-stdlib — no gemmi, no rdkit, so it runs anywhere.
+
+    Column positions are the PDB fixed-format standard: chain id at 21, residue name 17:20, residue seq 22:26.
+    """
+    n_atom = n_het = 0
+    chains, residues, resnames = {}, set(), {}
+    try:
+        with open(path, errors="replace") as fh:
+            for line in fh:
+                if not line.startswith(("ATOM", "HETATM")):
+                    continue
+                n_atom += 1
+                n_het += line.startswith("HETATM")
+                ch = line[21:22]
+                chains[ch] = chains.get(ch, 0) + 1
+                rn = line[17:20].strip()
+                residues.add((ch, line[22:27]))
+                if line.startswith("HETATM"):
+                    resnames[rn] = resnames.get(rn, 0) + 1
+    except OSError as e:
+        return {"error": str(e)}
+    return {"atoms": n_atom, "hetatms": n_het, "chains": dict(sorted(chains.items())),
+            "n_chains": len(chains), "n_residues": len(residues),
+            "het_resnames": dict(sorted(resnames.items(), key=lambda kv: -kv[1])[:12])}
+
+
+def compare_stage(mode="edge_reps", leg="calib_hi_to_lo__ternary_vhl", seeds=(0, 1, 2), workdir="/tmp/cmpstage"):
+    """Structural diff of ONE leg's staged inputs ACROSS SEEDS — the follow-on question to the setup matrix.
+
+    ★ WHY THIS IS THE RIGHT NEXT MEASUREMENT IF SEED 0 PASSES WHERE SEEDS 1 AND 2 DIE. That result would say
+    the ternary system is not too big for the memory it gets — the same system ran to completion at seed 0 —
+    and would move the whole question onto what `reps-prime` actually built for the other two. `ternary_pdb_stage`
+    takes `starting_model_index = seed % n_models` with n_models=2, so seed 1 is a DIFFERENT relaxed SMARCA2
+    model and seed 2 is nominally the SAME model as seed 0. If seed 2's tree differs from seed 0's, the seed
+    keying is not doing what its own comment says, and no amount of memory fixes that.
+
+    $0, pure-stdlib after the S3 fetch: atom/chain/residue census per seed, printed side by side.
+    """
+    out = {"_what": "structural census of one leg's staged inputs across seeds — is what reps-prime built for "
+                    "seeds 1 and 2 the same KIND of thing it built for seed 0?",
+           "leg": leg, "mode": mode, "seeds": {}}
+    for s in seeds:
+        d = os.path.join(workdir, f"seed{s}")
+        try:
+            got = fetch_stage(d, mode=mode, seed=s, legs=(leg,))
+        except Exception as e:  # noqa: BLE001 — a missing seed is a finding, not a crash
+            out["seeds"][s] = {"error": f"{type(e).__name__}: {e}"}
+            print(f"  seed {s}: NO STAGE CACHE — {type(e).__name__}: {e}")
+            continue
+        inner = os.path.join(d, leg)
+        import hashlib
+
+        def _sha(fp):
+            try:
+                with open(fp, "rb") as fh:
+                    return hashlib.sha256(fh.read()).hexdigest()[:16]
+            except OSError:
+                return None
+        rec = {"tar_bytes": got[leg]["bytes"], "tar_sha256": got[leg]["sha256"], "uri": got[leg]["uri"],
+               "files": got[leg]["files"],
+               "complex_pdb": pdb_census(os.path.join(inner, "complex.pdb")),
+               "complex_pdb_sha256": _sha(os.path.join(inner, "complex.pdb")),
+               "ligands_sdf_sha256": _sha(os.path.join(inner, "ligands.sdf"))}
+        man = os.path.join(inner, "staging_manifest.json")
+        if os.path.exists(man):
+            try:
+                rec["staging_manifest"] = json.load(open(man))
+            except Exception as e:  # noqa: BLE001
+                rec["staging_manifest_error"] = str(e)
+        for extra in ("ligands.sdf", "ligand.sdf"):
+            p = os.path.join(inner, extra)
+            if os.path.exists(p):
+                rec[extra + "_bytes"] = os.path.getsize(p)
+        out["seeds"][s] = rec
+    print("---- STAGED INPUT CENSUS BY SEED ----")
+    for s, rec in out["seeds"].items():
+        if rec.get("error"):
+            print(f"  seed {s}: {rec['error']}")
+            continue
+        c = rec["complex_pdb"]
+        sm = (rec.get("staging_manifest") or {}).get("starting_model") or {}
+        print(f"  seed {s}: tar={rec['tar_bytes']} B sha={rec['tar_sha256']}  "
+              f"complex.pdb atoms={c.get('atoms')} sha={rec['complex_pdb_sha256']} "
+              f"het={c.get('hetatms')} chains={c.get('n_chains')} residues={c.get('n_residues')} "
+              f"ligands.sdf sha={rec['ligands_sdf_sha256']}")
+        print(f"      chains: {c.get('chains')}")
+        print(f"      het resnames: {c.get('het_resnames')}")
+        print(f"      starting_model_index={sm.get('starting_model_index')} "
+              f"of n_models_available={sm.get('n_models_available')}  files={rec['files']}")
+    print("---- END STAGED INPUT CENSUS ----")
+    return out
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--mode", default="edge_reps")
+    ap.add_argument("--compare-stage", action="store_true",
+                    help="structural census of one leg's staged inputs across seeds 0/1/2")
+    ap.add_argument("--fetch-stage", metavar="DIR", default=None,
+                    help="unpack both arms' staged trees from the hosts' own stage cache into DIR")
+    ap.add_argument("--seed", type=int, default=1, help="which replicate's stage cache to fetch")
+    ap.add_argument("--leg", action="append", default=None,
+                    help="restrict --fetch-stage to this leg id (repeatable)")
     ap.add_argument("--out", default=None, help="write the structured record here (committed by CI)")
     ap.add_argument("--no-console", action="store_true",
                     help="S3 evidence only — skip the provider round trip")
+    ap.add_argument("--watch-memory", type=float, metavar="MIN", default=None,
+                    help="instead of a one-shot forensic, TRACE container memory vs its limit for MIN "
+                         "minutes — the measurement that separates an OOM kill from a provider stop")
+    ap.add_argument("--every", type=int, default=20, help="seconds between polls of the memory trace")
     a = ap.parse_args(argv)
-    doc = diagnose(mode=a.mode, want_console=not a.no_console)
+    if a.compare_stage:
+        doc = compare_stage(mode=a.mode, leg=(a.leg or ["calib_hi_to_lo__ternary_vhl"])[0])
+        if a.out:
+            with open(a.out, "w") as fh:
+                json.dump(doc, fh, indent=2, default=str)
+                fh.write("\n")
+            print(f"[diag] wrote {a.out}")
+        return 0
+    if a.fetch_stage:
+        kw = {"legs": tuple(a.leg)} if a.leg else {}
+        print(json.dumps(fetch_stage(a.fetch_stage, mode=a.mode, seed=a.seed, **kw), indent=2))
+        return 0
+    if a.watch_memory:
+        doc = watch_memory(mode=a.mode, minutes=a.watch_memory, every_s=a.every)
+    else:
+        doc = diagnose(mode=a.mode, want_console=not a.no_console)
     if a.out:
         with open(a.out, "w") as fh:
             json.dump(doc, fh, indent=2, default=str)

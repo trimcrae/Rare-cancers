@@ -1440,27 +1440,34 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     # change so every existing caller and test keeps working.
     submit.last_requested = len(keep)
     submit.last_failure_kind = None
-    # ⚰ REAP THE CORPSE OF ANY UNIT WE ARE ABOUT TO RE-PLACE, BEFORE WE RE-PLACE IT.
+    # ⚰⚠ THE LAUNCHER NAMES THE CORPSE IT IS STEPPING OVER — AND DOES NOT DESTROY IT.
     #
-    # This is the safety half of counting only WORKING hosts as occupied. The old count treated an `exited`
-    # instance as a host, which never double-bought and never re-placed either; the new one re-places, so it
-    # has to clear the record it is stepping over. Two reasons it must happen here rather than being left to
-    # `collect`: a `stopped` Vast box bills its VOLUME at a higher rate than a running one, so a corpse we
-    # have decided to abandon is a live cost; and `collect`'s dedupe keeps the OLDEST instance per label,
-    # which after a re-place is precisely the dead one — it would destroy the replacement we just paid for.
-    # Failure to destroy is logged and does NOT abort the launch: an undead box costs cents, an unreplaced
-    # RUNG 2b replicate costs the calibration verdict.
-    reaped = [u for u in dead_hosts if u in {j.env["UNIT_ID"] for j in keep}]
-    for u in reaped:
+    # ★★ THIS FUNCTION DESTROYED IT UNTIL 7:05 PM ET, AND THAT WAS WRONG. `exited` ON VAST IS ROUTINELY A
+    # TRANSIENT STATUS, NOT A DEAD CONTAINER — measured on the step 1 fan-out the same evening (423fa606):
+    # three instances read a terminal status, and twenty-one minutes later all three were `running` again at
+    # ages 114/112/45 min, with the committed-iteration census proving they had never stopped WORKING across
+    # the whole window (one advanced warmup@380 -> production@40, another added 80 production iterations).
+    # Destroying on a single terminal observation would therefore have killed a leg that was mid-flight and
+    # thrown away everything since its last checkpoint. That lane's reaper already refuses to act on one
+    # observation and demands two consecutive terminal ticks; this one has no tick history at all, so it must
+    # not act.
+    #
+    # THE ASYMMETRY IS WHY THE SLOT RULE ABOVE STILL STANDS. "Should this unit be re-submitted?" and "should
+    # this instance be destroyed?" are different questions with opposite costs. Re-submitting a unit whose
+    # host turns out to be alive costs one duplicate that `collect`'s dedupe kills on its next pass, on work
+    # that is checkpointed in S3 and idempotent to resume — minutes of one GPU. Destroying a live advancing
+    # leg costs the hours since its last commit and cannot be undone. So: free the SLOT on a terminal status,
+    # never free the BOX on one.
+    #
+    # The reap stays where the evidence is: `collect` re-issues the start, reads the reply, and separates
+    # "outbid, restartable" from "GPU gone, destroy it" — none of which is knowable here.
+    for u in [u for u in dead_hosts if u in {j.env["UNIT_ID"] for j in keep}]:
         i = dead_hosts[u]
         print(f"[launch] re-placing {u}: its host {i.get('id')} (machine {i.get('machine_id')}, "
               f"{i.get('gpu_name')}) reads actual_status={i.get('actual_status')!r} / "
-              f"cur_state={i.get('cur_state')!r} — not working, and billing its volume. Destroying it first.")
-        try:
-            _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
-        except Exception as e:  # noqa: BLE001 — a failed reap must never block the re-place
-            print(f"[launch]   destroy {i.get('id')} failed ({type(e).__name__}: {e}); "
-                  "renting the replacement anyway — collect will retry the reap")
+              f"cur_state={i.get('cur_state')!r}, so it does not hold the unit's slot. NOT destroying it — "
+              f"a terminal status on Vast is often transient, and `collect` is the one that nudges, reads "
+              f"the reply and reaps on real evidence.")
     if not keep:
         print("[launch] every unit for this mode is already done or running — nothing to rent")
         # ★★ SAY SO IN A FILE, NOT ONLY IN A LOG LINE (2026-07-27). This branch is the one the 12:29 PM and

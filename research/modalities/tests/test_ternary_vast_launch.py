@@ -1087,9 +1087,18 @@ def test_the_gate_reprices_the_market_for_the_units_whose_hosts_died(monkeypatch
     assert all(r["actual_status"] == "exited" and r["dead_instance"] for r in rep.values())
 
 
-def test_submit_destroys_the_corpse_of_every_unit_it_re_places(monkeypatch, capsys):
-    """The safety half. Re-placing a unit whose dead instance is still listed would leave TWO records under
-    one label — and a `stopped` Vast box bills its volume at a HIGHER rate than a running one."""
+def test_submit_NEVER_destroys_the_corpse_of_a_unit_it_re_places(monkeypatch, capsys):
+    """★★ THE LAUNCHER DID DESTROY IT, AND THAT WAS WRONG (7:05 PM ET 2026-07-27).
+
+    `exited` on Vast is routinely a TRANSIENT status, not a dead container. Measured on the step 1 fan-out the
+    same evening: three instances read a terminal status and, twenty-one minutes later, all three were
+    `running` again at ages 114/112/45 min — with the committed-iteration census proving they had never
+    stopped working (warmup@380 -> production@40 on one, +80 production iterations on another).
+
+    Freeing the unit's SLOT on that observation is still right: a duplicate submission costs one instance
+    that the dedupe kills next pass, on checkpointed work that is idempotent to resume. Destroying the BOX on
+    the same observation costs every hour since its last commit and cannot be undone. Same evidence, opposite
+    costs — so this test exists to stop the destroy being re-added as an "obvious" tidy-up."""
     import ternary_vast_launch as tv
     uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
     dead = {uids[0]: _fake_inst(uids[0], id=46040507, actual_status="exited", cur_state="stopped")}
@@ -1109,12 +1118,14 @@ def test_submit_destroys_the_corpse_of_every_unit_it_re_places(monkeypatch, caps
 
     class _Backend:
         def submit(self, j):
-            raise RuntimeError("no market in this test — the reap is what is under test")
+            raise RuntimeError("no market in this test — the (absence of a) reap is what is under test")
     monkeypatch.setattr(tv, "get_backend", lambda *a, **k: _Backend())
 
     tv.submit(mode="edge_reps")
-    assert destroyed == ["/instances/46040507/"], "the corpse of the re-placed unit must be destroyed"
-    assert "not working, and billing its volume" in capsys.readouterr().out
+    assert destroyed == [], "a terminal status must never, on one observation, destroy an instance"
+    out = capsys.readouterr().out
+    assert "NOT destroying it" in out and "often transient" in out, \
+        "the launcher must say why it is stepping over the box rather than reaping it"
 
 
 def test_a_live_replacement_outranks_an_older_corpse_in_the_dedupe(monkeypatch):
