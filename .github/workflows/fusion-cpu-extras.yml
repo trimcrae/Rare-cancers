@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, s1f_liveness]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -1300,7 +1300,10 @@ jobs:
       # the rest?" — answers NO for a congeneric map. Parallel costs the same GPU-dollars as serial, so a
       # width below the tranche buys nothing but wall-clock. Blast radius is controlled by FANOUT_ONLY (which
       # names the units to launch) and by FANOUT_CONFIRM, not by throttling the width.
-      FANOUT_WIDTH: "19"
+      # ⚠ SO THE NUMBER IS NOT TYPED HERE ANY MORE (2026-07-27). It was `"19"` here, `"19"` in
+      # step1-fanout-autoscale.yml and `8` as the code default, against a viable set of 18 — three homes,
+      # none correct (CLAUDE.md rule 1). `congeneric_fanout_vast.fanout_width()` derives it from the map
+      # and is its one home; the reasoning above is exactly why the derived default is the full map.
       # Which units to launch, by unit_id or ligand substring. THE SHAKEOUT LEVER: 0 of 19 units of this lane
       # has ever produced a ddG, so the reduce/commit/upload TERMINUS is unproven even though sampling is
       # proven. One named unit runs first; the remaining 18 go out together the moment it lands a ddG.
@@ -1848,6 +1851,82 @@ jobs:
           done
           echo "::warning::could not push the matrix"
 
+  energy_probe:
+    # IS A PRE-MD `setup()` NaN A PROPERTY OF THE EDGE, OR OF THE HOST? ($0, CPU, rents nothing.)
+    #
+    # Step 1 fan-out unit `e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral` lost its complex leg at
+    # 1:41 PM ET on 2026-07-27 to `openmm.OpenMMException: Particle coordinate is NaN` raised by
+    # LocalEnergyMinimizer inside `sampler.setup()` — before any MD. That edge is measurably NOT a mapping
+    # limit (step1-map-diag.json: 17 mapped against a provable floor of 12), so `block` cannot be justified
+    # the way `cw_bio_nmethyl_amide`'s was, and the two available answers are expensive in opposite
+    # directions: blocking retires a viable edge, retrying rents a fresh host every tick forever.
+    #
+    # THE POINT OF DOING IT HERE RATHER THAN ON A RENTED BOX. `nr4a3_rbfe` builds the solvated hybrid
+    # `system` + `positions` on CPU, and under RBFE_HMRDIAG_ONLY=1 exits before touching a GPU. That pair is
+    # the pair handed to the `setup()` that NaN'd, so a per-force single-point energy at those coordinates
+    # answers the question with NO host in the loop — which matters because the relaunch that was supposed to
+    # answer it sat `loading` on machine 19499 for over half an hour and measured nothing about the edge.
+    # A non-finite force term before the first minimisation step = deterministic = BLOCK; all-finite = the
+    # blow-up was inside the minimisation trajectory = RETRY.
+    #
+    # `vast_selector` picks the unit(s) by substring; blank = all 19 (slow — each is a full solvate+parameterise).
+    if: ${{ github.event.inputs.task == 'energy_probe' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      PROBE_UNITS: ${{ github.event.inputs.vast_selector }}
+      # complex is the leg that failed; probing the solvent leg would build a different system and answer a
+      # different question. Reuses an existing input because workflow_dispatch caps at 25 and this file is at it.
+      PROBE_LEG: ${{ github.event.inputs.ternary_script == 'solvent' && 'solvent' || 'complex' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Docker Hub login (anonymous pulls share the runner IP and get rate-limited)
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+      - name: Unit tests — the BLOCK/RETRY rule this diagnostic decides with
+        run: |
+          python -m pip install -q pytest
+          python -m pytest research/modalities/tests/test_setup_nan_diag.py \
+                           research/modalities/tests/test_setup_energy_probe.py -q
+      # The image supplies the ENV; the checked-out repo supplies the CODE — mount research/modalities or the
+      # container silently runs the copy baked at build time, i.e. WITHOUT the probe under test. Parity is the
+      # scientific argument here and not just speed: the verdict is about a system this exact openmm built.
+      - name: SETUP-NaN ENERGY PROBE — production staged tree, CPU build (parity image)
+        run: |
+          set -eo pipefail
+          IMG="${PROBE_IMAGE:-triskit23/nr4a3fep}"
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION \
+            -e VAST_CKPT_BUCKET -e PROBE_UNITS -e PROBE_LEG \
+            "docker.io/$IMG:latest" /work/research/modalities/step1_setup_energy_probe.py
+      - name: Commit the probe result back to the triggering branch
+        if: ${{ always() }}
+        run: |
+          set -e
+          git config user.name Claude
+          git config user.email noreply@anthropic.com
+          [ -f research/modalities/step1-setup-energy-probe.json ] || { echo "no probe written"; exit 0; }
+          git add -f research/modalities/step1-setup-energy-probe.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "step1 setup-NaN energy probe on the production staged system (auto)"
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
+              git push origin HEAD:"${{ github.ref_name }}" && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the probe result"
+
   map_audit:
     # ATOM-MAP BLAST-RADIUS AUDIT ($0 — no GPU, no instance, read-only against archives).
     #
@@ -1930,3 +2009,48 @@ jobs:
             sleep $((2**i))
           done
           echo "push failed after retries" >&2; exit 1
+
+  # ★★ WHAT A `type: boolean` INPUT ACTUALLY HOLDS IN `github.event.inputs` — MEASURED, NOT ASSUMED.
+  #
+  # WHY THIS JOB EXISTS. `vast_launch` is declared `type: boolean` and is read at two sites as
+  # `github.event.inputs.vast_launch == 'true'` (the `VAST_SMOKE_LAUNCH` env above, and the guard on the
+  # step that actually rents a GPU). `gpu-protfep-vast.yml` reads `forensic` the same way. If that context
+  # delivers a real JSON boolean rather than the string "true", the comparison is `true == 'true'` —
+  # operands of different types, so GitHub casts both to Number, `'true'` casts to NaN, and the result is
+  # FALSE **however the box is ticked**. The guard could then never turn on, silently.
+  #
+  # That is the same coercion family as the `null != '0'` defect that stopped the step-1 fan-out placing
+  # units for 1 h 47 m across seven green ticks on 2026-07-27, and the repo-wide AST sweep that followed
+  # flagged these two as the only cases it could not settle from the source alone. CLAUDE.md §4: a
+  # plausible story is a HYPOTHESIS. The docs are unreachable from the sandbox (the egress proxy 403s
+  # github.com/docs) and no run in the last 100 discriminates, because every `vast_smoke` job was skipped
+  # for an unrelated reason. So the answer is MEASURED here, once, and recorded where it cannot be lost.
+  #
+  # It rents nothing, reads nothing and costs ~10 s of free runner. It runs on every dispatch on purpose:
+  # gating it on an input would make its own evidence depend on the mechanism under test.
+  input_coercion_probe:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: "What does a type-boolean input actually hold?"
+        env:
+          RAW_INPUTS: ${{ toJSON(github.event.inputs) }}
+          RAW_VAST_LAUNCH: ${{ github.event.inputs.vast_launch }}
+          # The two expressions under test, EVALUATED by Actions and printed rather than reasoned about.
+          CMP_EVENT_INPUTS: ${{ github.event.inputs.vast_launch == 'true' }}
+          CMP_INPUTS_CTX: ${{ inputs.vast_launch }}
+          # The control: a comparison whose operands are unambiguously both strings.
+          CMP_CONTROL: ${{ github.event.inputs.task == 'vast_smoke' }}
+        run: |
+          set -eu
+          echo "github.event.inputs (raw JSON)              = ${RAW_INPUTS}"
+          echo "github.event.inputs.vast_launch             = '${RAW_VAST_LAUNCH}'"
+          echo "  -> (…vast_launch == 'true')               = ${CMP_EVENT_INPUTS}"
+          echo "inputs.vast_launch (the OTHER context)      = '${CMP_INPUTS_CTX}'"
+          echo "control (…task == 'vast_smoke')             = ${CMP_CONTROL}"
+          echo
+          echo "READ IT LIKE THIS: if the raw JSON shows \"vast_launch\": \"true\" (QUOTED) then the"
+          echo "== 'true' comparison is string-to-string and the two guards are sound. If it shows an"
+          echo "UNQUOTED true, the comparison is number-vs-NaN, prints false above even when ticked, and"
+          echo "both guards must move to the bash-resolution pattern used by step1-fanout-autoscale.yml."

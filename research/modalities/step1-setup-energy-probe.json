@@ -1,0 +1,150 @@
+{
+  "_what": "per-force single-point energy at the coordinates handed to OpenFE's sampler.setup(), built on a free CPU runner from the PRODUCTION staged tree. Decides BLOCK vs RETRY for a leg that died with 'Particle coordinate is NaN' inside the pre-MD minimiser.",
+  "_no_spend": "no GPU, no instance, no S3 writes; reads the staged inputs only",
+  "_stage": "s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/",
+  "_leg": "complex",
+  "rows": [
+    {
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "leg": "complex",
+      "edge": "zaienne_cmpd19->cw_bio_primary_amide",
+      "n_mapped_atoms": 17,
+      "wall_s": 69.5,
+      "n_particles": 112955,
+      "force_census": [
+        {
+          "class": "MonteCarloBarostat"
+        },
+        {
+          "class": "CustomBondForce",
+          "n_bonds": 13,
+          "per_bond_params": [
+            "length1",
+            "K1",
+            "length2",
+            "K2"
+          ],
+          "counted_as_valence": true
+        },
+        {
+          "class": "HarmonicBondForce",
+          "n_bonds": 2044
+        },
+        {
+          "class": "CustomAngleForce",
+          "n_angles": 28
+        },
+        {
+          "class": "HarmonicAngleForce",
+          "n_angles": 7446
+        },
+        {
+          "class": "CustomTorsionForce"
+        },
+        {
+          "class": "PeriodicTorsionForce"
+        },
+        {
+          "class": "NonbondedForce",
+          "n_particles": 112955
+        },
+        {
+          "class": "CustomNonbondedForce",
+          "n_particles": 112955
+        },
+        {
+          "class": "CustomBondForce",
+          "n_bonds": 13,
+          "per_bond_params": [
+            "chargeProd",
+            "sigmaA",
+            "epsilonA",
+            "sigmaB",
+            "epsilonB",
+            "unique_old",
+            "unique_new"
+          ],
+          "counted_as_valence": false
+        }
+      ],
+      "energy_probe": {
+        "rows": [
+          {
+            "group": 0,
+            "force": "MonteCarloBarostat",
+            "energy_kj_mol": 0.0,
+            "finite": true
+          },
+          {
+            "group": 1,
+            "force": "CustomBondForce",
+            "energy_kj_mol": 23.57137245716123,
+            "finite": true
+          },
+          {
+            "group": 2,
+            "force": "HarmonicBondForce",
+            "energy_kj_mol": 4981.53859920729,
+            "finite": true
+          },
+          {
+            "group": 3,
+            "force": "CustomAngleForce",
+            "energy_kj_mol": 17.049364208987342,
+            "finite": true
+          },
+          {
+            "group": 4,
+            "force": "HarmonicAngleForce",
+            "energy_kj_mol": 10558.844895363616,
+            "finite": true
+          },
+          {
+            "group": 5,
+            "force": "CustomTorsionForce",
+            "energy_kj_mol": 12.604554956446343,
+            "finite": true
+          },
+          {
+            "group": 6,
+            "force": "PeriodicTorsionForce",
+            "energy_kj_mol": 14013.833205144227,
+            "finite": true
+          },
+          {
+            "group": 7,
+            "force": "NonbondedForce",
+            "energy_kj_mol": -1091042.4044722975,
+            "finite": true
+          },
+          {
+            "group": 8,
+            "force": "CustomNonbondedForce",
+            "energy_kj_mol": -97.29436680488396,
+            "finite": true
+          },
+          {
+            "group": 9,
+            "force": "CustomBondForce",
+            "energy_kj_mol": 24.05696850178725,
+            "finite": true
+          }
+        ],
+        "verdict": "\u2705 every force term is FINITE at the input coordinates (max |E| = 1.09104e+06 kJ/mol, total = -1.06151e+06 kJ/mol). The NaN was produced DURING minimisation, not by the system as built \u2014 RETRY candidate, not a block candidate."
+      },
+      "minimize_repro": {
+        "outcome": "completed",
+        "detail": "[spot-driver] RBFE_SETUP_ONLY=1 \u2014 sampler.setup() (incl. its pre-MD LocalEnergyMinimizer over every lambda state) COMPLETED WITHOUT A NaN on this platform. Exiting before any MD; nothing was sampled and nothing was committed.",
+        "wall_s": 988.2
+      },
+      "decision": "RETRY",
+      "why": "the production `sampler.setup()`, including its pre-MD LocalEnergyMinimizer over every lambda state, COMPLETED WITHOUT A NaN on a host-independent CPU build of the same staged system (988.2s), and every force term is finite at the handed-over coordinates (max |E| = 1.09104e+06 kJ/mol). The edge is not the fault, so this is a retry candidate and not a block"
+    }
+  ],
+  "summary": {
+    "RETRY": [
+      "zaienne_cmpd19->cw_bio_primary_amide"
+    ]
+  }
+}

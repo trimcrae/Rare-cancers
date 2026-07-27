@@ -274,11 +274,97 @@ _VAST_GPU_SUBSTR = {
 # shortlists is benchable without anyone remembering to add a map entry first.
 
 
-def _vast_request(method: str, path: str, api_key: str, params=None, body=None, _hops: int = 0):
+# ★★ ONE BOARD READ SERVES A WHOLE WAVE (2026-07-27, added for the ramp trimcrae asked for).
+#
+# THE PROBLEM THE RAMP CREATES. `/search/asks/` is read once per unit inside `VastBackend.submit`, and AGAIN
+# per unit inside `_vast_ondemand_base_by_machine` (the bid cap). That is 2 reads per unit, on top of the
+# market gate's 1. A 5-unit tick is 11 board reads in a burst; the 18-wide fleet this ramp is for would be
+# **37**. One Vast API key drives every lane in this repo, and this file's own 403 handler records the
+# consequence measured at 11:08-11:10 AM ET today: an nginx HTML 403 — a proxy/WAF throttle verdict, not an
+# auth failure — hit the board read, `/instances/` and all four `/search/asks/` of a FOUR-unit launch, which
+# rented 0/4. Bursting is the documented trigger. Scaling placement 4x while leaving the read pattern
+# per-unit would scale the trigger with it, and the ramp would throttle itself exactly when it got wide.
+#
+# WHY A CACHE IS THE *CORRECT* ANSWER HERE AND NOT MERELY THE CHEAP ONE. Every unit in a wave issues the
+# IDENTICAL query: `_vast_offer_query(res)` is a pure function of the ResourceSpec's hard filters, and the
+# two things that differ per unit — `exclude_machine_ids` (the launcher widens it as it goes so the wave
+# lands on distinct hosts) and `max_usd_per_ns` — are applied CLIENT-SIDE in `rank_offers_by_usd_per_ns`,
+# never sent to Vast. So the per-unit reads were already fetching the same rows and throwing away 17 copies
+# of them. Serving one snapshot to the whole wave also makes the wave INTERNALLY CONSISTENT: unit 1 and unit
+# 18 now choose from the same board, which is what the gate priced. Reading fresh per unit gave each unit a
+# different market and no two of them what the gate approved.
+#
+# ⚠ OPT-IN, SHORT-LIVED, AND IT NEVER SERVES A STALE ROW. Off unless a caller opens the context manager, so
+# nothing else in the repo changes behaviour; bounded by an explicit TTL checked against a MONOTONIC clock;
+# emptied on exit so a cache can never outlive the wave that wanted it. Errors are never cached — a failed
+# read raises exactly as before, which keeps §6's fail-closed discipline intact (an unreadable board is not
+# a cheap one, and it must not be a remembered one either).
+#
+# ⚠ READS ONLY, AND ONLY THIS ENDPOINT. `/instances/` reflects state we are mutating and must never be
+# remembered; a mutation is never cached at all, for the same reason the 403/timeout retries are GET-only.
+_BOARD_CACHE: dict = {}
+_BOARD_CACHE_TTL_S = 0.0
+_BOARD_CACHE_STATS = {"hits": 0, "misses": 0, "saved_calls": 0}
+_BOARD_CACHE_PATH = "/search/asks"
+
+
+def board_read_cache(ttl_s: float = 180.0):
+    """Context manager: serve repeated identical `/search/asks/` GETs from one read for `ttl_s` seconds.
+
+    Use around a FAN-OUT, not around a whole program. `stats()` on the yielded object reports hits and the
+    calls saved, so the reduction in API pressure is measured rather than asserted.
+    """
+    import contextlib
+
+    @contextlib.contextmanager
+    def _cm():
+        global _BOARD_CACHE_TTL_S
+        prev_ttl, prev_cache = _BOARD_CACHE_TTL_S, dict(_BOARD_CACHE)
+        _BOARD_CACHE.clear()
+        _BOARD_CACHE_STATS.update({"hits": 0, "misses": 0, "saved_calls": 0})
+        _BOARD_CACHE_TTL_S = float(ttl_s)
+        try:
+            yield _BOARD_CACHE_STATS
+        finally:
+            _BOARD_CACHE_TTL_S = prev_ttl
+            _BOARD_CACHE.clear()
+            _BOARD_CACHE.update(prev_cache)
+
+    return _cm()
+
+
+def _board_cache_key(path, params):
+    return (path, json.dumps(params or {}, sort_keys=True))
+
+
+def _vast_request(method: str, path: str, api_key: str, params=None, body=None, _hops: int = 0,
+                  no_cache: bool = False):
     """Thin JSON client for the Vast REST API. Isolated so tests monkeypatch it; the callers' logic is pure.
     SELF-HEALING against Vast's v0->v1 migration: on a 410 `deprecated_endpoint` the body names the replacement
     ("Use /api/v1/instances/ instead"), so we follow it once instead of hard-failing (keeps the adapter working
     as endpoints move without hardcoding a version per route)."""
+    # ---- the wave-scoped board cache (see `board_read_cache`) ------------------------------------------
+    # GET + `/search/asks/` + cache open, or this is a no-op. `_hops` is deliberately NOT part of the key:
+    # a retry of the same query is the same query, and the entry it writes is what a later hop would fetch.
+    #
+    # ⚠⚠ `no_cache` IS NOT A CONVENIENCE — IT EXISTS BECAUSE `/search/asks/` IS A ROTATING SAMPLE.
+    # `sample_board` measured it (2026-07-27): even at `limit=512` one read returns ~225 offers, two
+    # identical reads 20 s apart share only ~174 machines, P(present, then absent) = 0.245, and the
+    # cumulative distinct machines across 30 reads reached 591 and was still climbing. So a caller that
+    # issues the SAME query N times is not being wasteful — it is deliberately deepening a ~38 % sample,
+    # and merging two reads measurably improves what we can buy at (best-4 -5.8 %). A cache that collapsed
+    # those N reads to one would silently turn `samples=2` back into `samples=1` and delete that gain while
+    # reporting a cache hit. Re-samplers MUST opt out, and this flag is how.
+    _ck = None
+    if not no_cache and _BOARD_CACHE_TTL_S > 0 and method == "GET" and path.startswith(_BOARD_CACHE_PATH):
+        import time as _time
+        _ck = _board_cache_key(path, params)
+        _hit = _BOARD_CACHE.get(_ck)
+        if _hit is not None and _hit[0] > _time.monotonic():
+            _BOARD_CACHE_STATS["hits"] += 1
+            _BOARD_CACHE_STATS["saved_calls"] += 1
+            return _hit[1]
+        _BOARD_CACHE_STATS["misses"] += 1
     url = _vast_url(path)
     if params:
         url += "?" + urllib.parse.urlencode(params)
@@ -289,17 +375,26 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None, 
                  "Content-Type": "application/json"})
     try:
         with urllib.request.urlopen(req, timeout=60) as r:
-            return json.loads(r.read().decode() or "{}")
+            _payload = json.loads(r.read().decode() or "{}")
+            if _ck is not None:
+                # ⚠ ONLY A SUCCESSFUL READ IS REMEMBERED. An exception leaves the cache untouched, so a
+                # throttled or timed-out board read is re-attempted by the next unit instead of being
+                # frozen in for the rest of the wave — §6's "an unreadable market is not a cheap one".
+                import time as _time
+                _BOARD_CACHE[_ck] = (_time.monotonic() + _BOARD_CACHE_TTL_S, _payload)
+            return _payload
     except urllib.error.HTTPError as e:                            # surface the provider's error body, not a bare 4xx
         detail = e.read().decode()
         if e.code == 410 and _hops < 3:                           # follow the server's own "Use <path> instead"
             m = re.search(r"Use\s+(/api/\S+?)\s+instead", detail)
             if m:
-                return _vast_request(method, m.group(1), api_key, params=params, body=body, _hops=_hops + 1)
+                return _vast_request(method, m.group(1), api_key, params=params, body=body, _hops=_hops + 1,
+                                     no_cache=no_cache)
         if e.code == 429 and _hops < 6:                           # rate limit (Vast DELETE threshold ~3 req/s): a
             import time                                           # burst teardown/collect 429s partway -> back off
             time.sleep(1.5 * (_hops + 1))                         # (1.5,3,4.5,...s) and retry so we drain the loop
-            return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1)
+            return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1,
+                                 no_cache=no_cache)
         # ★★ A BARE 403 FROM THE EDGE IS TRANSIENT, AND NOT RETRYING IT COST A CLEARED WINDOW
         #    (2026-07-27, 11:08-11:10 AM ET, run 30278451510).
         #
@@ -325,8 +420,39 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None, 
         if e.code in (403, 500, 502, 503, 504) and method == "GET" and _hops < 5:
             import time
             time.sleep(2.0 * (_hops + 1))                         # 2,4,6,8,10 s -> ~30 s of patience total
-            return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1)
+            return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1,
+                                 no_cache=no_cache)
         raise RuntimeError(f"vast API {method} {path} -> {e.code}: {detail[:400]}") from e
+    # ★★ A CONNECTION THAT NEVER COMPLETED GOT **NO** RETRY AT ALL, WHICH IS BACKWARDS
+    #    (2026-07-27, 2:20 PM ET, run 30292566268).
+    #
+    # The handler above retries a 403/5xx — an answer we did not like — but it only catches `HTTPError`. A
+    # TIMEOUT or a refused/reset connection raises `URLError` (or a bare `TimeoutError`), which is NOT an
+    # HTTPError, so it fell straight through and killed the caller on the FIRST attempt. That is exactly
+    # inverted: a request that got no answer at all is MORE obviously transient than one that got a 403.
+    #
+    # It cost the collect step of the 2:20 PM tick: `mode_collect` -> `_live_instances` -> here ->
+    # `urllib.error.URLError: <urlopen error timed out>`, so the reap did not run. Same shape as the 1:21 PM
+    # incident, different transport — the board was slow rather than forbidden (the same tick's S3 listing
+    # took 5 minutes, so the runner's egress was degraded generally).
+    #
+    # ⚠ GET ONLY, for the identical reason as above: retrying a POST that already created an instance would
+    # double-rent, and a timeout is precisely the case where the request may have succeeded server-side while
+    # the response was lost. A read is idempotent; a write is not, so a write still fails fast and loudly.
+    # `URLError` must be caught AFTER `HTTPError` — HTTPError SUBCLASSES URLError, so the reverse order would
+    # silently swallow every HTTP status and lose the provider's error body.
+    except (urllib.error.URLError, TimeoutError, OSError) as e:
+        if method == "GET" and _hops < 5:
+            import time
+            time.sleep(2.0 * (_hops + 1))                         # same 2,4,6,8,10 s ladder as the 403 path
+            return _vast_request(method, path, api_key, params=params, body=body, _hops=_hops + 1,
+                                 no_cache=no_cache)
+        raise RuntimeError(f"vast API {method} {path} -> unreachable: {type(e).__name__}: {e}") from e
+
+
+# How many offers to ask Vast for. See the note on `limit` in `_vast_offer_query` — the default of 64 was
+# hiding ~72 % of the board from every purchase decision. ONE home for the number (CLAUDE.md rule 1).
+_VAST_SEARCH_LIMIT = 512
 
 
 def _vast_offer_query(res: ResourceSpec) -> dict:
@@ -349,6 +475,34 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
         "cuda_max_good": {"gte": res.min_cuda},   # host driver must support our OpenMM CUDA plugin's PTX (else PTX-version error)
         "order": [["dph_total", "asc"]],
         "type": "bid" if res.interruptible else "on-demand",
+        # ★★ THE LIMIT IS LOAD-BEARING, AND ITS ABSENCE WAS COSTING ~26 % ON EVERY PURCHASE
+        #    (measured 2026-07-27, run 30294964932, `vast_board_volatility.py`).
+        #
+        # Vast's `/search/asks/` defaults to **64 rows**. This query set no `limit`, so every market gate and
+        # every `submit` in this repo has been deciding on the first 64 offers. Measured against the same
+        # board in the same second: `limit=512` returns **225** offers, the default returns **64** — we were
+        # seeing 28 % of the market.
+        #
+        # WHY THAT IS NOT MERELY "A SMALLER SAMPLE". The truncation is not random: this query is ORDERED BY
+        # `dph_total asc` while `rank_offers_by_usd_per_ns` ranks by **$/ns**. Those are different orderings,
+        # and the benched cards that can be priced at all are not the cheapest per HOUR. So chopping the list
+        # at 64 removes gradeable offers preferentially — priceable fell 143-147 (full) to 28-29 (default) —
+        # and the surviving best-4 mean was **+26.3 % more expensive** on every single paired read
+        # (full $0.003050/ns = 0.89x basis; truncated $0.003853/ns = 1.13x basis).
+        #
+        # ★ IT ALSO MANUFACTURED THE "MARKET" VOLATILITY THAT PROMPTED THIS. trimcrae asked whether hourly
+        # polling was too slow, because the gate read 1.261x basis at 9:13:04 AM ET and 2.436x at 9:16:28 AM.
+        # Across the 24 committed snapshots the decision is perfectly predicted by how many rows came back:
+        # every 64-row read cleared (8/8), and in the morning — same bench table, so no confounder — every
+        # read shorter than 64 held (0/10 cleared). The board had not moved; the page had.
+        #
+        # 512 covers the ~225-offer board with room to grow, and costs ~0.3 s of extra latency (0.68 s vs
+        # 0.39 s). It is nowhere near a rate concern: the response carries `x-ratelimit-limit: 500` per a
+        # 60-second window and this repo's entire usage sat at 3-4.
+        #
+        # `_vast_ondemand_base_by_machine` already passed `limit: 512` for exactly this reason; it simply was
+        # never applied to the query that decides what we BUY.
+        "limit": _VAST_SEARCH_LIMIT,
     }
 
 
@@ -405,6 +559,62 @@ def _vast_bid_price(offer: dict, ondemand_base: float = None):
     return _vcm.recommended_bid(ref, ondemand_base)
 
 
+def sample_board(key, res: ResourceSpec, samples: int = 1, gap_s: float = 1.0):
+    """Read `/search/asks/` `samples` times and MERGE, keeping each machine's cheapest sighting.
+
+    ★★ WHY MERGING IS NOT PARANOIA: THE ENDPOINT RETURNS A ROTATING SAMPLE, NOT THE BOARD
+       (measured 2026-07-27, `vast_board_volatility.py`, run 30295566972).
+
+    Even with an explicit `limit=512`, one read returns ~225 offers — but two identical reads 20 s apart share
+    only ~174 machines, and the cumulative distinct machines seen across 30 reads reached **591 and was still
+    climbing**. The measured probability that a machine present in one read is absent from the next is
+    **0.245**. So a single read is a ~38 % sample of the qualifying board, drawn afresh each time.
+
+    Merging two reads measurably improves the price we can buy at, because it deepens the sample rather than
+    waiting for the market to change: best-1 **-5.6 %**, best-4 **-5.8 %**, best-19 **-3.9 %**.
+
+    ⚠ DEFAULT `samples=1`, i.e. NO behaviour change, and that default is deliberate rather than timid. The
+    Vast edge throttle that has taken down this repo's launches twice fires on BURSTS — a single 4-unit
+    `submit` already issues ~8 `/search/asks/` calls in seconds, and blindly doubling that is a good way to
+    trade a 5 % price gain for a launch that rents nothing. Sustained RATE is not the constraint (the route
+    reports `x-ratelimit-limit: 500` per 60 s against our 3-4), so a GATE — which makes one read and one
+    decision — can afford `samples=2` cheaply. Callers opt in where the burst maths says it is safe.
+
+    Merging keeps the CHEAPEST sighting per machine, never the latest, so a merged board can only be better
+    than either read alone, and every hard filter still applies downstream in `rank_offers_by_usd_per_ns`.
+    """
+    import time as _t
+    merged, n_reads = {}, 0
+    for i in range(max(1, int(samples))):
+        if i:
+            _t.sleep(max(0.0, gap_s))
+        try:
+            # `no_cache=True`: these N reads are the WHOLE POINT — `/search/asks/` returns a rotating
+            # sample, so identical queries return different machines. A wave-scoped board cache
+            # (`board_read_cache`) would collapse them to one and silently undo the merge.
+            offers = (_vast_request("GET", "/search/asks/", key, no_cache=True,
+                                    params={"q": json.dumps(_vast_offer_query(res))}) or {}).get("offers", [])
+        except Exception as e:  # noqa: BLE001
+            # A failed EXTRA read must never lose the reads we already have — returning fewer samples is a
+            # smaller error than failing a gate that had a perfectly good board in hand.
+            print(f"  [board] sample {i + 1}/{samples} failed ({type(e).__name__}: {e})", flush=True)
+            if not merged:
+                raise
+            break
+        n_reads += 1
+        for o in offers:
+            mid = str(o.get("machine_id"))
+            prev = merged.get(mid)
+            try:
+                price = float(o.get("min_bid") if res.interruptible and o.get("min_bid") is not None
+                              else o.get("dph_total", 1e9))
+            except (TypeError, ValueError):
+                continue
+            if prev is None or price < prev[0]:
+                merged[mid] = (price, o)
+    return [o for _p, o in merged.values()], n_reads
+
+
 def _vast_ondemand_base_by_machine(key, res: ResourceSpec = None) -> dict:
     """machine_id -> on-demand `dph_base`, from a real `type: "on-demand"` query.
 
@@ -413,7 +623,11 @@ def _vast_ondemand_base_by_machine(key, res: ResourceSpec = None) -> dict:
     try:
         spec = ResourceSpec(**{**vars(res or ResourceSpec()), "interruptible": False})
         q = _vast_offer_query(spec)
-        q["limit"] = 512
+        # The query now carries `_VAST_SEARCH_LIMIT` itself. This line stays only so the intent is explicit at
+        # the call site, and it references the CONSTANT rather than repeating the literal 512 that used to sit
+        # here — a second copy of the number is how the two reads drift apart, and for a year this was the
+        # only caller that asked for the whole board while the one that decides purchases did not.
+        q["limit"] = _VAST_SEARCH_LIMIT
         data = _vast_request("GET", "/search/asks/", key, params={"q": json.dumps(q)}) or {}
         out = {}
         for o in data.get("offers", []):
@@ -579,6 +793,41 @@ def _select_cheapest_offer(offers, res: ResourceSpec, max_hourly_usd=None):
                      if substr in str(o.get("gpu_name", "")).replace(" ", "").upper()]
         capable = preferred or capable
     return min(capable, key=lambda po: po[0])[1]
+
+
+# ★★ THE STATUSES IN WHICH AN INSTANCE STILL HOLDS ITS UNIT'S SLOT — the ONE home for that question
+# (CLAUDE.md §1), because at least three call sites need it and each one that re-typed a status comparison
+# has been wrong in a different way.
+#
+#   * `running` — obviously occupied.
+#   * `queued`  — a FRESH RENTAL whose image is still pulling reads `actual_status=loading` /
+#                 `cur_state=stopped` for as long as 2 h 57 min on this account. Counting that as free is
+#                 how a launcher rents a SECOND GPU for work it has already paid to start, so `queued`
+#                 counts as occupied and the conservative direction is preserved exactly where it belongs.
+#
+# Everything else — `completed` (Vast's `exited`/`finished`), `failed`, `stopped` (offline/destroyed) — is a
+# box that will never do more work. It is still an instance RECORD, and still billing for its volume, but it
+# is not a host: the unit it was rented for has nobody working on it.
+VAST_OCCUPYING_STATUSES = ("running", "queued")
+
+
+def vast_instance_occupies_slot(inst) -> bool:
+    """Does this instance record still hold its unit's slot — i.e. is a host actually working on that unit?
+
+    ★★ WHY THIS EXISTS: "EXISTS" AND "RUNNING" ARE DIFFERENT QUESTIONS AND THE LANE KEPT ANSWERING THE FIRST
+    (measured 2026-07-27, twice in one day). `ternary_vast_watchdog.classify` was handed
+    `instance_alive = inst is not None` and reassured about four hosts whose GPUs had already been reclaimed,
+    for 85 minutes. Hours later `ternary_vast_launch.live_unit_hosts` — a different file, the same mistake —
+    counted three `exited` boxes as occupied slots, so `gate_for_mode` reported "4 already running" over a
+    cohort with ONE live leg, declined to price the market at all, and left three RUNG 2b replicates dead
+    indefinitely. Both sites had a comment explaining why the conservative reading was safe; neither had a
+    predicate, so neither could be corrected once.
+
+    PURE, and `None` (no record at all) is FALSE — a unit with no instance is unambiguously unhosted.
+    """
+    if not inst:
+        return False
+    return _vast_status(inst.get("actual_status"), inst.get("cur_state")) in VAST_OCCUPYING_STATUSES
 
 
 def _vast_status(actual: str, cur_state: str = None) -> str:

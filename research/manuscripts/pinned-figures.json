@@ -127,6 +127,41 @@
    "_must_appear_in_note": "CLAUDE.md was on this list and was REMOVED 2026-07-25. Requiring it there forced a fourth copy of a number whose home is STRATEGY.md -- the exact thing the one-fact-one-place rule forbids, and CLAUDE.md's copy had in fact been stale three times running (~$390 -> ~$240 -> ~$194). CLAUDE.md now points at STRATEGY.md instead. Only docs that genuinely need to STATE the total belong here."
   }
  ],
+ "artifact_figures": [
+  {
+   "id": "realised_spend_ledgered",
+   "description": "STRATEGY.md's scoreboard headline quotes the machine-ledgered realised spend. It is a reading of realised-spend.json, never a typed total.",
+   "artifact": "research/modalities/realised-spend.json",
+   "key": "realised_usd_ledgered",
+   "context": "realised spend \\$[\\d.,]+ machine-ledgered",
+   "must_appear_in": [
+    "STRATEGY.md"
+   ],
+   "regenerate": "python3 research/modalities/realised_spend.py --write, then update the figure STRATEGY.md quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+  },
+  {
+   "id": "realised_spend_attested_unledgered",
+   "description": "The attested-but-unledgered part, kept visibly apart from the ledgered figure so the headline is never read as a complete total.",
+   "artifact": "research/modalities/realised-spend.json",
+   "key": "attested_unledgered_usd",
+   "context": "\\+\\$[\\d.,]+ attested",
+   "must_appear_in": [
+    "STRATEGY.md"
+   ],
+   "regenerate": "python3 research/modalities/realised_spend.py --write"
+  },
+  {
+   "id": "realised_spend_best_estimate",
+   "description": "ledgered + attested. Quoted only alongside the split.",
+   "artifact": "research/modalities/realised-spend.json",
+   "key": "realised_usd_best_estimate",
+   "context": "best estimate is \\*\\*\\$[\\d.,]+\\*\\*",
+   "must_appear_in": [
+    "STRATEGY.md"
+   ],
+   "regenerate": "python3 research/modalities/realised_spend.py --write"
+  }
+ ],
  "table_completeness": [
   {
    "id": "bid_strategy_repriced_ladder",
@@ -400,6 +435,18 @@
    "pattern": "0\\.004359|\\$0\\.0043593",
    "current": "basis $0.003412/ns (congeneric_fanout.basis_usd_per_ns())",
    "retired_by": "the 2026-07-27 throughput re-anchoring plus the ladder regeneration — pricing.md Appendix T"
+  },
+  {
+   "id": "scoreboard_realised_0_74",
+   "pattern": "\\$0\\.74 spent|realised spend \\$0\\.74|~\\$35 not spent",
+   "current": "realised spend is DERIVED in research/modalities/realised-spend.json (realised_spend.py) and quoted by STRATEGY.md's scoreboard under lint rule A",
+   "retired_by": "2026-07-27: a hand-carried total that stood at $0.74 while the step 1 fan-out's own rental ledger read $20.11 and the bench sweep's read $3.49. Rule 1.1 - a total is DERIVED, never typed. STRATEGY.md Appendix A row 39"
+  },
+  {
+   "id": "ternary_lane_valb_cohort3_rates",
+   "pattern": "1\\.528\\s*[x×]|1\\.574\\s*[x×]|\\$0\\.005214/ns|\\$0\\.005369/ns",
+   "current": "valB_mini cohort 4, rented 4:51 PM ET: 1.500x / 1.500x / 1.859x / 1.649x basis (ternary-vast-rental-receipt.json)",
+   "retired_by": "the 4:00 PM cohort 3 was reclaimed and re-rented at 4:51 PM ET. On this lane a per-host rate has a half-life of about two hours - STRATEGY.md Appendix A row 38"
   }
  ],
  "subset_checks": [
@@ -412,5 +459,18 @@
    "subset_name": "the dependency spine's `(Cum ~$N)`",
    "subset_pattern": "Cum ~\\$([0-9]+)"
   }
+ ],
+ "_artifact_figures_note": [
+  "Rule A. A doc that quotes a MACHINE-WRITTEN number must quote THAT number.",
+  "",
+  "Added 2026-07-27 after the scoreboard headline read '$0.74 spent' beside a rental ledger",
+  "standing at $20.11 on one lane alone. D/T/X/S could not see it: it was not a ladder total,",
+  "not a table row, not a summary of another table and not a superseded value — just a figure",
+  "in prose with no machine behind it.",
+  "",
+  "★ IT CHECKS THE COMMITTED SNAPSHOT, NOT A LIVE RECOMPUTATION. The lanes bill continuously, so",
+  "a live figure moves several times an hour and a rule chasing it would be red almost always —",
+  "the ignored-linter failure. The snapshot moves only when someone runs `--write`, so this fires",
+  "exactly when a refresh happened and the doc was not updated in the same commit."
  ]
 }

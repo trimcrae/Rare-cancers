@@ -21,6 +21,37 @@ least three mechanisms that produce that observation and imply completely differ
       be *gradeable* swings hard: the same snapshots show `priceable` moving 9 → 52 out of a stable ~46–63
       `qualifying`.  Fix: read the whole board and widen the bench table — cadence is irrelevant.
 
+===============================================================================================================
+★★ THE ANSWER (measured 2026-07-27, runs 30294964932 + 30295566972 — read-only, $0, rented nothing)
+===============================================================================================================
+**It was H3, with H2 on top. H1 — the one the question assumed — is the smallest term of the three.**
+
+  * **H3 dominated.** Vast's `/search/asks/` defaults to **64 rows**; the qualifying board is **~225**. Paired
+    reads of the same board in the same second: `limit=512` → 225 offers / 143-147 priceable; no limit → 64 /
+    28-29. Because the query orders by `$/hr` while we rank by `$/ns`, the cut removes the BENCHED cards
+    preferentially (RTX 4090 30 offers → 5; RTX 3090 21 → 3), so the truncated read priced the same market
+    **+26.3 % higher for a 4-unit fleet and +57 % for a 19-unit one** — the penalty grows with fleet size,
+    which is why the 19-edge fan-out held hardest. FIXED: `gpu_backend._VAST_SEARCH_LIMIT`.
+
+  * **H2 is real and large, and it is a SAMPLING effect, not noise in the market.** Even at `limit=512` one
+    read is a ~38 % sample: P(present, then absent 20 s later) = **0.245**, and cumulative distinct machines
+    across 60 reads reached **711**. Any per-offer tracking must divide this out — see `churn_by_lag`, and see
+    `gpu_backend.sample_board` for the ~5 % price it is worth to merge two reads.
+
+  * **H1 is modest.** With the sampler divided out, the residence half-life of an offer AT OR BELOW the buy
+    line is **~68 minutes** (survival 92 % @ 5 min, 88 % @ 10, 81 % @ 20, 68 % @ 40). Individual cheap hosts
+    do turn over — trimcrae's instinct was right about that — but they are replaced as fast as they go, so
+    **35-41 offers sat under the line at every single tick and a fleet of 4 (and of 19) cleared at 100 % of
+    them.** There is no window to miss.
+
+  * **So the cadence is worth $0.00/day.** Every cadence from 1 min to 60 min buys at the same mean $/ns with
+    zero wait and zero misses. HOURLY IS ENOUGH — and the money was never in the cadence, it was in reading
+    28 % of the board.
+
+  * Not a constraint either: the route reports **`x-ratelimit-limit: 500` per 60 s** and this repo's whole
+    usage sat at 3-4. What actually bites is the edge's BURST throttle, which is why `sample_board` defaults
+    to one read rather than doubling `submit`'s ~8-call burst.
+
 This module's job is to DISCRIMINATE, then to price the answer. It has three parts and each is separable:
 
   `--collect`   the measurement. A read-only, $0, rents-nothing sampler that runs inside ONE CI job and takes
@@ -58,6 +89,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import subprocess
 import sys
@@ -207,39 +239,62 @@ def collect(out_path, minutes=180, tick_s=60, pair_gap_s=20, push_branch=None, p
 
 
 def _push(path, branch):
-    """Best-effort checkpoint of the series to a cache branch, via a SEPARATE clone.
+    """Checkpoint the series to a cache branch from a GIT WORKTREE of the job's own checkout.
 
-    Never touches the job's own working tree. `vast-price-sample.yml` records what happens when a sampler
-    checks out another branch on top of a modified tracked file: git refuses the switch and every run fails at
-    the persist step. A throwaway clone cannot hit that, and a push failure must never end the collection.
+    ★ WHY A WORKTREE AND NOT A FRESH CLONE (measured 2026-07-27, run 30293786776, and it cost a blind hour).
+    The first version of this function cloned the origin URL into a temp directory and pushed from there. The
+    clone succeeds — the repo is public — and the PUSH silently fails, because `actions/checkout` stores its
+    credentials as an `http.<url>.extraheader` in **that checkout's** `.git/config`, not globally. A fresh
+    clone has no such header and no token. Every subprocess here was `check=False`, so the function then
+    printed `[checkpoint] pushed ...` while nothing had been pushed: a silent failure wearing a success
+    message, which is the exact anti-pattern this repo keeps paying for.
+
+    A `git worktree` of the existing checkout SHARES its `.git` directory, and therefore its credentials. It
+    also cannot hit the failure `vast-price-sample.yml` documents (git refusing to switch branches on top of a
+    modified tracked file), because the worktree is a separate directory with its own index.
+
+    Best-effort by design — a push failure must never end a 3-hour collection — but it now REPORTS the
+    failure, with git's own stderr, instead of claiming success.
     """
     work = os.path.join(os.environ.get("RUNNER_TEMP", "/tmp"), "volpush")
+
+    def git(*a, cwd=HERE):
+        return subprocess.run(["git", "-C", cwd, *a], capture_output=True, text=True)
+
     try:
-        if not os.path.isdir(os.path.join(work, ".git")):
-            url = subprocess.run(["git", "-C", HERE, "remote", "get-url", "origin"],
-                                 capture_output=True, text=True).stdout.strip()
-            subprocess.run(["git", "clone", "--depth", "1", "--branch", branch, url, work],
-                           capture_output=True, text=True, check=False)
-            if not os.path.isdir(os.path.join(work, ".git")):
-                subprocess.run(["git", "clone", "--depth", "1", url, work],
-                               capture_output=True, text=True, check=False)
-                subprocess.run(["git", "-C", work, "checkout", "--orphan", branch],
-                               capture_output=True, text=True, check=False)
-                subprocess.run(["git", "-C", work, "rm", "-rf", "."], capture_output=True, text=True)
+        if not os.path.exists(os.path.join(work, ".git")):
+            git("fetch", "origin", branch)
+            # `-f` because a previous cancelled run may have left the worktree registered but absent.
+            r = git("worktree", "add", "-f", "--detach", work, f"origin/{branch}")
+            if not os.path.exists(os.path.join(work, ".git")):
+                # The cache branch does not exist yet: start it as an empty orphan in the worktree.
+                r = git("worktree", "add", "-f", "--detach", work, "HEAD")
+                if not os.path.exists(os.path.join(work, ".git")):
+                    print(f"  [checkpoint] worktree add failed: {r.stderr.strip()[:200]}", flush=True)
+                    return
+                git("checkout", "--orphan", branch, cwd=work)
+                git("rm", "-rf", ".", cwd=work)
         dst = os.path.join(work, "research", "modalities")
         os.makedirs(dst, exist_ok=True)
         subprocess.run(["cp", path, os.path.join(dst, os.path.basename(path))], check=False)
-        for cmd in (["git", "-C", work, "config", "user.name", "github-actions[bot]"],
-                    ["git", "-C", work, "config", "user.email",
-                     "41898282+github-actions[bot]@users.noreply.github.com"],
-                    ["git", "-C", work, "add", "-A"],
-                    ["git", "-C", work, "commit", "-m",
-                     f"vast board volatility sample {time.strftime('%FT%TZ', time.gmtime())}"],
-                    ["git", "-C", work, "push", "origin", f"HEAD:{branch}"]):
-            subprocess.run(cmd, capture_output=True, text=True, check=False)
-        print(f"  [checkpoint] pushed {os.path.basename(path)} to {branch}", flush=True)
+        git("config", "user.name", "github-actions[bot]", cwd=work)
+        git("config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com", cwd=work)
+        git("add", "-A", cwd=work)
+        c = git("commit", "-m",
+                f"vast board volatility sample {time.strftime('%FT%TZ', time.gmtime())}", cwd=work)
+        if c.returncode != 0 and "nothing to commit" in (c.stdout + c.stderr):
+            print("  [checkpoint] nothing new to commit", flush=True)
+            return
+        p = git("push", "origin", f"HEAD:{branch}", cwd=work)
+        if p.returncode == 0:
+            n = sum(1 for _ in open(path))
+            print(f"  [checkpoint] pushed {n} reads to {branch}", flush=True)
+        else:
+            # Say so LOUDLY. A checkpoint that is not landing must never look like one that is.
+            print(f"  [checkpoint] PUSH FAILED rc={p.returncode}: "
+                  f"{(p.stderr or p.stdout).strip()[:300]}", flush=True)
     except Exception as e:  # noqa: BLE001
-        print(f"  [checkpoint] push failed ({e}) — collection continues", flush=True)
+        print(f"  [checkpoint] push failed ({type(e).__name__}: {e}) — collection continues", flush=True)
 
 
 # =============================================================================================================
@@ -274,6 +329,43 @@ def best_n_mean(rows, n):
     return sum(take) / len(take)
 
 
+def annotate(records, tick_s=60):
+    """Add `run` and `gt` to every record. MUST run before any analysis that groups or orders by time.
+
+    ★ WHY (caught 2026-07-27 before it corrupted a 3-hour collection). The series is APPENDED to across runs —
+    a run seeds from the accumulated JSONL on `modalities-cache` so samples extend rather than restart. But
+    `tick` is a per-run counter that restarts at 0, so a naive group-by-tick silently pairs one run's R1 with
+    a LATER run's R2 and reports the difference as a 20-second read-to-read gap. That is not a small error: it
+    would manufacture exactly the "the board is wildly noisy" conclusion this module exists to test.
+
+      `run` — incremented whenever `tick` fails to advance, which is precisely a restart.
+      `gt`  — a GLOBAL tick index derived from the wall clock, not from any counter, so gaps (a backoff, a
+              cancelled run, the minutes between two runs) appear as MISSING indices instead of being
+              silently closed up.
+    """
+    recs = [r for r in records if r.get("utc")]
+    recs.sort(key=lambda r: (r["utc"], r.get("tick", 0), r.get("slot", "")))
+    # A restart is a tick that goes BACKWARDS — not one that merely fails to advance, because R1/R2/R3 all
+    # carry the same tick by construction. A long silence also starts a new run: two runs can both begin at
+    # tick 0, in which case the counter alone shows nothing and only the clock does.
+    run, prev_tick, prev_epoch = 0, None, None
+    for r in recs:
+        t, e = r.get("tick", 0), _epoch(r["utc"])
+        if prev_tick is not None and (t < prev_tick or (e - prev_epoch) > 5 * float(tick_s)):
+            run += 1
+        prev_tick, prev_epoch = t, e
+        r["run"] = run
+    if recs:
+        t0 = _epoch(recs[0]["utc"])
+        for r in recs:
+            r["gt"] = int(round((_epoch(r["utc"]) - t0) / float(tick_s)))
+    return recs
+
+
+def _epoch(utc):
+    return time.mktime(time.strptime(utc, "%Y-%m-%dT%H:%M:%SZ"))
+
+
 def read_noise(records):
     """H2: how different are two IDENTICAL queries `pair_gap` apart?
 
@@ -284,7 +376,9 @@ def read_noise(records):
     by_tick = defaultdict(dict)
     for r in records:
         if r.get("slot") in ("R1", "R2") and r.get("status") == 200:
-            by_tick[r["tick"]][r["slot"]] = r
+            # Keyed on (run, tick) — NOT tick alone. See `annotate`: tick restarts every run, so tick alone
+            # pairs one run's R1 with another run's R2 and calls the difference 20 seconds of market noise.
+            by_tick[(r.get("run", 0), r["tick"])][r["slot"]] = r
     pairs, out = 0, {"jaccard": [], "d_best4_frac": [], "d_n_offers": [], "gap_s": [],
                      "d_priceable": [], "vanished": [], "appeared": []}
     for _t, d in sorted(by_tick.items()):
@@ -324,17 +418,72 @@ def _stats(xs):
 
 
 def series(records, slot="R1"):
-    """The ground-truth time series: one entry per tick, `{t, utc, rows}` for successful reads of one slot."""
+    """The ground-truth time series: one entry per tick, `{t, utc, rows}` for successful reads of one slot.
+
+    `t` is the WALL-CLOCK tick index (`gt` from `annotate`), never the per-run counter — so a restart cannot
+    fold two different hours onto the same index, and a gap in observation stays visibly a gap.
+    """
     out = []
-    for r in sorted(records, key=lambda x: (x.get("tick", 0), x.get("slot", ""))):
+    for r in sorted(records, key=lambda x: x.get("utc", "")):
         if r.get("slot") == slot and r.get("status") == 200:
-            out.append({"t": r["tick"], "utc": r["utc"], "rows": r.get("rows", []),
+            out.append({"t": r.get("gt", r.get("tick", 0)), "utc": r["utc"], "rows": r.get("rows", []),
                         "n_offers": r.get("n_offers"), "priceable": r.get("priceable"),
                         "qualifying": r.get("qualifying")})
-    return out
+    seen, dedup = set(), []
+    for s in out:                       # two reads landing in one index (clock rounding) -> keep the first
+        if s["t"] not in seen:
+            seen.add(s["t"])
+            dedup.append(s)
+    return dedup
 
 
-def spells(ser, line=None, tick_s=60):
+def miss_probability(records):
+    """P(a machine present in one read is ABSENT from an IDENTICAL read seconds later). PURE.
+
+    ★★ THE NUMBER THAT DECIDES WHETHER A SURVIVAL CURVE MEANS ANYTHING (measured 2026-07-27: **0.245**).
+
+    `/search/asks/` does not return the board — it returns a ROTATING SAMPLE of it. Two identical queries 20 s
+    apart each returned ~225 offers with only ~174 in common, and the cumulative distinct machines seen across
+    30 reads grew to **591** and was still climbing. So a machine vanishing between consecutive ticks is, about
+    a quarter of the time, nothing but the sampler having looked elsewhere.
+
+    This is why the naive survival estimate is worthless and had to be caught: at p=0.245 a
+    "gone the moment it is missing" rule declares ~24 % of the board rented EVERY TICK, which manufactures a
+    ~1-minute median lifetime out of a market that has not moved at all. The measured p is what justifies the
+    `miss_tolerance` in `spells` — the tolerance is DERIVED from this, never picked to make a curve look right.
+    """
+    by_tick = defaultdict(dict)
+    for r in records:
+        if r.get("status") == 200 and r.get("slot") in ("R1", "R2"):
+            by_tick[(r.get("run", 0), r["tick"])][r["slot"]] = r
+    ps = []
+    for _k, d in by_tick.items():
+        if "R1" in d and "R2" in d:
+            a = {x["m"] for x in d["R1"].get("rows", [])}
+            b = {x["m"] for x in d["R2"].get("rows", [])}
+            if a:
+                ps.append(len(a - b) / len(a))
+            if b:
+                ps.append(len(b - a) / len(b))
+    return (sum(ps) / len(ps)) if ps else 0.0
+
+
+def tolerance_for(p, target=0.02, cap=6):
+    """How many CONSECUTIVE misses to require before calling a machine gone, so the false-"gone" rate < target.
+
+    Misses are treated as independent across reads, which is the conservative direction: if the sampler's
+    omissions are correlated, this tolerance is too SMALL and survival is still under-estimated. Derived, so a
+    change in the measured `p` moves the tolerance instead of silently invalidating the curve.
+    """
+    if p <= 0:
+        return 1
+    k = 1
+    while p ** k > target and k < cap:
+        k += 1
+    return k
+
+
+def spells(ser, line=None, tick_s=60, miss_tolerance=1):
     """Every maximal run of consecutive ticks in which a machine sits AT OR BELOW the buy line.
 
     Returns [{machine, start, end, ticks, minutes, censored_left, censored_right, ended_by}]. `ended_by`
@@ -358,20 +507,42 @@ def spells(ser, line=None, tick_s=60):
         present_by_t[s["t"]] = (under, allm)
     ts = sorted(present_by_t)
     first_t, last_t = (ts[0], ts[-1]) if ts else (None, None)
+    prev_t = None
     for t in ts:
         under, allm = present_by_t[t]
-        for m in list(seen):
-            if m not in under:
+        # ★ AN OBSERVATION GAP IS NOT CONTINUITY. If the previous observed tick is more than one tick back —
+        # a backoff, a failed read, the minutes between two runs — we do not know what the board did in
+        # between. Bridging the gap would credit an offer with survival we never witnessed, which is the same
+        # optimistic bias as counting a left-censored spell at its observed length. So every open spell is
+        # closed RIGHT-CENSORED at the gap, and anything still cheap afterwards starts a new spell.
+        if prev_t is not None and t - prev_t > 1:
+            for m in list(seen):
                 sp = seen.pop(m)
                 done.append({"machine": m, "start": sp["start"], "end": sp["last"],
-                             "ticks": sp["last"] - sp["start"] + 1,
-                             "ended_by": "repriced" if m in allm else "taken",
-                             "censored_left": sp["start"] == first_t, "censored_right": False})
+                             "ticks": sp["last"] - sp["start"] + 1, "ended_by": "gone_dark",
+                             "censored_left": sp["start"] == first_t, "censored_right": True})
+        prev_t = t
+        for m in list(seen):
+            if m not in under:
+                # ★ A SINGLE MISS IS NOT A DEPARTURE. `/search/asks/` returns a rotating sample and omits
+                # ~24.5 % of the board on any given read (`miss_probability`), so ending a spell on one
+                # absence measures the SAMPLER, not the market — it produced a ~1-minute median lifetime for
+                # a board whose cheap end is demonstrably stable for hours. Require `miss_tolerance`
+                # CONSECUTIVE misses, and date the spell's end at the last tick the machine was actually
+                # SEEN, so the tolerance does not inflate the lifetime it is protecting.
+                seen[m]["misses"] = seen[m].get("misses", 0) + 1
+                if seen[m]["misses"] >= miss_tolerance:
+                    sp = seen.pop(m)
+                    done.append({"machine": m, "start": sp["start"], "end": sp["last"],
+                                 "ticks": sp["last"] - sp["start"] + 1,
+                                 "ended_by": "repriced" if m in allm else "taken",
+                                 "censored_left": sp["start"] == first_t, "censored_right": False})
         for m in under:
             if m not in seen:
-                seen[m] = {"start": t, "last": t}
+                seen[m] = {"start": t, "last": t, "misses": 0}
             else:
                 seen[m]["last"] = t
+                seen[m]["misses"] = 0
     for m, sp in seen.items():
         done.append({"machine": m, "start": sp["start"], "end": sp["last"],
                      "ticks": sp["last"] - sp["start"] + 1, "ended_by": "still_open",
@@ -408,6 +579,71 @@ def kaplan_meier(spell_list, tick_s=60):
     return {"n": n_at_risk, "n_events": sum(1 for s in obs if not s["censored_right"]),
             "median_minutes": _q(0.5), "p25_minutes": _q(0.75), "p75_minutes": _q(0.25),
             "curve": curve}
+
+
+def churn_by_lag(ser, line=None, tick_s=60, lags=(1, 2, 5, 10, 20, 40, 60), sampling_floor=None):
+    """★★ THE HEADLINE ESTIMATOR: how long an offer really stays on the board, with the sampler divided out.
+
+    THE PROBLEM IT SOLVES. `/search/asks/` omits ~23 % of the board on any given read, so every per-offer
+    lifetime estimate is contaminated by a constant "disappearance" that has nothing to do with the market.
+    Kaplan-Meier on raw sightings inherits it and reports a lifetime of minutes for offers the committed
+    history shows sitting under the buy line for 3-7 HOURS.
+
+    THE DISCRIMINATOR. Sampling noise does not care how much time has passed; real churn does. So measure the
+    miss fraction as a function of LAG and look at the shape:
+
+        lag   20 s   0.228        <- the sampling FLOOR: the market cannot move meaningfully in 20 s
+        lag   60 s   0.235
+        lag  300 s   0.281
+        lag 2400 s   0.423        <- floor + real churn
+
+    A flat curve would have meant pure sampling and no churn at all; a curve rising from a non-zero intercept
+    means both, and the intercept is exactly the correction. So
+
+        S(lag) = (1 - miss(lag)) / (1 - floor)
+
+    reads as: OF THE OFFERS THE SAMPLER WOULD HAVE SHOWN US ANYWAY, what fraction are still there? That ratio
+    is the survival curve the question actually asks for, and the half-life is fitted from it.
+
+    `sampling_floor` defaults to the shortest measurable lag, which is the paired read — the reason the
+    collector takes one. Passing it explicitly is for tests.
+    """
+    line = _line() if line is None else line
+    sets = {s["t"]: {r["m"] for r in s["rows"] if r.get("u") is not None and r["u"] <= line} for s in ser}
+    ts = sorted(sets)
+    out = []
+    for L in lags:
+        ps = [len(sets[t] - sets[t + L]) / len(sets[t])
+              for t in ts if (t + L) in sets and sets[t]]
+        if len(ps) >= 5:
+            out.append({"lag_min": round(L * tick_s / 60.0, 2), "miss": round(sum(ps) / len(ps), 4),
+                        "n": len(ps)})
+    floor = sampling_floor
+    if floor is None and out:
+        floor = out[0]["miss"]
+    res = {"_what": "miss fraction vs lag — a flat curve is pure sampling, a rising one is real churn",
+           "sampling_floor_miss": round(floor, 4) if floor is not None else None,
+           "by_lag": out}
+    if floor is not None and floor < 1:
+        surv = []
+        for row in out:
+            s = (1 - row["miss"]) / (1 - floor)
+            surv.append((row["lag_min"], round(min(1.0, s), 4)))
+        res["churn_only_survival"] = surv
+        # Half-life by log-linear fit through the origin: ln S = -lam * t. Points at S>=1 (the floor lag
+        # itself, and any lag where noise put S above 1) carry no information about decay and are dropped
+        # rather than being allowed to drag the fit toward "infinite".
+        pts = [(t, s) for t, s in surv if 0 < s < 1]
+        if pts:
+            num = sum(t * -math.log(s) for t, s in pts)
+            den = sum(t * t for t, _s in pts)
+            lam = num / den if den else 0.0
+            res["decay_per_min"] = round(lam, 6)
+            res["half_life_min"] = round(math.log(2) / lam, 1) if lam > 0 else None
+            res["_half_life_note"] = (
+                "residence half-life of an offer AT OR BELOW the buy line, sampler divided out. Fitted over "
+                "the observed lag range only — extrapolating far beyond it is not supported by this data.")
+    return res
 
 
 def availability(ser, line=None, needs=(1, 4, 19)):
@@ -567,25 +803,41 @@ def truncation(records):
     by_tick = defaultdict(dict)
     for r in records:
         if r.get("status") == 200 and r.get("slot") in ("R1", "R3"):
-            by_tick[r["tick"]][r["slot"]] = r
+            by_tick[(r.get("run", 0), r["tick"])][r["slot"]] = r
     full_n, dflt_n, d4, better = [], [], [], 0
     cmp_n = 0
+    pr_full, pr_dflt, gpu_full, gpu_dflt = [], [], defaultdict(int), defaultdict(int)
     for _t, d in sorted(by_tick.items()):
         if "R1" not in d or "R3" not in d:
             continue
         f, g = d["R1"], d["R3"]
         full_n.append(f.get("n_offers") or 0)
         dflt_n.append(g.get("n_offers") or 0)
+        pr_full.append(f.get("priceable") or 0)
+        pr_dflt.append(g.get("priceable") or 0)
+        # THE MECHANISM, per card. Ordering by `dph_total asc` and cutting at the default 64 removes the
+        # BENCHED workhorses preferentially, because they are not the cheapest per hour — measured on the
+        # first tick, RTX 4090 went 30 offers (full) -> 5 (default) and RTX 3090 21 -> 3. That is why a
+        # shorter page prices the fleet higher even though the market has not moved.
+        for r in f.get("rows", []):
+            gpu_full[r.get("gpu")] += 1
+        for r in g.get("rows", []):
+            gpu_dflt[r.get("gpu")] += 1
         bf, bg = best_n_mean(f.get("rows", []), 4), best_n_mean(g.get("rows", []), 4)
         if bf and bg:
             cmp_n += 1
             d4.append((bg - bf) / bf)
             if bf < bg - 1e-9:
                 better += 1
+    keep = sorted(set(list(gpu_full) + list(gpu_dflt)),
+                  key=lambda k: -(gpu_full.get(k, 0)))[:10]
     return {"ticks_compared": cmp_n,
             "n_offers_full": _stats(full_n), "n_offers_default": _stats(dflt_n),
+            "priceable_full": _stats(pr_full), "priceable_default": _stats(pr_dflt),
             "default_best4_excess_frac": _stats(d4),
-            "full_board_strictly_better_frac": round(better / cmp_n, 4) if cmp_n else None}
+            "full_board_strictly_better_frac": round(better / cmp_n, 4) if cmp_n else None,
+            "offers_by_gpu_full_vs_default": {str(k): [gpu_full.get(k, 0), gpu_dflt.get(k, 0)]
+                                              for k in keep}}
 
 
 def rate_limit(records):
@@ -692,6 +944,8 @@ def main(argv=None):
     ap.add_argument("--pair-gap-s", type=float, default=20)
     ap.add_argument("--out", default=os.path.join(HERE, "vast-board-volatility.jsonl"))
     ap.add_argument("--push-branch", default=None)
+    ap.add_argument("--push-every-s", type=float, default=600,
+                    help="checkpoint interval for the raw series (CLAUDE.md §6: upload as written)")
     ap.add_argument("--analyse", metavar="JSONL", default=None)
     ap.add_argument("--mine-git", action="store_true")
     ap.add_argument("--units", type=int, default=4, help="fleet size the cadence model prices")
@@ -703,7 +957,7 @@ def main(argv=None):
 
     if a.collect:
         collect(a.out, minutes=a.minutes, tick_s=a.tick_s, pair_gap_s=a.pair_gap_s,
-                push_branch=a.push_branch)
+                push_branch=a.push_branch, push_every_s=a.push_every_s)
         return 0
 
     if a.mine_git:
@@ -717,14 +971,37 @@ def main(argv=None):
         return 0
 
     if a.analyse:
-        recs = load(a.analyse)
+        recs = annotate(load(a.analyse), tick_s=a.tick_s)
         ser = series(recs, "R1")
         cad = [float(x) for x in a.cadences.split(",") if x.strip()]
-        sp = spells(ser, tick_s=a.tick_s)
+        # The tolerance is DERIVED from the measured per-read miss rate, never chosen. Both curves are
+        # reported: the naive one is kept visible precisely because it is the wrong answer, and a reader who
+        # sees only the corrected number cannot tell how large the correction was.
+        p_miss = miss_probability(recs)
+        tol = tolerance_for(p_miss)
+        sp = spells(ser, tick_s=a.tick_s, miss_tolerance=tol)
+        sp_naive = spells(ser, tick_s=a.tick_s, miss_tolerance=1)
         rep = {"_what": "Vast cheap-end volatility: does poll cadence matter, and what does hourly cost?",
                "buy_line_usd_per_ns": _line(),
                "reads": len(recs), "ticks_analysed": len(ser),
                "tick_seconds": a.tick_s, "fleet_units": a.units,
+               "read_sampling": {
+                   "_what": "the API returns a ROTATING SAMPLE, not the board — this is the correction that "
+                            "makes the survival curve meaningful rather than a measurement of the sampler",
+                   "per_read_miss_probability": round(p_miss, 4),
+                   "miss_tolerance_ticks_used": tol,
+                   "distinct_machines_seen": len({x["m"] for s in ser for x in s["rows"]}),
+                   "offers_per_read": _stats([s["n_offers"] for s in ser])},
+               # THE HEADLINE. Kaplan-Meier on raw sightings inherits the sampler's ~23 % omission rate no
+               # matter how the tolerance is set; the lag decomposition divides it out instead, because
+               # sampling noise is flat in lag and real churn is not. Both are reported, KM second.
+               # The floor is the PAIRED-read miss rate (20 s apart), not the shortest single-slot lag (60 s).
+               # The 60 s figure already contains a minute of real churn, so using it would divide out more
+               # than the sampler contributed and report a half-life that is too LONG — flattering exactly the
+               # conclusion under test. Passing the 20 s floor is the conservative choice.
+               "offer_residence_lag_decomposition": churn_by_lag(ser, tick_s=a.tick_s,
+                                                                sampling_floor=p_miss),
+               "offer_survival_km_NAIVE_one_miss_is_gone": kaplan_meier(sp_naive, tick_s=a.tick_s),
                "read_noise_floor": read_noise(recs),
                "truncation_default_vs_full_board": truncation(recs),
                "availability": availability(ser),

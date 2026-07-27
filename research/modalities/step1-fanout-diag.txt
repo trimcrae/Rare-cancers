@@ -1,5 +1,5 @@
 
-[s1f-diag] ===== e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral (label s1f-08-cw_bio_primary_amide) phase=leg-complex-FAILED-rc1 2026-07-27T17:41:18Z vast_status=gone =====
+[s1f-diag] ===== e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral (label s1f-08-cw_bio_primary_amide) phase=leg-complex-FAILED-rc1 2026-07-27T17:41:18Z vast_status=loading =====
 [s1f-diag] --- S3 complex.log (tail) ---
 etupUnit:1, HybridTopologyMultiStateSimulationUnit:1, HybridTopologyMultiStateAnalysisUnit:1}
   [rbfe][watchdog] armed: fires only AFTER production .nc starts advancing, then if it stalls >= 45 min (equilibration never trips it)
@@ -47,7 +47,6 @@ Traceback (most recent call last):
     return _openmm.LocalEnergyMinimizer_minimize(context, tolerance, maxIterations, reporter)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 openmm.OpenMMException: Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan
-[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)
+[s1f-diag] --- Vast container stdout for instance 46031270 ---
+Error response from daemon: No such container: C.46031270
 
-[s1f-diag] ===== e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral (label s1f-18-cw_bio_primary_amide) phase=leg-complex-running 2026-07-27T12:56:02Z vast_status=gone =====
-[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)

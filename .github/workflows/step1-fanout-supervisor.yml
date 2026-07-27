@@ -1,0 +1,154 @@
+# A SUPERVISOR THAT DOES NOT DEPEND ON GITHUB'S SCHEDULER.
+#
+# WHY THIS EXISTS, measured 2026-07-27. A fan-out unit that loses its host loses NOTHING — every leg is
+# checkpointed in S3 and resumes where it stopped. What it loses is WALL CLOCK, and the size of that loss is
+# exactly the gap until the next tick re-places it. So re-placement latency IS the supervision cadence.
+#
+# `step1-fanout-autoscale.yml` asks for `*/20`. What GitHub actually delivered on 2026-07-27 was four
+# schedule events all day, at 12:52 AM, 4:19 AM, 7:44 AM and 10:05 AM ET — gaps of 220, 208, 205 and 141
+# MINUTES. Of that day's 30 runs, 26 were `workflow_dispatch`: an agent remembering to fire it. The median
+# gap between SUCCESSFUL ticks was 7.8 min while an agent was watching, against 141-220 min when one was not.
+#
+# That difference is what stretched a unit's completion from Tuesday morning to Thursday. Rate was never the
+# problem: the fastest long-lived hosts run ~234-300 iterations/h and a unit needs 4800, so ~20 h of UPTIME.
+# The slow units were not computing slowly — they were spending hours with no host at all, waiting for a
+# tick that a throttled cron was not delivering.
+#
+# HOW THIS FIXES IT. One long-lived job that loops internally and dispatches the real tick every
+# TICK_EVERY_MIN. A single run holds the cadence for its whole life, so the interval is OURS, not GitHub's
+# queue's. Nothing here duplicates the tick's logic — it only decides WHEN, which is the part that was broken.
+#
+# WHAT THIS DELIBERATELY DOES NOT DO:
+#   * It does not rent, price, reap or condemn anything. Every spend decision stays inside the tick, behind
+#     the buy line and the spend cap. A supervisor that could also buy would be a second, unreviewed
+#     purchasing path, which is precisely the shape this repo keeps paying for.
+#   * It does not replace the cron. `schedule:` stays on the autoscale workflow as the cold-start path — when
+#     no supervisor is alive, a throttled tick is still far better than none, and it is what restarts this.
+#   * It DOES self-restart, and verifies the successor exists rather than assuming the dispatch worked. The
+#     6 h job ceiling means a window always ends; the fan-out runs for days. A chain that is checked is the
+#     only way the cadence survives that without a human in the loop.
+#
+# COST: $0. GitHub-hosted minutes are free on a public repo, and this job is asleep almost all of its life.
+name: step1 fan-out supervisor (cadence that does not depend on cron)
+
+on:
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: "how long to hold the cadence for (max 5.8 - the 6 h job ceiling, minus setup)"
+        default: "5.5"
+      tick_every_min:
+        description: "minutes between dispatched ticks"
+        default: "8"
+      fleet_branch:
+        description: "passed through to the tick - the branch the RENTED INSTANCES run, not this file's ref"
+        default: "claude/max-effort-2dq11l"
+      release_fanout:
+        description: "1 = ticks may place units; 0 = progress check only. Passed through unchanged."
+        default: "1"
+
+# Never let two supervisors hold the same cadence - they would double the dispatch rate into the one Vast
+# API key that returned an nginx 403 to a four-unit launch on 2026-07-27.
+concurrency:
+  group: step1-fanout-supervisor
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: write          # the only thing it needs: dispatching the tick
+
+jobs:
+  supervise:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355          # under the 360 ceiling, so the loop exits cleanly rather than being killed
+    steps:
+      - name: Hold the cadence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # gh needs a repo to act on. With no actions/checkout step there is no git remote to
+          # infer one from, so `gh workflow run` fails with "not a git repository" on EVERY
+          # iteration - a supervisor that looks alive and dispatches nothing. GH_REPO supplies it
+          # without paying for a checkout this job does not otherwise need.
+          GH_REPO: ${{ github.repository }}
+          HOURS: ${{ github.event.inputs.hours || '5.5' }}
+          EVERY: ${{ github.event.inputs.tick_every_min || '8' }}
+          FLEET_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          RELEASE_FANOUT: ${{ github.event.inputs.release_fanout || '1' }}
+        run: |
+          set -uo pipefail
+          # Coerce in BASH, not in a GitHub-expression comparison. An optional input is null on a non-dispatch event
+          # and GitHub casts null -> 0 when the operands differ in type, so an `inputs.x != '0'` expression reads FALSE in
+          # exactly the case it was written to allow. That defect skipped placement on seven green ticks on
+          # 2026-07-27 and decayed the fleet 18 -> 5 while the board was clearing at 1.03x-1.29x basis.
+          END=$(( $(date +%s) + $(python3 -c "print(int(float('${HOURS}')*3600))") ))
+          SLEEP=$(( EVERY * 60 ))
+          n=0; ok=0; fail=0
+          echo "cadence: a tick every ${EVERY} min until $(date -u -d "@${END}" '+%H:%M UTC')"
+          while [ "$(date +%s)" -lt "$END" ]; do
+            n=$((n+1))
+            # --- one tick -------------------------------------------------------------------------------
+            if gh workflow run step1-fanout-autoscale.yml \
+                 --ref main \
+                 -f fleet_branch="${FLEET_BRANCH}" \
+                 -f release_fanout="${RELEASE_FANOUT}" 2>/tmp/e; then
+              ok=$((ok+1))
+              echo "[$(date -u '+%H:%M:%SZ')] tick ${n} dispatched (ok=${ok} fail=${fail})"
+            else
+              fail=$((fail+1))
+              # A dispatch failure is NOT fatal to the cadence - a throttle or a blip must not end a
+              # supervisor that still has hours of useful life. It is recorded and the loop continues.
+              echo "::warning title=SUPERVISOR TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/e | tr '\n' ' ')"
+            fi
+            # Stop early rather than sleep past the deadline and be killed mid-iteration.
+            [ $(( $(date +%s) + SLEEP )) -ge "$END" ] && break
+            sleep "${SLEEP}"
+          done
+          echo "dispatched ${ok} tick(s), ${fail} failure(s) over ${HOURS} h"
+          # A supervisor that dispatched NOTHING is indistinguishable from one that was never started, so
+          # say so loudly rather than exiting 0 on an empty run.
+          if [ "$ok" -eq 0 ]; then
+            echo "::error title=SUPERVISOR DISPATCHED NOTHING::${n} attempt(s), all failed - the fleet was NOT supervised for ${HOURS} h"
+            exit 1
+          fi
+
+      - name: Hand off to a successor
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          HOURS: ${{ github.event.inputs.hours || '5.0' }}
+          EVERY: ${{ github.event.inputs.tick_every_min || '8' }}
+          FLEET_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          RELEASE_FANOUT: ${{ github.event.inputs.release_fanout || '1' }}
+        run: |
+          set -uo pipefail
+          # WHY THIS CHAINS, having previously refused to. The first version of this file asserted that a
+          # GITHUB_TOKEN-authenticated dispatch cannot create a workflow run, and declined to self-restart on
+          # that basis. THAT WAS FALSE — gpu-ternary-fep-vast.yml:329 dispatches its own launch with
+          # github.token and those launches really rented hosts. A remembered platform rule was written into
+          # a comment and then used to justify a design decision, in the one file whose job is to stop
+          # unsupervised billing.
+          #
+          # The job ceiling is 6 h and cannot be raised, so a window ALWAYS ends. The fan-out runs for days.
+          # Without a chain the cadence dies mid-run and re-placement silently reverts to a cron measured at
+          # 141-220 min gaps — which is the exact loss this workflow exists to prevent, arriving on a timer.
+          #
+          # The honest objection to chaining is that a chain whose last link fails leaves no supervisor AND
+          # no signal. That is answered by VERIFYING the successor exists rather than assuming the dispatch
+          # worked, and shouting if it does not.
+          gh workflow run step1-fanout-supervisor.yml --ref main \
+             -f hours="${HOURS}" -f tick_every_min="${EVERY}" \
+             -f fleet_branch="${FLEET_BRANCH}" -f release_fanout="${RELEASE_FANOUT}" 2>/tmp/h || true
+          sleep 25   # the dispatch is async; a run does not appear in the API instantly
+          # Confirm from the API that a successor actually EXISTS and is not this same run. A dispatch that
+          # returns 0 and creates nothing is precisely how the first supervisor "ran" for six minutes while
+          # dispatching zero ticks.
+          SUCC=$(gh run list --workflow=step1-fanout-supervisor.yml --limit 5 \
+                   --json databaseId,status \
+                   --jq "[.[] | select(.databaseId != ${{ github.run_id }}) | select(.status==\"queued\" or .status==\"in_progress\")] | length" 2>/dev/null || echo 0)
+          if [ "${SUCC:-0}" -ge 1 ]; then
+            echo "::notice title=SUPERVISOR HANDED OFF::a successor is queued or running - the cadence continues without a human."
+          else
+            echo "::error title=SUPERVISOR CHAIN BROKEN::no successor exists, so tick delivery has just fallen back to GitHub's throttled schedule (MEASURED 141-220 min gaps, against this job's 8 min). The fan-out is still billing. Relaunch: gh workflow run step1-fanout-supervisor.yml --ref main"
+            exit 1
+          fi

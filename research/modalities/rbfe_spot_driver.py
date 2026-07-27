@@ -163,7 +163,18 @@ def _pos_vel_intervals(output_settings, sim_settings):
 # --------------------------------------------------------------------------------------------
 def _bonded_pairs(system):
     """Atom pairs joined by a bond or constraint — excluded from the clash search (bonds are
-    legitimately ~1.0–1.5 A; H–X constraints ~1.0 A)."""
+    legitimately ~1.0–1.5 A; H–X constraints ~1.0 A).
+
+    ★ CustomBondForce IS COUNTED, AND THE OMISSION WAS MEASURED, NOT SUSPECTED (2026-07-27, unit
+    `e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral`, S3 complex.log of the 1:41 PM ET
+    failure). That leg's `[clash-diag:initial]` listed pairs (4044,4043) d=1.375 A, (4041,4042)
+    d=1.386 A, (4047,4046) d=1.391 A and (4050,4044) d=1.399 A as NON-BONDED. Those are aromatic
+    C–C bond lengths on consecutive ligand indices — they are bonds. They were invisible here
+    because OpenFE's HybridTopologyFactory moves the alchemically-transforming bonds into a
+    **CustomBondForce** (so the interaction can be interpolated between the A and B states), and
+    this function only read `HarmonicBondForce`. The consequence was not cosmetic: every one of
+    those bonded pairs was then handed to the "is it force-bearing?" test as a candidate contact,
+    which is how a report meant to name the offending atoms filled its top-5 with chemistry."""
     import openmm
     pairs = set()
     for f in system.getForces():
@@ -172,10 +183,47 @@ def _bonded_pairs(system):
                 p = f.getBondParameters(k)
                 i, j = int(p[0]), int(p[1])
                 pairs.add((min(i, j), max(i, j)))
+        elif isinstance(f, openmm.CustomBondForce):
+            for k in range(f.getNumBonds()):
+                p = f.getBondParameters(k)
+                i, j = int(p[0]), int(p[1])
+                pairs.add((min(i, j), max(i, j)))
     for k in range(system.getNumConstraints()):
         i, j, _ = system.getConstraintParameters(k)
         pairs.add((min(int(i), int(j)), max(int(i), int(j))))
     return pairs
+
+
+def _custom_nb_exclusions(system):
+    """(n_custom_nb_forces, pairs_excluded_from_EVERY_CustomNonbondedForce).
+
+    ★ WHY A SECOND EXCLUSION MAP EXISTS (2026-07-27, same failure). `_nonbonded_exceptions` reads
+    only `openmm.NonbondedForce`, so a pair carrying a zeroed exception there was reported
+    `EXCLUDED-hybrid(benign)` — including a pair at **d=0.000 A**. But an OpenFE hybrid topology
+    does its alchemical sterics/electrostatics in `CustomNonbondedForce` objects with their OWN
+    exclusion lists, and a pair excluded in the standard force is NOT automatically excluded there.
+    A coincident pair still coupled by a custom force is precisely how `LocalEnergyMinimizer` gets
+    a non-finite gradient out of coordinates that are themselves finite — so calling it "benign"
+    on the strength of the standard force alone is a verdict the data does not support.
+
+    Returned pairs are excluded in EVERY custom nonbonded force (the intersection), because a pair
+    that any one of them still sees is still coupled."""
+    import openmm
+    sets, n = [], 0
+    for f in system.getForces():
+        if isinstance(f, openmm.CustomNonbondedForce):
+            n += 1
+            s = set()
+            for k in range(f.getNumExclusions()):
+                i, j = f.getExclusionParticles(k)
+                s.add((min(int(i), int(j)), max(int(i), int(j))))
+            sets.append(s)
+    if not sets:
+        return 0, set()
+    inter = sets[0]
+    for s in sets[1:]:
+        inter = inter & s
+    return n, inter
 
 
 def _nonbonded_exceptions(system):
@@ -197,6 +245,124 @@ def _nonbonded_exceptions(system):
                 eps = p[4].value_in_unit(openmm.unit.kilojoule_per_mole)
                 exc[(min(i, j), max(i, j))] = (float(cp), float(eps))
     return exc
+
+
+def _pair_verdict(ga, gb, exc, n_custom_nb, custom_excl):
+    """(is_force_bearing, human_label) for one close pair. PURE — no OpenMM objects, so it is
+    unit-testable without a GPU or a built system.
+
+    THE THREE-WAY DISTINCTION THIS RESTORES. The old test was binary and read one force:
+    "in NonbondedForce exceptions with cp=eps=0" -> benign, else real. That collapsed two very
+    different states into `EXCLUDED-hybrid(benign)`:
+
+      * excluded in the standard force AND in every CustomNonbondedForce -> genuinely uncoupled;
+      * excluded in the standard force but STILL SEEN by a custom nonbonded force -> coupled by the
+        alchemical sterics/electrostatics, which is exactly the term that goes non-finite at r=0.
+
+    The 1:41 PM ET primary-amide log reported a pair at **d=0.000 A** in the first category's
+    wording while the code had never looked at the second, so the report's most alarming number
+    came with a reassurance nothing had measured. `n_custom_nb == 0` (a plain, non-alchemical
+    system) keeps the original two-way answer, so nothing outside the hybrid path changes."""
+    key = (min(int(ga), int(gb)), max(int(ga), int(gb)))
+    std = exc.get(key)
+    if std is not None and (abs(std[0]) > 1e-6 or abs(std[1]) > 1e-6):
+        return True, f"exception(cp={std[0]:.3g} eps={std[1]:.3g})"
+    if std is None:
+        return True, "FORCE-BEARING(real clash)"
+    # zeroed standard exception — the custom nonbonded forces decide.
+    if n_custom_nb == 0:
+        return False, "EXCLUDED-hybrid(benign)"
+    if key in custom_excl:
+        return False, "EXCLUDED-everywhere(benign)"
+    return True, f"FORCE-BEARING via CustomNonbondedForce (zeroed in NonbondedForce, NOT excluded " \
+                 f"in all {n_custom_nb} custom nonbonded force(s))"
+
+
+def energy_probe_verdict(rows, total_kj_mol):
+    """The BLOCK-or-RETRY sentence for a per-force energy probe. PURE, so the rule that decides
+    whether this lane keeps buying hosts for an edge is unit-tested rather than eyeballed in a log.
+
+    `rows` are `_force_energy_probe`'s dicts ({force, energy_kj_mol, finite}); `total_kj_mol` is
+    the summed potential. The verdict is deliberately worded as an instruction, because the whole
+    point of the reading is that the next person (or tick) must not have to re-derive it."""
+    import math
+    bad = [r["force"] for r in rows if not r.get("finite", True)]
+    if bad:
+        return (f"⛔ DETERMINISTIC: {len(bad)} force term(s) are NON-FINITE at the INPUT coordinates, "
+                f"before a single minimisation step — {bad}. This is a property of the staged system, "
+                f"not of the rented host; a fresh host will reproduce it. BLOCK the unit, do not retry.")
+    if not math.isfinite(total_kj_mol):
+        return ("⛔ DETERMINISTIC: the TOTAL potential is non-finite while every individual group is "
+                "finite — a summation overflow in the staged system. BLOCK the unit, do not retry.")
+    if not rows:
+        return ("⚠ INCONCLUSIVE: the probe evaluated no force groups, so it says nothing about the "
+                "system. Do not read this as either a block or a retry verdict.")
+    hi = max(abs(r["energy_kj_mol"]) for r in rows)
+    return (f"✅ every force term is FINITE at the input coordinates (max |E| = {hi:.6g} kJ/mol, "
+            f"total = {total_kj_mol:.6g} kJ/mol). The NaN was produced DURING minimisation, not by the "
+            f"system as built — RETRY candidate, not a block candidate.")
+
+
+def _force_energy_probe(system, positions, log, tag, platform_name=None):
+    """Single-point energy PER FORCE at the given positions. Returns the list of rows it logged.
+
+    ★★ THIS IS THE OBSERVATION THAT DECIDES `BLOCK` vs `RETRY` WITHOUT RENTING A SECOND HOST
+    (2026-07-27). When `LocalEnergyMinimizer` raises `Particle coordinate is NaN` inside
+    `sampler.setup()`, the question that decides everything is whether the fault is in the STAGED
+    SYSTEM (deterministic — a fresh host reproduces it, so the unit must be blocked) or incidental
+    to the machine (retry). Counting failures cannot answer that; neither can the clash report,
+    which had already certified the input coordinates finite and free of force-bearing contacts.
+
+    A per-force single-point energy at the coordinates handed to `setup()` answers it directly: if
+    one force term returns `inf` or `nan` BEFORE any minimisation step has been taken, the defect
+    is in the system as built and every host will reproduce it. If every term is finite and the
+    total is a sane magnitude, the blow-up happened during the minimisation trajectory and the
+    edge is a retry candidate. Either way the log now names the force.
+
+    Non-fatal by construction and only ever called from a failure path, so it can never turn a
+    diagnosis into a second outage. Runs on the CPU platform (not CUDA) on purpose: the failing
+    context is being torn down, and CPU makes the reading independent of the card."""
+    rows = []
+    try:
+        import copy as _copy
+        import math
+        import openmm
+        from openmm import unit as ommunit
+        probe = _copy.deepcopy(system)
+        forces = list(probe.getForces())
+        # One group per force so the decomposition is unambiguous. OpenMM allows 0..31.
+        n = min(len(forces), 32)
+        for gi, f in enumerate(forces[:n]):
+            f.setForceGroup(gi)
+        for f in forces[n:]:                                    # pragma: no cover — >32 forces
+            f.setForceGroup(31)
+        plat = None
+        for name in ([platform_name] if platform_name else ["CPU", "Reference"]):
+            try:
+                plat = openmm.Platform.getPlatformByName(name)
+                break
+            except Exception:                                   # pragma: no cover
+                continue
+        integ = openmm.VerletIntegrator(0.001 * ommunit.picosecond)
+        ctx = (openmm.Context(probe, integ, plat) if plat is not None
+               else openmm.Context(probe, integ))
+        ctx.setPositions(positions)
+        for gi, f in enumerate(forces[:n]):
+            e = (ctx.getState(getEnergy=True, groups={gi})
+                 .getPotentialEnergy().value_in_unit(ommunit.kilojoule_per_mole))
+            finite = math.isfinite(e)
+            rows.append({"group": gi, "force": type(f).__name__, "energy_kj_mol": e,
+                         "finite": finite})
+            log(f"[force-diag:{tag}]   group {gi:>2} {type(f).__name__:<28} "
+                f"E = {e!r} kJ/mol{'' if finite else '   <-- NON-FINITE'}")
+        tot = (ctx.getState(getEnergy=True)
+               .getPotentialEnergy().value_in_unit(ommunit.kilojoule_per_mole))
+        log(f"[force-diag:{tag}] TOTAL potential energy = {tot!r} kJ/mol")
+        log(f"[force-diag:{tag}] {energy_probe_verdict(rows, tot)}")
+        del ctx, integ
+    except Exception as e:                                      # pragma: no cover
+        log(f"[force-diag:{tag}] failed: {type(e).__name__}: {e}")
+    return rows
 
 
 def _clash_report(positions, system, log, tag, thresh_nm=0.09):
@@ -242,30 +408,25 @@ def _clash_report(positions, system, log, tag, thresh_nm=0.09):
         except Exception as e:                        # pragma: no cover
             log(f"[clash-diag:{tag}] could not read NB exceptions ({e})")
             exc = {}
-        # A real clash = a close pair that is NOT a zeroed exception. Count only those.
-        def _forcebearing(ga, gb):
-            key = (min(ga, gb), max(ga, gb))
-            if key not in exc:
-                return True                            # sees full nonbonded -> real contact
-            cp, eps = exc[key]
-            return abs(cp) > 1e-6 or abs(eps) > 1e-6   # non-zero exception -> still force-bearing
-        nclash = sum(1 for dd, ga, gb in cand if dd < thresh_nm and _forcebearing(ga, gb))
-        nexcl = sum(1 for dd, ga, gb in cand if dd < thresh_nm and not _forcebearing(ga, gb))
+        try:
+            n_cnb, cnb_excl = _custom_nb_exclusions(system)
+        except Exception as e:                        # pragma: no cover
+            log(f"[clash-diag:{tag}] could not read CustomNonbondedForce exclusions ({e})")
+            n_cnb, cnb_excl = 0, set()
+        nclash = sum(1 for dd, ga, gb in cand
+                     if dd < thresh_nm and _pair_verdict(ga, gb, exc, n_cnb, cnb_excl)[0])
+        nexcl = sum(1 for dd, ga, gb in cand
+                    if dd < thresh_nm and not _pair_verdict(ga, gb, exc, n_cnb, cnb_excl)[0])
         if cand:
             log(f"[clash-diag:{tag}] non-bonded pairs < {thresh_nm*10:.2f} A: "
-                f"{nclash} force-bearing (REAL) + {nexcl} zeroed-exception (hybrid A/B, benign); "
-                f"closest non-bonded = {cand[0][0]*10:.3f} A")
+                f"{nclash} force-bearing (REAL) + {nexcl} excluded-everywhere (benign); "
+                f"closest non-bonded = {cand[0][0]*10:.3f} A "
+                f"[{n_cnb} CustomNonbondedForce(s) consulted]")
         else:
             log(f"[clash-diag:{tag}] no non-bonded pairs found")
         for dist, ga, gb in cand[:8]:
-            key = (min(ga, gb), max(ga, gb))
-            if key in exc:
-                cp, eps = exc[key]
-                kind = ("EXCLUDED-hybrid(benign)" if abs(cp) <= 1e-6 and abs(eps) <= 1e-6
-                        else f"exception(cp={cp:.3g} eps={eps:.3g})")
-            else:
-                kind = "FORCE-BEARING(real clash)"
-            log(f"[clash-diag:{tag}]   non-bonded pair ({ga},{gb}) d={dist*10:.3f} A  [{kind}]")
+            log(f"[clash-diag:{tag}]   non-bonded pair ({ga},{gb}) d={dist*10:.3f} A  "
+                f"[{_pair_verdict(ga, gb, exc, n_cnb, cnb_excl)[1]}]")
     except Exception as e:                           # pragma: no cover
         log(f"[clash-diag:{tag}] failed: {type(e).__name__}: {e}")
 
@@ -670,9 +831,35 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
                 "here is a STAGING/geometry fault (retry on a fresh host will reproduce it), whereas clean "
                 "contacts point at a parameterisation or coordinate fault.")
             _clash_report(positions, system, log, "setup_nan")
+            # ★★ AND THE ONE READING THAT SEPARATES `BLOCK` FROM `RETRY` (2026-07-27). The clash
+            # report above had already run on this exact edge and certified the inputs clean
+            # (`nonfinite_atoms=0`, `0 force-bearing` pairs), so it could not say whether a fresh
+            # host would reproduce the NaN. A per-force single-point energy AT THESE COORDINATES
+            # can: a non-finite term before any minimisation step is a property of the staged
+            # system and reproduces everywhere; all-finite terms mean the blow-up happened inside
+            # the minimisation trajectory and the edge is retryable. See `_force_energy_probe`.
+            _force_energy_probe(system, positions, log, "setup_nan")
             _diagnose_nan_dir(shared, system, log)
         raise
     _set_caches(warmup, platform)
+    if os.environ.get("RBFE_SETUP_ONLY") == "1":
+        # ★★ THE CONTROLLED REPRODUCTION OF A `setup()` NaN, WITH NO HOST IN THE LOOP (2026-07-27).
+        # `_get_sampler` has just returned, which means `sampler.setup()` — and the
+        # `LocalEnergyMinimizer.minimize` inside it — completed. That is the ENTIRE question a leg
+        # that died at `multistate.py:345` poses, so a free CPU runner can answer it by running this
+        # far and stopping: reach here and the minimiser is fine on this system; NaN before here and
+        # the instrumented `except` above has already named the force and the geometry.
+        #
+        # WHY THIS AND NOT THE ENERGY PROBE ALONE. The probe evaluates the system at the coordinates
+        # as handed over, with the alchemical global parameters as built. `setup()` minimises EVERY
+        # thermodynamic state in the lambda schedule, applying that state's parameters first — so a
+        # softcore term that is finite at the built lambda and divergent at an intermediate one is
+        # invisible to a single-point reading. All-finite energies therefore rule OUT one mechanism;
+        # only running the real minimiser rules out the other.
+        raise SystemExit("[spot-driver] RBFE_SETUP_ONLY=1 — sampler.setup() (incl. its pre-MD "
+                         "LocalEnergyMinimizer over every lambda state) COMPLETED WITHOUT A NaN on "
+                         "this platform. Exiting before any MD; nothing was sampled and nothing "
+                         "was committed.")
     if not warmup_restart and spot._sampler_iteration(warmup) == 0:
         # the big minimization (setup() already did a tiny 100-step one); still fast/non-resumable.
         log("[spot-driver] warmup minimize")

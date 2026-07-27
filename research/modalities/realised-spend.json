@@ -1,0 +1,85 @@
+{
+ "_what": "Realised spend, DERIVED from each lane's own ledger. STRATEGY.md's scoreboard quotes this SNAPSHOT and lint_consistency.py holds it to it; the figure is never typed fresh.",
+ "_generated_by": "research/modalities/realised_spend.py --write",
+ "_as_of_utc": "2026-07-27T22:13:44Z",
+ "_as_of_et": "6:13 PM ET Jul 27, 2026",
+ "realised_usd_ledgered": 24.46,
+ "realised_usd_ledgered_meaning": "real dollars, counted by a machine from observed billed hours. The authoritative figure, and a FLOOR on total spend while any lane below has no ledger.",
+ "lanes": [
+  {
+   "lane": "step1_fanout",
+   "what": "LANE 17/21 \u2014 the 19-edge congeneric RBFE fan-out",
+   "usd": 20.97,
+   "provider": "vast",
+   "artifact": "research/modalities/step1-fanout-map.json",
+   "key": "realised_usd",
+   "ledger": "s3://<ckpt-bucket>/nr4a3-step1-fanout/_rentals.json, reconciled into the map by congeneric_fanout_vast.mode_collect (bid $/hr x observed billed hours)"
+  },
+  {
+   "lane": "vast_bench_sweep",
+   "what": "LANE 18 \u2014 the $/ns throughput bench sweep that re-anchored the ladder basis",
+   "usd": 3.4911,
+   "provider": "vast",
+   "artifact": "research/modalities/vast-bench-spend-ledger.json",
+   "key": "cumulative_usd",
+   "ledger": "vast_bench_sweep.realised_spend() \u2014 cumulative per cal-* instance, keyed on instance id so a destroyed rental cannot vanish from the total"
+  }
+ ],
+ "unreadable_lanes": [],
+ "attested_unledgered_usd": 2.31,
+ "attested_unledgered_meaning": "real dollars no machine ledger counts, because these lanes have never had one. A DEFECT REGISTER, not an accounting category \u2014 each entry names the remediation that deletes it.",
+ "attested_unledgered": [
+  {
+   "lane": "ternary_vast_valb_reps",
+   "what": "LANE 19 \u2014 valB_mini replicate cohorts (r1+r2), 4 legs per cohort",
+   "usd": 0.81,
+   "provider": "vast",
+   "read_from": "the destroyed cohort-2 hosts' own instance records at teardown (0.09/0.27/0.18/0.27); STRATEGY.md Appendix A row 38. Cohort 3 is still billing and is NOT in this figure.",
+   "closes_when": "ternary_vast_launch writes a per-rental ledger keyed on instance id, as congeneric_fanout_vast._LEDGER_KEY does for the fan-out"
+  },
+  {
+   "lane": "ternary_vast_5aks",
+   "what": "RUNG 5a-KS \u2014 the two ligand-side kill-switch ternary legs, destroyed 2026-07-27 8:20 AM ET",
+   "usd": 1.5,
+   "provider": "vast",
+   "read_from": "STRATEGY.md Appendix A row 35, which records it as the realised cost of the relaunch-gate hole; the legs' hosts are gone and cannot be re-read",
+   "closes_when": "same remediation as the row above \u2014 one ledger serves every unit of the ternary lane"
+  }
+ ],
+ "realised_usd_best_estimate": 26.77,
+ "realised_usd_best_estimate_meaning": "ledgered + attested. Quote it only with the split; the attested part is a citation of a past reading, not a live measurement.",
+ "free_credit_separate_ledger": {
+  "gcp": {
+   "label": "GCP free trial",
+   "cap_usd": 300.0,
+   "spent_usd": 8.0,
+   "spent_source": "manual",
+   "expiry": "2026-10-10",
+   "resets": null,
+   "remaining_usd": 292.0
+  },
+  "modal": {
+   "label": "Modal monthly free (use-it-or-lose-it)",
+   "cap_usd": 30.0,
+   "spent_usd": 27.54,
+   "spent_source": "modal_cli (sum of billing-report rows)",
+   "expiry": null,
+   "resets": "monthly",
+   "remaining_usd": 2.46
+  }
+ },
+ "free_credit_note": "GCP trial credit and Modal's monthly allowance are a SEPARATE LEDGER and are never added to realised spend (CLAUDE.md \u00a76). Free credit buys wall clock, not headroom: it cannot pay a Vast bill and it expires whether or not it is used.",
+ "mirrors_deliberately_not_summed": [
+  {
+   "artifact": "research/modalities/step1-fanout-progress.json",
+   "key": "realised_usd_so_far",
+   "why": "the same money as step1-fanout-map.json, snapshotted at the START of a tick before that tick's collect reconciles. The map is the post-collect value and is the lane's one home."
+  },
+  {
+   "artifact": "research/modalities/vast-bench-sweep-results.json",
+   "key": "realised_usd",
+   "why": "the bench sweep's results file copies its own ledger's cumulative_usd. The ledger is the source; the results file is a report of it."
+  }
+ ],
+ "ladder_total_is_elsewhere": "research/modalities/vast-ladder-repricing.json \u2014 what the plan is AUTHORISED to cost. A different question from what was paid; this module does not restate it."
+}

@@ -35,6 +35,10 @@ on:
       units:
         description: "fleet size the cadence model prices (4 = valB ternary, 19 = step-1 fan-out)"
         default: "4"
+      push_every_s:
+        description: "raw-series checkpoint interval, seconds. Drop it to ~120 for a shakeout that has to
+          PROVE the push path before a multi-hour run bets on it."
+        default: "600"
 
 permissions:
   contents: write
@@ -78,6 +82,7 @@ jobs:
             --minutes "${{ github.event.inputs.minutes || '180' }}" \
             --tick-s "${{ github.event.inputs.tick_s || '60' }}" \
             --out "$PWD/vast-board-volatility.jsonl" \
+            --push-every-s "${{ github.event.inputs.push_every_s || '600' }}" \
             --push-branch modalities-cache
 
       - name: Analyse — noise floor, survival, cadence value, rate-limit headroom

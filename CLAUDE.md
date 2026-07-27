@@ -244,6 +244,13 @@ When in doubt: do it and show it.
   branch), but an **already-on-main** workflow dispatched with `ref=<branch>` runs **that branch's version of the
   file and its code**. So: edit an existing on-main workflow on your branch (or pass `git_ref=<branch>` to a job
   that clones), then dispatch with `ref=<branch>`. No merge to main required.
+- **⏱ TIME A CI STEP FROM ITS *COMPLETED RECORD*, NEVER FROM A LIVE POLL (measured 2026-07-27, two misreads
+  in one day).** The jobs API **lags**: it reported a finished 3-minute step as `in_progress` for ~18 minutes,
+  and a finished 4.0-minute run as `in_progress` for ~50 minutes. Polling it while a run is live therefore
+  manufactures a stall that is not there — and §4 says unexpected slowness must be investigated, so a fake one
+  burns a real diagnostic. Read `started_at`/`completed_at` **after** the step completes. (The measured
+  per-submit figure this rule came from has its one home in `congeneric_fanout_vast.mode_launch`, next to the
+  per-rental ledger save it justifies — do not re-type it here.)
 - **★★ A `schedule:` CRON DOES NOT SUPERVISE A BILLING FLEET — AN AGENT HAS BEEN DOING IT BY HAND (measured
   2026-07-27).** State this plainly to trimcrae rather than letting "there's a cron for it" stand: on the day
   it was measured, **25 of the last 30** step-1 autoscale runs were `workflow_dispatch`, not `schedule`. GitHub

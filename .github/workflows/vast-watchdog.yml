@@ -237,9 +237,16 @@ jobs:
             echo "::notice title=STEP1 TICK ALREADY IN FLIGHT::$LIVE run(s) of $WF queued/in-progress — not dispatching a duplicate."
             exit 0
           fi
-          # No inputs are passed ON PURPOSE. Every input of that workflow is written
-          # `${{ github.event.inputs.X || '<default>' }}`, so omitting them uses ITS defaults — the fleet
-          # branch, the shakeout unit and the release flag stay single-homed in the workflow that owns them.
+          # No inputs are passed ON PURPOSE — the fleet branch, the shakeout unit and the release flag stay
+          # single-homed in the workflow that owns them.
+          # ⚠ THE OLD JUSTIFICATION HERE WAS WRONG, AND IT COST 1 H 47 M OF FLEET DECAY (2026-07-27). It read
+          # "every input of that workflow is written `${{ github.event.inputs.X || '<default>' }}`, so
+          # omitting them uses ITS defaults". `release_fanout` was NOT written that way — it was
+          # `github.event.inputs.release_fanout != '0'`, which on a null inputs context is `0 != 0` = FALSE,
+          # so the tick this job dispatches ran monitor+collect and silently skipped every placement. That
+          # asymmetry is now gone: the flag is resolved in a bash step with an explicit "absent means 1", and
+          # the launcher records a NAMED decision on every tick, so a dispatch with no inputs can never again
+          # look like a healthy fleet while placing nothing.
           # --ref main because a workflow_dispatch resolves against the default branch, where that file lives;
           # the job then checks out the fleet branch itself.
           gh workflow run "$WF" --ref main

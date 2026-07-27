@@ -367,7 +367,12 @@ def test_the_terminus_gate_cannot_deadlock_the_shakeout_unit():
     cron would tick all night launching nothing. It must NARROW to the shakeout unit instead of returning."""
     import congeneric_fanout_vast as fv
     src = open(fv.__file__).read()
-    gate = src[src.index("FANOUT_REQUIRE_PROVEN_TERMINUS"):]
+    # ⚠ SLICE FROM THE `if`, NOT FROM THE FIRST MENTION OF THE NAME. This used to start at the first
+    # occurrence anywhere in the file — which is inside `market_gate`'s DOCSTRING — so the "exactly one
+    # return" assertion below was really counting the returns of market_gate's tail, object_store_preflight,
+    # _rented_usd_per_ns AND the first half of mode_launch. It passed by luck, and broke the moment a
+    # placement decision was recorded before the gate. The gate is the `if`.
+    gate = src[src.index('if os.environ.get("FANOUT_REQUIRE_PROVEN_TERMINUS")'):]
     gate = gate[:gate.index("slots = max(")]
     assert "FANOUT_SHAKEOUT_UNIT" in gate, "the gate has no way to keep the shakeout unit alive"
     assert "todo = keep" in gate, "the gate discards rather than narrows"
@@ -651,8 +656,14 @@ def test_a_hold_is_VISIBLE_and_never_silent():
     i = src.index("def market_gate(")
     body = src[i:src.index("\ndef mode_launch(")]
     assert "_lprint" in body, "a hold must reach the committed launch readout"
-    assert "step1-fanout-market-hold.json" in body, "a hold must leave a committed snapshot file"
-    assert "put_object" in body, "a hold must persist state so the NEXT tick can time the escalation"
+    # ★ THE WRITE MOVED TO ONE WRITER (2026-07-27) — assert the writer is REACHED and that the writer does
+    # both halves. This used to look for `put_object` literally inside `market_gate`, which forbade exactly
+    # the refactor the staleness incident required: `market_gate` was the ONLY writer of the snapshot, so
+    # every launcher path that never reached pricing left the artifact carrying an old timestamp.
+    assert "_write_market_hold(" in body, "a hold must be routed through the single snapshot writer"
+    writer = src[src.index("def _write_market_hold("):src.index("def record_no_placement(")]
+    assert "step1-fanout-market-hold.json" in writer, "a hold must leave a committed snapshot file"
+    assert "put_object" in writer, "a hold must persist state so the NEXT tick can time the escalation"
     for field in ("board_depth", "offers_priced", "spend_authorised_now_usd",
                   "ceiling_for_that_spend_usd", "unit_usd_per_ns_ceiling", "binding_gate"):
         assert field in body, f"the snapshot must carry {field}"
@@ -661,6 +672,75 @@ def test_a_hold_is_VISIBLE_and_never_silent():
     for field in ("n_launching_now", "n_held", "held_reason"):
         assert field in body, f"a partial launch must record {field}"
     assert "HELD" in body and "LAUNCHING NOW" in body, "both halves must reach the readout"
+
+
+def test_every_exit_from_mode_launch_records_a_named_placement_decision():
+    """★★ THE 1 H 47 M REGRESSION GUARD (2026-07-27, 12:44 PM -> 2:31 PM ET).
+
+    `step1-fanout-market-hold.json` kept a 12:43 PM timestamp through SEVEN green ticks while the fleet
+    decayed 11 -> 5 and ten checkpointed units sat with no host, because the artifact's only writer was the
+    price gate — a code path most no-op ticks never reach. "We held on price", "there was nothing to place",
+    "placement was switched off" and "the launch step never ran" were therefore indistinguishable, and the
+    last of those was the truth for 1 h 47 m.
+
+    So the invariant is not "holds are logged" but the strictly stronger *every* exit from `mode_launch`
+    leaves a NAMED decision behind, and a stale `utc` can only ever mean the tick itself did not run.
+    """
+    import congeneric_fanout_vast as cfv
+    src = open(cfv.__file__).read()
+    body = src[src.index("def mode_launch("):src.index("\ndef mode_monitor(")]
+    lines = body.splitlines()
+    # Every `return`/`SystemExit` that leaves the launcher WITHOUT having rented must be preceded by a
+    # decision record. Walk backwards from each exit to the nearest recorder or submit loop.
+    unguarded = []
+    for n, ln in enumerate(lines):
+        s = ln.strip()
+        if s != "return" and not s.startswith("raise SystemExit"):
+            continue
+        window = "\n".join(lines[max(0, n - 30):n])
+        if "record_no_placement(" in window or "market_gate(" in window or "backend.submit" in window \
+                or "rmg.gate(" in window:
+            continue
+        unguarded.append((n + 1, s))
+    assert not unguarded, ("these exits from mode_launch leave no placement decision behind, so the "
+                          f"snapshot goes stale and nobody can tell why nothing was placed: {unguarded}")
+    for code in ("placement_disabled", "nothing_pending", "fleet_at_width", "terminus_hold",
+                 "credential_hold", "cost_model_red", "measurement_failed", "price_hold", "placed"):
+        assert code in cfv.PLACEMENT_DECISIONS, f"{code} must be a documented decision"
+        assert code in src, f"{code} is documented but never actually recorded"
+
+
+def test_the_launch_step_is_not_gated_on_a_null_prone_inputs_expression():
+    """★★ THE ROOT CAUSE, PINNED (2026-07-27).
+
+    Both money-spending steps were guarded by `if: ${{ github.event.inputs.release_fanout != '0' }}`. A
+    `schedule:` event carries NO `inputs` context, so that operand is `null`; GitHub Actions casts both
+    operands to a NUMBER when their types differ and `null` casts to `0`, making the condition `0 != 0` —
+    FALSE. Every scheduled tick silently skipped the launch (3 of 3 that day, jobs API runs 30273407468,
+    30285319719, 30292476003), while the SAME runs resolved `${{ …fleet_branch || '…' }}` to its fallback
+    correctly — the observation that discriminates.
+
+    The repair is not a better expression. A YAML `if:` decides with implicit coercion and leaves `skipped`
+    as its only trace; the switch belongs in the launcher, which names and records what it decided.
+    """
+    import yaml
+    wf = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))))), ".github/workflows/step1-fanout-autoscale.yml")
+    with open(wf) as fh:
+        raw = fh.read()
+    doc = yaml.safe_load(raw)
+    steps = doc["jobs"]["tick"]["steps"]
+    launch = [s for s in steps if s.get("env", {}).get("LAUNCH") == "1"]
+    assert launch, "the tick must still have a launch step"
+    for s in launch:
+        cond = str(s.get("if", ""))
+        assert "github.event.inputs" not in cond, (
+            "the launch step must NOT be gated on the inputs context — it is null on a schedule and null "
+            f"casts to 0, so `!= '0'` is FALSE and the step silently skips. Found: {cond!r}")
+        assert "always()" in cond, ("the launch step must run on every tick so the market snapshot cannot "
+                                    "go stale; the DECISION is the launcher's, not the YAML's")
+        assert s["env"].get("FANOUT_PLACEMENT_ENABLED"), \
+            "the resolved flag must be handed to the launcher rather than decided in YAML"
 
 
 def test_the_hold_readout_is_committed_by_both_launching_workflows():
@@ -1045,3 +1125,262 @@ def test_the_dollar_ceiling_branch_is_REACHABLE_not_just_written():
         cf.market_ceiling_usd = real
     # restored: the rate line binds again
     assert "rate line" in cf.unit_ceiling_components()[3]
+
+
+# ---- the stopped-host adjudication: never-started vs preempted, and the machine that took several down ------
+# Added 2026-07-27 after five of fifteen hosts sat stopped and NO committed artifact carried `machine_id`,
+# so "five bad hosts" and "one bad machine rented five times" were indistinguishable. The two readings have
+# opposite remedies, so a classifier that cannot separate them is not a classifier.
+
+def _inst(iid, label, machine, msg, cur="stopped", age_h=0.5):
+    import time
+    return {"id": iid, "label": label, "machine_id": machine, "status_msg": msg, "cur_state": cur,
+            "gpu_name": "RTX 5090", "start_date": time.time() - age_h * 3600}
+
+
+def test_never_started_and_preempted_are_separated_by_the_status_msg_signature():
+    """A container that never executed is HOST-scoped (destroy + share the machine). A box that ran and
+    exited is a routine preemption (resume; excluding its machine retires healthy cheap supply)."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-00-a", "7001", ""),
+            _inst(2, "s1f-01-b", "7002", "success, running docker.io/triskit23/nr4a3fep_latest/ssh"),
+            _inst(3, "s1f-02-c", "7003", "", cur="running")]      # running: not stopped, not adjudicated
+    c = fv.never_started_cohort(live)
+    assert [r["label"] for r in c["never_started"]] == ["s1f-00-a"]
+    assert [r["label"] for r in c["preempted"]] == ["s1f-01-b"]
+    assert c["n_never_started"] == 1 and c["n_preempted"] == 1
+    assert c["never_started"][0]["klass"] == "host_fault"        # sole rental on 7001
+
+
+def test_a_duplicate_on_a_machine_we_already_hold_is_NOT_a_bad_host():
+    """★ THE MEASUREMENT (2026-07-27): 0 of 7 double-booked instances started, 8 of 10 single-booked ones
+    did. A Vast machine rents a fixed number of GPUs, so a second container on a box whose GPU we already
+    hold sits stopped with an empty status_msg — the SAME signature as a genuine create/start race. Host
+    exclusions are PERMANENT and CROSS-LANE, so misfiling this class retires healthy machines that are
+    running our own work."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-05-incumbent", "19492", "success, running img", cur="running", age_h=1.0),
+            _inst(2, "s1f-01-dupe", "19492", "", age_h=0.25)]
+    c = fv.never_started_cohort(live)
+    (dupe,) = c["never_started"]
+    assert dupe["klass"] == "double_booked" and dupe["double_booked_behind"] == 1
+    assert "NOT be excluded" in dupe["remedy"]
+    assert c["n_double_booked"] == 1 and c["n_host_fault"] == 0
+    # and the machine must NOT appear in the set that earns a permanent cross-lane exclusion
+    assert c["host_fault_machines"] == []
+
+
+def test_the_OLDEST_instance_on_a_bad_machine_is_the_host_fault_and_the_rest_are_duplicates():
+    """Machine 19499 took three never-starts. The first was a real refusal (nothing of ours was on it); the
+    two placed after it are our own duplicates. One exclusion, not three — and the exclusion must come from
+    the instance that actually evidences a host fault."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-08-a", "19499", "", age_h=0.82),
+            _inst(2, "s1f-14-b", "19499", "", age_h=0.73),
+            _inst(3, "s1f-01-c", "19499", "", age_h=0.15)]
+    c = fv.never_started_cohort(live)
+    klass = {r["instance"]: r["klass"] for r in c["never_started"]}
+    assert klass == {1: "host_fault", 2: "double_booked", 3: "double_booked"}
+    assert c["host_fault_machines"] == ["19499"]
+    assert c["max_units_on_one_machine"] == 3
+
+
+def test_the_headline_is_how_many_units_ONE_machine_took_down():
+    """N never-starts on N machines is a thin board; N on ONE machine is a 1569-class box that won selection
+    N times and needs exactly one exclusion. Only this number tells them apart."""
+    import congeneric_fanout_vast as fv
+    spread = [_inst(i, f"s1f-{i:02d}-x", str(8000 + i), "") for i in range(5)]
+    assert fv.never_started_cohort(spread)["max_units_on_one_machine"] == 1
+    stacked = [_inst(i, f"s1f-{i:02d}-x", "1569", "") for i in range(5)]
+    c = fv.never_started_cohort(stacked)
+    assert c["max_units_on_one_machine"] == 5
+    assert c["never_started_by_machine"] == {"1569": sorted(f"s1f-{i:02d}-x" for i in range(5))}
+
+
+def test_an_exclusion_added_AFTER_we_rented_is_corroboration_not_a_selector_bug():
+    """Machine 144071 entered the shared set between two ticks, minutes after this lane rented it. Reading
+    that as 'the selector ignored the exclusion set' would accuse our own code on evidence that cannot
+    support it — the only thing that can is the `excluding N machine(s)` line of the wave that placed it."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-03-a", "144071", "")]
+    c = fv.never_started_cohort(live, excluded={"144071"})
+    assert c["machines_excluded_since"] == ["144071"]
+    assert "rented_despite_exclusion" not in c, "must not make a claim the data cannot support"
+    assert fv.never_started_cohort(live)["machines_excluded_since"] == []
+
+
+def test_the_condemn_path_excludes_a_host_fault_and_never_a_duplicate():
+    """The safety property with the money on it: a permanent, cross-lane exclusion must be reachable ONLY
+    from the host-fault branch. Pinned as source because the branch sits inside `mode_monitor`, behind a
+    Vast key, an S3 client and a live board."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    assert 'if stuck_sig and i.get("id") in _dupes:' in src, "the duplicate branch must be tested FIRST"
+    assert "_scope = None" in src and "if _scope is None:" in src, \
+        "a duplicate must reach a branch that writes NO exclusion"
+    # the host-scoped publish must still exist for the genuine case
+    assert '_scope = "host"' in src
+
+
+def test_the_launch_wave_avoids_machines_the_lane_is_ALREADY_renting():
+    """The wave-local `used_machines` only remembered THIS process's submissions, so a second wave minutes
+    later could stack a unit onto a machine the first wave had just rented — two units contending for one
+    GPU, and one bad machine taking both down together. Pinned as source, because the seeding happens deep
+    inside `mode_launch` (Vast key, S3 and a live board) and the property is a one-line invariant."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_launch)
+    assert "_already_on" in src and "used_machines |= _already_on" in src, \
+        "mode_launch must seed host-distinctness with the machines it is already renting"
+    # and it must NOT write them to the durable exclusion set — a machine we are happily running on is good
+    assert "_record_exclusion(s3, bucket, _already_on" not in src
+
+def test_the_double_booked_floor_is_DERIVED_from_the_one_home_and_is_shorter():
+    """`STUCK_START_MIN` buys image-pull protection and nothing else, and a container with no GPU to pull
+    onto has none to protect. The floor must be a FRACTION of that single home so the two cannot drift, and
+    the two-strike rule must not move for either class."""
+    import congeneric_fanout_vast as fv
+    assert fv.stuck_start_min_for(False) == fv.STUCK_START_MIN
+    assert fv.stuck_start_min_for(True) == fv.STUCK_START_MIN / 3.0
+    assert fv.stuck_start_min_for(True) < fv.stuck_start_min_for(False)
+    assert fv.STUCK_START_STRIKES >= 2, "consecutive-observation discipline is never relaxed (CLAUDE.md §4)"
+    import inspect
+    src = inspect.getsource(fv.mode_monitor)
+    assert "_floor = stuck_start_min_for(" in src and "age >= _floor" in src, \
+        "the condemn test must use the derived per-class floor, not the bare constant"
+
+def test_a_machine_that_HAS_run_our_container_can_never_be_condemned_as_never_starting():
+    """★ THE VERDICT MUST NOT DEPEND ON WHAT WAS CLEANED UP (2026-07-27, observed within 7 minutes).
+    46031788 was correctly `double_booked` behind our own 46031535 on machine 53989. The collect reaped
+    46031535 for being terminal, 46031788 became the oldest thing we held there, and the SAME instance
+    re-classified as `host_fault` — one strike from publishing 53989 cross-lane and permanently, though it
+    had just run two of this lane's containers to 94-99 % GPU."""
+    import congeneric_fanout_vast as fv
+    incumbent = _inst(1, "s1f-12-x", "53989", "success, running img", age_h=0.75)
+    dupe = _inst(2, "s1f-15-y", "53989", "", age_h=0.7)
+    assert fv.never_started_cohort([incumbent, dupe])["never_started"][0]["klass"] == "double_booked"
+    # incumbent reaped, nothing else changed, and WITHOUT the durable set it would flip to host_fault
+    assert fv.never_started_cohort([dupe])["never_started"][0]["klass"] == "host_fault"
+    # ...with it, the machine is proven and cannot be condemned
+    c = fv.never_started_cohort([dupe], known_good={"53989"})
+    (row,) = c["never_started"]
+    assert row["klass"] == "stopped_on_a_proven_machine" and row["machine_has_run_our_container"]
+    assert c["host_fault_machines"] == [] and c["n_host_fault"] == 0
+    assert c["n_stopped_on_a_proven_machine"] == 1
+
+
+def test_the_proven_set_is_read_off_a_non_empty_status_msg():
+    """Whatever the message says, the box got as far as running our image — which is the exact claim a
+    'never starts' verdict denies."""
+    import congeneric_fanout_vast as fv
+    live = [_inst(1, "s1f-a", "111", "success, running docker.io/triskit23/nr4a3fep_latest/ssh"),
+            _inst(2, "s1f-b", "222", "#7 5.55 Get:5 http://archive.ubuntu.com/ubuntu jammy/main"),
+            _inst(3, "s1f-c", "333", ""), _inst(4, "s1f-d", "444", "   ")]
+    assert fv.observed_started_machines(live) == ["111", "222"]
+
+
+def test_the_condemn_path_never_publishes_a_proven_machine():
+    """The safety property, pinned as source: a cross-lane exclusion must be unreachable from both the
+    duplicate branch and the proven-machine branch."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    i_proven = src.index('if stuck_sig and i.get("id") in _proven:')
+    i_dupe = src.index('elif stuck_sig and i.get("id") in _dupes:')
+    i_host = src.index('_scope = "host"')
+    assert i_proven < i_dupe < i_host, "both no-exclusion branches must be tested before the host verdict"
+    # the proven set must be built from the DURABLE store, not only from the current listing
+    assert "_load_started_machines(s3, bucket)" in src and "_save_started_machines(s3, bucket, _good)" in src
+
+# ---- withdrawing an exclusion that the evidence refutes -----------------------------------------------------
+# Added 2026-07-27 after three machines that had run this lane's legs at 94-99 % GPU were condemned
+# host-scoped by the unstable verdict, and the very next tick excluded 38 machines against a 152-offer board
+# and lost 4 of 5 authorised placements to `no rentable verified offer`.
+
+class _DictS3:
+    """S3 stand-in over a dict of key -> bytes, with just get_object/put_object."""
+
+    def __init__(self, objs=None):
+        self.objs = dict(objs or {})
+
+    def get_object(self, Bucket=None, Key=None):  # noqa: N803
+        import io
+        if Key not in self.objs:
+            raise KeyError(Key)
+        return {"Body": io.BytesIO(self.objs[Key])}
+
+    def put_object(self, Bucket=None, Key=None, Body=None):  # noqa: N803
+        self.objs[Key] = Body
+
+
+def _excl_doc(entries):
+    import json
+    return json.dumps({"machine_ids": sorted({m for m, _ in entries}),
+                       "history": [{"machine_id": m, "why": w} for m, w in entries]}).encode()
+
+
+def test_a_never_starts_exclusion_is_withdrawn_by_evidence_that_it_started():
+    import json
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("53989", "never started: cur_state=stopped with an empty status_msg"),
+                             ("1569", "never started: create/start race")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"53989"}) == ["53989"]
+    doc = json.loads(s3.objs[f"{fv.RESULT_PREFIX}/_excluded_machines.json"])
+    assert doc["machine_ids"] == ["1569"], "only the refuted entry goes; the unrefuted one stays"
+    assert any(h.get("action") == "withdraw" for h in doc["history"]), "the withdrawal must be recorded"
+
+
+def test_an_exclusion_for_a_DIFFERENT_reason_survives_evidence_that_it_started():
+    """The lane-scoped throughput verdict is about the machine PAIRED WITH THIS WORKLOAD. A host that starts
+    fine and then sustains 12 % GPU is exactly what it describes, so starting refutes nothing."""
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("777", "gpu_util 12.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%)")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"777"}) == []
+
+
+def test_withdrawal_is_not_an_ageing_policy():
+    """Nothing is withdrawn for being old — only for positive contrary evidence. A machine never observed
+    running must survive untouched however long it has sat in the set."""
+    import congeneric_fanout_vast as fv
+    s3 = _DictS3({f"{fv.RESULT_PREFIX}/_excluded_machines.json":
+                  _excl_doc([("1569", "never started: create/start race")])})
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", set()) == []
+    assert fv.withdraw_wrong_exclusions(s3, "bkt", {"999"}) == []
+
+
+def test_the_shared_set_refuses_to_overrule_another_lanes_entry():
+    import json
+    import vast_machine_blacklist as vmb
+    s3 = _DictS3({vmb.SHARED_KEY: json.dumps(
+        {"machine_ids": ["46392"],
+         "history": [{"machine_id": "46392", "why": "never started", "lane": "rung5aks"}]}).encode()})
+    assert vmb.withdraw(s3, "bkt", "46392", "we saw it run", lane="step1_fanout") is False
+    assert json.loads(s3.objs[vmb.SHARED_KEY])["machine_ids"] == ["46392"]
+    # ...but its own entry it may withdraw
+    assert vmb.withdraw(s3, "bkt", "46392", "we saw it run", lane="rung5aks") is True
+    assert json.loads(s3.objs[vmb.SHARED_KEY])["machine_ids"] == []
+
+
+def test_the_repair_runs_before_the_condemn_block():
+    """Otherwise a machine could be withdrawn and re-condemned inside a single tick, which is a loop, not a
+    repair."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_monitor)
+    assert src.index("withdraw_wrong_exclusions(s3, bucket, _good)") < src.index("_cohort_now =")
+
+def test_a_submit_starved_by_OUR_OWN_filters_does_not_read_as_a_capacity_refusal():
+    """`no rentable verified offer` is emitted both when the market has nothing and when our exclusion set
+    plus host-distinctness have eaten the board. Opposite remedies — withdraw a wrong exclusion vs wait for
+    prices — so the readout must name which. Measured: 38 machines excluded against 152 offers lost 4 of 5
+    authorised placements, every one printing as if the market had refused us."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_launch)
+    assert '"no rentable verified offer" in str(e)' in src
+    assert "NOT a capacity refusal" in src
+    # and it must break the count down into the two causes, since only one of them is actionable here
+    assert "_n_excl, _n_held = len(excluded), len(used_machines) - len(excluded)" in src

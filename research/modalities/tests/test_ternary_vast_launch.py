@@ -540,9 +540,16 @@ def test_the_ratio_ceiling_binds_even_when_the_dollar_ceiling_passes():
     basis = basis_usd_per_ns()
     n, ns_unit = 4, tv.rung_ns_per_unit()
     _plan, ceiling = tv.rung_band_usd(n)
+    # 2.048 is a HISTORICAL BOARD READING — a measurement from the night this case documents — so it is
+    # correctly typed. What must NOT be typed is the ceiling it is compared against, and the margin between
+    # them is now only ~0.13x: another upward correction of the basis would flip this silently. So the
+    # relationship is asserted against the DERIVED cap, and the fixture is pinned as what it is.
     at_205 = 2.048 * basis
     assert round(at_205 * ns_unit * n, 2) <= ceiling, "the night's board did clear the DOLLAR ceiling"
     assert 2.048 > tv.MARKET_MAX_RATIO_VS_BASIS, "...and must still be refused on the RATIO ceiling"
+    assert tv.MARKET_MAX_RATIO_VS_BASIS < 2.048, ("if a basis correction ever lifts the derived cap past "
+                                                  "this historical reading, this case stops testing a "
+                                                  "REFUSAL and starts silently testing an approval")
     # DERIVED from the approved absolute rate, not typed (2026-07-27 re-expression).
     import inflight_usd_per_ns as _iu
     assert tv.MARKET_MAX_RATIO_VS_BASIS == pytest.approx(_iu.drift_multiple(), rel=1e-9)
@@ -814,12 +821,18 @@ def _fake_inst(uid, **kw):
     return d
 
 
+def _hosts(live, dead=None):
+    """`unit_hosts`'s shape. The seam the gate and the launcher share is this SPLIT one, not the old flat
+    dict — a fake that returns only "the instances that exist" cannot express the state that broke the lane."""
+    return {"live": dict(live), "dead": dict(dead or {})}
+
+
 def test_outstanding_units_excludes_units_that_already_hold_a_host(monkeypatch):
     """The shared question both the gate and the launcher must ask, from the same code."""
     import ternary_vast_launch as tv
     uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
     monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
-    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {x: _fake_inst(x) for x in uids[:3]})
+    monkeypatch.setattr(tv, "unit_hosts", lambda u, key=None: _hosts({x: _fake_inst(x) for x in uids[:3]}))
     out = tv.outstanding_units("edge_reps")
     assert len(out["live"]) == 3 and len(out["needed"]) == 1
     assert out["needed"] == [uids[3]]
@@ -830,7 +843,7 @@ def test_a_lane_whose_units_are_all_hosted_is_not_a_launch_candidate(monkeypatch
     import ternary_vast_launch as tv
     uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
     monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
-    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {x: _fake_inst(x) for x in uids})
+    monkeypatch.setattr(tv, "unit_hosts", lambda u, key=None: _hosts({x: _fake_inst(x) for x in uids}))
 
     def _boom(*a, **k):
         raise AssertionError("the market must not even be priced when nothing needs a host")
@@ -851,7 +864,7 @@ def test_a_completed_unit_is_not_a_launch_candidate_either(monkeypatch):
     import ternary_vast_launch as tv
     uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
     monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {u: {"status": "done"} for u in uids})
-    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {})
+    monkeypatch.setattr(tv, "unit_hosts", lambda u, key=None: _hosts({}))
     action, readout = tv.gate_for_mode("edge_reps")
     assert action == "nothing-to-launch" and len(readout["units_done"]) == 4
 
@@ -861,7 +874,7 @@ def test_the_gate_prices_only_the_units_that_still_need_a_host(monkeypatch):
     import ternary_vast_launch as tv
     uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
     monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
-    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {x: _fake_inst(x) for x in uids[:3]})
+    monkeypatch.setattr(tv, "unit_hosts", lambda u, key=None: _hosts({x: _fake_inst(x) for x in uids[:3]}))
     seen = {}
 
     def _gate(n, **kw):
@@ -878,7 +891,7 @@ def test_nothing_to_launch_has_its_own_exit_code_so_the_caller_cannot_dispatch(m
     import ternary_vast_launch as tv
     uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
     monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
-    monkeypatch.setattr(tv, "live_unit_hosts", lambda u, key=None: {x: _fake_inst(x) for x in uids})
+    monkeypatch.setattr(tv, "unit_hosts", lambda u, key=None: _hosts({x: _fake_inst(x) for x in uids}))
     monkeypatch.setattr(tv, "blocked_machine_ids", lambda *a, **k: [])
     assert tv.main(["--mode", "edge_reps", "--gate-for-mode"]) == 3
 
@@ -917,7 +930,13 @@ def test_rented_usd_per_ns_prices_the_instance_not_the_offer():
 def test_the_rate_row_flags_a_host_over_the_buy_line():
     import ternary_vast_launch as tv
     cheap = tv.rented_rate_row("u", _fake_inst("u", gpu_name="RTX 5090", dph_total=0.1177))
-    assert cheap["over_buy_line"] is False and cheap["x_basis"] < 1.9166
+    # ⚠ DERIVED, NOT TYPED. This read `< 1.9166` — the drift multiple, hand-carried. That is the exact
+    # shape that went stale when the ladder basis was re-anchored on 2026-07-27 ($0.004359 -> $0.003412/ns:
+    # no price moved, the yardstick did), and it is the third instance of the pattern found that day. The
+    # invariant is the ABSOLUTE rate; the multiple is derived from it (CLAUDE.md §1), so the assertion must
+    # ask the cost model rather than remember a number the cost model can correct underneath it.
+    import congeneric_fanout as _cf
+    assert cheap["over_buy_line"] is False and cheap["x_basis"] < _cf.drift_buy_line_x_basis()
     dear = tv.rented_rate_row("u", _fake_inst("u", gpu_name="RTX 5090", dph_total=1.5))
     assert dear["over_buy_line"] is True
 
@@ -948,7 +967,7 @@ def test_the_gate_refuses_to_dispatch_when_the_instance_list_cannot_be_read(monk
 
     def _403(*a, **k):
         raise RuntimeError("vast API GET /instances/ -> 403")
-    monkeypatch.setattr(tv, "live_unit_hosts", _403)
+    monkeypatch.setattr(tv, "unit_hosts", _403)
     monkeypatch.setattr(tv, "market_gate", lambda *a, **k: (_ for _ in ()).throw(
         AssertionError("must not price, let alone clear, on an unreadable instance list")))
 
@@ -962,7 +981,7 @@ def test_outstanding_units_reports_that_it_could_not_read_the_list(monkeypatch):
     """`needed` is only trustworthy when `listing_ok` — on a failure everything looks unhosted."""
     import ternary_vast_launch as tv
     monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
-    monkeypatch.setattr(tv, "live_unit_hosts",
+    monkeypatch.setattr(tv, "unit_hosts",
                         lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
     out = tv.outstanding_units("edge_reps")
     assert out["listing_ok"] is False and "boom" in out["listing_error"]
@@ -976,7 +995,7 @@ def test_submit_refuses_to_rent_when_it_cannot_see_what_it_already_holds(monkeyp
     import ternary_vast_launch as tv
     monkeypatch.setenv("VAST_API_KEY", "x")
     monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
-    monkeypatch.setattr(tv, "live_unit_hosts",
+    monkeypatch.setattr(tv, "unit_hosts",
                         lambda *a, **k: (_ for _ in ()).throw(RuntimeError("403 Forbidden")))
 
     def _never(*a, **k):
@@ -991,3 +1010,138 @@ def test_submit_refuses_to_rent_when_it_cannot_see_what_it_already_holds(monkeyp
     out = capsys.readouterr().out
     assert "REFUSING TO RENT" in out and "TVAST LAUNCHER FAULT" in out
     assert "duplicates are possible" not in out, "the old rent-anyway wording must not come back"
+
+
+# =============================================================================================================
+# ★★ A GATE THAT COUNTED INSTANCES THAT EXIST INSTEAD OF INSTANCES THAT RUN (measured 2026-07-27, 6:12 PM ET)
+# =============================================================================================================
+# `task=collect` at 6:17 PM ET printed, for the four RUNG 2b replicate units:
+#
+#     ternary_vhl_r1  46040507  up=exited   committed=none/0    RTX 5090
+#     binary_vhl_r1   46040514  up=running  committed=warmup/832 RTX 5090
+#     ternary_vhl_r2  46040577  up=exited   committed=none/0    RTX 4090
+#     binary_vhl_r2   46040659  up=exited   committed=warmup/256 RTX 4090
+#
+# ONE of four was working. Five minutes earlier the gate's own snapshot said "no unit of mode edge_reps needs
+# a host — 0 done, 4 already running. The market was not consulted", because `live_unit_hosts` returned every
+# LABELLED instance regardless of state. Nothing in the loop would ever have re-placed the three dead legs:
+# the count that decides whether to even look at the board was made from EXISTENCE, and an exited instance
+# exists until something destroys it. Same defect class as `ternary_vast_watchdog.classify`'s
+# `instance_alive = inst is not None`, fixed earlier the same day, in a different file, by hand.
+#
+# The predicate now has ONE home (`gpu_backend.vast_instance_occupies_slot`) and both sites import it.
+def test_an_exited_instance_does_not_occupy_its_units_slot(monkeypatch):
+    """The exact 6:17 PM ET board: one running host, three corpses. Three units must be for sale."""
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    # uids[1] is binary_vhl_r1 — the one leg that was genuinely running.
+    insts = [_fake_inst(uids[0], id=46040507, actual_status="exited", cur_state="stopped"),
+             _fake_inst(uids[1], id=46040514, actual_status="running", cur_state="running"),
+             _fake_inst(uids[2], id=46040577, actual_status="exited", cur_state="stopped"),
+             _fake_inst(uids[3], id=46040659, actual_status="exited", cur_state="stopped")]
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.setattr(tv, "_vast_request", lambda *a, **k: {"instances": insts})
+    got = tv.unit_hosts(uids)
+    assert list(got["live"]) == [uids[1]], "only the box that is actually running holds a slot"
+    assert sorted(got["dead"]) == sorted([uids[0], uids[2], uids[3]])
+
+
+def test_a_fresh_rental_still_pulling_its_image_DOES_occupy_its_slot(monkeypatch):
+    """⚠ THE HALF OF THE OLD CONSERVATISM THAT MUST SURVIVE. A just-rented box reads
+    actual_status=loading / cur_state=stopped for as long as 2 h 57 min on this account. Calling that free
+    is how a launcher rents a SECOND GPU for work it has already paid to start."""
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    for status in ("loading", "created", "scheduling", "starting"):
+        monkeypatch.setattr(tv, "_vast_request", lambda *a, s=status, **k: {
+            "instances": [_fake_inst(uids[0], actual_status=s, cur_state="stopped")]})
+        got = tv.unit_hosts(uids)
+        assert list(got["live"]) == [uids[0]], f"a host at {status!r} is still ours and still starting"
+        assert not got["dead"]
+
+
+def test_the_gate_reprices_the_market_for_the_units_whose_hosts_died(monkeypatch):
+    """The consequence that matters: three dead legs must send the gate back to the board, not to
+    'nothing-to-launch'. With the old count this returned `nothing-to-launch` forever."""
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    dead = {u: _fake_inst(u, id=460405 + n, actual_status="exited", cur_state="stopped")
+            for n, u in enumerate(u_ for u_ in uids if u_ != uids[1])}
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+    monkeypatch.setattr(tv, "unit_hosts",
+                        lambda u, key=None: _hosts({uids[1]: _fake_inst(uids[1])}, dead))
+    seen = {}
+
+    def _gate(n, **kw):
+        seen["n"] = n
+        return False, {"reason": "ok", "hold": False}
+    monkeypatch.setattr(tv, "market_gate", _gate)
+    action, readout = tv.gate_for_mode("edge_reps")
+    assert action == "clear" and seen["n"] == 3, "three corpses are three units for sale"
+    assert readout["units_live"] == [uids[1]]
+    # ...and the snapshot must SAY they are replacements, with the state that condemned each box. A reader
+    # hours later cannot otherwise tell a never-launched cohort from one whose hosts are corpses.
+    rep = {r["unit_id"]: r for r in readout["units_replacing_a_dead_host"]}
+    assert set(rep) == set(dead)
+    assert all(r["actual_status"] == "exited" and r["dead_instance"] for r in rep.values())
+
+
+def test_submit_destroys_the_corpse_of_every_unit_it_re_places(monkeypatch, capsys):
+    """The safety half. Re-placing a unit whose dead instance is still listed would leave TWO records under
+    one label — and a `stopped` Vast box bills its volume at a HIGHER rate than a running one."""
+    import ternary_vast_launch as tv
+    uids = [tv.unit_id(l, s, d, 4.0, 1.0, "edge_reps") for (l, s, d) in tv.units_for("edge_reps")]
+    dead = {uids[0]: _fake_inst(uids[0], id=46040507, actual_status="exited", cur_state="stopped")}
+    monkeypatch.setenv("VAST_API_KEY", "x")
+    monkeypatch.setattr(tv, "leg_records", lambda *a, **k: {})
+    monkeypatch.setattr(tv, "unit_hosts",
+                        lambda u, key=None: _hosts({x: _fake_inst(x) for x in uids[1:]}, dead))
+    monkeypatch.setattr(tv, "blocked_machine_ids", lambda *a, **k: [])
+    destroyed = []
+
+    def _req(method, path, key, **kw):
+        if method == "DELETE":
+            destroyed.append(path)
+            return {"success": True}
+        raise AssertionError(f"unexpected {method} {path}")
+    monkeypatch.setattr(tv, "_vast_request", _req)
+
+    class _Backend:
+        def submit(self, j):
+            raise RuntimeError("no market in this test — the reap is what is under test")
+    monkeypatch.setattr(tv, "get_backend", lambda *a, **k: _Backend())
+
+    tv.submit(mode="edge_reps")
+    assert destroyed == ["/instances/46040507/"], "the corpse of the re-placed unit must be destroyed"
+    assert "not working, and billing its volume" in capsys.readouterr().out
+
+
+def test_a_live_replacement_outranks_an_older_corpse_in_the_dedupe(monkeypatch):
+    """`collect` kept the OLDEST instance per label — correct when a corpse blocked re-placement forever,
+    and exactly backwards now that it does not: after a re-place the oldest record IS the dead one."""
+    import gpu_backend as gb
+    old_dead = _fake_inst("u", id=1, start_date=100, actual_status="exited", cur_state="stopped")
+    new_live = _fake_inst("u", id=2, start_date=200, actual_status="running", cur_state="running")
+    group = [old_dead, new_live]
+    group.sort(key=lambda x: (not gb.vast_instance_occupies_slot(x), float(x.get("start_date") or 0)))
+    assert group[0] is new_live, "destroying the replacement and keeping the corpse is the same bug returning"
+
+
+def test_the_liveness_predicate_has_exactly_one_home():
+    """CLAUDE.md §1. Three sites have now been wrong about this in three different ways; a fourth private
+    copy of the status comparison is how they get to disagree again."""
+    import os
+    import re
+    d = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    for fn in ("ternary_vast_launch.py",):
+        live = "\n".join(l for l in open(os.path.join(d, fn)).read().splitlines()
+                         if not l.lstrip().startswith("#"))
+        # `collect`'s nudge/reap branch legitimately asks "is this box stopped RIGHT NOW" to decide whether to
+        # re-issue a start — a different question from "does it hold the slot". What must not exist is a
+        # second answer to the OCCUPANCY question, i.e. a status compare used to build a hosts mapping.
+        assert "def unit_hosts" in live
+        body = live.split("def unit_hosts", 1)[1].split("\ndef ", 1)[0]
+        assert "vast_instance_occupies_slot" in body
+        assert not re.search(r'(actual_status|cur_state)\s*(==|!=)', body), \
+            f"{fn}: unit_hosts must IMPORT the predicate, never re-type the status comparison"

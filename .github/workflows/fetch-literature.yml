@@ -38,10 +38,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Fetch open-access full text (Europe PMC)
-        env:
-          QUERY: ${{ inputs.query }}
-        run: node scripts/fetch-paper.mjs sync "$QUERY"
+      - name: Install PDF text extractor
+        run: python3 -m pip install --quiet pypdf
+
+      - name: Fetch literature URLs (generic, runner has unrestricted egress)
+        run: python3 scripts/lit_fetch_urls.py
 
       - name: Keep full-text artifact (ephemeral, 14 days)
         uses: actions/upload-artifact@v4
