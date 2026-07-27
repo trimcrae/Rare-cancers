@@ -57,9 +57,13 @@ what this doc is for.**
 > so its container reads/writes the bucket via the existing `object_store` boto3 path (endpoint unset ⇒ AWS S3);
 > `s3_checkpoint_uri(job, bucket=$VAST_CKPT_BUCKET)` builds `s3://<bucket>/vast/<job>/ckpt`. Because campaigns
 > launch from CI, the creds come from the CI `AWS_*` secrets already present — **no new secret required** for the
-> CI-launched path; optionally set **`VAST_CKPT_BUCKET`** to pin the bucket. **⚠ SECURITY (recommended before a
-> real fan-out):** a rented community host is UNTRUSTED and the onstart hands it the S3 creds, so use a
-> **bucket-scoped IAM key** (s3:Get/Put/ListBucket on just the `vast/*` prefix), NOT the broad SageMaker key.
+> CI-launched path; optionally set **`VAST_CKPT_BUCKET`** to pin the bucket. **⚠ SECURITY — this warning was
+> here, said "recommended before a real fan-out", and the fan-out shipped without it; on 2026-07-27 the broad
+> key went to a public log and, far more to the point, to every host rented since.** A rented community host is
+> UNTRUSTED and the onstart hands it the S3 credential in cleartext. The scoped credential now exists in code
+> (`VAST_S3_*` → [`s3_scoped_policy.py`](../modalities/s3_scoped_policy.py)); the AWS half is
+> [scoped-s3-credential-runbook.md](./scoped-s3-credential-runbook.md), and until it is done the broad key is
+> still what goes out.
 > Trade-off accepted: S3 egress (~$0.09/GB) when trajectories move to/from Vast; revisit R2 (free egress) only
 > if that adds up.
 

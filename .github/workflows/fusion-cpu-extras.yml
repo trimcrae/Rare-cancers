@@ -653,6 +653,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       # Target CUDA 12.6 so the solver picks CUDA-12 openmm/pytorch builds (PTX runs on all >=12.6 host drivers).
@@ -708,6 +715,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
     steps:
@@ -739,6 +753,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
@@ -771,6 +792,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
     steps:
@@ -836,6 +864,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
     steps:
@@ -885,6 +920,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
     steps:
@@ -929,6 +971,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       PREFIX: ${{ github.event.inputs.cofold_output_prefix }}
@@ -954,6 +1003,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
     steps:
@@ -1077,6 +1133,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       DOCKERHUB_USER: triskit23
@@ -1122,6 +1185,13 @@ jobs:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       NRV04_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
@@ -1214,6 +1284,13 @@ jobs:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       GIT_BRANCH: ${{ github.ref_name }}
@@ -1284,7 +1361,7 @@ jobs:
           # a monitor run (which writes progress.json but not map.json) staged nothing at all and reported
           # "no readout change" while silently swallowing the error.
           staged=0
-          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt step1-fanout-market-hold.json step1-fanout-launch-readout.txt; do
+          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt step1-fanout-market-hold.json relaunch-market-hold.json step1-fanout-launch-readout.txt; do
             if [ -f "research/modalities/$f" ]; then
               git add -f "research/modalities/$f"; staged=1; echo "staged $f"
             else
@@ -1431,6 +1508,13 @@ jobs:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       GIT_BRANCH: ${{ github.ref_name }}
       VAST_IMAGE: ${{ github.event.inputs.vast_image }}
@@ -1460,6 +1544,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
@@ -1626,6 +1717,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # The credential a RENTED community host is given, forwarded in cleartext by _vast_onstart.
+      # Scoped to the lane prefixes + six S3 actions a leg needs (s3_scoped_policy.py). Unset until
+      # trimcrae creates the vast-leg-s3 user -> gpu_backend falls back to the broad key above, which
+      # is why lanes in flight kept running. Runbook: research/compute/scoped-s3-credential-runbook.md
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
     steps:
