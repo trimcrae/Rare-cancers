@@ -383,6 +383,63 @@ STUCK_START_STRIKES = int(os.environ.get("STUCK_START_STRIKES", "2"))
 STUCK_START_HARD_MIN = float(os.environ.get("STUCK_START_HARD_MIN", str(3 * 45)))
 
 
+def never_started_cohort(live, excluded=()):
+    """Group the NEVER-STARTED hosts by machine_id, and separate them from PREEMPTIONS. PURE.
+
+    ★★ THE TWO CLASSES HAVE OPPOSITE REMEDIES, AND CONFLATING THEM COSTS MONEY IN BOTH DIRECTIONS
+       (2026-07-27, 3:28 PM ET, when five of fifteen hosts were stopped and two more looked identical in
+       every readout the lane produced).
+
+      * **never started** — `cur_state == "stopped"` with an EMPTY `status_msg`: the create/start race, the
+        container never executed. Nothing about our workload enters the judgement, so the verdict is
+        HOST-SCOPED: destroy, and publish the machine cross-lane. Leaving it un-excluded is not neutral —
+        a host that never starts has INFINITE realised `$/ns`, which is invisible to `$/ns` ranking, so it
+        keeps winning selection and keeps failing (machine 1569 took ten relaunches to learn this once).
+      * **preempted** — stopped with a NON-empty `status_msg` such as `'success, running <image>'`: the box
+        RAN and exited. CLAUDE.md §6 calls this routine. The remedy is to resume it, and excluding its
+        machine would retire healthy, cheap supply for a fault that was never the host's.
+
+    WHY GROUPING BY MACHINE IS THE POINT rather than a nicety. Five never-started hosts on five machines is
+    five independent capacity refusals — bad luck on a thin board. Five on ONE machine is a single
+    1569-class box that won selection five times, and the remedy is one exclusion, not five. The counts are
+    identical in every other readout the lane emits, which is exactly why this has to be computed and
+    committed rather than eyeballed.
+
+    `already_excluded` is the third thing this answers, and it is a question about OUR CODE, not the market:
+    a never-started host whose machine was ALREADY in the exclusion set at the moment it was rented proves
+    the set is not reaching the selector, which is a defect no amount of further excluding will fix.
+    """
+    excl = {str(m) for m in (excluded or ())}
+    never, preempted = [], []
+    for i in (live or []):
+        if (i.get("cur_state") or "") != "stopped":
+            continue
+        row = {"instance": i.get("id"), "label": i.get("label"),
+               "machine_id": (None if i.get("machine_id") is None else str(i.get("machine_id"))),
+               "gpu": i.get("gpu_name"), "age_min": _age_min(i),
+               "status_msg": (i.get("status_msg") or "")[:120]}
+        if (i.get("status_msg") or "").strip():
+            preempted.append(row)
+        else:
+            row["already_excluded_when_rented"] = row["machine_id"] in excl
+            never.append(row)
+    by_machine = {}
+    for r in never:
+        by_machine.setdefault(r["machine_id"] or "unknown", []).append(r["label"])
+    return {
+        "never_started": never,
+        "preempted": preempted,
+        "never_started_by_machine": {k: sorted(v) for k, v in sorted(by_machine.items())},
+        # The headline: how much of the never-started population is ONE box. 1 means five separate hosts;
+        # 5 means one machine took the whole cohort down with it.
+        "max_units_on_one_machine": max([len(v) for v in by_machine.values()] or [0]),
+        "n_never_started": len(never), "n_preempted": len(preempted),
+        # A non-empty list here is a bug in the lane, not in the market — see the docstring.
+        "rented_despite_exclusion": sorted({r["machine_id"] for r in never
+                                            if r.get("already_excluded_when_rented")}),
+    }
+
+
 def _iter_rate(prev_entry, scalar):
     """Realised committed-iterations/hour since the previous check, or None if not computable.
 
@@ -1888,7 +1945,36 @@ def mode_launch():
     _ledger = _load_ledger(s3, bucket)
     # Machines used by THIS wave are also excluded as we go, so an 18-wide fan-out lands on 18 distinct hosts
     # rather than stacking on the single cheapest one and contending for its GPU.
+    #
+    # ★★ AND MACHINES THIS LANE IS **ALREADY ON** ARE SEEDED IN — THE HALF THE WAVE-LOCAL SET MISSED
+    #    (2026-07-27, found adjudicating the ramp's 10-unit placement).
+    #
+    # THE DEFECT, EXACTLY. `used_machines` started as a copy of the EXCLUSION set and grew only from THIS
+    # process's own submissions, so it made a single wave land on distinct hosts and said nothing about the
+    # hosts the lane was already renting. The ramp replaced one hand-placed unit per tick with a
+    # self-replenishing tick that places to width, so waves now arrive minutes apart — 10 units went out in
+    # two waves 4 minutes apart at 2:58 and 3:02 PM ET. Wave 2 began with a `used_machines` that had
+    # forgotten every host wave 1 had just rented, and the board it read was substantially the same board,
+    # with the same cheapest offers ranked first. Two units on one machine contend for one GPU; worse, when
+    # that machine is bad it takes every unit on it down TOGETHER, which is the shape of a cohort of
+    # simultaneous never-starts.
+    #
+    # WHY THE BOARD CACHE MAKES THIS SHARPER, NOT SAFER: within a wave the cache serves one snapshot to every
+    # unit, so the ranking is identical for all of them and ONLY `exclude_machine_ids` separates them. That
+    # is correct and tested — but it means the ordering is now deterministic across a wave AND across the
+    # next wave taken within the TTL, so a forgetful seed does not merely risk a collision, it makes the same
+    # top-ranked machine the first choice again.
+    #
+    # ⚠ THIS EXCLUDES NOTHING PERMANENTLY AND CONDEMNS NOTHING. These ids are not written to the exclusion
+    # set — a machine we are happily running on is a GOOD machine, and it becomes selectable again the moment
+    # its instance goes away. It is a within-fleet distinctness rule, not a verdict.
     used_machines = set(excluded)
+    _already_on = {str(i.get("machine_id")) for i in live if i.get("machine_id") is not None}
+    if _already_on:
+        used_machines |= _already_on
+        _lprint(f"[s1f] host distinctness: also avoiding {len(_already_on)} machine(s) this lane is ALREADY "
+                f"renting ({sorted(_already_on)}) — a second unit on a machine we already hold contends for "
+                f"one GPU, and shares that machine's fate if it is bad.")
 
     # ★★ ONE BOARD READ FOR THE WHOLE WAVE — the change that makes the ramp raise concurrency and LOWER API
     # pressure at the same time (2026-07-27). Rationale and the safety argument: `gpu_backend
@@ -2070,7 +2156,15 @@ def mode_monitor():
     else:
         print(f"[s1f] live s1f-* instances: {len(live)}")
     for i in live:
-        print(f"[s1f]   id={i.get('id')} label={i.get('label')} actual={i.get('actual_status')} "
+        # ★ `machine=` IS NOT DECORATION — IT IS THE FIELD THE NEVER-STARTED VERDICT IS MADE ON
+        #   (2026-07-27, 3:28 PM ET). Five of fifteen hosts carried the never-started signature and the
+        #   question that decides the remedy — "are these five DIFFERENT bad hosts, or ONE bad machine that
+        #   won selection five times?" — could not be answered from any committed artifact, because neither
+        #   this line nor the snapshot below carried the machine id. The two answers have opposite actions
+        #   (five host-scoped exclusions vs one 1569-class machine that must be excluded once and will
+        #   otherwise keep winning), so an adjudication that cannot distinguish them is not an adjudication.
+        print(f"[s1f]   id={i.get('id')} label={i.get('label')} machine={i.get('machine_id')} "
+              f"actual={i.get('actual_status')} "
               f"cur={i.get('cur_state')} dph=${i.get('dph_total')} gpu={i.get('gpu_name')} "
               f"util={_gpu_util(i)}% age_min={_age_min(i)} msg={(i.get('status_msg') or '')[:120]!r}")
     # PROGRESS, not liveness. The committed-iteration census is the durable evidence the science advanced;
@@ -2346,6 +2440,28 @@ def mode_monitor():
           + ("  <-- all idle; if unchanged next check, that is a STALL, not slowness"
              if utils and not any(utils) else ""))
 
+    # ★ THE STOPPED-HOST ADJUDICATION, PRINTED AND COMMITTED. `instance_states` above says "5 loading, 2
+    # exited" and stops there — which is the reading that let a never-started cohort and two routine
+    # preemptions sit in one bucket. This names which is which and, crucially, whether they share a machine.
+    _excl_now, _ = _load_excluded(s3, bucket)
+    cohort = never_started_cohort(live, _excl_now)
+    if cohort["n_never_started"] or cohort["n_preempted"]:
+        print(f"[s1f] STOPPED-HOST ADJUDICATION: {cohort['n_never_started']} never-started "
+              f"(empty status_msg -> HOST-scoped exclusion) | {cohort['n_preempted']} preempted "
+              f"(ran and exited -> resume, do NOT exclude)")
+        for mid, labels in cohort["never_started_by_machine"].items():
+            print(f"[s1f]   never-started machine {mid}: {len(labels)} unit(s) {labels}"
+                  + ("   <-- ONE MACHINE took several units down together" if len(labels) > 1 else ""))
+        for r in cohort["preempted"]:
+            print(f"[s1f]   preempted {r['instance']} ({r['label']}) machine {r['machine_id']} "
+                  f"age {r['age_min']} min — resume, machine NOT excluded")
+    if cohort["rented_despite_exclusion"]:
+        # This is a code fault, not a market one: an exclusion that does not reach the selector is a set
+        # nobody is consulting, and adding more entries to it cannot help.
+        print(f"::error title=STEP1 FAN-OUT: EXCLUSION SET NOT REACHING THE SELECTOR::machine(s) "
+              f"{cohort['rented_despite_exclusion']} were ALREADY excluded and were rented anyway. "
+              f"Excluding them again will not fix this — the selector is not consulting the set.")
+
     # Written to disk (and committed back to the branch by CI) because a GitHub job log is only readable from
     # its tail, and the tail is always the runner's own post-job boilerplate. A committed progress file is the
     # readout that survives, and it doubles as a timestamped trail of how the fleet advanced.
@@ -2386,12 +2502,19 @@ def mode_monitor():
         # status_msg is what distinguishes a host still PULLING the ~6 GiB image (documented ~20-40 min on
         # cheap 4090 hosts, and normal) from a container that is genuinely wedged — both show actual_status
         # "loading". Without it, "loading for 29 minutes" is unreadable either way.
-        "instances": [{"id": i.get("id"), "label": i.get("label"), "status": i.get("actual_status"),
+        # ⚠ `machine_id` IS LOAD-BEARING HERE, NOT EXTRA DETAIL. Without it this artifact can report that
+        # five hosts are dead and cannot report whether they are five machines or one — and those two
+        # readings have opposite remedies. See `never_started_cohort`.
+        "instances": [{"id": i.get("id"), "label": i.get("label"),
+                       "machine_id": i.get("machine_id"), "status": i.get("actual_status"),
                        "cur_state": i.get("cur_state"), "status_msg": (i.get("status_msg") or "")[:200],
                        "gpu": i.get("gpu_name"), "gpu_util": _gpu_util(i),
                        "inet_down": i.get("inet_down"),
                        "dph": i.get("dph_total"), "age_min": _age_min(i)}
                       for i in live],
+        # The adjudication itself, so the verdict survives in the committed trail rather than only in a CI
+        # log's scrolled-off middle.
+        "stopped_host_adjudication": cohort,
         "units": [{"unit_id": u["unit_id"],
                    "phase": ("done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX))
                              else _get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")
