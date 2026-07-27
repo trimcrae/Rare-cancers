@@ -120,6 +120,29 @@ def phase_head(phase_text):
     return (phase_text or "").strip().split()[0] if (phase_text or "").strip() else ""
 
 
+def _log_excerpt(log_lines, limit=600):
+    """The DIAGNOSTIC part of `phase_and_log`'s output, not its last few lines.
+
+    `ternary_vast_launch.phase_and_log` deliberately returns `hits + ["--- raw tail ---"] + raw[-4:]`, where
+    `hits` are the lines that answer "is this advancing and is it healthy" ([timing], [barrier],
+    [spot-driver], NaN, Traceback, ERROR, ABORT) and the raw tail is whatever happened to be last. Slicing
+    `[-4:]` off that therefore returns the RAW TAIL and throws the hits away — which on the first live pass
+    filled the alert with openmmtools citation boilerplate ("Eastman P and Pande VS. Efficient nonbonded
+    interactions...") while the [spot-driver] line that mattered was sitting further up the same list.
+    So: keep everything before the separator, plus the LAST-ITER line the helper appends, and fall back to
+    the tail only when there were no hits at all.
+    """
+    lines = [str(x) for x in (log_lines or [])]
+    if not lines:
+        return "(no run.log in S3 yet)"
+    if "--- raw tail ---" in lines:
+        cut = lines.index("--- raw tail ---")
+        keep = lines[:cut] + [ln for ln in lines[cut + 1:] if ln.startswith("LAST-ITER")]
+    else:
+        keep = lines[-4:]
+    return " | ".join(keep)[:limit] or "(no diagnostic lines in run.log yet)"
+
+
 def setup_stall_diagnosis(*, phase_text, marker_age_min, log_age_min, log_lines,
                           container_started, instance_age_min, grace_min=None):
     """(headline, hints) for a SETUP_STALL — the CAUSE, not a list of guesses. PURE, hence unit-tested.
@@ -144,7 +167,7 @@ def setup_stall_diagnosis(*, phase_text, marker_age_min, log_age_min, log_lines,
     """
     grace = SETUP_GRACE_MIN if grace_min is None else grace_min
     head = phase_head(phase_text)
-    tail = " | ".join(str(x) for x in (log_lines or [])[-4:])[:600] or "(no run.log in S3 yet)"
+    tail = _log_excerpt(log_lines)
 
     def _age(v, what):
         return f"{what} {v:.0f} min ago" if isinstance(v, (int, float)) else f"{what} unknown"

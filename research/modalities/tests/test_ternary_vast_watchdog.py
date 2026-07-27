@@ -372,3 +372,29 @@ def test_the_premature_caveat_never_fires_without_a_readable_marker_age():
     _h, hints = _diag(phase_text="md-running 2026-07-27T01:27:33Z", marker_age_min=None,
                       instance_age_min=176.0)
     assert "ONLY BEEN IN A COMMITTING PHASE" not in hints
+
+
+def test_the_alert_quotes_the_diagnostic_log_lines_not_the_citation_boilerplate():
+    """Caught on the first live pass: `phase_and_log` returns hits + '--- raw tail ---' + raw[-4:], so a
+    `[-4:]` slice returns the RAW TAIL and discards the hits. The alert filled up with openmmtools citations
+    while the [spot-driver] line that mattered sat further up the same list."""
+    lines = ["[timing] chunk 3 took 41s",
+             "[spot-driver] warmup_target=800 prod_target=2000",
+             "--- raw tail ---",
+             "Eastman P and Pande VS. Efficient nonbonded interactions... DOI: 10.1002/jcc.21413",
+             "Chodera JD and Shirts MR. Replica exchange... DOI:10.1063/1.3660669",
+             "LAST-ITER Iteration 3/8"]
+    out = wd._log_excerpt(lines)
+    assert "[spot-driver] warmup_target=800" in out and "[timing] chunk 3" in out
+    assert "LAST-ITER Iteration 3/8" in out
+    assert "Eastman" not in out and "Chodera" not in out
+    # it reaches the alert
+    _h, hints = _diag(phase_text="md-running 2026-07-27T01:27:33Z", log_lines=lines)
+    assert "[spot-driver] warmup_target=800" in hints and "Eastman" not in hints
+
+
+def test_the_log_excerpt_falls_back_to_the_tail_when_there_were_no_hits():
+    """No separator means phase_and_log found no diagnostic lines and returned a plain tail — show it."""
+    assert "e" in wd._log_excerpt(["a", "b", "c", "d", "e"])
+    assert wd._log_excerpt([]) == "(no run.log in S3 yet)"
+    assert wd._log_excerpt(None) == "(no run.log in S3 yet)"
