@@ -1,25 +1,10 @@
-[s1f] units=19 done=0 pending=19 live=1 free_slots=18 -> submitting 18
-[s1f] cost of THIS submission (18 units): plan $33.79 (band $14.04-76.21) | whole remaining tranche (19 units): plan $35.67 (band $14.82-80.44)
+[s1f] TERMINUS NOT PROVEN — no unit has a ddg.json, so reduce/commit/upload has never been observed on this lane. Holding 18 unit(s); RESUMING the shakeout unit (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) if it needs it: 1 to submit.
+[s1f] units=19 done=0 pending=19 live=0 free_slots=19 -> submitting 1
+[s1f] cost of THIS submission (1 units): plan $1.88 (band $0.78-4.23) | whole remaining tranche (19 units): plan $35.67 (band $14.82-80.44)
 [s1f] wave shape: {"n_units": 19, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5nh2, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5oh, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5alkyne, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5ch2nh2, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5opropargyl, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5piperazine, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5pegamine, exit_vector_sub)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_primary_amide, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_nmethyl_amide, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral  (zaienne_cmpd19 -> cw_bio_tetrazole, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_acylsulfonamide, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral  (zaienne_cmpd19 -> cw_bio_hydroxamic, bioisostere)
-[s1f]   queue e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid  (zaienne_cmpd19 -> cw_ms_free_acid, microstate_variant)
-[s1f]   queue e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral  (zaienne_cmpd19 -> cw_ms_carbinol, microstate_variant)
-[s1f]   queue e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral  (zaienne_cmpd19 -> cw_ms_5acetamido_ester, microstate_variant)
-[s1f]   queue e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral  (cw_ev_5nh2 -> cw_ms_5acetamido_ester, cycle_closure)
-[s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
-[s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid  (zaienne_cmpd19 -> cw_ev_5cooh, exit_vector_sub)
 [s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
-[s1f] MARKET GUARD ($/ns, CLAUDE.md §6): board 48 offers -> 48 qualifying, 10 priceable; mean $/ns over the 10 cheapest = $0.014158 against a rung basis of $0.004359 (3.248x). Projected for the 19 remaining unit(s): $115.86 against a ceiling of $80.44 (the TOP of this rung's own authorised band, derived from cost_estimate — not a number typed here).
-[s1f] ⛔ FLEET LAUNCH HELD ON PRICE. Nothing was rented and no unit was silently dropped; the next scheduled tick re-checks. Offers priced this pass: [{"gpu": "RTX 4080S", "machine_id": 46392, "min_bid": 0.18666666666666668, "usd_per_ns": 0.007448}, {"gpu": "RTX 4090", "machine_id": 101699, "min_bid": 0.19999999999999998, "usd_per_ns": 0.007722}, {"gpu": "RTX 4090", "machine_id": 19205, "min_bid": 0.26666666666666666, "usd_per_ns": 0.009596}, {"gpu": "RTX 3090", "machine_id": 142595, "min_bid": 0.10666666666666667, "usd_per_ns": 0.010017}, {"gpu": "RTX 4090", "machine_id": 50289, "min_bid": 0.3333333333333333, "usd_per_ns": 0.011812}, {"gpu": "RTX 4090", "machine_id": 52976, "min_bid": 0.3333333333333333, "usd_per_ns": 0.012056}, {"gpu": "RTX 4090", "machine_id": 49553, "min_bid": 0.37333333333333335, "usd_per_ns": 0.013141}, {"gpu": "RTX 3090", "machine_id": 122589, "min_bid": 0.25333333333333335, "usd_per_ns": 0.019341}, {"gpu": "RTX 4090", "machine_id": 57250, "min_bid": 0.5333333333333333, "usd_per_ns": 0.020168}, {"gpu": "RTX 3090 Ti", "machine_id": 141336, "min_bid": 0.36000000000000004, "usd_per_ns": 0.030282}]
-[s1f] ESCALATED — held 9.9 h (> 6 h). This is now trimcrae's call, not the guard's; the job fails so GitHub notifies.
+[s1f] SINGLE-HOST $/ns GATE: ✅ CLEAR — 1.39x the ladder basis is within the 1.50x drift line — this host is buyable at a sane rate per nanosecond
+[s1f]   board={"offers_returned": 48, "qualifying": 48, "priceable": 10, "needed": 1, "used_for_mean": 1} priced=[{"gpu": "RTX 4090", "machine_id": 11892, "min_bid_usd_h": 0.16, "usd_per_ns": 0.00605}]
+[s1f] excluding 1 machine(s) from offer selection: ['28164']
+[s1f] submitted s1f-02-cw_ev_5cooh -> instance 46000463 machine 55559 dph≈$0.1792222222222222/hr (floor $0.177/hr -> bid $0.1805/hr, +$0.0035/hr premium)
