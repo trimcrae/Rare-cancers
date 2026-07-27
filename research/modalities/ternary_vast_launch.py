@@ -929,6 +929,69 @@ def leg_records(bucket=None, prefix=None):
     return out
 
 
+def supersede_failed_record(match, bucket=None, prefix=None, dry_run=False):
+    """ARCHIVE-AND-CLEAR a unit's `status=failed` leg.json, once its cause is fixed and it has been relaunched.
+
+    ★ WHY A STALE FAILED RECORD IS ACTIVELY DANGEROUS, not untidy. `watchdog_policy.classify` returns FAILED
+    only when `has_failed_record AND not instance_alive`, and `has_failed_record` is read straight off the
+    live `leg.json`. So relaunching a fixed leg does not clear the old record — it merely SUPPRESSES it for
+    as long as an instance happens to be alive. Two consequences, both bad and both overnight:
+
+      1. **It masks a real failure.** The moment the new attempt exits without writing a leg.json (a
+         preemption, say), the watchdog goes red again on the OLD record, with the old rc and the old empty
+         log tail — an alert indistinguishable from a genuine new failure, pointing at a cause already fixed.
+      2. **It blocks the recovery it is supposed to trigger.** The watchdog deliberately refuses to relaunch a
+         unit carrying a failed record (a code/data fault would just fail again on the next host). With a
+         stale record present, that refusal fires against a leg whose fault is gone — so the automatic
+         overnight recovery does not happen and nobody is awake to notice.
+
+    Observed on RUNG 5a-KS: the NR4A1 leg recorded `status=failed` at 5:37 PM ET from the pre-mapper-fix
+    abort; the watchdog went red at 6:39 PM and green again at 7:40 PM purely because a relaunch made an
+    instance alive. Nothing had been cleared.
+
+    THE RECORD IS ARCHIVED, NEVER DELETED OUTRIGHT: it moves to `<unit>/superseded/leg-<utc>.json`, the same
+    discipline as the `attempts/` log archive, so the forensic trail of a failure survives the clearing of its
+    operational effect. A `status=done` record is REFUSED — this must never be able to destroy a result.
+    """
+    b = bucket or DEFAULT_BUCKET
+    p = (prefix or RESULT_PREFIX).rstrip("/")
+    s3 = _s3()
+    stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+    cleared, skipped = [], []
+    for uid, rec in sorted(leg_records(bucket=b, prefix=p).items()):
+        if match not in uid:
+            continue
+        status = rec.get("status")
+        if status == "done":
+            skipped.append({"unit_id": uid, "why": "status=done — a RESULT, never superseded"})
+            continue
+        if status != "failed":
+            skipped.append({"unit_id": uid, "why": f"status={status!r} — nothing to clear"})
+            continue
+        base = f"{p}/legs/{uid}"
+        moved = []
+        for name in ("leg.json", "status.json"):
+            key = f"{base}/{name}"
+            try:
+                s3.head_object(Bucket=b, Key=key)
+            except Exception:  # noqa: BLE001 — absent is fine; status.json need not exist
+                continue
+            dest = f"{base}/superseded/{name.replace('.json', '')}-{stamp}.json"
+            if not dry_run:
+                s3.copy_object(Bucket=b, CopySource={"Bucket": b, "Key": key}, Key=dest)
+                s3.delete_object(Bucket=b, Key=key)
+            moved.append({"from": key, "to": dest})
+        cleared.append({"unit_id": uid, "rc": rec.get("rc"), "phase": rec.get("phase"),
+                        "recorded_utc": rec.get("updated_utc"), "archived": moved})
+        print(f"[supersede] {uid}: status=failed (rc={rec.get('rc')}, phase={rec.get('phase')}) "
+              f"-> archived under superseded/ and cleared" + (" [DRY RUN]" if dry_run else ""), flush=True)
+    for sk in skipped:
+        print(f"[supersede] skip {sk['unit_id']}: {sk['why']}", flush=True)
+    if not cleared:
+        print(f"[supersede] no failed record matched {match!r} — nothing to clear", flush=True)
+    return {"cleared": cleared, "skipped": skipped, "dry_run": dry_run}
+
+
 def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=None, legs=None,
            git_branch=None):
     """Rent one instance per unit for this mode, skipping units already done or already running.
@@ -1488,6 +1551,10 @@ def main(argv=None):
     # DETERMINISTIC defect: on 2026-07-26 NR4A3 was preempted (routine, resumes) while NR4A1 had aborted on
     # endpoint verification for a reason that would reproduce identically — so a whole-mode relaunch would
     # have bought a second NR4A1 rental that ran the full 0.5 ns pre-equilibration and failed the same way.
+    ap.add_argument("--supersede-failed", metavar="SUBSTRING",
+                    help="archive-and-clear the status=failed leg.json of every unit whose id contains "
+                         "SUBSTRING, after its cause is fixed and it has been relaunched. A stale FAILED both "
+                         "masks a real failure of the new attempt and blocks the watchdog's own recovery.")
     ap.add_argument("--only", metavar="SUBSTRING",
                     help="restrict this launch to units whose LEG ID contains SUBSTRING (e.g. `nr4a3`), so a "
                          "single preempted arm can be recovered without re-renting its sibling")
@@ -1503,7 +1570,9 @@ def main(argv=None):
                     help="download each unit's NEWEST committed production generation (.nc/.chk) into DIR as "
                          "<leg>_sim_shared/, ready for ternary_fep_convergence.py")
     a = ap.parse_args(argv)
-    if a.seed_stage_cache:
+    if a.supersede_failed:
+        print(json.dumps(supersede_failed_record(a.supersede_failed, dry_run=a.dry_run), indent=1))
+    elif a.seed_stage_cache:
         print(json.dumps(seed_stage_cache(a.seed_stage_cache, mode=a.mode, dry_run=a.dry_run), indent=2))
     elif a.fetch_trajectories:
         got = fetch_trajectories(a.fetch_trajectories, mode=a.mode, timestep_fs=a.timestep_fs,

@@ -51,9 +51,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, reps-prime, edge-reps, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, reps-prime, edge-reps, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -117,7 +117,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|reps-prime|edge-reps|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|reps-prime|edge-reps|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -675,6 +675,34 @@ jobs:
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
             git push origin HEAD:"${{ github.ref_name }}"
           fi
+
+  # ------------------------------------------- $0: clear a stale FAILED record after its cause is fixed
+  # `classify` returns FAILED only when `has_failed_record AND not instance_alive`, so relaunching a fixed leg
+  # SUPPRESSES its old record rather than clearing it. The moment the new attempt exits without a leg.json the
+  # stale record fires again — an alert pointing at a cause already fixed — and the watchdog's refusal to
+  # relaunch a unit carrying a failed record then blocks the recovery it exists to trigger, overnight.
+  # The record is ARCHIVED under `<unit>/superseded/`, never deleted; a `status=done` record is refused.
+  supersede-failed:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'supersede-failed' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Archive and clear the matching failed record(s)
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          SEL="${{ github.event.inputs.leg_only }}"
+          test -n "$SEL" || { echo "::error::set leg_only — refusing to clear every failed record at once"; exit 1; }
+          python research/modalities/ternary_vast_launch.py --supersede-failed "$SEL"
 
   converge:
     needs: resolve
