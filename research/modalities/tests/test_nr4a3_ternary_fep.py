@@ -213,3 +213,68 @@ def test_the_hard_abort_is_scoped_so_it_cannot_kill_another_lane_s_running_leg()
         os.environ.pop("RBFE_MAP_ASSERT", None)
         if prev is not None:
             os.environ["RBFE_MAP_ASSERT"] = prev
+
+
+# ---------------------------------------------------------------- valB_mini replicates: r1/r2 pre-flight
+def test_each_replicate_seed_gets_its_own_system_fingerprint():
+    """★ A RE-USED SEED MUST NOT BE ABLE TO MASQUERADE AS AN INDEPENDENT REPLICATE. The whole deliverable of
+    r1+r2 is a BETWEEN-REPLICATE cycle SD, so two legs that were secretly the same trajectory would report a
+    spuriously tight error bar — the one failure that makes the benchmark look better than it is.
+
+    SEED is one of the fields `rbfe_spot_checkpoint.system_fingerprint` hashes, and a committed generation
+    whose fingerprint differs from the running configuration is REFUSED on restore. So the guarantee is not
+    "we remembered to pass different seeds", it is structural: a resume cannot cross replicates."""
+    import rbfe_spot_checkpoint as ck
+    assert "SEED" in ck.SYSTEM_FINGERPRINT_ENV
+    base = {"LEG_ID": "calib_hi_to_lo__ternary_vhl", "DIRECTION": "fwd", "CHARGE_METHOD": "nagl",
+            "SETUP_CACHE_VERSION": "v1pe", "N_WINDOWS": "12", "RBFE_TIMESTEP_FS": "4.0",
+            "RBFE_WARMUP_TIMESTEP_FS": "1.0", "RBFE_CONSTRAIN_LIGAND_CH": "0"}
+    fps = {s: ck.system_fingerprint({**base, "SEED": str(s)})[0] for s in (0, 1, 2)}
+    assert len(set(fps.values())) == 3, f"seeds must not share a system fingerprint: {fps}"
+
+
+def test_the_verdict_is_computed_from_replicate_sd_not_hand_applied(tmp_path):
+    """Exercise the REAL reduce path end to end on synthetic leg files, so that when r1/r2 land the verdict
+    is produced by the frozen gate rather than by someone doing the arithmetic in a report.
+
+    Two properties are asserted because both have been got wrong in this repo before:
+      * ΔΔG_coop is paired BY SEED (ternary_r − binary_r), and the solvent morph cancels inside each
+        replicate cycle — so a missing per-replicate solvent leg is not a gap; and
+      * the spread that reaches the gate is the BETWEEN-REPLICATE sample SD, never the MBAR SE.
+    """
+    import importlib
+    for s, (tern, bina) in {0: (47.6131, 48.1256), 1: (47.70, 48.10), 2: (47.55, 48.20)}.items():
+        for leg, dg in (("calib_hi_to_lo__ternary_vhl", tern), ("calib_hi_to_lo__binary_vhl", bina)):
+            (tmp_path / f"leg_{leg}_fwd_r{s}.json").write_text(json.dumps({
+                "leg_id": leg, "environment": eng._environment_of(leg), "direction": "fwd", "seed": s,
+                "dg_morph_kcal": dg, "mbar_se_kcal": 0.13, "morph": "calib_hi_to_lo"}))
+    os.environ["CKPT_DIR"] = os.environ["INPUT_DIR"] = str(tmp_path)
+    r = importlib.reload(red)
+    try:
+        reps, n_paired = r.per_replicate_ddg_coop("calib_hi_to_lo")
+        assert n_paired == 3
+        # paired by seed, and the MBAR SE (0.13) plays no part in the spread
+        assert reps == pytest.approx([47.6131 - 48.1256, 47.70 - 48.10, 47.55 - 48.20], abs=1e-6)
+        sd_replicate = r._sample_sd(reps)
+        gate = r.calibration_gate(reps, 0.944)
+        # every value is negative against a +0.944 target -> a converged WRONG SIGN is a FAIL, verbatim
+        assert gate["decision"] == "FAIL"
+        assert gate["correct_sign"] is False
+        assert gate["cycle_sd_kcal"] == pytest.approx(sd_replicate, abs=1e-9)
+        # THE INVARIANT, stated as an invariant rather than as a lucky inequality: rewrite every leg's MBAR
+        # SE and the cycle SD must not move by so much as a float. That is what "replicate SD, not MBAR SE"
+        # actually means, and it is checkable in a way that "the SD is bigger than the SE" is not — on these
+        # values the SD happens to be SMALLER than the SE, which is exactly why the loose form is worthless.
+        for f in tmp_path.glob("leg_*.json"):
+            d = json.loads(f.read_text()); d["mbar_se_kcal"] = 99.0; f.write_text(json.dumps(d))
+        r2 = importlib.reload(red)
+        assert r2.calibration_gate(r2.per_replicate_ddg_coop("calib_hi_to_lo")[0], 0.944)["cycle_sd_kcal"] \
+            == pytest.approx(sd_replicate, abs=1e-12)
+        # and n=1 must still refuse to decide, in the gate's own words
+        one = r.calibration_gate(reps[:1], 0.944)
+        assert one["decision"] == "INDETERMINATE"
+        assert one["reason"] == "need >=2 independent replicates for a cycle SD."
+    finally:
+        for k in ("CKPT_DIR", "INPUT_DIR"):
+            os.environ.pop(k, None)
+        importlib.reload(red)
