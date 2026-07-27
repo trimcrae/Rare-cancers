@@ -53,8 +53,37 @@ for: noticing that nothing has run at all.
     STALE-BUT-RUNS-GREEN — same, but the run reported success: it went green WITHOUT measuring.
     ABSENT               — nothing has started in the absent window: the SCHEDULER is not delivering.
     STALE-CAUSE-UNKNOWN  — the artifact is old and the run history could not be read.
+    FRESH-API-UNREADABLE — the artifact is recent, but the run history could not be read to confirm WHICH run
+                           wrote it. Supervision is evidenced, on weaker evidence, and the verdict says so.
     FRESH                — the last completed run did refresh it.
 The run history comes from the public Actions API, which needs no token on a public repo.
+
+★★ AN UNREADABLE API IS NOT A DEAD SCHEDULER — AND SAYING SO COST A FALSE ALARM (2026-07-27, 4:18 PM ET).
+`fetch_runs` returning None already meant "could not ask", and `classify` already had a branch to honour
+that — but the branch was gated behind `age > stale_min`, so it only ever protected a STALE artifact. With a
+FRESH one the guard was skipped entirely and control fell through to the `since_start is None` test, which
+reads an unasked question as a measured zero and announces:
+
+    FLEET UNSUPERVISED [ABSENT] — no run of step1-fanout-autoscale.yml has started in ever (artifact 3 min old)
+
+...in a run that was itself a run of that workflow, over an artifact that run had written 2.8 minutes earlier.
+The tick's own job was fully green: measure, reap, place and commit all succeeded. Seven minutes later the
+identical script on the sibling schedule read the API fine and returned FRESH. So the alarm was not detecting
+an outage, it was manufacturing one — the precise "unmeasured state reported as a measured zero" defect its
+own `fetch_runs` docstring warns about, reintroduced one branch lower down.
+
+Three things changed, and the ordering one is the actual fix:
+  1. THE `runs is None` GUARD NOW RUNS BEFORE THE ABSENT TEST, AT EVERY AGE. Unreadable can no longer reach a
+     scheduler verdict, whatever the artifact's age.
+  2. THE REASON IS CARRIED, NOT SWALLOWED. `fetch_runs` returned a bare None, so the log could not say whether
+     the API 403'd, timed out, or honestly returned zero runs — the 4:18 PM log is identical under all three,
+     which is why the cause had to be reconstructed from a sibling run instead of read off the page. It now
+     returns `(runs, error)` and the error is printed and stored in the verdict JSON.
+  3. IT AUTHENTICATES WHEN IT CAN. Anonymous GitHub API is limited per SOURCE IP, and Actions runner IPs are
+     shared, so this call competes with every other tenant on that runner — and the embedded copy of this
+     alarm fires on EVERY autoscale tick (~30 today). `GITHUB_TOKEN` raises the ceiling to 1000/h per repo and
+     is a header, not a dependency, so the zero-dependency property below is untouched. Absent token → falls
+     back to anonymous, plus a short retry ladder.
 
 ⚠ THIS MODULE NEVER RENTS, DESTROYS, NUDGES OR PRICES ANYTHING. It reads and it complains. Recovery belongs
 to the tick and to `vast-watchdog.yml`, which hold the credentials and the reviewed reap/relaunch paths.
@@ -69,7 +98,9 @@ from __future__ import annotations
 import argparse
 import datetime
 import json
+import os
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -99,27 +130,59 @@ def _parse_z(s: str) -> datetime.datetime | None:
         return None
 
 
-def fetch_runs(repo: str, workflow: str, per_page: int = 20) -> list[dict] | None:
-    """Recent runs from the PUBLIC Actions API. Returns None if it could not be read.
+def fetch_runs(repo: str, workflow: str, per_page: int = 20,
+               attempts: int = 3) -> tuple[list[dict] | None, str | None]:
+    """Recent runs from the Actions API, as `(runs, error)`. `runs is None` means it could not be read.
 
     None is "could not ask", never "no runs" — reporting an unmeasured state as a measured zero is this
-    repo's most expensive defect class, and here it would turn a network blip into "the scheduler is dead".
+    repo's most expensive defect class, and on 2026-07-27 it did exactly that here (see the module docstring):
+    an unreadable API was announced as "the SCHEDULER is not delivering" while the tick was green.
+
+    ⚠ THE ERROR STRING IS THE POINT, NOT DECORATION. The previous version swallowed the exception, so a 403,
+    a timeout and an honest empty list all printed the same line and the cause had to be inferred from a
+    neighbouring run. Whatever this returns, the caller can now say WHY.
+
+    Authenticates with GITHUB_TOKEN when present: anonymous limits are per source IP and Actions runner IPs
+    are shared between tenants, which is the failure this is most exposed to. A header is not a dependency —
+    the module still imports nothing outside the stdlib and nothing from the lane it watches.
     """
     url = f"https://api.github.com/repos/{repo}/actions/workflows/{workflow}/runs?per_page={per_page}"
-    req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json",
-                                               "User-Agent": "fleet-supervision-alarm"})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return json.loads(r.read().decode()).get("workflow_runs") or []
-    except (urllib.error.URLError, urllib.error.HTTPError, ValueError, TimeoutError):
-        return None
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": "fleet-supervision-alarm"}
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+    last = None
+    for i in range(max(1, attempts)):
+        if i:
+            time.sleep(min(2 ** i, 8))
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=30) as r:
+                body = json.loads(r.read().decode())
+            runs = body.get("workflow_runs")
+            if runs is None:
+                # A 200 with no `workflow_runs` key is a malformed answer, not an empty history. Treating it
+                # as [] would resurrect the measured-zero bug through the one door the retry ladder cannot see.
+                last = "HTTP 200 but no `workflow_runs` key in the response"
+                continue
+            return runs, None
+        except urllib.error.HTTPError as e:
+            detail = "rate limit (anonymous limits are per shared runner IP)" if e.code in (403, 429) else ""
+            last = f"HTTP {e.code} {e.reason}{' — ' + detail if detail else ''}"
+        except (urllib.error.URLError, TimeoutError) as e:
+            last = f"{type(e).__name__}: {getattr(e, 'reason', e)}"
+        except (ValueError, OSError) as e:
+            last = f"{type(e).__name__}: {e}"
+    return None, f"{last} (after {max(1, attempts)} attempts, token={'yes' if token else 'no'})"
 
 
 def classify(progress: dict | None, runs: list[dict] | None, now: datetime.datetime,
-             stale_min: float, absent_min: float) -> dict:
+             stale_min: float, absent_min: float, fetch_error: str | None = None) -> dict:
     """Decide WHY supervision is or is not happening. Pure — all I/O is done by the caller, so this is tested."""
     out: dict = {"utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "et": _et(now),
-                 "stale_min_threshold": stale_min, "absent_min_threshold": absent_min}
+                 "stale_min_threshold": stale_min, "absent_min_threshold": absent_min,
+                 "runs_readable": runs is not None, "fetch_error": fetch_error}
 
     # ── how old is the evidence? ──
     gen = _parse_z((progress or {}).get("_generated_utc") or "")
@@ -183,10 +246,28 @@ def classify(progress: dict | None, runs: list[dict] | None, now: datetime.datet
                              f"assert_progress_fresh.py exists to prevent. Check it is still wired in.")
         return out
 
-    if runs is None and age > stale_min:
-        out["verdict"], out["ok"] = "STALE-CAUSE-UNKNOWN", False
-        out["detail"] = (f"the artifact is {age:.0f} min old and the Actions API could not be read, so "
-                         f"ABSENT and FAILING cannot be separated. Treated as unsupervised.")
+    # ★★ AN UNASKED QUESTION IS NEVER AN ANSWER — AND THIS TEST MUST COME BEFORE THE SCHEDULER VERDICT.
+    # This branch used to carry `and age > stale_min`, which meant it only protected a STALE artifact; with a
+    # FRESH one an unreadable API fell through to the ABSENT test below and was announced as a dead scheduler
+    # (2026-07-27 4:18 PM ET, over a 2.8-min-old artifact, inside a green tick). Nothing downstream of here
+    # may read `runs` — every remaining verdict is derived from run history this function does not have.
+    why = f" ({fetch_error})" if fetch_error else ""
+    if runs is None:
+        if age > stale_min:
+            out["verdict"], out["ok"] = "STALE-CAUSE-UNKNOWN", False
+            out["detail"] = (f"the artifact is {age:.0f} min old and the Actions API could not be read{why}, "
+                             f"so ABSENT and FAILING cannot be separated. Treated as unsupervised.")
+            return out
+        # The artifact is recent, which is direct positive evidence that SOMETHING measured the fleet — the
+        # tick is the only writer of `_generated_utc`. We just cannot apply the run-history discriminator to
+        # say which run wrote it, so this is FRESH on weaker evidence and is named differently to admit that.
+        # Green is the honest call: failing here would page a human about a fleet that was demonstrably
+        # measured minutes ago, and an alarm that cries wolf is the same end state as no alarm.
+        out["verdict"], out["ok"] = "FRESH-API-UNREADABLE", True
+        out["detail"] = (f"the artifact is only {age:.0f} min old (window {stale_min:.0f} min), so the fleet "
+                         f"WAS measured that recently — but the Actions API could not be read{why}, so the "
+                         f"run-history check of WHICH run wrote it could not be applied. Not an outage: an "
+                         f"unreadable API is not a dead scheduler.")
         return out
 
     # Nothing has even started. Age is the right signal for exactly this one case.
@@ -222,8 +303,13 @@ def render(v: dict) -> str:
         f"[fleet-alarm] scheduled delivery gaps (min, oldest->newest): {v.get('scheduled_delivery_gaps_min')}"
         f"   <- nominal cron is every 20 min; this is what GitHub ACTUALLY delivers",
         f"[fleet-alarm] fleet at last measurement: live_instances={live}  realised=${usd}",
-        f"[fleet-alarm] VERDICT {v['verdict']}: {v['detail']}",
     ]
+    # Printed only when it happened, and never silently: a read failure that leaves no trace in the log is
+    # what forced the 4:18 PM cause to be reconstructed from a sibling run instead of read off the page.
+    if not v.get("runs_readable", True):
+        lines.append(f"[fleet-alarm] ⚠ RUN HISTORY UNREADABLE: {v.get('fetch_error')}"
+                     f"   <- verdict below is NOT based on run history")
+    lines.append(f"[fleet-alarm] VERDICT {v['verdict']}: {v['detail']}")
     return "\n".join(lines)
 
 
@@ -243,8 +329,9 @@ def main(argv=None) -> int:
     except (OSError, json.JSONDecodeError):
         progress = None
 
-    v = classify(progress, fetch_runs(a.repo, a.workflow),
-                 datetime.datetime.now(datetime.timezone.utc), a.stale_min, a.absent_min)
+    runs, fetch_error = fetch_runs(a.repo, a.workflow)
+    v = classify(progress, runs, datetime.datetime.now(datetime.timezone.utc),
+                 a.stale_min, a.absent_min, fetch_error=fetch_error)
     print(render(v))
     if a.json:
         with open(a.json, "w") as f:
