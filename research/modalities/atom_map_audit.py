@@ -411,10 +411,16 @@ def run_archive():
                           for m in _MAPPED_LINE.finditer(txt)]
                 tfep = [int(m.group(1)) for m in _TFEP_LINE.finditer(txt)]
                 degenerate = "DEGENERATE MAP" in txt
+                # The budget the leg ACTUALLY ran under. `_mapping`'s degenerate-map warning names it
+                # ("hit its 300s budget"), which is the only place a leg log states it. Absent -> None, and
+                # the verdict table prints "?" rather than assuming 20 s or 300 s.
+                mb = re.search(r"hit its (\d+)s budget", txt)
+                budget = int(mb.group(1)) if mb else None
                 if per_setting or used or mapped or tfep:
                     found.append({"key": key, "kind": "leg_log", "mtime": str(mtime),
                                   "lomap_per_setting": per_setting, "lomap_used": used,
                                   "rbfe_mapped": mapped, "tfep_mapped": tfep,
+                                  "lomap_budget_s": budget,
                                   "degenerate_warning_present": degenerate, "status": "RECORDED"})
                 else:
                     found.append({"key": key, "kind": "leg_log", "mtime": str(mtime),
@@ -498,20 +504,32 @@ def run_maps():
 # Each is a real reading with its provenance, not an assumption; per rule 1 the numbers point at their source.
 _OFF_STORE_OBSERVATIONS = [
     {"lane": "valB_mini r0 (2 fs)", "leg": "calib_hi_to_lo__binary_vhl_fwd_r0", "edge_id": "calib_hi_to_lo",
-     "n_mapped": 109, "source": "GH Actions run 30155238348 job 89811327292/89672043853 [LEG-TABLE] dump"},
+     "n_mapped": 109, "budget_s": 20, "kind": "MCS",
+     "source": "GH Actions run 30155238348 [LEG-TABLE] per-leg dump"},
     {"lane": "valB_mini r0 (2 fs)", "leg": "calib_hi_to_lo__solvent_fwd_r0", "edge_id": "calib_hi_to_lo",
-     "n_mapped": 109, "source": "GH Actions run 30155238348 [LEG-TABLE] dump"},
+     "n_mapped": 109, "budget_s": 20, "kind": "MCS",
+     "source": "GH Actions run 30155238348 [LEG-TABLE] per-leg dump"},
     {"lane": "valB_mini r0 (2 fs)", "leg": "calib_hi_to_lo__ternary_vhl_fwd_r0", "edge_id": "calib_hi_to_lo",
-     "n_mapped": 109, "source": "GH Actions run 30155238348 [LEG-TABLE] dump"},
+     "n_mapped": 109, "budget_s": 20, "kind": "MCS",
+     "source": "GH Actions run 30155238348 [LEG-TABLE] per-leg dump"},
     {"lane": "RUNG 2b timestep scan", "leg": "ANCHOR_calib_wurz_N_to_CH", "edge_id": "calib_hi_to_lo",
-     "n_mapped": 47, "source": "congeneric-edge-timestep-table.json -> results[1].n_mapped_atoms"},
+     "n_mapped": 47, "budget_s": 20, "kind": "MCS",
+     "source": "congeneric-edge-timestep-table.json -> results[1].n_mapped_atoms"},
     {"lane": "RUNG 2b timestep scan", "leg": "ANCHOR_pilot_5Br_to_5NH2",
-     "edge_id": "e_zaienne_cmpd19__cw_ev_5nh2", "n_mapped": 15,
+     "edge_id": "e_zaienne_cmpd19__cw_ev_5nh2", "n_mapped": 15, "budget_s": 20, "kind": "MCS",
      "source": "congeneric-edge-timestep-table.json -> results[0].n_mapped_atoms"},
-    {"lane": "RUNG 5a-KS", "leg": "5aks_d0_to_d__ternary_nr4a3", "edge_id": "5aks_d0_to_d__ternary_nr4a3",
-     "n_mapped": 111, "source": "nr4a3_5aks_ligand_diag.py docstring (preequil verify_endpoints)"},
-    {"lane": "RUNG 5a-KS", "leg": "5aks_d0_to_d__ternary_nr4a1", "edge_id": "5aks_d0_to_d__ternary_nr4a1",
-     "n_mapped": 80, "source": "nr4a3_5aks_ligand_diag.py docstring (preequil verify_endpoints ABORT)"},
+    # ★ THE 5a-KS ROWS ARE AN IDENTITY MAP, NOT AN MCS (LANE 16 root cause, relayed 2026-07-27). At
+    # pre-equilibration `_load_ligands` reads the SDF's two records verbatim and this rung writes ONE POSE
+    # TWICE, so ligA and ligB are the SAME MOLECULE and the correct answer is the identity permutation over
+    # all 111 atoms. There is therefore no chemistry that could justify any shortfall: every missing atom is a
+    # search artifact turning an atom into a dummy. The preequil check saw 111 on one host; the FEP legs
+    # recorded 80 and later 110. Recorded here at the value the LEG logged, not the value preequil saw.
+    {"lane": "RUNG 5a-KS (preequil)", "leg": "5aks_d0_to_d__ternary_nr4a3 verify_endpoints",
+     "edge_id": "5aks_d0_to_d__ternary_nr4a3", "n_mapped": 111, "budget_s": 20, "kind": "IDENTITY",
+     "source": "nr4a3_5aks_ligand_diag.py docstring (preequil verify_endpoints, one host)"},
+    {"lane": "RUNG 5a-KS (preequil)", "leg": "5aks_d0_to_d__ternary_nr4a1 verify_endpoints",
+     "edge_id": "5aks_d0_to_d__ternary_nr4a1", "n_mapped": 80, "budget_s": 20, "kind": "IDENTITY",
+     "source": "nr4a3_5aks_ligand_diag.py docstring (preequil verify_endpoints ABORT)"},
 ]
 
 
@@ -543,40 +561,69 @@ def run_verdict():
     bnd = _bounds_index(merged)
     rows = []
 
-    def add(lane, leg, edge_id, n_mapped, source):
+    def add(lane, leg, edge_id, n_mapped, source, budget_s=None, kind=None):
         b = bnd.get(edge_id)
+        # THE TRANSFORMATION TYPE IS PART OF THE ANSWER, not a footnote. An IDENTITY edge (5a-KS writes one
+        # pose twice, so ligA IS ligB) admits a complete map by construction and any shortfall is purely a
+        # failed search; an MCS edge has genuinely different endpoints and its expected count is a real
+        # maximum common substructure. Collapsing the two into one CLEAN/DEGENERATE column would make the
+        # table read as more conclusive than the evidence supports.
+        if kind is None and b is not None:
+            kind = "IDENTITY" if (b.get("complete_map_provable")
+                                  and not b.get("n_element_mismatched_heavy")) else "MCS"
         if b is None:
             rows.append({"lane": lane, "leg": leg, "edge_id": edge_id, "n_mapped": n_mapped,
+                         "budget_s": budget_s, "transformation": kind or "?",
                          "expected": None, "floor": None, "verdict": "UNVERIFIABLE",
                          "why": "no bounds computed for edge %r" % edge_id, "source": source})
             return
         v, why = classify(n_mapped, b)
         rows.append({"lane": lane, "leg": leg, "edge_id": edge_id, "n_mapped": n_mapped,
+                     "budget_s": budget_s, "transformation": kind,
                      "expected": b.get("expected_n_mapped_atoms"), "floor": b.get("total_floor_enforced"),
                      "verdict": v, "why": why, "source": source})
 
     for o in _OFF_STORE_OBSERVATIONS:
-        add(o["lane"], o["leg"], o["edge_id"], o["n_mapped"], o["source"])
+        add(o["lane"], o["leg"], o["edge_id"], o["n_mapped"], o["source"],
+            budget_s=o.get("budget_s"), kind=o.get("kind"))
 
     for a in merged.get("archive") or []:
+        # The budget a leg ran under is read from its own log where the log says so, and left None otherwise.
+        # ★ A leg whose budget is unknown is NOT upgraded on the strength of a sibling that looked fine: the
+        # failure is HOST-DEPENDENT (LANE 16 retracted "deterministic for this pose" — the same input passed
+        # on a CPU runner and failed twice on Vast), so one clean observation says nothing about another leg.
+        budget = a.get("lomap_budget_s")
         if a.get("kind") == "leg_json":
             add("S3 archive", a["key"], _edge_id_for(a, bnd), a.get("n_mapped_atoms"),
-                "s3://%s/%s" % (BUCKET, a["key"]))
+                "s3://%s/%s" % (BUCKET, a["key"]), budget_s=budget)
         elif a.get("kind") == "leg_log":
             for u in (a.get("lomap_used") or []) + (a.get("rbfe_mapped") or []):
                 add("S3 archive (log)", a["key"], _edge_id_for(a, bnd, u), u["n_mapped"],
-                    "s3://%s/%s" % (BUCKET, a["key"]))
+                    "s3://%s/%s" % (BUCKET, a["key"]), budget_s=budget)
             if a.get("status") == "UNRECORDED":
                 add("S3 archive (log)", a["key"], "?", None, "s3://%s/%s" % (BUCKET, a["key"]))
 
-    hdr = "%-24s %-52s %8s %9s %7s  %s" % ("lane", "leg", "n_mapped", "expected", "floor", "verdict")
+    hdr = "%-22s %-46s %-9s %6s %8s %6s  %s" % ("lane", "leg", "transform", "budget", "n_mapped",
+                                                "expect", "verdict")
     print("\n" + hdr)
     print("-" * len(hdr))
+    # Print every row that CARRIES a map size, and collapse the rest to a count. The bulk of the archive is
+    # per-attempt logs that died before the mapper — they are genuinely UNVERIFIABLE and they stay in the JSON
+    # and in the tally, but printing 12,599 identical "no map line in this log" rows would bury the ~25 rows
+    # that are the audit. Collapsed, not dropped: the count is the honest statement.
+    quiet = [r for r in rows if r["n_mapped"] is None and str(r["leg"]).endswith(".log")]
     for r in rows:
-        print("%-24s %-52s %8s %9s %7s  %s" % (r["lane"][:24], str(r["leg"])[-52:],
-                                               r["n_mapped"] if r["n_mapped"] is not None else "-",
-                                               r["expected"] if r["expected"] is not None else "-",
-                                               r["floor"] if r["floor"] is not None else "-", r["verdict"]))
+        if r in quiet:
+            continue
+        print("%-22s %-46s %-9s %6s %8s %6s  %s"
+              % (r["lane"][:22], str(r["leg"])[-46:], (r.get("transformation") or "?")[:9],
+                 ("%ss" % r["budget_s"]) if r.get("budget_s") else "?",
+                 r["n_mapped"] if r["n_mapped"] is not None else "-",
+                 r["expected"] if r["expected"] is not None else "-", r["verdict"]))
+    if quiet:
+        print("%-22s %-46s %-9s %6s %8s %6s  %s"
+              % ("(collapsed)", "%d archived logs with NO map line" % len(quiet), "-", "?", "-", "-",
+                 "UNVERIFIABLE — died before the mapper, or truncated"))
     tally = {}
     for r in rows:
         tally[r["verdict"]] = tally.get(r["verdict"], 0) + 1

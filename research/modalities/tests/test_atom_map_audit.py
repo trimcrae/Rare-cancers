@@ -177,3 +177,35 @@ def test_guard_is_never_silently_disabled_by_a_failure_to_derive_the_floor(monke
     with pytest.raises(SystemExit):
         # 1 mapped atom is below the pre-existing fractional floor, so the fallback must still abort.
         rbfe._check_mapping_sane(None, _lig(s), _lig(s), 1)
+
+
+# ---- the identity-vs-MCS distinction (LANE 16 root cause, 2026-07-27) ---------------------------------------
+
+def test_identity_edge_is_labelled_identity_and_mcs_edge_is_not():
+    """THE DISTINCTION THAT KEEPS THE TABLE HONEST. RUNG 5a-KS writes ONE POSE TWICE, so `_load_ligands` hands
+    the mapper the SAME MOLECULE twice and the correct answer is the identity permutation over all 111 atoms —
+    there is no chemistry that could justify a shortfall, so every missing atom is a failed search. valB_mini
+    and the fan-out edges have genuinely different endpoints and their expected count is a real MCS. One
+    CLEAN/DEGENERATE column across both would read as more conclusive than the evidence supports."""
+    ident = _b_5aks()
+    assert ident["complete_map_provable"] is True
+    assert ident["n_element_mismatched_heavy"] == 0          # -> IDENTITY
+    mcs_edge = _b_wurz()
+    assert mcs_edge["n_element_mismatched_heavy"] == 1        # -> a real element change, not an identity
+
+
+def test_a_clean_sibling_never_upgrades_an_unrecorded_leg():
+    """THE FAILURE IS HOST-DEPENDENT. LANE 16 retracted 'deterministic for this pose' — the same input mapped
+    correctly on a CPU runner and short twice on Vast. So `classify` must depend ONLY on the observation it is
+    given; there is no path by which another leg's clean reading can turn an absent one into CLEAN."""
+    b = _b_5aks()
+    assert ama.classify(111, b)[0] == "CLEAN"
+    assert ama.classify(None, b)[0] == "UNVERIFIABLE"         # unchanged by the CLEAN sibling above
+
+
+def test_the_5aks_fep_legs_110_of_111_is_degenerate():
+    """The archived 5a-KS FEP legs recorded 110 mapped atoms of an identical 111-atom molecule — INCLUDING the
+    attempts that ran after the budget was raised to 300 s. One atom short of an identity map is still a failed
+    search, and the budget raise is therefore not by itself evidence that a leg ran clean."""
+    assert ama.classify(110, _b_5aks())[0] == "DEGENERATE"
+    assert ama.classify(80, _b_5aks())[0] == "DEGENERATE"
