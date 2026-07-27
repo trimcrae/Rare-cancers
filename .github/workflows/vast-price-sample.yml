@@ -123,6 +123,49 @@ jobs:
           git commit -m "vast market intel pull $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}
 
+  census:
+    # ★ READ-ONLY ($0). WHY A QUALIFYING BOARD CANNOT BE PRICED.
+    #
+    # The 2026-07-27 8:00 AM ET step-1 fan-out snapshot read `48 qualifying -> 10 priceable, 19 needed`:
+    # every offer cleared the launcher's hard filters and 79% were still dropped, because `$/ns` needs a
+    # BENCHED ns/h and the throughput table holds three cards. `vast_board_census.py` breaks the loss down by
+    # GPU model and prints, for each unbenched model, the BREAK-EVEN ns/day at which its cheapest offer would
+    # match what the fleet can already achieve — a screen that decides whether a few cents of bench is worth
+    # spending, without inventing a throughput for anybody.
+    #
+    # Also runs `--proxy-audit`: the leave-one-out error of every derived-throughput route (fp32 TFLOPS,
+    # memory bandwidth, Vast's own `dlperf`) against the benched cards, so the "just scale it off the specs"
+    # proposal is refuted with a number rather than an opinion.
+    if: ${{ github.event.inputs.mode == 'census' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Census the live board (read-only, rents nothing)
+        working-directory: research/modalities
+        # Fleet size the break-even screen is judged against. 19 = the step-1 fan-out's remaining tranche,
+        # which is the board that raised the question. `units` is read from the `gpu` input ONLY when it is a
+        # bare integer, so this job needs no new workflow input (dispatch validates inputs against the
+        # workflow definition, and a new input is one more thing that can differ between a branch and main).
+        run: |
+          U="${{ github.event.inputs.gpu }}"
+          case "$U" in (''|*[!0-9]*) U=19 ;; esac
+          python vast_board_census.py --units "$U" --proxy-audit
+      - name: Commit the census back to this branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/vast-board-census.json 2>/dev/null || true
+          git commit -m "vast board census $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          git push origin HEAD:${{ github.ref_name }}
+
   bidsem:
     # The one experiment that DOES rent: settle whether an interruptible rental is billed at your bid or at a
     # clearing price. Rents the cheapest box on the market for ~2 minutes (<$0.01) and destroys it twice over.
@@ -186,3 +229,17 @@ jobs:
       - name: Does a live rental's charged rate move? (read-only, $0)
         working-directory: research/modalities
         run: python vast_rate_forensics.py --probe
+      - name: Commit the evidence back to this branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/vast-rate-forensics.json 2>/dev/null || true
+          git commit -m "vast rate forensics $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${{ github.ref_name }}" && \
+              git push origin HEAD:${{ github.ref_name }} && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the forensics readout"
