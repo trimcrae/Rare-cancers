@@ -230,10 +230,100 @@ MODES = {
         "stage_required": True,
         "legs": [("5aks_d0_to_d__ternary_nr4a3", 0, "fwd")],
     },
+    # ---------------------------------------------------------------------------------------------------
+    # THE valB SYNTHETIC CLOSURE TRIANGLE — 4 NEW LEGS, and the third edge is FREE because r0 IS T1.
+    #
+    # WHAT IT BUYS, and it is the only thing on this lane that buys it: the closure residual
+    #     R = ddG_coop(T1) + ddG_coop(T2) - ddG_coop(T3)
+    # is IDENTICALLY ZERO for any error that is a function of the endpoint STATE — force field, the
+    # SMARCA4->SMARCA2 homology substitution, NAGL charges, protonation — because each of those is a
+    # per-endpoint bias eps(x) and sum_cycle [eps(B)-eps(A)] telescopes to exactly zero
+    # (`valb_triangle_closure.state_function_blindness`, demonstrated to 3.6e-15 over 2000 draws). R is
+    # non-zero ONLY for PATH error. So R decides whether r0's 1.478 kcal/mol miss is fixable by sampling at
+    # all — R ~ 0 says the miss is path error and therefore fixable by sampling; R materially non-zero says
+    # otherwise. That is a discriminating experiment, not a confirmation, which is why it is worth buying.
+    #
+    # ⚠ 2 fs / 1 fs, PINNED BY THE MODE, NOT INHERITED FROM THE LANE. r0 is a 2 fs leg and this lane's
+    # default is RUNG 2b's 4 fs. `build_jobspec` resolves the timestep mode-first for exactly this reason:
+    # the workflow exports TVAST_TIMESTEP_FS lane-wide, so an env-first order would silently buy a 4 fs
+    # triangle around a 2 fs T1, and R would then measure the TIMESTEP difference. Same argument as the
+    # binary legs running UNRESTRAINED (`valb_triangle_legs`): anything that makes T2/T3's protocol differ
+    # from T1's converts R from a path-error detector into a protocol-difference detector, which destroys
+    # the experiment's only claim.
+    #
+    # ⚠ SEED 0 ON ALL FOUR, matching r0. Ternary seed s selects the s%n-th relaxed SMARCA2 model, so a
+    # mixed-seed triangle is computed on different Hamiltonians, the edges stop sharing endpoint states, and
+    # |R| becomes a homology-model sensitivity measure (`valb_triangle_closure.same_seed_requirement`).
+    #
+    # ⚠ NO SOLVENT LEGS. The solvent morph enters ddG_alch,ternary and ddG_alch,binary with the SAME sign and
+    # cancels EXACTLY inside ddG_coop, so a triangle whose deliverable is R needs 2 legs per edge, not 3.
+    # `expand_pilot_legs()` would add one per morph unconditionally — ~$1.31 of legs that algebraically drop
+    # out (`valb_triangle_closure.leg_accounting`). They are simply not listed here.
+    #
+    # FAN OUT ALL FOUR AT ONCE. CLAUDE.md §6's litmus test — "is there a result this shard could return that
+    # would make me NOT run the rest?" — answers NO: R needs all six legs, so no single one is decision-
+    # relevant alone. Serialising would buy zero decision value at identical GPU-$.
+    "triangle": {
+        "prod_iters": "", "warmup_iters": "",          # empty = full derived science length, matched to r0
+        "warmup_ckpt_iters": "64", "prod_ckpt_iters": "40",
+        "max_runtime_s": 20 * 3600,
+        "timestep_fs": "2.0", "warmup_timestep_fs": "1.0",
+        # Same reasoning as edge_reps: these commit prefixes do not exist yet, so every generation they will
+        # ever restore was written by the configuration that stamps it. The concession has nothing to buy
+        # here, and turning it off closes the "resume accepted a generation from another configuration" hole.
+        "strict_provenance": True,
+        "legs": [("calib_lo_to_lo2__ternary_vhl", 0, "fwd"),
+                 ("calib_lo_to_lo2__binary_vhl", 0, "fwd"),
+                 ("calib_hi_to_lo2__ternary_vhl", 0, "fwd"),
+                 ("calib_hi_to_lo2__binary_vhl", 0, "fwd")],
+    },
+    # The plumbing shakeout for the triangle, at the SAME 2 fs the real legs run: proves image + repo pull +
+    # stage + pre-equil + the DOUBLE-swap endpoint build + setup + commit store + upload on a real host for
+    # ~$0.15. It runs T3's TERNARY leg specifically — the CLOSING edge, whose cmpd1 -> cmpd4" endpoint is the
+    # ring-nitrogen 1,2-shift that no single-atom swap can build. If the new pose path is broken, that is the
+    # leg it breaks on, so the shakeout is aimed at the one thing this rung added rather than at plumbing
+    # three earlier rungs already proved.
+    "triangle_smoke": {
+        "prod_iters": "12", "warmup_iters": "8", "warmup_ckpt_iters": "8", "prod_ckpt_iters": "4",
+        "max_runtime_s": 3 * 3600,
+        "timestep_fs": "2.0", "warmup_timestep_fs": "1.0",
+        "legs": [("calib_hi_to_lo2__ternary_vhl", 0, "fwd")],
+    },
 }
+
+# Modes whose spend band comes from `valb_triangle_closure.price_triangle()` rather than from the ladder
+# JSON. Per CLAUDE.md rule 1 the triangle's price has exactly ONE home and it is that function: the ladder
+# carries no triangle rung, and adding one would give the same fact two homes free to disagree.
+TRIANGLE_MODES = ("triangle", "triangle_smoke")
 
 DEFAULT_TIMESTEP_FS = "4.0"
 DEFAULT_WARMUP_TIMESTEP_FS = "1.0"
+
+
+def resolve_timesteps(mode, timestep_fs=None, warmup_timestep_fs=None):
+    """(production dt, warmup dt) as strings, for one mode. PURE apart from reading the env.
+
+    ⚠ A MODE MAY PIN ITS OWN TIMESTEP, AND THE PIN BEATS THE ENV — the same precedence, for the same reason,
+    as `template_pdb` in `build_jobspec`. The workflow exports `TVAST_TIMESTEP_FS` lane-wide and this lane's
+    default is RUNG 2b's 4 fs, while the closure triangle must run at r0's 2 fs because **r0 IS its T1 edge**:
+    a 4 fs T2/T3 around a 2 fs T1 would make the closure residual R measure the TIMESTEP DIFFERENCE rather
+    than the path error, which is the one thing R exists to isolate. An env-first order lets a lane-wide
+    export do exactly that inside a green run. An EXPLICIT argument still wins over the pin, so a deliberate
+    re-run at another dt stays possible — and it lands in a different `unit_id` (dt is in the id), so it can
+    never resume into the pinned run's checkpoints.
+
+    ★ ONE EXPRESSION, THREE CALLERS. `build_jobspec` decides what is RUN; `fetch_legs` and
+    `fetch_trajectories` reconstruct the unit ids of what was run. If those disagree the launch is fine and
+    the reduction silently finds nothing — a mode that ran at 2 fs looked up at 4 fs returns an empty
+    directory, and an empty reduction is the "reports success while measuring nothing" shape this lane keeps
+    paying for.
+    """
+    sizing = MODES.get(mode) or {}
+    dt = str(timestep_fs or sizing.get("timestep_fs") or os.environ.get("TVAST_TIMESTEP_FS")
+             or DEFAULT_TIMESTEP_FS)
+    wdt = str(warmup_timestep_fs or sizing.get("warmup_timestep_fs")
+              or os.environ.get("TVAST_WARMUP_TIMESTEP_FS") or DEFAULT_WARMUP_TIMESTEP_FS)
+    return dt, wdt
 
 
 def unit_id(leg_id, seed, direction, timestep_fs, warmup_timestep_fs, mode):
@@ -637,8 +727,7 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
     sizing = MODES[mode]
     b = bucket or DEFAULT_BUCKET
     p = (prefix or RESULT_PREFIX).rstrip("/")
-    dt = str(timestep_fs or os.environ.get("TVAST_TIMESTEP_FS") or DEFAULT_TIMESTEP_FS)
-    wdt = str(warmup_timestep_fs or os.environ.get("TVAST_WARMUP_TIMESTEP_FS") or DEFAULT_WARMUP_TIMESTEP_FS)
+    dt, wdt = resolve_timesteps(mode, timestep_fs, warmup_timestep_fs)
     branch = git_branch or os.environ.get("GIT_BRANCH") or "main"
     charge = charge_method or os.environ.get("CHARGE_METHOD") or "nagl"
     nwin = str(n_windows or os.environ.get("TVAST_N_WINDOWS") or "12")
@@ -1378,6 +1467,44 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
 # replicates against a nineteen-edge authorisation — a guard that refuses a small authorised spend for a
 # reason that does not apply to it. So the SPEC and the BAND are this lane's, and both are DERIVED from the
 # ladder artifact rather than typed.
+def triangle_ns_per_unit():
+    """Reference-GPU nanoseconds in ONE closure-triangle leg. DERIVED, never typed.
+
+    `valb_triangle_closure.ternary_leg_ref_gpu_h()` is the triangle's one home for leg size: 3.5e6 steps
+    (800 warmup iterations at 1 fs + 2000 production at 2 fs, 1250 force evaluations each) at the measured
+    ~16 s/iteration on a Vast 4090. Priced in STEPS because iteration counts are not comparable across
+    protocols — that is the correction which turned the design's 2400-iteration basis into 2800."""
+    import vast_cost_model as _vcm
+    import valb_triangle_closure as _tri
+    return _tri.ternary_leg_ref_gpu_h() * _vcm.REFERENCE_NS_PER_H
+
+
+def triangle_band_usd(n_units):
+    """(plan, ceiling) dollars for `n_units` closure-triangle legs.
+
+    ★ THE ONE HOME IS `price_triangle()`, NOT THE LADDER. Every other mode on this lane prices itself off
+    `vast-ladder-repricing.json`, which is right for a ladder rung. The triangle is not one: it REPLACED the
+    valB_mini rescope, and its price already has a single derived home in
+    `valb_triangle_closure.price_triangle()` — the function carrying the three corrections to the design's
+    ~$5.9 (the 2800-iteration basis, the solvent legs that cancel, and T1's non-existent replicates). Adding
+    a ladder row would give the same fact a second home free to disagree with the first, which is exactly
+    CLAUDE.md rule 1's failure mode, and it would move the ladder TOTAL — a pinned figure — for a rung that
+    is not on the ladder.
+
+    The CEILING is the top of the triangle's own published range, i.e. exactly the authorisation the pre-gate
+    costed and nothing of this guard's own invention. PER LEG, so it scales to a partial fan-out: CLAUDE.md
+    §6 permits buying the units the board can supply under the line and leaving the rest to the next tick,
+    and an all-or-nothing ceiling would forbid that.
+    """
+    import valb_triangle_closure as _tri
+    v = _tri.price_triangle()["variants"]
+    scout = next(v[k] for k in v if k.startswith("n1_scout_R_only"))
+    n_legs_in_scout = 4.0                       # `price_triangle` prices this variant as 4 * ternary_leg
+    per_leg_plan = scout["plan_usd"] / n_legs_in_scout
+    per_leg_hi = scout["range_usd"][1] / n_legs_in_scout
+    return round(per_leg_plan * n_units, 2), round(per_leg_hi * n_units, 2)
+
+
 def rung_ns_per_unit(entry="ternary_4fs_recalibration (1 matched edge)", legs_in_entry=3):
     """Reference-GPU nanoseconds in one leg of this rung. DERIVED from the ladder, never typed."""
     import vast_cost_model as _vcm
@@ -1443,7 +1570,24 @@ def buy_ceiling_usd_per_ns():
     return MARKET_MAX_RATIO_VS_BASIS * basis_usd_per_ns()
 
 
-def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max_ratio=None):
+def _gate_what(mode=None):
+    """The readout's own description of WHICH purchase it priced.
+
+    ⚠ NOT COSMETIC. This string used to say "for the valB_mini replicates" unconditionally, and the hold
+    snapshot is the artifact a hold gets read from hours later by someone who was not here. A snapshot naming
+    the wrong experiment is worse than one with no label: it makes a triangle hold look like a replicate hold
+    that had already been decided. CLAUDE.md §6 requires a hold to be VISIBLE, and visible means legible.
+    """
+    what = {"triangle": "the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
+            "triangle_smoke": "the valB closure triangle's plumbing shakeout",
+            "edge_reps": "the valB_mini replicates", "edge": "the RUNG 2b matched re-calibration edge",
+            "probe": "the RUNG 2b stage-1 4 fs survival probe", "smoke": "the lane's plumbing shakeout",
+            "5aks": "RUNG 5a-KS's two ternary legs", "5aks_smoke": "RUNG 5a-KS's plumbing shakeout",
+            }.get(mode, "the valB_mini replicates" if mode is None else "mode=%s" % mode)
+    return "ternary lane $/ns market gate (CLAUDE.md §6) for %s" % what
+
+
+def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max_ratio=None, mode=None):
     """(hold, readout) for renting `n_units` legs of this rung right now. Reads the LIVE board.
 
     HOLDS unless BOTH tests pass: projected dollars within the rung's own band top, AND the achievable $/ns
@@ -1451,17 +1595,28 @@ def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max
     a launch: the one case where guessing is worst is the case where nobody is awake to check."""
     from congeneric_fanout import basis_usd_per_ns
     from gpu_backend import _vast_offer_query, rank_offers_by_usd_per_ns
-    kw = {} if entry is None else {"entry": entry}
-    ns_unit = rung_ns_per_unit(legs_in_entry=legs_in_entry, **kw)
-    plan_usd, ceiling = rung_band_usd(n_units, legs_in_entry=legs_in_entry, **kw)
+    # WHICH AUTHORISATION THIS PURCHASE IS BEING JUDGED AGAINST. The dollar ceiling is meaningless unless it
+    # is the band of the thing actually being bought: pricing four closure-triangle legs against the 4 fs
+    # recalibration edge's band would judge one experiment's spend by another's approval. The triangle's band
+    # is `price_triangle()`'s (see `triangle_band_usd`); everything else keeps the ladder.
+    if mode in TRIANGLE_MODES:
+        ns_unit = triangle_ns_per_unit()
+        plan_usd, ceiling = triangle_band_usd(n_units)
+        ceiling_basis = ("top of the valB closure triangle's OWN costed range "
+                         "(valb_triangle_closure.price_triangle), scaled to %d legs" % n_units)
+    else:
+        kw = {} if entry is None else {"entry": entry}
+        ns_unit = rung_ns_per_unit(legs_in_entry=legs_in_entry, **kw)
+        plan_usd, ceiling = rung_band_usd(n_units, legs_in_entry=legs_in_entry, **kw)
+        ceiling_basis = "top of this rung's OWN ladder band, scaled to %d legs" % n_units
     basis = basis_usd_per_ns()
     res = resource_spec()
     if excluded:
         res.exclude_machine_ids = tuple(str(m) for m in excluded)
-    out = {"_what": "ternary lane $/ns market gate (CLAUDE.md §6) for the valB_mini replicates",
+    out = {"_what": _gate_what(mode),
            "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "n_units": n_units,
            "basis_usd_per_ns": round(basis, 6), "plan_usd": plan_usd, "ceiling_usd": ceiling,
-           "ceiling_basis": "top of this rung's OWN ladder band, scaled to %d legs" % n_units,
+           "ceiling_basis": ceiling_basis,
            "breakeven_usd_per_ns": round(ceiling / (ns_unit * n_units), 6)}
     try:
         offers = _vast_request("GET", "/search/asks/", key or os.environ["VAST_API_KEY"],
@@ -1540,7 +1695,7 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
     # nobody is awake to check.
     if not out["listing_ok"]:
         return "hold", {
-            "_what": "ternary lane $/ns market gate (CLAUDE.md §6) for the valB_mini replicates",
+            "_what": _gate_what(mode),
             "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "mode": mode, "hold": True, "nothing_to_launch": False,
             "reason": ("could not list live instances (%s) — so we cannot tell which units already hold a "
@@ -1551,7 +1706,7 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
     n = len(out["needed"])
     if n == 0:
         readout = {
-            "_what": "ternary lane $/ns market gate (CLAUDE.md §6) for the valB_mini replicates",
+            "_what": _gate_what(mode),
             "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "mode": mode, "n_units": 0, "nothing_to_launch": True, "hold": False,
             "units_done": out["done"], "units_live": out["live"],
@@ -1564,7 +1719,7 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
                        % (mode, len(out["done"]), len(out["live"]))),
         }
         return "nothing-to-launch", readout
-    hold, readout = market_gate(n, key=key, excluded=excluded, max_ratio=max_ratio)
+    hold, readout = market_gate(n, key=key, excluded=excluded, max_ratio=max_ratio, mode=mode)
     readout.update({"mode": mode, "nothing_to_launch": False,
                     "units_done": out["done"], "units_live": out["live"],
                     "units_needing_host": out["needed"]})
@@ -1820,8 +1975,7 @@ def fetch_legs(dest, mode="edge", bucket=None, prefix=None, timestep_fs=None, wa
     """
     b = bucket or DEFAULT_BUCKET
     p = (prefix or RESULT_PREFIX).rstrip("/")
-    dt = str(timestep_fs or os.environ.get("TVAST_TIMESTEP_FS") or DEFAULT_TIMESTEP_FS)
-    wdt = str(warmup_timestep_fs or os.environ.get("TVAST_WARMUP_TIMESTEP_FS") or DEFAULT_WARMUP_TIMESTEP_FS)
+    dt, wdt = resolve_timesteps(mode, timestep_fs, warmup_timestep_fs)
     os.makedirs(dest, exist_ok=True)
     s3 = _s3()
     got = {}
@@ -1879,8 +2033,7 @@ def fetch_trajectories(dest, mode="edge", bucket=None, prefix=None, timestep_fs=
     """
     b = bucket or DEFAULT_BUCKET
     p = (prefix or RESULT_PREFIX).rstrip("/")
-    dt = str(timestep_fs or os.environ.get("TVAST_TIMESTEP_FS") or DEFAULT_TIMESTEP_FS)
-    wdt = str(warmup_timestep_fs or os.environ.get("TVAST_WARMUP_TIMESTEP_FS") or DEFAULT_WARMUP_TIMESTEP_FS)
+    dt, wdt = resolve_timesteps(mode, timestep_fs, warmup_timestep_fs)
     os.makedirs(dest, exist_ok=True)
     s3 = _s3()
     out = {}
