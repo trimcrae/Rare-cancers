@@ -126,7 +126,58 @@ def probe_unit(unit, in_dir):
     row["n_particles"] = info.get("n_particles")
     row["force_census"] = info.get("force_census")
     row["energy_probe"] = info.get("energy_probe")
+
+    # ---- STAGE 2: RUN THE REAL MINIMISER --------------------------------------------------------
+    # ★★ WHY STAGE 1 IS NOT ENOUGH, STATED PLAINLY. The energy probe evaluates ONE point: the
+    # coordinates as handed over, with the alchemical global parameters as built. `sampler.setup()`
+    # minimises EVERY thermodynamic state of the lambda schedule, setting that state's parameters on
+    # the context first. A softcore term that is finite at the built lambda and divergent at an
+    # intermediate one is therefore invisible to stage 1 — so all-finite energies rule OUT "the
+    # system is broken as built" and leave "the minimiser deterministically diverges" open. Only
+    # running the real `_get_sampler` -> `setup()` closes that, and it is the same $0 CPU build.
+    if os.environ.get("PROBE_MINIMIZE", "1") == "1":
+        row["minimize_repro"] = _minimize_repro(rbfe, openfe, Chem, unit)
     return row
+
+
+def _minimize_repro(rbfe, openfe, Chem, unit):
+    """Re-run the production `_get_sampler` -> `sampler.setup()` on CPU and report what it did.
+
+    Returns {"outcome": completed|nan|error, ...}. `completed` means the pre-MD minimiser ran over
+    every lambda state without a NaN on a host-independent build — the strongest available evidence
+    that the failing leg's NaN was not a property of the edge. `nan` means it reproduced, which is a
+    scientific finding about the edge and a block."""
+    import importlib
+    import tempfile
+    out = {}
+    os.environ.pop("RBFE_HMRDIAG_ONLY", None)
+    os.environ.pop("RBFE_ENERGY_PROBE", None)
+    os.environ["RBFE_SETUP_ONLY"] = "1"          # stop the instant setup() returns; no MD, no commits
+    os.environ["RBFE_SPOT_SAFE"] = "1"
+    rbfe = importlib.reload(rbfe)
+    t0 = time.time()
+    try:
+        ligA, ligB, prot = rbfe._build_components(openfe, Chem)
+        mapping = rbfe._mapping(openfe, ligA, ligB)
+        A, B = rbfe._chemical_systems(openfe, ligA, ligB, prot)
+        proto = rbfe._protocol(openfe)
+        dag = proto.create(stateA=A, stateB=B, mapping=mapping)
+        rbfe.execute_hybrid_dag_spot_safe(proto, dag, tempfile.mkdtemp(prefix="s1f_minrepro_"),
+                                          tag="minrepro_%s" % unit["unit_id"])
+        out["outcome"] = "completed_without_the_sentinel"
+        out["note"] = ("setup() returned but RBFE_SETUP_ONLY did not stop the run — the guard did not "
+                       "fire, so treat this as unverified rather than as a clean pass")
+    except SystemExit as e:
+        s = str(e)
+        out["outcome"] = "completed" if "COMPLETED WITHOUT A NaN" in s else "aborted"
+        out["detail"] = s[:400]
+    except Exception as e:                       # noqa: BLE001
+        s = f"{type(e).__name__}: {e}"
+        out["outcome"] = "nan" if "NaN" in s else "error"
+        out["detail"] = s[:400]
+        out["traceback"] = traceback.format_exc()[-2000:]
+    out["wall_s"] = round(time.time() - t0, 1)
+    return out
 
 
 def verdict(row):
@@ -153,10 +204,26 @@ def verdict(row):
                          f"the staged system and reproduces on every host, so renting another one "
                          f"buys nothing")
     hi = max(abs(r["energy_kj_mol"]) for r in rows)
-    return "RETRY", (f"every force term is finite at the coordinates handed to setup() "
-                     f"(max |E| = {hi:.6g} kJ/mol) on a host-independent CPU build, so the staged "
-                     f"system is not the fault; the NaN arose inside the minimisation trajectory and "
-                     f"the edge is a retry candidate")
+    # Stage 2 is what actually closes the question — a single-point reading cannot see a lambda
+    # window it never visited. Its absence downgrades the answer rather than being ignored.
+    mr = row.get("minimize_repro") or {}
+    oc = mr.get("outcome")
+    if oc == "nan":
+        return "BLOCK", (f"the production `sampler.setup()` — the same call that failed on the rented "
+                         f"host — NaN'd again on a host-independent CPU build of the same staged "
+                         f"system: {mr.get('detail')}. Deterministic for this edge; another host "
+                         f"reproduces it")
+    if oc == "completed":
+        return "RETRY", (f"the production `sampler.setup()`, including its pre-MD LocalEnergyMinimizer "
+                         f"over every lambda state, COMPLETED WITHOUT A NaN on a host-independent CPU "
+                         f"build of the same staged system ({mr.get('wall_s')}s), and every force term "
+                         f"is finite at the handed-over coordinates (max |E| = {hi:.6g} kJ/mol). The "
+                         f"edge is not the fault, so this is a retry candidate and not a block")
+    return "INCONCLUSIVE", (f"every force term is finite at the handed-over coordinates "
+                            f"(max |E| = {hi:.6g} kJ/mol), which rules out a system that is broken as "
+                            f"built — but the minimiser reproduction did not return a usable outcome "
+                            f"({oc or 'not run'}: {mr.get('detail') or mr.get('note')}), and a "
+                            f"single-point reading cannot see a lambda window it never visited")
 
 
 def main():

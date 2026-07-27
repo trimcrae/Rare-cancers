@@ -12,12 +12,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import step1_setup_energy_probe as ep  # noqa: E402
 
 
-def _row(energies, **extra):
+def _row(energies, repro="completed", **extra):
     rows = [{"group": i, "force": name, "energy_kj_mol": e,
              "finite": e == e and abs(e) != float("inf")}
             for i, (name, e) in enumerate(energies)]
     r = {"unit_id": "u", "edge_id": "e", "edge": "a->b",
-         "energy_probe": {"rows": rows, "verdict": "…"}}
+         "energy_probe": {"rows": rows, "verdict": "…"},
+         "minimize_repro": {"outcome": repro, "wall_s": 12.3, "detail": "d"}}
     r.update(extra)
     return r
 
@@ -35,10 +36,32 @@ def test_nan_term_is_BLOCK_too():
     assert d == "BLOCK"
 
 
-def test_all_finite_is_RETRY():
+def test_all_finite_AND_a_clean_minimiser_reproduction_is_RETRY():
     d, why = ep.verdict(_row([("HarmonicBondForce", 900.0), ("NonbondedForce", -1.2e6)]))
     assert d == "RETRY"
-    assert "retry candidate" in why
+    assert "COMPLETED WITHOUT A NaN" in why
+
+
+def test_all_finite_but_the_minimiser_REPRODUCED_the_NaN_is_BLOCK():
+    # THE CASE STAGE 1 ALONE CANNOT SEE: setup() minimises every lambda state, so a softcore term
+    # that is finite at the built lambda and divergent at an intermediate one gives all-finite
+    # single-point energies AND a deterministic NaN. The reproduction must win.
+    d, why = ep.verdict(_row([("NonbondedForce", -1.2e6)], repro="nan"))
+    assert d == "BLOCK"
+    assert "Deterministic for this edge" in why
+
+
+def test_all_finite_with_NO_minimiser_reproduction_is_INCONCLUSIVE_not_RETRY():
+    row = _row([("NonbondedForce", -1.2e6)])
+    row.pop("minimize_repro")
+    d, why = ep.verdict(row)
+    assert d == "INCONCLUSIVE"
+    assert "lambda window it never visited" in why
+
+
+def test_a_failed_reproduction_is_INCONCLUSIVE():
+    d, _ = ep.verdict(_row([("NonbondedForce", -1.2e6)], repro="error"))
+    assert d == "INCONCLUSIVE"
 
 
 def test_build_error_is_INCONCLUSIVE_not_RETRY():
@@ -67,6 +90,7 @@ def test_missing_energy_probe_key_is_INCONCLUSIVE():
 
 def test_verdict_never_invents_a_fourth_answer():
     for row in (_row([("F", 1.0)]), _row([("F", float("inf"))]), {"build_error": "x"},
+                _row([("F", 1.0)], repro="nan"), _row([("F", 1.0)], repro="error"),
                 {"energy_probe": {"rows": []}}):
         assert ep.verdict(row)[0] in ("BLOCK", "RETRY", "INCONCLUSIVE")
 
