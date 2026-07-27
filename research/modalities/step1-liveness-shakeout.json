@@ -1,0 +1,64 @@
+{
+  "smoke": {
+    "rc": 127,
+    "sync_s": 5.0,
+    "silent_phase_s": 20.0,
+    "run_log_present": false,
+    "phase_txt_present": false,
+    "distinct_run_log_mtimes_during_the_run": 0,
+    "mtimes": [],
+    "advanced_during_a_silent_phase": false,
+    "keys": []
+  },
+  "_what": "step 1 liveness shakeout \u2014 smoke -> one real onstart -> guard verdict (CLAUDE.md \u00a76), against a SCRATCH S3 prefix that cannot touch a live unit",
+  "_scratch_prefix": "s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/liveness-shakeout/shakeout_unit",
+  "leg": {
+    "runs": [
+      {
+        "n": 1,
+        "rc": 127,
+        "brake_tripped": false,
+        "selfstop_ran": false,
+        "archived_previous_attempt": false
+      },
+      {
+        "n": 2,
+        "rc": 127,
+        "brake_tripped": false,
+        "selfstop_ran": false,
+        "archived_previous_attempt": false
+      },
+      {
+        "n": 3,
+        "rc": 0,
+        "brake_tripped": true,
+        "selfstop_ran": false,
+        "archived_previous_attempt": false
+      }
+    ],
+    "attempt_keys": [],
+    "every_attempt_key_parses": false,
+    "start_ages_min": [],
+    "brake_tripped_on_the_third_start_only": true
+  },
+  "verdict": {
+    "log_age_min": null,
+    "start_ages_min": [],
+    "fresh_heartbeat": {
+      "verdict": "UNKNOWN",
+      "why": "the container has started but no run.log has ever been uploaded \u2014 no evidence to judge on, so leaving it alone",
+      "spared": true
+    },
+    "if_it_went_silent": {
+      "verdict": "UNKNOWN",
+      "why": "the container has started but no run.log has ever been uploaded \u2014 no evidence to judge on, so leaving it alone",
+      "condemned": false
+    },
+    "observed_restart_churn": {
+      "verdict": "UNKNOWN",
+      "why": "the container has started but no run.log has ever been uploaded \u2014 no evidence to judge on, so leaving it alone",
+      "condemned": false
+    },
+    "both_directions_work": false
+  }
+}
