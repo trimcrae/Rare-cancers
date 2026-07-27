@@ -271,7 +271,23 @@ def test_every_watch_list_named_by_a_workflow_exists_and_validates():
 # So the match is on `sort` as a COMMAND TOKEN (start of line, after a pipe, or opening a substitution), which is
 # the one producer measured to do this and the one that just cost a run. Only flagged when the step actually sets
 # `pipefail`, and never when the pipeline already guards itself with `|| `.
-_SIGPIPE_PRODUCER_RE = re.compile(r"(?:^|\||\$\(|&&|;)\s*sort(?:\s|$)")
+# WIDENED 2026-07-27, after this lint watched the same bug ship a second time. It knew exactly one
+# SIGPIPE-sensitive producer, `sort`, so `gcloud storage ls --recursive | grep … | head -1` walked straight
+# through it and killed mode=provenance on its first run (GH run 30312344869: "grep: write error: Broken
+# pipe", exit 2). The hazard was never about `sort` — it is about ANY producer that can emit more than the
+# 64 KB pipe buffer before `head` closes it.
+#
+# WHY NOT SIMPLY FLAG EVERY `| head -`. Measured across the workflows that set pipefail: 25 such lines, and
+# 24 are bounded reads (`gcloud compute instances list` returning a handful of rows, `ls | head -1`,
+# `find … | head -1`). A lint that reds the build on 24 safe lines is a lint that gets loosened, which is
+# how a guard stops guarding. So the discriminator is UNBOUNDEDNESS, not the presence of a pipe: a RECURSIVE
+# object-store listing has no natural size limit and grows with the bucket, which is precisely the
+# size-dependent shape that lies dormant until it does not.
+_SIGPIPE_PRODUCER_RE = re.compile(
+    r"(?:^|\||\$\(|&&|;)\s*sort(?:\s|$)"          # the original: sort buffers, then writes on close
+    r"|storage\s+ls\b[^|]*--recursive"            # an unbounded bucket listing, anywhere in the pipeline
+    r"|--recursive\b[^|]*storage\s+ls"            # ...with the flag written before the subcommand
+)
 
 
 def test_no_sort_into_head_under_pipefail():
