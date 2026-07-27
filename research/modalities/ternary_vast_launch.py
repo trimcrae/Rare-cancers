@@ -95,9 +95,14 @@ MAX_FROZEN_MIN = float(os.environ.get("TVAST_MAX_FROZEN_MIN") or "20")
 # GPU. Since this lane builds setup on the rented host (there is no S3 setup cache yet), under-specifying
 # RAM buys a cheap host and then pays for it in GPU-idle minutes. min_cuda 13.0 is the repo's settled host
 # filter: the baked env's PTX is CUDA-13-class and older drivers hit CUDA_ERROR_UNSUPPORTED_PTX_VERSION.
-def resource_spec(gpu=None, disk_gb=None):
+def resource_spec(gpu=None, disk_gb=None, max_usd_per_ns=None):
     """The host filter for a ternary leg. Kept a function so a caller (or a test) can vary the card
-    without mutating a module-level singleton that another call already holds a reference to."""
+    without mutating a module-level singleton that another call already holds a reference to.
+
+    `max_usd_per_ns` defaults to None — UNSET — because the two callers want opposite things. The GATE must
+    see the expensive offers in order to report them and say how far above the line the board sits; only the
+    spec handed to `submit` carries the cap. That is `ResourceSpec.max_usd_per_ns`'s own documented contract,
+    and setting it here by default would make the gate blind to exactly the offers it exists to price."""
     return ResourceSpec(
         gpu=gpu or os.environ.get("TVAST_GPU") or "rtx4090",
         min_vram_gb=int(os.environ.get("TVAST_VRAM") or "24"),
@@ -106,6 +111,7 @@ def resource_spec(gpu=None, disk_gb=None):
         disk_gb=int(disk_gb or os.environ.get("TVAST_DISK_GB") or "60"),
         min_cuda=float(os.environ.get("TVAST_MIN_CUDA") or "13.0"),
         interruptible=True,
+        max_usd_per_ns=max_usd_per_ns,
     )
 
 
@@ -739,7 +745,10 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         image=image or VAST_IMAGE,
         checkpoint_uri=result_prefix_for(b, uid, p),
         resume=True,
-        resources=resource_spec(),
+        # ⛔ THE BINDING BUY LINE, TRAVELLING WITH THE SPEC (see `buy_ceiling_usd_per_ns`). Every rental this
+        # lane makes — fan-out, resume, or a single cold unit after a preemption — is refused above 1.5x
+        # basis at SELECTION, which is what CLAUDE.md §6's "a relaunch is a new purchase" actually requires.
+        resources=resource_spec(max_usd_per_ns=buy_ceiling_usd_per_ns()),
         max_runtime_s=int(os.environ.get("TVAST_MAX_RUNTIME_S") or sizing["max_runtime_s"]),
         env=env,
     )
@@ -1040,6 +1049,7 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     if dry_run:
         print(json.dumps([{"name": j.name, "image": j.image, "max_runtime_s": j.max_runtime_s,
                            "env": j.env} for j in jobs], indent=2))
+        submit.last_requested = 0
         return []
 
     done = {u for u, d in leg_records().items() if d.get("status") == "done"}
@@ -1064,6 +1074,11 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
             print(f"[launch] skipping (already done, no rental): {j.env['UNIT_ID']}")
         elif j.env["UNIT_ID"] in inflight:
             print(f"[launch] skipping (already running, no rental): {j.env['UNIT_ID']}")
+    # HOW MANY UNITS THIS LAUNCH ACTUALLY WANTED, recorded so the caller can tell "nothing needed renting"
+    # (green) from "wanted units, rented none" (red). Both return an empty handle list, and conflating them
+    # is what let a launch that rented nothing report success. A function attribute rather than a signature
+    # change so every existing caller and test keeps working.
+    submit.last_requested = len(keep)
     if not keep:
         print("[launch] every unit for this mode is already done or running — nothing to rent")
         return []
@@ -1183,6 +1198,26 @@ from inflight_usd_per_ns import DRIFT_MULTIPLE as _DRIFT_MULTIPLE  # noqa: E402
 MARKET_MAX_RATIO_VS_BASIS = float(os.environ.get("TVAST_MAX_RATIO_VS_BASIS") or _DRIFT_MULTIPLE)
 
 
+def buy_ceiling_usd_per_ns():
+    """The highest $/ns this lane may PAY for one host, in dollars. DERIVED: the 1.5x drift line times the
+    ladder basis, both of which have exactly one home elsewhere.
+
+    ★★ WHY A PER-OFFER LINE AND NOT THE GATE'S MEAN (2026-07-27, after the 9:12 AM window was lost).
+    The gate's test is the MEAN of the n cheapest offers, which is the right question for "is a fan-out of n
+    worth buying" and the WRONG one for "may we rent THIS box": a mean under the line can contain a host
+    over it, pulled down by cheaper siblings. That is trimcrae's own complaint — *"Why are there so many
+    high $/ns rows that are flagged but you're still paying for them?"* — and no amount of board-level
+    gating fixes it, because the board is not what gets rented.
+
+    Handing this to `submit`'s ResourceSpec makes overpaying STRUCTURALLY impossible instead of
+    procedurally discouraged: `rank_offers_by_usd_per_ns` drops every offer above the cap before selection
+    sees it, on every fallback after a capacity refusal too. `congeneric_fanout_vast.build_jobspec` has done
+    this since 2026-07-27; this lane simply never adopted it, and the whole-board veto it used instead is
+    what refused two authorised launches today."""
+    from congeneric_fanout import basis_usd_per_ns
+    return MARKET_MAX_RATIO_VS_BASIS * basis_usd_per_ns()
+
+
 def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max_ratio=None):
     """(hold, readout) for renting `n_units` legs of this rung right now. Reads the LIVE board.
 
@@ -1272,6 +1307,17 @@ def collect(bucket=None, prefix=None, autostop=True):
                     if (i.get("label") or "").startswith(LABEL_PREFIX)]
         except Exception as e:  # noqa: BLE001
             print(f"[collect] could not list instances: {type(e).__name__}: {e}")
+
+    # ★ THE LAUNCH-ATTEMPT LEDGER, FIRST. `_last_launch.json` below is written by the LAUNCHER, so it is
+    # silent about exactly the failure that misled a reader on 2026-07-27: a gate that cleared, dispatched,
+    # and was refused by a price check before the launcher ever ran. The ledger is written by CI at the
+    # moment of the event and therefore covers that case. Printed here because `collect` is the command
+    # anyone debugging this lane already runs.
+    try:
+        import ternary_launch_ledger as _tll
+        print(_tll.summary_line())
+    except Exception as e:  # noqa: BLE001 — a diagnostic must never break the board it is printed on
+        print(f"[ledger] unavailable: {type(e).__name__}: {e}")
 
     # The last launch's own record — what it asked for, what it rented, and why anything failed. A launch
     # that rents nothing currently exits 0, and GitHub truncates a job log from the tail, so without this
@@ -1811,8 +1857,19 @@ def main(argv=None):
                 raise SystemExit(f"--only {a.only!r} --only-seed {a.only_seed!r} matched no unit in mode "
                                  f"{a.mode!r}; available: {units_for(a.mode)}")
             print(f"[launch] --only {a.only!r} --only-seed {a.only_seed!r} -> {legs}")
-        submit(mode=a.mode, dry_run=a.dry_run, timestep_fs=a.timestep_fs,
-               warmup_timestep_fs=a.warmup_timestep_fs, legs=legs)
+        got = submit(mode=a.mode, dry_run=a.dry_run, timestep_fs=a.timestep_fs,
+                     warmup_timestep_fs=a.warmup_timestep_fs, legs=legs)
+        # ★ RENTING NOTHING IS A FAILURE, NOT A QUIET SUCCESS (2026-07-27). `submit` catches per-unit submit
+        # errors so one unrentable unit cannot abort the rest — correct — but the whole launch then exited 0
+        # with an empty handle list, which is indistinguishable in CI from a launch that worked. Now that the
+        # per-offer buy line can legitimately refuse EVERY offer on a thin board, that ambiguity would turn
+        # the price guard itself into a silent no-op. A launch that wanted units and got none is red.
+        if getattr(submit, "last_requested", 0) and not got:
+            print("::error title=TVAST RENTED NOTHING::the launcher wanted units and rented none — either "
+                  "every offer priced above the buy line (research/compute/pricing.md basis x "
+                  "%.2f = $%.6f/ns) or every create failed. See the [launch] lines above."
+                  % (MARKET_MAX_RATIO_VS_BASIS, buy_ceiling_usd_per_ns()))
+            return 1
     return 0
 
 

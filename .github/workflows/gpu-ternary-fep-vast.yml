@@ -164,7 +164,8 @@ jobs:
           set -eo pipefail
           python -m pip install -q pytest
           python -m pytest research/modalities/tests/test_ternary_vast_launch.py \
-                           research/modalities/tests/test_ternary_vast_watchdog.py -q
+                           research/modalities/tests/test_ternary_vast_watchdog.py \
+                           research/modalities/tests/test_ternary_launch_ledger.py -q
 
   dry-run:
     needs: [resolve, test]
@@ -287,7 +288,19 @@ jobs:
           python research/modalities/ternary_vast_launch.py --market-gate 4 \
             --gate-out research/modalities/ternary-vast-market-hold.json || RC=$?
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/ternary-vast-market-hold.json
+          # ★ RECORD THE AUTHORISATION ITSELF, BEFORE DISPATCHING (2026-07-27). This is the moment a launch
+          # becomes authorised, and until today it left no durable trace of its own: the CLEAR snapshot went
+          # into a file the dispatched launch then OVERWROTE with its own reading, so within four minutes
+          # there was no evidence anywhere that a launch had ever been cleared and fired. The ledger row is
+          # append-only and nothing downstream may rewrite it.
+          if [ "$RC" = 0 ]; then
+            python research/modalities/ternary_launch_ledger.py --record dispatched \
+              --stage market-gate --gate research/modalities/ternary-vast-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "board cleared both ceilings; dispatching task=edge-reps" || true
+          fi
+          git add research/modalities/ternary-vast-market-hold.json \
+                  research/modalities/ternary-vast-launch-attempts.json
           if ! git diff --cached --quiet; then
             git commit -m "tvast market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) for valB_mini r1+r2 (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -556,6 +569,51 @@ jobs:
         with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
+
+      # ================================================================================================
+      # ⛔ WHERE THE PRICE GUARD LIVES NOW, AND WHY IT MOVED (2026-07-27 — this cost two authorised launches)
+      # ================================================================================================
+      # WHAT USED TO BE HERE: a second, independent, FATAL `--market-gate 4` that ran AFTER the atom-map
+      # pre-flight and re-decided the whole purchase from scratch.
+      #
+      # WHAT IT DID. At 9:12 AM ET the `market_gate` job read the board at 1.261x basis, cleared, and
+      # dispatched this workflow. This job then spent 2 m 35 s pulling the ternary-fep image for the
+      # pre-flight and re-read the board at 9:16:28 AM ET: 2.436x. HOLD, exit 1, nothing rented. Again at
+      # 9:23 -> 9:26 AM ET (1.455x -> 1.904x). So a launch required TWO independent board reads, 3 m 24 s
+      # apart, to BOTH clear the same 1.5x line — and on a board that doubles inside that window the second
+      # read is close to an independent draw. The gate was not wrong either time; the pipeline was built so
+      # that clearing it could not actually buy anything.
+      #
+      # WHY REMOVING IT IS NOT A WEAKENING — IT IS STRICTLY STRONGER. The board-mean test was always the
+      # wrong instrument for "may we rent THIS host": a mean under the line can contain an offer over it,
+      # pulled down by cheaper siblings (trimcrae, 2026-07-27: *"Why are there so many high $/ns rows that
+      # are flagged but you're still paying for them?"*). The refusal now lives at SELECTION, as
+      # `ResourceSpec.max_usd_per_ns` = 1.5x basis, travelling with the JobSpec into
+      # `rank_offers_by_usd_per_ns` — so no offer above the line is even visible to the renter, on every
+      # fallback after a capacity refusal too. Nothing above 1.5x can be bought by this lane, from any path,
+      # including a resume. That is CLAUDE.md §6's "a relaunch is a new purchase" enforced structurally
+      # rather than by a step someone has to remember to keep in front of the rental.
+      #
+      # AND UNITS ARE NO LONGER ALL-OR-NOTHING, which is trimcrae's own 2026-07-27 ruling on the sibling
+      # lane: *"The fanout fleet doesn't all have to run at the same time. If 5 GPUs are cheap enough and
+      # the rest aren't, only run 5."* What the board can supply under the line is bought; the rest are
+      # picked up by the next hourly tick, from checkpoints, at no loss. §6's one prohibition — do not drop
+      # units SILENTLY — is met by the ledger step below, and renting zero units is a RED job.
+      - name: Board snapshot ($/ns) — FIRST, cheap, and advisory
+        # Runs BEFORE the image pull, not after it, because a price reading taken behind a 2.5-minute
+        # docker pull is a reading of a different market than the one that authorised the launch.
+        # Non-fatal by design: it exists to put the numbers in the log and the ledger beside what was
+        # actually bought, so a launch can be graded against the board it faced. It writes its OWN file —
+        # the launch must never overwrite `ternary-vast-market-hold.json`, because on 2026-07-27 doing
+        # exactly that erased the CLEAR snapshot that had authorised the dispatch and left the lane looking
+        # like an ordinary hold.
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          python research/modalities/ternary_vast_launch.py --market-gate 4 \
+            --gate-out /tmp/launch-board.json || true
+
       - name: ATOM-MAP GATE — the launch cannot rent until the map is proven complete
         # ★ STRUCTURAL, NOT REMEMBERED. `reps-prime` already runs this, but a gate that depends on someone
         # having dispatched the right task first is not a gate. `LomapAtomMapper(time=N)` silently returns a
@@ -595,39 +653,8 @@ jobs:
               --leg-id calib_hi_to_lo__ternary_vhl \
               --leg-id calib_hi_to_lo__binary_vhl 2>&1 | tail -20
 
-      - name: MARKET GATE ($/ns) — pause rather than pay double, and SAY SO
-        # ⛔ CLAUDE.md §6, trimcrae 2026-07-26: "I'd rather pause until availability opens than pay double
-        # per ns." This gates the FAN-OUT (4 units), which is exactly what the rule covers.
-        #
-        # THE CEILING IS THIS RUNG'S OWN, NOT A FLEET-SIZED ONE. It is the top of valB's ladder band scaled
-        # to the units being bought ($22.28 for 4 legs against a $8.78 plan), derived from
-        # vast-ladder-repricing.json rather than typed. A guard that priced two replicates against the STEP 1
-        # fan-out's nineteen-edge authorisation would refuse a small authorised spend for a reason that does
-        # not apply to it, which is the opposite of what the rule is for.
-        #
-        # AND THE HOLD IS COMMITTED, not merely printed: a silent hold is indistinguishable from a finished
-        # fleet, so the readout lands in git with the snapshot that caused it — board depth, the offers that
-        # were priced, the projected cost, the ceiling and the break-even $/ns.
-        if: ${{ needs.resolve.outputs.task == 'edge-reps' }}
-        run: |
-          set -eo pipefail
-          python -m pip install -q boto3
-          RC=0
-          python research/modalities/ternary_vast_launch.py --market-gate 4 \
-            --gate-out research/modalities/ternary-vast-market-hold.json || RC=$?
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/ternary-vast-market-hold.json
-          if ! git diff --cached --quiet; then
-            git commit -m "tvast market gate: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) for valB_mini r1+r2 (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
-          fi
-          if [ "$RC" != 0 ]; then
-            echo "::error title=TVAST MARKET HOLD::valB_mini r1+r2 NOT launched — the board prices this rung above its own ceiling. Snapshot committed to research/modalities/ternary-vast-market-hold.json."
-            exit "$RC"
-          fi
-
       - name: Rent one host per unit
+        id: rent
         run: |
           set -eo pipefail
           # boto3 is REQUIRED, not optional: the launcher lists S3 to skip units that are already done
@@ -642,6 +669,40 @@ jobs:
           ONLY="${{ github.event.inputs.leg_only }}"
           python research/modalities/ternary_vast_launch.py --mode "$MODE" ${ONLY:+--only "$ONLY"}
           echo "::notice title=TVAST launched::task=${{ needs.resolve.outputs.task }} (mode=$MODE) — poll with task=collect."
+
+      - name: Record this launch attempt in the ledger — SUCCESS OR NOT
+        # ★★ THE STEP WHOSE ABSENCE CAUSED A MISREPORT (2026-07-27). When this job died at its old price
+        # gate, every artifact in the lane looked exactly like an ordinary hold: the hold snapshot said HOLD
+        # (the dead launch had overwritten the CLEAR that authorised it), the watch list was empty, and S3's
+        # `_last_launch.json` was hours stale because the launcher never ran. Nothing anywhere said "a
+        # launch was authorised, dispatched, and died" — so it was read as "still holding".
+        #
+        # `if: always()` is the whole point: the row that matters most is the one written by a FAILED run.
+        # It is the last step so it can see the rental's outcome, and it never fails the job — a launch must
+        # not be marked failed because its bookkeeping could not push.
+        if: always()
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          case "${{ steps.rent.outcome }}" in
+            success)  OUTCOME=launched ;;
+            skipped)  OUTCOME=failed ;;     # died before the rental was even attempted
+            *)        OUTCOME=rented-nothing ;;
+          esac
+          python research/modalities/ternary_launch_ledger.py --record "$OUTCOME" \
+            --stage "rent (steps.rent.outcome=${{ steps.rent.outcome }})" \
+            --gate /tmp/launch-board.json --run-url "$RUN_URL" \
+            --reason "task=${{ needs.resolve.outputs.task }}; job status ${{ job.status }}"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/ternary-vast-launch-attempts.json
+          if ! git diff --cached --quiet -- research/modalities/ternary-vast-launch-attempts.json; then
+            git commit -m "tvast launch attempt: $OUTCOME (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}" || true
+          fi
+          echo "::notice title=TVAST launch attempt::$(python research/modalities/ternary_launch_ledger.py --print-last)"
+
       - name: Arm the session-independent watchdog for this task
         # The watch list is the ONLY input the cron watchdog reads, so a launch that does not register its
         # units is a launch nobody is watching. Committed to the branch so it survives this runner.
