@@ -256,3 +256,33 @@ class TestReplicatesMeasureDIFFERENTHosts(unittest.TestCase):
         self.assertEqual(sweep.plan_sweep(offers), [])
         rows = sweep.plan_sweep(offers, include_measured=True)
         self.assertEqual([r["gpu_name"] for r in rows], ["RTX 4090"])
+
+
+class TestAFailedBenchProducesNoNumber(unittest.TestCase):
+    """OBSERVED 2026-07-27: 2 of 6 calibration rentals died with `Particle coordinate is NaN` during
+    minimise/warmup. `gpu_md_bench` then emits a `status=ERROR` line with no measurement at all. The gate must
+    refuse it loudly rather than let a partly-parsed record become an entry — a rental that failed is the one
+    case where a fabricated throughput would be easiest to produce and hardest to notice."""
+
+    ERROR_LINE = ("BENCH_RESULT tag=rtx4090-r2 status=ERROR "
+                  "err=OpenMMException:Particle coordinate is NaN.")
+
+    def test_an_error_line_is_refused_and_yields_no_entry(self):
+        r = sweep.parse_bench_line(self.ERROR_LINE)
+        r["gpu_requested"] = "RTX 4090"
+        ok, why, entry = sweep.admit(r)
+        self.assertFalse(ok)
+        self.assertIsNone(entry)
+        self.assertTrue(any("status 'ERROR'" in w for w in why), why)
+
+    def test_the_refusal_names_the_missing_evidence_not_just_the_status(self):
+        """A single 'status != OK' would hide that there is no system, no timestep and no blocks either."""
+        r = sweep.parse_bench_line(self.ERROR_LINE)
+        r["gpu_requested"] = "RTX 4090"
+        _ok, why, _e = sweep.admit(r)
+        self.assertGreaterEqual(len(why), 5)
+
+    def test_a_failed_rental_never_reaches_the_provenance_file(self):
+        r = sweep.parse_bench_line(self.ERROR_LINE)
+        r["gpu_requested"] = "RTX 4090"
+        self.assertIsNone(sweep.admit(r)[2])

@@ -88,6 +88,13 @@
     "verdict": "PENDING \u2014 the replicate hosts are the evidence. Nothing in the table has been changed on the strength of a single contrary reading.",
     "operational_defect_found_on_the_way": "A deterministic result key means every bench re-run DESTROYS its predecessor's raw artifact. That is how the validated grid's evidence was lost. vast_bench_sweep gives each replicate its own key (`<card>-r<n>`) and this file now carries the per-block values, so the evidence survives outside S3."
   },
+  "bench_engine_fragility_2026_07_27": {
+    "observed": "2 of 6 calibration rentals (cal-rtx3090ti, cal-rtx4090-r2) died with OpenMMException 'Particle coordinate is NaN' during minimise/warmup and produced status=ERROR with no measurement.",
+    "mechanism": "gpu_md_bench builds the box with addSolvent, minimises for only 200 iterations, then calls setVelocitiesToTemperature WITHOUT a fixed seed and steps 1000 warmup steps at 4 fs with HMR. The velocity draw is different every run, so a residual clash that survives 200 minimisation iterations occasionally blows up. The failure is stochastic, not host-specific: it hit one RTX 3090 Ti and one RTX 4090 while four other rentals on the identical code succeeded.",
+    "why_it_was_not_silently_fixed": "Raising the minimisation iteration count would make the run more robust and would NOT change steady-state ns/day for a stable TIP3P box — but the anchors were measured at 200, and 'use the same protocol' is the only reason a new card's number is comparable to them. A change is therefore a protocol change that must be argued and re-validated against an anchor card, not slipped in mid-sweep. Until then a NaN is a cheap retry (~$0.02).",
+    "what_protected_the_table": "vast_bench_sweep.admit() refused both records on nine independent grounds, starting with status != OK and including the absent particle count, timestep, blocks and physics check. A failed rental is exactly where a fabricated throughput would be easiest to produce and hardest to notice; tests/test_vast_bench_sweep.py::TestAFailedBenchProducesNoNumber pins the refusal.",
+    "selection_bias_check": "A NaN aborts during minimise/warmup, before any timed block, and warmup is a fixed STEP count rather than a fixed wall time — so failure probability is not a function of card speed, and the surviving population is not biased toward fast or slow hosts. The two failures were on different card models, consistent with that."
+  },
   "rejected_at_measurement_time": [
     {
       "what": "a host whose three blocks scattered at CV 18.5%",
