@@ -439,9 +439,25 @@ def _component(openfe, Chem, smiles, name):
 
 
 def run_maps():
-    """Re-derive the PRODUCTION map for every edge at both budgets. The point is not to reproduce the failure
-    (a CI runner is not the host that failed); it is to establish, on this repo's real chemistry, (a) what the
-    correct map size is for every edge, and (b) whether 20 s is anywhere near sufficient."""
+    """Re-derive the PRODUCTION mapper's output for every edge at both budgets.
+
+    The point is not to reproduce the failure — a CI runner is not the host that failed — but to measure
+    whether the 20 s budget is anywhere near binding on this repo's real chemistry.
+
+    ★★ WHAT THIS FUNCTION'S NUMBERS ARE NOT (measured 2026-07-27, run 30225061146). The map sizes it reports
+    for the step 1 congeneric edges are **1–10 atoms**, which is far below what those legs actually run, and
+    they are NOT evidence about the fan-out. THE HARNESS DIFFERS FROM PRODUCTION IN A WAY THAT MATTERS: this
+    builds a fresh ETKDG conformer per endpoint and hands the two to `_mapping` unaligned, whereas production
+    (`nr4a3_rbfe._build_components`) reads the STAGED, DOCKED, COMMON-FRAME poses, and
+    `rbfe_edge_timestep_scan.scan_edge` additionally calls `_align_pose(molB, molA)` before mapping. On several
+    edges LOMAP returned nothing at all here and the Kartograf fallback — which IS geometric — supplied a
+    1-atom map. So treat every step 1 row as A PROPERTY OF THIS HARNESS until it is re-run through
+    `_build_components` on the staged SDFs.
+
+    ONE THING THE RUN DOES ESTABLISH, because both budgets went through the identical harness: on all 19
+    congeneric edges **t20 and t300 returned the SAME map, in 0.0–1.4 s**. The MCS budget is nowhere near
+    binding for 14–20-heavy-atom ligands. The timeout mechanism is a large-molecule problem — the 59-heavy
+    Wurz PROTAC and the 64-heavy 5a-KS ligand — which is exactly where the two degenerate maps were found."""
     import openfe
     from rdkit import Chem
     import nr4a3_rbfe as rbfe
