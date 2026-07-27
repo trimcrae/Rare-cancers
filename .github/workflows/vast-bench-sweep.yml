@@ -1,31 +1,15 @@
 name: Vast calibration sweep — turn unbenched cards into $/ns-gradeable supply
 
-# WHY THIS WORKFLOW EXISTS. `$/ns` ranking decides every GPU purchase, and it needs a BENCHED ns/h.
-# `vast_cost_model.MEASURED_NS_PER_DAY_84K` held three cards, so on the 2026-07-27 8:00 AM ET board only 10 of
-# 48 qualifying offers could be priced at all against 19 units needed. The bottleneck is not supply, it is our
-# ability to GRADE supply — and the only thing that widens the table is a measurement.
-#
-# ⛔ AND THE HARVEST-INSTEAD IDEA WAS TESTED FIRST AND DOES NOT WORK. `throughput_harvest.py` shows the
-# selection loop is closed: an unbenched card has no $/ns, so `rank_offers_by_usd_per_ns` sorts it last, so we
-# never rent it, so it never produces a log. 114 instance-observations across 55 committed fan-out ticks
-# contain exactly three card models, all of them already in the table. A dedicated rental is the only break.
-#
-# COST SHAPE, and why this is safe to run: a bench is MINUTES. `vast_bench_sweep` caps each rental's runtime,
-# prices its own WORST CASE before renting, and refuses any card over the per-card or sweep-wide dollar
-# ceiling. `collect` prints realised spend and then DESTROYS every `cal-*` instance — the destroy is
-# control-plane-only (an unprivileged container cannot end itself), so it must happen here or the meter runs.
-#
-# ⚠ THE $/ns GATE DOES NOT APPLY HERE AND SAYING SO IS THE HONEST MOVE. CLAUDE.md §6 gates every rental on
-# `$/ns` against the ladder basis; that quantity needs the card's ns/h, which is exactly what this rental
-# exists to measure. Gating on it would be circular. The substitute is a hard, knowable dollar ceiling.
+# Dispatch handle. workflow_dispatch requires the file on the default branch; dispatched with ref=<branch> it
+# runs THAT branch's version of this file and its code. The branch is where this lane's real version lives.
 
 on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "plan (read-only) | launch (SPENDS, minutes each) | collect (validate + reap) | reap"
+        description: "plan (read-only) | launch (SPENDS, minutes each) | collect (validate + reap) | reap | forensic (read-only) | impact (read-only)"
         type: choice
-        options: [plan, launch, collect, reap]
+        options: [plan, launch, collect, reap, forensic, impact]
         default: plan
       fleet_branch:
         description: "branch whose code the rented instances run (NOT the workflow's own ref)"
@@ -47,8 +31,6 @@ permissions:
   contents: write
 
 concurrency:
-  # One sweep at a time. Two concurrent launches would both read the same board and could rent the same host
-  # twice for the same card — paying twice for one number.
   group: vast-bench-sweep
   cancel-in-progress: false
 
@@ -76,51 +58,51 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       - run: pip install -q boto3 pytest
-
-      # ★ THE GATE RUNS BEFORE ANY MONEY DOES. These tests are what stands between a rented GPU and the
-      # constant that anchors every $/ns in the repo — including the pin that the three existing anchors and
-      # REFERENCE_NS_PER_H are bit-identical. A broken admission gate must never reach a launch.
       - name: Gate on the admission + provenance tests
         run: |
           python -m pytest -q \
             research/modalities/tests/test_throughput_provenance.py \
             research/modalities/tests/test_vast_bench_sweep.py \
             research/modalities/tests/test_throughput_harvest.py
-
-      - name: Harvest census — the standing evidence that a dedicated rental is still necessary
+      - name: Harvest census
         if: ${{ always() }}
         working-directory: research/modalities
         run: python throughput_harvest.py --json throughput-harvest.json
-
+      - name: Forensic — every bench artifact, with the conditions that could differ
+        if: ${{ github.event.inputs.mode == 'forensic' }}
+        working-directory: research/modalities
+        env:
+          FORENSIC: "1"
+        run: python vast_bench_sweep.py
+      - name: Board impact — before/after on the live board
+        if: ${{ github.event.inputs.mode == 'impact' }}
+        working-directory: research/modalities
+        env:
+          IMPACT: "1"
+        run: python vast_bench_sweep.py
       - name: Plan
+        if: ${{ github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'impact' }}
         working-directory: research/modalities
         run: python vast_bench_sweep.py
-
       - name: Launch
         if: ${{ github.event.inputs.mode == 'launch' }}
         working-directory: research/modalities
         env:
           LAUNCH: "1"
         run: python vast_bench_sweep.py
-
-      - name: Collect — validate every record, propose entries, report realised spend, then REAP
+      - name: Collect
         if: ${{ github.event.inputs.mode == 'collect' }}
         working-directory: research/modalities
         env:
           COLLECT: "1"
         run: python vast_bench_sweep.py
-
       - name: Reap — destroy every cal-* instance
-        # `always()` on purpose, in launch and reap modes: an instance left up after a failed step is the one
-        # failure that keeps costing money. In `launch` mode the reap is AGE-GATED so it cannot kill the
-        # benches this same run just started.
         if: ${{ always() && (github.event.inputs.mode == 'reap' || github.event.inputs.mode == 'launch') }}
         working-directory: research/modalities
         env:
           REAP: "1"
           BENCH_REAP_AGE_MIN: ${{ github.event.inputs.mode == 'reap' && '0' || '45' }}
         run: python vast_bench_sweep.py
-
       - name: Commit the sweep artifacts
         if: ${{ always() }}
         run: |
@@ -132,6 +114,8 @@ jobs:
                    research/modalities/vast-bench-sweep-launched.json \
                    research/modalities/vast-bench-sweep-results.json \
                    research/modalities/throughput-harvest.json \
+                   research/modalities/vast-bench-forensic.json \
+                   research/modalities/vast-bench-board-impact.json \
                    research/modalities/throughput-bench-provenance.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
           done
