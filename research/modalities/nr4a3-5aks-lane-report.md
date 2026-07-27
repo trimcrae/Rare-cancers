@@ -509,5 +509,12 @@ one home for the number)*
   point of the rung — so their inputs are pre-seeded into the FEP lane's stage cache and `STAGE_REQUIRED=1`
   makes a cache miss an immediate, explicit failure instead of a silent fall-through into the RCSB crystal
   stager with a leg id it has never heard of.
+- **The reducer keys on `(leg_id, seed)`, and the MODE is not in that key.** `5aks_…__ternary_nr4a3` is the
+  leg id of both the ~$12 production leg and the ~$0.15 smoke leg — the mode lives only in `unit_id`, and
+  `fetch_legs` writes both to the same `leg_<leg_id>_<direction>_r<seed>.json`. A smoke leg's ΔG is meaningless
+  by construction *and perfectly well-formed*, so a silent overwrite yields an `S` that passes the
+  non-ternary refusal, the provenance checks and the sign convention, and is simply wrong. `load_legs` now
+  raises `AmbiguousLegError` when two differing records claim one key (identical ones are still just a
+  duplicate download), and the CLI writes `decision: REFUSED` with the reason **in** the deliverable.
 - **A one-chain "ternary" leg is a binary leg nobody labelled**, and it would give `S ≈ 0` — which looks
   exactly like the preregistered null. The stager refuses it.
