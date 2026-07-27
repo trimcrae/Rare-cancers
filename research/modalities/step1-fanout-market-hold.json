@@ -1,22 +1,131 @@
 {
-  "_what": "Why the step 1 fan-out did or did not launch, priced in $/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a finished fleet.",
-  "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay.",
-  "utc": "2026-07-27T12:00:09Z",
-  "held": true,
-  "n_pending": 19,
-  "mean_usd_per_ns_over_fleet": 0.014158,
+  "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a finished fleet \u2014 and a partial launch that reports only what it launched is the same failure wearing a better number.",
+  "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. Per-unit since 2026-07-27 (trimcrae): if 5 GPUs are cheap enough and the rest are not, run 5.",
+  "utc": "2026-07-27T12:36:23Z",
+  "held": false,
+  "n_withheld": 18,
+  "n_launching_now": 18,
+  "n_held": 0,
+  "unit_usd_per_ns_ceiling": 0.009822,
+  "unit_ceiling_x_basis": 2.253,
+  "placed_usd_per_ns": [
+    0.004522,
+    0.004721,
+    0.004799,
+    0.005164,
+    0.006005,
+    0.006748,
+    0.006937,
+    0.006947,
+    0.00738,
+    0.00738,
+    0.00738,
+    0.007448,
+    0.00777,
+    0.007871,
+    0.008157,
+    0.009504,
+    0.009504,
+    0.009596
+  ],
+  "placed_x_basis": [
+    1.04,
+    1.08,
+    1.1,
+    1.18,
+    1.38,
+    1.55,
+    1.59,
+    1.59,
+    1.69,
+    1.69,
+    1.69,
+    1.71,
+    1.78,
+    1.81,
+    1.87,
+    2.18,
+    2.18,
+    2.2
+  ],
   "basis_usd_per_ns": 0.004359,
-  "ratio_vs_basis": 3.248,
-  "projected_usd": 115.86,
-  "ceiling_usd": 80.44,
+  "spend_authorised_now_usd": 74.39,
+  "ceiling_for_that_spend_usd": 76.21,
+  "held_reason": null,
   "board_depth": {
-    "offers_returned": 48,
-    "qualifying": 48,
-    "priceable": 10,
-    "needed": 19,
-    "used_for_mean": 10
+    "offers_returned": 64,
+    "qualifying": 63,
+    "priceable": 31,
+    "needed": 18,
+    "used_for_mean": 18
   },
   "offers_priced": [
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 24573,
+      "min_bid": 0.10666666666666667,
+      "usd_per_ns": 0.004522
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 18857,
+      "min_bid": 0.12,
+      "usd_per_ns": 0.004721
+    },
+    {
+      "gpu": "RTX 3090",
+      "machine_id": 29304,
+      "min_bid": 0.04666666666666667,
+      "usd_per_ns": 0.004799
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 12697,
+      "min_bid": 0.13333333333333333,
+      "usd_per_ns": 0.005164
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 31036,
+      "min_bid": 0.15866666666666665,
+      "usd_per_ns": 0.006005
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 55559,
+      "min_bid": 0.181,
+      "usd_per_ns": 0.006748
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 51777,
+      "min_bid": 0.18666666666666668,
+      "usd_per_ns": 0.006937
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 12227,
+      "min_bid": 0.187,
+      "usd_per_ns": 0.006947
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 26487,
+      "min_bid": 0.19999999999999998,
+      "usd_per_ns": 0.00738
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 26628,
+      "min_bid": 0.19999999999999998,
+      "usd_per_ns": 0.00738
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 28080,
+      "min_bid": 0.19999999999999998,
+      "usd_per_ns": 0.00738
+    },
     {
       "gpu": "RTX 4080S",
       "machine_id": 46392,
@@ -25,59 +134,44 @@
     },
     {
       "gpu": "RTX 4090",
-      "machine_id": 101699,
+      "machine_id": 16346,
       "min_bid": 0.19999999999999998,
-      "usd_per_ns": 0.007722
+      "usd_per_ns": 0.00777
+    },
+    {
+      "gpu": "RTX 4080S",
+      "machine_id": 29668,
+      "min_bid": 0.2,
+      "usd_per_ns": 0.007871
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 114209,
+      "min_bid": 0.18666666666666668,
+      "usd_per_ns": 0.008157
+    },
+    {
+      "gpu": "RTX 3090",
+      "machine_id": 40935,
+      "min_bid": 0.10666666666666667,
+      "usd_per_ns": 0.009504
+    },
+    {
+      "gpu": "RTX 3090",
+      "machine_id": 26018,
+      "min_bid": 0.10666666666666667,
+      "usd_per_ns": 0.009504
     },
     {
       "gpu": "RTX 4090",
       "machine_id": 19205,
       "min_bid": 0.26666666666666666,
       "usd_per_ns": 0.009596
-    },
-    {
-      "gpu": "RTX 3090",
-      "machine_id": 142595,
-      "min_bid": 0.10666666666666667,
-      "usd_per_ns": 0.010017
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 50289,
-      "min_bid": 0.3333333333333333,
-      "usd_per_ns": 0.011812
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 52976,
-      "min_bid": 0.3333333333333333,
-      "usd_per_ns": 0.012056
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 49553,
-      "min_bid": 0.37333333333333335,
-      "usd_per_ns": 0.013141
-    },
-    {
-      "gpu": "RTX 3090",
-      "machine_id": 122589,
-      "min_bid": 0.25333333333333335,
-      "usd_per_ns": 0.019341
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 57250,
-      "min_bid": 0.5333333333333333,
-      "usd_per_ns": 0.020168
-    },
-    {
-      "gpu": "RTX 3090 Ti",
-      "machine_id": 141336,
-      "min_bid": 0.36000000000000004,
-      "usd_per_ns": 0.030282
     }
   ],
-  "first_held_utc": "2026-07-27T02:04:52Z",
-  "held_hours": 9.92
+  "binding_gate": "terminus",
+  "binding_gate_why": "no unit has a ddg.json \u2014 reduce/commit/upload has never been observed on this lane, so these units cannot launch at ANY price",
+  "price_is_binding": false,
+  "first_held_utc": null,
+  "held_hours": 0.0
 }

@@ -1,10 +1,45 @@
-[s1f] TERMINUS NOT PROVEN — no unit has a ddg.json, so reduce/commit/upload has never been observed on this lane. Holding 18 unit(s); RESUMING the shakeout unit (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) if it needs it: 1 to submit.
-[s1f] units=19 done=0 pending=19 live=0 free_slots=19 -> submitting 1
-[s1f] cost of THIS submission (1 units): plan $1.88 (band $0.78-4.23) | whole remaining tranche (19 units): plan $35.67 (band $14.82-80.44)
+[s1f] units=19 done=0 pending=19 live=1 free_slots=18 -> submitting 18
+[s1f] cost of THIS submission (18 units): plan $33.79 (band $14.04-76.21) | whole remaining tranche (19 units): plan $35.67 (band $14.82-80.44)
 [s1f] wave shape: {"n_units": 19, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f]   queue e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid  (zaienne_cmpd19 -> cw_ev_5cooh, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5nh2, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5oh, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5alkyne, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5ch2nh2, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5opropargyl, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5piperazine, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5pegamine, exit_vector_sub)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_primary_amide, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_nmethyl_amide, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral  (zaienne_cmpd19 -> cw_bio_tetrazole, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_acylsulfonamide, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral  (zaienne_cmpd19 -> cw_bio_hydroxamic, bioisostere)
+[s1f]   queue e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid  (zaienne_cmpd19 -> cw_ms_free_acid, microstate_variant)
+[s1f]   queue e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral  (zaienne_cmpd19 -> cw_ms_carbinol, microstate_variant)
+[s1f]   queue e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral  (zaienne_cmpd19 -> cw_ms_5acetamido_ester, microstate_variant)
+[s1f]   queue e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral  (cw_ev_5nh2 -> cw_ms_5acetamido_ester, cycle_closure)
+[s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
+[s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
 [s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
-[s1f] SINGLE-HOST $/ns GATE: ✅ CLEAR — 1.39x the ladder basis is within the 1.50x drift line — this host is buyable at a sane rate per nanosecond
-[s1f]   board={"offers_returned": 48, "qualifying": 48, "priceable": 10, "needed": 1, "used_for_mean": 1} priced=[{"gpu": "RTX 4090", "machine_id": 11892, "min_bid_usd_h": 0.16, "usd_per_ns": 0.00605}]
-[s1f] excluding 1 machine(s) from offer selection: ['28164']
-[s1f] submitted s1f-02-cw_ev_5cooh -> instance 46000463 machine 55559 dph≈$0.1792222222222222/hr (floor $0.177/hr -> bid $0.1805/hr, +$0.0035/hr premium)
+[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 64 offers -> 63 qualifying, 31 priceable. A single unit is authorised up to $0.009822/ns (2.25x the rung basis $0.004359/ns) — DERIVED from market_ceiling_usd(1) / reference_ns_per_unit, not typed here.
+[s1f] PLACEMENT: 18 unit(s) LAUNCHING NOW, 0 HELD for a better board (of 18 withheld this tick).
+[s1f]   launch @ $0.004522/ns · 1.04x basis
+[s1f]   launch @ $0.004721/ns · 1.08x basis
+[s1f]   launch @ $0.004799/ns · 1.10x basis
+[s1f]   launch @ $0.005164/ns · 1.18x basis
+[s1f]   launch @ $0.006005/ns · 1.38x basis
+[s1f]   launch @ $0.006748/ns · 1.55x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.006937/ns · 1.59x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.006947/ns · 1.59x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007380/ns · 1.69x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007380/ns · 1.69x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007380/ns · 1.69x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007448/ns · 1.71x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007770/ns · 1.78x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.007871/ns · 1.81x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.008157/ns · 1.87x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.009504/ns · 2.18x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.009504/ns · 2.18x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   launch @ $0.009596/ns · 2.20x basis  ⚠ DRIFT (inside the authorisation, above §1's 1.5x reporting line)
+[s1f]   spend authorised THIS TICK: $74.39 against $76.21 — the ceiling for the 18 unit(s) actually being BOUGHT, not for the notional full tranche.
+[s1f] BINDING GATE: terminus — no unit has a ddg.json — reduce/commit/upload has never been observed on this lane, so these units cannot launch at ANY price. The price reading above is recorded but is NOT what is stopping these units, so the price-escalation clock is NOT running.
+[s1f] DRY — set FANOUT_CONFIRM=1 to actually rent instances
