@@ -624,6 +624,105 @@ corroboration of a host fault, **not** evidence of a selector bug. That distinct
 field is `machines_excluded_since`, and the only thing that could support the stronger claim is the
 launcher's own `excluding …` line for the wave that placed the host.
 
+## 7f. `cw_bio_primary_amide` — the pre-MD NaN is a **RETRY**, and here is the observation that decides it (2026-07-27, 4:03 PM ET)
+
+**Unit `e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral` (label `s1f-08`) is NOT blocked.** Its
+complex leg died at **1:41 PM ET**, and the second entry in `leg-complex-FAILED-rc1` invited the obvious
+symmetry with `s1f-09` above. The symmetry is false: `s1f-09` is a **mapper** limit and this is not a
+statement about the edge at all. **18 of 19 tranche-1 edges remain live — that number does not change.**
+
+**The symptom.** Not the `ABORT: DEGENERATE atom map` of §7c but an exception from inside OpenFE, verbatim
+from the leg's own S3 `complex.log`:
+
+```
+File ".../openfe/protocols/openmm_rfe/_rfe_utils/multistate.py", line 345, in minimize
+    openmm.LocalEnergyMinimizer.minimize(
+openmm.OpenMMException: Particle coordinate is NaN.
+```
+
+That is `unit._get_sampler(...)` → `sampler.setup()` → the small minimisation `setup()` performs **before any
+MD**. The edge maps cleanly (`step1-map-diag.json`: production 17 against a provable floor of 12, matrix
+`ec0_t20=17 ec0_t300=17 ec1_t20=18 ec1_t300=18`, kartograf 18), so §7c's reasoning does not reach it.
+
+### Why counting failures could not decide this, and what the ledger actually shows
+
+The unit had four rentals. Read as a tally that is "four failures → deterministic → block". Read by
+**machine**, it is one observation and three non-observations:
+
+| instance | machine | what it produced |
+|---|---|---|
+| 46004016 | 48605 | no `phase.txt` — never reached the pipeline |
+| 46016662 | **1569** | no `phase.txt`; the known never-starts host, now in the shared exclusion set |
+| 46021708 | 36511 | **the only attempt that ran the chemistry** — staged, built the 112,955-atom hybrid, clash-reported, then NaN'd in `setup()` |
+| 46031270 | 19499 | `loading`/`cur_state=stopped` for **49 min**, container never started, then reaped. This lane placed **three** `s1f-*` rentals on machine 19499 (also `s1f-14` and, later, `s1f-01`), two of them in the same wave — §7e's double-booking signature. Whatever starved it, it produced no evidence about the edge |
+
+So exactly **one** host has ever run this edge's chemistry, and the relaunch meant to re-test it never
+started a container. That is the trap this lane was one tick away from: a block justified by a failure
+count, three quarters of which were about machines.
+
+### The observation that decides it — taken where no host is involved
+
+`nr4a3_rbfe` builds the solvated hybrid `system` and its `positions` on **CPU** and, under
+`RBFE_HMRDIAG_ONLY=1`, exits before touching a GPU — and that pair is the pair handed to the `setup()` that
+NaN'd. `step1_setup_energy_probe.py` (**$0, rents nothing, writes nothing to S3**) runs both stages against
+the same staged tree the rented host downloads:
+
+| stage | measurement | result |
+|---|---|---|
+| 1 — per-force single-point energy at the handed-over coordinates | 10 force groups | **every term finite**; max \|E\| 1.09×10⁶ kJ/mol (`NonbondedForce`, −1.087×10⁶), total −1.06×10⁶ kJ/mol |
+| 2 — the production `_get_sampler` → `sampler.setup()` on CPU (`RBFE_SETUP_ONLY=1`) | the real minimiser, over **every** λ state | **COMPLETED WITHOUT A NaN in 988.2 s** |
+
+Both stages built a **112,955-particle** system and a **17-atom** map — identical to the failing leg's own
+`[clash-diag:initial] atoms=112955` and `mapped 17 atoms`, so this is the same system and not an
+approximation of it. **Verdict `RETRY`** (`step1-setup-energy-probe.json`, GH run 30299516936, completed
+4:03 PM ET).
+
+**Stage 2 exists because stage 1 alone would have been an over-claim.** A single-point energy is evaluated at
+the alchemical global parameters as built; `setup()` minimises every thermodynamic state of the λ schedule,
+applying that state's parameters first. A softcore term finite at the built λ and divergent at an
+intermediate one produces exactly stage 1's all-finite reading **and** a deterministic NaN. All-finite
+energies therefore rule out "the system is broken as built" and leave "the minimiser deterministically
+diverges" open; only running the real minimiser closes it. A missing or failed stage 2 now yields
+**INCONCLUSIVE**, never RETRY.
+
+### What would change this verdict — so the next failure is decidable, not re-litigated
+
+**BLOCK it if any one of these lands:**
+
+1. `step1_setup_energy_probe` returns `minimize_repro.outcome == "nan"` on a re-run — the CPU reproduction is
+   deterministic, so a NaN there is a fact about the edge.
+2. A **rented host that demonstrably started** (a `phase.txt`, a `complex.log` reaching `[clash-diag:initial]`)
+   NaN's at `multistate.py:345` **on a machine this lane is not already renting**. One such host is a repeat;
+   the 1:41 PM ET failure plus that would be two independent starts with one outcome.
+3. The instrumented failure path reports a **force-bearing** close contact or a non-finite force term at
+   `[clash-diag:setup_nan]` / `[force-diag:setup_nan]`. The 1:41 PM ET log's `0 force-bearing` predates both
+   fixes below, so it is not evidence either way on the second point.
+
+**Do NOT count as evidence for blocking:** another `FAILED-rc1` whose host never produced a phase marker, or
+whose machine already carried an `s1f-*` instance. Those are §7e placements, and the ledger's `machine_id`
+column is what tells them apart.
+
+### Two things the clash report was asserting without having measured them
+
+The 1:41 PM ET log is also why `_clash_report` changed. Both defects made it *less* likely to find a real
+fault, which is the worst direction for a diagnostic:
+
+- **Hybrid bonds were being listed as non-bonded contacts.** Pairs (4044,4043) 1.375 Å, (4041,4042) 1.386 Å,
+  (4047,4046) 1.391 Å, (4050,4044) 1.399 Å — aromatic C–C bond lengths on consecutive ligand indices.
+  `_bonded_pairs` read only `HarmonicBondForce`, and OpenFE puts the alchemically-transforming bonds in a
+  **CustomBondForce** (measured: 13 of them in this system's census). So the top of a report meant to name
+  offending atoms was filled with chemistry. Fixed.
+- **A pair at `d=0.000 Å` was called `EXCLUDED-hybrid(benign)`** on the strength of a zeroed `NonbondedForce`
+  exception alone, while nothing had looked at the alchemical `CustomNonbondedForce` — whose own exclusion
+  list is separate, and where r=0 is exactly where a softcore expression goes non-finite. The verdict is now
+  three-way: excluded everywhere (benign), still seen by a custom force (**force-bearing**), or absent from
+  the exceptions (a real clash). `n_custom_nb == 0` keeps the old two-way answer for plain systems.
+
+`_pair_verdict` and `energy_probe_verdict` are pure and pinned by `tests/test_setup_nan_diag.py`; the
+BLOCK/RETRY rule itself by `tests/test_setup_energy_probe.py`. The GPU leg's failure path and the $0 CPU
+reproduction call the **same** verdict function, so they cannot word the same evidence two different ways.
+
+
 ## 8. Operational notes for whoever resumes
 
 - **A CI job log is only readable from its tail, and the tail is always runner boilerplate.** `monitor`,
