@@ -778,6 +778,20 @@ jobs:
           # existing prefix stays byte-identical and keeps resuming — the same discipline as fwd getting no
           # _dir suffix.
           RSTSUF=""; [ "$RESTRAIN" = 1 ] && RSTSUF="_rst"
+          # ===== AND THE SAME KEY ON THE RESULT FILE — §L.5/§L.6's transferable rule, applied BEFORE it bit =====
+          # "Fixing a keying bug is not done until you have asked what ELSE is keyed on the same nothing." The
+          # answer here is the leg RESULT, `leg_<leg>_<dir>_r<seed>.json`, which has no restraint component. Two
+          # separate failures follow from that, and the second is the destructive one:
+          #   1. The idempotent-skip below `ls`es exactly that name. The UNRESTRAINED r0 binary result is
+          #      already in the bucket, so a restrained re-run would find it, print
+          #      "status=OK (idempotent-skip)", exit after ~37 s having computed nothing, and report success.
+          #   2. If it did run, the upload would land under the SAME NAME and OVERWRITE the unrestrained
+          #      ΔG_binary — the number the whole r0 cycle is built on — with a different Hamiltonian's result,
+          #      leaving no trace that they were ever different calculations.
+          # Same discipline as the prefix: restrain=0 keeps the byte-identical name so every existing reader
+          # (ternary_fep_reduce, the watchdog's done-check) is untouched; restrain=1 gets its own file.
+          RSTTAG="$RSTSUF"
+          echo "leg result key: leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json"
           COMMIT_PREFIX="gs://$BUCKET/valB-6hax/commits/$LEG_ID/${SEED}_dt${TIMESTEP_FS}fs_clig${CONSTRAIN_LIG}_wu${WARMUP_TS}${SALT:+_$SALT}${RSTSUF}${DIRSUF}"
           # ASSERT the direction survived into the prefix, and do it BEFORE provisioning a GPU. This is the check
           # whose absence let the bug above ship: the fix "looked right" and nothing ever verified the result.
@@ -884,8 +898,10 @@ jobs:
           # while computing nothing -- and because the VM cannot self-delete (its SA lacks
           # compute.instances.delete) it then sat as an idle billing zombie holding the single-GPU quota.
           # The result file is leg_<id>_<direction>_r<seed>.json, so the check must name the direction.
-          if [ "$MODE" = run ] && [ "$FORCE_RERUN" != 1 ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}.json >/dev/null 2>&1; then
-            echo "leg ${LEG_ID} dir=${DIRECTION} seed $SEED already in GCS — idempotent skip"
+          # RESTRAINT-KEYED TOO (see the RSTTAG note in the runner block above): without ${RSTTAG} a restrained
+          # re-run finds the UNRESTRAINED result, declares itself done and exits having computed nothing.
+          if [ "$MODE" = run ] && [ "$FORCE_RERUN" != 1 ] && gcloud storage ls $RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json >/dev/null 2>&1; then
+            echo "leg ${LEG_ID} dir=${DIRECTION} seed $SEED restrain=$RESTRAIN already in GCS — idempotent skip"
             for k in \$(seq 1 6); do echo "###TFEPRESULT### TFEP_RESULT status=OK run leg=${LEG_ID} dir=${DIRECTION} (idempotent-skip) ###END###"; sleep 3; done
             exit 0
           fi
@@ -1020,7 +1036,15 @@ jobs:
           elif ls \$OUT/leg_${LEG_ID}_*.json >/dev/null 2>&1; then
             LJ=\$(ls \$OUT/leg_${LEG_ID}_*.json | head -1)
             LINE=\$(\$PY -c "import json;d=json.load(open('\$LJ'));print('TFEP_RESULT status=OK run leg=%s dg_morph=%.3f se=%.3f'%(d.get('leg_id'),d.get('dg_morph_kcal',0),d.get('mbar_se_kcal',0)))")
-            gcloud storage cp \$LJ $RESULTS/ 2>&1 | tail -1 || true
+            # RESTRAINED legs upload under their OWN name so they cannot overwrite the unrestrained ΔG_binary
+            # the r0 cycle is built on. Unrestrained keeps the bare `cp … $RESULTS/` it has always used, so the
+            # existing path is byte-identical and no reader changes.
+            if [ -n "$RSTTAG" ]; then
+              gcloud storage cp \$LJ "$RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json" 2>&1 | tail -1 || true
+              echo "::notice title=RESTRAINED LEG RESULT IS A SEPARATE FILE::uploaded as leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json, NOT over the unrestrained result. ternary_fep_reduce reads the unsuffixed names, so this leg is deliberately NOT folded into the existing cycle automatically — mixing a restrained arm into an unrestrained cycle is a decision, not a default. See ternary-lane-guard-audit-2026-07-25.md L.3f."
+            else
+              gcloud storage cp \$LJ $RESULTS/ 2>&1 | tail -1 || true
+            fi
             # THE RESTRAINT REPORT MUST LEAVE THE VM. rbfe_spot_driver writes restraint.json into the sim
             # unit's SHARED dir, which lives on the instance and dies with it — and the run log is only
             # uploaded on NORESULT, so on a SUCCESSFUL restrained leg the report would be destroyed by the

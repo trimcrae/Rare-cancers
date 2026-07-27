@@ -111,6 +111,46 @@ def test_the_restraint_report_upload_is_direction_and_seed_keyed():
         assert token in line, "the restraint upload path is not keyed on %r: %s" % (token, line.strip())
 
 
+def _rendered(restrain):
+    env = dict(RUNNER_ENV)
+    env["RESTRAIN"] = restrain
+    env["RSTTAG"] = "_rst" if restrain == "1" else ""
+    if restrain != "1":
+        env["COMMIT_PREFIX"] = env["COMMIT_PREFIX"][: -len("_rst")]
+    return render(heredoc_body(open(WF).read()), env)
+
+
+def test_the_idempotent_skip_is_restraint_keyed():
+    """§L.5/§L.6's transferable rule applied one layer out. The leg RESULT is `leg_<leg>_<dir>_r<seed>.json` and
+    carries no restraint component, so the skip would find the UNRESTRAINED r0 binary result already in the
+    bucket, print `status=OK (idempotent-skip)`, and exit after ~37 s having computed nothing — reporting
+    success for a leg that never ran. That is the §L.6#5 failure verbatim, with `restrain` in place of
+    `direction`."""
+    on = _rendered("1")
+    skip = [l for l in on.split("\n") if "idempotent skip" in l or ("gcloud storage ls" in l and "leg_" in l)]
+    assert skip, "no idempotent-skip check found in the generated script"
+    ls_line = next((l for l in on.split("\n") if "gcloud storage ls" in l and "leg_" in l), "")
+    assert "_rst.json" in ls_line, (
+        "the idempotent skip is NOT restraint-keyed — a restrained re-run would find the unrestrained result "
+        "and skip: " + ls_line.strip())
+    off = _rendered("0")
+    ls_off = next((l for l in off.split("\n") if "gcloud storage ls" in l and "leg_" in l), "")
+    assert "_rst" not in ls_off, (
+        "restrain=0 must keep the historical unsuffixed result name or every existing reader breaks: " + ls_off.strip())
+
+
+def test_a_restrained_result_cannot_overwrite_the_unrestrained_one():
+    """The destructive half. Uploading a restrained ΔG_binary over `leg_<leg>_<dir>_r<seed>.json` would replace
+    the number the whole r0 cycle is built on with a DIFFERENT HAMILTONIAN's result, leaving no trace that they
+    were ever different calculations."""
+    on = _rendered("1")
+    ups = [l for l in on.split("\n") if "gcloud storage cp" in l and "leg_" in l and "restraint_" not in l]
+    assert ups, "no leg-result upload found in the generated script"
+    assert any("_rst.json" in l for l in ups), (
+        "the restrained leg result is uploaded under the UNRESTRAINED name and would overwrite it: "
+        + " | ".join(l.strip() for l in ups))
+
+
 # The runner stays LAST: tests defined below a `__main__` block are silently skipped, which has already happened
 # twice in this directory. Add new test_* functions ABOVE this line.
 if __name__ == "__main__":
