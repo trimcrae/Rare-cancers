@@ -26,6 +26,12 @@ on:
       max_runtime_s:
         description: "hard per-rental runtime cap (seconds). A bench needs minutes; this bounds the bill."
         default: "1800"
+      replicates:
+        description: "independent HOSTS per card. >1 is how you separate 'this card is this fast' from 'this rental was this fast'."
+        default: "1"
+      include_measured:
+        description: "1 = also bench cards already in the table. Re-measuring an ANCHOR is exactly what you want when its value is in question."
+        default: "0"
 
 permissions:
   contents: write
@@ -51,6 +57,8 @@ jobs:
       BENCH_MAX_USD_TOTAL: ${{ github.event.inputs.max_usd_total || '5.00' }}
       BENCH_MAX_USD_PER_CARD: ${{ github.event.inputs.max_usd_per_card || '0.60' }}
       BENCH_MAX_RUNTIME_S: ${{ github.event.inputs.max_runtime_s || '1800' }}
+      BENCH_REPLICATES: ${{ github.event.inputs.replicates || '1' }}
+      BENCH_INCLUDE_MEASURED: ${{ github.event.inputs.include_measured || '0' }}
     steps:
       - uses: actions/checkout@v4
         with:
