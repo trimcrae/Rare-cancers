@@ -987,6 +987,22 @@ jobs:
             LJ=\$(ls \$OUT/leg_${LEG_ID}_*.json | head -1)
             LINE=\$(\$PY -c "import json;d=json.load(open('\$LJ'));print('TFEP_RESULT status=OK run leg=%s dg_morph=%.3f se=%.3f'%(d.get('leg_id'),d.get('dg_morph_kcal',0),d.get('mbar_se_kcal',0)))")
             gcloud storage cp \$LJ $RESULTS/ 2>&1 | tail -1 || true
+            # THE RESTRAINT REPORT MUST LEAVE THE VM. rbfe_spot_driver writes restraint.json into the sim
+            # unit's SHARED dir, which lives on the instance and dies with it — and the run log is only
+            # uploaded on NORESULT, so on a SUCCESSFUL restrained leg the report would be destroyed by the
+            # EXIT trap and the ruling in audit L.3f would rest on a file nobody can read. It carries the
+            # groups, r0_nm and r_flat_nm, which is exactly what the post-hoc "was the restraint ever
+            # engaged?" check needs against the committed trajectory. Direction- and seed-keyed like every
+            # other artifact in this lane (L.5/L.6: anything keyed on a dimension must be keyed everywhere
+            # the artifact travels).
+            RJ=\$(ls \$OUT/*_sim_shared/restraint.json 2>/dev/null | head -1)
+            if [ -n "\$RJ" ]; then
+              gcloud storage cp "\$RJ" "$RESULTS/restraint_${LEG_ID}_${DIRECTION}_r${SEED}.json" 2>&1 | tail -1 \
+                || echo "::warning::restraint report upload FAILED — the only copy dies with this VM"
+              echo "--- restraint.json ---"; cat "\$RJ"
+            elif [ "$RESTRAIN" = 1 ]; then
+              echo "::warning title=RESTRAIN=1 BUT NO RESTRAINT REPORT::no restraint.json under \$OUT/*_sim_shared/. Either the restraint declined to apply (it fails soft and logs why) or the driver hook did not run. This leg ran at an _rst prefix; check the run log before treating it as a restrained result."
+            fi
           else
             LINE="TFEP_RESULT status=NORESULT leg=$LEG_ID tail=\$(grep -iE 'error|abort|Traceback|missing' /tmp/tfep_run.log | tail -1 | cut -c1-140)"
           fi
