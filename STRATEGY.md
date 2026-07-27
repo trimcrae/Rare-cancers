@@ -338,10 +338,18 @@ Consequences kept separate, because they are independent:
   upper-λ states where the softcore region is largest (`{7:3, 9:2, 10:1}`), so the softening opens the door — but
   once departed the displaced state **persists at every λ including both physical endpoints**, so the physical
   Hamiltonian does not close it. Consequences: a **restraint on the receptor-contacting moiety** is the obvious
-  remedy (with the standard restraint correction); the existing trajectory is **contaminated, not merely
+  remedy; the existing trajectory is **contaminated, not merely
   under-converged**, so extending it is not an option; and this does **not** show the binary complex model is
   wrong — an interpretation the persistence numbers alone would have supported and the initiation numbers do not.
   *n = 8 departing replicas — suggestive of an upper-λ mechanism, not a rate.*
+  **Built and keyed 2026-07-27** — `ternary_restraint.py` (flat-bottom, λ-independent, default OFF) +
+  `gpu-ternary-fep-gcp.yml restrain=1`, which keys the commit prefix (`_rst`) and the commit-manifest fingerprint
+  so a restrained leg can never resume an unrestrained trajectory. **Two rulings live in audit §L.3f and are the
+  single home for both:** (a) there is **NO standard-state correction** — this is RBFE with a never-decoupled
+  ligand, the λ-independent restraint cancels from ΔG(A→B), and importing ABFE's Boresch release term would be
+  *wrong* rather than conservative; (b) **only the BINARY arm is re-run restrained** — the ternary arm is measured
+  clean in both cycles and both directions and keeps its trajectories. This is a *separate* question from the
+  closure triangle's binary legs, decided unrestrained above.
 
 **✅ RUNG 2b — ALL FOUR LEGS LANDED, AND 4 fs REPRODUCES 2 fs.** Reduced 2026-07-26 11:44 AM ET by the
 official reducer, inside the parity image that produced the trajectories (`gpu-ternary-fep-vast.yml task=reduce`,
