@@ -145,6 +145,25 @@ def matrix_for_unit(unit, in_dir):
                 n, err = None, f"{type(e).__name__}: {e}"
             cells[f"ec{int(ec)}_t{budget}"] = {"n_mapped": n, "wall_s": round(time.time() - t0, 2),
                                                "error": err}
+    # ---- KARTOGRAF, the repo's geometric fallback. Measured because the LOMAP matrix did not settle the
+    #      question: on cw_bio_nmethyl_amide element_change=True reaches only 19 against a floor of 20, so
+    #      "LOMAP cannot map this edge" and "this edge is unmappable" are still different claims. `_mapping`
+    #      only reaches Kartograf when LOMAP returns NOTHING, so this column is not currently on the
+    #      production path — it says whether it is worth putting there for this edge. ----
+    t0 = time.time()
+    try:
+        from kartograf import KartografAtomMapper
+        km = next(KartografAtomMapper().suggest_mappings(ligA, ligB))
+        row["kartograf_n_mapped"] = len(km.componentA_to_componentB)
+        row["kartograf_error"] = None
+    except StopIteration:
+        row["kartograf_n_mapped"] = None
+        row["kartograf_error"] = "StopIteration (Kartograf returned no mapping)"
+    except Exception as e:  # noqa: BLE001 — kartograf missing is a real answer, not a crash
+        row["kartograf_n_mapped"] = None
+        row["kartograf_error"] = f"{type(e).__name__}: {e}"
+    row["kartograf_wall_s"] = round(time.time() - t0, 2)
+
     row["matrix"] = cells
 
     # ---- what PRODUCTION picks. Called positionally with no prefer_element_change, exactly as
@@ -200,6 +219,17 @@ def verdict(row):
             f"element_change=True clears the floor ({[n(1, b) for b in sep]} >= {floor}) at every budget while "
             f"element_change=False does not ({[n(0, b) for b in sep]}), and neither setting moves between "
             f"t{lo} and t{hi} — H2: the budget is not binding; the mapper's element_change choice is")
+    # Neither mechanism fits. Distinguish the case that is actually informative — the budget provably is not
+    # binding and NO available setting reaches the floor — from a genuinely unreadable one, because they say
+    # different things about whether the edge is a retry candidate.
+    moved = any(None not in (n(ec, lo), n(ec, hi)) and n(ec, lo) != n(ec, hi) for ec in (0, 1))
+    best = max([x for x in (n(0, hi), n(1, hi), row.get("kartograf_n_mapped")) if x is not None] or [None])
+    if not moved and best is not None and best < floor:
+        return "MAPPER_CANNOT_REACH_FLOOR", (
+            f"the budget is NOT binding (identical maps at t{lo} and t{hi}) and the best map any available "
+            f"mapper returns is {best}, still under the provable floor {floor}. This is a statement about "
+            f"the MAPPERS on this edge, not about a rented host: a retry would abort identically and buy "
+            f"nothing, so this edge is not a retry candidate until a mapper reaches {floor}")
     return "UNEXPLAINED", ("neither the timeout nor the element-change signature fits — this needs a human "
                            "before any GPU is rented for this edge")
 
