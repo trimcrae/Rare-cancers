@@ -1030,3 +1030,44 @@ absent), `lint_consistency` 0 errors.
 
 **Timing.** All four landed before the rev leg's ~12:10 PM ET readout, so the first hysteresis this program has
 ever measured gets computed by code that checks the leg it came from.
+
+#### L.6a The sweep that §L.6's generalisation demanded — one more instance, in a different lane
+
+§L.6 ended on a claim (*"absent needs a representation that is not also a legal good value"*), and §L.5's rule says
+a claim like that is not finished until it has been **run as a search**. Three shapes were swept across
+`research/` (non-test):
+
+| shape | what it looks like | result |
+|---|---|---|
+| `<x> if <measured> else True` | an unmeasured criterion arriving pre-satisfied | **1 real hit** (below); the only survivor is `ternary_coop_gate.py:536`, which is the *correct* tri-state |
+| `is None or <threshold>` | absent satisfies a threshold gate | **0** — the hysteresis one fixed in §L.6 was the only instance |
+| `(<x> or 0)` compared to a threshold | absent coerced to a passing number | **0 real** — every hit is a counter or sort key; `nr4a3_8xtt_pocketminer.py:127` coerces to 0.0 but that direction yields *no positive finding*, which is the correct way round |
+
+The `else True` hit was **`report_cofold.py`**, and it is the same defect with more consequence attached:
+
+```python
+coupled = inter_pae is not None and inter_pae < PAE_COUPLED
+folds_together = ordered_iface and (coupled if inter_pae is not None else True)
+```
+
+`coupled` is **already** False when `inter_pae is None`, so the trailing conditional did exactly one thing: flip the
+unmeasured case from fail to pass. With no usable PAE matrix the co-fold call rested on the contact patch alone —
+and the verdict string then read *"halves fold together (ordered contact patch + **confident relative
+placement**)"*, naming as observed the criterion that had never been measured. A co-fold call is what sends an
+interface on to fpocket, so it is the expensive direction to be wrong in. It had **no test coverage at all**.
+
+Now tri-state — `True` / `False` / `None` = *placement not assessable* — with the decision extracted into the pure
+`cofold_call()` so it has one home and can be exercised without gemmi, and a `CO-FOLD NOT ASSESSED` verdict that
+still reports the ordered patch as *necessary but not sufficient* rather than discarding it. 9 tests, both
+directions pinned, plus a call-site check (the same gap that let a frame-B swap pass eight tests in §L.3).
+
+**Method note worth keeping.** The regression check was first written as a text search for the offending
+expression and it was wrong in both directions: it fired on the expression quoted inside the new docstring — a
+false positive that cost a red run — and it would have missed any reformatting across lines. It is now an **AST**
+walk for `IfExp` whose `orelse` is the literal `True`, which is what made the repo-wide sweep above possible at
+all. *A lint precise enough to trust on one file is the thing you can then run everywhere.*
+
+Suite after this: **2,111 pass**, 15 sandbox-only failures — the 14 pre-existing (`pymbar`/`scipy`/`rdkit` absent)
+plus one that arrived from a concurrent session's 2026-07-26 push (`test_expected_heavy_map_size...`, an unguarded
+`from rdkit import Chem`). All green in CI, which has the stack; left alone rather than edited, since it is another
+session's live file.
