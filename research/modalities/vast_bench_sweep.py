@@ -906,17 +906,40 @@ def mode_collect():
 
 
 def _write_provenance(recs):
-    """Append every ADMITTED record to `throughput-bench-provenance.json` — the evidence file the table's own
-    test recomputes its means from. Existing records are never rewritten, only added to."""
+    """Append ADMITTED records to `throughput-bench-provenance.json`.
+
+    TWO LISTS, AND THE SPLIT IS LOAD-BEARING:
+      * `records`          — ONE per card: the evidence the table's own test recomputes that card's mean from.
+                             Never rewritten. Adding a card here is what makes it priceable.
+      * `host_observations` — every OTHER admitted measurement of a card already in `records`. These are the
+                             replicate hosts. They are deliberately kept OUT of `records` so that nothing can
+                             quietly average a second host into the anchor: a card constant is a capability
+                             and the spread is separate evidence about hosts, not about the card.
+    """
     try:
         doc = json.load(open(PROVENANCE_PATH))
     except (OSError, ValueError):
         return
     have = {r["card"] for r in doc.get("records", [])}
+    obs = doc.setdefault("host_observations", [])
+    seen_obs = {(o.get("card"), o.get("tag")) for o in obs}
     added = 0
     for r in recs:
         ok, _reasons, entry = admit(r)
-        if not ok or entry[0] in have:
+        if not ok:
+            continue
+        if entry[0] in have:
+            if (entry[0], r.get("tag")) in seen_obs:
+                continue
+            obs.append({"card": entry[0], "tag": r.get("tag"), "ns_per_day": entry[1],
+                        "blocks_ns_per_day": r.get("blocks_ns_day"), "cv": r.get("cv"),
+                        "cuda_device": r.get("device"), "gpu_name_as_offered": r.get("offer_gpu_name"),
+                        "final_temp_k": r.get("final_temp_k"), "wall_s": r.get("wall_s"),
+                        "utc": r.get("utc"),
+                        "_role": "INDEPENDENT HOST of a card already in `records`. Evidence about host "
+                                 "spread, NOT an input to the table entry."})
+            seen_obs.add((entry[0], r.get("tag")))
+            added += 1
             continue
         doc["records"].append({
             "card": entry[0], "gpu_name_as_offered": r.get("offer_gpu_name") or r.get("gpu_requested"),
