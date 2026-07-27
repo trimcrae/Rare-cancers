@@ -421,3 +421,37 @@ def test_other_families_keep_the_endpoint_a_fallback():
         if lid in tlegs.LEG_MAP:
             continue
         assert prep.crystal_ligand_smiles(dict(spec, id=lid)) is None, lid
+
+
+def test_the_rate_line_binds_before_the_dollar_ceiling_and_the_refusal_says_which():
+    """CLAUDE.md §6: a rental must clear BOTH its rung's derived DOLLAR ceiling and the ABSOLUTE $/ns line,
+    the effective ceiling is the lower, and a refusal must NAME the one it hit — conflating them is what made
+    an earlier round of hold readouts unreadable.
+
+    On this rung the RATE line binds first, and by a wide margin: a board at 2.6x basis still projects $14.79
+    against a $15.40 authorisation, so a dollar-only gate would have bought the whole fan-out at nearly
+    double the $/ns trimcrae said he would rather pause than pay."""
+    import unittest.mock as mock
+    from congeneric_fanout import basis_usd_per_ns
+    basis = basis_usd_per_ns()
+
+    def _board(mult):
+        return [(mult * basis, 0.20, {"gpu_name": "RTX 4090", "machine_id": 999})] * 8
+
+    def _gate(mult):
+        with mock.patch.object(tv, "_vast_request", return_value={"offers": [{}] * 8}), \
+             mock.patch("gpu_backend.rank_offers_by_usd_per_ns", return_value=(_board(mult), [{}] * 8)):
+            return tv.market_gate(4, key="x", mode="triangle")
+
+    hold, out = _gate(0.9)
+    assert not hold and out["projected_usd"] < out["ceiling_usd"]
+
+    hold, out = _gate(2.6)
+    assert hold, "a board at 2.6x basis must not be bought"
+    assert out["fails_ratio_ceiling"] is True
+    assert out["fails_dollar_ceiling"] is False, (
+        "if this ever flips, the dollar ceiling started binding first and the test below is measuring "
+        "something else")
+    assert "drift line" in out["reason"], "the refusal must NAME which ceiling it hit"
+    # ...and the dollars alone would have permitted it, which is the whole point of having two tests
+    assert out["projected_usd"] < out["ceiling_usd"]
