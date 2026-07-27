@@ -269,8 +269,16 @@ def _mapping(openfe, ligA, ligB, prefer_element_change=False):
             # and severing there also strands everything beyond — the ester O, the methyl C and its 3 H, i.e.
             # exactly 5 atoms. Measured with rdkit alone: element-exact MCS = 17 atoms, element-agnostic = 22,
             # `canceled=False` on both in milliseconds. 22 - 5 = 17, and 17 < the provable floor of 20, so
-            # `_check_mapping_sane` aborted the leg rc=1 — correctly, on a map this function never had to
-            # settle for, because element_change=True maps all 22 and the ec=True branch was never reached.
+            # `_check_mapping_sane` aborted the leg rc=1 — on a map this function never had to settle for,
+            # because the ec=True branch was never reached at all.
+            #
+            # ⚠ CORRECTION, REGISTERED RATHER THAN DROPPED (rule 1). The first version of this comment said
+            # "element_change=True maps all 22". That was an rdkit-MCS number read as a LOMAP prediction, and
+            # it is wrong: measured on the PRODUCTION staged components, LOMAP ec=True reaches **19**, not 22
+            # (step1-map-diag.json, 2026-07-27). So this escalation improves the map 17 -> 19 and the edge
+            # STILL aborts, correctly, at the floor of 20. The escalation is right and insufficient; what it
+            # buys is that the abort is now on the best map LOMAP can produce rather than on an unexamined
+            # one. cw_bio_nmethyl_amide is therefore NOT a retry candidate — see the lane record.
             #
             # WHY THIS IS NOT THE TIMEOUT the abort message used to guess at. A timed-out MCS moves BOTH
             # settings together and burns its budget; this separates them and returns instantly. The budget

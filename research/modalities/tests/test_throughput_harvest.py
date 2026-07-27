@@ -162,3 +162,34 @@ class TestGapsBreakChains(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAShallowCheckoutCannotFakeAgreement(unittest.TestCase):
+    """OBSERVED 2026-07-27. actions/checkout clones at depth 1, so in CI `git log` over the progress artifact
+    returned NOTHING and the census reported 0 snapshots / 0 cards / 0 new — which reads exactly like 'no
+    production leg has ever run on an unbenched card', the conclusion this module argues for. A silent zero
+    that agrees with your hypothesis is the worst failure available, so it must raise instead."""
+
+    def test_an_empty_log_on_a_shallow_clone_raises_instead_of_returning_nothing(self):
+        real = th._sh
+        try:
+            th._sh = lambda cmd: ("true" if "is-shallow" in cmd else "")
+            with self.assertRaises(RuntimeError) as cm:
+                th.load_snapshots()
+            self.assertIn("SHALLOW", str(cm.exception))
+            self.assertIn("fetch-depth", str(cm.exception))
+        finally:
+            th._sh = real
+
+    def test_a_genuinely_empty_history_on_a_FULL_clone_is_not_an_error(self):
+        """An artifact that simply has no commits yet is a real, reportable zero."""
+        real = th._sh
+        try:
+            th._sh = lambda cmd: ("false" if "is-shallow" in cmd else "")
+            self.assertEqual(th.load_snapshots(), [])
+        finally:
+            th._sh = real
+
+    def test_the_workflow_asks_for_full_history(self):
+        wf = os.path.join(HERE, "..", "..", "..", ".github", "workflows", "vast-bench-sweep.yml")
+        self.assertIn("fetch-depth: 0", open(wf).read())

@@ -1,8 +1,9 @@
 {
-  "utc": "2026-07-27T13:30:50Z",
-  "n_records": 4,
+  "utc": "2026-07-27T13:40:08Z",
+  "n_records": 7,
   "admitted": {
-    "RTX4080": 703.87
+    "RTX4080": 703.87,
+    "RTX4090": 808.96
   },
   "refused": [
     {
@@ -34,7 +35,7 @@
       ]
     }
   ],
-  "realised_usd": 0.0951,
+  "realised_usd": 0.1691,
   "instances": [
     {
       "instance": 46006128,
@@ -45,6 +46,30 @@
       "status": "loading"
     },
     {
+      "instance": 46007321,
+      "label": "cal-rtx4090",
+      "hours": 0.0649,
+      "dph": 0.22002962962962963,
+      "usd": 0.0143,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 11488.1,
+      "gpu_util": 93.999908,
+      "machine_id": 114244
+    },
+    {
+      "instance": 46007322,
+      "label": "cal-rtx4090-r2",
+      "hours": 0.0638,
+      "dph": 0.21262222222222224,
+      "usd": 0.0136,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 10221.1,
+      "gpu_util": 16.999985,
+      "machine_id": 117850
+    },
+    {
       "instance": 46006226,
       "label": "cal-rtx4090-r3",
       "hours": 0.1872,
@@ -53,12 +78,48 @@
       "status": "loading"
     },
     {
+      "instance": 46007324,
+      "label": "cal-rtx4090-r3",
+      "hours": 0.1028,
+      "dph": 0.1712111111111111,
+      "usd": 0.0176,
+      "status": "loading",
+      "status_msg": null,
+      "inet_down": 932.3,
+      "gpu_util": null,
+      "machine_id": 12697
+    },
+    {
       "instance": 46006277,
       "label": "cal-rtx4090-r4",
       "hours": 0.1725,
       "dph": 0.1879111111111111,
       "usd": 0.0324,
       "status": "loading"
+    },
+    {
+      "instance": 46007389,
+      "label": "cal-rtx4090-r4",
+      "hours": 0.0458,
+      "dph": 0.2151111111111111,
+      "usd": 0.0099,
+      "status": "exited",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 676.7,
+      "gpu_util": 0.0,
+      "machine_id": 26487
+    },
+    {
+      "instance": 46007393,
+      "label": "cal-rtx4090-r5",
+      "hours": 0.0847,
+      "dph": 0.22002962962962963,
+      "usd": 0.0186,
+      "status": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "inet_down": 16456.7,
+      "gpu_util": 94.999908,
+      "machine_id": 117843
     }
   ],
   "records": [
@@ -155,15 +216,48 @@
     },
     {
       "tag": "rtx4090-r2",
-      "status": "ERROR",
-      "err": "OpenMMException:Particle",
-      "healthy": false,
-      "_raw": "BENCH_RESULT tag=rtx4090-r2 status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4090",
+      "steps": 143202,
+      "dt_fs": 4.0,
+      "wall_s": 61.1,
+      "ns_per_day": 809.82,
+      "sd": 1.41,
+      "cv": 0.0017,
+      "blocks": 3,
+      "blocks_ns_day": [
+        811.45,
+        808.99,
+        809.01
+      ],
+      "final_temp_k": 301.3,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4090-r2 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4090 steps=143202 dt_fs=4.0 wall_s=61.1 ns_per_day=809.82 sd=1.41 cv=0.0017 blocks=3 blocks_ns_day=811.45,808.99,809.01 final_temp_k=301.3 healthy=True",
       "gpu_requested": "RTX 4090",
       "offer_gpu_name": "RTX 4090",
       "edge_nm": "9.5",
       "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
-      "utc": "2026-07-27T13:23:21Z",
+      "utc": "2026-07-27T13:37:08Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4090",
+        "ns_per_day": 809.82
+      }
+    },
+    {
+      "tag": "rtx4090-r4",
+      "status": "ERROR",
+      "err": "OpenMMException:Particle",
+      "healthy": false,
+      "_raw": "BENCH_RESULT tag=rtx4090-r4 status=ERROR err=OpenMMException:Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+      "gpu_requested": "RTX 4090",
+      "offer_gpu_name": "RTX 4090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:37:37Z",
       "admitted": false,
       "admission_reasons": [
         "particle count None != 84534 \u2014 a different system, not a different host",
@@ -177,6 +271,72 @@
         "non-positive throughput None"
       ],
       "proposed_entry": null
+    },
+    {
+      "tag": "rtx4090-r5",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4090",
+      "steps": 138957,
+      "dt_fs": 4.0,
+      "wall_s": 59.4,
+      "ns_per_day": 808.96,
+      "sd": 3.29,
+      "cv": 0.0041,
+      "blocks": 3,
+      "blocks_ns_day": [
+        812.55,
+        808.23,
+        806.09
+      ],
+      "final_temp_k": 299.6,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4090-r5 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4090 steps=138957 dt_fs=4.0 wall_s=59.4 ns_per_day=808.96 sd=3.29 cv=0.0041 blocks=3 blocks_ns_day=812.55,808.23,806.09 final_temp_k=299.6 healthy=True",
+      "gpu_requested": "RTX 4090",
+      "offer_gpu_name": "RTX 4090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:39:18Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4090",
+        "ns_per_day": 808.96
+      }
+    },
+    {
+      "tag": "rtx4090",
+      "status": "OK",
+      "atoms": 84534,
+      "platform": "CUDA",
+      "device": "NVIDIA GeForce RTX 4090",
+      "steps": 84009,
+      "dt_fs": 4.0,
+      "wall_s": 36.3,
+      "ns_per_day": 799.15,
+      "sd": 3.42,
+      "cv": 0.0043,
+      "blocks": 3,
+      "blocks_ns_day": [
+        802.32,
+        799.62,
+        795.52
+      ],
+      "final_temp_k": 299.7,
+      "healthy": true,
+      "_raw": "BENCH_RESULT tag=rtx4090 status=OK atoms=84534 platform=CUDA device=NVIDIA_GeForce_RTX_4090 steps=84009 dt_fs=4.0 wall_s=36.3 ns_per_day=799.15 sd=3.42 cv=0.0043 blocks=3 blocks_ns_day=802.32,799.62,795.52 final_temp_k=299.7 healthy=True",
+      "gpu_requested": "RTX 4090",
+      "offer_gpu_name": "RTX 4090",
+      "edge_nm": "9.5",
+      "protocol": "gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks ~60 s total",
+      "utc": "2026-07-27T13:36:46Z",
+      "admitted": true,
+      "admission_reasons": [],
+      "proposed_entry": {
+        "card": "RTX4090",
+        "ns_per_day": 799.15
+      }
     }
   ]
 }

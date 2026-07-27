@@ -59,6 +59,10 @@ from congeneric_fanout import (  # noqa: E402
 from congeneric_fanout import (  # noqa: E402
     basis_usd_per_ns as market_basis, market_verdict as cost_verdict)
 import congeneric_fanout as _cf  # noqa: E402  place_units / unit_usd_per_ns_ceiling / the cost block
+# The anti-idle POLICY is shared with the ternary lane and is not re-implemented here — this lane supplies
+# only the evidence its own artifacts carry (`_idle_evidence`). One policy, two lanes; that is the whole
+# reason the step 1 pipeline now emits the ternary lane's signal SHAPES rather than inventing its own.
+import vast_idle_guard as _vig  # noqa: E402
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
@@ -92,6 +96,36 @@ REAP_AGE_MIN = int(os.environ.get("FANOUT_REAP_AGE_MIN", str(15 * 60)))
 
 _PREAMBLE = r"""
 set -eo pipefail
+# ★★ LIVENESS SIGNALS — THE TWO THINGS `vast_idle_guard` CONSUMES, IN ITS SHAPES (2026-07-27).
+#
+# WHY. `vast_idle_guard` is the ONLY thing that can stop a wedged rental's meter, because the host provably
+# cannot stop its own (`kill -9 1` returns 0 and does nothing; see gpu_backend._VAST_SELFSTOP). It could not
+# be wired to step 1 because step 1 emitted NEITHER signal it keys on: `phase.txt` moves only at phase
+# BOUNDARIES, and the leg log was uploaded once, at leg END. Between those, a wedged box was
+# indistinguishable from a healthy one — which is how 45996071 crash-looped on a dead credential for over an
+# hour at $0.2497/hr with 0 % GPU while every existing guard passed it.
+#
+# The shapes below are LIFTED FROM `ternary_vast_launch._PIPELINE`, deliberately unchanged, so one guard
+# reads one convention on both lanes rather than each lane inventing its own.
+#
+#   1. `$RESULT_S3/run.log`, re-PUT every S1F_SYNC_S seconds by the heartbeat below — DURING EVERY PHASE,
+#      including the long CPU-only ones. That is the whole point: a step 1 complex leg is legitimately
+#      GPU-idle for stage + openff parameterisation of a large hybrid + minimise, and the guard's WEDGED
+#      clause fires on the absence of WRITES, never on an idle GPU. If the heartbeat stopped during a healthy
+#      phase the guard would destroy a healthy leg — a self-inflicted copy of the incident it exists to
+#      prevent — so the loop is written to be unkillable-by-accident: no `set -e` exposure, every command
+#      `|| true`, and the S3 PUT refreshes the object's LastModified even when the phase writes NO new text
+#      (the engine's stdout goes to /tmp/$L.log, so run.log is legitimately silent for hours; the guard reads
+#      the object's mtime, not its content).
+#   2. `$RESULT_S3/attempts/run-<UTC>.log`, archived at container start. The timestamp is IN THE KEY, so a
+#      count of those keys is a durable count of container starts and needs no S3 metadata — that is the
+#      channel that catches a crash-loop whose S3 still works.
+#
+# ⚠ ORDER, AND IT IS THE ONE THE TERNARY LANE PAID FOR: the archive must run BEFORE the first `mark`.
+# `exec > >(tee /tmp/run.log)` TRUNCATES the local log, and `mark` uploads it — so marking first overwrites
+# the previous attempt's S3 copy with a fresh stub, and the archive then dutifully copies the stub. That is
+# how seventeen 168-byte attempts were archived on 2026-07-26 with the failing attempt's log lost.
+exec > >(tee /tmp/run.log) 2>&1
 export DEBIAN_FRONTEND=noninteractive
 command -v curl >/dev/null 2>&1 || { apt-get update -q||true; apt-get install -y -q --no-install-recommends curl ca-certificates||true; }
 export PATH=/opt/mamba/envs/rbfe/bin:$PATH
@@ -103,7 +137,56 @@ export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 PY=/opt/mamba/envs/rbfe/bin/python
 AWS=/opt/mamba/envs/rbfe/bin/aws
 command -v "$AWS" >/dev/null 2>&1 || AWS="$PY -m awscli"
-mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true; }
+mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" 2>/dev/null || true
+         $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true; }
+
+# --- container-start archive. Before the first `mark`, for the reason above. ---
+if $AWS s3 ls "$RESULT_S3/run.log" >/dev/null 2>&1; then
+  $AWS s3 cp "$RESULT_S3/run.log" "$RESULT_S3/attempts/run-$(date -u +%Y%m%dT%H%M%SZ).log" \
+    --only-show-errors >/dev/null 2>&1 \
+    && echo "[s1f] archived the previous attempt's run.log under attempts/" || true
+fi
+
+# --- THE HEARTBEAT, and the three independent ways it is guaranteed to die. ---
+#
+# ⚠⚠ A HEARTBEAT THAT OUTLIVES ITS JOB DOES NOT JUST LEAK A PROCESS — IT DEFEATS THE GUARD IT FEEDS. A loop
+# still PUTting run.log after the job is gone keeps the object fresh forever, so the WEDGED clause never
+# fires and the box bills until the 15 h age backstop. That is strictly WORSE than having no heartbeat, and
+# with 18 units live it is the failure mode worth engineering against, so there are three nets and they fail
+# in different ways:
+#
+#   (1) the pipeline's EXIT trap kills it. Covers a clean exit, a `set -e` abort, and a trapped signal.
+#   (2) THE PARENT-DEATH POLL, which is the one that matters: a SIGKILL of the pipeline shell runs NO trap
+#       (SIGKILL cannot be caught), and `Killed` is exactly what the 2026-07-27 crash-loop logged. The loop
+#       therefore re-checks `kill -0 $parent` every tick and exits the moment the shell it belongs to is
+#       gone — reparenting to init does not fool it, because it is polling the PID it was handed, not its
+#       own parentage.
+#   (3) a hard TTL slightly past the job's own `max_runtime_s`, so even a PID reused by an unrelated process
+#       cannot keep it alive indefinitely.
+#
+# It also must NOT stop the onstart shell reaching its own EXIT trap. It cannot: bash does not wait on
+# background jobs at exit, and `ct_selfstop`'s `kill -9 -1` reaps whatever is left. Both directions are
+# tested by EXECUTION under `unshare -fp --mount-proc` (tests/test_step1_liveness.py), not by argument —
+# reasoning about traps is what this repo has already been wrong about once.
+s1f_heartbeat() {
+  _p="$1"; _end=$(( $(date +%s) + ${S1F_SYNC_TTL_S:-54000} ))
+  while kill -0 "$_p" 2>/dev/null && [ "$(date +%s)" -lt "$_end" ]; do
+    sleep "${S1F_SYNC_S:-120}"
+    $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true
+  done
+}
+s1f_heartbeat "$$" &
+S1F_SYNC_PID=$!
+# The trap does NOT `exit`, so the pipeline's real exit status is preserved. The final PUT is deliberate:
+# it costs at most one LOG_SILENCE_MIN window of delayed condemnation, and ONLY in the case where the job
+# actually returned — which the `result in S3` and terminal-state reap clauses already handle. In the case
+# this guard exists for (a wedge or a crash-loop, where the job never returns) the trap never runs at all,
+# the log goes silent on schedule, and the diagnostic is what the archive preserved.
+s1f_stop_heartbeat() { _rc=$?
+  kill "$S1F_SYNC_PID" 2>/dev/null || true
+  $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true
+  return $_rc; }
+trap s1f_stop_heartbeat EXIT
 mark boot
 $PY -c "import openfe,openmm;print('[s1f] openfe',openfe.__version__,'plats',[openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])"
 nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader || true
@@ -279,6 +362,18 @@ def _age_min(inst):
 # Expected sampler throughput, from the MEASURED cmpd19/NR4A3 rate: three independent wave-1 hosts at
 # 12.76 / 13.70 / 14.42 s per HREX iteration (all 12 windows advanced 2.5 ps) => ~250-282 iterations/hour.
 EXPECTED_ITER_PER_H = 3600.0 / 13.6
+
+# ---- the stuck-start (create/start race) condemnation thresholds --------------------------------------------
+# Chosen ABOVE the documented image-pull window, not below it. A cheap 4090 host legitimately spends 20-40 min
+# pulling the ~6 GiB image and shows `loading` throughout, so an age cut inside that band would reap healthy
+# hosts. 45 min sits past the top of it, and the empty-`status_msg` signature already excludes a host that is
+# genuinely pulling — the two conditions together are what make this safe. Measured cases that motivated the
+# number: s1f-00 (53 min), s1f-08 (52 min) and s1f-16 (49 min), all stopped with an empty status_msg, all
+# nudged every tick since 8:53 AM ET, none ever starting.
+STUCK_START_MIN = float(os.environ.get("STUCK_START_MIN", "45"))
+# Two consecutive checks, per CLAUDE.md §4 — one sample can be an API blip or a listing caught mid-transition,
+# and this action destroys a rental and writes a permanent machine exclusion. Never set to 1.
+STUCK_START_STRIKES = int(os.environ.get("STUCK_START_STRIKES", "2"))
 
 
 def _iter_rate(prev_entry, scalar):
@@ -492,6 +587,18 @@ def _utcnow():
     return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def _et_now():
+    """Now as US-Eastern 12-hour text. CLAUDE.md §1: the ONLY time format this repo reports in.
+
+    Paired with `_utcnow` on purpose. The UTC stamp is what machines diff (`assert_progress_fresh`); this one
+    is what a human reads at 3 AM without doing arithmetic, which is precisely the moment the arithmetic gets
+    done wrong. Both go into every progress snapshot.
+    """
+    import datetime
+    et = datetime.timezone(datetime.timedelta(hours=-4))          # EDT, as in step1_terminus_evidence.ET
+    return datetime.datetime.now(datetime.timezone.utc).astimezone(et).strftime("%-I:%M %p ET %b %-d, %Y")
+
+
 def ledger_cost(doc):
     """(total_usd, n_rentals, detail_rows). PURE, so the arithmetic is unit-testable.
 
@@ -511,6 +618,60 @@ def ledger_cost(doc):
         rows.append({"instance": iid, "unit_id": r.get("unit_id"), "machine_id": r.get("machine_id"),
                      "rate_usd_h": rate, "billed_h": round(hours, 2), "usd": round(usd, 3)})
     return round(total, 2), len(rows), rows, unpriced
+
+
+# ---- the anti-idle guard: evidence gathering for `vast_idle_guard.classify_idle` ---------------------------
+#
+# The POLICY lives in `vast_idle_guard` and is shared with the ternary lane; only the EVIDENCE is lane-local,
+# because only this lane knows where its own artifacts sit. `classify_idle` is pure, so everything below is
+# "read one object, return a number or None", and every failure returns None — the guard treats None as
+# "could not observe", never as "observed nothing", which is the difference between declining to act and
+# manufacturing a condemnation.
+_IDLE_PREV_KEY_SUFFIX = "_idle_prev.json"
+
+
+def _log_age_min(s3, bucket, uid, now=None):
+    """Minutes since this unit last PUT its `run.log`, or None if it never has / cannot be read.
+
+    None is NOT "old". A missing run.log on a box whose container has started is genuinely no evidence, and
+    `classify_idle` returns UNKNOWN for it rather than WEDGED."""
+    import datetime
+    try:
+        h = s3.head_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/{uid}/run.log")
+    except Exception:  # noqa: BLE001 — absent object or unreadable listing; both are "no evidence"
+        return None
+    lm = h.get("LastModified")
+    if lm is None:
+        return None
+    now = datetime.datetime.now(datetime.timezone.utc) if now is None else now
+    return max(0.0, (now - lm).total_seconds() / 60.0)
+
+
+def _idle_evidence(s3, bucket, unit, inst, prev_scalar):
+    """Everything `vast_idle_guard.classify_idle` needs about ONE live instance, gathered from this lane's
+    own artifacts. Returns the kwargs dict, so the call site cannot quietly invent a field.
+
+    ★ `progress_advanced` IS COMPARED AGAINST A GUARD-OWNED PREVIOUS CENSUS, NOT `_progress_prev.json`.
+    That looked like a free reuse and is a trap: the autoscale tick runs monitor -> collect, and monitor
+    OVERWRITES `_progress_prev.json` with the current census as its last act. Reading it here would compare
+    this pass against itself, so `progress_advanced` would be False for every healthy leg in the fleet and
+    the single clause that overrides every condemnation would be permanently disarmed — a guard that reaps
+    working boxes. One owner, one file.
+    """
+    import watchdog_policy as wp
+    uid = unit["unit_id"]
+    scalar, _detail = committed_progress(s3, bucket, unit)
+    phase = _get_text(s3, bucket, f"{RESULT_PREFIX}/{uid}/phase.txt")
+    return {
+        "instance_running": (inst.get("actual_status") or "") == "running",
+        "container_started": wp.container_started_from_phase(phase, inst),
+        "gpu_util": _gpu_util(inst),
+        # A scalar of -1 means UNREADABLE, and an unreadable census must never read as "did not advance".
+        "progress_advanced": (scalar >= 0 and prev_scalar is not None and scalar > prev_scalar),
+        "log_age_min": _log_age_min(s3, bucket, uid),
+        "start_ages_min": _vig.start_ages_min(s3, bucket, f"{RESULT_PREFIX}/{uid}/attempts/"),
+        "instance_age_min": _age_min(inst),
+    }, scalar
 
 
 def _load_excluded(s3, bucket):
@@ -1352,21 +1513,75 @@ def mode_monitor():
     # instances that were also "loading" but whose status_msg showed an image pull in progress.
     # Re-issuing the start is idempotent, so this runs on every progress check. A unit whose ddg.json is
     # already in S3 is never restarted — that box is finished, not stalled.
+    #
+    # ★★ AND THE NUDGE ESCALATES (2026-07-27). As first written this block re-issued the start forever, which
+    # is the Vast rule inverted: CLAUDE.md §6 says a host that will not deliver means PICK ANOTHER HOST, do
+    # not wait it out. Measured that morning: s1f-00, s1f-08 and s1f-16 sat cur_state="stopped" with an EMPTY
+    # status_msg for 49-53 minutes, nudged on every tick, never starting. They burned no GPU meter — but they
+    # HELD THEIR UNIT'S SLOT, so three of nineteen edges could not be rented anywhere else for the better part
+    # of an hour while the operator watched a fleet that looked 18-wide and was really 15-wide. An unbounded
+    # retry against a box that has already refused is indistinguishable from waiting it out, which is the
+    # thing the rule forbids.
+    #
+    # So the nudge now keeps score. Two independent conditions must BOTH hold before a host is condemned:
+    #   * the STUCK SIGNATURE — cur_state "stopped" with an empty status_msg. A host still pulling the ~6 GiB
+    #     image is also "loading" but advertises the pull in status_msg, and pulls legitimately run 20-40 min
+    #     on cheap hosts. Condemning on age alone would reap healthy slow pulls.
+    #   * TWO CONSECUTIVE CHECKS past STUCK_START_MIN — §4's discipline, so a single unlucky sample (an API
+    #     blip, a listing mid-transition) can never destroy a rental. Strikes live in S3 because each tick is
+    #     a fresh process with no memory of the last one.
+    # Only then: destroy AND exclude the machine, via the same durable exclusion `mode_reap` writes — a host
+    # that never starts has infinite realised $/ns, so it is invisible to $/ns ranking and would otherwise
+    # keep winning selection and keep failing. Freeing the slot lets the next tick re-price that unit through
+    # the market gate, which is exactly where the buy decision belongs.
     if key:
         idx = {u["unit_id"]: i for i, u in enumerate(units)}
         label_to_unit = {f"{LABEL_PREFIX}{idx[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in units}
+        start_state = _get_json(s3, bucket, f"{RESULT_PREFIX}/_start_state.json") or {}
+        new_start_state = {}
         for i in live:
             u = label_to_unit.get(i.get("label") or "")
             if not u or i.get("cur_state") != "stopped":
                 continue
             if _exists(s3, bucket, result_key(u, RESULT_PREFIX)):
                 continue                       # finished, not stalled
+            iid, age = str(i.get("id")), _age_min(i)
+            # An empty status_msg is the discriminator against a legitimate in-progress image pull.
+            stuck_sig = not (i.get("status_msg") or "").strip()
+            if stuck_sig and age is not None and age >= STUCK_START_MIN:
+                strikes = int((start_state.get(iid) or {}).get("strikes", 0)) + 1
+                if strikes >= STUCK_START_STRIKES:
+                    mid = i.get("machine_id")
+                    why = (f"never started: cur_state=stopped with an empty status_msg for {age} min across "
+                           f"{strikes} consecutive checks (create/start race, not an image pull)")
+                    try:
+                        _vast_request("DELETE", f"/instances/{iid}/", key)
+                        print(f"[s1f] CONDEMNED {iid} ({i.get('label')}) — {why}. Destroyed; the unit's slot "
+                              f"is freed and the next tick re-prices it through the market gate.")
+                    except Exception as e:  # noqa: BLE001
+                        # Do NOT record an exclusion for a box that may still exist — same discipline as
+                        # mode_reap. Keep the strike so the next tick tries the destroy again.
+                        print(f"[s1f] condemn {iid} failed: {e} — leaving the strike in place, will retry")
+                        new_start_state[iid] = {"strikes": strikes, "age_min": age, "utc": _utcnow()}
+                        continue
+                    if mid is not None and _record_exclusion(s3, bucket, mid, why):
+                        print(f"[s1f] machine {mid} added to the lane exclusion set: {why}")
+                    continue                   # condemned: drop its strike row entirely
+                new_start_state[iid] = {"strikes": strikes, "age_min": age, "utc": _utcnow()}
+                print(f"[s1f] STUCK-START strike {strikes}/{STUCK_START_STRIKES} on {iid} ({i.get('label')}) "
+                      f"— stopped with an empty status_msg for {age} min; condemned at "
+                      f"{STUCK_START_STRIKES} strikes")
             try:
-                _vast_request("PUT", f"/instances/{i.get('id')}/", key, body={"state": "running"})
-                print(f"[s1f] NUDGED {i.get('id')} ({i.get('label')}) — cur_state=stopped, no result yet; "
+                _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
+                print(f"[s1f] NUDGED {iid} ({i.get('label')}) — cur_state=stopped, no result yet; "
                       f"re-issued start (msg={(i.get('status_msg') or '')[:60]!r})")
             except Exception as e:  # noqa: BLE001
-                print(f"[s1f] nudge {i.get('id')} failed: {e}")
+                print(f"[s1f] nudge {iid} failed: {e}")
+        try:
+            s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_start_state.json",
+                          Body=json.dumps(new_start_state, indent=2).encode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[s1f] stuck-start state save failed: {e}")
 
     # ---- billed hours + the starved-host guard ------------------------------------------------------------
     # Two jobs, one pass over the live fleet, because both need the same `age_min` / `gpu_util` sample.
@@ -1486,6 +1701,17 @@ def mode_monitor():
         # the launch had not run yet. A second snapshot after the launch would be more current but would
         # destroy the advance diff, since _progress_prev.json would be overwritten seconds after it was set.
         "_snapshot_point": "START of the tick — before this tick's collect, nudge and launch",
+        # ★ WHEN, NOT JUST WHERE (2026-07-27). `_snapshot_point` says where in the tick this was taken and
+        # said nothing about WHEN, so a reader holding this file could not distinguish "measured a moment ago"
+        # from "measured 45 minutes ago and never refreshed". That is exactly what happened at 9:40 AM ET:
+        # 18 GPUs were billing, the only readable artifact showed `0 of 19 units advanced`, and because the
+        # file was UNDATABLE that single reading was compatible with both "normal cold start three minutes in"
+        # and "fleet-wide stall". The fleet was in fact advancing fine. An evidence artifact that cannot be
+        # dated cannot be graded, and an ungradable artifact is worse than none — it invites the wrong
+        # inference with the confidence of a measurement. These two fields are what `assert_progress_fresh`
+        # in the autoscale workflow gates on, so a tick that goes green without re-measuring now fails loudly.
+        "_generated_utc": _utcnow(),
+        "_generated_et": _et_now(),
         "n_units": len(units), "n_complete": n_done,
         "live_instances": len(live), "instance_states": states,
         "gpu_util": utils, "phases": phases,
@@ -1566,6 +1792,10 @@ def mode_collect():
     # Consecutive-terminal-observation state, in S3 so one CI run inherits what the previous one saw.
     _terminal = _get_json(s3, bucket, f"{RESULT_PREFIX}/_terminal_state.json") or {}
     _terminal_next = {}
+    # The guard's OWN previous census (see `_idle_evidence` for why it cannot share monitor's).
+    _idle_prev = _get_json(s3, bucket, f"{RESULT_PREFIX}/{_IDLE_PREV_KEY_SUFFIX}") or {}
+    _idle_next, _idle_rows = {}, []
+    unit_by_label = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in units}
     for i in (_live_instances(key) if key else []):
         lab, st = i.get("label"), (i.get("actual_status") or "")
         age_min = _age_min(i)
@@ -1597,6 +1827,34 @@ def mode_collect():
             why = f"terminal state {st} on {seen} consecutive checks"
         elif age_min > REAP_AGE_MIN:
             why = f"age {age_min} min > {REAP_AGE_MIN}"
+        # ---- THE ANTI-IDLE GUARD. Reaction time from the 15 h age backstop above to ~15 min of silence. ----
+        #
+        # This clause is what 45996071 needed and did not have: it crash-looped on a dead credential for over
+        # an hour at $0.2497/hr with 0 % GPU while `actual_status` stayed `running`, so neither the terminal
+        # clause nor the age clause could see it. It is placed AFTER both on purpose — a box those clauses
+        # already condemn does not need a second opinion, and the cheaper checks should not pay for this
+        # one's S3 reads.
+        #
+        # ★ IT CAN ONLY EVER DESTROY, SO EVERY AMBIGUITY MUST RESOLVE TO DOING NOTHING, and it does: the
+        # policy returns COLD_START / UNKNOWN / WATCHING for a young box, an unreadable listing, a container
+        # that never marked a phase inside its grace, or a quiet-but-writing host — and `should_destroy` is
+        # False for all of them. GPU idleness NEVER condemns; only a measured absence of WRITES does. That is
+        # the inviolable rule, because a step 1 complex leg is legitimately at 0 % GPU for its whole stage +
+        # parameterise + minimise cold start and reaping that would be a self-inflicted copy of the incident.
+        elif unit_by_label.get(lab):
+            try:
+                ev, scalar = _idle_evidence(s3, bucket, unit_by_label[lab], i,
+                                            (_idle_prev.get(lab) or {}).get("scalar"))
+                verdict, reason = _vig.classify_idle(**ev)
+                if scalar >= 0:
+                    _idle_next[lab] = {"scalar": scalar, "utc": _utcnow()}
+                _idle_rows.append({"instance": i.get("id"), "label": lab, "verdict": verdict,
+                                   "why": reason, "evidence": ev})
+                print(f"[s1f] idle-guard {i.get('id')} ({lab}): {verdict} — {reason}")
+                if _vig.should_destroy(verdict):
+                    why = f"idle guard: {verdict} — {reason}"
+            except Exception as e:  # noqa: BLE001 — a guard that raises must not take the whole reap down
+                print(f"[s1f] idle-guard evidence failed for {lab}: {type(e).__name__}: {e} — NOT reaping")
         if not why:
             continue
         try:
@@ -1614,6 +1872,22 @@ def mode_collect():
                       Body=json.dumps(_terminal_next, indent=2).encode())
     except Exception as e:  # noqa: BLE001
         print(f"[s1f] terminal-state save failed: {e}")
+    # The guard's census is written AFTER every verdict, so "did it advance since last check" compares
+    # against the previous CHECK and never against something this pass just wrote.
+    try:
+        s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/{_IDLE_PREV_KEY_SUFFIX}",
+                      Body=json.dumps(_idle_next, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] idle-guard census save failed: {e}")
+    # ★ A GUARD THAT REPORTS SUCCESS WHILE MEASURING NOTHING IS THE SHAPE THIS REPO KEEPS PAYING FOR, so the
+    # readout says what it OBSERVED, not merely what it destroyed. `log_age_min: null` on every row means the
+    # heartbeat is not landing and the WEDGED channel is silently disabled — visible here, rather than
+    # discovered on the next expensive wedge.
+    out["idle_guard"] = _idle_rows
+    if _idle_rows and all(r["evidence"].get("log_age_min") is None for r in _idle_rows):
+        print("[s1f] ⚠ idle guard: NOT ONE live unit has a readable run.log. The log-silence channel is "
+              "measuring nothing — check that the pipeline's heartbeat is running before trusting any "
+              "verdict above.")
 
     # ---- realised spend against the estimate -------------------------------------------------------------
     # Reported HERE, at collect, and written into the map artifact — not left to be reconstructed later. The

@@ -69,19 +69,46 @@ def test_an_underivable_floor_is_UNVERIFIABLE_never_clean():
     assert v == "UNVERIFIABLE"
 
 
+def test_a_mapper_that_cannot_reach_the_floor_at_any_setting_says_so():
+    """★ THE ACTUAL cw_bio_nmethyl_amide RESULT, measured on the production staged components: ec=False 17,
+    ec=True 19, identical at both budgets, against a floor of 20. The budget is provably not binding and no
+    setting clears the floor — which is a statement about the MAPPERS, not about a rented host, and means
+    the edge is not a retry candidate. Filing that as a generic UNEXPLAINED would invite exactly the retry
+    it must not get."""
+    row = _row(ec0=(17, 17), ec1=(19, 19), floor=20, prod=19)
+    row["kartograf_n_mapped"] = None
+    v, why = smd.verdict(row)
+    assert v == "MAPPER_CANNOT_REACH_FLOOR"
+    assert "not a retry candidate" in why
+
+
 def test_a_signature_matching_neither_mechanism_is_UNEXPLAINED():
-    """ec=True is no better than ec=False and nothing moved with the budget: not a timeout, not an element
-    change. It must reach a human rather than be filed under whichever label is nearest."""
-    v, why = smd.verdict(_row(ec0=(17, 17), ec1=(17, 17), floor=20, prod=17))
+    """Production is short, no setting separates, the budget is not binding — and yet a mapper DOES clear
+    the floor, so "the mappers cannot reach it" is false and nothing else fits either. Genuinely unreadable,
+    so it must reach a human rather than be filed under whichever label is nearest."""
+    row = _row(ec0=(17, 17), ec1=(17, 17), floor=20, prod=17)
+    row["kartograf_n_mapped"] = 25          # a mapper DOES clear the floor, so "cannot reach" is false
+    v, why = smd.verdict(row)
     assert v == "UNEXPLAINED"
     assert "human" in why
 
 
+def test_kartograf_clearing_the_floor_is_not_reported_as_unmappable():
+    """If the geometric fallback reaches the floor the edge IS mappable and the finding is that production
+    does not reach that mapper — a different, actionable conclusion."""
+    row = _row(ec0=(17, 17), ec1=(19, 19), floor=20, prod=19)
+    row["kartograf_n_mapped"] = 22
+    v, _ = smd.verdict(row)
+    assert v != "MAPPER_CANNOT_REACH_FLOOR"
+
+
 def test_element_change_verdict_requires_the_escalated_map_to_ACTUALLY_clear_the_floor():
     """ec=True larger is not enough — if it is still under the floor, escalating would not fix the edge and
-    calling it ELEMENT_CHANGE would send the next reader to a fix that does not work."""
+    calling it ELEMENT_CHANGE would send the next reader to a fix that does not work. (It lands on
+    MAPPER_CANNOT_REACH_FLOOR, which is the correct, more specific answer; what matters here is that it is
+    NOT the one that recommends escalating.)"""
     v, _ = smd.verdict(_row(ec0=(14, 14), ec1=(18, 18), floor=20, prod=14))
-    assert v == "UNEXPLAINED"
+    assert v == "MAPPER_CANNOT_REACH_FLOOR"
 
 
 # --------------------------------------------------------------------------------------------------------
