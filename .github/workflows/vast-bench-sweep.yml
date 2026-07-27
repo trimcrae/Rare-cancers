@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "plan (read-only) | launch (SPENDS, minutes each) | collect (validate + reap) | reap | forensic (read-only) | impact (read-only)"
+        description: "plan | launch (SPENDS) | collect (validate + reap) | reap | forensic | impact"
         type: choice
         options: [plan, launch, collect, reap, forensic, impact]
         default: plan
@@ -32,6 +32,9 @@ on:
       include_measured:
         description: "1 = also bench cards already in the table. Re-measuring an ANCHOR is exactly what you want when its value is in question."
         default: "0"
+      exclude_machines:
+        description: "comma-separated Vast machine_ids to never rent. A host that will not deliver has infinite realised $/ns, which the ranking cannot see, so it keeps winning selection and keeps failing."
+        default: ""
 
 permissions:
   contents: write
@@ -59,6 +62,7 @@ jobs:
       BENCH_MAX_RUNTIME_S: ${{ github.event.inputs.max_runtime_s || '1800' }}
       BENCH_REPLICATES: ${{ github.event.inputs.replicates || '1' }}
       BENCH_INCLUDE_MEASURED: ${{ github.event.inputs.include_measured || '0' }}
+      BENCH_EXCLUDE_MACHINES: ${{ github.event.inputs.exclude_machines }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -76,13 +80,13 @@ jobs:
         if: ${{ always() }}
         working-directory: research/modalities
         run: python throughput_harvest.py --json throughput-harvest.json
-      - name: Forensic — every bench artifact, with the conditions that could differ
+      - name: Forensic
         if: ${{ github.event.inputs.mode == 'forensic' }}
         working-directory: research/modalities
         env:
           FORENSIC: "1"
         run: python vast_bench_sweep.py
-      - name: Board impact — before/after on the live board
+      - name: Board impact
         if: ${{ github.event.inputs.mode == 'impact' }}
         working-directory: research/modalities
         env:
@@ -124,6 +128,7 @@ jobs:
                    research/modalities/throughput-harvest.json \
                    research/modalities/vast-bench-forensic.json \
                    research/modalities/vast-bench-board-impact.json \
+                   research/modalities/vast-bench-spend-ledger.json \
                    research/modalities/throughput-bench-provenance.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
           done
