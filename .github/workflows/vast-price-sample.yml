@@ -23,7 +23,7 @@ on:
         description: "gpu_name substring to sample"
         default: "rtx4090"
       mode:
-        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | bidsem (pay-your-bid probe, <$0.01)"
+        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | bidsem (pay-your-bid probe, <$0.01) | forensics (read-only: does a LIVE rental's rate move after rental?)"
         default: "sample"
 
 permissions:
@@ -159,3 +159,30 @@ jobs:
                   research/modalities/vast-bid-semantics-probe-cap.json 2>/dev/null || true
           git commit -m "vast bid-semantics probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}
+
+  forensics:
+    # ★ READ-ONLY ($0). The premise behind CLAUDE.md §6's "work already executing is never touched" is that the
+    # rate you rent at is the rate you pay. The board appeared to contradict it (a shakeout at 1.41x basis
+    # reported at 1.82x 43 min later), and that premise is load-bearing enough to measure rather than argue
+    # about. `vast_rate_forensics.py` splits every LIVE instance's `dph_total` into its GPU / storage / inet
+    # lines and compares the GPU line with the bid the lane's rental ledger recorded at rental time.
+    #
+    # It rents nothing, destroys nothing and never touches a running host: GET /instances/ plus one S3 read.
+    if: ${{ github.event.inputs.mode == 'forensics' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3
+      - name: Does a live rental's charged rate move? (read-only, $0)
+        working-directory: research/modalities
+        run: python vast_rate_forensics.py --probe
