@@ -196,20 +196,20 @@ def test_census_counts_and_classifies_a_synthetic_board():
                 "reliability2": 0.99, "cuda_max_good": 13.0, "rentable": True, "storage_cost": 0.20,
                 "dph_total": bid, "dlperf": 100.0}
 
-    board = [offer(1, "RTX 4090", 0.15), offer(2, "RTX 4090D", 0.15), offer(3, "RTX 5090", 0.20),
+    board = [offer(1, "RTX 4090", 0.15), offer(2, "RTX 4090D", 0.15), offer(3, "H200 NVL", 0.20),
              offer(4, "B200", 6.0)]
     doc = vbc.census(board, res, n_units=2)
     by = {r["gpu_name"]: r for r in doc["by_gpu_model"]}
     assert by["RTX 4090"]["priceable"] and by["RTX 4090"]["throughput_provenance"] == "measured"
     assert not by["RTX 4090D"]["priceable"]
     assert doc["board_depth"]["priceable"] == 1 and doc["board_depth"]["qualifying"] == 4
-    for name in ("RTX 4090D", "RTX 5090", "B200"):
+    for name in ("RTX 4090D", "H200 NVL", "B200"):
         assert by[name]["verdict"] in ("RULED_OUT", "CANNOT_RULE_OUT")
     # A $6.00/hr B200 has to be absurdly fast to compete and cannot be; a $0.20/hr 5090 plainly can.
     assert by["B200"]["verdict"] == "RULED_OUT"
-    assert by["RTX 5090"]["verdict"] == "CANNOT_RULE_OUT"
+    assert by["H200 NVL"]["verdict"] == "CANNOT_RULE_OUT"
     assert {r["gpu_name"] for r in doc["ruled_out"]} | {r["gpu_name"] for r in doc["bench_shortlist"]} == {
-        "RTX 4090D", "RTX 5090", "B200"}
+        "RTX 4090D", "H200 NVL", "B200"}
 
 
 # =============================================================================================================
@@ -224,18 +224,18 @@ def test_require_gpu_refuses_to_substitute_a_benched_card_for_the_one_asked_for(
     """Without this, `BENCH_GRID=rtx5090:9.5` rents an RTX 4090 — because `_select_cheapest_offer` returns the
     best MEASURED offer first — and files its throughput under `rtx5090`. That is the 2026-07-24 fallback
     incident (a Quadro RTX 8000 tabulated as an A10) which got a whole grid withdrawn."""
-    board = [_o(1, "RTX 4090", 0.15), _o(2, "RTX 5090", 0.40)]
-    soft = gb.ResourceSpec(gpu="rtx5090", min_vram_gb=24, min_cuda=0.0)
+    board = [_o(1, "RTX 4090", 0.15), _o(2, "H200 NVL", 0.40)]
+    soft = gb.ResourceSpec(gpu="h200nvl", min_vram_gb=24, min_cuda=0.0)
     assert gb._select_cheapest_offer(board, soft)["gpu_name"] == "RTX 4090"      # ranking wins: preference
-    hard = gb.ResourceSpec(gpu="rtx5090", min_vram_gb=24, min_cuda=0.0, require_gpu=True)
-    assert gb._select_cheapest_offer(board, hard)["gpu_name"] == "RTX 5090"      # constraint wins
+    hard = gb.ResourceSpec(gpu="h200nvl", min_vram_gb=24, min_cuda=0.0, require_gpu=True)
+    assert gb._select_cheapest_offer(board, hard)["gpu_name"] == "H200 NVL"      # constraint wins
 
 
 def test_require_gpu_returns_nothing_rather_than_a_near_miss():
     """An unavailable card must fail the submit cleanly. Renting 'something close' is how a bench produces a
     number for a card that never ran."""
     board = [_o(1, "RTX 4090", 0.15), _o(2, "RTX 4090D", 0.15)]
-    hard = gb.ResourceSpec(gpu="rtx5090", min_vram_gb=24, min_cuda=0.0, require_gpu=True)
+    hard = gb.ResourceSpec(gpu="h200nvl", min_vram_gb=24, min_cuda=0.0, require_gpu=True)
     assert gb._select_cheapest_offer(board, hard) is None
     # ...and the cut-down SKU does not satisfy a request for the full card either
     hard4090 = gb.ResourceSpec(gpu="rtx4090", min_vram_gb=24, min_cuda=0.0, require_gpu=True)

@@ -152,6 +152,10 @@ MEASURED_NS_PER_DAY_84K = {
     "RTX4080": 703.51,   # CV 0.18%   blocks 702.93 / 704.93 / 702.66
     "RTX3090": 359.36,   # CV 1.31%   blocks 364.02 / 359.45 / 354.62
     # --- added 2026-07-27 (vast_bench_sweep calibration rentals, ~$1 of GPU in total) -----------------------
+    "RTX5090": 1070.44,  # CV 0.13%   blocks 1071.98 / 1070.04 / 1069.31 — 1.42x the reference card, and it
+    #                      rented CHEAPER than the 4090s beside it. The single biggest widening of the cheap
+    #                      end this sweep found, and it only exists because the NaN retry ladder let a rental
+    #                      that would otherwise have died deliver a number (`attempt=2`).
     "RTX5080": 793.79,   # CV 0.20%   blocks 793.33 / 792.46 / 795.59   — within 2% of an RTX 4090
     "A100PCIE": 523.82,  # CV 0.02%   blocks 523.76 / 523.76 / 523.93   — the fast tier, and it is NOT fast here
     "RTXPRO4000": 482.34,  # CV 0.63% blocks 478.99 / 484.89 / 483.15

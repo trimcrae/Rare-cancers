@@ -118,9 +118,9 @@ class TestTheHarvestNeverBecomesATableEntry(unittest.TestCase):
         self.assertNotIn("MEASURED_NS_PER_DAY_84K =", src)
 
     def test_a_ratio_needs_a_benched_reference_on_the_denominator(self):
-        s = [snap(0, complex_production(0), card="RTX 5090", iid=1),
-             snap(30, complex_production(40), card="RTX 5090", iid=1),
-             snap(90, complex_production(2000), card="RTX 5090", iid=1),
+        s = [snap(0, complex_production(0), card="H200 NVL", iid=1),
+             snap(30, complex_production(40), card="H200 NVL", iid=1),
+             snap(90, complex_production(2000), card="H200 NVL", iid=1),
              snap(0, complex_production(0), card="B200", iid=2, label="s1f-03-cw_ev_5oh"),
              snap(30, complex_production(40), card="B200", iid=2, label="s1f-03-cw_ev_5oh"),
              snap(90, complex_production(1000), card="B200", iid=2, label="s1f-03-cw_ev_5oh")]
@@ -130,7 +130,7 @@ class TestTheHarvestNeverBecomesATableEntry(unittest.TestCase):
 
 class TestCoverageCensus(unittest.TestCase):
     def test_it_names_cards_that_are_new_to_the_table(self):
-        cov = th.coverage([], [snap(0, 0, card="RTX 5090"), snap(10, 0, card="RTX 4090")])
+        cov = th.coverage([], [snap(0, 0, card="H200 NVL"), snap(10, 0, card="RTX 4090")])
         self.assertEqual(cov["n_new_cards"], 1)
         self.assertEqual(cov["n_already_benched"], 1)
 

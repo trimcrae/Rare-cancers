@@ -1493,8 +1493,11 @@ def test_value_ceiling_is_the_price_where_the_other_card_wins():
 
 
 def test_value_ceiling_refuses_an_unmeasured_card():
-    """Same refusal measured_ns_per_day makes: a proxy throughput produced retracted rankings."""
-    assert pv.value_ceiling_bid("RTX 5090", 0.004731) is None
+    """Same refusal measured_ns_per_day makes: a proxy throughput produced retracted rankings.
+
+    RTX 5090 stood here until it was benched on 2026-07-27; the case needs a card with no measurement, so it
+    moves to one that still has none."""
+    assert pv.value_ceiling_bid("H200 NVL", 0.004731) is None
     assert pv.value_ceiling_bid("RTX 3090", None) is None
 
 
