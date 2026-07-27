@@ -297,6 +297,43 @@ def best_n_mean(rows, n):
     return sum(take) / len(take)
 
 
+def annotate(records, tick_s=60):
+    """Add `run` and `gt` to every record. MUST run before any analysis that groups or orders by time.
+
+    ★ WHY (caught 2026-07-27 before it corrupted a 3-hour collection). The series is APPENDED to across runs —
+    a run seeds from the accumulated JSONL on `modalities-cache` so samples extend rather than restart. But
+    `tick` is a per-run counter that restarts at 0, so a naive group-by-tick silently pairs one run's R1 with
+    a LATER run's R2 and reports the difference as a 20-second read-to-read gap. That is not a small error: it
+    would manufacture exactly the "the board is wildly noisy" conclusion this module exists to test.
+
+      `run` — incremented whenever `tick` fails to advance, which is precisely a restart.
+      `gt`  — a GLOBAL tick index derived from the wall clock, not from any counter, so gaps (a backoff, a
+              cancelled run, the minutes between two runs) appear as MISSING indices instead of being
+              silently closed up.
+    """
+    recs = [r for r in records if r.get("utc")]
+    recs.sort(key=lambda r: (r["utc"], r.get("tick", 0), r.get("slot", "")))
+    # A restart is a tick that goes BACKWARDS — not one that merely fails to advance, because R1/R2/R3 all
+    # carry the same tick by construction. A long silence also starts a new run: two runs can both begin at
+    # tick 0, in which case the counter alone shows nothing and only the clock does.
+    run, prev_tick, prev_epoch = 0, None, None
+    for r in recs:
+        t, e = r.get("tick", 0), _epoch(r["utc"])
+        if prev_tick is not None and (t < prev_tick or (e - prev_epoch) > 5 * float(tick_s)):
+            run += 1
+        prev_tick, prev_epoch = t, e
+        r["run"] = run
+    if recs:
+        t0 = _epoch(recs[0]["utc"])
+        for r in recs:
+            r["gt"] = int(round((_epoch(r["utc"]) - t0) / float(tick_s)))
+    return recs
+
+
+def _epoch(utc):
+    return time.mktime(time.strptime(utc, "%Y-%m-%dT%H:%M:%SZ"))
+
+
 def read_noise(records):
     """H2: how different are two IDENTICAL queries `pair_gap` apart?
 
@@ -307,7 +344,9 @@ def read_noise(records):
     by_tick = defaultdict(dict)
     for r in records:
         if r.get("slot") in ("R1", "R2") and r.get("status") == 200:
-            by_tick[r["tick"]][r["slot"]] = r
+            # Keyed on (run, tick) — NOT tick alone. See `annotate`: tick restarts every run, so tick alone
+            # pairs one run's R1 with another run's R2 and calls the difference 20 seconds of market noise.
+            by_tick[(r.get("run", 0), r["tick"])][r["slot"]] = r
     pairs, out = 0, {"jaccard": [], "d_best4_frac": [], "d_n_offers": [], "gap_s": [],
                      "d_priceable": [], "vanished": [], "appeared": []}
     for _t, d in sorted(by_tick.items()):
@@ -347,14 +386,23 @@ def _stats(xs):
 
 
 def series(records, slot="R1"):
-    """The ground-truth time series: one entry per tick, `{t, utc, rows}` for successful reads of one slot."""
+    """The ground-truth time series: one entry per tick, `{t, utc, rows}` for successful reads of one slot.
+
+    `t` is the WALL-CLOCK tick index (`gt` from `annotate`), never the per-run counter — so a restart cannot
+    fold two different hours onto the same index, and a gap in observation stays visibly a gap.
+    """
     out = []
-    for r in sorted(records, key=lambda x: (x.get("tick", 0), x.get("slot", ""))):
+    for r in sorted(records, key=lambda x: x.get("utc", "")):
         if r.get("slot") == slot and r.get("status") == 200:
-            out.append({"t": r["tick"], "utc": r["utc"], "rows": r.get("rows", []),
+            out.append({"t": r.get("gt", r.get("tick", 0)), "utc": r["utc"], "rows": r.get("rows", []),
                         "n_offers": r.get("n_offers"), "priceable": r.get("priceable"),
                         "qualifying": r.get("qualifying")})
-    return out
+    seen, dedup = set(), []
+    for s in out:                       # two reads landing in one index (clock rounding) -> keep the first
+        if s["t"] not in seen:
+            seen.add(s["t"])
+            dedup.append(s)
+    return dedup
 
 
 def spells(ser, line=None, tick_s=60):
@@ -381,8 +429,21 @@ def spells(ser, line=None, tick_s=60):
         present_by_t[s["t"]] = (under, allm)
     ts = sorted(present_by_t)
     first_t, last_t = (ts[0], ts[-1]) if ts else (None, None)
+    prev_t = None
     for t in ts:
         under, allm = present_by_t[t]
+        # ★ AN OBSERVATION GAP IS NOT CONTINUITY. If the previous observed tick is more than one tick back —
+        # a backoff, a failed read, the minutes between two runs — we do not know what the board did in
+        # between. Bridging the gap would credit an offer with survival we never witnessed, which is the same
+        # optimistic bias as counting a left-censored spell at its observed length. So every open spell is
+        # closed RIGHT-CENSORED at the gap, and anything still cheap afterwards starts a new spell.
+        if prev_t is not None and t - prev_t > 1:
+            for m in list(seen):
+                sp = seen.pop(m)
+                done.append({"machine": m, "start": sp["start"], "end": sp["last"],
+                             "ticks": sp["last"] - sp["start"] + 1, "ended_by": "gone_dark",
+                             "censored_left": sp["start"] == first_t, "censored_right": True})
+        prev_t = t
         for m in list(seen):
             if m not in under:
                 sp = seen.pop(m)
@@ -590,7 +651,7 @@ def truncation(records):
     by_tick = defaultdict(dict)
     for r in records:
         if r.get("status") == 200 and r.get("slot") in ("R1", "R3"):
-            by_tick[r["tick"]][r["slot"]] = r
+            by_tick[(r.get("run", 0), r["tick"])][r["slot"]] = r
     full_n, dflt_n, d4, better = [], [], [], 0
     cmp_n = 0
     for _t, d in sorted(by_tick.items()):
@@ -742,7 +803,7 @@ def main(argv=None):
         return 0
 
     if a.analyse:
-        recs = load(a.analyse)
+        recs = annotate(load(a.analyse), tick_s=a.tick_s)
         ser = series(recs, "R1")
         cad = [float(x) for x in a.cadences.split(",") if x.strip()]
         sp = spells(ser, tick_s=a.tick_s)

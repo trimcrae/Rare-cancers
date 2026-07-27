@@ -353,6 +353,11 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None, 
         raise RuntimeError(f"vast API {method} {path} -> unreachable: {type(e).__name__}: {e}") from e
 
 
+# How many offers to ask Vast for. See the note on `limit` in `_vast_offer_query` — the default of 64 was
+# hiding ~72 % of the board from every purchase decision. ONE home for the number (CLAUDE.md rule 1).
+_VAST_SEARCH_LIMIT = 512
+
+
 def _vast_offer_query(res: ResourceSpec) -> dict:
     """PURE: the Vast `/bundles/` search query for a single-GPU leg meeting `res` (shared by submit + the smoke,
     so they can't drift). Verified + rentable hosts only; interruptible => cheaper 'bid' tier (our per-unit
@@ -373,6 +378,34 @@ def _vast_offer_query(res: ResourceSpec) -> dict:
         "cuda_max_good": {"gte": res.min_cuda},   # host driver must support our OpenMM CUDA plugin's PTX (else PTX-version error)
         "order": [["dph_total", "asc"]],
         "type": "bid" if res.interruptible else "on-demand",
+        # ★★ THE LIMIT IS LOAD-BEARING, AND ITS ABSENCE WAS COSTING ~26 % ON EVERY PURCHASE
+        #    (measured 2026-07-27, run 30294964932, `vast_board_volatility.py`).
+        #
+        # Vast's `/search/asks/` defaults to **64 rows**. This query set no `limit`, so every market gate and
+        # every `submit` in this repo has been deciding on the first 64 offers. Measured against the same
+        # board in the same second: `limit=512` returns **225** offers, the default returns **64** — we were
+        # seeing 28 % of the market.
+        #
+        # WHY THAT IS NOT MERELY "A SMALLER SAMPLE". The truncation is not random: this query is ORDERED BY
+        # `dph_total asc` while `rank_offers_by_usd_per_ns` ranks by **$/ns**. Those are different orderings,
+        # and the benched cards that can be priced at all are not the cheapest per HOUR. So chopping the list
+        # at 64 removes gradeable offers preferentially — priceable fell 143-147 (full) to 28-29 (default) —
+        # and the surviving best-4 mean was **+26.3 % more expensive** on every single paired read
+        # (full $0.003050/ns = 0.89x basis; truncated $0.003853/ns = 1.13x basis).
+        #
+        # ★ IT ALSO MANUFACTURED THE "MARKET" VOLATILITY THAT PROMPTED THIS. trimcrae asked whether hourly
+        # polling was too slow, because the gate read 1.261x basis at 9:13:04 AM ET and 2.436x at 9:16:28 AM.
+        # Across the 24 committed snapshots the decision is perfectly predicted by how many rows came back:
+        # every 64-row read cleared (8/8), and in the morning — same bench table, so no confounder — every
+        # read shorter than 64 held (0/10 cleared). The board had not moved; the page had.
+        #
+        # 512 covers the ~225-offer board with room to grow, and costs ~0.3 s of extra latency (0.68 s vs
+        # 0.39 s). It is nowhere near a rate concern: the response carries `x-ratelimit-limit: 500` per a
+        # 60-second window and this repo's entire usage sat at 3-4.
+        #
+        # `_vast_ondemand_base_by_machine` already passed `limit: 512` for exactly this reason; it simply was
+        # never applied to the query that decides what we BUY.
+        "limit": _VAST_SEARCH_LIMIT,
     }
 
 
