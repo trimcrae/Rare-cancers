@@ -844,16 +844,39 @@ jobs:
         with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - name: Pull the four triangle legs AND r0's two (T1 is reused, never re-run)
+      - id: auth
+        name: Authenticate to GCP (keyless, WIF) — because T1 DOES NOT LIVE IN THIS LANE'S S3
+        # ⚠ THE GAP THIS CLOSES, FOUND BEFORE IT COST A REDUCTION. r0 ran on the GCP L4 lane, so its two leg
+        # records are in `gs://<project>-rbfe-ckpt/valB-6hax/results/`, NOT in `ternary-vast/legs/`. Fetching
+        # T1 with the Vast launcher's `--fetch-legs` would return nothing and the reducer would report
+        # INCOMPLETE — loudly, which is the design working, but for a reason that is pure plumbing. The
+        # triangle's entire economy is that r0 is REUSED rather than re-bought, so the reduce job has to be
+        # able to reach the lane r0 actually ran on.
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+      - name: Pull the four triangle legs (S3) AND r0's two (GCS) — T1 is reused, never re-run
         run: |
           set -eo pipefail
           python -m pip install -q boto3
           mkdir -p /tmp/tri
           python research/modalities/ternary_vast_launch.py --mode triangle --fetch-legs /tmp/tri 2>&1 | tail -20
-          # T1 = r0 = the `edge` mode's seed-0 legs at 2 fs. `--fetch-legs` reconstructs unit ids from the
-          # mode's own parameters, so the timestep must be stated: r0 is 2 fs and this lane's default is 4 fs.
-          python research/modalities/ternary_vast_launch.py --mode edge --fetch-legs /tmp/tri \
-            --timestep-fs 2.0 --warmup-timestep-fs 1.0 2>&1 | tail -20
+          PROJECT=project-a7ebde30-e2ed-4b8d-9a9
+          RESULTS="gs://${PROJECT}-rbfe-ckpt/valB-6hax/results"
+          echo "=== pulling T1 (r0) from $RESULTS ==="
+          for L in calib_hi_to_lo__ternary_vhl calib_hi_to_lo__binary_vhl; do
+            # ⛔ THE UNSUFFIXED, FORWARD, SEED-0 NAME ONLY — never a glob. The GCP lane writes a RESTRAINED
+            # leg's result to `leg_<id>_<dir>_r<seed>_rst.json` precisely so it is NOT folded into the
+            # unrestrained cycle automatically, and it writes the REVERSE leg as `_rev_`. Both live in this
+            # same bucket. A `leg_*.json` glob here would quietly pull a restrained or reverse T1 into an
+            # unrestrained forward triangle, and R would then measure the PROTOCOL DIFFERENCE — the one
+            # failure this whole rung is built to avoid. Naming the exact file makes that impossible.
+            gcloud storage cp "$RESULTS/leg_${L}_fwd_r0.json" /tmp/tri/ \
+              || { echo "::error::T1's leg record ${L} is not at $RESULTS — the triangle cannot close without r0"; exit 1; }
+          done
           ls -la /tmp/tri
       - name: Reduce to R, in the SAME env that produced the trajectories
         run: |

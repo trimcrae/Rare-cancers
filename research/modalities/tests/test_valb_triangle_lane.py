@@ -360,3 +360,30 @@ def test_the_honest_limit_travels_with_the_number():
         r = tred.reduce_triangle(d)
     for phrase in ("INTERNAL CONSISTENCY", "force-field", "homology", "APPARENT cooperativity"):
         assert phrase in r["honest_limit"]
+
+
+def test_reducer_refuses_a_restrained_leg_record():
+    """A separate lane is running a RESTRAINED binary re-run of this same calibrator, into the SAME bucket
+    r0's records live in. One restrained leg inside this triangle makes R measure the PROTOCOL DIFFERENCE
+    between two lanes rather than the path error — and it would look completely normal."""
+    with tempfile.TemporaryDirectory() as d:
+        _six(d, {"T1": 1.0, "T2": 1.0, "T3": 2.0}, {"T1": 0.0, "T2": 0.0, "T3": 0.0})
+        # the filename marker the GCP lane writes
+        src = os.path.join(d, "leg_%s_fwd_r0.json" % tlegs.TRIANGLE_LEGS["T1"]["binary"])
+        with open(src) as fh:
+            rec = json.load(fh)
+        with open(os.path.join(d, "leg_%s_fwd_r0_rst.json" % tlegs.TRIANGLE_LEGS["T1"]["binary"]), "w") as fh:
+            json.dump(rec, fh)
+        r = tred.reduce_triangle(d)
+    assert r["decision"] == "REFUSED"
+    assert "restrained" in r["reason"]
+
+
+def test_reducer_refuses_a_leg_whose_record_declares_a_restraint():
+    """Belt and braces: the filename marker can be lost by a copy, the recorded field cannot."""
+    with tempfile.TemporaryDirectory() as d:
+        _six(d, {"T1": 1.0, "T2": 1.0, "T3": 2.0}, {"T1": 0.0, "T2": 0.0, "T3": 0.0})
+        _leg_file(d, tlegs.TRIANGLE_LEGS["T2"]["binary"], 0.0, restrain=1)
+        r = tred.reduce_triangle(d)
+    assert r["decision"] in ("REFUSED", "INCOMPLETE")
+    assert "restrained" in r["reason"] or "missing" in r["reason"]

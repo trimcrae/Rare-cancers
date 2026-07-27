@@ -67,11 +67,35 @@ EDGE_COEFF = {e: v["coefficient"] for e, v in tlegs.TRIANGLE_LEGS.items()}
 LEG_ROLE = {v[env]: (e, env) for e, v in tlegs.TRIANGLE_LEGS.items() for env in ("ternary", "binary")}
 
 
+def _is_restrained(rec, path):
+    """Did this leg run with the flat-bottom pocket restraint?
+
+    ⛔ WHY THIS EXISTS, AND WHY IT IS A REFUSAL RATHER THAN A FILTER. A separate lane is concurrently running
+    a RESTRAINED binary re-run of this same calibrator, for a different purpose, and its results land in the
+    SAME GCS bucket as r0's. The GCP lane already keeps them apart by filename — `leg_<id>_<dir>_r<seed>_rst
+    .json` — precisely so a restrained arm is never folded into an unrestrained cycle by default. But a
+    reducer that globs a directory has no filename discipline of its own, and one restrained leg inside this
+    triangle would make R measure the PROTOCOL DIFFERENCE between the two lanes rather than the path error,
+    which is the single failure this entire rung is built to avoid. It would also look completely normal.
+
+    Checked two ways because either alone can miss: the `_rst` filename marker the producing lane writes, and
+    any restraint field the engine records. Belt and braces on a contamination that is silent by nature.
+    """
+    base = os.path.basename(path)
+    if "_rst" in base:
+        return True
+    for k in ("restrain", "restraint", "rbfe_restrain", "pocket_restraint"):
+        v = rec.get(k)
+        if v not in (None, False, 0, "0", "", "none"):
+            return True
+    return False
+
+
 def _load_legs(directory):
     """Every engine leg JSON in `directory`, keyed by leg_id. Later files do NOT overwrite earlier ones
     silently — a duplicate leg_id is collected and reported, because two records for one leg means two
     different runs and picking either without saying so is how a cycle gets built from mixed provenance."""
-    found, dupes = {}, []
+    found, dupes, restrained = {}, [], []
     for path in sorted(glob.glob(os.path.join(directory, "leg_*.json"))):
         try:
             with open(path) as fh:
@@ -81,12 +105,15 @@ def _load_legs(directory):
         lid = d.get("leg_id")
         if not lid:
             continue
+        if _is_restrained(d, path):
+            restrained.append(os.path.basename(path))
+            continue
         if lid in found:
             dupes.append({"leg_id": lid, "paths": [found[lid]["_path"], path]})
             continue
         d["_path"] = path
         found[lid] = d
-    return found, dupes
+    return found, dupes, restrained
 
 
 def _sd(vals):
@@ -101,7 +128,7 @@ def _sd(vals):
 
 def reduce_triangle(directory, sigma_leg=None):
     """Compute R, R_ternary, R_binary and the prereg verdict from the leg JSONs in `directory`."""
-    legs, dupes = _load_legs(directory)
+    legs, dupes, restrained = _load_legs(directory)
     report = {
         "_what": "the valB synthetic closure triangle's residual R and its two component closures",
         "_identity": "R = ddG_coop(T1) + ddG_coop(T2) - ddG_coop(T3) = R_ternary - R_binary. Zero for an "
@@ -111,6 +138,7 @@ def reduce_triangle(directory, sigma_leg=None):
         "directory": directory,
         "legs_found": sorted(legs),
         "duplicate_leg_records": dupes,
+        "restrained_records_excluded": restrained,
     }
 
     # ---- completeness ------------------------------------------------------------------------------------
@@ -127,6 +155,17 @@ def reduce_triangle(directory, sigma_leg=None):
                        "reason": "solvent leg(s) present (%s). The solvent morph cancels EXACTLY inside "
                                  "ddG_coop = ternary - binary, so including one adds noise at best and "
                                  "computes a different quantity at worst." % solvent})
+        return report
+    if restrained:
+        # NOT a silent skip. A restrained record reaching this directory means the two lanes' artifacts have
+        # been mixed somewhere upstream, and the next thing to be mixed might be one this filter cannot name.
+        report.update({"decision": "REFUSED",
+                       "reason": "restrained leg record(s) present (%s). The triangle's binary legs run "
+                                 "UNRESTRAINED to match r0 — mixing a restrained arm in would make R measure "
+                                 "the PROTOCOL DIFFERENCE between two lanes rather than the path error, which "
+                                 "is the one failure this rung exists to avoid. They are DIFFERENT "
+                                 "experiments; find out how these got into one directory before re-running."
+                                 % restrained})
         return report
     if dupes:
         report.update({"decision": "REFUSED",
