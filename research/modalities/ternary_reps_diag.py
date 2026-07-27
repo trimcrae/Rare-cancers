@@ -342,6 +342,7 @@ def fetch_stage(dest, mode="edge_reps", seed=1, legs=("calib_hi_to_lo__ternary_v
     and measure a different system. `stage_cache_key` is the one home for that key (it is `build_jobspec`'s
     own `STAGE_CACHE`), so this cannot drift from what the host fetches.
     """
+    import hashlib
     import io
     import tarfile
     os.makedirs(dest, exist_ok=True)
@@ -352,7 +353,13 @@ def fetch_stage(dest, mode="edge_reps", seed=1, legs=("calib_hi_to_lo__ternary_v
         body = tv._s3().get_object(Bucket=b, Key=k)["Body"].read()
         tarfile.open(fileobj=io.BytesIO(body)).extractall(dest)
         inner = os.path.join(dest, leg)
-        got[leg] = {"uri": uri, "bytes": len(body),
+        # ★ A HASH, NOT JUST A SIZE. The first census reported all three seeds' tars at exactly 1402880 B with
+        # identical atom, chain and residue counts — which is consistent with "the same structure" and equally
+        # consistent with "three different structures of the same topology", because tar pads to 512 B blocks
+        # and an atom count says nothing about coordinates. Those two readings support opposite conclusions
+        # about whether the staged input can be the cause, so the difference has to be measured rather than
+        # inferred from a coincidence of sizes.
+        got[leg] = {"uri": uri, "bytes": len(body), "sha256": hashlib.sha256(body).hexdigest()[:16],
                     "files": sorted(os.listdir(inner)) if os.path.isdir(inner) else []}
         print(f"[rss] staged {leg} seed {seed} from {uri} ({len(body)} B): {got[leg]['files']}", flush=True)
     return got
@@ -409,8 +416,19 @@ def compare_stage(mode="edge_reps", leg="calib_hi_to_lo__ternary_vhl", seeds=(0,
             print(f"  seed {s}: NO STAGE CACHE — {type(e).__name__}: {e}")
             continue
         inner = os.path.join(d, leg)
-        rec = {"tar_bytes": got[leg]["bytes"], "uri": got[leg]["uri"], "files": got[leg]["files"],
-               "complex_pdb": pdb_census(os.path.join(inner, "complex.pdb"))}
+        import hashlib
+
+        def _sha(fp):
+            try:
+                with open(fp, "rb") as fh:
+                    return hashlib.sha256(fh.read()).hexdigest()[:16]
+            except OSError:
+                return None
+        rec = {"tar_bytes": got[leg]["bytes"], "tar_sha256": got[leg]["sha256"], "uri": got[leg]["uri"],
+               "files": got[leg]["files"],
+               "complex_pdb": pdb_census(os.path.join(inner, "complex.pdb")),
+               "complex_pdb_sha256": _sha(os.path.join(inner, "complex.pdb")),
+               "ligands_sdf_sha256": _sha(os.path.join(inner, "ligands.sdf"))}
         man = os.path.join(inner, "staging_manifest.json")
         if os.path.exists(man):
             try:
@@ -429,8 +447,10 @@ def compare_stage(mode="edge_reps", leg="calib_hi_to_lo__ternary_vhl", seeds=(0,
             continue
         c = rec["complex_pdb"]
         sm = (rec.get("staging_manifest") or {}).get("starting_model") or {}
-        print(f"  seed {s}: tar={rec['tar_bytes']} B  complex.pdb atoms={c.get('atoms')} "
-              f"het={c.get('hetatms')} chains={c.get('n_chains')} residues={c.get('n_residues')}")
+        print(f"  seed {s}: tar={rec['tar_bytes']} B sha={rec['tar_sha256']}  "
+              f"complex.pdb atoms={c.get('atoms')} sha={rec['complex_pdb_sha256']} "
+              f"het={c.get('hetatms')} chains={c.get('n_chains')} residues={c.get('n_residues')} "
+              f"ligands.sdf sha={rec['ligands_sdf_sha256']}")
         print(f"      chains: {c.get('chains')}")
         print(f"      het resnames: {c.get('het_resnames')}")
         print(f"      starting_model_index={sm.get('starting_model_index')} "

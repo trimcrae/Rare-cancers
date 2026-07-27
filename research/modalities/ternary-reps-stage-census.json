@@ -1,0 +1,166 @@
+{
+  "_what": "structural census of one leg's staged inputs across seeds \u2014 is what reps-prime built for seeds 1 and 2 the same KIND of thing it built for seed 0?",
+  "leg": "calib_hi_to_lo__ternary_vhl",
+  "mode": "edge_reps",
+  "seeds": {
+    "0": {
+      "tar_bytes": 1402880,
+      "tar_sha256": "9b5f1b29dd42e414",
+      "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed0__v1.tar",
+      "files": [
+        "_e3.pdb",
+        "_template_full.pdb",
+        "complex.pdb",
+        "ligands.sdf",
+        "smarca2_model",
+        "staging_manifest.json"
+      ],
+      "complex_pdb": {
+        "atoms": 7030,
+        "hetatms": 0,
+        "chains": {
+          "A": 1433,
+          "B": 1329,
+          "C": 2343,
+          "T": 1925
+        },
+        "n_chains": 4,
+        "n_residues": 433,
+        "het_resnames": {}
+      },
+      "complex_pdb_sha256": "e3cc2bf0795a8267",
+      "ligands_sdf_sha256": "16a58ceed94766e9",
+      "staging_manifest": {
+        "template_pdb": "8G1Q",
+        "is_smarca2_crystal": false,
+        "environment": "ternary",
+        "hydrogenation": {
+          "hydrogenated": true,
+          "n_hydrogens": 3528,
+          "n_atoms": 7030,
+          "ph": 7.0
+        },
+        "starting_model": {
+          "seed": 0,
+          "starting_model_index": 0,
+          "n_models_available": 2,
+          "model_pdb": "smarca2_model_0.pdb"
+        },
+        "smarca4_to_smarca2_substituted": true,
+        "n_relaxed_models": 2,
+        "divergence_ca_rmsd_A": 0.07097842429316917,
+        "divergence_ok": true,
+        "n_mutations": 15,
+        "seq_identity_observed_to_target": 0.87,
+        "limitation": "SMARCA4(P51532)-derived SMARCA2(P51531) model by sequence substitution + relaxation from the 3.73 A 8G1Q template; NOT a SMARCA2 crystal (explicit valB_mini limitation)."
+      },
+      "ligands.sdf_bytes": 11574
+    },
+    "1": {
+      "tar_bytes": 1402880,
+      "tar_sha256": "acf056e175c5d8fa",
+      "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed1__v1.tar",
+      "files": [
+        "_e3.pdb",
+        "_template_full.pdb",
+        "complex.pdb",
+        "ligands.sdf",
+        "smarca2_model",
+        "staging_manifest.json"
+      ],
+      "complex_pdb": {
+        "atoms": 7030,
+        "hetatms": 0,
+        "chains": {
+          "A": 1433,
+          "B": 1329,
+          "C": 2343,
+          "T": 1925
+        },
+        "n_chains": 4,
+        "n_residues": 433,
+        "het_resnames": {}
+      },
+      "complex_pdb_sha256": "d07668fa97d8f77a",
+      "ligands_sdf_sha256": "55f5e74c133ee30d",
+      "staging_manifest": {
+        "template_pdb": "8G1Q",
+        "is_smarca2_crystal": false,
+        "environment": "ternary",
+        "hydrogenation": {
+          "hydrogenated": true,
+          "n_hydrogens": 3528,
+          "n_atoms": 7030,
+          "ph": 7.0
+        },
+        "starting_model": {
+          "seed": 1,
+          "starting_model_index": 1,
+          "n_models_available": 2,
+          "model_pdb": "smarca2_model_1.pdb"
+        },
+        "smarca4_to_smarca2_substituted": true,
+        "n_relaxed_models": 2,
+        "divergence_ca_rmsd_A": 0.057837113584492776,
+        "divergence_ok": true,
+        "n_mutations": 15,
+        "seq_identity_observed_to_target": 0.87,
+        "limitation": "SMARCA4(P51532)-derived SMARCA2(P51531) model by sequence substitution + relaxation from the 3.73 A 8G1Q template; NOT a SMARCA2 crystal (explicit valB_mini limitation)."
+      },
+      "ligands.sdf_bytes": 11574
+    },
+    "2": {
+      "tar_bytes": 1402880,
+      "tar_sha256": "139386d4079459ba",
+      "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed2__v1.tar",
+      "files": [
+        "_e3.pdb",
+        "_template_full.pdb",
+        "complex.pdb",
+        "ligands.sdf",
+        "smarca2_model",
+        "staging_manifest.json"
+      ],
+      "complex_pdb": {
+        "atoms": 7030,
+        "hetatms": 0,
+        "chains": {
+          "A": 1433,
+          "B": 1329,
+          "C": 2343,
+          "T": 1925
+        },
+        "n_chains": 4,
+        "n_residues": 433,
+        "het_resnames": {}
+      },
+      "complex_pdb_sha256": "b8f824089b1ac51c",
+      "ligands_sdf_sha256": "8b91583106edc91c",
+      "staging_manifest": {
+        "template_pdb": "8G1Q",
+        "is_smarca2_crystal": false,
+        "environment": "ternary",
+        "hydrogenation": {
+          "hydrogenated": true,
+          "n_hydrogens": 3528,
+          "n_atoms": 7030,
+          "ph": 7.0
+        },
+        "starting_model": {
+          "seed": 2,
+          "starting_model_index": 0,
+          "n_models_available": 2,
+          "model_pdb": "smarca2_model_0.pdb"
+        },
+        "smarca4_to_smarca2_substituted": true,
+        "n_relaxed_models": 2,
+        "divergence_ca_rmsd_A": 0.10634402555956339,
+        "divergence_ok": true,
+        "n_mutations": 15,
+        "seq_identity_observed_to_target": 0.87,
+        "limitation": "SMARCA4(P51532)-derived SMARCA2(P51531) model by sequence substitution + relaxation from the 3.73 A 8G1Q template; NOT a SMARCA2 crystal (explicit valB_mini limitation)."
+      },
+      "ligands.sdf_bytes": 11574
+    }
+  }
+}
