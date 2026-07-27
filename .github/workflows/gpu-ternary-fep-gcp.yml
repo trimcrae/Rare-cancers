@@ -791,7 +791,14 @@ jobs:
               fields = m.get('system_fingerprint_fields') or {}
               pretty = os.path.basename(f)[len('MANIFEST__'):-len('.json')]
               sv = fields.get('SETUP_CACHE_VERSION') or UNREC
-              man_rows.append((pretty, sv, fields.get('RBFE_RESTRAIN', ''), m.get('schema')))
+              # WHICH LEG this prefix belongs to. The comparison below is only meaningful WITHIN one leg, so
+              # the leg id has to come out of the prefix rather than be pooled away.
+              _lid = pretty.split('_commits_')[-1]
+              for _k in ('__binary_vhl', '__solvent', '__ternary_vhl'):
+                  if _k in _lid:
+                      _lid = _lid[:_lid.index(_k) + len(_k)]
+                      break
+              man_rows.append((pretty, sv, fields.get('RBFE_RESTRAIN', ''), m.get('schema'), _lid))
               print("  %-58s SETUP_CACHE_VERSION=%-8s RBFE_RESTRAIN=%-4s schema=%s"
                     % (pretty, sv, fields.get('RBFE_RESTRAIN', '(absent)'), m.get('schema')))
           if not man_rows:
@@ -802,12 +809,38 @@ jobs:
           # set is the single value {UNRECORDED}, so the check PASSED — silently, on no evidence. That is the
           # exact "absent rendered as a legal good value" defect this whole step was added to stop, reproduced
           # inside the tool meant to stop it. Absence now reports as NOT VERIFIED, loudly, and never as agreement.
+          #
+          # AND IT IS A PER-LEG COMPARISON, NOT A POOLED ONE. The first cut pooled every version into one set
+          # and errored if it held more than one value. That is WRONG and it cried wolf on its own first real
+          # run: the binary arm is v1 and the ternary arm is v2pe, and that is not a defect — the arms are
+          # DIFFERENT SYSTEMS by construction (the ternary carries a whole extra protein; demanding one
+          # particle count across arms is a category error). The mismatch audit J.2-J.5 is about is WITHIN one
+          # leg — fwd v2pe against rev v1 of the SAME ternary leg, where the systems are supposed to be
+          # identical. A gate that fires on every healthy cycle gets ignored, which is worse than no gate.
+          def _legid(name):
+              b = name[len('leg_'):] if name.startswith('leg_') else name
+              for k in ('__binary_vhl', '__solvent', '__ternary_vhl'):
+                  if k in b:
+                      return b[:b.index(k) + len(k)]
+              return b
+          per_leg = {}
+          for r in rows:
+              if r[1] != UNREC:
+                  per_leg.setdefault(_legid(r[0]), set()).add(r[1])
+          for r in man_rows:
+              if r[1] != UNREC:
+                  per_leg.setdefault(r[4], set()).add(r[1])
+          conflicts = {k: sorted(v) for k, v in per_leg.items() if len(v) > 1}
           known = {r[1] for r in rows if r[1] != UNREC}
           unknown = [r[0] for r in rows if r[1] == UNREC]
           mknown = {r[1] for r in man_rows if r[1] != UNREC}
-          if len(known | mknown) > 1:
-              print("::error title=LEG SETUP VERSIONS DIFFER::%s — legs built from different setups must NOT be "
-                    "combined into one ΔΔG_coop (audit J.2-J.5)." % sorted(known | mknown))
+          if per_leg:
+              print("[provenance] recorded setup version PER LEG: %s"
+                    % {k: sorted(v) for k, v in sorted(per_leg.items())})
+          if conflicts:
+              print("::error title=ONE LEG BUILT FROM TWO DIFFERENT SETUPS::%s — the SAME leg has runs from "
+                    "different setup versions. Their systems are supposed to be identical, so these runs must "
+                    "NOT be combined or resumed into one another (audit J.2-J.5)." % conflicts)
           elif unknown and not mknown:
               print("::warning title=LEG SETUP VERSION NOT VERIFIED::%d leg(s) record no setup_cache_dir and no "
                     "commit manifest carries SETUP_CACHE_VERSION: %s. This is NOT a pass — it means the question "

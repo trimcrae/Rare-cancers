@@ -31,11 +31,12 @@ UNREC = "UNRECORDED"
 def verdict_source():
     """The tri-state verdict block, lifted verbatim out of the workflow and dedented."""
     text = open(WF).read()
-    start = text.index("          known = {r[1] for r in rows if r[1] != UNREC}")
+    start = text.index("          def _legid(name):")
     end = text.index("[provenance] all legs agree on setup version", start)
     end = text.index("\n", text.index("\n", end) + 1) + 1
     block = "\n".join(l[10:] if len(l) > 10 else l for l in text[start:end].split("\n"))
     assert "LEG SETUP VERSION NOT VERIFIED" in block, "extraction missed the not-verified branch"
+    assert "ONE LEG BUILT FROM TWO DIFFERENT SETUPS" in block, "extraction missed the conflict branch"
     return block
 
 
@@ -52,45 +53,61 @@ def leg(name, ver):
     return (name, ver, None, "hash", 12, "")
 
 
-def man(name, ver):
-    return (name, ver, "", 2)
+def man(name, ver, legid=None):
+    return (name, ver, "", 2, legid if legid is not None else name)
+
+
+BIN = "calib_hi_to_lo__binary_vhl"
+TER = "calib_hi_to_lo__ternary_vhl"
 
 
 def test_all_unrecorded_is_NOT_VERIFIED_not_a_pass():
-    """THE REGRESSION. Four legs, none recording a setup version, no manifests: the first implementation
-    printed nothing at all here and the run read as clean."""
-    got = run([leg("a.json", UNREC), leg("b.json", UNREC)], [])
+    """THE REGRESSION. Legs recording no setup version, no manifests: the first implementation printed nothing
+    at all here and the run read as clean."""
+    got = run([leg("leg_%s_fwd_r0.json" % BIN, UNREC), leg("leg_%s_fwd_r0.json" % TER, UNREC)], [])
     assert "NOT VERIFIED" in got, "absence must report NOT VERIFIED, got: %r" % got
     assert "not a measurement" in got.lower() or "NOT a pass" in got, (
         "the message must say plainly that this is not a pass: %r" % got)
     assert "agree on setup version" not in got, "absence must never render as agreement: %r" % got
 
 
-def test_genuine_agreement_is_reported_as_verified():
-    got = run([leg("a.json", "v1"), leg("b.json", "v1")], [])
+def test_genuine_agreement_within_a_leg_is_reported_as_verified():
+    got = run([leg("leg_%s_fwd_r0.json" % BIN, "v1"), leg("leg_%s_rev_r0.json" % BIN, "v1")], [])
     assert "VERIFIED" in got and "NOT VERIFIED" not in got, got
     assert "v1" in got, got
 
 
-def test_a_real_disagreement_is_an_error_not_a_warning():
-    """A v1 leg beside a v2pe leg is audit J.2-J.5's exact defect — different SYSTEMS, and for the ternary a
-    ~4,052-particle difference. It must be an ::error, not a ::warning."""
-    got = run([leg("a.json", "v1"), leg("b.json", "v2pe")], [])
-    assert "::error" in got and "DIFFER" in got, got
+def test_ONE_LEG_built_from_two_setups_is_an_error():
+    """Audit J.2-J.5's ACTUAL defect: the same leg run twice from different setups. Four rev attempts ran a
+    146,020-particle v1 build against the fwd leg's 141,968-particle v2pe one. Same leg, two systems."""
+    got = run([leg("leg_%s_fwd_r0.json" % TER, "v2pe"), leg("leg_%s_rev_r0.json" % TER, "v1")], [])
+    assert "::error" in got and "ONE LEG BUILT FROM TWO DIFFERENT SETUPS" in got, got
+    assert TER in got, got
+
+
+def test_DIFFERENT_legs_on_different_setups_is_NOT_an_error():
+    """THE CRY-WOLF REGRESSION, caught on this tool's own first real run. The binary arm is v1 and the ternary
+    arm is v2pe, and that is not a defect: the arms are DIFFERENT SYSTEMS by construction — the ternary carries
+    a whole extra protein, so demanding one particle count across arms is a category error. The first
+    implementation pooled all versions into one set and errored, i.e. it would have fired on every healthy
+    cycle. A gate that cries wolf gets ignored, which is worse than no gate."""
+    got = run([leg("leg_%s_fwd_r0.json" % BIN, "v1"), leg("leg_%s_fwd_r0.json" % TER, "v2pe")], [])
+    assert "::error" not in got, "different legs on different setups must not error: %r" % got
+    assert "v1" in got and "v2pe" in got, "it must still REPORT both, just not fail: %r" % got
 
 
 def test_manifest_evidence_rescues_a_silent_leg_record_without_claiming_full_verification():
     """Legs older than the 2026-07-25 leg-record field carry no setup_cache_dir, but their commit manifests
     stamp SETUP_CACHE_VERSION. That is real evidence — and it still must not be reported as if the leg records
     themselves had been verified."""
-    got = run([leg("a.json", UNREC)], [man("pfx", "v1")])
+    got = run([leg("leg_%s_fwd_r0.json" % BIN, UNREC)], [man("pfx", "v1", BIN)])
     assert "PARTIALLY VERIFIED" in got, got
     assert "not as agreement" in got, got
 
 
-def test_manifest_disagreeing_with_a_leg_record_is_an_error():
-    got = run([leg("a.json", "v1")], [man("pfx", "v2pe")])
-    assert "::error" in got and "DIFFER" in got, got
+def test_a_manifest_disagreeing_with_the_SAME_legs_record_is_an_error():
+    got = run([leg("leg_%s_fwd_r0.json" % BIN, "v1")], [man("pfx", "v2pe", BIN)])
+    assert "::error" in got and "ONE LEG BUILT FROM TWO DIFFERENT SETUPS" in got, got
 
 
 def test_the_workflow_reads_the_real_leg_record_field_name():
