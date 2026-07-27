@@ -1519,12 +1519,53 @@ def mode_monitor():
     # unmeasured state as a measured zero is this repo's most expensive defect class, and a false zero on a
     # RENTAL board is the version of it that costs money. `_live_instances` returning None is likewise
     # "the API call failed", never "none".
-    live = _live_instances(key) if key else None
+    #
+    # ★★ AND THE COULD-NOT-ASK STATE MUST BE *REACHABLE* — IT WAS DEAD CODE, AND THAT COST THE 1:21 PM TICK
+    #    (2026-07-27, run 30288877243).
+    #
+    # WHAT HAPPENED. `_live_instances` does not return None on a failed read — it RAISES. So the handler
+    # directly below, written for exactly "the API call failed", could only ever fire for a MISSING KEY. At
+    # 1:21:48 PM ET a transient edge 403 (nginx HTML, not a Vast JSON error — see `gpu_backend._vast_request`)
+    # outlived that function's 5-hop / ~30 s GET retry budget, the RuntimeError propagated out of
+    # `mode_monitor`, and the step exited 1 at 1:22:20 PM. Because this is the FIRST step of the tick's watch
+    # half, the freshness gate, the collect and the reap were all SKIPPED — so `step1-fanout-progress.json`
+    # stayed stamped 12:42 PM while 11 rentals kept billing, and three stopped hosts went unadjudicated.
+    #
+    # WHY DEGRADING HERE IS THE CORRECT SAFETY DIRECTION, not a softening. This workflow's own stated
+    # principle is that supervision must be the LAST thing a tick loses: monitoring rents nothing. The
+    # fail-CLOSED rule ("never rent when you cannot see what you already hold") belongs to `mode_launch`,
+    # which is untouched and still raises. Splitting them is the whole point — a read failure must not be
+    # allowed to take down the watch on a fleet that is ALREADY BILLING.
+    #
+    # ⚠ AND IT MUST NOT PRETEND IT SAW ZERO. `live` degrades to `[]` only so the S3 census can proceed; the
+    # blindness is recorded in `_vast_unreadable` and republished as `live_instances: null` in the snapshot,
+    # never as 0. The stuck-start adjudication below is additionally hard-guarded off, so nothing is ever
+    # destroyed on a blind read.
+    live, unreadable = None, None
+    if key:
+        # ⛔ DO NOT "SIMPLIFY" THIS TRY AWAY — IT IS THE ONLY THING THAT MAKES THE `live is None` BRANCH BELOW
+        #    REACHABLE WHEN THE API FAILS. `_live_instances` RAISES; it never returns None. Delete this catch
+        #    and the handler below silently narrows to "no key configured", which is precisely the state this
+        #    code was in during the 1:21 PM ET incident: a branch whose comment claimed to cover an API
+        #    failure, which could not fire for one. Do not trust the handler's existence as proof the case is
+        #    handled — the pairing IS the mechanism, and `tests/test_monitor_survives_unreadable_board.py`
+        #    exercises it end-to-end rather than reading this prose back.
+        try:
+            live = _live_instances(key)
+        except Exception as e:  # noqa: BLE001 — any read failure is the same "could not ask" state
+            unreadable = f"{type(e).__name__}: {e}"[:300]
+    # Reached in TWO ways, and they mean different things: no key (never asked) or the catch above (asked,
+    # refused). Both are "could not ask"; neither is "asked and the answer was none".
     if live is None:
         print("[s1f] ⚠ live s1f-* instances: UNKNOWN — "
-              + ("no VAST_API_KEY in this environment" if not key else "the instance list could not be read")
+              + ("no VAST_API_KEY in this environment" if not key else
+                 f"the instance list could not be read ({unreadable})")
               + ". This is NOT 'zero': any rental is unobserved here and could still be billing. "
                 "The per-unit progress census below is unaffected — it reads S3.")
+        if unreadable:
+            print("::warning title=VAST INSTANCE LIST UNREADABLE::The progress census still ran (it reads "
+                  "S3), but this tick could NOT see the rental board, so it reaped nothing and adjudicated "
+                  "no stopped host. live_instances is recorded as null, not 0.")
         live = []
     else:
         print(f"[s1f] live s1f-* instances: {len(live)}")
@@ -1599,7 +1640,11 @@ def mode_monitor():
     # that never starts has infinite realised $/ns, so it is invisible to $/ns ranking and would otherwise
     # keep winning selection and keep failing. Freeing the slot lets the next tick re-price that unit through
     # the market gate, which is exactly where the buy decision belongs.
-    if key:
+    # ⚠ `not unreadable` IS LOAD-BEARING, NOT BELT-AND-BRACES. On a blind read `live` is `[]`, so this loop
+    # would iterate nothing and destroy nothing today — but that safety is INCIDENTAL, and the next person to
+    # "helpfully" seed `live` from a cache or a previous snapshot would silently hand a destroy path a stale
+    # instance list. Condemning a host is irreversible; it must require a read we actually got.
+    if key and not unreadable:
         idx = {u["unit_id"]: i for i, u in enumerate(units)}
         label_to_unit = {f"{LABEL_PREFIX}{idx[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in units}
         start_state = _get_json(s3, bucket, f"{RESULT_PREFIX}/_start_state.json") or {}
@@ -1825,7 +1870,18 @@ def mode_monitor():
         "_generated_utc": _utcnow(),
         "_generated_et": _et_now(),
         "n_units": len(units), "n_complete": n_done,
-        "live_instances": len(live), "instance_states": states,
+        # ★★ NULL, NOT ZERO — AND THE REASON LIVES HERE BECAUSE 0 IS A LEGAL GOOD VALUE AND null IS NOT.
+        # This is the absent-vs-good-value collapse this repo has now hit five times. `0` is a REAL, correct
+        # reading (a finished fleet with everything reaped is genuinely 0 live instances), so a reader — human
+        # or code — has no way to tell a measured 0 from a fabricated one. There is no in-band value that can
+        # carry "unmeasured", which is exactly why it must go out of band as null.
+        # ⛔ Never "tidy" this to `len(live)`: above, `live` is degraded to `[]` on a blind read purely so the
+        # S3 census can proceed, so `len(live)` would render a board we never saw as a confident zero — the
+        # single most expensive shape of this bug, because a false zero on a RENTAL board reads as
+        # "nothing is billing" and invites shutting off supervision on a fleet that is still charging.
+        "live_instances": None if (unreadable or not key) else len(live),
+        "_vast_unreadable": unreadable,
+        "instance_states": states,
         "gpu_util": utils, "phases": phases,
         # status_msg is what distinguishes a host still PULLING the ~6 GiB image (documented ~20-40 min on
         # cheap 4090 hosts, and normal) from a container that is genuinely wedged — both show actual_status

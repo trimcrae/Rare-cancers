@@ -462,24 +462,50 @@ jobs:
           d = json.load(open(p))
           g = d.get('valB_calibration_gate') or {}
           dec = d.get('valB_calibration_decision') or {}
-          # hysteresis lives on the decision; None means NOT MEASURED, which must never read as "fine"
-          hy = dec.get('hysteresis_ok')
-          hy_txt = {True: 'within 1.0 (ok)', False: 'EXCEEDS 1.0 (unresolved fwd/rev disagreement)'}.get(
-              hy, 'NOT MEASURED (no reverse leg reduced)')
-          verdict = g.get('decision') or 'NO GATE VERDICT'
+          # ★ A KEY THE PRODUCER NEVER EMITS AND A KEY MEASURED AS None ARE DIFFERENT THINGS, AND `.get()` RENDERS
+          # THEM IDENTICALLY (fixed 2026-07-27). This read `dec.get('hysteresis_ok')` — a key
+          # `ternary_fep_reduce.calibration_decision` did not emit under ANY code path; it emitted
+          # `checks.hysteresis_resolved`. So `hy` was ALWAYS None and this annotation ALWAYS printed
+          # "NOT MEASURED", including on 2026-07-27 when the first fwd/rev hysteresis this program has ever
+          # measured (0.3246 kcal/mol) was sitting two keys away in the same file. The mirror of report_cofold.py
+          # in §L.6a: there an UNMEASURED criterion was named as observed, here an OBSERVED one is named as
+          # unmeasured. Both are the verdict string decoupling from the measurement. The sentinel below is the
+          # general remedy on the READER side — absence of a key is now its own loud state, never a quiet None.
+          # NB every read below is a literal `<obj>.get('<key>', MISSING)` on purpose: that is the shape
+          # tests/test_verdict_annotation_reads_real_keys.py EXTRACTS from this YAML by AST and checks against the
+          # keys ternary_fep_reduce actually emits. Wrapping these in a helper would hide them from that sweep.
+          MISSING = object()
+          hy = dec.get('hysteresis_ok', MISSING)
+          hy_val = dec.get('hysteresis_kcal', MISSING)
+          hy_max = dec.get('hysteresis_max_kcal', MISSING)
           def num(v, nd=3):
               try:
                   return format(float(v), '.%df' % nd)
               except (TypeError, ValueError):
-                  return str(v)
+                  return 'KEY ABSENT' if v is MISSING else str(v)
+          if hy is MISSING:
+              hy_txt = ('KEY ABSENT from valB_calibration_decision — the reducer and this annotation disagree '
+                        'about the field name; treat as UNVERIFIED, not as a pass')
+          elif hy is True:
+              hy_txt = 'MEASURED |dG_fwd+dG_rev| = %s <= %s (PASS)' % (num(hy_val), num(hy_max))
+          elif hy is False:
+              hy_txt = 'MEASURED |dG_fwd+dG_rev| = %s > %s (FAIL — unresolved fwd/rev disagreement)' % (num(hy_val), num(hy_max))
+          else:
+              hy_txt = 'NOT MEASURED (no reverse leg reduced)'
+          verdict = g.get('decision') or 'NO GATE VERDICT'
+          # n<2 has no replicate mean, but the per-replicate cycle value(s) DO exist and printing only "None"
+          # invited reading a measured number as absent. Print the point estimate, labelled as one.
+          reps = g.get('per_replicate_ddg_coop_kcal')
+          pt = ('[' + ', '.join(num(r) for r in reps) + ']') if isinstance(reps, list) and reps else 'none'
           bits = [
               "decision=%s" % verdict,
-              "mean_ddG_coop=%s" % num(g.get('mean_ddg_coop_kcal')),
-              "target=%s" % num(g.get('target_kcal')),
-              "abs_err=%s" % num(g.get('abs_error_kcal')),
-              "cycle_SD=%s" % num(g.get('cycle_sd_kcal')),
+              "mean_ddG_coop=%s" % num(g.get('mean_ddg_coop_kcal', MISSING)),
+              "per_replicate_ddG_coop=%s" % pt,
+              "target=%s" % num(g.get('target_kcal', MISSING)),
+              "abs_err=%s" % num(g.get('abs_error_kcal', MISSING)),
+              "cycle_SD(replicate-SD, NOT MBAR-SE)=%s" % num(g.get('cycle_sd_kcal', MISSING)),
               "n_replicates=%s" % g.get('n_replicates'),
-              "diagnostics_ok=%s" % g.get('diagnostics_ok'),
+              "diagnostics=%s" % g.get('diagnostics_state', 'KEY ABSENT'),
               "fwd/rev hysteresis: %s" % hy_txt,
           ]
           msg = "valB_mini reduce — " + " | ".join(bits) + ". reason: " + str(g.get('reason'))

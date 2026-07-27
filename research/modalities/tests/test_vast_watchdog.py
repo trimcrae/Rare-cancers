@@ -314,6 +314,51 @@ def test_an_idle_owner_lets_the_relaunch_through():
     assert withhold is False
 
 
+# ---- the hand-off that converted one failure into two (2026-07-27, 1:21 PM ET) ----------------------------
+# `step1-fanout-autoscale` was in flight, so this watchdog withheld ELEVEN relaunches citing "that workflow
+# re-rents dead legs itself" — and that run then died on a Vast 403 at its progress check, skipping its
+# collect and its reap. A hand-off predicated on another workflow's liveness has to notice when that workflow
+# is not discharging the duty being handed to it, or the interlock silently absorbs the outage.
+
+def test_deferring_to_a_FAILING_owner_still_withholds_because_the_corruption_risk_is_unchanged():
+    """The remedy is NOT to relaunch anyway: two relaunchers on one checkpoint prefix is an interleaved
+    trajectory that nothing reports, and the owner's health does not change that hazard."""
+    withhold, _ = vw.relaunch_withheld(1, True, "step1-fanout-autoscale.yml", owner_failed=True)
+    assert withhold is True
+
+
+def test_deferring_to_a_FAILING_owner_must_not_read_like_a_routine_deferral():
+    """What changes is the CLAIM. The healthy-owner reason asserts the owner re-rents dead legs itself; when
+    its last completed run failed, that premise is not established and the readout must say so."""
+    _, healthy = vw.relaunch_withheld(1, True, "step1-fanout-autoscale.yml", owner_failed=False)
+    _, failing = vw.relaunch_withheld(1, True, "step1-fanout-autoscale.yml", owner_failed=True)
+    assert healthy != failing, "a deferral to a failing owner must not render identically to a healthy one"
+    assert "LAST COMPLETED RUN FAILED" in failing
+    assert "SUPERVISION FAULT" in failing, "the operator must be told this needs fixing, not just waiting"
+    # And the healthy wording must NOT carry the alarm, or the distinction is decorative.
+    assert "SUPERVISION FAULT" not in healthy
+
+
+def test_owner_health_defaults_to_unknown_so_existing_callers_are_unchanged():
+    """`owner_failed` is optional: an unknown owner health must behave exactly as before."""
+    a = vw.relaunch_withheld(1, True, "x.yml")
+    b = vw.relaunch_withheld(1, True, "x.yml", owner_failed=None)
+    assert a == b
+
+
+def test_owner_last_completed_failed_reads_the_most_recent_COMPLETED_run():
+    """In-flight runs have no conclusion yet, so they must be skipped rather than read as 'not failing'.
+    Deliberately the LAST completed run: a failure since fixed does not bear on the current hand-off."""
+    runs = [{"status": "in_progress", "conclusion": None},
+            {"status": "completed", "conclusion": "failure"},
+            {"status": "completed", "conclusion": "success"}]
+    assert vw.owner_last_completed_failed(runs) is True
+    runs[1]["conclusion"] = "success"
+    assert vw.owner_last_completed_failed(runs) is False
+    assert vw.owner_last_completed_failed([{"status": "queued", "conclusion": None}]) is None
+    assert vw.owner_last_completed_failed([]) is None
+
+
 def test_only_died_relaunches_and_the_cap_holds():
     assert vw.should_relaunch("DIED", 0, 6)[0] is True
     assert vw.should_relaunch("DIED", 6, 6)[0] is False
