@@ -1,0 +1,864 @@
+{
+  "_what": "Composition of the Vast exclusion sets, their live overlap with the board, and how many more units an age screen on the CAPACITY class would have placed. Read-only, $0.",
+  "_why": "vast_machine_blacklist.__doc__ parks a re-test policy 'when the set is large enough to matter against the ~23-host board' and asks for a measurement first. This is it.",
+  "utc": "2026-07-28T01:17:13Z",
+  "sets_read": [
+    {
+      "source": "shared",
+      "n_ids": 40
+    },
+    {
+      "source": "step1_fanout",
+      "n_ids": 39
+    },
+    {
+      "source": "rung5a_ks",
+      "n_ids": 32
+    }
+  ],
+  "board": {
+    "offers_returned": 183,
+    "qualifying": 183,
+    "priceable": 109,
+    "units_wanted": 19
+  },
+  "buy_line": {
+    "usd_per_ns": 0.006539,
+    "basis_usd_per_ns": 0.003412,
+    "x_basis": 1.917,
+    "_derived": "congeneric_fanout.unit_usd_per_ns_ceiling() \u2014 never typed (CLAUDE.md \u00a71)"
+  },
+  "composition": {
+    "n_excluded": 48,
+    "by_class": {
+      "unknown": {
+        "n": 19,
+        "on_board_now": 1,
+        "priceable_now": 1,
+        "no_timestamp": 0,
+        "ids": [
+          "11158",
+          "144071",
+          "145142",
+          "19492",
+          "24573",
+          "29304",
+          "29707",
+          "29711",
+          "30974",
+          "31035",
+          "34646",
+          "35115",
+          "43159",
+          "51045",
+          "51546",
+          "57342",
+          "67860",
+          "68109",
+          "8914"
+        ]
+      },
+      "host_fault": {
+        "n": 22,
+        "on_board_now": 7,
+        "priceable_now": 7,
+        "no_timestamp": 0,
+        "ids": [
+          "110782",
+          "117843",
+          "11892",
+          "12697",
+          "12708",
+          "132368",
+          "139040",
+          "140043",
+          "140160",
+          "1569",
+          "18857",
+          "19499",
+          "26910",
+          "28164",
+          "29668",
+          "29770",
+          "46392",
+          "48605",
+          "53989",
+          "54458",
+          "56108",
+          "68556"
+        ]
+      },
+      "throughput": {
+        "n": 7,
+        "on_board_now": 1,
+        "priceable_now": 1,
+        "no_timestamp": 0,
+        "ids": [
+          "136811",
+          "28904",
+          "31036",
+          "35778",
+          "41716",
+          "50143",
+          "51777"
+        ]
+      }
+    },
+    "age_hours": {
+      "n_with_timestamp": 48,
+      "min": 0.24,
+      "p25": 3.0,
+      "median": 5.44,
+      "p75": 8.97,
+      "max": 11.45
+    },
+    "on_board_now": 9,
+    "priceable_now": 9
+  },
+  "counterfactual": {
+    "baseline": {
+      "qualifying": 174,
+      "priceable": 100,
+      "clearing_the_buy_line": 2,
+      "placed": 2,
+      "cheapest_usd_per_ns": 0.005388,
+      "held_reason": null
+    },
+    "by_cutoff": [
+      {
+        "cutoff_h": 0.0,
+        "readmitted": 0,
+        "readmitted_ids": [],
+        "placed": 2,
+        "gain_vs_baseline": 0,
+        "clearing_the_buy_line": 2,
+        "cheapest_usd_per_ns": 0.005388
+      },
+      {
+        "cutoff_h": 1.0,
+        "readmitted": 0,
+        "readmitted_ids": [],
+        "placed": 2,
+        "gain_vs_baseline": 0,
+        "clearing_the_buy_line": 2,
+        "cheapest_usd_per_ns": 0.005388
+      },
+      {
+        "cutoff_h": 3.0,
+        "readmitted": 0,
+        "readmitted_ids": [],
+        "placed": 2,
+        "gain_vs_baseline": 0,
+        "clearing_the_buy_line": 2,
+        "cheapest_usd_per_ns": 0.005388
+      },
+      {
+        "cutoff_h": 6.0,
+        "readmitted": 0,
+        "readmitted_ids": [],
+        "placed": 2,
+        "gain_vs_baseline": 0,
+        "clearing_the_buy_line": 2,
+        "cheapest_usd_per_ns": 0.005388
+      },
+      {
+        "cutoff_h": 12.0,
+        "readmitted": 0,
+        "readmitted_ids": [],
+        "placed": 2,
+        "gain_vs_baseline": 0,
+        "clearing_the_buy_line": 2,
+        "cheapest_usd_per_ns": 0.005388
+      },
+      {
+        "cutoff_h": 24.0,
+        "readmitted": 0,
+        "readmitted_ids": [],
+        "placed": 2,
+        "gain_vs_baseline": 0,
+        "clearing_the_buy_line": 2,
+        "cheapest_usd_per_ns": 0.005388
+      },
+      {
+        "cutoff_h": 48.0,
+        "readmitted": 0,
+        "readmitted_ids": [],
+        "placed": 2,
+        "gain_vs_baseline": 0,
+        "clearing_the_buy_line": 2,
+        "cheapest_usd_per_ns": 0.005388
+      }
+    ]
+  },
+  "per_machine": [
+    {
+      "machine_id": "110782",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T22:06:30Z",
+      "age_h": 3.18,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 54 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 54 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "11158",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T20:38:05Z",
+      "age_h": 4.65,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46036082, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "117843",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:57Z",
+      "age_h": 11.17,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list"
+      ]
+    },
+    {
+      "machine_id": "11892",
+      "class": "host_fault",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T20:38:07Z",
+      "age_h": 4.65,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "resources_unavailable on start (instance 46036096, RTX 4090)",
+        "never reached running in 291 min across 2 consecutive checks (hard backstop 135 min) despite status_msg 'success, running docker.io/triskit23/nr4a3fep_latest/ssh' \u2014 far past any image pull, but the bo"
+      ]
+    },
+    {
+      "machine_id": "12697",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:57Z",
+      "age_h": 11.17,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list"
+      ]
+    },
+    {
+      "machine_id": "12708",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T23:52:33Z",
+      "age_h": 1.41,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 54 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 54 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "132368",
+      "class": "host_fault",
+      "lanes": [],
+      "last_utc": "2026-07-27T18:53:32Z",
+      "age_h": 6.39,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never reached running in 166 min across 2 consecutive checks (hard backstop 135 min) despite status_msg 'success, running docker.io/triskit23/nr4a3fep_latest/ssh' \u2014 far past any image pull, but the bo"
+      ]
+    },
+    {
+      "machine_id": "136811",
+      "class": "throughput",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-28T01:02:55Z",
+      "age_h": 0.24,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46059600, RTX 5090)",
+        "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance 46031601"
+      ]
+    },
+    {
+      "machine_id": "139040",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T22:32:30Z",
+      "age_h": 2.75,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 56 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 56 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "140043",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:57Z",
+      "age_h": 11.17,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list"
+      ]
+    },
+    {
+      "machine_id": "140160",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T17:51:38Z",
+      "age_h": 7.43,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 76 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 76 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "144071",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T19:36:26Z",
+      "age_h": 5.68,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46027855, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "145142",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T22:17:07Z",
+      "age_h": 3.0,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46040507, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "1569",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T16:19:14Z",
+      "age_h": 8.97,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 40 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 40 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "18857",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:57Z",
+      "age_h": 11.17,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list"
+      ]
+    },
+    {
+      "machine_id": "19492",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T20:03:04Z",
+      "age_h": 5.24,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46036026, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "19499",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T19:51:04Z",
+      "age_h": 5.44,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 55 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 55 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "24573",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T19:36:25Z",
+      "age_h": 5.68,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46027804, RTX 4090)"
+      ]
+    },
+    {
+      "machine_id": "26910",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:57Z",
+      "age_h": 11.17,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list"
+      ]
+    },
+    {
+      "machine_id": "28164",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:57Z",
+      "age_h": 11.17,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list",
+        "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance 45938720"
+      ]
+    },
+    {
+      "machine_id": "28904",
+      "class": "throughput",
+      "lanes": [],
+      "last_utc": "2026-07-28T00:08:29Z",
+      "age_h": 1.15,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance 46047752"
+      ]
+    },
+    {
+      "machine_id": "29304",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T17:36:59Z",
+      "age_h": 7.67,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46019542, RTX 3090)"
+      ]
+    },
+    {
+      "machine_id": "29668",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:57Z",
+      "age_h": 11.17,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list"
+      ]
+    },
+    {
+      "machine_id": "29707",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-28T01:02:59Z",
+      "age_h": 0.24,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46059729, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "29711",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T20:38:09Z",
+      "age_h": 4.65,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46037491, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "29770",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:57Z",
+      "age_h": 11.17,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list"
+      ]
+    },
+    {
+      "machine_id": "30974",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T23:42:32Z",
+      "age_h": 1.58,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46049147, RTX 3090)"
+      ]
+    },
+    {
+      "machine_id": "31035",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T23:55:33Z",
+      "age_h": 1.36,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46055043, RTX 4090)"
+      ]
+    },
+    {
+      "machine_id": "31036",
+      "class": "throughput",
+      "lanes": [],
+      "last_utc": "2026-07-27T20:58:52Z",
+      "age_h": 4.31,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance 46004013"
+      ]
+    },
+    {
+      "machine_id": "34646",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T20:03:02Z",
+      "age_h": 5.24,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46035940, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "35115",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-28T00:37:31Z",
+      "age_h": 0.66,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46056372, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "35778",
+      "class": "throughput",
+      "lanes": [],
+      "last_utc": "2026-07-27T16:35:50Z",
+      "age_h": 8.69,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance 46004011"
+      ]
+    },
+    {
+      "machine_id": "41716",
+      "class": "throughput",
+      "lanes": [],
+      "last_utc": "2026-07-27T21:36:14Z",
+      "age_h": 3.68,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance 46031533"
+      ]
+    },
+    {
+      "machine_id": "43159",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T22:17:11Z",
+      "age_h": 3.0,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46040659, RTX 4090)"
+      ]
+    },
+    {
+      "machine_id": "46392",
+      "class": "host_fault",
+      "lanes": [
+        "rung5a_ks"
+      ],
+      "last_utc": "2026-07-27T14:06:58Z",
+      "age_h": 11.17,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "backfilled from rung5a_ks's refuse-to-start list"
+      ]
+    },
+    {
+      "machine_id": "48605",
+      "class": "host_fault",
+      "lanes": [],
+      "last_utc": "2026-07-27T13:50:00Z",
+      "age_h": 11.45,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 61 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "50143",
+      "class": "throughput",
+      "lanes": [],
+      "last_utc": "2026-07-27T23:04:57Z",
+      "age_h": 2.2,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance 46041656"
+      ]
+    },
+    {
+      "machine_id": "51045",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T23:42:30Z",
+      "age_h": 1.58,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46049098, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "51546",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T17:37:01Z",
+      "age_h": 7.67,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46019618, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "51777",
+      "class": "throughput",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-28T01:02:57Z",
+      "age_h": 0.24,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "resources_unavailable on start (instance 46059685, RTX 4090)",
+        "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance 46004074"
+      ]
+    },
+    {
+      "machine_id": "53989",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T19:55:56Z",
+      "age_h": 5.35,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 53 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 53 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "54458",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T20:58:50Z",
+      "age_h": 4.31,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 61 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 61 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "56108",
+      "class": "host_fault",
+      "lanes": [],
+      "last_utc": "2026-07-27T13:50:01Z",
+      "age_h": 11.45,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 58 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "57342",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T17:37:00Z",
+      "age_h": 7.67,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46019545, RTX PRO 4000)"
+      ]
+    },
+    {
+      "machine_id": "67860",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T19:36:24Z",
+      "age_h": 5.68,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46027803, RTX 5090)"
+      ]
+    },
+    {
+      "machine_id": "68109",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T19:36:22Z",
+      "age_h": 5.68,
+      "on_board_now": true,
+      "priceable_now": true,
+      "reasons": [
+        "resources_unavailable on start (instance 46027730, RTX 3090)"
+      ]
+    },
+    {
+      "machine_id": "68556",
+      "class": "host_fault",
+      "lanes": [
+        "step1_fanout"
+      ],
+      "last_utc": "2026-07-27T21:12:05Z",
+      "age_h": 4.09,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "never started: cur_state=stopped with an empty status_msg for 56 min across 2 consecutive checks (create/start race, not an image pull)",
+        "never started: cur_state=stopped with an empty status_msg for 56 min across 2 consecutive checks (create/start race, not an image pull)"
+      ]
+    },
+    {
+      "machine_id": "8914",
+      "class": "unknown",
+      "lanes": [
+        "ternary"
+      ],
+      "last_utc": "2026-07-27T17:36:58Z",
+      "age_h": 7.67,
+      "on_board_now": false,
+      "priceable_now": false,
+      "reasons": [
+        "resources_unavailable on start (instance 46019465, RTX 5090)"
+      ]
+    }
+  ]
+}
