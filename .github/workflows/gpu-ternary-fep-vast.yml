@@ -1733,7 +1733,7 @@ jobs:
             --out research/modalities/ternary-reps-stage-census.json 2>&1 | tee /tmp/census.txt
       - name: Measure the per-arm iteration rate the checkpoint cadence is derived from
         # $0, read-only (list + GET of leg.json), rents nothing and touches no instance. This is the ONE HOME
-        # of `ternary_vast_launch.ARM_ITERATION_RATES`: the per-arm checkpoint interval is derived from a
+        # of `ternary_vast_launch.arm_iteration_rates()`: the per-arm checkpoint interval is derived from a
         # MEASURED seconds-per-iteration, and a measured number that is typed into a source file is one nobody
         # re-derives when the fleet moves to a different card. Re-run this and the cadence follows.
         run: |

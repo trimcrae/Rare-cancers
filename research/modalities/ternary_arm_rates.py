@@ -156,7 +156,7 @@ def build(bucket=None, prefix=None, recs=None, rows=None, n_records=None):
         n_records = len(recs)
     return {
         "_what": ("measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own "
-                  "leg.json timing block. The one home for `ternary_vast_launch.ARM_ITERATION_RATES`; "
+                  "leg.json timing block. The one home for `ternary_vast_launch.arm_iteration_rates()`; "
                   "regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`."),
         "_never_pool": ("across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625) or across "
                         "phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up)"),
