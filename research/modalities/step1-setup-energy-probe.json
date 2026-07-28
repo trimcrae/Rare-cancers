@@ -10,7 +10,7 @@
       "leg": "complex",
       "edge": "zaienne_cmpd19->cw_bio_primary_amide",
       "n_mapped_atoms": 17,
-      "wall_s": 69.5,
+      "wall_s": 88.0,
       "n_particles": 112955,
       "force_census": [
         {
@@ -115,7 +115,7 @@
           {
             "group": 7,
             "force": "NonbondedForce",
-            "energy_kj_mol": -1091042.4044722975,
+            "energy_kj_mol": -1088240.9294112097,
             "finite": true
           },
           {
@@ -131,15 +131,46 @@
             "finite": true
           }
         ],
-        "verdict": "\u2705 every force term is FINITE at the input coordinates (max |E| = 1.09104e+06 kJ/mol, total = -1.06151e+06 kJ/mol). The NaN was produced DURING minimisation, not by the system as built \u2014 RETRY candidate, not a block candidate."
+        "verdict": "\u26a0 HALF-MEASURED: every force term's ENERGY is finite at the input coordinates (max |E| = 1.08824e+06 kJ/mol, total = -1.05871e+06 kJ/mol), but NO GRADIENT READING was taken and the minimiser follows the gradient, not the energy. This is NOT a retry verdict \u2014 see `_gradient_probe`."
+      },
+      "gradient_probe": {
+        "n_nonfinite": 0,
+        "max_kj_mol_nm": 4.9964313490067046e+17,
+        "argmax": 4052,
+        "top": [
+          {
+            "atom": 4052,
+            "f_kj_mol_nm": 4.9964313490067046e+17
+          },
+          {
+            "atom": 4054,
+            "f_kj_mol_nm": 4.99643134900656e+17
+          },
+          {
+            "atom": 112890,
+            "f_kj_mol_nm": 343674.52576745866
+          },
+          {
+            "atom": 103936,
+            "f_kj_mol_nm": 261252.6793938809
+          },
+          {
+            "atom": 102208,
+            "f_kj_mol_nm": 260875.63797956935
+          },
+          {
+            "atom": 71665,
+            "f_kj_mol_nm": 172154.42087606675
+          }
+        ]
       },
       "minimize_repro": {
         "outcome": "completed",
         "detail": "[spot-driver] RBFE_SETUP_ONLY=1 \u2014 sampler.setup() (incl. its pre-MD LocalEnergyMinimizer over every lambda state) COMPLETED WITHOUT A NaN on this platform. Exiting before any MD; nothing was sampled and nothing was committed.",
-        "wall_s": 988.2
+        "wall_s": 1308.6
       },
       "decision": "RETRY",
-      "why": "the production `sampler.setup()`, including its pre-MD LocalEnergyMinimizer over every lambda state, COMPLETED WITHOUT A NaN on a host-independent CPU build of the same staged system (988.2s), and every force term is finite at the handed-over coordinates (max |E| = 1.09104e+06 kJ/mol). The edge is not the fault, so this is a retry candidate and not a block"
+      "why": "the production `sampler.setup()`, including its pre-MD LocalEnergyMinimizer over every lambda state, COMPLETED WITHOUT A NaN on a host-independent CPU build of the same staged system (1308.6s), and every force term is finite at the handed-over coordinates (max |E| = 1.08824e+06 kJ/mol). The edge is not the fault, so this is a retry candidate and not a block"
     }
   ],
   "summary": {
