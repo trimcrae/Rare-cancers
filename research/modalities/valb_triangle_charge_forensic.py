@@ -239,6 +239,49 @@ def silent_case_probe(input_dir, leg_id):
     return out
 
 
+def nagl_equality_probe(input_dir, leg_id):
+    """Is the INHERITED array numerically the charge model the protocol would have assigned anyway?
+
+    ★ WHY THIS DECIDES WHETHER A LEG THAT DID NOT CRASH IS STILL USABLE. `run_ternary_leg.sh` runs the
+    pre-equilibration at `CHARGE_METHOD=nagl` and `_protocol()` sets `partial_charge_method = nagl` — the
+    SAME model — and NAGL is a graph-based (conformer-independent) assignment. So the inherited array MAY be
+    bit-for-bit what the protocol would have produced, in which case `calib_hi_to_lo2__ternary` (which
+    inherited a length-MATCHING array and therefore never raised) ran the intended charge model after all.
+    That is a very convenient conclusion, which is exactly why it must be MEASURED and not assumed: if the
+    arrays differ, that leg's ΔG cannot enter ΔΔG_coop, because the cancellation of the charge model between
+    the ternary and binary arms is the whole reason the cycle is formed that way.
+    """
+    from rdkit import Chem
+    import openfe
+    import nr4a3_rbfe as rbfe
+    sdf = os.path.join(input_dir, leg_id, "ligands.sdf")
+    out = []
+    for i, m in enumerate(Chem.SDMolSupplier(sdf, removeHs=False)):
+        if m is None or not m.HasProp(CHARGE_PROP):
+            continue
+        inherited = [float(x) for x in m.GetProp(CHARGE_PROP).split()]
+        rec = {"record": i, "n_inherited": len(inherited)}
+        try:
+            clean, _n = rbfe.strip_foreign_partial_charges(Chem.Mol(m))
+            off = openfe.SmallMoleculeComponent.from_rdkit(clean).to_openff()
+            # The model file, the wrapper and the fallback name are NOT re-typed here: `assign_rbfe_charges`
+            # is the lane's single home for "what nagl means", and a probe that resolved the model its own
+            # way could report a difference that is an artefact of the probe (CLAUDE.md §1).
+            import ternary_endpoint_stability as tes
+            rec["charge_label"] = tes.assign_rbfe_charges(off, os.environ.get("CHARGE_METHOD") or "nagl")
+            fresh = [float(x.m) if hasattr(x, "m") else float(x) for x in off.partial_charges]
+            rec["n_fresh"] = len(fresh)
+            if len(fresh) == len(inherited):
+                dev = max(abs(a - b) for a, b in zip(inherited, fresh))
+                rec["max_abs_deviation_e"] = dev
+                rec["identical_to_protocol_charges"] = dev < 1e-6
+        except Exception as e:  # noqa: BLE001
+            rec["error"] = "%s: %s" % (type(e).__name__, e)
+        out.append(rec)
+        print("[forensic] NAGL-EQUALITY %-32s %s" % (leg_id, json.dumps(rec)), flush=True)
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="$0 forensic: why two closure-triangle legs died at from_rdkit")
     ap.add_argument("--mode", default="triangle")
@@ -276,6 +319,7 @@ def main(argv=None):
                                 "build": build_from(root, leg)}
                 if which == "asrun":
                     entry[which]["silent_case"] = silent_case_probe(root, leg)
+                    entry[which]["nagl_equality"] = nagl_equality_probe(root, leg)
                 print("[forensic] %-32s %-8s records=%s build=%s"
                       % (leg, which, json.dumps(entry[which]["records"]),
                          json.dumps(entry[which]["build"])), flush=True)
