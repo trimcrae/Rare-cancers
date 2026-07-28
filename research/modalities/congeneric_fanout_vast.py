@@ -1323,6 +1323,11 @@ def mode_precheck():
 
 _BLOCKED_KEY_SUFFIX = "_blocked_units.json"
 
+# The ONE string a permanently-excluded unit is rendered with, everywhere. It deliberately does not look
+# like a phase marker: `leg-complex-FAILED-rc1` is what a unit wears while it is about to be re-placed, and
+# rendering an excluded edge the same way is what let one sit in the census overnight looking recoverable.
+BLOCKED_PHASE = "BLOCKED-permanently-excluded"
+
 
 def _load_blocked(s3, bucket):
     """Units this lane will NOT rent a host for, with the reason and the evidence. Durable, in S3.
@@ -1348,6 +1353,55 @@ def _load_blocked(s3, bucket):
         if uid:
             out.setdefault(uid, {"why": "FANOUT_BLOCK_UNITS env override", "evidence": None})
     return out
+
+
+def counts(units, done_ids, blocked):
+    """(n_done, n_blocked, n_outstanding) for a unit list. PURE — no S3, so the arithmetic is unit-tested.
+
+    ★★ WHY THIS IS A FUNCTION AND NOT A SUBTRACTION. The launcher used the map size minus the pending
+    set, which reads as obviously correct and is not: `_pending` filters out BOTH finished and blocked units, so
+    the difference is "finished OR permanently excluded" and it was printed under the word `done`. On
+    2026-07-28 the lane held nine ddG results and one blocked edge and its own readout said `done=10` — an
+    edge that will never be computed rendering as a completed one, which is exactly the silent drop
+    CLAUDE.md §6 forbids, and it made the artifact self-contradictory (10 done, 9 results, same file).
+
+    ⚠ A blocked unit that ALSO has a result counts as DONE, not blocked. A result in hand is a result
+    whatever list the unit is on, and the case is not hypothetical: a unit can be blocked after finishing,
+    or unblocked and completed later. Ordering the tests this way is what keeps the three counts summing to
+    len(units) with no unit in two buckets."""
+    done_ids, blk = set(done_ids or ()), set(blocked or ())
+    n_done = sum(1 for u in units if u["unit_id"] in done_ids)
+    n_blocked = sum(1 for u in units if u["unit_id"] not in done_ids and u["unit_id"] in blk)
+    return n_done, n_blocked, len(units) - n_done - n_blocked
+
+
+def unit_phase(unit, blocked, has_result, phase_txt):
+    """The ONE renderer of a unit's state, so every readout agrees. PURE.
+
+    Precedence is deliberate and is the whole content of the function:
+      a result       -> "done", even if the unit is also on the block list (a result in hand is a result);
+      on the block   -> BLOCKED_PHASE, NOT the last phase marker it happened to leave behind;
+      otherwise      -> whatever the phase marker says, or "not-started".
+
+    The second clause is the fix. A blocked unit's `phase.txt` still holds the failure that got it blocked
+    (`leg-complex-FAILED-rc1`), and every census, histogram and snapshot read that file directly — so a
+    permanently-excluded edge rendered identically to one that had just crashed and was about to be
+    re-placed. Overnight, that made a correctly-working guard look like an unattended failure."""
+    if has_result:
+        return "done"
+    if unit["unit_id"] in set(blocked or ()):
+        return BLOCKED_PHASE
+    return (phase_txt or "not-started")
+
+
+def computable_units(units, blocked):
+    """The lane's honest DENOMINATOR: map edges minus the ones no host can ever compute. PURE.
+
+    The map is 19 edges; what the fan-out can deliver is 19 minus the permanent exclusions, and that
+    number has to be derived from the block map rather than typed, or it drifts the moment a block is added
+    or lifted (CLAUDE.md rule 1)."""
+    blk = set(blocked or ())
+    return [u for u in units if u["unit_id"] not in blk]
 
 
 def _pending(s3, bucket, units, blocked=None):
@@ -1959,8 +2013,18 @@ def mode_launch():
 
     units = default_units()
     idx_of = {u["unit_id"]: i for i, u in enumerate(units)}
-    pending = _pending(s3, bucket, units)
-    done = len(units) - len(pending)
+    _blocked = _load_blocked(s3, bucket)
+    pending = _pending(s3, bucket, units, blocked=_blocked)
+    # ★★ `done` USED TO BE THE MAP SIZE MINUS THE PENDING SET, WHICH COUNTED A BLOCK AS A FINISH
+    # (2026-07-28). `_pending` drops finished units AND blocked ones, so the subtraction silently added the
+    # permanently-excluded edge to the completion count: with nine ddG results and one block, the readout
+    # said `done=10`. That is the exact failure CLAUDE.md §6 names — an edge that will never be computed
+    # rendering as one that was — and it made the lane's own headline number unquotable, because "10 done"
+    # and "9 results" were both in the same artifact. The three states are now counted separately and the
+    # denominator that matters (`computable`) is derived, never typed.
+    _done_ids = {u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))}
+    done, n_blocked, _outstanding = counts(units, _done_ids, _blocked)
+    computable = computable_units(units, _blocked)
 
     live = _live_instances(key)
     # ⚠ AN `exited` INSTANCE DOES NOT HOLD ITS UNIT'S SLOT. Vast teardown is two-layer: the container's EXIT
@@ -2115,8 +2179,13 @@ def mode_launch():
     batch = todo[:slots]
 
     lo, hi = cost_estimate(len(batch))
-    _lprint(f"[s1f] units={len(units)} done={done} pending={len(pending)} live={len(live)} "
-          f"free_slots={slots} -> submitting {len(batch)}")
+    # The DENOMINATOR is the computable set, and the blocked edges are named on the same line rather than
+    # folded into `done`. "9 of 18 computable, 1 permanently excluded" and "10 of 19 done" describe the
+    # same lane and only one of them can be quoted in a paper.
+    _blk_named = ", ".join(sorted(k.split("__")[1] for k in _blocked)) if _blocked else "none"
+    _lprint(f"[s1f] map_edges={len(units)} computable={len(computable)} done={done} "
+            f"blocked={n_blocked} ({_blk_named}) pending={len(pending)} live={len(live)} "
+            f"free_slots={slots} -> submitting {len(batch)}")
     _lprint(f"[s1f] cost of THIS submission ({len(batch)} units): plan ${cost_plan(len(batch))} "
           f"(band ${lo}-{hi}) | whole remaining tranche ({len(pending)} units): "
           f"plan ${cost_plan(len(pending))} (band ${'-'.join(str(x) for x in cost_estimate(len(pending)))})")
@@ -2607,6 +2676,13 @@ def mode_monitor():
     """Tight-cadence PROGRESS check (not a liveness ping): per-unit phase + per-instance state, one line each."""
     bucket, s3 = _require_bucket(), _s3()
     units = default_units()
+    # ★★ A PERMANENTLY-EXCLUDED UNIT MUST NOT KEEP WEARING ITS LAST FAILURE (2026-07-28). Before this, a
+    # blocked edge sat at `leg-complex-FAILED-rc1` in every census forever — the same string a unit that
+    # just crashed and is about to be re-placed wears. Two opposite states, one label: one says "watch this,
+    # it will resume", the other says "this will never resume and here is why". The block map is loaded
+    # here so the census can say which, and so the blocked count in the snapshot comes from the artifact
+    # that actually knows rather than from a subtraction.
+    blocked = _load_blocked(s3, bucket)
     key = os.environ.get("VAST_API_KEY")
     # ⚠ THREE STATES, NOT TWO: N instances, ZERO instances, and COULD-NOT-ASK. Dropping the early `return`
     # here was right — the committed-iteration census below reads S3 and does not need the Vast key, so a
@@ -2699,6 +2775,11 @@ def mode_monitor():
             n_done += 1
             print(f"[s1f]   {u['unit_id']:56s} DONE ddG={ddg.get('ddg_bind_kcal')} "
                   f"± {ddg.get('ddg_bind_unc_kcal')}")
+            continue
+        if u["unit_id"] in blocked:
+            # Not "still failing" and not quietly missing — excluded, with the reason on the line.
+            print(f"[s1f]   {u['unit_id']:56s} {BLOCKED_PHASE:28s} "
+                  f"{(blocked[u['unit_id']] or {}).get('why')}")
             continue
         phase = _get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")
         legs = [L for L in ("complex", "solvent")
@@ -2993,11 +3074,21 @@ def mode_monitor():
             utils.append(_gpu_util(i))
     phases = {}
     for u in units:
-        p = "done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX)) else \
-            (_get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt") or "not-started").split()[0]
+        p = unit_phase(u, blocked,
+                       has_result=_exists(s3, bucket, result_key(u, RESULT_PREFIX)),
+                       phase_txt=_get_text(s3, bucket,
+                                           f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")).split()[0]
         phases[p] = phases.get(p, 0) + 1
+    _n_done, _n_blocked, _n_outstanding = counts(
+        units, {u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))}, blocked)
+    _computable = computable_units(units, blocked)
     print("[s1f] ---------------- SUMMARY ----------------")
-    print(f"[s1f] units {n_done}/{len(units)} complete | live instances {len(live)} {states or '{}'}")
+    # The headline is against the COMPUTABLE denominator, with the exclusions named beside it — not folded
+    # into either the numerator or the denominator, which are the two ways to make it unquotable.
+    print(f"[s1f] units {_n_done}/{len(_computable)} computable complete "
+          f"({len(units)} map edges, {_n_blocked} permanently excluded"
+          + (f": {sorted(blocked)}" if blocked else "")
+          + f") | {_n_outstanding} outstanding | live instances {len(live)} {states or '{}'}")
     print(f"[s1f] phases {phases}")
     print(f"[s1f] gpu_util across live instances: {utils or 'n/a'}"
           + ("  <-- all idle; if unchanged next check, that is a STALL, not slowness"
@@ -3061,6 +3152,14 @@ def mode_monitor():
         "_generated_utc": _utcnow(),
         "_generated_et": _et_now(),
         "n_units": len(units), "n_complete": n_done,
+        # ★ THE HONEST DENOMINATOR, DERIVED (2026-07-28). `n_units` is the MAP; what this lane can ever
+        # deliver is the map minus its permanent exclusions, and the difference has to be visible in the
+        # artifact or every reader downstream re-derives it wrongly. `blocked_units` carries the reason and
+        # the evidence with each id, so "18, not 19" is never a bare assertion.
+        "n_computable": len(computable_units(units, blocked)),
+        "n_blocked": len([u for u in units if u["unit_id"] in blocked
+                          and not _exists(s3, bucket, result_key(u, RESULT_PREFIX))]),
+        "blocked_units": blocked,
         # ★★ NULL, NOT ZERO — AND THE REASON LIVES HERE BECAUSE 0 IS A LEGAL GOOD VALUE AND null IS NOT.
         # This is the absent-vs-good-value collapse this repo has now hit five times. `0` is a REAL, correct
         # reading (a finished fleet with everything reaped is genuinely 0 live instances), so a reader — human
@@ -3091,9 +3190,13 @@ def mode_monitor():
         # log's scrolled-off middle.
         "stopped_host_adjudication": cohort,
         "units": [{"unit_id": u["unit_id"],
-                   "phase": ("done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX))
-                             else _get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")
-                             or "not-started"),
+                   "phase": unit_phase(
+                       u, blocked,
+                       has_result=_exists(s3, bucket, result_key(u, RESULT_PREFIX)),
+                       phase_txt=_get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")),
+                   # The reason travels with the row. A reader holding only this file must be able to tell
+                   # a permanently-excluded edge from a stalled one WITHOUT going to another artifact.
+                   "blocked_why": (blocked.get(u["unit_id"]) or {}).get("why"),
                    # The committed-iteration census, carried into the artifact so the progress trail this
                    # file leaves is a record of ADVANCE and not just of phase labels.
                    "committed": (cur.get(u["unit_id"]) or {}).get("detail"),

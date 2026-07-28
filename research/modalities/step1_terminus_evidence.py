@@ -113,8 +113,16 @@ def census(keys, unit_id):
     return best
 
 
-def verdict_for(ddg_key_present, cen):
-    """PRODUCTION / SMOKE-MASQUERADE / NO-TERMINUS for one unit, computed from iteration counts only."""
+def verdict_for(ddg_key_present, cen, blocked_why=None):
+    """PRODUCTION / SMOKE-MASQUERADE / EXCLUDED / NO-TERMINUS for one unit, from iteration counts only.
+
+    ★★ `EXCLUDED` IS NOT A FLAVOUR OF `NO-TERMINUS` (2026-07-28). Without it this census printed a
+    permanently-blocked edge as `NO-TERMINUS / no commits` — character for character what a unit that has
+    simply not been placed yet prints. One of those is waiting for a host and the other will never have
+    one, and the difference is the whole reason the lane keeps a block map. A verdict that cannot tell them
+    apart turns a documented exclusion back into a silent omission the moment anyone reads the artifact."""
+    if blocked_why:
+        return "EXCLUDED", f"permanently excluded from the map — {blocked_why}"
     if not ddg_key_present:
         return "NO-TERMINUS", "no ddg.json key exists for this unit"
     legs = {}
@@ -184,6 +192,22 @@ def main():
     keys = list_prefix(s3, RESULT_PREFIX + "/")
     say(f"[s1f-terminus] {len(keys)} object(s) under the results prefix")
 
+    # The permanent exclusions, from their one home (S3, written by `congeneric_fanout_vast.mode_block`).
+    # Read here so this artifact's denominator is DERIVED rather than typed: the size of the release used to be a string literal in this file, which is exactly the copy that goes stale the
+    # first time a block is added or lifted.
+    from congeneric_fanout_vast import _load_blocked
+    blocked = _load_blocked(s3, BUCKET)
+    n_computable = len(unit_ids) - len([u for u in unit_ids if u in blocked])
+    if blocked:
+        say("")
+        say(f"=== PERMANENTLY EXCLUDED — {len(blocked)} of {len(unit_ids)} map edge(s) will never be "
+            f"computed, so the lane's denominator is {n_computable} ===")
+        for uid, b in sorted(blocked.items()):
+            say(f"  {uid}")
+            say(f"    why      : {(b or {}).get('why')}")
+            say(f"    evidence : {(b or {}).get('evidence')}")
+            say(f"    recorded : {(b or {}).get('utc')}")
+
     # --- 1. every ddg.json that exists, raw ---------------------------------------------------------------
     ddgs = [(k, sz, mt) for k, sz, mt in keys if k.endswith("/ddg.json")]
     say("")
@@ -204,7 +228,7 @@ def main():
     for uid in unit_ids:
         cen = census(keys, uid)
         has_ddg = any(k == f"{RESULT_PREFIX}/{uid}/ddg.json" for k, _s, _m in keys)
-        v, why = verdict_for(has_ddg, cen)
+        v, why = verdict_for(has_ddg, cen, (blocked.get(uid) or {}).get("why") if not has_ddg else None)
         verdicts[uid] = {"verdict": v, "why": why, "census": {f"{a}/{b}": c for (a, b), c in sorted(cen.items())},
                          "has_ddg": has_ddg}
         if v == "PRODUCTION":
@@ -231,19 +255,25 @@ def main():
             for u, d in bad.items():
                 say(f"     {u}: {d['verdict']} — {d['why']}")
         else:
-            say("  ⛔ NOT MET — no ddg.json anywhere under the results prefix. The 18 edges stay held; "
-                "the shakeout unit is the only thing that may be rented.")
+            say(f"  ⛔ NOT MET — no ddg.json anywhere under the results prefix. The {n_computable - 1} "
+                f"other computable edges stay held; the shakeout unit is the only thing that may be "
+                f"rented.")
 
     # --- 4. the market the release would have to clear ---------------------------------------------------
     say("")
-    say("=== MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===")
+    say(f"=== MARKET SNAPSHOT — what the {n_computable}-edge release would cost RIGHT NOW "
+        f"(read-only; rents nothing) ===")
     if os.environ.get("SKIP_MARKET") == "1" or not os.environ.get("VAST_API_KEY"):
         say("  skipped (SKIP_MARKET=1 or no VAST_API_KEY)")
     else:
         # Priced on the REMAINING TRANCHE, exactly as `market_hold` does — the authorisation is a
         # tranche-level dollar band, so a per-batch price would wave nineteen expensive units through one
         # at a time.
-        n_release = max(1, len([u for u in unit_ids if not verdicts[u]["has_ddg"]]))
+        # ...minus the permanently excluded ones. A block means no host will ever be rented for that edge,
+        # so pricing a release that includes it prices a purchase that cannot happen and inflates both the
+        # projection and the ceiling it is compared against.
+        n_release = max(1, len([u for u in unit_ids
+                                if not verdicts[u]["has_ddg"] and u not in blocked]))
         # The buy line and its derived multiple come from the module that OWNS them, so this readout and the
         # launcher's refusal can never drift apart (tests/test_buy_line_invariant.py pins that).
         import inflight_usd_per_ns as inf
