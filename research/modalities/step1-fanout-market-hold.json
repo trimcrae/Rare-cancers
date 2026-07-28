@@ -1,77 +1,55 @@
 {
   "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a finished fleet \u2014 and a partial launch that reports only what it launched is the same failure wearing a better number.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. Per-unit since 2026-07-27 (trimcrae): if 5 GPUs are cheap enough and the rest are not, run 5.",
-  "utc": "2026-07-28T15:37:32Z",
+  "utc": "2026-07-28T15:39:08Z",
   "decision": "placed",
   "decision_meaning": "units were rented this tick",
   "decision_why": null,
-  "held": true,
-  "n_withheld": 5,
-  "n_launching_now": 4,
-  "n_held": 1,
+  "held": false,
+  "n_withheld": 2,
+  "n_launching_now": 2,
+  "n_held": 0,
   "unit_usd_per_ns_ceiling": 0.006539,
   "unit_ceiling_x_basis": 1.917,
   "unit_dollar_ceiling_usd_per_ns": 0.008594,
   "unit_rate_line_usd_per_ns": 0.006539,
   "which_ceiling_binds": "rate line ($0.006539/ns = 1.92x basis)",
   "placed_usd_per_ns": [
-    0.004851,
-    0.005388,
-    0.005388,
-    0.0061
+    0.004934,
+    0.005388
   ],
   "placed_x_basis": [
-    1.42,
-    1.58,
-    1.58,
-    1.79
+    1.45,
+    1.58
   ],
   "basis_usd_per_ns": 0.003412,
-  "spend_authorised_now_usd": 11.19,
-  "ceiling_for_that_spend_usd": 15.77,
+  "spend_authorised_now_usd": 4.94,
+  "ceiling_for_that_spend_usd": 7.88,
   "held_reason": null,
   "board_depth": {
     "offers_returned": 161,
-    "qualifying": 156,
-    "priceable": 91,
-    "needed": 5,
-    "used_for_mean": 5
+    "qualifying": 157,
+    "priceable": 92,
+    "needed": 2,
+    "used_for_mean": 2
   },
   "offers_priced": [
     {
       "gpu": "RTX 4090",
       "machine_id": 12227,
-      "min_bid": 0.13333333333333333,
-      "usd_per_ns": 0.004851
+      "min_bid": 0.136,
+      "usd_per_ns": 0.004934
     },
     {
       "gpu": "RTX 5090",
-      "machine_id": 52991,
+      "machine_id": 50113,
       "min_bid": 0.19999999999999998,
       "usd_per_ns": 0.005388
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 50093,
-      "min_bid": 0.2,
-      "usd_per_ns": 0.005388
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 55559,
-      "min_bid": 0.1733333,
-      "usd_per_ns": 0.0061
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 51887,
-      "min_bid": 0.25533333333333336,
-      "usd_per_ns": 0.006623
     }
   ],
-  "binding_gate": "price",
+  "binding_gate": null,
   "binding_gate_why": null,
-  "binding_gate_scope": "1 of 5 withheld unit(s) \u2014 the other 4 were placed this tick",
+  "binding_gate_scope": null,
   "price_blocks_every_unit": false,
   "first_held_utc": null,
   "held_hours": 0.0
