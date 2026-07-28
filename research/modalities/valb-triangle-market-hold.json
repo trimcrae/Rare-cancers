@@ -1,58 +1,80 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-28T00:50:28Z",
-  "n_units": 3,
+  "utc": "2026-07-28T01:24:48Z",
+  "n_units": 4,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 5.12,
-  "ceiling_usd": 11.55,
-  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 3 legs",
+  "plan_usd": 6.83,
+  "ceiling_usd": 15.4,
+  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 4 legs",
   "breakeven_usd_per_ns": 0.009234,
   "depth": {
-    "offers_returned": 185,
+    "offers_returned": 188,
     "qualifying": 179,
-    "priceable": 105,
-    "needed": 3,
-    "used_for_mean": 3
+    "priceable": 104,
+    "needed": 4,
+    "used_for_mean": 4
   },
   "offers": [
     {
-      "gpu": "RTX 4090",
-      "machine_id": 28907,
-      "min_bid_usd_h": 0.15866666666666665,
-      "usd_per_ns": 0.005469
+      "gpu": "RTX 5090",
+      "machine_id": 55275,
+      "min_bid_usd_h": 0.1666667,
+      "usd_per_ns": 0.004446
     },
     {
-      "gpu": "RTX 4090",
-      "machine_id": 31036,
-      "min_bid_usd_h": 0.162,
-      "usd_per_ns": 0.005573
+      "gpu": "RTX 3090",
+      "machine_id": 89294,
+      "min_bid_usd_h": 0.095,
+      "usd_per_ns": 0.005475
     },
     {
-      "gpu": "RTX 4090",
-      "machine_id": 51777,
-      "min_bid_usd_h": 0.177,
-      "usd_per_ns": 0.006042
+      "gpu": "RTX 5090",
+      "machine_id": 90898,
+      "min_bid_usd_h": 0.2266667,
+      "usd_per_ns": 0.005902
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 29709,
+      "min_bid_usd_h": 0.24,
+      "usd_per_ns": 0.006225
     }
   ],
-  "mean_usd_per_ns": 0.005695,
-  "ratio_vs_basis": 1.669,
-  "projected_usd": 7.12,
+  "mean_usd_per_ns": 0.005512,
+  "ratio_vs_basis": 1.616,
+  "projected_usd": 9.19,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $7.12 within this rung's ceiling $11.55 AND 1.67x basis is within the 1.92x drift line",
+  "reason": "projected $9.19 within this rung's ceiling $15.40 AND 1.62x basis is within the 1.92x drift line",
   "mode": "triangle",
   "nothing_to_launch": false,
   "units_done": [],
-  "units_live": [
-    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
-  ],
+  "units_live": [],
   "units_needing_host": [
     "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "units_replacing_a_dead_host": []
+  "units_replacing_a_dead_host": [
+    {
+      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "dead_instance": 46060278,
+      "machine_id": 90898,
+      "gpu": "RTX 5090",
+      "actual_status": "exited",
+      "cur_state": "stopped"
+    },
+    {
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "dead_instance": 46055595,
+      "machine_id": 62866,
+      "gpu": "RTX 5090",
+      "actual_status": "exited",
+      "cur_state": "stopped"
+    }
+  ]
 }
