@@ -1,19 +1,18 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-28T20:10:26Z",
-  "_generated_et": "4:10 PM ET Jul 28, 2026",
+  "_generated_utc": "2026-07-28T20:11:55Z",
+  "_generated_et": "4:11 PM ET Jul 28, 2026",
   "n_units": 19,
   "n_complete": 11,
-  "live_instances": 5,
+  "live_instances": 4,
   "_vast_unreadable": null,
   "instance_states": {
-    "running": 3,
+    "running": 2,
     "loading": 2
   },
   "gpu_util": [
     0.0,
-    0.0,
-    0.0
+    99.999908
   ],
   "phases": {
     "done": 11,
@@ -21,19 +20,6 @@
     "leg-complex-FAILED-rc1": 2
   },
   "instances": [
-    {
-      "id": 46112126,
-      "label": "s1f-14-cw_ms_carbinol",
-      "machine_id": 12259,
-      "status": "running",
-      "cur_state": "running",
-      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
-      "gpu": "RTX 5090",
-      "gpu_util": 0.0,
-      "inet_down": 488.9,
-      "dph": 0.2596148148148148,
-      "age_min": 383
-    },
     {
       "id": 46132149,
       "label": "s1f-01-cw_ev_5oh",
@@ -45,7 +31,7 @@
       "gpu_util": 0.0,
       "inet_down": 953.6,
       "dph": 0.15142222222222224,
-      "age_min": 84
+      "age_min": 85
     },
     {
       "id": 46132151,
@@ -58,7 +44,7 @@
       "gpu_util": null,
       "inet_down": 263.2,
       "dph": 0.2262222222222222,
-      "age_min": 84
+      "age_min": 85
     },
     {
       "id": 46132341,
@@ -71,7 +57,7 @@
       "gpu_util": null,
       "inet_down": 774.6,
       "dph": 0.2262222222222222,
-      "age_min": 81
+      "age_min": 82
     },
     {
       "id": 46132500,
@@ -81,10 +67,10 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 4090",
-      "gpu_util": 0.0,
+      "gpu_util": 99.999908,
       "inet_down": 788.9,
       "dph": 0.19902222222222224,
-      "age_min": 78
+      "age_min": 80
     }
   ],
   "stopped_host_adjudication": {
@@ -95,7 +81,7 @@
         "label": "s1f-12-cw_bio_hydroxamic",
         "machine_id": "50113",
         "gpu": "RTX 5090",
-        "age_min": 81,
+        "age_min": 82,
         "status_msg": "latest: Pulling from triskit23/nr4a3fep\n"
       }
     ],
@@ -123,7 +109,7 @@
       "phase": "leg-complex-running 2026-07-28T18:48:04Z",
       "committed": "complex/production@1760",
       "committed_scalar": 1001760,
-      "committed_prev_scalar": 1001640,
+      "committed_prev_scalar": 1001760,
       "ddg_bind_kcal": null
     },
     {
@@ -227,7 +213,7 @@
       "phase": "done",
       "committed": null,
       "committed_scalar": null,
-      "committed_prev_scalar": 11000200,
+      "committed_prev_scalar": null,
       "ddg_bind_kcal": 0.582
     },
     {
@@ -235,7 +221,7 @@
       "phase": "leg-complex-running 2026-07-28T18:53:02Z",
       "committed": "complex/production@760",
       "committed_scalar": 1000760,
-      "committed_prev_scalar": 1000480,
+      "committed_prev_scalar": 1000760,
       "ddg_bind_kcal": null
     },
     {
@@ -263,6 +249,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 54.53,
+  "realised_usd_so_far": 54.54,
   "plan_usd_whole_tranche": 29.72
 }
