@@ -95,32 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-07-27T16:39:05Z",
-      "et": "12:39 PM ET",
-      "outcome": "launched",
-      "what_that_means": "hosts were actually rented",
-      "stage": "rent (steps.rent.outcome=success)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30285412422",
-      "gate_ratio_vs_basis": 2.032,
-      "gate_mean_usd_per_ns": 0.006931,
-      "gate_projected_usd": 14.86,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": true,
-      "gate_reason": "2.03x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns",
-      "gate_board_depth": {
-        "offers_returned": 49,
-        "qualifying": 47,
-        "priceable": 21,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "reason": "task=edge-reps; job status success",
-      "reclassified": "RECLASSIFIED 2026-07-27 \u2014 this row is `launched` (\"hosts were actually rented\") but it rented NOTHING. The job log shows all 4 units skipped as `already running` and `every unit for this mode is already done or running \u2014 nothing to rent`; the watchdog arm step added `0 new entr(ies)`; and the live-instance census taken at 1:12 PM ET found exactly FOUR tvast instances for four units \u2014 one per unit, all rented by the 12:14 PM ET launch. $0 was spent by this attempt. The word came from the rent step's exit code, which cannot see a rental; the `gate_*` fields are the launch job's own advisory BOARD snapshot (a mean over the 4 cheapest offers), not a rate paid. Fixed at source: `submit()` now writes a rental receipt, `record()` refuses to file `launched` with zero rentals, and the outcome `nothing-to-launch` names this state. Left in place, not rewritten \u2014 the ledger is append-only.",
-      "n_requested": 0,
-      "n_rented": 0,
-      "gate_fields_are_the_board_not_the_purchase": "this is the BOARD's mean $/ns at the moment of an advisory snapshot, NOT a rate this lane paid. Nothing was bought on this row."
-    },
-    {
       "utc": "2026-07-27T17:07:28Z",
       "et": "1:07 PM ET",
       "outcome": "dispatched",
@@ -1913,12 +1887,34 @@
         }
       ],
       "reason": "task=edge-reps; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
+    },
+    {
+      "utc": "2026-07-28T13:18:14Z",
+      "et": "9:18 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30362777861",
+      "gate_ratio_vs_basis": 1.569,
+      "gate_mean_usd_per_ns": 0.005352,
+      "gate_projected_usd": 2.87,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.87 within this rung's ceiling $5.19 AND 1.57x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 175,
+        "qualifying": 175,
+        "priceable": 99,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "reason": "board cleared both ceilings; dispatching task=edge-reps"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 7,
-    "through_utc": "2026-07-27T16:35:35Z"
+    "n_total": 8,
+    "through_utc": "2026-07-27T16:39:05Z"
   }
 }
