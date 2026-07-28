@@ -86,35 +86,35 @@
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 99.999908,
+        "gpu_util": 98.999908,
         "progress_advanced": true,
-        "log_age_min": 0.7042205833333333,
+        "log_age_min": 0.11940238333333333,
         "start_ages_min": [
-          454.2875541408857,
-          308.93755414088565,
-          167.12088747421902,
-          162.55422080755233,
-          142.03755414088567
+          459.7527359644572,
+          314.4027359644572,
+          172.58606929779052,
+          168.01940263112385,
+          147.5027359644572
         ],
-        "instance_age_min": 144
+        "instance_age_min": 150
       }
     },
     {
       "instance": 46050235,
       "label": "s1f-06-cw_ev_5piperazine",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 1 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "evidence": {
         "instance_running": true,
         "container_started": true,
         "gpu_util": null,
-        "progress_advanced": true,
-        "log_age_min": 1.7565780166666667,
+        "progress_advanced": false,
+        "log_age_min": 1.1234248166666667,
         "start_ages_min": [
-          103.92324500878652,
-          87.23991167545319
+          109.39009175697963,
+          92.70675842364629
         ],
-        "instance_age_min": 88
+        "instance_age_min": 93
       }
     },
     {
@@ -127,58 +127,57 @@
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 29.1752288,
+        "log_age_min": 34.64381203333333,
         "start_ages_min": [
-          478.8085623502731,
-          312.5252290169398,
-          145.95856235027313,
-          94.90856235027313,
-          39.2752290169398
+          484.27714560031893,
+          317.99381226698557,
+          151.4271456003189,
+          100.37714560031891,
+          44.74381226698558
         ],
-        "instance_age_min": 24
-      }
-    },
-    {
-      "instance": 46056192,
-      "label": "s1f-03-cw_ev_5alkyne",
-      "verdict": "COLD_START",
-      "why": "instance is 8 min old, under the 15 min floor \u2014 too young to have proved anything either way",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": null,
-        "progress_advanced": false,
-        "log_age_min": 1.7439440166666667,
-        "start_ages_min": [
-          186.26061089436215,
-          95.6772775610288,
-          39.243944227695465,
-          6.843944227695465,
-          5.793944227695465
-        ],
-        "instance_age_min": 8
+        "instance_age_min": 29
       }
     },
     {
       "instance": 46056275,
       "label": "s1f-07-cw_ev_5pegamine",
       "verdict": "COLD_START",
-      "why": "instance is 7 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "why": "instance is 13 min old, under the 15 min floor \u2014 too young to have proved anything either way",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 98.999908,
+        "gpu_util": 90.999916,
         "progress_advanced": false,
-        "log_age_min": 0.9630477166666667,
+        "log_age_min": 0.3812573166666667,
         "start_ages_min": [
-          40.379714620113376,
-          5.046381286780039
+          45.847924240430196,
+          10.514590907096864
         ],
-        "instance_age_min": 7
+        "instance_age_min": 13
+      }
+    },
+    {
+      "instance": 46056728,
+      "label": "s1f-00-cw_ev_5nh2",
+      "verdict": "COLD_START",
+      "why": "instance is 5 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "evidence": {
+        "instance_running": true,
+        "container_started": false,
+        "gpu_util": null,
+        "progress_advanced": false,
+        "log_age_min": 6.98536745,
+        "start_ages_min": [
+          278.70203444957735,
+          244.068701116244,
+          118.518701116244,
+          95.85203444957733
+        ],
+        "instance_age_min": 5
       }
     }
   ],
-  "realised_usd": 23.65,
+  "realised_usd": 23.76,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -801,8 +800,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
       "machine_id": 138147,
       "rate_usd_h": 0.2448,
-      "billed_h": 2.4,
-      "usd": 0.588
+      "billed_h": 2.5,
+      "usd": 0.612
     },
     {
       "instance": "46047752",
@@ -825,8 +824,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
       "machine_id": 31035,
       "rate_usd_h": 0.1618,
-      "billed_h": 1.47,
-      "usd": 0.237
+      "billed_h": 1.55,
+      "usd": 0.251
     },
     {
       "instance": "46050883",
@@ -889,24 +888,32 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "machine_id": 26403,
       "rate_usd_h": 0.1849,
-      "billed_h": 0.4,
-      "usd": 0.074
+      "billed_h": 0.48,
+      "usd": 0.089
     },
     {
       "instance": "46056192",
       "unit_id": "e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
       "machine_id": 35115,
       "rate_usd_h": 0.1153,
-      "billed_h": 0.13,
-      "usd": 0.015
+      "billed_h": 0.22,
+      "usd": 0.025
     },
     {
       "instance": "46056275",
       "unit_id": "e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
       "machine_id": 29707,
       "rate_usd_h": 0.204,
-      "billed_h": 0.12,
-      "usd": 0.024
+      "billed_h": 0.22,
+      "usd": 0.044
+    },
+    {
+      "instance": "46056728",
+      "unit_id": "e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
+      "machine_id": 129256,
+      "rate_usd_h": 0.2176,
+      "billed_h": 0.08,
+      "usd": 0.018
     }
   ],
   "plan_usd_whole_tranche": 29.72,
