@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 5:22 PM ET Jul 28, 2026
+[s1f-terminus] read at 5:33 PM ET Jul 28, 2026
 
-[s1f-terminus] 6072 object(s) under the results prefix
+[s1f-terminus] 6083 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1030 B  4:39 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral/ddg.json
@@ -34,7 +34,7 @@
   e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid   ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral         ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        complex/production@960, complex/warmup@400
-  e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral     ddg=no  NO-TERMINUS        complex/production@160, complex/warmup@400
+  e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral     ddg=no  NO-TERMINUS        complex/production@240, complex/warmup@400
   e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=no  NO-TERMINUS        complex/production@1120, complex/warmup@400
   e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neu ddg=no  NO-TERMINUS        complex/production@440, complex/warmup@400
 
@@ -285,15 +285,15 @@
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
   board depth      : 159 offers visible (baseline ~23), 159 qualifying, 98 priceable, 8 needed
-  floors           : min $0.0507/hr, median $0.3227/hr
-  best fleet $/ns  : $0.005671/ns  ·  1.66× basis (basis $0.003412/ns)
-  projected        : $20.8 against a $31.54 ceiling
+  floors           : min $0.0507/hr, median $0.3287/hr
+  best fleet $/ns  : $0.005798/ns  ·  1.7× basis (basis $0.003412/ns)
+  projected        : $21.26 against a $31.54 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
     RTX 3090   m28164    $0.0507/hr  $0.00396/ns · 1.16× basis
-    RTX 5090   m67860    $0.1740/hr  $0.00476/ns · 1.39× basis
-    RTX 5090   m36341    $0.2040/hr  $0.00549/ns · 1.61× basis
+    RTX 5090   m50113    $0.2040/hr  $0.00549/ns · 1.61× basis
+    RTX 5090   m36518    $0.2040/hr  $0.00549/ns · 1.61× basis
     RTX 4090   m11892    $0.1600/hr  $0.00568/ns · 1.67× basis
+    RTX 5090   m129256   $0.2267/hr  $0.00604/ns · 1.77× basis
     RTX 4090   m51777    $0.1733/hr  $0.00610/ns · 1.79× basis
-    RTX 4090   m55559    $0.1770/hr  $0.00621/ns · 1.82× basis
-    RTX 5090   m49598    $0.2450/hr  $0.00648/ns · 1.90× basis
-    RTX 5090   m49595    $0.2533/hr  $0.00668/ns · 1.96× basis
+    RTX 5090   m139823   $0.2540/hr  $0.00670/ns · 1.96× basis
+    RTX 4090   m26628    $0.2000/hr  $0.00693/ns · 2.03× basis
