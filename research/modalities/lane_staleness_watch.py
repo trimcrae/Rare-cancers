@@ -250,6 +250,7 @@ def load_json(root: str, name: str) -> tuple[dict | None, str | None]:
 LANES: list[dict] = [
     {
         "key": "step1-fanout",
+        "artifact_source": "fleet",
         "label": "Step 1 congeneric RBFE fan-out (Vast)",
         "provider": "vast",
         "tick_workflow": "step1-fanout-autoscale.yml",
@@ -260,6 +261,7 @@ LANES: list[dict] = [
     },
     {
         "key": "ternary-valb-reps",
+        "artifact_source": "ternary",
         "label": "valB_mini replicate legs r1+r2 (Vast)",
         "provider": "vast",
         "tick_workflow": "gpu-ternary-fep-vast.yml",
@@ -274,6 +276,7 @@ LANES: list[dict] = [
     },
     {
         "key": "closure-triangle",
+        "artifact_source": "ternary",
         "label": "valB closure triangle, 4 legs (Vast)",
         "provider": "vast",
         "tick_workflow": "gpu-ternary-fep-vast.yml",
@@ -288,6 +291,7 @@ LANES: list[dict] = [
     },
     {
         "key": "rung-5aks",
+        "artifact_source": "ternary",
         "label": "RUNG 5a-KS ternary legs, NR4A3 + NR4A1 (Vast)",
         "provider": "vast",
         "tick_workflow": "gpu-ternary-fep-vast.yml",
@@ -301,6 +305,7 @@ LANES: list[dict] = [
     },
     {
         "key": "gcp-ternary-watch",
+        "artifact_source": "ternary",
         "label": "GCP ternary watch list — reverse leg now, restrained binary re-run next (us-central1 only)",
         "provider": "gcp",
         "tick_workflow": "ternary-leg-watchdog.yml",
@@ -931,22 +936,61 @@ def _annotate_hosts(v: dict, st: LaneState) -> None:
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 # gathering
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
-def gather(root: str, specs: list[dict] | None = None) -> tuple[list[LaneState], dict]:
-    """Load every artifact once and build one LaneState per lane. All file I/O lives here."""
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ LANES DO NOT ALL LIVE ON ONE BRANCH, AND READING THEM AS IF THEY DID MANUFACTURES FALSE ALARMS
+# (2026-07-27, 8:06 PM ET — the second branch-mismatch misdiagnosis of the same evening).
+#
+# WHAT HAPPENED. This watcher took a single `fleet_branch` and read every lane's artifacts from it. But the
+# step 1 fan-out commits to that branch (`step1-fanout-autoscale.yml`'s `GIT_BRANCH` input) while the ternary
+# family is dispatched with `ref=main` and commits to **main**. Measured at 8:06 PM:
+#
+#   branch                      enabled watch modes            latest launch-ledger entry
+#   main                        edge_reps 4, triangle 4        8:03 PM ET
+#   claude/max-effort-2dq11l    edge_reps 4, triangle_smoke 1  6:25 PM ET
+#
+# So the watcher was 100 minutes behind on the ternary lanes and **could not see the closure triangle at all**.
+# It reported `IDLE-UNEXPECTED — NO HOSTS, someone has to dispatch its next step` for a lane that had 4 of 4
+# legs hosted and billing, and `BILLING-NOT-ADVANCING` for a cohort that had been re-placed 20 minutes earlier.
+# Both reds were artefacts of where it looked, not of what was happening.
+#
+# WHY THIS IS THE WORST CLASS OF BUG HERE. A monitor whose false alarms are indistinguishable from its true
+# ones trains its reader to ignore it, which is strictly worse than having no monitor — the same argument the
+# landed-leg reap in `ternary_vast_watchdog` rests on.
+#
+# THE FIX, AND WHY IT IS SYMBOLIC. A lane declares an `artifact_source` — a NAME, not a branch. The mapping
+# from name to directory is supplied by the caller (`--source-root ternary=/path`), so a branch rename is a
+# workflow edit and never a code edit, and this module keeps its stdlib-only, knows-nothing-about-git
+# property. An unmapped source falls back to `--root`, which is exactly the old behaviour, so a caller that
+# passes nothing is no worse off than before.
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+def gather(root: str, specs: list[dict] | None = None,
+           source_roots: dict[str, str] | None = None) -> tuple[list[LaneState], dict]:
+    """Load every artifact once and build one LaneState per lane. All file I/O lives here.
+
+    `source_roots` maps a lane's `artifact_source` to the directory holding THAT lane's artifacts. Lanes
+    whose source is absent from the map read from `root`.
+    """
     specs = specs if specs is not None else LANES
-    cache: dict[str, tuple[dict | None, str | None]] = {}
+    source_roots = source_roots or {}
+    cache: dict[tuple[str, str], tuple[dict | None, str | None]] = {}
+    # The cache key carries the root as well as the filename. Two lanes on different branches legitimately
+    # read the SAME filename (`ternary-vast-market-hold.json`) with different contents, so a filename-only
+    # key would serve one branch's bytes for the other's lane — a subtler replay of the very bug above.
+    current_root = [root]
 
     def get(name: str | None):
         if not name:
             return None, "no artifact configured"
-        if name not in cache:
-            cache[name] = load_json(root, name)
-        return cache[name]
+        key = (current_root[0], name)
+        if key not in cache:
+            cache[key] = load_json(current_root[0], name)
+        return cache[key]
 
     esc = read_relaunch_escalation(*get("relaunch-market-hold.json"))
 
     out = []
     for spec in specs:
+        current_root[0] = source_roots.get(spec.get("artifact_source"), root)
         if spec["reader"] == "step1":
             prog, perr = get(spec["generation_artifact"])
             hold, herr = get(spec.get("hold_artifact"))
@@ -956,7 +1000,10 @@ def gather(root: str, specs: list[dict] | None = None) -> tuple[list[LaneState],
             hold, herr = get(spec.get("hold_artifact"))
             ledger, lerr = get("ternary-vast-launch-attempts.json")
             term = spec.get("terminal_artifact")
-            present = os.path.exists(os.path.join(root, term)) if term else None
+            # `current_root[0]`, not `root`: a terminal artifact is the lane's own deliverable and
+            # lives wherever that lane commits. Checking the fallback root would report a landed
+            # ternary reduction as absent.
+            present = os.path.exists(os.path.join(current_root[0], term)) if term else None
             st = read_ternary_family(spec, watch, werr, hold, herr, ledger, lerr, present)
         elif spec["reader"] == "gcp_watch":
             watch, werr = get(spec.get("watch_file"))
@@ -1105,16 +1152,23 @@ def build_report(root: str, now: datetime.datetime, *, history: dict | None = No
                  use_api: bool = True, only: set[str] | None = None,
                  active_evidence_min: float = DEFAULT_ACTIVE_EVIDENCE_MIN,
                  idle_min: float = DEFAULT_IDLE_MIN,
-                 census_flat_min: float = DEFAULT_CENSUS_FLAT_MIN) -> tuple[dict, list[LaneState]]:
+                 census_flat_min: float = DEFAULT_CENSUS_FLAT_MIN,
+                 source_roots: dict[str, str] | None = None) -> tuple[dict, list[LaneState]]:
     specs = [s for s in LANES if not only or s["key"] in only]
-    states, _esc = gather(root, specs)
+    source_roots = source_roots or {}
+    states, _esc = gather(root, specs, source_roots)
     hist_lanes = (history or {}).get("lanes") or {}
     verdicts = []
     for spec, st in zip(specs, states):
         v = classify_lane(st, hist_lanes.get(st.key), now, active_evidence_min=active_evidence_min,
                           idle_min=idle_min, census_flat_min=census_flat_min)
         if v["verdict"] in _ACTIVE:
-            sup = supervision_for(spec, root, now, use_api)
+            # The freshness check compares a WORKFLOW RUN against THAT LANE'S artifact stamp, so it
+            # must read the lane's own root. Handing it the fallback is what produced
+            # 'STALE-BUT-RUNS-GREEN — the tick went green WITHOUT measuring' against a tick that had
+            # measured perfectly well, one branch over.
+            sup = supervision_for(spec, source_roots.get(spec.get('artifact_source'), root),
+                                  now, use_api)
             v["supervision"] = sup
             if sup.get("applicable") and sup.get("ok") is False and v["ok"]:
                 v["ok"] = False
@@ -1151,7 +1205,25 @@ def main(argv=None) -> int:
     ap.add_argument("--active-evidence-min", type=float, default=DEFAULT_ACTIVE_EVIDENCE_MIN)
     ap.add_argument("--idle-min", type=float, default=DEFAULT_IDLE_MIN)
     ap.add_argument("--census-flat-min", type=float, default=DEFAULT_CENSUS_FLAT_MIN)
+    ap.add_argument("--source-root", action="append", default=None, metavar="SOURCE=DIR",
+                    help="where a lane's artifacts actually live, e.g. `ternary=/tmp/roots/main`. "
+                         "Lanes declare a SYMBOLIC `artifact_source`; this maps it to a directory, so "
+                         "a branch rename never touches this module. Unmapped sources use --root.")
     a = ap.parse_args(argv)
+
+    source_roots = {}
+    for item in (a.source_root or []):
+        if "=" not in item:
+            print(f"::error::--source-root {item!r} must be SOURCE=DIR", file=sys.stderr)
+            return 2
+        name, _, path = item.partition("=")
+        # A mapping that points nowhere would silently read an EMPTY directory, and an absent artifact
+        # reads as "no evidence" — i.e. a stale lane. Refusing here turns a typo into a config error
+        # instead of a fleet-wide false alarm.
+        if not os.path.isdir(path):
+            print(f"::error::--source-root {name}={path!r} is not a directory", file=sys.stderr)
+            return 2
+        source_roots[name.strip()] = path
 
     now = _parse_z(a.now) if a.now else datetime.datetime.now(datetime.timezone.utc)
     if now is None:
@@ -1167,7 +1239,7 @@ def main(argv=None) -> int:
     report, states = build_report(a.root, now, history=history, use_api=not a.no_api,
                                   only=set(a.lane) if a.lane else None,
                                   active_evidence_min=a.active_evidence_min, idle_min=a.idle_min,
-                                  census_flat_min=a.census_flat_min)
+                                  census_flat_min=a.census_flat_min, source_roots=source_roots)
     print(render(report))
     if a.json:
         with open(a.json, "w") as fh:

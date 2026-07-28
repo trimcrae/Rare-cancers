@@ -593,3 +593,54 @@ def test_END_TO_END_a_healthy_and_correctly_parked_board_is_quiet(tmp_path):
     assert by == {"step1-fanout": "ADVANCING", "ternary-valb-reps": "PARKED-PRICE-HOLD",
                   "closure-triangle": "FINISHED", "rung-5aks": "PARKED-GATE",
                   "gcp-ternary-watch": "TICKING"}, by
+
+
+# ============================================================================================================
+# Per-lane artifact roots. The lanes do NOT all live on one branch: step 1 commits to the fleet branch, the
+# ternary family is dispatched with ref=main and commits to main. Reading them all from one root made the
+# watcher 100 min stale on the ternary lanes and blind to the closure triangle entirely, and it reported that
+# blindness as two RED lanes that were in fact billing and healthy.
+# ============================================================================================================
+def test_every_lane_declares_where_its_artifacts_live():
+    # A new lane that forgets this would silently inherit --root, which is exactly how the bug arrived.
+    missing = [s["key"] for s in lsw.LANES if not s.get("artifact_source")]
+    assert missing == [], f"lanes with no artifact_source: {missing}"
+
+
+def test_same_filename_on_two_roots_is_not_served_from_one_cache(tmp_path):
+    # `ternary-vast-market-hold.json` is read by three lanes; two roots hold DIFFERENT bytes for it. A
+    # filename-only cache key would hand one branch's content to the other branch's lane.
+    a, b = tmp_path / "a", tmp_path / "b"
+    a.mkdir(), b.mkdir()
+    (a / "ternary-vast-market-hold.json").write_text(json.dumps({"mode": "from-root-a"}))
+    (b / "ternary-vast-market-hold.json").write_text(json.dumps({"mode": "from-root-b"}))
+    specs = [dict(s) for s in lsw.LANES if s["key"] in ("ternary-valb-reps", "rung-5aks")]
+    specs[0]["artifact_source"] = "sa"
+    specs[1]["artifact_source"] = "sb"
+    states, _ = lsw.gather(str(a), specs, {"sa": str(a), "sb": str(b)})
+    assert len(states) == 2
+
+
+def test_an_unmapped_source_falls_back_to_root(tmp_path):
+    # Backwards compatibility: a caller that passes no mapping must behave exactly as before.
+    (tmp_path / "step1-fanout-progress.json").write_text(json.dumps(
+        {"_generated_utc": "2026-07-27T23:00:00Z", "n_units": 1, "n_complete": 0,
+         "live_instances": 1, "units": [], "instance_states": {}}))
+    specs = [dict(s) for s in lsw.LANES if s["key"] == "step1-fanout"]
+    states, _ = lsw.gather(str(tmp_path), specs, {})          # nothing mapped
+    assert states[0].key == "step1-fanout"
+
+
+def test_a_source_root_that_is_not_a_directory_is_a_config_error_not_a_false_alarm(tmp_path, capsys):
+    # Pointing at nowhere would read an EMPTY directory, and absent artifacts read as "no evidence" —
+    # i.e. every ternary lane would go red for a typo. Refuse instead.
+    rc = lsw.main(["--root", str(tmp_path), "--no-api",
+                 "--source-root", f"ternary={tmp_path}/does-not-exist"])
+    assert rc == 2
+    assert "is not a directory" in capsys.readouterr().err
+
+
+def test_a_malformed_source_root_is_rejected(tmp_path, capsys):
+    rc = lsw.main(["--root", str(tmp_path), "--no-api", "--source-root", "ternary-no-equals-sign"])
+    assert rc == 2
+    assert "must be SOURCE=DIR" in capsys.readouterr().err
