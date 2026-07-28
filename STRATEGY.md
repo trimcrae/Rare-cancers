@@ -1251,7 +1251,8 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   INDEPENDENT checks — reverse legs, cycle closure — not more replicates through the same machinery.**
 
   **★ THE REVERSE LEG WAS UNREACHABLE — FOUR CALLERS PINNED IT SHUT (2026-07-25, all fixed).** The preregistered
-  forward/reverse antisymmetry check (`hysteresis <= 1.0`, still `null` on all three legs) could not be run at
+  forward/reverse antisymmetry check (`hysteresis <= 1.0` — **now MEASURED, see the ★★ result immediately
+  below; the `null` this block was written against is superseded**) could not be run at
   all, and each blocker was the same shape — *capability present in the engine, unreachable from outside*:
   (a) `MODE=converge` existed in `nr4a3_ternary_fep.main()` but no workflow could dispatch it; (b) the run
   invocation hardcoded `DIRECTION=fwd`; (c) there was no `direction` dispatch input (adding one hit GitHub's
@@ -1277,6 +1278,25 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   fresh builds died there (fwd 11.5 min, rev 11.7 min, same file) so it was systematic, and retries could never
   help; a 403 now aborts immediately with the real reason. **trimcrae granted the permission 2026-07-25 and a
   per-prefix write probe (`gcp-quota-check.yml`) confirms all four prefixes writable.**
+
+  **★★ THE REVERSE LEG LANDED AND THE ANTISYMMETRY CHECK PASSES — the detector that "could not be run" is now
+  a MEASUREMENT (2026-07-28, reduce [run 30353349373](https://github.com/trimcrae/Rare-cancers/actions/runs/30353349373)).**
+  `calib_hi_to_lo__ternary_vhl` dir=rev seed 0 reached its result on GCP L4 (free trial credit) at 4:03 PM ET
+  2026-07-27, and the reducer reports **`MEASURED |ΔG_fwd + ΔG_rev| = 0.325 ≤ 1.000 (PASS)`**. One home for the
+  number: the reduction JSON in `gs://…-rbfe-ckpt/valB-6hax/results/` and that run's `[REDUCE-VERDICT]`
+  annotation — never re-typed elsewhere.
+  **What it does and does not buy.** It is an *internal-consistency* detector, and it is the first of the three
+  systematic-error detectors to return anything at all: the forward and reverse alchemical paths agree to
+  0.325 kcal/mol, so the wrong sign on this calibrator is **not** a path/hysteresis artifact. That is a genuine
+  narrowing — it removes one of the two remaining benign explanations, exactly as the ligand-pose RMSD removed
+  drift — and it leaves the systematic where the convergence analysis put it: **in the model or the reference
+  data.** It is emphatically **not** evidence that ΔΔG_coop is right; antisymmetry is a check the sampling can
+  pass while the answer stays wrong.
+  **The calibrator verdict itself is still `INDETERMINATE`, and for a different reason than before:**
+  `n_replicates=1`, `per_replicate_ddG_coop=[-0.534]` against `target=0.944`, so there is no replicate SD and
+  the cycle cannot be graded. Cycle closure (the redundant edge) remains unrun. **The blocker is now r1+r2**,
+  which are queued on the Vast lane and currently **held on price** by the §6 market gate — not held on
+  capability, and not on anything GCP can supply (`GPUS_ALL_REGIONS = 1` makes GCP strictly serial).
 
   **Recommended next steps (spend order) — REVISED 2026-07-25 (LANE 5); steps 1, 2 and the ligand diagnostic are
   DONE, and step 4's named design was REFUTED for $0 before any spend:**
@@ -2084,6 +2104,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 40 | The buy line written as a **multiple**, `1.5× basis`, in the IN FLIGHT board's `⚠ PAYING OVER THE …× LINE` marks and in row 37's closing clause *"The 1.5× threshold itself did not move"* | **Re-expressed, NOT loosened, and the distinction is the whole point** (trimcrae, 2026-07-27). The invariant is the **absolute rate `$0.006539/ns`**; against the re-anchored basis `$0.003412/ns` that is **≈1.92×**. `1.5 × $0.004359` and `1.92 × $0.003412` are the **same dollars per nanosecond** — the basis fell 22 % because the throughput table was re-anchored (the RTX 4090 anchor read ~6.7 % low) and widened (gradeable offers **132 → 229**, table **3 → 10** cards), and **no price moved**. Pinning a rule to a correctable denominator had silently made it much stricter than the one agreed; the multiple is now DERIVED from the rate (`inflight_usd_per_ns.drift_multiple()`) and `tests/test_buy_line_invariant.py` fails if the flag and the refusal ever diverge. Anyone quoting the multiple alone will reach the wrong conclusion, which is why both expressions travel together |
 | 41 | The closure triangle's reading, stated **backwards** on 2026-07-27: that a small `R` would mean the valB miss was fixable | **The mapping is the other way round, and it is now stated once, in the IN FLIGHT board's `WHAT R DECIDES` block.** `R ≈ 0` ⇒ an **endpoint-STATE** error: the bias telescopes out of any cycle and **more sampling will not fix the miss**. `R` materially non-zero ⇒ a **PATH** error, and the miss **is** fixable. Both outcomes are informative and the second argues against my own earlier reading of the departed binary arm, which is why the prediction was pre-registered before the legs ran |
 | 42 | The closure triangle priced at **projected $2.49 against a $3.85 ceiling** and described as **NOT LAUNCHED — refused by the atom-map gate at 6:01 PM ET on 2026-07-27** | **Both retired the same evening, and neither by a price move.** The map gate PASSED once the smoke ran the closing edge end to end (`status=done` at 6:56 PM, dG 44.807 ± 0.582, `NaN=False`), so the refusal was the gate doing its job on incomplete evidence, not a standing defect. The $2.49/$3.85 pair was priced for a **smoke-scale** unit; the 4-leg launch at 7:51 PM is a different purchase and derives **$9.86 against a $15.40 ceiling** (1.73× basis board mean, `n_rented: 3` of 4). Do not quote the $2.49 or the $3.85 against the 4-leg triangle |
+| 43 | The forward/reverse antisymmetry detector recorded as **`antisymmetry_fwd_plus_rev_kcal: null` on all three legs** — one of "two of three systematic-error detectors were never run; one *could not* run" | **MEASURED and PASSED on 2026-07-28**: `|ΔG_fwd + ΔG_rev| = 0.325 ≤ 1.000`, once the rev leg landed on GCP (reduce [run 30353349373](https://github.com/trimcrae/Rare-cancers/actions/runs/30353349373)). The `null` is superseded as a *live* statement and retained only as the state the 2026-07-25 audit was written against. **What did NOT change:** the calibrator verdict is still `INDETERMINATE` — now for want of replicates (`n_replicates=1`) rather than for want of a detector — and cycle closure, the third detector, is still unrun. Anyone quoting "no systematic-error detector has ever returned a value" is now wrong; anyone reading the PASS as validating ΔΔG_coop is also wrong, since antisymmetry is a check the sampling can pass while the answer stays wrong |
 | 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
 
 ---
