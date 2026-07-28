@@ -335,84 +335,24 @@
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 99.999908,
-        "progress_advanced": true,
-        "log_age_min": 0.30737815,
-        "start_ages_min": [
-          1516.4240449865658,
-          1502.274044986566,
-          1225.1073783198992,
-          1190.0573783198993,
-          330.90737831989924,
-          329.2240449865659,
-          328.29071165323256,
-          212.24071165323258
-        ],
-        "instance_age_min": 213
-      }
-    },
-    {
-      "instance": 46120649,
-      "label": "s1f-17-cw_ev_5opropargyl",
-      "verdict": "WATCHING",
-      "why": "quiet but alive: run.log 1 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
         "gpu_util": 0.0,
-        "progress_advanced": false,
-        "log_age_min": 0.6797458666666666,
+        "progress_advanced": true,
+        "log_age_min": 1.44035435,
         "start_ages_min": [
-          1300.0964127024015,
-          1294.4297460357348,
-          1179.0630793690682,
-          343.69641270240146,
-          291.6297460357348,
-          245.62974603573483,
-          74.49641270240149,
-          64.82974603573481,
-          53.99641270240148,
-          43.16307936906814,
-          3.1630793690681456,
-          2.7630793690681457
+          1602.2903545538584,
+          1588.1403545538585,
+          1310.9736878871918,
+          1275.9236878871918,
+          416.7736878871918,
+          415.09035455385845,
+          414.1570212205251,
+          298.1070212205251
         ],
-        "instance_age_min": 102
-      }
-    },
-    {
-      "instance": 46125028,
-      "label": "s1f-12-cw_bio_hydroxamic",
-      "verdict": "UNKNOWN",
-      "why": "instance is not `running`; the stopped/frozen clauses own this box, not the idle guard",
-      "evidence": {
-        "instance_running": false,
-        "container_started": false,
-        "gpu_util": null,
-        "progress_advanced": false,
-        "log_age_min": 100.78647903333334,
-        "start_ages_min": [
-          1285.9198125799496,
-          1190.9364792466163,
-          907.7364792466163,
-          518.5198125799496,
-          500.7198125799497,
-          452.03647924661635,
-          446.00314591328305,
-          391.28647924661635,
-          373.5198125799497,
-          345.4364792466164,
-          315.1364792466164,
-          299.7198125799497,
-          274.303145913283,
-          214.4198125799497,
-          145.40314591328303,
-          102.8198125799497
-        ],
-        "instance_age_min": 26
+        "instance_age_min": 299
       }
     }
   ],
-  "realised_usd": 51.51,
+  "realised_usd": 53.2,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -1579,8 +1519,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "machine_id": 55559,
       "rate_usd_h": 0.1768,
-      "billed_h": 3.62,
-      "usd": 0.639
+      "billed_h": 5.05,
+      "usd": 0.893
     },
     {
       "instance": "46111848",
@@ -1611,8 +1551,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "machine_id": 12259,
       "rate_usd_h": 0.2448,
-      "billed_h": 3.55,
-      "usd": 0.869
+      "billed_h": 4.98,
+      "usd": 1.22
     },
     {
       "instance": "46112230",
@@ -1651,32 +1591,32 @@
       "unit_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
       "machine_id": 31035,
       "rate_usd_h": 0.1618,
-      "billed_h": 1.72,
-      "usd": 0.278
+      "billed_h": 3.15,
+      "usd": 0.51
     },
     {
       "instance": "46120649",
       "unit_id": "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
       "machine_id": 50093,
       "rate_usd_h": 0.204,
-      "billed_h": 1.7,
-      "usd": 0.347
+      "billed_h": 3.12,
+      "usd": 0.636
     },
     {
       "instance": "46125022",
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "machine_id": 36341,
       "rate_usd_h": 0.204,
-      "billed_h": 0.43,
-      "usd": 0.088
+      "billed_h": 1.87,
+      "usd": 0.381
     },
     {
       "instance": "46125028",
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "machine_id": 12227,
       "rate_usd_h": 0.1907,
-      "billed_h": 0.43,
-      "usd": 0.083
+      "billed_h": 1.87,
+      "usd": 0.356
     }
   ],
   "plan_usd_whole_tranche": 29.72,
