@@ -356,58 +356,6 @@
   "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this modeled conformer, conditional on the pose hypothesis.",
   "idle_guard": [
     {
-      "instance": 46132151,
-      "label": "s1f-08-cw_bio_primary_amide",
-      "verdict": "UNKNOWN",
-      "why": "instance is not `running`; the stopped/frozen clauses own this box, not the idle guard",
-      "evidence": {
-        "instance_running": false,
-        "container_started": false,
-        "gpu_util": null,
-        "progress_advanced": false,
-        "log_age_min": 189.08966818333334,
-        "start_ages_min": [
-          1620.456335111459,
-          1595.0896684447923,
-          1592.1896684447925,
-          1277.7230017781258,
-          1274.9896684447924,
-          1076.7396684447924,
-          1075.1396684447925,
-          1048.1730017781258,
-          1045.506335111459,
-          1009.4230017781258,
-          1005.8063351114591,
-          988.2896684447925,
-          986.2396684447924,
-          941.5896684447924,
-          940.2230017781258,
-          836.906335111459,
-          835.1230017781257,
-          817.9396684447925,
-          815.0730017781258,
-          689.656335111459,
-          686.9730017781258,
-          639.406335111459,
-          636.906335111459,
-          622.5730017781258,
-          621.0563351114591,
-          523.2396684447924,
-          518.2896684447925,
-          513.9396684447925,
-          372.83966844479244,
-          370.7896684447924,
-          344.5063351114591,
-          342.4396684447924,
-          274.9063351114591,
-          273.0563351114591,
-          193.48966844479244,
-          190.9063351114591
-        ],
-        "instance_age_min": 85
-      }
-    },
-    {
       "instance": 46132341,
       "label": "s1f-12-cw_bio_hydroxamic",
       "verdict": "UNKNOWN",
@@ -417,53 +365,53 @@
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 94.71312845000001,
+        "log_age_min": 119.95770915,
         "start_ages_min": [
-          1457.1297953645387,
-          1362.1464620312056,
-          1078.9464620312056,
-          689.7297953645389,
-          671.9297953645388,
-          623.2464620312055,
-          617.2131286978722,
-          562.4964620312055,
-          544.7297953645389,
-          516.6464620312055,
-          486.3464620312055,
-          470.92979536453885,
-          445.51312869787216,
-          385.62979536453884,
-          316.6131286978722,
-          274.0297953645388,
-          161.11312869787216
+          1482.3743760108948,
+          1387.3910426775615,
+          1104.1910426775614,
+          714.9743760108947,
+          697.1743760108948,
+          648.4910426775615,
+          642.4577093442281,
+          587.7410426775615,
+          569.9743760108947,
+          541.8910426775615,
+          511.59104267756146,
+          496.1743760108948,
+          470.7577093442281,
+          410.87437601089476,
+          341.8577093442281,
+          299.2743760108948,
+          186.3577093442281
         ],
-        "instance_age_min": 82
+        "instance_age_min": 108
       }
     },
     {
       "instance": 46132500,
       "label": "s1f-15-cw_ms_5acetamido_ester",
       "verdict": "WORKING",
-      "why": "gpu_util=99.9999% >= 5% and the host is still writing \u2014 GPU busy",
+      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 99.999908,
-        "progress_advanced": false,
-        "log_age_min": 0.9687551166666667,
+        "gpu_util": 98.999908,
+        "progress_advanced": true,
+        "log_age_min": 0.07936613333333334,
         "start_ages_min": [
-          517.6020886977514,
-          473.26875536441804,
-          462.43542203108467,
-          273.31875536441805,
-          260.2354220310847,
-          79.41875536441803
+          542.8460330168406,
+          498.51269968350726,
+          487.67936635017395,
+          298.5626996835073,
+          285.47936635017396,
+          104.66269968350728
         ],
-        "instance_age_min": 80
+        "instance_age_min": 105
       }
     }
   ],
-  "realised_usd": 54.54,
+  "realised_usd": 54.79,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -1742,24 +1690,24 @@
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "machine_id": 29706,
       "rate_usd_h": 0.204,
-      "billed_h": 1.42,
-      "usd": 0.289
+      "billed_h": 1.83,
+      "usd": 0.374
     },
     {
       "instance": "46132341",
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "machine_id": 50113,
       "rate_usd_h": 0.204,
-      "billed_h": 1.37,
-      "usd": 0.279
+      "billed_h": 1.8,
+      "usd": 0.367
     },
     {
       "instance": "46132500",
       "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
       "machine_id": 55559,
       "rate_usd_h": 0.1768,
-      "billed_h": 1.33,
-      "usd": 0.236
+      "billed_h": 1.75,
+      "usd": 0.309
     }
   ],
   "plan_usd_whole_tranche": 29.72,
