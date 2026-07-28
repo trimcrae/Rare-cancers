@@ -1,7 +1,9 @@
+[s1f] 1 instance(s) in a terminal state do NOT hold their unit's slot (collect destroys them; their checkpoints are in S3 and a relaunch resumes): ['s1f-03-cw_ev_5alkyne']
 [s1f] terminus PROVEN by 1 unit(s) (e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid) — fan-out released
-[s1f] units=19 done=2 pending=17 live=6 free_slots=13 -> submitting 11
-[s1f] cost of THIS submission (11 units): plan $17.21 (band $7.12-43.37) | whole remaining tranche (17 units): plan $26.59 (band $11.0-67.02)
+[s1f] units=19 done=2 pending=17 live=6 free_slots=14 -> submitting 12
+[s1f] cost of THIS submission (12 units): plan $18.77 (band $7.77-47.31) | whole remaining tranche (17 units): plan $26.59 (band $11.0-67.02)
 [s1f] wave shape: {"n_units": 17, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
+[s1f]   queue e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral  (zaienne_cmpd19 -> cw_ev_5alkyne, exit_vector_sub)
 [s1f]   queue e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine  (zaienne_cmpd19 -> cw_ev_5ch2nh2, exit_vector_sub)
 [s1f]   queue e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_primary_amide, bioisostere)
 [s1f]   queue e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral  (zaienne_cmpd19 -> cw_bio_tetrazole, bioisostere)
@@ -14,8 +16,8 @@
 [s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
 [s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
 [s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
-[s1f] SPEND CAP: realised $23.96 against a DERIVED ceiling of $74.91 (market_ceiling_usd(19) — the authorised band top, regenerated from the cost model, never typed) -> $50.95 headroom. 93 rental(s) counted, of which 5 are accruing wall-clock because no collect has reconciled them yet (a cap that cannot see those reads green while the lane is over).
-[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 182 offers -> 175 qualifying, 99 priceable. A unit must clear BOTH the dollar ceiling $0.008594/ns (2.52x, derived from market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.92x drift line $0.006539/ns — effective $0.006539/ns (1.92x), binding on the rate line ($0.006539/ns = 1.92x basis). (trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)
-[s1f] PLACEMENT: 0 unit(s) LAUNCHING NOW, 11 HELD for a better board (of 11 withheld this tick).
-[s1f]   HELD 11 unit(s) on the rate line ($0.006539/ns = 1.92x basis): waiting for an offer at or below $0.006539/ns (1.92x basis). the cheapest offer on the board is $0.006683/ns (1.96x basis), above the $0.006539/ns (1.92x) a single unit may cost — refused on the rate line ($0.006539/ns = 1.92x basis), which binds below the dollar ceiling of $0.008594/ns (2.52x) They are NOT dropped — the pending set is recomputed from S3 every tick, so they go out automatically as the board improves.
+[s1f] SPEND CAP: realised $24.11 against a DERIVED ceiling of $74.91 (market_ceiling_usd(19) — the authorised band top, regenerated from the cost model, never typed) -> $50.8 headroom. 93 rental(s) counted, of which 5 are accruing wall-clock because no collect has reconciled them yet (a cap that cannot see those reads green while the lane is over).
+[s1f] MARKET GUARD ($/ns per unit, CLAUDE.md §6): board 182 offers -> 176 qualifying, 100 priceable. A unit must clear BOTH the dollar ceiling $0.008594/ns (2.52x, derived from market_ceiling_usd(1) / reference_ns_per_unit) AND the 1.92x drift line $0.006539/ns — effective $0.006539/ns (1.92x), binding on the rate line ($0.006539/ns = 1.92x basis). (trimcrae 2026-07-27: a row that prints ⚠ DRIFT is a row we do not buy.)
+[s1f] PLACEMENT: 0 unit(s) LAUNCHING NOW, 12 HELD for a better board (of 12 withheld this tick).
+[s1f]   HELD 12 unit(s) on the rate line ($0.006539/ns = 1.92x basis): waiting for an offer at or below $0.006539/ns (1.92x basis). the cheapest offer on the board is $0.006683/ns (1.96x basis), above the $0.006539/ns (1.92x) a single unit may cost — refused on the rate line ($0.006539/ns = 1.92x basis), which binds below the dollar ceiling of $0.008594/ns (2.52x) They are NOT dropped — the pending set is recomputed from S3 every tick, so they go out automatically as the board improves.
 [s1f] nothing rented this tick. No unit was dropped; the next tick re-prices.
