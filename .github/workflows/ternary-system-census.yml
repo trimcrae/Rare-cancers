@@ -23,7 +23,7 @@ on:
         required: false
       max_per_source:
         description: "cap on trajectories censused per store (disk guard; each ternary .nc is ~2 GB)"
-        default: "4"
+        default: "12"
         required: false
 
 permissions:
@@ -49,8 +49,11 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
 
-      - name: Pure-logic tests (the classifier and the verdict, no .nc needed)
-        run: python research/modalities/tests/test_ternary_system_census.py
+      - name: Pure-logic tests (the classifier, the verdict and the target picker — no .nc needed)
+        run: |
+          set -eo pipefail
+          python research/modalities/tests/test_ternary_system_census.py
+          python research/modalities/tests/test_ternary_census_targets.py
 
       - name: Reclaim runner disk (each ternary trajectory is ~2 GB)
         run: |
@@ -111,43 +114,40 @@ jobs:
             df -h / | tail -1
           }
 
+          # Target selection is a REPO FILE, not shell. The shell version failed on the real listing for two
+          # reasons at once — a UUID directory sits between `iter-N` and the file, and an unguarded
+          # `NEW=$(grep ...)` under `set -eo pipefail` kills the step on the first prefix that matches nothing
+          # (GH run 30353268519). ternary_census_targets.py is pure stdlib and unit-tested on both path shapes.
           if [ "$SRC" != gcs ]; then
             echo "===== S3 (Vast lane — the store the RUNG 2b 4 fs cycle actually wrote to) ====="
-            aws s3 ls --recursive "s3://sagemaker-us-east-2-646605541856/ternary-vast/commits/" \
+            S3B=sagemaker-us-east-2-646605541856
+            aws s3 ls --recursive "s3://$S3B/ternary-vast/commits/" \
               | awk '{print $4}' | grep -aE 'simulation\.nc$' > /tmp/s3.txt || true
             echo "objects: $(wc -l < /tmp/s3.txt)"
-            grep -a 'ternary_vhl' /tmp/s3.txt \
-              | sed -E 's#/(warmup|production)/iter-[0-9]+/simulation\.nc$##' | sort -u > /tmp/s3pfx.txt || true
-            echo "--- ternary commit prefixes in S3 ---"; cat /tmp/s3pfx.txt
-            i=0
-            while read -r PFX; do
-              [ -n "$PFX" ] || continue
-              i=$((i+1)); [ "$i" -le "$CAP" ] || { echo "(cap $CAP reached)"; break; }
-              NEW=$(grep -a "^$PFX/" /tmp/s3.txt \
-                    | awk -F'iter-' '{printf "%d\t%s\n", (NF>1?$NF+0:0), $0}' | sort -k1,1rn | awk 'NR==1' | cut -f2)
-              [ -n "$NEW" ] || continue
-              run_one "S3::$(basename "$PFX")" "s3://sagemaker-us-east-2-646605541856/$NEW" s3
-            done < /tmp/s3pfx.txt
+            python research/modalities/ternary_census_targets.py --listing /tmp/s3.txt \
+              --uri-prefix "s3://$S3B/" --label-prefix "S3::" \
+              --include ternary_vhl,binary_vhl,solvent --exclude _smoke --limit "$CAP" > /tmp/s3targets.tsv
+            echo "--- targets ---"; cut -f1 /tmp/s3targets.tsv
+            while IFS=$(printf '\t') read -r LBL URI; do
+              [ -n "$URI" ] || continue
+              run_one "$LBL" "$URI" s3
+            done < /tmp/s3targets.tsv
           fi
 
           if [ "$SRC" != s3 ]; then
             echo "===== GCS (GCP lane — the store r0's 2 fs reference cycle wrote to) ====="
             BUCKET=project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt
             gcloud storage ls --recursive "gs://$BUCKET/valB-6hax/commits/" 2>/dev/null \
-              | grep -aE 'simulation\.nc$' > /tmp/gcs.txt || true
+              | grep -aE 'simulation\.nc$' | sed -E "s#^gs://$BUCKET/##" > /tmp/gcs.txt || true
             echo "objects: $(wc -l < /tmp/gcs.txt)"
-            grep -a 'ternary_vhl' /tmp/gcs.txt \
-              | sed -E 's#/(warmup|production)/iter-[0-9]+/simulation\.nc$##' | sort -u > /tmp/gcspfx.txt || true
-            echo "--- ternary commit prefixes in GCS ---"; cat /tmp/gcspfx.txt
-            i=0
-            while read -r PFX; do
-              [ -n "$PFX" ] || continue
-              i=$((i+1)); [ "$i" -le "$CAP" ] || { echo "(cap $CAP reached)"; break; }
-              NEW=$(grep -a "^$PFX/" /tmp/gcs.txt \
-                    | awk -F'iter-' '{printf "%d\t%s\n", (NF>1?$NF+0:0), $0}' | sort -k1,1rn | awk 'NR==1' | cut -f2)
-              [ -n "$NEW" ] || continue
-              run_one "GCS::$(basename "$PFX")" "$NEW" gcs
-            done < /tmp/gcspfx.txt
+            python research/modalities/ternary_census_targets.py --listing /tmp/gcs.txt \
+              --uri-prefix "gs://$BUCKET/" --label-prefix "GCS::" \
+              --include ternary_vhl,binary_vhl,solvent --exclude _smoke --limit "$CAP" > /tmp/gcstargets.tsv
+            echo "--- targets ---"; cut -f1 /tmp/gcstargets.tsv
+            while IFS=$(printf '\t') read -r LBL URI; do
+              [ -n "$URI" ] || continue
+              run_one "$LBL" "$URI" gcs
+            done < /tmp/gcstargets.tsv
           fi
 
       - name: Cross-leg verdict LAST — is the 4 fs-vs-2 fs comparison a timestep comparison?
