@@ -86,84 +86,84 @@
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 89.999916,
+        "gpu_util": 86.999916,
         "progress_advanced": true,
-        "log_age_min": 0.18479988333333336,
+        "log_age_min": 0.6279462833333334,
         "start_ages_min": [
-          566.8014667510986,
-          421.4514667510986,
-          279.63480008443196,
-          275.0681334177653,
-          254.55146675109864
+          569.261279908816,
+          423.911279908816,
+          282.09461324214936,
+          277.5279465754827,
+          257.011279908816
         ],
-        "instance_age_min": 257
+        "instance_age_min": 259
       }
     },
     {
       "instance": 46050235,
       "label": "s1f-06-cw_ev_5piperazine",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 1 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "evidence": {
         "instance_running": true,
         "container_started": true,
         "gpu_util": null,
-        "progress_advanced": true,
-        "log_age_min": 0.34011139999999995,
+        "progress_advanced": false,
+        "log_age_min": 0.7669636000000001,
         "start_ages_min": [
-          216.4401116013527,
-          199.75677826801936
+          218.900297220548,
+          202.21696388721466
         ],
-        "instance_age_min": 200
+        "instance_age_min": 203
       }
     },
     {
       "instance": 46060189,
       "label": "s1f-04-cw_ev_5ch2nh2",
       "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
+      "why": "gpu_util=76.9999% >= 5% and the host is still writing \u2014 GPU busy",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 0.0,
-        "progress_advanced": true,
-        "log_age_min": 0.8119900166666666,
+        "gpu_util": 76.999924,
+        "progress_advanced": false,
+        "log_age_min": 1.2558073166666666,
         "start_ages_min": [
-          505.8786568204562,
-          503.79532348712286,
-          392.1286568204562,
-          375.4786568204562,
-          372.6119901537895,
-          231.74532348712285,
-          206.94532348712286,
-          41.16199015378952
+          508.33914090792337,
+          506.25580757459005,
+          394.58914090792337,
+          377.9391409079234,
+          375.0724742412567,
+          234.20580757459004,
+          209.40580757459006,
+          43.62247424125671
         ],
-        "instance_age_min": 57
+        "instance_age_min": 59
       }
     },
     {
       "instance": 46060816,
       "label": "s1f-03-cw_ev_5alkyne",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 0 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "evidence": {
         "instance_running": true,
         "container_started": true,
         "gpu_util": 0.0,
-        "progress_advanced": true,
-        "log_age_min": 1.7004215,
+        "progress_advanced": false,
+        "log_age_min": 0.11120003333333334,
         "start_ages_min": [
-          298.7837549765905,
-          208.20042164325713,
-          151.76708830992382,
-          119.3670883099238,
-          118.3170883099238,
-          94.50042164325714,
-          80.18375497659048,
-          78.08375497659047,
-          46.167088309923805
+          301.2445336302122,
+          210.6612002968788,
+          154.2278669635455,
+          121.82786696354547,
+          120.77786696354548,
+          96.96120029687881,
+          82.64453363021215,
+          80.54453363021214,
+          48.62786696354548
         ],
-        "instance_age_min": 47
+        "instance_age_min": 49
       }
     },
     {
@@ -176,59 +176,84 @@
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 181.55514176666665,
+        "log_age_min": 184.0164553666667,
         "start_ages_min": [
-          529.4884752432505,
-          504.1218085765839,
-          501.22180857658384,
-          186.7551419099172,
-          184.02180857658385
+          531.949788971742,
+          506.58312230507534,
+          503.6831223050753,
+          189.21645563840866,
+          186.48312230507534
         ],
-        "instance_age_min": 40
+        "instance_age_min": 42
       }
     },
     {
       "instance": 46061523,
       "label": "s1f-10-cw_bio_tetrazole",
       "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
+      "why": "gpu_util=91.9999% >= 5% and the host is still writing \u2014 GPU busy",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 0.0,
-        "progress_advanced": true,
-        "log_age_min": 1.2436723333333333,
+        "gpu_util": 91.999916,
+        "progress_advanced": false,
+        "log_age_min": 1.68875465,
         "start_ages_min": [
-          261.37700582345326,
-          153.79367249011995,
-          37.44367249011994
+          263.83875488440196,
+          156.25542155106862,
+          39.90542155106862
         ],
-        "instance_age_min": 39
+        "instance_age_min": 41
       }
     },
     {
       "instance": 46063881,
       "label": "s1f-00-cw_ev_5nh2",
       "verdict": "COLD_START",
-      "why": "instance is 8 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "why": "instance is 10 min old, under the 15 min floor \u2014 too young to have proved anything either way",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 94.999908,
+        "gpu_util": 99.999908,
         "progress_advanced": false,
-        "log_age_min": 0.8821400833333333,
+        "log_age_min": 1.3276114833333332,
         "start_ages_min": [
-          385.76547356843946,
-          351.13214023510614,
-          225.58214023510615,
-          202.9154735684395,
-          7.015473568439484
+          388.22761172850926,
+          353.59427839517593,
+          228.04427839517592,
+          205.37761172850927,
+          9.477611728509267
         ],
-        "instance_age_min": 8
+        "instance_age_min": 10
+      }
+    },
+    {
+      "instance": 46064473,
+      "label": "s1f-01-cw_ev_5oh",
+      "verdict": "UNKNOWN",
+      "why": "instance is not `running`; the stopped/frozen clauses own this box, not the idle guard",
+      "evidence": {
+        "instance_running": false,
+        "container_started": false,
+        "gpu_util": null,
+        "progress_advanced": false,
+        "log_age_min": 17.916232833333332,
+        "start_ages_min": [
+          593.816233130296,
+          427.53289979696274,
+          260.9662331302961,
+          209.91623313029606,
+          154.28289979696274,
+          93.46623313029608,
+          41.649566463629405,
+          26.732899796962737,
+          17.999566463629403
+        ],
+        "instance_age_min": 2
       }
     }
   ],
-  "realised_usd": 26.24,
+  "realised_usd": 26.29,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -851,8 +876,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
       "machine_id": 138147,
       "rate_usd_h": 0.2448,
-      "billed_h": 4.28,
-      "usd": 1.049
+      "billed_h": 4.32,
+      "usd": 1.057
     },
     {
       "instance": "46047752",
@@ -875,8 +900,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
       "machine_id": 31035,
       "rate_usd_h": 0.1618,
-      "billed_h": 3.33,
-      "usd": 0.539
+      "billed_h": 3.38,
+      "usd": 0.547
     },
     {
       "instance": "46050883",
@@ -987,8 +1012,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
       "machine_id": 90898,
       "rate_usd_h": 0.2312,
-      "billed_h": 0.95,
-      "usd": 0.22
+      "billed_h": 0.98,
+      "usd": 0.227
     },
     {
       "instance": "46060739",
@@ -1003,32 +1028,40 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
       "machine_id": 137610,
       "rate_usd_h": 0.17,
-      "billed_h": 0.78,
-      "usd": 0.133
+      "billed_h": 0.82,
+      "usd": 0.139
     },
     {
       "instance": "46061448",
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "machine_id": 62866,
       "rate_usd_h": 0.204,
-      "billed_h": 0.67,
-      "usd": 0.136
+      "billed_h": 0.7,
+      "usd": 0.143
     },
     {
       "instance": "46061523",
       "unit_id": "e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral",
       "machine_id": 45983,
       "rate_usd_h": 0.2312,
-      "billed_h": 0.65,
-      "usd": 0.15
+      "billed_h": 0.68,
+      "usd": 0.158
     },
     {
       "instance": "46063881",
       "unit_id": "e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
       "machine_id": 30113,
       "rate_usd_h": 0.1618,
-      "billed_h": 0.13,
-      "usd": 0.022
+      "billed_h": 0.17,
+      "usd": 0.027
+    },
+    {
+      "instance": "46064473",
+      "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
+      "machine_id": 29709,
+      "rate_usd_h": 0.2081,
+      "billed_h": 0.03,
+      "usd": 0.007
     }
   ],
   "plan_usd_whole_tranche": 29.72,
