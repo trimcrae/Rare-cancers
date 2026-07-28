@@ -3,30 +3,6 @@
   "_read_this_when": "the market gate says CLEAR but no host is running. A gate that cleared and a launch that then died look identical in every other artifact.",
   "attempts": [
     {
-      "utc": "2026-07-27T13:16:28Z",
-      "et": "9:16 AM ET",
-      "outcome": "refused-on-price",
-      "what_that_means": "a price check inside the launch refused it after the gate had cleared",
-      "stage": "launch job's own re-price, after a 2m35s image pull",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30269249817",
-      "reason": "the launch re-read the board 3m24s after the CLEAR that authorised it and exited 1: \"2.44x the ladder basis exceeds the 1.50x drift line ... need <= $0.006539/ns\". Nothing was rented; nothing was left billing (collect at 10:13 AM ET: 0 instance(s) up). This second veto has since been removed \u2014 the refusal now lives per-offer at selection (ResourceSpec.max_usd_per_ns).",
-      "reconstructed_from_job_log": true,
-      "gate_ratio_vs_basis": 2.436,
-      "gate_mean_usd_per_ns": 0.010618,
-      "gate_projected_usd": 21.39,
-      "gate_max_ratio_vs_basis": 1.5,
-      "gate_hold": true,
-      "gate_board_depth": {
-        "offers_returned": 49,
-        "qualifying": 46,
-        "priceable": 9,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "n_requested": 4,
-      "n_rented": 0
-    },
-    {
       "utc": "2026-07-27T13:23:16Z",
       "et": "9:23 AM ET",
       "outcome": "dispatched",
@@ -1847,6 +1823,57 @@
         "used_for_mean": 1
       },
       "reason": "board cleared both ceilings; dispatching task=edge-reps"
+    },
+    {
+      "utc": "2026-07-28T08:12:39Z",
+      "et": "4:12 AM ET",
+      "outcome": "launched",
+      "what_that_means": "hosts were actually rented",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30341154024",
+      "gate_ratio_vs_basis": 1.416,
+      "gate_mean_usd_per_ns": 0.004831,
+      "gate_projected_usd": 2.59,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.59 within this rung's ceiling $5.19 AND 1.42x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 158,
+        "qualifying": 158,
+        "priceable": 95,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "n_requested": 1,
+      "n_rented": 1,
+      "rented": [
+        {
+          "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+          "instance": "46089664",
+          "machine_id": 24573
+        }
+      ],
+      "already_live": [
+        {
+          "unit_id": "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+          "instance": 46057293,
+          "gpu": "RTX 4090",
+          "usd_per_ns": 0.005327,
+          "x_basis": 1.561,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+          "instance": 46071665,
+          "gpu": "RTX 3090",
+          "usd_per_ns": 0.003676,
+          "x_basis": 1.077,
+          "over_buy_line": false,
+          "actual_status": "loading"
+        }
+      ],
+      "reason": "task=edge-reps; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."
