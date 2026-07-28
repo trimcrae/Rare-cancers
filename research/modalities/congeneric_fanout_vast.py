@@ -959,19 +959,73 @@ def _idle_evidence(s3, bucket, unit, inst, prev_scalar):
     }, scalar
 
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ THE WAVE. A CAPACITY REFUSAL BOUNDS *THIS TICK* AND IS THEN FORGOTTEN (trimcrae, 2026-07-27: "don't add
+# anything back unless you have a real reason to"; measured 2026-07-28).
+#
+# WHY THIS LANE NEEDED ITS OWN VERSION OF THE FIX, AND WHY THE 10:05 PM CLEAR DID NOT REACH IT. The shared
+# set was emptied at 10:05 PM ET on 2026-07-27 and three `--lane-state` keys were cleared with it. This
+# lane's list was NOT one of them: the clear was pointed at `nr4a3-step1-fanout/results/_lane_state.json`,
+# a key `congeneric_fanout_vast` has never written — its list is `_EXCLUDE_KEY`,
+# `nr4a3-step1-fanout/results/_excluded_machines.json`, under `machine_ids`. So `clear_lane_state` printed
+# "no lane state — nothing to clear" and the fan-out's own 41 machines were untouched. The 10:10 PM tick,
+# five minutes after a clear that reported 74 entries removed, filtered **41** machines. It then grew to
+# 45 / 46 / 47 / 49 across the night while submits failed 1 / 2 / 4 / 2 with `no rentable verified offer`
+# against a 158-offer board — our own filter, not the market.
+#
+# AND IT WOULD HAVE REGROWN EVEN IF THE CLEAR HAD REACHED IT, because `_record_exclusion` wrote EVERY reason
+# into that permanent list. The stuck-start condemnation's reason — "cur_state=stopped with an empty
+# status_msg … (create/start race, not an image pull)" — is `CLASS_CAPACITY` by
+# `vast_machine_blacklist.classify_reason`, and the module records that verdict as one this repo has PROVEN
+# WRONG: machines 53989, 31035 and 24573 were condemned on it and every one had run this lane's container at
+# 94-99 % GPU. `publish` already refuses that class for the SHARED set. Nothing refused it here.
+#
+# WHAT REPLACES IT — the ternary lane's answer, in the shape this lane's storage takes. A capacity refusal
+# goes into `capacity_wave`, tagged with the CI run that observed it. A different run does not read it. That
+# is not a TTL and not an ageing policy — no duration is invented and nothing is dropped because it got old;
+# the entry simply has no authority outside the wave whose observation produced it, exactly as
+# `_blocked_machines` now has none outside the tick that wrote it. Within the tick it still does its job:
+# the monitor condemns a busy host and the launch step, in the SAME run, does not try to rent it again.
+#
+# ⚠ WHY `GITHUB_RUN_ID` IS THE RIGHT WAVE KEY HERE. `step1-fanout-autoscale.yml` runs `MONITOR` and then
+# `LAUNCH` as two steps of ONE job, so a refusal observed by the progress check binds the launch that
+# follows it and nothing further. Off CI there is no run id, and then the capacity block is IGNORED — which
+# is the safe direction: under-excluding costs one free failed submit, over-excluding costs capacity that
+# compounds across lanes and nights.
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def _wave_id():
+    """The identity of the current wave. PURE-ish (reads env). "" when there is no wave (not on CI)."""
+    return str(os.environ.get("FANOUT_WAVE_ID") or os.environ.get("GITHUB_RUN_ID") or "")
+
+
+def wave_capacity_ids(doc, wave=None):
+    """The capacity-refused machines that still bind, i.e. the ones THIS wave recorded. PURE.
+
+    A block from another wave is not "expired" — it was never about anything but that wave.
+    """
+    cap = (doc or {}).get("capacity_wave") or {}
+    w = _wave_id() if wave is None else str(wave or "")
+    if not w or str(cap.get("wave") or "") != w:
+        return set()
+    return {str(m) for m in (cap.get("machine_ids") or [])}
+
+
 def _load_excluded(s3, bucket):
-    """This lane's exclusions ∪ the SHARED cross-lane set of hosts that refuse to start.
+    """This lane's DURABLE exclusions ∪ the SHARED cross-lane set ∪ THIS WAVE's capacity refusals.
 
     ⚠ THE UNION IS THE POINT (2026-07-27). Before it, this lane's set held exactly one machine while the 5a-KS
     lane knew nine — so the 6:37 AM tick resumed the shakeout onto machine 46392, which that lane had already
     condemned. A host that never starts has infinite realised $/ns and is invisible to $/ns ranking, so each
     lane was paying a rental to rediscover what the other already knew. See `vast_machine_blacklist` for what
     is shared (host-scoped only) and what deliberately is not.
+
+    ⚠ AND THE THIRD TERM IS WAVE-SCOPED, NOT PERMANENT — see the block above. Returns `(ids, doc)` as before.
     """
     doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
     env = os.environ.get("FANOUT_EXCLUDE_MACHINES", "")
     ids = {str(m) for m in (doc.get("machine_ids") or [])}
     ids |= {m.strip() for m in env.split(",") if m.strip()}
+    ids |= wave_capacity_ids(doc)
     import vast_machine_blacklist as vmb
     return vmb.union(ids, s3, bucket), doc
 
@@ -981,29 +1035,136 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
 
     The default is `lane` on purpose: a verdict that mixes this workload with the machine (the starved-host
     rule below) must not be exported, because `pricing.md` A.1 withdrew exactly that reasoning once already.
-    Only a failure that is about the MACHINE — it refuses starts, its container never executes — is shared."""
+    Only a failure that is about the MACHINE — it refuses starts, its container never executes — is shared.
+
+    ★★ AND THE REASON IS CLASSIFIED AT THE DOOR. A `CLASS_CAPACITY` reason never reaches `machine_ids`, never
+    reaches the shared set, and binds only the current wave — whatever `scope` the caller asked for, because
+    `scope` says who a verdict is about and the CLASS says how long it is true for, and only one of those two
+    questions was being asked here. Returns True if the machine was newly recorded anywhere.
+    """
+    import vast_machine_blacklist as vmb
     ids, doc = _load_excluded(s3, bucket)
     mid = str(machine_id)
-    if scope == "host":
-        import vast_machine_blacklist as vmb
+    perishable = vmb.classify_reason(why) == vmb.CLASS_CAPACITY
+    if scope == "host" and not perishable:
         vmb.publish(s3, bucket, mid, why, lane="step1_fanout")
-    if mid in ids:
-        return False
-    hist = doc.get("history") or []
+
     import datetime
-    hist.append({"machine_id": mid, "why": why,
-                 "utc": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")})
+    now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    hist = list(doc.get("history") or [])
+    out = dict(doc)
+    # ALWAYS present, even when empty: a reader (and `clear_lane_state`, which dispatches on which field the
+    # doc actually has) must be able to tell "nothing durable is excluded" from "this is not that document".
+    out["machine_ids"] = sorted({str(m) for m in (doc.get("machine_ids") or [])})
+    out.setdefault("_what", "Vast machine_ids this lane refuses to re-rent. Realised throughput is not fed "
+                            "back into $/ns ranking, so without this a bad host keeps winning selection "
+                            "(pricing.md A.1). `machine_ids` is DURABLE; `capacity_wave` binds one tick.")
+
+    if perishable:
+        w = _wave_id()
+        if not w:
+            print(f"[s1f] machine {mid} NOT recorded: {why!r} is a CAPACITY refusal — a claim about a "
+                  f"moment, not about the host — and there is no wave id to bind it to. It stays "
+                  f"selectable; a re-test costs a free failed submit.")
+            return False
+        cap = out.get("capacity_wave") or {}
+        cur = wave_capacity_ids(out, w)
+        if mid in cur:
+            return False
+        out["capacity_wave"] = {"wave": w, "utc": now,
+                                "_what": "capacity refusals observed by THIS CI run. Perishable: a later "
+                                         "run does not read them. Not a TTL — see the WAVE block above.",
+                                "machine_ids": sorted(cur | {mid}),
+                                "why": {**(cap.get("why") or {}), mid: str(why)[:400]}}
+        hist.append({"machine_id": mid, "why": why, "utc": now, "reason_class": vmb.CLASS_CAPACITY,
+                     "scope": "wave", "wave": w})
+        print(f"[s1f] machine {mid} excluded for THIS WAVE ONLY (run {w}) — {why!r} is a capacity refusal, "
+              f"a claim about a moment. It is selectable again on the next tick.")
+    else:
+        if mid in ids:
+            return False
+        out["machine_ids"] = sorted(set(doc.get("machine_ids") or []) | {mid})
+        hist.append({"machine_id": mid, "why": why, "utc": now, "reason_class": vmb.CLASS_HOST,
+                     "scope": scope})
+
+    out["history"] = hist
     try:
-        s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY,
-                      Body=json.dumps({"_what": "Vast machine_ids this lane refuses to re-rent. Realised "
-                                                "throughput is not fed back into $/ns ranking, so without "
-                                                "this a bad host keeps winning selection (pricing.md A.1).",
-                                       "machine_ids": sorted(set(ids) | {mid}),
-                                       "history": hist}, indent=2).encode())
+        s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY, Body=json.dumps(out, indent=2).encode())
     except Exception as e:  # noqa: BLE001
         print(f"[s1f] could not persist exclusion of machine {mid}: {e}")
         return False
     return True
+
+
+def classify_durable_entries(doc):
+    """Split this lane's DURABLE `machine_ids` by what their own recorded history says. PURE.
+
+    Returns `{"host": [...], "capacity": [...], "unjustified": [...]}` — the third being ids on the list
+    with no surviving history row at all, i.e. entries nobody can point at a reason for.
+    """
+    import vast_machine_blacklist as vmb
+    hist = list((doc or {}).get("history") or [])
+    out = {"host": [], "capacity": [], "unjustified": []}
+    for mid in sorted({str(m) for m in ((doc or {}).get("machine_ids") or [])}):
+        rows = [h for h in hist if str(h.get("machine_id")) == mid and h.get("action") != "withdraw"]
+        if not rows:
+            out["unjustified"].append(mid)
+        elif all(vmb.classify_reason(h.get("why")) == vmb.CLASS_CAPACITY for h in rows):
+            out["capacity"].append(mid)
+        else:
+            out["host"].append(mid)
+    return out
+
+
+def retire_perishable_exclusions(s3, bucket):
+    """Take the PERISHABLE entries off this lane's durable list, judged on their OWN recorded reasons.
+
+    ⚠⚠ WITHOUT THIS, THE FIX ABOVE FIXES NOTHING THAT IS ALREADY WRONG. Classifying at the door stops the
+    NEXT capacity refusal becoming permanent; it does not touch the 49 already sitting in
+    `_excluded_machines.json`, of which the recorded reasons say the large majority are exactly that class.
+    Those are the entries that lost 1 / 2 / 4 / 2 authorised placements across the night of 2026-07-27 with
+    `no rentable verified offer` against a 158-offer board. A fix that leaves them in place would ship a
+    correct rule and an unchanged outcome.
+
+    ★ THIS IS NOT A TTL AND NOT AN AGEING POLICY — the same line `withdraw_wrong_exclusions` draws. Nothing
+    is retired for being old. An entry is retired because ITS OWN RECORDED REASON, re-read, is a claim about
+    a moment (`vast_machine_blacklist.classify_reason` -> `CLASS_CAPACITY`) and this lane now stores that
+    class wave-scoped. It is the retroactive application of the classification rule, not a clock.
+
+    Entries with NO surviving reason are retired too, and counted separately in the log. trimcrae's rule is
+    "don't add anything back unless you have a real reason to"; an entry nobody can name a reason for fails
+    that test in the only direction that is cheap to be wrong in — re-discovering a genuinely bad host costs
+    one FREE failed submit, while a wrong permanent entry is capacity lost across every lane and every night.
+
+    Returns the retired ids. Idempotent: a second call finds nothing left to retire.
+    """
+    doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
+    if not (doc.get("machine_ids") or []):
+        return []
+    split = classify_durable_entries(doc)
+    retire = sorted(set(split["capacity"]) | set(split["unjustified"]))
+    if not retire:
+        return []
+    keep = sorted({str(m) for m in (doc.get("machine_ids") or [])} - set(retire))
+    hist = list(doc.get("history") or [])
+    hist.append({"machine_id": None, "action": "retire_perishable", "utc": _utcnow(),
+                 "why": f"RETIRED {len(retire)} entr(ies) from the durable list: "
+                        f"{len(split['capacity'])} whose own recorded reason classifies as CLASS_CAPACITY "
+                        f"(a claim about a moment, now stored wave-scoped) and "
+                        f"{len(split['unjustified'])} with no surviving reason at all.",
+                 "retired_machine_ids": retire,
+                 "retired_capacity": split["capacity"], "retired_unjustified": split["unjustified"]})
+    try:
+        s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY,
+                      Body=json.dumps({**doc, "machine_ids": keep, "history": hist}, indent=2).encode())
+    except Exception as e:  # noqa: BLE001 — this is a repair, and a repair must never fail a launch
+        print(f"[s1f] could not retire perishable exclusions: {e}")
+        return []
+    print(f"[s1f] ⚖ RETIRED {len(retire)} perishable exclusion(s) from this lane's durable list "
+          f"({len(split['capacity'])} capacity-class, {len(split['unjustified'])} with no recorded reason) "
+          f"— {len(keep)} host-scoped entr(ies) remain: {keep}. A capacity refusal is a claim about a "
+          f"moment; it now binds one wave. Retired: {retire}")
+    return retire
 
 
 def withdraw_wrong_exclusions(s3, bucket, proven_machines):
@@ -1203,6 +1364,13 @@ PLACEMENT_DECISIONS = {
     "cost_model_red":    "the unit-list / cost-model tests failed, so nothing may be rented",
     "measurement_failed": "this tick's progress check or collect did not succeed, so the fleet was neither "
                           "measured nor reaped — adding hosts to it is the wrong direction",
+    # ★ THE EIGHTH, ADDED 2026-07-28. Units cleared the price gate and STILL could not be placed, because
+    # our own exclusion set had removed the board before ranking. It is the opposite fact from `price_hold`
+    # and had no name, so for a night it wore that one's: 41 -> 49 excluded machines against a 158-offer
+    # board, submits failing 1/2/4/2, and `step1-fanout-market-hold.json` reading as an ordinary market.
+    "exclusions_hold":   "our own host-exclusion filter, not the market, is what stopped these units — the "
+                         "board returned offers we would have bought and we had removed them first. Remedy "
+                         "is to widen supply (withdraw a wrong exclusion), never to re-price",
 }
 
 
@@ -1223,6 +1391,49 @@ def _write_market_hold(doc, s3=None, bucket=None):
             json.dump(doc, fh, indent=2)
     except Exception as e:  # noqa: BLE001
         _lprint(f"[s1f] market-hold readout not written: {e}")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ "WE COULD NOT BUY" AND "WE WOULD NOT BUY" ARE OPPOSITE FACTS AND MUST NEVER PRINT THE SAME (trimcrae's
+# §6 framing; measured on this lane 2026-07-27/28).
+#
+# `no rentable verified offer` is emitted BOTH when the market has nothing we can afford AND when our own
+# filter ate the board before ranking. The remedies are opposite — wait for prices vs withdraw a wrong
+# exclusion — and for a whole night this lane printed the second as the first: 41 -> 49 excluded machines
+# against a 158-offer board at healthy prices, with the readout showing a price hold. `relaunch_market_gate`
+# has named this `hold_cause: exclusions_or_spec_not_price` since 2026-07-27; the fan-out's placement record
+# had no equivalent, so a reader of `step1-fanout-market-hold.json` could not see it without opening a log.
+#
+# THE DISCRIMINATOR IS THE SAME ONE THE RELAUNCH GATE USES, and it is an observation, not a heuristic: the
+# board RETURNED offers and NONE survived the filter while N machines are excluded. Every placement record
+# now carries the excluded count and ids unconditionally — so the number is visible on a healthy tick too,
+# and a reader can watch it grow instead of discovering it at 49.
+HOLD_CAUSE_EXCLUSIONS = "exclusions_or_spec_not_price"
+
+
+def annotate_exclusions(doc, excluded, n_wave_held=0):
+    """Stamp a placement record with what OUR OWN filter removed, and name the cause when it starved the
+    board. PURE (mutates and returns `doc`).
+
+    `n_wave_held` is the within-wave distinctness count (hosts we already hold or just rented) — it is not
+    an exclusion and is reported separately, because conflating "we will not rent this machine" with "we are
+    already ON this machine" is how a healthy 19-wide fan-out looks like an over-grown blacklist.
+    """
+    excl = sorted({str(m) for m in (excluded or ())})
+    doc["n_excluded_machines"] = len(excl)
+    doc["excluded_machine_ids"] = excl
+    doc["n_wave_held_machines"] = int(n_wave_held)
+    depth = doc.get("board_depth") or {}
+    if excl and depth.get("offers_returned") and not depth.get("qualifying"):
+        doc["hold_cause"] = HOLD_CAUSE_EXCLUSIONS
+        doc["hold_cause_why"] = (
+            f"NOT A PRICE HOLD — the board returned {depth['offers_returned']} offer(s) and NONE survived "
+            f"the host filter while {len(excl)} machine(s) are excluded ({excl[:12]}). Either the exclusion "
+            f"set has outgrown the market or the ResourceSpec is unsatisfiable; re-pricing will not fix "
+            f"either. Review the exclusions (vast_machine_blacklist, "
+            f"congeneric_fanout_vast.retire_perishable_exclusions) before touching the ceiling.")
+        _lprint(f"[s1f] ⚠ {doc['hold_cause_why']}")
+    return doc
 
 
 def record_no_placement(decision, why, *, s3=None, bucket=None, key=None, n_withheld=0, excluded=()):
@@ -1279,6 +1490,7 @@ def record_no_placement(decision, why, *, s3=None, bucket=None, key=None, n_with
             doc["board_unreadable"] = f"{type(e).__name__}: {e}"
             _lprint(f"[s1f] board snapshot unreadable this tick ({type(e).__name__}: {e}) — recorded as "
                     f"unreadable, NOT as absent.")
+    annotate_exclusions(doc, excluded)
     _lprint(f"[s1f] PLACEMENT DECISION: {decision} — {why}")
     if doc.get("offers_priced"):
         best = doc["offers_priced"][0]
@@ -1527,6 +1739,9 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
         _lprint(f"[s1f] BINDING GATE: {blocking[0]} — {blocking[1]}. The price reading above is recorded but "
                 f"is NOT what is stopping these units, so the price-escalation clock is NOT running.")
 
+    # OUR OWN FILTER, ON THE RECORD, EVERY PASS — including the passes that place units. See
+    # `annotate_exclusions`: the count is what turns "the market refused us" into "we refused the market".
+    annotate_exclusions(doc, excluded)
     _write_market_hold(doc, s3, bucket)
 
     if price_blocks_every_unit and held_h >= MARKET_HOLD_ESCALATE_H:
@@ -1713,6 +1928,11 @@ def mode_launch():
     # ---- the two switches, each with a NAMED, RECORDED outcome ------------------------------------------
     # Both write the snapshot before returning, so the artifact's timestamp advances on every tick and can
     # only ever go stale by the tick itself not running. That is the whole repair.
+    # ⚖ SELF-HEAL BEFORE READING. The classification rule is only half a fix while the entries it would have
+    # refused are still sitting on the durable list from before it existed — and this lane's list was the one
+    # the 2026-07-27 clear missed entirely (see the WAVE block above). Retiring is judged on each entry's OWN
+    # recorded reason, is idempotent, and costs two S3 calls.
+    retire_perishable_exclusions(s3, bucket)
     _excl_for_snapshot, _ = _load_excluded(s3, bucket)
     if _placement == "0":
         record_no_placement(
@@ -2178,6 +2398,7 @@ def mode_launch():
     # where an exception escapes the loop cannot leak it past this process.
     _board_stack = contextlib.ExitStack()
     _board_stats = _board_stack.enter_context(board_read_cache(ttl_s=_board_ttl))
+    _submit_starved = []          # units whose submit died on OUR filter, not on the market — see below
     for u in batch:
         spec = build_jobspec(u, os.environ.get("GIT_BRANCH", "main"), bucket, idx_of[u["unit_id"]],
                              exclude_machine_ids=used_machines)
@@ -2203,6 +2424,12 @@ def mode_launch():
                               f"machine(s) ({_n_excl} excluded + {_n_held} we already hold or just rented "
                               f"this wave) before ranking. Remedy is to widen supply (withdraw a wrong "
                               f"exclusion, or wait for the fleet to shrink), not to wait for prices.")
+                # ★ AND IT GOES IN THE COMMITTED RECORD, NOT ONLY THE LOG (2026-07-28). This exact line was
+                # printed on every failed submit through the night while `step1-fanout-market-hold.json`
+                # showed an ordinary price reading — so the one artifact a reader opens said "the market",
+                # and only the job log said "us". `hold_cause` is the same key `relaunch_market_gate`
+                # already sets, so both lanes now answer this question with the same word.
+                _submit_starved.append({"unit_id": u["unit_id"], "error": str(e)[:300]})
             _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}{_why_short}")
             continue
         # Print the FLOOR, the BID and the premium separately. The fan-out's cost estimate was built from a
@@ -2276,6 +2503,38 @@ def mode_launch():
     _lprint(f"[s1f] board-read cache over the wave: {_board_stats['hits']} hit(s), "
             f"{_board_stats['misses']} real read(s) — {_board_stats['saved_calls']} Vast "
             f"/search/asks/ call(s) NOT made against the shared key (TTL {_board_ttl:.0f}s).")
+    if _submit_starved:
+        # ⚠ THE RECORD MUST SAY "US", NOT "THE MARKET". Written AFTER the wave so it reflects the final
+        # filter width, and it deliberately overwrites the pricing pass's record for this tick: the price
+        # reading is true and was already acted on (these units CLEARED the gate — that is why they reached
+        # submit), so the decision-relevant fact left standing is why the cleared units still did not land.
+        _starved_doc = {
+            "_what": "The step 1 fan-out cleared the price gate and then could not place units anyway, "
+                     "because its OWN host filter had removed the board before ranking.",
+            "_rule": "CLAUDE.md §6 — an exclusion-starved board must never be reported as a price hold.",
+            "utc": _utcnow(), "decision": "exclusions_hold",
+            "decision_meaning": PLACEMENT_DECISIONS["exclusions_hold"],
+            "decision_why": (f"{len(_submit_starved)} unit(s) failed with `no rentable verified offer` "
+                             f"AFTER clearing the $/ns gate, while our own filter removed "
+                             f"{len(used_machines)} machine(s) ({len(excluded)} excluded + "
+                             f"{len(used_machines) - len(excluded)} we already hold or just rented)."),
+            "held": True, "n_withheld": len(_submit_starved), "n_launching_now": len(handles),
+            "n_held": len(_submit_starved),
+            "hold_cause": HOLD_CAUSE_EXCLUSIONS,
+            "hold_cause_why": (f"Our own filter, not the market: {len(excluded)} machine(s) excluded and "
+                               f"{len(used_machines) - len(excluded)} held by this wave. Remedy is to widen "
+                               f"supply (withdraw a wrong exclusion — see "
+                               f"congeneric_fanout_vast.retire_perishable_exclusions), not to wait for "
+                               f"prices."),
+            "starved_units": _submit_starved,
+            "price_blocks_every_unit": False, "first_held_utc": None, "held_hours": 0.0,
+            "binding_gate": "exclusions", "binding_gate_why": "our own host filter",
+            "binding_gate_scope": f"{len(_submit_starved)} unit(s) that had already cleared price",
+        }
+        annotate_exclusions(_starved_doc, excluded, n_wave_held=len(used_machines) - len(excluded))
+        _lprint(f"[s1f] ⚠ EXCLUSIONS HOLD: {_starved_doc['decision_why']} Recorded as "
+                f"hold_cause={HOLD_CAUSE_EXCLUSIONS} — this is NOT a price hold.")
+        _write_market_hold(_starved_doc, s3, bucket)
     with open("step1-fanout-handles.json", "w") as f:
         json.dump(handles, f, indent=2)
     # the label -> unit map, so a later collect/monitor can name instances without re-deriving the index

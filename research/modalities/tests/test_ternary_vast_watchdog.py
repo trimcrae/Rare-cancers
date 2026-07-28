@@ -416,13 +416,32 @@ def _inst(**kw):
 
 
 def test_a_stopped_box_past_the_reap_line_is_flagged():
-    assert wd.stopped_and_billing(_inst(), "RUNNING", 85.0)
+    """⚠ THE AGE IS DERIVED FROM THE LINE, NOT TYPED (fixed 2026-07-28). This asserted `85.0` — a number
+    chosen when `MAX_STOPPED_MIN` was 45, and the incident's own duration. When the constant became DERIVED
+    from the measured P(resume) (105 min; `vast_stopped_resume_measure`), 85 fell BELOW the line and this
+    test failed while the code was correct. A test that hard-codes a value on one side of a threshold is a
+    second home for that threshold — exactly what the test two below this one forbids."""
+    import ternary_vast_launch as tv
+    assert wd.stopped_and_billing(_inst(), "RUNNING", tv.MAX_STOPPED_MIN + 40.0)
 
 
 def test_a_stopped_box_that_is_still_pulling_its_image_is_not_flagged():
     """A fresh rental reads stopped/loading while the ~multi-GB image lands — 2 h 57 min has been observed
     on this account. Alerting there would fire on every launch, and an alarm that always fires is off."""
     assert not wd.stopped_and_billing(_inst(), "RUNNING", 10.0)
+
+
+def test_the_85_minute_incident_is_now_INSIDE_the_hold_and_that_is_deliberate():
+    """The incident above — four hosts reclaimed, 85 min of `stopped` while ~$0.58/hr drained — sits below
+    the derived line, and that is the measurement's answer, not an oversight: Kaplan-Meier over this repo's
+    own census puts 61 % of never-started resumes inside 90 min, with resumes observed at 87.4, 89.0 and
+    93.0 min. Such a box is NOT unwatched — `teardown_decision` holds it explicitly, prints it under
+    `TVAST-HELD` with its storage cost, and blacklists its machine for the wave — so the money is visible
+    and the disk is kept. What changed is that we no longer throw the disk away at 45 min for a resume the
+    data says is more likely than not still coming."""
+    import ternary_vast_launch as tv
+    assert tv.MAX_STOPPED_MIN > 85.0
+    assert not wd.stopped_and_billing(_inst(), "RUNNING", 85.0)
 
 
 def test_the_line_is_the_collectors_own_number_not_a_second_copy():

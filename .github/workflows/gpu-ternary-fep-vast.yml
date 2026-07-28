@@ -1534,16 +1534,35 @@ jobs:
             # ★ A DATED PATH, so a later read-only snapshot can NEVER clobber the pre-clear record. Both
             # modes used to write `...-before-clear.json`; running this task the day after a clear would
             # have replaced the only committed copy of what was excluded with an empty one.
+            # ★ AND EVERY LANE'S OWN LIST, classified by each entry's ORIGINAL recorded reason. The shared
+            # set alone cannot answer "why is the fan-out filtering 49 machines?" — its list is its own, and
+            # reading only the shared key is what made a lane-local 41 invisible for a night.
             python research/modalities/vast_machine_blacklist.py \
               --snapshot "research/modalities/vast-blacklist-snapshot-$(date -u +%Y-%m-%dT%H%MZ).json" \
+              --lane-list "vast-shared/_excluded_machines.json" \
+              --lane-list "nr4a3-step1-fanout/results/_excluded_machines.json" \
+              --lane-list "ternary-vast/_lane_state.json" \
+              --lane-list "protfep-vast/_lane_state.json" \
               2>&1 | tee /tmp/bl.txt
             exit 0
           fi
+          # ★ A DATED PATH HERE TOO. The clear used to write the fixed
+          # `vast-blacklist-snapshot-before-clear.json`, so a SECOND clear would overwrite the first clear's
+          # record — the 41-machine pre-clear snapshot, which is the only evidence of what was excluded and
+          # why, and the input to `retire_perishable_exclusions`' own justification. The CLI now refuses to
+          # overwrite an existing snapshot outright; this makes the refusal unreachable rather than fatal.
+          #
+          # ⚠⚠ AND THE LANE KEYS ARE THE REAL ONES. `nr4a3-step1-fanout/results/_lane_state.json` was a key
+          # the fan-out HAS NEVER WRITTEN — its list is `_excluded_machines.json` under `machine_ids`. On
+          # 2026-07-27 that line printed "no lane state — nothing to clear", the operator read a successful
+          # 74-entry clear, and the fan-out's own 41 machines survived it untouched: its 10:10 PM tick, five
+          # minutes later, filtered 41. `clear_lane_state` now handles both doc shapes AND reports an absent
+          # key as MISSING rather than as clean, so this class of miss cannot look like a success again.
           python research/modalities/vast_machine_blacklist.py \
-            --snapshot research/modalities/vast-blacklist-snapshot-before-clear.json \
-            --clear "trimcrae 2026-07-27: the set reached 48 machines and became the binding constraint on placement (2 of 2 authorised units failed on `no rentable verified offer` against a 189-offer board at healthy prices). Capacity refusals were being stored as permanent host verdicts." \
+            --snapshot "research/modalities/vast-blacklist-snapshot-$(date -u +%Y-%m-%dT%H%MZ)-before-clear.json" \
+            --clear "trimcrae 2026-07-27: the set reached 48 machines and became the binding constraint on placement (2 of 2 authorised units failed on \`no rentable verified offer\` against a 189-offer board at healthy prices). Capacity refusals were being stored as permanent host verdicts." \
             --lane-state "ternary-vast/_lane_state.json" \
-            --lane-state "nr4a3-step1-fanout/results/_lane_state.json" \
+            --lane-state "nr4a3-step1-fanout/results/_excluded_machines.json" \
             --lane-state "protfep-vast/_lane_state.json" 2>&1 | tee /tmp/bl.txt
       - name: Commit the snapshot — the record must outlive the set
         run: |

@@ -30,15 +30,34 @@ WRITES STAY WHERE THEY WERE. Each lane keeps owning its own list and its own his
 a second, additive destination for host-scoped entries and a union on read. A failure to reach the shared set
 NEVER blocks a launch: the lane falls back to exactly its previous behaviour.
 
-⚠ KNOWN AND DELIBERATELY NOT SOLVED HERE: THE SET IS PERMANENT AND ONLY GROWS. A machine that refused a start
-in July is still excluded in September even if its GPU freed up the next hour, and a union across lanes makes
-that accumulate faster than a single lane's list did. Nothing here ages an entry out, because "how long is a
-capacity refusal true for" is a question with no measurement behind it yet and a wrong TTL would silently
-re-admit the hosts this exists to refuse. What IS done is to make the failure mode legible rather than
-mysterious: `relaunch_market_gate.gate` detects "the board returned offers and none survived the filter while
-N machines are excluded" and reports it as `hold_cause: exclusions_or_spec_not_price`, so an over-grown set
-surfaces as itself instead of as an unaffordable market. Revisit with a measured re-test policy when the set
-is large enough to matter against the ~23-host board.
+★★ WHAT MAY PERSIST, AND WHAT MAY ONLY BOUND THE CURRENT WAVE (trimcrae, 2026-07-27: *"Clear out our
+blacklist then and don't add anything back unless you have a real reason to."*). This is now enforced on
+every route into every set, not just on the one that goes through `publish`:
+
+  * A **`CLASS_HOST`** verdict — the container demonstrably failed to start, crash-looped, the image/driver
+    is incompatible — is durable and may be stored permanently and shared.
+  * A **`CLASS_CAPACITY`** refusal is a claim about a MOMENT. It bounds the CURRENT WAVE and is then
+    forgotten. `publish` refuses it; `backfill` can no longer launder it (it must be given the ORIGINAL
+    reason, so the classifier sees the real evidence); `ternary_vast_launch` writes its `_blocked_machines`
+    wave-scoped rather than cumulatively; and `congeneric_fanout_vast._record_exclusion` keeps its capacity
+    refusals in a run-scoped `capacity_wave` block that a later run does not read.
+
+  Re-testing is what makes that safe and nearly free: a failed SUBMIT costs no rental and no billing, and a
+  box that starts and then crash-loops is reaped by `vast_idle_guard` on measured write-silence within
+  ~15 min. Cheap to re-learn, expensive to over-exclude.
+
+⚠ STILL DELIBERATELY NOT SOLVED HERE: A **HOST-SCOPED** ENTRY IS PERMANENT AND NOTHING AGES IT OUT, because
+"how long is a host verdict true for" has no measurement behind it and a guessed TTL would silently re-admit
+the hosts this exists to refuse. The two things that do bound it are `withdraw` (positive contrary evidence:
+we watched the machine run our container) and a deliberate operator `--clear`. What is also done is to make
+the failure mode legible rather than mysterious: `relaunch_market_gate.gate` and
+`congeneric_fanout_vast`'s placement record both detect "the board returned offers and none survived the
+filter while N machines are excluded" and report it as `hold_cause: exclusions_or_spec_not_price`, so an
+over-grown set surfaces as itself instead of as an unaffordable market.
+
+SUPERSEDED, RETAINED: this docstring used to say *"THE SET IS PERMANENT AND ONLY GROWS"* of the whole set.
+That was true of both classes when written, and it is what let 32 perishable refusals become permanent
+cross-lane entries — 78 % of the 41 in `vast-blacklist-snapshot-before-clear.json`.
 """
 import json
 import os
@@ -53,6 +72,20 @@ _WHAT = ("Vast machine_ids that FAIL TO START for anybody — capacity refusals 
          "execute. Shared across every lane, because a host that never starts has infinite realised $/ns and "
          "is therefore invisible to $/ns ranking, so without exclusion it keeps winning selection. "
          "Lane-specific throughput judgements are NOT here: see vast_machine_blacklist.__doc__.")
+
+
+# A sentinel, not `None`: `backfill(..., why=None)` used to be legal and silently synthesised a reason, so
+# `None` must stay distinguishable from "not passed" while that call shape is still out there in old branches.
+_REQUIRED = object()
+
+# ★ THE TWO DOC SHAPES A LANE'S OWN EXCLUSION LIST COMES IN, and knowing only one of them is what let the
+# 2026-07-27 clear miss the list that mattered. `ternary_vast_launch` / `protfep_vast_launch` keep theirs at
+# `{prefix}/_lane_state.json` under `_blocked_machines`; `congeneric_fanout_vast` keeps its own at
+# `{prefix}/_excluded_machines.json` under `machine_ids`. The clear was pointed at
+# `nr4a3-step1-fanout/results/_lane_state.json` — a key the fan-out has never written — so it reported
+# success against a file that does not exist while the fan-out's real 41-machine list was untouched, and the
+# very next tick filtered all 41 again. `clear_lane_state` now clears whichever field the doc actually has.
+_LANE_LIST_FIELDS = ("_blocked_machines", "machine_ids")
 
 
 def _utcnow():
@@ -232,8 +265,30 @@ def withdraw(s3, bucket, machine_id, why, lane, key=None, only_lane=True):
     return True
 
 
-def backfill(s3, bucket, machine_ids, lane, why=None, key=None):
+def backfill(s3, bucket, machine_ids, lane, why=_REQUIRED, key=None):
     """Promote a lane's ALREADY-KNOWN host-scoped ids into the shared set. Returns the ids newly added.
+
+    ⛔⛔ `why` IS MANDATORY AND MUST BE THE **ORIGINAL RECORDED REASON** — THIS FUNCTION LAUNDERED THE
+    CAPACITY CLASS INTO THE PERMANENT SET FOR A WHOLE NIGHT (measured 2026-07-28).
+
+    `publish` refuses `CLASS_CAPACITY` outright, which is the guard that is supposed to make a perishable
+    refusal un-permanentable. `backfill` walked straight around it. It defaulted `why` to the synthetic
+    string *"backfilled from {lane}'s refuse-to-start list"* — which contains none of `_CAPACITY_MARKERS`,
+    so `classify_reason` returned `CLASS_HOST` and `publish` accepted every id. The evidence is in this
+    module's own committed history: **32 of the 41 entries in
+    `vast-blacklist-snapshot-before-clear.json` are that exact synthetic string**, and the snapshot's own
+    `history_entries_by_reason_class` files them as `{'host': 9, 'capacity': 32}` — the capacity count
+    coming from re-classifying the ORIGINAL reasons, not from what `publish` saw at the time.
+
+    It was not a one-off seeding, either. `ternary_vast_launch.blocked_machine_ids` called this on EVERY
+    read of the exclusion list, from a `_blocked_machines` list that the same lane's own comment describes
+    as *"the whole set is the PERISHABLE capacity class"*. So each tick re-promoted that tick's busy hosts
+    into a permanent, cross-lane, never-expiring set — and clearing the shared set could not help, because
+    the next tick refilled it. That caller is gone; this signature is what stops the next one.
+
+    A caller that passes the reason it actually recorded gets the classifier it deserves: a capacity reason
+    is refused by `publish` exactly as if it had been published directly, and a genuine host verdict goes
+    through. A caller with no reason to pass has no evidence, and no evidence is not a backfill.
 
     ⚠ THE GAP THIS CLOSES, and it is the one that made the union look like it worked when it did not. `union`
     and `publish` are both FORWARD-only: a lane publishes a host at the moment it observes the refusal, and
@@ -242,42 +297,80 @@ def backfill(s3, bucket, machine_ids, lane, why=None, key=None):
     the fan-out knew one, and the shared key was empty. A fan-out reading `local ∪ shared` still could not see
     machine 46392, so the exact rental the union was written to prevent would have happened again.
 
-    ★ ONLY A LIST THAT IS HOST-SCOPED BY CONSTRUCTION MAY BE BACKFILLED. `ternary_vast_launch`'s
-    `_blocked_machines` qualifies — every entry on it is a start refusal, which is a property of the machine.
-    The step 1 fan-out's own exclusion file does NOT: it mixes those with the sustained-`gpu_util` verdict,
+    ★ SUPERSEDED, RETAINED FOR THE RECORD — the paragraph below was the argument that authorised the
+    laundering, and it must not be quoted again: *"ONLY A LIST THAT IS HOST-SCOPED BY CONSTRUCTION MAY BE
+    BACKFILLED. `ternary_vast_launch`'s `_blocked_machines` qualifies — every entry on it is a start
+    refusal, which is a property of the machine."* It is wrong twice over. A start refusal is NOT a property
+    of the machine — `classify_reason`'s own comment records `resources_unavailable` and the create/start
+    race as claims about a MOMENT, and three machines condemned on that verdict (53989, 31035, 24573) had
+    run this repo's container at 94-99 % GPU. And the list stopped qualifying under any reading when it was
+    made wave-scoped: it now holds exactly the ids that refused on the CURRENT tick.
+
+    The rest of the original note stands and is why the function still exists:
+    The step 1 fan-out's own exclusion file does NOT qualify: it mixes those with the sustained-`gpu_util` verdict,
     which is a property of the machine PAIRED WITH THAT WORKLOAD and which `pricing.md` A.1 already withdrew
     the broad version of. Backfilling that one wholesale would re-adopt the withdrawn rule for every lane —
     so the caller passes the ids and owns the judgement, exactly as `publish` requires.
 
+    `why` may be one string (the reason every id on this list was recorded for) or a `{machine_id: reason}`
+    mapping when the caller kept them per-id. Either way it is the reason `publish` classifies.
+
     Best-effort and idempotent: already-shared ids are skipped, and any failure is reported and swallowed,
     because seeding an optimisation must never be able to stop a launch."""
+    if why is _REQUIRED:
+        raise TypeError(
+            "backfill() requires `why` — the ORIGINAL recorded reason for each id, not a synthetic label. "
+            "A synthetic label is what let 32 perishable capacity refusals into the permanent shared set: "
+            "it classified as CLASS_HOST and walked around publish()'s capacity guard. If you do not have "
+            "the reason, you do not have the evidence, and there is nothing to backfill.")
     added = []
     for mid in (machine_ids or []):
-        if publish(s3, bucket, mid, why or f"backfilled from {lane}'s refuse-to-start list", lane, key):
+        w = why.get(str(mid)) if isinstance(why, dict) else why
+        if not w:
+            print(f"[blacklist] NOT backfilling machine {mid}: no recorded reason for it in `why`. An "
+                  f"entry nobody can justify is exactly what a clear is for.", flush=True)
+            continue
+        if publish(s3, bucket, mid, w, lane, key):
             added.append(str(mid))
     return added
 
 
 def clear_lane_state(s3, bucket, lane_state_key):
-    """Empty one lane's OWN `_blocked_machines`. Returns the ids removed.
+    """Empty one lane's OWN exclusion list, whichever of the two shapes it is in. Returns the ids removed.
 
-    Both copies must go or the set re-federates from whichever survived: `blocked_machine_ids()` unions the
-    lane's local list with the shared one, so clearing only the shared set leaves the lane still excluding.
+    Both copies must go or the set re-federates from whichever survived: a lane's reader unions its local
+    list with the shared one, so clearing only the shared set leaves that lane still excluding.
+
+    ⚠⚠ AND "WHICHEVER SHAPE" IS NOT A CONVENIENCE — IT IS THE BUG THAT MADE THE 2026-07-27 CLEAR A NO-OP FOR
+    THE ONE LANE THAT MATTERED. This function used to know only `_blocked_machines`, and the clear was
+    pointed at `nr4a3-step1-fanout/results/_lane_state.json`. The fan-out has never written that key: its
+    list lives at `.../results/_excluded_machines.json` under `machine_ids`. So the clear printed
+    "no lane state — nothing to clear", the operator read 74 entries removed, and the fan-out's own 41
+    machines survived untouched — which is exactly the count its next tick filtered, five minutes later.
+    An absent key now reports as MISSING rather than as clean, because "nothing to clear" and "I was
+    pointed at the wrong file" must not print the same.
     """
     try:
         st = json.loads(s3.get_object(Bucket=bucket, Key=lane_state_key)["Body"].read())
     except Exception as e:  # noqa: BLE001 — an absent lane state is already "nothing excluded"
-        print(f"[blacklist] {lane_state_key}: no lane state ({type(e).__name__}) — nothing to clear",
-              flush=True)
+        print(f"[blacklist] ⚠ {lane_state_key}: NO SUCH DOCUMENT ({type(e).__name__}). Nothing was cleared "
+              f"here — if you expected a list at this key, you are pointed at the wrong one, and a lane's "
+              f"real list has just survived a clear that reported success.", flush=True)
         return []
-    ids = [str(m) for m in (st.get("_blocked_machines") or [])]
+    fields = [f for f in _LANE_LIST_FIELDS if isinstance(st.get(f), list)]
+    if not fields:
+        print(f"[blacklist] ⚠ {lane_state_key}: holds none of {_LANE_LIST_FIELDS} — this is not an exclusion "
+              f"list, so nothing was cleared. Check the key.", flush=True)
+        return []
+    ids = sorted({str(m) for f in fields for m in (st.get(f) or [])})
     if not ids:
         print(f"[blacklist] {lane_state_key}: already empty", flush=True)
         return []
-    st["_blocked_machines"] = []
+    for f in fields:
+        st[f] = []
     st["_blocked_machines_cleared_utc"] = _utcnow()
     s3.put_object(Bucket=bucket, Key=lane_state_key, Body=json.dumps(st, indent=2).encode())
-    print(f"[blacklist] {lane_state_key}: cleared {len(ids)} machine(s)", flush=True)
+    print(f"[blacklist] {lane_state_key}: cleared {len(ids)} machine(s) from {fields}", flush=True)
     return ids
 
 
@@ -297,6 +390,11 @@ def main(argv=None):
     ap.add_argument("--bucket", dest="bucket_opt", default=None)
     ap.add_argument("--snapshot", default=None, help="write the full current state here before any change")
     ap.add_argument("--clear", default=None, metavar="WHY", help="empty the shared set, recording WHY")
+    ap.add_argument("--lane-list", action="append", default=None, metavar="KEY",
+                    help="READ-ONLY: report what is on this lane's own exclusion list, and the reason class "
+                         "of each entry. Repeatable. Runs before any clear, and never writes.")
+    ap.add_argument("--force-snapshot", action="store_true",
+                    help="overwrite an existing snapshot file. Destroys a record; there is no good reason.")
     ap.add_argument("--lane-state", action="append", default=None, metavar="KEY",
                     help="also clear this lane's own `_blocked_machines` (repeatable)")
     # ⚠ `sys.argv[1:]`, NOT `[]`. Passing an empty list here silently DISCARDS every command-line flag, so
@@ -309,11 +407,35 @@ def main(argv=None):
     import boto3
     s3 = boto3.client("s3")
 
+    # FIRST, and read-only. A clear is judged against what was there; printing it afterwards is too late,
+    # and printing only the shared set is how a lane's own 41 machines survived a clear that reported 74.
+    for k in (a.lane_list or []):
+        rep = lane_list_report(s3, bucket, k)
+        print(f"[blacklist] LANE LIST {k}: "
+              + (f"{len(rep['machine_ids'])} machine(s) in {rep.get('fields_present')}, "
+                 f"by reason class {rep['by_reason_class']}" if rep["exists"]
+                 else f"⚠ ABSENT ({rep.get('error')}) — nothing here, which is NOT the same as clean"))
+        print(json.dumps(rep, indent=2))
+
     if a.clear and not a.snapshot:
         print("::error::--clear requires --snapshot: never delete state you have not first written down")
         return 2
 
     if a.snapshot:
+        # ⛔⛔ A SNAPSHOT MAY NEVER OVERWRITE A SNAPSHOT. `--snapshot` is the only record of what was excluded
+        # and why, and `research/modalities/vast-blacklist-snapshot-before-clear.json` — the 41-machine
+        # pre-clear record, the input to every later question about whether clearing was right — is a fixed
+        # path this CLI writes by default. Re-running the tool with the same path AFTER a clear would replace
+        # it with an empty set: the evidence destroyed by the very tool whose contract is "never delete state
+        # you have not first written down". The workflow already date-stamps the read-only path; this refuses
+        # the clobber at the source, so no caller anywhere can commit it, and `--force-snapshot` is the only
+        # way past — deliberately awkward, because there is no good reason to take it.
+        if os.path.exists(a.snapshot) and not a.force_snapshot:
+            print(f"::error::{a.snapshot} already exists. A snapshot is a record, not a buffer — writing "
+                  f"over one destroys the only copy of what was excluded and why. Use a dated path "
+                  f"(vast-blacklist-snapshot-$(date -u +%Y-%m-%dT%H%MZ).json), or --force-snapshot if you "
+                  f"genuinely mean to lose the existing record.")
+            return 2
         snap = snapshot(s3, bucket)
         with open(a.snapshot, "w") as fh:
             json.dump(snap, fh, indent=2)
@@ -361,6 +483,44 @@ def snapshot(s3, bucket, key=None):
         "history_entries_by_reason_class": by_class,
         "history": hist,
     }
+
+
+def lane_list_report(s3, bucket, lane_key):
+    """READ-ONLY: what is on ONE lane's own exclusion list, and what class each entry's OWN reason is.
+
+    ★ THE DIAGNOSTIC THE 2026-07-27 CLEAR DID NOT HAVE. That clear operated on the shared set plus three
+    `--lane-state` keys and reported "74 entries cleared" — a number nobody could check against the lane
+    that actually mattered, because one of the three keys did not exist and the tool said so in a line that
+    read like "already clean". A per-lane readout makes "this key holds 41 machines" and "this key holds
+    nothing because it is the wrong key" two different, unmistakable outputs.
+
+    Classifies from each entry's ORIGINAL recorded reason, so the answer to "how much of this list is
+    perishable?" comes from the evidence rather than from a guess. $0: one S3 GET.
+    """
+    out = {"key": lane_key, "exists": False, "machine_ids": [], "by_reason_class": {}, "per_machine": {},
+           "unjustified": []}
+    try:
+        doc = json.loads(s3.get_object(Bucket=bucket, Key=lane_key)["Body"].read())
+    except Exception as e:  # noqa: BLE001
+        out["error"] = f"{type(e).__name__}: {str(e)[:160]}"
+        return out
+    out["exists"] = True
+    fields = [f for f in _LANE_LIST_FIELDS if isinstance(doc.get(f), list)]
+    out["fields_present"] = fields
+    ids = sorted({str(m) for f in fields for m in (doc.get(f) or [])})
+    out["machine_ids"] = ids
+    hist = list(doc.get("history") or [])
+    for mid in ids:
+        rows = [h for h in hist if str(h.get("machine_id")) == mid and h.get("action") != "withdraw"]
+        if not rows:
+            out["unjustified"].append(mid)
+            cls = "unjustified"
+        else:
+            cls = (CLASS_CAPACITY if all(classify_reason(h.get("why")) == CLASS_CAPACITY for h in rows)
+                   else CLASS_HOST)
+        out["per_machine"][mid] = {"class": cls, "why": (rows[-1].get("why") if rows else None)}
+        out["by_reason_class"][cls] = out["by_reason_class"].get(cls, 0) + 1
+    return out
 
 
 def clear_all(s3, bucket, why, lane="operator", key=None):

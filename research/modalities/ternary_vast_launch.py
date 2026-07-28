@@ -75,6 +75,7 @@ from protfep_vast_launch import (  # noqa: E402
 # second, disagreeing definition of "this rental is doing nothing".
 import vast_idle_guard as vig                                   # noqa: E402
 import leg_failure_breaker as lfb                                # noqa: E402
+import vast_stopped_resume_measure as _srm                      # noqa: E402
 from watchdog_policy import container_started_from_phase        # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
@@ -89,7 +90,18 @@ LABEL_PREFIX = "tvast"
 
 # Backstops. The reap normally fires on "result in S3"; these bound the pathological cases.
 MAX_INSTANCE_HOURS = float(os.environ.get("TVAST_MAX_INSTANCE_HOURS") or "22")
-MAX_STOPPED_MIN = float(os.environ.get("TVAST_MAX_STOPPED_MIN") or "45")
+# ★★ DERIVED FROM A MEASUREMENT, NOT FROM ONE INCIDENT (2026-07-28). This was `45`, hard-typed, with no
+# derivation anywhere — it is the duration of the single 2026-07-25 incident where a +26 % bid raise left a
+# box queued `stopped` for 45 min. n=1, promoted to a policy, and since `teardown_decision.decide()` it also
+# governs how long a CAPACITY-REFUSED box is HELD when no replacement clears the buy line, where the
+# economics are lopsided: holding costs storage only (~$0.016/hr at the 60 GB this lane requests) while a
+# teardown forfeits the staged disk and buys a ~$0.10-0.28 cold start.
+# `vast_stopped_resume_measure` mined every committed revision of the fleet census (949 observations of 111
+# instances) and measured the missing input, P(a never-started box ever resumes): **15 of 55 episodes
+# resumed**, Kaplan-Meier 34 % by 45 min and 61 % by 90 min, with three resumes observed at 87.4, 89.0 and
+# 93.0 min — i.e. past the point the old constant destroyed them. The one home of the figure and of the rule
+# that derives it is `vast_stopped_resume_measure.hold_minutes()`; `45` survives only as its fallback.
+MAX_STOPPED_MIN = float(os.environ.get("TVAST_MAX_STOPPED_MIN") or _srm.hold_minutes(default=45))
 MAX_FROZEN_MIN = float(os.environ.get("TVAST_MAX_FROZEN_MIN") or "20")
 
 # HOST SPEC. Setup (openff `interchange` parameterising the ~146k-atom solvated hybrid) is CPU+RAM bound,
@@ -1224,14 +1236,27 @@ def blocked_machine_ids(bucket=None, prefix=None):
         pass
     try:
         import vast_machine_blacklist as vmb
-        # SEED THE SHARED SET FROM THIS LANE'S HISTORY, not just from future refusals. `publish` only fires at
-        # the moment a refusal is observed, so on the day the union landed the shared key was EMPTY while this
-        # lane already knew nine machines — and a sibling lane reading `local ∪ shared` still could not see
-        # them. Every id on `_blocked_machines` is a start refusal, i.e. host-scoped by construction, so
-        # promoting them is scope-correct (see `vast_machine_blacklist.backfill` for why the fan-out's own
-        # mixed-scope list is NOT treated this way). Idempotent: a no-op once seeded.
-        if local:
-            vmb.backfill(s3, b, local, lane="rung5a_ks")
+        # ⛔⛔ THE BACKFILL IS GONE, AND ITS REMOVAL IS THE FIX (measured 2026-07-28).
+        #
+        # This used to call `vmb.backfill(s3, b, local, lane="rung5a_ks")` on EVERY read, on the argument
+        # that "every id on `_blocked_machines` is a start refusal, i.e. host-scoped by construction". Both
+        # halves of that were false, and together they were the one route by which a perishable refusal
+        # became a permanent cross-lane exclusion:
+        #
+        #   1. `backfill` synthesised its own reason string ("backfilled from …'s refuse-to-start list"),
+        #      which carries none of `vast_machine_blacklist._CAPACITY_MARKERS` — so `classify_reason` filed
+        #      it CLASS_HOST and `publish`'s capacity refusal never fired. 32 of the 41 entries in
+        #      `vast-blacklist-snapshot-before-clear.json` are that exact string.
+        #   2. `_blocked_machines` is now WAVE-SCOPED and, per `collect`'s own note, "the ONLY thing that
+        #      adds to `blocked` is the `resources_unavailable` branch, i.e. the whole set is the PERISHABLE
+        #      capacity class". Promoting this tick's busy hosts to a permanent set is the exact inversion of
+        #      what the wave-scoping was for — and it ran on every read, so clearing the shared set could
+        #      not stick: the next collect refilled it.
+        #
+        # Nothing replaces it. The durable path is unchanged and still fires where the evidence is: the
+        # `resources_unavailable` branch in `collect` calls `vmb.publish` with the REAL reason, which
+        # classifies as capacity and is correctly refused. A genuine host verdict would be published the
+        # same way and would be accepted.
         return vmb.union(local, s3, b)
     except Exception:  # noqa: BLE001 — the shared set is an optimisation and must never block a launch
         return local

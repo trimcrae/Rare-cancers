@@ -164,3 +164,102 @@ def test_the_lane_local_exclusion_list_is_wave_scoped_not_cumulative():
                             "ternary_vast_launch.py")).read()
     assert 'new_state["_blocked_machines"] = sorted(prior | blocked)' not in src
     assert 'new_state["_blocked_machines"] = sorted(blocked)' in src
+
+
+# ============================================================================================================
+# ★★ THE LAUNDERING ROUTE (found 2026-07-28). `publish` refuses CLASS_CAPACITY — and `backfill` walked
+# around it by synthesising its own reason string, which classified as CLASS_HOST. 32 of the 41 entries in
+# the committed pre-clear snapshot are that exact synthetic string. These tests pin the door shut.
+# ============================================================================================================
+def test_backfill_REFUSES_to_run_without_the_original_reason():
+    s3 = _FakeS3()
+    try:
+        vmb.backfill(s3, "b", ["1", "2"], lane="rung5a_ks")
+    except TypeError as e:
+        assert "why" in str(e)
+    else:
+        raise AssertionError("backfill accepted a call with no recorded reason — that is the laundering")
+
+
+def test_backfill_cannot_promote_a_capacity_refusal():
+    """The whole set of ids on a wave-scoped `_blocked_machines` is the perishable class. Handed to backfill
+    WITH ITS REAL REASON, publish's classifier sees it and refuses — which is the behaviour that was being
+    bypassed."""
+    s3 = _FakeS3()
+    added = vmb.backfill(s3, "b", ["53989", "31035"], lane="rung5a_ks",
+                         why="resources_unavailable on start")
+    assert added == []
+    assert vmb.load(s3, "b")[0] == []
+
+
+def test_backfill_still_promotes_a_genuine_host_verdict():
+    s3 = _FakeS3()
+    added = vmb.backfill(s3, "b", ["1", "2"], lane="rung5a_ks",
+                         why={"1": "container never started", "2": "crash-loop on start"})
+    assert sorted(added) == ["1", "2"]
+
+
+def test_the_synthetic_backfill_label_would_have_classified_as_durable():
+    """The measurement behind the fix: this is the string backfill used to invent, and it is why the guard
+    never fired. Kept as a test so nobody re-introduces a label like it."""
+    assert vmb.classify_reason("backfilled from rung5a_ks's refuse-to-start list") == vmb.CLASS_HOST
+
+
+def test_the_ternary_lane_no_longer_backfills_on_every_read():
+    """AST, not a substring: the comment block that explains the removal necessarily QUOTES the old call,
+    and a grep-based test would fail on the explanation rather than on the code."""
+    import ast
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "ternary_vast_launch.py")).read()
+    calls = [n for n in ast.walk(ast.parse(src))
+             if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr == "backfill"]
+    assert calls == [], "the per-read backfill is the regrowth route; it must stay removed"
+
+
+# ============================================================================================================
+# The clear that reported success against a key the fan-out has never written.
+# ============================================================================================================
+def test_clear_lane_state_handles_the_fanouts_machine_ids_shape():
+    s3 = _FakeS3({"nr4a3-step1-fanout/results/_excluded_machines.json":
+                  json.dumps({"machine_ids": ["8914", "68109"], "history": []})})
+    removed = vmb.clear_lane_state(s3, "b", "nr4a3-step1-fanout/results/_excluded_machines.json")
+    assert sorted(removed) == ["68109", "8914"]
+    assert json.loads(s3.objs["nr4a3-step1-fanout/results/_excluded_machines.json"])["machine_ids"] == []
+
+
+def test_a_missing_lane_key_is_reported_as_missing_not_as_clean(capsys):
+    """"nothing to clear" and "you are pointed at the wrong file" must not print the same. On 2026-07-27 the
+    second printed as the first and 41 machines survived a clear that reported 74 entries removed."""
+    s3 = _FakeS3()
+    assert vmb.clear_lane_state(s3, "b", "nr4a3-step1-fanout/results/_lane_state.json") == []
+    out = capsys.readouterr().out
+    assert "NO SUCH DOCUMENT" in out and "wrong one" in out
+
+
+def test_the_clear_workflow_points_at_the_fanouts_REAL_key():
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    wf = open(os.path.join(root, ".github", "workflows", "gpu-ternary-fep-vast.yml")).read()
+    assert '--lane-state "nr4a3-step1-fanout/results/_excluded_machines.json"' in wf
+    # the flag form only — the comment above it names the wrong key on purpose, as the record of the miss
+    assert '--lane-state "nr4a3-step1-fanout/results/_lane_state.json"' not in wf
+
+
+# ============================================================================================================
+# A snapshot is a record, not a buffer.
+# ============================================================================================================
+def test_snapshot_refuses_to_overwrite_an_existing_record(tmp_path, monkeypatch):
+    p = tmp_path / "vast-blacklist-snapshot-before-clear.json"
+    p.write_text('{"n_machine_ids": 41}')
+    import sys as _sys
+    monkeypatch.setattr(_sys, "argv", ["vast_machine_blacklist.py", "--snapshot", str(p)])
+    assert vmb.main() == 2
+    assert json.loads(p.read_text())["n_machine_ids"] == 41, "the pre-clear record was clobbered"
+
+
+def test_the_committed_pre_clear_record_is_still_intact():
+    """The irreplaceable artifact this whole guard exists for: 41 machines, {'host': 9, 'capacity': 32}."""
+    p = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                     "vast-blacklist-snapshot-before-clear.json")
+    doc = json.load(open(p))
+    assert doc["n_machine_ids"] == 41
+    assert doc["history_entries_by_reason_class"] == {"host": 9, "capacity": 32}
