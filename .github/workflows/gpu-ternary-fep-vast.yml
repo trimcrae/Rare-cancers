@@ -751,11 +751,58 @@ jobs:
               --leg-id calib_hi_to_lo2__binary_vhl \
               --out /tmp/pf/valb-triangle-map-preflight.json 2>&1 | tail -40
           cp /tmp/pf/valb-triangle-map-preflight.json research/modalities/valb-triangle-map-preflight.json
+      # ★★ AND AGAIN AGAINST THE BYTES THE HOST ACTUALLY RUNS (2026-07-27, 9:30 PM ET).
+      #
+      # THE BLINDNESS THIS CLOSES. The pre-flight above reads the STAGE cache. `run_ternary_leg.sh` copies the
+      # PRE-EQUIL cache over the top of it before the engine sees anything, so the gate and the host were
+      # grading different bytes — and on 2026-07-27 that gap passed both `calib_lo_to_lo2` legs at 7:51 PM ET
+      # which then died 8 minutes into their rentals on a deterministic
+      # `ValueError: Incorrect number of partial charges: 109 were provided for 110 atoms`, because the
+      # relaxed SDF carried a stale charge array the rebuild's atom count no longer matched. The gate could
+      # not have caught it: it called the very function that raised, on inputs the host never uses.
+      #
+      # The root cause is fixed at the engine boundary (`nr4a3_rbfe.strip_foreign_partial_charges`), so THIS
+      # failure cannot recur. This step exists for the NEXT divergence between the two trees, which is a
+      # structural hazard rather than a one-off bug: any future difference between what we grade and what we
+      # run is exactly as invisible as this one was.
+      #
+      # A pre-equil cache MISS is not a failure — the overlay is then a no-op and the tree equals the stage
+      # tree, which is the correct thing to grade when no relaxation exists yet.
+      - name: $0 ATOM-MAP PRE-FLIGHT, ON THE AS-RUN TREE (stage + pre-equil overlay)
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          mkdir -p /tmp/asrun
+          python - <<'PYEOF'
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import valb_triangle_charge_forensic as f
+          # Mirrors run_ternary_leg.sh exactly: the two tars have different layouts and are unpacked
+          # differently. That mirroring is the whole point — a check that assembles the tree its own way
+          # grades a third thing that nobody runs.
+          f.fetch_caches("triangle", "/tmp/asrun")
+          PYEOF
+          ls -la /tmp/asrun/asrun || { echo "::error::the as-run tree was not assembled"; exit 1; }
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/asrun:/tmp/asrun \
+            -e RBFE_LOMAP_TIME_S=300 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_map_preflight.py \
+              --input-dir /tmp/asrun/asrun \
+              --leg-id calib_lo_to_lo2__ternary_vhl \
+              --leg-id calib_lo_to_lo2__binary_vhl \
+              --leg-id calib_hi_to_lo2__ternary_vhl \
+              --leg-id calib_hi_to_lo2__binary_vhl \
+              --out /tmp/asrun/valb-triangle-map-preflight-asrun.json 2>&1 | tail -40
+          cp /tmp/asrun/valb-triangle-map-preflight-asrun.json \
+             research/modalities/valb-triangle-map-preflight-asrun.json
       - name: Commit the pre-flight record
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/valb-triangle-map-preflight.json
+          git add research/modalities/valb-triangle-map-preflight.json \
+                  research/modalities/valb-triangle-map-preflight-asrun.json
           if git diff --cached --quiet; then echo "pre-flight record unchanged"; else
             git commit -m "valB closure triangle: atom-map pre-flight for T2 and T3 (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
