@@ -328,43 +328,6 @@
   "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this modeled conformer, conditional on the pose hypothesis.",
   "idle_guard": [
     {
-      "instance": 46111844,
-      "label": "s1f-01-cw_ev_5oh",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": 71.999931,
-        "progress_advanced": true,
-        "log_age_min": 1.709532,
-        "start_ages_min": [
-          1494.9595322092375,
-          1328.676198875904,
-          1162.1095322092374,
-          1111.0595322092374,
-          1055.426198875904,
-          994.6095322092374,
-          942.7928655425708,
-          927.876198875904,
-          919.1428655425708,
-          878.9428655425708,
-          821.9761988759041,
-          806.9928655425707,
-          754.9095322092375,
-          703.0428655425708,
-          700.8428655425707,
-          483.9261988759041,
-          435.05953220923743,
-          328.97619887590406,
-          314.97619887590406,
-          222.04286554257075,
-          200.8095322092374
-        ],
-        "instance_age_min": 201
-      }
-    },
-    {
       "instance": 46112126,
       "label": "s1f-14-cw_ms_carbinol",
       "verdict": "WORKING",
@@ -372,89 +335,48 @@
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 95.999908,
+        "gpu_util": 99.999908,
         "progress_advanced": true,
-        "log_age_min": 0.3294662333333333,
+        "log_age_min": 0.30737815,
         "start_ages_min": [
-          1500.2961330374083,
-          1486.1461330374082,
-          1208.9794663707414,
-          1173.9294663707415,
-          314.77946637074155,
-          313.0961330374082,
-          312.16279970407487,
-          196.11279970407486
+          1516.4240449865658,
+          1502.274044986566,
+          1225.1073783198992,
+          1190.0573783198993,
+          330.90737831989924,
+          329.2240449865659,
+          328.29071165323256,
+          212.24071165323258
         ],
-        "instance_age_min": 197
+        "instance_age_min": 213
       }
     },
     {
-      "instance": 46120556,
-      "label": "s1f-16-cw_ms_5acetamido_ester",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": null,
-        "progress_advanced": true,
-        "log_age_min": 0.8753875666666667,
-        "start_ages_min": [
-          86.37538777192434
-        ],
-        "instance_age_min": 87
-      }
-    },
-    {
-      "instance": 46125022,
-      "label": "s1f-08-cw_bio_primary_amide",
-      "verdict": "COLD_START",
-      "why": "instance is 10 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "instance": 46120649,
+      "label": "s1f-17-cw_ev_5opropargyl",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 1 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "evidence": {
         "instance_running": true,
         "container_started": true,
         "gpu_util": 0.0,
         "progress_advanced": false,
-        "log_age_min": 1.76142115,
+        "log_age_min": 0.6797458666666666,
         "start_ages_min": [
-          1433.1280879656474,
-          1407.7614212989806,
-          1404.8614212989808,
-          1090.394754632314,
-          1087.6614212989807,
-          889.4114212989807,
-          887.8114212989807,
-          860.844754632314,
-          858.1780879656474,
-          822.094754632314,
-          818.4780879656474,
-          800.9614212989807,
-          798.9114212989807,
-          754.2614212989807,
-          752.8947546323141,
-          649.5780879656473,
-          647.794754632314,
-          630.6114212989808,
-          627.7447546323141,
-          502.3280879656474,
-          499.64475463231406,
-          452.0780879656474,
-          449.5780879656474,
-          435.244754632314,
-          433.7280879656474,
-          335.9114212989807,
-          330.9614212989807,
-          326.6114212989807,
-          185.5114212989807,
-          183.46142129898072,
-          157.1780879656474,
-          155.1114212989807,
-          87.57808796564738,
-          85.72808796564738,
-          6.161421298980713,
-          3.5780879656473794
+          1300.0964127024015,
+          1294.4297460357348,
+          1179.0630793690682,
+          343.69641270240146,
+          291.6297460357348,
+          245.62974603573483,
+          74.49641270240149,
+          64.82974603573481,
+          53.99641270240148,
+          43.16307936906814,
+          3.1630793690681456,
+          2.7630793690681457
         ],
-        "instance_age_min": 10
+        "instance_age_min": 102
       }
     },
     {
@@ -467,30 +389,30 @@
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 84.66479576666667,
+        "log_age_min": 100.78647903333334,
         "start_ages_min": [
-          1269.7981292406719,
-          1174.8147959073385,
-          891.6147959073385,
-          502.3981292406718,
-          484.59812924067177,
-          435.9147959073385,
-          429.8814625740051,
-          375.1647959073385,
-          357.3981292406718,
-          329.31479590733846,
-          299.01479590733845,
-          283.59812924067177,
-          258.18146257400514,
-          198.29812924067178,
-          129.28146257400513,
-          86.69812924067179
+          1285.9198125799496,
+          1190.9364792466163,
+          907.7364792466163,
+          518.5198125799496,
+          500.7198125799497,
+          452.03647924661635,
+          446.00314591328305,
+          391.28647924661635,
+          373.5198125799497,
+          345.4364792466164,
+          315.1364792466164,
+          299.7198125799497,
+          274.303145913283,
+          214.4198125799497,
+          145.40314591328303,
+          102.8198125799497
         ],
-        "instance_age_min": 10
+        "instance_age_min": 26
       }
     }
   ],
-  "realised_usd": 51.19,
+  "realised_usd": 51.51,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -1657,8 +1579,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "machine_id": 55559,
       "rate_usd_h": 0.1768,
-      "billed_h": 3.35,
-      "usd": 0.592
+      "billed_h": 3.62,
+      "usd": 0.639
     },
     {
       "instance": "46111848",
@@ -1689,8 +1611,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "machine_id": 12259,
       "rate_usd_h": 0.2448,
-      "billed_h": 3.28,
-      "usd": 0.804
+      "billed_h": 3.55,
+      "usd": 0.869
     },
     {
       "instance": "46112230",
@@ -1729,32 +1651,32 @@
       "unit_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
       "machine_id": 31035,
       "rate_usd_h": 0.1618,
-      "billed_h": 1.45,
-      "usd": 0.235
+      "billed_h": 1.72,
+      "usd": 0.278
     },
     {
       "instance": "46120649",
       "unit_id": "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
       "machine_id": 50093,
       "rate_usd_h": 0.204,
-      "billed_h": 1.43,
-      "usd": 0.292
+      "billed_h": 1.7,
+      "usd": 0.347
     },
     {
       "instance": "46125022",
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "machine_id": 36341,
       "rate_usd_h": 0.204,
-      "billed_h": 0.17,
-      "usd": 0.034
+      "billed_h": 0.43,
+      "usd": 0.088
     },
     {
       "instance": "46125028",
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "machine_id": 12227,
       "rate_usd_h": 0.1907,
-      "billed_h": 0.17,
-      "usd": 0.032
+      "billed_h": 0.43,
+      "usd": 0.083
     }
   ],
   "plan_usd_whole_tranche": 29.72,
