@@ -304,37 +304,37 @@
       "instance": 46111844,
       "label": "s1f-01-cw_ev_5oh",
       "verdict": "COLD_START",
-      "why": "instance is 5 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "why": "instance is 8 min old, under the 15 min floor \u2014 too young to have proved anything either way",
       "evidence": {
         "instance_running": true,
         "container_started": true,
         "gpu_util": 99.999908,
         "progress_advanced": false,
-        "log_age_min": 0.8461850666666667,
+        "log_age_min": 1.2226196,
         "start_ages_min": [
-          1299.0461852987607,
-          1132.7628519654274,
-          966.1961852987607,
-          915.1461852987608,
-          859.5128519654274,
-          798.6961852987607,
-          746.8795186320941,
-          731.9628519654274,
-          723.229518632094,
-          683.0295186320941,
-          626.0628519654274,
-          611.079518632094,
-          558.9961852987607,
-          507.12951863209406,
-          504.9295186320941,
-          288.0128519654274,
-          239.14618529876074,
-          133.0628519654274,
-          119.0628519654274,
-          26.129518632094065,
-          4.896185298760732
+          1301.4392864783606,
+          1135.155953145027,
+          968.5892864783605,
+          917.5392864783605,
+          861.9059531450272,
+          801.0892864783605,
+          749.2726198116939,
+          734.3559531450271,
+          725.6226198116939,
+          685.4226198116938,
+          628.4559531450271,
+          613.4726198116938,
+          561.3892864783605,
+          509.5226198116938,
+          507.3226198116938,
+          290.4059531450272,
+          241.53928647836048,
+          135.45595314502717,
+          121.45595314502717,
+          28.522619811693826,
+          7.289286478360494
         ],
-        "instance_age_min": 5
+        "instance_age_min": 8
       }
     },
     {
@@ -347,43 +347,93 @@
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 126.5991377,
+        "log_age_min": 128.99428978333333,
         "start_ages_min": [
-          1237.1991379618644,
-          1211.8324712951978,
-          1208.9324712951977,
-          894.4658046285311,
-          891.7324712951978,
-          693.4824712951978,
-          691.8824712951978,
-          664.9158046285312,
-          662.2491379618644,
-          626.1658046285312,
-          622.5491379618645,
-          605.0324712951978,
-          602.9824712951978,
-          558.3324712951978,
-          556.9658046285311,
-          453.6491379618645,
-          451.8658046285311,
-          434.6824712951978,
-          431.8158046285311,
-          306.3991379618645,
-          303.71580462853115,
-          256.1491379618645,
-          253.64913796186448,
-          239.31580462853114,
-          237.79913796186446,
-          139.9824712951978,
-          135.0324712951978,
-          130.68247129519781
+          1239.594290113449,
+          1214.2276234467824,
+          1211.3276234467824,
+          896.8609567801158,
+          894.1276234467824,
+          695.8776234467824,
+          694.2776234467824,
+          667.3109567801158,
+          664.6442901134491,
+          628.5609567801158,
+          624.9442901134491,
+          607.4276234467824,
+          605.3776234467824,
+          560.7276234467824,
+          559.3609567801158,
+          456.0442901134491,
+          454.26095678011575,
+          437.0776234467824,
+          434.21095678011574,
+          308.7942901134491,
+          306.11095678011577,
+          258.5442901134491,
+          256.0442901134491,
+          241.71095678011577,
+          240.19429011344909,
+          142.37762344678242,
+          137.42762344678243,
+          133.07762344678244
         ],
-        "instance_age_min": 5
+        "instance_age_min": 8
       }
     },
     {
       "instance": 46111897,
       "label": "s1f-12-cw_bio_hydroxamic",
+      "verdict": "COLD_START",
+      "why": "instance is 7 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "evidence": {
+        "instance_running": true,
+        "container_started": true,
+        "gpu_util": 85.999916,
+        "progress_advanced": false,
+        "log_age_min": 0.7000641333333333,
+        "start_ages_min": [
+          1076.2667310476304,
+          981.2833977142969,
+          698.083397714297,
+          308.8667310476303,
+          291.0667310476303,
+          242.383397714297,
+          236.35006438096363,
+          181.633397714297,
+          163.8667310476303,
+          135.78339771429697,
+          105.48339771429697,
+          90.06673104763031,
+          64.65006438096364,
+          4.76673104763031
+        ],
+        "instance_age_min": 7
+      }
+    },
+    {
+      "instance": 46112121,
+      "label": "s1f-13-cw_ms_free_acid",
+      "verdict": "WORKING",
+      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
+      "evidence": {
+        "instance_running": true,
+        "container_started": true,
+        "gpu_util": null,
+        "progress_advanced": true,
+        "log_age_min": 0.7891445833333334,
+        "start_ages_min": [
+          458.53914484977724,
+          79.42247818311056,
+          32.672478183110556,
+          2.872478183110555
+        ],
+        "instance_age_min": 4
+      }
+    },
+    {
+      "instance": 46112126,
+      "label": "s1f-14-cw_ms_carbinol",
       "verdict": "COLD_START",
       "why": "instance is 4 min old, under the 15 min floor \u2014 too young to have proved anything either way",
       "evidence": {
@@ -391,72 +441,41 @@
         "container_started": true,
         "gpu_util": 0.0,
         "progress_advanced": false,
-        "log_age_min": 0.3193846166666667,
+        "log_age_min": 0.5611283666666667,
         "start_ages_min": [
-          1073.8693848609923,
-          978.8860515276591,
-          695.6860515276591,
-          306.4693848609924,
-          288.6693848609924,
-          239.9860515276591,
-          233.95271819432577,
-          179.2360515276591,
-          161.46938486099242,
-          133.3860515276591,
-          103.0860515276591,
-          87.66938486099244,
-          62.252718194325766,
-          2.3693848609924317
+          1306.7944619735083,
+          1292.6444619735082,
+          1015.4777953068416,
+          980.4277953068415,
+          121.27779530684153,
+          119.5944619735082,
+          118.66112864017487,
+          2.611128640174866
         ],
         "instance_age_min": 4
       }
     },
     {
-      "instance": 46112121,
-      "label": "s1f-13-cw_ms_free_acid",
-      "verdict": "COLD_START",
-      "why": "instance is 1 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "instance": 46112230,
+      "label": "s1f-15-cw_ms_5acetamido_ester",
+      "verdict": "UNKNOWN",
+      "why": "instance is not `running`; the stopped/frozen clauses own this box, not the idle guard",
       "evidence": {
-        "instance_running": true,
-        "container_started": true,
+        "instance_running": false,
+        "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 0.35627065,
+        "log_age_min": 37.11651868333333,
         "start_ages_min": [
-          456.1396042227745,
-          77.02293755610783,
-          30.272937556107838,
-          0.47293755610783894
+          136.74985227584838,
+          92.41651894251505,
+          81.58318560918173
         ],
-        "instance_age_min": 1
-      }
-    },
-    {
-      "instance": 46112126,
-      "label": "s1f-14-cw_ms_carbinol",
-      "verdict": "COLD_START",
-      "why": "instance is 1 min old, under the 15 min floor \u2014 too young to have proved anything either way",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": null,
-        "progress_advanced": false,
-        "log_age_min": 0.142736,
-        "start_ages_min": [
-          1304.3927362481752,
-          1290.2427362481753,
-          1013.0760695815086,
-          978.0260695815086,
-          118.87606958150863,
-          117.19273624817531,
-          116.25940291484197,
-          0.2094029148419698
-        ],
-        "instance_age_min": 1
+        "instance_age_min": 2
       }
     }
   ],
-  "realised_usd": 47.38,
+  "realised_usd": 47.43,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -1623,40 +1642,48 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "machine_id": 55559,
       "rate_usd_h": 0.1768,
-      "billed_h": 0.08,
-      "usd": 0.015
+      "billed_h": 0.13,
+      "usd": 0.024
     },
     {
       "instance": "46111848",
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "machine_id": 8328,
       "rate_usd_h": 0.1765,
-      "billed_h": 0.08,
-      "usd": 0.015
+      "billed_h": 0.13,
+      "usd": 0.024
     },
     {
       "instance": "46111897",
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "machine_id": 36507,
       "rate_usd_h": 0.2489,
-      "billed_h": 0.07,
-      "usd": 0.017
+      "billed_h": 0.12,
+      "usd": 0.029
     },
     {
       "instance": "46112121",
       "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid",
       "machine_id": 31035,
       "rate_usd_h": 0.1618,
-      "billed_h": 0.02,
-      "usd": 0.003
+      "billed_h": 0.07,
+      "usd": 0.011
     },
     {
       "instance": "46112126",
       "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "machine_id": 12259,
       "rate_usd_h": 0.2448,
-      "billed_h": 0.02,
-      "usd": 0.004
+      "billed_h": 0.07,
+      "usd": 0.016
+    },
+    {
+      "instance": "46112230",
+      "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
+      "machine_id": 33414,
+      "rate_usd_h": 0.2244,
+      "billed_h": 0.03,
+      "usd": 0.007
     }
   ],
   "plan_usd_whole_tranche": 29.72,
