@@ -337,22 +337,112 @@
         "container_started": true,
         "gpu_util": 0.0,
         "progress_advanced": true,
-        "log_age_min": 1.44035435,
+        "log_age_min": 0.30297094999999996,
         "start_ages_min": [
-          1602.2903545538584,
-          1588.1403545538585,
-          1310.9736878871918,
-          1275.9236878871918,
-          416.7736878871918,
-          415.09035455385845,
-          414.1570212205251,
-          298.1070212205251
+          1605.1863044857978,
+          1591.036304485798,
+          1313.8696378191312,
+          1278.8196378191312,
+          419.6696378191312,
+          417.98630448579786,
+          417.0529711524645,
+          301.00297115246457
         ],
-        "instance_age_min": 299
+        "instance_age_min": 302
+      }
+    },
+    {
+      "instance": 46132149,
+      "label": "s1f-01-cw_ev_5oh",
+      "verdict": "COLD_START",
+      "why": "instance is 3 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "evidence": {
+        "instance_running": true,
+        "container_started": true,
+        "gpu_util": 0.0,
+        "progress_advanced": false,
+        "log_age_min": 0.2172082,
+        "start_ages_min": [
+          1599.8672083735466,
+          1433.5838750402133,
+          1267.0172083735465,
+          1215.9672083735466,
+          1160.3338750402133,
+          1099.5172083735465,
+          1047.70054170688,
+          1032.7838750402132,
+          1024.05054170688,
+          983.8505417068799,
+          926.8838750402133,
+          911.90054170688,
+          859.8172083735466,
+          807.9505417068799,
+          805.75054170688,
+          588.8338750402132,
+          539.9672083735466,
+          433.88387504021324,
+          419.88387504021324,
+          326.95054170687996,
+          305.7172083735466,
+          2.2672083735466004
+        ],
+        "instance_age_min": 3
+      }
+    },
+    {
+      "instance": 46132151,
+      "label": "s1f-08-cw_bio_primary_amide",
+      "verdict": "UNKNOWN",
+      "why": "instance is not `running`; the stopped/frozen clauses own this box, not the idle guard",
+      "evidence": {
+        "instance_running": false,
+        "container_started": false,
+        "gpu_util": null,
+        "progress_advanced": false,
+        "log_age_min": 106.65568341666668,
+        "start_ages_min": [
+          1538.0223502914112,
+          1512.6556836247444,
+          1509.7556836247445,
+          1195.2890169580778,
+          1192.5556836247445,
+          994.3056836247445,
+          992.7056836247444,
+          965.7390169580777,
+          963.0723502914111,
+          926.9890169580777,
+          923.3723502914111,
+          905.8556836247444,
+          903.8056836247445,
+          859.1556836247444,
+          857.7890169580777,
+          754.4723502914111,
+          752.6890169580778,
+          735.5056836247444,
+          732.6390169580777,
+          607.2223502914111,
+          604.5390169580777,
+          556.9723502914111,
+          554.4723502914111,
+          540.1390169580777,
+          538.6223502914111,
+          440.8056836247444,
+          435.8556836247444,
+          431.5056836247444,
+          290.4056836247444,
+          288.3556836247444,
+          262.07235029141106,
+          260.0056836247444,
+          192.4723502914111,
+          190.6223502914111,
+          111.05568362474442,
+          108.47235029141108
+        ],
+        "instance_age_min": 3
       }
     }
   ],
-  "realised_usd": 53.2,
+  "realised_usd": 53.24,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -1551,8 +1641,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "machine_id": 12259,
       "rate_usd_h": 0.2448,
-      "billed_h": 4.98,
-      "usd": 1.22
+      "billed_h": 5.03,
+      "usd": 1.232
     },
     {
       "instance": "46112230",
@@ -1615,8 +1705,24 @@
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "machine_id": 12227,
       "rate_usd_h": 0.1907,
-      "billed_h": 1.87,
-      "usd": 0.356
+      "billed_h": 1.92,
+      "usd": 0.366
+    },
+    {
+      "instance": "46132149",
+      "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
+      "machine_id": 33657,
+      "rate_usd_h": 0.1292,
+      "billed_h": 0.05,
+      "usd": 0.006
+    },
+    {
+      "instance": "46132151",
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "machine_id": 29706,
+      "rate_usd_h": 0.204,
+      "billed_h": 0.05,
+      "usd": 0.01
     }
   ],
   "plan_usd_whole_tranche": 29.72,
