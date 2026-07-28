@@ -1503,6 +1503,62 @@
         "used_for_mean": 3
       },
       "reason": "board cleared both ceilings; dispatching task=triangle"
+    },
+    {
+      "utc": "2026-07-28T04:34:56Z",
+      "et": "12:34 AM ET",
+      "outcome": "launched",
+      "what_that_means": "hosts were actually rented",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30328858298",
+      "gate_ratio_vs_basis": 1.514,
+      "gate_mean_usd_per_ns": 0.005166,
+      "gate_projected_usd": 6.46,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $6.46 within this rung's ceiling $11.55 AND 1.51x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 187,
+        "qualifying": 187,
+        "priceable": 107,
+        "needed": 3,
+        "used_for_mean": 3
+      },
+      "n_requested": 2,
+      "n_rented": 2,
+      "rented": [
+        {
+          "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "instance": "46074858",
+          "machine_id": 8914
+        },
+        {
+          "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "instance": "46074916",
+          "machine_id": 24573
+        }
+      ],
+      "already_live": [
+        {
+          "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "instance": 46071355,
+          "gpu": "RTX 5090",
+          "usd_per_ns": 0.003818,
+          "x_basis": 1.119,
+          "over_buy_line": false,
+          "actual_status": "loading"
+        },
+        {
+          "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "instance": 46071349,
+          "gpu": "RTX 3090",
+          "usd_per_ns": 0.003676,
+          "x_basis": 1.077,
+          "over_buy_line": false,
+          "actual_status": "running"
+        }
+      ],
+      "reason": "task=triangle; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."
