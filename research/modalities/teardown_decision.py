@@ -57,8 +57,25 @@ DESTROY_BACKSTOP = "destroy: no replacement, but the stopped-storage backstop ex
 HOLD_NO_REPLACEMENT = "hold: nothing on the board clears the buy line, so teardown would buy nothing"
 
 
+# Storage, the only thing a HELD box costs. Median $0.20/GB/month measured across 445 offers — its one home
+# is bid-strategy.md F4, and it is quoted here because there is no code home for it; if that measurement is
+# re-taken, this is the copy to update.
+#
+# ⚠ IT MUST BE DERIVED FROM THE DISK WE ACTUALLY REQUEST. F4's headline "~$0.011/hr" is computed at 40 GB,
+# and no lane requests 40 GB any more: the ternary lane asks for 60 and the step 1 fan-out for 80. Quoting
+# the 40 GB figure understates a ternary hold by 1.5x and a step 1 hold by 2x — which is exactly the kind of
+# stale constant this repo keeps getting caught by (rule 1).
+USD_PER_GB_MONTH = 0.20
+HOURS_PER_MONTH = 730.0
+
+
+def storage_usd_h_for(disk_gb):
+    """What holding a box with `disk_gb` of disk costs per hour. Billed whether running or stopped."""
+    return USD_PER_GB_MONTH * float(disk_gb) / HOURS_PER_MONTH
+
+
 def decide(*, replacement_usd_per_ns, buy_line_usd_per_ns, stopped_min, max_stopped_min,
-           storage_usd_h=0.011):
+           disk_gb=None, storage_usd_h=None):
     """Destroy this capacity-refused instance, or hold it? PURE — no I/O, no clock, no API.
 
     `replacement_usd_per_ns` is the best price at which we could rent a REPLACEMENT right now, already
@@ -68,6 +85,9 @@ def decide(*, replacement_usd_per_ns, buy_line_usd_per_ns, stopped_min, max_stop
     every hold to be visible with its evidence — a silent hold is indistinguishable from a lane that
     finished.
     """
+    if storage_usd_h is None:
+        storage_usd_h = storage_usd_h_for(disk_gb) if disk_gb else storage_usd_h_for(40)
+
     have = (replacement_usd_per_ns is not None
             and buy_line_usd_per_ns is not None
             and replacement_usd_per_ns <= buy_line_usd_per_ns)

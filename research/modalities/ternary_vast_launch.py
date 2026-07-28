@@ -2098,9 +2098,12 @@ def collect(bucket=None, prefix=None, autostop=True):
                 except Exception as _e:  # noqa: BLE001 — an unreadable board is NOT permission to destroy
                     print(f"    (replacement check failed, failing CLOSED: {type(_e).__name__}: {_e})")
 
+                # disk_gb from the LANE'S OWN spec: storage is what a hold costs, and it scales with the
+                # disk we requested. The 40 GB headline in bid-strategy.md F4 is stale for every live lane.
                 _td = tdd.decide(replacement_usd_per_ns=repl,
                                  buy_line_usd_per_ns=_BUY_LINE_USD_PER_NS,
-                                 stopped_min=up_h * 60.0, max_stopped_min=MAX_STOPPED_MIN)
+                                 stopped_min=up_h * 60.0, max_stopped_min=MAX_STOPPED_MIN,
+                                 disk_gb=resource_spec().disk_gb)
                 print(tdd.render(_td, instance_id=iid, machine_id=i.get("machine_id")))
                 if _td["destroy"]:
                     try:

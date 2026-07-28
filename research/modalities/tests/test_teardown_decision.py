@@ -7,6 +7,7 @@ actually purchasable, and not when the buy line would refuse one — which is a 
 8:32 PM ET on 2026-07-27 when the board's cheapest was 1.96x basis and all 12 units were refused.
 """
 import os
+import pytest
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -141,3 +142,29 @@ def test_held_boxes_are_surfaced_not_swallowed():
     # CLAUDE.md §6: every hold must be VISIBLE with the snapshot that caused it.
     src = _launcher_src()
     assert "TVAST-HELD" in src and "held_boxes" in src
+
+
+# ============================================================================================================
+# The hold cost must track the disk we ACTUALLY request, not a stale headline figure.
+# bid-strategy.md F4 quotes "~$0.011/hr at the 40 GB the launcher requests" — but no lane requests 40 GB any
+# more (ternary 60, step 1 fan-out 80), so the headline understates a real hold by 1.5-2x.
+# ============================================================================================================
+def test_storage_scales_with_the_disk_requested():
+    assert td.storage_usd_h_for(40) == pytest.approx(0.0110, abs=1e-4)
+    assert td.storage_usd_h_for(60) == pytest.approx(0.0164, abs=1e-4)
+    assert td.storage_usd_h_for(80) == pytest.approx(0.0219, abs=1e-4)
+
+
+def test_a_hold_prices_itself_off_the_lanes_own_disk():
+    ternary = td.decide(replacement_usd_per_ns=0.00668, buy_line_usd_per_ns=LINE,
+                        stopped_min=5.0, max_stopped_min=45.0, disk_gb=60)
+    fanout = td.decide(replacement_usd_per_ns=0.00668, buy_line_usd_per_ns=LINE,
+                       stopped_min=5.0, max_stopped_min=45.0, disk_gb=80)
+    assert fanout["hold_cost_usd_h"] > ternary["hold_cost_usd_h"]
+    assert ternary["hold_cost_usd_h"] == pytest.approx(td.storage_usd_h_for(60))
+
+
+def test_the_stale_40gb_headline_is_not_the_default_for_a_lane_that_states_its_disk():
+    d = td.decide(replacement_usd_per_ns=0.00668, buy_line_usd_per_ns=LINE,
+                  stopped_min=5.0, max_stopped_min=45.0, disk_gb=60)
+    assert d["hold_cost_usd_h"] != pytest.approx(0.011, abs=1e-4)
