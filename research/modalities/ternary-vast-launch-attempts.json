@@ -3,28 +3,6 @@
   "_read_this_when": "the market gate says CLEAR but no host is running. A gate that cleared and a launch that then died look identical in every other artifact.",
   "attempts": [
     {
-      "utc": "2026-07-27T13:13:04Z",
-      "et": "9:13 AM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "market-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30269185466",
-      "reason": "board cleared both ceilings; dispatched task=edge-reps (run 30269249817)",
-      "reconstructed_from_job_log": true,
-      "gate_ratio_vs_basis": 1.261,
-      "gate_mean_usd_per_ns": 0.005497,
-      "gate_projected_usd": 11.07,
-      "gate_max_ratio_vs_basis": 1.5,
-      "gate_hold": false,
-      "gate_board_depth": {
-        "offers_returned": 64,
-        "qualifying": 60,
-        "priceable": 31,
-        "needed": 4,
-        "used_for_mean": 4
-      }
-    },
-    {
       "utc": "2026-07-27T13:16:28Z",
       "et": "9:16 AM ET",
       "outcome": "refused-on-price",
@@ -1843,6 +1821,28 @@
         "offers_returned": 166,
         "qualifying": 166,
         "priceable": 95,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "reason": "board cleared both ceilings; dispatching task=edge-reps"
+    },
+    {
+      "utc": "2026-07-28T08:08:09Z",
+      "et": "4:08 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30341068406",
+      "gate_ratio_vs_basis": 1.416,
+      "gate_mean_usd_per_ns": 0.004831,
+      "gate_projected_usd": 2.59,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.59 within this rung's ceiling $5.19 AND 1.42x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 158,
+        "qualifying": 158,
+        "priceable": 96,
         "needed": 1,
         "used_for_mean": 1
       },
