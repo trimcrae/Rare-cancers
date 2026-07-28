@@ -382,6 +382,41 @@ def test_arm_of_leg_covers_every_leg_id_the_lane_can_launch():
     assert tv.arm_of_leg("calib_lo_to_lo2__binary_vhl") == "binary"
 
 
+def test_the_derivation_survives_a_stdlib_only_runner():
+    """★★ THE SILENT-DISABLE RISK, AND WHY IT IS WORTH ITS OWN TEST. `warmup_target_iters` imports the engine
+    for `EQUILIBRATION_NS` (one home) and, if that import fails, WARNs and falls back to the mode's flat
+    value. That fallback is correct behaviour and a terrible failure mode: the job that actually rents hosts
+    is a plain `ubuntu-latest` runner with `setup-python` and `pip install boto3` — no rdkit, no numpy, no
+    OpenMM — so if any module on the import chain grew a heavy top-level dependency, the per-arm cadence
+    would switch itself off *in the only place it matters* and the launch would still be green.
+
+    So: block the heavy packages outright and require the derivation to still produce its per-arm answer.
+    """
+    import importlib
+    import subprocess
+    src = (
+        "import sys\n"
+        "blocked = {'rdkit','numpy','scipy','openmm','openfe','pandas','matplotlib','boto3','mdtraj'}\n"
+        "class B:\n"
+        "    def find_module(self, name, path=None):\n"
+        "        return self if name.split('.')[0] in blocked else None\n"
+        "    def load_module(self, name):\n"
+        "        raise ImportError('blocked ' + name)\n"
+        "sys.meta_path.insert(0, B())\n"
+        f"sys.path.insert(0, {os.path.dirname(tv._ARM_RATES_PATH)!r})\n"
+        "import ternary_vast_launch as t\n"
+        f"print(t.warmup_target_iters(4.0, 1.0), t.warmup_ckpt_iters_for({TERNARY!r}, {MODE!r}))\n"
+    )
+    out = subprocess.run([sys.executable, "-c", src], capture_output=True, text=True)
+    assert out.returncode == 0, out.stderr[-2000:]
+    target, ci = out.stdout.split()
+    assert target == "1600", f"the warmup target could not be derived without heavy deps: {out.stdout!r}"
+    assert ci == tv.warmup_ckpt_iters_for(TERNARY, MODE) != str(tv.MODES[MODE]["warmup_ckpt_iters"]), (
+        f"the per-arm cadence silently fell back to the flat value on a stdlib-only runner (got {ci}) — "
+        f"that is the environment the launch job runs in")
+    assert importlib  # keep the import meaningful to linters
+
+
 def test_the_helpers_are_pure_and_rent_nothing():
     """This runs inside `build_jobspec`, on the path to a rental. It must not reach the network, and it must
     certainly never touch an instance."""
