@@ -41,8 +41,11 @@ on:
   workflow_dispatch:
     inputs:
       fleet_branch:
-        description: "branch carrying the lanes' artifacts (same meaning as in step1-fanout-autoscale.yml)"
+        description: "branch carrying the STEP 1 lane's artifacts (same meaning as in step1-fanout-autoscale.yml)"
         default: "claude/max-effort-2dq11l"
+      ternary_branch:
+        description: "branch carrying the TERNARY family's artifacts. NOT the same branch as the fan-out: gpu-ternary-fep-vast.yml is dispatched with ref=main and commits there, so reading these lanes off the fleet branch shows state hours old."
+        default: "main"
       write_history:
         description: "1 = persist the census history so the next run can age a flat census; 0 = read only"
         default: "1"
@@ -85,6 +88,36 @@ jobs:
       # NO `pip install` here. Not an optimisation — a dependency is a way for this to fail for a reason
       # unrelated to the lanes, and the module imports nothing outside the stdlib (asserted by
       # tests/test_lane_staleness_watch.py, which also asserts it imports nothing from the lanes it watches).
+      # ★★ MATERIALISE THE TERNARY FAMILY'S ARTIFACTS FROM ITS OWN BRANCH (2026-07-27, 8:10 PM ET).
+      #
+      # The checkout above is the FLEET branch, which is correct for step 1 and WRONG for every ternary lane:
+      # `gpu-ternary-fep-vast.yml` runs with `GIT_BRANCH: main` and commits its watch list, launch ledger and
+      # market holds to main. Measured at 8:06 PM, the two branches disagreed like this:
+      #
+      #   main                      enabled modes: edge_reps 4, triangle 4        ledger 8:03 PM ET
+      #   claude/max-effort-2dq11l  enabled modes: edge_reps 4, triangle_smoke 1  ledger 6:25 PM ET
+      #
+      # So the watcher could not see the closure triangle at all and called it IDLE-UNEXPECTED — "someone has
+      # to dispatch its next step" — while all 4 of its legs were hosted and billing. It also called the valB
+      # replicates BILLING-NOT-ADVANCING 20 minutes after they were re-placed. Two red lanes, both healthy.
+      #
+      # A false red is not a cheap error: it is indistinguishable from a true one, so it teaches the reader to
+      # ignore the alarm. `git show` into a plain directory (the checkout is already `fetch-depth: 0`) costs
+      # nothing and needs no second checkout action.
+      - name: Materialise the ternary family's artifacts from ITS branch
+        run: |
+          set -eo pipefail
+          BR="${{ github.event.inputs.ternary_branch || 'main' }}"
+          mkdir -p /tmp/roots/ternary
+          git fetch --no-tags origin "$BR"
+          n=0
+          for f in $(git ls-tree --name-only "origin/$BR" research/modalities/ | grep '\.json$'); do
+            git show "origin/$BR:$f" > "/tmp/roots/ternary/$(basename "$f")" && n=$((n+1))
+          done
+          echo "materialised $n json artifact(s) from origin/$BR"
+          # A root that came out EMPTY would make every ternary lane read as having no evidence — a
+          # fleet-wide false alarm from a silent failure. Fail loudly here instead.
+          [ "$n" -gt 0 ] || { echo "::error title=TERNARY ROOT EMPTY::no artifacts materialised from origin/$BR"; exit 1; }
       - name: Is any lane stale, and is that expected?
         id: watch
         working-directory: research/modalities
@@ -96,6 +129,7 @@ jobs:
           set +e
           python3 lane_staleness_watch.py \
             --json /tmp/lane-staleness-verdict.json \
+            --source-root ternary=/tmp/roots/ternary \
             $([ "${{ github.event.inputs.write_history || '1' }}" = "1" ] && echo --write-history) \
             | tee /tmp/lane-staleness.log
           echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
