@@ -154,3 +154,13 @@ def test_the_cli_runs_as_a_SCRIPT_not_just_as_an_import(tmp_path):
     r = subprocess.run([sys.executable, mod, "--clear", "x"], capture_output=True, text=True)
     assert r.returncode == 2, f"rc={r.returncode} stdout={r.stdout[-400:]} stderr={r.stderr[-400:]}"
     assert "NameError" not in r.stderr
+
+
+def test_the_lane_local_exclusion_list_is_wave_scoped_not_cumulative():
+    """`sorted(prior | blocked)` made the lane's own list grow forever, and it is populated ONLY by the
+    resources_unavailable branch — the perishable class. Clearing the shared set without this would have
+    regrown the same 40-machine filter within a day."""
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "ternary_vast_launch.py")).read()
+    assert 'new_state["_blocked_machines"] = sorted(prior | blocked)' not in src
+    assert 'new_state["_blocked_machines"] = sorted(blocked)' in src

@@ -2168,8 +2168,23 @@ def collect(bucket=None, prefix=None, autostop=True):
     print("---- END TVAST-SUMMARY ----")
 
     try:
-        prior = set(prev_state.get("_blocked_machines") or [])
-        new_state["_blocked_machines"] = sorted(prior | blocked)
+        # ★★ WAVE-SCOPED, NOT CUMULATIVE (trimcrae, 2026-07-27: "only add someone back if you have a real
+        # reason"). This used to be `sorted(prior | blocked)` — a union with every previous tick, so the
+        # list only ever grew. The ONLY thing that adds to `blocked` is the `resources_unavailable` branch
+        # above, i.e. the whole set is the PERISHABLE capacity class: "this machine's GPU was busy on this
+        # tick", not a property of the host.
+        #
+        # Carrying that forward is what produced 33 lane-local + 41 shared exclusions and made our own
+        # filter, not price, the binding constraint on placement — 2 of 2 authorised units failed with
+        # `no rentable verified offer` against a 189-offer board at healthy prices. Clearing the shared set
+        # without this would have regrown it from here within a day.
+        #
+        # Now a refusal excludes the machine for THIS wave and is forgotten next tick unless it refuses
+        # again. Re-testing is nearly free: a failed submit costs no rental and no billing. Durable host
+        # verdicts are a different path entirely — they go to the shared set via
+        # `vast_machine_blacklist.publish`, which refuses the capacity class outright.
+        prior = set(prev_state.get("_blocked_machines") or [])   # read for the readout only; NOT re-persisted
+        new_state["_blocked_machines"] = sorted(blocked)
         # carry forward progress entries for units with no live instance, so the stall clock is not reset
         # by a preemption (which is exactly when you want to know how far it had got).
         for k, v in prev_state.items():
