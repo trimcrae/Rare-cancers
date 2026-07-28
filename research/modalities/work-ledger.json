@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-28T11:52:58Z",
-  "_generated_et": "7:52 AM ET Jul 28, 2026",
+  "_generated_utc": "2026-07-28T12:16:42Z",
+  "_generated_et": "8:16 AM ET Jul 28, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-28T12:40:58Z",
-  "_stale_after_et": "8:40 AM ET Jul 28, 2026",
+  "_stale_after_utc": "2026-07-28T13:04:42Z",
+  "_stale_after_et": "9:04 AM ET Jul 28, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -1860,7 +1860,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "9 host(s) up and new evidence 2 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
+        "9 host(s) up and new evidence 25 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
       ]
     },
     {
@@ -1870,12 +1870,12 @@
       "owner": "gpu-ternary-fep-vast.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "ADVANCING||launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched'",
-      "last_evidence_utc": "2026-07-28T11:16:19Z",
-      "last_evidence_et": "7:16 AM ET Jul 28, 2026",
-      "last_evidence_what": "launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched'",
-      "next_evidence_due_utc": "2026-07-28T12:01:19Z",
-      "next_evidence_due_et": "8:01 AM ET Jul 28, 2026",
+      "evidence_fingerprint": "ADVANCING||launch ledger: stage='market-gate' outcome='dispatched'",
+      "last_evidence_utc": "2026-07-28T12:16:08Z",
+      "last_evidence_et": "8:16 AM ET Jul 28, 2026",
+      "last_evidence_what": "launch ledger: stage='market-gate' outcome='dispatched'",
+      "next_evidence_due_utc": "2026-07-28T13:01:08Z",
+      "next_evidence_due_et": "9:01 AM ET Jul 28, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -1936,7 +1936,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 8:01 AM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 9:01 AM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": null,
       "cost_points_at": "ternary-vast-market-hold.json:plan_usd",
       "price_points_at": "ternary-vast-market-hold.json",
@@ -1945,7 +1945,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "1 host(s) up and new evidence 37 min ago (launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched'). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
+        "1 host(s) up and new evidence 1 min ago (launch ledger: stage='market-gate' outcome='dispatched'). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
       ]
     },
     {
@@ -2041,7 +2041,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "2 host(s) up and this lane has produced NO new evidence for 326 min (last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 2:26 AM ET Jul 28, 2026, threshold 90 min). A valB cohort was dead for 85 min under exactly this shape while its watchdog printed 'advancing \u2026 Leaving it alone'. NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is t"
+        "2 host(s) up and this lane has produced NO new evidence for 350 min (last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 2:26 AM ET Jul 28, 2026, threshold 90 min). A valB cohort was dead for 85 min under exactly this shape while its watchdog printed 'advancing \u2026 Leaving it alone'. NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is t"
       ]
     },
     {
@@ -2173,17 +2173,17 @@
     "rung:post_submit"
   ],
   "_self": {
-    "now_et": "7:52 AM ET Jul 28, 2026",
-    "generated_et": "7:52 AM ET Jul 28, 2026",
-    "stale_after_et": "8:40 AM ET Jul 28, 2026",
+    "now_et": "8:16 AM ET Jul 28, 2026",
+    "generated_et": "8:16 AM ET Jul 28, 2026",
+    "stale_after_et": "9:04 AM ET Jul 28, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 8:40 AM ET Jul 28, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 9:04 AM ET Jul 28, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (7:37 AM ET Jul 28, 2026) refreshed the artifact to 7:52 AM ET Jul 28, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (7:52 AM ET Jul 28, 2026) refreshed the artifact to 8:16 AM ET Jul 28, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
