@@ -205,20 +205,44 @@ MODES = {
     # commit prefix, and `rbfe_spot_checkpoint.SYSTEM_FINGERPRINT_ENV` — which LISTS "SEED", so a re-used seed
     # cannot silently resume into another replicate's trajectory. That much holds for every leg, both arms.
     #
-    # ⚠ BUT the stage cache is the exception, and it is a REAL limitation of the n=3 cycle SD.
+    # ⚠ THE STAGE CACHE WAS RECORDED HERE AS A LIMITATION OF THE n=3 CYCLE SD. ★ IT IS NOT ONE — MEASURED
+    # 2026-07-27, AND THE CORRECTION RUNS IN THE REPLICATES' FAVOUR, WHICH IS EXACTLY WHY IT MATTERS.
     # `ternary_pdb_stage` builds the SMARCA2 homology ensemble with **n_models=2** and takes
-    # `starting_model_index = seed % len(model_pdbs)`. So: seed 0 -> model 0, seed 1 -> model 1,
-    # **seed 2 -> model 0 again, the same relaxed pose r0 started from.** Reviewer condition #3 ("each ternary
-    # REPLICATE uses an INDEPENDENTLY relaxed SMARCA2 model, so a coop result is not an artifact of one
-    # homology pose") is therefore met for 2 of the 3 ternary replicates and not the third, and the cycle SD
-    # UNDERSTATES the homology-model component of the variance. Note the binary arm is untouched by this —
-    # it stages E3 machinery only, with no SMARCA2 model at all, so its three seeds differ by sampler stream
-    # and nothing else.
+    # `starting_model_index = seed % len(model_pdbs)`, so seed 0 -> model 0, seed 1 -> model 1, seed 2 ->
+    # model 0. From the INDEX alone this paragraph used to conclude "seed 2 uses the same relaxed pose r0
+    # started from", and therefore that reviewer condition #3 ("each ternary REPLICATE uses an INDEPENDENTLY
+    # relaxed SMARCA2 model, so a coop result is not an artifact of one homology pose") was met for 2 of 3
+    # replicates and the cycle SD UNDERSTATED the homology-model component of the variance.
     #
-    # NOT FIXED IN FLIGHT, deliberately. Rebuilding with n_models=3 re-relaxes the ensemble, so "model 0"
-    # would no longer be the pose r0 and r1 were computed on — the fix would break comparability with the two
-    # replicates that already exist in order to improve the third. It is recorded here, reported with the SD,
-    # and pinned by `tests/test_edge_reps_seed_independence.py` so the claim cannot silently drift back to the
+    # ⛔ THE INDEX IS NOT THE GEOMETRY, and the three staged trees are DIFFERENT FILES. Hashed from the very
+    # cache keys the hosts read (`ternary_reps_diag --compare-stage`, committed as
+    # `ternary-reps-stage-census.json`):
+    #
+    #     seed 0   starting_model_index=0   complex.pdb sha256[:16] e3cc2bf0795a8267   ligands.sdf 16a58ceed94766e9
+    #     seed 1   starting_model_index=1   complex.pdb sha256[:16] d07668fa97d8f77a   ligands.sdf 55f5e74c133ee30d
+    #     seed 2   starting_model_index=0   complex.pdb sha256[:16] b8f824089b1ac51c   ligands.sdf 8b91583106edc91c
+    #
+    # Same topology throughout (7030 atoms, 4 chains A/B/C/T at 1433/1329/2343/1925, 433 residues), different
+    # coordinates — seed 2 does NOT reuse r0's geometry despite selecting the same model index. So the three
+    # ternary replicates are MORE independent than this comment claimed, not less, and the cycle SD does not
+    # need the understatement caveat it used to carry.
+    #
+    # ⚠ WHY CORRECTING THIS IS WORTH THE WORDS RATHER THAN A QUIET DELETION: a standing, false claim of
+    # SHARED starting geometry is an argument for DISCOUNTING a measured SD, and σ_cycle is the deliverable
+    # this whole rung exists to produce (`valb_triangle_closure.binary_departure_prereg` knows σ_leg only to
+    # a factor of ~15 and its power statement depends on it). A reader who believed the old paragraph would
+    # have marked down a real number. Note the binary arm is untouched either way — it stages E3 machinery
+    # only, with no SMARCA2 model at all, so its seeds differ by sampler stream and nothing else.
+    #
+    # SUPERSEDED, RETAINED (CLAUDE.md §1.2): "seed 2 -> model 0 again, the same relaxed pose r0 started
+    # from", and the conclusion drawn from it that condition #3 was met for only 2 of 3 replicates.
+    #
+    # WHAT IS STILL TRUE, AND STILL NOT FIXED IN FLIGHT: the ensemble is only 2 models wide, so the
+    # starting-model INDEX repeats every two seeds even though the relaxed coordinates do not. Rebuilding
+    # with n_models=3 re-relaxes the ensemble, so "model 0" would no longer be the pose r0 and r1 were
+    # computed on — the fix would break comparability with the two replicates that already exist in order to
+    # improve the third. It is recorded here, reported with the SD, and pinned by
+    # `tests/test_edge_reps_seed_independence.py` so the claim cannot silently drift back to the
     # strong form. It becomes decision-relevant only if `calibration_gate` returns BORDERLINE and takes its
     # "extend to 5 replicates" branch, at which point seeds 3 and 4 would land on models 1 and 0 and the
     # ensemble genuinely does need widening BEFORE that round is bought.
@@ -239,6 +263,11 @@ MODES = {
         # closes the "resume silently accepted a generation from another configuration" hole for free.
         # Scoped per-mode rather than lane-wide precisely so it cannot refuse another lane's live resume.
         "strict_provenance": True,
+        # ★★ AND THE CHECKPOINT INTERVAL IS PER-ARM HERE, DERIVED — see `warmup_ckpt_iters_for`. The `64`
+        # above is the REFERENCE arm's (binary) value and the ternary arm gets its own, smaller, computed
+        # one. This is the fix for three cohorts in which the ternary legs committed literally nothing while
+        # their matched binary legs advanced normally; the whole argument is in that function.
+        "per_arm_ckpt": True,
         "legs": [("calib_hi_to_lo__ternary_vhl", 1, "fwd"),
                  ("calib_hi_to_lo__binary_vhl", 1, "fwd"),
                  ("calib_hi_to_lo__ternary_vhl", 2, "fwd"),
@@ -382,6 +411,111 @@ def resolve_timesteps(mode, timestep_fs=None, warmup_timestep_fs=None):
     wdt = str(warmup_timestep_fs or sizing.get("warmup_timestep_fs")
               or os.environ.get("TVAST_WARMUP_TIMESTEP_FS") or DEFAULT_WARMUP_TIMESTEP_FS)
     return dt, wdt
+
+
+# =============================================================================================================
+# PER-ARM CHECKPOINT CADENCE — the fix for an arm that banked nothing across three cohorts
+# =============================================================================================================
+# ★★ MEASURED SAMPLER RATE PER ARM. ONE HOME (CLAUDE.md §1), each figure carrying the leg record it came from,
+# because the whole point of this block is that the two arms are NOT interchangeable and a single shared
+# number is what hid that.
+#
+#   ternary 17.0 s/iter  — calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge, status=done, prod median
+#                          (the 4 fs probe on the same system independently read 16.6)
+#   binary   6.0 s/iter  — calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps, live board 2026-07-27:
+#                          `[timing] 64 iters in 383s = 6.0s/iter` — i.e. the arm the current interval was
+#                          tuned on, measured on the host it was tuned on
+#   solvent  1.7 s/iter  — calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge, status=done, prod median
+#
+# ⚠ THESE ARE WALL-CLOCK RATES ON THE HOSTS THIS LANE ACTUALLY RENTS, not a card-normalised throughput, and
+# that is deliberate: the quantity being budgeted is EXPOSURE TO LOSING A HOST, which is wall-clock. A
+# card-normalised figure would be the right input to a cost model and the wrong one here.
+ARM_MEASURED_S_PER_ITER = {"ternary": 17.0, "binary": 6.0, "solvent": 1.7}
+
+# The arm whose interval the mode's `warmup_ckpt_iters` was chosen for. Everything else is derived against it.
+CKPT_REFERENCE_ARM = "binary"
+
+# The warmup phase's iteration target, which every candidate interval must divide exactly.
+# DERIVED, NOT OBSERVED: `rbfe_spot_driver` computes warmup_iters from the equilibration length at the WARMUP
+# timestep but with the PRODUCTION integrator's steps-per-iteration —
+#     EQUILIBRATION_NS 1.0 ns / 1.0 fs warmup dt = 1e6 steps; 2.5 ps per iteration / 4.0 fs prod dt = 625
+#     steps per iteration; 1e6 / 625 = 1600
+# — and then rounds the target DOWN to a multiple of the interval. So an interval that does not divide 1600
+# would SHORTEN the equilibration relative to r0's, which is a protocol difference inside a matched cycle,
+# which is exactly the class of error this lane refuses elsewhere (see the triangle's 2 fs pinning). 1600 is
+# 2^6 x 25, so it is pinned by a test rather than trusted.
+WARMUP_TARGET_ITERS = 1600
+
+
+def arm_of_leg(leg_id):
+    """binary | ternary | solvent for a leg id. PURE. One home for the arm split."""
+    if leg_id.endswith("__solvent") or "__solvent" in leg_id:
+        return "solvent"
+    return "ternary" if "__ternary" in leg_id else "binary"
+
+
+def warmup_ckpt_iters_for(leg_id, mode, sizing=None):
+    """The warmup checkpoint interval for THIS leg — derived per arm, not shared. Returns a str.
+
+    ★★ WHY THE TWO ARMS MUST NOT SHARE ONE INTERVAL (measured 2026-07-27, after three cohorts in which the
+    ternary replicates committed ABSOLUTELY NOTHING while their matched binary legs advanced normally).
+    Four candidate causes were tested and refuted by measurement — an out-of-memory kill (the setup peaks at
+    2.31 GiB against hosts with 63-128 GB), a missing or mis-keyed stage cache (all three seed keys exist and
+    unpack), a defective seed-1/2 staged input (seed 1's exact tree builds its hybrid system to completion,
+    rc=0), and our own idle guard (its lines are 15 min of silence and 3 starts; the observed figures are ~4
+    min and 2). What is left is not a defect at all — it is EXPOSURE:
+;
+        first durable checkpoint = warmup_ckpt_iters x s_per_iter
+                       binary:  64 x  6.0 s =  384 s   -> banks progress, resumes, ratchets
+                       ternary: 64 x 17.0 s = 1088 s   -> ~18 min of unprotected runway
+;
+    plus a further ~4.2 min in which `HybridTopologyFactory` construction emits no stdout at all (measured:
+    t=64 s -> t=316.6 s on the ternary system against t=53.5 s -> t=211.1 s on the binary). Vast hosts are
+    reclaimed on a timescale that the binary arm survives and the ternary arm does not, so the SAME churn
+    produces a ratchet on one arm and a permanent zero on the other. Six ternary legs out of six. That is a
+    mechanism that explains all six, not the last one.
+
+    THE INTERVAL IS THEREFORE DERIVED FROM THE MEASUREMENT, NOT CHOSEN. The reference arm's exposure
+    (`CKPT_REFERENCE_ARM`'s interval x its measured rate) is the budget; every other arm gets the LARGEST
+    interval that fits inside it and still divides `WARMUP_TARGET_ITERS` exactly. Re-measure a rate and the
+    interval re-derives; nobody has to remember to re-tune it.
+
+    ⛔ DO NOT "TIDY" THE TWO ARMS BACK TO ONE SHARED VALUE. That is the bug, not the untidiness. A single
+    number cannot express "the same exposure" for two systems that sample at 6.0 and 17.0 s/iter, and the
+    version of this file that had one is the version under which six consecutive ternary legs produced no
+    science at all. `tests/test_ternary_ckpt_exposure.py` fails if the two arms' exposures diverge.
+
+    SAFE TO CHANGE MID-EXPERIMENT, for two reasons that were checked rather than assumed. (1) The interval is
+    a COMMIT CADENCE, not a sampling parameter — it selects when the sampler state is written to the commit
+    store and does not touch the integrator, the moves or the random stream, so the trajectory is unchanged
+    and the matched cycle against r0 is intact. (2) `rbfe_spot_driver` rounds the phase target DOWN to a
+    multiple of the interval, and every interval this returns divides 1600 exactly, so the equilibration
+    length is byte-identical to r0's. It also only ever applies to units with nothing committed: on a resume
+    the interval baked into the committed .nc OVERRIDES the environment (the driver's single-interval
+    invariant), and these units' commit scalars are 0.
+    """
+    sizing = MODES[mode] if sizing is None else sizing
+    ref = str(sizing.get("warmup_ckpt_iters") or "64")
+    if not sizing.get("per_arm_ckpt"):
+        return ref
+    arm = arm_of_leg(leg_id)
+    rate = ARM_MEASURED_S_PER_ITER.get(arm)
+    ref_rate = ARM_MEASURED_S_PER_ITER.get(CKPT_REFERENCE_ARM)
+    if arm == CKPT_REFERENCE_ARM or not rate or not ref_rate:
+        return ref
+    budget_s = int(ref) * ref_rate                       # the reference arm's PROVEN exposure, in seconds
+    fits = [d for d in range(1, int(ref) + 1)
+            if WARMUP_TARGET_ITERS % d == 0 and d * rate <= budget_s]
+    # `or [1]` cannot fire for any rate under the budget, but a future arm slower than budget_s per single
+    # iteration would otherwise raise here — and a crash in a launcher is a worse failure than one commit
+    # per iteration.
+    return str(max(fits or [1]))
+
+
+def ckpt_exposure_s(leg_id, mode, sizing=None):
+    """Seconds of sampling this leg can lose to a host reclaim before its first commit. PURE, for the test
+    and for the readout — the number the whole per-arm split exists to equalise."""
+    return int(warmup_ckpt_iters_for(leg_id, mode, sizing)) * ARM_MEASURED_S_PER_ITER[arm_of_leg(leg_id)]
 
 
 def unit_id(leg_id, seed, direction, timestep_fs, warmup_timestep_fs, mode):
@@ -878,10 +1012,16 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         "RBFE_WARMUP_ITERS": sizing["warmup_iters"],
         "RBFE_PROD_ITERS": sizing["prod_iters"],
         # Checkpoint granularity == the maximum work a preemption can cost, traded against per-commit
-        # overhead. Per-mode; see the note on MODES. The engine rounds each phase's target DOWN to a
-        # multiple of its interval, so an interval larger than a short phase's target would silently
-        # shorten the run — which is why probe and edge do not share one value.
-        "WARMUP_CKPT_ITERS": os.environ.get("TVAST_WARMUP_CKPT_ITERS") or sizing["warmup_ckpt_iters"],
+        # overhead. The engine rounds each phase's target DOWN to a multiple of its interval, so an interval
+        # larger than a short phase's target would silently shorten the run — which is why probe and edge do
+        # not share one value.
+        # ★★ AND PER-ARM, NOT JUST PER-MODE, WHEREVER A MODE OPTS IN. "The maximum work a preemption can
+        # cost" is a WALL-CLOCK quantity, so one iteration count cannot express it for two arms that sample
+        # at 6.0 and 17.0 s/iter — and pretending it could is what left six consecutive ternary replicates
+        # with nothing committed while their matched binary legs advanced. `warmup_ckpt_iters_for` derives it
+        # from the measured rates; the mode's own value is the reference arm's.
+        "WARMUP_CKPT_ITERS": (os.environ.get("TVAST_WARMUP_CKPT_ITERS")
+                              or warmup_ckpt_iters_for(leg_id, mode, sizing)),
         "PROD_CKPT_ITERS": os.environ.get("TVAST_PROD_CKPT_ITERS") or sizing["prod_ckpt_iters"],
         # The MD's own cap, inside the instance runtime cap, so the deliverable upload still runs.
         "MD_TIMEOUT_S": str(int(sizing["max_runtime_s"] * 0.92)),
