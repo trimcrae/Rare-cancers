@@ -880,6 +880,16 @@ _LANE_VERDICT = {
 
 #: Which workflow advances a lane. The ledger names a workflow and nothing else — the workflow carries the
 #: gate. See `DISPATCHABLE` for the structural half of that guarantee.
+# ⚠ CAN A LEDGER DISPATCH CANCEL LIVE WORK, OR DOUBLE-RENT? CHECKED, NOT ASSUMED (2026-07-27):
+#   * `step1-fanout-autoscale.yml` sets `concurrency: {group: step1-fanout-autoscale,
+#     cancel-in-progress: false}` — an extra dispatch QUEUES behind a running tick and can never cancel one.
+#   * `gpu-ternary-fep-vast.yml` already fires on its own `cron: "17 * * * *"`, and its `resolve` step
+#     defaults a scheduled run to `TASK=market-gate`. So the gate pass this module asks for is the SAME
+#     action that lane already takes hourly on its own — inside the existing envelope, not a new class of
+#     traffic. The launcher recomputes `units_needing_host` from the object store on every pass, so a
+#     concurrent gate cannot place a unit that is already hosted.
+#   * And the volume is bounded twice over regardless: DEDUPLICATED to one dispatch per (workflow, inputs)
+#     per run, and capped per item by the retry budget.
 _LANE_ACTION = {
     # The fan-out tick. Its placer holds the per-unit dollar ceiling and the buy line.
     "step1-fanout":      ("step1-fanout-autoscale.yml", {}),
