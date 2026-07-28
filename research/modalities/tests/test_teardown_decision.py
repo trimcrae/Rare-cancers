@@ -104,3 +104,40 @@ def test_it_is_pure_no_io_no_clock():
                             "teardown_decision.py")).read()
     for banned in ("import boto3", "import requests", "time.time(", "datetime.now("):
         assert banned not in src, banned
+
+
+# ============================================================================================================
+# ★ THE CALL SITE MUST STAY WIRED — a module nothing calls is not a policy.
+#
+# Why this exists: when this landed, another lane was concurrently editing `ternary_vast_launch.py` from a
+# base that PREDATED it. A wholesale commit of that file would revert the conditional teardown silently, and
+# the only symptom would be hosts being destroyed into a market that refuses to replace them — invisible
+# until someone re-derived the whole argument. Two lanes already reverted each other's edits this way on
+# 2026-07-27. A red build is the cheap version of that discovery.
+# ============================================================================================================
+def _launcher_src():
+    return open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                             "ternary_vast_launch.py")).read()
+
+
+def test_the_capacity_refusal_path_still_asks_before_destroying():
+    src = _launcher_src()
+    assert "teardown_decision" in src, "the launcher no longer imports the teardown decision"
+    assert "tdd.decide(" in src, "the launcher no longer CALLS the teardown decision"
+
+
+def test_the_replacement_is_priced_through_the_same_gate_that_would_buy_it():
+    # If these diverge, a board we refuse to buy from could still authorise a teardown into it.
+    assert "relaunch_market_gate" in _launcher_src()
+
+
+def test_a_capacity_refusal_can_no_longer_destroy_unconditionally():
+    # The old unconditional line. Its return means the decision was bypassed.
+    src = _launcher_src()
+    assert "picking another host beats queueing on this one" not in src
+
+
+def test_held_boxes_are_surfaced_not_swallowed():
+    # CLAUDE.md §6: every hold must be VISIBLE with the snapshot that caused it.
+    src = _launcher_src()
+    assert "TVAST-HELD" in src and "held_boxes" in src
