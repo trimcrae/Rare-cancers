@@ -70,9 +70,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-diag]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -147,7 +147,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-diag) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -1096,8 +1096,9 @@ jobs:
           sys.path.insert(0, "research/modalities")
           import ternary_vast_launch as tv
           mode = sys.argv[1]
-          for leg, seed, _d in tv.units_for(mode):
-              print(leg, seed, tv.stage_cache_key(leg, mode, seed=seed))
+          for leg, seed, direction in tv.units_for(mode):
+              spec = tv.build_jobspec(leg, seed=seed, direction=direction, mode=mode)
+              print(leg, seed, tv.stage_cache_key(leg, mode, seed=seed), spec.env["PE_CACHE"])
           PY
           cat /tmp/units.txt
           # A missing stage cache is a hard stop, not a fall-through: without ligands.sdf the map cannot be
@@ -1107,6 +1108,27 @@ jobs:
             KEY=$(awk -v l="$LEG" '$1==l {print $3; exit}' /tmp/units.txt)
             aws s3 cp "$KEY" /tmp/stage.tar || { echo "::error::ATOM-MAP GATE COULD NOT RUN — no stage cache at $KEY; run the matching prime task first. The map was NOT measured."; exit 1; }
             tar -C /tmp/tin -xf /tmp/stage.tar
+            # ★★ AND THEN THE PRE-EQUIL CACHE OVER THE TOP, BECAUSE THAT IS WHAT THE HOST READS
+            # (2026-07-27). `run_ternary_leg.sh` step 2 copies the RELAXED complex.pdb + ligands.sdf over
+            # the staged ones before the engine starts, so a gate that reads only the stage cache is
+            # checking bytes no leg ever consumes. It is not a hypothetical gap: on run 30315113060 this
+            # step reported "every leg's atom map measured complete" at 7:51 PM ET and both
+            # `calib_lo_to_lo2` legs died at 7:59 PM ET inside `_build_components` — the very function
+            # this gate calls — because the RELAXED SDF carried an `atom.dprop.PartialCharge` array the
+            # staged one did not. Overlaying the same way the host does closes that blindness.
+            # A MISS is not fatal here (the first launch of a leg legitimately has no pre-equil cache yet);
+            # a HIT must be used, and either way the log says which bytes were graded.
+            # NB the two tars have DIFFERENT layouts, exactly as the onstart script unpacks them: the stage
+            # tar holds `<leg>/...` and extracts at the tree root, the pre-equil tar holds `complex.pdb`
+            # and `ligands.sdf` at ITS root and extracts INTO the leg directory. Getting this backwards
+            # would silently leave the staged SDF in place and re-create the blindness being closed.
+            PEKEY=$(awk -v l="$LEG" '$1==l {print $4; exit}' /tmp/units.txt)
+            if aws s3 cp "$PEKEY" /tmp/pe.tar 2>/dev/null; then
+              tar -C "/tmp/tin/$LEG" -xf /tmp/pe.tar
+              echo "[mapgate] $LEG: graded on the PRE-EQUIL cache (what the host reads) <- $PEKEY"
+            else
+              echo "[mapgate] $LEG: no pre-equil cache yet ($PEKEY) — graded on the stage cache; the host will build its own"
+            fi
           done
           # ★ THE PRE-FLIGHT'S OWN MARKERS DECIDE WHETHER THIS WAS A REFUSAL, exactly as the launcher's
           # `TVAST HELD ON PRICE` decides that for the price gate. A non-zero exit here is ambiguous by
@@ -1342,6 +1364,69 @@ jobs:
   # same innocuous line and cannot say what happened next. `request_logs` pulls the container's own console
   # from the provider; the `attempts/` archive supplies the same view for every PREVIOUS cohort, for free.
   # Read-only: it never rents, never nudges, never destroys.
+  # ------------------------------------------------- free: the gate's bytes vs the host's bytes, side by side
+  # $0 FORENSIC FOR THE CLOSURE TRIANGLE. `collect` prints a FILTERED head plus a 5-line tail of each leg's
+  # run.log, and on 2026-07-27 that filtering hid a fatal `ValueError` behind an innocuous `committed=none/0`
+  # for 38 minutes — two dead legs rendered exactly like two healthy cold starts. This dumps every triangle
+  # unit's run.log IN FULL, then assembles the two input trees (stage cache alone = what the atom-map gate
+  # grades; stage + pre-equil overlay = what `run_ternary_leg.sh` actually hands the engine) and runs the
+  # production `_build_components` against BOTH inside the parity image. Read-only end to end: no rent, no
+  # nudge, no destroy.
+  triangle_diag:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'triangle-diag' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Every triangle unit's FULL run.log, and both input trees pulled side by side
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          mkdir -p /tmp/tridiag
+          python research/modalities/valb_triangle_charge_forensic.py --mode triangle \
+            --logs --fetch-caches /tmp/tridiag 2>&1 | tee /tmp/tri_logs.txt
+      - name: Build the endpoints from EACH tree, in the image that produced the failure
+        run: |
+          set -eo pipefail
+          for i in 1 2 3; do
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin && break
+            [ "$i" = 3 ] && { echo "::error::forensic could not pull the parity image"; exit 1; }
+            sleep 20
+          done
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/tridiag:/tmp/tridiag \
+            -e RBFE_LOMAP_TIME_S=300 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_triangle_charge_forensic.py --mode triangle \
+              --audit /tmp/tridiag --out /tmp/tridiag/report.json 2>&1 | tee /tmp/tri_audit.txt
+          cp /tmp/tridiag/report.json research/modalities/valb-triangle-charge-forensic.json
+      - name: Commit the forensic — evidence nobody should have to re-derive from an expiring job log
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/valb-triangle-charge-forensic.json
+          if ! git diff --cached --quiet; then
+            git commit -m "valB triangle forensic: the gate's SDF vs the host's SDF (CI)"
+            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+            git push origin HEAD:"${{ github.ref_name }}" || true
+          fi
+      - name: Summary LAST
+        run: |
+          set -eo pipefail
+          echo "================ TRIANGLE ENDPOINT AUDIT ================"
+          cat /tmp/tri_audit.txt
+
   reps_diag:
     needs: resolve
     if: ${{ needs.resolve.outputs.task == 'reps-diag' }}

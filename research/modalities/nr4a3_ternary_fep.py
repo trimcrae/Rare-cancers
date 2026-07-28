@@ -471,6 +471,19 @@ def _build_components(openfe, rdkit_chem, leg, env, endpoints):
     base = CRYSTAL_SMILES or sa
     molA = _endpoint_pose(sdf, a, sa, base, rdkit_chem)   # target sa, built from the crystal pose
     molB = _endpoint_pose(sdf, b, sb, base, rdkit_chem)   # target sb, same crystal pose (element change if needed)
+    # ★ THE POSE FILE'S CHARGES ARE NOT THIS PROTOCOL'S CHARGES. `ligands.sdf` is a COORDINATE carrier: the
+    # relaxed one written by `ternary_preequil` comes through `openff Molecule.to_rdkit()` and so arrives
+    # stamped with the RELAXATION force field's `atom.dprop.PartialCharge`, which RDKit then copies through
+    # every step of `_endpoint_pose` onto a molecule whose atom count has CHANGED. Full reasoning and the
+    # measurement in `nr4a3_rbfe.strip_foreign_partial_charges`; the loud log line is here because this is the
+    # boundary where it would otherwise become either a dead rental or a silent protocol deviation.
+    for _nm, _m in (("A", molA), ("B", molB)):
+        _m, _n = rbfe.strip_foreign_partial_charges(_m)
+        if _n:
+            print("  [tfep] endpoint %s arrived with %d INHERITED partial charges for %d atoms — dropped; "
+                  "this protocol assigns its own (partial_charge_method), and a pose file's charges are a "
+                  "relaxation artefact, never the alchemical charge model."
+                  % (_nm, _n, _m.GetNumAtoms()), flush=True)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None

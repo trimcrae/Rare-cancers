@@ -70,6 +70,47 @@ def _sdf_mol(sdf_path, name, expected_smiles, rdkit_chem):
                      f"records present: {have[:20]}")
 
 
+# gufe stores an OpenFF molecule's partial charges on the RDKit mol under exactly this key, and
+# `SmallMoleculeComponent._check_partial_charges` reads it back. One name, one home — the forensic
+# (`valb_triangle_charge_forensic.py`) and the guard below must never disagree about the spelling.
+FOREIGN_CHARGE_PROPS = ("atom.dprop.PartialCharge", "atom.dprop.PartialCharges")
+
+
+def strip_foreign_partial_charges(mol):
+    """Drop any partial-charge array a pose file carried IN, and say how many values were dropped. PURE-ish
+    (mutates and returns `mol`), no RDKit-version-specific API.
+
+    ★ WHY THIS EXISTS (measured 2026-07-27, the valB closure triangle). `ternary_preequil._write_relaxed`
+    writes its relaxed endpoints via `openff.toolkit.Molecule.to_rdkit()`, which stamps the RELAXATION
+    force field's charges onto the mol as `atom.dprop.PartialCharge`; `Chem.SDWriter` then persists that
+    into `ligands.sdf`, and `run_ternary_leg.sh` step 2 copies that SDF over the staged one. RDKit COPIES
+    molecule-level properties through `RemoveHs` -> element swap -> `AddHs` -> `AssignBondOrdersFromTemplate`
+    (reproduced: a 15-value array survives intact onto a 16-atom mol), so the array rides all the way to
+    `SmallMoleculeComponent.from_rdkit` describing a molecule that no longer exists.
+
+    TWO failure modes, and the SECOND is the dangerous one:
+      * counts DISAGREE -> gufe raises `ValueError: Incorrect number of partial charges: 109  were provided
+        for 110 atoms` and the leg dies eight minutes into a billed rental. Loud.
+      * counts AGREE    -> gufe accepts them, and OpenFE PREFERS user-supplied charges over generating its
+        own, so the leg runs on relaxation charges while `_protocol()` reports `partial_charge_method =
+        nagl`. A ternary leg and its binary partner could then carry different charges, and ΔΔG_coop =
+        ternary − binary only cancels the charge model if BOTH sides used it. Silent.
+
+    So the charges a pose file arrives with are never this protocol's charges, and the correct handling of
+    both cases is the same: remove them and let the protocol assign its own. Returns (mol, n_dropped) so the
+    caller can LOG a non-zero drop — a guard that fires silently is how the second failure mode got here.
+    """
+    dropped = 0
+    for key in FOREIGN_CHARGE_PROPS:
+        if mol is not None and mol.HasProp(key):
+            try:
+                dropped = max(dropped, len(mol.GetProp(key).split()))
+            except Exception:  # noqa: BLE001
+                dropped = max(dropped, 1)
+            mol.ClearProp(key)
+    return mol, dropped
+
+
 def _repair_pose(mol, expected_smiles, rdkit_chem):
     """Repair a docked pose into a clean, closed-shell RDKit mol for OpenFF/NAGL. Docked SDFs come back with
     perceived bond orders/valences that can leave RADICAL electrons (openff raises RadicalsNotSupportedError,

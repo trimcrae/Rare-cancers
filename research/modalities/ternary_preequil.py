@@ -325,6 +325,20 @@ def _write_relaxed(topology, positions, n_prot, n_lig, off_ligA, molB, protein_o
     if not checks["ok"]:
         raise SystemExit("  [preequil] ABORT: endpoint verification FAILED (reviewer condition 1) — %s" % _json.dumps(checks))
 
+    # ★ THE RELAXED SDF IS A COORDINATE FILE, AND MUST NOT SHIP CHARGES (2026-07-27, the valB closure
+    # triangle). Both records above came through `openff Molecule.to_rdkit()`, which stamps the RELAXATION
+    # force field's charges onto the mol as `atom.dprop.PartialCharge`; `SDWriter` persists that, and
+    # `run_ternary_leg.sh` step 2 copies this file over the staged one, so the FEP engine inherits charges
+    # belonging to a different force field — and, after `_endpoint_pose` rebuilds the molecule, to a
+    # different ATOM COUNT. That killed both `calib_lo_to_lo2` legs at `from_rdkit`. Stripping here is the
+    # fix at the source; `nr4a3_rbfe.strip_foreign_partial_charges` (which owns the reasoning) is also
+    # applied at the engine's own boundary, because caches written before today still carry the array.
+    import nr4a3_rbfe as _rbfe
+    for m in (molA_r, molB_out):
+        _m, _n = _rbfe.strip_foreign_partial_charges(m)
+        if _n:
+            log(f"  [preequil] dropped {_n} relaxation partial charges before writing ligands.sdf "
+                f"(the FEP protocol assigns its own; a coordinate file must not carry a charge model)")
     w = Chem.SDWriter(sdf_out)
     for m in (molA_r, molB_out):
         w.write(m)
