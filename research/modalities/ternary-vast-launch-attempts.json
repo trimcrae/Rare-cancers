@@ -1243,6 +1243,28 @@
       "gate_hold": false,
       "gate_reason": "no unit of mode edge_reps needs a host \u2014 0 done, 4 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
       "reason": "every unit already done or hosted; no launch dispatched, no rental attempted"
+    },
+    {
+      "utc": "2026-07-28T02:10:47Z",
+      "et": "10:10 PM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "triangle-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30322328269",
+      "gate_ratio_vs_basis": 1.106,
+      "gate_mean_usd_per_ns": 0.003775,
+      "gate_projected_usd": 1.57,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $1.57 within this rung's ceiling $3.85 AND 1.11x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 197,
+        "qualifying": 197,
+        "priceable": 111,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "reason": "board cleared both ceilings; dispatching task=triangle"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."
