@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-28T02:02:46Z",
-  "_generated_et": "10:02 PM ET Jul 27, 2026",
+  "_generated_utc": "2026-07-28T02:05:19Z",
+  "_generated_et": "10:05 PM ET Jul 27, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-28T02:50:46Z",
-  "_stale_after_et": "10:50 PM ET Jul 27, 2026",
+  "_stale_after_utc": "2026-07-28T02:53:19Z",
+  "_stale_after_et": "10:53 PM ET Jul 27, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -557,9 +557,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1001080",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -695,22 +704,22 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 solvent/production@1760",
+      "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 solvent/production@1880",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "11001760",
-      "last_evidence_utc": "2026-07-28T02:00:57Z",
-      "last_evidence_et": "10:00 PM ET Jul 27, 2026",
+      "evidence_fingerprint": "11001880",
+      "last_evidence_utc": "2026-07-28T02:03:24Z",
+      "last_evidence_et": "10:03 PM ET Jul 27, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-07-28T03:30:57Z",
-      "next_evidence_due_et": "11:30 PM ET Jul 27, 2026",
+      "next_evidence_due_utc": "2026-07-28T03:33:24Z",
+      "next_evidence_due_et": "11:33 PM ET Jul 27, 2026",
       "blocked_by": [],
       "attempts": [],
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 11:30 PM ET Jul 27, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 11:33 PM ET Jul 27, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -799,9 +808,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "0",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -847,9 +865,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "0",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -923,9 +950,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1001040",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -969,9 +1005,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1000680",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -1015,9 +1060,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1001480",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -1061,9 +1115,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1000320",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -1107,9 +1170,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1000240",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -1153,9 +1225,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "100",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -1199,9 +1280,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1000440",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -1245,9 +1335,18 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T02:05:19Z",
+          "et": "10:05 PM ET Jul 27, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1000160",
+          "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -1606,18 +1705,18 @@
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "ADVANCING|35f1103f2e51cdd1|step1-fanout-progress.json `_generated_utc`",
-      "last_evidence_utc": "2026-07-28T02:00:57Z",
-      "last_evidence_et": "10:00 PM ET Jul 27, 2026",
+      "evidence_fingerprint": "ADVANCING|2548944ffa2a7a24|step1-fanout-progress.json `_generated_utc`",
+      "last_evidence_utc": "2026-07-28T02:03:24Z",
+      "last_evidence_et": "10:03 PM ET Jul 27, 2026",
       "last_evidence_what": "step1-fanout-progress.json `_generated_utc`",
-      "next_evidence_due_utc": "2026-07-28T02:45:57Z",
-      "next_evidence_due_et": "10:45 PM ET Jul 27, 2026",
+      "next_evidence_due_utc": "2026-07-28T02:48:24Z",
+      "next_evidence_due_et": "10:48 PM ET Jul 27, 2026",
       "blocked_by": [],
       "attempts": [],
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 10:45 PM ET Jul 27, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 10:48 PM ET Jul 27, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1626,7 +1725,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "7 host(s) up and new evidence 2 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
+        "8 host(s) up and new evidence 2 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
       ]
     },
     {
@@ -1686,7 +1785,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "4 host(s) up and new evidence 24 min ago (ternary-vast-market-hold.json `utc`). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
+        "4 host(s) up and new evidence 27 min ago (ternary-vast-market-hold.json `utc`). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
       ]
     },
     {
@@ -1726,7 +1825,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "no hosts and 4 unit(s) unfinished, but the last evidence is only 38 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
+        "no hosts and 4 unit(s) unfinished, but the last evidence is only 41 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
       ]
     },
     {
@@ -1888,17 +1987,17 @@
     "rung:post_submit"
   ],
   "_self": {
-    "now_et": "10:02 PM ET Jul 27, 2026",
-    "generated_et": "10:02 PM ET Jul 27, 2026",
-    "stale_after_et": "10:50 PM ET Jul 27, 2026",
+    "now_et": "10:05 PM ET Jul 27, 2026",
+    "generated_et": "10:05 PM ET Jul 27, 2026",
+    "stale_after_et": "10:53 PM ET Jul 27, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 10:50 PM ET Jul 27, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 10:53 PM ET Jul 27, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (9:53 PM ET Jul 27, 2026) refreshed the artifact to 10:02 PM ET Jul 27, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (10:02 PM ET Jul 27, 2026) refreshed the artifact to 10:05 PM ET Jul 27, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
