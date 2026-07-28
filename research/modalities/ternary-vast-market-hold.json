@@ -1,52 +1,65 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB_mini replicates",
-  "utc": "2026-07-28T18:48:03Z",
-  "n_units": 1,
+  "utc": "2026-07-28T20:12:47Z",
+  "n_units": 2,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 1.83,
-  "ceiling_usd": 5.19,
-  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
-  "breakeven_usd_per_ns": 0.009682,
+  "plan_usd": 3.66,
+  "ceiling_usd": 10.37,
+  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 2 legs",
+  "breakeven_usd_per_ns": 0.009673,
   "depth": {
-    "offers_returned": 155,
-    "qualifying": 155,
-    "priceable": 97,
-    "needed": 1,
-    "used_for_mean": 1
+    "offers_returned": 164,
+    "qualifying": 164,
+    "priceable": 101,
+    "needed": 2,
+    "used_for_mean": 2
   },
   "offers": [
     {
       "gpu": "RTX 3090",
       "machine_id": 28164,
-      "min_bid_usd_h": 0.053,
-      "usd_per_ns": 0.003789
+      "min_bid_usd_h": 0.054,
+      "usd_per_ns": 0.003843
+    },
+    {
+      "gpu": "RTX 4080S",
+      "machine_id": 33657,
+      "min_bid_usd_h": 0.12666666666666668,
+      "usd_per_ns": 0.005185
     }
   ],
-  "mean_usd_per_ns": 0.003789,
-  "ratio_vs_basis": 1.111,
-  "projected_usd": 2.03,
+  "mean_usd_per_ns": 0.004514,
+  "ratio_vs_basis": 1.323,
+  "projected_usd": 4.84,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $2.03 within this rung's ceiling $5.19 AND 1.11x basis is within the 1.92x drift line",
+  "reason": "projected $4.84 within this rung's ceiling $10.37 AND 1.32x basis is within the 1.92x drift line",
   "mode": "edge_reps",
   "nothing_to_launch": false,
   "units_done": [
     "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
     "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
   ],
-  "units_live": [
-    "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps"
-  ],
+  "units_live": [],
   "units_needing_host": [
+    "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
     "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
   ],
   "units_replacing_a_dead_host": [
     {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "dead_instance": 46120846,
+      "machine_id": 28164,
+      "gpu": "RTX 3090",
+      "actual_status": "exited",
+      "cur_state": "stopped"
+    },
+    {
       "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
-      "dead_instance": 46125186,
+      "dead_instance": 46132447,
       "machine_id": 28164,
       "gpu": "RTX 3090",
       "actual_status": "exited",
