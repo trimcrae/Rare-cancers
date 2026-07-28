@@ -2128,13 +2128,35 @@ def mode_launch():
     # set — a machine we are happily running on is a GOOD machine, and it becomes selectable again the moment
     # its instance goes away. It is a within-fleet distinctness rule, not a verdict.
     used_machines = set(excluded)
+    # ⚠⚠ DO NOT "FIX" THIS TO SKIP TERMINAL INSTANCES. IT WAS TRIED, ON EVIDENCE, AND THE EVIDENCE WAS
+    #    WRONG (2026-07-27, 6:32 -> 6:53 PM ET). The tempting argument is that this seed contradicts
+    #    `live_labels` a few hundred lines above, which deliberately does NOT let an `exited` instance hold
+    #    its unit's slot — the 6:32 PM readout printed "3 instance(s) in a terminal state do NOT hold their
+    #    unit's slot [s1f-01, s1f-03, s1f-04]" and then avoided their machines 43159/50143/28904 anyway.
+    #    That looks exactly like 6c996cca ("the gate counted corpses as hosts"), and it is not.
+    #
+    #    WHAT THE MEASUREMENT SHOWED. All three of those "corpses" were `running` again 21 minutes later, at
+    #    ages 114/112/45 min — and the committed-iteration census proves they never stopped WORKING: over
+    #    that same window `cw_ev_5oh` advanced from warmup@380 through a phase transition to production@40,
+    #    and `cw_ev_5alkyne` added 80 production iterations. A Vast instance reading `exited` is routinely a
+    #    TRANSIENT status, not a dead container, which is precisely why the reaper below refuses to destroy
+    #    on a single observation and demands two consecutive terminal ticks.
+    #
+    #    SO THE TWO RULES ARE ASKING DIFFERENT QUESTIONS AND ARE BOTH RIGHT:
+    #      * SLOT      — "should I re-submit this unit?"  Being wrong is CHEAP: the work is checkpointed in
+    #                    S3, re-submission is idempotent, and a needless relaunch costs one rental.
+    #      * DISTINCT  — "is this machine's GPU free?"     Being wrong is EXPENSIVE: measured today, 0 of 7
+    #                    double-booked instances ever started, against 8 of 10 single-booked ones — and here
+    #                    the unit we would double-book onto is OUR OWN still-advancing leg.
+    #    The asymmetry is the whole point. A machine is free when its instance LEAVES THE LISTING (CI has
+    #    destroyed it), not when it briefly reports a terminal status.
     _already_on = {str(i.get("machine_id")) for i in live if i.get("machine_id") is not None}
     if _already_on:
         used_machines |= _already_on
         _lprint(f"[s1f] host distinctness: also avoiding {len(_already_on)} machine(s) this lane is ALREADY "
                 f"renting ({sorted(_already_on)}) — a second unit on a machine we already hold contends for "
-                f"one GPU, and shares that machine's fate if it is bad.")
-
+                f"one GPU, and shares that machine's fate if it is bad. A TERMINAL status does not free a "
+                f"machine: `exited` is routinely transient and the leg is often still advancing.")
     # ★★ ONE BOARD READ FOR THE WHOLE WAVE — the change that makes the ramp raise concurrency and LOWER API
     # pressure at the same time (2026-07-27). Rationale and the safety argument: `gpu_backend
     # .board_read_cache`. In short, `submit` reads `/search/asks/` once per unit and

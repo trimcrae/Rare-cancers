@@ -45,7 +45,13 @@ on:
         required: false
 
 permissions:
-  contents: read
+  # WRITE, and ONLY so a landed leg can retire its own watch entry (2026-07-27). This was `read`, which was
+  # the right default while the watchdog only ever observed. Its DONE branch now reaps — and a reap that
+  # prints "REAPED" into a log while being unable to persist anything is a lie in the record, which is worse
+  # than not reaping at all. The single mutation this buys is provably one-way (enabled true -> false, only
+  # on a leg.json that says status=done; `test_the_reaper_only_ever_disables_and_can_never_arm`), so the
+  # watchdog still cannot arm, rent, or resurrect anything with it.
+  contents: write
 
 concurrency:
   # Read-modify-write of the relaunch counter is racy in principle; one watchdog at a time makes it safe in
@@ -100,6 +106,23 @@ jobs:
           # notification, which is the alert path that does not depend on an agent or a session. An
           # ::error:: annotation nobody opens is no better than the silent stall this exists to remove.
           python research/modalities/ternary_vast_watchdog.py --tick $ARGS
+      - name: Persist any watch entry the pass retired
+        # `always()`: the tick exits non-zero on an alert BY DESIGN, and a pass that both alerts on one unit
+        # and retires another must still persist the retirement — otherwise the entry that is genuinely
+        # finished keeps inflating the alert count on every later pass.
+        if: ${{ always() && github.event.inputs.dry_run != '1' }}
+        run: |
+          set -uo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/ternary-vast-watch.json
+          if git diff --cached --quiet; then echo "no landed entry to retire"; exit 0; fi
+          git commit -m "ternary watch: retire the entries of legs that have landed (watchdog)"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" \
+              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
+            sleep $((i * 7))
+          done
+          echo "::warning title=REAP NOT PUSHED::the retirement could not be pushed; the next pass redoes it"
       - name: Shakeout hook — exercise the GENERIC multi-kind engine, read-only
         # WHY THIS HOOK LIVES IN THIS FILE. vast-watchdog.yml is the generic engine's own workflow, but a NEW
         # workflow on a feature branch cannot be dispatched at all (dispatch requires the file on the default

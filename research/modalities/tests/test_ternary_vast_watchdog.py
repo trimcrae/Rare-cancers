@@ -455,3 +455,89 @@ def test_an_unreadable_age_never_manufactures_an_alert():
     """Fail-safe direction, same as everywhere else in this lane: ignorance resolves to doing nothing."""
     assert not wd.stopped_and_billing(_inst(), "RUNNING", None)
     assert not wd.stopped_and_billing(_inst(), "RUNNING", "n/a")
+
+
+# ============================================================================================================
+# reap_landed — a finished unit must retire its OWN watch entry.
+#
+# The bug these pin: the DONE branch used to print "Set enabled=false for this entry" and nothing ever did,
+# so the closure triangle read IDLE-UNEXPECTED for 79 minutes while being entirely finished. A watcher that
+# is permanently red for a healthy lane is worse than no watcher.
+# ============================================================================================================
+def _watchfile(tmp_path, entries):
+    p = tmp_path / "watch.json"
+    p.write_text(json.dumps({"watch": entries}))
+    return str(p)
+
+
+def _entry(uid, enabled=True):
+    return {"unit_id": uid, "leg_id": "leg", "seed": 0, "direction": "fwd", "mode": "triangle_smoke",
+            "timestep_fs": "2.0", "warmup_timestep_fs": "1.0", "enabled": enabled}
+
+
+def test_a_done_leg_disables_its_own_entry_and_says_it_is_finished(tmp_path):
+    path = _watchfile(tmp_path, [_entry("u1")])
+    reaped = wd.reap_landed(path=path, bucket="b", prefix="pfx",
+                            recs={"u1": {"status": "done", "dg_morph_kcal": 44.8, "nan_seen": False,
+                                         "updated_utc": "2026-07-27T22:56:00Z"}})
+    assert reaped == ["u1"]
+    w = json.loads(open(path).read())["watch"][0]
+    assert w["enabled"] is False
+    # `_disabled_why` means FINISHED. `_parked_why` means NOT finished. Using the wrong one would make a
+    # completed unit look abandoned to every cross-lane reader.
+    assert "_parked_why" not in w
+    assert "LANDED" in w["_disabled_why"] and "status=done" in w["_disabled_why"]
+
+
+def test_a_leg_that_has_not_landed_is_never_touched(tmp_path):
+    for rec in ({"status": "failed"}, {"status": "running"}, {}, None):
+        path = _watchfile(tmp_path, [_entry("u1")])
+        assert wd.reap_landed(path=path, bucket="b", prefix="pfx", recs={"u1": rec} if rec else {}) == []
+        assert json.loads(open(path).read())["watch"][0]["enabled"] is True
+
+
+def test_the_reaper_only_ever_disables_and_can_never_arm(tmp_path):
+    # An already-disabled entry must stay disabled even when its record says done — the reaper is a
+    # one-way door, so it can never resurrect a unit someone deliberately parked.
+    path = _watchfile(tmp_path, [_entry("u1", enabled=False)])
+    assert wd.reap_landed(path=path, bucket="b", prefix="pfx", recs={"u1": {"status": "done"}}) == []
+    assert json.loads(open(path).read())["watch"][0]["enabled"] is False
+
+
+def test_an_unreadable_store_reaps_nothing_rather_than_guessing(tmp_path, monkeypatch):
+    path = _watchfile(tmp_path, [_entry("u1")])
+
+    def boom(*a, **k):
+        raise RuntimeError("s3 down")
+
+    monkeypatch.setattr(wd.tv, "leg_records", boom)
+    assert wd.reap_landed(path=path, bucket="b", prefix="pfx") == []
+    assert json.loads(open(path).read())["watch"][0]["enabled"] is True
+
+
+def test_dry_run_reports_without_writing(tmp_path):
+    path = _watchfile(tmp_path, [_entry("u1")])
+    assert wd.reap_landed(path=path, bucket="b", prefix="pfx", dry_run=True,
+                          recs={"u1": {"status": "done"}}) == ["u1"]
+    assert json.loads(open(path).read())["watch"][0]["enabled"] is True
+
+
+def test_multiple_landed_entries_are_all_reaped_in_one_pass(tmp_path):
+    # The mid-loop-mutation bug this guards: disabling entries while iterating a live view of the same list
+    # skips the entry after each one changed, so a two-unit lane would need two passes to go quiet.
+    path = _watchfile(tmp_path, [_entry("u1"), _entry("u2"), _entry("u3")])
+    reaped = wd.reap_landed(path=path, bucket="b", prefix="pfx",
+                            recs={"u1": {"status": "done"}, "u2": {"status": "done"},
+                                  "u3": {"status": "running"}})
+    assert sorted(reaped) == ["u1", "u2"]
+    got = {w["unit_id"]: w["enabled"] for w in json.loads(open(path).read())["watch"]}
+    assert got == {"u1": False, "u2": False, "u3": True}
+
+
+def test_the_done_branch_no_longer_asks_a_human_to_do_the_write():
+    # The literal instruction that went unread for 79 minutes must not come back as EMITTED text. The
+    # post-mortem comment above `reap_landed` quotes it deliberately, so only code lines are checked.
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "ternary_vast_watchdog.py")).read()
+    code = [ln for ln in src.splitlines() if not ln.lstrip().startswith("#")]
+    assert not [ln for ln in code if "Set enabled=false for this entry" in ln]

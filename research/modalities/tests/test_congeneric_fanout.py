@@ -1384,3 +1384,49 @@ def test_a_submit_starved_by_OUR_OWN_filters_does_not_read_as_a_capacity_refusal
     assert "NOT a capacity refusal" in src
     # and it must break the count down into the two causes, since only one of them is actionable here
     assert "_n_excl, _n_held = len(excluded), len(used_machines) - len(excluded)" in src
+
+
+# ---- host distinctness vs the SLOT rule: they disagree ON PURPOSE (2026-07-27, 6:32 -> 6:53 PM ET) --------
+
+def test_a_terminal_instance_still_makes_its_machine_off_limits():
+    """THE TRAP, PINNED SO IT IS NOT "FIXED" AGAIN. `live_labels` deliberately does not let an `exited`
+    instance hold its unit's SLOT, so the seed here — which avoids every machine in the listing — reads like
+    the 6c996cca defect ("the gate counted corpses as hosts"). It is not, and the repo has the measurement:
+    the three machines the 6:32 PM tick called corpses (43159, 50143, 28904) were all `running` again 21 min
+    later, and the committed-iteration census proves they never stopped working (cw_ev_5oh went warmup@380 ->
+    production@40; cw_ev_5alkyne added 80 iterations). `exited` is routinely a TRANSIENT status.
+
+    The two rules ask different questions with different costs of being wrong: re-submitting a unit needlessly
+    costs one rental against an S3 checkpoint, while double-booking a machine lands a second unit on a GPU our
+    own leg is still using — measured today at 0 of 7 double-booked instances ever starting."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_launch)
+    seed = '_already_on = {str(i.get("machine_id")) for i in live if i.get("machine_id") is not None}'
+    assert seed in src, "the distinctness seed must span the WHOLE listing, terminal instances included"
+    # and it must not have been narrowed by the terminal-state test the SLOT rule uses
+    assert '_already_on = {str(i.get("machine_id")) for i in live\n' not in src
+    assert "_TERMINAL" not in src.split(seed)[1].split("used_machines |= _already_on")[0]
+
+
+def test_the_launcher_says_out_loud_that_a_terminal_status_does_not_free_a_machine():
+    """A reader comparing the two lines in one readout will otherwise conclude the launcher contradicts
+    itself — which is exactly the wrong conclusion that got acted on once already."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_launch)
+    assert "A TERMINAL status does not free a" in src
+    assert "`exited` is routinely transient" in src
+
+
+def test_the_reaper_still_requires_two_consecutive_terminal_observations():
+    """This is the same fact from the other side, and it is what makes the distinctness rule above correct:
+    the lane does not believe a single terminal reading anywhere. If this ever became a one-shot reap, the
+    transient-`exited` argument would need re-measuring rather than assuming."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_collect) if hasattr(fv, "mode_collect") else ""
+    if not src:
+        import pytest
+        pytest.skip("mode_collect not present under this name")
+    assert "if seen < 2:" in src
