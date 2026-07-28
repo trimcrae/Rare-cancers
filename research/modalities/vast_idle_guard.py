@@ -130,11 +130,11 @@ try:
 except Exception:  # noqa: BLE001 — keep this module importable standalone (it is pure policy)
     SETUP_GRACE_MIN = float(os.environ.get("TVAST_SETUP_GRACE_MIN") or "90")
 
-WORKING, COLD_START, CRASH_LOOP, WEDGED, UNKNOWN, WATCHING = (
-    "WORKING", "COLD_START", "CRASH_LOOP", "WEDGED", "UNKNOWN", "WATCHING")
+WORKING, COLD_START, CRASH_LOOP, WEDGED, UNKNOWN, WATCHING, UNIT_FAILED = (
+    "WORKING", "COLD_START", "CRASH_LOOP", "WEDGED", "UNKNOWN", "WATCHING", "UNIT_FAILED")
 
 # The ONLY two verdicts that spend nothing and stop a meter. Everything else leaves the box alone.
-DESTROY_VERDICTS = (CRASH_LOOP, WEDGED)
+DESTROY_VERDICTS = (CRASH_LOOP, WEDGED, UNIT_FAILED)
 
 
 def should_destroy(verdict) -> bool:
@@ -152,7 +152,8 @@ def _as_float(x):
 def classify_idle(*, instance_running, container_started=True, gpu_util=None, progress_advanced=False,
                   log_age_min=None, start_ages_min=None, instance_age_min=None,
                   gpu_busy_pct=None, log_silence_min=None, crash_loop_starts=None,
-                  crash_loop_window_min=None, min_instance_age_min=None, setup_grace_min=None):
+                  crash_loop_window_min=None, min_instance_age_min=None, setup_grace_min=None,
+                  unit_failed=False):
     """Return (verdict, reason) for ONE live instance. PURE — no network, no clock, no I/O.
 
     Arguments are EVIDENCE, gathered by the lane that owns the artifacts:
@@ -167,6 +168,10 @@ def classify_idle(*, instance_running, container_started=True, gpu_util=None, pr
                          or None if the listing could not be read. An empty LIST means "read it, nothing
                          there", which is a real observation; None means "could not read", which is not.
       instance_age_min   minutes since the instance was created.
+      unit_failed        the LEG'S OWN record in the object store says `status: failed`, and the caller has
+                         already verified that record is NEWER than this instance (protfep_vast_launch.
+                         `_record_is_newer_than_instance`) so a stale failure cannot reap a fresh host. This
+                         is a SELF-REPORT, not an inference — see the clause below for why it goes first.
 
     The order of the clauses is the argument. Positive evidence first, then the two ignorance guards, then
     the two condemnations — so nothing can be condemned on evidence that a later clause would have excused.
@@ -180,6 +185,22 @@ def classify_idle(*, instance_running, container_started=True, gpu_util=None, pr
 
     if not instance_running:
         return UNKNOWN, "instance is not `running`; the stopped/frozen clauses own this box, not the idle guard"
+
+    # ---- the leg's own obituary, read BEFORE anything is inferred about the host. ----
+    # ★★ A DEAD UNIT AND A WEDGED HOST HAVE THE SAME REMEDY AND OPPOSITE MEANINGS (2026-07-27, the valB
+    # closure triangle). Both `calib_lo_to_lo2` legs exited rc=1 on a Python exception, uploaded leg.json and
+    # run.log — the S3 PUTs are the LAST lines in the tail — and then stopped writing because there was
+    # nothing left to write. Thirty-eight minutes later the silence clause below condemned them as
+    # "the host has lost its write path", which the artifacts in the same readout flatly contradict: the
+    # write path was the last thing that demonstrably WORKED. The destroy was right and the sentence was
+    # wrong, and a reader chasing a fleet of dead credentials would have been chasing nothing.
+    # So a unit that recorded its own failure gets its own verdict. It is first because every clause below
+    # is an INFERENCE about a host from indirect evidence, and none of them may overwrite a self-report:
+    # `progress_advanced` cannot be true for a leg that has exited (the scalar is durable and static), and
+    # the cold-start floor must NOT hold a dead rental for another hour of grace it can never use.
+    if unit_failed:
+        return UNIT_FAILED, ("the leg's own record says status=failed — this host is not wedged, its unit is "
+                             "DEAD, and no further billing on it can produce anything")
 
     # ---- the one absolute override: measured work. Nothing below may overrule a scalar that went UP. ----
     if progress_advanced:
