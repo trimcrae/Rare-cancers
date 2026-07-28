@@ -366,9 +366,21 @@ class _FakeS3:
 def test_a_host_scoped_exclusion_crosses_lanes():
     """The 6:37 AM defect: the fan-out rented machine 46392 while the 5a-KS lane already knew it refuses
     starts. A host that never starts has infinite realised $/ns and is invisible to $/ns ranking, so without
-    the union every lane pays a rental to rediscover the same box."""
+    the union every lane pays a rental to rediscover the same box.
+
+    ⚠ THE REASON IN THIS TEST CHANGED ON 2026-07-27, AND THE MECHANISM IT GUARDS DID NOT. It used to assert
+    the union on a `resources_unavailable` reason. trimcrae's ruling that evening — "clear it out and don't
+    add anything back unless you have a real reason" — reclassified capacity refusals as PERISHABLE: a claim
+    about a moment, not about the host, and the class that grew the shared set to 48 permanent machines until
+    it blocked 2 of 2 authorised placements on a healthy board. Capacity is now excluded for the current wave
+    only and never published.
+
+    So the cross-lane union is exercised here with a DURABLE reason instead. What that costs: a capacity
+    refusal no longer crosses lanes, so a sibling lane may re-attempt a momentarily-busy host. That is a
+    FAILED SUBMIT, which bills nothing — deliberately traded against a permanent, compounding capacity loss.
+    """
     s3 = _FakeS3()
-    assert vmb.publish(s3, "bkt", "46392", "resources_unavailable on start", lane="ternary") is True
+    assert vmb.publish(s3, "bkt", "46392", "container never started", lane="ternary") is True
     assert vmb.publish(s3, "bkt", "46392", "again", lane="ternary") is False   # idempotent
     assert vmb.union(["28164"], s3, "bkt") == ["28164", "46392"]
 
@@ -402,3 +414,16 @@ def test_lane_scoped_exclusions_are_not_shared(monkeypatch):
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+
+def test_a_capacity_refusal_no_longer_crosses_lanes(monkeypatch):
+    """The other half of the 2026-07-27 ruling, pinned where the union is consumed.
+
+    A momentary "no free GPU" must not become a permanent cross-lane verdict. If this ever starts passing
+    machines into the shared set again, the set will regrow to the state that blocked placement.
+    """
+    s3 = _FakeS3()
+    assert vmb.publish(s3, "bkt", "46392", "resources_unavailable on start", lane="ternary") is False
+    ids, _ = vmb.load(s3, "bkt")
+    assert ids == []

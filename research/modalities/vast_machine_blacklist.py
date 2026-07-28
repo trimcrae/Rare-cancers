@@ -86,12 +86,22 @@ def publish(s3, bucket, machine_id, why, lane, key=None):
     value of the split is that somebody looked at the reason and decided it was about the machine."""
     if s3 is None or not bucket or machine_id is None:
         return False
+    # ★ A CAPACITY REFUSAL IS NOT A REAL REASON FOR A PERMANENT ENTRY (trimcrae, 2026-07-27). It is the
+    # class that grew this set to 48 and blocked 2 of 2 placements on a board where price was fine. The
+    # caller still excludes the machine for the REST OF ITS CURRENT WAVE — that is a local decision and it
+    # correctly stops one tick retrying the same busy host — but nothing about a moment goes in the shared,
+    # permanent, cross-lane set.
+    if classify_reason(why) == CLASS_CAPACITY:
+        print(f"[blacklist] NOT publishing machine {machine_id}: {why!r} is a CAPACITY refusal — a claim "
+              f"about a moment, not about the host. Excluded for this wave only.", flush=True)
+        return False
     ids, doc = load(s3, bucket, key)
     mid = str(machine_id)
     if mid in ids:
         return False
     hist = list(doc.get("history") or [])
-    hist.append({"machine_id": mid, "why": str(why)[:400], "lane": lane, "utc": _utcnow()})
+    hist.append({"machine_id": mid, "why": str(why)[:400], "lane": lane, "utc": _utcnow(),
+                 "reason_class": classify_reason(why)})
     try:
         s3.put_object(Bucket=bucket, Key=key or SHARED_KEY,
                       Body=json.dumps({"_what": _WHAT, "_scope": "host — fails to start for anybody",
@@ -104,6 +114,50 @@ def publish(s3, bucket, machine_id, why, lane, key=None):
     print(f"[blacklist] machine {mid} published to the SHARED cross-lane exclusion set by {lane}: {why}",
           flush=True)
     return True
+
+
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ REASON CLASSES — "don't add anything back unless you have a real reason" (trimcrae, 2026-07-27, 9:45 PM
+# ET, on being shown that 48 excluded machines had blocked 2 of 2 authorised placements against a 189-offer
+# board where price was fine).
+#
+# THE DISTINCTION THAT WAS MISSING, AND THAT GREW THE SET WITHOUT BOUND. Two very different claims were
+# stored identically and kept forever:
+#
+#   CAPACITY  — `resources_unavailable` on start. A claim about a MOMENT: "this machine's GPU was taken at
+#               8:12 PM." It is not a property of the host, it stops being true without anyone observing it,
+#               and it is the class that accumulated. It is NOT a real reason for a permanent entry.
+#   HOST      — the container demonstrably failed to start, crash-looped, or the image/driver is
+#               incompatible. A claim that WOULD recur, about the machine itself. This is a real reason.
+#
+# Recording a moment as if it were a property is the whole bug: 48 permanent entries, of which the module's
+# own history records at least three (53989, 31035, 24573) as provably WRONG — every one had run this repo's
+# container at 94-99 % GPU.
+#
+# WHY THE ASYMMETRY MAKES THIS SAFE. Re-discovering a genuinely bad host is nearly free: a failed SUBMIT
+# costs nothing — no rental, no billing. A host that starts and then crash-loops costs a little, and
+# `vast_idle_guard` reaps it on measured write-silence within ~15 min. Against that, a wrong permanent entry
+# is an unrecoverable capacity loss that compounds across lanes. Cheap to re-learn, expensive to over-exclude.
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+CLASS_CAPACITY = "capacity"     # perishable — a moment, not a property. Never permanent.
+CLASS_HOST = "host"             # durable — about the machine. May persist.
+
+# Ordered: capacity is checked FIRST, because `resources_unavailable` also matches the never-started markers
+# below and would otherwise be misfiled as a durable host verdict — which is precisely how it became one.
+_CAPACITY_MARKERS = ("resources_unavailable", "no free gpu", "capacity")
+
+
+def classify_reason(why):
+    """CLASS_CAPACITY or CLASS_HOST for a recorded reason. PURE.
+
+    Default is CLASS_HOST only for reasons that positively look like start/run failures; anything
+    unrecognised is also CLASS_HOST, because an unclassifiable reason is not evidence of perishability and
+    silently treating it as capacity would drop an exclusion somebody meant to keep.
+    """
+    w = str(why or "").lower()
+    if any(m in w for m in _CAPACITY_MARKERS):
+        return CLASS_CAPACITY
+    return CLASS_HOST
 
 
 NEVER_STARTED_MARKERS = ("never started", "never executed", "never reached running",
@@ -197,14 +251,75 @@ def backfill(s3, bucket, machine_ids, lane, why=None, key=None):
     return added
 
 
+def clear_lane_state(s3, bucket, lane_state_key):
+    """Empty one lane's OWN `_blocked_machines`. Returns the ids removed.
+
+    Both copies must go or the set re-federates from whichever survived: `blocked_machine_ids()` unions the
+    lane's local list with the shared one, so clearing only the shared set leaves the lane still excluding.
+    """
+    try:
+        st = json.loads(s3.get_object(Bucket=bucket, Key=lane_state_key)["Body"].read())
+    except Exception as e:  # noqa: BLE001 — an absent lane state is already "nothing excluded"
+        print(f"[blacklist] {lane_state_key}: no lane state ({type(e).__name__}) — nothing to clear",
+              flush=True)
+        return []
+    ids = [str(m) for m in (st.get("_blocked_machines") or [])]
+    if not ids:
+        print(f"[blacklist] {lane_state_key}: already empty", flush=True)
+        return []
+    st["_blocked_machines"] = []
+    st["_blocked_machines_cleared_utc"] = _utcnow()
+    s3.put_object(Bucket=bucket, Key=lane_state_key, Body=json.dumps(st, indent=2).encode())
+    print(f"[blacklist] {lane_state_key}: cleared {len(ids)} machine(s)", flush=True)
+    return ids
+
+
 def main(argv=None):
-    """`python vast_machine_blacklist.py [BUCKET]` — print the shared set. Read-only, $0."""
-    import sys
-    argv = list(sys.argv[1:] if argv is None else argv)
-    bucket = argv[0] if argv else (os.environ.get("VAST_CKPT_BUCKET")
-                                   or "sagemaker-us-east-2-646605541856")
+    """Print the shared set, or snapshot-and-clear it.
+
+      python vast_machine_blacklist.py [BUCKET]                       # print, read-only, $0
+      python vast_machine_blacklist.py --snapshot PATH [--bucket B]   # write the full state to PATH
+      python vast_machine_blacklist.py --clear "why" --snapshot PATH [--lane-state KEY ...]
+
+    `--clear` REQUIRES `--snapshot`: emptying the set without first recording it destroys the only evidence
+    of what was excluded and why.
+    """
+    import argparse
+    ap = argparse.ArgumentParser(description="Shared Vast machine-exclusion set")
+    ap.add_argument("bucket", nargs="?", default=None)
+    ap.add_argument("--bucket", dest="bucket_opt", default=None)
+    ap.add_argument("--snapshot", default=None, help="write the full current state here before any change")
+    ap.add_argument("--clear", default=None, metavar="WHY", help="empty the shared set, recording WHY")
+    ap.add_argument("--lane-state", action="append", default=None, metavar="KEY",
+                    help="also clear this lane's own `_blocked_machines` (repeatable)")
+    a = ap.parse_args([] if argv is None else argv)
+    bucket = a.bucket_opt or a.bucket or (os.environ.get("VAST_CKPT_BUCKET")
+                                          or "sagemaker-us-east-2-646605541856")
     import boto3
-    ids, doc = load(boto3.client("s3"), bucket)
+    s3 = boto3.client("s3")
+
+    if a.clear and not a.snapshot:
+        print("::error::--clear requires --snapshot: never delete state you have not first written down")
+        return 2
+
+    if a.snapshot:
+        snap = snapshot(s3, bucket)
+        with open(a.snapshot, "w") as fh:
+            json.dump(snap, fh, indent=2)
+            fh.write("\n")
+        print(f"[blacklist] snapshot -> {a.snapshot}: {snap['n_machine_ids']} machine(s), "
+              f"by reason class {snap['history_entries_by_reason_class']}")
+
+    if a.clear:
+        removed = clear_all(s3, bucket, a.clear)
+        for k in (a.lane_state or []):
+            removed += clear_lane_state(s3, bucket, k)
+        print(f"[blacklist] TOTAL cleared: {len(removed)} entr(ies)")
+        ids_after, _ = load(s3, bucket)
+        print(f"[blacklist] shared set now holds {len(ids_after)} machine(s)")
+        return 0
+
+    ids, doc = load(s3, bucket)
     print(json.dumps({"bucket": bucket, "key": SHARED_KEY, "machine_ids": ids,
                       "history": doc.get("history") or []}, indent=2))
     return 0
@@ -212,3 +327,43 @@ def main(argv=None):
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def snapshot(s3, bucket, key=None):
+    """The FULL current shared state, for committing before a clear. Read-only.
+
+    Clearing without a record would destroy the only evidence of what was excluded and why — which is also
+    the input to any later question about whether clearing was right. Never delete state you have not first
+    written down somewhere durable.
+    """
+    ids, doc = load(s3, bucket, key)
+    hist = list(doc.get("history") or [])
+    by_class = {}
+    for h in hist:
+        c = h.get("reason_class") or classify_reason(h.get("why"))
+        by_class[c] = by_class.get(c, 0) + 1
+    return {
+        "_what": "Full shared Vast machine-exclusion state, captured immediately before a deliberate clear.",
+        "utc": _utcnow(),
+        "bucket": bucket, "key": key or SHARED_KEY,
+        "n_machine_ids": len(ids), "machine_ids": ids,
+        "history_entries_by_reason_class": by_class,
+        "history": hist,
+    }
+
+
+def clear_all(s3, bucket, why, lane="operator", key=None):
+    """Empty the shared exclusion set, keeping the history as an audit trail. Returns the ids removed.
+
+    The clear is itself appended to `history`, so the record shows an EVENT rather than a gap — a set that
+    silently became empty is indistinguishable from one that was never written.
+    """
+    ids, doc = load(s3, bucket, key)
+    hist = list(doc.get("history") or [])
+    hist.append({"machine_id": None, "why": f"CLEARED {len(ids)} machine(s): {why}", "lane": lane,
+                 "utc": _utcnow(), "reason_class": "clear", "cleared_machine_ids": ids})
+    s3.put_object(Bucket=bucket, Key=key or SHARED_KEY,
+                  Body=json.dumps({"_what": _WHAT, "_scope": "host — fails to start for anybody",
+                                   "machine_ids": [], "history": hist}, indent=2).encode())
+    print(f"[blacklist] CLEARED {len(ids)} machine(s) from the shared set: {why}", flush=True)
+    return ids
