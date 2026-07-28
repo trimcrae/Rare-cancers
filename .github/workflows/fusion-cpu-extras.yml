@@ -1372,7 +1372,7 @@ jobs:
           # a monitor run (which writes progress.json but not map.json) staged nothing at all and reported
           # "no readout change" while silently swallowing the error.
           staged=0
-          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt step1-fanout-market-hold.json relaunch-market-hold.json step1-fanout-launch-readout.txt; do
+          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt step1-fanout-market-hold.json relaunch-market-hold.json step1-fanout-launch-readout.txt step1-nan-forensics.json; do
             if [ -f "research/modalities/$f" ]; then
               git add -f "research/modalities/$f"; staged=1; echo "staged $f"
             else

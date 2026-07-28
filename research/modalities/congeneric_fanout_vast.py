@@ -3343,6 +3343,26 @@ def mode_diag():
             emit("[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log "
                  "above is the only record (this is why the leg now uploads its log even on failure)")
 
+    # ★★ THE ATTEMPT COUNT, NOT JUST THE LATEST ATTEMPT (2026-07-28). Everything above reports the CURRENT
+    # state of one unit: the tail of the last leg log and the instance that is running now. That is exactly
+    # the reading that let `cw_bio_primary_amide` be re-placed thirteen times — each dump showed one clean
+    # NaN traceback and nothing about the twelve before it, so every look said "unlucky host" and none said
+    # "this is the thirteenth". The per-attempt archive answers it for $0 and is appended here so the
+    # diagnosis and its history arrive in the same artifact.
+    try:
+        import step1_nan_forensics as _nf
+        # EVERY unit, not the diag's (deliberately narrow) scope: the comparison that matters is the
+        # failing unit against the ones that REACHED A ddG, and those are exactly the units `diag` filters
+        # out. A geometry band computed only over the units still in trouble compares nothing.
+        _rows = _nf.collect(all_units)
+        if _rows:
+            emit("\n" + _nf.render(_rows, _nf.geometry_comparison(_rows)))
+            with open("step1-nan-forensics.json", "w") as f:
+                json.dump({"_what": "per-attempt forensics emitted by `diag`", "units": _rows,
+                           "geometry_comparison": _nf.geometry_comparison(_rows)}, f, indent=2, default=str)
+    except Exception as e:  # noqa: BLE001 — an evidence hook must never break the diagnostic it decorates
+        emit(f"[s1f-diag] attempt forensics unavailable: {type(e).__name__}: {e}")
+
     with open("step1-fanout-diag.txt", "w") as f:
         f.write("\n".join(out_lines) + "\n")
     print(f"[s1f-diag] wrote step1-fanout-diag.txt ({len(out_lines)} blocks)")
