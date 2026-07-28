@@ -161,11 +161,32 @@ def test_a_running_box_that_never_marks_a_phase_is_eventually_condemned():
     assert v2 == vig.COLD_START and not vig.should_destroy(v2)
 
 
-def test_only_two_verdicts_can_ever_spend_a_destroy():
-    """A caller must not invent its own mapping from verdict to action."""
-    assert set(vig.DESTROY_VERDICTS) == {vig.CRASH_LOOP, vig.WEDGED}
+def test_only_three_verdicts_can_ever_spend_a_destroy():
+    """A caller must not invent its own mapping from verdict to action.
+
+    UNIT_FAILED joined the set on 2026-07-27 and is deliberately a THIRD verdict rather than a reuse of
+    WEDGED: the two share a remedy and mean opposite things about the host, and printing one as the other
+    sent a diagnostic turn after a write path that was working."""
+    assert set(vig.DESTROY_VERDICTS) == {vig.CRASH_LOOP, vig.WEDGED, vig.UNIT_FAILED}
     for v in (vig.WORKING, vig.COLD_START, vig.UNKNOWN, vig.WATCHING):
         assert not vig.should_destroy(v)
+
+
+def test_a_leg_that_recorded_its_own_failure_is_never_reported_as_a_wedged_host():
+    """The valB closure triangle, 2026-07-27. Both `calib_lo_to_lo2` legs exited rc=1, uploaded leg.json and
+    run.log — successful S3 PUTs are the LAST lines of their logs — and then went quiet because there was
+    nothing left to write. The silence clause condemned them as having "lost its write path". Right destroy,
+    wrong mechanism, and the wrong mechanism is what a human then goes and investigates."""
+    v, why = vig.classify_idle(**_ev(unit_failed=True, log_age_min=vig.LOG_SILENCE_MIN + 25,
+                                     progress_advanced=False))
+    assert v == vig.UNIT_FAILED and vig.should_destroy(v)
+    assert "write path" not in why and "status=failed" in why
+
+
+def test_a_dead_unit_is_not_held_alive_by_the_cold_start_floor():
+    """A rental whose leg is already dead must not buy another hour of grace it can never use."""
+    v, _ = vig.classify_idle(**_ev(unit_failed=True, instance_age_min=vig.MIN_INSTANCE_AGE_MIN - 1))
+    assert v == vig.UNIT_FAILED
 
 
 def test_the_reap_is_faster_than_every_backstop_it_replaces():

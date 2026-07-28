@@ -1955,6 +1955,15 @@ def collect(bucket=None, prefix=None, autostop=True):
         print(f"  vast {iid} ({lab}) {i.get('actual_status')} up={up_h:.2f}h "
               f"dph=${i.get('dph_total')} spent~${cost:.2f} gpu={i.get('gpu_name')}")
 
+        # ★ THE UNIT'S OWN VERDICT IS EVIDENCE, AND IT HAS TO BE READ BEFORE THE HOST IS JUDGED
+        # (2026-07-27). `crashed` used to be computed BELOW the idle-guard call, so the guard inferred a
+        # mechanism from log silence while this stronger, direct fact was already available three lines
+        # later — and printed "the host has lost its write path" about two boxes whose last successful act
+        # was writing to S3. Same destroy, wrong sentence. Hoisted so the guard is told, not left to guess.
+        finished = uid in done
+        crashed = bool(uid and uid in other and other[uid].get("status") == "failed"
+                       and _record_is_newer_than_instance(other[uid], i))
+
         # PROGRESS, not liveness.
         idle_verdict, idle_why = vig.UNKNOWN, "no unit could be mapped to this instance's label"
         if uid:
@@ -1985,7 +1994,8 @@ def collect(bucket=None, prefix=None, autostop=True):
                 progress_advanced=(scalar > pprog),
                 log_age_min=log_age,
                 start_ages_min=vig.start_ages_min(s3, b, f"{p}/legs/{uid}/attempts/"),
-                instance_age_min=up_h * 60.0)
+                instance_age_min=up_h * 60.0,
+                unit_failed=crashed)
             print(f"      idle-guard: {idle_verdict} — {idle_why}")
 
         msg = str(i.get("status_msg") or "").strip()
@@ -1994,9 +2004,6 @@ def collect(bucket=None, prefix=None, autostop=True):
             print(f"      why: cur_state={i.get('cur_state')} intended={i.get('intended_status')} "
                   f"msg={msg[:180]!r} unchanged_for={frozen_min:.0f}min")
 
-        finished = uid in done
-        crashed = bool(uid and uid in other and other[uid].get("status") == "failed"
-                       and _record_is_newer_than_instance(other[uid], i))
         # WHY THE IDLE VERDICT IS LAST IN THIS CHAIN. `finished` and `crashed` are stronger facts about the
         # same box — a leg that landed its result stops writing its log by design, so on the very next poll
         # it would ALSO read WEDGED. Ordering them first keeps the destroy REASON honest ("unit done", not
@@ -2075,13 +2082,24 @@ def collect(bucket=None, prefix=None, autostop=True):
     for i in mine:
         uid = next((u for u in list(recs) + _known_unit_ids() if label_matches_unit(i.get("label"), u)), None)
         ph, it, sc = committed_progress(uid, b, p) if uid else (None, 0, 0)
+        # ★★ A DEAD LEG AND A HEALTHY COLD START MUST NOT RENDER ALIKE (2026-07-27). `committed=none/0` is
+        # the CORRECT and expected reading for a leg in `start`/`cloned`/`staging`/`preequil`, and the
+        # documented grace before zero counts as a stall is ~90 min — so `up=running committed=none/0` on
+        # its own is unreadable: it is the same string for "staging normally" and for "died with a
+        # traceback 38 minutes ago". On this lane it cost a diagnostic turn: two legs that had exited rc=1
+        # at 7:59 PM ET were still being read as possibly-healthy cold starts at 8:37 PM ET, because the
+        # unit's `status=failed` appeared only in a different section of the board. The unit's own verdict
+        # belongs on the unit's own line. Same rule as §1's "paying" vs "refused" glyphs: one state, one
+        # rendering.
+        st = (other.get(uid) or recs.get(uid) or {}).get("status") if uid else None
+        dead = " ☠ UNIT status=failed — this host is not cold-starting, its leg is DEAD" if st == "failed" else ""
         # INSTANCE ID ON EVERY PROGRESS LINE. A progress reading is only worth anything if it is
         # attributable to the box you actually rented: a monitor that reports "advancing" from the wrong
         # job is the same silent-success class this lane's watchdog exists to prevent, and it is more
         # expensive here than elsewhere because the wrong reading leaves a billed GPU unwatched.
         print(f"TVAST {uid or i.get('label')} instance={i.get('id')} machine={i.get('machine_id')} "
               f"up={i.get('actual_status')} committed={ph or 'none'}/{it} "
-              f"gpu={i.get('gpu_name')} dph=${i.get('dph_total')}")
+              f"gpu={i.get('gpu_name')} dph=${i.get('dph_total')}{dead}")
     print("---- END TVAST-SUMMARY ----")
 
     try:

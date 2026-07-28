@@ -201,6 +201,44 @@ def build_from(input_dir, leg_id):
     return {"ok": True, **got}
 
 
+def silent_case_probe(input_dir, leg_id):
+    """Does an inherited array of the RIGHT LENGTH actually reach OpenFF as this molecule's charges?
+
+    ⛔ THE QUESTION THIS ANSWERS IS NOT COSMETIC, and it must be MEASURED rather than reasoned about
+    (CLAUDE.md §4). The crash only happens when the inherited array is the wrong length. When it is the
+    right length — which is exactly the case for `calib_hi_to_lo2__ternary`, the one triangle leg that was
+    still billing — gufe raises nothing at all. Whether that leg is scientifically usable then depends on a
+    single fact: does the charge survive into `SmallMoleculeComponent.to_openff().partial_charges`, from
+    which OpenFE prefers it over generating its own? If it does, that leg ran a charge model
+    `_protocol()` never selected, and ΔΔG_coop = ternary − binary stops cancelling the charge model.
+
+    So this deliberately bypasses the strip and reports the raw truth from the SDF record itself.
+    """
+    from rdkit import Chem
+    import openfe
+    sdf = os.path.join(input_dir, leg_id, "ligands.sdf")
+    out = []
+    for i, m in enumerate(Chem.SDMolSupplier(sdf, removeHs=False)):
+        if m is None:
+            continue
+        rec = {"record": i, "n_atoms": m.GetNumAtoms(),
+               "n_partial_charges": len(m.GetProp(CHARGE_PROP).split()) if m.HasProp(CHARGE_PROP) else None}
+        try:
+            comp = openfe.SmallMoleculeComponent.from_rdkit(m)
+            off = comp.to_openff()
+            pc = getattr(off, "partial_charges", None)
+            rec["gufe_accepted"] = True
+            rec["openff_partial_charges_is_none"] = pc is None
+            if pc is not None:
+                rec["first_three"] = [float(x.m) if hasattr(x, "m") else float(x) for x in list(pc)[:3]]
+        except Exception as e:  # noqa: BLE001
+            rec["gufe_accepted"] = False
+            rec["error"] = "%s: %s" % (type(e).__name__, e)
+        out.append(rec)
+        print("[forensic] SILENT-CASE %-32s %s" % (leg_id, json.dumps(rec)), flush=True)
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="$0 forensic: why two closure-triangle legs died at from_rdkit")
     ap.add_argument("--mode", default="triangle")
@@ -236,6 +274,8 @@ def main(argv=None):
                     continue
                 entry[which] = {"present": True, "records": audit_sdf(sdf),
                                 "build": build_from(root, leg)}
+                if which == "asrun":
+                    entry[which]["silent_case"] = silent_case_probe(root, leg)
                 print("[forensic] %-32s %-8s records=%s build=%s"
                       % (leg, which, json.dumps(entry[which]["records"]),
                          json.dumps(entry[which]["build"])), flush=True)
