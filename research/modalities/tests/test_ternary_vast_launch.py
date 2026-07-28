@@ -1170,8 +1170,110 @@ def test_the_dead_unit_marker_never_labels_a_fresh_retry_host():
     import ternary_vast_launch as tv
     src = inspect.getsource(tv.collect)
     assert "dead_instances" in src, "the dead-unit marker lost its per-instance keying"
-    assert 'i.get("id") in dead_instances' in src, (
+    assert "leg_died_on_this_host=(_iid in dead_instances)" in src, (
         "the marker must read the instance-level verdict; keying it on the unit record re-introduces the "
         "stale-record trap that mislabels a retry host as dead")
     # and the verdict that feeds it must still be the recency-checked one
     assert "_record_is_newer_than_instance" in src
+
+
+# =============================================================================================================
+# THE SUMMARY ROW'S STATE TOKEN — one glyph, one meaning
+# =============================================================================================================
+# These pin the behaviour of `summary_marker` against the board that actually motivated it: run 30325339528,
+# job 90169487825, 2026-07-27 11:14 PM ET. Read the header comment above `summary_marker` for what that board
+# really showed (five TRUE-positive ☠ rows, every one of them torn down in the same pass and none of them
+# saying so) before changing any expectation here.
+_DEAD_REC = {"status": "failed", "rc": 1, "updated_utc": "2026-07-28T02:13:05Z"}
+
+
+def test_a_destroyed_host_and_a_billing_host_never_render_alike():
+    """CLAUDE.md §1's `⚠ PAYING` / `⛔ REFUSED` rule, applied to the teardown decision.
+
+    The 11:14 PM ET board printed `up=running … dph=$0.193 ☠ … its leg is DEAD` for five hosts it had just
+    destroyed, because the teardown line lives in the per-instance detail — the part GitHub truncates — while
+    the summary is printed last precisely because it survives. A reader concluded money was burning on dead
+    hosts and the board offered nothing to contradict them.
+    """
+    torn = tv.summary_marker(_DEAD_REC, leg_died_on_this_host=True,
+                             destroyed={"ok": True, "why": "unit FAILED — nothing left to produce"})
+    still = tv.summary_marker(_DEAD_REC, leg_died_on_this_host=True, destroyed=None)
+    assert "☠" in torn and "☠" in still, "both rows are genuinely dead legs"
+    assert torn != still, "a torn-down host and a billing host must not render alike"
+    assert "⛔" in torn and "billing STOPPED" in torn and "$0" in torn
+    assert "⛔" not in still and "⚠ STILL BILLING" in still
+    # and a teardown that RAISED leaves the meter running — it must read like the billing case, not the
+    # stopped one, or a failed DELETE becomes invisible.
+    raised = tv.summary_marker(_DEAD_REC, leg_died_on_this_host=True,
+                               destroyed={"ok": False, "why": "unit FAILED; DELETE raised HTTPError: 502"})
+    assert "⛔" not in raised and "⚠" in raised and "STILL BILLING" in raised
+
+
+def test_a_stale_failed_record_on_a_fresh_host_is_never_a_skull():
+    """The recency gate's correct answer must be VISIBLE, not silent.
+
+    A unit's `status=failed` is a fact about the LAST attempt. When the record predates the host in front of
+    you — a fresh retry rented after the crash — the destroy path already refuses to condemn the box
+    (`_record_is_newer_than_instance`). The summary used to render that correct restraint as an empty string,
+    so "there is a stale failed record here that we are knowingly ignoring" looked exactly like "this unit is
+    clean". Three states, three renderings.
+    """
+    stale = tv.summary_marker(_DEAD_REC, leg_died_on_this_host=False)
+    assert "☠" not in stale, "a record older than the host must never render as a dead leg"
+    assert "⏳" in stale and "STALE" in stale and "PREDATES" in stale
+    assert "2026-07-28T02:13:05Z" in stale, "name the record being ignored, or it cannot be checked"
+    # a genuinely clean host carries no state token at all, so ⏳ is not confusable with silence
+    assert tv.summary_marker(None, leg_died_on_this_host=False) == ""
+    assert tv.summary_marker({"status": "done"}, leg_died_on_this_host=False) == ""
+
+
+def test_an_advancing_host_under_a_stale_record_says_both():
+    """★ THE 46057228 SHAPE — an advancing census must NEVER be labelled dead on an older record.
+
+    Instance 46057228 is the case cited as the marker's false positive. On the real board it was a TRUE
+    positive (its leg died ON it at 02:13:05Z against a host started ≈00:16Z — see `summary_marker`'s header),
+    but the shape it was BELIEVED to have is the one invariant worth pinning permanently, because it is the
+    shape a retry host genuinely takes: committed census rising while an older failed record is still in S3.
+    That combination must render as work in progress, never as a corpse.
+    """
+    row = tv.summary_marker(_DEAD_REC, leg_died_on_this_host=False, progress_advanced=True)
+    assert "☠" not in row, "a host whose census is rising is not dead, whatever an older record says"
+    assert "⏳" in row, "the stale record is still worth naming"
+    assert "▲" in row and "ADVANCING" in row
+    assert "⚠" not in row and "⛔" not in row, "nothing was spent or refused here"
+
+
+def test_a_dead_leg_never_also_claims_to_be_advancing():
+    """A stale `prev` in `_lane_state.json` can make a dead unit's census look like it rose — it did exactly
+    that for 46057228, whose scalar read 320 against prev=192 while its log had been silent for 61 minutes.
+    The dead verdict wins, the same precedence `vast_idle_guard.classify_idle` gives `unit_failed` over
+    `progress_advanced`, so the board can never print `▲ ADVANCING` about a leg that is over."""
+    row = tv.summary_marker(_DEAD_REC, leg_died_on_this_host=True, progress_advanced=True,
+                            destroyed={"ok": True, "why": "unit FAILED — nothing left to produce"})
+    assert "▲" not in row and "ADVANCING" not in row
+    assert "☠" in row and "⛔" in row
+
+
+def test_the_teardown_outcome_is_shown_even_when_the_leg_is_healthy():
+    """A box destroyed for any other reason — done, runtime backstop, capacity refusal — is money that
+    stopped, and the summary is where that has to be readable. Without this a `done` unit's host renders as
+    `up=running … dph=$0.22` forever, which is the same misreading in a different costume."""
+    row = tv.summary_marker(None, leg_died_on_this_host=False,
+                            destroyed={"ok": True, "why": "unit done"})
+    assert "⛔" in row and "unit done" in row and "billing STOPPED" in row
+    assert "☠" not in row and "⏳" not in row
+
+
+def test_every_teardown_in_collect_records_its_outcome():
+    """One destroy path, one ledger. A raw `_vast_request("DELETE", ...)` added beside `_destroy` would tear
+    a box down without the summary ever learning that billing stopped — reintroducing exactly the gap these
+    tests exist to close. The dedupe branch is exempt: it runs before the per-instance loop and REMOVES its
+    victims from `mine`, so they never reach the summary at all."""
+    import inspect
+    src = inspect.getsource(tv.collect)
+    body = src.split("dead_instances = set()", 1)[1]
+    raw = [ln.strip() for ln in body.splitlines() if '_vast_request("DELETE"' in ln]
+    assert len(raw) == 1, (
+        f"every teardown after the dedupe must go through _destroy so its outcome reaches the summary; "
+        f"found {len(raw)} raw DELETE call(s): {raw}")
+    assert "destroyed_this_pass[iid]" in body

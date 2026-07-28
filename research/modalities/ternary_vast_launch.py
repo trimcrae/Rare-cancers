@@ -1854,6 +1854,83 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
     return ("hold" if hold else "clear"), readout
 
 
+# =============================================================================================================
+# THE TVAST-SUMMARY ROW'S STATE TOKEN — ONE GLYPH, ONE MEANING
+# =============================================================================================================
+# ★★ A HOST WE TORE DOWN AND A HOST WE ARE STILL PAYING FOR MUST NOT RENDER ALIKE (2026-07-28). This is
+# CLAUDE.md §1's `⚠ PAYING` / `⛔ REFUSED` ruling applied to the teardown decision instead of to the buy line,
+# and it is the defect the 11:14 PM ET board of 2026-07-27 actually had (run 30325339528, job 90169487825).
+#
+# WHAT THAT BOARD REALLY SHOWED, because the received account of it is wrong in three ways and the wrong
+# account keeps generating the wrong fix:
+#   * FIVE of eight instance rows carried `☠ UNIT status=failed`, and **every one of the five was a TRUE
+#     POSITIVE** — each unit's `leg.json` was written by the host it was printed against, not by an earlier
+#     attempt. The recency gate was working.
+#   * **All five were DESTROYED in that same pass** (`-> destroying <id> (unit FAILED — nothing left to
+#     produce)`), so no money was burning on any of them. The board simply never said so: the destroy verdict
+#     is 40 lines up in the per-instance detail, which is exactly the part GitHub truncates, while the summary
+#     — printed last precisely BECAUSE it survives truncation — still showed `up=running … dph=$0.193 ☠`,
+#     which reads as a live rental on a dead leg. A reader of that board concluded money was burning on dead
+#     hosts, and the board gave them no way to conclude otherwise.
+#   * Instance 46057228 (`calib_hi_to_lo__ternary_vhl_r2…edge_reps`) is the case usually cited as the false
+#     positive, on the strength of a census that "advanced" 192→320 while it printed ☠. Its census on the
+#     9:17 PM ET board (run 30319800231) was `warmup/128`, not 192 — the 192 belongs to instance 46055595 on
+#     the same board — and its leg genuinely died ON IT at 02:13:05Z, 61 minutes before the poll, against a
+#     host started at ≈00:16Z. Record newer than instance ⇒ ☠ correct ⇒ destroy correct.
+#
+# SUPERSEDED, retained so it is not re-argued: "the DESTROY decision is already recency-gated and the
+# RENDERING is not; a previous agent fixed only the decision side." Both halves are backwards. The decision
+# side has carried `_record_is_newer_than_instance` since before the marker existed, and commit 65889ed9
+# ("The dead-unit marker must not label a fresh retry host", 9:06 PM ET) re-keyed the RENDERING onto that same
+# per-instance verdict — which is why the 11:14 PM board printed no false ☠ at all.
+#
+# So the marker did not need a recency gate added; it needed to stop being the only thing on the row. Three
+# states shared one rendering and a fourth was invisible:
+#   ☠ = this host's OWN leg died on it (record newer than the instance)   — the recency-gated fact, reused
+#   ⏳ = a failed record exists but PREDATES this host — deliberately ignored, the box is cold-starting
+#   ▲ = the committed census rose on this poll — the box is doing work
+#   ⛔ = we destroyed this box in this pass: billing STOPPED, $0 further   (§1's "$0 spent" sense)
+#   ⚠ = money is STILL GOING OUT on this row                              (§1's "PAYING" sense)
+# `⏳` is not cosmetic: the recency gate's correct answer used to render as SILENCE, so "there is a stale
+# failed record here that we are knowingly ignoring" was indistinguishable from "this unit is clean", and the
+# operator could not tell a suppressed stale record from an absent one.
+def summary_marker(record, *, leg_died_on_this_host, destroyed=None, progress_advanced=False):
+    """The ONE renderer for a TVAST-SUMMARY row's state token. PURE — no S3, no Vast, no clock.
+
+    `record`               the unit's `leg.json` dict as read by `leg_records`, or None if it has none.
+    `leg_died_on_this_host` the DECISION PATH's OWN verdict — the `crashed` boolean that gates the teardown,
+                           i.e. `status == "failed" AND _record_is_newer_than_instance(record, instance)`.
+                           It is PASSED IN, never recomputed here: CLAUDE.md §1, one fact one place. A second
+                           derivation in the renderer is exactly how a board could print ☠ on a host the
+                           guard had spared, or spare a host it had condemned.
+    `destroyed`            None if this pass did not try to tear the box down, else {"ok": bool, "why": str}
+                           — the OUTCOME, because a destroy that raised leaves the meter running and must not
+                           render like one that stopped it.
+    `progress_advanced`    whether the committed-iteration census rose since the previous poll.
+
+    Returns "" or a leading-space-prefixed token string, so the caller can concatenate it unconditionally.
+    """
+    failed = bool(record) and record.get("status") == "failed"
+    stamp = (record or {}).get("updated_utc") or (record or {}).get("_s3_last_modified") or "unknown time"
+    dead = bool(leg_died_on_this_host)
+    out = []
+    if dead:
+        out.append(f"☠ LEG DIED ON THIS HOST at {stamp} (rc={(record or {}).get('rc')}) — "
+                   f"the record was written AFTER this instance started, so it is this host's own failure")
+    elif failed:
+        out.append(f"⏳ STALE failed record ({stamp}) PREDATES this host — NOT dead, this box is cold-starting "
+                   f"or working; the record belongs to an earlier attempt and is being ignored")
+    if progress_advanced and not dead:
+        out.append("▲ ADVANCING — committed census rose since the last poll")
+    if destroyed and destroyed.get("ok"):
+        out.append(f"⛔ DESTROYED this pass ({destroyed.get('why')}) — billing STOPPED, $0 further")
+    elif destroyed:
+        out.append(f"⚠ DESTROY FAILED ({destroyed.get('why')}) — STILL BILLING")
+    elif dead:
+        out.append("⚠ STILL BILLING — nothing tore this host down on this pass")
+    return (" " + " | ".join(out)) if out else ""
+
+
 def collect(bucket=None, prefix=None, autostop=True):
     """Status board + PROGRESS check + anti-idle reap. Returns (n_instances_up, n_done).
 
@@ -1954,6 +2031,27 @@ def collect(bucket=None, prefix=None, autostop=True):
             mine = [x for x in mine if x not in group[1:]]
 
     dead_instances = set()
+    # PER-ROW FACTS FOR THE SUMMARY, captured where they are DERIVED rather than re-derived at render time.
+    # `summary_marker` is pure and is handed these; nothing in the rendering block recomputes a verdict.
+    row_record = {}        # iid -> the unit's leg.json (or None). The VERDICT on it is `dead_instances`.
+    row_advanced = {}      # iid -> committed census rose since the previous poll
+    destroyed_this_pass = {}   # iid -> {"ok": bool, "why": str}
+
+    def _destroy(iid, why):
+        """Issue the teardown AND record its OUTCOME, so the summary can say whether billing actually stopped.
+
+        Every teardown in this function goes through here. A destroy that raises used to print one line deep
+        in the per-instance detail and then render, in the summary, exactly like a successful one — i.e. a box
+        still on the meter looked identical to a box that is off it."""
+        try:
+            _vast_request("DELETE", f"/instances/{iid}/", key)
+            destroyed_this_pass[iid] = {"ok": True, "why": why}
+            return True
+        except Exception as e:  # noqa: BLE001 — a failed teardown is a REPORTABLE state, never a crash
+            destroyed_this_pass[iid] = {"ok": False, "why": f"{why}; DELETE raised {type(e).__name__}: {e}"}
+            print(f"    destroy failed: {e}")
+            return False
+
     for i in mine:
         iid, lab = i.get("id"), i.get("label")
         uid = next((u for u in list(recs) + [j for j in _known_unit_ids()] if label_matches_unit(lab, u)), None)
@@ -1972,10 +2070,15 @@ def collect(bucket=None, prefix=None, autostop=True):
         # later — and printed "the host has lost its write path" about two boxes whose last successful act
         # was writing to S3. Same destroy, wrong sentence. Hoisted so the guard is told, not left to guess.
         finished = uid in done
-        crashed = bool(uid and uid in other and other[uid].get("status") == "failed"
-                       and _record_is_newer_than_instance(other[uid], i))
+        _rec = other.get(uid) if uid else None
+        _newer = bool(_rec and _record_is_newer_than_instance(_rec, i))
+        crashed = bool(_rec and _rec.get("status") == "failed" and _newer)
         if crashed:
             dead_instances.add(iid)
+        # The record itself, kept for the summary's TEXT (its timestamp and rc). The VERDICT on it stays in
+        # `dead_instances` and is never re-derived at render time — a stale failed record (present, but older
+        # than this host) is the case the summary used to render as silence.
+        row_record[iid] = _rec
 
         # PROGRESS, not liveness.
         idle_verdict, idle_why = vig.UNKNOWN, "no unit could be mapped to this instance's label"
@@ -1986,6 +2089,7 @@ def collect(bucket=None, prefix=None, autostop=True):
             pstall = prev[1] if isinstance(prev, (list, tuple)) and len(prev) > 1 else 0
             stall = 0 if scalar > pprog else int(pstall) + 1
             new_state[f"prog:{uid}"] = [scalar, stall]
+            row_advanced[iid] = bool(scalar > pprog)
             print(f"      committed: {phase or 'none yet'}"
                   f"{('/' + str(it)) if phase else ''}  scalar={scalar} prev={pprog} "
                   f"no-advance-polls={stall}")
@@ -2027,18 +2131,12 @@ def collect(bucket=None, prefix=None, autostop=True):
                f"idle guard: {idle_verdict} — {idle_why}" if vig.should_destroy(idle_verdict) else None)
         if autostop and why:
             print(f"    -> destroying {iid} ({why})")
-            try:
-                _vast_request("DELETE", f"/instances/{iid}/", key)
-            except Exception as e:  # noqa: BLE001
-                print(f"    destroy failed: {e}")
+            _destroy(iid, why)
         elif (i.get("actual_status") != "running" and i.get("cur_state") == "running"
               and frozen_min > MAX_FROZEN_MIN):
             print(f"    -> destroying {iid} (status frozen {frozen_min:.0f} min at {msg[:60]!r}; "
                   f"the image pull is dead, not queued)")
-            try:
-                _vast_request("DELETE", f"/instances/{iid}/", key)
-            except Exception as e:  # noqa: BLE001
-                print(f"    destroy failed: {e}")
+            _destroy(iid, f"status frozen {frozen_min:.0f} min — the image pull is dead, not queued")
         elif i.get("cur_state") == "stopped":
             # A stopped box has two causes that demand OPPOSITE actions, and only the start response
             # separates them. Re-issue the start (idempotent) and read the reply.
@@ -2106,20 +2204,15 @@ def collect(bucket=None, prefix=None, autostop=True):
                                  disk_gb=resource_spec().disk_gb)
                 print(tdd.render(_td, instance_id=iid, machine_id=i.get("machine_id")))
                 if _td["destroy"]:
-                    try:
-                        _vast_request("DELETE", f"/instances/{iid}/", key)
-                    except Exception as e:  # noqa: BLE001
-                        print(f"    destroy failed: {e}")
+                    _destroy(iid, f"capacity refusal on machine {i.get('machine_id')}; "
+                                  f"{_td.get('verdict')}")
                 else:
                     # VISIBLE, with the snapshot that caused it (CLAUDE.md §6) — a silent hold is
                     # indistinguishable from a lane that finished.
                     held_boxes.append({"instance": iid, "machine_id": i.get("machine_id"), **_td})
             elif up_h * 60 > MAX_STOPPED_MIN:
                 print(f"    -> destroying {iid} (stopped {up_h * 60:.0f} min, not a capacity wait)")
-                try:
-                    _vast_request("DELETE", f"/instances/{iid}/", key)
-                except Exception as e:  # noqa: BLE001
-                    print(f"    destroy failed: {e}")
+                _destroy(iid, f"stopped {up_h * 60:.0f} min, not a capacity wait")
 
     # ONE COMPACT LINE PER UNIT, LAST. GitHub truncates a job log from the tail, and this board's per-instance
     # detail is long enough that on a busy poll the verdict scrolls out of a 25-line fetch — which is exactly
@@ -2156,8 +2249,15 @@ def collect(bucket=None, prefix=None, autostop=True):
         # dead units and this line labelled BOTH of them dead while they were still pulling their image.
         # That is exactly the stale-record trap `_record_is_newer_than_instance` exists for, so reuse its
         # answer from the loop above rather than re-deriving a weaker one here.
-        dead = (" ☠ UNIT status=failed — this host is not cold-starting, its leg is DEAD"
-                if i.get("id") in dead_instances else "")
+        # ★★ AND IT NOW ALSO SAYS WHAT WE DID ABOUT IT. Every fact below was DERIVED in the loop above and is
+        # merely handed to the renderer — see `summary_marker` for why a row we tore down and a row we are
+        # still paying for must not look the same, and for what the 11:14 PM ET board of 2026-07-27 actually
+        # showed. `dead_instances` stays the keying fact for ☠; it is `crashed`, i.e. recency-gated.
+        _iid = i.get("id")
+        dead = summary_marker(row_record.get(_iid),
+                              leg_died_on_this_host=(_iid in dead_instances),
+                              destroyed=destroyed_this_pass.get(_iid),
+                              progress_advanced=row_advanced.get(_iid, False))
         # INSTANCE ID ON EVERY PROGRESS LINE. A progress reading is only worth anything if it is
         # attributable to the box you actually rented: a monitor that reports "advancing" from the wrong
         # job is the same silent-success class this lane's watchdog exists to prevent, and it is more
