@@ -1731,6 +1731,15 @@ jobs:
           python research/modalities/ternary_reps_diag.py --mode edge_reps --compare-stage \
             --leg calib_hi_to_lo__ternary_vhl \
             --out research/modalities/ternary-reps-stage-census.json 2>&1 | tee /tmp/census.txt
+      - name: Measure the per-arm iteration rate the checkpoint cadence is derived from
+        # $0, read-only (list + GET of leg.json), rents nothing and touches no instance. This is the ONE HOME
+        # of `ternary_vast_launch.ARM_ITERATION_RATES`: the per-arm checkpoint interval is derived from a
+        # MEASURED seconds-per-iteration, and a measured number that is typed into a source file is one nobody
+        # re-derives when the fleet moves to a different card. Re-run this and the cadence follows.
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_arm_rates.py \
+            --out research/modalities/ternary-arm-iteration-rates.json 2>&1 | tee /tmp/rates.txt
       - name: The discriminator — container memory vs its limit across the window the ternary legs die in
         # `watch_minutes` blank = skip. The forensic above says the ternary legs die deterministically at
         # HybridTopologyFactory and that the kill takes the WHOLE CONTAINER (bash never reaches the
@@ -1748,7 +1757,7 @@ jobs:
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/ternary-reps-diag.json
-          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json; do
+          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json ternary-arm-iteration-rates.json; do
             [ -f "research/modalities/$f" ] && git add "research/modalities/$f" || true
           done
           if ! git diff --cached --quiet; then

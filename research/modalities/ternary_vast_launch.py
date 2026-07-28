@@ -50,6 +50,7 @@ another session.
 
 from __future__ import annotations
 
+import inspect
 import json
 import os
 import re
@@ -240,6 +241,12 @@ MODES = {
         # closes the "resume silently accepted a generation from another configuration" hole for free.
         # Scoped per-mode rather than lane-wide precisely so it cannot refuse another lane's live resume.
         "strict_provenance": True,
+        # ★★ PER-ARM CHECKPOINT CADENCE, DERIVED — see `warmup_ckpt_iters_for`. The `64` above is the
+        # REFERENCE arm's (binary) interval and the ternary arm gets its own, finer, computed one, so that
+        # both arms lose the SAME NUMBER OF SECONDS to a host reclaim rather than the same number of
+        # iterations. Opt-in per mode, so this cannot silently re-cadence a lane nobody measured — `edge`
+        # (seed 0, already DONE) and `5aks` stay byte-identical to what they ran with.
+        "per_arm_ckpt": True,
         "legs": [("calib_hi_to_lo__ternary_vhl", 1, "fwd"),
                  ("calib_hi_to_lo__binary_vhl", 1, "fwd"),
                  ("calib_hi_to_lo__ternary_vhl", 2, "fwd"),
@@ -882,7 +889,12 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         # overhead. Per-mode; see the note on MODES. The engine rounds each phase's target DOWN to a
         # multiple of its interval, so an interval larger than a short phase's target would silently
         # shorten the run — which is why probe and edge do not share one value.
-        "WARMUP_CKPT_ITERS": os.environ.get("TVAST_WARMUP_CKPT_ITERS") or sizing["warmup_ckpt_iters"],
+        # ★★ AND PER-ARM, NOT ONLY PER-MODE, WHEREVER A MODE OPTS IN. "The maximum work a preemption can
+        # cost" is a WALL-CLOCK quantity, so one iteration count buys two arms two DIFFERENT exposures
+        # whenever their systems sample at different seconds-per-iteration. `warmup_ckpt_iters_for` derives
+        # it from the measured rates; the mode's own value is the reference arm's.
+        "WARMUP_CKPT_ITERS": (os.environ.get("TVAST_WARMUP_CKPT_ITERS")
+                              or warmup_ckpt_iters_for(leg_id, mode, sizing, dt, wdt)),
         "PROD_CKPT_ITERS": os.environ.get("TVAST_PROD_CKPT_ITERS") or sizing["prod_ckpt_iters"],
         # The MD's own cap, inside the instance runtime cap, so the deliverable upload still runs.
         "MD_TIMEOUT_S": str(int(sizing["max_runtime_s"] * 0.92)),
@@ -955,6 +967,214 @@ def speedup_2fs_to_4fs(warmup_iters=400, prod_iters=2000, warmup_dt_fs=1.0, time
     a = ternary_cost_model(1.0, warmup_iters, prod_iters, warmup_dt_fs, 2.0, time_per_iteration_ps)
     b = ternary_cost_model(1.0, warmup_iters, prod_iters, warmup_dt_fs, 4.0, time_per_iteration_ps)
     return a["leg_h"] / b["leg_h"] if b["leg_h"] else None
+
+
+# =============================================================================================================
+# PER-ARM CHECKPOINT CADENCE — the same exposure, in SECONDS, for arms that sample at different rates
+# =============================================================================================================
+# ★★ WHAT IS WRONG WITH ONE SHARED `warmup_ckpt_iters`, STATED IN THE UNIT THAT MATTERS. Host churn is the
+# dominant cost of wall-clock on this lane, and the checkpoint interval is the single lever that decides how
+# much work each churn event destroys. What a reclaim costs is
+#
+#       EXPOSURE = warmup_ckpt_iters x seconds_per_iteration        [SECONDS, not iterations]
+#
+# and `seconds_per_iteration` is a property of the ARM (how big the solvated system is), while
+# `warmup_ckpt_iters` was a property of the MODE. So one number in `MODES` buys the two arms DIFFERENT
+# exposures, and nothing in the readout said so. Measured on `edge_reps` (`ternary-reps-diag.json`,
+# 2026-07-27): the binary legs were committing — warmup/1216 and warmup/256 across 8 and 5 archived attempts
+# — while both ternary legs sat at iteration 0. `warmup_ckpt_iters_for` gives the slower arm the finer
+# interval so both arms bank on the same wall-clock cadence.
+#
+# ⛔ WHAT THIS DOES **NOT** CLAIM, because the evidence does not support it (CLAUDE.md §4). It does not
+# explain those two zeros. `ternary-reps-diag.json` shows both ternary units' last archived line as
+# `No CMAPTorsionForce found. Skipping adding force.` — they died in HYBRID SYSTEM CONSTRUCTION, before the
+# first MD iteration, so no checkpoint interval could have saved them (that failure is `reps-setup-rss`'s
+# subject, not this function's). Equalising exposure is worth doing on its own terms — it is a real,
+# measured asymmetry in what a reclaim costs — and it is not a diagnosis of that crash.
+#
+# ⛔ AND DO NOT "TIDY" THE ARMS BACK TO ONE SHARED VALUE. That is the bug, not the untidiness: a single
+# iteration count cannot express "the same exposure" for two arms whose iterations cost different seconds.
+# `tests/test_ternary_ckpt_exposure.py` fails if the two arms' exposures diverge.
+#
+# SAFE TO CHANGE MID-EXPERIMENT, for two reasons that were checked rather than assumed. (1) The interval is a
+# COMMIT CADENCE, not a sampling parameter — it selects when sampler state is written to the commit store and
+# touches neither the integrator, the moves nor the random stream, so the trajectory is unchanged and a
+# matched cycle against r0 stays matched. (2) `rbfe_spot_driver` rounds each phase target DOWN to a multiple
+# of the interval (`warmup_target = (warmup_iters // warmup_checkpoint_iters) * warmup_checkpoint_iters`), so
+# an interval that did NOT divide the target would SHORTEN this leg's equilibration relative to r0's — a
+# protocol difference inside a matched cycle. Every interval derived below divides the target exactly. It
+# also only ever applies to a unit with nothing committed: on a resume the interval baked into the committed
+# .nc OVERRIDES the environment (the driver's single-interval invariant).
+
+# The arm whose interval the mode's own `warmup_ckpt_iters` was chosen for; every other arm is derived
+# against it. `MODES["edge"]["warmup_ckpt_iters"] = 64` was reasoned about on this arm and it is the arm that
+# demonstrably banks progress on these hosts, so it is the reference rather than a candidate for change.
+CKPT_REFERENCE_ARM = "binary"
+
+# ★ MEASURED PER-COMMIT OVERHEAD. `ternary-4fs-vast-findings.md` §4, stage-1 probe on a Vast 4090: pure MD
+# ~6.6-8.5 s/iter, commit-inclusive at `warmup_ckpt_iters=8` 11.4 s/iter (iterations 24->32 committed in
+# 91 s) => (11.4 - 8.5) x 8 ~= 23 s per commit. That is one reporter sync plus an ~25 MB .nc/.chk pair copied
+# and PUT to S3. ONE HOME: this constant, pointing at that section — not re-derived anywhere else.
+COMMIT_OVERHEAD_S = 23.0
+
+# ★ AND THE TOLERANCE IT IS JUDGED AGAINST, WHICH IS NOT A NEW THRESHOLD. It is the one this lane already
+# chose `edge`'s interval with, quoted from the same section: "at the edge's ci=64 it is ~0.4 s/iter, under
+# 5 %". Recorded so the trade-off is auditable rather than remembered.
+MAX_COMMIT_OVERHEAD_FRAC = 0.05
+
+# The measured seconds-per-iteration per arm, per PRODUCTION TIMESTEP. NOT TYPED HERE — read from
+# `ternary-arm-iteration-rates.json`, which `ternary_arm_rates.py` regenerates from the legs' own leg.json
+# timing blocks (CLAUDE.md §1: a measured input is DERIVED and has one home). Two poolings that file refuses,
+# both of which have already been made by hand in this repo and both of which would corrupt this derivation:
+#   * across TIMESTEP — a 2 fs iteration is 1250 MD steps and a 4 fs one is 625, so the same physics costs
+#     ~2x the seconds (`ternary-4fs-vast-findings.md` §1/§2);
+#   * across PHASE — pricing.md's superseded "~2.06x" L4->4090 card ratio compared a WARMUP rate against a
+#     PRODUCTION one, and production-to-production the true ratio is ~3.53x.
+# A production median IS a valid warmup rate at the same timestep, and that is the only cross-phase step
+# taken: `rbfe_spot_driver` builds the warmup move by overriding `.timestep` on a move whose `n_steps` was
+# already fixed at the PRODUCTION dt, so a warmup iteration and a production iteration are the same number of
+# force evaluations (findings §4: "warmup and production cost the same wall time per iteration here").
+_ARM_RATES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                               "ternary-arm-iteration-rates.json")
+_ARM_RATES_CACHE = {}
+
+
+def arm_iteration_rates(timestep_fs, path=None):
+    """{arm: s_per_iter} measured at this PRODUCTION timestep, or {} if that timestep was never measured.
+
+    PURE apart from one cached file read. Returning {} rather than a guessed rate is deliberate: an
+    unmeasured timestep falls back to the mode's flat interval, which is exactly today's behaviour, whereas
+    an invented rate would silently re-cadence a lane nobody measured.
+    """
+    p = path or _ARM_RATES_PATH
+    if p not in _ARM_RATES_CACHE:
+        try:
+            with open(p) as fh:
+                _ARM_RATES_CACHE[p] = json.load(fh)
+        except (OSError, ValueError) as e:  # noqa: BLE001
+            print(f"[tvast] WARN no measured arm rates at {p} ({type(e).__name__}: {e}); "
+                  f"per-arm checkpoint cadence disabled, every arm keeps its mode's flat interval")
+            _ARM_RATES_CACHE[p] = {}
+    rates = (_ARM_RATES_CACHE[p].get("rates") or {}).get(f"{float(timestep_fs):.1f}") or {}
+    return {arm: float(v["s_per_iter"]) for arm, v in rates.items() if v.get("s_per_iter")}
+
+
+def arm_of_leg(leg_id):
+    """binary | ternary | solvent for a leg id. PURE. ONE HOME for the arm split — `ternary_arm_rates.py`,
+    `ternary_reps_diag.py`'s readout and the cadence derivation all key off this and nothing re-implements it.
+    """
+    if "__solvent" in (leg_id or ""):
+        return "solvent"
+    return "ternary" if "__ternary" in (leg_id or "") else "binary"
+
+
+def warmup_target_iters(timestep_fs, warmup_timestep_fs):
+    """The warmup iteration count `rbfe_spot_driver` will derive, which every interval must divide exactly.
+
+    DERIVED FROM CODE, NOT OBSERVED, and NOT a constant — it is a function of BOTH timesteps, which is why
+    this lane cannot carry one hardcoded number: `edge`/`edge_reps` run 4 fs and `triangle` runs 2 fs.
+
+        warmup steps      = EQUILIBRATION_NS / warmup_dt          (the warmup integrator's own dt)
+        steps_per_iter    = time_per_iteration / production_dt    (`n_steps`, fixed at the PRODUCTION dt)
+        warmup_iters      = warmup steps / steps_per_iter
+
+    so 1.0 ns at 1 fs is 1e6 steps, and at 4 fs production (625 steps/iter) that is 1600 iterations while at
+    2 fs (1250 steps/iter) it is 800. Both protocol lengths are IMPORTED rather than typed: `EQUILIBRATION_NS`
+    from `nr4a3_ternary_fep`, and `time_per_iteration` from `ternary_cost_model`'s own default, which is the
+    OpenFE default this lane never overrides (`openfe_introspect`). Returns None if the engine module cannot
+    be imported, which disables the derivation rather than guessing at it.
+    """
+    try:
+        import nr4a3_ternary_fep as _tfep
+        equil_ns = float(_tfep.EQUILIBRATION_NS)
+    except Exception as e:  # noqa: BLE001 — no engine module => no derivation, never a made-up target
+        print(f"[tvast] WARN cannot read EQUILIBRATION_NS ({type(e).__name__}: {e}); "
+              f"per-arm checkpoint cadence disabled")
+        return None
+    tpi_ps = inspect.signature(ternary_cost_model).parameters["time_per_iteration_ps"].default
+    steps_per_iter = float(tpi_ps) * 1000.0 / float(timestep_fs)
+    return int((equil_ns * 1e6 / float(warmup_timestep_fs)) / steps_per_iter)
+
+
+def _divisors_up_to(n, cap):
+    return [d for d in range(1, int(cap) + 1) if n % d == 0]
+
+
+def warmup_ckpt_iters_for(leg_id, mode, sizing=None, timestep_fs=None, warmup_timestep_fs=None):
+    """This leg's warmup checkpoint interval, as a str. Derived per ARM wherever a mode opts in. PURE.
+
+    THE DERIVATION, in one line: the reference arm's exposure is the BUDGET, and every other arm gets the
+    LARGEST interval that fits inside it and still divides the warmup target exactly.
+
+        budget_s = MODES[mode]["warmup_ckpt_iters"] x rate[CKPT_REFERENCE_ARM]
+        interval = max{ d : d divides warmup_target, d <= reference interval, d x rate[arm] <= budget_s }
+
+    Capped at the reference interval so this can only ever REFINE an arm's cadence. Equalising a fast arm
+    UPWARD would buy exposure nobody asked for on an arm that is not failing, and the mode's own value is the
+    coarsest cadence that was ever authorised.
+
+    ★ AND THE COMMIT-OVERHEAD FLOOR IS SATISFIED FOR FREE — it is not a second selection constraint, it is a
+    consequence, and the proof is worth writing down because the obvious way to "protect" against
+    over-committing is to add a clamp that cannot fire. Per-commit overhead is a fixed `COMMIT_OVERHEAD_S`
+    against `interval x rate` seconds of MD, so
+
+        overhead fraction = COMMIT_OVERHEAD_S / EXPOSURE_S
+
+    — a function of the EXPOSURE alone, falling monotonically as the interval grows. This picks the LARGEST
+    interval inside the budget, i.e. the one with the SMALLEST overhead of any admissible choice, so if any
+    admissible interval clears `MAX_COMMIT_OVERHEAD_FRAC` then the one returned does. Overhead can therefore
+    only be a problem if the BUDGET ITSELF is too small, which is a fact about the reference arm's interval
+    and not about this derivation — so it is asserted by `ckpt_overhead_fraction` and pinned by a test rather
+    than silently clamped here.
+
+    An unmeasured timestep, an unmeasured arm, or a mode that has not opted in all return the mode's own flat
+    value — the current behaviour, never a guess.
+    """
+    sizing = MODES[mode] if sizing is None else sizing
+    ref = str(sizing.get("warmup_ckpt_iters") or "64")
+    if not sizing.get("per_arm_ckpt"):
+        return ref
+    dt, wdt = resolve_timesteps(mode, timestep_fs, warmup_timestep_fs)
+    rates = arm_iteration_rates(dt)
+    arm = arm_of_leg(leg_id)
+    rate, ref_rate = rates.get(arm), rates.get(CKPT_REFERENCE_ARM)
+    if arm == CKPT_REFERENCE_ARM or not rate or not ref_rate:
+        return ref
+    target = warmup_target_iters(dt, wdt)
+    if not target:
+        return ref
+    budget_s = int(ref) * ref_rate
+    fits = [d for d in _divisors_up_to(target, int(ref)) if d * rate <= budget_s]
+    # `or [1]` cannot fire while any single iteration fits the budget; an arm slower than the whole budget
+    # per iteration would otherwise raise, and a crash in a launcher is worse than one commit per iteration.
+    return str(max(fits or [1]))
+
+
+def ckpt_exposure_s(leg_id, mode, sizing=None, timestep_fs=None, warmup_timestep_fs=None):
+    """SECONDS of warmup sampling this leg can lose to a host reclaim before its first commit — the quantity
+    the per-arm split exists to equalise, and the one the readout should print. PURE.
+
+    Returns None where no rate was measured for this arm at this timestep, because a fabricated exposure is
+    worse than an absent one.
+    """
+    sizing = MODES[mode] if sizing is None else sizing
+    dt, wdt = resolve_timesteps(mode, timestep_fs, warmup_timestep_fs)
+    rate = arm_iteration_rates(dt).get(arm_of_leg(leg_id))
+    if not rate:
+        return None
+    return int(warmup_ckpt_iters_for(leg_id, mode, sizing, timestep_fs, warmup_timestep_fs)) * rate
+
+
+def ckpt_overhead_fraction(leg_id, mode, sizing=None, timestep_fs=None, warmup_timestep_fs=None):
+    """Fraction of this leg's warmup wall-clock spent committing, at the interval it will actually run.
+
+    `COMMIT_OVERHEAD_S / EXPOSURE_S` — see `warmup_ckpt_iters_for`. This is the other half of the trade-off
+    the interval sits in: SMALL interval => little work at risk but a large fixed cost paid often; LARGE
+    interval => cheap but a reclaim destroys more. Reported rather than clamped, so a re-measurement that
+    pushes it past `MAX_COMMIT_OVERHEAD_FRAC` fails a test in front of a human instead of being absorbed.
+    """
+    e = ckpt_exposure_s(leg_id, mode, sizing, timestep_fs, warmup_timestep_fs)
+    return None if not e else COMMIT_OVERHEAD_S / e
 
 
 # =============================================================================================================
