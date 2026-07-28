@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 9:14 PM ET Jul 27, 2026
+[s1f-terminus] read at 9:22 PM ET Jul 27, 2026
 
-[s1f-terminus] 2468 object(s) under the results prefix
+[s1f-terminus] 2488 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1007 B  8:48 AM ET Jul 27, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid/ddg.json
@@ -13,9 +13,9 @@
   e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=no  NO-TERMINUS        complex/production@560, complex/warmup@400
   e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=no  NO-TERMINUS        complex/production@920, complex/warmup@400
-  e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@1960, complex/warmup@400
-  e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@1640, complex/warmup@400
-  e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=no  NO-TERMINUS        complex/production@1920, complex/warmup@400
+  e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/warmup@40
+  e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@1680, complex/warmup@400
+  e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=no  NO-TERMINUS        complex/production@1960, complex/warmup@400
   e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral       ddg=no  NO-TERMINUS        complex/production@600, complex/warmup@400
@@ -54,20 +54,20 @@
        }
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 187 offers visible (baseline ~23), 187 qualifying, 109 priceable, 18 needed
+  board depth      : 185 offers visible (baseline ~23), 185 qualifying, 111 priceable, 18 needed
   floors           : min $0.047/hr, median $0.3333/hr
-  best fleet $/ns  : $0.006043/ns  ·  1.77× basis (basis $0.003412/ns)
-  projected        : $49.87 against a $70.96 ceiling
+  best fleet $/ns  : $0.006021/ns  ·  1.76× basis (basis $0.003412/ns)
+  projected        : $49.69 against a $70.96 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
     RTX 3090   m68109    $0.0470/hr  $0.00376/ns · 1.10× basis
-    RTX 4090   m24573    $0.1067/hr  $0.00425/ns · 1.25× basis
     RTX 4090   m18857    $0.1200/hr  $0.00443/ns · 1.30× basis
-    RTX 5090   m29709    $0.2000/hr  $0.00539/ns · 1.58× basis
-    RTX 5090   m136811   $0.2000/hr  $0.00539/ns · 1.58× basis
+    RTX 3090   m12708    $0.0667/hr  $0.00483/ns · 1.42× basis
+    RTX 5090   m62866    $0.2040/hr  $0.00549/ns · 1.61× basis
+    RTX 3090   m89294    $0.0950/hr  $0.00558/ns · 1.63× basis
+    RTX 4090   m31035    $0.1587/hr  $0.00564/ns · 1.65× basis
     RTX 4090   m11892    $0.1600/hr  $0.00568/ns · 1.67× basis
-    RTX 4090   m48161    $0.1733/hr  $0.00573/ns · 1.68× basis
-    RTX 5090   m45983    $0.2267/hr  $0.00604/ns · 1.77× basis
+    RTX 4090   m140043   $0.1600/hr  $0.00568/ns · 1.67× basis
+    RTX 5090   m129256   $0.2133/hr  $0.00571/ns · 1.67× basis
     RTX 5090   m90898    $0.2267/hr  $0.00604/ns · 1.77× basis
     RTX 4090   m51777    $0.1733/hr  $0.00610/ns · 1.79× basis
-    RTX 5090   m139823   $0.2533/hr  $0.00668/ns · 1.96× basis
     RTX 5090   m129810   $0.2667/hr  $0.00683/ns · 2.00× basis
