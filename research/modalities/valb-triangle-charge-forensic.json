@@ -41,14 +41,14 @@
           {
             "record": 0,
             "name": "calib_hi",
-            "n_atoms": 59,
-            "n_partial_charges": null,
+            "n_atoms": 109,
+            "n_partial_charges": 109,
             "mismatch": false
           },
           {
             "record": 1,
             "name": "calib_lo2",
-            "n_atoms": 59,
+            "n_atoms": 109,
             "n_partial_charges": null,
             "mismatch": false
           }
@@ -67,17 +67,32 @@
         "silent_case": [
           {
             "record": 0,
-            "n_atoms": 59,
-            "n_partial_charges": null,
+            "n_atoms": 109,
+            "n_partial_charges": 109,
             "gufe_accepted": true,
-            "openff_partial_charges_is_none": true
+            "openff_partial_charges_is_none": false,
+            "first_three": [
+              0.6501648502612333,
+              0.1426589267516355,
+              -0.09279762187955576
+            ]
           },
           {
             "record": 1,
-            "n_atoms": 59,
+            "n_atoms": 109,
             "n_partial_charges": null,
             "gufe_accepted": true,
             "openff_partial_charges_is_none": true
+          }
+        ],
+        "nagl_equality": [
+          {
+            "record": 0,
+            "n_inherited": 109,
+            "charge_label": "nagl:openff-gnn-am1bcc-1.0.0.pt",
+            "n_fresh": 109,
+            "max_abs_deviation_e": 0.0,
+            "identical_to_protocol_charges": true
           }
         ]
       }
@@ -162,6 +177,16 @@
             "gufe_accepted": true,
             "openff_partial_charges_is_none": true
           }
+        ],
+        "nagl_equality": [
+          {
+            "record": 0,
+            "n_inherited": 109,
+            "charge_label": "nagl:openff-gnn-am1bcc-1.0.0.pt",
+            "n_fresh": 109,
+            "max_abs_deviation_e": 1.537963884717941e-07,
+            "identical_to_protocol_charges": true
+          }
         ]
       }
     },
@@ -245,6 +270,16 @@
             "gufe_accepted": true,
             "openff_partial_charges_is_none": true
           }
+        ],
+        "nagl_equality": [
+          {
+            "record": 0,
+            "n_inherited": 109,
+            "charge_label": "nagl:openff-gnn-am1bcc-1.0.0.pt",
+            "n_fresh": 109,
+            "max_abs_deviation_e": 0.0,
+            "identical_to_protocol_charges": true
+          }
         ]
       }
     },
@@ -327,6 +362,16 @@
             "n_partial_charges": null,
             "gufe_accepted": true,
             "openff_partial_charges_is_none": true
+          }
+        ],
+        "nagl_equality": [
+          {
+            "record": 0,
+            "n_inherited": 109,
+            "charge_label": "nagl:openff-gnn-am1bcc-1.0.0.pt",
+            "n_fresh": 109,
+            "max_abs_deviation_e": 1.535229726679077e-07,
+            "identical_to_protocol_charges": true
           }
         ]
       }
