@@ -3,7 +3,7 @@
   "_scope": "19 map edges at their charge-conserving microstate leg, on the PRIMARY nr4a3_design druggable frame. Charge-changing microstate legs and the conformer/paralogue frame axis are separate tranches and were NOT run \u2014 see congeneric_fanout.plan().",
   "_claim_ceiling": "CONDITIONAL relative free energies given a HYPOTHESIZED cmpd19 pose (no solved NR4A3 cocrystal) in ONE modeled opened conformer, single replicate per edge. NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is not established here \u2014 it rests on valA_mini + OpenFE's published benchmark for this protocol.",
   "n_units": 19,
-  "n_complete": 8,
+  "n_complete": 9,
   "blocked_units": {
     "e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral": {
       "why": "MAPPER_CANNOT_REACH_FLOOR: the complex leg aborts rc=1 on a provably-degenerate atom map that no available mapper fixes. Measured on the production staged components: LOMAP element_change=False 17, element_change=True 19, Kartograf 18, against a provable floor of 20 (a complete 22-atom map exists as a graph fact). Both LOMAP budgets identical at 0.01 s, so the MCS timeout is measured NOT to be the mechanism. A relaunch aborts identically and buys nothing.",
@@ -66,6 +66,26 @@
       "complex_unc_kcal": 0.03712238440513211,
       "dg_solvent_morph_kcal": -2.353906121495063,
       "solvent_unc_kcal": 0.02920026106208822,
+      "n_mapped_atoms": 21,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    },
+    {
+      "unit_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2",
+      "leg_id": "neutral__neutral_amine",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "zaienne_cmpd19",
+      "ligand_b": "cw_ev_5ch2nh2",
+      "ddg_bind_kcal": 1.248,
+      "ddg_bind_unc_kcal": 0.139,
+      "dg_complex_morph_kcal": -3.68122501455289,
+      "complex_unc_kcal": 0.10312000993283305,
+      "dg_solvent_morph_kcal": -4.929623406529687,
+      "solvent_unc_kcal": 0.09357628381404276,
       "n_mapped_atoms": 21,
       "n_windows": 12,
       "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
@@ -262,6 +282,14 @@
       "perturbation": "5-Br -> 5-NH2 (neutral aryl amine; amide/urea vector)"
     },
     {
+      "node": "cw_ev_5ch2nh2",
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2",
+      "ddg_bind_kcal": 1.248,
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "perturbation": "5-Br -> 5-CH2NH2 (benzylic amine; basic/ionizable)"
+    },
+    {
       "node": "cw_ev_5piperazine",
       "edge_id": "e_zaienne_cmpd19__cw_ev_5piperazine",
       "ddg_bind_kcal": 3.403,
@@ -271,40 +299,8 @@
     }
   ],
   "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this modeled conformer, conditional on the pose hypothesis.",
-  "idle_guard": [
-    {
-      "instance": 46071020,
-      "label": "s1f-04-cw_ev_5ch2nh2",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": 95.999908,
-        "progress_advanced": true,
-        "log_age_min": 0.13866805000000001,
-        "start_ages_min": [
-          930.4220016439756,
-          928.3386683106422,
-          816.6720016439756,
-          800.0220016439756,
-          797.1553349773089,
-          656.2886683106423,
-          631.4886683106422,
-          465.7053349773089,
-          326.8553349773089,
-          266.13866831064223,
-          182.82200164397557,
-          150.30533497730892,
-          96.95533497730891,
-          24.538668310642244,
-          22.372001643975576
-        ],
-        "instance_age_min": 328
-      }
-    }
-  ],
-  "realised_usd": 37.85,
+  "idle_guard": [],
+  "realised_usd": 37.95,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -1183,8 +1179,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
       "machine_id": 43159,
       "rate_usd_h": 0.1496,
-      "billed_h": 5.47,
-      "usd": 0.818
+      "billed_h": 6.13,
+      "usd": 0.918
     },
     {
       "instance": "46071140",
@@ -1333,6 +1329,14 @@
     {
       "instance": "46092175",
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "machine_id": 33657,
+      "rate_usd_h": 0.1292,
+      "billed_h": 0.0,
+      "usd": 0.0
+    },
+    {
+      "instance": "46093071",
+      "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "machine_id": 33657,
       "rate_usd_h": 0.1292,
       "billed_h": 0.0,

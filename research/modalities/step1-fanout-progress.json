@@ -1,23 +1,23 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-28T09:05:31Z",
-  "_generated_et": "5:05 AM ET Jul 28, 2026",
+  "_generated_utc": "2026-07-28T09:46:27Z",
+  "_generated_et": "5:46 AM ET Jul 28, 2026",
   "n_units": 19,
-  "n_complete": 8,
+  "n_complete": 9,
   "live_instances": 1,
   "_vast_unreadable": null,
   "instance_states": {
     "running": 1
   },
   "gpu_util": [
-    95.999908
+    99.999908
   ],
   "phases": {
-    "done": 8,
-    "boot": 2,
-    "leg-solvent-running": 2,
+    "done": 9,
+    "boot": 1,
     "leg-complex-FAILED-rc1": 2,
-    "leg-complex-running": 5
+    "leg-complex-running": 6,
+    "leg-solvent-running": 1
   },
   "instances": [
     {
@@ -28,10 +28,10 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 4090",
-      "gpu_util": 95.999908,
+      "gpu_util": 99.999908,
       "inet_down": 764.8,
       "dph": 0.20145185185185188,
-      "age_min": 327
+      "age_min": 368
     }
   ],
   "stopped_host_adjudication": {
@@ -82,11 +82,11 @@
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
-      "phase": "leg-solvent-running 2026-07-28T08:43:33Z",
-      "committed": "solvent/production@1520",
-      "committed_scalar": 11001520,
-      "committed_prev_scalar": 11000440,
-      "ddg_bind_kcal": null
+      "phase": "done",
+      "committed": null,
+      "committed_scalar": null,
+      "committed_prev_scalar": 11001520,
+      "ddg_bind_kcal": 1.248
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
@@ -114,7 +114,7 @@
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
-      "phase": "leg-complex-FAILED-rc1 2026-07-28T08:47:15Z",
+      "phase": "leg-complex-FAILED-rc1 2026-07-28T09:37:23Z",
       "committed": "no commit yet (boot / stage / setup / minimise)",
       "committed_scalar": 0,
       "committed_prev_scalar": 0,
@@ -146,10 +146,10 @@
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
-      "phase": "boot 2026-07-28T09:00:15Z",
-      "committed": "complex/production@760",
-      "committed_scalar": 1000760,
-      "committed_prev_scalar": 1000680,
+      "phase": "leg-complex-running 2026-07-28T09:15:16Z",
+      "committed": "complex/production@1000",
+      "committed_scalar": 1001000,
+      "committed_prev_scalar": 1000760,
       "ddg_bind_kcal": null
     },
     {
@@ -201,6 +201,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 37.85,
+  "realised_usd_so_far": 37.95,
   "plan_usd_whole_tranche": 29.72
 }
