@@ -1,17 +1,18 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-28T18:52:06Z",
-  "_generated_et": "2:52 PM ET Jul 28, 2026",
+  "_generated_utc": "2026-07-28T18:54:02Z",
+  "_generated_et": "2:54 PM ET Jul 28, 2026",
   "n_units": 19,
   "n_complete": 10,
-  "live_instances": 4,
+  "live_instances": 5,
   "_vast_unreadable": null,
   "instance_states": {
-    "running": 2,
+    "running": 3,
     "loading": 2
   },
   "gpu_util": [
     92.999908,
+    0.0,
     0.0
   ],
   "phases": {
@@ -32,7 +33,7 @@
       "gpu_util": 92.999908,
       "inet_down": 532.1,
       "dph": 0.2596148148148148,
-      "age_min": 305
+      "age_min": 306
     },
     {
       "id": 46132149,
@@ -45,7 +46,7 @@
       "gpu_util": 0.0,
       "inet_down": 953.6,
       "dph": 0.15142222222222224,
-      "age_min": 5
+      "age_min": 7
     },
     {
       "id": 46132151,
@@ -58,7 +59,7 @@
       "gpu_util": null,
       "inet_down": 263.2,
       "dph": 0.2262222222222222,
-      "age_min": 5
+      "age_min": 7
     },
     {
       "id": 46132341,
@@ -71,6 +72,19 @@
       "gpu_util": null,
       "inet_down": 774.6,
       "dph": 0.2262222222222222,
+      "age_min": 4
+    },
+    {
+      "id": 46132500,
+      "label": "s1f-15-cw_ms_5acetamido_ester",
+      "machine_id": 55559,
+      "status": "running",
+      "cur_state": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "gpu": "RTX 4090",
+      "gpu_util": 0.0,
+      "inet_down": 788.9,
+      "dph": 0.19902222222222224,
       "age_min": 2
     }
   ],
@@ -81,7 +95,7 @@
         "label": "s1f-08-cw_bio_primary_amide",
         "machine_id": "29706",
         "gpu": "RTX 5090",
-        "age_min": 5,
+        "age_min": 7,
         "status_msg": "",
         "double_booked_behind": null,
         "machine_has_run_our_container": false,
@@ -94,7 +108,7 @@
         "label": "s1f-12-cw_bio_hydroxamic",
         "machine_id": "50113",
         "gpu": "RTX 5090",
-        "age_min": 2,
+        "age_min": 4,
         "status_msg": "",
         "double_booked_behind": null,
         "machine_has_run_our_container": false,
@@ -240,14 +254,14 @@
     {
       "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "phase": "leg-solvent-running 2026-07-28T18:44:46Z",
-      "committed": "solvent/warmup@400",
-      "committed_scalar": 10000400,
-      "committed_prev_scalar": 10000240,
+      "committed": "solvent/production@120",
+      "committed_scalar": 11000120,
+      "committed_prev_scalar": 10000400,
       "ddg_bind_kcal": null
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
-      "phase": "leg-complex-running 2026-07-28T15:54:25Z",
+      "phase": "leg-complex-running 2026-07-28T18:53:02Z",
       "committed": "complex/production@480",
       "committed_scalar": 1000480,
       "committed_prev_scalar": 1000480,
@@ -278,6 +292,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 53.27,
+  "realised_usd_so_far": 53.3,
   "plan_usd_whole_tranche": 29.72
 }
