@@ -1,0 +1,256 @@
+{
+  "_what": "closure-triangle from_rdkit death: the gate's SDF vs the host's SDF",
+  "_why": "the atom-map gate reads the STAGE cache; run_ternary_leg.sh step 2 overwrites ligands.sdf with the PRE-EQUIL one before the engine runs, so the gate is structurally blind to anything pre-equilibration introduces.",
+  "mode": "triangle",
+  "charge_prop": "atom.dprop.PartialCharge",
+  "audit": {
+    "calib_hi_to_lo2__binary_vhl": {
+      "stage": {
+        "present": true,
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          }
+        ],
+        "build": {
+          "ok": true,
+          "A": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          },
+          "B": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          }
+        }
+      },
+      "asrun": {
+        "present": true,
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          }
+        ],
+        "build": {
+          "ok": true,
+          "A": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          },
+          "B": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          }
+        }
+      }
+    },
+    "calib_hi_to_lo2__ternary_vhl": {
+      "stage": {
+        "present": true,
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          }
+        ],
+        "build": {
+          "ok": true,
+          "A": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          },
+          "B": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          }
+        }
+      },
+      "asrun": {
+        "present": true,
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "mismatch": false
+          }
+        ],
+        "build": {
+          "ok": true,
+          "A": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          },
+          "B": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          }
+        }
+      }
+    },
+    "calib_lo_to_lo2__binary_vhl": {
+      "stage": {
+        "present": true,
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_lo",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          }
+        ],
+        "build": {
+          "ok": true,
+          "A": {
+            "n_atoms": 110,
+            "carries_partial_charges": 0
+          },
+          "B": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          }
+        }
+      },
+      "asrun": {
+        "present": true,
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_lo",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "mismatch": false
+          }
+        ],
+        "build": {
+          "ok": true,
+          "A": {
+            "n_atoms": 110,
+            "carries_partial_charges": 0
+          },
+          "B": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          }
+        }
+      }
+    },
+    "calib_lo_to_lo2__ternary_vhl": {
+      "stage": {
+        "present": true,
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_lo",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "mismatch": false
+          }
+        ],
+        "build": {
+          "ok": true,
+          "A": {
+            "n_atoms": 110,
+            "carries_partial_charges": 0
+          },
+          "B": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          }
+        }
+      },
+      "asrun": {
+        "present": true,
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_lo",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "mismatch": false
+          }
+        ],
+        "build": {
+          "ok": true,
+          "A": {
+            "n_atoms": 110,
+            "carries_partial_charges": 0
+          },
+          "B": {
+            "n_atoms": 109,
+            "carries_partial_charges": 0
+          }
+        }
+      }
+    }
+  }
+}
