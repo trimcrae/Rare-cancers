@@ -1424,8 +1424,12 @@ jobs:
             # SNAPSHOT ONLY. `clear_all` keeps `history`, so a later snapshot still carries every pre-clear
             # entry plus the CLEARED event — which is what makes the record recoverable when the commit
             # below loses its push race, as it did at 9:55 PM ET on 2026-07-27.
+            # ★ A DATED PATH, so a later read-only snapshot can NEVER clobber the pre-clear record. Both
+            # modes used to write `...-before-clear.json`; running this task the day after a clear would
+            # have replaced the only committed copy of what was excluded with an empty one.
             python research/modalities/vast_machine_blacklist.py \
-              --snapshot research/modalities/vast-blacklist-snapshot-before-clear.json 2>&1 | tee /tmp/bl.txt
+              --snapshot "research/modalities/vast-blacklist-snapshot-$(date -u +%Y-%m-%dT%H%MZ).json" \
+              2>&1 | tee /tmp/bl.txt
             exit 0
           fi
           python research/modalities/vast_machine_blacklist.py \
@@ -1438,7 +1442,7 @@ jobs:
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/vast-blacklist-snapshot-before-clear.json
+          git add research/modalities/vast-blacklist-snapshot-*.json
           if git diff --cached --quiet; then echo "snapshot unchanged"; exit 0; fi
           git commit -m "vast blacklist: snapshot of the exclusion set immediately before the clear (CI)"
           # main takes a lot of CI commits, so three tries at 7/14/21 s is not enough — this lost all three
@@ -1453,7 +1457,7 @@ jobs:
             sleep $((i * 5))
           done
           echo "::error title=SNAPSHOT NOT PUSHED::the record did not land. It is printed in full below and by task=blacklist-snapshot, which re-derives it from the surviving history."
-          cat research/modalities/vast-blacklist-snapshot-before-clear.json
+          cat research/modalities/vast-blacklist-snapshot-*.json
           exit 1
       - name: Summary LAST
         if: ${{ always() }}
