@@ -82,39 +82,39 @@
       "instance": 46045687,
       "label": "s1f-05-cw_ev_5opropargyl",
       "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
+      "why": "gpu_util=98.9999% >= 5% and the host is still writing \u2014 GPU busy",
       "evidence": {
         "instance_running": true,
         "container_started": true,
         "gpu_util": 98.999908,
-        "progress_advanced": true,
-        "log_age_min": 0.11940238333333333,
+        "progress_advanced": false,
+        "log_age_min": 0.9233662166666666,
         "start_ages_min": [
-          459.7527359644572,
-          314.4027359644572,
-          172.58606929779052,
-          168.01940263112385,
-          147.5027359644572
+          462.5733664353689,
+          317.22336643536886,
+          175.4066997687022,
+          170.84003310203553,
+          150.32336643536885
         ],
-        "instance_age_min": 150
+        "instance_age_min": 152
       }
     },
     {
       "instance": 46050235,
       "label": "s1f-06-cw_ev_5piperazine",
-      "verdict": "WATCHING",
-      "why": "quiet but alive: run.log 1 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
+      "verdict": "WORKING",
+      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
       "evidence": {
         "instance_running": true,
         "container_started": true,
         "gpu_util": null,
-        "progress_advanced": false,
-        "log_age_min": 1.1234248166666667,
+        "progress_advanced": true,
+        "log_age_min": 1.9122907,
         "start_ages_min": [
-          109.39009175697963,
-          92.70675842364629
+          112.21229097048442,
+          95.52895763715108
         ],
-        "instance_age_min": 93
+        "instance_age_min": 96
       }
     },
     {
@@ -127,57 +127,57 @@
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 34.64381203333333,
+        "log_age_min": 37.46755196666666,
         "start_ages_min": [
-          484.27714560031893,
-          317.99381226698557,
-          151.4271456003189,
-          100.37714560031891,
-          44.74381226698558
+          487.10088552236556,
+          320.81755218903226,
+          154.25088552236556,
+          103.20088552236557,
+          47.567552189032234
         ],
-        "instance_age_min": 29
+        "instance_age_min": 32
       }
     },
     {
       "instance": 46056275,
       "label": "s1f-07-cw_ev_5pegamine",
-      "verdict": "COLD_START",
-      "why": "instance is 13 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 1 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 90.999916,
+        "gpu_util": 0.0,
         "progress_advanced": false,
-        "log_age_min": 0.3812573166666667,
+        "log_age_min": 1.20027805,
         "start_ages_min": [
-          45.847924240430196,
-          10.514590907096864
+          48.683611595630644,
+          13.350278262297312
         ],
-        "instance_age_min": 13
+        "instance_age_min": 15
       }
     },
     {
       "instance": 46056728,
       "label": "s1f-00-cw_ev_5nh2",
       "verdict": "COLD_START",
-      "why": "instance is 5 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "why": "instance is 8 min old, under the 15 min floor \u2014 too young to have proved anything either way",
       "evidence": {
         "instance_running": true,
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 6.98536745,
+        "log_age_min": 9.822421966666667,
         "start_ages_min": [
-          278.70203444957735,
-          244.068701116244,
-          118.518701116244,
-          95.85203444957733
+          281.53908884127935,
+          246.90575550794603,
+          121.35575550794601,
+          98.68908884127934
         ],
-        "instance_age_min": 5
+        "instance_age_min": 8
       }
     }
   ],
-  "realised_usd": 23.76,
+  "realised_usd": 23.81,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -800,8 +800,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
       "machine_id": 138147,
       "rate_usd_h": 0.2448,
-      "billed_h": 2.5,
-      "usd": 0.612
+      "billed_h": 2.53,
+      "usd": 0.62
     },
     {
       "instance": "46047752",
@@ -824,8 +824,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
       "machine_id": 31035,
       "rate_usd_h": 0.1618,
-      "billed_h": 1.55,
-      "usd": 0.251
+      "billed_h": 1.6,
+      "usd": 0.259
     },
     {
       "instance": "46050883",
@@ -888,32 +888,32 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "machine_id": 26403,
       "rate_usd_h": 0.1849,
-      "billed_h": 0.48,
-      "usd": 0.089
+      "billed_h": 0.53,
+      "usd": 0.099
     },
     {
       "instance": "46056192",
       "unit_id": "e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
       "machine_id": 35115,
       "rate_usd_h": 0.1153,
-      "billed_h": 0.22,
-      "usd": 0.025
+      "billed_h": 0.27,
+      "usd": 0.031
     },
     {
       "instance": "46056275",
       "unit_id": "e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
       "machine_id": 29707,
       "rate_usd_h": 0.204,
-      "billed_h": 0.22,
-      "usd": 0.044
+      "billed_h": 0.25,
+      "usd": 0.051
     },
     {
       "instance": "46056728",
       "unit_id": "e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
       "machine_id": 129256,
       "rate_usd_h": 0.2176,
-      "billed_h": 0.08,
-      "usd": 0.018
+      "billed_h": 0.13,
+      "usd": 0.029
     }
   ],
   "plan_usd_whole_tranche": 29.72,

@@ -1,58 +1,50 @@
 {
   "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY guard pass, because a silent hold is indistinguishable from a finished fleet \u2014 and a partial launch that reports only what it launched is the same failure wearing a better number.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. Per-unit since 2026-07-27 (trimcrae): if 5 GPUs are cheap enough and the rest are not, run 5.",
-  "utc": "2026-07-28T00:14:09Z",
+  "utc": "2026-07-28T00:17:00Z",
   "decision": "placed",
   "decision_meaning": "units were rented this tick",
   "decision_why": null,
   "held": true,
   "n_withheld": 12,
-  "n_launching_now": 3,
-  "n_held": 9,
+  "n_launching_now": 2,
+  "n_held": 10,
   "unit_usd_per_ns_ceiling": 0.006539,
   "unit_ceiling_x_basis": 1.917,
   "unit_dollar_ceiling_usd_per_ns": 0.008594,
   "unit_rate_line_usd_per_ns": 0.006539,
   "which_ceiling_binds": "rate line ($0.006539/ns = 1.92x basis)",
   "placed_usd_per_ns": [
-    0.003325,
-    0.005388,
-    0.005663
+    0.006287,
+    0.00637
   ],
   "placed_x_basis": [
-    0.97,
-    1.58,
-    1.66
+    1.84,
+    1.87
   ],
   "basis_usd_per_ns": 0.003412,
-  "spend_authorised_now_usd": 7.79,
-  "ceiling_for_that_spend_usd": 11.83,
+  "spend_authorised_now_usd": 5.84,
+  "ceiling_for_that_spend_usd": 7.88,
   "held_reason": null,
   "board_depth": {
-    "offers_returned": 188,
-    "qualifying": 181,
-    "priceable": 102,
+    "offers_returned": 182,
+    "qualifying": 173,
+    "priceable": 97,
     "needed": 12,
     "used_for_mean": 12
   },
   "offers_priced": [
     {
-      "gpu": "RTX 5090",
-      "machine_id": 35115,
-      "min_bid": 0.115,
-      "usd_per_ns": 0.003325
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 29707,
-      "min_bid": 0.2,
-      "usd_per_ns": 0.005388
-    },
-    {
       "gpu": "RTX 4090",
-      "machine_id": 137610,
-      "min_bid": 0.16666666666666666,
-      "usd_per_ns": 0.005663
+      "machine_id": 114273,
+      "min_bid": 0.18666666666666668,
+      "usd_per_ns": 0.006287
+    },
+    {
+      "gpu": "RTX 3090",
+      "machine_id": 7118,
+      "min_bid": 0.1066667,
+      "usd_per_ns": 0.00637
     },
     {
       "gpu": "RTX 5090",
@@ -62,21 +54,15 @@
     },
     {
       "gpu": "RTX 5090",
-      "machine_id": 42685,
+      "machine_id": 55639,
       "min_bid": 0.26666666666666666,
-      "usd_per_ns": 0.007184
+      "usd_per_ns": 0.007006
     },
     {
-      "gpu": "RTX 4090",
-      "machine_id": 114240,
-      "min_bid": 0.18666666666666668,
-      "usd_per_ns": 0.007204
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 40175,
-      "min_bid": 0.19999999999999998,
-      "usd_per_ns": 0.007254
+      "gpu": "RTX 5090",
+      "machine_id": 142441,
+      "min_bid": 0.227,
+      "usd_per_ns": 0.00729
     },
     {
       "gpu": "RTX 4090",
@@ -86,32 +72,44 @@
     },
     {
       "gpu": "RTX 3090",
-      "machine_id": 141902,
-      "min_bid": 0.12,
-      "usd_per_ns": 0.007337
+      "machine_id": 40935,
+      "min_bid": 0.10666666666666667,
+      "usd_per_ns": 0.00741
     },
     {
       "gpu": "A100 PCIE",
       "machine_id": 56748,
-      "min_bid": 0.1333333,
+      "min_bid": 0.13333333333333333,
       "usd_per_ns": 0.007438
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 140093,
+      "min_bid": 0.26666666666666666,
+      "usd_per_ns": 0.007541
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 114069,
+      "min_bid": 0.26666666666666666,
+      "usd_per_ns": 0.007541
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 45729,
+      "min_bid": 0.2666667,
+      "usd_per_ns": 0.007541
     },
     {
       "gpu": "RTX 5090",
       "machine_id": 53164,
       "min_bid": 0.2666667,
       "usd_per_ns": 0.007719
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 129810,
-      "min_bid": 0.3066666666666667,
-      "usd_per_ns": 0.007799
     }
   ],
   "binding_gate": "price",
   "binding_gate_why": null,
-  "binding_gate_scope": "9 of 12 withheld unit(s) \u2014 the other 3 were placed this tick",
+  "binding_gate_scope": "10 of 12 withheld unit(s) \u2014 the other 2 were placed this tick",
   "price_blocks_every_unit": false,
   "first_held_utc": null,
   "held_hours": 0.0
