@@ -23,7 +23,7 @@ on:
         description: "gpu_name substring to sample"
         default: "rtx4090"
       mode:
-        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | bidsem (pay-your-bid probe, <$0.01) | forensics (read-only: does a LIVE rental's rate move after rental?)"
+        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | census (why a qualifying board cannot be priced) | exclusions (what OUR OWN filter is removing, and what re-admitting it would buy) | bidsem (pay-your-bid probe, <$0.01) | forensics (read-only: does a LIVE rental's rate move after rental?)"
         default: "sample"
 
 permissions:
@@ -164,6 +164,54 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/modalities/vast-board-census.json 2>/dev/null || true
           git commit -m "vast board census $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          git push origin HEAD:${{ github.ref_name }}
+
+  exclusions:
+    # ★ READ-ONLY ($0). WHAT THE EXCLUSION SET IS MADE OF, AND WHAT RE-ADMITTING PART OF IT WOULD BUY.
+    #
+    # The sibling of `census` above, asking the other half of "why did a healthy board place nothing".
+    # `census` answers "the board could not be PRICED"; this answers "the board was priced fine and OUR OWN
+    # FILTER ate it". Measured 9:05 PM ET 2026-07-27: 48 machines excluded, 189 offers on the board, the
+    # market gate authorised 2 placements under the buy line, and BOTH submits failed with
+    # `no rentable verified offer`.
+    #
+    # `vast_machine_blacklist.__doc__` parks a re-test policy for want of exactly this measurement and names
+    # the trigger for taking it up. Nothing here writes to an exclusion set or rents anything: it reads the
+    # sets from S3, reads the board once, and prints the counterfactual placement gain at several age
+    # cut-offs. Needs AWS creds as well as the Vast key, which is why it is its own job rather than a flag on
+    # the one above.
+    if: ${{ github.event.inputs.mode == 'exclusions' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install --quiet boto3
+      - name: Census the exclusion sets against the live board (read-only, rents nothing)
+        working-directory: research/modalities
+        # Same input-reuse trick as the job above: `units` comes from `gpu` when it is a bare integer, so no
+        # new workflow input is needed (dispatch validates inputs against the DEFAULT branch's definition,
+        # and a new input is one more thing that can differ between a branch and main).
+        run: |
+          U="${{ github.event.inputs.gpu }}"
+          case "$U" in (''|*[!0-9]*) U=19 ;; esac
+          python vast_exclusion_census.py --units "$U"
+      - name: Commit the census back to this branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/vast-exclusion-census.json 2>/dev/null || true
+          git commit -m "vast exclusion census $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}
 
   bidsem:
