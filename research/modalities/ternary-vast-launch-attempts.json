@@ -1298,6 +1298,66 @@
         "used_for_mean": 1
       },
       "reason": "board cleared both ceilings; dispatching task=edge-reps"
+    },
+    {
+      "utc": "2026-07-28T03:12:36Z",
+      "et": "11:12 PM ET",
+      "outcome": "launched",
+      "what_that_means": "hosts were actually rented",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30325074010",
+      "gate_ratio_vs_basis": 1.127,
+      "gate_mean_usd_per_ns": 0.003846,
+      "gate_projected_usd": 2.06,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.06 within this rung's ceiling $5.19 AND 1.13x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 178,
+        "qualifying": 178,
+        "priceable": 104,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "n_requested": 1,
+      "n_rented": 1,
+      "rented": [
+        {
+          "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+          "instance": "46069056",
+          "machine_id": 8914
+        }
+      ],
+      "already_live": [
+        {
+          "unit_id": "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+          "instance": 46040514,
+          "gpu": "RTX 5090",
+          "usd_per_ns": 0.005119,
+          "x_basis": 1.5,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+          "instance": 46057293,
+          "gpu": "RTX 4090",
+          "usd_per_ns": 0.005327,
+          "x_basis": 1.561,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+          "instance": 46057228,
+          "gpu": "RTX 4090",
+          "usd_per_ns": 0.005775,
+          "x_basis": 1.693,
+          "over_buy_line": false,
+          "actual_status": "running"
+        }
+      ],
+      "reason": "task=edge-reps; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."
