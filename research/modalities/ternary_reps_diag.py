@@ -75,10 +75,17 @@ def safe_instance(inst):
 def arm_of(unit_id):
     """`ternary` / `binary` / `solvent` / None. PURE. The whole diagnosis is a comparison BETWEEN ARMS, so
     the grouping key has to come from the unit id rather than from a hand-maintained list that can go stale
-    the next time a mode is added."""
+    the next time a mode is added.
+
+    ★ ONE HOME (CLAUDE.md §1): the split itself is `ternary_vast_launch.arm_of_leg`, which is also what the
+    per-arm CHECKPOINT CADENCE keys off. Two implementations of "which arm is this" could disagree, and the
+    disagreement would show up as a leg silently given the other arm's interval — so this delegates rather
+    than re-deriving. It keeps its own `None`, because a diagnostic that cannot classify a unit should say so
+    rather than default it to `binary`.
+    """
     for arm in ("ternary", "binary", "solvent"):
         if f"__{arm}_" in unit_id or unit_id.endswith(f"__{arm}"):
-            return arm
+            return tv.arm_of_leg(unit_id)
     return None
 
 

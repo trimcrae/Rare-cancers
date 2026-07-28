@@ -98,6 +98,15 @@ def aggregate(rows):
             use, src = (prod, "production") if prod else (warm, "warmup")
             if not use:
                 continue
+            # PER-CARD, so a ratio between two arms can be re-checked WITHOUT the card mix in it. The lane
+            # rents a mixed fleet (4080S / 4090 / 5090 all appear), and if one arm happened to be measured
+            # on faster silicon than the other then an "arm ratio" would be partly a CARD ratio — the same
+            # confound pricing.md's superseded ~2.06x fell into from the other direction.
+            per_gpu = {}
+            for r in rs:
+                v = r.get(f"{src}_median_s_per_iter")
+                if r.get("gpu") and v:
+                    per_gpu.setdefault(r["gpu"], []).append(v)
             out[dt][arm] = {
                 "s_per_iter": round(statistics.median(use), 3),
                 "source_phase": src,
@@ -105,13 +114,46 @@ def aggregate(rows):
                 "spread_s_per_iter": [round(min(use), 3), round(max(use), 3)],
                 "units": [r["unit_id"] for r in rs],
                 "gpus": sorted({r["gpu"] for r in rs if r.get("gpu")}),
+                "by_gpu": {g: round(statistics.median(v), 3) for g, v in sorted(per_gpu.items())},
             }
     return out
 
 
-def build(bucket=None, prefix=None, recs=None):
-    recs = tv.leg_records(bucket, prefix) if recs is None else recs
-    rows = rows_from_records(recs)
+def phase_cross_check(rows):
+    """warmup ÷ production on the legs that measured BOTH — the check on this file's one cross-phase step.
+
+    ★ WHY IT IS WORTH RECORDING RATHER THAN ASSUMING. The cadence being derived governs the WARMUP phase,
+    but the long timing series are in PRODUCTION, and the argument for using one for the other is structural:
+    `rbfe_spot_driver` builds the warmup move by overriding `.timestep` on a move whose `n_steps` was already
+    fixed at the PRODUCTION dt, so the two phases are the same number of force evaluations per iteration
+    (`ternary-4fs-vast-findings.md` §4). A structural argument that is checkable should be checked. If this
+    ratio ever comes back well ABOVE 1 the substitution is optimistic — a production rate would then
+    UNDERSTATE the warmup seconds at risk — and the derivation should switch to warmup medians.
+    """
+    pairs = [(r["unit_id"], r["warmup_median_s_per_iter"] / r["production_median_s_per_iter"])
+             for r in rows
+             if r.get("warmup_median_s_per_iter") and r.get("production_median_s_per_iter")]
+    if not pairs:
+        return {"n": 0}
+    vals = [v for _u, v in pairs]
+    return {
+        "n": len(vals),
+        "median_warmup_over_production": round(statistics.median(vals), 3),
+        "range": [round(min(vals), 3), round(max(vals), 3)],
+        "per_unit": {u: round(v, 3) for u, v in pairs},
+        "_reading": ("<= 1 means a production median OVERSTATES the seconds a warmup iteration costs, so "
+                     "deriving the interval from production is conservative — it buys a FINER cadence than "
+                     "strictly needed, erring toward less work at risk"),
+    }
+
+
+def build(bucket=None, prefix=None, recs=None, rows=None, n_records=None):
+    """The artifact. `rows=` re-aggregates an EXISTING artifact's rows without touching S3, which is what
+    makes the aggregation testable — and re-derivable — off a machine with no credentials."""
+    if rows is None:
+        recs = tv.leg_records(bucket, prefix) if recs is None else recs
+        rows = rows_from_records(recs)
+        n_records = len(recs)
     return {
         "_what": ("measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own "
                   "leg.json timing block. The one home for `ternary_vast_launch.ARM_ITERATION_RATES`; "
@@ -119,8 +161,9 @@ def build(bucket=None, prefix=None, recs=None):
         "_never_pool": ("across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625) or across "
                         "phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up)"),
         "generated_utc": __import__("time").strftime("%Y-%m-%dT%H:%M:%SZ", __import__("time").gmtime()),
-        "n_leg_records": len(recs),
+        "n_leg_records": n_records if n_records is not None else len(rows),
         "rates": aggregate(rows),
+        "phase_cross_check": phase_cross_check(rows),
         "legs": rows,
     }
 
@@ -139,8 +182,37 @@ def render(doc):
         for arm, a in sorted(arms.items()):
             lines.append(f"  dt={dt}fs {arm:<8} {a['s_per_iter']:>7.3f} s/iter  "
                          f"[{a['source_phase']}, n_legs={a['n_legs']}, "
-                         f"spread {a['spread_s_per_iter']}, gpus={a['gpus']}]")
+                         f"spread {a['spread_s_per_iter']}, by_gpu={a['by_gpu']}]")
+    x = doc.get("phase_cross_check") or {}
+    if x.get("n"):
+        lines.append(f"---- warmup/production on the {x['n']} legs that measured both: "
+                     f"median {x['median_warmup_over_production']} (range {x['range']}) ----")
+    lines.append(render_cadence())
     return "\n".join(lines)
+
+
+def render_cadence():
+    """WHAT THE MEASUREMENT BUYS, in the unit that matters — SECONDS OF WORK AT RISK per arm.
+
+    A rate table nobody converts into an exposure is a table nobody can grade: `16.6 s/iter` does not tell
+    anyone whether a host reclaim costs this lane four minutes or twenty. This prints, per opted-in mode and
+    per leg, the interval that was DERIVED, the exposure it buys, and the fraction of warmup wall-clock spent
+    committing at that interval — the two halves of the trade-off, side by side. An arm with no measured rate
+    prints `—` rather than a fabricated number.
+    """
+    out = ["---- DERIVED CHECKPOINT CADENCE (exposure = interval x s/iter = SECONDS AT RISK PER RECLAIM) ----"]
+    for mode, sizing in tv.MODES.items():
+        if not sizing.get("per_arm_ckpt"):
+            continue
+        dt, wdt = tv.resolve_timesteps(mode)
+        out.append(f"  {mode} (dt={dt}fs, warmup target {tv.warmup_target_iters(dt, wdt)} iters, "
+                   f"reference arm '{tv.CKPT_REFERENCE_ARM}' at ci={sizing['warmup_ckpt_iters']})")
+        for leg in sorted({leg for (leg, _s, _d) in tv.units_for(mode)}):
+            e = tv.ckpt_exposure_s(leg, mode)
+            f = tv.ckpt_overhead_fraction(leg, mode)
+            out.append(f"    {tv.arm_of_leg(leg):<8} {leg:<32} ci={tv.warmup_ckpt_iters_for(leg, mode):>4}  "
+                       + (f"exposure={e:7.1f}s  commit overhead={f:5.2%}" if e else "exposure=—  overhead=—"))
+    return "\n".join(out)
 
 
 def main(argv=None):
@@ -148,8 +220,15 @@ def main(argv=None):
     ap.add_argument("--out", default=None, help="write the JSON artifact here")
     ap.add_argument("--bucket", default=None)
     ap.add_argument("--prefix", default=None)
+    ap.add_argument("--rebuild-from", default=None,
+                    help="re-aggregate an existing artifact's `legs` rows instead of reading S3 — no "
+                         "credentials needed, and it is how the aggregation is unit-tested")
     a = ap.parse_args(argv)
-    doc = build(a.bucket, a.prefix)
+    if a.rebuild_from:
+        prev = json.load(open(a.rebuild_from))
+        doc = build(rows=prev["legs"], n_records=prev.get("n_leg_records"))
+    else:
+        doc = build(a.bucket, a.prefix)
     print(render(doc))
     if a.out:
         with open(a.out, "w") as fh:

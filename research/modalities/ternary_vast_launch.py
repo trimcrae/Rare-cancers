@@ -980,17 +980,28 @@ def speedup_2fs_to_4fs(warmup_iters=400, prod_iters=2000, warmup_dt_fs=1.0, time
 #
 # and `seconds_per_iteration` is a property of the ARM (how big the solvated system is), while
 # `warmup_ckpt_iters` was a property of the MODE. So one number in `MODES` buys the two arms DIFFERENT
-# exposures, and nothing in the readout said so. Measured on `edge_reps` (`ternary-reps-diag.json`,
-# 2026-07-27): the binary legs were committing — warmup/1216 and warmup/256 across 8 and 5 archived attempts
-# — while both ternary legs sat at iteration 0. `warmup_ckpt_iters_for` gives the slower arm the finer
-# interval so both arms bank on the same wall-clock cadence.
+# exposures, and nothing in the readout said so.
 #
-# ⛔ WHAT THIS DOES **NOT** CLAIM, because the evidence does not support it (CLAUDE.md §4). It does not
-# explain those two zeros. `ternary-reps-diag.json` shows both ternary units' last archived line as
-# `No CMAPTorsionForce found. Skipping adding force.` — they died in HYBRID SYSTEM CONSTRUCTION, before the
-# first MD iteration, so no checkpoint interval could have saved them (that failure is `reps-setup-rss`'s
-# subject, not this function's). Equalising exposure is worth doing on its own terms — it is a real,
-# measured asymmetry in what a reclaim costs — and it is not a diagnosis of that crash.
+# ★ MEASURED ON `edge_reps` (`ternary-reps-diag.json`, 2026-07-28), and the arithmetic is the argument:
+#
+#     binary  r1  production/2000  DONE    over 19 archived attempts   ~105 iterations banked per attempt
+#     binary  r2  production/2000  DONE    over  8 archived attempts   ~250 iterations banked per attempt
+#     ternary r1  warmup/832       failed  over 26 archived attempts    ~32 iterations banked per attempt
+#     ternary r2  warmup/320       failed  over  5 archived attempts    ~64 iterations banked per attempt
+#
+# BOTH arms are churning on the same market. The binary arm finished its entire leg through it; the ternary
+# arm is still in warmup — and at the shared interval of 64, r1's AVERAGE ATTEMPT DID NOT REACH ONE
+# CHECKPOINT BOUNDARY (13 commits across 26 attempts), so about half of the hosts it rented banked nothing
+# at all. That is the failure mode a shared iteration count produces on a slower arm, in the lane's own
+# numbers. `warmup_ckpt_iters_for` gives the slower arm the finer interval so both arms bank on the same
+# WALL-CLOCK cadence rather than the same iteration count.
+#
+# ⛔ WHAT THIS DOES **NOT** CLAIM (CLAUDE.md §4). The ternary units' leg records read `status=failed`, and
+# this function is not a diagnosis of why. Exposure is one lever — the one that decides what each churn
+# event costs — and it is worth pulling on its own measured terms; the setup-side failure is
+# `reps-setup-rss`'s subject. SUPERSEDED, RETAINED (CLAUDE.md §1.2): the 2026-07-27T23:00Z snapshot of the
+# same artifact, on which this note was first drafted, read both ternary units at committed iteration 0 with
+# a last line of `No CMAPTorsionForce found` — they have since committed 832 and 320.
 #
 # ⛔ AND DO NOT "TIDY" THE ARMS BACK TO ONE SHARED VALUE. That is the bug, not the untidiness: a single
 # iteration count cannot express "the same exposure" for two arms whose iterations cost different seconds.

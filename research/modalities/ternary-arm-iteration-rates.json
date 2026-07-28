@@ -1,7 +1,7 @@
 {
   "_what": "measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own leg.json timing block. The one home for `ternary_vast_launch.ARM_ITERATION_RATES`; regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`.",
   "_never_pool": "across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625) or across phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up)",
-  "generated_utc": "2026-07-28T11:03:53Z",
+  "generated_utc": "2026-07-28T11:07:01Z",
   "n_leg_records": 14,
   "rates": {
     "2.0": {
@@ -18,7 +18,10 @@
         ],
         "gpus": [
           "NVIDIA GeForce RTX 4090"
-        ]
+        ],
+        "by_gpu": {
+          "NVIDIA GeForce RTX 4090": 13.7
+        }
       }
     },
     "4.0": {
@@ -39,7 +42,12 @@
           "NVIDIA GeForce RTX 4080 SUPER",
           "NVIDIA GeForce RTX 4090",
           "NVIDIA GeForce RTX 5090"
-        ]
+        ],
+        "by_gpu": {
+          "NVIDIA GeForce RTX 4080 SUPER": 12.7,
+          "NVIDIA GeForce RTX 4090": 10.9,
+          "NVIDIA GeForce RTX 5090": 8.0
+        }
       },
       "solvent": {
         "s_per_iter": 1.7,
@@ -54,7 +62,10 @@
         ],
         "gpus": [
           "NVIDIA GeForce RTX 4090"
-        ]
+        ],
+        "by_gpu": {
+          "NVIDIA GeForce RTX 4090": 1.7
+        }
       },
       "ternary": {
         "s_per_iter": 16.6,
@@ -71,9 +82,28 @@
         ],
         "gpus": [
           "NVIDIA GeForce RTX 4090"
-        ]
+        ],
+        "by_gpu": {
+          "NVIDIA GeForce RTX 4090": 16.6
+        }
       }
     }
+  },
+  "phase_cross_check": {
+    "n": 5,
+    "median_warmup_over_production": 0.765,
+    "range": [
+      0.734,
+      1.013
+    ],
+    "per_unit": {
+      "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke": 1.013,
+      "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke": 0.993,
+      "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps": 0.75,
+      "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps": 0.734,
+      "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge": 0.765
+    },
+    "_reading": "<= 1 means a production median OVERSTATES the seconds a warmup iteration costs, so deriving the interval from production is conservative \u2014 it buys a FINER cadence than strictly needed, erring toward less work at risk"
   },
   "legs": [
     {

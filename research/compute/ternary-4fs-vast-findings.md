@@ -207,6 +207,62 @@ at ci=64) ≈ **8.9 GPU-h**, plus ~25 min cold start ≈ **9.3 h ≈ $1.42** at 
 system, on a full leg rather than a 60-iteration probe. It does **not** discharge the NR4A transferability
 warning: `calib_hi_to_lo` *is* the SMARCA2/VHL 8G1Q assembly.
 
+## 4c · The checkpoint interval is PER ARM, because exposure is measured in SECONDS (2026-07-28)
+
+Host churn is the dominant cost of wall-clock on this lane and the warmup checkpoint interval is the single
+lever that decides how much work each churn event destroys. What a reclaim costs is
+
+    EXPOSURE = warmup_ckpt_iters × seconds-per-iteration        ← SECONDS, not iterations
+
+and seconds-per-iteration is a property of the **arm** (how big the solvated system is) while
+`warmup_ckpt_iters` was a property of the **mode**. One shared number therefore bought the two arms two
+different exposures and nothing in the readout said so.
+
+**No figures are restated here** (CLAUDE.md §1). The measured rates have one home,
+[`ternary-arm-iteration-rates.json`](../modalities/ternary-arm-iteration-rates.json), regenerated from the
+legs' own `leg.json` timing blocks by [`ternary_arm_rates.py`](../modalities/ternary_arm_rates.py) (CI:
+`gpu-ternary-fep-vast.yml` task `reps-diag`), which also prints the derived cadence and the exposure it buys.
+The derivation itself is `ternary_vast_launch.warmup_ckpt_iters_for`; §4's per-commit overhead above is the
+other half of its trade-off and is not re-derived anywhere else.
+
+Three things that file refuses to do, each because the repo has already been bitten by the equivalent:
+
+* **pool across the production timestep** — a 2 fs iteration is 1250 MD steps and a 4 fs one 625 (§1/§2);
+* **pool across phase** — pricing.md's superseded ~2.06× L4→4090 ratio was a warmup rate against a
+  production rate. The one cross-phase step taken is production→warmup at the *same* timestep, which §4
+  above licenses (same `n_steps`, so the same wall time per iteration), and the artifact measures the
+  warmup/production ratio on every leg that recorded both so the substitution is checked rather than assumed;
+* **let a card ratio pose as an arm ratio** — the fleet is mixed (4080S / 4090 / 5090), so the artifact also
+  reports each arm per GPU model and a test requires the two arms' ratio on the shared card to agree with
+  the mixed-fleet one.
+
+**What the asymmetry looks like in the lane's own numbers** (`ternary-reps-diag.json`, 2026-07-28): both arms
+churn on the same market, and at the shared interval of 64 the binary legs banked ~105 and ~250 iterations
+per archived attempt and **finished**, while the ternary legs banked ~32 and ~64 — r1 taking **26 attempts to
+reach 13 commits**, i.e. its average attempt did not reach one checkpoint boundary. Same churn, different
+cost per churn event.
+
+**⚠ WHAT IT DOES NOT EXPLAIN.** Those ternary leg records read `status=failed`, and none of this diagnoses
+why. Exposure is one lever — the one that decides what each reclaim costs — and it is worth pulling on its
+own measured terms; the setup-side failure is `reps-setup-rss`'s subject.
+
+### 4c-i · ⚠ A DEFECT THIS TURNED UP AND DELIBERATELY DID **NOT** FIX IN FLIGHT
+
+`rbfe_spot_driver` rounds each phase target DOWN to a multiple of the interval, so an interval that does not
+**divide** the derived warmup target silently shortens the equilibration. At 4 fs the target is
+1600 = 2⁶ × 25 and every `MODES` interval divides it. At 2 fs it is 800 = 2⁵ × 25, and **64 does not divide
+800**: `MODES["triangle"]` therefore runs **768 of its 800 warmup iterations, 4 % short** — while T1 *is* r0,
+which ran on the GCP lane at `RBFE_WARMUP_CKPT_ITERS=8` (`gpu-ternary-fep-gcp.yml`) and equilibrated the full
+800. The triangle mode's own comment is the argument for why that matters: *"anything that makes T2/T3's
+protocol differ from T1's converts R from a path-error detector into a protocol-difference detector."*
+
+It is **left alone** because those legs are billing. On a resume the interval baked into the committed `.nc`
+overrides the environment (the driver's single-interval invariant), so re-cadencing the mode today would
+leave started legs on 64 → 768 and give a fresh leg 50 → 800 — a protocol difference *within* the triangle,
+strictly worse than the uniform one it has. The fix belongs to that lane, between rounds. Pinned by
+`tests/test_ternary_ckpt_exposure.py::test_no_mode_silently_shortens_its_own_equilibration_except_the_one_already_known_to`,
+which fails if any *other* mode acquires the same gap.
+
 ## 5 · Test status
 
 | claim | status |
