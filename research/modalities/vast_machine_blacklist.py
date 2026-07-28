@@ -316,6 +316,10 @@ def main(argv=None):
             fh.write("\n")
         print(f"[blacklist] snapshot -> {a.snapshot}: {snap['n_machine_ids']} machine(s), "
               f"by reason class {snap['history_entries_by_reason_class']}")
+        if not a.clear:
+            # RETURN, don't fall through to the read-only dump. Printing the whole set after writing it to a
+            # file is pure noise, and it buried the git error of the very step that failed to commit it.
+            return 0
 
     if a.clear:
         removed = clear_all(s3, bucket, a.clear)
