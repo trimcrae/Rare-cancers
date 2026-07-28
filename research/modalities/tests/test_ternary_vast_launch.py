@@ -1156,3 +1156,22 @@ def test_the_liveness_predicate_has_exactly_one_home():
         assert "vast_instance_occupies_slot" in body
         assert not re.search(r'(actual_status|cur_state)\s*(==|!=)', body), \
             f"{fn}: unit_hosts must IMPORT the predicate, never re-type the status comparison"
+
+
+def test_the_dead_unit_marker_never_labels_a_fresh_retry_host():
+    """A unit's `status=failed` is a fact about the LAST attempt, not about the host in front of you.
+
+    Caught on run 30319083631 (2026-07-27, 9:03 PM ET) by the marker itself: two fresh hosts had just been
+    rented to RETRY the two dead `calib_lo_to_lo2` units, and the summary line called both of them dead
+    while they were still `loading`. This pins the property the fix restores — the marker is keyed on the
+    per-instance verdict (which applies `_record_is_newer_than_instance`), never on the unit record alone.
+    """
+    import inspect
+    import ternary_vast_launch as tv
+    src = inspect.getsource(tv.collect)
+    assert "dead_instances" in src, "the dead-unit marker lost its per-instance keying"
+    assert 'i.get("id") in dead_instances' in src, (
+        "the marker must read the instance-level verdict; keying it on the unit record re-introduces the "
+        "stale-record trap that mislabels a retry host as dead")
+    # and the verdict that feeds it must still be the recency-checked one
+    assert "_record_is_newer_than_instance" in src

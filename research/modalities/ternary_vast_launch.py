@@ -1953,6 +1953,7 @@ def collect(bucket=None, prefix=None, autostop=True):
                     print(f"    destroy {d_.get('id')} failed: {e}")
             mine = [x for x in mine if x not in group[1:]]
 
+    dead_instances = set()
     for i in mine:
         iid, lab = i.get("id"), i.get("label")
         uid = next((u for u in list(recs) + [j for j in _known_unit_ids()] if label_matches_unit(lab, u)), None)
@@ -1973,6 +1974,8 @@ def collect(bucket=None, prefix=None, autostop=True):
         finished = uid in done
         crashed = bool(uid and uid in other and other[uid].get("status") == "failed"
                        and _record_is_newer_than_instance(other[uid], i))
+        if crashed:
+            dead_instances.add(iid)
 
         # PROGRESS, not liveness.
         idle_verdict, idle_why = vig.UNKNOWN, "no unit could be mapped to this instance's label"
@@ -2144,8 +2147,14 @@ def collect(bucket=None, prefix=None, autostop=True):
         # unit's `status=failed` appeared only in a different section of the board. The unit's own verdict
         # belongs on the unit's own line. Same rule as §1's "paying" vs "refused" glyphs: one state, one
         # rendering.
-        st = (other.get(uid) or recs.get(uid) or {}).get("status") if uid else None
-        dead = " ☠ UNIT status=failed — this host is not cold-starting, its leg is DEAD" if st == "failed" else ""
+        # ★ AND IT KEYS ON THE PER-INSTANCE VERDICT, NOT ON THE UNIT RECORD (caught within the hour, by
+        # this very marker, on run 30319083631). A unit's `status=failed` is a fact about the LAST attempt,
+        # not about the host in front of you: two fresh retry hosts were rented at 8:59 PM ET for the two
+        # dead units and this line labelled BOTH of them dead while they were still pulling their image.
+        # That is exactly the stale-record trap `_record_is_newer_than_instance` exists for, so reuse its
+        # answer from the loop above rather than re-deriving a weaker one here.
+        dead = (" ☠ UNIT status=failed — this host is not cold-starting, its leg is DEAD"
+                if i.get("id") in dead_instances else "")
         # INSTANCE ID ON EVERY PROGRESS LINE. A progress reading is only worth anything if it is
         # attributable to the box you actually rented: a monitor that reports "advancing" from the wrong
         # job is the same silent-success class this lane's watchdog exists to prevent, and it is more
